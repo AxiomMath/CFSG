@@ -1,0 +1,8 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.ClassicalInvolution
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.GH74Models
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.Solomon2An
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.SolomonThm13
+
+public section

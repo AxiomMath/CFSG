@@ -1,0 +1,32 @@
+module
+
+public import CFSG.Quasithin.H13.GoldschmidtC137Concl
+public import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.U3C137Five
+
+public section
+
+namespace CFSG.Quasithin.H13.U3.GC137
+
+open Subgroup CFSG.Open CFSG.Blueprint CFSG.Quasithin CFSG.QuasithinUnique
+open scoped IsMulCommutative
+
+variable {G : Type} [Group G]
+
+theorem statement_of_F4
+    (h : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G] (X T V L P M : Subgroup G),
+      CharTwo X → IsSylowTwoOf T X → (∀ x ∈ X, ∃ l ∈ L, ∃ t ∈ T, x = l * t) →
+      L ∈ cComp X → CharTwo L →
+      (LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSL 3 2 1 ∨
+        Nonempty (↥L ⧸ CFSG.pCore 2 ↥L ≃* alternatingGroup (Fin 6)) ∨ A6.IsHatA6 L ∨
+        LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSU 3 3 1) →
+      (LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSU 3 3 1 ∨ autOn T V ≤ autOn L V ∨
+        ∃ _ : IsMulCommutative ↥V, AlternatingNatural (V := ↥V) (autOn L V) ⊤ ⊥ 6) →
+      T ≤ P → P ≤ M → M < X → (∀ H : Subgroup G, M ≤ H → H ≤ X → H = M ∨ H = X) →
+      (P = M ∨ (A6.IsHatA6 L ∧ P.relIndex M = 3 ∧ ¬ oTwoUpper P ≤ A6.o2Z L)) →
+      IsTwoReducedIn X V → ⁅V, L⁆ ≠ ⊥ →
+      (LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSL 3 2 1 →
+        Nat.card ↥⁅V, L⁆ = 8 ∧ ∃ u ∈ ⁅V, L⁆, u ≠ 1 ∧ P = X ⊓ centralizer ({u} : Set G)) →
+      Concl X T V L P) : C137StatementFive_F4 :=
+  fun G _ _ X T V L P M => h G X T V L P M
+
+end CFSG.Quasithin.H13.U3.GC137

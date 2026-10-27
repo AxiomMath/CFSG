@@ -1,0 +1,25 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNbrInput
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNbrTagsLin
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNbrTagsExc
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNbrTagsSp
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNbrTagsOm
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentSummandTagsExc
+
+public section
+
+namespace CFSG.StandardType
+
+section Tags
+
+theorem ggRootCentSummandStructNbrInput_holds : GGRootCentSummandStructNbrInput :=
+  ggRootCentSummandStructNbrInput_of_tags ggRootCentSummandStructInput_holds
+    ggRootCentDerivedQTag_PSL ggRootCentDerivedQTag_PSU ggRootCentLayerNbrTag_PSp
+    ggRootCentLayerNbrTag_POmegaPlus ggRootCentLayerNbrTag_POmegaMinus ggRootCentDerivedQTag_F4
+    ggRootCentDerivedQTag_E6 ggRootCentDerivedQTag_E7 ggRootCentDerivedQTag_E8
+    ggRootCentDerivedQTag_twistedE6
+
+end Tags
+
+end CFSG.StandardType

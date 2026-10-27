@@ -1,0 +1,1725 @@
+module
+
+public import CFSG.LocalAnalysis.AGLEmbedding.D1Assembly
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicBetaAssembly
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicAlpha
+public import CFSG.LocalAnalysis.AGLEmbedding.CoverModule
+public import CFSG.LocalAnalysis.AGLEmbedding.CoverRankLift
+public import CFSG.LocalAnalysis.AGLEmbedding.CoverAbelianSylow
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicBetaSmall2
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicBetaSmall3
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeFamilies
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeLie
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeSporAlt
+public import CFSG.LocalAnalysis.AGLEmbedding.NoXBlockBridge
+public import CFSG.LocalAnalysis.AGLEmbedding.AltOuterOdd
+public import CFSG.LocalAnalysis.AGLEmbedding.ResidualFive
+public import CFSG.RankThree.PartOne.LIT.KFCGTList
+public import CFSG.LocalAnalysis.AGLEmbedding.AltCaseThreeK
+public import CFSG.LocalAnalysis.AGLEmbedding.SporCaseThreeData
+public import CFSG.LocalAnalysis.AGLEmbedding.ThreeOrFiveDvd
+public import CFSG.LocalAnalysis.AGLEmbedding.JStarElimAlt
+public import CFSG.LocalAnalysis.AGLEmbedding.POneThreeAlt
+public import CFSG.LocalAnalysis.AGLEmbedding.GapROneBS
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeAThreeP
+public import CFSG.LocalAnalysis.AGLEmbedding.JStarElimSpor
+public import CFSG.LocalAnalysis.AGLEmbedding.NoXBlockBridgeK
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicOuterAux
+public import CFSG.Sporadic.Bridge.Catalogue
+public import CFSG.LocalAnalysis.AGLEmbedding.LocalCGTBridge
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeRee
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeUnitary
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeJ3
+public import CFSG.LocalAnalysis.AGLEmbedding.J3Data
+public import CFSG.LocalAnalysis.AGLEmbedding.J3Target
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockInnerNormalizer
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieAssembly
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZZCompClose
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZZK0BigClose
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZN
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeChevTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZZClose
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoAssembly
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeA9
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeA15
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoEscapeBlocks
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieMSideCore
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieTorusFamilies
+import CFSG.LocalAnalysis.AGLEmbedding.OneLieMSideCompThree
+import CFSG.LocalAnalysis.AGLEmbedding.OneLieMSideBlocksThree
+import CFSG.LocalAnalysis.AGLEmbedding.OneLieMData
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallAssembly
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallPosA
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallPoszOut
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVNormal
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVNormalThree
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVNormalAlt
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIa
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIaL34Third
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIaL34PUCons
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.L34NotOrthogonal
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.U62ThreeCentKFact
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanU62O10CentMain
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallCaseTwoInv
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallL34InvolveIso
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallSylowExp
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallSylowShape
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallSylowShapeThree
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallOutPPrime
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallInvolveCard
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSp48CenFact
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanFi22AltSection
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOutFive
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOutElemRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.J3CoverA6
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSz32Local
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanChevInnerMain
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanG28LocalKFact
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSp48Data
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.P1ThreeSpor
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanU33Invert
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSp48NSLoc
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSp48NSCent
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallOrbitsCube
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallNoTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallOrbits
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallSolvSpor
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallUPrimeRest
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallOneRest
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoprimeAutRankTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanRankOneCore
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.BRowsOf
+public import CFSG.Sporadic.Bridge.BFusFive
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAltTwoPGamma
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanChevTwoOuterGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.OmegaMinusCentKFact
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.OmegaMinusPerfKFact
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieUnitaryZ
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieLambda
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNTwoA
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGuest
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSP
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLHatAssembly
+public import CFSG.LocalAnalysis.AGLEmbedding.SPLMSide
+public import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieces
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroIa
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallPosT
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeChevTwoClosed
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoSP
+public import CFSG.CGT.T75P.Inputs
+public import CFSG.CGT.PushingUpLit.SolKAb.Residue
+public import CFSG.HardMathSupport.Seitz.G2Anisotropic.Coordinator.Cover
+public import CFSG.LieType.SeitzGeneration.LowNarrow
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoSPResidues
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallBOne
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPThree
+public import CFSG.LocalAnalysis.AGLEmbedding.LemmaBDefs
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieMSideDefsAux
+import CFSG.LocalAnalysis.AGLEmbedding.A9MSideBlocksAux
+import CFSG.LocalAnalysis.AGLEmbedding.LemmaBGlue
+import CFSG.LocalAnalysis.AGLEmbedding.LemmaBGroup
+public import CFSG.LocalAnalysis.AGLEmbedding.LemmaBIrr
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNoSP
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallBZero
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48NClose
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEV
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSmallP
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48NCentApply
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoEVK
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoIn
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoStarTwoA
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNFRest
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoCycRest
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoThreeA6Rest
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoToralCenter
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFactReductions
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFoundationsLie
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFoundationsLieNorm
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFoundationsPL
+public import CFSG.LocalAnalysis.AGLEmbedding.AscEightFour
+public import CFSG.LocalAnalysis.AGLEmbedding.AscEightFive
+public import CFSG.LocalAnalysis.AGLEmbedding.AscEightSix
+import CFSG.CGT.PushingUpLit.Glue.LocalFactorization
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePiecesGlue
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieceZK
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieceLemmaT
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieceCent
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieceBlocks
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieceCtilde
+import CFSG.LocalAnalysis.AGLEmbedding.SPLMSidePieceTorus
+import CFSG.LocalAnalysis.AGLEmbedding.OneLieListInvolveWClose
+import CFSG.LocalAnalysis.AGLEmbedding.OneLieListInvolveWProof
+import CFSG.LocalAnalysis.AGLEmbedding.OneLieSubElim
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroIbRest
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroThreeSplit
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroIaThree
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroIbThreeBridge
+import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroIbThreeCenter
+import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLZeroIaThreeSuzuki
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.PPrimeCompInvolution
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallSPLIbU3Rank
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48NCoverShape
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanThreeCoverLie
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanThreeCoverSpor
+public import CFSG.RankThree.PartTwo.Sec4.Census.Item44TwoCoverList
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoverRankFive
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAlphaFive
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallKCInKFact
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoverThreeCases
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoverThreeLin
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoverThreeRank
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallAlphaThree
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAlphaThreeWeakRes
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAlphaThreeWeakMult
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAlphaThreeWeakSmall
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAlphaThreeWeakSpor
+public import Certificates.Certificate2326
+public import Certificates.Certificate3029
+public import Certificates.Certificate3171
+public import Certificates.Certificate9127
+public import Certificates.Certificate9217
+public import Certificates.Certificate9590
+public import Certificates.Certificate3170
+public import Certificates.Certificate9216
+public import Certificates.Certificate9417
+public import Certificates.Certificate3173
+public import Certificates.Certificate9130
+public import Certificates.Certificate9219
+public import Certificates.Certificate9500
+public import Certificates.Certificate1005
+public import Certificates.Certificate9107
+public import Certificates.Certificate9108
+public import Certificates.Certificate9109
+public import Certificates.Certificate9110
+public import Certificates.Certificate9205
+public import Certificates.Certificate9501
+public import Certificates.Certificate1016
+public import Certificates.Certificate9113
+public import Certificates.Certificate9207
+public import Certificates.Certificate9511
+import CFSG.RankThree.PartTwo.Sec4.Census.Item43Narrow
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoverRankFiveCensus
+import CFSG.GH74.Generic.GKFCover
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanAlphaThreeLie
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanDiagOuter
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanDiagOuterE6
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanWeakGenG23
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanWeakGenO73
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanWeakGenU43
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOneLieNonUnitary
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanJStarA9
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentFamilies
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentAlt
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentCharPSmall
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentCharPOne
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCharPGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentOffCharGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentOffCharAut
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentSporSmall
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentSporHS5
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentSporOneLie
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanP1ThreeLieCharPAll
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.BCoverFiveOf
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanMonsterThreeY
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZZK0ShapeFacts
+public import Certificates.Certificate10093
+public import Certificates.Certificate10098
+public import Certificates.Certificate10103
+import CFSG.LocalAnalysis.ComponentClassification.Helpers
+import CFSG.Sporadic.Bridge.Y322Central
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSL3CoverGenFix
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.KlingenSpFour
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFoundationsSpTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicAlphaMultipliers
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSL3FourGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCoverE6RankMain
+public import CFSG.LocalAnalysis.ComponentClassification.GoldschmidtTDGriess
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallFiKC
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallFiKCFi22
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp62BlockCM
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp62BlockCMAlpha
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp62BlockCMSmall
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp62BlockCMPrime
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48NCentBeta
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48NCentRankComp
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48NCoverClose
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.CatalogSchreier
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Fi22GuestRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.L28AutThree
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AltSixSevenAut
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.L34Local
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.L28Parabolic
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ChevTwoSurvivorSchur
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Unitary
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitarySchur
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryTorus
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryPPD
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryAut
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Ree
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElim
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimFive
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimThree
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.A9Local
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.A15Local
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryUnipotentCentralizer
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryBorelPCore
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryAutElemRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryAutPCard
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimSporTargets
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimReeLie
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimUnitaryLie
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimLieFinal
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.SplitExc
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UPrimeExcL34
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.CaseTwoLocalL28
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.J3Sylow
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Sp62Local
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ReeIdInvolve
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.CaseTwoNoTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.CaseTwoSylow
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Sp48Target
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ReeF4Target
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.SmallRankOneKFacts
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.SmallThreeOrders
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.L34AutExp
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.L34OuterGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.J3Involve
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarE6TwoTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarD4TwoThree
+public import CFSG.RankThree.PartOne.TCB.Final
+public import CFSG.Milestones.FAM_M_finiteness
+public import CFSG.Milestones.FAM_M_simplicity
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactReduceTorus
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactReduceRankOne
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactReduceCaseTwo
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactReduceBlocks
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactReduceJ3
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.J3CoverWeakGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.J3OuterInvClosed
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.OmegaEightMinusElemRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Sp62Escape
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicDataRest
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanE6TwoRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOneLieSylow
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallGamma
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVDefs
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVStarRes
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallResidues
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVCoverDefs
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVCoverFree
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallBZeroKFacts
+import CFSG.LocalAnalysis.AGLEmbedding.OneSmallBZeroChar
+import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVEven
+import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIdent
+import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVStar
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVCoreAssembly
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbCubeAll
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbFi22
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallKCIn
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Fi22FiveMain
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Sp62AutElemRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.UnitaryInvolution
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ThompsonGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Fi22FiveCoreMain
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbAltAll
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbThreeAll
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIaL34Ph5
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbL34Rest9
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVL34Ph6
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVL34Ph7
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVL34Close
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AltTwoPGammaSylow
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactCaseTwoAlphaHoldsElim
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactCaseTwoAlphaHoldsThree
+public import Certificates.Certificate9726
+public import Certificates.Certificate8064
+public import Certificates.Certificate14953
+public import CFSG.Blueprint.NativeSporadic
+public import CFSG.RankThree.PartOne.CTP.FusionSound
+public import Certificates.Certificate3109
+import CFSG.Sporadic.Bridge.BFusSevenGen
+public import Certificates.Certificate4058
+public import Certificates.Certificate4071
+public import Certificates.Certificate4082
+public import Certificates.Certificate4123
+public import Certificates.Certificate4124
+public import Certificates.Certificate4125
+public import Certificates.Certificate4130
+public import Certificates.Certificate5133
+public import Certificates.Certificate8080
+public import Certificates.Certificate8081
+public import Certificates.Certificate9750
+public import Certificates.Certificate9751
+public import CFSG.LieType.SeitzGeneration.Regimes
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactsFamiliesNarrow
+import CFSG.Sporadic.Bridge.BTc
+import CFSG.LocalAnalysis.RankThreeTheoremC.D2LocalCGT3
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanTwoGenInner
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanParabThree
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanParabPrime
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanLieOutPrimeClosed
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanLieOutRankMain
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanLieOutDiagFinal
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanLieOutDiagBadMain
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSeitzCyc
+import CFSG.LieType.SeitzGeneration.ConsumerEx
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCenterOver
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanReeCenterOver
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCaseTwoCM
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanMonsterRows
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanIdentSporB7
+import CFSG.LocalAnalysis.AGLEmbedding.BlockFactReductionsIIASix
+import CFSG.LocalAnalysis.AGLEmbedding.BlockFactReductionsIICenter
+import CFSG.LocalAnalysis.AGLEmbedding.BlockOutNine
+import CFSG.LocalAnalysis.RankThreeTheoremC.OutCyclicThree
+import CFSG.LocalAnalysis.AGLEmbedding.CompCenterNine
+import CFSG.LocalAnalysis.AGLEmbedding.BlockAltSevenPL
+import CFSG.LocalAnalysis.AGLEmbedding.RankOneAutFactsHolds
+public import CFSG.CGT.PushingUpLit.ThmOne.SectionThreeInputs
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFoundationsPLType
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockFactsThreeFivesParabolic
+public import Certificates.Certificate10023
+public import Certificates.Certificate5148
+public import Certificates.Certificate9541
+public import Certificates.Certificate9703
+import CFSG.CGT.PushingUpLit.K1R.Dispatch
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanBlockFiveComplete
+import CFSG.LocalAnalysis.AGLEmbedding.BlockFactReductionsIVMain
+import CFSG.LocalAnalysis.AGLEmbedding.BlockParabThreeLeviMain
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanBlockCycThreeMain
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanBlockCycG2
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanO8pCent
+import CFSG.LocalAnalysis.AGLEmbedding.BlockFactReductionsIVOrbit
+import CFSG.LocalAnalysis.AGLEmbedding.UnitaryParabThreeRank
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOuterSylowFixed
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOuterSylowCases
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofLieOrder
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockToralCensusAssembly
+import CFSG.LocalAnalysis.AGLEmbedding.BlockToralCensusRadical
+import CFSG.LocalAnalysis.AGLEmbedding.BlockToralReduceOddMain
+import CFSG.LocalAnalysis.AGLEmbedding.BlockToralReduceThreeIb
+import CFSG.LocalAnalysis.AGLEmbedding.BlockToralReduceThreeCyc
+import CFSG.Milestones.CL_LIT_Griess_Schur_multipliers_Lie_type
+import CFSG.LocalAnalysis.AGLEmbedding.BlockTransvectionCyclic
+public import Certificates.Certificate134001
+public import Certificates.Certificate134002
+public import Certificates.Certificate8142
+public import Certificates.Certificate8143
+public import Certificates.Certificate8144
+public import Certificates.Certificate15049
+public import Certificates.Certificate24011
+public import Certificates.Certificate24052
+public import Certificates.Certificate24053
+public import Certificates.Certificate24320
+public import Certificates.Certificate24390
+public import Certificates.Certificate125200
+public import Certificates.Certificate125201
+public import Certificates.Certificate125202
+public import Certificates.Certificate125203
+public import Certificates.Certificate125204
+public import Certificates.Certificate125205
+public import Certificates.Certificate125206
+public import Certificates.Certificate125210
+public import Certificates.Certificate125211
+public import Certificates.Certificate125212
+public import Certificates.Certificate125220
+public import Certificates.Certificate125221
+public import Certificates.Certificate125222
+public import Certificates.Certificate125223
+public import Certificates.Certificate125340
+public import Certificates.Certificate125341
+public import Certificates.Certificate125342
+public import Certificates.Certificate125343
+public import Certificates.Certificate125344
+public import Certificates.Certificate125345
+public import Certificates.Certificate125346
+public import Certificates.Certificate125347
+public import Certificates.Certificate125348
+public import Certificates.Certificate125349
+public import Certificates.Certificate125350
+public import Certificates.Certificate125351
+public import Certificates.Certificate291200
+public import Certificates.Certificate291370
+public import Certificates.Certificate291371
+public import Certificates.Certificate291372
+public import Certificates.Certificate291373
+public import Certificates.Certificate291380
+public import Certificates.Certificate291381
+public import Certificates.Certificate4018
+public import Certificates.Certificate4019
+public import Certificates.Certificate4020
+public import Certificates.Certificate4021
+public import Certificates.Certificate4022
+public import Certificates.Certificate4023
+public import Certificates.Certificate4024
+public import Certificates.Certificate4025
+public import Certificates.Certificate4026
+public import Certificates.Certificate4036
+public import Certificates.Certificate4037
+public import Certificates.Certificate4038
+public import Certificates.Certificate4057
+public import Certificates.Certificate4059
+public import Certificates.Certificate4069
+public import Certificates.Certificate4070
+public import Certificates.Certificate4126
+public import Certificates.Certificate4127
+public import Certificates.Certificate4129
+public import Certificates.Certificate4134
+public import Certificates.Certificate4135
+public import Certificates.Certificate4136
+public import Certificates.Certificate4137
+public import Certificates.Certificate7154
+public import Certificates.Certificate7067
+public import Certificates.Certificate8010
+public import Certificates.Certificate8011
+public import Certificates.Certificate8014
+public import Certificates.Certificate8015
+public import Certificates.Certificate8016
+public import Certificates.Certificate8017
+public import Certificates.Certificate8022
+public import Certificates.Certificate8025
+public import Certificates.Certificate8030
+public import Certificates.Certificate8031
+public import Certificates.Certificate8063
+public import Certificates.Certificate8952
+public import Certificates.Certificate8953
+public import Certificates.Certificate17000
+public import Certificates.Certificate17001
+public import Certificates.Certificate17002
+public import Certificates.Certificate17006
+public import Certificates.Certificate17022
+public import Certificates.Certificate17023
+public import Certificates.Certificate17026
+public import Certificates.Certificate17028
+public import Certificates.Certificate17951
+public import Certificates.Certificate18950
+public import Certificates.Certificate19953
+public import Certificates.Certificate260140
+public import Certificates.Certificate2024
+public import Certificates.Certificate2072
+public import Certificates.Certificate2142
+public import Certificates.Certificate2143
+public import Certificates.Certificate2334
+public import Certificates.Certificate2335
+public import Certificates.Certificate5150
+public import Certificates.Certificate11003
+public import Certificates.Certificate11004
+public import Certificates.Certificate10028
+public import Certificates.Certificate125500
+public import Certificates.Certificate125501
+import CFSG.HardMathSupport.RichardWeiss.ExceptionalClosure.NoA5.Final
+import CFSG.LocalAnalysis.AGLEmbedding.Norton.OrdinaryProofs.MonsterThirteenCubic
+import CFSG.HardMathSupport.Curtis.Coordinator.ToralThreeReduce
+import CFSG.HardMathSupport.Curtis.Coordinator.AutNineReduce
+import CFSG.LocalAnalysis.AGLEmbedding.ToralCensusHubCenter
+import CFSG.LocalAnalysis.AGLEmbedding.FixedThreeOutSmallFree
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicOuter
+import CFSG.LocalAnalysis.AGLEmbedding.BlockInvThree
+public import CFSG.HardMathSupport.Curtis.Coordinator.AutCenterIb
+import CFSG.HardMathSupport.Curtis.Coordinator.PerfThreeAssembly
+import CFSG.HardMathSupport.Meierfrankenfeld.Coordinator.Final
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.KFactBlockToralAltFinal
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.SpResidual.Glue
+import CFSG.HardMathSupport.Curtis.Proving.FixThreeSmallFour
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.NodeWitnesses.FixPrimeCycD
+import CFSG.LocalAnalysis.AGLEmbedding.ToralCensusAltEight
+public import Certificates.Certificate2176
+public import Certificates.Certificate4003
+public import Certificates.Certificate4008
+public import Certificates.Certificate4016
+public import Certificates.Certificate4017
+public import Certificates.Certificate4200
+public import Certificates.Certificate4201
+public import Certificates.Certificate4202
+public import Certificates.Certificate12601
+public import Certificates.Certificate12602
+public import Certificates.Certificate12603
+public import Certificates.Certificate12604
+public import Certificates.Certificate12605
+public import Certificates.Certificate12606
+public import Certificates.Certificate12607
+public import Certificates.Certificate12608
+public import Certificates.Certificate12609
+public import Certificates.Certificate12630
+public import Certificates.Certificate12631
+public import Certificates.Certificate12632
+public import Certificates.Certificate12680
+public import Certificates.Certificate133001
+public import CFSG.HardMathSupport.Curtis.Coordinator.SPLTorusFamilies
+import CFSG.HardMathSupport.Curtis.Coordinator.SPLTorus
+import CFSG.HardMathSupport.Curtis.Coordinator.ToralThreeFinal
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.ResidualD.Glue
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.ResidualTwistedD.Glue
+import CFSG.LocalAnalysis.AGLEmbeddingD2.Wilson.Coordinator.J4Eleven
+public import Certificates.Certificate10036
+public import Certificates.Certificate10041
+public import Certificates.Certificate10060
+public import Certificates.Certificate10061
+public import Certificates.Certificate10062
+public import Certificates.Certificate10063
+public import Certificates.Certificate10064
+public import Certificates.Certificate10065
+public import Certificates.Certificate10066
+public import Certificates.Certificate10079
+public import Certificates.Certificate10099
+public import Certificates.Certificate14985
+public import Certificates.Certificate14986
+public import Certificates.Certificate14987
+public import Certificates.Certificate14990
+public import Certificates.Certificate14991
+public import Certificates.Certificate14992
+public import Certificates.Certificate14993
+public import Certificates.Certificate14994
+public import Certificates.Certificate14995
+public import Certificates.Certificate14996
+public import Certificates.Certificate15024
+public import Certificates.Certificate15025
+public import Certificates.Certificate15026
+public import Certificates.Certificate15030
+public import Certificates.Certificate15031
+public import Certificates.Certificate15033
+public import Certificates.Certificate15034
+public import Certificates.Certificate15035
+public import Certificates.Certificate15042
+public import Certificates.Certificate15043
+public import Certificates.Certificate16007
+public import Certificates.Certificate16034
+public import Certificates.Certificate18010
+public import Certificates.Certificate2081
+public import Certificates.Certificate24000
+public import Certificates.Certificate24050
+public import Certificates.Certificate24051
+public import Certificates.Certificate24093
+public import Certificates.Certificate24094
+public import Certificates.Certificate24321
+public import Certificates.Certificate24650
+public import Certificates.Certificate24670
+public import Certificates.Certificate24671
+public import Certificates.Certificate25001
+public import Certificates.Certificate26963
+public import Certificates.Certificate291100
+public import Certificates.Certificate291101
+public import Certificates.Certificate291110
+public import Certificates.Certificate291111
+public import Certificates.Certificate291120
+public import Certificates.Certificate291130
+public import Certificates.Certificate291350
+public import Certificates.Certificate291351
+public import Certificates.Certificate291360
+public import Certificates.Certificate291361
+public import Certificates.Certificate291362
+public import Certificates.Certificate291390
+public import Certificates.Certificate4103
+public import Certificates.Certificate5113
+public import Certificates.Certificate5126
+public import Certificates.Certificate6041
+public import Certificates.Certificate6042
+public import Certificates.Certificate6043
+public import Certificates.Certificate6044
+public import Certificates.Certificate6045
+public import Certificates.Certificate6046
+public import Certificates.Certificate6059
+public import Certificates.Certificate6060
+public import Certificates.Certificate6061
+public import Certificates.Certificate6062
+public import Certificates.Certificate6063
+public import Certificates.Certificate6064
+public import Certificates.Certificate6065
+public import Certificates.Certificate6066
+public import Certificates.Certificate6067
+public import Certificates.Certificate6068
+public import Certificates.Certificate6069
+public import Certificates.Certificate6070
+public import Certificates.Certificate6071
+public import Certificates.Certificate6072
+public import Certificates.Certificate6091
+public import Certificates.Certificate6092
+public import Certificates.Certificate6094
+public import Certificates.Certificate6095
+public import Certificates.Certificate6096
+public import Certificates.Certificate6103
+public import Certificates.Certificate6107
+public import Certificates.Certificate6110
+public import Certificates.Certificate6114
+public import Certificates.Certificate6116
+public import Certificates.Certificate6117
+public import Certificates.Certificate6118
+public import Certificates.Certificate7023
+public import Certificates.Certificate7059
+public import Certificates.Certificate125502
+public import Certificates.Certificate125503
+public import Certificates.Certificate125504
+public import Certificates.Certificate125505
+public import Certificates.Certificate125506
+public import Certificates.Certificate125507
+public import Certificates.Certificate125508
+public import Certificates.Certificate125509
+public import Certificates.Certificate125510
+public import Certificates.Certificate125511
+public import Certificates.Certificate125512
+public import Certificates.Certificate125513
+public import Certificates.Certificate125530
+public import Certificates.Certificate125531
+public import Certificates.Certificate125532
+public import Certificates.Certificate125533
+public import Certificates.Certificate125534
+public import Certificates.Certificate125535
+public import Certificates.Certificate125536
+public import Certificates.Certificate125537
+public import Certificates.Certificate125538
+public import Certificates.Certificate125539
+public import Certificates.Certificate125540
+public import Certificates.Certificate125541
+public import Certificates.Certificate125542
+public import Certificates.Certificate125552
+public import Certificates.Certificate125553
+public import Certificates.Certificate125554
+public import Certificates.Certificate125555
+public import Certificates.Certificate125556
+public import Certificates.Certificate125557
+public import Certificates.Certificate125558
+public import Certificates.Certificate125559
+public import Certificates.Certificate125561
+public import Certificates.Certificate6106
+public import Certificates.Certificate9456
+public import Certificates.Certificate9457
+public import Certificates.Certificate9458
+public import Certificates.Certificate9521
+public import Certificates.Certificate9570
+public import Certificates.Certificate9571
+public import Certificates.Certificate10002
+public import Certificates.Certificate125360
+public import Certificates.Certificate125361
+public import Certificates.Certificate125362
+public import Certificates.Certificate125363
+public import Certificates.Certificate125364
+public import Certificates.Certificate125365
+public import Certificates.Certificate125366
+public import Certificates.Certificate125367
+public import Certificates.Certificate125368
+public import Certificates.Certificate125369
+public import Certificates.Certificate125370
+public import Certificates.Certificate125371
+public import Certificates.Certificate125372
+public import Certificates.Certificate125373
+public import Certificates.Certificate125374
+public import Certificates.Certificate131000
+public import Certificates.Certificate131001
+public import Certificates.Certificate131002
+public import Certificates.Certificate131003
+public import Certificates.Certificate131004
+public import Certificates.Certificate131005
+public import Certificates.Certificate131006
+public import Certificates.Certificate131007
+public import Certificates.Certificate131008
+public import Certificates.Certificate131009
+public import Certificates.Certificate131100
+public import Certificates.Certificate131101
+public import Certificates.Certificate131300
+public import Certificates.Certificate131301
+public import Certificates.Certificate131302
+public import Certificates.Certificate5153
+public import Certificates.Certificate8053
+public import Certificates.Certificate8054
+public import Certificates.Certificate8055
+public import Certificates.Certificate8056
+public import Certificates.Certificate9300
+public import Certificates.Certificate10021
+public import Certificates.Certificate14982
+public import Certificates.Certificate14983
+public import Certificates.Certificate14984
+public import Certificates.Certificate14988
+public import Certificates.Certificate14989
+public import Certificates.Certificate15950
+public import Certificates.Certificate15951
+public import Certificates.Certificate15952
+public import Certificates.Certificate21102
+public import Certificates.Certificate21190
+public import Certificates.Certificate21191
+public import Certificates.Certificate21192
+public import Certificates.Certificate21193
+public import Certificates.Certificate21194
+public import Certificates.Certificate21195
+public import Certificates.Certificate21196
+public import Certificates.Certificate21197
+public import Certificates.Certificate22100
+public import Certificates.Certificate271010
+public import Certificates.Certificate271011
+public import Certificates.Certificate271015
+public import Certificates.Certificate271030
+public import Certificates.Certificate271031
+public import Certificates.Certificate271032
+public import Certificates.Certificate271033
+public import Certificates.Certificate271070
+public import Certificates.Certificate271071
+public import Certificates.Certificate9704
+public import Certificates.Certificate9706
+public import Certificates.Certificate9707
+public import Certificates.Certificate21198
+public import Certificates.Certificate21199
+public import Certificates.Certificate17430
+public import Certificates.Certificate431004
+public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.HopfPrimaryBridge
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.PrimaryCells
+import CFSG.RankThree.PartOne.MultRes.Trim
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Proving.KernelCells
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Proving.SporadicPerfect
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.TrivialRows
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.ProvedRows
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.SuzRow
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.M12CoverRow
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.J2CoverRow
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.KernelTrivialThreeCo1
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.KernelTrivialThreeCo2
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.KernelTrivialThreeCo3
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.KernelTrivialThreeTh
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.LyKernelTrivialThree
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.MonsterLargePrime
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.KernelTrivialBridge
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.MonsterAmalgamCarrier
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.ComponentPrimary.BFive
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.ComponentPrimary.BSeven
+import CFSG.RankThree.PartOne.MultRes.Co1Five
+import CFSG.RankThree.PartOne.MultRes.Co1
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1ThreeCover
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1Five
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1CoverThree
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1ThreeWeak
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1CenterNineOut
+import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1AlphaSpor
+import CFSG.HardMathSupport.Curtis.Coordinator.TorCenterFinal
+import CFSG.HardMathSupport.Malle.Coordinator.KFactReeF4LocalProof
+import CFSG.HardMathSupport.Lang.Coordinator.ONanOuterSylowCyc
+import CFSG.HardMathSupport.Curtis.Coordinator.SPLCellFinal
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.SPLCellG2
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.SPLCellLin
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.SPLCellUni
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.SPLCellOrth
+import CFSG.HardMathSupport.Foote.SPLScalar.Closed
+public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.EightTenNode
+public import CFSG.LocalAnalysis.ComponentClassification.StandardRecognitionQuaternion
+public import CFSG.CGT.PushingUpLit.SolKNA.Quaternion
+public import CFSG.LocalAnalysis.AGLEmbedding.SeitzCyc.D1
+import CFSG.HardMathSupport.RichardWeiss.Coordinator.AltNormalizerSq.Assembly
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AlphaThreeResidualHolds
+public import CFSG.LocalAnalysis.AGLEmbedding.SporadicMultD1
+import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.TableComplete
+import CFSG.LocalAnalysis.AGLEmbedding.Norton.MonsterTargets
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanParabAutIrrR2
+import CFSG.HardMathSupport.Curtis.Coordinator.PlaneMain
+import CFSG.HardMathSupport.Foote.Coordinator.Final
+import CFSG.HardMathSupport.Curtis.Coordinator.CenterFinal
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.FinalAll
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.LinOut
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.LinTorusFour
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.LinTorusThree
+import CFSG.HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.TwistedA
+import CFSG.HardMathSupport.Curtis.UnitaryLevi.BlockIbFinal
+import CFSG.HardMathSupport.Curtis.UnitaryLevi.PLTypeHolds
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockSplit
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockReduce
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockReduceLevi
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockLinVoid
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockLinFives
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockSympMain
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockGTwoVoid
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockOrthPlusMain
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockOrthMinusVoid
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockOrthMinusFives
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockOrthMinusPosLevi
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockUniPosSU
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockUniPosLevi
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockUniPosFives
+import CFSG.LocalAnalysis.AGLEmbedding.LeviBlockSmall
+import CFSG.LocalAnalysis.AGLEmbedding.ToralCensusHubCenter
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanBlockThreeFivesTypes
+import CFSG.LocalAnalysis.AGLEmbedding.BlockThreeCentCoprime
+import CFSG.LocalAnalysis.AGLEmbedding.ThreeCentLieTwo
+import CFSG.LocalAnalysis.AGLEmbedding.TrialityTwo.Holds
+import CFSG.HardMathSupport.Malle.E27Lie.ExcCross.ClosedFinal
+import CFSG.LocalAnalysis.AGLEmbeddingD2.LeavesTwoK
+import CFSG.HardMathSupport.Malle.SeitzCube.InnerExFrontier
+import CFSG.CGT.A8S.Final
+import CFSG.CGT.PushingUpLit.SolKNA.RankGe2Sz
+import CFSG.CGT.PushingUpLit.SolKNA.SzSimpleProof
+public import CFSG.CGT.A8S.N0EnumInputs
+public import CFSG.CGT.PushingUpLit.BHS6.NestedBasic
+public import CFSG.CGT.PushingUpLit.CGT6.SixFour
+public import CFSG.CGT.PushingUpLit.CGT6.SixSixteen
+public import CFSG.CGT.PushingUpLit.Glue.ClassXBasic
+public import CFSG.CGT.PushingUpLit.SolK.Inputs
+public import CFSG.CGT.Timmesfeld75.Derivations
+public import CFSG.CGT.Timmesfeld75.Sec5One
+public import CFSG.CGT.Timmesfeld75.SimpleCase
+public import CFSG.CGT.Timmesfeld75.SolvableCentral
+public import CFSG.CGT.Timmesfeld75.StrongClosureCentral
+public import CFSG.Certificates.Kernel.LocalCompTits.Span
+public import CFSG.ClassicalInvolution.Balance.PassTwoConj
+public import CFSG.ClassicalInvolution.RouteD.TypeAChain
+public import CFSG.GH74.GLS.Defs
+public import CFSG.GH74.GLS.IVK.Proofs2.Stmt111c
+public import CFSG.GH74.GLS.Stage1.Thm3.Sec5.Closed
+public import CFSG.GH74.GLS.Stage1.Thm3.Sec5.Statements
+public import CFSG.GH74.GLS.Stage1.Thm6.Sec12.Defs
+public import CFSG.GH74.GLS.Stage1.Thm6.Sec12.Ext
+public import CFSG.GH74.GLS.Stage2.Final.LayerFDerive
+public import CFSG.GH74.KGroups.L3EpsNoNormalThree
+public import CFSG.GH74.KGroups.L3EpsOutExp
+public import CFSG.GH74.KGroups.L3EpsOuterLin
+public import CFSG.GH74.M12.HypT2
+public import CFSG.GH74.M12.Reductions
+public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.AltCentre
+public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.TwoGroupExtension
+public import CFSG.HardMathSupport.Foote.E27.LieTwo.SpSpec
+public import CFSG.LieType.SeitzGeneration.ExcOuterAssemblyV5
+public import CFSG.LocalAnalysis.AGLEmbedding.A9MSideBlocks
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Fi22FiveSetOrbit
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.J3OuterInvSound
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanParabAutIrrHom
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanParabAutIrrXGen
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSL3FourGenData
+public import CFSG.LocalAnalysis.AGLEmbedding.MSideAtFusion
+public import CFSG.LocalAnalysis.AGLEmbedding.MSideAtInner
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieMDataAux2
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieUnitaryZAux
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieUnitaryZPCore
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZZK0Defs
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVCoreL34
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVCoreStar
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbL34Cover
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbL34Esc
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVIbThreePerf
+public import CFSG.LocalAnalysis.AGLEmbedding.TorusDataAux
+public import CFSG.LocalAnalysis.AGLEmbedding.TorusIrreducible
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.AltThreeRank
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.ScalarTorus
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Survivor
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.ThreeStrong
+public import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsCentModel
+public import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsFieldAut
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafOddB
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofComponentLift
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddCentralFixed
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixStructure
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorEvenE6
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorEvenTriality
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorOddE6
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitThm47Statement
+public import CFSG.LocalAnalysis.ComponentClassification.GMS78Lemma39
+public import CFSG.LocalAnalysis.ComponentClassification.GMS78Sec4
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitHeMax
+public import CFSG.LocalAnalysis.ComponentClassification.J2CoverModels
+public import CFSG.LocalAnalysis.ComponentClassification.OddSelector
+public import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalCTILinearSocle
+public import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalOddCentralizer
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1Cen2BData
+public import CFSG.LocalAnalysis.ComponentClassification.RestrictedSporCaseB
+public import CFSG.LocalAnalysis.ComponentClassification.RestrictedStdFamilies
+public import CFSG.LocalAnalysis.ComponentInitial.GL3TwoFixedModelCases
+public import CFSG.LocalAnalysis.ComponentInitial.ProjectiveEigenspaceComponent
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115Reduce
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.ThreeCoverBase
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.L246C123Alt7
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1M22
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1M24TChain
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1M24TUniq
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X7bPairs
+public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.L2_5_19IdentLieAlt
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D1Frontier3
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.KlingenIdent
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.KlingenIdentSporRowsB
+public import CFSG.LocalAnalysis.RankThreeTheoremC.RelativePairInputs
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotCatEvenOuterExc
+public import CFSG.LocalAnalysis.SeitzReduction.RankOneBranches
+public import CFSG.Monster.B.TwoA.Base.FourNorm
+public import CFSG.Monster.GMS.Fi23Gen
+public import CFSG.Monster.GMS.Fi23GenIso
+public import CFSG.Monster.GMS.Fi23GenSix
+public import CFSG.Monster.GMS.LeechCoh
+public import CFSG.Monster.GMS.LeechCohGroup
+public import CFSG.Monster.GMS.S365Center
+public import CFSG.Monster.GMS.S37
+public import CFSG.Monster.GMS.S4Assembly
+public import CFSG.Monster.GMS.S4CohB
+public import CFSG.Monster.GMS.S5Inputs
+public import CFSG.Quasithin.Background.A3Structure36BPrime
+public import CFSG.Quasithin.Background.B1
+public import CFSG.Quasithin.Background.B1More13A
+public import CFSG.Quasithin.Background.B1More13Defs
+public import CFSG.Quasithin.Background.B1MoreEleven
+public import CFSG.Quasithin.Background.B3Facts
+public import CFSG.Quasithin.Background.B3Q
+public import CFSG.Quasithin.Background.B5Basic
+public import CFSG.Quasithin.Background.B5CompA
+public import CFSG.Quasithin.Background.B5CompB
+public import CFSG.Quasithin.Background.F3
+public import CFSG.Quasithin.Background.F6CatRecogOut
+public import CFSG.Quasithin.Background.F9FiveStruct
+public import CFSG.Quasithin.Background.F9G2
+public import CFSG.Quasithin.Background.F9Geometry
+public import CFSG.Quasithin.Background.InternalSecData
+public import CFSG.Quasithin.Background.JonesParshallCurtisWeyl
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtF112ListC
+public import CFSG.Quasithin.EmptyFaithful.S1414Defs
+public import CFSG.Quasithin.EmptyFaithful.S1417Sylow
+public import CFSG.Quasithin.EmptyFaithful.S142Statements
+public import CFSG.Quasithin.H13.A5S1326
+public import CFSG.Quasithin.H13.A5Top
+public import CFSG.Quasithin.H13.J4Order
+public import CFSG.Quasithin.H13.L32NKGSp6Group
+public import CFSG.Quasithin.H13.StatementsL3
+public import CFSG.Quasithin.Recognition.F4Moufang
+public import CFSG.Quasithin.Recognition.F4Thirtyone
+public import CFSG.Quasithin.Recognition.ModelBridges
+public import CFSG.Quasithin.Recognition.RuTypeDefs
+public import CFSG.RankThree.Classical.SteinbergBJSymplecticSquareZeroCentralizer
+public import CFSG.RankThree.Lattice.SteinbergBIOrbitQuotFull
+public import CFSG.RankThree.PartOne.CTP.SeitzFineU5
+public import CFSG.RankThree.PartOne.CTP.StdSub
+public import CFSG.RankThree.PartOne.K133B.NC5Cover
+public import CFSG.RankThree.PartOne.KC.OrthogonalD4WitnessEven
+public import CFSG.RankThree.PartOne.KC.OrthogonalD4WitnessOdd
+public import CFSG.RankThree.PartOne.KC.OrthogonalKernelSectorRigiditySelfDual
+public import CFSG.RankThree.PartOne.KC.SymplecticInnerPlaneCore
+public import CFSG.RankThree.PartOne.KC.UnitaryHigherCrossPrimeTorus
+public import CFSG.RankThree.PartOne.KC.UnitaryPlaneEndpoints
+public import CFSG.RankThree.PartOne.KD4T.Certs
+public import CFSG.RankThree.PartOne.KE.A1SL2
+public import CFSG.RankThree.PartOne.KE.A1Torus
+public import CFSG.RankThree.PartOne.KE.A2Family
+public import CFSG.RankThree.PartOne.KE.A2Shape
+public import CFSG.RankThree.PartOne.KE.SigmaUntwisted
+public import CFSG.RankThree.PartOne.KF.SU5Model
+public import CFSG.RankThree.PartOne.KLR.Master
+public import CFSG.RankThree.PartOne.KLR.SectorAssembly
+public import CFSG.RankThree.PartOne.N143.SectionCenter
+public import CFSG.RankThree.PartOne.S11b.OuterPrimeTwoSporadicOpen
+public import CFSG.RankThree.PartOne.S11d.PSLDescent
+public import CFSG.RankThree.PartOne.S9.Sylow.ExclusionBasic
+public import CFSG.RankThree.PartOne.SEITZ2.OmegaSetup
+public import CFSG.RankThree.PartTwo.Census.Classical.EvenUnitary
+public import CFSG.RankThree.PartTwo.Sec19.Item194Used
+public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.ComponentPrimary.Cover3
+public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.OrderCheckF
+public import CFSG.RankThree.PartTwo.Sec4.T444.Item434O8pE9Local
+public import CFSG.Sporadic.Co1.Cover.Checks
+public import CFSG.Sporadic.Co1.Module.Co2Stab
+public import CFSG.Sporadic.HeldB.OuterFixed
+public import CFSG.Sporadic.Recognition.CoverCubeTransfer
+public import CFSG.Sporadic.Recognition.LyonsAmalgamModelYAut
+public import CFSG.Sporadic.Recognition.LyonsFinalGlue
+public import CFSG.Sporadic.Recognition.LyonsFinalMain
+public import CFSG.Sporadic.Recognition.LyonsSimsRecognition
+public import CFSG.Sporadic.Schreier.Fi22Schreier
+public import CFSG.Sporadic.ThSchreier.ThSchreierCase
+public import CFSG.Timmesfeld.ARS.CaseEFrame
+public import CFSG.Timmesfeld.ARS.CaseMSU
+public import CFSG.Timmesfeld.ARS.CaseMSpLevi
+public import CFSG.Timmesfeld.ARS.Sec13Closed
+public import CFSG.Timmesfeld.ARS.Sec13Maximal
+public import CFSG.Timmesfeld.Bridge.RootSetsGate
+public import CFSG.Timmesfeld.Bridge.RootSetsSyl
+public import CFSG.Timmesfeld.Exceptional.DeepFixed
+public import CFSG.Timmesfeld.Exceptional.DeepJ2Split
+public import CFSG.Timmesfeld.Exceptional.DeepW1
+public import CFSG.Walter.W67.W2Lemma26A
+public import Certificates.Certificate131101Base
+public import Certificates.Certificate19800
+public import Certificates.Certificate4058Base
+public import Certificates.Certificate9617
+public import Certificates.Data.CFSGNative.Co1.CoTwoAutData
+public import Certificates.Data.CFSGNative.Co1.CoTwoAutOrbit
+public import Certificates.Kernel.J4Count.FixCE
+public import Certificates.Kernel.J4Count.FixCPairBase1
+public import Certificates.Kernel.J4Count.KFactsBase
+public import Certificates.Kernel.J4Count.Prim
+import CFSG.CGT.T75D.QuasiLemmas
+import CFSG.CGT.T75P.Ctx
+import CFSG.CGT.T75P.DecA
+import CFSG.CGT.Timmesfeld75.Sec5FiveEng
+import CFSG.CGT.Timmesfeld75.SimpleAssembly
+import CFSG.CGT.Timmesfeld75.Step511Card
+import CFSG.CGT.Timmesfeld75.Step57Reduction
+import CFSG.GH74.GLS.C3.Layer1.BkIvk73Q
+import CFSG.GH74.GLS.C3.Layer2.L5C19
+import CFSG.GH74.GLS.C3.Layer2.L5C5c
+import CFSG.GH74.GLS.IVK.Proofs2.Ivk95J3
+import CFSG.GH74.Generic.S45.LEvSporFacts
+import CFSG.GH74.KGroups.L34Aut
+import CFSG.HardMathSupport.Timmesfeld.CrossChar.ExcInnerResiduals
+import CFSG.HardMathSupport.Timmesfeld.CrossChar.ExcInnerTwE6
+import CFSG.HardMathSupport.Timmesfeld.CrossChar.ExcInnerTwE8
+import CFSG.HardMathSupport.Timmesfeld.CrossChar.ExcInnerTwF4
+import CFSG.LieType.Ree.SmallReeInvolutionComponents
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanMonsterThreeCase
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanOutFiveUnitary
+import CFSG.LocalAnalysis.AGLEmbeddingD2.HSFiveCaseTwo
+import CFSG.LocalAnalysis.AGLEmbeddingD2.MonsterRows
+import CFSG.LocalAnalysis.AGLEmbeddingD2.Wilson.NormalizerAction.J4RRepBase
+import CFSG.LocalAnalysis.ComponentClassification.BurgoyneSpField
+import CFSG.LocalAnalysis.ComponentClassification.CatFactsL4U4OrdU2
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddAssembly
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueSporadicCasesC
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitKGTools
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB83Outer
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitKGFieldClass
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitLemma36Inputs
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitLemma412
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitLemma46d
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitN36AltPerm
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitN36MType
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitN36SporMult
+import CFSG.LocalAnalysis.EvenSporadicStandard.CentralTwoJ3
+import CFSG.LocalAnalysis.EvenSporadicStandard.CentralTwoONan
+import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Block
+import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Delta5Fin
+import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Inputs
+import CFSG.LocalAnalysis.QuasithinUnique.K1.EvenClassicalFamily
+import CFSG.LocalAnalysis.QuasithinUnique.K1.EvenClassicalLinearStrong
+import CFSG.LocalAnalysis.SeitzReduction.E6PilotAlignCores
+import CFSG.LocalAnalysis.SeitzReduction.F4PilotXiCaseLTorus
+import CFSG.LocalAnalysis.SteinbergCEOddResidualE6Graph
+import CFSG.Monster.SteinbergMY443SimpleIsomorphism
+import CFSG.Quasithin.Background.C124B51Hyp
+import CFSG.Quasithin.Background.C124Core
+import CFSG.Quasithin.Background.C124L2PClass
+import CFSG.Quasithin.Background.C124Star
+import CFSG.Quasithin.Background.C124Z3Class
+import CFSG.Quasithin.Background.C126A5Core4
+import CFSG.Quasithin.Background.C126Defs
+import CFSG.Quasithin.Background.C1GNA7
+import CFSG.Quasithin.Background.C1GNC124
+import CFSG.Quasithin.Background.C1PackBasic
+import CFSG.Quasithin.Background.E2Statements
+import CFSG.Quasithin.Background.FFC7G
+import CFSG.Quasithin.Background.SmithB42L2L32
+import CFSG.Quasithin.Background.SmithB42L2Nat
+import CFSG.Quasithin.Background.SmithB51LnRealB
+import CFSG.Quasithin.Background.SmithB51SL3A
+import CFSG.Quasithin.EmptyFaithful.S146zYFacts
+import CFSG.Quasithin.EmptyFaithful.S146zYRes
+import CFSG.Quasithin.H13.A5S1327j
+import CFSG.Quasithin.H13.NQCoreP134Main
+import CFSG.Quasithin.MS93.S32X
+import CFSG.Quasithin.MS93.SkItems
+import CFSG.Quasithin.Recognition.GoldschmidtFan86Hyp
+import CFSG.Quasithin.Recognition.GoldschmidtFan86UnivStab
+import CFSG.Quasithin.Vol2.Ch10SecD33
+import CFSG.Quasithin.Vol2.Ch10SecDClA
+import CFSG.Quasithin.Vol2.Ch11SecA11Main
+import CFSG.Quasithin.Vol2.Ch11SecA14Conj
+import CFSG.Quasithin.Vol2.Ch11SecAFactsDelta
+import CFSG.Quasithin.Vol2.Ch11SecAViN13
+import CFSG.Quasithin.Vol2.Ch11SecSMain
+import CFSG.Quasithin.Vol2.Ch11SecSShape2
+import CFSG.Quasithin.Vol2.Ch11SecSSym2
+import CFSG.Quasithin.Vol2.Ch11SecSSym4
+import CFSG.Quasithin.Vol2.Ch11SecSSym5
+import CFSG.RankThree.Classical2.TwistedE6Phi3Centralizer
+import CFSG.RankThree.PartOne.K133H.G2Plane
+import CFSG.RankThree.PartOne.KC.LinearPrimeFieldActorSolvableCore
+import CFSG.RankThree.PartOne.KF.F128Count
+import CFSG.RankThree.PartOne.KF4.B2Frame
+import CFSG.RankThree.PartOne.KLR.StarRad
+import CFSG.RankThree.PartOne.Mult.Sec68
+import CFSG.RankThree.PartOne.S11c.Sec66E6
+import CFSG.RankThree.PartOne.S11c.Sec66Sp
+import CFSG.RankThree.PartOne.S9.OddCore.RecognitionBasic
+import CFSG.RankThree.PartTwo.Sec20.OneSteps
+import CFSG.RankThree.SteinbergR3ECAFieldFixedLayerQuotient
+import CFSG.SignalizerFunctorTheorem.CatalogBridge.FixedFieldCard
+import CFSG.SignalizerFunctorTheorem.McBride.Near.Sec2.Defs
+import CFSG.Sporadic.Fi24
+import CFSG.Sporadic.Recognition.HNMultiplier
+import CFSG.Sporadic.Recognition.LyonsFinalDist2
+import CFSG.Sporadic.Suz
+import CFSG.Walter.J1Props
+import Certificates.Data.HSFiveCheck
+
+public section
+
+namespace CFSG.AGLEmbedding
+
+theorem d1_of_obligations
+    (h810 : CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.Asc81bEightTen)
+    (hAniN : CFSG.HardMathSupport.Seitz.G2Anisotropic.Coordinator.SeitzExcAnisotropicNotG2ThreePlus)
+    (hOP : CFSG.LieType.SeitzGeneration.SubfieldPairOmegaPlusF2)
+    (hOM : CFSG.LieType.SeitzGeneration.SubfieldPairOmegaMinusF2)
+    (hXC : SeitzCyc.SeitzExcOuterCycResiduals)
+    (hP1Off : P1ThreeLieOffChar)
+    (hCIT : CFSG.ComponentClassification.StandardRecognition.ClassicalInvolutionTheoremModels)
+    (hQL : CFSG.CGT.PushingUpLit.SolKNA.QuaternionInspectionLie)
+    (h93 : Asc81bNineThree)
+    (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
+    (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : Open.IsKProper G) (hchar : Open.IsCharTwoType G)
+    (he : 4 ≤ Open.evenRank G) (hpre : Open.GLBPreuniqueness G) (p : ℕ)
+    (hp : p ∈ Open.GLBBetaFour G) (P : Sylow p G) (M : Subgroup G) (hM : Open.GLBIsMaxTwoLocal M)
+    (hWM : Open.GLBWeakCore p (P : Subgroup G) ≤ M) (H : Subgroup G) (hH : Open.IsTwoLocal H)
+    (hHM : 3 ≤ Open.pRank p (H ⊓ M)) : H ≤ M :=
+  have hEx : CFSG.LieType.SeitzGeneration.KFactSeitzRankTwoInnerEx :=
+    CFSG.HardMathSupport.Malle.SeitzCube.kFactSeitzRankTwoInnerEx_of_anisoN hAniN
+  have hA8 : CFSG.CGT.T75P.A8SylowInput := CFSG.CGT.A8S.a8SylowInput
+  have hNA : CFSG.CGT.PushingUpLit.SolKAb.SolomonTimmesfeldMainNonAbelian :=
+    CFSG.CGT.PushingUpLit.SolKNA.solomonTimmesfeldMainNonAbelian_of_cit_lie_sz hCIT hQL
+      CFSG.CGT.PushingUpLit.SolKNA.szFpfSimpleNatural_of_certificate
+  have hT2 : CFSG.CGT.PushingUpLit.AschbacherTheoremTwoK :=
+    (CFSG.AGLEmbeddingD2.aschbacherTwoK_solomonK_of_remaining hA8 hNA).1
+  have hT25 : CFSG.CGT.PushingUpLit.SolomonAlternatingBlockK :=
+    (CFSG.AGLEmbeddingD2.aschbacherTwoK_solomonK_of_remaining hA8 hNA).2
+  have hKZ : KFactMSideAlmostSimpleE27 :=
+    CFSG.HardMathSupport.Malle.E27Lie.ExcCross.kFactMSideAlmostSimpleE27_proved
+  have hR1 : RankOneAutFactsFamilies := rankOneAutFactsFamilies_holds
+  have hRes : AlphaThreeLieResidual := alphaThreeLieResidual_holds
+  have hK1w : KFactParabolicAutomizerIrrPB := ParabAutIrr.kFactParabolicAutomizerIrrPB
+  have hK4s : CitedBlockAltNormalizerSq :=
+    CFSG.HardMathSupport.RichardWeiss.Coordinator.citedBlockAltNormalizerSq_of_eightTen h810
+  have hOPA : KFactBlockOutPrime := kFactBlockOutPrime_holds
+  have hThreeA6 : KFactBlockThreeASix := kFactBlockThreeASix_holds
+  have hZc : KFactBlockCenterCyclic := kFactBlockCenterCyclic_of_griess h93
+    ComponentClassification.TBLit.griessMultipliersAllModels_holds
+  have hLON : KFactLieOutNorm := kFactLieOutNorm_of_lieOut kFactLieOutPrime
+  have hLOA : KFactLieOutAltParabolic :=
+    kFactLieOutAltParabolic_of kFactLieOutPrime (LieOut.kFactLieOutDiagLevi_of_inputs lieOutInputs
+        LieOut.diagLeviBad)
+  have hLOr : KFactLieOutRank := LieOut.kFactLieOutRank
+  have hbr : ∀ s : TauCeti.SporadicName,
+      Nonempty (Blueprint.NativeSporadic.Carrier s ≃* (TauCeti.CFSGIndex.sporadic s).Group) :=
+    CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
+  have hMcard : Nat.card Open.MonsterY443Derived = Open.monsterOrder :=
+    CFSG.Milestones.fam_m_finiteness
+  have hβM : MonsterBetaData :=
+    CFSG.AGLEmbedding.Norton.OrdinaryProofs.monsterBetaData_of_thirteen_cubic
+  have hMOL : OneLieIdentSporAt .M := oneLieIdentSporAt_M_of_betaData hβM (hbr .M)
+  have h11 : SporGammaOneAt .M 11 := Norton.sporGammaOneAt_M_eleven_holds
+  have h13 : SporGammaOneAt .M 13 := Norton.sporGammaOneAt_M_thirteen_holds
+  have hMSI : SmallIdentSporAt .M := smallIdentSporAt_M_of_betaData hβM (hbr .M) hMcard h11 h13
+  have hSz : KFactSeitzCyc := SeitzCyc.kFactSeitzCyc_of_pairs_cyc hOP hOM hXC
+  have hB7 : SporGammaOneAt .B 7 := sporGammaOneAt_B_seven
+  have hKin : KFactTwoGenInner := TwoGenInner.kFactTwoGenInner
+  have hK2 : KFactParabolicThree := kFactParabolicThree
+  have hKPp : KFactParabolicPrime := kFactParabolicPrime
+  have hKO : LocalAnalysis.RankThreeTheoremC.KFactOuterSylowInner :=
+    OuterSylow.kFactOuterSylowInner_holds_cyc
+  have hOut : KFactBlockThreeOut := kFactBlockThreeOut_of_parabolic kFactOutNineParabolic
+  have hSId : KFactSmallIdent :=
+    CFSG.LieType.SeitzGeneration.kFactSmallIdent_of_seitzEx hEx hB7 hMSI
+  have hP1L : KFactP1ThreeLie := kFactP1ThreeLie_of_charP_offChar hP1Off
+  have hdata3R : SporadicCaseThreeDataRest :=
+    sporadicCaseThreeData_B_of_tc CFSG.Sporadic.Bridge.B.tcGenDatum_B_five
+  have hId : KFactOneLieIdent := CFSG.LieType.SeitzGeneration.kFactOneLieIdent_of_seitzEx hEx hMOL
+  have hKSc : KFactSPLInvolveScalar :=
+    CFSG.HardMathSupport.Foote.SPLScalar.kFactSPLInvolveScalar_of_ident hId
+  have hβl : KFactBetaLie := kFactBetaLie_of_rankOneFamilies hId
+    (betaLieCyclic_of_outCyclic LocalAnalysis.RankThreeTheoremC.kFactOutCyclic_holds) hR1
+  have hSI : KFactSmallInvolve :=
+    CFSG.LieType.SeitzGeneration.kFactSmallInvolve_of_seitzEx hEx hMSI hMOL
+  have hCO : KFactOneLieCenterOver := kFactOneLieCenterOver_of_ident hId kFactReeCenterOver
+  have hCM2 : KFactCaseTwoCM := kFactCaseTwoCM_of_oneLieIdent hId
+  have hInn : KFactBlockAutPrimeInner := kFactBlockAutPrimeInnerN_of hLON hOPA
+  have hBOF : KFactBlockOuterPerfectCent := kFactBlockOuterPerfectCentN_of hLON
+  have hAIA : KFactBlockAutAltInner := kFactBlockAutAltInnerN_of hLON hLOA
+  have hORb : KFactBlockOutRankIb := kFactBlockOutRankIb_of_lieOutRank hLOr
+  have hORAb : KFactBlockOutRankAltIb := kFactBlockOutRankAltIb_of_lieOutRank hLOr
+  have hSpS : KFactSpTwoSimple := kFactSpTwoSimple_holds
+  have hTPLT : CitedBlockTransvectionPLType :=
+    CFSG.HardMathSupport.Curtis.UnitaryLevi.citedBlockTransvectionPLType_holds
+  have hTPL : CitedBlockTransvectionPL := citedBlockTransvectionPL_of_type hTPLT
+  have hC3p : CitedBlockTransvectionPrime :=
+    citedBlockTransvectionPrime_of_PL hTPL (kFactSpTwoPerfect_of_simple hSpS)
+  have hA7PL : CitedBlockAltSevenPL := citedBlockAltSevenPL_holds
+  have hGAS : CFSG.Open.GriessAllModelsStatement :=
+    CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement
+  have hZr : OddCenterRest := oddCenterRest_of_griess hGAS
+  have hSU : KFactBlockNoSU38 := kFactBlockNoSU38_of hTPL hA7PL
+    (kFactCompParabSU38_of_families (kFactCompParabSU38On_linear hGAS)
+      kFactCompParabSU38On_twistedA (kFactCompParabSU38On_idxB hZr)
+      (kFactCompParabSU38On_idxD hZr) (kFactCompParabSU38On_twistedD hZr)
+      (kFactCompParabSU38On_g2 hGAS) kFactCompParabSU38_small)
+  have hLevi : KFactBlockLeviU42 := kFactBlockLeviU42_of hTPL hA7PL
+    (kFactCompParabLeviU42_of_families (kFactCompParabLeviU42On_linear hGAS)
+      kFactCompParabLeviU42On_twistedA (kFactCompParabLeviU42On_idxB hZr)
+      (kFactCompParabLeviU42On_idxD hZr) (kFactCompParabLeviU42On_twistedD_all hZr)
+      (kFactCompParabLeviU42On_g2 hGAS) kFactCompParabLeviU42_small)
+  have hFivesP : KFactBlockThreeFivesParabolic := kFactBlockThreeFivesParabolic_of
+    (kFactCompParabThreeFives_of_families (kFactCompParabThreeFivesOn_linear hGAS)
+      kFactCompParabThreeFivesOn_twistedA (kFactCompParabThreeFivesOn_idxB hZr)
+      (kFactCompParabThreeFivesOn_idxD hZr) (kFactCompParabThreeFivesOn_twistedD hZr)
+      (kFactCompParabThreeFivesOn_g2 hGAS) kFactCompParabThreeFives_small)
+  have hPS : KFactParabolicThreeSylowSmall := kFactParabolicThreeSylowSmall
+  have hFives : KFactBlockThreeFives :=
+    ThreeFives.kFactBlockThreeFives_of_types hTPLT hFivesP hA7PL h93
+  have hOne3 : KFactBlockThreeOneOrbit :=
+    kFactBlockThreeOneOrbit_of O8pCent.kFactD4TwoGraphCentralizer kFactUnitaryParabolicThreeRank
+      hPS hTPL hA7PL h93
+  have hExp3 : KFactBlockSylowThreeExp := kFactBlockSylowThreeExp_of hPS hTPL
+  have hNine : KFactBlockThreeOrderNine := kFactBlockThreeOrderNine_of hPS hTPL
+  have hBlkβ : KFactBlockThreeSolvableBeta := kFactBlockThreeSolvableBeta_of hPS hTPL hA7PL h93
+  have hCyc3 : KFactBlockCyclicThree := kFactBlockCyclicThree_of_lie h93
+      (BlockCyc.lieCyclicParabolicThree_of BlockCyc.lieCyclicG2)
+  have hK5p : KFactBlockAltSevenPrime := kFactBlockAltSevenPrime_of_PL hA7PL
+  have hC3TAb : CitedBlockThreeToralAltIb := citedBlockThreeToralAltIb_of_PL hTPL hSpS
+  have hSch2 : KFactCatalogSchreier := kFactCatalogSchreier
+  have hBHS : CFSG.CGT.PushingUpLit.BHS.BHSLocalCStar :=
+    CFSG.LocalAnalysis.RankThreeTheoremC.bhsLocalCStar_proved
+  have hLF := CFSG.CGT.PushingUpLit.Glue.aschbacherLocalFactorization_of_bhs hBHS
+  have h84 : Asc81bEightFour := asc81bEightFour_of_factorization hLF
+  have h85 : Asc81bEightFive := asc81bEightFive_of_factorization hLF
+  have h86 : Asc81bEightSix := asc81bEightSix_of_bhs hBHS
+  have hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels :=
+    CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
+  have hGV : GlueVhyp := glueVhyp_of_schreier hSch2
+  have hPlb : KFactBlockPlaneIb :=
+    CFSG.HardMathSupport.Curtis.Coordinator.kFactBlockPlaneIb_holds hGAS hSch2
+  have hTorCA : CitedBlockToralCycAut :=
+    CFSG.HardMathSupport.Curtis.Coordinator.citedBlockToralCycAut_holds hGAS hSch2 hTPLT
+  have hKF : KFactReeF4Local := CFSG.HardMathSupport.Malle.Coordinator.kFactReeF4Local_of_certs
+  have hTorZF : CitedBlockToralThreeCenterFix :=
+    CFSG.HardMathSupport.Curtis.Coordinator.citedBlockToralThreeCenterFix_holds hGAS hSch2
+  have hTorZ : CitedBlockToralThreeCenter :=
+    CFSG.HardMathSupport.Curtis.Coordinator.citedBlockToralThreeCenter_holds hGAS
+  have hTAAb : KFactBlockToralAltIb :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.kFactBlockToralAltIb hSch2 hGAS
+  have hKFc : KFactBlockCentCycIb :=
+    HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.kFactBlockCentCycIb_of_cells
+        (HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.centCycCell_a
+            HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.torusFourCell_proof
+            HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.torusThreeCell_proof)
+        HardMathSupport.Curtis.NaturalModuleCensus.CentCyc.centCycCell_twistedA
+  have hBR : KFactBlockCentRankIbThree :=
+    CFSG.HardMathSupport.Curtis.UnitaryLevi.kFactBlockCentRankIbThree_holds h85 hTPLT
+  have hBA : KFactBlockCentAbThreeIb :=
+    CFSG.HardMathSupport.Curtis.UnitaryLevi.kFactBlockCentAbThreeIb_holds h85 hTPLT
+  have hKβ1 : KFactCompFixedThreeEltN :=
+    FixedThree.kFactCompFixedThreeEltN_holds hGAS (not_dvd_card_outer_sporadic hbr)
+  have hTor3 : CitedBlockToralThree :=
+    CFSG.HardMathSupport.Curtis.Coordinator.citedBlockToralThree_holds hGAS hTPLT
+  have hAut9 : CitedBlockThreeAutNine :=
+    CFSG.HardMathSupport.Curtis.Coordinator.citedBlockThreeAutNine_holds hGAS hTPLT
+  have hDres : FixThreeVoid (IsLieOf IdxDResidual) :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.fixThreeVoid_d_residual hGAS
+  have h2Dres : FixThreeVoid (IsLieOf IdxTwistedDResidual) :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.fixThreeVoid_twistedD_residual hGAS
+  have hFF : CitedFFL34BestOffender :=
+    CFSG.HardMathSupport.Meierfrankenfeld.Coordinator.citedFFL34BestOffender
+  have hTAA : KFactBlockToralAlt :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.kFactBlockToralAlt hGAS
+  have hBres : FixThreeVoid (IsLieOf IdxBResidual) :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.fixThreeVoid_b_residual hGAS
+  have hSm3 : FixThreeVoid IsSmallTwoOrG2 :=
+    fixThreeVoid_isSmallTwoOrG2_of CFSG.HardMathSupport.Curtis.Proving.fixThreeVoid_smallFour
+      fun X _ h => (CFSG.HardMathSupport.Curtis.Proving.isSmallTwoOrG2_iff X).mp h
+  have hPD : FixPrimeCycTorus IdxD :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.NodeWitnesses.fixPrimeCycTorus_d
+  have hP2D : FixPrimeCycTorus IdxTwistedD :=
+    CFSG.HardMathSupport.Curtis.NaturalModuleCensus.NodeWitnesses.fixPrimeCycTorus_twistedD
+  have hFC3 : KFactFixCensusThree := kFactFixCensusThree_of_rest hGAS hSch2 hBres hDres h2Dres hSm3
+  have hFCP : KFactFixCensusPrime := kFactFixCensusPrime_of_rest hGAS hSch2 hPD hP2D
+  have hAC3b : CitedBlockThreeAutCenterIb :=
+    CFSG.HardMathSupport.Curtis.Coordinator.citedBlockThreeAutCenterIb_holds hGAS hSch2 hTPLT
+  have hTAb : KFactBlockToralIb := kFactBlockToralIb_of_census hFCP
+  have hTor3b : CitedBlockToralThreeIb := citedBlockToralThreeIb_of_census hFC3 hGV hTPLT
+  have hTorC3 : CitedBlockToralThreeCyc := citedBlockToralThreeCyc_of_census hFC3 hGV hTPLT h86
+  have hFive : KFactBlockFiveNoncyclic := kFactBlockFiveNoncyclic_of_asc81b h93 h86 hGA
+  have hSpD1 : SporadicMultipliersD1 := sporadicMultipliersD1_of_sporadicMultipliers
+    CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.sporadicMultipliers_holds
+  have hM3 : MonsterCaseThreeData := CFSG.AGLEmbedding.Norton.monsterCaseThreeData_holds
+  have hTCI : KFactThreeCoverInvolve := kFactThreeCoverInvolve_of_multD1 hSpD1
+  have hCov : KFactCoverRankFive := kFactCoverRankFive_of_multD1 hGA hSpD1
+  have hA5 : KFactAlphaFive := kFactAlphaFive_of_multD1 hGA hSpD1
+  have hCov3 : KFactCoverThreeFix := kFactCoverThreeFix_of_multD1 hGA hSpD1
+  have hK3a : KFactAlphaThreeWeak := kFactAlphaThreeWeak_of_multD1 hGA hSpD1
+  have hKZ9 : KFactCompCenterNine := kFactCompCenterNine_of_griess hGA hbr
+  have hΛ : KFactBlockInvertedThree := kFactBlockInvertedThree_holds h93 hTPLT
+  have hC3 : CitedBlockThreeTransvection := citedBlockThreeTransvection_of_inverted hΛ
+  have hK5 : KFactBlockThreeAltSeven := kFactBlockThreeAltSeven_of_inverted hΛ
+  have hTorA : CitedBlockToralThreeAut := citedBlockToralThreeAut_of_autNine hAut9
+  have hP5 : KFactBlockFiveParabolic := kFactBlockFiveParabolic_of hKPp hC3p hK5p
+  have hK3b : CitedBlockTransvectionCyclic := citedBlockTransvectionCyclic_holds hTPLT
+  have hC3Tq : CitedBlockThreeToralIbSq := citedBlockThreeToralIbSq_of_cyclic hK3b
+  have hK4b : CitedBlockAltNormalizer := citedBlockAltNormalizer_of_sq hK4s
+  have hSO : KFactSmallOutPPrime := kFactSmallOutPPrime_of_smallIdent hSId
+  have hInvC : KFactSmallInvolveCard := kFactSmallInvolveCard_of_smallIdent hSId
+  have hOrb3 : KFactSmallOrbitsCube := kFactSmallOrbitsCube_of_smallIdent hSId
+  have hβremR : SporadicBetaRemainingRest := sporadicBetaData_B_of
+      CFSG.Sporadic.Bridge.B.fusionGenerationOf_B_five
+  have hΓA : KFactAltTwoPGamma := kFactAltTwoPGamma
+  have hCout : KFactChevTwoOuterGen := kFactChevTwoOuterGen_of_certificates
+  have hNo2s : KFactSmallNoTwo := kFactSmallNoTwo_of_smallIdent hSId
+  have hOrb : KFactSmallOrbits := kFactSmallOrbits_of_smallIdent hSId
+  have hJ4 : AGLEmbeddingD2.D2HeisLocalAt (.sporadic .J4) fun p => p = 11 :=
+    AGLEmbeddingD2.Wilson.Coordinator.d2HeisLocalAt_J4
+  have hΓs : KFactSmallGammaSolvableSpor := kFactSmallGammaSolvableSpor_of_smallIdent hJ4 hSId
+  have hUPr : KFactUPrimeSmallRest := kFactUPrimeSmallRest_of_smallIdent hJ4 hSId
+  have hKSr : KFactOneSmallRest := kFactOneSmallRest_of_smallIdent hJ4 hSId
+  have hPR : StmtCoprimeAutRankTwo := stmtCoprimeAutRankTwo
+  have hRC : KFactRankOneCoreProper := kFactRankOneCoreProper
+  have hFA : KFactFi22AltSection := kFactFi22AltSection
+  have hJ3c : KFactJ3CoverA6 := kFactJ3CoverA6
+  have hKL5 : KFactCaseTwoLocalSz32 := kFactCaseTwoLocalSz32
+  have hβo' : KFactOutElemRankOdd := kFactOutElemRankOdd
+  have hCin : KFactChevTwoInnerGen := kFactChevTwoInnerGen_of_certificates
+  have hKG : KFactG28Local := kFactG28Local
+  have hO5d : KFactOutFiveCyclicDvd := kFactOutFiveCyclicDvd
+  have hK48 : KFactSp48Local := kFactSp48Local
+  have hKD48 : KFactSp48Data := kFactSp48Data
+  have hInvU : KFactU33SylowInvert := kFactU33SylowInvert
+  have hKN48 : KFactSp48NonsolvLocal := kFactSp48NonsolvLocal
+  have hKC48 : KFactSp48NonsolvCent := kFactSp48NonsolvCent
+  have hSchC : CatalogOuterSolvable := fun S _ _ _ hnab hcat => hSch2 S ‹_› hnab hcat
+  have hFi6 : KFactFi22GuestRank := kFactFi22GuestRank
+  have hL28A : KFactL28AutThree := kFactL28AutThree
+  have hK2b : KFactAltSixSevenAut := kFactAltSixSevenAut
+  have hL34 : KFactL34Local := kFactL34Local
+  have hL28 : KFactL28Parabolic := kFactL28Parabolic
+  have hKJ : KFactReeInvolution := kFactReeInvolution
+  have hKU1 : KFactUnitarySchur := kFactUnitarySchur
+  have hKU2 : KFactUnitarySylowStructure := kFactUnitarySylowStructure
+  have hKU3 : KFactUnitarySylowCenterTorus := kFactUnitarySylowCenterTorus
+  have hKU4 : KFactUnitaryTorusPPD := kFactUnitaryTorusPPD
+  have hKU6 : KFactUnitaryBorelMaximal := kFactUnitaryBorelMaximal
+  have hKU8 : KFactUnitarySylowNormalizerSolvable := kFactUnitarySylowNormalizerSolvable
+  have hKU11 : KFactUnitaryOrder := kFactUnitaryOrder
+  have hKU12 : KFactUnitaryOuterSolvable := kFactUnitaryOuterSolvable
+  have hEUA : KFactJStarElimUnitaryAlt := kFactJStarElimUnitaryAlt
+  have hKR1 : KFactReeSchur := kFactReeSchur
+  have hKR2 : KFactReeSylowCenterTorus := kFactReeSylowCenterTorus
+  have hKR3 : KFactReeCenterCentralizer := kFactReeCenterCentralizer
+  have hKR4 : KFactReeBorelMaximal := kFactReeBorelMaximal
+  have hKR5 : KFactReeSylowNormalizerSolvable := kFactReeSylowNormalizerSolvable
+  have hKR6 : KFactReeAutElemRank := kFactReeAutElemRank
+  have hKR7 : KFactReeAutPCard := kFactReeAutPCard
+  have hKR8 : KFactReeOrder := kFactReeOrder
+  have hKR9 : KFactReeOuterSolvable := kFactReeOuterSolvable
+  have hERA : KFactJStarElimReeAlt := kFactJStarElimReeAlt
+  have hSchur : KFactChevTwoSurvivorSchur := kFactChevTwoSurvivorSchur
+  have hSE : KFactSmallSylowExp := kFactSmallSylowExp_of_smallIdent hSId
+  have hShp : KFactSmallSylowShape := kFactSmallSylowShape_of_smallIdent hSId
+  have hSh3 : KFactSmallSylowShapeThree := kFactSmallSylowShapeThree_of_smallIdent hSId
+  have hL4i : KFactL34InvolveIso := kFactL34InvolveIso_of_smallIdent hSId
+  have hInv2 : KFactCaseTwoInv := kFactCaseTwoInv_of_smallIdent hSId
+  have hL9 : KFactA9Local := kFactA9Local
+  have hL15 : KFactA15Local := kFactA15Local
+  have hKU5 : KFactUnitaryUnipotentCentralizer := kFactUnitaryUnipotentCentralizer
+  have hKU7 : KFactUnitaryBorelPCore := kFactUnitaryBorelPCore
+  have hKU9 : KFactUnitaryAutElemRank := kFactUnitaryAutElemRank
+  have hKU10 : KFactUnitaryAutPCard := kFactUnitaryAutPCard
+  have hS3 : KFactJ3Sylow := kFactJ3Sylow
+  have hK62 : KFactSp62Local := kFactSp62Local
+  have hRId : KFactCaseTwoReeId := kFactCaseTwoReeId_of_oneLieIdent hId
+  have hUEF : KFactUPrimeExcFi22 := kFactUPrimeExcFi22
+  have hUE : KFactUPrimeExc := kFactUPrimeExc_of_halves kFactUPrimeExcL34 hUEF
+  have hKL2 : KFactCaseTwoLocal := kFactCaseTwoLocal_of_halves kFactCaseTwoLocalL28 hKL5
+  have hEL : KFactJStarElimLie :=
+    kFactJStarElimLie_of_e6_residual hSch2 hKR8 jStarResidualE6TwoSix
+  have hEUL : KFactJStarElimUnitaryLie := kFactJStarElimUnitaryLie_of_schreier_ree hSch2 hKR8
+  have hNo2c : KFactCaseTwoNoTwo := kFactCaseTwoNoTwo
+  have hSyl2 : KFactCaseTwoSylow := kFactCaseTwoSylow
+  have hTgt48 : StmtSp48Target := stmtSp48Target
+  have hTgtF : StmtReeF4Target := stmtReeF4Target
+  have hK7s : KFactOneLieSmallLie := kFactOneLieSmallLie
+  have hK8s : KFactSmallBorelSolvable := kFactSmallBorelSolvable
+  have hSTO : KFactSmallThreeOrders := kFactSmallThreeOrders
+  have hL4e : KFactL34AutExp := kFactL34AutExp
+  have hL4g : KFactL34OuterGen := kFactL34OuterGen
+  have hERL : KFactJStarElimReeLie := kFactJStarElimReeLie_of hSch2 hKR8 hKU2
+  have hTor : KFactOneLieTorus :=
+    kFactOneLieTorus_of hId hKU2 hKU3 hKU4 hKU6 hKU8 hKU9 hKR2 hKR4 hKR5 hKR6
+  have hAR : KFactSmallAutRank := kFactSmallAutRank_of_torus hTor
+  have hΓ : KFactOneLieBorelSolvable := kFactOneLieBorelSolvable_of_torus hTor
+  have hZ5 : KFactCenterFive := kFactCenterFive_of_coverRankFive hCov
+  have hUP : KFactUPrimeSmall := kFactUPrimeSmall_of_rest hUPr
+  have hKS : KFactOneSmall := kFactOneSmall_of_rest hKSr
+  have hK1 : KFactOneLie := kFactOneLie_of_nonUnitary (kFactOneLieNonUnitary_of_ident hId)
+  have hαl : KFactAlphaLieW := kFactAlphaLieW_of_three hA5 (kFactAlphaLieThreeW_of_W2
+    (kFactAlphaLieThreeW2_of hGA KFactProofs.CoverThree.sl3CoverGenTwoModAbFix
+      KFactProofs.ThreeWeak.weakGenU43 KFactProofs.ThreeWeak.weakGenO73
+      KFactProofs.ThreeWeak.weakGenG23 hCin hRes))
+  have hα : KFactAlphaW :=
+    kFactAlphaW_of_families kFactAlphaAlt hαl (kFactAlphaSpor_of_multD1 hbr hSpD1)
+  have hAE3 : KFactCaseTwoAlphaElimThreeW := kFactCaseTwoAlphaElimThree_of hα hK3a
+  have hAE2 : KFactCaseTwoAlphaElimW := kFactCaseTwoAlphaElimW_of_three hA5 hAE3
+  have hO5 : KFactOutFiveCyclic := kFactOutFiveCyclic_of_dvd hβo' hO5d
+  have hKA62 : KFactOmegaEightMinusAutElemRank :=
+    kFactOmegaEightMinusAutElemRank_of_noE81 omegaEightMinusAutNoE81
+  have hKE62 : KFactSp62Escape := kFactSp62Escape
+  have hFN : KFactFi22NoTwo := kFactFi22NoTwo
+  have hThompson : ThompsonNormalAbelianGen := thompsonNormalAbelianGen
+  have hU62 : KFactU62OmegaMinusThreeCent :=
+    kFactU62OmegaMinusThreeCent_of kFactU62ThreeCent kFactOmegaMinusFiveThreeCent
+  have hFO : KFactFi22Orbits := kFactFi22Orbits
+  have hβrem : SporadicBetaRemaining := sporadicBetaRemaining_of_rest hβremR
+  have hdata3 : ∀ s : TauCeti.SporadicName, s ≠ .J3 → s ≠ .M →
+      SporadicCaseThreeData (Blueprint.NativeSporadic.Carrier s) :=
+    sporadicCaseThreeData_of_rest hdata3R
+  have hJ3data : SporadicCaseThreeDataJ3 (Blueprint.NativeSporadic.Carrier .J3) :=
+    sporadicCaseThreeDataJ3_of_coverWeakGen j3CoverWeakGenThree
+  have hSF : SporCaseThreeKFacts := kFactsFromData hbr hdata3 hJ3data hM3
+  have hLIW : KFactOneLieListInvolveW := kFactOneLieListInvolveW_of hId hKR8 hbr
+  have hARS : KFactOneLieAutRankSq := kFactOneLieAutRankSq_of hId hKU2 hKU9 hKR6 hKR8
+  have hO3 : KFactJ3OuterInvolution := kFactJ3OuterInvolution
+  have hBlk : KFactBlockThreeSolvable := kFactBlockThreeSolvable_of_beta hBlkβ hOut h93
+  have hRk : KFactSmallOfRankTwo := kFactSmallOfRankTwo_of hAR
+  have hLC62 : KFactBlockLeviU42Cent := kFactBlockLeviU42Cent_of hLevi hU62
+  have hMsimple : IsSimpleGroup Open.MonsterY443Derived := CFSG.Milestones.fam_m_simplicity
+  have hOutS : ∀ s : TauCeti.SporadicName, ∀ p : ℕ, p.Prime → p ≠ 2 →
+      ¬ p ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
+        (TauCeti.CFSGIndex.sporadic s).Group) :=
+    not_dvd_card_outer_sporadic_of hbr hMsimple
+  have hP1S : KFactP1ThreeSpor := kFactP1ThreeSpor_of hbr hOutS hMcard
+  have hElF : KFactJStarElimReeF4 :=
+    kFactJStarElimReeF4_of hSch2 hbr hMcard
+  have hEl48 : KFactJStarElimSp48 :=
+    kFactJStarElimSp48_of hSch2 hKR8 hbr hMcard
+  have hE3 : KFactJStarElimJ3 :=
+    kFactJStarElimJ3_of hSch2 hKR8 hbr hMcard
+  have hβ : KFactBeta :=
+    kFactBeta_of_families kFactBetaAlt kFactBetaA6 hβl (kFactBetaSpor_of_remaining hbr hβrem hβM)
+  have hAT3 : KFactCaseTwoAlphaThree := kFactCaseTwoAlphaThree_of_coverThreeFix hCov3
+  have hIn0 : D1CaseTwoPosZeroInThree := d1CaseTwoPosZeroInThree_of hβ hSz hSyl2 hSch2 hAT3
+  have hInr : D1CaseTwoNTwoAResInThree := d1CaseTwoNTwoAResInThree_of hβ hSz hSyl2 hSch2 hAT3
+  have hInz : D1CaseTwoZZThreeIn := d1CaseTwoZZThreeIn_of hβ hSz hSyl2 hSch2 hAT3
+  have hStdK2 : CFSG.CGT.PushingUpLit.CGT6K1.StdKernelTwo :=
+    CFSG.CGT.PushingUpLit.K1R.stdKernelTwo_holds
+  have hStell613 : CFSG.CGT.PushingUpLit.CGT6.StellmacherSixOneThree :=
+    CFSG.HardMathSupport.RichardWeiss.ExceptionalClosure.stellmacherSixOneThree_holds
+  have hFoote : CFSG.CGT.PushingUpLit.CGT6.EndFoote :=
+    CFSG.HardMathSupport.Foote.Coordinator.endFoote_holds
+  have hT1 : CFSG.CGT.PushingUpLit.AschbacherTheoremOneK :=
+    CFSG.CGT.PushingUpLit.ThmOne.aschbacherTheoremOneK_of_inputs hStdK2 hFoote hStell613
+  have hD2 : D1NoXBlock := d1NoXBlock_of_inputsK hT1 hT2 hT25
+  have hK2M : KFactPPrimeCompInvolutionP :=
+    KFactProofs.PPrimeComp.kFactPPrimeCompInvolutionP_holds
+  have hKSz : KFactSuzukiThreeCent := kFactSuzukiThreeCent_of_pPrimeCompInvolution hK2M
+  have hKBc : KFactBlockThreeCentCoprime := kFactBlockThreeCentCoprime_of
+    (kFactThreeCentLieTwo_of TrialityTwo.kFactThreeCentTrialityTwo_holds)
+  have hG2ia3 : D1SmallSPLZeroIaThree := d1SmallSPLZeroIaThree_of hKBc hKSz hUP hSTO hSch2 hβ
+    hK1 hΓ hTor h84 h85 h86 h93 hD2 hK2 hC3 hK5
+  have hBC : KFactBlockCenterThreeIb := kFactBlockCenterThreeIb_holds
+  have hG2ib3 : D1SmallSPLZeroIbThreeCore :=
+    d1SmallSPLZeroIbThreeCore_of_kFacts hUP hSTO hSE hShp hSch2 hβ hK1 hΓ h84 h85 h86 h93 hD2
+      hK2 hC3 hK5 hKSc hK2M hBR hBA hBC
+  have hG2zr : D1SmallSPLZeroIbRest2 :=
+    d1SmallSPLZeroIbRest2_of_split hK7s hK8s hβ hK1 hΓ hSch2 kFactThreeOrFiveDvd h84 h85 h86 h93
+      hD2 hK2 hC3 hK5 hKFc hK3b hK4s hUP hSTO hSE hShp hG2ia3 hG2ib3
+  have hG2z' : D1SmallSPLZeroNotIa :=
+    d1SmallSPLZeroNotIa_of_ibRest2' hK7s hK8s hβ hK1 hΓ hSch2 kFactThreeOrFiveDvd hβo' hKU2 h84
+      h85 h86 h93 hD2 hK2 hC3 hK5 hKFc hK3b hK4s stmtFaithfulExtraspecialRank hG2zr
+  have hG2z : D1SmallSPLZeroAll :=
+    d1SmallSPLZeroAll_of_notIa hK7s hK8s hβ hK1 hΓ hSch2 h84 h85 h86 h93 hD2 hKPp hC3p hK5p hK2
+      hC3 hK5 hOPA hBOF hG2z'
+  have hORA : KFactBlockOutRankAlt := kFactBlockOutRankAlt_of_ib hORAb
+  have hC3TA : CitedBlockThreeToralAlt := citedBlockThreeToralAlt_of_ib hC3TAb
+  have hI3NA : D1SmallGEVNormalAlt :=
+    d1SmallGEVNormalAlt_of hUP hSch2 hSO hSE hOrb h84 h85 h86 h93 hD2 hK2 hC3 hK5 hΓA hOPA hAIA
+      hORA hTAA hC3TA
+  have hI3N3 : D1SmallGEVNormalThree :=
+    d1SmallGEVNormalThree_of hUP hSch2 hΓs hSO hSE hOrb hSh3 hTor3 h84 h85 h86 h93 hD2
+  have hI3N : D1SmallGEVNormal :=
+    d1SmallGEVNormal_of_residues hUP hSch2 hK8s hΓs h84 h85 h86 h93 hD2 hKPp hC3p hK5p hK2 hC3
+      hK5 hInn hI3N3 hI3NA
+  have hCGT : AschbacherLocalCGTBlock := aschbacherLocalCGTBlock_of_factorization hLF
+  have hSC : KFactOneLieSylowCount := kFactOneLieSylowCount_of_ident hId
+  have hΓ3 : KFactSmallGammaSolvableThree := kFactSmallGammaSolvableThree
+  have hLBRc : StmtLemmaBRelCyc := stmtLemmaBRelCyc_of_irrPB h93 hK1w hK2b hK3b hK4b
+  have hK0S : D1OneLieZZK0Small :=
+    d1OneLieZZK0Small_of_listInvolveW hK1 hTor hSch2 hSC hβ hα hP1L kFactP1ThreeAlt
+      KlingenSpFour.kFactKlingenSpFour hCin hCout hOutS hSF hLIW hRC hCO hPR hKU1 hKU2 hKU3 hKU4
+      hKU6 hKU8 hKU9 hKR1 h84 h85 hD2 hCGT (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5) hLBRc
+  have hK0B : D1OneLieZZK0Big :=
+    d1OneLieZZK0Big_of_listInvolveW hK1 hTor hSch2 hSC hβ hα hP1L kFactP1ThreeAlt
+      KlingenSpFour.kFactKlingenSpFour hCin hCout hOutS hSF hLIW hRC hCO hPR hKU1 hKU2 hKU3 hKU4
+      hKU6 hKU8 hKU9 hKR1 h84 h85 hD2 hCGT (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5) hLBRc
+  have hBig : D1OneLieZZbBig :=
+    d1OneLieZZbBig_of_slice (d1OneLieZZbSlice_of hK1 h84 hD2 hCGT hK0S hK0B)
+  have hCC : D1OneLieCompetitorComp :=
+    d1OneLieCompetitorComp_of hSch2 hCO hARS hK1 hTor hβ hα hP1L kFactP1ThreeAlt
+      KlingenSpFour.kFactKlingenSpFour hCin hCout hOutS hSF hLIW hRC hKU1 hKR1 hKU2 hKU3 h84 hD2
+  have hComp : D1OneLieZZComp :=
+    d1OneLieZZComp_of_comp hK1 hTor hΓ hSch2 hCC hExp3 hΛ hZc h84 h85 h86 h93 hD2 hKin hKPp hC3p
+      hK5p hCGT hBig
+  have hEUS : KFactJStarElimUnitarySpor := kFactJStarElimUnitarySpor_of hbr hOutS hMcard
+  have hERS : KFactJStarElimReeSpor := kFactJStarElimReeSpor_of hKR8 hbr hOutS hMcard
+  have hLBrel : StmtLemmaBRel := stmtLemmaBRel_of_cyc hLBRc
+  have hβo : KFactOutElemRank := kFactOutElemRank_of_odd hβo'
+  have hLB : StmtLemmaB := stmtLemmaB_of_rel hLBrel
+  have hMC : D1OneLieMSideCore :=
+    d1OneLieMSideCore_of_stmts stmtOneLieCompThree stmtOneLieBlocksThree stmtOneLieMData hK1
+        (kFactOneLieTorus_of hId hKU2 hKU3 hKU4 hKU6 hKU8 hKU9 hKR2 hKR4 hKR5 hKR6) h84 h85 h86 hD2
+        (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5) hLBRc kFactThreeOrFiveDvd hβo'
+  have hOR3 : KFactJ3OuterRank := kFactJ3OuterRank_closed (hbr .J3)
+  have hT3 := stmtJ3Target_of (hbr .J3) hOR3
+  have hJ3i : KFactJ3Involve :=
+    kFactJ3Involve_of CFSG.RankThree.PartOne.TCB.tauCetiCatalogBridge (hbr .J3) hOR3
+  have hJ3 : D1CaseThreeJ3 :=
+    d1CaseThreeJ3_of (stmtJ3Data_of hS3 hO3 hOR3)
+      (stmtJ3MSide_of h84 h85 h86 hD2 (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5) hBlk
+        stmtBlockInnerNormalizer_of)
+      hOR3 hT3.1 hT3.2 hE3 hβ hP1L kFactP1ThreeAlt hP1S h84 hCGT hD2
+  have hE9 : KFactJStarElimA3p 3 (3 ^ 4) := kFactJStarElimA3p_three hSch2 hKR8 hbr hMcard
+  have h3a : D1CaseThreeAlt :=
+    d1CaseThreeAlt_of_kFacts' not_dvd_card_outer_alternatingGroup altCaseThreeKFacts
+      (d1CaseThreeA3p_of hThompson
+        (d1CaseThreeA15_closed hL15 h84 h85 h86 h93 hD2 hK2 hC3 hK5 kFactThreeOrFiveDvd hSchC
+          hFive hFives)
+        (d1CaseThreeA9_closed hL9 hE9 hCyc3 hOne3 hβ hP1L kFactP1ThreeAlt hP1S h84 h85 h86 h93
+          hD2 hK2 hC3 hK5 hCGT))
+  have h48k : D1Sp48NCentRankCompResidue :=
+    d1Sp48NCentRankCompResidue_of_kFacts hβ hSz hInv2 hP1L kFactP1ThreeAlt hP1S hCin hCout
+      hSchur hKU1 hKR1 hTCI
+  have h48r : D1Sp48NonsolvResidue :=
+    d1Sp48NonsolvResidue_closed_cm hSchur hK48 hKN48 hKC48 h84 hD2 hSch2 hAE2 hβ hK1 hΓ
+      (d1Sp48NCentRankResidue_of_comp hSch2 h48k) (d1Sp48NCentBetaResidue_of hβ hRId hKR4 hKJ)
+  have h62r : D1Sp62BlockResidue :=
+    d1Sp62BlockResidue_closed_esc hSchur hK62 hKA62 hKE62 hLC62 h84 h85 h86 h93 hD2
+      (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5) stmtBlockInnerNormalizer_of
+      (d1Sp62EscResidue_of_cm hSch2 (d1Sp62CMResidue_of_out hα hK3a hJ3c
+        (d1Sp62CMOutResidue_of_prime hβ hK1 hΓ hSch2 hTor kFactOmegaMinusThreePerfectCent
+          kFactU62OmegaTenThreeCentAut)))
+  have hsurv := d1CaseThreeChevTwoSurvivors_closed hSchur hKG hOut hSU hKF hTgtF hElF hP5 hO5
+    hK48 hKD48 hNine hTgt48 hEl48 h48r hK62 hLevi h62r hβ hP1L kFactP1ThreeAlt hP1S h84 h85 h86
+    h93 hK2 hC3 hK5 kFactThreeOrFiveDvd hCGT hD2
+  have h3l : D1CaseThreeLie :=
+    d1CaseThreeLie_of_split hP1L KlingenSpFour.kFactKlingenSpFour
+      (d1CaseThreeLinTwo_closed hβ hP1L kFactP1ThreeAlt hP1S hEL kFactJStarElimAlt
+        (kFactJStarElimSpor_of hbr hOutS hMcard hMsimple) hCGT hD2
+        (d1CaseThreeLinTwoResidual_closed h84 h85 h86 h93 hD2 hK2 hC3 hK5 hLB
+          kFactThreeOrFiveDvd hβo (gapR1bs_of h84 hD2)))
+      (d1CaseThreeUnitary_closed hβ hP1L kFactP1ThreeAlt hP1S hKU1 hKU2 hKU3 hKU4 hKU5 hKU6 hKU7
+        hKU8 hKU9 hKU10 hKU11 hKU12 hEUL hEUA hEUS h84 h85 h86 h93 hK2 hC3 hK5 hLBrel
+        kFactThreeOrFiveDvd hβo hCGT hD2)
+      (d1CaseThreeRee_closed hβ hP1L kFactP1ThreeAlt hP1S hKR1 hKR2 hKR3 hKR4 hKR5 hKR6 hKR7
+        hKR8 hKR9 hERL hERA hERS h84 h85 h86 h93 hK2 hC3 hK5 hLB hCGT hD2)
+      (d1CaseThreeChevTwo_of hCin hCout hsurv.1 hsurv.2.1 hsurv.2.2.1 hsurv.2.2.2)
+  have h3s : D1CaseThreeSpor :=
+    d1CaseThreeSpor_of_data kFactsFromData hbr hdata3 hJ3data hM3 hOutS hJ3
+  have h3 : D1CaseThree :=
+    d1CaseThree_of_notKlingen_of_kFactsW hβ hα (d1CaseThreeNotKlingen_of_families h3a h3l h3s)
+  have hPi : D1SPLPieceCentralizer := d1SPLPieceCentralizer_holds
+  have hPii : D1SPLPieceCtilde := d1SPLPieceCtilde_of hβ hK1 hTor
+  have hPiii : D1SPLPieceTorus := d1SPLPieceTorus_holds
+  have hPv : D1SPLPieceBlocks :=
+    d1SPLPieceBlocks_of (kFactSPLNotFi22_of hFi6) hUP hSTO hKU2 h84 hD2 h93
+  have hBrM : D1SPLMSideBridge := d1SPLMSideBridge_of_pieces hPi hPii hPiii
+    (d1SPLPieceZK_of (kFactSPLNotFi22_of hFi6) hUP hSTO hKU2 h84 hD2 hCGT)
+    d1SPLPieceLemmaT_holds hPv
+  have hK3M : KFactSPLBlockTorus :=
+    HardMathSupport.Curtis.Coordinator.kFactSPLBlockTorus_of_open_families
+        CFSG.HardMathSupport.Curtis.NaturalModuleCensus.SPLCellLin.splLieInnerCellFam_A
+        HardMathSupport.Curtis.Coordinator.splLieInnerCellFam_TwistedA
+        HardMathSupport.Curtis.Coordinator.splLieInnerCellFam_D
+        HardMathSupport.Curtis.Coordinator.splLieInnerCellFam_TwistedD
+        HardMathSupport.Curtis.Coordinator.splLieInnerCellFam_G2
+  have hG2p : D1SmallSPLPair := d1SmallSPLPair_of_mside_P hBrM hK2M hK3M
+  have hG2s : D1SmallSPL :=
+    d1SmallSPL_of_res (kFactSPLNotFi22_of hFi6) hUP hSTO hSE hβ hK1 hTor hSch2 hKU2 h84 hD2
+      hG2z hG2p
+  have hNFr6 : D1CaseTwoNormalFormRest6 :=
+    d1CaseTwoNormalFormRest6_of_facts hβ hSz hKL2 hInv2 hSch2 hSyl2 h84 h85 h86 h93 hD2 hTor3
+      hL28A hTorZ hTorZF
+  have hNFr3 : D1CaseTwoNormalFormRest3 :=
+    d1CaseTwoNormalFormRest3_of_rest6 hβ hSz hKL2 hInv2 hSch2 hSyl2 h84 h85 h86 h93 hD2 hTor3
+      hThreeA6 hL28A hNFr6
+  have hNFa : D1CaseTwoNormalFormTwoA :=
+    d1CaseTwoNormalFormTwoA_of_rest3 hβ hSz hKL2 hInv2 hSch2 hSyl2 h84 h85 h86 h93 hD2 hInn hKPp
+      hC3p hK5p hK2 hC3 hK5 hOPA hTor3 hTorA hTorCA hTorC3 hNFr3
+  have hNF : D1CaseTwoNormalForm :=
+    d1CaseTwoNormalForm_of_twoA hβ hSz hKL2 hSch2 h84 h85 h86 h93 hD2 hKPp hC3p hK5p hK2 hC3 hK5
+      hInn hNFa
+  have hz3 : D1CaseTwoZZThreeNoSP :=
+    d1CaseTwoZZThreeNoSP_of_kFacts hβ hSz hKL2 hInv2 hSch2 hSyl2 hNo2c
+      (d1CaseTwoZZThreeEV_of_nf hβ hα hSz hKL2 hInv2 hSch2 hSyl2 hNo2c hKO h3 hNF) hInz
+  have h0 : D1CaseTwoPosZeroNoSP :=
+    d1CaseTwoPosZeroNoSP_of_residues hβ hSz hKL2 hInv2 hSch2 hSyl2 hNo2c hZ5
+      (d1CaseTwoPosZeroEV_of_nf hβ hα hSz hKL2 hInv2 hSch2 hSyl2 hNo2c hKO h3 hNF) hIn0
+  have hres2 : D1CaseTwoNTwoAResNoSP :=
+    d1CaseTwoNTwoAResNoSP_of_residues hβ hSz hKL2 hInv2 hSch2 hSyl2 hNo2c hZ5
+      (d1CaseTwoNTwoAResEV_of_nf hβ hα hSz hKL2 hInv2 hSch2 hSyl2 hNo2c hKO h3 hNF) hInr
+  have hSP : D1CaseTwoSP := d1CaseTwoSP_of hβ hSz hAE2 hCM2 hSch2 hRId hKR4 hKJ hL28A
+  have h2 : D1CaseTwoRankThree :=
+    d1CaseTwoRankThree_of_res hβ hα h3 hSz hKL2 hInv2 hSch2 h84 h85 h86 h93 hD2 hCGT hKin hKPp
+      hC3p hK5p (d1CaseTwoPosZero_of_noSP hSP h0) (d1CaseTwoNTwoARes_of_noSP hSP hres2)
+      (d1CaseTwoZZThree_of_noSP hSP hz3)
+      (d1CaseTwoEscaping_of hβ hSz hKL2 hCM2 hAE2 hSch2 hL28 h84 h85 h93 hD2
+        (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5))
+  have h2c : D1CaseTwo := d1CaseTwo_of_rankThree hβ h2
+  have hN3l7 : D1SmallGEVNormalL34Ph7 :=
+    d1SmallGEVNormalL34Ph7_holds hFF hKZ hKβ1 hKZ9 hβ hα h2c h3 hUE hOrb hSE hSO hSh3 hSTO
+      kFactL34NotOrthogonal h93 hD2 hSch2 hΓ3
+  have hIbR11 : D1SmallGEVIbNormalAllRest11 :=
+    d1SmallGEVIbNormalAllRest11_holds hFF hKZ hKβ1 hKZ9 hβ hα h2c h3 hUE hOrb hSE hSO hSh3 hSTO
+      kFactL34NotOrthogonal h93 hD2 hSch2 hΓ3
+  have hN3l6 : D1SmallGEVNormalL34Ph6 :=
+    d1SmallGEVNormalL34Ph6_of_ph7 hUE hOrb hSE hSO hSh3 hSTO hN3l7
+  have hIbR10 : D1SmallGEVIbNormalAllRest10 :=
+    d1SmallGEVIbNormalAllRest10_of_rest11 hUE hOrb hSE hSO hSh3 hSTO hIbR11
+  have hN3l5 : D1SmallGEVNormalL34Ph5 :=
+    d1SmallGEVNormalL34Ph5_of_ph6 hUE hOrb hSE hSO hSh3 hSTO kFactL34NotOrthogonal h93 hD2
+      hN3l6
+  have hIbR9 : D1SmallGEVIbNormalAllRest9 :=
+    d1SmallGEVIbNormalAllRest9_of_rest10 hUE hOrb hSE hSO hSh3 hSTO kFactL34NotOrthogonal h93
+      hD2 hIbR10
+  have hN3l4 : D1SmallGEVNormalL34Ph4 :=
+    d1SmallGEVNormalL34Ph4_of_ph5 hUE hSch2 hΓ3 hSO hSE hOrb hSh3 hSTO kFactL34NotOrthogonal hTor3
+      h84 h85 h86 h93 hD2 hN3l5
+  have hIbR8 : D1SmallGEVIbNormalAllRest8 :=
+    d1SmallGEVIbNormalAllRest8_of_rest9 hUE hSch2 hΓ3 hSO hSE hOrb hSh3 hSTO kFactL34NotOrthogonal
+      hTor3b h84 h85 h86 h93 hD2 hIbR9
+  have hIbR6 : D1SmallGEVIbNormalAllRest6 :=
+    d1SmallGEVIbNormalAllRest6_of_rest8 hβ hα h2c h3 hUE hSch2 hΓ3 hSO hSE hOrb hSh3 hSTO
+      kFactL34NotOrthogonal h93 hD2 hIbR8
+  have hIbR4 : D1SmallGEVIbNormalAllRest4 :=
+    d1SmallGEVIbNormalAllRest4_of_rest6 hUP hUE hSch2 hΓs kFactSmallGammaSolvableThree hSO hSE
+      hOrb hSh3 hShp hSTO kFactAltSixSylowInvert hKU2 hInvU hOrb3 hTor3b hAC3b h84 h85 h86 h93
+      hD2 hIbR6
+  have hIbR3 : D1SmallGEVIbNormalAllRest3 :=
+    d1SmallGEVIbNormalAllRest3_of_rest4 (stmtSmallGuest_of hThompson hFi6) hFA hFi6 hUP hSch2
+      hSO hSE hOrb ⟨h84, h85, h86, h93, hD2, hK2, hC3, hK5, hOPA, hSch2, hΓA,
+        kFactAltTwoPGammaSylow, hORAb, hTAAb, hC3TAb⟩ hIbR4
+  have hIbR2 : D1SmallGEVIbNormalAllRest2 :=
+    d1SmallGEVIbNormalAllRest2_of_rest3 (stmtSmallGuest_of hThompson hFi6) hFA hFi6 hIbR3
+  have hIbA : D1SmallGEVIbNormalAll := d1SmallGEVIbNormalAll_of_rest2 hUP hSch2 hK8s hΓs hSO
+    hSE hShp hOrb hInn hKPp hC3p hK5p h84 h85 h86 h93 hD2 hK2 hC3 hK5 hOPA hORb hTAb hC3Tq hPlb
+    hOrb3 hIbR2
+  have hN3l3 : D1SmallGEVNormalL34Ph3 :=
+    d1SmallGEVNormalL34Ph3_of_ph4 hUE hSTO kFactL34NotOrthogonal h93 hD2 hN3l4
+  have hN3l2 : D1SmallGEVNormalL34Ph2 :=
+    d1SmallGEVNormalL34Ph2_of_ph3 hβ hα h2c h3 hUE hSch2 hΓ3 hSO hSE hOrb hSh3 hSTO hN3l3
+  have ⟨hN3s, hN3l, hFiN⟩ := iaResidues_of hUP hUE hSch2 hΓ3 hSO hSE hShp hOrb hSh3 hSTO hKU2
+    hFi6 hTor3 h84 h85 h86 h93 hD2 hInvU hAut9 hFA hN3l2
+  have ⟨hI3Ib, hI3Fr, hG1s, hG7e, hG3l, hEvAU, hL4o⟩ :=
+    d1CaseOneEven_of_normalForms hUP hUE hSch2 hΓ3 hSO hSE hNo2s hShp hOrb hSh3 hSTO
+      kFactAltSixSylowInvert hTor3 h84 h85 h86 h93 hD2 hK1 hKU2 hβ hα h2c h3
+      (stmtSmallGuest_of hThompson hFi6) hRk hInvC hCov3 hI3N hN3s hN3l hFiN hIbA
+  have hL4l : D1SmallL34Left := d1SmallL34Left_of hSch2 hRk hInvC hCov3 hL4i hL4o
+  have hL34s : D1SmallL34 :=
+    d1SmallL34_of hSO hSE hNo2s hShp hOrb hβ hSI hSch2 hα hK3a hJ3i hSTO hL4g hL4e hL4l
+  have h1s : D1CaseOneSmall :=
+    d1CaseOneSmall_of hβ hα (d1CaseTwo_of_rankThree hβ h2) h3 hAR hSch2
+      (stmtSmallGuest_of hThompson hFi6) (stmtSmallPosA_of hUP hUE hKS hL34 h84 hCGT hD2)
+      (stmtSmallPoszSP_of hUP hUE hKS hL34 h84 hD2)
+      (stmtSmallPoszOut_of hUP hUE hKS hL34 hβ hK1 hΓ hSch2 h84 hD2)
+      (stmtSmallPosT_of hK7s hK8s hKin hKPp hC3p hK5p h84 h85 h86 h93 hD2 hCGT hKU2)
+      (stmtSmallSPIn_of hA5) (stmtSmallSPOut_of hβ hSI hSch2) (stmtSmallBOne_of hSO hSE)
+      (stmtSmallBZeroOdd_of hSO hSE hNo2s hShp hOrb)
+      (stmtSmallGEV_of_residues3 hSO hSE hNo2s hShp hOrb hThompson hFi6 hβ hα hI3N hI3Ib hI3Fr)
+      (stmtSmallSPInThree_of hα hK3a hJ3i hSch2) hG1s hG2s
+      (d1SmallKC_of hSO hSE hNo2s hShp hOrb hFN hFO hSch2 hRk hInvC hCov hL4g hL4e hL34s hG3l)
+      (d1SmallA6_of hSO hSE hNo2s hShp hOrb hSTO hSch2 hJ3c hEvAU)
+      (d1SmallU33_of hSO hSE hNo2s hShp hOrb hSTO hEvAU) hL34s
+      (d1SmallFi22_of hSO hSE hShp hFN hFO hG7e)
+  have h1l : D1CaseOneLie :=
+    d1CaseOneLie_of hβ hα h1s (d1CaseTwo_of_rankThree hβ h2) h3 hK1 hTor hCGT
+      hD2 h84 hMC (d1OneLieResidue_of_core hK1 h84 hCGT hD2
+        ⟨d1OneLieZZaCore_of hK1 h84 h85 h86 h93 hD2 hKin hKPp hC3p hK5p hΓ
+            (d1OneLieZZ3_of_comp hK1 hTor h84 h85 hD2 hΛ hZc hComp),
+          d1OneLieZZbCore_of hK1 h84 h85 h86 h93 hD2 hKin hKPp hC3p hK5p
+            (d1OneLieZZb3_of_comp hK1 hTor h84 h85 hD2 hΛ hZc hComp)
+            (d1OneLieZZbHat_of_comp hK1 hTor h84 h85 hD2 hZc hComp),
+          d1OneLieU3Z_of hK1 hKU2 hKU3 hKU4 hKU6 hKU8 hKU9 h84 h85 hD2
+            (stmtBlockThree_of h85 h86 h93 hD2 hK2 hC3 hK5) hLBRc⟩)
+  d1_of_lieW_spor_of_cases hβl (kFactBetaSpor_of_remaining hbr hβrem hβM) hαl
+    (kFactAlphaSpor_of_multD1 hbr hSpD1) h1s h1l h2
+    (d1CaseThreeNotKlingen_of_families h3a h3l h3s) G hnonab hK hchar he hpre p hp P M hM hWM H
+    hH hHM
+
+end CFSG.AGLEmbedding

@@ -1,0 +1,30 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicJ2EndTests
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicJ2EndData
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicJ2Data
+import Certificates.Kernel.LocalComp.J2End.Facts
+public import CFSG.LocalAnalysis.ComponentClassification.DisjointSolvableKernels
+public import CFSG.LocalAnalysis.ComponentClassification.GeneralizedFitting
+public import CFSG.LocalAnalysis.ComponentClassification.LayerMultiplication
+public import CFSG.LocalAnalysis.ComponentClassification.MinimalBCenter
+public import CFSG.LocalAnalysis.ComponentClassification.OrdinaryComponentJoins
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicGenCensus
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicPairCensus
+public import CFSG.LocalAnalysis.ComponentClassification.TwoLayer
+public import CFSG.LocalAnalysis.ComponentClassification.UniversalOrbitBlock
+public import CFSG.Monster.Code.Weights
+public import Certificates.Data.CFSGNative.SporadicSchreier.MathieuOddCore
+
+public section
+
+namespace Certificates
+
+open CertificateChecks
+
+open CFSG CFSG.ComponentClassification CFSG.ComponentClassification.RankTwoSporadic
+  CFSG.ComponentClassification.RankTwoSporadic.J2 in
+theorem certificate15008 : RankTwoSporadic.J2.j2EndCheck RankTwoSporadic.J2.j2E0 RankTwoSporadic.J2.j2EndA0 RankTwoSporadic.J2.j2EndC0 RankTwoSporadic.J2.j2EndLeaves RankTwoSporadic.J2.j2EndN0 = true :=
+  KernelLC.J2End.j2EndCheck_eq_true
+
+end Certificates

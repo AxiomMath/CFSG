@@ -1,0 +1,11 @@
+module
+
+public import CFSG.Certificates.Kernel.Bounds.Core3
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
+import CFSG.Certificates.Kernel.Common.Repo
+
+public section
+
+#kc_repo #kc_list_root CFSG.KBData.XGRuPi7M1_T1v.wl3 "CFSG/Certificates/Kernel/Bounds/XGRuPi7M1/data/XGRuPi7M1_T1v.wl3.items" 1 13076842 12288730911400720375
+
+end

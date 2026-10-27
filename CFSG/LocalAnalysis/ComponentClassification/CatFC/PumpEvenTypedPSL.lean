@@ -1,0 +1,348 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.PumpEvenTyped
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofEvenPSLGraph
+
+public section
+
+namespace CFSG.ComponentClassification.CatFC
+
+open CFSG Subgroup Matrix CFSG.Blueprint CFSG.Assembly.LowTwoRank
+  CFSG.ComponentClassification.CatLeaf CFSG.ComponentClassification.CatLeafProof
+open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
+open CFSG.ComponentClassification.OuterAutomorphisms (inner)
+open CFSG.LocalAnalysis.ComponentInitial LinearFlag FourGroupEvenCanonical
+open CFSG.ComponentClassification.UnbalancedCatalog
+
+namespace EvenTypedPSL
+
+theorem of_mulEquiv {τ : StatedLieTag} {n f : ℕ} {X Y : Type} [Group X] [Group Y] [Finite X]
+    [Finite Y] (Φ : X ≃* Y)
+    (h : ∀ M : Subgroup Y, IsPComponent 2 M → EvenOuterTypedConclusion τ n f M)
+    {P : Subgroup X} (hP : IsPComponent 2 P) : EvenOuterTypedConclusion τ n f P := by
+  have hM := LocalAnalysis.ComponentInitial.isPComponent_map_of_isPComponent 2 Φ hP
+  obtain ⟨eZ⟩ := GrSLit.nonempty_fusionZStar_equiv_of_mulEquiv'
+    (P.equivMapOfInjective Φ.toMonoidHom Φ.injective)
+  rcases h _ hM with ⟨τ', n', f', hadm, hL, himp⟩ | ⟨⟨e⟩⟩ | hL
+  · exact Or.inl ⟨τ', n', f', hadm, LieType.CurtisTits.lieModel_of_mulEquiv eZ.symm hL, himp⟩
+  · exact Or.inr (Or.inl ⟨eZ.trans e⟩)
+  · exact Or.inr (Or.inr (LieType.CurtisTits.lieModel_of_mulEquiv eZ.symm hL))
+
+theorem of_simple {τ : StatedLieTag} {n f : ℕ} {X Y : Type} [Group X] [Finite X] [Group Y]
+    [IsSimpleGroup Y] (e : X ≃* Y)
+    (hY : (∃ (τ' : StatedLieTag) (n' f' : ℕ), StatedLieAdmissible τ' n' 2 f' ∧
+        Blueprint.LieModel Y τ' n' 2 f' ∧ (τ' ≠ .PSL ∨ n' ≠ 4)) ∨
+      Nonempty (Y ≃* alternatingGroup (Fin 6)) ∨ Blueprint.LieModel Y .PSU 3 3 1)
+    {P : Subgroup X} (hP : IsPComponent 2 P) : EvenOuterTypedConclusion τ n f P := by
+  have hXs : IsSimpleGroup X := e.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsub := ((CatalogueBPrimeJoin.pComponent_iff_subnormal_generated_quasisimple 2 P).mp hP).1
+  have htop : P = ⊤ := by
+    rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hXs hsub with h | h
+    · exfalso
+      have hnt := GrSLit.nontrivial_of_isPComponent hP
+      rw [h] at hnt
+      exact not_nontrivial_iff_subsingleton.mpr inferInstance hnt
+    · exact h
+  obtain ⟨eZ⟩ := GrSLit.nonempty_fusionZStar_equiv_of_simple hP
+    (((MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv).trans e)
+  rcases hY with ⟨τ', n', f', hadm, hm, hne⟩ | ⟨⟨eA⟩⟩ | hm
+  · exact EvenOuterTypedConclusion.of_ne hadm
+      (LieType.CurtisTits.lieModel_of_mulEquiv eZ.symm hm) hne
+  · exact Or.inr (Or.inl ⟨eZ.trans eA⟩)
+  · exact Or.inr (Or.inr (LieType.CurtisTits.lieModel_of_mulEquiv eZ.symm hm))
+
+theorem statedSp_typed {K : Type} [Field K] [Finite K] {τ : StatedLieTag} {n₀ f₀ f r : ℕ}
+    (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) (hr : 1 ≤ r) (M : Subgroup (StatedSp r K))
+    (hM : IsPComponent 2 M) : EvenOuterTypedConclusion τ n₀ f₀ M := by
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (GL (Fin r ⊕ Fin r) K) := Finite.of_injective Units.val Units.val_injective
+  have hSp := SymplecticFlag.card_statedSp (K := K) r
+  rcases (by omega : r = 1 ∨ 2 ≤ r) with rfl | hr2
+  · rcases (by omega : f = 1 ∨ 2 ≤ f) with rfl | hf2
+    · exfalso
+      have hcard : Nat.card (StatedSp 1 K) = 2 ^ 1 * 3 ^ 1 := by
+        rw [hSp, hK]
+        decide
+      have : Fintype (StatedSp 1 K) := Fintype.ofFinite _
+      have : Group.IsSolvable (StatedSp 1 K) :=
+        Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 1) (b := 1)
+          Nat.prime_two Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
+      exact GrSLit.not_isPComponent_of_isSolvable M hM
+    · obtain ⟨e₂⟩ := RankThree.PartOne.KFU.nonempty_SL2_mulEquiv_statedProj (F := K)
+      have h4 : 4 ≤ 2 ^ f :=
+        calc 4 = 2 ^ 2 := by norm_num
+          _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
+      have hadm : StatedLieAdmissible .PSL 2 2 f := ⟨Nat.prime_two, hf, le_rfl,
+        fun h => by rw [Prod.mk.injEq] at h; omega,
+        fun h => by rw [Prod.mk.injEq] at h; omega⟩
+      have hstated : StatedClassicalModel (StatedProj (StatedSL 2 K)) .PSL 2 2 f :=
+        ⟨hadm, K, inferInstance, inferInstance, hK, ⟨MulEquiv.refl _⟩⟩
+      have := (LieType.Simplicity.fam_PSL_simplicity _ 2 2 f hstated).2
+      exact of_simple
+        ((ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).symm.trans e₂)
+        (Or.inl ⟨.PSL, 2, f, hadm, Or.inl ⟨by decide, hstated⟩, Or.inr (by norm_num)⟩) hM
+  · by_cases h21 : r = 2 ∧ f = 1
+    · obtain ⟨rfl, rfl⟩ := h21
+      have := Fintype.ofFinite K
+      have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+        alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
+      obtain ⟨eS⟩ := RankThree.CASymplecticSubfield.nonempty_statedSp_two_mulEquiv_perm (k := K)
+        (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
+      obtain ⟨eA⟩ := RankThree.CASymplecticSubfield.nonempty_commutator_mulEquiv_alternating eS
+      obtain ⟨eZ⟩ := nonempty_fusionZStar_equiv_of_derived (MulEquiv.refl _) eA hM
+      exact Or.inr (Or.inl ⟨eZ⟩)
+    · have hcond : (Infinite K ∨ 4 ≤ Nat.card K) ∨ (Nat.card K = 3 ∧ 2 ≤ r) ∨
+          (Nat.card K = 2 ∧ 3 ≤ r) := by
+        rcases (by omega : f = 1 ∨ 2 ≤ f) with rfl | hf2
+        · exact Or.inr (Or.inr ⟨by rw [hK, pow_one], by omega⟩)
+        · refine Or.inl (Or.inr ?_)
+          rw [hK]
+          calc 4 = 2 ^ 2 := by norm_num
+            _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
+      have := ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K r hr hcond
+      obtain ⟨-, -, -, -, ⟨eProj⟩⟩ :=
+        SymmetricLocal.small_standard_source_even_simple_symplectic_parameters_stated
+          (X := StatedSp r K) hK hr ⟨MulEquiv.refl _⟩
+      have hadm : StatedLieAdmissible .PSp r 2 f := ⟨Nat.prime_two, hf, hr2, fun h => by
+        rw [Prod.mk.injEq] at h
+        obtain ⟨rfl, h2⟩ := h
+        exact h21 ⟨rfl, Nat.pow_right_injective le_rfl (h2.trans (pow_one 2).symm)⟩⟩
+      exact of_simple eProj.symm
+        (Or.inl ⟨.PSp, r, f, hadm, Or.inl ⟨by decide, hadm, K, inferInstance, inferInstance, hK,
+          ⟨MulEquiv.refl _⟩⟩, Or.inl (by decide)⟩) hM
+
+theorem graph_typed {τ : StatedLieTag} {n₀ f₀ : ℕ} :
+    ∀ (n : ℕ) (K : Type) [Field K] [Finite K] (f : ℕ), 1 ≤ f → Nat.card K = 2 ^ f → 3 ≤ n →
+      ∀ A : GL (Fin n) K, orderOf (CatalogueBGraphForm.pureGraphAction n K A) = 2 →
+        CatalogueBGraphForm.pureGraphAction n K A ∉
+          inner (ProjectiveSpecialLinearGroup (Fin n) K) →
+        ∀ P : Subgroup (fixedSubgroup (CatalogueBGraphForm.pureGraphAction n K A)),
+          IsPComponent 2 P → EvenOuterTypedConclusion τ n₀ f₀ P := by
+  intro n K _ _ f hf hK hn A hα _ P hP
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have hc := CatalogueBLinearHigherB.congr_pureGraph (n := n) (K := K) A
+  have hsq : CatalogueBGraphForm.pureGraphAction n K A ^ 2 = 1 := hα ▸ pow_orderOf_eq_one _
+  have hα2 : (conjAut n K A * dualAut n K) ^ 2 = 1 := by
+    apply (MulAut.congr (CatalogueBLinearHigherB.nativeEquiv n K)).injective
+    rw [map_pow, hc, hsq, map_one]
+  obtain ⟨-, ⟨H, C, -, hconj, hCcase⟩, -⟩ :=
+    UnitaryHigher.even_linear_pure_graph_involution_normal_forms hf hK hn A hα2
+  have hc2 : MulAut.congr (conjAut n K H) (conjAut n K C * dualAut n K) =
+      conjAut n K A * dualAut n K :=
+    (MulEquiv.ext fun _ => rfl : MulAut.congr (conjAut n K H) (conjAut n K C * dualAut n K) =
+      _).trans hconj.symm
+  let Ψ : fixedSubgroup (CatalogueBGraphForm.pureGraphAction n K A) ≃*
+      fixedSubgroup (conjAut n K C * dualAut n K) :=
+    ((MulEquiv.subgroupCongr (congrArg fixedSubgroup hc)).symm.trans
+      (fixedSubgroupCongrEquiv _ _).symm).trans
+    ((MulEquiv.subgroupCongr (congrArg fixedSubgroup hc2)).symm.trans
+      (fixedSubgroupCongrEquiv _ _).symm)
+  have hC' : (C : Matrix (Fin n) (Fin n) K) = 1 ∨
+      ∃ r, n = 2 * r ∧ (C : Matrix (Fin n) (Fin n) K) = UnitaryHigher.blockSwapJ n r := by
+    rcases hCcase with ⟨h1, -⟩ | ⟨r, hr, hJ, -⟩
+    · exact Or.inl h1
+    · exact Or.inr ⟨r, hr, hJ⟩
+  obtain ⟨Φ⟩ := nonempty_fixed_canonical_equiv hf hK hn C hC'
+  by_cases heven : (C : Matrix (Fin n) (Fin n) K) = 1 ∧ Even n
+  · exfalso
+    obtain ⟨h1, hev⟩ := heven
+    have hβ : conjAut n K C * dualAut n K = dualAut n K := by
+      rw [show C = 1 from Units.ext h1, map_one, one_mul]
+    have hch : IsCharacteristicP 2 (fixedSubgroup (conjAut n K C * dualAut n K)) := by
+      rw [hβ]
+      exact isCharacteristicP_fixed_dualAut hf hK (by obtain ⟨r, hr⟩ := hev; omega) hev
+    exact not_isPComponent_of_isCharacteristicP
+      (LocalAnalysis.ComponentInitial.isCharacteristicP_of_mulEquiv Ψ.symm hch) P hP
+  obtain ⟨r, hr1, ⟨eSp⟩⟩ : ∃ r, 1 ≤ r ∧
+      Nonempty (matrixIsometryGroup (C : Matrix (Fin n) (Fin n) K) ≃* StatedSp r K) := by
+    rcases hC' with h1 | ⟨r, hr, hJ⟩
+    · have hodd : Odd n := by
+        rcases Nat.even_or_odd n with hev | hodd
+        · exact absurd ⟨h1, hev⟩ heven
+        · exact hodd
+      obtain ⟨r, hr⟩ := hodd
+      have hC1 : (C : Matrix (Fin n) (Fin n) K) =
+          ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by rw [h1, Units.val_one]
+      obtain ⟨e₂⟩ := OutcomeLocal.nonempty_altIsometry_mulEquiv_statedSp _
+        (OutcomeLocal.dotForm_restrict_isAlt (k := K) (n := n))
+        (OutcomeLocal.dotForm_restrict_nondegenerate hr) (OutcomeLocal.finrank_dotForm_ker hr)
+      exact ⟨r, by omega, ⟨((MulEquiv.subgroupCongr (congrArg matrixIsometryGroup hC1)).trans
+        (OutcomeLocal.oneRestrictEquiv hr)).trans e₂⟩⟩
+    · exact ⟨r, by omega, ⟨(MulEquiv.subgroupCongr (congrArg matrixIsometryGroup hJ)).trans
+        (OutcomeLocal.blockSwapIsometryEquivStatedSp (by omega))⟩⟩
+  have : Finite (GL (Fin r ⊕ Fin r) K) := Finite.of_injective Units.val Units.val_injective
+  exact of_mulEquiv ((Ψ.trans Φ).trans eSp)
+    (fun M hM => statedSp_typed hf hK hr1 M hM) hP
+
+theorem field_typed {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] [Finite K]
+    {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) (A : GL (Fin n) K) (σ : K ≃+* K)
+    (hσ : σ ≠ 1) (hsq : CatalogueBLinearSemilinear.semilinearAction n K A σ ^ 2 = 1)
+    {X : Type} [Group X] [Finite X]
+    (Ψ : X ≃* fixedSubgroup (CatalogueBLinearSemilinear.semilinearAction n K A σ))
+    {P : Subgroup X} (hP : IsPComponent 2 P) : EvenOuterTypedConclusion .PSL n f P := by
+  have : CharP K 2 :=
+    LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have hf2 := two_le_of_ringEquiv_ne_one Nat.prime_two hf hK hσ
+  have hpar : 3 ≤ n ∨ 4 ≤ Nat.card K := Or.inr (by
+    rw [hK]
+    calc 4 = 2 ^ 2 := by norm_num
+      _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2)
+  obtain ⟨hσ2, H, hα⟩ := even_psl_field_conjugacy hn hpar A σ hσ hsq
+  have hc : MulAut.congr (CatalogueBHigherLinearAction.innerDiagonalAction n K H)
+      (CatalogueBHigherLinearField.pslFieldAut (Fin n) K σ) =
+      CatalogueBLinearSemilinear.semilinearAction n K A σ :=
+    (MulEquiv.ext fun _ => rfl : MulAut.congr (CatalogueBHigherLinearAction.innerDiagonalAction
+      n K H) (CatalogueBHigherLinearField.pslFieldAut (Fin n) K σ) = _).trans hα.symm
+  let Ψ' : X ≃* fixedSubgroup (CatalogueBHigherLinearField.pslFieldAut (Fin n) K σ) :=
+    Ψ.trans ((MulEquiv.subgroupCongr (congrArg fixedSubgroup hc)).symm.trans
+      (fixedSubgroupCongrEquiv _ _).symm)
+  have hP' := LocalAnalysis.ComponentInitial.isPComponent_map_of_isPComponent 2 Ψ' hP
+  obtain ⟨hcard, -, hsmall, hiso⟩ :=
+    CatalogueBHigherLinearField.linear_field_involution_fixed_p_components n hn K σ hσ2 hσ
+  obtain ⟨heven, -⟩ := LocalAnalysis.ComponentInitial.LinearFlag.even_and_eq_pow_of_involution hf
+    hK hσ (by rw [← sq]; exact hσ2)
+  have hcardk : Nat.card (CatalogueBHigherLinearField.fixedField K σ) = 2 ^ (f / 2) := by
+    have h2 : Nat.card K = (2 ^ (f / 2)) ^ 2 := by
+      rw [← pow_mul, Nat.div_mul_cancel (even_iff_two_dvd.1 heven), hK]
+    rw [hcard] at h2
+    exact Nat.pow_left_injective two_ne_zero h2
+  by_cases hex : n = 2 ∧ (Nat.card (CatalogueBHigherLinearField.fixedField K σ) = 2 ∨
+      Nat.card (CatalogueBHigherLinearField.fixedField K σ) = 3)
+  · exact absurd hP' (hsmall hex 2 Nat.prime_two _)
+  obtain ⟨E⟩ := hiso hex 2 Nat.prime_two _ hP'
+  have he : 1 ≤ f / 2 := by omega
+  have hadm : StatedLieAdmissible .PSL n 2 (f / 2) := by
+    refine ⟨Nat.prime_two, he, hn, fun h => ?_, fun h => ?_⟩
+    · exact hex ⟨(Prod.mk.inj h).1, Or.inl (hcardk.trans (Prod.mk.inj h).2)⟩
+    · exact hex ⟨(Prod.mk.inj h).1, Or.inr (hcardk.trans (Prod.mk.inj h).2)⟩
+  have hstated : StatedClassicalModel (ProjectiveSpecialLinearGroup (Fin n)
+      (CatalogueBHigherLinearField.fixedField K σ)) .PSL n 2 (f / 2) :=
+    ⟨hadm, CatalogueBHigherLinearField.fixedField K σ, inferInstance, inferInstance, hcardk,
+      ⟨projectiveSpecialLinearGroupEquivStatedProj n _⟩⟩
+  have := (LieType.Simplicity.fam_PSL_simplicity _ n 2 (f / 2) hstated).2
+  obtain ⟨eZ⟩ := GrSLit.nonempty_fusionZStar_equiv_of_simple hP
+    ((P.equivMapOfInjective Ψ'.toMonoidHom Ψ'.injective).trans E)
+  exact Or.inl ⟨.PSL, n, f / 2, hadm,
+    LieType.CurtisTits.lieModel_of_mulEquiv eZ.symm (Or.inl ⟨by decide, hstated⟩),
+    fun _ h4 => ⟨rfl, h4, (Nat.two_mul_div_two_of_even heven).symm⟩⟩
+
+theorem graphField_typed {τ : StatedLieTag} {n₀ f₀ : ℕ} {n : ℕ} (hn : 3 ≤ n) {K : Type}
+    [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) (A : GL (Fin n) K)
+    (σ : K ≃+* K) (hσ : σ ≠ 1) (hord : orderOf (CatalogueBGraphField.graphFieldAction n K A σ) = 2)
+    (hnq : (n, Nat.card (CatalogueBLinearTwoDescent.fixedSubfield K σ)) ≠ (3, 2))
+    {X : Type} [Group X] [Finite X]
+    (Ψ : X ≃* fixedSubgroup (CatalogueBGraphField.graphFieldAction n K A σ))
+    {P : Subgroup X} (hP : IsPComponent 2 P) : EvenOuterTypedConclusion τ n₀ f₀ P := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsq : CatalogueBGraphField.graphFieldAction n K A σ ^ 2 = 1 :=
+    hord ▸ pow_orderOf_eq_one _
+  let Ψt : X ≃* CatalogueBGraphField.twistedFixedPSL n K A σ := Ψ
+  have hP' := LocalAnalysis.ComponentInitial.isPComponent_map_of_isPComponent 2 Ψt hP
+  obtain ⟨-, ⟨E⟩⟩ :=
+    CatalogueBGraphField.graphField_involution_fixed_pComponent_projectiveSpecialUnitary
+      n K hn A σ hσ hsq hnq 2 Nat.prime_two _ hP'
+  obtain ⟨hσ2, -⟩ := CatalogueBGraphField.graphField_involution_conjugacy n K hn A σ hσ hsq
+  obtain ⟨heven, hσc⟩ := LocalAnalysis.ComponentInitial.LinearFlag.even_and_eq_pow_of_involution hf
+    hK hσ (by rw [← sq]; exact hσ2)
+  have hunitary : Nat.card K = (2 ^ (f / 2)) ^ 2 := by
+    rw [← pow_mul, Nat.div_mul_cancel (even_iff_two_dvd.1 heven), hK]
+  have hcardk : Nat.card (CatalogueBLinearTwoDescent.fixedSubfield K σ) = 2 ^ (f / 2) := by
+    have h2 := hunitary
+    rw [CatalogueBHigherLinearField.fixedField_card_square K σ hσ2 hσ] at h2
+    exact Nat.pow_left_injective two_ne_zero h2
+  have hσeq : σ = CatalogueBUnitaryTwo.unitaryFieldConjugation 2 (f / 2) hunitary :=
+    RingEquiv.ext fun c => by rw [hσc, CatalogueBUnitaryTwo.unitaryFieldConjugation_apply]
+  have he : 1 ≤ f / 2 := by
+    have := two_le_of_ringEquiv_ne_one Nat.prime_two hf hK hσ
+    omega
+  have hadm : StatedLieAdmissible .PSU n 2 (f / 2) := by
+    refine ⟨Nat.prime_two, he, hn, fun h => hnq ?_⟩
+    rw [hcardk]
+    exact h
+  subst hσeq
+  obtain ⟨eQ⟩ := nonempty_projectiveSpecialUnitary_equiv_statedProj (n := n) hunitary
+  have hstated : StatedClassicalModel (StatedProj (StatedSU n (2 ^ (f / 2)) K)) .PSU n 2
+      (f / 2) := ⟨hadm, K, inferInstance, inferInstance, hunitary, ⟨MulEquiv.refl _⟩⟩
+  have := (ClassicalGroups.Unitary.fam_PSU_simplicity _ n 2 (f / 2) hstated).2
+  obtain ⟨eZ⟩ := GrSLit.nonempty_fusionZStar_equiv_of_simple hP
+    (((P.equivMapOfInjective Ψt.toMonoidHom Ψt.injective).trans E).trans eQ)
+  exact EvenOuterTypedConclusion.of_ne hadm
+    (LieType.CurtisTits.lieModel_of_mulEquiv eZ.symm (Or.inl ⟨by decide, hstated⟩))
+    (Or.inl (by decide))
+
+end EvenTypedPSL
+
+theorem evenOuterTypedFamilyInput_PSL : EvenOuterTypedFamilyInput .PSL := by
+  intro J _ n f hadm hm α hα hαo P hP
+  obtain ⟨K, _, _, hK, ⟨e⟩⟩ := nonempty_mulEquiv_psl_of_lieModel hadm hm
+  have hf : 1 ≤ f := hadm.2.1
+  have : Finite J := Finite.of_equiv _ e.symm.toEquiv
+  have hβ : orderOf (MulAut.congr e α) = 2 :=
+    (orderOf_injective (MulAut.congr e).toMonoidHom (MulAut.congr e).injective α).trans hα
+  have hβ2 : MulAut.congr e α ^ 2 = 1 := hβ ▸ pow_orderOf_eq_one _
+  have hβo : MulAut.congr e α ∉ inner (ProjectiveSpecialLinearGroup (Fin n) K) := by
+    rw [LocalAnalysis.ComponentInitial.FixedFourGroup.congr_mem_inner_iff]
+    exact hαo
+  have key : ∀ γ : MulAut (ProjectiveSpecialLinearGroup (Fin n) K), MulAut.congr e α = γ →
+      (orderOf γ = 2 → γ ∉ inner (ProjectiveSpecialLinearGroup (Fin n) K) →
+        ∀ (X : Type) [Group X] [Finite X], (X ≃* fixedSubgroup γ) →
+          ∀ Q : Subgroup X, IsPComponent 2 Q → EvenOuterTypedConclusion .PSL n f Q) →
+      EvenOuterTypedConclusion .PSL n f P := by
+    intro γ hγ h
+    exact h (hγ ▸ hβ) (hγ ▸ hβo) _ ((fixedSubgroupCongrEquiv e α).trans
+      (MulEquiv.subgroupCongr (congrArg fixedSubgroup hγ))) P hP
+  have hn : 2 ≤ n := hadm.2.2.1
+  have hsemi : ∀ (A : GL (Fin n) K) (σ : K ≃+* K),
+      MulAut.congr e α = CatalogueBLinearSemilinear.semilinearAction n K A σ →
+      EvenOuterTypedConclusion .PSL n f P := by
+    intro A σ hAσ
+    by_cases hσ : σ = 1
+    · subst hσ
+      rw [CatalogueBLinearSemilinear.semilinearAction_one_field] at hAσ
+      exact absurd (innerDiagonalAction_mem_inner_of_sq hf hK A (hAσ ▸ hβ2)) (hAσ ▸ hβo)
+    · exact key _ hAσ fun _ _ X _ _ Ψ Q hQ => EvenTypedPSL.field_typed hn hf hK A σ hσ
+        (hAσ ▸ hβ2) Ψ hQ
+  rcases (by omega : n = 2 ∨ 3 ≤ n) with rfl | hn3
+  · obtain ⟨A, σ, hAσ⟩ := psl_two_normal_form (MulAut.congr e α)
+    exact hsemi A σ hAσ
+  · obtain ⟨-, hgen⟩ := LocalAnalysis.ComponentInitial.LinearFlag.automorphism_generation
+      (K := K) hn3
+    obtain ⟨A, σ, ε, hε, hAσε⟩ :=
+      hgen (MulAut.congr (CatalogueBLinearHigherB.nativeEquiv n K).symm (MulAut.congr e α))
+    have hβ' : MulAut.congr e α = MulAut.congr (CatalogueBLinearHigherB.nativeEquiv n K)
+        (LocalAnalysis.ComponentInitial.LinearFlag.conjAut n K A *
+          LocalAnalysis.ComponentInitial.LinearFlag.fieldAut n K σ *
+            LocalAnalysis.ComponentInitial.LinearFlag.dualAut n K ^ ε) := by
+      rw [← hAσε]
+      ext x
+      simp
+    interval_cases ε
+    · rw [pow_zero, mul_one, CatalogueBLinearHigherB.congr_semilinear] at hβ'
+      exact hsemi A σ hβ'
+    · rw [pow_one] at hβ'
+      by_cases hσ : σ = 1
+      · subst hσ
+        rw [map_one, mul_one, CatalogueBLinearHigherB.congr_pureGraph] at hβ'
+        exact key _ hβ' fun hord hout X _ _ Ψ Q hQ => EvenTypedPSL.of_mulEquiv Ψ
+          (EvenTypedPSL.graph_typed n K f hf hK hn3 A hord hout) hQ
+      · rw [CatalogueBLinearHigherB.congr_graphField] at hβ'
+        by_cases hnq : (n, Nat.card (CatalogueBLinearTwoDescent.fixedSubfield K σ)) = (3, 2)
+        · obtain ⟨rfl, h2⟩ := Prod.mk.inj hnq
+          have hσ2 : σ ^ 2 = 1 := (CatalogueBGraphField.graphField_involution_conjugacy 3 K
+            le_rfl A σ hσ (hβ' ▸ hβ2)).1
+          have hK4 : Nat.card K = 4 := by
+            rw [CatalogueBHigherLinearField.fixedField_card_square K σ hσ2 hσ]
+            change Nat.card (CatalogueBLinearTwoDescent.fixedSubfield K σ) ^ 2 = 4
+            rw [h2]
+            norm_num
+          exact absurd hP (by
+            have hQ := LocalAnalysis.ComponentInitial.isPComponent_map_of_isPComponent 2
+              ((fixedSubgroupCongrEquiv e α).trans
+                (MulEquiv.subgroupCongr (congrArg fixedSubgroup hβ'))) hP
+            exact fun _ => evenPSL34GraphFieldInput_holds K hK4 A σ hσ (hβ' ▸ hβ) _ hQ)
+        · exact key _ hβ' fun hord _ X _ _ Ψ Q hQ => EvenTypedPSL.graphField_typed hn3
+            hf hK A σ hσ hord hnq Ψ hQ
+
+end CFSG.ComponentClassification.CatFC

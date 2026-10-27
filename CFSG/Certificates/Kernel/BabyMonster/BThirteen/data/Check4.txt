@@ -1,0 +1,6 @@
+mul4 c_v25 v24 v23 = v25
+mul4 c_v26 v24 v25 = v26
+mul4 c_v27 v24 v26 = v27
+mul4 c_v28 v27 v24 = v28
+mul4 c_v29 v28 v25 = v29
+mul4 c_v30 v24 v29 = v30

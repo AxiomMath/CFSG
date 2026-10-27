@@ -1,0 +1,143 @@
+module
+
+public import CFSG.Quasithin.EmptyFaithful.Stellmacher.S35LpPair
+public import CFSG.Quasithin.EmptyFaithful.Stellmacher.S35Std3
+
+public section
+
+namespace CFSG.Quasithin
+
+open CFSG.Open CFSG.QuasithinUnique CFSG.LieType.BorelTits CFSG.Quasithin.F7
+open CFSG.Quasithin.F53Mod
+open scoped commutatorElement
+
+namespace F53.Stellmacher
+
+open CosetGeom F53 Equiv
+
+namespace S35.Lp
+
+open S35.Fin
+
+variable {G : Type} [Group G] [Finite G] {H M S : Subgroup G}
+  {β α' m γ' : Geo H M}
+
+theorem Wb_le_stab_γ (hS : Sit H M S) (hp : S34.PD β α') (hb : Back H M β α' m γ') :
+    Wb β ≤ stab γ' := by
+  refine Std.Wb_le fun ρ hρ => Std.Vn_le_stab_dist hS ?_
+  have h1 := dist_triangle rfl ρ β γ'
+  have h2 := back_dist_γ hp hb
+  omega
+
+omit [Finite G] in
+theorem comm_of_commutator_eq_bot {A B : Subgroup G} (h : ⁅A, B⁆ = ⊥) {x y : G} (hx : x ∈ A)
+    (hy : y ∈ B) : x * y = y * x := by
+  have h1 : ⁅x, y⁆ ∈ ⁅A, B⁆ := Subgroup.commutator_mem_commutator hx hy
+  rw [h, Subgroup.mem_bot, commutatorElement_def] at h1
+  calc x * y = (x * y * x⁻¹ * y⁻¹) * (y * x) := by group
+    _ = y * x := by rw [h1, one_mul]
+
+theorem image_alt (hS : Sit H M S) (hneg : ¬ ClaimLP H M) (hp : S34.PD β α')
+    (hb : Back H M β α' m γ') (c : Ch.Chart γ') {ρ : Geo H M} (hρ : dist ρ β = 2) {v : G}
+    (hv : v ∈ Vn ρ) (hvs : v ∈ stab γ') :
+    c.θ ⟨v, hvs⟩ ∈ alternatingGroup (Fin 5) := by
+  by_cases hQ : Vn ρ ≤ Qv γ'
+  · rw [(c.ker_iff hS (back_vtype_γ hp hb) ⟨v, hvs⟩).mpr (hQ hv)]
+    exact (alternatingGroup (Fin 5)).one_mem
+  · have hρv : vtype ρ = false := by
+      obtain ⟨l, hl, hρl, -⟩ := Std.dist_eq_two_iff.mp hρ
+      rw [← hp.vδ]
+      exact Std.vtype_eq_of_nbrs hρl (Std.mem_nbrs_symm.mp hl)
+    have h1 := dist_triangle rfl ρ β γ'
+    have h2 := back_dist_γ hp hb
+    have h3 : bMin H M ≤ dist ρ γ' + 1 := by
+      by_contra hlt
+      exact hQ (Std.Vn_le_Qv_dist hS (by omega))
+    have hpρ : S34.PD ρ γ' := ⟨hρv, back_vtype_γ hp hb, by omega, hQ⟩
+    have hns := not_swap_of_neg hneg hpρ c hv hvs
+    have hv2 : v ^ 2 = 1 := isElemAbelian_pow_eq_one (Std.Vn_isElemAbelian hS ρ) hv
+    have hsq : c.θ ⟨v, hvs⟩ * c.θ ⟨v, hvs⟩ = 1 := by
+      rw [← map_mul]
+      have : (⟨v, hvs⟩ * ⟨v, hvs⟩ : ↥(stab γ')) = 1 := Subtype.ext (by simpa [pow_two] using hv2)
+      rw [this, map_one]
+    exact even_of_not_swap hsq hns
+
+theorem Wb_le_stab_inf (hS : Sit H M S) (hneg : ¬ ClaimLP H M) (hp : S34.PD β α')
+    (hb : Back H M β α' m γ') (c : Ch.Chart γ') (hZγ : ZlAt c m) (hZα : Zv α' ≤ Vn β) :
+    Wb β ≤ stab γ' ⊓ stab m := by
+  have hml : m ∈ nbrs γ' := Std.mem_nbrs_symm.mp hb.2.1
+  have hD : Nat.card (c.Dl m) = 8 := c.card_Dl hS hml
+  have hfix : IsFixPt (c.Dl m) (fixPt (c.Dl m)) := isFixPt_fixPt hD
+  have hγ := back_vtype_γ hp hb
+  have hWs := Wb_le_stab_γ hS hp hb
+  obtain ⟨a, ha⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp (F53.Zv_ne_bot hS.glob.amalg α')
+  have hz0m : (a : G) ∈ Zv m := Std.Zv_le_Zv_of_nbr hS hp.vδ' hb.1 a.2
+  have hz0V : (a : G) ∈ Vn γ' := Std.Zv_le_Vn hml hz0m
+  have hπ : c.π ⟨(a : G), hz0V⟩ = vp (fixPt (c.Dl m)) := by
+    have hZ' : Zv γ' ≤ Zv m := Std.Zv_le_Zv_of_nbr hS hγ hml
+    have h1 := (c.mem_img_iff hZ' ⟨(a : G), hz0V⟩).mpr hz0m
+    rw [show c.img (Zv m) = _ from hZγ,
+      mem_zpowers_iff_of_mul_self (vp_mul_self _)] at h1
+    rcases h1 with h1 | h1
+    · exfalso
+      have h2 := (c.π_eq_one ⟨(a : G), hz0V⟩).mp h1
+      have h3 : (a : G) ∈ Zv γ' ⊓ Zv α' := ⟨h2, a.2⟩
+      rw [(back_Zv_m hS hp hb).2, Subgroup.mem_bot] at h3
+      exact ha (Subtype.ext h3)
+    · exact h1
+  have hW1 : ∀ w ∈ Wb β, ∀ hws : w ∈ stab γ', c.θ ⟨w, hws⟩ (fixPt (c.Dl m)) =
+      fixPt (c.Dl m) := by
+    intro w hw hws
+    have hcomm : w * (a : G) = (a : G) * w :=
+      (comm_of_commutator_eq_bot (Std.comm_Vn_Wb hS β) (hZα a.2) hw).symm
+    have h1 := (c.comm_mem_iff ⟨w, hws⟩ ⟨(a : G), hz0V⟩).mp (by
+      show w * (a : G) * w⁻¹ * (a : G)⁻¹ ∈ Zv γ'
+      rw [hcomm]
+      simp)
+    rw [hπ] at h1
+    exact (act_vp_eq_iff _ _).mp h1
+  have hρ : ∀ ρ : Geo H M, dist ρ β = 2 → Vn ρ ≤ c.preθ (c.Dl m) := by
+    intro ρ hρ v hv
+    have hvW : v ∈ Wb β := Std.Vn_le_Wb hρ hv
+    have hvs : v ∈ stab γ' := hWs hvW
+    refine (c.mem_preθ_iff ⟨v, hvs⟩).mpr ?_
+    have hv2 : v ^ 2 = 1 := isElemAbelian_pow_eq_one (Std.Vn_isElemAbelian hS ρ) hv
+    have hsq : c.θ ⟨v, hvs⟩ * c.θ ⟨v, hvs⟩ = 1 := by
+      rw [← map_mul]
+      have : (⟨v, hvs⟩ * ⟨v, hvs⟩ : ↥(stab γ')) = 1 := Subtype.ext (by simpa [pow_two] using hv2)
+      rw [this, map_one]
+    exact mem_of_even_sq_fix hD hfix (image_alt hS hneg hp hb c hρ hv hvs) hsq
+      (hW1 v hvW hvs)
+  rw [← c.preθ_Dl hS hγ hml]
+  exact Std.Wb_le hρ
+
+theorem Wb_le_Qm (hS : Sit H M S) (hneg : ¬ ClaimLP H M) (hp : S34.PD β α')
+    (hb : Back H M β α' m γ') (c : Ch.Chart γ') (hZγ : ZlAt c m) (hZα : Zv α' ≤ Vn β) :
+    Wb β ≤ Qv m := by
+  have hin := Wb_le_stab_inf hS hneg hp hb c hZγ hZα
+  have hγ := back_vtype_γ hp hb
+  intro w hw
+  rw [← F53.centralizer_Zv_eq_Qv_of_bAt hS.glob.amalg
+    (hS.glob.crit m (back_vtype_m hp hb))]
+  refine Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp (hin hw)).2, ?_⟩
+  rw [Subgroup.mem_centralizer_iff]
+  intro z hz
+  rw [← (back_Zv_m hS hp hb).1] at hz
+  have key : Zv γ' ⊔ Zv α' ≤ Subgroup.centralizer ({w} : Set G) := by
+    refine sup_le (fun z hz => ?_) (fun z hz => ?_)
+    · rw [Subgroup.mem_centralizer_iff]
+      intro g hg
+      rw [Set.mem_singleton_iff.mp hg]
+      exact (central_comm hS hγ hz (Subgroup.mem_inf.mp (hin hw)).1)
+    · rw [Subgroup.mem_centralizer_iff]
+      intro g hg
+      rw [Set.mem_singleton_iff.mp hg]
+      exact (comm_of_commutator_eq_bot (Std.comm_Vn_Wb hS β) (hZα hz) hw).symm
+  have := Subgroup.mem_centralizer_iff.mp (key hz) w (Set.mem_singleton w)
+  exact this.symm
+
+end S35.Lp
+
+end F53.Stellmacher
+
+end CFSG.Quasithin

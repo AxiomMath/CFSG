@@ -1,0 +1,15 @@
+module
+
+public import CFSG.Sporadic.Co1.Asch54PairDefs
+import Certificates.Kernel.Co1Sub.OrderAB
+
+public section
+
+namespace Certificates
+
+theorem certificate120802 : Nat.card CFSG.Sporadic.Co1Sub.A₀ = 3 * 2 ^ 21 := by
+  have e : CFSG.Sporadic.Co1Sub.A₀ = CFSG.KD.Co1Sub.subG CFSG.KD.Co1Sub.aI := rfl
+  rw [e]
+  exact CFSG.KD.Co1Sub.card_subG_aI
+
+end Certificates

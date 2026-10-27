@@ -1,0 +1,227 @@
+module
+
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenDefs
+public import CFSG.HardMathSupport.U4FF.Natural4Defs
+public import CFSG.HardMathSupport.U4FF.Omega2Defs
+public import CFSG.HardMathSupport.U4FF.Disp
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_5.SmallField
+import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X7Basic
+import CFSG.Quasithin.H13.VolIAltCoverUniversal
+import CFSG.Timmesfeld.Orders.Classical
+public import CFSG.HardMathSupport.U4FF.Defs
+public import CFSG.LocalAnalysis.SectionRank.EvenCover.Orthogonal
+
+public section
+
+namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Thm14_5
+
+open Matrix CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique.Setup.Family
+open CFSG.QuasithinUnique.Setup.SL2Modules
+open CFSG.HardMathSupport.U4FF (NaturalSU4 NaturalOmega6 disp)
+
+variable {I : Type} [CommGroup I]
+
+theorem realizes_nat_of_mulEquiv {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
+    {Γ : Subgroup (Matrix.GeneralLinearGroup ι K)} {L : Subgroup (MulAut I)} (Θ : ↥L ≃* ↥Γ)
+    (ψ : I ≃* Multiplicative (ι → K))
+    (hψ : ∀ (l : ↥L) (s : I), ψ ((l : MulAut I) s) = Multiplicative.ofAdd
+      (((Θ l : Matrix.GeneralLinearGroup ι K) : Matrix ι ι K) *ᵥ Multiplicative.toAdd (ψ s))) :
+    (FFModel.nat Γ).Realizes L ⊤ ⊥ := by
+  refine CFSG.Quasithin.H13.VolI.realizes_of_mulEquiv (E := FFModel.nat Γ) rfl Θ.symm.toMonoidHom
+    Θ.symm.surjective (ψ.trans Subgroup.topEquiv.symm) ?_
+  intro (γ : ↥Γ) v
+  show ψ (((Θ.symm γ : ↥L) : MulAut I) v) = Multiplicative.ofAdd
+    (((γ : Matrix.GeneralLinearGroup ι K) : Matrix ι ι K) *ᵥ Multiplicative.toAdd (ψ v))
+  rw [hψ, MulEquiv.apply_symm_apply]
+
+theorem isSUn_natSUn_of_naturalSU4 {L : Subgroup (MulAut I)} {e : ℕ} (h : NaturalSU4 e L) :
+    IsSUn ↥L 4 e ∧ NatSUn L ⊤ ⊥ 4 e := by
+  obtain ⟨F, _, _, hF, ε, ψ, hψ⟩ := h
+  exact ⟨⟨F, inferInstance, inferInstance, hF, ⟨ε⟩⟩,
+    ⟨F, inferInstance, inferInstance, hF, realizes_nat_of_mulEquiv ε ψ hψ⟩⟩
+
+theorem statedScalars_subgroupOf_statedOmega_quadMinus_three_eq_bot {K : Type} [Field K]
+    [CharP K 2] (b c : K) :
+    (StatedScalars (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) K).subgroupOf
+      (StatedOmega (StatedQuadMinus 3 K b c)) = ⊥ := by
+  refine CFSG.SectionRank.EvenCover.statedScalars_subgroupOf_statedOmega_eq_bot
+    (CFSG.LieType.Universal.Spin.coe_quadMinus 3 K b c)
+    ⟨Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inr (Sum.inl 0)) 1, ?_⟩
+  rw [CFSG.LieType.Universal.Spin.quadMinus_apply]
+  simp [Fin.sum_univ_two]
+
+theorem isOmegaMinus_natOmegaMinus_of_naturalOmega6 {L : Subgroup (MulAut I)} {e : ℕ}
+    (h : NaturalOmega6 e L) : IsOmegaMinus ↥L 6 e ∧ NatOmegaMinus L ⊤ ⊥ 6 e := by
+  obtain ⟨F, _, _, b, c, hF, hirr, ε, ψ, hψ⟩ := h
+  have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
+  have hbot := statedScalars_subgroupOf_statedOmega_quadMinus_three_eq_bot (K := F) b c
+  let eP : StatedProj (StatedOmega (StatedQuadMinus 3 F b c)) ≃*
+      ↥(StatedOmega (StatedQuadMinus 3 F b c)) :=
+    (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
+  exact ⟨⟨⟨3, rfl⟩, F, inferInstance, inferInstance, b, c, hF, hirr, ⟨ε.trans eP.symm⟩⟩,
+    ⟨⟨3, rfl⟩, F, inferInstance, inferInstance, b, c, hF, hirr,
+      realizes_nat_of_mulEquiv ε ψ hψ⟩⟩
+
+private theorem natCard_eq_two_pow_finrank' (V : Type) [AddCommGroup V] [Module (ZMod 2) V]
+    [Module.Finite (ZMod 2) V] : Nat.card V = 2 ^ Module.finrank (ZMod 2) V := by
+  rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V), Nat.card_zmod]
+
+theorem rkIdx_fixV_zpowers_eq_disp [Finite I] [Fact (∀ s : I, s * s = 1)] (t : MulAut I) :
+    rkIdx (fixV (Subgroup.zpowers t)) = disp t := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have h1 := CFSG.HardMathSupport.U4FF.card_eq_fixV_zpowers_mul t
+  have h2 := (fixV (Subgroup.zpowers t)).card_mul_index
+  have hpos : 0 < Nat.card (fixV (Subgroup.zpowers t)) := Nat.card_pos
+  have hidx : (fixV (Subgroup.zpowers t)).index = 2 ^ disp t :=
+    Nat.eq_of_mul_eq_mul_left hpos (h2.trans h1)
+  rw [rkIdx, hidx, padicValNat.prime_pow]
+
+theorem two_mul_le_disp_of_naturalSU4 [Finite I] [Fact (∀ s : I, s * s = 1)]
+    {L : Subgroup (MulAut I)} {e : ℕ} (hirr : IsIrrOn L ⊤ ⊥) (h : NaturalSU4 e L)
+    {t : MulAut I} (ht : t * t = 1) (ht1 : t ≠ 1)
+    (htN : t ∈ Subgroup.normalizer (L : Set (MulAut I))) : 2 * e ≤ disp t := by
+  classical
+  obtain ⟨F, _, _, hF, ε, ψ, hψ⟩ := h
+  let ρ : Representation (ZMod 2) ↥L (Additive I) :=
+    LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp (binaryLin.comp L.subtype)
+  have hρ : ∀ (l : ↥L) (w : Additive I), ρ l w = binaryLin (l : MulAut I) w := fun _ _ => rfl
+  have hirrρ : Fact ρ.IsIrreducible := by
+    refine ⟨(CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff ρ).mpr ⟨?_, fun U hU => ?_⟩⟩
+    · obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt hirr.1
+      refine ⟨⟨Additive.ofMul x, 0, fun h0 => hx ?_⟩⟩
+      have : x = 1 := congrArg Additive.toMul h0
+      rw [this]
+      exact Subgroup.one_mem _
+    · let U' : Subgroup I :=
+        { carrier := {x | Additive.ofMul x ∈ U}
+          mul_mem' := fun ha hb => U.add_mem ha hb
+          one_mem' := U.zero_mem
+          inv_mem' := fun ha => U.neg_mem ha }
+      have hU' : StableUnder L U' := fun l hl u hu => hU ⟨l, hl⟩ (Additive.ofMul u) hu
+      rcases hirr.2.2.2 U' hU' bot_le le_top with h0 | h1
+      · left
+        rw [eq_bot_iff]
+        intro w hw
+        have hw' : Additive.toMul w ∈ U' := hw
+        rw [h0, Subgroup.mem_bot] at hw'
+        rw [Submodule.mem_bot]
+        exact congrArg Additive.ofMul hw'
+      · right
+        rw [eq_top_iff]
+        intro w _
+        have hw' : Additive.toMul w ∈ U' := h1 ▸ Subgroup.mem_top _
+        exact hw'
+  let β : Additive I ≃+ (Fin 4 → F) :=
+    { toFun := fun w => Multiplicative.toAdd (ψ (Additive.toMul w))
+      invFun := fun v => Additive.ofMul (ψ.symm (Multiplicative.ofAdd v))
+      left_inv := fun w => by simp
+      right_inv := fun v => by simp
+      map_add' := fun a b => by
+        show Multiplicative.toAdd (ψ (Additive.toMul a * Additive.toMul b)) = _
+        rw [map_mul, toAdd_mul] }
+  have hβ : ∀ (l : ↥L) (w : Additive I), β (ρ l w) =
+      ((ε l : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) *ᵥ β w := fun l w => by
+    show Multiplicative.toAdd (ψ ((l : MulAut I) (Additive.toMul w))) = _
+    rw [hψ, toAdd_ofAdd]
+    rfl
+  let μ : F → Module.End (ZMod 2) (Additive I) := fun c =>
+    AddMonoidHom.toZModLinearMap 2 ((β.symm.toAddMonoidHom.comp
+      { toFun := fun v : Fin 4 → F => c • v
+        map_zero' := smul_zero c
+        map_add' := smul_add c }).comp β.toAddMonoidHom)
+  have hμ : ∀ c w, μ c w = β.symm (c • β w) := fun _ _ => rfl
+  have hμρ : ∀ c (l : ↥L) w, μ c (ρ l w) = ρ l (μ c w) := by
+    intro c l w
+    apply β.injective
+    rw [hμ, hβ, AddEquiv.apply_symm_apply, hμ, hβ, AddEquiv.apply_symm_apply, Matrix.mulVec_smul]
+  let s : Additive I ≃ₗ[ZMod 2] Additive I := binaryLin t
+  have hs : ∀ w, s (s w) = w := fun w => by
+    show binaryLin t (binaryLin t w) = w
+    rw [← LinearEquiv.mul_apply, ← map_mul, ht, map_one]
+    rfl
+  have hN : ∀ l : ↥L, ∃ l' : ↥L, ∀ w, s (ρ l (s w)) = ρ l' w := by
+    intro l
+    have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left ht
+    have hmem : t * (l : MulAut I) * t ∈ L := by
+      have h1 := (Subgroup.mem_normalizer_iff.mp htN (l : MulAut I)).mp l.2
+      rwa [htinv] at h1
+    refine ⟨⟨_, hmem⟩, fun w => ?_⟩
+    show binaryLin t (binaryLin (l : MulAut I) (binaryLin t w)) =
+      binaryLin (t * (l : MulAut I) * t) w
+    rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
+  have : Module.Finite (ZMod 2) (Additive I) := Module.Finite.of_finite
+  have hcardW : Nat.card (Additive I) = 2 ^ (8 * e) := by
+    rw [Nat.card_congr β.toEquiv, Nat.card_fun, Nat.card_fin, hF, ← pow_mul, ← pow_mul]
+    ring_nf
+  have hdimW : Module.finrank (ZMod 2) (Additive I) = 8 * e :=
+    Nat.pow_right_injective le_rfl ((natCard_eq_two_pow_finrank' (Additive I)).symm.trans hcardW)
+  have hdisp : disp t = Module.finrank (ZMod 2)
+      (LinearMap.range ((s : Additive I →ₗ[ZMod 2] Additive I) - 1)) := rfl
+  have hrn := LinearMap.finrank_range_add_finrank_ker ((s : Additive I →ₗ[ZMod 2] Additive I) - 1)
+  by_cases hcomm : ∀ c w, s (μ c (s w)) = μ c w
+  ·
+    have hcomm' : ∀ c w, μ c (s w) = s (μ c w) := fun c w => by
+      have h1 := hcomm c (s w)
+      rw [hs] at h1
+      exact h1.symm
+    set R := LinearMap.range ((s : Additive I →ₗ[ZMod 2] Additive I) - 1) with hR
+    have hRμ : ∀ c, ∀ r ∈ R, μ c r ∈ R := by
+      rintro c _ ⟨x, rfl⟩
+      refine ⟨μ c x, ?_⟩
+      simp only [LinearMap.sub_apply, Module.End.one_apply, LinearEquiv.coe_coe, map_sub, hcomm']
+    let N : Submodule F (Fin 4 → F) :=
+      { carrier := β '' R
+        add_mem' := by
+          rintro _ _ ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩
+          exact ⟨a + b, R.add_mem ha hb, map_add β a b⟩
+        zero_mem' := ⟨0, R.zero_mem, map_zero β⟩
+        smul_mem' := by
+          rintro c _ ⟨a, ha, rfl⟩
+          exact ⟨μ c a, hRμ c a ha, by rw [hμ, AddEquiv.apply_symm_apply]⟩ }
+    have hcardNR : Nat.card N = Nat.card R := by
+      refine Nat.card_congr
+        { toFun := fun v => ⟨β.symm v, ?_⟩
+          invFun := fun r => ⟨β r, ⟨r, r.2, rfl⟩⟩
+          left_inv := fun v => Subtype.ext (β.apply_symm_apply v)
+          right_inv := fun r => Subtype.ext (β.symm_apply_apply r) }
+      obtain ⟨r, hr, hrv⟩ := v.2
+      rw [← hrv, AddEquiv.symm_apply_apply]
+      exact hr
+    have h1 : Nat.card R = 2 ^ disp t := by
+      rw [hdisp]
+      exact natCard_eq_two_pow_finrank' R
+    have h2 : Nat.card N = 2 ^ (2 * e * Module.finrank F N) := by
+      rw [Module.natCard_eq_pow_finrank (K := F), hF, ← pow_mul, ← pow_mul]
+      ring_nf
+    have hdeq : disp t = 2 * e * Module.finrank F N :=
+      Nat.pow_right_injective le_rfl (h1.symm.trans (hcardNR.symm.trans h2))
+    rw [hdeq]
+    refine Nat.le_mul_of_pos_right _ (Nat.pos_of_ne_zero fun h0 => ht1 ?_)
+    have hN0 : N = ⊥ := Submodule.finrank_eq_zero.mp h0
+    refine MulEquiv.ext fun x => ?_
+    have hmem : (s : Additive I →ₗ[ZMod 2] Additive I) (Additive.ofMul x) - Additive.ofMul x ∈ R :=
+      ⟨Additive.ofMul x, rfl⟩
+    have hβ0 : β ((s : Additive I →ₗ[ZMod 2] Additive I) (Additive.ofMul x) - Additive.ofMul x) ∈
+        N := ⟨_, hmem, rfl⟩
+    rw [hN0, Submodule.mem_bot, map_eq_zero_iff β β.injective, sub_eq_zero] at hβ0
+    exact congrArg Additive.toMul hβ0
+  ·
+    push Not at hcomm
+    obtain ⟨c, w, hw⟩ := hcomm
+    obtain ⟨d, hd⟩ := (mem_endRing_iff ρ (μ c)).mpr fun l v => hμρ c l v
+    have hD : ∃ d : EndRing ρ, ∃ w, s (d (s w)) ≠ d w :=
+      ⟨d, w, by
+        have h1 : ∀ v, d v = μ c v := fun v => congrFun hd v
+        rw [h1, h1]
+        exact hw⟩
+    have hsq := card_fix_sq_of_not_commute_endRing ρ s hs hN hD
+    have hfix : Nat.card {w : Additive I // s w = w} =
+        Nat.card (LinearMap.ker ((s : Additive I →ₗ[ZMod 2] Additive I) - 1)) :=
+      Nat.card_congr (Equiv.subtypeEquivRight fun v => by
+        rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero]
+        rfl)
+    rw [hfix, natCard_eq_two_pow_finrank', hcardW, ← pow_mul] at hsq
+    have hker := Nat.pow_right_injective le_rfl hsq
+    omega
+
+end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Thm14_5

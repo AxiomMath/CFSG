@@ -1,0 +1,127 @@
+module
+
+public import Certificates.Kernel.D43.TreeData
+meta import CFSG.Milestones.ASVolI.F48.D43.Inputs
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Rational
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+set_option maxRecDepth 400000
+
+namespace CertificateChecks.KernelD43
+
+open CFSG.ASVolI
+
+meta def t3Gens : Array (Array Nat) := (Array.range 8).map fun k => burnsideF48d_gen k
+
+meta def t3Inv (t : Array Nat) : Array Nat := Id.run do
+  let mut r := Array.replicate 26572 0
+  for i in [0:26572] do
+    r := r.set! t[i]! i
+  return r
+
+meta def t3Enc (w : List (Fin 8 × Bool)) : Nat :=
+  w.foldl (fun acc l => acc * 32 + (if l.2 then l.1.val + 1 else l.1.val + 9)) 0
+
+meta def t3Words : Array Nat := burnsideF48d_LW.toArray.map t3Enc
+
+meta def t3Len (w : Nat) : Nat := Id.run do
+  let mut w := w
+  let mut c := 0
+  for _ in [0:64] do
+    if w > 0 then
+      w := w / 32
+      c := c + 1
+  return c
+
+meta def t3Letters : Array (Array Nat) :=
+  let G := t3Gens
+  let Gi := G.map t3Inv
+  t3Words.map fun w0 => (Array.range 26572).map fun p0 => Id.run do
+    let mut w := w0
+    let mut p := p0
+    for _ in [0:24] do
+      let d := w % 32
+      if 1 ≤ d && d ≤ 8 then p := (G[d - 1]!)[p]!
+      if 9 ≤ d && d ≤ 16 then p := (Gi[d - 9]!)[p]!
+      w := w / 32
+    return p
+
+meta def t3Levels : Array (Nat × Nat) :=
+  #[(6, 131069), (479, 131069), (0, 131070), (186, 131070), (26571, 131070),
+    (6, 131040), (186, 131040), (479, 131040), (15916, 131040), (26571, 131040)]
+
+meta def t3MaskLetters (M : Nat) : Array Nat :=
+  let lens := t3Words.map t3Len
+  ((Array.range 17).filter fun j => (M >>> j) % 2 == 1).qsort
+    fun a c => lens[a]! < lens[c]! || (lens[a]! == lens[c]! && a < c)
+
+meta def t3Bfs (L : Array (Array Nat)) (S : Array Nat) (r : Nat) : Array Nat := Id.run do
+  let mut seen := (Array.replicate 26572 false).set! r true
+  let mut pts : Array Nat := #[r]
+  let mut recs : Array Nat := #[r]
+  for h in [0:26572] do
+    if h < pts.size then
+      let p := pts[h]!
+      for j in S do
+        let q := (L[j]!)[p]!
+        if !seen[q]! then
+          seen := seen.set! q true
+          recs := recs.push (q ||| (h <<< 15) ||| (j <<< 30))
+          pts := pts.push q
+  return recs
+
+meta def t3All : Array (Array Nat) :=
+  let L := t3Letters
+  t3Levels.map fun x => t3Bfs L (t3MaskLetters x.2) x.1
+
+meta def t3Rows (k : Nat) (a : Array Nat) : Array (Array Nat) :=
+  (Array.range ((a.size + k - 1) / k)).map fun r =>
+    ((Array.range k).filter fun i => k * r + i < a.size).map fun i => a[k * r + i]!
+
+meta def t3RecSrc : Array (Array Nat) := t3Rows 16 (t3All.foldl (· ++ ·) #[])
+
+meta def t3PosSrc : Array (Array Nat) := Id.run do
+  let A := t3All
+  let mut pos := Array.replicate (26572 * A.size) 0
+  for l in [0:A.size] do
+    let R := A[l]!
+    for t in [0:R.size] do
+      pos := pos.set! (26572 * l + R[t]! % 32768) t
+  return t3Rows 64 pos
+
+end CertificateChecks.KernelD43
+
+#kmisc_packarrs CertificateChecks.KernelD43.T3R CertificateChecks.KernelD43.t3RecSrc 36
+#kmisc_packarrs CertificateChecks.KernelD43.T3Q CertificateChecks.KernelD43.t3PosSrc 16

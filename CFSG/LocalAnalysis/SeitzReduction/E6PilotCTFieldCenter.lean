@@ -1,0 +1,118 @@
+module
+
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotCTFieldFamily
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotLeviPerp
+public import CFSG.LieType.TitsSimplicity.Core
+public import CFSG.LieType.Steinberg.Minuscule.BruhatExtras
+public import CFSG.CGT.Timmesfeld75.L2Pair
+public import CFSG.CGT.Timmesfeld75.ListWCBasic
+public import CFSG.CharacterTheory.BrauerThirdMainTheorem.CentralResidueMaps
+public import CFSG.CharacterTheory.BrauerThirdMainTheorem.NormalizerClassLifting
+public import CFSG.CharacterTheory.BrauerThirdMainTheorem.PrincipalClassDefects
+public import CFSG.CharacterTheory.Semidihedral.Principal.DegreeZeroGram
+public import CFSG.CharacterTheory.TwoRankLowerBound.BrauerCharacterCriterion
+public import CFSG.ClassicalGroups
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalAdjoint
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.Pairs
+public import CFSG.ClassicalInvolution.QuaternionStructure
+public import CFSG.Fischer.Uniq.CompTau
+public import CFSG.GH74.GLS.Defs
+public import CFSG.GH74.GLS.Stage1.Thm3.Sec5.Closed
+public import CFSG.GH74.GLS.Stage1.Thm3.Sec5.Statements
+public import CFSG.GH74.GLS.Stage1.Thm6.Sec12.Defs
+public import CFSG.GH74.GLS.Stage1.Thm6.Sec12.Ext
+public import CFSG.GH74.GLS.Stage2.Final.LayerFDerive
+public import CFSG.GH74.Statements
+public import CFSG.LieType.Chevalley.C2E6StandardFixedData
+public import CFSG.LieType.Chevalley.C2E6SubsystemBruhat
+public import CFSG.LieType.Chevalley.C2E6UnitaryFourImages
+public import CFSG.LieType.Chevalley.E6SecondGraphFullCentralizer
+public import CFSG.LieType.Chevalley.SimplyLacedFieldTwoCover
+public import CFSG.LieType.Ree.LargeReeEightTorus
+public import CFSG.LinearAlgebra.LinearGroups.CoordinateData
+public import CFSG.LocalAnalysis.ComponentClassification.BlockCentralSylowEquality
+public import CFSG.LocalAnalysis.ComponentClassification.BlockFourFactorSupport
+public import CFSG.LocalAnalysis.ComponentClassification.BlockLargeProductInvolutions
+public import CFSG.LocalAnalysis.ComponentClassification.BlockMovedFactorSylowCentral
+public import CFSG.LocalAnalysis.ComponentClassification.BlockNormalizerOrder
+public import CFSG.LocalAnalysis.ComponentClassification.BlockPermutationSylowLifting
+public import CFSG.LocalAnalysis.ComponentClassification.BlockStrictFullSylowAbelian
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBHigherLinearFieldDeterminant
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorEvenE6
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorOddE6
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitHeMax
+public import CFSG.LocalAnalysis.ComponentClassification.KProper
+public import CFSG.LocalAnalysis.ComponentClassification.LabeledBlockPermutation
+public import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalOddCentralizer
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogG2EvenCanonicalField
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSUFieldOddCore
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSpExclusion
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSpWedge
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCorrCriticalStandard
+public import CFSG.LocalAnalysis.ComponentInitial.GL3TwoFixedModelCases
+public import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+public import CFSG.LocalAnalysis.ProperTwoGeneratedCore.CentralInvolutionStructure
+public import CFSG.LocalAnalysis.ProperTwoGeneratedCore.LocalCriterionNormalTwoFixedPointHull
+public import CFSG.LocalAnalysis.ProperTwoGeneratedCore.LocalCriterionThreePointFullTransport
+public import CFSG.LocalAnalysis.SectionRank.BruhatLift
+public import CFSG.LocalAnalysis.SectionRank.ClassicalOdd
+public import CFSG.LocalAnalysis.SectionRank.EvenCover.LinearStep
+public import CFSG.LocalAnalysis.SectionRank.LargeRee.SLTwo
+public import CFSG.LocalAnalysis.SectionRank.LargeReeCover
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotFieldNormalizePSL
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotCatEvenOuterPSUPSp
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotFieldComponentBasic
+public import CFSG.LocalAnalysis.ShultStronglyClosedTI.MinimalLocalFailureConjugation
+public import CFSG.LocalAnalysis.ShultStronglyClosedTI.MinimalLocalFailureProperPair
+public import CFSG.LocalAnalysis.ShultStronglyClosedTI.MinimalLocalFailureSylowAssemblyData
+public import CFSG.LocalAnalysis.ShultStronglyClosedTI.MinimalLocalFailureSylowAssemblyProper
+public import CFSG.LocalAnalysis.ShultStronglyClosedTI.SuzukiModelPointStructure
+public import CFSG.RankThree.GroupTheory.SteinbergBYSectionNineResidual
+public import CFSG.RankThree.LocalRank.SelectorCases
+public import CFSG.RankThree.PartOne.Assembly
+public import CFSG.RankThree.PartOne.KC.UnitaryCrossPrimeSetting
+public import CFSG.RankThree.PartOne.KC.UnitaryLiftBlocks
+public import CFSG.RankThree.PartOne.KF.UnitaryModel
+public import CFSG.RankThree.PartOne.S10.ThetaContract
+public import CFSG.RankThree.PartOne.S12.InputsBase
+public import CFSG.RankThree.PartTwo.Census.Classical.EvenUnitary
+public import CFSG.Sporadic.Schreier.TitsOther
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.FiniteFieldPrimeOrderFixedSubfield
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.OrderThreeNormalizer
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PGammaL2PSLRangeCentralizer
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseKleinInvolutionCount
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseKleinRestrictionSixCount
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseKleinUDecomposition
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseEquationEleven
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseEquationTen
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseEquationTenStructuralIdentities
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCasePSL2FieldProjectionArithmetic
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCasePSL2OrderPSubgroupCount
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Suzuki.OddGraphReconstruction
+public import CFSG.Walter.JRFacts
+public import Certificates.Certificate10
+public import Certificates.Certificate11
+public import Certificates.Certificate12
+public import Certificates.Certificate3
+public import Certificates.Certificate4
+public import Certificates.Certificate42
+public import Certificates.Certificate44
+public import Certificates.Certificate5
+public import Certificates.Certificate6
+public import Certificates.Certificate7
+public import Certificates.Certificate8
+public import Certificates.Certificate9
+
+public section
+
+namespace CFSG.SeitzReduction.E6Pilot
+
+open Subgroup CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg
+  CFSG.LieType.Steinberg.Minuscule CFSG.LieType.Steinberg.Isogeny
+
+local instance e6PilotCTFieldCenterNeZeroRank : NeZero Tag.E6.rank := ⟨by decide⟩
+
+theorem nodes_high_eq : E6Neighbour.high.nodes = {0, 2, 3, 4, 5} :=
+  rfl
+
+end CFSG.SeitzReduction.E6Pilot

@@ -1,0 +1,119 @@
+module
+
+public import Mathlib
+public import CFSG.ClassicalInvolution.RouteD.G2D4A2Classical
+public import CFSG.ClassicalInvolution.RouteD.TWRExoticArith
+public import CFSG.ClassicalInvolution.RouteD.NoG2D4Model
+public import CFSG.ClassicalInvolution.Orders.Classical
+public import CFSG.ClassicalInvolution.ModelFacts.ClauseZero
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate76
+public import Certificates.Certificate77
+public import Certificates.Certificate78
+public import Certificates.Certificate79
+public import Certificates.Certificate80
+public import Certificates.Certificate81
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate115
+public import Certificates.Certificate116
+public import Certificates.Certificate117
+public import Certificates.Certificate118
+public import Certificates.Certificate119
+public import Certificates.Certificate120
+public import Certificates.Certificate121
+public import Certificates.Certificate122
+public import Certificates.Certificate123
+public import CFSG.Assembly.OrderReductions.InvertedSubgroup
+public import CFSG.Assembly.OrderReductions.OddInversion
+public import CFSG.ClassicalInvolution.Balance.LayerGenerationPairBoot
+public import CFSG.ClassicalInvolution.Generic.InductionMain
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalIsogeny
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalTwistedE6Conj
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalTwistedE6Roots
+public import CFSG.ClassicalInvolution.ModelFacts.FundNoncentralBridge
+public import CFSG.ClassicalInvolution.ModelFacts.G2D4G2Cent
+public import CFSG.ClassicalInvolution.ModelFacts.OddCover
+public import CFSG.ClassicalInvolution.Models.LinearFrames
+public import CFSG.ClassicalInvolution.Models.OrthogonalPairs
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.Quadruple
+public import CFSG.ClassicalInvolution.Models.Transfer
+public import CFSG.ClassicalInvolution.Models.UnitaryFrames
+public import CFSG.ClassicalInvolution.RouteD.TypeAChain
+public import CFSG.LieType.Ree.SmallReeModelSchreier
+public import CFSG.LocalAnalysis.ComponentClassification.BadTwoComponentSubgroup
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOddLieClassical
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOddLieE6E7Triality
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalDescentEndpoint
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixModelGeometry
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueKProper
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueKProperGroups
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueSchreierLinearTwo
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasFive
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasSix
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalReflectionSplitting
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+public import CFSG.LocalAnalysis.ComponentInitial.SylowPointRecovery
+public import CFSG.LocalAnalysis.RankThreeEvenClassification.SignalizerImageCompletion
+public import CFSG.LocalAnalysis.RankThreeEvenClassification.SignalizerPreimages
+public import CFSG.LocalAnalysis.RankThreeEvenClassification.SignalizerRestrictionCompletion
+public import CFSG.LocalAnalysis.SignalizerFunctor
+public import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+
+public section
+
+namespace CFSG.ClassicalInvolution.RouteD.TWR
+
+set_option linter.unusedSectionVars false
+
+open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjoint
+  CFSG.LieType.Steinberg.TwistedD4 CFSG.Open CFSG.ClassicalInvolution.Generic
+open scoped commutatorElement
+
+local notation "LTag" => CFSG.Assembly.LowTwoRank.StatedLieTag
+
+variable {p : ℕ} [Fact p.Prime]
+
+variable {f : ℕ} {X : Type} [Group X] {Φ : Set (Subgroup X)}
+
+end CFSG.ClassicalInvolution.RouteD.TWR

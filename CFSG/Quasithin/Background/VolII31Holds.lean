@@ -1,0 +1,111 @@
+module
+
+public import CFSG.Quasithin.Vol2.Ch12Sec4C8Lift
+public import CFSG.Quasithin.Background.VolII31
+public import CFSG.CharacterTheory.Semidihedral.Local.FourQuaternionAutomorphisms
+public import CFSG.CharacterTheory.TwoRankLowerBound.BrauerCharacterCriterion
+public import CFSG.Dihedral.FourgroupCycleControl
+public import CFSG.Dihedral.OriginalCentralizerOddCore
+public import CFSG.LieType.Ree.LargeReeEightTorus
+public import CFSG.LieType.SteinbergBRBlockParabolicDInf
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalDescentEndpoint
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFixedTransfer
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixModelGeometry
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBLinear
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticRepresentationOdd
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogLargeReeNormalForm
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSpExclusion
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSpWedge
+public import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasFive
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasSix
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalReflectionSplitting
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L239PairsTitsPair
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Block
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Basic245C61
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.L246B42TypeList
+public import CFSG.LocalAnalysis.QuasithinUnique.K1.EvenClassicalFamily
+public import CFSG.LocalAnalysis.QuasithinUnique.K1.EvenClassicalLinearStrong
+public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.L2_5_21FinDS
+public import CFSG.LocalAnalysis.RankTwoShapes.UnitaryFourPresentation
+public import CFSG.Open.SplitBNPair
+public import CFSG.Quasithin.Background.A1cA132Action
+public import CFSG.Quasithin.Background.A1cA133Three
+public import CFSG.Quasithin.Background.A3Structure319
+public import CFSG.Quasithin.Background.B15P4LayerDict
+public import CFSG.Quasithin.Background.B1More13
+public import CFSG.Quasithin.Background.B5CompA
+public import CFSG.Quasithin.Background.B5CompB
+public import CFSG.Quasithin.Background.B5FinOut
+public import CFSG.Quasithin.Background.C129NativeMain
+public import CFSG.Quasithin.Background.C1PackS15207
+public import CFSG.Quasithin.Background.D2
+public import CFSG.Quasithin.Background.E3
+public import CFSG.Quasithin.Background.E3Nprime
+public import CFSG.Quasithin.Background.E3Uniq
+public import CFSG.Quasithin.Background.FFC4Real
+public import CFSG.Quasithin.Background.HPairBridge
+public import CFSG.Quasithin.Background.InternalSecData
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtF112ListC
+public import CFSG.Quasithin.EmptyFaithful.S14110
+public import CFSG.Quasithin.EmptyFaithful.S151cA2
+public import CFSG.Quasithin.EmptyFaithful.S151cCases
+public import CFSG.Quasithin.EmptyFaithful.S152UGen
+public import CFSG.Quasithin.EmptyFaithful.S152Y20
+public import CFSG.Quasithin.EmptyFaithful.S152Y21
+public import CFSG.Quasithin.EmptyFaithful.S153D44
+public import CFSG.Quasithin.EmptyFaithful.S153H32
+public import CFSG.Quasithin.EmptyFaithful.T1515Top9
+public import CFSG.Quasithin.EmptyFaithful.T1515cE
+public import CFSG.Quasithin.H13.A5S1326
+public import CFSG.Quasithin.H13.A5S1514
+public import CFSG.Quasithin.H13.A5Top
+public import CFSG.Quasithin.H13.J4Core
+public import CFSG.Quasithin.H13.J4Order
+public import CFSG.Quasithin.Vol2.Ch10StatementsE
+public import CFSG.Quasithin.Vol2.Ch10StatementsInputsAS2
+public import CFSG.Quasithin.Vol2.Ch10StatementsInputsAS3
+public import CFSG.Quasithin.Vol2.Ch11SecA02Setup
+public import CFSG.Quasithin.Vol2.Ch11SecAFacts03
+public import CFSG.Quasithin.Vol2.Ch11SecAFacts04
+public import CFSG.Quasithin.Vol2.Ch11StatementsC
+public import CFSG.Quasithin.Vol2.Ch12Sec4Lemma7
+public import CFSG.Sporadic.Schreier.M23
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.FiniteFieldPrimeOrderFixedSubfield
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.OrderThreeNormalizer
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PGammaL2PSLRangeCentralizer
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseKleinInvolutionCount
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseKleinRestrictionSixCount
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseKleinUDecomposition
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseEquationEleven
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseEquationTen
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseEquationTenStructuralIdentities
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCasePSL2FieldProjectionArithmetic
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCasePSL2OrderPSubgroupCount
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Suzuki.OddGraphReconstruction
+public import CFSG.Timmesfeld.Final.Orders
+public import CFSG.Walter.J1
+public import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.LowRank
+
+public section
+
+namespace CFSG.Quasithin.H13
+
+theorem AS_I_3_1_one_two_holds : AS_I_3_1_one_two := by
+  intro G _ _ H P L _ hPH hP hL hLO
+  exact CFSG.Quasithin.VolI.I31.as_I_3_1_one_two hPH hP hL hLO
+
+end CFSG.Quasithin.H13

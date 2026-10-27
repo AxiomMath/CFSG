@@ -1,0 +1,19 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5SStdCatSuzAsm
+public import CFSG.LocalAnalysis.SeitzReduction.GLS3OddHolds
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofEvenOuter
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofLieOrder
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofMonster
+
+public section
+
+namespace CFSG.ComponentClassification.GrSLit.L34Sec5S
+
+theorem suzONanNotProperFixedCatalog_holds :
+    SuzONanNotProperFixedCatalog :=
+  suzONanNotProperFixedCatalog_of_inputs SeitzReduction.gls3OddLieAutComponentsInput
+    CatLeafProof.lieOrderFormulasInput CatLeafProof.evenLieOuterTwoComponentsInput_holds
+    CatLeafProof.monsterInnerInput CatLeafProof.monsterLocalComponentsInput
+
+end CFSG.ComponentClassification.GrSLit.L34Sec5S

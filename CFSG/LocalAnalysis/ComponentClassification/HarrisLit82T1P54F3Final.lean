@@ -1,0 +1,39 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLit82T1P54F3SU
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLit82T1P54F3E7Main
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLit82T1P54DB3Main
+public import CFSG.CGT.Timmesfeld75.L2Pair
+public import CFSG.CGT.Timmesfeld75.ListWCBasic
+public import CFSG.ClassicalGroups
+public import CFSG.LocalAnalysis.ComponentClassification.BurgoyneSpField
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofComponentLift
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddCentralFixed
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerLift
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddOrthLowB
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBHigherLinearFieldDeterminant
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixStructure
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorOddE6
+public import CFSG.LocalAnalysis.ComponentClassification.OddSelectorInner
+public import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalCTILinearSocle
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogG2EvenCanonicalField
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSLAllInvolutions
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSUFieldOddCore
+public import CFSG.LocalAnalysis.ComponentInitial.ProjectiveEigenspaceComponent
+public import CFSG.LocalAnalysis.ComponentInitial.ProjectiveOrthogonalLocalComponentSplit
+public import CFSG.RankThree.CentralLiftSO.SplitTorusWeyl
+public import CFSG.RankThree.PartOne.KC.OrthogonalFieldDescentCore
+public import CFSG.RankThree.PartOne.KC.OrthogonalFieldDescentDisplayed
+public import CFSG.RankThree.PartOne.KC.OrthogonalFieldDescentTags
+public import CFSG.RankThree.SteinbergR3EOrthogonalCoprimeCyclic
+
+public section
+
+namespace CFSG.ComponentClassification.HarrisLit.T1.P54.F3
+
+theorem harris82Lemma54Three_of_griessNative (hG : GriessNativeTable) : Harris82Lemma54Three :=
+  harris82Lemma54Three_of_hatFor3
+      (hatFor3_of_rows (rowOddThree hG) rowBThree (rowSpThree hG) rowSLThree (rowSUThree hG)
+          (rowD3_of_parts rowDAThree rowDBThree) rowE7Three)
+
+end CFSG.ComponentClassification.HarrisLit.T1.P54.F3

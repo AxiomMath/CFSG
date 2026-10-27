@@ -1,0 +1,36 @@
+module
+
+public import Certificates.Data.CFSGNative.Co1.S365Coset
+public import CFSG.Sporadic.Co1.Module.InvDataInputs
+
+@[expose] public section
+
+namespace CFSG.Sporadic.Co1.Module.Pairs
+
+open CFSG.Blueprint MulAction CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
+  CFSG.Sporadic.Co1.InvNative CFSG.Sporadic.Co1.S365Native
+
+@[expose] def cosetWords : List String := [
+  "BBABABBABBABABABABBABBABABABBABABABABBABBABBABBABABBABBABABABBABABABABABBABABBAB" ++
+    "ABABABABABABBABBABABBABBABABABBABBABBABBABBABBABABABABABBABABABBABABBABBABABABAB" ++
+    "ABBABABABABABABABABABBABBABABABBABBABBABBABABABBABB",
+  "ABABABABABABBABBABBABBABABBABBABABBABABBABBABABABBABABBABBABBABBABABBABBABABBABA" ++
+    "BBABBABABABABBABBABABABBABBABBABBABABBABABBABABBABABBABABBABBABABABBABBABABABBAB" ++
+    "BABBABABABBABABBABABABBABABABABABBABABBABBABABABBABABBABABABBABABABABABBABBABBAB" ++
+    "BABBA",
+  "BABBABABBABABABABABABBABABABABBABBABABABBABABBABBABBABABABABBABABABBABBABABABBAB" ++
+    "ABBABBABABABABABABABBABBABABABBABABABABABBABABBABABABABABABABBABBABBABABABABABBA" ++
+    "BABBABBABABABBABABBABABBABABABBABABABABBABABABBABABABBABBABABBABBABABABBABABBABB" ++
+    "ABBABAB"]
+
+@[expose] def cosetRowsT : Array (Array ℕ) :=
+  (cosetWords.map fun s => transposeRows 24 (wordRows (invWord s))).toArray
+
+@[expose] def cosetBase : ℕ := 40
+
+@[expose] def treeCheckK (Mts : Array (Array ℕ)) (x y : ℕ) (L par lab : Array ℕ) : Bool :=
+  decide (0 < L.size) && (List.range L.size).all fun k =>
+    k == 0 || (decide (par[k]! < k) && decide (lab[k]! < Mts.size) &&
+      L[k]! == canon4 x y (vecMulN 24 Mts[lab[k]!]! L[par[k]!]!))
+
+end CFSG.Sporadic.Co1.Module.Pairs

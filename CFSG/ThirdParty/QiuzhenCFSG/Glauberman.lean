@@ -1,0 +1,70 @@
+module  -- shake: keep-all --deprecated_module: ignore
+
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.BaerGstarNotPGroup
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.CentralizerInfPCorePreimageIsPGroup
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.CentralizerInfQuotientCentralizerIsPGroup
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Definitions
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonBorelMatrices
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonCase823
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonClassification
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonCoprimeOrders
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonCounting
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonExceptionalF9
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonExceptionalF9SL3
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonNonsplitTorus
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonPSL2Partition
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonSmallAlternating
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonSplitTorus
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonSplitTorusMatrices
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonSylow
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonSylowNormalizer
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonTorusNormalizer
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonTraceField
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonTwoTransvections
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonTwoTransvectionsClassification
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.DicksonUnipotent
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.InvolvedQuotient
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma3_4
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma5_2
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma5_3
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma63MinimalBadEquiv
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma63Step6Aligned
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma63Step8
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma6_1
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma6_2
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma6_3
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma6_3Step7
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma6_3Steps1To5
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma7_1
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma7_2
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.MinimalNormalPCoreCentralizer
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.MinimalNormalPSubgroupFaithfulIrreducibleAction
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.MinimalNormalPSubgroupGLAction
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.MinimalNormalPSubgroupIsElementaryAbelian
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.PGroupQuotientOfPPrimeElements
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.PStableIso
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.QdMulEquivOfComplement
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.QdNotInvolvedOfAbelianSylowTwo
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.QdSLPCore
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.QuotientConjugationSquareZero
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.StepIVConjugateSylowCentralizer
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem3_1
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem3_2
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem4_1
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem4_2
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem4_3
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem5_1
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem5_2
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Theorem7_1
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.TheoremA
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.TheoremB
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.TheoremC
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.TheoremDOfThompsonData
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.TheoremDTwoPrimeQdExclusion
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.ThompsonMethodMinimalCounterexample
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.ZJTheorem
+public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.pStability
+
+namespace CFSG
+end CFSG
+open CFSG

@@ -1,0 +1,6 @@
+mul4 c_v85 v74 v74 = v85
+mul4 c_v86 v85 v73 = v86
+mul4 c_v87 v86 v74 = v87
+mul4 c_v88 v87 v73 = v88
+mul4 c_v89 v88 v74 = v89
+mul4 c_v90 v73 v73 = v90

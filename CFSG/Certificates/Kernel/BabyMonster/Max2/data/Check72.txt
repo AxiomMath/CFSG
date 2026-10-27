@@ -1,0 +1,3 @@
+mul cS_sq1 S S = S_sq1
+mul cS_sq2 S_sq1 S_sq1 = S_sq2
+mul cKp0 S_sq1 S_sq2 = Kp0

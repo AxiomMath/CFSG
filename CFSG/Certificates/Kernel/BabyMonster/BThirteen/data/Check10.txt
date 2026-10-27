@@ -1,0 +1,6 @@
+mul4 c_v61 v58 v41 = v61
+mul4 c_v62 v60 v61 = v62
+mul4 c_v63 v62 v62 = v63
+mul4 c_v64 v63 v63 = v64
+mul4 c_v65 v64 v63 = v65
+mul4 c_v66 v65 v62 = v66

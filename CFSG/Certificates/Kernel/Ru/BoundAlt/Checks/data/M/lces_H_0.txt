@@ -1,0 +1,5 @@
+T sH0 (CFSG.KC.LceS.wordsOK selWT selRT selST INV INV8 #100 HS)
+T sH1 (CFSG.KC.LceS.invOK INV INV8 #4)
+T sH2 (CFSG.KC.LceS.aliveOK LVs #1 #6db nLive)
+T sH3 (Nat.beq nC #6db)
+T sH6 (CFSG.KC.LabF.hintsLt selWT #100 #a HS)

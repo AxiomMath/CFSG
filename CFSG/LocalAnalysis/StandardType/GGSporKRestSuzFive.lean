@@ -1,0 +1,27 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGSporKRestClosure
+public import Certificates.Certificate1023203
+public import CFSG.Sporadic.Bridge.SuzSurj
+public import CFSG.Sporadic.Presentation.Common
+public import CFSG.Sporadic.Th.F2Spec
+
+public section
+
+namespace CFSG.StandardType.SporadicShape
+
+open CFSG.Sporadic.Suz
+
+theorem sporKRest_cover_Suz_5_carrier :
+    SporKRestCover 5 Blueprint.NativeSporadic.Suz :=
+  @SporKRestCover.of_mulEquiv ↥J Blueprint.NativeSporadic.Suz inferInstance inferInstance
+    CFSG.Sporadic.Suz.suzEquivJ.symm 5 Certificates.certificate1023203
+
+theorem sporKRest_cover_Suz_5 :
+    SporKRestCover 5 (TauCeti.CFSGIndex.sporadic .Suz).Group := by
+  obtain ⟨e⟩ := CFSG.Sporadic.Bridge.Suz.nonempty_mulEquiv
+  exact @SporKRestCover.of_mulEquiv Blueprint.NativeSporadic.Suz
+    (TauCeti.CFSGIndex.sporadic .Suz).Group inferInstance inferInstance e 5
+    sporKRest_cover_Suz_5_carrier
+
+end CFSG.StandardType.SporadicShape

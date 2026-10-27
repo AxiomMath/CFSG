@@ -1,0 +1,1323 @@
+module
+
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.GF2RepsSevenSevenHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.GF2RepsElevenEight
+import Certificates.Certificate2233
+import Certificates.Certificate2234
+import Certificates.Certificate2235
+import Certificates.Certificate3139
+import Certificates.Certificate10019
+import Certificates.Certificate260410
+import Certificates.Certificate260411
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.GF2RepsElevenEightRank
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.J2InvertsGenHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCOneFourTen.Assembly
+public import CFSG.RankThree.GF2n.Parrott.GF2nTypeOfNoSqE1
+public import CFSG.OddTranspositions.PartFour.Fourteen.IOneOpen
+public import CFSG.OddTranspositions.Frontier
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.R82Setup
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.CaseOneONanFinal
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.CaseOneL62Holds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.Case812Setup
+import CFSG.LocalAnalysis.UniquenessCase.OpenThree.R82Exits
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.FifteenThirteenHolds
+public import Certificates.Certificate17264
+public import Certificates.Certificate9516
+public import Certificates.Certificate41721
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81RankOneCentIrred
+import CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.GroupTits
+import CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.GroupMcL
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOneSevenNarrowHolds
+public import Certificates.Certificate725009
+public import Certificates.Certificate7252
+public import Certificates.Certificate660104
+public import Certificates.Certificate660105
+public import Certificates.Certificate660106
+public import Certificates.Certificate660109
+public import Certificates.Certificate1037115
+import CFSG.LocalAnalysis.WeakClosure81.W115Twelve
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102KTypesHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.OddAutSylowHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.TwistedF4IrredBoundHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.TrialityD4IrredBoundHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Lem11_9HS
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowAutRank
+import CFSG.Quasithin.Background.Harris.IrreducibleModulesAndBounds.Case1M22Rank
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps128Main
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.GF2RepsFourSixteenHolds
+import CFSG.LocalAnalysis.WeakClosure81.GF2RepsAsch54Holds
+import CFSG.LocalAnalysis.WeakClosure81.GF2RepsAsch5AboveFive
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.TenSix.ResidualQ
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.R847NarrowSetup
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.R920L2Main
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.R920L2RestHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.TorusQSCases
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.TorusQSSp4
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Sp4TorusRed.Holds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.TorusQSL2U3
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourTenDefs
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenNineProof
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.SevenFour.Holds
+public import Certificates.Certificate188001
+public import Certificates.Certificate188002
+public import Certificates.Certificate419001
+import CFSG.LocalAnalysis.UniquenessCase.UC6S898i
+import CFSG.LocalAnalysis.UniquenessCase.UC22R898Print
+import CFSG.LocalAnalysis.UniquenessCase.UCKP1
+import CFSG.LocalAnalysis.UniquenessCase.UCKP3
+import CFSG.LocalAnalysis.UniquenessCase.UCKP898D
+import CFSG.LocalAnalysis.UniquenessCase.UCKP898G
+import CFSG.LocalAnalysis.UniquenessCase.UCKPCenter
+import CFSG.LocalAnalysis.UniquenessCase.UCKPFI3
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourTenBasic
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourTenLarge
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourTenPrime
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourTenSmall
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFourteenSix
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCFourteenSix
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U3EvenCentPerfect
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFourteenSixNBar
+import CFSG.LocalAnalysis.UniquenessCase.UC1K32
+import CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.P622KDEvenHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFourteenSixNBarProof
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFourteenSixNHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.ComposeRows
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Thirteen6a
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.McClurgTitsHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.OddOutCentral
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.WeakClosureOrbitE3
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.WeakClosureNineBModel
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.WeakClosureNine14NHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.A6AutOrder8Holds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.SeventeenFiveA6Orbit
+import CFSG.LocalAnalysis.WeakClosure81.GF2RepsAsch5ASFinal
+import CFSG.LocalAnalysis.WeakClosure81.GF2RepsAsch512Main
+import CFSG.LocalAnalysis.WeakClosure81.RankThreePrimePowerBounds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.WeakClosureNineBOfModels
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.WeakClosureNineBMHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.SporadicThreePermutingRankThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SigmaRankThree13
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.PartOneSixNine
+public import CFSG.LocalAnalysis.UniquenessCase.UC6K36EqlStarCat
+public import CFSG.LocalAnalysis.UniquenessCase.UC6K36SporGe4
+public import CFSG.LocalAnalysis.UniquenessCase.UC6K36ODCCent
+public import CFSG.LocalAnalysis.UniquenessCase.UC6K316Out
+public import CFSG.LieType.SeitzGeneration.SeitzStatus
+public import CFSG.LocalAnalysis.UniquenessCase.UC6K36SporPairs
+public import CFSG.LocalAnalysis.UniquenessCase.UC22S21r899E3
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.AssemblyRG
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.BorelOvergroupHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.NineteenTwentyOddAutHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SlotsSectionsEighteenNineteen
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.TwelveSevenBAS
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.PartOneThree
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.PartOneThreeSix
+public import CFSG.LocalAnalysis.UniquenessCase.UC6S846h
+public import CFSG.LocalAnalysis.UniquenessCase.UC22DataExt
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.PartOneSixThirtyEight
+public import CFSG.LocalAnalysis.UniquenessCase.UC7R71Three
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.R72.RankThree
+public import CFSG.RankThree.GF2n.AssemblyFour
+public import CFSG.LocalAnalysis.UniquenessCase.UC6R640Cert
+public import CFSG.LocalAnalysis.UniquenessCase.UC6K332THolds
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFacts.CentralOmega.Main
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.CatalogModels
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.OddDefs
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.OddAction
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.SeventeenThirtyOneMcClurg
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_1.Defs
+public import CFSG.CGT.PushingUpLit.TwoKHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R8107Three
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.L2SmallHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.JRgenHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Glue4TorusHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W7NineOneFourHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W7NineFourHolds
+public import CFSG.RankThree.PartTwo.Sec19.F194Wide3
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.AutOmegaHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.L2OddAbelianBorelHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W10FourNine
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.TorusCentHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Chev2StarHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.TorusAutomizerHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NoL2SzSectionHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFact1916Census
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate117
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Census1916.Linear
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Census1916.Unitary
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Census1916.SpOmega
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Census1916.Dispatch
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.K1911Holds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.RankOneHolds
+public import CFSG.LocalAnalysis.UniquenessCase.F10K105OfSporRest
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFacts1918OmegaShape
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.BNGenerationHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFact1920ForceShape
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.ForceLieHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenOneSuppliers
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFactsNineteenLeviHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.BorelRankTwo
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.J1
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.Reduction
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCTenSeven.OddReeOuter
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm13_10.Assembly
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_1.Three
+import CFSG.LocalAnalysis.UniquenessCase.UCFront10K101
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenOneNineAssembly
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.SeventeenThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.ElevenFourteen
+import CFSG.LocalAnalysis.WeakClosure81.FourteenEightTorus
+import CFSG.LocalAnalysis.WeakClosure81.FourteenEightTwo
+import CFSG.LocalAnalysis.WeakClosure81.GF2RepsAsch5ASTwelve
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.GF2RepsB
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.SU3Modules
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34InvolutionGen
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34OuterInvolution
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34InvolutionGenReduction
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34InvolutionGenCheck
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34OuterInvHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenThreeHigh
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenFourInner
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenFourInnerTwo
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.TwelveFourteenSetup
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.TwelveNineteen
+import CFSG.LocalAnalysis.UniquenessCase.UC22P22qx
+import CFSG.LocalAnalysis.UniquenessCase.UC611f
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.ElevenNineMain
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R77EqThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.HeOuterParabolicsHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.ONanLatticeLat
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.ONanLatticePar
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenSixteenLHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCFourteenSevenThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.SeventeenFortyFiveNeFour
+public import Certificates.Certificate17282
+public import Certificates.Certificate2129
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FunHypOmega
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FunHypOmegaHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.UCOneFourTen
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourteenEight
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourteenEightNarrow
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R77E2Three
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs12c4Holds.Reduction
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.FFGlaubermanNiles
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.OddLieFunCommute
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W3SixEighteenHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFacts1919Torus
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section19.NineteenNineteenHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.R8108Three
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102KFacts
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102AltTenHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102U4OddRankHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102U45OutHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102Syl3Holds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102SylOddHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102TorusFixHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102U45AltFiveHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102U45KeyHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight102R8103Three
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.L33GraphOuterW
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporRestE
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporRestEHolds
+public import Certificates.Certificate10502
+public import Certificates.Certificate10503
+public import Certificates.Certificate27980
+public import Certificates.Certificate10504
+public import Certificates.Certificate10505
+public import Certificates.Certificate1264303
+public import Certificates.Certificate6097
+public import Certificates.Certificate6098
+public import Certificates.Certificate6099
+public import Certificates.Certificate15059
+public import Certificates.Certificate15096
+public import Certificates.Certificate75337
+public import Certificates.Certificate75338
+public import Certificates.Certificate75339
+public import Certificates.Certificate75340
+public import Certificates.Certificate75341
+public import Certificates.Certificate75342
+public import Certificates.Certificate75343
+public import Certificates.Certificate75346
+public import Certificates.Certificate120801
+public import Certificates.Certificate120802
+public import Certificates.Certificate120803
+public import Certificates.Certificate120804
+public import Certificates.Certificate1208101
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.L33GraphOuterHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.SeventeenEightGraphOuterThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourTenNineHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourElevenLargeProof
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourElevenThreeProof
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourElevenFiveProof
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.ThreeSixHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowJ2A
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowJ2M
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowHeM
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowHS
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowONA
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4RowONM
+public import Certificates.Certificate14961
+public import Certificates.Certificate291400
+public import Certificates.Certificate725004
+public import Certificates.Certificate725005
+public import Certificates.Certificate725006
+public import Certificates.Certificate725007
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_2.Statement
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.TenFive.ResidualQ
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.TenFive.Invol.ExcTwD4
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_3.Statement
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_5.SmallOpen
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.GF2Reps417TrialityD4
+import CFSG.LocalAnalysis.WeakClosure81.FourFiveLayer.Holds
+import CFSG.LocalAnalysis.UniquenessCase.UC22S2114R4Holds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_1.InvolGenHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_1.GL42SevenHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_1.PairRankHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_1.MultSpaceHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.SU3TorusIrredHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_2.Assembly
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_3.Assembly
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_2.CentHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_3.ExtHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_2.SmallHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_5.SmallHolds
+import CFSG.LocalAnalysis.UniquenessCase.UC1K462Proved
+import CFSG.CGT.PushingUpLit.CGT6.EmbK
+import CFSG.HardMathSupport.Foote.Coordinator.Downstream
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_3.ExcHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Thm14_3.FixTHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Lem14_6.Defs
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Lem14_6.Reduction
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Lem14_6.L28SmallM
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Lem14_6.SzMinM
+import Certificates.Certificate43
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.LeviInvHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.R920Slices
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.R920OddSetupThree
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.R920J1Main
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.KInputsSolvableOf
+import CFSG.LocalAnalysis.UniquenessCase.UC6K35Holds
+import CFSG.LocalAnalysis.UniquenessCase.UCK461Holds
+import CFSG.CGT.PushingUpLit.CGT6.EmbEndSporThree
+import CFSG.HardMathSupport.Foote.FamilyReduction.ClassicalFive
+import CFSG.LocalAnalysis.UniquenessCase.UC1ZassMain
+import CFSG.LocalAnalysis.AGLEmbeddingD2.Wilson.Coordinator.J4Eleven
+import CFSG.LocalAnalysis.UniquenessCase.UC6K332Lists
+import CFSG.LocalAnalysis.UniquenessCase.UC6K332K33
+import CFSG.LocalAnalysis.UniquenessCase.UC6K332RowsHolds
+import CFSG.LocalAnalysis.UniquenessCase.UC1K462Holds
+public import Certificates.Certificate8058
+public import Certificates.Certificate8059
+public import Certificates.Certificate9504
+public import Certificates.Certificate12610
+public import Certificates.Certificate12612
+public import Certificates.Certificate12613
+public import Certificates.Certificate12614
+public import Certificates.Certificate12623
+public import Certificates.Certificate12635
+public import Certificates.Certificate12636
+public import Certificates.Certificate12641
+public import Certificates.Certificate428001
+public import Certificates.Certificate428004
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOne
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight106KComp
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight105Holds
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight105KTorusHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight105KU3IdentHolds
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight105KU3Mult
+public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight105KU3Facts
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15KFactsGroup
+public import CFSG.LocalAnalysis.WeakClosure81.OddTranspCoreCases
+public import CFSG.Milestones.CL_LIT_Fischer_three_transposition_theorem
+import CFSG.LocalAnalysis.WeakClosure81.SevenElevenSmallCls
+import CFSG.LocalAnalysis.WeakClosure81.OddTranspCoreThreeTransp
+import CFSG.LocalAnalysis.WeakClosure81.OddTranspCoreSimpleHolds
+import CFSG.LocalAnalysis.WeakClosure81.OddTranspCoreRadicalHolds
+import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporBK
+import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporBThompson
+import CFSG.Monster.B.TwoA.Sp8.TwoRankCbar
+import CFSG.Monster.B.TwoA.Sp8.T8Witness
+public import CFSG.LocalAnalysis.WeakClosure81.OddTranspListTriHolds
+public import CFSG.LocalAnalysis.WeakClosure81.TrialityMarkedHolds
+public import CFSG.LocalAnalysis.WeakClosure81.TrialityCentralHolds
+public import CFSG.LocalAnalysis.WeakClosure81.Asc80BMain
+public import CFSG.LocalAnalysis.WeakClosure81.OddTranspCompFactorHolds
+public import CFSG.LocalAnalysis.WeakClosure81.NineThreeT79Main
+public import CFSG.LocalAnalysis.WeakClosure81.W16LCited
+public import CFSG.LocalAnalysis.WeakClosure81.W183Remaining
+public import CFSG.LocalAnalysis.WeakClosure81.W16POne
+public import CFSG.LocalAnalysis.WeakClosure81.W16Holds
+public import CFSG.LocalAnalysis.WeakClosure81.W16Discharge
+public import CFSG.LocalAnalysis.WeakClosure81.EightFiveGapsDischarged
+public import CFSG.LocalAnalysis.WeakClosure81.EightTailAssembly
+public import CFSG.LocalAnalysis.WeakClosure81.EightFiveTwoSplit
+public import CFSG.LocalAnalysis.WeakClosure81.EightEightPFinalAS
+public import CFSG.LocalAnalysis.WeakClosure81.EightFiveRootRankL2Holds
+public import CFSG.LocalAnalysis.WeakClosure81.EightFiveGapSixHolds
+public import CFSG.LocalAnalysis.WeakClosure81.EightThirteenPGapFinal
+public import CFSG.LocalAnalysis.WeakClosure81.TimTI.Main
+public import CFSG.LocalAnalysis.WeakClosure81.SpUCitedHolds
+public import CFSG.LocalAnalysis.WeakClosure81.EightThirteenPCited
+public import CFSG.LocalAnalysis.WeakClosure81.TwelveSchur
+public import CFSG.LocalAnalysis.WeakClosure81.W15ElevenDich
+public import CFSG.LocalAnalysis.WeakClosure81.W15ElevenS4B
+public import CFSG.LocalAnalysis.WeakClosure81.W15ElevenBar
+public import CFSG.LocalAnalysis.WeakClosure81.SevenKUnitaryHolds
+public import CFSG.LocalAnalysis.WeakClosure81.SevenNineOrthHolds
+public import CFSG.LocalAnalysis.WeakClosure81.A6Case.Main
+public import CFSG.LocalAnalysis.WeakClosure81.SevenElevenBig
+public import CFSG.LocalAnalysis.WeakClosure81.EightThirteenPHinge
+public import CFSG.LocalAnalysis.WeakClosure81.EightNineteenP
+public import CFSG.LocalAnalysis.WeakClosure81.EightTwentyP
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs12
+public import CFSG.LocalAnalysis.WeakClosure81.EightEight
+import CFSG.RepresentationTheory.SL2NatSum.NatSumInput
+import CFSG.RepresentationTheory.SzMartineau.MartineauInput
+public import CFSG.LocalAnalysis.WeakClosure81.SzExcl.Main
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporRestE
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporFi23Frame
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporMJ
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporONan
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporCo1
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporFi24
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporHN
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporLy
+public import CFSG.LocalAnalysis.UniquenessCase.UCFront10SporTh
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.Eight91
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R856Three
+public import Certificates.Certificate2005
+public import Certificates.Certificate8124
+public import Certificates.Certificate8171
+public import Certificates.Certificate10506
+public import Certificates.Certificate10507
+public import Certificates.Certificate10508
+public import Certificates.Certificate10509
+public import Certificates.Certificate10510
+public import Certificates.Certificate10511
+public import Certificates.Certificate13620
+public import Certificates.Certificate13621
+public import Certificates.Certificate17335
+public import Certificates.Certificate17336
+public import Certificates.Certificate17337
+public import Certificates.Certificate17338
+public import Certificates.Certificate17339
+public import Certificates.Certificate22200
+public import Certificates.Certificate23204
+public import Certificates.Certificate24530
+public import Certificates.Certificate24531
+public import Certificates.Certificate24550
+public import Certificates.Certificate25230
+public import Certificates.Certificate25231
+public import Certificates.Certificate25260
+public import Certificates.Certificate25261
+public import Certificates.Certificate25262
+public import Certificates.Certificate25290
+public import Certificates.Certificate25300
+public import Certificates.Certificate26777
+public import Certificates.Certificate36908
+public import Certificates.Certificate131101
+public import Certificates.Certificate704101
+public import Certificates.Certificate812105
+public import Certificates.Certificate812201
+public import Certificates.Certificate1089008
+public import Certificates.Certificate1164101
+public import Certificates.Certificate1383001
+public import Certificates.Certificate1383002
+public import Certificates.Certificate1383003
+public import Certificates.Certificate1383004
+public import Certificates.Certificate1383005
+public import Certificates.Certificate1383006
+public import Certificates.Certificate1383007
+public import Certificates.Certificate1383008
+public import Certificates.Certificate1383009
+public import Certificates.Certificate1383010
+public import Certificates.Certificate1383011
+public import Certificates.Certificate1383012
+public import Certificates.Certificate1430001
+public import Certificates.Certificate1449001
+public import Certificates.Certificate15082
+public import Certificates.Certificate812461
+public import Certificates.Certificate812462
+public import Certificates.Certificate812463
+public import Certificates.Certificate1322003
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R880SpineThree
+public import CFSG.CGT.Foote82.T66.CitedMC2
+public import CFSG.ClassicalInvolution.Sp62Rec.I1.WIsoHhat
+public import CFSG.GH74.E2.OuterCore
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk413Ratio
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk73G4U3Out
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93Cfg2
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93Field
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93PGU
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93WPGU
+public import CFSG.GH74.GLS.IVK.Proofs2.Lemma41dL3Mat
+public import CFSG.GH74.GLS.Stage2.Signalizer.Odd87GrpE4Defs
+public import CFSG.GH74.GLS.Stage2.Signalizer.Odd87P47FldSec
+public import CFSG.GH74.Generic.S3.LyDiagA
+public import CFSG.GH74.Generic.S3.LyPump
+public import CFSG.GroupTheory.Fitting.LayerContainment
+public import CFSG.GroupTheory.GL52.OrderThreeTwo
+public import CFSG.HardMathSupport.Curtis.Coordinator.SeitzOuter.RankCube
+public import CFSG.HardMathSupport.Foote.Proving.ModelFinite
+public import CFSG.HardMathSupport.Meierfrankenfeld.Coordinator.D1EightTen
+public import CFSG.LinearAlgebra.CoprimeActions.BinarySmallAutomorphismOddRank
+public import CFSG.LinearAlgebra.UnipotentRadicalComm
+public import CFSG.LocalAnalysis.AGLEmbedding.BlockToralCensusDispatchIb
+public import CFSG.LocalAnalysis.AGLEmbedding.OneLieZZCompCloseDefs
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.GN.C126GenCore
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.GN.C126GenModule
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.MilestoneFrontier
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.E23.Setup
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.AGL81I811Reduction
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.L44CoverTrivial
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmBCatalog5CovSpor
+public import CFSG.LocalAnalysis.ComponentInitial.ChevSp6TwoFactorModel
+public import CFSG.LocalAnalysis.EvenBN.Tits.I21LUna
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Wong77.GolayEven
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Wong77.ModFacts
+public import CFSG.LocalAnalysis.GLTheoremA.CatA.YS1011LabUniq
+public import CFSG.LocalAnalysis.GLTheoremA.CatC.KD264Alt
+public import CFSG.LocalAnalysis.OddStandard.HigherRank.G2Three.G23Facts
+public import CFSG.LocalAnalysis.OddStandard.HigherRank.YamadaG23.Lit2.L2Defs
+public import CFSG.LocalAnalysis.OddStandard.HigherRank.YamadaG23.Lit2.L2Tables
+public import CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.P64FreeLift
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.BlockFieldIndexFiveAbstract
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.BlockFieldIndexFiveInner
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15LiftCore
+public import CFSG.LocalAnalysis.RankThreeUC.GN15FFOLink
+public import CFSG.LocalAnalysis.RankThreeUC.GN15FFOLinkPSL
+public import CFSG.LocalAnalysis.RankThreeUC.GN15JOutOdd
+public import CFSG.LocalAnalysis.RankThreeUC.ProofSupport.NormalTwoCentralInvolutionContainment.NormalTwoCentralInvolutionContainment
+public import CFSG.LocalAnalysis.RankThreeUC.ProofSupport.OddKernelSylowNormal
+public import CFSG.LocalAnalysis.RankThreeUC.Section6.Context
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14BlInputs
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14BlMain
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14LagMain
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14OmegaOuterMinus
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14OmegaOuterRows
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.FifteenThreeC2
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34AutE8Holds
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.WeakClosureNineBRedDefs
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.SeventeenEighteenP
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section23.KCentL2
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section23.StatementsNineK
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section23.StatementsNineKNotLarge
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section23.StatementsTwoThree
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC56ClDefs
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenH154E3R920KFact
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenSeven3Close16CoverR119
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenSpLift
+public import CFSG.LocalAnalysis.UniquenessCase.UC1K327Core
+public import CFSG.LocalAnalysis.UniquenessCase.UC22R847E3L34
+public import CFSG.LocalAnalysis.UniquenessCase.UC22S2114Defs
+public import CFSG.LocalAnalysis.UniquenessCase.UC22S2114R4Defs
+public import CFSG.LocalAnalysis.UniquenessCase.UC22S217U3B
+public import CFSG.LocalAnalysis.UniquenessCase.UC22S218X
+public import CFSG.LocalAnalysis.WeakClosure81.EightSixBorelBasic
+public import CFSG.LocalAnalysis.WeakClosure81.EightSixBorelRoot
+public import CFSG.LocalAnalysis.WeakClosure81.GF2Reps128Move
+public import CFSG.LocalAnalysis.WeakClosure81.PGLTwoPrimePrintedRelativeGeneration
+public import CFSG.LocalAnalysis.WeakClosure81.SevenSixteenKFacts
+public import CFSG.LocalAnalysis.WeakClosure81.TransvectionCenterSubgroup
+public import CFSG.LocalAnalysis.WeakClosure81.W16PFiveI
+public import CFSG.LocalAnalysis.WeakClosure81.W183B2Cases
+public import CFSG.LocalAnalysis.WeakClosure81.W183K3Inner
+public import CFSG.Monster.B.TwoA.Sp8.P0RankSound
+public import CFSG.Quasithin.Background.C2PushH129
+public import CFSG.Quasithin.Background.C41PfO
+public import CFSG.Quasithin.Background.C41PfQ
+public import CFSG.Quasithin.Background.E6TwentyThreeD
+public import CFSG.Quasithin.Background.E6TwentyThreeE
+public import CFSG.Quasithin.Background.F918Z8Def3
+public import CFSG.Quasithin.Background.G10FifteenMain
+public import CFSG.Quasithin.Background.G10Sixteen
+public import CFSG.Quasithin.Background.G10SixteenC
+public import CFSG.Quasithin.Background.G118Dim
+public import CFSG.Quasithin.Background.G118E11
+public import CFSG.Quasithin.Background.G118Hyp
+public import CFSG.Quasithin.Background.G118NT
+public import CFSG.Quasithin.Background.G93ApplyStmt
+public import CFSG.Quasithin.Background.GoldschmidtE23J
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtL2BlockSecA
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtL2BlockSecB
+public import CFSG.Quasithin.EmptyFaithful.S151CLG2D4Pkg
+public import CFSG.Quasithin.EmptyFaithful.S151WE
+public import CFSG.Quasithin.EmptyFaithful.S1565C
+public import CFSG.Quasithin.EmptyFaithful.S1565I
+public import CFSG.Quasithin.EmptyFaithful.SzOneV2d
+public import CFSG.Quasithin.H13.A5S1328Blk2
+public import CFSG.Quasithin.H13.A5S1328Blk3
+public import CFSG.Quasithin.H13.A5S1328Vertex
+public import CFSG.Quasithin.H13.A6S13821zz10
+public import CFSG.Quasithin.H13.A6S13821zz3
+public import CFSG.Quasithin.H13.A6S13821zz4
+public import CFSG.Quasithin.H13.A6S13821zz9
+public import CFSG.Quasithin.H13.GoldschmidtCTKFamCore
+public import CFSG.Quasithin.H13.KGFactL2
+public import CFSG.Quasithin.H13.KGFactT3J4Core
+public import CFSG.Quasithin.H13.NQBlockSourceModule
+public import CFSG.Quasithin.H13.NQCatT513A7
+public import CFSG.Quasithin.H13.NQS1345
+public import CFSG.Quasithin.H13.U3S1347F
+public import CFSG.Quasithin.H13.U3S1348T
+public import CFSG.Quasithin.SteinbergBNA7ThreeRankClosure
+public import CFSG.Quasithin.Vol2.Ch10SecKIK4d
+public import CFSG.Quasithin.Vol2.Ch10SecKIK4e
+public import CFSG.Quasithin.Vol2.Ch10SecKIa
+public import CFSG.Quasithin.Vol2.Ch10SecQ34CA
+public import CFSG.Quasithin.Vol2.Ch10SecQ4Obl
+public import CFSG.Quasithin.Vol2.Ch11SecAKM1
+public import CFSG.Quasithin.Vol2.Ch11SecAKM2
+public import CFSG.Quasithin.Vol2.Ch11SecCB51Trans
+public import CFSG.Quasithin.Vol2.Ch12Sec2Lem10
+public import CFSG.Quasithin.Vol2.Ch12Sec7L23a
+public import CFSG.Quasithin.Vol2.Ch12Sec7ModL
+public import CFSG.Quasithin.Vol2.Ch12Sec7ModQ
+public import CFSG.Quasithin.Vol2.Ch6Sec1Lem4E
+public import CFSG.Quasithin.Vol2.Ch6Sec1Lem4R
+public import CFSG.Quasithin.Vol2.GoldschmidtLem1227EqAlt6
+public import CFSG.Quasithin.Vol2.GoldschmidtLem1227EqCases
+public import CFSG.Quasithin.Vol2.GoldschmidtLem1227EqHat
+public import CFSG.Quasithin.Vol2.GoldschmidtLem1227EqOrder
+public import CFSG.Quasithin.Vol2.KGFactLem1211G2
+public import CFSG.RankThree.PartTwo.Sec13.Item13Res5ProofCenter
+public import CFSG.RankThree.PartTwo.Sec15.F153A10KDefs
+public import CFSG.RankThree.PartTwo.Sec19.SimsSolEvenYamakiDefs
+public import CFSG.RankThree.PartTwo.Sec19.SimsSolEvenYamakiHat
+public import CFSG.RankThree.PartTwo.Sec21.FF84S3B
+public import CFSG.RankThree.PartTwo.Sec21.Item21Early3ProofExists
+public import CFSG.RankThree.PartTwo.Sec21.Item221ProofStatements
+public import CFSG.RankThree.PartTwo.Sec4.T444.Item434O8pE9Local
+public import CFSG.SignalizerFunctorTheorem.McBride.Near.Sec2.Thm210SetupGlobal
+public import CFSG.SignalizerFunctorTheorem.McBride.Near.Sec2.Thm210SetupOrbit
+public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.SecondCaseLinearPostEquationFour
+public import Certificates.Certificate17260
+public import Certificates.Certificate17280
+public import Certificates.Certificate17283
+public import Certificates.Certificate40701
+public import Certificates.Certificate40702
+public import Certificates.Certificate745102
+public import Certificates.Certificate745103
+public import Certificates.Certificate9681
+import CFSG.GroupTheory.ZpowersSupExponent
+import CFSG.HardMathSupport.Curtis.Coordinator.TorCenterSL3Mono
+import CFSG.HardMathSupport.Dickson.Sec6.I1431SporAux.Assembly
+import CFSG.LocalAnalysis.AGL81I.Section3.ThreeNineGamma
+import CFSG.LocalAnalysis.AGLEmbedding.BlockInvThreeAltSevenFour
+import CFSG.LocalAnalysis.AGLEmbedding.BlockInvThreeAltSevenLocal
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallFamAltMaxThree
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallGammaAlt
+import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.Harada75E8
+import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.Harada75V
+import CFSG.LocalAnalysis.GLTheoremA.CatA.I264sTD42
+import CFSG.LocalAnalysis.GLTheoremA.CatB.I131T4
+import CFSG.LocalAnalysis.GLTheoremA.CatC.KD264RowData
+import CFSG.LocalAnalysis.GLTheoremB.MovingAround.Proofs.Lemma138b
+import CFSG.LocalAnalysis.RankThreeTheoremC.OuterSylowClassical
+import CFSG.LocalAnalysis.RankThreeTheoremC.RelPair2A7B_Data
+import CFSG.LocalAnalysis.RankThreeTheoremC.RelPair2_Cand
+import CFSG.LocalAnalysis.RankThreeTheoremC.RelPair2_Facts
+import CFSG.LocalAnalysis.SeitzReduction.RankOneSuzukiCoords
+import CFSG.LocalAnalysis.SteinbergCCCharacteristicPExtension
+import CFSG.LocalAnalysis.UniquenessCase.K332MetaMain
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.GammaR108
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.MpX108
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.OrderThreeE9Centralizer108
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.TwoComponentSylowJoin
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs13Stmts4
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.KFacts1918AltSwap
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section18.EighteenFourDeltaCalM
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC1Forty7aCommon
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC1G44Lift
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC1G44Swap
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC7Lift
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenNine
+import CFSG.LocalAnalysis.UniquenessCase.UC22P2251K
+import CFSG.LocalAnalysis.UniquenessCase.UC22P2251i
+import CFSG.LocalAnalysis.UniquenessCase.UC22S21rD
+import CFSG.LocalAnalysis.UniquenessCase.UC6S6
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps135Defs
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps13Found
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps13FoundC
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps13OneBetaCA
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps13Sev
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps13TwoDefs
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps13TwoLem
+import CFSG.LocalAnalysis.WeakClosure81.SixTwelveMain
+import CFSG.LocalAnalysis.WeakClosure81.W115WeakDefs
+import CFSG.Milestones.ASVolI.F429.C8
+import CFSG.Milestones.ASVolI.F429.Gen
+import CFSG.Milestones.ASVolI.F429.One
+import CFSG.Quasithin.Background.E11Scalar
+import CFSG.Quasithin.Background.F1VertexCore
+import CFSG.Quasithin.Background.FLc2Real
+import CFSG.Quasithin.Background.G10Four
+import CFSG.Quasithin.Background.G10Three
+import CFSG.Quasithin.Background.G2A5Seven
+import CFSG.Quasithin.Background.G2L2Seven
+import CFSG.Quasithin.Background.GoldschmidtE23Fam
+import CFSG.Quasithin.Background.RonanE114SevenL35Main
+import CFSG.Quasithin.EmptyFaithful.GoldschmidtNoE9Z4P1Cen
+import CFSG.Quasithin.EmptyFaithful.S143EB
+import CFSG.Quasithin.EmptyFaithful.S143VFin
+import CFSG.Quasithin.EmptyFaithful.S143VG94
+import CFSG.Quasithin.EmptyFaithful.S143VQG
+import CFSG.Quasithin.EmptyFaithful.S143VTwo
+import CFSG.Quasithin.EmptyFaithful.S143VZU
+import CFSG.Quasithin.EmptyFaithful.S143WAL
+import CFSG.Quasithin.EmptyFaithful.S143WCl
+import CFSG.Quasithin.EmptyFaithful.S143WE
+import CFSG.Quasithin.EmptyFaithful.S143WNo
+import CFSG.Quasithin.EmptyFaithful.S143WT
+import CFSG.Quasithin.EmptyFaithful.S153EB6H
+import CFSG.Quasithin.EmptyFaithful.S153EB6J
+import CFSG.Quasithin.H13.GoldschmidtC137SQFrat
+import CFSG.Quasithin.H13.GoldschmidtC137SQSyl7
+import CFSG.Quasithin.Recognition.GoldschmidtF112RAutJ2
+import CFSG.Quasithin.Vol2.Ch10SecD31
+import CFSG.Quasithin.Vol2.Ch10SecDClose
+import CFSG.Quasithin.Vol2.Ch10SecQ3CWrC
+import CFSG.Quasithin.Vol2.Ch10SecQ3CWrD
+import CFSG.Quasithin.Vol2.Ch10SecQ3CWrE
+import CFSG.Quasithin.Vol2.Ch11SecE42S2a
+import CFSG.Quasithin.Vol2.Ch11SecE42Setup
+import CFSG.Quasithin.Vol2.Ch11SecE43
+import CFSG.Quasithin.Vol2.Ch12Sec8NonabInputs
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem14
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem22
+import CFSG.Quasithin.Vol2.KGFactMinParHe
+import CFSG.RankThree.PartTwo.Sec18.SylowWStar
+import CFSG.RankThree.PartTwo.Sec19.Item194Five
+import CFSG.RankThree.PartTwo.Sec19.SimsTheoremCClimb
+import CFSG.RankThree.PartTwo.Sec19.SimsTheoremCFoote
+import CFSG.RankThree.PartTwo.Sec20.Item20Res5ProofNormal
+import Certificates.Kernel.SporSch.Co2M.Chains2049
+import TauCeti.GroupTheory.GroupAction.Orbit.Finset
+
+public section
+
+namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three
+
+open Subgroup CFSG.Open CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.UniquenessCase.UC22
+open CFSG.LocalAnalysis.UniquenessCase.PartTwo
+open CFSG.LocalAnalysis.UniquenessCase.PartTwo.S19
+open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
+open CFSG.LocalAnalysis.UniquenessCase.UC22.F10 (LieAutVocab10)
+
+theorem ascSectionNineteenConditional_of_loc
+    (hC : ∀ (G : Type) [Group G] [Finite G], Standing G → AGL81TheoremC G) :
+    CFSG.Yardstones.Me2c15c2c995a.AscSectionNineteenConditional := by
+  have hGF : CFSG.Yardstones.Me2c15c2c995a.GF2nCatalogClause :=
+    CFSG.Yardstones.Me2c15c2c995a.gf2nCatalogClause_of_gf2nTypeStatement
+      (CFSG.RankThree.GF2n.Parrott.gf2nType_of_noSqE1
+        (CFSG.OddTranspositions.PartFour.oddTranspNoSqE1Dich_of_open
+          CFSG.OddTranspositions.Frontier.starWreathThree
+          CFSG.OddTranspositions.Frontier.starWreathFour
+          CFSG.OddTranspositions.Frontier.starAlmostSimple
+          CFSG.OddTranspositions.Frontier.twelveSpBranch
+          CFSG.OddTranspositions.Frontier.twelveEightU
+          CFSG.OddTranspositions.Frontier.twelveF5Branch
+          CFSG.OddTranspositions.Frontier.theorem11_3))
+  have h82 : ∀ (G : Type) [Group G] [Finite G] (hS : Standing G), CFSG.Open.rankThreeUC G →
+      ∀ S : Setup G, S.InMSigma → F08.R82 (dataOfSetup hS S) := by
+    intro G _ _ hS hUC S hMS
+    exact PartOne.Theorem82E3.r82_dataOfSetup_of_exits hGF
+      PartOne.Theorem82E3.onanExcludedSetup_of_finiteFacts
+      PartOne.Theorem82E3.l62ExcludedSetup_of_certificates
+      (PartOne.Theorem82E3.case812Setup_of_scExcluded PartOne.Theorem82E3.scExcludedSetup_holds)
+      hS hUC (hC G hS) S hMS
+  have h869 : ∀ (G : Type) [Group G] [Finite G] (hS : Standing G), CFSG.Open.rankThreeUC G →
+      ∀ S : Setup G, S.InMSigma → F08.R869 (dataOfSetup hS S) :=
+    fun G _ _ hS hUC S hMS =>
+      PartTwo.Three.r869_dataOfSetup_of_inputs hGF hS hUC (hC G hS) S hMS
+  have h880 : ∀ (G : Type) [Group G] [Finite G] (hS : Standing G), CFSG.Open.rankThreeUC G →
+      ∀ S : Setup G, S.InMSigma → F08.R880 (dataOfSetup hS S) :=
+    fun G _ _ hS hUC S hMS =>
+      PartTwo.Three.r880_dataOfSetup_of_inputs hGF hS hUC (hC G hS) S hMS
+  have hK145 : Inputs1719.Thm14_5.K14_5SmallOpen := Inputs1719.Thm14_5.k14_5SmallOpen_holds
+  have hU45Types : PartOne.Section8.KU45Types := PartOne.Section8.kU45Types_holds
+  have hKOddA : Inputs1719.UCTenSeven.KOddLieAutSylow :=
+    Inputs1719.UCTenSeven.kOddLieAutSylow_holds
+  have hMcF4 : S17.TwistedF4IrredBound := S17.twistedF4IrredBound_holds
+  have hMcD4 : S17.TrialityD4IrredBound := S17.trialityD4IrredBound_holds
+  have h43c : W3Lem45_2Chief :=
+    CFSG.LocalAnalysis.WeakClosure81.FourFiveLayer.w3Lem45_2Chief_holds
+  have h3D4 : Inputs1719.W4Lem4_17TrialityD4N := Inputs1719.w4Lem4_17TrialityD4N_holds
+  have hKA : CFSG.LocalAnalysis.UniquenessCase.UC22.KLieBorelAutPrime :=
+    CFSG.LocalAnalysis.UniquenessCase.UC22.kLieBorelAutPrime_holds
+  have hKI : Inputs1719.KInvolGen := Inputs1719.kInvolGen_holds
+  have hU3 : Inputs1719.K_19_19_su3TorusIrred :=
+    Inputs1719.k_19_19_su3TorusIrred_holds
+  have hK142C : Inputs1719.K14_2Cent := Inputs1719.Thm14_2.k14_2Cent_holds
+  have hK143E : Inputs1719.K14_3Ext := Inputs1719.Thm14_3.k14_3Ext_holds
+  have hK142S : Inputs1719.K14_2Small := Inputs1719.Thm14_2.k14_2Small_holds
+  have hK143X : Inputs1719.K14_3Exc := Inputs1719.Thm14_3.k14_3Exc_holds
+  have hK143F : Inputs1719.K14_3FixT := Inputs1719.Thm14_3.k14_3FixT_holds
+  have hU45Syl3 : PartOne.Section8.KU45Syl3 := PartOne.Section8.kU45Syl3_holds
+  have hU4OddRank : PartOne.Section8.KU4OddRank := PartOne.Section8.kU4OddRank_holds
+  have hU45Out : PartOne.Section8.KU45Out := PartOne.Section8.kU45Out_holds
+  have hAltTen : PartOne.Section8.KAltTen := PartOne.Section8.kAltTen_holds
+  have hU4SylOdd : PartOne.Section8.KU4SylOdd := PartOne.Section8.kU4SylOdd_holds
+  have hU45TorusFix : PartOne.Section8.KU45TorusFix :=
+    PartOne.Section8.kU45TorusFix_holds
+  have hU45AltFive : PartOne.Section8.KU45AltFive := PartOne.Section8.kU45AltFive_holds
+  have hU45Key : PartOne.Section8.KU45Key := PartOne.Section8.kU45Key_holds
+  have h8103 := PartOne.Section8.r8103_dataOfSetup_of_kFacts hC h82 hU4OddRank hU45Syl3
+    hU45Key hU4SylOdd hU45Types hU45Out hU45TorusFix hAltTen hU45AltFive
+  have h8_105 : ∀ (G : Type) [Group G] [Finite G] (hS : Standing G), CFSG.Open.rankThreeUC G →
+      ∀ S : Setup G, S.InMSigma →
+        CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOne.R8_105
+          (dataOfSetup hS S) :=
+    fun G _ _ hS hUC S hMS => PartOne.Section8.R8105.r8_105_holds
+      (UC6S846.sigmaStd_dataOfSetup hS S) (r6_1_dataOfSetup hS S) (h8103 G hS hUC S hMS)
+  have h8106 : ∀ (G : Type) [Group G] [Finite G] (hS : Standing G),
+      CFSG.Open.rankThreeUC G → ∀ S : Setup G, S.InMSigma →
+        CFSG.LocalAnalysis.UniquenessCase.UC22.F08.R8106 (dataOfSetup hS S) :=
+    fun G _ _ hS hUC S hMS => PartOne.Section8.r8106_of_kFacts PartOne.Section8.kU45Lines_holds
+      hU45Syl3 UCK.k462_holds
+      (CFSG.LocalAnalysis.RankThreeUC.S15.kSch_of_catalog
+        CFSG.AGLEmbedding.kFactCatalogSchreier_holds)
+      (PartOne.Section8.kU3Ident_holds CFSG.AGLEmbedding.kFactCatalogSchreier_holds
+        UCK.k32_holds)
+      PartOne.Section8.kU3Mult_holds PartOne.Section8.kU3Facts_holds
+      (UC6S846.sigmaStd_dataOfSetup hS S) (h8103 G hS hUC S hMS) (h8_105 G hS hUC S hMS)
+  have h5_11 : CFSG.LocalAnalysis.WeakClosure81.Asch5_11AS :=
+    CFSG.LocalAnalysis.WeakClosure81.asch5_11AS_of_remaining_inputs
+      CFSG.LocalAnalysis.WeakClosure81.asch5_4_holds
+  have hK105E : CFSG.LocalAnalysis.UniquenessCase.UC22.F10.K105SporRestE :=
+    CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k105SporRestE_holds
+  have hK105R : CFSG.LocalAnalysis.UniquenessCase.UC22.F10.K105SporRest :=
+    CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k105SporRest_of_restB
+      (CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k105SporRestB_of_restE hK105E)
+  have h106w : Inputs1719.W4Lem10_6Q := Inputs1719.w4Lem10_6Q_holds
+  have h105r : Inputs1719.W4Lem10_5ResidualQ :=
+    Inputs1719.TenFive.w4Lem10_5ResidualQ_of_involQ
+      CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement
+      Inputs1719.TenFive.w4Lem10_5InvolQ_holds
+  have h105w : Inputs1719.W4Lem10_5Q := Inputs1719.w4Lem10_5Q_of_residualQ
+    Inputs1719.w4Lem7_4_holds h105r
+  have h5_13 : CFSG.LocalAnalysis.WeakClosure81.Asch5_13AS :=
+    CFSG.LocalAnalysis.WeakClosure81.asch5_13AS_of_inputs
+      CFSG.LocalAnalysis.WeakClosure81.asch5_12_holds
+      CFSG.LocalAnalysis.WeakClosure81.asch4_11ASPow_holds
+  have hCore : CFSG.LocalAnalysis.WeakClosure81.OddTranspositionCoreInputSCCls :=
+    WeakClosure81.oddTranspositionCoreInputSCCls_of_cases
+        (WeakClosure81.oddTranspCoreThreeTranspInput_of_simple
+            WeakClosure81.oddTranspCoreSimpleInput_holds)
+        WeakClosure81.oddTranspCoreRadicalInput_holds
+  have hList : CFSG.LocalAnalysis.WeakClosure81.OddTranspListBundleCls :=
+    ⟨CFSG.LocalAnalysis.WeakClosure81.oddTranspositionListInputClsTri_holds,
+      CFSG.LocalAnalysis.WeakClosure81.trialityMarkedInput_holds,
+      CFSG.LocalAnalysis.WeakClosure81.trialityCentralInput_holds⟩
+  have hB80 : CFSG.LocalAnalysis.WeakClosure81.Asc80ThmB :=
+    CFSG.LocalAnalysis.WeakClosure81.asc80ThmB_holds
+  have h772 : ∀ (K : Type) [Group K] [Finite K],
+      CFSG.LocalAnalysis.WeakClosure81.SevenSevenTwoInput K :=
+    fun K _ _ => CFSG.LocalAnalysis.WeakClosure81.SzExcl.sevenSevenTwoInput_holds K
+  have h93 : ∀ (G : Type) [Group G] [Finite G] (V T : Subgroup G),
+      CFSG.LocalAnalysis.WeakClosure81.Thm93Syl V T :=
+    fun _ _ _ _ _ => CFSG.LocalAnalysis.WeakClosure81.thm93Syl_of_classification hCore hList h772
+  have h162 : ∀ (G : Type) [Group G] [Finite G],
+      W3Thm162Ext G :=
+    fun _ _ _ => CFSG.LocalAnalysis.WeakClosure81.w3Thm162Ext_of_cited hB80 hCore hList
+  have h162g : ∀ (G : Type) [Group G] [Finite G],
+      W3Thm162Gt2 G :=
+    fun _ _ _ => CFSG.LocalAnalysis.WeakClosure81.w3Thm162Gt2_of_cited hB80 hCore hList
+  have h183 : ∀ (G : Type) [Group G] [Finite G],
+      W3Thm183 G :=
+    CFSG.LocalAnalysis.WeakClosure81.w3Thm183_of_remaining_inputs hB80 hCore hList
+      CFSG.LocalAnalysis.WeakClosure81.oddTranspositionCompFactorInput_holds
+  have hRU : CFSG.LocalAnalysis.WeakClosure81.SevenK.UnitaryRootCommutatorRank :=
+    CFSG.LocalAnalysis.WeakClosure81.unitaryRootCommutatorRank_holds
+  have hTI : CFSG.LocalAnalysis.WeakClosure81.TimmesfeldTIRootInput :=
+    CFSG.LocalAnalysis.WeakClosure81.timmesfeldTIRootInput_holds
+  have hLie : CFSG.LocalAnalysis.WeakClosure81.SpPSULieFacts :=
+    CFSG.LocalAnalysis.WeakClosure81.spPSULieFacts_holds
+  have hCS : CFSG.LocalAnalysis.WeakClosure81.CitedShapeFacts :=
+    CFSG.LocalAnalysis.WeakClosure81.citedShapeFacts_holds
+  have hA6 : ∀ (K : Type) [Group K] [Finite K],
+      CFSG.LocalAnalysis.WeakClosure81.SevenElevenASixInput K :=
+    fun K _ _ => CFSG.LocalAnalysis.WeakClosure81.A6Case.sevenElevenASixInput_holds K
+  have h711 : ∀ (G : Type) [Group G] [Finite G] (H : Subgroup G),
+      CFSG.LocalAnalysis.WeakClosure81.W3Lem711Alt ↥H :=
+    fun G _ _ => CFSG.LocalAnalysis.WeakClosure81.w3Lem711Alt_subgroups_of_inputs hTI
+      (CFSG.LocalAnalysis.WeakClosure81.SevenK.twoConjugateGeneration_of_suzukiSubgroupInput
+          LieType.SuzukiSubgroups.suzukiSubgroupInput_holds) hA6 hCore.toInput
+      hList.toInput h772 CFSG.LocalAnalysis.WeakClosure81.orthReflParabolic_holds
+  have h861 : ∀ (G : Type) [Group G] [Finite G], W3Lem86_1 G := by
+    intro G _ _
+    have hP := CFSG.LocalAnalysis.WeakClosure81.w3Lem85ThreeFirst_and_shape_of_producers
+      (G := G) hLie (h711 G) hRU CFSG.LocalAnalysis.WeakClosure81.l2IrreducibleRank_holds
+      CFSG.LocalAnalysis.WeakClosure81.orth6MinusOddTranspFact_holds
+      CFSG.LocalAnalysis.WeakClosure81.spURootConfiguration_holds
+    exact CFSG.LocalAnalysis.WeakClosure81.w3Lem86_1_of_split_inputs (h711 G) hRU
+      (CFSG.LocalAnalysis.WeakClosure81.l2RootCommutatorRank_of_irreducible
+        CFSG.LocalAnalysis.WeakClosure81.l2IrreducibleRank_holds)
+      CFSG.LocalAnalysis.WeakClosure81.orth6MinusOddTranspFact_holds hP.1 hP.2.1
+  have h88 : ∀ (G : Type) [Group G] [Finite G], W3Thm88 G := by
+    intro G _ _ V H T i h
+    have hP := CFSG.LocalAnalysis.WeakClosure81.w3Lem85ThreeFirst_and_shape_of_producers
+      (G := G) hLie
+      (CFSG.LocalAnalysis.WeakClosure81.w3Lem711Alt_subgroups_of_inputs hTI
+        (CFSG.LocalAnalysis.WeakClosure81.SevenK.twoConjugateGeneration_of_suzukiSubgroupInput
+            LieType.SuzukiSubgroups.suzukiSubgroupInput_holds) hA6 hCore.toInput
+        hList.toInput h772 CFSG.LocalAnalysis.WeakClosure81.orthReflParabolic_holds)
+      hRU CFSG.LocalAnalysis.WeakClosure81.l2IrreducibleRank_holds
+      CFSG.LocalAnalysis.WeakClosure81.orth6MinusOddTranspFact_holds
+      CFSG.LocalAnalysis.WeakClosure81.spURootConfiguration_holds
+    exact CFSG.LocalAnalysis.WeakClosure81.w3Thm88_of_split_inputs'_AS
+      CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement hCS
+      CFSG.LocalAnalysis.WeakClosure81.gapShapeFacts_holds hTI
+      (CFSG.LocalAnalysis.WeakClosure81.SevenK.twoConjugateGeneration_of_suzukiSubgroupInput
+          LieType.SuzukiSubgroups.suzukiSubgroupInput_holds) hA6 hCore.toInput
+      hList.toInput h772 CFSG.LocalAnalysis.WeakClosure81.orthReflParabolic_holds hRU
+      (CFSG.LocalAnalysis.WeakClosure81.l2RootCommutatorRank_of_irreducible
+        CFSG.LocalAnalysis.WeakClosure81.l2IrreducibleRank_holds)
+      CFSG.LocalAnalysis.WeakClosure81.orth6MinusOddTranspFact_holds hP.1 hP.2.1 h5_11 h5_13 h
+  have h161 : ∀ (G : Type) [Group G] [Finite G],
+      CFSG.LocalAnalysis.WeakClosure81.W16One G :=
+    fun G _ _ hS => CFSG.LocalAnalysis.WeakClosure81.w16One_of_inputs
+      CFSG.LocalAnalysis.WeakClosure81.timmesfeldTIRootInput_holds
+      (CFSG.LocalAnalysis.WeakClosure81.thm152_of_inputs
+        (CFSG.LocalAnalysis.WeakClosure81.Inputs15Two.of_inputs hB80
+          CFSG.LocalAnalysis.WeakClosure81.schurMultiplierInput
+          (CFSG.LocalAnalysis.WeakClosure81.w3Lem86_1Two_of_cited hCore hList)
+          CFSG.LocalAnalysis.WeakClosure81.w15Eleven3Dich_holds
+          CFSG.LocalAnalysis.WeakClosure81.w15Eleven3S4_holds
+          CFSG.LocalAnalysis.WeakClosure81.w15Eleven4Bar_holds) hS) hS
+  have h914N : ∀ (G : Type) [Group G] [Finite G], W3Lem914N G := w3Lem914N_holds
+  have h915 : ∀ (G : Type) [Group G] [Finite G], W3Lem915 G := w3Lem915_of_modelFacts
+      CFSG.LocalAnalysis.WeakClosure81.NGM.nGModelFacts_holds
+  have hFF : W4Thm12McClurg := w4Thm12McClurg_of
+      CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.ffModuleTheorem_holds
+  have hMcTits : S17.W4McClurgTits := S17.w4McClurgTits_holds
+  have hMc2F4 : S17.W4McClurg2F4 := S17.w4McClurg2F4_of_irredBound hMcF4
+  have hMc3D4 : S17.W4McClurg3D4 := S17.w4McClurg3D4_of_irredBound hMcD4
+  have hFC3 : Inputs1719.K_FunCommuteThree :=
+    Inputs1719.k_FunCommuteThree_of_funHypOmega Inputs1719.k_FunHypOmega_holds
+  have hKFun : Inputs1719.K_FunCommute :=
+    Inputs1719.k_FunCommute_of_funHypOmega Inputs1719.k_FunHypOmega_holds
+  have hlevi : K_19_18_levi := Inputs1719.k_19_18_levi_holds
+  have hL21 : K_19_21_levi := Inputs1719.k_19_21_levi_holds
+  have hU34g : Inputs1719.K_U34InvolutionGen := k_U34InvolutionGen_of u34InvGenInner_holds
+      u34InvGenOuter_holds
+  have hU34O : Inputs1719.K_U34OuterInv := Inputs1719.k_U34OuterInv_holds
+  have h77 : Inputs1719.W4Lem7_7 := Inputs1719.w4Lem7_7_holds
+  have h416 : Inputs1719.W4Lem4_16 := Inputs1719.w4Lem4_16_holds
+  have h119w : Inputs1719.W4Lem11_9 := Inputs1719.w4Lem11_9_holds
+  have h115w : WeakClosure81.W4Lem11_5Twelve := WeakClosure81.W115.w4Lem11_5Twelve_holds
+  have hS4 : Inputs1719.K_19_19_sp4TorusRed := Inputs1719.Sp4TorusRed.k_19_19_sp4TorusRed_holds
+  have hT1919 : Inputs1719.K_19_19_torusQS :=
+    Inputs1719.k_19_19_torusQS_of_cases (Inputs1719.k_19_19_torusQS_sp4_of_red hS4)
+      (Inputs1719.k_19_19_torusQS_l2u3_of_irred hU3)
+  have hKM : Inputs1719.K_UC146M := k_UC146M_of_u3EvenCentPerfect u3EvenCentPerfect
+  have hKN : Inputs1719.K_UC146N :=
+    Inputs1719.k_UC146N_of_bar (KFourteenSixNBar.k_UC146N_Bar_of_inputs UCK.k32_holds
+        RankThreeTheoremC.SmallRankE3.kFactSuzukiThreeFree_holds)
+  have h410 : Inputs1719.W4Lem4_10 :=
+    Inputs1719.w4Lem4_10_of
+      (Inputs1719.w4Lem4_10F_of Inputs1719.fourTenLarge_holds
+        Inputs1719.fourTenPrime_holds Inputs1719.fourTenNine_holds)
+      Inputs1719.w4Lem4_10Small_holds
+  have h128 : W4Lem12_8 := CFSG.LocalAnalysis.WeakClosure81.w4Lem12_8_holds
+  have h36 : Inputs1719.W4Lem3_6 := Inputs1719.w4Lem3_6_holds
+  have h411 : Inputs1719.W4Lem4_11Prime := w4Lem4_11Prime_of fourElevenLarge_holds
+      fourElevenThree_holds fourElevenFive_holds
+  refine ascSectionNineteenConditional_of_sec19 fun G _ _ hS hUC S hMS => ?_
+  have hCG : AGL81TheoremC G := hC G hS
+  have hx : DataExt (dataOfSetup hS S) := dataExt_ofSetup hS S
+  have hKS3 : Inputs1719.K_SporadicThreePermutingLe (CFSG.Open.pRank 3 (dataOfSetup hS S).M) :=
+    Inputs1719.K_SporadicThreePermutingLe.mono
+      ((CFSG.RankThreeCoreUniqueness.Helpers.local_pRank_le_evenRank 3 Nat.prime_three
+        (by norm_num) (dataOfSetup hS S).M (dataOfSetup hS S).maxLocal.1).trans hS.rank.le)
+      Inputs1719.k_SporadicThreePermutingLe_three_holds
+  have h63 : UC6.R6_3 (dataOfSetup hS S) := r6_3_dataOfSetup hS hUC hCG S
+  have h66 : UC6.R6_6 (dataOfSetup hS S) := r6_6_dataOfSetup hS hUC hCG S
+  have h638 : UC6.R6_38 (dataOfSetup hS S) := r6_38_dataOfSetup hS S
+  have h71 : F07.R71 (dataOfSetup hS S) := r71_dataOfSetup hS S h63
+  have h72 : F07.R72 (dataOfSetup hS S) :=
+    CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.R72.r72_dataOfSetup hS hUC hCG S
+  have h640 : UC6.R6_40_1 (dataOfSetup hS S) :=
+    UC6.r6_40_1_holds CFSG.CGT.PushingUpLit.aschbacherTheoremTwoK_holds
+      CFSG.CGT.PushingUpLit.solomonAlternatingBlockK_holds (dataOfSetup hS S)
+  have hTim : CFSG.CGT.Timmesfeld75.NodeStatement :=
+    CFSG.RankThree.GF2n.nodeStatement_proved
+  have h332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb :=
+    CFSG.LocalAnalysis.UniquenessCase.UCK.k332ThreeAb_holds
+  have hCO : CFSG.LocalAnalysis.RankThreeTheoremC.KFactCentralOmega :=
+    CFSG.LocalAnalysis.RankThreeTheoremC.kFactCentralOmega_holds
+  have hcat : K_CatalogModels := S19.k_catalogModels_holds
+  have hTits : K_TitsOddPrimes := S19.k_titsOddPrimes_holds
+  let Vaut : LieAutVocab10 := ⟨fun _ _ => True, fun _ _ => True, fun _ _ => True⟩
+  have hK104 : CFSG.LocalAnalysis.UniquenessCase.UC22.F10.K104 Vaut := by
+    intro X _ _ T B _ L _ _ _ _ hfield
+    exact absurd trivial (hfield 1 B.one_mem)
+  have hK : K_BorelOvergroup := k_BorelOvergroup_holds
+  have hoddK : K_19_20_oddAut := k_19_20_oddAut_holds
+  have hsmall : K_19_glue7_L2small := k_19_glue7_L2small_holds
+  have hJR : K_19_JRgen := k_19_JRgen_holds
+  have htorus : K_19_glue4_torus := k_19_glue4_torus_holds
+  have hW1 : W7_9_1_4 := w7_9_1_4_holds
+  have hW4 : W7_9_4c := w7_9_4c_holds
+  have hCh2 : Chev2StarGen := chev2StarGen_holds
+  have hK13 : K_19_13_autOmega := k_19_13_autOmega_holds
+  have hBor : K_L2_oddAbelianBorel := k_L2_oddAbelianBorel_holds
+  have h49 : W10_4_9 := w10_4_9_holds
+  have hK25 : K_19_25_torusCent := k_19_25_torusCent_holds
+  have hK28 : K_19_28_torusAutomizer := k_19_28_torusAutomizer_holds
+  have hKf : K_19_25_noL2SzSection := k_19_25_noL2SzSection_holds
+  have hcen : K_19_16_census := Census1916.k_19_16_census_of_nodes
+      Census1916.census1916SurvPSL_holds Census1916.census1916SurvPSU_holds
+      Census1916.census1916SurvPSp_holds Census1916.census1916SurvPOmegaPlus_holds
+      Census1916.census1916SurvPOmegaMinus_holds
+  have hK1911 : K_19_11_torusFixed := k_19_11_torusFixed_holds
+  have hK1 : K_19_26_rankOne := k_19_26_rankOne_holds
+  have hmin : K_19_18_minNormal := k_19_18_minNormal_holds
+  have hJ0 : K_19_20_J0shape := k_19_20_J0shape_holds
+  have hK21 : K_19_21_BN := k_19_21_BN_holds
+  have hforce : K_19_20_force := k_19_20_force_of_lie k_19_20_forceLie_holds
+  have hK105 : CFSG.LocalAnalysis.UniquenessCase.UC22.F10.K105 :=
+    CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k105_of_k105SporRest hK105R
+  have hW141 : Inputs1719.W4Thm14_1Used :=
+    Inputs1719.w4Thm14_1Used_of_kfacts Inputs1719.kL32PairRank_holds hKI
+      Inputs1719.k141MultSpace_holds Inputs1719.kGL42Seven_holds
+  have hKOdd : Inputs1719.UCTenSeven.KOddLieNormSylowAlpha :=
+    Inputs1719.UCTenSeven.kOddLieNormSylowAlpha_of_autSylow hKOddA
+  have hOdd : Inputs1719.UCTenSeven.UC2_10_7Odd :=
+    Inputs1719.UCTenSeven.uc2_10_7Odd_of_kfacts hKOdd Inputs1719.UCTenSeven.uc2_10_7OddRee_holds
+  have h107w : ∀ (G : Type) [Group G] [Finite G], Inputs1719.UC2_10_7w G := fun _ _ _ =>
+    Inputs1719.UCTenSeven.uc2_10_7w_of_inputs CFSG.LocalAnalysis.UniquenessCase.UC22.F10.k101_holds
+      hK105 hcat hTits hKA Inputs1719.UCTenSeven.kLieBorelAutPrimeRank2_holds
+      Inputs1719.UCTenSeven.uc2_10_7J1_holds hOdd
+  have hN : CFSG.RankThree.PartTwo.Sec19.Asc81bNineThreeNat :=
+    CFSG.RankThree.PartTwo.Sec19.asc81bNineThreeNat_holds
+  have h85 : CFSG.AGLEmbedding.Asc81bEightFive :=
+    CFSG.AGLEmbedding.asc81bEightFive_of_factorization
+      CFSG.LocalAnalysis.RankThreeTheoremC.aschbacherLocalFactorization_proved
+  have h127 : R127 (dataOfSetup hS S) :=
+    r127_of_twelve_seven_AS_syl hTim S.notCatalog _ h5_11 h5_13 h63 h66 (h861 G) (h88 G)
+      fun V => h93 G V _
+  have h126 : R126 (dataOfSetup hS S) :=
+    CFSG.LocalAnalysis.WeakClosure81.r126_of_twelve_six_AS (dataOfSetup hS S) h5_11 h5_13 h66
+  have h1114 : R1114 (dataOfSetup hS S) :=
+    r1114_holds (dataOfSetup hS S) hx (r6_1_dataOfSetup hS S)
+  have h614 : UC6.R6_14 (dataOfSetup hS S) :=
+    UC6G.uc_theorem_6_14_three hS hUC hCG (UCK.k36_of_eqlStar
+        (UCK.k36EqlStar_of_catalog CFSG.LieType.SeitzGeneration.kFactSeitzRankTwo_holds
+            UCK.k36OddDefChar_holds UCK.k315Spor_holds UCK.k36EqlStarSporGe4_holds) UCK.l34OuterFree) S
+  have h1214 : F12.R1214 (dataOfSetup hS S) :=
+    r1214_ofSetup_of_r126 hS S h126 h127 (h861 G) hTim
+  have h61 : UC6.R6_1 (dataOfSetup hS S) := r6_1_dataOfSetup hS S
+  have h111 : W3Thm111 G := CFSG.LocalAnalysis.WeakClosure81.w3Thm111_unconditional
+  have hSg : UC6S846.SigmaStd (dataOfSetup hS S) :=
+    CFSG.LocalAnalysis.UniquenessCase.UC6S846.sigmaStd_dataOfSetup hS S
+  have hstd : Sigma23Std (dataOfSetup hS S) := sigma23Std_ofSetup hS S
+  have hsp : Sigma2Print (dataOfSetup hS S) := sigma2Print_ofSetup hS S
+  have hid : UC6.R613Ident (dataOfSetup hS S) := uc22p22q_r613ident_of _ hstd h61 hsp
+  have hcent : UC6.R613Cent (dataOfSetup hS S) := r613cent_ofSetup hS S
+  have haut : UC6.R613Aut (dataOfSetup hS S) := uc22p22q_r613aut_of _ hstd h61 hsp hcent
+  have h611 : UC6.R6_11Used (dataOfSetup hS S) := UC6.r6_11Used_dataOfSetup hS S
+  have h613 : UC6.R6_13 (dataOfSetup hS S) :=
+    uc22p22q_r6_13_of_print _ hstd h61 hsp hid hcent haut
+  have h1111 : F11.R111 (dataOfSetup hS S) := uc22p22q_r111_of _ hstd h61 h611
+  have h112 : F11.R112 (dataOfSetup hS S) :=
+    uc22p22q_r112_of _ hstd h61 hsp hid hcent haut
+  have h1211 : R1211_1 (dataOfSetup hS S) :=
+    r1211_1_of_twelve_eleven _ hx h61 h63 h66 h127 h1114 (h183 G)
+      (CFSG.LocalAnalysis.WeakClosure81.w3Thm193_of_w3Thm162 (h162g G))
+  have hhyp612 : ∀ p ∈ (dataOfSetup hS S).sig2, ∃ P P₀ : Subgroup G,
+      UC6.Hyp612 (dataOfSetup hS S) p P P₀ := fun p hp => by
+    obtain ⟨P, P₀, hH, -⟩ := hsp p hp
+    exact ⟨P, P₀, hH⟩
+  have h1219 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (dataOfSetup hS S).sig = (dataOfSetup hS S).sig1 := fun _ _ h125 =>
+    twelve_nineteen _ hstd h61 h613 hhyp612 h1111 h112 h126 h127 h1211 h111 h125
+  have hSE : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedFive :=
+    CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.SEFive.stronglyEmbeddedFive_holds
+  have hSE3 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedThree :=
+    CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedThree_of_KIB
+      CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.gls3StronglyThreeEmbeddedPlus_holds
+      CFSG.AGLEmbedding.kFactCatalogSchreier_holds
+      (CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedThreeKIB_of_small
+        CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.gls3StronglyThreeEmbeddedPlus_holds
+        CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.KIB3Small_holds)
+  have h76 : F07.R76 (dataOfSetup hS S) := r76_dataOfSetup hSE hSE3 hS hUC hCG S
+  have h891 : F08.R891 (dataOfSetup hS S) :=
+    PartOne.Section8.r891_of_inputs (dataOfSetup hS S) hSg h63 h72 (F07.R76Sig_of_R76 _ h76)
+      (PartOne.Section8.r856_dataOfSetup hS hUC hCG S hMS)
+  have h78 : Inputs1719.PartOne.R7_8At5 (dataOfSetup hS S) :=
+    Inputs1719.PartOne.r7_8At5_dataOfSetup UCK.kFactSmallIdent_holds UCK.kFactOneLieIdent_holds
+      UCK.stronglyEmbeddedCyclicOuter_holds
+      CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.kFactStepThreeIrred_holds
+      (fun d hd => CFSG.AGLEmbeddingD2.d2TransLocalAt_sz32 d hd)
+      CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.titsFacts_holds
+      CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.mclFacts_holds hSE hS hUC hCG S
+  have h8108 : Inputs1719.PartOne.R8_108 (dataOfSetup hS S) :=
+    r8_108_dataOfSetup hS hUC hCG (UCK.k36_of_eqlStar
+        (UCK.k36EqlStar_of_catalog CFSG.LieType.SeitzGeneration.kFactSeitzRankTwo_holds
+            UCK.k36OddDefChar_holds UCK.k315Spor_holds UCK.k36EqlStarSporGe4_holds) UCK.l34OuterFree) hSE S
+  have h77eq : F07.R77Eq (dataOfSetup hS S) := r77Eq_dataOfSetup hSE hSE3 hS hUC S
+  have h119 : F11.R119 (dataOfSetup hS S) :=
+    ElevenNine.r119_holds _ hSg h61 h63 h77eq (h869 G hS hUC S hMS) h1111 h112
+      thinList13_holds CFSG.RankThree.PartTwo.Sec11.cyclicSylowThreeOutAbelian_holds
+  have h109 : Inputs1719.UC2_10_9 (dataOfSetup hS S) :=
+    Inputs1719.uc2_10_9_of_inputs (dataOfSetup hS S)
+      (UC6.r6_40_2_holds CFSG.CGT.PushingUpLit.aschbacherTheoremTwoK_holds
+        CFSG.CGT.PushingUpLit.solomonAlternatingBlockK_holds _) (h107w G)
+  have hgr : CFSG.Open.GriessAllModelsStatement :=
+    CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement
+  have h846 : F08.R846 (dataOfSetup hS S) :=
+    UC6S846.r846_of_rank_three hgr _ hSg (F07.R76Sig_of_R76 _ h76) h614
+  have h898 : F08.R898 (dataOfSetup hS S) :=
+    UC6S898.r898_full_print _ hSg h846 (UCK.u3Center_of_griess hgr) UCK.u3Range
+      (UCK.u3FixInner_of_griess hgr) (UCK.u3FixField_holds hgr)
+      (UCK.u3Trio_of_griess hgr).1 (UCK.u3Trio_of_griess hgr).2.1
+      (UCK.u3Trio_of_griess hgr).2.2
+      (UC22.r898GammaPrint_of_r76Sig _ hSg (UCK.u3Center_of_griess hgr)
+        (UCK.u3Fix3FieldTorus_holds hgr) (F07.R76Sig_of_R76 _ h76)) h63
+  have h146 : S17.UC2_14_6 (dataOfSetup hS S) :=
+    Inputs1719.uc2_14_6_dataOfSetup hS S h66
+      h846
+      (h869 G hS hUC S hMS) h128 h36 h416 hgr hKN hKM
+  have hSQ : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedSolvableQ :=
+    CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.stronglyEmbeddedSolvableQ_of_kFacts
+      UCK.kFactSmallIdent_holds UCK.kFactOneLieTorus_holds UCK.stronglyEmbeddedCyclicOuter_holds
+      CFSG.AGLEmbedding.kFactCatalogSchreier_holds
+      CFSG.AGLEmbeddingD2.Wilson.Coordinator.d2HeisLocalAt_J4
+  have hSEZ := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.stronglyEmbeddedFiveZ_holds
+  have hG3 := CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.gls3StronglyThreeEmbeddedPlus_holds
+  have h77E2 : F07.R77E2 (dataOfSetup hS S) :=
+    CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three.r77E2_dataOfSetup hSE hSE3 hS S
+  have h1513 : R15_13 (dataOfSetup hS S) :=
+    r15_13_of_inputs (dataOfSetup hS S) hx hSg h1219 hS.rank h61 h63 h614 h126 h127 h1214 h119
+      (F07.R76Sig_of_R76 _ h76) h77E2 h77eq (h82 G hS hUC S hMS) (h869 G hS hUC S hMS)
+      (h880 G hS hUC S hMS) h1111 h112
+  have h847NN : UC22.R847E3ThinNN (dataOfSetup hS S) :=
+    UC22.r847E3ThinNN_dataOfSetup hSE hSEZ PartTwo.thinList13_holds hSQ hSE3 hG3
+      CFSG.AGLEmbedding.kFactReeInvolution hS S
+  have h148 : Inputs1719.R14_8 (dataOfSetup hS S) :=
+    Inputs1719.r14_8_dataOfSetup_narrow hS S hSg h77E2 h614 h847NN (h869 G hS hUC S hMS)
+      Inputs1719.UC410.uc1_4_10
+  have h847S : S17.R847Sec17 (dataOfSetup hS S) :=
+    S17.r847Sec17_dataOfSetup hSE hSEZ PartTwo.thinList13_holds
+      CFSG.RankThree.PartTwo.Sec11.cyclicSylowThreeOutAbelian_holds hSQ hSE3 hG3
+      CFSG.AGLEmbedding.kFactReeInvolution hgr UC22.uc22pwCartanSU3_holds UC22.uc22pwTorusSU3_holds
+      hS S h846 (S17.r847E3ThinRes_dataOfSetup PartTwo.thinList13_holds
+        CFSG.RankThree.PartTwo.Sec11.cyclicSylowThreeOutAbelian_holds hG3
+        CFSG.AGLEmbedding.kFactReeInvolution hSE3 hS S)
+  have hE3 : CFSG.Open.evenRank G = 3 →
+      F07.R77E2 (dataOfSetup hS S) ∧ UC22.R847E3ThinNN (dataOfSetup hS S) :=
+    fun _ => ⟨h77E2, h847NN⟩
+  have hK332 : UCK.K332Cyc :=
+    UCK.K332Route.k332Cyc_of_rows UCK.K332Route.k33_holds UCK.K332Route.k332Rows_holds
+  have h920e : S17.R920L2E (dataOfSetup hS S) :=
+    S17.r920L2E_dataOfSetup UCK.k462_holds UCK.k32_holds
+      (UCK.k46semireg_of_open UCK.k45Odd_holds UCK.Zass.zassenhausPerfect_holds)
+      CFSG.AGLEmbedding.kFactCatalogSchreier_holds
+      (CFSG.CGT.PushingUpLit.CGT6.aschbacherSixThreeCore_of_embeddingK
+        CFSG.HardMathSupport.Foote.Coordinator.aschbacherEmbeddingK_proved)
+      hS S h63 h640
+      (S17.r920L2Rest_dataOfSetup hSQ hSE hSE3 UCK.k462_holds UCK.k32_holds
+        CFSG.AGLEmbedding.kFactCatalogSchreier_holds hK332
+        (UCK.K332Route.k332Meta_of_rows UCK.K332Route.k33_holds UCK.K332Route.k332Rows_holds)
+        (CFSG.CGT.PushingUpLit.CGT6.aschbacherSixThreeCore_of_embeddingK
+          CFSG.HardMathSupport.Foote.Coordinator.aschbacherEmbeddingK_proved)
+        hS S h63 h640 (h82 G hS hUC S hMS))
+  have h920o : PartOne.Section9.R920odd (dataOfSetup hS S) :=
+    PartOne.Section9.r920odd_dataOfSetup hSQ hSE hSE3 hK332 UCK.k32_holds UCK.k461_holds
+      UCK.k462_holds CFSG.AGLEmbedding.kFactCatalogSchreier_holds
+      CFSG.CGT.PushingUpLit.CGT6.sporadicThreeCenterSmallPrimes_holds
+      CFSG.HardMathSupport.Foote.FamilyReduction.griessAllModelsStatement
+      UCK.Zass.zassenhausPerfect_holds hS S (h82 G hS hUC S hMS) h614
+  have h920J1 : PartOne.Section9.R920J1 (dataOfSetup hS S) :=
+    PartOne.Section9.r920J1_dataOfSetup hSQ hSE hSE3 hK332 UCK.k32_holds UCK.k461_holds
+      UCK.k462_holds CFSG.AGLEmbedding.kFactCatalogSchreier_holds hS S (h82 G hS hUC S hMS) h614
+  have hrows : ∀ (V₀ V : Subgroup G) (hV : Hyp125 (dataOfSetup hS S) V₀ V),
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        (dataOfSetup hS S).sig = (dataOfSetup hS S).sig1 →
+          S17.R17_1At (dataOfSetup hS S) V₀ V hV ∧
+            S17.R17_2_2At (dataOfSetup hS S) V₀ V hV ∧
+            S17.R17_2_3At (dataOfSetup hS S) V₀ V hV ∧
+            S17.R17_3At (dataOfSetup hS S) V₀ V ∧
+            S17.R17_33_2At (dataOfSetup hS S) V₀ V ∧
+            S17.R17_33_3At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg hsig =>
+      S17.rows136_at (dataOfSetup hS S) V₀ V hV hx (r6_1_dataOfSetup hS S) h63 h66 h72 hSg
+        h126 h127 h1114 (sigmaRankThree13_dataOfSetup hS hUC S) h1214 hg hsig h77eq h78 h76
+        h847S (h82 G hS hUC S hMS) (h869 G hS hUC S hMS) h891 h614 h109
+        h146 h898 (h162 G) (h183 G) (h162g G) (h161 G) h43c h416 h128 hFF hMc2F4 hMcTits
+        h3D4 hMc3D4 h36
+  have h136' : S17.R136a (dataOfSetup hS S) :=
+    CFSG.LocalAnalysis.UniquenessCase.PartTwo.S136a.r136a_of_rows thinList13_holds
+      CFSG.RankThree.PartTwo.Sec11.cyclicSylowThreeOutAbelian_holds hx hSg
+      (sigmaRankThree13_dataOfSetup hS hUC S) h846 (h82 G hS hUC S hMS)
+      (F07.R76Sig_of_R76 _ h76) h614 h638 hrows
+  have hR : ∀ (V₀ V : Subgroup G) (hV : Hyp125 (dataOfSetup hS S) V₀ V),
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.Rows17 (dataOfSetup hS S) V₀ V hV :=
+    fun V₀ V hV hg =>
+      S17.compose17_rows (dataOfSetup hS S) V₀ V hV hx (r6_1_dataOfSetup hS S) h63 h66 h638 h72
+        (CFSG.LocalAnalysis.UniquenessCase.UC6S846.sigmaStd_dataOfSetup hS S) h126 h127 h1114
+        S.notCatalog (sigmaRankThree13_dataOfSetup hS hUC S)
+        (r8107_three hS hUC hCG S (h82 G hS hUC S hMS)) h1214
+        (r6_9_dataOfSetup hS hUC hCG (UCK.k36_of_eqlStar
+            (UCK.k36EqlStar_of_catalog CFSG.LieType.SeitzGeneration.kFactSeitzRankTwo_holds
+                UCK.k36OddDefChar_holds UCK.k315Spor_holds UCK.k36EqlStarSporGe4_holds)
+            UCK.l34OuterFree) S)
+        (UC22.uc22r899e3_dataOfSetup hS hUC S) hg (h1219 V₀ V hV) h77eq
+        h78 h76 h847S (h82 G hS hUC S hMS)
+        (h880 G hS hUC S hMS) (h869 G hS hUC S hMS) h920o h920J1 h920e
+        h119 h1513.toSmall h891 h614
+        h109 h146 h898 h8108
+        (fun h => absurd hS.rank h) hE3
+        (Inputs1719.uc2_14_7Three_of_evenRank_le_three _ (by have := hS.rank; omega))
+        (h8103 G hS hUC S hMS)
+        h136'
+        h148 (h162 G) (h183 G) (h861 G) (h88 G) (h914N G)
+        (Inputs1719.w3_6_18_holds G) (h915 G)
+        (h162g G) (h161 G) (h93 G V₀ (dataOfSetup hS S).T) h77 h106w h410 h43c h416 h5_11
+        h5_13 h411 hFC3 h128 h105w hKFun hW141
+        (W4Thm11_1Row.of_rowA_rowM w4Thm11_1RowA_ONan_holds w4Thm11_1RowM_ONan_holds) (W4Thm11_1Row.of_rowA_rowM w4Thm11_1RowA_J2_holds
+            w4Thm11_1RowM_J2_holds)
+        Inputs1719.w4Thm11_1RowM_He_holds Inputs1719.w4Thm11_1RowM_HS_holds
+        (w4Thm11_1RowA_of_autRank
+            CFSG.Quasithin.Background.Harris.IrreducibleModulesAndBounds.m22_autRank) hKS3
+        (onl_kONanLattice_of_facts onl_latFact ONPar.onl_parFact_holds) h119w
+        h115w hFF Inputs1719.k_HeOuterParabolics_holds (w4Lem11_8Rk_of_inverts k_J2InvertsGen_holds) hMc2F4 hMcTits
+        h3D4 hMc3D4
+        h36 (Lem14_6.w4Lem14_6aSmall_of_kfacts Lem14_6.k_L28SmallM_holds
+            Lem14_6.k_SzThirtyTwoMinM_holds)
+        (Inputs1719.w4Thm14_2Used_of hK142S hK142C)
+        (Inputs1719.w4Thm14_3_of_kFacts h43c (Inputs1719.Thm14_5.k14_5Small_of_open hK145)
+          hK143F hK143E hK143X)
+        (S17.gap17_8_graphOuterThree_of_W hTim S.notCatalog (dataOfSetup hS S) h66 (h88 G)
+          Inputs1719.k_L33GraphOuterW_holds
+          (h93 G V₀ (dataOfSetup hS S).T))
+        (S17.gap17_45_uniqueMaxFive_of_evenRank_le_three _ V₀ V (by have := hS.rank; omega))
+        (S17.gap17_5_A6Pair_of_w3Lem914 hTim S.notCatalog (dataOfSetup hS S) h66 (h861 G) (h88 G)
+          h126 Inputs1719.k_A6AutOrder8_holds (w3Lem914_holds_of_coords WeakClosure81.tcCoord9_holds
+              WeakClosure81.tcCoordM10_holds WeakClosure81.tcCoordAut_holds
+              CFSG.LocalAnalysis.WeakClosure81.tcCoord3_holds G) V₀ V)
+        (S17.gap17_15_tOrbitFour_of_e3 _ hS.rank V₀ V)
+  have h67 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_67At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r67
+  have h68 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_68At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r68
+  have h42 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_42At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r42
+  have h57 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_57At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r57
+  have h641 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_64_1At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r64_1
+  have h642 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_64_2At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r64_2
+  have h643 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_64_3At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r64_3
+  have h661 : ∀ V₀ V : Subgroup G, Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_66_1At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r66_1
+  have h171 : ∀ (V₀ V : Subgroup G) (hV : Hyp125 (dataOfSetup hS S) V₀ V),
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_1At (dataOfSetup hS S) V₀ V hV :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r1
+  have h172 : ∀ (V₀ V : Subgroup G) (hV : Hyp125 (dataOfSetup hS S) V₀ V),
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_2At (dataOfSetup hS S) V₀ V hV :=
+    fun V₀ V hV hg => (hR V₀ V hV hg).r2
+  have h1 : ∀ (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G)
+      (h : Hyp19 (dataOfSetup hS S) V₀ V p L),
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        R19_1At (dataOfSetup hS S) V₀ V p L h := by
+    intro V₀ V p L h hg
+    exact S19.r19_1At_of_suppliers hTim S.notCatalog (dataOfSetup hS S) hx
+      (r6_1_dataOfSetup hS S) h66 (h861 G) (h88 G) h126 h127 h1114 (h162 G)
+      CFSG.LocalAnalysis.WeakClosure81.w3Lem148Torus_holds
+      CFSG.LocalAnalysis.WeakClosure81.w3Lem148_2_holds
+      (CFSG.LocalAnalysis.UniquenessCase.UC6S846.sigmaStd_dataOfSetup hS S)
+      (h869 G hS hUC S hMS) h5_11 h5_13 h43c h h1214 h128 h36
+      (h42 V₀ V h.hyp125 hg) (h641 V₀ V h.hyp125 hg)
+      (h642 V₀ V h.hyp125 hg) (h643 V₀ V h.hyp125 hg)
+      (h68 V₀ V h.hyp125 hg)
+      (thm93_of_thm93Syl (dataOfSetup hS S)
+        (S17.hyp125_inCalV h.hyp125 (ne_bot_of_one_lt_mSub h.big))
+        (h93 G V₀ (dataOfSetup hS S).T))
+      h76 h614
+      (h171 V₀ V h.hyp125 hg)
+      Inputs1719.w4Thm13_10_holds h1513 (h1219 V₀ V h.hyp125) hU34g
+      (r8107_three hS hUC hCG S (h82 G hS hUC S hMS))
+      h77 hU34O
+  have h3 : ∀ (V₀ V : Subgroup G), Hyp125 (dataOfSetup hS S) V₀ V →
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        S17.R17_3At (dataOfSetup hS S) V₀ V :=
+    fun V₀ V hV hg => S17.seventeen_three (dataOfSetup hS S) V₀ V hV hx
+      h847S.1 (h172 V₀ V hV hg)
+  have h9 : ∀ (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G)
+      (h : Hyp19 (dataOfSetup hS S) V₀ V p L),
+      (Nat.card V₀ ≤ 4 → MBarGT (dataOfSetup hS S).M V₀ V 3) →
+        R19_9At (dataOfSetup hS S) V₀ V p L h := by
+    intro V₀ V p L h hg
+    exact S19.r19_9At_of (dataOfSetup hS S) h (h171 V₀ V h.hyp125 hg)
+      (h42 V₀ V h.hyp125 hg)
+      (h67 V₀ V h.hyp125 hg)
+      (h8103 G hS hUC S hMS) (h8106 G hS hUC S hMS) h127 (h869 G hS hUC S hMS)
+  exact sec19ContraOf1669_of_guardedStages (dataOfSetup hS S) hx.sig_nonempty
+    h1 h9 (h67) (h42)
+    (h57) (r8107_three hS hUC hCG S (h82 G hS hUC S hMS))
+    (h641) (h642)
+    (h643) (h661) (h171)
+    (CFSG.LocalAnalysis.UniquenessCase.UC6S846.sigmaStd_dataOfSetup hS S) hx
+    (r6_1_dataOfSetup hS S) h127
+    h640 h638 h71 h72 htorus hK hK1911 hK13 hW1 hW4 hmin hlevi hoddK hJ0 hforce
+    h3 hK21 hL21 hBor hN h85 hcen (S19.gap19_16_L_holds _ h85 hcen)
+    (S19.gap19_19_holds _ (r6_1_dataOfSetup hS S) hT1919 Inputs1719.k_19_19_leviInv_holds hL21)
+    h332 hCO hK1 hK25 hKf hK28 Vaut hK104 hK105 hcat hTits h49 hsmall hJR hCh2
+
+end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three

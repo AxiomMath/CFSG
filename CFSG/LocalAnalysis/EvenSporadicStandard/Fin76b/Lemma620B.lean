@@ -1,0 +1,82 @@
+module
+
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.Lemma620A
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.Lemma611E
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.Lemma616
+
+public section
+
+namespace CFSG.EvenSporadicStandard.Fin76b
+
+open Subgroup CFSG.Open CFSG.Blueprint CFSG.Blueprint.NativeSporadic
+open scoped Pointwise
+
+theorem mem_cent_singleton_iff_conj {G : Type*} [Group G] {g α : G} :
+    g ∈ centralizer ({α} : Set G) ↔ g * α * g⁻¹ = α := by
+  rw [mem_centralizer_singleton_iff]
+  constructor
+  · intro h1
+    rw [h1]
+    group
+  · intro h1
+    calc g * α = (g * α * g⁻¹) * g := by group
+      _ = α * g := by rw [h1]
+
+namespace Hyp69
+
+variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T₀ E : Subgroup G}
+  {Q : Sylow 2 G} {x β : G} {B : Subgroup G} {S : Subgroup G}
+  (h : Hyp69 L z t T₀ E Q x β B S)
+
+include h
+
+theorem z_not_mem_cent_alpha {α : G} (hα : AlphaSpec S z t α) :
+    z ∉ centralizer ({α} : Set G) := by
+  intro hz
+  have hαz : α * z = z * α := (mem_centralizer_singleton_iff.1 hz).symm
+  have h2 : z * α = t * (z * α) := by rw [← hα.rel, hαz]
+  exact h.t_ne (by simpa using h2.symm)
+
+theorem xor_mem_cent_alpha {α : G} (hα : AlphaSpec S z t α) (hF : EFacts611 E t)
+    (hWr : ∃ hz : z ∈ centralizer ({β} : Set G),
+      WreathAlt ↥(centralizer ({β} : Set G)) (QuotientGroup.mk ⟨z, hz⟩))
+    (hBD : BetaData65 E β) {g : G}
+    (hg : ∀ q : G, q ∈ Fsub h hα ⊓ centralizer ({α} : Set G) ↔
+      g * q * g⁻¹ ∈ Fsub h hα ⊓ centralizer ({α} : Set G)) :
+    Xor (g * z ∈ centralizer ({α} : Set G)) (g ∈ centralizer ({α} : Set G)) := by
+  obtain ⟨hgt, hperm⟩ := h.normalizer_Q_perm_W hα hF hWr hBD hg
+  have e : (g * z) * α * (g * z)⁻¹ = (g * α * g⁻¹) * t := by
+    calc (g * z) * α * (g * z)⁻¹ = g * (z * α * z⁻¹) * g⁻¹ := by group
+      _ = g * (α * t) * g⁻¹ := by rw [h.z_conj_alpha hα]
+      _ = (g * α * g⁻¹) * (g * t * g⁻¹) := by group
+      _ = (g * α * g⁻¹) * t := by rw [hgt]
+  have hαt : α * t ≠ α := fun e => h.t_ne (by simpa using e)
+  rw [mem_cent_singleton_iff_conj, mem_cent_singleton_iff_conj, e]
+  rcases hperm with ⟨h1, -⟩ | ⟨h1, -⟩
+  · right
+    refine ⟨h1, ?_⟩
+    rw [h1]
+    exact hαt
+  · left
+    refine ⟨?_, ?_⟩
+    · rw [h1, mul_assoc, h.t_sq, mul_one]
+    · rw [h1]
+      exact hαt
+
+theorem relIndex_inf_cent_alpha {α : G} (hα : AlphaSpec S z t α) (hF : EFacts611 E t)
+    (hWr : ∃ hz : z ∈ centralizer ({β} : Set G),
+      WreathAlt ↥(centralizer ({β} : Set G)) (QuotientGroup.mk ⟨z, hz⟩))
+    (hBD : BetaData65 E β) {Rs : Subgroup G} (hz : z ∈ Rs)
+    (hN : ∀ g ∈ Rs, ∀ q : G, q ∈ Fsub h hα ⊓ centralizer ({α} : Set G) ↔
+      g * q * g⁻¹ ∈ Fsub h hα ⊓ centralizer ({α} : Set G)) :
+    (Rs ⊓ centralizer ({α} : Set G)).relIndex Rs = 2 ∧
+      z ∉ Rs ⊓ centralizer ({α} : Set G) := by
+  refine ⟨?_, fun hzR => h.z_not_mem_cent_alpha hα hzR.2⟩
+  rw [Subgroup.relIndex, Subgroup.index_eq_two_iff]
+  refine ⟨⟨z, hz⟩, fun b => ?_⟩
+  have hx := h.xor_mem_cent_alpha hα hF hWr hBD (hN b b.2)
+  simpa [Subgroup.mem_subgroupOf] using hx
+
+end Hyp69
+
+end CFSG.EvenSporadicStandard.Fin76b

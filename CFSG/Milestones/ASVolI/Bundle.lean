@@ -1,0 +1,1799 @@
+module
+
+public import CFSG.Milestones.ASVolI.A1
+public import CFSG.Milestones.ASVolI.A2
+public import CFSG.Milestones.ASVolI.A2OddAut
+public import CFSG.Milestones.ASVolI.A3
+public import CFSG.Milestones.ASVolI.A3L3Fact
+public import CFSG.Milestones.ASVolI.A3Lie
+public import CFSG.Milestones.ASVolI.A3Local
+public import CFSG.Milestones.ASVolI.A3OddFacts
+public import CFSG.Milestones.ASVolI.A4
+public import CFSG.Milestones.ASVolI.A5
+public import CFSG.Milestones.ASVolI.A6
+public import CFSG.Milestones.ASVolI.B1
+public import CFSG.Milestones.ASVolI.B1Holds
+public import CFSG.Milestones.ASVolI.B2
+public import CFSG.Milestones.ASVolI.B3
+public import CFSG.Milestones.ASVolI.B4
+public import CFSG.Milestones.ASVolI.B4Extensions
+public import CFSG.Milestones.ASVolI.B4G2
+public import CFSG.Milestones.ASVolI.B4Natural
+public import CFSG.Milestones.ASVolI.B4SmallModules
+public import CFSG.Milestones.ASVolI.B5
+public import CFSG.Milestones.ASVolI.B6
+public import CFSG.Milestones.ASVolI.B6Holds
+public import CFSG.Milestones.ASVolI.B6Baumann
+public import CFSG.Milestones.ASVolI.B7
+public import CFSG.Milestones.ASVolI.C1
+public import CFSG.Milestones.ASVolI.C135
+public import CFSG.Milestones.ASVolI.C137
+public import CFSG.Milestones.ASVolI.C1Holds
+public import CFSG.Milestones.ASVolI.C1Blocks
+public import CFSG.Milestones.ASVolI.C1Glauberman
+public import CFSG.Milestones.ASVolI.C2
+public import CFSG.Milestones.ASVolI.C27
+public import CFSG.Milestones.ASVolI.C2ChiBlocks
+public import CFSG.Milestones.ASVolI.C3
+public import CFSG.Milestones.ASVolI.C31
+public import CFSG.Milestones.ASVolI.C3LieType
+public import CFSG.Milestones.ASVolI.C4
+public import CFSG.Milestones.ASVolI.C41
+public import CFSG.Milestones.ASVolI.C48
+public import CFSG.Milestones.ASVolI.C4Kernel
+public import CFSG.Milestones.ASVolI.C5
+public import CFSG.Milestones.ASVolI.C5Blocks
+public import CFSG.Milestones.ASVolI.C5Maximal
+public import CFSG.Milestones.ASVolI.C5TwoBlocks
+public import CFSG.Milestones.ASVolI.C6
+public import CFSG.Milestones.ASVolI.C6Amalgam
+public import CFSG.Milestones.ASVolI.C6Dihedral
+public import CFSG.Milestones.ASVolI.D1
+public import CFSG.Milestones.ASVolI.D2
+public import CFSG.Milestones.ASVolI.D3a
+public import CFSG.Milestones.ASVolI.D3b
+public import CFSG.Milestones.ASVolI.D3c
+public import CFSG.Milestones.ASVolI.D3d
+public import CFSG.Milestones.ASVolI.E1
+public import CFSG.Milestones.ASVolI.E2
+public import CFSG.Milestones.ASVolI.E3
+public import CFSG.Milestones.ASVolI.E4
+public import CFSG.Milestones.ASVolI.E5
+public import CFSG.Milestones.ASVolI.E6
+public import CFSG.Milestones.ASVolI.F1
+public import CFSG.Milestones.ASVolI.F2
+public import CFSG.Milestones.ASVolI.F3
+public import CFSG.Milestones.ASVolI.F4
+public import CFSG.Milestones.ASVolI.F411
+public import CFSG.Milestones.ASVolI.F423
+public import CFSG.Milestones.ASVolI.F429
+public import CFSG.Milestones.ASVolI.F431Lemmas
+public import CFSG.Milestones.ASVolI.F435
+public import CFSG.Milestones.ASVolI.F437
+public import CFSG.Milestones.ASVolI.F438
+public import CFSG.Milestones.ASVolI.F48
+public import CFSG.Milestones.ASVolI.F4Aut
+public import CFSG.Milestones.ASVolI.F4Conjugacy
+public import CFSG.Milestones.ASVolI.F4Corollaries
+public import CFSG.Milestones.ASVolI.F4L3
+public import CFSG.Milestones.ASVolI.F4L3Aut
+public import CFSG.Milestones.ASVolI.F4Lie
+public import CFSG.Milestones.ASVolI.F4Native
+public import CFSG.Milestones.ASVolI.F4Polygon
+public import CFSG.Milestones.ASVolI.F4Reductions
+public import CFSG.Milestones.ASVolI.F4Small
+public import CFSG.Milestones.ASVolI.F4SmallCompletions
+public import CFSG.Milestones.ASVolI.F4Sylow
+public import CFSG.Milestones.ASVolI.F4TISets
+public import CFSG.Milestones.ASVolI.F5
+public import CFSG.Quasithin.Background.RonanF5CTransport
+public import Mathlib.LinearAlgebra.Matrix.Rank
+public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
+public import Mathlib.FieldTheory.Finite.Basic
+public import CFSG.Quasithin.Background.RonanF57Unitary
+public import CFSG.LieType.ChevTwo.OppCl.AutLiftsUnitary
+public import CFSG.Quasithin.Background.RonanF57Flags
+public import CFSG.Milestones.ASVolI.F6
+public import CFSG.Milestones.ASVolI.F7
+public import CFSG.Milestones.ASVolI.F8
+public import CFSG.Milestones.ASVolI.F9
+public import CFSG.Milestones.ASVolI.G1
+public import CFSG.Milestones.ASVolI.G10
+public import CFSG.Milestones.ASVolI.G11
+public import CFSG.Milestones.ASVolI.G12
+public import CFSG.Milestones.ASVolI.G2
+public import CFSG.Milestones.ASVolI.G3
+public import CFSG.Milestones.ASVolI.G4
+public import CFSG.Milestones.ASVolI.G5
+public import CFSG.Milestones.ASVolI.G6
+public import CFSG.Milestones.ASVolI.G7
+public import CFSG.Milestones.ASVolI.G8
+public import CFSG.Milestones.ASVolI.G9
+public import CFSG.Milestones.ASVolI.H1
+public import CFSG.Milestones.ASVolI.H10
+public import CFSG.Milestones.ASVolI.H11
+public import CFSG.Milestones.ASVolI.H12
+public import CFSG.Milestones.ASVolI.H13
+public import CFSG.Milestones.ASVolI.H14
+public import CFSG.Milestones.ASVolI.H15
+public import CFSG.Milestones.ASVolI.H16
+public import CFSG.Milestones.ASVolI.H4
+public import CFSG.Milestones.ASVolI.H5
+public import CFSG.Milestones.ASVolI.H6
+public import CFSG.Milestones.ASVolI.H9
+public import CFSG.Milestones.ASVolI.I1
+public import CFSG.Milestones.ASVolI.I1Cohomology
+public import CFSG.Milestones.ASVolI.I2
+public import CFSG.Milestones.ASVolI.I2BNWeakClosure
+public import CFSG.Milestones.ASVolI.I1G2Dual
+public import CFSG.Milestones.ASVolI.I2Covers
+public import CFSG.Milestones.ASVolI.I2GUniversal
+public import CFSG.Milestones.ASVolI.I2Natural
+public import CFSG.Milestones.ASVolI.I3
+public import CFSG.Milestones.ASVolI.I3Components
+public import CFSG.Milestones.ASVolI.I4
+public import CFSG.Milestones.ASVolI.I6
+public import CFSG.Milestones.ASVolI.I7
+public import CFSG.Milestones.ASVolI.I8
+public import CFSG.Milestones.ASVolI.I8Fusion
+public import CFSG.Milestones.ASVolI.J1
+public import CFSG.Milestones.ASVolI.J2
+public import CFSG.Milestones.ASVolI.J2Locals
+public import CFSG.Milestones.ASVolI.J3
+public import CFSG.Milestones.ASVolI.J4
+public import CFSG.Milestones.ASVolI.J4Gon
+public import CFSG.Milestones.ASVolI.J4Hexagon
+public import CFSG.Milestones.ASVolI.J5
+public import CFSG.Milestones.ASVolI.K1
+public import CFSG.Milestones.ASVolI.K3Orthogonal
+public import CFSG.Milestones.ASVolI.K4
+public import CFSG.Milestones.ASVolI.K4Star
+public import CFSG.CGT.Timmesfeld75.OddCenter
+public import CFSG.CGT.Timmesfeld75.Sec5ElevenIso
+public import CFSG.CGT.Timmesfeld75.Sec5FiveEng
+public import CFSG.CGT.Timmesfeld75.Sec5Ten
+public import CFSG.CGT.Timmesfeld75.Sec6Five
+public import CFSG.CGT.Timmesfeld75.Sec6One
+public import CFSG.CGT.Timmesfeld75.Step57Reduction
+public import CFSG.GH74.E2.OuterCore
+public import CFSG.GH74.GLS.IVK.Lifted.GroupAux
+public import CFSG.GH74.GLS.IVK.Lifted.Outer14
+public import CFSG.GH74.GLS.IVK.Lifted.SolvAut
+public import CFSG.GH74.GLS.IVK.Lifted.Strong
+public import CFSG.GH74.GLS.IVK.Proofs2.GHInvExcShape
+public import CFSG.GH74.GLS.SP.Local.SPLRestrict
+public import CFSG.GH74.GLS.TwoThin.KGroupCore
+public import CFSG.GH74.QTGen4.DSGen4.LeafWrappers
+public import CFSG.GH74.QTGen4.DSGen4.Statements
+public import CFSG.GH74.Uniqueness.SU.SU13TA1Class
+public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.TwoGroupExtension
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Co2DfsSound
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Co2Sylow
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Fi22CoverCheck
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Fi23Check
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.ONCheck
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.TwE6.AdjDisp
+public import CFSG.HardMathSupport.Cooperstein.StructureLie.OrthCentOne
+public import CFSG.HardMathSupport.Dickson.Bal207.LocalBalClassical
+public import CFSG.HardMathSupport.Dickson.Bal207.LocalBalRows
+public import CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.D4Dichotomy
+public import CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.E6Isotropic
+public import CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.T1
+public import CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross.W2.SpTwo
+public import CFSG.HardMathSupport.Meierfrankenfeld.Coordinator.D1EightTen
+public import CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation.EightTenFour.A7RadicalBase
+public import CFSG.HardMathSupport.Solomon.Coordinator.C25Borel
+public import CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.Center
+public import CFSG.HardMathSupport.Solomon.Coordinator.I22_4Glue
+public import CFSG.HardMathSupport.Solomon.UniquenessMaximal.Sec6D62
+public import CFSG.HardMathSupport.Solomon.UniquenessMaximal.Sec6E66
+public import CFSG.HardMathSupport.Timmesfeld.CrossChar.ExcInnerTwLangConsumers
+public import CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQThreeE6Holds
+public import CFSG.HardMathSupport.Timmesfeld.FieldBonus.TwistedRankE6
+public import CFSG.HardMathSupport.Timmesfeld.LangTorus.CentralizerTrivialPoly
+public import CFSG.HardMathSupport.Timmesfeld.LangTorus.OuterField
+public import CFSG.HardMathSupport.Timmesfeld.LangTorus.PlanesSetup
+public import CFSG.HardMathSupport.Timmesfeld.LangTorus.RigidNorm
+public import CFSG.HardMathSupport.Timmesfeld.LocalTwo.CrossReeF4Fam
+public import CFSG.HardMathSupport.Timmesfeld.LocalTwo.CrossSuzFaithful
+public import CFSG.HardMathSupport.Timmesfeld.LocalTwo.LangFrame
+public import CFSG.LargeExtraspecial.AS35DFinal
+public import CFSG.LargeExtraspecial.AS35EResid
+public import CFSG.LargeExtraspecial.AS62EnumInputs
+public import CFSG.LargeExtraspecial.DWSm77Aut
+public import CFSG.LargeExtraspecial.S12FourteenB
+public import CFSG.LargeExtraspecial.S14C10Apply
+public import CFSG.LieType.SeitzGeneration.ExcVacuousTits
+public import CFSG.LieType.SeitzGeneration.Hyper
+public import CFSG.LieType.SeitzGeneration.HyperBridge
+public import CFSG.LieType.SeitzGeneration.OrthExLift
+public import CFSG.LieType.Universal.Spin
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimLieGeneric
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.JStarElimThree
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanDiagOuterE6Adj
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanMonsterThreeCase
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanMonsterThreeIdent
+public import CFSG.LocalAnalysis.AGLEmbedding.Norton.OrdinaryProofs.MonsterCarrierSimple
+public import CFSG.LocalAnalysis.AGLEmbedding.Norton.OrdinaryProofs.MonsterCaseThreeAssembly
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.GN.C126GenCore
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.MilestoneFrontier
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.E23.Setup
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.AGL81I811Defs
+public import CFSG.LocalAnalysis.ComponentClassification.CatFactsSp4LayerB
+public import CFSG.LocalAnalysis.ComponentClassification.CatFactsSp4LayerD
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalAS76aProofLeviFields
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalAS76aProofOAut
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalAS76aProofOCoords
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalAS76aProofOEightChoice
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalAS76aProofOKlein
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalAS76aProofRigidDefs
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoClassicalORigidTheta
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.CenterAt
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.GlobFactor
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.GlobSetting
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.GlobSylow
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.LocGen
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.Out1SlimEquiv
+public import CFSG.LocalAnalysis.GorensteinLyons.SteinbergBLFourUnitaryScalarQuotient
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.I294KDOutTwE6
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotHR4
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotUniqueField
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotTorus
+public import CFSG.Milestones.ASVolI.C31.J4NP.Forest
+public import CFSG.Milestones.ASVolI.C31.J4NP.Is2AAffHBase
+public import CFSG.Milestones.ASVolI.C31.J4NP.VerdictColGen
+public import CFSG.Milestones.ASVolI.C31.J4NP.VerdictColSpec
+public import CFSG.Quasithin.Background.B610Two
+public import CFSG.Quasithin.Background.C31Open
+public import CFSG.Quasithin.Background.C48Inputs
+public import CFSG.Quasithin.Background.F7TwoFix
+public import CFSG.Quasithin.Background.G117Lt5
+public import CFSG.Quasithin.Background.G8
+public import CFSG.Quasithin.Background.H12OneHatM22
+public import CFSG.Quasithin.Background.Harris.Ln2.Final
+public import CFSG.Quasithin.Background.RonanF57Nsu
+public import CFSG.Quasithin.Background.RonanF918FiveO2
+public import CFSG.Quasithin.Background.RonanG73Certs
+public import CFSG.Quasithin.Background.SimsG4OrthPlusOmega
+public import CFSG.Quasithin.Background.SzG11SSeven
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23P4OutBase
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtS143W2CompC
+public import CFSG.Quasithin.EmptyFaithful.R3c19B
+public import CFSG.Quasithin.EmptyFaithful.S143FF
+public import CFSG.Quasithin.EmptyFaithful.S143Final
+public import CFSG.Quasithin.EmptyFaithful.S143HD
+public import CFSG.Quasithin.EmptyFaithful.S143IG
+public import CFSG.Quasithin.EmptyFaithful.S143JB
+public import CFSG.Quasithin.EmptyFaithful.S143KO
+public import CFSG.Quasithin.EmptyFaithful.S143KP
+public import CFSG.Quasithin.EmptyFaithful.S153EB6C
+public import CFSG.Quasithin.EmptyFaithful.SzMSWAsm
+public import CFSG.Quasithin.EmptyFaithful.SzMSWC134
+public import CFSG.Quasithin.EmptyFaithful.SzMSWFin
+public import CFSG.Quasithin.H13.A5RawNat
+public import CFSG.Quasithin.H13.A5S1328Blk2
+public import CFSG.Quasithin.H13.A5S1328Blk3
+public import CFSG.Quasithin.H13.A5S1328Vertex
+public import CFSG.Quasithin.H13.A5Sit15d
+public import CFSG.Quasithin.H13.A6S1384a
+public import CFSG.Quasithin.H13.A6S1384b
+public import CFSG.Quasithin.H13.GoldschmidtC137H6Case
+public import CFSG.Quasithin.H13.GoldschmidtC137U33Final
+public import CFSG.Quasithin.H13.GoldschmidtC137ZfRed2
+public import CFSG.Quasithin.H13.GoldschmidtI51Trans
+public import CFSG.Quasithin.H13.KGFactT3J4Core
+public import CFSG.Quasithin.H13.L1332
+public import CFSG.Quasithin.H13.L32NLem14328e
+public import CFSG.Quasithin.H13.NQS1312C
+public import CFSG.Quasithin.H13.NQS1312I
+public import CFSG.Quasithin.H13.Sp62Transport
+public import CFSG.Quasithin.Vol2.Ch10SecB3CartanC
+public import CFSG.Quasithin.Vol2.Ch11G2Q8Weyl
+public import CFSG.Quasithin.Vol2.Ch11SecB35F
+public import CFSG.Quasithin.Vol2.Ch11SecB414Z
+public import CFSG.Quasithin.Vol2.Ch11SecBK5Base10
+public import CFSG.Quasithin.Vol2.Ch11SecBK5Base12
+public import CFSG.Quasithin.Vol2.Ch11SecD552
+public import CFSG.Quasithin.Vol2.Ch11SecD556
+public import CFSG.Quasithin.Vol2.Ch11SecD556I
+public import CFSG.Quasithin.Vol2.Ch11SecS12R
+public import CFSG.Quasithin.Vol2.Ch3Sec3FrontierB
+public import CFSG.Quasithin.Vol2.Ch3Sec3FrontierC
+public import CFSG.Quasithin.Vol2.Ch4Sec2T425C27C
+public import CFSG.Quasithin.Vol2.Ch4Sec2T425C27E
+public import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem522D42Para
+public import CFSG.Quasithin.Vol2.KGFact12614NoFF
+public import CFSG.Quasithin.Vol2.KGFact12618
+public import CFSG.Quasithin.Vol2.KGFact12618c
+public import CFSG.Quasithin.Vol2.KGFact1262
+public import CFSG.Quasithin.Vol2.KGFactC31HeRefBase
+public import CFSG.Quasithin.Vol2.KGFactC31M23RefBase
+public import CFSG.RankThree.Chevalley.SteinbergBID4CentralKernel
+public import CFSG.RankThree.Lattice.SteinbergBIE6EvenBruhat
+public import CFSG.RankThree.Lattice.SteinbergBIE6OrderThreeTools
+public import CFSG.RankThree.Lattice.SteinbergBIE6Qplus
+public import CFSG.RankThree.PartOne.K133H.G2Plane
+public import CFSG.RankThree.PartOne.KE.E7FiveBlock
+public import CFSG.RankThree.PartOne.KE.E8D4Family
+public import CFSG.RankThree.PartOne.N143.LowTwoRankSplit
+public import CFSG.RankThree.PartOne.N143.SectionCenter
+public import CFSG.RankThree.PartOne.N143.SectionRankBound
+public import CFSG.RankThree.PartOne.N143.SectionRankProof
+public import CFSG.RankThree.PartOne.N143.SectionRankSplit
+public import CFSG.RankThree.PartOne.RF4.FinalSec66
+public import CFSG.RankThree.PartTwo.Sec19.Step1914E
+public import CFSG.RankThree.PartTwo.Sec19.Steps195
+public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.OrderCheckF
+public import CFSG.RankThree.PartTwo.Sec4.Census.WiringDoubleCover
+public import CFSG.RankThree.PartTwo.Sec4.T444.Item434O8pE9Local
+public import CFSG.RankThree.PartTwo.Sec8.Item87Proof84
+public import CFSG.SignalizerFunctorTheorem.CatalogBridge.FixedFieldCard
+public import CFSG.SignalizerFunctorTheorem.CatalogBridge.NormalFormStabilizer
+public import CFSG.Sporadic.Recognition.LyonsFinalDist2
+public import Certificates.Certificate19780
+public import Certificates.Certificate19800
+public import Certificates.Certificate295200
+public import Certificates.Certificate310101
+public import Certificates.Certificate490011
+public import Certificates.Certificate490012
+public import Certificates.Certificate490013
+public import Certificates.Certificate490031
+public import Certificates.Certificate7066
+public import Certificates.Certificate7227
+public import Certificates.Certificate7247
+public import Certificates.Certificate7260
+public import Certificates.Data.CFSGNative.J4Tree.Top
+
+public section
+
+namespace CFSG.ASVolI
+
+structure PartOne : Prop where
+  a_1_1 : CFSG.ASVolI.A_1_1
+  a_1_2 : CFSG.ASVolI.A_1_2
+  a_1_3 : CFSG.ASVolI.A_1_3
+  a_1_4 : CFSG.ASVolI.A_1_4
+  a_1_5 : CFSG.ASVolI.A_1_5
+  a_1_6 : CFSG.ASVolI.A_1_6
+  a_1_7 : CFSG.ASVolI.A_1_7
+  a_1_8 : CFSG.ASVolI.A_1_8
+  a_1_9 : CFSG.ASVolI.A_1_9
+  a_1_10 : CFSG.ASVolI.A_1_10
+  a_1_11 : CFSG.ASVolI.A_1_11
+  a_1_12 : CFSG.ASVolI.A_1_12
+  a_1_13 : CFSG.ASVolI.A_1_13
+  a_1_14 : CFSG.ASVolI.A_1_14
+  a_1_15 : CFSG.ASVolI.A_1_15
+  a_1_16 : CFSG.ASVolI.A_1_16
+  a_1_17 : CFSG.ASVolI.A_1_17
+  a_1_18 : CFSG.ASVolI.A_1_18
+  a_1_19 : CFSG.ASVolI.A_1_19
+  a_1_21 : CFSG.ASVolI.A_1_21
+  a_1_23 : CFSG.ASVolI.A_1_23
+  a_1_24 : CFSG.ASVolI.A_1_24
+  a_1_25 : CFSG.ASVolI.A_1_25
+  a_1_26 : CFSG.ASVolI.A_1_26
+  a_1_27 : CFSG.ASVolI.A_1_27
+  a_1_28 : CFSG.ASVolI.A_1_28
+  a_1_29 : CFSG.ASVolI.A_1_29
+  a_1_30 : CFSG.ASVolI.A_1_30
+  a_1_31 : CFSG.ASVolI.A_1_31
+  a_1_32 : CFSG.ASVolI.A_1_32
+  a_1_33 : CFSG.ASVolI.A_1_33
+  a_1_34 : CFSG.ASVolI.A_1_34
+  a_1_35 : CFSG.ASVolI.A_1_35
+  a_1_36 : CFSG.ASVolI.A_1_36
+  a_1_37 : CFSG.ASVolI.A_1_37
+  a_1_38 : CFSG.ASVolI.A_1_38
+  a_1_39 : CFSG.ASVolI.A_1_39
+  a_1_41 : CFSG.ASVolI.A_1_41
+  a_1_42 : CFSG.ASVolI.A_1_42
+  a_1_43 : CFSG.ASVolI.A_1_43
+  a_1_44 : CFSG.ASVolI.A_1_44
+  a_2_1 : CFSG.ASVolI.A_2_1
+  a_2_2 : CFSG.ASVolI.A_2_2
+  a_2_6 : CFSG.ASVolI.A_2_6
+  a_2_7 : CFSG.ASVolI.A_2_7
+  a_2_8 : CFSG.ASVolI.A_2_8
+  a_2_10 : CFSG.ASVolI.A_2_10
+  a_2_11 : CFSG.ASVolI.A_2_11
+  a_2_12 : CFSG.ASVolI.A_2_12
+  a_2_13 : CFSG.ASVolI.A_2_13
+  a_2_14 : CFSG.ASVolI.A_2_14
+  a_2_15 : CFSG.ASVolI.A_2_15
+  a_2_16 : CFSG.ASVolI.A_2_16
+  a_2_17 : CFSG.ASVolI.A_2_17
+  a_2_18 : CFSG.ASVolI.A_2_18
+  a_2_19 : CFSG.ASVolI.A_2_19
+  a_3_3 : CFSG.ASVolI.A_3_3
+  a_3_5 : CFSG.ASVolI.A_3_5
+  a_3_6 : CFSG.ASVolI.A_3_6
+  a_3_7 : CFSG.ASVolI.A_3_7
+  a_3_8 : CFSG.ASVolI.A_3_8
+  a_3_9 : CFSG.ASVolI.A_3_9
+  a_3_11 : CFSG.ASVolI.A_3_11
+  a_3_12 : CFSG.ASVolI.A_3_12
+  a_3_13 : CFSG.ASVolI.A_3_13
+  a_3_14 : CFSG.ASVolI.A_3_14
+  a_3_15 : CFSG.ASVolI.A_3_15
+  a_3_16 : CFSG.ASVolI.A_3_16
+  a_3_18 : CFSG.ASVolI.A_3_18
+  a_3_19 : CFSG.ASVolI.A_3_19
+  a_3_20 : CFSG.ASVolI.A_3_20
+  a_3_21 : CFSG.ASVolI.A_3_21
+  a_4_2 : CFSG.ASVolI.A_4_2
+  a_4_3 : CFSG.ASVolI.A_4_3
+  a_4_4 : CFSG.ASVolI.A_4_4
+  a_4_6 : CFSG.ASVolI.A_4_6
+  a_4_7 : CFSG.ASVolI.A_4_7
+  a_4_8 : CFSG.ASVolI.A_4_8
+  a_4_9 : CFSG.ASVolI.A_4_9
+  a_4_10 : CFSG.ASVolI.A_4_10
+  a_4_11 : CFSG.ASVolI.A_4_11
+  a_5_1 : CFSG.ASVolI.A_5_1
+  a_5_2 : CFSG.ASVolI.A_5_2
+  a_5_3 : CFSG.ASVolI.A_5_3
+  a_5_4 : CFSG.ASVolI.A_5_4
+  a_5_5 : CFSG.ASVolI.A_5_5
+  a_5_6 : CFSG.ASVolI.A_5_6
+  a_5_7 : CFSG.ASVolI.A_5_7
+  a_5_9 : CFSG.ASVolI.A_5_9
+  a_5_10 : CFSG.ASVolI.A_5_10
+  a_6_1 : CFSG.ASVolI.A_6_1
+  a_6_2 : CFSG.ASVolI.A_6_2
+  a_6_3 : CFSG.ASVolI.A_6_3
+  a_6_4 : CFSG.ASVolI.A_6_4
+  a_6_5 : CFSG.ASVolI.A_6_5
+  b_1_1 : CFSG.ASVolI.B_1_1
+  b_1_2 : CFSG.ASVolI.B_1_2
+  b_1_4 : CFSG.ASVolI.B_1_4
+  b_1_5 : CFSG.ASVolI.B_1_5
+  b_1_7 : CFSG.ASVolI.B_1_7
+  b_1_8 : CFSG.ASVolI.B_1_8
+  b_1_9 : CFSG.ASVolI.B_1_9
+  b_1_10 : CFSG.ASVolI.B_1_10
+  b_1_11 : CFSG.ASVolI.B_1_11
+  b_1_12 : CFSG.ASVolI.B_1_12
+  b_1_13 : CFSG.ASVolI.B_1_13
+  b_2_2 : CFSG.ASVolI.B_2_2
+  b_2_3 : CFSG.ASVolI.B_2_3
+  b_2_4 : CFSG.ASVolI.B_2_4
+  b_2_5 : CFSG.ASVolI.B_2_5
+  b_2_6 : CFSG.ASVolI.B_2_6
+  b_2_7 : CFSG.ASVolI.B_2_7
+  b_2_8 : CFSG.ASVolI.B_2_8
+  b_2_9 : CFSG.ASVolI.B_2_9
+  b_2_10 : CFSG.ASVolI.B_2_10
+  b_2_11 : CFSG.ASVolI.B_2_11
+  b_2_12 : CFSG.ASVolI.B_2_12
+  b_2_13 : CFSG.ASVolI.B_2_13
+  b_2_14 : CFSG.ASVolI.B_2_14
+  b_2_15 : CFSG.ASVolI.B_2_15
+  b_2_16 : CFSG.ASVolI.B_2_16
+  b_2_17 : CFSG.ASVolI.B_2_17
+  b_2_18 : CFSG.ASVolI.B_2_18
+  b_2_19 : CFSG.ASVolI.B_2_19
+  b_2_20 : CFSG.ASVolI.B_2_20
+  b_2_21 : CFSG.ASVolI.B_2_21
+  b_3_1 : CFSG.ASVolI.B_3_1
+  b_3_2 : CFSG.ASVolI.B_3_2
+  b_3_3 : CFSG.ASVolI.B_3_3
+  b_3_4 : CFSG.ASVolI.B_3_4
+  b_4_6 : CFSG.ASVolI.B_4_6
+  b_4_7 : CFSG.ASVolI.B_4_7
+  b_4_8 : CFSG.ASVolI.B_4_8
+  b_4_9 : CFSG.ASVolI.B_4_9
+  b_4_10 : CFSG.ASVolI.B_4_10
+  b_4_11 : CFSG.ASVolI.B_4_11
+  b_4_12 : CFSG.ASVolI.B_4_12
+  b_4_13 : CFSG.ASVolI.B_4_13
+  b_4_14 : CFSG.ASVolI.B_4_14
+  b_5_2 : CFSG.ASVolI.B_5_2
+  b_5_5 : CFSG.ASVolI.B_5_5
+  b_5_7 : CFSG.ASVolI.B_5_7
+  b_5_8 : CFSG.ASVolI.B_5_8
+  b_5_9 : CFSG.ASVolI.B_5_9
+  b_5_10 : CFSG.ASVolI.B_5_10
+  b_5_11 : CFSG.ASVolI.B_5_11
+  b_5_12 : CFSG.ASVolI.B_5_12
+  b_5_13 : CFSG.ASVolI.B_5_13
+  b_6_3 : CFSG.ASVolI.B_6_3
+  b_6_4 : CFSG.ASVolI.B_6_4
+  b_6_5 : CFSG.ASVolI.B_6_5
+  b_6_6 : CFSG.ASVolI.B_6_6
+  b_6_8 : CFSG.ASVolI.B_6_8
+  b_6_9 : CFSG.ASVolI.B_6_9
+  b_6_10 : CFSG.ASVolI.B_6_10
+  b_7_1 : CFSG.ASVolI.B_7_1
+  b_7_2 : CFSG.ASVolI.B_7_2
+
+structure PartTwo : Prop where
+  c_1_2 : CFSG.ASVolI.C_1_2
+  c_1_3 : CFSG.ASVolI.C_1_3
+  c_1_4 : CFSG.ASVolI.C_1_4
+  c_1_8 : CFSG.ASVolI.C_1_8
+  c_1_9 : CFSG.ASVolI.C_1_9
+  c_1_10 : CFSG.ASVolI.C_1_10
+  c_1_11 : CFSG.ASVolI.C_1_11
+  c_1_13 : CFSG.ASVolI.C_1_13
+  c_1_15 : CFSG.ASVolI.C_1_15
+  c_1_16 : CFSG.ASVolI.C_1_16
+  c_1_18 : CFSG.ASVolI.C_1_18
+  c_1_19 : CFSG.ASVolI.C_1_19
+  c_1_21 : CFSG.ASVolI.C_1_21
+  c_1_22 : CFSG.ASVolI.C_1_22
+  c_1_23 : CFSG.ASVolI.C_1_23
+  c_1_24 : CFSG.ASVolI.C_1_24
+  c_1_26 : CFSG.ASVolI.C_1_26
+  c_1_27 : CFSG.ASVolI.C_1_27
+  c_1_28 : CFSG.ASVolI.C_1_28
+  c_1_29 : CFSG.ASVolI.C_1_29
+  c_1_35 : CFSG.ASVolI.C_1_35
+  c_1_36 : CFSG.ASVolI.C_1_36
+  c_1_37 : CFSG.ASVolI.C_1_37
+  c_2_1 : CFSG.ASVolI.C_2_1
+  c_2_2 : CFSG.ASVolI.C_2_2
+  c_2_4 : CFSG.ASVolI.C_2_4
+  c_2_5 : CFSG.ASVolI.C_2_5
+  c_2_6 : CFSG.ASVolI.C_2_6
+  c_2_7 : CFSG.ASVolI.C_2_7
+  c_2_9 : CFSG.ASVolI.C_2_9
+  c_2_10 : CFSG.ASVolI.C_2_10
+  c_2_11 : CFSG.ASVolI.C_2_11
+  c_2_12 : CFSG.ASVolI.C_2_12
+  c_2_13 : CFSG.ASVolI.C_2_13
+  c_2_14 : CFSG.ASVolI.C_2_14
+  c_3_1 : CFSG.ASVolI.C_3_1
+  c_3_2 : CFSG.ASVolI.C_3_2
+  c_3_3 : CFSG.ASVolI.C_3_3
+  c_3_4 : CFSG.ASVolI.C_3_4
+  c_3_5 : CFSG.ASVolI.C_3_5
+  c_4_1 : CFSG.ASVolI.C_4_1
+  c_4_2 : CFSG.ASVolI.C_4_2
+  c_4_3 : CFSG.ASVolI.C_4_3
+  c_4_4 : CFSG.ASVolI.C_4_4
+  c_4_5 : CFSG.ASVolI.C_4_5
+  c_4_6 : CFSG.ASVolI.C_4_6
+  c_4_7 : CFSG.ASVolI.C_4_7
+  c_4_8 : CFSG.ASVolI.C_4_8
+  c_5_3 : CFSG.ASVolI.C_5_3
+  c_5_4 : CFSG.ASVolI.C_5_4
+  c_5_5 : CFSG.ASVolI.C_5_5
+  c_5_6 : CFSG.ASVolI.C_5_6
+  c_5_7 : CFSG.ASVolI.C_5_7
+  c_5_8 : CFSG.ASVolI.C_5_8
+  c_5_9 : CFSG.ASVolI.C_5_9
+  c_5_10 : CFSG.ASVolI.C_5_10
+  c_5_11 : CFSG.ASVolI.C_5_11
+  c_5_12 : CFSG.ASVolI.C_5_12
+  c_5_13 : CFSG.ASVolI.C_5_13
+  c_6_1 : CFSG.ASVolI.C_6_1
+  c_6_2 : CFSG.ASVolI.C_6_2
+  c_6_3 : CFSG.ASVolI.C_6_3
+  c_6_4 : CFSG.ASVolI.C_6_4
+  d_1_2 : CFSG.ASVolI.D_1_2
+  d_1_3 : CFSG.ASVolI.D_1_3
+  d_1_4 : CFSG.ASVolI.D_1_4
+  d_1_5 : CFSG.ASVolI.D_1_5
+  d_2_1 : CFSG.ASVolI.D_2_1
+  d_2_2 : CFSG.ASVolI.D_2_2
+  d_2_3 : CFSG.ASVolI.D_2_3
+  d_2_4 : CFSG.ASVolI.D_2_4
+  d_2_5 : CFSG.ASVolI.D_2_5
+  d_2_6 : CFSG.ASVolI.D_2_6
+  d_2_7 : CFSG.ASVolI.D_2_7
+  d_2_8 : CFSG.ASVolI.D_2_8
+  d_2_9 : CFSG.ASVolI.D_2_9
+  d_2_11 : CFSG.ASVolI.D_2_11
+  d_2_12 : CFSG.ASVolI.D_2_12
+  d_2_13 : CFSG.ASVolI.D_2_13
+  d_2_14 : CFSG.ASVolI.D_2_14
+  d_2_17 : CFSG.ASVolI.D_2_17
+  d_2_18 : CFSG.ASVolI.D_2_18
+  d_2_19 : CFSG.ASVolI.D_2_19
+  d_2_20 : CFSG.ASVolI.D_2_20
+  d_2_21 : CFSG.ASVolI.D_2_21
+  d_2_22 : CFSG.ASVolI.D_2_22
+  d_2_23 : CFSG.ASVolI.D_2_23
+  d_2_24 : CFSG.ASVolI.D_2_24
+  d_2_25 : CFSG.ASVolI.D_2_25
+  d_2_26 : CFSG.ASVolI.D_2_26
+  d_2_27 : CFSG.ASVolI.D_2_27
+  d_2_28 : CFSG.ASVolI.D_2_28
+  d_2_29 : CFSG.ASVolI.D_2_29
+  d_3_3 : CFSG.ASVolI.D_3_3
+  d_3_4 : CFSG.ASVolI.D_3_4
+  d_3_5 : CFSG.ASVolI.D_3_5
+  d_3_6 : CFSG.ASVolI.D_3_6
+  d_3_7 : CFSG.ASVolI.D_3_7
+  d_3_8 : CFSG.ASVolI.D_3_8
+  d_3_9 : CFSG.ASVolI.D_3_9
+  d_3_10 : CFSG.ASVolI.D_3_10
+  d_3_11 : CFSG.ASVolI.D_3_11
+  d_3_12 : CFSG.ASVolI.D_3_12
+  d_3_13 : CFSG.ASVolI.D_3_13
+  d_3_14 : CFSG.ASVolI.D_3_14
+  d_3_15 : CFSG.ASVolI.D_3_15
+  d_3_16 : CFSG.ASVolI.D_3_16
+  d_3_17 : CFSG.ASVolI.D_3_17
+  d_3_18 : CFSG.ASVolI.D_3_18
+  d_3_19 : CFSG.ASVolI.D_3_19
+  d_3_20 : CFSG.ASVolI.D_3_20
+  d_3_21 : CFSG.ASVolI.D_3_21
+
+structure PartThree : Prop where
+  e_1_4 : CFSG.ASVolI.E_1_4
+  e_1_5 : CFSG.ASVolI.E_1_5
+  e_1_7 : CFSG.ASVolI.E_1_7
+  e_1_8 : CFSG.ASVolI.E_1_8
+  e_1_10 : CFSG.ASVolI.E_1_10
+  e_1_11 : CFSG.ASVolI.E_1_11
+  e_1_12 : CFSG.ASVolI.E_1_12
+  e_1_13 : CFSG.ASVolI.E_1_13
+  e_1_14 : CFSG.ASVolI.E_1_14
+  e_2_1 : CFSG.ASVolI.E_2_1
+  e_2_2 : CFSG.ASVolI.E_2_2
+  e_2_3 : CFSG.ASVolI.E_2_3
+  e_2_5 : CFSG.ASVolI.E_2_5
+  e_2_6 : CFSG.ASVolI.E_2_6
+  e_2_7 : CFSG.ASVolI.E_2_7
+  e_2_9 : CFSG.ASVolI.E_2_9
+  e_2_10 : CFSG.ASVolI.E_2_10
+  e_2_11 : CFSG.ASVolI.E_2_11
+  e_2_13 : CFSG.ASVolI.E_2_13
+  e_2_14 : CFSG.ASVolI.E_2_14
+  e_2_15 : CFSG.ASVolI.E_2_15
+  e_2_16 : CFSG.ASVolI.E_2_16
+  e_2_17 : CFSG.ASVolI.E_2_17
+  e_3_2 : CFSG.ASVolI.E_3_2
+  e_3_4 : CFSG.ASVolI.E_3_4
+  e_3_6 : CFSG.ASVolI.E_3_6
+  e_3_7 : CFSG.ASVolI.E_3_7
+  e_3_10 : CFSG.ASVolI.E_3_10
+  e_3_11 : CFSG.ASVolI.E_3_11
+  e_3_12 : CFSG.ASVolI.E_3_12
+  e_3_14 : CFSG.ASVolI.E_3_14
+  e_3_15 : CFSG.ASVolI.E_3_15
+  e_3_16 : CFSG.ASVolI.E_3_16
+  e_3_17 : CFSG.ASVolI.E_3_17
+  e_3_18 : CFSG.ASVolI.E_3_18
+  e_3_19 : CFSG.ASVolI.E_3_19
+  e_3_20 : CFSG.ASVolI.E_3_20
+  e_3_21 : CFSG.ASVolI.E_3_21
+  e_3_25 : CFSG.ASVolI.E_3_25
+  e_3_26 : CFSG.ASVolI.E_3_26
+  e_3_28 : CFSG.ASVolI.E_3_28
+  e_3_29 : CFSG.ASVolI.E_3_29
+  e_3_31 : CFSG.ASVolI.E_3_31
+  e_3_32 : CFSG.ASVolI.E_3_32
+  e_3_33 : CFSG.ASVolI.E_3_33
+  e_3_34 : CFSG.ASVolI.E_3_34
+  e_3_35 : CFSG.ASVolI.E_3_35
+  e_3_37 : CFSG.ASVolI.E_3_37
+  e_3_38 : CFSG.ASVolI.E_3_38
+  e_3_39 : CFSG.ASVolI.E_3_39
+  e_3_40 : CFSG.ASVolI.E_3_40
+  e_4_1 : CFSG.ASVolI.E_4_1
+  e_4_2 : CFSG.ASVolI.E_4_2
+  e_4_3 : CFSG.ASVolI.E_4_3
+  e_5_1 : CFSG.ASVolI.E_5_1
+  e_5_2 : CFSG.ASVolI.E_5_2
+  e_5_3 : CFSG.ASVolI.E_5_3
+  e_5_4 : CFSG.ASVolI.E_5_4
+  e_5_5 : CFSG.ASVolI.E_5_5
+  e_6_2 : CFSG.ASVolI.E_6_2
+  e_6_3 : CFSG.ASVolI.E_6_3
+  e_6_4 : CFSG.ASVolI.E_6_4
+  e_6_5 : CFSG.ASVolI.E_6_5
+  e_6_6 : CFSG.ASVolI.E_6_6
+  e_6_7 : CFSG.ASVolI.E_6_7
+  e_6_8 : CFSG.ASVolI.E_6_8
+  e_6_9 : CFSG.ASVolI.E_6_9
+  e_6_10 : CFSG.ASVolI.E_6_10
+  e_6_11 : CFSG.ASVolI.E_6_11
+  e_6_12 : CFSG.ASVolI.E_6_12
+  e_6_13 : CFSG.ASVolI.E_6_13
+  e_6_14 : CFSG.ASVolI.E_6_14
+  e_6_16 : CFSG.ASVolI.E_6_16
+  e_6_17 : CFSG.ASVolI.E_6_17
+  e_6_18 : CFSG.ASVolI.E_6_18
+  e_6_19 : CFSG.ASVolI.E_6_19
+  e_6_20 : CFSG.ASVolI.E_6_20
+  e_6_21 : CFSG.ASVolI.E_6_21
+  e_6_22 : CFSG.ASVolI.E_6_22
+  e_6_23 : CFSG.ASVolI.E_6_23
+  e_6_24 : CFSG.ASVolI.E_6_24
+  e_6_25 : CFSG.ASVolI.E_6_25
+  e_6_26 : CFSG.ASVolI.E_6_26
+  e_6_27 : CFSG.ASVolI.E_6_27
+  e_6_28 : CFSG.ASVolI.E_6_28
+  f_1_2 : CFSG.ASVolI.F_1_2
+  f_1_3 : CFSG.ASVolI.F_1_3
+  f_1_5 : CFSG.ASVolI.F_1_5
+  f_1_6 : CFSG.ASVolI.F_1_6
+  f_1_10 : CFSG.ASVolI.F_1_10
+  f_1_11 : CFSG.ASVolI.F_1_11
+  f_2_2 : CFSG.ASVolI.F_2_2
+  f_2_4 : CFSG.ASVolI.F_2_4
+  f_2_5 : CFSG.ASVolI.F_2_5
+  f_2_6 : CFSG.ASVolI.F_2_6
+  f_2_7 : CFSG.ASVolI.F_2_7
+  f_2_8 : CFSG.ASVolI.F_2_8
+  f_2_9 : CFSG.ASVolI.F_2_9
+  f_2_10 : CFSG.ASVolI.F_2_10
+  f_2_11 : CFSG.ASVolI.F_2_11
+  f_3_1 : CFSG.ASVolI.F_3_1
+  f_3_3 : CFSG.ASVolI.F_3_3
+  f_3_4 : CFSG.ASVolI.F_3_4
+  f_3_5 : CFSG.ASVolI.F_3_5
+  f_3_6 : CFSG.ASVolI.F_3_6
+  f_3_7 : CFSG.ASVolI.F_3_7
+  f_4_3 : CFSG.ASVolI.F_4_3
+  f_4_4 : CFSG.ASVolI.F_4_4
+  f_4_5 : CFSG.ASVolI.F_4_5
+  f_4_6 : CFSG.ASVolI.F_4_6
+  f_4_8 : CFSG.ASVolI.F_4_8
+  f_4_9 : CFSG.ASVolI.F_4_9
+  f_4_11 : CFSG.ASVolI.F_4_11
+  f_4_12 : CFSG.ASVolI.F_4_12
+  f_4_13 : CFSG.ASVolI.F_4_13
+  f_4_14 : CFSG.ASVolI.F_4_14
+  f_4_15 : CFSG.ASVolI.F_4_15
+  f_4_16 : CFSG.ASVolI.F_4_16
+  f_4_17 : CFSG.ASVolI.F_4_17
+  f_4_19 : CFSG.ASVolI.F_4_19
+  f_4_20 : CFSG.ASVolI.F_4_20
+  f_4_21 : CFSG.ASVolI.F_4_21
+  f_4_22 : CFSG.ASVolI.F_4_22
+  f_4_23 : CFSG.ASVolI.F_4_23
+  f_4_24 : CFSG.ASVolI.F_4_24
+  f_4_25 : CFSG.ASVolI.F_4_25
+  f_4_26 : CFSG.ASVolI.F_4_26
+  f_4_27 : CFSG.ASVolI.F_4_27
+  f_4_29 : CFSG.ASVolI.F_4_29
+  f_4_30 : CFSG.ASVolI.F_4_30
+  f_4_33 : CFSG.ASVolI.F_4_33
+  f_4_34 : CFSG.ASVolI.F_4_34
+  f_4_35 : CFSG.ASVolI.F_4_35
+  f_4_36 : CFSG.ASVolI.F_4_36
+  f_4_37 : CFSG.ASVolI.F_4_37
+  f_4_38 : CFSG.ASVolI.F_4_38
+  f_4_39 : CFSG.ASVolI.F_4_39
+  f_4_40 : CFSG.ASVolI.F_4_40
+  f_4_42 : CFSG.ASVolI.F_4_42
+  f_4_43 : CFSG.ASVolI.F_4_43
+  f_4_44 : CFSG.ASVolI.F_4_44
+  f_4_45 : CFSG.ASVolI.F_4_45
+  f_4_46 : CFSG.ASVolI.F_4_46
+  f_4_47 : CFSG.ASVolI.F_4_47
+  f_4_48 : CFSG.ASVolI.F_4_48
+  f_4_49 : CFSG.ASVolI.F_4_49
+  f_5_1 : CFSG.ASVolI.F_5_1
+  f_5_2 : CFSG.ASVolI.F_5_2
+  f_5_3 : CFSG.ASVolI.F_5_3
+  f_5_4 : CFSG.ASVolI.F_5_4
+  f_5_5 : CFSG.ASVolI.F_5_5
+  f_5_6 : CFSG.ASVolI.F_5_6
+  f_5_7 : CFSG.ASVolI.F_5_7
+  f_5_8 : CFSG.ASVolI.F_5_8
+  f_6_3 : CFSG.ASVolI.F_6_3
+  f_6_4 : CFSG.ASVolI.F_6_4
+  f_6_5 : CFSG.ASVolI.F_6_5
+  f_6_6 : CFSG.ASVolI.F_6_6
+  f_6_7 : CFSG.ASVolI.F_6_7
+  f_6_8 : CFSG.ASVolI.F_6_8
+  f_6_9 : CFSG.ASVolI.F_6_9
+  f_6_10 : CFSG.ASVolI.F_6_10
+  f_6_11 : CFSG.ASVolI.F_6_11
+  f_6_12 : CFSG.ASVolI.F_6_12
+  f_6_13 : CFSG.ASVolI.F_6_13
+  f_6_14 : CFSG.ASVolI.F_6_14
+  f_6_15 : CFSG.ASVolI.F_6_15
+  f_6_16 : CFSG.ASVolI.F_6_16
+  f_6_17 : CFSG.ASVolI.F_6_17
+  f_7_3 : CFSG.ASVolI.F_7_3
+  f_7_4 : CFSG.ASVolI.F_7_4
+  f_7_5 : CFSG.ASVolI.F_7_5
+  f_7_7 : CFSG.ASVolI.F_7_7
+  f_7_8 : CFSG.ASVolI.F_7_8
+  f_7_9 : CFSG.ASVolI.F_7_9
+  f_7_10 : CFSG.ASVolI.F_7_10
+  f_7_11 : CFSG.ASVolI.F_7_11
+  f_7_12 : CFSG.ASVolI.F_7_12
+  f_7_13 : CFSG.ASVolI.F_7_13
+  f_7_14 : CFSG.ASVolI.F_7_14
+  f_8_2 : CFSG.ASVolI.F_8_2
+  f_8_3 : CFSG.ASVolI.F_8_3
+  f_8_4 : CFSG.ASVolI.F_8_4
+  f_8_5 : CFSG.ASVolI.F_8_5
+  f_8_6 : CFSG.ASVolI.F_8_6
+  f_8_7 : CFSG.ASVolI.F_8_7
+  f_9_2 : CFSG.ASVolI.F_9_2
+  f_9_3 : CFSG.ASVolI.F_9_3
+  f_9_4 : CFSG.ASVolI.F_9_4
+  f_9_5 : CFSG.ASVolI.F_9_5
+  f_9_6 : CFSG.ASVolI.F_9_6
+  f_9_7 : CFSG.ASVolI.F_9_7
+  f_9_9 : CFSG.ASVolI.F_9_9
+  f_9_10 : CFSG.ASVolI.F_9_10
+  f_9_11 : CFSG.ASVolI.F_9_11
+  f_9_12 : CFSG.ASVolI.F_9_12
+  f_9_13 : CFSG.ASVolI.F_9_13
+  f_9_14 : CFSG.ASVolI.F_9_14
+  f_9_15 : CFSG.ASVolI.F_9_15
+  f_9_16 : CFSG.ASVolI.F_9_16
+  f_9_17 : CFSG.ASVolI.F_9_17
+  f_9_18 : CFSG.ASVolI.F_9_18
+
+structure PartFour : Prop where
+  g_1_2 : CFSG.ASVolI.G_1_2
+  g_1_3 : CFSG.ASVolI.G_1_3
+  g_1_4 : CFSG.ASVolI.G_1_4
+  g_1_5 : CFSG.ASVolI.G_1_5
+  g_1_6 : CFSG.ASVolI.G_1_6
+  g_1_7 : CFSG.ASVolI.G_1_7
+  g_1_8 : CFSG.ASVolI.G_1_8
+  g_1_10 : CFSG.ASVolI.G_1_10
+  g_1_11 : CFSG.ASVolI.G_1_11
+  g_1_12 : CFSG.ASVolI.G_1_12
+  g_2_2 : CFSG.ASVolI.G_2_2
+  g_2_3 : CFSG.ASVolI.G_2_3
+  g_2_4 : CFSG.ASVolI.G_2_4
+  g_2_5 : CFSG.ASVolI.G_2_5
+  g_2_6 : CFSG.ASVolI.G_2_6
+  g_3_1 : CFSG.ASVolI.G_3_1
+  g_4_1 : CFSG.ASVolI.G_4_1
+  g_4_3 : CFSG.ASVolI.G_4_3
+  g_4_4 : CFSG.ASVolI.G_4_4
+  g_4_5 : CFSG.ASVolI.G_4_5
+  g_4_6 : CFSG.ASVolI.G_4_6
+  g_4_7 : CFSG.ASVolI.G_4_7
+  g_4_8 : CFSG.ASVolI.G_4_8
+  g_4_9 : CFSG.ASVolI.G_4_9
+  g_5_1 : CFSG.ASVolI.G_5_1
+  g_5_2 : CFSG.ASVolI.G_5_2
+  g_5_3 : CFSG.ASVolI.G_5_3
+  g_6_2 : CFSG.ASVolI.G_6_2
+  g_6_3 : CFSG.ASVolI.G_6_3
+  g_6_4 : CFSG.ASVolI.G_6_4
+  g_7_1 : CFSG.ASVolI.G_7_1
+  g_7_2 : CFSG.ASVolI.G_7_2
+  g_7_3 : CFSG.ASVolI.G_7_3
+  g_8_2 : CFSG.ASVolI.G_8_2
+  g_8_3 : CFSG.ASVolI.G_8_3
+  g_8_4 : CFSG.ASVolI.G_8_4
+  g_8_5 : CFSG.ASVolI.G_8_5
+  g_8_6 : CFSG.ASVolI.G_8_6
+  g_8_7 : CFSG.ASVolI.G_8_7
+  g_8_8 : CFSG.ASVolI.G_8_8
+  g_8_9 : CFSG.ASVolI.G_8_9
+  g_9_2 : CFSG.ASVolI.G_9_2
+  g_9_3 : CFSG.ASVolI.G_9_3
+  g_9_4 : CFSG.ASVolI.G_9_4
+  g_10_2 : CFSG.ASVolI.G_10_2
+  g_10_3 : CFSG.ASVolI.G_10_3
+  g_10_4 : CFSG.ASVolI.G_10_4
+  g_10_5 : CFSG.ASVolI.G_10_5
+  g_10_7 : CFSG.ASVolI.G_10_7
+  g_10_9 : CFSG.ASVolI.G_10_9
+  g_10_10 : CFSG.ASVolI.G_10_10
+  g_10_11 : CFSG.ASVolI.G_10_11
+  g_10_12 : CFSG.ASVolI.G_10_12
+  g_10_13 : CFSG.ASVolI.G_10_13
+  g_10_14 : CFSG.ASVolI.G_10_14
+  g_10_15 : CFSG.ASVolI.G_10_15
+  g_10_16 : CFSG.ASVolI.G_10_16
+  g_11_2 : CFSG.ASVolI.G_11_2
+  g_11_4 : CFSG.ASVolI.G_11_4
+  g_11_5 : CFSG.ASVolI.G_11_5
+  g_11_6 : CFSG.ASVolI.G_11_6
+  g_11_7 : CFSG.ASVolI.G_11_7
+  g_11_8 : CFSG.ASVolI.G_11_8
+  g_11_9 : CFSG.ASVolI.G_11_9
+  g_12_1 : CFSG.ASVolI.G_12_1
+  g_12_2 : CFSG.ASVolI.G_12_2
+  g_12_3 : CFSG.ASVolI.G_12_3
+  g_12_4 : CFSG.ASVolI.G_12_4
+  g_12_5 : CFSG.ASVolI.G_12_5
+  g_12_6 : CFSG.ASVolI.G_12_6
+  g_12_7 : CFSG.ASVolI.G_12_7
+  g_12_8 : CFSG.ASVolI.G_12_8
+  g_12_9 : CFSG.ASVolI.G_12_9
+  g_12_10 : CFSG.ASVolI.G_12_10
+  g_12_11 : CFSG.ASVolI.G_12_11
+  g_12_12 : CFSG.ASVolI.G_12_12
+  h_0_1 : CFSG.ASVolI.H_0_1
+  h_1_1 : CFSG.ASVolI.H_1_1
+  h_4_1 : CFSG.ASVolI.H_4_1
+  h_4_2 : CFSG.ASVolI.H_4_2
+  h_4_3 : CFSG.ASVolI.H_4_3
+  h_4_4 : CFSG.ASVolI.H_4_4
+  h_4_5 : CFSG.ASVolI.H_4_5
+  h_4_6 : CFSG.ASVolI.H_4_6
+  h_4_7 : CFSG.ASVolI.H_4_7
+  h_4_8 : CFSG.ASVolI.H_4_8
+  h_4_9 : CFSG.ASVolI.H_4_9
+  h_4_10 : CFSG.ASVolI.H_4_10
+  h_4_11 : CFSG.ASVolI.H_4_11
+  h_4_12 : CFSG.ASVolI.H_4_12
+  h_5_1 : CFSG.ASVolI.H_5_1
+  h_5_2 : CFSG.ASVolI.H_5_2
+  h_5_3 : CFSG.ASVolI.H_5_3
+  h_5_4 : CFSG.ASVolI.H_5_4
+  h_5_5 : CFSG.ASVolI.H_5_5
+  h_6_1 : CFSG.ASVolI.H_6_1
+  h_6_2 : CFSG.ASVolI.H_6_2
+  h_6_3 : CFSG.ASVolI.H_6_3
+  h_6_4 : CFSG.ASVolI.H_6_4
+  h_6_5 : CFSG.ASVolI.H_6_5
+  h_9_1 : CFSG.ASVolI.H_9_1
+  h_9_2 : CFSG.ASVolI.H_9_2
+  h_9_3 : CFSG.ASVolI.H_9_3
+  h_10_1 : CFSG.ASVolI.H_10_1
+  h_11_1 : CFSG.ASVolI.H_11_1
+  h_12_1 : CFSG.ASVolI.H_12_1
+  h_13_1 : CFSG.ASVolI.H_13_1
+  h_13_2 : CFSG.ASVolI.H_13_2
+  h_14_1 : CFSG.ASVolI.H_14_1
+  h_14_2 : CFSG.ASVolI.H_14_2
+  h_14_3 : CFSG.ASVolI.H_14_3
+  h_14_4 : CFSG.ASVolI.H_14_4
+  h_15_1 : CFSG.ASVolI.H_15_1
+  h_15_2 : CFSG.ASVolI.H_15_2
+  h_15_3 : CFSG.ASVolI.H_15_3
+  h_15_4 : CFSG.ASVolI.H_15_4
+  h_15_5 : CFSG.ASVolI.H_15_5
+  h_15_6 : CFSG.ASVolI.H_15_6
+  h_15_7 : CFSG.ASVolI.H_15_7
+  h_15_8 : CFSG.ASVolI.H_15_8
+  h_16_1 : CFSG.ASVolI.H_16_1
+  h_16_2 : CFSG.ASVolI.H_16_2
+  h_16_3 : CFSG.ASVolI.H_16_3
+  h_16_4 : CFSG.ASVolI.H_16_4
+  h_16_5 : CFSG.ASVolI.H_16_5
+  h_16_6 : CFSG.ASVolI.H_16_6
+  h_16_7 : CFSG.ASVolI.H_16_7
+  h_16_8 : CFSG.ASVolI.H_16_8
+  j_2_1 : CFSG.ASVolI.J_2_1
+  j_2_2 : CFSG.ASVolI.J_2_2
+  j_2_3 : CFSG.ASVolI.J_2_3
+  j_2_4 : CFSG.ASVolI.J_2_4
+  j_2_5 : CFSG.ASVolI.J_2_5
+  j_2_6 : CFSG.ASVolI.J_2_6
+  j_2_7 : CFSG.ASVolI.J_2_7
+  j_2_8 : CFSG.ASVolI.J_2_8
+  j_2_9 : CFSG.ASVolI.J_2_9
+  j_2_10 : CFSG.ASVolI.J_2_10
+  j_3_1 : CFSG.ASVolI.J_3_1
+  j_3_2 : CFSG.ASVolI.J_3_2
+  j_3_3 : CFSG.ASVolI.J_3_3
+  j_3_4 : CFSG.ASVolI.J_3_4
+  j_3_5 : CFSG.ASVolI.J_3_5
+  j_3_6 : CFSG.ASVolI.J_3_6
+  j_4_1 : CFSG.ASVolI.J_4_1
+  j_4_2 : CFSG.ASVolI.J_4_2
+  j_4_3 : CFSG.ASVolI.J_4_3
+  j_4_4 : CFSG.ASVolI.J_4_4
+  j_4_5 : CFSG.ASVolI.J_4_5
+  j_4_6 : CFSG.ASVolI.J_4_6
+  j_4_7 : CFSG.ASVolI.J_4_7
+  j_4_8 : CFSG.ASVolI.J_4_8
+  j_4_9 : CFSG.ASVolI.J_4_9
+  j_4_10 : CFSG.ASVolI.J_4_10
+  j_5_2 : CFSG.ASVolI.J_5_2
+  j_5_3 : CFSG.ASVolI.J_5_3
+  j_5_4 : CFSG.ASVolI.J_5_4
+  j_5_5 : CFSG.ASVolI.J_5_5
+  j_5_6 : CFSG.ASVolI.J_5_6
+  j_5_7 : CFSG.ASVolI.J_5_7
+  j_5_8 : CFSG.ASVolI.J_5_8
+  j_5_9 : CFSG.ASVolI.J_5_9
+  j_5_10 : CFSG.ASVolI.J_5_10
+  j_5_11 : CFSG.ASVolI.J_5_11
+  j_5_12 : CFSG.ASVolI.J_5_12
+  j_5_13 : CFSG.ASVolI.J_5_13
+  j_5_14 : CFSG.ASVolI.J_5_14
+  k_0_overview : CFSG.ASVolI.K_0_overview
+  k_0_star : CFSG.ASVolI.K_0_star
+  k_1 : CFSG.ASVolI.K_1
+  k_1_1 : CFSG.ASVolI.K_1_1
+  k_1_2 : CFSG.ASVolI.K_1_2
+  k_1_3 : CFSG.ASVolI.K_1_3
+  k_2 : CFSG.ASVolI.K_2
+  k_3_1 : CFSG.ASVolI.K_3_1
+  k_3_1_1 : CFSG.ASVolI.K_3_1_1
+  k_3_1_2 : CFSG.ASVolI.K_3_1_2
+  k_3_2 : CFSG.ASVolI.K_3_2
+  k_3_2_1 : CFSG.ASVolI.K_3_2_1
+  k_3_2_2 : CFSG.ASVolI.K_3_2_2
+  k_3_2_3 : CFSG.ASVolI.K_3_2_3
+  k_3_2_4 : CFSG.ASVolI.K_3_2_4
+  k_3_3 : CFSG.ASVolI.K_3_3
+  k_3_4 : CFSG.ASVolI.K_3_4
+  k_3_4_1 : CFSG.ASVolI.K_3_4_1
+  k_3_4_2 : CFSG.ASVolI.K_3_4_2
+  k_3_5 : CFSG.ASVolI.K_3_5
+  k_3_6 : CFSG.ASVolI.K_3_6
+  k_3_nonclassical : CFSG.ASVolI.K_3_nonclassical
+  k_4 : CFSG.ASVolI.K_4
+  k_4_1_bound : CFSG.ASVolI.K_4_1_bound
+  k_4_1_lemma : CFSG.ASVolI.K_4_1_lemma
+  k_4_2_lemma : CFSG.ASVolI.K_4_2_lemma
+  k_4_3_lemma : CFSG.ASVolI.K_4_3_lemma
+  k_4_4_lemma : CFSG.ASVolI.K_4_4_lemma
+  k_4_3 : CFSG.ASVolI.K_4_3
+  k_4_4 : CFSG.ASVolI.K_4_4
+  k_4_5 : CFSG.ASVolI.K_4_5
+  k_4_star : CFSG.ASVolI.K_4_star
+
+structure PartFive : Prop where
+  i_1_2 : CFSG.ASVolI.I_1_2
+  i_1_3 : CFSG.ASVolI.I_1_3
+  i_1_4 : CFSG.ASVolI.I_1_4
+  i_1_6 : CFSG.ASVolI.I_1_6
+  i_1_7b : CFSG.ASVolI.I_1_7b
+  i_2_1 : CFSG.ASVolI.I_2_1
+  i_2_2 : CFSG.ASVolI.I_2_2
+  i_2_3 : CFSG.ASVolI.I_2_3
+  i_2_4 : CFSG.ASVolI.I_2_4
+  i_2_5 : CFSG.ASVolI.I_2_5
+  i_3_1 : CFSG.ASVolI.I_3_1
+  i_3_2 : CFSG.ASVolI.I_3_2
+  i_4_8 : CFSG.ASVolI.I_4_8
+  i_4_9 : CFSG.ASVolI.I_4_9
+  i_6_1 : CFSG.ASVolI.I_6_1
+  i_6_2 : CFSG.ASVolI.I_6_2
+  i_7_2 : CFSG.ASVolI.I_7_2
+  i_7_3 : CFSG.ASVolI.I_7_3
+  i_7_4 : CFSG.ASVolI.I_7_4
+  i_7_5 : CFSG.ASVolI.I_7_5
+  i_7_6 : CFSG.ASVolI.I_7_6
+  i_7_7 : CFSG.ASVolI.I_7_7
+  i_8_1 : CFSG.ASVolI.I_8_1
+  i_8_2 : CFSG.ASVolI.I_8_2
+  i_8_3 : CFSG.ASVolI.I_8_3
+  i_8_4 : CFSG.ASVolI.I_8_4
+  i_8_5 : CFSG.ASVolI.I_8_5
+
+structure Statement : Prop where
+  part_1 : PartOne
+  part_2 : PartTwo
+  part_3 : PartThree
+  part_4 : PartFour
+  part_5 : PartFive
+
+section
+
+theorem partone_holds
+    : PartOne where
+  a_1_1 := CFSG.ASVolI.as_A_1_1
+  a_1_2 := CFSG.ASVolI.as_A_1_2
+  a_1_3 := CFSG.ASVolI.as_A_1_3
+  a_1_4 := CFSG.ASVolI.as_A_1_4
+  a_1_5 := CFSG.ASVolI.as_A_1_5
+  a_1_6 := CFSG.ASVolI.as_A_1_6
+  a_1_7 := CFSG.ASVolI.as_A_1_7
+  a_1_8 := CFSG.ASVolI.as_A_1_8
+  a_1_9 := CFSG.ASVolI.as_A_1_9
+  a_1_10 := CFSG.ASVolI.as_A_1_10
+  a_1_11 := CFSG.ASVolI.as_A_1_11
+  a_1_12 := CFSG.ASVolI.as_A_1_12
+  a_1_13 := CFSG.ASVolI.as_A_1_13
+  a_1_14 := CFSG.ASVolI.as_A_1_14
+  a_1_15 := CFSG.ASVolI.as_A_1_15
+  a_1_16 := CFSG.ASVolI.as_A_1_16
+  a_1_17 := CFSG.ASVolI.as_A_1_17
+  a_1_18 := CFSG.ASVolI.as_A_1_18
+  a_1_19 := CFSG.ASVolI.as_A_1_19
+  a_1_21 := CFSG.ASVolI.as_A_1_21
+  a_1_23 := CFSG.ASVolI.as_A_1_23
+  a_1_24 := CFSG.ASVolI.as_A_1_24
+  a_1_25 := CFSG.ASVolI.as_A_1_25
+  a_1_26 := CFSG.ASVolI.as_A_1_26
+  a_1_27 := CFSG.ASVolI.as_A_1_27
+  a_1_28 := CFSG.ASVolI.as_A_1_28
+  a_1_29 := CFSG.ASVolI.as_A_1_29
+  a_1_30 := CFSG.ASVolI.as_A_1_30
+  a_1_31 := CFSG.ASVolI.as_A_1_31
+  a_1_32 := CFSG.ASVolI.as_A_1_32
+  a_1_33 := CFSG.ASVolI.as_A_1_33
+  a_1_34 := CFSG.ASVolI.as_A_1_34
+  a_1_35 := CFSG.ASVolI.as_A_1_35
+  a_1_36 := CFSG.ASVolI.as_A_1_36
+  a_1_37 := CFSG.ASVolI.as_A_1_37
+  a_1_38 := CFSG.ASVolI.as_A_1_38
+  a_1_39 := CFSG.ASVolI.as_A_1_39
+  a_1_41 := CFSG.ASVolI.as_A_1_41
+  a_1_42 := CFSG.ASVolI.as_A_1_42
+  a_1_43 := CFSG.ASVolI.as_A_1_43
+  a_1_44 := CFSG.ASVolI.as_A_1_44
+  a_2_1 := CFSG.ASVolI.as_A_2_1
+  a_2_2 := CFSG.ASVolI.as_A_2_2
+  a_2_6 := CFSG.ASVolI.as_A_2_6
+  a_2_7 := CFSG.ASVolI.as_A_2_7
+  a_2_8 := CFSG.ASVolI.as_A_2_8
+  a_2_10 := CFSG.ASVolI.as_A_2_10
+  a_2_11 := CFSG.ASVolI.as_A_2_11
+  a_2_12 := CFSG.ASVolI.as_A_2_12
+  a_2_13 := CFSG.ASVolI.as_A_2_13
+  a_2_14 := CFSG.ASVolI.as_A_2_14
+  a_2_15 := CFSG.ASVolI.as_A_2_15
+  a_2_16 := CFSG.ASVolI.as_A_2_16
+  a_2_17 := CFSG.ASVolI.as_A_2_17
+  a_2_18 := CFSG.ASVolI.as_A_2_18
+  a_2_19 := CFSG.ASVolI.as_A_2_19
+  a_3_3 := CFSG.ASVolI.as_A_3_3
+  a_3_5 := CFSG.ASVolI.as_A_3_5
+  a_3_6 := CFSG.ASVolI.as_A_3_6
+  a_3_7 := CFSG.ASVolI.as_A_3_7
+  a_3_8 := CFSG.ASVolI.as_A_3_8
+  a_3_9 := CFSG.ASVolI.as_A_3_9
+  a_3_11 := CFSG.ASVolI.as_A_3_11
+  a_3_12 := CFSG.ASVolI.as_A_3_12
+  a_3_13 := CFSG.ASVolI.as_A_3_13
+  a_3_14 := CFSG.ASVolI.as_A_3_14
+  a_3_15 := CFSG.ASVolI.as_A_3_15
+  a_3_16 := CFSG.ASVolI.as_A_3_16
+  a_3_18 := CFSG.ASVolI.as_A_3_18
+  a_3_19 := CFSG.ASVolI.as_A_3_19
+  a_3_20 := CFSG.ASVolI.as_A_3_20
+  a_3_21 := CFSG.ASVolI.as_A_3_21
+  a_4_2 := CFSG.ASVolI.as_A_4_2
+  a_4_3 := CFSG.ASVolI.as_A_4_3
+  a_4_4 := CFSG.ASVolI.as_A_4_4
+  a_4_6 := CFSG.ASVolI.as_A_4_6
+  a_4_7 := CFSG.ASVolI.as_A_4_7
+  a_4_8 := CFSG.ASVolI.as_A_4_8
+  a_4_9 := CFSG.ASVolI.as_A_4_9
+  a_4_10 := CFSG.ASVolI.as_A_4_10
+  a_4_11 := CFSG.ASVolI.as_A_4_11
+  a_5_1 := CFSG.ASVolI.as_A_5_1
+  a_5_2 := CFSG.ASVolI.as_A_5_2
+  a_5_3 := CFSG.ASVolI.as_A_5_3
+  a_5_4 := CFSG.ASVolI.as_A_5_4
+  a_5_5 := CFSG.ASVolI.as_A_5_5
+  a_5_6 := CFSG.ASVolI.as_A_5_6
+  a_5_7 := CFSG.ASVolI.as_A_5_7
+  a_5_9 := CFSG.ASVolI.as_A_5_9
+  a_5_10 := CFSG.ASVolI.as_A_5_10
+  a_6_1 := CFSG.ASVolI.as_A_6_1
+  a_6_2 := CFSG.ASVolI.as_A_6_2
+  a_6_3 := CFSG.ASVolI.as_A_6_3
+  a_6_4 := CFSG.ASVolI.as_A_6_4
+  a_6_5 := CFSG.ASVolI.as_A_6_5
+  b_1_1 := CFSG.ASVolI.as_B_1_1
+  b_1_2 := CFSG.ASVolI.as_B_1_2
+  b_1_4 := CFSG.ASVolI.as_B_1_4
+  b_1_5 := CFSG.ASVolI.as_B_1_5
+  b_1_7 := CFSG.ASVolI.as_B_1_7
+  b_1_8 := CFSG.ASVolI.as_B_1_8
+  b_1_9 := CFSG.ASVolI.as_B_1_9
+  b_1_10 := CFSG.ASVolI.as_B_1_10
+  b_1_11 := CFSG.ASVolI.as_B_1_11
+  b_1_12 := CFSG.ASVolI.as_B_1_12
+  b_1_13 := CFSG.ASVolI.as_B_1_13
+  b_2_2 := CFSG.ASVolI.as_B_2_2
+  b_2_3 := CFSG.ASVolI.as_B_2_3
+  b_2_4 := CFSG.ASVolI.as_B_2_4
+  b_2_5 := CFSG.ASVolI.as_B_2_5
+  b_2_6 := CFSG.ASVolI.as_B_2_6
+  b_2_7 := CFSG.ASVolI.as_B_2_7
+  b_2_8 := CFSG.ASVolI.as_B_2_8
+  b_2_9 := CFSG.ASVolI.as_B_2_9
+  b_2_10 := CFSG.ASVolI.as_B_2_10
+  b_2_11 := CFSG.ASVolI.as_B_2_11
+  b_2_12 := CFSG.ASVolI.as_B_2_12
+  b_2_13 := CFSG.ASVolI.as_B_2_13
+  b_2_14 := CFSG.ASVolI.as_B_2_14
+  b_2_15 := CFSG.ASVolI.as_B_2_15
+  b_2_16 := CFSG.ASVolI.as_B_2_16
+  b_2_17 := CFSG.ASVolI.as_B_2_17
+  b_2_18 := CFSG.ASVolI.as_B_2_18
+  b_2_19 := CFSG.ASVolI.as_B_2_19
+  b_2_20 := CFSG.ASVolI.as_B_2_20
+  b_2_21 := CFSG.ASVolI.as_B_2_21
+  b_3_1 := CFSG.ASVolI.as_B_3_1
+  b_3_2 := CFSG.ASVolI.as_B_3_2
+  b_3_3 := CFSG.ASVolI.as_B_3_3
+  b_3_4 := CFSG.ASVolI.as_B_3_4
+  b_4_6 := CFSG.ASVolI.as_B_4_6
+  b_4_7 := CFSG.ASVolI.as_B_4_7
+  b_4_8 := CFSG.ASVolI.as_B_4_8
+  b_4_9 := CFSG.ASVolI.as_B_4_9
+  b_4_10 := CFSG.ASVolI.as_B_4_10
+  b_4_11 := CFSG.ASVolI.as_B_4_11
+  b_4_12 := CFSG.ASVolI.as_B_4_12
+  b_4_13 := CFSG.ASVolI.as_B_4_13
+  b_4_14 := CFSG.ASVolI.as_B_4_14
+  b_5_2 := CFSG.ASVolI.as_B_5_2
+  b_5_5 := CFSG.ASVolI.as_B_5_5
+  b_5_7 := CFSG.ASVolI.as_B_5_7
+  b_5_8 := CFSG.ASVolI.as_B_5_8
+  b_5_9 := CFSG.ASVolI.as_B_5_9
+  b_5_10 := CFSG.ASVolI.as_B_5_10
+  b_5_11 := CFSG.ASVolI.as_B_5_11
+  b_5_12 := CFSG.ASVolI.as_B_5_12
+  b_5_13 := CFSG.ASVolI.as_B_5_13
+  b_6_3 := CFSG.ASVolI.as_B_6_3
+  b_6_4 := CFSG.ASVolI.as_B_6_4
+  b_6_5 := CFSG.ASVolI.as_B_6_5
+  b_6_6 := CFSG.ASVolI.as_B_6_6
+  b_6_8 := CFSG.ASVolI.as_B_6_8
+  b_6_9 := CFSG.ASVolI.as_B_6_9
+  b_6_10 := CFSG.ASVolI.as_B_6_10
+  b_7_1 := CFSG.ASVolI.as_B_7_1
+  b_7_2 := CFSG.ASVolI.as_B_7_2
+end
+
+section
+
+theorem parttwo_holds
+    : PartTwo where
+  c_1_2 := CFSG.ASVolI.as_C_1_2
+  c_1_3 := CFSG.ASVolI.as_C_1_3
+  c_1_4 := CFSG.ASVolI.as_C_1_4
+  c_1_8 := CFSG.ASVolI.as_C_1_8
+  c_1_9 := CFSG.ASVolI.as_C_1_9
+  c_1_10 := CFSG.ASVolI.as_C_1_10
+  c_1_11 := CFSG.ASVolI.as_C_1_11
+  c_1_13 := CFSG.ASVolI.as_C_1_13
+  c_1_15 := CFSG.ASVolI.as_C_1_15
+  c_1_16 := CFSG.ASVolI.as_C_1_16
+  c_1_18 := CFSG.ASVolI.as_C_1_18
+  c_1_19 := CFSG.ASVolI.as_C_1_19
+  c_1_21 := CFSG.ASVolI.as_C_1_21
+  c_1_22 := CFSG.ASVolI.as_C_1_22
+  c_1_23 := CFSG.ASVolI.as_C_1_23
+  c_1_24 := CFSG.ASVolI.as_C_1_24
+  c_1_26 := CFSG.ASVolI.as_C_1_26
+  c_1_27 := CFSG.ASVolI.as_C_1_27
+  c_1_28 := CFSG.ASVolI.as_C_1_28
+  c_1_29 := CFSG.ASVolI.as_C_1_29
+  c_1_35 := CFSG.ASVolI.as_C_1_35
+  c_1_36 := CFSG.ASVolI.as_C_1_36
+  c_1_37 := CFSG.ASVolI.as_C_1_37
+  c_2_1 := CFSG.ASVolI.as_C_2_1
+  c_2_2 := CFSG.ASVolI.as_C_2_2
+  c_2_4 := CFSG.ASVolI.as_C_2_4
+  c_2_5 := CFSG.ASVolI.as_C_2_5
+  c_2_6 := CFSG.ASVolI.as_C_2_6
+  c_2_7 := CFSG.ASVolI.as_C_2_7
+  c_2_9 := CFSG.ASVolI.as_C_2_9
+  c_2_10 := CFSG.ASVolI.as_C_2_10
+  c_2_11 := CFSG.ASVolI.as_C_2_11
+  c_2_12 := CFSG.ASVolI.as_C_2_12
+  c_2_13 := CFSG.ASVolI.as_C_2_13
+  c_2_14 := CFSG.ASVolI.as_C_2_14
+  c_3_1 := CFSG.ASVolI.as_C_3_1
+  c_3_2 := CFSG.ASVolI.as_C_3_2
+  c_3_3 := CFSG.ASVolI.as_C_3_3
+  c_3_4 := CFSG.ASVolI.as_C_3_4
+  c_3_5 := CFSG.ASVolI.as_C_3_5
+  c_4_1 := CFSG.ASVolI.as_C_4_1
+  c_4_2 := CFSG.ASVolI.as_C_4_2
+  c_4_3 := CFSG.ASVolI.as_C_4_3
+  c_4_4 := CFSG.ASVolI.as_C_4_4
+  c_4_5 := CFSG.ASVolI.as_C_4_5
+  c_4_6 := CFSG.ASVolI.as_C_4_6
+  c_4_7 := CFSG.ASVolI.as_C_4_7
+  c_4_8 := CFSG.ASVolI.as_C_4_8
+  c_5_3 := CFSG.ASVolI.as_C_5_3
+  c_5_4 := CFSG.ASVolI.as_C_5_4
+  c_5_5 := CFSG.ASVolI.as_C_5_5
+  c_5_6 := CFSG.ASVolI.as_C_5_6
+  c_5_7 := CFSG.ASVolI.as_C_5_7
+  c_5_8 := CFSG.ASVolI.as_C_5_8
+  c_5_9 := CFSG.ASVolI.as_C_5_9
+  c_5_10 := CFSG.ASVolI.as_C_5_10
+  c_5_11 := CFSG.ASVolI.as_C_5_11
+  c_5_12 := CFSG.ASVolI.as_C_5_12
+  c_5_13 := CFSG.ASVolI.as_C_5_13
+  c_6_1 := CFSG.ASVolI.as_C_6_1
+  c_6_2 := CFSG.ASVolI.as_C_6_2
+  c_6_3 := CFSG.ASVolI.as_C_6_3
+  c_6_4 := CFSG.ASVolI.as_C_6_4
+  d_1_2 := CFSG.ASVolI.as_D_1_2
+  d_1_3 := CFSG.ASVolI.as_D_1_3
+  d_1_4 := CFSG.ASVolI.as_D_1_4
+  d_1_5 := CFSG.ASVolI.as_D_1_5
+  d_2_1 := CFSG.ASVolI.as_D_2_1
+  d_2_2 := CFSG.ASVolI.as_D_2_2
+  d_2_3 := CFSG.ASVolI.as_D_2_3
+  d_2_4 := CFSG.ASVolI.as_D_2_4
+  d_2_5 := CFSG.ASVolI.as_D_2_5
+  d_2_6 := CFSG.ASVolI.as_D_2_6
+  d_2_7 := CFSG.ASVolI.as_D_2_7
+  d_2_8 := CFSG.ASVolI.as_D_2_8
+  d_2_9 := CFSG.ASVolI.as_D_2_9
+  d_2_11 := CFSG.ASVolI.as_D_2_11
+  d_2_12 := CFSG.ASVolI.as_D_2_12
+  d_2_13 := CFSG.ASVolI.as_D_2_13
+  d_2_14 := CFSG.ASVolI.as_D_2_14
+  d_2_17 := CFSG.ASVolI.as_D_2_17
+  d_2_18 := CFSG.ASVolI.as_D_2_18
+  d_2_19 := CFSG.ASVolI.as_D_2_19
+  d_2_20 := CFSG.ASVolI.as_D_2_20
+  d_2_21 := CFSG.ASVolI.as_D_2_21
+  d_2_22 := CFSG.ASVolI.as_D_2_22
+  d_2_23 := CFSG.ASVolI.as_D_2_23
+  d_2_24 := CFSG.ASVolI.as_D_2_24
+  d_2_25 := CFSG.ASVolI.as_D_2_25
+  d_2_26 := CFSG.ASVolI.as_D_2_26
+  d_2_27 := CFSG.ASVolI.as_D_2_27
+  d_2_28 := CFSG.ASVolI.as_D_2_28
+  d_2_29 := CFSG.ASVolI.as_D_2_29
+  d_3_3 := CFSG.ASVolI.as_D_3_3
+  d_3_4 := CFSG.ASVolI.as_D_3_4
+  d_3_5 := CFSG.ASVolI.as_D_3_5
+  d_3_6 := CFSG.ASVolI.as_D_3_6
+  d_3_7 := CFSG.ASVolI.as_D_3_7
+  d_3_8 := CFSG.ASVolI.as_D_3_8
+  d_3_9 := CFSG.ASVolI.as_D_3_9
+  d_3_10 := CFSG.ASVolI.as_D_3_10
+  d_3_11 := CFSG.ASVolI.as_D_3_11
+  d_3_12 := CFSG.ASVolI.as_D_3_12
+  d_3_13 := CFSG.ASVolI.as_D_3_13
+  d_3_14 := CFSG.ASVolI.as_D_3_14
+  d_3_15 := CFSG.ASVolI.as_D_3_15
+  d_3_16 := CFSG.ASVolI.as_D_3_16
+  d_3_17 := CFSG.ASVolI.as_D_3_17
+  d_3_18 := CFSG.ASVolI.as_D_3_18
+  d_3_19 := CFSG.ASVolI.as_D_3_19
+  d_3_20 := CFSG.ASVolI.as_D_3_20
+  d_3_21 := CFSG.ASVolI.as_D_3_21
+end
+
+section
+
+theorem partthree_holds
+    : PartThree where
+  e_1_4 := CFSG.ASVolI.as_E_1_4
+  e_1_5 := CFSG.ASVolI.as_E_1_5
+  e_1_7 := CFSG.ASVolI.as_E_1_7
+  e_1_8 := CFSG.ASVolI.as_E_1_8
+  e_1_10 := CFSG.ASVolI.as_E_1_10
+  e_1_11 := CFSG.ASVolI.as_E_1_11
+  e_1_12 := CFSG.ASVolI.as_E_1_12
+  e_1_13 := CFSG.ASVolI.as_E_1_13
+  e_1_14 := CFSG.ASVolI.as_E_1_14
+  e_2_1 := CFSG.ASVolI.as_E_2_1
+  e_2_2 := CFSG.ASVolI.as_E_2_2
+  e_2_3 := CFSG.ASVolI.as_E_2_3
+  e_2_5 := CFSG.ASVolI.as_E_2_5
+  e_2_6 := CFSG.ASVolI.as_E_2_6
+  e_2_7 := CFSG.ASVolI.as_E_2_7
+  e_2_9 := CFSG.ASVolI.as_E_2_9
+  e_2_10 := CFSG.ASVolI.as_E_2_10
+  e_2_11 := CFSG.ASVolI.as_E_2_11
+  e_2_13 := CFSG.ASVolI.as_E_2_13
+  e_2_14 := CFSG.ASVolI.as_E_2_14
+  e_2_15 := CFSG.ASVolI.as_E_2_15
+  e_2_16 := CFSG.ASVolI.as_E_2_16
+  e_2_17 := CFSG.ASVolI.as_E_2_17
+  e_3_2 := CFSG.ASVolI.as_E_3_2
+  e_3_4 := CFSG.ASVolI.as_E_3_4
+  e_3_6 := CFSG.ASVolI.as_E_3_6
+  e_3_7 := CFSG.ASVolI.as_E_3_7
+  e_3_10 := CFSG.ASVolI.as_E_3_10
+  e_3_11 := CFSG.ASVolI.as_E_3_11
+  e_3_12 := CFSG.ASVolI.as_E_3_12
+  e_3_14 := CFSG.ASVolI.as_E_3_14
+  e_3_15 := CFSG.ASVolI.as_E_3_15
+  e_3_16 := CFSG.ASVolI.as_E_3_16
+  e_3_17 := CFSG.ASVolI.as_E_3_17
+  e_3_18 := CFSG.ASVolI.as_E_3_18
+  e_3_19 := CFSG.ASVolI.as_E_3_19
+  e_3_20 := CFSG.ASVolI.as_E_3_20
+  e_3_21 := CFSG.ASVolI.as_E_3_21
+  e_3_25 := CFSG.ASVolI.as_E_3_25
+  e_3_26 := CFSG.ASVolI.as_E_3_26
+  e_3_28 := CFSG.ASVolI.as_E_3_28
+  e_3_29 := CFSG.ASVolI.as_E_3_29
+  e_3_31 := CFSG.ASVolI.as_E_3_31
+  e_3_32 := CFSG.ASVolI.as_E_3_32
+  e_3_33 := CFSG.ASVolI.as_E_3_33
+  e_3_34 := CFSG.ASVolI.as_E_3_34
+  e_3_35 := CFSG.ASVolI.as_E_3_35
+  e_3_37 := CFSG.ASVolI.as_E_3_37
+  e_3_38 := CFSG.ASVolI.as_E_3_38
+  e_3_39 := CFSG.ASVolI.as_E_3_39
+  e_3_40 := CFSG.ASVolI.as_E_3_40
+  e_4_1 := CFSG.ASVolI.as_E_4_1
+  e_4_2 := CFSG.ASVolI.as_E_4_2
+  e_4_3 := CFSG.ASVolI.as_E_4_3
+  e_5_1 := CFSG.ASVolI.as_E_5_1
+  e_5_2 := CFSG.ASVolI.as_E_5_2
+  e_5_3 := CFSG.ASVolI.as_E_5_3
+  e_5_4 := CFSG.ASVolI.as_E_5_4
+  e_5_5 := CFSG.ASVolI.as_E_5_5
+  e_6_2 := CFSG.ASVolI.as_E_6_2
+  e_6_3 := CFSG.ASVolI.as_E_6_3
+  e_6_4 := CFSG.ASVolI.as_E_6_4
+  e_6_5 := CFSG.ASVolI.as_E_6_5
+  e_6_6 := CFSG.ASVolI.as_E_6_6
+  e_6_7 := CFSG.ASVolI.as_E_6_7
+  e_6_8 := CFSG.ASVolI.as_E_6_8
+  e_6_9 := CFSG.ASVolI.as_E_6_9
+  e_6_10 := CFSG.ASVolI.as_E_6_10
+  e_6_11 := CFSG.ASVolI.as_E_6_11
+  e_6_12 := CFSG.ASVolI.as_E_6_12
+  e_6_13 := CFSG.ASVolI.as_E_6_13
+  e_6_14 := CFSG.ASVolI.as_E_6_14
+  e_6_16 := CFSG.ASVolI.as_E_6_16
+  e_6_17 := CFSG.ASVolI.as_E_6_17
+  e_6_18 := CFSG.ASVolI.as_E_6_18
+  e_6_19 := CFSG.ASVolI.as_E_6_19
+  e_6_20 := CFSG.ASVolI.as_E_6_20
+  e_6_21 := CFSG.ASVolI.as_E_6_21
+  e_6_22 := CFSG.ASVolI.as_E_6_22
+  e_6_23 := CFSG.ASVolI.as_E_6_23
+  e_6_24 := CFSG.ASVolI.as_E_6_24
+  e_6_25 := CFSG.ASVolI.as_E_6_25
+  e_6_26 := CFSG.ASVolI.as_E_6_26
+  e_6_27 := CFSG.ASVolI.as_E_6_27
+  e_6_28 := CFSG.ASVolI.as_E_6_28
+  f_1_2 := CFSG.ASVolI.as_F_1_2
+  f_1_3 := CFSG.ASVolI.as_F_1_3
+  f_1_5 := CFSG.ASVolI.as_F_1_5
+  f_1_6 := CFSG.ASVolI.as_F_1_6
+  f_1_10 := CFSG.ASVolI.as_F_1_10
+  f_1_11 := CFSG.ASVolI.as_F_1_11
+  f_2_2 := CFSG.ASVolI.as_F_2_2
+  f_2_4 := CFSG.ASVolI.as_F_2_4
+  f_2_5 := CFSG.ASVolI.as_F_2_5
+  f_2_6 := CFSG.ASVolI.as_F_2_6
+  f_2_7 := CFSG.ASVolI.as_F_2_7
+  f_2_8 := CFSG.ASVolI.as_F_2_8
+  f_2_9 := CFSG.ASVolI.as_F_2_9
+  f_2_10 := CFSG.ASVolI.as_F_2_10
+  f_2_11 := CFSG.ASVolI.as_F_2_11
+  f_3_1 := CFSG.ASVolI.as_F_3_1
+  f_3_3 := CFSG.ASVolI.as_F_3_3
+  f_3_4 := CFSG.ASVolI.as_F_3_4
+  f_3_5 := CFSG.ASVolI.as_F_3_5
+  f_3_6 := CFSG.ASVolI.as_F_3_6
+  f_3_7 := CFSG.ASVolI.as_F_3_7
+  f_4_3 := CFSG.ASVolI.as_F_4_3
+  f_4_4 := CFSG.ASVolI.as_F_4_4
+  f_4_5 := CFSG.ASVolI.as_F_4_5
+  f_4_6 := CFSG.ASVolI.as_F_4_6
+  f_4_8 := CFSG.ASVolI.as_F_4_8
+  f_4_9 := CFSG.ASVolI.as_F_4_9
+  f_4_11 := CFSG.ASVolI.as_F_4_11
+  f_4_12 := CFSG.ASVolI.as_F_4_12
+  f_4_13 := CFSG.ASVolI.as_F_4_13
+  f_4_14 := CFSG.ASVolI.as_F_4_14
+  f_4_15 := CFSG.ASVolI.as_F_4_15
+  f_4_16 := CFSG.ASVolI.as_F_4_16
+  f_4_17 := CFSG.ASVolI.as_F_4_17
+  f_4_19 := CFSG.ASVolI.as_F_4_19
+  f_4_20 := CFSG.ASVolI.as_F_4_20
+  f_4_21 := CFSG.ASVolI.as_F_4_21
+  f_4_22 := CFSG.ASVolI.as_F_4_22
+  f_4_23 := CFSG.ASVolI.as_F_4_23
+  f_4_24 := CFSG.ASVolI.as_F_4_24
+  f_4_25 := CFSG.ASVolI.as_F_4_25
+  f_4_26 := CFSG.ASVolI.as_F_4_26
+  f_4_27 := CFSG.ASVolI.as_F_4_27
+  f_4_29 := CFSG.ASVolI.as_F_4_29
+  f_4_30 := CFSG.ASVolI.as_F_4_30
+  f_4_33 := CFSG.ASVolI.as_F_4_33
+  f_4_34 := CFSG.ASVolI.as_F_4_34
+  f_4_35 := CFSG.ASVolI.as_F_4_35
+  f_4_36 := CFSG.ASVolI.as_F_4_36
+  f_4_37 := CFSG.ASVolI.as_F_4_37
+  f_4_38 := CFSG.ASVolI.as_F_4_38
+  f_4_39 := CFSG.ASVolI.as_F_4_39
+  f_4_40 := CFSG.ASVolI.as_F_4_40
+  f_4_42 := CFSG.ASVolI.as_F_4_42
+  f_4_43 := CFSG.ASVolI.as_F_4_43
+  f_4_44 := CFSG.ASVolI.as_F_4_44
+  f_4_45 := CFSG.ASVolI.as_F_4_45
+  f_4_46 := CFSG.ASVolI.as_F_4_46
+  f_4_47 := CFSG.ASVolI.as_F_4_47
+  f_4_48 := CFSG.ASVolI.as_F_4_48
+  f_4_49 := CFSG.ASVolI.as_F_4_49
+  f_5_1 := CFSG.ASVolI.as_F_5_1
+  f_5_2 := CFSG.ASVolI.as_F_5_2
+  f_5_3 := CFSG.ASVolI.as_F_5_3
+  f_5_4 := CFSG.ASVolI.as_F_5_4
+  f_5_5 := CFSG.ASVolI.as_F_5_5
+  f_5_6 := CFSG.ASVolI.as_F_5_6
+  f_5_7 := CFSG.ASVolI.as_F_5_7
+  f_5_8 := CFSG.ASVolI.as_F_5_8
+  f_6_3 := CFSG.ASVolI.as_F_6_3
+  f_6_4 := CFSG.ASVolI.as_F_6_4
+  f_6_5 := CFSG.ASVolI.as_F_6_5
+  f_6_6 := CFSG.ASVolI.as_F_6_6
+  f_6_7 := CFSG.ASVolI.as_F_6_7
+  f_6_8 := CFSG.ASVolI.as_F_6_8
+  f_6_9 := CFSG.ASVolI.as_F_6_9
+  f_6_10 := CFSG.ASVolI.as_F_6_10
+  f_6_11 := CFSG.ASVolI.as_F_6_11
+  f_6_12 := CFSG.ASVolI.as_F_6_12
+  f_6_13 := CFSG.ASVolI.as_F_6_13
+  f_6_14 := CFSG.ASVolI.as_F_6_14
+  f_6_15 := CFSG.ASVolI.as_F_6_15
+  f_6_16 := CFSG.ASVolI.as_F_6_16
+  f_6_17 := CFSG.ASVolI.as_F_6_17
+  f_7_3 := CFSG.ASVolI.as_F_7_3
+  f_7_4 := CFSG.ASVolI.as_F_7_4
+  f_7_5 := CFSG.ASVolI.as_F_7_5
+  f_7_7 := CFSG.ASVolI.as_F_7_7
+  f_7_8 := CFSG.ASVolI.as_F_7_8
+  f_7_9 := CFSG.ASVolI.as_F_7_9
+  f_7_10 := CFSG.ASVolI.as_F_7_10
+  f_7_11 := CFSG.ASVolI.as_F_7_11
+  f_7_12 := CFSG.ASVolI.as_F_7_12
+  f_7_13 := CFSG.ASVolI.as_F_7_13
+  f_7_14 := CFSG.ASVolI.as_F_7_14
+  f_8_2 := CFSG.ASVolI.as_F_8_2
+  f_8_3 := CFSG.ASVolI.as_F_8_3
+  f_8_4 := CFSG.ASVolI.as_F_8_4
+  f_8_5 := CFSG.ASVolI.as_F_8_5
+  f_8_6 := CFSG.ASVolI.as_F_8_6
+  f_8_7 := CFSG.ASVolI.as_F_8_7
+  f_9_2 := CFSG.ASVolI.as_F_9_2
+  f_9_3 := CFSG.ASVolI.as_F_9_3
+  f_9_4 := CFSG.ASVolI.as_F_9_4
+  f_9_5 := CFSG.ASVolI.as_F_9_5
+  f_9_6 := CFSG.ASVolI.as_F_9_6
+  f_9_7 := CFSG.ASVolI.as_F_9_7
+  f_9_9 := CFSG.ASVolI.as_F_9_9
+  f_9_10 := CFSG.ASVolI.as_F_9_10
+  f_9_11 := CFSG.ASVolI.as_F_9_11
+  f_9_12 := CFSG.ASVolI.as_F_9_12
+  f_9_13 := CFSG.ASVolI.as_F_9_13
+  f_9_14 := CFSG.ASVolI.as_F_9_14
+  f_9_15 := CFSG.ASVolI.as_F_9_15
+  f_9_16 := CFSG.ASVolI.as_F_9_16
+  f_9_17 := CFSG.ASVolI.as_F_9_17
+  f_9_18 := CFSG.ASVolI.as_F_9_18
+end
+
+section
+
+theorem partfour_holds
+    : PartFour where
+  g_1_2 := CFSG.ASVolI.as_G_1_2
+  g_1_3 := CFSG.ASVolI.as_G_1_3
+  g_1_4 := CFSG.ASVolI.as_G_1_4
+  g_1_5 := CFSG.ASVolI.as_G_1_5
+  g_1_6 := CFSG.ASVolI.as_G_1_6
+  g_1_7 := CFSG.ASVolI.as_G_1_7
+  g_1_8 := CFSG.ASVolI.as_G_1_8
+  g_1_10 := CFSG.ASVolI.as_G_1_10
+  g_1_11 := CFSG.ASVolI.as_G_1_11
+  g_1_12 := CFSG.ASVolI.as_G_1_12
+  g_2_2 := CFSG.ASVolI.as_G_2_2
+  g_2_3 := CFSG.ASVolI.as_G_2_3
+  g_2_4 := CFSG.ASVolI.as_G_2_4
+  g_2_5 := CFSG.ASVolI.as_G_2_5
+  g_2_6 := CFSG.ASVolI.as_G_2_6
+  g_3_1 := CFSG.ASVolI.as_G_3_1
+  g_4_1 := CFSG.ASVolI.as_G_4_1
+  g_4_3 := CFSG.ASVolI.as_G_4_3
+  g_4_4 := CFSG.ASVolI.as_G_4_4
+  g_4_5 := CFSG.ASVolI.as_G_4_5
+  g_4_6 := CFSG.ASVolI.as_G_4_6
+  g_4_7 := CFSG.ASVolI.as_G_4_7
+  g_4_8 := CFSG.ASVolI.as_G_4_8
+  g_4_9 := CFSG.ASVolI.as_G_4_9
+  g_5_1 := CFSG.ASVolI.as_G_5_1
+  g_5_2 := CFSG.ASVolI.as_G_5_2
+  g_5_3 := CFSG.ASVolI.as_G_5_3
+  g_6_2 := CFSG.ASVolI.as_G_6_2
+  g_6_3 := CFSG.ASVolI.as_G_6_3
+  g_6_4 := CFSG.ASVolI.as_G_6_4
+  g_7_1 := CFSG.ASVolI.as_G_7_1
+  g_7_2 := CFSG.ASVolI.as_G_7_2
+  g_7_3 := CFSG.ASVolI.as_G_7_3
+  g_8_2 := CFSG.ASVolI.as_G_8_2
+  g_8_3 := CFSG.ASVolI.as_G_8_3
+  g_8_4 := CFSG.ASVolI.as_G_8_4
+  g_8_5 := CFSG.ASVolI.as_G_8_5
+  g_8_6 := CFSG.ASVolI.as_G_8_6
+  g_8_7 := CFSG.ASVolI.as_G_8_7
+  g_8_8 := CFSG.ASVolI.as_G_8_8
+  g_8_9 := CFSG.ASVolI.as_G_8_9
+  g_9_2 := CFSG.ASVolI.as_G_9_2
+  g_9_3 := CFSG.ASVolI.as_G_9_3
+  g_9_4 := CFSG.ASVolI.as_G_9_4
+  g_10_2 := CFSG.ASVolI.as_G_10_2
+  g_10_3 := CFSG.ASVolI.as_G_10_3
+  g_10_4 := CFSG.ASVolI.as_G_10_4
+  g_10_5 := CFSG.ASVolI.as_G_10_5
+  g_10_7 := CFSG.ASVolI.as_G_10_7
+  g_10_9 := CFSG.ASVolI.as_G_10_9
+  g_10_10 := CFSG.ASVolI.as_G_10_10
+  g_10_11 := CFSG.ASVolI.as_G_10_11
+  g_10_12 := CFSG.ASVolI.as_G_10_12
+  g_10_13 := CFSG.ASVolI.as_G_10_13
+  g_10_14 := CFSG.ASVolI.as_G_10_14
+  g_10_15 := CFSG.ASVolI.as_G_10_15
+  g_10_16 := CFSG.ASVolI.as_G_10_16
+  g_11_2 := CFSG.ASVolI.as_G_11_2
+  g_11_4 := CFSG.ASVolI.as_G_11_4
+  g_11_5 := CFSG.ASVolI.as_G_11_5
+  g_11_6 := CFSG.ASVolI.as_G_11_6
+  g_11_7 := CFSG.ASVolI.as_G_11_7
+  g_11_8 := CFSG.ASVolI.as_G_11_8
+  g_11_9 := CFSG.ASVolI.as_G_11_9
+  g_12_1 := CFSG.ASVolI.as_G_12_1
+  g_12_2 := CFSG.ASVolI.as_G_12_2
+  g_12_3 := CFSG.ASVolI.as_G_12_3
+  g_12_4 := CFSG.ASVolI.as_G_12_4
+  g_12_5 := CFSG.ASVolI.as_G_12_5
+  g_12_6 := CFSG.ASVolI.as_G_12_6
+  g_12_7 := CFSG.ASVolI.as_G_12_7
+  g_12_8 := CFSG.ASVolI.as_G_12_8
+  g_12_9 := CFSG.ASVolI.as_G_12_9
+  g_12_10 := CFSG.ASVolI.as_G_12_10
+  g_12_11 := CFSG.ASVolI.as_G_12_11
+  g_12_12 := CFSG.ASVolI.as_G_12_12
+  h_0_1 := CFSG.ASVolI.as_H_0_1
+  h_1_1 := CFSG.ASVolI.as_H_1_1
+  h_4_1 := CFSG.ASVolI.as_H_4_1
+  h_4_2 := CFSG.ASVolI.as_H_4_2
+  h_4_3 := CFSG.ASVolI.as_H_4_3
+  h_4_4 := CFSG.ASVolI.as_H_4_4
+  h_4_5 := CFSG.ASVolI.as_H_4_5
+  h_4_6 := CFSG.ASVolI.as_H_4_6
+  h_4_7 := CFSG.ASVolI.as_H_4_7
+  h_4_8 := CFSG.ASVolI.as_H_4_8
+  h_4_9 := CFSG.ASVolI.as_H_4_9
+  h_4_10 := CFSG.ASVolI.as_H_4_10
+  h_4_11 := CFSG.ASVolI.as_H_4_11
+  h_4_12 := CFSG.ASVolI.as_H_4_12
+  h_5_1 := CFSG.ASVolI.as_H_5_1
+  h_5_2 := CFSG.ASVolI.as_H_5_2
+  h_5_3 := CFSG.ASVolI.as_H_5_3
+  h_5_4 := CFSG.ASVolI.as_H_5_4
+  h_5_5 := CFSG.ASVolI.as_H_5_5
+  h_6_1 := CFSG.ASVolI.as_H_6_1
+  h_6_2 := CFSG.ASVolI.as_H_6_2
+  h_6_3 := CFSG.ASVolI.as_H_6_3
+  h_6_4 := CFSG.ASVolI.as_H_6_4
+  h_6_5 := CFSG.ASVolI.as_H_6_5
+  h_9_1 := CFSG.ASVolI.as_H_9_1
+  h_9_2 := CFSG.ASVolI.as_H_9_2
+  h_9_3 := CFSG.ASVolI.as_H_9_3
+  h_10_1 := CFSG.ASVolI.as_H_10_1
+  h_11_1 := CFSG.ASVolI.as_H_11_1
+  h_12_1 := CFSG.ASVolI.as_H_12_1
+  h_13_1 := CFSG.ASVolI.as_H_13_1
+  h_13_2 := CFSG.ASVolI.as_H_13_2
+  h_14_1 := CFSG.ASVolI.as_H_14_1
+  h_14_2 := CFSG.ASVolI.as_H_14_2
+  h_14_3 := CFSG.ASVolI.as_H_14_3
+  h_14_4 := CFSG.ASVolI.as_H_14_4
+  h_15_1 := CFSG.ASVolI.as_H_15_1
+  h_15_2 := CFSG.ASVolI.as_H_15_2
+  h_15_3 := CFSG.ASVolI.as_H_15_3
+  h_15_4 := CFSG.ASVolI.as_H_15_4
+  h_15_5 := CFSG.ASVolI.as_H_15_5
+  h_15_6 := CFSG.ASVolI.as_H_15_6
+  h_15_7 := CFSG.ASVolI.as_H_15_7
+  h_15_8 := CFSG.ASVolI.as_H_15_8
+  h_16_1 := CFSG.ASVolI.as_H_16_1
+  h_16_2 := CFSG.ASVolI.as_H_16_2
+  h_16_3 := CFSG.ASVolI.as_H_16_3
+  h_16_4 := CFSG.ASVolI.as_H_16_4
+  h_16_5 := CFSG.ASVolI.as_H_16_5
+  h_16_6 := CFSG.ASVolI.as_H_16_6
+  h_16_7 := CFSG.ASVolI.as_H_16_7
+  h_16_8 := CFSG.ASVolI.as_H_16_8
+  j_2_1 := CFSG.ASVolI.as_J_2_1
+  j_2_2 := CFSG.ASVolI.as_J_2_2
+  j_2_3 := CFSG.ASVolI.as_J_2_3
+  j_2_4 := CFSG.ASVolI.as_J_2_4
+  j_2_5 := CFSG.ASVolI.as_J_2_5
+  j_2_6 := CFSG.ASVolI.as_J_2_6
+  j_2_7 := CFSG.ASVolI.as_J_2_7
+  j_2_8 := CFSG.ASVolI.as_J_2_8
+  j_2_9 := CFSG.ASVolI.as_J_2_9
+  j_2_10 := CFSG.ASVolI.as_J_2_10
+  j_3_1 := CFSG.ASVolI.as_J_3_1
+  j_3_2 := CFSG.ASVolI.as_J_3_2
+  j_3_3 := CFSG.ASVolI.as_J_3_3
+  j_3_4 := CFSG.ASVolI.as_J_3_4
+  j_3_5 := CFSG.ASVolI.as_J_3_5
+  j_3_6 := CFSG.ASVolI.as_J_3_6
+  j_4_1 := CFSG.ASVolI.as_J_4_1
+  j_4_2 := CFSG.ASVolI.as_J_4_2
+  j_4_3 := CFSG.ASVolI.as_J_4_3
+  j_4_4 := CFSG.ASVolI.as_J_4_4
+  j_4_5 := CFSG.ASVolI.as_J_4_5
+  j_4_6 := CFSG.ASVolI.as_J_4_6
+  j_4_7 := CFSG.ASVolI.as_J_4_7
+  j_4_8 := CFSG.ASVolI.as_J_4_8
+  j_4_9 := CFSG.ASVolI.as_J_4_9
+  j_4_10 := CFSG.ASVolI.as_J_4_10
+  j_5_2 := CFSG.ASVolI.as_J_5_2
+  j_5_3 := CFSG.ASVolI.as_J_5_3
+  j_5_4 := CFSG.ASVolI.as_J_5_4
+  j_5_5 := CFSG.ASVolI.as_J_5_5
+  j_5_6 := CFSG.ASVolI.as_J_5_6
+  j_5_7 := CFSG.ASVolI.as_J_5_7
+  j_5_8 := CFSG.ASVolI.as_J_5_8
+  j_5_9 := CFSG.ASVolI.as_J_5_9
+  j_5_10 := CFSG.ASVolI.as_J_5_10
+  j_5_11 := CFSG.ASVolI.as_J_5_11
+  j_5_12 := CFSG.ASVolI.as_J_5_12
+  j_5_13 := CFSG.ASVolI.as_J_5_13
+  j_5_14 := CFSG.ASVolI.as_J_5_14
+  k_0_overview := CFSG.ASVolI.as_K_0_overview
+  k_0_star := CFSG.ASVolI.as_K_0_star
+  k_1 := CFSG.ASVolI.as_K_1
+  k_1_1 := CFSG.ASVolI.as_K_1_1
+  k_1_2 := CFSG.ASVolI.as_K_1_2
+  k_1_3 := CFSG.ASVolI.as_K_1_3
+  k_2 := CFSG.ASVolI.as_K_2
+  k_3_1 := CFSG.ASVolI.as_K_3_1
+  k_3_1_1 := CFSG.ASVolI.as_K_3_1_1
+  k_3_1_2 := CFSG.ASVolI.as_K_3_1_2
+  k_3_2 := CFSG.ASVolI.as_K_3_2
+  k_3_2_1 := CFSG.ASVolI.as_K_3_2_1
+  k_3_2_2 := CFSG.ASVolI.as_K_3_2_2
+  k_3_2_3 := CFSG.ASVolI.as_K_3_2_3
+  k_3_2_4 := CFSG.ASVolI.as_K_3_2_4
+  k_3_3 := CFSG.ASVolI.as_K_3_3
+  k_3_4 := CFSG.ASVolI.as_K_3_4
+  k_3_4_1 := CFSG.ASVolI.as_K_3_4_1
+  k_3_4_2 := CFSG.ASVolI.as_K_3_4_2
+  k_3_5 := CFSG.ASVolI.as_K_3_5
+  k_3_6 := CFSG.ASVolI.as_K_3_6
+  k_3_nonclassical := CFSG.ASVolI.as_K_3_nonclassical
+  k_4 := CFSG.ASVolI.as_K_4
+  k_4_1_bound := CFSG.ASVolI.as_K_4_1_bound
+  k_4_1_lemma := CFSG.ASVolI.as_K_4_1_lemma
+  k_4_2_lemma := CFSG.ASVolI.as_K_4_2_lemma
+  k_4_3_lemma := CFSG.ASVolI.as_K_4_3_lemma
+  k_4_4_lemma := CFSG.ASVolI.as_K_4_4_lemma
+  k_4_3 := CFSG.ASVolI.as_K_4_3
+  k_4_4 := CFSG.ASVolI.as_K_4_4
+  k_4_5 := CFSG.ASVolI.as_K_4_5
+  k_4_star := CFSG.ASVolI.as_K_4_star
+end
+
+section
+
+theorem partfive_holds
+    : PartFive where
+  i_1_2 := CFSG.ASVolI.as_I_1_2
+  i_1_3 := CFSG.ASVolI.as_I_1_3
+  i_1_4 := CFSG.ASVolI.as_I_1_4
+  i_1_6 := CFSG.ASVolI.as_I_1_6
+  i_1_7b := CFSG.ASVolI.as_I_1_7b
+  i_2_1 := CFSG.ASVolI.as_I_2_1
+  i_2_2 := CFSG.ASVolI.as_I_2_2
+  i_2_3 := CFSG.ASVolI.as_I_2_3
+  i_2_4 := CFSG.ASVolI.as_I_2_4
+  i_2_5 := CFSG.ASVolI.as_I_2_5
+  i_3_1 := CFSG.ASVolI.as_I_3_1
+  i_3_2 := CFSG.ASVolI.as_I_3_2
+  i_4_8 := CFSG.ASVolI.as_I_4_8
+  i_4_9 := CFSG.ASVolI.as_I_4_9
+  i_6_1 := CFSG.ASVolI.as_I_6_1
+  i_6_2 := CFSG.ASVolI.as_I_6_2
+  i_7_2 := CFSG.ASVolI.as_I_7_2
+  i_7_3 := CFSG.ASVolI.as_I_7_3
+  i_7_4 := CFSG.ASVolI.as_I_7_4
+  i_7_5 := CFSG.ASVolI.as_I_7_5
+  i_7_6 := CFSG.ASVolI.as_I_7_6
+  i_7_7 := CFSG.ASVolI.as_I_7_7
+  i_8_1 := CFSG.ASVolI.as_I_8_1
+  i_8_2 := CFSG.ASVolI.as_I_8_2
+  i_8_3 := CFSG.ASVolI.as_I_8_3
+  i_8_4 := CFSG.ASVolI.as_I_8_4
+  i_8_5 := CFSG.ASVolI.as_I_8_5
+end
+
+section
+
+theorem statement_holds
+    : Statement :=
+  ⟨partone_holds, parttwo_holds, partthree_holds, partfour_holds, partfive_holds⟩
+end
+
+end CFSG.ASVolI

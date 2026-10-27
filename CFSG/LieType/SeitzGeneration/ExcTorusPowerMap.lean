@@ -1,0 +1,381 @@
+module
+
+public import CFSG.LieType.SeitzGeneration.ExcTorusFam
+
+public section
+
+namespace CFSG.LieType.SeitzGeneration
+
+open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
+  CFSG.RankThree.PartOne.KE CFSG.RankThree.Lattice
+  CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley Polynomial
+open scoped Pointwise Matrix
+
+theorem pow_relIndex_zpowers_mem {G : Type*} [Group G] (H : Subgroup G) (x : G) :
+    x ^ H.relIndex (Subgroup.zpowers x) ∈ H := by
+  have hN : (H.subgroupOf (Subgroup.zpowers x)).Normal := ⟨fun a ha g => by
+    obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 g.2
+    obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 a.2
+    have hc : g * a * g⁻¹ = a := by
+      apply Subtype.ext
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, ← hi, ← hj]
+      rw [(Commute.zpow_zpow_self x i j).eq]
+      group
+    rw [hc]
+    exact ha⟩
+  have h := Subgroup.pow_index_mem (H.subgroupOf (Subgroup.zpowers x))
+    (⟨x, Subgroup.mem_zpowers x⟩ : Subgroup.zpowers x)
+  rw [Subgroup.mem_subgroupOf] at h
+  exact h
+
+section Abstract
+
+
+theorem exists_powerMap_of_twisted_torus {τ : Tag} {C : Type} [Group C] {L : Type} [Field L]
+    (ι : C →* ModGL τ L) (hι : Function.Injective ι) (Φ : ModGL τ L →* ModGL τ L)
+    (n g0 : ModGL τ L) (hnC : n ∈ adjointGroup τ L) (hnfin : IsOfFinOrder n)
+    (hg0C : g0 ∈ adjointGroup τ L) (hg0 : Φ g0 = g0 * n) (hΦn : Φ n = n) {k : ℕ}
+    (hΦk : ∀ t ∈ torusGroup τ L, Φ t = t ^ k) {p : ℕ} (hp : p.Prime) {N m d : ℕ} (hN : N ≠ 0)
+    (hrat : ∀ (X : Subgroup (ModGL τ L)) [Finite X], X ≤ adjointGroup τ L →
+      (∀ x ∈ X, Φ x = x) → ∀ P : Subgroup (ModGL τ L), P ≤ X → IsPGroup p P → P ≤ ι.range)
+    (hratd : ∀ x : ModGL τ L, IsOfFinOrder x → x ∈ adjointGroup τ L → Φ x = x →
+      x ^ d ∈ ι.range)
+    (hcomm : IsMulCommutative (twistedTorusOf n Φ))
+    (hcard : Nat.card (twistedTorusOf n Φ) = N)
+    (htors : Nat.card (torsionSubgroup (twistedTorusOf n Φ) hcomm p) = p ^ m) :
+    ∃ E : Subgroup C, IsElemAbelian p E ∧ Nat.card E = p ^ m ∧
+      ∃ y : C, ∀ x ∈ E, y * x * y⁻¹ = x ^ (k ^ d) := by
+  classical
+  have : Fact p.Prime := ⟨hp⟩
+  have hT0fin : Finite (twistedTorusOf n Φ) :=
+    Nat.finite_of_card_ne_zero (by rw [hcard]; exact hN)
+  let cg : ModGL τ L →* ModGL τ L := (MulAut.conj g0).toMonoidHom
+  have hcg : Function.Injective cg := (MulAut.conj g0).injective
+  have hcg_apply : ∀ x, cg x = g0 * x * g0⁻¹ := fun x => rfl
+  have hT0C := twistedTorusOf_le_adjointGroup n Φ
+  set X : Subgroup (ModGL τ L) := (twistedTorusOf n Φ).map cg with hX
+  have hXfin : Finite X :=
+    Finite.of_surjective (cg.subgroupMap (twistedTorusOf n Φ))
+      (cg.subgroupMap_surjective (twistedTorusOf n Φ))
+  have hXC : X ≤ adjointGroup τ L := by
+    rintro _ ⟨x, hx, rfl⟩
+    exact mul_mem (mul_mem hg0C (hT0C hx)) (inv_mem hg0C)
+  have hXF : ∀ x ∈ X, Φ x = x := by
+    rintro _ ⟨x, hx, rfl⟩
+    have hxfix := (mem_twistedTorusOf.1 hx).2
+    rw [hcg_apply, map_mul, map_mul, map_inv, hg0]
+    calc g0 * n * Φ x * (g0 * n)⁻¹ = g0 * (n * Φ x * n⁻¹) * g0⁻¹ := by group
+      _ = g0 * x * g0⁻¹ := by rw [hxfix]
+  have hXcomm : IsMulCommutative X := isMulCommutative_map cg hcomm
+  have hpg := hrat X hXC hXF
+  set V : Subgroup (ModGL τ L) := torsionSubgroup X hXcomm p with hV
+  have hVX : V ≤ X := fun x hx => hx.1
+  have hVp : IsPGroup p V := fun x => ⟨1, by
+    have : (x : ModGL τ L) ^ p = 1 := x.2.2
+    apply Subtype.ext
+    simpa using this⟩
+  have hVrange : V ≤ ι.range := hpg V hVX hVp
+  have hVcard : Nat.card V = p ^ m := by
+    have hVmap : V = (torsionSubgroup (twistedTorusOf n Φ) hcomm p).map cg := by
+      ext x
+      constructor
+      · rintro ⟨⟨y, hy, rfl⟩, hxp⟩
+        refine ⟨y, ⟨hy, hcg ?_⟩, rfl⟩
+        rw [map_pow, hxp, map_one]
+      · rintro ⟨y, ⟨hy, hyp⟩, rfl⟩
+        refine ⟨⟨y, hy, rfl⟩, ?_⟩
+        rw [← map_pow, hyp, map_one]
+    rw [hVmap, Subgroup.card_map_of_injective hcg, htors]
+  have hcommE : IsMulCommutative (V.comap ι) := by
+    refine IsMulCommutative.of_comm fun a b => ?_
+    apply Subtype.ext
+    apply hι
+    have := hXcomm
+    rw [Subgroup.coe_mul, Subgroup.coe_mul, map_mul, map_mul]
+    exact setLike_mul_comm (hVX a.2) (hVX b.2)
+  have hexpE : ∀ x ∈ V.comap ι, x ^ p = 1 := fun x hx => by
+    apply hι
+    rw [map_pow, map_one]
+    exact hx.2
+  have hmap : (V.comap ι).map ι = V := by
+    rw [Subgroup.map_comap_eq]
+    exact inf_eq_right.2 hVrange
+  set yL : ModGL τ L := g0 * n⁻¹ * g0⁻¹ with hyL
+  have hyLC : yL ∈ adjointGroup τ L := mul_mem (mul_mem hg0C (inv_mem hnC)) (inv_mem hg0C)
+  have hyLfin : IsOfFinOrder yL := cg.isOfFinOrder hnfin.inv
+  have hyLF : Φ yL = yL := by
+    rw [hyL, map_mul, map_mul, map_inv, map_inv, hg0, hΦn]
+    group
+  obtain ⟨y, hy⟩ := hratd yL hyLfin hyLC hyLF
+  have hact : ∀ t ∈ twistedTorusOf n Φ, yL * (g0 * t * g0⁻¹) * yL⁻¹ = g0 * t ^ k * g0⁻¹ := by
+    intro t ht
+    obtain ⟨htT, htF⟩ := mem_twistedTorusOf.1 ht
+    have h1 : n⁻¹ * t * n = t ^ k := by
+      rw [← hΦk t htT]
+      calc n⁻¹ * t * n = n⁻¹ * (n * Φ t * n⁻¹) * n := by rw [htF]
+        _ = Φ t := by group
+    calc yL * (g0 * t * g0⁻¹) * yL⁻¹ = g0 * (n⁻¹ * t * n) * g0⁻¹ := by rw [hyL]; group
+      _ = g0 * t ^ k * g0⁻¹ := by rw [h1]
+  have hactj : ∀ j : ℕ, ∀ t ∈ twistedTorusOf n Φ,
+      yL ^ j * (g0 * t * g0⁻¹) * (yL ^ j)⁻¹ = g0 * t ^ (k ^ j) * g0⁻¹ := by
+    intro j
+    induction j with
+    | zero => intro t _; simp
+    | succ j ih =>
+      intro t ht
+      calc yL ^ (j + 1) * (g0 * t * g0⁻¹) * (yL ^ (j + 1))⁻¹
+          = yL * (yL ^ j * (g0 * t * g0⁻¹) * (yL ^ j)⁻¹) * yL⁻¹ := by
+            rw [pow_succ']
+            group
+        _ = yL * (g0 * t ^ (k ^ j) * g0⁻¹) * yL⁻¹ := by rw [ih t ht]
+        _ = g0 * (t ^ (k ^ j)) ^ k * g0⁻¹ := hact _ (pow_mem ht _)
+        _ = g0 * t ^ (k ^ (j + 1)) * g0⁻¹ := by rw [← pow_mul, pow_succ]
+  refine ⟨V.comap ι, ⟨hcommE, hexpE⟩, by
+    rw [← Subgroup.card_map_of_injective hι, hmap, hVcard], y, fun x hx => ?_⟩
+  apply hι
+  obtain ⟨t, ht, htx⟩ := hVX hx
+  rw [map_mul, map_mul, map_inv, hy, map_pow, ← htx, hcg_apply, hactj d t ht, conj_pow]
+
+end Abstract
+
+section Untwisted
+
+
+theorem exists_powerMap_untwisted {τ : Tag} (d : ℕ)
+    (hτ : (τ = .E6 ∧ d = 3) ∨ (τ = .E7 ∧ d = 2) ∨ (τ = .E8 ∧ d = 1))
+    (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
+    (hpq : ¬ p ∣ Nat.card K) {M : Matrix (Fin τ.rank) (Fin τ.rank) ℤ}
+    (hM : CFSG.RankThree.PartOne.KE.IsWeylMatrix τ M) {n e m : ℕ} (R : ℤ[X]) (hn0 : n ≠ 0)
+    (hpow : M ^ n = 1) (hn : ¬ p ∣ n) (hchar : M.charpoly = cyclotomic e ℤ ^ m * R)
+    (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) (hR : ¬ (p : ℤ) ∣ R.eval (Nat.card K : ℤ)) :
+    ∃ E : Subgroup (adjointGroup τ K), IsElemAbelian p E ∧ Nat.card E = p ^ m ∧
+      ∃ y : adjointGroup τ K, ∀ x ∈ E, y * x * y⁻¹ = x ^ (Nat.card K ^ d) := by
+  classical
+  obtain ⟨w, hw⟩ := hM
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL τ K) := finite_modGL
+  obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
+  have : CharP K (ringChar K) := ringChar.charP K
+  let L := AlgebraicClosure K
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  let Fr : L →+* L := iterateFrobenius L (ringChar K) (f : ℕ)
+  have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
+    rw [hq]
+    exact iterateFrobenius_def (ringChar K) (f : ℕ) c
+  have hℓq : ringChar K ∣ Nat.card K := by
+    rw [hq]
+    exact dvd_pow_self _ f.ne_zero
+  have hq2 : 2 ≤ Nat.card K := Finite.one_lt_card
+  have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpq
+  obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator τ K (ℓ := ringChar K) (f := (f : ℕ)) f.pos L w
+  let ι : adjointGroup τ K →* ModGL τ L :=
+    (baseChangeGL (algebraMap K L)).comp (adjointGroup τ K).subtype
+  have hrange : ι.range = (adjointGroup τ K).map (baseChangeGL (algebraMap K L)) := by
+    change ((baseChangeGL (algebraMap K L)).comp (adjointGroup τ K).subtype).range = _
+    rw [MonoidHom.range_comp, Subgroup.range_subtype]
+  have hι : Function.Injective ι :=
+    (baseChangeGL_injective _).comp (Subgroup.subtype_injective _)
+  have hT0 : twistedTorus (canonicalRep (coxeterSystem τ) L w) Fr =
+      (fixedCharTuples M Fr).map (rootDiagUnitHom τ L) := by
+    ext x
+    constructor
+    · intro hx
+      obtain ⟨a, rfl⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup (mem_twistedTorus.1 hx).1
+      refine ⟨a, ?_, rfl⟩
+      rw [← twistedFixedTuples_eq_fixedCharTuples hw Fr]
+      exact mem_twistedFixedTuples_iff_conj.2 (mem_twistedTorus.1 hx).2
+    · rintro ⟨a, ha, rfl⟩
+      rw [← twistedFixedTuples_eq_fixedCharTuples hw Fr] at ha
+      exact mem_twistedTorus.2 ⟨rootDiagUnit_mem_torusGroup a, mem_twistedFixedTuples_iff_conj.1 ha⟩
+  have hcomm : IsMulCommutative (twistedTorusOf (canonicalRep (coxeterSystem τ) L w)
+      (Units.map (entrywiseHom Fr))) := by
+    show IsMulCommutative (twistedTorus (canonicalRep (coxeterSystem τ) L w) Fr)
+    rw [hT0]
+    exact isMulCommutative_map _ inferInstance
+  set B : Matrix (Fin τ.rank) (Fin τ.rank) ℤ :=
+    M - (Nat.card K : ℤ) • (1 : Matrix (Fin τ.rank) (Fin τ.rank) ℤ) with hB
+  have hdetB : B.det.natAbs = (M.charpoly.eval (Nat.card K : ℤ)).natAbs :=
+    (natAbs_eval_charpoly M _).symm
+  have hpos : 0 < (cyclotomic e ℤ).eval (Nat.card K : ℤ) :=
+    cyclotomic_pos' e (by exact_mod_cast hq2)
+  have hRne : R.eval (Nat.card K : ℤ) ≠ 0 := fun h => hR (by rw [h]; exact dvd_zero _)
+  have hev : M.charpoly.eval (Nat.card K : ℤ) ≠ 0 := by
+    rw [hchar, eval_mul, eval_pow]
+    exact mul_ne_zero (pow_ne_zero m hpos.ne') hRne
+  have hBne : B.det ≠ 0 := fun h => hev (Int.natAbs_eq_zero.1 (hdetB ▸ by rw [h]; rfl))
+  have hcop := not_dvd_natAbs_det_sub hℓ hℓq M hn0 hpow
+  have hcard : Nat.card (twistedTorusOf (canonicalRep (coxeterSystem τ) L w)
+      (Units.map (entrywiseHom Fr))) = (M.charpoly.eval (Nat.card K : ℤ)).natAbs := by
+    show Nat.card (twistedTorus (canonicalRep (coxeterSystem τ) L w) Fr) = _
+    rw [hT0, Subgroup.card_map_of_injective rootDiagUnit_injective,
+      natCard_fixedCharTuples M Fr hFr hBne hcop, hdetB]
+  have hpℓ : p ≠ ringChar K := fun h => hpq (h ▸ hℓq)
+  have htors : Nat.card (torsionSubgroup (twistedTorusOf (canonicalRep (coxeterSystem τ) L w)
+      (Units.map (entrywiseHom Fr))) hcomm p) = p ^ m := by
+    rw [natCard_torsion_eq (fixedCharTuples M Fr) _ hT0 hcomm p,
+      natCard_fixedTorsion M Fr hℓ hFr hp hpℓ,
+      natCard_solutions_modMat hp M R hpow hn hchar hpq he hR]
+  have hrat' : ∀ (X : Subgroup (ModGL τ L)) [Finite X], X ≤ adjointGroup τ L →
+      (∀ x ∈ X, Units.map (entrywiseHom Fr) x = x) → ∀ P : Subgroup (ModGL τ L), P ≤ X →
+        IsPGroup p P → P ≤ ι.range := by
+    intro X _ hXC hXF P hPX hPp
+    rw [hrange]
+    exact (finite_fixed_subgroup_rational d hτ Fr hFr X hXC hXF).2 p hp hp3 P hPX hPp
+  have hratd : ∀ x : ModGL τ L, IsOfFinOrder x → x ∈ adjointGroup τ L →
+      Units.map (entrywiseHom Fr) x = x → x ^ d ∈ ι.range := by
+    intro x hx hxC hxF
+    have : Finite (Subgroup.zpowers x) := hx.finite_zpowers
+    have hXC : Subgroup.zpowers x ≤ adjointGroup τ L := Subgroup.zpowers_le.2 hxC
+    have hXF : ∀ z ∈ Subgroup.zpowers x, Units.map (entrywiseHom Fr) z = z := by
+      intro z hz
+      obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
+      rw [map_zpow, hxF]
+    obtain ⟨c, hc⟩ :=
+      (finite_fixed_subgroup_rational d hτ Fr hFr (Subgroup.zpowers x) hXC hXF).1
+    rw [hrange, hc, pow_mul]
+    exact Subgroup.pow_mem _ (pow_relIndex_zpowers_mem _ x) c
+  have hnfin : IsOfFinOrder (canonicalRep (coxeterSystem τ) L w) := by
+    rw [← CFSG.LieType.Chevalley.baseChangeGL_canonicalRep (algebraMap K L) w]
+    exact (baseChangeGL (algebraMap K L)).isOfFinOrder (isOfFinOrder_of_finite _)
+  have hΦk : ∀ t ∈ torusGroup τ L, Units.map (entrywiseHom Fr) t = t ^ Nat.card K := by
+    intro t ht
+    obtain ⟨b, rfl⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup ht
+    have hpow' : rootDiagUnit τ b ^ Nat.card K = rootDiagUnit τ (b ^ Nat.card K) :=
+      (map_pow (rootDiagUnitHom τ L) b (Nat.card K)).symm
+    rw [hpow']
+    refine Units.ext ?_
+    change entrywise Fr (rootDiag b) = rootDiag (b ^ Nat.card K)
+    rw [entrywise_rootDiag]
+    congr 1
+    funext i
+    ext
+    simp [hFr]
+  exact exists_powerMap_of_twisted_torus ι hι (Units.map (entrywiseHom Fr))
+    (canonicalRep (coxeterSystem τ) L w) g0 (canonicalRep_mem_adjointGroup _ L w) hnfin hg0C hg0
+    (frobenius_canonicalRep Fr w) hΦk hp (Int.natAbs_ne_zero.2 hev) hrat' hratd hcomm hcard htors
+
+theorem sylowTorus_powerMap_of_blocks {τ : Tag} (d : ℕ)
+    (hτ : (τ = .E6 ∧ d = 3) ∨ (τ = .E7 ∧ d = 2) ∨ (τ = .E8 ∧ d = 1))
+    (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
+    {M : Matrix (Fin τ.rank) (Fin τ.rank) ℤ} (hM : IsWeylMatrix τ M) (ds : List ℕ) {e : ℕ}
+    (hchar : M.charpoly = (ds.map fun d => cyclotomic d ℤ).prod) (hpow : M ^ e = 1)
+    (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) (he0 : e ≠ 0)
+    (hother : ∀ d ∈ ds, d ≠ e → ¬ p ∣ d)
+    (hdeg : ∀ d ∈ degreesE τ, e ∣ d → ¬ p ∣ d / e)
+    (hcount : ((degreesE τ).filter fun d => e ∣ d).length = ds.count e) :
+    SylowTorus (adjointGroup τ K) p (ds.count e) ∧
+      ∃ E : Subgroup (adjointGroup τ K), IsElemAbelian p E ∧ Nat.card E = p ^ ds.count e ∧
+        ∃ y : adjointGroup τ K, ∀ x ∈ E, y * x * y⁻¹ = x ^ (Nat.card K ^ d) := by
+  have hpq : ¬ p ∣ Nat.card K := not_dvd_of_orderOf_pos hp he he0
+  have hn : ¬ p ∣ e := not_dvd_of_orderOf hp hpq he
+  have hq2 : 2 ≤ Nat.card K := Finite.one_lt_card
+  have hcard : ∀ d ∈ degreesE τ, 0 < d := by
+    rcases hτ with ⟨rfl, -⟩ | ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> decide
+  have hchar' : M.charpoly = cyclotomic e ℤ ^ ds.count e *
+      ((ds.filter fun d => d ≠ e).map fun d => cyclotomic d ℤ).prod := by
+    rw [hchar, prod_cyclotomic_split e ds]
+  have hR : ¬ (p : ℤ) ∣ (((ds.filter fun d => d ≠ e).map fun d => cyclotomic d ℤ).prod).eval
+      (Nat.card K : ℤ) := by
+    have hpz : Prime (p : ℤ) := Nat.prime_iff_prime_int.1 hp
+    rw [eval_list_prod, hpz.dvd_prod_iff]
+    rintro ⟨a, ha, hpa⟩
+    obtain ⟨c, hc, rfl⟩ := List.mem_map.1 ha
+    obtain ⟨d, hd, rfl⟩ := List.mem_map.1 hc
+    rw [List.mem_filter] at hd
+    have hde : d ≠ e := by simpa using hd.2
+    exact not_dvd_cyclotomic_eval_of_ne hp he hde (hother d hd.1 hde) hpa
+  have hord : p ^ (Nat.card (adjointGroup τ K)).factorization p =
+      (p ^ (Nat.card K ^ e - 1).factorization p) ^ ds.count e := by
+    rw [ordProj_card_adjointGroup_E (by rcases hτ with ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩ <;> simp [h]) hp
+      hp3 hpq, prod_ordProj_pow_sub_one hp (by omega) hpq hq2 he (degreesE τ)
+      (fun d hd hed => ⟨(hcard d hd).ne', hdeg d hd hed⟩), hcount]
+  exact ⟨sylowTorus_untwisted d hτ K hp hp3 hpq hM _ he0 hpow hn hchar' he hR hord,
+    exists_powerMap_untwisted d hτ K hp hp3 hpq hM _ he0 hpow hn hchar' he hR⟩
+
+end Untwisted
+
+theorem SylowTorus.exists_powerMap_of_selfCent {G : Type*} [Group G] {p m : ℕ}
+    (hS : SylowTorus G p m) (hp : p.Prime) {V : Subgroup G} (hV : IsElemAbelian p V)
+    (hVcard : Nat.card V = p ^ m) {k : ℕ} {y : G} (hy : ∀ x ∈ V, y * x * y⁻¹ = x ^ k)
+    {E : Subgroup G} (hE : IsElemAbelian p E)
+    (hsc : ∀ g, (∀ e ∈ E, g * e = e * g) → g ^ p = 1 → g ∈ E) :
+    Nat.card E = p ^ m ∧ ∃ z : G, ∀ x ∈ E, z * x * z⁻¹ = x ^ k := by
+  classical
+  obtain ⟨T, E₀, hTc, hconj, hE₀T, hTtors, hE₀ab, hE₀card⟩ := hS.exists_torus
+  have hfin : Finite E₀ :=
+    Nat.finite_of_card_ne_zero (by rw [hE₀card]; exact (pow_pos hp.pos m).ne')
+  have hcp : ∀ (a b : G) (i : ℕ), (a⁻¹ * b * a) ^ i = a⁻¹ * b ^ i * a := fun a b i => by
+    simpa using conj_pow (a := a⁻¹) (b := b) (i := i)
+  have hinto : ∀ {Q : Subgroup G}, IsElemAbelian p Q →
+      ∃ c : G, ∀ x ∈ Q, c⁻¹ * x * c ∈ E₀ := by
+    intro Q hQ
+    obtain ⟨c, hc⟩ := hconj Q (isPGroup_of_isElemAbelian hQ)
+    refine ⟨c, fun x hx => ?_⟩
+    obtain ⟨t, ht, htx⟩ := hc hx
+    have htx' : c⁻¹ * x * c = t := by
+      rw [← htx]
+      show c⁻¹ * (c * t * c⁻¹) * c = t
+      group
+    rw [htx']
+    refine hTtors t ht ?_
+    rw [← htx', hcp, hQ.2 x hx]
+    group
+  obtain ⟨g, hEg⟩ := hinto hE
+  have hE₀E : ∀ s ∈ E₀, g * s * g⁻¹ ∈ E := by
+    intro s hs
+    apply hsc
+    · intro e he
+      have h1 : s * (g⁻¹ * e * g) = (g⁻¹ * e * g) * s := by
+        have := hTc
+        exact setLike_mul_comm (hE₀T hs) (hE₀T (hEg e he))
+      calc g * s * g⁻¹ * e = g * (s * (g⁻¹ * e * g)) * g⁻¹ := by group
+        _ = g * ((g⁻¹ * e * g) * s) * g⁻¹ := by rw [h1]
+        _ = e * (g * s * g⁻¹) := by group
+    · rw [conj_pow, hE₀ab.2 s hs]
+      group
+  obtain ⟨h, hVh⟩ := hinto hV
+  let ch : G →* G := (MulAut.conj h⁻¹).toMonoidHom
+  have hch : ∀ x, ch x = h⁻¹ * x * h := fun x => by
+    show h⁻¹ * x * h⁻¹⁻¹ = h⁻¹ * x * h
+    rw [inv_inv]
+  have hVle : V.map ch ≤ E₀ := by
+    rintro _ ⟨x, hx, rfl⟩
+    rw [hch]
+    exact hVh x hx
+  have hVeq : V.map ch = E₀ := by
+    refine Subgroup.eq_of_le_of_card_ge hVle ?_
+    rw [Subgroup.card_map_of_injective (f := ch) (MulAut.conj h⁻¹).injective, hVcard, hE₀card]
+  have hE₀V : ∀ s ∈ E₀, h * s * h⁻¹ ∈ V := by
+    intro s hs
+    rw [← hVeq] at hs
+    obtain ⟨x, hx, rfl⟩ := hs
+    rw [hch, show h * (h⁻¹ * x * h) * h⁻¹ = x by group]
+    exact hx
+  have hEcard : Nat.card E = p ^ m := by
+    let cg : G →* G := (MulAut.conj g⁻¹).toMonoidHom
+    have hcg : ∀ x, cg x = g⁻¹ * x * g := fun x => by
+      show g⁻¹ * x * g⁻¹⁻¹ = g⁻¹ * x * g
+      rw [inv_inv]
+    have hEeq : E.map cg = E₀ := by
+      refine le_antisymm ?_ ?_
+      · rintro _ ⟨x, hx, rfl⟩
+        rw [hcg]
+        exact hEg x hx
+      · intro s hs
+        refine ⟨g * s * g⁻¹, hE₀E s hs, ?_⟩
+        rw [hcg]
+        group
+    rw [← Subgroup.card_map_of_injective (f := cg) (MulAut.conj g⁻¹).injective, hEeq, hE₀card]
+  refine ⟨hEcard, g * h⁻¹ * y * h * g⁻¹, fun x hx => ?_⟩
+  have hxV : h * (g⁻¹ * x * g) * h⁻¹ ∈ V := hE₀V _ (hEg x hx)
+  have h1 := hy _ hxV
+  calc g * h⁻¹ * y * h * g⁻¹ * x * (g * h⁻¹ * y * h * g⁻¹)⁻¹
+      = g * h⁻¹ * (y * (h * (g⁻¹ * x * g) * h⁻¹) * y⁻¹) * h * g⁻¹ := by group
+    _ = g * h⁻¹ * (h * (g⁻¹ * x * g) * h⁻¹) ^ k * h * g⁻¹ := by rw [h1]
+    _ = x ^ k := by rw [conj_pow, hcp]; group
+
+end CFSG.LieType.SeitzGeneration

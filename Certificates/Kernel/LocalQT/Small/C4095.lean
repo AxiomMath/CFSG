@@ -1,0 +1,49 @@
+module
+
+public import CFSG.Certificates.Kernel.LocalQTSmallSound
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L239PairsSporRuFinInputs
+import CFSG.Certificates.Kernel.Common.Harness
+public import CFSG.GH74.Exceptional.LinearFourTwo
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115Glue
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115Reduce
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X35Basic
+public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.L2_5_2
+public import CFSG.Permutation.AlternatingAutomorphism.Conjugation
+public import Certificates.Certificate113
+
+set_option maxRecDepth 100000
+
+public section
+
+namespace CFSG.KD.LQT.C4095
+
+open CFSG.KC.LQT.S CFSG.QuasithinUnique.Vol2Native.L239.RuPairs
+
+@[expose] def lh : List Nat :=
+  [172066848, 37814373, 36831394, 104862785, 170920065, 102896672, 71468035, 137430021,
+    35815555, 67241061, 134317218, 4230306, 3183684, 136318113, 100701314, 167807076,
+    5377089, 2200705, 139529248, 70422560, 169968644, 134383651, 100732965, 72451200,
+    136479840, 38895684, 168953859, 68259845, 167838851, 135268453, 101716130, 2134117,
+    33623204, 33690691, 139493474, 102793380, 72355937, 1117317, 1184866, 134253637,
+    101782532, 3215521, 38800514, 35656804, 137527361, 105971841, 167874625, 67275905,
+    105908260, 169873443, 106038274, 135369792, 101877888, 67212324, 1216579, 171050048,
+    139560961, 102928385, 70255780, 139461699, 71306277, 168890464, 100828228, 136352771,
+    104892421, 68162691, 38866947, 35785733, 5277827, 68321380, 135332003, 33722466,
+    68291744, 70287493, 5309540, 2229411, 170954754, 72387588, 37852162, 101843013, 67145891,
+    2264100, 4264995, 135433218, 4360289, 36704325, 71401633, 3310722, 168823876, 100796577,
+    168919170, 137368610, 105943104, 169905280, 3278885, 5345314, 167906338, 35754144,
+    37915712, 1149092, 104924320, 70390785, 171967586, 137398432, 171999299, 172035073,
+    71341152, 36866052, 72482851, 136413221, 36770944, 38930528, 33654917, 170000481,
+    170983460, 4293701, 105021474, 37750947, 134288481, 102761605]
+
+@[expose] def lt : List Nat := [172066848, 33623204, 37915712, 67212324, 167807076, 71341152, 104924320, 100828228]
+
+theorem hG : [blockPerm0, blockPerm1].map code = [37814373, 36831394] := by decide +kernel
+theorem hU : [blockTau2, blockTau3].map code = [33623204, 37915712] := by decide +kernel
+theorem hH : blockHList.map code = lh := by decide +kernel
+theorem hT : blockTList.map code = lt := by decide +kernel
+theorem hk : c4095 [37814373, 36831394] lh [33623204, 37915712] lt = true := by quickRfl
+
+end CFSG.KD.LQT.C4095
+
+end

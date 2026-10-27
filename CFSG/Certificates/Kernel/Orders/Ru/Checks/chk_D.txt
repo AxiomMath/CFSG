@@ -1,0 +1,4 @@
+T CFSG.KD.OrdRu.d1_0 (Nat.beq (CFSG.KC.Ord.decRun CFSG.KD.OrdRu.P1 #100 #92d #2 #1c #6 #a8 CFSG.KD.OrdRu.RM (CFSG.KD.OrdRu.RW #1) [#0 #1 #2 #3 #4 #5 #6 #7 #8 #9] #1) #c43)
+T CFSG.KD.OrdRu.d1_end (CFSG.KC.Ord.seedDone #1c (CFSG.KC.Ord.validM #2 #1260 CFSG.KD.OrdRu.L CFSG.KD.OrdRu.H) (CFSG.KD.OrdRu.RW #1) #c43)
+T CFSG.KD.OrdRu.d2_0 (Nat.beq (CFSG.KC.Ord.decRun CFSG.KD.OrdRu.P2 #100 #92d #2 #1c #6 #a8 CFSG.KD.OrdRu.RM (CFSG.KD.OrdRu.RW #2) [#0 #1 #2 #3 #4 #5 #6 #7 #8 #9] #1) #c43)
+T CFSG.KD.OrdRu.d2_end (CFSG.KC.Ord.seedDone #1c (CFSG.KC.Ord.validM #2 #1260 CFSG.KD.OrdRu.L CFSG.KD.OrdRu.H) (CFSG.KD.OrdRu.RW #2) #c43)

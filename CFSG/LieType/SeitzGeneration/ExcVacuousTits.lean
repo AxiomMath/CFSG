@@ -1,0 +1,84 @@
+module
+
+public import CFSG.LieType.SeitzGeneration.RegimesExcFamilies
+public import CFSG.LieType.SeitzGeneration.OuterQuotient
+public import CFSG.RankThree.PartTwo.Census.Carrier.ReeF4Catalog
+public import CFSG.Sporadic.Schreier.TitsOuterTwo
+import all TauCeti.GroupTheory.SpecificGroups.CFSG.Assembly.LieType
+import all TauCeti.GroupTheory.SpecificGroups.CFSG.Assembly.AmbientGroup
+import all TauCeti.GroupTheory.SpecificGroups.CFSG.Classification
+
+public section
+
+namespace CFSG.LieType.SeitzGeneration
+
+open CFSG.Blueprint TauCeti CFSG.ComponentClassification.OuterAutomorphisms
+
+theorem not_sq_dvd_card_tits_of_ne {p : ℕ} (hp : p.Prime) (h2 : p ≠ 2) (h3 : p ≠ 3)
+    (h5 : p ≠ 5) : ¬ p ^ 2 ∣ 17971200 := by
+  intro h
+  have hpd : p ∣ 17971200 := (dvd_pow_self p two_ne_zero).trans h
+  have hN : (17971200 : ℕ) = 2 ^ 11 * 3 ^ 3 * 5 ^ 2 * 13 := by norm_num
+  rw [hN] at hpd h
+  rcases (Nat.Prime.dvd_mul hp).1 hpd with h1 | h1
+  · rcases (Nat.Prime.dvd_mul hp).1 h1 with h4 | h4
+    · rcases (Nat.Prime.dvd_mul hp).1 h4 with h6 | h6
+      · exact h2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h6))
+      · exact h3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow h6))
+    · exact h5 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_five).1 (hp.dvd_of_dvd_pow h4))
+  · have h13 := (Nat.prime_dvd_prime_iff_eq hp (by norm_num : Nat.Prime 13)).1 h1
+    subst h13
+    norm_num at h
+
+section Model
+
+
+theorem card_cat_tits_outer (hv : LieTypeIndex.tits.Valid) :
+    Nat.card (Cat ⟨.tits, hv⟩) = 17971200 ∧ Nat.card (Outer (Cat ⟨.tits, hv⟩)) = 2 := by
+  have hfin : ∀ d : TitsLieIndex, Finite d.1.fixedField := fun _ => inferInstance
+  have hchar : ∀ d : TitsLieIndex, CharP d.1.fixedField 2 := fun _ => inferInstance
+  have := hfin TitsLieIndex.of
+  have := hchar TitsLieIndex.of
+  obtain ⟨e₁⟩ := CFSG.TauCetiBridge.ReeF4.nonempty_candidate_equiv_tits TitsLieIndex.of
+  have hmodel : ReeTitsModel (Cat ⟨.tits, hv⟩) .Tits 2 1 :=
+    ⟨⟨Nat.prime_two, le_rfl, ⟨rfl, rfl, rfl⟩⟩, 0, rfl,
+      ⟨TitsLieIndex.of.1.fixedField, inferInstance, inferInstance,
+        (CFSG.TauCetiBridge.ReeF4.card_fixedField_tits _).trans (pow_one 2).symm,
+        ⟨e₁.trans (CFSG.TauCetiBridge.ReeF4.nativeModelEquiv 0).symm⟩⟩⟩
+  obtain ⟨h1, -, h3, -⟩ :=
+    CFSG.Sporadic.Schreier.Tits.CTI_Tits_model_outer_two_part_bound _ 2 1 hmodel
+  exact ⟨h1, h3⟩
+
+theorem innerPlane_tits (hv : LieTypeIndex.tits.Valid) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {E : Subgroup (MulAut (Cat ⟨.tits, hv⟩))} (hc : Nat.card E = p ^ 2) :
+    InnerPlane ⟨.tits, hv⟩ p E :=
+  innerPlane_of_coprime_card_outer (by
+    rw [hc, (card_cat_tits_outer hv).2]
+    exact Nat.Coprime.pow_left 2 ((Nat.coprime_primes hp Nat.prime_two).mpr hp2))
+
+theorem no_plane_tits (hv : LieTypeIndex.tits.Valid) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (h3 : p ≠ 3) (h5 : p ≠ 5) {E : Subgroup (MulAut (Cat ⟨.tits, hv⟩))}
+    (hc : Nat.card E = p ^ 2) : False := by
+  have hT := (card_cat_tits_outer hv).1
+  have hin := innerPlane_tits hv hp hp2 hc
+  have : Finite (Cat ⟨.tits, hv⟩) := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  refine not_sq_dvd_card_tits_of_ne hp hp2 h3 h5 ?_
+  rw [← hT, ← hc]
+  exact (Subgroup.card_dvd_of_le hin).trans
+    (Subgroup.card_dvd_of_surjective (MonoidHom.rangeRestrict_surjective _))
+
+theorem seitzExcAnisotropicFor_tits : SeitzExcAnisotropicFor IsTitsIndex := by
+  rintro ⟨d, hv⟩ p hp hp2 hpd hex E hE hc ⟨-, hd, -⟩
+  subst hd
+  have h3 : p ≠ 3 := fun h => hex (Or.inl ⟨h, Or.inr (Or.inr (Or.inr (Or.inr rfl)))⟩)
+  have h5 : p ≠ 5 := fun h => hex (Or.inr ⟨h, Or.inl rfl⟩)
+  exact (no_plane_tits hv hp hp2 h3 h5 hc).elim
+
+theorem seitzExcOuterNarrowFor_tits : SeitzExcOuterNarrowFor IsTitsIndex := by
+  rintro ⟨d, hv⟩ p hp hp2 hpd hex E hE hc ⟨hout, -, hd⟩
+  subst hd
+  exact (hout (innerPlane_tits hv hp hp2 hc)).elim
+
+end Model
+
+end CFSG.LieType.SeitzGeneration

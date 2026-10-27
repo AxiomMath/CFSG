@@ -1,0 +1,113 @@
+module
+
+public import CFSG.Quasithin.Vol2.Ch12Sec9Lemma6One
+public import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Final1291
+public import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma6Rad
+
+public section
+
+namespace CFSG.Quasithin.H13
+
+open CFSG.Open CFSG.Blueprint
+open scoped IsMulCommutative commutatorElement
+
+variable {G : Type} [Group G] [CFSG.GH74.QTGen4.Finite4 G]
+
+theorem commutator_ne_bot_of_cx_F4 (h1222 : Stmt12_2_2_F4) (h37 : A37ForSQTK) (h38 : A38ForSQTK)
+    (h39 : A39ForSQTK) (h1295 : Lemma12_9_5_F4) (hKG : ParabolicFact1296) {T L V : Subgroup G}
+    {n : ℕ} (hcx : Cx1291 G T L V n) {V₁ V₂ K₁ : Subgroup G} (hV₁ : IsTSub T V V₁ 1)
+    (hV₂ : IsTSub T V V₂ 2) (hV₁₂ : V₁ ≤ V₂) (hLK : lOne L V₁ ≤ K₁)
+    (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G))) :
+    ⁅V₂, pCoreOf 2 K₁⁆ ≠ ⊥ := by
+  intro hbot
+  have h := hcx.hyp
+  have hyp := h.hyp
+  have hn : n ≠ 3 := by rcases hcx.n45 with h | h <;> omega
+  obtain ⟨-, hTV⟩ := hyp.le_and_normalizes_F4 h1222
+  have hT2 : IsPGroup 2 T := hyp.sylow.1
+  obtain ⟨⟨-, hHz⟩, hiso, h3⟩ := h1295 G T L V n hcx V₁ K₁ hV₁ hLK hK
+  obtain ⟨hsK, hnabK⟩ := isSimpleGroup_and_nonabelian_of_mulEquiv hiso
+  have hK₁n : Subgroup.normalizer (V₁ : Set G) ≤ Subgroup.normalizer (K₁ : Set G) :=
+    normalizer_le_of_lOne_le_F4 h1222 h37 h38 h hn hV₁ hLK hK
+  have hTK : T ≤ Subgroup.normalizer (K₁ : Set G) := hV₁.2.2.trans hK₁n
+  have hK₁G₁ : K₁ ≤ Subgroup.normalizer (V₁ : Set G) :=
+    le_of_mem_cComp (show K₁ ∈ cComp _ from hK)
+  have hTL₁ : T ≤ Subgroup.normalizer (lOne L V₁ : Set G) :=
+    le_normalizer_lOne hyp.normalizes hV₁.2.2
+  have hK₁Q₁ : K₁ ≤ Subgroup.normalizer (pCoreOf 2 K₁ : Set G) :=
+    LieType.BorelTits.le_normalizer_pCoreOf 2 K₁
+  have hTQ₁ : T ≤ Subgroup.normalizer (pCoreOf 2 K₁ : Set G) :=
+    hTK.trans (LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K₁)
+
+  have hQ₁V : pCoreOf 2 K₁ ≤ Subgroup.centralizer (V : Set G) := by
+    have hV₂C : V₂ ≤ Subgroup.centralizer (pCoreOf 2 K₁ : Set G) :=
+      Subgroup.commutator_eq_bot_iff_le_centralizer.1 hbot
+    set W := V ⊓ Subgroup.centralizer (pCoreOf 2 K₁ : Set G) with hWdef
+    have hLW : lOne L V₁ ≤ Subgroup.normalizer (W : Set G) := fun l hl =>
+      Subgroup.inf_normalizer_le_normalizer_inf ⟨L1296.lOne_le_normalizer h V₁ hl,
+        normalizer_le_normalizer_centralizer' _ (hK₁Q₁ (hLK hl))⟩
+    rcases eq_or_eq_of_lOne_le_normalizer h hV₁ (le_inf hV₁.1 (hV₁₂.trans hV₂C)) inf_le_left
+        hLW with hW | hW
+    · exfalso
+      have h1 := Subgroup.card_le_of_le (show V₂ ≤ V₁ from by
+        rw [← hW]
+        exact le_inf hV₂.1 hV₂C)
+      rw [hV₂.2.1, hV₁.2.1] at h1
+      norm_num at h1
+    · have hVC : V ≤ Subgroup.centralizer (pCoreOf 2 K₁ : Set G) := by
+        rw [← hW]
+        exact inf_le_right
+      exact Subgroup.le_centralizer_iff.1 hVC
+
+  set D := centralizerMod (pCoreOf 2 K₁) (K₁ ⊔ T) K₁ with hDdef
+  have hDp : IsPGroup 2 D := L1296.isPGroup_centralizerMod hT2 hTK hsK hnabK
+  have hTD : T ≤ Subgroup.normalizer (D : Set G) :=
+    L1296.le_normalizer_centralizerMod (le_sup_right.trans Subgroup.le_normalizer) hTQ₁ hTK
+  have hDT : D ≤ T := L1296.le_of_isPGroup hyp.sylow hDp hTD
+  have hLD : lOne L V₁ ≤ Subgroup.normalizer (D : Set G) :=
+    L1296.le_normalizer_centralizerMod ((hLK.trans le_sup_left).trans Subgroup.le_normalizer)
+      (hLK.trans hK₁Q₁) ((hLK.trans hK₁G₁).trans hK₁n)
+  have hDV : D ≤ Subgroup.centralizer (V : Set G) := by
+    refine L1296.le_centralizer_of_le_T_F4 h1222 h hV₁ hDT hTD hLD fun l hl d hd => ?_
+    have h1 := (pCoreOf 2 K₁).inv_mem (hd.2.2 l (hLK hl))
+    rw [show (d * l * d⁻¹ * l⁻¹)⁻¹ = l * d * l⁻¹ * d⁻¹ by group] at h1
+    exact hQ₁V h1
+
+  have hQN := (inf_centralizer_eq_sup_inf_centralizer_F4 h1222 h).2
+  have hL₁L : lOne L V₁ ≤ L := (oTwoUpper_le _).trans inf_le_left
+  have hBSQ : lOne L V₁ ⊔ T ≤
+      Subgroup.normalizer ((T ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) :=
+    (sup_le_sup_right hL₁L T).trans hQN
+  have hNQM : Subgroup.normalizer
+      ((T ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) ≤
+        Subgroup.normalizer (L : Set G) :=
+    (isUniqueM_normalizer_inf_centralizer_F4 h1222 h37 h38 h39 h).1.2
+  have hcase : (Nonempty (↥(lOne L V₁) ⧸ CFSG.pCore 2 ↥(lOne L V₁) ≃*
+        Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) ∧
+      Nat.card ↥(pCoreOf 2 (lOne L V₁ ⊔ T)) ≤
+        2 ^ 3 * Nat.card ↥(T ⊓ Subgroup.centralizer (V : Set G)) ∧
+      (Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 5) (ZMod 2)) →
+        ∃ φ : ↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 5) (ZMod 2),
+          (((lOne L V₁).subgroupOf K₁).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K₁))).map
+              φ.toMonoidHom = Subgroup.centralizer ({transvection15} : Set _))) ∨
+      (Nonempty (↥(lOne L V₁) ⧸ CFSG.pCore 2 ↥(lOne L V₁) ≃*
+          Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)) ∧
+        Nat.card ↥(pCoreOf 2 (lOne L V₁ ⊔ T)) ≤
+          2 ^ 4 * Nat.card ↥(T ⊓ Subgroup.centralizer (V : Set G))) := by
+    obtain ⟨e⟩ := lOne_quotient_mulEquiv_F4 h1222 h hn hV₁
+    have hc := L1296.card_pCoreOf_le_F4 h1222 h hV₁
+    rcases hcx.n45 with rfl | rfl
+    · exact Or.inl ⟨⟨e⟩, hc, h3 rfl⟩
+    · exact Or.inr ⟨⟨e⟩, hc⟩
+  have hinner : ∀ t ∈ T, ∃ b ∈ lOne L V₁, ∀ x ∈ lOne L V₁,
+      (b⁻¹ * t) * x * (b⁻¹ * t)⁻¹ * x⁻¹ ∈ pCoreOf 2 (lOne L V₁) := fun t ht =>
+    lOne_inner_F4 h1222 h hn hV₁ (hyp.normalizes ht) (hTV ht) (hV₁.2.2 ht)
+  obtain ⟨P, hTP, hPX, hPQ, hPL₁⟩ := hKG G (K₁ ⊔ T) K₁ T (lOne L V₁)
+    (T ⊓ Subgroup.centralizer (V : Set G)) le_sup_left (sup_le Subgroup.le_normalizer hTK)
+    (isSylowTwoOf_of_quasithinIsSylowTwo hyp.sylow le_sup_right) rfl hiso hLK hTL₁ hinner hcase
+    (L1296.inf_centralizer_lt_pCoreOf_F4 h1222 h hV₁) hBSQ (le_inf hDT hDV)
+    (fun hX => hHz.2.2 (hX.trans hNQM))
+
+  exact hPL₁ (le_normalizer_lOne (hPQ.trans hNQM) (hPX.trans (sup_le hK₁G₁ hV₁.2.2)))
+
+end CFSG.Quasithin.H13

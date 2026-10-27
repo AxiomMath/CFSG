@@ -1,0 +1,48 @@
+module
+
+public import Certificates.Kernel.Census.HeC.K
+import all Certificates.Kernel.Census.HeC.Data
+import all Certificates.Kernel.Census.HeC.K
+import all Certificates.Data.Kernel.Census.HeConj2
+import all Certificates.Data.Kernel.Census.PackedConj
+import all Certificates.Data.Kernel.Census.Packed
+import all CFSG.Certificates.Kernel.Enum.Defs
+import all Mathlib.Data.List.Sort
+import all Init.Data.Nat.Fold
+import all Init.Data.Range.Basic
+import CFSG.Certificates.Kernel.Common.Harness
+public import Certificates.Kernel.SporSch.HeT.Tab
+public import Mathlib.Algebra.Group.Action.End
+public import Mathlib.Algebra.Group.Subgroup.Finite
+public import Mathlib.Algebra.Group.Subgroup.Lattice
+public import Mathlib.Data.List.Basic
+public import Mathlib.Data.Set.Card
+public import Mathlib.Data.Vector.Basic
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.GroupTheory.Commutator.Basic
+public import Mathlib.GroupTheory.GroupAction.Defs
+public import Mathlib.GroupTheory.GroupAction.Quotient
+public import Mathlib.GroupTheory.Perm.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Alternating
+public import Mathlib.SetTheory.Cardinal.Finite
+
+public section
+
+namespace CertificateChecks.KernelCensus.HeCj
+
+open CFSG.KC.HeConj
+
+set_option maxRecDepth 1000000
+
+@[expose] noncomputable def witF (is : List Nat) : Bool :=
+  wits8330OK nv CertificateChecks.KernelSporSch.HeTc.nfp uP bsH d is
+
+theorem kW0 : witF (List.range' 0 26) = true := by quickRfl
+theorem kW26 : witF (List.range' 26 26) = true := by quickRfl
+theorem kW52 : witF (List.range' 52 26) = true := by quickRfl
+theorem kW78 : witF (List.range' 78 26) = true := by quickRfl
+theorem kW104 : witF (List.range' 104 26) = true := by quickRfl
+
+end CertificateChecks.KernelCensus.HeCj
+
+end

@@ -1,0 +1,6 @@
+{
+  "challenge_module": "Comparator.Challenge",
+  "solution_module": "Comparator.Solution",
+  "theorem_names": ["CFSGComparator.classification"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}

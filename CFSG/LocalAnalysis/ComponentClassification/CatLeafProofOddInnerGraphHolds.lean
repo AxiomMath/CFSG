@@ -1,0 +1,27 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerLGraph
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerUGraph
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerPSU
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerOmegaHolds
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerPSL
+
+public noncomputable section
+
+namespace CFSG.ComponentClassification.CatLeafProof
+
+open CFSG.ComponentClassification.CatLeaf
+
+theorem oddPSLGraphInput_holds : OddPSLGraphInput :=
+  oddPSLGraphInput_of_orthogonalComponents oddInner_orthogonalComponentsLie
+
+theorem oddPSUGraphInput_holds : OddPSUGraphInput :=
+  oddPSUGraphInput_of_orthogonalComponents oddInner_orthogonalComponentsLie
+
+theorem gls3OddFamilyInput_PSL_holds : GLS3OddFamilyInput .PSL :=
+  gls3OddFamilyInput_PSL_of_graphInput oddPSLGraphInput_holds
+
+theorem gls3OddFamilyInput_PSU_holds : GLS3OddFamilyInput .PSU :=
+  gls3OddFamilyInput_PSU_of_graphInput oddPSUGraphInput_holds
+
+end CFSG.ComponentClassification.CatLeafProof

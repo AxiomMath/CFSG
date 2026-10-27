@@ -1,0 +1,6 @@
+mul4 c_v103 v102 v1 = v103
+mul4 c_v104 v103 v98 = v104
+mul4 c_v105 v104 v104 = v105
+mul4 c_v106 v105 v104 = v106
+mul4 c_v107 v1 v14 = v107
+mul4 c_v108 v107 v1 = v108

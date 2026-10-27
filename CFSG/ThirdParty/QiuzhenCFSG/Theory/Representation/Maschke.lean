@@ -1,0 +1,177 @@
+module
+
+public import Mathlib.Algebra.Group.TypeTags.Finite
+public import Mathlib.Algebra.MonoidAlgebra.Basic
+public import Mathlib.LinearAlgebra.Basis.VectorSpace
+public import Mathlib.RingTheory.SimpleModule.Basic
+
+namespace CFSG
+end CFSG
+open CFSG
+
+/-!
+# Maschke's theorem
+
+We prove **Maschke's theorem** for finite groups,
+in the formulation that every submodule of a `k[G]` module has a complement,
+when `k` is a field with `Fintype.card G` invertible in `k`.
+
+We do the core computation in greater generality.
+For any commutative ring `k` in which `Fintype.card G` is invertible,
+and a `k[G]`-linear map `i : V → W` which admits a `k`-linear retraction `π`,
+we produce a `k[G]`-linear retraction by
+taking the average over `G` of the conjugates of `π`.
+
+## Implementation Notes
+
+* These results assume `IsUnit (Fintype.card G : k)` which is equivalent to the more
+  familiar `¬(ringChar k ∣ Fintype.card G)`.
+
+## Future work
+It's not so far to give the usual statement, that every finite-dimensional representation
+of a finite group is semisimple (i.e. a direct sum of irreducibles).
+-/
+
+universe u u' v w
+
+noncomputable section
+
+open Module MonoidAlgebra
+
+/-!
+We now do the key calculation in Maschke's theorem.
+
+Given `V → W`, an inclusion of `k[G]` modules,
+assume we have some retraction `π` (i.e. `∀ v, π (i v) = v`),
+just as a `k`-linear map.
+(When `k` is a field, this will be available cheaply, by choosing a basis.)
+
+We now construct a retraction of the inclusion as a `k[G]`-linear map,
+by the formula
+$$ \frac{1}{|G|} \sum_{g \in G} g⁻¹ • π(g • -). $$
+-/
+
+namespace LinearMap
+
+
+-- At first we work with any `[CommRing k]`, and add the assumption that
+-- `IsUnit (Fintype.card G : k)` when it is required.
+variable {k : Type u} [CommRing k] {G : Type u'} [Group G]
+variable {V : Type v} [AddCommGroup V] [Module k V] [Module k[G] V] [IsScalarTower k k[G] V]
+variable {W : Type w} [AddCommGroup W] [Module k W] [Module k[G] W] [IsScalarTower k k[G] W]
+variable (π : W →ₗ[k] V)
+
+/-- We define the conjugate of `π` by `g`, as a `k`-linear map. -/
+@[expose] public def conjugate' (g : G) : W →ₗ[k] V :=
+  GroupSMul.linearMap k V g⁻¹ ∘ₗ π ∘ₗ GroupSMul.linearMap k W g
+
+public theorem conjugate'_apply (g : G) (v : W) :
+    π.conjugate' g v = MonoidAlgebra.single g⁻¹ (1 : k) • π (MonoidAlgebra.single g (1 : k) • v) :=
+  rfl
+
+variable (i : V →ₗ[k[G]] W)
+
+section
+
+public theorem conjugate'_i (h : ∀ v : V, π (i v) = v) (g : G) (v : V) :
+    (conjugate' π g : W → V) (i v) = v := by
+  rw [conjugate'_apply, ← i.map_smul, h, ← mul_smul, single_mul_single, mul_one, inv_mul_cancel,
+    ← one_def, one_smul]
+
+end
+
+variable (G) [Fintype G]
+
+/-- The sum of the conjugates of `π` by each element `g : G`, as a `k`-linear map.
+
+(We postpone dividing by the size of the group as long as possible.)
+-/
+@[expose] public def sumOfConjugates' : W →ₗ[k] V :=
+  ∑ g : G, π.conjugate' g
+
+public lemma sumOfConjugates'_apply (v : W) : π.sumOfConjugates' G v = ∑ g : G, π.conjugate' g v :=
+  LinearMap.sum_apply _ _ _
+
+/-- In fact, the sum over `g : G` of the conjugate of `π` by `g` is a `k[G]`-linear map.
+-/
+@[expose] public def sumOfConjugates'Equivariant : W →ₗ[k[G]] V :=
+  MonoidAlgebra.equivariantOfLinearOfComm (π.sumOfConjugates' G) fun g v => by
+    simp only [sumOfConjugates'_apply, Finset.smul_sum, conjugate'_apply]
+    refine Fintype.sum_bijective (· * g) (Group.mulRight_bijective g) _ _ fun i ↦ ?_
+    simp only [smul_smul, single_mul_single, mul_inv_rev, mul_inv_cancel_left, one_mul]
+
+public theorem sumOfConjugates'Equivariant_apply (v : W) :
+    π.sumOfConjugates'Equivariant G v = ∑ g : G, π.conjugate' g v :=
+  π.sumOfConjugates'_apply G v
+
+section
+
+/-- We construct our `k[G]`-linear retraction of `i` as
+$$ \frac{1}{|G|} \sum_{g \in G} g⁻¹ • π(g • -). $$
+-/
+@[expose] public def equivariantProjection' : W →ₗ[k[G]] V :=
+  Ring.inverse (Fintype.card G : k) • π.sumOfConjugates'Equivariant G
+
+public theorem equivariantProjection'_apply (v : W) :
+    π.equivariantProjection' G v = Ring.inverse (Fintype.card G : k) • ∑ g : G, π.conjugate' g v := by
+  simp only [equivariantProjection', smul_apply, sumOfConjugates'Equivariant_apply]
+
+public theorem equivariantProjection'_condition (hcard : IsUnit (Fintype.card G : k))
+    (h : ∀ v : V, π (i v) = v) (v : V) : (π.equivariantProjection' G) (i v) = v := by
+  rw [equivariantProjection'_apply]
+  simp only [conjugate'_i π i h]
+  rw [Finset.sum_const, Finset.card_univ, ← Nat.cast_smul_eq_nsmul k, smul_smul,
+    Ring.inverse_mul_cancel _ hcard, one_smul]
+
+end
+
+end LinearMap
+
+end
+
+namespace MonoidAlgebra
+
+-- Now we work over a `[Field k]`.
+variable {k : Type u} [Field k] {G : Type u'} [Fintype G]
+variable [Group G]
+variable {V : Type v} [AddCommGroup V] [Module k[G] V]
+variable {W : Type w} [AddCommGroup W] [Module k[G] W]
+
+set_option backward.isDefEq.respectTransparency false in
+public theorem exists_leftInverse_of_injective' [NeZero (Fintype.card G : k)]
+    (f : V →ₗ[k[G]] W) (hf : LinearMap.ker f = ⊥) :
+    ∃ g : W →ₗ[k[G]] V, g.comp f = .id := by
+  let A := k[G]
+  letI : Module k W := .compHom W (algebraMap k A)
+  letI : Module k V := .compHom V (algebraMap k A)
+  have := IsScalarTower.of_compHom k A W
+  have := IsScalarTower.of_compHom k A V
+  set φ := (f.restrictScalars k).leftInverse
+  have hφ : ∀ (x : V), φ (f x) = x := by
+    apply LinearMap.leftInverse_apply_of_inj
+    simp [hf]
+  refine ⟨φ.equivariantProjection' G, LinearMap.ext ?_⟩
+  exact φ.equivariantProjection'_condition G _ (.mk0 _ <| NeZero.ne _) <| hφ
+
+namespace Submodule
+
+public theorem exists_isCompl' [NeZero (Fintype.card G : k)]
+    (p : Submodule k[G] V) : ∃ q : Submodule k[G] V, IsCompl p q := by
+  rcases MonoidAlgebra.exists_leftInverse_of_injective' p.subtype p.ker_subtype with ⟨f, hf⟩
+  exact ⟨LinearMap.ker f, LinearMap.isCompl_of_proj <| DFunLike.congr_fun hf⟩
+
+/-- This also implies instances `ComplementedLattice (Submodule k[G] V)` and
+`IsSemisimpleRing k[G]`. -/
+public instance instIsSemisimpleModule' [NeZero (Fintype.card G : k)] :
+    IsSemisimpleModule k[G] V where
+  exists_isCompl := exists_isCompl'
+
+public instance instIsSemisimpleRing' [AddGroup G] [NeZero (Fintype.card G : k)] :
+    IsSemisimpleRing (AddMonoidAlgebra k G) :=
+  haveI : NeZero (Fintype.card (Multiplicative G) : k) := by
+    rwa [Fintype.card_congr Multiplicative.toAdd]
+  (AddMonoidAlgebra.toMultiplicativeAlgEquiv k G (R := ℕ)).toRingEquiv.symm.isSemisimpleRing
+
+end Submodule
+
+end MonoidAlgebra

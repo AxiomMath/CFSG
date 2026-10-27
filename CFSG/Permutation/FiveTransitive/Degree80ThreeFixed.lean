@@ -1,0 +1,122 @@
+module
+
+public import CFSG.Permutation.FiveTransitive.SylowFixedActionPrimeFree
+public import CFSG.Permutation.FiveTransitive.SmallDegreeFixedAction
+public import CFSG.Permutation.FiveTransitive.Degree29Classification
+public import CFSG.Permutation.FiveTransitive.PrimePredFour
+public import CFSG.Permutation.FiveTransitive.TwoPrimeCycleClassification
+
+public section
+
+namespace CFSG
+
+namespace FiveTransitive.Degree80ThreeFixed
+
+open MulAction SylowFixedActionCore
+
+private theorem bounds_and_alternating
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (hcard : Fintype.card X = 80)
+    (h5 : IsMultiplyPretransitive P X 5) (hnotAlt : ¬ alternatingGroup X ≤ P)
+    (s : Set X) (hs : s.ncard = 5)
+    (S : Sylow 3 (fixingSubgroup P s)) [Fintype (sylowFixedPoints X P s S)]
+    (hS : Nat.card S ≠ 1) :
+    5 ≤ Nat.card (sylowFixedPoints X P s S) ∧
+      Nat.card (sylowFixedPoints X P s S) ≤ 40 ∧
+      Nat.card X % 3 = Nat.card (sylowFixedPoints X P s S) % 3 ∧
+      alternatingGroup (sylowFixedPoints X P s S) ≤
+        (toPermHom (sylowNormalizer X P s S) (sylowFixedPoints X P s S)).range := by
+  classical
+  let _ : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let Q := sylowImage X P s S
+  let N := sylowNormalizer X P s S
+  let F := sylowFixedPoints X P s S
+  have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
+    ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
+      (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
+  have hQne : Q ≠ ⊥ := by intro he; apply hS; rw [← hQcard,he]; simp
+  have hfixeq : (F : Set X) = fixedPoints Q X := by
+    ext x
+    constructor
+    · intro hx q
+      exact hx (⟨⟨q.val,Q.le_normalizer q.property⟩,q.property⟩ : sylowInNormalizer X P s S)
+    · intro hx q
+      exact hx (⟨q.val.val,q.property⟩ : Q)
+  have hupper := MinimalOrbitFixedBounds.fixed_card_le_half X P (by omega) h5 hnotAlt Q hQne
+  rw [← hfixeq,hcard] at hupper
+  have hlower := SylowFixedActionPrimeFree.base_card_le_fixed_degree X P s S
+  rw [hs] at hlower
+  change 5 ≤ Nat.card F at hlower
+  have hmod := SylowFixedActionPrimeFree.fixed_degree_modEq X P s S
+  change Nat.card X % 3 = Nat.card F % 3 at hmod
+  rw [Nat.card_eq_fintype_card,hcard] at hmod
+  have hexp : ∀ a b : Fin 5 → X, Function.Injective a → Function.Injective b →
+      ∃ g : P, ∀ i, g • a i = b i := by
+    intro a b ha hb
+    obtain ⟨g,hg⟩ := h5.exists_smul_eq (⟨a,ha⟩ : Fin 5 ↪ X) ⟨b,hb⟩
+    exact ⟨g,fun i => DFunLike.congr_fun hg i⟩
+  have hN5 := sylowNormalizer_five_transitive_on_fixedPoints X P hexp s hs S
+  let J := (toPermHom N F).range
+  have hJ5 : IsMultiplyPretransitive J F 5 := by
+    constructor
+    intro a b
+    obtain ⟨g,hg⟩ := hN5 a b a.injective b.injective
+    exact ⟨⟨toPermHom N F g,⟨g,rfl⟩⟩,DFunLike.ext _ _ hg⟩
+  have hAlt : alternatingGroup F ≤ J := by
+    by_cases h29 : Nat.card F = 29
+    · exact Degree29Classification.alternatingGroup_le J
+        (by rw [← Nat.card_eq_fintype_card]; exact h29) hJ5
+    by_cases h32 : Nat.card F = 32
+    · exact PrimePredFour.alternatingGroup_le_of_sub_three_prime F J
+        (by rw [← Nat.card_eq_fintype_card,h32]; norm_num) hJ5
+        (by rw [← Nat.card_eq_fintype_card,h32]; norm_num)
+    by_cases h35 : Nat.card F = 35
+    · exact PrimePredFour.alternatingGroup_le_of_sub_four_prime F J
+        (by rw [← Nat.card_eq_fintype_card,h35]; norm_num) hJ5
+        (by rw [← Nat.card_eq_fintype_card,h35]; norm_num)
+    by_cases h38 : Nat.card F = 38
+    · exact TwoPrimeCycleClassification.alternatingGroup_le 17 4
+        (by decide) (by decide) (Or.inr rfl) J
+        (by rw [← Nat.card_eq_fintype_card,h38]) hJ5
+    apply SmallDegreeFixedAction.alternatingGroup_le_of_card_le_twentySeven_away_mathieu
+      F J
+    · rw [← Nat.card_eq_fintype_card]; exact hlower
+    · rw [← Nat.card_eq_fintype_card]; omega
+    · rw [← Nat.card_eq_fintype_card]; omega
+    · rw [← Nat.card_eq_fintype_card]; omega
+    · intro a b ha hb
+      obtain ⟨g,hg⟩ := hN5 a b ha hb
+      exact ⟨⟨toPermHom N F g,⟨g,rfl⟩⟩,hg⟩
+  refine ⟨hlower,by omega,?_,hAlt⟩
+  rwa [Nat.card_eq_fintype_card,hcard]
+
+theorem three_fixed_card_and_image
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (hcard : Fintype.card X = 80)
+    (h5 : IsMultiplyPretransitive P X 5) (hnotAlt : ¬ alternatingGroup X ≤ P)
+    (s : Set X) (hs : s.ncard = 5)
+    (S : Sylow 3 (fixingSubgroup P s)) [Fintype (sylowFixedPoints X P s S)]
+    (hS : Nat.card S ≠ 1) :
+    Nat.card (sylowFixedPoints X P s S) = 5 ∧
+      alternatingGroup (sylowFixedPoints X P s S) ≤
+        (toPermHom (sylowNormalizer X P s S) (sylowFixedPoints X P s S)).range := by
+  classical
+  let _ : Fact (Nat.Prime 3) := ⟨by decide⟩
+  obtain ⟨hlower,hupper,hmod,hAlt⟩ := bounds_and_alternating P hcard h5 hnotAlt s hs S hS
+  let F := sylowFixedPoints X P s S
+  rw [Nat.card_eq_fintype_card,hcard] at hmod
+  change 80 % 3 = Nat.card F % 3 at hmod
+  change 5 ≤ Nat.card F at hlower
+  let _ : Fintype F := Fintype.ofFinite F
+  have hAltCanonical := (bounds_and_alternating P hcard h5 hnotAlt s hs S hS).2.2.2
+  have hb := (fixed_card_bound_of_alternating_normalizer_action X P s hs S hAltCanonical).2
+    (by norm_num : 3 ≠ 2)
+  change Fintype.card F - 5 < 3 at hb
+  rw [← Nat.card_eq_fintype_card] at hb
+  refine ⟨?_,hAlt⟩
+  change Nat.card F = 5
+  omega
+
+end FiveTransitive.Degree80ThreeFixed
+
+end CFSG

@@ -1,0 +1,95 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGF4N2JPacket
+public import CFSG.Foundations.KCore
+public import CFSG.Assembly.InCatalog
+import CFSG.Quasithin.Background.B1More13A
+import CFSG.SignalizerFunctorTheorem.McBride.Prelim.DirectProduct
+import CFSG.LocalAnalysis.StandardType.GGNbrBalanceBasic
+import CFSG.LocalAnalysis.StandardType.GGOneFiveNormalizer
+import CFSG.LocalAnalysis.StandardType.GGNbrBalancePumpup
+import CFSG.LocalAnalysis.GLTheoremA.CatA.I142Abs
+import CFSG.RankThree.PartTwo.Sec4.T444.Item4443SLTools
+import CFSG.GroupTheory.LocalCores.Components
+import CFSG.Assembly.Subnormal
+public import Certificates.Kernel.Sporadic.Fi22.C3151
+public import Certificates.Kernel.Sporadic.Fi22.C2068
+import CFSG.CharacterTheory.Semidihedral.OddFieldLift
+import CFSG.CharacterTheory.Wreathed.BrauerWongTypes
+import CFSG.CharacterTheory.Wreathed.WreathCentralSquare
+import CFSG.Dihedral.DihedralFusionPrefixes
+import CFSG.HardMathSupport.Solomon.Coordinator.B3FamPC
+import CFSG.HardMathSupport.Solomon.Coordinator.LayerCentral
+import CFSG.HardMathSupport.Solomon.LocalBalance.Lemma32
+import CFSG.HardMathSupport.Solomon.LocalBalance.Sec2Statements
+import CFSG.HardMathSupport.Solomon.LocalBalance.Sec5Statements
+import CFSG.HardMathSupport.Solomon.Proving.LBLayerConj
+import CFSG.LocalAnalysis.AGLEmbedding.CaseThreeFamilies
+import CFSG.LocalAnalysis.AGLEmbedding.ResidualTools
+import CFSG.LocalAnalysis.ComponentClassification.BlockCentralSylowEquality
+import CFSG.LocalAnalysis.ComponentClassification.BlockFourFactorSupport
+import CFSG.LocalAnalysis.ComponentClassification.BlockLargeProductInvolutions
+import CFSG.LocalAnalysis.ComponentClassification.BlockMovedFactorSylowCentral
+import CFSG.LocalAnalysis.ComponentClassification.BlockNormalizerOrder
+import CFSG.LocalAnalysis.ComponentClassification.BlockPermutationSylowLifting
+import CFSG.LocalAnalysis.ComponentClassification.BlockStrictFullSylowAbelian
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBGraphFieldArithmetic
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBGraphFieldUnitaryData
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBHigherLinearFieldDeterminant
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalDescentEndpoint
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFixedTransfer
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareStructure
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixModelGeometry
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBField
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBLinear
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticRepresentationOdd
+import CFSG.LocalAnalysis.ComponentClassification.KProper
+import CFSG.LocalAnalysis.ComponentClassification.LabeledBlockPermutation
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSUFieldOddCore
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancingLocalSmallSourceLinear
+import CFSG.LocalAnalysis.ComponentInitial.GL3TwoFixedModelSelector
+import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasFive
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasSix
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalReflectionSplitting
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+import CFSG.LocalAnalysis.GLTheoremB.Lemma911Defs
+import CFSG.LocalAnalysis.GLTheoremB.SchreierTools
+import CFSG.LocalAnalysis.LargeEvenClassification.CyclicCongruenceCut
+import CFSG.LocalAnalysis.LargeEvenClassification.TopScalarLiftSquare
+import CFSG.LocalAnalysis.ZStar.BrauerSylowFusion
+import CFSG.LocalAnalysis.ZStar.PrincipalBlockTraceApplication
+import CFSG.Quasithin.Background.B1More13Defs
+import CFSG.RankThree.PartTwo.Sec4.T444.Step451
+import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent
+import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.LowRank
+
+public section
+
+namespace CFSG.StandardType
+
+open CFSG.Assembly CFSG.Open CFSG.RankThree.PartOne
+open scoped commutatorElement
+
+variable {G : Type} [Group G] [Finite G]
+
+theorem ggN2_isQuasisimple_of_equiv_SL3 {H : Subgroup G}
+    (e : ↥H ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 2)) :
+    CFSG.Open.IsQuasisimple ↥H := by
+  have hq := CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
+    CFSG.RankThree.PartTwo.Sec4.Item4443SL.isQuasisimple_SL
+  exact ⟨hq.1.commutator_eq_top, hq.2.1⟩
+
+end CFSG.StandardType
+
+end

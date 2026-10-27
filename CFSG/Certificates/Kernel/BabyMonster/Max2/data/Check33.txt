@@ -1,0 +1,2 @@
+mul q0sq CFSG.KC.BM.NativePair.Q0 CFSG.KC.BM.NativePair.Q0 = I
+mul cE1 CFSG.KC.BM.NativePair.Q24 E1 = CFSG.KC.BM.NativePair.Q0 CFSG.KC.BM.NativePair.Q24

@@ -1,0 +1,12 @@
+module
+
+public import CFSG.Certificates.Kernel.Bounds.Core3
+import CFSG.Certificates.Kernel.Bounds.Load
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
+import CFSG.Certificates.Kernel.Common.Repo
+
+public section
+
+#kc_repo #kc_list_root CFSG.KBData.XONU_T1v.wl3 "CFSG/Certificates/Kernel/Bounds/XONU/data/XONU_T1v.wl3.items" 1 9799231 4488012922021486301
+
+end

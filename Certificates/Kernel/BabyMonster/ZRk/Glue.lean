@@ -1,0 +1,150 @@
+module
+
+public import CFSG.Certificates.Kernel.BabyMonster.FixSound
+public import Certificates.Kernel.BabyMonster.ChainN
+public import CFSG.Certificates.Kernel.BabyMonster.ZRk.All
+public import CFSG.Certificates.Kernel.BabyMonster.Three.All
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check0
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check1
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check10
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check100
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check101
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check102
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check103
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check104
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check105
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check106
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check107
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check108
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check109
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check11
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check110
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check111
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check112
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check113
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check114
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check115
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check116
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check117
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check118
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check119
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check12
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check120
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check121
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check122
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check13
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check14
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check15
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check16
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check17
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check18
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check19
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check2
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check20
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check21
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check22
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check23
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check24
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check25
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check26
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check27
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check28
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check29
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check3
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check30
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check31
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check32
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check33
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check34
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check35
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check36
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check37
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check38
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check39
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check4
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check40
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check41
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check42
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check43
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check44
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check45
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check46
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check47
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check48
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check49
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check5
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check50
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check51
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check52
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check53
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check54
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check55
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check56
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check57
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check58
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check59
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check6
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check60
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check61
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check62
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check63
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check64
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check65
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check66
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check67
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check68
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check69
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check7
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check70
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check71
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check72
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check73
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check74
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check75
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check76
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check77
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check78
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check79
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check8
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check80
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check81
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check82
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check83
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check84
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check85
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check86
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check87
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check88
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check89
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check9
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check90
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check91
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check92
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check93
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check94
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check95
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check96
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check97
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check98
+public import CFSG.Certificates.Kernel.BabyMonster.Three.Check99
+public import CFSG.Certificates.Kernel.BabyMonster.ZRk.Check0
+
+public section
+
+namespace CFSG.KC.BM.ZRkGlue
+
+open CFSG.KC.BM CFSG.KC.BM.Fix
+
+theorem zRk_mul : stripMat ZRk.P * (stripMat Three.Z + 1) = stripMat ZRk.Q :=
+  stripMat_mul_add_one Three.wf_Z ZRk.wf_P (by bm_stripsx CFSG.KC.BM.ZRk.rk_ 69)
+
+theorem zRk_cert : stripMat ZRk.P * (stripMat Three.Z + 1) = stripMat ZRk.Q ∧
+    LinearIndependent (ZMod 2) (fun i : {i : Fin 4370 // i.val < 2916} => stripMat ZRk.Q i) ∧
+    (∀ i : Fin 4370, 2916 ≤ i.val → stripMat ZRk.Q i = 0) ∧
+    LinearIndependent (ZMod 2) (fun i : {i : Fin 4370 // 2916 ≤ i.val} => stripMat ZRk.P i) :=
+  ⟨zRk_mul, (shapeOK_sound ZRk.wf_Q ZRk.shape).1, (shapeOK_sound ZRk.wf_Q ZRk.shape).2,
+    echFrom_sound ZRk.wf_P ZRk.ech⟩
+
+end CFSG.KC.BM.ZRkGlue
+
+end

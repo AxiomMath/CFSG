@@ -1,0 +1,3 @@
+mul cr0 CFSG.KC.BM.Seeds.A1 CFSG.KC.BM.Seeds.A2 = r0
+mul cr1 r0 CFSG.KC.BM.Seeds.A2 = r1
+mul cr2 r0 r0 = r2

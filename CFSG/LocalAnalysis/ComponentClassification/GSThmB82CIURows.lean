@@ -1,0 +1,88 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CIUGlue
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CIURowExc
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CIURowX
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CIURowAlt
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CIURowSpor
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalIsogeny
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalTwistedE6Conj
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalTwistedE6Export
+public import CFSG.ClassicalInvolution.ModelFacts.ClassicalIsFundamentalTwistedE6Roots
+public import CFSG.ClassicalInvolution.ModelFacts.FundPerfectMain
+public import CFSG.ClassicalInvolution.Models.LinearFrames
+public import CFSG.ClassicalInvolution.Models.LinearPairs
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.Quadruple
+public import CFSG.ClassicalInvolution.Models.UnitaryPairs
+public import CFSG.ClassicalInvolution.Models.UnitaryPairs.Pairs
+public import CFSG.ClassicalInvolution.SmallCases.Sporadic.QuasiAssembly
+public import CFSG.LieType.Ree.SmallReeInvolutionComponents
+public import CFSG.LocalAnalysis.ComponentClassification.BurgoyneSpField
+public import CFSG.LocalAnalysis.ComponentClassification.CatFactsL4U4OrdU2
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofF4Inner
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddRee
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddTrialityInner
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofTwE6Inner
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogSchreierCases
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueSporadicCases
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueSporadicCasesB
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueSporadicCasesC
+public import CFSG.LocalAnalysis.ComponentClassification.ExcSelectorOddE6
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5EndKGEven
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5OddLieExcPSL2QPU
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLitKGFieldClass
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLitLemma36Inputs
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLitN36MType
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLitStatement412
+public import CFSG.LocalAnalysis.ComponentClassification.OddSelectorInner
+public import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalCTILinearSocle
+public import CFSG.LocalAnalysis.ComponentClassification.RestrictedStdFamilies
+public import CFSG.LocalAnalysis.ComponentClassification.Sol78F5EndB
+public import CFSG.LocalAnalysis.ComponentInitial.ProjectiveEigenspaceComponent
+public import CFSG.LocalAnalysis.ComponentInitial.ProjectiveOrthogonalLocalComponentSplit
+public import CFSG.LocalAnalysis.SteinbergCEOddResidualE6Graph
+public import CFSG.Monster.B.TwoA.Base.FourNorm
+public import CFSG.Monster.SteinbergMY443SimpleIsomorphism
+public import CFSG.Open.GorensteinHaradaSectionalRankFourMilestoneDefs
+public import CFSG.RankThree.CentralLiftSO.SplitTorusWeyl
+public import CFSG.RankThree.PartOne.KC.OrthogonalAutSemilinearBridge
+public import CFSG.RankThree.PartOne.KC.OrthogonalFieldDescentCore
+public import CFSG.RankThree.PartOne.KC.OrthogonalFieldDescentDisplayed
+public import CFSG.RankThree.PartOne.KC.OrthogonalFieldDescentTags
+public import CFSG.RankThree.PartOne.KC.UnitaryCrossPrimeOrbits
+public import CFSG.RankThree.SteinbergR3EOrthogonalCoprimeCyclic
+public import CFSG.Sporadic.Co2Schreier.ModelSimple
+public import CFSG.Sporadic.ON.SimpleBase
+public import CFSG.Sporadic.Schreier.LyFixedSet
+public import CFSG.Sporadic.SmallOddCore.Co3Catalogue
+public import CFSG.Sporadic.SuzOddCore.GraphData
+public import CFSG.Sporadic.SuzOddCore.InvCentralizerBounds
+public import CFSG.Sporadic.SuzOddCore.SmallActionData
+public import CFSG.Sporadic.Th.CertificateBase
+public import CFSG.Sporadic.Th.CertificateBase1
+public import CFSG.Sporadic.ThSchreier.KernelAutBase
+public import CFSG.Sporadic.ThSchreier.KernelAutBase1
+public import CFSG.Sporadic.ThSchreier.ThSchreierCase
+public import CFSG.YGroups.DCE.MaximalB
+public import CFSG.YGroups.Y443.Native.AlignB
+public import CFSG.YGroups.Y443.Native.AlignW
+public import CFSG.YGroups.Y443.Native.CosetData
+public import Certificates.Certificate2323
+
+public section
+
+namespace CFSG.ComponentClassification.GSThmB
+
+open CFSG.LocalAnalysis.ComponentInitial (SchreierFor)
+
+theorem cfQPUJ6Statement_of_classical
+    (hC : CFQPUJ6Classical) : CFQPUJ6Statement :=
+  cfQPUJ6Statement_of_rows cfQPUJ6Exc_holds cfQPUJ6Alt_holds hC cfQPUJ6CrossChar_holds
+    cfQPUJ6Spor_holds
+
+theorem gs82Step6PumpInputA0_of_classical
+    (hS : SchreierFor Blueprint.Catalog) (hCF : CFL4U4Prod) (hC : CFQPUJ6Classical) :
+    GS82Step6PumpInputA0 :=
+  gs82Step6PumpInputA0_of_catalog hS hCF (cfQPUJ6Statement_of_classical hC)
+
+end CFSG.ComponentClassification.GSThmB

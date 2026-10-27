@@ -1,0 +1,6 @@
+mul4 c_C4X C4 X = C4X
+mul4 c_GS G S = GS
+mul4 c_GC3 G C3 = GC3
+mul4 c_GC4 G C4 = GC4
+mul4 c_GX G X = GX
+mul4 c_ST5 S T5 = ST5

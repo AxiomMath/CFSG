@@ -1,0 +1,29 @@
+module
+
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotQ2OmegaPEPlus
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotQ2OmegaPDEight
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotQ2OmegaPDAlignPlus
+
+public section
+
+namespace CFSG.SeitzReduction.SymplecticPilot
+
+theorem spTwoOmegaMinusParamCTInput_holds : SpTwoOmegaMinusParamCTInput :=
+  spTwoOmegaMinusParamCTInput_of_align_place spTwoOmegaMinusAlignInput_holds
+    spTwoOmegaMinusPlaceInput_holds
+
+theorem spTwoOmegaPlusParamCTInput_holds : SpTwoOmegaPlusParamCTInput :=
+  spTwoOmegaPlusParamCTInput_of_align_place spTwoOmegaPlusAlignInput_holds
+    spTwoOmegaPlusPlaceInput_holds
+
+section Data
+
+theorem spTwoOmegaKindInput_omegaMinus_holds : SpTwoOmegaKindInput .omegaMinus :=
+  spTwoOmegaKindInput_omegaMinus_of_paramCT spTwoOmegaMinusParamCTInput_holds
+
+theorem spTwoOmegaKindInput_omegaPlus_holds : SpTwoOmegaKindInput .omegaPlus :=
+  spTwoOmegaKindInput_omegaPlus_of_paramCT spTwoOmegaPlusParamCTInput_holds
+
+end Data
+
+end CFSG.SeitzReduction.SymplecticPilot

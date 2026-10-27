@@ -1,0 +1,42 @@
+module
+
+public import Certificates.Data.Seitz77Sec27L216
+public meta import Certificates.Data.Seitz77Sec27L216
+public import CFSG.GH74.KGroups.FieldGF
+public import CFSG.GH74.Uniqueness.SU.KI1r4F61Mod
+import Certificates.Kernel.PermCent.KC6128Glue
+public import CFSG.GH74.Generic.Shapes
+public import CFSG.GH74.Uniqueness.SU.KI1r3FamBender
+public import CFSG.LieType.Ree.SuzukiSimple
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalDescentEndpoint
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFixedTransfer
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixModelGeometry
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBLinear
+public import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasFive
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasSix
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalReflectionSplitting
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+public import CFSG.LocalAnalysis.ComponentInitial.SuzukiModelSchreier
+public import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.LowRank
+
+public section
+
+namespace Certificates
+
+theorem certificate6128 : Seitz77Sec27.l216CensusCheck = true :=
+  CFSG.Certificates.Kernel.PkCV.L216C.K6128.kCensus
+
+end Certificates

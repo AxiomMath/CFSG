@@ -1,0 +1,22 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGRootCentKGTagsDefs
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoPSLHolds
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoPSU
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoSp
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoOmPlus
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoOmMinus
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoF4
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoE6
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoTwE6
+
+public section
+
+namespace CFSG.StandardType
+
+theorem ggRootCentOTwoTag_all : ∀ t, GGRootCentOTwoTag t :=
+  ggRootCentOTwoTag_forall ggRootCentOTwoTag_PSL ggRootCentOTwoTag_PSU ggRootCentOTwoTag_PSp
+    ggRootCentOTwoTag_POmegaPlus ggRootCentOTwoTag_POmegaMinus ggRootCentOTwoTag_F4
+    ggRootCentOTwoTag_E6 ggRootCentOTwoTag_E7 ggRootCentOTwoTag_E8 ggRootCentOTwoTag_twistedE6
+
+end CFSG.StandardType

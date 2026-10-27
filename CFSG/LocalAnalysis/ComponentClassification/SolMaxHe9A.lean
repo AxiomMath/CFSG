@@ -1,0 +1,194 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxClaimA9K
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxHe11Rec
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxFiveFHeM
+
+public section
+
+namespace CFSG.ComponentClassification.SolMax.He9
+
+open CFSG Subgroup Equiv CFSG.Sporadic.HeldB CFSG.Sporadic.Schreier
+
+variable {X : Type} [Group X]
+
+theorem oddQuotAction_eq_coreQuotAut (N : Subgroup X) (g : ↥(normalizer (N : Set X))) :
+    TBLit.oddQuotAction N g = coreQuotAut N g := by
+  refine MulEquiv.ext fun q => ?_
+  induction q using QuotientGroup.induction_on with
+  | H y => rw [TBLit.oddQuotAction_mk, coreQuotAut_mk]; rfl
+
+theorem le_of_held_pump
+    [Finite X] {H : Subgroup X} {e₁ : X} (he₁2 : e₁ * e₁ = 1)
+    {N : Subgroup X} (he₁N : e₁ ∈ normalizer (N : Set X)) (hNperf : ⁅N, N⁆ = N)
+    (hCH : N ⊓ centralizer ({e₁} : Set X) ≤ H) (hOH : coreNOf N ≤ H) {L₀ F : Subgroup X}
+    (hL₀ : L₀ ≤ N ⊓ centralizer ({e₁} : Set X))
+    (hL₀pc : IsPComponent 2 (L₀.subgroupOf (N ⊓ centralizer ({e₁} : Set X))))
+    (χ : ↥L₀ ⧸ pPrimeCore 2 ↥L₀ ≃* alternatingGroup (Fin 7)) (hFL₀ : F ≤ L₀)
+    (hF4 : Nat.card F = 4) (hFsq : ∀ x ∈ F, x * x = 1) (hFH : normalizer (F : Set X) ≤ H)
+    {DY : Finset (Fin 7)} (hDY : DY.card = 4)
+    (hFY : ∀ x : ↥L₀, (x : X) ∈ F → ∀ y ∉ DY,
+      ((χ (x : ↥L₀ ⧸ pPrimeCore 2 ↥L₀) : alternatingGroup (Fin 7)) : Perm (Fin 7)) y = y)
+    (ψ : ↥N ⧸ Open.fusionZStar ↥N ≃* Blueprint.NativeSporadic.He) : N ≤ H := by
+  classical
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  set O := pPrimeCore 2 ↥N with hOdef
+  have hNc : commutator ↥N = ⊤ := by
+    apply map_injective N.subtype_injective
+    rw [_root_.commutator_def, map_commutator, ← MonoidHom.range_eq_map, range_subtype]
+    exact hNperf
+  obtain ⟨ψb⟩ := nonempty_coreQuot_held hNc ψ
+  have hL₀N : L₀ ≤ N := hL₀.trans inf_le_left
+  have hFN : F ≤ N := hFL₀.trans hL₀N
+  have hF2 : IsPGroup 2 F := IsPGroup.of_card (n := 2) (by rw [hF4]; norm_num)
+  have hL₀H : L₀ ≤ H := hL₀.trans hCH
+  have hOH' : ∀ z : ↥N, z ∈ O → (z : X) ∈ H := fun z hz => hOH ⟨z, hz, rfl⟩
+  set s := coreQuotAut N ⟨e₁, he₁N⟩ with hsdef
+  have he₁inv : e₁⁻¹ = e₁ := inv_eq_of_mul_eq_one_right he₁2
+  have hs2 : s * s = 1 := by
+    ext q
+    obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective O q
+    change s (s (y : ↥N ⧸ O)) = (y : ↥N ⧸ O)
+    rw [hsdef, coreQuotAut_mk, coreQuotAut_mk]
+    congr 1
+    apply Subtype.ext
+    change e₁ * (e₁ * (y : X) * e₁⁻¹) * e₁⁻¹ = y
+    rw [he₁inv]
+    calc e₁ * (e₁ * (y : X) * e₁) * e₁ = (e₁ * e₁) * y * (e₁ * e₁) := by group
+      _ = y := by rw [he₁2]; group
+  have hS := FiveFHe.hasOddA_fixedSubgroup_oddQuotAction he₁N he₁2 hL₀ hL₀pc χ
+  rw [oddQuotAction_eq_coreQuotAut] at hS
+  have hA7 : Nat.card (alternatingGroup (Fin 7)) = 2520 := by
+    rw [nat_card_alternatingGroup, Nat.card_fin]
+    rfl
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+    alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
+  obtain ⟨Θ', hΘ'⟩ := He11.exists_mulEquiv_heAutU hA7
+    (alt_nonabelian_of_card (by rw [Nat.card_fin]; norm_num)) (ψb.trans heEquivP) s hs2 hS
+  have hy : heAutU ∈ heAutGroup := heAutU_mem_heAutGroup
+  have hs1 : s ≠ 1 := by
+    intro h
+    rw [h, map_one] at hΘ'
+    have h1 : heConjR (1 : heAutGroup) = heConjR ⟨heAutU, hy⟩ := by rw [map_one, hΘ']
+    have h2 : heAutU = 1 :=
+      (congrArg Subtype.val (ctbh_full_automorphism_permutation_model.1.1 h1)).symm
+    exact heAutU_not_mem (by rw [h2]; exact one_mem heP)
+  have hso : orderOf s = 2 := orderOf_eq_prime (by rw [sq, hs2]) hs1
+  set L := Sol78.layerOfFixed s with hLdef
+  have hL₀bL : (L₀.subgroupOf N).map (QuotientGroup.mk' O) ≤ L :=
+    map_le_layerOfFixed he₁N he₁2 hL₀ hL₀pc
+  obtain ⟨f₀, hf₀F, hf₀1⟩ : ∃ f₀ ∈ F, f₀ ≠ 1 := by
+    rcases F.bot_or_exists_ne_one with h | h
+    · rw [h, Subgroup.card_bot] at hF4
+      exact absurd hF4 (by norm_num)
+    · exact h
+  have hFO : F.subgroupOf N ⊓ O = ⊥ := by
+    refine inf_eq_bot_of_two_odd ?_ (Nat.coprime_two_left.mp pPrimeCore_coprime_card)
+    exact hF2.of_equiv (subgroupOfEquivOfLe hFN).symm
+  have hLne : L ≠ ⊥ := by
+    intro h
+    have h1 : QuotientGroup.mk' O ⟨f₀, hFN hf₀F⟩ ∈ L := hL₀bL ⟨_, hFL₀ hf₀F, rfl⟩
+    rw [h, mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
+    have h2 : (⟨f₀, hFN hf₀F⟩ : ↥N) ∈ F.subgroupOf N ⊓ O := mem_inf.mpr ⟨hf₀F, h1⟩
+    rw [hFO, mem_bot] at h2
+    exact hf₀1 (congrArg Subtype.val h2)
+  obtain ⟨φL⟩ := nonempty_layerOfFixed_equiv_heOuterD Θ' s hy hΘ' hLne
+  have hLcard : Nat.card L = 7560 := by rw [Nat.card_congr φL.toEquiv, card_heOuterD]
+  have hZ3 : Nat.card (center ↥L) = 3 := by
+    rw [Nat.card_congr (centerCongr φL).toEquiv, card_center_heOuterD]
+  have hOZ : pPrimeCore 2 ↥L = center ↥L := by
+    apply map_injective (f := φL.toMonoidHom) φL.injective
+    have hc : (center ↥L).map φL.toMonoidHom = center ↥heOuterD := map_center_eq φL
+    rw [pPrimeCore_map_iso 2 φL, HeGen.pPrimeCore_heOuterD, hc]
+  have hLperf : ⁅L, L⁆ = L := by
+    rw [hLdef, HeGen.layerOfFixed_eq_layerIn]
+    exact HeGen.layerIn_perfect _
+  have hLc : commutator ↥L = ⊤ := by
+    apply map_injective L.subtype_injective
+    rw [_root_.commutator_def, map_commutator, ← MonoidHom.range_eq_map, range_subtype]
+    exact hLperf
+  have hlamL : ∀ l : ↥L₀, QuotientGroup.mk' O (inclusion hL₀N l) ∈ L := fun l =>
+    hL₀bL ⟨_, l.2, rfl⟩
+  set lam : ↥L₀ →* ↥L :=
+    ((QuotientGroup.mk' O).comp (inclusion hL₀N)).codRestrict L hlamL with hlamdef
+  have hlamk : Odd (Nat.card lam.ker) := by
+    let j : lam.ker →* O := ((inclusion hL₀N).comp lam.ker.subtype).codRestrict O fun l => by
+      have h1 : lam (l : ↥L₀) = 1 := l.2
+      have h2 : QuotientGroup.mk' O (inclusion hL₀N (l : ↥L₀)) = 1 := congrArg Subtype.val h1
+      rwa [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h2
+    have hj : Function.Injective j := fun a b h => by
+      have h' : (((a : ↥L₀) : X)) = ((b : ↥L₀) : X) := congrArg (fun z : O => ((z : ↥N) : X)) h
+      exact Subtype.ext (Subtype.ext h')
+    exact (Nat.coprime_two_left.mp pPrimeCore_coprime_card).of_dvd_nat
+      (card_dvd_of_injective j hj)
+  have hLq : Nat.card (↥L ⧸ pPrimeCore 2 ↥L) ≤ Nat.card (alternatingGroup (Fin 7)) := by
+    have h1 := card_eq_card_quotient_mul_card_subgroup (pPrimeCore 2 ↥L)
+    have h3 : Nat.card ↥(pPrimeCore 2 ↥L) = 3 := by rw [hOZ, hZ3]
+    rw [hLcard, h3] at h1
+    rw [hA7]
+    omega
+  have hlams : Function.Surjective lam :=
+    surjective_of_card_coreQuot_le lam hlamk hLc hOZ χ hLq
+  obtain ⟨eL, heL⟩ := exists_coreQuot_equiv_of_surjective lam hlams hlamk (by norm_num) χ
+  have hT : Sol78.IsTripleCoverAltSeven L :=
+    ⟨hLperf, hZ3, ⟨(QuotientGroup.quotientMulEquivOfEq hOZ.symm).trans eL⟩⟩
+  set Fb := (F.subgroupOf N).map (QuotientGroup.mk' O) with hFbdef
+  have hFbL : Fb ≤ L := by
+    rintro _ ⟨f, hf, rfl⟩
+    exact hL₀bL ⟨f, hFL₀ hf, rfl⟩
+  have hFb4 : Nat.card Fb = 4 := by
+    have hker' : F.subgroupOf N ⊓ (QuotientGroup.mk' O).ker = ⊥ := by
+      rw [QuotientGroup.ker_mk']
+      exact hFO
+    rw [hFbdef, card_map_of_inf_ker _ _ hker', Nat.card_congr (subgroupOfEquivOfLe hFN).toEquiv,
+      hF4]
+  have hFbsq : ∀ z ∈ Fb, z * z = 1 := by
+    rintro _ ⟨f, hf, rfl⟩
+    rw [← map_mul, show f * f = 1 from Subtype.ext (hFsq f hf), map_one]
+  have hD : ∃ D' : Finset (Fin 7), D'.card = 4 ∧ ∀ z : ↥L, (z : ↥N ⧸ O) ∈ Fb → ∀ ω ∉ D',
+      ((eL (z : ↥L ⧸ pPrimeCore 2 ↥L) : alternatingGroup (Fin 7)) : Perm (Fin 7)) ω = ω := by
+    refine ⟨DY, hDY, fun z hz ω hω => ?_⟩
+    obtain ⟨f, hf, hfz⟩ := hz
+    have hz' : lam ⟨(f : X), hFL₀ hf⟩ = z := Subtype.ext hfz
+    rw [← hz', heL]
+    exact hFY ⟨(f : X), hFL₀ hf⟩ hf ω hω
+  have hgen := HeGen.heldGenerationInput (↥N ⧸ O) ⟨ψb⟩ s hso 7 (Or.inr hT) eL Fb hFbL
+    (klein_of_card_sq hFb4 hFbsq) hD
+  set Y := (H.subgroupOf N).map (QuotientGroup.mk' O) with hYdef
+  have hLY : L ≤ Y := by
+    intro z hz
+    obtain ⟨l, hl⟩ := hlams ⟨z, hz⟩
+    refine ⟨inclusion hL₀N l, hL₀H l.2, ?_⟩
+    exact congrArg Subtype.val hl
+  have hNFY : normalizer (Fb : Set (↥N ⧸ O)) ≤ Y := by
+    intro z hz
+    obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective O z
+    refine ⟨y, ?_, rfl⟩
+    change (y : X) ∈ H
+    refine mem_of_map_conj_le_sup_odd hFH (hFL₀.trans hL₀H) hOH hF2
+      (fun f hf => le_normalizer_pPrimeCore (le_normalizer (hFN hf))) (odd_coreNOf N) ?_
+    rintro _ ⟨f, hf, rfl⟩
+    have h1 : QuotientGroup.mk' O ⟨f, hFN hf⟩ ∈ Fb := ⟨⟨f, hFN hf⟩, hf, rfl⟩
+    have h2 := (mem_normalizer_iff.mp hz _).mp h1
+    obtain ⟨f', hf', hff'⟩ := h2
+    have h3 : f'⁻¹ * (y * ⟨f, hFN hf⟩ * y⁻¹) ∈ O := by
+      rw [← QuotientGroup.eq]
+      simp only [QuotientGroup.mk'_apply] at hff'
+      rw [hff', QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv]
+    have h4 : (MulAut.conj (y : X)).toMonoidHom f =
+        (f' : X) * ((f'⁻¹ * (y * ⟨f, hFN hf⟩ * y⁻¹) : ↥N) : X) := by
+      change (y : X) * f * (y : X)⁻¹ = _
+      simp
+    rw [h4]
+    exact mul_mem (mem_sup_left hf') (mem_sup_right ⟨_, h3, rfl⟩)
+  have hYtop : Y = ⊤ := by
+    rw [eq_top_iff, ← hgen]
+    exact sup_le hLY hNFY
+  intro n hn
+  obtain ⟨h, hh, hhn⟩ : QuotientGroup.mk' O ⟨n, hn⟩ ∈ Y := hYtop ▸ mem_top _
+  rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply] at hhn
+  have h1 : h⁻¹ * ⟨n, hn⟩ ∈ O := QuotientGroup.eq.mp hhn
+  have h2 := mul_mem (show (h : X) ∈ H from hh) (hOH' _ h1)
+  simpa using h2
+
+end CFSG.ComponentClassification.SolMax.He9

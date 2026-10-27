@@ -1,0 +1,25 @@
+module
+
+public import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotQ2TenRMain
+public import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotQ2TenREnnolaPlus
+
+public section
+
+set_option linter.unusedSectionVars false
+
+namespace CFSG.SeitzReduction.OmegaPilot
+
+theorem omegaMinusTwoTenFieldFrameGenInput_holds : OmegaMinusTwoTenFieldFrameGenInput :=
+  omegaMinusTwoTenFieldFrameGenInput_of_model omegaMinusTwoEnnolaModelInputAt_three
+    omegaMinusTwoTenNormalizedInput_holds
+
+theorem omegaPlusTwoTenFieldFrameGenInput_holds : OmegaPlusTwoTenFieldFrameGenInput :=
+  omegaPlusTwoTenFieldFrameGenInput_of_model omegaPlusTwoEnnolaModelInputAt_three
+
+theorem omegaMinusTwoTenFieldGlobalInput_holds : OmegaMinusTwoTenFieldGlobalInput :=
+  omegaMinusTwoTenFieldGlobalInput_of_frameGen omegaMinusTwoTenFieldFrameGenInput_holds
+
+theorem omegaPlusTwoTenFieldGlobalInput_holds : OmegaPlusTwoTenFieldGlobalInput :=
+  omegaPlusTwoTenFieldGlobalInput_of_frameGen omegaPlusTwoTenFieldFrameGenInput_holds
+
+end CFSG.SeitzReduction.OmegaPilot

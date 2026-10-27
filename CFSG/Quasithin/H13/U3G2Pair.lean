@@ -1,0 +1,195 @@
+module
+
+public import CFSG.Quasithin.H13.U3G2Off
+public import CFSG.Quasithin.H13.U3G2Blk
+
+public section
+
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+  instCommGroupOfIsSimpleGroupOfIsNilpotent
+
+namespace CFSG.Quasithin.H13.U3
+
+open Subgroup CFSG.Open CFSG.Blueprint CFSG.Quasithin CFSG.QuasithinUnique
+  CFSG.Quasithin.SteinbergCB
+
+variable {G : Type} [Group G]
+
+namespace HullSetting
+
+variable [Finite G] {T L V : Subgroup G} [IsElementaryAbelian 2 V] {z : G}
+
+theorem V_ne_bot
+    (S : HullSetting G T L V z) : V ≠ ⊥ := fun h => by
+  have := S.hV64
+  rw [h, card_bot] at this
+  omega
+
+theorem blockU_le
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V) : blockU L ≤ V :=
+  blockU_le_of_irr hL S.hLV
+    (le_blockQ_of (B2F.isPGroup_of_isElemAbelian (isElemAbelian_of_isElementaryAbelian' V))
+      (S.hVT.trans S.hTL) S.hLV hVL)
+    hVL (inf_centralizer_L_eq_bot S.hF) S.V_ne_bot
+
+theorem blockU_eq
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V) : blockU L = V := by
+  refine le_antisymm (S.blockU_le hL hVL) ?_
+  rw [← hVL]
+  exact commutator_mono (le_blockQ_of (B2F.isPGroup_of_isElemAbelian
+    (isElemAbelian_of_isElementaryAbelian' V)) (S.hVT.trans S.hTL) S.hLV hVL) le_rfl
+
+theorem normalizer_L_le
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V) :
+    normalizer (L : Set G) ≤ normalizer (V : Set G) := fun g hg => by
+  have := C1.mem_normalizer_blockU hg
+  rwa [S.blockU_eq hL hVL] at this
+
+theorem comm_mem_V
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V) {y : G} (hyT : y ∈ T)
+    (hyV : y ∈ centralizer (V : Set G)) : ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ V :=
+  commutator_mem_of_centralizer hL S.hLV (S.blockU_le hL hVL) S.inf_centralizer_le (S.hTL hyT)
+    hyV
+
+theorem le_normalizer_of
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V) {W : Subgroup G}
+    (hVW : V ≤ W) (hWT : W ≤ T) (hWC : W ≤ centralizer (V : Set G)) :
+    L ≤ normalizer (W : Set G) := by
+  have key : ∀ l ∈ L, ∀ w ∈ W, l * w * l⁻¹ ∈ W := by
+    intro l hl w hw
+    have h1 := S.comm_mem_V hL hVL (hWT hw) (hWC hw) l hl
+    have e : l * w * l⁻¹ = (w * l * w⁻¹ * l⁻¹)⁻¹ * w := by group
+    rw [e]
+    exact mul_mem (inv_mem (hVW h1)) hw
+  intro l hl
+  rw [mem_normalizer_iff]
+  intro w
+  refine ⟨key l hl w, fun hw => ?_⟩
+  have := key l⁻¹ (inv_mem hl) _ hw
+  simpa [mul_assoc] using this
+
+theorem normalizer_le_of
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V) {W : Subgroup G}
+    (hVW : V ≤ W) (hWT : W ≤ T) (hWC : W ≤ centralizer (V : Set G))
+    (hTW : T ≤ normalizer (W : Set G)) : normalizer (W : Set G) ≤ normalizer (L : Set G) :=
+  normalizer_le_of_isUniqueM S.uniqueM (S.hH.sylow.1.to_le hWT)
+    (fun h => S.V_ne_bot (le_bot_iff.1 (h ▸ hVW)))
+    (sup_le (S.le_normalizer_of hL hVL hVW hWT hWC) hTW)
+
+theorem normalizer_B_le_of_comm
+    (S : HullSetting G T L V z) (hL : IsShort2 L) (hVL : ⁅V, L⁆ = V)
+    (h : ∀ g ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G),
+      cjSub g V ≤ centralizer (V : Set G)) :
+    normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G) ≤ normalizer (L : Set G) := by
+  set NB := normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G) with hNB
+  have hWB : conjClosure V NB ≤ baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) :=
+    conjClosure_le fun g hg v hv => (mem_normalizer_iff.1 hg v).1 (S.V_le_B hv)
+  have hWC : conjClosure V NB ≤ centralizer (V : Set G) :=
+    conjClosure_le fun g hg v hv => h g hg (mem_cjSub.2 (by simpa [mul_assoc] using hv))
+  have hle := S.normalizer_le_of hL hVL (le_conjClosure V NB) (hWB.trans S.B_le_T) hWC
+    (S.T_le_normalizer_B.trans (le_normalizer_conjClosure V NB))
+  exact (le_normalizer_conjClosure V NB).trans hle
+
+theorem B_le_normalizer_cjSub
+    (S : HullSetting G T L V z) {g : G}
+    (hg : g ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G)) :
+    baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) ≤ normalizer (cjSub g V : Set G) := by
+  intro b hb
+  have hb' : g⁻¹ * b * g ∈ baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) := by
+    have := (mem_normalizer_iff.1 (inv_mem hg) b).1 hb
+    simpa using this
+  have hbN : g⁻¹ * b * g ∈ normalizer (V : Set G) := S.hTV (S.B_le_T hb')
+  rw [mem_normalizer_iff]
+  intro y
+  rw [mem_cjSub, mem_cjSub]
+  have e : g⁻¹ * (b * y * b⁻¹) * g = (g⁻¹ * b * g) * (g⁻¹ * y * g) * (g⁻¹ * b * g)⁻¹ := by group
+  rw [e]
+  exact mem_normalizer_iff.1 hbN _
+
+theorem card_inf_le
+    (S : HullSetting G T L V z) {g : G}
+    (hg : g ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G)) :
+    Nat.card ↥(V ⊓ centralizer (cjSub g V : Set G)) ≤
+      Nat.card ↥(cjSub g V ⊓ centralizer (V : Set G)) := by
+  have hXT : cjSub g V ≤ T := (cjSub_le hg S.V_le_B).trans S.B_le_T
+  have h1 := S.card_mul_card_le hXT (isElemAbelian_cjSub (isElemAbelian_of_isElementaryAbelian' V))
+  have h2 := relIndex_mul_card (cjSub g V ⊓ centralizer (V : Set G)) (cjSub g V)
+  rw [inf_eq_left.2 (inf_le_left : cjSub g V ⊓ centralizer (V : Set G) ≤ cjSub g V),
+    card_cjSub, S.hV64] at h2
+  have hpos : 0 < (cjSub g V ⊓ centralizer (V : Set G)).relIndex (cjSub g V) :=
+    Nat.pos_of_ne_zero fun h0 => by rw [h0, zero_mul] at h2; omega
+  exact Nat.le_of_mul_le_mul_left (h1.trans h2.symm.le) hpos
+
+theorem card_inf_eq
+    (S : HullSetting G T L V z) {x : G}
+    (hx : x ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G)) :
+    Nat.card ↥(V ⊓ centralizer (cjSub x V : Set G)) =
+      Nat.card ↥(cjSub x V ⊓ centralizer (V : Set G)) := by
+  have h1 := S.card_inf_le hx
+  have h2 := S.card_inf_le (inv_mem hx)
+  have h3 := card_inf_centralizer_cjSub V x
+  have h4 := card_inf_centralizer_cjSub V x⁻¹
+  rw [inv_inv] at h4
+  omega
+
+theorem isA1_imgL
+    (S : HullSetting G T L V z) {x : G}
+    (hx : x ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G))
+    (hxV : ¬ cjSub x V ≤ centralizer (V : Set G)) : IsA1 (S.imgL (cjSub x V)) := by
+  have hXB : cjSub x V ≤ baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) := cjSub_le hx S.V_le_B
+  have hXT : cjSub x V ≤ T := hXB.trans S.B_le_T
+  have hXN : cjSub x V ≤ normalizer (V : Set G) := hXT.trans S.hTV
+  have hab := isElemAbelian_cjSub (g := x) (isElemAbelian_of_isElementaryAbelian' V)
+  refine isA1_of_fix (S.imgL_le_S0L hXT) (S.isElementaryAbelian_imgL hab) ?_ ?_ ?_
+  · rw [S.card_imgL hXN, ← S.card_inf_centralizer hXN, S.card_inf_eq hx]
+    have h2 := relIndex_mul_card (cjSub x V ⊓ centralizer (V : Set G)) (cjSub x V)
+    rw [inf_eq_left.2 (inf_le_left : cjSub x V ⊓ centralizer (V : Set G) ≤ cjSub x V),
+      card_cjSub, S.hV64] at h2
+    exact h2
+  · exact fun h => hxV ((S.imgL_eq_bot_iff hXN).1 h)
+  · exact fun e he => S.imgL_B_fix e (S.imgL_mono hXB he)
+
+theorem inf_centralizer_cjSub_eq
+    (S : HullSetting G T L V z) {x : G}
+    (hx : x ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G))
+    (hxV : ¬ cjSub x V ≤ centralizer (V : Set G)) :
+    V ⊓ centralizer (cjSub x V : Set G) = S.V₃ := by
+  have hXN : cjSub x V ≤ normalizer (V : Set G) :=
+    ((cjSub_le hx S.V_le_B).trans S.B_le_T).trans S.hTV
+  rw [S.inf_centralizer_eq hXN, (S.isA1_imgL hx hxV).linFix_eq, S.V₃_eq_pullSub]
+
+theorem V₃_le_cjSub
+    (S : HullSetting G T L V z) {x : G}
+    (hx : x ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G))
+    (hxV : ¬ cjSub x V ≤ centralizer (V : Set G)) : S.V₃ ≤ cjSub x V := by
+  intro c hc
+  rw [S.V₃_eq_pullSub] at hc
+  obtain ⟨hcV, hcP⟩ := mem_pullSub.1 hc
+  obtain ⟨e, he, w, hew⟩ := (S.isA1_imgL hx hxV).exists_sub_eq hcP
+  obtain ⟨n, hnN, hnX, rfl⟩ := S.mem_imgL.1 he
+  set v := elOf S.Φ w with hv
+  have hvV : v ∈ V := elOf_mem w
+  have h1 := S.phi_comm hnN hvV
+  rw [show S.Φ (Additive.ofMul (⟨v, hvV⟩ : V)) = w from phi_elOf w, hew] at h1
+  have h2 : n * v * n⁻¹ * v⁻¹ = c := phi_injective' _ hcV h1
+  rw [← h2]
+  have hvX : v ∈ normalizer (cjSub x V : Set G) := S.B_le_normalizer_cjSub hx (S.V_le_B hvV)
+  have h3 : v * n⁻¹ * v⁻¹ ∈ cjSub x V := (mem_normalizer_iff.1 hvX _).1 (inv_mem hnX)
+  have e : n * v * n⁻¹ * v⁻¹ = n * (v * n⁻¹ * v⁻¹) := by group
+  rw [e]
+  exact mul_mem hnX h3
+
+theorem cjSub_inf_centralizer_eq
+    (S : HullSetting G T L V z) {x : G}
+    (hx : x ∈ normalizer (baum (pCoreOf 2 (L₁Of L S.V₁ ⊔ T)) : Set G))
+    (hxV : ¬ cjSub x V ≤ centralizer (V : Set G)) :
+    cjSub x V ⊓ centralizer (V : Set G) = S.V₃ := by
+  have hle : S.V₃ ≤ cjSub x V ⊓ centralizer (V : Set G) :=
+    le_inf (S.V₃_le_cjSub hx hxV)
+      (S.le3.trans (B2F.le_centralizer_self (isElemAbelian_of_isElementaryAbelian' V)))
+  refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
+  rw [S.card_V₃, ← S.card_inf_eq hx, S.inf_centralizer_cjSub_eq hx hxV, S.card_V₃]
+
+end HullSetting
+
+end CFSG.Quasithin.H13.U3

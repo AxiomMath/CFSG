@@ -1,0 +1,9 @@
+mul4 cl0 CFSG.KC.BM.Five.W_sq3 t = l0
+mul4 cl1 CFSG.KC.BM.Five.Q2 t = l1
+mul4 cl2 CFSG.KC.BM.Five.Q3 t = l2
+mul4 cl3 CFSG.KC.BM.Five.Q4 t = l3
+mul4 tq0 t CFSG.KC.BM.Five.Q1e2 CFSG.KC.BM.Five.Zp4 = l0
+mul4 tq1 t CFSG.KC.BM.Five.Q2e2 = l1
+mul4 tq2 t CFSG.KC.BM.Five.Q3e2 CFSG.KC.BM.Five.Z = l2
+mul4 tq3 t CFSG.KC.BM.Five.Q4e2 CFSG.KC.BM.Five.Z = l3
+for i 0 4 wf l{i}

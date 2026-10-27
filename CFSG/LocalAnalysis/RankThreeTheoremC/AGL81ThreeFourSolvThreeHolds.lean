@@ -1,0 +1,25 @@
+module
+
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeCases
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeLTwoTwentySeven
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeUThreeThree
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeLinThree
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeReeTwo
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeLieHolds
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeSporHolds
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeLTwoEightSq
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourSolvThreeAltSix
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81TenThirteenSolvDefs
+
+public section
+
+namespace CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen
+
+
+theorem kFactThreeFourSolvThree_holds : KFactThreeFourSolvThree :=
+  kFactThreeFourSolvThree_of_cases threeFourSolvThreeLinTwo_holds threeFourSolvThreeUnitary_holds
+    threeFourSolvThreeLinThree_holds threeFourSolvThreeReeTwo_holds threeFourSolvThreeLie_holds
+    threeFourSolvThreeSporadic_holds threeFourSolvThreeLTwoEightSq_holds
+    threeFourSolvThreeTargets_holds
+
+end CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen

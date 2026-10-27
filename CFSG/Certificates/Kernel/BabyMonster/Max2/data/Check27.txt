@@ -1,0 +1,4 @@
+mul xbdef Y01 Y01 = Xb
+mul xbsq Xb Xb = I
+bool ne_xb (CFSG.KC.BM.notB (CFSG.KC.BM.isId Xb))
+mul cYz Zw Xb = Yz

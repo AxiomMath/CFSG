@@ -1,0 +1,139 @@
+module
+
+public import CFSG.RankThree.GF2n.Smith81.S81R213X
+public import CFSG.RankThree.GF2n.Smith81.S81RD8Pure
+public import CFSG.RankThree.GF2n.Smith81.S81RD8Move
+
+public section
+
+namespace CFSG.RankThree.GF2n.Smith81.E3LRoot
+
+open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
+  CFSG.RankThree.GF2n CFSG.RankThree.GF2n.Stroth80 CFSG.RankThree.GF2n.Smith81.EGeom
+  CFSG.RankThree.GF2n.Smith81.A5Cube CFSG.RankThree.GF2n.Smith81.E3LBridge
+  CFSG.RankThree.GF2n.Smith81.E3LCond CFSG.RankThree.GF2n.Smith81
+open scoped commutatorElement
+open Matrix exteriorPower
+
+variable {G : Type} [Group G]
+
+section Point
+
+variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
+  [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ψ : M₀.E ≃ₗ[K] Cube K}
+  {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)} {z : G}
+
+theorem e3l_exists_point_centralized (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) {x y : G}
+    (hxc : IsConj z x) (hxM : x ∈ M) (hxQ : x ∉ Q) (hyc : IsConj z y) (hyM : y ∈ M)
+    (hyQ : y ∉ Q) {gx gy : GL (Fin 6) K} (hgx : IsTransvec K gx) (hgy : IsTransvec K gy)
+    (hx : ActsAs φ x gx) (hy : ActsAs φ y gy) {a f b g : Fin 6 → K}
+    (hxm : (gx : Matrix (Fin 6) (Fin 6) K) = 1 + vecMulVec a f)
+    (hym : (gy : Matrix (Fin 6) (Fin 6) K) = 1 + vecMulVec b g)
+    (hfa : f ⬝ᵥ a = 0) (hga : g ⬝ᵥ a = 0) (ha : a ≠ 0) (hf : f ≠ 0)
+    (hA : ∀ X : Subgroup G, Sit M Q Z X x →
+      ∃ A : Subgroup G, IsZConjugate Z A ∧ A ≤ Q ∧ A ≠ Z ∧ A ≤ QB X) :
+    ∃ D : Subgroup G, IsZConjugate Z D ∧ x ∈ QB D ∧ y ∈ Subgroup.centralizer (D : Set G) := by
+  have H : StrothHyp M Q Z := Dt.ctx.hyp
+  obtain ⟨X, hs, Tx, hII, hCs, hRs⟩ := Dt.xdata hxc hxM hxQ hgx hx
+  obtain ⟨Y, hsy, Ty, hIIy, -, -⟩ := Dt.xdata hyc hyM hyQ hgy hy
+  have hXc : IsZConjugate Z X := hs.conj
+  obtain ⟨A, hAZc, hAQ, hAne, hAX⟩ := hA X hs
+  obtain ⟨gA, hgAΓ, himg, -⟩ := Dt.d.point A hAZc hAQ hAne
+  obtain ⟨s, hsA⟩ := gam_p0_pure hgAΓ
+  have hpA : ιMulti K 3 s ≠ 0 := by
+    intro h0
+    rw [← hsA] at h0
+    exact p0_ne_zero (K := K) ((LinearEquiv.map_eq_zero_iff gA).mp h0)
+  have hsli : LinearIndependent K s := linearIndependent_of_ιMulti_ne_zero hpA
+  have hmemimg : ιMulti K 3 s ∈ (fun a : G => ψ (M₀.π a)) '' (A : Set G) := by
+    rw [himg, ← hsA]
+    exact Submodule.mem_span_singleton_self _
+  obtain ⟨a₁, ha₁A, ha₁eq⟩ := hmemimg
+  have hπR : M₀.π a₁ ∈ Rs Tx :=
+    caseII_piD_le_R Dt.hD hs Tx hII (Subgroup.mem_inf.mpr ⟨hAQ ha₁A, hAX ha₁A⟩)
+  have hmem : ιMulti K 3 s ∈ LinearMap.range (rho K gx - 1) := by
+    rw [← ha₁eq]
+    exact (hRs _).mp hπR
+  obtain ⟨hsf, has⟩ := pure_range_support hxm hfa ha hf hsli hmem
+  obtain ⟨Gm, hGdet, hGcomm, hGs⟩ := exists_comm_move hxm hym hfa hga ha hf hsli hsf has
+  obtain ⟨u, hu⟩ := exists_lift Dt.d hGdet
+  have hxL := hx.mem_Lgen
+  have hu0 : (u : G) ∈ H0 M Z := Lgen_le_H0 Dt.ctx u.2
+  have hux : ⁅(u : G), x⁆ ∈ Q := comm_mem_Q_of_lift Dt.d hxL u.2 (hx.phi hxL) hu hGcomm
+  have hNFx : ∀ y' : G, IsConj x y' → y' ∈ M → y' ∉ Q → ∀ w ∈ Z, w ≠ 1 →
+      ¬ IsConj y' (y' * w) :=
+    fun y' hyc' hyM' hyQ' w hw hw1 => Dt.nf y' (hxc.trans hyc') hyM' hyQ' w hw hw1
+  obtain ⟨q₀, hq₀, hconj⟩ := conj_eq_of_comm_mem_Q Dt.hD hs Tx hII hNFx hu0 hux
+  obtain ⟨u₀, hu₀⟩ : ∃ u₀ : G, u₀ = (u : G) := ⟨_, rfl⟩
+  rw [← hu₀] at hu0 hconj
+  have hmx : u₀ * x = q₀ * x * q₀⁻¹ * u₀ := by
+    rw [← hconj]
+    group
+  have hyx : q₀⁻¹ * u₀ * x = x * (q₀⁻¹ * u₀) := by
+    calc q₀⁻¹ * u₀ * x = q₀⁻¹ * (u₀ * x) := by group
+      _ = q₀⁻¹ * (q₀ * x * q₀⁻¹ * u₀) := by rw [hmx]
+      _ = x * (q₀⁻¹ * u₀) := by group
+  have hnorm : q₀⁻¹ * u₀ ∈ Subgroup.normalizer (X : Set G) :=
+    IsZConjugate.mem_normalizer_of_commute H hXc hs.ne_one hs.mem
+      (show Commute (q₀⁻¹ * u₀) x from hyx)
+  have hq₀M : q₀ ∈ M := H.Q_normal.1 hq₀
+  have hcM : q₀⁻¹ * u₀ ∈ M := M.mul_mem (M.inv_mem hq₀M) (Subgroup.mem_inf.mp hu0).1
+  have hu₀M : u₀ ∈ M := (Subgroup.mem_inf.mp hu0).1
+  refine ⟨conjSubgroup (q₀⁻¹ * u₀) A, hAZc.conj _, ?_, ?_⟩
+  ·
+    have hDX : conjSubgroup (q₀⁻¹ * u₀) A ≤ QB X := by
+      intro d₁ hd₁
+      have h1 : (q₀⁻¹ * u₀)⁻¹ * d₁ * (q₀⁻¹ * u₀) ∈ A := mem_conjSubgroup.mp hd₁
+      have h2 := IsZConjugate.conj_mem_QB H hXc hnorm (hAX h1)
+      have e : q₀⁻¹ * u₀ * ((q₀⁻¹ * u₀)⁻¹ * d₁ * (q₀⁻¹ * u₀)) * (q₀⁻¹ * u₀)⁻¹ = d₁ := by group
+      rwa [e] at h2
+    have hXD : X ≤ QB (conjSubgroup (q₀⁻¹ * u₀) A) :=
+      ((hAZc.conj (q₀⁻¹ * u₀)).le_QB_iff H hXc).mpr hDX
+    exact hXD hs.mem
+  ·
+    rw [Subgroup.mem_centralizer_iff]
+    intro d₁ hd₁
+    have h1 : (q₀⁻¹ * u₀)⁻¹ * d₁ * (q₀⁻¹ * u₀) ∈ A := mem_conjSubgroup.mp hd₁
+    obtain ⟨a₂, ha₂, hd₁eq⟩ : ∃ a₂ ∈ A, d₁ = q₀⁻¹ * u₀ * a₂ * (q₀⁻¹ * u₀)⁻¹ :=
+      ⟨_, h1, by group⟩
+    have ha₂Q : a₂ ∈ Q := hAQ ha₂
+    have hd₁Q : d₁ ∈ Q := by
+      rw [hd₁eq]
+      exact conj_mem_Q H hcM ha₂Q
+    have hπd : ψ (M₀.π d₁) = rhoEquiv K Gm (ψ (M₀.π a₂)) := by
+      have e : d₁ = q₀⁻¹ * (u₀ * a₂ * u₀⁻¹) * q₀⁻¹⁻¹ := by rw [hd₁eq]; group
+      have hw : u₀ * a₂ * u₀⁻¹ ∈ Q := conj_mem_Q H hu₀M ha₂Q
+      rw [e, Tim79.QuadModel.pi_conj_self (M₀ := M₀) (Q.inv_mem hq₀) hw]
+      have hev := Dt.d.equivariant u a₂ ha₂Q
+      rw [hu₀, hev, hu]
+    obtain ⟨κ, hκ⟩ : ∃ κ : K, ψ (M₀.π a₂) = κ • ιMulti K 3 s := by
+      have hm : ψ (M₀.π a₂) ∈ (fun a : G => ψ (M₀.π a)) '' (A : Set G) := ⟨a₂, ha₂, rfl⟩
+      rw [himg] at hm
+      obtain ⟨κ, hκ⟩ := Submodule.mem_span_singleton.mp hm
+      exact ⟨κ, by rw [← hκ, hsA]⟩
+    have hkey : rhoEquiv K gy (rhoEquiv K Gm (ιMulti K 3 s)) = rhoEquiv K Gm (ιMulti K 3 s) := by
+      have h3 : ∀ i, (gy : Matrix (Fin 6) (Fin 6) K).mulVec
+          ((Gm : Matrix (Fin 6) (Fin 6) K).mulVec (s i)) =
+          (Gm : Matrix (Fin 6) (Fin 6) K).mulVec (s i) := by
+        intro i
+        have := hGs i
+        rw [Matrix.sub_mulVec, Matrix.one_mulVec, sub_eq_zero] at this
+        exact this
+      rw [rhoEquiv_apply, rhoEquiv_apply, rho_ιMulti, rho_ιMulti]
+      congr 1
+      funext i
+      exact h3 i
+    have hfix : rhoEquiv K gy (ψ (M₀.π d₁)) = ψ (M₀.π d₁) := by
+      rw [hπd, hκ]
+      simp only [map_smul, hkey]
+    have hyL := hy.mem_Lgen
+    have hTy : Ty.T (M₀.π d₁) = M₀.π d₁ := by
+      apply ψ.injective
+      rw [psi_T Dt.d hyL Ty (hy.phi hyL), ← rhoEquiv_apply]
+      exact hfix
+    have hZ : ⁅d₁, y⁆ ∈ Z := (comm_mem_Z_iff hsy Ty hd₁Q).mpr (mem_Cs.mpr hTy)
+    exact commutatorElement_eq_one_iff_mul_comm.mp (hIIy d₁ hd₁Q hZ)
+
+end Point
+
+end CFSG.RankThree.GF2n.Smith81.E3LRoot

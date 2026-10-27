@@ -1,0 +1,31 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGRootCentKGTags
+public import CFSG.LocalAnalysis.StandardType.GGRootCentKGOTwoAll
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructPSLPieces
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructPSUHolds
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructSp
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructOmPlus
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructOmMinus
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructF4
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructE6
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructExc
+import CFSG.LocalAnalysis.StandardType.GGRootCentKGStructTwE6Holds
+
+public section
+
+namespace CFSG.StandardType
+
+theorem ggRootCentKGStructTag_all : ∀ t, GGRootCentKGStructTag t :=
+  ggRootCentKGStructTag_forall ggRootCentKGStructTag_PSL ggRootCentKGStructTag_PSU
+    ggRootCentKGStructTag_PSp ggRootCentKGStructTag_POmegaPlus ggRootCentKGStructTag_POmegaMinus
+    ggRootCentKGStructTag_F4 ggRootCentKGStructTag_E6 ggRootCentKGStructTag_E7
+    ggRootCentKGStructTag_E8 ggRootCentKGStructTag_twistedE6
+
+theorem ggRootCentStructKGInput_of_schreierPerfect (hSP : GGSchreierPerfectInput) :
+    GGRootCentStructKGInput :=
+  ggRootCentStructKGInput_of_tags hSP ggRootCentKGStructTag_all ggRootCentOTwoTag_all
+
+end CFSG.StandardType
+
+end

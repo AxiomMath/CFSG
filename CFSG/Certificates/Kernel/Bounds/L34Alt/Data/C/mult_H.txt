@@ -1,0 +1,8 @@
+T sH0 (CFSG.KC.LceS.wordsOK selWT selRT selST INV INV8 #40 HS)
+T sH1 (CFSG.KC.LceS.invOK INV INV8 #4)
+T sH3 (Nat.beq nC #b44)
+T sH4 (CFSG.KC.HSK.litOK litRT CFSG.KC.L34Alt.rel #9)
+T sH5 (CFSG.KC.HSK.litOK litST CFSG.KC.L34Alt.sub #1)
+T sH6 (CFSG.KC.HSK.hintsLt selWT #40 #1 HS)
+T sH7 (CFSG.KC.LabZ.constsOK #a BIAS QQ HIGH TOP)
+T sH8 (CFSG.KC.LabZ.tgOK selWT TG INV8 #40 HS #9 #1 #a BIAS)

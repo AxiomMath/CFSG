@@ -1,0 +1,7 @@
+T sE14 (Nat.beq (CFSG.KC.DceS.enumRun NE (CFSG.KC.DceS.nGens LT NL TL) #3 nN #0 #800 #b5a308674cd1f9e2007001) #c2df49a8061b3e57007801)
+T sE15 (Nat.beq (CFSG.KC.DceS.enumRun NE (CFSG.KC.DceS.nGens LT NL TL) #3 nN #0 #800 #c2df49a8061b3e57007801) #d0193b8756cfe42a008001)
+T sE16 (Nat.beq (CFSG.KC.DceS.enumRun NE (CFSG.KC.DceS.nGens LT NL TL) #3 nN #0 #800 #d0193b8756cfe42a008001) #dc340f589eb12a67008801)
+T sE17 (Nat.beq (CFSG.KC.DceS.enumRun NE (CFSG.KC.DceS.nGens LT NL TL) #3 nN #0 #800 #dc340f589eb12a67008801) #e95f834a7d0c2b61009001)
+T sE18 (Nat.beq (CFSG.KC.DceS.enumRun NE (CFSG.KC.DceS.nGens LT NL TL) #3 nN #0 #800 #e95f834a7d0c2b61009001) #f698cba20751ed34009801)
+T sE19 (Nat.beq (CFSG.KC.DceS.eCnt (CFSG.KC.DceS.enumRun NE (CFSG.KC.DceS.nGens LT NL TL) #3 nN #0 #580 #f698cba20751ed34009801)) (Nat.succ nN))
+T sS (CFSG.KC.andB (Nat.blt SUMIDX CFSG.KC.DceS.failV) (Nat.beq (CFSG.KC.DceS.indexSum blk SE STT nf nN ND #72 ALIVE) SUMIDX))

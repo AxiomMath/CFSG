@@ -1,0 +1,12 @@
+module
+
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14ModelOMUnitary
+
+public section
+
+namespace CFSG.SeitzReduction.SymplecticPilot
+
+theorem omegaMinusNonembeddingDataInput_holds : OmegaMinusNonembeddingDataInput :=
+  omegaMinusNonembeddingDataInput_of_pair omegaMinusUnitaryPairInput_holds
+
+end CFSG.SeitzReduction.SymplecticPilot

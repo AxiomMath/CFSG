@@ -1,0 +1,6 @@
+mul4 c_v43 v42 v43 = I
+mul4 c_v44 v43 v24 = v44
+mul4 c_v45 v44 v44 = v45
+mul4 c_v46 v45 v45 = v46
+mul4 c_v47 v46 v45 = v47
+mul4 c_v48 v23 v47 = v48

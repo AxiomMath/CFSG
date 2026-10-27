@@ -1,0 +1,6 @@
+mul4 sig2 S S = I
+mul4 c3cube C3sq C3 = I
+mul4 t2sq T2 T2 = I
+mul4 t4sq T4 T4 = I
+mul4 cmX_S X S = SX
+mul4 cmX_C3 X C3 = C3X

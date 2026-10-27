@@ -1,0 +1,136 @@
+module
+
+public import Mathlib.GroupTheory.GroupAction.MultipleTransitivity
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+public import Mathlib.Tactic.Echelon.Zsqrtd
+public import Mathlib.Tactic.Inclusion.Extension.Core.Core
+public import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+public import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Rational
+public import Mathlib.Tactic.Measurability.Init
+public import Mathlib.Tactic.NormNum.Irrational
+public import Mathlib.Tactic.NormNum.IsCoprime
+public import Mathlib.Tactic.NormNum.IsSquare
+public import Mathlib.Tactic.NormNum.LegendreSymbol
+public import Mathlib.Tactic.NormNum.ModEq
+public import Mathlib.Tactic.NormNum.NatFib
+public import Mathlib.Tactic.NormNum.NatLog
+public import Mathlib.Tactic.NormNum.NatSqrt
+public import Mathlib.Tactic.NormNum.Ordinal
+public import Mathlib.Tactic.NormNum.Parity
+public import Mathlib.Tactic.NormNum.Prime
+public import Mathlib.Tactic.NormNum.RealSqrt
+
+public section
+
+namespace CFSG
+
+namespace FiveTransitive.Degree60LargeSylowData
+
+open MulAction Subgroup
+
+theorem factorization_eq_one
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (hcard : Fintype.card X = 60)
+    (h5 : IsMultiplyPretransitive P X 5)
+    {p : ℕ} (hp : p = 59 ∨ p = 29 ∨ p = 19)
+    (hfree : ∀ s : Set X, s.ncard = 5 → ¬ p ∣ Nat.card (fixingSubgroup P s)) : (Nat.card P).factorization p = 1 := by
+  classical
+  let _ := h5
+  obtain ⟨s,_,hs⟩ := Set.exists_subset_card_eq
+    (show 5 ≤ (Set.univ : Set X).ncard by simp [Set.ncard_univ,hcard])
+  have hi := IsMultiplyPretransitive.index_of_fixingSubgroup_eq (G := P) s (by rwa [hs])
+  rw [Nat.card_eq_fintype_card,hcard,hs] at hi
+  norm_num [Nat.choose_eq_descFactorial_div_factorial,Nat.descFactorial] at hi
+  have hm := (fixingSubgroup P s).index_mul_card
+  rw [hi] at hm
+  have hprime : p.Prime := by rcases hp with rfl | rfl | rfl <;> norm_num
+  have hn := hfree s hs
+  rw [← hm,Nat.factorization_mul (by norm_num) Nat.card_pos.ne',Finsupp.add_apply,
+    Nat.factorization_eq_zero_of_not_dvd hn,add_zero]
+  rcases hp with rfl | rfl | rfl
+  · rw [show 655381440 = 59 * 11108160 by norm_num,
+      Nat.factorization_mul (by norm_num) (by norm_num),Finsupp.add_apply,
+      (show Nat.Prime 59 by norm_num).factorization,Finsupp.single_eq_same,
+      Nat.factorization_eq_zero_of_not_dvd (by norm_num),add_zero]
+  · rw [show 655381440 = 29 * 22599360 by norm_num,
+      Nat.factorization_mul (by norm_num) (by norm_num),Finsupp.add_apply,
+      (show Nat.Prime 29 by norm_num).factorization,Finsupp.single_eq_same,
+      Nat.factorization_eq_zero_of_not_dvd (by norm_num),add_zero]
+  · rw [show 655381440 = 19 * 34493760 by norm_num,
+      Nat.factorization_mul (by norm_num) (by norm_num),Finsupp.add_apply,
+      (show Nat.Prime 19 by norm_num).factorization,Finsupp.single_eq_same,
+      Nat.factorization_eq_zero_of_not_dvd (by norm_num),add_zero]
+
+theorem sylow_card
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (hcard : Fintype.card X = 60)
+    (h5 : IsMultiplyPretransitive P X 5)
+    {p : ℕ} (hp : p = 59 ∨ p = 29 ∨ p = 19)
+    (hfree : ∀ s : Set X, s.ncard = 5 → ¬ p ∣ Nat.card (fixingSubgroup P s)) (S : Sylow p P) : Nat.card S = p := by
+  let _ : Fact p.Prime := ⟨by rcases hp with rfl | rfl | rfl <;> norm_num⟩
+  rw [S.card_eq_multiplicity,factorization_eq_one P hcard h5 hp hfree,pow_one]
+
+private theorem element_fixed_lt_five
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (_hcard : Fintype.card X = 60)
+    (_h5 : IsMultiplyPretransitive P X 5)
+    {p : ℕ} (_hp : p = 59 ∨ p = 29 ∨ p = 19)
+    (hfree : ∀ s : Set X, s.ncard = 5 → ¬ p ∣ Nat.card (fixingSubgroup P s)) (u : P) (hu : orderOf u = p) :
+    Nat.card (Function.fixedPoints u.val) < 5 := by
+  classical
+  by_contra hn
+  have hlarge : 5 ≤ (Function.fixedPoints u.val).ncard := by
+    rw [← Nat.card_coe_set_eq]; omega
+  obtain ⟨s,hsub,hs⟩ := Set.exists_subset_card_eq hlarge
+  let v : fixingSubgroup P s := ⟨u,(mem_fixingSubgroup_iff P).mpr (fun x hx => hsub hx)⟩
+  have hv : orderOf v = p := by rw [← Subgroup.orderOf_coe v]; exact hu
+  have hd : p ∣ Nat.card (fixingSubgroup P s) := hv ▸ orderOf_dvd_natCard v
+  exact hfree s hs hd
+
+theorem element_cycle_type
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (hcard : Fintype.card X = 60)
+    (h5 : IsMultiplyPretransitive P X 5)
+    {p : ℕ} (hp : p = 59 ∨ p = 29 ∨ p = 19)
+    (hfree : ∀ s : Set X, s.ncard = 5 → ¬ p ∣ Nat.card (fixingSubgroup P s)) (u : P) (hu : orderOf u = p) :
+    u.val.cycleType = Multiset.replicate (60 / p) p := by
+  have hg : orderOf u.val = p := (Subgroup.orderOf_coe u).trans hu
+  obtain ⟨k,hk⟩ := Equiv.Perm.cycleType_prime_order (σ := u.val)
+    (by rw [hg]; rcases hp with rfl | rfl | rfl <;> norm_num)
+  have hsum := u.val.sum_cycleType
+  rw [hk,Multiset.sum_replicate,nsmul_eq_mul,Nat.cast_id,hg] at hsum
+  have hle : u.val.support.card ≤ 60 := hcard ▸ Finset.card_le_univ u.val.support
+  have hfix := element_fixed_lt_five P hcard h5 hp hfree u hu
+  rw [Nat.card_eq_fintype_card,Equiv.Perm.card_fixedPoints,u.val.sum_cycleType,hcard] at hfix
+  have he : k + 1 = 60 / p := by rcases hp with rfl | rfl | rfl <;> omega
+  rw [hk,hg,he]
+
+theorem sylow_fixed_card
+    {X : Type} [Fintype X] [DecidableEq X]
+    (P : Subgroup (Equiv.Perm X)) (hcard : Fintype.card X = 60)
+    (h5 : IsMultiplyPretransitive P X 5)
+    {p : ℕ} (hp : p = 59 ∨ p = 29 ∨ p = 19)
+    (hfree : ∀ s : Set X, s.ncard = 5 → ¬ p ∣ Nat.card (fixingSubgroup P s))
+    (S : Sylow p P) : Nat.card (fixedPoints S X) = 60 % p := by
+  classical
+  let _ : Fact p.Prime := ⟨by rcases hp with rfl | rfl | rfl <;> norm_num⟩
+  have hS := sylow_card P hcard h5 hp hfree S
+  let _ : IsCyclic S := isCyclic_of_prime_card hS
+  obtain ⟨u,hu⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := S)
+  have huP : orderOf u.val = p := (Subgroup.orderOf_coe u).trans (hu.trans hS)
+  have ht := element_cycle_type P hcard h5 hp hfree u.val huP
+  have hsub : fixedPoints S X ⊆ Function.fixedPoints u.val.val := by
+    intro x hx
+    exact hx u
+  have hle := Set.ncard_le_ncard hsub
+  rw [← Nat.card_coe_set_eq,← Nat.card_coe_set_eq,
+    Nat.card_eq_fintype_card (α := Function.fixedPoints u.val.val),
+    Equiv.Perm.card_fixedPoints,ht,Multiset.sum_replicate,nsmul_eq_mul,Nat.cast_id,hcard] at hle
+  have hm := S.isPGroup'.card_modEq_card_fixedPoints X
+  change Nat.card X % p = Nat.card (fixedPoints S X) % p at hm
+  rw [Nat.card_eq_fintype_card,hcard] at hm
+  rcases hp with rfl | rfl | rfl <;> omega
+
+end FiveTransitive.Degree60LargeSylowData
+
+end CFSG

@@ -1,0 +1,27 @@
+module
+
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimpleBExcE7Four
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimpleBExcReeThree
+public import CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimpleBExcTriThree
+
+public section
+
+namespace CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple
+
+section
+
+theorem chevTwoPClosureOddE6_holds : ChevTwoPClosureOddE6 :=
+  chevTwoPClosureOddE6_of_four chevTwoPClosureOddE6Four_holds
+
+theorem chevTwoPClosureOddE7_holds : ChevTwoPClosureOddE7 :=
+  chevTwoPClosureOddE7_of_four chevTwoPClosureOddE7Four_holds
+
+theorem chevTwoPClosureOddReeF4_holds : ChevTwoPClosureOddReeF4 :=
+  chevTwoPClosureOddReeF4_of_three chevTwoPClosureOddReeF4Three_holds
+
+theorem chevTwoPClosureOddTrialityD4_holds : ChevTwoPClosureOddTrialityD4 :=
+  chevTwoPClosureOddTrialityD4_of_three chevTwoPClosureOddTrialityD4Three_holds
+
+end
+
+end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple

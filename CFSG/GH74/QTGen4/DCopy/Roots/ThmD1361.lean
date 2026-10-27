@@ -1,0 +1,2606 @@
+module
+
+public import CFSG.GH74.QTGen4.DSGen4.LeafWrappers
+public import CFSG.GH74.QTGen4.DSGen4.OpenLeaves
+public import CFSG.GH74.QTGen4.Statements
+public import Certificates.Certificate1
+public import Certificates.Certificate2
+public import Certificates.Certificate3
+public import Certificates.Certificate4
+public import Certificates.Certificate5
+public import Certificates.Certificate6
+public import Certificates.Certificate7
+public import Certificates.Certificate8
+public import Certificates.Certificate9
+public import Certificates.Certificate10
+public import Certificates.Certificate11
+public import Certificates.Certificate12
+public import Certificates.Certificate13
+public import Certificates.Certificate14
+public import Certificates.Certificate15
+public import Certificates.Certificate16
+public import Certificates.Certificate17
+public import Certificates.Certificate18
+public import Certificates.Certificate19
+public import Certificates.Certificate20
+public import Certificates.Certificate21
+public import Certificates.Certificate22
+public import Certificates.Certificate23
+public import Certificates.Certificate24
+public import Certificates.Certificate25
+public import Certificates.Certificate26
+public import Certificates.Certificate27
+public import Certificates.Certificate28
+public import Certificates.Certificate29
+public import Certificates.Certificate30
+public import Certificates.Certificate31
+public import Certificates.Certificate32
+public import Certificates.Certificate33
+public import Certificates.Certificate34
+public import Certificates.Certificate35
+public import Certificates.Certificate36
+public import Certificates.Certificate37
+public import Certificates.Certificate38
+public import Certificates.Certificate39
+public import Certificates.Certificate40
+public import Certificates.Certificate41
+public import Certificates.Certificate42
+public import Certificates.Certificate43
+public import Certificates.Certificate44
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate76
+public import Certificates.Certificate77
+public import Certificates.Certificate78
+public import Certificates.Certificate79
+public import Certificates.Certificate80
+public import Certificates.Certificate81
+public import Certificates.Certificate82
+public import Certificates.Certificate83
+public import Certificates.Certificate84
+public import Certificates.Certificate85
+public import Certificates.Certificate86
+public import Certificates.Certificate87
+public import Certificates.Certificate88
+public import Certificates.Certificate89
+public import Certificates.Certificate90
+public import Certificates.Certificate91
+public import Certificates.Certificate92
+public import Certificates.Certificate93
+public import Certificates.Certificate94
+public import Certificates.Certificate95
+public import Certificates.Certificate96
+public import Certificates.Certificate97
+public import Certificates.Certificate98
+public import Certificates.Certificate99
+public import Certificates.Certificate100
+public import Certificates.Certificate101
+public import Certificates.Certificate102
+public import Certificates.Certificate103
+public import Certificates.Certificate104
+public import Certificates.Certificate105
+public import Certificates.Certificate106
+public import Certificates.Certificate107
+public import Certificates.Certificate108
+public import Certificates.Certificate109
+public import Certificates.Certificate110
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate115
+public import Certificates.Certificate116
+public import Certificates.Certificate117
+public import Certificates.Certificate118
+public import Certificates.Certificate119
+public import Certificates.Certificate120
+public import Certificates.Certificate121
+public import Certificates.Certificate122
+public import Certificates.Certificate123
+public import Certificates.Certificate1002
+public import Certificates.Certificate1003
+public import Certificates.Certificate1009
+public import Certificates.Certificate1950
+public import Certificates.Certificate2004
+public import Certificates.Certificate2012
+public import Certificates.Certificate2022
+public import Certificates.Certificate2028
+public import Certificates.Certificate2031
+public import Certificates.Certificate2035
+public import Certificates.Certificate2037
+public import Certificates.Certificate2038
+public import Certificates.Certificate2039
+public import Certificates.Certificate2040
+public import Certificates.Certificate2110
+public import Certificates.Certificate2111
+public import Certificates.Certificate2112
+public import Certificates.Certificate2114
+public import Certificates.Certificate2115
+public import Certificates.Certificate2116
+public import Certificates.Certificate2117
+public import Certificates.Certificate2118
+public import Certificates.Certificate2151
+public import Certificates.Certificate2152
+public import Certificates.Certificate2154
+public import Certificates.Certificate2157
+public import Certificates.Certificate2158
+public import Certificates.Certificate2161
+public import Certificates.Certificate2162
+public import Certificates.Certificate2163
+public import Certificates.Certificate2164
+public import Certificates.Certificate2165
+public import Certificates.Certificate2166
+public import Certificates.Certificate2167
+public import Certificates.Certificate2168
+public import Certificates.Certificate2170
+public import Certificates.Certificate2171
+public import Certificates.Certificate2172
+public import Certificates.Certificate2173
+public import Certificates.Certificate2174
+public import Certificates.Certificate2177
+public import Certificates.Certificate2178
+public import Certificates.Certificate2179
+public import Certificates.Certificate2180
+public import Certificates.Certificate2181
+public import Certificates.Certificate2182
+public import Certificates.Certificate2183
+public import Certificates.Certificate2191
+public import Certificates.Certificate2192
+public import Certificates.Certificate2193
+public import Certificates.Certificate2194
+public import Certificates.Certificate2195
+public import Certificates.Certificate2196
+public import Certificates.Certificate2197
+public import Certificates.Certificate2198
+public import Certificates.Certificate2199
+public import Certificates.Certificate2200
+public import Certificates.Certificate2201
+public import Certificates.Certificate2202
+public import Certificates.Certificate2203
+public import Certificates.Certificate2204
+public import Certificates.Certificate2205
+public import Certificates.Certificate2207
+public import Certificates.Certificate2208
+public import Certificates.Certificate2209
+public import Certificates.Certificate2210
+public import Certificates.Certificate2218
+public import Certificates.Certificate2219
+public import Certificates.Certificate2220
+public import Certificates.Certificate2221
+public import Certificates.Certificate2222
+public import Certificates.Certificate2223
+public import Certificates.Certificate2224
+public import Certificates.Certificate2225
+public import Certificates.Certificate2233
+public import Certificates.Certificate2234
+public import Certificates.Certificate2235
+public import Certificates.Certificate2240
+public import Certificates.Certificate2241
+public import Certificates.Certificate2247
+public import Certificates.Certificate2248
+public import Certificates.Certificate2249
+public import Certificates.Certificate2250
+public import Certificates.Certificate2251
+public import Certificates.Certificate2252
+public import Certificates.Certificate2253
+public import Certificates.Certificate2254
+public import Certificates.Certificate2255
+public import Certificates.Certificate2256
+public import Certificates.Certificate2257
+public import Certificates.Certificate2258
+public import Certificates.Certificate2259
+public import Certificates.Certificate2260
+public import Certificates.Certificate2261
+public import Certificates.Certificate2262
+public import Certificates.Certificate2263
+public import Certificates.Certificate2264
+public import Certificates.Certificate2265
+public import Certificates.Certificate2266
+public import Certificates.Certificate2267
+public import Certificates.Certificate2268
+public import Certificates.Certificate2269
+public import Certificates.Certificate2270
+public import Certificates.Certificate2272
+public import Certificates.Certificate2274
+public import Certificates.Certificate2275
+public import Certificates.Certificate2276
+public import Certificates.Certificate2278
+public import Certificates.Certificate2280
+public import Certificates.Certificate2326
+public import Certificates.Certificate2329
+public import Certificates.Certificate2950
+public import Certificates.Certificate3006
+public import Certificates.Certificate3007
+public import Certificates.Certificate3008
+public import Certificates.Certificate3009
+public import Certificates.Certificate3014
+public import Certificates.Certificate3017
+public import Certificates.Certificate3019
+public import Certificates.Certificate3025
+public import Certificates.Certificate3026
+public import Certificates.Certificate3028
+public import Certificates.Certificate3029
+public import Certificates.Certificate3041
+public import Certificates.Certificate3042
+public import Certificates.Certificate3046
+public import Certificates.Certificate3054
+public import Certificates.Certificate3055
+public import Certificates.Certificate3056
+public import Certificates.Certificate3057
+public import Certificates.Certificate3058
+public import Certificates.Certificate3060
+public import Certificates.Certificate3061
+public import Certificates.Certificate3062
+public import Certificates.Certificate3063
+public import Certificates.Certificate3072
+public import Certificates.Certificate3073
+public import Certificates.Certificate3074
+public import Certificates.Certificate3075
+public import Certificates.Certificate3076
+public import Certificates.Certificate3077
+public import Certificates.Certificate3078
+public import Certificates.Certificate3082
+public import Certificates.Certificate3083
+public import Certificates.Certificate3084
+public import Certificates.Certificate3086
+public import Certificates.Certificate3088
+public import Certificates.Certificate3119
+public import Certificates.Certificate3120
+public import Certificates.Certificate3139
+public import Certificates.Certificate3157
+public import Certificates.Certificate3158
+public import Certificates.Certificate3164
+public import Certificates.Certificate3167
+public import Certificates.Certificate3168
+public import Certificates.Certificate3169
+public import Certificates.Certificate3172
+public import Certificates.Certificate3175
+public import Certificates.Certificate3950
+public import Certificates.Certificate3951
+public import Certificates.Certificate4000
+public import Certificates.Certificate4001
+public import Certificates.Certificate4002
+public import Certificates.Certificate4003
+public import Certificates.Certificate4004
+public import Certificates.Certificate4005
+public import Certificates.Certificate4007
+public import Certificates.Certificate4008
+public import Certificates.Certificate4009
+public import Certificates.Certificate4010
+public import Certificates.Certificate4011
+public import Certificates.Certificate4012
+public import Certificates.Certificate4013
+public import Certificates.Certificate4014
+public import Certificates.Certificate4015
+public import Certificates.Certificate4016
+public import Certificates.Certificate4017
+public import Certificates.Certificate4018
+public import Certificates.Certificate4019
+public import Certificates.Certificate4020
+public import Certificates.Certificate4021
+public import Certificates.Certificate4022
+public import Certificates.Certificate4023
+public import Certificates.Certificate4024
+public import Certificates.Certificate4025
+public import Certificates.Certificate4026
+public import Certificates.Certificate4027
+public import Certificates.Certificate4028
+public import Certificates.Certificate4029
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3J4D4Data
+public import CFSG.Sporadic.J4.QT2LocX0Native
+public import Certificates.Data.CFSGNative.J4.PentScan
+import Certificates.Kernel.J4Q.QTBase
+public import Certificates.Certificate4031
+public import Certificates.Certificate4032
+public import Certificates.Certificate4033
+public import Certificates.Certificate4034
+public import Certificates.Certificate4035
+public import Certificates.Certificate4036
+public import Certificates.Certificate4037
+public import Certificates.Certificate4038
+public import Certificates.Certificate4041
+public import Certificates.Certificate4042
+public import Certificates.Certificate4043
+public import Certificates.Certificate4044
+public import Certificates.Certificate4045
+public import Certificates.Certificate4046
+public import Certificates.Certificate4047
+public import Certificates.Certificate4048
+public import Certificates.Certificate4049
+public import Certificates.Certificate4050
+public import Certificates.Certificate4051
+public import Certificates.Certificate4052
+public import Certificates.Certificate4053
+public import Certificates.Certificate4054
+public import Certificates.Certificate4055
+public import Certificates.Certificate4056
+public import Certificates.Certificate4057
+public import Certificates.Certificate4058
+public import Certificates.Certificate4059
+public import Certificates.Certificate4060
+public import Certificates.Certificate4061
+public import Certificates.Certificate4062
+public import Certificates.Certificate4063
+public import Certificates.Certificate4064
+public import Certificates.Certificate4065
+public import Certificates.Certificate4066
+public import Certificates.Certificate4067
+public import Certificates.Certificate4068
+public import Certificates.Certificate4069
+public import Certificates.Certificate4070
+public import Certificates.Certificate4071
+public import Certificates.Certificate4072
+public import Certificates.Certificate4073
+public import Certificates.Certificate4074
+public import Certificates.Certificate4075
+public import Certificates.Certificate4076
+public import Certificates.Certificate4077
+public import Certificates.Certificate4078
+public import Certificates.Certificate4079
+public import Certificates.Certificate4080
+public import Certificates.Certificate4081
+public import Certificates.Certificate4082
+public import Certificates.Certificate4083
+public import Certificates.Certificate4084
+public import Certificates.Certificate4085
+public import Certificates.Certificate4086
+public import Certificates.Certificate4087
+public import Certificates.Certificate4088
+public import Certificates.Certificate4089
+public import Certificates.Certificate4090
+public import Certificates.Certificate4091
+public import Certificates.Certificate4092
+public import Certificates.Certificate4093
+public import Certificates.Certificate4094
+public import Certificates.Certificate4095
+public import Certificates.Certificate4096
+public import Certificates.Certificate4097
+public import Certificates.Certificate4098
+public import Certificates.Certificate4099
+public import Certificates.Certificate4100
+public import Certificates.Certificate4101
+public import Certificates.Certificate4102
+public import Certificates.Certificate4103
+public import Certificates.Certificate4104
+public import Certificates.Certificate4105
+public import Certificates.Certificate4106
+public import Certificates.Certificate4107
+public import Certificates.Certificate4108
+public import Certificates.Certificate4109
+public import Certificates.Certificate4110
+public import Certificates.Certificate4111
+public import Certificates.Certificate4112
+public import Certificates.Certificate4113
+public import Certificates.Certificate4114
+public import Certificates.Certificate4115
+public import Certificates.Certificate4116
+public import Certificates.Certificate4117
+public import Certificates.Certificate4118
+public import Certificates.Certificate4119
+public import Certificates.Certificate4120
+public import Certificates.Certificate4121
+public import Certificates.Certificate4122
+public import Certificates.Certificate4123
+public import Certificates.Certificate4124
+public import Certificates.Certificate4125
+public import Certificates.Certificate4126
+public import Certificates.Certificate4127
+public import Certificates.Certificate4128
+public import Certificates.Certificate4129
+public import Certificates.Certificate4130
+public import Certificates.Certificate4131
+public import Certificates.Certificate4132
+public import Certificates.Certificate4133
+public import Certificates.Certificate4134
+public import Certificates.Certificate4135
+public import Certificates.Certificate4136
+public import Certificates.Certificate4137
+public import Certificates.Certificate4139
+public import Certificates.Certificate4140
+public import Certificates.Certificate4141
+public import Certificates.Certificate4142
+public import Certificates.Certificate4143
+public import Certificates.Certificate4144
+public import Certificates.Certificate4145
+public import Certificates.Certificate4146
+public import Certificates.Certificate4147
+public import Certificates.Certificate4148
+public import Certificates.Certificate4149
+public import Certificates.Certificate4150
+public import Certificates.Certificate4151
+public import Certificates.Certificate4152
+public import Certificates.Certificate4153
+public import Certificates.Certificate4154
+public import Certificates.Certificate4155
+public import Certificates.Certificate4156
+public import Certificates.Certificate4157
+public import Certificates.Certificate4160
+public import Certificates.Certificate4161
+public import Certificates.Certificate4162
+public import Certificates.Certificate4163
+public import Certificates.Certificate4165
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtA312HsKInputs
+import Certificates.Kernel.HSA312.Struct
+import Certificates.Kernel.HSQuot.Final
+public import Certificates.Certificate4167
+public import Certificates.Certificate4170
+public import Certificates.Certificate4174
+public import Certificates.Certificate4177
+public import Certificates.Certificate4178
+public import Certificates.Certificate4179
+public import Certificates.Certificate4180
+public import Certificates.Certificate4181
+public import Certificates.Certificate4182
+public import Certificates.Certificate4190
+public import Certificates.Certificate4191
+public import Certificates.Certificate4192
+public import Certificates.Certificate4193
+public import Certificates.Certificate4194
+public import Certificates.Certificate4200
+public import Certificates.Certificate4201
+public import Certificates.Certificate4202
+public import Certificates.Certificate4204
+public import Certificates.Certificate4205
+public import Certificates.Certificate4206
+public import Certificates.Certificate4207
+public import Certificates.Certificate4211
+public import Certificates.Certificate4212
+public import Certificates.Certificate4213
+public import Certificates.Certificate4214
+public import Certificates.Certificate4215
+public import Certificates.Certificate4217
+public import Certificates.Certificate4218
+public import Certificates.Certificate4220
+public import Certificates.Certificate4221
+public import Certificates.Certificate4222
+public import Certificates.Certificate4223
+public import Certificates.Certificate4234
+public import Certificates.Certificate4235
+public import Certificates.Certificate4236
+public import Certificates.Certificate4237
+public import Certificates.Certificate4238
+public import Certificates.Certificate4239
+public import Certificates.Certificate4240
+public import Certificates.Certificate4241
+public import Certificates.Certificate4952
+public import Certificates.Certificate4999
+public import Certificates.Certificate5001
+public import Certificates.Certificate5033
+public import Certificates.Certificate5035
+public import Certificates.Certificate5108
+public import Certificates.Certificate5117
+public import Certificates.Certificate5120
+public import Certificates.Certificate5121
+public import Certificates.Certificate5125
+public import Certificates.Certificate5128
+public import Certificates.Certificate5133
+public import Certificates.Certificate5148
+public import Certificates.Certificate5154
+public import Certificates.Certificate5167
+public import Certificates.Certificate5952
+public import Certificates.Certificate6103
+public import Certificates.Certificate7000
+public import Certificates.Certificate7001
+public import Certificates.Certificate7002
+public import Certificates.Certificate7003
+public import Certificates.Certificate7004
+public import Certificates.Certificate7005
+public import Certificates.Certificate7006
+public import Certificates.Certificate7007
+public import Certificates.Certificate7008
+public import Certificates.Certificate7009
+public import Certificates.Certificate7010
+public import Certificates.Certificate7011
+public import Certificates.Certificate7012
+public import Certificates.Certificate7013
+public import Certificates.Certificate7014
+public import Certificates.Certificate7015
+public import Certificates.Certificate7016
+public import Certificates.Certificate7017
+public import Certificates.Certificate7018
+public import Certificates.Certificate7019
+public import Certificates.Certificate7020
+public import Certificates.Certificate7021
+public import Certificates.Certificate7022
+public import Certificates.Certificate7025
+public import Certificates.Certificate7027
+public import Certificates.Certificate7028
+public import Certificates.Certificate7029
+public import Certificates.Certificate7030
+public import Certificates.Certificate7031
+public import Certificates.Certificate7032
+public import Certificates.Certificate7034
+public import Certificates.Certificate7035
+public import Certificates.Certificate7036
+public import Certificates.Certificate7037
+public import Certificates.Certificate7038
+public import Certificates.Certificate7039
+public import Certificates.Certificate7040
+public import Certificates.Certificate7041
+public import Certificates.Certificate7042
+public import Certificates.Certificate7052
+public import Certificates.Certificate7053
+public import Certificates.Certificate7054
+public import Certificates.Certificate7055
+public import Certificates.Certificate7056
+public import Certificates.Certificate7057
+public import Certificates.Certificate7058
+public import Certificates.Certificate7060
+public import Certificates.Certificate7061
+public import Certificates.Certificate7062
+public import Certificates.Certificate7063
+public import Certificates.Certificate7065
+public import Certificates.Certificate7067
+public import Certificates.Certificate7068
+public import Certificates.Certificate7069
+public import Certificates.Certificate7071
+public import Certificates.Certificate7072
+public import Certificates.Certificate7074
+public import Certificates.Certificate7075
+public import Certificates.Certificate7077
+public import Certificates.Certificate7078
+public import Certificates.Certificate7079
+public import Certificates.Certificate7080
+public import Certificates.Certificate7087
+public import Certificates.Certificate7092
+public import Certificates.Certificate7093
+public import Certificates.Certificate7094
+public import Certificates.Certificate7095
+public import Certificates.Certificate7097
+public import Certificates.Certificate7098
+public import Certificates.Certificate7099
+public import Certificates.Certificate7102
+public import Certificates.Certificate7103
+public import Certificates.Certificate7105
+public import Certificates.Certificate7106
+public import Certificates.Certificate7107
+public import Certificates.Certificate7108
+public import Certificates.Certificate7112
+public import Certificates.Certificate7113
+public import Certificates.Certificate7116
+public import Certificates.Certificate7117
+public import Certificates.Certificate7118
+public import Certificates.Certificate7121
+public import Certificates.Certificate7122
+public import Certificates.Certificate7123
+public import Certificates.Certificate7124
+public import Certificates.Certificate7125
+public import Certificates.Certificate7128
+public import Certificates.Certificate7130
+public import Certificates.Certificate7131
+public import Certificates.Certificate7132
+public import Certificates.Certificate7136
+public import Certificates.Certificate7137
+public import Certificates.Certificate7141
+public import Certificates.Certificate7142
+public import Certificates.Certificate7143
+public import Certificates.Certificate7144
+public import Certificates.Certificate7151
+public import Certificates.Certificate7153
+public import Certificates.Certificate7155
+public import Certificates.Certificate7157
+public import Certificates.Certificate7159
+public import Certificates.Certificate7160
+public import Certificates.Certificate7161
+public import Certificates.Certificate7170
+public import Certificates.Certificate7171
+public import Certificates.Certificate7179
+public import Certificates.Certificate7186
+public import Certificates.Certificate7187
+public import Certificates.Certificate7190
+public import Certificates.Certificate7193
+public import Certificates.Certificate7195
+public import Certificates.Certificate7197
+public import Certificates.Certificate7198
+public import Certificates.Certificate7199
+public import Certificates.Certificate7200
+public import Certificates.Certificate7203
+public import Certificates.Certificate7208
+public import Certificates.Certificate7210
+public import Certificates.Certificate7216
+public import Certificates.Certificate7217
+public import Certificates.Certificate7219
+public import Certificates.Certificate7220
+public import Certificates.Certificate7221
+public import Certificates.Certificate7222
+public import Certificates.Certificate7223
+public import Certificates.Certificate7224
+public import Certificates.Certificate7226
+public import Certificates.Certificate7229
+public import Certificates.Certificate7230
+public import Certificates.Certificate7231
+public import Certificates.Certificate7232
+public import Certificates.Certificate7233
+public import Certificates.Certificate7234
+public import Certificates.Certificate7245
+public import Certificates.Certificate7250
+public import Certificates.Certificate7257
+public import Certificates.Certificate7400
+public import Certificates.Certificate7401
+public import Certificates.Certificate7410
+public import Certificates.Certificate7415
+public import Certificates.Certificate7416
+public import Certificates.Certificate7417
+public import Certificates.Certificate7418
+public import Certificates.Certificate7950
+public import Certificates.Certificate8005
+public import Certificates.Certificate8010
+public import Certificates.Certificate8011
+public import Certificates.Certificate8012
+public import Certificates.Certificate8013
+public import Certificates.Certificate8014
+public import Certificates.Certificate8015
+public import Certificates.Certificate8016
+public import Certificates.Certificate8017
+public import Certificates.Certificate8018
+public import Certificates.Certificate8019
+public import Certificates.Certificate8020
+public import Certificates.Certificate8021
+public import Certificates.Certificate8022
+public import Certificates.Certificate8024
+public import Certificates.Certificate8025
+public import Certificates.Certificate8026
+public import Certificates.Certificate8027
+public import Certificates.Certificate8028
+public import Certificates.Certificate8029
+public import Certificates.Certificate8030
+public import Certificates.Certificate8031
+public import Certificates.Certificate8032
+public import Certificates.Certificate8033
+public import Certificates.Certificate8046
+public import Certificates.Certificate8048
+public import Certificates.Certificate8049
+public import Certificates.Certificate8050
+public import Certificates.Certificate8051
+public import Certificates.Certificate8052
+public import Certificates.Certificate8063
+public import Certificates.Certificate8064
+public import Certificates.Certificate8065
+public import Certificates.Certificate8066
+public import Certificates.Certificate8067
+public import Certificates.Certificate8068
+public import Certificates.Certificate8071
+public import Certificates.Certificate8072
+public import Certificates.Certificate8073
+public import Certificates.Certificate8074
+public import Certificates.Certificate8075
+public import Certificates.Certificate8076
+public import Certificates.Certificate8077
+public import Certificates.Certificate8078
+public import Certificates.Certificate8079
+public import Certificates.Certificate8080
+public import Certificates.Certificate8081
+public import Certificates.Certificate8082
+public import Certificates.Certificate8083
+public import Certificates.Certificate8084
+public import Certificates.Certificate8085
+public import Certificates.Certificate8128
+public import Certificates.Certificate8129
+public import Certificates.Certificate8168
+public import Certificates.Certificate8169
+public import Certificates.Certificate8950
+public import Certificates.Certificate8952
+public import Certificates.Certificate8953
+public import Certificates.Certificate9121
+public import Certificates.Certificate9123
+public import Certificates.Certificate9129
+public import Certificates.Certificate9130
+public import Certificates.Certificate9214
+public import Certificates.Certificate9215
+public import Certificates.Certificate9218
+public import Certificates.Certificate9250
+public import Certificates.Certificate9251
+public import Certificates.Certificate9252
+public import Certificates.Certificate9253
+public import Certificates.Certificate9254
+public import Certificates.Certificate9255
+public import Certificates.Certificate9256
+public import Certificates.Certificate9257
+public import Certificates.Certificate9258
+public import Certificates.Certificate9259
+public import Certificates.Certificate9260
+public import Certificates.Certificate9261
+public import Certificates.Certificate9262
+public import Certificates.Certificate9263
+public import Certificates.Certificate9264
+public import Certificates.Certificate9265
+public import Certificates.Certificate9266
+public import Certificates.Certificate9267
+public import Certificates.Certificate9951
+public import Certificates.Certificate10005
+public import Certificates.Certificate10006
+public import Certificates.Certificate10007
+public import Certificates.Certificate10008
+public import Certificates.Certificate10009
+public import Certificates.Certificate10010
+public import Certificates.Certificate10011
+public import Certificates.Certificate10012
+public import Certificates.Certificate10013
+public import Certificates.Certificate10014
+public import Certificates.Certificate10015
+public import Certificates.Certificate10016
+public import Certificates.Certificate10017
+public import Certificates.Certificate10018
+public import Certificates.Certificate10019
+public import Certificates.Certificate10020
+public import Certificates.Certificate10021
+public import Certificates.Certificate10022
+public import Certificates.Certificate10024
+public import Certificates.Certificate10025
+public import Certificates.Certificate10026
+public import Certificates.Certificate10093
+public import Certificates.Certificate10098
+public import Certificates.Certificate11000
+public import Certificates.Certificate11002
+public import Certificates.Certificate11003
+public import Certificates.Certificate12041
+public import Certificates.Certificate12042
+public import Certificates.Certificate12043
+public import Certificates.Certificate12044
+public import Certificates.Certificate12045
+public import Certificates.Certificate12046
+public import Certificates.Certificate12952
+public import Certificates.Certificate14951
+public import Certificates.Certificate14952
+public import Certificates.Certificate14971
+public import Certificates.Certificate14979
+public import Certificates.Certificate15024
+public import Certificates.Certificate15025
+public import Certificates.Certificate15026
+public import Certificates.Certificate15042
+public import Certificates.Certificate15043
+public import Certificates.Certificate15080
+public import Certificates.Certificate15953
+public import Certificates.Certificate16001
+public import Certificates.Certificate16015
+public import Certificates.Certificate16016
+public import Certificates.Certificate16021
+public import Certificates.Certificate16022
+public import Certificates.Certificate16028
+public import Certificates.Certificate16033
+public import Certificates.Certificate16035
+public import Certificates.Certificate16040
+public import Certificates.Certificate16951
+public import Certificates.Certificate17000
+public import Certificates.Certificate17001
+public import Certificates.Certificate17002
+public import Certificates.Certificate17003
+public import Certificates.Certificate17006
+public import Certificates.Certificate17007
+public import Certificates.Certificate17009
+public import Certificates.Certificate17011
+public import Certificates.Certificate17013
+public import Certificates.Certificate17017
+public import Certificates.Certificate17018
+public import Certificates.Certificate17019
+public import Certificates.Certificate17020
+public import Certificates.Certificate17022
+public import Certificates.Certificate17023
+public import Certificates.Certificate17024
+public import Certificates.Certificate17025
+public import Certificates.Certificate17026
+public import Certificates.Certificate17027
+public import Certificates.Certificate17028
+public import Certificates.Certificate17029
+public import Certificates.Certificate17030
+public import Certificates.Certificate17036
+public import Certificates.Certificate17037
+public import Certificates.Certificate17038
+public import Certificates.Certificate17039
+public import Certificates.Certificate17951
+public import Certificates.Certificate18000
+public import Certificates.Certificate18002
+public import Certificates.Certificate18950
+public import Certificates.Certificate19953
+public import Certificates.Certificate19954
+public import Certificates.Certificate21111
+public import Certificates.Certificate21112
+public import Certificates.Certificate21198
+public import Certificates.Certificate21199
+public import Certificates.Certificate24000
+public import Certificates.Certificate24010
+public import Certificates.Certificate24093
+public import Certificates.Certificate24094
+public import Certificates.Certificate24590
+public import Certificates.Certificate121001
+public import Certificates.Certificate260140
+public import Certificates.Certificate260380
+public import Certificates.Certificate260381
+public import Certificates.Certificate260382
+public import Certificates.Certificate260383
+public import Certificates.Certificate260390
+public import Certificates.Certificate260391
+public import Certificates.Certificate260392
+public import Certificates.Certificate260393
+public import Certificates.Certificate260394
+public import Certificates.Certificate260400
+public import Certificates.Certificate260401
+public import Certificates.Certificate260402
+public import Certificates.Certificate260403
+public import Certificates.Certificate260404
+public import Certificates.Certificate260405
+public import Certificates.Certificate260410
+public import Certificates.Certificate260411
+public import Certificates.Certificate260415
+public import Certificates.Certificate260416
+public import Certificates.Certificate260417
+public import Certificates.Certificate260420
+public import Certificates.Certificate260430
+public import Certificates.Certificate260431
+public import Certificates.Certificate260432
+public import Certificates.Certificate260433
+public import Certificates.Certificate260434
+public import Certificates.Certificate272032
+public import Certificates.Certificate272036
+public import Certificates.Certificate272037
+public import Certificates.Certificate272038
+public import Certificates.Certificate272039
+public import Certificates.Certificate300101
+public import Certificates.Certificate300201
+public import Certificates.Certificate300202
+public import Certificates.Certificate300203
+public import Certificates.Certificate300204
+public import Certificates.Certificate300205
+public import Certificates.Certificate300206
+public import Certificates.Certificate300207
+public import Certificates.Certificate320030
+public import Certificates.Certificate320031
+public import Certificates.Certificate320040
+public import Certificates.Certificate431004
+
+import CFSG.GH74.QTGen4.DCopy.LocalAnalysis.QuasithinUnique.Ch1.Lemma115SporadicMathieu
+import CFSG.GH74.QTGen4.DCopy.LocalAnalysis.QuasithinUnique.Ch1.SporAutMain
+import CFSG.GH74.QTGen4.DCopy.Quasithin.EmptyFaithful.SzMSWC134
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5Close1321c
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5ConfSpor
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5End136W
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5Final
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5RawNat
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S132
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S1326
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S1327zn
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136ab8
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136f
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136l
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136m
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136s
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136sp2
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5S136sz2
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1618s
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1619d
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1620L32j
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1620Tc
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1622Z0
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1622z
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1623Gr
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5W1623e
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5Y1367e
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A5Z1367j
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A7BlkMain
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.A7NatHubs
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.L1332Frontier
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.L32NModule
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.NQBlockRadicalR2Frontier
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.NQCatA314Facts
+import CFSG.GH74.QTGen4.DCopy.Quasithin.H13.U3S135
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch11SecOE1E
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Lem12Simp
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Lem5
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Lem7UW
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Lem8
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Lem9
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Thm12111
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec2Wired
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Lemma1
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Lemma4
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Lemma8
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Lemma9
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4MParam
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4N6Fin
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Post
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Statements
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec4Wired
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec6Statements
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec8OneA7Cert
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec8OneLemma3
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec8OneLemma8Five
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec8OneTwelve
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Final1291
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma4Five
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma4Red
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma5Am
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma5Case2
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma5Case3
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma5Red
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma6
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma7
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma7Core
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma7Red
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Lemma9
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch12Sec9Producer
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch3Sec2Prop329
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch3T325T
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch3T326GF
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch3T326H2
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch4Sec3Final432R
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Assembly
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5LieQuot
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Basic
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Hall
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem516
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem517Red
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem518F112
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem519
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem520
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem521
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem522
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Lem523Sz
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34QBoundB45
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1L34Thm4
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5110Read
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5111K1
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5112Emb
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5113BCHat
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5113D42Main
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5113Final
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem5115
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem512FFProof
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem513
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem516Final
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem517
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Lem517A5Final
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Thm5114
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Thm5114Max
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec1Thm5114NotF
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalF11
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalL2CatS331
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalL2Lie
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalL2Two
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem521
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem522Final
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem524
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem527
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem527U4
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem528
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem528Blocks
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem528EKGHolds
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem528SMain
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalLem528Sz
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalProp526
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalProp526Rk2
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalProp526Tr
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalTypes
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23Beta
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23Cosets
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23Fus
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23G0Ext
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23Gen
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23H
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23K
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23NXC
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23Q
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2M23SettingProof
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec3L532
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec3Lemma531
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec3LieInputs
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Assembly
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem10
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem11
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem12
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem13
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem14
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem4A
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem4E
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem4TB
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem5
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem5Cent
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem5DN
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem5EA
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem5GD
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Lem5ResLie
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Prop15
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec1Thm27
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem10
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem11T
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem12
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem13
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem5H
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem6
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem7
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Lem8
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Thm19C
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Sec2Thm19S8C
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch6Skeleton
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch7Prop711
+import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.GoldschmidtCh6P778CentWire
+import CFSG.GH74.QTGen4.DCopy.Roots.Cuts
+import CFSG.GH74.QTGen4.DCopy.Roots.GHBridges
+import CFSG.GH74.QTGen4.DCopy.Roots.ThmE
+import CFSG.GH74.QTGen4.DSGen4.Leaf.All
+import CFSG.GH74.QTGen4.Leaves.ASCStatementsF4
+import CFSG.GH74.QTGen4.Leaves.BlockQ1246Wire
+import CFSG.GH74.QTGen4.Leaves.Case1294Final
+import CFSG.GH74.QTGen4.Leaves.Ch12.CharTwo1248F4
+import CFSG.GH74.QTGen4.Leaves.Ch12.Stmt12213Closed
+import CFSG.GH74.QTGen4.Leaves.Ch5Ch13Vac
+import CFSG.GH74.QTGen4.Leaves.Elim125
+import CFSG.GH74.QTGen4.Leaves.F112.DSCSzF4
+import CFSG.GH74.QTGen4.Leaves.FiveRigidJ4PU
+import CFSG.GH74.QTGen4.Leaves.G112Core
+import CFSG.GH74.QTGen4.Leaves.H616
+import CFSG.GH74.QTGen4.Leaves.Hyp126Vac
+import CFSG.GH74.QTGen4.Leaves.Hyp6116Gen4
+import CFSG.GH74.QTGen4.Leaves.Ident12714
+import CFSG.GH74.QTGen4.Leaves.J4AutInnerF4
+import CFSG.GH74.QTGen4.Leaves.Lemma1293F4
+import CFSG.GH74.QTGen4.Leaves.NoFiveOverSpor
+import CFSG.GH74.QTGen4.Leaves.Sec53LieFactsMain
+import CFSG.GH74.QTGen4.Leaves.Stmt331F4Holds
+import CFSG.GH74.QTGen4.Leaves.Stmt701F4
+import CFSG.GH74.QTGen4.Recog.Ku.Leaf.All
+import CFSG.LocalAnalysis.ComponentClassification.GoldschmidtTDGriess
+import CFSG.LocalAnalysis.QuasithinUnique.Ch1.A3Native36
+import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L122AProved
+import CFSG.LocalAnalysis.QuasithinUnique.Constrained.DoubleA3.In2436Proved
+import CFSG.LocalAnalysis.QuasithinUnique.TopNative
+import CFSG.Milestones.ASVolI.E3
+import CFSG.Milestones.CL_LIT_Griess_Schur_multipliers_Lie_type
+import CFSG.Quasithin.Background.A318PFacts2
+import CFSG.Quasithin.Background.A318PQR2
+import CFSG.Quasithin.Background.A3StructureListNative
+import CFSG.Quasithin.Background.Asc81cPfMain
+import CFSG.Quasithin.Background.B5NonSQTK
+import CFSG.Quasithin.Background.C124HoldsE22
+import CFSG.Quasithin.Background.E6Ten
+import CFSG.Quasithin.Background.E6ThreeOpenHeX
+import CFSG.Quasithin.Background.E6TwentyThreePG
+import CFSG.Quasithin.Background.F918Fine4Pf
+import CFSG.Quasithin.Background.G11FixHolds
+import CFSG.Quasithin.Background.GoldschmidtD391
+import CFSG.Quasithin.Background.GoldschmidtE23FourFinal
+import CFSG.Quasithin.Background.GoldschmidtRankOneFacts
+import CFSG.Quasithin.Background.GoldschmidtTDC111Main
+import CFSG.Quasithin.Background.GoldschmidtTDC19
+import CFSG.Quasithin.Background.SmithB42G2IdFact
+import CFSG.Quasithin.Background.SmithB42Holds
+import CFSG.Quasithin.Background.SmithB45Holds
+import CFSG.Quasithin.Background.SmithD39TwoSzHolds
+import CFSG.Quasithin.EmptyFaithful.A10ConfigurationFinal
+import CFSG.Quasithin.EmptyFaithful.GoldschmidtC124Proved
+import CFSG.Quasithin.EmptyFaithful.GoldschmidtE22NoNProved
+import CFSG.Quasithin.EmptyFaithful.LRed3Four
+import CFSG.Quasithin.EmptyFaithful.R3c18WD4
+import CFSG.Quasithin.EmptyFaithful.T1515eE
+import CFSG.Quasithin.EmptyFaithfulMultiple.TheoremEB51
+import CFSG.Quasithin.H13.A5ConfL2
+import CFSG.Quasithin.H13.A5S136n
+import CFSG.Quasithin.H13.E22CHolds
+import CFSG.Quasithin.H13.KGFact68J4Cyc
+import CFSG.Quasithin.H13.KGFactF618Big
+import CFSG.Quasithin.H13.KGFactL2
+import CFSG.Quasithin.H13.KGFactL33
+import CFSG.Quasithin.H13.KGFactL3SylowZ
+import CFSG.Quasithin.H13.KGFactLieOutAb
+import CFSG.Quasithin.H13.KGFactNotQS
+import CFSG.Quasithin.H13.NQCatC2Hall
+import CFSG.Quasithin.H13.NQCatCartanGraph
+import CFSG.Quasithin.H13.NQCatExcParO2Holds
+import CFSG.Quasithin.H13.NQCatExcParSq
+import CFSG.Quasithin.H13.NQCatF4SzPar
+import CFSG.Quasithin.H13.NQCatG24X3
+import CFSG.Quasithin.H13.NQCatG2RadFacts
+import CFSG.Quasithin.H13.NQCatKG68Vac
+import CFSG.Quasithin.H13.NQCatL2LieParabolic
+import CFSG.Quasithin.H13.NQCatLemma128One
+import CFSG.Quasithin.H13.NQCatLieOverRank1
+import CFSG.Quasithin.H13.NQCatNGTCases
+import CFSG.Quasithin.H13.NQCatT3Final
+import CFSG.Quasithin.H13.NQCatT513Holds
+import CFSG.Quasithin.H13.NQCatT513PrimeHolds
+import CFSG.Quasithin.H13.NQCoreP134Input137Holds
+import CFSG.Quasithin.H13.VolIA36
+import CFSG.Quasithin.H13.VolIG248
+import CFSG.Quasithin.H13.ZCentLieHolds
+import CFSG.Quasithin.Vol2.Ch10SecA312AG
+import CFSG.Quasithin.Vol2.Ch10SecA312ListHolds
+import CFSG.Quasithin.Vol2.Ch10SecC3A
+import CFSG.Quasithin.Vol2.Ch10SecCWD
+import CFSG.Quasithin.Vol2.Ch10SecI1CovH
+import CFSG.Quasithin.Vol2.Ch10SecQ1Facts
+import CFSG.Quasithin.Vol2.Ch11SecAKE8
+import CFSG.Quasithin.Vol2.Ch11SecOE1C
+import CFSG.Quasithin.Vol2.Ch11SecWire11T
+import CFSG.Quasithin.Vol2.Ch12Sec2GlueIrr
+import CFSG.Quasithin.Vol2.Ch12Sec2Lem12StF
+import CFSG.Quasithin.Vol2.Ch12Sec4C8HypFin
+import CFSG.Quasithin.Vol2.Ch12Sec4G2NormZorn
+import CFSG.Quasithin.Vol2.Ch12Sec4L3Hyp
+import CFSG.Quasithin.Vol2.Ch12Sec4MParamG2
+import CFSG.Quasithin.Vol2.Ch12Sec9Lemma4InspFin
+import CFSG.Quasithin.Vol2.Ch12Sec9Lemma4SevenSp
+import CFSG.Quasithin.Vol2.Ch1A3Cat
+import CFSG.Quasithin.Vol2.Ch1A3Proved
+import CFSG.Quasithin.Vol2.Ch1EightTwoHubs
+import CFSG.Quasithin.Vol2.Ch1Sec3Lem139Holds
+import CFSG.Quasithin.Vol2.Ch3D310Holds
+import CFSG.Quasithin.Vol2.Ch3E213MG41SZ9
+import CFSG.Quasithin.Vol2.Ch3Sec2Lem322Eight
+import CFSG.Quasithin.Vol2.Ch3Sec2Prop329Alt7
+import CFSG.Quasithin.Vol2.Ch3Sec2Prop329G2
+import CFSG.Quasithin.Vol2.Ch3Sec2Prop329Lie
+import CFSG.Quasithin.Vol2.Ch3Sec2Prop329M12Row
+import CFSG.Quasithin.Vol2.Ch3Sec2Prop329Mat
+import CFSG.Quasithin.Vol2.Ch3Sec3Frontier
+import CFSG.Quasithin.Vol2.Ch3T326H2ShapeHolds
+import CFSG.Quasithin.Vol2.Ch3xC58NSMPB
+import CFSG.Quasithin.Vol2.Ch3xD15Proved
+import CFSG.Quasithin.Vol2.Ch4Sec3C53
+import CFSG.Quasithin.Vol2.Ch4Sec3L436InspM22
+import CFSG.Quasithin.Vol2.Ch4Sec3Sp4Gen
+import CFSG.Quasithin.Vol2.Ch5AssemblyBridges
+import CFSG.Quasithin.Vol2.Ch5Sec1BorelTorus
+import CFSG.Quasithin.Vol2.Ch5Sec1HallE22
+import CFSG.Quasithin.Vol2.Ch5Sec1L34A126
+import CFSG.Quasithin.Vol2.Ch5Sec1L34B45
+import CFSG.Quasithin.Vol2.Ch5Sec1L34D310D35
+import CFSG.Quasithin.Vol2.Ch5Sec1L34D35Holds
+import CFSG.Quasithin.Vol2.Ch5Sec1L34DiscAut
+import CFSG.Quasithin.Vol2.Ch5Sec1L34DiscList
+import CFSG.Quasithin.Vol2.Ch5Sec1L34DiscNat
+import CFSG.Quasithin.Vol2.Ch5Sec1L34E54Holds
+import CFSG.Quasithin.Vol2.Ch5Sec1L34FiveJ
+import CFSG.Quasithin.Vol2.Ch5Sec1L34FiveLie
+import CFSG.Quasithin.Vol2.Ch5Sec1L34FiveMain
+import CFSG.Quasithin.Vol2.Ch5Sec1L34FiveNQ
+import CFSG.Quasithin.Vol2.Ch5Sec1L34FiveQ5
+import CFSG.Quasithin.Vol2.Ch5Sec1L34FixTwo
+import CFSG.Quasithin.Vol2.Ch5Sec1L34H11
+import CFSG.Quasithin.Vol2.Ch5Sec1L34IrrPar
+import CFSG.Quasithin.Vol2.Ch5Sec1L34L2Perf
+import CFSG.Quasithin.Vol2.Ch5Sec1L34ModelL34
+import CFSG.Quasithin.Vol2.Ch5Sec1L34ModelL34Aut
+import CFSG.Quasithin.Vol2.Ch5Sec1L34OddMNine
+import CFSG.Quasithin.Vol2.Ch5Sec1L34OrthFix
+import CFSG.Quasithin.Vol2.Ch5Sec1L34TCHolds
+import CFSG.Quasithin.Vol2.Ch5Sec1Lem5113A7Gen
+import CFSG.Quasithin.Vol2.Ch5Sec1Lem5113F5113
+import CFSG.Quasithin.Vol2.Ch5Sec1Lem513Low
+import CFSG.Quasithin.Vol2.Ch5Sec1M23L34Fact
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalL2Two
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalL2qOddAut
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem522NeC2Z
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem528BHat
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem528BKGHolds
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalU3Cover
+import CFSG.Quasithin.Vol2.Ch6G31O2Holds
+import CFSG.Quasithin.Vol2.Ch6InE612Holds
+import CFSG.Quasithin.Vol2.Ch6InE63Of
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem4F6
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem4L52
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem4TE
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem4V3
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem4V8
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem5R2Holds
+import CFSG.Quasithin.Vol2.Ch6Sec2Lem7T
+import CFSG.Quasithin.Vol2.Ch6Sec2Lem7W13
+import CFSG.Quasithin.Vol2.Ch6Sec2Lem8ResLie
+import CFSG.Quasithin.Vol2.GoldschmidtC58Proved
+import CFSG.Quasithin.Vol2.GoldschmidtCor332
+import CFSG.Quasithin.Vol2.GoldschmidtF431Rank2Proved
+import CFSG.Quasithin.Vol2.GoldschmidtF431U42Holds
+import CFSG.Quasithin.Vol2.GoldschmidtF713TwoOpen
+import CFSG.Quasithin.Vol2.GoldschmidtH11Bridge
+import CFSG.Quasithin.Vol2.GoldschmidtTD317
+import CFSG.Quasithin.Vol2.GoldschmidtTD32
+import CFSG.Quasithin.Vol2.GoldschmidtTDE22
+import CFSG.Quasithin.Vol2.GoldschmidtTDTmpL6
+import CFSG.Quasithin.Vol2.KGFact1291S3
+import CFSG.Quasithin.Vol2.KGFact1295
+import CFSG.Quasithin.Vol2.KGFact1296
+import CFSG.Quasithin.Vol2.KGFact1297
+import CFSG.Quasithin.Vol2.KGFactAutA7
+import CFSG.Quasithin.Vol2.KGFactOut
+public import CFSG.CGT.A8S.N0EnumInputs
+public import CFSG.GH74.Filter.Sporadic.Spec
+public import CFSG.GH74.KGroups.U33
+public import CFSG.GH74.QTGen4.DSGen4.Statements
+public import CFSG.LieType.AlgebraicGroups.E6RationalGraphCosetPure
+public import CFSG.LieType.AlgebraicGroups.RationalInnerDiagonal
+public import CFSG.LieType.Chevalley.C2E6StandardFixedData
+public import CFSG.LieType.Chevalley.C2E6UnitaryFourImages
+public import CFSG.LieType.Chevalley.CLSEvenE6AllInvolutionFourGroup
+public import CFSG.LieType.Chevalley.CLSEvenTrialityFourGroup
+public import CFSG.LieType.Chevalley.CLSOddTrialityAllInvolutionFourGroup
+public import CFSG.LieType.Chevalley.CLSOddTwistedE6AllInvolutionFourGroup
+public import CFSG.LieType.Chevalley.EvenE7E8AutomorphismNormalForm
+public import CFSG.LieType.Chevalley.EvenF4OuterInvolutionsCanonical
+public import CFSG.LieType.Chevalley.EvenTrialityOuterInvolutions
+public import CFSG.LieType.Chevalley.SimplyLacedFieldTwoCover
+public import CFSG.LieType.Chevalley.TwistedE6OddNormalForm
+public import CFSG.LieType.Multipliers.ProductKernel
+public import CFSG.LieType.Multipliers.U42Bridge
+public import CFSG.LieType.Multipliers.U43Action
+public import CFSG.LieType.Multipliers.U43BridgeInputs
+public import CFSG.LieType.Multipliers.U62Bridge
+public import CFSG.LieType.Multipliers.U62Kernel
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBGraphFieldArithmetic
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBGraphFieldUnitaryData
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBHigherLinearFieldDeterminant
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFixedTransfer
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixModelGeometry
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSymplecticBLinear
+public import CFSG.LocalAnalysis.ComponentClassification.J2CoverAut
+public import CFSG.LocalAnalysis.ComponentClassification.M12J2CoverExclusion
+public import CFSG.LocalAnalysis.ComponentClassification.PSL3FourInvolutions
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogG2EvenFieldInvolutions
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogLargeReeModel
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogOmegaInvolutionConjugacy
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSpExclusion
+public import CFSG.LocalAnalysis.ComponentInitial.CLSEvenOrthogonalSemilinearFourGroup
+public import CFSG.LocalAnalysis.ComponentInitial.CLSFourGroupOddHigherLinear
+public import CFSG.LocalAnalysis.ComponentInitial.CLSFourGroupOddOrthogonal
+public import CFSG.LocalAnalysis.ComponentInitial.CLSFourGroupOddSymplectic
+public import CFSG.LocalAnalysis.ComponentInitial.CLSSmallReeModelInvolutionsInner
+public import CFSG.LocalAnalysis.ComponentInitial.LinearHigherEvenRankOneSmallModels
+public import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+public import CFSG.LocalAnalysis.ComponentInitial.OddLinearTwoAliases
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+public import CFSG.LocalAnalysis.ComponentInitial.SymplecticEvenAllInvolutionFourGroup
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryDiagonalOuterOrder
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherAllInvolutionFourGroup
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherEvenAllInvolutionFourGroup
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherEvenOrthogonalModel
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherLinearTwoAutomorphism
+public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.NativeCheckBase
+public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.NativeModel
+public import CFSG.LocalAnalysis.EvenSmallLie.Sp6JCondition
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.A312ListMain
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115CoverEven
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115CoverOdd
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.ThreeCoverBase
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.G3M23Base
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3J4D4Main
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3J4Dec2B1B7Data
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3J4Dec2B1B7Gen
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3J4Dec2Core
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3J4Fix
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3SporHeCertificateInputs
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3SporLineBasis
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Kc3SporPermChk
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.S7Rel
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.Stage6
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.AppDC61a
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.AppDJ
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Basic245NaturalMain
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1J2Check
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1M22
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1M24TChain
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X1M24TUniq
+public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.L2_5_19HSAutOuter
+public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.L2_5_19IdInputs3
+public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.L2_5_19UHSFusion
+public import CFSG.Monster.B.TwoA.Amalgam.Data
+public import CFSG.Monster.B.TwoA.Sp8.Par1
+public import CFSG.Monster.B.TwoA.Unitary.LinThree
+public import CFSG.Permutation.AlternatingAutomorphism
+public import CFSG.Quasithin.Background.B1
+public import CFSG.Quasithin.Background.B3Facts
+public import CFSG.Quasithin.Background.B3Q
+public import CFSG.Quasithin.Background.C1PackS15212C
+public import CFSG.Quasithin.Background.F6Amalgams
+public import CFSG.Quasithin.Background.F6SolvableQuotient
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtJ4LocMain
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtJ4OvGenE
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtJ4OvMaxBase
+public import CFSG.Quasithin.EmptyFaithful.S152N11
+public import CFSG.Quasithin.EmptyFaithful.S152Y15
+public import CFSG.Quasithin.EmptyFaithful.S152Y19
+public import CFSG.Quasithin.H13.A7IrrPlus
+public import CFSG.Quasithin.Recognition.CertTrialityCheckInputs
+public import CFSG.Quasithin.Recognition.M12AmalAutClass
+public import CFSG.Quasithin.Recognition.M12AmalInst
+public import CFSG.Quasithin.Recognition.M12AscFive
+public import CFSG.Quasithin.Recognition.M12AscY3
+public import CFSG.Quasithin.Recognition.M22WittLocal
+public import CFSG.Quasithin.Recognition.ModelBridges
+public import CFSG.Quasithin.Vol2.Ch10SecB4
+public import CFSG.Quasithin.Vol2.Ch5Sec2LocalF11
+public import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem527
+public import CFSG.Quasithin.Vol2.Ch5Sec2M23Cosets
+public import CFSG.Quasithin.Vol2.Ch5Sec2M23MK4
+public import CFSG.Quasithin.Vol2.Ch5Sec2M23Zeta
+public import CFSG.Quasithin.Vol2.KGFactAutSylowSmall
+public import CFSG.Quasithin.Vol2.KGFactU35Star
+public import CFSG.Sporadic.HeldB.ClassCount
+public import CFSG.Sporadic.J4.QT2LocFixMain
+public import CFSG.Sporadic.Presentation.M24Exact
+public import CFSG.Sporadic.Schreier.J4SProfileNode
+public import CFSG.Sporadic.Schreier.RuLOdd
+public import CFSG.Sporadic.Schreier.RuZClass
+public import CFSG.Sporadic.Schreier.TitsAutD
+public import CFSG.Sporadic.Schreier.TitsQTModel
+public import CFSG.Timmesfeld.Moufang.A6
+public import CFSG.Timmesfeld.Moufang.Cases
+public import CFSG.Timmesfeld.Moufang.J2Check
+public import CFSG.Timmesfeld.Moufang.J2MatCheck
+public import CFSG.Timmesfeld.Moufang.Three
+public import CFSG.Timmesfeld.Special.TwoCore
+public import CFSG.YGroups.Y322Central
+public import Certificates.Certificate2254Base
+public import Certificates.Certificate7233Base
+public import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+import CFSG.CGT.M24R.M24Enum
+import CFSG.CGT.PushingUpLit.LIT.Foote.GroupAux
+import CFSG.CGT.T75P.Ctx
+import CFSG.CGT.T75P.DecA
+import CFSG.CGT.Timmesfeld75.Sec6Seven
+import CFSG.GH74.Generic.S45.LEvSporGen
+import CFSG.GH74.M12.HypT2
+import CFSG.GH74.M12.Reductions
+import CFSG.GH74.QTGen4.Leaves.F112.PSU32Model
+import CFSG.GroupTheory.PCore.OpenTransport
+import CFSG.GroupTheory.PCore.Transport
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafOddB
+import CFSG.LocalAnalysis.EvenBN.U4.Model.AutSection
+import CFSG.LocalAnalysis.LargeEvenClassification.Delta
+import CFSG.LocalAnalysis.LargeEvenClassification.MinimalNormalFactors
+import CFSG.LocalAnalysis.LargeEvenClassification.WeakCoreLocalIntersections
+import CFSG.LocalAnalysis.LargeEvenClassification.WeakCoreLocality
+import CFSG.LocalAnalysis.SeitzReduction.F4PilotCatAlt
+import CFSG.LocalAnalysis.SeitzReduction.LinearPilotCatAlt
+import CFSG.LocalAnalysis.SteinbergCCExistingCLS
+import CFSG.Quasithin.Background.C2
+import CFSG.Quasithin.Background.C48OpenKW
+import CFSG.Quasithin.Background.G25Seven
+import CFSG.Quasithin.EmptyFaithful.TopAssemblyFrontier21
+import CFSG.Quasithin.H13.A5End136W
+import CFSG.Quasithin.H13.A5S1328Vertex
+import CFSG.Quasithin.H13.A5S136s
+import CFSG.Quasithin.H13.A5W1620L32j
+import CFSG.Quasithin.H13.A5W1622y
+import CFSG.Quasithin.H13.A5Z1367j
+import CFSG.Quasithin.H13.A6Rows1321
+import CFSG.Quasithin.H13.A6S1342
+import CFSG.Quasithin.H13.A6S13827a
+import CFSG.Quasithin.H13.A7NatHubs
+import CFSG.Quasithin.H13.GoldschmidtA6RowsFrame
+import CFSG.Quasithin.H13.KG14726Elim
+import CFSG.Quasithin.H13.L1332Frontier
+import CFSG.Quasithin.H13.L32A5Props
+import CFSG.Quasithin.H13.L32AHStr
+import CFSG.Quasithin.H13.L32NLem14328e
+import CFSG.Quasithin.H13.L32NLem14413d
+import CFSG.Quasithin.H13.L32NLem1442p
+import CFSG.Quasithin.H13.L32NSp4Main
+import CFSG.Quasithin.H13.L32NThm1443
+import CFSG.Quasithin.H13.NQBlockOriginalRControlled
+import CFSG.Quasithin.H13.NQBlockRadicalR2Frontier
+import CFSG.Quasithin.H13.NQCatA314Facts
+import CFSG.Quasithin.H13.NQCatF112D4
+import CFSG.Quasithin.H13.NQCoreCh1Statements
+import CFSG.Quasithin.H13.NQRigidAsmSingle
+import CFSG.Quasithin.H13.NQS1312Q
+import CFSG.Quasithin.H13.NQS134Defs
+import CFSG.Quasithin.H13.NQTermTerminalFourWitness
+import CFSG.Quasithin.H13.QTESylowThreeNative
+import CFSG.Quasithin.H13.U3S135
+import CFSG.Quasithin.Vol2.Ch10SecB3CartanC
+import CFSG.Quasithin.Vol2.Ch10SecB3Obl
+import CFSG.Quasithin.Vol2.Ch10SecQ34B0
+import CFSG.Quasithin.Vol2.Ch10SecQ3CK7A
+import CFSG.Quasithin.Vol2.Ch10SecQ3CK7D
+import CFSG.Quasithin.Vol2.Ch10SecQ9H50
+import CFSG.Quasithin.Vol2.Ch11SecA15R1b
+import CFSG.Quasithin.Vol2.Ch11SecB35F
+import CFSG.Quasithin.Vol2.Ch11SecD552
+import CFSG.Quasithin.Vol2.Ch11SecD556
+import CFSG.Quasithin.Vol2.Ch11SecD556I
+import CFSG.Quasithin.Vol2.Ch11SecS12R
+import CFSG.Quasithin.Vol2.Ch12Sec1Lem1NNG
+import CFSG.Quasithin.Vol2.Ch12Sec1Lem1NmD
+import CFSG.Quasithin.Vol2.Ch12Sec2Lem16Two
+import CFSG.Quasithin.Vol2.Ch12Sec2Lem21O2
+import CFSG.Quasithin.Vol2.Ch12Sec2Lem22E
+import CFSG.Quasithin.Vol2.Ch12Sec2Lem7UW
+import CFSG.Quasithin.Vol2.Ch12Sec2Lem8
+import CFSG.Quasithin.Vol2.Ch12Sec2Thm12111
+import CFSG.Quasithin.Vol2.Ch12Sec4C8Char
+import CFSG.Quasithin.Vol2.Ch12Sec4Lemma4
+import CFSG.Quasithin.Vol2.Ch12Sec4Wired
+import CFSG.Quasithin.Vol2.Ch12Sec6L32Claim
+import CFSG.Quasithin.Vol2.Ch12Sec7L23a
+import CFSG.Quasithin.Vol2.Ch12Sec7L5u
+import CFSG.Quasithin.Vol2.Ch12Sec7L5v
+import CFSG.Quasithin.Vol2.Ch12Sec7Mod3B
+import CFSG.Quasithin.Vol2.Ch12Sec9Lemma5Case2
+import CFSG.Quasithin.Vol2.Ch12Sec9Lemma5Case3
+import CFSG.Quasithin.Vol2.Ch12Sec9Lemma9
+import CFSG.Quasithin.Vol2.Ch12Sec9Producer
+import CFSG.Quasithin.Vol2.Ch3T326GF
+import CFSG.Quasithin.Vol2.Ch3T326H2
+import CFSG.Quasithin.Vol2.Ch4Sec3Final432
+import CFSG.Quasithin.Vol2.Ch4Sec4G443J4C
+import CFSG.Quasithin.Vol2.Ch4Sec4L443EFact
+import CFSG.Quasithin.Vol2.Ch4Sec4L443EIn
+import CFSG.Quasithin.Vol2.Ch4Sec4W4414Z
+import CFSG.Quasithin.Vol2.Ch5Sec1DS
+import CFSG.Quasithin.Vol2.Ch5Sec1DSC
+import CFSG.Quasithin.Vol2.Ch5Sec1L34DSSz
+import CFSG.Quasithin.Vol2.Ch5Sec1L34QBoundB45
+import CFSG.Quasithin.Vol2.Ch5Sec1Lem5113Final
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalL2Cat
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem522BotD4
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem522D42Main
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalProp526Rk2
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalProp526Snd
+import CFSG.Quasithin.Vol2.Ch5Sec2LocalProp526Z
+import CFSG.Quasithin.Vol2.Ch5Sec3L532
+import CFSG.Quasithin.Vol2.Ch5Sec3LieInputs
+import CFSG.Quasithin.Vol2.Ch6Assembly
+import CFSG.Quasithin.Vol2.Ch6Sec1Lem5
+import CFSG.Quasithin.Vol2.Ch6Sec1Thm27
+import CFSG.Quasithin.Vol2.Ch6Sec2Thm19S8C
+import CFSG.Quasithin.Vol2.GoldschmidtCh6P778CentWire
+import CFSG.Quasithin.Vol2.GoldschmidtF134OddBorel
+import CFSG.Quasithin.Vol2.GoldschmidtF134OddShared
+import CFSG.Quasithin.Vol2.GoldschmidtF431F45Ctx
+import CFSG.Quasithin.Vol2.GoldschmidtSec53FactsSp
+import CFSG.Quasithin.Vol2.KGFact12617
+import CFSG.Quasithin.Vol2.KGFact12617Lie
+import CFSG.Quasithin.Vol2.KGFact1262
+import CFSG.Quasithin.Vol2.KGFactC31HeRefBase
+import CFSG.Quasithin.Vol2.KGFactC31M23RefBase
+import CFSG.Quasithin.Vol2.KGNatSL3NatFixed
+import CFSG.RankThree.OddKernel.SporadicKernelCases
+import CFSG.RankThree.PartOne.KC.EvenSymplecticFourRootAxisNormalizers
+import CFSG.RankThree.PartOne.S10.CyclicSemisimpleSectionOrbit
+import CFSG.RankThree.PartTwo.Sec4.Census.Interface
+import CFSG.SignalizerFunctorTheorem.McBride.Prelim.SemisimpleFactors
+import CFSG.Sporadic.Bridge.BOrder
+import CFSG.Sporadic.Bridge.BSurjInputs
+import CFSG.Sporadic.Th.CertificateBase
+import CFSG.Sporadic.Th.CertificateBase1
+import CFSG.Sporadic.ThSchreier.KernelAut
+import CFSG.Sporadic.ThSchreier.KernelAutBase
+import CFSG.Sporadic.ThSchreier.KernelAutBase1
+import Certificates.Certificate10027
+import Certificates.Certificate10095
+import Certificates.Certificate10095Base
+import Certificates.Certificate10100
+import Certificates.Certificate10101
+import Certificates.Certificate10102
+import Certificates.Certificate10104
+import Certificates.Certificate10107
+import Certificates.Certificate10108
+import Certificates.Certificate10110
+import Certificates.Certificate10111
+import Certificates.Certificate9201
+import Certificates.Data.GF4
+
+public section
+
+namespace CFSG.GH74.QTGen4.DCopy.Roots
+
+open CFSG.Open CFSG.Blueprint CFSG.QuasithinUnique CFSG.Quasithin CFSG.Quasithin.H13
+
+theorem stmt13_6_1_GH_root :
+    CFSG.GH74.QTGen4.Stmt13_6_1_GH := by
+  have d_AsB45 : CFSG.Quasithin.AsB45 := CFSG.Quasithin.asB45_holds
+  have d_Stmt10_0_1_F4 : CFSG.Quasithin.H13.Stmt10_0_1_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.stmt10_0_1_F4_holds
+  have d_Stmt11_0_1_F4 : CFSG.Quasithin.H13.Stmt11_0_1_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.stmt11_0_1_F4_holds
+  have d_Stmt12_1_11_F4 : CFSG.Quasithin.H13.Stmt12_1_11_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.stmt12_1_11_F4_holds
+  have d_AsB56 : CFSG.Quasithin.AsB56 := CFSG.Quasithin.asB56_holds
+  have d_D310C0 : CFSG.Quasithin.D310C0 := CFSG.Quasithin.H13.d310C0_holds
+  have d_Stmt3_3_1_F4 : CFSG.Quasithin.H13.Stmt3_3_1_F4 :=
+    CFSG.GH74.QTGen4.Leaves.S331.stmt3_3_1_F4_holds
+  have d_Theorem316Statement : CFSG.Quasithin.Theorem316Statement :=
+    CFSG.Quasithin.Ch3T316W.theorem316Statement_holds
+  have d_TmpL6_3_2_2_eight : CFSG.Quasithin.Vol2.Ch10.TmpL6_3_2_2_eight :=
+    CFSG.Quasithin.Vol2.Ch10.tmpL6_3_2_2_eight_proved
+  have d_Stmt3_2_3 : CFSG.Quasithin.H13.Stmt3_2_3 := CFSG.Quasithin.H13.stmt3_2_3_proved
+  have d_TmpL6_3_2_2_two : CFSG.Quasithin.Vol2.Ch10.TmpL6_3_2_2_two :=
+    CFSG.Quasithin.Vol2.Ch10.tmpL6_3_2_2_two_of (h3228 := d_TmpL6_3_2_2_eight) (h323 := d_Stmt3_2_3)
+  have d_TmpL6_3_2_2_four : CFSG.Quasithin.Vol2.Ch11.TmpL6_3_2_2_four :=
+    CFSG.Quasithin.Vol2.Ch11.tmpL6_3_2_2_four_of (h322 := d_TmpL6_3_2_2_two)
+  have d_AS317Sylow : CFSG.Quasithin.AS317Sylow := CFSG.Quasithin.as317Sylow_proved
+  have d_TheoremC58 : CFSG.Quasithin.TheoremC58 := CFSG.Quasithin.theoremC58_proved
+  have d_TmpL6_3_2_2_six_F4 : CFSG.Quasithin.Vol2.Ch11.TmpL6_3_2_2_six_F4 :=
+    CFSG.Quasithin.Vol2.Ch11.tmpL6_3_2_2_six_of_F4 (hC58 := d_TheoremC58) (h317 := d_AS317Sylow)
+      (h331 := d_Stmt3_3_1_F4) (h3228 := d_TmpL6_3_2_2_eight) (h4 := d_TmpL6_3_2_2_four)
+  have d_Stmt3_2_5_F4 : CFSG.Quasithin.H13.Stmt3_2_5_F4 :=
+    CFSG.Quasithin.H13.stmt3_2_5_of_c0_F4 (h316 := d_Theorem316Statement) (hD310 := d_D310C0)
+      (h331 := d_Stmt3_3_1_F4) (h3222 := d_TmpL6_3_2_2_two) (h3228 := d_TmpL6_3_2_2_eight)
+      (h4 := d_TmpL6_3_2_2_four) (h6 := d_TmpL6_3_2_2_six_F4) (h56 := d_AsB56)
+  have d_Ch5KZConclusion : CFSG.Quasithin.H13.Ch5KZConclusion := CFSG.Quasithin.H13.ch5KZConclusion
+  have d_Ch5KZConclusionD4 : CFSG.Quasithin.H13.Ch5KZConclusionD4 :=
+    CFSG.Quasithin.H13.ch5KZConclusionD4
+  have d_FactL2LieParabolic : CFSG.Quasithin.H13.FactL2LieParabolic :=
+    CFSG.Quasithin.H13.NQCat.factL2LieParabolic_holds
+  have d_GriessMultipliersAllModels : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels :=
+    CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
+  have d_E22StatementC : CFSG.Quasithin.E2.E22StatementC := CFSG.Quasithin.H13.e22StatementC_holds
+  have d_Stmt5_1_10_F4 : CFSG.Quasithin.H13.Stmt5_1_10_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_10_of_inputs_F4 (h331 := d_Stmt3_3_1_F4) (hE22 := d_E22StatementC)
+      (hGA := d_GriessMultipliersAllModels)
+  have d_Ch5L2ChoiceExists_F4 : CFSG.Quasithin.H13.Ch5L2ChoiceExists_F4 :=
+    CFSG.Quasithin.H13.ch5L2ChoiceExists_of_inputs_F4 (h510 := d_Stmt5_1_10_F4)
+      (hF := d_FactL2LieParabolic)
+  have d_A39ForSQTKCat : CFSG.QuasithinUnique.Vol2Native.A39ForSQTKCat :=
+    CFSG.QuasithinUnique.a39_proved
+  have d_Ch5L34Conclusion : CFSG.Quasithin.H13.Ch5L34Conclusion :=
+    CFSG.Quasithin.H13.ch5L34Conclusion_of (h39 := d_A39ForSQTKCat)
+  have d_A36ForSQTK : CFSG.Quasithin.A36ForSQTK := CFSG.Quasithin.H13.VolI.a36ForSQTK_holds
+  have d_A37ForSQTK : CFSG.Quasithin.A37ForSQTK := CFSG.Quasithin.a37ForSQTK_proved
+  have d_A38ForSQTK : CFSG.Quasithin.A38ForSQTK := CFSG.Quasithin.a38ForSQTK_proved
+  have d_A39ForSQTK : CFSG.Quasithin.A39ForSQTK := CFSG.Quasithin.a39ForSQTK_proved
+  have d_A314Facts_F4 : CFSG.Quasithin.A314Facts_F4 :=
+    CFSG.Quasithin.H13.NQCat.A314D.a314Facts_holds_F4
+  have d_FactM23L34 : CFSG.Quasithin.H13.FactM23L34 := CFSG.Quasithin.H13.factM23L34_holds
+  have d_A312ForSQTK : CFSG.Quasithin.A312ForSQTK := CFSG.Quasithin.H13.a312ForSQTK_proved
+  have d_Lemma128TwoAS : CFSG.Quasithin.H13.Lemma128TwoAS :=
+    CFSG.Quasithin.Ch1Two.lemma128TwoAS_of (h312 := d_A312ForSQTK)
+  have d_FactL2Parabolic : CFSG.Quasithin.Vol2.Ch11.SecA.FactL2Parabolic :=
+    CFSG.Quasithin.Vol2.Ch11.SecA.factL2Parabolic_holds
+  have d_A312ForSQTKCat : CFSG.QuasithinUnique.Vol2Native.A312ForSQTKCat :=
+    CFSG.Quasithin.a312ForSQTKCat_of_sqtk (h := d_A312ForSQTK)
+  have d_Stmt5_1_12_F4 : CFSG.Quasithin.H13.Stmt5_1_12_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_12_of_inputs_F4 (h312 := d_A312ForSQTKCat) (hF := d_A314Facts_F4)
+      (hM23 := d_FactM23L34) (hP := d_FactL2Parabolic) (h128 := d_Lemma128TwoAS)
+  have d_Stmt3_2_8 : CFSG.Quasithin.H13.Stmt3_2_8 := CFSG.Quasithin.H13.stmt3_2_8_proved
+  have d_Row329Alt7 : CFSG.Quasithin.H13.Row329Alt7 := CFSG.Quasithin.H13.row329Alt7_holds
+  have d_Row329G2 : CFSG.Quasithin.H13.Row329G2 := CFSG.Quasithin.H13.row329G2_holds
+  have d_Row329HatM22 : CFSG.Quasithin.H13.Row329HatM22 := CFSG.Quasithin.H13.row329HatM22_holds
+  have d_Row329M12 : CFSG.Quasithin.H13.Row329M12 := CFSG.Quasithin.H13.row329M12_holds
+  have d_Row329M22 : CFSG.Quasithin.H13.Row329M22 := CFSG.Quasithin.H13.row329M22_holds
+  have d_Row329M23 : CFSG.Quasithin.H13.Row329M23 := CFSG.Quasithin.H13.row329M23_holds
+  have d_Row329M24 : CFSG.Quasithin.H13.Row329M24 := CFSG.Quasithin.H13.row329M24_holds
+  have d_Row329Nine : CFSG.Quasithin.H13.Row329Nine := CFSG.Quasithin.H13.row329Nine_holds
+  have d_Row329Orth : CFSG.Quasithin.H13.Row329Orth := CFSG.Quasithin.H13.row329Orth_holds
+  have d_Stmt3_2_2_eight : CFSG.Quasithin.H13.Stmt3_2_2_eight :=
+    CFSG.Quasithin.H13.stmt3_2_2_eight_proved
+  have d_Stmt3_3_2MTwo : CFSG.Quasithin.H13.Stmt3_3_2MTwo :=
+    CFSG.Quasithin.H13.Cor332.stmt3_3_2MTwo_holds
+  have d_Stmt3_2_9C_F4 : CFSG.Quasithin.H13.Stmt3_2_9C_F4 :=
+    CFSG.Quasithin.H13.stmt3_2_9C_of_rows_F4 (hC58 := d_TheoremC58) (h317 := d_AS317Sylow)
+      (h323 := d_Stmt3_2_3) (h325 := d_Stmt3_2_5_F4) (h3228 := d_Stmt3_2_2_eight)
+      (h332 := d_Stmt3_3_2MTwo) (h316 := d_Theorem316Statement) (hB45 := d_AsB45)
+      (hA7 := d_Row329Alt7) (hG2 := d_Row329G2) (hOrth := d_Row329Orth) (hNine := d_Row329Nine)
+      (hM12 := d_Row329M12) (hHat := d_Row329HatM22) (hM22 := d_Row329M22) (hM23 := d_Row329M23)
+      (hM24 := d_Row329M24)
+  have d_Stmt5_1_14_notf_F4 : CFSG.Quasithin.H13.Stmt5_1_14_notf_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_14_notf_of_F4 (h510 := d_Stmt5_1_10_F4) (h5112 := d_Stmt5_1_12_F4)
+      (h323 := d_Stmt3_2_3) (h325 := d_Stmt3_2_5_F4) (h328 := d_Stmt3_2_8) (h329 := d_Stmt3_2_9C_F4)
+  have d_Stmt5_1_14_one_F4 : CFSG.Quasithin.H13.Stmt5_1_14_one_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_14_one_of_F4 (h510 := d_Stmt5_1_10_F4) (h5112 := d_Stmt5_1_12_F4)
+      (hnf := d_Stmt5_1_14_notf_F4)
+  have d_Stmt5_1_14_first_F4 : CFSG.Quasithin.H13.Stmt5_1_14_first_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_14_first_of_F4 (h331 := d_Stmt3_3_1_F4) (h36 := d_A36ForSQTK)
+      (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h1 := d_Stmt5_1_14_one_F4)
+  have d_L2ModFixTwoFact : CFSG.Quasithin.H13.L2ModFixTwoFact := CFSG.Quasithin.H13.l2ModFixTwoFact
+  have d_L2TorusFact : CFSG.Quasithin.H13.L2TorusFact := CFSG.Quasithin.H13.l2TorusFact
+  have d_L4NatSumFact : CFSG.Quasithin.H13.L4NatSumFact := CFSG.Quasithin.H13.l4NatSumFact
+  have d_D35 : CFSG.Quasithin.D35 := CFSG.Quasithin.H13.d35_proved
+  have d_D310L34Fact : CFSG.Quasithin.H13.D310L34Fact :=
+    CFSG.Quasithin.H13.d310L34Fact_of_d35 (h35 := d_D35)
+  have d_E54L34FactSQTK : CFSG.Quasithin.H13.E54L34FactSQTK :=
+    CFSG.Quasithin.H13.E54.e54L34FactSQTK_holds
+  have d_H11ThreeFact : CFSG.Quasithin.H13.H11ThreeFact := CFSG.Quasithin.H13.H11.h11ThreeFact
+  have d_OrthOddGalFact : CFSG.Quasithin.H13.OrthOddGalFact := CFSG.Quasithin.H13.orthOddGalFact
+  have d_DSALoc_F4 : CFSG.GH74.QTGen4.DSGen4.DSALoc_F4 := CFSG.GH74.QTGen4.DSGen4.dsALoc_F4_holds
+  have d_A314FiveNormNQ : CFSG.Quasithin.H13.FiveNorm.A314FiveNormNQ :=
+    CFSG.Quasithin.H13.FiveNorm.a314FiveNormNQ_of (h36 := d_A36ForSQTK)
+  have d_J4__1 := CFSG.GH74.QTGen4.Leaves.fiveRigid_J4_leaf
+  have d_J4__2 := d_J4__1
+  have d_FiveRigidJanko : CFSG.Quasithin.H13.FiveNorm.FiveRigidJanko :=
+    CFSG.Quasithin.H13.FiveNorm.fiveRigidJanko_of (hJ4 := d_J4__2)
+  have d_FiveRigidLie : CFSG.Quasithin.H13.FiveNorm.FiveRigidLie :=
+    CFSG.Quasithin.H13.FiveNorm.fiveRigidLie_holds
+  have d_PU_1 := CFSG.GH74.QTGen4.Leaves.fiveRigid_PU_leaf
+  have d_PU_2 := d_PU_1
+  have d_FiveRigidQFive : CFSG.Quasithin.H13.FiveNorm.FiveRigidQFive :=
+    CFSG.Quasithin.H13.FiveNorm.fiveRigidQFive_of (hU := d_PU_2)
+  have d_A314FiveNormFact : CFSG.Quasithin.H13.A314FiveNormFact :=
+    CFSG.Quasithin.H13.a314FiveNormFact_of (hLie := d_FiveRigidLie) (hQ5 := d_FiveRigidQFive)
+      (hJ := d_FiveRigidJanko) (hNQ := d_A314FiveNormNQ)
+  have d_DSCStatement_F4 : CFSG.Quasithin.H13.DSCStatement_F4 :=
+    CFSG.GH74.QTGen4.Leaves.F112.dsC_F4_holds
+  have d_L2RankOneSylowFact : CFSG.Quasithin.H13.L2RankOneSylowFact :=
+    CFSG.Quasithin.H13.NQCat.l2RankOneSylowFact_holds
+  have d_L34ParabolicChiefFact : CFSG.Quasithin.H13.L34ParabolicChiefFact :=
+    CFSG.Quasithin.H13.l34ParabolicChiefFact
+  have d_MinParabolicBlockSubnormal : CFSG.Quasithin.C58NS.MinParabolicBlockSubnormal :=
+    CFSG.Quasithin.C58NS.minParabolicBlockSubnormal_holds
+  have d_TheoremC126 : CFSG.Quasithin.TheoremC126 := CFSG.Quasithin.theoremC126_proved
+  have d_LemmaC53C56Six : CFSG.Quasithin.H13.Ch4.LemmaC53C56Six :=
+    CFSG.Quasithin.H13.Ch4.lemmaC53C56Six_of (h126 := d_TheoremC126)
+      (hMPB := d_MinParabolicBlockSubnormal)
+  have d_Gap437Sp4Z : CFSG.Quasithin.H13.Ch4.Gap437Sp4Z :=
+    CFSG.Quasithin.H13.Ch4.gap437Sp4Z_of (hR := d_L2RankOneSylowFact) (hC := d_LemmaC53C56Six)
+      (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+  have d_Insp436M22M23 : CFSG.Quasithin.H13.Ch4.Insp436M22M23 :=
+    CFSG.Quasithin.H13.Ch4.I436.insp436M22M23_holds
+  have d_MS93ASW_F4 : CFSG.Quasithin.SzMSW.MS93ASW_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.ms93ASW_F4_of_gen4
+  have d_AS_C_1_34_corrW_F4 : CFSG.Quasithin.SzMSW.AS_C_1_34_corrW_F4 :=
+    CFSG.Quasithin.SzMSW.asC134_corrW_of_ms93ASW_F4 (hms := d_MS93ASW_F4)
+  have d_AS_C_1_34_corr_F4 : CFSG.Quasithin.MS93.AS_C_1_34_corr_F4 :=
+    CFSG.Quasithin.SzMSW.AS_C_1_34_corr_of_W_F4 (h := d_AS_C_1_34_corrW_F4)
+  have d_ASC48Statement : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G], CFSG.Quasithin.ASC48Statement G :=
+    CFSG.GH74.QTGen4.Leaves.ASCF4.asc48_F4_holds
+  have d_Stmt4_3_2_F4 : CFSG.Quasithin.H13.Stmt4_3_2_F4 :=
+    CFSG.Quasithin.H13.Ch4.stmt4_3_2_of_rest_F4 (hC48 := d_ASC48Statement)
+      (hM2223 := d_Insp436M22M23) (h134 := d_AS_C_1_34_corr_F4) (hZ := d_Gap437Sp4Z)
+  have d_AsB51 : CFSG.Quasithin.AsB51 := CFSG.Quasithin.B5.asB51_holds
+  have d_Stmt5_1_2_F4 : CFSG.Quasithin.H13.Stmt5_1_2_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_2_of_asB51_F4 (h331 := d_Stmt3_3_1_F4) (h51 := d_AsB51)
+  have d_AS_I_1_6 : CFSG.Quasithin.ASInputs.AS_I_1_6 := CFSG.Quasithin.ASInputs.lemI1_6_holds
+  have d_AsB42 : CFSG.Quasithin.AsB42 := CFSG.Quasithin.asB42_holds
+  have d_D310L2Fact : CFSG.Quasithin.H13.D310L2Fact :=
+    CFSG.Quasithin.H13.d310L2Fact_of_d35 (h35 := d_D35)
+  have d_Facts10_1 : CFSG.Quasithin.Vol2.Ch10.SecA.Facts10_1 :=
+    CFSG.Quasithin.Vol2.Ch10.SecA.facts10_1_holds
+  have d_Stmt5_1_3_qhat : CFSG.Quasithin.H13.Stmt5_1_3_qhat :=
+    CFSG.Quasithin.H13.stmt5_1_3_qhat_of_asB51 (hD := d_D310L2Fact) (hF := d_Facts10_1)
+      (h45 := d_AsB45) (h16 := d_AS_I_1_6) (h51 := d_AsB51) (h42 := d_AsB42)
+  have d_Stmt5_1_3_F4 : CFSG.Quasithin.H13.Stmt5_1_3_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_3_of_F4 (h331 := d_Stmt3_3_1_F4) (hC58 := d_TheoremC58)
+      (h316 := d_Theorem316Statement) (h317 := d_AS317Sylow) (h512 := d_Stmt5_1_2_F4)
+      (hq := d_Stmt5_1_3_qhat)
+  have d_Stmt5_1_6_F4 : CFSG.Quasithin.H13.Stmt5_1_6_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_6_of_inputs_F4 (h331 := d_Stmt3_3_1_F4) (hC58 := d_TheoremC58)
+      (h316 := d_Theorem316Statement) (h317 := d_AS317Sylow) (hR1 := d_L2RankOneSylowFact)
+      (h512 := d_Stmt5_1_2_F4) (h513 := d_Stmt5_1_3_F4)
+  have d_Stmt5_1_15_F4 : CFSG.Quasithin.H13.Stmt5_1_15_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_15_of_F4 (h516 := d_Stmt5_1_6_F4) (h5114 := d_Stmt5_1_14_first_F4)
+      (hF := d_L2TorusFact)
+  have d_DSSzStatement_F4 : CFSG.Quasithin.H13.DSSzStatement_F4 :=
+    CFSG.GH74.QTGen4.Leaves.F112.dsSz_F4_holds
+  have d_L2PerfectThreePrimeFact : CFSG.Quasithin.H13.L2PerfectThreePrimeFact :=
+    CFSG.Quasithin.H13.l2PerfectThreePrimeFact
+  have d_L34ElemNineFact : CFSG.Quasithin.H13.L34ElemNineFact := CFSG.Quasithin.H13.l34ElemNineFact
+  have d_SimpleThreePrimeSuzukiFact : CFSG.Quasithin.H13.SimpleThreePrimeSuzukiFact :=
+    CFSG.Quasithin.H13.simpleThreePrimeSuzukiFact
+  have d_SzTwoAutInnerFact : CFSG.Quasithin.H13.SzTwoAutInnerFact :=
+    CFSG.Quasithin.H13.szTwoAutInnerFact
+  have d_Stmt5_1_16_F4 : CFSG.Quasithin.H13.Stmt5_1_16_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_16_of_inputs_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h331 := d_Stmt3_3_1_F4) (h36 := d_A36ForSQTK) (h37 := d_A37ForSQTK) (h39 := d_A39ForSQTK)
+      (hE9 := d_L34ElemNineFact) (hSz := d_SimpleThreePrimeSuzukiFact) (hSzA := d_SzTwoAutInnerFact)
+      (hL2 := d_L2PerfectThreePrimeFact) (hDS := d_DSSzStatement_F4)
+  have d_A126TwoFact : CFSG.Quasithin.H13.A126TwoFact := CFSG.Quasithin.H13.a126TwoFact_holds
+  have d_E22StatementNoN : CFSG.Quasithin.E2.E22StatementNoN :=
+    CFSG.Quasithin.e22StatementNoN_proved
+  have d_E23Statement : CFSG.Quasithin.E2.E23Statement :=
+    CFSG.Quasithin.C124.e23Statement_of_e22 (h22 := d_E22StatementNoN)
+  have d_E23FourStatement : CFSG.Quasithin.E2.E23FourStatement :=
+    CFSG.Quasithin.E2.e23FourStatement_of (he22 := d_E22StatementNoN) (he23 := d_E23Statement)
+  have d_Stmt5_1_7_one_F4 : CFSG.Quasithin.H13.A5.Stmt5_1_7_one_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_7_one_of_asB51'_F4 (h331 := d_Stmt3_3_1_F4) (h51 := d_AsB51)
+      (h432 := d_Stmt4_3_2_F4) (he234 := d_E23FourStatement)
+  have d_IrrPlusBaseNonempty : CFSG.Quasithin.H13.IrrPlusBaseNonempty :=
+    CFSG.Quasithin.H13.irrPlusBaseNonempty_of_a36 (h36 := d_A36ForSQTK)
+  have d_L2OddInnerFact : CFSG.Quasithin.H13.L2OddInnerFact := CFSG.Quasithin.H13.l2OddInnerFact
+  have d_L34BorelFact : CFSG.Quasithin.H13.L34BorelFact := CFSG.Quasithin.H13.l34BorelFact
+  have d_L34SylowNormFact : CFSG.Quasithin.H13.L34SylowNormFact :=
+    CFSG.Quasithin.H13.l34SylowNormFact
+  have d_L34TorusCommFact : CFSG.Quasithin.H13.L34TorusCommFact :=
+    CFSG.Quasithin.H13.l34TorusCommFact_holds
+  have d_Stmt5_1_17_mNine : CFSG.Quasithin.H13.Stmt5_1_17_mNine :=
+    CFSG.Quasithin.H13.stmt5_1_17_mNine_of (hI := d_L2OddInnerFact) (hF := d_L2TorusFact)
+      (hTC := d_L34TorusCommFact)
+  have d_Stmt5_1_17_F4 : CFSG.Quasithin.H13.Stmt5_1_17_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_17_of_reduced_F4 (hI := d_L2OddInnerFact) (hL := d_L34SylowNormFact)
+      (hF := d_L2TorusFact) (h515 := d_Stmt5_1_15_F4) (h516 := d_Stmt5_1_16_F4)
+      (hIrr := d_IrrPlusBaseNonempty) (h323 := d_Stmt3_2_3) (h325 := d_Stmt3_2_5_F4)
+      (h3228 := d_Stmt3_2_2_eight) (h513 := d_Stmt5_1_3_F4) (h5114 := d_Stmt5_1_14_first_F4)
+      (h510 := d_Stmt5_1_10_F4) (hBor := d_L34BorelFact) (h517one := d_Stmt5_1_7_one_F4)
+      (h126 := d_A126TwoFact) (hmNine := d_Stmt5_1_17_mNine)
+  have d_Theorem311Stmt : CFSG.Quasithin.Theorem311Stmt := CFSG.Quasithin.H13.Frontier331.theorem311
+  have d_Stmt5_1_18_F4 : CFSG.Quasithin.H13.Stmt5_1_18_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_18_of_f112_F4 (hDSA := d_DSALoc_F4) (hDSC := d_DSCStatement_F4)
+      (h311 := d_Theorem311Stmt) (h5114 := d_Stmt5_1_14_first_F4) (h432 := d_Stmt4_3_2_F4)
+      (h510 := d_Stmt5_1_10_F4) (h515 := d_Stmt5_1_15_F4) (h516 := d_Stmt5_1_16_F4)
+      (h517 := d_Stmt5_1_17_F4) (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hPC := d_L34ParabolicChiefFact) (h36 := d_A36ForSQTK) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h312 := d_A312ForSQTK) (h314 := d_A314Facts_F4)
+      (hFive := d_A314FiveNormFact)
+  have d_L34AutNoNineFact : CFSG.Quasithin.H13.L34AutNoNineFact :=
+    CFSG.Quasithin.H13.l34AutNoNineFact
+  have d_OrthTorusFixFact : CFSG.Quasithin.H13.OrthTorusFixFact :=
+    CFSG.Quasithin.H13.orthTorusFixFact
+  have d_Stmt5_1_19_F4 : CFSG.Quasithin.H13.Stmt5_1_19_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_19_of_inputs_F4 (h513 := d_Stmt5_1_3_F4) (h515 := d_Stmt5_1_15_F4)
+      (h516 := d_Stmt5_1_16_F4) (h518 := d_Stmt5_1_18_F4) (h5114 := d_Stmt5_1_14_first_F4)
+      (hF := d_L2TorusFact) (hOrth := d_OrthTorusFixFact) (hA9 := d_L34AutNoNineFact)
+  have d_Stmt5_1_20_F4 : CFSG.Quasithin.H13.Stmt5_1_20_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_20_of_sqtk_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h331 := d_Stmt3_3_1_F4) (h510 := d_Stmt5_1_10_F4) (h512 := d_Stmt5_1_2_F4)
+      (h518 := d_Stmt5_1_18_F4) (h519 := d_Stmt5_1_19_F4) (hE54 := d_E54L34FactSQTK)
+      (hH11 := d_H11ThreeFact) (hGal := d_OrthOddGalFact)
+  have d_Stmt5_1_21_F4 : CFSG.Quasithin.H13.Stmt5_1_21_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_21_of_inputs_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h520 := d_Stmt5_1_20_F4) (hF := d_L2TorusFact)
+  have d_Stmt5_1_14_qBound_F4 : CFSG.Quasithin.H13.Stmt5_1_14_qBound_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_14_qBound_of_d310_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h510 := d_Stmt5_1_10_F4) (h520 := d_Stmt5_1_20_F4) (h521 := d_Stmt5_1_21_F4)
+      (hF := d_L2TorusFact) (hD := d_D310L34Fact)
+  have d_OrthKernelFact : CFSG.Quasithin.H13.OrthKernelFact := CFSG.Quasithin.H13.orthKernelFact
+  have d_Stmt5_1_22_one_F4 : CFSG.Quasithin.H13.Stmt5_1_22_one_F4 :=
+    CFSG.GH74.QTGen4.Leaves.stmt5_1_22_one_F4_holds
+  have d_Stmt5_1_22_F4 : CFSG.Quasithin.H13.Stmt5_1_22_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_22_of_inputs_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h510 := d_Stmt5_1_10_F4) (h519 := d_Stmt5_1_19_F4) (h520 := d_Stmt5_1_20_F4)
+      (h521 := d_Stmt5_1_21_F4) (h522one := d_Stmt5_1_22_one_F4) (hF := d_L2TorusFact)
+      (hKer := d_OrthKernelFact) (hBor := d_L34BorelFact)
+  have d_A23SQTKListFact : CFSG.Quasithin.A23SQTKListFact := CFSG.Quasithin.a23SQTKListFact
+  have d_D38Top : CFSG.Quasithin.D38Top := CFSG.Quasithin.SmithD39Two.d38Top_holds
+  have d_B45L34Fact : CFSG.Quasithin.H13.B45L34Fact := CFSG.Quasithin.H13.B45L34.b45L34Fact_holds
+  have d_Stmt5_1_23_offender_F4 : CFSG.Quasithin.H13.Stmt5_1_23_offender_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.stmt5_1_23_offender_F4_holds
+  have d_Stmt5_1_23_F4 : CFSG.Quasithin.H13.Stmt5_1_23_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_23_of_D38_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h510 := d_Stmt5_1_10_F4) (h516 := d_Stmt5_1_16_F4) (h520 := d_Stmt5_1_20_F4)
+      (h521 := d_Stmt5_1_21_F4) (hF := d_L2TorusFact) (hD := d_D310L34Fact) (hB := d_B45L34Fact)
+      (hoff := d_Stmt5_1_23_offender_F4) (h38 := d_D38Top) (hA23 := d_A23SQTKListFact)
+      (hSzF := d_SimpleThreePrimeSuzukiFact)
+  have d_Stmt5_1_14_four_F4 : CFSG.Quasithin.H13.Stmt5_1_14_four_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_14_four_of_inputs_F4 (h5114 := d_Stmt5_1_14_first_F4)
+      (h331 := d_Stmt3_3_1_F4) (h517 := d_Stmt5_1_17_F4) (h519 := d_Stmt5_1_19_F4)
+      (h520 := d_Stmt5_1_20_F4) (h522 := d_Stmt5_1_22_F4) (h523 := d_Stmt5_1_23_F4)
+      (hF := d_L2TorusFact) (hFix := d_L2ModFixTwoFact) (hSum := d_L4NatSumFact)
+      (hq := d_Stmt5_1_14_qBound_F4)
+  have d_Stmt5_1_14_F4 : CFSG.Quasithin.H13.Stmt5_1_14_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_14_of_F4 (hfirst := d_Stmt5_1_14_first_F4)
+      (h4 := d_Stmt5_1_14_four_F4) (h5116 := d_Stmt5_1_16_F4)
+  have d_E22BorelSolvableFact : CFSG.Quasithin.H13.E22BorelSolvableFact :=
+    CFSG.Quasithin.H13.e22BorelSolvableFact_holds
+  have d_E22MSolvableFact : CFSG.Quasithin.H13.E22MSolvableFact :=
+    CFSG.Quasithin.H13.e22MSolvableFact_of (hE22 := d_E22StatementC) (hB := d_E22BorelSolvableFact)
+  have d_Stmt5_1_5_F4 : CFSG.Quasithin.H13.Stmt5_1_5_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_5_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hE := d_E22MSolvableFact)
+  have d_DSAAmal_F4 : CFSG.GH74.QTGen4.DSGen4.DSAAmal_F4 := CFSG.GH74.QTGen4.DSGen4.dsAAmal_F4_holds
+  have d_FactRank2CartanGraph : CFSG.Quasithin.H13.FactRank2CartanGraph :=
+    CFSG.Quasithin.H13.NQCat.factRank2CartanGraph_holds
+  have d_FactU3Cover : CFSG.Quasithin.H13.FactU3Cover := CFSG.Quasithin.H13.factU3Cover_holds
+  have d_RankOneListedFacts : CFSG.Quasithin.RankOneListedFacts := CFSG.Quasithin.rankOneListedFacts
+  have d_A38ForSQTKCat : CFSG.QuasithinUnique.Vol2Native.A38ForSQTKCat :=
+    CFSG.Quasithin.H13.a38ForSQTKCat_holds
+  have d_Stmt5_1_11_F4 : CFSG.Quasithin.H13.Stmt5_1_11_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_11_of_inputs_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hF := d_FactL2LieParabolic) (hG := d_FactRank2CartanGraph) (h38 := d_A38ForSQTKCat)
+      (hRL := d_RankOneListedFacts) (hU3 := d_FactU3Cover) (h510 := d_Stmt5_1_10_F4)
+  have d_Stmt5_2_1_par_F4 : CFSG.Quasithin.H13.Stmt5_2_1_par_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_1_par_of_inputs_F4 (hU3 := d_FactU3Cover)
+      (hF := d_FactL2LieParabolic) (hRL := d_RankOneListedFacts) (h515 := d_Stmt5_1_5_F4)
+      (h510 := d_Stmt5_1_10_F4)
+  have d_Stmt5_2_1_F4 : CFSG.Quasithin.H13.Stmt5_2_1_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_1_of_F4 (h510 := d_Stmt5_1_10_F4) (h5111 := d_Stmt5_1_11_F4)
+      (hpar := d_Stmt5_2_1_par_F4)
+  have d_Stmt5_2_L2Lie_F4 : CFSG.Quasithin.H13.Stmt5_2_L2Lie_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_L2Lie_of_inputs_F4 (hU3 := d_FactU3Cover)
+      (hF := d_FactL2LieParabolic) (hRL := d_RankOneListedFacts) (h515 := d_Stmt5_1_5_F4)
+      (h510 := d_Stmt5_1_10_F4)
+  have d_Stmt5_2_4_F4 : CFSG.Quasithin.H13.Stmt5_2_4_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_4_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (h510 := d_Stmt5_1_10_F4) (h521 := d_Stmt5_2_1_F4) (hLie := d_Stmt5_2_L2Lie_F4)
+  have d_Stmt5_2_6_borel_F4 : CFSG.Quasithin.H13.Stmt5_2_6_borel_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_6_borel_of_inputs_cat_F4 (hU3 := d_FactU3Cover)
+      (hRL := d_RankOneListedFacts) (h515 := d_Stmt5_1_5_F4) (h510 := d_Stmt5_1_10_F4)
+  have d_Stmt5_2_L2Gen_F4 : CFSG.Quasithin.H13.Stmt5_2_L2Gen_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_L2Gen_of_F4 (hF := d_FactL2LieParabolic) (h510 := d_Stmt5_1_10_F4)
+  have d_Stmt5_2_L2_F4 : CFSG.Quasithin.H13.Stmt5_2_L2_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_L2_of_F4 (hgen := d_Stmt5_2_L2Gen_F4)
+  have d_StmtF11_5_2_F4 : CFSG.Quasithin.H13.StmtF11_5_2_F4 :=
+    CFSG.Quasithin.H13.stmtF11_5_2_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (h432 := d_Stmt4_3_2_F4) (h510 := d_Stmt5_1_10_F4) (h521 := d_Stmt5_2_1_F4)
+      (hL2 := d_Stmt5_2_L2_F4) (hLie := d_Stmt5_2_L2Lie_F4)
+  have d_Stmt5_2_6_L2K_rank2_F4 : CFSG.Quasithin.H13.Stmt5_2_6_L2K_rank2_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_6_L2K_rank2_of_F4 (h331 := d_Stmt3_3_1_F4)
+      (hRL := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (hbor := d_Stmt5_2_6_borel_F4)
+      (h524 := d_Stmt5_2_4_F4) (h510 := d_Stmt5_1_10_F4) (h38 := d_A38ForSQTKCat)
+      (hU3 := d_FactU3Cover) (hC58 := d_TheoremC58) (h317 := d_AS317Sylow) (h512 := d_Stmt5_1_2_F4)
+  have d_Stmt5_2_6_tr_F4 : CFSG.Quasithin.H13.Stmt5_2_6_tr_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_6_tr_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hF := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (hbor := d_Stmt5_2_6_borel_F4)
+      (h524 := d_Stmt5_2_4_F4) (h510 := d_Stmt5_1_10_F4) (h38 := d_A38ForSQTKCat)
+      (hU3 := d_FactU3Cover) (hC58 := d_TheoremC58) (h317 := d_AS317Sylow) (h512 := d_Stmt5_1_2_F4)
+      (hrk2 := d_Stmt5_2_6_L2K_rank2_F4)
+  have d_Stmt5_2_6_F4 : CFSG.Quasithin.H13.Stmt5_2_6_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_6_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hF := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (hDSA := d_DSALoc_F4)
+      (hAmal := d_DSAAmal_F4) (h524 := d_Stmt5_2_4_F4) (hbor := d_Stmt5_2_6_borel_F4)
+      (htr := d_Stmt5_2_6_tr_F4)
+  have d_F4SzParabolicFact : CFSG.Quasithin.H13.F4SzParabolicFact :=
+    CFSG.Quasithin.H13.NQCat.F4SzPar.f4SzParabolicFact_holds
+  have d_Stmt5_2_8_Sz_F4 : CFSG.Quasithin.H13.Stmt5_2_8_Sz_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_8_Sz_of_F4 (h526 := d_Stmt5_2_6_F4) (h312 := d_A312ForSQTK)
+      (hF4 := d_F4SzParabolicFact)
+  have d_AutA7Fact : CFSG.Quasithin.H13.AutA7Fact := CFSG.Quasithin.H13.KGAutA7.autA7Fact_holds
+  have d_FactExcParabolicO2Ne : CFSG.Quasithin.H13.FactExcParabolicO2Ne :=
+    CFSG.Quasithin.H13.NQCat.factExcParabolicO2Ne_holds
+  have d_FactExcParabolicO2NeSq : CFSG.Quasithin.H13.FactExcParabolicO2NeSq :=
+    CFSG.Quasithin.H13.NQCat.ExcParSq.factExcParabolicO2NeSq_holds
+  have d_Stmt5_2_7_U4_F4 : CFSG.Quasithin.H13.Stmt5_2_7_U4_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_7_U4_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hF := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (h524 := d_Stmt5_2_4_F4)
+      (h526 := d_Stmt5_2_6_F4) (hbor := d_Stmt5_2_6_borel_F4)
+  have d_Stmt5_2_7_F4 : CFSG.Quasithin.H13.Stmt5_2_7_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_7_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hF := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (h510 := d_Stmt5_1_10_F4)
+      (h524 := d_Stmt5_2_4_F4) (h526 := d_Stmt5_2_6_F4) (hbor := d_Stmt5_2_6_borel_F4)
+      (hU4 := d_Stmt5_2_7_U4_F4)
+  have d_Stmt5_2_8_U4_F4 : CFSG.Quasithin.H13.Stmt5_2_8_U4_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_8_U4_of_facts_F4 (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK)
+      (h39 := d_A39ForSQTK) (h526 := d_Stmt5_2_6_F4) (h527 := d_Stmt5_2_7_F4)
+      (h312 := d_A312ForSQTK) (hExc := d_FactExcParabolicO2Ne) (hExcSq := d_FactExcParabolicO2NeSq)
+      (hAut := d_AutA7Fact)
+  have d_FactG24ParabolicCenter : CFSG.Quasithin.H13.FactG24ParabolicCenter :=
+    CFSG.Quasithin.H13.NQCat.G2Rad.factG24ParabolicCenter_holds
+  have d_FactX3ParabolicG2 : CFSG.Quasithin.H13.FactX3ParabolicG2 :=
+    CFSG.Quasithin.H13.NQCat.G24X3.factX3ParabolicG2_holds
+  have d_Stmt5_2_8_special_F4 : CFSG.Quasithin.H13.Stmt5_2_8_special_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_8_special_of_F4 (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK)
+      (h39 := d_A39ForSQTK) (h526 := d_Stmt5_2_6_F4) (h312 := d_A312ForSQTK)
+      (hExc := d_FactExcParabolicO2Ne) (hG24 := d_FactG24ParabolicCenter)
+      (hXG := d_FactX3ParabolicG2) (hAut := d_AutA7Fact)
+  have d_Lemma128Four : CFSG.Quasithin.Lemma128Four := CFSG.Quasithin.H13.lemma128Four_proved
+  have d_A37ForSQTKCat : CFSG.QuasithinUnique.Vol2Native.A37ForSQTKCat :=
+    CFSG.QuasithinUnique.Vol2Native.a37ForSQTKCat_proved
+  have d_Stmt5_2_8_Q_F4 : CFSG.Quasithin.H13.Stmt5_2_8_Q_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_8_Q_of_F4 (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+      (h526 := d_Stmt5_2_6_F4) (h1284 := d_Lemma128Four) (hSz := d_Stmt5_2_8_Sz_F4)
+      (hU4 := d_Stmt5_2_8_U4_F4) (hsp := d_Stmt5_2_8_special_F4)
+  have d_Stmt5_2_11_four_F4 : CFSG.Quasithin.H13.Stmt5_2_11_four_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_11_four_of_F4 (h39 := d_A39ForSQTKCat) (hQ := d_Stmt5_2_8_Q_F4)
+  have d_A7Q528Fact : CFSG.Quasithin.H13.A7Q528Fact := CFSG.Quasithin.H13.a7Q528Fact_holds
+  have d_HatA7Faithful6 : CFSG.Quasithin.H13.HatA7Faithful6 :=
+    CFSG.Quasithin.H13.HatA7.hatA7Faithful6_holds
+  have d_Stmt5_2_8_blocks_F4 : CFSG.Quasithin.H13.Stmt5_2_8_blocks_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_8_blocks_of_F4 (h37 := d_A37ForSQTK) (h526 := d_Stmt5_2_6_F4)
+      (h312 := d_A312ForSQTK) (hExc := d_FactExcParabolicO2Ne) (hHat := d_HatA7Faithful6)
+      (hA7 := d_A7Q528Fact)
+  have d_Stmt5_2_8_F4 : CFSG.Quasithin.H13.Stmt5_2_8_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_8_of_F4 (h526 := d_Stmt5_2_6_F4) (h1284 := d_Lemma128Four)
+      (hSz := d_Stmt5_2_8_Sz_F4) (hbl := d_Stmt5_2_8_blocks_F4) (hU4 := d_Stmt5_2_8_U4_F4)
+      (hsp := d_Stmt5_2_8_special_F4)
+  have d_Stmt5_2_10_setting_F4 : CFSG.Quasithin.H13.Stmt5_2_10_setting_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_10_setting_of_F4 (h528 := d_Stmt5_2_8_F4)
+      (h5211 := d_Stmt5_2_11_four_F4)
+  have d_M23Fusion3_F4 : CFSG.Quasithin.H13.M23Fusion3_F4 :=
+    CFSG.Quasithin.H13.m23Fusion3_of_F4 (hset := d_Stmt5_2_10_setting_F4) (hQ := d_Stmt5_2_8_Q_F4)
+      (h5211 := d_Stmt5_2_11_four_F4) (h526 := d_Stmt5_2_6_F4) (h1284 := d_Lemma128Four)
+      (hSz := d_Stmt5_2_8_Sz_F4) (hU4 := d_Stmt5_2_8_U4_F4) (hsp := d_Stmt5_2_8_special_F4)
+  have d_Stmt5_2_15_F4 : CFSG.Quasithin.H13.Stmt5_2_15_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_15_of_F4 (h526 := d_Stmt5_2_6_F4) (h527 := d_Stmt5_2_7_F4)
+      (h1284 := d_Lemma128Four) (hSz := d_Stmt5_2_8_Sz_F4) (hU4 := d_Stmt5_2_8_U4_F4)
+      (hsp := d_Stmt5_2_8_special_F4) (hQ := d_Stmt5_2_8_Q_F4) (h5211 := d_Stmt5_2_11_four_F4)
+  have d_Stmt5_2_16_F4 : CFSG.Quasithin.H13.Stmt5_2_16_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_16_of_F4 (hset := d_Stmt5_2_10_setting_F4) (hfus := d_M23Fusion3_F4)
+      (h515 := d_Stmt5_2_15_F4) (h527 := d_Stmt5_2_7_F4) (hQ := d_Stmt5_2_8_Q_F4)
+  have d_Stmt5_2_10_aut_F4 : CFSG.Quasithin.H13.Stmt5_2_10_aut_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_10_aut_of_F4 (h526 := d_Stmt5_2_6_F4) (h527 := d_Stmt5_2_7_F4)
+      (h1284 := d_Lemma128Four) (hSz := d_Stmt5_2_8_Sz_F4) (hU4 := d_Stmt5_2_8_U4_F4)
+      (hsp := d_Stmt5_2_8_special_F4) (hQ := d_Stmt5_2_8_Q_F4) (hset := d_Stmt5_2_10_setting_F4)
+      (hfus := d_M23Fusion3_F4) (h515 := d_Stmt5_2_15_F4) (h516 := d_Stmt5_2_16_F4)
+  have d_Stmt5_2_17_20_F4 : CFSG.Quasithin.H13.Stmt5_2_17_20_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_17_20_of_F4 (h526 := d_Stmt5_2_6_F4) (h527 := d_Stmt5_2_7_F4)
+      (h1284 := d_Lemma128Four) (hSz := d_Stmt5_2_8_Sz_F4) (hU4 := d_Stmt5_2_8_U4_F4)
+      (hsp := d_Stmt5_2_8_special_F4) (hQ := d_Stmt5_2_8_Q_F4) (hset := d_Stmt5_2_10_setting_F4)
+      (hfus := d_M23Fusion3_F4) (h515 := d_Stmt5_2_15_F4) (h516 := d_Stmt5_2_16_F4)
+  have d_Stmt5_2_19_F4 : CFSG.Quasithin.H13.Stmt5_2_19_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_19_of_F4 (hQ := d_Stmt5_2_8_Q_F4) (h516 := d_Stmt5_2_16_F4)
+      (h526 := d_Stmt5_2_6_F4) (h1284 := d_Lemma128Four) (hSz := d_Stmt5_2_8_Sz_F4)
+      (hU4 := d_Stmt5_2_8_U4_F4) (hsp := d_Stmt5_2_8_special_F4)
+  have d_Stmt5_2_21_F4 : CFSG.Quasithin.H13.Stmt5_2_21_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_21_of_F4 (hQ := d_Stmt5_2_8_Q_F4) (h5211 := d_Stmt5_2_11_four_F4)
+      (h526 := d_Stmt5_2_6_F4) (h1284 := d_Lemma128Four) (hSz := d_Stmt5_2_8_Sz_F4)
+      (hU4 := d_Stmt5_2_8_U4_F4) (hsp := d_Stmt5_2_8_special_F4)
+  have d_Stmt5_2_10_F4 : CFSG.Quasithin.H13.Stmt5_2_10_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_10_of_lemmas_F4 (hset := d_Stmt5_2_10_setting_F4)
+      (h520 := d_Stmt5_2_17_20_F4) (h519 := d_Stmt5_2_19_F4) (h521 := d_Stmt5_2_21_F4)
+      (haut := d_Stmt5_2_10_aut_F4)
+  have d_DSBLoc_F4 : CFSG.GH74.QTGen4.DSGen4.DSBLoc_F4 := CFSG.GH74.QTGen4.DSGen4.dsBLoc_F4_holds
+  have d_FactType513Aut : CFSG.Quasithin.H13.FactType513Aut :=
+    CFSG.Quasithin.H13.NQCat.T513.factType513Aut_holds
+  have d_FactType513Prime : CFSG.Quasithin.H13.FactType513Prime :=
+    CFSG.Quasithin.H13.NQCat.T513P.factType513Prime_holds
+  have d_FactA7Gen : CFSG.Quasithin.H13.FactA7Gen := CFSG.Quasithin.H13.factA7Gen_holds
+  have d_FactC2Hall : CFSG.Quasithin.H13.FactC2Hall := CFSG.Quasithin.H13.NQCat.C2.factC2Hall_holds
+  have d_FactType513Three : CFSG.Quasithin.H13.FactType513Three :=
+    CFSG.Quasithin.H13.NQCat.T3.factType513Three_holds
+  have d_Stmt5_1_13_four_block_bc_F4 : CFSG.Quasithin.H13.Stmt5_1_13_four_block_bc_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_13_four_block_bc_of_inputs_F4 (h5171 := d_Stmt5_1_7_one_F4)
+      (h51 := d_AsB51) (h510 := d_Stmt5_1_10_F4)
+  have d_QLiePRank : CFSG.Quasithin.QLiePRank := CFSG.Quasithin.R3c18.qLiePRank_holds
+  have d_QSporOutTwo : CFSG.Quasithin.QSporOutTwo := CFSG.Quasithin.qSporOutTwo_holds
+  have d_A318Facts : CFSG.Quasithin.A318Facts :=
+    CFSG.Quasithin.a318Facts_of_two (qs := d_QSporOutTwo) (ql := d_QLiePRank)
+  have d_FactF5113 : CFSG.Quasithin.H13.FactF5113 := CFSG.Quasithin.H13.F5113.factF5113_holds
+  have d_Stmt5_1_13_lie_D42C_F4 : CFSG.Quasithin.H13.Stmt5_1_13_lie_D42C_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_13_lie_D42C_of_F4 (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+      (h39 := d_A39ForSQTKCat) (hF318 := d_A318Facts) (h36 := d_A36ForSQTK) (hF := d_FactF5113)
+      (h5171 := d_Stmt5_1_7_one_F4) (h51 := d_AsB51) (h5112 := d_Stmt5_1_12_F4)
+      (h513 := d_Stmt5_1_3_F4) (h432 := d_Stmt4_3_2_F4)
+  have d_Stmt5_1_1_F4 : CFSG.Quasithin.H13.Stmt5_1_1_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_1_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+  have d_Stmt5_1_7_two_F4 : CFSG.Quasithin.H13.Stmt5_1_7_two_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_7_two_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
+      (hC58 := d_TheoremC58) (h317 := d_AS317Sylow) (h5171 := d_Stmt5_1_7_one_F4)
+      (h516 := d_Stmt5_1_6_F4)
+  have d_Stmt5_1_13C_F4 : CFSG.Quasithin.H13.Stmt5_1_13C_F4 :=
+    CFSG.Quasithin.H13.stmt5_1_13_of_inputs_F4 (h312 := d_A312ForSQTKCat) (hF := d_A314Facts_F4)
+      (hM23 := d_FactM23L34) (hP := d_FactL2Parabolic) (h331 := d_Stmt3_3_1_F4)
+      (hE22 := d_E22StatementC) (hGA := d_GriessMultipliersAllModels)
+      (hD42 := d_Stmt5_1_13_lie_D42C_F4) (hC2 := d_FactC2Hall) (hTc := d_FactType513Aut)
+      (hTe := d_FactType513Three) (hTp := d_FactType513Prime) (h325 := d_Stmt3_2_5_F4)
+      (h329 := d_Stmt3_2_9C_F4) (hgen := d_FactA7Gen) (h5171 := d_Stmt5_1_7_one_F4)
+      (h512 := d_Stmt5_1_2_F4) (h5172 := d_Stmt5_1_7_two_F4) (h51 := d_AsB51)
+      (h511 := d_Stmt5_1_1_F4) (hC126 := d_TheoremC126) (hbc := d_Stmt5_1_13_four_block_bc_F4)
+      (h513 := d_Stmt5_1_3_F4) (h432 := d_Stmt4_3_2_F4)
+  have d_FactL2qOddAutNormalizes : CFSG.Quasithin.H13.FactL2qOddAutNormalizes :=
+    CFSG.Quasithin.H13.factL2qOddAutNormalizes_holds
+  have d_Lemma128One : CFSG.Quasithin.Lemma128One := CFSG.Quasithin.H13.NQCat.lemma128One_holds
+  have d_Stmt5_2_2_ne_c2_conj : CFSG.Quasithin.H13.Stmt5_2_2_ne_c2_conj :=
+    CFSG.Quasithin.H13.stmt5_2_2_ne_c2_conj_of (hL2 := d_FactL2qOddAutNormalizes)
+      (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h38c := d_A38ForSQTKCat)
+      (h128 := d_Lemma128One)
+  have d_Stmt5_2_2C_F4 : CFSG.Quasithin.H13.Stmt5_2_2C_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_2_of_steps_F4 (h515 := d_Stmt5_1_5_F4) (h516 := d_Stmt5_1_6_F4)
+      (h510 := d_Stmt5_1_10_F4) (h5111 := d_Stmt5_1_11_F4) (h5113 := d_Stmt5_1_13C_F4)
+      (h5114 := d_Stmt5_1_14_F4) (hU3 := d_FactU3Cover) (hRL := d_RankOneListedFacts)
+      (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact) (hC58 := d_TheoremC58)
+      (hDSB := d_DSBLoc_F4) (hDSC := d_DSCStatement_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_12_F4) (hc2 := d_Stmt5_2_2_ne_c2_conj) (h312c := d_A312ForSQTKCat)
+      (hF314 := d_A314Facts_F4) (hPar := d_FactL2Parabolic) (hTc := d_FactType513Aut)
+      (hTp := d_FactType513Prime)
+  have d_Stmt5_2_9_F4 : CFSG.Quasithin.H13.Stmt5_2_9_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_9_of_F4 (h527 := d_Stmt5_2_7_F4) (h528 := d_Stmt5_2_8_F4)
+  have d_G2_0_1 := CFSG.GH74.QTGen4.Leaves.lieFactsAt_G2_leaf
+  have d_G2_0_2 := d_G2_0_1
+  have d_PSU_4_1 := CFSG.GH74.QTGen4.Leaves.lieFactsAt_U4_leaf
+  have d_PSU_4_2 := d_PSU_4_1
+  have d_PSU_5_1 := CFSG.GH74.QTGen4.Leaves.lieFactsAt_U5_leaf
+  have d_PSU_5_2 := d_PSU_5_1
+  have d_trialityD4_0_1 := CFSG.GH74.QTGen4.Leaves.lieFactsAt_D4_leaf
+  have d_trialityD4_0_2 := d_trialityD4_0_1
+  have d_twistedF4_0_1 := CFSG.GH74.QTGen4.Leaves.lieFactsAt_F4_leaf
+  have d_twistedF4_0_2 := d_twistedF4_0_1
+  have d_F431Rank2 : CFSG.Quasithin.H13.F431Rank2 := CFSG.Quasithin.H13.F431.f431Rank2_proved
+  have d_Stmt5_3_1_F4 : CFSG.Quasithin.H13.Stmt5_3_1_F4 :=
+    CFSG.Quasithin.H13.stmt5_3_1_of_F4 (h39 := d_A39ForSQTKCat) (hC58 := d_TheoremC58)
+      (h511 := d_Stmt5_1_1_F4) (h527 := d_Stmt5_2_7_F4)
+  have d_Stmt5_3_2_F4 : CFSG.Quasithin.H13.Stmt5_3_2_F4 :=
+    CFSG.Quasithin.H13.stmt5_3_2_of_F4 (h527 := d_Stmt5_2_7_F4) (h531 := d_Stmt5_3_1_F4)
+  have d_Stmt5_3_Lie_F4 : CFSG.Quasithin.H13.Stmt5_3_Lie_F4 :=
+    CFSG.Quasithin.H13.stmt5_3_Lie_of_inputs_F4 (h39 := d_A39ForSQTKCat) (hC58 := d_TheoremC58)
+      (h511 := d_Stmt5_1_1_F4) (h527 := d_Stmt5_2_7_F4) (h532 := d_Stmt5_3_2_F4)
+      (h431 := d_F431Rank2) (hG2 := d_G2_0_2) (h3D4 := d_trialityD4_0_2) (h2F4 := d_twistedF4_0_2)
+      (hU4 := d_PSU_4_2) (hU5 := d_PSU_5_2)
+  have d_Stmt5_2_3S_F4 : CFSG.Quasithin.H13.Stmt5_2_3S_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_3S_of_inputs_F4 (h515 := d_Stmt5_1_5_F4) (h5114 := d_Stmt5_1_14_F4)
+      (h522 := d_Stmt5_2_2C_F4) (h529 := d_Stmt5_2_9_F4) (h5210 := d_Stmt5_2_10_F4)
+      (hLie := d_Stmt5_3_Lie_F4) (hL2 := d_Ch5L2ChoiceExists_F4) (hL34c := d_Ch5L34Conclusion)
+      (hKZ := d_Ch5KZConclusion) (hKZ3 := d_Ch5KZConclusionD4)
+  have d_Stmt5_2_3_F4 : CFSG.Quasithin.H13.Stmt5_2_3_F4 :=
+    CFSG.Quasithin.H13.stmt5_2_3_of_S_F4 (h331 := d_Stmt3_3_1_F4) (hE22 := d_E22StatementC)
+      (h := d_Stmt5_2_3S_F4)
+  have d_Thm104 : CFSG.Quasithin.Asc81c.Thm104 := CFSG.Quasithin.Asc81c.Pf.thm104
+  have d_E623A6Insp : CFSG.Quasithin.E6.E623A6Insp := CFSG.Quasithin.E6.e623A6Insp_holds
+  have d_AS_E_6_3 : CFSG.Quasithin.ASInputs.AS_E_6_3 :=
+    CFSG.Quasithin.E6.as_E_6_3_of_thm104_insp (h104 := d_Thm104) (hInsp := d_E623A6Insp)
+  have d_Ch6InE63 : CFSG.Quasithin.H13.Ch6InE63 := CFSG.Quasithin.H13.ch6InE63_of (h := d_AS_E_6_3)
+  have d_Stmt6_1_10_F4 : CFSG.Quasithin.H13.Stmt6_1_10_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_10_F4 (h311 := d_Theorem311Stmt) (h432 := d_Stmt4_3_2_F4)
+      (hE63 := d_Ch6InE63)
+  have d_Stmt6_1_11_F4 : CFSG.Quasithin.H13.Stmt6_1_11_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_11_F4 (h432 := d_Stmt4_3_2_F4) (h6110 := d_Stmt6_1_10_F4)
+  have d_Stmt6_1_12_F4 : CFSG.Quasithin.H13.Stmt6_1_12_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_12_F4 (h331 := d_Stmt3_3_1_F4) (h6110 := d_Stmt6_1_10_F4)
+  have d_Ch6InE612 : CFSG.Quasithin.H13.Ch6InE612 := CFSG.Quasithin.H13.ch6InE612_holds
+  have d_Stmt6_1_13_F4 : CFSG.Quasithin.H13.Stmt6_1_13_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_13_F4 (h432 := d_Stmt4_3_2_F4) (h6110 := d_Stmt6_1_10_F4)
+      (hE612 := d_Ch6InE612)
+  have d_Stmt6_1_14_F4 : CFSG.Quasithin.H13.Stmt6_1_14_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_14_F4 (h432 := d_Stmt4_3_2_F4) (h6110 := d_Stmt6_1_10_F4)
+      (h37 := d_A37ForSQTKCat) (h39 := d_A39ForSQTKCat)
+  have d_Stmt6_1_15_F4 : CFSG.Quasithin.H13.Stmt6_1_15_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_15_F4 (h432 := d_Stmt4_3_2_F4) (h6110 := d_Stmt6_1_10_F4)
+      (h6111 := d_Stmt6_1_11_F4) (h6112 := d_Stmt6_1_12_F4) (h6113 := d_Stmt6_1_13_F4)
+      (h6114 := d_Stmt6_1_14_F4)
+  have d_Ch6InH11 : CFSG.Quasithin.H13.Ch6InH11 := CFSG.Quasithin.H13.ch6InH11_proved
+  have d_Ch6InE610Four : CFSG.Quasithin.H13.Ch6InE610Four := CFSG.Quasithin.H13.ch6InE610Four_proved
+  have d_CatalogStepFact : CFSG.Quasithin.CatalogStepFact := CFSG.Quasithin.catalogStepFact
+  have d_KG614FiveChar2 : CFSG.Quasithin.H13.KG614FiveChar2 :=
+    CFSG.Quasithin.H13.kg614FiveChar2_holds
+  have d_KG614FiveL3 : CFSG.Quasithin.H13.KG614FiveL3 := CFSG.Quasithin.H13.kg614FiveL3_holds
+  have d_KG614FiveSpor : CFSG.Quasithin.H13.KG614FiveSpor :=
+    CFSG.GH74.QTGen4.Leaves.kg614FiveSpor_leaf
+  have d_KG614Five : CFSG.Quasithin.H13.KG614Five :=
+    CFSG.Quasithin.H13.kg614Five_of_L2 (hlist := d_A23SQTKListFact) (hcat := d_CatalogStepFact)
+      (h3 := d_KG614FiveL3) (hc := d_KG614FiveChar2) (hs := d_KG614FiveSpor)
+  have d_KG614FusionL2 : CFSG.Quasithin.H13.KG614FusionL2 := kg614FusionL2_holds
+  have d_Res614TitsCore_F4 : CFSG.Quasithin.H13.Res614TitsCore_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.res614TitsCore_F4_holds
+  have d_TitsBasicFact : CFSG.Quasithin.H13.TitsBasicFact := CFSG.Quasithin.H13.titsBasicFact_holds
+  have d_TitsOver5Fact : CFSG.Quasithin.H13.TitsOver5Fact := CFSG.Quasithin.H13.titsOver5Fact_holds
+  have d_TitsWCFact : CFSG.Quasithin.H13.TitsWCFact := CFSG.Quasithin.H13.titsWCFact_holds
+  have d_Res614Tits_F4 : CFSG.Quasithin.H13.Res614Tits_F4 :=
+    CFSG.Quasithin.H13.res614Tits_of_F4 (h331 := d_Stmt3_3_1_F4) (h512 := d_Stmt5_1_2_F4)
+      (h513 := d_Stmt5_1_3_F4) (h37 := d_A37ForSQTK) (hB := d_TitsBasicFact)
+      (hO5 := d_TitsOver5Fact) (hWC := d_TitsWCFact) (hcore := d_Res614TitsCore_F4)
+  have d_Res614EndGame_F4 : CFSG.Quasithin.H13.Res614EndGame_F4 :=
+    CFSG.Quasithin.H13.res614EndGame_of_F4 (h331 := d_Stmt3_3_1_F4) (h512 := d_Stmt5_1_2_F4)
+      (h513 := d_Stmt5_1_3_F4) (h37 := d_A37ForSQTK) (hFive := d_KG614Five) (hL2 := d_KG614FusionL2)
+      (hTits := d_Res614Tits_F4)
+  have d_Prop121Three : CFSG.QuasithinUnique.Id2519.Prop121Three :=
+    CFSG.QuasithinUnique.DoubleA3.in2436_p121_3
+  have d_ASC27Statement_F4 : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G], CFSG.Quasithin.ASC27Statement_F4 (G := G) :=
+    CFSG.GH74.QTGen4.Leaves.ASCF4.asc27_F4_holds
+  have d_Lem614OrthFour_F4 : CFSG.Quasithin.H13.Lem614OrthFour_F4 :=
+    CFSG.Quasithin.H13.lem614OrthFour_ofC_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h513 := d_Stmt5_1_3_F4) (h5172 := d_Stmt5_1_7_two_F4)
+      (hH11 := d_Ch6InH11) (hE610 := d_Ch6InE610Four) (hC27 := d_ASC27Statement_F4)
+      (hP121 := d_Prop121Three) (hRes := d_Res614EndGame_F4)
+  have d_Stmt6_1_4_F4 : CFSG.Quasithin.H13.Stmt6_1_4_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_4_of_F4 (h311 := d_Theorem311Stmt) (h331 := d_Stmt3_3_1_F4)
+      (h432 := d_Stmt4_3_2_F4) (h512 := d_Stmt5_1_2_F4) (h513 := d_Stmt5_1_3_F4)
+      (hE63 := d_Ch6InE63) (hH11 := d_Ch6InH11) (hA4 := d_Lem614OrthFour_F4)
+  have d_Res615Blocks_F4 : CFSG.Quasithin.H13.Res615Blocks_F4 :=
+    CFSG.Quasithin.H13.res615Blocks_of_F4 (h331 := d_Stmt3_3_1_F4) (h5172 := d_Stmt5_1_7_two_F4)
+      (he23 := d_E23Statement) (he22 := d_E22StatementNoN)
+  have d_RankTwoThreeClassTwo : CFSG.Quasithin.H13.RankTwoThreeClassTwo :=
+    CFSG.Quasithin.H13.rankTwoThreeClassTwo_holds
+  have d_Res615Cent_F4 : CFSG.Quasithin.H13.Res615Cent_F4 :=
+    CFSG.Quasithin.H13.res615Cent_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (hR := d_RankTwoThreeClassTwo)
+  have d_Res615D_F4 : CFSG.Quasithin.H13.Res615D_F4 :=
+    CFSG.Quasithin.H13.res615D_of_F4 (h432 := d_Stmt4_3_2_F4) (hDSB := d_DSBLoc_F4)
+      (hR1 := d_L2RankOneSylowFact)
+  have d_Res615EFF_F4 : CFSG.Quasithin.H13.Res615EFF_F4 :=
+    CFSG.Quasithin.H13.res615EFF_ch615_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (hB56 := d_AsB56)
+  have d_Res615E_F4 : CFSG.Quasithin.H13.Res615E_F4 :=
+    CFSG.Quasithin.H13.res615E_of_F4 (h432 := d_Stmt4_3_2_F4) (hFF := d_Res615EFF_F4)
+  have d_Stmt6_1_5_F4 : CFSG.Quasithin.H13.Stmt6_1_5_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_5_of_F4 (h331 := d_Stmt3_3_1_F4) (h512 := d_Stmt5_1_2_F4)
+      (h5172 := d_Stmt5_1_7_two_F4) (h614 := d_Stmt6_1_4_F4) (he23 := d_E23Statement)
+      (hRes := d_Res615Blocks_F4) (hCent := d_Res615Cent_F4) (hD := d_Res615D_F4)
+      (hE := d_Res615E_F4)
+  have d_centralizer__L___Set_G________IsNatModCh5_L__V__L__n_1 :=
+    CFSG.GH74.QTGen4.Leaves.H616.h616_F4_of (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+  have d_centralizer__L___Set_G________IsNatModCh5_L__V__L__n_2 : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G] (T M L V : Subgroup G) (n : ℕ), Hyp611 G T M L V n → T ⊓ Subgroup.centralizer (L : Set G) = ⊥ ∧ IsNatModCh5 L ⁅V, L⁆ n :=
+    d_centralizer__L___Set_G________IsNatModCh5_L__V__L__n_1
+  have d_Finite4_G___T_M_L_V___Subgroup_G___n_______Hyp6116_G_T_M_L_V_1 :=
+    CFSG.GH74.QTGen4.Leaves.Hyp6116Gen4.hno_F4 (h432 := d_Stmt4_3_2_F4)
+  have d_Finite4_G___T_M_L_V___Subgroup_G___n_______Hyp6116_G_T_M_L_V_2 : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G] (T M L V : Subgroup G) (n : ℕ), Hyp6116 G T M L V n → False :=
+    d_Finite4_G___T_M_L_V___Subgroup_G___n_______Hyp6116_G_T_M_L_V_1
+  have d_Stmt6_1_27_F4 : CFSG.Quasithin.H13.Stmt6_1_27_F4 :=
+    CFSG.Quasithin.H13.stmt6_1_27_of'_F4
+      (h616 := d_centralizer__L___Set_G________IsNatModCh5_L__V__L__n_2) (h6115 := d_Stmt6_1_15_F4)
+      (hno := d_Finite4_G___T_M_L_V___Subgroup_G___n_______Hyp6116_G_T_M_L_V_2)
+  have d_Ch6G31O2 : CFSG.Quasithin.H13.Ch6G31O2 := CFSG.Quasithin.H13.ch6G31O2_holds
+  have d_F713Two : CFSG.Quasithin.H13.F713Two := CFSG.Quasithin.H13.f713Two_proved
+  have d_Res627Q : CFSG.Quasithin.H13.Res627Q := CFSG.Quasithin.H13.res627Q_holds
+  have d_Res627FF : CFSG.Quasithin.H13.Res627FF :=
+    CFSG.Quasithin.H13.res627FF_of_Q (hG31 := d_Ch6G31O2) (hQ := d_Res627Q)
+  have d_Res628Lie : CFSG.Quasithin.H13.Res628Lie := CFSG.Quasithin.H13.res628Lie_holds
+  have d_StmtKuM22_F4 : CFSG.Quasithin.H13.StmtKuM22_F4 := CFSG.GH74.QTGen4.Ku.stmtKuM22_F4_holds
+  have d_Stmt6_2_13_F4 : CFSG.Quasithin.H13.Stmt6_2_13_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_13_of_F4 (hKu := d_StmtKuM22_F4) (h56 := d_AsB56)
+      (h311 := d_Theorem311Stmt) (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h513 := d_Stmt5_1_3_F4) (h614 := d_Stmt6_1_4_F4)
+      (h615 := d_Stmt6_1_5_F4) (hE63 := d_Ch6InE63) (hE612 := d_Ch6InE612) (hRes := d_Res627FF)
+      (hF := d_F713Two) (hL := d_Res628Lie) (hG31 := d_Ch6G31O2)
+  have d_G112ConclA2_le4 : CFSG.GH74.QTGen4.G112ConclA2_le4 :=
+    CFSG.GH74.QTGen4.Leaves.G112.g112ConclA2_le4_holds
+  have d_TheoremG112Fix : CFSG.Quasithin.G11.TheoremG112Fix :=
+    CFSG.Quasithin.G11.theoremG112Fix_holds
+  have d_Stmt6_2_7_F4 : CFSG.Quasithin.H13.Stmt6_2_7_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_7_of_res_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h615 := d_Stmt6_1_5_F4) (h6110 := d_Stmt6_1_10_F4) (hE612 := d_Ch6InE612)
+      (hRes := d_Res627FF)
+  have d_Stmt6_2_8_F4 : CFSG.Quasithin.H13.Stmt6_2_8_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_8_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+      (h6110 := d_Stmt6_1_10_F4) (hE612 := d_Ch6InE612) (h627 := d_Stmt6_2_7_F4) (hF := d_F713Two)
+      (hL := d_Res628Lie)
+  have d_Stmt6_2_10_F4 : CFSG.Quasithin.H13.Stmt6_2_10_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_10_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+      (h628 := d_Stmt6_2_8_F4)
+  have d_Stmt6_2_11_F4 : CFSG.Quasithin.H13.Stmt6_2_11_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_11_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+      (h6210 := d_Stmt6_2_10_F4) (hG31 := d_Ch6G31O2)
+  have d_Stmt6_2_12_F4 : CFSG.Quasithin.H13.Stmt6_2_12_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_12_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+      (h6211 := d_Stmt6_2_11_F4)
+  have d_Stmt6_2_6_F4 : CFSG.Quasithin.H13.Stmt6_2_6_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_6_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h615 := d_Stmt6_1_5_F4) (h6110 := d_Stmt6_1_10_F4) (hE612 := d_Ch6InE612)
+  have d_Res6219S8_F4 : CFSG.Quasithin.H13.Res6219S8_F4 :=
+    CFSG.Quasithin.H13.res6219S8_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+      (h626 := d_Stmt6_2_6_F4) (h6210 := d_Stmt6_2_10_F4) (h6211 := d_Stmt6_2_11_F4)
+      (h6212 := d_Stmt6_2_12_F4)
+  have d_Stmt6_2_5_F4 : CFSG.Quasithin.H13.Stmt6_2_5_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_5_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h615 := d_Stmt6_1_5_F4) (h6110 := d_Stmt6_1_10_F4) (hE612 := d_Ch6InE612)
+  have d_Stmt6_2_19Case2_F4 : CFSG.Quasithin.H13.Stmt6_2_19Case2_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_19Case2_of_F4 (h331 := d_Stmt3_3_1_F4) (h432 := d_Stmt4_3_2_F4)
+      (h512 := d_Stmt5_1_2_F4) (h614 := d_Stmt6_1_4_F4) (h615 := d_Stmt6_1_5_F4)
+      (h625 := d_Stmt6_2_5_F4) (h626 := d_Stmt6_2_6_F4) (h6210 := d_Stmt6_2_10_F4)
+      (h6211 := d_Stmt6_2_11_F4) (h6212 := d_Stmt6_2_12_F4) (hG := d_TheoremG112Fix)
+      (hA2 := d_G112ConclA2_le4) (hS8 := d_Res6219S8_F4)
+  have d_Stmt6_2_19Sec2_F4 : CFSG.Quasithin.H13.Stmt6_2_19Sec2_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_19Sec2_of_F4 (h6213 := d_Stmt6_2_13_F4)
+      (hcase2 := d_Stmt6_2_19Case2_F4)
+  have d_Stmt6_2_19_F4 : CFSG.Quasithin.H13.Stmt6_2_19_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_19_of_F4 (h6127 := d_Stmt6_1_27_F4) (hsec2 := d_Stmt6_2_19Sec2_F4)
+  have d_Stmt6_2_20_F4 : CFSG.Quasithin.H13.Stmt6_2_20_F4 :=
+    CFSG.Quasithin.H13.stmt6_2_20_of_inputs_F4 (h523 := d_Stmt5_2_3_F4) (h523S := d_Stmt5_2_3S_F4)
+      (h6219 := d_Stmt6_2_19_F4)
+  have d_Stmt7_0_1_shapeC : CFSG.Quasithin.H13.Stmt7_0_1_shapeC :=
+    CFSG.Quasithin.H13.stmt7_0_1_shapeC_holds
+  have d_Stmt3_2_6C_F4 : CFSG.Quasithin.H13.Stmt3_2_6C_F4 :=
+    CFSG.Quasithin.H13.T326.stmt3_2_6C_of_stmt331_F4 (h331 := d_Stmt3_3_1_F4)
+  have d_Stmt3_2_6Lt_F4 : CFSG.Quasithin.H13.Stmt3_2_6Lt_F4 :=
+    CFSG.Quasithin.H13.stmt3_2_6Lt_of_C_F4 (h326 := d_Stmt3_2_6C_F4)
+  have d_Stmt7_1_1_F4 : CFSG.Quasithin.H13.Stmt7_1_1_F4 :=
+    CFSG.Quasithin.H13.Prop711.stmt7_1_1_of_F4 (h325 := d_Stmt3_2_5_F4) (h326 := d_Stmt3_2_6Lt_F4)
+      (h329 := d_Stmt3_2_9C_F4) (h331 := d_Stmt3_3_1_F4) (hC58 := d_TheoremC58)
+      (h317 := d_AS317Sylow) (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+      (h3228 := d_Stmt3_2_2_eight)
+  have d_StmtFSUModule : CFSG.Quasithin.H13.StmtFSUModule := CFSG.ASVolI.e3_20_fsu_module
+  have d_Stmt7_0_1_F4 : CFSG.Quasithin.H13.Stmt7_0_1_F4 :=
+    CFSG.GH74.QTGen4.Leaves.stmt7_0_1_F4_holds (hmod := d_StmtFSUModule)
+      (hshape := d_Stmt7_0_1_shapeC) (h711 := d_Stmt7_1_1_F4)
+  have d_Stmt12_2_2_F4 : CFSG.Quasithin.H13.Stmt12_2_2_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_2_of_12111_F4 (h1001 := d_Stmt10_0_1_F4) (h325 := d_Stmt3_2_5_F4)
+      (h6220 := d_Stmt6_2_20_F4) (h701 := d_Stmt7_0_1_F4) (h1101 := d_Stmt11_0_1_F4)
+      (h12111 := d_Stmt12_1_11_F4)
+  have d_Input1323Two_F4 : CFSG.Quasithin.H13.A5.Input1323Two_F4 :=
+    CFSG.Quasithin.H13.A5.input1323Two_of_F4 (h311 := d_Theorem311Stmt) (h1222 := d_Stmt12_2_2_F4)
+  have d_Input1326Two_F4 : CFSG.Quasithin.H13.A5.Input1326Two_F4 :=
+    CFSG.Quasithin.H13.A5.input1326Two_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+  have d_Input137 : CFSG.Quasithin.EmptyFaithfulMultiple.Input137 :=
+    CFSG.Quasithin.H13.NQCore.input137_holds
+  have d_TheoremF618Cat : CFSG.Quasithin.F6.TheoremF618Cat :=
+    CFSG.GH74.QTGen4.Leaves.S331.theoremF618Cat_holds
+  have d_FactF618Big : CFSG.Quasithin.H13.A5.FactF618Big := CFSG.Quasithin.H13.A5.factF618Big_holds
+  have d_FactL2Three : CFSG.Quasithin.H13.A5.FactL2Three := CFSG.Quasithin.H13.A5.factL2Three_holds
+  have d_B69One : CFSG.Quasithin.B69One := CFSG.Quasithin.b69One_proved
+  have d_Case1295Amalgam_F4 : CFSG.Quasithin.H13.Case1295Amalgam_F4 :=
+    CFSG.Quasithin.H13.case1295Amalgam_of_F4 (h1222 := d_Stmt12_2_2_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h331 := d_Stmt3_3_1_F4) (hB := d_B69One)
+  have d_ParabolicFact1295 : CFSG.Quasithin.H13.ParabolicFact1295 :=
+    CFSG.Quasithin.H13.parabolicFact1295_holds
+  have d_Case1295Three_F4 : CFSG.Quasithin.H13.Case1295Three_F4 :=
+    CFSG.Quasithin.H13.case1295Three_of_F4 (h1222 := d_Stmt12_2_2_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (hPar := d_ParabolicFact1295)
+  have d_D310 : CFSG.Quasithin.D310 := CFSG.Quasithin.H13.d310_holds
+  have d_D391 : CFSG.Quasithin.D391 := CFSG.Quasithin.d391_holds
+  have d_F918Fine4 : CFSG.Quasithin.F918Fine4 :=
+    CFSG.Quasithin.F918Fine4Pf.f918Fine4_of (h310 := d_D310) (h391 := d_D391)
+  have d_AsA21SQTKSection : CFSG.Quasithin.AsA21SQTKSection := CFSG.Quasithin.asA21SQTKSection
+  have d_FactG2Cayley : CFSG.Quasithin.FactG2Cayley := CFSG.Quasithin.factG2Cayley_holds
+  have d_Insp4 : CFSG.Quasithin.Insp4 :=
+    CFSG.Quasithin.insp4_of_inputs (hA21 := d_AsA21SQTKSection) (hG2 := d_FactG2Cayley)
+      (h42 := d_AsB42) (h45 := d_AsB45) (hD310 := d_D310)
+  have d_Case1295Two_F4 : CFSG.Quasithin.H13.Case1295Two_F4 :=
+    CFSG.Quasithin.H13.case1295Two_of_F4 (h1222 := d_Stmt12_2_2_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (hD310 := d_D310) (hD391 := d_D391)
+      (hI4 := d_Insp4) (hFine := d_F918Fine4)
+  have d_Lemma12_9_3K1_F4 : CFSG.Quasithin.H13.Lemma12_9_3K1_F4 :=
+    CFSG.GH74.QTGen4.Leaves.lemma12_9_3K1_F4_of_closed (h1222 := d_Stmt12_2_2_F4)
+  have d_StmtFSUChoice : CFSG.Quasithin.Vol2.Ch10.StmtFSUChoice :=
+    CFSG.Quasithin.Vol2.Ch10.stmtFSUChoice_of_a36 (h323 := d_Stmt3_2_3) (h36 := d_A36ForSQTK)
+  have d_A312ListFactsCat : CFSG.QuasithinUnique.Vol2Native.A312ListFactsCat :=
+    CFSG.Quasithin.Vol2.Ch10.a312ListFactsCat_holds
+  have d_Stmt3_2_14_F4 : CFSG.Quasithin.H13.Stmt3_2_14_F4 :=
+    CFSG.Quasithin.H13.NQBlock.stmt3_2_14_of_frontier_F4 (hFSU := d_StmtFSUChoice)
+      (h701 := d_Stmt7_0_1_F4) (hList := d_A312ListFactsCat) (h316 := d_Theorem316Statement)
+  have d_Stmt12_2_7_F4 : CFSG.Quasithin.H13.Stmt12_2_7_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_7_of_unique_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (h6220 := d_Stmt6_2_20_F4) (h37 := d_A37ForSQTK) (h3214 := d_Stmt3_2_14_F4)
+  have d_Stmt12_2_13_F4 : CFSG.Quasithin.H13.Stmt12_2_13_F4 :=
+    CFSG.GH74.QTGen4.Leaves.stmt12_2_13_F4_of_stmts (h331 := d_Stmt3_3_1_F4)
+      (h1222 := d_Stmt12_2_2_F4) (h325 := d_Stmt3_2_5_F4) (h1227 := d_Stmt12_2_7_F4)
+  have d_Case1294FiveFinal_F4 : CFSG.Quasithin.H13.Case1294FiveFinal_F4 :=
+    CFSG.GH74.QTGen4.Leaves.case1294FiveFinal_F4_of (h1222 := d_Stmt12_2_2_F4)
+      (h12213 := d_Stmt12_2_13_F4)
+  have d_Case1294Five_F4 : CFSG.Quasithin.H13.Case1294Five_F4 :=
+    CFSG.Quasithin.H13.case1294Five_of_F4 (h1222 := d_Stmt12_2_2_F4) (h12213 := d_Stmt12_2_13_F4)
+      (hFinal := d_Case1294FiveFinal_F4)
+  have d_G112ConclSeven : CFSG.Quasithin.H13.G112ConclSeven :=
+    CFSG.Quasithin.H13.g112ConclSeven_holds
+  have d_G112Inspect1294 : CFSG.Quasithin.H13.G112Inspect1294 :=
+    CFSG.Quasithin.H13.g112Inspect1294_of (hSeven := d_G112ConclSeven)
+  have d_Lemma12_8_12_hat_F4 : CFSG.Quasithin.H13.Lemma12_8_12_hat_F4 :=
+    CFSG.Quasithin.H13.lemma12_8_12_hat_of_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h12213 := d_Stmt12_2_13_F4) (hG := d_TheoremG112Fix)
+  have d_OutFact1295 : CFSG.Quasithin.H13.OutFact1295 := CFSG.Quasithin.H13.outFact1295_holds
+  have d_Lemma12_8_8_five_F4 : CFSG.Quasithin.H13.Lemma12_8_8_five_F4 :=
+    CFSG.Quasithin.H13.lemma12_8_8_five_of_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h12213 := d_Stmt12_2_13_F4) (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+      (hOut := d_OutFact1295)
+  have d_Stmt12_2_8_F4 : CFSG.Quasithin.H13.Stmt12_2_8_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_8_of_inputs_F4 (h1222 := d_Stmt12_2_2_F4) (hF := d_A318Facts)
+      (h36 := d_A36ForSQTK) (h38 := d_A38ForSQTK)
+  have d_Lemma12_8_13_six_hat_F4 : CFSG.Quasithin.H13.Lemma12_8_13_six_hat_F4 :=
+    CFSG.Quasithin.H13.lemma12_8_13_six_hat_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h12213 := d_Stmt12_2_13_F4) (h1228 := d_Stmt12_2_8_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h5 := d_Lemma12_8_8_five_F4)
+  have d_Lemma12_9_4_F4 : CFSG.Quasithin.H13.Lemma12_9_4_F4 :=
+    CFSG.Quasithin.H13.lemma12_9_4_of_F4 (h1222 := d_Stmt12_2_2_F4) (h12213 := d_Stmt12_2_13_F4)
+      (h5 := d_Lemma12_8_8_five_F4) (h1293 := d_Lemma12_9_3K1_F4) (h12hat := d_Lemma12_8_12_hat_F4)
+      (h13six := d_Lemma12_8_13_six_hat_F4) (hInsp := d_G112Inspect1294)
+      (hFive := d_Case1294Five_F4)
+  have d_Lemma12_9_5_F4 : CFSG.Quasithin.H13.Lemma12_9_5_F4 :=
+    CFSG.Quasithin.H13.lemma12_9_5_of_F4 (h1222 := d_Stmt12_2_2_F4) (h12213 := d_Stmt12_2_13_F4)
+      (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+      (h1293 := d_Lemma12_9_3K1_F4) (h1294 := d_Lemma12_9_4_F4) (hOut := d_OutFact1295)
+      (hAm := d_Case1295Amalgam_F4) (hTwo := d_Case1295Two_F4) (hThree := d_Case1295Three_F4)
+  have d_S3OvergroupFact : CFSG.Quasithin.H13.S3OvergroupFact :=
+    CFSG.Quasithin.H13.s3OvergroupFact_holds
+  have d_Final1291_F4 : CFSG.Quasithin.H13.Final1291_F4 :=
+    CFSG.Quasithin.H13.final1291_of_F4 (h1222 := d_Stmt12_2_2_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h1295 := d_Lemma12_9_5_F4) (hS3 := d_S3OvergroupFact)
+  have d_Lemma12_8_3_F4 : CFSG.Quasithin.H13.Lemma12_8_3_F4 :=
+    CFSG.Quasithin.H13.lemma12_8_3_F4 (h12213 := d_Stmt12_2_13_F4)
+  have d_LatticeFact1297 : CFSG.Quasithin.H13.LatticeFact1297 :=
+    CFSG.Quasithin.H13.latticeFact1297_holds
+  have d_ParabolicFact1296 : CFSG.Quasithin.H13.ParabolicFact1296 :=
+    CFSG.Quasithin.H13.parabolicFact1296_holds
+  have d_Lemma12_9_6_F4 : CFSG.Quasithin.H13.Lemma12_9_6_F4 :=
+    CFSG.Quasithin.H13.lemma12_9_6_of_F4 (h1222 := d_Stmt12_2_2_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h1295 := d_Lemma12_9_5_F4)
+      (hKG := d_ParabolicFact1296)
+  have d_Core1297_F4 : CFSG.Quasithin.H13.Core1297_F4 :=
+    CFSG.Quasithin.H13.core1297_of_F4 (h1222 := d_Stmt12_2_2_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h1295 := d_Lemma12_9_5_F4)
+      (h1296 := d_Lemma12_9_6_F4) (hLat := d_LatticeFact1297)
+  have d_OutFact1297 : CFSG.Quasithin.H13.OutFact1297 := CFSG.Quasithin.H13.outFact1297_holds
+  have d_Claim12_9_7_F4 : CFSG.Quasithin.H13.Claim12_9_7_F4 :=
+    CFSG.Quasithin.H13.claim12_9_7_of_core_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h12213 := d_Stmt12_2_13_F4) (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+      (h1295 := d_Lemma12_9_5_F4) (hOut := d_OutFact1297) (hCore := d_Core1297_F4)
+  have d_Lemma12_9_7_F4 : CFSG.Quasithin.H13.Lemma12_9_7_F4 :=
+    CFSG.Quasithin.H13.lemma12_9_7_of_claim_F4 (h1222 := d_Stmt12_2_2_F4) (hcl := d_Claim12_9_7_F4)
+  have d_Lemma12_9_3One_F4 : CFSG.Quasithin.H13.Lemma12_9_3One_F4 :=
+    CFSG.GH74.QTGen4.Leaves.lemma12_9_3One_F4_of_closed (h1222 := d_Stmt12_2_2_F4)
+  have d_Lemma12_9_9_F4 : CFSG.Quasithin.H13.Lemma12_9_9_F4 :=
+    CFSG.Quasithin.H13.lemma12_9_9_F4 (h1222 := d_Stmt12_2_2_F4) (h12213 := d_Stmt12_2_13_F4)
+      (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+      (h1293 := d_Lemma12_9_3One_F4) (h1294 := d_Lemma12_9_4_F4) (h1295 := d_Lemma12_9_5_F4)
+      (h1296 := d_Lemma12_9_6_F4) (h1297 := d_Lemma12_9_7_F4)
+  have d_Stmt12_5_1_F4 : CFSG.Quasithin.H13.Stmt12_5_1_F4 :=
+    CFSG.GH74.QTGen4.Leaves.stmt12_5_1_F4_holds
+  have d_Elim126_F4 : CFSG.Quasithin.H13.Elim126_F4 :=
+    CFSG.GH74.QTGen4.Leaves.Hyp126Vac.elim126_F4_holds
+  have d_Stmt12_6_34_F4 : CFSG.Quasithin.H13.Stmt12_6_34_F4 :=
+    CFSG.Quasithin.H13.stmt12_6_34_of_elim126_F4 (h1222 := d_Stmt12_2_2_F4) (helim := d_Elim126_F4)
+  have d_LinearSelectedNaturalConfigurationProducer_F4 : CFSG.Quasithin.H13.LinearSelectedNaturalConfigurationProducer_F4 :=
+    CFSG.Quasithin.H13.linear_selected_natural_configuration_producer_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h1251 := d_Stmt12_5_1_F4) (h12634 := d_Stmt12_6_34_F4) (h37 := d_A37ForSQTK)
+      (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK) (h1283 := d_Lemma12_8_3_F4)
+      (h1294 := d_Lemma12_9_4_F4) (h1297 := d_Lemma12_9_7_F4) (h1299 := d_Lemma12_9_9_F4)
+      (hfin := d_Final1291_F4)
+  have d_StabSimple12_2_12 : CFSG.Quasithin.H13.StabSimple12_2_12 :=
+    CFSG.Quasithin.H13.stabSimple12_2_12
+  have d_Stmt12_2_12_F4 : CFSG.Quasithin.H13.Stmt12_2_12_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_12_of_stab_F4 (h1222 := d_Stmt12_2_2_F4) (h323 := d_Stmt3_2_3)
+      (h3228 := d_Stmt3_2_2_eight) (hS := d_StabSimple12_2_12)
+  have d_Stmt12_2_5_F4 : CFSG.Quasithin.H13.Stmt12_2_5_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_5_of_F4 (h1222 := d_Stmt12_2_2_F4) (h323 := d_Stmt3_2_3)
+  have d_Stmt12_2_9_F4 : CFSG.Quasithin.H13.Stmt12_2_9_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_9_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hC58 := d_TheoremC58) (h317 := d_AS317Sylow)
+  have d_ASC41Statement : ∀ (G : Type) [Group G] [CFSG.GH74.QTGen4.Finite4 G], CFSG.Quasithin.ASC41Statement G :=
+    CFSG.GH74.QTGen4.Leaves.ASCF4.asc41_F4_holds
+  have d_ASC111Statement : ∀ (G : Type) [Group G] [Finite G], CFSG.Quasithin.ASC111Statement (G := G) :=
+    fun G _ _ => CFSG.Quasithin.asc111Statement_holds G
+  have d_ASC19Statement : ∀ (G : Type) [Group G] [Finite G], CFSG.Quasithin.ASC19Statement (G := G) :=
+    fun G _ _ => CFSG.Quasithin.asc19Statement_holds G
+  have d_Stmt12_3_1_F4 : CFSG.Quasithin.H13.Stmt12_3_1_F4 :=
+    CFSG.Quasithin.H13.A7.stmt12_3_1_of_hubs_F4 (h1222 := d_Stmt12_2_2_F4) (h331 := d_Stmt3_3_1_F4)
+      (h1225 := d_Stmt12_2_5_F4) (h12212 := d_Stmt12_2_12_F4) (h12213 := d_Stmt12_2_13_F4)
+      (hC27 := d_ASC27Statement_F4) (hC111 := d_ASC111Statement) (hC19 := d_ASC19Statement)
+      (h3214 := d_Stmt3_2_14_F4) (hC41 := d_ASC41Statement) (hF314 := d_A314Facts_F4)
+      (hList := d_A312ListFactsCat) (h1227 := d_Stmt12_2_7_F4) (h1228 := d_Stmt12_2_8_F4)
+      (h1229 := d_Stmt12_2_9_F4)
+  have d_Cor12_3_2_F4 : CFSG.Quasithin.H13.Cor12_3_2_F4 :=
+    CFSG.Quasithin.H13.cor12_3_2_of_stmt12_3_1_F4 (h1231 := d_Stmt12_3_1_F4)
+      (h1227 := d_Stmt12_2_7_F4) (h1222 := d_Stmt12_2_2_F4)
+  have d_Lemma12_4_1_F4 : CFSG.Quasithin.H13.Lemma12_4_1_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_1_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (h3228 := d_Stmt3_2_2_eight) (h1227 := d_Stmt12_2_7_F4) (h1232 := d_Cor12_3_2_F4)
+  have d_Pre1242_F4 : CFSG.Quasithin.H13.Pre1242_F4 :=
+    CFSG.Quasithin.H13.pre1242_of_stmts_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+  have d_Lemma12_4_3_one_F4 : CFSG.Quasithin.H13.Lemma12_4_3_one_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_3_one_of_pre_F4 (hpre := d_Pre1242_F4)
+  have d_Stmt12_2_10_F4 : CFSG.Quasithin.H13.Stmt12_2_10_F4 :=
+    CFSG.Quasithin.H13.stmt12_2_10_of_1222_F4 (h1222 := d_Stmt12_2_2_F4)
+  have d_Lemma12_4_4_F4 : CFSG.Quasithin.H13.Lemma12_4_4_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_4_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (h323 := d_Stmt3_2_3) (hpre := d_Pre1242_F4) (h3228 := d_Stmt3_2_2_eight)
+      (h1229 := d_Stmt12_2_9_F4) (h12210 := d_Stmt12_2_10_F4) (h1241 := d_Lemma12_4_1_F4)
+      (h42 := d_AsB42) (h63 := d_AS_E_6_3)
+  have d_AS_E_6_14 : CFSG.Quasithin.ASInputs.AS_E_6_14 :=
+    CFSG.Quasithin.Vol2.Ch11.Wire11.as_E_6_14_holds
+  have d_CharTwo1248_F4 : CFSG.Quasithin.H13.CharTwo1248_F4 :=
+    CFSG.Quasithin.H13.charTwo1248_F4_of_stmts (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+  have d_G2HyperplaneFact1248 : CFSG.Quasithin.H13.G2HyperplaneFact1248 :=
+    CFSG.Quasithin.H13.g2HyperplaneFact1248
+  have d_L3HyperplaneFact1248 : CFSG.Quasithin.H13.L3HyperplaneFact1248 :=
+    CFSG.Quasithin.H13.l3HyperplaneFact1248
+  have d_Lemma12_4_8_F4 : CFSG.Quasithin.H13.Lemma12_4_8_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_8_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (h323 := d_Stmt3_2_3) (hpre := d_Pre1242_F4) (h3228 := d_Stmt3_2_2_eight)
+      (h614 := d_AS_E_6_14) (hL3 := d_L3HyperplaneFact1248) (hG2 := d_G2HyperplaneFact1248)
+      (hchar := d_CharTwo1248_F4)
+  have d_B46OffenderCommEqFix : CFSG.Quasithin.H13.B46OffenderCommEqFix :=
+    CFSG.Quasithin.H13.b46OffenderCommEqFix
+  have d_C134L32Corr_F4 : CFSG.Quasithin.C134L32Corr_F4 :=
+    CFSG.GH74.QTGen4.Leaves.S331.c134L32Corr_F4_holds
+  have d_BlockQ1246SL27_F4 : CFSG.Quasithin.H13.BlockQ1246SL27_F4 :=
+    CFSG.Quasithin.H13.blockQ1246SL27_of_gen4_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hpre := d_Pre1242_F4) (h3228 := d_Stmt3_2_2_eight) (h1229 := d_Stmt12_2_9_F4)
+      (h51 := d_AsB51) (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+  have d_Lemma12_4_6_F4 : CFSG.Quasithin.H13.Lemma12_4_6_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_6_of_inputs_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hpre := d_Pre1242_F4) (h3228 := d_Stmt3_2_2_eight) (h1229 := d_Stmt12_2_9_F4)
+      (h51 := d_AsB51) (h37 := d_A37ForSQTK) (h38 := d_A38ForSQTK) (h39 := d_A39ForSQTK)
+      (h12210 := d_Stmt12_2_10_F4) (hMS := d_C134L32Corr_F4) (hSL := d_BlockQ1246SL27_F4)
+  have d_Lemma12_4_7_F4 : CFSG.Quasithin.H13.Lemma12_4_7_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_7_of_stmts_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hpre := d_Pre1242_F4) (h1246 := d_Lemma12_4_6_F4)
+  have d_Lemma12_4_9_F4 : CFSG.Quasithin.H13.Lemma12_4_9_F4 :=
+    CFSG.Quasithin.H13.lemma12_4_9_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hpre := d_Pre1242_F4) (h12210 := d_Stmt12_2_10_F4) (h1247 := d_Lemma12_4_7_F4)
+      (hB46 := d_B46OffenderCommEqFix)
+  have d_G2MParamFact1244 : CFSG.Quasithin.H13.G2MParamFact1244 :=
+    CFSG.Quasithin.H13.g2MParamFact1244_holds
+  have d_MParam1244_F4 : CFSG.Quasithin.H13.MParam1244_F4 :=
+    CFSG.Quasithin.H13.mParam1244_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hpre := d_Pre1242_F4) (h12210 := d_Stmt12_2_10_F4) (hG2 := d_G2MParamFact1244)
+  have d_Post1244_F4 : CFSG.Quasithin.H13.Post1244_F4 :=
+    CFSG.Quasithin.H13.post1244_of_F4 (h331 := d_Stmt3_3_1_F4) (h1222 := d_Stmt12_2_2_F4)
+      (hpre := d_Pre1242_F4) (hm := d_MParam1244_F4)
+  have d_Stmt12_4_2_F4 : CFSG.Quasithin.H13.Stmt12_4_2_F4 :=
+    CFSG.Quasithin.H13.stmt12_4_2_of_lemmas_F4 (h1241 := d_Lemma12_4_1_F4)
+      (h1243 := d_Lemma12_4_3_one_F4) (h1244 := d_Lemma12_4_4_F4) (hpost := d_Post1244_F4)
+      (h1248 := d_Lemma12_4_8_F4) (h1249 := d_Lemma12_4_9_F4)
+  have d_Stmt12_7_1_F4 : CFSG.Quasithin.H13.Stmt12_7_1_F4 :=
+    CFSG.GH74.QTGen4.Leaves.stmt12_7_1_F4_holds
+  have d_Stmt13_1_7_F4 : CFSG.Quasithin.H13.Stmt13_1_7_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.stmt13_1_7_F4_holds
+  have d_StmtFiveA7Elim_F4 : CFSG.Quasithin.H13.StmtFiveA7Elim_F4 :=
+    CFSG.Quasithin.H13.A7.stmtFiveA7Elim_of_hubs_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h331 := d_Stmt3_3_1_F4) (h1225 := d_Stmt12_2_5_F4) (h12212 := d_Stmt12_2_12_F4)
+      (h12213 := d_Stmt12_2_13_F4) (hC27 := d_ASC27Statement_F4) (hC111 := d_ASC111Statement)
+      (hC19 := d_ASC19Statement) (h3214 := d_Stmt3_2_14_F4) (hC41 := d_ASC41Statement)
+      (hF314 := d_A314Facts_F4) (hList := d_A312ListFactsCat) (h1227 := d_Stmt12_2_7_F4)
+      (h1228 := d_Stmt12_2_8_F4) (h1229 := d_Stmt12_2_9_F4)
+  have d_Stmt13_3_2_F4 : CFSG.Quasithin.H13.Stmt13_3_2_F4 :=
+    CFSG.Quasithin.H13.stmt13_3_2_of_frontier_F4 (h137 := d_Stmt13_1_7_F4)
+      (h1222 := d_Stmt12_2_2_F4) (h1242 := d_Stmt12_4_2_F4) (h1271 := d_Stmt12_7_1_F4)
+      (hA7 := d_StmtFiveA7Elim_F4) (hLin := d_LinearSelectedNaturalConfigurationProducer_F4)
+  have d_Theorem1391Statement : CFSG.Quasithin.Theorem1391Statement :=
+    CFSG.Quasithin.A10.theorem1391
+  have d_Stmt13_2_7_F4 : CFSG.Quasithin.H13.A5.Stmt13_2_7_F4 :=
+    CFSG.Quasithin.H13.A5.stmt13_2_7_of_c126_F4 (h331 := d_Stmt3_3_1_F4) (h311 := d_Theorem311Stmt)
+      (h432 := d_Stmt4_3_2_F4) (h523 := d_Stmt5_2_3_F4) (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (h5172 := d_Stmt5_1_7_two_F4) (hE22 := d_E22StatementNoN)
+      (hF618 := d_TheoremF618Cat) (hBig := d_FactF618Big) (hL2 := d_FactL2Three)
+      (h1332 := d_Stmt13_3_2_F4) (h512 := d_Stmt5_1_2_F4) (h137 := d_Input137)
+      (h1391 := d_Theorem1391Statement) (h126 := d_TheoremC126)
+  have d_Input1336_F4 : CFSG.Quasithin.H13.A5.Input1336_F4 :=
+    CFSG.Quasithin.H13.A5.input1336_of_F4 (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4)
+  have d_Input13518_F4 : CFSG.Quasithin.H13.A5.Input13518_F4 :=
+    CFSG.Quasithin.H13.A5.input13518_of_b45_F4 (h1323 := d_Input1323Two_F4)
+      (h1326 := d_Input1326Two_F4) (h1336 := d_Input1336_F4) (b45 := d_AsB45)
+  have d_Fin136_F4 : CFSG.Quasithin.H13.A5.Fin136_F4 :=
+    CFSG.Quasithin.H13.A5.fin136_of_hubs_F4 (h1323 := d_Input1323Two_F4) (h1336 := d_Input1336_F4)
+      (h523 := d_Stmt5_2_3_F4) (h312 := d_A312ForSQTK) (hD310 := d_D310) (hD391 := d_D391)
+      (h45 := d_AsB45)
+  have d_Elim1366Sp4_F4 : CFSG.Quasithin.H13.A5.Elim1366Sp4_F4 :=
+    CFSG.Quasithin.H13.A5.elim1366Sp4_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+  have d_Elim1366SzPair_F4 : CFSG.Quasithin.H13.A5.Elim1366SzPair_F4 :=
+    CFSG.Quasithin.H13.A5.elim1366SzPair_of_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+  have d_FactL3SylowCenterCyclic : CFSG.Quasithin.H13.A5.FactL3SylowCenterCyclic :=
+    CFSG.Quasithin.H13.KGL3Syl.factL3SylowCenterCyclic_holds
+  have d_FactLieOutAbelian : CFSG.Quasithin.H13.A5.FactLieOutAbelian :=
+    CFSG.Quasithin.H13.KGLieOut.factLieOutAbelian_holds
+  have d_FactLieZCent : CFSG.Quasithin.H13.A5.FactLieZCent :=
+    CFSG.Quasithin.H13.ZCentLie.factLieZCent_holds
+  have d_FactLieZCentPGL3 : CFSG.Quasithin.H13.A5.FactLieZCentPGL3 :=
+    CFSG.Quasithin.H13.ZCentLie.factLieZCentPGL3_holds
+  have d_TitsSylowCenterCyclic : CFSG.Quasithin.H13.KG68.TitsSylowCenterCyclic :=
+    CFSG.Quasithin.H13.KG68.titsSylowCenterCyclic_holds
+  have d_TrialityTwoSylowCenterCyclic : CFSG.Quasithin.H13.KG68.TrialityTwoSylowCenterCyclic :=
+    CFSG.Quasithin.H13.KG68.trialityTwoSylowCenterCyclic_holds
+  have d_KnownFacts15122Types : CFSG.Quasithin.KnownFacts15122Types :=
+    CFSG.Quasithin.knownFacts15122Types_final
+  have d_EvenLieAutInner : CFSG.QuasithinUnique.Ch1.EvenLieAutInner :=
+    CFSG.Quasithin.Vol2.Ch10.A312A.evenLieAutInner_proved
+  have d_Lemma122A : CFSG.QuasithinUnique.Vol2Native.Lemma122A :=
+    CFSG.QuasithinUnique.Vol2Native.lemma122A_proved
+  have d_Elim1366AB_F4 : CFSG.Quasithin.H13.A5.Elim1366AB_F4 :=
+    CFSG.Quasithin.H13.A5.elim1366AB_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4) (h1336 := d_Input1336_F4)
+      (hF318 := d_A318Facts) (h36 := d_A36ForSQTK) (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+      (hKF := d_KnownFacts15122Types) (hEven := d_EvenLieAutInner)
+      (hD4 := d_TrialityTwoSylowCenterCyclic) (hTits := d_TitsSylowCenterCyclic)
+      (hF1 := d_FactLieZCent) (hF2 := d_FactLieOutAbelian) (hF3 := d_FactLieZCentPGL3)
+      (hF6 := d_FactL3SylowCenterCyclic) (h122 := d_Lemma122A) (hSp4 := d_Elim1366Sp4_F4)
+      (hSz := d_Elim1366SzPair_F4)
+  have d_FactOutAlt67 : CFSG.Quasithin.H13.A5.FactOutAlt67 := CFSG.Quasithin.H13.A5.factOutAlt67
+  have d_Elim1366CD_F4 : CFSG.Quasithin.H13.A5.Elim1366CD_F4 :=
+    CFSG.Quasithin.H13.A5.elim1366CD_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat) (hout := d_FactOutAlt67)
+  have d_FactConfL2 : CFSG.Quasithin.H13.A5.FactConfL2 := CFSG.Quasithin.H13.A5.factConfL2_holds
+  have d_FactConfL33 : CFSG.Quasithin.H13.A5.FactConfL33 := CFSG.Quasithin.H13.A5.factConfL33_holds
+  have d_SporadicSylowCenterCyclic : CFSG.Quasithin.H13.KG68.SporadicSylowCenterCyclic :=
+    CFSG.Quasithin.H13.KG68.sporadicSylowCenterCyclic_holds
+  have d_J4AutInner_F4 : CFSG.QuasithinUnique.Ch1.J4AutInner_F4 :=
+    CFSG.GH74.QTGen4.Leaves.j4AutInner_F4_holds
+  have d_SporadicResidualAutInner_F4 : CFSG.QuasithinUnique.Ch1.SporadicResidualAutInner_F4 :=
+    CFSG.QuasithinUnique.Ch1.sporadicResidualAutInner_of_J4_F4 (hJ4 := d_J4AutInner_F4)
+  have d_SporadicAutInner_F4 : CFSG.QuasithinUnique.Ch1.SporadicAutInner_F4 :=
+    CFSG.QuasithinUnique.Ch1.sporadicAutInner_of_residual_F4 (h := d_SporadicResidualAutInner_F4)
+  have d_FactConfSpor_F4 : CFSG.Quasithin.H13.A5.FactConfSpor_F4 :=
+    CFSG.Quasithin.H13.A5.factConfSpor_of_F4 (hInn := d_SporadicAutInner_F4)
+      (hcyc := d_SporadicSylowCenterCyclic)
+  have d_Elim1366EF_F4 : CFSG.Quasithin.H13.A5.Elim1366EF_F4 :=
+    CFSG.Quasithin.H13.A5.elim1366EF_of_facts_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (hL33 := d_FactConfL33) (hL2 := d_FactConfL2)
+      (hSp := d_FactConfSpor_F4)
+  have d_Lemma115_3_List : CFSG.QuasithinUnique.Lemma115_3_List :=
+    CFSG.QuasithinUnique.list115_proved
+  have d_Lemma1366_F4 : CFSG.Quasithin.H13.A5.Lemma1366_F4 :=
+    CFSG.Quasithin.H13.A5.lemma1366_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (hlist := d_Lemma115_3_List) (hAB := d_Elim1366AB_F4) (hCD := d_Elim1366CD_F4)
+      (hEF := d_Elim1366EF_F4)
+  have d_Exists1367TC_F4 : CFSG.Quasithin.H13.A5.Exists1367TC_F4 :=
+    CFSG.Quasithin.H13.A5.exists1367TC_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h56 := d_AsB56) (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat) (h39 := d_A39ForSQTKCat)
+  have d_Stmt13_3_2_three_A5_F4 : CFSG.Quasithin.H13.Stmt13_3_2_three_A5_F4 :=
+    CFSG.Quasithin.H13.A5.stmt13_3_2_three_A5_of_F4 (h1332 := d_Stmt13_3_2_F4)
+  have d_Stmt13_3_2_three_fsu_F4 : CFSG.Quasithin.H13.Stmt13_3_2_three_fsu_F4 :=
+    CFSG.Quasithin.H13.U3.three_fsu_of_1332_F4 (h := d_Stmt13_3_2_F4)
+  have d_Stmt13_3_2_two_F4 : CFSG.Quasithin.H13.Stmt13_3_2_two_F4 :=
+    CFSG.Quasithin.H13.stmt13_3_2_two_of_stmt13_3_2_F4 (h := d_Stmt13_3_2_F4)
+  have d_Lemma13618_F4 : CFSG.Quasithin.H13.A5.Lemma13618_F4 :=
+    CFSG.Quasithin.H13.A5.lemma13618_of_inputs_F4 (h126 := d_TheoremC126) (h23 := d_E23Statement)
+      (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4) (h56 := d_AsB56)
+      (h132two := d_Stmt13_3_2_two_F4) (h132fsu := d_Stmt13_3_2_three_fsu_F4)
+      (h132A5 := d_Stmt13_3_2_three_A5_F4) (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4)
+      (h37 := d_A37ForSQTKCat) (h39 := d_A39ForSQTKCat)
+  have d_FactNoGraphTwist : CFSG.Quasithin.H13.A5.FactNoGraphTwist :=
+    CFSG.Quasithin.H13.NQCat.NGT.factNoGraphTwist_holds
+  have d_Lemma13619_F4 : CFSG.Quasithin.H13.A5.Lemma13619_F4 :=
+    CFSG.Quasithin.H13.A5.lemma13619_of_F4 (h126 := d_TheoremC126) (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (h56 := d_AsB56) (h132two := d_Stmt13_3_2_two_F4)
+      (h132fsu := d_Stmt13_3_2_three_fsu_F4) (h132A5 := d_Stmt13_3_2_three_A5_F4)
+      (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4) (h37 := d_A37ForSQTKCat)
+      (h39 := d_A39ForSQTKCat) (hng := d_FactNoGraphTwist)
+  have d_AS_C_1_32_F4 : CFSG.Quasithin.ASInputs.AS_C_1_32_F4 :=
+    CFSG.GH74.QTGen4.Leaves.ASCF4.as_C_1_32_F4_holds
+  have d_Lem13622A7Block_F4 : CFSG.Quasithin.H13.A5.Lem13622A7Block_F4 :=
+    CFSG.Quasithin.H13.A5.lem13622A7Block_of_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4)
+  have d_C134Case4Lemma45Corr_F4 : CFSG.Quasithin.H13.A5.C134Case4Lemma45Corr_F4 :=
+    CFSG.GH74.QTGen4.DCopy.Roots.c134Case4Lemma45Corr_F4_holds
+  have d_Lem13622Case4Z0_F4 : CFSG.Quasithin.H13.A5.Lem13622Case4Z0_F4 :=
+    CFSG.Quasithin.H13.A5.lem13622Case4Z0_of_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (h132two := d_Stmt13_3_2_two_F4)
+      (h132fsu := d_Stmt13_3_2_three_fsu_F4) (h132A5 := d_Stmt13_3_2_three_A5_F4)
+      (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4) (h37 := d_A37ForSQTKCat)
+      (h39 := d_A39ForSQTKCat) (h45 := d_C134Case4Lemma45Corr_F4)
+  have d_Lemma13620L32Red_F4 : CFSG.Quasithin.H13.A5.Lemma13620L32Red_F4 :=
+    CFSG.Quasithin.H13.A5.lemma13620L32Red_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4)
+  have d_C124StatementSQTK : ∀ (G : Type) [Group G] [Finite G], CFSG.Quasithin.C124StatementSQTK (G := G) :=
+    CFSG.Quasithin.C124.c124StatementSQTK_holds
+  have d_Lemma13622C_F4 : CFSG.Quasithin.H13.A5.Lemma13622C_F4 :=
+    CFSG.Quasithin.H13.A5.lemma13622C_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h132two := d_Stmt13_3_2_two_F4) (h132fsu := d_Stmt13_3_2_three_fsu_F4)
+      (h132A5 := d_Stmt13_3_2_three_A5_F4) (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4)
+      (h36 := d_A36ForSQTK) (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+      (h39 := d_A39ForSQTKCat) (h132 := d_AS_C_1_32_F4) (h134 := d_C134L32Corr_F4)
+      (h124 := d_C124StatementSQTK) (hF318 := d_A318Facts) (hKF := d_KnownFacts15122Types)
+      (hres := d_Lem13622Case4Z0_F4) (hRed := d_Lemma13620L32Red_F4) (hA7 := d_Lem13622A7Block_F4)
+  have d_GriessAllModelsStatement : CFSG.Open.GriessAllModelsStatement :=
+    CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement
+  have d_Lemma13620L45_F4 : CFSG.Quasithin.H13.A5.Lemma13620L45_F4 :=
+    CFSG.Quasithin.H13.A5.lemma13620L45_of_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (hF318 := d_A318Facts) (h36 := d_A36ForSQTK)
+      (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat) (hKF := d_KnownFacts15122Types)
+  have d_O3Prime1367_F4 : CFSG.Quasithin.H13.A5.O3Prime1367_F4 :=
+    CFSG.Quasithin.H13.A5.o3Prime1367_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (hF318 := d_A318Facts) (h36 := d_A36ForSQTK) (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat)
+      (hKF := d_KnownFacts15122Types)
+  have d_Lemma13623C_F4 : CFSG.Quasithin.H13.A5.Lemma13623C_F4 :=
+    CFSG.Quasithin.H13.A5.lemma13623C_of_b51_F4 (h1222 := d_Stmt12_2_2_F4)
+      (h517 := d_Stmt5_1_7_one_F4) (h132two := d_Stmt13_3_2_two_F4)
+      (h132fsu := d_Stmt13_3_2_three_fsu_F4) (h132A5 := d_Stmt13_3_2_three_A5_F4)
+      (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4) (h36 := d_A36ForSQTK)
+      (h37 := d_A37ForSQTKCat) (h38 := d_A38ForSQTKCat) (h39 := d_A39ForSQTKCat)
+      (h132 := d_AS_C_1_32_F4) (h134 := d_C134L32Corr_F4) (hres := d_Lem13622Case4Z0_F4)
+      (hGA := d_GriessAllModelsStatement) (h620 := d_Lemma13620L45_F4) (hO3 := d_O3Prime1367_F4)
+      (h51 := d_AsB51)
+  have d_List1367_F4 : CFSG.Quasithin.H13.A5.List1367_F4 :=
+    CFSG.Quasithin.H13.A5.list1367_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h56 := d_AsB56)
+  have d_NotQS1367 : CFSG.Quasithin.H13.A5.NotQS1367 := CFSG.Quasithin.H13.A5.notQS1367_holds
+  have d_Main1367_F4 : CFSG.Quasithin.H13.A5.Main1367_F4 :=
+    CFSG.Quasithin.H13.A5.main1367_of_TC_F4 (hE := d_Exists1367TC_F4) (hL := d_List1367_F4)
+      (h18 := d_Lemma13618_F4) (h19 := d_Lemma13619_F4) (h22 := d_Lemma13622C_F4)
+      (h23 := d_Lemma13623C_F4) (hNQ := d_NotQS1367)
+  have d_Thm13_6_7_F4 : CFSG.Quasithin.H13.A5.Thm13_6_7_F4 :=
+    CFSG.Quasithin.H13.A5.thm13_6_7_of_F4 (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h1366 := d_Lemma1366_F4) (hmain := d_Main1367_F4)
+  have d_Input136_F4 : CFSG.Quasithin.H13.A5.Input136_F4 :=
+    CFSG.Quasithin.H13.A5.input136_of_1332_F4 (h137 := d_Thm13_6_7_F4) (h1326 := d_Input1326Two_F4)
+      (h1336 := d_Input1336_F4) (h1323 := d_Input1323Two_F4) (h1332 := d_Stmt13_3_2_F4)
+      (hfin := d_Fin136_F4)
+  have d_StmtG248 : CFSG.Quasithin.H13.A5.StmtG248 := CFSG.Quasithin.H13.VolI.stmtG248
+  have d_StmtF431U42 : CFSG.Quasithin.H13.StmtF431U42 :=
+    CFSG.Quasithin.H13.F431.U42.stmtF431U42_holds
+  have d_Stmt13_6_1_F4 : CFSG.Quasithin.H13.Stmt13_6_1_F4 :=
+    CFSG.Quasithin.H13.A5.stmt13_6_1_of_ext_F4 (h132two := d_Stmt13_3_2_two_F4)
+      (h132fsu := d_Stmt13_3_2_three_fsu_F4) (h132A5 := d_Stmt13_3_2_three_A5_F4)
+      (h311 := d_Theorem311Stmt) (h1222 := d_Stmt12_2_2_F4) (h517 := d_Stmt5_1_7_one_F4)
+      (h331 := d_Stmt3_3_1_F4) (h1327 := d_Stmt13_2_7_F4) (hG248 := d_StmtG248)
+      (h13518 := d_Input13518_F4) (h136 := d_Input136_F4) (hF431 := d_StmtF431U42)
+  have d_Stmt13_6_1_GH : CFSG.GH74.QTGen4.Stmt13_6_1_GH :=
+    CFSG.GH74.QTGen4.DCopy.Roots.stmt13_6_1_GH_of_F4 (h := d_Stmt13_6_1_F4)
+  exact d_Stmt13_6_1_GH
+
+end CFSG.GH74.QTGen4.DCopy.Roots

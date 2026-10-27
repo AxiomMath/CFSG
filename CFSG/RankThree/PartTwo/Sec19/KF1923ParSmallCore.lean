@@ -1,0 +1,386 @@
+module
+
+public import CFSG.RankThree.PartTwo.Sec19.Item1923Defs
+
+public section
+
+namespace CFSG.RankThree.PartTwo.Late
+
+open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
+open CFSG.ABGLocalTools (IsSylowOf)
+open CFSG.Assembly.RankThreeEven (projSL)
+open CFSG.RankThree.PartTwo.Sec19 (starIm IsList194 IsSmall194 IsTripleA6 IsProperParabolic
+  Item194UsedWide3 Item316)
+
+theorem ksm_eq_one {S : Type} [Group S] {e : S} (h3 : e ^ 3 = 1) {k : ℕ}
+    (hk : e ^ 2 ^ k = 1) : e = 1 := by
+  have hcop : Nat.Coprime (2 ^ k) 3 := Nat.Coprime.pow_left _ (by norm_num)
+  exact orderOf_eq_one_iff.1 (Nat.eq_one_of_dvd_coprimes hcop (orderOf_dvd_of_pow_eq_one hk)
+    (orderOf_dvd_of_pow_eq_one h3))
+
+theorem ksm_pow_odd_inverts {S : Type} [Group S] {s : S} {D : Subgroup S}
+    (hs : ∀ d ∈ D, s * d * s⁻¹ = d⁻¹) {m : ℕ} (hm : Odd m) :
+    ∀ d ∈ D, s ^ m * d * (s ^ m)⁻¹ = d⁻¹ := by
+  have h2 : ∀ d ∈ D, s ^ 2 * d * (s ^ 2)⁻¹ = d := by
+    intro d hd
+    have h1 := hs d hd
+    have h1' := hs d⁻¹ (D.inv_mem hd)
+    rw [inv_inv] at h1'
+    calc s ^ 2 * d * (s ^ 2)⁻¹ = s * (s * d * s⁻¹) * s⁻¹ := by rw [pow_two]; group
+      _ = s * d⁻¹ * s⁻¹ := by rw [h1]
+      _ = d := h1'
+  have key : ∀ j : ℕ, ∀ d ∈ D, s ^ (2 * j + 1) * d * (s ^ (2 * j + 1))⁻¹ = d⁻¹ := by
+    intro j
+    induction j with
+    | zero => intro d hd; simpa using hs d hd
+    | succ j ih =>
+      intro d hd
+      have e1 : s ^ (2 * (j + 1) + 1) = s ^ 2 * s ^ (2 * j + 1) := by
+        rw [← pow_add]; congr 1; ring
+      rw [e1]
+      generalize s ^ (2 * j + 1) = u at ih ⊢
+      calc s ^ 2 * u * d * (s ^ 2 * u)⁻¹ = s ^ 2 * (u * d * u⁻¹) * (s ^ 2)⁻¹ := by group
+        _ = s ^ 2 * d⁻¹ * (s ^ 2)⁻¹ := by rw [ih d hd]
+        _ = (s ^ 2 * d * (s ^ 2)⁻¹)⁻¹ := by group
+        _ = d⁻¹ := by rw [h2 d hd]
+  obtain ⟨j, rfl⟩ := hm
+  exact key j
+
+theorem ksm_solvable_oTwoP (Y : Type) [Group Y] [Finite Y] :
+    Group.IsSolvable ↥(Sec4.oTwoP 3 Y) := by
+  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 Y) := CFSG.pCore_isNilpotent
+  haveI : Group.IsNilpotent ↥(CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) := CFSG.pCore_isNilpotent
+  refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion (Sec4.pCore_two_le_oTwoP 3 Y))
+    (((QuotientGroup.mk' (CFSG.pCore 2 Y)).comp (Sec4.oTwoP 3 Y).subtype).codRestrict
+      (CFSG.pCore 3 (Y ⧸ CFSG.pCore 2 Y)) (fun x => Subgroup.mem_comap.1 x.2)) ?_
+  intro x hx
+  have hx1 : QuotientGroup.mk' (CFSG.pCore 2 Y) (x : Y) = 1 :=
+    congrArg Subtype.val (MonoidHom.mem_ker.1 hx)
+  exact MonoidHom.mem_range.2 ⟨⟨x.1, (QuotientGroup.eq_one_iff (x : Y)).1 hx1⟩, Subtype.ext rfl⟩
+
+theorem ksm_solvable_oTwoP_sup {Y : Type} [Group Y] [Finite Y] (C : Subgroup Y)
+    (hC : IsPGroup 2 C) : Group.IsSolvable ↥(Sec4.oTwoP 3 Y ⊔ C) := by
+  haveI hOn : (Sec4.oTwoP 3 Y).Normal := by
+    unfold Sec4.oTwoP
+    infer_instance
+  haveI := ksm_solvable_oTwoP Y
+  haveI : Group.IsNilpotent ↥C := hC.isNilpotent
+  have hle : Sec4.oTwoP 3 Y ≤ Sec4.oTwoP 3 Y ⊔ C := le_sup_left
+  have hCle : C ≤ Sec4.oTwoP 3 Y ⊔ C := le_sup_right
+  haveI hsol1 : Group.IsSolvable ↥((Sec4.oTwoP 3 Y).subgroupOf (Sec4.oTwoP 3 Y ⊔ C)) :=
+    Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
+      (Subgroup.subgroupOfEquivOfLe hle).symm.surjective
+  haveI hsol2 : Group.IsSolvable (↥(Sec4.oTwoP 3 Y ⊔ C) ⧸
+      (Sec4.oTwoP 3 Y).subgroupOf (Sec4.oTwoP 3 Y ⊔ C)) := by
+    refine Group.isSolvable_of_surjective
+      (f := (QuotientGroup.mk' _).comp (Subgroup.inclusion hCle)) ?_
+    intro q
+    obtain ⟨s, rfl⟩ := QuotientGroup.mk'_surjective _ q
+    obtain ⟨y, hy, z, hz, hyz⟩ := Subgroup.mem_sup_of_normal_left.1 s.2
+    refine ⟨⟨z, hz⟩, ?_⟩
+    rw [MonoidHom.comp_apply, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply,
+      QuotientGroup.eq, Subgroup.mem_subgroupOf]
+    show z⁻¹ * (s : Y) ∈ Sec4.oTwoP 3 Y
+    rw [← hyz, ← mul_assoc]
+    simpa using hOn.conj_mem y hy z⁻¹
+  exact Group.isSolvable_of_subgroup_quotient
+    ((Sec4.oTwoP 3 Y).subgroupOf (Sec4.oTwoP 3 Y ⊔ C))
+
+theorem ksm_solvable_comap_conj {X : Type} [Group X] (S : Subgroup (MulAut X))
+    [Group.IsSolvable ↥S] : Group.IsSolvable ↥(S.comap (MulAut.conj : X →* MulAut X)) := by
+  have hcent : ∀ x : X, MulAut.conj x = 1 → ∀ y : X, x * y = y * x := by
+    intro x hx y
+    have h1 := DFunLike.congr_fun hx y
+    rw [MulAut.conj_apply, MulAut.one_apply] at h1
+    exact mul_inv_eq_iff_eq_mul.1 h1
+  let ψ : ↥(S.comap (MulAut.conj : X →* MulAut X)) →* ↥S :=
+    ((MulAut.conj : X →* MulAut X).comp
+      (S.comap (MulAut.conj : X →* MulAut X)).subtype).codRestrict S
+      (fun x => Subgroup.mem_comap.1 x.2)
+  haveI : Group.IsSolvable ↥ψ.ker := by
+    apply Group.isSolvable_of_comm
+    intro a b
+    apply Subtype.ext
+    apply Subtype.ext
+    have ha : MulAut.conj (a : ↥(S.comap (MulAut.conj : X →* MulAut X))).1 = 1 :=
+      congrArg Subtype.val (MonoidHom.mem_ker.1 a.2)
+    exact hcent (a : ↥(S.comap (MulAut.conj : X →* MulAut X))).1 ha
+      (b : ↥(S.comap (MulAut.conj : X →* MulAut X))).1
+  exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ
+    (fun x hx => MonoidHom.mem_range.2 ⟨⟨x, hx⟩, rfl⟩)
+
+theorem ksm_isSylow_top_of_sylow {X : Type} [Group X] [Finite X] (T : Sylow 2 X) :
+    IsSylowOf 2 (T : Subgroup X) ⊤ := by
+  rw [CFSG.ABGLocalTools.isSylowOf_iff]
+  exact ⟨le_top, T.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
+
+theorem ksm_not_two_dvd_index {X : Type} [Group X] [Finite X] {P T : Subgroup X}
+    (hT : IsSylowOf 2 T ⊤) (hTP : T ≤ P) : ¬ 2 ∣ P.index := by
+  rw [CFSG.ABGLocalTools.isSylowOf_iff] at hT
+  obtain ⟨-, -, hTdvd⟩ := hT
+  intro h2
+  apply hTdvd
+  rw [← Subgroup.relIndex_mul_relIndex T P ⊤ hTP le_top, Subgroup.relIndex_top_right]
+  exact Dvd.dvd.mul_left h2 _
+
+theorem ksm_isSylow_top_of_odd_index {X : Type} [Group X] [Finite X] {P Q : Subgroup X}
+    (hodd : ¬ 2 ∣ P.index) (hQ : IsSylowOf 2 Q P) : IsSylowOf 2 Q ⊤ := by
+  rw [CFSG.ABGLocalTools.isSylowOf_iff] at hQ ⊢
+  obtain ⟨hQP, hQ2, hQdvd⟩ := hQ
+  refine ⟨le_top, hQ2, ?_⟩
+  rw [← Subgroup.relIndex_mul_relIndex Q P ⊤ hQP le_top, Subgroup.relIndex_top_right]
+  intro h
+  rcases (Nat.prime_two.dvd_mul).1 h with h1 | h1
+  · exact hQdvd h1
+  · exact hodd h1
+
+theorem ksm_isPGroup_zpowers {X : Type} [Group X] [Finite X] {z : X} {k : ℕ}
+    (hz : z ^ 2 ^ k = 1) : IsPGroup 2 (Subgroup.zpowers z) :=
+  IsPGroup.of_card_dvd_pow (n := k) (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hz)
+
+theorem ksm_exists_sylow_containing {X : Type} [Group X] [Finite X] {P : Subgroup X}
+    {z : X} (hz : z ∈ P) (hpz : IsPGroup 2 (Subgroup.zpowers z)) :
+    ∃ Q : Subgroup X, IsSylowOf 2 Q P ∧ z ∈ Q := by
+  have hA : IsPGroup 2 ((Subgroup.zpowers z).subgroupOf P) := by
+    rw [← Subgroup.comap_subtype]
+    exact hpz.comap_subtype
+  obtain ⟨Q', hQ'⟩ := IsPGroup.exists_le_sylow hA
+  refine ⟨(Q' : Subgroup P).map P.subtype, ⟨Q', rfl⟩, ?_⟩
+  exact Subgroup.mem_map.2
+    ⟨⟨z, hz⟩, hQ' (Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers z)), rfl⟩
+
+theorem ksm_isSylow_top_of_parabolic {X : Type} [Group X] [Finite X] {P : Subgroup X}
+    (hP : ParabolicShape X P) {Q : Subgroup X} (hQ : IsSylowOf 2 Q P) : IsSylowOf 2 Q ⊤ := by
+  unfold ParabolicShape at hP
+  rcases hP with ⟨-, hprop⟩ | ⟨⟨hXA⟩, hext⟩
+  · unfold IsProperParabolic at hprop
+    obtain ⟨-, T, hTN⟩ := hprop
+    have hTP : (T : Subgroup X) ≤ P := le_trans Subgroup.le_normalizer hTN
+    exact ksm_isSylow_top_of_odd_index
+      (ksm_not_two_dvd_index (ksm_isSylow_top_of_sylow T) hTP) hQ
+  · have hext' : ∃ K : Subgroup ↥P, ∃ _ : K.Normal,
+        Nonempty (K ≃* Multiplicative (Fin 4 → ZMod 2)) ∧
+          Nonempty (↥P ⧸ K ≃* Equiv.Perm (Fin 5)) := hext
+    obtain ⟨K, hKn, ⟨eK⟩, ⟨eQ⟩⟩ := hext'
+    have hK : Nat.card K = 16 := by
+      rw [Nat.card_congr eK.toEquiv]
+      show Nat.card (Fin 4 → ZMod 2) = 16
+      simp [Nat.card_fun, Nat.card_eq_fintype_card, ZMod.card]
+    have hQ' : Nat.card (↥P ⧸ K) = 120 := by
+      rw [Nat.card_congr eQ.toEquiv, Nat.card_perm]
+      simp [Nat.factorial]
+    have hPcard : Nat.card P = 1920 := by
+      have h1 := Subgroup.card_mul_index (H := K)
+      have h2 : K.index = 120 := hQ'
+      rw [hK, h2] at h1
+      omega
+    have hXcard : Nat.card X = 1814400 := by
+      rw [Nat.card_congr hXA.toEquiv, nat_card_alternatingGroup]
+      simp [Nat.factorial]
+    have hidx : P.index = 945 := by
+      have h1 := Subgroup.card_mul_index (H := P)
+      rw [hPcard, hXcard] at h1
+      omega
+    exact ksm_isSylow_top_of_odd_index (by rw [hidx]; norm_num) hQ
+
+theorem ksm_exists_solv_overgroup {G' : Type} [Group G'] [Finite G']
+    {H CQ D : Subgroup G'} (hCQH : CQ ≤ H) (hC2 : IsPGroup 2 CQ)
+    (hDO : D ≤ (Sec4.oTwoP 3 ↥H).map H.subtype) :
+    ∃ S : Subgroup G', S ≤ H ∧ Group.IsSolvable ↥S ∧ CQ ≤ S ∧ D ≤ S := by
+  have hC : IsPGroup 2 (CQ.subgroupOf H) := by
+    rw [← Subgroup.comap_subtype]
+    exact hC2.comap_subtype
+  haveI := ksm_solvable_oTwoP_sup (CQ.subgroupOf H) hC
+  refine ⟨(Sec4.oTwoP 3 ↥H ⊔ CQ.subgroupOf H).map H.subtype, Subgroup.map_subtype_le _,
+    ?_, ?_, ?_⟩
+  · exact Group.isSolvable_of_surjective
+      (f := (Subgroup.equivMapOfInjective (Sec4.oTwoP 3 ↥H ⊔ CQ.subgroupOf H) H.subtype
+        H.subtype_injective).toMonoidHom)
+      (Subgroup.equivMapOfInjective (Sec4.oTwoP 3 ↥H ⊔ CQ.subgroupOf H) H.subtype
+        H.subtype_injective).surjective
+  · intro c hc
+    exact Subgroup.mem_map.2
+      ⟨⟨c, hCQH hc⟩, Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.2 hc), rfl⟩
+  · intro d hd
+    obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 (hDO hd)
+    exact Subgroup.mem_map.2 ⟨x, Subgroup.mem_sup_left hx, rfl⟩
+
+theorem ksm_conj_injective {X : Type} [Group X] (hZ : Subgroup.center X = ⊥) :
+    Function.Injective (MulAut.conj : X →* MulAut X) := by
+  rw [injective_iff_map_eq_one]
+  intro x hx
+  have hc : x ∈ Subgroup.center X := by
+    rw [Subgroup.mem_center_iff]
+    intro g
+    have h1 := DFunLike.congr_fun hx g
+    rw [MulAut.conj_apply, MulAut.one_apply, mul_inv_eq_iff_eq_mul] at h1
+    exact h1.symm
+  rw [hZ, Subgroup.mem_bot] at hc
+  exact hc
+
+theorem ksm_mem_normalizer_of_map_le {G : Type} [Group G] [Finite G] (H : Subgroup G) {g : G}
+    (h : ∀ x ∈ H, g * x * g⁻¹ ∈ H) : g ∈ Subgroup.normalizer (H : Set G) := by
+  rw [Subgroup.mem_normalizer_iff]
+  intro x
+  refine ⟨fun hx => h x hx, fun hx => ?_⟩
+  have hφx : ∀ y : G, (MulAut.conj g) y = g * y * g⁻¹ := fun y => MulAut.conj_apply g y
+  have hle : H.map (MulAut.conj g).toMonoidHom ≤ H := by
+    rintro _ ⟨y, hy, rfl⟩
+    show (MulAut.conj g) y ∈ H
+    rw [hφx]
+    exact h y hy
+  have hcard : Nat.card H ≤ Nat.card (H.map (MulAut.conj g).toMonoidHom) := by
+    have h1 : Nat.card (H.map (MulAut.conj g).toMonoidHom) = Nat.card H :=
+      Subgroup.card_map_of_injective (MulAut.conj g).injective
+    exact h1.ge
+  have heq : H.map (MulAut.conj g).toMonoidHom = H := Subgroup.eq_of_le_of_card_ge hle hcard
+  have hx' : g * x * g⁻¹ ∈ H.map (MulAut.conj g).toMonoidHom := by
+    rw [heq]
+    exact hx
+  obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.1 hx'
+  have h1 : (MulAut.conj g) y = g * x * g⁻¹ := hyx
+  rw [hφx] at h1
+  have hyx' : y = x := mul_left_cancel (mul_right_cancel h1)
+  rw [← hyx']
+  exact hy
+
+theorem ksm_comap_card {X : Type} [Group X] (hZ : Subgroup.center X = ⊥)
+    {D : Subgroup (MulAut X)} (hDH : ∀ d ∈ D, ∃ x : X, MulAut.conj x = d) :
+    Nat.card (D.comap (MulAut.conj : X →* MulAut X)) = Nat.card D := by
+  have hinj := ksm_conj_injective hZ
+  have hmap : (D.comap (MulAut.conj : X →* MulAut X)).map (MulAut.conj : X →* MulAut X) = D := by
+    ext d
+    constructor
+    · rintro ⟨x, hx, rfl⟩
+      exact hx
+    · intro hd
+      obtain ⟨x, rfl⟩ := hDH d hd
+      exact ⟨x, hd, rfl⟩
+  have h1 : Nat.card ↥((D.comap (MulAut.conj : X →* MulAut X)).map (MulAut.conj : X →* MulAut X))
+      = Nat.card ↥(D.comap (MulAut.conj : X →* MulAut X)) :=
+    Subgroup.card_map_of_injective hinj
+  rw [hmap] at h1
+  exact h1.symm
+
+theorem ksm_comap_isElemAbelian {X : Type} [Group X] (hZ : Subgroup.center X = ⊥)
+    {D : Subgroup (MulAut X)} (hD3 : CFSG.Open.IsElemAbelian 3 D) :
+    CFSG.Open.IsElemAbelian 3 (D.comap (MulAut.conj : X →* MulAut X)) := by
+  have hinj := ksm_conj_injective hZ
+  have hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a := fun a ha b hb =>
+    congrArg Subtype.val (hD3.1.is_comm.comm (⟨a, ha⟩ : D) ⟨b, hb⟩)
+  refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
+  · apply Subtype.ext
+    apply hinj
+    show MulAut.conj ((a : X) * (b : X)) = MulAut.conj ((b : X) * (a : X))
+    rw [map_mul, map_mul]
+    exact hcomm _ (Subgroup.mem_comap.1 a.2) _ (Subgroup.mem_comap.1 b.2)
+  · apply hinj
+    rw [map_pow, map_one]
+    exact hD3.2 _ (Subgroup.mem_comap.1 hx)
+
+theorem ksm_two_part {X : Type} [Group X] [Finite X] (x : X) :
+    ∃ m : ℕ, Odd m ∧ IsPGroup 2 (Subgroup.zpowers (x ^ m)) := by
+  obtain ⟨k, m, hm, hk⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos x).ne'
+  refine ⟨m, hm, ksm_isPGroup_zpowers (k := k) ?_⟩
+  rw [← pow_mul, mul_comm m, ← hk, pow_orderOf_eq_one]
+
+@[expose] def KSmNoHyp (X : Type) [Group X] [Finite X] : Prop :=
+  ∀ U D E : Subgroup X, IsSylowOf 2 U ⊤ → U ≤ D → Group.IsSolvable ↥D → E ≤ D →
+    CFSG.Open.IsElemAbelian 3 E → Nat.card E = 9 →
+    ¬ ∃ u ∈ U ⊓ Subgroup.normalizer (E : Set X), ∀ e ∈ E, u * e * u⁻¹ = e⁻¹
+
+theorem ksm_reduction {X : Type} [Group X] [Finite X]
+    {P : Subgroup X} (hP : ParabolicShape X P) {D : Subgroup (MulAut X)}
+    (hDH : D ≤ P.map (MulAut.conj : X →* MulAut X))
+    (hDO : D ≤ (Sec4.oTwoP 3 ↥(P.map (MulAut.conj : X →* MulAut X))).map
+      (P.map (MulAut.conj : X →* MulAut X)).subtype)
+    {w : X} (hwP : w ∈ P) (hw : IsPGroup 2 (Subgroup.zpowers w)) :
+    ∃ U S : Subgroup X, IsSylowOf 2 U ⊤ ∧ w ∈ U ∧ Group.IsSolvable ↥S ∧ U ≤ S ∧
+      D.comap (MulAut.conj : X →* MulAut X) ≤ S := by
+  obtain ⟨Q, hQP, hwQ⟩ := ksm_exists_sylow_containing hwP hw
+  have hQ2 : IsSylowOf 2 Q ⊤ := ksm_isSylow_top_of_parabolic hP hQP
+  have hCH : Q.map (MulAut.conj : X →* MulAut X) ≤ P.map (MulAut.conj : X →* MulAut X) :=
+    Subgroup.map_mono hQP.le
+  have hCQ2 : IsPGroup 2 (Q.map (MulAut.conj : X →* MulAut X)) := hQP.isPGroup.map _
+  obtain ⟨S, -, hSsolv, hCS, hDS⟩ := ksm_exists_solv_overgroup hCH hCQ2 hDO
+  haveI := hSsolv
+  refine ⟨Q, S.comap (MulAut.conj : X →* MulAut X), hQ2, hwQ,
+    ksm_solvable_comap_conj S, ?_, ?_⟩
+  · intro q hq
+    exact Subgroup.mem_comap.2 (hCS (Subgroup.mem_map_of_mem _ hq))
+  · intro x hx
+    exact Subgroup.mem_comap.2 (hDS hx)
+
+theorem ksm_noInv_of_noHyp {X : Type} [Group X] [Finite X] (hZ : Subgroup.center X = ⊥)
+    (hNH : KSmNoHyp X) {P : Subgroup X} (hP : ParabolicShape X P)
+    {D : Subgroup (MulAut X)} (hD3 : CFSG.Open.IsElemAbelian 3 D) (hD9 : Nat.card D = 9)
+    (hDH : D ≤ P.map (MulAut.conj : X →* MulAut X))
+    (hDO : D ≤ (Sec4.oTwoP 3 ↥(P.map (MulAut.conj : X →* MulAut X))).map
+      (P.map (MulAut.conj : X →* MulAut X)).subtype)
+    {w : X} (hwP : w ∈ P) (hw : IsPGroup 2 (Subgroup.zpowers w))
+    (hwinv : ∀ d ∈ D, MulAut.conj w * d * (MulAut.conj w)⁻¹ = d⁻¹) : False := by
+  obtain ⟨U, S, hU, hwU, hSsolv, hUS, hES⟩ := ksm_reduction hP hDH hDO hwP hw
+  haveI := hSsolv
+  have hsurj : ∀ d ∈ D, ∃ x : X, MulAut.conj x = d := fun d hd => by
+    obtain ⟨y, -, hy⟩ := Subgroup.mem_map.1 (hDH hd)
+    exact ⟨y, hy⟩
+  have hcard := ksm_comap_card hZ hsurj
+  apply hNH U S (D.comap (MulAut.conj : X →* MulAut X)) hU hUS inferInstance hES
+    (ksm_comap_isElemAbelian hZ hD3) (by rw [hcard, hD9])
+  refine ⟨w, Subgroup.mem_inf.2 ⟨hwU, ?_⟩, ?_⟩
+  · apply ksm_mem_normalizer_of_map_le
+    intro x hx
+    have hx' : MulAut.conj x ∈ D := Subgroup.mem_comap.1 hx
+    rw [Subgroup.mem_comap]
+    simp only [map_mul, map_inv]
+    rw [hwinv _ hx']
+    exact D.inv_mem hx'
+  · intro e he
+    apply ksm_conj_injective hZ
+    have he' : MulAut.conj e ∈ D := Subgroup.mem_comap.1 he
+    simp only [map_mul, map_inv]
+    exact hwinv _ he'
+
+theorem ksm_both_of_noHyp {X : Type} [Group X] [Finite X] (hZ : Subgroup.center X = ⊥)
+    (hNH : KSmNoHyp X) : NoInvertingInParabolic X ∧ NoSquareInvertingInParabolic X := by
+  unfold NoInvertingInParabolic NoSquareInvertingInParabolic
+  refine ⟨fun P D hP hDH hD3 hD9 hDO t htP _ hinv => ?_,
+    fun P D hP hDH hD3 hD9 hDO t htP _ hinv => ?_⟩
+  · obtain ⟨y, hyP, rfl⟩ := Subgroup.mem_map.1 htP
+    obtain ⟨m, hm, hw⟩ := ksm_two_part y
+    have hwP : y ^ m ∈ P := pow_mem hyP m
+    have hwinv : ∀ d ∈ D, MulAut.conj (y ^ m) * d * (MulAut.conj (y ^ m))⁻¹ = d⁻¹ := by
+      rw [map_pow]
+      exact ksm_pow_odd_inverts hinv hm
+    exact ksm_noInv_of_noHyp hZ hNH hP hD3 hD9 hDH hDO hwP hw hwinv
+  · obtain ⟨y, hyP, rfl⟩ := Subgroup.mem_map.1 htP
+    obtain ⟨m, hm, hw⟩ := ksm_two_part (y ^ 2)
+    have hwP : (y ^ 2) ^ m ∈ P := pow_mem (pow_mem hyP 2) m
+    have hwinv : ∀ d ∈ D, MulAut.conj ((y ^ 2) ^ m) * d * (MulAut.conj ((y ^ 2) ^ m))⁻¹ = d⁻¹ := by
+      rw [map_pow, map_pow]
+      exact ksm_pow_odd_inverts hinv hm
+    exact ksm_noInv_of_noHyp hZ hNH hP hD3 hD9 hDH hDO hwP hw hwinv
+
+@[expose] def KSmNoNineMap (X : Type) [Group X] : Prop :=
+  ∀ P : Subgroup X, ParabolicShape X P → ¬ 9 ∣ Nat.card (P.map (MulAut.conj : X →* MulAut X))
+
+theorem ksm_both_of_map {X : Type} [Group X] [Finite X] (h : KSmNoNineMap X) :
+    NoInvertingInParabolic X ∧ NoSquareInvertingInParabolic X := by
+  have key : ∀ (P : Subgroup X) (D : Subgroup (MulAut X)), ParabolicShape X P →
+      D ≤ P.map (MulAut.conj : X →* MulAut X) → Nat.card D = 9 → False := by
+    intro P D hP hDH hD9
+    apply h P hP
+    rw [← hD9]
+    exact Subgroup.card_dvd_of_le hDH
+  unfold NoInvertingInParabolic NoSquareInvertingInParabolic
+  exact ⟨fun P D hP hDH _ hD9 _ t _ _ _ => (key P D hP hDH hD9).elim,
+    fun P D hP hDH _ hD9 _ t _ _ _ => (key P D hP hDH hD9).elim⟩
+
+@[expose] def KSmNoNine (X : Type) [Group X] : Prop :=
+  ∀ P : Subgroup X, ParabolicShape X P → ¬ 9 ∣ Nat.card P
+
+theorem ksm_map_of_nine {X : Type} [Group X] (h : KSmNoNine X) : KSmNoNineMap X := by
+  intro P hP hdvd
+  exact h P hP (dvd_trans hdvd (Subgroup.card_map_dvd (H := P) (MulAut.conj : X →* MulAut X)))
+
+end CFSG.RankThree.PartTwo.Late

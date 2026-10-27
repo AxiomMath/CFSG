@@ -1,0 +1,26 @@
+module
+
+import CFSG.Certificates.Kernel.Common.Eval
+meta import CFSG.Certificates.Kernel.BabyMonster.Twin
+meta import CFSG.Certificates.Kernel.BabyMonster.TwinDy
+import CFSG.Certificates.Kernel.BabyMonster.Max2.Data6
+import CFSG.Certificates.Kernel.BabyMonster.NativePair.Data0
+import CFSG.Certificates.Kernel.BabyMonster.NativePair.Data1
+import CFSG.Certificates.Kernel.BabyMonster.NativePair.Data2
+import CFSG.Certificates.Kernel.BabyMonster.NativePair.Data3
+
+#kc_eval CFSG.KC.BM.Max2 E5 CFSG.KC.BM.Twin.prod 4370 2412240 11278352892867410509 CFSG.KC.BM.NativePair.Q24_inv E4 CFSG.KC.BM.NativePair.Q24
+#kc_eval CFSG.KC.BM.Max2 E5 CFSG.KC.BM.Twin.rowsOf 4370 2412240 14454085566039235093 E5
+#kc_eval CFSG.KC.BM.Max2 E6 CFSG.KC.BM.Twin.prod 4370 2412240 9450080626390318759 CFSG.KC.BM.NativePair.Q2_inv E5 CFSG.KC.BM.NativePair.Q2
+#kc_eval CFSG.KC.BM.Max2 E6 CFSG.KC.BM.Twin.rowsOf 4370 2412240 16305428371496010677 E6
+#kc_eval CFSG.KC.BM.Max2 E7 CFSG.KC.BM.Twin.prod 4370 2412240 5423421851175552578 CFSG.KC.BM.NativePair.Q24_inv E6 CFSG.KC.BM.NativePair.Q24
+#kc_eval CFSG.KC.BM.Max2 E7 CFSG.KC.BM.Twin.rowsOf 4370 2412240 18443567607046708401 E7
+#kc_eval CFSG.KC.BM.Max2 E8 CFSG.KC.BM.Twin.prod 4370 2412240 8784711964871358433 CFSG.KC.BM.NativePair.Q23_inv E7 CFSG.KC.BM.NativePair.Q23
+#kc_eval CFSG.KC.BM.Max2 E8 CFSG.KC.BM.Twin.rowsOf 4370 2412240 14337741236030616126 E8
+#kc_eval CFSG.KC.BM.Max2 E9 CFSG.KC.BM.Twin.prod 4370 2412240 16992143958222782321 CFSG.KC.BM.NativePair.Q24_inv E8 CFSG.KC.BM.NativePair.Q24
+#kc_eval CFSG.KC.BM.Max2 E9 CFSG.KC.BM.Twin.rowsOf 4370 2412240 5074934802434997055 E9
+#kc_eval CFSG.KC.BM.Max2 E10 CFSG.KC.BM.Twin.prod 4370 2412240 12859523293769386290 CFSG.KC.BM.NativePair.Q5_inv E9 CFSG.KC.BM.NativePair.Q5
+#kc_eval CFSG.KC.BM.Max2 E10 CFSG.KC.BM.Twin.rowsOf 4370 2412240 9629652455772615081 E10
+#kc_eval CFSG.KC.BM.Max2 E11_0 CFSG.KC.BM.Twin.prod 4370 2412240 7548010897718985544 CFSG.KC.BM.NativePair.Q24_inv E10 CFSG.KC.BM.NativePair.Q24
+#kc_eval CFSG.KC.BM.Max2 E11 CFSG.KC.BM.Twin.prod 4370 2412240 13579122569243397093 CFSG.KC.BM.NativePair.Q12_inv E11_0 CFSG.KC.BM.NativePair.Q12
+#kc_eval CFSG.KC.BM.Max2 E11 CFSG.KC.BM.Twin.rowsOf 4370 2412240 3703355665045720570 E11

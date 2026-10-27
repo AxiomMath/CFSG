@@ -1,0 +1,120 @@
+module
+
+public import CFSG.ClassicalInvolution.Phan.PhanD7Block
+public import CFSG.ClassicalInvolution.Phan.Parabolic.Generic
+
+public section
+
+namespace CFSG.ClassicalInvolution.PhanD4
+
+open Matrix CFSG.ClassicalInvolution.Phan CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits
+  CFSG.LieType.Steinberg CFSG.ClassicalGroups.Unitary
+open CFSG.Timmesfeld (edgeD)
+
+variable {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime] [CharP K p]
+  {G : Type} [Group G] {Y : Type} [Group Y] {S : PhanFamilyD4 K p f G}
+  (F : PhanFamilyD4 K p f Y)
+
+@[expose] noncomputable def phiT (hinj : Function.Injective (mTor S)) : torusSub S →* Y :=
+  (mTor F).comp (MonoidHom.ofInjective hinj).symm.toMonoidHom
+
+theorem phiT_apply (hinj : Function.Injective (mTor S)) (x : torusSub S)
+    (t : Fin 4 → normOne (unitaryInvolution K p f)) (h : (x : G) = mTor S t) :
+    phiT F hinj x = mTor F t := by
+  obtain ⟨x, hx⟩ := x
+  subst h
+  exact congrArg (mTor F) (ofInjective_symm_apply_self hinj t hx)
+
+@[expose] def IsPhi (J : Set (Fin 4)) (φ : parab S J →* Y) : Prop :=
+  (∀ t : Fin 4 → normOne (unitaryInvolution K p f),
+      φ ⟨mTor S t, torusSub_le_parab J (mTor_mem_torusSub S t)⟩ = mTor F t) ∧
+    ∀ (j : Fin 4) (hj : j ∈ J) (A : Su K p f 2),
+      φ ⟨S.ι j A, Lsup_le_parab J (ι_mem_Lsup hj A)⟩ = F.ι j A
+
+variable (hK : Nat.card K = (p ^ f) ^ 2)
+
+include hK in
+theorem conj_relation (hinj : Function.Injective (mTor S)) {J : Set (Fin 4)}
+    {φN : Lsup S J →* Y} (hφ : IsBlockHom (F := F) J φN) (t : torusSub S) (n : Lsup S J) :
+    phiT F hinj t * φN n * (phiT F hinj t)⁻¹ =
+      φN (conjAutOfNormalizer (torusSub_le_normalizer_Lsup hK J) t n) := by
+  let S₀ : Set G := ⋃ j ∈ J, ((S.ι j).range : Set G)
+  have hSH : S₀ ⊆ Lsup S J := fun y hy => by
+    obtain ⟨j, hj, hy'⟩ := Set.mem_iUnion₂.1 hy
+    obtain ⟨A, rfl⟩ := hy'
+    exact ι_mem_Lsup hj A
+  have hSN : Subgroup.closure {x : Lsup S J | (x : G) ∈ S₀} = ⊤ :=
+    closure_eq_top_of_le_closure hSH (iSup₂_le fun j hj y hy =>
+      Subgroup.subset_closure (Set.mem_iUnion₂.2 ⟨j, hj, hy⟩))
+  have hST : Subgroup.closure (Set.univ : Set (torusSub S)) = ⊤ := Subgroup.closure_univ
+  refine forall_conj_of_gens (torusSub_le_normalizer_Lsup hK J) φN (phiT F hinj) hSN hST ?_ t n
+  intro t' _ x hx
+  obtain ⟨j, hj, A, hA⟩ : ∃ j ∈ J, ∃ A, S.ι j A = (x : G) := by
+    obtain ⟨j, hj, hy⟩ := Set.mem_iUnion₂.1 hx
+    exact ⟨j, hj, hy⟩
+  have hx' : x = ⟨S.ι j A, ι_mem_Lsup hj A⟩ := Subtype.ext hA.symm
+  obtain ⟨_, τ, rfl⟩ := t'
+  have e1 : phiT F hinj ⟨mTor S τ, mTor_mem_torusSub S τ⟩ = mTor F τ :=
+    phiT_apply F hinj _ τ rfl
+  have e2 : (conjAutOfNormalizer (torusSub_le_normalizer_Lsup hK J)
+      ⟨mTor S τ, mTor_mem_torusSub S τ⟩ x : Lsup S J) =
+      ⟨S.ι j (conjDiag hK ![rho j τ, 1] A), ι_mem_Lsup hj _⟩ := by
+    refine Subtype.ext ?_
+    rw [coe_conjAutOfNormalizer, hx']
+    exact mTor_conj_ι hK S τ j A
+  rw [e1, e2, hx', hφ j hj A, hφ j hj, mTor_conj_ι hK F τ j A]
+
+theorem isPhi_unique {J : Set (Fin 4)} {φ₁ φ₂ : parab S J →* Y} (h₁ : IsPhi F J φ₁)
+    (h₂ : IsPhi F J φ₂) : φ₁ = φ₂ := by
+  let S₀ : Set G := (torusSub S : Set G) ∪ ⋃ j ∈ J, ((S.ι j).range : Set G)
+  have hSH : S₀ ⊆ parab S J := by
+    rintro x (hx | hx)
+    · exact torusSub_le_parab J hx
+    · obtain ⟨j, hj, A, rfl⟩ := Set.mem_iUnion₂.1 hx
+      exact Lsup_le_parab J (ι_mem_Lsup hj A)
+  have hle : parab S J ≤ Subgroup.closure S₀ :=
+    sup_le (fun x hx => Subgroup.subset_closure (Or.inl hx))
+      (iSup₂_le fun j hj y hy => Subgroup.subset_closure (Or.inr (Set.mem_iUnion₂.2 ⟨j, hj, hy⟩)))
+  refine hom_ext_of_le_closure φ₁ φ₂ hSH hle ?_
+  rintro x (hx | hx)
+  · obtain ⟨τ, rfl⟩ := hx
+    exact (h₁.1 τ).trans (h₂.1 τ).symm
+  · obtain ⟨j, hj, A, rfl⟩ := Set.mem_iUnion₂.1 hx
+    exact (h₁.2 j hj A).trans (h₂.2 j hj A).symm
+
+theorem isPhi_restrict {J J' : Set (Fin 4)} (h : J' ⊆ J) {φ : parab S J →* Y}
+    (hφ : IsPhi F J φ) : IsPhi F J' (φ.comp (Subgroup.inclusion (parab_mono h))) :=
+  ⟨fun τ => hφ.1 τ, fun j hj A => hφ.2 j (h hj) A⟩
+
+variable (hq : 3 ≤ p ^ f) (hg : GoodFamily S) (h2 : (2 : K) ≠ 0)
+
+include hK hq hg h2 in
+theorem exists_isPhi {J : Set (Fin 4)} (hJ : J.encard ≤ 2) :
+    ∃ φ : parab S J →* Y, IsPhi F J φ := by
+  obtain ⟨φN, hφN⟩ := exists_blockHom (F := F) hg hK hJ
+  have hinj := hg.mTor_injective hK h2
+  obtain ⟨φ, h1, h2'⟩ := exists_hom_sup_of_normalizes' (torusSub_le_normalizer_Lsup hK J) φN
+    (phiT F hinj)
+    (fun g hN hT => by
+      obtain ⟨τ, rfl⟩ := id hT
+      rw [phiT_apply F hinj ⟨mTor S τ, hT⟩ τ rfl]
+      exact hφN.agree hK hq hg h2 hJ τ hN)
+    (conj_relation F hK hinj hφN)
+  refine ⟨φ, fun τ => ?_, fun j hj A => ?_⟩
+  · exact (h2' ⟨mTor S τ, mTor_mem_torusSub S τ⟩).trans (phiT_apply F hinj _ τ rfl)
+  · exact (h1 ⟨S.ι j A, ι_mem_Lsup hj A⟩).trans (hφN j hj A)
+
+include hK hq hg h2 in
+theorem exists_phi_family :
+    ∃ φ : ∀ J : Set (Fin 4), J.encard ≤ 2 → (parab S J →* Y),
+      (∀ J (hJ : J.encard ≤ 2), IsPhi F J (φ J hJ)) ∧
+      ∀ (J J' : Set (Fin 4)) (hJ : J.encard ≤ 2) (hJ' : J'.encard ≤ 2), J' ⊆ J →
+        ∀ (g : G) (hgJ' : g ∈ parab S J') (hgJ : g ∈ parab S J),
+          φ J' hJ' ⟨g, hgJ'⟩ = φ J hJ ⟨g, hgJ⟩ := by
+  choose φ hφ using fun (J : Set (Fin 4)) (hJ : J.encard ≤ 2) =>
+    exists_isPhi F hK hq hg h2 hJ
+  refine ⟨φ, hφ, fun J J' hJ hJ' h g hgJ' hgJ => ?_⟩
+  have := isPhi_unique F (hφ J' hJ') (isPhi_restrict F h (hφ J hJ))
+  exact DFunLike.congr_fun this ⟨g, hgJ'⟩
+
+end CFSG.ClassicalInvolution.PhanD4

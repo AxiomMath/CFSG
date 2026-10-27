@@ -1,0 +1,26 @@
+module
+
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneOf
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneCases
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneLinTwo
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneUnitary
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneSpFour
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneLinThree
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneFive
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneSzSq
+public import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81ThreeFourOneSpor
+
+public section
+
+namespace CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen
+
+
+theorem kFactNineThreeSignalizerThree_holds : KFactNineThreeSignalizerThree :=
+  kFactNineThreeSignalizerThree_of_cases signalizerThreeLinTwo_holds signalizerThreeUnitary_holds
+    signalizerThreeSpFour_holds signalizerThreeLinThree_holds signalizerThreeLieFive_holds
+    signalizerThreeAltTen_holds signalizerThreeSporadic_holds signalizerThreeSzSq_holds
+
+theorem kFactThreeFourOne_holds : KFactThreeFourOne :=
+  kFactThreeFourOne_of_signalizerThree kFactNineThreeSignalizerThree_holds
+
+end CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen

@@ -1,0 +1,15 @@
+module
+
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.GN.BlockLift
+
+public section
+
+namespace CFSG.AGLEmbeddingD2.Tits.GN516
+
+export CFSG.AGLEmbeddingD2.GN (pCoreOf_le_normalizer_of_isBlock2_q gnV_le_normalizer_of_isBlock2_q
+  blockU_le_commutator_gnV_q commutator_gnV_eq_blockU_q blockU_le_gnV_q blockU_le_gnV_sup_blockZ_q
+  gnImg_blockU_eq_bot_q commutator_pCoreOf_le_gnV_q gnC_le_normalizer_of_isBlock2_q
+  le_normal_of_block_q false_of_block_subnormal_q inf_gnC_le_pCoreOf_q commutator_gnImg_eq_bot_q
+  commutator_eq_bot_of_pGroup_q)
+
+end CFSG.AGLEmbeddingD2.Tits.GN516

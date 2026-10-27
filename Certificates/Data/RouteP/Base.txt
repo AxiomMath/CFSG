@@ -1,0 +1,35 @@
+# Base data for both graphs (sections [fi23] and [cover]); key value... lines. Points are 1-based; cover points use the compact numbering N=3(p-1)+i+1.
+# x0 base point; x1 neighbour; x2 common neighbour of x0 and x1; plane = size then points of a clique containing x0,x1,x2; adjacency suborbit = orbit of x1 under Stab(x0)=X0 (stab file, OUT X0);
+# rep2: representative of the distance-2 X0-orbit and the order of K=Stab(x0,rep2); rep3: representatives of the distance-3 X0-orbits.
+[fi23]
+n 31671
+group_order 4089470473293004800
+x0 1
+x1 6
+x2 2427
+plane 23 1 6 2427 1811 1792 191 246 1757 2252 65 2392 12862 297 13707 2486 12994 1661 76 14307 14457 2707 127 1936
+adjacency_suborbit_size 3510
+diameter 2
+distance_distribution 1 3510 28160
+order_X0 129123503308800
+order_A1 36787322880
+order_H0 73574645760
+order_N0 20891566080
+rep2 2 order_K 4585351680
+[cover]
+n 920808
+group_order 3765617127571985163878400
+x0 1
+x1 1480
+x2 99706
+plane 24 1 1480 99706 867343 105049 96772 11854 18127 894829 102061 50476 14965 94762 118192 114277 46822 35008 50638 4072 1522 4375 114892 115168 95737
+adjacency_suborbit_size 31671
+diameter 4
+distance_distribution 1 31671 825792 63342 2
+order_X0 4089470473293004800
+order_A1 129123503308800
+order_H0 258247006617600
+order_N0 501397585920
+rep2 4 order_K 4952179814400
+rep3 750021
+rep3 750101

@@ -1,0 +1,4 @@
+module
+
+public import CFSG.LocalAnalysis.OddStandard.Seitz77Weights16Table
+public import CFSG.LocalAnalysis.OddStandard.Seitz77Weights16Fix

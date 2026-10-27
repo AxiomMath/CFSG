@@ -1,0 +1,2 @@
+mul cV01 CFSG.KC.BM.NativePair.Q1 V01 = CFSG.KC.BM.NativePair.Q0 CFSG.KC.BM.NativePair.Q1
+mul cY01 CFSG.KC.BM.NativePair.Q0 V01 = Y01

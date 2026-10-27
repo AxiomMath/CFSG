@@ -1,0 +1,10 @@
+# Q0PlaneWords.txt: words (signed letters, negative = inverse, the last letter acts first) of the
+# generators of Q0 acting on the planes. Letters 1, 2 are the elements a, b (the elements 54, 58
+# of CoverN0.txt) of Zq, letters 3..13 the involutions eps_0..eps_10, letters 14, 15, 16 the
+# generators of A1 = (the elements 7, 8, 9 of CoverStab.txt) fixing x0 and x1.
+# D: words d_1, d_2 in a, b fixing x0, x1, x2 (they lie in D0 = Q0 meet Zq).
+# U, V: words in the generators of A1 fixing x2 (they lie in Q0); g = u^-1 v^-1 u v.
+D -2 -1 -2 -1 2 -1 2 -1 2 -1 -2 -1 -2 1 -2 1 2 1 2 1 -2 1 2 1 -2
+D -1 -2 -1 2 -1 -2 -1 -2 -1 2 -1 2 -1 2 1 -2 1 2 1 2 1 2 1 -2
+U 14 -15 -15 16 14
+V -16 -14 15 16 15 16

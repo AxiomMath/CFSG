@@ -1,0 +1,284 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsDischarges
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsInvCent
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsUnbal
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34OddLieStd
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5BadEight510
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5CentralCard510
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafL34Main
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofLieOrder
+public import CFSG.LocalAnalysis.ComponentClassification.GHarrisCore
+public import CFSG.LocalAnalysis.ComponentClassification.GHarrisE16e
+public import CFSG.LocalAnalysis.ComponentClassification.GHarrisGrS
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitGLS3
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitGoldschmidt
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsBFix
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsBorelGen
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsCenter
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsCentralFour
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsCyclicCenter
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsEightsConn
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsElemCenter
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsEndS4
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsFourCube
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsParabolic
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsParabolicGen
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsUnitaryCentralizer
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34HeldCenter
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4Center46
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4Conn47
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4InputsEnd43
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4End46
+public import CFSG.LocalAnalysis.ComponentClassification.Sol78PSp4
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4DiagMem
+public import Certificates.Kernel.ThCent.Leaves
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4End43F
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4End43H2
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitHeldFixHeFacts
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4End43N2
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4End43W
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4End43WI
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4EndCov
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4Lemma45
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4Lemma46W
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4OutCov
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4OutCov4
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4OuterW
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4Prop41
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec4TwoW
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitSingle
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitSingleRank
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitSingleSFL
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitSol25
+public import CFSG.Sporadic.Recognition.HeMultiplierCert
+public import Certificates.Certificate43
+public import Certificates.Certificate2022
+public import Certificates.Certificate2110
+public import Certificates.Certificate2111
+public import Certificates.Certificate2112
+public import Certificates.Certificate2114
+public import Certificates.Certificate2115
+public import Certificates.Certificate2116
+public import Certificates.Certificate2117
+public import Certificates.Certificate2118
+public import Certificates.Certificate2119
+public import Certificates.Certificate2120
+public import Certificates.Certificate2121
+public import Certificates.Certificate2122
+public import Certificates.Certificate2123
+public import Certificates.Certificate2125
+public import Certificates.Certificate2127
+public import Certificates.Certificate2129
+public import Certificates.Certificate2211
+public import Certificates.Certificate2212
+public import Certificates.Certificate2213
+public import Certificates.Certificate2214
+public import Certificates.Certificate2215
+public import Certificates.Certificate2216
+public import Certificates.Certificate2217
+public import Certificates.Certificate2218
+public import Certificates.Certificate2219
+public import Certificates.Certificate2220
+public import Certificates.Certificate2221
+public import Certificates.Certificate2223
+public import Certificates.Certificate2224
+public import Certificates.Certificate2225
+public import Certificates.Certificate2240
+public import Certificates.Certificate2241
+public import Certificates.Certificate2242
+public import Certificates.Certificate2243
+public import Certificates.Certificate2244
+public import Certificates.Certificate2245
+public import Certificates.Certificate2272
+public import Certificates.Certificate2274
+public import Certificates.Certificate2284
+public import Certificates.Certificate2285
+public import Certificates.Certificate2288
+public import Certificates.Certificate2329
+public import Certificates.Certificate2332
+public import Certificates.Certificate3007
+public import Certificates.Certificate3167
+public import Certificates.Certificate3168
+public import Certificates.Certificate3170
+public import Certificates.Certificate3171
+public import Certificates.Certificate8129
+public import Certificates.Certificate10005
+public import Certificates.Certificate10051
+public import Certificates.Certificate22200
+public import Certificates.Certificate22201
+public import Certificates.Certificate22202
+public import Certificates.Certificate22203
+public import Certificates.Certificate22204
+public import Certificates.Certificate22205
+public import Certificates.Certificate22206
+public import Certificates.Certificate22207
+public import Certificates.Certificate22209
+public import Certificates.Certificate22210
+public import Certificates.Certificate22211
+public import Certificates.Certificate22214
+public import Certificates.Certificate22216
+public import Certificates.Certificate22217
+public import Certificates.Certificate22218
+public import Certificates.Certificate22219
+public import Certificates.Certificate22220
+public import Certificates.Certificate22221
+public import Certificates.Certificate22600
+public import Certificates.Certificate22601
+public import Certificates.Certificate22602
+public import Certificates.Certificate22603
+public import Certificates.Certificate22604
+public import Certificates.Certificate22605
+public import Certificates.Certificate22606
+public import Certificates.Certificate22607
+public import Certificates.Certificate22608
+public import Certificates.Certificate22609
+public import Certificates.Certificate22610
+public import Certificates.Certificate22611
+public import Certificates.Certificate22900
+public import Certificates.Certificate22970
+public import Certificates.Certificate22971
+public import CFSG.LocalAnalysis.ComponentClassification.CatFactsL4U4Cat82
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsOddFour
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Lemma56R
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Lemma582
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Lemma55
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Normal
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Conj510
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Steps
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedLayerOrbitContainmentTransfer
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmBHypG
+public import Certificates.Certificate1
+public import Certificates.Certificate2
+public import Certificates.Certificate3
+public import Certificates.Certificate4
+public import Certificates.Certificate5
+public import Certificates.Certificate6
+public import Certificates.Certificate7
+public import Certificates.Certificate8
+public import Certificates.Certificate9
+public import Certificates.Certificate10
+public import Certificates.Certificate11
+public import Certificates.Certificate12
+public import Certificates.Certificate42
+public import Certificates.Certificate44
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate117
+public import Certificates.Certificate3951
+public import Certificates.Certificate3952
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Orbit58
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitWGroup
+public import CFSG.LocalAnalysis.ComponentClassification.HSFLitAutL2Fact
+public import CFSG.LocalAnalysis.ComponentClassification.HSFLitAutL2Outer
+public import CFSG.LocalAnalysis.ComponentClassification.HSFLitAutL34Facts
+public import CFSG.LocalAnalysis.ComponentClassification.KProperComponentLocalBOpen
+public import Certificates.Certificate2005
+public import Certificates.Certificate2331
+public import Certificates.Certificate5117
+public import Certificates.Certificate22208
+public import Certificates.Certificate22213
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsCover2CertInputs
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsNoFrobCertInputs
+import Certificates.Kernel.LocalComp.L34T3.Glue
+public import Certificates.Certificate22802
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Lemma59
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5InputsRank
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Cor217Invt
+public import CFSG.GroupTheory.QuasisimpleCommutingProductBound
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5StdEvenCases
+public import Certificates.Certificate3086
+public import Certificates.Certificate3120
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Lemma510
+public import CFSG.LocalAnalysis.ComponentClassification.HSFLitL34OrbitStep
+public import CFSG.LocalAnalysis.ComponentClassification.HSFLitL34PairStep
+public import CFSG.LocalAnalysis.ComponentClassification.HSFLitL34TypeWeak
+public import Certificates.Certificate22212
+public import Certificates.Certificate22803
+public import Certificates.Certificate22804
+public import Certificates.Certificate22805
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5SKuClosed58
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5SKuClosed59P
+public import CFSG.Quasithin.H13.J4Order
+
+public section
+
+namespace CFSG.ComponentClassification.GrSLit.GrS5
+
+open CFSG.LocalAnalysis.ComponentInitial (SchreierFor)
+
+theorem l34Lemma511_of_prop41_ku
+    (hS : SchreierFor Blueprint.Catalog) (hU : CatalogueU.CatalogAlmostSimpleUnbalancedOutcome)
+    (hMax : MaximalTwoComponentInput) (hRank : OddStandard.RankTwoL3FourStandard)
+    (hCIT : StandardRecognition.ClassicalInvolutionTheoremModels)
+    (hEven : OddStandard.L34CyclicEvenCenter) (hComp : L34Cor217ComponentStep)
+    (hKu : GrS5S.L34Sec5KuOddStep) (hCard : L34Lemma510CentralCardStep)
+    (hBadE : L34Lemma510BadEightStep) (h41 : L34Prop41) :
+    L34Lemma511 := by
+  have hHeldInput' := KProperRelativeB.heldInput
+  have hSolomonCommutingCoreInput' := solomonCommutingCoreInput
+  have hGorensteinWalterConnectedInput' := gorensteinWalterConnectedInput
+  have hInvolutionCentralizerFact' := L34Facts.l34InvolutionCentralizerFact
+  have hSec5ComponentInvariantStep' := l34Sec5ComponentInvariantStep_of_comp hMax hComp
+  have hLemma58' := l34Lemma58_closed_ku hS hU hMax hSec5ComponentInvariantStep' hKu
+  have hLemma59' := l34Lemma59_of_prop41_ku hS hU hMax hRank hCIT hEven hComp hKu h41
+  have hElementaryCenterSylowFact' := l34ElementaryCenterSylowFact
+  have hElementaryRankFact' := l34ElementaryRankFact
+  have hMaxElementaryThreeFact' := l34MaxElementaryThreeFact
+  have hUnbalancingUnitaryStep' := L34Facts.l34UnbalancingUnitaryStep
+  have hUnitaryAutFact' := HSFLit.AutL34.l34UnitaryAutFact
+  have hL2UnbalancingAutFact' := HSFLit.AutL2.l2UnbalancingAutFact
+  have hSylowCentralLiftFact' := l34SylowCentralLiftFact
+  have hAutSylowCenterFact' := HSFLit.AutL34.l34AutSylowCenterFact
+  have hStandardEvenInput' := GSThmB.l34StandardEvenInput_of_cases hRank hCIT
+    OddStandard.oddLieNoStandardL34_holds hEven
+  have hLemma510CentralStep' := l34Lemma510CentralStep_of_card hS hU hHeldInput'
+    hSolomonCommutingCoreInput' hGorensteinWalterConnectedInput' hMax hInvolutionCentralizerFact'
+    hCard
+  have hLemma510OTwoBoundStep' := l34Lemma510OTwoBoundStep_of_badEight hS hU hHeldInput' hMax hComp
+    hBadE
+  have hLemma55TypeStep' := HSFLit.L34Inv.l34Lemma55TypeStep_of_inputs hS hU hHeldInput'
+    hSolomonCommutingCoreInput' hGorensteinWalterConnectedInput'
+  have hLemma511CenterStep' := HSFLit.L34Uniq.l34Lemma511OrbitStep_of_inputs hS hU hHeldInput'
+    hSolomonCommutingCoreInput' hGorensteinWalterConnectedInput' hMax hInvolutionCentralizerFact'
+  have hLemma511PairStep' := HSFLit.L34Uniq.l34Lemma511PairStep_of_inputs hS hU hHeldInput'
+    hSolomonCommutingCoreInput' hGorensteinWalterConnectedInput' hMax hInvolutionCentralizerFact'
+  exact l34Lemma511_of_inputs hS hU hHeldInput' hSolomonCommutingCoreInput'
+    hGorensteinWalterConnectedInput' hMax hInvolutionCentralizerFact' hLemma58' hLemma59'
+    hElementaryCenterSylowFact' hElementaryRankFact' hMaxElementaryThreeFact'
+    hUnbalancingUnitaryStep' hUnitaryAutFact' hComp hL2UnbalancingAutFact' hSylowCentralLiftFact'
+    hAutSylowCenterFact' hStandardEvenInput' h41 hLemma510CentralStep' hLemma510OTwoBoundStep'
+    hLemma55TypeStep' hLemma511CenterStep' hLemma511PairStep'
+
+end CFSG.ComponentClassification.GrSLit.GrS5

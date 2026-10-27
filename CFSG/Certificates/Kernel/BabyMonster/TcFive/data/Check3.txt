@@ -1,0 +1,6 @@
+mul4 c_v19 v18 CFSG.KC.BM.Seeds.A2 = v19
+mul4 c_v20 v19 CFSG.KC.BM.Five.f85 = v20
+mul4 c_v21 CFSG.KC.BM.Seeds.A2 CFSG.KC.BM.Five.f86_sq1 = v21
+mul4 c_v22 CFSG.KC.BM.Five.f85_sq2 v21 = v22
+mul4 c_v23 CFSG.KC.BM.Seeds.A1 v22 = v23
+mul4 c_v24 CFSG.KC.BM.Five.f85_sq1 v23 = v24

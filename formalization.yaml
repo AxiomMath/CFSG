@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "The Classification of Finite Simple Groups"
+  description: >-
+    A Lean 4 formalization of the Classification of Finite Simple Groups, using Tau Ceti's `TauCeti.ClassificationStatement`: every finite simple group is isomorphic to a cyclic group of prime order, an alternating group, a finite simple group of Lie type, or one of the 26 sporadic groups.
+  authors:
+    - "Dean Cureton"
+    - "Vasily Ilin"
+    - "Bhavik Mehta"
+    - "Niels Voss"
+    - "Rafael Cabral"
+    - "Colin Defant"
+    - "Erik Gregory"
+    - "Aaron Hill"
+    - "Letong Hong"
+    - "Qinheping Hu"
+    - "Dustin Jamner"
+    - "Albert Jiang"
+    - "Tadeusz Jordan"
+    - "Andranik Kurghinyan"
+    - "Kenny Lau"
+    - "Jonathan Laurent"
+    - "David Liang"
+    - "Jannis Limperg"
+    - "Simon Mahns"
+    - "Brian Nugent"
+    - "Connor Olson"
+    - "Ken Ono"
+    - "Eric Paul"
+    - "Dhruv Rajan"
+    - "Karun Ram"
+    - "Charlie Ray"
+    - "Ho Chung Siu"
+    - "Ashvin A. Swaminathan"
+    - "Jesse Thorner"
+    - "Aleksey Tsaplin"
+    - "Chenkai Wang"
+  responsible_maintainers:
+    - "Niels Voss"
+    - "Vasily Ilin"
+    - "Dean Cureton"
+  license: "Apache-2.0"
+
+classification:
+  arxiv: ["math.GR"]
+  msc2020:
+    - "20D05" # Finite simple groups and their classification
+    - "20D06" # Simple groups: alternating groups and groups of Lie type
+    - "20D08" # Simple groups: sporadic groups
+    - "20D20" # Sylow subgroups, Sylow properties, π-groups, π-structure
+    - "68V20" # Formalization of mathematics in connection with theorem provers
+
+sources:
+  - title: "CFSG Sources"
+    note: "The full list of references can be found at docs/references.bib"
+
+related_formalizations:
+  - id: "https://github.com/Qiuzhen-CFSG/CFSG"
+    relationship: adapts
+  - id: "https://github.com/norbsvr/BrauerInduction"
+    relationship: adapts
+  - id: "https://github.com/yawara/odd-order"
+    relationship: adapts
+
+status:
+  scope: Finite group theory leading up to the full classification, including major results proved along the way
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "CFSGComparator.classification"
+      file: "Comparator/Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+      literature_dependencies: []
+    - declaration: "CFSG.Milestones.cfsg_classification_native_and_realization"
+      file: "CFSG/Milestones/CFSG_classification.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
+
+automation:
+  methods:
+    - method: autonomous
+      framework: "AxiomProver"
+
+review:
+  status: self-assessed
+  reviewers: ["Axiom Math"]
+
+acknowledgements: >-
+  We thank the Mathlib and Tau Ceti contributors and the authors of the third-party projects listed above. Richard Lyons, Ronald Solomon, Robert Guralnick, Daniel Nakano, Pham Tiep and Gernot Stroth provided mathematical advice. We also thank the authors of the GAP system and the ATLAS of Finite Group Representations.

@@ -1,0 +1,3032 @@
+module
+
+public import Certificates.Certificate799602
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBProperRows
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBCornerPlaneFrame
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBCornerAbsorb
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBRestLeaves
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBDenseLabel
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBUniLargeHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSpFourCommonChartRouteHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSpFourCommonCompRouteHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSparseTwDFiveSplit
+import CFSG.LocalAnalysis.StandardType.GGSecFiveCompatJoinLeaves
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinSelectedHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinBOfPerm
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinBPermUniLeaf
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinBPermLinLeaf
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinMemberEReduction
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinMemberETwistedE6Holds
+import CFSG.LocalAnalysis.StandardType.GGPairResidualFullRows
+
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermOffSpOfLeaves
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermLinSU6Holds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermUniQTwoExcSixHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermProperQTwoNbrHolds
+
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBLabelCore
+import CFSG.LocalAnalysis.StandardType.GGQTwoDSevenLeaves
+import CFSG.LocalAnalysis.StandardType.GGQTwoPhanDM4
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBRes
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSp
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBCornerReduce
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSpSp
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBSpCoordFrame
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSpCharts
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordBSpSpCharts
+import CFSG.LocalAnalysis.StandardType.PhanEStdClassified
+import CFSG.LocalAnalysis.StandardType.GGResJTwE6Lagrange
+import CFSG.LocalAnalysis.StandardType.GGResThreeSettled
+import CFSG.LocalAnalysis.StandardType.GGResUnitaryKByDegree
+import CFSG.LocalAnalysis.StandardType.GGResTwoSettled
+import CFSG.LocalAnalysis.StandardType.GGResTwoCells
+import CFSG.LocalAnalysis.StandardType.GGResSpSplitThree
+import CFSG.LocalAnalysis.StandardType.GGResE6SplitExactTwoL
+import CFSG.LocalAnalysis.StandardType.GGResExact2OrthSplit
+import CFSG.LocalAnalysis.StandardType.GGResTwDExactTwoL
+import CFSG.LocalAnalysis.StandardType.GGResTwE6PlusExactTwoL
+import CFSG.LocalAnalysis.StandardType.GGResE78QTwoThree
+import CFSG.LocalAnalysis.StandardType.GGResOrthSplitThree
+public import CFSG.LocalAnalysis.StandardType.GGResCentBoundNbrHolds
+
+public import CFSG.LocalAnalysis.StandardType.GGTwoNodeIndepSmallTwoRest
+public import CFSG.LocalAnalysis.StandardType.GGTBJExoticRows
+public import CFSG.LocalAnalysis.StandardType.GGTBJLowRankRows
+public import CFSG.LocalAnalysis.StandardType.GGTBJClassicalOrderRows
+
+public import CFSG.Yardstones.M3f9567aba59d.Definitions
+import CFSG.LocalAnalysis.StandardType.GGAllFixedSolv
+public import CFSG.LocalAnalysis.StandardType.TableC.PSpTC
+import CFSG.LocalAnalysis.StandardType.GGQTwoXInLClassicalHolds
+import CFSG.LocalAnalysis.StandardType.GGF4OriginalTypes
+import CFSG.LocalAnalysis.StandardType.GGSecFiveF4BCPair
+import CFSG.LocalAnalysis.StandardType.GGF4B3Core
+import CFSG.LocalAnalysis.StandardType.GGSecFiveF4Contracts
+import CFSG.LocalAnalysis.StandardType.GGF4LabelLeaves
+import CFSG.LocalAnalysis.StandardType.GGF4SmallExcl
+import CFSG.LocalAnalysis.StandardType.GGExcTwoCompListsRE
+import CFSG.LocalAnalysis.StandardType.GGK0CompREMult
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanNSQ2Cells
+import CFSG.LocalAnalysis.StandardType.GGNsq2Main
+import CFSG.LocalAnalysis.StandardType.GGNsq2U62
+import CFSG.LocalAnalysis.StandardType.GGSecFiveNSQ2DU6
+import CFSG.LocalAnalysis.StandardType.GGNsq2NbrMain
+import CFSG.LocalAnalysis.StandardType.GGQTwoSlotOut
+import CFSG.LocalAnalysis.StandardType.GGQTwoBSCompletion
+import CFSG.LocalAnalysis.StandardType.ZS.UseInputHolds
+import CFSG.LocalAnalysis.StandardType.GGPhanSmallFalse
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinHCRows
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBWeylInf
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBFourPermExc
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBReflMax
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPositionData
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermSp
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermSpFrame
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermSpLFrameMp
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermSpKFrameMp
+import CFSG.LocalAnalysis.StandardType.GGF4Absorption
+import CFSG.LocalAnalysis.StandardType.GGSecFiveF4ReflMax
+import CFSG.LocalAnalysis.StandardType.GGSecFiveF4WeylInf
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBMaxJoin
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBProperRootModel
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPermUnitaryLabel
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBSatOfNativeImage
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclReal
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclOrth
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclResid
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclResidE6
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclResidTwE6
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclResidTwA5
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBCoordDExclQTwoCl
+import CFSG.LocalAnalysis.StandardType.GGResidualGenFrameHolds
+import CFSG.LocalAnalysis.StandardType.GGRealKGFiveOffE6
+import CFSG.LocalAnalysis.StandardType.GGSecFiveBPosition
+public import CFSG.LocalAnalysis.StandardType.GGLabelRigid
+import CFSG.LocalAnalysis.StandardType.GGQ2NbrD5Frame
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcCensusCert
+import CFSG.LocalAnalysis.StandardType.GGQ2InLLeafPlane
+import CFSG.LocalAnalysis.StandardType.GGQ2InLCoverPieces
+import CFSG.LocalAnalysis.StandardType.GGFrameEndJoin
+import CFSG.LocalAnalysis.StandardType.GGFrameRoutePortGlueFSPoint
+import CFSG.LocalAnalysis.StandardType.GGFrameRoutePortGlueOneOuter
+import CFSG.LocalAnalysis.StandardType.GGFrameTBHolds
+import CFSG.LocalAnalysis.StandardType.GGFrameTBVacuous
+import CFSG.LocalAnalysis.StandardType.FS81.ReductionRest
+import CFSG.LocalAnalysis.StandardType.FS81.TwD7YFromProjection
+import CFSG.LocalAnalysis.StandardType.FS81.L3RootFusionHolds
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5Reduction
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5NineAssembly
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5Nine92
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5ReflCheck
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5NineModel
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5TwoLocalK
+import CFSG.LocalAnalysis.StandardType.GGPhanSmallU6
+import CFSG.LocalAnalysis.StandardType.GGPhanSmallEnnola
+import CFSG.LocalAnalysis.StandardType.GGResXDichotomy
+import CFSG.LocalAnalysis.StandardType.GGPZNbrResRest
+import CFSG.LocalAnalysis.StandardType.GGResRowAssembly
+import CFSG.LocalAnalysis.StandardType.ZS.Adapter
+import CFSG.LocalAnalysis.StandardType.GGTWZKAssembly
+import CFSG.LocalAnalysis.StandardType.GGTBJLinearSplitA
+import CFSG.LocalAnalysis.StandardType.GGTBJUnitaryDvd
+import CFSG.LocalAnalysis.StandardType.GGResE6TwoThreeExactTwoL
+import CFSG.LocalAnalysis.StandardType.GGResUnitaryKRankFiveL
+import CFSG.LocalAnalysis.StandardType.GGTBJTwE6LeviThreeStage
+import CFSG.LocalAnalysis.StandardType.GGTBJTwE6ThreeGlue
+import CFSG.LocalAnalysis.StandardType.GGTBJTwE6ThreeTwo
+import CFSG.LocalAnalysis.StandardType.GGTBJF4LeviTwo
+import CFSG.LocalAnalysis.StandardType.GGTBJETypeCells
+import CFSG.LocalAnalysis.StandardType.GGTBJFamilyCover
+import CFSG.LocalAnalysis.StandardType.GGTBJE6LeviStageT
+import CFSG.LocalAnalysis.StandardType.GGTBJE6LeviThreeT
+import CFSG.LocalAnalysis.StandardType.GGTBJTwE6LeviSplitCover
+import CFSG.LocalAnalysis.StandardType.GGTBJTwE6LeviGeFiveStage
+import CFSG.LocalAnalysis.StandardType.GGTBJNoB2derA1Holds
+import CFSG.LocalAnalysis.StandardType.GGTBJF4LeviPlus
+import CFSG.LocalAnalysis.StandardType.GGTBJUnitaryCoprime
+import CFSG.ClassicalInvolution.Phan.PhanDn.MainA
+import CFSG.ClassicalInvolution.Phan.PhanDn.QTwo.OmegaModels
+import CFSG.LocalAnalysis.StandardType.GGQTwoDUnitSixCell
+import CFSG.LocalAnalysis.StandardType.GGTBJSympMinusOne
+import CFSG.LocalAnalysis.StandardType.GGTBJOrthOn
+import CFSG.LocalAnalysis.StandardType.GGTBJSympMinus
+import CFSG.LocalAnalysis.StandardType.GGTBJUnitaryMinus
+import CFSG.LocalAnalysis.StandardType.GGTBJLinearMinus
+import CFSG.LocalAnalysis.StandardType.GGTBJEThree
+import CFSG.LocalAnalysis.StandardType.GGTBJSpPlus
+import CFSG.LocalAnalysis.StandardType.GGTBJNonLeviRows
+import CFSG.LocalAnalysis.StandardType.GGTBJUnitaryRankThree
+import CFSG.LocalAnalysis.StandardType.GGTBJSpRankThree
+import CFSG.LocalAnalysis.StandardType.GGTBJUnitarySix
+import CFSG.LocalAnalysis.StandardType.GGTBWNormE7E8Two
+import CFSG.LocalAnalysis.StandardType.GGTBWNormLabelExhaustion
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeRowDim
+import CFSG.LocalAnalysis.StandardType.GGResTwoNodeIndepLE3TenHolds
+public import CFSG.LocalAnalysis.StandardType.GGNTPlaneRC0
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ1Holds
+import CFSG.LocalAnalysis.StandardType.GGNbrWeylTypeAssembly
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2ExceptionalAction
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2E6Label
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2OrthogonalPlus
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2OffRows
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2LargeImage
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2OrthogonalMinus
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2Sp
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2Census
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2ExceptionalRest
+import CFSG.LocalAnalysis.StandardType.GGTBRowF4Datum
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow2
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow11
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumVacuous
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow10
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow9
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow8
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow7
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow6
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow5
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow4
+import CFSG.LocalAnalysis.StandardType.GGTBRowDatumNarrow3
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR4Narrow
+import CFSG.LocalAnalysis.StandardType.GGTwA5ThreeNarrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowVNarrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR5O1Narrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR5UNarrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR3Narrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR5Narrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR5UdNarrow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR6Narrow
+import CFSG.LocalAnalysis.StandardType.GGTBJXRow
+import CFSG.LocalAnalysis.StandardType.GGTBJR1ADRow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowRest
+import CFSG.LocalAnalysis.StandardType.GGTBJE6ThreeRow
+import CFSG.LocalAnalysis.StandardType.GGTBJRowR5O2
+import CFSG.LocalAnalysis.StandardType.GGInnerD4SmallHolds
+import CFSG.LocalAnalysis.StandardType.GGInnerD4DGenHolds
+import CFSG.LocalAnalysis.StandardType.GGInnerD4RAHolds
+import CFSG.LocalAnalysis.StandardType.GGInnerD4Assembly
+import CFSG.LocalAnalysis.StandardType.GGFieldTwoCornerSplit
+import CFSG.LocalAnalysis.StandardType.GGFieldTwoFinal
+import CFSG.LocalAnalysis.StandardType.GGAm2Final
+import CFSG.LocalAnalysis.StandardType.GGExcReflTBWeylDatumHolds
+import CFSG.LocalAnalysis.StandardType.GGTwE6BadDatum
+import CFSG.LocalAnalysis.StandardType.GGQ2TableBI1NotTB
+import CFSG.LocalAnalysis.StandardType.GGQ2TableBI1UHeart
+import CFSG.LocalAnalysis.StandardType.GGQ2TableBI1TwE6
+import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyQFourTBSmall
+public import CFSG.LocalAnalysis.StandardType.GGTorusGenTwoThreeNarrow22
+import CFSG.LocalAnalysis.StandardType.GGTorusGenTwoThreeForm4Vac
+import CFSG.LocalAnalysis.StandardType.GGL48TBForm1Rest22Holds
+import CFSG.LocalAnalysis.StandardType.GGE0InnerDiagInputHolds
+import CFSG.LocalAnalysis.StandardType.GGOuterInvRestHolds
+import CFSG.LocalAnalysis.StandardType.GGResHdRoOpenR
+import CFSG.LocalAnalysis.StandardType.GGReflExtE6
+import CFSG.LocalAnalysis.StandardType.GGReflExtA5
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeNineDepTwoRest
+import CFSG.LocalAnalysis.StandardType.GGNineDepKFixLine
+import CFSG.LocalAnalysis.StandardType.GGNineDepRowImprimHolds
+import CFSG.LocalAnalysis.StandardType.GGNineDepRowLinHolds
+import CFSG.LocalAnalysis.StandardType.GGNineDepRowSymSuccHolds
+import CFSG.LocalAnalysis.StandardType.GGNineDepRowSymSuccTwoHolds
+import CFSG.LocalAnalysis.StandardType.GGNineDepRowExcHolds
+import CFSG.LocalAnalysis.StandardType.GGNineDepRowOrthHolds
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeKFixLineProducer
+import CFSG.LocalAnalysis.StandardType.GGReflNineFinal
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeA5DepFinal
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeE6DepFinal
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeIndepDatumOfTor
+import CFSG.LocalAnalysis.StandardType.GGResTriD4TwE6
+import CFSG.LocalAnalysis.StandardType.GGTwE6TriD4KHolds
+import CFSG.LocalAnalysis.StandardType.GGE6D4LocalJ
+import CFSG.LocalAnalysis.StandardType.GGE6D4LocalSide
+import CFSG.LocalAnalysis.StandardType.GGE6D4TwX
+import CFSG.LocalAnalysis.StandardType.GGTBTorTwE6ThreeHolds
+import CFSG.LocalAnalysis.StandardType.GGResE6DepLabel
+import CFSG.LocalAnalysis.StandardType.GGResTwoNodeIndepWire
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeSmallPosB
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeSmallNineDep
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeSmallPosExcl
+import CFSG.LocalAnalysis.StandardType.GGTwoNodeKFixLineFrameShared
+import CFSG.LocalAnalysis.StandardType.GGHdRo7CFinal
+import CFSG.LocalAnalysis.StandardType.GGResIISmall
+import CFSG.LocalAnalysis.StandardType.GGResIILin
+import CFSG.LocalAnalysis.StandardType.GGTBFixNbrLargeAssembly
+import CFSG.LocalAnalysis.StandardType.GGTBTorLiftADepHolds
+import CFSG.LocalAnalysis.StandardType.GGTBE6
+import CFSG.LocalAnalysis.StandardType.GGTBTorLiftRowsHolds
+import CFSG.LocalAnalysis.StandardType.GGTDLabels
+import CFSG.LocalAnalysis.StandardType.GGResTwoNodeDepSmallOf
+import CFSG.LocalAnalysis.StandardType.GGQ2TwoNodeOpenGlue
+import CFSG.LocalAnalysis.StandardType.GGDepED4LowCells
+import CFSG.LocalAnalysis.StandardType.GGHdRo7SUFinal
+import CFSG.LocalAnalysis.StandardType.GGResMultiNodeRestFinal
+import CFSG.LocalAnalysis.StandardType.GGLieCoreA3Final
+import CFSG.LocalAnalysis.StandardType.GGLieCorePlane3E6Cent
+import CFSG.LocalAnalysis.StandardType.GGLieCorePlane3E6Small
+import CFSG.LocalAnalysis.StandardType.GGLieCorePlane3F4
+import CFSG.LocalAnalysis.StandardType.GGLieCorePlane3F4Tame
+import CFSG.LocalAnalysis.StandardType.GGFamF4Assembly
+import CFSG.LocalAnalysis.StandardType.GGFamLabelAssembly
+import CFSG.LocalAnalysis.StandardType.GGA6GlueAssembly
+import CFSG.LocalAnalysis.StandardType.GGA6GlueConsumers
+import CFSG.LocalAnalysis.StandardType.GGLieBridgeHolds
+import CFSG.LocalAnalysis.StandardType.GGLieCoreE6NonToralHolds
+import CFSG.LocalAnalysis.StandardType.GGLieCoreSmallSetup
+import CFSG.LocalAnalysis.StandardType.GGLieCoreSmallInner
+import CFSG.LocalAnalysis.StandardType.GGLieCoreStruct
+import CFSG.HardMathSupport.Timmesfeld.CrossChar.PlanesToralWeyl
+import Certificates.Certificate45
+import Certificates.Certificate46
+import Certificates.Certificate47
+import Certificates.Certificate48
+import Certificates.Certificate49
+import Certificates.Certificate50
+import Certificates.Certificate51
+import Certificates.Certificate52
+import Certificates.Certificate53
+import Certificates.Certificate54
+import Certificates.Certificate55
+import Certificates.Certificate56
+import Certificates.Certificate57
+import Certificates.Certificate58
+import Certificates.Certificate59
+import Certificates.Certificate60
+import Certificates.Certificate61
+import Certificates.Certificate62
+import Certificates.Certificate63
+import Certificates.Certificate64
+import Certificates.Certificate65
+import Certificates.Certificate66
+import Certificates.Certificate67
+import Certificates.Certificate68
+import Certificates.Certificate69
+import Certificates.Certificate70
+import Certificates.Certificate71
+import Certificates.Certificate72
+import Certificates.Certificate73
+import Certificates.Certificate74
+import Certificates.Certificate75
+import Certificates.Certificate117
+import CFSG.LocalAnalysis.StandardType.GGJ4dRankTwo
+import CFSG.LocalAnalysis.StandardType.GGJ4dSimpleRank
+import CFSG.LieType.Chevalley.G2FieldFourCoverRoots
+import CFSG.HardMathSupport.Dickson.Sec6.Up34Chev2Aux.InnExcInner
+import CFSG.LieType.Steinberg.Adjoint.Pairs
+import CFSG.HardMathSupport.Timmesfeld.LangTorus.ComponentsExc
+import CFSG.LocalAnalysis.StandardType.GGLieCoreSmallUnitary
+import CFSG.Blueprint.Catalog
+import CFSG.LocalAnalysis.StandardType.GGForkA8NotReflHolds
+import CFSG.LocalAnalysis.StandardType.GGL45NtExcInputsFour
+import CFSG.LocalAnalysis.StandardType.GGSecFiveSplitNbrOfEnnola
+import CFSG.LocalAnalysis.StandardType.GGSecFiveNSEnnolaMain
+import CFSG.LocalAnalysis.StandardType.GGSecFiveNSCornerMain
+import CFSG.LocalAnalysis.StandardType.GGOrthKStructHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveOrthKSLExceptional
+import CFSG.LocalAnalysis.StandardType.GGWitAssembly
+import CFSG.LocalAnalysis.StandardType.GGSecFiveTBJTypeD4Holds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveNarrowNS
+import CFSG.LocalAnalysis.StandardType.GGTCJEnnolaOfUniOrth
+import CFSG.LocalAnalysis.StandardType.GGTCJEnnolaUniFinal
+import CFSG.LocalAnalysis.StandardType.GGTCJEnnolaOrthFinal
+public import CFSG.Assembly.StandardTypeRecognitionDefs
+public import CFSG.Assembly.E6FourNeighbourStep1
+public import CFSG.Assembly.E6FourNeighbourCfg
+public import CFSG.Assembly.E6FourNeighbourBar
+public import CFSG.Assembly.E6FourNeighbourFacts
+import CFSG.Assembly.Subnormal
+import CFSG.Foundations.MaxCardThompson
+import CFSG.LocalAnalysis.StandardType.GGRootNormInner
+import CFSG.LargeExtraspecial.S5Comp
+import CFSG.LocalAnalysis.ComponentInitial.BlockCentralQuotient
+import CFSG.LocalAnalysis.GLTheoremA.S12.CanonSetup
+import CFSG.GroupTheory.PCore.SubgroupCore
+import CFSG.Assembly.OrderReductions.Helpers
+public import CFSG.Assembly.E6FourNeighbourAut
+public import CFSG.Assembly.E6FourNeighbourSylow
+import CFSG.GroupTheory.OrderBelowSixtySolvable
+public import CFSG.LocalAnalysis.StandardType.GGCharTwoClosing
+import CFSG.LocalAnalysis.StandardType.GGCompFieldHolds
+public import CFSG.LocalAnalysis.StandardType.GGExcKGInvolutionsHolds
+public import CFSG.LocalAnalysis.StandardType.GGExcKGRankTwE6Holds
+import CFSG.LocalAnalysis.StandardType.GGOrdPFieldConjAtExc
+import CFSG.LocalAnalysis.StandardType.GGExcFieldAutCentRankTwE6ThreeHolds
+public import CFSG.LocalAnalysis.StandardType.GGOddLayerCentreHolds
+public import CFSG.LocalAnalysis.StandardType.GGReeB2SimpleModuleFixedHolds
+import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeOddIndexHolds
+public import CFSG.Yardstones.Statements.Yf77bba1f8a8a0aff
+public import CFSG.Yardstones.Statements.Y4cc3aec516b7798c
+public import CFSG.Yardstones.Statements.Yc9f1ea912a24c907
+public import CFSG.Yardstones.Statements.Ycc95b11b93fcff19
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinOfCitedNbr
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanL2
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanL2D
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanL2DOfJA2
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJA2PhanDOfEsu
+import CFSG.LocalAnalysis.StandardType.GGSecFiveNSEnnolaD
+import CFSG.LocalAnalysis.StandardType.GGSecFiveNSQ2DCells
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanNTwins
+import CFSG.LocalAnalysis.StandardType.GGMemberRowsN
+import CFSG.LocalAnalysis.StandardType.GGRk1SplitMember
+import CFSG.LocalAnalysis.StandardType.GGMemberUnitaryRk1
+import CFSG.LocalAnalysis.StandardType.GGMemberUnitaryPair
+import CFSG.LocalAnalysis.StandardType.GGMemberUnitaryGen
+import CFSG.LocalAnalysis.StandardType.GGSecFiveL1PhanLocal
+import CFSG.LocalAnalysis.StandardType.GGNSJoinQFourExact
+import CFSG.LocalAnalysis.StandardType.GGNSJoinResiduals
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJoinPhanE
+import CFSG.LocalAnalysis.StandardType.GGResidualWeakNbr
+import CFSG.LocalAnalysis.StandardType.GGResidualGenFrame
+import CFSG.LocalAnalysis.StandardType.GGResidualGenFrameRest
+import CFSG.LocalAnalysis.StandardType.GGResidualRk1Frame
+import CFSG.LocalAnalysis.StandardType.GGResidualRk1FrameRest
+import CFSG.LocalAnalysis.StandardType.GGResidualRk1FrameHolds
+import CFSG.LocalAnalysis.StandardType.GGNSJoinOutLocalGen
+import CFSG.LocalAnalysis.StandardType.GGNSJoinNbrInputs
+import CFSG.LocalAnalysis.StandardType.GGSecFiveWeylReflTriple
+import CFSG.LocalAnalysis.StandardType.GGSecFiveCompatPhanARow
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanNSPosAssemble
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanNbrRefl
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanOrb
+import CFSG.LocalAnalysis.StandardType.GGSecFiveFixOfTBFix
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJA2OfKGCent
+public import CFSG.Yardstones.Statements.Y3203a81333d96501
+public import CFSG.Yardstones.Statements.Ybcba3d5d2faeab69
+public import CFSG.Yardstones.Statements.Y30013f94ba1af482
+public import CFSG.Yardstones.Statements.Y7ea613aa3462085b
+public import CFSG.Yardstones.Statements.Y87e62a301c1399c5
+public import CFSG.Yardstones.Statements.Ycd6fdd938d9da7cd
+public import CFSG.Yardstones.Statements.Y8c3c5cd708141f52
+public import CFSG.Yardstones.Statements.Y9550a5c8037d2ddf
+public import CFSG.Yardstones.Statements.Y600f261da4e2dd4f
+public import CFSG.Yardstones.Statements.Y0b74b90d14fad2b1
+public import CFSG.LocalAnalysis.StandardType.GGAssemblyTwelve
+public import CFSG.LocalAnalysis.StandardType.GGKG3Assembly
+public import CFSG.LocalAnalysis.StandardType.GGTPAssembly
+public import CFSG.LocalAnalysis.StandardType.GGTPClassical
+public import CFSG.LocalAnalysis.StandardType.GGTPJLayerHolds
+public import CFSG.LocalAnalysis.StandardType.GGTPJStabHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeSCShapeHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6KGA1Holds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6LemmaKFinal
+public import CFSG.LocalAnalysis.StandardType.GGTwE6TInHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwF4SUThreeRank
+public import CFSG.LocalAnalysis.StandardType.GGSmallKGInputsD4
+public import CFSG.LocalAnalysis.StandardType.GGTwE6LangRound
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeNbrCaseII
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeNbrCaseIIDefs
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeNbrSCFourData
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeNbrKnownDefs
+public import CFSG.LocalAnalysis.StandardType.GGNbrTwE6Prop87
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeNbrA5Excl
+public import CFSG.LocalAnalysis.StandardType.GGTableBThreeTBTwE6RankFive
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeSCFourOdd
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeSCFourOddHolds
+public import CFSG.LocalAnalysis.StandardType.GGStdSubIOneProperMoreNarrow
+public import CFSG.LocalAnalysis.StandardType.GGLayerCenterCyclicRootCenter
+public import CFSG.LocalAnalysis.StandardType.GGTableBNbrInnerMore
+public import CFSG.LocalAnalysis.StandardType.GGTableBNbrInner937
+public import CFSG.LocalAnalysis.StandardType.GGTableBNbrInnerRound15
+public import CFSG.LocalAnalysis.StandardType.GGTableBNbrInnerRound15ExcHolds
+public import CFSG.LocalAnalysis.StandardType.GGIrred937TwE6
+public import CFSG.LocalAnalysis.StandardType.GGIrred937ExcMain
+public import CFSG.LocalAnalysis.StandardType.GGIrred937F4Main
+public import CFSG.LocalAnalysis.StandardType.GGNbrLangWeylRestLabels
+public import CFSG.LocalAnalysis.StandardType.GGTableBExcSplitLRound
+public import CFSG.LocalAnalysis.StandardType.GGNoTransvectionAutExc
+public import CFSG.LocalAnalysis.StandardType.GGSixLayerCXNonsplitF4
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarExcFramesHalfTwoLocal
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarExcFramesHalfE7E8Five
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarExcFramesHalfE7Three
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarExcFramesHalfE8Three
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarExcFramesE6NonsplitThreeHolds
+public import CFSG.LocalAnalysis.StandardType.GGSixStepTwoToralExcSixE
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentSummandTagsExc
+public import CFSG.LocalAnalysis.StandardType.GGAssemblyTwelveDefs
+public import CFSG.LocalAnalysis.StandardType.GGTriD4KnownInputsModel
+public import CFSG.LocalAnalysis.StandardType.GGTriD4LineWeyl
+public import CFSG.LocalAnalysis.StandardType.GGD4OddCentProof
+public import CFSG.LocalAnalysis.StandardType.GGExcElemToralRestProved
+public import CFSG.LocalAnalysis.StandardType.GGExcToralSylowElem
+public import CFSG.LocalAnalysis.StandardType.GGExcToralSylowPDiv
+public import CFSG.LocalAnalysis.StandardType.GGExcToralSylowCentReduced
+public import CFSG.LocalAnalysis.StandardType.GGFieldFiveE8
+public import CFSG.LocalAnalysis.StandardType.GGE8TwoFiveAssembly
+public import CFSG.LocalAnalysis.StandardType.E8SevenCentralizerComponent
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyExcWeylGenAdjoint
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyWeylGenModel
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyWeylGenLift
+public import CFSG.LocalAnalysis.StandardType.GGCorFourTwoOpenTableBMoreExc
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyRestGen
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyRestScalar
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyOrthExcEvenLabels
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyExcWeylNormAdjoint
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyExcWeylAutInner
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyWeylNormModel
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyOrthTorus
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarE6ThreeFrameOn
+public import CFSG.LocalAnalysis.StandardType.GGSixBstarE8FiveFrameOn
+public import CFSG.LocalAnalysis.StandardType.GGSixLayerCXNonsplitE6
+public import CFSG.LocalAnalysis.StandardType.GGKGroupFusionFlatAssembly
+public import CFSG.LocalAnalysis.StandardType.GGD4FieldAutMaximalHolds
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBMeta
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseXL48NbrFieldHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwistedF4DiagRaw
+public import CFSG.LocalAnalysis.StandardType.GGTriD4SchurHolds
+public import CFSG.LocalAnalysis.StandardType.GGUSixThreeKGMain
+public import CFSG.LocalAnalysis.StandardType.GGTriD4ComponentsHolds
+public import CFSG.LocalAnalysis.StandardType.GGBstarInnerDiagLRound12Full
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylRest13
+public import CFSG.LocalAnalysis.StandardType.GGSixLSixElevenKGRound12Models
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PosGlue
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PSLGlue
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PosExcGlue
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PosExcNoF4Glue
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PosExcNoF4NoPSUPSpGlue
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PosExcNoF4NoPSUPSpNoPOmegaMinusGlue
+import CFSG.LocalAnalysis.StandardType.GGLieKnownR2PosExcNoF4NoPSUPSpNoPOmegaGlue
+import CFSG.LocalAnalysis.StandardType.ExcPos.KnownPosOfExcU5
+import CFSG.LocalAnalysis.StandardType.GGOrdPToralF4Holds
+import CFSG.LocalAnalysis.StandardType.GGOrdPToralE6Holds
+import CFSG.LocalAnalysis.StandardType.GGOrdPToralE7Holds
+import CFSG.LocalAnalysis.StandardType.GGOrdPToralE8Holds
+import CFSG.LocalAnalysis.StandardType.GGOrdPToralE8FiveFourHolds
+import CFSG.LocalAnalysis.StandardType.GGOrdPToralTwE6RestHardHolds
+import CFSG.LocalAnalysis.StandardType.GGE6NontoralFixPpdHolds
+import CFSG.LocalAnalysis.StandardType.GGE6ToralFixNoPpdHolds
+import CFSG.LocalAnalysis.StandardType.GGTwE6FrameNoPpdHolds
+import CFSG.LocalAnalysis.StandardType.GGTwE6FrameFixPpdHolds
+public import CFSG.LocalAnalysis.StandardType.GGSixLSixSevenE6Proof
+public import CFSG.LocalAnalysis.StandardType.GGTableBNbrInnerRound12Classical
+public import CFSG.LocalAnalysis.StandardType.GGSixAutKFlatIVInputs
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL45KGInputs
+public import CFSG.LocalAnalysis.StandardType.GGL45TorusHForms
+public import CFSG.LocalAnalysis.StandardType.GGL45TGFamTypeA
+import CFSG.LocalAnalysis.StandardType.GGL45E67Uncond
+import CFSG.LocalAnalysis.StandardType.GGStdSubNotTorsionInputHolds
+import CFSG.HardMathSupport.C14IdxReeInput
+import CFSG.HardMathSupport.C14IdxFrobInput
+import CFSG.HardMathSupport.C14IdxBorelHolds
+import CFSG.HardMathSupport.C14IdxReeStab
+public import CFSG.LocalAnalysis.StandardType.GGSixLSixSevenA3Known
+public import CFSG.LocalAnalysis.StandardType.GGSixA3PositionDefs
+import CFSG.LieType.Steinberg.BruhatWeyl
+import CFSG.LocalAnalysis.StandardType.GGPsiDiagInnerAdj
+import CFSG.LocalAnalysis.StandardType.AlternatingEightNormalizerAction
+import CFSG.LocalAnalysis.StandardType.GGSixLSixSevenA3OmNumerics
+import CFSG.LocalAnalysis.StandardType.GGSixLSixSevenA3BstarCentralizer
+import CFSG.LocalAnalysis.ComponentClassification.SymmetricLocalLinearFourTwo
+import CFSG.LocalAnalysis.SectionRank.AlternatingCover
+import CFSG.GroupTheory.ElemAbelianClosure
+import CFSG.GroupTheory.QuasisimpleCommutingProductBound
+import CFSG.LieType.Chevalley.AdjointCenter
+import CFSG.LieType.Steinberg.Adjoint.Perfect
+import CFSG.Blueprint.ChevalleyRootsInputs
+public import CFSG.LocalAnalysis.StandardType.GGOutTwoCommInnerHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrFieldFixKnown
+public import CFSG.LocalAnalysis.StandardType.GGNbrFieldFixNs
+public import CFSG.LocalAnalysis.StandardType.GGNbrFieldFixD4
+public import CFSG.LocalAnalysis.StandardType.GGNbrG2Three
+public import CFSG.LocalAnalysis.StandardType.GGNbrG2ThreeOffHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrG2ASides
+public import CFSG.LocalAnalysis.StandardType.GGNbrG2KSideHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrLSideHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrLSideClassicalHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrLSideRSExcData
+public import CFSG.LocalAnalysis.StandardType.GGTypeANbrKnown
+public import CFSG.LocalAnalysis.StandardType.GGLabelRigid
+public import CFSG.LocalAnalysis.StandardType.GGStructSOneHolds
+public import CFSG.LocalAnalysis.StandardType.GGStructSOneCompHolds
+public import CFSG.LocalAnalysis.StandardType.GGAutKRankHalves
+public import CFSG.LocalAnalysis.StandardType.GGAutKRankHalvesStar
+public import CFSG.LocalAnalysis.StandardType.GGLayerNotExcThreeAtTwoRat
+public import CFSG.LocalAnalysis.StandardType.GGRootCentStructKG
+public import CFSG.LocalAnalysis.StandardType.GGTableBNbrInnerTwF4Row
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBVac
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBRkHolds
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBRkHigh
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBRkFive
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBRkTwA
+import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48RkF4Holds
+import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48RkTwAHolds
+import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBRkNarrow
+import CFSG.LocalAnalysis.StandardType.GGFieldCaseL48TBRkNarrow2
+import CFSG.LocalAnalysis.StandardType.GGWPlusNarrow3
+import CFSG.LocalAnalysis.StandardType.GGWPlusNarrow4
+import CFSG.LocalAnalysis.StandardType.GGWPlusNarrow5
+import CFSG.LocalAnalysis.StandardType.GGWPlusNarrow6
+import CFSG.LocalAnalysis.StandardType.GGWPlusNarrow7
+import CFSG.LocalAnalysis.StandardType.GGWPlusNarrow8
+import CFSG.LocalAnalysis.StandardType.GGCoverRkNarrow9
+import CFSG.LocalAnalysis.StandardType.GGCoverRkNarrow10
+import CFSG.LocalAnalysis.StandardType.GGTorusGenRkNarrow11
+import CFSG.LocalAnalysis.StandardType.GGTorusGenSLNarrow12
+import CFSG.LocalAnalysis.StandardType.GGCoverSLNarrow13
+public import CFSG.LocalAnalysis.StandardType.GGSpNbrKGRound12
+public import CFSG.LocalAnalysis.StandardType.GGSpJoinReflOfLabel
+public import CFSG.LocalAnalysis.StandardType.GGD4OddCentKGOpen
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeOfKnown
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeKnownOn
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeLinLeaf
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeSmallLeaf
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeKnownSix
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeKG7
+public import CFSG.LocalAnalysis.StandardType.GGTablePThreeE6Narrow
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeSympLeaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeF4Leaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeE78Leaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeUniLeaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeOrthLeaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeOrthMinusLeaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeE6TwoLeaf
+import CFSG.LocalAnalysis.StandardType.GGTablePThreeTableZ
+public import CFSG.LocalAnalysis.StandardType.GGD4OddCentKGOffTablePRest
+public import CFSG.LocalAnalysis.StandardType.GGD4OddCentKGOffTablePRestOffSUFour
+public import CFSG.LocalAnalysis.StandardType.GGD4OddCentKGOffTablePRestNoLTStrong
+import CFSG.LocalAnalysis.StandardType.GGD4OddCentKGOffTablePRestInner
+import CFSG.LocalAnalysis.StandardType.GGD4OddCentInnerAssembly
+public import CFSG.LocalAnalysis.StandardType.GGTwE6LocalRankHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylRest13KnownRound12
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTwE6ThreeRank
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTwE6ThreeLine
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylRest13Known
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTwE6Lift
+public import CFSG.LocalAnalysis.StandardType.GGNbrWeylKGInputNoU63OfRest
+public import CFSG.LocalAnalysis.StandardType.GGNbrWeylKGInputRestOfNoFieldE78
+import CFSG.LocalAnalysis.StandardType.GGNbrWeylKGInputRestNoFieldE78OfFive
+import CFSG.LocalAnalysis.StandardType.GGNbrWeylKGInputRestFiveOfThree
+import CFSG.LocalAnalysis.StandardType.GGNbrKGFieldShInputs
+import CFSG.LocalAnalysis.StandardType.GGF4ShFieldData
+import CFSG.LocalAnalysis.StandardType.GGUSixShFieldData
+import CFSG.LocalAnalysis.StandardType.KGLangTorusClassicalFamilies
+import CFSG.LocalAnalysis.StandardType.KGLangLT5ExcAssembly
+import CFSG.LocalAnalysis.StandardType.KGLangLT5Ree
+import CFSG.LocalAnalysis.StandardType.GGReeLangPositionF4
+import CFSG.LocalAnalysis.StandardType.GGLieCoreToralHolds
+import CFSG.LocalAnalysis.StandardType.KGLangTorAInput
+import CFSG.LocalAnalysis.StandardType.GGNbrLangTriD4Assembly
+import CFSG.LocalAnalysis.StandardType.GGNbrLangTriD4InnerTwo
+import CFSG.LocalAnalysis.StandardType.GGNbrLangTriD4InnerEven
+import CFSG.LocalAnalysis.StandardType.GGTriD4InnerCompHolds
+import CFSG.LocalAnalysis.StandardType.GGNbrLangAxisInnerFNI
+import CFSG.LocalAnalysis.StandardType.GGNbrLangS1Labels
+import CFSG.LocalAnalysis.StandardType.KGLangT3Holds
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIVac
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNILin
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIUnitary
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNISuzuki
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIG2
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIF4
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIE6
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIE7
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIE8
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNITriD4
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIRee
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNISymplectic
+import CFSG.LocalAnalysis.StandardType.GGNbrLangFNIOrthogonalHigh
+import CFSG.LocalAnalysis.StandardType.KGLangS1EInput
+import CFSG.LocalAnalysis.StandardType.GGNbrLangS1Lin
+import CFSG.LocalAnalysis.StandardType.GGNbrLangS1Uni
+import CFSG.LocalAnalysis.StandardType.GGNbrLangS1ExcE
+import CFSG.LocalAnalysis.StandardType.GGTriD4TwoRow.Row
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTriD4Three
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTriD4ThreeBound
+public import CFSG.LocalAnalysis.StandardType.GGNbrReflGenTwE6Three
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTwE6ThreeDefs
+public import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylFieldVacOther
+public import CFSG.LocalAnalysis.StandardType.GGFieldCaseL45FieldFixOpen
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyDichotomy
+public import CFSG.LocalAnalysis.StandardType.GGSixJNotA6OfKnown
+public import CFSG.LocalAnalysis.StandardType.GGSixKnownRemainingBridge
+public import CFSG.LocalAnalysis.StandardType.GGSixOddIndexF4RestLevi
+public import CFSG.LocalAnalysis.StandardType.GGForkAffineExclFix
+public import CFSG.LocalAnalysis.StandardType.GGTBFixTableB
+public import CFSG.LocalAnalysis.StandardType.GGTBJTwoNodeLarge
+public import CFSG.LocalAnalysis.StandardType.GGTBJTwoNodeSmall
+public import CFSG.LocalAnalysis.StandardType.GGDepED4ZK
+public import CFSG.LocalAnalysis.StandardType.GGTWHLNormalizer
+public import CFSG.LocalAnalysis.StandardType.GGE6DepPerp
+public import CFSG.LocalAnalysis.StandardType.GGE6DepSecondNbr
+public import CFSG.LocalAnalysis.StandardType.GGE6DepBlocksOfKnown
+public import CFSG.LocalAnalysis.StandardType.GGE6DepBlockOfKG
+public import CFSG.LocalAnalysis.StandardType.GGE6KGLayerInputOfTw
+public import CFSG.LocalAnalysis.StandardType.GGE6KGLayerInputTwHolds
+public import CFSG.LocalAnalysis.StandardType.GGE6DepKnownInputs
+public import CFSG.LocalAnalysis.StandardType.GGE6DepModelKnownHolds
+public import CFSG.LocalAnalysis.StandardType.GGE6DepZLKnown
+public import CFSG.LocalAnalysis.StandardType.GGE6DepZLNotInL
+public import CFSG.LocalAnalysis.StandardType.GGE6DepNonIsoPtHolds
+public import CFSG.LocalAnalysis.StandardType.GGForkJrPumpCross
+public import CFSG.LocalAnalysis.StandardType.GGForkJrPumpJr
+public import CFSG.LocalAnalysis.StandardType.GGForkJrPumpPump
+public import CFSG.LocalAnalysis.StandardType.GGForkJrPumpResidual
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyRootGenTypeA
+public import CFSG.LocalAnalysis.StandardType.GGL45FixA2
+public import CFSG.LocalAnalysis.StandardType.GGStructSOnePrimeRootHolds
+public import CFSG.LocalAnalysis.StandardType.GGSixLSixFiveCommKnownRound12
+public import CFSG.LocalAnalysis.StandardType.GGSixLSixSevenCentJLieStar
+public import CFSG.LocalAnalysis.StandardType.GGSecFiveCompatRestN
+public import CFSG.LocalAnalysis.StandardType.GGSecFiveNonWeylOfKnown
+public import CFSG.LocalAnalysis.StandardType.GGNbrCenterPCyclicHolds
+public import CFSG.LocalAnalysis.StandardType.GGNbrLangRegNTUnivHolds
+import CFSG.LocalAnalysis.StandardType.GGNbrLangAxisOnRest12OfUniv12
+public import CFSG.LocalAnalysis.StandardType.GGNbrKGTwE6ThreeAtHolds
+import CFSG.LocalAnalysis.StandardType.GGNbrInnerWeylTwE6ThreeOfRank
+import CFSG.LocalAnalysis.StandardType.GGKG87BRadHolds
+public import CFSG.LocalAnalysis.StandardType.GGSixLayerCXNonsplitTwE6
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNotExcRows
+public import CFSG.LocalAnalysis.StandardType.GGStructSOnePrimeRootCountAll
+public import CFSG.LocalAnalysis.StandardType.GGSixStepOneSchreier
+public import CFSG.RankThree.PartOne.TCB.SchreierFinal
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNotExcOrthAll
+public import CFSG.LocalAnalysis.StandardType.GGSixRootCentNotExcFlatAll
+public import CFSG.LocalAnalysis.StandardType.GGInnerDiagMpStdAssembly
+public import CFSG.LocalAnalysis.StandardType.GGRoundFourSmallASpLift
+public import CFSG.LocalAnalysis.StandardType.GGSpJoinEndAssembly
+public import CFSG.LocalAnalysis.StandardType.GGHalfJoinDefs
+public import CFSG.LocalAnalysis.StandardType.GGHalfJoinDStab
+public import CFSG.LocalAnalysis.StandardType.GGHalfJoinNorm
+public import CFSG.LocalAnalysis.StandardType.GGHalfJoinRows
+public import CFSG.LocalAnalysis.StandardType.GGHalfJoinSL
+public import CFSG.LocalAnalysis.StandardType.GGHalfJoinTorus
+public import CFSG.LocalAnalysis.StandardType.GGNbrBalance
+public import CFSG.LocalAnalysis.StandardType.GGSpJoinNbrModel
+public import TauCeti.GroupTheory.ExponentPrime
+public import CFSG.LocalAnalysis.StandardType.GGHalfRowData
+public import CFSG.LocalAnalysis.StandardType.GGHalfFusionOm8
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveInputs
+import CFSG.LocalAnalysis.SeitzReduction.F4PilotFieldNormalizeSp
+public import CFSG.LocalAnalysis.StandardType.GGHalfFusionE6
+public import CFSG.LocalAnalysis.StandardType.GGTypeACompatDiagProof
+public import CFSG.LocalAnalysis.StandardType.GGSixA6InsideSpHolds
+public import CFSG.LocalAnalysis.StandardType.GGSixA6RedAssembly
+public import CFSG.LocalAnalysis.StandardType.GGSixA6F4Cls
+public import CFSG.LocalAnalysis.StandardType.GGHalfWeylHolds
+public import CFSG.LocalAnalysis.StandardType.GGB48Assembly
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveConjFive
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveAlphaZeta
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveInnerDiag
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveAutNb
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveSl4Model
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveNbrBasic
+public import CFSG.LocalAnalysis.StandardType.GGNbrMarkingLabel
+public import CFSG.LocalAnalysis.StandardType.GGTypeANbrKappaCard
+public import CFSG.LocalAnalysis.StandardType.GGHalfFivePerm
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveLevi
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveGraph
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveNoGraph
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveNbr
+public import CFSG.LocalAnalysis.StandardType.GGHalfEndNodes
+import CFSG.LocalAnalysis.StandardType.GGHalfFiveEndNarrow
+import CFSG.LocalAnalysis.StandardType.GGHalfJoinAutNarrow
+import CFSG.LocalAnalysis.StandardType.GGSpNbrTypeTablePNarrow
+import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyNbrFieldRowsNarrow
+import CFSG.LocalAnalysis.StandardType.GGTypeANbrTablePNarrow
+import CFSG.LocalAnalysis.StandardType.GGForkA8TablePOn
+import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyA11NbrLabelsNarrow
+import CFSG.LocalAnalysis.StandardType.GGTPAssemblyOnL
+import CFSG.LocalAnalysis.StandardType.GGTPNNarrowC6
+import CFSG.LocalAnalysis.StandardType.GGB36Final
+import CFSG.LocalAnalysis.StandardType.GGB36JCl
+import CFSG.LocalAnalysis.StandardType.GGK1ScMain
+import CFSG.LocalAnalysis.StandardType.GGE6CoverThreeHolds
+import CFSG.LocalAnalysis.StandardType.GGBcFinal
+import CFSG.LocalAnalysis.StandardType.GGA24Final
+import CFSG.LocalAnalysis.StandardType.GGTypeAFinal
+import CFSG.LocalAnalysis.StandardType.GGA2EightFinal
+import CFSG.LocalAnalysis.StandardType.GGF4NbrAutReflKGHolds
+import CFSG.LocalAnalysis.StandardType.GGHalfCore
+import CFSG.LocalAnalysis.StandardType.GGHalfX0Check
+import CFSG.LocalAnalysis.StandardType.GGHalfKGCAssembly
+public import CFSG.LocalAnalysis.StandardType.GGHalfFiveL44
+public import CFSG.LocalAnalysis.StandardType.GGTypeANbrTableBCard
+public import CFSG.LocalAnalysis.StandardType.GGLieParabolicCharExc
+public import CFSG.LocalAnalysis.StandardType.GGLieParabolicCharOpen
+public import CFSG.LocalAnalysis.StandardType.GGTypeANbrTableBWeyl
+public import CFSG.LocalAnalysis.StandardType.GGNbrTableBSymp
+public import CFSG.LocalAnalysis.StandardType.GGNbrTableBOrthPlus
+public import CFSG.LocalAnalysis.StandardType.GGExcKGRankKnown
+public import CFSG.LocalAnalysis.StandardType.GGExcLeviRankMax
+public import CFSG.LocalAnalysis.StandardType.GGExcRootPlane
+public import CFSG.LocalAnalysis.StandardType.GGExcRootFusionWitness
+public import CFSG.LocalAnalysis.StandardType.GGExcSixSeventeenRoot
+public import CFSG.LocalAnalysis.StandardType.GGSixSeventeenLeft
+public import CFSG.LocalAnalysis.StandardType.GGExcRootGroupsCommute
+public import CFSG.LocalAnalysis.StandardType.GGLatCoroot
+public import CFSG.LocalAnalysis.StandardType.GGLatFixedRootExc
+public import CFSG.LocalAnalysis.StandardType.GGLatOrth
+public import CFSG.LocalAnalysis.StandardType.GGLatPlanesExc
+public import CFSG.LocalAnalysis.StandardType.GGNbrTableBExcWeyl
+public import CFSG.LocalAnalysis.StandardType.GGNbrTableBExcOrder
+public import CFSG.LocalAnalysis.StandardType.GGRemTableBLExc11R
+public import CFSG.LocalAnalysis.StandardType.GGE6ThreeModelHoldsBoth
+public import CFSG.LocalAnalysis.StandardType.GGNbrTableBE6Three
+public import CFSG.LocalAnalysis.StandardType.GGTwE6FieldInnerDiag
+public import CFSG.LocalAnalysis.StandardType.GGTwE6RootAsToral
+public import CFSG.LocalAnalysis.StandardType.GGTwE6FieldLangThree
+public import CFSG.LocalAnalysis.StandardType.GGTwE6FieldThreeFourHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6R5Holds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6A5KLine
+public import CFSG.LocalAnalysis.StandardType.GGTwE6A5LKnownHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6SCFourOutLine
+public import CFSG.LocalAnalysis.StandardType.GGTwE6ThreeNbrCaseIISplit
+public import CFSG.LocalAnalysis.StandardType.GGNbrFrameNine
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyA11RootGen
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyA11TB
+public import CFSG.LocalAnalysis.StandardType.GGA8SevenRow
+public import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyA11C3D4
+import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyRowR3Holds
+public import CFSG.LocalAnalysis.StandardType.GGOmegaMinusRootGenAvoid
+import CFSG.LocalAnalysis.StandardType.GGSpNsRootGenLabels
+public import CFSG.LocalAnalysis.StandardType.GGSixTCResidualHolds
+public import CFSG.LocalAnalysis.StandardType.GGSixTCWP5Slot
+public import CFSG.LocalAnalysis.StandardType.GGFamAssembly
+public import CFSG.LocalAnalysis.StandardType.GGLangTorusInnerDiagHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6OddSpectrum
+public import CFSG.LocalAnalysis.StandardType.GGSecFivePrimDefs
+public import CFSG.LocalAnalysis.StandardType.GGSecFiveRegionData
+public import CFSG.LocalAnalysis.StandardType.GGSecFiveTier1OfPrim
+public import CFSG.LocalAnalysis.StandardType.GGKGPosGenCox
+public import CFSG.LocalAnalysis.StandardType.GGKGPosOrb
+public import CFSG.LocalAnalysis.StandardType.GGKGPosRk2
+public import CFSG.LocalAnalysis.StandardType.GGStepTwoToralExcRestOfFrame
+import CFSG.LocalAnalysis.StandardType.GGSixE6TwoT31Cent
+import CFSG.LocalAnalysis.StandardType.GGSixE6TwoJUnique
+import CFSG.LocalAnalysis.StandardType.GGSixE6TwoRestAssembly
+import CFSG.LocalAnalysis.StandardType.GGOmegaNsRootGenLabels
+import CFSG.LocalAnalysis.StandardType.GGB48OmGlue
+import CFSG.LocalAnalysis.StandardType.GGCorFiveTwentyQFourDom
+import CFSG.LocalAnalysis.StandardType.GGSlDvdRootGenQFour
+import CFSG.LocalAnalysis.StandardType.GGSlNsRootGenQFour
+import CFSG.LocalAnalysis.StandardType.GGSuSplitRootGenQFour
+import CFSG.LocalAnalysis.StandardType.GGSuNsRootGenQFour
+import CFSG.LocalAnalysis.StandardType.GGSuDvdRootGenQFour
+import CFSG.LocalAnalysis.StandardType.GGSuDvdRootGenSixThreeQFour
+import CFSG.LocalAnalysis.StandardType.GGSpNsRootGenQFour
+import CFSG.LocalAnalysis.StandardType.GGRootGenQFourRest
+import CFSG.LocalAnalysis.StandardType.GGRootGenQFourExcRows
+import CFSG.LocalAnalysis.StandardType.GGPhiTwoGenTwFinal
+import CFSG.LocalAnalysis.StandardType.GGPhiTwoGenTwEightMain
+import CFSG.LocalAnalysis.StandardType.GGQ2S08BigEK
+import CFSG.LocalAnalysis.StandardType.GGQ2S08BigShapeA
+import CFSG.LocalAnalysis.StandardType.GGQ2S08RoComponentsThree
+import CFSG.LocalAnalysis.StandardType.GGQ2S08SmallHolds
+import CFSG.LocalAnalysis.StandardType.GGQ2S08BigCenter
+import CFSG.LocalAnalysis.StandardType.GGQ2S08BigInnerPart
+import CFSG.LocalAnalysis.StandardType.GGQ2GammaNbrPosRestDetPlace
+import CFSG.LocalAnalysis.StandardType.GGQ2ClassicalPlacementHolds
+import CFSG.LocalAnalysis.StandardType.GGQTwoXInLRest
+import CFSG.LocalAnalysis.StandardType.GGQ2AmbModelAssembly
+import CFSG.LocalAnalysis.StandardType.GGQ2TableBNbrPieces
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcPlacement
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcTwE6PlacementHolds
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcCoreInside
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcCoreInsideTwE6
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcCoreFrames
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcCoreOccurs
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcCoreMarked
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcE6SplitSetup
+import CFSG.LocalAnalysis.StandardType.GGQ2ExcE6SplitHolds
+import CFSG.LocalAnalysis.StandardType.GGQ2TwoNodeOpenCells
+import CFSG.LocalAnalysis.StandardType.GGTPNPCompQuasi
+import CFSG.LocalAnalysis.StandardType.GGTableBOutdiagTwE6
+import CFSG.LocalAnalysis.StandardType.ZS.Adapter
+import CFSG.LocalAnalysis.StandardType.GGQ2HeartJHolds
+import CFSG.LocalAnalysis.StandardType.GGF4ThreeSCCube
+import CFSG.LocalAnalysis.StandardType.GGF4ThreeSCCubeHolds
+import CFSG.LocalAnalysis.StandardType.GGNbrFieldOtherClassicalCover
+import CFSG.LocalAnalysis.StandardType.GGFrameRouteDefs
+import CFSG.LocalAnalysis.StandardType.GGFrameRouteMain
+import CFSG.LocalAnalysis.StandardType.GGFrameRouteCard
+import CFSG.LocalAnalysis.StandardType.GGFrameRouteA4Thm
+import CFSG.LocalAnalysis.StandardType.GGFrameRouteFSCenter
+import CFSG.LocalAnalysis.StandardType.GGSecFiveDataResEOffE6QTwo
+import CFSG.LocalAnalysis.StandardType.GGSecFiveWeylE6QTwoBridge
+import CFSG.LocalAnalysis.StandardType.TwE6MaxEleven.Holds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveWeylE6QTwoEnd
+import CFSG.LocalAnalysis.StandardType.GGN2Final
+import CFSG.LocalAnalysis.StandardType.GGSecFiveRest5OfRows
+import CFSG.LocalAnalysis.StandardType.GGNbrReflGenNonSplitAssembly
+import CFSG.LocalAnalysis.StandardType.GGF4ThreeSCCube
+import CFSG.LocalAnalysis.StandardType.GGF4ThreeSCCubeHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanAData
+import CFSG.LocalAnalysis.StandardType.GGSecFivePhanDData
+import CFSG.LocalAnalysis.StandardType.GGSecFiveResDispatch
+import CFSG.LocalAnalysis.StandardType.GGSecFiveQ2PrimeLProved
+import CFSG.LocalAnalysis.StandardType.GGQ2PrimeL81
+import CFSG.LocalAnalysis.StandardType.GGSecFiveLeviDataOfInputs
+import CFSG.LocalAnalysis.StandardType.GGAssemblyFiveDefs
+import CFSG.LocalAnalysis.StandardType.GGTypeACompatFarB
+import CFSG.LocalAnalysis.StandardType.GGAssemblyFourTypeA
+import CFSG.LocalAnalysis.StandardType.GGTypeACrossLift
+import CFSG.LocalAnalysis.StandardType.GGNbrU63
+import CFSG.LocalAnalysis.StandardType.GGNbrFieldOtherC9Holds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6K1Holds
+public import CFSG.LocalAnalysis.StandardType.GGTwE6KGLSplitDispatch
+public import CFSG.LocalAnalysis.StandardType.GGSecFiveCompatLeviOfKGPos
+public import CFSG.LocalAnalysis.StandardType.GGSecFiveRk1OfKGPos
+public import CFSG.LocalAnalysis.StandardType.StarFour.Holds
+public import CFSG.LocalAnalysis.StandardType.GGTCJHolds
+import CFSG.LocalAnalysis.StandardType.GGA11Assembly
+import CFSG.LocalAnalysis.StandardType.GGExcKGToralFrameHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveKGPosHolds
+public import CFSG.LocalAnalysis.StandardType.GGKGForkOneDone
+import CFSG.LocalAnalysis.StandardType.GGSecFiveL2SplitTop
+public import CFSG.LocalAnalysis.StandardType.GGKGForkTwoFinal
+import CFSG.LocalAnalysis.StandardType.GGSecFiveL1Top
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJReflOfPrimed
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJReflOfCore
+import CFSG.LocalAnalysis.StandardType.GGSecFiveJRootCoreHolds
+import CFSG.LocalAnalysis.StandardType.GGSecFiveSplitLieOut
+import CFSG.LocalAnalysis.StandardType.GGSecFiveRk1CentHolds
+public import Certificates.Certificate3143
+public import Certificates.Certificate3600
+public import Certificates.Certificate3920
+public import Certificates.Certificate6097
+public import Certificates.Certificate6098
+public import Certificates.Certificate6099
+public import Certificates.Certificate9726
+public import Certificates.Certificate10105
+public import Certificates.Certificate12632
+public import Certificates.Certificate12680
+public import Certificates.Certificate13506
+public import Certificates.Certificate13507
+public import Certificates.Certificate13603
+public import Certificates.Certificate26122
+public import Certificates.Certificate13621
+public import Certificates.Certificate13637
+public import Certificates.Certificate17320
+public import Certificates.Certificate17321
+public import Certificates.Certificate17322
+public import Certificates.Certificate17335
+public import Certificates.Certificate17336
+public import Certificates.Certificate17337
+public import Certificates.Certificate36908
+public import Certificates.Certificate16962
+public import Certificates.Certificate17002
+public import Certificates.Certificate17105
+public import Certificates.Certificate17372
+public import Certificates.Certificate17373
+public import Certificates.Certificate17391
+public import Certificates.Certificate17402
+public import Certificates.Certificate17403
+public import Certificates.Certificate17450
+public import Certificates.Certificate17451
+public import Certificates.Certificate17473
+public import Certificates.Certificate17480
+public import Certificates.Certificate17481
+public import Certificates.Certificate17482
+public import Certificates.Certificate17483
+public import Certificates.Certificate17484
+public import Certificates.Certificate17485
+public import Certificates.Certificate17486
+public import Certificates.Certificate17487
+public import Certificates.Certificate17488
+public import Certificates.Certificate17489
+public import Certificates.Certificate17490
+public import Certificates.Certificate17491
+public import Certificates.Certificate17492
+public import Certificates.Certificate17493
+public import Certificates.Certificate17494
+public import Certificates.Certificate17495
+public import Certificates.Certificate17535
+public import Certificates.Certificate17540
+public import Certificates.Certificate17541
+public import Certificates.Certificate17542
+public import Certificates.Certificate17543
+public import Certificates.Certificate17544
+public import Certificates.Certificate17561
+public import Certificates.Certificate17562
+public import Certificates.Certificate17575
+public import Certificates.Certificate17579
+public import Certificates.Certificate17580
+public import Certificates.Certificate17581
+public import Certificates.Certificate17590
+public import Certificates.Certificate17591
+public import Certificates.Certificate17593
+public import Certificates.Certificate17594
+public import Certificates.Certificate17595
+public import Certificates.Certificate17597
+public import Certificates.Certificate17598
+public import Certificates.Certificate17599
+public import Certificates.Certificate17613
+public import Certificates.Certificate17614
+public import Certificates.Certificate17615
+public import Certificates.Certificate17616
+public import Certificates.Certificate17617
+public import Certificates.Certificate17618
+public import Certificates.Certificate17619
+public import Certificates.Certificate17625
+public import Certificates.Certificate17626
+public import Certificates.Certificate17632
+public import Certificates.Certificate17633
+public import Certificates.Certificate17700
+public import Certificates.Certificate17701
+public import Certificates.Certificate17702
+public import Certificates.Certificate17706
+public import Certificates.Certificate17707
+public import Certificates.Certificate17951
+public import Certificates.Certificate19830
+public import Certificates.Certificate19831
+public import Certificates.Certificate19840
+public import Certificates.Certificate19842
+public import Certificates.Certificate19843
+public import Certificates.Certificate19850
+public import Certificates.Certificate19851
+public import Certificates.Certificate19852
+public import Certificates.Certificate36920
+public import Certificates.Certificate36921
+public import Certificates.Certificate136207
+public import Certificates.Certificate214034
+public import Certificates.Certificate271060
+public import Certificates.Certificate271061
+public import Certificates.Certificate550701
+public import Certificates.Certificate550702
+public import Certificates.Certificate707002
+public import Certificates.Certificate707010
+public import Certificates.Certificate707011
+public import Certificates.Certificate707012
+public import Certificates.Certificate708601
+public import Certificates.Certificate708602
+public import Certificates.Certificate708603
+public import Certificates.Certificate708604
+public import Certificates.Certificate708605
+public import Certificates.Certificate708606
+public import Certificates.Certificate708607
+public import Certificates.Certificate708608
+public import Certificates.Certificate709520
+public import Certificates.Certificate709521
+public import Certificates.Certificate709539
+public import Certificates.Certificate709540
+public import Certificates.Certificate14971
+public import Certificates.Certificate14979
+public import Certificates.Certificate709541
+public import Certificates.Certificate709542
+public import Certificates.Certificate709543
+public import Certificates.Certificate709544
+public import Certificates.Certificate715001
+public import Certificates.Certificate709548
+public import Certificates.Certificate709590
+public import Certificates.Certificate715501
+public import Certificates.Certificate715502
+public import Certificates.Certificate715503
+public import Certificates.Certificate715750
+public import Certificates.Certificate715751
+public import Certificates.Certificate715752
+public import Certificates.Certificate716001
+public import Certificates.Certificate716100
+public import Certificates.Certificate716201
+public import Certificates.Certificate716800
+public import Certificates.Certificate899051
+public import Certificates.Certificate13666
+public import Certificates.Certificate1023001
+public import Certificates.Certificate1023002
+public import Certificates.Certificate1023003
+public import Certificates.Certificate1023004
+public import Certificates.Certificate1023005
+public import Certificates.Certificate1023006
+public import Certificates.Certificate1023007
+public import Certificates.Certificate1023008
+public import Certificates.Certificate1023009
+public import Certificates.Certificate1023010
+public import Certificates.Certificate1023011
+public import Certificates.Certificate1023012
+public import Certificates.Certificate1023013
+public import Certificates.Certificate1023014
+public import Certificates.Certificate1023015
+public import Certificates.Certificate1023016
+public import Certificates.Certificate1023017
+public import Certificates.Certificate1023018
+public import Certificates.Certificate1023101
+public import Certificates.Certificate1023102
+public import Certificates.Certificate1023202
+public import Certificates.Certificate1023203
+public import Certificates.Certificate1023204
+public import Certificates.Certificate1023205
+public import Certificates.Certificate1023206
+public import Certificates.Certificate1023207
+public import Certificates.Certificate1023208
+public import Certificates.Certificate1023301
+public import Certificates.Certificate1023401
+public import Certificates.Certificate1023402
+public import Certificates.Certificate1023403
+public import Certificates.Certificate1023501
+public import Certificates.Certificate1023505
+public import Certificates.Certificate1023506
+public import Certificates.Certificate1597001
+public import Certificates.Certificate1649001
+public import Certificates.Certificate709550
+public import Certificates.Certificate709551
+public import Certificates.Certificate712526
+public import Certificates.Certificate712527
+public import Certificates.Certificate712528
+public import Certificates.Certificate712529
+public import Certificates.Certificate712530
+public import Certificates.Certificate712531
+public import Certificates.Certificate712532
+public import Certificates.Certificate712533
+public import Certificates.Certificate712534
+public import Certificates.Certificate712535
+public import Certificates.Certificate712536
+public import Certificates.Certificate712537
+public import Certificates.Certificate712538
+public import Certificates.Certificate712539
+public import Certificates.Certificate712540
+public import Certificates.Certificate712541
+public import Certificates.Certificate3184
+public import Certificates.Certificate3185
+public import Certificates.Certificate4162
+public import Certificates.Certificate4165
+public import Certificates.Certificate5124
+public import Certificates.Certificate5150
+public import Certificates.Certificate5153
+public import Certificates.Certificate8100
+public import Certificates.Certificate8101
+public import Certificates.Certificate8102
+public import Certificates.Certificate8103
+public import Certificates.Certificate8104
+public import Certificates.Certificate8105
+public import Certificates.Certificate8106
+public import Certificates.Certificate8107
+public import Certificates.Certificate8108
+public import Certificates.Certificate8109
+public import Certificates.Certificate8110
+public import Certificates.Certificate8111
+public import Certificates.Certificate8112
+public import Certificates.Certificate8113
+public import Certificates.Certificate10003
+public import Certificates.Certificate10081
+public import Certificates.Certificate14982
+public import Certificates.Certificate14983
+public import Certificates.Certificate14984
+public import Certificates.Certificate14988
+public import Certificates.Certificate14989
+public import Certificates.Certificate19780
+public import Certificates.Certificate19951
+public import Certificates.Certificate19952
+public import Certificates.Certificate21100
+public import Certificates.Certificate21101
+public import Certificates.Certificate21102
+public import Certificates.Certificate21103
+public import Certificates.Certificate21104
+public import Certificates.Certificate21105
+public import Certificates.Certificate21106
+public import Certificates.Certificate21107
+public import Certificates.Certificate21110
+public import Certificates.Certificate21113
+public import Certificates.Certificate21114
+public import Certificates.Certificate21115
+public import Certificates.Certificate21126
+public import Certificates.Certificate21127
+public import Certificates.Certificate21128
+public import Certificates.Certificate21140
+public import Certificates.Certificate21141
+public import Certificates.Certificate21142
+public import Certificates.Certificate21150
+public import Certificates.Certificate21151
+public import Certificates.Certificate21152
+public import Certificates.Certificate21153
+public import Certificates.Certificate21154
+public import Certificates.Certificate21155
+public import Certificates.Certificate21156
+public import Certificates.Certificate21157
+public import Certificates.Certificate21158
+public import Certificates.Certificate21159
+public import Certificates.Certificate21166
+public import Certificates.Certificate21167
+public import Certificates.Certificate21168
+public import Certificates.Certificate21169
+public import Certificates.Certificate21170
+public import Certificates.Certificate21171
+public import Certificates.Certificate21172
+public import Certificates.Certificate21173
+public import Certificates.Certificate21180
+public import Certificates.Certificate21185
+public import Certificates.Certificate21186
+public import Certificates.Certificate21187
+public import Certificates.Certificate21188
+public import Certificates.Certificate21190
+public import Certificates.Certificate21191
+public import Certificates.Certificate21192
+public import Certificates.Certificate21193
+public import Certificates.Certificate21194
+public import Certificates.Certificate21195
+public import Certificates.Certificate21196
+public import Certificates.Certificate21197
+public import Certificates.Certificate21198
+public import Certificates.Certificate21199
+public import Certificates.Certificate21200
+public import Certificates.Certificate21201
+public import Certificates.Certificate21202
+public import Certificates.Certificate21205
+public import Certificates.Certificate21230
+public import Certificates.Certificate21231
+public import Certificates.Certificate21235
+public import Certificates.Certificate21245
+public import Certificates.Certificate21246
+public import Certificates.Certificate21247
+public import Certificates.Certificate21248
+public import Certificates.Certificate21260
+public import Certificates.Certificate21261
+public import Certificates.Certificate21262
+public import Certificates.Certificate21263
+public import Certificates.Certificate21264
+public import Certificates.Certificate21265
+public import Certificates.Certificate21266
+public import Certificates.Certificate21267
+public import Certificates.Certificate21275
+public import Certificates.Certificate21276
+public import Certificates.Certificate21280
+public import Certificates.Certificate21295
+public import Certificates.Certificate21296
+public import Certificates.Certificate271010
+public import Certificates.Certificate271011
+public import Certificates.Certificate271015
+public import Certificates.Certificate271030
+public import Certificates.Certificate271031
+public import Certificates.Certificate271032
+public import Certificates.Certificate271033
+public import Certificates.Certificate725008
+public import Certificates.Certificate712511
+public import Certificates.Certificate712512
+public import Certificates.Certificate712513
+public import Certificates.Certificate712514
+public import Certificates.Certificate712515
+public import Certificates.Certificate712517
+public import Certificates.Certificate712518
+public import Certificates.Certificate712519
+public import Certificates.Certificate712520
+public import Certificates.Certificate712521
+public import Certificates.Certificate712522
+public import Certificates.Certificate712523
+public import Certificates.Certificate712524
+public import Certificates.Certificate712525
+public import Certificates.Certificate712550
+public import Certificates.Certificate712516
+public import Certificates.Certificate712571
+public import Certificates.Certificate712572
+public import Certificates.Certificate712573
+public import Certificates.Certificate712574
+public import Certificates.Certificate712575
+public import Certificates.Certificate709545
+public import Certificates.Certificate709549
+public import Certificates.Certificate709601
+public import Certificates.Certificate709602
+public import Certificates.Certificate709610
+public import Certificates.Certificate709441
+public import CFSG.LocalAnalysis.StandardType.GGForkIndefExclAssembly
+public import CFSG.LocalAnalysis.StandardType.GGKGHolds
+public import CFSG.LocalAnalysis.StandardType.GGKGASp
+public import CFSG.LocalAnalysis.StandardType.GGKGAF4
+public import CFSG.LocalAnalysis.StandardType.GGR4JCard
+public import CFSG.LocalAnalysis.StandardType.GGR4JMeet
+public import CFSG.LocalAnalysis.StandardType.GGR4JMeetInputs
+public import CFSG.LocalAnalysis.StandardType.GGR4Ambient
+public import CFSG.LocalAnalysis.StandardType.GGPDHolds
+public import CFSG.LocalAnalysis.StandardType.GGR4JNCInputs
+public import CFSG.LocalAnalysis.StandardType.GGF4OrderThreeRank
+public import CFSG.LocalAnalysis.StandardType.GGE6OppOrderThreeLayer
+public import CFSG.LocalAnalysis.StandardType.GGE78TwoLocalRankSixHolds
+public import CFSG.LocalAnalysis.StandardType.GGCRNHolds
+public import CFSG.LocalAnalysis.StandardType.GGCSRHolds
+public import CFSG.LocalAnalysis.StandardType.GGTwAutHolds
+public import CFSG.LocalAnalysis.StandardType.GGKGAF4Holds
+public import CFSG.LocalAnalysis.StandardType.GGCentreTrivialTwKnownHolds
+import CFSG.LocalAnalysis.StandardType.GGPZNbrRes
+import CFSG.LocalAnalysis.StandardType.GGPZNbrDatum
+import CFSG.LocalAnalysis.StandardType.GGPZMultHolds
+import CFSG.LocalAnalysis.StandardType.GGR4PumpTwTransfer
+import CFSG.LocalAnalysis.StandardType.GGResCentBound
+import CFSG.LocalAnalysis.StandardType.GGResCentBoundNbrConj
+import CFSG.LocalAnalysis.StandardType.GGResNbrFixTor
+import CFSG.LocalAnalysis.StandardType.GGResDepAFiveCells
+import CFSG.LocalAnalysis.StandardType.GGResQTwoEndpoints
+import CFSG.LocalAnalysis.StandardType.GGResFFGOFour
+import CFSG.LocalAnalysis.StandardType.GGResIO2aCentre
+import CFSG.LocalAnalysis.StandardType.GGResKnownGroup
+import CFSG.LocalAnalysis.StandardType.GGFFProp2
+import CFSG.LocalAnalysis.StandardType.GGTPNLineFinal
+import CFSG.LocalAnalysis.StandardType.GGRealKGThreeAssembly
+import CFSG.LocalAnalysis.StandardType.GGResIPumpLineTransfer
+import CFSG.LocalAnalysis.StandardType.GGResIO2aKnown
+import CFSG.LocalAnalysis.StandardType.GGResIQFourLin
+import CFSG.LocalAnalysis.StandardType.GGResLineJAssembly
+import CFSG.LocalAnalysis.StandardType.GGPumpTwLabelKnownHolds
+import CFSG.LocalAnalysis.StandardType.GGPumpTwExcKnownHolds
+import CFSG.LocalAnalysis.StandardType.GGLevTwoMain
+public import CFSG.LocalAnalysis.StandardType.GGCentreTwoKnownHolds
+public import CFSG.LocalAnalysis.StandardType.GGR4PumpTransfer
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1
+import CFSG.LocalAnalysis.StandardType.GGSixRCKSmall
+import CFSG.LocalAnalysis.StandardType.GGSixRCKA6
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesIRGOf
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesShortOf
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesD4Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesD3Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesD2Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesD1Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesN7Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesF8Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesZ7Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesI1Of
+import CFSG.LocalAnalysis.StandardType.GGCentStructProof
+import CFSG.LocalAnalysis.StandardType.GGCentA2Final
+import CFSG.LocalAnalysis.StandardType.GGCentD4Final
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesI2Of
+import CFSG.LocalAnalysis.StandardType.GGSixRCKC1LeavesJ1Of
+public import CFSG.LocalAnalysis.StandardType.GGQTwoOfCitedCellC
+import CFSG.LocalAnalysis.StandardType.GGD5Assembly
+import CFSG.LocalAnalysis.StandardType.GGD5Forced
+import CFSG.LocalAnalysis.StandardType.GGD5LabelBridge
+public import CFSG.LocalAnalysis.StandardType.GGQTwoModelOfLabel
+public import CFSG.LocalAnalysis.StandardType.GGQTwoNoModelRest2Amb
+import CFSG.LocalAnalysis.StandardType.GGQ2P3Rest2
+import CFSG.LocalAnalysis.StandardType.GGQ2TwoNodeNineCell
+public import CFSG.LocalAnalysis.StandardType.GGQTwoPosInLD6
+public import CFSG.LocalAnalysis.StandardType.GGQTwoLemma895
+public import CFSG.LocalAnalysis.StandardType.GGQTwoVACAssembly
+public import CFSG.LocalAnalysis.StandardType.GGQTwoVACE6Guard
+public import CFSG.LocalAnalysis.StandardType.GGQTwoVACOrthNonFullAssembly
+import CFSG.LocalAnalysis.StandardType.GGRealNbrNSTwE6
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2UniDispatch
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2UniRest
+import CFSG.LocalAnalysis.StandardType.GGNbrLangQ2UniExcThree
+import CFSG.LocalAnalysis.StandardType.GGNSJoinQFourFrame
+import CFSG.LocalAnalysis.StandardType.GGF4QNamedInputs
+import CFSG.LocalAnalysis.StandardType.GGSmallDepFixLine
+import CFSG.LocalAnalysis.StandardType.GGSmallD2
+import CFSG.LocalAnalysis.StandardType.GGF4QTwoG0
+import CFSG.LocalAnalysis.StandardType.FF81.LocalSetup
+import CFSG.LocalAnalysis.StandardType.FF81.PropTwo
+import CFSG.LocalAnalysis.StandardType.FF81.FrameStep
+import CFSG.LocalAnalysis.StandardType.FF81.ConstructYAssembly
+import CFSG.LocalAnalysis.StandardType.FF81.Holds
+import CFSG.LocalAnalysis.StandardType.FF81.CentE6.Final
+import CFSG.LocalAnalysis.StandardType.FF81.PropOneOfQ1
+import CFSG.LocalAnalysis.StandardType.FS81.TwD5Nine92Final
+import CFSG.HardMathSupport.Dickson.Sec6.UpD42Aux.ExclOmegaInn
+public import CFSG.CGT.A8S.N0EnumInputs
+public import CFSG.Certificates.Kernel.Census.SiftSound
+public import CFSG.HardMathSupport.Dickson.I271.SporGenR3Aux.TabBFiveCentSyl
+public import CFSG.LargeExtraspecial.AS62EnumInputs
+public import CFSG.LargeExtraspecial.S10SixE
+public import CFSG.LargeExtraspecial.S10SixF
+public import CFSG.LargeExtraspecial.S10SixH
+public import CFSG.LargeExtraspecial.S10SixI
+public import CFSG.LargeExtraspecial.S10SixJ
+public import CFSG.LocalAnalysis.EvenSmallLie.UnitarySix.YamadaNativeData
+public import Certificates.Certificate17632Base
+import CFSG.LocalAnalysis.StandardType.GGOrdinaryMemberE7RootComparison
+
+public section
+
+namespace CFSG.Yardstones.M3f9567aba59d
+
+open CFSG.Assembly CFSG.StandardType CFSG.RankThree.PartTwo.Sec21
+
+theorem ggV2I1Inputs_of_yardstones
+    (h01 : CFSG.Yardstones.Statements.Yf77bba1f8a8a0aff)
+    (h03 : CFSG.Yardstones.Statements.Y4cc3aec516b7798c)
+    (h04 : CFSG.Yardstones.Statements.Yc9f1ea912a24c907)
+    (h05 : CFSG.Yardstones.Statements.Ycc95b11b93fcff19)
+    (h06 : CFSG.Yardstones.Statements.Y3203a81333d96501)
+    (h07 : CFSG.Yardstones.Statements.Ybcba3d5d2faeab69)
+    (h08 : CFSG.Yardstones.Statements.Y30013f94ba1af482)
+    (h09 : CFSG.Yardstones.Statements.Y7ea613aa3462085b)
+    (h10 : CFSG.Yardstones.Statements.Y87e62a301c1399c5)
+    (h11 : CFSG.Yardstones.Statements.Ycd6fdd938d9da7cd)
+    (h12 : CFSG.Yardstones.Statements.Y8c3c5cd708141f52)
+    (h13 : CFSG.Yardstones.Statements.Y9550a5c8037d2ddf)
+    (h14 : CFSG.Yardstones.Statements.Y600f261da4e2dd4f) :
+    GGSecOneFiveV2I1Input ∧ GGSecSixV2I1Input := by
+  have h01 : GGRemainderStdSubTableB := h01
+  have h03 : GGRemainderTableBLRest := h03
+  have h04 : GGRemainderCoxeterLabel := h04
+  have h05 : GGRemainderSecFiveWeyl := h05
+  have h06 : GGRemainderSecFiveTypeA := h06
+  have h07 : GGRemainderSecFiveHalfSp := h07
+  have h08 : GGRemainderCorFiveTwenty := h08
+  have h09 : GGRemainderStepOneExc := h09
+  have h10 : GGRemainderStepOneConfig := h10
+  have h11 : GGRemainderStepTwo := h11
+  have h12 : GGRemainderRootCentralizer := h12
+  have h13 : GGRemainderStepThreeExc := h13
+  have h14 : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo := h14
+  obtain ⟨hTE6L, hPRn, hsR, hLCm⟩ := h01
+  have hTE6 := ggTableBTwE6Round12_of_lang hTE6L
+  have hT : GGTPNTransferBNoCorners :=
+    ggTPNTransferBNoCorners_of_clauses
+      (ggNbrSubcomponentInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+      ggTPNTrLocalCore_holds ggTPNTrFlat_holds ggTPNTrCardB_holds ggTPNTrRankB_holds
+      ggTPNTrNum_holds ggTPNTrSelfCent_holds
+      (ggTPNTrOnly_of_pComp
+        (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+        ggPCompCentQuasisimple_holds)
+      ggTPNTrMarked_holds
+  have hA24 : GGNbrTablePNbrInputOnL GGRegimeA24L :=
+    ggNbrTablePNbrInputOnL_a24_of_leaves hT (ggK0ExcBS_of_B3 h07.1.2)
+  have hBC : GGNbrTablePNbrInputOnL GGRegimeBCL :=
+    ggNbrTablePNbrInputOnL_bc_of_leaves hT (ggK0ExcBS_of_B3 h07.1.2)
+  have hTA : GGNbrTablePNbrInputOnL GGRegimeTypeAL :=
+    ggNbrTablePNbrInputOnL_typeA_of_leaves hT h07.1.2
+  have hTA9 : GGNbrTablePNbrInputOn GGRegimeA2Eight :=
+    ggNbrTablePNbrInputOn_a2Eight_of_leaves hT h07.1.2
+  have hInn : GGInnerOnD4 :=
+    ggInnerOnD4_of_regimes (GGK0ExcB2.toExcB (GGK0ExcB3.toB2 h07.1.2))
+      GGInnerD4RAParts.ggInnerOnD4RA_holds GGInnerD4DGenParts.ggInnerOnD4DGen_holds
+      GGInnerD4SmallParts.ggInnerOnD4Small_holds
+  have hB36 : GGNbrTablePNbrInputOnL GGRegimeB36L :=
+    ggNbrTablePNbrInputOnL_b36 hT h07.1.1 hInn
+      (ggK0ExcBS_of_B3 h07.1.2) ggE6CoverThreeLocalRank_holds
+      (ggB36JNonExcRK_of_classical (ggB36JClassicalRK_holds ggK0MainBS_cl ggK0Schur_cl))
+  have hAm2 : GGNbrTablePNbrInputOn GGRegimeAm2 :=
+    ggNbrTablePNbrInputOn_am2_of_leaves hT h07.1.2
+  have hCorner : GGFieldTwoCorner :=
+    ggFieldTwoCorner_of_split ggFieldTwoCorner_rankOne h07.2
+  have hFT : GGNbrTablePNbrInputOn GGRegimeFieldTwo :=
+    ggNbrTablePNbrInputOn_fieldTwo_of_leaves hT h07.1.2 hCorner
+  have hTPn : GGNbrTablePNbrInputNarrow :=
+    ggNbrTablePNbrInputNarrow_of_regimes hA24 hAm2 hBC hB36
+      hFT
+      (ggNbrTablePNbrInputOn_a8Seven
+        (ggNbrSubcomponentInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+        (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR))
+      hTA9 hTA
+  have hS1E : KGLangAxisS1ExcInput := kgLangAxisS1ExcInput_holds
+  have hQ2RestJ := ggBstarAbelianPreimageJLinResOffRowsInput_of_census q2ResidualCensusInput_holds
+  have hFNIJ : KGFieldNotInnerInput :=
+    kgFieldNotInnerInput_of_rows (fun _ => False)
+      (fun _ _ _ _ _ _ h => h.1.elim)
+      (fun fam _ => by
+        have hsim : KGFNIRawSimpleOn fun _ => True := kgfniRawSimpleOn_of_parts
+          kgfni_rawSimple_classical kgfni_rawSimple_chev kgfni_rawSimple_twisted
+        cases fam
+        case linear => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_linear
+        case unitary =>
+          exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_unitary
+        case suzuki => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_suzuki
+        case g2 => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_g2
+        case f4 => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_f4
+        case e6 => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_e6
+        case e7 => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_e7
+        case e8 => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_e8
+        case triality =>
+          exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_triality
+        case ree => exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_ree
+        case symplectic =>
+          exact kgFieldNotInnerInputOn_of_restriction hsim kgFieldRestrictionOn_symplectic
+        case orthogonal => exact kgFieldNotInnerInputOn_orthogonal
+        case derived => exact kgFieldNotInnerInputOn_derived)
+      kgFieldNotInnerInputOn_not_dvd
+  have hQ2J : GGBstarAbelianPreimageJS1Input :=
+    ⟨ggBstarAbelianPreimageJLinInput_of_orthogonalPlus_and_rest
+        q2_orthogonalPlus
+        (ggBstarAbelianPreimageJLinResNotOrthogonalPlusInput_of_offRows
+          (ggBstarAbelianPreimageJLinResOffRowsInput_of_offExc
+            (ggBstarAbelianPreimageJLinResOffRowsInput_of_offOrthMinus
+              (ggBstarAbelianPreimageJLinResOffRowsInput_of_offSymp hQ2RestJ)))),
+      ggBstarAbelianPreimageJUniS1Input_of_rest
+        (ggBstarAbelianPreimageJUniS1On_offA_of_residual ggBstarAbelianPreimageJUniS1On_excThree)⟩
+  have hQ2ERest : GGBstarToralJExcInputOn
+      (fun lab => (lab.tag ≠ .E8 ∧ lab.tag ≠ .E7) ∧ ¬ (lab.tag = .E6 ∨ lab.tag = .twE6)) :=
+    GGBstarToralJExcInputOn.mono
+      (fun _ ⟨⟨h8, h7⟩, h6⟩ => ⟨h8, h7, fun h => h6 (Or.inl h), fun h => h6 (Or.inr h)⟩)
+      ggBstarToralJExcInputOn_nonE_holds
+  have hQ2E : GGBstarToralJExcInput :=
+    ggBstarToralJExcInput_of_not_e8_e7
+      (ggBstarToralJExcInputOn_of_not_e6_twE6 hQ2ERest)
+  have hQ1J : GGBstarInnerDiagJInput := ggBstarInnerDiagJInput_holds
+  have hT3J : KGLangAxisT3Input := kgLangAxisT3Input_holds
+  have hKGwN : GGNbrKGFieldTriD4Two := CFSG.StandardType.TriD4TwoRow.ggNbrKGFieldTriD4Two_holds
+  have hStabR : CFSG.HardMathSupport.C14Idx.ExcReeCentralStab :=
+    CFSG.HardMathSupport.C14Idx.excReeCentralStab_holds
+  have hBorI : CFSG.HardMathSupport.C14Idx.ExcBorelInput :=
+    CFSG.HardMathSupport.C14Idx.excBorelInput_holds
+  have hIdxF : CFSG.HardMathSupport.C14Idx.ExcIdxFrobInput :=
+    CFSG.HardMathSupport.C14Idx.excIdxFrobInput_holds
+  have hIdxR : CFSG.HardMathSupport.C14Idx.ExcIdxReeInput :=
+    CFSG.HardMathSupport.C14Idx.excIdxReeInput_holds
+  have hK45a : GGL45TorusHKnownFormsOn GGL45FamNonTorsion :=
+    CFSG.StandardType.ggL45TorusHKnownFormsOn_nonTorsion_of_four_inputs hIdxF hBorI hIdxR hStabR
+  have h48k : GGL48TableBKnownFormsRestRkOpen13 :=
+    ggL48TableBKnownFormsRestRkOpen13_of_open22
+      ⟨ggL48TBForm1Rest22_holds, ggL48TBForm4RestTwoThree_holds⟩
+  replace h48k : GGL48TableBKnownFormsRestRkOpen12 := ggL48TableBKnownFormsRestRkOpen12_of_open13 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen11 := ggL48TableBKnownFormsRestRkOpen11_of_open12 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen10 := ggL48TableBKnownFormsRestRkOpen10_of_open11 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen9 := ggL48TableBKnownFormsRestRkOpen9_of_open10 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen8 := ggL48TableBKnownFormsRestRkOpen8_of_open9 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen7 := ggL48TableBKnownFormsRestRkOpen7_of_open8 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen6 := ggL48TableBKnownFormsRestRkOpen6_of_open7 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen5 := ggL48TableBKnownFormsRestRkOpen5_of_open6 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen4 := ggL48TableBKnownFormsRestRkOpen4_of_open5 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen3 := ggL48TableBKnownFormsRestRkOpen3_of_open4 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen2 := ggL48TableBKnownFormsRestRkOpen2_of_open3 h48k
+  replace h48k : GGL48TableBKnownFormsRestRkOpen := ggL48TableBKnownFormsRestRkOpen_of_open2 h48k
+  replace h48k : GGL48TableBKnownFormsRestRk := ggL48TableBKnownFormsRestRk_of_open h48k
+  have h48b1 : GGL48F4TwoThreeConfigInput := ggL48F4TwoThreeConfigInput_holds
+  have h48b2 : GGL48TB0TwConfigInputTwA := ggL48TB0TwConfigInputTwA_holds
+  have hKGTw : GGNbrKGTwE6ThreeSubSCWeylIrred :=
+    CFSG.StandardType.Irred937.ggNbrKGTwE6ThreeSubSCWeylIrred_holds
+  have hKGE : GGNbrKGExcPlusSCWeylIrred :=
+    CFSG.StandardType.Irred937.ggNbrKGExcPlusSCWeylIrred_holds
+  have hKGF4 : GGNbrKGF4ThreeAddSC :=
+    CFSG.StandardType.Irred937.ggNbrKGF4ThreeAddSC_holds
+  have hTBKr15 : GGTableBNbrInnerInputOn GGTableBNbrInnerRound15ExcLabel :=
+    CFSG.StandardType.ggTableBNbrInnerInputOn_round15Exc_holds
+  have hKD4o : GGD4OddCentInnerInput := ggD4OddCentInnerInput_holds
+  replace hKD4o : GGD4OddCentKGInputsOffTablePRestNoLTStrong :=
+    ggD4OddCentKGInputsOffTablePRestNoLTStrong_of_inner hKD4o
+  replace hKD4o : GGD4OddCentKGInputsOffTablePRestOffSUFour :=
+    ggD4OddCentKGInputsOffTablePRestOffSUFour_of_noLTStrong hKD4o
+  replace hKD4o : GGD4OddCentKGInputsOffTablePRest :=
+    ggD4OddCentKGInputsOffTablePRest_of_offSUFour hKD4o
+  replace hKD4o : GGD4OddCentKGInputsOffTableP := ggD4OddCentKGInputsOffTableP_of_rest hKD4o
+  have hTP3 : GGTablePThreeKnownRestSixLowZ :=
+    ⟨CFSG.StandardType.TablePThreeKG.twE6A2CentreInput_holds,
+      CFSG.StandardType.TablePThreeKG.twE6A2CentreInputTwo_holds⟩
+  replace hTP3 : GGTablePThreeKnownRestSixLowOrth :=
+    ggTablePThreeKnownRestSixLowOrth_of_z hTP3 CFSG.StandardType.TablePThreeKG.leafE6Two_holds
+  replace hTP3 : GGTablePThreeKnownRestSixLowUni :=
+    ggTablePThreeKnownRestSixLowUni_of_orth hTP3 CFSG.StandardType.TablePThreeKG.leafOrth_holds
+      CFSG.StandardType.TablePThreeKG.leafOrthMinus_holds
+  replace hTP3 : GGTablePThreeKnownRestSixLowE78 :=
+    ggTablePThreeKnownRestSixLowE78_of_uni hTP3 CFSG.StandardType.TablePThreeKG.leafUni_holds
+  replace hTP3 : GGTablePThreeKnownRestSixLow2Z :=
+    ggTablePThreeKnownRestSixLow2Z_of_e78 hTP3 CFSG.StandardType.TablePThreeKG.leafE78Six_holds
+  replace hTP3 : GGTablePThreeKnownRestSixLow :=
+    ggTablePThreeKnownRestSixLow_of_low2Z hTP3 CFSG.StandardType.TablePThreeKG.leafSymp_holds
+      CFSG.StandardType.TablePThreeKG.leafF4Six_holds
+  replace hTP3 : GGTablePThreeKnownRestSix := ggTablePThreeKnownRestSix_of_low hTP3
+  replace hTP3 : GGTablePThreeKnownRest := ggTablePThreeKnownRest_of_restSix hTP3
+  replace hTP3 : GGTablePThreeKnown :=
+    ggTablePThreeKnown_of_rest hTP3 CFSG.StandardType.TablePThreeKG.leafLin_holds
+      CFSG.StandardType.TablePThreeKG.leafSmallVac_holds
+  have hStdL : GGTriD4StdSubInput := ggTriD4StdSubInput_of_tablePThree hTP3
+  have hKD4r : GGD4OddCentKGInputsOpen := ggD4OddCentKGInputsOpen_of_offTableP hTP3 hKD4o
+  have hK45b : GGL45TorusHKnownFormsOn GGL45FamTypeA :=
+    CFSG.StandardType.GGL45TG.ggL45TorusHKnownFormsOn_famTypeA
+  have hK45c : GGL45TorusHKnownFormsOn GGL45FamE67 :=
+    CFSG.StandardType.ggL45TorusHKnownFormsOn_e67
+  have hK45t : GGL45TorusKnownForms := ggL45TorusKnownForms_of_H hK45a hK45b hK45c
+  have hKGd : GGNbrKGFieldTriD4ThreeLine :=
+    ggNbrKGFieldTriD4ThreeLine_of_weyl ggNbrKGFieldTriD4ThreeLineWeyl_holds
+  have hK45 : GGL45KnownForms :=
+    ⟨hK45t, ggL45FieldFixKnownForms_of_open ggL45FieldFixKnownFormsOpen_holds⟩
+  replace h48k := ggL48TableBKnownFormsRk_of_rest h48k
+  have hSchur := ggTriD4SchurInput_holds
+  have hComp := ggTriD4ComponentsInput_holds
+  have hE6r := ggTwE6LocalRankInput_holds
+  have hKD4kg := ggD4OddCentKGInputs_of_rest (ggD4OddCentKGInputsRest_of_open hKD4r)
+  obtain ⟨hDense, hO, hU4, h4s, h4n, h5n, hPP2⟩ := h05
+  have hPropOne : CFSG.StandardType.FF81.PropOne := CFSG.StandardType.FF81.propOne_holds
+  have hFRJTB : CFSG.StandardType.FrameRoute.GGFrameRouteJoinTBRestInputs :=
+    ⟨CFSG.StandardType.FrameRoute.FS81.l2ConstructYAt_twD7_holds,
+      CFSG.StandardType.FrameRoute.FS81.l3RootFusion_holds⟩
+  have hE6 : CFSG.StandardType.GGSecFiveE6QTwoFS81Input :=
+    CFSG.StandardType.FrameRoute.FS81.ggSecFiveE6QTwoFS81Input_of_open
+      CFSG.StandardType.FrameRoute.FS81.t5ThmA_holds
+      (CFSG.StandardType.FrameRoute.FS81.t5Nine_of_pieces
+        (CFSG.StandardType.FrameRoute.FS81.t5Nine92_of_norm
+          (CFSG.StandardType.FrameRoute.FS81.t5Nine92Norm_of_omega
+            CFSG.HardMathSupport.Dickson.Sec6.upD42ExclInnAt_omegaTwoBig))
+        CFSG.StandardType.FrameRoute.FS81.t5NineModel_holds
+        CFSG.StandardType.FrameRoute.FS81.t5TwoLocalK_holds)
+  have hPhE : CFSG.ClassicalInvolution.Phan.PhanEInput2 :=
+    CFSG.ClassicalInvolution.Phan.PhanE.phanEInput2_holds
+  have hPhD : CFSG.ClassicalInvolution.Phan.PhanDInput2 :=
+    CFSG.ClassicalInvolution.PhanDn.phanDInput2_holds
+  have hUse : CFSG.StandardType.ZS.UseInput := CFSG.StandardType.ZS.useInput_holds
+  have hPhGenRF : CFSG.StandardType.GGGenResidualFrameInputOf (fun {ι : Type} (M : CoxeterMatrix ι) =>
+      CFSG.StandardType.GGIsWeylMatrixE M) :=
+    CFSG.StandardType.ggGenResidualFrameInputOf_weylE_holds
+  have hU62 : CFSG.StandardType.GGU62OuterDiagInput :=
+    CFSG.StandardType.ggU62OuterDiagInput_holds
+  have hNsQ2DU6 : CFSG.StandardType.GGSecFiveNSQ2DU6Input :=
+    CFSG.StandardType.ggSecFiveNSQ2DU6Input_of_u62 hU62
+  have hWit : ZS.WitnessInput := ZS.ggWitnessInput_holds
+  have hStruct : GGSecFiveOrthD4KStructInput := ggSecFiveOrthD4KStructInput_holds
+  have hTBJ : GGSecFiveTBJTypeD4Input := ggSecFiveTBJTypeD4Input_holds
+  have hKSL : GGSecFiveOrthKSLInput := ggSecFiveOrthKSLInput_of_k0Exc h07.1.2
+  have hF4R : GGF4ThreeNbrRankInput := ggF4ThreeNbrRankInput_of_cube ggF4ThreeSCCubeInput_holds
+  have hNRG : GGNbrReflGenNonSplitInput :=
+    ggNbrReflGenNonSplitInput_of_families hF4R
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+  have hKGp : GGSecFiveKGPosInput := ggSecFiveKGPosInput_holds
+  have hTCJ : GGTCJKnown := TCJ.ggTCJKnown_holds
+  have hLB := ggLBalanceInput_of_catalogueSchreier
+    CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
+  have hJA2 : GGSecFiveJA2Input := ggSecFiveJA2Input_of_lBalance hLB
+  have hNbr : GGSecFiveSplitNbrInput :=
+    ggSecFiveSplitNbrInput_of_ennola
+      (TCJ.ggTCJEnnolaKnown_of_uni_orth TCJ.innDiagAllEnnolaUni TCJ.innDiagAllEnnolaOrth) hLB
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+  have hA8PL : GGForkA8TablePLInput :=
+    ggForkA8TablePLInput_holds hTPn.toA8Seven
+      hTPn.toFieldTwo hTCJ ggLabelRigidInput_holds
+  have hA8P : GGForkA8TablePInput :=
+    ggForkA8TablePInput_of_tpOn hTPn.toA8Seven
+      hTPn.toFieldTwo hTCJ ggLabelRigidInput_holds hA8PL
+  have hA8D : GGForkA8Coord2D4Input := ggForkA8Coord2D4Input_of_mp ggInnerDiagMpInput_holds hLB
+  have hA8R : GGForkA8CoordRestInput :=
+    ggForkA8CoordRestInput_of_split (ggForkA8CoordC3Input_of_mp ggInnerDiagMpInput_holds hLB) hA8D
+  have hA8C : GGForkA8CoordInput :=
+    ggForkA8CoordInput_of_split (ggForkA8CoordA3Input_of_mp ggInnerDiagMpInput_holds hLB) hA8R
+  have hW : GGTwE6ThreeNbrWeylInput := ggTwE6ThreeNbrWeylInput_holds
+  have hKA : GGTwE6A5KKnown := SCFourCover.ggTwE6A5KKnown_holds
+  have hLA : GGTwE6A5LKnown := SCFourCover.ggTwE6A5LKnown_holds
+  have hKO : GGTwE6SCFourOutKnown := SCFourCover.ggTwE6SCFourOutKnown_holds
+  have hK1 : GGTwE6SCFourLabelsKnown := SCFourCover.ggTwE6SCFourLabelsKnown_holds
+  have hLO : GGTwE6OfOutsideSplitKnown := SCFourCover.ggTwE6OfOutsideSplitKnown_holds
+  have hGen : GGSecFiveGenCoxInput := ggSecFiveGenCoxInput_of_kgPos hKGp
+  have hOrb : GGSecFiveOrbInput := ggSecFiveOrbInput_of_kgPos hKGp
+  have h84 : NoOffTwE6Three.GGTwE6ThreeToralTypeMinusOneInput :=
+    TwE6LemmaK.ggTwE6ThreeToralTypeMinusOneInput
+  have h82 : NoOffTwE6Three.GGTwE6ThreeTwoLocalInnToralInput :=
+    NoOffTwE6Three.ggTwE6ThreeTwoLocalInnToralInput_holds
+  have h5 : GGTwE6ThreeNoRankSixInput := ggTwE6ThreeNoRankSixInput_holds
+  have hR4 : GGTwE6ThreeSCFourNotTwoLocalOddInput :=
+    ggTwE6ThreeSCFourNotTwoLocalOddInput_of_kga1 h82 h84 h5
+  have h03L : GGRemainderTableBL :=
+    ggRemainderTableBL_of_exc11r E6ThreeModel.e6ThreeModel_holds hR4 h03
+      (TwE6FieldCore.ggTwE6InnerDiagBound2LInput_of_langDatum
+        TwE6FieldCore.subfieldLangDatumFive_holds TwE6FieldCore.subfieldLangDatumThree_holds
+        TwE6FieldCore.subfieldLangDatumThreeFour_holds)
+  obtain ⟨hTBr, hTBMr, hTBAr, hLIDr, hLtvr, hLliner⟩ := h03L
+  have hTBF : GGTBFixInput :=
+    ggTBFixInput_of_round12 TwF4SUThree.ggTwF4ThreeRankInput_holds hTBMr hTBAr
+  have hFix : GGSecFiveFixInput := ggSecFiveFixInput_of_tbFix hTBF
+  have hLev2 : GGSecFiveLevTwoInput' := ggSecFiveLevTwoInput'_holds
+  have hII : GGTwE6ThreeNbrCaseII :=
+    ggTwE6ThreeNbrCaseII_of_knownSplit hLB
+    (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hK1 hKO hKA hLO hLA
+    (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4))
+  have hRk : GGTwE6ThreeNbrRankInput :=
+    ggTwE6ThreeNbrRankInput_of_caseII hII hE6r ggLabelCenterPCyclicInput_holds
+  have hRQ : GGReflRealizedQFourNbrInput :=
+    ggReflRealizedQFourNbrInput_of_ns
+      (ggReflRealizedQFourNbrNSInput_of_rank hLB
+        (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hRk
+        ggLabelRigidInput_holds)
+  have hPumpSF : GGSecFivePumpNbrInput :=
+    ggSecFivePumpNbrInput_of_ns
+      (ggSecFivePumpNbrNSInput_holds hF4R hLB
+        (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hRk hTCJ
+        hA8P.toSecFive (ggRawInnFieldInput_of_rest_omega ggRawInnFieldOn_rest5)
+        (ggRawInndiagIsoInput_of_rest (ggRawInndiagIsoRestInput_of_round5 ggRawInndiagIsoRound5_holds)))
+  have hJoin : GGSecFiveJoinRegionInput :=
+    ggSecFiveJoinRegionInput_of_cited_nbr
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+      hPumpSF hFix hJA2 hUse hWit hRQ hTBJ hKSL hStruct hLev2
+  have hL1 : GGSecFiveL1CoxInput :=
+    ggSecFiveL1CoxInput_of_leaves hNbr hJoin hLB
+      (ggSecFiveJReflInput_of_primed (s2jn_ggSecFiveJReflInput'_of_core ggJRootCoreInput_holds))
+      ggSplitLieOutInput_holds ggSecFiveRk1CentInput_holds
+  have hRk1 : GGSecFiveRk1Input := ggSecFiveRk1Input_of_kgPos hKGp hL1 hNbr
+  have hRk2 : GGSecFiveRk2Input := ggSecFiveRk2Input_of_kgPos hKGp hNbr
+  have hL2 : GGSecFiveL2SplitInput := ggSecFiveL2SplitInput_of_l1Cox hL1 hLB hNbr
+  have hT1 : GGSecFiveTier1Input := ggSecFiveTier1Input_of_prim hL1 hRk1 hGen hOrb hL2 hRk2 hNbr
+  have hLevi : GGSecFiveCompatLeviInput := ggSecFiveCompatLeviInput_of_kgPos hKGp hL1
+  have hdRo7Two := CFSG.StandardType.ggResMultiNodeRestTwoCellInput_e6_qTwo_three
+  have hdRo7Three : GGResMultiNodeRestThreeKUnitaryQGeFourRestInput :=
+    CFSG.StandardType.ggResMultiNodeRestThreeKUnitaryQGeFourRestInput_of_fieldTwo h04
+  have hdRo6bLE3D1 : CFSG.StandardType.GGSmallD1Input :=
+    CFSG.StandardType.ggSmallD1Input_of_use hUse
+  have hdRo6bLE3D2 : CFSG.StandardType.GGSmallD2Input :=
+    CFSG.StandardType.ggSmallD2Input_of_use hUse
+  have hdRoJA1 := CFSG.StandardType.S2MathAs4B2der1822.ggB2derSympKnown_holds
+  have hdRo6bWRest : GGTBWNormLabelRest := CFSG.StandardType.ggTBWNormLabelRest_holds
+  have hdRo6aNineK3 : GGNineDepRowImprimInput := CFSG.StandardType.ggNineDepRowImprim_holds
+  have hdRo6aNineK6 : GGNineDepRowOrthInput := CFSG.StandardType.ggNineDepRowOrth_holds
+  have hdRo6bZ : GGTWZKInput := CFSG.StandardType.ggTWZKInput_holds
+  have hdRo6aNineK2 : GGNineDepRowLinInput := CFSG.StandardType.ggNineDepRowLin_holds
+  have hdRo6aNineK4a : GGNineDepRowSymSuccInput := CFSG.StandardType.ggNineDepRowSymSucc_holds
+  have hdRo6aNineK4b : GGNineDepRowSymSuccTwoInput :=
+    CFSG.StandardType.ggNineDepRowSymSuccTwo_holds
+  have hdRo6aNineK5a : GGNineDepRowE7Input := CFSG.StandardType.ggNineDepRowE7_holds
+  have hdRo6aNineK5b : GGNineDepRowE8Input := CFSG.StandardType.ggNineDepRowE8_holds
+  have hdRoKG : GGReflClassLargeInput' :=
+    CFSG.StandardType.ggReflClassLargeInput_of_omega
+      (CFSG.StandardType.ZS.ggReflClassOmegaLarge_of_useInput hUse)
+  have hdRo6bZE : GGDepED4ZKInput := CFSG.StandardType.ggDepED4ZKInput_holds
+  have hdRo6bHL : GGHL58BaseRestInput := CFSG.StandardType.ggHL58BaseRestInput_holds
+  have hdRo6bHK : GGHL58NbrTorRestInput := CFSG.StandardType.ggHL58NbrTorRestInput_holds
+  have hdRo6b58 : GGDepED4L58NbrRestInput := CFSG.StandardType.ggDepED4L58NbrRestInput_holds
+  have hdRo6bW : GGTBWNormLabelInput := ggTBWNormLabelInput_of_rest hdRo6bWRest
+  have hdRoDim : GGTwoNodeRowDimKnown := CFSG.StandardType.ggTwoNodeRowDimKnown_holds
+  have hdRo6bJ2 : GGTBJTwoNodeSmallInput := CFSG.StandardType.ggTBJTwoNodeSmallInput_holds
+  have hdRo6bT : GGTBTorAll := CFSG.StandardType.ggTBTorAll_of_remaining trivial
+  have hdRo4b : GGResE6DepLabelInput := ggResE6DepLabelInput_of_b36 hTPn.toB36L hLB
+  have hdRo6bLift : GGTBTorLiftRows := CFSG.StandardType.ggTBTorLiftRows_holds
+  have hdRoCore : CFSG.StandardType.GGMaxRankE8Core := CFSG.StandardType.ggMaxRankE8Core_holds
+  have hdRoTE8 : GGTBTorE8 := CFSG.StandardType.ggTBTorE8_holds
+  have hA8N : GGForkA8NotReflInput := ggForkA8NotReflInput_of_mp ggInnerDiagMpInput_holds
+  have hKG2 : GGForkLatticeKGInput := CFSG.StandardType.ggForkLatticeKGInput_holds
+  have hKG1 : GGForkRootSL2KGInput := CFSG.StandardType.ggForkRootSL2KGInput_holds
+  have hKG3 : GGForkE6TwoNoReflKGInput := CFSG.StandardType.GGKG3.kg3
+  have hKGlT : GGE6KGLayerInputTw := ggE6KGLayerInputTw_holds
+  have hKGl : GGE6KGLayerInput := ggE6KGLayerInput_of_tw hKGlT
+  have hKGb : GGE6DepBlockKnown := ggE6DepBlockKnown_of_kgLayers hKGl
+  have hRig6 := ggLabelRigidInput_holds
+  have hdRo6bTwX : GGE6D4TwoNodeTwXDatum :=
+    CFSG.StandardType.E6D4Tw.ggE6D4TwoNodeTwXDatum_of_tbTor hLB hRig6 hdRo6bT hdRo6bLift hQ1J
+      CFSG.StandardType.TwE6ThreeLang.ggTBTorTwE6Three_holds
+  have hdRo6bLocR : GGE6D4TwoNodeLocalRest :=
+    CFSG.StandardType.E6D4Side.ggE6D4TwoNodeLocalRest_of_twX hLB hRig6 hdRo6bT hdRo6bLift hQ1J
+      hdRo6bTwX
+  have hdRo6bLoc : GGE6D4TwoNodeLocalInput :=
+    CFSG.StandardType.E6D4J.ggE6D4TwoNodeLocalInput_of_rest hRig6 hdRo6bT hdRo6bLift hQ1J
+      hdRo6bLocR
+  have hP := ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR
+  have hdRo6bRRest : GGTBXDatumResInputRest :=
+    CFSG.StandardType.ggTBXDatumResInputRest_of_rows hRig6 ggLabelCenterPCyclicInput_holds hRk
+  have hdRo6bNRest : GGPZNbrResDatumRest :=
+    CFSG.StandardType.ggPZNbrResDatumRest_of_rows hRig6 ggLabelCenterPCyclicInput_holds hRk
+  have hdRo6bR : GGTBXDatumResInput :=
+    CFSG.StandardType.ggTBXDatumResInput_of_rest hRig6 hLB hP hdRo6bRRest
+  have hdRo6bN : GGPZNbrResDatum :=
+    CFSG.StandardType.ggPZNbrResDatum_of_rest hRig6 hLB hP hdRo6bNRest
+  have hraw : GGRawInnFieldInput := ggRawInnFieldInput_of_rest_omega ggRawInnFieldOn_rest5
+  have hisoI : GGRawInndiagIsoInput :=
+    ggRawInndiagIsoInput_of_rest (ggRawInndiagIsoRestInput_of_round5 ggRawInndiagIsoRound5_holds)
+  have hsub : GGNbrSubcomponentInput := ggNbrSubcomponentInput_of_lBalance hLB hP
+  have hdRoJOrderTwE6Three : GGTBJOrderRestSplitAUnitSpRankThreeTwE6GeFiveFoldCoverE6F4TwE6ThreeInput :=
+    CFSG.StandardType.ggTBJOrderRestTwE6Three_of_cells hRig6 hTCJ hsub hraw hisoI
+  have hdRoJOrderF4Last : GGTBJOrderRestSplitAUnitSpRankThreeTwE6GeFiveFoldCoverE6F4Input :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_twE6_three hTCJ hsub (CFSG.StandardType.ggTBJTwE6LeviL_three_of (CFSG.StandardType.ggTBJTwE6LeviL_threeP hRig6) (CFSG.StandardType.ggTBJTwE6LeviL_threeOne_holds hRig6)) (CFSG.StandardType.ggTBJTwE6LeviK_three_of hRig6 (CFSG.StandardType.ggTBJTwE6LeviK_threeP hRig6 hRk) (CFSG.StandardType.ggTBJTwE6LeviK_threeOne hRig6 hRk)) hdRoJOrderTwE6Three
+  have hdRoJOrderE6 : GGTBJOrderRestSplitAUnitSpRankThreeTwE6GeFiveFoldCoverE6Input :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_F4 hTCJ hsub (CFSG.StandardType.ggTBJF4LeviL_of_threePlus hRig6 (CFSG.StandardType.ggTBJF4LeviLThreePlus_of_two hRig6 (CFSG.StandardType.ggTBJF4LeviLThreeTwo_of_cover hRig6 (CFSG.StandardType.ggTBJF4LeviLThreeTwoCover_holds hRig6)))) (CFSG.StandardType.ggTBJF4LeviK_of_threePlus hRig6 (CFSG.StandardType.ggTBJF4LeviKThreePlus_of_two hRig6 (CFSG.StandardType.ggTBJF4LeviKThreeTwo_of_cover hRig6 (CFSG.StandardType.ggTBJF4LeviKThreeTwoCover_holds hRig6)))) hdRoJOrderF4Last
+  have hdRoJOrderTwE6Fold : GGTBJOrderRestSplitAUnitSpRankThreeTwE6GeFiveFoldCoverInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_E6_of_T hTCJ hsub hRig6 (CFSG.StandardType.ggTBJE6LeviL_T hRig6) (CFSG.StandardType.ggTBJE6LeviK_T hRig6) hdRoJOrderE6
+  have hdRoJOrderTwE6GeFive : GGTBJOrderRestSplitAUnitSpRankThreeTwE6GeFiveInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_twE6_foldCover hTCJ hsub hRig6 (CFSG.StandardType.ggTBJTwE6LeviK_foldCover hRig6) hdRoJOrderTwE6Fold
+  have hdRoJOrderSp : GGTBJOrderRestSplitAUnitSpRankThreeInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_twE6_geFive hTCJ hsub hRig6 hdRoJOrderTwE6GeFive
+  have hdRoJOrderF4 : GGTBJOrderRestUnitaryCoprimeF4Input :=
+    CFSG.StandardType.ggTBJOrderRest_of_restSpRankThree hsub hdRoJOrderSp
+  have hdRoJOrderC : GGTBJOrderRestUnitaryCoprimeInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_F4_neTwoThree hTCJ hsub hRig6 hdRoJOrderF4
+  have hdRoJOrderZ5 : GGTBJOrderRestSplitAUnitSpPlusEThreeLinMinusUniMinusSympMinusGeTwoOrthSympMinusOneInput :=
+    CFSG.StandardType.ggTBJOrderRestSympMinusOne_of_unitaryCoprime hRig6 hsub hLB hP hdRoJOrderC
+  have hdRoJOrderZ4 : GGTBJOrderRestSplitAUnitSpPlusEThreeLinMinusUniMinusSympMinusGeTwoOrthInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_proved CFSG.StandardType.ggTBJLeftOn_sympMinus_one (CFSG.StandardType.ggTBJNbrOn_sympMinus_one hdRoJA1 hsub) hdRoJOrderZ5
+  have hdRoJOrderZ3 : GGTBJOrderRestSplitAUnitSpPlusEThreeLinMinusUniMinusSympMinusGeTwoInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_proved CFSG.StandardType.ggTBJLeftOn_orth (CFSG.StandardType.ggTBJNbrOn_orth hsub) hdRoJOrderZ4
+  have hdRoJOrderZ2 : GGTBJOrderRestSplitAUnitSpPlusEThreeLinMinusUniMinusInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_proved (CFSG.StandardType.ggTBJLeftOn_sympMinus_ge_two hRig6) (CFSG.StandardType.ggTBJNbrOn_sympMinus_ge_two hsub) hdRoJOrderZ3
+  have hdRoJOrderZ : GGTBJOrderRestSplitAUnitSpPlusEThreeLinMinusInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_proved (CFSG.StandardType.ggTBJLeftOn_uniMinus hRig6) (CFSG.StandardType.ggTBJNbrOn_uniMinus hRig6 hsub) hdRoJOrderZ2
+  have hdRoJOrderZ1 : GGTBJOrderRestSplitAUnitSpPlusEThreeInput :=
+    CFSG.StandardType.GGTBJOrdinaryOutside.of_proved (CFSG.StandardType.ggTBJLeftOn_linMinus hRig6) (CFSG.StandardType.ggTBJNbrOn_linMinus hRig6 hsub) hdRoJOrderZ
+  have hdRoJOrderY : GGTBJOrderRestSplitAUnitSpPlusInput :=
+    CFSG.StandardType.ggTBJOrderRestSplitAUnitSpPlus_of_restEThree hRig6 hraw hisoI hdRoJOrderZ1
+  have hdRoJOrderX : GGTBJOrderRestSplitAUnitSevenInput :=
+    CFSG.StandardType.ggTBJOrderRestSplitAUnitSeven_of_restUnitSpPlus hsub hdRoJOrderY
+  have hdRoJOrderW : GGTBJOrderRestSplitAUnitRankThreeInput :=
+    CFSG.StandardType.ggTBJOrderRestSplitAUnitRankThree_of_restUnitSeven hTCJ hRig6 hTPn hA8N hraw hisoI hdRoJOrderX
+  have hdRoJOrderV : GGTBJOrderRestSplitAUnitSixInput :=
+    CFSG.StandardType.ggTBJOrderRestSplitAUnitSix_of_restUnitRankThree hRig6 hsub hdRoJOrderW
+  have hdRoJOrderU : GGTBJOrderRestSplitAUnitDvdInput :=
+    CFSG.StandardType.ggTBJOrderRestSplitAUnitDvd_of_restUnitSix hRig6 hsub hLB hP hdRoJOrderV
+  have hdRoJOrderS : GGTBJOrderRestSplitAInput :=
+    CFSG.StandardType.ggTBJOrderRestSplitA_of_restUnitDvd hRig6 hsub hLB hP hdRoJOrderU
+  have hdRoJOrder : GGTBJOrderRestInput :=
+    CFSG.StandardType.ggTBJOrderRest_of_restSplitA hRig6 hsub hdRoJOrderS
+  have hdRoJFT : GGTBJFieldTwoRestInput := CFSG.StandardType.ggTBJFieldTwoRestInput_of_order hdRoJOrder
+  have hdRoJOrdR : GGTBJOrdinaryRestInput := CFSG.StandardType.ggTBJOrdinaryRestInput_of_fieldTwo hdRoJFT
+  have hdRoJOrd : GGTBJOrdinaryInput := CFSG.StandardType.ggTBJOrdinaryInput_of_rest hdRoJOrdR
+  have hdRoJ : GGTBJInputR := CFSG.StandardType.ggTBJInputR_of_ordinary hdRoJOrd
+  have hdRoX : GGResXDichotomyInput :=
+    ggResXDichotomy_of_res hRig6 hraw hisoI hTCJ hsub hdRo6bT hdRo6bLift hdRo6bR
+  have hdRoOrbK : GGResCentBoundNbrInput :=
+    CFSG.StandardType.ggResCentBoundNbrInput_holds
+  have hdRoOrb : GGResCentBoundInput :=
+    CFSG.StandardType.ggResCentBoundInput_of_xDichotomy ggLNoncyclicInput_holds hdRoX hTCJ hRig6
+      hTBF
+  have hres : GGForkNbrSevenExcl := ggForkNbrSevenExcl_of_known hRig6 hTCJ hA8P hA8C
+  have hX : GGE6DepPerpXNotInL :=
+    ggE6DepPerpXNotInL_of_zl hRig6 ggE6DepModelKnown_holds ggE6DepZLKnown_holds
+  have hI : GGE6DepNonIsoPt := ggE6DepNonIsoPt_holds
+  have hTP : GGE6DepPerpTablePInput :=
+    ggTPTablePInput_of_leaves_onL hTCJ hTPn.toB36L hRig6 ggE6DepModelKnown_holds hI hX hLB
+      ggTPJLayerInput_holds ggTPJStabInput_holds
+      (ggTPClassicalExcl_of_leaves hRig6 ggE6DepModelKnown_holds hI hX hLB ggTPJLayerInput_holds)
+  have hConj : GGE6DepConj := ggE6DepConj_of_known hRig6 ggE6DepModelKnown_holds hX hI
+  have hPin : GGE6DepNbrPin := ggE6DepNbrPin_of_known hRig6 ggE6DepModelKnown_holds hX hI hTP
+  have hMeet : GGR4JMeet :=
+    CFSG.StandardType.ggR4JMeet_of_inputs
+      (CFSG.StandardType.ggR4Ambient_of_excl
+        CFSG.StandardType.ggClassicalTwoLocalRankNine_of_lifts
+        CFSG.StandardType.ggSmallThreeRank_of_labels
+        CFSG.StandardType.ggE78TwoLocalRankSix_holds
+        CFSG.StandardType.ggProjDegreeF4_holds)
+      CFSG.StandardType.ggF4OrderThreeLayer_holds
+      CFSG.StandardType.ggE6OppOrderThreeLayer_holds
+  have hNC : GGR4JCardNC :=
+    CFSG.StandardType.ggR4JCardNC_of_inputs
+      (CFSG.StandardType.ggR4Ambient_of_excl
+        CFSG.StandardType.ggClassicalTwoLocalRankNine_of_lifts
+        CFSG.StandardType.ggSmallThreeRank_of_labels
+        CFSG.StandardType.ggE78TwoLocalRankSix_holds
+        CFSG.StandardType.ggProjDegreeF4_holds)
+      CFSG.StandardType.ggF4OrderThreeLayer_holds
+      CFSG.StandardType.ggE6OppOrderThreeLayer_holds
+      CFSG.StandardType.ggCentreTrivialTwKnown_holds
+      CFSG.StandardType.ggTwTorusAutKnown_of_families
+  have hCard : GGR4JCard :=
+    CFSG.StandardType.ggR4JCard_of_meet CFSG.StandardType.ggCentreTwoKnown_holds hMeet hNC
+  have hJleaf : GGR4JInput := CFSG.StandardType.ggR4JInput_of_card hLB hP hCard
+  have hU63 : GGUnitDvd63NbrRankInput := ggUnitDvd63NbrRankInput_holds hLB hP
+  have hJr : GGForkJr := ggForkJr_of_known hKG1 hRig6
+  have hPump : GGForkPump := ggForkPump_of_known hKG2 hKG3 hRig6 hraw hisoI hres
+  have hPumpOr : GGForkPumpOr :=
+    ggForkPumpOr_of hPump (ggForkPump'_of_notRefl hKG2 hKG3 hRig6 hraw hisoI hA8N)
+  have hdM5 : GGForkCrossGe5MainInput := ggForkCrossGe5Main_of_jr_pump hLB hP hJr hPumpOr
+  have hdE5 : GGForkCrossGe5ExcInput := ggForkCrossGe5Exc_of_jr_pump hLB hP hJr hPumpOr
+  have hBC : GGE6DepBlockCfgInput := ggE6DepBlockCfgInput_of_known hRig6 hKGb hConj
+  have hE6x : GGE6DepPerpExcl := ggE6DepPerpExcl_of_blockCfg hLB hP hBC hPin
+  have hKGlab : GGPumpCLabelKnown := CFSG.StandardType.KG.ggPumpCLabelKnown_holds
+  have hF4Cent := CFSG.StandardType.KGA.ggF4C3CentInputStrong_holds
+  have hKGautF4 : GGPumpCAutKnownF4 := CFSG.StandardType.KGA.ggPumpCAutKnownF4_of_cent hRig6 hF4Cent
+  have hKGaut : GGPumpCAutKnown := CFSG.StandardType.KGA.ggPumpCAutKnown_of_F4 hKGautF4
+  have hZ : GGCentreTwoKnown := CFSG.StandardType.ggCentreTwoKnown_holds
+  have hZtw : GGCentreTrivialTwKnown := CFSG.StandardType.ggCentreTrivialTwKnown_holds
+  have hPumpTw : GGPumpTwNotFive :=
+    CFSG.StandardType.ggPumpTwNotFive_of_known
+      (CFSG.StandardType.ggPumpTwLabelKnown_holds h07.1.2.toB2)
+      CFSG.StandardType.ggPumpTwExcKnown_holds hZtw
+  have hdI : GGForkIndefExclRest :=
+    CFSG.StandardType.ggForkIndefExclRest_of_notFive CFSG.StandardType.ggLNoncyclicInput_holds
+      (CFSG.StandardType.ggPumpupInput_of_lBalance hLB)
+      (CFSG.StandardType.ggTBSpanInput_of_fix hTBF)
+      (CFSG.StandardType.ggPumpCInput_of_known hKGlab hKGaut hZ) hPumpTw hZ hZtw hJleaf
+  have hdF : GGCoxeterForkLabelInput := ggTBFixInput_imp_forkLabel_split hdM5 hdE5 hdI hTBF
+  obtain ⟨hNSe7, hNSe8⟩ := h09
+  have hKGn : GGLayerPDivExcRestNs := ggLayerPDivExcRestNs_holds
+  have hOL : GGOddLayerCores := ggOddLayerCores_iff_centre.2 ggOddLayerCentre_holds
+  have hlayCores : GGLayerTagsPilotRestSixSylowCores :=
+    ggLayerTagsPilotRestSixSylowCores_iff_layerCentre.2
+      (ggLayerCentInvolTrivialCores_of_oddLayer hOL)
+  have hdRo7SU : GGResSUCorank2Input :=
+    CFSG.StandardType.HdRo7SU.ggResSUCorank2Input_proved hdRoX hdRoJ hRig6 hLB hdRoKG
+  have hdRo7ThreeO : GGResMultiNodeRestThreeOutsideRowsInput :=
+    CFSG.StandardType.ggResMultiNodeRestThreeOutsideRowsInput_of_KUnitaryQGeFourJoin hdRo6bT
+      hdRo6bLift hTCJ hRig6 hraw hisoI hLB hP hQ1J
+      (CFSG.StandardType.ggResMultiNodeRestThreeKUnitaryQGeFourJoinInput_of_rest hdRo7Three)
+  have hTwoE6Split : GGResMultiNodeRestTwoCellInput
+      (fun p lab => lab.tag = .E6 ∧ p ∣ 2 ^ lab.n - 1) := by
+    apply CFSG.StandardType.GGResMultiNodeRestTwoCellInput.mono _
+      (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_e6Split.or
+        (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_e6Split_three hB36))
+    intro p lab h
+    by_cases hp3 : p = 3
+    · exact Or.inr ⟨hp3, h⟩
+    · exact Or.inl ⟨h.1, hp3, h.2⟩
+  have hTwoTwE6Plus : GGResMultiNodeRestTwoCellInput
+      (fun p lab => lab.tag = .twE6 ∧ p ∣ 2 ^ lab.n + 1) := by
+    apply CFSG.StandardType.GGResMultiNodeRestTwoCellInput.mono _
+      (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_twE6Plus.or
+        (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_twE6Plus_three hB36))
+    intro p lab h
+    by_cases hp3 : p = 3
+    · exact Or.inr ⟨hp3, h⟩
+    · exact Or.inl ⟨h.1, hp3, h.2⟩
+  have hTwoClassical : GGResMultiNodeRestTwoCellInput ggTwoCellClassical := by
+    apply CFSG.StandardType.GGResMultiNodeRestTwoCellInput.mono _
+      (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_spSplit_three.or
+        (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_spSplit_four_five.or
+          (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_orthSplit_three.or
+            CFSG.StandardType.ggResMultiNodeRestTwoCellInput_orthSplit)))
+    intro p lab h
+    rcases h with ⟨hTag, hr, hpq⟩
+    rcases hTag with ⟨hBC, hr5⟩ | hD | hD
+    · by_cases hr3 : lab.rank = 3
+      · exact Or.inl ⟨hBC, hr3, hpq⟩
+      · exact Or.inr (Or.inl ⟨hBC, ⟨by omega, hr5⟩, hpq⟩)
+    · by_cases hr3 : lab.rank = 3
+      · exact Or.inr (Or.inr (Or.inl ⟨Or.inl hD, hr3, hpq⟩))
+      · exact Or.inr (Or.inr (Or.inr ⟨Or.inl hD, by omega, hpq⟩))
+    · by_cases hr3 : lab.rank = 3
+      · exact Or.inr (Or.inr (Or.inl ⟨Or.inr hD, hr3, hpq⟩))
+      · exact Or.inr (Or.inr (Or.inr ⟨Or.inr hD, by omega, hpq⟩))
+  have hTwoExceptional : GGResMultiNodeRestTwoCellInput ggTwoCellExc := by
+    apply CFSG.StandardType.GGResMultiNodeRestTwoCellInput.mono _
+      (hTwoE6Split.or
+        (CFSG.StandardType.ggResMultiNodeRestTwoCellInput_e78_qTwo_three.or hdRo7Two))
+    intro p lab h
+    rcases h with hSplit | ⟨hTag, hp3, hn1⟩
+    · exact Or.inl hSplit
+    · rcases hTag with hE6 | hE7 | hE8
+      · exact Or.inr (Or.inr ⟨hE6, hp3, hn1⟩)
+      · exact Or.inr (Or.inl ⟨Or.inl hE7, hp3, hn1⟩)
+      · exact Or.inr (Or.inl ⟨Or.inr hE8, hp3, hn1⟩)
+  have hdRo7TwoS : GGResMultiNodeRestTwoSettledInput :=
+    CFSG.StandardType.ggResMultiNodeRestTwoSettledInput_of_cells hRig6 hTwoClassical
+      CFSG.StandardType.ggResMultiNodeRestTwoCellInput_twD_qPlus hTwoExceptional hTwoTwE6Plus
+  have hdRo7TwoO : GGResMultiNodeRestTwoOnlyOutsideRowsInput :=
+    CFSG.StandardType.ggResMultiNodeRestTwoOnlyOutsideRowsInput_of_L
+      (CFSG.StandardType.ggResMultiNodeRestTwoLeafL_of_settled hRig6 hLB hdRoKG hB36 hdRo7TwoS)
+  have hdRo7Rest : GGResMultiNodeRestInput :=
+    CFSG.StandardType.ggResMultiNodeRestInput_of_two_three hdRoX hdRoJ hRig6 hLB hdRoKG hdRo7TwoO
+      hdRo7ThreeO
+  have hTBKe := ggTableBNbrInnerInputOn_round12Exc_of_round13
+    (ggTableBNbrInnerInputOn_round13Exc_of_937 hLB hP hKGF4 hKGE hKGTw hU63
+      (ggTableBNbrInnerInputOn_round14Exc_of_round15 hRk hTBKr15))
+  have heNWkOf : GGSecFiveA11Input → GGSecFiveNonWeylKnown := fun hA11 =>
+    ⟨hNRG, hRk, hW, ggLabelCenterPCyclicInput_holds, hTCJ, hA8P.toSecFive, hA8C.toSecFive,
+      hA11⟩
+  obtain ⟨hROtp, heX, hTBf1⟩ := h06
+  have hTBwE : GGNbrTableBWeylInputOn fun p lab => lab.tag = .E6 ∧ p = 3 :=
+    ggNbrTableBWeylInputOn_e6Three_holds
+  have hTBoE : GGNbrTableBOrderRestInputOn fun p lab => lab.tag = .E6 ∧ p = 3 :=
+    ggNbrTableBOrderRestInputOn_e6Three_holds
+  have hTBf6 : GGNbrFrameInput := ggNbrFrameInput_of_one hTBf1
+  have hTBwR : GGNbrTableBWeylInputOn fun _ lab =>
+      ¬ lab.tag = .A ∧ ¬ lab.tag = .B ∧ ¬ lab.tag = .C ∧ ¬ lab.tag = .D :=
+    ggNbrTableBWeylInputOn_exc_holds.of_cover hTBwE fun p lab h =>
+      (Classical.em (lab.tag = .E6 ∧ p = 3)).symm.imp
+        (fun hE => ⟨h.1, h.2.1, h.2.2.1, h.2.2.2, hE⟩) id
+  have hTBwDR : GGNbrTableBWeylInputOn fun _ lab =>
+      ¬ lab.tag = .A ∧ ¬ lab.tag = .B ∧ ¬ lab.tag = .C :=
+    ggNbrTableBWeylInputOn_typeD_holds.of_cover hTBwR fun _ lab h =>
+      (Classical.em (lab.tag = .D)).imp id fun hD => ⟨h.1, h.2.1, h.2.2, hD⟩
+  have hTBw6 : GGNbrTableBWeylInput :=
+    ggNbrTableBWeylInput_of_on ggNbrTableBWeylInputOn_typeA_holds
+      (ggNbrTableBWeylInputOn_typeBC_holds.of_cover hTBwDR fun _ lab h =>
+        (Classical.em (lab.tag = .B ∨ lab.tag = .C)).imp id
+          fun hBC => ⟨h, fun hB => hBC (Or.inl hB), fun hC => hBC (Or.inr hC)⟩)
+  have hTBoR : GGNbrTableBOrderRestInputOn fun _ lab => ¬ lab.tag = .C ∧ ¬ lab.tag = .D :=
+    ggNbrTableBOrderRestInputOn_exc_holds.of_cover hTBoE fun p lab h =>
+      (Classical.em (lab.tag = .E6 ∧ p = 3)).symm.imp (fun hE => ⟨h.1, h.2, hE⟩) id
+  have hTBo6 : GGNbrTableBOrderRestInput :=
+    ggNbrTableBOrderRestInput_of_on ggNbrTableBOrderRestInputOn_typeC_holds
+      (ggNbrTableBOrderRestInputOn_typeD_holds.of_cover hTBoR fun _ lab h =>
+        (Classical.em (lab.tag = .D)).imp id fun hD => ⟨h, hD⟩)
+  have hTBc6 : GGNbrTableBCardInput := ggNbrTableBCardInput_holds
+  have hCD : GGTypeACompatDiagBInput := ggTypeACompatDiagBInput_of_known
+    ggInnerDiagMpInput_holds
+    (ggLBalanceInput_of_catalogueSchreier
+      CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+  have hSpF4X : GGF4NbrAutReflXiKGInput := CFSG.StandardType.ggF4NbrAutReflXiKGInput_holds
+  obtain ⟨hA11, hCA⟩ :=
+    CFSG.StandardType.A11.a11_c26_c5 ggInnerDiagMpInput_holds hLB hTPn.toA11 hTCJ hTBw6 hRig6 hNRG
+  have heNWk : GGSecFiveNonWeylKnown := heNWkOf hA11
+  have hB48 : GGTableBAut48OmegaInput := ggTableBAut48OmegaInput_holds
+  have hCentT31 : GGSixE6Two.E6TwoCentT31 := GGSixE6Two.e6TwoCentT31_holds
+  have hRows : GGHalfRowDataInput := ggHalfRowDataInput_holds
+  have hFus8 : GGHalfFusionOmega8Input := ggHalfFusionOmega8Input_holds
+  have hFus6 : GGHalfFusionE6Input := ggHalfFusionE6Input_of_centT31 hCentT31
+  have hTP6 : GGTypeANbrTablePInput := ggTypeANbrTablePInput_of_narrow hCD hRig6 hTPn.toTypeAL
+  have hRO : GGTypeAReflOverInput := fun G _ _ p B Bs x L D J n f y K hN =>
+    hROtp G p B Bs x L D J n f y K hN (hTP6 G p B Bs x L D J n f y K hN)
+  have hNM := ggTypeANbrModelInput_of_known hCD hRig6 hTBw6 hTBc6 hTBo6 hTBf6 hTP6
+  have hNG := ggTypeANbrConjGenInput_of_known hCD hRO hRig6 hTBw6 hTBc6 hTBo6 hTBf6 hTP6
+  have hQ14 : GGReflClassOmegaInput := CFSG.StandardType.ZS.ggReflClassOmegaInput_of_useInput hUse
+  have hQ20 : GGQ2HeartJCentralizes := CFSG.StandardType.ggQ2HeartJCentralizes_holds
+  have hQ10a : CFSG.StandardType.GGD5LabelDataInput :=
+    CFSG.StandardType.ggD5LabelDataInput_holds
+  have h08TBd := ggExcReflTBWeylDatumQFourOn_rest
+  have hE6L : CFSG.StandardType.GGQ2Frame.ExcPlacement.E6SplitLangModelFrame :=
+    CFSG.StandardType.GGQ2Frame.ExcPlacement.e6SplitLangModelFrame_holds
+  have hplEx : CFSG.StandardType.GGQ2Frame.PlacementInputOn
+      CFSG.StandardType.GGQ2Frame.ExceptionalLabel
+      (CFSG.StandardType.GGQ2Frame.catalogueOf CFSG.StandardType.GGQ2Frame.classicalCatalogue
+        CFSG.StandardType.excCatalogue) :=
+    CFSG.StandardType.GGQ2Frame.placementInputOn_exc_of_pieces
+      CFSG.StandardType.ggLabelRigidInput_holds
+      CFSG.StandardType.GGQ2Frame.ggG0_innerDiag_n_eq_one
+      (CFSG.StandardType.GGQ2Frame.ExcPlacement.excUntwModelFrame_F4_of_inside
+        CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreInside_F4)
+      (CFSG.StandardType.GGQ2Frame.ExcPlacement.excUntwModelFrame_E6_of_lang
+        CFSG.StandardType.GGQ2Frame.ExcPlacement.e6SplitLangSetup_holds hE6L)
+      (CFSG.StandardType.GGQ2Frame.ExcPlacement.excUntwModelFrame_E7_of_inside
+        CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreInside_E7)
+      (CFSG.StandardType.GGQ2Frame.ExcPlacement.excUntwModelFrame_E8_of_inside
+        CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreInside_E8)
+      (CFSG.StandardType.GGQ2Frame.ExcPlacement.excTwE6Placement_of_core
+        (CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreOccurs (Or.inl rfl) (by decide))
+        (CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreMarked (Or.inl rfl) (by decide))
+        CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreInside_E6_two
+        (CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreOccurs (Or.inl rfl) (by decide))
+        (CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreMarked (Or.inl rfl) (by decide))
+        CFSG.StandardType.GGQ2Frame.ExcPlacement.excCoreInside_E6_three)
+  have hQ12 : GGQ2GammaNbrPosInLResidualInput :=
+    ggQ2GammaNbrPosInLResidual_of_cover <|
+      ggQ2InLCoverInput_of_pieces hLB hP ggLabelRigidInput_holds
+        (GGQ2Frame.placementInputOn_classical_holds excCatalogue) hplEx
+        GGQ2Frame.inLLeafCases_symp GGQ2Frame.inLLeafCases_orth
+        GGQ2Frame.ExcRaw.inLLeafOrSelCases_excRaw_four
+  have hQ2 : GGQTwoNoTwoNodeIndInput :=
+    ggQTwoNoTwoNodeIndInput_of_excRaw hLB hP ggLabelRigidInput_holds
+      (GGQ2Frame.placementCoreInputOn_classical_holds excCatalogue)
+      (GGQ2Frame.PlacementInputOn.toCore hplEx)
+  have hQ3R : CFSG.StandardType.GGQTwoXInLNbrRest :=
+    CFSG.StandardType.ggQTwoXInLNbrRest_of_placement hLB hP hplEx
+  have hQ9 : CFSG.StandardType.GGQ2AmbModelInput :=
+    CFSG.StandardType.ggQ2AmbModelInput_of_placements hLB hP
+      (CFSG.StandardType.GGQ2Frame.placementInputOn_classical_holds _) hplEx
+  have hQ22n : CFSG.StandardType.GGQ2TableBNbr :=
+    CFSG.StandardType.GGQ2Frame.ggQ2TableBNbr_of_excPlacement hplEx
+  have hQ22c : CFSG.StandardType.GGQ2S08BigCenterInput := CFSG.StandardType.ggQ2s08_bigCenter_holds
+  have hQ22o : CFSG.StandardType.GGQ2S08BigInnerPartInput :=
+    CFSG.StandardType.ggQ2s08_bigInnerPart_holds hRig6
+  have hQ3 : CFSG.StandardType.GGQTwoXInLNbrModelInput :=
+    CFSG.StandardType.ggQTwoXInLNbr_of_classical_rest
+      CFSG.StandardType.ggQTwoXInLNbrClassical_holds hQ3R
+  have hQ8 : CFSG.StandardType.GGQ2XInLCommTwE6 :=
+    CFSG.StandardType.ggQ2XInLCommTwE6_holds
+  have hQ22w : CFSG.StandardType.GGQ2TBWNormClassicalInput := fun lab hlab hB => by
+    obtain ⟨-, htag, hrank⟩ := hB
+    refine ggTBWNormLabelFull_of_rest hdRo6bWRest 3 Nat.prime_three (by norm_num) lab hlab ?_ ?_ ?_ ?_ ?_
+    · rintro (h | ⟨-, h2⟩)
+      · rcases htag with h' | h' | h' | h' | h' <;> rw [h'] at h <;> cases h
+      · omega
+    · rintro ⟨h, -⟩
+      rcases htag with h' | h' | h' | h' | h' <;> rw [h'] at h <;> cases h
+    · rintro ⟨h, -⟩
+      rcases htag with h' | h' | h' | h' | h' <;> rw [h'] at h <;> cases h
+    · rintro ⟨h, -⟩
+      rcases htag with h' | h' | h' | h' | h' <;> rw [h'] at h <;> cases h
+    · intro h
+      rcases htag with h' | h' | h' | h' | h' <;> rw [h'] at h <;> cases h
+  have hQ6 : CFSG.StandardType.GGQTwoCentralizerInput :=
+    CFSG.StandardType.GGQ2CentPort.ggQTwoCentralizerInput_of_families
+      CFSG.StandardType.GGQ2CentPort.externalTransfer_holds
+      CFSG.StandardType.GGQ2CentPort.internalTransfer_holds
+      CFSG.StandardType.GGQ2CentPort.slTwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.psuAtLeastFiveTwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.spTwoTransportInput_holds
+      CFSG.StandardType.GGQ2CentPort.omegaTwoTransportInput_holds
+      CFSG.StandardType.GGQ2CentPort.eSevenTwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.eEightTwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.twistedESixTwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.f4TwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.e6TwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.psuFourTwoInput_holds
+      CFSG.StandardType.GGQ2CentPort.smallLabelsTwoInput_holds
+  have hQ11 : CFSG.StandardType.GGQ2GammaNbrPosRestDetInput :=
+    CFSG.StandardType.ggQ2GammaNbrPosRestDetInput_of_placements hLB hP hQ6
+      (CFSG.StandardType.GGQ2Frame.placementInputOn_classical_holds _) hplEx
+  have hQ13 : CFSG.StandardType.GGQ2TwoNodeOpenInput :=
+    CFSG.StandardType.ggQ2TwoNodeOpen_of_leaves hLB hP CFSG.StandardType.ggLNoncyclicInput_holds
+      hQ6 hQ14 hT h07.1.2 CFSG.StandardType.ggPCompCentQuasisimple_holds hplEx.toCore
+  have h08TBj := ggTBJNoncommReflOn_rest hRig6
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR1AD hRig6
+    (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1.1.1) h08TBj
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR1E6Three hRig6
+    (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1.1) h08TBj
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR1Exc hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1)
+    h08TBj
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR1ADvd hRig6
+    (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1.1.1.1)
+    (fun p lab hq h => by
+      obtain ⟨⟨ht, hr⟩, -⟩ := h
+      simp [ht, hq, show lab.rank ≠ 1 by omega, show lab.rank ≠ 2 by omega]) h08TBj h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR1E6Three hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1.1.1)
+    (fun p lab hq h => by obtain ⟨ht, rfl⟩ := h; simp [ht, hq]) h08TBj h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR1AD hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR1E6Ne3 hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR1E7 hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR1E8 hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR5 hRig6 (fun _ _ h => h.1.1.1.1.1.1.1) h08TBd
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR5 hRig6 (fun _ _ h => h.1.1.1.1.1.1.1.1.1) h08TBj
+  have hQ5 : CFSG.StandardType.GGQTwoNoWeylA3Free :=
+    CFSG.StandardType.ggQTwoNoWeylA3Free_holds
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR5Ud (fun _ _ h => h.1.1.1.1.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR5O2 (fun _ _ h => h.1.1.1.1.1) h08TBd
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR5O2 (fun _ _ h => h.1.1.1.1.1.1.1.1) h08TBj
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR5Ud (fun _ _ h => h.1.1.1.1.1.1.1) h08TBj
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR5O1 (fun _ _ h => h.1.1.1.1.1.1) h08TBj
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR6 hRig6 (fun _ _ h => h.1.1.1.1.1) h08TBj
+  have hQ4 : CFSG.StandardType.GGQTwoVACCell :=
+    CFSG.StandardType.ggQTwoVACCell_of_guards
+      CFSG.StandardType.ggQ2_cavOfTBFull_holds
+      CFSG.StandardType.ggQTwoGuardFailsOn_orthNonFull
+      CFSG.StandardType.ggQTwoGuardFailsOn_e6
+  replace hQ4 : CFSG.StandardType.GGQTwoLemma895Prime :=
+    CFSG.StandardType.ggQTwoLemma895Prime_of_lBalance hLB
+      CFSG.StandardType.GGFF.ggFFLinearProp2Input_holds
+      (fun _ _ _ _ _ _ _ _ _ _ hS => CFSG.StandardType.ggQ2_pThree hS) hQ4
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR5U (fun _ _ h => h.1.1.1.1) h08TBj
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR3 hRig6 (fun _ _ h => h.1.1.1) h08TBj
+  have hQ18u : CFSG.StandardType.GGQ2TableBI1FailOn fun lab =>
+      ¬ ((lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 3 ∣ lab.rank + 1) ∨ lab.tag = .twE6) ∨
+        (lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 3 ∣ lab.rank + 1) :=
+    CFSG.StandardType.ggQ2TableBI1FailOn_notHeart.or
+      CFSG.StandardType.ggQ2TableBI1FailOn_unitaryHeart
+  have hQ18 : CFSG.StandardType.GGQ2TableBI1Fail :=
+    CFSG.StandardType.ggQ2TableBI1Fail_of_on (CFSG.StandardType.ggQ2TableBI1FailOn_twE6 hQ8)
+      (hQ18u.mono fun lab h => by
+        by_cases hu : lab.tag = .twA ∧ 4 ≤ lab.rank ∧ 3 ∣ lab.rank + 1
+        · exact Or.inr hu
+        · exact Or.inl fun h' => h'.elim hu h)
+  have hQ22KG := CFSG.StandardType.GGReflClassLargeThree_of_largeInput
+    (CFSG.StandardType.ggReflClassLargeInput_of_omega hQ14.1)
+  have hQ22TBW := CFSG.StandardType.ggQ2s08_tbwNormInputOn_of_classical hQ22w
+  have hQ22G : CFSG.StandardType.GGQ2GammaXOffI1Input :=
+    CFSG.StandardType.ggQ2_gammaXOffI1_holds hLB hP hQ18
+      (CFSG.StandardType.ggQ2HeartBI1_of_cent hQ20)
+      (CFSG.StandardType.ggQ2_gammaXOffI1Graph_of_tbc hLB hP
+        CFSG.StandardType.ggQ2TBCGraphInput_holds)
+  have hQ22s : CFSG.StandardType.GGQ2ReflEKSmallInput :=
+    CFSG.StandardType.ggQ2s08_reflEKSmall_holds hLB hP hRig6 hQ22G hQ22n hQ18
+  have hQ22a : CFSG.StandardType.GGQ2S08BigShapeAInput :=
+    CFSG.StandardType.ggQ2s08_bigA_input_of_components
+      (CFSG.StandardType.ggQ2s08_roComponentsThree_holds hRig6) hQ22KG hQ22TBW hQ22c hQ22o hLB hP
+      hQ22G hQ22n
+  have hQ22 : CFSG.StandardType.GGQ2ReflEKOffI1Input :=
+    CFSG.StandardType.ggQ2s08_ek_of_small_big hQ22s hQ22a hQ18 hQ22KG hQ22TBW hQ22c hQ22o hRig6 hLB
+      hP hQ22G hQ22n CFSG.StandardType.ggLNoncyclicInput_holds
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR5V (fun _ _ h => h.1.1) h08TBj
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rows2 (fun _ _ h => h.1.1.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rows hRig6 (fun _ _ h => h.1.1.1) h08TBd
+  replace h08TBj := ggTBJNoncommReflOn_of_rowR4 hRig6 (fun _ _ h => h.1) h08TBj
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_rowR4 hRig6 (fun _ _ h => h.1.1) h08TBd
+  replace h08TBd := ggExcReflTBWeylDatumQFourOn_of_twE6Row hRig6
+    (fun p lab hq ht => ⟨hq, by simp [ht]⟩) h08TBj h08TBd
+  have h08TBq := ggExcReflTBInputQFourOn_of_weylDatum h08TBd h08TBj
+  have h08Rq (hQ1 : GGQTwoModelInput) (hQ13f : CFSG.StandardType.GGQ2TwoNodeInput) :
+      GGCorFiveTwentyInputQTwoOffE6Dep :=
+    CFSG.StandardType.ggCorFiveTwentyInputQTwoOffE6Dep_of_citedKM4C hLB hP hQ1 hQ2 hQ3 hQ4
+      (CFSG.StandardType.ggQTwoNoWeylA3_of_free hQ5)
+      hQ6 (CFSG.StandardType.ggQTwoXInLDatum_of_comm
+        (CFSG.StandardType.ggQ2XInLComm_of_twE6 hQ8))
+      (ggQ2_gammaXGraph_of_inputs hLB hP hQ6) hQ9
+      (CFSG.StandardType.ggQ2GammaXGraphD5Amb_of_inputs hLB hP hQ6 hQ10a
+        CFSG.StandardType.ggD5ForcedInput_holds)
+      (CFSG.StandardType.ggQ2_gammaNbrPosRest_of_ambD hLB hP hQ6
+        (CFSG.StandardType.ggQ2_gammaNbrPosRestAmbD_of_det hLB hP hQ6 hQ11))
+      (CFSG.StandardType.QTwoD6.ggQ2_posInL_lineD6 hLB hP hQ6 hQ3)
+      (CFSG.StandardType.ggQ2_posInLRest_of_residual hLB hP hQ6 hQ12) hQ13f hQ14
+      (CFSG.StandardType.ggQ2_noModelRest2_of_amb hLB hP ggLNoncyclicInput_holds hQ6 hQ3
+        hQ13f hQ9 hQ5)
+      CFSG.StandardType.ggQ2_cavOfTBFull_holds
+      CFSG.StandardType.ggQ2_cavOfTBHeart_holds
+      hQ18
+      (CFSG.StandardType.ggQ2HeartBI1_of_cent hQ20)
+      (CFSG.StandardType.ggQ2_p3Rest_holds hQ14 hQ18)
+      (CFSG.StandardType.ggQ2s08_reflE_of_ek hQ22)
+      (CFSG.StandardType.ggQ2s08_reflK_of_ek hQ22)
+  have h08Rn : GGCorFiveTwentyInputNbrRowR3 :=
+    CFSG.StandardType.ggCorFiveTwentyInputNbrRowR3_holds hRig6 hTCJ hLB hP
+  replace h08TBq := ggExcReflTBInputQFourOn_of_notSmall hRig6 h08TBq
+  have h08Ls : PhiTwoTwE6GenInput :=
+    CFSG.StandardType.PhiTwoRootGen.phiTwoTwE6GenInput_of_eight'
+      CFSG.StandardType.PhiTwoRootGen.phiTwoTwE6Eight_holds
+  have h08Lq : GGRootGenLInputOnQFour fun p lab =>
+      GGRootGenOpenLabel p lab ∧ ¬ GGRootGenSpOrthSplitLabel p lab :=
+    ggRootGenLInputOnQFour_of_excRest hRig6 (X := GGRootGenSpOrthSplitLabel)
+      fun G _ _ p B Bs x L D J hHyp hq hN hL =>
+        ggRootGenLInputOnQFour_qFourExc_of_lss92 h08Ls G p B Bs x L D J hHyp hq hN
+          (hL.mono_label fun _ hlab => hlab.1)
+  have h08Kq : GGRootGenNbrInputOnQFour fun p lab =>
+      GGRootGenOpenLabel p lab ∧ ¬ GGRootGenSpOrthSplitLabel p lab :=
+    ggRootGenNbrInputOnQFour_of_excRest hRig6 hLB hP (X := GGRootGenSpOrthSplitLabel)
+      fun G _ _ p B Bs x L D J hHyp hq hN y K hnb hK =>
+        ggRootGenNbrInputOnQFour_qFourExc_of_lss92 h08Ls
+          (ggF4ThreeNbrRankInput_of_cube ggF4ThreeSCCubeInput_holds) hRk
+          G p B Bs x L D J hHyp hq hN y K hnb (hK.mono_label fun _ hlab => hlab.1)
+  have h08TBns := h08TBq.toNS
+  have h08Lons' := h08Lq.toNS
+  have h08Kons' := h08Kq.toNS
+  have h08F := ggCorFiveTwentyQFourReflFailNonSplitInput_of_qFour hRig6 hraw hisoI hLB hP h08TBq
+    h08Lq h08Kq
+  have h08Lons := ggRootGenLInputOnNS_open_of_not_spOrthSplit h08Lons'
+  have h08Kons := ggRootGenNbrInputOnNS_open_of_not_spOrthSplit h08Kons'
+  have h08aC : GGCorFiveTwentyA11RootGenC3D4Input := ggCorFiveTwentyA11RootGenC3D4Input_holds
+  have h08aKr :=
+    ggCorFiveTwentyA11CfgRootGenNbrInputOn_of_c3d4_narrow hRig6 hTCJ hTPn.toA11 h08aC
+  have h08aKo := ggCorFiveTwentyA11CfgRootGenNbrInputOn_of_split
+    (fun p lab => ¬ GGTypeALabel p lab) GGLabA8Seven
+    ((ggCorFiveTwentyA11CfgRootGenNbrInputOn_of_row ggRootGenKGA8SevenInput_holds).mono
+      fun _ _ h => h.2) h08aKr
+  have h08aTB := ggCorFiveTwentyA11CfgTBInput_of_mp ggInnerDiagMpInput_holds
+  have h08aL := ggCorFiveTwentyA11CfgRootGenLInput_of_row hRig6 ggRootGenKGAvoidTypeA_holds
+  have h08aK := ggCorFiveTwentyA11CfgRootGenNbrInput_of_on GGTypeALabel
+    (ggCorFiveTwentyA11CfgRootGenNbrInputOn_of_row ggRootGenKGAvoidTypeA_holds) h08aKo
+  have h08aW := ggCorFiveTwentyA11CfgInput_of_rootGen hLB hP h08aTB h08aL h08aK
+  replace h08Rn := GGCorFiveTwentyInputNbrQTwoQFour.of_a11Cfg h08aW
+    (GGCorFiveTwentyInputNbrQTwoQFourNoA11Cfg.of_r3Rank hRk
+      (GGCorFiveTwentyInputNbrQTwoQFourNoA11CfgR3.of_fieldRows_narrow hRig6 hTCJ hTPn.toFieldTwo
+        (GGCorFiveTwentyInputNbrFieldRows.of_rowR3 hRig6 hTCJ hA8P hA8C h08aW h08Rn)))
+  have h08TB : GGExcReflTBInput := h08TBns.toWeyl
+  have h08Lo := h08Lons.toWeyl
+  have h08Ko := h08Kons.toWeyl
+  have h08L := ggRootGenLInput_of_openOn h08Lo
+  have h08K := ggRootGenNbrInput_of_openOn h08Ko
+  have hKGA1 : NoOffTwE6Three.GGTwE6ThreeToralCentInput :=
+    NoOffTwE6Three.ggTwE6ThreeToralCentInput_of_kg h82 h84
+  have hKGA2 : NoOffTwE6Three.GGTwE6ThreeSCShapeInput :=
+    NoOffTwE6Three.ggTwE6ThreeSCShapeInput_holds
+  have hNStw : GGNonsplitTag .twistedE6 := ggNonsplitTag_twistedE6
+  have hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesJ1 := h10
+  have hLieK : GGSixLieKnownRemainingPosExcNoF4NoPSUPSpNoPOmega :=
+    CFSG.StandardType.LieKnownR2.ExcPos.ggSixLieKnownRemainingPosExcNoF4NoPSUPSpNoPOmega_of_pairADE
+      (CFSG.StandardType.RCKC1.rckCarrierPairADE_of_j1 hRCK)
+  have hTCpsp : GGSixFieldExtTableCAt .PSp := ggSixFieldExtTableCAt_PSp_holds
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesI2 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesI2_of_j1 hRCK
+  have hTCRCin : CFSG.StandardType.NTPlane.LangNontoralCentralizerInput :=
+    ⟨CFSG.StandardType.NTPlane.langNontoralStructure_holds,
+      CFSG.StandardType.NTPlane.langNontoralA2Descent_holds,
+      CFSG.StandardType.NTPlane.langNontoralD4Fixed_holds⟩
+  have hTCRC0 : TableCRes.LangNontoralCompField :=
+    TableCRes.langNontoralCompField_of_centralizerInput hTCRCin
+  have hA6E : ∀ t : CFSG.Open.StatedLieTag,
+      (t = .E6 ∨ t = .E7 ∨ t = .E8 ∨ t = .twistedE6) → CFSG.StandardType.A6Red.GGA6QuotNoJAt t :=
+    fun t ht => CFSG.StandardType.A6Red.ggA6QuotNoJAt_of_rc0 hTCRC0 ht
+  have hA6F : CFSG.StandardType.A6Red.GGA6QuotF4f := CFSG.StandardType.A6Red.ggA6QuotF4f_holds
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesI1 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesI1_of_i2 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesZ7 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesZ7_of_i1 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesF8 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesF8_of_z7 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesN7 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesN7_of_f8 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesD1 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesD1_of_n7 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesD2 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesD2_of_d1 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesD3 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesD3_of_d2 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesD4 :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesD4_of_d3 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesShort :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesShort_of_d4 hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeavesIRG :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeavesIRG_of_short hRCK
+  replace hRCK : CFSG.StandardType.RCKC1.GGSixRootCommKnownLeaves :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownLeaves_of_irg hRCK
+  replace hRCK : GGSixRootCommKnownOpen :=
+    CFSG.StandardType.RCKC1.ggSixRootCommKnownOpen_of_leavesConj hRCK
+      CFSG.StandardType.RCKSmall.rckSmallEmpty_holds
+      (CFSG.StandardType.RCKA6.rckLemmaP_of_quot hA6E hA6F)
+  replace hRCK := ggSixRootCommKnown_of_open hRCK
+  have hLieK4 : GGSixLieKnownStarFour := CFSG.StandardType.StarFour.ggSixLieKnownStarFour_holds
+  have hA6k := CFSG.StandardType.A6Red.ggSixA6KnownRedRemaining_of_noJ hA6E hA6F
+    CFSG.StandardType.A6Red.ggA6F4ClassInput_holds
+  replace hA6k := ggSixA6KnownRed_of_remaining hA6k
+  replace hLieK :=
+    CFSG.StandardType.LieKnownR2.ggSixLieKnownRemainingPosExcNoF4NoPSUPSpNoPOmegaMinus_of_noPOmega
+      hLieK
+  replace hLieK :=
+    CFSG.StandardType.LieKnownR2.ggSixLieKnownRemainingPosExcNoF4NoPSUPSp_of_noPOmegaMinus hLieK
+  replace hLieK :=
+    CFSG.StandardType.LieKnownR2.ggSixLieKnownRemainingPosExcNoF4_of_noPSUPSp hLieK
+  replace hLieK := CFSG.StandardType.LieKnownR2.ggSixLieKnownRemainingPosExc_of_noF4 hLieK
+  replace hLieK := CFSG.StandardType.LieKnownR2.ggSixLieKnownRemainingPosNoPSL_of_exc hLieK
+  replace hLieK := CFSG.StandardType.LieKnownR2.PSL.ggSixLieKnownRemainingPos_of_noPSL hLieK
+  replace hLieK := CFSG.StandardType.LieKnownR2.Short.ggSixLieKnownRemaining_of_pos hLieK
+  replace hLieK := ggSixLieKnownTags_of_remaining hLieK
+  have hA6 : GGSixJNotA6Input :=
+    ggSixJNotA6Input_of_known_rank hA6k ggSixA6InsideSpKnown_holds
+      F4Rest.ggF4TwoLocalRankInput_holds
+  have hK3 : GGOutTwoCommInner := ggOutTwoCommInner_holds
+  have h67A3 :=
+    ggSixLSixSevenConjA3Round12Rem_of_knownTags
+      (CFSG.StandardType.LieCore.ggSixA3ConjKnownTags_of_certificates
+        CFSG.StandardType.LieCore.ggLieBridge_holds
+        CFSG.StandardType.LieCore.ggLieE6NonToralNoA8_holds
+        CFSG.StandardType.LieCore.ggLieCentIIPlane3_E6
+        CFSG.StandardType.LieCore.ggLieCentIIPlane3_F4
+        CFSG.StandardType.LieCore.ggLieSmallFormA8Plane3_E6
+        CFSG.StandardType.LieCore.ggLieSmallFormA8Plane3_F4)
+  have hKFS : GGKGroupFusionAtFlatK GGKFSporadic := h11
+  have hKE0 : GGE0InnerDiagInput := ggE0InnerDiagInput_holds
+  have hKO2s : GGOTwoCentralizerInputStar := ggOTwoCentralizerInputStar_holds
+  have hfwr : GGExcKGToralFrame := ggExcKGToralFrame_holds
+  have h5c : FieldFiveE8.E8TwoFiveCentInput := FieldFiveE8.e8TwoFiveCentInput_holds
+  have h5p : FieldFiveE8.E8TwoFivePlaneCentInput := FieldFiveE8.e8TwoFivePlaneCentInput_holds
+  have hLPC : GGLieParabolicCharInput :=
+    ggLieParabolicCharInput_of_on ggLieParabolicCharInputOn_open ggLieParabolicCharInputOn_notOpen
+  have hKF8 : GGKGroupFusionRest8FlatK := ⟨hLPC, ggD4FieldAutMaximalInput_holds, hKFS⟩
+  have hIII : GGAutKCanonIIIFlatInputRk :=
+    ggAutKCanonIIIFlatInputRk_of_star hKO2s hKE0 ggStructSOneComp_holds ggStructSOnePerf_holds
+  have hS1 : GGStructSOne := ggStructSOne_holds
+  obtain ⟨hRCkg, hRFl⟩ := h12
+  have hRC3 := ggRootCentAutKIIIFlatInput_of_known hRCkg
+  have hS1p : GGStructSOnePrimeRoot := ggStructSOnePrimeRoot_holds
+  have hF4M : GGReeB2ModuleFixedInput :=
+    ggReeB2ModuleFixedInput_of_simple
+      CFSG.StandardType.ReeB2Fixed.ggReeB2SimpleModuleFixedInput_holds
+  have hKGsf : GGExcKGStdForm := ggExcKGStdForm_of_toralFrame hfwr
+  have hKGreg : GGExcRegimeInput :=
+    ggExcRegimeInput_of_known (ggExcKGRank_of_twE6 ggExcKGRankTwE6_holds) ggExcKGBorelTits_holds
+  have hC32 : GGStepTwoChoiceThreeTwoRestFive :=
+    ggStepTwoChoiceThreeTwoRestFive_of_twistedE6
+      (ggStepTwoChoiceThreeTwoTag_twistedE6_of_frame_of_layer hfwr hKGreg
+        ggLayerExcThreeOddIndexAtTwoTwE6_holds)
+  have hKGstd : GGSixExcStandardFormInput := ggSixExcStandardFormInput_of_known hKGsf
+  have hKGinv : GGExcKGInvolutions ggASClass := ggExcKGInvolutions_holds
+  have hPlE : GGRootPlaneExcRound11 :=
+    rootPlaneExc_of_stdForm hKGreg hKGstd ggLatAdmPlaneExc_holds
+  have hWexT : GGSixRootFusionWitnessExcTags :=
+    sixRootFusionWitnessExc_of_stdForm hKGreg hKGstd ggLatCorootExc_holds hKGinv
+      ggLatOrthExc_holds ggRootGroupsCommute_holds
+  have hW17rT : GGSixSeventeenRootWitnessExcTags :=
+    ggSixSeventeenRootWitnessExcTags_of_left
+      (sixSeventeenRootWitnessExc_of_stdForm hKGreg hKGstd ggLatCorootExc_holds
+        ggLatFixedRootExc_holds)
+  have hlay := ggLayerTagsPilotRestSixSylow_of_cores hlayCores
+  have hE6R := ggSixE6A24RootData_of_rest
+    (GGSixE6Two.ggSixE6A24RootDataRest_of_model
+      ⟨GGSixE6Two.e6TwoCentT31_holds, GGSixE6Two.e6TwoModelRest_holds⟩)
+  have hWex := ggSixRootFusionWitnessInputFor_exceptional_of_tags hWexT
+  have hW17r := ggSixSeventeenRootWitnessInputFor_exceptional_of_tags hW17rT
+  have hFld : ∀ t : CFSG.Open.StatedLieTag, (t = .E6 ∨ t = .twistedE6) → GGOrdPFieldConjAt t := by
+    rintro t (rfl | rfl)
+    · exact ggOrdPFieldConjAt_E6
+    · exact ggOrdPFieldConjAt_twistedE6_holds
+  have h611kKG : GGSixLSixElevenKGModelInputs :=
+    ⟨CFSG.StandardType.ggOrdPToralF4RestHard_holds, CFSG.StandardType.ggOrdPToralE6RestHard_holds,
+      CFSG.StandardType.ggOrdPToralE7RestHard_holds,
+      CFSG.StandardType.ggOrdPToralE8RestHard_of_fiveFour
+        CFSG.StandardType.OrdPToralE8Five.ggOrdPToralE8FiveFour_holds,
+      CFSG.StandardType.ggOrdPToralTwE6RestHard_holds,
+      CFSG.StandardType.E6OutdiagPpd.ggE6NontoralFixPpdInput_holds,
+      CFSG.StandardType.E6OutdiagPpd.ggE6ToralFixNoPpdInput_holds,
+      CFSG.StandardType.ggTwE6FrameNoPpdInput_holds, CFSG.StandardType.ggTwE6FrameFixPpdInput_holds⟩
+  have h611k := ggSixLSixElevenKGRound12_of_kg h611kKG hFld
+  have hIV := ggAutKCanonIVCompInput_of_sOne hS1
+  have hRC4 := ggRootCentAutKIVFlatInput_of_sOnePrimeRoot hS1p
+  have hRCx := ggRootCentAutKNotExcInput_of_flat hRFl hRC3 hRC4
+  have hlcp :=
+    ggLayerInputs_of_round5 (ggLayerTagsRound5_of_six (ggLayerTagsPilotRestSix_of_sylow hlay))
+  have h67E6c :=
+    ggSixLSixSevenCentJE6Input_of_rootData (ggSixCentreOddInput_of_layer hlcp.1 hlcp.2) hE6R
+  have hTC := ggSixFieldExtTableCInput_of_res
+    (TableCRes.ggSixFieldExtTableCRemainingRes_of_inputs ggLNoncyclicInput_holds
+      (ggSixCentreOddInput_of_layer hlcp.1 hlcp.2)
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR)
+      hTCpsp TableCRes.langFamilyCompFieldSL_holds TableCRes.langFamilyCompLabel_holds
+      TableCRes.ggTCInputG6InnerDiagLang_holds
+      TableCRes.ggTCInputG6InnerDiagLangTw_holds hTCRC0
+      TableCRes.twE6q2OrderThreeCentralizers_holds TableCRes.langFamilyCompFieldF4_holds)
+    ggSixTCResidualExcluded_holds
+  have hSpLB := ggLBalanceInput_of_catalogueSchreier
+    CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
+  have hSpJp := ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR
+  have h08H := ggHypG0Input_of_dichotomy
+    (ggHypDichotomyInput_of_catalogueSchreier
+      CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR))
+    (ggExcReflInput_of_tb h08TB)
+  have hprC := ggSixPCompRootCommInput_of_knownInputs_round12 ⟨hRCK, hK3, hA6⟩ hTE6
+    TwF4SUThree.ggTwF4ThreeRankInput_holds hsR
+  have h67Lie := ggSixLSixSevenCentJLieInput_of_known hLieK hLieK4 hTC hA6
+    (ggSixCentreOddInput_of_layer hlcp.1 hlcp.2) ggLNoncyclicInput_holds
+  have hpr := ggSixPCompRootInput_of_comm hprC
+  have hPR := ggStdSubIOneProperInputOn_rest_of_restNarrow ggLNoncyclicInput_holds hPRn
+  have hLC :=
+    ggLayerCenterCyclicExcRest_of_modelRestTwo (ggLayerTagsPilotRestSix_of_sylow hlay) hLCm
+  have hTBK := ggTableBNbrInnerInputOn_round11Ns_of_round12
+    (ggTableBNbrInnerInputOn_round12_of_exc hTBKe)
+  have hSpES := ggSpJoinEndNodeSomeInput_of_inputs ggInnerDiagMpInput_holds ggSpLiftInput_holds hsub
+  have heHJ : GGTypeAHalfJoinAutInput :=
+    ggTypeAHalfJoinAutInput_of_tableP_narrow hTPn.toAm2 hLB hsub hRig6 hRows hFus8 hFus6
+  have heHL : GGTypeAHalfLargeAutInput :=
+    ggTypeAHalfLargeAutInput_of_core hRig6 hTPn.toAm2 hLB hsub ggHalfNbrCentInput_holds
+      ggHalfE6Cert_holds
+  have heHC : GGSecFiveCompatHalfLargeInput :=
+    ggSecFiveCompatHalfLargeInput_of_core hRig6 hTPn.toAm2 hLB hsub ggHalfNbrCentInput_holds
+      ggHalfE6Cert_holds
+  have hL44 := ggL44CenterTrivialInput_of_certificates
+  have hB48le := ggTableBAut48LeInput_of_omega hB48
+  have heHE5 : GGHalfEndNodesOn (fun n => n = 5) :=
+    ggHalfEndNodesFive_of_known_narrow (ggTypeAHalfCoordInput_of_subcomponent hsub) hLB
+      hTPn.toA24L hB48le hL44 hRig6
+  have heHE := ggTypeAHalfJoinEndNodes_of_subcomponent_five hsub heHE5
+  have hD4 := ggL44iiiTriD4LangInput_of_model hsub hSchur hComp hStdL hE6r
+  have hKD4c := ggNbrGraphD4OddCentInput_of_kg hsub hStdL.1 hE6r hKD4kg
+  have heNW : GGSecFiveNonWeylInput := ggSecFiveNonWeylInput_of_known heNWk hRig6 hTBw6 hraw hisoI
+  have hgr : GGNbrGraphInput := ggNbrGraphInput_of_rest ggOddAutOn_rest5
+    (ggNbrGraphD4Input_of_cent ggD4FieldFixLocalOddInput_holds ggD4TwoLocalThreeOddInput_holds
+      hKD4c)
+  have hpc := ggRawPCyclicOn_notD4Three_of_round5 ggRawPCyclicOn_rest5
+  have hcD4 := ggL45CyclicD4IOneInput_of_proper hraw hisoI hsub
+    (ggL45D4BstarProperInput_of_fixLocal hraw hisoI hgr ggD4FieldFixLocalOddInput_holds)
+  have hT45 : GGStdSubNotTorsionInput := CFSG.StandardType.ggStdSubNotTorsionInput_holds
+  obtain ⟨h45t, h45x, h45r⟩ := ggL45Inputs_of_known hsub hraw hisoI hgr hpc hcD4 hSchur hComp hStdL
+    hE6r hT45 hK45
+  have h45f := ggL45FiveIOneInput_of_rank h45t hpc hcD4 h45r
+  replace h48b2 := ggL48TB0TwConfigInputInn_of_rest (ggL48TB0TwConfigInputRest_of_twA
+    (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4)) h48b2)
+  have h48q := ggL48QuotIOneInput_of_knownFormsRk_holds hsub (ggL46CyclicIOneInput_of_l45 hpc hcD4)
+    (ggBstarInnerDiagLInputOn_true_of_openLIDRound12 hLIDr) h48k h48b1 h48b2
+  have hKGT3 : GGTriD4KnownInput :=
+    ⟨ggTriD4InnDiagInput_holds, hSchur, ggTriD4AutRankInput_holds, hComp⟩
+  have hLIDT := ggBstarInnerDiagLInputOn_true_of_openLIDRound12 hLIDr
+  have hltrU : GGNbrLangAxisOuterOn fun p lab =>
+      GGNbrLangRest12NonRegOpenLabel p lab ∧ ¬ GGNbrLangT3Label p lab ∧
+        ¬ GGNbrLangS1ExcXLabel p lab ∧ ¬ GGNbrLangS1LinLabel p lab ∧
+        ¬ GGNbrLangS1UniLabel p lab :=
+    (ggNbrLangAxisOuterOn_s1ExcE hsub hLIDT hQ1J hQ2E hS1E).mono_of_lambda
+      fun p lab hp hp2 hlab h => by
+        rcases ggNbrLangS1Label_of_open hp hp2 hlab h.1 h.2.1 with hL | hU | hE | hX
+        · exact absurd hL h.2.2.2.1
+        · exact absurd hU h.2.2.2.2
+        · exact hE
+        · exact absurd hX h.2.2.1
+  obtain ⟨hQ2J, hQ2U⟩ := hQ2J
+  replace hltrU : GGNbrLangAxisOuterOn fun p lab =>
+      GGNbrLangRest12NonRegOpenLabel p lab ∧ ¬ GGNbrLangT3Label p lab ∧
+        ¬ GGNbrLangS1ExcXLabel p lab ∧ ¬ GGNbrLangS1LinLabel p lab :=
+    (hltrU.or (ggNbrLangAxisOuterOn_s1Uni hsub hLIDT hQ1J hQ2U)).mono_of_lambda
+      fun p lab _ _ _ h => by
+        by_cases hU : GGNbrLangS1UniLabel p lab
+        · exact Or.inr hU
+        · exact Or.inl ⟨h.1, h.2.1, h.2.2.1, h.2.2.2, hU⟩
+  replace hltrU : GGNbrLangAxisOuterOn fun p lab =>
+      GGNbrLangRest12NonRegOpenLabel p lab ∧ ¬ GGNbrLangT3Label p lab ∧
+        ¬ GGNbrLangS1ExcXLabel p lab :=
+    (hltrU.or (ggNbrLangAxisOuterOn_s1Lin hsub hLIDT hQ1J hQ2J)).mono_of_lambda
+      fun p lab _ _ _ h => by
+        by_cases hL : GGNbrLangS1LinLabel p lab
+        · exact Or.inr hL
+        · exact Or.inl ⟨h.1, h.2.1, h.2.2, hL⟩
+  replace hltrU : GGNbrLangAxisOuterOn fun p lab =>
+      GGNbrLangRest12NonRegOpenLabel p lab ∧ ¬ GGNbrLangT3Label p lab :=
+    (hltrU.or (ggNbrLangAxisOuterOn_s1ExcX hsub hT45)).mono_of_lambda fun p lab _ _ _ h => by
+      by_cases hX : GGNbrLangS1ExcXLabel p lab
+      · exact Or.inr hX
+      · exact Or.inl ⟨h.1, h.2, hX⟩
+  replace hltrU : GGNbrLangAxisOn fun p lab =>
+      GGNbrLangRest12NonRegOpenLabel p lab ∧ ¬ GGNbrLangT3Label p lab :=
+    ggNbrLangAxisOn_of_inner_outer (ggNbrLangAxisInnerOn_open_notT3 hsub hLIDT hQ1J hFNIJ) hltrU
+  replace hltrU : GGNbrLangAxisOn GGNbrLangRest12NonRegOpenLabel :=
+    (hltrU.or (ggNbrLangAxisOn_t3_of_inner hsub hKGT3 hStdL hE6r
+        (ggNbrLangAxisInnerOn_t3Two hsub hKGT3 hLIDT hQ1J ggTriD4InnerCompInput_holds)
+        (ggNbrLangAxisInnerOn_t3Even hsub hKGT3 hLIDT hQ1J hQ2J hT3J
+          ggTriD4InnerCompInput_holds))).mono fun p lab h =>
+      (Classical.em (GGNbrLangT3Label p lab)).elim Or.inr fun hT => Or.inl ⟨h, hT⟩
+  replace hltrU : GGNbrLangAxisOn GGNbrLangRest12NonRegNotRankLabel :=
+    ggNbrLangAxisOn_rest12NonRegNotRank_of_open hltrU
+  replace hltrU : GGNbrLangRest12RegSplitTorAUniv12 :=
+    ggNbrLangRest12RegSplitTorAUniv12_of_families
+      (kgLangTorusDatumOn_regLinear12 kgCenterCoprimeInput_holds
+        (ggRawPCyclicOn_notD4Three_of_round5 ggRawPCyclicOn_rest5))
+      (kgLangTorusDatumOn_regClassical12 kgCenterCoprimeInput_holds
+        (ggRawPCyclicOn_notD4Three_of_round5 ggRawPCyclicOn_rest5))
+      (kgLangTorusDatumOn_exc_of_twF4
+        (kgLangTorusDatumReeInput_holds ggReeLangPositionF4_holds LieCore.ggLieToralPosition_holds))
+      kgLangAxisTorAInput_holds hltrU
+  have hlt := ggNbrLangAxisOn_rest_of_rest12
+    (ggNbrLangAxisOn_rest12_of_univ12 kgCenterCoprimeInput_holds
+      (ggRawPCyclicOn_notD4Three_of_round5 ggRawPCyclicOn_rest5) hltrU)
+  have hG2A : GGNbrG2NotA2Line :=
+    ggNbrG2NotA2Line_of_sides
+      (ggNbrG2KSide_holds
+        (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+        (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR))
+      (ggNbrLSide_of_rs
+        (ggNbrLSideRS_of_data ggNbrLSideLinearData_of_certificates
+          ggNbrLSideUnitaryData_of_certificates ggNbrLSideSymplecticData_of_certificates
+          ggNbrLSideOrthogonalData_of_certificates ggNbrLSideExcUntwData_holds
+          ggNbrLSideExcTwData_holds ggNbrLSideSuzukiReeData_holds))
+  have hinWoG := ggNbrInnerWeylOn_c9_holds
+    (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+    (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr hpc
+    ggRawFieldConjInputExc_holds (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds)
+    hraw
+  have hinWoD : GGNbrInnerWeylOn (fun p lab => GGNbrWeylFieldOtherOpenLabel p lab ∧
+      ¬ GGFieldFixLabel p lab ∧ ¬ GGFieldFixNsLabel p lab ∧ ¬ GGFieldFixD4Label p lab) :=
+    ggNbrInnerWeylOn_of_g2Three_split
+      (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr hG2A
+      ggNbrKGFieldG2Three_holds
+      (hinWoG.mono fun _ _ h => ⟨h.1.1, h.1.2.1, h.1.2.2.1, h.1.2.2.2, h.2⟩)
+  have hinWoN := ggNbrInnerWeylOn_fieldFixNsOpen_of_fieldFixD4
+    (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+    (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr
+    ggRawFieldConjInputExc_holds (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds)
+    hraw hinWoD
+  have hinWo' := ggNbrInnerWeylOn_fieldFixOpen_of_fieldFixNs
+    (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+    (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr hpc
+    ggRawFieldConjInputExc_holds (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds)
+    hraw hinWoN
+  have hinWo := ggNbrInnerWeylOn_fieldOther_of_open
+    (ggNbrInnerWeylOn_fieldOtherOpen_of_fieldFix
+      (ggLBalanceInput_of_catalogueSchreier
+        CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr hpc
+      ggRawFieldConjInputExc_holds (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds)
+      hraw hinWo')
+  have hinWd : GGNbrInnerWeylOn GGNbrWeylResidualTriD4Label :=
+    ggNbrInnerWeylOn_triD4Residual_of_known
+      (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr hKGd
+  have hinWs := ggNbrInnerWeylOn_residual_of_rank
+    (ggLBalanceInput_of_catalogueSchreier CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds)
+    (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) hgr hinWd
+    hRk ggNbrKGFieldTwE6ThreeAddHeis_holds
+  replace hKGwN : GGNbrWeylKGInputRestThree :=
+    (⟨ggNbrKGFieldF4_of_sh hpc (ggF4FieldShInput_holds hpc),
+      ggNbrKGFieldUnitSix_of_sh hpc ggUnitSixFieldShInput_holds, hKGwN⟩ :
+      GGNbrKGFieldF4 ∧ GGNbrKGFieldUnitSix ∧ GGNbrKGFieldTriD4Two)
+  replace hKGwN : GGNbrWeylKGInputRestFive :=
+    ggNbrWeylKGInputRestFive_of_three hpc ggRawFieldConjInputExc_holds
+      (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds) hraw hKGwN
+  replace hKGwN : GGNbrWeylKGInputRestNoFieldE78 :=
+    ggNbrWeylKGInputRestNoFieldE78_of_five hpc ggRawFieldConjInputExc_holds
+      (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds) hraw hKGwN
+  replace hKGwN : GGNbrWeylKGInputRest :=
+    ggNbrWeylKGInputRest_of_noFieldE78 hpc ggRawFieldConjInputExc_holds
+      (ggRawFieldCentralInput_of_triality plusFourTrialityInput_holds) hraw hKGE hKGwN
+  replace hKGwN : GGNbrWeylKGInputNoU63 := ggNbrWeylKGInputNoU63_of_rest hKGE hKGTw hKGwN
+  have hKGw : GGNbrWeylKGInput :=
+    ggNbrWeylKGInput_of_noU63 CFSG.StandardType.UnitSixThreeKG.ggNbrKGUnitSixThree_holds hKGwN
+  have hinWr := ggNbrInnerWeylOn_rest13_of_known_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds
+    hsR hgr hKGw hinWo hinWs
+  have hinW := ggNbrInnerWeylOn_rest_of_rest12 (ggNbrInnerWeylOn_rest12_of_rest13 hinWr)
+  have hTB := ggTableBCxInputOn_round11_of_round12 hTBr
+  have hTBM := ggTableBModuleInputOn_round11_of_round12 hTBMr
+  have hTBA := ggTableBActionInputOn_round11_of_round12 hTBAr
+  have hLID := ggBstarInnerDiagLInputOn_rest3_of_round12 hLIDr
+  have hLtv := ggLTransvectionCenterInputOn_rest3_of_tvRound12 hLtvr
+  have hLline := ggLNoInvariantLineInputOn_round11_of_round12 hLliner
+  have h08S := ggCorFiveTwentyQFourScalarFailInput_of_ns
+    CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds hP h08TBns h08Lons h08Kons
+  have h08N := ggCorFiveTwentyQFourNonWeylInput_of_scalarFail_nonSplit hTBw6 hRig6
+    ggLabelCenterPCyclicInput_holds hraw hisoI h08S h08F
+  have hKG :=
+    ggLayerPDivExcRestSylow_of_rest (ggLayerPDivExcRest_of_ns ggExcElemToralRest_holds hKGn)
+  have hNS :=
+    ggNonsplitCoreRound11_of_rest78 E6Nonsplit.ggE6NonsplitCoreInput_holds hNSe7 hNSe8 hNStw
+  have hNoFu : GGSixBstarExcFramesRestResidualUntwisted :=
+    ⟨ExcFramesHalf.bigElemAbelianToralBar_E7_three, ExcFramesHalf.bigElemAbelianToralBar_E7_five,
+      ExcFramesHalf.bigElemAbelianToralBar_E8_three, ExcFramesHalf.bigElemAbelianToralBar_E8_five,
+      ggSixBstarExcFrameOn_E6NonsplitThree ExcFrames.e6ThreeSCUnique_holds
+        ExcFrames.e6ThreeRefFrame_holds⟩
+  have hNoF := ggSixBstarExcFramesRest_of_max <| ggSixBstarExcFramesRestHalfMax_of_residual <|
+    ggSixBstarExcFramesRestResidual_of_untwisted hNoFu
+  have hNoR : GGSixBstarNoOffenderExcRestNine :=
+    ⟨ggSixBstarNoOffenderOn_of_e6ThreeFrameOn NoOffE6Three.ggSixBstarE6ThreeFrameOn_E6
+        fun _ _ _ _ h => h.2.1, NoOffTwE6Three.ggSixBstarNoOffenderNineOn_twE6 hKGA1 hKGA2,
+      ggSixBstarNoOffenderOn_of_e8FiveFrameOn NoOffE8Five.ggSixBstarE8FiveFrameOn_E8
+        fun _ _ _ _ h => h.2.1⟩
+  have hF5 := FieldFiveE8.ggFieldFiveNbrTag_E8_of_classes h5c h5p
+  have hNE3 := ggLayerNotExcThreeRestSylow_of_nonSplit ggExcElemToralRest_holds
+    ggLayerNotExcThreeRestNsNonToral_holds
+  have hfw := ggStepTwoToralRound12_of_excRest (ggStepTwoToralExcRest_of_frame hfwr)
+  have hKF := ggKGroupFusionLayerInputFlat_of_rest8FlatK
+    CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds h14 hKF8
+  have hW17 : GGSixSeventeenWitnessRound11 := ⟨ggSixSeventeenE8SevenCentInput_holds, hW17r⟩
+  have hWI : GGNbrInnerWeylInput :=
+    CFSG.StandardType.FrameRoute.ggNbrInnerWeylInput_of_reduction hLB hP hinW
+  have hFixK : GGTBFixNbrInput :=
+    CFSG.StandardType.ggTBFixNbrInput_holds hWI hUse hdRoKG CFSG.StandardType.ggTBTorANarrow_holds
+      CFSG.StandardType.ggTBTorLiftADepRows_holds hRig6 hdRoX hTBF hdRoOrb hTCJ hdRoDim
+  have hdRo6c : GGResMaxRankInput :=
+    CFSG.StandardType.ggResMaxRankInput_of_e8Inputs hdRoCore hdRoTE8 hRig6 hLB hP hdRoJ hdRoX
+      hdRoKG hdRoOrb hTBF hFixK
+  have hdRo6eKG : GGTwE6TriD4RankKnown :=
+    CFSG.StandardType.TwE6TriD4K.ggTwE6TriD4RankKnown_holds
+  have hdRo6e : GGResTriD4TwE6Input :=
+    CFSG.StandardType.ggResTriD4TwE6Input_of hdRo6eKG hRig6 hLB hP hRk
+      (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4))
+  have hdRo6aEn : GGTwoNodeIndepTwA5RowInput :=
+    CFSG.StandardType.ggTwoNodeIndepTwA5RowInput_holds hRig6 hLB hP
+  have hdRo6aD : GGTwoNodeIndepDatum :=
+    CFSG.StandardType.ggTwoNodeIndepDatum_of_tbTor hRig6 hdRo6bT hdRo6bLift hdRo6bLoc hdRo6aEn
+  have hdRoKFix : GGTwoNodeKFixLineInput :=
+    CFSG.StandardType.ggTwoNodeKFixLineInput_of_zs_shared hUse hTCJ hRig6 hTBF
+      (CFSG.StandardType.ggTBFixNbrInput_wA hFixK) hdRoDim hdRoX
+  have hdRoJ2 : GGTBJTwoNodeInput :=
+    CFSG.StandardType.ggTBJTwoNodeInput_of_small_large_e6 hdRo6bJ2
+      CFSG.StandardType.ggTBJTwoNodeLargeInput_holds hdRo6bLoc
+  have hdRo6aLE3 : GGResTwoNodeIndepLE3TenInput :=
+    CFSG.StandardType.ggResTwoNodeIndepLE3TenInput_holds hdRoKG
+      CFSG.StandardType.ggLNoncyclicInput_holds hTBF hFixK hdRo6aD hdRoJ2
+  have hdRo6aLE3Full : GGResTwoNodeIndepLE3E6Input :=
+    CFSG.StandardType.ggResTwoNodeIndepLE3E6_of_ten hdRo6aLE3
+      CFSG.StandardType.lr6A5All_of_certificate hdRoOrb hdRoOrbK hTBF hFixK hdRoKFix hdRo6aD
+  have hdRo6aTwoThree : GGResTwoNodeIndepSmallTwoThreeInput :=
+    CFSG.StandardType.ggResTwoNodeIndepSmallTwoThree_of_all
+      CFSG.StandardType.lr6E6All_of_certificate CFSG.StandardType.lr6A5All_of_certificate
+      hdRoOrb hdRoOrbK hTBF hFixK hdRoKFix hdRo6aD hdRo6bLoc hRig6 hdRoJ hdRoX hdRo6c
+      (CFSG.StandardType.ggResTrialityInput_of CFSG.StandardType.ggTCJD4TagKnown_holds hRig6 hLB hP)
+      hdRo6e (CFSG.StandardType.ggResSevenInput_of hTCJ hRig6 hTPn hA8N hraw hisoI)
+      (CFSG.StandardType.ggResTwA2Input_of CFSG.StandardType.TwE6TwA2K.ggTwE6TwA2CompKnown_holds
+        hRig6 hLB hP hRk
+        (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4)))
+  have hdRo6aTwo : GGResTwoNodeIndepSmallTwoInput :=
+    CFSG.StandardType.ggResTwoNodeIndepSmallTwo_of_three hUse
+      CFSG.StandardType.lr6SmallRankExcl_of_certificate hdRoOrb hdRoOrbK hTBF hFixK
+      hdRoKFix hJr hPumpOr hLB hP hdRo6aD hdRoJ2 hdRo6aTwoThree
+  have hdRo6aKFix : GGNineDepKFixLine :=
+    CFSG.StandardType.ggNineDepKFixLine_of_omega hQ14
+      (CFSG.StandardType.ggIndepFixLineLin_of_zs hUse) hTBF
+      (CFSG.StandardType.ggTBFixNbrXInput_of_innerWeyl hWI) hdRoDim ggLNoncyclicInput_holds
+      hdRoJ2 hdRo6aNineK2 hdRo6aNineK3 hdRo6aNineK4a hdRo6aNineK4b hdRo6aNineK5a
+      hdRo6aNineK5b hdRo6aNineK6
+  have hdRo6aNine : GGResTwoNodeNineDepTwoInput :=
+    CFSG.StandardType.ggResTwoNodeNineDepTwo_of_W1
+      CFSG.StandardType.lr6NineAll_of_certificate hdRoOrb hdRoOrbK hTBF hFixK hdRo6aD
+      hdRo6aKFix
+  have hdRo6a : GGResTwoNodeIndepInput :=
+    CFSG.StandardType.ggResTwoNodeIndepInput_of_inputs hdRoKG hdRoOrb hdRoOrbK hTBF hFixK
+      hdRoKFix
+      hJr hPumpOr hLB hP hdRo6aD hdRoJ
+      hdRoJ2
+      CFSG.StandardType.lr6SmallRankPosB_of_certificate
+      CFSG.StandardType.lr6SmallRankExcl_of_certificate
+      CFSG.StandardType.lr6NineDepPos_of_certificate hdRo6aTwo hdRo6aNine hdRo6aLE3Full hdRoX hdRo6c
+      (CFSG.StandardType.ggResTrialityInput_of CFSG.StandardType.ggTCJD4TagKnown_holds hRig6 hLB hP)
+      hdRo6e (CFSG.StandardType.ggResSevenInput_of hTCJ hRig6 hTPn hA8N hraw hisoI)
+      (CFSG.StandardType.ggResTwA2Input_of CFSG.StandardType.TwE6TwA2K.ggTwE6TwA2CompKnown_holds
+        hRig6 hLB hP hRk
+        (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4)))
+  have hdRoSmall : GGResTwoNodeDepSmallInput :=
+    CFSG.StandardType.ggResTwoNodeDepSmallInput_of_inputs hRig6 hdRo6bT hdRo6bLift hdRo6bW hdRo6bR
+      hLB hP hdRoJ hdRo6bJ2 hTCJ hdRoX hdRo6aKFix CFSG.StandardType.lr6NineAll_of_certificate
+      hdRo6c
+      (CFSG.StandardType.ggResTrialityInput_of CFSG.StandardType.ggTCJD4TagKnown_holds hRig6 hLB hP)
+      hdRo6e (CFSG.StandardType.ggResSevenInput_of hTCJ hRig6 hTPn hA8N hraw hisoI)
+      (CFSG.StandardType.ggResTwA2Input_of CFSG.StandardType.TwE6TwA2K.ggTwE6TwA2CompKnown_holds
+        hRig6 hLB hP hRk
+        (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4)))
+      hdRo6bLE3D1 hdRo6bLE3D2 CFSG.StandardType.ggLNoncyclicInput_holds hdRo6a
+      CFSG.StandardType.ggTWSmallCells_holds hTBF hFixK hdRo6bZ hdRo6bHK
+      hdRo6bHL (CFSG.StandardType.ggPumpupInput_of_lBalance hLB)
+      (CFSG.StandardType.ggPZEndpointNbr_of_datum CFSG.StandardType.ggPZMultInput_holds
+        (CFSG.StandardType.ggPZNbrDatum_of_res hRig6 hraw hisoI hdRo6bT hdRo6bLift hdRo6bN))
+      hdRo6bLoc hdRo6bZE
+      CFSG.StandardType.ggDepED4LowCells_holds hdRo6b58
+      CFSG.StandardType.lr6A5DepAll_of_certificate hdRoOrb
+      CFSG.StandardType.lr6E6All_of_certificate CFSG.StandardType.lr6E6DepAll_of_certificate
+        hdRoOrbK hUse hdRoDim
+  have hdRo2b : GGResCaseIISmallInput :=
+    CFSG.StandardType.ggResCaseIISmallInput_of_lin hTBF
+      (CFSG.StandardType.ggTBFixNbrInput_wA hFixK) hJr hPumpOr hLB hP
+      CFSG.StandardType.ggResIILinInput_holds
+  have hdRo7C : GGResCorank2CInput :=
+    CFSG.StandardType.HdRo7C.ggResCorank2CInput_proved hTCJ hdRoX hdRoJ hRig6 hLB
+      CFSG.StandardType.KG.ggPumpCLabelKnown_holds
+  have hdRoLE3 : GGResTwoNodeLE3Input :=
+    CFSG.StandardType.ggResTwoNodeLE3Input_proved hdRoKG hdRoOrb hdRoOrbK hTBF hFixK
+      CFSG.StandardType.ggTBTorANarrow_holds CFSG.StandardType.ggTBTorLiftADepRows_holds hRig6
+      CFSG.StandardType.ggTBJTwoNodeLargeInput_holds hdRoX
+      (CFSG.StandardType.ggResSevenInput_of hTCJ hRig6 hTPn hA8N hraw hisoI)
+  have hdRo5b : GGResDepAFiveInput :=
+    CFSG.StandardType.ggResDepAFiveInput_of_cells hdRoKG hdRoOrb hTBF hFixK
+  have hdRo1c : GGResCaseIQTwoInput :=
+    CFSG.StandardType.GGResCaseIQTwoInput.of_rest CFSG.StandardType.ggResCaseIQTwoRestInput_holds
+      (CFSG.StandardType.ggResFFGOFourInput_of_ff hRig6 CFSG.StandardType.ggO2aCentreKnown_holds
+        CFSG.StandardType.GGFF.ggFFLinearProp2Input_holds)
+  have hTPLine : GGNbrTablePNbrInputI1On GGRegimeLine :=
+    CFSG.StandardType.ggNbrTablePNbrInputI1On_line_of_leaves hT h07.1.2
+  have hTBJ : GGResLineJLabelInput := CFSG.StandardType.ggResLineJLabelInput_holds
+  have hdRo1b : GGResCaseIQFourInput :=
+    CFSG.StandardType.ggResCaseIQFourInput_of_inputs hTBF hJr hPumpOr hLB hP
+      (CFSG.StandardType.ggReflRealizedQFourInputThree_of_jgeom hLB hP)
+      (CFSG.StandardType.ggPumpLineThreeInput_of_known hTBJ hTPLine hRig6 hRk)
+      (CFSG.StandardType.ggResCaseIQFourO2Input_of_known hTBF hTBJ hTPLine hRig6
+        CFSG.StandardType.TwE6TwA2K.ggTwE6TwA2CompKnown_holds hLB hP hRk
+        CFSG.StandardType.ggO2aCentreKnown_holds
+        CFSG.StandardType.GGFF.ggFFLinearProp2Input_holds)
+  have hdRo : GGCoxeterLabelResidualOffE6DepInput :=
+    CFSG.StandardType.ggCoxeterLabelResidualOffE6DepInput_of_openLeavesR_narrow hdRoJ hdRoX hdRoKG
+      hdRoOrb hFixK hdRo1b hdRo1c hdRo2b hdRo4b hdRo5b hdRo6a hdRoSmall hdRoLE3 hdRoOrbK CFSG.StandardType.ggTBJTwoNodeLargeInput_holds
+      CFSG.StandardType.ggTBTorANarrow_holds CFSG.StandardType.ggTBTorLiftADepRows_holds hdRoCore
+      hdRoTE8 hdRo6e hdRo7C hdRo7SU hdRo7Rest hTBF hJr hPumpOr hLB hP hRig6
+      CFSG.StandardType.ggTCJD4TagKnown_holds hTCJ hTPn hA8N hraw hisoI hRk
+      (ggTwE6ThreeBstarRankInput_of_known (ggTwE6ThreeSCFourNotTwoLocalInput_of_odd hR4))
+  have hdR := ggCoxeterLabelResidualInput_of_e6DepPerp hdRo hE6x
+  have hdLab := ggCoxeterLabelInput_of_fork hdF hdR
+  let hPU := ggPumpupInput_of_lBalance hLB
+  have hPZE : GGPZE6Input :=
+    ggPZE6Input_of_cuts (ggPZVertInput_of_pumpup hPU) ggPZMultInput_holds
+      (ggPZEndpointInput_of_nbr hPU
+        (ggPZEndpointNbr_of_datum ggPZMultInput_holds
+          (ggPZNbrDatum_of_res hRig6 hraw hisoI hdRo6bT hdRo6bLift hdRo6bN)))
+  have hCe6 : GGQ2S08Ce6In :=
+    { hRig := hRig6
+      hJ := hdRoJ
+      hX := hdRoX
+      hLoc := hdRo6bLoc
+      hZ := hdRo6bZE
+      hFix := hTBF
+      hFixK := hFixK
+      hPZ := hPZE
+      hD := ggTBTorD_holds
+      hLift := hdRo6bLift
+      hQ1 := hQ1J
+      h58 := ggDepED4L58RowInput_of_nbrrest
+        hRig6 hdRo6bT hdRo6bLift hdRo6bW hFixK hdRo6b58 }
+  have hQ13Rest : GGQ2TwoNodeRestInput :=
+    ggQ2TwoNodeRest_of_open hCe6
+      (by
+        intro G _ _ p _ B Bs x L D J hS y K hK
+        exact ggQ2_nbrReflGen_of_label hdLab hNRG hRk hW hTBw6 hRig6
+          ggLabelCenterPCyclicInput_holds hraw hisoI hS hK) hQ13
+  have h08M : GGQTwoModelInput :=
+    ggQTwoModelInput_of_label hdLab hNRG hRk hW hTBw6 hRig6 ggLabelCenterPCyclicInput_holds
+      hraw hisoI
+  have hQ13f : CFSG.StandardType.GGQ2TwoNodeInput :=
+    CFSG.StandardType.ggQ2TwoNode_of_rest hRig6 hLB hP ggLNoncyclicInput_holds hQ6 hQ14 hdLab
+      (CFSG.StandardType.ggTBFixNbrXInput_of_innerWeyl hWI) hTBF
+      (fun hS hK => ggQ2_nbrReflGen_of_label hdLab hNRG hRk hW hTBw6 hRig6
+        ggLabelCenterPCyclicInput_holds hraw hisoI hS hK) hQ13Rest
+  have hg₁ := ggCorFiveTwentyInput_of_rootGenQFour
+    (ggCorFiveTwentyInputQTwo_of_e6DepPerp (h08Rq h08M hQ13f) hE6x) h08Rn h08N h08H h08L h08K
+  have hSpJR := ggSpJoinReflInput_of_label_tableP_narrow hdLab hSpLB hSpJp hTPn.toBCL hSpF4X
+  have hSpJA := ggSpJoinAutInput_of_label_tableP_narrow hdLab hSpLB hSpJp hTPn.toBCL hSpF4X
+  have hQ2L : CFSG.StandardType.GGSecFiveQ2PrimeLInput :=
+    CFSG.StandardType.ggSecFiveQ2PrimeLInput_of_balance_81 hLB CFSG.GGQ2Prime.lemma81Input_holds
+  have hWA : GGTBFixNbrXInput := CFSG.StandardType.ggTBFixNbrXInput_of_innerWeyl hWI
+  have hNsEn : CFSG.StandardType.GGSecFiveNSEnnolaInput :=
+    CFSG.StandardType.ggSecFiveNSEnnolaInput_of_rank hRk
+  have hBS : CFSG.StandardType.QTwo.BSCompletion := CFSG.StandardType.QTwo.bsCompletion_holds
+  have hPhQ2AB : CFSG.StandardType.GGSecFiveDataResPhanAQTwoBInput :=
+    CFSG.StandardType.QTwo.ggSecFiveDataResPhanAQTwoBInput_of_bs hBS hNsEn hLB hP hTCJ hUse
+  have hNsCor : CFSG.StandardType.GGSecFiveNSCornerInput :=
+    CFSG.StandardType.ggSecFiveNSCornerInput_holds
+  have hNsQ2L : CFSG.StandardType.GGSecFiveNSQ2LInput :=
+    CFSG.StandardType.ggSecFiveNSQ2LInput_of_u62 hU62
+  have hNsQ2N : CFSG.StandardType.GGSecFiveNSQ2NbrInput :=
+    CFSG.StandardType.ggSecFiveNSQ2NbrInput_of_ennola hNsEn hNsQ2L
+  have hNsQ2 : CFSG.StandardType.GGSecFiveNSQ2Input :=
+    CFSG.StandardType.ggSecFiveNSQ2Input_of_cells hNsQ2L hNsQ2N
+  have hNSLie : CFSG.StandardType.GGSecFiveNSLieAInput :=
+    CFSG.StandardType.ggSecFiveNSLieAInput_of_ennola_q2 hNsEn hNsQ2 hTBF hWA hLB hP
+  have hNSKG : CFSG.StandardType.GGSecFiveNSKGPosAInput :=
+    CFSG.StandardType.ggSecFiveNSKGPosAInput_of_nsLieA hNsCor hNSLie
+  have hPumpNbr : NSJoin.NSPumpNbrInput :=
+    NSJoin.nsPumpNbrInput_holds hF4R hLB hP hRk hTCJ hA8P.toSecFive
+      (ggRawInnFieldInput_of_rest_omega ggRawInnFieldOn_rest5)
+      (ggRawInndiagIsoInput_of_rest (ggRawInndiagIsoRestInput_of_round5 ggRawInndiagIsoRound5_holds))
+  have hPhRk1RF : CFSG.StandardType.GGRk1ResidualFrameInputExOf (fun {ι : Type} (M : CoxeterMatrix ι) =>
+      CFSG.StandardType.GGIsWeylMatrixE M) :=
+    CFSG.StandardType.ggRk1ResidualFrameInputExOf_holds ggLabelRigidInput_holds hRk hTBF hWA hU62 hLB hP hWI hTCJ
+  have hPosD : NSJoin.NSWeakOrthPosInputOf (fun {ι : Type} (M : CoxeterMatrix ι) => NSJoin.NSTypeD M) :=
+    NSJoin.nsWeakOrthPosInputOf_D_of_frame ggLabelRigidInput_holds hTCJ
+      (TCJ.ggTCJEnnolaKnown_of_uni_orth TCJ.innDiagAllEnnolaUni TCJ.innDiagAllEnnolaOrth) hLB hP hTPn.toFieldTwo
+      ggTwE6BigLabelsKnown_holds hRk hPhD hPhE hU62 hTBF hWA hWI hPhRk1RF hPhGenRF
+  have hNbrQ4E : NSJoin.NSNbrQFourInputOf (fun {ι : Type} (M : CoxeterMatrix ι) => GGIsWeylMatrixE M) :=
+    NSJoin.nsNbrQFourInputOf_E_of_frame ggLabelRigidInput_holds hTCJ
+      (TCJ.ggTCJEnnolaKnown_of_uni_orth TCJ.innDiagAllEnnolaUni TCJ.innDiagAllEnnolaOrth) hLB hP hTPn.toFieldTwo
+      ggTwE6BigLabelsKnown_holds hRk hPhD hPhE hU62 hTBF hWA hWI hPhRk1RF hPhGenRF
+  have hPhRk1RXW := hPhRk1RF.toWeak ggLabelRigidInput_holds hRk hU62 hTBF hWA hLB hP hWI hTCJ hPosD hNbrQ4E
+  have hPhRk1RX : GGRk1ResidualMemberInputEx := hPhRk1RXW.toMember
+  have hPhRk1R : CFSG.StandardType.GGRk1ResidualMemberInput :=
+    CFSG.StandardType.GGRk1ResidualMemberInputEx.toResidual hPhRk1RX
+  have hSolv : CFSG.StandardType.GGSecFiveAllFixedSolvInput :=
+    CFSG.StandardType.ggSecFiveAllFixedSolvInput_holds
+  have hRk1U : CFSG.StandardType.GGSecFiveRk1PhanInput :=
+    CFSG.StandardType.ggSecFiveRk1PhanInput_of_rows CFSG.StandardType.ggRk1SplitMemberInput_holds
+      CFSG.StandardType.ggRk1UnitaryMemberInput_holds hPhRk1R
+  have hPhL1 : CFSG.StandardType.GGSecFiveL1PhanInput :=
+    CFSG.StandardType.ggSecFiveL1PhanInput_of_local hRk1U hSolv CFSG.StandardType.ggLNoncyclicInput_holds hLB hP
+      CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
+      (hPhGenRF.baseRefl hPhD hPhE hRk hU62 hTBF hWA hLB hP hWI hTCJ)
+  have hPhQ2D56 : CFSG.StandardType.QTwo.GGSecFivePhanDQTwoFiveSix :=
+    CFSG.StandardType.QTwo.ggSecFivePhanDQTwoFiveSix_of_gen hRk1U hTBF hWI hUse hTCJ hLB hP hRk
+      CFSG.StandardType.QTwo.ggQTwoSixPlaneGenInput_holds
+  have hPhQ2D : CFSG.StandardType.GGSecFiveDataResPhanDQTwoInput :=
+    CFSG.StandardType.QTwo.ggSecFiveDataResPhanDQTwoInput_of_parts
+      CFSG.ClassicalInvolution.PhanDn.QTwo.ghnsMainBQTwo_holds
+      (CFSG.StandardType.QTwo.ggSecFivePhanDQTwoSystemInput_of_cases
+        (CFSG.StandardType.QTwo.ggSecFivePhanDQTwoFour_of_inputs hRk1U hTBF hWI) hPhQ2D56
+        (CFSG.StandardType.QTwo.ggSecFivePhanDQTwoSeven_holds hRk1U hLB hP hUse hTCJ hTBF
+          hWI hT))
+  have hPhGenRW := hPhGenRF.toWeak hPhD hPhE hPhL1 hRk1U hRk hU62 hTBF hWA hLB hP hPosD hNbrQ4E hWI hTCJ
+  have hPhGenR : GGGenResidualMemberInput := hPhGenRW.toMember
+  have hPhRk1N : CFSG.StandardType.GGSecFiveRk1PhanNInput :=
+    CFSG.StandardType.ggSecFiveRk1PhanNInput_of_rows CFSG.StandardType.ggRk1SplitMemberInput_holds
+      CFSG.StandardType.ggRk1UnitaryMemberInput_holds hPhRk1R
+  have hPhGenN : CFSG.StandardType.GGSecFiveGenPhanNInput :=
+    CFSG.StandardType.ggSecFiveGenPhanNInput_of_rows hPhL1 CFSG.StandardType.ggGenUnitaryMemberInput_holds hPhGenR
+  have hPhPairN : CFSG.StandardType.GGSecFivePhanPairNInput :=
+    CFSG.StandardType.ggSecFivePhanPairNInput_of_full_residual_pairs
+  have hPhRk1 : CFSG.StandardType.GGSecFiveRk1PhanInput :=
+    CFSG.StandardType.ggSecFiveRk1PhanInput_of_N hPhRk1N hNSKG hPhL1
+  have hPhGen : CFSG.StandardType.GGSecFiveGenPhanInput :=
+    CFSG.StandardType.ggSecFiveGenPhanInput_of_N hPhGenN hNSKG hPhL1
+  have hPhPair : CFSG.StandardType.GGSecFivePhanPairInput :=
+    CFSG.StandardType.ggSecFivePhanPairInput_of_N hPhPairN hNSKG
+  have hNsQ2D : CFSG.StandardType.GGSecFiveNSQ2DInput :=
+    CFSG.StandardType.ggSecFiveNSQ2DInput_of_u6 hNsQ2DU6
+  have hPhJA2D : CFSG.StandardType.GGSecFiveJA2PhanDInput :=
+    CFSG.StandardType.ggSecFiveJA2PhanDInput_of_exclD hNsCor
+      CFSG.StandardType.ggSecFiveNSEnnolaDInput_holds hNsQ2D hTBF hWA hLB hP
+  have hPhL2D : CFSG.StandardType.GGSecFiveL2PhanDInput :=
+    CFSG.StandardType.ggSecFiveL2PhanDInput_of_ja2 hPhL1 hPhRk1 hPhGen hPhPair hLB hPhJA2D
+  have hPhL2DE : GGSecFiveL2PhanDEInput := ggSecFiveL2PhanDEInput_of_D hPhGen hPhL2D
+  have hPhOrb : CFSG.StandardType.GGSecFiveOrbPhanInput :=
+    CFSG.StandardType.ggSecFiveOrbPhanInput_of_gen_pair hPhGen hPhPair
+  have hPhNbr : CFSG.StandardType.GGSecFiveNonSplitNbrInput :=
+    CFSG.StandardType.ggSecFiveNonSplitNbrInput_of_prim hPhL1 hPhRk1 hPhGen
+  have hOutA : NSJoin.NSNbrOutLocalGenInputOf
+      (fun {ι : Type} (M : CoxeterMatrix ι) => NSJoin.NSTypeA5 M) :=
+    NSJoin.nsNbrOutLocalGenInputOf_A5 hLB hP hNsEn hNsQ2 hTBF hWA hPumpNbr
+      (NSJoin.nsJA2InputOf_A5 hNsCor hNSLie) hSolv ggLNoncyclicInput_holds
+      CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
+  have hPhJAD : GGSecFiveJoinPhanA5Input ∧ GGSecFiveJoinPhanInput :=
+    NSJoin.nsJoinPhan_of_residuals ggLabelRigidInput_holds hTCJ
+      (TCJ.ggTCJEnnolaKnown_of_uni_orth TCJ.innDiagAllEnnolaUni TCJ.innDiagAllEnnolaOrth) hLB hP hTBF hUse hWit
+      ggWeylReflTripleInput_holds hLev2
+      hPumpNbr
+      (NSJoin.nsRealNbrInput_holds hLB hP hRk ggLabelRigidInput_holds)
+      hTPn.toFieldTwo ggTwE6BigLabelsKnown_holds hRk hPhGen hPhPair hRk1U hPhL1 hPhNbr hPhRk1RX hPhGenR hNsCor
+      hNSLie hOutA hPhD hPosD
+  have hPhJA : GGSecFiveJoinPhanA5Input := hPhJAD.1
+  have hPhJD : GGSecFiveJoinPhanInput := hPhJAD.2
+  have hPhJE : GGSecFiveJoinPhanEInput :=
+    ggSecFiveJoinPhanEInput_of_inputs hLB hP hTBF hRk1U hLev2 ggWeylReflTripleInput_holds hUse hWit hF4R hRk hTCJ
+      hA8P.toSecFive hraw hisoI hPhGen hPhPair hTPn.toFieldTwo ggTwE6BigLabelsKnown_holds
+      (NSJoin.nsNbrLinearInput_holds ggLabelRigidInput_holds hTCJ
+        (TCJ.ggTCJEnnolaKnown_of_uni_orth TCJ.innDiagAllEnnolaUni TCJ.innDiagAllEnnolaOrth) hLB hP)
+      hPhL1 hPhNbr
+      (NSJoin.nsQFourInputOf_of_exactRk1 GGIsWeylMatrixE.le_three ggLabelRigidInput_holds hPhRk1RX hPhGenR)
+      (NSJoin.nsWeakNonUnitaryInputOf_of_weakResidual hPhRk1RXW hPhGenRW (fun h => h)
+        GGIsWeylMatrixE.le_three)
+  have hPhL2 : CFSG.StandardType.GGSecFiveL2PhanInput :=
+    CFSG.StandardType.ggSecFiveL2PhanInput_of_gen_DE hPhGen hPhL2DE
+  have hFRJ5 : CFSG.StandardType.FrameRoute.GGFSyNonFSPointJoinInput :=
+    CFSG.StandardType.FrameRoute.ggFSyNonFSPointJoinInput_of_glue hTBF hWI
+      CFSG.StandardType.FrameRoute.ggFrameTBNumerologyInput_holds
+      CFSG.StandardType.FrameRoute.ggFrameTBVacuousInput_holds
+      CFSG.StandardType.ggLabelRigidInput_holds hPU
+      CFSG.StandardType.FrameRoute.ggOuterThreeRankInput_holds hTCJ
+  have hFRJ : CFSG.StandardType.FrameRoute.GGFrameRouteJoinInputs :=
+    CFSG.StandardType.FrameRoute.ggFrameRouteJoinInputs_of_tableB hTBF hWI
+      (CFSG.StandardType.FrameRoute.ggFrameRouteJoinTBInputs_of_rest hFRJTB) hFRJ5
+  have hRowE : GGSecFiveDataResAt (fun M => GGIsWeylMatrixE M) :=
+    CFSG.StandardType.ggSecFiveDataResAt_E_of_e6QTwo
+      (CFSG.StandardType.ggSecFiveDataResE6QTwoInput_of_bridgeInput
+        ⟨hE6, CFSG.StandardType.TwE6MaxEleven.ggTwistedE6MaxElevenInput_holds⟩
+        (CFSG.StandardType.ggSecFiveE6QTwoEndInput_of_inputs hPhRk1 hTBF hWI
+          (CFSG.StandardType.ggTBTorWRows_of_all hdRo6bT) hdRo6bLift)
+        (ggNbrTablePNbrInputOnL_n2_of_leaves hT (GGK0ExcB2.toExcB (GGK0ExcB3.toB2 h07.1.2)))
+        hLB ggLabelRigidInput_holds)
+      (CFSG.StandardType.ggSecFiveDataResEOffE6QTwoInput_of_frameRouteJoin hPhE hPhL1 hPhRk1 hPhGen
+        hPhOrb hPhL2 hPhPair hPhNbr hPhJE hFRJ hTBF hWI
+        (CFSG.StandardType.ggSecFiveE78QTwoLabelInput_of_rk1 hPhRk1))
+  have hPhSEn : CFSG.StandardType.GGSecFiveNSEnnolaSmallInput :=
+    CFSG.StandardType.ggSecFiveNSEnnolaSmallInput_holds
+  have hPhSU6 : CFSG.StandardType.GGSecFiveNSU6SmallInput :=
+    CFSG.StandardType.ggSecFiveNSU6SmallInput_of_frame hLB hP
+  have hPhSA : CFSG.StandardType.GGSecFiveDataResPhanASmallInput :=
+    CFSG.StandardType.ggSecFiveDataResPhanASmallInput_of_small hPhSEn hPhSU6 hNsCor hWI
+  have hFC : CFSG.StandardType.GGResNbrFixCentralizesInput :=
+    CFSG.StandardType.ggResNbrFixCentralizesInput_holds hdRo6bT hdRo6bLift hRig6 hLB hP hRk hA8N hraw hisoI
+      hTCJ hsub
+  have hRoot : CFSG.StandardType.GGSecFiveBProperRootInput :=
+    CFSG.StandardType.ggSecFiveBProperRootInput_of_label
+      CFSG.StandardType.ggSecFiveBPermUnitaryLabelInput_holds
+  have hPosB : CFSG.StandardType.BOriginalPositionInput :=
+    CFSG.StandardType.bOriginalPositionTheoryInput_holds hTBF hWI hdRoX hTCJ
+      CFSG.StandardType.ggLabelRigidInput_holds
+  have hDX : CFSG.StandardType.GGSecFiveBCoordDExclRestInput :=
+    CFSG.StandardType.ggSecFiveBCoordDExclRestInput_of_qTwoCl hLB hP
+  have hDXE : CFSG.StandardType.GGSecFiveBCoordDExclInput :=
+    CFSG.StandardType.ggSecFiveBCoordDExclInput_of_rest
+      (CFSG.StandardType.ggSecFiveBCoordDExclRestOn_of_orthNs hLB hP
+        (CFSG.StandardType.ggSecFiveBCoordDExclRestOn_split_of_open hRig6
+          CFSG.StandardType.ggLabelCenterPCyclicInput_holds hF4R
+          (CFSG.StandardType.ggSecFiveBCoordDExclRestOn_open_of_rows
+            (CFSG.StandardType.ggSecFiveBCoordDExclRestOn_e6Two hRig6
+              CFSG.StandardType.ggLabelCenterPCyclicInput_holds)
+            (CFSG.StandardType.ggSecFiveBCoordDExclRestOn_twE6Two hRig6 hRk)
+            (CFSG.StandardType.ggSecFiveBCoordDExclRestOn_twA5Two hRig6 hLB hP) hDX)))
+      (CFSG.StandardType.ggReflRealizedQFourInputFiveOffE6_holds hRig6 hraw hisoI)
+      (CFSG.StandardType.ggReflRealizedQFourInputThree_of_jgeom hLB hP) hLB hP
+      hdRo6bT hdRo6bLift hRig6 hA8N hraw hisoI
+  have hSatB : CFSG.StandardType.GGSecFiveBReflSatInput :=
+    CFSG.StandardType.ggSecFiveBReflSatInput_of_nativeImage hPosB
+      CFSG.StandardType.ggLNoncyclicInput_holds hDXE
+  have hSat4 : CFSG.StandardType.GGSecFiveBFourCoordSatInput :=
+    CFSG.StandardType.ggSecFiveBFourCoordSatInput_of_nativeImage hPosB
+      CFSG.StandardType.ggLNoncyclicInput_holds hDXE
+  have hPermX : CFSG.StandardType.GGSecFiveBFourPermExcInput :=
+    CFSG.StandardType.ggSecFiveBFourPermExcInput_of_inputs hLB hP hdRoX hTPn hA8N hraw hisoI
+  have hPerm4 : CFSG.StandardType.GGSecFiveBFourPermWeylInput :=
+    CFSG.StandardType.ggSecFiveBFourPermWeylInput_of_nativeImage hPosB hUse
+      CFSG.StandardType.ggLNoncyclicInput_holds hPermX
+  have hFourB : CFSG.StandardType.GGSecFiveWeylInfAt CFSG.StandardType.GGIsWeylMatrixBFour :=
+    CFSG.StandardType.ggSecFiveWeylInfAt_BFour_of_inputs hPosB hUse hSat4 hPerm4
+  have hWInfB : CFSG.StandardType.GGSecFiveWeylInfAt CFSG.StandardType.GGIsWeylMatrixB :=
+    CFSG.StandardType.ggSecFiveWeylInfAt_B_of_ge_five_of_four hPosB
+      (CFSG.StandardType.ggSecFiveWeylInfAt_BGe5_of_inputs hPosB hUse hSatB) hFourB
+  have hBJ : CFSG.StandardType.BMaxJoinInput :=
+    CFSG.StandardType.bMaxJoinInput_of_inputs hTBF hWI hdRoX hTCJ CFSG.StandardType.ggLabelRigidInput_holds
+      hTPn hA8N hraw hisoI hFC hRoot
+  have hRMB : CFSG.StandardType.GGSecFiveReflMaxAt CFSG.StandardType.GGIsWeylMatrixB :=
+    CFSG.StandardType.ggSecFiveReflMaxAt_B_of_weylInfAt hTBF hWI hWInfB
+  have hRJB : CFSG.StandardType.GGSecFiveRowJoinOffQAt fun M => CFSG.StandardType.GGIsWeylMatrixB M :=
+    CFSG.StandardType.ggSecFiveRowJoinOffQAt_B_of_reflMaxAt hBJ hRMB
+  have hRowBPSpJ : CFSG.StandardType.GGSecFiveBPermSpJoinInput :=
+    CFSG.StandardType.ggSecFiveBPermSpJoinInput_of_bMaxJoin hBJ
+  have hRowBPSpLF : CFSG.StandardType.GGSecFiveBPermSpLFrameInput :=
+    CFSG.StandardType.ggSecFiveBPermSpLFrameInput_of_mp CFSG.StandardType.ggInnerDiagMpInput_holds
+  have hRowBPSpC : CFSG.StandardType.GGSecFiveBPermSpChartInput :=
+    CFSG.StandardType.ggSecFiveBPermSpChartInput_of_frames hRowBPSpLF
+      (CFSG.StandardType.ggSecFiveBPermSpKFrameInput_of_mp CFSG.StandardType.ggInnerDiagMpInput_holds
+        hRowBPSpLF)
+  have hRowBPOff : CFSG.StandardType.BMaxJoinInput → CFSG.StandardType.GGSecFiveBPermOffSpInput :=
+    CFSG.StandardType.ggSecFiveBPermOffSpInput_of_leaves hTBF hdRoX hTCJ hTPn hA8N hraw hisoI hFC
+      hLB hRoot hdRo6bT hdRo6bLift hsub hP hRk CFSG.StandardType.ggLabelCenterPCyclicInput_holds hU62
+      CFSG.StandardType.ggSecFiveBPermLinSU6BalInput_holds
+      CFSG.StandardType.ggSecFiveBPermUniQTwoExcSixU62Input_holds
+      CFSG.StandardType.ggSecFiveBPermProperQTwoNbrRedInput_holds
+      (hPP2 CFSG.StandardType.ggInnerDiagMpInput_holds)
+  have hRowBP : CFSG.StandardType.GGSecFiveBPermDataInput :=
+    CFSG.StandardType.ggSecFiveBPermDataInput_of_sp hRowBPSpC hRowBPSpJ (hRowBPOff hBJ)
+  have hBSpFr : CFSG.StandardType.GGSecFiveBSpCoordFrameInput :=
+    CFSG.StandardType.ggSecFiveBSpCoordFrameInput_of_mp ggInnerDiagMpInput_holds
+  have hRowBCSpC : CFSG.StandardType.GGSecFiveBCoordBSpChartInput :=
+    CFSG.StandardType.ggSecFiveBCoordBSpChartInput_of_frames ggInnerDiagMpInput_holds hBSpFr
+      ggLabelRigidInput_holds
+  have hRowBCSpSpC : CFSG.StandardType.GGSecFiveBCoordBSpSpChartInput :=
+    CFSG.StandardType.ggSecFiveBCoordBSpSpChartInput_of_frames hBSpFr ggLabelRigidInput_holds
+  have hRowBCRest : CFSG.StandardType.GGSecFiveBCoordBOffSpSpInput :=
+    CFSG.StandardType.ggSecFiveBCoordBOffSpSpInput_of_leaves hO hU4
+      CFSG.StandardType.ggSecFiveBCoordBUniLargeInput_holds
+      CFSG.StandardType.ggSecFiveBCoordBSpFourCommonChartRouteInput_holds
+      CFSG.StandardType.ggSecFiveBCoordBSpFourCommonCompRouteInput_holds h4s h4n
+      CFSG.StandardType.ggSecFiveBCoordBSparseTwDFiveSplitInput_holds h5n
+      CFSG.StandardType.ggSecFiveBCoordBDenseNbrLabelInput_holds
+      CFSG.StandardType.ggSecFiveBCoordBDenseNbrLinQTwoLabelInput_holds
+      CFSG.StandardType.ggInnerDiagMpInput_holds hLB hP hdRoX hTCJ hRig6 hTPn hA8N hraw hisoI hFC hBJ
+      CFSG.StandardType.ggSecFivePermNbrLabelOfJInput_holds hU62
+  have hRowBCOff : CFSG.StandardType.GGSecFiveBCoordBOffSpInput :=
+    CFSG.StandardType.ggSecFiveBCoordBOffSpInput_of_spSp hRowBCSpSpC hRowBCRest hBJ
+  have hRowBCPr : CFSG.StandardType.GGSecFiveBCoordBProperRowsInput :=
+    CFSG.StandardType.ggSecFiveBCoordBProperRowsInput_of_leaves
+      CFSG.StandardType.ggInnerDiagMpInput_holds hdRoX hTCJ hRig6 hTPn hA8N hraw hisoI hFC
+      CFSG.StandardType.ggSecFivePermNbrLabelOfJInput_holds hU62
+      CFSG.StandardType.ggSecFiveBCoordBCornerPlaneFrameInput_holds
+      CFSG.StandardType.ggSecFiveBCoordBCornerAbsorbInput_holds hDense
+  have hRowBC : CFSG.StandardType.GGSecFiveBCoordBDataInput :=
+    CFSG.StandardType.ggSecFiveBCoordBDataInput_of_split
+      CFSG.StandardType.ggSecFiveBCoordBBstarInput_holds
+        (CFSG.StandardType.ggSecFiveBCoordBProperInput_of_rows hdRoX hTCJ ggLabelRigidInput_holds
+          hTPn hA8N hraw hisoI hFC hLB ggLabelCenterPCyclicInput_holds hRowBCPr)
+        hRowBCSpC hRowBCOff hBJ
+  have hRowB : CFSG.StandardType.GGSecFiveDataResAt fun M => CFSG.StandardType.GGIsWeylMatrixB M :=
+    CFSG.StandardType.ggSecFiveDataResAt_B_of_positions hPosB hDXE hBJ hRMB hRowBC
+      (CFSG.StandardType.ggSecFiveBCoordBLabelInput_of_res hdRo6bT hdRo6bLift
+        CFSG.StandardType.ggSecFiveBCoordBResInput_holds)
+      hRowBP
+  have hSatF4 : CFSG.StandardType.GGSecFiveF4ReflSatInput :=
+    CFSG.StandardType.ggSecFiveF4ReflSatInput_of_nativeImage hTBF hWI hdRoX hTCJ
+      CFSG.StandardType.ggLabelRigidInput_holds CFSG.StandardType.ggLNoncyclicInput_holds
+  have hRMF : CFSG.StandardType.GGSecFiveReflMaxAt fun M => CFSG.StandardType.GGIsWeylMatrixF4 M :=
+    CFSG.StandardType.ggSecFiveReflMaxAt_F4_of_weylInfAt hTBF hWI
+      (CFSG.StandardType.ggSecFiveWeylInfAt_F4_of_inputs hTBF hWI hdRoX hTCJ
+        CFSG.StandardType.ggLabelRigidInput_holds hUse hSatF4)
+  have hRJF : CFSG.StandardType.GGSecFiveRowJoinOffQAt fun M => CFSG.StandardType.GGIsWeylMatrixF4 M :=
+    CFSG.StandardType.ggSecFiveRowJoinOffQAt_F4_of_reflMaxAt hdRoX hTCJ CFSG.StandardType.ggLabelRigidInput_holds
+      hTPn hA8N hraw hisoI hTBF hFC hRMF
+  have hFF81b : CFSG.StandardType.FF81bThmAAtFiveSixLab :=
+    CFSG.StandardType.FF81.ff81bThmAAtFiveSixLab_of_propOne_centralizerE6 hPropOne
+      CFSG.StandardType.FF81.CentE6.centralizerE6_holds
+  have hE6Comp : CFSG.StandardType.GGE6TwoThreeComp :=
+    CFSG.StandardType.ggE6TwoThreeComp_of_K0RE (CFSG.StandardType.ggK0CompRE_of_mult
+      (CFSG.StandardType.ggK0CompREMult_of_excB (GGK0ExcB2.toExcB (GGK0ExcB3.toB2 h07.1.2))))
+  have hF4Small : CFSG.StandardType.GGSecFiveF4SmallDataInput :=
+    CFSG.StandardType.ggSecFiveF4SmallData_of_ff81b hFF81b hE6Comp hTBF hWI
+  have hF4Label : CFSG.StandardType.GGSecFiveF4SmallLabelInput :=
+    CFSG.StandardType.ggSecFiveF4SmallLabelInput_of_leaves hTPn hRig6 hLB hP hTBF hWI
+      hA8P.toSecFive hdRoX hTCJ hA8N hraw hisoI hFC
+  have hKnown : CFSG.StandardType.KnownActualMemberSelectedInput :=
+    CFSG.StandardType.knownActualMemberSelectedInput_holds
+  have hBK : CFSG.StandardType.GGSecFiveJoinBOfKnownInput :=
+    CFSG.StandardType.ggSecFiveJoinBOfKnownInput_of_perm
+      CFSG.StandardType.ggSecFiveJoinBPermUniInput_holds
+      CFSG.StandardType.ggSecFiveJoinBPermLinInput_holds
+  have hEMem : CFSG.StandardType.GGSecFiveJoinMemberAt CFSG.StandardType.GGIsWeylMatrixE :=
+    CFSG.StandardType.ggSecFiveJoinMemberAt_E_of_twistedE6E7 hTBF hWI hPhL1 hPhRk1 hPhGen
+      hPhOrb hPhL2 hPhPair hPhNbr CFSG.StandardType.ggSecFiveTwistedE6E7MemberInput_holds
+  have hCWJ : CFSG.StandardType.GGSecFiveCompatRestWResNJoinInput :=
+    CFSG.StandardType.ggSecFiveCompatRestWResNJoinInput_of_leaves hTBF hWI hPhRk1
+      (CFSG.StandardType.ggSecFivePhanSmallFalseInput_of_small hPhSEn hPhSU6 hNsCor hWI)
+      (CFSG.StandardType.ggTBTorWRows_of_all hdRo6bT) hdRo6bLift hE6 hLB hP
+      hPhL1 hPhGen hPhOrb hPhL2 hPhPair hPhNbr hdRoX hTCJ hTPn hA8N hisoI hFC hF4Label
+      (CFSG.StandardType.ggSecFiveF4SmallExclusionInput_of_ff81b hFF81b hE6Comp hTBF hWI)
+      CFSG.StandardType.ggInnerDiagMpInput_holds hRig6 hraw hdRo6bT hsub hRk hRoot
+      CFSG.StandardType.ggLabelCenterPCyclicInput_holds hDXE hU62 hKnown hBK hEMem
+  have hCWRN : GGSecFiveCompatRestWResNInput :=
+    CFSG.StandardType.ggSecFiveCompatRestWResNInput_of_join_rows hCWJ hTBF
+      (CFSG.StandardType.ggSecFivePhanSmallFalseInput_of_small hPhSEn hPhSU6 hNsCor hWI)
+      hPhJD hPhJE hRJB hRJF
+  have hCWR : GGSecFiveCompatRestWResInput :=
+    CFSG.StandardType.ggSecFiveCompatRestWResInput_of_phanARow hCWRN hNSKG hPhL1 hPhRk1 hPhGen
+      hPhOrb hPhL2 hPhPair hPhNbr hPhJA
+  have hCW : GGSecFiveCompatRestWInput' :=
+    ggSecFiveCompatRestWInput'_of_res hT1 hLevi hJoin hCWR
+  have hC : GGSecFiveCompatRestInput :=
+    ggSecFiveCompatRestInput_of_known heNWk hRig6 hTBw6 hraw hisoI hCW hCA
+  have hArow :=
+    CFSG.StandardType.ggSecFiveDataResAt_phanA hTBF hPhL1 hPhRk1 hPhGen hPhOrb hPhL2 hPhPair hPhNbr
+      hPhJA hPhSA (hPhQ2AB hQ2L)
+  have hDrow :=
+    CFSG.StandardType.ggSecFiveDataResAt_phanD hPhD hPhL1 hPhRk1 hPhGen hPhOrb hPhL2 hPhPair hPhNbr
+      hPhJD hPhQ2D
+  have hG2row := CFSG.StandardType.ggSecFiveDataResAt_G2_of_tbfix hTBF
+  have hFarEx : CFSG.StandardType.GGTypeACompatFarExGenInput :=
+    CFSG.StandardType.ggTypeACompatFarExGenInput_iff_cfg.mpr
+      (CFSG.StandardType.ggTypeACompatFarExCfgInput_of_diagB hCD)
+  have hLeviData : CFSG.StandardType.GGSecFiveLeviData :=
+    CFSG.StandardType.ggSecFiveLeviData_of_inputs
+      (CFSG.StandardType.ggTypeAJoinEndNodeInput_of_compatFarExGen hFarEx)
+      (CFSG.StandardType.ggTypeACorankTwoExInput_of_crossLift
+        (CFSG.StandardType.ggTypeAFarCommuteGenInput_of_compatFarExGen hFarEx)
+        (CFSG.StandardType.ggTypeAThirdNbrInput_of_reflOver ggLNoncyclicInput_holds hNG hRO hNM)
+        heX (CFSG.StandardType.ggTypeAJoinThreeInput_of_reflOver ggLNoncyclicInput_holds hNG hRO))
+      (CFSG.StandardType.ggTypeAHalfEndNodesAutInput_of_join heHE heHJ) heHL
+      CFSG.StandardType.ggSpLiftInput_holds (CFSG.StandardType.ggSpJoinEndNodeInput_of_some hSpES)
+      (CFSG.StandardType.ggSpJoinInput_of_aut_refl hSpJA hSpJR)
+  have hF4G0 : CFSG.StandardType.FF81bG0Input :=
+    CFSG.StandardType.ff81bG0Input_of_pieces hTBF hWI CFSG.StandardType.FF81.localSetup_holds hPropOne
+      CFSG.StandardType.FF81.propTwo_holds CFSG.StandardType.FF81.frameStep_holds
+      CFSG.StandardType.FF81.constructY_holds
+  have hF4Res : CFSG.StandardType.GGSecFiveWeylF4ResInput :=
+    CFSG.StandardType.ggSecFiveWeylF4ResInput_of_named_routeCfg CFSG.StandardType.ggInnerDiagMpInput_holds hAm2
+      hTBF hWI hdRoX hTCJ CFSG.StandardType.ggLabelRigidInput_holds hTPn hA8N hraw hisoI hFC hRMF
+      hLeviData hArow hRowB hDrow hRowE hG2row hFF81b hF4G0 hLB
+      (ggStdSubPrimeInput_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hsR) h07.1.2 hgr hlt
+      CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds
+  have hRowF : CFSG.StandardType.GGSecFiveDataResAt fun M => CFSG.StandardType.GGIsWeylMatrixF4 M :=
+    CFSG.StandardType.ggSecFiveDataResAt_F4_of_contracts hF4Res
+      (CFSG.StandardType.ggSecFiveF4OriginalTypesInput_holds hdRoX hTCJ hRig6 hTBF hWI)
+      (CFSG.StandardType.ggSecFiveF4OriginalBCPairInput_of_core CFSG.StandardType.ggF4B3Core_holds)
+      hF4Label hF4Small
+  have hRes5 : GGSecFiveWeylRest5Res :=
+    CFSG.StandardType.ggSecFiveWeylRest5Res_of_rows hLeviData hArow hRowB hDrow hRowE hRowF hG2row
+  have heW5 : GGSecFiveWeylRest5 := ggSecFiveWeylRest5_of_res hT1 hJoin hRes5
+  have heW : GGSecFiveWeylRest4 := ggSecFiveWeylRest4_of_rest5 heW5 hTBF
+  exact ggV2I1Inputs_of_round12 hTE6 TwF4SUThree.ggTwF4ThreeRankInput_holds hPR hsR hLC hTBK hD4
+    hlt hinW hTB hTBM hTBA h45t h45x h45f h48q hLID hLtv hLline ggD4TwoLocalThreeOddInput_holds
+    hKD4c hdF hdR hCD hNG hRO hNM heX heHE heHJ heHL heNW hSpES hSpJA hSpJR heW hC heHC hg₁
+    hlay hpr (ggSixLSixSevenConjA3Round12_of_rem h67A3) h67E6c h67Lie hKG
+    hNS hNoF hNoR h611k hKF hIII hIV hF5 hNE3 hC32 hfw hPlE hRC3 hRC4 hRCx hF4M hWex hW17
+
+theorem lc_gl_standard_type_lie_char_two_of_yardstones
+    (h01 : CFSG.Yardstones.Statements.Yf77bba1f8a8a0aff)
+    (h03 : CFSG.Yardstones.Statements.Y4cc3aec516b7798c)
+    (h04 : CFSG.Yardstones.Statements.Yc9f1ea912a24c907)
+    (h05 : CFSG.Yardstones.Statements.Ycc95b11b93fcff19)
+    (h06 : CFSG.Yardstones.Statements.Y3203a81333d96501)
+    (h07 : CFSG.Yardstones.Statements.Ybcba3d5d2faeab69)
+    (h08 : CFSG.Yardstones.Statements.Y30013f94ba1af482)
+    (h09 : CFSG.Yardstones.Statements.Y7ea613aa3462085b)
+    (h10 : CFSG.Yardstones.Statements.Y87e62a301c1399c5)
+    (h11 : CFSG.Yardstones.Statements.Ycd6fdd938d9da7cd)
+    (h12 : CFSG.Yardstones.Statements.Y8c3c5cd708141f52)
+    (h13 : CFSG.Yardstones.Statements.Y9550a5c8037d2ddf)
+    (h14 : CFSG.Yardstones.Statements.Y600f261da4e2dd4f)
+    (h15 : CFSG.Yardstones.Statements.Y0b74b90d14fad2b1) :
+    ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G], (∃ a b : G, a * b ≠ b * a) →
+      KProper InCatalog G → IsCharTwoType G → 4 ≤ evenRank G →
+        ∀ p ∈ LargeEvenBeta 4 G, ∀ (B : Subgroup G) (x : G) (L : Subgroup G),
+          LargeEvenSStar p B x L → CFSG.Assembly.LargeEvenStandardType p B x L →
+            InLieTypeCharTwoCatalog G := by
+  have h15 : HoltUniqueFixedPointSimple := h15
+  intro G _ _ _ hnonab hK hchar he4 p hp B x L hS hst
+  have h := ggV2I1Inputs_of_yardstones h01 h03 h04 h05 h06 h07 h08 h09 h10 h11 h12 h13 h14
+  exact lc_gl_std_charTwo_of_v2I1_inputs h15 h.1 h.2 G hnonab hK hchar he4 p hp B x L hS
+    (legacyStandardType_of_canonical hp.1 hp.2.1 (fun b hb => hS.1.1.2 b hb) hst)
+
+end CFSG.Yardstones.M3f9567aba59d

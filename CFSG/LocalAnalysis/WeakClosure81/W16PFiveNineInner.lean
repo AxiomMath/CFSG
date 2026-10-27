@@ -1,0 +1,90 @@
+module
+
+public import CFSG.LocalAnalysis.WeakClosure81.W16PFiveNine
+public import CFSG.LocalAnalysis.WeakClosure81.W16PFiveNineAut
+public import CFSG.LocalAnalysis.WeakClosure81.W16PFiveKGp
+public import CFSG.LocalAnalysis.WeakClosure81.W16PFiveNineGen
+
+public section
+
+namespace CFSG.LocalAnalysis.WeakClosure81
+
+open CFSG.Quasithin CFSG.Open CFSG.LocalAnalysis.UniquenessCase.PartTwo
+open CFSG.LocalAnalysis.UniquenessCase.UC22
+open Subgroup
+open scoped Pointwise
+
+variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
+
+theorem IsMinFam16.exists_comm_mem_of_inner (h1 : W16One G)
+    (hS : Std15 G) (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+    {X : Type} [Group X] {φ : ↥(conjClosure V H) →* X}
+    (hφ : SevenK.IsBarMap (conjClosure V H) (pCoreOf 2 (conjClosure V H)) φ) {n : ℕ}
+    (hX : Shape166 X (SevenK.barSub (conjClosure V H) φ V) n)
+    (hcase : CFSG.Quasithin.IsPSL 2 2 n X ∨ CFSG.Quasithin.IsSz n X ∨
+      (n = 1 ∧ (Nat.card (fusionOddCore X)).Prime))
+    {x : G} (hxS : conjSubgroup V x ≤ S) {a : G} (ha : a ∈ conjSubgroup V x) :
+    ∃ v ∈ V, ∀ k ∈ conjClosure V H,
+      (a * v⁻¹) * k * (a * v⁻¹)⁻¹ * k⁻¹ ∈ pCoreOf 2 (conjClosure V H) := by
+  haveI : Finite ↥(conjClosure V H) := Subtype.finite
+  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have hVea : IsElemAbelian 2 V := h.hyp.h6.elemAbelian
+  have haV : a ∈ centralizer (V : Set G) :=
+    Cex16.conj_le_centralizer_of_le_S h1 hS h hxS ha
+  have haa : a * a = 1 := by
+    have hmem : x * a * x⁻¹ ∈ V := mem_conjSubgroup_iff.mp ha
+    have hsq := IsElemAbelian.mul_self_eq_one hVea hmem
+    have h' : x * (a * a) * x⁻¹ = 1 := by
+      calc x * (a * a) * x⁻¹ = (x * a * x⁻¹) * (x * a * x⁻¹) := by group
+        _ = 1 := hsq
+    have h'' := congrArg (fun t => x⁻¹ * t * x) h'
+    rwa [show x⁻¹ * (x * (a * a) * x⁻¹) * x = a * a by group,
+      show x⁻¹ * 1 * x = 1 by group] at h''
+  have haH : a ∈ H := hH.1.1 (hxS ha)
+  have haK : a ∈ normalizer ((conjClosure V H : Subgroup G) : Set G) :=
+    le_normalizer_conjClosure V H haH
+  have haN : a ∈ normalizer ((pCoreOf 2 (conjClosure V H) : Subgroup G) : Set G) :=
+    CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 (conjClosure V H) haK
+  obtain ⟨α, hα⟩ := SevenK.IsBarMap.exists_mulAut hφ haK haN
+  have hα2 : α * α = 1 := by
+    refine MulEquiv.ext fun z => ?_
+    obtain ⟨k, rfl⟩ := hφ.surjective z
+    change α (α (φ k)) = φ k
+    let k' : ↥(conjClosure V H) :=
+      ⟨a * (k : G) * a⁻¹, (Subgroup.mem_normalizer_iff.1 haK (k : G)).1 k.2⟩
+    have hk' : (k' : G) = a * (k : G) * a⁻¹ := rfl
+    have hstep1 : α (φ k) = φ k' := hα k k' hk'
+    have hstep2 : α (φ k') = φ k := by
+      refine hα k' k ?_
+      rw [hk']
+      have hassoc : a * (a * (k : G) * a⁻¹) * a⁻¹
+          = (a * a) * (k : G) * (a⁻¹ * a⁻¹) := by group
+      rw [hassoc, haa]
+      have hinv : a⁻¹ * a⁻¹ = 1 := by rw [(mul_inv_rev a a).symm, haa, inv_one]
+      rw [hinv]
+      group
+    rw [hstep1, hstep2]
+  have hαfix : ∀ y ∈ SevenK.barSub (conjClosure V H) φ V, α y = y := by
+    intro y hy
+    obtain ⟨k, hkV, hky⟩ := SevenK.mem_barSub.mp hy
+    rw [← hky]
+    have hcomm := (Subgroup.mem_centralizer_iff.mp haV (k : G) hkV).symm
+    have hconj : a * (k : G) * a⁻¹ = (k : G) := by
+      rw [hcomm]
+      group
+    exact hα k k hconj.symm
+  have hY : IsElemAbelian 2 (SevenK.barSub (conjClosure V H) φ V) := by
+    have hsub : IsElemAbelian 2 (V.subgroupOf (conjClosure V H)) :=
+      hVea.subgroupOf (conjClosure V H)
+    have hmap : IsElemAbelian 2 ((V.subgroupOf (conjClosure V H)).map φ) :=
+      hsub.map φ
+    simpa [SevenK.barSub] using hmap
+  have hgen : normalClosure
+      ((SevenK.barSub (conjClosure V H) φ V : Subgroup X) : Set X) = ⊤ :=
+    IsMinFam16.normalClosure_barSub_eq_top h1 hS h hH hV hφ
+  obtain ⟨y, hy, hαy⟩ := Shape166.exists_eq_conj hY hgen hX hcase α hα2 hαfix
+  exact SevenK.IsBarMap.exists_comm_mem_of_eq_conj hφ haK hα hy hαy
+
+end CFSG.LocalAnalysis.WeakClosure81
+
+end

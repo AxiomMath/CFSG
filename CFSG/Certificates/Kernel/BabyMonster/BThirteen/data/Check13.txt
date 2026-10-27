@@ -1,0 +1,6 @@
+mul4 c_v79 v78 v75 = v79
+mul4 c_X v79 v79 = X
+mul4 c_v81 X X = v81
+mul4 c_v82 v81 v81 = v82
+mul4 c_v83 v82 v81 = v83
+mul4 c_S v83 v79 = S

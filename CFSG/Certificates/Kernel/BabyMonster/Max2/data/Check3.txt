@@ -1,0 +1,3 @@
+mul cr9 r8 r8 = r9
+mul cr10 CFSG.KC.BM.Seeds.A1 r9 = r10
+mul cr11 r10 r10 = r11

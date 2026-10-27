@@ -1,0 +1,20 @@
+module
+
+import CFSG.Certificates.Kernel.Common.Eval
+meta import CFSG.Certificates.Kernel.BabyMonster.Twin
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data2
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data3
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data4
+
+#kc_eval CFSG.KC.BM.Five f28 CFSG.KC.BM.Twin.prod 4370 2412240 3056966119720563218 f27 f24
+#kc_eval CFSG.KC.BM.Five f29 CFSG.KC.BM.Twin.prod 4370 2412240 778156768230628156 f28 f26
+#kc_eval CFSG.KC.BM.Five f30 CFSG.KC.BM.Twin.prod 4370 2412240 661648122437897429 f19 f29
+#kc_eval CFSG.KC.BM.Five f31 CFSG.KC.BM.Twin.prod 4370 2412240 3744437199675164480 f30 f29
+#kc_eval CFSG.KC.BM.Five f36 CFSG.KC.BM.Twin.prod 4370 2412240 9104914095617883411 f30 f30
+#kc_eval CFSG.KC.BM.Five f30_sq1 CFSG.KC.BM.Twin.prod 4370 2412240 9104914095617883411 f36
+#kc_eval CFSG.KC.BM.Five f32 CFSG.KC.BM.Twin.prod 4370 2412240 5861862075931290015 f31 f29
+#kc_eval CFSG.KC.BM.Five f34 CFSG.KC.BM.Twin.prod 4370 2412240 12637680768893308478 f31 f31 f31
+#kc_eval CFSG.KC.BM.Five f30_sq2 CFSG.KC.BM.Twin.prod 4370 2412240 505605771416271589 f30_sq1 f30_sq1
+#kc_eval CFSG.KC.BM.Five f33 CFSG.KC.BM.Twin.prod 4370 2412240 3049414236915854711 f32 f29
+#kc_eval CFSG.KC.BM.Five f35 CFSG.KC.BM.Twin.prod 4370 2412240 6557010403559155863 f32 f32
+#kc_eval CFSG.KC.BM.Five f40 CFSG.KC.BM.Twin.prod 4370 2412240 1934721283431167691 f30_sq1 f30_sq2

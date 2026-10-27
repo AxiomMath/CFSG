@@ -1,0 +1,5 @@
+mul4 c_AG CFSG.KC.BM.Seeds.A1 G = AG
+mul4 conjA G AP = AG
+mul4 c_BG CFSG.KC.BM.Seeds.A2 G = BG
+mul4 conjB G BP = BG
+mul4 conjI G Gi = I

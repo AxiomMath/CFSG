@@ -1,0 +1,9 @@
+N PR0 0
+N PR1 0
+N PR2 0
+N PR3 0
+N PR4 1
+L G0 [#0 #1 #2]
+N GK0 0
+N GK1 0
+N GK2 0

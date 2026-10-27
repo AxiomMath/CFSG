@@ -1,0 +1,10 @@
+module
+
+public import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent.Radical
+public import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent.Defs
+public import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent.Bijection
+public import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent.Dichotomy
+public import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent.Criteria
+public import CFSG.SignalizerFunctorTheorem.Nonsolvable.SolComponent.McBride
+
+public section

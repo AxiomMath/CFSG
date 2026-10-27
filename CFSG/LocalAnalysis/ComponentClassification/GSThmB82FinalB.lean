@@ -1,0 +1,4 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82Final
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CB10

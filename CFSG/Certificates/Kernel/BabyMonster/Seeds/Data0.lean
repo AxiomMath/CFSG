@@ -1,0 +1,19 @@
+module
+
+import CFSG.Certificates.Kernel.BabyMonster.Load
+import CFSG.Certificates.Kernel.Common.Eval
+meta import CFSG.Certificates.Kernel.BabyMonster.TwinDy
+meta import CFSG.Certificates.Kernel.BabyMonster.TwinRank
+
+#bm_text CFSG.KC.BM.Seeds A1txt "CFSG/Blueprint/Data/BG1-f2r4370B0.m1" 19337271 4333537835878423182
+#bm_text CFSG.KC.BM.Seeds A2txt "CFSG/Blueprint/Data/BG1-f2r4370B0.m2" 19337271 11518483335060253293
+#kc_eval CFSG.KC.BM.Seeds A1 CFSG.KC.BM.Twin.textRows 2412240 3956928588832316358 A1txt.text
+#kc_eval CFSG.KC.BM.Seeds A1 CFSG.KC.BM.Twin.stripsOf 4370 2412240 4333324652856099544 A1.rows
+#kc_eval CFSG.KC.BM.Seeds A2 CFSG.KC.BM.Twin.textRows 2412240 16399285775156891903 A2txt.text
+#kc_eval CFSG.KC.BM.Seeds A2 CFSG.KC.BM.Twin.stripsOf 4370 2412240 15190077537634421939 A2.rows
+#kc_eval CFSG.KC.BM.Seeds P1 CFSG.KC.BM.Twin.rank 4370 2412240 8767706004915527516 A1.rows 1 1
+#kc_eval CFSG.KC.BM.Seeds Q1 CFSG.KC.BM.Twin.polyMul 4370 2412240 13866328356953006599 P1 A1 1 1
+#kc_eval CFSG.KC.BM.Seeds P2 CFSG.KC.BM.Twin.rank 4370 2412240 3602348317253297723 A2.rows 1 1
+#kc_eval CFSG.KC.BM.Seeds Q2 CFSG.KC.BM.Twin.polyMul 4370 2412240 14674138081551798078 P2 A2 1 1
+#kc_eval CFSG.KC.BM.Seeds P3 CFSG.KC.BM.Twin.rank 4370 2412240 13155791444041082984 A2 1 1 1
+#kc_eval CFSG.KC.BM.Seeds Q3 CFSG.KC.BM.Twin.polyMul 4370 2412240 13284357000843991368 P3 A2 1 1 1

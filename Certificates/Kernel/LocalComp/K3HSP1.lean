@@ -1,0 +1,28 @@
+module
+
+public import Certificates.Kernel.LocalComp.K3HSData
+public import Certificates.Kernel.LocalComp.BlockGen
+import CFSG.Certificates.Kernel.Common.Harness
+
+public section
+
+set_option maxRecDepth 400000
+
+namespace CertificateChecks.KernelLC.K3.HS
+
+@[expose] noncomputable def fS1 (t : Nat) : Bool := fS (Nat.add 300 t)
+
+end CertificateChecks.KernelLC.K3.HS
+
+#lc_blocks CertificateChecks.KernelLC.K3.HS.BS1 CertificateChecks.KernelLC.K3.HS.fS1 300 5
+
+namespace CertificateChecks.KernelLC.K3.HS
+
+open CFSG.KC.Co3Bfs
+
+theorem cS1 : ∀ t < 300, fS (300 + t) = true :=
+  cover_of_blocks (B := 5) (nb := 60) (by omega) (by decide) BS1.all
+
+end CertificateChecks.KernelLC.K3.HS
+
+end

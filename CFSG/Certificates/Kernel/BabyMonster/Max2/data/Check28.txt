@@ -1,0 +1,4 @@
+mul cYz_sq1 Yz Yz = Yz_sq1
+mul cYz_sq2 Yz_sq1 Yz_sq1 = Yz_sq2
+mul oy_pow Yz_sq2 Yz = I
+bool oy_orb (CFSG.KC.BM.andB (CFSG.KC.BM.andB (CFSG.KC.BM.onlyRows Voy 5) (Nat.beq (CFSG.KC.BM.rowsBlk Voy 0 1) 1)) (CFSG.KC.BM.andB (Nat.beq (CFSG.KC.BM.rowsBlk Voy 1 4) (CFSG.KC.BM.rowsBlk (CFSG.KC.BM.mulS Yz Voy) 0 4)) (CFSG.KC.BM.allDistinct (CFSG.KC.BM.rowList [Voy] 5))))

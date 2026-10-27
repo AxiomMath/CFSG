@@ -1,0 +1,12 @@
+module
+
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModDefs
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModRefl
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModEps
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModComm
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModFree
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModOdd
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModSub
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModSylA
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModSylB
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9ModSyl

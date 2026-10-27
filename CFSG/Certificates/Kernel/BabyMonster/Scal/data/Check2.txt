@@ -1,0 +1,3 @@
+mul4 clts t CFSG.KC.BM.Five.f85 = lts
+mul4 ts CFSG.KC.BM.Five.f85 t CFSG.KC.BM.Five.W_sq3_sq2 CFSG.KC.BM.Five.Q2_sq2 CFSG.KC.BM.Five.Q3 CFSG.KC.BM.Five.Zp4 = lts
+wf lts

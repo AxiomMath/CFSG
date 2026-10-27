@@ -1,0 +1,3 @@
+mul4 c_BP v144 v144 = BP
+mul4 c_EQ E CFSG.KC.BM.Five.W_sq3 = EQ
+mul4 c_EU E U = EU

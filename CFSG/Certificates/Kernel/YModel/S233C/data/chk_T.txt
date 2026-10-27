@@ -1,0 +1,8 @@
+T t0_0 (CFSG.KC.YModel.transOK #c #8 U TT0 #0 #8 #d #0 #40)
+T t0_1 (CFSG.KC.YModel.transOK #c #8 U TT0 #0 #8 #d #40 #3e)
+T t1_0 (CFSG.KC.YModel.transOK #c #8 U TT1 #1 #d #13 #0 #40)
+T t2_0 (CFSG.KC.YModel.transOK #c #8 U TT2 #2 #13 #1a #0 #1e)
+T t3_0 (CFSG.KC.YModel.transOK #c #8 U TT3 #3 #1a #21 #0 #c)
+T t4_0 (CFSG.KC.YModel.transOK #c #8 U TT4 #5 #21 #28 #0 #8)
+T t5_0 (CFSG.KC.YModel.transOK #c #8 U TT5 #9 #28 #2c #0 #2)
+T t6_0 (CFSG.KC.YModel.transOK #c #8 U TT6 #c #2c #2f #0 #2)

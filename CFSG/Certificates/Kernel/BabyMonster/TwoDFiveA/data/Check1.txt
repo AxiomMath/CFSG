@@ -1,0 +1,6 @@
+mul4 c_g2 g g = g2
+mul4 c_g3 g2 g = g3
+mul4 c_y g3 g3 = y
+mul4 c_g12 y y = g12
+mul4 c_t g12 g3 = t
+mul4 tsq t t = I

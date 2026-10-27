@@ -1,0 +1,2299 @@
+module
+
+public import CFSG.RankThree.PartTwo.Sec16.Item166Res3ProofEmpty
+import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Proposition84Residual
+import CFSG.RankThree.PartTwo.Sec16.Item167EmptyFacts
+import CFSG.RankThree.PartTwo.Sec16.Item167EmptyInner
+import CFSG.RankThree.PartTwo.Sec16.Item167O2LocLift
+public import CFSG.RankThree.PartTwo.KFacts.KS167D4
+public import Certificates.Certificate1
+public import Certificates.Certificate2
+public import Certificates.Certificate3
+public import Certificates.Certificate4
+public import Certificates.Certificate5
+public import Certificates.Certificate6
+public import Certificates.Certificate7
+public import Certificates.Certificate8
+public import Certificates.Certificate9
+public import Certificates.Certificate10
+public import Certificates.Certificate11
+public import Certificates.Certificate12
+public import Certificates.Certificate13
+public import Certificates.Certificate14
+public import Certificates.Certificate15
+public import Certificates.Certificate16
+public import Certificates.Certificate17
+public import Certificates.Certificate18
+public import Certificates.Certificate19
+public import Certificates.Certificate20
+public import Certificates.Certificate21
+public import Certificates.Certificate22
+public import Certificates.Certificate23
+public import Certificates.Certificate24
+public import Certificates.Certificate25
+public import Certificates.Certificate26
+public import Certificates.Certificate27
+public import Certificates.Certificate28
+public import Certificates.Certificate29
+public import Certificates.Certificate30
+public import Certificates.Certificate31
+public import Certificates.Certificate32
+public import Certificates.Certificate33
+public import Certificates.Certificate34
+public import Certificates.Certificate35
+public import Certificates.Certificate36
+public import Certificates.Certificate37
+public import Certificates.Certificate38
+public import Certificates.Certificate39
+public import Certificates.Certificate40
+public import Certificates.Certificate41
+public import Certificates.Certificate42
+public import Certificates.Certificate43
+public import Certificates.Certificate44
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate76
+public import Certificates.Certificate77
+public import Certificates.Certificate78
+public import Certificates.Certificate79
+public import Certificates.Certificate80
+public import Certificates.Certificate81
+public import Certificates.Certificate82
+public import Certificates.Certificate83
+public import Certificates.Certificate84
+public import Certificates.Certificate85
+public import Certificates.Certificate86
+public import Certificates.Certificate87
+public import Certificates.Certificate88
+public import Certificates.Certificate89
+public import Certificates.Certificate90
+public import Certificates.Certificate91
+public import Certificates.Certificate92
+public import Certificates.Certificate93
+public import Certificates.Certificate94
+public import Certificates.Certificate95
+public import Certificates.Certificate96
+public import Certificates.Certificate97
+public import Certificates.Certificate98
+public import Certificates.Certificate99
+public import Certificates.Certificate100
+public import Certificates.Certificate101
+public import Certificates.Certificate102
+public import Certificates.Certificate103
+public import Certificates.Certificate104
+public import Certificates.Certificate105
+public import Certificates.Certificate106
+public import Certificates.Certificate107
+public import Certificates.Certificate108
+public import Certificates.Certificate109
+public import Certificates.Certificate110
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate115
+public import Certificates.Certificate116
+public import Certificates.Certificate117
+public import Certificates.Certificate118
+public import Certificates.Certificate119
+public import Certificates.Certificate120
+public import Certificates.Certificate121
+public import Certificates.Certificate122
+public import Certificates.Certificate123
+public import Certificates.Certificate1000
+public import Certificates.Certificate1001
+public import Certificates.Certificate1002
+public import Certificates.Certificate1003
+public import Certificates.Certificate1004
+public import Certificates.Certificate1005
+public import Certificates.Certificate1006
+public import Certificates.Certificate1007
+public import Certificates.Certificate1008
+public import Certificates.Certificate1009
+public import Certificates.Certificate1010
+public import Certificates.Certificate1011
+public import Certificates.Certificate1012
+public import Certificates.Certificate1013
+public import Certificates.Certificate1014
+public import Certificates.Certificate1015
+public import Certificates.Certificate1016
+public import Certificates.Certificate1017
+public import Certificates.Certificate1018
+public import Certificates.Certificate1019
+public import Certificates.Certificate1020
+public import Certificates.Certificate1021
+public import Certificates.Certificate1022
+public import Certificates.Certificate1952
+public import Certificates.Certificate1953
+public import Certificates.Certificate1954
+public import Certificates.Certificate2012
+public import Certificates.Certificate2022
+public import Certificates.Certificate2043
+public import Certificates.Certificate2049
+public import Certificates.Certificate2050
+public import Certificates.Certificate2051
+public import Certificates.Certificate2053
+public import Certificates.Certificate2054
+public import Certificates.Certificate2055
+public import Certificates.Certificate2056
+public import Certificates.Certificate2057
+public import Certificates.Certificate2058
+public import Certificates.Certificate2059
+public import Certificates.Certificate2060
+public import Certificates.Certificate2061
+public import Certificates.Certificate2062
+public import Certificates.Certificate2065
+public import Certificates.Certificate2066
+public import Certificates.Certificate2067
+public import Certificates.Certificate2068
+public import Certificates.Certificate2069
+public import Certificates.Certificate2070
+public import Certificates.Certificate2071
+public import Certificates.Certificate2072
+public import Certificates.Certificate2073
+public import Certificates.Certificate2075
+public import Certificates.Certificate2078
+public import Certificates.Certificate2081
+public import Certificates.Certificate2083
+public import Certificates.Certificate2084
+public import Certificates.Certificate2085
+public import Certificates.Certificate2086
+public import Certificates.Certificate2087
+public import Certificates.Certificate2088
+public import Certificates.Certificate2089
+public import Certificates.Certificate2090
+public import Certificates.Certificate2091
+public import Certificates.Certificate2093
+public import Certificates.Certificate2094
+public import Certificates.Certificate2096
+public import Certificates.Certificate2097
+public import Certificates.Certificate2098
+public import Certificates.Certificate2099
+public import Certificates.Certificate2100
+public import Certificates.Certificate2102
+public import Certificates.Certificate2103
+public import Certificates.Certificate2104
+public import Certificates.Certificate2105
+public import Certificates.Certificate2107
+public import Certificates.Certificate2108
+public import Certificates.Certificate2109
+public import Certificates.Certificate2110
+public import Certificates.Certificate2111
+public import Certificates.Certificate2112
+public import Certificates.Certificate2114
+public import Certificates.Certificate2115
+public import Certificates.Certificate2116
+public import Certificates.Certificate2117
+public import Certificates.Certificate2118
+public import Certificates.Certificate2119
+public import Certificates.Certificate2120
+public import Certificates.Certificate2121
+public import Certificates.Certificate2122
+public import Certificates.Certificate2123
+public import Certificates.Certificate2125
+public import Certificates.Certificate2127
+public import Certificates.Certificate2129
+public import Certificates.Certificate2130
+public import Certificates.Certificate2133
+public import Certificates.Certificate2135
+public import Certificates.Certificate2136
+public import Certificates.Certificate2139
+public import Certificates.Certificate2140
+public import Certificates.Certificate2142
+public import Certificates.Certificate2143
+public import Certificates.Certificate2145
+public import Certificates.Certificate2146
+public import Certificates.Certificate2147
+public import Certificates.Certificate2148
+public import Certificates.Certificate2150
+public import Certificates.Certificate2151
+public import Certificates.Certificate2152
+public import Certificates.Certificate2153
+public import Certificates.Certificate2154
+public import Certificates.Certificate2155
+public import Certificates.Certificate2156
+public import Certificates.Certificate2157
+public import Certificates.Certificate2158
+public import Certificates.Certificate2159
+public import Certificates.Certificate2160
+public import Certificates.Certificate2161
+public import Certificates.Certificate2162
+public import Certificates.Certificate2163
+public import Certificates.Certificate2164
+public import Certificates.Certificate2165
+public import Certificates.Certificate2166
+public import Certificates.Certificate2167
+public import Certificates.Certificate2168
+public import Certificates.Certificate2170
+public import Certificates.Certificate2171
+public import Certificates.Certificate2172
+public import Certificates.Certificate2173
+public import Certificates.Certificate2174
+public import Certificates.Certificate2176
+public import Certificates.Certificate2177
+public import Certificates.Certificate2178
+public import Certificates.Certificate2179
+public import Certificates.Certificate2180
+public import Certificates.Certificate2181
+public import Certificates.Certificate2182
+public import Certificates.Certificate2183
+public import Certificates.Certificate2184
+public import Certificates.Certificate2185
+public import Certificates.Certificate2187
+public import CFSG.Sporadic.Schreier.LyCheckSep
+public import CFSG.Sporadic.Ly.KeySpec
+public import CFSG.Sporadic.He.FpSpec
+import Certificates.Kernel.SporSch.Ly.SepGlue
+public import Certificates.Certificate2189
+public import Certificates.Certificate2190
+public import Certificates.Certificate2191
+public import Certificates.Certificate2192
+public import Certificates.Certificate2193
+public import Certificates.Certificate2194
+public import Certificates.Certificate2195
+public import Certificates.Certificate2196
+public import Certificates.Certificate2197
+public import Certificates.Certificate2198
+public import Certificates.Certificate2199
+public import Certificates.Certificate2200
+public import Certificates.Certificate2201
+public import Certificates.Certificate2202
+public import Certificates.Certificate2203
+public import Certificates.Certificate2204
+public import Certificates.Certificate2205
+public import Certificates.Certificate2207
+public import Certificates.Certificate2211
+public import Certificates.Certificate2212
+public import Certificates.Certificate2213
+public import Certificates.Certificate2214
+public import Certificates.Certificate2215
+public import Certificates.Certificate2216
+public import Certificates.Certificate2217
+public import Certificates.Certificate2218
+public import Certificates.Certificate2219
+public import Certificates.Certificate2220
+public import Certificates.Certificate2221
+public import Certificates.Certificate2222
+public import Certificates.Certificate2223
+public import Certificates.Certificate2224
+public import Certificates.Certificate2225
+public import Certificates.Certificate2233
+public import Certificates.Certificate2234
+public import Certificates.Certificate2235
+public import Certificates.Certificate2236
+public import Certificates.Certificate2237
+public import Certificates.Certificate2238
+public import Certificates.Certificate2239
+public import Certificates.Certificate2240
+public import Certificates.Certificate2241
+public import Certificates.Certificate2242
+public import Certificates.Certificate2243
+public import Certificates.Certificate2244
+public import Certificates.Certificate2245
+public import Certificates.Certificate2246
+public import Certificates.Certificate2247
+public import Certificates.Certificate2248
+public import Certificates.Certificate2249
+public import Certificates.Certificate2250
+public import Certificates.Certificate2251
+public import Certificates.Certificate2252
+public import Certificates.Certificate2253
+public import Certificates.Certificate2254
+public import Certificates.Certificate2255
+public import Certificates.Certificate2256
+public import Certificates.Certificate2257
+public import Certificates.Certificate2258
+public import Certificates.Certificate2259
+public import Certificates.Certificate2260
+public import Certificates.Certificate2261
+public import Certificates.Certificate2262
+public import Certificates.Certificate2263
+public import Certificates.Certificate2264
+public import Certificates.Certificate2265
+public import Certificates.Certificate2266
+public import Certificates.Certificate2267
+public import Certificates.Certificate2268
+public import Certificates.Certificate2269
+public import Certificates.Certificate2270
+public import Certificates.Certificate2271
+public import Certificates.Certificate2272
+public import Certificates.Certificate2274
+public import Certificates.Certificate2278
+public import Certificates.Certificate2281
+public import Certificates.Certificate2283
+public import Certificates.Certificate2284
+public import Certificates.Certificate2285
+public import Certificates.Certificate2288
+public import Certificates.Certificate2289
+public import Certificates.Certificate2292
+public import Certificates.Certificate2293
+public import Certificates.Certificate2294
+public import Certificates.Certificate2295
+public import Certificates.Certificate2296
+public import Certificates.Certificate2297
+public import Certificates.Certificate2298
+public import Certificates.Certificate2299
+public import Certificates.Certificate2300
+public import Certificates.Certificate2301
+public import Certificates.Certificate2302
+public import Certificates.Certificate2303
+public import Certificates.Certificate2304
+public import Certificates.Certificate2305
+public import Certificates.Certificate2306
+public import Certificates.Certificate2307
+public import Certificates.Certificate2308
+public import Certificates.Certificate2309
+public import Certificates.Certificate2311
+public import Certificates.Certificate2313
+public import Certificates.Certificate2314
+public import Certificates.Certificate2315
+public import Certificates.Certificate2317
+public import Certificates.Certificate2321
+public import Certificates.Certificate2322
+public import Certificates.Certificate2323
+public import Certificates.Certificate2324
+public import Certificates.Certificate2325
+public import Certificates.Certificate2326
+public import Certificates.Certificate2333
+public import Certificates.Certificate2334
+public import Certificates.Certificate2335
+public import Certificates.Certificate3006
+public import Certificates.Certificate3007
+public import Certificates.Certificate3008
+public import Certificates.Certificate3009
+public import Certificates.Certificate3011
+public import Certificates.Certificate3012
+public import Certificates.Certificate3013
+public import Certificates.Certificate3014
+public import Certificates.Certificate3015
+public import Certificates.Certificate3016
+public import Certificates.Certificate3017
+public import Certificates.Certificate3018
+public import Certificates.Certificate3019
+public import Certificates.Certificate3020
+public import Certificates.Certificate3021
+public import Certificates.Certificate3022
+public import Certificates.Certificate3023
+public import Certificates.Certificate3024
+public import Certificates.Certificate3025
+public import Certificates.Certificate3026
+public import Certificates.Certificate3027
+public import Certificates.Certificate3028
+public import Certificates.Certificate3029
+public import Certificates.Certificate3030
+public import Certificates.Certificate3031
+public import Certificates.Certificate3032
+public import Certificates.Certificate3033
+public import Certificates.Certificate3034
+public import Certificates.Certificate3035
+public import Certificates.Certificate3036
+public import Certificates.Certificate3037
+public import Certificates.Certificate3038
+public import Certificates.Certificate3039
+public import Certificates.Certificate3040
+public import Certificates.Certificate3041
+public import Certificates.Certificate3042
+public import Certificates.Certificate3043
+public import Certificates.Certificate3044
+public import Certificates.Certificate3045
+public import Certificates.Certificate3046
+public import Certificates.Certificate3048
+public import Certificates.Certificate3049
+public import Certificates.Certificate3050
+public import Certificates.Certificate3051
+public import Certificates.Certificate3053
+public import Certificates.Certificate3054
+public import Certificates.Certificate3055
+public import Certificates.Certificate3056
+public import Certificates.Certificate3057
+public import Certificates.Certificate3058
+public import Certificates.Certificate3059
+public import Certificates.Certificate3060
+public import Certificates.Certificate3061
+public import Certificates.Certificate3062
+public import Certificates.Certificate3063
+public import Certificates.Certificate3065
+public import Certificates.Certificate3066
+public import Certificates.Certificate3067
+public import Certificates.Certificate3068
+public import Certificates.Certificate3069
+public import Certificates.Certificate3072
+public import Certificates.Certificate3073
+public import Certificates.Certificate3074
+public import Certificates.Certificate3075
+public import Certificates.Certificate3076
+public import Certificates.Certificate3077
+public import Certificates.Certificate3078
+public import Certificates.Certificate3079
+public import Certificates.Certificate3080
+public import Certificates.Certificate3081
+public import Certificates.Certificate3082
+public import Certificates.Certificate3083
+public import Certificates.Certificate3084
+public import Certificates.Certificate3085
+public import Certificates.Certificate3086
+public import Certificates.Certificate3088
+public import Certificates.Certificate3091
+public import Certificates.Certificate3098
+public import Certificates.Certificate3099
+public import Certificates.Certificate3100
+public import Certificates.Certificate3101
+public import Certificates.Certificate3102
+public import Certificates.Certificate3103
+public import Certificates.Certificate3106
+public import Certificates.Certificate3107
+public import Certificates.Certificate3108
+public import Certificates.Certificate3109
+public import Certificates.Certificate3110
+public import Certificates.Certificate3111
+public import Certificates.Certificate3114
+public import Certificates.Certificate3115
+public import Certificates.Certificate3116
+public import Certificates.Certificate3117
+public import Certificates.Certificate3118
+public import Certificates.Certificate3119
+public import Certificates.Certificate3120
+public import Certificates.Certificate3121
+public import Certificates.Certificate3122
+public import Certificates.Certificate3123
+public import Certificates.Certificate3124
+public import Certificates.Certificate3125
+public import Certificates.Certificate3126
+public import Certificates.Certificate3127
+public import Certificates.Certificate3130
+public import Certificates.Certificate3131
+public import Certificates.Certificate3132
+public import Certificates.Certificate3133
+public import Certificates.Certificate3134
+public import Certificates.Certificate3135
+public import Certificates.Certificate3136
+public import Certificates.Certificate3137
+public import Certificates.Certificate3138
+public import Certificates.Certificate3139
+public import Certificates.Certificate3147
+public import Certificates.Certificate3148
+public import Certificates.Certificate3150
+public import Certificates.Certificate3151
+public import Certificates.Certificate3152
+public import Certificates.Certificate3153
+public import Certificates.Certificate3154
+public import Certificates.Certificate3157
+public import Certificates.Certificate3158
+public import Certificates.Certificate3159
+public import Certificates.Certificate3164
+public import Certificates.Certificate3166
+public import Certificates.Certificate3167
+public import Certificates.Certificate3168
+public import Certificates.Certificate3169
+public import Certificates.Certificate3170
+public import Certificates.Certificate3171
+public import Certificates.Certificate3172
+public import Certificates.Certificate3173
+public import Certificates.Certificate3175
+public import Certificates.Certificate3176
+public import Certificates.Certificate3178
+public import Certificates.Certificate3179
+public import Certificates.Certificate3951
+public import Certificates.Certificate3952
+public import Certificates.Certificate4003
+public import Certificates.Certificate4008
+public import Certificates.Certificate4016
+public import Certificates.Certificate4017
+public import Certificates.Certificate4042
+public import Certificates.Certificate4092
+public import Certificates.Certificate4103
+public import Certificates.Certificate4200
+public import Certificates.Certificate4201
+public import Certificates.Certificate4202
+public import Certificates.Certificate5113
+public import Certificates.Certificate5118
+public import Certificates.Certificate5125
+public import Certificates.Certificate5126
+public import Certificates.Certificate5220
+public import Certificates.Certificate6001
+public import Certificates.Certificate6002
+public import Certificates.Certificate6003
+public import Certificates.Certificate6004
+public import Certificates.Certificate6005
+public import Certificates.Certificate6006
+public import Certificates.Certificate6007
+public import Certificates.Certificate6009
+public import Certificates.Certificate6010
+public import Certificates.Certificate6011
+public import Certificates.Certificate6012
+public import Certificates.Certificate6013
+public import Certificates.Certificate6014
+public import Certificates.Certificate6015
+public import Certificates.Certificate6016
+public import Certificates.Certificate6017
+public import Certificates.Certificate6018
+public import Certificates.Certificate6020
+public import Certificates.Certificate6021
+public import Certificates.Certificate6022
+public import Certificates.Certificate6023
+public import Certificates.Certificate6024
+public import Certificates.Certificate6025
+public import Certificates.Certificate6026
+public import Certificates.Certificate6027
+public import Certificates.Certificate6028
+public import Certificates.Certificate6029
+public import Certificates.Certificate6030
+public import Certificates.Certificate6031
+public import Certificates.Certificate6032
+public import Certificates.Certificate6033
+public import CFSG.Monster.Existence.StdOdd.Defs
+public import Certificates.Data.CFSGNative.Chevalley.C2E6CertLie
+public import CFSG.LieType.Chevalley.C2E6StdMatrixData
+public import CFSG.Monster.B.Classical.E6AdjointGroup
+import Certificates.Kernel.Misc.E6StdSlp
+public import Certificates.Certificate6036
+public import Certificates.Certificate6037
+public import Certificates.Certificate6038
+public import Certificates.Certificate6039
+public import Certificates.Certificate6040
+public import Certificates.Certificate6041
+public import Certificates.Certificate6042
+public import Certificates.Certificate6043
+public import Certificates.Certificate6044
+public import Certificates.Certificate6045
+public import Certificates.Certificate6046
+public import Certificates.Certificate6047
+public import Certificates.Certificate6048
+public import Certificates.Certificate6049
+public import Certificates.Certificate6050
+public import Certificates.Certificate6051
+public import Certificates.Certificate6052
+public import Certificates.Certificate6053
+public import Certificates.Certificate6054
+public import Certificates.Certificate6055
+public import Certificates.Certificate6056
+public import Certificates.Certificate6057
+public import Certificates.Certificate6058
+public import Certificates.Certificate6059
+public import Certificates.Certificate6060
+public import Certificates.Certificate6061
+public import Certificates.Certificate6062
+public import Certificates.Certificate6063
+public import Certificates.Certificate6064
+public import Certificates.Certificate6065
+public import Certificates.Certificate6066
+public import Certificates.Certificate6067
+public import Certificates.Certificate6068
+public import Certificates.Certificate6069
+public import Certificates.Certificate6070
+public import Certificates.Certificate6071
+public import Certificates.Certificate6072
+public import Certificates.Certificate6073
+public import Certificates.Certificate6074
+public import Certificates.Certificate6075
+public import Certificates.Certificate6076
+public import Certificates.Certificate6077
+public import Certificates.Certificate6078
+public import Certificates.Certificate6079
+public import Certificates.Certificate6080
+public import Certificates.Certificate6081
+public import Certificates.Certificate6082
+public import Certificates.Certificate6083
+public import Certificates.Certificate6084
+public import Certificates.Certificate6085
+public import Certificates.Certificate6086
+public import Certificates.Certificate6087
+public import Certificates.Certificate6088
+public import Certificates.Certificate6089
+public import Certificates.Certificate6090
+public import Certificates.Certificate6091
+public import Certificates.Certificate6092
+public import Certificates.Certificate6094
+public import Certificates.Certificate6095
+public import Certificates.Certificate6096
+public import Certificates.Certificate6103
+public import Certificates.Certificate6104
+public import Certificates.Certificate6105
+public import Certificates.Certificate6106
+public import Certificates.Certificate6108
+public import Certificates.Certificate6109
+public import Certificates.Certificate6950
+public import Certificates.Certificate7000
+public import Certificates.Certificate7001
+public import Certificates.Certificate7002
+public import Certificates.Certificate7003
+public import Certificates.Certificate7004
+public import Certificates.Certificate7005
+public import Certificates.Certificate7006
+public import Certificates.Certificate7007
+public import Certificates.Certificate7008
+public import Certificates.Certificate7009
+public import Certificates.Certificate7010
+public import Certificates.Certificate7011
+public import Certificates.Certificate8001
+public import Certificates.Certificate8002
+public import Certificates.Certificate8003
+public import Certificates.Certificate8004
+public import Certificates.Certificate8006
+public import Certificates.Certificate8010
+public import Certificates.Certificate8011
+public import Certificates.Certificate8012
+public import Certificates.Certificate8013
+public import Certificates.Certificate8014
+public import Certificates.Certificate8015
+public import Certificates.Certificate8016
+public import Certificates.Certificate8017
+public import Certificates.Certificate8018
+public import Certificates.Certificate8019
+public import Certificates.Certificate8020
+public import Certificates.Certificate8022
+public import Certificates.Certificate8024
+public import Certificates.Certificate8025
+public import Certificates.Certificate8026
+public import Certificates.Certificate8027
+public import Certificates.Certificate8028
+public import Certificates.Certificate8029
+public import Certificates.Certificate8030
+public import Certificates.Certificate8031
+public import Certificates.Certificate8032
+public import Certificates.Certificate8033
+public import Certificates.Certificate8046
+public import Certificates.Certificate8048
+public import Certificates.Certificate8049
+public import Certificates.Certificate8050
+public import Certificates.Certificate8051
+public import Certificates.Certificate8052
+public import Certificates.Certificate8057
+public import Certificates.Certificate8058
+public import Certificates.Certificate8064
+public import Certificates.Certificate8093
+public import Certificates.Certificate8094
+public import Certificates.Certificate8095
+public import Certificates.Certificate8097
+public import Certificates.Certificate8098
+public import Certificates.Certificate8117
+public import Certificates.Certificate8120
+public import Certificates.Certificate8121
+public import Certificates.Certificate8122
+public import Certificates.Certificate8124
+public import Certificates.Certificate8126
+public import Certificates.Certificate8127
+public import Certificates.Certificate8128
+public import Certificates.Certificate8129
+public import Certificates.Certificate8130
+public import Certificates.Certificate8131
+public import Certificates.Certificate8133
+public import Certificates.Certificate8134
+public import Certificates.Certificate8135
+public import Certificates.Certificate8139
+public import Certificates.Certificate8147
+public import Certificates.Certificate8150
+public import Certificates.Certificate8153
+public import Certificates.Certificate8154
+public import Certificates.Certificate8156
+public import Certificates.Certificate8157
+public import Certificates.Certificate8168
+public import Certificates.Certificate8169
+public import Certificates.Certificate8171
+public import Certificates.Certificate8174
+public import Certificates.Certificate8954
+public import Certificates.Certificate8955
+public import Certificates.Certificate9013
+public import Certificates.Certificate9014
+public import Certificates.Certificate9100
+public import Certificates.Certificate9101
+public import Certificates.Certificate9102
+public import Certificates.Certificate9103
+public import Certificates.Certificate9104
+public import Certificates.Certificate9105
+public import Certificates.Certificate9107
+public import Certificates.Certificate9108
+public import Certificates.Certificate9109
+public import Certificates.Certificate9110
+public import Certificates.Certificate9111
+public import Certificates.Certificate9113
+public import Certificates.Certificate9114
+public import Certificates.Certificate9116
+public import Certificates.Certificate9118
+public import Certificates.Certificate9119
+public import Certificates.Certificate9120
+public import Certificates.Certificate9121
+public import Certificates.Certificate9123
+public import Certificates.Certificate9124
+public import Certificates.Certificate9125
+public import Certificates.Certificate9126
+public import Certificates.Certificate9127
+public import Certificates.Certificate9129
+public import Certificates.Certificate9130
+public import Certificates.Certificate9131
+public import Certificates.Certificate9201
+public import Certificates.Certificate9202
+public import Certificates.Certificate9203
+public import Certificates.Certificate9204
+public import Certificates.Certificate9205
+public import Certificates.Certificate9206
+public import Certificates.Certificate9207
+public import Certificates.Certificate9208
+public import Certificates.Certificate9209
+public import Certificates.Certificate9210
+public import Certificates.Certificate9211
+public import Certificates.Certificate9212
+public import Certificates.Certificate9213
+public import Certificates.Certificate9214
+public import Certificates.Certificate9215
+public import Certificates.Certificate9216
+public import Certificates.Certificate9217
+public import Certificates.Certificate9218
+public import Certificates.Certificate9219
+public import Certificates.Certificate9220
+public import Certificates.Certificate9250
+public import Certificates.Certificate9251
+public import Certificates.Certificate9252
+public import Certificates.Certificate9253
+public import Certificates.Certificate9254
+public import Certificates.Certificate9255
+public import Certificates.Certificate9256
+public import Certificates.Certificate9257
+public import Certificates.Certificate9258
+public import Certificates.Certificate9259
+public import Certificates.Certificate9260
+public import Certificates.Certificate9261
+public import Certificates.Certificate9262
+public import Certificates.Certificate9263
+public import Certificates.Certificate9264
+public import Certificates.Certificate9265
+public import Certificates.Certificate9266
+public import Certificates.Certificate9267
+public import Certificates.Certificate9353
+public import Certificates.Certificate9355
+public import Certificates.Certificate9356
+public import Certificates.Certificate9357
+public import Certificates.Certificate9435
+public import Certificates.Certificate9458
+public import Certificates.Certificate9465
+public import Certificates.Certificate9466
+public import Certificates.Certificate9590
+public import Certificates.Certificate9702
+public import Certificates.Certificate9950
+public import Certificates.Certificate10004
+public import Certificates.Certificate10005
+public import Certificates.Certificate10006
+public import Certificates.Certificate10007
+public import Certificates.Certificate10008
+public import Certificates.Certificate10009
+public import Certificates.Certificate10010
+public import Certificates.Certificate10011
+public import Certificates.Certificate10012
+public import Certificates.Certificate10013
+public import Certificates.Certificate10014
+public import Certificates.Certificate10015
+public import Certificates.Certificate10016
+public import Certificates.Certificate10017
+public import Certificates.Certificate10018
+public import Certificates.Certificate10019
+public import Certificates.Certificate10027
+public import Certificates.Certificate10029
+public import Certificates.Certificate10030
+public import Certificates.Certificate10032
+public import Certificates.Certificate10033
+public import Certificates.Certificate10034
+public import Certificates.Certificate10035
+public import Certificates.Certificate10037
+public import Certificates.Certificate10038
+public import Certificates.Certificate10039
+public import Certificates.Certificate10040
+public import Certificates.Certificate10042
+public import Certificates.Certificate10043
+public import Certificates.Certificate10044
+public import Certificates.Certificate10045
+public import Certificates.Certificate10046
+public import Certificates.Certificate10047
+public import Certificates.Certificate10048
+public import Certificates.Certificate10049
+public import Certificates.Certificate10050
+public import Certificates.Certificate10051
+public import Certificates.Certificate10052
+public import Certificates.Certificate10053
+public import Certificates.Certificate10054
+public import Certificates.Certificate10055
+public import Certificates.Certificate10056
+public import Certificates.Certificate10057
+public import Certificates.Certificate10067
+public import Certificates.Certificate10068
+public import Certificates.Certificate10069
+public import Certificates.Certificate10070
+public import Certificates.Certificate10071
+public import Certificates.Certificate10072
+public import Certificates.Certificate10073
+public import Certificates.Certificate10074
+public import Certificates.Certificate10075
+public import Certificates.Certificate10076
+public import Certificates.Certificate10077
+public import Certificates.Certificate10078
+public import Certificates.Certificate10087
+public import Certificates.Certificate10088
+public import Certificates.Certificate10089
+public import Certificates.Certificate10090
+public import Certificates.Certificate10091
+public import Certificates.Certificate10092
+public import Certificates.Certificate10093
+public import Certificates.Certificate10095
+public import Certificates.Certificate10098
+public import Certificates.Certificate10100
+public import Certificates.Certificate10101
+public import Certificates.Certificate10102
+public import Certificates.Certificate10103
+public import Certificates.Certificate10104
+public import Certificates.Certificate10107
+public import Certificates.Certificate10108
+public import Certificates.Certificate10110
+public import Certificates.Certificate10111
+public import Certificates.Certificate10112
+public import CFSG.YGroups.Y443.Native.CoverFactsWords
+import Certificates.Kernel.KDense.Y443
+public import Certificates.Certificate10115
+public import Certificates.Certificate10116
+public import Certificates.Certificate10117
+public import Certificates.Certificate10118
+public import Certificates.Certificate10119
+public import Certificates.Certificate10120
+public import Certificates.Certificate10121
+public import Certificates.Certificate10122
+public import Certificates.Certificate10123
+public import Certificates.Certificate10124
+public import CFSG.YGroups.Y443.Native.Swap13Word
+public import Certificates.Certificate10127
+public import Certificates.Certificate12041
+public import Certificates.Certificate12042
+public import Certificates.Certificate12043
+public import Certificates.Certificate12044
+public import Certificates.Certificate12045
+public import Certificates.Certificate12046
+public import Certificates.Certificate12601
+public import Certificates.Certificate12602
+public import Certificates.Certificate12603
+public import Certificates.Certificate12605
+public import Certificates.Certificate12608
+public import Certificates.Certificate12610
+public import Certificates.Certificate12611
+public import Certificates.Certificate12613
+public import Certificates.Certificate12618
+public import Certificates.Certificate12619
+public import Certificates.Certificate12620
+public import Certificates.Certificate12631
+public import Certificates.Certificate12634
+public import Certificates.Certificate13505
+public import Certificates.Certificate13511
+public import Certificates.Certificate13512
+public import Certificates.Certificate13513
+public import Certificates.Certificate13514
+public import Certificates.Certificate13515
+public import Certificates.Certificate13602
+public import Certificates.Certificate13606
+public import Certificates.Certificate13607
+public import Certificates.Certificate13608
+public import Certificates.Certificate13609
+public import Certificates.Certificate13610
+public import Certificates.Certificate13611
+public import Certificates.Certificate13612
+public import Certificates.Certificate13613
+public import Certificates.Certificate13620
+public import Certificates.Certificate13621
+public import Certificates.Certificate13622
+public import Certificates.Certificate13623
+public import Certificates.Certificate13624
+public import Certificates.Certificate13625
+public import Certificates.Certificate13626
+public import Certificates.Certificate13627
+public import Certificates.Certificate13635
+public import Certificates.Certificate13636
+public import Certificates.Certificate13637
+public import Certificates.Certificate13638
+public import Certificates.Certificate13639
+public import Certificates.Certificate13650
+public import Certificates.Certificate13651
+public import Certificates.Certificate13652
+public import Certificates.Certificate13654
+public import Certificates.Certificate13659
+public import Certificates.Certificate13660
+public import Certificates.Certificate13665
+public import Certificates.Certificate13670
+public import Certificates.Certificate13671
+public import Certificates.Certificate13680
+public import Certificates.Certificate13690
+public import Certificates.Certificate13693
+public import Certificates.Certificate13694
+public import Certificates.Certificate13695
+public import Certificates.Certificate13696
+public import Certificates.Certificate13697
+public import Certificates.Certificate13698
+public import Certificates.Certificate13699
+public import Certificates.Certificate13950
+public import Certificates.Certificate14963
+public import Certificates.Certificate14964
+public import Certificates.Certificate14965
+public import CFSG.Sporadic.Ly.FiveFacts
+import CFSG.Sporadic.Ly.Certificate
+public import Certificates.Certificate14967
+public import Certificates.Certificate14968
+public import Certificates.Certificate14969
+public import Certificates.Certificate14970
+public import Certificates.Certificate14980
+public import Certificates.Certificate14985
+public import Certificates.Certificate14986
+public import Certificates.Certificate14987
+public import Certificates.Certificate14990
+public import Certificates.Certificate14991
+public import Certificates.Certificate14992
+public import Certificates.Certificate14993
+public import Certificates.Certificate14994
+public import Certificates.Certificate14995
+public import Certificates.Certificate14996
+public import Certificates.Certificate15042
+public import Certificates.Certificate15043
+public import Certificates.Certificate15954
+public import Certificates.Certificate16001
+public import Certificates.Certificate16003
+public import Certificates.Certificate16004
+public import Certificates.Certificate16005
+public import Certificates.Certificate16006
+public import Certificates.Certificate16007
+public import Certificates.Certificate16009
+public import Certificates.Certificate16010
+public import Certificates.Certificate16012
+public import Certificates.Certificate16013
+public import Certificates.Certificate16015
+public import Certificates.Certificate16016
+public import Certificates.Certificate16017
+public import Certificates.Certificate16018
+public import Certificates.Certificate16019
+public import Certificates.Certificate16021
+public import Certificates.Certificate16022
+public import Certificates.Certificate16023
+public import Certificates.Certificate16024
+public import Certificates.Certificate16025
+public import Certificates.Certificate16026
+public import Certificates.Certificate16027
+public import Certificates.Certificate16028
+public import Certificates.Certificate16029
+public import Certificates.Certificate16030
+public import Certificates.Certificate16031
+public import Certificates.Certificate16033
+public import Certificates.Certificate16034
+public import Certificates.Certificate16035
+public import Certificates.Certificate16036
+public import Certificates.Certificate16038
+public import Certificates.Certificate16040
+public import Certificates.Certificate16041
+public import Certificates.Certificate16042
+public import Certificates.Certificate16946
+public import Certificates.Certificate16947
+public import Certificates.Certificate16948
+public import Certificates.Certificate16949
+public import Certificates.Certificate16951
+public import Certificates.Certificate16952
+public import Certificates.Certificate16953
+public import Certificates.Certificate16954
+public import Certificates.Certificate16955
+public import Certificates.Certificate16956
+public import Certificates.Certificate16957
+public import Certificates.Certificate16958
+public import Certificates.Certificate16959
+public import Certificates.Certificate17101
+public import Certificates.Certificate17103
+public import Certificates.Certificate17104
+public import Certificates.Certificate17150
+public import Certificates.Certificate17251
+public import Certificates.Certificate17252
+public import Certificates.Certificate17305
+public import Certificates.Certificate17306
+public import Certificates.Certificate17307
+public import Certificates.Certificate17308
+public import Certificates.Certificate17320
+public import Certificates.Certificate17321
+public import Certificates.Certificate17322
+public import Certificates.Certificate17350
+public import Certificates.Certificate17351
+public import Certificates.Certificate17370
+public import Certificates.Certificate17371
+public import Certificates.Certificate18000
+public import Certificates.Certificate18009
+public import Certificates.Certificate20951
+public import Certificates.Certificate24945
+public import Certificates.Certificate24946
+public import Certificates.Certificate25640
+public import Certificates.Certificate36903
+public import Certificates.Certificate41507
+public import Certificates.Certificate41508
+public import Certificates.Certificate125210
+public import Certificates.Certificate125211
+public import Certificates.Certificate125212
+public import Certificates.Certificate125220
+public import Certificates.Certificate125221
+public import Certificates.Certificate125222
+public import Certificates.Certificate125223
+public import Certificates.Certificate125360
+public import Certificates.Certificate125361
+public import Certificates.Certificate125362
+public import Certificates.Certificate125363
+public import Certificates.Certificate125364
+public import Certificates.Certificate125365
+public import Certificates.Certificate125366
+public import Certificates.Certificate125367
+public import Certificates.Certificate125368
+public import Certificates.Certificate125369
+public import Certificates.Certificate125370
+public import Certificates.Certificate125371
+public import Certificates.Certificate125372
+public import Certificates.Certificate125373
+public import Certificates.Certificate125374
+public import Certificates.Certificate125500
+public import Certificates.Certificate125501
+public import Certificates.Certificate125502
+public import Certificates.Certificate125552
+public import Certificates.Certificate125553
+public import Certificates.Certificate125554
+public import Certificates.Certificate125555
+public import Certificates.Certificate125556
+public import Certificates.Certificate125557
+public import Certificates.Certificate125558
+public import Certificates.Certificate125559
+public import Certificates.Certificate125561
+public import Certificates.Certificate131101
+public import Certificates.Certificate136100
+public import Certificates.Certificate136101
+public import Certificates.Certificate136102
+public import Certificates.Certificate136103
+public import Certificates.Certificate136104
+public import Certificates.Certificate136105
+public import Certificates.Certificate136106
+public import Certificates.Certificate136107
+public import Certificates.Certificate136108
+public import Certificates.Certificate136109
+public import Certificates.Certificate136110
+public import Certificates.Certificate136111
+public import Certificates.Certificate136112
+public import Certificates.Certificate136113
+public import Certificates.Certificate136114
+public import Certificates.Certificate136115
+public import Certificates.Certificate136116
+public import Certificates.Certificate136117
+public import Certificates.Certificate136118
+public import Certificates.Certificate136119
+public import Certificates.Certificate136120
+public import Certificates.Certificate136121
+public import Certificates.Certificate136122
+public import Certificates.Certificate136123
+public import Certificates.Certificate136200
+public import Certificates.Certificate136201
+public import Certificates.Certificate136202
+public import Certificates.Certificate136203
+public import Certificates.Certificate136204
+public import Certificates.Certificate136205
+public import Certificates.Certificate136206
+public import Certificates.Certificate136220
+public import Certificates.Certificate136221
+public import Certificates.Certificate136222
+public import Certificates.Certificate136223
+public import Certificates.Certificate136224
+public import Certificates.Certificate136300
+public import Certificates.Certificate136301
+public import Certificates.Certificate291200
+public import Certificates.Certificate320001
+public import Certificates.Certificate320002
+public import Certificates.Certificate320004
+import CFSG.GroupTheory.InnerCentralizerProjection
+import CFSG.GroupTheory.ElementaryAbelianTransport
+import CFSG.RankThree.PartTwo.Sec14.Item148StepQuot
+import CFSG.GroupTheory.NormalizerConjFixedPoints
+import CFSG.RankThree.PartTwo.Sec14.Item148HJRes2ProofImg
+import CFSG.RankThree.PartTwo.Sec14.Ronan148JStruct
+import CFSG.RankThree.PartTwo.Sec16.Item167O2LocCore
+import CFSG.RankThree.PartTwo.Sec16.Item1617StepsProofTools
+import CFSG.RankThree.PartTwo.Sec13.Item13Models
+import CFSG.RankThree.PartTwo.Sec14.Item143DescProofCompOne
+import CFSG.RankThree.PartTwo.Sec15.Item1424StepsProofCore
+import CFSG.RankThree.PartTwo.Sec15.Item153PushProofTools
+import CFSG.RankThree.PartTwo.Sec15.Item152Proof
+import CFSG.RankThree.PartTwo.Sec4.Item41ScopeProofAll
+import CFSG.RankThree.PartTwo.Sec4.Item462AltProofSetup
+import CFSG.Holt.FoundationsGraph
+import CFSG.Holt.PointHullTwoGroupBasic
+import CFSG.RankThree.PartTwo.Sec16.Item16Tail
+import CFSG.RankThree.PartTwo.Sec14.Item148MainProofKTypeTheta
+import CFSG.RankThree.PartTwo.Sec16.Item16Tail19
+import CFSG.RankThree.PartTwo.Sec16.KSL3TwoProofHessTwo
+import CFSG.RankThree.PartTwo.Sec16.Item167StepsProof
+import CFSG.RankThree.PartTwo.Sec16.Item166Res4ProofOrders
+public import CFSG.HardMathSupport.Foote.E27.OrbitF3
+public import CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterThreeBCoset
+public import CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterThreeBLevel1
+public import CFSG.LieType.Chevalley.EvenDiagramRootParameters
+public import CFSG.LieType.Chevalley.EvenRootCommutatorF4
+public import CFSG.LieType.Multipliers.U42Bridge
+public import CFSG.LieType.Multipliers.U43BridgeInputs
+public import CFSG.LieType.Multipliers.U62Action
+public import CFSG.LieType.Multipliers.U62Bridge
+public import CFSG.LieType.Multipliers.U62Kernel
+public import CFSG.LieType.Ree.SmallReeModelSchreier
+public import CFSG.LocalAnalysis.AGLEmbedding.JStarReducedDefs
+public import CFSG.LocalAnalysis.AGLEmbedding.ResidualTools
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherPrimeFormRealization
+public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.NativeCheckBase
+public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.NativeModel
+public import CFSG.LocalAnalysis.EvenSmallLie.Sp6JCondition
+public import CFSG.LocalAnalysis.LargeEvenClassification.C8FourSubgroupExhaustion
+public import CFSG.LocalAnalysis.LargeEvenClassification.C8FourSubgroupRanks
+public import CFSG.LocalAnalysis.LargeEvenClassification.CyclicFourLarge
+public import CFSG.LocalAnalysis.LargeEvenClassification.CyclicTwoFourGenerators
+public import CFSG.LocalAnalysis.LargeEvenClassification.MacWilliamsReduction
+public import CFSG.LocalAnalysis.LargeEvenClassification.SmallCfourFullObstruction
+public import CFSG.LocalAnalysis.LargeEvenClassification.SmallCfourProperSubgroups
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.ThreeCoverBase
+public import CFSG.LocalAnalysis.QuasithinUnique.SQTK.Seed.Fi22
+public import CFSG.LocalAnalysis.QuasithinUnique.SQTK.TypeB2
+public import CFSG.LocalAnalysis.QuasithinUnique.SQTK.Unitary
+public import CFSG.LocalAnalysis.SectionRank.SectionAssembly
+public import CFSG.Monster.Existence.Census.FusionGens
+public import CFSG.Monster.Existence.Compat.Main
+public import CFSG.Monster.Existence.EbCase2
+public import CFSG.Monster.Existence.EbFrame
+public import CFSG.Monster.Existence.StdOdd.Cert.Base
+public import CFSG.Monster.Existence.StdOdd.Cert.SylowThreeExt
+public import CFSG.Monster.Existence.TwoPoint.Fi22Iso
+public import CFSG.Monster.Existence.TwoPoint.Fi23ConjBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23MiscBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23Rels0Base
+public import CFSG.Monster.Existence.TwoPoint.Fi23Rels1Base
+public import CFSG.Monster.Existence.TwoPoint.Fi23Rels2Base
+public import CFSG.Monster.Existence.TwoPoint.Fi23Rels3Base
+public import CFSG.Monster.Existence.TwoPoint.Fi23Rels4Base
+public import CFSG.Monster.Existence.TwoPoint.Fi23Rels5Base
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongADBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongJ
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongJBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongM
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongMBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongP
+public import CFSG.Monster.Existence.TwoPoint.Fi23RelsLongPBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23S4CommBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23S4ConjBase
+public import CFSG.Monster.Existence.TwoPoint.Fi23S4CubeBase
+public import CFSG.Monster.Existence.TwoPoint.GammaExclCheck
+public import CFSG.Monster.Existence.TwoPoint.GammaExclTwoBCheck
+public import CFSG.Monster.Existence.TwoPoint.LeechMG
+public import CFSG.Monster.Existence.TwoPoint.LeechShape
+public import CFSG.Monster.Existence.TwoPoint.Y433MF213
+public import CFSG.Monster.Existence.TwoPoint.Y433MF312
+public import CFSG.Monster.Existence.TwoPoint.Y433MSpider
+public import CFSG.Monster.GMS.CoTwoMain
+public import CFSG.Monster.GMS.CoTwoModule
+public import CFSG.Monster.GMS.CoTwoPerfectGen
+public import CFSG.Monster.GMS.EdgeSqFact
+public import CFSG.Monster.GMS.F1Basic
+public import CFSG.Monster.GMS.NotConj
+public import CFSG.Monster.GMS.S365CentDefs
+public import CFSG.Monster.GMS.S365CentPathSpec
+public import CFSG.Monster.GMS.S365CentRootSpec
+public import CFSG.Monster.GMS.U6OddSylow
+public import CFSG.Monster.Tri.LeechCover
+public import CFSG.Monster.Tri.LeechModelTrace
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtJ4LocCheck
+public import CFSG.RankThree.Asc83Table.PermTables
+public import CFSG.RankThree.Native.HSMcLFiveCheck
+public import CFSG.RankThree.Native.ONSevenDefs
+public import CFSG.RankThree.Native.ONSevenRestrict
+public import CFSG.RankThree.Native.ONTripleNorm
+public import CFSG.RankThree.PartOne.KS.OrbitCert
+public import CFSG.RankThree.PartTwo.Census.Sporadic.Co1Bridge
+public import CFSG.RankThree.PartTwo.Sec11.Data
+public import CFSG.RankThree.PartTwo.Sec14.Concl142HJPoint
+public import CFSG.RankThree.PartTwo.Sec14.Item1411HJ
+public import CFSG.RankThree.PartTwo.Sec14.Item143N
+public import CFSG.RankThree.PartTwo.Sec15.Item157
+public import CFSG.RankThree.PartTwo.Sec16.Item164Proof
+public import CFSG.RankThree.PartTwo.Sec16.Item167StepsProofNonsolv
+public import CFSG.RankThree.PartTwo.Sec17.Item1724Two
+public import CFSG.RankThree.PartTwo.Sec17.Item17TailSteps
+public import CFSG.RankThree.PartTwo.Sec17.RouteProvers
+public import CFSG.RankThree.PartTwo.Sec4.Census.Interface
+public import CFSG.RankThree.PartTwo.Sec6.Statements
+public import CFSG.RankThree.S4Free.SuzukiEight
+public import CFSG.Sporadic.Co1.Module.CoTwoNortonData
+public import CFSG.Sporadic.Co1.Module.TwoB
+public import CFSG.Sporadic.Co1.Module.U6OddForest
+public import CFSG.Sporadic.Co1.Module.U6OddProg
+public import CFSG.Sporadic.Co1.Module.U6OddTuple
+public import CFSG.Sporadic.Co2Schreier.ThirdOrderBase
+public import CFSG.Sporadic.FischerOddCore.Fi24AlmostSimple
+public import CFSG.Sporadic.FischerOddCore.Fi24R2CompBase
+public import CFSG.Sporadic.J4.QTRankInvProof
+public import CFSG.Sporadic.Schreier.J4SEleven
+public import CFSG.Sporadic.Schreier.RuLOdd
+public import CFSG.Sporadic.Schreier.RuZClass
+public import CFSG.Sporadic.Schreier.TitsOther
+public import CFSG.Sporadic.Schreier.TitsOuter
+public import CFSG.YGroups.Y443.Native.Parabolic2CheckB
+public import CFSG.YGroups.Y443.Native.Parabolic2CheckW
+public import Certificates.Certificate10004Base
+public import Certificates.Certificate13622Base
+public import Certificates.Certificate13636Base
+public import Certificates.Certificate14953
+public import Certificates.Certificate2062Base
+public import Certificates.Certificate2084Base
+public import Certificates.Certificate2225Base
+public import Certificates.Certificate2254Base
+public import Certificates.Certificate5133
+public import Certificates.Certificate6047Base
+public import Certificates.Certificate6048Base
+public import Certificates.Certificate6049Base
+public import Certificates.Certificate6050Base
+public import Certificates.Certificate6051Base
+public import Certificates.Certificate6052Base
+public import Certificates.Certificate6053Base
+public import Certificates.Certificate6054Base
+public import Certificates.Certificate6055Base
+public import Certificates.Certificate6056Base
+public import Certificates.Certificate6057Base
+public import Certificates.Certificate6058Base
+public import Certificates.Certificate6059Base
+public import Certificates.Certificate6060Base
+public import Certificates.Certificate6061Base
+public import Certificates.Certificate8166
+public import TauCeti.GroupTheory.SpecificGroups.CFSG.TypeC.Agreement
+import CFSG.Holt.Centralizer
+import CFSG.Holt.MaximalFixer
+import CFSG.Mathlib.LinearAlgebra.BilinForm.Determinant
+import CFSG.RankThree.PartTwo.Sec14.Concl143HJ
+import CFSG.RankThree.PartTwo.Sec14.Item142ResProofHJ
+import CFSG.RankThree.PartTwo.Sec14.Item148HJRes2ProofA6
+import CFSG.RankThree.PartTwo.Sec14.Item148HJResProofTypes
+import CFSG.RankThree.PartTwo.Sec14.Item148StepCases
+import CFSG.RankThree.PartTwo.Sec14.Item148StepOne
+import CFSG.RankThree.PartTwo.Sec14.Item14Res2ProofLBal
+import CFSG.RankThree.PartTwo.Sec16.Item16TailMore
+import CFSG.RankThree.PartTwo.Sec4.Item462Proof
+
+public section
+
+namespace CFSG.RankThree.PartTwo.Sec16
+
+open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
+  CFSG.RankThree.PartTwo.Sec4 CFSG.RankThree.PartTwo.Sec13
+  CFSG.RankThree.PartTwo.Sec14 CFSG.RankThree.PartTwo.Sec15
+  CFSG.RankThree.PartTwo.Sec16 CFSG.RankThree.PartTwo.KFacts CFSG.GH74.GLS
+open scoped commutatorElement Pointwise
+
+variable {G : Type} [Group G] [Finite G]
+
+private structure Ctx (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G)
+    (L : Subgroup G) (Y : Subgroup G) where
+  h : Sec15R G A c L
+  h138 : Item138N
+  h149 : Item149 A (lB A)
+  h1612 : Step1612
+  hD4 : KFacts.KS167D4
+  hY : Y ∈ scriptY1Star A (lB A)
+  hH : Hyp1673 A (lB A) c L Y
+  h0 : scriptY0 A (lB A) = ∅
+  hF : generalizedFitting ↥Y ≠ CFSG.pCore 2 ↥Y
+  hZ1 : pPrimeCoreOf 2 Y ≠ ⊥
+  hZA : A ≤ Subgroup.centralizer (pPrimeCoreOf 2 Y : Set G)
+  hne : pPrimeCoreOf 2 Y ⊓ Subgroup.centralizer (L : Set G) ≠ ⊥
+  hN : A ⊔ L ⊔ Y ≤ Subgroup.normalizer
+    ((pPrimeCoreOf 2 Y ⊓ Subgroup.centralizer (L : Set G) : Subgroup G) : Set G)
+
+private structure Setup (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G)
+    (L : Subgroup G) (Y : Subgroup G) extends Ctx G A c L Y where
+  Z' : Subgroup G
+  hZ'def : Z' = pPrimeCoreOf 2 Y ⊓ Subgroup.centralizer (L : Set G)
+  N : Subgroup G
+  hNdef : N = Subgroup.normalizer (Z' : Set G)
+  hNne : N ≠ ⊤
+  hAN : A ≤ N
+  hLN : L ≤ N
+  hYN : Y ≤ N
+  hNmem : N ∈ scriptY A
+  J : Subgroup G
+  hJ : J ∈ thetaComponentsIn N
+  hLJ : L ≤ J
+  hAJ : A ≤ Subgroup.normalizer (J : Set G)
+  hQJ : ∀ Q : Subgroup G, Q ≤ Subgroup.normalizer (N : Set G) →
+    A ≤ Subgroup.normalizer (Q : Set G) → Nat.Coprime (Nat.card Q) 3 →
+      Q ≤ Subgroup.normalizer (J : Set G)
+  hYJ : Y ≤ Subgroup.normalizer (J : Set G)
+  hJN : J ≤ N
+  hJtop : J ≠ ⊤
+  kerN : (Sec14.ker148 A N).Normal
+
+private structure Core (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G)
+    (L : Subgroup G) (Y : Subgroup G) extends Setup G A c L Y where
+  n : ℕ
+  hn1 : 1 ≤ n
+  hn2 : 2 < n
+  hn3 : ¬ 3 ∣ n
+  hn4 : 4 ≤ n
+  hz3 : IsZ3LThreeTwo A c L n
+  hiso : Sec4.IsoLThreePi (↥L ⧸ aschbacherSolvableCore 3 ↥L) 2 n
+  hprod : Nonempty (lBarA c L A ≃* Multiplicative (ZMod 3) × Sec12.lBar c L)
+  hLs : IsSimpleGroup ↥L
+  hT0 : ∀ T ∈ invariantPiSubgroups (Subgroup.centralizer (L : Set G)) A (piOf 2),
+    T = ⊥
+  hXL : Sec4.IsoLThreePi ↥L 2 n
+  h9 : Nat.card (A ⊓ L : Subgroup G) = 9
+  hCN : Subgroup.centralizer ({c} : Set G) ≤ Subgroup.normalizer (L : Set G)
+  hcA : c ∈ A
+  hA3 : ∀ a ∈ A, a ^ 3 = 1
+  hLc : L ≤ Subgroup.centralizer ({c} : Set G)
+  h3L : 3 ∣ Nat.card L
+  h3J : 3 ∣ Nat.card J
+  hY3' : ¬ 3 ∣ Nat.card Y
+  hLθbot : aschbacherSolvableCore 3 ↥L = ⊥
+
+private structure CoreXR (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G)
+    (L : Subgroup G) (Y : Subgroup G) extends Core G A c L Y where
+  X : Subgroup G
+  hXdef : X = deltaZero A (lB A) Y
+  R : Subgroup G
+  hRdef : R = CFSG.Open.pCoreOf 2 X
+  hXY : X ≤ Y
+  hXJ : X ≤ Subgroup.normalizer (J : Set G)
+  hX3' : ¬ 3 ∣ Nat.card X
+  hXF : generalizedFitting ↥X = CFSG.pCore 2 ↥X
+  hRne : R ≠ ⊥
+  hXR : R ≤ X
+  hXNR : X ≤ Subgroup.normalizer (R : Set G)
+  hAR : A ≤ Subgroup.normalizer (R : Set G)
+  hRp : IsPGroup 2 R
+  hR3' : ¬ 3 ∣ Nat.card R
+  hRCL : R ⊓ Subgroup.centralizer (L : Set G) = ⊥
+
+private theorem ks167D4_ambient_prep {Γ : Type} [Group Γ] [Finite Γ]
+    {J : Subgroup Γ} {x : Γ} (hx : x ∈ Subgroup.normalizer (J : Set Γ)) (hx3 : x ^ 3 = 1)
+    (hout : Sec4.InducesOuterTheta x J)
+    {L : Subgroup Γ} (hLfix : L ≤ J ⊓ Subgroup.centralizer ({x} : Set Γ))
+    (hLsub : (L.subgroupOf (J ⊓ Subgroup.centralizer ({x} : Set Γ))).IsSubnormal) :
+    ∃ σ : MulAut ↥J, σ = J.normalizerMonoidHom ⟨x, hx⟩ ∧ σ ^ 3 = 1 ∧ ¬ IsInnerAut σ ∧
+      L.subgroupOf J ≤ MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id ↥J) ∧
+      ((L.subgroupOf J).subgroupOf
+        (MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id ↥J))).IsSubnormal := by
+  set σ : MulAut ↥J := J.normalizerMonoidHom ⟨x, hx⟩ with hσdef
+  have hσ3 : σ ^ 3 = 1 := by
+    have h1 : (⟨x, hx⟩ : Subgroup.normalizer (J : Set Γ)) ^ 3 = 1 :=
+      Subtype.ext (by rw [SubmonoidClass.coe_pow]; exact hx3)
+    rw [hσdef, ← map_pow, h1, map_one]
+  have hσout : ¬ IsInnerAut σ := by
+    intro hin
+    obtain ⟨y, hy⟩ := hin
+    have hmem : Sec4.thetaQuotMulAut J σ ∈
+        (MulAut.conj : (↥J ⧸ aschbacherSolvableCore 3 ↥J) →*
+          MulAut (↥J ⧸ aschbacherSolvableCore 3 ↥J)).range := by
+      refine ⟨QuotientGroup.mk' (aschbacherSolvableCore 3 ↥J) y, ?_⟩
+      have hconj : Sec4.compAction J ⟨(y : Γ), Subgroup.le_normalizer y.2⟩ =
+          MulAut.conj y := by
+        ext z
+        rfl
+      rw [← hy, ← hconj]
+      exact (KFacts.thetaQuotMulAut_compAction_of_mem (L := J) y.2
+        (Subgroup.le_normalizer y.2)).symm
+    have hout' := (Sec4.Item462AltProof.inducesOuterTheta_iff hx).mp hout
+    exact hout' hmem
+  have heq : MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id ↥J) =
+      (J ⊓ Subgroup.centralizer ({x} : Set Γ)).subgroupOf J := by
+    apply Subgroup.map_injective (f := J.subtype) J.subtype_injective
+    rw [Subgroup.map_subgroupOf_eq_of_le inf_le_left]
+    have h := CFSG.map_eqLocus_normalizerMonoidHom J hx
+    rw [hσdef]
+    exact h
+  have hLh_le : L.subgroupOf J ≤ MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id ↥J) := by
+    rw [heq]
+    intro z hz
+    exact Subgroup.mem_subgroupOf.mpr (hLfix hz)
+  have hLh_sub : ((L.subgroupOf J).subgroupOf
+      (MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id ↥J))).IsSubnormal := by
+    rw [heq]
+    let e := Subgroup.subgroupOfEquivOfLe
+      (show J ⊓ Subgroup.centralizer ({x} : Set Γ) ≤ J from inf_le_left)
+    have hcomap : (L.subgroupOf (J ⊓ Subgroup.centralizer ({x} : Set Γ))).comap
+        e.toMonoidHom =
+        (L.subgroupOf J).subgroupOf
+          ((J ⊓ Subgroup.centralizer ({x} : Set Γ)).subgroupOf J) := by
+      ext z
+      simp [Subgroup.mem_subgroupOf, Subgroup.mem_comap, e]
+    rw [← hcomap]
+    exact hLsub.comap e.toMonoidHom
+  exact ⟨σ, hσdef, hσ3, hσout, hLh_le, hLh_sub⟩
+
+private theorem ks167D4_ambient {Γ : Type} [Group Γ] [Finite Γ] (hD4 : KFacts.KS167D4)
+    {J : Subgroup Γ} {n : ℕ} (hn : 4 ≤ n) (hn3 : ¬ 3 ∣ n)
+    (hmodel : CFSG.Blueprint.ChevalleyExceptionalModel ↥J .trialityD4 2 n)
+    {x : Γ} (hx : x ∈ Subgroup.normalizer (J : Set Γ)) (hx3 : x ^ 3 = 1)
+    (hout : Sec4.InducesOuterTheta x J)
+    {L : Subgroup Γ} (hLJ : L ≤ J)
+    (hLfix : L ≤ J ⊓ Subgroup.centralizer ({x} : Set Γ))
+    (hLiso : Sec4.IsoLThreePi ↥(L.subgroupOf J) 2 n)
+    (hLsub : (L.subgroupOf (J ⊓ Subgroup.centralizer ({x} : Set Γ))).IsSubnormal)
+    {E : Subgroup Γ} (hEL : E ≤ L) (hE : CFSG.Assembly.IsElemAbelian 3 E)
+    (hE9 : Nat.card (E.subgroupOf J) = 9)
+    {T : Subgroup Γ} (hTJ : T ≤ J) (hTp : IsPGroup 2 T)
+    (hTinv : ∀ t ∈ T, x * t * x⁻¹ ∈ T)
+    (hET : E ≤ Subgroup.normalizer (T : Set Γ)) : T = ⊥ := by
+  obtain ⟨σ, hσdef, hσ3, hσout, hLh_le, hLh_sub⟩ :=
+    ks167D4_ambient_prep hx hx3 hout hLfix hLsub
+  have hEh_le : E.subgroupOf J ≤ L.subgroupOf J := fun z hz => hEL hz
+  have hEhE : CFSG.Assembly.IsElemAbelian 3 (E.subgroupOf J) :=
+    CFSG.Open.IsElemAbelian.subgroupOf hE J
+  have hTh_p : IsPGroup 2 (T.subgroupOf J) :=
+    hTp.of_equiv (Subgroup.subgroupOfEquivOfLe hTJ).symm
+  have hTh_inv : (T.subgroupOf J).map σ.toMonoidHom = T.subgroupOf J := by
+    rw [hσdef]
+    refine Subgroup.eq_of_le_of_card_ge ?_ ?_
+    · intro y hy
+      obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.mp hy
+      have hconj : x * (t : Γ) * x⁻¹ ∈ T := hTinv t ht
+      simpa [Subgroup.mem_subgroupOf, Subgroup.normalizerMonoidHom_apply_apply_coe]
+        using hconj
+    · have hcardmap : Nat.card
+          ((T.subgroupOf J).map (J.normalizerMonoidHom ⟨x, hx⟩).toMonoidHom) =
+          Nat.card (T.subgroupOf J) :=
+        Subgroup.card_map_of_injective (K := T.subgroupOf J)
+          (f := (J.normalizerMonoidHom ⟨x, hx⟩).toMonoidHom)
+          (J.normalizerMonoidHom ⟨x, hx⟩).injective
+      omega
+  have hEh_N : E.subgroupOf J ≤ Subgroup.normalizer
+      ((T.subgroupOf J) : Set ↥J) := by
+    refine Subgroup.le_normalizer_iff.mpr fun z hz t ht => ?_
+    have hzT : (z : Γ) ∈ Subgroup.normalizer (T : Set Γ) := hET hz
+    have hamb := (Subgroup.mem_normalizer_iff.mp hzT (t : Γ)).mp ht
+    simpa [Subgroup.mem_subgroupOf] using hamb
+  have hTbot := hD4 ↥J n hn hn3 hmodel σ hσ3 hσout (L.subgroupOf J) hLh_le hLiso hLh_sub
+    (E.subgroupOf J) hEh_le hEhE hE9 (T.subgroupOf J) hTh_p hTh_inv hEh_N
+  have hdisj : Disjoint T J := Subgroup.subgroupOf_eq_bot.mp hTbot
+  have hinf : T ⊓ J = ⊥ := disjoint_iff.mp hdisj
+  rwa [inf_eq_left.mpr hTJ] at hinf
+
+section Certificates
+
+variable {A : Subgroup G} {c : G} {L : Subgroup G} {Y : Subgroup G}
+
+private lemma setup_exists
+    (C : Ctx G A c L Y) : ∃ D : Setup G A c L Y, True := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  set Z' := pPrimeCoreOf 2 Y ⊓ Subgroup.centralizer (L : Set G) with hZ'def
+  set N := Subgroup.normalizer (Z' : Set G) with hNdef
+  have hYne : Y ≠ ⊤ := C.hY.prop.1.1.1.1
+  have hZ'Y : Z' ≤ Y := inf_le_left.trans (pPrimeCoreOf_le 2 Y)
+  have hNne : N ≠ ⊤ := by
+    intro htop
+    haveI hZ'normal : Z'.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
+    rcases C.h.isSimpleGroup.eq_bot_or_eq_top_of_normal Z' with hbot | htop'
+    · exact C.hne hbot
+    · exact hYne (top_le_iff.mp (htop' ▸ hZ'Y))
+  have hAN : A ≤ N :=
+    C.hZA.trans ((Subgroup.centralizer_le inf_le_left).trans
+      (Subgroup.centralizer_le_normalizer _))
+  have hLN : L ≤ N :=
+    (Subgroup.le_centralizer_iff.mpr inf_le_right).trans
+      (Subgroup.centralizer_le_normalizer _)
+  have hYN : Y ≤ N := le_sup_right.trans C.hN
+  have hNmem : N ∈ scriptY A := ⟨hNne, fun a ha => Subgroup.le_normalizer (hAN ha)⟩
+  obtain ⟨J, hJ, hLJ, hAJ, hQJ⟩ :=
+    Proof167Core.exists_thetaComponent C.h.toSec14Std hNne hAN hLN
+  have hYJ : Y ≤ Subgroup.normalizer (J : Set G) :=
+    Proof167Core.le_normalizer_of_oPrimeResidualOf_eq_bot hQJ
+      (fun y hy => Subgroup.le_normalizer (hYN hy)) C.hY.prop.1.1.1.2 C.hY.prop.2
+  have hJN : J ≤ N := le_of_mem_thetaComponentsIn hJ
+  have hJtop : J ≠ ⊤ := fun hJt => hNne (top_le_iff.mp (hJt ▸ hJN))
+  exact ⟨⟨C, Z', hZ'def, N, hNdef, hNne, hAN, hLN, hYN, hNmem, J, hJ, hLJ, hAJ, hQJ,
+    hYJ, hJN, hJtop, Sec14.ker148_normal hNmem.2⟩, trivial⟩
+
+private lemma core_exists
+    (D : Setup G A c L Y) : ∃ D : Core G A c L Y, True := by
+  have hctx : Ctx169 G A c L := ⟨D.h, D.h0⟩
+  obtain ⟨-, hsol, hXne, hhyp⟩ := D.hH
+  obtain ⟨n, hn2, hiso, hprod⟩ := hhyp D.h0
+  have hz3 : IsZ3LThreeTwo A c L n := ⟨by omega, hiso, hprod⟩
+  have hn1 : 1 ≤ n := by omega
+  have hn3 : ¬ 3 ∣ n := Proof1617.not_three_dvd_of_isZ3 hctx D.h138 hz3
+  have hn4 : 4 ≤ n := by omega
+  have h34 := Proof166Res3.isEmpty_l34_of_two_lt hiso hn2
+  have hsimple := Proof1619.simple_of_steps hctx (D.h1612 G A c L hctx) h34 hprod
+  have hLs : IsSimpleGroup ↥L := hsimple.1
+  have hT0 : ∀ T ∈ invariantPiSubgroups (Subgroup.centralizer (L : Set G)) A (piOf 2),
+      T = ⊥ := hsimple.2
+  have hXL : Sec4.IsoLThreePi ↥L 2 n := Proof1617.isoLThreePi_of_isSimpleGroup hLs hn1 hiso
+  obtain ⟨-, h9, -⟩ := Proof1617.facts_of_isZ3 hctx hz3
+  have hCN := Proof1617.centralizer_le_normalizer_L hctx hz3
+  have hcA : c ∈ A := D.h.mem_A
+  have hA3 : ∀ a ∈ A, a ^ 3 = 1 := D.h.toSec14Std.isE27.1.2
+  have hLc : L ≤ Subgroup.centralizer ({c} : Set G) :=
+    Sec14.le_centralizer_of_mem_thetaComponentsAt D.h.mem_lA.1
+  have h3L : 3 ∣ Nat.card L := Proof1617.three_dvd_card_L hz3
+  have h3J : 3 ∣ Nat.card D.J := h3L.trans (Subgroup.card_dvd_of_le D.hLJ)
+  have hY3' : ¬ 3 ∣ Nat.card Y := not_three_dvd_of_oPrimeResidualOf_eq_bot D.hY.prop.2
+  have hLθbot : aschbacherSolvableCore 3 ↥L = ⊥ :=
+    Proof1617.theta_eq_bot_of_isSimpleGroup hLs hn1 hiso
+  exact ⟨⟨D, n, hn1, hn2, hn3, hn4, hz3, hiso, hprod, hLs, hT0, hXL, h9, hCN, hcA,
+    hA3, hLc, h3L, h3J, hY3', hLθbot⟩, trivial⟩
+
+private lemma coreXR_exists
+    (D : Core G A c L Y) : ∃ D : CoreXR G A c L Y, True := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  set X := deltaZero A (lB A) Y with hXdef
+  set R := CFSG.Open.pCoreOf 2 X with hRdef
+  obtain ⟨-, hsol, hXne, -⟩ := D.hH
+  haveI hXnt : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
+  have hXY : X ≤ Y := deltaZero_le Y
+  have hXJ : X ≤ Subgroup.normalizer (D.J : Set G) := hXY.trans D.hYJ
+  have hX3' : ¬ 3 ∣ Nat.card X := fun h3 => D.hY3' (h3.trans (Subgroup.card_dvd_of_le hXY))
+  have hXF : generalizedFitting ↥X = CFSG.pCore 2 ↥X :=
+    rank3II_16_7_1 D.h.isSimpleGroup D.h.nonabelian D.h.charTwoType D.h149 D.hY
+  have hRne : R ≠ ⊥ := CFSG.RankThree.PartTwo.Sec15.pCoreOf_ne_bot_of_pCore_ne_bot
+    (CFSG.RankThree.PartTwo.Sec15.Push153.pCore_ne_bot_of_nontrivial (X := ↥X) hXF)
+  have hXR : R ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
+  have hXNR : X ≤ Subgroup.normalizer (R : Set G) :=
+    CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X
+  have hAR : A ≤ Subgroup.normalizer (R : Set G) :=
+    (le_normalizer_deltaZero Y).trans
+      (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 X)
+  have hRp : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X
+  have hR3' : ¬ 3 ∣ Nat.card R := fun h3 => hX3' (h3.trans (Subgroup.card_dvd_of_le hXR))
+  have hARCL : A ≤ Subgroup.normalizer
+      ((R ⊓ Subgroup.centralizer (L : Set G) : Subgroup G) : Set G) := by
+    have hACL : A ≤ Subgroup.normalizer (Subgroup.centralizer (L : Set G) : Set G) := by
+      have hAL : A ≤ Subgroup.normalizer (L : Set G) := fun a ha =>
+        D.hCN (Subgroup.mem_centralizer_singleton_iff.mpr
+          (congrArg Subtype.val (D.h.isElemAbelian.1.1.comm ⟨a, ha⟩ ⟨c, D.hcA⟩)))
+      exact hAL.trans (CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer L)
+    exact (le_inf hAR hACL).trans Subgroup.inf_normalizer_le_normalizer_inf
+  have hRCL : R ⊓ Subgroup.centralizer (L : Set G) = ⊥ := by
+    refine D.hT0 _ ⟨inf_le_right, ?_, hARCL⟩
+    exact (IsPiSubgroup.of_le inf_le_left
+      ((isPiSubgroup_piOf_iff Nat.prime_two _).mpr hRp))
+  exact ⟨⟨D, X, hXdef, R, hRdef, hXY, hXJ, hX3', hXF, hRne, hXR, hXNR, hAR, hRp, hR3',
+    hRCL⟩, trivial⟩
+
+namespace Proof167Empty
+
+private lemma L_alpha_iso_pi
+    (D : CoreXR G A c L Y) :
+    letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n := by
+  letI := D.kerN
+  haveI : IsSimpleGroup ↥L := D.hLs
+  have hLsQ : IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
+    ((QuotientGroup.quotientMulEquivOfEq D.hLθbot).trans
+      QuotientGroup.quotientBot).isSimpleGroup
+  have h3LQ : 3 ∣ Nat.card (↥L ⧸ aschbacherSolvableCore 3 ↥L) := by
+    have hc : Nat.card (↥L ⧸ aschbacherSolvableCore 3 ↥L) = Nat.card L :=
+      Nat.card_congr ((QuotientGroup.quotientMulEquivOfEq D.hLθbot).trans
+        QuotientGroup.quotientBot).toEquiv
+    rw [hc]; exact D.h3L
+  have hθL : inSubgroup (aschbacherSolvableCore 3) L ≤ pPrimeCoreOf 3 D.N := by
+    simp [inSubgroup, D.hLθbot]
+  have hLαIso : Nonempty (↥(img148 A D.N L) ≃*
+      ↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
+    Main148.nonempty_img148_equiv_theta (A := A) (Y := D.N) (K := L)
+      (D.hLN.trans le_sup_left) hθL hLsQ h3LQ
+  obtain ⟨e⟩ := hLαIso
+  exact Proof169.isoLThreePi_of_mulEquiv
+    (e.trans ((QuotientGroup.quotientMulEquivOfEq D.hLθbot).trans
+      QuotientGroup.quotientBot)).symm D.hXL
+
+private lemma E9_facts
+    (D : CoreXR G A c L Y) :
+    letI := D.kerN;
+      img148 A D.N (A ⊓ L) ≤ img148 A D.N A ∧
+      img148 A D.N (A ⊓ L) ≤ img148 A D.N L ∧
+      CFSG.Assembly.IsElemAbelian 3 (img148 A D.N (A ⊓ L)) ∧
+      Nat.card (img148 A D.N (A ⊓ L)) = 9 := by
+  letI := D.kerN
+  have hEαA : img148 A D.N (A ⊓ L) ≤ img148 A D.N A := img148_mono inf_le_left
+  have hEαL : img148 A D.N (A ⊓ L) ≤ img148 A D.N L := img148_mono inf_le_right
+  have hEαE27 : CFSG.Assembly.IsElemAbelian 3 (img148 A D.N (A ⊓ L)) :=
+    CFSG.Open.IsElemAbelian.mono (img148_isE27 (A := A) (Y := D.N)
+      D.h.toSec14Std.isE27).1 hEαA
+  have hEα9 : Nat.card (img148 A D.N (A ⊓ L)) = 9 := by
+    rw [Ronan148J.card_img148_of_le (A := A) (Y := D.N) D.hA3 inf_le_left, D.h9]
+  exact ⟨hEαA, hEαL, hEαE27, hEα9⟩
+
+private lemma R_alpha_kernel
+    (D : CoreXR G A c L Y) (hJq : IsQuasisimple ↥D.J) :
+    letI := D.kerN;
+      ∀ (r : G), r ∈ D.R → ∀ (hrM : r ∈ D.N ⊔ A),
+        QuotientGroup.mk' (Sec14.ker148 A D.N) ⟨r, hrM⟩ ∈
+          Subgroup.centralizer (img148 A D.N D.J :
+            Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) → r = 1 := by
+  letI := D.kerN
+  intro r hrR hrM hxC
+  set K := pPrimeCoreOf 3 D.N with hKdef
+  have hK3' : ¬ 3 ∣ Nat.card K := by
+    rw [hKdef, CFSG.GH74.GLS.pPrimeCoreOf, Subgroup.card_subtype]
+    exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
+      (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥D.N))
+  haveI hKn : (K.subgroupOf D.N).Normal :=
+    (Subgroup.normal_subgroupOf_iff_le_normalizer (pPrimeCoreOf_le 3 D.N)).mpr
+      (le_normalizer_pPrimeCoreOf 3 D.N)
+  have hJK : D.J ≤ Subgroup.normalizer (K : Set G) :=
+    D.hJN.trans (Subgroup.le_normalizer_of_normal_subgroupOf (pPrimeCoreOf_le 3 D.N))
+  have hJK' : ¬ D.J ≤ K := fun hle =>
+    hK3' (D.h3J.trans (Subgroup.card_dvd_of_le hle))
+  have hrNJ : r ∈ Subgroup.normalizer (D.J : Set G) := D.hXJ (D.hXR hrR)
+  have hrN : r ∈ D.N := D.hYN (D.hXY (D.hXR hrR))
+  have hrJ : ∀ j ∈ D.J, r * j * r⁻¹ * j⁻¹ ∈ K := by
+    intro j hj
+    have hjM : j ∈ D.N ⊔ A := Subgroup.mem_sup_left (D.hJN hj)
+    have hcomm : QuotientGroup.mk' (Sec14.ker148 A D.N) ⟨r, hrM⟩ *
+        QuotientGroup.mk' (Sec14.ker148 A D.N) ⟨j, hjM⟩ =
+        QuotientGroup.mk' (Sec14.ker148 A D.N) ⟨j, hjM⟩ *
+          QuotientGroup.mk' (Sec14.ker148 A D.N) ⟨r, hrM⟩ :=
+      ((Subgroup.mem_centralizer_iff.mp hxC) (QuotientGroup.mk' _ ⟨j, hjM⟩)
+        (mem_img148_iff.mpr ⟨j, hjM, hj, rfl⟩)).symm
+    have hmul : (⟨r * j * r⁻¹ * j⁻¹, Subgroup.mem_sup_left
+        (D.N.mul_mem (D.N.mul_mem (D.N.mul_mem hrN (D.hJN hj)) (D.N.inv_mem hrN))
+          (D.N.inv_mem (D.hJN hj)))⟩ : ↥(D.N ⊔ A)) =
+        ⟨r, hrM⟩ * ⟨j, hjM⟩ * ⟨r, hrM⟩⁻¹ * ⟨j, hjM⟩⁻¹ := by
+      ext
+      simp [mul_assoc]
+    have hone : QuotientGroup.mk' (Sec14.ker148 A D.N)
+        ⟨r * j * r⁻¹ * j⁻¹, Subgroup.mem_sup_left
+          (D.N.mul_mem (D.N.mul_mem (D.N.mul_mem hrN (D.hJN hj)) (D.N.inv_mem hrN))
+            (D.N.inv_mem (D.hJN hj)))⟩ = 1 := by
+      rw [hmul, map_mul, map_mul, map_mul, map_inv, map_inv, hcomm]
+      group
+    exact mk'_ker148_eq_one_iff.mp hone
+  have hrCJ := CFSG.mem_centralizer_of_commutator_mem_of_isQuasisimple
+    hJq hJK hJK' hrNJ hrJ
+  have hrCL : r ∈ Subgroup.centralizer (L : Set G) :=
+    Subgroup.centralizer_le (s := (L : Set G)) (t := (D.J : Set G)) D.hLJ hrCJ
+  have hrbot : r ∈ D.R ⊓ Subgroup.centralizer (L : Set G) := ⟨hrR, hrCL⟩
+  rw [D.hRCL, Subgroup.mem_bot] at hrbot
+  exact hrbot
+
+private lemma R_alpha_inf
+    (D : CoreXR G A c L Y) (hJq : IsQuasisimple ↥D.J) :
+    letI := D.kerN;
+      img148 A D.N D.R ⊓ Subgroup.centralizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥ := by
+  letI := D.kerN
+  refine le_bot_iff.mp fun x hx => ?_
+  obtain ⟨r, hrM, hrR, rfl⟩ := mem_img148_iff.mp hx.1
+  have hsub : (⟨r, hrM⟩ : ↥(D.N ⊔ A)) = 1 :=
+    Subtype.ext (R_alpha_kernel D hJq r hrR hrM hx.2)
+  rw [Subgroup.mem_bot, hsub, map_one]
+
+private lemma R_alpha_ne_bot
+    (D : CoreXR G A c L Y) (hJq : IsQuasisimple ↥D.J) :
+    letI := D.kerN; img148 A D.N D.R ≠ ⊥ := by
+  letI := D.kerN
+  intro hbot
+  obtain ⟨r, hr1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp D.hRne
+  have hxbot : QuotientGroup.mk' (Sec14.ker148 A D.N)
+      ⟨r, Subgroup.mem_sup_left (D.hYN (D.hXY (D.hXR r.2)))⟩ ∈
+      (⊥ : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+    rw [← hbot]
+    exact mem_img148_iff.mpr
+      ⟨r, Subgroup.mem_sup_left (D.hYN (D.hXY (D.hXR r.2))), r.2, rfl⟩
+  rw [Subgroup.mem_bot] at hxbot
+  have hxC : QuotientGroup.mk' (Sec14.ker148 A D.N)
+      ⟨r, Subgroup.mem_sup_left (D.hYN (D.hXY (D.hXR r.2)))⟩ ∈
+      Subgroup.centralizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+    rw [hxbot]
+    exact Subgroup.one_mem _
+  exact hr1 (Subtype.ext (R_alpha_kernel D hJq (r : G) r.2 _ hxC))
+
+private lemma X_alpha_le_sup_of_iso
+    (D : CoreXR G A c L Y) {f : ℕ} (hf : 2 ≤ f)
+    (hJiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 f) :
+    letI := D.kerN;
+      img148 A D.N D.X ≤ img148 A D.N D.J ⊔
+        Subgroup.centralizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+  letI := D.kerN
+  refine Proof167Empty.le_sup_centralizer_of_le_commutator_of_isoLThreePi
+    (X := img148 A D.N D.J) (R := img148 A D.N D.X) (T := img148 A D.N A) (m := f)
+    (by omega) hJiso (img148_le_normalizer D.hXJ) (img148_le_normalizer D.hAJ) ?_ ?_
+  · have hcomm : img148 A D.N D.X = ⁅img148 A D.N D.X, img148 A D.N A⁆ := by
+      have h1 : img148 A D.N D.X = img148 A D.N ⁅D.X, A⁆ := by
+        rw [D.hXdef]
+        conv_lhs => rw [deltaZero_eq_commutator Y]
+      exact h1.trans (HJRes2.img148_commutator_eq (X := D.X) (X' := A)
+        (D.hXY.trans (D.hYN.trans le_sup_left)) le_sup_right)
+    exact hcomm.le
+  · exact Ronan148J.coprime_card_img148 (A := A) (Y := D.N) D.hX3'
+
+private lemma X_alpha_le_sup_of_triality
+    (D : CoreXR G A c L Y) {f : ℕ}
+    (hmodel : letI := D.kerN;
+      CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A D.N D.J) .trialityD4 2 f) :
+    letI := D.kerN;
+      img148 A D.N D.X ≤ img148 A D.N D.J ⊔
+        Subgroup.centralizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+  letI := D.kerN
+  have hcomm : img148 A D.N D.X = ⁅img148 A D.N D.X, img148 A D.N A⁆ := by
+    have h1 : img148 A D.N D.X = img148 A D.N ⁅D.X, A⁆ := by
+      rw [D.hXdef]
+      conv_lhs => rw [deltaZero_eq_commutator Y]
+    exact h1.trans (HJRes2.img148_commutator_eq (X := D.X) (X' := A)
+      (D.hXY.trans (D.hYN.trans le_sup_left)) le_sup_right)
+  exact Proof167Empty.le_sup_centralizer_of_le_commutator_of_trialityD4 hmodel
+    (img148_le_normalizer D.hXJ) (img148_le_normalizer D.hAJ) hcomm.le
+
+private lemma projection_data
+    (D : CoreXR G A c L Y) (hJq : IsQuasisimple ↥D.J)
+    (hJαinf : letI := D.kerN;
+      img148 A D.N D.J ⊓ Subgroup.centralizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥)
+    (hXαle : letI := D.kerN;
+      img148 A D.N D.X ≤ img148 A D.N D.J ⊔
+        Subgroup.centralizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) :
+    letI := D.kerN;
+      ∃ T₀ : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N),
+        T₀ = (img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J ∧
+        IsPGroup 2 T₀ ∧ T₀ ≠ ⊥ ∧ T₀ ≤ img148 A D.N D.J ∧
+          img148 A D.N A ≤ Subgroup.normalizer (T₀ : Set _) := by
+  letI := D.kerN
+  have hRαC := R_alpha_inf D hJq
+  have hRαne := R_alpha_ne_bot D hJq
+  set T₀ : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) :=
+    (img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+      Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J with hT₀def
+  have hRαNJ : img148 A D.N D.R ≤
+      Subgroup.normalizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) :=
+    img148_le_normalizer (D.hXR.trans D.hXJ)
+  have hRαp : IsPGroup 2 (img148 A D.N D.R) := by
+    have hRsub : IsPGroup 2 (D.R.subgroupOf (D.N ⊔ A)) :=
+      D.hRp.of_equiv (Subgroup.subgroupOfEquivOfLe
+        (D.hXR.trans (D.hXY.trans (D.hYN.trans le_sup_left)))).symm
+    have hmap : img148 A D.N D.R =
+        (D.R.subgroupOf (D.N ⊔ A)).map (QuotientGroup.mk' (Sec14.ker148 A D.N)) := rfl
+    rw [hmap]
+    exact hRsub.map (QuotientGroup.mk' (Sec14.ker148 A D.N))
+  have hT₀p : IsPGroup 2 T₀ :=
+    CFSG.isPGroup_sup_centralizer_inf hRαNJ hJαinf hRαp
+  have hT₀J : T₀ ≤ img148 A D.N D.J := inf_le_right
+  have hT₀ne : T₀ ≠ ⊥ :=
+    CFSG.sup_centralizer_inf_ne_bot hRαNJ
+      ((img148_mono D.hXR).trans hXαle) hRαC hRαne
+  have hAαNT : img148 A D.N A ≤
+      Subgroup.normalizer (T₀ : Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+    rw [hT₀def]
+    exact (le_inf (img148_le_normalizer D.hAR) (img148_le_normalizer D.hAJ)).trans
+      CFSG.normalizer_inf_le_normalizer_sup_centralizer_inf
+  exact ⟨T₀, hT₀def, hT₀p, hT₀ne, hT₀J, hAαNT⟩
+
+private lemma J_alpha_center_of_iso
+    (D : CoreXR G A c L Y) {f : ℕ} (hf : 2 ≤ f)
+    (hJiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 f) :
+    letI := D.kerN; Subgroup.center ↥(img148 A D.N D.J) = ⊥ := by
+  letI := D.kerN
+  rcases hJiso with ⟨h1, ⟨e⟩⟩ | ⟨h2, ⟨e⟩⟩
+  · rw [← CFSG.ComponentClassification.OuterAutomorphisms.center_map_equiv e.symm,
+      (Sec13.isPerfect_center_projSL 2 f (by omega) h1).2, Subgroup.map_bot]
+  · rw [← CFSG.ComponentClassification.OuterAutomorphisms.center_map_equiv e.symm,
+      (Sec13.isPerfect_center_projSU 2 f (by omega) h2 (by
+        calc 2 < 2 ^ 2 := by norm_num
+          _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf)).2, Subgroup.map_bot]
+
+private lemma inf_centralizer_eq_bot_of_center
+    (D : CoreXR G A c L Y)
+    (hcenter : letI := D.kerN; Subgroup.center ↥(img148 A D.N D.J) = ⊥) :
+    letI := D.kerN;
+      img148 A D.N D.J ⊓ Subgroup.centralizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥ := by
+  letI := D.kerN
+  refine le_bot_iff.mp fun x hx => ?_
+  have hx' : (⟨x, hx.1⟩ : ↥(img148 A D.N D.J)) ∈
+      Subgroup.center ↥(img148 A D.N D.J) := by
+    rw [Subgroup.mem_center_iff]
+    intro y
+    exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hx.2 (y : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
+      y.2)
+  rw [hcenter, Subgroup.mem_bot] at hx'
+  exact Subtype.ext_iff.mp hx'
+
+private lemma alternative_two_impossible
+    (D : CoreXR G A c L Y) {f : ℕ} (hf1 : 1 ≤ f)
+    (hLiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N L) 2 f)
+    (hLαiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n)
+    (h7 : letI := D.kerN;
+      Nonempty (↥(img148 A D.N L) ≃* ↥(alternatingGroup (Fin 7)))) : False := by
+  letI := D.kerN
+  have hfn : f = D.n := Proof167Empty.eq_of_isoLThreePi_two hf1 D.hn1 hLiso hLαiso
+  have hf4 : 4 ≤ f := by rw [hfn]; exact D.hn4
+  obtain ⟨e7⟩ := h7
+  have hcard7 : Nat.card ↥(img148 A D.N L) = 2520 := by
+    rw [Nat.card_congr e7.toEquiv, KFacts.KS14.card_alternatingGroup_five_seven_ten.2.1]
+  have hdvd : 2 ^ (3 * f) ∣ 3 * Nat.card ↥(img148 A D.N L) := by
+    rcases Proof166Res4.three_mul_card_of_isoLThreePi (X := ↥(img148 A D.N L))
+      (p := 2) (e := f) hf1 hLiso with h | h
+    · rw [h]
+      rw [show (2 ^ f) ^ 3 = 2 ^ (3 * f) by rw [← pow_mul]; congr 1; omega]
+      exact dvd_mul_right _ _
+    · rw [h]
+      rw [show (2 ^ f) ^ 3 = 2 ^ (3 * f) by rw [← pow_mul]; congr 1; omega]
+      exact dvd_mul_right _ _
+  rw [hcard7] at hdvd
+  have h512 : 2 ^ 9 ∣ 3 * 2520 :=
+    (Nat.pow_dvd_pow 2 (by omega : 9 ≤ 3 * f)).trans hdvd
+  norm_num at h512
+
+private lemma ksl3_false
+    (D : CoreXR G A c L Y) {f : ℕ} (hf : 2 ≤ f)
+    (hJiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 f)
+    (hJq : IsQuasisimple ↥D.J)
+    (hJαinf : letI := D.kerN;
+      img148 A D.N D.J ⊓ Subgroup.centralizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) = ⊥) : False := by
+  letI := D.kerN
+  have hn2' : 2 ≤ D.n := le_trans (by norm_num : 2 ≤ 4) D.hn4
+  have hLαiso : Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n := L_alpha_iso_pi D
+  have hXαle := X_alpha_le_sup_of_iso D hf hJiso
+  obtain ⟨T₀, hT₀def, hT₀p, hT₀ne, hT₀J, hAαNT⟩ := projection_data D hJq hJαinf hXαle
+  obtain ⟨hEαA, hEαL, hEαE27, hEα9⟩ := E9_facts D
+  have hLαJ : img148 A D.N L ≤ img148 A D.N D.J := img148_mono D.hLJ
+  have hEαJ : img148 A D.N (A ⊓ L) ≤ img148 A D.N D.J := hEαL.trans hLαJ
+  have hLsub : Sec4.IsoLThreePi
+      ↥((img148 A D.N L).subgroupOf (img148 A D.N D.J)) 2 D.n :=
+    Proof169.isoLThreePi_of_mulEquiv
+      (Subgroup.subgroupOfEquivOfLe hLαJ).symm hLαiso
+  have hELsub : (img148 A D.N (A ⊓ L)).subgroupOf (img148 A D.N D.J) ≤
+      (img148 A D.N L).subgroupOf (img148 A D.N D.J) := fun x hx => hEαL hx
+  have hEsub : CFSG.Assembly.IsElemAbelian 3
+      ((img148 A D.N (A ⊓ L)).subgroupOf (img148 A D.N D.J)) :=
+    CFSG.Open.IsElemAbelian.subgroupOf hEαE27 (img148 A D.N D.J)
+  have hE9sub : Nat.card ((img148 A D.N (A ⊓ L)).subgroupOf (img148 A D.N D.J)) = 9 :=
+    (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEαJ).toEquiv).trans hEα9
+  have hTsub : IsPGroup 2 (T₀.subgroupOf (img148 A D.N D.J)) :=
+    hT₀p.of_equiv (Subgroup.subgroupOfEquivOfLe hT₀J).symm
+  have hETsub : (img148 A D.N (A ⊓ L)).subgroupOf (img148 A D.N D.J) ≤
+      Subgroup.normalizer ((T₀.subgroupOf (img148 A D.N D.J)) :
+        Set ↥(img148 A D.N D.J)) := by
+    refine Subgroup.le_normalizer_iff.mpr fun x hx t ht => ?_
+    have hxA : (x : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈ img148 A D.N A := hEαA hx
+    have hamb := (Subgroup.mem_normalizer_iff.mp (hAαNT hxA)
+      (t : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)).mp ht
+    simpa [Subgroup.mem_subgroupOf] using hamb
+  have hTbot : T₀.subgroupOf (img148 A D.N D.J) = ⊥ :=
+    ProofKSL3Two.eq_bot_of_le_normalizer_of_le (X := ↥(img148 A D.N D.J))
+      (f := f) (n := D.n) (by omega) hJiso D.hn1 D.hn3 hLsub hELsub hEsub hE9sub hTsub hETsub
+  have hdisj : Disjoint T₀ (img148 A D.N D.J) := Subgroup.subgroupOf_eq_bot.mp hTbot
+  have hinf : T₀ ⊓ img148 A D.N D.J = ⊥ := disjoint_iff.mp hdisj
+  exact hT₀ne (by rwa [inf_eq_left.mpr hT₀J] at hinf)
+
+private lemma J_alpha_center_of_triality
+    (D : CoreXR G A c L Y) {f : ℕ} (hf : 1 ≤ f)
+    (hmodel : letI := D.kerN;
+      CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A D.N D.J) .trialityD4 2 f) :
+    letI := D.kerN; Subgroup.center ↥(img148 A D.N D.J) = ⊥ := by
+  letI := D.kerN
+  have hJαsimple : IsSimpleGroup ↥(img148 A D.N D.J) :=
+    (CFSG.LieType.Simplicity.fam_3d4_simplicity ↥(img148 A D.N D.J) 2 f hmodel).2
+  have hcard := CFSG.Timmesfeld.ExceptionalOrders.card_of_twistedChevalleyModel_D4_two
+    (G := ↥(img148 A D.N D.J)) (f := f) hf hmodel.2
+  have h2dvd : 2 ^ (12 * f) ∣ Nat.card ↥(img148 A D.N D.J) := by
+    rw [hcard, CFSG.Open.ordTrialityD4]
+    have hq12 : (2 ^ f) ^ 12 = 2 ^ (12 * f) := by
+      rw [← pow_mul]
+      congr 1
+      omega
+    rw [hq12]
+    exact ⟨((2 ^ f) ^ 8 + (2 ^ f) ^ 4 + 1) * ((2 ^ f) ^ 6 - 1) * ((2 ^ f) ^ 2 - 1),
+      by ring⟩
+  have hcard_ge : 4096 ≤ Nat.card ↥(img148 A D.N D.J) := by
+    have hle := Nat.le_of_dvd Nat.card_pos h2dvd
+    calc 4096 = 2 ^ 12 := by norm_num
+      _ ≤ 2 ^ (12 * f) := Nat.pow_le_pow_right (by norm_num) (by omega)
+      _ ≤ Nat.card ↥(img148 A D.N D.J) := hle
+  have h3Jα : 3 ∣ Nat.card ↥(img148 A D.N D.J) := by
+    obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
+    rw [← Nat.card_congr e.toEquiv, ← Subgroup.index_eq_card]
+    have hθ3 : ¬ 3 ∣ Nat.card (aschbacherSolvableCore 3 ↥D.J) :=
+      KFacts.not_three_dvd_card_aschbacherSolvableCore D.J
+    have hmul := (aschbacherSolvableCore 3 ↥D.J).index_mul_card
+    refine (Nat.Coprime.dvd_of_dvd_mul_right
+      ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hθ3) ?_)
+    rw [hmul]
+    exact D.h3J
+  have hnonab : ∃ a b : ↥(img148 A D.N D.J), a * b ≠ b * a := by
+    by_contra h
+    push Not at h
+    haveI : IsMulCommutative ↥(img148 A D.N D.J) := ⟨⟨fun a b => h a b⟩⟩
+    have hprime : (Nat.card ↥(img148 A D.N D.J)).Prime :=
+      Group.is_simple_iff_prime_card.mp hJαsimple
+    have h3eq : Nat.card ↥(img148 A D.N D.J) = 3 :=
+      (hprime.dvd_iff_eq (a := 3) (by norm_num)).mp h3Jα
+    omega
+  exact CFSG.Holt.center_eq_bot_of_isSimpleGroup_nonabelian hnonab
+
+private lemma triality_fixed
+    (D : CoreXR G A c L Y)
+    (hgf : letI := D.kerN;
+      KFacts.InducesStdKind (img148 A D.N D.J) (alpha148 A D.N c D.hcA) .graphField) :
+    letI := D.kerN;
+      ∃ cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N,
+        cα = alpha148 A D.N c D.hcA ∧ cα ∈ img148 A D.N A ∧
+        cα ∈ Subgroup.normalizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) ∧
+        img148 A D.N L ≤ img148 A D.N D.J ⊓ Subgroup.centralizer ({cα} :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) ∧
+        ((img148 A D.N L).subgroupOf (img148 A D.N D.J ⊓
+          Subgroup.centralizer ({cα} :
+            Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)))).IsSubnormal := by
+  letI := D.kerN
+  have hc3 : c ^ 3 = 1 := D.h.toSec14Std.isE27.1.2 c D.hcA
+  set cα := alpha148 A D.N c D.hcA with hcαdef
+  have hCJ : img148 A D.N D.J ⊓ Subgroup.centralizer {cα} =
+      img148 A D.N (D.J ⊓ Subgroup.centralizer ({c} : Set G)) := by
+    rw [hcαdef]
+    exact Main148.img148_inf_centralizer_alpha148 (A := A) (Y := D.N) D.hNmem.2
+      (D.hJN.trans le_sup_left) D.hAJ D.hcA hc3
+  have hKL : img148 A D.N L ≤ img148 A D.N D.J ⊓ Subgroup.centralizer {cα} := by
+    rw [hCJ]
+    exact img148_mono (le_inf D.hLJ D.hLc)
+  have hLsn : (L.subgroupOf (Subgroup.centralizer ({c} : Set G))).IsSubnormal :=
+    (mem_thetaComponentsIn_iff.mp D.h.mem_lA.1).2.2.1
+  have hLsnJ : (L.subgroupOf (D.J ⊓ Subgroup.centralizer ({c} : Set G))).IsSubnormal := by
+    have hle : D.J ⊓ Subgroup.centralizer ({c} : Set G) ≤
+        Subgroup.centralizer ({c} : Set G) := inf_le_right
+    have h1 := hLsn.comap (Subgroup.inclusion hle)
+    have h2 : (L.subgroupOf (Subgroup.centralizer ({c} : Set G))).comap
+        (Subgroup.inclusion hle) =
+        L.subgroupOf (D.J ⊓ Subgroup.centralizer ({c} : Set G)) := by
+      ext x
+      simp [Subgroup.mem_subgroupOf]
+    rwa [h2] at h1
+  have hKsub : ((img148 A D.N L).subgroupOf (img148 A D.N D.J ⊓
+      Subgroup.centralizer {cα})).IsSubnormal := by
+    rw [hCJ]
+    exact Main148.isSubnormal_img148 (le_inf D.hLJ D.hLc)
+      (inf_le_left.trans (D.hJN.trans le_sup_left)) hLsnJ
+  exact ⟨cα, hcαdef, alpha148_mem_img148 D.hcA, KFacts.InducesStdKind.mem_normalizer hgf,
+    hKL, hKsub⟩
+
+private lemma triality_aut
+    (D : CoreXR G A c L Y)
+    (hgf : letI := D.kerN;
+      KFacts.InducesStdKind (img148 A D.N D.J) (alpha148 A D.N c D.hcA) .graphField) :
+    letI := D.kerN;
+      ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N),
+        cα = alpha148 A D.N c D.hcA →
+        cα ∈ Subgroup.normalizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) →
+        cα ^ 3 = 1 ∧ Sec4.InducesOuterTheta cα (img148 A D.N D.J) := by
+  letI := D.kerN
+  intro cα hcαdef hcαN
+  have hc3 : c ^ 3 = 1 := D.h.toSec14Std.isE27.1.2 c D.hcA
+  have hcα3 : cα ^ 3 = 1 := by
+    rw [hcαdef, ← alpha148_pow D.hcA 3]
+    rw [alpha148_eq_mk', mk'_ker148_eq_one_iff]
+    simpa [hc3] using (pPrimeCoreOf 3 D.N).one_mem
+  have hout : Sec4.InducesOuterTheta cα (img148 A D.N D.J) := by
+    rw [hcαdef]
+    exact KFacts.InducesStdKind.inducesOuterTheta (img148 A D.N D.J) hgf (by decide)
+  exact ⟨hcα3, hout⟩
+
+private lemma conj_mem_centralizer
+    (D : CoreXR G A c L Y) :
+    letI := D.kerN;
+      ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
+        (hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)))
+        (cc : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N),
+        cc ∈ Subgroup.centralizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) →
+        cα * cc * cα⁻¹ ∈ Subgroup.centralizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+  letI := D.kerN
+  intro cα hcαN cc hcc
+  rw [Subgroup.mem_centralizer_iff]
+  intro j hj
+  have hj' : cα⁻¹ * j * cα ∈ img148 A D.N D.J := by
+    simpa using (Subgroup.mem_normalizer_iff.mp (inv_mem hcαN) j).mp hj
+  have hcom := (Subgroup.mem_centralizer_iff.mp hcc) (cα⁻¹ * j * cα) hj'
+  calc j * (cα * cc * cα⁻¹)
+      = cα * ((cα⁻¹ * j * cα) * cc) * cα⁻¹ := by group
+    _ = cα * (cc * (cα⁻¹ * j * cα)) * cα⁻¹ := by rw [hcom]
+    _ = (cα * cc * cα⁻¹) * j := by group
+
+private lemma triality_mem
+    (D : CoreXR G A c L Y) :
+    letI := D.kerN;
+      ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
+        (hcαA : cα ∈ img148 A D.N A)
+        (hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)))
+        (x : ↥(img148 A D.N D.J)),
+        (x : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
+          (img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+            Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J →
+        (((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩) x) ∈
+          ((img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+            Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J).subgroupOf
+            (img148 A D.N D.J) := by
+  letI := D.kerN
+  intro cα hcαA hcαN x hxT
+  have hxsup : (x : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
+      img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J) :=
+    (Subgroup.mem_inf.mp hxT).1
+  let C : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) :=
+    Subgroup.centralizer (↑(img148 A D.N D.J) :
+      Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))
+  have hRαNJ : img148 A D.N D.R ≤
+      Subgroup.normalizer (img148 A D.N D.J :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) :=
+    img148_le_normalizer (D.hXR.trans D.hXJ)
+  have hRC : img148 A D.N D.R ≤
+      Subgroup.normalizer (C : Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) :=
+    fun r hr => CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer
+      (X := ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) (img148 A D.N D.J) (hRαNJ hr)
+  have hxmul : (x : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
+      (img148 A D.N D.R : Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) *
+        (C : Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) := by
+    rw [← Subgroup.coe_mul_of_left_le_normalizer_right _ _ hRC]
+    exact hxsup
+  obtain ⟨r, hr, cc, hcc, hxrc⟩ := hxmul
+  have hr' : cα * r * cα⁻¹ ∈ img148 A D.N D.R :=
+    (Subgroup.mem_normalizer_iff.mp (img148_le_normalizer D.hAR hcαA) r).mp hr
+  have hcc' : cα * cc * cα⁻¹ ∈ C := conj_mem_centralizer D cα hcαN cc hcc
+  have hσx : ((((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩) x :
+        ↥(img148 A D.N D.J)) : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) =
+      (cα * r * cα⁻¹) * (cα * cc * cα⁻¹) := by
+    rw [Subgroup.normalizerMonoidHom_apply_apply_coe, ← hxrc]
+    group
+  have hmemmul : ((((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩) x :
+        ↥(img148 A D.N D.J)) : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
+      (img148 A D.N D.R : Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) *
+        (C : Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)) :=
+    ⟨cα * r * cα⁻¹, hr', cα * cc * cα⁻¹, hcc', hσx.symm⟩
+  have hsup : ((((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩) x :
+        ↥(img148 A D.N D.J)) : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
+      img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J) := by
+    change ((((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩) x :
+        ↥(img148 A D.N D.J)) : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) ∈
+      (↑(img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J)) :
+        Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))
+    rw [Subgroup.coe_mul_of_left_le_normalizer_right _ _ hRC]
+    exact hmemmul
+  exact ⟨hsup, ((((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩) x).2)⟩
+
+private lemma triality_invariant
+    (D : CoreXR G A c L Y) :
+    letI := D.kerN;
+      ∀ (cα : ↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N)
+        (hcαA : cα ∈ img148 A D.N A)
+        (hcαN : cα ∈ Subgroup.normalizer (img148 A D.N D.J :
+          Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))),
+        (((img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+            Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J).subgroupOf
+            (img148 A D.N D.J)).map
+          (((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩).toMonoidHom) =
+        (((img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+            Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J).subgroupOf
+            (img148 A D.N D.J)) := by
+  letI := D.kerN
+  intro cα hcαA hcαN
+  set T₀ : Subgroup (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N) :=
+    (img148 A D.N D.R ⊔ Subgroup.centralizer (img148 A D.N D.J :
+      Set (↥(D.N ⊔ A) ⧸ Sec14.ker148 A D.N))) ⊓ img148 A D.N D.J with hT₀def
+  set σ : MulAut ↥(img148 A D.N D.J) :=
+    (img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩ with hσdef
+  have hle : (T₀.subgroupOf (img148 A D.N D.J)).map σ.toMonoidHom ≤
+      T₀.subgroupOf (img148 A D.N D.J) := by
+    intro y hy
+    obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
+    exact triality_mem D cα hcαA hcαN x hx
+  refine Subgroup.eq_of_le_of_card_ge hle ?_
+  have hcardmap : Nat.card ((T₀.subgroupOf (img148 A D.N D.J)).map σ.toMonoidHom) =
+      Nat.card (T₀.subgroupOf (img148 A D.N D.J)) :=
+    Subgroup.card_map_of_injective (K := T₀.subgroupOf (img148 A D.N D.J))
+      (f := σ.toMonoidHom) σ.injective
+  omega
+
+private lemma pRank_top_ge_four
+    (D : CoreXR G A c L Y) :
+    4 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup ↥D.J) :=
+  (Proof167Empty.four_le_pRank_of_isoLThreePi_two D.hn4 D.hXL).trans
+    (Proof167Empty.pRank_le_pRank_top_of_le D.hLJ)
+
+private lemma J_quasisimple_of_iso
+    (D : CoreXR G A c L Y) {f : ℕ} (hf : 2 ≤ f)
+    (hO2 : CFSG.pCore 2 ↥D.J = ⊥)
+    (hJiso : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 f) :
+    IsQuasisimple ↥D.J := by
+  letI := D.kerN
+  have hJαsimple : IsSimpleGroup ↥(img148 A D.N D.J) :=
+    Proof1424Steps.isSimpleGroup_of_isoLThreePi_two hf hJiso
+  haveI := hJαsimple
+  have hJθq : IsSimpleGroup (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J) := by
+    obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
+    exact e.isSimpleGroup
+  have hJnotsmall : ¬ Proof167Four.Small44
+      (Nat.card (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J)) := by
+    have hc : Nat.card (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J) =
+        Nat.card ↥(img148 A D.N D.J) := by
+      obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
+      exact Nat.card_congr e.toEquiv
+    rw [hc]
+    exact Proof167Four.not_small44_card_of_isoLThreePi_two hf hJiso
+  exact Proof167Empty.isQuasisimple_of_item4_4
+    Sec4.Census.rank3II_4_4_of_griess_noItem41
+    (D.h.toTheoremFourHyp.sectionFourHyp D.hJtop)
+    (isPerfect_of_mem_thetaComponentsIn D.hJ) hJθq hO2 hJnotsmall
+    (pRank_top_ge_four D)
+
+private lemma J_quasisimple_of_triality
+    (D : CoreXR G A c L Y) {f : ℕ} (hf : 1 ≤ f)
+    (hO2 : CFSG.pCore 2 ↥D.J = ⊥)
+    (hmodel : letI := D.kerN;
+      CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A D.N D.J) .trialityD4 2 f) :
+    IsQuasisimple ↥D.J := by
+  letI := D.kerN
+  have hJαsimple : IsSimpleGroup ↥(img148 A D.N D.J) :=
+    (CFSG.LieType.Simplicity.fam_3d4_simplicity ↥(img148 A D.N D.J) 2 f hmodel).2
+  haveI := hJαsimple
+  have hJθq : IsSimpleGroup (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J) := by
+    obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
+    exact e.isSimpleGroup
+  have hJnotsmall : ¬ Proof167Four.Small44
+      (Nat.card (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J)) := by
+    have hc : Nat.card (↥D.J ⧸ aschbacherSolvableCore 3 ↥D.J) =
+        Nat.card ↥(img148 A D.N D.J) := by
+      obtain ⟨e⟩ := Desc143X.nonempty_quotTheta_equiv_img148 (A := A) (Y := D.N) D.hJ D.h3J
+      exact Nat.card_congr e.toEquiv
+    rw [hc]
+    exact Proof167Empty.not_small44_card_of_trialityD4 hf hmodel
+  exact Proof167Empty.isQuasisimple_of_item4_4
+    Sec4.Census.rank3II_4_4_of_griess_noItem41
+    (D.h.toTheoremFourHyp.sectionFourHyp D.hJtop)
+    (isPerfect_of_mem_thetaComponentsIn D.hJ) hJθq hO2 hJnotsmall
+    (pRank_top_ge_four D)
+
+private lemma triality_false
+    (D : CoreXR G A c L Y) {f : ℕ} (hf4 : 4 ≤ f) (hf3 : ¬ 3 ∣ f)
+    (hLf : letI := D.kerN; Sec4.IsoLThreePi ↥(img148 A D.N L) 2 f)
+    (hmodel : letI := D.kerN;
+      CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A D.N D.J) .trialityD4 2 f)
+    (hgf : letI := D.kerN;
+      KFacts.InducesStdKind (img148 A D.N D.J) (alpha148 A D.N c D.hcA) .graphField)
+    (hJq : IsQuasisimple ↥D.J) : False := by
+  letI := D.kerN
+  have hf1 : 1 ≤ f := by omega
+  have hJαcenter := J_alpha_center_of_triality D hf1 hmodel
+  have hJαinf := inf_centralizer_eq_bot_of_center D hJαcenter
+  have hXαle := X_alpha_le_sup_of_triality D hmodel
+  obtain ⟨T₀, hT₀def, hT₀p, hT₀ne, hT₀J, hAαNT⟩ := projection_data D hJq hJαinf hXαle
+  obtain ⟨hEαA, hEαL, hEαE27, hEα9⟩ := E9_facts D
+  obtain ⟨cα, hcαdef, hcαA, hcαN, hKL, hKsub⟩ := triality_fixed D hgf
+  obtain ⟨hcα3, hout⟩ := triality_aut D hgf cα hcαdef hcαN
+  have hTinv : ∀ t ∈ T₀, cα * t * cα⁻¹ ∈ T₀ := by
+    intro t ht
+    have hinv : (T₀.subgroupOf (img148 A D.N D.J)).map
+        (((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩).toMonoidHom) =
+        T₀.subgroupOf (img148 A D.N D.J) := by
+      rw [hT₀def]
+      exact triality_invariant D cα hcαA hcαN
+    have hmem : ((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩)
+        ⟨t, hT₀J ht⟩ ∈ (T₀.subgroupOf (img148 A D.N D.J)).map
+          (((img148 A D.N D.J).normalizerMonoidHom ⟨cα, hcαN⟩).toMonoidHom) :=
+      Subgroup.mem_map_of_mem _ ht
+    rw [hinv] at hmem
+    simpa [Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.mem_subgroupOf] using hmem
+  have hLsub_iso : Sec4.IsoLThreePi
+      ↥((img148 A D.N L).subgroupOf (img148 A D.N D.J)) 2 f :=
+    Proof169.isoLThreePi_of_mulEquiv
+      (Subgroup.subgroupOfEquivOfLe (img148_mono D.hLJ)).symm hLf
+  have hE9sub : Nat.card ((img148 A D.N (A ⊓ L)).subgroupOf (img148 A D.N D.J)) = 9 :=
+    (Nat.card_congr (Subgroup.subgroupOfEquivOfLe
+      (hEαL.trans (img148_mono D.hLJ))).toEquiv).trans hEα9
+  exact hT₀ne (ks167D4_ambient D.hD4 hf4 hf3 hmodel hcαN hcα3 hout
+    (img148_mono D.hLJ) hKL hLsub_iso hKsub hEαL hEαE27 hE9sub hT₀J hT₀p hTinv
+    (fun x hx => hAαNT (hEαA hx)))
+
+private lemma false_of_pCore_eq_bot
+    (D : CoreXR G A c L Y)
+    (hO2 : CFSG.pCore 2 ↥D.J = ⊥) : False := by
+  letI := D.kerN
+  have hn2' : 2 ≤ D.n := le_trans (by norm_num : 2 ≤ 4) D.hn4
+  have hLαiso : Sec4.IsoLThreePi ↥(img148 A D.N L) 2 D.n := L_alpha_iso_pi D
+  have hcases := Proof167Core.lift429_cases_of (A := A) (c := c) (L := L)
+    (N := D.N) (J := D.J) D.h.toSec14Std D.hNmem D.hAN D.hLN D.hJ D.hLJ D.hAJ D.hcA
+  rcases hcases with h1 | h2 | h3 | h4
+  · have hJiso' : Sec4.IsoLThreePi ↥(img148 A D.N D.J) 2 D.n := h1 ▸ hLαiso
+    have hJq := J_quasisimple_of_iso D (f := D.n) hn2' hO2 hJiso'
+    exact ksl3_false D (f := D.n) hn2' hJiso' hJq
+      (inf_centralizer_eq_bot_of_center D
+        (J_alpha_center_of_iso D (f := D.n) hn2' hJiso'))
+  · obtain ⟨h7, -⟩ := h2
+    exact alternative_two_impossible D D.hn1 hLαiso hLαiso h7
+  · obtain ⟨f, hf1, hLiso, hJiso, hfield⟩ := h3
+    have hfn : f = D.n := Proof167Empty.eq_of_isoLThreePi_two hf1 D.hn1 hLiso hLαiso
+    rw [hfn] at hJiso
+    have hf3n : 2 ≤ 3 * D.n := by omega
+    have hJq := J_quasisimple_of_iso D (f := 3 * D.n) hf3n hO2 hJiso
+    exact ksl3_false D (f := 3 * D.n) hf3n hJiso hJq
+      (inf_centralizer_eq_bot_of_center D
+        (J_alpha_center_of_iso D (f := 3 * D.n) hf3n hJiso))
+  · obtain ⟨f, hf1, hLiso, hmodel, hgf⟩ := h4
+    have hfn : f = D.n := Proof167Empty.eq_of_isoLThreePi_two hf1 D.hn1 hLiso hLαiso
+    rw [hfn] at hmodel hLiso
+    have hJq := J_quasisimple_of_triality D (f := D.n) D.hn1 hO2 hmodel
+    exact triality_false D D.hn4 D.hn3 hLiso hmodel hgf hJq
+
+theorem step167EmptyO2_of
+    (h : Sec15R G A c L) (h138 : Item138N) (h149 : Item149 A (lB A))
+    (h1612 : Step1612) (hD4 : KFacts.KS167D4) : Step167EmptyO2 A (lB A) c L := by
+  intro Y hY hH h0 hF hZ1 hZA hne hN
+  let C : Ctx G A c L Y := ⟨h, h138, h149, h1612, hD4, hY, hH, h0, hF, hZ1, hZA, hne, hN⟩
+  obtain ⟨D1, -⟩ := setup_exists C
+  obtain ⟨D2, -⟩ := core_exists D1
+  obtain ⟨D3, -⟩ := coreXR_exists D2
+  by_cases hO2 : CFSG.pCore 2 ↥D3.J = ⊥
+  · exact (false_of_pCore_eq_bot D3 hO2).elim
+  · refine ⟨CFSG.Open.pCoreOf 2 D3.J, ?_, pCoreOf_ne_bot_of_pCore_ne_bot hO2⟩
+    refine mem_invariantPiSubgroups_iff.mpr ⟨le_top, ?_, ?_⟩
+    · exact (isPiSubgroup_piOf_iff Nat.prime_two _).mpr
+        (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D3.J)
+    · exact sup_le
+        (D3.hAJ.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 D3.J))
+        (D3.hLJ.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 D3.J))
+
+end Proof167Empty
+
+theorem step167EmptyO2R_of
+    (h138 : Item138N) (h149 : Item149S14) (h1612 : Step1612)
+    (hD4 : KFacts.KS167D4) : Step167EmptyO2R := fun G _ _ A c L h =>
+  Proof167Empty.step167EmptyO2_of h h138 (h149 G A c L h.toSec14Std) h1612 hD4
+
+end Certificates
+
+end CFSG.RankThree.PartTwo.Sec16
+
+end

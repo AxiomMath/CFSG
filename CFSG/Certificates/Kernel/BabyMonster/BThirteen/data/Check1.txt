@@ -1,0 +1,6 @@
+mul4 c_v7 v6 v6 = v7
+mul4 c_v8 v7 v7 = v8
+mul4 c_v9 v8 v5 = v9
+mul4 c_v10 CFSG.KC.BM.Seeds.A1 v9 = v10
+mul4 c_v11 v10 v10 = v11
+mul4 c_v12 v11 v11 = v12

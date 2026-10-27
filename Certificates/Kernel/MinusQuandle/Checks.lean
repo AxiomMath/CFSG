@@ -1,0 +1,60 @@
+module
+
+public import Certificates.Kernel.MinusQuandle.Data
+public import CFSG.Certificates.Kernel.MinusQuandleSound
+
+set_option maxRecDepth 100000
+set_option maxHeartbeats 0
+
+public section
+
+namespace CertificateChecks.KernelMinusQ
+
+open CFSG.OddTranspositions.PartThree CFSG.KD.MinusQuandle
+
+theorem noncomm_ok : minusQuandleNoncommCheck () = true := by decide +kernel
+
+theorem rows_ok : rowsOK R = true := by decide +kernel
+
+theorem deriv_ok : derivOK D = true := by decide +kernel
+
+theorem prim_ok : primS R = true := by decide +kernel
+
+theorem ch1383010p_0 : perpOK R D 0 5 = true := by decide +kernel
+theorem ch1383010p_1 : perpOK R D 5 10 = true := by decide +kernel
+theorem ch1383010p_2 : perpOK R D 10 15 = true := by decide +kernel
+theorem ch1383010p_3 : perpOK R D 15 20 = true := by decide +kernel
+theorem ch1383010p_4 : perpOK R D 20 25 = true := by decide +kernel
+theorem ch1383010p_5 : perpOK R D 25 30 = true := by decide +kernel
+theorem ch1383010p_6 : perpOK R D 30 35 = true := by decide +kernel
+theorem ch1383010p_7 : perpOK R D 35 40 = true := by decide +kernel
+theorem ch1383010p_8 : perpOK R D 40 45 = true := by decide +kernel
+theorem ch1383010p_9 : perpOK R D 45 50 = true := by decide +kernel
+theorem ch1383010p_10 : perpOK R D 50 55 = true := by decide +kernel
+theorem ch1383010p_11 : perpOK R D 55 60 = true := by decide +kernel
+theorem ch1383010p_12 : perpOK R D 60 65 = true := by decide +kernel
+
+theorem perp_all {a : ℕ} (ha : a < 65) : perpA R D a = true := by
+  have h : ∀ k, k < 13 → ∀ a, 5 * k ≤ a → a < 5 * k + 5 → perpA R D a = true := by
+    intro k hk a h1 h2
+    have hc : perpOK R D (5 * k) (5 * k + 5) = true := by
+      rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5 ∨ k = 6 ∨ k = 7 ∨
+          k = 8 ∨ k = 9 ∨ k = 10 ∨ k = 11 ∨ k = 12) with
+        rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+      · exact ch1383010p_0
+      · exact ch1383010p_1
+      · exact ch1383010p_2
+      · exact ch1383010p_3
+      · exact ch1383010p_4
+      · exact ch1383010p_5
+      · exact ch1383010p_6
+      · exact ch1383010p_7
+      · exact ch1383010p_8
+      · exact ch1383010p_9
+      · exact ch1383010p_10
+      · exact ch1383010p_11
+      · exact ch1383010p_12
+    exact CFSG.KC.MinusQuandle.perpOK_spec hc h1 h2
+  exact h (a / 5) (by omega) a (by omega) (by omega)
+
+end CertificateChecks.KernelMinusQ

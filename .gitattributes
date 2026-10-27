@@ -1,0 +1,2 @@
+# Exact blueprint input bytes: preserve whitespace and line endings.
+CFSG/Blueprint/Data/* -text -diff

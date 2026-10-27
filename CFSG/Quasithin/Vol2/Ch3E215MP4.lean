@@ -1,0 +1,135 @@
+module
+
+public import CFSG.Quasithin.Vol2.Ch3E215MF
+public import CFSG.Quasithin.Vol2.Ch3E213MP4A
+public import CFSG.Quasithin.Vol2.Ch3E213MP4C7
+
+public section
+
+namespace CFSG.Quasithin.Ch3E215M
+
+open CFSG.Open CFSG.QuasithinUnique B6 Ch3E213M
+open CFSG.LocalAnalysis.ComponentInitial.LinearFlag (projectiveSL)
+open CFSG.QuasithinUnique.Setup (oddResidualPreimage)
+
+theorem inf_pCoreOf_le {G : Type} [Group G] [Finite G] {X H : Subgroup G} (hXH : X ≤ H) :
+    X ⊓ pCoreOf 2 H ≤ pCoreOf 2 X := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_left (fun x hx => ?_)
+    ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).to_le inf_le_right)
+  exact Subgroup.inf_normalizer_le_normalizer_inf
+    ⟨Subgroup.le_normalizer hx, CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H (hXH hx)⟩
+
+theorem pkgBenderL2Sz215 :
+    ∀ (G : Type) [Group G] [Finite G] (H T M V K : Subgroup G), Setting H T M V K →
+      Case2 H T M K → ∀ n : ℕ, 2 ≤ n →
+      (IsPSL 2 2 n ↥(E2.star M H K) ∨ IsSz n ↥(E2.star M H K)) →
+      E2.IsBorelIn (E2.star M H K) (E2.star M H (M ⊓ K)) → E215Concl H T M V := by
+  intro G _ _ H T M V K hS h2 n hn hBK _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hmp := hS.hyp.minParabolic
+  have hTH : T ≤ H := hmp.isSylow.1
+  have hMH : M ≤ H := hmp.maximal.1.le
+  have hVH : V ≤ H := hS.hyp.le_H
+  obtain ⟨T', hT', hcharH, hTn, hTM', hMH', hmax', hel, hVT', hTV', hVM', -⟩ :=
+    qrcHyp_of_hyp28 hS.hyp hS.charTwo
+  have := hel
+  have hVQ' : 4 ≤ (V.subgroupOf H ⊓ CFSG.pCore 2 H).relIndex (V.subgroupOf H) := by
+    rw [relIndex_subgroupOf_inf_pCore hVH]
+    exact hS.four_le
+  obtain ⟨eK⟩ := P4.nonempty_equiv_star_of_case2 hS h2
+  obtain ⟨k, _, _, hk, hK⟩ : ∃ (k : Type) (_ : Field k) (_ : Finite k), Nat.card k = 2 ^ n ∧
+      ((2 ≤ n ∧ Nonempty (↥((oddResidualPreimage H).map
+          (QuotientGroup.mk' (kerIn (M.subgroupOf H) ⊤))) ≃* projectiveSL 2 k)) ∨
+        ∃ a : ℕ, 1 ≤ a ∧ n = 2 * a + 1 ∧ Nonempty (↥((oddResidualPreimage H).map
+          (QuotientGroup.mk' (kerIn (M.subgroupOf H) ⊤))) ≃* CFSG.Blueprint.suzukiGroup a k)) := by
+    rcases hBK with hL | hSz
+    · obtain ⟨k, _, _, hk, ⟨θ⟩⟩ := exists_equiv_projectiveSL_of_isPSL hL
+      exact ⟨k, inferInstance, inferInstance, hk, Or.inl ⟨hn, ⟨eK.trans θ⟩⟩⟩
+    · obtain ⟨a, ha, hna, k, _, _, hk, ⟨θ⟩⟩ := exists_equiv_suzukiGroup_of_isSz hSz
+      exact ⟨k, inferInstance, inferInstance, hk, Or.inr ⟨a, ha, hna, ⟨eK.trans θ⟩⟩⟩
+  have hQRC := H13.QRC.qrc_single_Bender_section_produces_original_higher_image_pair
+    hS.not_solvable hcharH T' hTn hTM' hMH' hmax' hVT' hTV' hVM' hVQ' hk hK
+  obtain ⟨-, -, m, L, g, hm1, -, -, hgI, -, hVI, -, -, -, -, -, -, -, -, -, hsyl, hNI, hMI, hJ1,
+    -, -, -, hcharI, ψ, hψs, hψk, -, -, -, -, -, hVQm, hlin, hsz⟩ := hQRC
+  rw [hT'] at hsyl hMI
+  have hVMI : V.subgroupOf H ≤ inSubgroup (CFSG.pCore 2)
+      (M.subgroupOf H ⊓ (V.subgroupOf H ⊔ CFSG.conjugate (V.subgroupOf H) g)) := by
+    rw [hMI]
+    exact le_inf (hT' ▸ hVT') le_sup_left
+  obtain ⟨hIX, hpair, hker⟩ := pair_of_qrc_kerIn hTH hMH hS.hyp.le_T hS.hyp.normal_T
+    hS.hyp.elem rfl hgI hsyl (fun x hx => (hNI ⟨hx.2, hx.1⟩).1) hVMI hJ1
+  obtain ⟨hc2, hne⟩ := charTwo_ne_of_qrc hVH hcharI hVI
+  rw [hIX] at hc2 hne
+  have hψk' :
+      ψ.ker = CFSG.pCore 2 ↥(V.subgroupOf H ⊔ CFSG.conjugate (V.subgroupOf H) g) := by
+    rw [hψk, hJ1, inSubgroup]
+    exact Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
+  have hcard : (kerIn (M ⊓ Ch3n.pairI V (g : G)⁻¹) (Ch3n.pairI V (g : G)⁻¹)).relIndex
+      (Ch3n.pairI V (g : G)⁻¹) = Nat.card L := by
+    rw [hker, ← hIX, relIndex_pCoreOf_map_subtype, P4.card_quotient_pCore_eq hψs hψk']
+  refine ⟨(g : G)⁻¹, H.inv_mem g.2, hpair, hc2, hne, ?_⟩
+  rcases hK with ⟨-, hKL⟩ | hKS
+  ·
+    obtain ⟨k', _, hk', e, hBor, -⟩ := hlin hn hKL
+    have : Finite k' := Nat.finite_of_card_ne_zero (by rw [hk']; positivity)
+    have hcardL : (kerIn (M ⊓ Ch3n.pairI V (g : G)⁻¹) (Ch3n.pairI V (g : G)⁻¹)).relIndex
+        (Ch3n.pairI V (g : G)⁻¹) = 2 ^ m * ((2 ^ m) ^ 2 - 1) := by
+      rw [hcard, Nat.card_congr e.toEquiv, card_projectiveSL_two_pow hk']
+    have h9 : m = 3 → ∃ c ∈ Ch3n.pairI V (g : G)⁻¹, orderOf c = 9 := fun hm3 => by
+      subst hm3
+      obtain ⟨c, hc9⟩ := exists_orderOf_nine_projectiveSL hk'
+      obtain ⟨x, hx, hx9⟩ := P4.exists_orderOf_nine_of_surjective hψs
+        (c := e.symm c) (by rw [MulEquiv.orderOf_eq, hc9])
+      exact ⟨x, hIX ▸ hx, hx9⟩
+    have hVM : V.subgroupOf H ≤ M.subgroupOf H :=
+      hVMI.trans ((Subgroup.map_subtype_le _).trans inf_le_left)
+    have hker' : ψ.ker ≤ (M.subgroupOf H ⊓ (V.subgroupOf H ⊔
+        CFSG.conjugate (V.subgroupOf H) g)).subgroupOf
+          (V.subgroupOf H ⊔ CFSG.conjugate (V.subgroupOf H) g) := fun x hx => by
+      rw [hψk] at hx
+      exact Subgroup.mem_subgroupOf.2 (kerIn_le (Subgroup.mem_subgroupOf.1 hx))
+    obtain ⟨hBru, hidx⟩ := bruhat_of_qrc_psl2 hMH rfl hgI hVM ψ hψs hker' hk' e hBor
+    rw [hIX] at hBru hidx
+    exact ⟨relIndex_le_of_psl2 hpair hc2 (by omega) hcardL h9,
+      e215DataOf_of_psl2 hpair hc2 (by omega) hcardL h9 hBru hidx⟩
+  ·
+    obtain ⟨-, hm3, b, k', _, hmb, hk', e, -⟩ := hsz hKS
+    have : Finite k' := Nat.finite_of_card_ne_zero (by rw [hk']; positivity)
+    have hcardS : (kerIn (M ⊓ Ch3n.pairI V (g : G)⁻¹) (Ch3n.pairI V (g : G)⁻¹)).relIndex
+        (Ch3n.pairI V (g : G)⁻¹) = (2 ^ m) ^ 2 * (((2 ^ m) ^ 2 + 1) * (2 ^ m - 1)) := by
+      rw [hcard, Nat.card_congr e.toEquiv]
+      subst hmb
+      rw [CFSG.LieType.Ree.suzuki_order hk']
+      ring
+    have hXH : Ch3n.pairI V (g : G)⁻¹ ≤ H := hIX ▸ Subgroup.map_subtype_le _
+    have hVX : V ≤ Ch3n.pairI V (g : G)⁻¹ := le_sup_left
+    have hle : V ⊓ pCoreOf 2 H ≤
+        kerIn (M ⊓ Ch3n.pairI V (g : G)⁻¹) (Ch3n.pairI V (g : G)⁻¹) ⊓ V := by
+      rw [hker]
+      exact le_inf ((inf_le_inf_right _ hVX).trans (inf_pCoreOf_le hXH)) inf_le_left
+    have hpos : 0 < (V ⊓ pCoreOf 2 H).relIndex V :=
+      Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite
+    have hvq : (kerIn (M ⊓ Ch3n.pairI V (g : G)⁻¹) (Ch3n.pairI V (g : G)⁻¹) ⊓ V).relIndex V ≤
+        2 ^ m :=
+      calc _ ≤ (V ⊓ pCoreOf 2 H).relIndex V :=
+            Nat.le_of_dvd hpos (Subgroup.relIndex_dvd_of_le_left V hle)
+        _ = _ := (relIndex_subgroupOf_inf_pCore hVH).symm
+        _ ≤ 2 ^ m := hVQm
+    exact ⟨relIndex_le_of_sz hpair hc2 hm3 hcardS, e215DataOf_of_sz hpair hc2 hm3 hcardS hvq⟩
+
+theorem pkgBenderU3_215 :
+    ∀ (G : Type) [Group G] [Finite G] (H T M V K : Subgroup G), Setting H T M V K →
+      Case2 H T M K → ∀ n : ℕ, 2 ≤ n → IsPSU 3 2 n ↥(E2.star M H K) → E215Concl H T M V := by
+  intro G _ _ H T M V K hS h2 n hn hU
+  obtain ⟨T', hT', hP⟩ := P4C.pair_of_u3 hS h2 hn hU
+  exact e215Concl_of_pair hS hT' hP
+
+theorem pkgBenderSingle215 :
+    PkgBenderSingle215 := by
+  rintro G _ _ H T M V K hS h2 n ⟨hn, hL | hSz | hU⟩ hB
+  · exact pkgBenderL2Sz215 G H T M V K hS h2 n hn (Or.inl hL) hB
+  · exact pkgBenderL2Sz215 G H T M V K hS h2 n hn (Or.inr hSz) hB
+  · exact pkgBenderU3_215 G H T M V K hS h2 n hn hU
+
+end CFSG.Quasithin.Ch3E215M

@@ -1,0 +1,771 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.GSTopExclusion
+public import CFSG.LocalAnalysis.ComponentClassification.Foote47L216KernelFour
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.FooteInputDischarges
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitMaximalU
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5WMNFoote
+public import CFSG.LocalAnalysis.ComponentClassification.CTUFooteConjugate
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitLBalanceWiring
+public import CFSG.LocalAnalysis.ComponentClassification.Sol78F5EndAsm
+public import CFSG.LocalAnalysis.ComponentClassification.Foote47Thm
+public import CFSG.LocalAnalysis.ComponentClassification.Foote47L216Config
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedLayerSemidihedralTwoComponents
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmBInputs
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB5bLemma512
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5AscDefs
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB6Conj
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma49Setup
+import CFSG.LocalAnalysis.ComponentClassification.Sol76Lemma316
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma412Pair
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.FixedComponent
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddAssemblyHolds
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofEvenOuter
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafEvenNoComponent
+public import CFSG.Blueprint.Catalog
+public import CFSG.Foundations.Basic
+public import CFSG.HardMathSupport.Cooperstein.StructureLie.OutTwoRank
+public import CFSG.Open.FusionDefs
+public import CFSG.GroupTheory.PCore.Defs
+public import CFSG.Foundations.QuasisimpleMulEquiv
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitInputs
+public import CFSG.LocalAnalysis.ComponentClassification.AssemblyBPredicates
+public import CFSG.LocalAnalysis.OddStandard.SmallF3.Omega.Defs
+public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.PCore.PPrimeCore
+public import CFSG.Assembly.Reduction
+public import CFSG.Open.LocalVocabulary
+public import Certificates.Certificate43
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate76
+public import Certificates.Certificate77
+public import Certificates.Certificate78
+public import Certificates.Certificate79
+public import Certificates.Certificate80
+public import Certificates.Certificate81
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate115
+public import Certificates.Certificate116
+public import Certificates.Certificate117
+public import Certificates.Certificate118
+public import Certificates.Certificate119
+public import Certificates.Certificate120
+public import Certificates.Certificate121
+public import Certificates.Certificate122
+public import Certificates.Certificate123
+public import Certificates.Certificate2261
+public import Certificates.Certificate2262
+public import Certificates.Certificate2263
+public import Certificates.Certificate2264
+public import Certificates.Certificate2265
+public import Certificates.Certificate2266
+public import Certificates.Certificate2267
+public import Certificates.Certificate2268
+public import Certificates.Certificate2269
+public import Certificates.Certificate2270
+public import Certificates.Certificate3951
+public import Certificates.Certificate8033
+public import Certificates.Certificate18000
+import CFSG.ClassicalInvolution.QuaternionStructure.OddCoreQuotient
+import CFSG.GroupTheory.ElemAbelianClosure
+import CFSG.GroupTheory.PCore.CommutingBalance
+import CFSG.GroupTheory.Fitting.PPrimeCoreGeneralizedFitting
+import CFSG.Adapters.StatedPSLTwoSeven
+import CFSG.HardMathSupport.Cooperstein.StructureLie.BotCaseOut
+import CFSG.HardMathSupport.Solomon.Coordinator.B2LieEvenCases
+import CFSG.LieType.ChevTwo.OutDataExc
+import CFSG.LieType.ChevTwo.OutDataE6
+import CFSG.LocalAnalysis.ComponentClassification.AS76bLemma21Simple
+import CFSG.LocalAnalysis.ComponentClassification.RankTwoHypIIYComponent
+import Mathlib.GroupTheory.SpecificGroups.Alternating
+import CFSG.LocalAnalysis.ComponentClassification.SymmetricLocalInvolutionOddCore
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBAlternatingLocal
+import CFSG.Quasithin.Background.A3Structure39Odd
+import CFSG.Adapters.WholeGroupLayer
+import CFSG.GroupTheory.Fitting.CharacteristicP
+import CFSG.GroupTheory.LocalCores.Components
+import CFSG.GroupTheory.LocalCores.Layer
+import CFSG.LieType.Chevalley.RootLocalComponentFree
+import CFSG.LieType.Ree.LargeReeModelSchreier
+import CFSG.LocalAnalysis.ComponentClassification.SteinbergBNEvenInnerInvolutionOddCore
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogEvenLinearTwoOutcome
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogG2EvenAlmostSimple
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogOmegaAlmostSimple
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSLGraphCoset
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSpVanishing
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogSUAlmostSimple
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedGSCSuzukiOddCore
+import CFSG.LocalAnalysis.ComponentInitial.ParabolicLocalCharacteristicTransfer
+import CFSG.LocalAnalysis.EvenSporadicStandard.M24Std.KForm.Mod.BT2
+import CFSG.GH74.GLS.Stage2.Local.GHSchLie
+import CFSG.RankThree.Chevalley.SteinbergCFExceptionalModelCover
+import CFSG.RankThree.PartOne.CTP.OutEmbed
+import CFSG.Sporadic.Schreier.LargeReeExcl
+import CFSG.Sporadic.Schreier.TitsOuter
+import CFSG.GroupTheory.ElementaryAbelianTransport
+import CFSG.LocalAnalysis.ComponentClassification.OuterAutomorphisms
+import CFSG.GroupTheory.PCore.FixedSubgroupCore
+import CFSG.HardMathSupport.Timmesfeld.Proving.MapGLAPPrimeCore
+import TauCeti.GroupTheory.PGroup
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogEvenCore
+import CFSG.Sporadic.Recognition.McLASTransport
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogRigidityUnitary
+import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherLinearGraphFieldDescent
+import CFSG.LocalAnalysis.ComponentInitial.LinearHigherAutomorphismGeneration
+import CFSG.LocalAnalysis.ComponentInitial.SteinbergBUProjectivePlaneLinearField
+import CFSG.RankThree.PartOne.S11d.OutLinear
+import CFSG.ClassicalGroups.UnitaryFlag.GroupData
+import CFSG.ClassicalGroups.Unitary.Simple
+import CFSG.LieType.ChevTwo.InversionLinear
+import CFSG.RankThree.PartOne.KLC.D4OutCentral
+import CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.ParrottKGGOmPlusCentral
+import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherEvenOrthogonalModel
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogRigidityFieldCentralizer
+import CFSG.LocalAnalysis.ComponentClassification.FiveCatEvenOmega
+import CFSG.RankThree.PartOne.S11d.OutOrthogonal
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogOmegaInvolutionConjugacy
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCatalogOmegaHigherRank
+import CFSG.RankThree.Classical.OrthogonalOrderThree
+import CFSG.Blueprint.LieModelAPI
+import CFSG.Open.StatedAPI
+import CFSG.HardMathSupport.Cooperstein.Coordinator.GF2Thm1311.NoKlein
+import CFSG.RankThree.Chevalley.SteinbergBTEvenE6FieldInvolutionOddCore
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueEvenExceptionalCheck
+import CFSG.LieType.Chevalley.EvenCanonicalFieldCentralizer
+import CFSG.LieType.Chevalley.OppositeNoncommutativity
+import CFSG.RankThree.PartOne.S11d.OutClassicalTwo
+import CFSG.RankThree.PartOne.S11d.OutUnitary
+import CFSG.RankThree.PartOne.S11d.OutSymplectic
+import CFSG.RankThree.PartOne.S11d.OutExceptional
+import CFSG.RankThree.PartOne.S11d.OutEsix
+import CFSG.LieType.ChevTwo.InversionFamilies
+import CFSG.Sporadic.Schreier.TitsOuterTwo
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointDataModelWitness
+import CFSG.LieType.Chevalley.ExceptionalG2F4ModelSchreier
+import CFSG.Adapters.ProjectiveSpecialLinear
+import CFSG.LocalAnalysis.ComponentInitial.LinearCoverModel
+import CFSG.LocalAnalysis.ComponentInitial.OddLinearTwoAliases
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLit82T1SporOut
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.SporadicTable
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitKGJ3
+public import CFSG.LocalAnalysis.EvenSmallLie.SympSix.Child3SelOrders
+public import CFSG.LocalAnalysis.ComponentClassification.TBLitSwap
+public import CFSG.LocalAnalysis.SeitzReduction.CrossChar
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofLieOrder
+public import CFSG.Quasithin.Vol2.Ch8Sec2L828USL2Card
+public import CFSG.LocalAnalysis.OddStandard.SmallF3.HypA2Leaves.A2lCl2Reduce
+public import CFSG.Foundations.KCore
+public import CFSG.LocalAnalysis.ComponentClassification.FixedCommutingProduct
+public import CFSG.LocalAnalysis.SectionRank.NativeKGroup
+public import Mathlib.FieldTheory.Finite.GaloisField
+public import Mathlib.LinearAlgebra.Matrix.ProjectiveSpecialLinearGroup
+import CFSG.GH74.GLS.C3.Layer1.EvenCoreSC
+import CFSG.GH74.Generic.BProg.B2.T1Comp
+import CFSG.RankThree.PartTwo.Sec4.Item419Res3ProofComp
+import CFSG.LocalAnalysis.OddStandard.Seitz77OddCoreLie
+import CFSG.GroupTheory.PCore.PrimeSetCore
+import CFSG.GroupTheory.CardMapInfKer
+import CFSG.RankThree.GroupTheory.SteinbergBMCoprimeGeneration
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitQuotientHyp
+public import CFSG.LocalAnalysis.ComponentClassification.Foote47L216Envelope
+public import CFSG.LocalAnalysis.ComponentClassification.Sol76T13Simple
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLit82T1S74Bypass
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB5bConj
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedLayerOrbitContainmentTransfer
+public import CFSG.LocalAnalysis.ComponentClassification.Foote47L216Normalizer
+public import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsFooteLit
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitThm32
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma41Main
+public import CFSG.LocalAnalysis.ComponentClassification.Sol76T13Tools
+public import CFSG.LocalAnalysis.SectionRank.GroupRankTransport
+public import CFSG.GroupTheory.CentralizerSup
+public import CFSG.RankThree.OddKernel.TwoRankTwo
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma43ii
+public import CFSG.LocalAnalysis.ComponentClassification.Foote47Transport
+public import CFSG.ThirdParty.BrauerInduction.Background.Group.Basic
+public import Mathlib.GroupTheory.Perm.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+public import CFSG.GroupTheory.ABGLocalTools.Basic
+public import CFSG.LocalAnalysis.ComponentClassification.AschbacherTightEmbeddingData
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicOddCoreBasic
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoStandardDefs
+import CFSG.LocalAnalysis.ComponentClassification.Foote47Gen43
+import CFSG.LocalAnalysis.ComponentClassification.Sol76CentLayer
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma21Rel
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma45Sylow
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancingFusionCorrBridge
+import CFSG.GH74.Uniqueness.SU.SU1Graph
+import CFSG.LocalAnalysis.SectionRank.AmbientRank
+import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PSL2Center
+import CFSG.GroupTheory.CommuteOfSqEqOne
+import CFSG.LocalAnalysis.ComponentInitial.SelectedEightGroupPropagation
+import CFSG.LocalAnalysis.ComponentInitial.GroupComponents
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216Thm46Pair
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216G16
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216Thm46Cent
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitThm46Cover
+import CFSG.LocalAnalysis.ComponentClassification.GSThmBAschbacherFive
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216T46
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216AutFactsA
+import CFSG.LocalAnalysis.UniquenessCase.UC22K108FieldL2
+import CFSG.RankThree.PartOne.KC.EvenSymplecticSL2Automorphisms
+import CFSG.LocalAnalysis.ProperTwoGeneratedCore.LocalCriterionSquareFieldCentralizer
+import CFSG.LocalAnalysis.ProperTwoGeneratedCore.LocalCriterionSquareFieldFullAutomorphism
+import CFSG.LocalAnalysis.ComponentClassification.FooteProperFixedA7
+import CFSG.Walter.PSL2Facts.Even
+import CFSG.Quasithin.Vol2.Ch5Sec1L34Lem518DLO
+import CFSG.LocalAnalysis.RankThreeTheoremC.AGL81TwelveNotLeGraphTowerHat
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB5bAction
+import CFSG.LocalAnalysis.ComponentClassification.Foote47P3Gen
+import CFSG.LocalAnalysis.ComponentClassification.CTUSol76SigPairs
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216P4Common
+import Mathlib.GroupTheory.Sylow
+import CFSG.LocalAnalysis.OddStandard.SmallF3.U33.Sec4B.SbL34S1b
+import CFSG.Permutation.FiveTransitive.InvolutiveAutomorphismBound
+import CFSG.LocalAnalysis.ComponentClassification.Foote47Inner
+import CFSG.LocalAnalysis.ComponentClassification.Sol76Lemma212Proof
+import CFSG.LocalAnalysis.ComponentClassification.Foote47P4Setup
+import CFSG.GroupTheory.SupCommute
+import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Tools582
+import CFSG.LocalAnalysis.ComponentClassification.Foote47P4Common
+import CFSG.LocalAnalysis.ComponentClassification.Foote47P4Ft
+import CFSG.LocalAnalysis.ComponentClassification.Foote47P4Aut
+import CFSG.LocalAnalysis.ComponentClassification.Sol76Thm12KStar
+import CFSG.LocalAnalysis.ComponentClassification.Foote5SolMirror
+import CFSG.LocalAnalysis.ComponentClassification.Foote5SolIdent
+import CFSG.LocalAnalysis.ComponentClassification.Foote5Setting
+import Mathlib.GroupTheory.OrderOfElement
+import Mathlib.GroupTheory.Subgroup.Simple
+import Mathlib.Algebra.Group.Subgroup.Finite
+import Mathlib.Tactic.Group
+import Mathlib.Tactic.Ring
+import CFSG.LocalAnalysis.EvenBN.Tits.Prelim.SecTwoDefs
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitThm33
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitTypeRank
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216FrobeniusConjugacy
+import CFSG.LocalAnalysis.ComponentClassification.GSThmBShell
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancingLocalCorrespondenceTools
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCorrSourceChange
+public import CFSG.LocalAnalysis.ComponentClassification.CTUMirrorL34
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitSolomonFamily
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB5bZStar
+import CFSG.LocalAnalysis.ComponentClassification.GrSLitFixedSimple
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedLayerOrbitLocation
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedGSBFixedLayerNormalizer
+import CFSG.LocalAnalysis.ComponentClassification.CatFactsSp4CentralProd
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBAlternatingPrime
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBAlternatingTransport
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBPrimeJoinTransport
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBSmallReeWhole
+import CFSG.LocalAnalysis.ComponentClassification.OddKernel
+import CFSG.LocalAnalysis.ComponentClassification.Sol78Basic
+import CFSG.LocalAnalysis.ComponentClassification.InvolutionDiagonal
+import CFSG.LocalAnalysis.ComponentClassification.PerfectAutomorphisms
+import CFSG.LocalAnalysis.ComponentClassification.HSDihedralAssembly
+import CFSG.Quasithin.EmptyFaithful.S152SProd
+import CFSG.LocalAnalysis.ComponentClassification.SolMaxMaximality
+import CFSG.LocalAnalysis.ComponentClassification.HarrisLitBlowup
+import CFSG.Walter.Bender1970.S2.Involutions
+import CFSG.Walter.JRFacts
+import CFSG.GroupTheory.LocalCores.Layer.CentralExtension
+import CFSG.GroupTheory.CenterlessInnerCentralizer
+import CFSG.Adapters.LinearSmallCatalog
+import CFSG.LocalAnalysis.EvenBN.Common.SL2CentralTwoSplit
+import CFSG.LocalAnalysis.SeitzReduction.RankOneLinearData
+import CFSG.LocalAnalysis.ComponentClassification.Sol76AltClass
+import CFSG.GH74.GLS.Statements
+import CFSG.GH74.SmallRanks
+import CFSG.GH74.KGroups.PSL2
+import CFSG.GH74.Uniqueness.Section4Lift
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedGSBFixedLayer
+import CFSG.LocalAnalysis.ComponentClassification.Sol76RankOneClassPoint
+import CFSG.LocalAnalysis.ComponentClassification.Foote5SolType
+import CFSG.LocalAnalysis.ComponentClassification.Sol76Lemma313Star
+public import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma411
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma49K
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma49Abstract
+import CFSG.LocalAnalysis.ComponentClassification.Helpers
+import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PSL2PerfectOfCard
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitCor48
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitThm32Tools
+import CFSG.Quasithin.EmptyFaithful.S1422Basic
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB58NFc
+import CFSG.ThirdParty.QiuzhenCFSG.Theory.AutAlternating
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB5bInputsB
+import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsTransport
+import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsFieldInv
+import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsOuterCent
+import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsGal
+import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PGL2DihedralSylow
+import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.DihedralCore
+import CFSG.LocalAnalysis.ComponentClassification.AutL2FactsSylow
+import CFSG.Quasithin.SteinbergOuterPrimeControl
+import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2
+import Mathlib.Algebra.Group.End
+import Mathlib.Algebra.Group.Subgroup.Defs
+import CFSG.Walter.Bender1970.S2.Basic
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma412Rooted
+import Certificates.Certificate82
+import Certificates.Certificate83
+import Certificates.Certificate84
+import Certificates.Certificate85
+import Certificates.Certificate86
+import Certificates.Certificate87
+import Certificates.Certificate88
+import Certificates.Certificate89
+import Certificates.Certificate90
+import Certificates.Certificate91
+import Certificates.Certificate92
+import Certificates.Certificate93
+import Certificates.Certificate94
+import Certificates.Certificate95
+import Certificates.Certificate96
+import Certificates.Certificate97
+import Certificates.Certificate98
+import Certificates.Certificate99
+import Certificates.Certificate100
+import Certificates.Certificate101
+import Certificates.Certificate102
+import Certificates.Certificate103
+import Certificates.Certificate104
+import Certificates.Certificate105
+import Certificates.Certificate106
+import Certificates.Certificate107
+import Certificates.Certificate108
+import Certificates.Certificate109
+import CFSG.LocalAnalysis.ComponentClassification.AschbacherStrongEmbeddingDefs
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma413Tools
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma413Bender
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma413One
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma413Two
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414Omega
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitElemAb
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414Trans
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414Sylow
+import Mathlib.GroupTheory.SpecificGroups.KleinFour
+import CFSG.LocalAnalysis.ComponentClassification.Foote47L216DualEightLift
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitSylowTools
+import CFSG.CGT.PushingUpLit.LIT.Foote.L54Aux
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414Bender
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414Tools
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma414Closed
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitLemma49Tools
+import CFSG.LocalAnalysis.ComponentClassification.FooteLitMcLLy
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB7SuzTau
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5AscMain
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5OddLieAllHolds
+public import CFSG.RankThree.PartOne.SPOR.Final
+import CFSG.CGT.Timmesfeld75.GoldschmidtMilestone
+import Certificates.Certificate1
+import Certificates.Certificate2
+import Certificates.Certificate3
+import Certificates.Certificate4
+import Certificates.Certificate5
+import Certificates.Certificate6
+import Certificates.Certificate7
+import Certificates.Certificate8
+import Certificates.Certificate9
+import Certificates.Certificate10
+import Certificates.Certificate11
+import Certificates.Certificate12
+import Certificates.Certificate42
+import Certificates.Certificate44
+import Certificates.Certificate110
+import Certificates.Certificate7000
+import Certificates.Certificate7001
+import Certificates.Certificate7002
+import Certificates.Certificate7003
+import Certificates.Certificate7004
+import Certificates.Certificate7005
+import Certificates.Certificate7006
+import Certificates.Certificate7007
+import Certificates.Certificate7008
+import Certificates.Certificate7009
+import Certificates.Certificate7010
+import Certificates.Certificate7011
+import Certificates.Certificate8046
+import Certificates.Certificate8049
+import Certificates.Certificate8052
+import CFSG.LocalAnalysis.ComponentClassification.RankTwoFoundationFinal
+import CFSG.CGT.Timmesfeld75.BenderInputs6
+import CFSG.LocalAnalysis.EvenBN.GMS.GoldschmidtTypeInvolution
+import CFSG.LocalAnalysis.ComponentClassification.GMS78Basic
+import CFSG.LocalAnalysis.ComponentClassification.TightEmbeddingConjugate
+import CFSG.LargeExtraspecial.S8CBFSmall
+import CFSG.LocalAnalysis.GH72.Sec2
+import CFSG.LocalAnalysis.ComponentClassification.TBLitAction
+import CFSG.GroupTheory.ABGLocalTools.CoreLemmas
+import CFSG.LocalAnalysis.ComponentClassification.Sol76LStruct
+import CFSG.LocalAnalysis.ComponentClassification.AS76bLemma22Basic
+import CFSG.GroupTheory.ABGLocalTools.SylowNormalizerGrows
+import CFSG.GroupTheory.CoprimeCentralizerCover
+import CFSG.Dihedral.DisconnectedInvolutionGraph.OddCore
+import CFSG.ClassicalInvolution.Asc77.AscT8RZ
+import CFSG.LocalAnalysis.ComponentClassification.TBLitLift
+import CFSG.LocalAnalysis.ComponentClassification.AS76bSec3Config
+import CFSG.ThirdParty.QiuzhenCFSG.BenderGlauberman.Lemma19
+import CFSG.LocalAnalysis.ComponentInitial.GL3TwoFixedModelCases
+import CFSG.LocalAnalysis.RankThreeCoreUniqueness.PerfectResiduals
+import CFSG.LinearAlgebra.LinearGroups.Perfect
+import CFSG.CGT.Timmesfeld75.L2Aut
+import CFSG.CGT.Timmesfeld75.L2AutInvol
+import CFSG.CGT.Timmesfeld75.L2Sylow
+import CFSG.ClassicalInvolution.Asc77.AscT3CoreInvol
+import CFSG.SignalizerFunctorTheorem.McBride.Models.PSL2Three.Aut
+import CFSG.LocalAnalysis.SubfieldPairReeG2.PsiBasics
+import CFSG.RankThree.PartOne.S11d.FinalLemmas
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB516Tools
+import CFSG.LocalAnalysis.ComponentClassification.Asc76XLemma38
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueSchreierLinearTwoAllFields
+import TauCeti.Algebra.Group.Subgroup.ZPowers
+import CFSG.LocalAnalysis.SteinbergBMOddResidualTools
+import CFSG.GroupTheory.Frattini.MapSubtypeLe
+import CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter
+import CFSG.LocalAnalysis.ComponentClassification.OddKernelNormalizers
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB7Basic
+import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115EvenL2
+import CFSG.LocalAnalysis.ComponentClassification.AschbacherTheorem5InvolutionTwoGroup
+import CFSG.GroupTheory.CommutingProductFixedSubgroup
+import CFSG.GroupTheory.CoprimeActionSupport.NormalSubgroupSylowJoin
+import CFSG.GroupTheory.SuzukiTwoGroupsBasic
+import CFSG.GroupTheory.PRankCommutingSup
+import CFSG.GroupTheory.SmallFixedTwoGroup.LemmaACentral
+import CFSG.LocalAnalysis.ComponentInitial.AlternatingFourGroup
+import CFSG.Quasithin.Vol2.KGFactC31RuRef
+import CFSG.LocalAnalysis.SteinbergBNGMSNormalRootData
+import CFSG.LocalAnalysis.SteinbergBVGMSNormalRootSylowAlternatives
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGoldschmidt
+import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Proposition84Residual
+import CFSG.GroupTheory.PGroup.LtInfNormalizer
+import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.ElementaryAbelian
+import CFSG.LocalAnalysis.SeitzReduction.RankOneStage
+import CFSG.LocalAnalysis.SteinbergBXGMSNormalRootDichotomy
+import CFSG.LocalAnalysis.SeitzReduction.RankOneUnitaryAffinePerm
+import CFSG.LocalAnalysis.SeitzReduction.RankOneSuzukiEightAffine
+import CFSG.LocalAnalysis.EvenBN.UnitaryFiveTwo.Sec4S6KProd
+import CFSG.GH74.Exceptional.LinearFourTwo
+import Mathlib.Algebra.Group.Action.Pointwise.Set.Basic
+import Mathlib.GroupTheory.GroupAction.Jordan
+import Mathlib.GroupTheory.GroupAction.Pointwise
+import Mathlib.GroupTheory.GroupAction.SubMulAction.Combination
+import Mathlib.GroupTheory.Perm.Cycle.Type
+import Mathlib.GroupTheory.Perm.Support
+import Mathlib.Tactic.IntervalCases
+import CFSG.Permutation.FiveTransitive.LargePrimeCyclePrimitive
+import CFSG.LocalAnalysis.SteinbergBXGMSNormalRootPartition
+import CFSG.GroupTheory.QuasisimpleCommutingProductBound
+import CFSG.RankThree.SubgroupLists.ExtraspecialNormal
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS28Trans
+import CFSG.LocalAnalysis.SteinbergBTGMSNormalRootSinger
+import CFSG.Quasithin.Vol2.Ch10SecQ3CC
+import CFSG.LocalAnalysis.OddStandard.Seitz77Nat16Basic
+import CFSG.LocalAnalysis.ShultStronglyClosedTI.BinaryScalarInvariance
+import CFSG.LocalAnalysis.SteinbergCDCentralTwoExtensionSquare
+import CFSG.Quasithin.EmptyFaithful.S145Cop
+import CFSG.Quasithin.Background.D2Coprime
+import Mathlib.Algebra.Field.Basic
+import CFSG.LocalAnalysis.EvenBN.Common.TwoElementary
+import CFSG.LinearAlgebra.ScalarGraphAction
+import CFSG.CharacterTheory.TwoRankLowerBound.NormalizerComplement
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS43Mason
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS43Chain
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS43Closure
+import CFSG.GroupTheory.TwoReflections
+import CFSG.GroupTheory.WielandtProductLocal
+import CFSG.GroupTheory.SubgroupCardInf
+import CFSG.LocalAnalysis.SeitzReduction.RankOneStageNextQuot
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS43Mason2Basic
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS43Inv
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS43MasonCases
+import CFSG.LieType.SpecialLinear.PairedTensor.FixedField
+import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalPSLTwoSections
+import CFSG.Sporadic.Schreier.J4SProfileNode
+import CFSG.LocalAnalysis.EvenBN.Common.RadicalRank
+import CFSG.LocalAnalysis.SeitzReduction.RankOneUnitaryCentralizerBasic
+import CFSG.CGT.T75N.L29Central
+import CFSG.Sporadic.Th.Max3.Core
+import CFSG.LocalAnalysis.ComponentClassification.GMS78Sec4Prelim
+import CFSG.LocalAnalysis.ComponentClassification.GMS78Sec4Boundary
+import CFSG.LocalAnalysis.ComponentClassification.GMS78Lemma311
+import CFSG.LocalAnalysis.OddStandard.Seitz77CaseACloseGal
+import CFSG.RankThree.GF2n.Tim79Pair
+import CFSG.Quasithin.Vol2.Ch11SecE3LieL2Fix
+import CFSG.GroupTheory.NormalizerSubgroupOfConj
+import Mathlib.Algebra.Module.Equiv.Basic
+import CFSG.Sporadic.ThSchreier.GlobalData
+import CFSG.LocalAnalysis.SeitzReduction.RankOneStageNext
+import CFSG.LocalAnalysis.GH72.Sec4Max
+import CFSG.GroupTheory.CentralSylowComplement
+import CFSG.GroupTheory.CardSupInf
+import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.Lemma5_2
+import CFSG.GroupTheory.SylowIntersectionControl.Basic
+import CFSG.GroupTheory.QuasiDihedralFusion.Basic
+import CFSG.Open.StandardComponentRecognitionMilestoneDefs
+import CFSG.Adapters.QiuzhenLegacy.Glauberman.RelIndexSup
+import CFSG.LocalAnalysis.SeitzReduction.RankOneUnitaryC1PushUpAbelian
+import CFSG.LocalAnalysis.RankFourTheoremC.InvariantTwo.KFacts.I294Lemmas
+import CFSG.LocalAnalysis.EvenBN.U4.Model.Rank
+import CFSG.LocalAnalysis.SeitzReduction.RankOneEndingsTransfer
+import CFSG.LocalAnalysis.SteinbergBVGMSNormalRootFamily
+import CFSG.LocalAnalysis.SeitzReduction.RankOneGMS28Elem
+import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.Wielandt.SubgroupRectangular
+import CFSG.Quasithin.Recognition.GoldschmidtFan86Sec4Gen
+import CFSG.LocalAnalysis.SeitzReduction.RankOneLinearStageZero
+import CFSG.LocalAnalysis.SeitzReduction.RankOneSuzukiNotSylow
+import CFSG.LocalAnalysis.SeitzReduction.RankOneFinkelsteinBasic
+import CFSG.LocalAnalysis.GH72.Sec4Residual
+import CFSG.LocalAnalysis.ComponentClassification.CoprimeAutomorphisms
+import Mathlib.SetTheory.Cardinal.NatCard
+import Mathlib.SetTheory.Cardinal.Finite
+import CFSG.GroupTheory.DoubleNormalizerQuotient
+import CFSG.LocalAnalysis.SteinbergBNGMSNormalRootEquiv
+import CFSG.LocalAnalysis.ComponentInitial.SteinbergCCElementaryCoset
+import CFSG.LocalAnalysis.SeitzReduction.RankOneFinkelsteinNonabelian
+import CFSG.LocalAnalysis.SeitzReduction.RankOneFinkelsteinAbelian
+import CFSG.LocalAnalysis.SeitzReduction.RankOneEndings
+import CFSG.LocalAnalysis.StandardType.GGSixFusion
+import CFSG.LocalAnalysis.UniquenessCase.UC6Syl
+import CFSG.StronglyEmbedded.PSL2Facts
+import CFSG.LocalAnalysis.ComponentClassification.GMS78L2Out
+import CFSG.LocalAnalysis.ComponentClassification.AS81Sec2Step22ivBasic
+import CFSG.LocalAnalysis.ComponentClassification.AS81Step18Embed
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB5aConjFix
+import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.BGsection12.lemma_12_3_a
+import CFSG.RankThree.PartTwo.Sec11.Item1120V0BarSylow
+import CFSG.Mathlib.GroupTheory.NormalFifteenQuotient
+import CFSG.LocalAnalysis.ComponentInitial.ScalarSemilinearNormalizer
+public import CFSG.Adapters.LieModelSmallOrders
+public import CFSG.GH74.GLS.IVK.Lifted.Alt51Lift
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93Field
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93Field2
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93PGL
+public import CFSG.GH74.GLS.IVK.Proofs2.Ivk93PGL2
+public import CFSG.GH74.GLS.Stage1.Thm4.Statements
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.Closed2
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.Conj
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.IVK812Stmt
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.Proofs12
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.Proofs9
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.Statements
+public import CFSG.GH74.GLS.Stage2.Bender.Thm2.Stmt12
+public import CFSG.GH74.GLS.Stage2.Signalizer.Bridge
+public import CFSG.GH74.GLS.Stage2.Signalizer.Kinds
+public import CFSG.GH74.GLS.Stage2.Signalizer.SDWr
+public import CFSG.Holt.Centralizer
+public import CFSG.Holt.General.Basic
+public import CFSG.Holt.General.Simple
+public import CFSG.LocalAnalysis.ComponentClassification.BurgoyneE2TwE6InRows
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.CentZ2A7
+public import CFSG.LocalAnalysis.ComponentClassification.CatFactsL4U4Q81Step6
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofA6Datum
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofA6Exc
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofA6Split
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofA6ToralE6
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofA6ToralE8
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofA6ToralF4
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofE7FieldQuat
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofQ81P2L33All
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofQ81P2L33Alt
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofQ81P2L33NonB
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofQ81P2L33OCTools
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofQ81P2L33Odd
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofQ81P2L33Spor
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofX10CDich
+public import CFSG.LocalAnalysis.ComponentClassification.ExactGen
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.ClassicalInvolution
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.GH74Models
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.Solomon2An
+public import CFSG.LocalAnalysis.ComponentClassification.Foote1978.SolomonThm13
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5HallNC
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5HallSD
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5HallSDFix
+public import CFSG.LocalAnalysis.ComponentClassification.Foote5OddLieExcPSL2QPU
+public import CFSG.LocalAnalysis.ComponentClassification.GS82Step2L34Free
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB81S3
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB81S7d
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82A10TFinal
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82CIURowSpor
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmBCatalog516CL4
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmBCatalog7StdOm8Cases
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmBCatalog7StdOm8Indep
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Choice59
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5Comp510
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5OTwoFam510
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5SStdCatSOOrd
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34Sec5SStdSol
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34TwFinal
+public import CFSG.LocalAnalysis.ComponentClassification.HarrisLitLemma47Count
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxCaseTwoLift
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxSixE32Main
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxSwapN9XG
+public import CFSG.LocalAnalysis.ComponentClassification.SolMaxSwapN9YT
+public import CFSG.LocalAnalysis.ComponentClassification.StandardSubgroupAPI
+public import CFSG.LocalAnalysis.ComponentInitial.EscapingNotClassical
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Main
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.DiagonalLink
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.OuterPumpChainBasic
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Balance.ContainerDefs
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Chain.InnCover
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Chain.Quasi
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.FiStep
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Junction.Fs79.Thm22Final
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.HNOdd
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.HeRank
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.SuzRowAtlas
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.StdBareStandard
+public import CFSG.LocalAnalysis.EvenSporadicStandard.McLStd.Residual
+public import CFSG.LocalAnalysis.EvenSporadicStandard.SolvableRadical
+public import CFSG.LocalAnalysis.EvenSporadicStandard.TwoCo1.ConwayInput
+public import CFSG.LocalAnalysis.OddStandard.AltStdCycTwoOddTwoHolds
+public import CFSG.LocalAnalysis.OddStandard.AltStdSmall4TowerModels
+public import CFSG.LocalAnalysis.OddStandard.SmallF3.HypA2.FStarFacts
+public import CFSG.LocalAnalysis.OddStandard.SmallF3.HypA2.Inputs
+public import CFSG.LocalAnalysis.OddStandard.SmallF3.HypA2.SectionCard
+public import CFSG.LocalAnalysis.OddStandard.Solomon75Sec5QArr
+public import CFSG.LocalAnalysis.OddStandard.Solomon75Sec5QChk
+public import CFSG.LocalAnalysis.OddStandard.Solomon75Sec5QTab
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L239PairsTitsPair
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotHR4
+public import CFSG.LocalAnalysis.SeitzReduction.E6PilotLeviPerp
+public import CFSG.LocalAnalysis.SeitzReduction.E8PilotQ2PositionWork
+public import CFSG.LocalAnalysis.SeitzReduction.E8PilotSwapLift
+public import CFSG.LocalAnalysis.SeitzReduction.EPilotEndGraphE6
+public import CFSG.LocalAnalysis.SeitzReduction.EPilotEndGraphTwistedXi
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotCatEvenClassical
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotEndField
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotFieldNeighbourFix
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotFieldNeighbourLift
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotInnerField
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotCatSporadicFourProved
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotQ2LFiveWSylow
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotQ2SixRevCommBasic
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotQ2SixWHom
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotQ2SmallestAut
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotSwapFactorNormalGraph
+public import CFSG.LocalAnalysis.SeitzReduction.RankOneBranches
+public import CFSG.LocalAnalysis.SeitzReduction.RankOneHypStarDef
+public import CFSG.LocalAnalysis.SeitzReduction.SporadicRefineL34ONOuterAssembly
+public import CFSG.LocalAnalysis.SeitzReduction.SporadicRefineLFourRank
+public import CFSG.LocalAnalysis.SeitzReduction.UnitaryPilotCatAssembly
+public import CFSG.LocalAnalysis.SeitzReduction.UnitaryPilotUniqueTypeGraph
+public import CFSG.Models.Transport
+public import CFSG.Open.GeneralizedFittingSelfCentralizing
+public import CFSG.Open.StandardDefs
+public import CFSG.Quasithin.Background.B1More13
+public import CFSG.Quasithin.Background.C129NativeMain
+public import CFSG.Quasithin.Background.G64SymCase
+public import CFSG.Quasithin.EmptyFaithful.S1421QA28Rows
+public import CFSG.Quasithin.EmptyFaithful.S153H32
+public import CFSG.Quasithin.EmptyFaithfulMultiple.Comparison15421Glue
+public import CFSG.Quasithin.EmptyFaithfulMultiple.Lemma15420B56
+public import CFSG.RankThree.Chevalley.SteinbergCFEvenF4PointwiseInner
+public import CFSG.RankThree.PartOne.KF4.EvenDescent
+public import CFSG.RankThree.PartTwo.Sec21.Item233
+public import CFSG.RankThree.PartTwo.Sec21.Item233Pieces
+public import CFSG.Sporadic.ThSchreier.NodeSchreierCase
+public import CFSG.Yardstones.M78dbc7db00f7.Definitions
+public import Certificates.Certificate36500
+public import Certificates.Certificate36501
+public import Certificates.Data.CFSGNative.SCATWreath
+import CFSG.CGT.PushingUp.BenderBridge
+import CFSG.CGT.PushingUp.BlockOrder
+import CFSG.CGT.PushingUpLit.CGT6.EmbeddingNodes
+import CFSG.CGT.PushingUpLit.LIT.Foote.GroupAux2
+import CFSG.CGT.PushingUpLit.T2K.Basic
+import CFSG.LargeExtraspecial.S8CBFSect
+import CFSG.LieType.ChevTwo.Reductions
+import CFSG.LocalAnalysis.GH72.Sec4K0
+import CFSG.LocalAnalysis.SeitzReduction.E7PilotFieldNormalizeAutMain
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotAnisoF6
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotBLiftAniso
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotCatCovers
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotHR7iii
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotMinusClassDescent
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotMinusCoverHR8
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotMinusCoverHR8Global
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotPlusFourHsyl
+import CFSG.LocalAnalysis.SeitzReduction.OmegaPilotSwapPair
+import CFSG.LocalAnalysis.SeitzReduction.RankOneUnitaryStartInner
+import CFSG.LocalAnalysis.SeitzReduction.RankOneUnitaryStartNormalizer
+import CFSG.LocalAnalysis.UniquenessCase.UC6Basic
+import CFSG.Quasithin.Background.C2A3Orbits
+import CFSG.Quasithin.Background.C2PushY
+import CFSG.Quasithin.Background.D14Normal
+import CFSG.Quasithin.Background.D15Chief
+import CFSG.Quasithin.EmptyFaithful.S152FinCore
+import CFSG.Quasithin.H13.QRCThreeFreeRankOneStep
+import CFSG.Quasithin.SteinbergBKHigherElementaryThompson
+import CFSG.Quasithin.Vol2.Ch10SecAFactsOrth
+import CFSG.Quasithin.Vol2.Ch10SecB3Obl
+import CFSG.Quasithin.Vol2.Ch10SecQ34B0
+import CFSG.Quasithin.Vol2.Ch5Sec1L34Lem518DL
+import CFSG.Quasithin.Vol2.Ch5Sec1L34ParFact
+import CFSG.Quasithin.Vol2.Ch5Sec1Lem512
+import CFSG.Quasithin.Vol2.Ch6Defs
+import CFSG.Quasithin.Vol2.Ch6Vocab
+import CFSG.RankThree.GF2n.Tim79Defs
+import CFSG.RankThree.GroupTheory.SteinbergBMFrattiniNormalizerTwoCore
+
+public section
+
+namespace CFSG.ComponentClassification.FooteLit
+
+open CFSG Subgroup
+open CFSG.EvenSporadicStandard.Induction (FS79Thm13Use Sol78Thm46)
+
+section Certificates
+
+theorem footeConjugatePairExclusion_of_topExclusion_holds
+    (hT : Foote5.SolMax.FooteTopExclusion) : FooteConjugatePairExclusion :=
+  Foote5.SolMax.footeConjugatePairExclusion_of_topExclusion
+    classicalInvolutionInput_holds
+    CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
+    CFSG.RankThree.PartTwo.Sec4.Census.griessMultipliersCentralCovers
+    CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput
+    solomonThm13Simple_holds
+    CFSG.RankThree.PartOne.SPOR.schreierFor_catalog
+    hT
+
+theorem footeMaximalUnbalancedInput_of_topExclusion
+    (hT : Foote5.SolMax.FooteTopExclusion) : FooteMaximalUnbalancedInput :=
+  footeMaximalUnbalancedInput_of_footeMaximalInput
+    (footeMaximalInput_of_conjugatePair classicalInvolutionInput_holds
+      CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
+      solomonThm13Simple_holds solomon2AnInput_of_gh74_holds gh74ModelsInput_holds
+      CFSG.ComponentClassification.Foote5.OddLieCore.oddLieOuterCoreInput_holds
+      (footeConjugatePairExclusion_of_topExclusion_holds hT))
+
+end Certificates
+
+end CFSG.ComponentClassification.FooteLit

@@ -1,0 +1,305 @@
+module
+
+public import CFSG.RankThree.PartOne.KGD.D4T36Family
+
+public noncomputable section
+
+namespace CFSG.RankThree.PartOne.D4RC
+
+open Matrix CFSG CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
+  CFSG.RankThree.Chevalley CFSG.RankThree.Lattice CFSG.RankThree.PartOne.KE
+  CFSG.RankThree.PartOne.KF4 CFSG.RankThree.PartOne.KGD
+  CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
+open CFSG.RankThree.Classical2 (fixSubgroup unitarySet)
+open scoped Matrix MatrixGroups
+
+set_option linter.unusedSectionVars false
+
+section Helpers
+
+variable {L : Type} [Field L]
+
+theorem rcl_map_transvection {k : Type} [Field k] [Algebra k L] {i j : Fin 3} (hij : i ≠ j)
+    (t : k) :
+    Matrix.SpecialLinearGroup.map (algebraMap k L) (Matrix.SpecialLinearGroup.transvection hij t) =
+      Matrix.SpecialLinearGroup.transvection hij (algebraMap k L t) := by
+  apply Subtype.ext
+  rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
+  change ((1 + Matrix.single i j t : Matrix (Fin 3) (Fin 3) k).map (algebraMap k L)) =
+    1 + Matrix.single i j (algebraMap k L t)
+  ext a b
+  simp only [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+  split_ifs <;> simp_all
+
+theorem rcl_conj_T10_T01 [CharP L 2] (t : L) :
+    ((Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L) *
+      Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide) t *
+      (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L))⁻¹ :
+        SL(3, L)) : Matrix (Fin 3) (Fin 3) L) = !![1 + t, t, 0; t, 1 + t, 0; 0, 0, 1] := by
+  rw [Matrix.SpecialLinearGroup.transvection_inv]
+  simp only [Matrix.SpecialLinearGroup.coe_mul, CFSG.LinearGroups.coe_transvection]
+  ext a b
+  fin_cases a <;> fin_cases b <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply, Matrix.add_apply] <;>
+    first | exact CharTwo.neg_eq t | exact add_comm _ _
+
+theorem rcl_nilp_mem_unitary {k : Type} [Field k] [Algebra k L] [CharP L 2] {q : ℕ}
+    (hq : ∀ c : k, c ^ q = c) (t : k) :
+    Matrix.SpecialLinearGroup.toGL
+      (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L) *
+      Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide) (algebraMap k L t) *
+      (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L))⁻¹) ∈
+      unitarySet (Ω := L) q 3 := by
+  have h2 : (2 : L) = 0 := CharTwo.two_eq_zero
+  have hM := rcl_conj_T10_T01 (L := L) (algebraMap k L t)
+  set X := Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L) *
+      Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide) (algebraMap k L t) *
+      (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L))⁻¹ with hX
+  have hfix : ∀ x : L, x ∈ Set.range (algebraMap k L) → x ^ q = x := by
+    rintro _ ⟨c, rfl⟩
+    rw [← map_pow, hq]
+  have hfix2 : ∀ x : L, x ∈ Set.range (algebraMap k L) → x ^ q ^ 2 = x := fun x hx => by
+    rw [pow_two, pow_mul, hfix x hx, hfix x hx]
+  have ha : algebraMap k L t ∈ Set.range (algebraMap k L) := ⟨t, rfl⟩
+  have h1a : 1 + algebraMap k L t ∈ Set.range (algebraMap k L) := ⟨1 + t, by simp⟩
+  have h0 : (0 : L) ∈ Set.range (algebraMap k L) := ⟨0, map_zero _⟩
+  have h1 : (1 : L) ∈ Set.range (algebraMap k L) := ⟨1, map_one _⟩
+  have hXc : ((Matrix.SpecialLinearGroup.toGL X : GL (Fin 3) L) : Matrix (Fin 3) (Fin 3) L) =
+      !![1 + algebraMap k L t, algebraMap k L t, 0; algebraMap k L t, 1 + algebraMap k L t, 0;
+        0, 0, 1] := by
+    rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix, hX, hM]
+  have hent : ∀ i j, (!![1 + algebraMap k L t, algebraMap k L t, 0; algebraMap k L t,
+      1 + algebraMap k L t, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) L) i j ∈
+        Set.range (algebraMap k L) := by
+    intro i j
+    fin_cases i <;> fin_cases j <;> simp [h1a, ha, h0, h1]
+  refine ⟨fun i j => ?_, ?_, ?_⟩
+  · rw [hXc]
+    exact hfix2 _ (hent i j)
+  · rw [hXc]
+    have := X.det_coe
+    rw [← Matrix.SpecialLinearGroup.coe_GL_coe_matrix] at this
+    rw [hXc] at this
+    exact this
+  · rw [hXc]
+    have hmap : (!![1 + algebraMap k L t, algebraMap k L t, 0; algebraMap k L t,
+        1 + algebraMap k L t, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) L).map (· ^ q) =
+        !![1 + algebraMap k L t, algebraMap k L t, 0; algebraMap k L t,
+          1 + algebraMap k L t, 0; 0, 0, 1] := by
+      ext i j
+      exact hfix _ (hent i j)
+    rw [hmap]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.transpose_apply] <;>
+      linear_combination (algebraMap k L t + algebraMap k L t ^ 2) * h2
+
+end Helpers
+
+section Family
+
+variable {ℓ f : ℕ}
+
+theorem rcl_family_iso' [Fact ℓ.Prime] (hℓ2 : ℓ = 2) (hf : 1 ≤ f) {L : Type} [Field L]
+    [IsAlgClosed L] {k : Type} [Field k] [Algebra k L] [IsAlgClosure k L]
+    (hk : Nat.card k = ℓ ^ f) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (hq2 : ε = 1 ∨ 2 < ℓ ^ f)
+    (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) (n : ModGL TwistTag.D4.tag L)
+    (hnm : n ∈ monomialSubgroup TwistTag.D4.tag L)
+    (hnW : ∀ x, weylQuotientHom TwistTag.D4.tag L ⟨n, hnm⟩ • x =
+      d4T36M ε *ᵥ permLattice TwistTag.D4.perm.symm x)
+    (i : Fin 4) (v : WeylGroup TwistTag.D4.tag)
+    (hv0 : v • (Pi.single 0 1 : Fin TwistTag.D4.tag.rank → ℤ) = d4U i)
+    (hv2 : v • (Pi.single 2 1 : Fin TwistTag.D4.tag.rank → ℤ) = d4T36A *ᵥ d4U i)
+    (hvS : (fun x => v • x) '' d4StdA2 = d4Sigma i) :
+    ∃ (ρ : SL(3, L) →* ModGL TwistTag.D4.tag L)
+      (σ' : Fin 3 → Fin 3 → Fin TwistTag.D4.tag.rank → ℤ)
+      (Φ' : SL(3, L) ≃* SL(3, L)) (H H' : SL(3, L)) (e : Lˣ),
+      IsA2Frame ρ σ' ∧ {r | ∃ a b : Fin 3, a ≠ b ∧ r = σ' a b} = d4Sigma i ∧
+      (∀ X, n * twistHom TwistTag.D4 L Fr (ρ X) * n⁻¹ = ρ (Φ' X)) ∧
+      IsSigmaFamily (n * diagramMap TwistTag.D4 L) Fr (d4Sigma i)
+        (fun _ : Unit => (fixSubgroup Φ').map ρ) ∧
+      (ε = 1 → ∀ X : SL(3, L), X ∈ fixSubgroup Φ' ↔
+        ∃ Y : SL(3, k), X = H * Matrix.SpecialLinearGroup.map (algebraMap k L) Y * H⁻¹) ∧
+      (ε = -1 → ∀ X : SL(3, L), X ∈ fixSubgroup Φ' ↔ ∃ Y ∈ unitarySet (ℓ ^ f) 3,
+        Matrix.SpecialLinearGroup.toGL X = Matrix.SpecialLinearGroup.toGL H * Y *
+          (Matrix.SpecialLinearGroup.toGL H)⁻¹) ∧
+      (∀ t : k, H' * Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide)
+        (algebraMap k L t) * H'⁻¹ ∈ fixSubgroup Φ') ∧
+      (∀ t : L, ρ (H' * Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide) t *
+        H'⁻¹) = ρ H' * pinnedX TwistTag.D4.tag L (σ' 0 1) ((e : L) * t) * (ρ H')⁻¹) ∧
+      (ε = 1 → H' = H) ∧ (ε = -1 → H' = H * Matrix.SpecialLinearGroup.transvection
+        (show (1 : Fin 3) ≠ 0 by decide) (1 : L)) ∧
+      ρ = (MulAut.conj (canonicalRep (coxeterSystem TwistTag.D4.tag) L v)).toMonoidHom.comp
+        (d4rhoStd L) ∧ ∀ a b, σ' a b = v • d4Chain a b := by
+  classical
+  have hℓ : ℓ.Prime := Fact.out
+  have hFrbij : Function.Bijective Fr := ⟨Fr.injective, fun y => by
+    obtain ⟨x, hx⟩ := IsAlgClosed.exists_pow_nat_eq y (show 0 < ℓ ^ f from pow_pos hℓ.pos f)
+    exact ⟨x, by rw [hFr, hx]⟩⟩
+  set ρ : SL(3, L) →* ModGL TwistTag.D4.tag L :=
+    (MulAut.conj (canonicalRep (coxeterSystem TwistTag.D4.tag) L v)).toMonoidHom.comp
+      (d4rhoStd L) with hρ
+  set σ' : Fin 3 → Fin 3 → Fin TwistTag.D4.tag.rank → ℤ := fun a b => v • d4Chain a b with hσ'
+  have hframe : IsA2Frame ρ σ' := (d4Std_frame' L).transport v
+  have hS3eq : {r | ∃ a b : Fin 3, a ≠ b ∧ r = σ' a b} = d4Sigma i := by
+    rw [← hvS]
+    ext r
+    obtain ⟨c01, c12, c10, c21⟩ := d4Chain_values
+    have c02 : d4Chain 0 2 = Pi.single 0 1 + Pi.single 2 1 := by
+      rw [← d4Chain_add 0 1 2, c01, c12]
+    have c20 : d4Chain 2 0 = -(Pi.single 0 1 + Pi.single 2 1) := by
+      rw [d4Chain_swap 0 2, c02]
+    constructor
+    · rintro ⟨a, b, hab, rfl⟩
+      refine ⟨d4Chain a b, ?_, rfl⟩
+      rcases d4Chain_cases a b hab with h | h | h | h | h | h <;> rw [h] <;>
+        simp [d4StdA2]
+    · rintro ⟨x, hx, rfl⟩
+      simp only [d4StdA2, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+      rcases hx with rfl | rfl | rfl | rfl | rfl | rfl
+      · exact ⟨0, 1, by decide, by simp only [hσ', c01]⟩
+      · exact ⟨1, 2, by decide, by simp only [hσ', c12]⟩
+      · exact ⟨0, 2, by decide, by simp only [hσ', c02]⟩
+      · exact ⟨1, 0, by decide, by simp only [hσ', c10]⟩
+      · exact ⟨2, 1, by decide, by simp only [hσ', c21]⟩
+      · exact ⟨2, 0, by decide, by simp only [hσ', c20]⟩
+  have hS3 : ∀ r ∈ d4Sigma i, IsRoot TwistTag.D4.tag r := fun r hr => isRoot_of_mem_d4Sigma hr
+  choose! ε₀ hε₀ using fun (a b : Fin 3) (hab : a ≠ b) => hframe.transv a b hab
+  have htor : ∀ b : Fin TwistTag.D4.tag.rank → Lˣ, ∃ d : Fin 3 → Lˣ, ∀ A : SL(3, L),
+      rootDiagUnit TwistTag.D4.tag b * ρ A * (rootDiagUnit TwistTag.D4.tag b)⁻¹ =
+        ρ (conjDiagn d A) := fun b =>
+    ⟨fun a => rootChar b (σ' a 0), fun A => hframe.torus b A⟩
+  have hrange : ρ.range = rootSpan TwistTag.D4.tag L (d4Sigma i) := by
+    rw [hframe.range, hS3eq]
+  set Q : ModGL TwistTag.D4.tag L := diagramMap TwistTag.D4 L with hQ
+  have hconj_gen : ∀ (tg : Fin 3 → Fin 3 → Fin 3 × Fin 3),
+      (∀ a b : Fin 3, a ≠ b → weylQuotientHom TwistTag.D4.tag L ⟨n, hnm⟩ •
+          permLattice TwistTag.D4.perm (σ' a b) = σ' (tg a b).1 (tg a b).2) →
+      ∀ a b : Fin 3, a ≠ b → ∃ β : Lˣ, ∀ c : L,
+        (n * Q) * pinnedX TwistTag.D4.tag L (σ' a b) c * (n * Q)⁻¹ =
+          pinnedX TwistTag.D4.tag L (σ' (tg a b).1 (tg a b).2) ((β : L) * c) := by
+    intro tg htg a b hab
+    have hα : IsRoot TwistTag.D4.tag (σ' a b) := hframe.isRoot a b hab
+    obtain ⟨e, hee, he⟩ := diagramMap_conj_pinnedX (K := L) TwistTag.D4 hα
+    have hρα : IsRoot TwistTag.D4.tag (permLattice TwistTag.D4.perm (σ' a b)) :=
+      hα.permLattice TwistTag.D4.cartan_perm
+    obtain ⟨μ, hμ⟩ := monomial_conj_pinnedX hnm hρα
+    refine ⟨μ * ⟨e, e, hee, hee⟩, fun c => ?_⟩
+    have e1 : (n * Q) * pinnedX TwistTag.D4.tag L (σ' a b) c * (n * Q)⁻¹ =
+        n * (Q * pinnedX TwistTag.D4.tag L (σ' a b) c * Q⁻¹) * n⁻¹ := by group
+    rw [e1, he c, hμ (e * c), htg a b hab]
+    congr 1
+    simp only [Units.val_mul]
+    ring
+
+  have main : ∃ (P : Unit → Subgroup (ModGL TwistTag.D4.tag L)) (Φ' : SL(3, L) ≃* SL(3, L))
+      (H : SL(3, L)), IsSigmaFamily (n * Q) Fr (d4Sigma i) P ∧
+      P () = (fixSubgroup Φ').map ρ ∧
+      (∀ X, (n * Q) * Units.map (entrywiseHom Fr) (ρ X) * (n * Q)⁻¹ = ρ (Φ' X)) ∧
+      (ε = 1 → ∀ X : SL(3, L), X ∈ fixSubgroup Φ' ↔
+        ∃ Y : SL(3, k), X = H * Matrix.SpecialLinearGroup.map (algebraMap k L) Y * H⁻¹) ∧
+      (ε = -1 → ∀ X : SL(3, L), X ∈ fixSubgroup Φ' ↔ ∃ Y ∈ unitarySet (ℓ ^ f) 3,
+        Matrix.SpecialLinearGroup.toGL X = Matrix.SpecialLinearGroup.toGL H * Y *
+          (Matrix.SpecialLinearGroup.toGL H)⁻¹) := by
+    rcases hε with rfl | rfl
+    · obtain ⟨π, hπ⟩ : ∃ π : Equiv.Perm (Fin 3), ∀ a b : Fin 3, a ≠ b →
+          d4T36M 1 *ᵥ σ' a b = σ' (π a) (π b) := by
+        refine ⟨finRotate 3, fun a b hab => ?_⟩
+        rw [d4T36M, one_smul]
+        exact d4T36_perm i v hv0 hv2 a b hab
+      have hW : ∀ a b : Fin 3, a ≠ b → weylQuotientHom TwistTag.D4.tag L ⟨n, hnm⟩ •
+          permLattice TwistTag.D4.perm (σ' a b) =
+            σ' ((fun a b => (π a, π b)) a b).1 ((fun a b => (π a, π b)) a b).2 := by
+        intro a b hab
+        rw [hnW, CFSG.RankThree.PartOne.KGD.permLattice_symm_permLattice, hπ a b hab]
+      obtain ⟨Φ', hΦ', β, hshape⟩ := exists_aut_of_rootData_n (τ := TwistTag.D4.tag) (ν := 3) ρ
+        hframe.injective σ' ε₀ hε₀ Fr hFrbij (n * Q) (fun a b => (π a, π b))
+        (fun a b hab => π.injective.ne hab)
+        (fun a b hab => ⟨π.symm a, π.symm b, π.symm.injective.ne hab, by simp⟩)
+        (hconj_gen _ hW)
+      have hshape' : ∀ (a b : Fin 3) (hab : a ≠ b) (t : L),
+          ((Φ' (Matrix.SpecialLinearGroup.transvection hab t) : SL(3, L)) :
+            Matrix (Fin 3) (Fin 3) L) = 1 + single (π a) (π b) ((β a b : L) * t ^ ℓ ^ f) :=
+        fun a b hab t => by rw [hshape a b hab t, hFr]
+      obtain ⟨P, hP, hP1, hP2⟩ := an_family_split hℓ hf hk (by norm_num) hS3 ρ hframe.injective
+        hrange htor hframe.diag Fr (n * Q) Φ' hΦ' π β hshape'
+      obtain ⟨-, ⟨H, hH⟩, -⟩ := CFSG.RankThree.Classical2.sln_root_permuting_frobenius_fixed_split
+        hℓ hf hk (by norm_num) π Φ' β hshape'
+      exact ⟨P, Φ', H, hP, hP2, hΦ', fun _ => hH, fun h => absurd h (by norm_num)⟩
+    · have hq3 : 2 < ℓ ^ f := hq2.resolve_left (by norm_num)
+      obtain ⟨π, hπ⟩ : ∃ π : Equiv.Perm (Fin 3), ∀ a b : Fin 3, a ≠ b →
+          d4T36M (-1) *ᵥ σ' a b = σ' (π b) (π a) := by
+        refine ⟨finRotate 3, fun a b hab => ?_⟩
+        have h1 := d4T36_perm i v hv0 hv2 a b hab
+        rw [d4T36M, neg_smul, one_smul, Matrix.neg_mulVec, hσ']
+        simp only [] at h1 ⊢
+        rw [h1, d4Chain_swap (finRotate 3 b) (finRotate 3 a), smul_neg, neg_neg]
+      have hW : ∀ a b : Fin 3, a ≠ b → weylQuotientHom TwistTag.D4.tag L ⟨n, hnm⟩ •
+          permLattice TwistTag.D4.perm (σ' a b) =
+            σ' ((fun a b => (π b, π a)) a b).1 ((fun a b => (π b, π a)) a b).2 := by
+        intro a b hab
+        rw [hnW, CFSG.RankThree.PartOne.KGD.permLattice_symm_permLattice, hπ a b hab]
+      obtain ⟨Φ', hΦ', β, hshape⟩ := exists_aut_of_rootData_n (τ := TwistTag.D4.tag) (ν := 3) ρ
+        hframe.injective σ' ε₀ hε₀ Fr hFrbij (n * Q) (fun a b => (π b, π a))
+        (fun a b hab => (π.injective.ne hab).symm)
+        (fun a b hab => ⟨π.symm b, π.symm a, (π.symm.injective.ne hab).symm, by simp⟩)
+        (hconj_gen _ hW)
+      have hshape' : ∀ (a b : Fin 3) (hab : a ≠ b) (t : L),
+          ((Φ' (Matrix.SpecialLinearGroup.transvection hab t) : SL(3, L)) :
+            Matrix (Fin 3) (Fin 3) L) = 1 + single (π b) (π a) ((β a b : L) * t ^ ℓ ^ f) :=
+        fun a b hab t => by rw [hshape a b hab t, hFr]
+      obtain ⟨P, hP, hP1, hP2⟩ := an_family_unitary hℓ hf hk (Or.inr hq3) (by norm_num) hS3 ρ
+        hframe.injective hrange htor hframe.diag Fr (n * Q) Φ' hΦ' π β hshape'
+      obtain ⟨-, ⟨H, hH⟩, -⟩ :=
+        CFSG.RankThree.Classical2.sln_root_permuting_frobenius_fixed_unitary hℓ hf hk
+          (by norm_num) π Φ' β hshape'
+      exact ⟨P, Φ', H, hP, hP2, hΦ', fun h => absurd h (by norm_num), fun _ => hH⟩
+  obtain ⟨P, Φ', H, hP, hP2, hΦ', hsplit, hunit⟩ := main
+  have hΦ'' : ∀ X, n * twistHom TwistTag.D4 L Fr (ρ X) * n⁻¹ = ρ (Φ' X) := by
+    intro X
+    rw [← hΦ' X, twistHom_apply, ← hQ]
+    group
+  have hPfam : IsSigmaFamily (n * Q) Fr (d4Sigma i)
+      (fun _ : Unit => (fixSubgroup Φ').map ρ) := by
+    have h : P = fun _ => (fixSubgroup Φ').map ρ := funext fun u => hP2
+    rwa [h] at hP
+  have hT : ∀ (H' : SL(3, L)) (t : L),
+      ρ (H' * Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide) t * H'⁻¹) =
+        ρ H' * pinnedX TwistTag.D4.tag L (σ' 0 1) ((ε₀ 0 1 : L) * t) * (ρ H')⁻¹ := by
+    intro H' t
+    rw [map_mul, map_mul, map_inv, hε₀ 0 1 (by decide) t]
+  have hCharP : CharP L 2 := by
+    have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
+    have : Fintype k := Fintype.ofFinite k
+    have : CharP k ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
+    have h : CharP L ℓ := charP_of_injective_algebraMap (algebraMap k L).injective ℓ
+    rw [hℓ2] at h
+    exact h
+  have hq : ∀ c : k, c ^ ℓ ^ f = c := by
+    have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
+    have : Fintype k := Fintype.ofFinite k
+    intro c
+    rw [show ℓ ^ f = Fintype.card k by rw [← Nat.card_eq_fintype_card, hk], FiniteField.pow_card]
+  rcases hε with rfl | rfl
+  · refine ⟨ρ, σ', Φ', H, H, ε₀ 0 1, hframe, hS3eq, hΦ'', hPfam, hsplit, hunit, ?_, hT H,
+      fun _ => rfl, fun h => absurd h (by norm_num), rfl, fun _ _ => rfl⟩
+    intro t
+    refine (hsplit rfl _).2 ⟨Matrix.SpecialLinearGroup.transvection
+      (show (0 : Fin 3) ≠ 1 by decide) t, ?_⟩
+    rw [rcl_map_transvection]
+  · refine ⟨ρ, σ', Φ', H, H * Matrix.SpecialLinearGroup.transvection
+      (show (1 : Fin 3) ≠ 0 by decide) (1 : L), ε₀ 0 1, hframe, hS3eq, hΦ'', hPfam, hsplit, hunit,
+      ?_, hT _, fun h => absurd h (by norm_num), fun _ => rfl, rfl, fun _ _ => rfl⟩
+    intro t
+    refine (hunit rfl _).2 ⟨Matrix.SpecialLinearGroup.toGL
+      (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L) *
+        Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 1 by decide)
+          (algebraMap k L t) *
+        (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) (1 : L))⁻¹),
+      rcl_nilp_mem_unitary hq t, ?_⟩
+    simp only [_root_.mul_inv_rev, map_mul, map_inv]
+    group
+
+end Family
+
+end CFSG.RankThree.PartOne.D4RC

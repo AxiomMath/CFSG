@@ -1,0 +1,53 @@
+module
+
+public import CFSG.RankThree.PartOne.S10.ThetaContract
+import CFSG.RankThree.PartOne.S10.SelectedPrimeNormalizeThetaComponents
+import CFSG.RankThree.PartOne.S10.NonquasisimpleMovingScalarKernelHyperplane
+import CFSG.RankThree.PartOne.S10.SectionTenHyperplaneLocalResidualObstruction
+import CFSG.RankThree.PartOne.S10.SectionTenMaximalComponentQuotientActorKernelCyclic
+import CFSG.RankThree.PartOne.S10.SectionTenMaximalMovingThetaComponentsQuasisimple
+import CFSG.RankThree.PartOne.S10.SectionTenFiveCriticalActionAndCentralInvolution
+import CFSG.RankThree.PartOne.S10.SectionTenFiveNormalPCoreWitness
+import CFSG.RankThree.PartOne.S10.SectionTenFiveActorMovedThetaComponentExistence
+
+public section
+
+namespace CFSG.RankThree.PartOne
+
+theorem nonquasisimple_moving_theta_component_minimal_odd_core_action :
+    NonquasisimpleMovingThetaComponentMinimalOddCoreAction :=
+  nonquasisimple_moving_theta_component_minimal_odd_core_action_of
+    selected_prime_elements_normalize_theta_components
+
+theorem nonquasisimple_moving_theta_component_prime_cut :
+    NonquasisimpleMovingThetaComponentPrimeCut :=
+  nonquasisimple_moving_theta_component_prime_cut_of
+    selected_prime_elements_normalize_theta_components
+
+theorem nonquasisimple_moving_theta_component_scalar_kernel_hyperplane :
+    NonquasisimpleMovingThetaComponentScalarKernelHyperplane :=
+  nonquasisimple_moving_theta_component_scalar_kernel_hyperplane_of
+    selected_prime_elements_normalize_theta_components
+
+theorem section_ten_maximal_component_quotient_actor_kernel_cyclic :
+    SectionTenMaximalComponentQuotientActorKernelCyclic :=
+  section_ten_maximal_component_quotient_actor_kernel_cyclic_of
+    section_ten_hyperplane_local_residual_obstruction
+
+theorem section_ten_maximal_moving_theta_components_quasisimple :
+    SectionTenMaximalMovingThetaComponentsQuasisimple :=
+  section_ten_maximal_moving_theta_components_quasisimple_of
+    nonquasisimple_moving_theta_component_scalar_kernel_hyperplane
+    section_ten_maximal_component_quotient_actor_kernel_cyclic
+
+theorem section_ten_five_critical_action_and_central_involution :
+    SectionTenFiveCriticalActionAndCentralInvolution :=
+  section_ten_five_critical_action_and_central_involution_of
+    nonquasisimple_moving_theta_component_scalar_kernel_hyperplane
+
+theorem section_ten_five_actor_moved_theta_component_existence :
+    SectionTenFiveActorMovedThetaComponentExistence :=
+  section_ten_five_actor_moved_theta_component_existence_of
+    section_ten_five_normal_p_core_two_group_witness_frontier
+
+end CFSG.RankThree.PartOne

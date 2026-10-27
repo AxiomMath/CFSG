@@ -1,0 +1,803 @@
+module
+
+public import CFSG.FeitThompson.Local.MinimalSimpleProperSubgroupPLengthOne
+public import CFSG.FeitThompson.Local.SigmaCoreNormalHallDerived
+public import CFSG.FeitThompson.Representations.PairedSupportingKernelCollapse
+public import CFSG.FeitThompson.Local.SigmaPrimeSeparation
+public import CFSG.FeitThompson.Local.MaximalSubgroupTypeDichotomy
+public import CFSG.FeitThompson.Local.KappaPositiveSupportCyclicFrobenius
+public import CFSG.FeitThompson.Representations.TypeIIIToVInducedFamilyNoncoherence
+public import CFSG.FeitThompson.Local.AdmissibleTauOnePrimeCentralizerInclusion
+public import CFSG.FeitThompson.Representations.TypeIIExtendedSupportTI
+public import CFSG.FeitThompson.Local.OrderedPairFullSupportingComplement
+public import CFSG.FeitThompson.Local.KappaComplementStructure
+public import CFSG.FeitThompson.Local.OutsideSigmaPlaneSylow
+public import CFSG.FeitThompson.Local.TauTwoFullCentralHall
+public import CFSG.FeitThompson.Local.TauOneThreeNoncentralThirdFactorFree
+public import CFSG.FeitThompson.Local.CanonicalSignalizerStructure
+public import CFSG.FeitThompson.Local.PlaneNormalizerOverlapAmbientSylows
+public import CFSG.FeitThompson.Local.LocalTypeIAlternative
+public import CFSG.FeitThompson.Local.LocalPTrivialUAlternative
+public import CFSG.FeitThompson.Local.SigmaComplementThirdFactorNotFree
+public import CFSG.FeitThompson.Local.SignalizerSupportingTypeExterior
+public import CFSG.FeitThompson.Local.KappaPairReciprocalHallData
+public import CFSG.FeitThompson.Local.LocalKappaPair
+public import CFSG.FeitThompson.Local.KappaResidualPartnerIntersectionComplement
+public import CFSG.FeitThompson.Representations.TypeIMaximalDadeData
+public import CFSG.FeitThompson.Local.TauOneThreePrimeNormalizerTransfer
+public import CFSG.FeitThompson.Local.PairedLocalGeometryKappaPair
+public import CFSG.FeitThompson.Local.HallTauTwoSubgroupsAbelian
+public import CFSG.FeitThompson.Representations.TypeIMaximalSubgroupFrobenius
+public import CFSG.FeitThompson.Representations.TypeIDadePacketsAvoidPPackets
+public import CFSG.FeitThompson.Local.ReflectedPlaneNonsigmaNormalizerOvergroup
+public import CFSG.FeitThompson.Local.KappaNontrivialComplementStructure
+public import CFSG.FeitThompson.Local.CentralizerOfSigmaCoreElementDichotomy
+public import CFSG.FeitThompson.Local.NonabelianFittingOverlapCentralLines
+public import CFSG.FeitThompson.Local.SigmaCorePlaneStructureOutsidePrime
+public import CFSG.FeitThompson.Local.BetaOrDerivedLineCentralizerUnique
+public import CFSG.FeitThompson.Local.SigmaPrimeNormalizerNarrowRankBound
+public import CFSG.FeitThompson.Local.ResidualRankTwoPlanePartnerFitting
+public import CFSG.FeitThompson.Local.TypeICoreKappaIdentity
+public import CFSG.FeitThompson.Local.NonabelianFittingOverlapMaximalPlane
+public import CFSG.FeitThompson.Local.TypePElementaryCoreStructure
+public import CFSG.FeitThompson.Local.NonTypeISigmaCoreIdentities
+public import CFSG.FeitThompson.Local.ResidualPartnerNilpotentNonabelianSylow
+public import CFSG.FeitThompson.Local.NonTypeISupportingMaximumExclusion
+public import CFSG.FeitThompson.Local.OverlapKappaFixedLineOrderPosition
+public import CFSG.FeitThompson.Local.LocalInertiaExponentComplement
+public import CFSG.FeitThompson.Local.SylowNormalizerDerivedSubgroup
+public import CFSG.FeitThompson.Local.TypeIComplementStructure
+public import CFSG.FeitThompson.Local.KappaFreeAuxiliaryCrossPointCoprime
+public import CFSG.FeitThompson.Local.KappaResidualPrimeOvergroupIntersection
+public import CFSG.FeitThompson.Local.SignalizerAuxiliaryPrimeSupport
+public import CFSG.FeitThompson.Local.PlaneMaximalOvergroups
+public import CFSG.FeitThompson.Local.NilpotentSigmaCoreFittingStructure
+public import CFSG.FeitThompson.Local.AbelianFittingOverlapRankTwo
+public import CFSG.FeitThompson.Local.TypeIISupportingMaximalConfiguration
+public import CFSG.FeitThompson.Local.CanonicalSignalizerFullSupportCoprime
+public import CFSG.FeitThompson.Local.AbelianPlaneOverlapNormalizerRank
+public import CFSG.FeitThompson.Local.TypeIIIVSecondFactorPrime
+public import CFSG.FeitThompson.Local.PairedSupportingMaximaNonconjugate
+public import CFSG.FeitThompson.Local.PConfigurationKappaFactors
+public import CFSG.FeitThompson.Local.LocalNilpotentHallCore
+public import CFSG.FeitThompson.Local.NonuniquePlaneLineCentralizerBounds
+public import CFSG.FeitThompson.Local.KappaPositiveCoreDerivedSupportDisjoint
+public import CFSG.FeitThompson.Local.LocalPNontrivialUCase
+public import CFSG.FeitThompson.Local.NonabelianAmbientUniqueNonregularLine
+public import CFSG.FeitThompson.OddOrder.OddOrderSolvableTheorem
+public import CFSG.FeitThompson.Local.PlaneNormalizerOverlapPrimeMaximum
+public import CFSG.FeitThompson.Local.KappaFreeNonfittingPlaneAction
+public import CFSG.FeitThompson.Representations.TypePActualBridgeRemainder
+public import CFSG.FeitThompson.Local.LocalPCoreCentralizer
+public import CFSG.FeitThompson.Representations.OrderedReciprocalMaximaTypeTwo
+public import CFSG.FeitThompson.Local.KappaCandidateFamilyCommonFactors
+public import CFSG.FeitThompson.Local.KappaNormalizerCentralizerStructure
+public import CFSG.FeitThompson.Representations.TypeThreeFourSecondDerivedFitting
+public import CFSG.FeitThompson.Local.FiveTypeLocalClassification
+public import CFSG.FeitThompson.Representations.ActualTypeICrossedControl
+public import CFSG.FeitThompson.Local.KappaFreeNonfittingPrimeAlternative
+public import CFSG.FeitThompson.Local.OutsideSigmaPlaneComplementNormalizer
+public import CFSG.FeitThompson.Representations.OrderedPairExclusion
+public import CFSG.FeitThompson.Local.KappaResidualRankTwoExclusion
+public import CFSG.FeitThompson.Local.LowRankSylowCentralProduct
+public import CFSG.FeitThompson.Representations.TypeThreeFullSupportTiInduction
+public import CFSG.FeitThompson.Representations.TypeThreeFourCoreElementaryChiefKernelTrivial
+public import CFSG.FeitThompson.Local.NontrivialKappaSupportResidualWitness
+public import CFSG.FeitThompson.Local.KappaResidualPrimeOvergroupPosition
+public import CFSG.FeitThompson.Local.NonabelianAmbientPrimeKernelComplement
+public import CFSG.FeitThompson.Local.NonnilpotentSigmaCoreHallStructure
+public import CFSG.FeitThompson.Local.KappaCandidateNontrivialResidual
+public import CFSG.FeitThompson.Local.SignalizerUniqueSupportingMaximum
+public import CFSG.FeitThompson.Local.BetaPrimeCentralizingSylow
+public import CFSG.FeitThompson.Local.NonabelianPrimeSubgroupUniqueMaximum
+public import CFSG.FeitThompson.Local.Tau12FixedPlaneLineCoreFree
+public import CFSG.FeitThompson.Local.AbelianNormalHallFullExponentCycle
+public import CFSG.FeitThompson.Local.KappaResidualContainingComplementFitting
+public import CFSG.FeitThompson.Local.KappaTrivialResidualPrimeFixedCore
+public import CFSG.FeitThompson.Local.TypePMaximalPrimeFactors
+public import CFSG.FeitThompson.Local.OutsideSigmaPlaneCoreDisjoint
+public import CFSG.FeitThompson.Local.NonabelianFittingOverlapPrimary
+public import CFSG.FeitThompson.Representations.TypePActionKernelRatio
+public import CFSG.FeitThompson.Local.KappaSemiprimeComplementExistence
+
+namespace CFSG.FeitThompson.Results
+
+public section
+
+set_option autoImplicit true
+set_option maxSynthPendingDepth 3
+
+universe u
+
+theorem FBG_sigma_core_normal_hall : Statements.FBG_sigma_core_normal_hall.{u} :=
+  Proofs.FBG_sigma_core_normal_hall
+
+theorem FTS_proper_subgroup_p_length_one : Statements.FTS_proper_subgroup_p_length_one.{u} :=
+  Proofs.FTS_proper_subgroup_p_length_one
+
+theorem FPL_global_sylow_normalizer_derived :
+    Statements.FPL_global_sylow_normalizer_derived.{u} :=
+  Proofs.FPL_global_sylow_normalizer_derived FTS_proper_subgroup_p_length_one
+
+theorem FPL_low_rank_sylow_central_product :
+    Statements.FPL_low_rank_sylow_central_product.{u} :=
+  Proofs.FPL_low_rank_sylow_central_product FTS_proper_subgroup_p_length_one
+
+theorem FTS_beta_prime_centralizing_sylow : Statements.FTS_beta_prime_centralizing_sylow.{u} :=
+  Proofs.FTS_beta_prime_centralizing_sylow FBG_sigma_core_normal_hall
+    FTS_proper_subgroup_p_length_one
+
+theorem FTS_nonunique_line_centralizer_bounds :
+    Statements.FTS_nonunique_line_centralizer_bounds.{u} :=
+  Proofs.FTS_nonunique_line_centralizer_bounds FBG_sigma_core_normal_hall
+    FPL_global_sylow_normalizer_derived FPL_low_rank_sylow_central_product
+    FTS_proper_subgroup_p_length_one
+
+theorem FNI_outside_sigma_plane_sylow : Statements.FNI_outside_sigma_plane_sylow.{u} :=
+  Proofs.FNI_outside_sigma_plane_sylow FBG_sigma_core_normal_hall
+    FPL_global_sylow_normalizer_derived FPL_low_rank_sylow_central_product
+    FTS_nonunique_line_centralizer_bounds FTS_proper_subgroup_p_length_one
+
+theorem FTS_outside_sigma_plane_structure : Statements.FTS_outside_sigma_plane_structure.{u} :=
+  Proofs.FTS_outside_sigma_plane_structure FBG_sigma_core_normal_hall
+    FPL_global_sylow_normalizer_derived FPL_low_rank_sylow_central_product
+    FTS_nonunique_line_centralizer_bounds FTS_proper_subgroup_p_length_one
+
+theorem FTS_plane_maximal_overgroups : Statements.FTS_plane_maximal_overgroups.{u} :=
+  Proofs.FTS_plane_maximal_overgroups FBG_sigma_core_normal_hall
+    FPL_global_sylow_normalizer_derived FTS_nonunique_line_centralizer_bounds
+    FTS_proper_subgroup_p_length_one
+
+theorem FNI_outside_sigma_plane_complement_normalizer :
+    Statements.FNI_outside_sigma_plane_complement_normalizer.{u} :=
+  Proofs.FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+
+theorem FNI_outside_sigma_plane_core_disjoint :
+    Statements.FNI_outside_sigma_plane_core_disjoint.{u} :=
+  Proofs.FNI_outside_sigma_plane_core_disjoint FBG_sigma_core_normal_hall
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one
+
+theorem FBG_tau_two_full_central_hall : Statements.FBG_tau_two_full_central_hall.{u} :=
+  Proofs.FBG_tau_two_full_central_hall FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_sylow
+    FPL_global_sylow_normalizer_derived FTS_proper_subgroup_p_length_one
+
+theorem FBG_tau_two_hall_abelian : Statements.FBG_tau_two_hall_abelian.{u} :=
+  Proofs.FBG_tau_two_hall_abelian FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_sylow
+    FPL_global_sylow_normalizer_derived FPL_low_rank_sylow_central_product
+    FTS_nonunique_line_centralizer_bounds FTS_proper_subgroup_p_length_one
+
+theorem FBG_sigma_prime_normalizer_narrow_rank_bound :
+    Statements.FBG_sigma_prime_normalizer_narrow_rank_bound.{u} :=
+  Proofs.FBG_sigma_prime_normalizer_narrow_rank_bound FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FTS_beta_prime_centralizing_sylow
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one
+
+theorem FTS_beta_or_derived_line_centralizer_unique :
+    Statements.FTS_beta_or_derived_line_centralizer_unique.{u} :=
+  Proofs.FTS_beta_or_derived_line_centralizer_unique FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_sylow FPL_global_sylow_normalizer_derived
+    FTS_nonunique_line_centralizer_bounds FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one
+
+theorem FNI_nonabelian_prime_subgroup_unique_maximum :
+    Statements.FNI_nonabelian_prime_subgroup_unique_maximum.{u} :=
+  Proofs.FNI_nonabelian_prime_subgroup_unique_maximum FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_sylow FPL_global_sylow_normalizer_derived
+    FTS_nonunique_line_centralizer_bounds FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one
+
+theorem FTS_tau_one_three_prime_normalizer_transfer :
+    Statements.FTS_tau_one_three_prime_normalizer_transfer.{u} :=
+  Proofs.FTS_tau_one_three_prime_normalizer_transfer FBG_sigma_core_normal_hall
+    FBG_sigma_prime_normalizer_narrow_rank_bound FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_core_disjoint FNI_outside_sigma_plane_sylow
+    FTS_beta_prime_centralizing_sylow FTS_outside_sigma_plane_structure
+    FTS_plane_maximal_overgroups FTS_proper_subgroup_p_length_one
+
+theorem FTS_admissible_tau_one_prime_centralizer_inclusion :
+    Statements.FTS_admissible_tau_one_prime_centralizer_inclusion.{u} :=
+  Proofs.FTS_admissible_tau_one_prime_centralizer_inclusion FBG_sigma_core_normal_hall
+    FNI_nonabelian_prime_subgroup_unique_maximum FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_core_disjoint FTS_beta_prime_centralizing_sylow
+    FTS_plane_maximal_overgroups FTS_proper_subgroup_p_length_one
+    FTS_tau_one_three_prime_normalizer_transfer
+
+theorem FTS_tau_one_fixed_line_centralizer_unique :
+    Statements.FTS_tau_one_fixed_line_centralizer_unique.{u} :=
+  Proofs.FTS_tau_one_fixed_line_centralizer_unique FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_sylow FTS_admissible_tau_one_prime_centralizer_inclusion
+    FTS_beta_or_derived_line_centralizer_unique FTS_outside_sigma_plane_structure
+    FTS_plane_maximal_overgroups FTS_proper_subgroup_p_length_one
+    FTS_tau_one_three_prime_normalizer_transfer
+
+theorem FTS_sigma_prime_separation : Statements.FTS_sigma_prime_separation.{u} :=
+  Proofs.FTS_sigma_prime_separation FBG_sigma_core_normal_hall
+    FBG_sigma_prime_normalizer_narrow_rank_bound FNI_outside_sigma_plane_sylow
+    FTS_admissible_tau_one_prime_centralizer_inclusion FTS_beta_prime_centralizing_sylow
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FNI_nonabelian_ambient_unique_nonregular_line :
+    Statements.FNI_nonabelian_ambient_unique_nonregular_line.{u} :=
+  Proofs.FNI_nonabelian_ambient_unique_nonregular_line FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FPL_low_rank_sylow_central_product
+    FTS_outside_sigma_plane_structure
+
+theorem FNI_nonabelian_ambient_prime_kernel_complement :
+    Statements.FNI_nonabelian_ambient_prime_kernel_complement.{u} :=
+  Proofs.FNI_nonabelian_ambient_prime_kernel_complement FBG_sigma_core_normal_hall
+    FNI_nonabelian_ambient_unique_nonregular_line FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_core_disjoint FNI_outside_sigma_plane_sylow
+    FPL_global_sylow_normalizer_derived FPL_low_rank_sylow_central_product
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+
+theorem FNI_tau12_fixed_plane_line_core_free :
+    Statements.FNI_tau12_fixed_plane_line_core_free.{u} :=
+  Proofs.FNI_tau12_fixed_plane_line_core_free FBG_sigma_core_normal_hall FBG_tau_two_hall_abelian
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FTS_admissible_tau_one_prime_centralizer_inclusion
+    FTS_outside_sigma_plane_structure FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FNI_tau13_noncentral_third_factor_free :
+    Statements.FNI_tau13_noncentral_third_factor_free.{u} :=
+  Proofs.FNI_tau13_noncentral_third_factor_free FBG_sigma_core_normal_hall
+    FBG_sigma_prime_normalizer_narrow_rank_bound FNI_outside_sigma_plane_sylow
+    FTS_admissible_tau_one_prime_centralizer_inclusion FTS_beta_prime_centralizing_sylow
+    FTS_proper_subgroup_p_length_one FTS_tau_one_fixed_line_centralizer_unique
+    FTS_tau_one_three_prime_normalizer_transfer
+
+theorem FNI_tau13_nonfree_third_factor_structure :
+    Statements.FNI_tau13_nonfree_third_factor_structure.{u} :=
+  Proofs.FNI_tau13_nonfree_third_factor_structure FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FNI_tau13_noncentral_third_factor_free
+    FTS_admissible_tau_one_prime_centralizer_inclusion FTS_tau_one_three_prime_normalizer_transfer
+
+theorem FNI_tau13_nonsigma_normalizer_reflected_plane :
+    Statements.FNI_tau13_nonsigma_normalizer_reflected_plane.{u} :=
+  Proofs.FNI_tau13_nonsigma_normalizer_reflected_plane FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_sylow FNI_tau12_fixed_plane_line_core_free
+    FNI_tau13_nonfree_third_factor_structure FTS_sigma_prime_separation
+    FTS_tau_one_fixed_line_centralizer_unique FTS_tau_one_three_prime_normalizer_transfer
+
+theorem FNI_kappa_semiprime_complement_existence :
+    Statements.FNI_kappa_semiprime_complement_existence.{u} :=
+  Proofs.FNI_kappa_semiprime_complement_existence FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FNI_tau12_fixed_plane_line_core_free
+    FNI_tau13_nonfree_third_factor_structure FTS_admissible_tau_one_prime_centralizer_inclusion
+    FTS_tau_one_three_prime_normalizer_transfer
+
+theorem FNI_kappa_normalizer_centralizer_structure :
+    Statements.FNI_kappa_normalizer_centralizer_structure.{u} :=
+  Proofs.FNI_kappa_normalizer_centralizer_structure FBG_sigma_core_normal_hall
+    FBG_tau_two_full_central_hall FNI_kappa_semiprime_complement_existence
+    FNI_nonabelian_ambient_unique_nonregular_line FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_sylow FNI_tau13_nonsigma_normalizer_reflected_plane
+    FPL_global_sylow_normalizer_derived FTS_proper_subgroup_p_length_one
+
+theorem FNI_kappa_candidate_family_common_factors :
+    Statements.FNI_kappa_candidate_family_common_factors.{u} :=
+  Proofs.FNI_kappa_candidate_family_common_factors FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_kappa_normalizer_centralizer_structure
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_core_disjoint
+    FTS_sigma_prime_separation FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FNI_plane_normalizer_overlap_prime_maximum :
+    Statements.FNI_plane_normalizer_overlap_prime_maximum.{u} :=
+  Proofs.FNI_plane_normalizer_overlap_prime_maximum FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_core_disjoint FNI_outside_sigma_plane_sylow
+    FPL_global_sylow_normalizer_derived FTS_nonunique_line_centralizer_bounds
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+
+theorem FNI_plane_normalizer_overlap_ambient_sylows :
+    Statements.FNI_plane_normalizer_overlap_ambient_sylows.{u} :=
+  Proofs.FNI_plane_normalizer_overlap_ambient_sylows FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_nonabelian_ambient_prime_kernel_complement
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FNI_plane_normalizer_overlap_prime_maximum
+    FPL_low_rank_sylow_central_product FTS_outside_sigma_plane_structure
+
+theorem FNI_abelian_plane_overlap_normalizer_rank :
+    Statements.FNI_abelian_plane_overlap_normalizer_rank.{u} :=
+  Proofs.FNI_abelian_plane_overlap_normalizer_rank FBG_sigma_core_normal_hall
+    FBG_tau_two_full_central_hall FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_sylow FNI_plane_normalizer_overlap_ambient_sylows
+    FNI_plane_normalizer_overlap_prime_maximum FPL_global_sylow_normalizer_derived
+
+theorem FNI_abelian_normal_hall_full_exponent_cycle :
+    Statements.FNI_abelian_normal_hall_full_exponent_cycle.{u} :=
+  Proofs.FNI_abelian_normal_hall_full_exponent_cycle FBG_sigma_core_normal_hall
+    FBG_tau_two_full_central_hall FBG_tau_two_hall_abelian
+    FNI_abelian_plane_overlap_normalizer_rank FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_core_disjoint FNI_outside_sigma_plane_sylow
+    FPL_global_sylow_normalizer_derived FTS_proper_subgroup_p_length_one
+
+theorem FTS_signalizer_auxiliary_prime_support :
+    Statements.FTS_signalizer_auxiliary_prime_support.{u} :=
+  Proofs.FTS_signalizer_auxiliary_prime_support FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FTS_beta_prime_centralizing_sylow
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups FTS_sigma_prime_separation
+
+theorem FTS_signalizer_unique_supporting_maximum :
+    Statements.FTS_signalizer_unique_supporting_maximum.{u} :=
+  Proofs.FTS_signalizer_unique_supporting_maximum FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_outside_sigma_plane_core_disjoint FNI_outside_sigma_plane_sylow
+    FNI_tau12_fixed_plane_line_core_free FNI_tau13_nonfree_third_factor_structure
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+    FTS_signalizer_auxiliary_prime_support
+
+theorem FTS_canonical_signalizer_structure :
+    Statements.FTS_canonical_signalizer_structure.{u} :=
+  Proofs.FTS_canonical_signalizer_structure FTS_outside_sigma_plane_structure
+    FTS_plane_maximal_overgroups FTS_sigma_prime_separation
+
+theorem FNI_kappa_candidate_has_nontrivial_residual :
+    Statements.FNI_kappa_candidate_has_nontrivial_residual.{u} :=
+  Proofs.FNI_kappa_candidate_has_nontrivial_residual FBG_sigma_core_normal_hall
+    FNI_kappa_candidate_family_common_factors FNI_kappa_normalizer_centralizer_structure
+    FNI_kappa_semiprime_complement_existence FTS_canonical_signalizer_structure
+    FTS_sigma_prime_separation FTS_signalizer_unique_supporting_maximum
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FNI_kappa_local_pair : Statements.FNI_kappa_local_pair.{u} :=
+  Proofs.FNI_kappa_local_pair FBG_sigma_core_normal_hall FNI_kappa_candidate_family_common_factors
+    FNI_kappa_candidate_has_nontrivial_residual FNI_kappa_normalizer_centralizer_structure
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FNI_kappa_trivial_residual_prime_fixed_core :
+    Statements.FNI_kappa_trivial_residual_prime_fixed_core.{u} :=
+  Proofs.FNI_kappa_trivial_residual_prime_fixed_core FBG_sigma_core_normal_hall
+    FNI_kappa_candidate_family_common_factors FNI_kappa_candidate_has_nontrivial_residual
+    FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+
+theorem FNI_kappa_pair_hall_intersection : Statements.FNI_kappa_pair_hall_intersection.{u} :=
+  Proofs.FNI_kappa_pair_hall_intersection FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_normalizer_centralizer_structure FNI_kappa_semiprime_complement_existence
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FTS_plane_maximal_overgroups FTS_sigma_prime_separation
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FBG_nilpotent_sigma_core_fitting_structure :
+    Statements.FBG_nilpotent_sigma_core_fitting_structure.{u} :=
+  Proofs.FBG_nilpotent_sigma_core_fitting_structure FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_kappa_normalizer_centralizer_structure
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FBG_nonnilpotent_sigma_core_hall_structure :
+    Statements.FBG_nonnilpotent_sigma_core_hall_structure.{u} :=
+  Proofs.FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall
+    FNI_kappa_semiprime_complement_existence FNI_kappa_trivial_residual_prime_fixed_core
+    FNI_outside_sigma_plane_sylow FTS_outside_sigma_plane_structure
+
+theorem FTS_kappa_free_nonfitting_plane_action :
+    Statements.FTS_kappa_free_nonfitting_plane_action.{u} :=
+  Proofs.FTS_kappa_free_nonfitting_plane_action FBG_sigma_core_normal_hall
+    FBG_tau_two_full_central_hall FNI_nonabelian_ambient_unique_nonregular_line
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FPL_global_sylow_normalizer_derived
+    FPL_low_rank_sylow_central_product FTS_proper_subgroup_p_length_one
+
+theorem FTS_kappa_free_nonfitting_prime_alternative :
+    Statements.FTS_kappa_free_nonfitting_prime_alternative.{u} :=
+  Proofs.FTS_kappa_free_nonfitting_prime_alternative FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_kappa_semiprime_complement_existence
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FTS_kappa_free_nonfitting_plane_action
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+
+theorem FTS_kappa_residual_prime_overgroup_position :
+    Statements.FTS_kappa_residual_prime_overgroup_position.{u} :=
+  Proofs.FTS_kappa_residual_prime_overgroup_position FBG_sigma_core_normal_hall
+    FNI_kappa_local_pair FNI_kappa_pair_hall_intersection FNI_kappa_semiprime_complement_existence
+    FNI_outside_sigma_plane_sylow FTS_outside_sigma_plane_structure
+    FTS_proper_subgroup_p_length_one FTS_sigma_prime_separation
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FTS_kappa_residual_containing_complement_fitting :
+    Statements.FTS_kappa_residual_containing_complement_fitting.{u} :=
+  Proofs.FTS_kappa_residual_containing_complement_fitting FBG_sigma_core_normal_hall
+    FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FTS_kappa_free_nonfitting_prime_alternative FTS_kappa_residual_prime_overgroup_position
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FTS_kappa_residual_partner_intersection_complement :
+    Statements.FTS_kappa_residual_partner_intersection_complement.{u} :=
+  Proofs.FTS_kappa_residual_partner_intersection_complement FBG_sigma_core_normal_hall
+    FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FTS_kappa_free_nonfitting_prime_alternative FTS_kappa_residual_prime_overgroup_position
+    FTS_outside_sigma_plane_structure FTS_sigma_prime_separation
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FTS_kappa_residual_prime_overgroup_intersection :
+    Statements.FTS_kappa_residual_prime_overgroup_intersection.{u} :=
+  Proofs.FTS_kappa_residual_prime_overgroup_intersection FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_sylow FTS_kappa_residual_containing_complement_fitting
+    FTS_kappa_residual_prime_overgroup_position FTS_outside_sigma_plane_structure
+    FTS_sigma_prime_separation
+
+theorem FBG_kappa_complement_structure : Statements.FBG_kappa_complement_structure.{u} :=
+  Proofs.FBG_kappa_complement_structure FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FTS_kappa_residual_prime_overgroup_intersection
+
+theorem FTS_residual_rank_two_plane_partner_fitting :
+    Statements.FTS_residual_rank_two_plane_partner_fitting.{u} :=
+  Proofs.FTS_residual_rank_two_plane_partner_fitting FBG_nonnilpotent_sigma_core_hall_structure
+    FBG_sigma_core_normal_hall FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_sylow
+    FTS_kappa_residual_partner_intersection_complement FTS_kappa_residual_prime_overgroup_position
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FTS_residual_partner_nilpotent_nonabelian_sylow :
+    Statements.FTS_residual_partner_nilpotent_nonabelian_sylow.{u} :=
+  Proofs.FTS_residual_partner_nilpotent_nonabelian_sylow FBG_nonnilpotent_sigma_core_hall_structure
+    FBG_sigma_core_normal_hall FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FNI_outside_sigma_plane_sylow FTS_kappa_residual_prime_overgroup_position
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+    FTS_residual_rank_two_plane_partner_fitting
+
+theorem FTS_kappa_residual_rank_two_exclusion :
+    Statements.FTS_kappa_residual_rank_two_exclusion.{u} :=
+  Proofs.FTS_kappa_residual_rank_two_exclusion FNI_kappa_local_pair
+    FNI_nonabelian_ambient_unique_nonregular_line FNI_outside_sigma_plane_sylow
+    FTS_kappa_residual_containing_complement_fitting
+    FTS_kappa_residual_partner_intersection_complement FTS_kappa_residual_prime_overgroup_position
+    FTS_plane_maximal_overgroups FTS_residual_partner_nilpotent_nonabelian_sylow
+    FTS_residual_rank_two_plane_partner_fitting
+
+theorem FTS_nontrivial_kappa_support_residual_witness :
+    Statements.FTS_nontrivial_kappa_support_residual_witness.{u} :=
+  Proofs.FTS_nontrivial_kappa_support_residual_witness FBG_sigma_core_normal_hall
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one FTS_signalizer_unique_supporting_maximum
+
+theorem FTS_kappa_positive_support_forces_cyclic_frobenius :
+    Statements.FTS_kappa_positive_support_forces_cyclic_frobenius.{u} :=
+  Proofs.FTS_kappa_positive_support_forces_cyclic_frobenius
+    FBG_nilpotent_sigma_core_fitting_structure FBG_nonnilpotent_sigma_core_hall_structure
+    FBG_sigma_core_normal_hall FNI_kappa_local_pair FTS_kappa_residual_prime_overgroup_intersection
+    FTS_kappa_residual_prime_overgroup_position FTS_kappa_residual_rank_two_exclusion
+    FTS_nontrivial_kappa_support_residual_witness FTS_proper_subgroup_p_length_one
+
+theorem FBG_local_inertia_and_exponent_complement :
+    Statements.FBG_local_inertia_and_exponent_complement.{u} :=
+  Proofs.FBG_local_inertia_and_exponent_complement FBG_sigma_core_normal_hall
+    FNI_abelian_normal_hall_full_exponent_cycle FNI_nonabelian_ambient_prime_kernel_complement
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_sylow
+    FPL_global_sylow_normalizer_derived FTS_outside_sigma_plane_structure
+    FTS_proper_subgroup_p_length_one
+
+theorem FBG_local_nilpotent_hall_core : Statements.FBG_local_nilpotent_hall_core.{u} :=
+  Proofs.FBG_local_nilpotent_hall_core FBG_sigma_core_normal_hall FBG_tau_two_hall_abelian
+    FNI_kappa_local_pair FNI_kappa_normalizer_centralizer_structure
+    FNI_kappa_semiprime_complement_existence FNI_kappa_trivial_residual_prime_fixed_core
+    FNI_outside_sigma_plane_sylow FTS_outside_sigma_plane_structure
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FBG_local_p_core_centralizer : Statements.FBG_local_p_core_centralizer.{u} :=
+  Proofs.FBG_local_p_core_centralizer FBG_nilpotent_sigma_core_fitting_structure
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FNI_kappa_trivial_residual_prime_fixed_core
+    FNI_outside_sigma_plane_sylow FTS_outside_sigma_plane_structure
+
+theorem FBG_local_p_nontrivial_U_case : Statements.FBG_local_p_nontrivial_U_case.{u} :=
+  Proofs.FBG_local_p_nontrivial_U_case FBG_nilpotent_sigma_core_fitting_structure
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+
+theorem FBG_abelian_fitting_overlap_rank_two :
+    Statements.FBG_abelian_fitting_overlap_rank_two.{u} :=
+  Proofs.FBG_abelian_fitting_overlap_rank_two FBG_nilpotent_sigma_core_fitting_structure
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FNI_kappa_trivial_residual_prime_fixed_core
+    FNI_nonabelian_prime_subgroup_unique_maximum FTS_proper_subgroup_p_length_one
+
+theorem FBG_nonabelian_fitting_overlap_central_lines :
+    Statements.FBG_nonabelian_fitting_overlap_central_lines.{u} :=
+  Proofs.FBG_nonabelian_fitting_overlap_central_lines FBG_nilpotent_sigma_core_fitting_structure
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall
+    FNI_nonabelian_prime_subgroup_unique_maximum FPL_low_rank_sylow_central_product
+    FTS_beta_or_derived_line_centralizer_unique FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one
+
+theorem FBG_nonabelian_fitting_overlap_maximal_plane :
+    Statements.FBG_nonabelian_fitting_overlap_maximal_plane.{u} :=
+  Proofs.FBG_nonabelian_fitting_overlap_maximal_plane FBG_nilpotent_sigma_core_fitting_structure
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall
+    FNI_nonabelian_prime_subgroup_unique_maximum FPL_low_rank_sylow_central_product
+    FTS_beta_or_derived_line_centralizer_unique FTS_plane_maximal_overgroups
+    FTS_proper_subgroup_p_length_one
+
+theorem FBG_nonabelian_fitting_overlap_primary :
+    Statements.FBG_nonabelian_fitting_overlap_primary.{u} :=
+  Proofs.FBG_nonabelian_fitting_overlap_primary FBG_nilpotent_sigma_core_fitting_structure
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall
+    FNI_nonabelian_prime_subgroup_unique_maximum FTS_beta_or_derived_line_centralizer_unique
+    FTS_plane_maximal_overgroups FTS_proper_subgroup_p_length_one
+
+theorem FBG_overlap_kappa_fixed_line_order_position :
+    Statements.FBG_overlap_kappa_fixed_line_order_position.{u} :=
+  Proofs.FBG_overlap_kappa_fixed_line_order_position FBG_nonabelian_fitting_overlap_central_lines
+    FBG_nonabelian_fitting_overlap_primary FBG_nonnilpotent_sigma_core_hall_structure
+    FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FNI_kappa_trivial_residual_prime_fixed_core
+
+theorem FBG_local_p_trivial_U_alternative : Statements.FBG_local_p_trivial_U_alternative.{u} :=
+  Proofs.FBG_local_p_trivial_U_alternative FBG_abelian_fitting_overlap_rank_two
+    FBG_local_nilpotent_hall_core FBG_nonabelian_fitting_overlap_central_lines
+    FBG_nonabelian_fitting_overlap_maximal_plane FBG_overlap_kappa_fixed_line_order_position
+    FNI_kappa_trivial_residual_prime_fixed_core FTS_proper_subgroup_p_length_one
+
+theorem FBG_local_type_I_alternative : Statements.FBG_local_type_I_alternative.{u} :=
+  Proofs.FBG_local_type_I_alternative FBG_abelian_fitting_overlap_rank_two
+    FBG_local_inertia_and_exponent_complement FBG_local_nilpotent_hall_core
+    FBG_nilpotent_sigma_core_fitting_structure FBG_nonabelian_fitting_overlap_central_lines
+    FBG_nonnilpotent_sigma_core_hall_structure FBG_sigma_core_normal_hall
+    FTS_proper_subgroup_p_length_one
+
+theorem FBG_paired_local_geometry : Statements.FBG_paired_local_geometry.{u} :=
+  Proofs.FBG_paired_local_geometry FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_normalizer_centralizer_structure FNI_kappa_semiprime_complement_existence
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FTS_plane_maximal_overgroups FTS_sigma_prime_separation
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FBG_maximal_type_dichotomy : Statements.FBG_maximal_type_dichotomy.{u} :=
+  Proofs.FBG_maximal_type_dichotomy FBG_kappa_complement_structure
+    FBG_local_inertia_and_exponent_complement FBG_local_nilpotent_hall_core
+    FBG_local_p_core_centralizer FBG_local_p_nontrivial_U_case FBG_local_p_trivial_U_alternative
+    FBG_local_type_I_alternative FBG_paired_local_geometry
+
+theorem FBG_five_type_local_classification :
+    Statements.FBG_five_type_local_classification.{u} :=
+  _root_.CFSG.FeitThompson.Proofs.FBG_five_type_local_classification
+    FBG_kappa_complement_structure FBG_local_inertia_and_exponent_complement
+    FBG_local_nilpotent_hall_core FBG_local_p_core_centralizer FBG_local_p_nontrivial_U_case
+    FBG_local_p_trivial_U_alternative FBG_local_type_I_alternative FBG_paired_local_geometry
+
+theorem FTS_type_I_core_kappa_identity : Statements.FTS_type_I_core_kappa_identity.{u} :=
+  Proofs.FTS_type_I_core_kappa_identity FBG_kappa_complement_structure
+    FBG_local_inertia_and_exponent_complement FBG_local_nilpotent_hall_core
+    FBG_local_p_core_centralizer FBG_local_p_nontrivial_U_case FBG_local_p_trivial_U_alternative
+    FBG_local_type_I_alternative FBG_paired_local_geometry
+
+theorem FBG_kappa_nontrivial_complement_structure :
+    Statements.FBG_kappa_nontrivial_complement_structure.{u} :=
+  Proofs.FBG_kappa_nontrivial_complement_structure FBG_sigma_core_normal_hall
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_outside_sigma_plane_structure FTS_proper_subgroup_p_length_one
+
+theorem FTS_kappa_free_auxiliary_cross_point_coprimality :
+    Statements.FTS_kappa_free_auxiliary_cross_point_coprimality.{u} :=
+  Proofs.FTS_kappa_free_auxiliary_cross_point_coprimality FBG_sigma_core_normal_hall
+    FBG_tau_two_full_central_hall FBG_tau_two_hall_abelian
+    FNI_nonabelian_ambient_unique_nonregular_line FNI_outside_sigma_plane_complement_normalizer
+    FNI_outside_sigma_plane_sylow FPL_global_sylow_normalizer_derived
+    FTS_beta_or_derived_line_centralizer_unique FTS_proper_subgroup_p_length_one
+
+theorem FTS_canonical_signalizer_full_support_coprimality :
+    Statements.FTS_canonical_signalizer_full_support_coprimality.{u} :=
+  Proofs.FTS_canonical_signalizer_full_support_coprimality
+    FBG_kappa_nontrivial_complement_structure FNI_kappa_local_pair FNI_kappa_pair_hall_intersection
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_beta_or_derived_line_centralizer_unique FTS_canonical_signalizer_structure
+    FTS_kappa_free_auxiliary_cross_point_coprimality FTS_signalizer_unique_supporting_maximum
+
+theorem FNI_p_configuration_kappa_factors : Statements.FNI_p_configuration_kappa_factors.{u} :=
+  Proofs.FNI_p_configuration_kappa_factors FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence
+
+theorem FTS_core_centralizing_external_element_dichotomy :
+    Statements.FTS_core_centralizing_external_element_dichotomy.{u} :=
+  Proofs.FTS_core_centralizing_external_element_dichotomy FBG_sigma_core_normal_hall
+    FBG_tau_two_hall_abelian FNI_outside_sigma_plane_core_disjoint FNI_outside_sigma_plane_sylow
+    FNI_tau12_fixed_plane_line_core_free FNI_tau13_nonfree_third_factor_structure
+    FTS_outside_sigma_plane_structure FTS_plane_maximal_overgroups
+    FTS_tau_one_fixed_line_centralizer_unique
+
+theorem FPF_kappa_positive_core_derived_support_disjoint :
+    Statements.FPF_kappa_positive_core_derived_support_disjoint.{u} :=
+  Proofs.FPF_kappa_positive_core_derived_support_disjoint FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FTS_canonical_signalizer_full_support_coprimality
+    FTS_canonical_signalizer_structure FTS_core_centralizing_external_element_dichotomy
+    FTS_kappa_positive_support_forces_cyclic_frobenius FTS_sigma_prime_separation
+
+theorem FPF_non_type_i_sigma_core_identities :
+    Statements.FPF_non_type_i_sigma_core_identities.{u} :=
+  Proofs.FPF_non_type_i_sigma_core_identities FBG_five_type_local_classification
+    FBG_local_p_core_centralizer FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_kappa_residual_prime_overgroup_intersection FTS_outside_sigma_plane_structure
+
+theorem FPF_type_iii_v_second_factor_prime : Statements.FPF_type_iii_v_second_factor_prime.{u} :=
+  Proofs.FPF_type_iii_v_second_factor_prime FBG_local_p_nontrivial_U_case FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FNI_kappa_trivial_residual_prime_fixed_core
+    FTS_kappa_residual_prime_overgroup_intersection
+
+theorem FPF_type_iii_v_extended_dade_support :
+    Statements.FPF_type_iii_v_extended_dade_support.{u} :=
+  Proofs.FPF_type_iii_v_extended_dade_support FNI_p_configuration_kappa_factors
+    FPF_non_type_i_sigma_core_identities FTS_canonical_signalizer_full_support_coprimality
+    FTS_canonical_signalizer_structure
+
+theorem FTS_type_II_extended_support_ti : Statements.FTS_type_II_extended_support_ti.{u} :=
+  Proofs.FTS_type_II_extended_support_ti FBG_five_type_local_classification
+    FBG_local_p_core_centralizer FBG_sigma_core_normal_hall FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FNI_outside_sigma_plane_sylow
+    FTS_core_centralizing_external_element_dichotomy FTS_kappa_residual_prime_overgroup_intersection
+    FTS_outside_sigma_plane_structure
+
+theorem FPF_type_iii_v_induced_family_noncoherence :
+    Statements.FPF_type_iii_v_induced_family_noncoherence.{u} :=
+  Proofs.FPF_type_iii_v_induced_family_noncoherence FBG_five_type_local_classification
+    FBG_maximal_type_dichotomy FNI_p_configuration_kappa_factors
+    FPF_kappa_positive_core_derived_support_disjoint FPF_non_type_i_sigma_core_identities
+    FPF_type_iii_v_second_factor_prime FTS_canonical_signalizer_full_support_coprimality
+    FTS_canonical_signalizer_structure FTS_type_II_extended_support_ti
+
+theorem FPF_type_iii_iv_second_derived_fitting :
+    Statements.FPF_type_iii_iv_second_derived_fitting.{u} :=
+  Proofs.FPF_type_iii_iv_second_derived_fitting FPF_type_iii_v_extended_dade_support
+    FPF_type_iii_v_induced_family_noncoherence FPF_type_iii_v_second_factor_prime
+
+theorem FPF_type_iii_iv_core_elementary_chief_kernel_trivial :
+    Statements.FPF_type_iii_iv_core_elementary_chief_kernel_trivial.{u} :=
+  Proofs.FPF_type_iii_iv_core_elementary_chief_kernel_trivial
+    FPF_type_iii_iv_second_derived_fitting FPF_type_iii_v_second_factor_prime
+
+theorem FPF_non_type_i_supporting_maximum_exclusion :
+    Statements.FPF_non_type_i_supporting_maximum_exclusion.{u} :=
+  Proofs.FPF_non_type_i_supporting_maximum_exclusion FPF_non_type_i_sigma_core_identities
+    FPF_type_iii_iv_core_elementary_chief_kernel_trivial FPF_type_iii_iv_second_derived_fitting
+    FPF_type_iii_v_extended_dade_support FPF_type_iii_v_induced_family_noncoherence
+    FPF_type_iii_v_second_factor_prime
+
+theorem FNI_type_p_prime_factors : Statements.FNI_type_p_prime_factors.{u} :=
+  Proofs.FNI_type_p_prime_factors FBG_five_type_local_classification FBG_maximal_type_dichotomy
+    FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FPF_type_iii_v_extended_dade_support FPF_type_iii_v_induced_family_noncoherence
+    FPF_type_iii_v_second_factor_prime FTS_type_I_core_kappa_identity
+
+theorem FNI_type_p_elementary_core_structure :
+    Statements.FNI_type_p_elementary_core_structure.{u} :=
+  Proofs.FNI_type_p_elementary_core_structure FBG_five_type_local_classification
+    FNI_p_configuration_kappa_factors FNI_type_p_prime_factors
+    FPF_type_iii_iv_core_elementary_chief_kernel_trivial FPF_type_iii_iv_second_derived_fitting
+    FPF_type_iii_v_extended_dade_support FPF_type_iii_v_induced_family_noncoherence
+    FPF_type_iii_v_second_factor_prime FTS_type_I_core_kappa_identity
+
+theorem FCH_type_p_action_kernel_ratio : Statements.FCH_type_p_action_kernel_ratio.{u} :=
+  Proofs.FCH_type_p_action_kernel_ratio FNI_p_configuration_kappa_factors
+    FNI_type_p_elementary_core_structure FNI_type_p_prime_factors
+    FPF_non_type_i_sigma_core_identities FTS_canonical_signalizer_full_support_coprimality
+    FTS_canonical_signalizer_structure FTS_type_II_extended_support_ti
+
+theorem FCH_type_p_actual_bridge_remainder :
+    Statements.FCH_type_p_actual_bridge_remainder.{u} :=
+  Proofs.FCH_type_p_actual_bridge_remainder FCH_type_p_action_kernel_ratio
+    FNI_p_configuration_kappa_factors FNI_type_p_elementary_core_structure
+    FPF_non_type_i_sigma_core_identities FTS_canonical_signalizer_full_support_coprimality
+    FTS_canonical_signalizer_structure FTS_type_II_extended_support_ti
+
+theorem FTS_signalizer_supporting_type_exterior :
+    Statements.FTS_signalizer_supporting_type_exterior.{u} :=
+  Proofs.FTS_signalizer_supporting_type_exterior FBG_five_type_local_classification
+    FBG_sigma_core_normal_hall FNI_kappa_local_pair FNI_kappa_semiprime_complement_existence
+    FTS_kappa_residual_prime_overgroup_intersection FTS_outside_sigma_plane_structure
+    FTS_signalizer_unique_supporting_maximum
+
+theorem FTS_type_I_complement_structure : Statements.FTS_type_I_complement_structure.{u} :=
+  Proofs.FTS_type_I_complement_structure FBG_sigma_core_normal_hall
+    FNI_outside_sigma_plane_complement_normalizer FNI_outside_sigma_plane_core_disjoint
+    FNI_outside_sigma_plane_sylow FPL_global_sylow_normalizer_derived
+    FPL_low_rank_sylow_central_product FTS_nonunique_line_centralizer_bounds
+    FTS_proper_subgroup_p_length_one FTS_type_I_core_kappa_identity
+
+theorem FTS_type_I_dade_support : Statements.FTS_type_I_dade_support.{u} :=
+  Proofs.FTS_type_I_dade_support FTS_canonical_signalizer_structure
+    FTS_kappa_free_auxiliary_cross_point_coprimality FTS_outside_sigma_plane_structure
+    FTS_plane_maximal_overgroups FTS_sigma_prime_separation
+    FTS_signalizer_supporting_type_exterior FTS_signalizer_unique_supporting_maximum
+    FTS_type_I_complement_structure FTS_type_I_core_kappa_identity
+
+theorem FPF_type_I_frobenius : Statements.FPF_type_I_frobenius.{u} :=
+  Proofs.FPF_type_I_frobenius FBG_five_type_local_classification FNI_p_configuration_kappa_factors
+    FPF_non_type_i_supporting_maximum_exclusion FTS_canonical_signalizer_structure
+    FTS_kappa_positive_support_forces_cyclic_frobenius FTS_sigma_prime_separation
+    FTS_type_I_complement_structure FTS_type_I_core_kappa_identity FTS_type_I_dade_support
+
+theorem FCH_type_I_frobenius_coherent_family :
+    Statements.FCH_type_I_frobenius_coherent_family.{u} :=
+  Proofs.FCH_type_I_frobenius_coherent_family FPF_type_I_frobenius FTS_type_I_dade_support
+
+theorem FCH_type_I_P_packet_separation : Statements.FCH_type_I_P_packet_separation.{u} :=
+  Proofs.FCH_type_I_P_packet_separation FBG_five_type_local_classification
+    FNI_type_p_elementary_core_structure FNI_type_p_prime_factors FPF_type_I_frobenius
+    FTS_sigma_prime_separation FTS_type_I_dade_support
+
+theorem FCH_actual_type_I_crossed_control : Statements.FCH_actual_type_I_crossed_control.{u} :=
+  Proofs.FCH_actual_type_I_crossed_control FPF_type_I_frobenius FTS_canonical_signalizer_structure
+    FTS_sigma_prime_separation FTS_type_I_dade_support
+
+theorem FCH_actual_paired_support_saturation :
+    Statements.FCH_actual_paired_support_saturation.{u} :=
+  Proofs.FCH_actual_paired_support_saturation FCH_type_I_P_packet_separation
+    FCH_type_I_frobenius_coherent_family FCH_type_p_actual_bridge_remainder
+    FNI_type_p_elementary_core_structure FPF_type_I_frobenius FTS_type_I_dade_support
+
+theorem FBG_type_II_supporting_maximal_configuration :
+    Statements.FBG_type_II_supporting_maximal_configuration.{u} :=
+  Proofs.FBG_type_II_supporting_maximal_configuration FCH_type_p_action_kernel_ratio
+    FNI_type_p_elementary_core_structure FPF_type_I_frobenius FTS_sigma_prime_separation
+
+theorem FNI_paired_supporting_maxima_nonconjugate :
+    Statements.FNI_paired_supporting_maxima_nonconjugate.{u} :=
+  Proofs.FNI_paired_supporting_maxima_nonconjugate FCH_type_p_action_kernel_ratio
+    FNI_type_p_elementary_core_structure FTS_type_II_extended_support_ti
+
+theorem FNI_paired_supporting_kernel_collapse :
+    Statements.FNI_paired_supporting_kernel_collapse.{u} :=
+  Proofs.FNI_paired_supporting_kernel_collapse FCH_actual_type_I_crossed_control
+    FCH_type_I_P_packet_separation FCH_type_I_frobenius_coherent_family
+    FCH_type_p_action_kernel_ratio FCH_type_p_actual_bridge_remainder
+    FNI_paired_supporting_maxima_nonconjugate FNI_type_p_elementary_core_structure
+    FPF_type_I_frobenius FTS_type_I_dade_support FTS_type_II_extended_support_ti
+
+theorem FNI_ordered_pair_full_supporting_complement :
+    Statements.FNI_ordered_pair_full_supporting_complement.{u} :=
+  Proofs.FNI_ordered_pair_full_supporting_complement FBG_type_II_supporting_maximal_configuration
+    FCH_type_I_P_packet_separation FCH_type_I_frobenius_coherent_family
+    FCH_type_p_actual_bridge_remainder FNI_type_p_elementary_core_structure
+    FPF_type_iii_iv_core_elementary_chief_kernel_trivial FPF_type_iii_iv_second_derived_fitting
+    FPF_type_iii_v_extended_dade_support FPF_type_iii_v_induced_family_noncoherence
+    FPF_type_iii_v_second_factor_prime
+
+theorem FPF_type_iii_full_support_ti_induction :
+    Statements.FPF_type_iii_full_support_ti_induction.{u} :=
+  Proofs.FPF_type_iii_full_support_ti_induction FNI_kappa_local_pair
+    FNI_kappa_semiprime_complement_existence FPF_non_type_i_sigma_core_identities
+    FPF_type_I_frobenius FPF_type_iii_v_extended_dade_support
+    FTS_kappa_positive_support_forces_cyclic_frobenius FTS_signalizer_supporting_type_exterior
+    FTS_signalizer_unique_supporting_maximum FTS_type_I_dade_support
+
+theorem FPF_ordered_reciprocal_maxima_type_two :
+    Statements.FPF_ordered_reciprocal_maxima_type_two.{u} :=
+  Proofs.FPF_ordered_reciprocal_maxima_type_two FCH_type_p_action_kernel_ratio
+    FCH_type_p_actual_bridge_remainder FNI_type_p_elementary_core_structure
+    FNI_type_p_prime_factors FPF_type_iii_full_support_ti_induction
+    FPF_type_iii_iv_core_elementary_chief_kernel_trivial FPF_type_iii_iv_second_derived_fitting
+    FPF_type_iii_v_extended_dade_support FPF_type_iii_v_induced_family_noncoherence
+    FPF_type_iii_v_second_factor_prime
+
+theorem FPF_ordered_pair_exclusion : Statements.FPF_ordered_pair_exclusion.{u} :=
+  Proofs.FPF_ordered_pair_exclusion FBG_five_type_local_classification
+    FBG_type_II_supporting_maximal_configuration FCH_actual_paired_support_saturation
+    FCH_type_I_frobenius_coherent_family FCH_type_p_action_kernel_ratio
+    FNI_ordered_pair_full_supporting_complement FNI_paired_supporting_kernel_collapse
+    FNI_type_p_elementary_core_structure FPF_ordered_reciprocal_maxima_type_two
+    FTS_type_II_extended_support_ti
+
+theorem FT_odd_order_solvable : Statements.FT_odd_order_solvable.{u} :=
+  Proofs.FT_odd_order_solvable FBG_maximal_type_dichotomy FBG_sigma_core_normal_hall
+    FPF_ordered_pair_exclusion FPF_type_I_frobenius FTS_canonical_signalizer_structure
+    FTS_sigma_prime_separation FTS_type_I_core_kappa_identity FTS_type_I_dade_support
+
+end
+
+end CFSG.FeitThompson.Results

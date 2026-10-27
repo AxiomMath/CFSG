@@ -1,0 +1,179 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGNbrLangTorJInputs
+import CFSG.LocalAnalysis.StandardType.GGTableBNbrInnerMoreCl
+import CFSG.LocalAnalysis.StandardType.MarkingClassical
+import CFSG.LocalAnalysis.SeitzReduction.LinearPilotCatTypeDet
+public import Certificates.Certificate45
+public import Certificates.Certificate46
+public import Certificates.Certificate47
+public import Certificates.Certificate48
+public import Certificates.Certificate49
+public import Certificates.Certificate50
+public import Certificates.Certificate51
+public import Certificates.Certificate52
+public import Certificates.Certificate53
+public import Certificates.Certificate54
+public import Certificates.Certificate55
+public import Certificates.Certificate56
+public import Certificates.Certificate57
+public import Certificates.Certificate58
+public import Certificates.Certificate59
+public import Certificates.Certificate60
+public import Certificates.Certificate61
+public import Certificates.Certificate62
+public import Certificates.Certificate63
+public import Certificates.Certificate64
+public import Certificates.Certificate65
+public import Certificates.Certificate66
+public import Certificates.Certificate67
+public import Certificates.Certificate68
+public import Certificates.Certificate69
+public import Certificates.Certificate70
+public import Certificates.Certificate71
+public import Certificates.Certificate72
+public import Certificates.Certificate73
+public import Certificates.Certificate74
+public import Certificates.Certificate75
+public import Certificates.Certificate113
+public import Certificates.Certificate114
+public import Certificates.Certificate117
+public import Certificates.Certificate2264
+public import Certificates.Certificate2267
+public import Certificates.Certificate8033
+public import Certificates.Certificate8064
+
+public section
+
+namespace CFSG.StandardType
+
+open CFSG CFSG.Assembly
+
+private theorem ggStdSubLinearAux_label_arith {lab : LargeEvenLabel}
+    (hlab : LargeEvenInLambda2 lab) {m d : ℕ}
+    (h1 : markTag lab = .PSL) (h2 : markRank lab = d) (h3 : markDeg lab = m)
+    (hd : 3 ≤ d) (hd4 : d ≠ 4) :
+    lab.tag = .A ∧ lab.rank = d - 1 ∧ lab.n = m := by
+  obtain ⟨t, l, n⟩ := lab
+  cases t
+  case A =>
+    refine ⟨rfl, ?_, ?_⟩
+    · have h := h2; simp [markRank] at h; change l = d - 1; omega
+    · have h := h3; simp [markDeg] at h; change n = m; exact h
+  case twA => exact absurd h1 (by simp [markTag])
+  case B => exact absurd h1 (by simp [markTag])
+  case C => exact absurd h1 (by simp [markTag])
+  case D =>
+    by_cases h3l : l = 3
+    · have h := h2
+      simp [markRank, h3l] at h
+      exact absurd h.symm hd4
+    · exact absurd h1 (by simp [markTag, h3l])
+  case twD =>
+    by_cases hl2 : l = 2
+    · have h := h2
+      simp [markRank, hl2] at h
+      omega
+    · by_cases hl3 : l = 3
+      · exact absurd h1 (by simp [markTag, hl2, hl3])
+      · exact absurd h1 (by simp [markTag, hl2, hl3])
+  case E6 => exact absurd h1 (by simp [markTag])
+  case E7 => exact absurd h1 (by simp [markTag])
+  case E8 => exact absurd h1 (by simp [markTag])
+  case F4 => exact absurd h1 (by simp [markTag])
+  case twE6 => exact absurd h1 (by simp [markTag])
+  case triD4 => exact absurd h1 (by simp [markTag])
+  case G2 => exact absurd h1 (by simp [markTag])
+  case twB2 => exact absurd h1 (by simp [markTag])
+  case twF4 => exact absurd h1 (by simp [markTag])
+  case B2der =>
+    have h := h2
+    simp [markRank] at h
+    omega
+  case G2der => exact absurd h1 (by simp [markTag])
+  case twF4der => exact absurd h1 (by simp [markTag])
+
+private theorem ggStdSubLinearAux_label
+    {R_J : Type} [Group R_J] {lab_J : LargeEvenLabel} (hlab_J : LargeEvenInLambda2 lab_J)
+    {m : ℕ} (hm : 2 ≤ m) {d : ℕ} (hd : 3 ≤ d) (hd4 : d ≠ 4)
+    (hMarked : MarkedModel lab_J R_J) (hPSL : CFSG.Blueprint.LieModel R_J .PSL d 2 m) :
+    lab_J.tag = .A ∧ lab_J.rank = d - 1 ∧ lab_J.n = m := by
+  by_cases hc : markChar lab_J = 2
+  · have hLie := NbrInnerMore.lieModel_of_markedModel_two hc hMarked
+    obtain ⟨hT, hR, hD⟩ :=
+      CFSG.SeitzReduction.LinearPilot.lieModel_PSL_two_unique hd hPSL hLie
+    exact ggStdSubLinearAux_label_arith hlab_J hT hR hD hd hd4
+  · exact absurd hMarked
+      (NbrInnerMore.not_markedModel_of_char_ne_two hPSL
+        (by rintro ⟨-, hd2, -⟩; omega)
+        (by rintro ⟨-, -, hm1⟩; omega) (by simp) hc)
+
+theorem ggConfig_exists_abelianPreimage_psl {G : Type} [Group G] [Finite G] {p : ℕ}
+    {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} (hcfg : GGConfig p B Bs x L D J)
+    (hID : GGInnerDiagOn Bs L) (hQ2 : GGBstarAbelianPreimageJLinInput)
+    (hIDJ : GGInnerDiagOn Bs J) {d : ℕ} (hd : 3 ≤ d) (hd4 : d ≠ 4) {E : Type} [Field E]
+    [Finite E] {m : ℕ} (hm : 2 ≤ m) (hE : Nat.card E = 2 ^ m)
+    (σ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) E)) :
+    ∃ (E' : Type) (_ : Field E') (_ : Finite E')
+      (θJ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) E'))
+      (At : Subgroup (GL (Fin d) E')), IsMulCommutative At ∧
+        ∀ b ∈ Bs, ∃ g ∈ At, ∀ j : ↥J, ∃ j' : ↥J, (j' : G) = b * (j : G) * b⁻¹ ∧
+          θJ (QuotientGroup.mk j') =
+            TableB.linConjAut (Fin d) E' g (θJ (QuotientGroup.mk j)) := by
+  obtain ⟨hJperf, lab_J, hlab_J, hraw_J⟩ := hIDJ
+  have hraw_marked := largeEvenRawDatum_markedModel hlab_J
+    (Q := fun R _ I F => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
+      ∃ θ : (↥J ⧸ Subgroup.center ↥J) ≃* R,
+        Bs ≤ Subgroup.normalizer (J : Set G) ∧
+          ∀ b ∈ Bs, ∃ φ ∈ I,
+            LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
+    (fun R _ I F hQ => hQ.2.1) hraw_J
+  obtain ⟨R', _, I', F', hQ', hMM'⟩ := largeEvenRawDatum_exists hraw_marked
+  obtain ⟨hs', hna', θ', hNJ', hhall'⟩ := hQ'
+  have hMarkedCenter : MarkedModel lab_J (↥J ⧸ Subgroup.center ↥J) :=
+    MarkedModel.of_mulEquiv θ'.symm hMM'
+  have hEadm : CFSG.Open.StatedLieAdmissible .PSL d 2 m :=
+    ⟨Nat.prime_two, by omega, by omega,
+      (by intro h; have := congrArg Prod.fst h; omega),
+      (by intro h; have := congrArg Prod.fst h; omega)⟩
+  have hSCM : CFSG.Open.StatedClassicalModel
+      (LargeEvenProj (LargeEvenSLGroup (Fin d) E)) .PSL d 2 m :=
+    statedClassicalModel_linear d m hE hEadm
+  have hPSL0 : CFSG.Blueprint.LieModel
+      (LargeEvenProj (LargeEvenSLGroup (Fin d) E)) .PSL d 2 m :=
+    Or.inl ⟨by decide, hSCM⟩
+  have hPSLJ : CFSG.Blueprint.LieModel (↥J ⧸ Subgroup.center ↥J) .PSL d 2 m :=
+    lieModel_of_mulEquiv' σ.symm hPSL0
+  obtain ⟨hAtag, hArank, hAn⟩ :=
+    ggStdSubLinearAux_label hlab_J hm hd hd4 hMarkedCenter hPSLJ
+  have hlab_eq : lab_J = ⟨.A, d - 1, m⟩ := by
+    obtain ⟨t, l, n⟩ := lab_J
+    dsimp only at hAtag hArank hAn
+    subst hAtag; subst hArank; subst hAn; rfl
+  subst hlab_eq
+  have hd1 : d - 1 + 1 = d := by omega
+  dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw_J
+  rw [hd1] at hraw_J
+  obtain ⟨K0, hK0field, hK0fin, hK0card, hQK⟩ := hraw_J
+  obtain ⟨hs_J, hna_J, θ_J, hNJ, hhall_J⟩ := hQK
+  let At : Subgroup (GL (Fin d) K0) :=
+    (((ggBsAut hNJ).range).map (kgInducedAut θ_J)).comap (TableB.linConjAut (Fin d) K0)
+  have hAt_comm : IsMulCommutative At :=
+    hQ2 G p B Bs x L D J hcfg hID hNJ d K0 θ_J
+  refine ⟨K0, hK0field, hK0fin, θ_J, At, hAt_comm, ?_⟩
+  intro b hb
+  have hmem : ggLAut J θ_J ⟨b, hNJ hb⟩ ∈
+      LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K0)) Set.univ :=
+    ggLAut_mem_of_induces J θ_J hNJ hhall_J hb
+  obtain ⟨A, hA⟩ := TableB.exists_eq_linConjAut (ι := Fin d) (K := K0) hmem
+  refine ⟨A, ?_, ?_⟩
+  · rw [Subgroup.mem_comap]
+    rw [← hA]
+    exact Subgroup.mem_map.mpr
+      ⟨ggBsAut hNJ ⟨b, hb⟩, ⟨⟨b, hb⟩, rfl⟩, rfl⟩
+  · intro j
+    refine ⟨ggBsAut hNJ ⟨b, hb⟩ j, normalizerMonoidHom_coe J ⟨b, hNJ hb⟩ j, ?_⟩
+    rw [← hA]
+    exact (ggLAut_apply J θ_J ⟨b, hNJ hb⟩ j).symm
+
+end CFSG.StandardType

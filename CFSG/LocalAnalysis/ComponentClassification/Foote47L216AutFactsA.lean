@@ -1,0 +1,92 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedLayerSemidihedralTwoComponents
+public import CFSG.Walter.PSL2Facts.Even
+import CFSG.ClassicalInvolution.Balance.FuzzyAdjAxis
+import CFSG.LocalAnalysis.ComponentInitial.LinearTwoOuterOrder
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB516Tools
+import CFSG.Quasithin.SteinbergOuterPrimeControl
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBAlternatingTransport
+public import CFSG.LocalAnalysis.ComponentClassification.DisjointSolvableKernels
+public import CFSG.LocalAnalysis.ComponentClassification.LayerMultiplication
+public import CFSG.LocalAnalysis.ComponentClassification.MinimalBCenter
+public import CFSG.LocalAnalysis.ComponentClassification.OrdinaryComponentJoins
+public import CFSG.LocalAnalysis.ComponentClassification.TwoLayer
+public import CFSG.LocalAnalysis.ComponentClassification.UnbalancedGSCSemidihedralKernel
+public import CFSG.LocalAnalysis.ComponentClassification.UniversalOrbitBlock
+public import CFSG.LocalAnalysis.ComponentInitial.BlockOvergroupDichotomy
+public import CFSG.LocalAnalysis.ComponentInitial.GeneralizedFittingProduct
+public import CFSG.LocalAnalysis.ComponentInitial.PerfectOuterInjection
+public import CFSG.LocalAnalysis.ZStar.BrauerSylowFusion
+public import CFSG.LocalAnalysis.ZStar.PrincipalBlockTraceApplication
+public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Borel
+public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Lemma83
+public import CFSG.Walter.Defs
+import CFSG.Assembly.OrderReductions.InvertedSubgroup
+import CFSG.Assembly.OrderReductions.OddInversion
+import CFSG.ClassicalInvolution.Balance.PassTwoFinal
+import CFSG.ClassicalInvolution.Generic.InductionMain
+import CFSG.ClassicalInvolution.Models.LinearFrames
+import CFSG.ClassicalInvolution.Models.LinearPairs
+import CFSG.ClassicalInvolution.Models.OrthogonalPairs
+import CFSG.ClassicalInvolution.Models.SymplecticPairs.Quadruple
+import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCLayer
+import CFSG.ClassicalInvolution.Models.Transfer
+import CFSG.ClassicalInvolution.Models.UnitaryPairs
+import CFSG.ClassicalInvolution.RouteD.TypeAChain
+import CFSG.LieType.Ree.SmallReeModelSchreier
+import CFSG.LieType.Steinberg.Classical.SpinFrame
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOddLieClassical
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOddLieE6E7Triality
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalDescentEndpoint
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareStructure
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixModelGeometry
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueKProper
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueKProperGroups
+import CFSG.LocalAnalysis.ComponentClassification.CatalogueUStatement
+import CFSG.LocalAnalysis.ComponentClassification.GSThmB5bLemma514
+import CFSG.LocalAnalysis.ComponentClassification.GSThmBCatalog516
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedCorrCentralSylowMaximality
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedGSAContainedSource
+import CFSG.LocalAnalysis.ComponentClassification.UnbalancedLayerOddCoreUnbalancingTriple
+import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasFive
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasSix
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalReflectionSplitting
+import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+import CFSG.LocalAnalysis.ComponentInitial.SylowPointRecovery
+import CFSG.LocalAnalysis.RankThreeEvenClassification.ComponentCore
+import CFSG.LocalAnalysis.RankThreeEvenClassification.SignalizerImageCompletion
+import CFSG.LocalAnalysis.RankThreeEvenClassification.SignalizerPreimages
+import CFSG.LocalAnalysis.RankThreeEvenClassification.SignalizerRestrictionCompletion
+import CFSG.LocalAnalysis.SignalizerFunctor
+import CFSG.Open.QuasithinDefs
+import CFSG.Sporadic.Th.F2Spec
+import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.External.Huppert.IV.theorem_3_3
+import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.PFchapter1section1.proposition_4_c
+import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Proposition82
+import Certificates.Certificate1
+import Certificates.Certificate2
+import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+
+public section
+
+namespace CFSG.ComponentClassification.Foote47L216
+
+open CFSG Subgroup CFSG.ComponentClassification.UnbalancedLayer
+open CFSG.ComponentClassification.GSThmB
+
+variable {G : Type} [Group G] [Finite G] {M : Subgroup G}
+
+private abbrev PSL216 : Type := Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 4)
+
+end CFSG.ComponentClassification.Foote47L216

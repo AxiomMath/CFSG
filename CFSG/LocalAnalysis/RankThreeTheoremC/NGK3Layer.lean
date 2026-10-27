@@ -1,0 +1,4 @@
+module
+
+public import CFSG.LocalAnalysis.RankThreeTheoremC.NGK3LayerCaseA
+public import CFSG.LocalAnalysis.RankThreeTheoremC.NGK3LayerStruct

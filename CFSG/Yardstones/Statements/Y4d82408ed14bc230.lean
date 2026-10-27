@@ -1,0 +1,55 @@
+module
+
+public import CFSG.LieType.SeitzGeneration.RootPairOrthMinusChar2
+meta import YardstoneContract
+public import CFSG.ClassicalInvolution.WeakCT.StandardPair
+public import CFSG.LieType.CurtisTits.SpecialLinear
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBHeldSmallCorePrimeCore
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBHigherLinearFieldDeterminant
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalDescentEndpoint
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalFiveStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointActionModels
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalPointPlusBorelModel
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareField
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalScalarSquareStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixComponentsCover
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalSixStructure
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBOrthogonalTraceZeroCoordinates
+public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBProjectiveInvolutionStructure
+public import CFSG.LocalAnalysis.ComponentInitial.LinearInvolutionFixedField
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalFamilyLemmasSix
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalReflectionSplitting
+public import CFSG.LocalAnalysis.ComponentInitial.OrthogonalStandardFormsRegular
+public import CFSG.LocalAnalysis.ComponentInitial.UnitaryHigherEvenOrthogonalModel
+public import CFSG.LocalAnalysis.SectionRank.Ccomm.Supercritical
+public import CFSG.LocalAnalysis.ZStar.BrauerSylowFusion
+public import CFSG.LocalAnalysis.ZStar.PrincipalBlockTraceApplication
+public import CFSG.RankThree.PartOne.CTP.SeitzLinear
+public import CFSG.RankThree.PartOne.KC.LinearCommutatorOdd
+public import CFSG.RankThree.PartOne.KC.LinearDegreeFive
+public import CFSG.RankThree.PartOne.KC.LinearEndpointStatements
+public import CFSG.RankThree.PartOne.KC.OrthogonalD4WitnessEven
+public import CFSG.RankThree.PartOne.KC.OrthogonalD4WitnessOdd
+public import CFSG.RankThree.PartOne.KC.OrthogonalSubfieldBY
+public import CFSG.RankThree.PartOne.KC.PlaneReductionGeneral
+public import CFSG.RankThree.PartOne.S11d.OutLinear
+public import CFSG.RankThree.SteinbergR3EOrthogonalCoprimeCyclic
+public import CFSG.RankThree.Theta.ThreeComponentOrbitCover
+public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.External.Huppert.IV.theorem_3_3
+public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.External.Isaacs.VII.lemma_7_7
+public import CFSG.Walter.Defs
+public import Certificates.Certificate1
+public import Certificates.Certificate2
+public import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
+import YardstoneContract
+
+public section
+
+namespace CFSG.Yardstones.Statements
+
+@[expose] def Y4d82408ed14bc230 : Prop :=
+  yardstone_type% CFSG.LieType.SeitzGeneration.SubfieldPairOmegaMinusF2
+
+end CFSG.Yardstones.Statements

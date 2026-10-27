@@ -1,0 +1,19 @@
+module
+
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.Thm46FS.G2EvenOuterClassical
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.Thm46FS.G2EvenOuterExc
+
+public section
+
+set_option linter.unusedSectionVars false
+
+namespace CFSG.EvenSporadicStandard.Induction
+
+
+theorem g2EvenOuterFixedCatalog_holds : G2EvenOuterFixedCatalog :=
+  g2EvenOuterFixedCatalog_of_open_families g2EvenOuterFamily_PSL g2EvenOuterFamily_PSU
+    g2EvenOuterFamily_PSp g2EvenOuterFamily_POmegaPlus g2EvenOuterFamily_POmegaMinus
+    g2EvenOuterFamily_G2 g2EvenOuterFamily_F4 g2EvenOuterFamily_E6 g2EvenOuterFamily_E7
+    g2EvenOuterFamily_E8 g2EvenOuterFamily_twistedE6 g2EvenOuterFamily_trialityD4
+
+end CFSG.EvenSporadicStandard.Induction

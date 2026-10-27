@@ -1,0 +1,87 @@
+module
+
+public import CFSG.GH74.QTGen4.DCopy.Quasithin.Vol2.Ch5Sec2LocalL2Lie
+public import CFSG.Quasithin.Vol2.Ch5Sec2LocalLem522NeConj
+
+public section
+namespace CFSG.Quasithin.H13
+
+open CFSG.Open CFSG.Blueprint CFSG.QuasithinUnique CFSG.LieType.BorelTits CFSG.Quasithin
+
+namespace Hyp5_2_2p
+
+variable {G : Type} [Group G] [CFSG.GH74.QTGen4.Finite4 G] {T M L V H B D L₂ Dp : Subgroup G} {n p : ℕ}
+
+theorem conjClosure_map_conj_eq_F4 (hyp : Hyp5_2_2p G T M L V H B D L₂ Dp n p)
+    (h510 : Stmt5_1_10_F4) (h38 : Vol2Native.A38ForSQTKCat) (hF : FactL2LieParabolic)
+    (hL₂K : L₂ < oTwoUpper H) (hT₀ : T ⊓ Subgroup.normalizer (L₂ : Set G) < T) {x : G}
+    (hxK : x ∈ Subgroup.normalizer (oTwoUpper H : Set G))
+    (hxTK : x ∈ Subgroup.normalizer ((T ⊓ oTwoUpper H : Subgroup G) : Set G)) :
+    conjClosure (L₂.map (MulAut.conj x).toMonoidHom) T = oTwoUpper H := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have h := hyp.toHyp5_0_1
+  have : IsSimpleGroup G := h.simple
+  have hloc : LocalSQTK G := (qtkeCore_of_cat h.nonabelian h.qtke).1
+  have hHO : pCoreOf 2 H ≠ ⊥ := hyp.hStar.1.2
+  have hTH : IsSylowTwoOf T H := h.isSylowTwoOf hyp.hStar.1.1
+  have hKN : ∀ s ∈ T, s ∈ Subgroup.normalizer (oTwoUpper H : Set G) := fun s hs =>
+    le_normalizer_oTwoUpper H (hTH.1 hs)
+  obtain ⟨K₁, hK₁, hKeq, hcase⟩ := hyp.choice
+  rcases hcase with ⟨-, rfl⟩ | ⟨hnb, hK1eq, P, hP, hL₂P⟩
+  ·
+    obtain ⟨K₂, tc⟩ := exists_twoComp h38 hloc hHO hTH hK₁ hKeq hL₂K
+    have hL₂c : L₂ ∈ cComp (oTwoUpper H) := cComp_mem_of_le hK₁ hL₂K.le (oTwoUpper_le H)
+    have hx : L₂.map (MulAut.conj x).toMonoidHom ∈ cComp (oTwoUpper H) := by
+      have := quasithinIsCComponent_map (MulAut.conj x) hL₂c
+      rwa [map_conj_eq_of_mem_normalizer_ch6 hxK] at this
+    rcases tc.cK _ hx with h1 | h1
+    · rw [h1, hKeq]
+    · obtain ⟨t, ht, ht₂⟩ := tc.conj
+      rw [h1, ht₂, conjClosure_map_conj_of_mem ht, hKeq]
+  ·
+    have hTK : IsSylowTwoOf (T ⊓ oTwoUpper H) (oTwoUpper H) :=
+      A4.isSylowTwoOf_inf_normal hTH (oTwoUpper_le H) (le_normalizer_oTwoUpper H)
+    obtain ⟨k, hk, htype, -, hMK⟩ :=
+      nonBender_type_F4 h510 hyp.toHyp5_1_8 hyp.notation59 hK₁ hnb hK1eq
+    obtain ⟨hL₂eq, -, -, -⟩ := l2Lie_nonBender hF hk htype hTK hMK hP hL₂P
+    obtain ⟨Pj, hPj, -, -⟩ := exists_parabolics hF hk htype hTK
+    have hOS : pCoreOf 2 (oTwoUpper H) ≤ T ⊓ oTwoUpper H := F7.isSylowTwoOf_pCoreOf_le hTK
+    have hdet : ∀ A B : Subgroup G, IsMaxParabolicOver (oTwoUpper H) (T ⊓ oTwoUpper H) A →
+        IsMaxParabolicOver (oTwoUpper H) (T ⊓ oTwoUpper H) B →
+        modO2Image (oTwoUpper H) A = modO2Image (oTwoUpper H) B → A = B := by
+      intro A B hA hB hAB
+      rw [← map_comap_modO2Image_of_le hA.1 (hA.pCoreOf_le hTK.1 hOS),
+        ← map_comap_modO2Image_of_le hB.1 (hB.pCoreOf_le hTK.1 hOS), hAB]
+    have hL₂s : ∀ s : G, L₂.map (MulAut.conj s).toMonoidHom =
+        perfectCore (P.map (MulAut.conj s).toMonoidHom) := fun s => by
+      rw [hL₂eq, map_perfectCore]
+    obtain ⟨t₁, ht₁, ht₁N⟩ : ∃ t₁ ∈ T, t₁ ∉ Subgroup.normalizer (L₂ : Set G) := by
+      by_contra hall
+      push Not at hall
+      exact hT₀.ne (le_antisymm inf_le_left fun t ht => ⟨ht, hall t ht⟩)
+    have hPt₁ : IsMaxParabolicOver (oTwoUpper H) (T ⊓ oTwoUpper H)
+        (P.map (MulAut.conj t₁).toMonoidHom) :=
+      hP.map_conj (hKN t₁ ht₁)
+        (Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer ht₁, hKN t₁ ht₁⟩)
+    have hPx : IsMaxParabolicOver (oTwoUpper H) (T ⊓ oTwoUpper H)
+        (P.map (MulAut.conj x).toMonoidHom) := hP.map_conj hxK hxTK
+    obtain ⟨j₀, hj₀⟩ := hPj P hP
+    obtain ⟨j₁, hj₁⟩ := hPj _ hPt₁
+    obtain ⟨jx, hjx⟩ := hPj _ hPx
+    have hj : j₀ ≠ j₁ := by
+      intro hj
+      apply ht₁N
+      rw [CFSG.LieType.Steinberg.mem_normalizer_iff_map_conj, hL₂s,
+        hdet _ _ hPt₁ hP (by rw [hj₁, hj₀, hj]), hL₂eq]
+    have hKL₂ : oTwoUpper H = conjClosure L₂ T :=
+      stmt5_2_L2Gen_of_F4 hF h510 G T M L H B D K₁ P L₂ n hyp.toHyp5_1_8 hyp.notation59 hK₁ hKeq
+        hnb hK1eq hP hL₂P
+    have hfin : ∀ a b c : Fin 2, a ≠ b → c = a ∨ c = b := by decide
+    rcases hfin j₀ j₁ jx hj with rfl | rfl
+    · rw [hL₂s, hdet _ _ hPx hP (by rw [hjx, hj₀]), ← hL₂eq, ← hKL₂]
+    · rw [hL₂s, hdet _ _ hPx hPt₁ (by rw [hjx, hj₁]), ← hL₂s, conjClosure_map_conj_of_mem ht₁,
+        ← hKL₂]
+
+end Hyp5_2_2p
+
+end CFSG.Quasithin.H13

@@ -1,0 +1,11 @@
+module
+
+public import CFSG.Certificates.Kernel.Fam.Fi24Act.Each
+import CFSG.Certificates.Kernel.Common.Each
+
+public section
+
+#kc_each CFSG.KD.FamFi24Act.cov0C 512 600
+#kc_each CFSG.KD.FamFi24Act.cov1C 0 168
+
+end

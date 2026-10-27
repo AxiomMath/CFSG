@@ -1,0 +1,16 @@
+module
+
+import CFSG.Certificates.Kernel.Common.Eval
+meta import CFSG.Certificates.Kernel.BabyMonster.Twin
+import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data10
+import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data2
+import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data3
+
+#kc_eval CFSG.KC.BM.CTIB Cj4 CFSG.KC.BM.Twin.prod 4370 2412240 709204437828511357 W4_inv R4 W4
+#kc_eval CFSG.KC.BM.CTIB Pf4 CFSG.KC.BM.Twin.prod 4370 2412240 14020756205091630331 R3 Cj4
+#kc_eval CFSG.KC.BM.CTIB Pf4_sq1 CFSG.KC.BM.Twin.prod 4370 2412240 8205900280020141598 Pf4 Pf4
+#kc_eval CFSG.KC.BM.CTIB Pf4_sq2 CFSG.KC.BM.Twin.prod 4370 2412240 11860530047342595783 Pf4_sq1 Pf4_sq1
+#kc_eval CFSG.KC.BM.CTIB Pf4_sq3 CFSG.KC.BM.Twin.prod 4370 2412240 12937884053301583589 Pf4_sq2 Pf4_sq2
+#kc_eval CFSG.KC.BM.CTIB Pf4_sq4 CFSG.KC.BM.Twin.prod 4370 2412240 5357791152203375253 Pf4_sq3 Pf4_sq3
+#kc_eval CFSG.KC.BM.CTIB Pf4_sq5 CFSG.KC.BM.Twin.prod 4370 2412240 15377270618643740254 Pf4_sq4 Pf4_sq4
+#kc_eval CFSG.KC.BM.CTIB Pf4p CFSG.KC.BM.Twin.inv 4370 2412240 2368339366567146747 Pf4

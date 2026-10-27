@@ -1,0 +1,12 @@
+module
+
+public import CFSG.Permutation.AlternatingAutomorphism.Conjugation
+public import CFSG.Permutation.AlternatingAutomorphism.JohnsonGraph
+public import CFSG.Permutation.AlternatingAutomorphism.JohnsonGraphAction
+public import CFSG.Permutation.AlternatingAutomorphism.JohnsonGraphIso
+public import CFSG.Permutation.AlternatingAutomorphism.ThreeCycle
+public import CFSG.Permutation.AlternatingAutomorphism.ThreeCyclesPreserved
+
+namespace CFSG
+
+end CFSG

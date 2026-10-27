@@ -1,0 +1,26 @@
+module
+
+public import CFSG.LocalAnalysis.UniquenessCase.UC6G.Defs
+
+public section
+
+namespace CFSG.LocalAnalysis.UniquenessCase.UC6G
+
+open Subgroup
+open CFSG.LocalAnalysis.UniquenessCase.UC22 (IrrOn)
+open CFSG.LocalAnalysis.UniquenessCase.UC6
+open CFSG.LocalAnalysis.UniquenessCase.UC22 (Data)
+
+namespace Mz614
+
+variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
+
+@[expose] def C621 : Prop := IrrOn (m.L ⊓ normalizer (m.A : Set G)) (m.A ⊓ m.L)
+
+@[expose] def C621x : Prop :=
+  ∃ x ∈ normalizer (m.A : Set G), x ^ 4 ∈ centralizer (m.A : Set G) ∧
+    ∀ a ∈ m.A, (x ^ 2 * a * (x ^ 2)⁻¹ = a ↔ a ∈ m.Z)
+
+end Mz614
+
+end CFSG.LocalAnalysis.UniquenessCase.UC6G

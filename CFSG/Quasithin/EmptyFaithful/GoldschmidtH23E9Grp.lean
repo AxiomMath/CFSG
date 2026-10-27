@@ -1,0 +1,4 @@
+module
+
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9GrpSeven
+public import CFSG.Quasithin.EmptyFaithful.GoldschmidtH23E9GrpTwo

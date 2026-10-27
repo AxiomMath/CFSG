@@ -1,0 +1,22 @@
+module
+
+import CFSG.Certificates.Kernel.Common.Eval
+meta import CFSG.Certificates.Kernel.BabyMonster.Twin
+meta import CFSG.Certificates.Kernel.BabyMonster.TwinRank
+import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data1
+import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data6
+import CFSG.Certificates.Kernel.BabyMonster.Max2.Data6
+import CFSG.Certificates.Kernel.BabyMonster.Max2.Data7
+import CFSG.Certificates.Kernel.BabyMonster.Max2.Data8
+import CFSG.Certificates.Kernel.BabyMonster.NativePair.Data0
+
+#kc_eval CFSG.KC.BM.CTIB R11_1 CFSG.KC.BM.Twin.prod 4370 2412240 16925286505653595287 R11_0 CFSG.KC.BM.Max2.E5 CFSG.KC.BM.Max2.E7
+#kc_eval CFSG.KC.BM.CTIB R11_2 CFSG.KC.BM.Twin.prod 4370 2412240 3401704456741703551 R11_1 CFSG.KC.BM.Max2.E8 CFSG.KC.BM.Max2.E9
+#kc_eval CFSG.KC.BM.CTIB R11 CFSG.KC.BM.Twin.prod 4370 2412240 9950014736591049658 R11_2 CFSG.KC.BM.Max2.E11 CFSG.KC.BM.Max2.E15
+#kc_eval CFSG.KC.BM.CTIB Pr11 CFSG.KC.BM.Twin.rank 4370 2412240 5697021726921928570 R11 1 1
+#kc_eval CFSG.KC.BM.CTIB Qr11 CFSG.KC.BM.Twin.polyMul 4370 2412240 8330636493545704059 Pr11 R11 1 1
+#kc_eval CFSG.KC.BM.CTIB R12_0 CFSG.KC.BM.Twin.prod 4370 2412240 16570175298433630882 H10 CFSG.KC.BM.NativePair.Q0 CFSG.KC.BM.Max2.E1
+#kc_eval CFSG.KC.BM.CTIB R12_1 CFSG.KC.BM.Twin.prod 4370 2412240 2887292373643935052 R12_0 CFSG.KC.BM.Max2.E3 CFSG.KC.BM.Max2.E5
+#kc_eval CFSG.KC.BM.CTIB R12 CFSG.KC.BM.Twin.prod 4370 2412240 11913078461064296152 R12_1 CFSG.KC.BM.Max2.E6
+#kc_eval CFSG.KC.BM.CTIB Pr12 CFSG.KC.BM.Twin.rank 4370 2412240 11711522432147278865 R12 1 1
+#kc_eval CFSG.KC.BM.CTIB Qr12 CFSG.KC.BM.Twin.polyMul 4370 2412240 3268720698073409439 Pr12 R12 1 1

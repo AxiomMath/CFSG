@@ -1,0 +1,3 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.GSThmB82Frontier

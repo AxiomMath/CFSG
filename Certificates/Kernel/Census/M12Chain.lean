@@ -1,0 +1,39 @@
+module
+
+public import CFSG.Certificates.Kernel.Spor.RawSound
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM12W
+public meta import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM12W
+public meta import Certificates.Kernel.Sporadic.RawGen
+import CFSG.Certificates.Kernel.Common.Harness
+public meta import CFSG.LocalAnalysis.ComponentClassification.DisjointSolvableKernels
+public import CFSG.LocalAnalysis.ComponentClassification.DisjointSolvableKernels
+public import CFSG.LocalAnalysis.ComponentClassification.GeneralizedFitting
+public meta import CFSG.LocalAnalysis.ComponentClassification.GeneralizedFitting
+public import CFSG.LocalAnalysis.ComponentClassification.LayerMultiplication
+public meta import CFSG.LocalAnalysis.ComponentClassification.LayerMultiplication
+public import CFSG.LocalAnalysis.ComponentClassification.MinimalBCenter
+public meta import CFSG.LocalAnalysis.ComponentClassification.MinimalBCenter
+public import CFSG.LocalAnalysis.ComponentClassification.OrdinaryComponentJoins
+public meta import CFSG.LocalAnalysis.ComponentClassification.OrdinaryComponentJoins
+public meta import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicGenCensus
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicGenCensus
+public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicPairCensus
+public meta import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicPairCensus
+public import CFSG.LocalAnalysis.ComponentClassification.TwoLayer
+public meta import CFSG.LocalAnalysis.ComponentClassification.TwoLayer
+public import CFSG.LocalAnalysis.ComponentClassification.UniversalOrbitBlock
+public meta import CFSG.LocalAnalysis.ComponentClassification.UniversalOrbitBlock
+public import CFSG.Monster.Code.Weights
+public meta import CFSG.Monster.Code.Weights
+public import Certificates.Kernel.Sporadic.RawGen
+
+public section
+
+set_option maxRecDepth 400000
+
+#ks_rawchain CertificateChecks.KernelCensus.M12C 24 5 16
+  CFSG.ComponentClassification.RankTwoSporadic.M12.m12S
+  CFSG.ComponentClassification.RankTwoSporadic.M12.m12BaseArr 2
+  CFSG.ComponentClassification.RankTwoSporadic.M12.m12DW
+
+end

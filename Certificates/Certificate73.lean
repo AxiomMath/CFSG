@@ -1,0 +1,27 @@
+module
+
+public import CFSG.LieType.Chevalley.RootOps.Instance
+import Certificates.Certificate113
+import Certificates.Certificate114
+
+public section
+
+open CFSG CFSG.LieType CFSG.LieType.Chevalley CFSG.LieType.Chevalley.RootOps
+
+namespace CertificateChecks.Batch73
+
+open CFSG CFSG.LieType CFSG.LieType.Chevalley CFSG.LieType.Chevalley.RootOps
+
+private theorem g2_conjRange_0_12 : conjRange .G2 0 12 = true := by decide +kernel
+
+end CertificateChecks.Batch73
+
+namespace Certificates
+
+open CertificateChecks
+
+open CFSG CFSG.LieType CFSG.LieType.Chevalley CFSG.LieType.Chevalley.RootOps in
+theorem certificate73 : (conjRange .G2 0 12 = true) := by
+  exact CertificateChecks.Batch73.g2_conjRange_0_12
+
+end Certificates

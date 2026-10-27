@@ -1,0 +1,101 @@
+module
+
+public import CFSG.Quasithin.Vol2.Ch12Sec4Lemma8
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.DoubleA3.Remark31Fstar
+public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.Lemma115List
+
+public section
+
+namespace CFSG.Quasithin.H13
+
+open CFSG.Open CFSG.Blueprint CFSG.Quasithin
+
+namespace S1248
+
+structure Setting (G : Type) [Group G] [Finite G] (T L V U : Subgroup G) : Prop where
+  cx : Cx1242 G T L V
+  quot : Nonempty (↥L ⧸ CFSG.pCore 2 ↥L ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) ∨
+    LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSU 3 3 1
+  le : U ≤ V
+  hyper : U.relIndex V = 2
+  escape : ¬ Subgroup.centralizer (U : Set G) ≤ Subgroup.normalizer (V : Set G)
+
+end S1248
+
+open S1248
+
+@[expose] def HypX1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    (∃ X : Subgroup G, X ≤ L ⊓ Subgroup.normalizer (U : Set G) ∧ Nat.card X = 3 ∧
+      ¬ X ≤ Subgroup.centralizer (U : Set G) ∧
+      ∃ l ∈ Subgroup.normalizer (V : Set G) ⊓ Subgroup.normalizer (X : Set G),
+        l ∉ Subgroup.normalizer (U : Set G) ∧ l ^ 2 ∈ Subgroup.normalizer (U : Set G)) ∨
+    ∃ Y : Subgroup G, Y ≤ L ⊓ Subgroup.normalizer (U : Set G) ∧ Nat.card Y = 27 ∧
+      (∀ y ∈ Y, y ^ 3 = 1) ∧ Y ⊓ Subgroup.centralizer (U : Set G) = ⊥
+
+@[expose] def Comp1248Type : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ K : Subgroup G, QuasithinUnique.IsComponentIn K (Subgroup.centralizer (U : Set G)) →
+      (¬ ∃ Y : Subgroup G, Y ≤ L ⊓ Subgroup.normalizer (U : Set G) ∧ Nat.card Y = 27 ∧
+        (∀ y ∈ Y, y ^ 3 = 1) ∧ Y ⊓ Subgroup.centralizer (U : Set G) = ⊥) ∧
+      IsSimpleGroup ↥K ∧
+      (∃ p : ℕ, QuasithinUnique.Ch1.IsFermatOrMersennePrime p ∧
+        CFSG.Assembly.LowTwoRank.StatedClassicalModel ↥K .PSL 2 p 1) ∧
+      ¬ K ≤ Subgroup.normalizer (L : Set G) ∧ V ⊓ Subgroup.centralizer (K : Set G) = U
+
+@[expose] def Comp1248Lift : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ X : Subgroup G, X ≤ L ⊓ Subgroup.normalizer (U : Set G) → Nat.card X = 3 →
+      ¬ X ≤ Subgroup.centralizer (U : Set G) →
+    ∀ l ∈ Subgroup.normalizer (V : Set G) ⊓ Subgroup.normalizer (X : Set G),
+      l ∉ Subgroup.normalizer (U : Set G) → l ^ 2 ∈ Subgroup.normalizer (U : Set G) →
+    ∀ K : Subgroup G, QuasithinUnique.IsComponentIn K (Subgroup.centralizer (U : Set G)) →
+      (∃ p : ℕ, QuasithinUnique.Ch1.IsFermatOrMersennePrime p ∧
+        CFSG.Assembly.LowTwoRank.StatedClassicalModel ↥K .PSL 2 p 1) →
+      QuasithinUnique.IsComponentIn K
+          (Subgroup.centralizer ((U ⊓ conjSubgroup U l : Subgroup G) : Set G)) ∧
+        ∀ K' : Subgroup G, QuasithinUnique.IsComponentIn K'
+            (Subgroup.centralizer ((U ⊓ conjSubgroup U l : Subgroup G) : Set G)) →
+          3 ∣ Nat.card K' → K' = K
+
+@[expose] def NoComp1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ K : Subgroup G, ¬ QuasithinUnique.IsComponentIn K (Subgroup.centralizer (U : Set G))
+
+@[expose] def OddInv1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ z ∈ V ⊓ Subgroup.centralizer (L : Set G), z ≠ 1 →
+      ∀ W : Subgroup G, (W = U ∨ (W ≤ U ∧ W.relIndex U = 2)) →
+        ∀ x ∈ QuasithinUnique.oddCoreIn (Subgroup.centralizer (W : Set G)), z * x * z⁻¹ = x⁻¹
+
+@[expose] def OddCentE1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ U₀ : Subgroup G, U₀ ≤ U → U₀.relIndex U = 2 →
+      ∀ K₀ : Subgroup G, QuasithinUnique.IsComponentIn K₀
+          (Subgroup.centralizer (U₀ : Set G)) →
+        QuasithinUnique.oddCoreIn (Subgroup.centralizer (U : Set G)) ≤
+          Subgroup.centralizer (K₀ : Set G)
+
+@[expose] def OddCentQ1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ U₀ : Subgroup G, U₀ ≤ U → U₀.relIndex U = 2 →
+      QuasithinUnique.oddCoreIn (Subgroup.centralizer (U : Set G)) ≤
+        Subgroup.centralizer (pCoreOf 2 (Subgroup.centralizer (U₀ : Set G)) : Set G)
+
+@[expose] def OddFinal1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    ∀ P : Subgroup G, P ≠ ⊥ → Odd (Nat.card P) → IsMulCommutative ↥P →
+      Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (P : Set G) →
+        V ≤ Subgroup.centralizer (P : Set G)
+
+@[expose] def OddCore1248 : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] (T L V U : Subgroup G), Setting G T L V U →
+    QuasithinUnique.oddCoreIn (Subgroup.centralizer (U : Set G)) = ⊥
+
+theorem charTwo1248_of (hNC : NoComp1248) (hOC : OddCore1248) : CharTwo1248 := by
+  intro G _ _ T L V hcx hq U hUV hidx hesc
+  have hS : Setting G T L V U := ⟨hcx, hq, hUV, hidx, hesc⟩
+  exact QuasithinUnique.DoubleA3.charTwo_of_no_component (hNC G T L V U hS)
+    (hOC G T L V U hS)
+
+end CFSG.Quasithin.H13

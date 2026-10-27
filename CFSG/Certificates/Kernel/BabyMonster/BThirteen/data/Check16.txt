@@ -1,0 +1,6 @@
+mul4 c_v97 v90 v73 = v97
+mul4 c_v98 v97 v74 = v98
+mul4 c_v99 v98 v98 = v99
+mul4 c_v100 v99 v99 = v100
+mul4 c_v101 v100 v100 = v101
+mul4 c_v102 v101 v100 = v102

@@ -1,0 +1,345 @@
+module
+
+public import CFSG.GH74.GLS.Stage2.Final.Thm6.L208g2YKey
+
+public section
+
+namespace CFSG.GH74.GLS.Stage2.Final.Thm6.L2012
+
+open Subgroup CFSG CFSG.GH74 CFSG.GH74.GLS CFSG.Blueprint CFSG.Assembly.LowTwoRank
+  CFSG.GH74.GLS.Stage12 CFSG.GH74.GLS.Stage2.Local CFSG.GH74.GLS.Stage2.Final
+  CFSG.GH74.GLS.Stage2.Final.Thm6.L208g2
+
+section Big
+
+variable {Y : Type} [Group Y] [Finite Y] {Sb Rb L₁ L₂ : Subgroup Y} {r₁ r₂ : ℕ}
+
+theorem ykey_big' (f₁ : Factor Sb Rb L₁ L₂ r₁ r₂) (f₂ : Factor Sb Rb L₂ L₁ r₂ r₁)
+    (hC : ∀ x : Y, (∀ y ∈ L₁ ⊔ L₂, x * y = y * x) → x ∈ L₁ ⊔ L₂)
+    {t e : Y} (ht : t ∈ L₁ ⊔ L₂) (ht2 : t * t = 1) (htI : t ∉ L₁ ⊓ L₂)
+    (he2 : e * e = 1) (het : e * t = t * e) (heI : e ∉ L₁ ⊓ L₂) (hetI : e * t ∉ L₁ ⊓ L₂)
+    {Bb : Subgroup Y} (hBodd : Odd (Nat.card ↥Bb)) (hBt : ∀ b ∈ Bb, b * t = t * b)
+    (hBn : ∀ m : Y, m * t = t * m → ∀ b ∈ Bb, m * b * m⁻¹ ∈ Bb)
+    (hBe : ∀ b ∈ Bb, e * b = b * e) : Bb = ⊥ := by
+  by_contra hne
+  have hn₁ : L₁.Normal := f₁.normal
+  have hn₂ : L₂.Normal := f₂.normal
+  have p₁ := f₁.toPair
+  have p₂ := f₂.toPair
+  obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := p₁.exists_mul ht
+  have hc12 : a₁ * a₂ = a₂ * a₁ := p₁.comm a₁ ha₁ a₂ ha₂
+  have hprod : (a₁ * a₁) * (a₂ * a₂) = 1 := by
+    calc (a₁ * a₁) * (a₂ * a₂) = a₁ * (a₁ * a₂) * a₂ := by group
+      _ = a₁ * (a₂ * a₁) * a₂ := by rw [hc12]
+      _ = (a₁ * a₂) * (a₁ * a₂) := by group
+      _ = 1 := ht2
+  have hI : a₁ * a₁ ∈ L₁ ⊓ L₂ := by
+    refine ⟨L₁.mul_mem ha₁ ha₁, ?_⟩
+    have : a₁ * a₁ = (a₂ * a₂)⁻¹ := eq_inv_of_mul_eq_one_left hprod
+    rw [this]; exact L₂.inv_mem (L₂.mul_mem ha₂ ha₂)
+  have hsq : a₁ * a₁ = a₂ * a₂ := by
+    have h1 := p₁.sq_of_mem_inf hI
+    have : a₂ * a₂ = (a₁ * a₁)⁻¹ := eq_inv_of_mul_eq_one_right hprod
+    rw [this]; exact (inv_eq_of_mul_eq_one_right h1).symm
+  have ha₁2 : a₁ * a₁ ≠ 1 := by
+    intro h1
+    apply htI
+    have h2 : a₂ * a₂ = 1 := by rw [← hsq]; exact h1
+    have h3 : a₂ ∈ L₁ ⊓ L₂ := p₁.mem_inf_of_sq ha₂ h2
+    have h4 : a₁ ∈ L₂ ⊓ L₁ := p₂.mem_inf_of_sq ha₁ h1
+    rw [inf_comm] at h4
+    exact (L₁ ⊓ L₂).mul_mem h4 h3
+  have ha₂2 : a₂ * a₂ ≠ 1 := by rw [← hsq]; exact ha₁2
+  have hsq₁ : ∀ c ∈ L₁, c * (a₁ * a₁) = (a₁ * a₁) * c := fun c hc => p₁.comm c hc _ hI.2
+  have hI' : a₂ * a₂ ∈ L₁ := by rw [← hsq]; exact hI.1
+  have hsq₂ : ∀ c ∈ L₂, c * (a₂ * a₂) = (a₂ * a₂) * c := fun c hc => p₂.comm c hc _ hI'
+  have hcen : ∀ m ∈ centralizer ({a₁ * a₂} : Set Y), m * (a₁ * a₂) = (a₁ * a₂) * m := fun m hm =>
+    (Subgroup.mem_centralizer_iff.1 hm _ rfl).symm
+  obtain ⟨W, hWB, hWne, hWab, hWn⟩ := exists_abelian_normalized hBodd hne
+    (centralizer ({a₁ * a₂} : Set Y)) (fun m hm b hb => hBn m (hcen m hm) b hb)
+  have hWM : W ≤ centralizer ({a₁ * a₂} : Set Y) := by
+    intro w hw
+    rw [Subgroup.mem_centralizer_iff]
+    intro h hh
+    rw [Set.mem_singleton_iff] at hh
+    rw [hh]
+    exact (hBt w (hWB hw)).symm
+  have hWodd : Odd (Nat.card ↥W) := hBodd.of_dvd_nat (Subgroup.card_dvd_of_le hWB)
+  have hkM : ∀ {k : Y}, (k * (a₁ * a₂) = (a₁ * a₂) * k) → k ∈ centralizer ({a₁ * a₂} : Set Y) := by
+    intro k hk
+    rw [Subgroup.mem_centralizer_iff]
+    intro h hh
+    rw [Set.mem_singleton_iff] at hh
+    rw [hh]
+    exact hk.symm
+  have hfit₁ := fit_factor (Lk := L₁) (r := r₁) p₁.odd p₁.gt p₁.hm ha₁ ha₁2 hsq₁
+    (centralizer ({a₁ * a₂} : Set Y))
+    (fun m hm c hc => p₁.comm c hc _ (p₁.conj_div_mem hn₁ hn₂ ha₁ ha₂ (hcen m hm)))
+    W hWM hWodd hWab
+    (fun k hk _ hka => ⟨k, hkM (p₁.comm_prod ha₂ hk hka), fun x _ => rfl,
+      fun w hw => hWn k (hkM (p₁.comm_prod ha₂ hk hka)) w hw⟩)
+  have hcen' : ∀ m ∈ centralizer ({a₁ * a₂} : Set Y), m * (a₂ * a₁) = (a₂ * a₁) * m := by
+    intro m hm; rw [← hc12]; exact hcen m hm
+  have hfit₂ := fit_factor (Lk := L₂) (r := r₂) p₂.odd p₂.gt p₂.hm ha₂ ha₂2 hsq₂
+    (centralizer ({a₁ * a₂} : Set Y))
+    (fun m hm c hc => p₂.comm c hc _ (p₂.conj_div_mem hn₂ hn₁ ha₂ ha₁ (hcen' m hm)))
+    W hWM hWodd hWab
+    (fun k hk _ hka => ⟨k, hkM (by rw [hc12]; exact p₂.comm_prod ha₁ hk hka), fun x _ => rfl,
+      fun w hw => hWn k (hkM (by rw [hc12]; exact p₂.comm_prod ha₁ hk hka)) w hw⟩)
+  obtain ⟨w, hwW, hw1⟩ : ∃ w ∈ W, w ≠ 1 := by
+    by_contra hcon
+    push Not at hcon
+    exact hWne (eq_bot_iff.2 fun x hx => by simpa using hcon x hx)
+  obtain ⟨k₁, hk₁, hk₁o, hk₁a, hk₁act⟩ := hfit₁ w hwW
+  obtain ⟨k₂, hk₂, hk₂o, hk₂a, hk₂act⟩ := hfit₂ w hwW
+  have hr₁ : e * k₁ * e⁻¹ = k₁⁻¹ :=
+    f₁.reflect' hn₂ ha₁ ha₂ ha₁2 hsq₁ hsq.symm he2 het heI hetI k₁ hk₁ hk₁o hk₁a
+  have hr₂ : e * k₂ * e⁻¹ = k₂⁻¹ :=
+    f₂.reflect' hn₁ ha₂ ha₁ ha₂2 hsq₂ hsq he2 (by rw [← hc12]; exact het)
+      (by rw [inf_comm]; exact heI) (by rw [inf_comm, ← hc12]; exact hetI) k₂ hk₂ hk₂o hk₂a
+  have hwk₁ : w * k₁ * w⁻¹ = k₁ := by rw [hk₁act k₁ hk₁]; group
+  have hwk₂ : w * k₂ * w⁻¹ = k₂ := by rw [hk₂act k₂ hk₂]; group
+  have hk12 : k₁ * k₂ = k₂ * k₁ := p₁.comm k₁ hk₁ k₂ hk₂
+  have hk12c : Commute k₁ k₂ := hk12
+  have hwk₁' : w * k₁ = k₁ * w := mul_inv_eq_iff_eq_mul.1 hwk₁
+  have hwk₂' : w * k₂ = k₂ * w := mul_inv_eq_iff_eq_mul.1 hwk₂
+  have hw12 : w * (k₁ * k₂) = (k₁ * k₂) * w := by
+    calc w * (k₁ * k₂) = (w * k₁) * k₂ := by group
+      _ = (k₁ * w) * k₂ := by rw [hwk₁']
+      _ = k₁ * (w * k₂) := by group
+      _ = k₁ * (k₂ * w) := by rw [hwk₂']
+      _ = (k₁ * k₂) * w := by group
+  set u := (k₁ * k₂)⁻¹ * w with hu
+  have hu1 : ∀ x ∈ L₁, u * x = x * u := by
+    intro x hx
+    have h1 := hk₁act x hx
+    have h2 : Commute k₂ x := (p₁.comm x hx k₂ hk₂).symm
+    have h2' : k₂⁻¹ * x = x * k₂⁻¹ := h2.inv_left.eq
+    have h3 : w * x = k₁ * x * k₁⁻¹ * w := by
+      calc w * x = (w * x * w⁻¹) * w := by group
+        _ = k₁ * x * k₁⁻¹ * w := by rw [h1]
+    calc (k₁ * k₂)⁻¹ * w * x = (k₁ * k₂)⁻¹ * (w * x) := by group
+      _ = (k₁ * k₂)⁻¹ * (k₁ * x * k₁⁻¹ * w) := by rw [h3]
+      _ = k₂⁻¹ * x * k₁⁻¹ * w := by group
+      _ = x * k₂⁻¹ * k₁⁻¹ * w := by rw [h2']
+      _ = x * ((k₁ * k₂)⁻¹ * w) := by group
+  have hu2 : ∀ x ∈ L₂, u * x = x * u := by
+    intro x hx
+    have h1 := hk₂act x hx
+    have h2 : Commute k₁ x := p₂.comm x hx k₁ hk₁ |>.symm
+    have h2' : k₁⁻¹ * x = x * k₁⁻¹ := h2.inv_left.eq
+    have h3 : w * x = k₂ * x * k₂⁻¹ * w := by
+      calc w * x = (w * x * w⁻¹) * w := by group
+        _ = k₂ * x * k₂⁻¹ * w := by rw [h1]
+    calc (k₁ * k₂)⁻¹ * w * x = (k₁ * k₂)⁻¹ * (w * x) := by group
+      _ = (k₁ * k₂)⁻¹ * (k₂ * x * k₂⁻¹ * w) := by rw [h3]
+      _ = k₂⁻¹ * (k₁⁻¹ * k₂) * x * k₂⁻¹ * w := by group
+      _ = k₂⁻¹ * (k₂ * k₁⁻¹) * x * k₂⁻¹ * w := by rw [hk12c.inv_left.eq]
+      _ = k₁⁻¹ * x * k₂⁻¹ * w := by group
+      _ = x * k₁⁻¹ * k₂⁻¹ * w := by rw [h2']
+      _ = x * ((k₁⁻¹ * k₂⁻¹) * w) := by group
+      _ = x * ((k₁ * k₂)⁻¹ * w) := by rw [mul_inv_rev, hk12c.inv_inv.eq]
+  have hucen : u ∈ centralizer ((L₁ ⊔ L₂ : Subgroup Y) : Set Y) := by
+    rw [Subgroup.mem_centralizer_iff]
+    intro x hx
+    obtain ⟨x₁, hx₁, x₂, hx₂, rfl⟩ := p₁.exists_mul hx
+    calc x₁ * x₂ * u = x₁ * (x₂ * u) := by group
+      _ = x₁ * (u * x₂) := by rw [← hu2 x₂ hx₂]
+      _ = (x₁ * u) * x₂ := by group
+      _ = (u * x₁) * x₂ := by rw [← hu1 x₁ hx₁]
+      _ = u * (x₁ * x₂) := by group
+  have huLL : u ∈ L₁ ⊔ L₂ := hC u (fun y hy => (Subgroup.mem_centralizer_iff.1 hucen y hy).symm)
+  have hu2L : u ∈ L₂ := p₁.mem_of_cen huLL (fun c hc => hu1 c hc)
+  have hu1L : u ∈ L₁ := p₂.mem_of_cen (by rw [sup_comm]; exact huLL) (fun c hc => hu2 c hc)
+  have hu2sq : u * u = 1 := p₁.sq_of_mem_inf ⟨hu1L, hu2L⟩
+  have hwodd : Odd (orderOf w) := by
+    have := Subgroup.orderOf_dvd_natCard Bb (hWB hwW)
+    exact hBodd.of_dvd_nat this
+  have huo : Odd (orderOf u) := by
+    have h1 : Odd (orderOf (k₁ * k₂)⁻¹) := by
+      rw [orderOf_inv]; exact odd_orderOf_mul_of_commute hk12c hk₁o hk₂o
+    exact odd_orderOf_mul_of_commute (Commute.inv_left (show Commute (k₁ * k₂) w from hw12.symm)) h1 hwodd
+  have hu_one : u = 1 := eq_one_of_mul_self_of_odd hu2sq huo
+  have hwk : w = k₁ * k₂ := (inv_mul_eq_one.1 hu_one).symm
+  have hew : e * w = w * e := hBe w (hWB hwW)
+  have hww : w * w = 1 := by
+    have h1 : e * w * e⁻¹ = w := by rw [hew]; group
+    have h2 : e * (k₁ * k₂) * e⁻¹ = k₁⁻¹ * k₂⁻¹ := by
+      calc e * (k₁ * k₂) * e⁻¹ = (e * k₁ * e⁻¹) * (e * k₂ * e⁻¹) := by group
+        _ = k₁⁻¹ * k₂⁻¹ := by rw [hr₁, hr₂]
+    rw [hwk] at h1
+    rw [h2] at h1
+    rw [hwk]
+    calc (k₁ * k₂) * (k₁ * k₂) = (k₁ * k₂) * (k₁⁻¹ * k₂⁻¹) := by rw [h1]
+      _ = k₁ * (k₂ * k₁⁻¹) * k₂⁻¹ := by group
+      _ = k₁ * (k₁⁻¹ * k₂) * k₂⁻¹ := by rw [hk12c.inv_left.eq.symm]
+      _ = 1 := by group
+  exact hw1 (eq_one_of_mul_self_of_odd hww hwodd)
+
+end Big
+
+section Sub
+
+variable {X : Type} [Group X]
+
+omit [Group X] in
+theorem hasSL2Model_subgroupOf [Group X] {N L : Subgroup X} {P : ℕ → Prop} (hL : L ≤ N)
+    (h : HasSL2Model ↥L P) : HasSL2Model ↥(L.subgroupOf N) P := by
+  obtain ⟨F, iF, fF, hP, ⟨e⟩⟩ := h
+  exact ⟨F, iF, fF, hP, ⟨(Subgroup.subgroupOfEquivOfLe hL).trans e⟩⟩
+
+theorem inducedPGL2_subgroupOf {N L T : Subgroup X} {r : ℕ} (hL : L ≤ N) (hT : T ≤ N)
+    (h : InducedPGL2 L T r) : InducedPGL2 (L.subgroupOf N) (T.subgroupOf N) r := by
+  obtain ⟨hn, F, iF, fF, hF, ⟨ψ⟩⟩ := h
+  have hM : L ⊔ T ≤ N := sup_le hL hT
+  have hM' : L.subgroupOf N ⊔ T.subgroupOf N = (L ⊔ T).subgroupOf N :=
+    (Subgroup.subgroupOf_sup hL hT).symm
+  let φ : ↥(L.subgroupOf N ⊔ T.subgroupOf N) ≃* ↥(L ⊔ T) :=
+    (MulEquiv.subgroupCongr hM').trans (Subgroup.subgroupOfEquivOfLe hM)
+  have hφ : ∀ x : ↥(L.subgroupOf N ⊔ T.subgroupOf N), (((φ x : ↥(L ⊔ T)) : X)) = (((x : ↥N)) : X) :=
+    fun x => rfl
+  set c' := (centralizer ((L.subgroupOf N : Subgroup ↥N) : Set ↥N)).subgroupOf
+    (L.subgroupOf N ⊔ T.subgroupOf N) with hc'
+  set c := (centralizer (L : Set X)).subgroupOf (L ⊔ T) with hc
+  have hmem : ∀ x : ↥(L.subgroupOf N ⊔ T.subgroupOf N), x ∈ c' ↔ φ x ∈ c := by
+    intro x
+    rw [hc', hc, Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff,
+      Subgroup.mem_centralizer_iff, hφ]
+    constructor
+    · intro h l hl
+      have := h ⟨l, hL hl⟩ (Subgroup.mem_subgroupOf.mpr hl)
+      exact congrArg Subtype.val this
+    · intro h l hl
+      exact Subtype.ext (h (l : X) (Subgroup.mem_subgroupOf.mp hl))
+  have hcc : c'.map φ.toMonoidHom = c := by
+    ext y
+    constructor
+    · rintro ⟨x, hx, rfl⟩
+      exact (hmem x).1 hx
+    · intro hy
+      refine ⟨φ.symm y, (hmem _).2 (by simpa using hy), by simp⟩
+  have hn' : c'.Normal := by
+    have : c' = c.comap φ.toMonoidHom := by
+      ext x
+      exact hmem x
+    rw [this]
+    exact hn.comap _
+  have := hn'
+  have := hn
+  exact ⟨hn', F, iF, fF, hF, ⟨(QuotientGroup.congr c' c φ hcc).trans ψ⟩⟩
+
+omit [Group X] in
+theorem isSylowOf_subgroupOf [Group X] [Finite X] {N Sb : Subgroup X} (h : CFSG.ABGLocalTools.IsSylowOf 2 Sb N) :
+    CFSG.ABGLocalTools.IsSylowOf 2 (Sb.subgroupOf N) ⊤ := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨hSN, hSp, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 h
+  rw [CFSG.ABGLocalTools.isSylowOf_iff]
+  refine ⟨le_top, hSp.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm, ?_⟩
+  rw [Subgroup.relIndex_top_right]
+  exact hidx
+
+end Sub
+
+section Pairs
+
+variable {X : Type} [Group X] [Finite X]
+
+omit [Finite X] in
+theorem pair_subgroupOf {N L L' : Subgroup X} {r r' : ℕ} (hL : L ≤ N) (hL' : L' ≤ N)
+    (p : Pair L L' r r') : Pair (L.subgroupOf N) (L'.subgroupOf N) r r' where
+  odd := p.odd
+  gt := p.gt
+  odd' := p.odd'
+  hm := hasSL2Model_subgroupOf hL p.hm
+  hm' := hasSL2Model_subgroupOf hL' p.hm'
+  comm := fun a ha b hb => Subtype.ext (p.comm _ (Subgroup.mem_subgroupOf.mp ha) _ (Subgroup.mem_subgroupOf.mp hb))
+  inf := by
+    have hinf : L.subgroupOf N ⊓ L'.subgroupOf N = (L ⊓ L').subgroupOf N := by
+      ext x
+      simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    rw [hinf]
+    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans hL : L ⊓ L' ≤ N)).toEquiv]
+    exact p.inf
+
+theorem factor_subgroupOf {N Sb Rb L L' : Subgroup X} {r r' : ℕ} (hL : L ≤ N) (hL' : L' ≤ N)
+    (hSb : Sb ≤ N) (p : Pair L L' r r') (hn : ∀ n ∈ N, ∀ x ∈ L, n * x * n⁻¹ ∈ L)
+    (hsyl : CFSG.ABGLocalTools.IsSylowOf 2 Sb N) (ind : InducedPGL2 L Sb r) (hRb_le : Rb ≤ L ⊔ L')
+    (hRb_idx : ∀ y ∈ Sb, y ∉ Rb → ∀ s ∈ Sb, s ∈ Rb ∨ y⁻¹ * s ∈ Rb) :
+    Factor (Sb.subgroupOf N) (Rb.subgroupOf N) (L.subgroupOf N) (L'.subgroupOf N) r r' where
+  toPair := pair_subgroupOf hL hL' p
+  normal := ⟨fun x hx n => Subgroup.mem_subgroupOf.mpr (by
+    have := hn (n : X) n.2 (x : X) (Subgroup.mem_subgroupOf.mp hx)
+    simpa using this)⟩
+  syl := isSylowOf_subgroupOf hsyl
+  ind := inducedPGL2_subgroupOf hL hSb ind
+  Rb_le := by
+    intro x hx
+    rw [← Subgroup.subgroupOf_sup hL hL']
+    exact Subgroup.mem_subgroupOf.mpr (hRb_le (Subgroup.mem_subgroupOf.mp hx))
+  Rb_idx := by
+    intro y hy hyR s hs
+    have hy' : (y : X) ∈ Sb := Subgroup.mem_subgroupOf.mp hy
+    have hs' : (s : X) ∈ Sb := Subgroup.mem_subgroupOf.mp hs
+    have hyR' : (y : X) ∉ Rb := fun h => hyR (Subgroup.mem_subgroupOf.mpr h)
+    rcases hRb_idx _ hy' hyR' _ hs' with h | h
+    · exact Or.inl (Subgroup.mem_subgroupOf.mpr h)
+    · exact Or.inr (Subgroup.mem_subgroupOf.mpr (by simpa using h))
+
+end Pairs
+
+section Key
+
+variable {X : Type} [Group X] [Finite X]
+
+theorem ykey_sub {N Sb Rb L₁ L₂ : Subgroup X} {r₁ r₂ : ℕ}
+    (hL₁ : L₁ ≤ N) (hL₂ : L₂ ≤ N) (hSb : Sb ≤ N)
+    (p₁ : Pair L₁ L₂ r₁ r₂) (p₂ : Pair L₂ L₁ r₂ r₁)
+    (hn₁ : ∀ n ∈ N, ∀ x ∈ L₁, n * x * n⁻¹ ∈ L₁) (hn₂ : ∀ n ∈ N, ∀ x ∈ L₂, n * x * n⁻¹ ∈ L₂)
+    (hsyl : CFSG.ABGLocalTools.IsSylowOf 2 Sb N)
+    (ind₁ : InducedPGL2 L₁ Sb r₁) (ind₂ : InducedPGL2 L₂ Sb r₂)
+    (hRb_le : Rb ≤ L₁ ⊔ L₂) (hRb_idx : ∀ y ∈ Sb, y ∉ Rb → ∀ s ∈ Sb, s ∈ Rb ∨ y⁻¹ * s ∈ Rb)
+    (hC : ∀ x ∈ N, (∀ y ∈ L₁ ⊔ L₂, x * y = y * x) → x ∈ L₁ ⊔ L₂)
+    {t e : X} (htN : t ∈ N) (heN : e ∈ N) (ht : t ∈ L₁ ⊔ L₂) (ht2 : t * t = 1) (htI : t ∉ L₁ ⊓ L₂)
+    (he2 : e * e = 1) (het : e * t = t * e) (heI : e ∉ L₁ ⊓ L₂) (hetI : e * t ∉ L₁ ⊓ L₂)
+    {Bb : Subgroup X} (hBN : Bb ≤ N) (hBodd : Odd (Nat.card ↥Bb)) (hBt : ∀ b ∈ Bb, b * t = t * b)
+    (hBn : ∀ m ∈ N, m * t = t * m → ∀ b ∈ Bb, m * b * m⁻¹ ∈ Bb)
+    (hBe : ∀ b ∈ Bb, e * b = b * e) : Bb = ⊥ := by
+  have f₁ := factor_subgroupOf (Rb := Rb) hL₁ hL₂ hSb p₁ hn₁ hsyl ind₁ hRb_le hRb_idx
+  have f₂ := factor_subgroupOf (Rb := Rb) hL₂ hL₁ hSb p₂ hn₂ hsyl ind₂ (by rw [sup_comm]; exact hRb_le) hRb_idx
+  have hsupN : L₁.subgroupOf N ⊔ L₂.subgroupOf N = (L₁ ⊔ L₂).subgroupOf N :=
+    (Subgroup.subgroupOf_sup hL₁ hL₂).symm
+  have hinfN : L₁.subgroupOf N ⊓ L₂.subgroupOf N = (L₁ ⊓ L₂).subgroupOf N := by
+    ext x
+    simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+  have hM : L₁ ⊔ L₂ ≤ N := sup_le hL₁ hL₂
+  have hC' : ∀ x : ↥N, (∀ y ∈ L₁.subgroupOf N ⊔ L₂.subgroupOf N, x * y = y * x) →
+      x ∈ L₁.subgroupOf N ⊔ L₂.subgroupOf N := by
+    intro x hx
+    rw [hsupN] at hx ⊢
+    refine Subgroup.mem_subgroupOf.mpr (hC x x.2 (fun y hy => ?_))
+    exact congrArg Subtype.val (hx ⟨y, hM hy⟩ (Subgroup.mem_subgroupOf.mpr hy))
+  have hBodd' : Odd (Nat.card ↥(Bb.subgroupOf N)) := by
+    rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBN).toEquiv]
+    exact hBodd
+  have hres := ykey_big' (Sb := Sb.subgroupOf N) (Rb := Rb.subgroupOf N) (L₁ := L₁.subgroupOf N)
+    (L₂ := L₂.subgroupOf N) f₁ f₂ hC' (t := ⟨t, htN⟩) (e := ⟨e, heN⟩)
+    (by rw [hsupN]; exact Subgroup.mem_subgroupOf.mpr ht) (Subtype.ext ht2)
+    (by rw [hinfN]; exact fun h => htI (Subgroup.mem_subgroupOf.mp h))
+    (Subtype.ext he2) (Subtype.ext het)
+    (by rw [hinfN]; exact fun h => heI (Subgroup.mem_subgroupOf.mp h))
+    (by rw [hinfN]; exact fun h => hetI (Subgroup.mem_subgroupOf.mp h))
+    (Bb := Bb.subgroupOf N) hBodd'
+    (fun b hb => Subtype.ext (hBt _ (Subgroup.mem_subgroupOf.mp hb)))
+    (fun m hm b hb => Subgroup.mem_subgroupOf.mpr (by
+      have := hBn (m : X) m.2 (congrArg Subtype.val hm) _ (Subgroup.mem_subgroupOf.mp hb)
+      simpa using this))
+    (fun b hb => Subtype.ext (hBe _ (Subgroup.mem_subgroupOf.mp hb)))
+  rw [eq_bot_iff]
+  intro b hb
+  have : (⟨b, hBN hb⟩ : ↥N) ∈ Bb.subgroupOf N := Subgroup.mem_subgroupOf.mpr hb
+  rw [hres] at this
+  exact congrArg Subtype.val (Subgroup.mem_bot.1 this)
+
+end Key
+
+end CFSG.GH74.GLS.Stage2.Final.Thm6.L2012

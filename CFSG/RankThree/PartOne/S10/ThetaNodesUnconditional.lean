@@ -1,0 +1,46 @@
+module
+
+public import CFSG.RankThree.PartOne.S10.ThetaContract
+import CFSG.RankThree.PartOne.S10.SelectedPrimeNormalizeThetaComponents
+import CFSG.RankThree.PartOne.S10.PCoprimeLocalThetaQuotientNormalization
+import CFSG.RankThree.PartOne.S10.LocalThetaComponentEmbeddingFrontier
+import CFSG.RankThree.PartOne.S10.SectionTenTrivialActorComponentSupplement
+import CFSG.RankThree.PartOne.S10.SectionTenComponentSupplementTransitivity
+import CFSG.RankThree.PartOne.S10.MovingTwoStratumUpwardClosure
+import CFSG.RankThree.PartOne.S10.MovingThetaComponentQuasisimplicity
+import CFSG.RankThree.PartOne.S10.NormalPCoreTwoCommutatorThetaComponent
+
+public section
+
+namespace CFSG.RankThree.PartOne
+
+theorem local_theta_component_embedding_frontier : LocalThetaComponentEmbeddingFrontier :=
+  local_theta_component_embedding_frontier_of selected_prime_elements_normalize_theta_components
+    p_coprime_local_theta_component_quotient_normalization_frontier
+
+theorem section_ten_trivial_actor_component_supplement :
+    SectionTenTrivialActorComponentSupplement :=
+  section_ten_trivial_actor_component_supplement_of
+    selected_prime_elements_normalize_theta_components local_theta_component_embedding_frontier
+
+theorem section_ten_component_supplement_transitivity :
+    SectionTenComponentSupplementTransitivity :=
+  section_ten_component_supplement_transitivity_of
+    selected_prime_elements_normalize_theta_components local_theta_component_embedding_frontier
+
+theorem section_ten_moving_two_stratum_upward_closure :
+    SectionTenMovingTwoStratumUpwardClosure :=
+  section_ten_moving_two_stratum_upward_closure_of
+    selected_prime_elements_normalize_theta_components
+
+theorem moving_theta_component_quasisimplicity_reduces_to_odd_core_centralization :
+    MovingThetaComponentQuasisimplicityReducesToOddCoreCentralization :=
+  moving_theta_component_quasisimplicity_reduces_to_odd_core_centralization_of
+    selected_prime_elements_normalize_theta_components
+
+theorem normal_p_core_centralizing_two_commutator_produces_theta_component :
+    NormalPCoreCentralizingTwoCommutatorProducesThetaComponent :=
+  normal_p_core_centralizing_two_commutator_produces_theta_component_of
+    selected_prime_elements_normalize_theta_components
+
+end CFSG.RankThree.PartOne

@@ -1,0 +1,17 @@
+module
+
+public import CFSG.Adapters.ProjectiveSpecialLinear
+public import CFSG.LocalAnalysis.ComponentClassification.ClassicalModelStatedBridge
+public import CFSG.LocalAnalysis.RankTwoShapes.UnitaryFour.Bridge
+public import CFSG.LocalAnalysis.SeitzReduction.RankOneUnitarySixNineTwoLayers
+
+public section
+
+namespace CFSG.SeitzReduction.RankOne
+
+open Subgroup
+
+attribute [-instance] instCommGroupOfIsSimpleGroupOfIsNilpotent
+  instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
+end CFSG.SeitzReduction.RankOne

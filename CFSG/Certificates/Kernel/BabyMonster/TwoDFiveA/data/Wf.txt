@@ -1,0 +1,17 @@
+wf r3
+wf r4
+wf r5
+wf r6
+wf r7
+wf r8
+wf r9
+wf g
+wf g2
+wf g3
+wf y
+wf g12
+wf t
+wf PT
+wf QT
+wf PY
+wf QY

@@ -1,0 +1,2 @@
+mul cWp_16 Wp_15 CFSG.KC.BM.NativePair.Q5 CFSG.KC.BM.NativePair.Q14 = Wp_16
+mul cWp Wp_16 CFSG.KC.BM.NativePair.Q25 = Wp

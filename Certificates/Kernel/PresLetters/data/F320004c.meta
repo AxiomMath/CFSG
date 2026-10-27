@@ -1,0 +1,18 @@
+m 2
+L 4
+EPS 4
+R 4
+K 0
+nCos 218
+N 192
+nLab 214
+nT 213
+nWalk 229
+RW 10
+nWords 32
+maxDepth 8
+walkLetters 1538
+walkBits 27288
+invhex 0402030001
+walkElems 24 24 24 24 24 24 24 24 24 13
+covElems 16 16 16 16 16 16 16 16 16 16 16 16

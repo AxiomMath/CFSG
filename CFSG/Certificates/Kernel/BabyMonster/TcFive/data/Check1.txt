@@ -1,0 +1,6 @@
+mul4 c_v7 v6 CFSG.KC.BM.Five.f86_sq2 = v7
+mul4 c_v8 v7 CFSG.KC.BM.Seeds.A1 = v8
+mul4 c_v9 v8 CFSG.KC.BM.Five.f85 = v9
+mul4 c_v10 CFSG.KC.BM.Seeds.A2 CFSG.KC.BM.Seeds.A1 = v10
+mul4 c_v11 CFSG.KC.BM.Five.f85 v10 = v11
+mul4 c_v12 CFSG.KC.BM.Five.f86_sq2 v11 = v12

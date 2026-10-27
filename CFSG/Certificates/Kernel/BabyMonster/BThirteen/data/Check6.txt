@@ -1,0 +1,6 @@
+mul4 c_v37 v30 v30 = v37
+mul4 c_v38 v37 v37 = v38
+mul4 c_v39 v38 v38 = v39
+mul4 c_v40 v39 v39 = v40
+mul4 c_v41 v40 v30 = v41
+mul4 c_v42 v23 v15 = v42

@@ -1,0 +1,24 @@
+module
+
+public import CFSG.ClassicalInvolution.SmallCases.Hat2A7E5
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddG2Inner
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerGraphHolds
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerPSp
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddRee
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddTriality
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddTrialityInner
+
+public section
+
+namespace CFSG.ClassicalInvolution.Hat2A7S
+
+open CFSG.ComponentClassification.CatLeafProof
+
+
+theorem a7ExitGLS3_proved : A7ExitGLS3 :=
+  ⟨gls3OddFamilyInput_G2 oddExcInnerDiagInput_G2,
+    gls3OddFamilyInput_trialityD4 oddTrialityInnerInput_holds oddTrialityOuterInput_holds,
+    gls3OddFamilyInput_PSp_holds, gls3OddFamilyInput_PSL_holds, gls3OddFamilyInput_PSU_holds,
+    gls3OddFamilyInput_twistedG2 oddReeInnerInput_holds⟩
+
+end CFSG.ClassicalInvolution.Hat2A7S

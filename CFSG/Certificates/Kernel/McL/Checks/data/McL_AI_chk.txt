@@ -1,0 +1,7 @@
+T f0 (Nat.beq (CFSG.KC.McL.Lab.runFacts FB WT SL INV #74 d #1e #3fffffff nC #4 [JF0 JF1 JF2] (CFSG.KC.McL.Lab.mkS #0 #1)) (CFSG.KC.McL.Lab.mkS nF nC))
+T tg (Nat.beq (CFSG.KC.McL.Lab.runTargets FB TW TL #74 d #1e #3fffffff nF [JT0 JT1 JT2 JT3 JT4 JT5 JT6 JT7 JT8 JT9 JT10 JT11 JT12 JT13 JT14] #1) (Nat.succ nT))
+T wd (CFSG.KC.McL.Lab.wordsOK WT CFSG.KC.McL.TC.sel ST INV INV8 #f K nW)
+T geom (CFSG.KC.andB (Nat.beq #1e (Nat.mul #6 d)) (CFSG.KC.andB (Nat.beq #74 (Nat.add #38 (Nat.mul #2 #1e))) (Nat.beq #3fffffff (Nat.sub (Nat.shiftLeft #1 #1e) #1))))
+T one (Nat.beq K #1)
+T inv (CFSG.KC.LceS.invOK INV INV8 #4)
+T anc (CFSG.KC.McL.Sub.anchorOK CFSG.KC.McL.TC.sel ST SL #f d #2 #0)

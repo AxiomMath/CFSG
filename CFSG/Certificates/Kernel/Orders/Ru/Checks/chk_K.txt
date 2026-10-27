@@ -1,0 +1,1 @@
+T CFSG.KD.OrdRu.consts (CFSG.KC.Ord.constsOK #2 #6 #a8 #1c #4 CFSG.KD.OrdRu.L CFSG.KD.OrdRu.H CFSG.KD.OrdRu.CM CFSG.KD.OrdRu.RM CFSG.KD.OrdRu.ONE CFSG.KD.OrdRu.LV CFSG.KD.OrdRu.HV)

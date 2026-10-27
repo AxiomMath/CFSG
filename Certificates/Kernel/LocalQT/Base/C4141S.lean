@@ -1,0 +1,36 @@
+module
+
+public import Certificates.Kernel.LocalQT.Base.C4141D
+public import Certificates.Kernel.LocalQT.Base.C4141E
+public import Certificates.Kernel.SporSch.Ru.RowsGen
+public import Certificates.Data.Kernel.LocalQT.BaseS
+public import CFSG.LocalAnalysis.QuasithinUnique.K1.SporadicHeInputs
+public import CFSG.Foundations
+public import CFSG.GroupTheory.Fitting.CharacteristicP
+public import CFSG.LocalAnalysis.ComponentClassification.DisjointSolvableKernels
+public import CFSG.LocalAnalysis.ComponentClassification.LayerMultiplication
+public import CFSG.LocalAnalysis.ComponentClassification.MinimalBCenter
+public import CFSG.LocalAnalysis.ComponentClassification.OrdinaryComponentJoins
+public import CFSG.LocalAnalysis.ComponentClassification.TwoLayer
+public import CFSG.LocalAnalysis.ComponentClassification.UniversalOrbitBlock
+public import CFSG.LocalAnalysis.QuasithinUnique.K1.Interface
+public import CFSG.LocalAnalysis.QuasithinUnique.K1.SporadicRep
+public import CFSG.Sporadic.He
+public import CFSG.Sporadic.Th.F2Spec
+public import Certificates.Certificate113
+
+set_option maxRecDepth 100000
+
+public section
+
+namespace CFSG.KD.LQT.C4141
+
+@[expose] noncomputable def famS (c : Nat) : Bool :=
+  CFSG.KC.LQT.BS.setS 14 CFSG.QuasithinUnique.K1.SporadicPerm.heB
+    CFSG.QuasithinUnique.K1.SporadicPerm.heQp TF 131 RT 170 1024 10 E PG (Nat.mul c 256) 256
+
+end CFSG.KD.LQT.C4141
+
+#kss_each CFSG.KD.LQT.C4141.S CFSG.KD.LQT.C4141.famS 4
+
+end

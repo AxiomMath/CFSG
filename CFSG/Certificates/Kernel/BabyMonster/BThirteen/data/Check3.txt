@@ -1,0 +1,6 @@
+mul4 c_v19 v17 v18 = v19
+mul4 c_v20 v19 v19 = v20
+mul4 c_v21 v20 v20 = v21
+mul4 c_v22 v21 v19 = v22
+mul4 c_v23 v1 v22 = v23
+mul4 c_v24 v15 v23 = v24

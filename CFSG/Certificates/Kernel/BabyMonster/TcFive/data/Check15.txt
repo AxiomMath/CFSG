@@ -1,0 +1,6 @@
+mul4 c_v91 v82 v1 = v91
+mul4 c_v92 v1 v91 = v92
+mul4 c_v93 v85 v92 = v93
+mul4 c_v94 v93 v93 = v94
+mul4 c_v95 v94 v85 = v95
+mul4 c_v96 v10 v3 = v96

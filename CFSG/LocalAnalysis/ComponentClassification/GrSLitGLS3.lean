@@ -1,0 +1,29 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddAssembly
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofE8Inner
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofF4Inner
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddInnerPSp
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddRee
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddTriality
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofOddTrialityInner
+import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofTwE6Inner
+
+public section
+
+namespace CFSG.ComponentClassification.GrSLit
+
+open CatLeafProof in
+theorem gls3OddLieAutComponentsInput_holds :
+    CatLeaf.GLS3OddLieAutComponentsInput :=
+  gls3OddLieAutComponentsInput_of_inputs oddPSLInnerDiagInput oddPSLGraphInput_holds
+    oddPSUInnerDiagInput oddPSUGraphInput_holds oddPSpInnerDiagInput
+    oddOmegaOddLinearInput_holds oddOmegaOddFieldInput_holds
+    oddOmegaPlusLinearInput_holds oddOmegaPlusFieldInput_holds
+    oddOmegaMinusLinearInput_holds oddOmegaMinusFieldInput_holds
+    oddExcInnerDiagInput_G2 oddExcInnerDiagInput_F4 oddExcInnerDiagInput_E6 oddE6GraphInput_holds
+    oddExcInnerDiagInput_E7 oddExcInnerDiagInput_E8
+    oddTwistedE6InnerInput_holds oddTwistedE6OuterInput_holds
+    oddTrialityInnerInput_holds oddTrialityOuterInput_holds oddReeInnerInput_holds
+
+end CFSG.ComponentClassification.GrSLit

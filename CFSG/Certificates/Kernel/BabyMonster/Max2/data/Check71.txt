@@ -1,0 +1,2 @@
+mul cS_1 S_0 G2 G2 = S_1
+mul cS S_1 G1 = S

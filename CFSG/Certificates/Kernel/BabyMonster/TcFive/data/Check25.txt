@@ -1,0 +1,2 @@
+mul4 cm_eq0 CFSG.KC.BM.Five.W_sq3 E = EQ
+mul4 cm_eu U E = EU

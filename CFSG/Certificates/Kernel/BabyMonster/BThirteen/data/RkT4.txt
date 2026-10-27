@@ -1,0 +1,3 @@
+for j 0 69 bool rkT4_{j} (Nat.beq (Nat.xor (CFSG.KC.BM.mulS T4 PT4.s{j}) PT4.s{j}) QT4.s{j})
+bool shape_rkT4 (CFSG.KC.BM.shapeOK QT4 1860)
+bool ech_rkT4 (CFSG.KC.BM.echFrom PT4 1860)

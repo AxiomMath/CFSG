@@ -1,0 +1,36 @@
+module
+
+public import Certificates.Kernel.Sporadic.OddCore.MNC0
+public import Certificates.Kernel.Sporadic.OddCore.MNC1
+public import Certificates.Kernel.Sporadic.OddCore.MNC2
+public import Certificates.Kernel.Sporadic.OddCore.MNC3
+public import Certificates.Kernel.Sporadic.OddCore.MNK1E0
+public import Certificates.Kernel.Sporadic.OddCore.MNK1E1
+public import Certificates.Kernel.Sporadic.OddCore.MNK1E2
+public import Certificates.Kernel.Sporadic.OddCore.MNK1E3
+public import Certificates.Kernel.Sporadic.OddCore.MNK1H
+public import Certificates.Kernel.Sporadic.OddCore.MNR1E0
+public import Certificates.Kernel.Sporadic.OddCore.MNR1E1
+public import Certificates.Kernel.Sporadic.OddCore.MNR1H
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E0
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E1
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E2
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E3
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E4
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E5
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E6
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E7
+public import Certificates.Kernel.Sporadic.OddCore.MNR2E8
+public import Certificates.Kernel.Sporadic.OddCore.MNR2H0
+public import Certificates.Kernel.Sporadic.OddCore.MNR2H1
+public import Certificates.Kernel.Sporadic.OddCore.MNR2H2
+public import Certificates.Kernel.Sporadic.OddCore.MNR2H3
+public import Certificates.Kernel.Sporadic.OddCore.MNS0
+public import Certificates.Kernel.Sporadic.OddCore.MNS1
+public import Certificates.Kernel.Sporadic.OddCore.MNS2
+public import Certificates.Kernel.Sporadic.OddCore.MNS3
+public import Certificates.Kernel.Sporadic.OddCore.MNS4
+public import Certificates.Kernel.Sporadic.OddCore.MNS5
+public import Certificates.Kernel.Sporadic.OddCore.MNS6
+public import Certificates.Kernel.Sporadic.OddCore.MNS7
+public import Certificates.Kernel.Sporadic.OddCore.MNS8

@@ -1,0 +1,9 @@
+mul4 cy CFSG.KC.BM.Five.f85 CFSG.KC.BM.Five.f86_sq1 = y
+mul4 cy2 y y = y2
+mul4 ct y2 y = t
+mul4 ct2 t t = t2
+mul4 t4 t2 t2 = I
+wf y
+wf y2
+wf t
+wf t2

@@ -1,0 +1,364 @@
+module
+
+public import CFSG.Quasithin.Vol2.Ch6Sec2Lem5F
+
+public section
+
+namespace CFSG.Quasithin.H13
+
+open CFSG.Open CFSG.Assembly.LowTwoRank CFSG.QuasithinUnique CFSG.Quasithin.E3
+
+variable {G : Type} [Group G] [Finite G] {T M L V : Subgroup G}
+
+omit [Finite G] in
+theorem eq_top_of_two_three_ch625 {U : Subgroup G} (hU4 : Nat.card U = 4)
+    (hsq : ∀ u ∈ U, u ^ 2 = 1) {A : Subgroup (MulAut ↥U)} (h2 : 2 ∣ Nat.card A)
+    (h3 : 3 ∣ Nat.card A) : A = ⊤ := by
+  have hK4 := isKleinFour_of_card_four_ch62 hU4 hsq
+  have h6 : Nat.card (MulAut ↥U) = 6 := CFSG.GorensteinWalter.kleinFourAut_card ↥U
+  have hdvd : Nat.card A ∣ 6 := h6 ▸ Subgroup.card_subgroup_dvd_card A
+  have h6' : 6 ∣ Nat.card A := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h2 h3
+  have hA : Nat.card A = 6 := Nat.dvd_antisymm hdvd h6'
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  exact Subgroup.eq_top_of_card_eq A (by rw [hA, h6])
+
+omit [Finite G] in
+theorem dvd_card_of_orderOf_ch625 {X : Type} [Group X] [Finite X] {A : Subgroup X} {φ : X}
+    (hφ : φ ∈ A) {p : ℕ} (hp : orderOf φ = p) : p ∣ Nat.card A := by
+  rw [← hp, ← Subgroup.orderOf_mk φ hφ]
+  exact orderOf_dvd_natCard _
+
+omit [Finite G] in
+theorem mem_normalizer_of_conjSub_eq_ch625 {H : Subgroup G} {g : G} (hg : conjSub g H = H) :
+    g ∈ Subgroup.normalizer (H : Set G) := by
+  rw [Subgroup.mem_normalizer_iff]
+  intro x
+  constructor
+  · intro hx
+    have : g * x * g⁻¹ ∈ conjSub g H := by
+      rw [mem_conjSub]
+      simpa [mul_assoc] using hx
+    rwa [hg] at this
+  · intro hx
+    rw [← hg, mem_conjSub] at hx
+    simpa [mul_assoc] using hx
+
+omit [Finite G] in
+theorem card_eq_index_of_fibers_ch625 {X Y : Type} [Group X] {H : Subgroup X} (f : X → Y)
+    (hsurj : Function.Surjective f) (hfib : ∀ a b, f a = f b ↔ a⁻¹ * b ∈ H) :
+    Nat.card Y = H.index := by
+  let Φ : X ⧸ H → Y := Quotient.lift f fun a b hab =>
+    (hfib a b).mpr (QuotientGroup.leftRel_apply.mp hab)
+  have hinj : Function.Injective Φ := by
+    intro p q hpq
+    induction p using QuotientGroup.induction_on with
+    | H a =>
+    induction q using QuotientGroup.induction_on with
+    | H b =>
+    exact QuotientGroup.eq.mpr ((hfib a b).mp hpq)
+  have hsurj' : Function.Surjective Φ := fun y => by
+    obtain ⟨a, rfl⟩ := hsurj y
+    exact ⟨QuotientGroup.mk a, rfl⟩
+  exact (Nat.card_congr (Equiv.ofBijective Φ ⟨hinj, hsurj'⟩)).symm
+
+namespace Hyp6Sec2
+
+variable (h : Hyp6Sec2 G T M L V)
+include h
+
+theorem sq_eq_one_of_mem_V {u : G} (hu : u ∈ V) : u ^ 2 = 1 :=
+  h.toHyp611.isElemAbelian.2 u hu
+
+theorem conjAct_eq_one_of_fix {U : Subgroup G} (hUV : U ≤ V)
+    (n : Subgroup.normalizer (V : Set G)) (hnU : (n : G) ∈ Subgroup.normalizer (U : Set G))
+    (hfix : ∀ w, h.vec625 w ∈ U → h.data.conj n w = w) :
+    conjAct U ⟨n, hnU⟩ = 1 := by
+  ext u
+  obtain ⟨w, hw⟩ := h.exists_vec625_eq (hUV u.2)
+  rw [conjAct_apply_coe, MulAut.one_apply, ← hw]
+  have h1 := h.conj_vec625 n w
+  rw [hfix w (hw ▸ u.2)] at h1
+  exact h1
+
+theorem orderOf_conjAct_eq_prime {U : Subgroup G} (hUV : U ≤ V) {p : ℕ} [hp : Fact p.Prime]
+    (n : Subgroup.normalizer (V : Set G)) (hnU : (n : G) ∈ Subgroup.normalizer (U : Set G))
+    (hfix : ∀ w, h.vec625 w ∈ U → h.data.conj (n ^ p) w = w)
+    {w₀ : Fin 2 → h.data.K} (hw₀ : h.vec625 w₀ ∈ U) (hmove : h.data.conj n w₀ ≠ w₀) :
+    orderOf (conjAct U ⟨n, hnU⟩) = p := by
+  apply orderOf_eq_prime
+  · rw [← map_pow]
+    have e : (⟨n, hnU⟩ : Subgroup.normalizer (U : Set G)) ^ p =
+        ⟨((n ^ p : Subgroup.normalizer (V : Set G)) : G), by
+          rw [Subgroup.coe_pow]; exact Subgroup.pow_mem _ hnU p⟩ := by
+      apply Subtype.ext
+      simp
+    rw [e]
+    exact h.conjAct_eq_one_of_fix hUV (n ^ p) _ hfix
+  · intro h1
+    apply hmove
+    apply h.vec625_injective
+    rw [← h.conj_vec625]
+    have := congrArg (fun φ : MulAut ↥U => ((φ ⟨h.vec625 w₀, hw₀⟩ : ↥U) : G)) h1
+    simp only [MulAut.one_apply] at this
+    rw [conjAct_apply_coe] at this
+    exact this
+
+omit [Finite G] h in
+theorem conjAct_mem_autOn_inf {U : Subgroup G} {n : G} (hnM : n ∈ ch6MV M V)
+    (hnU : n ∈ Subgroup.normalizer (U : Set G)) :
+    conjAct U ⟨n, hnU⟩ ∈ autOn (ch6MV M V ⊓ Subgroup.normalizer (U : Set G)) U :=
+  mem_autOn_iff.mpr ⟨⟨n, hnU⟩, ⟨hnM, hnU⟩, rfl⟩
+
+theorem autOn_eq_top_of_isPlane625 {F : Subgroup G} (hFV : F ≤ V) (hF4 : Nat.card F = 4)
+    {x y : Fin 2 → h.data.K} (hP : h.IsPlane625 F x y) :
+    autOn (ch6MV M V ⊓ Subgroup.normalizer (F : Set G)) F = ⊤ := by
+  have hK := h.card_K_ch625
+  have hvv : ∀ w : Fin 2 → h.data.K, w + w = 0 := fun w => by
+    rw [← two_smul h.data.K w, two_eq_zero_ch625 hK, zero_smul]
+  have hx0 : x ≠ 0 := by rintro rfl; apply hP.1; simp [det2]
+  have hxy : x ≠ y := by rintro rfl; exact hP.1 (det2_self_ch625 x)
+  have hdet2 : det2 y x = det2 x y := by rw [det2_comm_ch625, neg_eq_ch625 hK]
+  have hdet3 : det2 y (x + y) = det2 x y := by
+    rw [det2_add_right_ch625, det2_self_ch625, add_zero, det2_comm_ch625, neg_eq_ch625 hK]
+  obtain ⟨l₂, hl₂L, hl₂x, hl₂y⟩ := h.exists_L_basis_ch625 hP.1 hdet2
+  obtain ⟨l₃, hl₃L, hl₃x, hl₃y⟩ := h.exists_L_basis_ch625 hP.1 hdet3
+  have hlin₂ := (h.isLin625_and_det_of_mem_L l₂ hl₂L).1
+  have hlin₃ := (h.isLin625_and_det_of_mem_L l₃ hl₃L).1
+  have hPyx : h.IsPlane625 F y x := by
+    refine ⟨by rw [hdet2]; exact hP.1, fun w => ?_⟩
+    rw [hP.2, add_comm y x]
+    tauto
+  have hPxyx : h.IsPlane625 F (x + y) x := by
+    refine ⟨by rw [det2_add_left_ch625, det2_self_ch625, zero_add, hdet2]; exact hP.1,
+      fun w => ?_⟩
+    have e : x + y + x = y := by rw [add_comm x y, add_assoc, hvv, add_zero]
+    rw [hP.2, e]
+    tauto
+  have hl₂N : (l₂ : G) ∈ Subgroup.normalizer (F : Set G) :=
+    conjSubgroup_eq_iff_mem_normalizer.mp
+      (h.eq_conjSubgroup_of_isPlane625 hFV hFV hP hPyx l₂ hl₂y hl₂x).symm
+  have hl₃xy : h.data.conj l₃ (x + y) = x := by
+    rw [map_add, hl₃x, hl₃y, add_comm x y, ← add_assoc, hvv, zero_add]
+  have hl₃N : (l₃ : G) ∈ Subgroup.normalizer (F : Set G) :=
+    conjSubgroup_eq_iff_mem_normalizer.mp
+      (h.eq_conjSubgroup_of_isPlane625 hFV hFV hP hPxyx l₃ hl₃xy hl₃x).symm
+  have hcoords : ∀ (n : Subgroup.normalizer (V : Set G)),
+      h.data.conj n x = x → h.data.conj n y = y → ∀ w, h.vec625 w ∈ F → h.data.conj n w = w := by
+    intro n hnx hny w hw
+    rcases (hP.2 w).mp hw with rfl | rfl | rfl | rfl
+    · exact map_zero _
+    · exact hnx
+    · exact hny
+    · rw [map_add, hnx, hny]
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hx : h.vec625 x ∈ F := (hP.2 x).mpr (Or.inr (Or.inl rfl))
+  have hord₂ := h.orderOf_conjAct_eq_prime hFV (p := 2) l₂ hl₂N
+    (hcoords (l₂ ^ 2) (by rw [pow_two, h.data.conj_mul, hl₂x, hl₂y])
+      (by rw [pow_two, h.data.conj_mul, hl₂y, hl₂x])) hx (by rw [hl₂x]; exact Ne.symm hxy)
+  have hord₃ := h.orderOf_conjAct_eq_prime hFV (p := 3) l₃ hl₃N
+    (hcoords (l₃ ^ 3)
+      (by rw [pow_succ, pow_two, h.data.conj_mul, h.data.conj_mul, hl₃x, hl₃y, hl₃xy])
+      (by rw [pow_succ, pow_two, h.data.conj_mul, h.data.conj_mul, hl₃y, hl₃xy, hl₃x]))
+    hx (by rw [hl₃x]; exact Ne.symm hxy)
+  exact eq_top_of_two_three_ch625 hF4 (fun u hu => h.sq_eq_one_of_mem_V (hFV hu))
+    (dvd_card_of_orderOf_ch625 (conjAct_mem_autOn_inf (h.L_le_MV_ch625 hl₂L) hl₂N) hord₂)
+    (dvd_card_of_orderOf_ch625 (conjAct_mem_autOn_inf (h.L_le_MV_ch625 hl₃L) hl₃N) hord₃)
+
+theorem autOn_eq_top_of_isLine625 (h331 : Stmt3_3_1) (h615 : Stmt6_1_5) {F : Subgroup G}
+    (hFV : F ≤ V) (hF4 : Nat.card F = 4) {v : Fin 2 → h.data.K} (hL : h.IsLine625 F v) :
+    autOn (ch6MV M V ⊓ Subgroup.normalizer (F : Set G)) F = ⊤ := by
+  have hK := h.card_K_ch625
+  obtain ⟨ω, hω0, hω1⟩ := exists_ne_zero_ne_one_ch625 hK
+  obtain ⟨u, hu⟩ : ∃ u : Fin 2 → h.data.K, det2 v u ≠ 0 := by
+    by_cases h0 : v 0 = 0
+    · have h1 : v 1 ≠ 0 := by
+        intro h1
+        apply hL.1
+        funext i
+        fin_cases i <;> simp [h0, h1]
+      exact ⟨![1, 0], by simp [det2, h0, h1]⟩
+    · exact ⟨![0, 1], by simp [det2, h0]⟩
+  have hdet : det2 (ω • v) (ω⁻¹ • u) = det2 v u := by
+    rw [det2_smul_left_ch625, det2_smul_right_ch625, ← mul_assoc, mul_inv_cancel₀ hω0, one_mul]
+  obtain ⟨l, hlL, hlv, -⟩ := h.exists_L_basis_ch625 hu hdet
+  have hlin := (h.isLin625_and_det_of_mem_L l hlL).1
+  have hlc : ∀ c : h.data.K, h.data.conj l (c • v) = (c * ω) • v := fun c => by
+    rw [hlin, hlv, smul_smul]
+  have hlv' : h.data.conj l (ω⁻¹ • v) = v := by
+    rw [hlc, inv_mul_cancel₀ hω0, one_smul]
+  have hL' := h.isLine625_conjSubgroup hL l (σ := RingEquiv.refl _) (fun c w => hlin c w) hlv'
+  have hlN : (l : G) ∈ Subgroup.normalizer (F : Set G) := by
+    have hFlV : conjSubgroup F l ≤ V := by
+      have := conjSubgroup_mono_left (l : G) hFV
+      rwa [conjSubgroup_eq_iff_mem_normalizer.mpr l.2] at this
+    refine conjSubgroup_eq_iff_mem_normalizer.mp (h.eq_of_vec625_iff hFlV hFV fun w => ?_)
+    rw [hL'.2, hL.2]
+    constructor
+    · rintro ⟨c, rfl⟩
+      exact ⟨c * ω⁻¹, by rw [smul_smul]⟩
+    · rintro ⟨c, rfl⟩
+      exact ⟨c * ω, by rw [smul_smul, mul_assoc, mul_inv_cancel₀ hω0, mul_one]⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hω3 := pow_three_ch625 hK hω0
+  have hord₃ := h.orderOf_conjAct_eq_prime hFV (p := 3) l hlN (fun w hw => by
+      obtain ⟨c, rfl⟩ := (hL.2 w).mp hw
+      rw [pow_succ, pow_two, h.data.conj_mul, h.data.conj_mul, hlc, hlc, hlc]
+      congr 1
+      linear_combination c * hω3)
+    ((hL.2 v).mpr ⟨1, (one_smul _ v).symm⟩) (by
+      rw [hlv]
+      intro he
+      apply hω1
+      obtain ⟨i, hi⟩ := Function.ne_iff.mp hL.1
+      have := congrFun he i
+      simp only [Pi.smul_apply, smul_eq_mul, Pi.zero_apply] at this hi
+      exact mul_right_cancel₀ hi (this.trans (one_mul _).symm))
+  obtain ⟨l', hl'L, hF⟩ := h.exists_conj_ZS_of_isLine625 hFV hL
+  obtain ⟨t₀, ht₀T, ht₀Z⟩ := h.exists_not_mem_centralizer_ZS h331 h615
+  have ht₀N : t₀ ∈ Subgroup.normalizer (ch6ZS T L V : Set G) :=
+    h.toHyp611Nat.T_le_normalizer_ZS ht₀T
+  set k := l'⁻¹ * t₀ * l' with hk
+  have hkM : k ∈ ch6MV M V := (ch6MV M V).mul_mem ((ch6MV M V).mul_mem
+    ((ch6MV M V).inv_mem (h.L_le_MV_ch625 hl'L)) (h.T_le_MV_ch625 ht₀T)) (h.L_le_MV_ch625 hl'L)
+  have hkN : k ∈ Subgroup.normalizer (F : Set G) := by
+    rw [hF]
+    apply conjSubgroup_eq_iff_mem_normalizer.mp
+    rw [conjSubgroup_conjSubgroup]
+    have e : l' * k = t₀ * l' := by rw [hk]; group
+    rw [e, ← conjSubgroup_conjSubgroup, conjSubgroup_eq_iff_mem_normalizer.mpr ht₀N]
+  obtain ⟨z, hz, hzt⟩ : ∃ z ∈ ch6ZS T L V, z * t₀ ≠ t₀ * z := by
+    by_contra hcon
+    push Not at hcon
+    exact ht₀Z (Subgroup.mem_centralizer_iff.mpr hcon)
+  have hne : conjAct F ⟨k, hkN⟩ ≠ 1 := by
+    intro h1
+    have hf : l'⁻¹ * z * l' ∈ F := by
+      rw [hF, mem_conjSubgroup_iff]
+      simpa [mul_assoc] using hz
+    have := congrArg (fun φ : MulAut ↥F => ((φ ⟨l'⁻¹ * z * l', hf⟩ : ↥F) : G)) h1
+    simp only [MulAut.one_apply] at this
+    rw [conjAct_apply_coe] at this
+    apply hzt
+    have e : k * (l'⁻¹ * z * l') * k⁻¹ = l'⁻¹ * (t₀ * z * t₀⁻¹) * l' := by rw [hk]; group
+    rw [e] at this
+    have h2 : t₀ * z * t₀⁻¹ = z := by
+      have := congrArg (fun g => l' * g * l'⁻¹) this
+      simpa [mul_assoc] using this
+    calc z * t₀ = t₀ * z * t₀⁻¹ * t₀ := by rw [h2]
+      _ = t₀ * z := by group
+  have h2dvd : 2 ∣ orderOf (conjAct F ⟨k, hkN⟩) := by
+    obtain ⟨j, hj⟩ := h.sylow.1 ⟨t₀, ht₀T⟩
+    have hj' : t₀ ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
+    have hkj : (conjAct F ⟨k, hkN⟩) ^ 2 ^ j = 1 := by
+      rw [← map_pow]
+      have e : (⟨k, hkN⟩ : Subgroup.normalizer (F : Set G)) ^ 2 ^ j = 1 := by
+        apply Subtype.ext
+        simp only [Subgroup.coe_pow, Subgroup.coe_one, hk]
+        rw [show l'⁻¹ * t₀ * l' = (MulAut.conj l'⁻¹) t₀ by simp, ← map_pow,
+          hj', map_one]
+      rw [e, map_one]
+    obtain ⟨i, hi, hio⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hkj)
+    rcases Nat.eq_zero_or_pos i with hi0 | hi0
+    · rw [hi0, pow_zero, orderOf_eq_one_iff] at hio
+      exact absurd hio hne
+    · rw [hio]
+      exact dvd_pow_self 2 (Nat.pos_iff_ne_zero.mp hi0)
+  exact eq_top_of_two_three_ch625 hF4 (fun u hu => h.sq_eq_one_of_mem_V (hFV hu))
+    (h2dvd.trans (Subgroup.orderOf_mk _ (conjAct_mem_autOn_inf hkM hkN) ▸
+      orderOf_dvd_natCard (⟨_, conjAct_mem_autOn_inf hkM hkN⟩ :
+        ↥(autOn (ch6MV M V ⊓ Subgroup.normalizer (F : Set G)) F))))
+    (dvd_card_of_orderOf_ch625 (conjAct_mem_autOn_inf (h.L_le_MV_ch625 hlL) hlN) hord₃)
+
+theorem autOn_eq_top_ch625 (h331 : Stmt3_3_1) (h615 : Stmt6_1_5) {F : Subgroup G}
+    (hFV : F ≤ V) (hF4 : Nat.card F = 4) :
+    autOn (ch6MV M V ⊓ Subgroup.normalizer (F : Set G)) F = ⊤ := by
+  rcases h.four_cases_ch625 hFV hF4 with ⟨v, hL⟩ | ⟨x, y, hP⟩
+  · exact h.autOn_eq_top_of_isLine625 h331 h615 hFV hF4 hL
+  · exact h.autOn_eq_top_of_isPlane625 hFV hF4 hP
+
+theorem type3_conjSubgroup {F : Subgroup G} {g : G} (hg : g ∈ ch6MV M V) (hFV : F ≤ V)
+    (hF4 : Nat.card F = 4) (hFc : ¬ IsCentralType L V F 1) (hFf : ¬ IsFieldType M L V F 1) :
+    conjSubgroup F g ≤ V ∧ Nat.card (conjSubgroup F g) = 4 ∧
+      ¬ IsCentralType L V (conjSubgroup F g) 1 ∧ ¬ IsFieldType M L V (conjSubgroup F g) 1 := by
+  have hgi : g⁻¹ ∈ ch6MV M V := (ch6MV M V).inv_mem hg
+  have hVg : conjSubgroup V g = V := conjSubgroup_eq_iff_mem_normalizer.mpr hg.2
+  refine ⟨by rw [← hVg]; exact conjSubgroup_mono_left g hFV, by rw [card_conjSubgroup, hF4],
+    fun hc => hFc ?_, fun hf => hFf ?_⟩
+  · have := h.isCentralType_conjSubgroup hgi hc
+    rwa [conjSubgroup_conj_inv] at this
+  · have := h.isFieldType_conjSubgroup hgi hf
+    rwa [conjSubgroup_conj_inv] at this
+
+theorem card_type3 (h331 : Stmt3_3_1) (h615 : Stmt6_1_5)
+    (hidx : (autOn L V).relIndex (autOn (ch6MV M V) V) = 2) :
+    Nat.card {F : Subgroup G // F ≤ V ∧ Nat.card F = 4 ∧ ¬ IsCentralType L V F 1 ∧
+      ¬ IsFieldType M L V F 1} = 20 := by
+  obtain ⟨F₀, hF₀V, hF₀4, hF₀c, hF₀f⟩ := h.exists_type3 h331 h615 hidx
+  set N := ch6MV M V ⊓ Subgroup.normalizer (F₀ : Set G) with hN
+  have hK4 := isKleinFour_of_card_four_ch62 hF₀4 (fun u hu => h.sq_eq_one_of_mem_V (hF₀V hu))
+  have hN6 : (N ⊓ Subgroup.centralizer (F₀ : Set G)).relIndex N = 6 := by
+    rw [← card_autOn_eq_relIndex (inf_le_right : N ≤ Subgroup.normalizer (F₀ : Set G)),
+      h.autOn_eq_top_ch625 h331 h615 hF₀V hF₀4, Subgroup.card_top,
+      CFSG.GorensteinWalter.kleinFourAut_card]
+  obtain ⟨x, y, hP⟩ := h.isPlane625_of_not_central hF₀V hF₀4 hF₀c
+  have hNC : N ⊓ Subgroup.centralizer (F₀ : Set G) =
+      ch6MV M V ⊓ Subgroup.centralizer (V : Set G) := by
+    apply le_antisymm
+    · rintro m ⟨⟨hmM, -⟩, hmC⟩
+      refine ⟨hmM, ?_⟩
+      by_cases hlin : h.IsLin625 ⟨m, hmM.2⟩
+      · apply h.data.mem_centralizer_of_conj_eq ⟨m, hmM.2⟩
+        intro w
+        have hx := h.conj_fix_of_mem_centralizer hmM.2 hmC ((hP.2 x).mpr (Or.inr (Or.inl rfl)))
+        have hy := h.conj_fix_of_mem_centralizer hmM.2 hmC
+          ((hP.2 y).mpr (Or.inr (Or.inr (Or.inl rfl))))
+        rw [eq_add_of_det2_ne_zero hP.1 w, map_add, hlin, hlin, hx, hy]
+      · exact absurd ((h.isFieldType_iff_ch625 hF₀V hF₀4).mpr ⟨m, hmM, hmC, hmM.2, hlin⟩) hF₀f
+    · rintro m ⟨hmM, hmC⟩
+      have hmC' : m ∈ Subgroup.centralizer (F₀ : Set G) := Subgroup.centralizer_le hF₀V hmC
+      exact ⟨⟨hmM, Subgroup.centralizer_le_normalizer _ hmC'⟩, hmC'⟩
+  have h120 : (ch6MV M V ⊓ Subgroup.centralizer (V : Set G)).relIndex (ch6MV M V) = 120 := by
+    rw [← card_autOn_eq_relIndex (inf_le_right : ch6MV M V ≤ Subgroup.normalizer (V : Set G))]
+    have h1 := Subgroup.relIndex_mul_card (H := autOn L V) (K := autOn (ch6MV M V) V)
+    rw [inf_of_le_left (A4.autOn_mono h.L_le_MV_ch625), hidx,
+      h.toHyp611Nat.card_autOn_L_ch6] at h1
+    exact h1.symm.trans (by norm_num)
+  have h20 : N.relIndex (ch6MV M V) = 20 := by
+    have h1 := Subgroup.relIndex_mul_relIndex (ch6MV M V ⊓ Subgroup.centralizer (V : Set G)) N
+      (ch6MV M V) (by rw [← hNC]; exact inf_le_left) inf_le_left
+    rw [← hNC, hN6, hNC, h120] at h1
+    omega
+  have hfib : ∀ a b : ↥(ch6MV M V),
+      (⟨conjSub (a : G) F₀, by
+          rw [conjSub_eq_conjSubgroup_ch62]
+          exact h.type3_conjSubgroup ((ch6MV M V).inv_mem a.2) hF₀V hF₀4 hF₀c hF₀f⟩ :
+        {F : Subgroup G // F ≤ V ∧ Nat.card F = 4 ∧ ¬ IsCentralType L V F 1 ∧
+          ¬ IsFieldType M L V F 1}) =
+        ⟨conjSub (b : G) F₀, by
+          rw [conjSub_eq_conjSubgroup_ch62]
+          exact h.type3_conjSubgroup ((ch6MV M V).inv_mem b.2) hF₀V hF₀4 hF₀c hF₀f⟩ ↔
+        a⁻¹ * b ∈ N.subgroupOf (ch6MV M V) := by
+    intro a b
+    rw [Subtype.mk.injEq, Subgroup.mem_subgroupOf]
+    constructor
+    · intro hab
+      refine ⟨(a⁻¹ * b).2, mem_normalizer_of_conjSub_eq_ch625 ?_⟩
+      have e : ((a⁻¹ * b : ↥(ch6MV M V)) : G) = (a : G)⁻¹ * b := by simp
+      rw [e, conjSub_mul, ← hab, conjSub_conjSub_inv]
+    · intro hab
+      have e : (b : G) = a * ((a⁻¹ * b : ↥(ch6MV M V)) : G) := by simp
+      rw [e, conjSub_mul, conjSub_eq_of_mem_normalizer' hab.2]
+  rw [card_eq_index_of_fibers_ch625 (H := N.subgroupOf (ch6MV M V)) _ ?_ hfib]
+  · exact h20
+  · rintro ⟨F, hFV, hF4, hFc, hFf⟩
+    obtain ⟨m, hmM, rfl⟩ := h.exists_conj_of_type3 h331 h615 hF₀V hF₀4 hFV hF4 hF₀c hF₀f
+      hFc hFf
+    refine ⟨⟨m⁻¹, (ch6MV M V).inv_mem hmM⟩, ?_⟩
+    apply Subtype.ext
+    simp only
+    rw [conjSub_eq_conjSubgroup_ch62, inv_inv]
+
+end Hyp6Sec2
+
+end CFSG.Quasithin.H13

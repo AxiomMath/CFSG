@@ -1,0 +1,14 @@
+module
+
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotPositionPerfect
+public import CFSG.Adapters.ProjectiveSpecialLinear
+public import CFSG.Assembly.ComponentTypeDefs
+
+public section
+
+namespace CFSG.SeitzReduction.EPilot
+
+export F4Pilot (not_normal_map_oddCore_of_perfect_le
+  not_normal_map_oddCore_subgroupOf_of_mulEquiv not_normal_map_oddCore_centralizer_of_mulEquiv)
+
+end CFSG.SeitzReduction.EPilot

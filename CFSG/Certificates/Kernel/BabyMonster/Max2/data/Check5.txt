@@ -1,0 +1,3 @@
+mul cr4_sq3 r4_sq2 r4_sq2 = r4_sq3
+mul cr4_sq4 r4_sq3 r4_sq3 = r4_sq4
+mul cR4 r4_sq3 r4_sq4 = R4

@@ -1,0 +1,24 @@
+module
+
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.NoFixedDoubleCover
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.PumpArmsHolds
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.PumpEvenTypedHolds
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.ResidualA8Proof
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.McLLyInnerCenter
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.L44CoverTrivial
+public import CFSG.LocalAnalysis.ComponentClassification.CatFC.TwoHSNoPowFour
+
+public section
+
+set_option linter.unusedSectionVars false
+
+namespace CFSG.ComponentClassification.CatFC
+
+theorem catalogNoFixedDoubleCover_holds :
+    EvenSporadicStandard.Induction.Balance.CatalogNoFixedDoubleCover :=
+  catalogNoFixedDoubleCover_of_inputs armInputs_holds evenOuterTypedInput_holds
+    heSuzONNoAltEight_proved mcl_inner_component_center ly_inner_component_center
+    Sporadic.Recognition.HSMultiplier.card_center_le_two_of_certificate
+    pow_four_ne_of_doubleCover_hs center_eq_bot_of_quasisimple_psl44
+
+end CFSG.ComponentClassification.CatFC

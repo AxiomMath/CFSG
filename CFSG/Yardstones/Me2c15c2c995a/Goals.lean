@@ -1,0 +1,1567 @@
+module
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.CaseOneONanFinal
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.CaseOneL62Holds
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.Case812Setup
+
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.S23HeadsThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.PartOneEightThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R869Three
+import CFSG.LocalAnalysis.UniquenessCase.UCFront08Use
+import CFSG.LocalAnalysis.UniquenessCase.OpenThree.S2114D4T
+import CFSG.LocalAnalysis.UniquenessCase.OpenThree.S2114K2T
+import CFSG.LocalAnalysis.UniquenessCase.UC22S21E3Mono
+
+public import CFSG.Yardstones.Me2c15c2c995a.StageBAdapters
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S16OModuleFacts
+public import CFSG.Yardstones.M50b1bb4a7c08.SlotInputs
+public import CFSG.CGT.PushingUpLit.SolKNA.QuatLieInspection
+public import Certificates.Certificate7162
+public import Certificates.Certificate7163
+public import Certificates.Certificate9516
+public import Certificates.Certificate14961
+public import Certificates.Certificate22200
+public import Certificates.Certificate23204
+public import Certificates.Certificate36920
+public import Certificates.Certificate36921
+public import Certificates.Certificate89090
+public import Certificates.Certificate660104
+public import Certificates.Certificate660105
+public import Certificates.Certificate660106
+public import Certificates.Certificate660109
+public import Certificates.Certificate705101
+public import Certificates.Certificate705102
+public import Certificates.Certificate725003
+public import Certificates.Certificate725004
+public import Certificates.Certificate725005
+public import Certificates.Certificate725006
+public import Certificates.Certificate745101
+public import Certificates.Certificate840012
+public import Certificates.Certificate919001
+public import Certificates.Certificate919002
+public import Certificates.Certificate1037001
+public import Certificates.Certificate1037002
+public import Certificates.Certificate1037101
+public import Certificates.Certificate1037102
+public import Certificates.Certificate1037201
+public import Certificates.Certificate1037301
+public import Certificates.Certificate1037401
+public import Certificates.Certificate1037402
+public import Certificates.Certificate1037501
+public import Certificates.Certificate1208102
+public import Certificates.Certificate1491001
+public import Certificates.Certificate1491002
+public import Certificates.Certificate1491003
+public import Certificates.Certificate1491004
+public import Certificates.Certificate1491005
+public import Certificates.Certificate1952
+public import Certificates.Certificate2023
+public import Certificates.Certificate2024
+public import Certificates.Certificate2026
+public import Certificates.Certificate2041
+public import Certificates.Certificate2042
+public import Certificates.Certificate2043
+public import Certificates.Certificate2044
+public import Certificates.Certificate2045
+public import Certificates.Certificate2046
+public import Certificates.Certificate2047
+public import Certificates.Certificate2064
+public import Certificates.Certificate2074
+public import Certificates.Certificate2076
+public import Certificates.Certificate2077
+public import Certificates.Certificate2079
+public import Certificates.Certificate2085
+public import Certificates.Certificate2124
+public import Certificates.Certificate2126
+public import Certificates.Certificate2175
+public import Certificates.Certificate2273
+public import Certificates.Certificate2277
+public import Certificates.Certificate2290
+public import Certificates.Certificate2291
+public import Certificates.Certificate2333
+public import Certificates.Certificate3001
+public import Certificates.Certificate3003
+public import Certificates.Certificate3004
+public import Certificates.Certificate3143
+public import Certificates.Certificate3144
+public import Certificates.Certificate3146
+public import Certificates.Certificate3181
+public import Certificates.Certificate3961
+public import Certificates.Certificate3962
+public import Certificates.Certificate6041
+public import Certificates.Certificate6042
+public import Certificates.Certificate6043
+public import Certificates.Certificate6044
+public import Certificates.Certificate6045
+public import Certificates.Certificate6046
+public import Certificates.Certificate6059
+public import Certificates.Certificate6060
+public import Certificates.Certificate6061
+public import Certificates.Certificate6062
+public import Certificates.Certificate6063
+public import Certificates.Certificate6064
+public import Certificates.Certificate6065
+public import Certificates.Certificate6066
+public import Certificates.Certificate6067
+public import Certificates.Certificate6068
+public import Certificates.Certificate6069
+public import Certificates.Certificate6070
+public import Certificates.Certificate6071
+public import Certificates.Certificate6072
+public import Certificates.Certificate6091
+public import Certificates.Certificate6092
+public import Certificates.Certificate6094
+public import Certificates.Certificate6095
+public import Certificates.Certificate6096
+public import Certificates.Certificate6097
+public import Certificates.Certificate6098
+public import Certificates.Certificate6099
+public import Certificates.Certificate6123
+public import Certificates.Certificate6950
+public import Certificates.Certificate7023
+public import Certificates.Certificate7059
+public import Certificates.Certificate7227
+public import Certificates.Certificate7260
+public import Certificates.Certificate8000
+public import Certificates.Certificate8004
+public import Certificates.Certificate8006
+public import Certificates.Certificate8007
+public import Certificates.Certificate8008
+public import Certificates.Certificate8035
+public import Certificates.Certificate8036
+public import Certificates.Certificate8037
+public import Certificates.Certificate8053
+public import Certificates.Certificate8054
+public import Certificates.Certificate8055
+public import Certificates.Certificate8056
+public import Certificates.Certificate8057
+public import Certificates.Certificate8058
+public import Certificates.Certificate8059
+public import Certificates.Certificate8099
+public import Certificates.Certificate8100
+public import Certificates.Certificate8101
+public import Certificates.Certificate8102
+public import Certificates.Certificate8103
+public import Certificates.Certificate8104
+public import Certificates.Certificate8105
+public import Certificates.Certificate8106
+public import Certificates.Certificate8107
+public import Certificates.Certificate8108
+public import Certificates.Certificate8109
+public import Certificates.Certificate8110
+public import Certificates.Certificate8111
+public import Certificates.Certificate8112
+public import Certificates.Certificate8113
+public import Certificates.Certificate8117
+public import Certificates.Certificate8120
+public import Certificates.Certificate8121
+public import Certificates.Certificate8122
+public import Certificates.Certificate8126
+public import Certificates.Certificate8133
+public import Certificates.Certificate8134
+public import Certificates.Certificate8135
+public import Certificates.Certificate8136
+public import Certificates.Certificate8137
+public import Certificates.Certificate8138
+public import Certificates.Certificate8139
+public import Certificates.Certificate8140
+public import Certificates.Certificate8141
+public import Certificates.Certificate8142
+public import Certificates.Certificate8143
+public import Certificates.Certificate8144
+public import Certificates.Certificate8145
+public import Certificates.Certificate8146
+public import Certificates.Certificate8176
+public import Certificates.Certificate9100
+public import Certificates.Certificate9101
+public import Certificates.Certificate9102
+public import Certificates.Certificate9103
+public import Certificates.Certificate9104
+public import Certificates.Certificate9105
+public import Certificates.Certificate9107
+public import Certificates.Certificate9108
+public import Certificates.Certificate9109
+public import Certificates.Certificate9110
+public import Certificates.Certificate9113
+public import Certificates.Certificate9116
+public import Certificates.Certificate9118
+public import Certificates.Certificate9119
+public import Certificates.Certificate9120
+public import Certificates.Certificate9124
+public import Certificates.Certificate9125
+public import Certificates.Certificate9126
+public import Certificates.Certificate9127
+public import Certificates.Certificate9202
+public import Certificates.Certificate9203
+public import Certificates.Certificate9204
+public import Certificates.Certificate9205
+public import Certificates.Certificate9207
+public import Certificates.Certificate9209
+public import Certificates.Certificate9210
+public import Certificates.Certificate9211
+public import Certificates.Certificate9212
+public import Certificates.Certificate9213
+public import Certificates.Certificate9216
+public import Certificates.Certificate9217
+public import Certificates.Certificate9219
+public import Certificates.Certificate9357
+public import Certificates.Certificate9400
+public import Certificates.Certificate9415
+public import Certificates.Certificate9435
+public import Certificates.Certificate9436
+public import Certificates.Certificate9437
+public import Certificates.Certificate9438
+public import Certificates.Certificate9440
+public import Certificates.Certificate9441
+public import Certificates.Certificate9442
+public import Certificates.Certificate9443
+public import Certificates.Certificate9458
+public import Certificates.Certificate9461
+public import Certificates.Certificate9462
+public import Certificates.Certificate9465
+public import Certificates.Certificate9466
+public import Certificates.Certificate9470
+public import Certificates.Certificate9471
+public import Certificates.Certificate9472
+public import Certificates.Certificate9473
+public import Certificates.Certificate9474
+public import Certificates.Certificate9475
+public import Certificates.Certificate9476
+public import Certificates.Certificate9477
+public import Certificates.Certificate9478
+public import Certificates.Certificate9480
+public import Certificates.Certificate9481
+public import Certificates.Certificate9484
+public import Certificates.Certificate9485
+public import Certificates.Certificate9486
+public import Certificates.Certificate9504
+public import Certificates.Certificate9507
+public import Certificates.Certificate9512
+public import Certificates.Certificate9513
+public import Certificates.Certificate9514
+public import Certificates.Certificate9522
+public import Certificates.Certificate9524
+public import Certificates.Certificate9525
+public import Certificates.Certificate9530
+public import Certificates.Certificate9542
+public import Certificates.Certificate9543
+public import Certificates.Certificate9544
+public import Certificates.Certificate9545
+public import Certificates.Certificate9546
+public import Certificates.Certificate9548
+public import Certificates.Certificate9549
+public import Certificates.Certificate9550
+public import Certificates.Certificate9551
+public import Certificates.Certificate9552
+public import Certificates.Certificate9553
+public import Certificates.Certificate9554
+public import Certificates.Certificate9555
+public import Certificates.Certificate9556
+public import Certificates.Certificate9560
+public import Certificates.Certificate9562
+public import Certificates.Certificate9563
+public import Certificates.Certificate9564
+public import Certificates.Certificate9565
+public import Certificates.Certificate9567
+public import Certificates.Certificate9581
+public import Certificates.Certificate9582
+public import Certificates.Certificate9583
+public import Certificates.Certificate9584
+public import Certificates.Certificate9585
+public import Certificates.Certificate9586
+public import Certificates.Certificate9590
+public import Certificates.Certificate9591
+public import Certificates.Certificate9594
+public import Certificates.Certificate9595
+public import Certificates.Certificate9596
+public import Certificates.Certificate9597
+public import Certificates.Certificate9598
+public import Certificates.Certificate9599
+public import Certificates.Certificate9600
+public import Certificates.Certificate9601
+public import Certificates.Certificate9602
+public import Certificates.Certificate9603
+public import Certificates.Certificate9605
+public import Certificates.Certificate9630
+public import Certificates.Certificate9650
+public import Certificates.Certificate9652
+public import Certificates.Certificate9653
+public import Certificates.Certificate9654
+public import Certificates.Certificate9655
+public import Certificates.Certificate9656
+public import Certificates.Certificate9702
+public import Certificates.Certificate9704
+public import Certificates.Certificate9705
+public import Certificates.Certificate9706
+public import Certificates.Certificate9707
+public import Certificates.Certificate9708
+public import Certificates.Certificate9709
+public import Certificates.Certificate9710
+public import Certificates.Certificate9715
+public import Certificates.Certificate9720
+public import CFSG.Blueprint.NativeSporadic
+public import CFSG.RankThree.PartOne.CTP.FusionSound
+public import Certificates.Certificate3109
+import CFSG.Sporadic.Bridge.BFusSevenGen
+public import Certificates.Certificate10001
+public import Certificates.Certificate10002
+public import Certificates.Certificate10003
+public import Certificates.Certificate10028
+public import Certificates.Certificate10036
+public import Certificates.Certificate10041
+public import Certificates.Certificate10050
+public import Certificates.Certificate10051
+public import Certificates.Certificate10052
+public import Certificates.Certificate10053
+public import Certificates.Certificate10054
+public import Certificates.Certificate10055
+public import Certificates.Certificate10056
+public import Certificates.Certificate10057
+public import Certificates.Certificate10061
+public import Certificates.Certificate10062
+public import Certificates.Certificate10063
+public import Certificates.Certificate10064
+public import Certificates.Certificate10065
+public import Certificates.Certificate10066
+public import Certificates.Certificate10079
+public import Certificates.Certificate10080
+public import Certificates.Certificate10081
+public import Certificates.Certificate10082
+public import Certificates.Certificate10083
+public import Certificates.Certificate10084
+public import Certificates.Certificate10085
+public import Certificates.Certificate10086
+public import Certificates.Certificate10099
+public import Certificates.Certificate10501
+public import Certificates.Certificate10502
+public import Certificates.Certificate10503
+public import Certificates.Certificate10504
+public import Certificates.Certificate10505
+public import Certificates.Certificate10506
+public import Certificates.Certificate10507
+public import Certificates.Certificate10508
+public import Certificates.Certificate10509
+public import Certificates.Certificate10510
+public import Certificates.Certificate10511
+public import Certificates.Certificate12601
+public import Certificates.Certificate12602
+public import Certificates.Certificate12603
+public import Certificates.Certificate12604
+public import Certificates.Certificate12605
+public import Certificates.Certificate12606
+public import Certificates.Certificate12607
+public import Certificates.Certificate12608
+public import Certificates.Certificate12609
+public import Certificates.Certificate12610
+public import Certificates.Certificate12612
+public import Certificates.Certificate12613
+public import Certificates.Certificate12614
+public import Certificates.Certificate12617
+public import Certificates.Certificate12622
+public import Certificates.Certificate12623
+public import Certificates.Certificate12624
+public import Certificates.Certificate12630
+public import Certificates.Certificate12631
+public import Certificates.Certificate12632
+public import Certificates.Certificate12635
+public import Certificates.Certificate12636
+public import Certificates.Certificate12637
+public import Certificates.Certificate12638
+public import Certificates.Certificate12641
+public import Certificates.Certificate12680
+public import Certificates.Certificate13005
+public import Certificates.Certificate13501
+public import Certificates.Certificate13506
+public import Certificates.Certificate13507
+public import Certificates.Certificate13602
+public import Certificates.Certificate13604
+public import Certificates.Certificate13605
+public import Certificates.Certificate13606
+public import Certificates.Certificate13607
+public import Certificates.Certificate13608
+public import Certificates.Certificate13609
+public import Certificates.Certificate13610
+public import Certificates.Certificate13611
+public import Certificates.Certificate13612
+public import Certificates.Certificate13613
+public import Certificates.Certificate13614
+public import Certificates.Certificate13624
+public import Certificates.Certificate13625
+public import Certificates.Certificate13626
+public import Certificates.Certificate13627
+public import Certificates.Certificate13635
+public import Certificates.Certificate13636
+public import Certificates.Certificate13637
+public import Certificates.Certificate13638
+public import Certificates.Certificate13639
+public import Certificates.Certificate13650
+public import Certificates.Certificate13651
+public import Certificates.Certificate13657
+public import Certificates.Certificate13659
+public import Certificates.Certificate13660
+public import Certificates.Certificate13666
+public import Certificates.Certificate13670
+public import Certificates.Certificate13671
+public import Certificates.Certificate13680
+public import Certificates.Certificate13691
+public import Certificates.Certificate13694
+public import Certificates.Certificate13695
+public import Certificates.Certificate13696
+public import Certificates.Certificate13697
+public import Certificates.Certificate13698
+public import Certificates.Certificate13699
+public import Certificates.Certificate13720
+public import Certificates.Certificate13721
+public import Certificates.Certificate14946
+public import Certificates.Certificate14947
+public import Certificates.Certificate14948
+public import Certificates.Certificate14949
+public import Certificates.Certificate14950
+public import Certificates.Certificate14953
+public import Certificates.Certificate14954
+public import Certificates.Certificate14955
+public import Certificates.Certificate14956
+public import Certificates.Certificate14957
+public import Certificates.Certificate14958
+public import Certificates.Certificate14959
+public import Certificates.Certificate14962
+public import Certificates.Certificate14963
+public import Certificates.Certificate14964
+public import Certificates.Certificate14965
+public import Certificates.Certificate14969
+public import Certificates.Certificate14973
+public import Certificates.Certificate14976
+public import Certificates.Certificate14977
+public import Certificates.Certificate14980
+public import Certificates.Certificate14982
+public import Certificates.Certificate14983
+public import Certificates.Certificate14984
+public import Certificates.Certificate14985
+public import Certificates.Certificate14986
+public import Certificates.Certificate14987
+public import Certificates.Certificate14988
+public import Certificates.Certificate14989
+public import Certificates.Certificate14990
+public import Certificates.Certificate14991
+public import Certificates.Certificate14992
+public import Certificates.Certificate14993
+public import Certificates.Certificate14994
+public import Certificates.Certificate14995
+public import Certificates.Certificate14996
+public import Certificates.Certificate14997
+public import Certificates.Certificate15012
+public import Certificates.Certificate15014
+public import Certificates.Certificate15018
+public import Certificates.Certificate15019
+public import Certificates.Certificate15027
+public import Certificates.Certificate15028
+public import Certificates.Certificate15029
+public import Certificates.Certificate15030
+public import Certificates.Certificate15031
+public import Certificates.Certificate15033
+public import Certificates.Certificate15034
+public import Certificates.Certificate15035
+public import Certificates.Certificate15041
+public import Certificates.Certificate15047
+public import Certificates.Certificate15049
+public import Certificates.Certificate15050
+public import Certificates.Certificate15051
+public import Certificates.Certificate15052
+public import Certificates.Certificate15059
+public import Certificates.Certificate15060
+public import Certificates.Certificate15062
+public import Certificates.Certificate15063
+public import Certificates.Certificate15067
+public import Certificates.Certificate15068
+public import Certificates.Certificate15070
+public import Certificates.Certificate15073
+public import Certificates.Certificate15075
+public import Certificates.Certificate15076
+public import Certificates.Certificate15079
+public import Certificates.Certificate15082
+public import Certificates.Certificate15084
+public import Certificates.Certificate15085
+public import Certificates.Certificate15086
+public import Certificates.Certificate15087
+public import Certificates.Certificate15088
+public import Certificates.Certificate15089
+public import Certificates.Certificate15090
+public import Certificates.Certificate15096
+public import Certificates.Certificate15098
+public import Certificates.Certificate15099
+public import Certificates.Certificate15100
+public import Certificates.Certificate15110
+public import Certificates.Certificate15111
+public import Certificates.Certificate15112
+public import Certificates.Certificate15113
+public import Certificates.Certificate15116
+public import Certificates.Certificate15120
+public import Certificates.Certificate15121
+public import Certificates.Certificate15950
+public import Certificates.Certificate15951
+public import Certificates.Certificate15952
+public import Certificates.Certificate16007
+public import Certificates.Certificate16011
+public import Certificates.Certificate16032
+public import Certificates.Certificate16034
+public import Certificates.Certificate16039
+public import Certificates.Certificate16948
+public import Certificates.Certificate16949
+public import Certificates.Certificate16952
+public import Certificates.Certificate16955
+public import Certificates.Certificate16959
+public import Certificates.Certificate16963
+public import Certificates.Certificate16964
+public import Certificates.Certificate16965
+public import Certificates.Certificate16966
+public import CFSG.GF2Type.Smith1979.GammaU.CensusDefs
+import Certificates.Kernel.GammaU.BaseBridge
+public import Certificates.Certificate16968
+public import Certificates.Certificate16969
+public import Certificates.Certificate16970
+public import Certificates.Certificate16971
+public import Certificates.Certificate16972
+public import Certificates.Certificate16973
+public import Certificates.Certificate16974
+public import Certificates.Certificate16980
+public import Certificates.Certificate16981
+public import Certificates.Certificate16982
+public import Certificates.Certificate17253
+public import Certificates.Certificate17254
+public import Certificates.Certificate17255
+public import Certificates.Certificate17300
+public import Certificates.Certificate17301
+public import Certificates.Certificate17302
+public import Certificates.Certificate17303
+public import Certificates.Certificate17304
+public import Certificates.Certificate17324
+public import Certificates.Certificate17325
+public import Certificates.Certificate17326
+public import Certificates.Certificate17327
+public import Certificates.Certificate17335
+public import Certificates.Certificate17336
+public import Certificates.Certificate17337
+public import Certificates.Certificate17338
+public import Certificates.Certificate17339
+public import Certificates.Certificate17371
+public import Certificates.Certificate17390
+public import Certificates.Certificate17391
+public import Certificates.Certificate17420
+public import Certificates.Certificate17421
+public import Certificates.Certificate17430
+public import Certificates.Certificate17450
+public import Certificates.Certificate17451
+public import Certificates.Certificate17480
+public import Certificates.Certificate17481
+public import Certificates.Certificate17482
+public import Certificates.Certificate17483
+public import Certificates.Certificate17484
+public import Certificates.Certificate17485
+public import Certificates.Certificate17486
+public import Certificates.Certificate17487
+public import Certificates.Certificate17488
+public import Certificates.Certificate17490
+public import Certificates.Certificate17491
+public import Certificates.Certificate17492
+public import Certificates.Certificate17493
+public import Certificates.Certificate17525
+public import Certificates.Certificate17526
+public import Certificates.Certificate17560
+public import Certificates.Certificate17600
+public import Certificates.Certificate17601
+public import Certificates.Certificate17603
+public import Certificates.Certificate17604
+public import Certificates.Certificate17605
+public import Certificates.Certificate17606
+public import Certificates.Certificate17607
+public import Certificates.Certificate17608
+public import Certificates.Certificate17609
+public import Certificates.Certificate17610
+public import Certificates.Certificate17611
+public import Certificates.Certificate17612
+public import Certificates.Certificate17627
+public import Certificates.Certificate17628
+public import Certificates.Certificate17629
+public import Certificates.Certificate17633
+public import Certificates.Certificate17640
+public import Certificates.Certificate17641
+public import Certificates.Certificate18004
+public import Certificates.Certificate18010
+public import Certificates.Certificate19750
+public import Certificates.Certificate19751
+public import Certificates.Certificate19752
+public import Certificates.Certificate19754
+public import Certificates.Certificate19755
+public import Certificates.Certificate19756
+public import Certificates.Certificate19757
+public import Certificates.Certificate19758
+public import Certificates.Certificate19760
+public import Certificates.Certificate19761
+public import Certificates.Certificate19762
+public import Certificates.Certificate19763
+public import Certificates.Certificate19764
+public import Certificates.Certificate19765
+public import Certificates.Certificate19766
+public import Certificates.Certificate19780
+public import Certificates.Certificate19800
+public import Certificates.Certificate19830
+public import Certificates.Certificate19831
+public import Certificates.Certificate19832
+public import Certificates.Certificate19840
+public import Certificates.Certificate19841
+public import Certificates.Certificate19842
+public import Certificates.Certificate19843
+public import Certificates.Certificate19850
+public import Certificates.Certificate19851
+public import Certificates.Certificate19852
+public import Certificates.Certificate19951
+public import Certificates.Certificate19952
+public import Certificates.Certificate20951
+public import Certificates.Certificate21100
+public import Certificates.Certificate21101
+public import Certificates.Certificate21102
+public import Certificates.Certificate21103
+public import Certificates.Certificate21104
+public import Certificates.Certificate21105
+public import Certificates.Certificate21106
+public import Certificates.Certificate21107
+public import Certificates.Certificate21110
+public import Certificates.Certificate21113
+public import Certificates.Certificate21114
+public import Certificates.Certificate21115
+public import Certificates.Certificate21120
+public import Certificates.Certificate21121
+public import Certificates.Certificate21122
+public import Certificates.Certificate21123
+public import Certificates.Certificate21124
+public import Certificates.Certificate21126
+public import Certificates.Certificate21127
+public import Certificates.Certificate21128
+public import Certificates.Certificate21140
+public import Certificates.Certificate21141
+public import Certificates.Certificate21142
+public import Certificates.Certificate21150
+public import Certificates.Certificate21151
+public import Certificates.Certificate21152
+public import Certificates.Certificate21153
+public import Certificates.Certificate21154
+public import Certificates.Certificate21155
+public import Certificates.Certificate21156
+public import Certificates.Certificate21157
+public import Certificates.Certificate21158
+public import Certificates.Certificate21159
+public import Certificates.Certificate21160
+public import CFSG.Sporadic.Co2Smith.GlC0MarkInputs
+import Certificates.Kernel.Co2Smith.Cox
+import Certificates.Data.Kernel.Co2Smith.Mark
+import Certificates.Data.Kernel.Co2Smith.Cox
+import Certificates.Kernel.Co2Smith.LettersData
+import Certificates.Kernel.Co2Smith.CoxData
+import Certificates.Kernel.Co2Smith.MarkK
+public import Certificates.Certificate21162
+public import Certificates.Certificate21163
+public import Certificates.Certificate21165
+public import Certificates.Certificate21166
+public import Certificates.Certificate21167
+public import Certificates.Certificate21168
+public import Certificates.Certificate21169
+public import Certificates.Certificate21170
+public import Certificates.Certificate21171
+public import Certificates.Certificate21172
+public import Certificates.Certificate21173
+public import Certificates.Certificate21180
+public import Certificates.Certificate21185
+public import Certificates.Certificate21186
+public import Certificates.Certificate21187
+public import Certificates.Certificate21188
+public import Certificates.Certificate21190
+public import Certificates.Certificate21191
+public import Certificates.Certificate21192
+public import Certificates.Certificate21193
+public import Certificates.Certificate21194
+public import Certificates.Certificate21195
+public import Certificates.Certificate21196
+public import Certificates.Certificate21197
+public import Certificates.Certificate21200
+public import Certificates.Certificate21201
+public import Certificates.Certificate21202
+public import Certificates.Certificate21205
+public import Certificates.Certificate21230
+public import Certificates.Certificate21231
+public import Certificates.Certificate21235
+public import Certificates.Certificate21245
+public import Certificates.Certificate21246
+public import Certificates.Certificate21247
+public import Certificates.Certificate21248
+public import Certificates.Certificate21260
+public import Certificates.Certificate21261
+public import Certificates.Certificate21262
+public import Certificates.Certificate21263
+public import Certificates.Certificate21264
+public import Certificates.Certificate21265
+public import Certificates.Certificate21266
+public import Certificates.Certificate21267
+public import Certificates.Certificate21275
+public import Certificates.Certificate21276
+public import Certificates.Certificate21280
+public import Certificates.Certificate21295
+public import Certificates.Certificate21296
+public import Certificates.Certificate21297
+public import Certificates.Certificate22100
+public import Certificates.Certificate22231
+public import Certificates.Certificate22232
+public import Certificates.Certificate22233
+public import Certificates.Certificate24011
+public import Certificates.Certificate24050
+public import Certificates.Certificate24051
+public import Certificates.Certificate24052
+public import Certificates.Certificate24053
+public import Certificates.Certificate24160
+public import Certificates.Certificate24320
+public import Certificates.Certificate24321
+public import Certificates.Certificate24390
+public import Certificates.Certificate24510
+public import Certificates.Certificate24511
+public import Certificates.Certificate24512
+public import Certificates.Certificate24531
+public import Certificates.Certificate24550
+public import Certificates.Certificate24650
+public import Certificates.Certificate24670
+public import Certificates.Certificate24671
+public import Certificates.Certificate24781
+public import Certificates.Certificate25001
+public import Certificates.Certificate25170
+public import Certificates.Certificate25171
+public import Certificates.Certificate25172
+public import Certificates.Certificate25230
+public import Certificates.Certificate25231
+public import Certificates.Certificate25260
+public import Certificates.Certificate25261
+public import Certificates.Certificate25262
+public import Certificates.Certificate25290
+public import Certificates.Certificate25300
+public import Certificates.Certificate26683
+public import Certificates.Certificate25301
+public import Certificates.Certificate26121
+public import Certificates.Certificate26122
+public import Certificates.Certificate26777
+public import Certificates.Certificate26963
+public import Certificates.Certificate26991
+public import Certificates.Certificate29700
+public import Certificates.Certificate31064
+public import Certificates.Certificate31072
+public import Certificates.Certificate31073
+public import Certificates.Certificate34002
+public import Certificates.Certificate36151
+public import Certificates.Certificate36152
+public import Certificates.Certificate36153
+public import Certificates.Certificate36908
+public import Certificates.Certificate38600
+public import Certificates.Certificate38601
+public import Certificates.Certificate38602
+public import Certificates.Certificate38603
+public import Certificates.Certificate38604
+public import Certificates.Certificate38605
+public import Certificates.Certificate38606
+public import Certificates.Certificate38607
+public import Certificates.Certificate38608
+public import Certificates.Certificate38609
+public import Certificates.Certificate38650
+public import Certificates.Certificate38651
+public import Certificates.Certificate38652
+public import Certificates.Certificate38653
+public import Certificates.Certificate38654
+public import Certificates.Certificate38655
+public import Certificates.Certificate38670
+public import Certificates.Certificate38671
+public import Certificates.Certificate38680
+public import Certificates.Certificate38681
+public import Certificates.Certificate38682
+public import Certificates.Certificate38700
+public import Certificates.Certificate38701
+public import Certificates.Certificate38702
+public import Certificates.Certificate38703
+public import Certificates.Certificate38704
+public import Certificates.Certificate38705
+public import Certificates.Certificate38750
+public import Certificates.Certificate38751
+public import Certificates.Certificate38770
+public import Certificates.Certificate38771
+public import Certificates.Certificate38772
+public import Certificates.Certificate38790
+public import Certificates.Certificate38791
+public import Certificates.Certificate38792
+public import Certificates.Certificate38793
+public import Certificates.Certificate38794
+public import Certificates.Certificate38800
+public import Certificates.Certificate38801
+public import Certificates.Certificate38802
+public import Certificates.Certificate38803
+public import Certificates.Certificate38820
+public import Certificates.Certificate38821
+public import Certificates.Certificate38840
+public import Certificates.Certificate38935
+public import Certificates.Certificate38950
+public import Certificates.Certificate38951
+public import Certificates.Certificate38952
+public import Certificates.Certificate38953
+public import Certificates.Certificate38954
+public import Certificates.Certificate38955
+public import Certificates.Certificate38956
+public import Certificates.Certificate38957
+public import Certificates.Certificate38958
+public import Certificates.Certificate38959
+public import Certificates.Certificate38960
+public import Certificates.Certificate38961
+public import Certificates.Certificate41505
+public import Certificates.Certificate41506
+public import Certificates.Certificate41507
+public import Certificates.Certificate41508
+public import Certificates.Certificate41721
+public import Certificates.Certificate41722
+public import Certificates.Certificate76001
+public import Certificates.Certificate81002
+public import Certificates.Certificate89011
+public import Certificates.Certificate89012
+public import Certificates.Certificate89013
+public import Certificates.Certificate89014
+public import Certificates.Certificate89015
+public import Certificates.Certificate89016
+public import Certificates.Certificate89017
+public import Certificates.Certificate89018
+public import Certificates.Certificate89019
+public import Certificates.Certificate89020
+public import Certificates.Certificate89021
+public import Certificates.Certificate89022
+public import Certificates.Certificate89023
+public import Certificates.Certificate89024
+public import Certificates.Certificate89401
+public import Certificates.Certificate89402
+public import Certificates.Certificate89403
+public import Certificates.Certificate89404
+public import Certificates.Certificate89405
+public import Certificates.Certificate89406
+public import Certificates.Certificate89407
+public import Certificates.Certificate89408
+public import Certificates.Certificate89409
+public import Certificates.Certificate125000
+public import Certificates.Certificate125001
+public import Certificates.Certificate125002
+public import Certificates.Certificate125003
+public import Certificates.Certificate125004
+public import Certificates.Certificate125005
+public import Certificates.Certificate125006
+public import Certificates.Certificate125007
+public import Certificates.Certificate125008
+public import Certificates.Certificate125210
+public import Certificates.Certificate125211
+public import Certificates.Certificate125212
+public import Certificates.Certificate125220
+public import Certificates.Certificate125221
+public import Certificates.Certificate125222
+public import Certificates.Certificate125223
+public import Certificates.Certificate125340
+public import Certificates.Certificate125341
+public import Certificates.Certificate125342
+public import Certificates.Certificate125343
+public import Certificates.Certificate125344
+public import Certificates.Certificate125345
+public import Certificates.Certificate125346
+public import Certificates.Certificate125347
+public import Certificates.Certificate125348
+public import Certificates.Certificate125349
+public import Certificates.Certificate125350
+public import Certificates.Certificate125351
+public import Certificates.Certificate125360
+public import Certificates.Certificate125361
+public import Certificates.Certificate125362
+public import Certificates.Certificate125363
+public import Certificates.Certificate125364
+public import Certificates.Certificate125365
+public import Certificates.Certificate125366
+public import Certificates.Certificate125367
+public import Certificates.Certificate125368
+public import Certificates.Certificate125369
+public import Certificates.Certificate125370
+public import Certificates.Certificate125371
+public import Certificates.Certificate125372
+public import Certificates.Certificate125373
+public import Certificates.Certificate125374
+public import Certificates.Certificate125500
+public import Certificates.Certificate125501
+public import Certificates.Certificate125502
+public import Certificates.Certificate125503
+public import Certificates.Certificate125504
+public import Certificates.Certificate125505
+public import Certificates.Certificate125506
+public import Certificates.Certificate125507
+public import Certificates.Certificate125508
+public import Certificates.Certificate125509
+public import Certificates.Certificate125510
+public import Certificates.Certificate125511
+public import Certificates.Certificate125512
+public import Certificates.Certificate125513
+public import Certificates.Certificate125530
+public import Certificates.Certificate125531
+public import Certificates.Certificate125532
+public import Certificates.Certificate125533
+public import Certificates.Certificate125534
+public import Certificates.Certificate125535
+public import Certificates.Certificate125536
+public import Certificates.Certificate125537
+public import Certificates.Certificate125538
+public import Certificates.Certificate125539
+public import Certificates.Certificate125540
+public import Certificates.Certificate125541
+public import Certificates.Certificate125542
+public import Certificates.Certificate125552
+public import Certificates.Certificate125553
+public import Certificates.Certificate125554
+public import Certificates.Certificate125555
+public import Certificates.Certificate125556
+public import Certificates.Certificate125557
+public import Certificates.Certificate125558
+public import Certificates.Certificate125559
+public import Certificates.Certificate125560
+public import Certificates.Certificate125561
+public import Certificates.Certificate129001
+public import Certificates.Certificate129003
+public import Certificates.Certificate129004
+public import Certificates.Certificate129005
+public import Certificates.Certificate129006
+public import Certificates.Certificate129007
+public import Certificates.Certificate129008
+public import Certificates.Certificate129009
+public import Certificates.Certificate129020
+public import Certificates.Certificate129021
+public import Certificates.Certificate129030
+public import Certificates.Certificate129040
+public import Certificates.Certificate129041
+public import Certificates.Certificate129060
+public import Certificates.Certificate129061
+public import Certificates.Certificate129062
+public import Certificates.Certificate129070
+public import Certificates.Certificate129071
+public import Certificates.Certificate129072
+public import Certificates.Certificate129073
+public import Certificates.Certificate129080
+public import Certificates.Certificate129081
+public import Certificates.Certificate129082
+public import Certificates.Certificate129090
+public import Certificates.Certificate134001
+public import Certificates.Certificate134002
+public import Certificates.Certificate134003
+public import Certificates.Certificate136100
+public import Certificates.Certificate136101
+public import Certificates.Certificate136102
+public import Certificates.Certificate136103
+public import Certificates.Certificate136104
+public import Certificates.Certificate136105
+public import Certificates.Certificate136106
+public import Certificates.Certificate136107
+public import Certificates.Certificate136108
+public import Certificates.Certificate136109
+public import Certificates.Certificate136110
+public import Certificates.Certificate136111
+public import Certificates.Certificate136112
+public import Certificates.Certificate136113
+public import Certificates.Certificate136114
+public import Certificates.Certificate136115
+public import Certificates.Certificate136116
+public import Certificates.Certificate136117
+public import Certificates.Certificate136118
+public import Certificates.Certificate136119
+public import Certificates.Certificate136120
+public import Certificates.Certificate136121
+public import Certificates.Certificate136122
+public import Certificates.Certificate136123
+public import Certificates.Certificate136300
+public import Certificates.Certificate136301
+public import Certificates.Certificate188001
+public import Certificates.Certificate188002
+public import Certificates.Certificate188005
+public import Certificates.Certificate188007
+public import Certificates.Certificate188008
+public import Certificates.Certificate214003
+public import Certificates.Certificate214034
+public import Certificates.Certificate232403
+public import Certificates.Certificate271010
+public import Certificates.Certificate271011
+public import Certificates.Certificate271015
+public import Certificates.Certificate271030
+public import Certificates.Certificate271031
+public import Certificates.Certificate271032
+public import Certificates.Certificate271033
+public import Certificates.Certificate271036
+public import Certificates.Certificate271037
+public import Certificates.Certificate271038
+public import Certificates.Certificate271070
+public import Certificates.Certificate271071
+public import Certificates.Certificate271090
+public import Certificates.Certificate291100
+public import Certificates.Certificate291101
+public import Certificates.Certificate291110
+public import Certificates.Certificate291111
+public import Certificates.Certificate291120
+public import Certificates.Certificate291130
+public import Certificates.Certificate291200
+public import Certificates.Certificate291351
+public import Certificates.Certificate291360
+public import Certificates.Certificate291361
+public import Certificates.Certificate291362
+public import Certificates.Certificate291370
+public import Certificates.Certificate291371
+public import Certificates.Certificate291372
+public import Certificates.Certificate291373
+public import Certificates.Certificate291380
+public import Certificates.Certificate291381
+public import Certificates.Certificate291390
+public import Certificates.Certificate295133
+public import Certificates.Certificate310101
+public import Certificates.Certificate320004
+public import Certificates.Certificate320006
+public import Certificates.Certificate330375
+public import Certificates.Certificate330390
+public import Certificates.Certificate409001
+public import Certificates.Certificate419001
+public import Certificates.Certificate419002
+public import Certificates.Certificate428001
+public import Certificates.Certificate428004
+public import Certificates.Certificate431001
+public import Certificates.Certificate450101
+public import Certificates.Certificate450102
+public import Certificates.Certificate452201
+public import Certificates.Certificate465001
+public import Certificates.Certificate465002
+public import Certificates.Certificate465003
+public import Certificates.Certificate465004
+public import Certificates.Certificate465005
+public import Certificates.Certificate516001
+public import Certificates.Certificate516002
+public import Certificates.Certificate516003
+public import Certificates.Certificate517001
+public import Certificates.Certificate517002
+public import Certificates.Certificate517003
+public import Certificates.Certificate517101
+public import Certificates.Certificate517102
+public import Certificates.Certificate517103
+public import Certificates.Certificate517201
+public import Certificates.Certificate517202
+public import Certificates.Certificate543001
+public import Certificates.Certificate664001
+public import Certificates.Certificate664010
+public import Certificates.Certificate664011
+public import Certificates.Certificate664013
+public import Certificates.Certificate687001
+public import Certificates.Certificate687002
+public import Certificates.Certificate687003
+public import Certificates.Certificate687004
+public import Certificates.Certificate687005
+public import Certificates.Certificate687006
+public import Certificates.Certificate687007
+public import Certificates.Certificate687008
+public import Certificates.Certificate687009
+public import Certificates.Certificate687010
+public import Certificates.Certificate687011
+public import Certificates.Certificate687012
+public import Certificates.Certificate690001
+public import Certificates.Certificate690002
+public import Certificates.Certificate690003
+public import Certificates.Certificate690004
+public import Certificates.Certificate690005
+public import Certificates.Certificate690006
+public import Certificates.Certificate704101
+public import Certificates.Certificate716100
+public import Certificates.Certificate727301
+public import Certificates.Certificate727302
+public import Certificates.Certificate727303
+public import Certificates.Certificate727304
+public import Certificates.Certificate733004
+public import Certificates.Certificate733006
+public import Certificates.Certificate733007
+public import Certificates.Certificate733008
+public import Certificates.Certificate733009
+public import Certificates.Certificate733010
+public import Certificates.Certificate733011
+public import Certificates.Certificate733012
+public import Certificates.Certificate733020
+public import Certificates.Certificate733021
+public import Certificates.Certificate734001
+public import Certificates.Certificate753501
+public import Certificates.Certificate753502
+public import Certificates.Certificate753503
+public import Certificates.Certificate753504
+public import Certificates.Certificate753505
+public import Certificates.Certificate753506
+public import Certificates.Certificate753521
+public import Certificates.Certificate753522
+public import Certificates.Certificate810306
+public import Certificates.Certificate810307
+public import Certificates.Certificate812105
+public import Certificates.Certificate812201
+public import Certificates.Certificate812461
+public import Certificates.Certificate812462
+public import Certificates.Certificate812463
+public import Certificates.Certificate946005
+public import Certificates.Certificate946006
+public import Certificates.Certificate946007
+public import Certificates.Certificate946015
+public import Certificates.Certificate946016
+public import Certificates.Certificate946017
+public import Certificates.Certificate1015335
+public import Certificates.Certificate1023301
+public import Certificates.Certificate1027001
+public import Certificates.Certificate1053001
+public import Certificates.Certificate1089001
+public import Certificates.Certificate1089007
+public import Certificates.Certificate1089008
+public import Certificates.Certificate1164101
+public import Certificates.Certificate1255001
+public import Certificates.Certificate1264303
+public import Certificates.Certificate1322003
+public import Certificates.Certificate1322001
+public import Certificates.Certificate1322002
+public import Certificates.Certificate1322004
+public import Certificates.Certificate1322005
+public import Certificates.Certificate1322006
+public import Certificates.Certificate1322007
+public import Certificates.Certificate1322008
+public import Certificates.Certificate1322010
+public import Certificates.Certificate1322011
+public import Certificates.Certificate1322012
+public import Certificates.Certificate1322030
+public import Certificates.Certificate1322031
+public import Certificates.Certificate1322150
+public import Certificates.Certificate1322151
+public import Certificates.Certificate1322152
+public import Certificates.Certificate1383001
+public import Certificates.Certificate1383002
+public import Certificates.Certificate1383003
+public import Certificates.Certificate1383004
+public import Certificates.Certificate1383005
+public import Certificates.Certificate1383006
+public import Certificates.Certificate1383007
+public import Certificates.Certificate1383008
+public import Certificates.Certificate1383009
+public import Certificates.Certificate1383010
+public import Certificates.Certificate1383011
+public import Certificates.Certificate1383012
+public import Certificates.Certificate1430001
+public import Certificates.Certificate1449001
+public import Certificates.Certificate1567001
+public import Certificates.Certificate17282
+public import Certificates.Certificate75337
+public import Certificates.Certificate75338
+public import Certificates.Certificate75339
+public import Certificates.Certificate75340
+public import Certificates.Certificate75341
+public import Certificates.Certificate75342
+public import Certificates.Certificate75343
+public import Certificates.Certificate75346
+public import Certificates.Certificate120801
+public import Certificates.Certificate120802
+public import Certificates.Certificate120803
+public import Certificates.Certificate120804
+public import Certificates.Certificate1208101
+public import Certificates.Certificate5176
+public import Certificates.Certificate7252
+public import Certificates.Certificate8167
+public import Certificates.Certificate9623
+public import Certificates.Certificate17260
+public import Certificates.Certificate17264
+public import Certificates.Certificate17280
+public import Certificates.Certificate17283
+public import Certificates.Certificate17290
+public import Certificates.Certificate17291
+public import Certificates.Certificate17292
+public import Certificates.Certificate40701
+public import Certificates.Certificate40702
+public import Certificates.Certificate291400
+public import Certificates.Certificate725007
+public import Certificates.Certificate725009
+public import Certificates.Certificate745102
+public import Certificates.Certificate745103
+public import Certificates.Certificate1037115
+public import Certificates.Certificate8124
+public import Certificates.Certificate8153
+public import Certificates.Certificate8154
+public import Certificates.Certificate8156
+public import Certificates.Certificate8157
+public import Certificates.Certificate8166
+public import Certificates.Certificate8174
+public import Certificates.Certificate9417
+public import Certificates.Certificate9500
+public import Certificates.Certificate9501
+public import Certificates.Certificate9511
+public import Certificates.Certificate12611
+public import Certificates.Certificate12618
+public import Certificates.Certificate12619
+public import Certificates.Certificate12620
+public import Certificates.Certificate12634
+public import Certificates.Certificate13513
+public import Certificates.Certificate13620
+public import Certificates.Certificate13621
+public import Certificates.Certificate13622
+public import Certificates.Certificate13623
+public import Certificates.Certificate13652
+public import Certificates.Certificate13654
+public import Certificates.Certificate16956
+public import Certificates.Certificate17101
+public import Certificates.Certificate17150
+public import Certificates.Certificate24530
+public import Certificates.Certificate24945
+public import Certificates.Certificate24946
+public import Certificates.Certificate24947
+public import Certificates.Certificate24948
+public import Certificates.Certificate131101
+import CFSG.GroupTheory.HuppertProduct.RankBound
+import CFSG.Yardstones.Mf4cdcdf2e013.Goals
+import CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.TheoremCThreeOfSectionFifteen
+import CFSG.LocalAnalysis.AGL81TheoremCD.Section12.TwelveTenOfFields
+import CFSG.LocalAnalysis.UniquenessCase.UC22Steps77ThreeSetup
+public import Certificates.Certificate9726
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SlotsEighteenTwentyFourLoc
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SlotsSectionNineteenLoc
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.TwelveEightEmptyWASTailClsNoShapes
+import CFSG.LocalAnalysis.RankThreeUC.AGL81S15R15Final43
+import CFSG.LocalAnalysis.RankThreeUC.AGL81S15RankTwoBaumHolds
+import CFSG.LocalAnalysis.RankThreeUC.AGL81S15RankTwoBaumPowerHolds
+import CFSG.LocalAnalysis.RankThreeUC.AGL81S15RankTwoPerOffenderFinal
+import CFSG.LocalAnalysis.RankThreeUC.GN15FFOPSLHolds
+import CFSG.LocalAnalysis.RankThreeUC.GN15FFOPSUHolds
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SlotsThreeTailNoShapes
+public import CFSG.CGT.Timmesfeld75.Sec5One
+public import CFSG.CGT.Timmesfeld75.SolvableCentral
+public import CFSG.CGT.Timmesfeld75.StrongClosureCentral
+public import CFSG.Certificates.Kernel.SL4ModSound
+public import CFSG.GF2Type.Smith1979.GammaU.Dict
+public import CFSG.GF2Type.Smith1979.GammaU.Model210
+public import CFSG.GF2Type.Smith1979.GammaU.SettingBridge
+public import CFSG.GF2Type.Widths1112.Co2Module.RowsOf
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFInputs
+public import CFSG.HardMathSupport.Dickson.I271.SporGenAux.ThreeKill
+public import CFSG.Holt.Centralizer
+public import CFSG.LargeExtraspecial.AS62EnumInputs
+public import CFSG.LargeExtraspecial.S10SixE
+public import CFSG.LargeExtraspecial.S10SixF
+public import CFSG.LargeExtraspecial.S10SixH
+public import CFSG.LargeExtraspecial.S10SixI
+public import CFSG.LargeExtraspecial.S10SixJ
+public import CFSG.LieType.Multipliers.U62Sylow
+public import CFSG.LieType.SeitzGeneration.NonabHeisThreeCore
+public import CFSG.LieType.SeitzGeneration.UnitaryBlocks
+public import CFSG.LieType.SeitzGeneration.UnitaryHyperScope
+public import CFSG.LieType.Simplicity.Basic
+public import CFSG.LocalAnalysis.AGLEmbedding.A9MSideBlocks
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoCycFive
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoCycUnique
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNFCenter
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNFPerfect
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNFRest
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoNTwoAAux
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoTheoremZ
+public import CFSG.LocalAnalysis.AGLEmbedding.CaseTwoThreeA6Rest
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanCharPGenAt
+public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanP1ThreeLieDefs
+public import CFSG.LocalAnalysis.AGLEmbedding.OneSmallGEVL34FF
+public import CFSG.LocalAnalysis.AGLEmbedding.ReeF4CompPerfect
+public import CFSG.LocalAnalysis.AGLEmbedding.Sp48Closed
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.L2MSide
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.L34BetaHPara
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.OrdinaryProofs.CommutatorFixed
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.OrdinaryProofs.FixedPointsTwo
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.PairSepAssembly
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.TRAssemble
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.TightSep
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.AltBigVector
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.AltFixed
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.OrthModel
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.SLModel
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.SpModel
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.ONanBlockInnerParabolic
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.AGL81I811Defs
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.KFactE9U33
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.LayerCore
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.LayerGNDefs
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.LayerSylowFinal
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.MsideParabolicEscape.TwoLocalSylow
+public import CFSG.LocalAnalysis.AGLEmbeddingD2.Tits.S3AmalgamBound.F5PairDerive
+public import CFSG.LocalAnalysis.ComponentClassification.CatLeafProofE7TwistMain
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsBorel
+public import CFSG.LocalAnalysis.ComponentClassification.GrSLitL34FactsCoverAutBase
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Wong77.GolayEven
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Wong77.ModFacts
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.DoubleA3.A3A3Perm
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.DoubleA3.Statements
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.FamilyU3Top
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.LiftBaumannDelOrigData
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.LiftDelBlockTools
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.LiftDelH0
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.LiftPieceCommon
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.WreathGate5
+public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.WreathGate6
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D1CaseTwo3ThreeA6Sylow
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D1KlingenIdent
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2KFactLeavesCoreF
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3AutImage
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3Cover
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3Impure
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3InvTwo
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3Kmax
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3Leaves14
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3Leaves17
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3NoncycFactor
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3TwoEscA
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3TwoEscB
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Msd3TwoLocalI811
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2L34Port3CoreFree
+public import CFSG.LocalAnalysis.RankThreeTheoremC.D2SporDatum3
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83Generic4_1P3A6Residues
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83Generic4_1P3L28PartsS
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83Generic4_1P3R1End
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83Generic4_1Red
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83Generic5Abstract
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83Lemma43A6
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank614Defs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank614PrimeDefs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank620Defs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank621Defs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank627L32Data
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank62wResDefs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank62yDefs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank632Defs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GL83SmallRank65Defs
+public import CFSG.LocalAnalysis.RankThreeTheoremC.GenericLayerReductionCyclic
+public import CFSG.LocalAnalysis.RankThreeTheoremC.InvariantTwoBalanceThree
+public import CFSG.LocalAnalysis.RankThreeTheoremC.RelativePairInputs
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81CDefs
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15GNBridgeA
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15GNPair
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15GNSetting
+public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15Reduction
+public import CFSG.LocalAnalysis.SectionRank.QTK.CentreFact.Bounded
+public import CFSG.LocalAnalysis.SectionRank.QTK.EvenOrth
+public import CFSG.LocalAnalysis.SectionRank.QTK.Exc
+public import CFSG.LocalAnalysis.SectionRank.QTK.OddOrth
+public import CFSG.LocalAnalysis.SeitzReduction.F4PilotMainGraphUnitaryNormal
+public import CFSG.LocalAnalysis.SeitzReduction.LinearPilotQ2SmallJ
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotGraphLinearEnd
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotGraphOmegaGlobal
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotGraphUnitaryPower
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14LUEven
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14LUUnitary
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14ModelUnitary
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14PartnerCoset
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14PartnerSp
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotHR14Transfer
+public import CFSG.LocalAnalysis.SeitzReduction.SymplecticPilotOmegaRowUniqueStep
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.DefsE
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.U34InvolutionGenModel
+public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Section17.Defs
+public import CFSG.LocalAnalysis.UniquenessCase.UC22S20b
+public import CFSG.LocalAnalysis.UniquenessCase.UCKInputs
+public import CFSG.LocalAnalysis.WeakClosure81.EightFiveDefs
+public import CFSG.LocalAnalysis.WeakClosure81.GF2Reps135C2ExcTag
+public import CFSG.LocalAnalysis.WeakClosure81.GF2Reps135Defs
+public import CFSG.Mathlib.LinearAlgebra.BilinForm.Determinant
+public import CFSG.Monster.B.TwoA.Sp8.P0Words
+public import CFSG.Quasithin.Background.A3Structure319
+public import CFSG.Quasithin.Background.C1PackS1531Top
+public import CFSG.Quasithin.Background.F918H5
+public import CFSG.Quasithin.Background.GoldschmidtS146RBend1
+public import CFSG.Quasithin.Background.H16TwoM22
+public import CFSG.Quasithin.Background.HMathieuO2Data
+public import CFSG.Quasithin.Background.HTriU3
+public import CFSG.Quasithin.EmptyFaithful.Gold14610F618StructFieldExt
+public import CFSG.Quasithin.EmptyFaithful.Gold14610F618StructPGL
+public import CFSG.Quasithin.EmptyFaithful.Gold14610F618StructSimple
+public import CFSG.Quasithin.EmptyFaithful.S14610Q1
+public import CFSG.Quasithin.EmptyFaithful.S14610Top
+public import CFSG.Quasithin.EmptyFaithful.S146F4
+public import CFSG.Quasithin.EmptyFaithful.S153E59A
+public import CFSG.Quasithin.EmptyFaithful.T1531Final
+public import CFSG.Quasithin.H13.L32NKGSp6Group
+public import CFSG.Quasithin.Vol2.Ch10StatementsInputsAS
+public import CFSG.Quasithin.Vol2.Ch10StatementsInputsAS2
+public import CFSG.Quasithin.Vol2.Ch10StatementsInputsAS3
+public import CFSG.Quasithin.Vol2.Ch11SecA02NatFix
+public import CFSG.Quasithin.Vol2.Ch11SecA02Setup
+public import CFSG.Quasithin.Vol2.Ch11SecA04Glue
+public import CFSG.Quasithin.Vol2.Ch11SecA11Exists
+public import CFSG.Quasithin.Vol2.Ch11SecAFacts03
+public import CFSG.Quasithin.Vol2.Ch11SecAVi2
+public import CFSG.Quasithin.Vol2.Ch1EightFourChar2
+public import CFSG.Quasithin.Vol2.Ch3Sec3InspF618Tools
+public import CFSG.Quasithin.Vol2.Ch3Sec3Lem3315R
+public import CFSG.Quasithin.Vol2.Ch3Sec3Lem3323B
+public import CFSG.Quasithin.Vol2.Ch3Sec3Lem3324X
+public import CFSG.Quasithin.Vol2.Ch3Sec3Lem3329
+public import CFSG.Quasithin.Vol2.Ch3Sec3Lem3330
+public import CFSG.Quasithin.Vol2.GoldschmidtSec53FactsG2
+public import CFSG.Quasithin.Vol2.GoldschmidtSec53FactsThree
+public import CFSG.RankThree.OddKernel.CompleteRankComparison
+public import CFSG.RankThree.PartOne.KF.ClsPSL
+public import CFSG.RankThree.PartOne.S11c.Sec66PSL
+public import CFSG.RankThree.PartOne.S11c.Sec66Sp
+public import CFSG.RankThree.PartOne.S11c.SuFiveD
+public import CFSG.RankThree.PartTwo.Sec11.Inverter1118Proof
+public import CFSG.RankThree.PartTwo.Sec11.Inverter1118ProofSteps
+public import CFSG.RankThree.PartTwo.Sec11.Item1121Proof
+public import CFSG.RankThree.PartTwo.Sec11.Item119K
+public import CFSG.RankThree.PartTwo.Sec14.Item142ResProofPGL
+public import CFSG.RankThree.PartTwo.Sec19.Item194Used
+public import CFSG.RankThree.PartTwo.Sec20.OneSteps
+public import CFSG.RankThree.PartTwo.Sec21.Item211ProofListOf
+public import CFSG.RankThree.PartTwo.Sec21.Item233
+public import CFSG.RankThree.PartTwo.Sec4.Item423ResProof432
+public import CFSG.RankThree.PartTwo.Sec4.RonanK432OuterTools
+public import CFSG.RankThree.PartTwo.Sec4.RonanK432Transport
+public import CFSG.RankThree.PartTwo.Sec4.RonanK432WitArr
+public import CFSG.RankThree.PartTwo.Sec4.T444.Basic
+public import CFSG.Sporadic.Co2Smith.CTree
+public import CFSG.Sporadic.Co2Smith.HPExclude
+public import CFSG.Sporadic.Co2Smith.HPTree
+public import CFSG.Timmesfeld.ARS.CaseMSU
+public import CFSG.Timmesfeld.ARS.CaseMSpLevi
+public import CFSG.Timmesfeld.Bridge.RootSetsGate
+public import CFSG.Timmesfeld.Bridge.RootSetsSyl
+public import CFSG.Timmesfeld.Exceptional.DeepFixed
+public import CFSG.Timmesfeld.Exceptional.DeepJ2Split
+public import CFSG.Timmesfeld.Exceptional.DeepW1
+public import Certificates.Certificate812461Base
+public import Certificates.Data.CFSGNative.Co2Smith.Orbit8
+public import Certificates.Data.CFSGNative.GammaU.Frame
+import CFSG.GroupTheory.McBrideGomiStatement
+import CFSG.HardMathSupport.GuralnickMalle.CyclicTwo
+import CFSG.HardMathSupport.GuralnickMalle.JordanTensorFinal
+import CFSG.LieType.SpecialLinear.BorelTwist
+import CFSG.LieType.SpecialLinear.EndNode.Monomial
+import CFSG.LieType.SpecialLinear.NormalizerLift
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallFamAltMaxThree
+import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanSmallGammaAlt
+import CFSG.LocalAnalysis.EvenBN.Common.ProductClosure
+import CFSG.LocalAnalysis.RankThreeUC.AGL81S15PerMaxSup
+import CFSG.LocalAnalysis.RankThreeUC.AGL81S15RankTwoA2Inner
+import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.R920OddSetupThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.AdapterFour
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.R77EqThree
+import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC8H1Rep
+import CFSG.LocalAnalysis.UniquenessCase.UC1ZassMain
+import CFSG.LocalAnalysis.UniquenessCase.UC22S208K
+import CFSG.LocalAnalysis.UniquenessCase.UC22S2112E3NN
+import CFSG.LocalAnalysis.UniquenessCase.UC22S2112aE3
+import CFSG.LocalAnalysis.UniquenessCase.UC22S21rR3HA
+import CFSG.LocalAnalysis.UniquenessCase.UC22SP207Main
+import CFSG.LocalAnalysis.UniquenessCase.UCFront09Shape92A5Holds
+import CFSG.LocalAnalysis.UniquenessCase.UCFront09x
+import CFSG.LocalAnalysis.WeakClosure81.GF2Reps107Defs
+import CFSG.RankThree.PartOne.S11c.Sec66PSL2
+
+public section
+
+namespace CFSG.Yardstones.Me2c15c2c995a
+
+theorem agl81SectionFifteen
+    : AGL81SectionFifteen :=
+  CFSG.LocalAnalysis.RankThreeUC.S15.agl81SectionFifteen_of_cited_inputs_43
+    (CFSG.LocalAnalysis.RankThreeUC.S15.K517_4b_rank_two_A2B2G2_of_inputs
+      CFSG.LocalAnalysis.RankThreeUC.S15.k517_4b_thompsonJ_A2B2G2
+      CFSG.LocalAnalysis.RankThreeUC.S15.k517_4b_baumPower_A2B2G2)
+    CFSG.LocalAnalysis.RankThreeUC.S15.GN15.pslNoOffender_holds
+    CFSG.LocalAnalysis.RankThreeUC.S15.GN15.psuNoOffender_holds
+    CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields
+
+theorem agl81SectionSixteen :
+    AGL81SectionSixteen :=
+  fun G _ _ h =>
+    haveI := h.simple
+    CFSG.Yardstones.M9cbf837c48cf.agl81TheoremDSection16_proved G h.nonab h.kProper h.charTwo
+      h.rank
+
+theorem kFactHuppertProductThree : CFSG.LocalAnalysis.RankThreeUC.KFactHuppertProductThree :=
+  fun _ _ _ _ _ _ _ hW hA hB hAc hBc hprod hEW hE =>
+    CFSG.GroupTheory.HuppertProduct.card_ne_twentySeven_of_product hW hA hB hAc hBc hprod hEW hE.2
+
+theorem quaternionInspectionLie :
+    CFSG.CGT.PushingUpLit.SolKNA.QuaternionInspectionLie :=
+  CFSG.CGT.PushingUpLit.SolKNA.quaternionInspectionLie_of_cit3
+    (CFSG.CGT.PushingUpLit.SolKNA.cit3Inductive_of_citInputs
+      CFSG.Yardstones.M50b1bb4a7c08.citInputs_of_slots)
+    (CFSG.CGT.PushingUpLit.SolKNA.tightLiftSimple_of_citInputs
+      CFSG.Yardstones.M50b1bb4a7c08.citInputs_of_slots)
+
+theorem gf2nCatalogClause
+    : GF2nCatalogClause :=
+  gf2nCatalogClause_of_gf2nTypeStatement CFSG.Yardstones.Mf4cdcdf2e013.gf2n_type_statement
+
+theorem ascTwelveEightEmptyW
+    : AscTwelveEightEmptyW :=
+  CFSG.LocalAnalysis.UniquenessCase.PartTwo.ascTwelveEightEmptyW_of_inputs_AS_tail_cls_noShapes
+    (CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.agl81TheoremC_of_twelveTenGen
+      CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields agl81SectionFifteen)
+
+theorem ascSixteenSixtyNine
+    : AscSixteenSixtyNine :=
+  CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three.ascSixteenSixtyNine_of_inputs_tail_noShapes
+    (CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.agl81TheoremC_of_twelveTenGen
+      CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields agl81SectionFifteen)
+    ⟨gf2nCatalogClause⟩
+
+theorem ascEighteenTwentyFourConditional
+    : AscEighteenTwentyFourConditional :=
+  CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three.ascEighteenTwentyFourConditional_of_loc
+    (CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.agl81TheoremC_of_twelveTenGen
+      CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields agl81SectionFifteen)
+
+theorem ascEighteenTwentyFour
+    : AscEighteenTwentyFour :=
+  ascEighteenTwentyFour_of_conditional ascSixteenSixtyNine ascEighteenTwentyFourConditional
+
+theorem ascSectionNineteenConditional
+    : AscSectionNineteenConditional :=
+  CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three.ascSectionNineteenConditional_of_loc
+    (CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.agl81TheoremC_of_twelveTenGen
+      CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields agl81SectionFifteen)
+
+theorem ascSectionNineteen
+    : AscSectionNineteen :=
+  ascSectionNineteen_of_conditional ascSixteenSixtyNine ascEighteenTwentyFour
+    ascSectionNineteenConditional
+
+theorem ascTwentyTwoNineteen
+    : AscTwentyTwoNineteen := fun G _ _ hS =>
+  CFSG.LocalAnalysis.UniquenessCase.UC22.notTIStage1930_three gf2nCatalogClause hS
+    (CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.agl81TheoremC_of_twelveTenGen
+      CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields agl81SectionFifteen G hS)
+
+theorem ascSectionTwentyThree
+    : AscSectionTwentyThree := by
+  have hC : ∀ (G : Type) [Group G] [Finite G], CFSG.LocalAnalysis.RankThreeUC.Standing G →
+      CFSG.LocalAnalysis.RankThreeUC.AGL81TheoremC G :=
+    CFSG.LocalAnalysis.AGL81TheoremCD.RankThree.agl81TheoremC_of_twelveTenGen
+      CFSG.LocalAnalysis.AGL81TheoremCD.Section12.twelveTenGen_of_fields
+      agl81SectionFifteen
+  refine CFSG.LocalAnalysis.UniquenessCase.UC22.tiStage1930_of_rest hC ?_ ?_ ?_
+  · intro G _ _ hS hUC hCG S hMS _ _
+    exact CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.r82_dataOfSetup_of_exits
+      gf2nCatalogClause
+      CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.onanExcludedSetup_of_finiteFacts
+      CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.l62ExcludedSetup_of_certificates
+      (CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.case812Setup_of_scExcluded
+        CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.scExcludedSetup_holds)
+      hS hUC hCG S hMS
+  · intro G _ _ hS hUC hCG S hMS _ _
+    exact CFSG.LocalAnalysis.UniquenessCase.UC22.F08.R869N_of_R869 _
+      (CFSG.LocalAnalysis.UniquenessCase.PartTwo.Three.r869_dataOfSetup_of_inputs
+        gf2nCatalogClause hS hUC hCG S hMS)
+  · intro G _ _ hS hUC hCG S hMS _ _
+    exact
+      { s21_14D4T := CFSG.LocalAnalysis.UniquenessCase.UC22.s21_14D4T_mono
+          (fun _ _ _ => trivial)
+          (CFSG.LocalAnalysis.UniquenessCase.UC22.s21_14D4T_dataOfSetup
+            hS hUC hCG S hMS)
+        s21_14K2T := CFSG.LocalAnalysis.UniquenessCase.UC22.s21_14K2T_mono
+          (fun _ _ _ => trivial)
+          (CFSG.LocalAnalysis.UniquenessCase.UC22.s21_14K2T_dataOfSetup
+            gf2nCatalogClause hS hUC hCG S hMS) }
+
+end CFSG.Yardstones.Me2c15c2c995a

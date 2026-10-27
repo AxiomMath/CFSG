@@ -1,0 +1,30 @@
+module
+
+public import CFSG.LocalAnalysis.StandardType.GGSixStepTwoCoordModelSpContZero
+public import CFSG.LocalAnalysis.StandardType.GGSixStepTwoCoordModelSpContClass
+public import CFSG.LocalAnalysis.StandardType.GGSixStepTwoCoordShapeSp
+
+public section
+
+namespace CFSG.StandardType
+
+theorem ggSpNsFrameCompInput_holds : GGSpNsFrameCompInput :=
+  ggSpNsFrameCompInput_of_cont ggSpNsZeroContInput_holds ggSpNsClassContInput_holds
+
+theorem ggSpNsCoordInput_holds : GGSpNsCoordInput :=
+  ggSpNsCoordInput_of_frame ggSpNsFrameCompInput_holds ggSpNsFrameShapeInput_holds
+
+section Certified
+
+theorem ggSpCoordModelNonsplitInput_holds : GGSpCoordModelNonsplitInput :=
+  ggSpCoordModelNonsplitInput_of_cont ggSpNsZeroContInput_holds ggSpNsClassContInput_holds
+
+theorem ggStepTwoCoordModelOn_PSp_holds : GGStepTwoCoordModelOn .PSp :=
+  ggStepTwoCoordModelOn_PSp_of_nonsplit ggSpCoordModelNonsplitInput_holds
+
+theorem ggStepTwoToralWitnessOn_PSp_holds : GGStepTwoToralWitnessOn .PSp :=
+  ggStepTwoToralWitnessOn_PSp_of_nonsplit ggSpCoordModelNonsplitInput_holds
+
+end Certified
+
+end CFSG.StandardType

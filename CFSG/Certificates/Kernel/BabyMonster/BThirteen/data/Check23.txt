@@ -1,0 +1,6 @@
+mul4 c_v139 v138 v134 = v139
+mul4 c_v140 v118 v113 = v140
+mul4 c_G v139 v140 = G
+mul4 c_C3sq C3 C3 = C3sq
+mul4 c_SX S X = SX
+mul4 c_C3X C3 X = C3X

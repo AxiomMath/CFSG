@@ -1,0 +1,2 @@
+T sP0 (CFSG.KC.Mono.allR #0 #15 (CFSG.KC.Mono.pointOK Tab #2 #15 #3 Cst CFSG.KC.L34Alt.relCodes CFSG.KC.L34Alt.coverCodes))
+T sQ (CFSG.KC.Mono.paramsOK #15 #3 Cst #7)

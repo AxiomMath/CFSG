@@ -1,0 +1,164 @@
+module
+
+public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp25X2
+public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp25Pf2C
+public import CFSG.ClassicalInvolution.Asc77.AscCX7Eng
+
+public section
+
+set_option linter.unusedSectionVars false
+set_option autoImplicit false
+
+namespace CFSG.ClassicalInvolution.Q8P.Asc77.P25S.X
+
+open CFSG.Open (classicalInvolutionOddCore)
+open CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
+  CFSG.ClassicalInvolution.Disconnected CFSG.ClassicalInvolution.Disconnected.AschTight
+  CFSG.ClassicalInvolution.Asc77 CFSG.ClassicalInvolution.Q8P.Asc77.P25R
+  CFSG.ClassicalInvolution.Q8P.Asc77 CFSG.ClassicalInvolution.Asc77.ExactLayer
+  CFSG.ClassicalInvolution.Balance CFSG.ClassicalInvolution.Balance.Bootstrap
+  CFSG.Assembly.LowTwoRank CFSG.ClassicalInvolution.Q3.PhilipHall.Frame
+open CFSG.ClassicalInvolution.Asc77.C25W (InFour)
+
+section Group
+
+variable {G : Type} [Group G] [Finite G]
+
+theorem mem_zpowers_of_sq {z x : G} (hz2 : z * z = 1) (hx : x ∈ Subgroup.zpowers z) :
+    x = 1 ∨ x = z := by
+  obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
+  rcases Int.even_or_odd' k with ⟨k', hk | hk⟩
+  · left
+    rw [hk, zpow_mul, zpow_two, hz2, one_zpow]
+  · right
+    rw [hk, zpow_add_one, zpow_mul, zpow_two, hz2, one_zpow, one_mul]
+
+theorem four_le_card_of_three {D : Subgroup G} (hD2 : IsPGroup 2 D) {a b : G} (ha : a ∈ D)
+    (hb : b ∈ D) (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hab : a ≠ b) : 4 ≤ Nat.card D := by
+  classical
+  obtain ⟨k, hk⟩ := hD2.exists_card_eq
+  have h3 : 3 ≤ Nat.card D := by
+    let v : Fin 3 → D := ![⟨1, D.one_mem⟩, ⟨a, ha⟩, ⟨b, hb⟩]
+    have hinj : Function.Injective v := by
+      intro i j hij
+      have hij' := congrArg Subtype.val hij
+      fin_cases i <;> fin_cases j <;> simp_all [v, eq_comm]
+    have := Nat.card_le_card_of_injective v hinj
+    rwa [Nat.card_fin] at this
+  rw [hk] at h3 ⊢
+  rcases k with _ | _ | k
+  · norm_num at h3
+  · norm_num at h3
+  · calc 4 = 2 ^ 2 := by norm_num
+      _ ≤ 2 ^ (k + 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
+
+theorem sq_comm_mem_of_complement {A D' : Subgroup G} {z : G} (hz2 : z * z = 1) (hzA : z ∈ A)
+    (hzc : ∀ g ∈ A, g * z = z * g) (hcov : ∀ g ∈ A, g ∈ D' ∨ g * z ∈ D')
+    {d e : G} (hd : d ∈ A) (he : e ∈ A) : d * d ∈ D' ∧ d * e * d⁻¹ * e⁻¹ ∈ D' := by
+  have hzi : z⁻¹ = z := by
+    calc z⁻¹ = z⁻¹ * (z * z) := by rw [hz2, mul_one]
+      _ = z := by group
+  have hsq : ∀ g ∈ A, g * g = (g * z) * (g * z) := by
+    intro g hg
+    calc g * g = g * (z * z) * g := by rw [hz2, mul_one]
+      _ = (g * z) * (z * g) := by group
+      _ = (g * z) * (g * z) := by rw [hzc g hg]
+  have hcomm : ∀ g ∈ A, ∀ h ∈ A, g * h * g⁻¹ * h⁻¹ = (g * z) * h * (g * z)⁻¹ * h⁻¹ := by
+    intro g hg h hh
+    have : (g * z) * h * (g * z)⁻¹ * h⁻¹ = g * (z * h * z⁻¹) * g⁻¹ * h⁻¹ := by group
+    rw [this, ← hzc h hh, mul_inv_cancel_right]
+  have hcomm' : ∀ g ∈ A, ∀ h ∈ A, g * h * g⁻¹ * h⁻¹ = g * (h * z) * g⁻¹ * (h * z)⁻¹ := by
+    intro g hg h hh
+    have : g * (h * z) * g⁻¹ * (h * z)⁻¹ = g * h * (z * g⁻¹ * z⁻¹) * h⁻¹ := by group
+    rw [this, show z * g⁻¹ * z⁻¹ = g⁻¹ by
+      rw [← hzc g⁻¹ (A.inv_mem hg), mul_inv_cancel_right]]
+  refine ⟨?_, ?_⟩
+  · rcases hcov d hd with h | h
+    · exact D'.mul_mem h h
+    · rw [hsq d hd]
+      exact D'.mul_mem h h
+  · rcases hcov d hd with h₁ | h₁ <;> rcases hcov e he with h₂ | h₂
+    · exact D'.mul_mem (D'.mul_mem (D'.mul_mem h₁ h₂) (D'.inv_mem h₁)) (D'.inv_mem h₂)
+    · rw [hcomm' d hd e he]
+      exact D'.mul_mem (D'.mul_mem (D'.mul_mem h₁ h₂) (D'.inv_mem h₁)) (D'.inv_mem h₂)
+    · rw [hcomm d hd e he]
+      exact D'.mul_mem (D'.mul_mem (D'.mul_mem h₁ h₂) (D'.inv_mem h₁)) (D'.inv_mem h₂)
+    · rw [hcomm d hd e he, hcomm' (d * z) (A.mul_mem hd hzA) e he]
+      exact D'.mul_mem (D'.mul_mem (D'.mul_mem h₁ h₂) (D'.inv_mem h₁)) (D'.inv_mem h₂)
+
+end Group
+
+
+section Core
+
+variable {G : Type} [Group G] [Finite G] [CoreLike G] {Ω : Set (Subgroup G)} {K K' W : Subgroup G}
+  {S : Sylow 2 G} {R R' : Subgroup G} {z t u₁ u₂ : G}
+
+@[expose] def CentExtMix : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] [CoreLike G] (Ω : Set (Subgroup G))
+    (K K' W : Subgroup G) (S : Sylow 2 G) (R R' : Subgroup G) (z t u₁ u₂ : G),
+    Hyp25 Ω K K' W S R R' z t u₁ u₂ → ∀ a ∈ cA S R R', a * a = 1 → a ≠ 1 → a ≠ z →
+      (∀ s ∈ (S : Subgroup G), s * a * s⁻¹ = a ∨ s * a * s⁻¹ = a * z) → BadElt z a →
+      ∀ y ∈ cA S R R', y * a = a * y → InFour a z (y * y) →
+        (∀ s ∈ (S : Subgroup G), InFour a z (s * y * s⁻¹ * y⁻¹)) →
+        (∃ x ∈ cA S R R', x ∉ Subgroup.zpowers z ∧ BadElt z x ∧
+          z ∈ zStarOf (Subgroup.centralizer ({x * z} : Set G))) → InFour a z y
+
+@[expose] def CentExtNoMix : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] [CoreLike G] (Ω : Set (Subgroup G))
+    (K K' W : Subgroup G) (S : Sylow 2 G) (R R' : Subgroup G) (z t u₁ u₂ : G),
+    Hyp25 Ω K K' W S R R' z t u₁ u₂ → ∀ a ∈ cA S R R', a * a = 1 → a ≠ 1 → a ≠ z →
+      (∀ s ∈ (S : Subgroup G), s * a * s⁻¹ = a ∨ s * a * s⁻¹ = a * z) → BadElt z a →
+      ∀ y ∈ cA S R R', y * a = a * y → InFour a z (y * y) →
+        (∀ s ∈ (S : Subgroup G), InFour a z (s * y * s⁻¹ * y⁻¹)) →
+        ¬ (∃ x ∈ cA S R R', x ∉ Subgroup.zpowers z ∧ BadElt z x ∧
+          z ∈ zStarOf (Subgroup.centralizer ({x * z} : Set G))) → InFour a z y
+
+theorem centExt_of_parts (hM : CentExtMix) (hN : CentExtNoMix) : P25_CentExt := by
+  intro G _ _ _ Ω K K' W S R R' z t u₁ u₂ hyp a haA ha2 ha1 haz hconj hbad y hyA hya hy2 hyc
+  by_cases hm : ∃ x ∈ cA S R R', x ∉ Subgroup.zpowers z ∧ BadElt z x ∧
+      z ∈ zStarOf (Subgroup.centralizer ({x * z} : Set G))
+  · exact hM G Ω K K' W S R R' z t u₁ u₂ hyp a haA ha2 ha1 haz hconj hbad y hyA hya hy2 hyc hm
+  · exact hN G Ω K K' W S R R' z t u₁ u₂ hyp a haA ha2 ha1 haz hconj hbad y hyA hya hy2 hyc hm
+
+theorem exists_bad_complement_of_ext (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQ : QTFAt hyp) {a : G}
+    (haA : a ∈ cA S R R') (ha2 : a * a = 1) (ha1 : a ≠ 1) (haz : a ≠ z) (hbad : BadElt z a) {y : G}
+    (hyA : y ∈ cA S R R') (hya : y * a = a * y) (hy2 : InFour a z (y * y)) (hyV : ¬ InFour a z y) :
+    ∃ D : Subgroup G, D ≤ cA S R R' ∧ a ∈ D ∧ BadSub z D ∧ (∀ g ∈ cA S R R', g ∈ D ∨ g * z ∈ D) ∧
+      4 ≤ Nat.card D :=
+  CFSG.ClassicalInvolution.Asc77.CX7Eng.exists_bad_complement_of_ext_gen
+    hyp.std.setting.hz.sq hyp.std.setting.hz.ne_one hyp.hzS (exists_bad_complement hyp hQ)
+    mem_zpowers_of_sq four_le_card_of_three haA ha2 ha1 haz hbad hyA hya hy2 hyV
+
+theorem elemAbelian_of_noMix (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (hQ : QTFAt hyp) {D : Subgroup G}
+    (hDA : D ≤ cA S R R') (hDbad : BadSub z D) (h4 : 4 ≤ Nat.card D)
+    (hnomix : ∀ x ∈ cA S R R', x ∉ Subgroup.zpowers z → BadElt z x → BadElt z (x * z)) :
+    (∀ d ∈ D, d * d = 1) ∧ ∀ d ∈ D, ∀ e ∈ D, d * e = e * d :=
+  CFSG.ClassicalInvolution.Asc77.CX7Eng.elemAbelian_of_noMix_gen hyp.std.setting.hz.sq
+    hyp.std.setting.hz.ne_one hyp.hzS (z_facts hyp).1 (exists_bad_complement hyp hQ)
+    mem_zpowers_of_sq four_le_card_of_three sq_comm_mem_of_complement
+    CX.exists_mem_normalizer_sq_mem hDA hDbad h4 hnomix
+
+@[expose] def NoMixParity : Prop :=
+  ∀ (G : Type) [Group G] [Finite G] [CoreLike G] (Ω : Set (Subgroup G))
+    (K K' W : Subgroup G) (S : Sylow 2 G) (R R' : Subgroup G) (z t u₁ u₂ : G),
+    Hyp25 Ω K K' W S R R' z t u₁ u₂ → ∀ D : Subgroup G, D ≤ cA S R R' → BadSub z D →
+      (∀ g ∈ cA S R R', g ∈ D ∨ g * z ∈ D) → 4 ≤ Nat.card D → (∀ d ∈ D, d * d = 1) →
+      (∀ d ∈ D, ∀ e ∈ D, d * e = e * d) →
+      (∀ x ∈ cA S R R', x ∉ Subgroup.zpowers z → BadElt z x → BadElt z (x * z)) → False
+
+theorem centExtNoMix_of (hQ : P25X_QTF) (h : NoMixParity) : CentExtNoMix := by
+  intro G _ _ _ Ω K K' W S R R' z t u₁ u₂ hyp a haA ha2 ha1 haz _ hbad y hyA hya hy2 _ hnomix
+  by_contra hyV
+  obtain ⟨D, hDA, -, hDbad, hcov, h4⟩ :=
+    exists_bad_complement_of_ext hyp (hQ G Ω K K' W S R R' z t u₁ u₂ hyp) haA ha2 ha1 haz hbad hyA
+      hya hy2 hyV
+  have hnomix' : ∀ x ∈ cA S R R', x ∉ Subgroup.zpowers z → BadElt z x → BadElt z (x * z) :=
+    fun x hx hxz hxbad hgood => hnomix ⟨x, hx, hxz, hxbad, hgood⟩
+  obtain ⟨hsq, hcomm⟩ := elemAbelian_of_noMix hyp (hQ G Ω K K' W S R R' z t u₁ u₂ hyp) hDA hDbad h4
+    hnomix'
+  exact h G Ω K K' W S R R' z t u₁ u₂ hyp D hDA hDbad hcov h4 hsq hcomm hnomix'
+
+end Core
+
+end CFSG.ClassicalInvolution.Q8P.Asc77.P25S.X

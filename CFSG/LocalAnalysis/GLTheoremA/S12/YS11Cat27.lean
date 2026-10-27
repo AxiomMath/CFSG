@@ -1,0 +1,48 @@
+module
+
+public import CFSG.LocalAnalysis.GLTheoremA.S12.YS11Cat26
+public import CFSG.LocalAnalysis.GLTheoremA.CatA.K155XRes
+
+public section
+
+namespace CFSG.LocalAnalysis.GLTheoremA
+
+open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
+
+structure S12Cat27Inputs (G : Type) [Group G] [Finite G] (p : ℕ) : Prop where
+  stdCover : StdSubCoverAt G
+  i171one : I171OneAt G
+  i171two : I171TwoAt G
+  i265 : I265StdAt G p
+  i1419 : I1419FourAt G
+  i173 : I173At G
+  i172 : I172At G
+  compl : Compl123At G p
+
+section Ys11Cat27
+
+
+theorem S12Cat27Inputs.toS12Cat26Inputs
+    (h155 : I155XRes) {G : Type} [Group G] [Finite G] {p : ℕ}
+    (h : S12Cat27Inputs G p) : S12Cat26Inputs G p where
+  stdCover := h.stdCover
+  l102_i155x := i155XAt_of_res h155 G p
+  i171one := h.i171one
+  i171two := h.i171two
+  i265 := h.i265
+  i1419 := h.i1419
+  i173 := h.i173
+  i172 := h.i172
+  compl := h.compl
+
+theorem ys11_of_cat27_inputs
+    (hR : I1429Residual) (hU : CatB.U42Cat.U42SLevel) (hA : I141F.I141DynkinLie)
+    (hB : I141F.I141RankSmall) (h155 : I155XRes)
+    (hin : ∀ (G : Type) [Group G] [Finite G] (m : ℕ), ThmACtx G m → StageFacts G m → Stage11 G m →
+      ∀ p ∈ Mu G m, S12Cat27Inputs G p ∧ S12CanonInputs G p) : YS11 :=
+  ys11_of_cat26_inputs hR hU hA hB fun G _ _ m hctx hF h11 p hp =>
+    ⟨((hin G m hctx hF h11 p hp).1).toS12Cat26Inputs h155, (hin G m hctx hF h11 p hp).2⟩
+
+end Ys11Cat27
+
+end CFSG.LocalAnalysis.GLTheoremA

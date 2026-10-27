@@ -1,0 +1,17 @@
+module
+
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.Complement
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.Intrinsic
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.Quadruple
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.RankOne
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.ShortRoot
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCAdaptModel
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCAdapted
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCFrame
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCGeneration
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCLayer
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCLevi
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCModel
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCPairs
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCRecognition
+public import CFSG.ClassicalInvolution.Models.SymplecticPairs.TypeCShortRoot

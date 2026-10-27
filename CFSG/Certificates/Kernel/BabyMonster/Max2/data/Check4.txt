@@ -1,0 +1,4 @@
+mul csq r11 r11 = I
+bool ne_c (CFSG.KC.BM.notB (CFSG.KC.BM.isId r11))
+mul cr4_sq1 r4 r4 = r4_sq1
+mul cr4_sq2 r4_sq1 r4_sq1 = r4_sq2

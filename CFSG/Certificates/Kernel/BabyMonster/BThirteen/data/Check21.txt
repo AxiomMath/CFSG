@@ -1,0 +1,6 @@
+mul4 c_v127 v126 v109 = v127
+mul4 c_v128 v127 v112 = v128
+mul4 c_v129 v128 v109 = v129
+mul4 c_v130 v129 v114 = v130
+mul4 c_v131 v130 v109 = v131
+mul4 c_v132 v131 v114 = v132
