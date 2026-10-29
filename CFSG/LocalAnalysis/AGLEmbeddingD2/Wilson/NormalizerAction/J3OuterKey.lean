@@ -24,7 +24,7 @@ theorem R_key {W E' : Subgroup (Equiv.Perm (Fin 6156))} (hW : W ≤ j3R) (hW2 : 
   by_contra hne
   obtain ⟨w₀, hw₀W, hw₀1⟩ : ∃ w ∈ W, w ≠ 1 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hne (Subgroup.eq_bot_iff_forall W |>.2 hno)
   have h1 : ∀ w ∈ W, w ≠ 1 → w ∉ j3P := by
     intro w hwW hw1 hwP

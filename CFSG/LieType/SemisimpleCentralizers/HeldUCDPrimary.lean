@@ -232,7 +232,7 @@ theorem PrimaryHyp.exists_adjM_Pmat' (H : PrimaryHyp τ s m F a b) {f : L[X]} (h
     rw [← Finset.mul_sum, HeldUCD.sum_Pmat H.hirr H.hmon H.hprod H.hsm H.hab, mul_one]
   obtain ⟨g, hgF, hEg⟩ : ∃ g ∈ F, aeval s e * Pmat s b F g ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply he_ne
     rw [hsum]
     exact Finset.sum_eq_zero fun g hg => hcon g hg

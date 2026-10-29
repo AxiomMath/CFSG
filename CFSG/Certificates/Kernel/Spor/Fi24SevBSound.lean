@@ -43,7 +43,7 @@ theorem neOK_spec {ps : List (List Nat × List Nat)} (h : neOK NW NT ps = true) 
   intro p hp
   have h1 := allL_spec h p hp
   by_contra hc
-  push_neg at hc
+  push Not at hc
   rw [agB_of hc] at h1
   exact absurd h1 (by decide)
 

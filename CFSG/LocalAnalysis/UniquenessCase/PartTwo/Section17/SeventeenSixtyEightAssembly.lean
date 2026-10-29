@@ -44,7 +44,7 @@ theorem seventeen_sixtyeight
           (Ctx1768.le_normalizer c) (Ctx1768.perfect c) (Ctx1768.isA5xA5_bar2 c)
           (layer_le_barImage_conjClosure hA)
     ·
-      push_neg at hA
+      push Not at hA
       obtain ⟨J, hJ, hJL⟩ := hA
       exact (false_of_not_mem_conjSetOf c hSg hR82
         (k_eq_two_of_conj_pair h1 hK3 c.hL c.hL' c.hne c.hL'conj c.hX c.hAlt)

@@ -1128,7 +1128,7 @@ theorem ae8c_twin_out (H : End18.Hyp Ω) (c : Chart Ω u) {R : Subgroup G}
     (hR : R ∈ Generic.centMembers Ω u) :
     ∃ L ∈ twinSet Ω R, L ∉ Generic.centMembers Ω u := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨α, h, b, hlab⟩ := c.label R hR
   obtain ⟨L₁, hL₁P, hlab₁⟩ := c.label_surj α h true
   obtain ⟨L₂, hL₂P, hlab₂⟩ := c.label_surj α h false
@@ -1178,7 +1178,7 @@ theorem ae8c_conj_mul_of_member (H : End18.Hyp Ω) (c : Chart Ω u) {R : Subgrou
     exact huR.2
   obtain ⟨k₀, hk₀L, hk₀⟩ : ∃ k₀ ∈ L, k₀ * u ≠ u * k₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hLP (Generic.mem_centMembers_iff_commute.mpr ⟨hLΩ, hcon⟩)
   have huP : u ∈ pCore 2 G := H.endHyp.zGroup_le_pCore huD
   have hcm : u * k₀ * u⁻¹ * k₀⁻¹ ∈ L ⊓ pCore 2 G := by

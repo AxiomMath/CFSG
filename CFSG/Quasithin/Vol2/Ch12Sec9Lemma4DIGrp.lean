@@ -69,7 +69,7 @@ theorem fixed_vector_GL {M : Type} [AddCommGroup M] [Module (ZMod 2) M]
   haveI : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
   obtain ⟨f, hfv⟩ : ∃ f : Module.Dual (ZMod 2) M, f v ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv ((Module.forall_dual_apply_eq_zero_iff (ZMod 2) v).1 hcon)
   have hker : LinearMap.ker f ≠ ⊥ := by
     apply LinearMap.ker_ne_bot_of_finrank_lt

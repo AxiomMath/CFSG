@@ -21,7 +21,7 @@ theorem w2_entries_sq_one {K : Type} [Field K] (h2 : (2 : K) = 0)
       b10 * b00 + b11 * b10 = 0 ∧ b10 * b01 + b11 * b11 = 1 := by
   have hnz : a01 ≠ 0 ∨ a10 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h01, h10⟩ := hcon
     have ha00 : a00 = 1 := by
       have h : (a00 - 1) * (a00 - 1) = 0 := by

@@ -139,7 +139,7 @@ theorem psu62_facts {G : Type} [Group G] {k : Type} [Field k] [Finite k]
   have hnc0 : ∃ x y : CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k),
       x * y ≠ y * x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI := hs
     haveI : IsMulCommutative (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :=
       ⟨⟨hcon⟩⟩

@@ -23,7 +23,7 @@ theorem Sec4Inputs.exists_normal_e8 (hI : Sec4Inputs) (hG : Sec4Glob G) {t : G}
     exfalso
     have hnonab : ∃ a b : G, a * b ≠ b * a := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       haveI : IsSimpleGroup G := hG.simple
       letI : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcon a b }
       have hprime : (Nat.card G).Prime := IsSimpleGroup.prime_card

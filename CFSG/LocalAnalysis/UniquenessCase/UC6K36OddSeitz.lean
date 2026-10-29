@@ -47,7 +47,7 @@ theorem le_of_seitz (hS : AGLEmbeddingD2.KFactSeitzRankTwo) (h : Hyp36 G M p E) 
   by_cases hfaith : ∀ e ∈ E, e ≠ 1 → ∃ y ∈ L, e * y * e⁻¹ * y⁻¹ ∉ centerOf L
   swap
   ·
-    push_neg at hfaith
+    push Not at hfaith
     obtain ⟨e, he, he1, hall⟩ := hfaith
     have hcent := centralizes_of_forall_comm_mem L hLc hall
     intro y hy

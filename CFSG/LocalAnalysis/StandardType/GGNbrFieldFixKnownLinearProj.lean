@@ -36,7 +36,7 @@ theorem exists_noncomm_proj (hd : 3 ≤ d) (F : Type) [Field F] :
   haveI : Nontrivial (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
     (isSimpleGroup_proj hd F).toNontrivial
   by_contra h
-  push_neg at h
+  push Not at h
   haveI : IsMulCommutative (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :=
     IsMulCommutative.of_comm h
   exact Group.IsPerfect.not_isMulCommutative (LargeEvenProj (LargeEvenSLGroup (Fin d) F))

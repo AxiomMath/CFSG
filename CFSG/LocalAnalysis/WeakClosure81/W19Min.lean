@@ -100,7 +100,7 @@ theorem exists_minCex193 {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
     by_cases hcyc : ∀ L : Subgroup G, D.T ≤ L → L < X ⊔ D.T →
         ∀ P : Subgroup G, P ≤ L → IsPGroup p P → IsCyclic P
     · exact ⟨X, ⟨hset, hV₀, hmbar, hgamma, h, hfail, hcyc⟩⟩
-    · push_neg at hcyc
+    · push Not at hcyc
       obtain ⟨L, hTL, hLlt, P, hPL, hPp, hPnc⟩ := hcyc
       haveI : Fact p.Prime := ⟨h.prime⟩
       obtain ⟨S, hS, hPS⟩ := exists_isSylowIn_ge p hPL hPp

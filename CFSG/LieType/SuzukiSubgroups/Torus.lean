@@ -26,7 +26,7 @@ private theorem four_eq_or_eq_of_three_fixed {α : Type} [Finite α] {p : α →
     (hbc : b ≠ c) : a = b ∨ a = c := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hlt : 2 < Nat.card {x : α // p x} := by
     haveI : Finite {x : α // p x} := Subtype.finite
     haveI : Fintype {x : α // p x} := Fintype.ofFinite _

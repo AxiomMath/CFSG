@@ -23,7 +23,7 @@ open scoped commutatorElement
 theorem exists_noncomm_S6 : ∃ x y : S6, x * y ≠ y * x := by
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : F4, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hc : (Finset.univ : Finset F4) ⊆ {0, 1} := by
       intro x _
       by_cases hx : x = 0

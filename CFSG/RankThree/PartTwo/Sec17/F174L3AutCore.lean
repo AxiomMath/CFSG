@@ -73,7 +73,7 @@ theorem eig_or (hω : ∀ x : F, x ^ 2 + x + 1 ≠ 0) (hg : g * gi = 1) (hgi : g
   · obtain ⟨c, hc'⟩ := hpar
     exact Or.inl (Vec.eig_vec_one hg3 hcube hv c hc')
   · right
-    push_neg at hpar
+    push Not at hpar
     obtain ⟨c, hcc⟩ := Tv.parallel_of_orth_three hv hpar hφ hφ1 h o1 o2 h1
     exact Vec.eig_covec_one hg hgi hg3 hcube hφ c hcc
 

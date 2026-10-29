@@ -231,7 +231,7 @@ theorem isCenter_pair (hσ : IsUnitaryInvolution σ) (hζ : ζ ^ 2 + ζ + 1 = 0)
     have hξ : ξ₂ ≠ 0 := fun h => h0 (by rw [h, F.vec_zero_left])
     obtain ⟨j, hj⟩ : ∃ j, ξ₂ j ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hξ (funext hcon)
     refine ⟨F.vec (Pi.single j 1) u, memX' u _, ?_⟩
     rw [F.herm_vec_vec, herm_single_left]

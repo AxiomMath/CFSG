@@ -99,7 +99,7 @@ theorem false_of_alternating {L : Type*} [Group L] [Finite L] {n : ℕ}
     have hA : CentHyp (alternatingGroup (Fin n)) := CentHyp.of_mulEquiv e.symm hC
     obtain ⟨x, hxord, hxcard⟩ := exists_three_elt_centralizer_le hn6 h8
     rcases hA.card_centralizer hxord with hc | hc <;> omega
-  · push_neg at h8
+  · push Not at h8
     have hn9 : 9 ≤ n := by omega
     have h9dvd : Nat.factorial 9 ∣ Nat.factorial n := Nat.factorial_dvd_factorial hn9
     have h54 : 54 ∣ Nat.factorial n := dvd_trans (by norm_num : 54 ∣ Nat.factorial 9) h9dvd

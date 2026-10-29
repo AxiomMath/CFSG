@@ -38,7 +38,7 @@ theorem mem_of_triple_of_card_le [Finite X] {J I : Subgroup X} (hIJ : I ≤ J)
     (hcard : Nat.card J ≤ 2 * Nat.card I) {a b c : X} (ha : a ∈ J) (hb : b ∈ J) (hc : c ∈ J)
     (habc : a * b * c = 1) : a ∈ I ∨ b ∈ I ∨ c ∈ I := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨haI, hbI, hcI⟩ := h
   have hrel : I.relIndex J = 2 := relIndex_eq_two_of_card_le hIJ hcard ha haI
   let K : Subgroup J := I.subgroupOf J

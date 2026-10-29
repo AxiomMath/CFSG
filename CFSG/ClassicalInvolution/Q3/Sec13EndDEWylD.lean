@@ -799,7 +799,7 @@ theorem exists_dual_ne {x y : G} (hx : x ∈ zGroup Ω) (hy : y ∈ zGroup Ω) (
     rw [← dd_coord_spec he hx, ← dd_coord_spec he hy, hc]
   obtain ⟨i, hi⟩ : ∃ i, dd_coord he x i ≠ dd_coord he y i := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (funext hcon)
   refine ⟨fun z => if z ∈ zGroup Ω then dd_coord he z i else 0, ⟨?_, ?_, ?_⟩, ?_⟩
   · simp [dd_coord_one he]

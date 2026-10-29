@@ -176,7 +176,7 @@ theorem szk_abelian_eq (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
     norm_num at h2
   obtain ⟨u, huU, huZ⟩ : ∃ u ∈ U, u ∉ sz32Z a c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hUZ hcon
   have hFOm : F ≤ sz32Om a c y := by
     intro f hf

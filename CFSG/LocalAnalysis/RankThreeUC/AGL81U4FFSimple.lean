@@ -55,7 +55,7 @@ theorem isSimpleGroup_twistedA3 (q : TauCeti.PrimePower)
 theorem exists_noncomm_of_isPerfect (G : Type) [Group G] [Nontrivial G] [Group.IsPerfect G] :
     ∃ a b : G, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact Group.IsPerfect.not_isMulCommutative G ⟨⟨fun a b => h a b⟩⟩
 
 theorem isPerfect_twistedA3 (q : TauCeti.PrimePower) (hq : q.p = 2)

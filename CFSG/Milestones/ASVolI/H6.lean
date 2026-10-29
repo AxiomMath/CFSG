@@ -2292,7 +2292,7 @@ private theorem betaAdj_adj (g : GL (Fin 3) (ZMod 2)) (u w : AdjAmb) (hu : u ∈
 private theorem betaAdj_nondeg (u : AdjAmb) (hu : u ∈ Adj3) (hu1 : u ≠ 1) :
     ∃ w ∈ Adj3, betaAdj u w ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hu1
   have hx : iotaInv ⟨u, hu⟩ = 0 := by
     apply CFSG.Quasithin.H6.stForm_nondeg
@@ -3751,7 +3751,7 @@ private theorem Setup.max_N1 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ U₂ ⊔ U₃ ⊔ U₄ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -3796,7 +3796,7 @@ private theorem Setup.max_N4 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ U₁ ⊔ U₂ ⊔ U₃ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -3845,7 +3845,7 @@ private theorem Setup.max_N2 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ K₂ ⊔ (U₁ ⊔ U₃ ⊔ U₄) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -3891,7 +3891,7 @@ private theorem Setup.max_N3 (S : Setup ρ U₁ U₂ U₃ U₄ K₂ K₃) :
     right
     have hx : ∃ x ∈ N', x ∉ K₃ ⊔ (U₁ ⊔ U₂ ⊔ U₄) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hN (le_antisymm (fun x hx => hcon x hx) hle)
     obtain ⟨x, hxN', hxN⟩ := hx
     obtain ⟨a, ha, b, hb, c, hc, d, hd, rfl⟩ := S.decomp x
@@ -4712,7 +4712,7 @@ private theorem socle2 (W : Subgroup MF) (hWU : W ≤ U2F) (hWi : ∀ g, ∀ u �
   rw [hFeq] at hwW
   refine socle_fun W hWi _ _ ?_ hwW
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hw1
   rw [hFeq, hcon.1, hcon.2]
   apply Multiplicative.toAdd.injective
@@ -4899,7 +4899,7 @@ private theorem socle3 (W : Subgroup MF) (hWU : W ≤ U3F) (hWi : ∀ g, ∀ u �
   rw [hGeq] at hwW
   refine socle_fun3 W hWi _ _ ?_ hwW
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hw1
   rw [hGeq, hcon.1, hcon.2]
   apply Multiplicative.toAdd.injective

@@ -66,7 +66,7 @@ theorem two_lt_card_pCoreOf_inf_centralizer {M E Y : Subgroup G} (hEM : E ≤ M)
       ((CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (Y : Set G) : Subgroup G) : Set G)) :
     2 < Nat.card ↥(CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (Y : Set G)) := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   apply hnot
   intro e he
   have heQ : e ∈ Subgroup.normalizer (CFSG.Open.pCoreOf 2 M : Set G) :=

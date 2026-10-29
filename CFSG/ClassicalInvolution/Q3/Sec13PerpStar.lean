@@ -144,7 +144,7 @@ theorem not_mem_dComp_of_omegaStar (h : EndHyp Ω) {K J : Subgroup G} (hK : K �
     have hBA : B ∈ dComp Ω A := by
       by_cases hn : B ∈ omegaNbr Ω A ∨ A ∈ omegaNbr Ω B
       · exact Relation.ReflTransGen.single ⟨hBΩ, hn⟩
-      · push_neg at hn
+      · push Not at hn
         obtain ⟨W, hW, hAD, hBD⟩ : ∃ W ∈ WSet Ω, A ∈ DSet Ω W ∧ B ∈ DSet Ω W := by
           rcases hB with hB | hB
           · obtain ⟨W, hW, h1, h2, -⟩ := exists_wSet_of_omegaStar h hAΩ hB hn.1

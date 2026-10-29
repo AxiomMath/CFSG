@@ -317,7 +317,7 @@ section Generic2
 theorem s38o_exists_involution {Q : Type*} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : ∃ x : Q, x ≠ 1 ∧ x * x = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hodd : Odd (Nat.card Q) := by
     by_contra hev
     have h2 : 2 ∣ Nat.card Q := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hev)

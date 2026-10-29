@@ -162,7 +162,7 @@ theorem r16_65_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h61 : UC6.R6_1 D)
   refine le_iInf₂ fun U hU => ?_
   suffices h3 : (3 : ℕ) ≤ E3.mQuot V U by exact_mod_cast h3
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hm2 : E3.mQuot V U ≤ 2 := by omega
   have hVcard : Nat.card V = 16 := by
     have h := s1667_card_eq D h1217 hS hs.1

@@ -153,7 +153,7 @@ theorem exists_ne_one_ker {J : Type*} [Group J] [Finite J] {B : Subgroup A} [Fin
     calc p ^ k ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos hk1
       _ = p := pow_one p
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hker : lam.ker = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro w hw

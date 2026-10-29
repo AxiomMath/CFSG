@@ -85,7 +85,7 @@ theorem y7b_not_A_le_K (c : Ctx7 G L) (hb : B5Std c) :
 theorem y7b_A_acts_BM (c : Ctx7 G L) (hb : B5Std c) :
     ∃ a ∈ c.s.fr.A, ∃ u ∈ y7bBM c.s, ⁅a, u⁆ ∉ M3 c.s := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply y7b_not_A_le_K c hb
   intro a ha
   have haN : a ∈ normIn c.s.H c.s.fr.B := y7b_S_le_normIn c hb (s3_A_le_S c.s ha)

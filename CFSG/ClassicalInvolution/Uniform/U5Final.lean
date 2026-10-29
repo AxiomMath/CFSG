@@ -21,7 +21,7 @@ theorem thm5NonGenBelowU_of_modelFacts
   refine thm5NonGenBelowU_of_compGen3 (fun t k hfund hadm => ?_) hn
   by_cases h2 : t = .G2 ∨ t = .trialityD4
   · exact hG2D4 t k h2 hfund hadm
-  · push_neg at h2
+  · push Not at h2
     have hComm : ModelFacts.CommutingFundamentalGeneration 3 t k 1 := by
       by_cases hE : t = .twistedE6
       · subst hE

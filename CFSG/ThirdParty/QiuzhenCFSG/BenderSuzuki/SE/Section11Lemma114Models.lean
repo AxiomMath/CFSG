@@ -2581,7 +2581,7 @@ private theorem lemma114_borel_index_eq_sylow_card_add_one
   let punct : Set (G ⧸ B) := {omega | omega ≠ base}
   obtain ⟨g, hg⟩ : ∃ g : G, g ∉ B := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hBne (top_unique (fun g _hg => h g))
   have halpha : (QuotientGroup.mk g : G ⧸ B) ∈ punct := by
     intro h

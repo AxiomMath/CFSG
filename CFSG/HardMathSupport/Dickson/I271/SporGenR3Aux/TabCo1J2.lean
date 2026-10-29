@@ -74,7 +74,7 @@ theorem J2_facts_of_equiv {T : Type} [Group T]
     exact CFSG.Sporadic.J2.card_J2
   refine ⟨hs, hc, ?_⟩
   by_contra hab
-  push_neg at hab
+  push Not at hab
   haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   letI : CommGroup T := { ‹Group T› with mul_comm := fun a b => hab a b }
   have hp := IsSimpleGroup.prime_card (α := T)

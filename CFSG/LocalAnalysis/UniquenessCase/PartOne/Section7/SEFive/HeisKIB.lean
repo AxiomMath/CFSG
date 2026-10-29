@@ -23,7 +23,7 @@ theorem coverActsTriviallyOnSmall_of_d2Heis {p : ℕ} [Fact p.Prime] (hp5 : 5 �
       hH L ⊤ inferInstance hC ⟨Subgroup.topEquiv.trans e⟩ p rfl R
     have hnc : ∃ a ∈ (R : Subgroup L), ∃ b ∈ (R : Subgroup L), a * b ≠ b * a := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : (R : Subgroup L) ≤ Subgroup.centralizer ((R : Subgroup L) : Set L) := by
         intro a ha
         rw [Subgroup.mem_centralizer_iff]

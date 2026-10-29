@@ -101,7 +101,7 @@ theorem I04a1_three_le_card_ker {G : Type} [Group G] (hG : Nat.card G = 27)
       exact Nat.dvd_gcd h27 hdvd
     exact Nat.le_of_dvd (by norm_num) hg
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hle : Nat.card f.ker * Nat.card f.range ≤ 2 * 9 :=
     Nat.mul_le_mul (by omega) hm9
   linarith

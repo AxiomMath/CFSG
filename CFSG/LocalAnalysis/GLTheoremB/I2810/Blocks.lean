@@ -121,7 +121,7 @@ theorem block_exists_noncentral (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U�
       ∃ i : Fin n, ¬ ⁅T i.succ, K⁆ ≤ T i.castSucc := by
   intro n T hT
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hind : ∀ j : Fin (n + 1), ⁅T j, K⁆ = ⊥ := by
     intro j
     induction j using Fin.induction with

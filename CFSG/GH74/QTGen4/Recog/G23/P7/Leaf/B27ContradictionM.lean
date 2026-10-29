@@ -139,7 +139,7 @@ theorem main_contradiction [Finite G] [G23Leaf LeafGL3Facts]
     omega
   obtain ⟨σ, hσB, hσW⟩ : ∃ σ ∈ B, σ ∉ W₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hBnotW hcon
   have hPeq : (Psub e).map (MulAut.conj g).toMonoidHom = B := by
     apply Subgroup.eq_of_le_of_card_ge

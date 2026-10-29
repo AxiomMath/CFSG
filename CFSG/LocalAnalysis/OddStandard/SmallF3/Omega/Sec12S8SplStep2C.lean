@@ -110,7 +110,7 @@ theorem H_inf_V2 (h : S8Data V1 V2 φ1 φ2 α β) : s8H V2 ⊓ V2 = ⊥ := by
   haveI := h.H_normal
   rw [Subgroup.eq_bot_iff_forall]
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨d, hd, hd1⟩ := hne
   have hV2H : V2 ≤ s8H V2 := by
     obtain ⟨u, hu, rfl⟩ := h.coord2.surj d hd.2

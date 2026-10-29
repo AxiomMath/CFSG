@@ -138,7 +138,7 @@ theorem pairTypeA_of_isConj (hcB : Ctx M Q Z B)
       hx1 hc hv hcv
   have hc' : c 0 ≠ 0 ∨ c 1 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (funext fun i => by fin_cases i <;> simp [h.1, h.2])
   exact ⟨c 0, c 1, v, hc', hv, hqv, hcv⟩
 

@@ -70,7 +70,7 @@ theorem exists_not_normalizes_of_commutator_fpf {p : ℕ} [hp : Fact p.Prime] {E
     (hfpf : ∀ x ∈ E, ⁅c₁, c₂⁆ * x * ⁅c₁, c₂⁆⁻¹ = x → x = 1) :
     A.map (MulAut.conj c₁).toMonoidHom ≠ A ∨ A.map (MulAut.conj c₂).toMonoidHom ≠ A := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hcen := commutatorElement_centralizes_of_normalizes_line hA h.1 h.2
   have hbot : A = ⊥ := (Subgroup.eq_bot_iff_forall A).2 fun a ha => hfpf a (hAE ha) (hcen a ha)
   rw [hbot, Subgroup.card_bot] at hA

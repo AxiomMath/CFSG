@@ -431,7 +431,7 @@ theorem exists_pComp_istar {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A 
     ∃ L' : Subgroup G, GLAPComponent p (Istar p M D) L' := by
   have hp : p.Prime := GLStanding.prime h.standing
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hempty : IsEmpty {L0 : Subgroup G // Lemma1311.SummandP p M D L0} :=
     ⟨fun x => hno _ (Lemma1311.summand_conj_pComp hp (one_mem M) x)⟩
   have hIof : Iof p M D = ⊥ := by

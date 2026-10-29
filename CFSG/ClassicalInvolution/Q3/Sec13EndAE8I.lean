@@ -375,7 +375,7 @@ theorem exists_conj_mul (H : End18.Hyp Ω) (hu : SectFrame Ω u) {L : Subgroup G
     ∃ g : G, g * u * g⁻¹ = u * a := by
   obtain ⟨L', hL'V, hL'P⟩ : ∃ L' ∈ twinSet Ω L, L' ∉ Generic.centMembers Ω u := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : twinSet Ω L ∩ Generic.centMembers Ω u = twinSet Ω L :=
       Set.inter_eq_left.mpr hcon
     have h2 := SectData.ncard_twin H hu.toSectData L hL
@@ -396,7 +396,7 @@ theorem exists_conj_mul (H : End18.Hyp Ω) (hu : SectFrame Ω u) {L : Subgroup G
     exact hmem.2
   obtain ⟨t, htL', htu⟩ : ∃ t ∈ L', t * u ≠ u * t := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hL'P ⟨hL'Ω, fun t ht => Subgroup.mem_centralizer_singleton_iff.mpr (hcon t ht)⟩
   have hN : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant H.endHyp.thmD.hyp.conjInvariant
   have ha_mem : a ∈ zGroup Ω := Subgroup.subset_closure ⟨L, hL.1, ha⟩

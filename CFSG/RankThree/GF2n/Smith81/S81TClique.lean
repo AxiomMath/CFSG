@@ -77,7 +77,7 @@ theorem isHWLine_of_clique {inL : Fin e7Data.d → Prop} {A2 S : List Rt} (hCl :
     IsHWLine K (Submodule.span K {s}) := by
   obtain ⟨μ, hμ⟩ : ∃ μ, s μ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hs0 (Finsupp.ext fun b => by simpa using hcon b)
   have hμM : inMtop inL A2 S μ := hsupp μ hμ
   have hex : ∀ a : Fin e7Data.d, ∃ k : Fin 126, (inMtop inL A2 S a ∧ a ≠ μ) →

@@ -126,7 +126,7 @@ theorem oddPCoreInClosure_statedSp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (s :
       · exact absurd (Or.inl (Or.inr h)) hq
     have hs2 : s = 1 ∨ s = 2 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact hq (Or.inr (Or.inr ⟨hK2', by omega⟩))
     rcases hs2 with rfl | rfl
     ·

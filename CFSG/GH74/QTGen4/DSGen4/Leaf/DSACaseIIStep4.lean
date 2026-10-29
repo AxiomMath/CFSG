@@ -958,7 +958,7 @@ theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
     rw [h1, h2, hinfB2, h5]
   have step1 : ∃ x ∈ P2, ¬ cj x Z1 ≤ Q1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm1 : ∀ g ∈ P2, ∀ g' ∈ P2, ∀ a ∈ cj g Z1, ∀ b ∈ cj g' Z1, ⁅a, b⁆ = 1 := by
       intro g hg g' hg' a ha b hb
       have hh : ∀ e ∈ Z1, ∀ f ∈ cj (g⁻¹ * g') Z1, ⁅e, f⁆ ∈ (⊥ : Subgroup G) := by
@@ -1027,7 +1027,7 @@ theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
   have hWne : ∀ y ∈ P2, ¬ cj y Z1 ≤ Q1 → ∃ e ∈ Z1, ∃ f ∈ cj y Z1, e * f ≠ f * e := by
     intro y hy hyQ
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hEq : cj y Z1 = Z1 :=
       dss24_eq_of_commute hR hZ1el (cj_elemAbelian y hZ1el) hZ1c
         (by rw [cj_card, hZ1c]) hno
@@ -1213,7 +1213,7 @@ theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
       rw [inf_eq_left.mpr hYZ1, hZ1c] at hm
       have hrel : Y.relIndex Z1 ≤ 4 := (hOff.trans hAx).trans hA4.le
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have := Nat.mul_le_mul hrel (show Nat.card Y ≤ 3 by omega)
       omega
     obtain ⟨hM3N, hM3nN⟩ := m3 hA5 hS1Syl

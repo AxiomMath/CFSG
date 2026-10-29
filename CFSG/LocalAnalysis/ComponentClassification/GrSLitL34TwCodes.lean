@@ -84,7 +84,7 @@ theorem codes_classify (U : Set (Fin 4 × Fin 4 × Bool))
         have h3 := hmul _ hs _ (hall (cosXor a x))
         rw [qmulC_sw_base, h1, h2] at h3
         exact h3
-  · push_neg at hbig
+  · push Not at hbig
     obtain ⟨hn1, hn2⟩ := hbig
     have hb03 : ∀ x y : Fin 4, (x, y, false) ∈ U → x = y ∧ (x = 0 ∨ x = 3) := by
       intro x y hxy

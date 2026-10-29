@@ -50,7 +50,7 @@ theorem exists_of_card_le_two (R : Subgroup V) (h : Nat.card R ≤ 2) :
     have hx1 : x ≠ 1 := fun h => hx1' (Subtype.ext h)
     refine ⟨x, fun r hr => ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hr1, hrx⟩ := hcon
     let f : Fin 3 → R := ![⟨1, R.one_mem⟩, ⟨x, hxR⟩, ⟨r, hr⟩]
     have hf : Function.Injective f := by

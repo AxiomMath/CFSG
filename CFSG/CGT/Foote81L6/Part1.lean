@@ -338,7 +338,7 @@ theorem part1 (h0 : a 0 = 1) (h1 : 2 ≤ a 1) (h2 : 2 ≤ a 2) (y : MulAut (PX a
   have S : Setup a y N := ⟨h0, h1, h2, hN, hyN⟩
   by_cases hex : ∃ w : PX a, w ∈ Subgroup.center (PX a) ∧ y w ≠ w
   swap
-  · push_neg at hex
+  · push Not at hex
     exact absurd (S.case_fixed fun c hc => hex c (Subgroup.mem_center_iff.mpr hc)) hy
   obtain ⟨w, hw, hyw⟩ := hex
   have ht : w⁻¹ * y w ∈ Kc y := mem_Kc.mpr ⟨w, hw, rfl⟩

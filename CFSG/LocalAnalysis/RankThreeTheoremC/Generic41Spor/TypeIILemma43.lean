@@ -121,7 +121,7 @@ theorem mcl_lemma43 {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
     mcl_le_sup_of_card hc.prime hU.elem.1 hU.card hU.card_inf hU.mem hxp hx1 hxT
   have haU : ∃ a ∈ U ⊓ u3T P x J, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : U ⊓ u3T P x J = ⊥ := by
       rw [eq_bot_iff]
       intro g hg

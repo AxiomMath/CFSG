@@ -27,7 +27,7 @@ theorem exists_third_member (hS : Q8Section X Φ) (hno : NoExit X Φ) {A A' : Su
     {z : X} (hzA : IsUniqueInvolution A z) (hzA' : IsUniqueInvolution A' z) :
     ∃ M ∈ Φ, M ≠ A ∧ M ≠ A' := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : ∀ M ∈ Φ, M = A ∨ M = A' := fun M hM => by
     by_cases h : M = A
     · exact Or.inl h

@@ -255,7 +255,7 @@ theorem exists_eleven_subgroup_of_factorization [Finite G]
   refine ⟨Q, Q.isPGroup', fun g hg => Subgroup.mem_centralizer_singleton_iff.2 (hcomm g hg s hsQ),
     fun u hu => ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hle : (Q : Subgroup G) ≤ Subgroup.centralizer ({u} : Set G) := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.2 (hall g hg)
   have hdvd : 11 ^ 2 ∣ Nat.card (Subgroup.centralizer ({u} : Set G)) :=

@@ -21,7 +21,7 @@ theorem exists_kuPolar_ne_zero [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutative
     (h : KuHyp G T M H P z) {y : G} (hy : y ∈ kuA P H)
     (hy1 : y ≠ 1) : ∃ x ∈ kuA P H, kuPolar P H z x y ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hAW : kuA P H ≤ kuW P H := by
     intro e he
     by_cases he1 : e = 1

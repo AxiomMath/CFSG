@@ -22,7 +22,7 @@ theorem le_of_mul_mem_of_mQuot_eq_two {R A U A' U' : Subgroup G}
   have hA2 : IsPGroup 2 A := CFSG.Quasithin.B2F.isPGroup_of_isElemAbelian hAel
   obtain ⟨a', ha'A', ha'U'⟩ : ∃ a' ∈ A', a' ∉ U' := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hA' h
   have hprod : ∀ a ∈ A, a ∉ U → ∀ b ∈ A, b ∉ U → a * b ∈ R := by
     intro a ha haU b hb hbU
@@ -49,7 +49,7 @@ theorem le_of_mul_mem_of_mQuot_eq_two {R A U A' U' : Subgroup G}
   have hex : ∀ t ∈ A, ∃ a ∈ A, a ∉ U ∧ t * a ∉ U := by
     intro t ht
     by_contra h
-    push_neg at h
+    push Not at h
     have himg : (fun a : G => t * a) '' ((A : Set G) \ (U : Set G)) ⊆ (U : Set G) := by
       rintro x ⟨a, ha, rfl⟩
       exact h a ha.1 ha.2

@@ -453,14 +453,14 @@ theorem irreducible_frame (hK : Nat.card K = 2) (F : OrthFrame τ d) {w₁ w₂ 
   right
   obtain ⟨x, hxE, hx1⟩ : ∃ x ∈ E', x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hbot (eq_bot_iff.mpr fun x hx => Subgroup.mem_bot.mpr (hcon x hx))
   obtain ⟨v, rfl⟩ : ∃ v : Fin (d + 1) → ZMod 3, tE K F (Multiplicative.ofAdd v) = x := by
     obtain ⟨g, hg⟩ := MonoidHom.mem_range.mp (hle hxE)
     exact ⟨Multiplicative.toAdd g, by rw [ofAdd_toAdd, hg]⟩
   have hi : ∃ i, v i ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hx1
     have hv0 : v = 0 := funext hne
     rw [hv0, ofAdd_zero, map_one]

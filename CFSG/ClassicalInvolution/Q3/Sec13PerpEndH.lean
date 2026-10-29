@@ -40,7 +40,7 @@ private theorem endH_cover {m : ℕ} (hm4 : 4 ≤ m) (hm7 : m ≤ 7) (p : Fin m)
 private theorem endH_exists_not_mem {m : ℕ} (hm : 5 ≤ m) (ι : Fin 4 ↪ Fin m) :
     ∃ p, p ∉ Set.range ι := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hs : Function.Surjective (⇑ι) := fun p => hcon p
   have := Fintype.card_le_of_surjective (⇑ι) hs
   simp only [Fintype.card_fin] at this

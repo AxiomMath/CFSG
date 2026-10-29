@@ -14,7 +14,7 @@ theorem l2_om_pigeon {Ω S : Type} [Group Ω] [Finite Ω] [Group S] [Finite S] (
   letI : Fintype Ω := Fintype.ofFinite Ω
   letI : Fintype S := Fintype.ofFinite S
   by_contra h
-  push_neg at h
+  push Not at h
   let t : Finset S := (A : Set S).toFinset
   have htcard : t.card = Nat.card ↥A := by
     change (A : Set S).toFinset.card = Nat.card ↥A

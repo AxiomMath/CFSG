@@ -153,7 +153,7 @@ theorem Irr8.exists_orbit (h : Irr8 X) {t : Perm (Fin 8)} (htX : t ∈ X) (ht : 
   classical
   have hex : ∃ p : Fin 8, t p ≠ p := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact ht.ne_one (Equiv.ext hc)
   obtain ⟨p, htp⟩ := hex
   let Ω : Finset (Fin 8) := Finset.univ.filter (fun y => ∃ σ ∈ X, σ p = y)
@@ -217,7 +217,7 @@ theorem Irr8.not_block (h : Irr8 X) {B : Finset (Fin 8)} (h2 : 2 ≤ B.card) (h8
   have hc' : ∀ σ ∈ X, B.map σ.toEmbedding = B ∨ Disjoint (B.map σ.toEmbedding) B := by
     intro σ hσ
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc ⟨σ, hσ, h⟩
   have hBcard : B.card = 2 ∨ B.card = 4 := by
     interval_cases B.card

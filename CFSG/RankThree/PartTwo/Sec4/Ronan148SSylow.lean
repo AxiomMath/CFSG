@@ -32,10 +32,10 @@ theorem exists_sylow_le (h81 : ¬ 81 ∣ Nat.card S) {s : S} {K : Subgroup S} (h
   have hPcard : Nat.card (P : Subgroup S) ≤ 27 := by
     rw [P.card_eq_multiplicity]
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h4 : 4 ≤ (Nat.card S).factorization 3 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 3 ^ (Nat.card S).factorization 3 ≤ 3 ^ 3 :=
         Nat.pow_le_pow_right (by norm_num) (by omega)
       omega

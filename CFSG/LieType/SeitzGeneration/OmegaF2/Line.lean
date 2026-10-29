@@ -150,11 +150,11 @@ theorem root_line_of_kernel (hY : TwistClosed Y) (hproj : hY.proj = ⊤)
         (1 : SpecialLinearGroup (Fin 2) K)) ∈ Y := by
   by_cases hcase : X₀ 1 0 ≠ 0 ∨ X₀ 1 1 ≠ 0
   · exact ⟨X₀ 1 0, X₀ 1 1, hcase, fun t => line_full_of_mem hY hproj hker t⟩
-  · push_neg at hcase
+  · push Not at hcase
     obtain ⟨h10, h11⟩ := hcase
     have hrow : X₀ 0 0 ≠ 0 ∨ X₀ 0 1 ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hX₀
       ext i j
       fin_cases i <;> fin_cases j <;> simp [hcon.1, hcon.2, h10, h11]

@@ -133,7 +133,7 @@ theorem exists_perp_not_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {w : OW
     ∃ z : OW F, polar (quadMinus 3 F b c) w z = 0 ∧ z ∉ Submodule.span F {w} := by
   have hQn := nondegenerate_polarBilin_quadMinus_of_finite 3 F hirr
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : LinearMap.BilinForm.orthogonal (polarBilin (quadMinus 3 F b c))
       (Submodule.span F {w}) ≤ Submodule.span F {w} := by
     intro z hz

@@ -144,7 +144,7 @@ theorem outer_reflection_shape (P : D4Par n F σ) {Ē : Subgroup (MulAut (C0 σ)
   obtain ⟨hlinv, e, heℓ, hφe⟩ := reflection_shape hE3' hE9 φ hφ2 hφ1 ℓ hℓ3 hφℓ hquot
   obtain ⟨l, hlℓ, hl1⟩ : ∃ l ∈ ℓ, l ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : ℓ = ⊥ := (Subgroup.eq_bot_iff_forall ℓ).mpr hcon
     rw [hbot, Subgroup.card_bot] at hℓ3
     omega

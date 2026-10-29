@@ -491,7 +491,7 @@ theorem class_ge : clsz ri ≤ (conjClass hsP (T (rt ri))).ncard := by
   have h3 := (data_parts hri).2.1
   have h4 := fx_pos ri hri
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : (conjClass hsP (T (rt ri))).ncard * HSD.fx.getD ri 0 < clsz ri * HSD.fx.getD ri 0 :=
     Nat.mul_lt_mul_of_pos_right hlt h4
   omega

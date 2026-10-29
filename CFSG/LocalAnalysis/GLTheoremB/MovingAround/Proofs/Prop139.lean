@@ -186,7 +186,7 @@ theorem exists_nontriv_pRank {p : ℕ} (hp : p.Prime) {H : Subgroup G}
   obtain ⟨E, hEH, hEel, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt H
   refine ⟨E, hEH, hEel, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : E = ⊥ := (Subgroup.eq_bot_iff_forall E).2 hcon
   rw [hbot, Subgroup.card_bot] at hcard
   have h1 : 1 < p ^ CFSG.Open.pRank p H := Nat.one_lt_pow (by omega) hp.one_lt

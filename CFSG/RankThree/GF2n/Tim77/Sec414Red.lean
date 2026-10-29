@@ -131,7 +131,7 @@ private theorem sec414_step {A A0 : Subgroup G} (hA : IsPGroup 2 A) (hA0 : A0 �
       Nat.card ↥(A ⊔ conjSubgroup g A) ≤ Nat.card ↥(A ⊔ conjSubgroup h A)) :
     ∃ g' : G, (¬ ∀ x ∈ A0, Sec414InO2 (A ⊔ conjSubgroup g' A) x) ∧
       g' ∈ A ⊔ conjSubgroup g' A ∧ A ⊔ conjSubgroup g' A = A ⊔ conjSubgroup g A := by
-  push_neg at hg
+  push Not at hg
   obtain ⟨x, hxA0, hxV⟩ := hg
   have hxA : x ∈ A := hA0 hxA0
   set V := A ⊔ conjSubgroup g A with hV
@@ -142,7 +142,7 @@ private theorem sec414_step {A A0 : Subgroup G} (hA : IsPGroup 2 A) (hA0 : A0 �
   obtain ⟨⟨w, hw⟩, hu⟩ : ∃ u : ↥V, ¬ IsPGroup 2
       ↥(Subgroup.closure ({(⟨x, hxV'⟩ : ↥V), u * ⟨x, hxV'⟩ * u⁻¹} : Set ↥V)) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnot (CFSG.BaerSuzuki.baer_suzuki (p := 2) _ h2el hcon)
   have hu' : ¬ IsPGroup 2 ↥(Subgroup.closure ({x, w * x * w⁻¹} : Set G)) :=
     fun h => hu ((sec414_pair_iff (V := V) _ _).2 h)

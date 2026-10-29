@@ -153,7 +153,7 @@ theorem Cover217.exists_component_ge_iCore (h48 : Sec4.Item4_8) {A E U : Subgrou
     have : IsSimpleGroup ↥J := @MulEquiv.isSimpleGroup _ _ _ _ hA6 e
     refine isQuasisimple_quot_theta_of_simple ?_
     by_contra hcomm
-    push_neg at hcomm
+    push Not at hcomm
     letI : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := hcomm }
     have hp := IsSimpleGroup.prime_card (α := ↥J)
     have hcard : Nat.card ↥J = 360 := by

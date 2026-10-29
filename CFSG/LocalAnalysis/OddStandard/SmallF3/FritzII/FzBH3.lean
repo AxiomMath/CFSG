@@ -95,7 +95,7 @@ theorem fzb_count_A6 (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCo
   have hconj := fzb_six_conj hβ hF.toFzbFactsGen hu
   refine fzb_model_pigeon hF hψ hcomm (fun e he => ?_)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨he1024, hge⟩ := hconj e he
   obtain ⟨-, hψe⟩ := hψβ e he1024 (hcomm e he)
   have hz : β (ψ e) ∈ fourGrp x₁ x₂ := (hβ.Z_eq _).mpr ⟨ψ e, hlt, rfl⟩

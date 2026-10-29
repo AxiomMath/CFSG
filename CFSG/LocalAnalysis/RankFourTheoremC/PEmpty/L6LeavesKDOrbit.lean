@@ -141,7 +141,7 @@ theorem le_of_orbit_length_p (z : G) (p : ℕ) (hp : 0 < p) (hzp : z ^ p = 1)
     simpa [Subgroup.coe_mul, Subgroup.coe_inv] using this
   obtain ⟨y₀, hy₀, hy₀1⟩ : ∃ y ∈ T ⊓ L, y ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hTL ((Subgroup.eq_bot_iff_forall _).mpr fun y hy => hcon y hy)
   have hy₀N : y₀ ∈ N := by
     rw [hNdef]
@@ -240,7 +240,7 @@ theorem le_of_orbit_length_one [Finite G] (z : G) (p : ℕ) (hp : p.Prime) (hp5 
     exact hC x hx (hcent x hx)
   obtain ⟨g₀, hg₀, hg₀z⟩ : ∃ g ∈ L, z * g ≠ g * z := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcent h
   haveI : Fact p.Prime := ⟨hp⟩
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

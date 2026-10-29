@@ -10,7 +10,7 @@ theorem sec5sh8_d8_not_comm {X : Type} [Group X] (P : Subgroup X)
     (hP : Nonempty (↥P ≃* DihedralGroup 4)) : ∃ a ∈ P, ∃ b ∈ P, a * b ≠ b * a := by
   obtain ⟨φ⟩ := hP
   by_contra h
-  push_neg at h
+  push Not at h
   have hcomm : ∀ x y : DihedralGroup 4, x * y = y * x := by
     intro x y
     have hxy : φ.symm x * φ.symm y = φ.symm y * φ.symm x :=

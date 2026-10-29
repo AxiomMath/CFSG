@@ -445,7 +445,7 @@ lemma minus_line_false_KF3p [CharP K 2] [Finite K] {b c0 : K}
     linear_combination hs - (minusFormKF3p b (Γ *ᵥ v) w) * h2
   obtain ⟨v₀, hv₀⟩ : ∃ v₀, Γ *ᵥ v₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hΓ
     ext i j
     have := congrFun (hcon (Pi.single j 1)) i
@@ -468,7 +468,7 @@ lemma minus_line_false_KF3p [CharP K 2] [Finite K] {b c0 : K}
       calc Γ *ᵥ v = β⁻¹ • (β • (Γ *ᵥ v)) := (inv_smul_smul₀ hβ _).symm
         _ = (-α / β) • w := by rw [h3]; module
   ·
-    push_neg at hcase
+    push Not at hcase
     have hBw : ∀ v, minusFormKF3p b v w = 0 := by
       intro v
       obtain ⟨a, ha⟩ := hcase v

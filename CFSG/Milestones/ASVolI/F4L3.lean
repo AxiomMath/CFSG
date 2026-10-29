@@ -3171,7 +3171,7 @@ theorem burnsideF4d_Z6_F_4_34_L3 (hyp : HypF_4_31 .L3 f Gp M₁ M₂ β ε z) :
   · left
     have hex : ∃ x ∈ D.Z ⊓ cj g D.Z, x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hbot ((Subgroup.eq_bot_iff_forall _).mpr hcon)
     obtain ⟨x, hx, hx1⟩ := hex
     have h1 : x ∈ conjSub 1 D.Z := by

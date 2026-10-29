@@ -86,7 +86,7 @@ theorem s311a_abstract {n : ℕ} (hk : Nat.card k₂ = 2 ^ n) (hn : 2 ≤ n)
       rw [hVc]; exact Nat.one_lt_two_pow (by omega)
     obtain ⟨a, haV, ha1⟩ : ∃ a ∈ V ⊓ centralizer (P' : Set G'), a ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hb : (V ⊓ centralizer (P' : Set G')) = ⊥ :=
         eq_bot_iff.2 fun z hz => Subgroup.mem_bot.2 (hcon z hz)
       rw [hb, Subgroup.card_bot] at hpos

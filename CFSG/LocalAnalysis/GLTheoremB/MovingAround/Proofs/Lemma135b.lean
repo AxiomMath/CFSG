@@ -160,7 +160,7 @@ theorem card_three_le_nine {Y : Type} [Group Y] [Finite Y] (e : Y ≃* alternati
   rw [hk, hY] at hdvd
   have hk2 : k ≤ 2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h3k : 3 ^ 3 ∣ 3 ^ k := pow_dvd_pow 3 hc
     have h27 : 3 ^ 3 ∣ 2520 := h3k.trans hdvd
     norm_num at h27
@@ -1191,7 +1191,7 @@ theorem not_su3_of_alt7 {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 7
   have hc := CFSG.Open.StatedCenterThree.card_center_statedSU_three hK h3
   have : ∃ z ∈ Subgroup.center ↥(StatedSU 3 q K), z ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : Subgroup.center ↥(StatedSU 3 q K) = ⊥ :=
       (Subgroup.eq_bot_iff_forall _).2 (fun z hz => hcon z hz)
     rw [hbot] at hc
@@ -1230,7 +1230,7 @@ theorem not_weak_exc_alt7 {X : Type} [Group X] [Finite X]
       omega
     have hq13 : Nat.card K ≤ 13 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h14 : 14 ^ 3 ≤ Nat.card K ^ 3 := Nat.pow_le_pow_left hc 3
       have hpos : 1 ≤ (Nat.card K ^ 2 - 1) * (Nat.card K ^ 3 - 1) := by
         apply Nat.one_le_iff_ne_zero.2

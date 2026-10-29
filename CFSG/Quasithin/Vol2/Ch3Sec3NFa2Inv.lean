@@ -52,7 +52,7 @@ theorem a2_piH_comm_term (φ : OTwoQuot H ≃* S152N.W3) {A B Y : ↥H}
 theorem exists_sq_ne_one_of_iso (hT : IsSylowTwoOf T H) (φ : OTwoQuot H ≃* S152N.W3) :
     ∃ x : ↥H, (x : G) ∈ T ∧ Lem3313.piH φ x ^ 2 ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨a, ha, b, hb, y, hy, hne⟩ := Lem3313.exists_noncomm_of_iso hT φ
   have hYH : oTwoUpper H ≤ H := oTwoUpper_le H
   have hyH : y ∈ H := hYH hy

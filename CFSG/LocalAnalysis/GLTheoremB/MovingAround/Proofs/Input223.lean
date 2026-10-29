@@ -162,7 +162,7 @@ theorem exists_noncentral_pElt [Finite H] {p : ℕ} (hp : p.Prime)
     ∃ x : H, x ∉ Subgroup.center H ∧ ∃ n : ℕ, x ^ (p ^ n) = 1 := by
   haveI : Fact p.Prime := ⟨hp⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let P : Sylow p H := default
   set Q : Subgroup H := (P : Subgroup H) with hQdef
   have hQc : Q ≤ Subgroup.center H := by
@@ -328,7 +328,7 @@ theorem CPData.p_dvd_card {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     exact CFSG.pPrimeCore_coprime_card
   have hex : ∃ K' ∈ 𝓛, ¬ K' ≤ O := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hLO : L ≤ O := by
       rw [hcp.gen]
       exact sSup_le hall
@@ -1037,7 +1037,7 @@ theorem exists_nontriv_N {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set
     ∃ x ∈ B, x ∈ Subgroup.normalizer (L₁ : Set G) ∧ x ≠ 1 := by
   haveI : Fact p.Prime := ⟨hp⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hBle : B ≤ Subgroup.zpowers b₀ := by
     intro b' hb'
     obtain ⟨e, he⟩ := hR1 b' hb'
@@ -1367,7 +1367,7 @@ theorem exists_noncomm_pair {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) :
     ∃ a ∈ M, ∃ b ∈ M, ⁅a, b⁆ ∉ MK 𝓛 L M := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle := qs_le_of_comm (hcp.comp M hM).2.2 h
   exact qs_not_comm_subgroup (hcp.comp M hM).2.2
     (fun a ha b hb => MK_comm hcp hM (hle ha) b hb)
@@ -2031,7 +2031,7 @@ theorem R1_K₀_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subg
     have hall := r1_two_case hp hcp hK₀ hpK hb₀ hb₀N hR1 hmin h1 h2 hne
     obtain ⟨x, hxB, hxN, hx1⟩ := hx
     exact r1_full_case hp hcp hK₀ hpK hb₀ hb₀N hmin hall hxB hxN hx1 hC
-  · push_neg at htwo
+  · push Not at htwo
     obtain ⟨M, hM⟩ := hsupp_ne
     exact singleton_case hp hcp hK₀ hpK hb₀ hb₀N hmin hM (fun M' hM' => htwo M' hM' M hM)
 
@@ -2046,7 +2046,7 @@ theorem core_L_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgr
   by_cases hA : ∃ b ∈ B, b ≠ 1 ∧ b ∈ Subgroup.centralizer (L : Set G)
   · obtain ⟨b, hb, hb1, hbC⟩ := hA
     exact caseA_le hp hcp hpL hb hb1 hbC
-  · push_neg at hA
+  · push Not at hA
     obtain ⟨b₀, hb₀, hb₀1, hJ'⟩ := hJ
     have hb₀N : b₀ ∉ Subgroup.normalizer (L₁ : Set G) := hJ'.resolve_left (hA b₀ hb₀ hb₀1)
     by_cases hR2 : ∃ b' ∈ B, b' ∉ Subgroup.normalizer (L₁ : Set G) ∧
@@ -2057,7 +2057,7 @@ theorem core_L_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgr
         intro b' hb'
         by_cases hb'N : b' ∈ Subgroup.normalizer (L₁ : Set G)
         · exact ⟨0, by simpa using hb'N⟩
-        · push_neg at hR2
+        · push Not at hR2
           obtain ⟨i, j, heq, hpi⟩ := hR2 b' hb' hb'N
           have hu := gLBConj_eq_norm L₁ heq
           have hbp : b₀ ^ p = 1 := hcp.elem.2 b₀ hb₀

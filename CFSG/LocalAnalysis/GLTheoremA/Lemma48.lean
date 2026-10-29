@@ -36,7 +36,7 @@ theorem le_centralizer_of_isPGroup_of_card_eq {p : ℕ} (hp : p.Prime) {P Z : Su
     omega
   have hall : ∀ y : Z, y ∈ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨y, hy⟩ := h
     have hss : F ⊂ Set.univ := Set.ssubset_univ_iff.2 fun hFu => hy (hFu ▸ Set.mem_univ y)
     have := Set.ncard_lt_ncard hss
@@ -311,13 +311,13 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
     rw [ha, hcardZ₀] at hmul
     have ha1 : 1 ≤ a := by
       by_contra h0
-      push_neg at h0
+      push Not at h0
       interval_cases a
       rw [pow_zero, one_mul] at hmul
       exact hPidx (hmul ▸ dvd_mul_left p _)
     have ha2 : a ≤ 1 := by
       by_contra h2
-      push_neg at h2
+      push Not at h2
       have h3 : p * p ∣ Nat.card O * p := by
         rw [← hmul, ← pow_two]
         exact Dvd.dvd.mul_right (pow_dvd_pow p h2) _
@@ -325,7 +325,7 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
     rw [ha, le_antisymm ha2 ha1, pow_one]
   obtain ⟨z, hzP, hz1⟩ : ∃ z ∈ P, z ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : P = ⊥ := (Subgroup.eq_bot_iff_forall P).2 h
     rw [this, Subgroup.card_bot] at hPcard
     exact hp.one_lt.ne hPcard

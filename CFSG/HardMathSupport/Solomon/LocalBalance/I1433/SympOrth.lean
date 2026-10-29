@@ -28,7 +28,7 @@ theorem nonD4LieContraS_symplecticOrthogonal : NonD4LieContraS .symplecticOrthog
         · have hq2 : q'.p = 2 := hsp.resolve_right (by omega)
           exact CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_even r q' hv hq2 hr3 e
       exact sympl_contra hs hna hmod (by simpa [lieIndexChar, hq'] using hp3) c
-    · push_neg at hsp
+    · push Not at hsp
       have hr3 : 3 ≤ r := by simp only at hr; omega
       have hmod : StatedClassicalModel S .POmegaOdd r (lieIndexChar (.B r q')) q'.exponent :=
         CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_odd r q' hv hsp.1 hr3 e

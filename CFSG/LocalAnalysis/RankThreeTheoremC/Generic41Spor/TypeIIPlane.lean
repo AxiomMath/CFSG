@@ -142,7 +142,7 @@ theorem mcl_plane {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hX 
   have hxS : x ∈ u3S P x := ⟨hc.generic.1, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   obtain ⟨a, haT, t, htT, hat⟩ : ∃ a ∈ u3T P x J, ∃ t ∈ u3T P x J, t * a ≠ a * t := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hTnab (IsMulCommutative.of_setLike_mul_comm fun a ha b hb => (hcon a ha b hb).symm)
   have haS : a ∈ u3S P x := haT.1
   have hax : Commute a x := Subgroup.mem_centralizer_singleton_iff.mp haS.2

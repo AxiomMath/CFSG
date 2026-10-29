@@ -169,7 +169,7 @@ private theorem card_le_eight_of_not_le_base {D : Subgroup A5WrTwo}
     Nat.card D ≤ 8 := by
   obtain ⟨u, huD, hubase⟩ : ∃ u ∈ D, u ∉ commutator A5WrTwo := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hDnot fun x hx => h x hx
   have hu2 : u ^ 2 = 1 := hD.2 u huD
   obtain ⟨b, _hbbase, hbconj⟩ :=

@@ -374,7 +374,7 @@ theorem kgFieldRestriction_orthogonalSelfDualBlock_of_semilinear
     have hzexists : ∃ z : ↥(CFSG.RankThree.PartOne.KCOrthogonal.fixedSubfield K
         (AdjoinRoot a) d), τ (z : AdjoinRoot a) ≠ (z : AdjoinRoot a) := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply hfixed
       ext z
       exact h z

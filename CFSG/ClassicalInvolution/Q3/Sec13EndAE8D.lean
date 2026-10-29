@@ -46,7 +46,7 @@ theorem ae8d_star_of_pairwise (F : Finset {s : Finset (Fin 8) // s.card = 2})
   have hclaim : (∀ t ∈ F, a ∈ (t : Finset (Fin 8))) ∨
       (∀ t ∈ F, b ∈ (t : Finset (Fin 8))) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨⟨t1, ht1, ht1a⟩, ⟨t2, ht2, ht2b⟩⟩ := hcon
     have h1 := hF s1 hs1 t1 ht1
     have h2 := hF s1 hs1 t2 ht2

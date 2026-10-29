@@ -90,7 +90,7 @@ theorem mem_flag_iff_tau (s : ℕ) (hs : s ≤ 6) (v : Fin 3 ⊕ Fin 3 → ZMod 
         rwa [tauEquiv_symm_inr] at h'
       · have h' := h ⟨j.val, by have := j.isLt; omega⟩ (by simpa using hj)
         rwa [tauEquiv_symm_inl] at h'
-  · push_neg at hs3
+  · push Not at hs3
     rw [mem_flag_of_lt hs3]
     constructor
     · intro h k hk
@@ -136,7 +136,7 @@ theorem toM6_eq_zero_of_stab {g : StatedSp 3 (ZMod 2)} {s : ℕ} (hs : s ≤ 6)
 theorem exists_cut_of_blkOf_lt (S : Finset ℕ) {i j : Fin 6} (h : blkOf S j < blkOf S i) :
     ∃ s ∈ S, j.val < s ∧ s ≤ i.val := by
   by_contra H
-  push_neg at H
+  push Not at H
   have hsub : S.filter (fun c => 0 < c ∧ c ≤ i.val) ⊆ S.filter (fun c => 0 < c ∧ c ≤ j.val) := by
     intro c hc
     rw [Finset.mem_filter] at hc ⊢

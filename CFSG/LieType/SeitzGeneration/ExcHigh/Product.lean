@@ -118,7 +118,7 @@ theorem closure_centralizers_prod_of_plane
   set S : Set (A × B) := {h | ∃ x ∈ F, x ≠ 1 ∧ Commute h x} with hS
   have h1 : ∃ y ∈ F, y ≠ 1 ∧ y.1 = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hdis : Disjoint F (MonoidHom.fst A B).ker := by
       rw [Subgroup.disjoint_def]
       intro x hx hx1
@@ -136,7 +136,7 @@ theorem closure_centralizers_prod_of_plane
     by_cases hx : ∃ x ∈ F, x ≠ 1 ∧ x.2 = 1
     · obtain ⟨x, hxF, hx1, hx2⟩ := hx
       exact fun b => Subgroup.subset_closure ⟨x, hxF, hx1, Prod.ext (by simp) (by simp [hx2])⟩
-    · push_neg at hx
+    · push Not at hx
       have hdis : Disjoint F (MonoidHom.snd A B).ker := by
         rw [Subgroup.disjoint_def]
         intro x hx' hx1

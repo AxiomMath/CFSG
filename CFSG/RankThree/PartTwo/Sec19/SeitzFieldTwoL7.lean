@@ -31,7 +31,7 @@ theorem planeGen_projectiveSL_field {F : Type} [Field F] [Finite F]
   obtain ⟨y, hyE, hyL, hy1⟩ := exists_ne_one_inf_linearAutGroup h3 hE hc hnL
   obtain ⟨phi, hphiE, hphiN⟩ : ∃ phi ∈ E, phi ∉ linearAutGroup 3 F := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnL (fun x hx => hcon x hx)
   obtain ⟨σ, hσ3, H, hphiH⟩ :=
     KFacts.linear_order_three_field_descent (le_refl 3) phi (hE.2 phi hphiE) hphiN

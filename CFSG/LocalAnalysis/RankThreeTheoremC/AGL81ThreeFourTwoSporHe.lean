@@ -79,7 +79,7 @@ theorem heSeven_sylow_shape
     exact congrArg Subtype.val h
   have hAnab : ∃ x ∈ heSevenA0, ∃ y ∈ heSevenA0, x * y ≠ y * x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : heSevenA0 ≤ centralizer (heSevenA0 : Set (Equiv.Perm (Fin 8330))) ⊓ heSevenC0 :=
       fun x hx => ⟨mem_centralizer_iff.mpr fun y hy => hcon y hy x hx, hA0C hx⟩
     have := Subgroup.card_le_of_le hle

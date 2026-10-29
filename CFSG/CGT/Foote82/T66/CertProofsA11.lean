@@ -232,7 +232,7 @@ open A11Aux
 theorem a11DoubleThreeCycle_holds : A11DoubleThreeCycle := by
   intro W _ _ _ H φ _ h hcyc
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨hg2, hg3, h11, hne⟩ := perm_facts
   obtain ⟨π, hπ⟩ := isConj_iff.mp (isConj_iff_cycleType_eq.mpr (cycleType_s1.trans hcyc.symm))
   have hev : ∀ g : Perm (Fin 11), sign g = 1 → π * g * π⁻¹ ∈ alternatingGroup (Fin 11) := by

@@ -156,7 +156,7 @@ theorem exists_not_comm {P K₀ Q D : Subgroup _}
     (hh : SigGenHyp P (K₀.map (MulAut.conj : X →* MulAut X)) Q D) :
     ∃ x : X, MulAut.conj x ∈ Q ∧ ∃ k ∈ K₀, x * k * x⁻¹ ≠ k := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hh.nontriv
   rw [Subgroup.commutator_le]
   rintro _ ⟨k, hk, rfl⟩ q hq

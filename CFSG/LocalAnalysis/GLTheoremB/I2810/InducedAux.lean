@@ -304,7 +304,7 @@ theorem autCenterQuot_mk {G : Type*} [Group G] (α : MulAut G) (x : G) :
 theorem four_le_of_equiv_alternatingGroup {G : Type*} [Group G] {m n : ℕ} (hm : 5 ≤ m)
     (e₀ : G ≃* alternatingGroup (Fin m)) (e : G ≃* alternatingGroup (Fin n)) : 4 ≤ n := by
   by_contra hn
-  push_neg at hn
+  push Not at hn
   have h1 : Nat.card (alternatingGroup (Fin m)) = Nat.card G := (Nat.card_congr e₀.toEquiv).symm
   have h2 : Nat.card (alternatingGroup (Fin n)) = Nat.card G := (Nat.card_congr e.toEquiv).symm
   have h3 : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by

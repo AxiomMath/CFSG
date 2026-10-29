@@ -18,7 +18,7 @@ variable {X : Type} [Group X] [Finite X] {A : Subgroup X} {w : X}
 theorem L210_card_le_eight (h : Abs210 A w ψ) {D : Subgroup X} (hD : D ≤ normalizer (A : Set X))
     (hDe : IsElemAbelian 2 D) (hDA : D ⊓ A = ⊥) : Nat.card D ≤ 8 := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨C, hCK, hCψ⟩ := L210_exists_base_complement h.toL28Hyp hD hDe hDA hle
   let N : Subgroup X := normalizer (A : Set X)
   let wN : N := ⟨w, Subgroup.le_normalizer h.w_mem⟩

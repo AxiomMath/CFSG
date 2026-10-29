@@ -107,7 +107,7 @@ theorem linear_K_inputs (h : d.Hyp) (hK : d.KLinear) :
         x * y * x⁻¹ * y⁻¹ ∉ ZK := by
       obtain ⟨f, hfF, hfZ⟩ : ∃ f ∈ d.F, f ∉ d.Z₂ := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have := Subgroup.card_le_of_le (show d.F ≤ d.Z₂ from hcon)
         rw [d.card_F, card_Z₂] at this
         norm_num at this
@@ -115,7 +115,7 @@ theorem linear_K_inputs (h : d.Hyp) (hK : d.KLinear) :
       have hξZ : ξ ∉ Z₂sub := fun hξ => hfZ ⟨ξ, hξ, rfl⟩
       obtain ⟨c, hc⟩ : ∃ c : F4, x₂SU c * ξ * (x₂SU c)⁻¹ * ξ⁻¹ ∉ ZX₄sub := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hξZ (mem_Z₂sub_of_comm hξF hcon)
       have haX : d.ι (x₂SU c) ∈ d.X₂ := ⟨x₂SU c, x₂SU_mem c, rfl⟩
       have haM : d.ι (x₂SU c) ∈ d.M :=

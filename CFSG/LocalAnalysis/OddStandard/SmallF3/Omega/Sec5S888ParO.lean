@@ -38,7 +38,7 @@ private lemma s888_not_parNt_apply {g : G} {i : Fin 4} (h : ¬ ParNt K z g i) {q
     (hq : q ∈ twoCoreIn (K i)) :
     g⁻¹ * q * g = q ∨ g⁻¹ * q * g = q * z := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact h ⟨q, hq, hc.1, hc.2⟩
 
 private lemma s888_inv_conj_z {g : G} (hgz : g * z = z * g) : g⁻¹ * z * g = z := by
@@ -298,7 +298,7 @@ theorem par_outer_iff [Finite G] (hq : Sec5B517Quad K z) (i : Fin 4) {g : G}
     exact hne (s888_not_nt_not_out hq i hgz hgK hNT k hk)
   · intro hNT
     by_contra hOUT
-    push_neg at hOUT
+    push Not at hOUT
     exact s888_not_out_not_nt hq i hgz hgK hg2 hOUT hNT
 
 end CFSG.OddStandard.SmallF3.Omega

@@ -27,7 +27,7 @@ theorem model3lin_sub_one_mul_self_eq_zero {F' : Type} [Field F'] [CharP F' 2]
 theorem model3lin_exists_mulVec_ne_zero {K : Type} [Field K] {N : Matrix (Fin 3) (Fin 3) K}
     (hN : N ≠ 0) : ∃ x : Fin 3 → K, N *ᵥ x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hN
   ext i j
   have h1 := congrFun (h (Pi.single j 1)) i
@@ -37,7 +37,7 @@ theorem model3lin_exists_kernel_vector {K : Type} [Field K] {N : Matrix (Fin 3) 
     (hNN : N * N = 0) {y : Fin 3 → K} (hy : y ≠ 0) :
     ∃ z : Fin 3 → K, N *ᵥ z = 0 ∧ ∀ c : K, z ≠ c • y := by
   by_contra H
-  push_neg at H
+  push Not at H
   have hrange : LinearMap.range (Matrix.mulVecLin N) ≤ LinearMap.ker (Matrix.mulVecLin N) := by
     rintro _ ⟨v, rfl⟩
     simp only [LinearMap.mem_ker, Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, hNN,

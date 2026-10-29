@@ -79,7 +79,7 @@ theorem cover (S : Finset (Fin 22)) (hS : 7 ≤ S.card) :
   have h3 : ∀ k : Fin 3, k = 0 ∨ k = 1 ∨ k = 2 := by decide
   have key : ∃ k : Fin 3, 3 ≤ (S.filter fun x => blk x = k).card := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hsub : S ⊆ (S.filter fun x => blk x = 0) ∪ (S.filter fun x => blk x = 1) ∪
         (S.filter fun x => blk x = 2) := by
       intro x hx

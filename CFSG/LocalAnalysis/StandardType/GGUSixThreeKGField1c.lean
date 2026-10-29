@@ -153,7 +153,7 @@ private lemma exists_smul_on_invariant_eigenspace (f h M : Module.End K V)
     Submodule.eq_iSup_inf_genEigenspace (1 : ℕ∞) hE hgen
   have hex : ∃ μ : K, f.eigenspace c ⊓ (h.genEigenspace μ) 1 ≠ ⊥ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hEbot
     rw [hEq]
     exact iSup_eq_bot.mpr hcon

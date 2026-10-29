@@ -182,7 +182,7 @@ theorem nk_s9_chain_main (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
     exact s9c_nontriv_unique t Y hmono u
       (fun j hj hJ => s9c_nontriv_line N t htN Y hYinv u hcov j hj hJ) i i₀ hi hi₀ hI hi₀nt
   · exfalso
-    push_neg at hcase
+    push Not at hcase
     have hpg : ∀ x : K₀, ∃ m : ℕ, x ^ (2 ^ m) = 1 := by
       intro x
       have hnil := s9c_flag_nilpotent r Y hY0 hYr (x : GL (Fin d) E)

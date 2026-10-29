@@ -280,7 +280,7 @@ theorem partA {M E A T : Subgroup G} (hAM : A ≤ M) (hAel : IsElemAbelian 3 A)
     omega
   obtain ⟨e, he, he1⟩ : ∃ e ∈ D, e ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hD1
     exact (Subgroup.eq_bot_iff_forall D).2 fun x hx => by simpa using hcon x hx
   have he_A0 : e ∈ E ⊓ A := hDA0 he
@@ -723,7 +723,7 @@ theorem not_normalizes_a1 {M E A K : Subgroup G} {a a₁ x₁ : G} {j : ℕ}
   have hx13 : x₁ ^ 3 = 1 := hAel.2 x₁ (hA₀A hx1A₀)
   obtain ⟨y₀, hy₀A, hy₀⟩ : ∃ y₀ ∈ E ⊓ A, y₀ ∉ Subgroup.zpowers x₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : (E ⊓ A : Subgroup G) ≤ Subgroup.zpowers x₁ := fun z hz => hcon z hz
     have h3 : Nat.card ↥(Subgroup.zpowers x₁) = 3 := by
       rw [Nat.card_zpowers, orderOf_eq_prime hx13 hx11]
@@ -1009,10 +1009,10 @@ theorem partB_core {m : ℕ} {B M E A K : Subgroup G} {a : G} (h : Cex117 G m 3 
     obtain ⟨hyM, hyN⟩ := Subgroup.mem_inf.1 hy
     exact partB_alpha hAM hAel hA27 hAmax hA0el hA0card hCa ha haA0 hF3 h112 hnotD hyM hyN hyD hT hAT
       hDA hDcard
-  push_neg at hα
+  push Not at hα
   obtain ⟨a₁, ha₁D, ha₁A₀⟩ : ∃ a₁ ∈ D, a₁ ∉ E ⊓ A := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hD (Subgroup.eq_of_le_of_card_ge (fun d hd => hcon d hd) (by omega))
   have ha₁A : a₁ ∈ A := hDA ha₁D
   have hN := normal_of_not_alpha hAel hA27 hA0card ha ha1 haA0 hKa hF1 hNM h1112iii haD hDA ha₁D
@@ -1538,7 +1538,7 @@ theorem not_odd_core {m : ℕ} {B M E A K : Subgroup G} {a : G} (h : Cex117 G m 
     omega
   obtain ⟨a₁, ha₁Ai, ha₁A₀⟩ : ∃ a₁ ∈ Ai, a₁ ∉ E ⊓ A := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hAi_ne (Subgroup.eq_of_le_of_card_ge (fun d hd => hcon d hd) (by omega))
   have ha₁A : a₁ ∈ A := hAi_le ha₁Ai
   have ha₁1 : a₁ ≠ 1 := by

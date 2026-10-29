@@ -21,7 +21,7 @@ theorem exists_conj_zT_ne [IsSimpleGroup G] (hn : 3 ≤ n) {ι : L4Model n →* 
     ∃ g : G, g⁻¹ * ι (zT (by omega)) * g ∈ ι.range ∧
       g⁻¹ * ι (zT (by omega)) * g ≠ ι (zT (by omega)) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set z := ι (zT (n := n) (by omega)) with hz
   have hzS : z ∈ (S : Subgroup G) := by
     rw [← hS]

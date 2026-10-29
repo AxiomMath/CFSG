@@ -115,7 +115,7 @@ theorem ncard_orbit_eq_p {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hΩ : Na
     obtain ⟨a, ha⟩ := Set.ncard_eq_one.mp hz
     obtain ⟨x, hx⟩ : ∃ x : Ω, (orbit P x).ncard ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hbot : P = ⊥ := by
         rw [Subgroup.eq_bot_iff_forall]
         intro g hg
@@ -380,7 +380,7 @@ theorem core {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hΩ : Nat.card Ω = 
         obtain ⟨g, hg, rfl⟩ := mem_orbit_subgroup_iff.mp hu
         exact mem_orbit_subgroup_iff.mpr ⟨g, Subgroup.mem_sup_left hg, rfl⟩
       · right
-        push_neg at hsub
+        push Not at hsub
         obtain ⟨u, huG, huP⟩ := hsub
         have hcompl : (orbit P z)ᶜ.ncard = p := by
           have h := Set.ncard_add_ncard_compl (orbit P z)

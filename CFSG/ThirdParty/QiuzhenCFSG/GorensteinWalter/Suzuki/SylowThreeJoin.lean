@@ -302,7 +302,7 @@ private lemma exists_ne_of_card_gt_two {α : Type*} [Fintype α]
     ∃ x, x ≠ a ∧ x ≠ b := by
   classical
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have hsubset : (Finset.univ : Finset α) ⊆ ({a, b} : Finset α) := by
     intro x hxuniv
     simp
@@ -5473,7 +5473,7 @@ private lemma sylow3_normalizer_inter_card_dvd_four_of_disjoint
     have hnotbot : ¬ (X ⊓ (R : Subgroup G)) = ⊥ := hne
     have hex : ∃ y : G, y ∈ X ⊓ (R : Subgroup G) ∧ y ≠ 1 := by
       rw [Subgroup.eq_bot_iff_forall] at hnotbot
-      push_neg at hnotbot
+      push Not at hnotbot
       exact hnotbot
     rcases hex with ⟨y, hy, hyne⟩
     have hyX : y ∈ X := (Subgroup.mem_inf.mp hy).1

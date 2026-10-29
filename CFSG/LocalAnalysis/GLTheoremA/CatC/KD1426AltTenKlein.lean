@@ -23,7 +23,7 @@ theorem card_le_nine_of_2520 {G : Type} [Group G] [Finite G] (hG : Nat.card G = 
   rw [hm, hG] at hdvd
   have hm2 : m ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h27 : 3 ^ 3 ∣ 3 ^ m := pow_dvd_pow 3 h
     have := dvd_trans h27 hdvd
     norm_num at this

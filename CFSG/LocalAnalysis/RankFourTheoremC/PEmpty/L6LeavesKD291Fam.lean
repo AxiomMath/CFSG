@@ -88,7 +88,7 @@ theorem le_pRank_L_of_defChar {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y : Type
   haveI : Fact p.Prime := ⟨hp⟩
   by_cases hall : ∀ E : Subgroup Y, IsElemAbelian p E → E ≤ L
   · exact hkY.trans (pRank_top_le_pRank_top_of_forall_le L hall)
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨E, hE, hEL⟩ := hall
     obtain ⟨y, hyE, hyL⟩ := Set.not_subset.1 hEL
     have hy : y ^ p = 1 := hE.2 y hyE

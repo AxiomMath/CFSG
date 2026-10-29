@@ -216,7 +216,7 @@ theorem smallOrd_of_glaSmall {X : Type} [Group X] [Finite X] {K : Subgroup X}
     have hsimple : IsSimpleGroup ↥K := isSimpleGroup_of_isU42 hU
     have hnc : ∃ a b : ↥K, a * b ≠ b * a := by
       by_contra h
-      push_neg at h
+      push Not at h
       haveI : IsMulCommutative ↥K := ⟨⟨fun a b => h a b⟩⟩
       have hp := IsSimpleGroup.prime_card (α := ↥K)
       have hcard := CFSG.StandardType.IOneOrthEnd.card_of_isU42 hU

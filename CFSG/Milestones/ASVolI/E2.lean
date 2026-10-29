@@ -1403,7 +1403,7 @@ theorem e266_exists_sp4_frame [CharP F 2] {w₀ w₁ : Fin 4 → F} (h₀ : w₀
       _ = y 0 • w₀ + g₁ ![0, y 1, y 2, 0] := by rw [map_add, map_smul, hg₁0]
   have hy12 : y 1 ≠ 0 ∨ y 2 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hind (y 0)
     have h0 : (![0, y 1, y 2, 0] : Fin 4 → F) = 0 := by
       funext i
@@ -1845,7 +1845,7 @@ theorem e266_main [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F)) (ht : 
         omega
       refine ⟨hr2', ?_⟩
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnP (key.mpr (Or.inr ⟨hr2', hcon⟩))
     · rintro ⟨h2, v, hv⟩ hP
       rcases key.mp hP with h1 | ⟨_, hA'⟩

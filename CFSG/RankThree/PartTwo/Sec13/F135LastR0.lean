@@ -211,7 +211,7 @@ theorem exists_inverter {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G}
     ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hfix : ∀ n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G), n⁻¹ * c * n = c := by
     intro n hn
     have hn' : n⁻¹ ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := Subgroup.inv_mem _ hn

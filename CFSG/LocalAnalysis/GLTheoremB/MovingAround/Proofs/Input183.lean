@@ -189,7 +189,7 @@ theorem input18_3Gen_of_schreier
     le_iSup₂_of_le (1 : G) (GLAPLayer p _).one_mem (le_of_eq (gLBConj_one J).symm)
   obtain ⟨L0, hL0⟩ : ∃ L0, L0 ∈ 𝒞 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hbot : (⨆ L ∈ 𝒞, L) = ⊥ := by simp [hno]
     apply hJne
     rw [← h2, hbot] at hJle
@@ -679,7 +679,7 @@ theorem comp_le_or_comm {B H N : Subgroup Y} (hB : CFSG.Assembly.IsComponentOf B
 theorem exists_noncomm_of_isComponentOf {L R : Subgroup Y} (hR : IsComponentOf R L) :
     ∃ r ∈ R, ∃ t ∈ R, r * t ≠ t * r := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hcomm : (⊤ : Subgroup R) ≤ Subgroup.centralizer (⊤ : Subgroup R) := by
     intro a _
     refine Subgroup.mem_centralizer_iff.2 fun b _ => ?_
@@ -743,7 +743,7 @@ theorem comp_mem_family {L : Subgroup Y} {𝓛 : Set (Subgroup Y)} (hL : L = sSu
       have hzr' : (z : Y) = r := hzr
       rw [hzr'] at hct'
       exact hct'.symm
-  · push_neg at hsub
+  · push Not at hsub
     have hcentL : ∀ r ∈ R, L ≤ Subgroup.centralizer ({r} : Set Y) := by
       intro r hr
       rw [hL]
@@ -1183,7 +1183,7 @@ theorem quot_diag_iso [Finite Y] {p : ℕ} (hp : p.Prime) {M : Subgroup Y}
     exact (Subgroup.mem_centralizer_iff.1 h1) k hk
   have hexists : ∃ X ∈ 𝓛, R ≤ K X := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hall : ∀ X ∈ 𝓛, ⁅R, K X⁆ = ⊥ := fun X hX => (hdich X hX).resolve_left (hno X hX)
     have hsupc : ∀ y ∈ ⨆ X ∈ 𝓛, D X, ∃ hy : y ∈ M,
         ∀ r ∈ R, QuotientGroup.mk' P ⟨y, hy⟩ * r = r * QuotientGroup.mk' P ⟨y, hy⟩ := by

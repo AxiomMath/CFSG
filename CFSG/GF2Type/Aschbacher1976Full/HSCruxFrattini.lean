@@ -91,7 +91,7 @@ theorem cruxFour_le_card {z u : G} (hP : Nat.card ↥(Fz u ⊓ Hz z : Subgroup G
   have h32 : Nat.card ↥(cruxPImage z u) * Nat.card ↥(cruxPHom z u).ker = 32 := by
     rw [hY, ← hdec, hS]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h3 : Nat.card ↥(cruxPImage z u) ≤ 3 := by omega
   have hmul := Nat.mul_le_mul h3 hK'
   rw [h32] at hmul

@@ -53,7 +53,7 @@ theorem rank_eq_of_eq {f n' n : ℕ} (hf : 1 ≤ f) (hn' : 2 ≤ n') (hn : n = 2
     (h : f * n' ^ 2 = n ^ 2) : n' = n ∧ f = 1 := by
   have h1 : n' ≤ 3 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h4 : 4 ^ 2 ≤ n' ^ 2 := Nat.pow_le_pow_left hcon 2
     rcases hn with rfl | rfl <;> nlinarith
   rcases hn with rfl | rfl <;> interval_cases n' <;> simp at h <;> omega

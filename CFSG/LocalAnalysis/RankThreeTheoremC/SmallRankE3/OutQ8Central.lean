@@ -389,7 +389,7 @@ theorem le_closure_qpairs_of_quatLike (hB : QuatLike B Y ζ) (H : Subgroup K) (h
   obtain ⟨y₁, hy₁H, hy₁Y, hy₁sq⟩ := hy1
   have hg0 : ∃ g₀ ∈ H, g₀ ∉ Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hYc : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a := by
       intro a ha b hb
       haveI := hB.Y_cyc

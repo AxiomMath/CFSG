@@ -736,7 +736,7 @@ theorem fieldExt_one_card
     · exact j2o_six_plus ψ hψ hJ' Φ₁ hΦ₁ eG hK hFE hdim hts
     · exact j2o_six_minus ψ hψ hJ' Φ₁ hΦ₁ eG hK hFE hdim (fun U hU => by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hts ⟨U, hU, h⟩)
   · exact j2o_big ψ hψ hJ' Φ₁ hΦ₁ eG hK hFE h8
 

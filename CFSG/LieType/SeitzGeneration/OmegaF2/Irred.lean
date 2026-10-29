@@ -16,7 +16,7 @@ theorem eq_top_of_stable (Ω : Submodule K (Fin 3 → K))
     {ω : Fin 3 → K} (hω : ω ∈ Ω) (hne : ω ≠ 0) : Ω = ⊤ := by
   obtain ⟨b, hb⟩ : ∃ b, ω b ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have key : ∀ j, j ≠ b → (Pi.single j (1 : K) : Fin 3 → K) ∈ Ω := by
     intro j hj

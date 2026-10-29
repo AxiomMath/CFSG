@@ -440,7 +440,7 @@ theorem lemma95 {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ : Subgroup G} (hc :
     (hin : Lemma95Inputs G p) (hC : Contra92 p B x L q Q₁) :
     GLATwoLocalRank q G ≤ GLATwoLocalRank p G := by
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
   have hq : q.Prime := hC.setup.prime

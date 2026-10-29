@@ -545,7 +545,7 @@ private theorem irr_three_le_index {Γ : Type} [Group Γ] [Finite Γ] {S : Subgr
 private theorem irr_dichotomy {Kc R : Subgroup G} (hR : (R.subgroupOf Kc).index ≤ 2) {k₀ k : G}
     (hk₀ : k₀ ∈ Kc) (hk : k ∈ Kc) (hk₀R : k₀ ∉ R) : k ∈ R ∨ k₀⁻¹ * k ∈ R := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hkR, hk₀kR⟩ := hcon
   have h3 : 3 ≤ (R.subgroupOf Kc).index :=
     irr_three_le_index (a := (1 : Kc)) (b := ⟨k₀, hk₀⟩) (c := ⟨k, hk⟩)
@@ -559,7 +559,7 @@ private theorem irr_quaternion_exists {Γ : Type} [Group Γ] {Φ ΦR : Subgroup 
     (hdich : ∀ σ ∈ Φ, ∀ τ ∈ Φ, σ ∉ ΦR → τ ∈ ΦR ∨ σ⁻¹ * τ ∈ ΦR) :
     ∃ x : QuaternionGroup 2, g x ∈ ΦR ∧ g x ^ 2 ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsq : ∀ x : QuaternionGroup 2, x ^ 2 ≠ 1 → g x ^ 2 ≠ 1 := by
     intro x hx h
     apply hx

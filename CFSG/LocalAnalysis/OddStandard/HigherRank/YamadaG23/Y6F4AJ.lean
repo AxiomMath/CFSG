@@ -196,7 +196,7 @@ private lemma Jsub_quot_solvable (P : Subgroup C) (e : ↥P ≃* MulAut PSL8)
   haveI : IsSimpleGroup PSL8 := simple_PSL8
   have hnoncomm : ∃ a b : PSL8, a * b ≠ b * a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact not_comm_PSL8 (IsMulCommutative.of_comm h)
   have hcat : Catalog PSL8 := lieModel_catalog PSL8 .PSL 2 2 3 lieModel_PSL8
   haveI hout : Group.IsSolvable Out8 := hSch PSL8 hnoncomm hcat

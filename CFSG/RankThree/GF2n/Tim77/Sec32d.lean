@@ -333,7 +333,7 @@ theorem sec32d_exists_outside (hC : Sec3Ctx A Abar S₀ B) (hs : Section3.IsSCho
     (hNnorm : ∀ y ∈ Section3.Y A Abar s, y ∈ normalizer (Section3.N A Abar s : Set G)) :
     ∃ b ∈ Section4.D A Abar s, b ∉ normalizer (A : Set G) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsC := sec32d_mem_centralizer hC hs
   have hK : Subgroup.closure (Section4.D A Abar s ∪ (Section3.N A Abar s : Set G)) ≤
       normalizer (A : Set G) := by
@@ -354,7 +354,7 @@ theorem sec32d_exists_noncomm (hC : Sec3Ctx A Abar S₀ B) {b : G}
     (hb : b ∉ normalizer (A : Set G)) :
     ∃ a ∈ A, a ∉ Section3.A0 A Abar ∧ ¬ Commute a b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hb
   have hA0le : Section3.A0 A Abar ≤ A := by
     rw [hC.a0_eq]
@@ -383,7 +383,7 @@ theorem sec32d_exists_third (_hC : Sec3Ctx A Abar S₀ B) (hA : IsElemAbelian 2 
     (ha0 : a ∉ Section3.A0 A Abar) :
     ∃ a' ∈ A, a' ∉ Section3.A0 A Abar ∧ a⁻¹ * a' ∉ Section3.A0 A Abar := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right (by rw [← pow_two]; exact hA.2 a ha)
   have h2 : (Section3.A0 A Abar).relIndex A = 2 := by
     rw [Subgroup.relIndex_eq_two_iff]

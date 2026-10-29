@@ -348,7 +348,7 @@ theorem totally_singular (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (F5 : FactF
     by_contra hne
     obtain ⟨x₀, hx₀⟩ : ∃ x₀, lam x₀ ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (LinearMap.ext fun x => h x)
     haveI : Finite (Additive ↥V) := by
       show Finite ↥V

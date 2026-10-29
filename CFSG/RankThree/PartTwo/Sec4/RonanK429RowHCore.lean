@@ -374,7 +374,7 @@ theorem le_of_isPerfect_of_card_le {C D K : Subgroup S} (hDC : D ≤ C) (hKC : K
     rw [hHcard] at hmul
     have hD0 : 0 < Nat.card D := Nat.card_pos
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card D * 5 ≤ Nat.card D * H.index := Nat.mul_le_mul_left _ hlt
     omega
   set N := H.normalCore
@@ -463,7 +463,7 @@ theorem good429_of_residual {C D : Subgroup S} (hDC : D ≤ C) (hidx : Nat.card 
         have : 2 ^ a ∣ M := (Dvd.intro_left _ ha.symm).trans hKdvd
         exact Nat.le_of_dvd hM0 this
       by_contra h
-      push_neg at h
+      push Not at h
       have : 2 ^ 64 ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) h
       omega
     simp only [residOK, List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.not_eq_true',
@@ -490,7 +490,7 @@ theorem not_isType429_quot_of_noEqOK {D : Subgroup S} [Group.IsPerfect D] {M B :
   have ha64 : a < 64 := by
     have h2a : 2 ^ a ≤ M := Nat.le_of_dvd hM0 (hM ▸ (Dvd.intro_left _ ha.symm))
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have : 2 ^ 64 ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) hge
     omega
   simp only [noEqOK, List.all_eq_true, List.mem_range, decide_eq_true_eq] at h

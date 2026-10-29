@@ -21,7 +21,7 @@ theorem exists_commute_notMem_zpowers_of_card_27 {G : Type} [Group G] [Finite G]
   have hcardU : Nat.card (Subgroup.zpowers u) = 3 := by rw [Nat.card_zpowers, hord]
   have hout : ∃ t : G, t ∉ Subgroup.zpowers u := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have htop : Subgroup.zpowers u = ⊤ := by
       ext x
       simp [hcon x]
@@ -38,7 +38,7 @@ theorem exists_commute_notMem_zpowers_of_card_27 {G : Type} [Group G] [Finite G]
   by_cases hcase : ∃ z ∈ Subgroup.center G, z ∉ Subgroup.zpowers u
   · obtain ⟨z, hzc, hzn⟩ := hcase
     exact ⟨z, (Subgroup.mem_center_iff.mp hzc u).symm, hzn⟩
-  · push_neg at hcase
+  · push Not at hcase
     have hz0u : z0 ∈ Subgroup.zpowers u := hcase z0 hz0c
     have hz0ord : orderOf z0 = 3 := by
       have hd : orderOf z0 ∣ 3 := by

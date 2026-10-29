@@ -54,7 +54,7 @@ theorem sporadicTwoBalanceFive_Th :
   haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨d, hdE, hd1⟩ : ∃ d ∈ E, d ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : E = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
       exact h

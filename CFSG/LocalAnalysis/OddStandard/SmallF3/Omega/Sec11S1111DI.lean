@@ -278,7 +278,7 @@ theorem sec11_dihedral_invol_mem_aux {m : ℕ} (hm : 2 ≤ m) {Θ : Set (Dihedra
   have h_exists_even : ∃ a : ZMod (2 ^ m), DihedralGroup.sr a ∈ Θ ∧
       ZMod.castHom (two_dvd_two_pow hm1) (ZMod 2) a = 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : Θ ⊆ oddSub hm1 := by
       intro s hs
       obtain ⟨i, rfl⟩ := hΘ_refl s hs
@@ -296,7 +296,7 @@ theorem sec11_dihedral_invol_mem_aux {m : ℕ} (hm : 2 ≤ m) {Θ : Set (Dihedra
   have h_exists_odd : ∃ b : ZMod (2 ^ m), DihedralGroup.sr b ∈ Θ ∧
       ZMod.castHom (two_dvd_two_pow hm1) (ZMod 2) b = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : Θ ⊆ evenSub hm1 := by
       intro s hs
       obtain ⟨i, rfl⟩ := hΘ_refl s hs

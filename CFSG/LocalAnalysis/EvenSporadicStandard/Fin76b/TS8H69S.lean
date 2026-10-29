@@ -203,7 +203,7 @@ theorem exists_fus : ∃ e ∈ E, e * e = 1 ∧ e ≠ 1 ∧ e ≠ t ∧ ∃ g : 
   have hcfg := h.outerE.cfg
   have hex : ∃ e ∈ E, e * e = 1 ∧ e ≠ 1 ∧ e ≠ t := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨e₁, he₁, e₂, he₂, hne⟩ := hE.nonab
     apply hne
     have hle : E ≤ zpowers t := by

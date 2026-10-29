@@ -58,7 +58,7 @@ theorem exists_B_eq_one (B : LinearMap.BilinForm (ZMod 2) W)
     (hq : ∀ v w, q (v + w) = q v + q w + B v w) {u : W} (hu : u ≠ 0) :
     ∃ x : W, B x u = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hu
   apply hB u
   intro w
@@ -112,7 +112,7 @@ theorem exists_nonsing_perp [FiniteDimensional (ZMod 2) W]
     (hdim : Module.finrank (ZMod 2) W = 6) {x : W} (hx : x ≠ 0) (hqx : q x = 0) :
     ∃ y : W, B x y = 0 ∧ q y = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsing : ∀ y : W, B x y = 0 → q y = 0 := fun y hy => by
     rcases zmod2_cases (q y) with h | h
     · exact h
@@ -163,7 +163,7 @@ theorem exists_nonsing_perp [FiniteDimensional (ZMod 2) W]
     omega
   obtain ⟨y, hyA, hyS⟩ : ∃ y ∈ LinearMap.ker (B x), y ∉ Submodule.span (ZMod 2) {x} := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hnotle hc
   have hpoint : ∀ w : W, B y w = B x w * B y a := by
     intro w

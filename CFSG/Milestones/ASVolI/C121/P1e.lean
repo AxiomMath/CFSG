@@ -55,7 +55,7 @@ theorem burnsideC121_sl2_irreducible {F : Type} [Field F] (A : Subgroup (Multipl
         rw [this]
         exact A.one_mem
       · exact hline0 _ (hl1 t) (by simpa using ht) t
-    · push_neg at h1
+    · push Not at h1
       have h0 : Multiplicative.toAdd (x : Multiplicative (Fin 2 → F)) 0 ≠ 0 := by
         intro h0
         apply hx1

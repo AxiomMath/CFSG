@@ -92,7 +92,7 @@ theorem exists_outer_quad (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     show A *ᵥ (A *ᵥ x) = x
     rw [Matrix.mulVec_mulVec, hAA, Matrix.one_mulVec]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hzero : ∀ y ∈ CFSG.RankThree.OrthogonalInvolutions.commSpace ℓ,
       quadMinus 3 F b c y = 0 := by
     intro y hy
@@ -312,7 +312,7 @@ theorem O6NatData.transvection (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ norma
     set r := (V ⊓ centralizer ({t} : Set G)).relIndex V with hr
     have hk3 : k ≤ 2 ^ (3 * n) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : (2 ^ (3 * n)) ^ 2 < k ^ 2 := Nat.pow_lt_pow_left h (by norm_num)
       have e : (2 ^ (3 * n)) ^ 2 = 2 ^ (6 * n) := by ring
       omega
@@ -455,7 +455,7 @@ theorem O6NatData.outer_nonsing (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ norm
     set yy := Nat.card ψ.range with hyy'
     have hk3 : kk ≤ 2 ^ (3 * n) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : (2 ^ (3 * n)) ^ 2 < kk ^ 2 := Nat.pow_lt_pow_left h (by norm_num)
       have e : (2 ^ (3 * n)) ^ 2 = 2 ^ (6 * n) := by ring
       omega

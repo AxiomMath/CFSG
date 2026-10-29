@@ -732,7 +732,7 @@ theorem burnsideB4h_O_card_ge {H₀ : Subgroup (GL (Fin 4) (ZMod 2))} (hH₀card
     Nat.le_of_dvd (by norm_num) hg
   rw [← horb]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : Nat.card (MulAction.orbit ↥H₀ burnsideB4h_wx0) *
       Nat.card (MulAction.stabilizer ↥H₀ burnsideB4h_wx0) ≤ 6 * 192 := by
     apply Nat.mul_le_mul (by omega) hle
@@ -1006,7 +1006,7 @@ theorem burnsideB4h_notIndep3 {a b c : Fin 4 → ZMod 2} (h : ¬ burnsideB4h_Ind
     a = 0 ∨ b = 0 ∨ c = 0 ∨ a = b ∨ a = c ∨ b = c ∨ a + b = c := by
   unfold burnsideB4h_Indep3 at h
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact h hcon
 
 theorem burnsideB4h_phi_zero {V : Type} [CommGroup V] {ρ : GL (Fin 4) (ZMod 2) →* MulAut V}
@@ -1189,7 +1189,7 @@ theorem burnsideB4h_core {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v 
   obtain ⟨k, hk⟩ := hpg.exists_card_eq
   have hk6 : 6 ≤ k := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : 2 ^ k ≤ 2 ^ 5 := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
   have hV64 : 64 ≤ Nat.card V := by

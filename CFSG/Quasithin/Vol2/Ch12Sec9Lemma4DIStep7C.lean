@@ -118,7 +118,7 @@ theorem DIEnv.exists_not_centralize (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 
     (h1289 : Lemma12_8_9W) (h12813 : Lemma12_8_13) (F2 : FactF2) :
     ∃ d ∈ CFSG.conjugate (zU128 V V₁) g, ∃ i : G, ∃ hi : i ∈ E.I, d * i * d⁻¹ ≠ i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : ∀ γ ∈ kmapOf (D.img K₁) E.kap (D.img (CFSG.conjugate (zU128 V V₁) g)), γ = 1 := by
     intro γ hγ
     apply LinearEquiv.ext
@@ -226,7 +226,7 @@ theorem DIEnv.C_Z_Dg (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2_2) (
         _ = (E.y₀ * z * E.y₀⁻¹) * d := by group
     have hnot : ∃ j ∈ CC, j ∉ wcSub T L V V₁ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : CC ≤ wcSub T L V V₁ := fun j hj => hcon j hj
       have h1 := Subgroup.relIndex_eq_one.2 hle
       rw [hr2] at h1
@@ -292,7 +292,7 @@ theorem DIEnv.plane_false (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2
     omega
   obtain ⟨j, hjI, hjW⟩ : ∃ j ∈ E.I, j ∉ wcSub T L V V₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : E.I ≤ E.I ⊓ wcSub T L V V₁ := fun j hj => Subgroup.mem_inf.2 ⟨hj, hcon j hj⟩
     have h1 := Subgroup.relIndex_eq_one.2 hle
     rw [h1] at hrel2

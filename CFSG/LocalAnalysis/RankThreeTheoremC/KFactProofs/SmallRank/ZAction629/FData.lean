@@ -309,7 +309,7 @@ theorem FData.isCyclic_of_scalar (hF : FData f F) {C : Subgroup K}
   haveI : Fact f.Prime := ⟨hF.prime⟩
   obtain ⟨a₀, ha₀F, ha₀⟩ : ∃ a₀ ∈ F, a₀ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hF.ne
     rw [Subgroup.eq_bot_iff_forall]
     exact hcon

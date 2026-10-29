@@ -53,7 +53,7 @@ theorem parityModel_holds : I141F.ParityModel := by
         (CFSG.LocalAnalysis.GLTheoremB.MovingAround.Lemma123.isChevTwo_of_isChevSimple_two hchev)
         p hp hp2 _ hĒ.isPGroup
     exact odd_card_of_commute_of_isSubnormal hsn hO2 (zBar_mono hQJ) hMc
-  · push_neg at hab
+  · push Not at hab
     have hbot : zBar H J = ⊥ := by
       rw [← hPperf, eq_bot_iff, Subgroup.commutator_le]
       intro a _ b _

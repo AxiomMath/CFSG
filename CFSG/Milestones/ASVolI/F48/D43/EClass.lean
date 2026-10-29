@@ -22,7 +22,7 @@ theorem burnsideF48dE_compl_not_le (hM : burnsideF48d_ModelFacts)
     {K'' : Subgroup ↥burnsideF48dE_Xh} (hle : K'' ≤ burnsideF48dE_P1 ⊓ burnsideF48dE_P2)
     (hQ : burnsideF48dE_Q K'') : ∃ s ∈ K'', s ∉ burnsideF48dE_Xs := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hKB : ∀ s ∈ K'', s ∈ burnsideF48dE_Bs := fun s hs =>
     ⟨⟨s, hne s hs⟩, burnsideF48dE_mem_B hM (hle hs) (hne s hs), rfl⟩
   have hUB : burnsideF48dE_Uh ≤ burnsideF48dE_Bs := Subgroup.map_mono hM.U_le

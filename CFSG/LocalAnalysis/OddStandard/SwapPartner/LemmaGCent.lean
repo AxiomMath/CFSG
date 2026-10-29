@@ -33,7 +33,7 @@ private theorem lGC_mem_triple_of_comm {α : Type*} [DecidableEq α] {w : Perm �
     intro y hya hyb hyc
     rw [hd, Perm.mul_apply, swap_apply_of_ne_of_ne hya hyc, swap_apply_of_ne_of_ne hya hyb]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h2, h3⟩ := hcon
   have hcomm : w * d = d * w := by rw [hd]; exact h
   have hdx : d x ≠ x := by

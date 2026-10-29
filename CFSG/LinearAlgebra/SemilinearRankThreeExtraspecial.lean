@@ -81,7 +81,7 @@ private theorem semilinear_rank_three_kernel_transports
       _ = 1 := map_one τ
   have hncJ : ∃ x y : J, x * y ≠ y * x := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcommJ : ∀ x y : J, x * y = y * x := fun x y => h x y
     have hcommMat : ∀ a ∈ Jmat, ∀ b ∈ Jmat, a * b = b * a := by
       rintro a ⟨x, rfl⟩ b ⟨y, rfl⟩

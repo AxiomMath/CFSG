@@ -1326,7 +1326,7 @@ theorem layer_eq_of_isU4two {C : Subgroup G} (hC : catalogIs ↥C S9.isU4two) (h
   have hsimple : IsSimpleGroup ↥C := isSimple_of_isU4two hC
   obtain ⟨J, hJ, hJne⟩ : ∃ J : Subgroup G, GLAPComponent 3 C J ∧ J ≠ ⊥ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     unfold GLAPLayer
     exact sSup_eq_bot.2 fun J hJ => hno J hJ
@@ -2275,7 +2275,7 @@ theorem K_single_comp (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup
     rw [Nat.card_zpowers, orderOf_eq_prime hdp hd1]
   obtain ⟨e, heD, hed⟩ : ∃ e ∈ Dgrp x y, e ∉ Subgroup.zpowers d := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Dgrp x y ≤ Subgroup.zpowers d := fun z hz => hcon z hz
     have h1 := Subgroup.card_le_of_le hle
     rw [hD0card', hcardd] at h1
@@ -2396,7 +2396,7 @@ theorem K_single_cen (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     rw [Nat.card_zpowers, orderOf_eq_prime hdp hd1]
   obtain ⟨x', hx'D, hx'd⟩ : ∃ x' ∈ Dgrp x y, x' ∉ Subgroup.zpowers d := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Dgrp x y ≤ Subgroup.zpowers d := fun z hz => hcon z hz
     have h1 := Subgroup.card_le_of_le hle
     rw [hD0card', hcardd] at h1
@@ -2989,7 +2989,7 @@ theorem r2_BdK_gt (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} 
     · obtain ⟨labW, RW, instW, IW, FW, θW, hP⟩ := lemma103_marking_witness hB3
       have hgt : 2 ^ 18 < card2 3 K := hP.2
       by_contra hle
-      push_neg at hle
+      push Not at hle
       have h1 : centCard2 3 K hF.choose ^ 3 ≤ (2 ^ 6) ^ 3 := Nat.pow_le_pow_left hle 3
       have h2 : card2 3 K ≤ 2 ^ 18 := by
         rw [← hpow]
@@ -3088,7 +3088,7 @@ theorem rank_eq_four (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup 
     exact Nat.mul_le_mul_left _ h9
   have hm : GLATwoLocalRank 3 G ≤ 4 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     have : 3 ^ 5 ≤ 3 ^ GLATwoLocalRank 3 G := Nat.pow_le_pow_right (by norm_num) hgt
     omega
   exact le_antisymm hm hc.ctx.rank_ge

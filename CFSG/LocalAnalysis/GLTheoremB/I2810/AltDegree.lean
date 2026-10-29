@@ -66,7 +66,7 @@ theorem no_alt_order (b : Bool) {N m : ℕ} (hm : 4 ≤ m) (hN : 5 ≤ N)
     rw [← this, h]; ring
   have hE : m * (m - 1) + 2 ≤ N := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     apply two_pow_not_dvd_factorial' (n := N) (by omega)
     have : 2 ^ N ∣ 2 ^ (m * (m - 1) + 1) := pow_dvd_pow 2 (by omega)
     exact this.trans (hfac ▸ dvd_mul_right _ _)

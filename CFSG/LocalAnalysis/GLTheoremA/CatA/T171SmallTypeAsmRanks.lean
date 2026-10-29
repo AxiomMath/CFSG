@@ -100,7 +100,7 @@ theorem pRank_mulAut_lie_U33
   have hperf : commutator d.Group = ⊤ := by
     have hnab : ∃ a b : d.Group, a * b ≠ b * a := by
       by_contra h
-      push_neg at h
+      push Not at h
       haveI : IsMulCommutative d.Group := isMulCommutative_iff.2 (fun a b => h a b)
       have hprime := (CommGroup.is_simple_iff_prime_card (α := d.Group)).1 hsimple
       rw [hcardG] at hprime

@@ -129,7 +129,7 @@ theorem y6f4a_no_z4cube_aut_prod {A : Type} [Group A] [Finite A] [IsSimpleGroup 
       norm_num
     · have hex : ∃ s : M, s ∉ K := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact htop (le_antisymm le_top fun x _ => h x)
       obtain ⟨s, hs⟩ := hex
       have hns : ¬ Pres (ρ s) := fun hp => hs ((hKmem s).mpr hp)

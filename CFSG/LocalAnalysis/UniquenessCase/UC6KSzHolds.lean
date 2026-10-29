@@ -40,7 +40,7 @@ theorem kSz_holds : KSz := by
   intro S _ _ hK hs hnc hcop α hα
   have hnab : ∃ a b : S, a * b ≠ b * a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hnc ⟨⟨fun a b => h a b⟩⟩
   have hcat : CFSG.Assembly.InCatalog S := by
     have := hK.isCatalogGroup_of_surjective ⊤ hnab (Subgroup.topEquiv (G := S)).toMonoidHom

@@ -113,7 +113,7 @@ theorem glaPLayer_inf_centralizer_ne_bot_of_pumpRel {p : ℕ} (hp : p.Prime) (h1
     exact l49c_mem_normalizer_inf (hB'H (hEB' he)) (Subgroup.le_normalizer (hEC' he))
   obtain ⟨D₁, hD₁Y, hD₁⟩ : ∃ D₁ : Subgroup G, GLAPComponent p (H ⊓ Ce) D₁ ∧ D₁ ≠ ⊥ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     refine le_antisymm (sSup_le fun K hK => ?_) bot_le
     exact (hcon K hK).le

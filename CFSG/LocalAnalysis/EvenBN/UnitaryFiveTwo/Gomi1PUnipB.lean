@@ -45,7 +45,7 @@ private theorem gm1pB_pow_four [Finite K] (hK : Nat.card K = 4) (x : K) : x ^ 4 
 private theorem gm1pB_exists_ne_zero_one [Finite K] (hK : Nat.card K = 4) :
     ∃ y : K, y ≠ 0 ∧ y ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsurj : Function.Surjective (fun x : Fin 2 => if x = 0 then (0 : K) else 1) := by
     intro y
     by_cases hy : y = 0

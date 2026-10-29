@@ -13,7 +13,7 @@ theorem orbit_bound_A10 {P : Subgroup (Perm (Fin 10))} (hP : CFSG.Open.IsElemAbe
     Nat.card P ≤ 27 ∧ (27 ≤ Nat.card P → ∃ a ∈ P, (a.support).card = 3) := by
   constructor
   · by_contra h
-    push_neg at h
+    push Not at h
     have := (orbit_pCycles (n := 10) Nat.prime_three (le_refl 3) P hP (by norm_num; omega)).1
     norm_num at this
     omega
@@ -81,7 +81,7 @@ theorem fix_comm_pow {σ x : Perm (Fin 10)} (h3 : σ ^ 3 = 1) (hc : (σ.support)
       · exact hne h
       · exact hqu h.symm
       · exact hru h.symm
-    · push_neg at hout
+    · push Not at hout
       apply hcxp
       exact cyc_apply_other hpq hqr hpr hpu.symm hout.2.1 hout.2.2
   have hstab : ∀ t ∈ σ.support, x t ∈ σ.support := by

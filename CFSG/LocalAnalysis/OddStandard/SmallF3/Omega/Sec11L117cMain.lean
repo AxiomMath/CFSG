@@ -76,7 +76,7 @@ theorem JMod_eq [Finite G] (h : Sec11cCnt G z R T C D Q1 Q2 a x) {Y : Subgroup G
   have hHR : D ⊔ (Q1 ⊔ Q2) ≤ R := sup_le h.D_le (h.Q_le_T.trans h.T_le)
   have hexY : ∃ u0 ∈ D, u0 ∉ Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : D ≤ Y := fun u hu => hcon u hu
     have h1 : Y.relIndex D = 1 := Subgroup.relIndex_eq_one.mpr hle
     rw [h1] at hYi

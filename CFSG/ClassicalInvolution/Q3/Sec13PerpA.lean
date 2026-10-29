@@ -171,7 +171,7 @@ private theorem perpA_comm_of_not_mem_kperp (h : EndHyp Ω) {W : Subgroup G} (hW
       _ = (u * u') * s := (mul_assoc _ _ _).symm
   obtain ⟨t0, ht0T, ht0⟩ : ∃ t0 ∈ T, t0 ∉ T ⊓ W := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : T ≤ T ⊓ W := fun x hx => hcon x hx
     have := Subgroup.card_le_of_le hle
     omega
@@ -181,7 +181,7 @@ private theorem perpA_comm_of_not_mem_kperp (h : EndHyp Ω) {W : Subgroup G} (hW
     Subgroup.mem_inf.mpr ⟨ht0T, by rw [hC, Subgroup.mem_centralizer_singleton_iff]; exact hx0.symm⟩
   have hcardK : 4 < Nat.card ↥(T ⊓ C) := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have heq : T ⊓ W = T ⊓ C := Subgroup.eq_of_le_of_card_ge hHC (by omega)
     exact ht0 (heq ▸ ht0C)
   have hdvd : Nat.card ↥(T ⊓ C) ∣ Nat.card T := Subgroup.card_dvd_of_le inf_le_left
@@ -279,7 +279,7 @@ private theorem perpA_kperp_subset_dSet (h : EndHyp Ω)
 private theorem perpA_exists_not_mem (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet Ω)
     {A : Subgroup G} (hA : A ∈ DSet Ω W) : ∃ r ∈ A, r ∉ W := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : A ≤ W := fun r hr => hcon r hr
   have hAΩ : A ∈ Ω := (h.mem_dSet_iff.mp hA).1
   have hA8 : Nat.card A = 8 := h.card_eq_eight hAΩ

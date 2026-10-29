@@ -85,7 +85,7 @@ theorem normalizer_of_abelian_bound {X : Type*} [Group X] [Finite X]
       exact h
     have hcen := Group.IsNilpotent.inf_center_ne_bot_of_normal hne
     rw [ne_eq, Subgroup.eq_bot_iff_forall] at hcen
-    push_neg at hcen
+    push Not at hcen
     obtain ⟨w, hwH, hw1⟩ := hcen
     obtain ⟨hwV, hwC⟩ := Subgroup.mem_inf.mp hwH
     have hwV' : (w : X) ∈ V := Subgroup.mem_subgroupOf.mp hwV

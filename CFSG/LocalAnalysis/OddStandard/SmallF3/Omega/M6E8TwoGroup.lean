@@ -76,7 +76,7 @@ theorem m6e8_two_group {T K : Subgroup G} {y r : G} (hT : IsPGroup 2 T)
     rw [hn]
     have hn3 : 3 ≤ n := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hlt : 4 < 2 ^ n := by rwa [← hn]
       interval_cases n <;> norm_num at hlt
     calc 8 = 2 ^ 3 := by norm_num

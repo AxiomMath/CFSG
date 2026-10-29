@@ -104,7 +104,7 @@ theorem exists_fixed_of_odd_level {f : ℕ} (hf : Odd f) (hK : Nat.card K = 2 ^ 
           Fintype.card (Function.fixedPoints T) % 3 := h
       rw [← h', two_pow_mod_three_of_odd (hf.mul hodd)]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Function.fixedPoints T ⊆ {1} := by
       intro x hx
       have hx' : φ x = x := congrArg Subtype.val hx

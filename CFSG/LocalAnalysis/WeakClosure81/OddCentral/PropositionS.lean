@@ -32,7 +32,7 @@ theorem frame_commute_hat {G M : Type} [Group G] [Finite G] [AddCommGroup M] [Fi
         d i * x * (d i)⁻¹ * x⁻¹ ∈ Q₀)) :
     ∀ i, ∀ y ∈ R, d i * y = y * d i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨i₀, y₀, hy₀, hne₀⟩ := hcon
   obtain ⟨r, hr, hrM, Q, Q₀, hQn, hQR, hQ₀Q, hQ', hQ₀Z, hQ₀p, hQr, hchief, hS1⟩ :=
     exists_S1 hfaith hirr hRodd hd ht hgen ⟨y₀, hy₀, i₀, hne₀⟩
@@ -108,7 +108,7 @@ theorem comm_of_chief_odd {A B : Subgroup Y} [hA : A.Normal] [hB : B.Normal] (hB
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Odd.of_dvd_nat hAodd (card_map_dvd A f))
   have hne : A.map f ≠ ⊥ := by
     obtain ⟨a, ha, haB⟩ : ∃ a ∈ A, a ∉ B := by
-      by_contra h; push_neg at h; exact hBA.ne (le_antisymm hBA.le h)
+      by_contra h; push Not at h; exact hBA.ne (le_antisymm hBA.le h)
     intro h
     have : f a ∈ A.map f := mem_map_of_mem f ha
     rw [h, mem_bot, hfB] at this

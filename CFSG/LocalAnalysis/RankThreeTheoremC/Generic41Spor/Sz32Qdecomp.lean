@@ -439,7 +439,7 @@ theorem sz32_Q_decomp (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal 
   rw [hrank3] at hEcard
   obtain ⟨y, hyE, hyQ⟩ : ∃ y ∈ E, y ∉ Subgroup.zpowers a ⊔ Subgroup.zpowers c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEW : E ≤ Subgroup.zpowers (a ^ 5) ⊔ Subgroup.zpowers x :=
       fun q hq => hOm q (hcon q hq) (hEel.2 q hq)
     have := Subgroup.card_le_of_le hEW

@@ -582,7 +582,7 @@ theorem lemmaA (𝒜 : Subgroup GL6) (hUT : ∀ A ∈ 𝒜, IsUT (A : M6))
       omega
     refine ⟨hmemT, fun N => ?_⟩
     exact Set.ext_iff.mp heq N
-  · push_neg at hcaseA
+  · push Not at hcaseA
     have hA2 : Nat.card 𝒜 ≤ 2 := by
       let g : 𝒜 → ZMod 2 := fun A => ((A.1 : GL6) : M6) 0 5
       have hg : Function.Injective g := by

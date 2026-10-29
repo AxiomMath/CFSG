@@ -319,7 +319,7 @@ theorem dot24_permAct (σ : Equiv.Perm (Fin 24)) (u v : PM24) :
 theorem exists_dot24_ne_zero {u : PM24} (hu : u ≠ 1) : ∃ v : PM24, dot24 u v ≠ 0 := by
   have hex : ∃ i, Multiplicative.toAdd u i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hu
     apply Multiplicative.toAdd.injective
     funext i
@@ -334,7 +334,7 @@ theorem exists_dot_coreMod_of_golay_not_zpowers (c : PM24) (hc : c ∈ golayC)
     ∃ w ∈ G6.coreMod 24, dot24 c w ≠ 0 := by
   have hnc : ∃ i j : Fin 24, Multiplicative.toAdd c i ≠ Multiplicative.toAdd c j := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hcz
     have hc' : c = 1 ∨ c = G6.allOnes 24 := by
       rcases h13_zmod2_cases (Multiplicative.toAdd c 0) with h0 | h0
@@ -381,7 +381,7 @@ theorem exists_golay_dot_of_not_mem_coreMod_pair (a b : Fin 24) (hab : a ≠ b) 
     simp at h2
   have hc0 : ∃ c0 ∈ golayC, dot24 c0 (pairVec a b) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hp_not (golay_mem_of_dot _ fun c hc => by rw [dot24_comm]; exact h c hc)
   obtain ⟨c0, hc0g, hc0p⟩ := hc0
   have hkey : ∀ c ∈ golayC, dot24 c w = dot24 c (pairVec a b) * dot24 c0 w := by
@@ -560,7 +560,7 @@ theorem pairVec_not_mem_golayC (a b : Fin 24) (hab : a ≠ b) : pairVec a b ∉ 
 theorem exists_golay_dot_pairVec_ne (a b : Fin 24) (hab : a ≠ b) :
     ∃ c0 ∈ golayC, dot24 c0 (pairVec a b) ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact pairVec_not_mem_golayC a b hab (golay_mem_of_dot _ fun c hc => by
     rw [dot24_comm]
     exact h c hc)
@@ -1054,7 +1054,7 @@ theorem H_13_1_partial_holds : H_13_1_partial := by
   · rw [rk_golayC, rk_zpowers_allOnes]
   · intro w _ hw
     by_contra h
-    push_neg at h
+    push Not at h
     exact hw (golay_mem_of_dot w fun c hc => by
       rw [dot24_comm]
       exact h c hc)
@@ -1077,7 +1077,7 @@ theorem H_13_1_partial_holds : H_13_1_partial := by
     · exact fun c hc hcz => exists_dot_coreMod_of_golay_not_zpowers c (Subgroup.mem_inf.1 hc).1 hcz
     · intro w _ hw
       by_contra h
-      push_neg at h
+      push Not at h
       exact hw (exists_golay_dot_of_not_mem_coreMod_pair a b hab w fun c hc => h c hc)
 
 theorem as_H_13_1 : H_13_1 := by

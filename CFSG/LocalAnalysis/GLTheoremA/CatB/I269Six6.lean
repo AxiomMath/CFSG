@@ -163,7 +163,7 @@ theorem exists_split (hcomm : ∀ x ∈ Ē, ∀ y ∈ Ē, x * y = y * x) (hexp :
     have : 27 ≤ Nat.card f.ker * 3 := by rw [← hq]; exact Nat.mul_le_mul_left _ hr
     omega
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hsub : f.ker ≤ (Zs.comap (Eh Ē).subtype) := by
     intro g hg
     have hg' : g.1 ∈ Zs := by
@@ -202,7 +202,7 @@ theorem key_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
       Matrix.scalar (Fin 6) c).rank
   · exact bot_of_perfect_rank hperf (mem_UG_of_M6 g) hg3'
       (fun u hu => congrArg Subtype.val (hJ u hu g hgÊ)) hrk
-  push_neg at hrk
+  push Not at hrk
   obtain ⟨lm, hlt⟩ := hrk
   obtain ⟨P, d, hd⟩ := exists_diag6 ⟨(g : GL (Fin 6) F4), mem_UG_of_M6 g⟩
     (by apply Subtype.ext; simpa using hg3')
@@ -227,7 +227,7 @@ theorem key_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
     group
   have hns : ∃ i, d i ≠ lm := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hprod : ∏ i, d i = lm ^ 6 := by simp [hall, Finset.prod_const]
     have hlm0 : lm ≠ 0 := by
       rintro rfl

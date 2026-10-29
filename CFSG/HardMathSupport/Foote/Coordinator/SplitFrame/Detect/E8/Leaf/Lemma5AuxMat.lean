@@ -371,7 +371,7 @@ theorem exists_w (c : Fin 5 → K) (hc0 : c 0 = 0) :
         · first
           | (simp [hpj, hp4, hp0, hcj]; done)
           | (simp [hpj, hp4, hp0]; field_simp; ring)
-  · push_neg at hex
+  · push Not at hex
     have h1 : c 1 = 0 := hex 1 (by decide) (by decide)
     have h2 : c 2 = 0 := hex 2 (by decide) (by decide)
     have h3 : c 3 = 0 := hex 3 (by decide) (by decide)
@@ -598,14 +598,14 @@ theorem pure_of_dich (D : Subgroup SL(5, K)) (hlo : D ≤ LoSG K) (hnt : ∃ d �
   have e44 : c 4 * r 4 = 0 := by simpa [lomat] using hent 4 4
   have hcne : ∃ p, c p ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : ∀ p, (M : Matrix (Fin 5) (Fin 5) K) p 0 = 0 := fun p => by rw [← hc]; exact hcon p
     have h1 : ((M⁻¹ * M : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 0 0 = 1 := by simp
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply] at h1
     simp [hz] at h1
   have hrne : ∃ q, r q ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : ∀ q, ((M⁻¹ : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 q = 0 :=
       fun q => by rw [← hr]; exact hcon q
     have h1 : ((M⁻¹ * M : SL(5, K)) : Matrix (Fin 5) (Fin 5) K) 4 4 = 1 := by simp
@@ -647,7 +647,7 @@ theorem pure_of_dich (D : Subgroup SL(5, K)) (hlo : D ≤ LoSG K) (hnt : ∃ d �
       · exact ⟨3, by decide, by decide, h⟩
     exact pure_typeB D M c r j hj0 hj4 hrj hr4 hcz hDM hconj
   ·
-    push_neg at hB
+    push Not at hB
     obtain ⟨hr1, hr2, hr3⟩ := hB
     have hr4 : r 4 = 0 := by
       by_contra h4

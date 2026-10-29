@@ -36,7 +36,7 @@ theorem l2_pauli_transfer {G H J : Type} [Group G] [Group H] [Group J] [Finite G
     simpa using congrArg Subtype.val h
   have E3 : ∃ e ∈ A, e ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : A = ⊥ := (Subgroup.eq_bot_iff_forall A).mpr h
     rw [hbot, Subgroup.card_bot] at hEcard
     norm_num at hEcard

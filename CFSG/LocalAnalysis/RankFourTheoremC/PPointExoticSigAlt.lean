@@ -37,7 +37,7 @@ variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 theorem exists_moved_of_card (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm Ω)}
     (hB : Nat.card B = 25) (ω : Ω) : ∃ β ∈ B, β ω ≠ ω := by
   by_contra hfix
-  push_neg at hfix
+  push Not at hfix
   have hle : B ≤ MulAction.stabilizer (Perm Ω) ω := fun β hβ =>
     MulAction.mem_stabilizer_iff.2 (hfix β hβ)
   have h1 := Subgroup.card_dvd_of_le hle
@@ -131,7 +131,7 @@ theorem eq_bot_of_card_ten (hΩ : Fintype.card Ω = 10) {B Y : Subgroup (Perm Ω
   have hy₀1 : y₀ ≠ 1 := fun h => hy₁ (Subtype.ext h)
   obtain ⟨ω₀, hω₀⟩ : ∃ ω, y₀ ω ≠ ω := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hy₀1 (Equiv.ext h)
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Ω → ℕ, ∀ ω, ρ ω = (MulAction.orbit Y ω).ncard :=
     ⟨fun ω => (MulAction.orbit Y ω).ncard, fun _ => rfl⟩

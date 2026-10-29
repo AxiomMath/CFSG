@@ -71,7 +71,7 @@ theorem exists_sq_eq_of_not_isCyclic {C : Subgroup K} (hC : IsPGroup 2 C) {t : K
     (hnc : ¬ IsCyclic C) : ∃ c ∈ C, c ^ 2 = t := by
   obtain ⟨x, hxC, hxt⟩ : ∃ x ∈ C, x ∉ Subgroup.zpowers t := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     refine ⟨⟨⟨t, ht⟩, fun y => ?_⟩⟩
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp (hcon y.1 y.2)
@@ -80,7 +80,7 @@ theorem exists_sq_eq_of_not_isCyclic {C : Subgroup K} (hC : IsPGroup 2 C) {t : K
   have hx1 : x ≠ 1 := fun h => hxt (by rw [h]; exact Subgroup.one_mem _)
   have hk2 : 2 ≤ k := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases k
     · exact hx1 (orderOf_eq_one_iff.mp (by simpa using hk))
     · have hx2 : x ^ 2 = 1 := orderOf_dvd_iff_pow_eq_one.mp (by rw [hk]; norm_num)

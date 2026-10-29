@@ -55,7 +55,7 @@ theorem ob5_exists_v (f : ↥I →* DihedralGroup 5) (hsurj : Function.Surjectiv
     (hVh' : ∀ w ∈ Vh, ∃ v ∈ V, w = h * v * h⁻¹) :
     ∃ v ∈ V, ob5dd f v ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hVP : V ≤ P := fun v hv => (hfP v (hIV ▸ Subgroup.mem_sup_left hv)).mp (hcon v hv)
   have hVhP : Vh ≤ P := by
     intro w hw

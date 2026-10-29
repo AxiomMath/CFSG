@@ -82,7 +82,7 @@ theorem chief_V2z_top (hK : Nat.card K = (2 ^ 1) ^ 2) :
         simp
       simpa using W.mul_mem (hVW hmem) hX
     ·
-      push_neg at hne
+      push Not at hne
       refine Or.inl (le_antisymm (fun X hX => ?_) hVW)
       rw [mem_V2z_iff_hermBlkZ]
       exact hne (hermBlkZ X) ((hSmem _).2 ⟨X, hX, rfl⟩)

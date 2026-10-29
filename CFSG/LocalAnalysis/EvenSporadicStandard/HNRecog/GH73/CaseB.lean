@@ -17,7 +17,7 @@ theorem caseB {X : Type} [Group X] [Finite X] [Group.IsPerfect X]
   classical
   obtain ⟨L, hL⟩ : ∃ L : Subgroup X, CFSG.IsComponent L := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hE (CFSG.LocalCores.layer_eq_bot_of_forall h)
   obtain ⟨hLnorm, hLsimple, C, hCnorm, hdisj, hsup, hcomm⟩ :=
     component_splits hK hS D.gen_four hZ L hL

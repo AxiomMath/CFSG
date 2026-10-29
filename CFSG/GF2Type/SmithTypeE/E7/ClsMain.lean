@@ -28,7 +28,7 @@ theorem vec_dichotomy {S : Set ((Fin 6 → ZMod 2) × (Fin 6 → ZMod 2))}
   by_cases hall : ∀ p ∈ S, p.2 = 0
   · exact Or.inl hall
   · right
-    push_neg at hall
+    push Not at hall
     obtain ⟨p₁, hp₁, hne⟩ := hall
     have hp₁e : p₁.2 = p₁.1 := (h1 p₁ hp₁).resolve_left hne
     intro p hp
@@ -277,7 +277,7 @@ theorem classification_normalized (Xs Ps : Subgroup ↥Stab0)
     exact Subgroup.eq_of_le_of_card_ge hle (by
       rw [card_K0, Subgroup.card_map_of_injective Subtype.val_injective, hcard])
   right
-  push_neg at h1
+  push Not at h1
   let 𝒜 : Subgroup GL6 := (alphaS.comp Xs.subtype).range
   have hmem𝒜 : ∀ A : GL6, A ∈ 𝒜 ↔ ∃ x ∈ Xs, alphaS x = A := by
     intro A

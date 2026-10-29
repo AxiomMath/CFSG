@@ -202,7 +202,7 @@ theorem ggL45NtCore_of_geo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [
       linarith [hEcard]
     have he₂ : ∃ e₂ : MulAut R, e₂ ∈ Ebar ∧ e₂ ∉ Subgroup.zpowers (e₁ : MulAut R) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : Ebar ≤ Subgroup.zpowers (e₁ : MulAut R) := fun x hx => h x hx
       have heq : Ebar = Subgroup.zpowers (e₁ : MulAut R) := le_antisymm hle hzp_le
       have hcard_eq : Nat.card Ebar = Nat.card (Subgroup.zpowers (e₁ : MulAut R)) :=

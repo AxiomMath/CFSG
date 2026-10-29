@@ -536,14 +536,14 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
     have hzpc : Nat.card (Subgroup.zpowers u) = 5 := by rw [Nat.card_zpowers, huo]
     have hE_gt5 : 5 < Nat.card ↥E := by
       by_contra hle
-      push_neg at hle
+      push Not at hle
       have hEq : Subgroup.zpowers u = E :=
         Subgroup.eq_of_le_of_card_ge hzp_le (by rw [hzpc]; exact hle)
       exact hgu (hEq.symm ▸ hgugE)
     obtain ⟨m, hm⟩ := hE5.exists_card_eq
     have hm2 : 2 ≤ m := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have hle : Nat.card ↥E ≤ 5 := by
         rw [hm]
         interval_cases m <;> norm_num
@@ -762,7 +762,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
       exact hLneZ (Subgroup.eq_of_le_of_card_ge hZL (by rw [hZcard, h])).symm
     have hj2 : 2 ≤ j := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases j
       · rw [hj] at h5le
         norm_num at h5le
@@ -774,7 +774,7 @@ theorem s16c1_exists_fixed_noncentral {Y : Type} [Group Y] [Finite Y] {N S : Sub
   · obtain ⟨x, hxker, hxnotZ⟩ := hker
     obtain ⟨b', hb'N, hb'Z, hb'fix⟩ := key x hxnotZ hxker
     exact ⟨u, huS, b', hb'N, huo, huN, hb'Z, hb'fix⟩
-  · push_neg at hker
+  · push Not at hker
     have hker_eq : δ.ker = Z.subgroupOf L := le_antisymm hker hZker
     have hker_card : Nat.card δ.ker = 5 := by
       rw [hker_eq, natCard_subgroupOf_eq Z L hZL, hZcard]

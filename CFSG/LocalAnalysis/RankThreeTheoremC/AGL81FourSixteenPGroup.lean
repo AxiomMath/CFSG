@@ -218,7 +218,7 @@ theorem exists_heis_of_not_commute (hp2 : p ≠ 2) {Q : Subgroup G} (hQ : IsPGro
     have hlt : Nat.card (closure ({x, u i} : Set G)) < n :=
       hn ▸ (Subgroup.card_le_of_le hle).trans_lt hKc
     exact ih _ hlt x (u i) rfl hxQ (hRQ (hKR (huK i))) hxp (hup i) hi
-  push_neg at hcase
+  push Not at hcase
   have hshift : ∀ i d, u (i + d) = y ^ i * u d * (y ^ i)⁻¹ := fun i d => by
     simp only [u, pow_add]; group
   have hcomm2 : ∀ i d, u i * u (i + d) = u (i + d) * u i := by

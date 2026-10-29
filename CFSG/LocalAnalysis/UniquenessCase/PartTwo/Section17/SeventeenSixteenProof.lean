@@ -474,7 +474,7 @@ theorem seventeen_sixteen_case_three
   · have hrsig : r ∈ D.sig := hSg.four_mem r hr hr2 h4
     have hE'M : E' ≤ D.M := hE'delta.trans hsupM
     exact finish E' hE'delta (h61 r hrsig E' hE'M hE'el.isPGroup hE'nc)
-  · push_neg at h4
+  · push Not at h4
     have hrank := hKO2 (Bar2 L) r q hr hr2 ⟨t, n, f, hadm, hq_eq, hmq⟩ hq hodd hL2 hL3 hRee
     rcases hrank with h4' | ⟨hqr, hexcBar, hZbar⟩
     · have hEq : CFSG.Open.pRank r (⊤ : Subgroup (Bar2 L)) = CFSG.Open.pRank r L :=
@@ -538,7 +538,7 @@ theorem seventeen_sixteen_case_three
             UC6S846.le_pRank' hp (le_refl E''') hE'''el hE'''card
           omega
         exact finish E''' hE'''delta (h61 p hpσ E''' hE'''M hE'''el.isPGroup hE'''nc)
-      · push_neg at hall
+      · push Not at hall
         obtain ⟨p, hpσ, hpdvd⟩ := hall
         have hp : p.Prime := (D.sig_prime p hpσ).1
         have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2

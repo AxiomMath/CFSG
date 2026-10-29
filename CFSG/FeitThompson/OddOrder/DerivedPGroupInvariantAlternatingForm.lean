@@ -291,7 +291,7 @@ theorem exists_ne_zero_isAlt_invariant_bilinForm_of_commutator_ne_bot
   have e := mulEquivOfPrimeCardEq (p := p) hRcard hmc
   have hne : ∃ x y : H, quotientCommForm Q e x y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : commutator H ≤ Q := by
       rw [commutator_def, Subgroup.commutator_le]
       intro x _ y _

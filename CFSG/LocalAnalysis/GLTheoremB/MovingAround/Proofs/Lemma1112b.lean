@@ -697,7 +697,7 @@ theorem exists_zpowers_mul_of_card_three {A T : Subgroup G} {a : G} (ha3 : a ^ 3
     · rw [Nat.card_zpowers, hU3, hord3 x hx hx1]
   obtain ⟨x, hxU, hx1⟩ : ∃ x ∈ U, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : U = ⊥ := (Subgroup.eq_bot_iff_forall U).2 hcon
     rw [hbot] at hU3
     simp at hU3
@@ -835,7 +835,7 @@ theorem le_of_centerOf_of_isSCp {A Q U : Subgroup G} [Finite G] (hA : IsElemAbel
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxU, hx1⟩ : ∃ x ∈ U, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : U = ⊥ := (Subgroup.eq_bot_iff_forall U).2 hcon
     rw [hbot] at hU3
     simp at hU3
@@ -885,7 +885,7 @@ theorem le_of_centerOf_of_isSCp {A Q U : Subgroup G} [Finite G] (hA : IsElemAbel
 theorem exists_ne_one_of_card_three {U : Subgroup G} (hU3 : Nat.card U = 3) :
     ∃ x ∈ U, x ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : U = ⊥ := (Subgroup.eq_bot_iff_forall U).2 hcon
   rw [hbot] at hU3
   simp at hU3
@@ -945,7 +945,7 @@ theorem fusion_core [Finite G] {a : G} {Q A T K : Subgroup G}
     · rw [hUk]
       exact gConj_trans hk0G (hfusA k0 hk0T k hkT hk01 hk1)
   · exfalso
-    push_neg at hS
+    push Not at hS
     have hSnot : ∀ k ∈ T, k ≠ 1 → ¬ GConj (Subgroup.zpowers a) (Subgroup.zpowers (k * a)) :=
       fun k hk hk1 => hS k hk hk1
     have hΨcard : 3 ∣ Set.ncard {U : Subgroup G | PsiPred Q a U} := by
@@ -999,7 +999,7 @@ theorem fusion_core [Finite G] {a : G} {Q A T K : Subgroup G}
         · right; right; rw [hjeq]; norm_num
       rw [hcardΨ] at hΨcard
       rcases hVcases with h1 | h1 | h1 <;> omega
-    · push_neg at hT
+    · push Not at hT
       have hΨone : {U' : Subgroup G | PsiPred Q a U'} = {Subgroup.zpowers a} := by
         ext U'
         constructor

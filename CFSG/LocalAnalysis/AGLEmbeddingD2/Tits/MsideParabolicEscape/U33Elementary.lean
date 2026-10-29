@@ -53,18 +53,18 @@ theorem exists_regular_of_elemAbelian (hF : Nat.card F = 9) (Q : Subgroup ↥(SU
     (hQ9 : Nat.card Q = 9) :
     ∃ y ∈ Q, (mat (y : GL (Fin 3) F) - 1) ^ 2 ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   haveI := charP_three hF
   set σ : F →+* F := frob hF with hσ
   obtain ⟨x, hxQ, hx1⟩ : ∃ x ∈ Q, x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : Q = ⊥ := (Subgroup.eq_bot_iff_forall Q).mpr h
     rw [this, Subgroup.card_bot] at hQ9
     omega
   obtain ⟨y, hyQ, hyx⟩ : ∃ y ∈ Q, y ∉ Subgroup.zpowers x := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Q ≤ Subgroup.zpowers x := h
     have h1 : Nat.card Q ≤ Nat.card (Subgroup.zpowers x) := Subgroup.card_le_of_le hle
     rw [Nat.card_zpowers] at h1

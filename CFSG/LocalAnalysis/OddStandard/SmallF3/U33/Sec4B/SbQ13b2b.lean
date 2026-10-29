@@ -77,7 +77,7 @@ theorem q13b_inv_sub_N (h : Q13Om t L S x₁ x₂ lam rho tau om) {K : Subgroup 
   · right
     have hex : ∃ k ∈ K, k ∉ fourGrp x₁ x₂ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hKV hcon
     obtain ⟨k, hkK, hkV⟩ := hex
     have hkN : k ∈ ctxN tau x₁ x₂ := hKN hkK

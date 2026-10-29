@@ -37,7 +37,7 @@ theorem sec5nr_card_le_four (Y : Subgroup (Equiv.Perm (Bool × Fin 3)))
     Nat.card Y ≤ 4 := by
   classical
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   let S : Finset (Equiv.Perm (Bool × Fin 3)) := Finset.univ.filter (· ∈ Y)
   have hcard : S.card = Nat.card Y := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]

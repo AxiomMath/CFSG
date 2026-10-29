@@ -80,7 +80,7 @@ open CFSG CFSG.Blueprint CFSG.ComponentClassification.OuterAutomorphisms
 theorem exists_not_comm_of_simple_not_prime {G : Type*} [Group G] [Finite G] [IsSimpleGroup G]
     (h : ¬ (Nat.card G).Prime) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcomm
-  push_neg at hcomm
+  push Not at hcomm
   letI : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcomm a b }
   exact h IsSimpleGroup.prime_card
 

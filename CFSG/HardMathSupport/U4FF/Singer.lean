@@ -28,7 +28,7 @@ theorem orderOf_two_le_finrank_of_orderOf_eq {W : Type} [AddCommGroup W] [Module
     (isSemisimple_of_pow_eq_one g hℓodd hgpow).isFinitelySemisimple
   have hgne : ∃ w : W, g w ≠ w := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hx1 : x = 1 := LinearEquiv.ext fun w => hcon w
     exact hℓ1 (hx.symm.trans (orderOf_eq_one_iff.2 hx1))
   obtain ⟨p, hpx, hp0, hpnt, hpmin⟩ : ∃ p : Submodule (ZMod 2) W,
@@ -55,7 +55,7 @@ theorem orderOf_two_le_finrank_of_orderOf_eq {W : Type} [AddCommGroup W] [Module
   have hsimp : ∀ T : Submodule (ZMod 2) W, T ≤ p → (∀ w ∈ T, g w ∈ T) → T = ⊥ ∨ T = p := by
     intro T hTp hTx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hT0, hTp'⟩ := hcon
     have hpinv : p ∈ Module.End.invtSubmodule g :=
       (Module.End.mem_invtSubmodule_iff_forall_mem_of_mem g).2 hpx

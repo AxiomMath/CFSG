@@ -56,7 +56,7 @@ theorem zmod2_add_self_zero : ∀ a : ZMod 2, a + a = 0 := by decide
 theorem exists_form_one {ω : A → A → ZMod 2} (hnd : ∀ x : A, (∀ w, ω x w = 0) → x = 1)
     {z : A} (hz : z ≠ 1) : ∃ x, ω z x = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact hz (hnd z fun w => zmod2_eq_zero_of_ne_one _ (h w))
 
 theorem exists_form_on_kernel {ω : A → A → ZMod 2} (hω : IsPolarForm ω)
@@ -64,7 +64,7 @@ theorem exists_form_on_kernel {ω : A → A → ZMod 2} (hω : IsPolarForm ω)
     {z z' : A} (hz1 : z ≠ 1) (hz'1 : z' ≠ 1) (hzz : z' ≠ z) :
     ∃ w, ω z w = 0 ∧ ω z' w = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨x, hx⟩ := exists_form_one hnd hz1
   have hker : ∀ v, ω z v = 0 → ω z' v = 0 := fun v hv =>
     zmod2_eq_zero_of_ne_one _ (h v hv)

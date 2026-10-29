@@ -268,7 +268,7 @@ theorem linear_klein_inverts {N : ℕ} (hN : 3 ≤ N)
   have hsucc : ∃ x ∈ A, x ≠ 1 ∧ ∃ (B : GL (Fin (3 + k)) K) (σ : K ≃+* K), σ ≠ 1 ∧
       x = conjAut (3 + k) K B * fieldAut (3 + k) K σ * dualAut (3 + k) K := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨a, ha, ha1, b, hb, hb1, hab⟩ := exists_two_ne_one A hcard
     have hc : a * b ∈ A := A.mul_mem ha hb
     have hc1 : a * b ≠ 1 := by

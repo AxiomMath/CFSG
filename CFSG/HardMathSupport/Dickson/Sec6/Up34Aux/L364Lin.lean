@@ -241,7 +241,7 @@ theorem exists_common_eigenvectors {M : Type*} [AddCommGroup M] [Module K M]
   have hmod := hS.card_modEq_card_fixedPoints (α := ℙ K M)
   have hfix : 1 < Nat.card (MulAction.fixedPoints S (ℙ K M)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : Nat.card (MulAction.fixedPoints S (ℙ K M)) = 0 ∨
         Nat.card (MulAction.fixedPoints S (ℙ K M)) = 1 := by omega
     rw [hcard] at hmod
@@ -562,7 +562,7 @@ theorem exists_eigenvalue (hK : Nat.card K % 3 = 1) (hV : Module.finrank K V = 3
     simp only [map_mul, map_sub, aeval_X, aeval_C, map_pow, Algebra.algebraMap_eq_smul_one] at this
     rw [this, pow_three', hT3, sub_self]
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have key : ∀ x : K, x ^ 3 = c → Function.Injective ⇑(T - x • (1 : Module.End K V)) := by
     intro x hx
     refine (injective_iff_map_eq_zero _).2 fun v hv => ?_

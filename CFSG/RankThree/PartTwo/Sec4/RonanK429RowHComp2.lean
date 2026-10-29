@@ -16,7 +16,7 @@ theorem isQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasisimple
   haveI : Group.IsPerfect Q := ⟨hp⟩
   refine ⟨inferInstance, hs, ?_⟩
   by_contra hc
-  push_neg at hc
+  push Not at hc
   haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hs.toNontrivial
   have hnc := Group.IsPerfect.not_isMulCommutative (Q ⧸ Subgroup.center Q)
   exact hnc ⟨⟨hc⟩⟩

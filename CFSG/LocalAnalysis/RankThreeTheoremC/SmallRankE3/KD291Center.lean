@@ -163,7 +163,7 @@ theorem kd291_simple_of_center_bot {Y : Type} [Group Y] (L : Subgroup Y)
 theorem kd291_nonabelian_of_quasisimple {Y : Type} [Group Y] (L : Subgroup Y)
     (hq : CFSG.Open.IsQuasisimple ↥L) : ∃ a b : ↥L, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
   have hcomm : commutator ↥L = ⊥ := by
     rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]

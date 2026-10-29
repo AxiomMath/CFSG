@@ -368,7 +368,7 @@ theorem l93_nonInner_or_center {p : ℕ} (hc : S9Ctx G p) {B : Subgroup G} {x : 
     (∃ b ∈ B, ¬ InducesInnerMod p L b) ∨ p ∣ Nat.card (Subgroup.center (PQuot p L)) := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hinner, hZ⟩ := hcon
   obtain ⟨A, hAC, hAel, hA2⟩ := hA
   have hp : p.Prime := hc.ctx.prime

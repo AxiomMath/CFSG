@@ -13,7 +13,7 @@ theorem ggL45Nt_nonabelian_of_kghyp {p : ℕ} (hp : p.Prime) {K : Type} [Group K
     {lab : LargeEvenLabel} {ψ : MulAut K} {E : Subgroup (MulAut K)}
     (hyp : GGL45TorusKGHyp p lab I F θ ψ E) : ∃ a b : R, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨-, -, -, hcard, -⟩ := hyp
   haveI : Group.IsPerfect K := ⟨hK⟩
   have hQcomm : IsMulCommutative (K ⧸ Subgroup.center K) :=

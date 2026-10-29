@@ -311,7 +311,7 @@ theorem CaseB.exists_fused_outside (hC : Config z n) {g : G}
       psi (g⁻¹ * z * g) q ∈ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)) :
     ∃ x ∈ coreAt z, Fused z x ∧ x ∉ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply CaseB.not_normal_R1 hC hH hK
   intro h hh r hr
   by_cases hr1 : r = 1

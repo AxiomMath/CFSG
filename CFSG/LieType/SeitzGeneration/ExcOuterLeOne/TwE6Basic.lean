@@ -401,7 +401,7 @@ theorem TwE6Setup.exists_fixEta_not_fixSigma (hS : TwE6Setup K σ η p) : ∃ u 
   have hσ2 : Nat.card (Subgroup.zpowers σ) = 2 :=
     (Nat.card_zpowers σ).trans (twE6_orderOf_sigma hS)
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hset : {a : K | ∀ τ ∈ Subgroup.closure ({η, σ} : Set (K ≃+* K)), τ a = a} =
       {a : K | ∀ τ ∈ Subgroup.zpowers η, τ a = a} := by
     ext a

@@ -64,7 +64,7 @@ theorem exists_normalizer_conj_eq_of_ti_of_irred (hVL : V ≤ L)
     ∃ h ∈ normalizer (L : Set X), h * x * h⁻¹ = y := by
   obtain ⟨a₀, ha₀, ha₀1⟩ : ∃ a ∈ V, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hkV
     rw [mem_normalizer_iff]
     intro n

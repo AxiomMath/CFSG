@@ -65,7 +65,7 @@ theorem i224T_hyp1 [Finite Ω] (hc : I224CtxT p B L) {c : Ω} (hcB : c ∈ B)
         u hu).symm
     refine mem_i224Adm.2 ⟨hyL, y, ⟨hyW, hyc⟩, ?_⟩
     simpa using (Subgroup.centralizer (L : Set Ω)).one_mem
-  · push_neg at hII
+  · push Not at hII
     obtain ⟨a₀, ha₀, l₀, hl₀, hne₀⟩ := hII
     set M : Subgroup Ω := i224Adm L W (Subgroup.centralizer (i224Cj c L : Set Ω)) with hM
     have hnormA : ∀ a ∈ A, a ∈ Subgroup.normalizer (L : Set Ω) := fun a ha => ha.2

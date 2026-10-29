@@ -101,7 +101,7 @@ theorem linearIndependent_orbit (ν : Matrix (Fin 3) (Fin 3) F) (hν3 : ν ^ 3 =
 theorem exists_vec_of_sq_ne_zero (ν : Matrix (Fin 3) (Fin 3) F) (h : ν ^ 2 ≠ 0) :
     ∃ w : Fin 3 → F, (ν ^ 2).mulVec w ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   ext i j
   have := congrFun (hcon (Pi.single j 1)) i

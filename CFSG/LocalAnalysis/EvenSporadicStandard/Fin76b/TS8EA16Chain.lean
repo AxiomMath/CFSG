@@ -76,7 +76,7 @@ theorem chain_bound (e : ℕ → Γ) (M : Array (Array ℕ)) (he0 : e 0 = 1)
     Nat.card ↥B ≤ 16 := by
   classical
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   let F : Γ → ℕ := fun g => if h : ∃ a, a < 256 ∧ e a = g then h.choose else 0
   have hF : ∀ b ∈ B, F b < 256 ∧ e (F b) = b := by
     intro b hb

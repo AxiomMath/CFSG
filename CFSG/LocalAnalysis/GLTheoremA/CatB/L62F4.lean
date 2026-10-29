@@ -209,7 +209,7 @@ theorem fixed_point_ne {H : Type} [Group H] [Finite H] {p : ℕ} [Fact p.Prime] 
     {α : Type} [MulAction H α] [Finite α] (a0 : α) (h0 : ∀ h : H, h • a0 = a0)
     (hp : p ∣ Nat.card α) : ∃ a : α, a ≠ a0 ∧ ∀ h : H, h • a = a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hF : MulAction.fixedPoints H α = {a0} := by
     ext a
     constructor

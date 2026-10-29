@@ -63,7 +63,7 @@ theorem Hyp1921.exists_ne_one_mem_sectionCentralizer_of (h : Hyp1921 G A M N L)
     omega
   obtain ⟨a, ha1, ha⟩ : ∃ a : A, β a = 1 ∧ a ≠ 1 := by
     rw [injective_iff_map_eq_one] at hnot
-    push_neg at hnot
+    push Not at hnot
     exact hnot
   refine ⟨(a : G), ⟨a.2, fun l hl => ?_⟩, fun h1 => ha (Subtype.ext (by simpa using h1))⟩
   exact (Sec3.Sims321.rho_eq_one_iff φ ⟨(a : G), hAL a.2⟩).mp ha1 l hl

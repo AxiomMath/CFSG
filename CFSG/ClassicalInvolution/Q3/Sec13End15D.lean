@@ -35,7 +35,7 @@ theorem conjSub_mem_twinSet_of_mem_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : T
 theorem exists_mem_zGroup_swap (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) : ∃ d ∈ zGroup Ω, conjSub d K = K' := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hnorm : ∀ d ∈ zGroup Ω, d ∈ Subgroup.normalizer (K : Set G) := by
     intro d hd
     rw [mem_normalizer_iff_conjSub_eq]

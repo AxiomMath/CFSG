@@ -70,7 +70,7 @@ private theorem lemma104_comp_layer {p : ℕ} (hp : p.Prime) {M : Subgroup G}
     fun K hK => glaPComponent_of_le hp hK (le_sSup hK) (sSup_le fun K' hK' => hK'.1)
   obtain ⟨K₁, hK₁⟩ : ∃ K₁ : Subgroup G, GLAPComponent p M K₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : GLAPLayer p M = ⊥ := sSup_eq_bot.2 fun K hK => (hcon K hK).elim
     obtain ⟨q₁, q₂, hne⟩ := (isQuasisimple_nontrivial hq).exists_pair_ne
     obtain ⟨g₁, rfl⟩ := QuotientGroup.mk_surjective q₁
@@ -316,7 +316,7 @@ theorem JGB_of_E (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgroup G} {
     exact le_sSup (glaPComponent_of_le hp hK hKM hM)
   have hK' : ∃ K', GLAPComponent p (L ⊓ cs E) K' ∧ K' ≠ ⊥ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (sSup_eq_bot.2 fun K hK => hcon K hK)
   obtain ⟨K', hK'c, hK'ne⟩ := hK'
   have hK'Y : GLAPComponent p (cx x ⊓ cs E) K' :=
@@ -431,7 +431,7 @@ theorem exists_d_field (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgrou
     (hy : FieldOn p y (Jpart p (Ipart p L b) a)) :
     ∃ d ∈ Dgrp b x, FieldOn p d (Jpart p (Ipart p L b) a) := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hS := sstar_triple h.star
   have hDB : Dgrp b x ≤ B := (card_Dgrp hS.1.1 hc.ctx.prime h.mem hS.2.1.1 hS.2.1.2.1 h.not_mem).1
   have hBN : B ≤ Subgroup.normalizer ((Jpart p (Ipart p L b) a : Subgroup G) : Set G) :=

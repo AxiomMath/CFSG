@@ -59,7 +59,7 @@ theorem hasCompOrSolv_toralCentralizer (τ : Tag) {K : Type} [Field K] [Finite K
       (((rootSpan τ K (rootCharKernel b)).subgroupOf (toralCentralizer τ K b)).subtype)
       (QuotientGroup.mk' ((rootSpan τ K (rootCharKernel b)).subgroupOf (toralCentralizer τ K b)))
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨i, hi⟩ := hall
     right
     have hq : IsQuasisimple (componentRootSpan K χ i) :=

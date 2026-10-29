@@ -99,7 +99,7 @@ theorem FTS_kappa_free_nonfitting_plane_action
   have hEnormA : E ≤ normalizer (A : Set G) := (h₄ G hGosm p M A E hosA hsc hAE).1
   have hnonab : ∃ S : Sylow p G, ¬ IsMulCommutative ↥(S : Subgroup G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEne : E ≠ ⊤ := fun h => hM.1 (top_le_iff.1 (h ▸ hEM))
     haveI hsolvE : Group.IsSolvable ↥E := hG.isSolvable E hEne
     obtain ⟨F₁, F₂, F₃, hsplit, -⟩ := FNI_sigma_complement_three_factors h₁ G hGosm M E hsc

@@ -2660,7 +2660,7 @@ private theorem H5_indecomposable (A B : Subgroup PermV) (hA : A ≤ Ucore) (hB 
     (hBi : ∀ g : GL (Fin 3) (ZMod 2), ∀ b ∈ B, gl3Act g b ∈ B)
     (hinf : A ⊓ B = ⊥) : A = ⊥ ∨ B = ⊥ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hW0 : H5W ≤ A ⊓ B := le_inf (H5W_le_of_inv A hA hAi hcon.1) (H5W_le_of_inv B hB hBi hcon.2)
   rw [hinf, le_bot_iff] at hW0
   have hmem : H5lin (![1, 0, 0] : V3) ∈ H5W := ⟨Multiplicative.ofAdd ![1, 0, 0], by
@@ -2923,7 +2923,7 @@ private theorem H52beta_nondeg (u : PermV) (hu : u ∈ Ucore) (hu1 : u ≠ 1) :
   obtain ⟨hu0, hsum⟩ := mem_Ucore'.1 hu
   obtain ⟨x, hx⟩ : ∃ x, Multiplicative.toAdd u x ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hu1
     apply eq_of_toAdd_eq
     intro v
@@ -2932,7 +2932,7 @@ private theorem H52beta_nondeg (u : PermV) (hu : u ∈ Ucore) (hu1 : u ≠ 1) :
   have hx0 : x ≠ 0 := fun h => hx (by rw [h]; exact hu0)
   obtain ⟨y, hy0, hyv⟩ : ∃ y, y ≠ 0 ∧ Multiplicative.toAdd u y = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h := sum_zmod2_eq_card (fun v => Multiplicative.toAdd u v)
     rw [hsum] at h
     have hfil : Finset.univ.filter (fun v => Multiplicative.toAdd u v ≠ 0) =
@@ -4691,7 +4691,7 @@ private theorem H52B_transl {f : PermV} (hf : f ∈ Ucore ⊓ fixV ((Qpt e1).map
   by_cases hv : v 1 ≠ 0 ∨ v 2 ≠ 0
   · exact (H52B_fix_iff f).1 (Subgroup.mem_inf.1 hf).2 v hv
   · have key : ∀ w : V3, w 1 = 0 → w 2 = 0 → w = 0 ∨ w = e1 := by decide
-    push_neg at hv
+    push Not at hv
     have h0 := (mem_Ucore'.1 (Subgroup.mem_inf.1 hf).1).1
     rcases key v hv.1 hv.2 with rfl | rfl
     · rw [zero_add, H52B_e1_zero hf, h0]

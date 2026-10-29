@@ -91,7 +91,7 @@ theorem s4b1_eq_sup_of_inf_card_le {α : Type*} [Group α] [Finite α] {q : ℕ}
   have hcardX : Nat.card X ≤ Nat.card (A ⊔ B : Subgroup α) := by
     rw [hXc]
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 : Nat.card (A ⊔ B : Subgroup α) * Nat.card (A ⊓ B : Subgroup α) ≤
         Nat.card (A ⊔ B : Subgroup α) * q ^ 2 := Nat.mul_le_mul le_rfl hi
     have h2 : Nat.card (A ⊔ B : Subgroup α) * q ^ 2 < q ^ 10 * q ^ 2 :=

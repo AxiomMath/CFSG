@@ -1420,7 +1420,7 @@ public theorem ii1Hering31_odd_rotation
       (∃ g : G, y = g * t * g⁻¹) ∧
         ¬ IsPGroup 2 (Subgroup.closure ({t, y} : Set G)) := by
     by_contra hpair
-    push_neg at hpair
+    push Not at hpair
     have htmem := gorenstein_3_8_2_conjugacy_class_le_pCore
       (G := G) (p := 2) (x := t) htP hpair t ⟨1, by simp⟩
     exact htcore htmem
@@ -1593,7 +1593,7 @@ private theorem ii1Hering31_four_stabilizer_dihedral_three
     exact h
   have hnmove : ∃ n : N, (t0A : MulAut N) n ≠ n := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     apply ht0AutNe
     apply MulEquiv.ext
     intro n
@@ -2509,7 +2509,7 @@ public theorem ii1Hering31_involution_fixed_index_le_two
     exact hz.ne_one (Subtype.ext h)
   have hnmove : ∃ n : N, (z : MulAut N) n ≠ n := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     apply hzAutNe
     apply MulEquiv.ext
     intro n

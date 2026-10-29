@@ -56,7 +56,7 @@ theorem alt_exists_conj_commute {α : Type*} [Fintype α] [DecidableEq α]
     ∃ y : Perm α, IsConj σ y ∧ Commute y σ ∧ (∀ k : ℤ, y ≠ σ ^ k) ∧ sign y = 1 := by
   obtain ⟨x, hx⟩ : ∃ x, σ x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h1 (Equiv.ext hcon)
   obtain ⟨c, z, hσ, hdisj, hc3, hcyc, hcx⟩ := alt_exists_cycle_split h3 hx
   have hzx : z x = x := by

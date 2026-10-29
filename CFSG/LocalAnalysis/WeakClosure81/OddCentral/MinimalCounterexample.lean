@@ -125,7 +125,7 @@ theorem exists_hyperplane {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) {
   have hex : ∃ B : Subgroup V, B.index = r ∧
       ∃ x ∈ CFSG.SolvableSignalizer.fixedBySubgroup α B, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : (⨆ (B : Subgroup V) (_ : B.index = r),
         CFSG.SolvableSignalizer.fixedBySubgroup α B) ≤ ⊥ :=
       iSup₂_le fun B hB x hx => (Subgroup.mem_bot).mpr (hcon B hB x hx)
@@ -295,7 +295,7 @@ theorem false_of_propS_counterexample {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ N
         exact this v hv
   have hMnt : ∃ m : M, m ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hV1
     rw [eq_bot_iff]
     intro v _

@@ -222,7 +222,7 @@ theorem fifteen_seven_G (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D V₀ 
       rw [← hxv, actTil_mk, mkTil_eq_iff, actStab_apply_val] at this
       exact this
     · by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply key.2
       rw [mem_fixV]
       intro φ hφ

@@ -619,14 +619,14 @@ theorem finrank_galoisModule (hW : Nat.card W = 16) :
   have hd : 4 ^ Module.finrank (GaloisField 2 2) (Additive W) = 16 := h.symm
   have hle : Module.finrank (GaloisField 2 2) (Additive W) ≤ 2 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h3 : 4 ^ 3 ≤ 4 ^ Module.finrank (GaloisField 2 2) (Additive W) :=
       Nat.pow_le_pow_right (by norm_num) (by omega)
     norm_num at h3
     omega
   have hge : 1 ≤ Module.finrank (GaloisField 2 2) (Additive W) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h0 : Module.finrank (GaloisField 2 2) (Additive W) = 0 := by omega
     rw [h0] at hd
     norm_num at hd

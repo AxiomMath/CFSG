@@ -97,7 +97,7 @@ theorem kl_inner_of [Finite G] (hE : Asc82FactCE16) (hty : Asc82FactCTy) (hout :
   classical
   have hrel := hout G L' hL'
   by_contra hnot
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨b, hbB, hbo⟩ := hnot
   obtain ⟨hE1, hE2⟩ := hE G L' hL' B hBN hBC hB16 (fun x hx => hc.sq_eq_one hx)
   obtain ⟨x, hxB, hxty⟩ : ∃ x ∈ B, InducesTypeSome L' x 5 1 4 (-1) := by

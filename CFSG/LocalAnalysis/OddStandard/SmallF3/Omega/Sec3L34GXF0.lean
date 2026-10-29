@@ -21,7 +21,7 @@ theorem l34g_x_simple_exists_fixed_involution {Y : Type} [Group Y] [Finite Y]
   haveI := hS
   have hnab : ∃ a b : Y, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨g, hg⟩ := exists_ne (1 : Y)
     have hgc : g ∈ center Y := by
       rw [Subgroup.mem_center_iff]

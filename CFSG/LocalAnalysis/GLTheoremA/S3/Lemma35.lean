@@ -427,7 +427,7 @@ theorem km22 (hDih : DihedralUsed) {p : ℕ} (hc : S3Ctx G p) {B : Subgroup G}
       Nat.card V ≤ 2 ^ (k + 1) := by
   intro V hVK hVel
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp := hc.prime
   have hp2 := hc.odd
   obtain ⟨a, ha⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_two hVel

@@ -47,7 +47,7 @@ theorem ff79_noInv_gl {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2) (n :
   · simp only [matAddHom, AddMonoidHom.coe_mk, ZeroHom.coe_mk, Matrix.mulVec_mulVec, hZ5',
       Matrix.one_mulVec]
   · by_contra h
-    push_neg at h
+    push Not at h
     apply hZ1
     apply Units.ext
     rw [Matrix.ext_iff_mulVec]
@@ -56,7 +56,7 @@ theorem ff79_noInv_gl {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2) (n :
   · simp only [matAddHom, AddMonoidHom.coe_mk, ZeroHom.coe_mk, Matrix.mulVec_mulVec, hT2,
       Matrix.one_mulVec]
   · by_contra h
-    push_neg at h
+    push Not at h
     apply hT1
     apply Units.ext
     rw [Matrix.ext_iff_mulVec]

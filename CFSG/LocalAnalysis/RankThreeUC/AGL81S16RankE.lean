@@ -26,7 +26,7 @@ theorem exists_ne_zero_herm_eq_zero {W : Submodule F (Fin 4 → F)}
   have hF : 1 < Nat.card F := Finite.one_lt_card
   have hk : 1 < Nat.card ψ.ker := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have h1 : Nat.card ψ.ker * Nat.card ψ.range ≤ Nat.card F := by
       calc Nat.card ψ.ker * Nat.card ψ.range ≤ 1 * Nat.card F := Nat.mul_le_mul hle hr
         _ = Nat.card F := one_mul _

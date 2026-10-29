@@ -46,7 +46,7 @@ theorem sixH_i1_irreducible_U (k : Axis) {X : Subgroup G} (hXU : X ≤ U φ k)
   · exact Or.inl hX
   · right
     rw [Subgroup.eq_bot_iff_forall] at hX
-    push_neg at hX
+    push Not at hX
     obtain ⟨x0, hx0X, hx0⟩ := hX
     obtain ⟨b0, rfl⟩ := RootAxisTwoCore.exists_coordG_eq φ k (hXU hx0X)
     have hb0 : b0 ≠ 0 := by

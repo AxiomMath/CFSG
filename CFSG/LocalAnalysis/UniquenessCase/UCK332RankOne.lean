@@ -120,7 +120,7 @@ theorem exists_eq_sup_zpowers_of_card_nine {K E A₀ : Subgroup G} (hEel : IsEle
   by_cases hEK : E ⊓ K = ⊥
   · obtain ⟨e, heE, heA⟩ : ∃ e ∈ E, e ∉ A₀ := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       have := Subgroup.card_le_of_le (show E ≤ A₀ from hno)
       rw [hEcard, hA₀card] at this
       omega

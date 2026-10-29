@@ -132,7 +132,7 @@ theorem szh1_simple_data (hcat : CFSG.AGLEmbedding.CatalogSimpleSections Y) {L :
   haveI hsimple : IsSimpleGroup ↥L := e.symm.isSimpleGroup
   have hnon : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : commutator ↥L ≤ ⊥ := by
       show ⁅(⊤ : Subgroup ↥L), ⊤⁆ ≤ ⊥
       refine Subgroup.commutator_le.2 ?_

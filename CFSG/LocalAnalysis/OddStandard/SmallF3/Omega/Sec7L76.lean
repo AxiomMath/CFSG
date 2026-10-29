@@ -21,7 +21,7 @@ theorem asc82Lemma76_of (h36 : Asc82Lemma36) (h72 : Asc82Lemma72) (h73 : Asc82Le
   by_contra hcon
   have h4 : ¬ ∀ x ∈ S ⊓ centralizer (L : Set G), orderOf x ≠ 4 :=
     fun h => hcon (sec76_le_zpowers_t h72 hctx h)
-  push_neg at h4
+  push Not at h4
   obtain ⟨x, hx, hx4⟩ := h4
   by_cases hc : IsConj t (t * z)
   · exact sec76_caseA h36 h72 h73 hP hctx hc hx hx4

@@ -64,7 +64,7 @@ theorem card_le_sq_of_not_le (h : SplitCfg p P x) (hl : compKer P ≤ layer Y) {
   have hep : e ^ p = 1 := hEp e heE
   obtain ⟨C₁, hC₁⟩ : ∃ C₁ : ComponentIndex Y, cjComp e C₁ ≠ C₁ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne ⟨hEP heE, hall⟩
   letI := compAction Y
   have htr : ∀ α β : ComponentIndex Y, ∃ k : ℕ, cjComp (e ^ k) α = β :=

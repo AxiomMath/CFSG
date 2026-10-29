@@ -105,7 +105,7 @@ theorem a8_comm_of_dvd_four (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (h
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR
   have hk2 : k ≤ 2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h8 : 2 ^ 3 ∣ Nat.card R := by rw [hk]; exact pow_dvd_pow 2 hcon
     exact absurd (h8.trans hdiv) (by norm_num)
   have hk0 : k ≠ 0 := by
@@ -169,7 +169,7 @@ theorem a8_three_card_dvd (g : Perm (Fin 8)) (hc : g.cycleType = {3}) (R : Subgr
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR
   have hk2 : k ≤ 2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h8 : 2 ^ 3 ∣ Nat.card R := by rw [hk]; exact pow_dvd_pow 2 hcon
     exact absurd (h8.trans hdiv) (by norm_num)
   rw [hk]
@@ -390,7 +390,7 @@ theorem a8_not_cent18 (g : Perm (Fin 8))
     (x y z : Perm (Fin 8)) (hx : x ∈ W) (hy : y ∈ W) (hz : z ∈ W) (hxy : x ≠ y) (hxz : x ≠ z)
     (hyz : y ≠ z) : ∃ w ∈ W, g * w ≠ w * g := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : W ≤ centralizer {g} ⊓ alternatingGroup (Fin 8) := fun w hw => Subgroup.mem_inf.2
     ⟨Subgroup.mem_centralizer_singleton_iff.2 (hcon w hw).symm, mem_alternatingGroup.2 (hWA w hw)⟩
   have hd := Subgroup.card_dvd_of_le hle
@@ -405,7 +405,7 @@ theorem a8_card_two (R : Subgroup (Perm (Fin 8))) (hR : IsPGroup 2 R) (hne : R �
     exact hne (Subgroup.eq_bot_of_card_eq R (by rw [hk]; rfl))
   have hk1 : k ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h4 : 2 ^ 2 ∣ Nat.card R := by rw [hk]; exact pow_dvd_pow 2 hcon
     exact absurd (h4.trans hdiv) (by norm_num)
   rw [hk, show k = 1 by omega]
@@ -588,7 +588,7 @@ theorem a8_core (g : Perm (Fin 8)) (hodd : Odd (orderOf g)) (hg1 : g ≠ 1)
   obtain ⟨W, h1, h2, h3, h4, h5⟩ := a8_core_prime _ _ hp hpodd hg' hp3 R hR hne hRA hcomm'
   refine ⟨W, h1, h2, h3, h4, ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨w, hw, hne'⟩ := h5
   exact hne' (Commute.pow_left (show Commute g w from hall w hw) _).eq
 

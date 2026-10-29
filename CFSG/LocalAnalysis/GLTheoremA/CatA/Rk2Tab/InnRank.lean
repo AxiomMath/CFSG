@@ -230,7 +230,7 @@ private theorem rk2InnRank_of_not_dvd (h : Rk2KRank)
     rw [hEbot, Subgroup.card_bot]
     exact Nat.one_le_pow _ _ hp.pos
   · have hnab : ∃ a b : R, a * b ≠ b * a := by
-      push_neg at hab
+      push Not at hab
       exact hab
     exact (h.1.1 hfin hs E hE hEel).trans (h.1.2 hfin hs hnab)
 

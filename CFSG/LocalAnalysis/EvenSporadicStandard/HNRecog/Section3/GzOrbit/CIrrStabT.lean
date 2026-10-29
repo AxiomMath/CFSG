@@ -61,7 +61,7 @@ theorem exists_mul_mem_centralizer {C : Type} [Group C] {Q : Subgroup C} [Q.Norm
   · have hq_not_cent : q ∉ Subgroup.centralizer (Q : Set C) := fun h =>
       hq (Subgroup.mem_inf.mpr ⟨hqQ, h⟩)
     rw [Subgroup.mem_centralizer_iff] at hq_not_cent
-    push_neg at hq_not_cent
+    push Not at hq_not_cent
     obtain ⟨y₀, hy₀Q, hy₀ne⟩ := hq_not_cent
     have hζ₀1 : ⁅y₀, q⁆ ≠ 1 := fun h =>
       hy₀ne (commutatorElement_eq_one_iff_mul_comm.mp h)

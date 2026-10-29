@@ -387,7 +387,7 @@ theorem i203_core {n p k : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p) (hn : n = p * k)
       have hp2 : p ∣ 2 := hp.dvd_of_dvd_pow hdiv
       have hp2' : p = 2 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 hp2
       omega
-    · push_neg at hcase
+    · push Not at hcase
       have hblock : 2 ^ a ∣ (orb E x).card :=
         dvd_card_of_blocks (2 ^ a) (orb U) (orb E x)
           (fun w _ => self_mem_orb U w)

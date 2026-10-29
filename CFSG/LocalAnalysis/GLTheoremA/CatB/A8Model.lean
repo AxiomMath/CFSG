@@ -362,13 +362,13 @@ theorem mem_a8Kb_iff (x : A8) :
       constructor
       · intro hz
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have h1' := (x : Perm (Fin 8)).injective (hfix _ hlt)
         rw [h1'] at hlt
         omega
       · intro hz
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         rw [hfix z hlt] at hz
         omega
     let sub := (x : Perm (Fin 8)).subtypePerm (p := fun z : Fin 8 => 3 ≤ z.val) (fun z => (hp z).symm)
@@ -402,7 +402,7 @@ theorem perm_comm_of_fix (k : Perm (Fin 8)) (h0 : k 0 = 0) (h1 : k 1 = 1) (h2 : 
   have hge : ∀ y : Fin 8, 3 ≤ y.val → 3 ≤ (k y).val := by
     intro y hy
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hk : k (k y) = k y := hfix _ hlt
     have hyk : y = k y := k.injective hk.symm
     rw [← hyk] at hlt
@@ -438,10 +438,10 @@ theorem a8_centralizer : Subgroup.centralizer ({a8c8} : Set A8) = a8Kb ⊔ Subgr
     exact this.symm
   have hx0 : (x : Perm (Fin 8)) 0 = 0 ∨ (x : Perm (Fin 8)) 0 = 1 ∨ (x : Perm (Fin 8)) 0 = 2 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have h3 : 3 ≤ ((x : Perm (Fin 8)) 0).val := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       rcases (fin8_lt3 _).1 hlt with e | e | e
       · exact hne.1 e
       · exact hne.2.1 e

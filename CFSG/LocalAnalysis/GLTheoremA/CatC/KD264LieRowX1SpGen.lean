@@ -106,7 +106,7 @@ theorem two_le_pRank_of_pair {H : Subgroup K} {a b : K} (ha : a ∈ H) (hb : b �
   have hk2 : 2 ≤ k := by
     rw [hk] at hcardT
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases k <;> norm_num at hcardT
   exact le_trans hk2 (le_pRank_of_card hTle hTel hk)
 

@@ -341,7 +341,7 @@ private theorem i1426_inj_pgroup {X : Type} [Group X] {N W : Subgroup X} (hN : �
 private theorem i1426_exists_ne_bot_component {X : Type} [Group X] {Z : Subgroup X}
     (h : GLAPLayer 3 Z ≠ ⊥) : ∃ J : Subgroup X, GLAPComponent 3 Z J ∧ J ≠ ⊥ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   refine le_antisymm (sSup_le fun J hJ => ?_) bot_le
   exact le_of_eq (hcon J hJ)

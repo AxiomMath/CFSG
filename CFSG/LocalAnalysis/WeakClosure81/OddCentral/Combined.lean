@@ -68,7 +68,7 @@ theorem centralizes_of_s3_frame {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.car
   have hdinv : ∀ i, (d i)⁻¹ = d i := fun i => inv_eq_of_mul_eq_one_right (hd i)
   have hM : ∃ m : M, d 0 • m ≠ m := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨x, hx, hnot⟩ := hS1
     apply hnot
     rw [hfaith _ h]; simp

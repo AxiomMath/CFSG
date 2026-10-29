@@ -110,7 +110,7 @@ theorem pi19Ty_dvd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hOm : InputOmegaDvd
   rcases h with ⟨n, hn, ⟨f⟩, hmod⟩ | ⟨ε, n, hn, hO, hfp⟩
   · have hpn : p ≤ n := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       rw [Nat.mod_eq_of_lt hlt] at hmod
       omega
     haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)

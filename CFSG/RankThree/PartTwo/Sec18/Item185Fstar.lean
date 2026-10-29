@@ -284,7 +284,7 @@ theorem exists_component {A M : Subgroup G} (h : Sec18Std G A M) {B P : Subgroup
       b * y * b⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 M) :
     ∃ K ∈ oTwoComponentsIn M, ∃ b ∈ B, ∃ k ∈ K, b * k * b⁻¹ * k⁻¹ ∉ CFSG.Open.pCoreOf 2 M := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Bp, hBp⟩ : ∃ Bp : Subgroup ↥M, Bp = B.subgroupOf M := ⟨_, rfl⟩

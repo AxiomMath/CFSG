@@ -475,7 +475,7 @@ private theorem e15i_c_mul {D : Subgroup G} (hD : D.Normal)
 private theorem e15i_exists_not_comm {R : Subgroup G} (hq : IsQuatSub R) {v : G} (hv : v ∈ R)
     (hvv : v * v ≠ 1) : ∃ y ∈ R, y * v ≠ v * y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hvv (hq.sq_eq_one_of_central hv (fun y hy => (hcon y hy).symm))
 
 theorem exists_swap_vector (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
@@ -550,7 +550,7 @@ theorem exists_swap_vector (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
     (hvv.unique (b * v * b⁻¹ * v⁻¹) (hcJ b hbN)
       (h.zGroup_mul_self h9 _ (hcD b hbD))).resolve_left hcb1
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : zGroup Ω ⊓ Subgroup.normalizer (J : Set G) ≤
       zGroup Ω ⊓ Subgroup.normalizer (K : Set G) := by
     intro e he
@@ -844,7 +844,7 @@ theorem exists_complement_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω
   obtain ⟨u, hu, hu4, -⟩ := perpP_gen hps.1 hps.2.1
   obtain ⟨r, hr, hrU⟩ : ∃ r ∈ K, r ∉ Subgroup.normalizer (J : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hKle : K ≤ Subgroup.normalizer (J : Set G) := fun x hx => hcon x hx
     have h4 := hps.2.1
     rw [inf_eq_left.mpr hKle, hK8] at h4
@@ -1207,7 +1207,7 @@ theorem map_eq_memBar_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
         rw [if_pos hx, hdK x h1 h2, zero_add]
       · have hxab : x = a ∨ x = b := by
           by_contra hc'
-          push_neg at hc'
+          push Not at hc'
           exact hx (by rw [hrange]; exact (hαmem x).mpr hc')
         rw [if_neg hx]
         rcases hxab with h | h
@@ -1304,7 +1304,7 @@ theorem map_eq_memBar_six (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z
       intro x hx
       have hxab : x = a ∨ x = b := by
         by_contra hc'
-        push_neg at hc'
+        push Not at hc'
         exact hx (by rw [hrange]; exact (hαmem x).mpr hc')
       rcases hxab with h | h
       · rw [h, hw']

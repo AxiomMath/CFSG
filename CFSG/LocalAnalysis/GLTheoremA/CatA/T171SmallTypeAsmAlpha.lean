@@ -48,7 +48,7 @@ theorem fieldSize_two_of_alphaRed {Ω : Type} [Group Ω] [Finite Ω] {B : Subgro
       exact (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
   have hJnab : ∃ a b : d.Group, a * b ≠ b * a := by
     by_contra h
-    push_neg at h
+    push Not at h
     haveI : IsMulCommutative ↥J := isMulCommutative_iff.2 (fun a b => Subtype.ext (h a b))
     have hbot : commutator ↥J = ⊥ := commutator_eq_bot_iff (G := ↥J).2 inferInstance
     have hsub : Subsingleton ↥J := by

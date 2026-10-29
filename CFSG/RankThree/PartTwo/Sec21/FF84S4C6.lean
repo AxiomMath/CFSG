@@ -180,7 +180,7 @@ theorem psi6_surj (g : P8) (hg : g ∈ Cen (Equiv.swap 6 7) ⊓ A8s) : ∃ σ, p
     simpa [Perm.mul_apply] using this
   have hcases : g 6 = 6 ∨ g 6 = 7 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have h1 : Equiv.swap (6 : Fin 8) 7 (g 6) = g 6 := Equiv.swap_apply_of_ne_of_ne hne.1 hne.2
     have h2 : g 7 = g 6 := h7.trans h1
     have h3 := g.injective h2

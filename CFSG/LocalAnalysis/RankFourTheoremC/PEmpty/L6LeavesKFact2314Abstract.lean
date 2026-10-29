@@ -148,7 +148,7 @@ theorem exists_adj_of_isIrreducible {m : ℕ} {A : Matrix (Fin m) (Fin m) ℤ}
     (hirr : CFSG.ClassicalInvolution.ModelFacts.IsIrreducible A) (hm : 2 ≤ m) (i : Fin m) :
     ∃ j, j ≠ i ∧ A i j ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall := hirr {i} ⟨i, rfl⟩ (fun k hk j hkj => by
     have hk' : k = i := hk
     subst hk'

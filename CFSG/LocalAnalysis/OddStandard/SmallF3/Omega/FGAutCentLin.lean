@@ -53,7 +53,7 @@ theorem fg_eq_zero_of_fixed_omega (hR : R.Nondegenerate)
       map_smul, hgw])
   obtain ⟨x, hx⟩ : ∃ x, R.polarBilin x w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hw0 (hB.2 w h)
   have hcx : c • x = R.polarBilin x w • w := by
     have h := LinearMap.congr_fun hc x

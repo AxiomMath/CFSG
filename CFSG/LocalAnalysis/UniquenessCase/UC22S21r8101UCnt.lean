@@ -97,7 +97,7 @@ theorem u81_exists_mem_centralizer (u : U4X D L K n)
         _ ≤ Nat.card χ.ker * n := Nat.mul_le_mul_left _ h2
     exact Nat.le_of_mul_le_mul_right h3 hn.pos
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle : χ.ker.map E.subtype ≤ barImage D.M L ⊔ barImage D.M K := by
     intro z hz
     obtain ⟨e, he, rfl⟩ := Subgroup.mem_map.1 hz

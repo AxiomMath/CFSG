@@ -61,7 +61,7 @@ theorem three_le_card_eq (hE : Nat.card E = 9) (hC : Nat.card C = 3) (χ χ' : E
     rw [MonoidHom.mem_ker, MonoidHom.div_apply, div_eq_one]
   rw [hk]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rw [hE] at h
   nlinarith
 
@@ -78,7 +78,7 @@ theorem exists_eq_triple (hE : Nat.card E = 9) (hC : Nat.card C = 3) (χ : Fin 5
       χ i x = χ k x := by
   classical
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have := Fintype.ofFinite E
   have hEc : Fintype.card E = 9 := by rw [← Nat.card_eq_fintype_card, hE]
   set P : Finset (Fin 5 × Fin 5) := Finset.univ.filter (fun p => p.1 < p.2) with hP

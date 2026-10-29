@@ -94,7 +94,7 @@ theorem u3_rank3_absorb (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
     (Subgroup.mem_centralizer_iff.mp (hZsplit a ha).2 b hb).symm
   obtain ⟨t, htT, htZ⟩ : ∃ t ∈ u3T P x J, t ∉ u3ZT P x J := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hTnc
     refine ⟨⟨fun a b => ?_⟩⟩
     exact Subtype.ext (hZc a.1 (hcon a.1 a.2) b.1 b.2)

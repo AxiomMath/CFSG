@@ -14,7 +14,7 @@ theorem K4_exists_omega : ∃ ω : K4, ω ^ 2 + ω + 1 = 0 := by
   haveI : Fintype K4 := Fintype.ofFinite K4
   have hex : ∃ x : K4, x ≠ 0 ∧ x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Finset.univ : Finset K4) ⊆ {0, 1} := by
       intro x _
       by_cases hx : x = 0

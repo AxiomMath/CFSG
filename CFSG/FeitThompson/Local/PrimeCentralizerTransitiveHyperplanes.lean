@@ -385,7 +385,7 @@ theorem exists_smul_eq {W₁ W₂ : Subgroup G} (h₁ : W₁ ∈ hyperplaneFixed
     ∃ a ∈ P ⊔ R, ConjAct.toConjAct a • W₁ = W₂ := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set O : Set (Subgroup G) := {W | ∃ a ∈ P ⊔ R, ConjAct.toConjAct a • W₁ = W} with hO
   have hOsub : O ⊆ hyperplaneFixedSubgroups q V K := by
     rintro W ⟨a, ha, rfl⟩
@@ -515,7 +515,7 @@ theorem exists_not_fixed :
     ∃ W ∈ hyperplaneFixedSubgroups q V K, ∃ r ∈ R, ConjAct.toConjAct r • W ≠ W := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set Ker : Subgroup G := permutationKernel q V K P R with hKer
   have hRle : R ≤ Ker := fun r hr =>
     ⟨Subgroup.mem_sup_right hr, fun W hW => hcon W hW r hr⟩

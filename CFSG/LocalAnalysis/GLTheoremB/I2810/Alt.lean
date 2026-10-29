@@ -32,7 +32,7 @@ theorem omega_alt_iso {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMo
   haveI : Group.IsPerfect ↥(bar W K) := hR.quasi.1
   have hnt : ∃ k : ↥K, θ k ≠ 1 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     obtain ⟨k, hk, x, hx, hxk⟩ := hts.nontriv
     obtain ⟨φ, -, hφker, hequiv⟩ := hiso
     have h1 := hequiv ⟨k, hk⟩ ⟨x, hx⟩ ⟨k * x * k⁻¹, hts.inv₁ k hk x hx⟩ rfl

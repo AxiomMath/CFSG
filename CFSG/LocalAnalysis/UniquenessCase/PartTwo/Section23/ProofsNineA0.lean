@@ -81,7 +81,7 @@ private theorem exists_odd_prime_pCore_commutator {D : Data G}
   obtain ⟨q, hqmem, hqcomm⟩ : ∃ q ∈ (Nat.card (Bar2 D.M)).primeFactors,
       ⁅P, CFSG.pCore q (Bar2 D.M)⁆ ≠ ⊥ := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hP (Subgroup.commutator_eq_bot_iff_le_centralizer.mpr
       (CFSG.subgroup_le_centralizer_fitting_of_le_centralizer_pCores fun p =>
         Subgroup.commutator_eq_bot_iff_le_centralizer.mp (h p.1.1 p.1.2)))

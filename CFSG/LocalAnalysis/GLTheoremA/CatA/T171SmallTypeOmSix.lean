@@ -50,7 +50,7 @@ theorem exists_minusPair_of_minus_dim_two {W : Submodule (ZMod 2) V}
     · exact h1
   have hex : ∃ b ∈ W, polar Q a b = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ y ∈ W, polar Q a y = 0 := by
       intro y hy
       rcases zmod_two_cases (polar Q a y) with h0 | h1

@@ -139,7 +139,7 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow_of_simple_case
       · by_cases hnontrivial : Nontrivial H
         · rw [isSimpleGroup_iff] at hsimple
           simp only [hnontrivial, true_and] at hsimple
-          push_neg at hsimple
+          push Not at hsimple
           obtain ⟨N, hNnormal, hNbot, hNtop⟩ := hsimple
           let : N.Normal := hNnormal
           let : Fintype N := Fintype.ofFinite N

@@ -94,7 +94,7 @@ theorem asc82E64Kind3_of (h3 : Asc82Type3Bound) : Asc82E64Kind3 := by
             Set.ncard_le_ncard_of_injOn _ hmaps hinj (Set.toFinite _)
         _ = Nat.card ↥(E ⊓ centralizer (L : Set G)) := rfl
         _ ≤ 2 := hC
-    · push_neg at hy
+    · push Not at hy
       have hempty : {a | a ∈ T ∧ g a = y} = ∅ :=
         Set.eq_empty_of_forall_notMem fun a ha => hy a ha.1 ha.2
       rw [hempty, Set.ncard_empty]

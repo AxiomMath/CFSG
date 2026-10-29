@@ -540,7 +540,7 @@ open CFSG.CGT.Timmesfeld75 in
 theorem exists_not_frob_fixed [CharP F 2] {e : ℕ} (he : 1 ≤ e) (hF : Nat.card F = 2 ^ (2 * e)) :
     ∃ s : F, s ^ 2 ^ e ≠ s := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have h1 := GMS.natCard_subfield_le_of_pow_two_pow_eq he (⊤ : Subfield F) fun c _ => hall c
   have h2 : Nat.card (⊤ : Subfield F) = Nat.card F :=
     Nat.card_congr (Equiv.subtypeUnivEquiv fun _ => trivial)
@@ -805,7 +805,7 @@ theorem layerSide_simple [CharP F 2] {e : ℕ} (he : 2 ≤ e) (hF : Nat.card F =
       obtain ⟨x, y, hxy⟩ := hJnab
       have hx1 : x ≠ 1 ∨ y ≠ 1 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hxy (by rw [hcon.1, hcon.2])
       have hJ1 : ∃ j : J, j ≠ 1 := by
         rcases hx1 with h1 | h1

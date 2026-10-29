@@ -541,7 +541,7 @@ theorem delta_V₁ (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {v : V} (hv : v �
     rwa [D.card_C] at this
   have hIle : Nat.card I ≤ 16 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     nlinarith
   have hIV : I ≤ D.V₁ := by
     rintro _ ⟨w, hw, rfl⟩
@@ -765,7 +765,7 @@ theorem thompson68_of_F5 (hF5 : F5Stmt.{u}) {V : Type u} [CommGroup V] [Finite V
     obtain ⟨n, hn⟩ := hSpow
     have hn2 : n ≤ 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 2 ^ 3 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hcon
       rw [hn] at hcard4
       omega
@@ -777,7 +777,7 @@ theorem thompson68_of_F5 (hF5 : F5Stmt.{u}) {V : Type u} [CommGroup V] [Finite V
   · right
     obtain ⟨s, hsS, hsτ⟩ : ∃ s ∈ S, s ∉ zpowers D.τ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : S ≤ zpowers D.τ := hcon
       have := Subgroup.card_le_of_le hle
       rw [h4, hτcard] at this

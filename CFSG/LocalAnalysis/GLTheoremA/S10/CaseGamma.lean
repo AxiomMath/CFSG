@@ -41,7 +41,7 @@ theorem exists_a_gamma (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgrou
     ∃ a ∈ Dgrp b x, a ∉ Subgroup.zpowers x ∧
       ¬ catalogIs (PSimple p (Jpart p (Ipart p L b) a)) (fun i => S9.isU4two i ∨ S9.isU4eight i) := by
   classical
-  push_neg at hγ
+  push Not at hγ
   obtain ⟨a, haD, ha1, hna⟩ := hγ
   refine ⟨a, haD, fun hax => hna ?_, hna⟩
   have hp : p.Prime := hc.ctx.prime

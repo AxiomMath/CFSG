@@ -107,7 +107,7 @@ theorem fg_perm_ne_self (hB : IsElemAb2 B 4) (hdim : Module.finrank (ZMod 3) V =
   have hsq : ∀ g, χ g * χ g = 1 := fgWt_sq (fgT B) (fgT_sq B hB) hχ
   have hnt : ∃ g, χ g ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hχ1 (funext h)
   obtain ⟨H, hHB, hH8, hHmem⟩ := fg_exists_kernel B hB16 χ hone hmul hsq hnt
   have hcj : ∀ g : ↥B, χ (fgCj B f hf g) = χ g := by

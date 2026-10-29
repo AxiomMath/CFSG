@@ -124,7 +124,7 @@ theorem CaseB.dichotomy (hC : Config z n) {g : G}
       psi (g⁻¹ * z * g) q ∈ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)
   · exact Or.inl hall
   right
-  push_neg at hall
+  push Not at hall
   obtain ⟨q₀, hq₀, hψ₀⟩ := hall
   have hsq₀ : psi (g⁻¹ * z * g) q₀ ^ 2 = z := by
     rcases hC.sq_eq _ (psi_mem_core hC hz₁ hH hq₀) with h | h

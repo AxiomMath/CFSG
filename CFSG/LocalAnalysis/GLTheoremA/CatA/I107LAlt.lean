@@ -181,7 +181,7 @@ theorem key_identity {i j q : Fin m} (hij : i ≠ j) (hiq : i ≠ q) (hjq : j �
 
 theorem exists_third {m : ℕ} (hm : 3 ≤ m) (i j : Fin m) : ∃ q : Fin m, q ≠ i ∧ q ≠ j := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Finset.univ : Finset (Fin m)) ⊆ {i, j} := by
     intro q _
     by_cases hqi : q = i

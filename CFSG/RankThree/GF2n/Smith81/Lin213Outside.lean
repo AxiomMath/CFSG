@@ -1080,7 +1080,7 @@ theorem lin213_core {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
       · exact Or.inl h
       · exact Or.inr (Or.inl h)
   ·
-    push_neg at hK
+    push Not at hK
     obtain ⟨hK1, hK2⟩ := hK
     obtain ⟨y₀, hy₀C, hy₀L, hy₀, hy₀Q, hφ0, v, hvQ, hyv⟩ := exists_compl_rep H h212 φ hr hker
       hQL hLM hLn hQn hCM hCQ hCQM hxC hxL hx htx hyM hy hyQ hyL hty

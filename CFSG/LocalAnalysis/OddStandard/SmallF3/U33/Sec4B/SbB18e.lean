@@ -70,7 +70,7 @@ theorem l18_Xi_special (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) :
       a * b * a⁻¹ * b⁻¹ ∉ V' := by
     have hex : ∃ m, m ∈ ctxXi t tau x₁ x₂ rho ∧ m ∉ ctxQ t tau x₁ x₂ rho := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : ctxXi t tau x₁ x₂ rho ≤ ctxQ t tau x₁ x₂ rho := fun x hx => h x hx
       have hcard := Subgroup.card_le_of_le hle
       rw [l18_card_Xi hc, IsZ4Z4E4.card hc.q_iso] at hcard
@@ -84,7 +84,7 @@ theorem l18_Xi_special (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) :
       intro hc'
       exact hmP (by rw [ctxP]; exact ⟨hmK, hc'⟩)
     rw [Subgroup.mem_centralizer_iff] at hmcent
-    push_neg at hmcent
+    push Not at hmcent
     obtain ⟨q, hqQ, hqm⟩ := hmcent
     have hqΞ : q ∈ ctxXi t tau x₁ x₂ rho := l18_Q_le_Xi hc.toCtx13 hqQ
     have hcommV : m * q * m⁻¹ * q⁻¹ ∈ fourGrp x₁ x₂ := l18_comm_Xi_Q_mem_V hc hmΞ hqQ

@@ -48,7 +48,7 @@ theorem datum_PTR {K : Type} [Field K] [Finite K] {E₀ : Subgroup (adjointGroup
     group
   · intro α hα
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hreg α hα
     intro x hx
     obtain ⟨a, ha, hca⟩ := hcon x hx

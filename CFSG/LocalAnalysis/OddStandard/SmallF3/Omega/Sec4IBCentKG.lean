@@ -99,7 +99,7 @@ theorem sec4I_eq_one_of_pow_seven (fr : Sec4IFrame Q) {v w : Fin 7 → ZMod 2}
         exact h.2
       have hne : v m ≠ v k ∨ w m ≠ w k := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hm (by
           simp only [S, Finset.mem_filter, Finset.mem_univ, true_and]
           exact ⟨hcon.1.trans hvk, hcon.2.trans hwk⟩)

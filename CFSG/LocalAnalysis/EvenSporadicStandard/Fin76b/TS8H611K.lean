@@ -73,7 +73,7 @@ theorem comm_of_card_center_eight {K : Type*} [Group K] [Finite K] (hK : Nat.car
   rw [hK] at hmul
   have hidx : (Subgroup.center K).index ≤ 2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     nlinarith
   have hne0 : (Subgroup.center K).index ≠ 0 := by
     intro h0
@@ -199,7 +199,7 @@ theorem exists_noncomm_partner (hcard : Nat.card ↥(E ⊓ centralizer ({β} : S
       a * b ≠ b * a) :
     ∃ d' ∈ E ⊓ centralizer ({β} : Set G), d' * d ≠ d * d' := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   obtain ⟨a, ha, b, hb, hab⟩ := hab
   have htD : t ∈ E ⊓ centralizer ({β} : Set G) :=
     ⟨h.t_mem_E, mem_centralizer_singleton_iff.2 hβt.symm⟩

@@ -197,7 +197,7 @@ theorem res822_card_Y_eq_three {L Y : Subgroup G} [Finite G] (hYL : Y ≤ L) (hY
   have hYL1 : 1 < Nat.card ↥(Y.subgroupOf L) := by
     have hex : ∃ y ∈ Y, y ≠ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hYne (eq_bot_iff.mpr fun y hy => Subgroup.mem_bot.mpr (hc y hy))
     obtain ⟨y, hyY, hy1⟩ := hex
     haveI hnt : Nontrivial ↥(Y.subgroupOf L) := by

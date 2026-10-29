@@ -36,7 +36,7 @@ theorem entry_of_intertwine {d d' : Fin 3 → F} {A : Matrix (Fin 3) (Fin 3) F} 
 theorem exists_ne_zero_col {A : Matrix (Fin 3) (Fin 3) F} (hA : A.det ≠ 0) (j : Fin 3) :
     ∃ i, A i j ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact hA (Matrix.det_eq_zero_of_column_eq_zero j h)
 
 theorem eq_diag_of_intertwine {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) {ζ ζ' : F}
@@ -328,7 +328,7 @@ theorem exists_exp_of_ringEquiv (σ : F ≃+* F) :
     apply Units.ext
     rw [Units.coe_map, MonoidHom.coe_coe, Units.val_pow_eq_pow_val, ← hju, map_pow, ← hωi,
       ← pow_mul, ← pow_mul, mul_comm]
-  · push_neg at h
+  · push Not at h
     refine ⟨1, Or.inl rfl, fun u hu => ?_⟩
     rw [h u hu, map_one, one_pow]
 

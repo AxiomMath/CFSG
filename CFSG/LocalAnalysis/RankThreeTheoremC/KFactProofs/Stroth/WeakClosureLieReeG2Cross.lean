@@ -23,7 +23,7 @@ theorem wcOn_of_no_plane {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime
       rw [Subgroup.mem_bot.1 hx, one_pow]
     · rintro k ⟨E, hEP, hE, hEc⟩
       by_contra hk
-      push_neg at hk
+      push Not at hk
       have hn : p ^ 2 ≤ Nat.card E := by
         rw [hEc]
         exact Nat.pow_le_pow_right (Fact.out : p.Prime).pos (by omega)

@@ -128,7 +128,7 @@ theorem card_sq_le_of_finrank_eq_three (hσ : IsUnitaryInvolution σ) {E : Subgr
     omega
   obtain ⟨t, htmem⟩ : ∃ t, t ∉ commSp E := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (eq_top_iff.mpr fun x _ => h x)
   have hsup : Submodule.span F {t} ⊔ commSp E = ⊤ := by
     have hlt : commSp E < Submodule.span F {t} ⊔ commSp E := by

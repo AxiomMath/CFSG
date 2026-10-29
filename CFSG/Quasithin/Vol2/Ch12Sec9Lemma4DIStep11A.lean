@@ -226,7 +226,7 @@ theorem DIEnv.sigma_pow_three (E : DIEnv T L V V₁ V₂ K₁ g D) {h : G}
   obtain ⟨j, hj, hjeq⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hd1
   have hj1 : j ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h9 : 3 ^ 2 ∣ 3 ^ j := pow_dvd_pow 3 hc
     rw [← hjeq] at h9
     have h96 := dvd_trans h9 hd2

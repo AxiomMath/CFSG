@@ -36,7 +36,7 @@ theorem sym1119_numbers_all (_h45 : Sec4.Item4_5) (hNum : Sym1119Numbers)
     have hgt := hctx.big.orderOf_x_gt
     have hj3 : 3 ≤ j := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have : 3 ^ j ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) (by omega)
       rw [hj] at hgt
       omega
@@ -58,7 +58,7 @@ theorem sym1119_numbers_all (_h45 : Sec4.Item4_5) (hNum : Sym1119Numbers)
   obtain ⟨j, -, hordj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hk)
   have hj2 : 2 ≤ j := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     apply hr3ne
     have h3 : orderOf r ∣ 3 := by
       rw [hordj]
@@ -154,7 +154,7 @@ theorem sym1119_claimC3 (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
         k * c * k⁻¹ ∉ Subgroup.zpowers d := by
   intro e₁ he₁A he₁c he₁a
   by_contra hviol
-  push_neg at hviol
+  push Not at hviol
   have h := hctx.big.toSec11Data
   obtain ⟨hord, f, hf, hfc, hr3⟩ := sym1119_numbers_all h45 hNum hL3 hctx
   obtain ⟨h₀, hh₀, he₀A, he₀c⟩ := hctx.exists_h

@@ -396,7 +396,7 @@ theorem rest_first_core_R (R : RestModel M Q Z n V₁ V₂) (hb : Smith1981Below
   have hbP : b ∈ R.Nsp hx ⊓ R.W₁ := ⟨hbN, hbW₁⟩
   obtain ⟨β, hβP, hβ0⟩ : ∃ β ∈ R.Nsp hx ⊓ R.W₂, β ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Subsingleton ↥(R.Nsp hx ⊓ R.W₂) :=
       ⟨fun u v => Subtype.ext ((hcon _ u.2).trans (hcon _ v.2).symm)⟩
     have h1 : Nat.card ↥(R.Nsp hx ⊓ R.W₂) = 1 :=
@@ -551,7 +551,7 @@ theorem rest_first_core_R (R : RestModel M Q Z n V₁ V₂) (hb : Smith1981Below
       have : t • β ∈ Sset := ⟨(0, t), by simp⟩
       rw [← heq] at this
       exact this
-    · push_neg at hbr
+    · push Not at hbr
       obtain ⟨l, u, hu, hnot⟩ := hbr
       have hdich := la_dichotomy R.M₀.B R.M₀.nondeg R.M₀.alt R.W₁ R.W₂ R.hsup R.hint R.iso₁
         R.iso₂ (R.φ ⟨x, hx⟩) (ψ l) (R.B_inv ⟨x, hx⟩) (R.B_inv ⟨(l : G), hLxH l.2⟩)

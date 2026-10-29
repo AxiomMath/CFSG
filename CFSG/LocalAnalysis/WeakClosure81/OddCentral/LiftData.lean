@@ -193,7 +193,7 @@ theorem false_of_frame [Finite A] (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a
   have hC : ∀ c₀ ∈ P, c * c₀ * c⁻¹ = c₀⁻¹ → ∀ a : A, θ c₀ • a = a := by
     intro c₀ hc₀P hc₀
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨a₀, ha₀⟩ := hne
     let f : A →+ A :=
       { toFun := fun a => θ c₀ • a - a

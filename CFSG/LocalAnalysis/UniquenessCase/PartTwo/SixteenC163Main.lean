@@ -66,7 +66,7 @@ theorem exists_notMem_normalizer_of_s15_ne_one {M V₀ V L : Subgroup G} (hV : I
     ∃ φ ∈ Mbar M V₀ V hV,
       φ ∉ normalizer (barSub V₀ V hV L : Set (MulAut (Vtil V₀ V hV))) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hs
   have hset : {X : Subgroup (MulAut (Vtil V₀ V hV)) |
       ∃ φ ∈ Mbar M V₀ V hV, X = (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom} =

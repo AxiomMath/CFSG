@@ -36,7 +36,7 @@ theorem frattini_eq_bot_of_dvd_20160 {P : Type} [Group P] [Finite P] {p : ℕ} (
   obtain ⟨k, hk⟩ := hPp.exists_card_eq
   have hk2 : 2 ≤ k := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases k
     · rw [pow_zero] at hk
       haveI : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hk).1
@@ -49,7 +49,7 @@ theorem frattini_eq_bot_of_dvd_20160 {P : Type} [Group P] [Finite P] {p : ℕ} (
     have hle : p ≤ 141 := by
       have : p ^ 2 ≤ 20160 := Nat.le_of_dvd (by norm_num) hsq
       by_contra h
-      push_neg at h
+      push Not at h
       nlinarith
     interval_cases p <;> first | rfl | omega | (exfalso; norm_num at hp) | (exfalso; norm_num at hsq)
   subst hp3

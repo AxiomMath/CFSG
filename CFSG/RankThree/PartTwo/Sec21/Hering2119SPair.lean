@@ -519,7 +519,7 @@ theorem pair_linear [Finite V] (hV : Nat.card V = 81) (H : Subgroup (V ≃ₗ[F3
   classical
   have hε0ne : ∃ v, ε₀ v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : Subsingleton V := ⟨fun x y => by
       obtain ⟨w, hw⟩ := hk₀ x (h x)
       obtain ⟨w', hw'⟩ := hk₀ y (h y)
@@ -600,7 +600,7 @@ theorem pair_linear [Finite V] (hV : Nat.card V = 81) (H : Subgroup (V ≃ₗ[F3
         exact this
       · obtain ⟨i, j, hij⟩ : ∃ i j, A i j ≠ 0 := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           apply nilp8_ne A hA
           ext i j
           exact hcon i j

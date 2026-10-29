@@ -344,7 +344,7 @@ theorem FNI_kappa_first_supported_complement_action
   have hUcentK : (E₃ ⊔ E₂ : Subgroup G) ⊓ centralizer (K : Set G) = ⊥ := by
     obtain ⟨k, hk, hk1⟩ : ∃ k ∈ K, k ≠ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hKne (le_bot_iff.1 fun x hx => Subgroup.mem_bot.2 (hc x hx))
     refine le_bot_iff.1 (le_trans ?_ (le_of_eq (hUfree k hk hk1)))
     exact inf_le_inf_left _ (centralizer_le (by simpa using hk))

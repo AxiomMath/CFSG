@@ -64,7 +64,7 @@ theorem leafFrattiniChief [DSLeaf LeafFaithfulA5] [DSLeaf LeafRankBounds] [DSLea
     (CFSG.GH74.QTGen4.DSGen4.rank_bounds (G := G)).1 _ hQ
   have hnt : ∃ l ∈ L, ∃ e ∈ pCoreOf 2 P, ⁅l, e⁆ ∉ dsFrattini (pCoreOf 2 P) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLQ : L ≤ pCoreOf 2 P := fun l hl =>
       CFSG.GH74.QTGen4.DSGen4.frattini_faithful h.charTwo l (h.le hl) (fun q hq => hcon l hl q hq)
     have hL2 : IsPGroup 2 L := hQ.to_le hLQ

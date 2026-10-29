@@ -143,7 +143,7 @@ theorem l3_levi_of_equiv {A : Type} [Group A] [Finite A] {K K₀ : Subgroup A} {
         orderOf_pow_orderOf_div (orderOf_pos g).ne' hpg
       exact orderOf_ne_prime_of_mem_upperTriangular hp hp2 ⟨k, hk⟩ hpq
         (Subgroup.pow_mem _ hgK₀ _) hord
-    · push_neg at hall
+    · push Not at hall
       obtain ⟨i, hi1, hi3, hiI⟩ := hall
       obtain ⟨j, hjI⟩ := hIne'
       have hj := hI j hjI

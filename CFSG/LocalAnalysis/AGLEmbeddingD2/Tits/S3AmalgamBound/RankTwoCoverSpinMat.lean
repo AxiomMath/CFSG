@@ -89,7 +89,7 @@ theorem nodeN_supp (P1 P2 A B : ι) (a b : ι) (h : nodeN F P1 P2 A B a b ≠ 0)
   apply h
   simp only [nodeS, Finset.mem_insert, Finset.mem_singleton, not_and_or] at hc
   simp only [nodeN, Matrix.add_apply, Matrix.single_apply]
-  rcases hc with hc | hc <;> push_neg at hc <;> obtain ⟨c1, c2, c3, c4⟩ := hc
+  rcases hc with hc | hc <;> push Not at hc <;> obtain ⟨c1, c2, c3, c4⟩ := hc
   · simp [Ne.symm c1, Ne.symm c2, Ne.symm c3, Ne.symm c4]
   · simp [Ne.symm c1, Ne.symm c2, Ne.symm c3, Ne.symm c4]
 

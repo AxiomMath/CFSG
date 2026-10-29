@@ -581,7 +581,7 @@ theorem lieCompExportNe3_holds :
     | B r q =>
       by_cases hsp : q.p = 2 ∨ r = 2
       · exact lieCompCase_symplectic_ne3 hb hQ hs hna ⟨_, hv⟩ (Or.inl ⟨r, q, rfl, hsp⟩) he β hβ h3
-      · push_neg at hsp
+      · push Not at hsp
         exact lieCompCase_orthogonal_ne3 hb hQ hs hna ⟨_, hv⟩
           (Or.inl ⟨r, q, rfl, hsp.1, by simp only at hr; omega⟩) he β hβ h3
     | C r q => exact lieCompCase_symplectic_ne3 hb hQ hs hna ⟨_, hv⟩ (Or.inr ⟨r, q, rfl⟩) he β hβ h3

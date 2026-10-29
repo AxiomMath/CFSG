@@ -92,7 +92,7 @@ theorem oppositeFixed_of_stronglyEmbedded {X : Type} [Group X] [Finite X]
     exact hQU hq'
   obtain ⟨U', hU'R, hU'U⟩ : ∃ U' : Sylow 2 X, (∀ α ∈ R, α • U' = U') ∧ U' ≠ U := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hfix : MulAction.fixedPoints R (Sylow 2 X) = {U} := by
       ext P
       simp only [MulAction.mem_fixedPoints, Set.mem_singleton_iff]

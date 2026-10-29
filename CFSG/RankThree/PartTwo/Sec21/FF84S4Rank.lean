@@ -112,7 +112,7 @@ theorem EA16_false (B : Subgroup P8) (hB : B ≤ Qsub) [IsElementaryAbelian 2 B]
     have hord : orderOf rep4 ≤ 2 := Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one h4)
     omega
   ·
-    push_neg at hcen
+    push Not at hcen
     obtain ⟨a, ha, g, hgQ, hag⟩ := hcen
     have haQ : FF84.tab a ∈ rankQ.map FF84.tab := hB ha
     obtain ⟨c, hc, hca⟩ := List.mem_map.1 haQ
@@ -164,7 +164,7 @@ theorem EA32_false (B : Subgroup P8) (hB : B ≤ Qsub) [IsElementaryAbelian 2 B]
 theorem EA_Q (B : Subgroup P8) (hB : B ≤ Qsub) [IsElementaryAbelian 2 B] :
     Nat.card B ≤ 8 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hdvd : Nat.card B ∣ 2 ^ 5 := by
     have h1 := Subgroup.card_dvd_of_le hB
     rw [Qsub_card] at h1

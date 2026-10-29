@@ -175,7 +175,7 @@ theorem coord_ιMulti_e_sorted {i j k : Fin 6} (hij : i < j) (hjk : j < k)
   · rw [if_neg hJ]
     have hex : ∃ r : Fin 3, ![i, j, k] r ∉ J.val := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hJ
       have hsub : ({i, j, k} : Finset (Fin 6)) ⊆ J.val := by
         intro x hx

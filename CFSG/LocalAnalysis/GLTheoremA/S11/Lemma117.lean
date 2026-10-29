@@ -563,10 +563,10 @@ theorem exists_many_components (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x
   obtain ⟨Y₀, hY₀, j₀, hj₀, hj₀N⟩ : ∃ Y : Subgroup G, GLAPComponent r C Y ∧
       ∃ j ∈ J, j ∉ Subgroup.normalizer (Y : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hN fun Y hY => fun j hj => by
       by_contra hjN
-      exact absurd (hcon Y hY) (by push_neg; exact ⟨j, hj, hjN⟩)
+      exact absurd (hcon Y hY) (by push Not; exact ⟨j, hj, hjN⟩)
   have hY₀Ω : Y₀ ∈ Ω := (hΩ Y₀).2 hY₀
   have hΩne : Ω.Nonempty := ⟨Y₀, hY₀Ω⟩
   let Jo : Subgroup ↥J :=
@@ -2316,7 +2316,7 @@ theorem y10xA_single_orbit {Γ : Type} [Group Γ] [Finite Γ] {ι : Type} (Y : �
     · exact le_sup_of_le_right (le_iSup (fun j : {j // ¬ 𝒞 j} => Y j.1) ⟨i, hi⟩)
   obtain ⟨j₁, hj₁⟩ : ∃ j, 𝒞 j := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     rw [← le_bot_iff]
     refine le_trans hĴW (iSup_le fun j => ?_)
@@ -2456,7 +2456,7 @@ theorem y10xA_single_orbit {Γ : Type} [Group Γ] [Finite Γ] {ι : Type} (Y : �
     rw [hn]
     exact le_iSup (fun n : ℕ => (Y j₁).map (MulAut.conj (σ ^ n)).toMonoidHom) n
   exfalso
-  push_neg at hall
+  push Not at hall
   obtain ⟨j₂, hj₂𝒞, hj₂P⟩ := hall
   have hM₁y₂ : ∀ m ∈ M₁, ∀ y ∈ Y j₂, m * y = y * m := fun m hm y hy =>
     y10xA_iSup_centralizes (fun j : {j // 𝒞 j ∧ P₁ j} => Y j.1) y
@@ -4565,7 +4565,7 @@ theorem y10xD_comp_eq_B {Γ : Type} [Group Γ] [Finite Γ] (B : ℕ → Subgroup
     {L : Subgroup Γ} (hL : CFSG.Open.IsComponentOf L (⨆ m, B m)) : ∃ m, L = B m := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hLX : L ≤ ⨆ m, B m := hL.1
   have hLB : ∀ m, ∀ a ∈ L, ∀ b ∈ B m, a * b = b * a := by
     intro m a ha b hb
@@ -4823,7 +4823,7 @@ theorem y10xD_barX_exists {G : Type} [Group G] [Finite G] {s p : ℕ} {C J : Sub
     ∃ i : ℕ, i < p ∧ ∃ a ∈ barX s C (GLBConj (x ^ i) Y), ∃ b ∈ barX s C J, a * b ≠ b * a := by
   classical
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hqs := y10xD_barX_qs (s := s) hs hJC hJq hsJ
   have hF : ∀ i : Fin p, GLBConj (x ^ (i : ℕ)) Y ≤ C := fun i =>
     y10xD_glbConj_le (C.pow_mem hxC _) hYC
@@ -7097,7 +7097,7 @@ theorem y10xE_Rdata {p : ℕ} (hp : p.Prime) {C J : Subgroup G} {x : G} (hxC : x
   set Yi : y10xA_I 3 C K := ⟨Y, hY, hYK⟩ with hYidef
   have hnc : ∃ g ∈ y10xA_img C N J, ∃ y ∈ y10xA_fam 3 C K N (some Yi), g * y ≠ y * g := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact y10xE_noncomm hp hxC hx hJC hJq h3J hJc hKC hO hNO hY hYK hdiag hJK
       (fun g hg y hy => hcon g hg y hy)
   obtain ⟨m, hm⟩ := hnon (some Yi) hnc
@@ -7828,7 +7828,7 @@ theorem y10xF_quot_center_equiv_of_surj {J A : Type} [Group J] [Group A] [Finite
 theorem y10xF_two_local_exists {Q : Type} [Group Q] [Finite Q] {p : ℕ}
     (h : 0 < CFSG.Open.twoLocalPrimeRank p Q) : ∃ H : Subgroup Q, CFSG.Open.IsTwoLocal H := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hset : {k | ∃ H : Subgroup Q, CFSG.Open.IsTwoLocal H ∧ CFSG.Open.pRank p H = k} = ∅ := by
     ext k
     constructor

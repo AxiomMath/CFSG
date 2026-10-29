@@ -234,7 +234,7 @@ theorem mult_inv_eq6 (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
       · simp [h, hcx, htriv x hcx]
       · simp [h, hcx]
     · rw [if_neg htriv]
-      push_neg at htriv
+      push Not at htriv
       obtain ⟨x1, hx1c, hx1d⟩ := htriv
       obtain ⟨t, ht1, htζ⟩ : ∃ t, c t = 1 ∧ d i t = ζ := by
         rcases mu3_cases hζ (hdpow i x1) with h' | h' | h'
@@ -322,7 +322,7 @@ variable {ζ : L}
 
 theorem exists_ne_one_of_ne_fun {u : P → L} (h : u ≠ fun _ => 1) : ∃ x, u x ≠ 1 := by
   by_contra h'
-  push_neg at h'
+  push Not at h'
   exact h (funext h')
 
 theorem sq_ne_one_of {u : L} (hu3 : u ^ 3 = 1) (hu : u ≠ 1) : u ^ 2 ≠ 1 := by
@@ -358,12 +358,12 @@ theorem exists_three (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   obtain ⟨x0, hx0⟩ := exists_ne (1 : P)
   obtain ⟨i1, hi1⟩ : ∃ i, d i x0 ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx0 (hfaith x0 h)
   obtain ⟨i2, hi2a, hi2a2, hi21⟩ : ∃ i, d i ≠ d i1 ∧ d i ≠ (fun x => d i1 x ^ 2) ∧
       d i ≠ (fun _ => 1) := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨x1, hx1, hax1, -⟩ :=
       KA7.common_kernel hζ (hdmul i1) (hdpow i1) (hdmul i1) (hdpow i1) hcard
     apply hx1
@@ -377,7 +377,7 @@ theorem exists_three (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   obtain ⟨i3, hi3a, hi3a2, hi3b, hi3b2, hi31⟩ : ∃ i, d i ≠ d i1 ∧ d i ≠ (fun x => d i1 x ^ 2) ∧
       d i ≠ d i2 ∧ d i ≠ (fun x => d i2 x ^ 2) ∧ d i ≠ (fun _ => 1) := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨x1, hx1, hax1, hbx1⟩ :=
       KA7.common_kernel hζ (hdmul i1) (hdpow i1) (hdmul i2) (hdpow i2) hcard
     apply hx1
@@ -554,7 +554,7 @@ theorem pairs_count (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   have hcover : ∀ i, ∃ k, d i = u k := by
     intro i
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 := hpt_eq i
     simp [h] at h1
   exact ⟨hu_inj, fun i => by
@@ -609,7 +609,7 @@ theorem exists_gt (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   have kb := KA7.ker_card hζ (hdmul i2) (hdpow i2) ⟨y2, hy2⟩ hcard
   obtain ⟨t, ht1, ht2⟩ : ∃ t, d i1 t ≠ 1 ∧ d i2 t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (univ : Finset P) ⊆
         (univ.filter fun x => d i1 x = 1) ∪ (univ.filter fun x => d i2 x = 1) := by
       intro x _

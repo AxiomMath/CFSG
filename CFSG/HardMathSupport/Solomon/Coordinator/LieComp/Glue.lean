@@ -47,7 +47,7 @@ theorem component_mem_named_factors {G : Type*} [Group G] [Finite G] {C : Subgro
     (hperf : ∀ P : Subgroup G, P ≤ C → commutator ↥P = ⊤ → P ≤ ⨆ i, F i)
     {K : Subgroup G} (hK : IsComponentOf K C) : ∃ i, K = F i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hKle : K ≤ ⨆ i, F i := hperf K hK.1 hK.2.2.1
   have hcent : (⨆ i, F i) ≤ Subgroup.centralizer (K : Set G) := by
     refine iSup_le fun i y hy => ?_

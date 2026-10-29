@@ -650,7 +650,7 @@ private theorem alpha_exists_compl {B D : Subgroup G} {y : G} (hBel : IsElemAbel
   by_contra hne
   obtain ⟨c, hcB, hcn⟩ : ∃ c ∈ B, c ∉ A ⊔ D := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne (le_antisymm (sup_le hAB hDB) fun c hc => hall c hc)
   have hc3 : c ^ 3 = 1 := hBel.2 c hcB
   have hc1 : c ≠ 1 := fun h1 => hcn (h1 ▸ Subgroup.one_mem _)
@@ -849,7 +849,7 @@ private theorem y9xC_card_sup {p : ℕ} (hp : p.Prime) {E₀ F D : Subgroup G} {
 private theorem y9xC_exists_comp {X : Subgroup G} {p : ℕ} (hne : GLAPLayer p X ≠ ⊥) :
     ∃ K : Subgroup G, GLAPComponent p X K := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hne (le_bot_iff.1 (show GLAPLayer p X ≤ ⊥ from sSup_le fun K hK => absurd hK (hcon K)))
 
 private theorem y9xC_conj_cs {E : Subgroup G} {t : G} (ht : ∀ e ∈ E, e * t = t * e) {k : G}
@@ -963,7 +963,7 @@ private theorem y9xC_generic (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subg
   have hBel := B_el h
   have hFne : ∃ y ∈ F, y ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hF : F = ⊥ := eq_bot_iff.2 fun g hg => Subgroup.mem_bot.2 (hcon g hg)
     have hE₀D : E₀ = Dgrp b x := by
       have := hbase.F_sup
@@ -2366,7 +2366,7 @@ theorem alpha_Kay_single_of_norm (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : 
   have hK_ne : K ≠ ⊥ := casealpha_component_ne_bot hd.K_comp
   obtain ⟨M₀, hM₀⟩ : ∃ M₀, M₀ ∈ 𝒞 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hle : K ≤ ⊥ := (casealpha_le_closureIn K (H := GLAPLayer p (Subgroup.centralizer
       (((Subgroup.zpowers a ⊔ Subgroup.zpowers y : Subgroup G)) : Set G))) (Subgroup.one_mem _)).trans
       (hKF ▸ iSup₂_le fun M hM => absurd hM (hne M))
@@ -5148,7 +5148,7 @@ theorem Ky_comp_in_Ki (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
   have hK_ne : K ≠ ⊥ := y9x_component_ne_bot hd.K_comp
   obtain ⟨L₀, hL₀⟩ : ∃ L₀ : Subgroup G, L₀ ∈ 𝒞 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hKle : K ≤ Kf 3 K (Subgroup.zpowers a' ⊔ Subgroup.zpowers y) :=
       y9x_le_closureIn K (Subgroup.one_mem _)
     rw [hKF] at hKle
@@ -5197,7 +5197,7 @@ theorem Ky_comp_in_Ki (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
     exact (y9xF_gLBConj_mono g hL₀Y).trans hgY.le
   have hN₀ : ∃ N₀ : Subgroup G, N₀ ∈ 𝒞₁ := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hbot : (⨆ N ∈ 𝒞₁, N) ≤ ⊥ := iSup₂_le fun N hN => absurd hN (hne N)
     exact hL₀ne (le_bot_iff.1 (hL₀_le_sup.trans hbot))
   obtain ⟨N₀, hN₀⟩ := hN₀

@@ -290,7 +290,7 @@ theorem res822ThreeCover_of
   have hodd : ¬ 2 ∣ Nat.card ψ.ker := res822_not_two_dvd_card_of_central hkerψ.le hO
   have hn' := hn
   unfold NoThreeInCV at hn'
-  push_neg at hn'
+  push Not at hn'
   obtain ⟨y, hyM, hycent, hy3⟩ := hn'
   have hyL : y ∈ L := by
     have h := hthree G T L I hyp h731 h821 hc hrow hrowM hnot y hyM hy3

@@ -379,7 +379,7 @@ private theorem g14_point_span {D : Submodule F (Fin n → F)} (hD : IsPoint D) 
 private theorem g14_coord_of_ne {i0 : Fin n} {d : Fin n → F} (hd0 : d ≠ 0)
     (hne : Submodule.span F {d} ≠ Vi F n i0) : ∃ k : Fin n, k ≠ i0 ∧ d k ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hne
   have hdi : d = d i0 • (Pi.single i0 (1 : F) : Fin n → F) := by
     funext k
@@ -565,7 +565,7 @@ private theorem g14_hyperplane_ker {B : Submodule F (Fin n → F)} (hB : IsHyper
     intro c
     obtain ⟨x, hx⟩ : ∃ x, f x ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hf0 (LinearMap.ext fun y => hcon y)
     exact ⟨(c * (f x)⁻¹) • x, by rw [map_smul, smul_eq_mul]; field_simp⟩
   have hrange : Module.finrank F (LinearMap.range f) = 1 := by
@@ -604,7 +604,7 @@ private theorem g14_flag_transport [CharP F 2] (hn : 2 ≤ n) {A B : Submodule F
     by_cases h1 : ell (Pi.single (⟨1, by omega⟩ : Fin n) (1 : F)) = 0
     · have hj : ∃ j : Fin n, ell (Pi.single j (1 : F)) ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         apply hℓne
         apply LinearMap.pi_ext
         intro i x
@@ -1586,7 +1586,7 @@ private theorem g15_sq_of_fix [CharP F 2] {x : Matrix.SpecialLinearGroup (Fin 2)
     exact this
   have hv : w 0 ≠ 0 ∨ w 1 ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hw0 (funext fun i => by fin_cases i <;> simp [hc.1, hc.2])
   have htr := g15_aux_trace hdet h0 h1 hv
   apply Subtype.ext
@@ -2906,7 +2906,7 @@ private theorem asG12_irred {F U : Type} [Field F] [AddCommGroup U] {n s : ℕ}
     · right
       obtain ⟨y, hyY, hy0⟩ : ∃ y ∈ Y, y ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hY0 (eq_bot_iff.2 fun y hy => AddSubgroup.mem_bot.2 (h y hy))
       obtain ⟨a, rfl⟩ := hY hyY
       have ha : a ≠ 0 := by

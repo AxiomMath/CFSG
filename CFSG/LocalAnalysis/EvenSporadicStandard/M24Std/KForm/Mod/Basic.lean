@@ -121,7 +121,7 @@ private theorem four_dvd_natCard_inf_centralizer_of_isPerfect_aux {K : Type*} [G
   obtain ⟨j, hj⟩ := hCTpg.exists_card_eq
   have hjle : j ≤ 1 := by
     by_contra hj1
-    push_neg at hj1
+    push Not at hj1
     have h4dvd : 4 ∣ Nat.card A := by
       have h1 : 2 ^ 2 ∣ 2 ^ j := pow_dvd_pow 2 hj1
       rw [show (2 : ℕ) ^ 2 = 4 by norm_num] at h1

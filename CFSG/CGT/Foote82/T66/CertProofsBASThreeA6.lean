@@ -190,7 +190,7 @@ theorem basThreeA6_of_cases (hA6 : InvolAutA6Cases) :
     rw [hθ, hθ, hδ2]
   have hθ1 : ∃ g, θ g ≠ g := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hZy : ∀ y : Y, y⁻¹ * δ y ∈ α.ker := fun y => by
       rw [MonoidHom.mem_ker, map_mul, map_inv, ← hθ, hall, inv_mul_cancel]
     let f : Y →* ↥(Subgroup.center Y) :=

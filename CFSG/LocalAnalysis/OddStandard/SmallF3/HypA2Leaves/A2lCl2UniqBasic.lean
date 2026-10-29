@@ -156,7 +156,7 @@ theorem cl24_cross_NE {N N' E E' j d : ℕ} (hj : 0 < j) (hd : 0 < d) (hN : N * 
 theorem cl24_E_lt {E E' j d : ℕ} (hj : 0 < j) (hjd : j < d) (hE : j * E = d * E')
     (hE' : 0 < E') : E' < E := by
   by_contra h
-  push_neg at h
+  push Not at h
   nlinarith [Nat.mul_le_mul_left j h, Nat.mul_lt_mul_of_pos_right hjd hE']
 
 @[expose] def Cl24PM (j : ℕ) (x : ℤ) : Prop :=

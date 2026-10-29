@@ -567,7 +567,7 @@ theorem E68OutThree_holds :
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hm1
     have hk1 : k ≤ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h9 : 3 ^ 2 ≤ 3 ^ k := Nat.pow_le_pow_right (by norm_num) hcon
       have h6 : 3 ^ k ≤ 6 := Nat.le_of_dvd (by norm_num) (hk ▸ hm2)
       norm_num at h9
@@ -623,7 +623,7 @@ theorem gen2318E68Outer_of_inputs (hGA : CFSG.Open.GriessAllModelsStatement)
   have hbex : ∃ b ∈ B ⊓ Subgroup.normalizer (K : Set X),
       ∀ k ∈ K, k⁻¹ * b ∉ Subgroup.centralizer (K : Set X) := by
     unfold InducesInnerIn at hout
-    push_neg at hout
+    push Not at hout
     exact hout
   obtain ⟨b, hbBN, hbnot⟩ := hbex
   have hbB : b ∈ B := (Subgroup.mem_inf.1 hbBN).1

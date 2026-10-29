@@ -75,7 +75,7 @@ theorem ob5_normal_two_SL (N : Subgroup ob5SL) [N.Normal] (hN : IsPGroup 2 N) : 
     rw [h, Subgroup.card_top, ob5_card_PSL] at hk
     have hk12 : k < 12 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := Nat.pow_le_pow_right (by norm_num : 1 ≤ 2) hc
       omega
     interval_cases k <;> norm_num at hk

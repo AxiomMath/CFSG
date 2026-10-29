@@ -27,7 +27,7 @@ theorem kFact64iiOuterSylow_of_reduced
     rw [← hφ]
     exact pow_orderOf_eq_one φ
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hφinn (h K hsimple hnab hcat p hp hp2 hpK (P : Subgroup K) P.isPGroup'
     (Sylow.not_dvd_index P) hcyc φ hφpow hcon)
 

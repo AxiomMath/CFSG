@@ -1081,7 +1081,7 @@ theorem ker_le (h : Cfg9 B S A e u a) :
   obtain ⟨b₀, hb₀⟩ := exists_far h
   have hR := p8b_R_card h hb₀
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h3 : 2 < (Finset.univ.filter (fun r : V => ∀ y : A, B r y = 0)).card := by
     rw [Finset.two_lt_card_iff]
     refine ⟨1, x, u, ?_, ?_, ?_, ?_, ?_, hcon.2⟩

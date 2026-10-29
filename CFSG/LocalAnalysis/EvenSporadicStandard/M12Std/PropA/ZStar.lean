@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 theorem exists_conj_mem_centralizer_ne (h : StdHyp G L) {t : G} (ht2 : orderOf t = 2) :
     ∃ g : G, g * t * g⁻¹ ∈ centralizer ({t} : Set G) ∧ g * t * g⁻¹ ≠ t := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   haveI := Fintype.ofFinite G
   haveI := h.simple
   have ht1 : t ≠ 1 := by rintro rfl; simp at ht2

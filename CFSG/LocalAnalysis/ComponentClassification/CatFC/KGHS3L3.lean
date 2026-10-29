@@ -187,7 +187,7 @@ theorem singer3_exists_ne_bot {ζ : E} [FiniteDimensional E V] {a b : Module.End
     (hspan : ⨆ p, singer3Eig ζ a b p = ⊤) (ha1 : a ≠ 1) :
     ∃ p : Fin 3 × Fin 3, p.1 ≠ 0 ∧ singer3Eig ζ a b p ≠ ⊥ := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply ha1
   have hle : (⨆ p, singer3Eig ζ a b p) ≤ a.eigenspace 1 := by
     refine iSup_le fun p => ?_

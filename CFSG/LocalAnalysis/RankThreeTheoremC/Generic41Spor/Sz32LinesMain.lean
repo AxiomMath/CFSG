@@ -441,7 +441,7 @@ theorem sz32_lines_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullC
   have hexists : ∃ h : G, (Subgroup.zpowers x).map (MulAut.conj h).toMonoidHom =
       Subgroup.zpowers (a ^ 5) := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hwc : ∀ g : G, (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom ≤ (P : Subgroup G) →
         (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers x :=
       fun g hg => (hlines g hg).resolve_right (hnone g)

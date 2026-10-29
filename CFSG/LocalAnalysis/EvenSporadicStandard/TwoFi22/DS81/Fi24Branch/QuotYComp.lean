@@ -76,7 +76,7 @@ theorem bar_Y_hlat1 (hR : RData c R) (hJ : JData c t R J) (hK : KDataC c t R J K
 theorem bar_Y_hlat2 (hR : RData c R) (hJ : JData c t R J) (hK : KDataC c t R J K O Y) :
     ∃ y ∈ c.bar Y, ∃ r ∈ c.bar R, y * r ≠ r * y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact not_centralizes_of_lattice (Yb := c.bar Y) (Rb := c.bar R) (Ob := c.bar O)
     (Vb := c.bar (closure {t, c.z}))
     (bar_O_le_bar_R hK)

@@ -329,7 +329,7 @@ theorem oddSetup_conj_V (SS : OddSetup M Q Z B V₁ V₂) (hc₁ : Nat.card V₁
 theorem exists_mem_ne_one_ne {X : Subgroup G} (hX : 3 ≤ Nat.card X) (x : G) :
     ∃ y ∈ X, y ≠ 1 ∧ y ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (X : Set G) ⊆ {1, x} := by
     intro y hy
     by_cases hy1 : y = 1
@@ -358,7 +358,7 @@ theorem exists_cent_not_mem {V Z : Subgroup G} (hab : ∀ a ∈ V, ∀ b ∈ V, 
   rw [Subgroup.card_map_of_injective V.subtype_injective] at hrk
   have hkr := Subgroup.card_ker_mul_card_range f
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hkZ : Nat.card f.ker ≤ Nat.card Z := by
     rw [← Subgroup.card_map_of_injective V.subtype_injective]
     refine Subgroup.card_le_of_le ?_
@@ -490,7 +490,7 @@ theorem Sit.exists_root_le_two (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B 2 V₁ 
   have hq := H.q4
   obtain ⟨q', hq'V, hcZ⟩ : ∃ q' ∈ V₁, ⁅x, q'⁆ ∉ Z := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hle : ⁅V₁, Subgroup.zpowers x⁆ ⊔ Z ≤ Z := by
       refine sup_le ?_ le_rfl
       rw [Subgroup.commutator_le]

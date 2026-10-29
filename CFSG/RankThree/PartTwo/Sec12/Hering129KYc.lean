@@ -36,7 +36,7 @@ theorem ks129PGL3Shape_holds : KS129PGL3Shape := by
     haveI : IsSimpleGroup Y' := eYP.isSimpleGroup
     have hnc : ∃ a b : Y', a * b ≠ b * a := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hns (Group.isSolvable_of_comm hcon)
     refine ⟨?_, Hering129HLift.center_eq_bot_of_simple inferInstance hnc⟩
     obtain ⟨p', e', hfact, he', hiso⟩ := Sec13.isLThreePi_projImage_slPi hF hq

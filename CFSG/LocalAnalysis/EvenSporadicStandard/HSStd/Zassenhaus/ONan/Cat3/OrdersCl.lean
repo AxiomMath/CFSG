@@ -347,7 +347,7 @@ theorem classical_config {L : Type} [Group L] [Finite L] {t : StatedLieTag} {n p
     have hn4 : 4 ≤ n := by omega
     refine ⟨?_, ?_, ?_⟩
     · by_contra hn45
-      push_neg at hn45
+      push Not at hn45
       exact (false_of_27_dvd h3) (by
         rw [hcard]
         change 27 ∣ ordA (n - 1) (p ^ f)
@@ -382,7 +382,7 @@ theorem classical_config {L : Type} [Group L] [Finite L] {t : StatedLieTag} {n p
     have hn4 : 4 ≤ n := by omega
     refine ⟨?_, ?_, ?_⟩
     · by_contra hn45
-      push_neg at hn45
+      push Not at hn45
       exact (false_of_27_dvd h3) (by
         rw [hcard]
         change 27 ∣ ordTwistedA (n - 1) (p ^ f)

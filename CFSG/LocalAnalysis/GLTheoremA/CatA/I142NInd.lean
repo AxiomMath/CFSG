@@ -304,7 +304,7 @@ theorem goodA_all (hK : CompTypesCyc) (hT : TitsCentSolv) (p : ℕ) (hp : p.Prim
       exact cyclic_good hsimp hnc hchev hp hp2 β (hE.2 β (Subgroup.mem_zpowers β))
     · have hz : ∃ z ∈ E, z ≠ 1 := by
         by_contra h
-        push_neg at h
+        push Not at h
         apply hcyc
         refine ⟨1, ?_⟩
         rw [Subgroup.zpowers_one_eq_bot]

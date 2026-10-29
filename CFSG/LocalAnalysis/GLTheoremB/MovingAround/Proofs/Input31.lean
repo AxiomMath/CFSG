@@ -51,7 +51,7 @@ theorem input31_link {p k : ℕ} [hp : Fact p.Prime] {R X Y : Subgroup G} (hX : 
   obtain ⟨m, hm⟩ := exists_card_eq_pow hE.isPGroup
   have hm2 : 2 ≤ m := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hlt' : p ^ m < p ^ 2 := Nat.pow_lt_pow_right hp.out.one_lt hlt
     rw [hm] at h
     exact absurd h (not_le.2 hlt')
@@ -154,7 +154,7 @@ theorem input31_Q_exists {p k : ℕ} [hp : Fact p.Prime] (hk : 3 ≤ k) {R U W :
     obtain ⟨c, -, hCc⟩ := (Nat.dvd_prime_pow hp.out).1 h1
     have hkc : k - 1 ≤ c := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have hlt' : p ^ c < p ^ (k - 1) := Nat.pow_lt_pow_right hp1 hlt
       rw [← hCc] at hlt'
       exact absurd hcardC (not_le.2 hlt')
@@ -339,7 +339,7 @@ theorem input31_sub_of_card_le {p : ℕ} [hp : Fact p.Prime] {E F : Subgroup G}
   obtain ⟨c, hc⟩ := exists_card_eq_pow hFe.isPGroup
   have hmc : m ≤ c := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hlt' : p ^ c < p ^ m := Nat.pow_lt_pow_right hp.out.one_lt hlt
     rw [hc] at hm
     exact absurd hm (not_le.2 hlt')

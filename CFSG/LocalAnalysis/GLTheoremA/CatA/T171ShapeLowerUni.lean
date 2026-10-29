@@ -379,7 +379,7 @@ theorem lowerUni_holds : LowerUni := by
           Function.surjective_id (by simp)
       have hx : ∃ x ∈ U, x ≠ 1 := by
         by_contra h
-        push_neg at h
+        push Not at h
         refine hU1 (by
           rw [Subgroup.eq_bot_iff_forall]
           intro x hxU

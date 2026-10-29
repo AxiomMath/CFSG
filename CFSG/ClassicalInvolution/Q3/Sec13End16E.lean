@@ -867,7 +867,7 @@ theorem centralizer_or_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
     obtain ⟨u, huU, hu4, -⟩ := perpP_gen hcU hU4
     obtain ⟨r', hr'R, hr'N⟩ : ∃ r' ∈ R, r' ∉ Subgroup.normalizer (M : Set G) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hRle : R ⊓ Subgroup.normalizer (M : Set G) = R :=
         inf_eq_left.mpr (fun x hx => hcon x hx)
       rw [hRle, h.card_eq_eight hR] at hU4
@@ -963,7 +963,7 @@ theorem centralizer_or_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
     have hdichr := hdich r hrD hrM
     have hrnc : ∃ x ∈ M, x * r ≠ r * x := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hMr : M ≤ Subgroup.centralizer ({r} : Set G) := fun x hx =>
         Subgroup.mem_centralizer_singleton_iff.mpr (hcon x hx)
       exact hT ⟨hR, r, h.involution_eq_of_le_centralizer h9 hR hM hr hMr, hr⟩
@@ -1201,7 +1201,7 @@ private theorem e16e2_lambda_of_pair (c : Sit16 Ω K K' W z u e g) (h : EndHyp �
   obtain ⟨-, hcA, -, -, -, -⟩ := pair_structure h hAΩ hBst hBn
   obtain ⟨r, hrA, hrB⟩ : ∃ r ∈ A, r ∉ Subgroup.normalizer (B : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : A ⊓ Subgroup.normalizer (B : Set G) = A :=
       inf_eq_left.mpr (fun x hx => hcon x hx)
     rw [hle, h.card_eq_eight hAΩ] at hcA
@@ -1510,7 +1510,7 @@ theorem natCard_zGroup_eq_sixteen_mul (c : Sit16 Ω K K' W z u e g) (h : EndHyp 
     refine ⟨2, by simp, ?_, ⟨fun _ => ⟨d, hdF, hdN⟩, fun _ => rfl⟩⟩
     rw [hD8, ← hrel, hidx]
     ring
-  · push_neg at hcase
+  · push Not at hcase
     have hidx : (Subgroup.normalizer ((conjSub g K : Subgroup G) : Set G)).relIndex
         (zGroup Ω ⊓ Subgroup.centralizer (K : Set G)) = 1 :=
       Subgroup.relIndex_eq_one.mpr (fun x hx => hcase x hx)

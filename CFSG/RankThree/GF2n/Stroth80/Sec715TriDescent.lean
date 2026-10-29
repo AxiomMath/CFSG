@@ -83,7 +83,7 @@ structure Om8Irr8 (σ : Representation K (CFSG.StandardType.Triality.Om8 K) X) :
 theorem Om8Irr8.exists_ne_one {σ : Representation K (CFSG.StandardType.Triality.Om8 K) X}
     (h : Om8Irr8 σ) : ∃ g, σ g ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hpos : 0 < Module.finrank K X := by
     rw [h.finrank_eq]
     norm_num

@@ -203,7 +203,7 @@ theorem case2_core {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup
     by_contra hnot
     have hex : ∃ L : Subgroup Y, IsComponentOf L ⊤ ∧ ¬ T ≤ centralizer (L : Set Y) := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hnot (h.le_pCore_of_forall_le_centralizer hne)
     obtain ⟨L, hL, hTL⟩ := hex
     rcases h.centralizer_cases hL hTL with hC | hC

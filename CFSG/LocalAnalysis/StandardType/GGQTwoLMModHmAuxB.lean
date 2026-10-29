@@ -93,7 +93,7 @@ theorem qTwoLMH_faithful {m : ℕ} (h3 : 3 ∣ m) {V : Type} [Group V]
   by_contra hne
   obtain ⟨a, ha⟩ : ∃ a, σ a ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (Equiv.ext hcon)
   obtain ⟨c, hca, hcσa, hcσia⟩ := qTwoLMH_exists_ne_three (by omega : 4 ≤ m) a (σ a) (σ⁻¹ a)
   have hσia : σ⁻¹ a ≠ a := by

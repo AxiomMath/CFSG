@@ -207,7 +207,7 @@ theorem exists_involution_triple_psl2 {m : ℕ} (hm : 2 ≤ m) :
     rwa [hc] at h
   have hex : ∃ s₂ ∈ (P : Subgroup (PSL2Model m)), s₂ ≠ 1 ∧ s₂ ≠ w := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsurj : Function.Surjective
         (fun b : Bool => (if b then (⟨w, hwP⟩ : (P : Subgroup (PSL2Model m))) else 1)) := by
       intro x

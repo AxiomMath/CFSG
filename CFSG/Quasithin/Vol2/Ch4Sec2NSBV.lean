@@ -76,7 +76,7 @@ theorem eq_zero_of_mulVec_eq_self {m : ℕ} (hm : 2 ≤ m) (w : Fin m → ZMod 2
   funext j
   obtain ⟨i, hij⟩ : ∃ i : Fin m, i ≠ j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 : (⟨0, by omega⟩ : Fin m) = j := hcon _
     have h1 : (⟨1, by omega⟩ : Fin m) = j := hcon _
     have h2 := h0.trans h1.symm

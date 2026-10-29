@@ -63,7 +63,7 @@ theorem exists_bad_conjugate_in_sylow {V H T : Subgroup G} (hV7 : Hyp7 V) (hH : 
     ∃ U : Subgroup G, (∃ g : G, U = conjSubgroup V g) ∧ U ≤ T ∧
       (∀ h ∈ H, U ≠ conjSubgroup V h) ∧
       ¬ ∀ h ∈ H, ∀ u ∈ U, ∀ v ∈ conjSubgroup V h, u * v = v * u := by
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨U₁, ⟨g, rfl⟩, hU₁H, hU₁Ω, W, hW, u, hu, w, hw, hne⟩ := hnot
   have hTH : IsSylowIn 2 T H := isSylowIn_of_isCalH hH hT
   have hU₁p : IsPGroup 2 (conjSubgroup V g) := (isElemAbelian_conjSubgroup' hV7.1 g).isPGroup

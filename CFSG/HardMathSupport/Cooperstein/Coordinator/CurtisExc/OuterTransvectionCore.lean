@@ -222,7 +222,7 @@ theorem pair_ne [Finite V] {L : Subgroup (Module.End (ZMod 2) V)ˣ}
       exact ⟨_, rfl⟩
     have := hrank _ hyL hyne hyinv
     omega
-  · push_neg at hcase
+  · push Not at hcase
     have hxinv : (s * t) * (s * t) = 1 := (inv_iff _).2 fun v => by rw [hxx, hcase]
     have hxne : s * t ≠ 1 := by
       intro h

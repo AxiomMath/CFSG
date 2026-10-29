@@ -245,7 +245,7 @@ theorem eq_bot_of_normal_isPGroup {π : Bool} {p f : ℕ} {K : Type} [Field K]
   obtain ⟨u, hu0, hu⟩ := exists_cornerOpFixed_ne_zero hpK N hN
   obtain ⟨i, hi⟩ : ∃ i : Fin 3, u i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu0 (funext h)
   obtain ⟨b0, b1, b2⟩ := cornerOp_basis N hτ hτ1 hD hu
   obtain ⟨c01, c12, c20⟩ := cornerOp_cycle N hC

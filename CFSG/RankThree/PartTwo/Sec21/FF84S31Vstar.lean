@@ -279,7 +279,7 @@ theorem key_le_CenS_B (h : FF84Sec3 b L B b₁ b₂) {θ : G → P8} (H : HasThe
     intro a ha
     obtain ⟨k, hk⟩ := pgroup_elt hY2 ha
     exact hX a (Subgroup.mem_inf.2 ⟨hAcen ha, (Subgroup.mem_inf.1 ha).2⟩) ⟨k, hk⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨v₀, hv₀, hθv₀⟩ := hall
     have hτ : θ v₀ = τ₀ := (hwθ v₀ hv₀).resolve_left hθv₀
     have hv₀N := hV'N v₀ hv₀
@@ -322,7 +322,7 @@ theorem key_le_CenS_B (h : FF84Sec3 b L B b₁ b₂) {θ : G → P8} (H : HasThe
       obtain ⟨j, hj, hj'⟩ := (Nat.dvd_prime_pow Nat.prime_two).1
         (hk ▸ P.orderOf_dvd hyN : orderOf (θ y) ∣ 2 ^ k)
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have hnot : θ y ∉ Subgroup.zpowers τ₀ := by
         intro hmem
         obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 hmem

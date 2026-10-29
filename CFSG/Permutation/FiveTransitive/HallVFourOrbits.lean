@@ -123,7 +123,7 @@ theorem exists_double_fixed_single_moved
     ∃ p : X, b • p = p ∧ a • p ≠ p := by
   classical
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hsub : MulAction.fixedBy X b ⊆ MulAction.fixedBy X a := by
     intro x hbx
     exact hnone x hbx

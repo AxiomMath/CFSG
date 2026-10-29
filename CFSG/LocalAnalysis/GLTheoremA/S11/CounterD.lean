@@ -658,7 +658,7 @@ theorem not_small_of_proper {p : ℕ} (hp : p.Prime) {X K J : Subgroup G} (hK : 
       rwa [hnorm, Subgroup.index_bot] at h
     have hm5 : 5 ≤ ψJ.range.index := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       interval_cases hi : ψJ.range.index <;> rcases hn with hn | hn <;> rw [hn] at hdvd <;>
         norm_num [Nat.factorial] at hdvd
     have hsolvH : Group.IsSolvable ↥ψJ.range := by
@@ -798,7 +798,7 @@ theorem exists_sylow_normalized {q : ℕ} (hq : q.Prime) {F V : Subgroup G} (hF 
     rw [ha, hVeq, hb] at hdvd
     have hab : a ≤ b := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h1 : q ^ (b + 1) ∣ Sy.toSubgroup.index * q ^ b := (Nat.pow_dvd_pow q hlt).trans hdvd
       rw [pow_succ'] at h1
       exact hm (Nat.dvd_of_mul_dvd_mul_right (pow_pos hq.pos b) h1)

@@ -46,7 +46,7 @@ theorem a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc : Char
   · rw [Subgroup.relIndex_bot_left]; exact h16
   · exact fun q hq' e he' => by rw [Subgroup.mem_bot]; exact hcomm1 q hq' e he'
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLQ : L ≤ pCoreOf 2 L := by
       intro l hl
       apply hc

@@ -401,7 +401,7 @@ private lemma l05nK43a_bad_refl_exists {p : ℕ} [Fact p.Prime] {V : Type} [AddC
       (∀ i, c i = 1 ∨ c i = -1) ∧ ∀ i, a (b i) = c i • b (σ i)) :
     ∃ r ∈ A, GGLinRefl r ∧ r ∉ l05nK43a_UnitMono b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hbad
   intro a ha
   have hAle : A ≤ l05nK43a_UnitMono b := by

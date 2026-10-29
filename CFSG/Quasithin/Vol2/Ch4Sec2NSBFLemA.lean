@@ -52,7 +52,7 @@ theorem tens_right_injective {j n : ℕ} {a : Fin n → ZMod 2} (ha : a ≠ 0) :
   intro x x' hxx
   obtain ⟨b, hb⟩ : ∃ b, a b ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact ha (funext hcon)
   have hb1 : a b = 1 := zmod2_one_of_ne_nsbfa _ hb
   funext i
@@ -66,7 +66,7 @@ theorem tens_left_injective {j n : ℕ} {x : Fin j → ZMod 2} (hx : x ≠ 0) :
   intro a a' haa
   obtain ⟨i, hi⟩ : ∃ i, x i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hx (funext hcon)
   have hi1 : x i = 1 := zmod2_one_of_ne_nsbfa _ hi
   have he := congrFun haa i
@@ -99,7 +99,7 @@ theorem rank_one_sum {j n : ℕ} {a₁ a₂ a₃ : Fin n → ZMod 2} {t₁ t₂ 
     simpa only [Pi.add_apply, tens_apply_apply] using hib
   obtain ⟨i₃, hi₃⟩ : ∃ i, t₃ i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact ht₃ (funext hcon)
   have hi₃' : t₃ i₃ = 1 := zmod2_one_of_ne_nsbfa _ hi₃
   have ha₃ : a₃ = t₁ i₃ • a₁ + t₂ i₃ • a₂ := by
@@ -139,7 +139,7 @@ theorem rank_one_sum {j n : ℕ} {a₁ a₂ a₃ : Fin n → ZMod 2} {t₁ t₂ 
 theorem exists_ne_zero_mulVec {n : ℕ} {B : Matrix (Fin n) (Fin n) (ZMod 2)} (hB : B ≠ 0) :
     ∃ b : Fin n, B.mulVec (Pi.single b 1) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hB
   ext i b
   have hib := congrFun (hcon b) i

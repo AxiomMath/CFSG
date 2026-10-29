@@ -18,7 +18,7 @@ theorem s13_exists_conj_into_M (D : Data G) {X : Subgroup G} (hXM : X ≤ D.M)
   rw [CFSG.LocalAnalysis.RankThreeUC.uniqueSet, Set.mem_setOf_eq, not_and] at hX
   have hq : ¬ (∀ h : G, X ≤ D.M.map (MulAut.conj h).toMonoidHom →
       D.M.map (MulAut.conj h).toMonoidHom = D.M) := hX hXM
-  push_neg at hq
+  push Not at hq
   obtain ⟨h, hXh, hMh⟩ := hq
   refine ⟨h⁻¹, ?_, ?_⟩
   · intro hinv

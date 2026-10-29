@@ -177,7 +177,7 @@ theorem exists_kgPieces_frame_four {K V : Type} [Field K] [Finite K] [CharP K 2]
       rw [Nat.card_eq_fintype_card, hcardK]
     have hf2 : 2 ≤ (f : ℕ) := by
       by_contra h
-      push_neg at h
+      push Not at h
       rcases (by omega : (f : ℕ) = 0 ∨ (f : ℕ) = 1) with h0 | h1
       · rw [hKf, h0] at hK
         norm_num at hK

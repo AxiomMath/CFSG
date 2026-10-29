@@ -145,7 +145,7 @@ theorem c23ne_exists_two_ne_one {A : Subgroup G} (h : 3 ≤ Nat.card A) :
     ∃ a ∈ A, ∃ b ∈ A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hAn : Nat.card ↥A = (A : Set G).ncard := (Nat.card_coe_set_eq (A : Set G)).symm
   by_cases hex : ∃ a ∈ A, a ≠ 1
   · obtain ⟨a₀, ha₀, ha₁⟩ := hex
@@ -160,7 +160,7 @@ theorem c23ne_exists_two_ne_one {A : Subgroup G} (h : 3 ≤ Nat.card A) :
       rw [Set.ncard_singleton] at h2
       omega
     omega
-  · push_neg at hex
+  · push Not at hex
     have hsub : (A : Set G) ⊆ {1} := fun x hx => hex x hx
     have hcard : (A : Set G).ncard ≤ 1 := by
       have h1 := Set.ncard_le_ncard hsub (Set.toFinite _)

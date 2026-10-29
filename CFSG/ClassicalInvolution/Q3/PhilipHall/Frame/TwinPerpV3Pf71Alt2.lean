@@ -29,7 +29,7 @@ theorem exists_noncomm_rep (hP : Q3CL.PartIHypG Ω) (hW : W ∈ WSet Ω)
     (hnab : ¬ ∀ x y : ↥(muGroup Ω W), x * y = y * x) :
     ∃ ρ σ : Rep Ω W, ρ.img * σ.img ≠ σ.img * ρ.img := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hnab
   have hcomm : ∀ x ∈ muDelta Ω W, ∀ y ∈ muDelta Ω W, x * y = y * x := by
     intro x hx y hy
@@ -113,7 +113,7 @@ variable {n : ℕ}
 theorem v3WAlt2_proved : V3WAlt2 n := by
   intro Y _ _ R S t K K' K₃ u₁ u₂ u₃ K₄ hin S₀ ⟨η, hη, hinv⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hStd, -⟩ := hin
   have hCore := CoreData.of_S hStd.perp.core
   have hPI : Q3CL.PartIHypG (CoreAssembly.conjClass (tightCore R)) := hCore.partIHypG

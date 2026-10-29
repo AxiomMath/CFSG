@@ -405,7 +405,7 @@ theorem alt_le_odd (p : OddInv α) (h9 : 9 ≤ Fintype.card α) (hodd : Odd (Fin
   have hprim := preprimitive_odd p (by omega) hodd hB htr
   obtain ⟨z, hz⟩ : ∃ z : α, z ≠ p.ω := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : Fintype.card α ≤ 1 := Fintype.card_le_one_iff.2 fun a b => (h a).trans (h b).symm
     omega
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq (↥Y) p.ω z

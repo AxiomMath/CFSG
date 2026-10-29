@@ -321,7 +321,7 @@ theorem exists_fiveForm_det_ne {ε : Bool} (W : Submodule (ZMod 5) (Fin (k + 1) 
       fiveForm k ε u u * fiveForm k ε y y - fiveForm k ε u y * fiveForm k ε u y ≠ 0 := by
   have hy0 : ∃ y ∈ W, fiveForm k ε u y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu (hW u huW h)
   obtain ⟨y0, hy0W, huy0⟩ := hy0
   by_cases hdet : fiveForm k ε u u * fiveForm k ε y0 y0 -
@@ -337,7 +337,7 @@ theorem exists_fiveForm_det_ne {ε : Bool} (W : Submodule (ZMod 5) (Fin (k + 1) 
   have hz : ∃ z ∈ W, fiveForm k ε u z = 0 ∧
       fiveForm k ε (y0 + z) (y0 + z) ≠ fiveForm k ε y0 y0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨z, hzW, hzu, hz0⟩ := hroom
     have hbil : ∀ z1 ∈ W, fiveForm k ε u z1 = 0 → ∀ z2 ∈ W, fiveForm k ε u z2 = 0 →
         fiveForm k ε z1 z2 = 0 := by
@@ -452,7 +452,7 @@ theorem fiveSignPerp_span_orthogonal (hk : 4 ≤ k) (ε π : Bool) {c v : Fin (k
   ·
     have hy : ∃ y, fiveForm k ε c y ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hc (FiveWalk.fiveForm_nondegenerate k ε _ h)
     obtain ⟨y, hy⟩ := hy
     let y1 : Fin (k + 1) → ZMod 5 := (fiveForm k ε c y)⁻¹ • y
@@ -880,7 +880,7 @@ theorem fiveLineStabHom_range_card_of_eq (hk : 4 ≤ k) (ε π : Bool)
     Nat.card (fiveLineStabHom k ε π c hc).range = 4 := by
   have hy : ∃ y, fiveForm k ε c y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (FiveWalk.fiveForm_nondegenerate k ε _ h)
   obtain ⟨y, hy⟩ := hy
   let y1 : Fin (k + 1) → ZMod 5 := (fiveForm k ε c y)⁻¹ • y

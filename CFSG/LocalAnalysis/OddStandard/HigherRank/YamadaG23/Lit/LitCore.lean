@@ -91,7 +91,7 @@ theorem lit_quasisimple {M : Subgroup G} (hMs : IsSimpleGroup ↥M)
     (QuotientGroup.quotientMulEquivOfEq hρker.symm).trans e₁
   refine ⟨hHperf, ?_, ?_⟩
   · exact e.isSimpleGroup_congr.mpr hMs
-  · push_neg at hMn
+  · push Not at hMn
     obtain ⟨a, ha, b, hb, hab⟩ := hMn
     refine ⟨e.symm ⟨a, ha⟩, e.symm ⟨b, hb⟩, fun hcon => hab ?_⟩
     have hcon' : (⟨a, ha⟩ : ↥M) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ := by

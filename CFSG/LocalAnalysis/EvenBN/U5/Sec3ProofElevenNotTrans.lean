@@ -473,7 +473,7 @@ theorem s311b_card_F_inf_M₂_le : Nat.card (d.F ⊓ d.M₂ : Subgroup G) ≤ (2
 
 theorem s311b_R₂_nonab : ∃ x ∈ S ⊓ d.M₂, ∃ y ∈ S ⊓ d.M₂, x * y ≠ y * x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hZ₀ : d.F ⊓ d.M₂ = CFSG.centerIn (S ⊓ d.M₂) := (k.s10_2 S hS hP).2.2.2.2.1
   have hle : (S ⊓ d.M₂) ≤ d.F ⊓ d.M₂ := by
     intro x hx
@@ -608,7 +608,7 @@ theorem s311b_key :
   have hone : (∃ u ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₁, ∃ v ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₁, u * v ≠ v * u) ∨
       (∃ u ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₂, ∃ v ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₂, u * v ≠ v * u) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hab1, hab2⟩ := hcon
     have hxT : s313bTh d x₀ ∈ s311bImg d (S ⊓ d.M₂) := (s311bmem_img_iff hRH).2 ⟨x₀, hx₀, rfl⟩
     have hyT : s313bTh d y₀ ∈ s311bImg d (S ⊓ d.M₂) := (s311bmem_img_iff hRH).2 ⟨y₀, hy₀, rfl⟩

@@ -72,7 +72,7 @@ theorem a8_klein_classify (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc :
   have hF : ∀ x, (x = a ∨ x = b ∨ x = c ∨ x = d) → σ x = a ∨ σ x = b ∨ σ x = c ∨ σ x = d := by
     intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h2 := hinv x
     rw [hout (σ x) hcon.1 hcon.2.1 hcon.2.2.1 hcon.2.2.2] at h2
     exact hfp x hx h2
@@ -166,12 +166,12 @@ theorem a8_kW_comm (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ 
   have hA : Commute r (swap a b * swap c d) := Disjoint.commute (disjoint_iff_eq_or_eq.2 fun x => by
     by_cases hx : x = a ∨ x = b ∨ x = c ∨ x = d
     · exact Or.inl (hr x hx)
-    · push_neg at hx
+    · push Not at hx
       exact Or.inr (a8_dt_fix hab hcd hac had hbc hbd x ⟨hx.1, hx.2.1, hx.2.2.1, hx.2.2.2⟩))
   have hB : Commute r (swap a c * swap b d) := Disjoint.commute (disjoint_iff_eq_or_eq.2 fun x => by
     by_cases hx : x = a ∨ x = b ∨ x = c ∨ x = d
     · exact Or.inl (hr x hx)
-    · push_neg at hx
+    · push Not at hx
       exact Or.inr (a8_dt_fix hac hbd hab had hbc.symm hcd x ⟨hx.1, hx.2.2.1, hx.2.1, hx.2.2.2⟩))
   have hcen : a8_kW a b c d ≤ Subgroup.centralizer {r} := by
     refine (closure_le _).2 ?_
@@ -250,7 +250,7 @@ theorem a8_card_four_dvd {G : Type*} [Group G] [Finite G] (H : Subgroup G) (hH :
   rw [hn] at h3 ⊢
   have hn2 : 2 ≤ n := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     interval_cases n <;> norm_num at h3
   exact (pow_dvd_pow 2 hn2 : 2 ^ 2 ∣ 2 ^ n)
 
@@ -338,7 +338,7 @@ theorem a8_pair_comm (t : Perm (Fin 8)) (ht : t * t = 1) (y z : Fin 8) :
         exact this.symm
     exact swap_apply_of_ne_of_ne hxz hxtz
   · left
-    push_neg at hx
+    push Not at hx
     exact swap_apply_of_ne_of_ne hx.1 hx.2
 
 @[expose] def a8_pW (t : Perm (Fin 8)) : Subgroup (Perm (Fin 8)) :=

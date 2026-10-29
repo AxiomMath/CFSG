@@ -127,7 +127,7 @@ theorem movB_spec {f : Nat → Nat} (h : movB f = true) : ∃ b < 6, f b ≠ b :
   unfold movB at h
   rw [Bool.not_eq_true'] at h
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : allN 6 (fun b => Nat.beq (f b) b) = true :=
     allN_iff.2 fun b hb => by rw [Nat.beq_eq]; exact hc b hb
   rw [this] at h

@@ -18,7 +18,7 @@ theorem exists_centralized_not_mem {V Z : Subgroup G} (hV : IsElemAbelian 2 V) {
     (ht2 : t * t = 1) (htV : ∀ v ∈ V, t * v * t⁻¹ ∈ V)
     (hcard : Nat.card Z ^ 2 < Nat.card V) : ∃ b ∈ V, b ∉ Z ∧ t * b * t⁻¹ = b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : V ⊓ Subgroup.centralizer ({t} : Set G) ≤ Z := by
     intro c hc
     by_contra hcZ

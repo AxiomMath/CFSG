@@ -32,7 +32,7 @@ theorem y7a_cent_M6_A (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5
   refine le_antisymm ?_ hV1C
   by_contra hle
   change ¬ ∀ x, x ∈ centIn (M6 c.e) c.s.fr.A → x ∈ V1 c.e at hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨m, hm, hmNotV⟩ := hle
   have hmM6 : m ∈ M6 c.e := (Subgroup.mem_inf.mp hm).1
   have htNormM : c.s.t ∈ Subgroup.normalizer (centIn (M6 c.e) c.s.fr.A : Set G) := by

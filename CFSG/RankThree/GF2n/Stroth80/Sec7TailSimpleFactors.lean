@@ -439,7 +439,7 @@ theorem proj_injOn_of_ne {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fintype ι
     exact hwV
   obtain ⟨g, hg, hgVi⟩ : ∃ g ∈ X i, conjSubgroup g Vi ≠ Vi := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hinv : ∀ a ∈ X i, ∀ x ∈ Vi, a * x * a⁻¹ ∈ Vi := by
       intro a ha x hx
       have hx' : x ∈ conjSubgroup a⁻¹ Vi := by

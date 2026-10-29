@@ -223,7 +223,7 @@ theorem outer_plane_shape (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 
   have hx3 : x ^ 3 = 1 := nf1_conj_injective hZ (by rw [map_pow, hx, hγ3, map_one])
   have hx1 : x ≠ 1 := fun h => hcx1 (by rw [h, map_one])
   obtain ⟨β, hβE, hβout⟩ : ∃ β ∈ E, ∀ g : C0 σ, β ≠ MulAut.conj g := by
-    push_neg at hout
+    push Not at hout
     exact hout
   have hβ3 : β ^ 3 = 1 := CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 3) (A := E) β hβE
   have hβΘ3 : Θ β ^ 3 = 1 := by rw [← map_pow Θ, hβ3, map_one]

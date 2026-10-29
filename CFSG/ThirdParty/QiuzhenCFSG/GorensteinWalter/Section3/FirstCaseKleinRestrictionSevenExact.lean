@@ -990,13 +990,13 @@ public theorem firstCase_klein_restrictionSeven_exact
         have hdiv : Nat.card O ∣ Nat.card X := Subgroup.card_dvd_of_le hOleX
         rw [hOcard, hXcard] at hdiv
         norm_num at hdiv
-      push_neg at hnotall
+      push Not at hnotall
       rcases hnotall with ⟨v, hv1, hvnot⟩
       have hexmem : ∃ q : G, q ∈
           (fixedPointSubgroup (↥(Subgroup.zpowers v)) (↥O)).map O.subtype ∧
           q ∉ X := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hvnot h
       rcases hexmem with ⟨z, hzmap, hzx⟩
       rcases Subgroup.mem_map.mp hzmap with ⟨zO, hzfix, rfl⟩
@@ -1854,13 +1854,13 @@ public theorem firstCase_klein_restrictionSeven_N_eq_bot
       have hdiv : Nat.card O ∣ Nat.card X := Subgroup.card_dvd_of_le hOleX
       rw [hOcard, hXcard] at hdiv
       norm_num at hdiv
-    push_neg at hnotall
+    push Not at hnotall
     rcases hnotall with ⟨v, hv1, hvnot⟩
     have hexmem : ∃ q : G, q ∈
         (fixedPointSubgroup (↥(Subgroup.zpowers v)) (↥O)).map O.subtype ∧
         q ∉ X := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hvnot h
     rcases hexmem with ⟨z, hzmap, hzx⟩
     rcases Subgroup.mem_map.mp hzmap with ⟨zO, hzfix, rfl⟩

@@ -28,7 +28,7 @@ theorem uc22p2214_bor_card_normalizer {X : Type} [Group X] [Finite X] (hB : fusi
   have hNtop : N ≠ ⊤ := uc22p2214_bor_ne_top_of_bender hB hsolvN
   have hα : ∃ β : X ⧸ N, β ≠ ((1 : X) : X ⧸ N) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hNtop
     rw [eq_top_iff]
     intro x _

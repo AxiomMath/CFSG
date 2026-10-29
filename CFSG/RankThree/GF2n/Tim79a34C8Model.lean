@@ -283,7 +283,7 @@ theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
   by_cases hcase : ∀ u, spForm a u = 0 → C8Cong a (φ u) 0
   · exact Or.inl hcase
   · right
-    push_neg at hcase
+    push Not at hcase
     obtain ⟨x₀, hx₀a, hx₀⟩ := hcase
     have hx₀F : ∀ c : F, x₀ ≠ c • a := fun c h => hx₀ (by rw [h]; exact hφc c)
     have hx₀φ : C8Cong a (φ x₀) x₀ := (hdich x₀ hx₀a hx₀F).resolve_left hx₀
@@ -291,7 +291,7 @@ theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
     by_cases hu : ∃ c : F, u = c • a
     · obtain ⟨c, rfl⟩ := hu
       exact C8Cong.trans (hφc c) (C8Cong.symm (Exists.intro c (by rw [zero_add])))
-    · push_neg at hu
+    · push Not at hu
       rcases hdich u hua hu with h0 | h1
       · exfalso
         have hz0 : spForm a (x₀ + u) = 0 := by
@@ -315,7 +315,7 @@ theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
           have hx00 : C8Cong a x₀ 0 := C8Cong.trans (C8Cong.symm (C8Cong.trans hφu h')) h0
           obtain ⟨d, hd⟩ := hx00
           exact hx₀F d (by rw [hd, zero_add])
-        · push_neg at hzF
+        · push Not at hzF
           rcases hdich (x₀ + u) hz0 hzF with hz1 | hz2
           · have hx00 : C8Cong a x₀ 0 := C8Cong.trans (C8Cong.symm hφz) hz1
             obtain ⟨d, hd⟩ := hx00

@@ -163,7 +163,7 @@ theorem card_commutator_le_two {P : Type} [Group P] [Finite P]
   have hGL : ∀ a b : P, ⁅a, b⁆ ≠ 1 → ∀ g : P, ⁅a, g⁆ = 1 ∨ ⁅a, g⁆ = ⁅a, b⁆ := by
     intro a b hab g
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hg1, hg2⟩ := hcon
     have hbC : b⁻¹ * g ∉ Subgroup.centralizer ({a} : Set P) := by
       rw [hmemC]
@@ -179,7 +179,7 @@ theorem card_commutator_le_two {P : Type} [Group P] [Finite P]
   obtain ⟨c, hc2, hcom⟩ : ∃ c : P, c ^ 2 = 1 ∧ ∀ a b : P, ⁅a, b⁆ ∈ Subgroup.zpowers c := by
     by_cases hab : ∀ a b : P, ⁅a, b⁆ = 1
     · exact ⟨1, one_pow 2, fun a b => by rw [hab a b]; exact Subgroup.one_mem _⟩
-    push_neg at hab
+    push Not at hab
     obtain ⟨x, y, hxy⟩ := hab
     have hyx : ⁅y, x⁆ ≠ 1 := by
       intro h
@@ -370,7 +370,7 @@ theorem small_two_group {M : Type} [Group M] [Finite M] {B S : Subgroup M} (hB :
     obtain ⟨k, hk⟩ := hT2.exists_card_eq
     have hk2 : k < 2 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
       norm_num at h4
       omega
@@ -384,7 +384,7 @@ theorem small_two_group {M : Type} [Group M] [Finite M] {B S : Subgroup M} (hB :
     rw [← hmap, Subgroup.card_map_of_injective (Subgroup.subtype_injective S)]
   have hidx4 : 4 ≤ (⁅(⊤ : Subgroup S), (⊤ : Subgroup S)⁆ : Subgroup S).index := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hcyc : IsCyclic S := by
       apply CFSG.OddOrderBasics.p_group_cyclic_abelianization hS
       apply p415_isCyclic_of_card_le_three

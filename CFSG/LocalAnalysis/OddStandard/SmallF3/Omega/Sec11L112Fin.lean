@@ -68,7 +68,7 @@ theorem exists_cent_swap [Finite G] (hm : Sec11Model t L S z K1 K2 T Alt φ)
     (hd : Sec11CData t z L S K1 K2 T) (h8 : 8 ≤ Nat.card ↥(secCTQ K1 K2 T)) :
     ∃ r ∈ secCTQ K1 K2 T, hm.perm.rho r = Equiv.swap 0 1 := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hall : ∀ c ∈ secCTQ K1 K2 T, hm.perm.rho c = 1 := fun c hc =>
     (hm.cent_rho hd.TM hc.2 (sec11_cTQ_comm hc)).resolve_right (hno c hc)
   have h1 := Subgroup.card_le_of_le (hm.cent_le_pair hd.TM hall)

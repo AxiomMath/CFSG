@@ -355,7 +355,7 @@ theorem ggL48F4TwoThree_pow_five_le_card (hb : GGL48F4TwoThreeConfigInput) {B Bs
   have hp3 : IsPGroup 3 Bs := fun b => ⟨1, Subtype.ext (by simpa using hBsp _ b.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp3
   by_contra h5
-  push_neg at h5
+  push Not at h5
   have h1 : 3 ^ 4 ≤ 3 ^ n := hn ▸ h4
   have h2 : 3 ^ n < 3 ^ 5 := hn ▸ h5
   have hn4 : n = 4 := by

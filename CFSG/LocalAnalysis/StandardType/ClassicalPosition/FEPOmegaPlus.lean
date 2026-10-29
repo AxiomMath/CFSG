@@ -1158,7 +1158,7 @@ private lemma fepomep_block_quad_zero (n : ℕ) {F : Type} [Field F] [Finite F] 
       Algebra.subset_adjoin ⟨s, hs, rfl⟩⟩
   have hexlam : ∃ (s : GL (fepomepι n) F) (hs : s ∈ S), π (sA s hs) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hP : ∀ a : fepomepA n F S, ∃ f : F, π a = algebraMap F K f := by
       intro a
       refine Algebra.adjoin_induction
@@ -6418,7 +6418,7 @@ private lemma fepomep_selfDual_blockGroup_descentQZero
     omega
   have hexlam : ∃ (s : GL (fepomepι n) F) (hs : s ∈ S), π (sA s hs) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hP : ∀ a : fepomepA n F S, ∃ f : F, π a = algebraMap F K f := by
       intro a
       refine Algebra.adjoin_induction

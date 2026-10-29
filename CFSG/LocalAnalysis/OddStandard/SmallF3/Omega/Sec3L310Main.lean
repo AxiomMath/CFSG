@@ -118,7 +118,7 @@ theorem isConj_of_omegaPlus [Finite G] (h33 : Asc82Lemma33F) (h34c : Asc82Lemma3
   have hnc : ∃ a b : G, a * b ≠ b * a := by
     obtain ⟨x, hxL, hx⟩ := SetLike.not_le_iff_exists.mp hS.component.not_le_centralizer
     rw [Subgroup.mem_centralizer_iff] at hx
-    push_neg at hx
+    push Not at hx
     obtain ⟨y, -, hy⟩ := hx
     exact ⟨y, x, hy⟩
   obtain ⟨g, hne, hst⟩ := exists_conj_commute_ne hS.simple hS.involution hnc

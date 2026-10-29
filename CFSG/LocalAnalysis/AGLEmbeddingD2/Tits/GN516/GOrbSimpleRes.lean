@@ -134,7 +134,7 @@ theorem gOrbConclS_of_residualGraph {Y : Type} [Group Y] [Finite Y] {L R P : Sub
     have hnonab : ∃ Q' : Subgroup ↥L, IsPGroup 2 Q' ∧ ∃ a ∈ Q', ∃ b ∈ Q', a * b ≠ b * a := by
       refine ⟨T, h.sylow.2.1, ?_⟩
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hTP₁ : T ≤ P₁ := Subgroup.le_normalizer.trans h.lt₁.le
       have hsyl1 : IsSylowTwoOf T P₁ := by
         refine ⟨hTP₁, h.sylow.2.1, ?_⟩

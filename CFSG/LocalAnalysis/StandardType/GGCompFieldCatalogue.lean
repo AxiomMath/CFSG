@@ -69,7 +69,7 @@ theorem ggCompFieldDataQ_of_catalogue
     haveI : IsSimpleGroup S := e.isSimpleGroup
     have hnc : ∃ a b : S, a * b ≠ b * a := by
       by_contra hcomm
-      push_neg at hcomm
+      push Not at hcomm
       have htop : Subgroup.center ↥C = ⊤ :=
         eq_top_iff.mpr fun x _ => Subgroup.mem_center_iff.mpr fun g => Subtype.ext (hcomm g x)
       haveI := hC.2.2.2

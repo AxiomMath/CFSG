@@ -25,7 +25,7 @@ theorem s8dOm_injective : Function.Injective s8dOm := by
   by_contra hne
   have hne' : A ≠ 1 ∨ B ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (Prod.ext h.1 h.2)
   have hfix : ∀ M : Sec12M, (A : Sec12M) * M * (B : Sec12M)ᵀ = M := by
     intro M

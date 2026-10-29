@@ -268,7 +268,7 @@ private theorem core_bound {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Fini
     exact h5' ▸ orderOf_dvd_of_pow_eq_one hrootpow
   obtain ⟨a, ha⟩ : ∃ a : A, T a ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hz1 (LinearMap.ext fun x => by rw [Module.End.one_apply]; exact hcon x)
   have hNNa : N (N a) = N a := by rw [← Module.End.mul_apply, hNN]
   have huW : a - N a ∈ W := by
@@ -478,19 +478,19 @@ private theorem inv_on_of_abelian {K : Subgroup (MulAut V)} {T : Set (MulAut V)}
 
 private theorem sixteen_of_sq {x : ℕ} (h : 2 ^ 8 ≤ x ^ 2) : 16 ≤ x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : x ^ 2 ≤ 15 ^ 2 := Nat.pow_le_pow_left (by omega) 2
   exact absurd (le_trans h h1) (by norm_num)
 
 private theorem sixtyfour_of_sq {x : ℕ} (h : 2 ^ 12 ≤ x ^ 2) : 64 ≤ x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : x ^ 2 ≤ 63 ^ 2 := Nat.pow_le_pow_left (by omega) 2
   exact absurd (le_trans h h1) (by norm_num)
 
 private theorem sixtyfour_of_cube {x : ℕ} (h : 2 ^ 20 ≤ x ^ 3) : 64 ≤ x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : x ^ 3 ≤ 63 ^ 3 := Nat.pow_le_pow_left (by omega) 3
   exact absurd (le_trans h h1) (by norm_num)
 

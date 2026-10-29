@@ -326,7 +326,7 @@ theorem ggNbrInnerWeylOn_of_fieldLabelsComp (hL : GGLBalanceInput) (hPJ : GGStdS
     by_cases hall : ∀ (b : G) (hb : b ∈ Bs), ggLAut K θ ⟨b, hN hb⟩ ∈ I
     · exact ggNbrInnerWeyl_of_ggTorusNoLineComp hL hPJ hcfg hnb hK θ hN hall
         (pow_le_card_range_ggGamma_bstar_of_torusLift hcfg hnb hK θ hN hlift) hTc
-    · push_neg at hall
+    · push Not at hall
       exact ggNbrInnerWeyl_of_ggTorusNoLineFieldComp hL hPJ hcfg hnb hK θ hN hBsIF hxK hxI
         (pow_succ_le_card_range_ggGamma_of_field hcfg hnb hK θ hN hInn hfix hBsIF hall) hTf
   · refine ⟨hK, lab, hlab, largeEvenRawDatum_mono ?_ hraw⟩

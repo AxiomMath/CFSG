@@ -85,7 +85,7 @@ theorem le_of_coprime_normalized_p (hp5 : 5 ≤ p) (hK : P5KFacts) (hG : P5Globa
     have hOcop : p.Coprime (Nat.card O) := primeComplementCore_coprime p
     obtain ⟨b, hbA, hbn⟩ : ∃ b ∈ A, b ∉ zpowers a := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : A ≤ zpowers a := fun g hg => hcon g hg
       have h1 := Subgroup.card_le_of_le hle
       rw [hAc, Nat.card_zpowers, hao] at h1

@@ -18,7 +18,7 @@ theorem card_image_le_three_of_pow_three_eq_one {K : Type} [Field K] [DecidableE
     (Finset.univ.image f).card ≤ 3 := by
   classical
   by_contra hle
-  push_neg at hle
+  push Not at hle
   set S : Finset K := Finset.univ.image f with hS
   have hroot : ∀ x ∈ S, Polynomial.eval x (Polynomial.X ^ 3 - Polynomial.C (1 : K)) = 0 := by
     intro x hx
@@ -39,7 +39,7 @@ theorem exists_two_le_fiber {ι M : Type*} [Fintype ι] [DecidableEq M] (f : ι 
     ∃ v : M, 2 ≤ (fiber f v).card := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hsum : Finset.sum (Finset.univ.image f) (fun v => (fiber f v).card) = 6 := by
     rw [← hcard]
     exact (Finset.card_eq_sum_card_image f Finset.univ).symm
@@ -208,7 +208,7 @@ theorem exists_level_four_or_five_of_isComponent {K : Type} [Field K] [Decidable
     exact Units.ext hval
   have hnonconst : ∃ i j : Fin 6, τ i ≠ τ j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hMscal
     have hconst : τ = fun _ => τ 0 := funext fun i => hcon i 0
     have hdiagconst : diagHom 6 τ = diagHom 6 (fun _ => τ 0) := by rw [hconst]

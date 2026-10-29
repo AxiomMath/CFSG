@@ -307,11 +307,11 @@ theorem v_card_P0 (h : FF79Sec34In4 b J B A P D) {As : Subgroup G} (hAs : FF79AS
   rw [hk, hj] at hlt hle ⊢
   have hjk : j < k := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     exact absurd hlt (not_lt.mpr (Nat.pow_le_pow_right (by norm_num) hh))
   have hkj : k ≤ j + 1 := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     have : 3 ^ (j + 1) < 3 ^ k := Nat.pow_lt_pow_right (by norm_num) hh
     rw [pow_succ] at this
     omega

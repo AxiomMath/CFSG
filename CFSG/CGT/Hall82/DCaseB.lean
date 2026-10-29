@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {M L : Subgroup G} {R : Subgroup G}
 private theorem exists_mem_ne_ne_of_two_lt {A : Subgroup G} (hA : 2 < Nat.card A) (a b : G) :
     ∃ x ∈ A, x ≠ a ∧ x ≠ b := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (A : Set G) ⊆ {a, b} := fun x hx => by
     by_cases hxa : x = a
     · exact Or.inl hxa
@@ -74,7 +74,7 @@ theorem inCatalog_of_not_centralizer_le
       rcases (hZ x hxQ).mp h with h | h
       · exact hx1 h
       · exact hx5 h
-    push_neg at hxc
+    push Not at hxc
     exact ⟨x, hxQ, hxc⟩
   have hext : IsExtraspecialPGroup 2 ↥Q :=
     LargeExtraspecial.isExtraspecialPGroup_two_of_center

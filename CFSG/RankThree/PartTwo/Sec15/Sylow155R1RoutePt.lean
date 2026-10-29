@@ -47,7 +47,7 @@ theorem step155HostE0WRes1TypePt_of_field (h1 : Sec4.Item4_1LargePrime)
   · exact hF G A c L hR hPt hN hS X K Y M T P' hC hmax habove hE h146 hRP hIX Yc hY hsimple hPY
       hEA hEO (fun _ hu huY => res1_eq_one_of_mem_pPrimeCoreOf_two h1 h2 h43 hin h143 hR hN
         (h142 G A c L hS) hC hE h146 hRP hIX hY hsimple hEA hu huY) hfield
-  · push_neg at hfield
+  · push Not at hfield
     exact res1_pPrimeCoreOf_le_of_comm h1 h2 h43 hin h143 hR hN (h142 G A c L hS) hC hE h146 hRP
       hIX hY hsimple hEA hfield
 

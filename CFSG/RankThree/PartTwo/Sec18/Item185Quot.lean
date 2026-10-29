@@ -400,7 +400,7 @@ theorem exists_elemAbelian_of_inner {X : Type} [Group X] [Finite X] {D : Subgrou
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hΩp
   have hm2 : 2 ≤ m := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     rw [hm] at h9le
     interval_cases m <;> norm_num at h9le
   have hdvd9 : 3 ^ 2 ∣ Nat.card f.ker := by
@@ -447,7 +447,7 @@ theorem exists_nine_of_leafF1 (hF1 : LeafF1) {A M : Subgroup G} (h : Sec18Std G 
     fun g hg => (mem_preimAct185.mp hg).1
   obtain ⟨d, hdmem, hd1⟩ : ∃ d ∈ actImage K B ⊓ innerAut (K ⧸ CFSG.pCore 2 K), d ≠ 1 := by
     by_contra hcon'
-    push_neg at hcon'
+    push Not at hcon'
     exact hLeaf ((Subgroup.eq_bot_iff_forall (H := _)).mpr hcon')
   obtain ⟨b, hbN, hbB, hbd⟩ := mem_actImage hdmem.1
   have hbV : b ∈ preimAct185 K B (innerAut (K ⧸ CFSG.pCore 2 K)) :=

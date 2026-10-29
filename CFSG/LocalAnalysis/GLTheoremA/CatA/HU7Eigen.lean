@@ -153,7 +153,7 @@ theorem eq_one_of_isometry_commute {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1
       rw [Matrix.mulVec_mulVec, Eig_mul_self hB3 (cube_pow_eq_one hω3 j)]
     obtain ⟨v0, hv0⟩ : ∃ v0 : Fin 6 → F, Eig B (ω ^ j) *ᵥ v0 ≠ v0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hne j hj
       exact Matrix.ext_iff_mulVec.2 fun w => by rw [Matrix.one_mulVec]; exact hcon w
     refine key_lemma2 hF4 hY hY7 (commute_Eig hYB _)

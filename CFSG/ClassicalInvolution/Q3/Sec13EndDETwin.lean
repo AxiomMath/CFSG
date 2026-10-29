@@ -725,7 +725,7 @@ theorem det_tw_conjMat_formula {M : Subgroup G} (hM : M ∈ Ω) {c : G}
     simp [ψ, h1, g]
   have hψne : ∃ w, ψ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hxC : x ∈ Subgroup.centralizer (zGroup Ω : Set G) := by
       refine Subgroup.mem_centralizer_iff.mpr fun d hd => ?_
       obtain ⟨w, rfl⟩ := TL4.exists_e8Coord_eq he hd
@@ -749,7 +749,7 @@ theorem det_tw_conjMat_formula {M : Subgroup G} (hM : M ∈ Ω) {c : G}
     ring
   have hω : ψ (Pi.single 1 1) ≠ 0 ∨ ψ (Pi.single 2 1) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨w, hw⟩ := hψne
     exact hw (by rw [hformula w, hcon.1, hcon.2]; ring)
   have hψv' := hformula v
@@ -946,7 +946,7 @@ theorem det_tw_core {M : Subgroup G} (hM : M ∈ Ω) {v u : G} (hv : IsUniqueInv
       exact dComm_mul_right hv m1.2 m2.2 hdN hc)
   have hex : ∃ m ∈ M, dComm u m ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hd := h.eq_of_dComm_eq hM hv hu (Subgroup.one_mem _)
       (fun k hk => (hcon k hk).trans (h1k k).symm)
     exact huv (by simpa using hd)
@@ -992,7 +992,7 @@ theorem det_tw_core {M : Subgroup G} (hM : M ∈ Ω) {v u : G} (hv : IsUniqueInv
     obtain ⟨x, hxU, hxv⟩ : ∃ x ∈ M ⊓ Subgroup.centralizer ({u} : Set G),
         x ∉ Subgroup.zpowers v := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnot hcon
     have hxM : x ∈ M := hxU.1
     have hxx : x * x = v := det_tw_q8_sq hQ hxM hxv
@@ -1086,7 +1086,7 @@ theorem det_tw_exists_tau {K : Subgroup G} (hK : K ∈ Ω) {u : G} (hu : IsUniqu
   obtain ⟨x, hxU, hxc⟩ : ∃ x ∈ M ⊓ Subgroup.centralizer ({u} : Set G),
       x ∉ Subgroup.zpowers (TL4.e8Coord e v) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnot hcon
   have hxu : x * u = u * x := Subgroup.mem_centralizer_singleton_iff.mp hxU.2
   refine ⟨x, hnorm K ⟨hK, u, hu, hu⟩ hxU, ?_⟩
@@ -1197,7 +1197,7 @@ theorem member_le_commutator {K : Subgroup G} (hK : K ∈ Ω) :
     · exact hnu'
   have hkey : ∃ k₀ ∈ K, ¬ (n * k₀ * n⁻¹ = k₀ ∨ n * k₀ * n⁻¹ = u * k₀) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinv : ∀ k ∈ K, n⁻¹ * k * n = k ∨ n⁻¹ * k * n = u * k := by
       intro k hk
       have hk'' : n⁻¹ * k * n ∈ K := by

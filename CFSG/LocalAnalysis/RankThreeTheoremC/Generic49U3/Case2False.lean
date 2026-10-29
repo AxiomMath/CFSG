@@ -51,7 +51,7 @@ private theorem false_P_commutator_mem (h : Case2Data p P T D F x) {a b : Y} (ha
 
 private theorem false_exists_not_mem_zOf (h : Case2Data p P T D F x) : ∃ t ∈ T, t ∉ zOf T := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   refine h.pdata.T_nonab (isMulCommutative_iff.2 fun a b => ?_)
   have hz : (a : Y) ∈ T ⊓ centralizer (T : Set Y) := hcon a a.2
   exact Subtype.ext (mem_centralizer_iff.1 hz.2 b b.2).symm

@@ -48,14 +48,14 @@ theorem exists_complement_four [Finite X] {Q E : Subgroup X} (hQe : IsElemAbelia
     rwa [pow_two] at this
   obtain ⟨s, hsQ, hsE⟩ : ∃ s ∈ Q, s ∉ E := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have heq : Q = E := Subgroup.eq_of_le_of_card_ge hcon (by rw [hQc, hEc]; norm_num)
     have := congrArg (fun H : Subgroup X => Nat.card H) heq
     rw [hQc, hEc] at this
     norm_num at this
   obtain ⟨t, htQ, htE, htS⟩ : ∃ t ∈ Q, t ∉ E ∧ ∀ e ∈ E, t ≠ s * e := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     let f : ↥E ⊕ ↥E → ↥Q :=
       Sum.elim (fun e => ⟨(e : X), hEQ e.2⟩) (fun e => ⟨s * e, Q.mul_mem hsQ (hEQ e.2)⟩)
     have hf : Function.Surjective f := by

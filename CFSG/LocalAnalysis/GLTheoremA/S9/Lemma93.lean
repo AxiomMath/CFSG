@@ -428,7 +428,7 @@ theorem exists_cent_rank_two {p : ℕ} (hc : S9Ctx G p) (hin : Lemma93Inputs G p
     ∃ A : Subgroup G, A ≤ Subgroup.centralizer ({x} : Set G) ⊓ centModSubgroup p L ∧
       IsElemAbelian p A ∧ p ^ 2 ≤ Nat.card A := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hp := hc.ctx.prime
   have hp2 := hc.ctx.odd
   obtain ⟨T, hTC, hT2, hBT, hTB, hTO⟩ := exists_T_not_le_core hc hd h.bmax hess
@@ -436,11 +436,11 @@ theorem exists_cent_rank_two {p : ℕ} (hc : S9Ctx G p) (hin : Lemma93Inputs G p
       IsElemAbelian p A → Nat.card A ≤ p := by
     intro A hA hAel
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian hp hAel
     have hk2 : 2 ≤ k := by
       by_contra hk2
-      push_neg at hk2
+      push Not at hk2
       have hk' : k ≤ 1 := by omega
       have h1 : p ^ k ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos hk'
       rw [pow_one] at h1
@@ -681,7 +681,7 @@ private theorem lemma93_index_le {p : ℕ} (hp : p.Prime) {B U : Subgroup G}
       exact (mul_inv_eq_iff_eq_mul.1 this).symm
     rw [hBC]
     exact Nat.le_mul_of_pos_left _ hp.pos
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨v, hv⟩ := hall
     have hfixb : ∀ w ∈ MulAction.fixedPoints B U, ∀ k : ℤ, ∀ b : B,
         (b : G) * ((w : U) : G) ^ k * (b : G)⁻¹ = ((w : U) : G) ^ k := by
@@ -689,7 +689,7 @@ private theorem lemma93_index_le {p : ℕ} (hp : p.Prime) {B U : Subgroup G}
       rw [← conj_zpow, ((hmemF w).1 hw) b]
     obtain ⟨f, hf, hf1⟩ : ∃ f ∈ MulAction.fixedPoints B U, f ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hsub : MulAction.fixedPoints B U ⊆ {1} := fun g hg => hcon g hg
       have h1 : (MulAction.fixedPoints B U).ncard ≤ ({1} : Set U).ncard :=
         Set.ncard_le_ncard hsub (Set.finite_singleton _)
@@ -713,7 +713,7 @@ private theorem lemma93_index_le {p : ℕ} (hp : p.Prime) {B U : Subgroup G}
     obtain ⟨n, hn⟩ := hBp.card_orbit v
     have hpow : n ≤ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h2 : p ^ 2 ≤ p ^ n := Nat.pow_le_pow_right hp.pos hcon
       rw [hn, hUc] at hcardsum
       have := hp.two_le

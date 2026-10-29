@@ -121,7 +121,7 @@ theorem genByB_of_CQt (hc : Ctx M Q Z B) (hgen : GenByB M Q B) (h5 :
   obtain ⟨q, hqfix, hq1⟩ : ∃ q ∈ MulAction.fixedPoints ↥L (↥N ⧸ Z.subgroupOf N),
       q ≠ ((1 : ↥N) : ↥N ⧸ Z.subgroupOf N) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (MulAction.fixedPoints ↥L (↥N ⧸ Z.subgroupOf N)).Subsingleton :=
       fun a ha b hb => (hcon a ha).trans (hcon b hb).symm
     have hcard : Nat.card (MulAction.fixedPoints ↥L (↥N ⧸ Z.subgroupOf N)) = 1 := by
@@ -176,7 +176,7 @@ theorem genByB_of_CQt (hc : Ctx M Q Z B) (hgen : GenByB M Q B) (h5 :
   clear_value a
   obtain ⟨c, hcQ, hca⟩ : ∃ c ∈ Q, c * a ≠ a * c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply haZ
     rw [H.hZ, cen_eq]
     exact Subgroup.mem_inf.mpr ⟨haQ, Subgroup.mem_centralizer_iff.mpr fun c hc => (hcon c hc)⟩

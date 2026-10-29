@@ -445,7 +445,7 @@ theorem sec35_exists_fixed [Finite G] {W : Subgroup G} (hW : W ≠ ⊥)
     {t : G} (htW : t ∈ normalizer (W : Set G)) (ht2 : t * t = 1) :
     ∃ w ∈ W, w ≠ 1 ∧ t * w = w * t := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hτW : ∀ w ∈ W, t * w * t⁻¹ ∈ W := fun w hw =>
     (Subgroup.mem_normalizer_iff.1 htW w).1 hw
   have ht' : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2

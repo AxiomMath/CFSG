@@ -53,7 +53,7 @@ theorem szh1_inf_Z_ne_bot (hY : Sz32Case2Data Pb a c y) {N : Subgroup Y} (hN : N
     exact hn1' this
   · have hnc : ¬ ∀ q ∈ Pb, q * n = n * q := fun hc =>
       hnZ ((hY.facts.center n (hN hnN)).mp hc)
-    push_neg at hnc
+    push Not at hnc
     obtain ⟨q, hq, hqn⟩ := hnc
     intro h
     have h1 : q * n * q⁻¹ * n⁻¹ ∈ N ⊓ sz32Z a c :=

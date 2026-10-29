@@ -812,7 +812,7 @@ theorem single_of_S (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup G
   by_cases htwo : ∃ C₁ ∈ 𝒞, ∃ C₂ ∈ 𝒞, C₁ ≠ C₂
   swap
   ·
-    push_neg at htwo
+    push Not at htwo
     have hne : 𝒞.Nonempty := by
       rcases Set.eq_empty_or_nonempty 𝒞 with hem | hne
       · exfalso

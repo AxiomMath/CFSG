@@ -144,7 +144,7 @@ theorem exists_mem_not_mem_zpowers {p : ℕ} (hp : p.Prime) {Bs D E : Subgroup G
     (hDBs : D ≤ Bs) (hD : Nat.card D = p ^ 2) (hxp : x ^ p = 1)
     (hE : E.relIndex Bs = p) (hxE : x ∉ E) : ∃ d ∈ D, d ∈ E ∧ d ∉ zpowers x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : E.subgroupOf D = ⊥ := by
     rw [eq_bot_iff_forall]
     intro z hz

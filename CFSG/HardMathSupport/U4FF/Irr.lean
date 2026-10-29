@@ -30,7 +30,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
   obtain ⟨S₁, hS₁, hS₁0, hS₁top⟩ : ∃ W : Subgroup S, (∀ l ∈ L, ∀ w ∈ W, l w ∈ W) ∧ W ≠ ⊥ ∧
       W ≠ ⊤ := by
     unfold IsIrrOn at hne
-    push_neg at hne
+    push Not at hne
     exact hne
   have hn := one_le_of_isU4Group hL
   have hsimple := isSimpleGroup_of_isU4Group hL
@@ -78,7 +78,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
     rcases this with h | h
     · exact hS₁0 h
     · exact hS₁top h
-  · push_neg at hAL
+  · push Not at hAL
     obtain ⟨a₀, ha₀A, ha₀L⟩ := hAL
     have ha₀N : a₀ ∈ Subgroup.normalizer (L : Set (MulAut S)) := hAN ha₀A
     have hdich : ∀ a ∈ A, img a = S₁ ∨ img a = img a₀ := by
@@ -144,7 +144,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
           exact this.1))
     have hnt : ∃ l ∈ L, ∃ s ∈ S₁, l s ≠ s := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hL1 : ∀ l ∈ L, l = 1 := by
         intro l hl
         refine MulEquiv.ext fun s => ?_
@@ -198,7 +198,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
       have hb1' : (b : MulAut S) ≠ 1 := fun h => hb1 (Subtype.ext h)
       have hnotfix : ∃ s ∈ S₁, (b : MulAut S) s ≠ s := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         apply hb1'
         have hinj := actOn_injective hL S₁ hS₁ hnt
         have : actOn S₁ hS₁ ⟨b, hbL⟩ = actOn S₁ hS₁ 1 := by

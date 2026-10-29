@@ -277,7 +277,7 @@ theorem four_dvd_card_of_orbits {S Y : Type*} [Group S] [Finite S] [MulAction S 
   rw [hn]
   have hn2 : 2 ≤ n := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases n <;> omega
   exact (Nat.pow_dvd_pow 2 hn2 : 2 ^ 2 ∣ 2 ^ n)
 
@@ -303,7 +303,7 @@ theorem four_dvd_card_zEps (S : Subgroup G) (hS : IsPGroup 2 S) (ϕ : S →* A) 
   refine four_dvd_card_of_orbits (S := S) (Y := Zm) hS ?_
   intro y
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hidx : (MulAction.stabilizer S y).index ≤ 2 := by
     rw [MulAction.index_stabilizer]; exact hle
   have hmem := hw2 _ hidx

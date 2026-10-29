@@ -21,7 +21,7 @@ theorem vec3_exists_smul_normV3 {w : Fin 3 → GF64} (hw : w ≠ 0) :
     ∃ r : GF64, r • w = normV3 (w 0) (w 1) (w 2) := by
   have hne : w 0 ≠ 0 ∨ w 1 ≠ 0 ∨ w 2 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hw (funext fun i => by fin_cases i <;> simp [hcon.1, hcon.2.1, hcon.2.2])
   unfold normV3
   split_ifs with h1 h2

@@ -246,14 +246,14 @@ theorem ten_le_of_two_pow_modEq_eleven {k : ℕ} (hk : 2 ^ k ≡ 1 [MOD 11]) (hk
     10 ≤ k := by
   have h1 : 1 ≤ k := Nat.pos_of_ne_zero hk0
   by_contra h
-  push_neg at h
+  push Not at h
   interval_cases k <;> revert hk <;> decide
 
 theorem twelve_le_of_two_pow_modEq_thirteen {k : ℕ} (hk : 2 ^ k ≡ 1 [MOD 13]) (hk0 : k ≠ 0) :
     12 ≤ k := by
   have h1 : 1 ≤ k := Nat.pos_of_ne_zero hk0
   by_contra h
-  push_neg at h
+  push Not at h
   interval_cases k <;> revert hk <;> decide
 
 end CFSG.HardMathSupport.Timmesfeld.SporadicBalance

@@ -67,7 +67,7 @@ theorem eq_bot_of_normal_two_gl {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     omega
   obtain ⟨v, hv, hv0⟩ : ∃ v ∈ MulAction.fixedPoints ↥M V, v ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hzero : (0 : V) ∈ MulAction.fixedPoints ↥M V := by
       show ∀ m : ↥M, m • (0 : V) = 0
       intro m

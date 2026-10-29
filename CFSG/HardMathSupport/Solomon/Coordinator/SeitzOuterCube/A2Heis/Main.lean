@@ -105,7 +105,7 @@ theorem a2ThreeHeisGen_holds : A2ThreeHeisGen := by
   obtain ⟨α, hα0, hασ, hΔ⟩ : ∃ α : F, α ≠ 0 ∧ σ α = α ∧ α ^ 3 + (lam : F) ≠ 0 := by
     by_cases h1 : (1 : F) ^ 3 + lam ≠ 0
     · exact ⟨1, one_ne_zero, map_one σ, h1⟩
-    · push_neg at h1
+    · push Not at h1
       refine ⟨γ, hγ0, hγσ, fun h2 => hγ3 ?_⟩
       linear_combination h2 - h1
   have hΔσ : σ (α ^ 3 + (lam : F))⁻¹ = (α ^ 3 + (lam : F))⁻¹ := by

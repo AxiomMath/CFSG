@@ -92,7 +92,7 @@ theorem u42E27At_of_residuals (hC : U42E27CentAt) (hL : U42E27LocAt) : U42E27At 
     exact hmono
   have hTne : ∃ t ∈ T, t ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hTE
     have hT1 : T = ⊥ := eq_bot_iff.2 fun t ht => by
       rw [Subgroup.mem_bot]
@@ -102,7 +102,7 @@ theorem u42E27At_of_residuals (hC : U42E27CentAt) (hL : U42E27LocAt) : U42E27At 
   obtain ⟨t, htT, ht1⟩ := hTne
   refine ⟨T, hTK, hT2, hEle, hTE', hT8, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : ∀ x ∈ T, x = 1 := by
     intro x hx
     have hxK : x ∈ K := hTK hx

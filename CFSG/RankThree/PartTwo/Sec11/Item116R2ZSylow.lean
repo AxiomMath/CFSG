@@ -61,7 +61,7 @@ theorem zq_of_cyclic_sylow {Q : Type} [Group Q] [Finite Q] (α : MulAut Q) {x : 
       _ ≤ 3 ^ (Nat.card Q).factorization 3 := Nat.pow_le_pow_right (by norm_num) hv2
   refine ⟨hPcyc, h9P, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hPF : P ≤ MonoidHom.eqLocus (α : Q →* Q) (MonoidHom.id Q) := by
     intro y hy
     show (α : Q →* Q) y = MonoidHom.id Q y

@@ -167,7 +167,7 @@ theorem isPowTwo_of_mem_calC (D : Data G) (hS : Setting13 D)
     (IsL2 (Bar2 K) m ∨ IsSz (Bar2 K) m) ∧ Odd m ∧ ¬ IsPowTwo m
   · obtain ⟨K, hK, m, hm, hodd, hpmm⟩ := hex
     exact s13_claim_odd D hS hSig hThin hCyc hrk3 h133 hK hm hodd hpmm
-  · push_neg at hex
+  · push Not at hex
     refine s13_claim_all D hS hSig hThin hCyc hrk3 h133 ?_ hL hLn hpow
     intro K hK m hm hodd
     exact hex K hK m hm hodd

@@ -51,7 +51,7 @@ theorem input25_3_core (hF : Input25_3FactsNo38) (h181 : LocalBalance.Lemma514Co
       barAut 3 J ⟨a, h⟩ = 1) :
     J = K ∨ ∃ a ∈ A, a ≠ 1 ∧ b ∉ oPrimePOf 3 (K ⊓ Subgroup.centralizer ({a} : Set Y)) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hne, hall⟩ := hcon
   have hb3' : b ^ 3 = 1 := by have := pow_orderOf_eq_one b; rwa [hb3] at this
   have hb1 : b ≠ 1 := fun h => by rw [h, orderOf_one] at hb3; omega
@@ -159,7 +159,7 @@ theorem input25_3_core (hF : Input25_3FactsNo38) (h181 : LocalBalance.Lemma514Co
   have hCQ := hF.borelTits Y K A Q p hp hp3 hKq hChev hAN hA3 hmax hQnc
   have hbQ : ∃ x ∈ Q, b * x ≠ x * b := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hbc : b ∈ Subgroup.centralizer (Q : Set Y) := by
       rw [Subgroup.mem_centralizer_iff]
       intro x hx
@@ -193,7 +193,7 @@ theorem input25_3_core (hF : Input25_3FactsNo38) (h181 : LocalBalance.Lemma514Co
       exact hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).1 this).symm
   have hex2 : ∃ a ∈ A, a ≠ 1 ∧ ∃ x ∈ Q ⊓ Subgroup.centralizer ({a} : Set Y), b * x ≠ x * b := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨x, hxQ, hbx⟩ := hbQ
     have hle : (⨆ a ∈ A, ⨆ (_ : a ≠ 1), Q ⊓ Subgroup.centralizer ({a} : Set Y)) ≤
         Subgroup.centralizer ({b} : Set Y) := by

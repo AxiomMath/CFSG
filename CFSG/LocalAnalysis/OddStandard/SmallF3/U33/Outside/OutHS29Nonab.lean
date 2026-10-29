@@ -140,7 +140,7 @@ theorem fixSub_nonabelian (hS : FpfSpecial T) (hρ : ρ ^ 3 = 1)
     (hfpf : ∀ g : T, ρ g = g → g = 1) (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) :
     ∃ a ∈ fixSub x, ∃ b ∈ fixSub x, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hZleF : center T ≤ fixSub x := by
     rw [← hS.commutator_eq, _root_.commutator_def]
     exact (Subgroup.commutator_le).mpr fun a _ b _ => fix_comm hS hρ hfpf hx hxρ hcon a b

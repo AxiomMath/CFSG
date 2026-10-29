@@ -67,7 +67,7 @@ theorem finrank_range_sub_ne_one (g : ↥hatM22Γ₀) :
       norm_num at h1
   · obtain ⟨i, hi⟩ : ∃ i, hatM22Act g i ≠ i := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hσ (Equiv.ext hcon)
     set j := hatM22Act g i with hj
     have hmov : (hatM22U i).map (Matrix.toLin' (mat g)) = hatM22U j := moves_hatM22Act g i

@@ -77,7 +77,7 @@ theorem even_finrank_commSpace_eichler [FiniteDimensional K V]
       exact even_two
     · have h1 : eichler Q u w = 1 := by
         rw [LinearIndependent.pair_iff] at hli
-        push_neg at hli
+        push Not at hli
         obtain ⟨s, t, hst, hne⟩ := hli
         by_cases ht : t = 0
         · subst ht

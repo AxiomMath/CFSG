@@ -147,7 +147,7 @@ theorem not_conj_w1T_x1T (hn : 3 ≤ n) {ι : L4Model n →* G} (hι : Function.
     apply not_conj_w1T_zT hn hι hS (g' * g)
     rw [← hg', ← hg]
     group
-  · push_neg at hxz
+  · push Not at hxz
     obtain ⟨s, hs, hws⟩ := exists_pow_of_conj_extremal hn hι hS (w1T_mem_A hn)
       (isSylowOf_x1T hn hι hS hxz) hg xT_mem_A (x1T_eq_pow (by omega))
     exact pow_ne_w1T hn hs hws.symm

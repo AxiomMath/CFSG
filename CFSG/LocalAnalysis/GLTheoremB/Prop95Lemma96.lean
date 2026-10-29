@@ -187,7 +187,7 @@ theorem exists_isMaxElemAbelian_comm_ne_bot {T : Subgroup X} (hQT : CFSG.pCore 2
     ∃ A : Subgroup X, IsMaxElemAbelian T A ∧
       ⁅K, A.map (QuotientGroup.mk' (CFSG.pCore 2 X))⁆ ≠ ⊥ := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   apply hJ
   intro k hk
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective k

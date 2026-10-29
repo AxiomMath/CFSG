@@ -43,7 +43,7 @@ theorem exists_normalizer_LB_not_normalizer_Z0 (h710 : Stroth710Statement)
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hex : ∃ z ∈ Z0, g * z * g⁻¹ ∉ Z0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hgne
     refine Subgroup.eq_of_le_of_card_ge (fun x hx => ?_) (by rw [card_conjSubgroup])
     rw [mem_conjSubgroup] at hx

@@ -29,7 +29,7 @@ theorem ggOrdPToralF4Rest_of_hard (h : GGOrdPToralF4RestHard) : GGOrdPToralF4Res
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases p
     · exact hp2 rfl
     · exact hp3 rfl

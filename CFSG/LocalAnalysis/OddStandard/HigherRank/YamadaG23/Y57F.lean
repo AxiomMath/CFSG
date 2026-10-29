@@ -183,7 +183,7 @@ theorem y57_caseB_homocyclic (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (htd : c.s.t *
     have he_le : ∀ i, e i ≤ 2 := by intro i; simp only [e]; split <;> norm_num
     have he2 : ∀ i, e i = 2 := by
       by_contra h
-      push_neg at h
+      push Not at h
       obtain ⟨i₀, hi₀⟩ := h
       have hlt := Finset.sum_lt_sum (s := Finset.univ) (f := e) (g := fun _ : ι => (2 : ℕ))
         (fun i _ => he_le i) ⟨i₀, Finset.mem_univ i₀, lt_of_le_of_ne (he_le i₀) hi₀⟩

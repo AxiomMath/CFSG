@@ -97,7 +97,7 @@ theorem p1BarInput_of_inputs (h135 : Lemma135_iStatement) (hLift : P1GLift) (hCo
       ((barX 3 M D ⊔ barX 3 M (Lstarsub D L) : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) :
         Set (↥M ⧸ GLAPPrimeCore 3 ↥M)), y ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne ((Subgroup.eq_bot_iff_forall _).2 hc)
   obtain ⟨hyB, hyC⟩ := Subgroup.mem_inf.1 hy
   obtain ⟨b, hbB, rfl⟩ := (mem_barX_iff 3 y).1 hyB

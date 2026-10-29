@@ -128,7 +128,7 @@ theorem catNoAlmostSimpleZ2_of_noInner_noOuter {A : Type} [Group A] [Finite A] [
   obtain ⟨φ⟩ := hne
   have hSna : ∃ a b : S, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : ∀ s : S, s = 1 := by
       intro s
       apply Subtype.ext

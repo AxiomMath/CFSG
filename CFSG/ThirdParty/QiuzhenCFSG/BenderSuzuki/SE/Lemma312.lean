@@ -1240,7 +1240,7 @@ private theorem lemma312_unique_involution_core_aux :
               exact hkernel ⟨N, hNnormal, hNY, hNne⟩)
       · have hYne : Y ≠ ⊤ := hY.ne_top
         rw [IsCoatom] at hmax
-        push_neg at hmax
+        push Not at hmax
         obtain ⟨K, hY_lt_K, hKne⟩ := hmax hYne
         have hKlt : K < (⊤ : Subgroup H) := lt_top_iff_ne_top.mpr hKne
         let YK : Subgroup K := Y.comap K.subtype

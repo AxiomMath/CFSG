@@ -261,7 +261,7 @@ theorem exists_noncentral_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a 
   obtain ⟨I, hI, hnc⟩ : ∃ I : Subgroup G, GLAPComponent p (Subgroup.centralizer ({a} : Set G)) I ∧
       ¬ (⁅I, S₁⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p (Subgroup.centralizer ({a} : Set G)) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hS₁n (le_glaPPrimeCoreOf_of_component_commutators hp hp2 hS₁2 hS₁a hQ hcon)
   obtain ⟨hDN, hker⟩ := (hin.main h1Stmt_zero hp hI).2 hnc
   have hxN : x ∈ Subgroup.normalizer (I : Set G) := hDN (Subgroup.mem_zpowers x)
@@ -278,7 +278,7 @@ theorem exists_noncentral_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a 
     rw [hker, Subgroup.mem_bot] at hxk
     exact hx1 hxk
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     have h1 : (⁅I, S₁⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p I := by
       rw [Subgroup.commutator_le]

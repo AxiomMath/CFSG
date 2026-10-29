@@ -94,7 +94,7 @@ theorem D₁_le_normalizer_R_sup_D₃ (h : d.Hyp) :
   have hH₀Q : d.R ⊔ d.D₃ ≤ d.R ⊔ d.D₁ := sup_le_sup_left D₃_le_D₁' _
   obtain ⟨x, hxD₁, hxD₃⟩ : ∃ x ∈ d.D₁, x ∉ d.D₃ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := Subgroup.card_le_of_le (hcon : d.D₁ ≤ d.D₃)
     rw [h.card_D₁, h.card_D₃] at this
     omega

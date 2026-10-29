@@ -48,7 +48,7 @@ public theorem lemma115_fixedPoints_card_le_two_of_inverted
     have hle := Nat.card_le_card_of_injective F hFinj
     rw [hM.involution_fixedPoints_card_eq_one ht] at hle
     omega
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨lambda, hxLambda, htLambdaNe⟩ := hall
     have hxInvLambda : x⁻¹ • lambda = lambda := by
       calc

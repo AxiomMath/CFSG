@@ -240,7 +240,7 @@ theorem exists_lowRank_of_normal_nonabelian [FiniteDimensional E U] (e : Basis �
   have hA : ∃ n ∈ N, ∃ h ∈ F, ∃ (φ : U →ₗ[E] E) (v : U),
       (∀ x, (h : Module.End E U) x = x + φ x • v) ∧ n * h ≠ h * n := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨n₁, hn₁, n₂, hn₂, hne⟩ := hna
     have hscalar : ∀ n ∈ N, ∃ c : E, (n : Module.End E U) = c • 1 := by
       intro n hn

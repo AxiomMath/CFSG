@@ -298,7 +298,7 @@ theorem twE6RegularLangNeg_of_cert : TwE6RegularLangNeg := by
       ∃ x : E₀, ¬ (3 : ℤ) ∣ ∑ i, (k x i : ℤ) * a i := by
     intro a ha
     by_contra hall
-    push_neg at hall
+    push Not at hall
     refine hreg a ha fun x hx => ⟨_, hk ⟨x, hx⟩, ?_⟩
     refine (tw_rootChar_pow_exp (ζ ^ 3) (k ⟨x, hx⟩) a).trans ?_
     obtain ⟨c, hc⟩ := hall ⟨x, hx⟩

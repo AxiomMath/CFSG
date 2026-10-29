@@ -71,7 +71,7 @@ theorem monomial_of_normalizes (g : M)
   choose w hw using hg
   have hrow : ∀ i : Fin 4, ∃ j, (g : Matrix (Fin 4) (Fin 4) F4) i j ≠ 0 := fun i => by
     by_contra h
-    push_neg at h
+    push Not at h
     have hd := g.2
     rw [Matrix.det_eq_zero_of_row_eq_zero i h] at hd
     exact zero_ne_one hd
@@ -1058,7 +1058,7 @@ theorem exists_gen_of_card_three [Finite G] {H : Subgroup G} (h : Nat.card H = 3
     ∃ b ∈ H, b ≠ 1 ∧ H = Subgroup.zpowers b := by
   have hne : ∃ x ∈ H, x ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hbot : H = ⊥ := (Subgroup.eq_bot_iff_forall H).mpr hc
     rw [hbot, Subgroup.card_bot] at h
     exact absurd h (by norm_num)

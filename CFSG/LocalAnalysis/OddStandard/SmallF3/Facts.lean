@@ -111,12 +111,12 @@ theorem not_nonempty_mulEquiv_alternatingGroup {Q : Type} [Group Q]
     have h1 : Nat.card (alternatingGroup (Fin m)) = 1 := Nat.card_unique
     rw [h1] at hcard
     exact absurd hcard (by decide)
-  · push_neg at hm1
+  · push Not at hm1
     have hm2 : 2 ≤ m := by omega
     rw [nat_card_alternatingGroup_fin m hm2] at hcard
     by_cases hm15 : m ≤ 15
     · interval_cases m <;> exact absurd hcard (by decide)
-    · push_neg at hm15
+    · push Not at hm15
       have hle : Nat.factorial m / 2 ≤ 10151968619520 := by
         simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton, Finset.notMem_empty,
           or_false] at hcard

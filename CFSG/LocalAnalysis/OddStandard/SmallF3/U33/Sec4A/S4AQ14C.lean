@@ -98,7 +98,7 @@ theorem q14_quot_E4 {X : Type} [Group X] [Finite X] (hX : Nat.card X = 4) (α : 
     exact mul_comm' a b
   have h2 : ∀ x : X, x * x = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨x, hx⟩ := hcon
     have hdvd : orderOf x ∣ 4 := hX ▸ orderOf_dvd_natCard x
     have hne2 : orderOf x ≠ 2 := by

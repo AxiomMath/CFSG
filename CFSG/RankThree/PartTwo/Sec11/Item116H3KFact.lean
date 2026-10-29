@@ -80,7 +80,7 @@ theorem exists_fixed_on_fibre {H : Type*} [Group H] [Finite H] (N : Subgroup H)
   letI : Fintype (Function.fixedPoints f) := Subtype.fintype _
   have hfix : ∃ s : Fibre N y0, f s = s := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     haveI : IsEmpty (Function.fixedPoints f) := ⟨fun x => hno x.1 x.2⟩
     have h0 : Nat.card (Function.fixedPoints f) = 0 := Nat.card_of_isEmpty
     have hmod := Equiv.Perm.card_fixedPoints_modEq (α := Fibre N y0) (f := f) (p := 3) (n := 1)

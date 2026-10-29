@@ -264,7 +264,7 @@ theorem core_aux {I : Finset (Subgroup 𝔄)} (hI : IsSigma3Family I) {δ h : �
     exact hb
   have B1 : ∃ j, j ≤ q ∧ conjBy h L = conjBy (δ ^ j) L := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     refine step_move hI hL (hhperm L hL) ?_ ha (hha ha) ha3 ha1 ?_ ?_ hk
     · have h1 := hcon 0 (Nat.zero_le _)
       simpa [conjBy_one] using h1

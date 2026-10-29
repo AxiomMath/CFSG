@@ -97,7 +97,7 @@ theorem w4q_sq_mem_V
       calc (l * d) * (l * d) = (t * t) * ((l * d) * (l * d)) := by rw [w4q_t_mul_t hc, one_mul]
         _ = t * (t * ((l * d) * (l * d))) := mul_assoc _ _ _
   · exfalso
-    push_neg at hL
+    push Not at hL
     obtain ⟨l₀, hl₀, hl₀τ, hl₀sq⟩ := hL
     exact hF (w4q_H_of_bad hc ⟨l₀, hl₀, hl₀τ, hl₀sq⟩)
 

@@ -315,7 +315,7 @@ theorem rank_two_abelian {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G : Type*} [G
   by_contra hnot
   have hex : ∃ a ∈ R, ∃ b ∈ R, a * b ≠ b * a := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hnot ⟨⟨fun a b => Subtype.ext (hne a.1 a.2 b.1 b.2)⟩⟩
   obtain ⟨a, ha, b, hb, hab⟩ := hex
   obtain ⟨t₁, ht₁, c₁, hc₁, h₁⟩ := rankTwo_decomp hTC (hRS ha)

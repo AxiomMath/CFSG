@@ -709,7 +709,7 @@ theorem gamma7_sigma0_cases (hA : A7Facts) (hM : AltSixSevenCentre) (h1 : Input1
   · refine Or.inl (le_bot_iff.1 ?_)
     exact iSup_le fun d => iSup_le fun hdD => iSup_le fun hd1 =>
       (g7_inf_eq_bot hd hdD hd1 (hall d hdD hd1)).le
-  push_neg at hall
+  push Not at hall
   obtain ⟨d₀, hd₀D, hd₀1, hd₀C⟩ := hall
   by_cases hdis : ∃ (d₁ d₂ : X) (c₁ c₂ : ↥(alternatingGroup (Fin 7))), d₁ ∈ D ∧ d₁ ≠ 1 ∧ d₂ ∈ D ∧
       d₂ ≠ 1 ∧ ¬ Hf d₁ ≤ Subgroup.centralizer (K : Set X) ∧

@@ -152,7 +152,7 @@ theorem exists_nf (hV : Module.finrank (ZMod 2) V = 8) (T : V →ₗ[ZMod 2] V) 
           _ = x := by rw [ZModModule.add_self, ZModModule.add_self, zero_add, zero_add]
   obtain ⟨v0, hv0⟩ : ∃ v0, (T ^ 3) v0 ≠ v0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h3 (LinearMap.ext fun x => by rw [h x, Module.End.one_apply])
   set v := (T ^ 3) v0 - v0 with hv
   have hvB : (T ^ 6) v = (T ^ 3) v + v := by
@@ -227,7 +227,7 @@ theorem exists_nf (hV : Module.finrank (ZMod 2) V = 8) (T : V →ₗ[ZMod 2] V) 
         funext i
         fin_cases i <;> rfl
       · exact absurd h (by decide)
-    · push_neg at hfix
+    · push Not at hfix
       obtain ⟨u, huKA, hTu⟩ := hfix
       have hu3 : (T ^ 3) u = u := (mKA u).1 huKA
       have hw : T u - u ∈ KA := KA.sub_mem (hKAinv u huKA) huKA

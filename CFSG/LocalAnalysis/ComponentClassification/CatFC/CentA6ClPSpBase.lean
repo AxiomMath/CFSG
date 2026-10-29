@@ -59,7 +59,7 @@ theorem A6Hyp.range_eq (h : A6Hyp σ D) {Q : Type} [Group Q] [Finite Q]
     Nat.le_of_dvd Nat.card_pos (Subgroup.card_dvd_of_le hker)
   have h5 : 0 < Nat.card ↥φ.ker := Nat.card_pos
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h6 : Nat.card ↥φ.range * Nat.card ↥φ.ker < 360 * Nat.card ↥φ.ker :=
     Nat.mul_lt_mul_of_pos_right hlt h5
   have h7 : 360 * Nat.card ↥(center Q) ≤ Nat.card (Q ⧸ center Q) * Nat.card ↥(center Q) :=

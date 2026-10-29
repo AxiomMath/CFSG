@@ -118,7 +118,7 @@ theorem exists_thirteen_subgroup_of_factorization [Finite G]
     by_contra hc
     have ha1 : a ≤ 1 := by
       by_contra h2
-      push_neg at h2
+      push Not at h2
       exact hc (Nat.pow_dvd_pow 13 h2)
     have hsP : s ∈ P := Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 rfl, hsQ⟩
     have hzp : Subgroup.zpowers s ≤ P := (Subgroup.zpowers_le).2 hsP
@@ -172,7 +172,7 @@ theorem exists_thirteen_subgroup_of_factorization [Finite G]
     norm_num at this
   refine ⟨P, hPp, inf_le_left, fun u hu => ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hle : P ≤ Subgroup.centralizer ({u} : Set G) := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.2 (hall g hg)
   have hdvd : 13 ^ 2 ∣ Nat.card (Subgroup.centralizer ({u} : Set G)) :=

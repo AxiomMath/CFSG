@@ -9129,7 +9129,7 @@ theorem b1_rank5 (i183 : Input18_3_4) (i145 : Input14_5) (i302 : Input30_2) (i14
     (IsPGroup.to_le hSy.hRp hR₃R) hSy.s3
   obtain ⟨w, hwR, w', hw'R, hww⟩ : ∃ w ∈ R₃, ∃ w' ∈ R₃, w * w' ≠ w' * w := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hna hcon
   have hnw : w ∉ Subgroup.zpowers b := by
     intro hw

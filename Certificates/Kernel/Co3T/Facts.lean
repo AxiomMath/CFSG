@@ -396,7 +396,7 @@ theorem hypCheck_eq : hypCheck () = true := by
     · right
       rw [anyLt_iff]
       by_contra hn
-      push_neg at hn
+      push Not at hn
       have : allN 121 (fun j => !(allN 7 fun l => Nat.beq (dot3K m (CK (7 * j + l))) 0)) = true := by
         rw [Orb.allN_iff]
         intro j hj

@@ -395,7 +395,7 @@ theorem CentralIdempotentBasis.adjoint_elem
       _ = e * f := by rw [he_idem, hf_idem]
   have he_coeff : ∃ g : G, e.coeff g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply b.elem_ne_zero i
     ext g
     exact h g

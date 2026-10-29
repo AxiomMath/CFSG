@@ -331,7 +331,7 @@ private theorem false_of_commute_cycles (hτ2 : τ * τ = 1) (hτ1 : τ ≠ 1) {
     simpa using congrArg (fun h : Perm (Fin n) => h x) hyτ
   obtain ⟨x, hx⟩ : ∃ x, τ x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hτ1 (Equiv.ext h)
   have hcT : swap x (τ x) ∈ τ.cycleFactorsFinset := by
     rw [Equiv.Perm.mem_cycleFactorsFinset_iff]
@@ -345,7 +345,7 @@ private theorem false_of_commute_cycles (hτ2 : τ * τ = 1) (hτ1 : τ ≠ 1) {
   simp only [Equiv.Perm.mul_apply, Equiv.swap_apply_left] at hcomm
   have hyx : y x = x ∨ y x = τ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : swap x (τ x) (y x) = y x := Equiv.swap_apply_of_ne_of_ne hcon.1 hcon.2
     rw [h1, hyτ'] at hcomm
     have h2 : τ (y x) = y x := hcomm

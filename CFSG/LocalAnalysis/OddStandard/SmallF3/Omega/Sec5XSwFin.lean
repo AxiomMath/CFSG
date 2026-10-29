@@ -17,7 +17,7 @@ private lemma exists_odd_ne_one {N : Subgroup X₀} (hxN : xElt ∈ N)
     (hgen : N ≤ Subgroup.closure {a | a ∈ N ∧ Odd (orderOf a)}) (hx : orderOf xElt = 2) :
     ∃ g ∈ N, Odd (orderOf g) ∧ g ≠ 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hbot : N ≤ ⊥ := by
     refine hgen.trans ?_
     rw [Subgroup.closure_le]

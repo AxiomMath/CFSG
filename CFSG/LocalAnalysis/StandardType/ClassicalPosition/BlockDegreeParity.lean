@@ -70,7 +70,7 @@ private lemma bdp_isPrime_span_one_sub {A : Type} [CommRing A] [IsSemisimpleRing
     have hxy' : (x * y) * e = 0 := (hmem (x * y)).mp hxy
     rw [hmem x, hmem y]
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨hx, hy⟩ := h
     obtain ⟨f, hfidem, hspan⟩ := IsSemisimpleRing.ideal_eq_span_idempotent (Ideal.span {x * e})
     have hfmem : f ∈ Ideal.span ({x * e} : Set A) := by

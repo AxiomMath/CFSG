@@ -71,7 +71,7 @@ theorem step85O2_of_parts (h84 : Stroth84Statement) (hA : Sec8AExistsStatement)
     by_cases hcomm : ∀ z ∈ Z0, ⁅z, (k : G)⁆ ∈ Q
     · exact hComm G M Q Z B hc n t hs r hr Z0 hZ0 (k : G) hkO
         (hFirst G M Q Z B hc n t hs r hr Z0 hZ0 (k : G) hkO) hnot hcomm
-    · push_neg at hcomm
+    · push Not at hcomm
       obtain ⟨z, hz, hzq⟩ := hcomm
       exact hSyl G M Q Z B hc n t hs (h84 G M Q Z B hc n t hs) Z0 hZ0 (k : G) hkO hnot ⟨z, hz, hzq⟩
   rw [Subgroup.mem_subgroupOf, ← hky]

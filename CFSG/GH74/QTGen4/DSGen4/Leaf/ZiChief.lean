@@ -108,7 +108,7 @@ theorem leafZiChief [DSLeaf LeafZiStructure] [DSLeaf LeafFaithfulA5] [DSLeaf Lea
       Subgroup.mem_bot.mpr (commutatorElement_eq_one_iff_mul_comm.mpr (hZ1cQ e he q hq'))
   have hnt : ∃ l ∈ L1, ∃ e ∈ dsZi L1 S, ⁅l, e⁆ ∉ (⊥ : Subgroup G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     rw [eq_bot_iff, Subgroup.commutator_le]
     intro e he l hl

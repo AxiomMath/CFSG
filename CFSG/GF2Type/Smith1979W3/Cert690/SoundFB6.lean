@@ -426,7 +426,7 @@ theorem pglF8_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
       · right; right
         have hnotle : ¬ W ≤ VPlus := fun hle' => hEq (le_antisymm hle' hVPW)
         rw [SetLike.le_def] at hnotle
-        push_neg at hnotle
+        push Not at hnotle
         obtain ⟨v, hvW, hvP⟩ := hnotle
         have hv0 : v ≠ 0 := by intro h0; exact hvP (by rw [h0]; exact Submodule.zero_mem _)
         obtain ⟨m, hm, rfl⟩ := exists_vec v
@@ -450,7 +450,7 @@ theorem pglF8_sound_of (hK : EnumCert kPGLGens (pglData ()).elems.toList)
       · right; right
         have hnotle : ¬ W ≤ VStar := fun hle' => hEq (le_antisymm hle' hVSW)
         rw [SetLike.le_def] at hnotle
-        push_neg at hnotle
+        push Not at hnotle
         obtain ⟨v, hvW, hvS⟩ := hnotle
         have hv0 : v ≠ 0 := by intro h0; exact hvS (by rw [h0]; exact Submodule.zero_mem _)
         obtain ⟨m, hm, rfl⟩ := exists_vec v

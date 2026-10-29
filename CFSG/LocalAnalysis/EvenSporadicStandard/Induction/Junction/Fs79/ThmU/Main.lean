@@ -18,7 +18,7 @@ theorem maximalF_universal [Finite G] (hLB : LayerBalanceAt G) (hglaub : Glauber
     (hrank : 2 ≤ CFSG.Open.pRank 2 A) : UniversalF A := by
   by_contra hnu
   rw [UniversalF] at hnu
-  push_neg at hnu
+  push Not at hnu
   obtain ⟨b₀, hb₀⟩ := hnu
   obtain ⟨t₀, ht₀⟩ := hA.1
   obtain ⟨t, a, ht, ha, hta⟩ := exists_commuting_good_bad ht₀ hb₀
@@ -82,7 +82,7 @@ theorem maximalF_universal [Finite G] (hLB : LayerBalanceAt G) (hglaub : Glauber
   · exact hKnu (universalF_of_fourGroup hLB hglaub hKmax hgood.1 hgood.2.1 hgood.2.2 hc12 h3)
   · have hcases : ¬ GoodInv K w₁ ∨ ¬ GoodInv K w₂ ∨ ¬ GoodInv K (w₁ * w₂) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hgood hc
     rcases hcases with h₁ | h₂ | h₃
     · exact step_four hLB hglaub hstar hKmax hKrank haGood

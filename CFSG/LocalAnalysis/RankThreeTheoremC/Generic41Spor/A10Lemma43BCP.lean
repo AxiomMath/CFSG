@@ -158,7 +158,7 @@ theorem not_centralizes (hc : ∀ a ∈ J₁, ∀ b ∈ J₂, a * b = b * a) (Q�
     (ht₁ : t₁ ∈ J₁) (ht₂ : t₂ ∈ J₂) (ho₁ : orderOf t₁ = 5) :
     ∃ a ∈ J₁, a * (t₁ * t₂) ≠ (t₁ * t₂) * a := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hcent : Q₁.q ⟨t₁, ht₁⟩ = 1 := by
     apply Q₁.central_ker ⟨t₁, ht₁⟩
     intro b

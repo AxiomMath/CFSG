@@ -129,7 +129,7 @@ theorem alt_of_twoSubgroup (hq2 : q ≠ 2) {P : Subgroup (GL (Fin 4) (ZMod q))} 
       (P.subtype.comp T.subtype) (s * t * s⁻¹) = -(P.subtype.comp T.subtype) t := by
     intro t ht
     rw [mem_center_iff] at ht
-    push_neg at ht
+    push Not at ht
     obtain ⟨s, hst⟩ := ht
     refine ⟨s, ?_⟩
     have hc : ⁅s, t⁆ = z := by

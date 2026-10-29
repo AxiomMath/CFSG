@@ -311,7 +311,7 @@ theorem leafDSBS3Vertex [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafSylowS] [DSLeaf Lea
     exact hS₂N (le_antisymm h1 hNS₂)
   obtain ⟨t, htS2, htN⟩ : ∃ t ∈ S ⊓ L2, t ∉ N := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hS₂N (le_antisymm (fun x hx => hcon x hx) hNS₂)
   have htL : t ∈ L2 := htS2.2
   have htS : t ∈ S := htS2.1

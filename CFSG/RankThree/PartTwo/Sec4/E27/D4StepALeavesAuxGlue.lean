@@ -120,7 +120,7 @@ theorem layer_closure_of_plane
   · obtain ⟨y, hy, hyN, hyd⟩ := hA
     intro l hl
     exact Subgroup.subset_closure ⟨hl, y, hy, hyN, hyd l hl⟩
-  push_neg at hA
+  push Not at hA
   have htriv : ∀ y : E, (y : MulAut K) ∈ N → ∀ d ∈ D, (y : MulAut K) d = d := by
     intro y hy d hd
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hy

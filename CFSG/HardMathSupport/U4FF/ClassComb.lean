@@ -444,7 +444,7 @@ theorem Lbl.comb_lemma75 {n : ℕ} [NeZero n] (l : Lbl n) (hl : ¬ l.IsZero) {d 
     ⟨Finset.univ.filter (fun i => ¬ l.ZeroAt i), fun i => by simp⟩
   obtain ⟨i₁, hi₁⟩ : ∃ i, ¬ l.ZeroAt i := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hl h
   have hk : 0 < P.card := Finset.card_pos.2 ⟨i₁, (hPmem i₁).2 hi₁⟩
   obtain ⟨y, hy0, hyk, hydvd⟩ := exists_orbit_card P i₁

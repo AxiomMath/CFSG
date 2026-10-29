@@ -171,7 +171,7 @@ theorem sec47_exists_noncomm_invol {L : Type} [Group L] [Finite L] (hs : IsSimpl
     (hp : Group.IsPerfect L) {a : L} (ha : orderOf a = 2) :
     ∃ t : L, orderOf t = 2 ∧ ¬ Commute a t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set S : Set L := {t | orderOf t = 2} with hS
   set N : Subgroup L := Subgroup.closure S with hN
   have hNn : N.Normal := by

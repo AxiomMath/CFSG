@@ -53,7 +53,7 @@ theorem basis4 {K : Type} [Field K] (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0)
     simp at this
   obtain ⟨u2, hu2⟩ : ∃ v : Fin 4 → K, v ∉ Submodule.span K ({u1, T *ᵥ u1} : Set (Fin 4 → K)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     have htop : Submodule.span K ({u1, T *ᵥ u1} : Set (Fin 4 → K)) = ⊤ :=
       eq_top_iff.mpr (fun v _ => h v)
     have hfin := finrank_span_le_card (R := K) ({u1, T *ᵥ u1} : Set (Fin 4 → K))

@@ -38,7 +38,7 @@ theorem sq_mem_Q_of_centralizes (H : StrothHyp M Q Z) {y : G} (hyM : y ∈ M)
     rw [M₀.π_mul _ hsc _ (Q.inv_mem hc), Tim79.QuadModel.pi_inv M₀ hc, hT2π c hc, hW,
       add_neg_cancel]
   exfalso
-  push_neg at hW
+  push Not at hW
   obtain ⟨e, he⟩ := hW
   have hT4 : ∀ f, T (T (T (T f))) = f := by
     intro f

@@ -248,7 +248,7 @@ theorem card_le_three_of_isElemAbelian_sl2 {F : Type} [Field F] [Finite F]
     calc Nat.card E ≤ Nat.card (Subgroup.zpowers g) := Subgroup.card_le_of_le hle
       _ = orderOf g := Nat.card_zpowers g
       _ ≤ 3 := orderOf_le_of_pow_eq_one (by norm_num) hg3
-  · push_neg at hex
+  · push Not at hex
     rw [(Subgroup.eq_bot_iff_forall E).2 hex, Subgroup.card_bot]
     norm_num
 

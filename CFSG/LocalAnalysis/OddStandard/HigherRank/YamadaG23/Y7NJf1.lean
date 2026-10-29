@@ -24,7 +24,7 @@ private lemma jf_exists_ne_two {α : Type*} [Finite α] (h : 3 ≤ Nat.card α) 
   classical
   haveI : Fintype α := Fintype.ofFinite α
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : (Finset.univ : Finset α) ⊆ {a, b} := by
     intro c _
     by_cases h : c = a

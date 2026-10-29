@@ -16,7 +16,7 @@ theorem cl24_exists_move (hQ : (polarBilin Q).Nondegenerate) {P₁ P₂ : HypPai
     [MulAction.IsPretransitive (elementaryGroup Q) X] (hX : 2 ≤ Nat.card X) :
     ∃ (y : X) (w : P₁.perp), cl24_eps P₁ w • y ≠ y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : ((rootGroup Q P₁.e).subgroupOf (elementaryGroup Q) : Set (elementaryGroup Q)) ⊆
       (MulAction.toPermHom (elementaryGroup Q) X).ker := by
     intro g hg

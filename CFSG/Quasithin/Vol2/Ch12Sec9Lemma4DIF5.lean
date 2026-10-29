@@ -87,7 +87,7 @@ private theorem f5_exists_two_dim {U : Type} [AddCommGroup U] [Module (ZMod 2) U
     omega
   obtain ⟨c, hc⟩ : ∃ c : U, c ∉ Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hYtop (eq_top_iff.2 fun c _ => hcon c)
   have hYbot : Y ≠ ⊥ := by
     intro h

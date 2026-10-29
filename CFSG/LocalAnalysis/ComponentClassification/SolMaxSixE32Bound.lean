@@ -58,10 +58,10 @@ private theorem card_le_of_le_centralizer {T : Subgroup (Perm (Fin 9))}
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card (p := 2)).mp hT2
   have hdvd : Nat.card T ∣ 288 := card_centralizer_σ₀ ▸ Subgroup.card_dvd_of_le hT
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hb6 : 6 ≤ b := by
     by_contra h
-    push_neg at h
+    push Not at h
     interval_cases b <;> omega
   have h64 : 2 ^ 6 ∣ 288 := (pow_dvd_pow 2 hb6).trans (hb ▸ hdvd)
   omega
@@ -88,7 +88,7 @@ private theorem card_map_eq_of_card_gt {G' : Type*} [Group G'] [Finite G']
   have h5 : 16 < Nat.card (R.map π) := by omega
   have hb5 : b ≤ 5 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 2 ^ 6 ≤ 2 ^ b := Nat.pow_le_pow_right (by norm_num) h
     omega
   interval_cases b <;> omega
@@ -204,7 +204,7 @@ theorem card_le_of_normal_mod_O {G' : Type*} [Group G'] [Finite G']
     {F : Subgroup G'} [F.Normal] (hF : ∀ f ∈ F, ∃ k : ℕ, f ^ (2 ^ k) ∈ pPrimeCore 2 G')
     {R : Subgroup G'} (hRF : R ≤ F) (hR : IsPGroup 2 R) : Nat.card R ≤ 32 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h32 := card_map_eq_of_card_gt π hrange hker hR hlt
   have hζF : ζ₀ ∈ F.map π :=
     mul_mem (mem_map_of_mul_self_eq_one π hrange hRF hR h32 w₁_mem w₁_mul_self)

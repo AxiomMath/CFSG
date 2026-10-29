@@ -618,7 +618,7 @@ theorem nineteen_glue_seven (V : LieAutVocab10) (D : Data G) {V₀ Vsub : Subgro
         · exact h2
       have hex : ∃ w0 : ↥V₀, w0 ∉ Subgroup.zpowers v0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         have hle : (⊤ : Subgroup ↥V₀) ≤ Subgroup.zpowers v0 := fun x _ => h x
         have hcardle := Subgroup.card_le_of_le hle
         rw [Nat.card_zpowers, hv0ord] at hcardle

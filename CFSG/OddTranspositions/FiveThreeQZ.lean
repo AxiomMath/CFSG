@@ -60,7 +60,7 @@ theorem exists_conj_not_commute (hS : Setup G D)
     ∃ n ∈ N, ¬ Commute (n * u * n⁻¹) u := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hu2 : u * u = 1 := hS.oddT.mul_self_eq_one hu
   have huinv : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   set k : Set G := {x | ∃ n ∈ N, n * u * n⁻¹ = x}
@@ -94,7 +94,7 @@ theorem exists_conj_not_commute (hS : Setup G D)
   have hL := rad_of_normal hrad L hLn hLs
   have hnc := not_mem_centralizer_of_normal hS hrad hN hu
   rw [Subgroup.mem_centralizer_iff] at hnc
-  push_neg at hnc
+  push Not at hnc
   obtain ⟨n, hn, hnu⟩ := hnc
   have hxE : u * (n * u * n⁻¹) ∈ E :=
     E.mul_mem (Subgroup.subset_closure ⟨1, N.one_mem, by group⟩)
@@ -119,7 +119,7 @@ theorem exists_conj_commute_ne (hS : Setup G D)
     ∃ n ∈ N, n * u * n⁻¹ ≠ u ∧ Commute (n * u * n⁻¹) u := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hu2 : u * u = 1 := hS.oddT.mul_self_eq_one hu
   have huinv : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   set X : Subgroup G := N ⊔ Subgroup.zpowers u

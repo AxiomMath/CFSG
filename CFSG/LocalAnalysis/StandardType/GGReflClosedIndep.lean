@@ -62,7 +62,7 @@ theorem ggReflClosed_of_indep {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup 
     exact hr1 (LinearEquiv.ext fun w => by rw [hvf]; simp)
   obtain ⟨w₀, hw₀⟩ : ∃ w, f w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hf0 (LinearMap.ext hcon)
   have hfv : f v = 2 := by
     have h1 : ρ t (ρ t w₀) = w₀ := by

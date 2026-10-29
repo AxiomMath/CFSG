@@ -180,7 +180,7 @@ theorem oUpperTwo_eq_of_rank {Xc R I₁ I₂ : Subgroup G} (h₁ : IsCZeroMember
     exact hne (eq_of_le_of_card_ge h12 hcard.symm.le)
   obtain ⟨u, ⟨huI, hodd⟩, hu⟩ : ∃ u, (u ∈ I₁ ∧ Odd (orderOf u)) ∧ u ∉ oUpperTwo I₂ ⊔ N := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnle ((closure_le _).mpr fun x hx => hcon x hx)
   have huO : u ∈ oUpperTwo I₁ := subset_closure ⟨huI, hodd⟩
   have hu3 : u ^ 3 = 1 := by

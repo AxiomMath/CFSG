@@ -62,7 +62,7 @@ theorem not_prime_of_dvd_two {n : ℕ} (h2 : 2 ∣ n) (hn : 2 < n) : ¬ n.Prime 
 theorem nonabelian_of_simple_not_prime {W : Type} [Group W] [Finite W] (hs : IsSimpleGroup W)
     (hp : ¬ (Nat.card W).Prime) : ∃ a b : W, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   haveI := hs
   letI : CommGroup W := { ‹Group W› with mul_comm := h }
   exact hp (IsSimpleGroup.prime_card (α := W))

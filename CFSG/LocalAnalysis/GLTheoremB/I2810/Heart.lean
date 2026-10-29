@@ -25,7 +25,7 @@ theorem S_cases (h : Setup28 W K S) {a : X} (haS : a ∈ S) (hna : a ∉ kerAct 
     exact h1.symm
   intro s hs
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hmul := Subgroup.mul_mem_iff_of_index_two hidx (a := (⟨a⁻¹, S.inv_mem haS⟩ : ↥S))
     (b := (⟨s, hs⟩ : ↥S))
   have hiff : (⟨a⁻¹, S.inv_mem haS⟩ : ↥S) ∈ (kerAct W K S).subgroupOf S ↔

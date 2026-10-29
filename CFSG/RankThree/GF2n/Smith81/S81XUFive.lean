@@ -74,7 +74,7 @@ private theorem u6f_extend3 {U : Submodule F (Fin 6 → F)} (hU : Module.finrank
       ∀ α β γ : F, α • a + β • b + γ • c = 0 → α = 0 ∧ β = 0 ∧ γ = 0 := by
   obtain ⟨b, hbU, hb⟩ : ∃ b ∈ U, ∀ α : F, b ≠ α • a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : U ≤ Submodule.span F {a} := by
       intro x hx
       obtain ⟨α, rfl⟩ := hcon x hx
@@ -84,7 +84,7 @@ private theorem u6f_extend3 {U : Submodule F (Fin 6 → F)} (hU : Module.finrank
     omega
   obtain ⟨c, hcU, hc⟩ : ∃ c ∈ U, ∀ α β : F, c ≠ α • a + β • b := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have ha_mem : a ∈ Submodule.span F (Set.range ![a, b]) :=
       Submodule.subset_span ⟨0, by simp⟩
     have hb_mem : b ∈ Submodule.span F (Set.range ![a, b]) :=

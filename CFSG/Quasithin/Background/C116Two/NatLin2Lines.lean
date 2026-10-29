@@ -228,7 +228,7 @@ private theorem lines_lam_indep {F : Type} [Field F] [Finite F]
 private theorem lines_exists_indep {F : Type} [Field F] (v : Fin 2 → F) :
     ∃ u : Fin 2 → F, ∀ k : F, u ≠ k • v := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨a, ha⟩ := hcon (Pi.single 0 1)
   obtain ⟨b, hb⟩ := hcon (Pi.single 1 1)
   have h0 : (1 : F) = a * v 0 := by simpa [Pi.single_apply] using congrFun ha 0
@@ -262,7 +262,7 @@ private theorem lines_lam_eq {F : Type} [Field F] [Finite F]
           _ = k⁻¹ • (m • v) := by rw [← hk, ← hm]
           _ = (k⁻¹ * m) • v := by rw [smul_smul]
     exact (lines_lam_indep g lam hlam hv hu c).trans (lines_lam_indep g lam hlam hu0 huw c)
-  · push_neg at hdep
+  · push Not at hdep
     exact lines_lam_indep g lam hlam hv hdep c
 
 theorem semilinear_of_maps_lines {F : Type} [Field F] [Finite F]

@@ -1220,7 +1220,7 @@ theorem as_C_1_22 : C_1_22 := by
       exact hcard
     have hnt : ∃ h ∈ autI hU L, ∃ u ∈ (⊤ : Subgroup (IntMod (blockU L) hU)), h u ≠ u := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hcen : blockU L ≤ Subgroup.centralizer (L : Set G) := by
         intro u hu
         rw [Subgroup.mem_centralizer_iff]

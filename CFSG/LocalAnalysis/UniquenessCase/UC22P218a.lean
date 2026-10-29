@@ -105,7 +105,7 @@ theorem exists_not_inner_of_not_le_normalizer {L T X : Subgroup G} (hT : IsPGrou
     (hX : X ≤ L ⊓ normalizer ((T ⊓ L : Subgroup G) : Set G)) (hXT : ¬ X ≤ normalizer (T : Set G)) :
     ∃ t : G, ∃ ht : t ∈ T, rhoL L ⟨t, hTL ht⟩ ∉ (MulAut.conj : Bar2 L →* MulAut (Bar2 L)).range := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   refine hXT (hX.trans (inf_normalizer_le_normalizer_of_inner hT hTL hS ?_))
   rintro _ ⟨⟨t, htN⟩, ht, rfl⟩
   exact hno t (mem_subgroupOf.1 ht)

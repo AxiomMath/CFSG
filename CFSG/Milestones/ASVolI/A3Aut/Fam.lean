@@ -39,7 +39,7 @@ theorem burnsideAut_ne_top_of_isSolvable {X : Type*} [Group X] [Nontrivial X] [G
 theorem burnsideAut_nonabelian_of_perfect {X : Type*} [Group X] [Nontrivial X]
     [Group.IsPerfect X] : ∃ a b : X, a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have h1 : commutator X = ⊥ := by
     rw [commutator_def, eq_bot_iff, Subgroup.commutator_le]
     intro a _ b _

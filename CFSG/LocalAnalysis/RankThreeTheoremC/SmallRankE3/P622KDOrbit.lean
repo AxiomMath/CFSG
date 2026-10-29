@@ -29,7 +29,7 @@ theorem p622_le_of_orbit_length_one [Finite G] (z : G) (p : ℕ) (hp : p.Prime) 
     exact hC x hx (hcent x hx)
   obtain ⟨g₀, hg₀, hg₀z⟩ : ∃ g ∈ L, z * g ≠ g * z := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcent h
   haveI : Fact p.Prime := ⟨hp⟩
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

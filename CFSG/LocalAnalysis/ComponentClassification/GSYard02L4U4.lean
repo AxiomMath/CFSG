@@ -304,7 +304,7 @@ theorem exists_inv_pair {Q : Subgroup K} {z f : K} (hQ : QuatIn z Q)
         _ = z⁻¹ * a := by rw [← h']
         _ = z * a := by rw [hzi]
         _ = a * z := (hzcQ a ha).symm
-  · push_neg at H
+  · push Not at H
     obtain ⟨u, hu, hne1, hnez⟩ := H
     have hfu : f * u * f⁻¹ ∈ Q := hfQ u hu
     have hg : u * (f * u * f⁻¹)⁻¹ ∈ Q := Q.mul_mem hu (Q.inv_mem hfu)

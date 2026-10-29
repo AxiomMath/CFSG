@@ -298,7 +298,7 @@ theorem natCard_W₁_ne_three_of_isPairedSupportingSetup
     rw [hHcard, hq3, hUcard, hp2A] at hdvd
     exact not_sq_dvd_cube_sub_one hAodd hA1 h3A hdvd
   ·
-    push_neg at hfreeU
+    push Not at hfreeU
     obtain ⟨u, huU, hu1, hunb⟩ := hfreeU
     have hord : orderOf u ≠ 1 := by simpa [orderOf_eq_one_iff] using hu1
     obtain ⟨r, hr, k, hk⟩ := Nat.exists_prime_and_dvd hord

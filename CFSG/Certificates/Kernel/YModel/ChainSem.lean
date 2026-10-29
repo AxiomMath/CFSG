@@ -114,7 +114,7 @@ theorem testBit_fixedSet {k N : Nat} (hv : StagesValid k N) (p : Nat) :
         exact Bool.false_ne_true h
       · intro hne
         by_contra hall
-        push_neg at hall
+        push Not at hall
         apply hne
         apply eq_of_bits hpi hp
         intro b hb

@@ -360,7 +360,7 @@ theorem exists_sylow_not_le_centralizer [Finite G] {p : ℕ} {U P : Subgroup G}
     refine hnc fun x hx => ⟨hPU hx, Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩
     exact (Subgroup.mem_centralizer_iff.1 (h hy) x hx).symm
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   refine hUC (le_centralizer_of_forall_sylow_map_le_centralizer fun q hq S => ?_)
   have hSU : (S : Subgroup ↥U).map U.subtype ≤ U := Subgroup.map_subtype_le _
   have hScard : Nat.card ↥((S : Subgroup ↥U).map U.subtype)

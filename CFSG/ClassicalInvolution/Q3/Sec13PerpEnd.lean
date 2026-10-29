@@ -131,7 +131,7 @@ theorem kPerp_eq_twinSet (h : EndHyp Ω) :
     ∀ K ∈ Ω, KPerp Ω K = twinSet Ω K := by
   by_cases hA : ∀ L ∈ Ω, ∀ J ∈ omegaNbr Ω L, KPerp Ω J = KPerp Ω L
   · exact kPerp_eq_twinSet_of_caseA h hA
-  · push_neg at hA
+  · push Not at hA
     obtain ⟨L, hL, J, hJ, hne⟩ := hA
     exact (false_of_caseB h hL hJ hne).elim
 

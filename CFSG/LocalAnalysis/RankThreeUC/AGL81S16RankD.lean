@@ -68,14 +68,14 @@ theorem commSp_le_fixSp_of_finrank_eq_two (hσ : IsUnitaryInvolution σ) (h2 : (
   by_contra hnle
   obtain ⟨b, hb, x, hy⟩ : ∃ b ∈ E, ∃ x, b • x - x ∉ fixSp E := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnle
     refine Submodule.span_le.mpr ?_
     rintro _ ⟨b, hb, x, rfl⟩
     exact hcon b hb x
   obtain ⟨a, ha, hay⟩ : ∃ a ∈ E, a • (b • x - x) ≠ b • x - x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hy (mem_fixSp.mpr hcon)
   set y := b • x - x with hydef
   set z := a • y - y with hzdef

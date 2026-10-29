@@ -40,7 +40,7 @@ private lemma endgH_ne_pow5 (b : ℕ) (hb : 2 ≤ b) (k : ℕ) : (2 ^ b) ^ 2 + 1
 private lemma endgH_exists_prime (b : ℕ) (hb : 2 ≤ b) :
     ∃ p : ℕ, p.Prime ∧ p ≠ 5 ∧ p ∣ (2 ^ b) ^ 2 + 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hN : (2 ^ b) ^ 2 + 1 ≠ 0 := by positivity
   have hfac := Nat.eq_prime_pow_of_unique_prime_dvd hN (p := 5)
     (fun {d} hd hdvd => by
@@ -51,7 +51,7 @@ private lemma endgH_exists_prime (b : ℕ) (hb : 2 ≤ b) :
 private lemma endgH_num {p : ℕ} (hp : p.Prime) (hp5 : p ≠ 5) (h1 : p % 4 = 1) :
     13 ≤ p := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   interval_cases p <;> first | omega | norm_num at hp
 
 private lemma endgH_ge13 {p b : ℕ} (hp : p.Prime) (hp5 : p ≠ 5) (hb : 2 ≤ b)

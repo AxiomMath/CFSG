@@ -252,7 +252,7 @@ theorem uc22s13d_exists_odd_prime {F : Type*} [Group F] [Finite F] [Nontrivial F
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, hq, hqd, hq2⟩ : ∃ q : ℕ, q.Prime ∧ q ∣ Nat.card F ∧ q ≠ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcard : Nat.card F = 2 ^ (Nat.card F).primeFactorsList.length :=
       Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun hd hdd => h _ hd hdd
     exact Group.IsPerfect.not_isNilpotent F (IsPGroup.of_card hcard).isNilpotent

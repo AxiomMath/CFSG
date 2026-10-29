@@ -275,7 +275,7 @@ theorem exists_weight_of_nonsimple [Module.Finite F V] (ρ : Representation F G 
     · exact ⟨U, hU, h1⟩
     · have hG : ∃ g : G, ¬ U ≤ U.comap (ρ g) := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         rcases hirr U hcon with h | h
         · exact hU0 h
         · exact hUt h
@@ -385,7 +385,7 @@ theorem weightSpace_finrank_eq_one [Module.Finite F V] (ρ : Representation F G 
     intro h2
     have hG : ∃ g : G, ¬ W ≤ W.comap (ρ g) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       rcases hirr W hcon with h | h
       · exact hχ h
       · exact hWtop h
@@ -423,7 +423,7 @@ theorem weightSpace_finrank_eq_one [Module.Finite F V] (ρ : Representation F G 
       exact Units.ext (smul_left_injective F hv0 h3).symm
     have hw : ∃ w ∈ W, ρ g w ∉ W := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hg
       intro x hx
       exact Submodule.mem_comap.mpr (hcon x hx)

@@ -12,7 +12,7 @@ private lemma exists_fixed_of_isThreeCycle {α : Type*} [Fintype α] [DecidableE
     (hα : 3 ≤ Fintype.card α) {c : Perm (Option α)} (hc : c.IsThreeCycle) :
     ∃ q : Option α, c q = q := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsupp : c.support = Finset.univ := by
     apply Finset.eq_univ_of_forall
     intro q

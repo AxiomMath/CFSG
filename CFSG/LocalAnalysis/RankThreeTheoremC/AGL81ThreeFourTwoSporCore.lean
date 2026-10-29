@@ -133,7 +133,7 @@ theorem threeFourTwoNoneAt_of_glbCore_eq_top {p : ℕ} {X : Type*} [Group X]
     rw [if_pos hR3] at hcore
     exact (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p hQ'R hQ'2 h3).trans hcore
   ·
-    push_neg at hw
+    push Not at hw
     have hmem : ∀ x ∈ (R : Subgroup Y), x ^ p = 1 → x ∈ T₀ := fun x hx hxp =>
       mem_of_pow_eq_one_of_le_sup hRT hT₀exp hw hx hxp
     have hR2 : ¬ 3 ≤ pRank p (R : Subgroup Y) := by

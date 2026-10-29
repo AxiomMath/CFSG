@@ -266,7 +266,7 @@ theorem index_subgroupOf_dvd_two {H K : Subgroup G} (hHK : H ≤ K)
   have hKpos : 0 < Nat.card K := Nat.card_pos
   have hle : H.relIndex K ≤ 2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : 3 * Nat.card H ≤ H.relIndex K * Nat.card H := Nat.mul_le_mul_right _ hc
     omega
   have hne : H.relIndex K ≠ 0 := by

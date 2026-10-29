@@ -253,7 +253,7 @@ private lemma exists_nontrivial_scalar_rep_of_prime_power_class
       ConjClasses.mk_eq_mk_iff_isConj.mp h
     exact hsne (isConj_one_left.mp hconj)
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   choose q htrace using fun i => involution_trace_int (rho i) s hsq
   let z : ι → ℤ := fun i => (2 : ℤ) * q i - d i
   have hvalueInt : ∀ i : ι, (rho i).character s = (z i : ℂ) := by

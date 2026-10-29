@@ -1691,7 +1691,7 @@ private theorem lemma311_output_core_aux :
         · exact lemma311_nonfaithful_quotient
             Y z alpha hY hYproper hmax hzY hz hcent hfactor hfaith
       · rw [IsCoatom] at hmax
-        push_neg at hmax
+        push Not at hmax
         obtain ⟨M, hYltM, hMne⟩ := hmax hYproper
         have hMlt : M < (⊤ : Subgroup G) := lt_top_iff_ne_top.mpr hMne
         let OmegaM := MulAction.orbit M alpha

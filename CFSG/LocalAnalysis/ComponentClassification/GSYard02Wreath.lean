@@ -25,7 +25,7 @@ private theorem commute_of_isKleinFour_gsy {X : Type} [Group X] {E : Subgroup X}
 private theorem exists_mem_ne_ne_gsy {X : Type} [Group X] {E : Subgroup X} (h4 : Nat.card E = 4)
     (y : X) : ∃ x ∈ E, x ≠ 1 ∧ x ≠ y := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hsub : (E : Set X) ⊆ {1, y} := fun x hx => by
     by_cases h1 : x = 1
     · exact Or.inl h1

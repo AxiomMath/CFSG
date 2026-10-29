@@ -155,7 +155,7 @@ theorem tpbcB_J_eq_fixed {p m n : ℕ} (hp : p.Prime) (hm : 3 ≤ m) (hn : 1 ≤
     exact hcard_quot_le.trans hcard_J_le
   have hms : m ≤ s := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := (tpbcB_card_statedSp_strictMono K).lt_iff_lt.mpr h
     omega
   have hsm : s ≤ m := by

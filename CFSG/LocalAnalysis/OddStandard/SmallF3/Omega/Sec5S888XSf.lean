@@ -45,7 +45,7 @@ theorem exists_fixed_in_plane (hS : PlaneSys V W) {F : Subgroup X} (hF : ActsEle
         _ = f₀⁻¹ * (f₀ * (e.1 : X) * f₀⁻¹) * f₀ := by rw [hfix0]
         _ = e.1 := by group
     · exact not_actsNontriv_iff.mp hfn e.1 e.1.2
-  · push_neg at hex
+  · push Not at hex
     haveI : Nontrivial (W i) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hS.card i]; norm_num)
     obtain ⟨e, he1⟩ := exists_ne (1 : W i)

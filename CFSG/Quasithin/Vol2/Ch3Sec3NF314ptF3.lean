@@ -75,7 +75,7 @@ theorem leafF3_holds (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat) (h39 : A39ForSQ
     CFSG.QuasithinUnique.Vol2Native.lemma_1_2_5 hLS h37 h39 hpc hS le_rfl hidx hloc hL2G1
   have hdich : J_L = J_K ∨ J_L = J_K' := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hne1, hne2⟩ := hcon
     have hp1 := CFSG.QuasithinUnique.Vol2Native.lemma_1_2_1_two hLS h37 hpc hJKc hJLc
       (Ne.symm hne1)

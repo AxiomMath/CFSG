@@ -113,7 +113,7 @@ theorem gzNo_one_lt_card_inter {G : Type} [Group G] [Finite G] {a x z ρ : G}
     rw [hP32] at hmul
     have hkpos : 0 < Nat.card ↥(f.ker ⊓ P) := Nat.card_pos
     by_contra h
-    push_neg at h
+    push Not at h
     have hk1 : Nat.card ↥(f.ker ⊓ P) = 1 := by omega
     rw [hk1, mul_one] at hmul
     omega

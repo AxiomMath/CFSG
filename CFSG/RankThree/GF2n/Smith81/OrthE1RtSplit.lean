@@ -26,7 +26,7 @@ theorem e1SplitCompl {H : Type} [Group H] [Finite H] (P N : Subgroup H)
     by_contra hne
     obtain ⟨x, hx⟩ : ∃ x : P, x ∉ N.subgroupOf P ⊔ KA := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hne (eq_top_iff.mpr fun x _ => hcon x)
     have hK'S : N.subgroupOf P ⊓ (KA ⊔ Subgroup.zpowers x) = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem two_mul_pow_five_lt_of_two_mul_pow_ten_le {q n : ℕ} (hq : 2 ≤ q)
     (h : 2 * q ^ 10 ≤ n * q ^ 4) : 2 * q ^ 5 < n := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have h1 : n * q ^ 4 ≤ 2 * q ^ 5 * q ^ 4 := Nat.mul_le_mul hle le_rfl
   have h2 : 2 * q ^ 10 = 2 * q ^ 9 * q := by ring
   have h3 : 2 * q ^ 9 * 2 ≤ 2 * q ^ 9 * q := Nat.mul_le_mul le_rfl hq

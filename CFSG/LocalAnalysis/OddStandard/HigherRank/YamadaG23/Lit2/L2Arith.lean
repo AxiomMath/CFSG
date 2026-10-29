@@ -18,14 +18,14 @@ private lemma four_dvd_lcm {u v : ℕ} (h : 4 ∣ u.lcm v) : 4 ∣ u ∨ 4 ∣ v
   rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two (Nat.lcm_ne_zero hu0 hv0)] at h4
   have hu2 : u.factorization 2 ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hu (by
       show 2 ^ 2 ∣ u
       rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two hu0]
       omega)
   have hv2 : v.factorization 2 ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hv (by
       show 2 ^ 2 ∣ v
       rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two hv0]

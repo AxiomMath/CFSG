@@ -63,7 +63,7 @@ theorem exists_second_point_aux {A : Type*} [Group A] [Finite A] (hA27 : Nat.car
     intro B hcB hBF
     have hBgt : 3 < Nat.card B := by
       by_contra hle
-      push_neg at hle
+      push Not at hle
       exact hcB.ne (Subgroup.eq_of_le_of_card_ge hcB.le (by omega))
     have hBdvd : Nat.card B ∣ 27 := by
       rw [← hA27]; exact Subgroup.card_subgroup_dvd_card B

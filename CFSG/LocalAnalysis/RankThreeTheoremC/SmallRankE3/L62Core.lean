@@ -37,7 +37,7 @@ theorem l62_core (hT : T29.GL83I291Three) (hNC : T29.NoncyclicCentreRank)
     HasPrimeConstraint (G := X) 3 ∨
       (IsCyclic ↥(CFSG.pCore 3 (Bar X)) ∧ 9 ≤ Nat.card ↥(CFSG.pCore 3 (Bar X))) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hnc, hnotδ⟩ := hcon
   obtain ⟨S', x', z', hB⟩ := l62Data_toBar h
   obtain ⟨L, hL⟩ :=
@@ -50,7 +50,7 @@ theorem l62_core (hT : T29.GL83I291Three) (hNC : T29.NoncyclicCentreRank)
     obtain ⟨hcyc, h9⟩ := single_component_delta hT (S := S') (x := x') hB.rank.ge
       hB.x_mem hB.x_ne hB.x_pow hB.cent hB.catalog hB.core hL huniq hB.no_normal_three
     exact absurd h9 (not_le.mpr (hnotδ hcyc))
-  · push_neg at hinv
+  · push Not at hinv
     obtain ⟨K, hK, hmoved⟩ := hinv
     exact l62_false_of_moved hQ h hB hK hmoved
 

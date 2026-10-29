@@ -182,7 +182,7 @@ theorem symModel_central {u : Z 2 × Sym 6} (hu : orderOf u = 2)
     by_contra hne
     have hex : ∃ i : Fin 6, σ i ≠ i := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (Equiv.ext h)
     obtain ⟨i, hik⟩ := hex
     have hexj : ∃ j : Fin 6, j ≠ i ∧ j ≠ (σ i) := by

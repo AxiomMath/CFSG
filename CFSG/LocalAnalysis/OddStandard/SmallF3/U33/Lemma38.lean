@@ -189,7 +189,7 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
         _ ≤ Nat.card F * Nat.card F := Nat.mul_le_mul (le_refl _) hle
         _ = Nat.card F ^ 2 := (pow_two _).symm
     by_contra h
-    push_neg at h
+    push Not at h
     have hle3 : Nat.card F ≤ 3 := by omega
     have h9 : Nat.card F ^ 2 ≤ 3 ^ 2 := Nat.pow_le_pow_left hle3 2
     norm_num at h9
@@ -234,7 +234,7 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
       Nat.card_le_card_of_injective _ hpair_inj
     rw [Nat.card_prod, hcard] at hle
     by_contra h
-    push_neg at h
+    push Not at h
     have h5 : 5 ≤ Nat.card F := by omega
     have h25 : 25 ≤ Nat.card F * Nat.card F := by
       calc 25 = 5 * 5 := by norm_num
@@ -332,7 +332,7 @@ private theorem core (hcard : Nat.card X = 16) (hsq : ∀ v : X, v ^ 2 = 1)
         calc 4 = Nat.card ↥(W ⊓ F) * Nat.card g.range := h4.symm
           _ ≤ Nat.card ↥(W ⊓ F) * Nat.card ↥(W ⊓ F) := Nat.mul_le_mul (le_refl _) hle
       by_contra h
-      push_neg at h
+      push Not at h
       have hle1 : Nat.card ↥(W ⊓ F) ≤ 1 := by omega
       have h1 : Nat.card ↥(W ⊓ F) * Nat.card ↥(W ⊓ F) ≤ 1 := by
         calc Nat.card ↥(W ⊓ F) * Nat.card ↥(W ⊓ F) ≤ 1 * 1 := Nat.mul_le_mul hle1 hle1

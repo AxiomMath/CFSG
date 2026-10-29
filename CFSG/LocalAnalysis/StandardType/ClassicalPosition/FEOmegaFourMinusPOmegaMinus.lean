@@ -2277,7 +2277,7 @@ private lemma feomegm_aux_block_no_totallySingular_two (n : ℕ) {F : Type} [Fie
       ∃ u ∈ U, Q' u ≠ 0 := by
     intro U hU
     by_contra h
-    push_neg at h
+    push Not at h
     have hU2 : Module.finrank F U = 2 := by
       rw [hU, hd4]
     let U' : Submodule F (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F) :=
@@ -2421,7 +2421,7 @@ private lemma feomegm_aux_blockOmega_perfect_two (n : ℕ) {F : Type} [Field F] 
       ∃ u ∈ U, Q' u ≠ 0 := by
     intro U hU
     by_contra h
-    push_neg at h
+    push Not at h
     have hU2 : Module.finrank F U = 2 := by
       rw [hU, hd4]
     let U' : Submodule F (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F) :=

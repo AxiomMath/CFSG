@@ -357,7 +357,7 @@ theorem exists_three_cycle_of_maxRank {Q : Type} [Group Q] {n : ℕ}
   obtain ⟨g, hg1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hne
   obtain ⟨x, hx⟩ : ∃ x, (g : Equiv.Perm (Fin n)) x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hg1 (Subtype.ext (Equiv.ext hcon))
   have hc := elemAbelian_cycleOf_mem hE'el hE'card g.2 hx
   obtain ⟨c, hcE, hcc⟩ := id hc
@@ -1132,7 +1132,7 @@ theorem exists_kleinFour (e : Q ≃* ↥(alternatingGroup (Fin n))) (Ω : Finset
       have hne' : φ h i ≠ i := hne
       rw [Finset.mem_coe, hmem]
       by_contra hi
-      push_neg at hi
+      push Not at hi
       obtain ⟨hia, hib, hic, hid⟩ := hi
       apply hne'
       rcases hV1 (φ h) hv with h1 | h1 | h1 | h1
@@ -1237,7 +1237,7 @@ theorem exists_fourGroup (e : Q ≃* ↥(alternatingGroup (Fin n))) (hn9 : 9 ≤
       exact (Equiv.Perm.mem_support.1 hmem) (hfix ⟨yb, hybE⟩)
     · have : ∃ ω : Fin n, ω ∉ (permOfQ e yb).support := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have h1 : (permOfQ e yb).support = Finset.univ := Finset.eq_univ_of_forall hcon
         rw [h1, Finset.card_univ, Fintype.card_fin] at hS3
         omega
@@ -1856,7 +1856,7 @@ theorem fourGroup_gen (e : Q ≃* ↥(alternatingGroup (Fin n))) (hn9 : 9 ≤ n)
   have hS3 : S.card = 3 := card_support_eq_of_cycleType h.yb_cyc
   obtain ⟨ω, hωΩ, hωS⟩ : ∃ ω ∈ Ω, ω ∉ S := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := Finset.card_le_card (show Ω ⊆ S from hcon)
     omega
   have hΩerase : S = Ω.erase ω := by

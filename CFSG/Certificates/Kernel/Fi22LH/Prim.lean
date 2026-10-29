@@ -242,7 +242,7 @@ theorem testBit_bsP_zero {n d : Nat} (hn : n ≤ 2 ^ d) (p : Nat → Bool) (y : 
   · symm
     simp only [Bool.and_eq_false_iff, decide_eq_false_iff_not, Bool.not_eq_true]
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have := h.2 ⟨Nat.zero_le _, by omega, hc.1, by simpa using hc.2⟩
     rw [e] at this
     exact Bool.false_ne_true this

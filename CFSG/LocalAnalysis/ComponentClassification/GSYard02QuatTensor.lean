@@ -108,7 +108,7 @@ private theorem quat_unique {m : ℕ} (hm0 : 0 < m) (g : QuaternionGroup m) (hg 
     obtain ⟨c, hc⟩ := hdvd'
     have hc2 : c < 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : m * 2 ≤ m * c := Nat.mul_le_mul_left m hcon
       omega
     interval_cases c

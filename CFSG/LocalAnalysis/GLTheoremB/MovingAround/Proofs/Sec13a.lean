@@ -465,7 +465,7 @@ theorem isComponentOf_ne_bot' {K : Subgroup Q} (hK : IsComponentOf K ⊤) : K �
 theorem layer_mem {K : Subgroup Q} (hK : IsComponentOf K ⊤) {ι : Type} {F : ι → Subgroup Q}
     (hF : ∀ i, IsComponentOf (F i) ⊤) (hle : K ≤ ⨆ i, F i) : ∃ i, F i = K := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hcomm : ∀ i, K ≤ Subgroup.centralizer (F i : Set Q) := by
     intro i
     apply Subgroup.commutator_eq_bot_iff_le_centralizer.1

@@ -106,7 +106,7 @@ theorem sec34GammaStatement_holds : Sec34GammaStatement := by
   intro q hq
   by_cases hQP : ∀ y ∈ Q, y ∈ P
   · exact Subgroup.mem_sup_left (hQP q hq)
-  push_neg at hQP
+  push Not at hQP
   obtain ⟨x, hxQ, hxP⟩ := hQP
   obtain ⟨b, hb⟩ := exists_spForm_eq_one ha
   obtain ⟨r, hrP, hr⟩ := exists_P_conj_of_comm_mem h11a h11b h11c cfg hb

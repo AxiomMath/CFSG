@@ -66,7 +66,7 @@ theorem fixList_spec {n w m U cF : Nat} {F : Nat → Nat} (h : fixListK n w m U 
 theorem inK_iff {O : Nat → Nat} {c z : Nat} : inK O c z = true ↔ ∃ i < c, O i = z := by
   unfold inK
   rw [Bool.not_eq_true', Bool.eq_false_iff, ne_eq, allN_iff]
-  push_neg
+  push Not
   simp [Nat.beq_eq]
 
 end CFSG.KS.Co2Third

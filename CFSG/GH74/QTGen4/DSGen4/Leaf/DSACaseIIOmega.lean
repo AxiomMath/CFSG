@@ -120,7 +120,7 @@ theorem leafDSACaseIIOmega [DSLeaf LeafDSANoField] [DSLeaf LeafZiStructure] [DSL
     rw [hbotN]; exact le_top
   have hcomm1 : ∀ l ∈ L2, ∀ y ∈ dsOmega1 (centerOf (dsQ L2 L1 S)), l * y = y * l := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨l, hl, y, hy, hne⟩ := hcon
     have hnt : ∃ l ∈ L2, ∃ e ∈ dsOmega1 (centerOf (dsQ L2 L1 S)), ⁅l, e⁆ ∉ (⊥ : Subgroup G) :=
       ⟨l, hl, y, hy, fun h1 => hne (commutatorElement_eq_one_iff_mul_comm.mp (Subgroup.mem_bot.mp h1))⟩

@@ -271,7 +271,7 @@ theorem swap_endgame :
       rw [hXcard] at h1
       have h6 : (2 ^ f) ^ 6 ≤ Nat.card C := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have : Nat.card C * Nat.card C < (2 ^ f) ^ 6 * (2 ^ f) ^ 6 := Nat.mul_self_lt_mul_self hlt
         have e12 : (2 ^ f) ^ 6 * (2 ^ f) ^ 6 = (2 ^ f) ^ 12 := by ring
         rw [e12] at this

@@ -386,7 +386,7 @@ private lemma fePSU_dualPair_GepsGLK_action_matrix_exists {F : Type} [Field F] [
         _ = n * n := by rw [Module.finrank_matrix]; simp
     have h2 : 2 ≤ n * n := le_trans hdeg hd_le
     by_contra hn
-    push_neg at hn
+    push Not at hn
     interval_cases n <;> omega
   · refine ⟨(Matrix.GeneralLinearGroup.map (algebraMap F K)).comp
       ((Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype.comp
@@ -2528,7 +2528,7 @@ private lemma fePSU_dualPair_unitBlockCentralizer_derived_iso_rank {F : Type} [F
       (fePSU_dualPair_unitBlockCentralizer (f := f) S ε) ≠ ⊥) :
     2 ≤ m := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hm : m ≤ 1 := by omega
   haveI : IsMulCommutative (Matrix (Fin m) (Fin m) K)ˣ :=
     fePSU_matrix_units_commutative_of_le_one hm
@@ -2936,7 +2936,7 @@ private lemma fePSU_dualPair_heldSize {F : Type} [Field F] [Finite F] [CharP F 2
     fePSU_dualPair_heldSize_derived hc n S hSU hS hodd hε hJε he heε d hd hdeg hpair hεeq
   have hf1 : 1 ≤ f := by
     by_contra hf
-    push_neg at hf
+    push Not at hf
     have hf0 : f = 0 := by omega
     subst hf0
     simp at hc
@@ -3277,7 +3277,7 @@ private lemma fePSU_subfield_le_of_card_pow_dvd {K : Type} [Field K] [Finite K]
     (hab : a ∣ b) : L₁ ≤ L₂ := by
   have hb1 : 1 ≤ b := by
     by_contra hb
-    push_neg at hb
+    push Not at hb
     have hb0 : b = 0 := by omega
     subst hb0
     simp at h₂
@@ -3631,7 +3631,7 @@ private lemma fePSU_selfDual_blockHeldSUid_dim {F : Type} [Field F] [Finite F] [
         (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype S ε⁆ ≠ ⊥) :
     2 ≤ Module.finrank K (LinearMap.range (Matrix.mulVecLin ε)) := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle : Module.finrank K (LinearMap.range (Matrix.mulVecLin ε)) ≤ 1 := by omega
   have hcomm : ∀ a b : LinearMap.GeneralLinearGroup K
       (LinearMap.range (Matrix.mulVecLin ε)), Commute a b :=

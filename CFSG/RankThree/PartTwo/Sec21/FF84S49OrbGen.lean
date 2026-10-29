@@ -51,7 +51,7 @@ theorem order5_move {S : Subgroup G} (hS : IsElemAb 2 6 S) {y : G} (hy : orderOf
     (h1 : (1 : G) ∉ X) : ∃ u ∈ X, y * u * y⁻¹ ∉ X := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hy5 : y ^ 5 = 1 := hy ▸ pow_orderOf_eq_one y
   have hcard := B_order5_fixed hS hy hn hnc

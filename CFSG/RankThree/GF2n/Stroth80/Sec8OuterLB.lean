@@ -48,7 +48,7 @@ theorem sec8_outer_exists_l (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : �
     (hinter : Vt M (LB M Q B) B Z t ⊓ conjSubgroup g (Vt M (LB M Q B) B Z t) = Z) :
     ∃ l ∈ LB M Q B, ⁅l, g * t * g⁻¹⁆ ∉ Q := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨m, hm2, hsp⟩ := h.hs.sp
   have htL : t ∈ LB M Q B := h.hs.toSec5.mem
   have hLM : LB M Q B ≤ M := hc.LB_le_M

@@ -35,7 +35,7 @@ theorem burnsideF429_card_twisted_le (σ : F ≃+* F) {l : F} (hl : l ≠ 0) (S 
     intro x y hxy
     have h' : (x : F) * x₀⁻¹ = (y : F) * x₀⁻¹ := congrArg Subtype.val hxy
     exact Subtype.ext (mul_right_cancel₀ (inv_ne_zero hx₀) h')
-  · push_neg at h
+  · push Not at h
     refine Nat.card_le_card_of_injective (fun _ => (⟨0, map_zero σ⟩ : {a : F // σ a = a})) ?_
     intro a b _
     exact Subtype.ext (by rw [h a a.2, h b b.2])

@@ -1851,7 +1851,7 @@ private lemma chi_one_quarter_int (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3H
     · rw [Finset.mem_singleton]
       exact fun h => hμνs h.symm
     · rw [Finset.mem_insert, Finset.mem_singleton]
-      push_neg
+      push Not
       exact ⟨hνne, fun h => hμν h.symm⟩
   have hνsdeg : (conjIrr c h12 ν).1 (1 : ↥c.H0) = ν.1 (1 : ↥c.H0) :=
     orbit_mem_degree_eq c (by simpa [conjIrr_coe] using hνsL)
@@ -2555,7 +2555,7 @@ private lemma not_congruent_sum_two_on_fixed (c : Hyp11 G) (h12 : Hyp12 c) (hSC 
       · rw [Finset.mem_singleton]
         exact fun h => hμνs h.symm
       · rw [Finset.mem_insert, Finset.mem_singleton]
-        push_neg
+        push Not
         exact ⟨hνne, fun h => hμν h.symm⟩
     have hsum : CongruentModTwo (χ (u : G))
         (ν.1 ⟨(u : G), hu⟩ + (conjIrr c h12 ν).1 ⟨(u : G), hu⟩ + μ.1 ⟨(u : G), hu⟩) :=

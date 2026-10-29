@@ -336,7 +336,7 @@ theorem mapsTo_of_fixOut {U : Finset α} {g : Equiv.Perm α} (hg : ∀ x, x ∉ 
 
 theorem pow_dvd_factorial_le_one {p m : ℕ} (hp : p.Prime) (h : p ^ m ∣ p.factorial) : m ≤ 1 := by
   by_contra hm
-  push_neg at hm
+  push Not at hm
   have h2 : p ^ 2 ∣ p.factorial := (Nat.pow_dvd_pow p (by omega : 2 ≤ m)).trans h
   have hpf : p.factorial = p * (p - 1).factorial := (Nat.mul_factorial_pred hp.ne_zero).symm
   rw [hpf, pow_two] at h2
@@ -468,7 +468,7 @@ theorem pcycle_mem_zpowers {p : ℕ} [hp : Fact p.Prime] {P : Subgroup (Equiv.Pe
     have hUlt : U.card < 2 * p := by omega
     have hUgt : p < U.card := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hSU : c.support ⊆ U := Finset.subset_union_left
       have hTU : d.support ⊆ U := Finset.subset_union_right
       have hUS : c.support = U := Finset.eq_of_subset_of_card_le hSU (by rw [hc.2]; exact hcon)
@@ -490,7 +490,7 @@ theorem exists_meet {p k : ℕ} (hp : 2 ≤ p) {x : Fin k → Equiv.Perm α} {y 
     (hxd : ∀ i j, i ≠ j → Equiv.Perm.Disjoint (x i) (x j))
     (hk : Fintype.card α < (k + 1) * p) : ∃ i, ∃ z, z ∈ y.support ∧ z ∈ (x i).support := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hdisjS : ∀ i ∈ (Finset.univ : Finset (Fin k)), ∀ j ∈ (Finset.univ : Finset (Fin k)),
       i ≠ j → Disjoint (x i).support (x j).support := fun i _ j _ hij =>
     Equiv.Perm.disjoint_iff_disjoint_support.1 (hxd i j hij)

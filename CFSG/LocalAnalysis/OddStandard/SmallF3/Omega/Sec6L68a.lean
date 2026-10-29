@@ -51,7 +51,7 @@ theorem sec68_exists_sq [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P) (hcyc : 
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP
   have hcardP2 : 2 < Nat.card P := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzp : Nat.card (Subgroup.zpowers t) = 2 := by
       rw [Nat.card_zpowers, ht2]
     exact hne (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le_of_mem htP)
@@ -59,7 +59,7 @@ theorem sec68_exists_sq [Finite G] {P : Subgroup G} (hP : IsPGroup 2 P) (hcyc : 
   have hk2 : 2 ≤ k := by
     have hlt : 2 < 2 ^ k := by rwa [← hk]
     by_contra h
-    push_neg at h
+    push Not at h
     have hk01 : k = 0 ∨ k = 1 := by omega
     rcases hk01 with rfl | rfl <;> norm_num at hlt
   haveI : IsCyclic ↥P := hcyc

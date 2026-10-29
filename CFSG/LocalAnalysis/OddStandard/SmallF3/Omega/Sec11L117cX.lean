@@ -140,7 +140,7 @@ theorem sec11c_le_closure_compl {D Y : Subgroup G} (hYD : Y ≤ D) (hYi : Y.relI
     D ≤ Subgroup.closure {u : G | u ∈ D ∧ u ∉ Y} := by
   have hex : ∃ u0 ∈ D, u0 ∉ Y := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : D ≤ Y := fun u hu => h u hu
     have h1 : Y.relIndex D = 1 := Subgroup.relIndex_eq_one.mpr hle
     rw [h1] at hYi

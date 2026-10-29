@@ -4161,7 +4161,7 @@ private theorem bmDPS_component_sl2_card_field
       _ = n * (n ^ 2 - 1) := hcard
   have hpos : 0 < n := by rw [hn]; exact Nat.card_pos
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   interval_cases n <;> omega
 
 private theorem bmDPS_component_sl2_card
@@ -5161,7 +5161,7 @@ private theorem bmDPS_rank_one_eq_vecMulVec {m n : Type*} [Fintype m]
     exact ⟨0, 0, by ext i j; simp [Matrix.vecMulVec]⟩
   · obtain ⟨i, hi⟩ : ∃ i, A.row i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA0 (by ext k l; simpa using congrFun (h k) l)
     have hrank : A.rank = Module.finrank F (Submodule.span F (Set.range A.row)) :=
       Matrix.rank_eq_finrank_span_row A
@@ -6732,7 +6732,7 @@ private theorem bmDPS_tau_ne_zero (n f : ℕ) (a₁ a₂ : (Fin n ⊕ Fin n) →
   intro hτ
   obtain ⟨i, hi⟩ : ∃ i, Matrix.mulVec (bmDPS_J n f) a₂ i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact bmDPS_J_mulVec_ne_zero n f ha₂ (funext h)
   have hpair : ((Matrix.mulVec (bmDPS_J n f) a₂) i) • a₁ +
       ((Matrix.mulVec (bmDPS_J n f) a₁) i) • a₂ = 0 := by

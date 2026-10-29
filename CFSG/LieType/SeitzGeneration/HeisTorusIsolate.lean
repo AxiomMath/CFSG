@@ -132,11 +132,11 @@ theorem exists_single_mem_of_suppIn (hp : 5 ≤ p) {l : F} (hl0 : l ≠ 0) (hl1 
         · intro h
           apply hne
           rw [ha₀a, h]
-      · push_neg at h
+      · push Not at h
         exact ⟨a₀, Or.inl rfl, h.1, h.2⟩
     obtain ⟨m, hm⟩ : ∃ m : Fin p, m ∉ ({a, b, a₀, b₀} : Finset (Fin p)) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hsub : (Finset.univ : Finset (Fin p)) ⊆ {a, b, a₀, b₀} := fun m _ => hcon m
       have h1 := Finset.card_le_card hsub
       rw [Finset.card_univ, Fintype.card_fin] at h1
@@ -224,7 +224,7 @@ theorem exists_single_mem_of_suppIn (hp : 5 ≤ p) {l : F} (hl0 : l ≠ 0) (hl1 
       ih _ hlt (Matrix.of fun i j => (t i / t j - 1) * N i j) rfl hN'supp hN'0 hgN'
     exact ⟨c, hc, g', hg', hg'eq⟩
   ·
-    push_neg at hex
+    push Not at hex
     refine ⟨N a₀ b₀, hN0, ?_⟩
     obtain ⟨g, hg, hgN'⟩ := hgN
     refine ⟨g, hg, ?_⟩

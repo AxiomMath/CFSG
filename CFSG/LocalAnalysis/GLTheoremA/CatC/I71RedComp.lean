@@ -20,7 +20,7 @@ theorem comm_exists_complement {p : ℕ} (hp : p.Prime) (hexp : ∀ a : A, a ^ p
   by_contra hne
   obtain ⟨x, hx⟩ : ∃ x : A, x ∉ C ⊔ H := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (eq_top_iff.2 fun x _ => h x)
   have hC'H : (C ⊔ Subgroup.zpowers x) ⊓ H = ⊥ := by
     rw [eq_bot_iff]
@@ -84,7 +84,7 @@ theorem comm_card_complement {p : ℕ} (hp : p.Prime) (hexp : ∀ a : A, a ^ p =
   obtain ⟨n, hn⟩ := hPC.exists_card_eq
   have hn2 : 2 ≤ n := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : p ^ n ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos (by omega)
     rw [pow_one, ← hn] at h1
     omega
@@ -156,7 +156,7 @@ theorem le_mul_card_of_no_sq {p : ℕ} (hp : p.Prime) [Finite M] {P H : Subgroup
     (hno : ∀ D : Subgroup M, D ≤ P → IsElemAbelian p D → Nat.card D = p ^ 2 → D ⊓ H = ⊥ → False) :
     Nat.card ↥P ≤ p * Nat.card ↥(P ⊓ H) := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨D, hDP, hD, hc, hDH⟩ := exists_sq_complement hp hP hlt
   exact hno D hDP hD hc hDH
 

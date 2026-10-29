@@ -26,7 +26,7 @@ theorem smallF3_of_card_dvd_six {S : Type} [Group S] (h : Nat.card (Outer S) ∣
   rw [hm] at hd
   have hm1 : m ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h4 : 2 ^ 2 ∣ 6 := (pow_dvd_pow 2 hc).trans hd
     norm_num at h4
   interval_cases m

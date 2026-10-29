@@ -27,7 +27,7 @@ theorem isQuasisimple (hJ : J2Facts J) : CFSG.IsQuasisimple J := by
     (QuotientGroup.quotientMulEquivOfEq hJ.center).trans QuotientGroup.quotientBot
   have hnc : ∃ a b : J, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : Group.IsSolvable J := Group.isSolvable_of_comm hcon
     exact Group.IsPerfect.not_isSolvable J inferInstance
   refine ⟨hJ.perfect, e.isSimpleGroup, ?_⟩

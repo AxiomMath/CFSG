@@ -63,11 +63,11 @@ theorem isSolvable_of_card_168 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     omega
   have hidx : 7 ≤ H.index := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases h : H.index <;> simp_all [Nat.factorial] <;> omega
   refine isSolvable_of_card_dvd_168 ⟨H.index, by rw [← hmul, mul_comm]⟩ ?_
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have : 25 * 7 ≤ Nat.card H * H.index := Nat.mul_le_mul (by omega) hidx
   omega
 

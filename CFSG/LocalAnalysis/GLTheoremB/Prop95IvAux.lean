@@ -178,7 +178,7 @@ private theorem a7_sq_of_pow (z : Equiv.Perm (Fin 7)) (k : ℕ) (h1 : z ^ 2 ^ k 
   rw [hj] at hd2
   have hj2 : j ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h4 : 2 ^ 2 ∣ 2 ^ j := pow_dvd_pow 2 (by omega)
     have h6 : 2 ^ 2 ∣ 6 := h4.trans hd2
     norm_num at h6

@@ -110,7 +110,7 @@ private lemma open_pRank_le_one_of_not_dvd_sq {d : ℕ} (hd : d.Prime) {G : Type
     [Finite G] (H : Subgroup G) (h : ¬ d ^ 2 ∣ Nat.card G) :
     CFSG.Open.pRank d H ≤ 1 := by
   by_contra hge
-  push_neg at hge
+  push Not at hge
   obtain ⟨E, -, -, hEcard⟩ := CFSG.SectionRank.exists_pRank hd.one_lt H
   have hdvd : Nat.card E ∣ Nat.card G := Subgroup.card_subgroup_dvd_card E
   have hE : d ^ 2 ∣ Nat.card E := by

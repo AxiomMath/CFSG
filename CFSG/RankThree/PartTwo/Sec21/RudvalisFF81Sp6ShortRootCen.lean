@@ -57,7 +57,7 @@ theorem card_closure_z0u : Nat.card (Subgroup.closure {zH 0, zH 1 * zH 2}) = 9 :
   rw [hk] at hdvd hge ⊢
   have hk3 : k < 3 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h27 : 3 ^ 3 ∣ 4608 := (pow_dvd_pow 3 h).trans hdvd
     norm_num at h27
   interval_cases k <;> simp_all

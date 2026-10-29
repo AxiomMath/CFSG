@@ -169,7 +169,7 @@ theorem s16c1G_isMinusQuadF2_qMul : IsMinusQuadF2 s16c1G_qMul := by
     exact QuadraticMap.polar_add_right (qModel true) _ _ _
   · intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx
     have h0 : Multiplicative.toAdd x = 0 := by
       refine (qModel_nondegenerate true).1 _ (fun y => ?_)

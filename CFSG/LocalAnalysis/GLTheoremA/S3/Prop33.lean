@@ -514,7 +514,7 @@ private theorem prop33_end {p : ℕ} (hc : S3Ctx G p) (h1135 : I1135At G p)
     hInn hp hp2 _ K E hKX hK hKchev hEel hEK ⟨J₀, hJ₀K'⟩
   obtain ⟨a, haE, haF⟩ : ∃ a ∈ E, a ∉ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle := Subgroup.card_le_of_le (show E ≤ F from fun a ha => h a ha)
     rw [hEcard, hFcard] at hle
     have h1 : p ^ 2 ≤ p ^ k := Nat.pow_le_pow_right hp.pos hk
@@ -557,7 +557,7 @@ private theorem prop33_end {p : ℕ} (hc : S3Ctx G p) (h1135 : I1135At G p)
       ⟨a, hEB haE, hnotcm, hnotinn⟩
     obtain ⟨x, hxF, hx1⟩ : ∃ x ∈ F, x ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hFne ((Subgroup.eq_bot_iff_forall F).2 h)
     have hxess := hFess x hxF hx1
     have hFx : Subgroup.zpowers x = F := by
@@ -618,7 +618,7 @@ theorem prop33 {p : ℕ} (hKM : KMUsedAt) (hDih : DihedralUsed) (hc : S3Ctx G p)
   obtain ⟨E₀, hE₀E, hE₀card, hE₀ess, -⟩ := hc.lemma31 B E N hB hEB hEnc hN hBN
   have hE₀ne : ∃ x ∈ E₀, x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : E₀ = ⊥ := (Subgroup.eq_bot_iff_forall _).2 h
     rw [hbot, Subgroup.card_bot, hEcard] at hE₀card
     have h1 : p ^ 2 ≤ p ^ k := Nat.pow_le_pow_right hp.pos hk

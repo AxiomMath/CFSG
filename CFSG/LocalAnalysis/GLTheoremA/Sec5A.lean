@@ -77,7 +77,7 @@ theorem lemma52 {p : ℕ} (hc : Sec5Ctx G p) (h51 : Prop51At G p) {B A L : Subgr
     obtain ⟨D₀, hD₀D, hD₀card, hD₀e, -⟩ := hc.stage3.2.2.1 A D N hA hDA hDnc hN hAN
     obtain ⟨a, haD₀, ha1⟩ : ∃ a ∈ D₀, a ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hbot : D₀ = ⊥ := (Subgroup.eq_bot_iff_forall D₀).2 h
       rw [hbot, Subgroup.card_bot, one_mul] at hD₀card
       exact hbx (mem_zpowers_of_card_sup_le hp hxp hx1 hD₀card.symm.le)

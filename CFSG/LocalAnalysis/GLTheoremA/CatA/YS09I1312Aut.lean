@@ -85,7 +85,7 @@ theorem i1312_card_le_of_fix {P X : Type} [Group P] [Finite P] [Finite X] [MulAc
   haveI := Fintype.ofFinite X
   haveI := Fintype.ofFinite P
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hX8 : Nat.card X ≤ 8 := Nat.le_of_dvd (by norm_num) hX
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hP
   have hk2 : 2 ≤ k := by

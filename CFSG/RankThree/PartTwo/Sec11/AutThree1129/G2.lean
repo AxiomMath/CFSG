@@ -172,10 +172,10 @@ theorem card_le_27_adjointGroup_g2 {K : Type} [Field K] [Finite K] (hK3 : ringCh
   haveI := hfin
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hP
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h4 : 4 ≤ m := by
     by_contra h4
-    push_neg at h4
+    push Not at h4
     have h27 : 3 ^ m ≤ 27 :=
       (Nat.pow_le_pow_right (by norm_num) (by omega : m ≤ 3)).trans (by norm_num)
     omega

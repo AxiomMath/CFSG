@@ -484,7 +484,7 @@ theorem exists_D {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J : Subgroup G} 
   haveI : Fact p.Prime := ⟨hp⟩
   haveI : Fact q.Prime := ⟨hC.setup.prime⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hJL : J ≤ L := hE.comp.1.trans inf_le_left
   have hEQ : E ≤ Subgroup.normalizer (Q₁ : Set G) :=
     fun e he => hC.setup.char (hC.h.norm (hE.le he))
@@ -569,7 +569,7 @@ theorem three_le_pRank_Q₂ {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J D :
     (hne : (⁅Q₁ ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) ≠ ⊥) :
     3 ≤ CFSG.Open.pRank q (⁅Q₁ ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
   have hq : q.Prime := hC.setup.prime

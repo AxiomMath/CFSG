@@ -125,7 +125,7 @@ theorem delta_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΔ : GLADeltaZer
       (even_iff_two_dvd.2 (hS_even.trans (Subgroup.card_dvd_of_le hle)))
   · have hp5 : 5 ≤ p := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases p <;> simp_all <;> exact absurd hp (by norm_num)
     exact (Nat.not_even_iff_odd.2 (h5 hp5))
       (even_iff_two_dvd.2 (hS_even.trans (Subgroup.card_dvd_of_le hSΔ)))

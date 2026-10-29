@@ -670,7 +670,7 @@ theorem sepOK_sound (hG : GRep G g) {L p : Nat} {hw : List Nat} {b : Nat} {O : L
     obtain ⟨c, hc, hfc⟩ : ∃ c < 8, ¬ notB (bAnd(bit L c, bAnd(Nat.beq (pg 9 (mask 9) (gl G c) p) p,
         notB (Nat.beq (pg 9 (mask 9) (gl G c) q) q)))) = true := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       rw [Orb.allN_iff.2 hne] at e
       exact Bool.noConfusion e.2
     rw [notB_eq, Bool.not_eq_true, Bool.not_eq_false', Orb.bAnd_eq, Bool.and_eq_true, Orb.bAnd_eq,

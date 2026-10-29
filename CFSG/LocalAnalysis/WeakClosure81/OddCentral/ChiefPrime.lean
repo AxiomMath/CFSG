@@ -13,7 +13,7 @@ theorem exists_pCore_not_comm {R : Subgroup G} [hRn : R.Normal] (hRodd : Odd (Na
     {d : Fin 3 → G} (hd : ∀ i, d i * d i = 1) (hRT : ∃ y ∈ R, ∃ i, d i * y ≠ y * d i) :
     ∃ q : ℕ, q.Prime ∧ ∃ i, ∃ f ∈ (CFSG.pCore q R).map R.subtype, d i * f ≠ f * d i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨y, hy, i, hne⟩ := hRT
   have hsol : IsSolvable R := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hRodd
   have hT : IsPGroup 2 (zpowers (d i)) := by
@@ -124,7 +124,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
     simpa using hQn.conj_mem x hx g⁻¹
   have hQb : IsPGroup q (Q ⧸ Q₀.subgroupOf Q) := hQp.to_quotient _
   obtain ⟨x₀, hx₀Q, hx₀⟩ : ∃ x ∈ Q, x ∉ Q₀ := by
-    by_contra h; push_neg at h; exact hQ₀ne (le_antisymm hQ₀Q h)
+    by_contra h; push Not at h; exact hQ₀ne (le_antisymm hQ₀Q h)
   have hmk1 : ∀ (a : Q), (QuotientGroup.mk a : Q ⧸ Q₀.subgroupOf Q) = 1 ↔ (a : G) ∈ Q₀ :=
     fun a => by rw [QuotientGroup.eq_one_iff, mem_subgroupOf]
   haveI hQbnt : Nontrivial (Q ⧸ Q₀.subgroupOf Q) :=
@@ -242,7 +242,7 @@ theorem exists_S1 {M : Type*} [AddCommGroup M] [Finite M] [DistribMulAction G M]
       group
   have hmove : ∃ i, ∃ x ∈ Q, d i * x * (d i)⁻¹ * x⁻¹ ∉ Q₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨i, x, hx, hne⟩ := hQm
     have hk := hcon i x hx
     have hkk : (d i * x * (d i)⁻¹ * x⁻¹) * (d i * x * (d i)⁻¹ * x⁻¹) = 1 := by

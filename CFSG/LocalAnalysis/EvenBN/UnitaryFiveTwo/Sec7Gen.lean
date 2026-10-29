@@ -125,7 +125,7 @@ theorem odd_center (h : d.Hyp) (hU : d.UnitaryProductData A) :
     exact h.centralizer_inf_H_eq.le
   · rw [h.range_delta_eq hU]
     have hnc := h.not_comm_L
-    push_neg at hnc
+    push Not at hnc
     exact hnc
 
 end OddCenter

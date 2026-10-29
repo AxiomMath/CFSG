@@ -96,7 +96,7 @@ theorem e5_3 {P : Subgroup G} (hP : IsSylowIn 2 P ⊤) (hG : Group.IsSolvable G)
     have hd' : d ∈ omegaOneCenterOf (H13.thompsonJk 1 P) := hD ▸ h1 hd
     exact (mem_centralizer_of_mem_omegaOneCenterOf hd' hxJ).symm
   ·
-    push_neg at hm
+    push Not at hm
     have hD : D = ⊥ := by
       rw [hDdef, VolI.E54.thompsonJi_eq_bot_of_le hm, VolI.E54.omegaOneCenterOf_bot_eq]
     have h0 : E3.mQuot D ⊥ ≤ 1 := by rw [hD, E3.mQuot_self]; exact zero_le_one

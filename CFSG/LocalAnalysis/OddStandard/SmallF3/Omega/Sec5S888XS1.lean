@@ -50,7 +50,7 @@ theorem suppTwo_mul (hS : PlaneSys V W) {i j : Fin 4} (hij : i ≠ j) {a b : X} 
     constructor
     · intro hk
       by_contra h
-      push_neg at h
+      push Not at h
       exact hk (by simp [w, h.1, h.2])
     · rintro (hki | hkj)
       · rw [hki]

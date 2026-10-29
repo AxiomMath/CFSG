@@ -318,7 +318,7 @@ theorem co1_rankOK_all
 theorem co1_nonabelian :
     ∃ a b : ↥GA, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : Cen sE = ⊤ := eq_top_iff.2 fun c _ => mem_Cen.2 (hcon c sE)
   have h1 := co1_cenA.1
   rw [hall, Subgroup.card_top, card_GA_eq] at h1

@@ -38,7 +38,7 @@ theorem sec8t84g6_not_extra [Finite G] (hAutF : Asc82AutFacts) (hGi : Sec8T84Fac
     CFSG.SectionRank.exists_pRank (p := 2) (by norm_num) (U ⊓ centralizer (K : Set G))
   obtain ⟨a, haE, ha1⟩ : ∃ a ∈ E, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : E = ⊥ := (Subgroup.eq_bot_iff_forall E).mpr hcon
     rw [hbot, Subgroup.card_bot] at hEcard
     have : 2 ^ 1 ≤ 2 ^ CFSG.Open.pRank 2 (U ⊓ centralizer (K : Set G)) :=

@@ -81,7 +81,7 @@ theorem c13K_N_U_le_K (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
 theorem c13K_exists_not_M (hG : Sec4Glob G) (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
     ∃ k ∈ ctxK t tau x₁ x₂ rho, k ∉ ctxM t tau x₁ x₂ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (ctxU t tau x₁ x₂ lam) := hc.U_sylow.2.1
   obtain ⟨P, hUP⟩ := hU2.exists_le_sylow
@@ -99,7 +99,7 @@ theorem c13K_exists_not_M (hG : Sec4Glob G) (hc : Ctx13M t L S x₁ x₂ lam rho
   have hex : ∃ n ∈ (P : Subgroup G), (∀ x ∈ ctxU t tau x₁ x₂ lam,
       n * x * n⁻¹ ∈ ctxU t tau x₁ x₂ lam) ∧ n ∉ ctxU t tau x₁ x₂ lam := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hUne (eq_of_forall_normalizes P.isPGroup' hUP hno)
   obtain ⟨n, hnP, hnU, hnnU⟩ := hex
   have hnorm : n ∈ normalizer ((ctxU t tau x₁ x₂ lam : Subgroup G) : Set G) := by

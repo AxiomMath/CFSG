@@ -86,11 +86,11 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
     by_contra hne
     exact not_two_invariant hH S hSW hK hL hne (hinv K hK) (hinv L hL)
   · right
-    push_neg at hinv
+    push Not at hinv
     obtain ⟨L₀, hL₀, hnot⟩ := hinv
     obtain ⟨g, hgS, hgN⟩ : ∃ g ∈ (S : Subgroup H), g ∉ normalizer (L₀ : Set H) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hnot
       intro x hx
       exact hcon x hx
@@ -103,7 +103,7 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
         L₀.map (MulAut.conj h).toMonoidHom ≠ L₀ ∧
           L₀.map (MulAut.conj h).toMonoidHom ≠ L₀.map (MulAut.conj g).toMonoidHom := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hcov : ∀ q ∈ (S : Subgroup H), L₀.map (MulAut.conj q).toMonoidHom = L₀ ∨
           L₀.map (MulAut.conj q).toMonoidHom = L₀.map (MulAut.conj g).toMonoidHom := by
         intro q hq
@@ -128,7 +128,7 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
           K = L₀.map (MulAut.conj h).toMonoidHom := by
       intro K hK
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       obtain ⟨k0, k1, k2⟩ := hcon
       exact no_four_components hH hrank hL₀ hL₁ hL₂ hK hne₁.symm hh0.symm k0.symm
         hh1.symm k1.symm k2.symm

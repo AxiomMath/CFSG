@@ -409,7 +409,7 @@ theorem no_normal_three_group (p : FpfInv α) (h6 : 6 ≤ Fintype.card α) {Y : 
   have hσ : σ ≠ 1 := fun h => hσ1 (Subtype.ext h)
   obtain ⟨z, hz⟩ : ∃ z, σ z ≠ z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hσ (Equiv.ext fun x => hcon x)
   have hblock : MulAction.IsBlock (↥Y) (MulAction.orbit (↥X) z) := orbit_isBlock hXY hn z
   obtain ⟨n, hn3⟩ : ∃ n : ℕ, Nat.card (MulAction.orbit (↥X) z) = 3 ^ n :=
@@ -487,7 +487,7 @@ theorem structure_component (p : FpfInv α) (h10 : 10 ≤ Fintype.card α) {Y : 
   have hne : E ≠ ⊥ := quasisimple_ne_bot hE.2.2
   obtain ⟨e, heE, x, hex⟩ : ∃ e ∈ E, ∃ x : α, e x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     rw [eq_bot_iff]
     intro g hg
