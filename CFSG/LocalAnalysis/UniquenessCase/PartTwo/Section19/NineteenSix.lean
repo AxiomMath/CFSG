@@ -251,7 +251,7 @@ theorem eq_left_or_right_of_mem_calC_le_sup {D : Data G} {J L K : Subgroup G}
     (hJ : J ∈ calC D.M) (hL : L ∈ calC D.M) (hK : K ∈ calC D.M)
     (hLK : L ≠ K) (hJle : J ≤ L ⊔ K) : J = L ∨ J = K := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hJL, hJK⟩ := h
   have hcomm := commutator_le_pCore_of_mem_calC_le_sup hJ hL hK hJL hJK hLK
   have hJJ : J ≤ pCoreOf 2 J := by
@@ -297,7 +297,7 @@ theorem permutesPair_of_ctx19_one {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
       exact Subgroup.map_mono hJle |>.trans (le_of_eq
         (UC6S846.mem_normalizer_iff_map_conj.mp (hMLp hm)))
     by_contra hcontra
-    push_neg at hcontra
+    push Not at hcontra
     exact (eq_left_or_right_of_mem_calC_le_sup hJ' h.hyp.hL.1 h.hK hne hJ'le) |>.elim
       hcontra.1 hcontra.2
   intro m hm

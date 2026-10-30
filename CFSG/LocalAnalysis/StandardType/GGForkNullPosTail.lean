@@ -75,7 +75,7 @@ theorem ggAttachNullPos_false_of_tail {Λ' : Type} [Fintype Λ'] [DecidableEq Λ
         rw [key i' l]
       rw [this]
       exact h1 i'
-    · push_neg at hi
+    · push Not at hi
       apply Finset.sum_nonneg
       intro l _
       exact mul_nonneg_of_nonpos_of_nonpos (hX i l hi) (hy' l)

@@ -97,7 +97,7 @@ theorem exists_mem_normalizer_not_mem_centralizer {e : G}
       Nat.card ↥(Subgroup.normalizer (A : Set G))) :
     ∃ n ∈ Subgroup.normalizer (A : Set G), n ∉ Subgroup.centralizer ({e} : Set G) := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle : Subgroup.normalizer (A : Set G) ≤ Subgroup.centralizer ({e} : Set G) :=
     fun n hn => h n hn
   rw [inf_eq_left.2 hle] at hcard

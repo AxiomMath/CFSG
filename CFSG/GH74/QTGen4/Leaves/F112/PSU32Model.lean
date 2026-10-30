@@ -376,7 +376,7 @@ theorem theta_injective : Function.Injective (theta o) := by
   by_contra hne
   have hij : i.val ≠ 0 ∨ j.val ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne
     have hi : i = 0 := (ZMod.val_eq_zero i).mp h.1
     have hj : j = 0 := (ZMod.val_eq_zero j).mp h.2

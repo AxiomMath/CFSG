@@ -76,7 +76,7 @@ theorem exists_isQuasisimple_orbitGroupC_of_isPerfect {P : Subgroup (adjointGrou
     (hPX : P ≤ D.totalFixedGroup) (hPperf : Group.IsPerfect ↥P) (hP1 : P ≠ ⊥) :
     ∃ J' : Set.range D.classOrbit, CFSG.Open.IsQuasisimple ↥((D.withOrbit J').orbitGroupC) := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   haveI := D.finite_orbitIndex
   have hsolv : ∀ J' : Set.range D.classOrbit,
       Group.IsSolvable ↥((D.withOrbit J').orbitGroupC) := fun J' =>

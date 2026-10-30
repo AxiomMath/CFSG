@@ -27,7 +27,7 @@ theorem lieOuterIdx_classicalBCD :
     by_cases hB : n = 2 ∨ q.p = 2
     · exact outerIdxAt_B_PSp hp hp2 hd hB (MulEquiv.refl _) hpc hpdvd
     ·
-      push_neg at hB
+      push Not at hB
       have hn3 : 3 ≤ n := by
         have h2n := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
           ((TauCeti.LieTypeIndex.valid_iff _).1 hd).1).1

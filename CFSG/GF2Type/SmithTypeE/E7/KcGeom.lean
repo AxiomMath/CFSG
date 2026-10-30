@@ -148,7 +148,7 @@ theorem finrank_ker_add_one {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     Module.finrank (ZMod 2) (LinearMap.ker f) + 1 = Module.finrank (ZMod 2) W := by
   obtain ⟨w, hw⟩ : ∃ w, f w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hf (LinearMap.ext fun x => by simp [hcon x])
   have hfw : f w = 1 := eq_one_of_ne_zero_zmod2 hw
   have hsurj : Function.Surjective f := fun c =>

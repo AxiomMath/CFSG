@@ -1157,7 +1157,7 @@ theorem dewb3_exists_tau {u : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1)
   obtain ⟨x, hxU, hxc⟩ : ∃ x ∈ M ⊓ Subgroup.centralizer ({u} : Set G),
       x ∉ Subgroup.zpowers (TL4.e8Coord e v) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnot hcon
   have hxu : x * u = u * x := Subgroup.mem_centralizer_singleton_iff.mp hxU.2
   refine ⟨x, h.inf_centralizer_le_dewKer hM hMc hu huc hxU, ?_⟩

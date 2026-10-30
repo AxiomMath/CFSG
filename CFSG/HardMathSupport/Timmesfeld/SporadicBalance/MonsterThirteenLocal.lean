@@ -90,7 +90,7 @@ theorem card_centralizer_dvd_two_mul {H Q : Type*} [Group H] [Group Q] [Finite H
     rw [ha] at hKC ⊢
     have ha1 : a ≤ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have : 2 ^ 2 ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) hc
       omega
     interval_cases a <;> norm_num

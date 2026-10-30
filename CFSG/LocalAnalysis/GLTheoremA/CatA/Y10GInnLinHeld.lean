@@ -98,7 +98,7 @@ theorem held_linear_components_gl (hSL : SLComponentsTrivial) {F : Type} [Field 
     rw [← hTeq, hJmap]
   have hd2 : 2 ≤ d i := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hall : ∀ a ∈ J, a = 1 := by
       intro a ha
       rw [hJeq] at ha

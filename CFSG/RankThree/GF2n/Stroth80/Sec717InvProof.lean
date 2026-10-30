@@ -88,7 +88,7 @@ theorem sec717Inv_of_parts (h51 : Stroth51Statement)
     exact (Subgroup.eq_of_le_of_card_ge hZA hle).symm
   have hk_le : k ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     apply hN
     apply Subgroup.eq_of_le_of_card_ge hAN
     have h8 : Nat.card Z ^ 8 ≤ Nat.card Z ^ (4 * k) :=

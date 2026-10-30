@@ -77,7 +77,7 @@ theorem exists_minimal_invariant_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B
   have hH : ∃ H ∈ CFSG.SignalizerFunctorTheorem.Coprime.hyperplanes p B,
       T' ≤ Subgroup.centralizer (H : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hT'ne
     have hUC : ∀ H ∈ CFSG.SignalizerFunctorTheorem.Coprime.hyperplanes p B,
         T' ⊓ Subgroup.centralizer (H : Set G) ≤ Subgroup.centralizer (B : Set G) := by

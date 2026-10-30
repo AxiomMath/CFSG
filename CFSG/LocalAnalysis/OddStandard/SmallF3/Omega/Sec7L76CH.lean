@@ -60,7 +60,7 @@ theorem sec76_exists_B [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) (h75a :
       ∃ n ∈ L ⊓ normalizer (B : Set G), s * n ≠ n * s := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨B₁, B₂, hne, hB₁, hB₂, -⟩ := h75a G t L S z hctx
   have hB1c : ∀ b ∈ B₁, s * b = b * s := fun b hb => (hs b (hB₁.1 hb)).symm
   have hcent := hP.cent_B_opp G L hctx.isOm6P (S ⊓ L) (hctx.isSylow2Of_inf h36) B₁ B₂

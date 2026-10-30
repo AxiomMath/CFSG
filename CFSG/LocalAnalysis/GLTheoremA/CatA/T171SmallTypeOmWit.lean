@@ -288,7 +288,7 @@ theorem exists_fiveFrameData_plus (hQ : (QuadraticMap.polarBilin Q).Nondegenerat
   obtain ⟨e, heW, he0, heQ⟩ := exists_singular_of_isMinusType hWtype hWdim4
   have hex : ∃ f ∈ perpL Q l, polar Q e f = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ y ∈ perpL Q l, polar Q e y = 0 := by
       intro y hy
       rcases zmod_two_cases (polar Q e y) with h0 | h1
@@ -367,7 +367,7 @@ theorem exists_fiveFrameData_minus (hQ : (QuadraticMap.polarBilin Q).Nondegenera
   obtain ⟨e, heW, he0, heQ⟩ := exists_singular_of_isPlusType hWplus hWdim2
   have hex : ∃ f ∈ perpL Q l, polar Q e f = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ y ∈ perpL Q l, polar Q e y = 0 := by
       intro y hy
       rcases zmod_two_cases (polar Q e y) with h0 | h1

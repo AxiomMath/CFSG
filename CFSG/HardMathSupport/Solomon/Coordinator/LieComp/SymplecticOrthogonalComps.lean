@@ -192,7 +192,7 @@ theorem lieCompsOn_symplecticOrthogonal {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     by_cases hsp : q.p = 2 ∨ r = 2
     · exact lieCompsCase_symplectic hp (by omega) hs hna ⟨_, hv⟩ (Or.inl ⟨r, q, rfl, hsp⟩) he β hβ
         hout
-    · push_neg at hsp
+    · push Not at hsp
       exact lieCompsCase_orthogonal hp hp5 hs hna ⟨_, hv⟩
         (Or.inl ⟨r, q, rfl, hsp.1, by simp only at hr; omega⟩) he β hβ hout
   | C r q =>

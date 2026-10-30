@@ -701,7 +701,7 @@ theorem W₁_gen [Finite G] (hst : B27State e M₁ Pb W₁ Mf t') :
     simp at this
   obtain ⟨w, hw, hw1⟩ : ∃ w ∈ W₁, w ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (eq_bot_iff.mpr fun x hx => Subgroup.mem_bot.mpr (hcon x hx))
   have hord : orderOf w = 3 := by
     have hdvd : orderOf w ∣ 3 := by
@@ -1101,7 +1101,7 @@ theorem exists_d₂ [Finite G] (hone : G23One H H₁ H₂) (hlet : HLetters H H�
     (w : G) (hw3 : w ^ 3 = 1) :
     ∃ d ∈ Dg (zOf e) M₁ hzM, d ∉ Subgroup.zpowers w := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : Dg (zOf e) M₁ hzM ≤ Subgroup.zpowers w := fun x hx => hcon x hx
   have h1 := Subgroup.card_le_of_le hle
   have hdD := card_Dg hone hlet hv hzM hcard

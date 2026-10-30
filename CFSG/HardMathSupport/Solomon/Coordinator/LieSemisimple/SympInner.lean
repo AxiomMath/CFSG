@@ -255,7 +255,7 @@ private theorem isTame_sesqUnitaryGroup {ℓ f' : ℕ} {E : Type} [Field E]
       have hexc : (Module.finrank E W = 2 ∧ ℓ ^ f' = 2) ∨ (Module.finrank E W = 2 ∧ ℓ ^ f' = 3) ∨
           (Module.finrank E W = 3 ∧ ℓ ^ f' = 2) := by
         by_contra hn
-        push_neg at hn
+        push Not at hn
         obtain ⟨h1, h2, h3⟩ := hn
         refine hq ⟨fun h2' => ?_, fun h3' => ?_⟩
         · by_contra hlt

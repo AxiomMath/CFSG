@@ -198,7 +198,7 @@ theorem z6_thmZ_tail {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     ∃ u : z6O, g u = u ∧ z6Tr u = 1 ∧ z6Nrm u = 1 := by
   have hE : ∃ e, n e = 0 ∧ z6Tr e = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have htr0 : ∀ a, n a = 0 → z6Tr a = 0 := by
       intro a ha
       rcases z6_zmod2 (z6Tr a) with h | h
@@ -273,7 +273,7 @@ theorem z6_thmZ_tail {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     omega
   have hex : ∃ z ∈ LinearMap.ker n ⊓ z6O0, ∃ z' ∈ LinearMap.ker n ⊓ z6O0, z6Pol z z' ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : LinearMap.ker n ⊓ z6O0 ≤ z6B.orthogonal (LinearMap.ker n ⊓ z6O0) := by
       intro z' hz'
       rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -292,7 +292,7 @@ theorem z6_thmZ_tail {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     · exact h
   have hw : ∃ w ∈ LinearMap.ker n ⊓ z6O0, z6Nrm (e + w) = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 : z6Nrm (e + 0) = 0 := z6_zmod2_ne_one _ (hcon 0 (Submodule.zero_mem _))
     have h1 : z6Nrm (e + z) = 0 := z6_zmod2_ne_one _ (hcon z hz)
     have h2 : z6Nrm (e + z') = 0 := z6_zmod2_ne_one _ (hcon z' hz')

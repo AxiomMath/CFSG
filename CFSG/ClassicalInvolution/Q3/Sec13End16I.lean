@@ -1891,7 +1891,7 @@ private theorem e16ic_exists_avoid (p q : Fin 6) (hpq : p ≠ q) :
     ∃ α : Finset (Fin 6), α.card = 4 ∧ p ∉ α ∧ q ∈ α := by
   obtain ⟨k, hk1, hk2⟩ : ∃ k : Fin 6, k ≠ p ∧ k ≠ q := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Finset.univ : Finset (Fin 6)) ⊆ {p, q} := by
       intro x _
       by_cases hx : x = p
@@ -1910,7 +1910,7 @@ private theorem e16ic_exists_avoid (p q : Fin 6) (hpq : p ≠ q) :
 private theorem e16ic_exists_ne {α : Finset (Fin 6)} (hα : α.card = 4) (a : Fin 6) :
     ∃ j ∈ α, j ≠ a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : α ⊆ {a} := fun x hx => Finset.mem_singleton.mpr (hcon x hx)
   have := Finset.card_le_card hsub
   rw [hα, Finset.card_singleton] at this
@@ -2219,7 +2219,7 @@ theorem false_of_aeIdent_seven_Y (c : Sit16 Ω K K' W z u e g)
   have hD : Nat.card (zGroup Ω) = 256 := by
     have hm4 : m ≤ 4 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have : 4 ^ 5 ≤ 4 ^ m := Nat.pow_le_pow_right (by norm_num) hc
       omega
     interval_cases m <;> omega

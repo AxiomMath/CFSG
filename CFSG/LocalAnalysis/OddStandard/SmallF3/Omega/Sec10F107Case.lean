@@ -78,7 +78,7 @@ theorem case107 (hLg : IsPSp43 L) :
   by_cases hD : ∀ X : Subgroup G, X ≤ S → IsElemAb2 X 5 → X = secA t S L
   · exact Or.inl (h.jElem_eq_secA hFP hD)
   · right
-    push_neg at hD
+    push Not at hD
     obtain ⟨X0, hX0S, hX0, hX0A⟩ := hD
     obtain ⟨B2, y2, hM, r, hrS, hrφ, hr2⟩ := h.exists_r hFP hQL hQ hX0S hX0 hX0A
     refine ⟨r, hrS, ?_, ?_, h.secA2_ne hFP hQL hQ hM hrS hrφ, ?_⟩

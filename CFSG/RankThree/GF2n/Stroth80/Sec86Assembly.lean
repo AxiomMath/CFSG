@@ -92,7 +92,7 @@ theorem sec86NormLB_of_82 (h82 : Stroth82Statement) (hConj : Sec86ConjStatement)
     (hH : Sec86NormHStatement) : Sec86NormLBStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0 hle
   have hall := sec8_not_forall_normalizer h82 hConj hc hs hZ0
-  push_neg at hall
+  push Not at hall
   obtain ⟨ν, hνM, hνL, hνZ⟩ := hall
   obtain ⟨ν', hν'H, hν'L, hν'Z⟩ := hH G M Q Z B hc n t hs Z0 hZ0 ν hνM hνL hνZ
   exact hν'Z (hle ⟨hν'H, hν'L⟩).2

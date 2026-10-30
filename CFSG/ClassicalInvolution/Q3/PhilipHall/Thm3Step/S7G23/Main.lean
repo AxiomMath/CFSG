@@ -74,7 +74,7 @@ theorem thm3RTwoClassG23_of_ident (hR : S7.RowClassAEmpty) (m : ℕ) : Thm3RTwoC
   let D : G23Data Y := g23Data_R3.map (eY.trans θ).symm
   obtain ⟨J, hJ, hJK⟩ : ∃ J ∈ Φ, ∀ a : Y, conjSub a K ≠ J := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hcl fun N hN => by
       obtain ⟨a, ha⟩ := hno N hN
       exact ⟨a, by rw [hLtop]; trivial, ha⟩

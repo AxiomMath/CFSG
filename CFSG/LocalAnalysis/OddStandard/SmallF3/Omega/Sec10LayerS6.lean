@@ -56,7 +56,7 @@ private theorem card_alt6 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
 
 private theorem alt6_exists_not_comm : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   letI : CommGroup (alternatingGroup (Fin 6)) :=
     { (inferInstance : Group (alternatingGroup (Fin 6))) with mul_comm := hcon }

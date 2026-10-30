@@ -69,7 +69,7 @@ theorem nf5_generation (h10 : KFactFieldGeneration5) (hc : NF5Cfg F Γ B R₀ x 
   have hsimp : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr e).1 hq.2
   have hnonab : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hcomm
-    push_neg at hcomm
+    push Not at hcomm
     have hbot : commutator ↥L = ⊥ := (commutator_eq_bot_iff _).2 (isMulCommutative_iff.2 hcomm)
     have htop : (⊤ : Subgroup ↥L) = ⊥ := hq.1.symm.trans hbot
     obtain ⟨a, b, hab⟩ := exists_pair_ne ↥L

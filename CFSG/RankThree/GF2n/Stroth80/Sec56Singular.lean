@@ -502,7 +502,7 @@ theorem Ctx.natSingularConj_of (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       hyL r₂ x₂ hx₂U (by rw [hr₂, hA₂u])]
   obtain ⟨lam, hlam0, hlam1⟩ : ∃ lam : K, lam ≠ 0 ∧ lam ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinj : Function.Injective (fun a : K => decide (a = 0)) := by
       intro a b hab
       by_cases ha : a = 0

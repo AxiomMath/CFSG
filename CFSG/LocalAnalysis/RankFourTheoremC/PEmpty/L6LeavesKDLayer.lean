@@ -18,7 +18,7 @@ theorem fitting_eq_bot_of_cores {X : Type} [Group X] [Finite X]
 theorem exists_component_of_cores {X : Type} [Group X] [Finite X] [Nontrivial X]
     (h2 : pCore 2 X = ⊥) (hodd : oddCore X = ⊥) : ∃ K : Subgroup X, IsComponent K := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hF := (LocalCores.generalized_fitting_minimal_normal (G := X)).2 inferInstance
   have hL : layer X = ⊥ := LocalCores.layer_eq_bot_of_forall hno
   apply hF

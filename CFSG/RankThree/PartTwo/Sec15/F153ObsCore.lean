@@ -810,7 +810,7 @@ theorem normalizes_of_coprime_invariant (N X Y A R : Subgroup M) [N.Normal]
     exact orderOf_eq_prime hpow hne
   have hle3 : R₀.relIndex R ≤ 3 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     set Q := ↥R ⧸ R₀.subgroupOf R
     have hcardQ : 4 ≤ Nat.card Q := by
       have hQ : Nat.card Q = R₀.relIndex R := rfl

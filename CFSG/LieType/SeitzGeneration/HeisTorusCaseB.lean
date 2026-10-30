@@ -239,7 +239,7 @@ theorem exists_range_mem_caseB [Fact p.Prime] (hp : 7 ≤ p) [CharP F 2] {ζ : F
     calc 2 = ({z₂, m₃} : Finset (Fin p)).card := (Finset.card_pair hz₂m₃).symm
       _ ≤ _ := Finset.card_le_card hsub
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcol : ∀ j, ((dl : Matrix (Fin p) (Fin p) F) * (sl : Matrix (Fin p) (Fin p) F) * E - 1) *ᵥ
         Pi.single j 1 = 0 → E 0 j = 0 ∧ E z₁ j = 0 := by
       intro j hj
@@ -311,7 +311,7 @@ theorem caseB_isolate_of_range (hp : 5 ≤ p) {l : F} (hl0 : l ≠ 0) (hl1 : l �
       exact hab (by rw [hzI b hb, inv_one, sub_self, mul_zero])
   obtain ⟨a₀, ha₀⟩ : ∃ a₀, ((x : Matrix (Fin p) (Fin p) F) - 1) a₀ j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hjne
     ext a
     simpa using h a

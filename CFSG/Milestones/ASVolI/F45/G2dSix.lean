@@ -72,7 +72,7 @@ theorem burnsideF45_g2d_flag_six {u w : W} (huw : Γ.Adj u w) (h3 : (Γ.neighbor
   have hw₂w : w₂ ≠ w := hw₂.2
   have hex : ∃ g ∈ B, g • w₁ = w₂ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hBK : B ≤ burnsideF45_g2dKer Γ G u := by
       intro g hg
       have hgw : g • w = w := MulAction.mem_stabilizer_iff.mp hg.2

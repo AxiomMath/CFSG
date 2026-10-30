@@ -145,7 +145,7 @@ theorem exists_four_sl3 {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1)
       ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) i i ≠
         ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) j j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hscal : ∀ x ∈ E, ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) :
         Matrix (Fin 3) (Fin 3) K) = ((y * x * y⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) :
         Matrix (Fin 3) (Fin 3) K) 0 0 • (1 : Matrix (Fin 3) (Fin 3) K) := by

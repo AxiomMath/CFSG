@@ -39,7 +39,7 @@ theorem movLvK_sound {w m : ℕ} {S : List ℕ} {k lv lo : ℕ} :
               Nat.beq (pg w m (getS S j) p) p, true)) = true := fun hall => by
             rw [allN_iff.2 hall] at ha
             exact Bool.false_ne_true ha.symm
-          push_neg at this
+          push Not at this
           obtain ⟨j, hj, hf⟩ := this
           rcases hc : Nat.beq fld(lv, j, nat_lit 1) (nat_lit 1) with _ | _
           · rw [hc] at hf

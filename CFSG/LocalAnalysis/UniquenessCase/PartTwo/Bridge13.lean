@@ -64,7 +64,7 @@ theorem s13_pRank_bar_le_one {L : Subgroup G} (hL : Thin13 L) {r : ℕ} (hr : r.
 theorem s13_nonabelian_bar {M L : Subgroup G} (hL : L ∈ calC M) :
     ∃ x y : Bar2 L, x * y ≠ y * x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have htop : Subgroup.center (Bar2 L) = ⊤ := by
     rw [eq_top_iff]
     intro x _

@@ -57,7 +57,7 @@ theorem exists_ne_one_fix_involution {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
   have htop := CFSG.SolvableSignalizer.iSup_fixedSubgroup_eq_top p hp α (by rw [hD2]) hcop
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hbot : ∀ a : D, a ≠ 1 → CFSG.SolvableSignalizer.fixedSubgroup α a = ⊥ := by
     intro a ha
     by_contra hne
@@ -194,7 +194,7 @@ theorem exists_perfect_fixSubgroup_of_commute_of_mul_self_eq_one [Finite k] [Cha
     calc U = P⁻¹ * (P * U * P⁻¹) * P := by group
       _ = 1 := by rw [h1']; group
   · rw [Function.Injective] at hinj
-    push_neg at hinj
+    push Not at hinj
     obtain ⟨i, j, hij, hne⟩ := hinj
     exact exists_perfect_fixSubgroup_of_diagonal_eq (P := P) Nat.prime_three (by norm_num) h3 hM
       (fun r s hrs => by rw [hd]; exact Matrix.diagonal_apply_ne d hrs) hne hij

@@ -96,7 +96,7 @@ theorem map_centralizer_detSpinorNorm_eq_top (hQ : Q.Nondegenerate)
   have hcases : 2 ≤ Module.finrank (ZMod 3) (fixSp t) ∨
       2 ≤ Module.finrank (ZMod 3) (commSp t) := by
     by_contra h
-    push_neg at h
+    push Not at h
     omega
   rcases hcases with hC2 | hN2
   · exact aux_centralizer_map_eq_top_of_subspace hQ (nondegenerate_restrict_fixSp hQ htt) hC2

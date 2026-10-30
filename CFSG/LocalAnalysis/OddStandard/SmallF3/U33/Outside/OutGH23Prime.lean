@@ -31,7 +31,7 @@ theorem gh23_exists_order_five_or_seven {H : Subgroup (Equiv.Perm (Fin 8))}
     ∃ x ∈ H, orderOf x = 5 ∨ orderOf x = 7 := by
   classical
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hn5 : ¬ 5 ∣ Nat.card ↥H := by
     rintro hdvd
     haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩

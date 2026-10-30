@@ -80,7 +80,7 @@ theorem mem_of_simple_normal_blocks {Γ : Type} [Group Γ] (𝓚 : Finset (Subgr
   swap
   ·
     exfalso
-    push_neg at hcen
+    push Not at hcen
     have hcenY : ∀ s ∈ S, ∀ g ∈ (⨆ K ∈ 𝓚, K), s * g = g * s := by
       intro s hs
       have hle : (⨆ K ∈ 𝓚, K) ≤ Subgroup.centralizer ({s} : Set Γ) := by

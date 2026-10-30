@@ -167,7 +167,7 @@ theorem th5_list :
 theorem th5_nonabelian : ∃ a b : ↥J, a * b ≠ b * a := by
   obtain ⟨-, -, -, hcard, -⟩ := th5_list
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : Subgroup.centralizer ({c5} : Set ↥J) = ⊤ :=
     eq_top_iff.2 fun g _ => Subgroup.mem_centralizer_singleton_iff.2 (hcon g c5)
   have := th_finite

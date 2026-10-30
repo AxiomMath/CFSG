@@ -133,7 +133,7 @@ theorem orbit_cover [Finite G] [Finite Q] (π : G →* Q) {V : Subgroup Q} {X₀
     ∀ q ∈ V, q ≠ 1 → q = T ∨ ∃ c : G, q = cj π X₀ c := by
   intro q hqV hq1
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hqT, hqX⟩ := hcon
   have hTi : ∀ c : G, (π c)⁻¹ * T = T * (π c)⁻¹ := fun c => by
     rw [← map_inv]; exact hT c⁻¹
@@ -272,7 +272,7 @@ theorem orbit_cover [Finite G] [Finite Q] (π : G →* Q) {V : Subgroup Q} {X₀
           _ = q * X₀ * T := by rw [← mul_assoc, hcomm X₀ hX₀V q hqV]
   have hc₀ : ∃ c₀ : G, ¬ InCoset π X₀ T c₀ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hqA₂
     have hle : V ≤ A₂ := by
       rw [hV, Subgroup.closure_le]

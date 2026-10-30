@@ -209,7 +209,7 @@ theorem core_B (P : Subgroup (StatedSp 3 (ZMod 2)))
     (hBP : borelSubgroup 3 (ZMod 2) ≤ P) :
     ∃ d ∈ D, t ^ 2 * d * (t ^ 2)⁻¹ ≠ d⁻¹ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hsh, hDP, hD, hD9, hDO, htP, htN⟩ := hpr
   obtain ⟨D₀, t₀, hD₀P, hD₀9, hexp₀, ht₀P, ht₀N, ht₀2, hD₀O⟩ :=
     pull_config hDP hD hD9 hDO htP htN hcon

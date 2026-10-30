@@ -144,7 +144,7 @@ theorem eInvFour_of_elemAbelian_two {Ē : Subgroup (MulAut X)} (hE3 : IsElemAbel
   have hσ1 : σ ≠ 1 := fun h => hσr (by rw [h]; rfl)
   obtain ⟨τ, hτE, hτσ⟩ : ∃ τ ∈ Ē, τ ∉ Subgroup.zpowers σ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Ē ≤ Subgroup.zpowers σ := fun x hx => hcon x hx
     have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
     have hzcard : Nat.card (Subgroup.zpowers σ) = 3 := by rw [Nat.card_zpowers, hord]

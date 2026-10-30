@@ -66,7 +66,7 @@ private theorem lemma115_quadratic_zero_cover
   · obtain ⟨b, hb⟩ : ∃ b, L b = 1 := by
       have hexists : ∃ b, L b ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         apply hL
         ext b
         exact h b
@@ -117,7 +117,7 @@ public theorem lemma115_quadratic_trace_zero_count
       exact congrArg Subtype.val hxy
     have hcard := Nat.card_le_card_of_injective lift hlift
     omega
-  · push_neg at hQ
+  · push Not at hQ
     obtain ⟨a, ha⟩ := hQ
     have hQa : Q a = 1 :=
       (lemma115_zmodTwo_eq_zero_or_one (Q a)).resolve_left ha

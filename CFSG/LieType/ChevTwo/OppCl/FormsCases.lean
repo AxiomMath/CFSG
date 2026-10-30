@@ -60,7 +60,7 @@ theorem caseG_raise (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (
     · rw [min_eq_left (by omega : k + 1 ≤ m)] at hv
       rw [min_eq_left hk.le]
       exact FormsCases.fk_low hx hk hv
-    · push_neg at hk
+    · push Not at hk
       rw [min_eq_right (by omega : m ≤ k + 1)] at hv
       rw [min_eq_right hk]
       exact sub_mem (FormsCases.fs_apply (flagKernel_le_flagStab ρ _ hx) le_rfl hv) hv
@@ -101,7 +101,7 @@ theorem trichotomy (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H) (hx1 : x �
     (∃ w ∈ X m, ρ x w ≠ w) ∨ (∃ y ∈ M, ρ x y ≠ y) ∨
       ((∀ w ∈ X m, ρ x w = w) ∧ (∀ y ∈ M, ρ x y = y) ∧ ∃ w ∈ W', ρ x w ≠ w) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h2, h3⟩ := hcon
   have h3' := h3 h1 h2
   apply hx1
@@ -124,7 +124,7 @@ theorem caseG (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (x : H)
   refine ⟨y, hyc, fun hy => ?_⟩
   have hkm : k < m := by
     by_contra hkm
-    push_neg at hkm
+    push Not at hkm
     exact hgv (C.hXmono hkm (hgW v))
   have h1 : ρ y v ∈ X k := FormsCases.fs_apply hy hkm.le hv
   rw [hyL.1 v (C.hXmono hkm.le hv)] at h1

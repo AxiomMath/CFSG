@@ -1203,7 +1203,7 @@ theorem u64_cent_rank (h6 : U6StructAt G) (hctx : ThmACtx G m) (hR : RQuad G m p
     obtain ⟨T, E₁, hT, hT2, hTL, hE₁L, hE₁a, hE₁c, hE₁N⟩ := y10x_attain (q := 3) Nat.prime_three hcomm
     rw [hm1] at hE₁c
     by_contra hk
-    push_neg at hk
+    push Not at hk
     obtain ⟨E, hEC, hEa, hEc⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num)
       (Subgroup.centralizer (L : Set G))
     have hEL : E ⊓ L = ⊥ := y10x_inf_eq_bot hZ hEC

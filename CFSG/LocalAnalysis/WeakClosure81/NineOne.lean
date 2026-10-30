@@ -20,7 +20,7 @@ theorem nine_one (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine1Hyp V K S X p) :
     K ≤ normalizer (E3.wClos V 0 S : Set G) ∨ ⁅twoResidual K, E3.cClos V 1 S⁆ = ⊥ ∨
       NineOneThree V K := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hW, hC, h3⟩ := hcon
   obtain ⟨A, hA, hAS, hAΩ, hAR⟩ :=
     exists_conj_not_mem_omegaSet hV hm h.toTwoPTwoIrred hW h3

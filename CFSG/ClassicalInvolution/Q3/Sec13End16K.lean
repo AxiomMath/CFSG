@@ -297,7 +297,7 @@ theorem exists_three_element_of_frame (c : Sit16 Ω K K' W z u e g)
   · rw [pow_one]
     have := congrArg Subtype.val hy3
     simpa using this
-  · push_neg at hyc
+  · push Not at hyc
     exact hyc
 
 theorem commutator_eq_top_of_frame (c : Sit16 Ω K K' W z u e g)

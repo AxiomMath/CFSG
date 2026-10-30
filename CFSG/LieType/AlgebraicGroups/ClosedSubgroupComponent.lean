@@ -49,7 +49,7 @@ theorem exists_forall_apply_eq_zero_of_forall_exists {Z : Type*} [CommRing Z] [A
     ∃ i, ∀ y : Z →ₐ[k] k, ∀ g ∈ P i, y g = 0 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   choose y g hg hyg using hne
   let : Fintype ι := Fintype.ofFinite ι
   have hprod : ∏ i, g i = 0 := by

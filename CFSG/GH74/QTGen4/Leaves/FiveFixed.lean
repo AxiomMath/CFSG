@@ -157,7 +157,7 @@ theorem exists_five_acting {G : Type} [Group G] [Finite G] (K W : Subgroup G)
       exact Nat.mul_div_cancel 5 (by positivity)
     refine ⟨(x₁ : G), x₁.2, by rw [Subgroup.orderOf_coe]; exact hord1, ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hxC : x₁ ∈ C := (hmemC _).2 fun w hw => by
       have h := hcon w hw
       calc w * (x₁ : G) = (x₁ : G) * w * (x₁ : G)⁻¹ * (x₁ : G) := by rw [h]

@@ -163,7 +163,7 @@ theorem p427_KB_card (T : HeSetup G) (hB : T.BaseFacts)
   obtain ⟨b, hbB, hb1, hba, -⟩ := p427_exists_b T
   obtain ⟨s₀, hs₀, hs₀L⟩ : ∃ s₀ ∈ KB T, s₀ ∉ T.L := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEq : KB T ≤ T.L := hcon
     have hK : KB T = T.L := le_antisymm hEq hLK
     have h1 := Subgroup.card_dvd_of_le hSK

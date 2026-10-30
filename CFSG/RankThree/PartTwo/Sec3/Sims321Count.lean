@@ -61,7 +61,7 @@ private theorem exists_comm_not_mem {G : Type*} [Group G] [Finite G] {L U W : Su
     ∃ v ∈ W, (y : G) * v * (y : G)⁻¹ * v⁻¹ ∉ U := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set K := commKer L U W hU hW
   haveI hKn : K.Normal := commKer_normal hU hW
   have hyK : y ∈ K := hcon
@@ -148,7 +148,7 @@ private theorem count_contra {G : Type} [Group G] [Finite G] {X L T : Subgroup G
     rw [hcardE]; exact hoff.trans hoff'
   obtain ⟨τ, hτE, hτ1⟩ : ∃ τ ∈ imgSL hLN φ A, τ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : imgSL hLN φ A = ⊥ := eq_bot_iff.mpr fun g hg => (Subgroup.mem_bot).mpr (hcon g hg)
     rw [hbot, Subgroup.card_bot, eq_comm, Subgroup.relIndex_eq_one] at hcardE
     exact hAQ (hcardE.trans inf_le_right)
@@ -216,7 +216,7 @@ theorem item321Count_holds : Item321Count := by
   rw [hJT] at hJ
   obtain ⟨A, hA, hAQ⟩ : ∃ A ∈ famG T 0, ¬ A ≤ CFSG.Open.pCoreOf 2 X := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hJ (le_normalizer_jG_of_le hT (sSup_le fun A hA => hcon A hA))
   exact count_contra hLN φ hL hT hLT hn hX hA hAQ hVs hij hjk hi hj hk
 

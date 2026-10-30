@@ -136,7 +136,7 @@ theorem exists_n_W : ∃ (W : Subgroup G) (n : G), IsSylowIn 2 W (ctxLO t tau x�
       (∀ x ∈ ctxU t tau x₁ x₂ lam, n₀ * x * n₀⁻¹ ∈ ctxU t tau x₁ x₂ lam) ∧
       n₀ ∉ ctxU t tau x₁ x₂ lam := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (S4B.eq_of_forall_normalizes h𝒮.2.1 hU𝒮 h)
   obtain ⟨n₀, hn₀𝒮, hn₀conj, hn₀U⟩ := hexists
   let φ : G →* G := MulAut.conj n₀

@@ -114,7 +114,7 @@ theorem exists_eigenspace_ne_bot_of_ne_one [IsAlgClosed E] [FiniteDimensional E 
     (ht : t ^ m = 1) (ht1 : t ≠ 1) :
     ∃ k : Fin m, (k : ℕ) ≠ 0 ∧ t.eigenspace (ζ ^ (k : ℕ)) ≠ ⊥ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply ht1
   have htop := iSup_eigenspace_pow_eq_top hζ hm ht
   have hle : (⨆ k : Fin m, t.eigenspace (ζ ^ (k : ℕ))) ≤ t.eigenspace 1 := by

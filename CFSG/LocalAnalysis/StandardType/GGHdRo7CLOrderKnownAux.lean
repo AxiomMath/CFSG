@@ -125,7 +125,7 @@ theorem hdRo7CLOKnownAux_e_ne_one
     (hdn : d ∉ Subgroup.zpowers x) :
     ∃ l ∈ L, d⁻¹ * l * d ≠ l := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hd_cent : d ∈ Subgroup.centralizer (L : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
     intro l hl
@@ -198,7 +198,7 @@ theorem hdRo7CLOKnownAux_centralizer_eq
     rwa [hcardzx] at hdvd
   have hi_ge : 1 ≤ i := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hi0 : i = 0 := by omega
     rw [hi0, pow_zero] at hi_eq
     have : p ∣ 1 := by rwa [hi_eq] at hp_dvd_H

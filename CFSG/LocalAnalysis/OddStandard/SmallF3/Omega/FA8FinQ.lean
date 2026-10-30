@@ -226,7 +226,7 @@ theorem fa8fin_partner {G : Type} [Group G] {Q₁ Q₂ : Subgroup G} {z : G}
         exact Q₂.mul_mem hxQ2 hy
       obtain ⟨h, hhQ, hh⟩ := fa8fin_h_single_partner hzQ2 e₂ hez2 hgQ2 hg1 hgz
       exact ⟨h, (le_sup_right : Q₂ ≤ Q₁ ⊔ Q₂) hhQ, hh⟩
-    · push_neg at hx0
+    · push Not at hx0
       obtain ⟨hx1, hxz⟩ := hx0
       obtain ⟨h, hhQ, hh⟩ := fa8fin_h_single_partner hzQ1 e₁ hez1 hx hx1 hxz
       refine ⟨h, (le_sup_left : Q₁ ≤ Q₁ ⊔ Q₂) hhQ, ?_⟩

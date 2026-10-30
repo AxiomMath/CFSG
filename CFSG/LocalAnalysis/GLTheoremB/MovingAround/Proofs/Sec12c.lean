@@ -312,7 +312,7 @@ theorem lemma128_of_inputs (h121 : Prop121_corStatement) : Lemma128Statement := 
         apply csSup_le'
         rintro k ⟨E', hE'As, hE'el, hE'c⟩
         by_contra hk
-        push_neg at hk
+        push Not at hk
         have h1 : 3 ^ 4 ≤ 3 ^ k := Nat.pow_le_pow_right (by norm_num) hk
         have h2 : Nat.card E' ≤ Nat.card As := Subgroup.card_le_of_le hE'As
         rw [hE'c, hAs27] at h2
@@ -344,7 +344,7 @@ theorem lemma128_of_inputs (h121 : Prop121_corStatement) : Lemma128Statement := 
         obtain ⟨jC, hjC⟩ := exists_card_eq_pow (CFSG.Open.IsElemAbelian.isPGroup hCel)
         have hjC2 : 2 ≤ jC := by
           by_contra hlt
-          push_neg at hlt
+          push Not at hlt
           have h3le : 3 ^ jC ≤ 3 ^ 1 := Nat.pow_le_pow_right (by norm_num) (by omega)
           rw [← hjC] at h3le
           norm_num at h3le

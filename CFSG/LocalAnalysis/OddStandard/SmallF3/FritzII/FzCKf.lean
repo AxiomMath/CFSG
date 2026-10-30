@@ -27,7 +27,7 @@ theorem fzc_card_K (hs : FzCSteps t L S x₁ x₂ lam rho) :
     omega
   have hnle : n ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h3 : 2 ^ 3 ≤ 2 ^ n := pow_le_pow_right₀ (by norm_num : (1 : ℕ) ≤ 2) (by omega)
     norm_num at h3
     omega

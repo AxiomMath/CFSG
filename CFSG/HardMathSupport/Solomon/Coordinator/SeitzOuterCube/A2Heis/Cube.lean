@@ -171,7 +171,7 @@ theorem fS_ne_one (hσ : orderOf σ = 3) : fS σ ≠ 1 := by
     intro h1; rw [h1, orderOf_one] at hσ; norm_num at hσ
   obtain ⟨c, hc⟩ : ∃ c : F, σ c ≠ c := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hσ1 (RingEquiv.ext hall)
   have h01 : (0 : Fin 3) ≠ 1 := by decide
   have := congrArg (fun φ : MulAut (projectiveSL 3 F) =>

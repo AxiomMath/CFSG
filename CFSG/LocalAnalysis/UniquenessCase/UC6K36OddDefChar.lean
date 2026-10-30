@@ -151,7 +151,7 @@ theorem exists_centralizer_act_nontrivially (h : Hyp36 G M p E) {L : Subgroup G}
     ∃ e ∈ E, e ≠ 1 ∧ ∃ q ∈ pCoreOf 2 M, q * e = e * q ∧
       ∃ y ∈ L, q * y * q⁻¹ * y⁻¹ ∉ centerOf L := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hker : ∀ g : G, g ∈ (actHom L).ker ↔ ∀ y ∈ L, g * y * g⁻¹ * y⁻¹ ∈ centerOf L := by
     intro g
     rw [MonoidHom.mem_ker]
@@ -226,7 +226,7 @@ theorem false_of_oddDefChar (hR : OddDefCharCentralizer) (hR' : L227Generation) 
   have hfaith : ∀ e ∈ E, e ≠ 1 → ∃ y ∈ L, e * y * e⁻¹ * y⁻¹ ∉ centerOf L := by
     intro e he he1
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hLM (h.le_of_not_faithful L hLc he he1 hcon)
   obtain ⟨e, he, he1, q, hq, hqe, y₀, hy₀, hy₀'⟩ := h.exists_centralizer_act_nontrivially hLc hne
   set Ψ : G →* MulAut (TauCeti.CFSGIndex.lie d).Group := psi L φ with hΨ

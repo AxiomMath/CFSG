@@ -126,7 +126,7 @@ theorem l154_exists_moved_of_odd {K : Type} [Field K] (bar σ : K ≃+* K) (hbb 
     (hcomm : ∀ c, σ (bar c) = bar (σ c)) {p : ℕ} (hp : Odd p) (hσp : σ ^ p = 1) (hσ1 : σ ≠ 1) :
     ∃ c : K, bar c = c ∧ σ c ≠ c := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hroot : ∀ c, σ c = c ∨ σ c = bar c := by
     intro c
     have hs : bar (c + bar c) = c + bar c := by rw [map_add, hbb, add_comm]
@@ -146,12 +146,12 @@ theorem l154_exists_moved_of_odd {K : Type} [Field K] (bar σ : K ≃+* K) (hbb 
     by_contra hne
     obtain ⟨c0, hc0⟩ : ∃ c0, σ c0 ≠ c0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hσ1 (RingEquiv.ext h)
     have hc0b : σ c0 = bar c0 := (hroot c0).resolve_left hc0
     obtain ⟨c1, hc1⟩ : ∃ c1, σ c1 ≠ bar c1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (RingEquiv.ext h)
     have hc1' : σ c1 = c1 := (hroot c1).resolve_right hc1
     rcases hroot (c1 + c0) with h | h

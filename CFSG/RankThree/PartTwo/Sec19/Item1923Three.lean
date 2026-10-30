@@ -1198,7 +1198,7 @@ theorem item1923_three_a (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
   have hcS : c ∈ S := by
     obtain ⟨d, hd, hd1⟩ : ∃ d ∈ A ⊓ S, d ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact false_of_inf_eq_bot kf4 h hF hKc hL3 hone hSdef hcN hcon
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp (hDzp d hd)
     have hdS : c ^ i ∈ S := by

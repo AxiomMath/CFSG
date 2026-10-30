@@ -267,7 +267,7 @@ theorem exists_ne_one_mem_of_index_le {G : Type} [Group G] [Finite G] {A F D : S
     exact Nat.le_of_mul_le_mul_right this hfpos
   have hc : 2 ≤ Nat.card ↥(F.subgroupOf A ⊓ D.subgroupOf A) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h6 : Nat.card ↥(F.subgroupOf A ⊓ D.subgroupOf A) * (D.subgroupOf A).index ≤ 1 * 3 :=
       Nat.mul_le_mul (by omega) hdi
     omega

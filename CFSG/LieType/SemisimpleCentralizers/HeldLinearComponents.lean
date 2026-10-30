@@ -54,7 +54,7 @@ theorem not_isQuasisimple_of_comm {Γ : Type*} [Group Γ] (h : ∀ a b : Γ, a *
 theorem exists_factor_of_isComponentOf_top [Finite ι] [∀ i, Finite (H i)]
     {J : Subgroup (∀ j, H j)} (hJ : IsComponentOf J ⊤) : ∃ i, J ≤ factorSub (H := H) i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hcomm : ∀ i, ⁅J, factorSub (H := H) i⁆ = ⊥ := fun i =>
     (CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes J
       (factorSub (H := H) i) hJ).resolve_left (hcon i)
@@ -177,7 +177,7 @@ theorem held_linear_components (hSL : SLComponentsTrivial) {F : Type} [Field F] 
     rw [← hTeq, hJmap]
   have hd2 : 2 ≤ d i := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hall : ∀ a ∈ J, a = 1 := by
       intro a ha
       rw [hJeq] at ha

@@ -228,7 +228,7 @@ theorem lemma113_ii_pieceD_cond (hI : Input32_7) {G : Type} [Group G] [Finite G]
     congrArg Subtype.val (hAab.1.is_comm.comm ⟨a₁, h₁⟩ ⟨a₂, h₂⟩)
   obtain ⟨b, hbA, hbE⟩ : ∃ b ∈ A, b ∉ E := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hEA : E = A := hAsc.2.2 E hEsc.1 hEab (fun x hx => hcon x hx)
     exact h.pair.1.2.1.2 (by rw [← hEA]; exact h.pair.1.1.2)
   have hb1 : b ≠ 1 := fun h1 => hbE (h1 ▸ one_mem E)

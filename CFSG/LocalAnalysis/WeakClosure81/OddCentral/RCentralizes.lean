@@ -175,7 +175,7 @@ theorem exists_translations {R₁ Q Q₀ V : Subgroup G} [hRn : R₁.Normal]
     simpa using e
   have hS : ∀ a, ∃ y ∈ R₁, z a * y * (z a)⁻¹ = y ∧ ∃ v ∈ Vi a, y * v * y⁻¹ ≠ v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨a₀, ha₀⟩ := hcon
     have hall : ∀ a, S a := by
       have h1 := hstep a₀ ha₀
@@ -237,7 +237,7 @@ theorem centralizes_of_frame {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M
     (ht : ∀ a, t * z a * t⁻¹ = z (a + 1)) (htV : ∀ a v, v ∈ Vi a ↔ t * v * t⁻¹ ∈ Vi (a + 1)) :
     ∀ y ∈ R₁, ∀ x ∈ Q, y * x * y⁻¹ = x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨y, hy⟩ := exists_translations hR₁odd hQodd hQ₀Q hQ₀Z hRQ hQV hVQ hViV hVgen hz hz2 h01
     hn0 hn1 hn01 hzinv ht htV hcon
   have hQ₀odd : Odd (Nat.card Q₀) := Odd.of_dvd_nat hQodd (Subgroup.card_dvd_of_le hQ₀Q)

@@ -210,7 +210,7 @@ theorem not_twoA_pure_eight [Finite K] (hT3 : BabyTableIII) (hT4 : BabyTableIV)
 theorem exists_mem_not_mem_of_ncard_lt {A : Subgroup K} {S : Set K} [Finite K]
     (h : S.ncard < Nat.card A) : ∃ x ∈ A, x ∉ S := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hle : (A : Set K) ⊆ S := fun x hx => hc x hx
   have h1 := Set.ncard_le_ncard hle (Set.toFinite S)
   rw [← Nat.card_coe_set_eq] at h1
@@ -226,7 +226,7 @@ theorem exists_twoB_of_elemAbelian [Finite K] (hT3 : BabyTableIII) (hT4 : BabyTa
     (A : Subgroup K) (hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hAe : ∀ x ∈ A, x ^ 2 = 1)
     (h8 : 8 ≤ Nat.card A) : ∃ u ∈ A, IsConj z u := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have h2A : ∀ u ∈ A, u ≠ 1 → IsConj a u := by
     intro u hu hu1
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

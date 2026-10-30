@@ -168,7 +168,7 @@ theorem kd264Y1OutOS_holds : KD264Y1OutOS := by
   ·
     by_cases hB : r = 2 ∨ q.p = 2
     · exact inner_of_pow_three_symplectic ⟨_, hv⟩ (by simp [isSymplecticIdx, hB]) ha ha3
-    · push_neg at hB
+    · push Not at hB
       have hstd := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
         ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
       have hn3 : 3 ≤ r := by

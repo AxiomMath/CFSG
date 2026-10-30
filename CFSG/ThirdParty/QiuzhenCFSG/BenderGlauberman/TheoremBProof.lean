@@ -1256,7 +1256,7 @@ private lemma fin5_threeCycle_of_V4 (V : Subgroup (Equiv.Perm (Fin 5)))
     exact fin5_wordB_mem cl hρ hB
   · have hthird : ∃ w : V, w ≠ 1 ∧ w ≠ v := by
       by_contra h
-      push_neg at h
+      push Not at h
       let f : V → Fin 2 := fun w => if w = 1 then 0 else 1
       have hf : Function.Injective f := by
         intro a b hab

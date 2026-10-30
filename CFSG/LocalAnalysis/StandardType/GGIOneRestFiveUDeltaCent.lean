@@ -215,7 +215,7 @@ theorem mul_center_of_hom {G : Type} [Group G] (X : G → G) (hX : ∀ a b, X (a
 theorem exists_mem_ne_of_one_lt_card {d : ℕ} (S : Finset (Fin d)) (hS : 1 < S.card) (a : Fin d) :
     ∃ z ∈ S, z ≠ a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : S ⊆ {a} := fun z hz => Finset.mem_singleton.mpr (hcon z hz)
   have := Finset.card_le_card hsub
   rw [Finset.card_singleton] at this

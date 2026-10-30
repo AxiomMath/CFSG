@@ -142,10 +142,10 @@ theorem typeII_hF_card_inf_le {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] [Fi
     rwa [hTcard] at h
   obtain ⟨i, hi, hAi⟩ := (Nat.dvd_prime_pow hp).mp hAdvd
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h2i : 2 ≤ i := by
     by_contra hi2
-    push_neg at hi2
+    push Not at hi2
     have : Nat.card (F ⊓ T : Subgroup G) ≤ p := by
       rw [hAi]
       calc p ^ i ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos (by omega)

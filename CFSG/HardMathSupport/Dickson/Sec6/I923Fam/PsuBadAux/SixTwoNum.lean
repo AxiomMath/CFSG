@@ -43,13 +43,13 @@ theorem eleven_dvd_of_typeL2 {Y : Type} [Group Y] {r : ℕ} (hr : 10 ≤ r) (hT 
   · obtain ⟨h1, m, hm1, rfl⟩ := heven hev
     have hm : m < 12 := by
       by_contra hm
-      push_neg at hm
+      push Not at hm
       have h2 : 2 ^ 12 ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
       have h3 : (2 ^ m) ^ 3 = 2 ^ m * 2 ^ m * 2 ^ m := by ring
       nlinarith
     have hm4 : 4 ≤ m := by
       by_contra hm
-      push_neg at hm
+      push Not at hm
       have h2 : 2 ^ m ≤ 2 ^ 3 := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     have hM : M₀ = (2 ^ m) ^ 3 - 2 ^ m := by omega
@@ -63,7 +63,7 @@ theorem eleven_dvd_of_typeL2 {Y : Type} [Group Y] {r : ℕ} (hr : 10 ≤ r) (hT 
       rw [← hcard, Nat.card_eq_fintype_card, hpn]
     have hr2700 : r < 2700 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h2 : r * r ≥ 2700 * 2700 := Nat.mul_le_mul hcon hcon
       have h3 : r ^ 3 = r * (r * r) := by ring
       nlinarith
@@ -99,7 +99,7 @@ theorem eleven_dvd_of_typeL2 {Y : Type} [Group Y] {r : ℕ} (hr : 10 ≤ r) (hT 
     rw [hM] at hdvd ⊢
     refine num_odd p hpmem n ?_ n.pos ?_ ?_ hdvd
     · by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 3 ^ 8 ≤ p ^ (n : ℕ) := by
         calc 3 ^ 8 ≤ 3 ^ (n : ℕ) := Nat.pow_le_pow_right (by norm_num) hcon
           _ ≤ p ^ (n : ℕ) := Nat.pow_le_pow_left (by

@@ -79,7 +79,7 @@ theorem i224_hyp1 [Finite Ω] (hc : I224Ctx p B L) {c : Ω} (hcB : c ∈ B)
       rw [h1, Subgroup.mem_centralizer_iff]
       intro h hh
       exact hz h (mem_i224Cj.2 (by simpa using hh))
-  · push_neg at hII
+  · push Not at hII
     obtain ⟨a₀, ha₀, l₀, hl₀, hne₀⟩ := hII
     set M : Subgroup Ω := i224Adm L W (Subgroup.centralizer (i224Cj c L : Set Ω)) with hM
     have hnormA : ∀ a ∈ A, a ∈ Subgroup.normalizer (L : Set Ω) := fun a ha => ha.2

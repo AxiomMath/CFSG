@@ -207,7 +207,7 @@ theorem f4_classes_good (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → L
   obtain ⟨ω, k, hω3, hω1, hk3, hak⟩ := exists_omega_param hap
   have hk0 : ∃ i, k i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply h1
     have : a = 1 := funext fun i => by rw [hak i, hcon i]; simp
     rw [this]

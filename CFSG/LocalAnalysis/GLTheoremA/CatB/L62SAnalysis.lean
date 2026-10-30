@@ -65,7 +65,7 @@ theorem lemmaA (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx}
   by_cases hT : ∀ h ∈ T, h = 0
   · exact Or.inl hT
   right
-  push_neg at hT
+  push Not at hT
   obtain ⟨h0, hh0T, hh0⟩ := hT
   obtain ⟨u1, hu1U, hu1⟩ : ∃ u ∈ LinearMap.ker (epsE d), u ≠ 0 := by
     obtain ⟨x, hx⟩ := (Module.finrank_pos_iff_exists_ne_zero (R := ZMod 2)).1 (by rw [hU2]; norm_num)
@@ -281,7 +281,7 @@ theorem pair_U_nondeg {d : Gx} (hd : d ^ 3 = 1) {k : Ex} (hk : IsHW d k) (hk0 : 
     ∃ h : Ex, IsHU d h ∧ LinearMap.trace (ZMod 2) Vx (k * h) ≠ 0 := by
   obtain ⟨u, hu, hku⟩ : ∃ u ∈ LinearMap.ker (epsE d), k u ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hk0 (zero_of_kill hd hk.2 hcon)
   have hy : k u ∈ LinearMap.range (epsE d) := hk.1 u
   obtain ⟨μ, hμy, -⟩ := Submodule.exists_dual_map_eq_bot_of_notMem (R := ZMod 2) (p := ⊥) (x := k u)
@@ -306,7 +306,7 @@ theorem pair_W_nondeg {d : Gx} (hd : d ^ 3 = 1) {h : Ex} (hh : IsHU d h) (hh0 : 
     ∃ k : Ex, IsHW d k ∧ LinearMap.trace (ZMod 2) Vx (k * h) ≠ 0 := by
   obtain ⟨w, hw, hhw⟩ : ∃ w ∈ LinearMap.range (epsE d), h w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hh0 (zero_of_kill hd hcon hh.2)
   obtain ⟨μ, hμx, -⟩ := Submodule.exists_dual_map_eq_bot_of_notMem (R := ZMod 2) (p := ⊥) (x := h w)
     (by rw [Submodule.mem_bot]; exact hhw) inferInstance

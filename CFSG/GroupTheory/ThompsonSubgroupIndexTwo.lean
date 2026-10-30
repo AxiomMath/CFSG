@@ -525,7 +525,7 @@ theorem thompsonSubgroup_eq_of_commutator_center_ne [Finite H] {A S Q : Subgroup
     intro B hB
     by_contra hBQ
     rw [SetLike.le_def] at hBQ
-    push_neg at hBQ
+    push Not at hBQ
     obtain ⟨b, hbB, hbQ⟩ := hBQ
     have hCindex :=
       relIndex_center_le_two_of_maxCardAbelian_not_le hQleS hQrel hB hbB hbQ hsS hsQ

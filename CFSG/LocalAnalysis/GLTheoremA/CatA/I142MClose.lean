@@ -44,7 +44,7 @@ theorem titsCentSolv_holds : TitsCentSolv := by
 theorem exists_noncomm_quot_center {K : Type*} [Group K] (hK : CFSG.Open.IsQuasisimple K) :
     ∃ a b : K ⧸ Subgroup.center K, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hnt := hK.2.toNontrivial
   have hker : commutator K ≤ (QuotientGroup.mk' (Subgroup.center K)).ker := by
     rw [commutator_def]

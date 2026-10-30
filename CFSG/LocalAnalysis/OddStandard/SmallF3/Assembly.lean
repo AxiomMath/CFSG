@@ -23,7 +23,7 @@ theorem assembly
   have hS : StandardSetting G L := ⟨inferInstance, hnonab, hK, hL⟩
   by_cases hub : ∃ z : G, orderOf z = 2 ∧ CFSG.oddCore (centralizer ({z} : Set G)) ≠ ⊥
   · exact oddLieType_of_unbalanced hS hU hQ hub
-  · push_neg at hub
+  · push Not at hub
     have hcentre : OddLieType G ∨
         (center L = ⊥ ∨
           (LieModel (L ⧸ center L) .PSU 4 3 1 ∧ Nat.card (center L) = 2)) := by

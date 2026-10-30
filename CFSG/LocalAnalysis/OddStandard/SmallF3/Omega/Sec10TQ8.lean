@@ -61,7 +61,7 @@ private theorem orderOf_dvd_eight_of_dvd_pow24 {o m : ℕ} (h1 : o ∣ 2 ^ m) (h
   have h2' : 2 ^ k ∣ 24 := hk ▸ h2
   have hk3 : k ≤ 3 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h16 : 2 ^ 4 ∣ 24 := (pow_dvd_pow 2 (by omega)).trans h2'
     norm_num at h16
   rw [hk, show (8 : ℕ) = 2 ^ 3 by norm_num]

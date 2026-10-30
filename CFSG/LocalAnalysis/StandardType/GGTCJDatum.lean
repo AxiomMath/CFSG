@@ -504,7 +504,7 @@ theorem ggTCJKnown_of_simple
   have hφind : ∀ l : L', φ (ψ l) = ψ (e l) := hφe.choose_spec.2
   have hna : ∃ a b : R, a * b ≠ b * a := by
     by_contra hnab
-    push_neg at hnab
+    push Not at hnab
     haveI : IsMulCommutative R := isMulCommutative_iff.mpr hnab
     have hRcomm : commutator R = ⊥ := (commutator_eq_bot_iff R).mpr inferInstance
     have hmap : (commutator L').map ψ = ⊥ := by

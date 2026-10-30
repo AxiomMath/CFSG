@@ -21,7 +21,7 @@ theorem sec9c_exists_noncomm (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (hB8 : As
     (hT : Asc82Tab9M) (h6 : Asc82Tab6M) (hctx : Sec9E1 G t L S z g B t₀ E1) :
     ∃ e ∈ E1, e * t ≠ t * e := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨-, -, -, h4, hv, -⟩ :=
     asc82Lemma9N_of h36 h68 hB8 hT G t L S z g B t₀ hctx.choice
   have hMB := sec9m_M_cent_B hT h6 hctx

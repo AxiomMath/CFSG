@@ -287,7 +287,7 @@ public theorem corollary713_oddCore_le_centralizer_of_theorem4b
         (pPrimeCore_coprime_card (p := 2) (G := L)))
   obtain ⟨g, hgL, hgM⟩ : ∃ g : X, g ∈ L ∧ g ∉ M := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hnotle h
   let alpha : conjugateCosetSpace M := QuotientGroup.mk 1
   let beta : conjugateCosetSpace M := QuotientGroup.mk g

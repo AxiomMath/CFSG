@@ -37,7 +37,7 @@ theorem Czgrp_le_Ngrp (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z
 theorem exists_conj_t_mul_z (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) : ∃ r ∈ Rgrp h, r * t * r⁻¹ = t * z := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have htr : t ∈ Rgrp h := Setting25.t_mem_Rgrp h
   have hcentral : ∀ r ∈ Rgrp h, r * t = t * r := by
     intro r hr

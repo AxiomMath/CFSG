@@ -47,7 +47,7 @@ theorem isConj_mul_z (hti : HSTI z) {u : G} (hu : IsConj z u) (hne : u ≠ z)
         hall b (hD.sup_eq ▸ Subgroup.mem_sup_right hb)
       exact hne (Width.involution_eq hD hz (Width.mem_Z_of_comm hD hz huF hA)
         (by rw [sq]; exact hu2) hu1)
-    · push_neg at hall
+    · push Not at hall
       obtain ⟨f, hfF, hf⟩ := hall
       rcases Width.comm_F hD hz hfF huF with h | h
       · exact absurd (commutatorElement_eq_one_iff_mul_comm.mp h).symm hf

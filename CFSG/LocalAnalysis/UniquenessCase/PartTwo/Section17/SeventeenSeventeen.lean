@@ -33,7 +33,7 @@ private theorem exists_mem_gam_two_not_le_centralizer {D : Data G} {V₀ V : Sub
     ∃ A ∈ F12.Gam 2 D.T V, ¬ A ≤ centralizer (V : Set G) := by
   classical
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hWi : F12.Wi 2 D.T V ≤ centralizer (V : Set G) := by
     unfold F12.Wi
     exact iSup₂_le hall
@@ -141,7 +141,7 @@ private theorem four_le_mQuot_of_mem_gam {D : Data G} {V₀ V : Subgroup G}
     CFSG.Quasithin.B2F.isPGroup_of_isElemAbelian
       ((CFSG.Open.IsElemAbelian.mono (E3.isElemAbelian_conjSubgroup h.pairFacts.elemAbelian g)) hAg)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hmB : E3.mQuot (conjSubgroup V g) B ≤ 5 := by
     have hadd := E3.mQuot_add (V := conjSubgroup V g) (U := B) (U' := A) hBA hAg
     rw [hmA] at hadd

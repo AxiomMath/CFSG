@@ -366,7 +366,7 @@ theorem gap129EndE_of_notD42_inner (hN : Sec11.Item1134E27N) (hST : Sec21.Item11
   · exact h G A c L b a K S cfg q hq x hxD hxb hxL Y hY hXY hNo h3 hD E hE d hdD hdb hdL Y' J hY'
       hXY' hJ hbJ r hr hrmod hqmod
   · exfalso
-    push_neg at hD
+    push Not at hD
     obtain ⟨r', hr', hr'2, eY⟩ := hD
     exact false_of_isoD42_inner hN hST hTL hCen cfg hq hxD hxb hY hXY h3 hr'2 eY hqmod
 

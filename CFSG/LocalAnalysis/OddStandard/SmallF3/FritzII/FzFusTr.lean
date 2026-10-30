@@ -51,7 +51,7 @@ theorem fzfus_transfer [Finite G] [IsSimpleGroup G] {T₂ : Subgroup G} (hT : Fz
     ∃ m : Model, φ m = 1 ∧ ∃ a : G, a⁻¹ * t * a = π m := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   let P : Sylow 2 G := hT.1.toSylow hT.2
   have hindex : ((φ.ker).map π).relIndex (P : Subgroup G) = 2 :=
     fzfus_relIndex_two π hrange φ hker hsurj

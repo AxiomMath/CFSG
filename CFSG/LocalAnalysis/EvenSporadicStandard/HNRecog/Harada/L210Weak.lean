@@ -41,7 +41,7 @@ theorem L210_eq_of_elemAbelian_card (h : L210Hyp A) {E : Subgroup X} (hE : IsEle
     le_trans (Subgroup.card_le_of_le hFle) hCi
   have hDgt : 8 < Nat.card D := by
     by_contra hnot
-    push_neg at hnot
+    push Not at hnot
     have hbound : Nat.card D * Nat.card ↥(E ⊓ A) ≤ 8 * 16 := Nat.mul_le_mul hnot hFcard
     rw [hEc] at hcardD
     norm_num at hcardD hbound

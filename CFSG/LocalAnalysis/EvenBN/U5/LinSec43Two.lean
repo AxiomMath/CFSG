@@ -62,7 +62,7 @@ theorem lin_sec43_two_aux (h41 : c.Sec41) {A₀ : Subgroup G} (hA₀S : A₀ ≤
   ·
     obtain ⟨x, hxA, hxDQ⟩ : ∃ x ∈ A₀, x ∉ d.D ⊔ (c.Y ⊓ c.S) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hA hcon
     exfalso
     obtain ⟨d', hd', p, hp, q', hq', rfl⟩ := lin43_exists_mul_S hl k c x (hA₀S hxA)

@@ -21,10 +21,10 @@ theorem cen_c_mem3 {x : Perm (Fin 8)} (hxc : x * a8c = a8c * x) :
     simp only [Perm.mul_apply, a8c_apply0] at this
     exact this.symm
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have h3 : 3 ≤ (x 0).val := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     rcases (fin8_lt3 _).1 hlt with e | e | e
     · exact hne.1 e
     · exact hne.2.1 e

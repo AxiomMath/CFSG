@@ -40,7 +40,7 @@ theorem dichotomy_19 {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L K : Subgrou
       show L.map (MulAut.conj m).toMonoidHom = L.map (MulAut.conj m⁻¹⁻¹).toMonoidHom
       rw [inv_inv]
   · right
-    push_neg at hex
+    push Not at hex
     have hfix : ∀ m ∈ D.M, L.map (MulAut.conj m).toMonoidHom = L ∧
         K.map (MulAut.conj m).toMonoidHom = K := fun m hm =>
       (hperm m hm).resolve_right (fun h' => hex m hm h'.1)

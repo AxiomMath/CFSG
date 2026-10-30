@@ -59,7 +59,7 @@ theorem exists_next {g : Matrix (Fin 6) (Fin 6) F} (hU : (g.map (fun x : F => x 
     rw [herm_smul_right, hKpow k x hx i, mul_zero]
   obtain ⟨j0, hj05, hj0⟩ : ∃ j : ℕ, j < 5 ∧ pr g ζ j w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hw0
     rw [← pr_sum g hζ5 hζ1 w]
     exact Finset.sum_eq_zero fun j hj => hcon j (Finset.mem_range.1 hj)
@@ -68,7 +68,7 @@ theorem exists_next {g : Matrix (Fin 6) (Fin 6) F} (hU : (g.map (fun x : F => x 
   obtain ⟨e1, he1eig, he1K, he1ne⟩ : ∃ e : Fin 6 → F, g *ᵥ e = (ζ ^ j0) • e ∧
       (∀ i, herm (f i) e = 0) ∧ herm e e ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hpol : ∀ x y : Fin 6 → F, g *ᵥ x = (ζ ^ j0) • x → (∀ i, herm (f i) x = 0) →
         g *ᵥ y = (ζ ^ j0) • y → (∀ i, herm (f i) y = 0) → herm x y = 0 := by
       intro x y hx hxK hy hyK
@@ -116,7 +116,7 @@ theorem exists_next {g : Matrix (Fin 6) (Fin 6) F} (hU : (g.map (fun x : F => x 
       · exact herm_eigen_zeta hU hζ5 hζ1 (by omega) he0eig (pr_eigen g hζ5 hg5 m r)
     obtain ⟨k, hk⟩ : ∃ k, e0 k ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hj0 (funext h)
     have hval : herm e0 (Pi.single k 1) = (e0 k) ^ 4 := by
       unfold herm

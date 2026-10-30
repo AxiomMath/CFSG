@@ -102,7 +102,7 @@ theorem MoveFrame.normalizer_move (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) 
   have hnorm := normalizer_of_abelian_bound V L (conjSubgroup g Nb) (conjSubgroup g V) q
     hVVg hV1 F.L_comm F.L_card F.V_le_L hLN hVgN hcomm hVgab hbound hZ hcomm' hp
   obtain ⟨hpart2, hpart3⟩ := hnorm
-  push_neg at hpart3
+  push Not at hpart3
   obtain ⟨n, hnNb, hnV⟩ := hpart3
   exact ⟨n, hpart2 n hnNb, hnV⟩
 

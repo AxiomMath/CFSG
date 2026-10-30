@@ -162,7 +162,7 @@ theorem fzr_B_core {X : Type} [CommGroup X] [Finite X] (hX2 : ∀ x : X, x * x =
       omega
     obtain ⟨x₀, hx₀⟩ : ∃ x : X, x ∉ Z := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hZ_ne_top (le_antisymm le_top fun x _ => hcon x)
     have hc_ne : c x₀ ≠ 1 := by
       intro h

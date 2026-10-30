@@ -59,7 +59,7 @@ theorem ut3_exists_comm {a : UT3 F4} (ha : ∃ w : UT3 F4, a * w ≠ w * a) {c :
   obtain ⟨hca, hcb⟩ := ut3_central_ab hc
   have ha' : a.a ≠ 0 ∨ a.b ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h, hh⟩ := ha
     apply hh
     ext <;> simp only [UT3.mul_def, hcon.1, hcon.2] <;> ring
@@ -173,7 +173,7 @@ theorem pairing_Q {a : G} (haQ : a ∈ ctxQ t tau x₁ x₂ rho) (ha : a ∉ fou
     exact ha (by rw [← hZ]; exact ⟨haQ, h⟩)
   have hnc' : ¬ ∀ h ∈ ↑(ctxQ t tau x₁ x₂ rho), h * a = a * h :=
     fun hall => hnc (Subgroup.mem_centralizer_iff.mpr hall)
-  push_neg at hnc'
+  push Not at hnc'
   obtain ⟨h, hhQ, hcomm⟩ := hnc'
   let A : ↥(ctxQ t tau x₁ x₂ rho) := ⟨a, haQ⟩
   let H : ↥(ctxQ t tau x₁ x₂ rho) := ⟨h, hhQ⟩

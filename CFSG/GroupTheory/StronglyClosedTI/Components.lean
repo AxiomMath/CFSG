@@ -114,7 +114,7 @@ theorem isComponent_top [Nontrivial X] (hL : CFSG.layer X = ⊤) (hZ : center X 
     CFSG.IsComponent (⊤ : Subgroup X) := by
   have hex : ∃ K : Subgroup X, CFSG.IsComponent K := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := CFSG.LocalCores.layer_eq_bot_of_forall h
     rw [hL] at this
     exact top_ne_bot this

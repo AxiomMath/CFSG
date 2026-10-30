@@ -150,7 +150,7 @@ private theorem idxCoreAt_fieldAut_B_two_two {p : ℕ} {K : Type} [Field K] [Fin
       ↥⁅subfieldFixedGroup K 2 σ, subfieldFixedGroup K 2 σ⁆) with h | h
     · exact h
     · exfalso
-      push_neg at hTnc
+      push Not at hTnc
       obtain ⟨a, b, hab⟩ := hTnc
       exact hab (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a)
   let hn6 : 5 ≤ 6 := by norm_num

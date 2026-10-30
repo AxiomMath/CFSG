@@ -456,7 +456,7 @@ theorem exists_heisConfig {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Subgroup 
       (QuotientGroup.subsingleton_iff.mpr h)
   obtain ⟨x₀, hx₀Z⟩ : ∃ y : ↥P, y ∉ Z := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hZtop (eq_top_iff.mpr (fun y _ => h y))
   let c₀ : ↥P := σ x₀ * x₀
   have hc₀Z : c₀ ∈ Z := hσy_mem x₀
@@ -524,7 +524,7 @@ theorem exists_heisConfig {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Subgroup 
     exact Z.inv_mem htZ
   obtain ⟨gH, hgH⟩ : ∃ g : ↥P, g * xH ≠ xH * g := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hxHZ (Subgroup.mem_center_iff.mpr (fun g => h g))
   let zH : ↥P := ⁅gH, xH⁆
   have hzHne : zH ≠ 1 := fun h => hgH (commutatorElement_eq_one_iff_mul_comm.mp h)

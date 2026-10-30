@@ -65,7 +65,7 @@ theorem normalizedV_smul_eq_one {v w : Fin 3 → GF64} (hv : NormalizedV v) (hw 
 theorem ne_zero_coord_of_ne_zero {v : Fin 3 → GF64} (hv : v ≠ 0) :
     v 0 ≠ 0 ∨ v 1 ≠ 0 ∨ v 2 ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hv
   funext i
   fin_cases i <;> simp [h.1, h.2.1, h.2.2]

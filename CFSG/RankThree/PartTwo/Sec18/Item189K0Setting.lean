@@ -38,7 +38,7 @@ private theorem k0_exists_mem_of_plane (hp : PlaneQ8 A B X c) :
     ∃ b ∈ B, b ≠ 1 ∧ b ^ 3 = 1 := by
   have hne : ∃ b ∈ B, b ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hB : B = ⊥ := (Subgroup.eq_bot_iff_forall B).mpr hcon
     have h9 := hp.card_plane
     rw [hB, Subgroup.card_bot] at h9

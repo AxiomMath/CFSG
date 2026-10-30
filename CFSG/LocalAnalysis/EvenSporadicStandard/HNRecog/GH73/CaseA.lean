@@ -174,7 +174,7 @@ theorem caseA
       isSimpleGroup_quotient_of_perfect Q hQab hcent S hQS hZ hS hQ16 hYdvd
     have hnonab : ∃ x y : X ⧸ Q, x * y ≠ y * x := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact Group.IsPerfect.not_isMulCommutative (X ⧸ Q) (IsMulCommutative.of_comm h)
     obtain ⟨m, hmeq⟩ := hY4
     have hfacY : (Nat.card (X ⧸ Q)).factorization 2 = 2 := by

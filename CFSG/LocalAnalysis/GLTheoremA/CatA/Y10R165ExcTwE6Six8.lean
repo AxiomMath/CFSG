@@ -53,9 +53,9 @@ private theorem mem_supportA2A2_compl {i : Fin Tag.E6.rank} :
     · left; exact Fin.ext (by simpa [e6Index] using hv)
     · right; exact Fin.ext (by simpa [e6Index] using hv)
   · rintro (rfl | rfl)
-    · push_neg
+    · push Not
       exact ⟨by decide +kernel, by decide +kernel, by decide +kernel, by decide +kernel⟩
-    · push_neg
+    · push Not
       exact ⟨by decide +kernel, by decide +kernel, by decide +kernel, by decide +kernel⟩
 
 theorem tw6SixFrameWeyl_supportA2A2 {p q : ℕ} [Fact p.Prime] (hp5 : 5 < p)

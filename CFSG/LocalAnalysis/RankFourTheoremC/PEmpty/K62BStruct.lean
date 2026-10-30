@@ -135,7 +135,7 @@ theorem Cfg.struct (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFive) (h610 : GL8
     fun C hC => ⟨hcycl C hC, h.center_eq_bot_of_cyclic h610 (hcycl C hC)⟩
   obtain ⟨C₀, hC₀⟩ : ∃ C₀ : ComponentIndex Y, ¬ Fixed P C₀ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     obtain ⟨C, C', hCC'⟩ := hcomp
     exact h.false_of_two_fixed h64 h610 hCC' (hall C) (hall C')
   obtain ⟨E, hEdef, hEP, hEl, hEe, hzE, hm, hpp, hP5, hEn⟩ :=
@@ -178,7 +178,7 @@ theorem Cfg.struct (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFive) (h610 : GL8
     exact h.z_ne_one hz1
   have hxmoves : ∃ C₁ : ComponentIndex Y, x ∉ normalizer (C₁.1 : Set Y) := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hcent : ∀ i : Moved P, omega1 p P i.1 ≤ centralizer ({x} : Set Y) := by
       intro i
       obtain ⟨a₀, -, ho, he⟩ := h.omega1_eq_zpowers (hcycl i.1 i.2)

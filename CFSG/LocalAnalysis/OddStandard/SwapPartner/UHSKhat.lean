@@ -62,7 +62,7 @@ theorem isQuasisimple (C : HSCtx z ι ιd Kh) : CFSG.IsQuasisimple ↥Kh := by
   refine ⟨?_, C.khat.quasisimple.2, ?_⟩
   · exact Group.isPerfect_def.mpr C.khat.quasisimple.1
   · by_contra h
-    push_neg at h
+    push Not at h
     haveI : IsMulCommutative (↥Kh ⧸ center ↥Kh) := isMulCommutative_iff.mpr h
     have hp : (Nat.card (↥Kh ⧸ center ↥Kh)).Prime :=
       Group.is_simple_iff_prime_card.mp C.khat.quasisimple.2

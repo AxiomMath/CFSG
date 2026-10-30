@@ -25,7 +25,7 @@ theorem exists_rel3 (u : Fin 3 → Fin 2 → ZMod 5) : ∃ a b c : ZMod 5,
   obtain ⟨x, y, hxy, hf⟩ := Fintype.exists_ne_map_eq_of_card_lt f hcard
   refine ⟨x 0 - y 0, x 1 - y 1, x 2 - y 2, ?_, fun k => ?_⟩
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h0, h1, h2⟩ := hcon
     apply hxy
     funext s

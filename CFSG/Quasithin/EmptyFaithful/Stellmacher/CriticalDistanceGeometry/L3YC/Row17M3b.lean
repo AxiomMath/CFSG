@@ -98,7 +98,7 @@ theorem m3_row14conc [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat] {B : Subgroup
   · intro b hb
     rw [hmap]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbKL : b ∈ KL := hBeq ▸ hb
     have hbM : b ∈ M3 := KL_le_M3 hbKL
     set t : ↥M3 := (⟨b, hbM⟩ : ↥M3)⁻¹ * x₀ with ht

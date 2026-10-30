@@ -29,7 +29,7 @@ theorem relIndex_lt_eight {Γ : Type} [Group Γ] [Finite Γ] {H T M V : Subgroup
     (h : Hyp28 H T M V) (hq : qhatOf (autI h.elem H) = (((3 : ℚ) / 2 : ℚ) : WithTop ℚ))
     (hV16 : Nat.card V = 2 ^ 4) : (T ⊓ Subgroup.centralizer (V : Set Γ)).relIndex T < 8 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hQ := qhatOf_autI_le_one h.elem hV16 h.minParabolic.isSylow.2.1 h.normal_T hlt
   have hmono : qhatOf (autI h.elem H) ≤ qhatOf (autI h.elem T) :=
     kq_le_kq_of_le216 (autI_mono h.elem h.minParabolic.isSylow.1) 3

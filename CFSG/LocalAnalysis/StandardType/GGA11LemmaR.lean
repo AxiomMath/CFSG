@@ -58,7 +58,7 @@ private theorem a11lr_step3 : ∀ c : Fin 4 → ZMod 7, (∀ i, c i ∈ a11lr_mu
   have h7 : (7 : ZMod 7) = 0 := by decide
   obtain ⟨k, hk⟩ : ∃ k, ∑ i, c i ^ 2 + c k ^ 2 ≠ 0 := by
     by_contra H
-    push_neg at H
+    push Not at H
     have h0 := H 0
     have h1 := H 1
     have h2 := H 2
@@ -307,7 +307,7 @@ private theorem a11lr_rank_one_factor (M : M4) (hM : M.rank = 1) :
   have hmin := a11lr_minors_of_rank_one M hM
   obtain ⟨i0, j0, hij⟩ : ∃ i0 j0, M i0 j0 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hM0 (by ext i j; exact h i j)
   refine ⟨fun i => M i j0 * (M i0 j0)⁻¹, fun j => M i0 j, ?_, ?_, ?_⟩
   · intro hu
@@ -555,7 +555,7 @@ private theorem a11lr_rankOne_mon (A : Submonoid M4)
       have hrk : a11lr_RankOneB r := a11lr_rankOneB_of_rank r hrank
       rw [heq] at hrk
       exact (a11lr_F1 j π (fun i i' h => π.injective h) hπj m hrk).elim
-  · push_neg at hcase
+  · push Not at hcase
     have hw0 : ∀ j, w j ≠ 0 := by
       intro j
       have hevj : (ev j : Fin 4 → ZMod 7) ≠ 0 := by

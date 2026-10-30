@@ -69,7 +69,7 @@ private lemma exists_order_four_of_index_le_two {H : Type*} [Group H]
     rcases hcases with h | h <;> rw [h] at hcard <;> omega
   have hex : ∃ x ∈ K, x * x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinj : Function.Injective
         (fun x : K => (⟨(x : H), hcon x x.2⟩ : {x : H // x * x = 1})) := by
       intro a b hab

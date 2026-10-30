@@ -340,7 +340,7 @@ theorem pSimple_nonabelian {p : ℕ} (hp : p.Prime) {X J : Subgroup G} (hJ : GLA
   haveI := isSimple_pSimple hp hJ
   obtain ⟨-, -, -, hZ⟩ := pComponent_basic hp hJ
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have htop : Subgroup.center (PSimple p J) = ⊤ := by
     ext g
     simp only [Subgroup.mem_center_iff, Subgroup.mem_top, iff_true]
@@ -413,7 +413,7 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
   ·
     obtain ⟨a₀, b₀, hab0⟩ : ∃ a b : P, ⁅a, b⁆ ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply hab
       rw [eq_bot_iff]
       exact Subgroup.commutator_le.2 (fun a _ b _ => Subgroup.mem_bot.2 (h a b))
@@ -493,7 +493,7 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
       exact Subgroup.eq_of_le_of_card_ge hCZ (by rw [hm, hm1, pow_one, hZcard])
     rw [hCZeq]
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     obtain ⟨N, hN⟩ := (hPg ⊤).exists_card_eq
     have hN' : Nat.card P = q ^ N := by rw [← Subgroup.card_top]; exact hN
     have hZI : Nat.card Z * Z.index = Nat.card P := Subgroup.card_mul_index Z
@@ -501,7 +501,7 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
     obtain ⟨j, -, hIj⟩ := (Nat.dvd_prime_pow hq.out).1 hIdvd
     have hj3 : 3 ≤ j := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h1 : q ^ j ≤ q ^ 2 := Nat.pow_le_pow_right hqpos (by omega)
       rw [hIj] at hlt
       exact absurd (lt_of_lt_of_le hlt h1) (lt_irrefl _)
@@ -532,7 +532,7 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
       rw [hH_card a₀ ha0 ha0pow, hZcard, sq]
     obtain ⟨e₂, he₂C, he₂H⟩ : ∃ e₂ ∈ φ.ker, e₂ ∉ Z ⊔ Subgroup.zpowers a₀ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : φ.ker ≤ Z ⊔ Subgroup.zpowers a₀ := fun x hx => hcon x hx
       have h1 := Subgroup.card_le_of_le hle
       rw [hH2] at h1
@@ -547,7 +547,7 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
       exact commutatorElement_eq_one_iff_mul_comm.1 h2
     obtain ⟨c, hcZ, hc1⟩ : ∃ c ∈ Z, c ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hZne
       rw [eq_bot_iff]
       intro x hx
@@ -681,7 +681,7 @@ private theorem index_commutator_le_P {P : Type*} [Group P] [Finite P] {q : ℕ}
     obtain ⟨mA, hmA⟩ := (hPg A).exists_card_eq
     have hmA3 : 3 ≤ mA := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h1 : q ^ mA ≤ q ^ 2 := Nat.pow_le_pow_right hqpos (by omega)
       rw [← hmA] at h1
       exact absurd (lt_of_lt_of_le (Nat.pow_lt_pow_right hq1 (by norm_num : 2 < 3)) (h3A.trans h1))
@@ -1672,7 +1672,7 @@ theorem isCyclic_of_isPGroup_SL2 {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq 
       exact Subgroup.card_subgroup_dvd_card P
     have hm1 : m ≤ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h2 : p ^ 2 ∣ p * (p ^ 2 - 1) := (pow_dvd_pow p h).trans hdvd
       have h3 : p ∣ p ^ 2 - 1 := by
         have h2' : p * p ∣ p * (p ^ 2 - 1) := by
@@ -1941,7 +1941,7 @@ theorem card_le_pow_pRank_aut {p : ℕ} (hp : p.Prime) {X L B : Subgroup G} (hL 
 theorem three_le_pRank_Q₁ {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ : Subgroup G} (hc : S9Ctx G p)
     (h713 : GL83.I_7_13_1) (hC : Contra92 p B x L q Q₁) : 3 ≤ CFSG.Open.pRank q Q₁ := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
   have hq : q.Prime := hC.setup.prime

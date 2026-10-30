@@ -205,7 +205,7 @@ theorem false_of_prime_index_normal_sylow {H : Type*} [Group H] [Finite H] {p : 
         (⟨a, ha⟩ : S) ⟨b, hb⟩)
   obtain ⟨x, hxS, hxI⟩ : ∃ x ∈ S, x ∉ I := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Subgroup.card_dvd_of_le (show S ≤ I from fun y hy => hcon y hy)
     rw [hScard] at h1
     exact hndvd h1

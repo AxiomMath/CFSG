@@ -46,7 +46,7 @@ theorem isBlock_blockUnion {D α : Set G} {V : Set (Set G)} (hN : IsNormalSet D)
   · intro hU
     obtain ⟨γ, hγc, hγV⟩ : ∃ γ ∈ blockClass α, γ ∉ V := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hproper (Set.Subset.antisymm hV h)
     obtain ⟨h, rfl⟩ := mem_blockClass_iff.mp hγc
     obtain ⟨x, hxγ⟩ := hα.nonempty

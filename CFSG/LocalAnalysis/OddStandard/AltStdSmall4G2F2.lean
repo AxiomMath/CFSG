@@ -203,7 +203,7 @@ theorem IRR (S : Set (Fin 3 → ZMod 2))
   by_cases h : ∀ v ∈ S, v = 0
   · exact Or.inl h
   · right
-    push_neg at h
+    push Not at h
     obtain ⟨v, hv, hv0⟩ := h
     intro w hw
     obtain ⟨i, hi⟩ := orbit_x2y2 v w hv0 hw

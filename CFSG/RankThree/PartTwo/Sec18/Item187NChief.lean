@@ -191,20 +191,20 @@ private theorem eq_of_minimal_normal {P Γ W₀ W₁ : Subgroup G} {y : G} (hP :
     (hU : W₁ ≤ Subgroup.normalizer (U : Set G)) : U = W₀ ∨ U = W₁ := by
   obtain ⟨hW01, hW1P, hΓ0, hΓ1, h10, x₀, hx₀W1, hx₀⟩ := hadm
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hc₀ : Nat.card W₀ < Nat.card U :=
     Subgroup.card_lt_of_lt (lt_of_le_of_ne hWU (Ne.symm hcon.1))
   have hc₁ : Nat.card U < Nat.card W₁ :=
     Subgroup.card_lt_of_lt (lt_of_le_of_ne hUW hcon.2)
   have hUy : ∀ u ∈ U, y * u * y⁻¹ * u⁻¹ ∈ W₀ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨u, huU, hu⟩ := hno
     have h1 := hmin W₀ U ⟨hWU, hUW.trans hW1P, hΓ0, hΓU, hUW.trans h10, u, huU, hu⟩
     omega
   have hWy : ∀ x ∈ W₁, y * x * y⁻¹ * x⁻¹ ∈ U := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨x, hxW, hx⟩ := hno
     have h1 := hmin U W₁ ⟨hUW, hW1P, hΓU, hΓ1, hU, x, hxW, hx⟩
     omega

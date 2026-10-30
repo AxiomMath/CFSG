@@ -188,7 +188,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
       (univ.filter fun i => ∀ x, c x = 1 → d i x = 1).card = 3 := by
   have hnt : ∃ i, ∃ x, d i x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ x : P, x = 1 := fun x => hfaith x (fun i => hcon i x)
     have hle : Fintype.card P ≤ 1 :=
       Fintype.card_le_one_iff.mpr (fun a b => (hall a).trans (hall b).symm)
@@ -208,7 +208,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   obtain ⟨i2, hi2⟩ : ∃ i2, ¬ (d i2 = (fun _ => 1) ∨ d i2 = d i1 ∨
       d i2 = fun x => d i1 x ^ 2) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ i, d i x0 = 1 := by
       intro i
       rcases hcon i with h | h | h
@@ -224,14 +224,14 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   have h2c : d i2 ≠ fun x => d i1 x ^ 2 := fun h => hi2 (Or.inr (Or.inr h))
   have hc2cnt : ∃ x, d i2 x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h2a (funext hcon)
   obtain ⟨x2, hx2, hx2a, hx2b⟩ :=
     common_kernel hζ (hdmul i1) (hdpow i1) (hdmul i2) (hdpow i2) hcard
   obtain ⟨i3, hi3⟩ : ∃ i3, ¬ (d i3 = (fun _ => 1) ∨ d i3 = d i1 ∨
       d i3 = (fun x => d i1 x ^ 2) ∨ d i3 = d i2 ∨ d i3 = fun x => d i2 x ^ 2) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ i, d i x2 = 1 := by
       intro i
       rcases hcon i with h | h | h | h | h
@@ -254,7 +254,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   have h3e : d i3 ≠ fun x => d i2 x ^ 2 := fun h => hi3 (Or.inr (Or.inr (Or.inr (Or.inr h))))
   have hc3cnt : ∃ x, d i3 x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h3a (funext hcon)
   have hsq1 := sq_fun_ne hζ (hdpow i1) hc1cnt
   have hsq2 := sq_fun_ne hζ (hdpow i2) hc2cnt
@@ -285,7 +285,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
     intro j hj
     have hjnt : ∃ x, d j x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hj (funext hcon)
     rw [hm, hm]
     exact (mult_inv_eq hζ hdmul hdpow hsymm (hdmul j) (hdpow j) hjnt).symm
@@ -296,7 +296,7 @@ theorem exists_good_char (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
   have hnt_of : ∀ j, d j ≠ (fun _ => 1) → ∃ x, d j x ≠ 1 := by
     intro j hj
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hj (funext hcon)
   have sq_ne_one : ∀ j, d j ≠ (fun _ => 1) → (fun x => d j x ^ 2) ≠ fun _ => 1 := by
     intro j hj h

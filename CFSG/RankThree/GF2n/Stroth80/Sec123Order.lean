@@ -116,7 +116,7 @@ theorem Ctx.card_LB_lt_of_width_two (hc : Ctx M Q Z B) (hw : Width Q Z 2) :
     Nat.card (LB M Q B) < Nat.card Q * Nat.card Z ^ 2 := by
   classical
   by_contra hge
-  push_neg at hge
+  push Not at hge
   obtain ⟨K, _, _, _, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hKcard : Nat.card K = Nat.card Z := h.card

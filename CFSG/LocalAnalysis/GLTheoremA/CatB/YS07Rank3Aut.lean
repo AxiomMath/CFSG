@@ -337,7 +337,7 @@ theorem p_eq_three_of_list67 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type}
   by_contra hne
   have h5 : 5 ≤ p := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases p <;> first | omega | norm_num at hp
   obtain ⟨j, hj, ⟨f⟩⟩ := hS
   rcases hj with hj | hj | hj | hj | hj | hj

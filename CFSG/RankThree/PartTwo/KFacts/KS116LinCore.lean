@@ -96,11 +96,11 @@ theorem scalar_of_normal_solvable [Finite F] [Module.Finite F V] [Finite G] (h2 
           (fun x hx => hcomm b hb x hx)
       exact hk0 (perfect_trivial_of_comm ρ hK hc k0 hk0K)
     · have hnsimple : ∃ U : Submodule F V, (∀ b ∈ B, U ≤ U.comap (ρ b)) ∧ U ≠ ⊥ ∧ U ≠ ⊤ := by
-        push_neg at hsimple
+        push Not at hsimple
         exact hsimple
       exact hk0 (eigen_case ρ hirr hd2 hd3 B K hab hns hK hnsimple k0 hk0K)
   · have hnab : ∃ x ∈ B, ∃ y ∈ B, ρ x * ρ y ≠ ρ y * ρ x := by
-      push_neg at hab
+      push Not at hab
       obtain ⟨b, hb, b', hb', hne⟩ := hab
       exact ⟨b, hb, b', hb', hne⟩
     have hd : Module.finrank F V = 2 ∨ Module.finrank F V = 3 := by omega
@@ -142,7 +142,7 @@ theorem core_irreducible {F : Type} [Field F] [Finite F] {G : Type} [Group G] [F
   · exact perfect_trivial_of_comm ρ hK (fun a _ b _ => comm_of_finrank_le_one hd1 (ρ a) (ρ b))
   have hd2 : 2 ≤ Module.finrank F V := by omega
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨k, hk, hkne⟩ := hne
   obtain ⟨K', hK'def⟩ : ∃ K' : Subgroup G, K' = K.map (MulAut.conj n).toMonoidHom :=
     ⟨_, rfl⟩

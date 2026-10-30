@@ -15,7 +15,7 @@ theorem prop32 {p : ℕ} (hKM : KMUsedAt) (hDih : DihedralUsed) (hLB : LBalanceA
     (hc : S3Ctx G p) {B : Subgroup G} (hB : GLAIsBmax p B) :
     ∃ (x : G) (L : Subgroup G), IsSTriple p B x L := by
   by_contra hnot
-  push_neg at hnot
+  push Not at hnot
   have hp := hc.prime
   have hnc : ∀ (x : G) (L : Subgroup G), IsEssential p B x →
       ¬ GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := fun x L hx hL =>
@@ -27,7 +27,7 @@ theorem prop32 {p : ℕ} (hKM : KMUsedAt) (hDih : DihedralUsed) (hLB : LBalanceA
     exact Nat.pow_le_pow_right hp.pos hc.rank_ge
   have hE2 : p ^ 2 ≤ Nat.card E := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : Nat.card E * p ^ 2 < p ^ 2 * p ^ 2 :=
       Nat.mul_lt_mul_of_pos_right h (pow_pos hp.pos 2)
     have h2 : p ^ 2 * p ^ 2 = p ^ 4 := by ring
@@ -38,7 +38,7 @@ theorem prop32 {p : ℕ} (hKM : KMUsedAt) (hDih : DihedralUsed) (hLB : LBalanceA
   obtain ⟨E₀, hE₀E, hE₀card, hE₀ess, -⟩ := hc.lemma31 B E N hB hEB hEncyc hN hBN
   have hE₀ne : ∃ x ∈ E₀, x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : E₀ = ⊥ := Subgroup.eq_bot_iff_forall _ |>.2 h
     rw [hbot, Subgroup.card_bot] at hE₀card
     have : p ^ 2 ≤ p := by omega

@@ -422,7 +422,7 @@ theorem alt3_center {σ : alternatingGroup (Fin 12)} (hσ : σ ∈ alt3)
   have := alt3_simple
   have hnab : ∃ a b : alt3, a * b ≠ b * a := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hcomm : commutator alt3 = ⊥ := by
       rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
       intro x _
@@ -522,7 +522,7 @@ theorem card_alt4 : Nat.card alt4 = 20160 := by
 theorem exists_noncomm_of_simple {S : Type*} [Group S] [Finite S] [IsSimpleGroup S]
     (h : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   letI : CommGroup S := { (inferInstance : Group S) with mul_comm := hc }
   exact h (IsSimpleGroup.prime_card (α := S))
 

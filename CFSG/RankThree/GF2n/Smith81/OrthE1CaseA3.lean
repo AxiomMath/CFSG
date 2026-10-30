@@ -902,7 +902,7 @@ theorem caseA3_of
   haveI := hsimp
   have hnab : ∃ a b : ↥(E1Dpre M Q B t) ⧸ Q.subgroupOf (E1Dpre M Q B t), a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : IsMulCommutative (↥(E1Dpre M Q B t) ⧸ Q.subgroupOf (E1Dpre M Q B t)) :=
       ⟨⟨fun a b => hcon a b⟩⟩
     have hprime := (Group.is_simple_iff_prime_card).mp hsimp

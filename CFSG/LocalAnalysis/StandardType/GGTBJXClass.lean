@@ -32,7 +32,7 @@ theorem ggTBJ_class_fix
       nth_rewrite 1 [hc']
       group
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hcomm : ∀ i : KernelComponent (rootCharHom a), componentRootSpan K (rootCharHom a) i ≤
       Subgroup.centralizer (J.map ψ : Set (ModGL τ K)) := by
     intro i

@@ -51,7 +51,7 @@ theorem card_singular_eq_136 {Q : QuadraticForm (ZMod 2) V} (hQ : Q.polarBilin.N
   have hex : ∀ x : V, x ∉ W → ∃ c ∈ W, QuadraticMap.polar Q c x ≠ 0 := by
     intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx
     rw [← hperp, LinearMap.BilinForm.mem_orthogonal_iff]
     intro c hc

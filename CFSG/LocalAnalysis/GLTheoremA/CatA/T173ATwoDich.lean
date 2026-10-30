@@ -22,7 +22,7 @@ theorem lin_two_std_dichotomy (hV : 6 ≤ Module.finrank (ZMod 2) V)
     Module.finrank (ZMod 2) (comSp g) = 2 ∨ Module.finrank (ZMod 2) (fixSp g) ≤ 1 := by
   obtain ⟨hgA, hg1, hg3, hcomp, hcent⟩ := hg
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hcom2, hfix1⟩ := hcon
   obtain ⟨m, hm⟩ := S172A.GL.even_finrank_comSp hg3
   have hcom0 : Module.finrank (ZMod 2) (comSp g) ≠ 0 := by

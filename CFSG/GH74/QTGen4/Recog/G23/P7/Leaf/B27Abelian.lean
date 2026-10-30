@@ -498,7 +498,7 @@ theorem vertex_comm [Finite G] {σ τ z t : G} {M N : Subgroup G}
     ∀ x ∈ M, ∀ y ∈ M, x * y = y * x := by
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨x0, hx0, y0, hy0, hxy0⟩ := hcon
   have hnon : ∃ x ∈ M, ∃ y ∈ M, x * y ≠ y * x := ⟨x0, hx0, y0, hy0, hxy0⟩
   have hinv := inv_mod_of_involution hM hσM hσc hσo hz2 hzσ hzM hMz

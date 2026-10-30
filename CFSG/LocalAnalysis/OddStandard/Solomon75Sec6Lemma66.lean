@@ -367,7 +367,7 @@ private theorem l66_eq_one_of_central {L : Subgroup X} (hZ : center (↥L ⧸ pP
 private theorem l66_exists_ne_comm {E : Subgroup X} (hq : IsTwoGenQuasi ↥E) :
     ∃ a ∈ E, ∃ b ∈ E, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   refine not_commutator_le_of_odd hq (R := ⊥) (by simp) ?_
   rw [Subgroup.commutator_le]
   intro a ha b hb
@@ -432,7 +432,7 @@ private theorem l66_sec5Comp_K0 {n : ℕ} {t : X} (hAt : Sec6AtAhat X n t)
   have hne := l66_K0_ne_bot_of_atAhat hAt
   obtain ⟨A, hA⟩ : ∃ A, Sec5Comp X n (cen t) A := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     rw [K0_eq_sSup_sec5Comp]
     exact sSup_eq_bot.2 fun A hA => absurd hA (hno A)
@@ -836,7 +836,7 @@ private theorem l66_exists_noncomm
   haveI := l66_isSimpleGroup hQ
   have hZ : center Q = ⊥ := mcLLyCenterFree Q (hQ.imp And.right And.right)
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨g, hg⟩ := exists_ne (1 : Q)
   have hgZ : g ∈ center Q := Subgroup.mem_center_iff.2 fun y => h y g
   rw [hZ, Subgroup.mem_bot] at hgZ

@@ -35,7 +35,7 @@ theorem szg_exists_outer {a c y : G}
   have hfacts := hP.facts
   have hex : ∃ u ∈ U, u ∉ sz32Z a c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : U ≤ sz32Z a c := hcon
     have h2 := hU.abs.inf_Z
     rw [inf_eq_left.mpr hle] at h2

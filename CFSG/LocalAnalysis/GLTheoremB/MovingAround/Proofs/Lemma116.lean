@@ -60,7 +60,7 @@ theorem card_support_eq_of {π : Perm α} {p s : ℕ} (h : π.cycleType = Multis
 theorem exists_fixed_of_card_lt {π : Perm α} {p s : ℕ} (h : π.cycleType = Multiset.replicate s p)
     (hlt : s * p < Fintype.card α) : ∃ w : α, π w = w := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : (Finset.univ : Finset α) ⊆ π.support := fun x _ => by
     rw [mem_support]; exact hcon x
   have h2 := Finset.card_le_card hsub
@@ -137,7 +137,7 @@ theorem card_closure_ge {p : ℕ} (hp : p.Prime) :
         obtain ⟨t, ht⟩ := hdvd'
         have ht2 : t < 2 := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           have : p * 2 ≤ p * t := Nat.mul_le_mul_left p hcon
           omega
         interval_cases t <;> omega
@@ -224,7 +224,7 @@ theorem exists_cycle_avoiding {C : Finset (Perm α)} (hdisj : (C : Set (Perm α)
   set Ay := C.filter (fun c => y ∈ c.support) with hAydef
   obtain ⟨c, hc1, hc2⟩ : ∃ c ∈ C, c ∉ Ax ∪ Ay := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Finset.card_le_card (show C ⊆ Ax ∪ Ay from fun c hc => hcon c hc)
     have h2 := Finset.card_union_le Ax Ay
     omega
@@ -401,7 +401,7 @@ theorem two_le_pRank_pair {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prim
     obtain ⟨t, ht⟩ := hdvd
     have ht2 : t < 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : p * 2 ≤ p * t := Nat.mul_le_mul_left p hcon
       omega
     interval_cases t <;> omega
@@ -1187,7 +1187,7 @@ theorem lemma116_of_inputs (hI236 : Lemma116.Input23_6) (hI236gt : Lemma116.Inpu
         hI319 G p r hp hp2 hr2 hnot R hRp F U hFek hUek
       have hk_le : CFSG.Open.pRank p (E ⊓ A) ≤ r := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have hle : CFSG.Open.pRank p (E ⊓ A) ≤ CFSG.Open.pRank p E :=
           CFSG.SectionRank.pRank_mono hp.one_lt inf_le_left
         have hEr : CFSG.Open.pRank p E = r + 1 := by omega

@@ -65,7 +65,7 @@ theorem l3_shape_of_commutator {Y' X' : Type} [Group Y'] [Finite Y'] [Group X']
   obtain ⟨eY⟩ := h
   have hnc : ∃ a b : X', a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : _root_.commutator X' = ⊥ := by
       rw [eq_bot_iff]
       refine Subgroup.commutator_le.mpr fun a _ b _ => ?_

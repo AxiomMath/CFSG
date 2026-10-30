@@ -183,7 +183,7 @@ theorem Exp.maximal_mod [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ 
 theorem Exp.exists_nonempty [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k) :
     ∃ B : Finset (Fin f), B.Nonempty ∧ X.E B (D.s v₀) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hX : ∀ t : K, D.X t (D.s v₀) = D.s v₀ := by
     intro t
     have h1 : (D.X t : V →ₗ[K] V) (D.s v₀) =

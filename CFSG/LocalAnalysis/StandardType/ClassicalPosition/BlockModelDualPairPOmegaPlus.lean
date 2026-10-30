@@ -7378,7 +7378,7 @@ private theorem bmdual_rank_one_eq_vecMulVec {m n : Type*} [Fintype m] [Fintype 
     exact ⟨0, 0, by ext i j; simp [Matrix.vecMulVec]⟩
   · obtain ⟨i, hi⟩ : ∃ i, A.row i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA0 (by ext k l; simpa using congrFun (h k) l)
     have hrank : A.rank = Module.finrank F (Submodule.span F (Set.range A.row)) :=
       Matrix.rank_eq_finrank_span_row A
@@ -7461,7 +7461,7 @@ private theorem bmdual_siegel_gen_rank_one
     rw [hτdef] at hτ0
     obtain ⟨i, hi⟩ : ∃ i, a₂ i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact ha₂ (funext h)
     have hrel : a₂ i • Matrix.mulVec (bmdualG n (GaloisField 2 f)) a₁ +
         a₁ i • Matrix.mulVec (bmdualG n (GaloisField 2 f)) a₂ = 0 := by

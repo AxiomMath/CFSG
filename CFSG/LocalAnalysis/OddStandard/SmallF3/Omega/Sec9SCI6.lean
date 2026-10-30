@@ -89,7 +89,7 @@ theorem sec9ci_irred_F (h6 : Module.finrank (ZMod 3) V = 6) {n : ℕ}
   right
   have hex : ∃ f' ∈ F', f' ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hbot ((Subgroup.eq_bot_iff_forall F').mpr hcon)
   obtain ⟨f', hf'F', hf'1⟩ := hex
   obtain ⟨t, S, htf, hSe, hSd⟩ := hpre f' (hF'F hf'F')

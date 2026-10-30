@@ -759,7 +759,7 @@ public theorem pgl2_concrete_nonsplit_torus_centralizer_data
         _ = c * lam := by rw [h00]; ring
     have hAne : a ≠ 0 ∨ c ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       rcases h with ⟨ha0, hc0⟩
       have hb0 : b = 0 := by
         have hbμ : b * (μ : K) = 0 := by rw [h00, hc0]; simp

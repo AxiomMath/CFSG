@@ -334,19 +334,19 @@ theorem ks_cent8_two_le {y : Equiv.Perm (Fin 820)} (hy : y ∈ U43ExtStar) (h8 :
   rw [ha] at hdvd ⊢
   refine ⟨?_, fun h2 => ?_⟩
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h7 : 7 ≤ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 2 ^ a ≤ 2 ^ 6 := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     exact ks8Cent_not_dvd_128 j hj (dvd_trans (Nat.pow_dvd_pow 2 h7) hdvd)
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hjc : ks8Coset[j]! = 2 := inCos_unique (ks8_coset_lt j hj).1 (by norm_num) hcos h2
     have h6 : 6 ≤ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 2 ^ a ≤ 2 ^ 5 := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     exact ks8Cent_not_dvd_64 j hj hjc (dvd_trans (Nat.pow_dvd_pow 2 h6) hdvd)

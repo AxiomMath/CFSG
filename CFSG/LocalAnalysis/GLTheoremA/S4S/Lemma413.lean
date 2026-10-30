@@ -112,7 +112,7 @@ theorem J_not_le_centralizer {p : ℕ} (hp : p.Prime) {K J R : Subgroup G} (hJK 
   haveI : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hT⟩ : ∃ T : Subgroup G, GLAPComponent p J T := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hJ1
     refine le_bot_iff.1 ?_
     rw [← hJ]
@@ -155,7 +155,7 @@ theorem exists_D_commutator {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E R J : Su
       (⁅R ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) ≠ ⊥ := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hnc
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpE : p ≤ Nat.card E := by

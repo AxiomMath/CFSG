@@ -24,7 +24,7 @@ theorem RedConfig.le_normalizer_of_forall (h : RedConfig p P z D) (hQ : CFSG.pCo
   refine le_normalizer_of_card_components_le hp (m := 2) hp3 ?_ P.isPGroup' hK
   intro S hS
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨K₁, h₁S, K₂, h₂S, K₃, h₃S, h₁₂, h₁₃, h₂₃⟩ := Finset.two_lt_card.1 hlt
   have hK₁ := hS K₁ h₁S
   have hK₂ := hS K₂ h₂S
@@ -126,7 +126,7 @@ theorem orbit_three {d : X} (hd3 : d ^ 3 = 1) {K₁ : Subgroup X} (hK₁ : IsCom
     h13, h23, hc3, ?_⟩
   intro L hL
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hL1, hL2, hL3⟩ := hne
   have := hcard {K₁, MulAut.conj d • K₁, MulAut.conj d • (MulAut.conj d • K₁), L} (by
     intro K hK

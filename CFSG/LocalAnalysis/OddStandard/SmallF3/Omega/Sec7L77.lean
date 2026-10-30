@@ -16,7 +16,7 @@ theorem asc82Lemma77b_of (h36 : Asc82Lemma36) (h72 : Asc82Lemma72) (hP : Asc82Ta
     (h77a : Asc82Lemma77a) : Asc82Lemma77b := by
   intro G _ _ t L S z g B hc
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : CFSG.conjugate L g ⊓ MSub S B ≤
       MSub S B ⊓ centralizer ({t} : Set G) ⊓ centralizer ({g⁻¹ * t * g} : Set G) := by
     intro n hn

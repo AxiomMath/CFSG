@@ -81,7 +81,7 @@ theorem leafDSBZSJ [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafFait
       simpa [mul_assoc] using this
   have hL1z : ∃ l ∈ L1, l * z ≠ z * l := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hXp : IsPGroup 2 (Subgroup.zpowers z) := by
       apply IsPGroup.of_card (n := 1)
       rw [Nat.card_zpowers, orderOf_eq_prime hz2 hz1]

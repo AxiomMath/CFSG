@@ -94,7 +94,7 @@ theorem mulAut_pow_four_apply {A : Type} [Group A] (α : MulAut A) (y : A) :
 theorem exists_ne_of_sq_ne_one {A : Type} [Group A] (e : A ≃* Q8) (α : MulAut A)
     (h : α ^ 2 ≠ 1) : ∃ z, q8Transport e α (q8Transport e α z) ≠ z := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   refine MulEquiv.ext fun y => ?_
   rw [mulAut_pow_two_apply]

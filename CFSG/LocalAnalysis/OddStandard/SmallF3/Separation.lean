@@ -72,7 +72,7 @@ private theorem not_three_pow_thirteen_dvd_of_mem_smallF3Orders {a : ℕ}
 private theorem le_twelve_of_three_pow_dvd_mem_smallF3Orders {N a : ℕ}
     (ha : a ∈ smallF3Orders) (h : 3 ^ N ∣ a) : N ≤ 12 := by
   by_contra hN
-  push_neg at hN
+  push Not at hN
   exact not_three_pow_thirteen_dvd_of_mem_smallF3Orders ha
     ((Nat.pow_dvd_pow 3 (by omega : 13 ≤ N)).trans h)
 
@@ -82,7 +82,7 @@ theorem eq_of_ordA_mem_smallF3Orders {n r : ℕ} (hn : 0 < n) (hr : 0 < r)
     le_twelve_of_three_pow_dvd_mem_smallF3Orders h (three_pow_dvd_ordA n r hn)
   have hn2 : n ≤ 2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h3 : 3 ≤ n := by omega
     have h5 : 5 ≤ 2 * n - 1 := by omega
     have h15 : 15 ≤ n * (2 * n - 1) := by simpa using Nat.mul_le_mul h3 h5
@@ -108,7 +108,7 @@ theorem eq_of_ordTwistedA_mem_smallF3Orders {n r : ℕ} (hn : 0 < n) (hr : 0 < r
     le_twelve_of_three_pow_dvd_mem_smallF3Orders h (three_pow_dvd_ordTwistedA n r hn)
   have hn2 : n ≤ 2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h3 : 3 ≤ n := by omega
     have h5 : 5 ≤ 2 * n - 1 := by omega
     have h15 : 15 ≤ n * (2 * n - 1) := by simpa using Nat.mul_le_mul h3 h5

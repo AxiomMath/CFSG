@@ -41,7 +41,7 @@ theorem singleCommutatorExclusion_of_parts
   obtain ⟨hTG₀, hF⟩ := FullCenter.FCHyp.of_setup hS (hO := hO) hLn hfull'
   have hnab : ∃ a b : G, a * b ≠ b * a := by
     by_contra hab
-    push_neg at hab
+    push Not at hab
     exact hLn ⟨fun l hl g => by
       rw [hab g l, mul_inv_cancel_right]
       exact hl⟩

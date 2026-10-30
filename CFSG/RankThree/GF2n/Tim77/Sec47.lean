@@ -688,7 +688,7 @@ theorem sec47_twist_contra
   have hAbne : Section3.Abar0 A Abar ≠ Abar := h.setup.Lb_ne
   obtain ⟨β, hβĀ, hβĀ₀⟩ : ∃ β ∈ Abar, β ∉ Section3.Abar0 A Abar := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 : Section3.Abar0 A Abar ≤ Abar := by
       rw [Sec3Ctx.abar0_eq h]
       exact inf_le_left
@@ -1365,7 +1365,7 @@ theorem sec47_hnt_of_act
     ∃ y ∈ commutator (↥(Sec45Z A Abar B) ⧸ (Sec45Q A Abar B).subgroupOf (Sec45Z A Abar B)),
       ρ y ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact sec47_twist_contra h hS hα hαA₀ (sec47_M_perf h hS hperf)
     (sec47_comm_of_act h hS ρ hρ hcon)
 
@@ -1704,14 +1704,14 @@ theorem sec47_core
   have ht : 0 < Nat.card (Section3.A0 A Abar) := Nat.card_pos
   obtain ⟨α, hα, hαA₀⟩ : ∃ α ∈ A, α ∉ Section3.A0 A Abar := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : (Section3.A0 A Abar).relIndex A = 1 := Subgroup.relIndex_eq_one.mpr hcon
     have h2 := sec46_relIndex_A h hq
     omega
   by_contra hcon
   obtain ⟨x, hxA, hxB⟩ : ∃ x ∈ Section3.Abar0 A Abar, x ∉ normalizer (B : Set G) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hcon hc
   obtain ⟨σ₂, hinj⟩ := sec47_sigma_inj h hS hxA hxB
   obtain ⟨g, hgB⟩ := h.nota.conj

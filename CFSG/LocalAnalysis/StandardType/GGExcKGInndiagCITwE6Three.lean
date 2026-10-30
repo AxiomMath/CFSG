@@ -168,7 +168,7 @@ theorem twE6CI_exists_outer_commuting_of_card
   have hL : E6ThreeModel.IsLang Fr g := ⟨hg, hgn⟩
   obtain ⟨D, hD⟩ := E6ThreeModel.exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hnot := E6ThreeModel.langTorus_not_le_cgrp hn hK σ hσ Fr hFr h3 hL hζ hζo hD
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨x, hx, hxC⟩ := hnot
   obtain ⟨b, hb, rfl⟩ := TwistedDiag.mem_thetaTorus.1 hx
   have hxR : g * rootDiagUnit Tag.E6 b * g⁻¹ ∈ TwistedDiag.Rgrp Ω Fr := by

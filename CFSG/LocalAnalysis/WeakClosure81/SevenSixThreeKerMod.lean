@@ -277,7 +277,7 @@ theorem PInvol.exists_irreducible_restriction (ρ : Representation (ZMod 2) G W)
     exists_irreducible_le_commSpace ρ h.sq_eq_one h.mem_normalizer hgen hcomm_ne
   have hntQ : ∃ y ∈ Q, ∃ w ∈ W₂, ρ y w ≠ w := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hfix : W₂ ≤ fixSub ρ Q := by
       intro w hw
       rw [mem_fixSub]

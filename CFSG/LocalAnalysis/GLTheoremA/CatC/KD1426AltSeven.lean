@@ -29,7 +29,7 @@ theorem card_le_nine {H : Subgroup (alternatingGroup (Fin 7))} (hH : ∀ g ∈ H
   rw [hm, hA7] at hdvd
   have hm2 : m ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h27 : 3 ^ 3 ∣ 3 ^ m := pow_dvd_pow 3 h
     have := dvd_trans h27 hdvd
     norm_num at this
@@ -98,12 +98,12 @@ theorem alt7_core (K B : Subgroup Y) (hK : K.Normal) (hq : CFSG.Open.IsQuasisimp
     rw [hb, map_one]
   have hB0le : Nat.card B0 ≤ 9 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hB0el : ∀ g ∈ B0, g ^ 3 = 1 := fun g hg => hB3 g (Subgroup.mem_inf.1 hg).1
     obtain ⟨m, hm⟩ := card_three_pow hB0el
     have hm3 : 3 ≤ m := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases m <;> simp_all
     haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨E0, hE0⟩ := Sylow.exists_subgroup_card_pow_prime 3 (n := 3)
@@ -133,7 +133,7 @@ theorem alt7_core (K B : Subgroup Y) (hK : K.Normal) (hq : CFSG.Open.IsQuasisimp
   have hc81 : 81 ≤ Nat.card B := by norm_num at hcard; exact hcard
   have hB0ge : 9 ≤ Nat.card B0 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h8 : Nat.card B0 ≤ 8 := by omega
     have := Nat.mul_le_mul h8 hR9
     omega

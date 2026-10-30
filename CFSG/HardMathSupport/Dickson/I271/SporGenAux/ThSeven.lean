@@ -201,7 +201,7 @@ theorem th7_rank :
 theorem th7_nonabelian : ∃ a b : ↥J, a * b ≠ b * a := by
   obtain ⟨-, -, -, hcard, -⟩ := th7_list
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : Subgroup.centralizer ({z7} : Set ↥J) = ⊤ :=
     eq_top_iff.2 fun c _ => Subgroup.mem_centralizer_singleton_iff.2 (hcon c z7)
   have := th_finite

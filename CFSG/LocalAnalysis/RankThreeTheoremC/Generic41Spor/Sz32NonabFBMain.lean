@@ -27,7 +27,7 @@ theorem kFactNonabF5_of_parts' (h6 : KFactI6103Five) (h9 : KFactNoM125Sylow') (h
     refine sup_le ?_ (nf5_pCoreOf_le h)
     rw [nf5_layer_eq hc]
     exact nf5_L_le h9 h714 h10 hSz hSig hc
-  · push_neg at hex
+  · push Not at hex
     rw [nf5_layer_bot hex, bot_sup_eq]
     exact nf5_pCoreOf_le h
 

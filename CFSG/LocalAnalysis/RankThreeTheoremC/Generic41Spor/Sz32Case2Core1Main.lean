@@ -24,7 +24,7 @@ theorem szh1_caseB (hY : Sz32Case2Data Pb a c y) (hI6103 : KFactI6103Five) (hI12
   obtain ⟨L₁, h₁⟩ := hcomp
   by_cases hall : ∀ L' : Subgroup Y, IsComponentOf L' ⊤ → L' = L₁
   · exact szh1_one_comp_false hY hI6103 hI122 h₁ hall
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨L₂, h₂, hne⟩ := hall
     obtain ⟨t, ht⟩ := szh1_exists_two_config hY hI6103 h₁ h₂ hne.symm
     have hs := szh1_two_sylow hY hI713 ht
@@ -34,7 +34,7 @@ theorem szh1_Pb_normal (hY : Sz32Case2Data Pb a c y) (hI6103 : KFactI6103Five) (
     (hI713 : KFactI713Out) : ∀ g : Y, ∀ t ∈ Pb, g * t * g⁻¹ ∈ Pb := by
   by_cases hcomp : ∃ L : Subgroup Y, IsComponentOf L ⊤
   · exact (szh1_caseB hY hI6103 hI122 hI713 hcomp).elim
-  · push_neg at hcomp
+  · push Not at hcomp
     exact szh1_caseA hY hcomp
 
 end Main

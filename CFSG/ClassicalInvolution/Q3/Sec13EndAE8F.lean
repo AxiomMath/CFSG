@@ -548,7 +548,7 @@ theorem exists_member_mul_of_normalizes (H : Hyp Ω) {K J : Subgroup G} (hK : K 
     hJn ((TC.mem_omegaNbr_iff H.endHyp.thmD.hyp H.endHyp.thmD.two).mpr ⟨hJ, hJne, hle⟩)
   obtain ⟨t, ht, htn⟩ : ∃ t ∈ J, t ∉ Subgroup.normalizer (K : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnotle hcon
   have hmul : t * a * t⁻¹ = a * b :=
     conj_involution_eq_mul H.endHyp hK hstar hJn ha hb ht htn

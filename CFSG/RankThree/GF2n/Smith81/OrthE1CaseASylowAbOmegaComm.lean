@@ -16,7 +16,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 theorem omegaComm_ne_zero {F : Type} [Field F] {v : Fin 2 → F} (hv : v ≠ 0) :
     v 0 ≠ 0 ∨ v 1 ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hv
   ext i
   fin_cases i <;> simp [h.1, h.2]

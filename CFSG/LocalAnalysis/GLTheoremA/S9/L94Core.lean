@@ -517,7 +517,7 @@ theorem l94_decomp_or_large {H : Type*} [Group H] [Finite H] {K Bb Tb : Subgroup
   ·
     obtain ⟨t, htT, htN⟩ : ∃ t ∈ Tb, t ∉ Subgroup.normalizer (K : Set H) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hTN (fun t ht => hcon t ht)
     set K' : Subgroup H := K.map (MulAut.conj t).toMonoidHom with hK'def
     have hK' : IsComponentOf K' ⊤ := CFSG.Quasithin.F918V5G.isComponentOf_map_conj hK (Subgroup.mem_top t)

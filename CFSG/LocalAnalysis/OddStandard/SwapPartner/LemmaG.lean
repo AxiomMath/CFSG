@@ -19,7 +19,7 @@ private theorem tau0_apply_nine : τ₀ 9 = 8 := by
 private theorem tau0_comm_apply_eight {σ : Perm (Fin 10)} (hc : σ * τ₀ = τ₀ * σ) :
     σ 8 = 8 ∨ σ 8 = 9 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h8, h9⟩ := h
   have hkey : σ 9 = σ 8 := by
     have h := congrArg (fun f : Perm (Fin 10) => f 8) hc

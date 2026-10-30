@@ -251,7 +251,7 @@ theorem lift_data (N : Subgroup Λ) [N.Normal] (hN : ¬ 3 ∣ Nat.card N)
     rw [hk]
     have hpos : 0 < 2 ^ (Nat.card N).factorization 2 := by positivity
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 := Nat.mul_le_mul hb (le_refl (Nat.card ↥(T.map π)))
     have h2 := Nat.mul_lt_mul_of_pos_left hlt hpos
     linarith

@@ -1139,7 +1139,7 @@ public theorem exists_minimal_nonbase_theta
   have hnonbase : ∃ beta : conjugateCosetSpace M,
       beta ∈ Gamma ∧ beta ≠ theorem4bSection7Base := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcardOne : Nat.card Gamma = 1 := by
       apply Nat.card_eq_one_iff_exists.mpr
       refine ⟨⟨theorem4bSection7Base, hbase⟩, ?_⟩

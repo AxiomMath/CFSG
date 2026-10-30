@@ -487,7 +487,7 @@ theorem exists_DalphaStar_not_commute (hC : HypothesisC D) {a : G} (ha : a ∈ G
     ∃ d ∈ DalphaStar D hC.alpha, ¬ Commute d a := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨β, hβc, haβ⟩ :=
     exists_mem_blockClass_of_mem hC.setup.isClass hC.isBlock_alpha (Gamma_subset_D ha)
   have hβα : β ≠ hC.alpha := fun e => not_mem_alpha_of_mem_Gamma ha (e ▸ haβ)

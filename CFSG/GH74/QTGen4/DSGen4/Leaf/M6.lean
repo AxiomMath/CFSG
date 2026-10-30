@@ -88,7 +88,7 @@ theorem m6_core {Zw : Subgroup W} (hZ2 : Nat.card Zw = 2) (hcomm : ∀ x y : W, 
   have hQnon : NonAdd Qf := by
     by_contra hna
     unfold NonAdd at hna
-    push_neg at hna
+    push Not at hna
     obtain ⟨x, y, hxy⟩ := hnab
     apply hxy
     have h1 := sqb_mul hZ2 hcomm hsq hcent x y
@@ -196,7 +196,7 @@ theorem leafM6 : LeafM6 := by
     have := comm_of_card_two hZ hz (w : G) hw
     exact Subtype.ext this.symm
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hV
     rw [eq_bot_iff, Subgroup.commutator_le]
     intro a ha b hb

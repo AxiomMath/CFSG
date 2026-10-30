@@ -155,7 +155,7 @@ theorem threeElt_core (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ 
   have hW1 : W ≤ kerAct W K S := hR.w1_le
   obtain ⟨l, hli, hlj⟩ : ∃ l : Fin m, l ≠ i ∧ l ≠ j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Finset.univ : Finset (Fin m)) ⊆ {i, j} := fun l _ => by
       by_cases hl : l = i
       · simp [hl]

@@ -1633,7 +1633,7 @@ public theorem not_Theorem4bAtBase_iff_nonempty_counterexample
   constructor
   · intro h
     rw [Theorem4bAtBase] at h
-    push_neg at h
+    push Not at h
     rcases h with ⟨z, W, hz, hzM, hWodd, hWM, hzNorm, hnot, hcard⟩
     have hbase := theorem4b_baseCoset_mem_fixedPoints hWM
     let p : theorem4bFixedPoints M W := ⟨QuotientGroup.mk 1, hbase⟩
@@ -1726,7 +1726,7 @@ public theorem Theorem4bSixA.exists_nonbase_fixedPoint
   let alpha : theorem4bFixedPoints M d.W :=
     ⟨QuotientGroup.mk 1, theorem4b_baseCoset_mem_fixedPoints d.hWM⟩
   by_contra h
-  push_neg at h
+  push Not at h
   have hcardOne : Nat.card (theorem4bFixedPoints M d.W) = 1 := by
     apply Nat.card_eq_one_iff_exists.mpr
     refine ⟨alpha, ?_⟩
@@ -1849,7 +1849,7 @@ public theorem Theorem4bSixA.two_le_card_invertedSet
     simp [Theorem4bSixA.invertedSet]
   have hKne : ∃ k : X, k ∈ d.invertedSet ∧ k ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hclosureBot : Subgroup.closure d.invertedSet = ⊥ :=
       Subgroup.closure_eq_bot_iff.mpr (fun k hk => by simp [h k hk])
     exact d.hWne (d.closure_invertedSet_eq.symm.trans hclosureBot)
@@ -2332,7 +2332,7 @@ public theorem theorem4bCorollary57_exists_normalized_sylow
     ⟨QuotientGroup.mk 1, hRbaseFixed⟩
   have hexistsOther : ∃ x : theorem4bFixedPoints M R, x ≠ rbase := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcardOne : Nat.card (theorem4bFixedPoints M R) = 1 :=
       Nat.card_eq_one_iff_exists.mpr ⟨rbase, fun x => h x⟩
     omega

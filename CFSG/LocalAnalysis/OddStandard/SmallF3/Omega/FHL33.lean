@@ -27,7 +27,7 @@ theorem fh_fixedO3Free_L33 {Y : Type} [Group Y]
   by_contra hne
   obtain ⟨x, hxN, hx1⟩ : ∃ x ∈ N, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne ((Subgroup.eq_bot_iff_forall N).2 hcon)
   have h3x : 3 ∣ orderOf x := by
     have := hN3.dvd_orderOf (g := (⟨x, hxN⟩ : N)) fun h => hx1 (congrArg Subtype.val h)

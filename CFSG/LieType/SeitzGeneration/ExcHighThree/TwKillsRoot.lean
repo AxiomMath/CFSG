@@ -129,7 +129,7 @@ theorem twE6KillRoot_proof : ExcWideThree.TwE6KillRoot := by
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
   have hq2 : 2 ≤ q := by
     by_contra h
-    push_neg at h
+    push Not at h
     interval_cases q <;> norm_num at hK <;> omega
   obtain ⟨hpr, f, hf1, hqf⟩ := exists_pow_ringChar_of_card_sq K q hK hq2
   set p := ringChar K with hp_def

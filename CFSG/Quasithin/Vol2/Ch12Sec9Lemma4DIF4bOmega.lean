@@ -91,7 +91,7 @@ theorem omega_sing_transitive (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 
     rw [MulAction.index_stabilizer, orbit_eq_sing q le_rfl hv hqv htransG, hcount']
   have hA : ∃ g ∈ orthogonalSubgroupOf q, g v = v ∧ g ∉ Ω := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : MulAction.stabilizer (orthogonalSubgroupOf q) v ≤ Ω.subgroupOf (orthogonalSubgroupOf q) := by
       intro g hg
       rw [Subgroup.mem_subgroupOf]

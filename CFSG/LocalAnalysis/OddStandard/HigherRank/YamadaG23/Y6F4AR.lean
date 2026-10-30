@@ -65,7 +65,7 @@ theorem y6f4a_target_simple_nonab (hO : LieOrderFormulasInput) {X : Type} [Group
 theorem y6f4a_exists_noncomm_of_not_comm {X : Type} [Group X] (h : ¬ IsMulCommutative X) :
     ∃ a b : X, a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact h (IsMulCommutative.of_comm hc)
 
 theorem y6f4a_card_psl_two_four (hO : LieOrderFormulasInput) {X : Type} [Group X]

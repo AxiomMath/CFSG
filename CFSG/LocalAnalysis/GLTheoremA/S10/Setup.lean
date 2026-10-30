@@ -134,7 +134,7 @@ theorem exists_maxR2 (hc : S10Ctx G p) :
 theorem exists_nid (hc : S10Ctx G p) (hin : AutCalcAt G p) (hnot : ¬ Alt1 G p) {B : Subgroup G} {x : G}
     {L : Subgroup G} (hstar : IsSStarMax p B x L) : ∃ b₀ ∈ B, NonInnDiag p b₀ L := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hch : IsChevSimple 2 (PSimple p L) := hc.stage8.1 B x L hstar
   have hq : CFSG.Open.IsQuasisimple ↥L := (hc.stage9.1 B x L hstar).1
   have hL := (sstar_triple hstar).2.2

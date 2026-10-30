@@ -47,7 +47,7 @@ theorem isSimpleGroup_of_goodM12 {T : Type} [Group T] (h : GoodM12 T) : IsSimple
 theorem noncomm_of_goodM12 {T : Type} [Group T] (h : GoodM12 T) : ∃ a b : T, a * b ≠ b * a := by
   have := isSimpleGroup_of_goodM12 h
   by_contra hc
-  push_neg at hc
+  push Not at hc
   letI : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := T)
   rw [card_of_goodM12 h] at hp

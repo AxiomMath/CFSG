@@ -92,7 +92,7 @@ theorem tf_irreducible (h : twoFourOK = true)
   refine Or.inr ?_
   obtain ⟨s, hs, hs1⟩ : ∃ s ∈ S, s ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hbot ((Subgroup.eq_bot_iff_forall S).2 hcon)
   obtain ⟨k, hk, hrep⟩ := hN.cov s (hSN hs)
   have hb := Array.all_eq_true'.1 hall _ (getElem!_mem_array hk)

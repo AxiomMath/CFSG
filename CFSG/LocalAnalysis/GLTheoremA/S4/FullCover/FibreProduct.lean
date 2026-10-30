@@ -267,7 +267,7 @@ theorem maximalOddCover_of_oddBound (i : TauCeti.CFSGIndex) {Q : Type} [Group Q]
   have h3 : Odd (Nat.card (Subgroup.center Q)) := hZ ▸ by decide
   refine ⟨inferInstance, hQ, hsimple, ?_, π, hπ, hker, ?_, h3, ?_⟩
   · by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨a, ha⟩ := exists_ne (1 : i.Group)
     have hac : a ∈ Subgroup.center i.Group := Subgroup.mem_center_iff.2 fun g => h g a
     rw [hS] at hac

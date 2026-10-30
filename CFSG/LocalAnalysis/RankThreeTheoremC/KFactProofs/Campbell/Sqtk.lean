@@ -151,7 +151,7 @@ theorem CampbellHyp.isKGroupCat (h : CampbellHyp X K R P) : CFSG.SectionRank.IsK
   intro H N _ hS
   by_cases hab : ∀ a b : ↥H ⧸ N, a * b = b * a
   · exact CFSG.SectionRank.catalog_containsAbelianSimple _ hab
-  · push_neg at hab
+  · push Not at hab
     obtain ⟨ψ, -, hψ⟩ := h.exists_psi
     have hπ : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
     have hle : (ψ.comp H.subtype).ker ≤ (QuotientGroup.mk' N).ker :=

@@ -98,7 +98,7 @@ theorem qTwoS34_card_le_of_ne_top {S : Type} [Group S] [Finite S]
     exact Nat.mul_le_mul h3 hkercard
   have hk : 8 ≤ Nat.card (S ⧸ Y) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h7 : (Nat.card (S ⧸ Y)).factorial ≤ (7 : ℕ).factorial :=
       Nat.factorial_le (by omega)
     have h5040 : (7 : ℕ).factorial = 5040 := by decide

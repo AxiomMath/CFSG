@@ -194,7 +194,7 @@ theorem fg_bk_orthogonal (S : FGSplit Q) (h3 : 3 ≤ Module.finrank (ZMod 3) S.W
     QuadraticMap.nondegenerate_polar_iff.mpr S.nondegW
   obtain ⟨w2, hw2⟩ : ∃ w2 : S.W, QuadraticMap.polar Q (w1 : V) (w2 : V) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     refine hw1 (hB.1 w1 (fun y => ?_))
     simpa [LinearMap.domRestrict₁₂_apply, QuadraticMap.polarBilin_apply_apply] using hcon y
   have h1 := fg_polar_of_isSimilitude hμ (w1 : V) (w2 : V)

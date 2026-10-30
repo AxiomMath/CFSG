@@ -546,7 +546,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_two_components
                   _ ≤ A := hmapA'_le
               exact hK_ne (le_bot_iff.mp (hdisj ▸ le_inf hKleA hKleA'))
             · exfalso
-              push_neg at htriv
+              push Not at htriv
               obtain ⟨k0, hk0⟩ := htriv
               have hker_ne_top : (projA.comp inc).ker ≠ ⊤ := by
                 intro htop

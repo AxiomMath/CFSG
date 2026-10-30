@@ -50,7 +50,7 @@ theorem gap129YSporadic_of
     rw [this, map_one]
   have hβnt : ∃ y : ↥Y, y⁻¹ * β y ∉ aschbacherSolvableCore 3 ↥Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbQ : b ∈ Sec4.thetaQuotCentralizer Y := by
       rw [Sec6.mem_thetaQuotCentralizer_iff]
       refine ⟨hbN, fun l hl => ?_⟩

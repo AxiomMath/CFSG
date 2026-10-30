@@ -261,7 +261,7 @@ theorem isCenter_pair_of_dec (hσ : IsUnitaryInvolution σ) (hp : p.Prime)
     have hξ : ξ₂ ≠ 0 := fun h => h0 (by rw [h, F.vec_zero_left])
     obtain ⟨j, hj⟩ : ∃ j, ξ₂ j ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hξ (funext hcon)
     refine ⟨F.vec (Pi.single j 1) u, memX' u _, ?_⟩
     rw [F.herm_vec_vec, herm_single_left]

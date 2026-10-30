@@ -61,7 +61,7 @@ theorem psi_keepB {s : G} (hsR : s ∈ R)
     ∀ y ∈ K2.subgroupOf (K1 ⊔ K2), ρ ⟨s, hsR⟩ y ∈ K2.subgroupOf (K1 ⊔ K2) := by
   have hb2 : ∃ b2 ∈ twoCoreIn K2, b2 ∉ zpowers z := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcard : Nat.card (twoCoreIn K2) ≤ Nat.card (zpowers z) := Subgroup.card_le_of_le h
     rw [c.q8.card2, Nat.card_zpowers] at hcard
     have hord : orderOf z ≤ 2 :=

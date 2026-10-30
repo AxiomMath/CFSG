@@ -624,7 +624,7 @@ private theorem lemma75_generation_of_solvable_coprime
         letI : IsElementaryAbelian r V' := hElem
         exact lemma75_minimal_elementary (H := H) (V := V') (r := r)
           J z hz hJnormal hgen hcomm hminv
-    · push_neg at hminv
+    · push Not at hminv
       rcases hminv with ⟨N, hNnormal, hNinv, hNne_bot, hNne_top⟩
       letI : N.Normal := hNnormal
       letI : IsInvariant H V' N := hNinv

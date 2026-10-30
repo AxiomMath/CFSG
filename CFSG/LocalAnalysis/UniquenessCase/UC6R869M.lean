@@ -52,7 +52,7 @@ theorem r869M_dataOfSetup4_of_rest (hS : Standing4 G) (hU : uniqueFourUnique G) 
   by_cases hp : ∃ p ∈ uniqueFourSigma S.M, 2 ≤ CFSG.Open.pRank p L
   · obtain ⟨p, hp, h2⟩ := hp
     exact uniqueMax_of_two_le_pRank_sigma hU S.maxLocal hp hLM h2
-  · push_neg at hp
+  · push Not at hp
     refine h L hL hthin fun p hp' => ?_
     have := hp p hp'
     omega

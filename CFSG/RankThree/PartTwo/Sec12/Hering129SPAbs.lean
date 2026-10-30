@@ -252,7 +252,7 @@ theorem no_sporadic_cover {Y : Type} [Group Y] [Finite Y] (hYp : Group.IsPerfect
     exact eQ.isSimpleGroup
   have hQn : ∃ a b : X ⧸ θX, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : IsMulCommutative (X ⧸ θX) := ⟨⟨hcon⟩⟩
     haveI : Group.IsPerfect X := hXp
     haveI : Nontrivial (X ⧸ θX) := hQs.toNontrivial

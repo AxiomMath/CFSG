@@ -2560,7 +2560,7 @@ private theorem h410_det_G2 : h410G2.det ≠ 0 := by decide
 private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hsq : ∀ x ∈ B, x * x = 1) : Nat.card B ≤ 4 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hp : IsPGroup 2 B := fun g => ⟨1, by
     rw [show (2 : ℕ) ^ 1 = 2 from rfl, pow_two]
     exact Subtype.ext (by simpa using hsq g g.2)⟩
@@ -2570,7 +2570,7 @@ private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x
     rw [hk] at hlt h8 ⊢
     have hk4 : k < 4 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h16 : (16 : ℕ) ≤ 2 ^ k := by
         calc (16 : ℕ) = 2 ^ 4 := by norm_num
           _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
@@ -2578,7 +2578,7 @@ private theorem h410_E4 (B : Subgroup ↥SL32) (hB : ∀ x ∈ B, ∀ y ∈ B, x
     interval_cases k <;> simp_all
   obtain ⟨b, hbB, hb1⟩ : ∃ b ∈ B, b ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : B = ⊥ := eq_bot_iff.2 fun x hx => Subgroup.mem_bot.2 (h x hx)
     rw [hbot, Subgroup.card_bot] at hB8
     norm_num at hB8
@@ -2690,7 +2690,7 @@ private theorem h410_sum_le {A : Subgroup (MulAut WMod)} (hAG : A ≤ Gw)
     have hA8 := h410_card_A_le hAG hAel htA
     have hrA : rk ↥A ≤ 3 := h410_rk_le _ 3 (le_of_le_of_eq hA8 (by norm_num))
     omega
-  · push_neg at hex
+  · push Not at hex
     have hA_le : A ≤ Subgroup.zpowers tau := by
       intro a ha
       obtain ⟨c, hcA, hac | hac⟩ := h410_decomp hAG hAel.1 htA a ha

@@ -106,7 +106,7 @@ private theorem CaseA.exists_partner {z : G} {n : ℕ} (hC : Config z n) (hA : C
     (hb : Fused z b) (hbQ : b ∈ coreAt z) (hbz : b ≠ z) :
     ∃ c, Fused z c ∧ c ∈ coreAt z ∧ c ≠ z ∧ b * c ≠ c * b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hba : b * a = a * b := hcon a ha haQ haz
   have hbx : b * x = x * b := hcon x hx hxQ hxz
   exact hax (CaseA.commute_of_commute hC hA hb hbQ hbz ha haQ hx hxQ hba hbx)

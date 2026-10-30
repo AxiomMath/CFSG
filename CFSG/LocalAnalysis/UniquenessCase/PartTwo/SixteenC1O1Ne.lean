@@ -87,7 +87,7 @@ theorem s16c1_one_lt_betaN (D : Data G) (h41 : R16_41 D) (hkitB : OmegaKitB) (hk
   have hWeq : W = V := (E3.mQuot_eq_zero_iff hV2 hWV).1 (Nat.le_zero.1 hmW)
   subst hWeq
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hm2 : E3.mQuot W U < 2 := by exact_mod_cast hlt
   have hm1 : E3.mQuot W U ≤ 1 := by omega
   apply hP
@@ -158,7 +158,7 @@ theorem s16c1_one_lt_betaN (D : Data G) (h41 : R16_41 D) (hkitB : OmegaKitB) (hk
       exact (actTil_eq_one_iff V₀ W hV _).1 h
     obtain ⟨a, ha⟩ : ∃ a, σ a ≠ a := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hσ1 (MulEquiv.ext h)
     have hQne := quad_ne_zero_of_transvection hQm.1 σ hσQ hidx ha
     obtain ⟨x, rfl⟩ := mkTil_surjective V₀ W hV a
@@ -289,7 +289,7 @@ theorem s16c1_exists_conj_of_isE (D : Data G) {V H A K : Subgroup G} (hV : IsEle
   have hPM : pCoreOf 2 K ≤ D.M := hPT.trans hTM
   have hex : ∃ k ∈ K, ¬ conjSubgroup A k⁻¹ ≤ D.M := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hKM
     have hcc : CFSG.Quasithin.conjClosure A K ≤ D.M := by
       refine (Subgroup.closure_le _).2 ?_

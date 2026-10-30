@@ -201,7 +201,7 @@ theorem s9c_K0_nontrivial {E : Type} [Field E] [CharP E 2] {d : ℕ}
     ∃ x : K₀, s9cRep hA hB ⟨(x : GL (Fin d) E), hKN x.2⟩ ≠ 1 := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hk1 : ∀ k (hk : k ∈ K₀), s9cRep hA hB ⟨k, hKN hk⟩ = 1 := fun k hk => hcon ⟨k, hk⟩
   have hcomm : ∀ g ∈ Subgroup.closure {x | ∃ k ∈ K₀, x = k * t * k⁻¹},
       ∃ hgN : g ∈ N, Commute (s9cRep hA hB ⟨g, hgN⟩) (s9cRep hA hB ⟨t, htN⟩) := by

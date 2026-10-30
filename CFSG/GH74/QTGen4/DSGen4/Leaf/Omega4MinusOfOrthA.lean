@@ -103,7 +103,7 @@ theorem exists_omega (hK : Fintype.card K = 4) : ∃ ω : K, ω ≠ 0 ∧ ω ≠
   classical
   obtain ⟨x, hx0, hx1⟩ : ∃ x : K, x ≠ 0 ∧ x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := by
       intro x _
       by_cases hx : x = 0

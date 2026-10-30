@@ -233,7 +233,7 @@ theorem digits_S (m : ℕ) {A : Finset (Fin (2 * m + 1))} (hA : A ≠ Finset.uni
   have hlt : s < 2 ^ (2 * m + 1) - 1 := by
     obtain ⟨j0, hj0⟩ : ∃ j0 : Fin (2 * m + 1), j0 ∉ A := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA (Finset.eq_univ_of_forall h)
     have hdisj : Disjoint A ({j0} : Finset (Fin (2 * m + 1))) := by
       rw [Finset.disjoint_singleton_right]; exact hj0

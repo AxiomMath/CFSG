@@ -13,14 +13,14 @@ open CFSG.LocalAnalysis.GLTheoremA
 theorem prime_cases_B {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     p = 3 ∨ p = 5 ∨ p = 7 ∨ 11 ≤ p := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h3, h5, h7, h11⟩ := h
   interval_cases p <;> first | omega | exact absurd hp (by norm_num)
 
 theorem prime_cases_M {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     p = 3 ∨ p = 5 ∨ p = 7 ∨ p = 11 ∨ p = 13 ∨ 17 ≤ p := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h3, h5, h7, h11, h13, h17⟩ := h
   interval_cases p <;> first | omega | exact absurd hp (by norm_num)
 

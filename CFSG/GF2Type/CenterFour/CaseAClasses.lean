@@ -116,7 +116,7 @@ theorem CaseA.eq_or_eq_mul_of_commute (hC : Config z n) (hA : CaseA z) {a x a' :
     (ha' : Fused z a') (ha'Q : a' ∈ coreAt z) (ha'z : a' ≠ z) (haa' : a * a' = a' * a) :
     a' = a ∨ a' = a * z := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hne, hnez⟩ := hcon
   obtain ⟨hfb, hbQ, hbz⟩ := CaseA.mul_mem hC hA ha haQ haz ha' ha'Q haa' hne hnez
   have hab : a * (a * a') = a * a' * a := by

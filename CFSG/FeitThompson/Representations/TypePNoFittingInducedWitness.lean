@@ -720,7 +720,7 @@ private theorem order_equation_aux
     obtain ⟨χ, hχ⟩ := exists_monoidHom_coe_eq_of_mem_Irr hθirr
     obtain ⟨x₀, hx₀⟩ : ∃ x₀, (θ : ↥((hallCoreOf M).subgroupOf M) → ℂ) x₀ ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hθ1 (funext hcon)
     refine hno ⟨θ, hθirr, apply_one_eq_one_of_mem_Irr hθirr, hθ, ?_⟩
     intro hall

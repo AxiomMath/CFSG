@@ -19,7 +19,7 @@ theorem dLeafStar_three (IH : ℕ → Prop) : DLeafStar 3 IH := by
   have c : StarCex Ω K J t S := ⟨StarHyp.ofDCex hc hZ, hK, hJ, hJK, ht, hKS⟩
   by_cases hpair : ∀ L ∈ Ω, L ≤ (S : Subgroup G) → L = K ∨ L = conjSub t K
   · exact c.false_of_pair hE4 hpair
-  · push_neg at hpair
+  · push Not at hpair
     obtain ⟨K₁, hK₁, hK₁S, h₁, h₂⟩ := hpair
     exact c.false_of_third hK₁ hK₁S h₁ h₂
 

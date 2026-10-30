@@ -46,7 +46,7 @@ private theorem recogf_main
     have h72 : ν * (ν - 1) = 72 := by rw [← hfr, ← hΨ, hn72]
     have hle : ν ≤ 9 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 10 * 9 ≤ ν * (ν - 1) := Nat.mul_le_mul (by omega) (by omega)
       omega
     interval_cases ν <;> omega

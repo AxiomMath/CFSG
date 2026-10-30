@@ -83,7 +83,7 @@ theorem s828N_case1a_false {H Y M : Subgroup G} {t : G} {n : ℕ}
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   have hcent : ∃ g : ↥(E2.star M H Y), c * g ≠ g * c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcz : c ∈ Subgroup.center ↥(E2.star M H Y) :=
       Subgroup.mem_center_iff.mpr (fun g => (hcon g).symm)
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center ↥(E2.star M H Y)) with hb | ht

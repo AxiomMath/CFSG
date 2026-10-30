@@ -139,7 +139,7 @@ theorem eq_one_of_mul_central_mem {X : Type*} [Group X] [Finite X] {D : Set X}
   have hoz : orderOf z = 2 := orderOf_eq_prime (by rw [sq]; exact hz2) hz1
   obtain ⟨g, hg⟩ : ∃ g : X, ¬ IsPGroup 2 (Subgroup.closure ({d, g * d * g⁻¹} : Set X)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hdO ((BaerSuzuki.baer_suzuki_iff d).mpr h)
   set e := g * d * g⁻¹
   have he : e ∈ D := hconj d hd g

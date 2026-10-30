@@ -172,7 +172,7 @@ theorem eq_pow_of_dvd_pow_two (h2 : ∀ a : A, a * a = 1) (Y : Subgroup A) {n : 
   obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hn
   by_contra hlt
   have : 2 ≤ i := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     interval_cases i <;> simp at hi <;> omega
   have : 4 ≤ 2 ^ i := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -186,7 +186,7 @@ theorem four_le_idx_section (h2 : ∀ a : A, a * a = 1) (φ : Γ →* alternatin
     (hnt : ∃ (g : Γ) (y : A), y ∈ Y ∧ ρ g y * y⁻¹ ∉ X)
     {z : Γ} (hz1 : φ z ≠ 1) (hz2 : φ z ^ 2 = 1) : 4 ≤ idx (ρ z) Y X := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hidx2 : idx (ρ z) Y X ≤ 2 := by
     refine eq_pow_of_dvd_pow_two h2 Y ?_ (idx_ne_zero _ _ _) hlt
     exact Subgroup.relIndex_dvd_card _ _
@@ -289,10 +289,10 @@ theorem four_le_idx_of_nonfix (h2 : ∀ a : A, a * a = 1) (φ : Γ →* alternat
       have h4 := four_le_idx_section h2 φ hφ hXY hY hXg
         (fun q hq y hy => mul_inv_mem_qcomm hq hy) ⟨g, y, hy, hgy⟩ hz1 hz2
       exact h4.trans (idx_anti_right _ Y bot_le)
-    · push_neg at hc
+    · push Not at hc
       have hfixX : ∃ x ∈ X, ρ g0 x ≠ x := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         exact hne (coprime_sub h2 hg0 hall (fun y hy => hc g0 y hy) y0 hy0)
       have hlt : X < Y := by
         refine lt_of_le_of_ne hXY ?_

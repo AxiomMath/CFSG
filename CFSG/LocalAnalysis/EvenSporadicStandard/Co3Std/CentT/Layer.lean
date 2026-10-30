@@ -48,7 +48,7 @@ theorem le_layer (h : CentConfig X a b E Fus) :
 theorem exists_component_not_commuting (h : CentConfig X a b E Fus) :
     ∃ L : Subgroup X, IsComponentOf L ⊤ ∧ ⁅E, L⁆ ≠ ⊥ := by
   by_contra hcontra
-  push_neg at hcontra
+  push Not at hcontra
   have hlayer : CFSG.ComponentClassification.Layer.subgroup X ≤
       Subgroup.centralizer (E : Set X) := by
     rw [CFSG.ComponentClassification.Layer.subgroup.eq_sSup X]

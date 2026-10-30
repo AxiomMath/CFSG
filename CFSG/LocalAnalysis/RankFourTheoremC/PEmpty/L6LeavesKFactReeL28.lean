@@ -23,7 +23,7 @@ theorem exists_reeG2 {d : TauCeti.LieTypeIndex} (h : IsReeIndex d) : ∃ a, d = 
 theorem exists_mul_ne_of_card_504 {X : Type*} [Group X] [Finite X] [IsSimpleGroup X]
     (h : Nat.card X = 504) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   letI : CommGroup X := { (inferInstance : Group X) with mul_comm := hcon }
   have hprime := IsSimpleGroup.prime_card (α := X)
   rw [h] at hprime

@@ -20,7 +20,7 @@ theorem gOrbConclS_of_hasBQGraph {Y : Type} [Group Y] [Finite Y] {L R P : Subgro
   obtain ⟨π', h', hT⟩ := SimpleBQ.exists_borelQuotient_conj hSyl hπ
   have hnc : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLN : L ≤ Subgroup.normalizer ((R ⊓ L : Subgroup Y) : Set Y) := fun x hx =>
       Subgroup.centralizer_le_normalizer _ fun y hy => by
         have := hcon ⟨y, (Subgroup.mem_inf.1 hy).2⟩ ⟨x, hx⟩

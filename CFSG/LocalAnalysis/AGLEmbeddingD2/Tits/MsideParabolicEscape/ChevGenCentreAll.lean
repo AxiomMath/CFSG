@@ -65,7 +65,7 @@ theorem kFactChevGenCentre_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) 
   by_cases h5 : ∀ p : ℕ, p.Prime → 5 ≤ p → ¬ p ∣ Nat.card (Subgroup.center ↥L)
   · obtain ⟨Ps, hmin, hgen, h3⟩ := kFactChevGenThree_proved Y L S₀ hL hcl hS
     exact ⟨Ps, hmin, hgen, centre_of_three_of_noFive h3 h5⟩
-  · push_neg at h5
+  · push Not at h5
     obtain ⟨p5, hp5, hp5ge, hp5Z⟩ := h5
     have hcl' := hcl
     rcases hcl with ⟨d, hd, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨d, hdq, ⟨e⟩⟩

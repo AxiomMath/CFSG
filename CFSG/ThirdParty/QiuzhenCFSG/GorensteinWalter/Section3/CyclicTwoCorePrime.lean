@@ -117,7 +117,7 @@ private theorem exists_primeCore_not_centralized
       ¬ c.S0 ≤ Subgroup.centralizer
         (qCoreOf c.U q.1.1 : Set G) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hcentFU : c.S0 ≤ Subgroup.centralizer (c.FU : Set G) := by
       change c.S0 ≤ Subgroup.centralizer (fittingSubgroupOf c.U : Set G)
       rw [fittingSubgroupOf_eq_iSup_qCoreOf c.U]

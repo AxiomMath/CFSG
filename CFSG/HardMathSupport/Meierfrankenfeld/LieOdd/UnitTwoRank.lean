@@ -215,7 +215,7 @@ theorem card_le_two_mul_Rr (hs : ∀ x ∈ B, x * x = 1) :
   · have : B ≤ Rr h B := hall
     have := Subgroup.card_le_of_le this
     omega
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨β₀, hβ₀, hβ₀R⟩ := hall
     have key : ∀ β : B, β.1 ∉ Rr h B → β₀ * β.1 ∈ Rr h B := fun β hβ =>
       mul_mem_Rr h B hs hβ₀ β.2 hβ₀R hβ

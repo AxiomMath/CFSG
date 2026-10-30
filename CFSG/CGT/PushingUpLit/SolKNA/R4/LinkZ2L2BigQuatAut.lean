@@ -241,7 +241,7 @@ theorem center_mem_ker {M : Type*} [Group M] {j : ℕ} (hn : n = 2 ^ (j + 2))
   haveI : NeZero n := ⟨by rw [hn]; positivity⟩
   obtain ⟨x, y, hxy, hne⟩ : ∃ x y, f x = f y ∧ x ≠ y := by
     unfold Function.Injective at hf
-    push_neg at hf
+    push Not at hf
     exact hf
   have hg : f (x⁻¹ * y) = 1 := by rw [map_mul, map_inv, hxy, inv_mul_cancel]
   have hg1 : x⁻¹ * y ≠ 1 := fun h => hne (inv_mul_eq_one.mp h)

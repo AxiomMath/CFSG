@@ -100,7 +100,7 @@ theorem fg_four_le_card_weights (hB : IsElemAb2 B 4) :
     norm_num
   rw [h16] at hcard
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h3 : 2 ^ W.card ≤ 2 ^ 3 := Nat.pow_le_pow_right (by norm_num) (by omega)
   omega
 
@@ -109,7 +109,7 @@ theorem fgWt_polar_eq_zero (hB : IsElemAb2 B 4) {χ χ' : ↥B → ZMod 3}
     (hx : x ∈ fgWt (fgT B) χ) (hy : y ∈ fgWt (fgT B) χ') : QuadraticMap.polar Q x y = 0 := by
   obtain ⟨g, hg⟩ : ∃ g, χ g ≠ χ' g := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have h1 := fgWt_sq (fgT B) (fgT_sq B hB) hχ g
   have h2 := fgWt_sq (fgT B) (fgT_sq B hB) hχ' g

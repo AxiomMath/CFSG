@@ -24,7 +24,7 @@ theorem s11s_core {t z : G} {K1 K2 T R : Subgroup G} {ρ : ↥R →* MulAut ↥(
   obtain ⟨b, hb, hsb⟩ : ∃ b ∈ twoCoreIn K1,
       h⁻¹ * t * h * b * (h⁻¹ * t * h)⁻¹ * b⁻¹ ∉ zpowers z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h1 hcon
   have hs2 : h⁻¹ * t * h * (h⁻¹ * t * h) = 1 := by
     calc h⁻¹ * t * h * (h⁻¹ * t * h) = h⁻¹ * (t * t) * h := by group
@@ -42,7 +42,7 @@ theorem s11s_core {t z : G} {K1 K2 T R : Subgroup G} {ρ : ↥R →* MulAut ↥(
         have hzc := c.pair.inf_central ⟨hzA, c.pair.embB_mem (-1)⟩ y
         rw [hzc, mul_inv_cancel_right]
     exact c.caseA hh rfl hR hb hsb hA hB hsign
-  · push_neg at hq
+  · push Not at hq
     exact c.caseB hh rfl hR hQ1 hb hsb hq4 hq.1 hq.2 hψ
 
 theorem asc82Step1110Single_of (hp : Asc82Pre11) (hT : Asc82Step1110Type) :

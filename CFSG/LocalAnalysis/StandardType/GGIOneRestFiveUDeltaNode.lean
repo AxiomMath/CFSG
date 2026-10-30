@@ -106,7 +106,7 @@ theorem node_exists [Finite K] {L' : Type} [Group L'] [Finite L'] (h : UnitaryFi
     ∃ δ : Kˣ, δ ^ p = 1 ∧ δ ≠ 1 ∧ ∀ c : Fin d, c ≠ s0 → ∃ x : A, ν x = nodeDiag c δ := by
   have hA0 : ∃ a0 : A, ∏ k, ν a0 k ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinn : ∀ a ∈ A, ∃ e : L', e ^ p = 1 ∧ MulAut.conj e = a := fun a ha =>
       inner_of_prod_one h hpq hM hd3 hA ha s0 (hν ⟨a, ha⟩).1 (hν ⟨a, ha⟩).2 (hcon ⟨a, ha⟩)
     rcases hadm.2 with ⟨⟨a, ha, hna⟩, -⟩ | ⟨-, -, a, ha, hna⟩

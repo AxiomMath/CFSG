@@ -91,7 +91,7 @@ theorem exists_partner_of_free {M : Type*} [Group M] [Finite M] {z u : M}
     obtain ⟨k, hk⟩ := this
     omega
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hzi : z⁻¹ ≠ z := by
     intro h

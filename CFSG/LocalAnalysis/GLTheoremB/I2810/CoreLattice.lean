@@ -187,7 +187,7 @@ theorem trans_sectionM_of_lattice_proof (h : Setup28 W K S) (hR : Red28 W K S) {
     rw [← commutatorElement_inv]; exact U₁.inv_mem this
   have hnontriv : ∃ k ∈ K, ∃ x ∈ U₁, ⁅x, k⁆ ∉ U₂ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : ⁅U₂, K⁆ = ⊥ := by
       rw [eq_bot_iff]
       refine Subgroup.commutator_le.2 fun x hx k hk => ?_
@@ -217,7 +217,7 @@ theorem trans_sectionM_of_lattice_proof (h : Setup28 W K S) (hR : Red28 W K S) {
           rw [h1, hcm]; group
         rw [this]; exact U₂.one_mem
     · by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       obtain ⟨k, hk, x, hx, hnot⟩ := hnontriv
       apply hnot
       have hle : K ≤ CoreLattice.kTriv K U₁ U₂ hl.inv₂ := by

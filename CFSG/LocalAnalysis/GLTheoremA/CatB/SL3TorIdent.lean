@@ -65,7 +65,7 @@ theorem two_le_of_card_sq {F : Type} [Field F] [Finite F] {q : ℕ} (h : Nat.car
     2 ≤ q := by
   have h2 : 1 < Nat.card F := Finite.one_lt_card
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : q ^ 2 ≤ 1 := by interval_cases q <;> norm_num
   rw [h] at h2
   linarith

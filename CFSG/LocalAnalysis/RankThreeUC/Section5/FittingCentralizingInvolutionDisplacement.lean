@@ -24,7 +24,7 @@ private theorem exists_component_not_centralized (hO2 : CFSG.pCore 2 G = ⊥) {t
     ∃ L : Subgroup G, IsComponent L ∧ ∃ l ∈ L, t * l ≠ l * t := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle : CFSG.generalizedFitting G ≤ Subgroup.centralizer ({t} : Set G) := by
     rw [CFSG.generalizedFitting.eq_sup, CFSG.layer.eq_sSup]
     refine sup_le (fun x hx => ?_) (sSup_le fun K hK x hx => ?_)
@@ -124,7 +124,7 @@ theorem lt_commRank_of_centralizes_fittingSubgroup {p : ℕ} {P T B : Subgroup G
   obtain ⟨hind, hsup⟩ := hdec
   have hl₀ρ : ∃ D₀ : ↥(Delta p P ρ), ∃ w ∈ fixedSubmodule ρ (D₀ : Subgroup G), ρ l₀ w ≠ w := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hker : (⨆ D : ↥(Delta p P ρ), fixedSubmodule ρ (D : Subgroup G)) ≤
         LinearMap.ker (ρ l₀ - 1) := iSup_le fun D w hw => by
       simpa [sub_eq_zero] using hno D w hw
@@ -152,7 +152,7 @@ theorem lt_commRank_of_centralizes_fittingSubgroup {p : ℕ} {P T B : Subgroup G
       ∃ u ∈ fixedSubmodule ρ (E : Subgroup G), ρ t u ≠ u := by
     intro E
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨l, hl, w, hw, hne⟩ := hLact E
     have hEP : (E : Subgroup G) ≤ P := ((mem_Delta_iff p P ρ E).1 E.2).1
     have hpres : ∀ x : G, (∀ d ∈ P, x * d = d * x) → ∀ u ∈ fixedSubmodule ρ (E : Subgroup G),

@@ -132,11 +132,11 @@ theorem elemMat_ne_one {u ψ : Fin 3 → K} (hu : u ≠ 0) (hψ0 : ψ ≠ 0) :
     simpa [elemMat] using h
   obtain ⟨i, hi⟩ : ∃ i, u i ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hu (funext hc)
   obtain ⟨j, hj⟩ : ∃ j, ψ j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hψ0 (funext hc)
   have := congrFun (congrFun hR i) j
   simp [rankOne, hi, hj] at this

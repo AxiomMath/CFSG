@@ -65,7 +65,7 @@ theorem card_le_pow_half_of_noCubeRoot (h3 : (3 : K) ≠ 0) (hω : ∀ c : K, c 
     rw [hk] at hsmall ⊢
     have hk2 : k < 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 3 ^ 2 ≤ 3 ^ k := Nat.pow_le_pow_right (by norm_num) hcon
       omega
     interval_cases k
@@ -100,7 +100,7 @@ theorem card_le_pow_half_of_noCubeRoot (h3 : (3 : K) ≠ 0) (hω : ∀ c : K, c 
       Module.finrank_pos_iff_exists_ne_zero.mpr ⟨⟨v, hvU⟩, fun h => hv0 (congrArg Subtype.val h)⟩
     obtain ⟨v', hv'⟩ : ∃ v' : V, x v' ≠ v' := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hx1 (LinearEquiv.ext hcon)
     have hwW : x v' - v' ∈ W := mem_commSpace.mpr ⟨v', rfl⟩
     have hb : 0 < finrank K W :=

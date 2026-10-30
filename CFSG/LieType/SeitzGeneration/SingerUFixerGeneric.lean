@@ -311,7 +311,7 @@ theorem singerUG_three_coords (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p
     exact hcontra (s ((p - 2 : ℕ) : Fin p)) (s ((p - 1 : ℕ) : Fin p)) (hs _) (hs _) hrel
   have hP4 : w ((3 : ℕ) : Fin p) ≠ 0 ∨ w ((4 : ℕ) : Fin p) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h3, h4⟩ := hcon
     have hL : (companionMat p c *ᵥ w) ((4 : ℕ) : Fin p) +
         h.bar ε * w ((4 : ℕ) : Fin p) = 0 := by

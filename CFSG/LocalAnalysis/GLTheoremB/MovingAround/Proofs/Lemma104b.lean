@@ -199,7 +199,7 @@ private theorem exists_centralizing_of_plane {p : ℕ} [Fact p.Prime] {B U : Sub
       (h1.symm.trans (Nat.modEq_zero_iff_dvd.2 (dvd_pow_self p two_ne_zero)))
   obtain ⟨u0, hu0fix, hu0ne⟩ : ∃ u0 : ↥U, u0 ∈ MulAction.fixedPoints ↥B ↥U ∧ u0 ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : MulAction.fixedPoints ↥B ↥U ⊆ {1} := fun x hx => hcon x hx
     have h1mem : (1 : ↥U) ∈ MulAction.fixedPoints ↥B ↥U := by
       rw [MulAction.mem_fixedPoints]
@@ -223,7 +223,7 @@ private theorem exists_centralizing_of_plane {p : ℕ} [Fact p.Prime] {B U : Sub
     orderOf_eq_prime (hUe.2 _ u0.2) (fun h => hu0ne (Subtype.ext h))
   obtain ⟨u1, hu1U, hu1n⟩ : ∃ u1 ∈ U, u1 ∉ Subgroup.zpowers (u0 : G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Subgroup.card_le_of_le
       (show U ≤ Subgroup.zpowers (u0 : G) from fun u hu => hcon u hu)
     rw [hUc, Nat.card_zpowers, hu0ord] at h1

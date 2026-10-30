@@ -23,7 +23,7 @@ theorem w4q_exists_v {U : Subgroup G} (hU : IsPGroup 2 U) (hidx : 2 ∣ U.index)
     exact hPidx hidx
   have hgrow : ∃ n ∈ P, (∀ x ∈ U, n * x * n⁻¹ ∈ U) ∧ n ∉ U := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (eq_of_forall_normalizes hP2 hUP hcon)
   obtain ⟨n, hPn, hnNrm, hnU⟩ := hgrow
   obtain ⟨k, hk⟩ := hP2.exists_pow_pow_eq_one ⟨n, hPn⟩

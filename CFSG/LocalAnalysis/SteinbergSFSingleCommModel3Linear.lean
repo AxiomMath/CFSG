@@ -52,7 +52,7 @@ theorem model3_linear_c_ut :
   intro τ hτ
   have h : ¬ (linE13 F' * linConj τ = 0 ∨ linConj τ * linE13 F' = 0) := fun h =>
     hτ (model3_linear_dichotomy τ h)
-  push_neg at h
+  push Not at h
   exact model3_linear_generation _ le_sup_left fun A c hA =>
     model3_linear_transvection_mem τ h.1 h.2 A c hA
 

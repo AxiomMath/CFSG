@@ -176,7 +176,7 @@ theorem noL2Layer_of_fixed_commutator_equiv {P : Type} [Group P] [Finite P] (ψ 
 theorem exists_noncomm_of_center_bot {G : Type*} [Group G] [Nontrivial G]
     (h : Subgroup.center G = ⊥) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨x, hx⟩ := exists_ne (1 : G)
   have hxc : x ∈ Subgroup.center G := Subgroup.mem_center_iff.2 fun g => (hcon g x)
   rw [h, Subgroup.mem_bot] at hxc

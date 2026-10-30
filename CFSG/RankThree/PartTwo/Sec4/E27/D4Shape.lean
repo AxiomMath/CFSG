@@ -116,7 +116,7 @@ theorem nine_le_card_innerPart (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ 
   rw [hcard] at hkr
   have hker9 : 9 ≤ Nat.card Θ'.ker := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card Θ'.ker * Nat.card Θ'.range ≤ 8 * 3 := Nat.mul_le_mul (by omega) hrange
     omega
   let f : innerPart σ E → Θ'.ker := fun x => ⟨⟨MulAut.conj (x : C0 σ), x.2⟩, by
@@ -142,7 +142,7 @@ theorem exists_outer_of_E27 (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) 
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {E : Subgroup (MulAut (C0 σ))} (hE : IsElemAbelian 3 E)
     (hcard : Nat.card E = 27) : ∃ β ∈ E, ∀ g : C0 σ, β ≠ MulAut.conj g := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h9 := card_innerPart_eq σ n hn hX hσ hE hcard
   let f : innerPart σ E → E := fun x => ⟨MulAut.conj (x : C0 σ), x.2⟩
   have hfs : Function.Surjective f := by

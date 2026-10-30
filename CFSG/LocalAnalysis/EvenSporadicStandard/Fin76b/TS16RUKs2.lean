@@ -114,10 +114,10 @@ theorem ks_inv7_sylow {u : Equiv.Perm (Fin 820)} (hu : u ∈ U43ExtStar) (hu2 : 
   have h64 : 2 ^ a = 64 := by
     have hle : 2 ^ a ≤ 64 := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h7 : 7 ≤ a := by
         by_contra h
-        push_neg at h
+        push Not at h
         have : 2 ^ a ≤ 2 ^ 6 := Nat.pow_le_pow_right (by norm_num) (by omega)
         omega
       have : 128 ∣ 2880 := dvd_trans (Nat.pow_dvd_pow 2 h7) hdvd

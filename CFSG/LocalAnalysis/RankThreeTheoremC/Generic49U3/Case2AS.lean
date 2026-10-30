@@ -158,7 +158,7 @@ theorem exists_almostSimple {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Finit
   haveI hsimple : IsSimpleGroup ↥f₀.range := e.symm.isSimpleGroup
   have hnonab : ∃ a b : ↥f₀.range, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : commutator ↥L ≤ center ↥L := by
       rw [← hker]
       refine Subgroup.commutator_le.mpr (fun a _ b _ => ?_)

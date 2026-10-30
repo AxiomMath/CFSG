@@ -67,7 +67,7 @@ theorem r0_nine_le_card_map {G : Type} [Group G] [Finite G] {C A M : Subgroup G}
     rw [Subgroup.card_ker_mul_card_range, hcardA']
   rw [hrange] at key
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h8 : Nat.card (φ.comp (A.subgroupOf M).subtype).ker *
       Nat.card ((A.subgroupOf M).map φ) ≤ 3 * 8 :=
     Nat.mul_le_mul hker (by omega)

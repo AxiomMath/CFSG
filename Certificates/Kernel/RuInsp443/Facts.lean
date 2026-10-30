@@ -189,7 +189,7 @@ theorem chkKxE_true : chkKxE () = true := by
       have : ∃ j < 2 ^ 3, Nat.beq (maskL 4060 12 (mask 12) (pidn 4060 12) BEs j)
           (maskL 4060 12 (mask 12) (pidn 4060 12) BVs k) = true := by
         by_contra hne
-        push_neg at hne
+        push Not at hne
         have : allN (Nat.pow 2 3) (fun j => bIf(Nat.beq (maskL 4060 12 (mask 12) (pidn 4060 12)
             BEs j) (maskL 4060 12 (mask 12) (pidn 4060 12) BVs k), false, true)) = true :=
           PackFld.allN_of_forall fun j hj => by

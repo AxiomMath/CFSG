@@ -58,7 +58,7 @@ theorem eq_smul_cross_of_dot_eq_zero (u w v : Fin 3 → F) (hn : u ⨯₃ w ≠ 
     rw [← crossProduct_ne_zero_iff_linearIndependent]
     exact not_not.mpr h1
   rw [LinearIndependent.pair_iff' hn] at hli
-  push_neg at hli
+  push Not at hli
   obtain ⟨a, ha⟩ := hli
   exact ⟨a, ha.symm⟩
 

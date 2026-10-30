@@ -907,7 +907,7 @@ private theorem e15c_E_noncomm {K K' E : Subgroup G} {z i j : G} (hQ : Q8Data K 
     (hwE : ∀ w ∈ K', w ∈ E → w = 1 ∨ w = z) (hzE : z ∈ E) {e : G} (he : e ∈ E)
     (he1 : e ≠ 1) (he2 : e ≠ z) : ∃ k ∈ K, e * k ≠ k * e := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨a, ha, b, hb, rfl⟩ := e15c_mem_sup hKN (hEsub he)
   have hac : ∀ k ∈ K, a * k = k * a := by
     intro k hk
@@ -1391,7 +1391,7 @@ private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
   obtain ⟨y, hyC, hyodd, hyt⟩ : ∃ y ∈ Subgroup.centralizer ({z} : Set G),
       Odd (orderOf y) ∧ y * t ≠ t * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hUO (le_oTwoCore_of_odd_centralizes h h9 s hJs hJt ht hcon hU hUJ hUN)
   have hyz : y * z * y⁻¹ = z := by
     have hc : z * y = y * z := Subgroup.mem_centralizer_iff.mp hyC z (Set.mem_singleton z)
@@ -1431,13 +1431,13 @@ private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
   have ht_E : t ∈ eGroup Ω K := h.mem_eGroup_of_mem_omegaStarNbr hJs ht
   have hyEK : ∃ k ∈ K, y * k ≠ k * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm := e15c_centralizes_E (A := K) (B := K') (E := eGroup Ω K) hz1 hz2 hAB
       (Asc77.AscL62.le_normalizer_of_commutes (s.commutes h).symm) hE hEN hwE hyC hcon hyK' hyodd
     exact hyt (hcomm t ht_E)
   have hyEK' : ∃ k ∈ K', y * k ≠ k * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm := e15c_centralizes_E (A := K') (B := K) (E := eGroup Ω K) hz1 hz2
       (fun a ha b hb => ((s.commutes h) b hb a ha).symm)
       (Asc77.AscL62.le_normalizer_of_commutes (s.commutes h)) (by rw [sup_comm]; exact hE)
@@ -1453,14 +1453,14 @@ private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
   refine ⟨y ^ s3, Subgroup.pow_mem _ hyK s3, hx3, ⟨e3, ?_⟩, ?_, ?_⟩
   · rw [← pow_mul, mul_comm, ← hn, pow_orderOf_eq_one]
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨k, hk, hkx⟩ := hyEK
     apply hkx
     have hxc : y ^ s3 ∈ Subgroup.centralizer (K : Set G) :=
       Subgroup.mem_centralizer_iff.mpr (fun k hk => (hcon k hk).symm)
     exact (Subgroup.mem_centralizer_iff.mp (e15c_comm_of_pow hs3 hyK3 hxc) k hk).symm
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨k, hk, hkx⟩ := hyEK'
     apply hkx
     have hxc : y ^ s3 ∈ Subgroup.centralizer (K' : Set G) :=

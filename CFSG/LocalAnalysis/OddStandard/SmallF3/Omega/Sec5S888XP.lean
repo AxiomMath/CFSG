@@ -72,7 +72,7 @@ theorem two_le_mval (hS : PlaneSys V W) (hpar : PlaneParity V W) (y : normalizer
       hpar (y : X) y.2 hfix hy2
     have hex : ∃ i : Fin 4, ActsNontriv (W i) (y : X) := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply hyC
       rw [Subgroup.mem_centralizer_iff]
       have hcv : ∀ v ∈ V, (y : X) * v = v * (y : X) := by

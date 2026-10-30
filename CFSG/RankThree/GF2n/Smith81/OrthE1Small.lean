@@ -154,7 +154,7 @@ theorem ntTI_of (hLine : NtLineStatement) : NtTIStatement := by
   obtain ⟨x, hxN, hxNg, hxQ⟩ : ∃ x, x ∈ Nt M (LB M Q B) t ∧
       x ∈ conjSubgroup g (Nt M (LB M Q B) t) ∧ x ∉ Q := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hdis
     refine le_antisymm (fun x hx => ?_) (le_inf hQN hQg)
     exact hno x (Subgroup.mem_inf.mp hx).1 (Subgroup.mem_inf.mp hx).2

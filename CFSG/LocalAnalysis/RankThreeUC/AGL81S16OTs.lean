@@ -51,7 +51,7 @@ theorem exists_ts_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgr
     | smul r x _ h => rw [map_smul_eq_sq, h, mul_zero]
   have hdim : Module.finrank F U ≤ 2 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     let bU : Module.Basis (Fin (Module.finrank F U)) F U := Module.finBasisOfFinrankEq F U rfl
     let v : Fin 3 → OW F := fun i => ((bU (Fin.castLE hlt i) : U) : OW F)
     have hvli : LinearIndependent F v :=
@@ -99,7 +99,7 @@ theorem ts_eq_plane (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgroup
   have hk : Module.finrank F U = 2 := by
     refine le_antisymm hdim ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h3 : Nat.card F ^ Module.finrank F U < Nat.card F ^ 2 :=
       Nat.pow_lt_pow_right (by omega) hlt
     rw [← hcardU] at h3

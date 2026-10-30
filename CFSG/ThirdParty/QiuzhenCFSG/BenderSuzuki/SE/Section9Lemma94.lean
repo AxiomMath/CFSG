@@ -889,7 +889,7 @@ public theorem lemma_9_4
             (normalizerIn E U : Set X)) := by
     intro h
     exact hA ((ii1Lemma44Ambient (W := W) (E := E) inf_le_left) h)
-  push_neg at hcriterion
+  push Not at hcriterion
   rcases hcriterion with ⟨P, U, hUP, hUshape, hbad⟩
   have hUE : U ≤ E :=
     hUP.trans (Subgroup.map_subtype_le (P : Subgroup E))

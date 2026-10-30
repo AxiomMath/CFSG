@@ -220,7 +220,7 @@ theorem case2ab_core_le_centralizer (h : Case2DataAb p P T D F x) (hInn : KFactI
   have hL₀X : L₀ ∈ X := (hmemX L₀).mpr ⟨hL₀, hTL₀⟩
   obtain ⟨a₀, ha₀, ha₀1⟩ : ∃ a₀ ∈ T ⊓ centralizer (L₀ : Set Y), a₀ ≠ 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hbot : T ⊓ centralizer (L₀ : Set Y) = ⊥ :=
       eq_bot_iff.mpr (fun a ha => Subgroup.mem_bot.mpr (hne a ha))
     have h1 := hline L₀ hL₀X
@@ -384,7 +384,7 @@ theorem case2ab_core_eq_of_complement (h : Case2DataAb p P T D F x) {T' : Subgro
     · right
       obtain ⟨b, hb, hb1⟩ : ∃ b ∈ T ⊓ T', b ≠ 1 := by
         by_contra hne
-        push_neg at hne
+        push Not at hne
         exact hbot (eq_bot_iff.mpr (fun a ha => Subgroup.mem_bot.mpr (hne a ha)))
       refine le_antisymm inf_le_left (fun a ha => ?_)
       by_cases ha1 : a = 1

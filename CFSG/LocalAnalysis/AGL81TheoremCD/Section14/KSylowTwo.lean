@@ -41,7 +41,7 @@ theorem not_kSub_le_of_not_pLayerIn_le {p : ℕ} {M H : Subgroup G}
     (h : ¬ pLayerIn p H ≤ M) : ¬ kSub p M H ≤ M := by
   have hex : ∃ L : Subgroup ↥H, CFSG.IsPComponent p L ∧ ¬ L.map H.subtype ≤ M := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply h
     unfold pLayerIn CFSG.pLayer
     rw [sSup_eq_iSup, Subgroup.map_iSup]

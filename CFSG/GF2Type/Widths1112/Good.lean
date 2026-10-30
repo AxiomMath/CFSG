@@ -393,7 +393,7 @@ theorem exists_comm_pair_Qx (S : Setting G) {x : G} (hxQ : x ∈ S.QG)
   have hstep1 : ∃ a ∈ LinearMap.ker (QuadraticMap.polarBilin S.q (S.cl x)),
       ∃ b ∈ LinearMap.ker (QuadraticMap.polarBilin S.q (S.cl x)), polar S.q a b = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨y, hy⟩ := exists_polar_eq_one S.q_nondegenerate hx0
     have h1 := finrank_ker_polarBilin hy
     rw [S.finrank_Qt_eq_two_mul_width] at h1

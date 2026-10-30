@@ -12,7 +12,7 @@ theorem mem_normalizer_of_odd_orderOf_of_ncard_conjugates_le_two {G : Type*} [Gr
     {y : G} (hy : Odd (orderOf y)) : y ∈ Subgroup.normalizer (L : Set G) := by
   by_cases hall : ∀ t : G, t ∈ Subgroup.normalizer (L : Set G)
   · exact hall y
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨t, ht⟩ := hall
     refine CFSG.Quasithin.SBc13.mem_normalizer_of_odd_of_two_conjugates ht ?_ hy
     set S : Set (Subgroup G) := {L' | ∃ g : G, L' = L.map (MulAut.conj g).toMonoidHom} with hS

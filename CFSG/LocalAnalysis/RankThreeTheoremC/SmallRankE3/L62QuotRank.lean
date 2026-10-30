@@ -18,7 +18,7 @@ theorem l62_quotient_pRank_le_one {L : Type} [Group L] [Finite L] (hZ : IsPGroup
     (hno : ∀ E : Subgroup L, IsElemAbelian 3 E → Nat.card E = 9 → False) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (L ⧸ center L)) ≤ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hcard⟩ :=
     CFSG.SectionRank.exists_pRank (by norm_num : (1 : ℕ) < 3) (⊤ : Subgroup (L ⧸ center L))

@@ -808,7 +808,7 @@ public theorem proposition_5_2_fixes_involution_fixedPoint
         (t : X) • (beta : conjugateCosetSpace M) ≠
           (delta : conjugateCosetSpace M) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hpair : ∀ beta delta : FixedP, beta ≠ delta →
         ∃ t : N, IsInvolution t ∧ t • beta = delta := by
       intro beta delta hne
@@ -1144,7 +1144,7 @@ public theorem corollary_5_7_normalized_fixedPoint_pair
     intro hfixed
     exact hnot2 (chapter1_bender_criterion
       (conjugateCosetSpace_isPretransitive M) hp hpOdd hfixed)
-  push_neg at hnotFixed
+  push Not at hnotFixed
   obtain ⟨beta, gamma, hbetaGamma, Q, hQSylow, hQneTwo⟩ := hnotFixed
   have hQp : IsPGroup p Q := by
     rcases hQSylow with ⟨S, hQeq⟩
@@ -1449,7 +1449,7 @@ public theorem proposition_5_3_fixes_involution_fixedPoint
         (t : X) • (beta : conjugateCosetSpace M) ≠
           (delta : conjugateCosetSpace M) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hpair : ∀ beta delta : FixedP, beta ≠ delta →
         ∃ t : N, IsInvolution t ∧ t • beta = delta := by
       intro beta delta hne

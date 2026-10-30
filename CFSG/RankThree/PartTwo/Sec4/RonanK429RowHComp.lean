@@ -175,7 +175,7 @@ theorem isQuasisimple_of_isSimpleGroup' {X : Type*} [Group X] [IsSimpleGroup X]
   refine ⟨inferInstance, e.isSimpleGroup, ?_⟩
   have hnc := Group.IsPerfect.not_isMulCommutative X
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply hnc
   refine ⟨⟨fun a b => ?_⟩⟩
   apply e.symm.injective
@@ -264,7 +264,7 @@ theorem good429_of_simple_small_index {C E : Subgroup S} (hEC : E ≤ C) [hEs : 
     rw [hE'card] at hmul
     have hE0 : 0 < Nat.card E := Nat.card_pos
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card E * (m + 1) ≤ Nat.card E * E'.index := Nat.mul_le_mul_left _ hlt
     nlinarith
   set N := E'.normalCore

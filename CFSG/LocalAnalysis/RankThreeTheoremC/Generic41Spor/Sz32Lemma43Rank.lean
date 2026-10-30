@@ -164,7 +164,7 @@ theorem szj_rank_step [Finite X] {Q : Subgroup X} {a c y x : X} (hQ : Sz32QFacts
     (hAB : ∀ s ∈ Q, ∃ a ∈ A, ∃ b ∈ B, s = a * b) :
     3 ≤ CFSG.Open.pRank 5 A ∨ 3 ≤ CFSG.Open.pRank 5 B := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hA3, hB3⟩ := hcon
   have hA := szj_card_le hQ hUe hUcard hUZ hUA hAQ
     (szj_omega hQ hUe hUcard hUA hAQ (by omega))
@@ -234,7 +234,7 @@ theorem szj_rank_conj (hP : Sz32Struct P x J a c y) (hZ : Sz32ZFacts P M x (a ^ 
     rw [Subgroup.card_map_of_injective (MulAut.conj l⁻¹).injective, hU.abs.card]
   have hUZ : Nat.card ((U.map (MulAut.conj l⁻¹).toMonoidHom) ⊓ sz32Z a c : Subgroup G) ≤ 5 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     have hdvd : Nat.card ((U.map (MulAut.conj l⁻¹).toMonoidHom) ⊓ sz32Z a c : Subgroup G) ∣
         5 ^ 2 := by
       rw [← hUcard]

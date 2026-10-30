@@ -138,7 +138,7 @@ theorem rankTwoNilpotent_offDiag_ne {s : SL(2, K)} (h6 : (6 : K) ≠ 0) (p q : K
     rankTwoNilpotent s p q (Sum.inl 0) (Sum.inl 1) ≠ 0 ∨
       rankTwoNilpotent s p q (Sum.inl 1) (Sum.inl 0) ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h1, h2⟩ := h
   apply h6
   simp [rankTwoNilpotent, tensorMatrix, symTwo, skewTwo] at h1 h2

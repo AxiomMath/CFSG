@@ -73,7 +73,7 @@ theorem a7_gen_A5_aux {V₄ : Subgroup ↥(alternatingGroup (Fin 7))} (hV₄ : I
         by_cases ha : a = x ∨ a = y ∨ a = z
         · right; exact (hfix a).2 ha u hu
         · left
-          push_neg at ha
+          push Not at ha
           rw [Perm.mul_apply, swap_apply_of_ne_of_ne ha.1 ha.2.2, swap_apply_of_ne_of_ne ha.1 ha.2.1]
       have h1 : c * u = u * c := Subtype.ext hd.commute.eq
       rw [h1, mul_inv_cancel_right]

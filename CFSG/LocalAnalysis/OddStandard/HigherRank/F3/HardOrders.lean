@@ -45,7 +45,7 @@ private lemma not_lieModel_of_orders
   have hb : k * (k - 1) ≤ 61 := (Nat.div_le_iff_le_mul (by norm_num : 0 < 2)).mp hm
   have hk : k ≤ 8 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hk9 : 9 ≤ k := h
     have hk8 : 8 ≤ k - 1 := by omega
     have h72 : 72 ≤ k * (k - 1) := by simpa using Nat.mul_le_mul hk9 hk8

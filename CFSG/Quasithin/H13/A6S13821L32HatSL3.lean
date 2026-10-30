@@ -53,7 +53,7 @@ theorem oTwoUpper_mono {A B : Subgroup SL3.S} (h : A ≤ B) : oTwoUpper A ≤ oT
 theorem exists_odd_ne_one {Y : Subgroup SL3.S} (hO : Y ≤ oTwoUpper Y) (hY : Y ≠ ⊥) :
     ∃ y ∈ Y, y ≠ 1 ∧ Odd (orderOf y) := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hY
   have hle : oTwoUpper Y ≤ ⊥ := by
     refine (Subgroup.closure_le ⊥).mpr fun x hx => ?_

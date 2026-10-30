@@ -132,7 +132,7 @@ theorem sylow_eq_mul_of_small_aut {Y : Type} [Group Y] [Finite Y] (R : Sylow 3 Y
   rw [Subgroup.relIndex_ker] at hmul
   have hTcard : 9 ≤ Nat.card ↥(((R : Subgroup Y) ⊓ K).map Φ) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card ↥(((R : Subgroup Y) ⊓ K).map Φ) *
         Nat.card ↥(Φ.ker ⊓ ((R : Subgroup Y) ⊓ K)) < 27 := by nlinarith
     omega

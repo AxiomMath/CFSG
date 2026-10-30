@@ -142,7 +142,7 @@ theorem not_le_stabS_of_flag {p ℓ Pl : Submodule (ZMod 2) I} (hI : finrank (ZM
     rfl
   have hnot : ∃ U : SuperOf ℓ 3, U.1 ≠ Pl := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Subsingleton (SuperOf ℓ 3) :=
       ⟨fun a b => Subtype.ext ((hcon a).trans (hcon b).symm)⟩
     have h1 := (Finite.card_le_one_iff_subsingleton (α := SuperOf ℓ 3)).2 hsub

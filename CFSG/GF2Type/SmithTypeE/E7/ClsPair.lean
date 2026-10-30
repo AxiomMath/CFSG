@@ -138,7 +138,7 @@ theorem wedge_cases {v h : Fin 6 → ZMod 2} (H : ∀ i j, v i * h j + h i * v j
   · exact Or.inl hv
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hv (funext fun k => hne k)
   have hvi : v i = 1 := hone _ hi
   have key : ∀ j, h j = h i * v j := fun j => by

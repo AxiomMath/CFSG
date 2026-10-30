@@ -404,7 +404,7 @@ private theorem burnsideB1b_allTCF {M : Type*} [Group M] [Finite M] {X : Subgrou
   have hmin' : ∀ J : Subgroup M, B ≤ J → J ≤ A → (J.subgroupOf X).Normal → J = B ∨ J = A := by
     intro J hBJ hJA hJn
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hJX : J ≤ X := hJA.trans hAX
     exact hmin J (lt_of_le_of_ne hBJ (Ne.symm hne.1)) (lt_of_le_of_ne hJA hne.2)
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hJX).1 hJn)

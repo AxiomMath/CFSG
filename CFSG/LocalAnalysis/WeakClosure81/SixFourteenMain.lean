@@ -61,7 +61,7 @@ theorem six_fourteen_of_calOStar (h139 : Hyp139) {k p : ℕ} {M V₀ V : Subgrou
   have hcomm := commutator_barSub_BOf_ne_bot h hgen hirr hp hp2 hkd hX1 hXnorm hXp
   obtain ⟨b, hbB, hbx⟩ : ∃ b ∈ barSub V₀ V hV (BOf M V g), b * x ≠ x * b := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hcomm
     rw [← le_bot_iff, Subgroup.commutator_le]
     intro y hy b hb

@@ -143,7 +143,7 @@ theorem qcSingleFactor {a : H} {K J : Subgroup H} (hKs : IsSimpleGroup K) (hZ : 
   by_cases hd : ∃ d ∈ K, a⁻¹ * d * a ≠ d
   · exact Or.inr hd
   · left
-    push_neg at hd
+    push Not at hd
     have hKC : K ≤ centralizer ({a} : Set H) := fun d hd' => by
       rw [mem_centralizer_singleton_iff]
       calc d * a = a * (a⁻¹ * d * a) := by group

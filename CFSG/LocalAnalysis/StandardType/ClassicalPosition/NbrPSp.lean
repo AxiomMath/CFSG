@@ -580,7 +580,7 @@ private lemma nbrPSp_exists_dot_J_ne_zero {n f : ℕ} {a : (Fin n ⊕ Fin n) →
   have hsep := (CFSG.ClassicalGroups.Symplectic.spForm_nondegenerate (m := n)
     (K := GaloisField 2 f)).1
   by_contra h
-  push_neg at h
+  push Not at h
   exact ha (hsep a (by
     intro y
     rw [CFSG.ClassicalGroups.Symplectic.spForm_apply]
@@ -3333,7 +3333,7 @@ private lemma nbrPSpx_func_factoring {F : Type*} [Field F] {V : Type*} [AddCommG
     exact ⟨0, by rw [hf]; simp⟩
   · obtain ⟨x₀, hx₀⟩ : ∃ x, g x ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hg (by ext x; exact hc x)
     refine ⟨f x₀ * (g x₀)⁻¹, ?_⟩
     ext x
@@ -3351,7 +3351,7 @@ private lemma nbrPSpx_indep_func_surj {F : Type*} [Field F] {V : Type*} [AddComm
     ∀ α β : F, ∃ x, f x = α ∧ g x = β := by
   have hne : ∃ x, g x = 0 ∧ f x ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hker : LinearMap.ker g ≤ LinearMap.ker f := by
       intro x hx
       exact LinearMap.mem_ker.mpr (hc x (LinearMap.mem_ker.mp hx))
@@ -3363,7 +3363,7 @@ private lemma nbrPSpx_indep_func_surj {F : Type*} [Field F] {V : Type*} [AddComm
     exact one_ne_zero ((LinearIndependent.pair_iff.mp h) 1 (-c) hzero).1
   have hne2 : ∃ y, f y = 0 ∧ g y ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hker : LinearMap.ker f ≤ LinearMap.ker g := by
       intro x hx
       exact LinearMap.mem_ker.mpr (hc x (LinearMap.mem_ker.mp hx))

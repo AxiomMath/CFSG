@@ -137,7 +137,7 @@ private theorem le_mParam_of_tiFamily_mod {V : Subgroup G} (hV : IsElemAbelian 2
       rw [← hAeq, mem_fixV_autI hV (Subgroup.zpowers_le.mpr hxN)]
     have hex : ∃ i, ¬ Y i ≤ fixV (Subgroup.zpowers t) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : (⊤ : Subgroup (IntMod V hV)) ≤ fixV (Subgroup.zpowers t) := by
         rw [hspan]
         exact iSup_le h

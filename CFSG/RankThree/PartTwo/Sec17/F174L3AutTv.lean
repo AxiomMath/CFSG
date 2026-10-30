@@ -33,11 +33,11 @@ theorem tvM_inj {F : Type} [Field F] {φ v φ' v' : Fin 3 → F} (hφ : φ ≠ 0
     linear_combination hb
   obtain ⟨j, hj⟩ : ∃ j, φ j ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hφ (funext hcon)
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (funext hcon)
   have hj' : φ' j ≠ 0 := by
     intro h0
@@ -210,11 +210,11 @@ theorem parallel_of_orth_three {F : Type} [Field F] {v w φ ψ : Fin 3 → F} (h
   have hb : v 1 * w 2 - v 2 * w 1 ≠ 0 ∨ v 2 * w 0 - v 0 * w 2 ≠ 0 ∨
       v 0 * w 1 - v 1 * w 0 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hb0, hb1, hb2⟩ := hcon
     have hbv : v 0 ≠ 0 ∨ v 1 ≠ 0 ∨ v 2 ≠ 0 := by
       by_contra hcv
-      push_neg at hcv
+      push Not at hcv
       exact hv (funext_fin3 hcv.1 hcv.2.1 hcv.2.2)
     obtain ⟨c, hc⟩ := parallel_of_cross3 (y := w) hv hbv (by ring) (by ring) (by ring)
       (by linear_combination (-1 : F) * hb0) (by linear_combination (-1 : F) * hb1)

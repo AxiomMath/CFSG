@@ -233,7 +233,7 @@ theorem centAlphaS_of_reps [Finite S] {a b r₁ r₂ w : S} (D : NormData a b r�
   obtain ⟨i, j, rfl⟩ := E.mem_R_iff.mp hx
   refine key i j i.2 j.2 ?_
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   rw [hcon.1, hcon.2] at hx1
   simp at hx1
 

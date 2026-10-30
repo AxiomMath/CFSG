@@ -4926,7 +4926,7 @@ private theorem bmSTS_explicit_data_hnq
       ∀ (c : K) (w : W), T (c • w) = c • T w) :
     2 ^ max f 1 ≠ 2 ∨ 4 ≤ m' := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hq, hmle⟩ := h
   have hsmall : ∀ k, 1 ≤ k → k ≤ 3 → 2 ^ max f 1 = 2 →
       Group.IsSolvable ((ggU .PSU k (max f 1)).K) := by
@@ -10187,7 +10187,7 @@ private theorem bmSTS_exists_hdual {F : Type} [Field F] (K : Type) [Field K] [Al
     · rw [bmSTS_herm_smul_left (F := F) (K := K) W h τ hτ2 hsymm, hw₀₁, mul_zero]
     · rw [bmSTS_herm_smul_left (F := F) (K := K) W h τ hτ2 hsymm,
         RingEquiv.apply_symm_apply τ ((h w₀ z₂)⁻¹), inv_mul_cancel₀ hw₀₂]
-  · push_neg at hg
+  · push Not at hg
     exfalso
     by_cases hf : ∃ y : W, h y z₁ ≠ 0
     · obtain ⟨y₁, hy₁⟩ := hf
@@ -10211,7 +10211,7 @@ private theorem bmSTS_exists_hdual {F : Type} [Field F] (K : Type) [Field K] [Al
         rw [hsymm y (z₂ - (h y₁ z₂ * (h y₁ z₁)⁻¹) • z₁), map_sub, map_smul, smul_eq_mul,
           hkey y, sub_self, map_zero]
       exact hcol _ (sub_eq_zero.mp hzero)
-    · push_neg at hf
+    · push Not at hf
       exact hcol 0 (by simpa using hnd z₂ (fun y => by rw [hsymm y z₂, hg y (hf y), map_zero]))
 
 private theorem bmSTS_Klinear_transvection_relation
@@ -10265,7 +10265,7 @@ private theorem bmSTS_colinear_of_dual_transvection_Klinear
     z₁ ≠ 0 → ∃ c : K, z₂ = c • z₁ := by
   intro hz₁
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hfind := bmSTS_independent_of_not_Kcolinear (F := F) (K := K) W z₁ z₂ hz₁ hcon
   have hrel := bmSTS_Klinear_transvection_relation (F := F) (K := K) τ hτ2 W h hsymm hnd z₁ z₂
     hfind T hform hKlin hz₁
@@ -10867,7 +10867,7 @@ private theorem bmSTS_herm_surjective
     ∃ w : W, h w z = κ := by
   have hne : ∃ w₁, h w₁ z ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hz (hnd z (fun y => by rw [hsymm y z, hcon y, map_zero]))
   obtain ⟨w₁, hw₁⟩ := hne
   refine ⟨τ.symm (κ * (h w₁ z)⁻¹) • w₁, ?_⟩

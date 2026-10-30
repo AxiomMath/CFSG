@@ -337,7 +337,7 @@ theorem exists_hyperplane_fixed_not_fixed {J : Type} [Group J] [Finite J] {A : T
     rw [h1, one_smul]))
   have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (p := p) (A := ↥U) (H := A) hpA
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : (⨆ (B : Subgroup U) (_ : B.index = p), CFSG.fixedPointSubgroup B A) ≤
       CFSG.fixedPointSubgroup (⊤ : Subgroup U) A := by
     refine iSup₂_le fun B hB a ha g => ?_

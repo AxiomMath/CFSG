@@ -25,7 +25,7 @@ theorem uB_zero {K : Type} [Field K] : uB (0 : K) = AddEquiv.refl _ := by
 theorem exists_sq_ne {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     ∃ x : K, x ^ 2 ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Set.univ : Set K) ⊆ ({0, 1} : Set K) := by
     intro x _
     have hx : x * (x - 1) = 0 := by linear_combination h x
@@ -42,7 +42,7 @@ theorem exists_sq_ne {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
 theorem exists_ne_ne {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) (c : K) :
     ∃ β : K, β ≠ 0 ∧ β ≠ c := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Set.univ : Set K) ⊆ ({0, c} : Set K) := by
     intro x _
     by_cases hx : x = 0

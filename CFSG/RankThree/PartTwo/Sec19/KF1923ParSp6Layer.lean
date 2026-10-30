@@ -238,7 +238,7 @@ theorem eq_one_of_diag_one (blk : Fin 6 → ℕ) (hblk : ∀ i, blk i < 6)
   have hMlt : ∀ i j, ((d : Matrix (Fin 6) (Fin 6) (ZMod 2)) - 1) i j ≠ 0 → blk i < blk j := by
     intro i j hij
     by_contra hle
-    push_neg at hle
+    push Not at hle
     rcases lt_or_eq_of_le hle with hlt | heq
     · apply hij
       have hne : i ≠ j := fun e => by subst e; exact lt_irrefl _ hlt
@@ -317,7 +317,7 @@ theorem layer_contradiction (blk : Fin 6 → ℕ) (hblk : ∀ i, blk i < 6)
     rw [MonoidHom.mem_ker]
     apply Units.ext
     simpa [diagHom, diagUnit] using hconj _ x.2 hdx
-  · push_neg at hA
+  · push Not at hA
     have hone : ∀ β : ℕ, Nat.card (diagHom blk β D hD).range = 1 := fun β =>
       (hrange β).resolve_right (hA β)
     have hdiag : ∀ d ∈ D, ∀ β : ℕ, diagBlock blk β (d : Matrix (Fin 6) (Fin 6) (ZMod 2)) = 1 := by

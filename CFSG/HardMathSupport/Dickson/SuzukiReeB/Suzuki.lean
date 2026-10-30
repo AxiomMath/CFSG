@@ -27,7 +27,7 @@ private theorem perfectInLayer_of_isSimpleGroup_fix {S : Type*} [Group S] (β : 
 private theorem exists_noncomm_of_isPerfect (G : Type*) [Group G] [Nontrivial G]
     [Group.IsPerfect G] : ∃ x y : G, x * y ≠ y * x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact Group.IsPerfect.not_isMulCommutative G ⟨⟨hcon⟩⟩
 
 private theorem perfectInLayer_of_equiv_suzukiGroup {X : Type*}

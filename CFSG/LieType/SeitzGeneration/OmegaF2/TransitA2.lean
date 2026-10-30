@@ -38,7 +38,7 @@ theorem exists_move_vec (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
     ∃ h ∈ ratEichlerGroup Q k, ∃ a ∈ S.hyp, h x = Pi.single a 1 := by
   obtain ⟨a, ha, hxa0⟩ : ∃ a ∈ S.hyp, x a ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hx0 (htail x (fun c hc => hcon c hc) hQx)
   have hxa1 : x a = 1 := by
     rcases eq_zero_or_eq_one_of_card_two' hk (hx a) with h0 | h1
@@ -90,7 +90,7 @@ theorem exists_move_perp (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
     simp [hperp, hsa0]
   have hex : ∃ b ∈ S.hyp, b ≠ a ∧ b ≠ S.star a ∧ y' b ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hy'tail : ∀ c ∈ S.hyp, y' c = 0 := by
       intro c hc
       by_cases hca : c = a

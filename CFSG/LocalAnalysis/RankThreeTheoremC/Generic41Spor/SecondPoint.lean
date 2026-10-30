@@ -434,7 +434,7 @@ theorem second_point_false_ab (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 
       exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers _) k
     have hnotT : ∃ A ∈ D, ¬ A ≤ T := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hD2 := hD₂ T hTP hTcard hcon
       have : Subgroup.zpowers (h₀ * t * h₀⁻¹) ∈ ({Subgroup.zpowers x} : Set (Subgroup G)) :=
         hD2 ▸ ht'D

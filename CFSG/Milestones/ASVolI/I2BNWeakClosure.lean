@@ -29,7 +29,7 @@ theorem burnsideI25b_mul_self_mem (h : IsBNPair B N S) {ns : N}
 theorem burnsideI25b_exists_not_conj_mem (h : IsBNPair B N S) {ns : N}
     (hs : (ns : WeylGroup B N) ∈ S) : ∃ b ∈ B, (ns : G)⁻¹ * b * ns ∉ B := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsq := burnsideI25b_mul_self_mem h hs
   refine h.ne ns hs (Set.Subset.antisymm ?_ ?_)
   · rintro _ ⟨_, ⟨_, rfl, b, hb, rfl⟩, _, rfl, rfl⟩

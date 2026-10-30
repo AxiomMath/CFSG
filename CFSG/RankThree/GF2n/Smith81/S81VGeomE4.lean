@@ -125,7 +125,7 @@ theorem lemmaE_caseII [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
     nlinarith
   obtain ⟨y, hyL, hpy⟩ : ∃ y ∈ L, herm σ p y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hL1
     intro v hv
     exact Submodule.mem_inf.2 ⟨hLP4 hv, e4_mem_orth_span (hcon v hv)⟩

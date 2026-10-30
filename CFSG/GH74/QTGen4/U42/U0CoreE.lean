@@ -113,7 +113,7 @@ theorem right_surj {X : Subgroup Mc} (hK : ∀ x ∈ X, InK4 x.right)
     exact SemidirectProduct.ext hl (hr1.trans hr2.symm)
   have hR : 4 ≤ Nat.card (rightOf X).range := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h8 := Nat.mul_le_mul_right (Nat.card (rightOf X).range) hker
     linarith
   have hle : (rightOf X).range ≤ K4s := by

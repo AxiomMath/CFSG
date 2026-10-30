@@ -78,7 +78,7 @@ theorem Config.exists_conj_eq_mul (hC : Config z n) {a : G} (ha : a ∈ coreAt z
     (haZ : a ∉ centerAt z) : ∃ q ∈ coreAt z, q⁻¹ * a * q = a * z := by
   have hnc : ∃ x ∈ coreAt z, a * x ≠ x * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply haZ
     have hmem : (⟨a, ha⟩ : coreAt z) ∈ center (coreAt z) := by
       rw [Subgroup.mem_center_iff]

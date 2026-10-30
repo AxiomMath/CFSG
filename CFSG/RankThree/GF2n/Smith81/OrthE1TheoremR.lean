@@ -442,7 +442,7 @@ theorem exists_conj_ne (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) (hH : E1Hyp M Q 
     (hNL : Nt M (LB M Q B) t ≤ LB M Q B) :
     ∃ s ∈ Lgen M (LB M Q B), conjSubgroup s (Nt M (LB M Q B) t) ≠ Nt M (LB M Q B) t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hNH : Nt M (LB M Q B) t ≤ H0 M Z := fun n hn =>
     Lgen_le_H0 hc (le_Lgen_self M (LB M Q B) (hNL hn))
   have hββ : ∀ e, β (β e) = 0 := fun e => hβ.kills _ (hβ.range e)

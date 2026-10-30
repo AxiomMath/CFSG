@@ -56,7 +56,7 @@ theorem glaPLayer_ne_bot_iff {p : ℕ} (hp : p.Prime) {X : Subgroup G} :
   constructor
   · intro h
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply h
     have : {L : Subgroup G | GLAPComponent p X L} = ∅ := by
       ext L; simp [hne L]
@@ -107,7 +107,7 @@ theorem card_ge_of_not_isCyclic {p : ℕ} (hp : p.Prime) {E : Subgroup G} (hE : 
     (hnc : ¬ IsCyclic E) : p ^ 2 ≤ Nat.card E := by
   obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian hp hE
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   apply hnc
   have hk1 : k ≤ 1 := by
     by_contra h

@@ -339,7 +339,7 @@ theorem i2014_core (hc : A9.A9Fact) {s₁ s₃ : Y} {L : Subgroup Y}
   suffices hH : H ≤ Subgroup.centralizer (R : Set Y) by
     obtain ⟨x, hxH, hx1⟩ : ∃ x ∈ H, x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : H = ⊥ := (Subgroup.eq_bot_iff_forall H).2 hcon
       rw [this, Subgroup.card_bot] at hHc
       norm_num at hHc

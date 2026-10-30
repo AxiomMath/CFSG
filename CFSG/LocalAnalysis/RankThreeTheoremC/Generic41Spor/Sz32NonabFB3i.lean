@@ -41,7 +41,7 @@ theorem nf5_I714 (h714 : KFactI714Four') (hc : NF5Cfg F Γ B R₀ x L z) (hFL : 
     exact hFL
   have hex5 : ∃ q ∈ (Q : Subgroup Y), q ^ 5 ≠ 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hBF : B = F := by
       ext b
       rw [hc.data.hB b]

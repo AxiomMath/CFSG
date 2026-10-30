@@ -90,7 +90,7 @@ theorem card_fix_le {t : (Fin 6 → FieldFour) → (Fin 6 → FieldFour)}
   have hc := Nat.card_le_card_of_injective _ hinj
   rw [Nat.card_prod, Nat.card_fun, natCard_eq, Nat.card_fin] at hc
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : (2 ^ 6 + 1) * (2 ^ 6 + 1) ≤ Nat.card {x // t x = x} * Nat.card {x // t x = x} :=
     Nat.mul_le_mul hlt hlt
   norm_num at this hc

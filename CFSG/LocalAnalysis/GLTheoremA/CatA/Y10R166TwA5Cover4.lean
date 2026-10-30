@@ -126,7 +126,7 @@ private theorem commute_unitaryBlock_coverDiag (h : UnitaryFieldData 2 n F) {ω 
         have hm := (mem_unitaryBlock h).1 hl i j
         have hnot : i ∉ ({0, 1} : Finset (Fin 6)) ∨ j ∉ ({0, 1} : Finset (Fin 6)) := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           exact hmem ⟨hcon.1, hcon.2⟩
         rw [hm hnot]
         simp [Matrix.one_apply, hij]

@@ -20,7 +20,7 @@ theorem struct_of_derived_le_layer [Finite G] (cfg : H2Cfg G t v J)
   classical
   obtain ⟨S₀, hS₀, hJ0S₀⟩ : ∃ S₀ : Subgroup G, IsComponent S₀ ∧ ⁅J, J⁆ ≤ S₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hlayer : layer G ≤ centralizer ((⁅J, J⁆ : Subgroup G) : Set G) := by
       rw [CFSG.layer.eq_sSup]
       refine sSup_le fun L hL => ?_

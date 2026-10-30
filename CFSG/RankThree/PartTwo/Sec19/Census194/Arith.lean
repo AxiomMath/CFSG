@@ -15,7 +15,7 @@ namespace CFSG.RankThree.PartTwo.Sec19
 theorem exists_prime_gt_three_dvd_two_pow_sub_one {f : ℕ} (hf : 3 ≤ f) :
     ∃ p : ℕ, p.Prime ∧ 3 < p ∧ p ∣ 2 ^ f - 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hpos : 0 < 2 ^ (f - 3) := by positivity
   have h8 : 2 ^ f = 8 * 2 ^ (f - 3) := by
     rw [show f = (f - 3) + 3 by omega, pow_add]
@@ -46,7 +46,7 @@ theorem exists_prime_gt_three_dvd_two_pow_add_one {f : ℕ} (hf : f = 2 ∨ 4 �
   rcases hf with rfl | hf
   · exact ⟨5, by norm_num, by norm_num, by norm_num⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h16 : 2 ^ f = 16 * 2 ^ (f - 4) := by
     rw [show f = (f - 4) + 4 by omega, pow_add]
     simp [Nat.add_sub_cancel]; ring

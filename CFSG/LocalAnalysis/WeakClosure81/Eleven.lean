@@ -312,7 +312,7 @@ theorem eleven_f {M V : Subgroup G} (hV : IsElemAbelian 2 V)
   have hex : ∃ U : Subgroup G, U ≤ V ∧ ¬ Subgroup.centralizer (U : Set G) ≤ M ∧
       E3.mQuot V U = n := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hge : ((n + 1 : ℕ) : ℕ∞) ≤ rMV M V := by
       refine le_iInf₂ fun U hU => ?_
       have h1 : n ≤ E3.mQuot V U := hnle U hU.1 hU.2
@@ -628,7 +628,7 @@ theorem eleven_five {M V U : Subgroup G} (hMmax : rankThreeIsMaxTwoLocal M)
         (∀ A ∈ L, ¬ A ≤ M → pCoreOf 2 A ≠ ⊥) ∧ ∃ A ∈ L, ¬ A ≤ M) :
     ∃ g ∈ M, U ⊓ conjSubgroup U g ∉ gammaEleven M V := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨E, L, hEinv, hLsub, hLnormal, hLo2, A, hAL, hAM⟩ := h114 hall
   have hO2A : pCoreOf 2 A ≠ ⊥ := hLo2 A hAL hAM
   have hAE : A ≤ E := hLsub A hAL
@@ -668,7 +668,7 @@ theorem eleven_six {M V : Subgroup G} (hV : IsElemAbelian 2 V)
       exact conjSubgroup_mono_left g hU.1.1
     have hmW : mBar M ⊥ V hV ≤ E3.mQuot V (U ⊓ conjSubgroup U g) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hO := eleven_d hV hMV hWV hcon
       have hWne : U ⊓ conjSubgroup U g ≠ ⊥ := by
         intro hbot
@@ -695,7 +695,7 @@ theorem eleven_six {M V : Subgroup G} (hV : IsElemAbelian 2 V)
               hU.2]
         _ = 2 * rMV M V := by rw [two_mul]
     exact le_trans (by exact_mod_cast hmW) h2
-  · push_neg at hlt
+  · push Not at hlt
     calc (mBar M ⊥ V hV : ℕ∞) ≤ rMV M V := hlt
       _ ≤ 2 * rMV M V := by
         rw [two_mul]

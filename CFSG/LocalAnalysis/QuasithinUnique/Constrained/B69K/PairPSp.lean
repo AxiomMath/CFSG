@@ -38,7 +38,7 @@ theorem exists_stabilizer_not_mem {r : ℕ} {K : Type} [Field K] {d : ℕ} (hd :
   obtain ⟨x, hxI, hxd⟩ : ∃ x, x ∈ SymplecticHigher.flagStabilizer r K {j : ℕ | 1 ≤ j ∧ j ≤ r ∧ j ≠ d} ∧
       x ∉ SymplecticFlag.stabilizer r K (SymplecticFlag.flag r K d) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnle fun x hx => hcon x hx
   exact ⟨x, fun j hj1 hjr hjd => (SymplecticHigher.mem_flagStabilizer.mp hxI) j ⟨hj1, hjr, hjd⟩, hxd⟩
 

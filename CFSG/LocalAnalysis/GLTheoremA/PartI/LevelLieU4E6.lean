@@ -227,7 +227,7 @@ theorem goodCent_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) : GoodCent (c022 ζ 
         CFSG.LocalAnalysis.GLTheoremA.kLevel_congr 3 e]
       exact kLevel_W0_le_two
   ·
-    push_neg at hW
+    push Not at hW
     obtain ⟨x0, hx0I, hx0W, hx0ne⟩ := hW
     haveI : IsSimpleGroup ↥W1 := W1equivW0.isSimpleGroup
     have hW1sub := hI.2.1.inf_of_le (W1_le_centralizer_c022 ζ hζ)

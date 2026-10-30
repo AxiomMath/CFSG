@@ -411,7 +411,7 @@ private theorem model_card_le_eight (E : Subgroup M12Mod) (hE : IsElemAbelian 2 
         exact hdvd)
       have hk1 : k ≤ 1 := by
         by_contra h
-        push_neg at h
+        push Not at h
         have hk2 : k = 2 := by omega
         subst hk2
         norm_num [pow_two] at hdk

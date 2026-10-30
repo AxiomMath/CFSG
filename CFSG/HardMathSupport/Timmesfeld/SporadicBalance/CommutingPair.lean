@@ -42,7 +42,7 @@ theorem card_closure_pair_eq_sq [Finite G] {p : ℕ} [hp : Fact p.Prime] {a b : 
   obtain ⟨k, hk⟩ := hpK.exists_card_eq
   have hk2 : k ≤ 2 := by
     by_contra hk3
-    push_neg at hk3
+    push Not at hk3
     apply hG
     have hdvd : Nat.card K ∣ Nat.card G := Subgroup.card_subgroup_dvd_card K
     rw [hk] at hdvd
@@ -58,7 +58,7 @@ theorem card_closure_pair_eq_sq [Finite G] {p : ℕ} [hp : Fact p.Prime] {a b : 
     rw [← hm, zpow_eq_pow_toNat_emod hp0 ha m]
   have hk1 : 2 ≤ k := by
     by_contra hk1
-    push_neg at hk1
+    push Not at hk1
     have hle : Nat.card (Subgroup.zpowers a) ≤ Nat.card K := Subgroup.card_le_of_le hz
     have hKle : Nat.card K ≤ p := by
       rw [hk]

@@ -250,7 +250,7 @@ theorem exists_oddHull
   by_cases hall : ∀ b : X, CompInv X n z b →
       oddCoreOf (centralizer ({b} : Set X)) ≤ centralizer ({z} : Set X)
   · exact ⟨⊥, oddHull_bot hall⟩
-  push_neg at hall
+  push Not at hall
   obtain ⟨b₀, ⟨A₁, hA₁, hb₀A, hb₀2⟩, hb₀⟩ := hall
   obtain ⟨A₂, hA₂, hA₂ne⟩ := exists_comp_ne A₁ hne
   have hM : normalizer ((W1 A₁ : Subgroup X) : Set X) ≠ ⊤ :=

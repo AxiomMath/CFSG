@@ -309,13 +309,13 @@ theorem u38RankAt_holds (G : Type) [Group G] [Finite G] : U38RankAt G := by
     omega
   have hrange : Nat.card ↥ψE.range ≤ 9 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hEab).exists_card_eq
     have hdvd : Nat.card ↥ψE.range ∣ 3 ^ n := hn ▸ u38R_card_range_dvd ψE
     obtain ⟨j, -, hjeq⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvd
     have hj3 : 3 ≤ j := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases j <;> (rw [hjeq] at hgt; norm_num at hgt)
     have h27 : 3 ^ 3 ∣ Nat.card ↥ψE.range := by
       rw [hjeq]

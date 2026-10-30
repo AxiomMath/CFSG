@@ -24,7 +24,7 @@ private theorem lc3_fixSubgroup_one {K : Type} [Group K] :
 private theorem lc3_five_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) : 5 ≤ p := by
   have h2 := hp.two_le
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   interval_cases p <;> first | exact absurd rfl hp2 | exact absurd rfl hp3 | norm_num at hp
 
 section ChevDownThree

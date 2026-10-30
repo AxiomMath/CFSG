@@ -93,7 +93,7 @@ theorem l4u_exists_nontriv {E : Subgroup G} (hE : IsKleinFour E) (z : G) :
   have hcon' : ∀ e ∈ E, e = 1 ∨ e = z := by
     intro e he
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcon ⟨e, he, h.1, h.2⟩
   have hsub : (E : Set G) ⊆ {1, z} := by
     intro e he

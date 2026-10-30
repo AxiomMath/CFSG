@@ -52,7 +52,7 @@ theorem sec5p510_exists_d0 {R E : Subgroup G} {x : G} (hxT : x ∈ sec5p510_T t 
     (hxE : x ∉ E) :
     ∃ d₀ ∈ conjClassIn (centralizer ({z} : Set G)) t, d₀ ∈ R ∧ d₀ ∉ E := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hTE : sec5p510_T t z R ≤ E := (Subgroup.closure_le _).mpr fun y hy => hcon y hy.1 hy.2
   exact hxE (hTE hxT)
 

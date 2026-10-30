@@ -473,7 +473,7 @@ theorem NatDec.local_bound [Finite V] (d : NatDec ρ Nbar Nb) (i : Fin m) {P : S
       have hPq : Nat.card P = Nat.card F := by
         apply le_antisymm h1
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have h3 : Nat.card P * Nat.card (sl2Fix Q) ≤ Nat.card P * Nat.card F :=
           Nat.mul_le_mul_left _ h2
         have h4 : Nat.card P * Nat.card F < Nat.card F * Nat.card F :=

@@ -22,14 +22,14 @@ theorem rhoG_scalY (hK : Nat.card K4 = 4) (c : K4ˣ) (v : Fin 6 → K4) :
 theorem rankFine_u6_aux : RankFine (StatedProj (StatedSU 6 (2 ^ 1) K4)) 27 := by
   intro E T hE hT hTne hET
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   haveI : Finite ↥(StatedSU 6 (2 ^ 1) K4) := HU42S.finite_SU K4
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g.1 g.2)⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hEp
   have hn4 : 4 ≤ n := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 3 ^ n ≤ 3 ^ 3 := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
   obtain ⟨E₀, hE₀⟩ := Sylow.exists_subgroup_card_pow_prime (G := E) 3 (n := 4)

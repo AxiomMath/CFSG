@@ -546,7 +546,7 @@ theorem le_closureIn_of_isSC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B J : Sub
       exact (h1.trans h2).trans le_sup_left
     · obtain ⟨b, hb, hbT⟩ : ∃ b ∈ B, b ∉ Subgroup.normalizer (T : Set G) := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hBT (fun b hb => hcon b hb)
       have hbJ : b⁻¹ ∈ Subgroup.normalizer (J : Set G) := hBJ (B.inv_mem hb)
       have hT' : GLAPComponent p J (GLBConj b⁻¹ T) := by

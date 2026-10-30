@@ -33,7 +33,7 @@ theorem symm (h : Seg27Six X p q) : Seg27Six X q p where
 theorem exists_moved (h : Seg27Six X p q) {r : Fin 8} (hp : r ≠ p) (hq : r ≠ q) :
     ∃ g ∈ X, g r ≠ r := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : X ≤ MulAction.stabilizer (Equiv.Perm (Fin 8)) r := fun g hg =>
     MulAction.mem_stabilizer_iff.2 (by simpa [Equiv.Perm.smul_def] using hcon g hg)
   have h10 := h.card_stab r hp hq
@@ -43,7 +43,7 @@ theorem exists_moved (h : Seg27Six X p q) {r : Fin 8} (hp : r ≠ p) (hq : r ≠
 theorem eq_or_eq_of_fixed (h : Seg27Six X p q) {r : Fin 8} (hr : ∀ g ∈ X, g r = r) :
     r = p ∨ r = q := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨g, hg, hgr⟩ := h.exists_moved hcon.1 hcon.2
   exact hgr (hr g hg)
 

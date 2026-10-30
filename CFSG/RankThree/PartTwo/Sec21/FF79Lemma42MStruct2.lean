@@ -67,7 +67,7 @@ theorem m42_comp_le_Lay {H M : Subgroup G} (hMH : M ≤ H) {C : Subgroup ↥H}
 theorem m42_nonab_of_card {N : Subgroup G} [IsSimpleGroup ↥N] [Finite G]
     (h : ¬ (Nat.card N).Prime) : ∃ a b : ↥N, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   letI : CommGroup ↥N := { (inferInstance : Group ↥N) with mul_comm := hcon }
   exact h (IsSimpleGroup.prime_card (α := ↥N))
 

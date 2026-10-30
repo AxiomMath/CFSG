@@ -44,7 +44,7 @@ theorem exists_isotropic_fixed (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0)
     · simp only [herm, Fin.sum_univ_four]
       simp
       linear_combination hu
-  · push_neg at hE1
+  · push Not at hE1
     obtain ⟨g₀, hg₀E, hg₀⟩ := hE1
     haveI : Nontrivial ↥E := ⟨⟨⟨g₀, hg₀E⟩, 1, fun h => hg₀ (congrArg Subtype.val h)⟩⟩
     haveI : Nontrivial ↥(Subgroup.center ↥E) := hP.center_nontrivial

@@ -281,7 +281,7 @@ theorem FpfSetting.sup_eq (h : FpfSetting P Q ρ) {C : Subgroup G} (hCP : C ≤ 
   · exact Or.inl hCQ
   · right
     rw [SetLike.le_def] at hCQ
-    push_neg at hCQ
+    push Not at hCQ
     obtain ⟨c, hcC, hcQ⟩ := hCQ
     have hcP : c ∈ P := hCP hcC
     intro x hx

@@ -87,7 +87,7 @@ theorem y4a_isConjOrbit_B {G : Type} [Group G] [Finite G] {Y M : Subgroup G} {A 
     rw [hOeqB] at hO
     exact hO
   · exfalso
-    push_neg at hcase
+    push Not at hcase
     set F : Subgroup G := M ⊓ Subgroup.centralizer (Y : Set G) with hF
     have hFset : (F : Set G) = insert 1 B := by
       ext m

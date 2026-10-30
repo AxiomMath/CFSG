@@ -571,7 +571,7 @@ theorem exists_invariant_cyclic_supplement [Finite G] {W N₀ D S : Subgroup G}
       S ≤ Subgroup.normalizer ((Subgroup.zpowers z ⊔ D : Subgroup G) : Set G) := by
   obtain ⟨c, hcW, hcN⟩ : ∃ c ∈ W, c ∉ N₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : N₀.relIndex W = 1 :=
       Subgroup.relIndex_eq_one.mpr (fun c hc => hcon c hc)
     omega
@@ -583,7 +583,7 @@ theorem exists_invariant_cyclic_supplement [Finite G] {W N₀ D S : Subgroup G}
     intro g hg
     obtain ⟨d, hd, e⟩ := hfix g (hall g hg)
     exact Or.inl ⟨d, hd, e⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨s, hs, hsn⟩ := hall
     have huW : s * (c * y) * s⁻¹ ∈ W := conj_mem_of_mem_normalizer (hSW hs) haW
     have hxW : c * y * (s * (c * y) * s⁻¹)⁻¹ ∈ W := W.mul_mem haW (W.inv_mem huW)

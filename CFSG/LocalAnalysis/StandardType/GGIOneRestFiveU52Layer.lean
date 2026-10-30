@@ -82,7 +82,7 @@ theorem layer_small_of_component {K : Type} [Field K] [Finite K] (hK : Nat.card 
   obtain ⟨σ, ha⟩ := hact
   by_cases hall : ∀ i, (SmallU.cls σ i).card ≤ 3
   · exact (SmallU.not_isComponentOf_of_small_classes hM (by norm_num) ha hall hcomp).elim
-  push_neg at hall
+  push Not at hall
   obtain ⟨i, hi⟩ := hall
   have hle5 : (SmallU.cls σ i).card ≤ 5 := by
     have := Finset.card_le_univ (SmallU.cls σ i)

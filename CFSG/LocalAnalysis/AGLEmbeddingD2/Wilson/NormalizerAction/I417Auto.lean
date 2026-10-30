@@ -202,7 +202,7 @@ theorem cent_of_frame {X : Type*} [Group X] [Finite X] {k : Fin 6 → X} (h : J3
     ∀ x ∈ F, y * x = x * y := by
   subst hF
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨x, hx, hxy⟩ := hcon
   have hne : (F0 k).normalizerMonoidHom ⟨y, hy⟩ ≠ 1 := by
     intro h1

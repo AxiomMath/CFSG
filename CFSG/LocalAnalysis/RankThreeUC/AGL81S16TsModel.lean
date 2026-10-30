@@ -183,7 +183,7 @@ theorem totally_singular_card_le {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F] [
     by_contra hx0
     obtain ⟨i, hi⟩ : ∃ i, x i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hx0 (funext h)
     have ha : x i ^ (2 ^ n) ≠ 0 := pow_ne_zero _ hi
     have hy := hx (Pi.single i ((x i ^ (2 ^ n))⁻¹ * d₀) : Fin 4 → F)

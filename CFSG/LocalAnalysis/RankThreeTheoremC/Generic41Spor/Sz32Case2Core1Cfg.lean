@@ -152,7 +152,7 @@ theorem szh1d_all (hY : Sz32Case2Data Pb a c y)
     {L₁ L₂ : Subgroup Y} (h₁ : IsComponentOf L₁ ⊤) (h₂ : IsComponentOf L₂ ⊤) (hne : L₁ ≠ L₂)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) : L = L₁ ∨ L = L₂ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hL1, hL2⟩ := hcon
   have hZle := szh1d_Z_le_sup hY h₁ h₂ hne (hcen h₁) (hnorm h₁) (hnorm h₂)
   have h0 := szh1d_inf_Z_ne_bot hY hL (hnorm hL)
@@ -217,7 +217,7 @@ theorem szh1d_exists_conj (hY : Sz32Case2Data Pb a c y)
     (hA0 : sz32Z a c ⊓ L₁ ≠ ⊥) (hB0 : sz32Z a c ⊓ L₂ ≠ ⊥) :
     ∃ n : Y, L₁.map (MulAut.conj n).toMonoidHom = L₂ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hfix : ∀ n : Y, L₁.map (MulAut.conj n).toMonoidHom = L₁ := by
     intro n
     rcases hall _ (szh1d_isComponent_conj n h₁) with h | h

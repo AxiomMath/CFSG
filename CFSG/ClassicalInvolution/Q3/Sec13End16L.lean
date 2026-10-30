@@ -685,7 +685,7 @@ private theorem e16l_aux {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
           (x ^ 3 ^ j)⁻¹ = (x ^ 3 ^ j) ^ 3 * k * ((x ^ 3 ^ j) ^ 3)⁻¹ := by group
       _ = k := h1
   have hynon : ∃ k ∈ K, y * k * y⁻¹ ≠ k := by
-    push_neg at hnotj
+    push Not at hnotj
     obtain ⟨k, hk, hne⟩ := hnotj
     exact ⟨k, hk, by rw [hydef]; exact hne⟩
   have hLy : L y = (L x) ^ 3 ^ j := by rw [hydef, map_pow]

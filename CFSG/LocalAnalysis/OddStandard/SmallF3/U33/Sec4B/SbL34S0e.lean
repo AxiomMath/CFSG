@@ -23,7 +23,7 @@ theorem s_not_central {s : G} (hs : s = t ∨ s = tau ∨ s = t * tau) :
     ∃ b ∈ ctxQ t tau x₁ x₂ rho, b * s ≠ s * b := by
   have hsf := s_facts hc hs
   by_contra h
-  push_neg at h
+  push Not at h
   have hV : ⁅ctxQ t tau x₁ x₂ rho, zpowers s⁆ = fourGrp x₁ x₂ := by
     rcases hs with hst | hst | hst
     · rw [hst]; exact comm_t_eq hc

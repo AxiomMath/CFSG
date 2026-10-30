@@ -107,7 +107,7 @@ theorem fzl_equiv_Z4422 {P E Z : Subgroup G}
     (fzl_mem_omega hcomm).mpr ⟨hEP (hZE hz), hZ2 z hz⟩
   have hex1 : ∃ y : G, y ∈ Ω ∧ y ∉ Z := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Nat.card Ω ≤ Nat.card Z := Subgroup.card_le_of_le fun x hx => h x hx
     rw [hΩcard, hcZ] at hle
     norm_num at hle
@@ -132,7 +132,7 @@ theorem fzl_equiv_Z4422 {P E Z : Subgroup G}
     rw [h1, hcZ, Nat.card_zpowers, hord1]
   have hex2 : ∃ y : G, y ∈ Ω ∧ y ∉ A := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Nat.card Ω ≤ Nat.card A := Subgroup.card_le_of_le fun x hx => h x hx
     rw [hΩcard, hAcard] at hle
     norm_num at hle

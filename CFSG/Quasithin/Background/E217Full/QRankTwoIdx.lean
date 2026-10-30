@@ -56,7 +56,7 @@ theorem relIndex_inf_centSub_le_two [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (hV16
   have hle : 2 ^ k ≤ 6 := Nat.le_of_dvd (by norm_num) hdvd
   have hk3 : k < 3 := by
     by_contra hk3
-    push_neg at hk3
+    push Not at hk3
     have := Nat.pow_le_pow_right (by norm_num : 0 < 2) hk3
     omega
   interval_cases k <;> simp_all

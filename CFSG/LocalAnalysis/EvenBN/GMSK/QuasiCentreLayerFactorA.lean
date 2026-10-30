@@ -47,7 +47,7 @@ theorem quasi_layer_le_pair {H : Type} [Group H] [Finite H]
   haveI : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
   obtain ⟨K, hK, hJK⟩ : ∃ K : Subgroup H, CFSG.IsComponent K ∧ ¬ J ≤ centralizer (K : Set H) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : Nontrivial J := CFSG.LocalCores.isQuasisimple_nontrivial hJq'
     obtain ⟨j, hj⟩ := exists_ne (1 : J)
     apply hj

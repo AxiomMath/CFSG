@@ -29,7 +29,7 @@ theorem L210_exists_inverted_component {u : A5WrTwo} (hu : u ∈ commutator A5Wr
   have hpne : p ≠ 1 := fun h => hu1 (by rw [h, map_one])
   have hpor : p.1 ≠ 1 ∨ p.2 ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hpne (Prod.ext h.1 h.2)
   rcases hpor with ha | hb
   ·

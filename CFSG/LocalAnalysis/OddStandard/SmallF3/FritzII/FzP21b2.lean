@@ -87,7 +87,7 @@ lemma fz21b_V_le_of_normal {M : Subgroup FzSigma4} (hM : M.Normal)
         show fz21b_S01 * fz21b_S23 ∈ M
         exact M.mul_mem hS01 hS23
       exact key fz21b_D1 (by decide) hD
-    · push_neg at hfix
+    · push Not at hfix
       exact key (y : FzSigma4) ⟨h2, fun i => hfix i⟩ hyM
   · obtain ⟨h3pow, h3ne⟩ := h3
     have hconj : (∃ g, g * (y : FzSigma4) * g⁻¹ = fz21b_C012) ∧

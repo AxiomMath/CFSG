@@ -48,7 +48,7 @@ theorem oddInv_three {G : Type} [Group G] [Finite G] {a z x : G} (h : IsF5Type a
   have hEW : E ≤ W := hE_le.trans inf_le_right
   have hnotall : ¬ (∀ t ∈ E, t ≠ 1 → IsConj z t) := fun hall =>
     hY4b.no_2B_pair ⟨E, hEW, hE, hall⟩
-  push_neg at hnotall
+  push Not at hnotall
   obtain ⟨t, htE, htne, htz⟩ := hnotall
   have ht2 : t ^ 2 = 1 := hE.1.2 t htE
   have htord : orderOf t = 2 := orderOf_eq_prime ht2 htne

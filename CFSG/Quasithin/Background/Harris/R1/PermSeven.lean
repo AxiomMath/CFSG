@@ -94,7 +94,7 @@ theorem eq_one_of_commute_seven_card (hα : Fintype.card α = 9) {c y : Equiv.Pe
     intro h; rw [h, orderOf_one] at hc; norm_num at hc
   obtain ⟨x0, hx0⟩ : ∃ x, ¬ c x = x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcne (Equiv.ext h)
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

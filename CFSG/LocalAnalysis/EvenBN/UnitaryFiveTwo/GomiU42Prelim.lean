@@ -119,7 +119,7 @@ theorem exists_not_comm_of_dvd {F : Type*} [Group F] [Finite F] {a : F} {k : ℕ
     ∀ S : Sylow 2 F, a ∈ S → ∃ s ∈ S, s * a ≠ a * s := by
   intro S _
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : (S : Subgroup F) ≤ centralizer ({a} : Set F) := by
     intro s hs
     rw [mem_centralizer_singleton_iff]

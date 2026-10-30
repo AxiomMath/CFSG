@@ -49,7 +49,7 @@ theorem kd264KAlt_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264KAlt p :
           fun h => hlev7 ⟨h3, Or.inr (Or.inr h)⟩⟩
       have hpn : p ≤ n := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
         have hcardK : Nat.card K = n.factorial / 2 := by
           rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,

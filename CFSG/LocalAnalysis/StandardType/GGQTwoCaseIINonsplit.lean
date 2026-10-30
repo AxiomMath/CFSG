@@ -253,7 +253,7 @@ private theorem ggQ2xCNa_pos_bounds (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m)
     1 ≤ ggQ2xCNa_pos D e k ∧ ggQ2xCNa_pos D e k < m := by
   refine ⟨?_, (e.symm k.1).isLt⟩
   by_contra h
-  push_neg at h
+  push Not at h
   have h0 : (e.symm k.1).val = 0 := by
     have : ggQ2xCNa_pos D e k = 0 := by omega
     simpa only [ggQ2xCNa_pos] using this

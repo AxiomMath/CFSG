@@ -22,7 +22,7 @@ theorem kf_ff81aProp1_of_rankStep (hT : KF_Sp6Torus) (hStep : FF81aProp1RankStep
     KF_FF81aProp1 := by
   intro G _ _ b L h hrank
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have h4 := hStep G b L h hrank hno hT
   omega
 

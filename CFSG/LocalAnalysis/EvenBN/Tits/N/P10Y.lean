@@ -219,7 +219,7 @@ theorem node10_t_mul_not_central (h49 : d.Thm49Statement) (hd : d.Hyp) {z₀ : G
     (hcen : ∀ u ∈ d.s56V, d.t * v * u = u * (d.t * v)) : False := by
   have hnot : ∃ e ∈ d.E, e ∉ zpowers d.z := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hle : d.E ≤ zpowers d.z := hall
     have := Subgroup.card_dvd_of_le hle
     rw [hd.A_facts.1, hd.s56_card_zpowers_z] at this

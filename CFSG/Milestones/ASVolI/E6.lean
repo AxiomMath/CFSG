@@ -2030,7 +2030,7 @@ theorem as_E_6_26 : E_6_26 := by
   · have hJ' := hJ
     rw [CFSG.Quasithin.VolI.E54.thompsonJi_eq_thompsonJk hpS] at hJ'
     exact E6.e6_26 hT.2.1 hV1 hV hVT hNM hM hj hn hS hQS hST hr hJ'
-  · push_neg at hpS
+  · push Not at hpS
     by_cases hNVt : Subgroup.normalizer (V : Set G) = ⊤
     · have hMt : M = ⊤ := eq_top_iff.2 (hNVt ▸ hNM)
       rw [hMt]

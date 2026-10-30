@@ -72,7 +72,7 @@ theorem exists_TData (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup 
     (fun S' hSS' hS'I hS'2 hS'B hS'O => le_antisymm (hmax ⟨hS'I, hS'2, hS'B, hS'O⟩ hSS') hSS')
   refine ⟨S, hSI, hS2, hSB, hSO, ?_, fun c hcB hcS => (h.cent_I c hcB).1 (hcent c hcB hcS)⟩
   by_contra hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨B₀, hB₀B, hcardB, hB₀⟩ := hsmall hle
   have hB₀D : B₀ ≤ Dgrp b x := fun c hc0 =>
     (h.cent_I c (hB₀B hc0)).1 (hcent c (hB₀B hc0) (hB₀ c hc0))
@@ -94,7 +94,7 @@ theorem essential_105 (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G
   refine ⟨haB, ha1, S, hT.le_I.trans (Ipart_le_cx h ha), hT.two, hT.norm, ?_, ?_⟩
   · obtain ⟨c, hcB, hcD⟩ : ∃ c ∈ B, c ∉ Dgrp b x := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       exact not_B_le_D hc h hno
     intro hbot
     have h1 : (⁅S, Subgroup.zpowers c⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p (Ipart p L b) := by
@@ -365,7 +365,7 @@ private theorem lemma105more_complement {B : Subgroup G} {b x a : G} (hB : IsEle
   have hA : Nat.card (Subgroup.zpowers a) = p := lemma105more_card_zpowers hp hap ha1
   obtain ⟨d, hdD, hdA⟩ : ∃ d ∈ Dgrp b x, d ∉ Subgroup.zpowers a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Dgrp b x ≤ Subgroup.zpowers a := fun d hd => hcon d hd
     have h1 : Nat.card (Dgrp b x) ≤ Nat.card (Subgroup.zpowers a) := Subgroup.card_le_of_le hle
     rw [hD, hA] at h1
@@ -566,7 +566,7 @@ theorem exists_K_not_norm (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subg
       rw [← hee, closureIn_eq_iSup_gLBConj]
       exact le_iSup₂ (f := fun g (_ : g ∈ B) => GLBConj g L₁) e heB
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsing : ∀ L₁ ∈ 𝒞, ∀ L₂ ∈ 𝒞, L₁ = L₂ := by
     intro L₁ h₁ L₂ h₂
     obtain ⟨e, he, hee⟩ := htrans L₁ h₁ L₂ h₂
@@ -1172,7 +1172,7 @@ theorem rank_le_four_L3 (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgro
   have h1 := hin.l103.more.autl3 (cx x) L B hS.2.2 hL3 (sstar_norm h.star) (B_el h)
   rw [cent_B_eq hc h.star, Nat.card_zpowers, orderOf_eq_prime hxp hx1, hS.1.2.1] at h1
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h5 : 3 ^ 5 ≤ 3 ^ GLATwoLocalRank 3 G := Nat.pow_le_pow_right (by norm_num) hlt
   have h6 := h5.trans h1
   norm_num at h6

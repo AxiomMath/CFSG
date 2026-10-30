@@ -138,7 +138,7 @@ theorem exists_noncomm_autSec {L A : Subgroup (MulAut V)} (hs : IsSimpleGroup �
     (h : ∃ a ∈ A, ∃ l ∈ L, a * l ≠ l * a) :
     ∃ a ∈ autSec A Z Z', ∃ l ∈ autSec L Z Z', a * l ≠ l * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨α, hα, l, hl, hne⟩ := h
   apply hne
   have hmA : secAct A hZ.2 hZ'.2 ⟨α, hα⟩ ∈ autSec A Z Z' := by

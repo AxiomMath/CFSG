@@ -164,7 +164,7 @@ theorem census1915Image_of_rowsS (R : Sec4.RonanK429.K429RowsS) (h41 : Sec4.Item
   haveI : IsSimpleGroup J := MulEquiv.isSimpleGroup eJ
   have hna : ∃ a b : J, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI := hJp
     exact Group.IsPerfect.not_isMulCommutative J ⟨⟨hcon⟩⟩
   exact LocalCores.isQuasisimple_of_mulEquiv eIJ.symm

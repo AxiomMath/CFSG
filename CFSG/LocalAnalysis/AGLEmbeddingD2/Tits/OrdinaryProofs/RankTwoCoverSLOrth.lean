@@ -19,7 +19,7 @@ public theorem eq_zero_or_one_of_card_two (hF : Nat.card F = 2) (c : F) : c = 0 
   have h0 : (0 : F) ∈ ({a, b} : Set F) := by rw [h]; trivial
   have h1 : (1 : F) ∈ ({a, b} : Set F) := by rw [h]; trivial
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hc0, hc1⟩ := hne
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hc h0 h1
   rcases hc with hc | hc <;> rcases h0 with h0' | h0' <;> rcases h1 with h1' | h1' <;>

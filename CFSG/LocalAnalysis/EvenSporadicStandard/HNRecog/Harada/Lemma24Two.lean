@@ -68,7 +68,7 @@ theorem card_two_subgroup_le [Finite G] {t z z₁ : G} (h : Setting24 ι a) (hD3
       exact (hconj v).mp hxEx
     have hne : uV v ≠ v ∨ wV v ≠ v := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hq0 := Fix3_Vg_fixed_qp_zero v hvF hcon.1 hcon.2
       rw [hv1] at hq0
       exact one_ne_zero hq0

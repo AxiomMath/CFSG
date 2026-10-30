@@ -24,7 +24,7 @@ theorem IsMaxArc.two_mul_add_le_of_commutator_ne_bot {a f : ℕ}
     (hne : ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≠ ⊥) : 2 * b₁ + bh ≤ n := by
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hRw : ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≤ t.Gw (ε + 1 - b₁) (ε + 1 + b₁ + bh) := by
     intro y hy
     have h1 := h₁.le_Gw (mem_inf.mp (hle hy)).1

@@ -70,7 +70,7 @@ theorem step717CaseA_of_parts (h34 : Stroth34Statement) (h311a : Stroth311aState
     hCent G M Q Z B hc n t hs (Or.inl hp3) Z0 hZ0 hZN' k hk2 hkc
   by_cases hcase1 : ∀ g ∈ M, conjSubgroup g Z0 ≤ NormH0 M Z Z0 → conjSubgroup g Z0 ≤ hc.CN t
   · exact hCase1 G M Q Z B hc n t hs hp3 Z0 hZ0 hZN' hTI hF hC L hL hLn hcase1
-  · push_neg at hcase1
+  · push Not at hcase1
     obtain ⟨g, hg, hgK, hgN⟩ := hcase1
     obtain ⟨h, hh, hgh⟩ := Ctx.exists_H0_conj hc hs hZ0 hZt hZcard hN2 hTI hC hg
     have hcase2 : ∃ h ∈ H0 M Z, conjSubgroup h Z0 ≤ NormH0 M Z Z0 ∧

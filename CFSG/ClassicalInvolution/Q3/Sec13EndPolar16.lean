@@ -32,7 +32,7 @@ private theorem p16_four_pow : ∀ (n : ℕ) (G : Type _) [CommGroup G] [Finite 
   intro G _ _ B hcard hB
   by_cases hx : ∃ x : G, x ≠ 1
   swap
-  · push_neg at hx
+  · push Not at hx
     have h1 : Nat.card G = 1 := by
       rw [Nat.card_eq_one_iff_unique]
       exact ⟨⟨fun a b => by rw [hx a, hx b]⟩, ⟨1⟩⟩
@@ -44,7 +44,7 @@ private theorem p16_four_pow : ∀ (n : ℕ) (G : Type _) [CommGroup G] [Finite 
     exact h)
   obtain ⟨y, hy⟩ : ∃ y : G, B x y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hx1 (hB.nondeg x hcon)
   have hxy : B x y = 1 := (p16_zmod2_cases _).resolve_left hy
   have hyx : B y x = 1 := (hB.symm x y).symm.trans hxy
@@ -820,7 +820,7 @@ theorem natCard_le_of_qPairs_eq_empty [Finite V] (hB : SympForm B) (hS : PointSe
       rw [e]
       exact E.mul_mem hsy hyxE
     by_contra hcontra
-    push_neg at hcontra
+    push Not at hcontra
     obtain ⟨x1, hx1, hx1E⟩ := hcontra
     have hx1B : x1 ∈ Bs := ⟨hx1, hx1E⟩
     have hAc := p16_component_card hB hS hz hq (by omega) A (fun x hx => hx.1) hAcl hsA
@@ -1656,7 +1656,7 @@ theorem residue_six_false :
   have hor : ∀ l ∈ L, A ∈ l ∨ B ∈ l := by
     intro l hl
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := H3 l hl
     rw [Finset.card_eq_one] at h1
     obtain ⟨x, hx⟩ := h1
@@ -2028,7 +2028,7 @@ private theorem p16r_planes_inter [Finite V] {B : V → V → ZMod 2} {S : Set V
     {q q' : V × V} (hq : q ∈ qPairs B S z) (hq' : q' ∈ qPairs B S z)
     (hne : p16Pl g q ≠ p16Pl g q') : (p16Pl g q ∩ p16Pl g q').card ≤ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨i, hi, j, hj, hij⟩ := Finset.one_lt_card.1 hcon
   obtain ⟨hiP, hiP'⟩ := Finset.mem_inter.1 hi
   obtain ⟨hjP, hjP'⟩ := Finset.mem_inter.1 hj

@@ -463,7 +463,7 @@ theorem exists_noncomm_pSubgroup_of_perfect_center {G : Type*} [Group G] [Finite
   have hnc := not_isMulCommutative_sylow_of_perfect_center hperf hz hzp P
   refine ⟨(P : Subgroup R).map R.subtype, P.isPGroup'.map _, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hnc ⟨⟨fun a b => Subtype.ext (Subtype.ext (hcon _ ⟨a, a.2, rfl⟩ _ ⟨b, b.2, rfl⟩))⟩⟩
 
 

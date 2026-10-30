@@ -326,7 +326,7 @@ theorem exists_two_threeCycles {Q : Type} [Group Q] (e : Q ≃* ↥(alternatingG
     ∃ q ∈ F, (permOfQ e q).cycleType = {3, 3} ∨ (permOfQ e q).cycleType = {3, 3, 3} := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let φ : Q →* Equiv.Perm (Fin 10) := (alternatingGroup (Fin 10)).subtype.comp e.toMonoidHom
   have hφinj : Function.Injective φ := Subtype.val_injective.comp e.injective
   have hφ : ∀ q, φ q = permOfQ e q := fun q => rfl
@@ -391,7 +391,7 @@ theorem exists_two_threeCycles {Q : Type} [Group Q] (e : Q ≃* ↥(alternatingG
     have hdisj : Equiv.Perm.Disjoint σ (permOfQ e b) := by
       intro j
       by_contra hj
-      push_neg at hj
+      push Not at hj
       obtain ⟨hjσ, hjb⟩ := hj
       obtain ⟨k, hk⟩ := hbcyc.sameCycle hjb hbi
       have hcomm' : Commute ((permOfQ e b) ^ k) σ := hcomm.zpow_left k
@@ -491,7 +491,7 @@ theorem l73_not_gstar_ten (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgrou
     rw [heq, hBL27, hE27] at h1
     rw [hB81] at hle
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card ↥((B ⊓ L : Subgroup G) ⊔ E) * Nat.card ↥(E ⊓ L : Subgroup G) ≤ 3 ^ 4 * 8 :=
       Nat.mul_le_mul hle (by omega)
     omega

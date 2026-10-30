@@ -484,7 +484,7 @@ theorem kl_of_caseI [Finite G] {X T L K : Subgroup G} [X.Normal]
       rw [h3]
       exact Subgroup.mul_mem_sup (Subgroup.mem_subgroupOf.mp hk) h2
     exact hK (hres K hKX hKn (pow_mem_of_sup_pCoreOf_eq hKn hsup))
-  · push_neg at hA
+  · push Not at hA
     have hcen : ∀ (k : G) (hk : k ∈ K), π ⟨k, hKX hk⟩ ∈ Subgroup.center (↥X ⧸ Q) := by
       intro k hk
       let c : ↥X ⧸ Q := π ⟨k, hKX hk⟩

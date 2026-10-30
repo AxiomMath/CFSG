@@ -753,7 +753,7 @@ private theorem deqi_D_transv_of_cols {v : Fin 3 → ZMod 2} (hv : v ≠ 0)
   rw [hA, deqi_D_mulVec_transv] at hAv'
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (funext hcon)
   have h2 := congrFun hAv' i
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul] at h2
@@ -2843,7 +2843,7 @@ private theorem deqi_F_mem_centralizer {H : Subgroup G} (hH : IsHyp Ω H) {c : G
         _ = 1 := by rw [e]; group
     obtain ⟨k, hkL, hk⟩ : ∃ k ∈ L, dComm (c * d * c⁻¹) k ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h1 : 1 * (c * d * c⁻¹)⁻¹ ∈ Subgroup.zpowers d :=
         h.eq_of_dComm_eq hL hdL hy (one_mem _) (fun k hk => by
           rw [hcon k hk]
@@ -2910,7 +2910,7 @@ theorem core_MH_eq_bot {H : Subgroup G} (hH : IsHyp Ω H) :
   · exact h.deqi_F_absurd_of_mem_core hH hcD hne hc
   · have hflip : ∃ L ∈ Ω, flipVal L c ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hcD (h.mem_zGroup_of_flipVal_eq_zero hcC hcon)
     obtain ⟨L, hL, hL0⟩ := hflip
     have hL1 : flipVal L c = 1 := by

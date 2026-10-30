@@ -211,7 +211,7 @@ theorem inU_spec {j k : Nat} (h : inU j k = true) :
     ∃ l < GB.UO (j + 1) - GB.UO j, GB.UV (GB.UO j + l) = k := by
   unfold inU at h
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : allBlk (GB.UO j) (fun t => !Nat.beq (GB.UV t) k) (GB.UO (j + 1) - GB.UO j) = true :=
     allBlk_intro fun l hl => by
       have := hc l hl

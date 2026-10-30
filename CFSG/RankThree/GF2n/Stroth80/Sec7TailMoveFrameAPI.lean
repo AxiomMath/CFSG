@@ -98,7 +98,7 @@ variable {B : LinearMap.BilinForm K E} {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb 
 
 theorem MoveFrame.exists_ne_one (F : MoveFrame B φ V L Nb Rb Tt q) : ∃ a ∈ V, a ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hV : V = ⊥ := (Subgroup.eq_bot_iff_forall V).mpr hcon
   have h1 := F.V_card
   rw [hV, Subgroup.card_bot] at h1

@@ -26,7 +26,7 @@ theorem y7c_J_simple (c : K7Abs ρ t J Q P M6 M7) : IsSimpleGroup ↥J := by
 theorem y7c_J_nonabelian (c : K7Abs ρ t J Q P M6 M7) :
     ∃ a ∈ J, ∃ b ∈ J, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   haveI hsimple := y7c_J_simple c
   haveI : IsMulCommutative ↥J :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (h a.1 a.2 b.1 b.2)

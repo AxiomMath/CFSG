@@ -894,7 +894,7 @@ theorem exists_ne_one_inf_of_card {Γ : Type*} [Group Γ] [Finite Γ] {Λ N D A 
     (hcover : ∀ l ∈ Λ, ∃ d ∈ D, ∃ a ∈ A, l = d * a)
     (hne : Nat.card Λ ≠ 2 * Nat.card D) : ∃ c ∈ A ⊓ N, c ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hNpos : 0 < Nat.card N := Nat.card_pos
   have hsub : Nat.card (N.subgroupOf Λ) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNΛ).toEquiv

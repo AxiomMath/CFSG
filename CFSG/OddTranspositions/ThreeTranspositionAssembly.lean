@@ -21,7 +21,7 @@ theorem threeTranspositionDichotomy_of_f3Row
   by_cases hab : ∀ a b : commutator G, a * b = b * a
   · obtain ⟨φ, hφ⟩ := CFSG.Fischer.Classification.Pair.exists_mulEquiv_perm_three hP hZ hS hab
     exact Or.inl (noSqE1_of_pair_perm_three hP φ hφ)
-  · push_neg at hab
+  · push Not at hab
     have h := CFSG.Milestones.cl_lit_fischer_three_transposition_theorem_pinned
       G D hP.2.1 hP.2.2.1 hP.2.2.2.1 hP.2.2.2.2 hZ hS
     rcases h with

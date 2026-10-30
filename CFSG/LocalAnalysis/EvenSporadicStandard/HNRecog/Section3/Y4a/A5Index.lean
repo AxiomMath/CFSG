@@ -43,7 +43,7 @@ theorem y4a_eq_top_of_index_le_four {H : Subgroup (alternatingGroup (Fin 5))}
 theorem y4a_exists_not_comm_of_card_six {H : Subgroup (alternatingGroup (Fin 5))}
     (h : Nat.card ↥H = 6) : ∃ x ∈ H, ∃ y ∈ H, x * y ≠ y * x := by
   by_contra hcomm
-  push_neg at hcomm
+  push Not at hcomm
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) 2 (by rw [h]; norm_num)

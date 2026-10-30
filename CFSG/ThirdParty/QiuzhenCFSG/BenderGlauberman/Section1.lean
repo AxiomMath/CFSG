@@ -713,7 +713,7 @@ private lemma exists_not_mem_of_index_two (H0 U : Subgroup G) (hK : (U.subgroupO
     rw [this] at hindex
     norm_num at hindex
   by_contra h
-  push_neg at h
+  push Not at h
   exact hKtop ((Subgroup.eq_top_iff' K).mpr h)
 
 /-- A chosen element of `H0 \ U` (witness of `exists_not_mem_of_index_two`). -/

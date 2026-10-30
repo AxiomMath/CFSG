@@ -484,7 +484,7 @@ theorem caseOuter (hL : L ∈ oTwoComponentsIn X)
     simpa using this
   have hy1 : ∃ v ∈ omegaZOf (CFSG.Open.pCoreOf 2 X), (y : G) * v * (y : G)⁻¹ ≠ v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyQ := mem_pCoreOf_of_centralizes_omegaZOf hL hLN hT hLT (isSimpleGroup_quot φ) hV
       (hLX y.2) hcon
     have h1 : psi φ y = 1 :=
@@ -536,7 +536,7 @@ theorem lower_of_symm (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.I
   have hXV := le_normalizer_omegaZOf X
   obtain ⟨x, hxT, hxLQ⟩ : ∃ x ∈ T, x ∉ L ⊔ CFSG.Open.pCoreOf 2 X := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hLQ
     refine le_antisymm (sup_le hLX (CFSG.LieType.BorelTits.pCoreOf_le 2 X)) ?_
     calc X = L ⊔ T := hLT.symm
@@ -566,7 +566,7 @@ theorem lower_of_symm (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.I
     simpa using this
   have hy1 : ∃ v ∈ omegaZOf (CFSG.Open.pCoreOf 2 X), (y : G) * v * (y : G)⁻¹ ≠ v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyQ := mem_pCoreOf_of_centralizes_omegaZOf hL hLN hT hLT (isSimpleGroup_quot φ) hV
       (hLX y.2) hcon
     have h1 : psi φ y = 1 :=
@@ -723,7 +723,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
     rw [hcardE]; exact hoff.trans hoff'
   obtain ⟨τ, hτE, hτ1⟩ : ∃ τ ∈ imgSL hLN φ A, τ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : imgSL hLN φ A = ⊥ := eq_bot_iff.mpr fun g hg => (Subgroup.mem_bot).mpr (hcon g hg)
     rw [hbot, Subgroup.card_bot, eq_comm, Subgroup.relIndex_eq_one] at hcardE
     exact hAQ (hcardE.trans inf_le_right)
@@ -746,7 +746,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
   have hEq : Nat.card (imgSL hLN φ A) = Fintype.card (GaloisField 2 n) ^ 2 := by
     refine le_antisymm hEle ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 : Nat.card (imgSL hLN φ A) ^ 3 < (Fintype.card (GaloisField 2 n) ^ 2) ^ 3 :=
       Nat.pow_lt_pow_left hlt (by norm_num)
     rw [card_galoisField hn0, ← pow_mul, ← pow_mul] at h1
@@ -757,7 +757,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
   obtain ⟨S, hSd, hES⟩ := eq_transvectionGroup_of_card hE2 hEc hEq
   obtain ⟨x, hxT, hxLQ⟩ : ∃ x ∈ T, x ∉ L ⊔ CFSG.Open.pCoreOf 2 X := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hLQ
     refine le_antisymm (sup_le hLX (CFSG.LieType.BorelTits.pCoreOf_le 2 X)) ?_
     calc X = L ⊔ T := hLT.symm

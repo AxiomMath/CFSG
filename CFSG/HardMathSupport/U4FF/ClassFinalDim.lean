@@ -60,7 +60,7 @@ theorem singleN_of_dim_eq_four {l : Lbl n} (h : l.dim = 4) : l.SingleN := by
   unfold Lbl.dim at h
   have hex : ∃ i₀, locM (l.a i₀) (l.b i₀) (l.c i₀) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact absurd (h.symm.trans (Finset.prod_eq_one (fun i _ => hcon i))) (by decide)
   obtain ⟨i₀, hi₀⟩ := hex
   have hdvd : locM (l.a i₀) (l.b i₀) (l.c i₀) ∣ ∏ i, locM (l.a i) (l.b i) (l.c i) :=
@@ -92,7 +92,7 @@ theorem singleO_of_dim_eq_six {l : Lbl n} (h : l.dim = 6) : l.SingleO := by
   unfold Lbl.dim at h
   have hex : ∃ i₀, locM (l.a i₀) (l.b i₀) (l.c i₀) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact absurd (h.symm.trans (Finset.prod_eq_one (fun i _ => hcon i))) (by decide)
   obtain ⟨i₀, hi₀⟩ := hex
   have hdvd : locM (l.a i₀) (l.b i₀) (l.c i₀) ∣ ∏ i, locM (l.a i) (l.b i) (l.c i) :=

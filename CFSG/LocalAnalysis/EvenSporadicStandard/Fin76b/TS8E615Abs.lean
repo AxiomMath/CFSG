@@ -117,7 +117,7 @@ theorem exists_chain {β : Type*} (A : Subgroup Γ) (F : Γ → β)
           exact ⟨hxP, hInd⟩
         · rw [List.map_cons, hxX]
           exact hsub.cons_cons X
-      · push_neg at hx
+      · push Not at hx
         have hL' : ∀ b ∈ A, b ∉ subProd P → F b ∈ L := by
           intro b hb hbP
           rcases List.mem_cons.1 (hL b hb hbP) with h | h

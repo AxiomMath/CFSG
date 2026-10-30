@@ -103,7 +103,7 @@ theorem trichotomy_S5 (H : Subgroup (Perm (Fin 5) × Perm (Fin 5)))
     ·
       right
       left
-      push_neg at hodd
+      push Not at hodd
       have hNiff : ∀ g : Perm (Fin 5), g ∈ N ↔ g ∈ A := fun g => ⟨hodd g, hAN g⟩
       intro a b
       rw [hchar, hNiff, hAmem, map_mul, map_inv, mul_inv_eq_one]

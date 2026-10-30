@@ -214,10 +214,10 @@ theorem eq_bot_of_regular_field
   have hA₁card : 3 ^ 2 ≤ Nat.card A₁ := by
     obtain ⟨k, hk⟩ := i271_exists_card_eq Nat.prime_three hA₁el
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hk1 : k ≤ 1 := by
       by_contra hk2
-      push_neg at hk2
+      push Not at hk2
       have := Nat.pow_le_pow_right (show 0 < 3 by norm_num) hk2
       omega
     have hzf : Subgroup.zpowers f ≤ A₁ := (Subgroup.zpowers_le).2 hfA

@@ -496,7 +496,7 @@ private lemma componentLayerOf_ne_bot_iff {G : Type u} [Group G]
   constructor
   · intro hE
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     apply hE
     apply le_bot_iff.mp
     rw [componentLayerOf]
@@ -1300,7 +1300,7 @@ private lemma lemma_2_9_exists_s_commutator_ne_bot
   classical
   let C : Subgroup G := A ⊓ Subgroup.centralizer ({t} : Set G)
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hAll : ∀ v : G, v ∈ V → v ≠ 1 → v ≠ t →
       C ≤ Subgroup.centralizer ({v} : Set G) := by
     intro v hv hv1 hvt

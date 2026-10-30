@@ -338,7 +338,7 @@ theorem ncard_setOf_isComponent_le_two (hF : CFSG.fittingSubgroup X = ⊥) (P : 
   let 𝒞 : Set (Subgroup X) := {K : Subgroup X | CFSG.IsComponent K}
   change 𝒞.ncard ≤ 2
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hne : 𝒞.Nonempty := by
     rw [Set.nonempty_iff_ne_empty]
     intro hempty
@@ -368,7 +368,7 @@ theorem ncard_setOf_isComponent_le_two (hF : CFSG.fittingSubgroup X = ⊥) (P : 
     have hle' : 2 < 2 ^ k := by rwa [hk] at hle
     have hk2 : 2 ≤ k := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases k <;> norm_num at hle'
     rw [hk, show (4 : ℕ) = 2 ^ 2 by norm_num]
     exact Nat.pow_le_pow_right (by norm_num) hk2

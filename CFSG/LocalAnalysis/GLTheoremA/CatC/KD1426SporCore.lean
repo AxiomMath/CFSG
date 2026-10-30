@@ -283,12 +283,12 @@ theorem kd1426_core [Finite S] (K B : Subgroup Y) (hK : K.Normal)
   have hR9 : Nat.card ψ.range ≤ 9 := h9 _ (isElemAbelian_range hB ψ)
   have hB0le : Nat.card B0 ≤ 9 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hB0el : ∀ g ∈ B0, g ^ 3 = 1 := fun g hg => hB3 g (Subgroup.mem_inf.1 hg).1
     obtain ⟨m, hm⟩ := KD1426AltSeven.card_three_pow hB0el
     have hm3 : 3 ≤ m := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases m <;> simp_all
     haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨E0, hE0⟩ := Sylow.exists_subgroup_card_pow_prime 3 (n := 3)
@@ -318,7 +318,7 @@ theorem kd1426_core [Finite S] (K B : Subgroup Y) (hK : K.Normal)
   have hc81 : 81 ≤ Nat.card B := by norm_num at hcard; exact hcard
   have hB0ge : 9 ≤ Nat.card B0 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h8 : Nat.card B0 ≤ 8 := by omega
     have := Nat.mul_le_mul h8 hR9
     omega

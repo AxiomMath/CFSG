@@ -15,7 +15,7 @@ theorem card_fix_sq_le {F : Type} [Field F] [Finite F] {ι : Type} [Finite ι] {
     Nat.card {x : ι → F // α x = x} ^ 2 ≤ Nat.card (ι → F) := by
   obtain ⟨c₀, hc₀⟩ : ∃ c₀ : F, θ c₀ ≠ c₀ := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hθ (RingHom.ext h)
   let P := {x : ι → F // α x = x}
   have hinj : Function.Injective (fun p : P × P => (p.1 : ι → F) + c₀ • (p.2 : ι → F)) := by

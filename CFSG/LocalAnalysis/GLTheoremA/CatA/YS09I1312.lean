@@ -92,7 +92,7 @@ theorem i1312_card_Sbar_dvd {G : Type} [Group G] [Finite G] {p : ℕ} {I S : Sub
   rw [hk] at hle ⊢
   have hk3 : k ≤ 3 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 2 ^ 4 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
     omega
   exact (Nat.pow_dvd_pow 2 hk3).trans (by norm_num)

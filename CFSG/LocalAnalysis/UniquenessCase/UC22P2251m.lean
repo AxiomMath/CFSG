@@ -163,7 +163,7 @@ theorem s22_5_1_of_s22_5_1R3 {D : Data G} {Ch : Choice2011 G} (hx : DataExt D) (
   refine s22_5_1_of_branches (fun hk hH c m Nb hNb i => h hH c m Nb hNb i (Or.inl hk)) fun hk hH c m Nb hNb i => ?_
   by_cases hall : ∀ p ∈ D.sig, p ∣ Nat.card ↥(Nb i)
   · exact h hH c m Nb hNb i (Or.inr hall)
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨p, hp, hpi⟩ := hall
     exact s22_5_1K2_of_not_dvd D Ch hx h61 h119 h17 h31 h33 hSg hk h76 h614 hH c hNb i hp hpi
 

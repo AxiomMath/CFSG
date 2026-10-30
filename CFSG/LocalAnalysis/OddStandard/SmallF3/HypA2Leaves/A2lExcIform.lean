@@ -68,7 +68,7 @@ theorem a2l_hperp {θ δ : Fin τ.rank → ℤ} (hθ : IsRoot τ θ) (hδ : IsRo
     simp only [iform_sub_left, iform_sub_right, iform_smul_left, iform_smul_right] at h
     rw [iform_comm δ θ] at h
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h3 := mul_lt_mul_of_pos_left hlt hn
     nlinarith [h, h3]
   have hc : iform θ δ = iform θ θ * r := by linarith
@@ -80,7 +80,7 @@ theorem a2l_hperp {θ δ : Fin τ.rank → ℤ} (hθ : IsRoot τ θ) (hδ : IsRo
   have hnn : 0 < iform θ θ * iform θ θ := mul_pos hn hn
   have hrr : r * r ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h3 := mul_lt_mul_of_pos_left hcon hnn
     nlinarith [h2, h3]
   rcases lt_trichotomy r 0 with hneg | hzero | hpos
@@ -90,14 +90,14 @@ theorem a2l_hperp {θ δ : Fin τ.rank → ℤ} (hθ : IsRoot τ θ) (hδ : IsRo
     have hr1 : r = -1 := by
       have : -1 ≤ r := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         nlinarith [hrr, hneg]
       omega
     have hc' : iform θ δ = -iform θ θ := by rw [hc, hr1]; ring
     have hk : iform δ δ = iform θ θ := by
       refine le_antisymm hmax ?_
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h3 := mul_lt_mul_of_pos_left hlt hn
       rw [hc'] at hcs
       nlinarith [hcs, h3]
@@ -115,14 +115,14 @@ theorem a2l_hperp {θ δ : Fin τ.rank → ℤ} (hθ : IsRoot τ θ) (hδ : IsRo
     have hr1 : r = 1 := by
       have : r ≤ 1 := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         nlinarith [hrr, hpos]
       omega
     have hc' : iform θ δ = iform θ θ := by rw [hc, hr1]; ring
     have hk : iform δ δ = iform θ θ := by
       refine le_antisymm hmax ?_
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h3 := mul_lt_mul_of_pos_left hlt hn
       rw [hc'] at hcs
       nlinarith [hcs, h3]

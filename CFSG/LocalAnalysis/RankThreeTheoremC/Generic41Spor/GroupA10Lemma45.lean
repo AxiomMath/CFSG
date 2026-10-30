@@ -231,7 +231,7 @@ theorem a10l45_conj_pres {σ γ β β' : Equiv.Perm (Fin 10)} {col : Fin 10 → 
   have hcβ' := a10l45_col_pres h1 h2 h3 hβ' hβ'5
   obtain ⟨x₀, hx₀⟩ : ∃ x₀, β x₀ ≠ x₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hβ1 (Equiv.ext hcon)
   have hpowγ : ∀ (k : ℕ) (x : Fin 10), γ ((β ^ k) x) = (β' ^ k) (γ x) := by
     intro k x

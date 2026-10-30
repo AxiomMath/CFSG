@@ -493,7 +493,7 @@ theorem Ctx.type1_of_frame (h : Ctx L P d k t) (F : QFrame P)
     rw [hA] at hav
     exact (hfixa v).mpr hav
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hk' := hcon k h.hk
     have h2 := (comm_pre_iff F hPQ h0b hSb h.kP).mp hk'
     obtain ⟨v, hv, hv0⟩ := Finset.exists_mem_ne (by omega : 1 < (fixV bI).card) 0
@@ -533,7 +533,7 @@ theorem Ctx.type2_of_frame (h : Ctx L P d k t) (F : QFrame P)
         exact zero_mem_img F X
       exact ext_of_img F hΦX hXQ le_rfl hΦQ (by rw [hS, img_bot_of_ker])
     · right
-      push_neg at hall
+      push Not at hall
       obtain ⟨v, hv, hv0⟩ := hall
       have hgen := hirr (img F X) (zero_mem_img F X)
         (fun u hu w hw => add_mem_img F X hu hw) hinv ⟨v, hv, hv0⟩

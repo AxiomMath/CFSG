@@ -701,7 +701,7 @@ theorem six_sixteen_ii_key {V S X : Subgroup G} (hV : IsElemAbelian 2 V) {p : �
   by_cases hcase : ∀ A ∈ E3.gammaSet V i S, A ≤ pCoreOf 2 (X ⊔ S)
   · exact Or.inl (le_normalizer_wClos_of_le hQS hcase (le_sup_left.trans hQn))
   right
-  push_neg at hcase
+  push Not at hcase
   obtain ⟨A, hA, hAQ⟩ := hcase
   obtain ⟨t, htA, htQ⟩ := SetLike.not_le_iff_exists.mp hAQ
   have htS : t ∈ S := hA.1 htA

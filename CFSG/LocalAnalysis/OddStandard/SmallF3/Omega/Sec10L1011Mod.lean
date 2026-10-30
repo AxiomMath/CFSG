@@ -193,7 +193,7 @@ theorem sec1011_perm5_normal_two (P : Subgroup (Equiv.Perm (Fin 5))) (hP : P.Nor
     exact ⟨P.index, hmul.symm⟩
   have hk_le : k ≤ 3 := by
     by_contra hk4
-    push_neg at hk4
+    push Not at hk4
     have hk4' : 4 ≤ k := by omega
     have h16dvd : 16 ∣ 2 ^ k := by
       simpa using (pow_dvd_pow 2 hk4' : 2 ^ 4 ∣ 2 ^ k)

@@ -61,7 +61,7 @@ theorem linesA8_six_orbit (S : Subgroup (alternatingGroup (Fin 8)))
   classical
   change ∃ i : Fin 8, (linesA8Orbit S i).ncard = 6
   by_contra hno
-  push_neg at hno
+  push Not at hno
   let s : Equiv.Perm (Fin 8) := (σ : Equiv.Perm (Fin 8))
   have hs2 : σ ^ 2 = 1 := (sq_eq_one_of_cycleType_two_two_two_two hσ).1
   have hs2' : s ^ 2 = 1 := by
@@ -93,7 +93,7 @@ theorem linesA8_six_orbit (S : Subgroup (alternatingGroup (Fin 8)))
     exact hgA_ne (Subtype.ext h)
   obtain ⟨i, hi⟩ : ∃ i : Fin 8, (g : Equiv.Perm (Fin 8)) i ≠ i := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hgmoved (Equiv.ext h)
   have hsub : ({i, (g : Equiv.Perm (Fin 8)) i} : Set (Fin 8)) ⊆ linesA8Orbit S i := by
     intro x hx

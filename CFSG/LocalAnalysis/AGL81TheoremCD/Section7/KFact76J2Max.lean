@@ -253,7 +253,7 @@ theorem isCoatom_normalizer_zJ :
     omega
   have hnt : ∃ g : J2.GJ, g • x₀ ≠ x₀ := by
     by_contra h
-    push_neg at h
+    push Not at h
     have htop : MulAction.stabilizer J2.GJ x₀ = ⊤ := eq_top_iff.2 fun g _ => h g
     rw [htop, Subgroup.index_top] at hidx
     omega

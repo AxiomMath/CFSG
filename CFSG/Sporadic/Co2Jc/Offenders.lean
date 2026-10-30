@@ -760,7 +760,7 @@ theorem idxListOf_mul_fix_le {Z : Subgroup (MulAut ↥Jc)} (hZS : Z ≤ sylS)
       · exact ⟨l, hl, hsub, hfull⟩
       · have hex : ∃ s', s' ∈ idxListOf Z ∧ s' ∉ l := by
           by_contra h
-          push_neg at h
+          push Not at h
           have hle : l.length = (idxListOf Z).length := by
             have hf1 : (idxListOf Z).toFinset ⊆ l.toFinset := by
               intro x hx

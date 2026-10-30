@@ -140,7 +140,7 @@ theorem exists_mem_not_mem_closure_pair {E : Subgroup G} (hE : IsElemTwo 3 E) {x
     (hxE : x ∈ E) (hyE : y ∈ E) (hx1 : x ≠ 1) (hy1 : y ≠ 1) (hne : x ≠ y) :
     ∃ t ∈ E, t ∉ Subgroup.closure ({x, y} : Set G) := by
   by_contra h
-  push_neg at h
+  push Not at h
   haveI : IsMulCommutative E := hE.1.1
   have hx2 : x ^ 2 = 1 := hE.1.2 x hxE
   have hy2 : y ^ 2 = 1 := hE.1.2 y hyE

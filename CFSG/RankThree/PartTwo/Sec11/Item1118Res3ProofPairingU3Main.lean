@@ -54,7 +54,7 @@ theorem conj_or_powers_of_model {Ω : Type} [Field Ω] [IsAlgClosed Ω] {ℓ f :
     · exact absurd h hc1
     · exact Or.inr (Or.inl h)
     · exact Or.inr (Or.inr h)
-  · push_neg at hs
+  · push Not at hs
     have hXS : ((e cR : U) : GL (Fin 3) Ω) ∈ unitarySet (ℓ ^ f) 3 := by
       rw [← hU]
       exact (e cR).2

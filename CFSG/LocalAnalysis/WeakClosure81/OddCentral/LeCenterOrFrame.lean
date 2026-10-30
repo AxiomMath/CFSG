@@ -67,7 +67,7 @@ private theorem exists_ne_of_card {G : Type*} [Group G] [Finite G] {Z : Subgroup
     (hZ : 2 < Nat.card Z) {u : G} (hu : u ∈ Z) (hu2 : u ^ 2 = 1) :
     ∃ w ∈ Z, w ≠ 1 ∧ w ≠ u := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : Z ≤ zpowers u := fun w hw => by
     by_cases h1 : w = 1
     · rw [h1]; exact one_mem _

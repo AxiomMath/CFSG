@@ -670,7 +670,7 @@ lemma h5_exists_of_ne_one {S P : Subgroup G} (ψ : P →* MulAut ↥S)
     (hψ : ∀ (g : ↥P) (s : ↥S), ((ψ g s : ↥S) : G) = (g : G) * (s : G) * (g : G)⁻¹)
     (a : ↥P) (h : ψ a ≠ 1) : ∃ s ∈ S, (a : G) * s * (a : G)⁻¹ ≠ s := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact h (h5_eq_one_of_fix ψ hψ a hcon)
 
 lemma h5_comm_of_central {S P : Subgroup G} (ψ : P →* MulAut ↥S)

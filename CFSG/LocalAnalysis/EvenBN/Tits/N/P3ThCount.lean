@@ -82,7 +82,7 @@ theorem exists_ne_one_fixed {p : ℕ} [Fact p.Prime] (G : Subgroup (MulAut V)) (
   have hge : p ≤ Nat.card {u : U // ∀ g ∈ G, g u.1 = u.1} := Nat.le_of_dvd hpos hF
   have hp2 := (Fact.out : p.Prime).two_le
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : Subsingleton {u : U // ∀ g ∈ G, g u.1 = u.1} := by
     refine ⟨fun a b => ?_⟩
     have ha : a.1.1 = 1 := by

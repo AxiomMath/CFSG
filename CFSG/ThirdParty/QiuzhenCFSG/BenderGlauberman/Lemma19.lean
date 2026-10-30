@@ -584,7 +584,7 @@ public theorem exists_odd_multiplicity_restrict {U : Type u} [Group U] [Fintype 
       _ = φ 1 := rfl
       _ = ∑ ν : IrrBG19 (↥B), (m ν : ℂ) * (d ν : ℂ) := hsum1
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hEvenProd : ∀ ν : IrrBG19 (↥B), Even (m ν * d ν) := by
     intro ν
     have hEvenM : Even (m ν) := by
@@ -2830,7 +2830,7 @@ public theorem alphaInduced_restrict_constituent (hS2 : Nat.card S = 2) (α : Ir
     have hspχ : scalarProduct (SemiProduct S U) χ (χ₁ + χ₂) ≠ 0 := by
       simpa [hsum] using hχψ
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hcalc : scalarProduct (SemiProduct S U) χ (χ₁ + χ₂) =
         (if χ = χ₁ then (1 : ℂ) else 0) + (if χ = χ₂ then (1 : ℂ) else 0) := by
       rw [scalarProduct_add_right]

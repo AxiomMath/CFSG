@@ -85,7 +85,7 @@ theorem exists_fixed_in_coset {G : Type*} [Group G] [Finite G] (τ x : G) (hττ
   have hodd : Nat.card P % 2 = 1 := Nat.odd_iff.mp hPodd
   obtain ⟨c, hcF⟩ : ∃ c : C, F c = c := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have h0 : Fintype.card (Function.fixedPoints f) = 0 := by
       rw [Fintype.card_eq_zero_iff]
       exact ⟨fun ⟨c, hc⟩ => hno c hc⟩

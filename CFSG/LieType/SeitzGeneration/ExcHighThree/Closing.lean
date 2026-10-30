@@ -248,7 +248,7 @@ theorem exists_gens_of_plane {p : ℕ} [hp : Fact p.Prime] {E : Subgroup G}
   have hZE : Subgroup.zpowers a ≤ E := (Subgroup.zpowers_le).2 haE
   have hex : ∃ b ∈ E, b ∉ Subgroup.zpowers a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have heq : E ≤ Subgroup.zpowers a := fun x hx => hcon x hx
     have := Subgroup.card_le_of_le heq
     rw [hcard, hZa] at this

@@ -75,7 +75,7 @@ private theorem endgE_le_egen {k : X} (hk : InOmegaA A k) : conjSubgroup k A ≤
 theorem endg_exists_ne (hO : EndOmegaHyp A) (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) :
     ∃ g : X, InOmegaA A g ∧ conjSubgroup g A ≠ A := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : EgenX A ≤ A := iSup₂_le fun g hg => (hcon g hg).le
   have hcomm : ⁅A, A⁆ = ⊥ := by
     rw [eq_bot_iff, Subgroup.commutator_le]

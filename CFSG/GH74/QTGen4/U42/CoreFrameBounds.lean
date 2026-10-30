@@ -61,7 +61,7 @@ theorem not_Wc_le_of_card32_normalized_Bc {X : Subgroup Mc} (hXT : X ≤ Thc)
   have hK := right_InK4 hXT hXB
   obtain ⟨x, hx, hx1⟩ : ∃ x ∈ X, x.right ≠ 1 := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have hc : Nat.card X ≤ Nat.card W5 := Nat.card_le_card_of_injective
       (fun x : X => (x : Mc).left) (by
         intro a b hab

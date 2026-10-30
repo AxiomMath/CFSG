@@ -235,7 +235,7 @@ theorem mult_inv_eq (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
       · simp [h, hcx, htriv x hcx]
       · simp [h, hcx]
     · rw [if_neg htriv]
-      push_neg at htriv
+      push Not at htriv
       obtain ⟨x1, hx1c, hx1d⟩ := htriv
       obtain ⟨t, ht1, htζ⟩ : ∃ t, c t = 1 ∧ d i t = ζ := by
         rcases mu3_cases hζ (hdpow i x1) with h' | h' | h'

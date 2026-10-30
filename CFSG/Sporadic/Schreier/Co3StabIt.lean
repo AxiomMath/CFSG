@@ -216,7 +216,7 @@ theorem co3It_orbit_ge :
   rw [← hidx]
   have hle := card_co3ItStab_le
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : Nat.card co3ItStab * (MulAction.stabilizer co3P (finSet 276 co3ItNat)).index ≤
       190080 * 2608199 := Nat.mul_le_mul hle (by omega)
   omega

@@ -136,7 +136,7 @@ theorem card_mem_of_elementary_odd_dvd {N : Type*} [Group N] [Finite N] [Nontriv
   have hpowdvd : p ^ n ∣ 20160 := by rw [← hn]; exact hdvd
   have hnle2 : n ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h3 : p ^ 3 ∣ 20160 := (pow_dvd_pow p (by omega : 3 ≤ n)).trans hpowdvd
     rcases hp_mem' with rfl | rfl | rfl <;> norm_num at h3
   rw [hn]

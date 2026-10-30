@@ -67,7 +67,7 @@ theorem gram_entry_rel (h : UnitaryFieldData p f K) (T g : GL (Fin 6) K)
 theorem exists_gram_ne (h : UnitaryFieldData p f K) (T : GL (Fin 6) K) (i : Fin 6) :
     ∃ j, gramT h T i j ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hdet : (gramT h T).det = 0 := Matrix.det_eq_zero_of_row_eq_zero i hc
   have hT : (T : Matrix (Fin 6) (Fin 6) K).det ≠ 0 :=
     ((Matrix.isUnit_iff_isUnit_det _).mp (Units.isUnit T)).ne_zero
@@ -191,7 +191,7 @@ theorem exists_not_trivC (P : Subgroup (GL (Fin 6) K)) (T : GL (Fin 6) K)
       ((T⁻¹ * g * T : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i j = 0)
     (hcard : Nat.card P = 27) : ∃ i, ¬ TrivC P T i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : P = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro g hg
@@ -214,7 +214,7 @@ theorem select3 [Finite K] (h : UnitaryFieldData p f K) (hbar : ∀ x : K, x ^ 3
     invC_symm (invC_of_gram h hbar P T hdiag hgram hpow hj0)
   obtain ⟨i1, hi1⟩ : ∃ i1, ¬ (TrivC P T i1 ∨ SameC P T i1 i0 ∨ InvC P T i1 i0) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact pair_cover_false P T hdiag hcard hpow i0 i0
       (fun i => by rcases hcon i with h1 | h1 | h1 <;> tauto)
   obtain ⟨n1a, n1b, n1c⟩ : ¬ TrivC P T i1 ∧ ¬ SameC P T i1 i0 ∧ ¬ InvC P T i1 i0 := by
@@ -225,7 +225,7 @@ theorem select3 [Finite K] (h : UnitaryFieldData p f K) (hbar : ∀ x : K, x ^ 3
   obtain ⟨i2, hi2⟩ : ∃ i2, ¬ (TrivC P T i2 ∨ SameC P T i2 i0 ∨ InvC P T i2 i0 ∨
       SameC P T i2 i1 ∨ InvC P T i2 i1) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact pair_cover_false P T hdiag hcard hpow i0 i1
       (fun i => by rcases hcon i with h1 | h1 | h1 | h1 | h1 <;> tauto)
   obtain ⟨n2a, n2b, n2c, n2d, n2e⟩ : ¬ TrivC P T i2 ∧ ¬ SameC P T i2 i0 ∧ ¬ InvC P T i2 i0 ∧

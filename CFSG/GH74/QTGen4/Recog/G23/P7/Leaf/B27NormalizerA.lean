@@ -731,7 +731,7 @@ theorem Core.exists_t' [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w₀, hw₀, hw₀1⟩ : ∃ w ∈ wOne C, w ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : wOne C = ⊥ := eq_bot_iff.mpr (fun x hx => (Subgroup.mem_bot).mpr (hcon x hx))
     have h3 := C.card_wOne
     rw [hbot, Subgroup.card_bot] at h3
@@ -981,7 +981,7 @@ theorem Core.Pb_le_M₂a (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
 theorem Core.exists_w0 [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     ∃ w₀ ∈ wOne C, w₀ ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : wOne C = ⊥ := eq_bot_iff.mpr (fun x hx => (Subgroup.mem_bot).mpr (hcon x hx))
   have h3 := C.card_wOne
   rw [hbot, Subgroup.card_bot] at h3

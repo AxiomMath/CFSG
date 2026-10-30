@@ -56,7 +56,7 @@ theorem ff_fin_simple_psl3 {X : Type} [Group X] (h : LieModel X .PSL 3 3 1) :
 theorem ff_noncomm_of_simple_card {X : Type} [Group X] [Finite X] (hs : IsSimpleGroup X)
     (hp : ¬ (Nat.card X).Prime) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   letI : CommGroup X := { (inferInstance : Group X) with mul_comm := fun a b => hne a b }
   exact hp (IsSimpleGroup.prime_card (α := X))
 
@@ -88,7 +88,7 @@ theorem ff_orderOf_conj {E : Type} [Group E] (k g : E) : orderOf (k * g * k⁻¹
 theorem ff_exists_odd_ne_one {E : Type} [Group E] [Finite E] (hs : IsSimpleGroup E)
     (hnc : ∃ a b : E, a * b ≠ b * a) : ∃ g : E, Odd (orderOf g) ∧ g ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨k, m, hm, hcard⟩ := Nat.exists_eq_two_pow_mul_odd (n := Nat.card E) Nat.card_pos.ne'
   by_cases hm1 : m = 1
   · have hp : IsPGroup 2 E := by

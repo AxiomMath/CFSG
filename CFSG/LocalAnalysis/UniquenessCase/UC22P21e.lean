@@ -55,7 +55,7 @@ theorem uc22p21e_core211_of_core211L (D : Data G) (Ch : Choice2011 G) (h204 : S2
     have hset : H ∈ hSet D.T D.M := ⟨hTH, hHM, D.standing.charTwo H hH.1.1⟩
     have hex : ∃ L, L ∈ calLOf D.T D.M H := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       have h := h204 h1930 H hset
       have hbot : (⨆ L ∈ calLOf D.T D.M H, L : Subgroup G) = ⊥ := by simp [hno]
       rw [hbot] at h

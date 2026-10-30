@@ -97,7 +97,7 @@ theorem exists_cyc {α : Finset (Fin 8)} (hα : α.card = 4) {a c : Fin 8} (ha :
   classical
   obtain ⟨d, hdα, hda, hdc⟩ : ∃ d ∈ α, d ≠ a ∧ d ≠ c := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hsub : α ⊆ {a, c} := fun d hd => by
       by_cases hda : d = a
       · simp [hda]

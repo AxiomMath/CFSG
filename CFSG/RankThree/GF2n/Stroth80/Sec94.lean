@@ -15,7 +15,7 @@ theorem sec9_exists_conj_of_not_stronglyClosed {M Z0 L N : Subgroup G}
     (hsc : StronglyClosedMod M Z0 (L ⊓ N)) (hns : ¬ StronglyClosedMod M Z0 L) :
     ∃ s ∈ Z0, ∃ g ∈ M, g * s * g⁻¹ ∈ L ∧ g * s * g⁻¹ ∉ N := by
   unfold StronglyClosedMod at hns
-  push_neg at hns
+  push Not at hns
   obtain ⟨s, hs, g, hg, hL, hZ⟩ := hns
   exact ⟨s, hs, g, hg, hL, fun hN => hZ (hsc s hs g hg ⟨hL, hN⟩)⟩
 

@@ -17,7 +17,7 @@ theorem kFactLemma212_five_le (hK : SchurMultiplierRankFact) :
             CFSG.pCore p (H ⧸ primeComplementCore (G := H) p) = ⊥ := by
   intro p hp hp5 H _ _ hcat P z D hconf
   by_contra hno
-  push_neg at hno
+  push Not at hno
   obtain ⟨hcon, hQ⟩ := hno
   haveI : Fact p.Prime := ⟨hp⟩
   have hodd : p ≠ 2 := by omega

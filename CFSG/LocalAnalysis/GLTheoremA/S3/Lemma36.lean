@@ -148,7 +148,7 @@ theorem stage_step {p : ℕ} (hc : S3Ctx G p) (hI18 : Input18_3_4) (h1135 : I113
     exact ⟨hJcomp, hChev, hBJc, rfl, hJle, hJcomp',
       S3.cover_of_centMod hp hJcomp (isPGroup_of_isElemAbelian hDel) hDcent hJcomp', hDcent⟩
   · left
-    push_neg at hall
+    push Not at hall
     obtain ⟨d₀, hd₀D, hd₀⟩ := hall
     have hout : ¬ InducesInnerMod p (layerClosure p Dc J) d₀ :=
       (hD_inner d₀ hd₀D).resolve_left hd₀

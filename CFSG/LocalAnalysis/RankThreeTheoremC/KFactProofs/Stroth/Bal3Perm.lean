@@ -103,7 +103,7 @@ theorem bal3NoPermute_of_schreier
   have hexK : ∃ K₁ : Subgroup (H ⧸ O), IsComponentOf K₁ ⊤ ∧
       ¬ D.map π ≤ normalizer (K₁ : Set (H ⧸ O)) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hnorm' (hred.le_normalizer_of_forall hQ hall hK)
   obtain ⟨K₁, hK₁, hDK₁⟩ := hexK
   obtain ⟨d, hdD, hdN⟩ := SetLike.not_le_iff_exists.1 hDK₁

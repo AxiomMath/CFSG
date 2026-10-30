@@ -35,7 +35,7 @@ theorem exists_commuting_pair_of_elemAbelian_nine {G : Type} [Group G] [Finite G
   have hx : orderOf (x0 : G) = 3 := orderOf_eq_prime (hexp _ hxE) hx1
   obtain ⟨y, hyE, hyn⟩ : ∃ y ∈ E, y ∉ Subgroup.zpowers (x0 : G) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hle : E ≤ Subgroup.zpowers (x0 : G) := fun y hy => hno y hy
     have hcard' := Subgroup.card_le_of_le hle
     rw [hcard, Nat.card_zpowers, hx] at hcard'

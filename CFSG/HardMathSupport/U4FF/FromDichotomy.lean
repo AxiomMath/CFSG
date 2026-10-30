@@ -33,7 +33,7 @@ theorem u4FFNatural_of_dichotomy (hdich : U4RankDichotomy) : U4FFNatural := by
       have hdisp : 2 ^ disp a ≤ Nat.card A := two_pow_disp_le_card haA hoff
       have hdisp1 : disp a ≤ 1 := by
         by_contra h2
-        push_neg at h2
+        push Not at h2
         have : 2 ^ 2 ≤ 2 ^ disp a := Nat.pow_le_pow_right (by norm_num) h2
         omega
       obtain ⟨t, htL, ht1, ht2, htd⟩ := exists_small_involution hL hA hAN hirr haA haL

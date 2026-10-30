@@ -115,7 +115,7 @@ theorem isExtraspecial_Rgrp (h : Setting25 G t z z₁ ι zv R0 F) :
     rw [center_Rgrp_eq h, Subgroup.mem_subgroupOf]
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using Rgrp_comm h x.2 y.2
   · by_contra hnt
-    push_neg at hnt
+    push Not at hnt
     have htop : center ↥(Rgrp h) = ⊤ := by
       rw [eq_top_iff]
       intro x _

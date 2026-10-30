@@ -163,7 +163,7 @@ theorem isE16_or_isZ4Z4_of_abelian (Q V B : Subgroup G) (rho : G) (hVB : V ≤ B
       rw [hVcard, hn4]
     have hex : ∃ u ∈ B, u ∉ Ω := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : B ≤ Ω := fun u hu => h u hu
       have hc := Subgroup.card_dvd_of_le hle
       rw [hB, hn4] at hc

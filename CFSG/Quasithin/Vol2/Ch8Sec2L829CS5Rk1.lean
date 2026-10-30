@@ -131,7 +131,7 @@ theorem RankOneSyl.fpf [Finite Y] (hR : RankOneSyl X S q) {g : Y} (hg : g ∈ X)
   have hZ : ∀ z ∈ centerSub S, z ≠ 1 → ∃ d ∈ twoPtStab X S g, d * z ≠ z * d := by
     intro z hz hz1
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ z' ∈ centerSub S, z' ≠ 1 → z' = z := by
       intro z' hz' hz'1
       obtain ⟨b, hb, hbz⟩ := hR.ztrans z hz hz1 z' hz' hz'1

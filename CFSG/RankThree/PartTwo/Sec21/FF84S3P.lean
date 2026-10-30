@@ -104,7 +104,7 @@ theorem P_card_E (h : FF84Sec3 b L B b₁ b₂) : Nat.card ↥(B ⊓ L) = 9 := b
     have hcard3 : Nat.card ↥(Subgroup.zpowers b₁) = 3 := by
       rw [Nat.card_zpowers, orderOf_eq_prime h13 hne1]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have heq : Subgroup.zpowers b₁ = B ⊓ L :=
       Subgroup.eq_of_le_of_card_ge hle (by rw [hcard3]; exact hcon)
     have hb2mem : b₂ ∈ Subgroup.zpowers b₁ := by rw [heq]; exact h.hb₂

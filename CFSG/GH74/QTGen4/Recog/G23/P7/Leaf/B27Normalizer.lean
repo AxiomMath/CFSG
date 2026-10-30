@@ -1374,7 +1374,7 @@ theorem Core.MM_comm_mod [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) 
 theorem Core.noncomm_b [Finite G] (C : Core a b t z H H₁ H₂ M₁ M₂ Pb) :
     ∃ m ∈ M₁, b * m * b⁻¹ * m⁻¹ ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : M₁ ≤ Subgroup.centralizer {b} := by
     intro m hm
     have h := hcon m hm

@@ -313,7 +313,7 @@ private lemma g71_ord_le {p : ℕ} (hp : p.Prime) {A K : Subgroup (GLV V)}
   haveI := Fact.mk hp
   obtain ⟨g, hgA, hgK⟩ : ∃ g ∈ A, g ∉ K := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hKA' : K = A := le_antisymm hKA fun g hg => hcon g hg
     rw [hKA', Subgroup.relIndex_self] at hK
     have := hp.one_lt
@@ -670,7 +670,7 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
   haveI := Fact.mk hp
   obtain ⟨u0, hu0⟩ : ∃ u : V, z u ≠ u := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hz1 (LinearEquiv.ext fun u => h u)
   haveI : WellFoundedLT (Submodule (ZMod 2) V) := Finite.to_wellFoundedLT
   let 𝒰 : Set (Submodule (ZMod 2) V) :=
@@ -681,7 +681,7 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
       W = ⊥ ∨ W = U := by
     intro W hWU hWinv
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hW0, hWU'⟩ := hcon
     obtain ⟨W'', hW''inv, hcompl⟩ := g71_avg hAodd W hWinv
     have hUeq : W ⊔ (W'' ⊓ U) = U := by
@@ -698,7 +698,7 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
           rw [h, inf_eq_left.mpr hWU] at h0
           exact hW0 h0
         exact hmin (W'' ⊓ U) ⟨hU''inv, hzU⟩ hlt
-      · push_neg at hzW hzU
+      · push Not at hzW hzU
         apply hu1
         rw [← hUeq] at hu1U
         obtain ⟨w, hw, u'', hu'', hsum⟩ := Submodule.mem_sup.mp hu1U
@@ -1236,7 +1236,7 @@ theorem as_G_7_1 : G_7_1 := by
     have hXne : g71X (Subgroup.zpowers (x : GLV V)) ⊥ ≠ ⊥ := by
       obtain ⟨v, hv⟩ : ∃ v : V, (x : GLV V) v ≠ v := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hg1 (LinearEquiv.ext h)
       refine g71_X_ne_bot hAc bot_le hAodd (w := v) (fun k hk => ?_)
         ⟨(x : GLV V), Subgroup.mem_zpowers _, hv⟩

@@ -63,7 +63,7 @@ theorem nontriv_of_natSec [Finite G] {L : Subgroup G} (hnat : NatSec L ⊥ (pCor
     (hcard : Nat.card (pCoreOf 2 L) = 16) {x : G} (hxL : x ∈ L) (hx3 : orderOf x = 3) :
     ∃ l ∈ L, ∃ e ∈ pCoreOf 2 L, ⁅l, e⁆ ∉ (⊥ : Subgroup G) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : pCoreOf 2 L = ⊥ := by
     rw [eq_bot_iff]
     intro e he

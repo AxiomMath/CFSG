@@ -121,7 +121,7 @@ theorem sl3_ne_psl2_prime {m p : ℕ} (hm : 3 ≤ m) (hp : Odd p) (hp5 : 5 ≤ p
   have hsize : p + 1 < 2 ^ (3 * m) := by
     rw [hq3]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h8p : 7 * q ^ 3 ≤ 8 * p := by omega
     have hA5 : (q ^ 2 - 1) * (q ^ 3 - 1) ≤ q ^ 5 := by
       calc (q ^ 2 - 1) * (q ^ 3 - 1) ≤ q ^ 2 * q ^ 3 :=

@@ -125,7 +125,7 @@ theorem no_class4 [Fact (Nat.Prime 2)] {y m' : M} (hy2 : y * y = 1)
   obtain ⟨a, ha⟩ := hpg.exists_card_eq
   have h9 : 9 ≤ a := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : 2 ^ a ≤ 2 ^ 8 := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [ha] at hcard
     omega

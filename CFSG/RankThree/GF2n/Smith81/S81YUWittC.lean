@@ -55,7 +55,7 @@ theorem u6_move_core (hσ : IsUnitaryInvolution σ) {a b : Fin 6 → F} (ha : a 
   ·
     have hb : herm σ X b ≠ 0 ∨ herm σ Y b ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       obtain ⟨hXb, hYb⟩ := hcon
       have hbX : herm σ b X = 0 := by rw [herm_conj σ hσ.invol X b, hXb, map_zero]
       have hbY : herm σ b Y = 0 := by rw [herm_conj σ hσ.invol Y b, hYb, map_zero]

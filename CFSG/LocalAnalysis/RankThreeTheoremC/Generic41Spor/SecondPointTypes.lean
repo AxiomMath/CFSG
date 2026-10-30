@@ -20,7 +20,7 @@ theorem spt_exists_not_mem_zpowers {p : ℕ} [Fact p.Prime] {K : Type} [Group K]
     {S : Subgroup K} (hS : IsElemAbelian p S) (hcard : Nat.card S = p ^ 2) {t : K} (ht : t ∈ S)
     (ht1 : t ≠ 1) : ∃ b ∈ S, b ∉ zpowers t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : S ≤ zpowers t := fun b hb => hcon b hb
   have h1 : Nat.card S ≤ Nat.card (zpowers t) := Subgroup.card_le_of_le hle
   rw [Nat.card_zpowers, orderOf_eq_prime (hS.2 t ht) ht1, hcard] at h1
@@ -82,7 +82,7 @@ theorem secondPointFacts_u3 {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {Q : Type} [
     obtain ⟨hc, hexp, hnc, -⟩ := u3_sylow_data h5 hU S
     refine ⟨hc, ?_, hexp⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnc (isMulCommutative_iff.2 fun a b => Subtype.ext (hcon a a.2 b b.2))
   refine ⟨?_, Or.inr ⟨hheis, ?_⟩⟩
   · intro S A hA

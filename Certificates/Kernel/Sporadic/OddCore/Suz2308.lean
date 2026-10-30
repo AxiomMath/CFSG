@@ -600,7 +600,7 @@ theorem beq_unpack {p q : Nat} (hp : canonK 280 9 (mask 9) (280 * 9) p = true)
 
 theorem allN_false {n : Nat} {f : Nat → Bool} (h : allN n f = false) : ∃ i < n, f i = false := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have := CFSG.KS.PackFld.allN_of_forall (n := n) (f := f) fun i hi => by
     cases e : f i
     · exact absurd e (hc i hi)

@@ -151,7 +151,7 @@ theorem sec8t84_no_e32 {G : Type} [Group G] [Finite G] {P B1 B2 : Subgroup G}
     norm_num at this
   obtain ⟨x, hxQ', hxW⟩ : ∃ x, x ∈ Q' ∧ x ∉ W := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hWneQ' (le_antisymm hWleQ' (fun y hy => h y hy))
   have hxQ : x ∈ Q := hQ'leQ hxQ'
   have hx2 : x ^ 2 = 1 := hQ.2 x hxQ
@@ -168,7 +168,7 @@ theorem sec8t84_no_e32 {G : Type} [Group G] [Finite G] {P B1 B2 : Subgroup G}
     norm_num at this
   obtain ⟨y, hyQ', hyA1⟩ : ∃ y, y ∈ Q' ∧ y ∉ A1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hA1neQ' (le_antisymm hA1leQ' (fun y hy => h y hy))
   have hyQ : y ∈ Q := hQ'leQ hyQ'
   have hy2 : y ^ 2 = 1 := hQ.2 y hyQ

@@ -261,7 +261,7 @@ theorem ktLine_of_quot {K V : Subgroup G} (hVK : V ≤ K) (hVab : IsElemAbelian 
     rw [hU, card_ktLiftG, hUb_card, hZ4] <;> norm_num
   have hvex : ∃ v ∈ V, v ∉ (Subgroup.center ↥K).map K.subtype := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Subgroup.card_le_of_le (show V ≤ (Subgroup.center ↥K).map K.subtype from
       fun v hv => hcon v hv)
     rw [Subgroup.card_map_of_injective K.subtype_injective, hZ4, hV64] at h1

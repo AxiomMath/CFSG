@@ -81,7 +81,7 @@ theorem exists_mem_sylow_component (hH : primeComplementCore (G := H) 3 = ⊥) {
   · rw [Subgroup.orderOf_coe, hto]
   · obtain ⟨g, hg⟩ : ∃ g : L, g * t ≠ t * g := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact htc (Subgroup.mem_center_iff.2 fun g => hcon g)
     exact ⟨(g : H), g.2, fun h => hg (Subtype.ext h)⟩
 
@@ -95,7 +95,7 @@ theorem exists_order_three_component (hH : primeComplementCore (G := H) 3 = ⊥)
   · rw [Subgroup.orderOf_coe, hxo]
   · obtain ⟨g, hg⟩ : ∃ g : L, g * x ≠ x * g := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hxc (Subgroup.mem_center_iff.2 fun g => hcon g)
     exact ⟨(g : H), g.2, fun h => hg (Subtype.ext h)⟩
 

@@ -1293,7 +1293,7 @@ theorem sec39d_of_hyp (hp : d.ProductCaseHyp) (k8 : d.Know8) (S : Subgroup G)
   have hΩcard : Nat.card Ω ≤ (2 ^ f) ^ 2 := hcard
   have hz₀ : ∃ z ∈ Ω, z ≠ 1 ∧ d.t * z * d.t⁻¹ = z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ x ∈ d.CPI₆, x = 1 := by
       intro x hx
       have hN₂CPI : d.CPI₂ ≤ d.N₂ := (d.isSylowOf_N₂_inf_P.2).le

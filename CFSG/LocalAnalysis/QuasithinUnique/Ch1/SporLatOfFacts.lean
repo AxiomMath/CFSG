@@ -85,14 +85,14 @@ theorem EnumInv.closed (hfin : labs.Finite)
     refine ⟨m, lb, par, via, h, ?_⟩
     intro l hl i hi
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have := (h.step hcl hl hi hne).le_card hfin
     omega
   | succ e ih =>
     intro m lb par via h hb
     by_cases hc : ∀ l < letters.size, ∀ i < m, ∃ j < m, lb j = act letters[l]! (lb i)
     · exact ⟨m, lb, par, via, h, hc⟩
-    · push_neg at hc
+    · push Not at hc
       obtain ⟨l, hl, i, hi, hne⟩ := hc
       exact ih _ _ _ _ (h.step hcl hl hi hne) (by omega)
 

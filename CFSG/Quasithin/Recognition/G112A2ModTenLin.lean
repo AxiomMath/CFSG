@@ -255,7 +255,7 @@ theorem ten_inner_three_le {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
     exact σ.injective (by rw [← hd, h])
   obtain ⟨f, hfS⟩ : ∃ f, f ∉ S := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have huniv : S = Finset.univ := Finset.eq_univ_of_forall hall
     rw [huniv, Finset.card_univ, Fintype.card_fin] at hσc
     omega
@@ -285,7 +285,7 @@ theorem ten_inner_three_le {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
     exact ten_cancel3 ten_fin6_add_self _ _ _
   obtain ⟨ω, h0, h1⟩ : ∃ ω : GaloisField 2 2, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsurj : Function.Surjective (fun i : Fin 2 => if i = 0 then (0 : GaloisField 2 2) else 1) := by
       intro x
       by_cases hx : x = 0

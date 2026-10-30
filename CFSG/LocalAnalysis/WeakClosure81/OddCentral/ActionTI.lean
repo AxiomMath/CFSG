@@ -162,7 +162,7 @@ theorem fix_or_fix_of_minimal {Q : Set Γ} (hQ : ∀ p ∈ Q, ∀ q ∈ Q, p * q
   by_cases h : ∀ x ∈ C₁, ∀ u ∈ U, x • u = u
   · exact Or.inl h
   right
-  push_neg at h
+  push Not at h
   obtain ⟨x₀, hx₀, u₀, hu₀, hne⟩ := h
   set U' : AddSubgroup A := AddSubgroup.closure {e | ∃ x ∈ C₁, ∃ u ∈ U, e = x • u - u}
   have hU'U : U' ≤ U := by

@@ -229,7 +229,7 @@ theorem u4_factorBound
     · have hms1 : m = secCost ρ B Y Z + 1 := by omega
       have hs2 : 2 ≤ secCost ρ B Y Z := by
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have hs_eq1 : secCost ρ B Y Z = 1 := by omega
         have hBO4 := CFSG.LocalAnalysis.RankThreeUC.partBO4_stmt
           (S := Multiplicative (SecQ Y Z)) (n := n) (F := F) (b := b) (c := c) hS

@@ -337,7 +337,7 @@ theorem trichotomy (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
     · exact Or.inl (homol_of _ h)
     · exact Or.inl (homol_of _ h)
   right
-  push_neg at hr1
+  push Not at hr1
   obtain ⟨hr10, hr11, hr12⟩ := hr1
   set N0 : Matrix (Fin 3) (Fin 3) F := g' - (1 : F) • (1 : Matrix (Fin 3) (Fin 3) F) with hN0
   set N1 : Matrix (Fin 3) (Fin 3) F := g' - ω • (1 : Matrix (Fin 3) (Fin 3) F) with hN1

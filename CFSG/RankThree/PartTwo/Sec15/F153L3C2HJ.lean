@@ -111,7 +111,7 @@ theorem isEmpty_mulEquiv_prod_of_quasi {X H₁ H₂ : Type*} [Group X] [Group H�
 theorem exists_noncomm_alternatingGroup {n : ℕ} (hn : 4 ≤ n) :
     ∃ a b : alternatingGroup (Fin n), a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hcomm : IsMulCommutative (alternatingGroup (Fin n)) := ⟨⟨fun a b => hc a b⟩⟩
   have h3 := alternatingGroup.isMulCommutative_iff_card_le_three.mp hcomm
   simp only [Nat.card_eq_fintype_card, Fintype.card_fin] at h3

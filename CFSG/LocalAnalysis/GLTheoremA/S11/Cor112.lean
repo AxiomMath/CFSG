@@ -324,7 +324,7 @@ theorem cor112_indep {m p : ℕ} (hctx : ThmACtx G m) (hsf : StageFacts G m) (h1
     omega
   have hex : ∃ T : Subgroup G, T ≤ L ∧ IsPGroup 2 T ∧ B ⊓ L ≤ Subgroup.normalizer (T : Set G) ∧ T ≠ ⊥ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hcomm
     have : nGen (B ⊓ L) L = ⊥ := by
       unfold nGen

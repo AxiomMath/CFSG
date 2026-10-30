@@ -37,7 +37,7 @@ private lemma exists_nontrivial_coord {p N : ℕ}
     ∃ i0, v i0 ≠ 1 ∧ ∀ i, i ≠ i0 → v i = 1 := by
   obtain ⟨i0, hi0⟩ : ∃ i, v i ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv1 (funext fun i => h i)
   refine ⟨i0, hi0, fun i hi => ?_⟩
   rcases hv i i0 hi with h | h

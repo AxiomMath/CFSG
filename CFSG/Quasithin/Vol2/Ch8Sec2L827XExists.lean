@@ -20,7 +20,7 @@ theorem exists_mem_comm_not_le_pCoreOf [Finite G] {T X H' V : Subgroup G}
     ∃ v ∈ V, ¬ ⁅oTwoUpper H' ⊔ pCoreOf 2 X, Subgroup.zpowers v⁆ ≤ pCoreOf 2 X := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set O : Subgroup G := pCoreOf 2 X with hOdef
   set X₁ : Subgroup G := oTwoUpper H' ⊔ O with hX₁def
   have hOT : O ≤ T := pCoreOf_le_of_quasithinIsSylowTwo hT hX.2.1

@@ -82,7 +82,7 @@ theorem ker_form [Finite V] (hV : Nat.card V = 81) (ε : V →ₗ[F3] V) (hε : 
       simp [LinearMap.rangeRestrict]
     rw [← h2]
     abel
-  · push_neg at hsc
+  · push Not at hsc
     exfalso
     obtain ⟨X, hXK, hX3, hX243, hu₁X, hXcomm⟩ :=
       na_core' ε hε hW hk K hcomm u₁ hu₁ hu₁K htrans hord3 ν (by rw [hkν]; exact hkK) hsc

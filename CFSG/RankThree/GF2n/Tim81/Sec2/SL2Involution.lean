@@ -51,7 +51,7 @@ theorem MulAut.exists_sylow_inner_or_two_fixed (θ : MulAut SL(2, F)) (hθ : θ 
     intro x
     rw [MulAut.conj_apply]
     exact ht x
-  · push_neg at huniq
+  · push Not at huniq
     obtain ⟨h, hfix, hne⟩ := huniq
     refine ⟨conjSubgroup g (utri F), hexp g, hcard g, hSfix, Or.inr
       ⟨conjSubgroup h (conjSubgroup g (utri F)), ?_, ?_, hne, hfix⟩⟩

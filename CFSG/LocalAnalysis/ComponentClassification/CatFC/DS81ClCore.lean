@@ -188,7 +188,7 @@ theorem exists_eightynine_of_involution {R : Type} [CommRing R] [Finite R] [IsRe
   let e := IsArtinianRing.equivPi R
   obtain ⟨I, hI⟩ : ∃ I : MaximalSpectrum R, Ideal.Quotient.mk I.asIdeal G ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hG1
     apply e.injective
     funext I
@@ -349,7 +349,7 @@ theorem exists_eightynine_of_pow {R : Type} [CommRing R] [Finite R] [IsReduced R
   let e := IsArtinianRing.equivPi R
   obtain ⟨I, hI⟩ : ∃ I : MaximalSpectrum R, Ideal.Quotient.mk I.asIdeal G ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hG1
     apply e.injective
     funext I

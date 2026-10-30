@@ -221,7 +221,7 @@ theorem linear_pcomp_core {F : Type} [Field F] [Finite F] {n r : ℕ}
             exact hperf ⟨hge, Or.inl hne, Or.inl hne⟩
           have hcard : Nat.card (D i) = 2 ∨ Nat.card (D i) = 3 := by
             by_contra hne
-            push_neg at hne
+            push Not at hne
             exact hperf ⟨hge, Or.inr hne.1, Or.inr hne.2⟩
           rw [hd2]
           have hcs := card_statedSL_two (D i)

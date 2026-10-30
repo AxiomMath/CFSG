@@ -26,7 +26,7 @@ private theorem exists_commutator_not_mem {R S L H : Subgroup G}
     {z : G} (hzS : z ∈ S) (hzH : z ∉ H) :
     ∃ l ∈ L, z * l * z⁻¹ * l⁻¹ ∉ H := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hHS : H ≤ S := hH ▸ inf_le_left
   have hHconj : ∀ r ∈ R, ∀ h ∈ H, r * h * r⁻¹ ∈ H := fun r hr h hh =>
     (Subgroup.mem_normalizer_iff.1 (hHn hr) h).1 hh
@@ -95,7 +95,7 @@ private theorem exists_inverted {Q : Type} [Group Q] [Finite Q] {X Ā : Subgroup
   obtain ⟨E, hEĀ, hEcard, x, hx, hxζ⟩ : ∃ E : Subgroup Q, E ≤ Ā ∧ Nat.card Ā ≤ 2 * Nat.card E ∧
       ∃ x ∈ X ⊓ Subgroup.centralizer (E : Set Q), ζ * x ≠ x * ζ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : (⨆ (E : Subgroup Q) (_ : E ≤ Ā) (_ : Nat.card Ā ≤ 2 * Nat.card E),
         X ⊓ Subgroup.centralizer (E : Set Q)) ≤ Subgroup.centralizer {ζ} := by
       refine iSup_le fun E => iSup_le fun hE => iSup_le fun hcard x hx => ?_
@@ -297,7 +297,7 @@ private theorem exists_not_comm {R S H B A : Subgroup G} {w : G}
     (hwR : w ∈ R) (hwodd : Odd (orderOf w)) (hwB : ∀ b ∈ B, w * b = b * w) (hwH : w ∉ H) :
     ∃ q ∈ (H ⊔ B) ⊓ Subgroup.centralizer (B : Set G), w * q ≠ q * w := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hQS : H ⊔ B ≤ S := sup_le hHS (hBA.trans hAS)
   have hfix : ∀ q ∈ H ⊔ B, (∀ b ∈ B, q * b = b * q) → w * q = q * w := fun q hq hqB =>
     hcon q (Subgroup.mem_inf.2 ⟨hq, Subgroup.mem_centralizer_iff.2 fun b hb => (hqB b hb).symm⟩)
@@ -501,7 +501,7 @@ private theorem false_of_u_B {R S H A B : Subgroup G} {z u : G}
   obtain ⟨x, hxP, hxB⟩ : ∃ x ∈ (H ⊔ B) ⊓ Subgroup.centralizer (B : Set G),
       x⁻¹ * (z * x * z⁻¹) ∉ B := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hwq (comm_of_stab hB2 hzBc hwB hz2 hzw hwodd hwP hcon q hqP)
   have hyP : x⁻¹ * (z * x * z⁻¹) ∈ (H ⊔ B) ⊓ Subgroup.centralizer (B : Set G) :=
     Subgroup.mul_mem _ (Subgroup.inv_mem _ hxP) (hzP x hxP)

@@ -38,7 +38,7 @@ theorem uc22ine229_card_le_of_isSimple (hOut : RankThreeTheoremC.KFactOutCyclic)
 private theorem nonabelian_bar2 {M L : Subgroup G} (hL : L ∈ calC M) :
     ∃ x y : Bar2 L, x * y ≠ y * x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have htop : Subgroup.center (Bar2 L) = ⊤ := by
     rw [eq_top_iff]
     intro x _

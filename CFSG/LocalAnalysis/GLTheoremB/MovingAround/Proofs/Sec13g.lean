@@ -280,7 +280,7 @@ theorem conj_part_i {m p : ℕ} {B M E A D T R : Subgroup G} (hI71 : Input7_1Inn
       rw [h0, Subgroup.bot_subgroupOf]
     obtain ⟨y, hy, hy1⟩ : ∃ y ∈ SX.toSubgroup ⊓ L, y ≠ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hne (eq_bot_iff.2 fun y hy => Subgroup.mem_bot.2 (hc y hy))
     obtain ⟨hyR', hyL'⟩ := Subgroup.mem_inf.1 hy
     have hyR : (y : G) ∈ R := Subgroup.mem_subgroupOf.1 hyR'
@@ -486,7 +486,7 @@ theorem caseA_central {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     exact congrArg Subtype.val hyH
   obtain ⟨w, hwH, hw1⟩ : ∃ w ∈ ((R ⊓ C).subgroupOf R ⊓ Subgroup.center ↥R), w ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
       (eq_bot_iff.2 fun y hy => Subgroup.mem_bot.2 (hc y hy))
   obtain ⟨hwH', hwZ⟩ := Subgroup.mem_inf.1 hwH

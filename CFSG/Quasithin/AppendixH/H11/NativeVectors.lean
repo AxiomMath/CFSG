@@ -107,7 +107,7 @@ private theorem toAdd_pairVec_eq_one_iff {p q : Fin 12} (hpq : p ≠ q) {i : Fin
   constructor
   · intro h
     by_contra hc
-    push_neg at hc
+    push Not at hc
     rw [evec, if_neg hc.1, evec, if_neg hc.2, add_zero] at h
     exact zero_ne_one h
   · rintro (rfl | rfl)
@@ -190,7 +190,7 @@ theorem mem_zpowers_allOnes_of_order_eleven (σ : Equiv.Perm (Fin 12)) (h11 : σ
   have hsum : ∑ i, Multiplicative.toAdd x i = 0 := G6.mem_coreMod.mp hx
   have hne : ∃ i0, σ i0 ≠ i0 := by
     by_contra h'
-    push_neg at h'
+    push Not at h'
     exact h1 (Equiv.ext h')
   rcases (mem_zpowers_allOnes_iff (G6.permAct 12 σ x * x⁻¹)).mp h with hc | hc
   ·
@@ -378,7 +378,7 @@ theorem exists_independent_commutators (γ : Equiv.Perm (Fin 12)) (hγ : γ * γ
         rw [toAdd_prod_apply, Finset.sum_apply]
         exact Finset.sum_congr rfl (fun s _ => hcommA s i)
       rw [mem_zpowers_allOnes_iff]
-      push_neg
+      push Not
       constructor
       · intro hzero
         have hh := congrFun hzero (a k0)
@@ -521,7 +521,7 @@ theorem exists_independent_commutators (γ : Equiv.Perm (Fin 12)) (hγ : γ * γ
         intro s _
         simp [evec, Pi.add_apply, he_a 0, he_b 0, he_px s, he_py s]
       rw [mem_zpowers_allOnes_iff]
-      push_neg
+      push Not
       constructor
       · intro hzero
         have hh := congrFun hzero (px k0)

@@ -214,7 +214,7 @@ theorem exists_nonscalar {Ê : Subgroup M6} {d : Fin 6 → F4} {l : F4} {i1 i2 :
     ∃ y ∈ Ê, ∀ c : F4, ∃ i j : Fin 6, i ≠ i1 ∧ i ≠ i2 ∧ j ≠ i1 ∧ j ≠ i2 ∧
       mM6 y i j ≠ if i = j then c else 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hd1 : ∀ j, j ≠ i1 → d j ≠ d i1 := by
     intro j hj
     by_cases hj2 : j = i2
@@ -246,7 +246,7 @@ theorem exists_nonscalar {Ê : Subgroup M6} {d : Fin 6 → F4} {l : F4} {i1 i2 :
     simp [hc i i hi1 hi2 hi1 hi2, hc i0 i0 hj1 hj2 hj1 hj2]
   obtain ⟨i0, hi01, hi02⟩ : ∃ i0 : Fin 6, i0 ≠ i1 ∧ i0 ≠ i2 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hsub : (Finset.univ : Finset (Fin 6)) ⊆ {i1, i2} := by
       intro i _
       by_cases hi : i = i1

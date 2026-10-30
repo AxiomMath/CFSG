@@ -30,7 +30,7 @@ theorem rootIrrModel_sp {n : ℕ} {F : Type} [Field F] [CharP F 2] (hcore : SpCo
   by_cases hw' : ∃ c : F, w' = c • a
   · obtain ⟨c, hc⟩ := hw'
     exact hTR ((hT.1 y).2 ⟨l', mat_eq_spTrans_of_param hyw hc⟩)
-  push_neg at hw'
+  push Not at hw'
   obtain ⟨g, hga, c, hgw⟩ := exists_mat_mulVec_eq_mod haw haw' hw hw'
   have hgx : g * x * g⁻¹ ∈ R := hRnorm g ⟨1, one_ne_zero, by rw [hga, one_smul]⟩ x hxR
   obtain ⟨t, ht⟩ := hT.2 (l + l')

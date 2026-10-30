@@ -31,7 +31,7 @@ theorem i253_isPGroup_zpowers {p : ℕ} {x : Y} {k : ℕ} (h : x ^ (p ^ k) = 1) 
 theorem i253_exists_not_mem_zpowers [Finite Y] {A : Subgroup Y} (hA9 : Nat.card A = 9) {b : Y}
     (hbA : b ∈ A) (hb3 : orderOf b = 3) : ∃ a ∈ A, a ∉ Subgroup.zpowers b := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle : A ≤ Subgroup.zpowers b := h
   have := Subgroup.card_le_card_group (G := Y) (Subgroup.zpowers b)
   have h1 : Nat.card A ≤ Nat.card (Subgroup.zpowers b) := by

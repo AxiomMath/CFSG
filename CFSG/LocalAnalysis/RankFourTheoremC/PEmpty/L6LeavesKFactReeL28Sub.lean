@@ -43,7 +43,7 @@ theorem card_eq_eight_of_normalized {G : Type*} [Group G] [Finite G] (hG : Nat.c
   have hdvd : Nat.card A ∣ 504 := hG ▸ Subgroup.card_subgroup_dvd_card A
   have hn3 : n ≤ 3 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h16 : 2 ^ 4 ∣ 504 := (Nat.pow_dvd_pow 2 hlt).trans (hn ▸ hdvd)
     norm_num at h16
   let φ : ↥(normalizer (A : Set G)) →* Equiv.Perm ↥A :=

@@ -4828,14 +4828,14 @@ theorem burnsideB49_rank_one_of_card (s : Matrix.SpecialLinearGroup (Fin 3) K) (
   have hpow := Module.natCard_eq_pow_finrank (K := K) (V := ↥(burnsideB49_Wn s))
   have hle : Module.finrank K ↥(burnsideB49_Wn s) ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : Nat.card K ^ 2 ≤ Nat.card K ^ Module.finrank K ↥(burnsideB49_Wn s) :=
       Nat.pow_le_pow_right (by omega) hcon
     rw [← hpow] at this
     nlinarith
   have hne : ∃ y, (s : Matrix (Fin 3) (Fin 3) K).mulVec y ≠ y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hs
     apply Subtype.ext
     exact burnsideB49_eq_one_of_mulVec hcon
@@ -4858,7 +4858,7 @@ theorem burnsideB49_rank_one_of_card (s : Matrix.SpecialLinearGroup (Fin 3) K) (
     exact ⟨c, congrArg Subtype.val hc⟩
   obtain ⟨i₀, hi₀⟩ : ∃ i, u i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu0 (funext h)
   let r : Fin 3 → K := fun j => ((s : Matrix (Fin 3) (Fin 3) K) i₀ j - (1 : Matrix (Fin 3) (Fin 3) K) i₀ j) / u i₀
   have hx : ∀ x, (s : Matrix (Fin 3) (Fin 3) K).mulVec x = x + (r ⬝ᵥ x) • u := by
@@ -5011,7 +5011,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem burnsideB49_exists_dot_one (r : Fin 3 → K) (hr : r ≠ 0) : ∃ x : Fin 3 → K, r ⬝ᵥ x = 1 := by
   obtain ⟨i, hi⟩ : ∃ i, r i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hr (funext h)
   refine ⟨Pi.single i (r i)⁻¹, ?_⟩
   rw [dotProduct_single]
@@ -5316,13 +5316,13 @@ theorem burnsideB49_indep_of_not_root (S : Set (Matrix.SpecialLinearGroup (Fin 3
     (hw : ∀ s ∈ S, g * s * g⁻¹ = burnsideB49_tau (w s)) (hnr : ¬ burnsideB49_RootConj S) :
     ∃ s₁ ∈ S, ∃ s₂ ∈ S, w s₁ 0 * w s₂ 1 - w s₁ 1 * w s₂ 0 ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hnr
   by_cases hex : ∃ s₁ ∈ S, w s₁ ≠ 0
   · obtain ⟨s₁, hs₁, hne⟩ := hex
     exact burnsideB49_rootConj_of_line S g w hw (w s₁) (fun s hs =>
       (burnsideB49_proportional_of_det_zero (w s₁) (w s) hne (h s₁ hs₁ s hs)))
-  · push_neg at hex
+  · push Not at hex
     exact burnsideB49_rootConj_of_line S g w hw 0 (fun s hs => ⟨0, by rw [hex s hs]; simp⟩)
 
 end RootLine
@@ -5644,7 +5644,7 @@ theorem burnsideB49_cubes_span (h8 : 8 ≤ Nat.card F) :
   by_contra hne
   have hex : ∃ t : F, t ∉ S := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (eq_top_iff.2 fun x _ => h x)
   obtain ⟨t, ht⟩ := hex
   have hinj : Function.Injective (fun p : S × S => (p.1 : F) + (p.2 : F) * t) := by
@@ -5800,7 +5800,7 @@ theorem burnsideB49_E_normal (C : burnsideB49_Coord3 G U K π)
     rw [h, map_one]
   apply burnsideB49_normalize
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : burnsideB49_Etil C E = ⊥ := by
       rw [eq_bot_iff]
       intro s hs

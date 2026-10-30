@@ -32,7 +32,7 @@ theorem exists_conj_of_pow_three_of_card_le (hZ : Subgroup.center Y = ⊥)
     have h := I.card_mul_index
     rw [hIcard] at h
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : Nat.card Y * 3 ≤ Nat.card Y * I.index := Nat.mul_le_mul_left _ hcon
     omega
   have hidx0 : I.index ≠ 0 := Subgroup.index_ne_zero_of_finite

@@ -374,7 +374,7 @@ theorem leafLoc5 : LeafLoc5 := by
     obtain ⟨v, hvY, hvK⟩ : ∃ v ∈ M₁ ⊓ Subgroup.centralizer ({e 2} : Set G),
         v ∉ M₁ ⊓ Subgroup.centralizer (M₁ : Set G) ⊓ Subgroup.centralizer ({e 2} : Set G) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : M₁ ⊓ Subgroup.centralizer ({e 2} : Set G) ≤
           M₁ ⊓ Subgroup.centralizer (M₁ : Set G) ⊓ Subgroup.centralizer ({e 2} : Set G) := hcon
       have := Subgroup.card_le_of_le hle
@@ -730,7 +730,7 @@ theorem leafLoc5 : LeafLoc5 := by
     have hle := Subgroup.relIndex_le_of_le_right (H := M₁) (le_sup_right : M₂ ≤ M₁ ⊔ M₂) hR0
     have hr27 : 27 ≤ M₁.relIndex M₂ := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have := Nat.mul_le_mul (show M₁.relIndex M₂ ≤ 26 by omega) hM12card
       omega
     omega

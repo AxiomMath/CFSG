@@ -60,7 +60,7 @@ lemma exists_omega_aux {F : Type} [Field F] [Fintype F] (hF : Fintype.card F = 4
   classical
   have hx : ∃ x : F, x ≠ 0 ∧ x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Finset.univ : Finset F) ⊆ {0, 1} := by
       intro x _
       by_cases hx0 : x = 0

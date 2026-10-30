@@ -133,7 +133,7 @@ theorem u81_normalizer_le
       (((normalizer (B : Set G) ⊓ D.M).subgroupOf (normalizer (B : Set G))).map hb.frame.rho) hW
       (Subgroup.map_le_range _ _) hemb hrH hstab _ (hmemY ht₁) hd₁ _ (hmemY ht₂) hd₂ _
       (hmemY hyNM) hyp α hα hns
-  push_neg at hns
+  push Not at hns
   have hcent : ∀ w : GL (Fin 3) (ZMod (2 ^ n - 1)),
       w * hb.frame.rho ⟨y, hyNM.1⟩ = hb.frame.rho ⟨y, hyNM.1⟩ * w := by
     intro w

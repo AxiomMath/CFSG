@@ -342,7 +342,7 @@ theorem exists_sylow_element_moves_of_prime_dvd_orbit
     (hdvd : p ∣ (MulAction.orbit C x).ncard) :
     ∃ u : P, ((u : P) : C) • x ≠ x := by
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hle : (P : Subgroup C) ≤ MulAction.stabilizer C x := by
     intro u hu
     change (u : C) • x = x

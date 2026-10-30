@@ -264,7 +264,7 @@ theorem fzr_B_cent {G : Type} [Group G] [Finite G] {t tau lam rho : G}
     fun x => fzrAux_commMap_conj A_tau A_lam hAB_taulam x
   have hc : ∃ x : X, c x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hXleZ : X ≤ Z := by
       intro x hx
       have hcx : c ⟨x, hx⟩ = 1 := hcon ⟨x, hx⟩

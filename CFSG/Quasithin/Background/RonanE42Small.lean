@@ -94,7 +94,7 @@ theorem aParam_le_of_aSet_empty (X : Subgroup (MulAut V)) (k : ℕ)
   unfold aParam
   split_ifs with heven
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hne : ({k : ℕ | 0 < k ∧ (aSet k X).Nonempty} : Set ℕ).Nonempty := by
       by_contra hem
       rw [Set.not_nonempty_iff_eq_empty] at hem

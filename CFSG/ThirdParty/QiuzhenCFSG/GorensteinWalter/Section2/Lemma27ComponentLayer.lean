@@ -147,7 +147,7 @@ private theorem componentLayerOf_ne_bot_iff {G : Type u} [Group G]
   constructor
   · intro hE
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     apply hE
     apply le_bot_iff.mp
     rw [componentLayerOf]

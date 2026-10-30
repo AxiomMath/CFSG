@@ -60,7 +60,7 @@ theorem mem_fourGroupsMinus_of_isTripleCover (hK : TripleM22E9NoInvol) (h45 : Se
     have hEC : E ≤ Subgroup.centralizer (U : Set G) := (mem_fourGroupsPlus_iff.mp hp).2
     obtain ⟨t, htU, ht1⟩ : ∃ t ∈ Item211Res2Proof.barImage L U, t ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact Item211LieProof.barImage_U_ne_bot hPF ((Subgroup.eq_bot_iff_forall _).mpr h)
     have ht2 : t ^ 2 = 1 := (Item211LieProof.isElemAbelian_barImage_U hPF).2 t htU
     have htC : t ∈ Subgroup.centralizer (Item211Res2Proof.barImage L E : Set _) := by

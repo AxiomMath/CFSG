@@ -117,7 +117,7 @@ theorem k1419ClsLinBlock_exists {F : Type} [Field F] [Finite F] {n : ℕ} (A : G
     rw [← hTeq, hMmap]
   have hd2 : 2 ≤ d i := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hall : ∀ a ∈ M, a = 1 := by
       intro a ha
       rw [hMeq] at ha

@@ -110,7 +110,7 @@ theorem isQuasisimple_of_surjective {Q R : Type*} [Group Q] [Group R] (f : Q →
   haveI : Nontrivial (R ⧸ Subgroup.center R) := by
     obtain ⟨g, hg⟩ : ∃ g : R, g ∉ Subgroup.center R := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hZR (eq_top_iff.2 fun g _ => hcon g)
     exact ⟨⟨QuotientGroup.mk g, 1, fun h => hg ((QuotientGroup.eq_one_iff g).1 h)⟩⟩
   refine ⟨hRc, ?_⟩

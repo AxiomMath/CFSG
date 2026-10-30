@@ -43,7 +43,7 @@ theorem Ctx.exists_fixed_vector {H T V L : Subgroup G} (h : Ctx H T V L) :
     have := Subgroup.mem_centralizer_iff.mp (hle hj) u rfl
     exact this.symm
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply huZ
     refine ⟨huU, Subgroup.mem_centralizer_iff.mpr ?_⟩
     intro l hl

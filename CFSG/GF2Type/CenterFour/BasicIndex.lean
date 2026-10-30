@@ -33,7 +33,7 @@ private lemma commHomIdx_apply (hC : Config z n) {t : G} (ht : t ∈ coreAt z) (
 private lemma exists_commutator_ne_one_of_nmem_center (hC : Config z n) {t : G}
     (ht : t ∈ coreAt z) (htZ : t ∉ centerAt z) : ∃ q ∈ coreAt z, ⁅t, q⁆ ≠ 1 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply htZ
   unfold centerAt
   refine Subgroup.mem_map.mpr ⟨⟨t, ht⟩, ?_, rfl⟩

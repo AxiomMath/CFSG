@@ -1086,7 +1086,7 @@ public theorem lemma_5_1_normalizer_involution
   have hdeltaExists : ∃ delta : FixedP,
       ¬ (delta : Omega) ∈ fixedPointsOfSubgroup X Omega R₀ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     let f : FixedP → FixedR₀ := fun delta => ⟨delta, hno delta⟩
     have hf : Function.Injective f := by
       intro delta epsilon h
@@ -1099,7 +1099,7 @@ public theorem lemma_5_1_normalizer_involution
   let delta : Omega := deltaP
   have hdelta : delta ∈ fixedPointsOfSubgroup X Omega P := deltaP.property
   change ¬ ∀ x : X, x ∈ R₀ → x • delta = delta at hdeltaNot
-  push_neg at hdeltaNot
+  push Not at hdeltaNot
   obtain ⟨r, hrR₀, hrDelta⟩ := hdeltaNot
   let epsilon : Omega := r • delta
   have hepsilon : epsilon ∈ fixedPointsOfSubgroup X Omega P := by

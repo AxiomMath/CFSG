@@ -106,7 +106,7 @@ theorem exists_eigenvector_root {B : Matrix (Fin 3) (Fin 3) K} {c : K} {u₀ : F
     exact one_ne_zero h1.2.2
   obtain ⟨w, hw⟩ : ∃ w : Fin 3 → K, Q *ᵥ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hQ0 (Matrix.ext_of_mulVec_single fun i => by rw [hcon, Matrix.zero_mulVec])
   refine ⟨Q *ᵥ w, hw, ?_⟩
   have hBBB : B * (B * B) = l ^ 3 • (1 : Matrix (Fin 3) (Fin 3) K) := by

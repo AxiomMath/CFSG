@@ -274,7 +274,7 @@ theorem not_dvd_natCard_centralizer_Q :
   have hne := inf_ne_bot_of_dvd_natCard_of_sylow hp (centralizer (Q : Set X)) K
     (h.natCard_K_eq_pow_factorization hp) hdvd
   rw [Ne, Subgroup.eq_bot_iff_forall] at hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨k, hk, hk1⟩ := hne
   have hQZ : Q = Z := by
     rw [← h.inf_centralizer_Q k hk.2 hk1]

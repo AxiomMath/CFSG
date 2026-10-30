@@ -194,7 +194,7 @@ theorem scalar_one_of {ι : Type} [Fintype ι] [DecidableEq ι] [CharP K 2]
   have hsq : s * s = 1 := by
     obtain ⟨i, j, hij⟩ : ∃ i j, P i j ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hP0 (Matrix.ext fun i j => h i j)
     have h2 := congrArg (fun M : Matrix ι ι K => M i j) hss
     simp only [Matrix.smul_apply, smul_eq_mul] at h2

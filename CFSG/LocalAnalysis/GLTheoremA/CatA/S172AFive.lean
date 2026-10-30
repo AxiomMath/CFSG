@@ -102,7 +102,7 @@ theorem five_false (hb : CatDistinct.OrderBridge) {Ω : Type} [Group Ω] [Finite
   obtain ⟨e, -, he⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvdB
   have he1 : e ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h9 : 3 ^ 2 ∣ 3 ^ e := pow_dvd_pow 3 hc
     rw [← he] at h9
     have h60 := dvd_trans h9 hdvdInn

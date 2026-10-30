@@ -131,7 +131,7 @@ private theorem exists_offender_aux (h186 : Item186H) (hX : MinCex A M H c X)
       2 ^ (CFSG.pRank 2 S - 1) ≤ Nat.card E ∧
       ¬ E ≤ X ⊓ Subgroup.centralizer (Wsub X S : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnot1
     obtain ⟨E0, hE0⟩ := Item181ThreeProof.exists_mem_famG_zero S
     obtain ⟨hE0S, hE02, hE0card⟩ := Sec3.mem_famG.mp hE0

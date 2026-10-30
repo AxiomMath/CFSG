@@ -763,7 +763,7 @@ private lemma constituents_conjugate (c : Hyp11 G) [Hyp11KData c] (α : Irr (↥
     have hex : ∃ i : Fin n0, (charOfIrrRep
         ((Theory.Representation.conjugateSubrepresentation ρ (KU c) W (g i)).toRepresentation) (hirr i)).1 = γ.1 := by
       by_contra hnone
-      push_neg at hnone
+      push Not at hnone
       have hsp0 : scalarProduct (↥(KU c)) (fun k : ↥(KU c) => α.1 (k : ↥c.U)) γ.1 = 0 := by
         rw [hsp_sum]
         refine Finset.sum_eq_zero ?_
@@ -1109,7 +1109,7 @@ private lemma exists_odd_multiplicity_restrict_char (c : Hyp11 G) [Hyp11KData c]
       _ = φ 1 := rfl
       _ = ∑ ν : IrrBG19 (↥K0), (m ν : ℂ) * (d ν : ℂ) := hsum1
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hEvenProd : ∀ ν : IrrBG19 (↥K0), Even (m ν * d ν) := by
     intro ν
     have hEvenM : Even (m ν) := by
@@ -2584,7 +2584,7 @@ private lemma exists_positive_multiplicity_in_orbit (c : Hyp11 G) [Hyp11KData c]
         μ ∈ BOf c h12 χ.1
     · exfalso
       exact orbit_subset_BOf_zero_mult_false c h12 hSC χ hνB hνs hLsubB haν0
-    · push_neg at hLsubB
+    · push Not at hLsubB
       rcases hLsubB with ⟨μ, hμL, hμBnot⟩
       have heμ : e μ = 0 := by
         by_contra hne

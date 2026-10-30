@@ -669,7 +669,7 @@ theorem transfer_contra {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {
   have hYsimple := hYP.1
   have hΩnon : ∃ a ∈ StatedOmega ⇑Qf, ∃ b ∈ StatedOmega ⇑Qf, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : StatedOmega ⇑Qf = ⊥ := by
       have hcomm : ⁅StatedOmega ⇑Qf, StatedOmega ⇑Qf⁆ = ⊥ := by
         rw [eq_bot_iff, Subgroup.commutator_le]

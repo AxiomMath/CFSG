@@ -73,7 +73,7 @@ theorem exists_linear_subgroup {F : Type} [Field F] [Fintype F] [CharP F 2]
   by_cases hall : ∀ b ∈ B, b ∈ B₁
   · exact ⟨B₁, hB₁B, hlin, card_le_two_mul_of_cosets B B₁ 1 (fun x hx => Or.inl (hall x hx)),
       Or.inl (le_antisymm hB₁B fun b hb => hall b hb)⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨φ, hφB, hφB₁⟩ := hall
     have hσφ : σ φ ≠ RingEquiv.refl F := fun h => hφB₁ ((hmem φ hφB).2 h)
     have hcos : ∀ x ∈ B, x ∈ B₁ ∨ φ * x ∈ B₁ := by

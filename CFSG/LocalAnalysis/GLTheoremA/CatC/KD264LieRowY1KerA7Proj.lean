@@ -46,7 +46,7 @@ theorem sum_ker_char {c : G → L} (hcmul : ∀ x y, c (x * y) = c x * c y)
   split_ifs with htriv
   · rw [Finset.sum_congr rfl (fun x hx => htriv x (Finset.mem_filter.mp hx).2), Finset.sum_const,
       nsmul_eq_mul, mul_one]
-  · push_neg at htriv
+  · push Not at htriv
     obtain ⟨x0, hx0c, hx0d⟩ := htriv
     have hS : ∑ x ∈ univ.filter (fun x => c x = 1), d x = 0 := by
       have h1 := sum_ker_mul hcmul hcpow d x0 hx0c

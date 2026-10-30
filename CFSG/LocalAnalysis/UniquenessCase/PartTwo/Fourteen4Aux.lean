@@ -152,7 +152,7 @@ theorem exists_sylow_not_le {H I M X : Subgroup G} (hIH : I ≤ H) (hHI : H ≤ 
       ∃ Q : Subgroup G, CFSG.ABGLocalTools.IsSylowOf q Q I ∧ X ≤ normalizer (Q : Set G) ∧
         ¬ Q ≤ M := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hI2 : Odd (M.relIndex I) := by
     have hI'norm : (I.subgroupOf H).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2 hHI

@@ -138,7 +138,7 @@ theorem U4NatData.inv_index [Finite G] (hLM : L ≤ M) (hML : M ≤ normalizer (
   have hne : ∃ x, d.actAdd t (hMV ht) x ≠ x := by
     obtain ⟨v, hv, hvt⟩ : ∃ v ∈ V, ¬ v * t = t * v := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact htc (Subgroup.mem_centralizer_iff.mpr fun v hv => hcon v hv)
     refine ⟨d.eqv ⟨v, hv⟩, fun h => hvt ?_⟩
     rw [d.actAdd_apply, d.act_eqv] at h

@@ -52,7 +52,7 @@ theorem l41_sylow_holds : L41SylowStmt := by
   refine S4A.l41_sylow_of hc.toG fun hgen4 => ?_
   have hnonab : ∃ a b : G, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : IsSimpleGroup G := hc.glob.simple
     letI : CommGroup G := { ‹Group G› with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card G).Prime := IsSimpleGroup.prime_card

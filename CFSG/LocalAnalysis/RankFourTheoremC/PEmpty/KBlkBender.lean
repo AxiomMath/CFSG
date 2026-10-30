@@ -67,7 +67,7 @@ theorem eq_top_of_sylow_le (h : BenderType K n 1 1) (P : Sylow 2 K)
   have hcardP := (sylow_card_comm h P).1
   obtain ⟨j, hjJ, hjP⟩ : ∃ j ∈ J, j ∉ normalizer (P : Set K) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hJ hcon
   set P' : Sylow 2 K := j • P with hP'
   have hP'ne : P' ≠ P := fun h' => hjP (Sylow.smul_eq_iff_mem_normalizer.mp h')

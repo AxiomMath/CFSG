@@ -355,7 +355,7 @@ theorem szh1_two_sylow (hY : Sz32Case2Data Pb a c y) (hI713 : KFactI713Out)
   have hc₂' : Nat.card ↥(Pb ⊓ L₂) = 25 := by rw [hc₂]; norm_num
   have hex : ∃ g ∈ Pb ⊓ L₁, g ^ 5 ≠ 1 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hP₁ : Pb ⊓ L₁ ≤ sz32Om a c y := fun g hg => hY.facts.Om_all g hg.1 (hno g hg)
     have hP₂ : Pb ⊓ L₂ ≤ sz32Om a c y := by
       intro u hu

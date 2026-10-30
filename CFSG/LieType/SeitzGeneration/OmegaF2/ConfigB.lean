@@ -42,11 +42,11 @@ private theorem cb_exists_minor_ne (hnd : (polarBilin Q).Nondegenerate) {x y : F
     ∃ i j : Fin d, polar Q x (Pi.single i 1) * polar Q y (Pi.single j 1) -
       polar Q x (Pi.single j 1) * polar Q y (Pi.single i 1) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hx0 : x ≠ 0 := hind.ne_zero 0
   obtain ⟨i, hi⟩ : ∃ i : Fin d, polar Q x (Pi.single i 1) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx0 (cb_eq_zero_of_polar_single hnd h)
   obtain ⟨c, hc⟩ : ∃ c : K, c * polar Q x (Pi.single i 1) = polar Q y (Pi.single i 1) :=
     ⟨polar Q y (Pi.single i 1) / polar Q x (Pi.single i 1), div_mul_cancel₀ _ hi⟩

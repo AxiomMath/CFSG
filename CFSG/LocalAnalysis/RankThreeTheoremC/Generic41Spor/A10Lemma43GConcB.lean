@@ -60,7 +60,7 @@ theorem a10t1_cb_fix_of_mem {b : A10} (hb : b ∈ S₀) (hb1 : b ≠ 1)
   obtain ⟨u, v, rfl⟩ := a10t1_cb_exp_form hb
   refine a10t1_cb_fix_check u v ?_ hf
   by_contra h
-  push_neg at h
+  push Not at h
   apply hb1
   rw [h.1, h.2]
   simp
@@ -100,7 +100,7 @@ theorem a10t1_cb_stab_of_conj {b n : A10} (hb : b ∈ S₀) (hb1 : b ≠ 1) (hb'
     refine a10t1_cb_stab_aux (s := s) (s' := s') fun x => ?_
     rw [← hs x, ← hs' ((n : Perm (Fin 10)) x), hconj]
     exact ((n : Perm (Fin 10)).injective.eq_iff).symm
-  · push_neg at hfix
+  · push Not at hfix
     have hfix' : ∀ p : Fin 10, ((n * b * n⁻¹ : A10) : Perm (Fin 10)) p ≠ p := by
       intro p hp
       have h1 := hconj (((n : Perm (Fin 10))⁻¹) p)
@@ -142,15 +142,15 @@ theorem a10t1_cb_comm {a b : A10} (ha : a ∈ L1) (hb : b ∈ L2) : a * b = b * 
   by_cases hi : (i : ℕ) < 5
   · have hai : ((a : Perm (Fin 10)) i : ℕ) < 5 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h2 := (a : Perm (Fin 10)).injective (ha' _ h)
       rw [h2] at h
       omega
     rw [hb' i hi, hb' _ hai]
-  · push_neg at hi
+  · push Not at hi
     have hbi : 5 ≤ ((b : Perm (Fin 10)) i : ℕ) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h2 := (b : Perm (Fin 10)).injective (hb' _ h)
       rw [h2] at h
       omega

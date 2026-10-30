@@ -1140,7 +1140,7 @@ private theorem ii1Theorem26_decomposition_card_eq_two_of_le_two
   have hprincipal := ii1Theorem26_permutationCharacter_principal htrans
   have hex : ∃ i : I, psi i = principalCharacter G := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ i : I,
         scalarProduct G (psi i) (principalCharacter G) = 0 := by
       intro i
@@ -1701,7 +1701,7 @@ private theorem ii1Theorem26_nonprincipal_constituent_mem_exceptional
     simpa [hi] using hj0 i
   intro i hi
   by_contra hnot
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨thetaIn, hthetaInIrr, hthetaInNeZero⟩ :=
     ii1Theorem26_exists_irreducible_constituent_of_subgroupRestriction
       K (hpsiIrr i)
@@ -2625,7 +2625,7 @@ private theorem ii1Theorem26_proper_normalizer_two_pretransitive
   have hprincipal := ii1Theorem26_permutationCharacter_principal htrans
   have hex : ∃ i : I, psi i = principalCharacter X := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ i : I,
         scalarProduct X (psi i) (principalCharacter X) = 0 := by
       intro i

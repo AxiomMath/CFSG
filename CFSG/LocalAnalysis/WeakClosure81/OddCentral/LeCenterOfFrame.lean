@@ -117,7 +117,7 @@ theorem le_center_of_frame (G : Type) [Group G] [Finite G] {V H E : Subgroup G}
   by_contra hcen
   have hP : ∃ i, ∃ f ∈ fusionOddCore Y, d i * f ≠ f * d i := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hcen (le_center_of_comm hgen (fun x hx => hall 0 x hx))
   obtain ⟨P, hPn, hPR, hPm, hmin⟩ := exists_min_moved hP
   haveI := hPn

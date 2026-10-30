@@ -208,7 +208,7 @@ private lemma sum_cellP_mulVec (t g : M4 F) (z : Fin 2 ⊕ Fin 2 → F) :
 
 private lemma exists_mulVec_ne_zero {M : M4 F} (hM : M ≠ 0) : ∃ z : Fin 2 ⊕ Fin 2 → F, M *ᵥ z ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hM
   ext i j
   have := congrFun (h (Pi.single j 1)) i
@@ -299,7 +299,7 @@ private lemma exists_pair (t g : M4 F) (h2 : (2 : F) ≠ 0) (ht : tᵀ * sympJ F
   have h4 := four_ne_zero h2
   obtain ⟨z, hz⟩ : ∃ z, sympForm x z ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hx0 (eq_zero_of_sympForm x hcon)
   have hdec11 : (4 : F) • z = cellP t g 1 1 *ᵥ z + cellP t g 1 (-1) *ᵥ z +
       cellP t g (-1) 1 *ᵥ z + cellP t g (-1) (-1) *ᵥ z := (sum_cellP_mulVec t g z).symm
@@ -569,7 +569,7 @@ private lemma card_le_four_of_elemAbelian (h2 : (2 : F) ≠ 0) (A : Subgroup (St
     refine h4.trans ?_
     rw [Nat.card_coe_set_eq, Set.ncard_coe_finset]
     exact Finset.card_le_four
-  · push_neg at hex
+  · push Not at hex
     have hmem : ∀ x ∈ A, x ∈ ({1, c} : Finset (StatedSp 2 F)) := by
       intro x hx
       by_cases h1 : (x : GL (Fin 2 ⊕ Fin 2) F) = 1
@@ -602,7 +602,7 @@ private theorem pRank_le_two_of_statedSp2 {F : Type} [Field F] [Finite F] (hF : 
   have hle := card_le_four_of_elemAbelian h2 (A.map e.toMonoidHom)
   rw [hcardB, hcard] at hle
   by_contra hr
-  push_neg at hr
+  push Not at hr
   have h8 : 8 ≤ 2 ^ r := by
     calc (8 : ℕ) = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ r := Nat.pow_le_pow_right (by norm_num) (by omega)

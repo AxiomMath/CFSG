@@ -116,7 +116,7 @@ theorem last_step {M : Type*} [Group M] [Finite M]
     rw [Subgroup.normalizer_eq_top_iff.2 ‹R.Normal›]; exact Subgroup.mem_top k
   have hKSR : ∀ k ∈ K, ∀ s ∈ S ⊓ R, k * s = s * k := by
     by_contra hnot
-    push_neg at hnot
+    push Not at hnot
     obtain ⟨k₀, hk₀, s₀, hs₀, hne⟩ := hnot
     have hKnormSR : K ≤ normalizer ((S ⊓ R : Subgroup M) : Set M) := fun k hk =>
       Subgroup.inf_normalizer_le_normalizer_inf ⟨hKS k hk, hRn k⟩

@@ -175,7 +175,7 @@ theorem exists_mem_nineOmegaIn (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V 
     intro hall
     exact h.notW (le_normalizer_wClos_zero_of_forall_le hV.1 h.base.toTwoPTwoIrred.toTwoPTwo
       hall)
-  push_neg at hnotall
+  push Not at hnotall
   obtain ⟨B, hBconj, hBS, hBnR⟩ := hnotall
   rcases (nine_two_one hV hm h).2 B hBconj hBS with hBomega | hBVe
   · exact ⟨B, hBomega⟩
@@ -191,7 +191,7 @@ theorem nine_two_transitive (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : TwoPTwoIrred K
       ∃ k ∈ K, U' = conjSubgroup U k := by
   intro U hU U' hU'
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hEab : IsMulCommutative (nineE V K) := (isElemAbelian_nineE V K).1
   have hcomm_gen : ∀ k ∈ K, ∀ l ∈ K, ∀ u ∈ CFSG.Quasithin.conjSubgroup U k,
       ∀ v ∈ CFSG.Quasithin.conjSubgroup U' l, u * v = v * u := by

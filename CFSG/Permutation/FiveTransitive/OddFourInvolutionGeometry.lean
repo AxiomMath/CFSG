@@ -89,7 +89,7 @@ private theorem exists_two_disjoint_involution_pairs_of_fixed_le_three
     rw [← mul_smul, ← pow_two, hgTwo, one_smul]
   have hzExists : ∃ z ∈ M, z ≠ x ∧ z ≠ g • x := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hsub : M ⊆ ({x, g • x} : Set X) := by
       intro y hy
       by_cases hyx : y = x

@@ -304,7 +304,7 @@ theorem cxw_piBar_eq {S : Subgroup G} (hSH : S ≤ H) (hcard : Nat.card (barOf V
 theorem cxw_exists_not_mem (hc : MinCex M V Q P H) {U : Subgroup G} (hU : U ∈ omegaOf V H) :
     ∃ y ∈ U, y ∉ wOf V H := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h, hh, rfl⟩ := hU
   apply hc.not_V_le_wOf
   intro v hv
@@ -343,7 +343,7 @@ theorem cxw_holds : CXWStatement := by
     cxw_comm_le_of_mulEquiv hn hFcard e (cxwKbar hVH) hK
   obtain ⟨yV, hyVV, hyVW⟩ : ∃ y ∈ V, y ∉ wOf V H := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hc.not_V_le_wOf (fun v hv => hcon v hv)
   have hyVX : yV ∈ xOf V H := le_xOf (V_mem_omegaOf V H) hyVV
   have hdV : xToXbar hVH ⟨yV, hyVX⟩ ∈ Dy V H :=
@@ -402,7 +402,7 @@ theorem cxw_holds : CXWStatement := by
       exact Subtype.ext hcomm'
     exact cxw_comm_ne_bot_of_mulEquiv e (cxw_comm_statedSp_ne_bot hn hFcard) hcomm_bot
   ·
-    push_neg at hA
+    push Not at hA
     have hyVc : ∀ w ∈ wOf V H, w * yV = yV * w := by
       intro w hw
       calc w * yV = (w * yV * w⁻¹ * yV⁻¹) * (yV * w) := by group

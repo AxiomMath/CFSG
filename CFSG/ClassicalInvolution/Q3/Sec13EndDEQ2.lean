@@ -159,7 +159,7 @@ theorem deq2_no_quotient_split {G : Type} [Group G] [Finite G]
     have hle : 2 ^ n ≤ 192 := Nat.le_of_dvd (by norm_num) hdvd
     have hn7 : n < 8 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 2 ^ 8 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hcon
       norm_num at this
       omega
@@ -922,7 +922,7 @@ theorem exists_conj_coset_eq {f : G} (hf : f ∈ pCore 2 G) (hfN : ∀ L ∈ Ω,
   have hx₁g : g₇ • x₁ = x₁ := Subtype.ext hx₁
   have hnotfix : ∃ g : G, g * x₁.1 * g⁻¹ ≠ x₁.1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hc : x₁.1 ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]
       intro g
@@ -1529,7 +1529,7 @@ private theorem deq2_dual_eq_fh {F : G → ZMod 2} (hF : F ∈ deq2Dual Ω) (hF0
   have hc1 : ∀ c : ZMod 2, c ≠ 0 → c = 1 := by decide
   obtain ⟨x₀, hx₀⟩ : ∃ x₀, F x₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hF0 (funext fun x => hcon x)
   have hx₀D : x₀ ∈ zGroup Ω := by
     by_contra hn
@@ -1583,7 +1583,7 @@ private theorem deq2_dual_ncard : (deq2Dual Ω).ncard = 8 := by
     intro H hH hfh
     obtain ⟨x, hxD, hxH⟩ : ∃ x, x ∈ zGroup Ω ∧ x ∉ H := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hHtop : zGroup Ω ≤ H := fun x hx => hcon x hx
       have := Subgroup.card_le_of_le hHtop
       unfold IsHyp at hH
@@ -2028,7 +2028,7 @@ theorem pCore_mul_self : ∀ q ∈ pCore 2 G, q * q = 1 := by
   obtain ⟨ψ, hψ1, hψ, hadd⟩ := h.deq2_exists_psi hq
   obtain ⟨L₀, hL₀, hL₀ne⟩ : ∃ L ∈ Ω, flipVal L q ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hqD (h.mem_zGroup_of_flipVal_eq_zero hq hcon)
   obtain ⟨t, ht⟩ := h.exists_isUniqueInvolution hL₀
   have htD : t ∈ zGroup Ω := deq2_involution_mem h hL₀ ht
@@ -2304,7 +2304,7 @@ theorem exists_unique_yElt {H : Subgroup G} (hH : IsHyp Ω H) :
     intro hD
     obtain ⟨x, hxD, hxH⟩ : ∃ x ∈ zGroup Ω, x ∉ H := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hc := Subgroup.card_le_of_le (show zGroup Ω ≤ H from fun x hx => hcon x hx)
       rw [h.card_zGroup, hH.2] at hc
       omega
@@ -2365,7 +2365,7 @@ theorem exists_unique_yElt {H : Subgroup G} (hH : IsHyp Ω H) :
     h.card_inf_centralizer_of_not_mem_twinSet hK₁Ω hK₂Ω hnot hz₁
   have hA : ∃ a ∈ K₂ ⊓ Subgroup.centralizer ({x₁} : Set G), a ∉ Subgroup.zpowers x₂ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : K₂ ⊓ Subgroup.centralizer ({x₁} : Set G) ≤ Subgroup.zpowers x₂ :=
       fun a ha => hcon a ha
     have hc := Subgroup.card_le_of_le hle
@@ -3603,7 +3603,7 @@ theorem deq2_beta (lab : Subgroup G → Fin 7) (σ : G →* Equiv.Perm (Fin 7))
   have hR1 : r.toAdd = fun _ => 1 := by
     obtain ⟨i₀, hi₀⟩ : ∃ i, r.toAdd i ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hr1
       apply toAdd_eq_zero.mp
       funext i

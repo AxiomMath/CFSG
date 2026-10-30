@@ -41,7 +41,7 @@ theorem perm_centralizes_alt_eq_one {β : Type} [Fintype β] [DecidableEq β]
   by_contra hq1
   obtain ⟨x, hx⟩ : ∃ x, q x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hq1 (Equiv.ext h)
   obtain ⟨y, hyx, hyw⟩ : ∃ y : β, y ≠ x ∧ y ≠ q x := by
     have hc : ({x, q x} : Finset β).card < (Finset.univ : Finset β).card := by
@@ -91,7 +91,7 @@ theorem s4_no_eight {β : Type} [Fintype β] [DecidableEq β] (hβ : Fintype.car
     omega
   obtain ⟨t, htQ, htA⟩ : ∃ t ∈ Q, t ∉ alternatingGroup β := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Q ≤ alternatingGroup β := fun u hu => h u hu
     have hdvd := Subgroup.card_dvd_of_le hle
     rw [hQ, hA] at hdvd
@@ -773,7 +773,7 @@ theorem core_card_le_four {H₀ : Subgroup (Equiv.Perm α)} (hA : alternatingGro
     exact h.symm
   obtain ⟨x0, hx0⟩ : ∃ x0, σ x0 ≠ x0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hσ1 (Equiv.ext fun x => hcon x)
   have hlt : Fintype.card {x : α // σ x = x} < Fintype.card α :=
     Fintype.card_subtype_lt (p := fun x => σ x = x) hx0
@@ -798,7 +798,7 @@ theorem core_card_le_four {H₀ : Subgroup (Equiv.Perm α)} (hA : alternatingGro
       have : Nat.card Q ∣ 8 * 3 := by norm_num; exact hdvd
       exact Nat.Coprime.dvd_of_dvd_mul_right h3Q.symm this
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     have hle : Nat.card Q ≤ 8 := Nat.le_of_dvd (by norm_num) h8
     have heq : Nat.card Q = 8 := by
       obtain ⟨m, hm⟩ : ∃ m, Nat.card Q = m := ⟨_, rfl⟩

@@ -30,7 +30,7 @@ theorem mainAlg166_holds : MainAlg166 := by
   by_cases hno : ∀ s t : Γ, s ^ 2 = 1 → t ^ 2 = 1 → s ≠ 1 → t ≠ 1 → s * t = t * s → s = t
   · exact apply_eq_self_of_noKlein hp hp5 hperf hno σ hinv π hπ hT hker3 hkerS hd3 hdZ hIperf
       hIA5 hI2 hId hv
-  · push_neg at hno
+  · push Not at hno
     obtain ⟨s, t, hs, ht, hs1, ht1, hst, hne⟩ := hno
     have hst2 : (s * t) ^ 2 = 1 := by
       rw [(show Commute s t from hst).mul_pow, hs, ht, one_mul]

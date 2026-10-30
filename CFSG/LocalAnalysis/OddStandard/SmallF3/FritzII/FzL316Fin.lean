@@ -29,7 +29,7 @@ theorem fzl_316_of_str {t tau lam rho : G} {Z E W Q R T : Subgroup G}
       h.E_equiv with h1 | ⟨h2, h3, h4⟩
     · exact h1
     · exact absurd (fzl_canon_of_Z8 h hPf ⟨hcomm, h2, h3, h4⟩) hnc
-  · push_neg at hna
+  · push Not at hna
     exact fzl_316_nonab h hPf hna
 
 end CFSG.OddStandard.SmallF3.FritzII

@@ -20,7 +20,7 @@ theorem sec8_exists_Z0_not_Q (h51 : Stroth51Statement) (hA : Sec8AExistsStatemen
     (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : ∃ s ∈ Z0, s ∉ Q := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre hs.toSec5.mem hZ0
   have hcard := sec86ZCard_of_51 h51 hA G M Q Z B hc n t hs Z0 hZ0
   have heq : Z0 = Q := le_antisymm h hQZ0

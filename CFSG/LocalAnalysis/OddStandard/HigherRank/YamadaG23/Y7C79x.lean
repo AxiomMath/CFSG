@@ -133,7 +133,7 @@ theorem y7c_exists_order7 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s
 theorem y7c_order7_not_cent {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {x : G}
     (hx : x ∈ JF s) (hx7 : x ^ 7 = 1) (hx1 : x ≠ 1) : ∃ f ∈ s.fr.F, x * f * x⁻¹ ≠ f := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hxL : x ∈ L := y7c_JF_le_L s hx
   have h1 : ∀ f ∈ s.fr.F, x * f = f * x := by
     intro f hf

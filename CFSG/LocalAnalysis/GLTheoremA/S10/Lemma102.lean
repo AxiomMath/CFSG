@@ -2580,7 +2580,7 @@ theorem lemma102_easy_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgr
     exact hf1 i
   have hPne : ∃ l : ↥L, P l ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcommL0 : ∀ l m : ↥L, Commute (f 0 l) (f 0 m) := by
       intro l m
       obtain ⟨R, hPR, -, hRc⟩ := hdec l
@@ -3249,7 +3249,7 @@ theorem lemma102_step (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : 
   have hrle := r2_le_card2 p B L
   by_cases hbig : card2 p L' ≤ r2 p B' L'
   · exact hrle.trans (hcard.trans hbig)
-  push_neg at hbig
+  push Not at hbig
   obtain ⟨b0, hb0, hp0⟩ := exists_r2prop_of_lt hbig
   obtain ⟨b, hbB', hbprop, hbx⟩ : ∃ b ∈ B', R2Prop p b L' ∧ (R2Prop p x L' → b = x) := by
     by_cases hx : R2Prop p x L'

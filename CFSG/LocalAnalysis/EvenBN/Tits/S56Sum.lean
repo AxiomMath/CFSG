@@ -32,7 +32,7 @@ theorem exists_conj_comm_of_five {E : Subgroup G} {x v z : G}
     (hv : ∀ e ∈ E, v * e * v⁻¹ = e ∨ v * e * v⁻¹ = z * e) {e : G} (he : e ∈ E) :
     ∃ i : ℕ, i < 5 ∧ v * ((x ^ i)⁻¹ * e * x ^ i) = ((x ^ i)⁻¹ * e * x ^ i) * v := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨f, hf⟩ : ∃ f : ℕ → G, ∀ i, f i = (x ^ i)⁻¹ * e * x ^ i := ⟨_, fun _ => rfl⟩
   have hfE : ∀ i, f i ∈ E := by
     intro i

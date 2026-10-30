@@ -335,7 +335,7 @@ theorem l02qq2spb_symp_excl {G : Type} [Group G] {d n₁ : ℕ} (hd : 3 ≤ d)
     by_cases hn1' : n₁ = 1
     · subst hn1'
       have hf2 : 2 ≤ f := by
-        by_contra hlt; push_neg at hlt
+        by_contra hlt; push Not at hlt
         have hf1' : f = 1 := by omega
         rw [hf1', pow_one] at hKf
         exact h1s ⟨rfl, hKf⟩
@@ -367,7 +367,7 @@ theorem l02qq2spb_symp_excl {G : Type} [Group G] {d n₁ : ℕ} (hd : 3 ≤ d)
         ggHasLabel_typeB hKf eX
       have hB_lambda : LargeEvenInLambda2 (⟨.B, n₁, f⟩ : LargeEvenLabel) :=
         largeEvenInLambda2_typeB hf1 hn2 (fun h => by
-          by_contra hlt; push_neg at hlt
+          by_contra hlt; push Not at hlt
           have hf1' : f = 1 := by omega
           rw [hf1', pow_one] at hKf
           exact h42 ⟨h, hKf⟩)
@@ -453,7 +453,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
           (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
           (by rw [hcard]; norm_num))).elim
     · have hfU2 : 2 ≤ fU := by
-        by_contra hlt; push_neg at hlt
+        by_contra hlt; push Not at hlt
         interval_cases fU
         · rw [pow_zero] at hQ2
           have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -529,7 +529,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
         rw [hm3', hQ2'']
         exact CFSG.Quasithin.isSolvable_statedSU_one (F := E) (by rw [hEcard, hQ2'']; norm_num))).elim
     · have hfU1 : 1 ≤ fU := by
-        by_contra hf0; push_neg at hf0
+        by_contra hf0; push Not at hf0
         have h0 : fU = 0 := by omega
         rw [h0, pow_zero] at hQ2
         have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -560,7 +560,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
           change m - 1 = 2 at h
           have hm3' : m = 3 := by omega
           subst hm3'
-          by_contra hlt; push_neg at hlt
+          by_contra hlt; push Not at hlt
           have hfU1' : fU = 1 := by omega
           rw [hfU1'] at hQ2
           exact h32 ⟨rfl, hQ2⟩)

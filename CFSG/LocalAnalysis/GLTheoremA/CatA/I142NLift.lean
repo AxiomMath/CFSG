@@ -231,7 +231,7 @@ theorem isQuasisimple_of_commutator_map {π : G →* H}
   haveI hnt : Nontrivial (K ⧸ Subgroup.center K) := by
     obtain ⟨g, hg⟩ : ∃ g : K, g ∉ Subgroup.center K := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hZne (eq_top_iff.2 fun g _ => hcon g)
     exact ⟨⟨QuotientGroup.mk g, 1, fun h => hg ((QuotientGroup.eq_one_iff g).1 h)⟩⟩
   refine ⟨hKcomm, isSimpleGroup_mod_center hnt ?_⟩

@@ -139,7 +139,7 @@ private theorem g12h_exists_pair {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     {B : LinearMap.BilinForm (ZMod 2) V} (h : IsSymplectic B) {w b : V}
     (hbn : b ∉ Submodule.span (ZMod 2) {w}) : ∃ a, B w a = 0 ∧ B b a = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hbn
   have hmem : b ∈ B.orthogonal (perp B w) := by
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -154,7 +154,7 @@ private theorem g12h_perp_exists {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (hd : 4 ≤ Module.finrank (ZMod 2) V) :
     ∃ b, B w b = 0 ∧ b ∉ Submodule.span (ZMod 2) {w} := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : perp B w ≤ Submodule.span (ZMod 2) {w} :=
     fun b hb => hcon b (mem_perp_iff.1 hb)
   have h1 := Submodule.finrank_mono hle
@@ -701,7 +701,7 @@ private theorem g12h2_card {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
   have hnonf : ¬ QFaithfulOnW B G v → radE B v 0 1 ∈ Qv B G v := by
     intro hnf
     unfold QFaithfulOnW at hnf
-    push_neg at hnf
+    push Not at hnf
     obtain ⟨x, hx, hfix, hx1⟩ := hnf
     rcases hsmall x hx hfix with h1 | h1
     · exact absurd h1 hx1
@@ -861,7 +861,7 @@ theorem as_G_12_3 : G_12_3 := by
         exact g12h_top h.symp h.le_sp h.dim h.u_mem hJu hvJ hvu y
   · have key : ∃ a, B u a = 0 ∧ radE B u a 1 ∈ G := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h0 : ∀ a, B u a = 0 → radE B u a 0 ∈ G := by
         intro a ha
         obtain ⟨c, hc⟩ := ((isStarVec_iff_rad h.symp h.le_sp).1 h.u_mem).2 a ha
@@ -903,7 +903,7 @@ theorem as_G_12_4 : G_12_4 := by
   by_contra hnt
   have hnt' : ∃ x, x ≠ 0 ∧ x ∉ orbitSet G v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnt
     intro x y hx hy
     obtain ⟨g1, hg1, hg1x⟩ := hcon x hx
@@ -948,7 +948,7 @@ theorem as_G_12_5 : G_12_5 := by
   have huv : B u v = 1 := (g12_eq_zero_or_one (B u v)).resolve_left h.uv
   have hv0 : v ≠ 0 := h.v_mem.1
   unfold QFaithfulOnW at hnf
-  push_neg at hnf
+  push Not at hnf
   obtain ⟨x, hx, hfix, hne⟩ := hnf
   obtain ⟨a, c, hva, rfl⟩ := g12h_qv_rep h.symp h.le_sp h.v_mem hx
   have hBa : ∀ w ∈ perp B v, B w a = 0 := by

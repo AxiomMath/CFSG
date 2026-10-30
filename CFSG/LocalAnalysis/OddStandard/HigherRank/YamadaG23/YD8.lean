@@ -168,7 +168,7 @@ private theorem d8_subset_Q_or_Q' {C : Subgroup G} {t d : G} (hC : C = closure {
   have hzd : z * d = d * z := hbasic.2.2
   have htd : d * t ≠ t * d := fun h => d8_not_commute hC hD h.symm
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hnotQ, hnotQ'⟩ := h
   rw [SetLike.not_le_iff_exists] at hnotQ hnotQ'
   obtain ⟨w, hwE, hwQ⟩ := hnotQ

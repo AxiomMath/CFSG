@@ -109,7 +109,7 @@ theorem MoveFrame.Y_inf_Nb (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
   by_contra ha₁1
   obtain ⟨a₀, ha₀, hy₀⟩ : ∃ a₀ ∈ V, h * a₀ * h⁻¹ ∉ Nb := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hN hc
   have ha₀1 : a₀ ≠ 1 := by
     rintro rfl
@@ -118,7 +118,7 @@ theorem MoveFrame.Y_inf_Nb (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
   have hy₀Rb : h * a₀ * h⁻¹ ∈ Rb := F.Y_le_Rb h hK hN a₀ ha₀
   obtain ⟨w₀, hw₀, hw₀ne⟩ : ∃ w ∈ Tt 1, φ (h * a₀ * h⁻¹) w ≠ w := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hy₀ (F.Rb_fix_Nb _ hy₀Rb hc)
   obtain ⟨a, ha, ha1⟩ := F.exists_ne_one
   rw [← F.range_opm_V ha ha1] at hw₀

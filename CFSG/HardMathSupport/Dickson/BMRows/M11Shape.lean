@@ -28,7 +28,7 @@ section Bound
 theorem m12K_noncomm : ∃ a b : m12K, a * b ≠ b * a := by
   have := isSimpleGroup_m12K
   by_contra hc
-  push_neg at hc
+  push Not at hc
   letI : CommGroup m12K := { (inferInstance : Group m12K) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := m12K)
   rw [card_m12K] at hp

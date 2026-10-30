@@ -70,7 +70,7 @@ theorem raise_SL (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
   have hN0 : ∃ k, ∃ v ∈ fixFlag (natRep (StatedSL n F)) Q k, N v ≠ 0 := by
     obtain ⟨m, hm⟩ := exists_fixFlag_eq_top (natRep (StatedSL n F)) 2 Q hQ
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx1
     apply natRep_injective (StatedSL n F)
     apply LinearMap.ext

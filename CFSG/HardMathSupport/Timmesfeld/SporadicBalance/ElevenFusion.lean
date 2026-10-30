@@ -207,7 +207,7 @@ theorem card_epsSubgroup [Finite G] (hx1 : x ≠ 1) (hyx : ∀ k : ℕ, y ≠ x 
   rw [Nat.card_zpowers, orderOf_eq_prime hx hx1, hm] at hlt
   have hm1 : 2 ≤ m := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     interval_cases m <;> norm_num at hlt
   rw [hm, show m = 2 by omega]
 

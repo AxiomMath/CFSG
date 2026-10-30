@@ -190,7 +190,7 @@ theorem finrank_le_two_of_sigmaThree {V : Type*} [AddCommGroup V] [Module (ZMod 
       rw [hzero]
       omega
   ·
-    push_neg at hfix
+    push Not at hfix
     have hno : ∀ v, R v = v → v = 0 := by
       intro v hv
       by_contra hne

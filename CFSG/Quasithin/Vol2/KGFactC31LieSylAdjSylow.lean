@@ -236,7 +236,7 @@ theorem sylow_hN {τ : Tag} (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4)
     intro β
     obtain ⟨i0, hi0⟩ : ∃ i0, wt τ 11 β.1 i0 ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact wt_ne_zero hτ β.2 (funext h)
     refine ⟨Pi.single i0 1, ?_⟩
     rw [hchi_root]

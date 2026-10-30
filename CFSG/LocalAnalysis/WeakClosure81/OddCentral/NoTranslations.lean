@@ -237,7 +237,7 @@ theorem false_of_moving_translations {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Na
     have hex : ∃ B : Subgroup A, B.index = r ∧
         ∃ x ∈ CFSG.SolvableSignalizer.fixedBySubgroup α B, x ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : (⨆ (B : Subgroup A) (_ : B.index = r),
           CFSG.SolvableSignalizer.fixedBySubgroup α B) ≤ ⊥ :=
         iSup₂_le fun B hB x hx => (Subgroup.mem_bot).mpr (hcon B hB x hx)

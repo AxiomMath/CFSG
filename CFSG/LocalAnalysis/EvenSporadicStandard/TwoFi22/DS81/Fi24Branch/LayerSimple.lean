@@ -54,7 +54,7 @@ theorem exists_unique_component (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pC
     exact ⟨hYn y hy m hm.1, hYcomp K hK y hy m hm.2⟩
   have hbig : ∃ K : Subgroup B, CFSG.IsComponent K ∧ 2 ^ 7 < Nat.card ↥(Rb ⊓ K) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcent : Rb ≤ centralizer (Yb : Set B) := by
       refine (Rb_le_iSup_inf_component hodd h2 hR).trans ?_
       refine iSup_le fun K => ?_

@@ -523,7 +523,7 @@ theorem lemma94_aux (hc : S9Ctx G 3) (hin : Lemma94Inputs G) {B : Subgroup G} {x
   have hodd : Odd (Nat.card (GLAPPrimeCoreOf 3 (cx x))) := odd_core_of_not_isGB hc hin.l93 h hnoGB
   have hinner : ∀ b ∈ B, InducesInnerMod 3 L b := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨b, hbB, hb⟩ := hcon
     exact hb (hin.i117 B x L h.bmax hess hX h.comp h.norm (hOut b (h.norm hbB) (h.bmax.1.2 b hbB) hb) b hbB)
   have hdir := decomp_of_inner hc h hess hodd hZ hinner (hin.hy L hL4 hZ)

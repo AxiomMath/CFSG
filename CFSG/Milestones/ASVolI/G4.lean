@@ -325,7 +325,7 @@ private lemma g4_core_trivial {F V : Type} [Field F] [AddCommGroup V] [Module F 
   have hcount := IsPGroup.card_modEq_card_fixedPoints (α := V) hP2
   have hex : ∃ v : V, v ≠ 0 ∧ ∀ h ∈ P, h v = v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hfix : MulAction.fixedPoints ↥P V = {0} := by
       ext v
       rw [Set.mem_singleton_iff]
@@ -457,7 +457,7 @@ theorem as_G_4_3 : G_4_3 := by
     exact g4_core_trivial G₀ hirr heven _ hP2 hPG
   refine ⟨hcl1, hcl2, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsq := g4_sq_eq_one_of_comm (transvSet G₀)
     (fun d hd => g4_transv_mul_self d (g4_mem_transvSet.mp hd).2) hcon
   have hP2 : IsPGroup 2 (transvGen G₀) := fun x =>

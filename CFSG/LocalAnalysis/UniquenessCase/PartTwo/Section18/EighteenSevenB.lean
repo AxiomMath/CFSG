@@ -137,7 +137,7 @@ theorem eighteen_one_four_max (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     (TwelveTwentyTwo.isPGroup_T D).to_le (E3.wClos_le 0 D.T)
   have hex : ∃ H ∈ Δ, ¬ H ≤ normalizer (E3.wClos V 0 D.T : Set G) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hN0 (uc22p22p_le_of_uniqueMax hΔU ⟨E3.wClos V 0 D.T, hW0, hW02, rfl⟩
       (iSup₂_le fun H hH => hc H hH))
   obtain ⟨H, hH, hHN⟩ := hex

@@ -151,7 +151,7 @@ theorem exists_plane_eq (hB : BorelDataP p P M x f W) {U : Subgroup G} (hUP : U 
   have hxo : orderOf x = p := orderOf_eq_prime hB.x_pow hB.x_ne_one
   obtain ⟨y, hyU, hyx⟩ : ∃ y ∈ U, y ∉ zpowers x := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have h1 : Nat.card U ≤ Nat.card (zpowers x) := Subgroup.card_le_of_le (fun y hy => hall y hy)
     rw [Nat.card_zpowers, hxo, hUc] at h1
     nlinarith [hB.five_le]

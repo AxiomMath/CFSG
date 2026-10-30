@@ -23,7 +23,7 @@ theorem l514c_center_eq_bot_of_two_trans {G Ω : Type*} [Group G] [Finite Ω] (r
   have hne' : rho z a ≠ a := fun h => hne (by simpa using h)
   obtain ⟨c, hca, hcz⟩ : ∃ c : Ω, c ≠ a ∧ c ≠ rho z a := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have := Fintype.ofFinite Ω
     have hsub : (Finset.univ : Finset Ω) ⊆ {a, rho z a} := fun c _ => by
       by_cases hc : c = a

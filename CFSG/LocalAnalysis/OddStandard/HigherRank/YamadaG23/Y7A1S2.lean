@@ -33,7 +33,7 @@ private lemma y7a_mem_z_of_sq_one (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) 
     · rcases h1 with h1 | h1
       · rw [h1]; exact Subgroup.one_mem _
       · rw [h1]; exact Subgroup.mem_zpowers z
-    · push_neg at h1
+    · push Not at h1
       exact absurd ((hneq h1.1 h1.2).symm.trans ha1) h.cfg.z_ne
   rcases hUW with hU | hW
   · exact key (y6q8_sq_U h.cfg.rel a hU).2

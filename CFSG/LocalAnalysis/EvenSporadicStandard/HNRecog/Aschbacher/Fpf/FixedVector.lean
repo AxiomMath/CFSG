@@ -156,7 +156,7 @@ theorem exists_fixed_vector (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 : finr
     simpa [Module.End.mul_apply] using hu
   have hex : ∃ i : ℕ, (i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4) ∧ LinearMap.ker (β - α ^ i) ≠ ⊥ := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hT : LinearMap.ker T = ⊥ := by
       dsimp [T]
       exact hker_mul (hker_mul (hker_mul (hker_mul hβker (h 1 (by simp))) (h 2 (by simp)))

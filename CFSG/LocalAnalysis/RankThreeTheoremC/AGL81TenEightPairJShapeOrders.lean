@@ -26,7 +26,7 @@ theorem pairJ_factorial_div_two_ne {n N : ℕ} (hn : IsPairJOrder n) (hN : 6 ≤
     rcases hn with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
   have hN14 : N < 14 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : Nat.factorial 14 ≤ Nat.factorial N := Nat.factorial_le hc
     have h2 : Nat.factorial 14 = 87178291200 := by norm_num [Nat.factorial]
     omega
@@ -44,7 +44,7 @@ theorem pairJ_not_charTwoShape {n : ℕ} (hn : n = 5616 ∨ n = 126000 ∨ n = 1
     · exact h0
   have hv : v < 32 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : 2 ^ 32 ≤ 2 ^ v := Nat.pow_le_pow_right (by norm_num) hc
     have h2 : 2 ^ v ≤ n := by rw [h]; exact Nat.le_mul_of_pos_right _ hM0
     rcases hn with rfl | rfl | rfl | rfl <;> omega
@@ -168,7 +168,7 @@ theorem pairJ_clauses
         U42Facts Y) := by
   refine ⟨⟨hs, ?_⟩, ?_, pairJ_orthogonal_clause hB hn hY, h4⟩
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     letI : CommGroup Y := { (inferInstance : Group Y) with mul_comm := hc }
     have hp : (Nat.card Y).Prime := IsSimpleGroup.prime_card
     rw [hY] at hp

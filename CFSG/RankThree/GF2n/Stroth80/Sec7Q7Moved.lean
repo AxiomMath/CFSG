@@ -265,7 +265,7 @@ theorem submodule_le_perp_or_eq_top {ι : Type} [Fintype ι] [DecidableEq ι] {K
   by_cases hperp : ∀ s ∈ S, polar Q' s u = 0
   · exact Or.inl hperp
   right
-  push_neg at hperp
+  push Not at hperp
   obtain ⟨s, hsS, hsu⟩ := hperp
   have key : ∀ w : ι → K, polar Q' u w = 0 →
       polar Q' s u • w - (polar Q' s w + Q' w * polar Q' s u) • u ∈ S := by

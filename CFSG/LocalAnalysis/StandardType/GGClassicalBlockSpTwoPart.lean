@@ -1150,7 +1150,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
         hPcomm hPorth hPsum l
       have hex : ∃ ε ∈ P, eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         rw [hsum] at hd
         exact hd (Finset.sum_eq_zero fun ε hε => h ε hε)
       obtain ⟨ε, hεP, hεne⟩ := hex
@@ -1229,7 +1229,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
       by_cases h0 : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) a ≠ 0
       · exact ⟨_, hspec.1, hspec.2.1, h0⟩
-      · push_neg at h0
+      · push Not at h0
         refine ⟨formAdj (RingHom.id K) (ggJSt1_G K n)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)), heAdj, ?_, ?_⟩
         · have hεadj : formAdj (RingHom.id K) (ggJSt1_G K n) ε = ε := (hPprim ε hε).2.2.2.1
@@ -1529,7 +1529,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
         hPcomm hPorth hPsum l
       have hex : ∃ ε ∈ P, eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         rw [hsum] at hd
         exact hd (Finset.sum_eq_zero fun ε hε => h ε hε)
       obtain ⟨ε, hεP, hεne⟩ := hex
@@ -1608,7 +1608,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       by_cases h0 : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) a ≠ 0
       · exact ⟨_, hspec.1, hspec.2.1, h0⟩
-      · push_neg at h0
+      · push Not at h0
         refine ⟨formAdj (RingHom.id K) (ggJSt1_G K n)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)), heAdj, ?_, ?_⟩
         · have hεadj : formAdj (RingHom.id K) (ggJSt1_G K n) ε = ε := (hPprim ε hε).2.2.2.1
@@ -1737,7 +1737,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       · exact h
     have hle : mOf ε ≤ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h2 : 2 ≤ mOf ε * (mOf ε - 1) := by
         have h1' : 1 ≤ mOf ε - 1 := by omega
         calc 2 = 2 * 1 := by norm_num

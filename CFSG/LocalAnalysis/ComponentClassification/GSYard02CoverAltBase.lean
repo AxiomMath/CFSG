@@ -168,7 +168,7 @@ theorem exists_pair_of_isKleinFour {G : Type*} [Group G] (Y : Subgroup G) (hY : 
     (Nat.card_coe_set_eq (Y : Set G)).symm.trans hY.card_four
   obtain ⟨a, ha, ha1⟩ : ∃ a ∈ Y, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Y : Set G) ⊆ ({1} : Set G) := fun x hx =>
       Set.mem_singleton_iff.mpr (hcon x hx)
     have h1 := Set.ncard_le_ncard hsub
@@ -176,7 +176,7 @@ theorem exists_pair_of_isKleinFour {G : Type*} [Group G] (Y : Subgroup G) (hY : 
     omega
   obtain ⟨b, hb, hb1, hba⟩ : ∃ b ∈ Y, b ≠ 1 ∧ b ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Y : Set G) ⊆ ({1, a} : Set G) := by
       intro x hx
       by_cases hx1 : x = 1

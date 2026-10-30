@@ -354,7 +354,7 @@ theorem false_of_irreducible_threePrime {G : Subgroup (GL (Fin 3) (ZMod 3))}
       (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ v ≠ c • v := by
     intro v hv
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinv : ∀ g ∈ G, ∀ w ∈ Submodule.span (ZMod 3) {v},
         (g : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ w ∈ Submodule.span (ZMod 3) {v} := by
       intro g hg w hw

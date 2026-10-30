@@ -17,7 +17,7 @@ theorem sylow_rank_cases {G : Type} [Group G] [Finite G] (D : Subgroup G) (S : S
       ∃ r : ℕ, 3 ≤ r ∧ Nonempty (↥(S : Subgroup ↥D) ≃* QuaternionGroup (2 ^ (r - 2))) := by
   by_cases h : 2 ≤ CFSG.Open.pRank 2 D
   · exact Or.inl h
-  · push_neg at h
+  · push Not at h
     have hD : CFSG.Open.pRank 2 D ≤ 1 := by omega
     have hS : CFSG.Open.pRank 2 (S : Subgroup ↥D) ≤ 1 := by
       have h1 : CFSG.Open.pRank 2 (S : Subgroup ↥D) ≤

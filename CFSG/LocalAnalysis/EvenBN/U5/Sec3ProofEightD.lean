@@ -591,7 +591,7 @@ theorem s38d_V_le (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
 theorem s38d_exists_involution_N₂ (hd : d.Hyp) : ∃ x ∈ d.N₂, x ≠ 1 ∧ x * x = 1 := by
   obtain ⟨hinf, -⟩ := d.isSylowOf_N₂_inf_P
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hcl := d.closure_involutions_CPI₂.1
   have hsub : {x | x ∈ d.CPI₂ ∧ x * x = 1} ⊆ {1} := by
     rintro x ⟨hx, hx2⟩

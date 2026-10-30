@@ -457,7 +457,7 @@ theorem conjSub_mem_twinSet {K : Subgroup G} (hK : K ∈ Ω) {d : G} (hd : d ∈
 theorem exists_swap {K : Subgroup G} (hK : K ∈ Ω) :
     ∃ J ∈ Ω, ∃ s : G, IsUniqueInvolution J s ∧ conjSub s K ≠ K := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : zGroup Ω ≤ eGroup Ω K := by
     unfold zGroup
     refine (Subgroup.closure_le _).mpr ?_
@@ -621,7 +621,7 @@ theorem relIndex_inf_normalizer {K : Subgroup G} (hK : K ∈ Ω) :
   rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and]
   refine ⟨s, hsD, fun h => hsN (Subgroup.mem_inf.mp h).2, fun b hb => ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hbs, hbN⟩ := hcon
   have hbsD : b * s ∈ zGroup Ω := (zGroup Ω).mul_mem hb hsD
   have hbN' : b ∉ Subgroup.normalizer (K : Set G) := fun h => hbN (Subgroup.mem_inf.mpr ⟨hb, h⟩)

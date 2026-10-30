@@ -69,7 +69,7 @@ theorem transvection_congr {F : Type*} [Field F] {p : ℕ} {a b a' b' : Fin p} (
 theorem exists_ne_ne {p : ℕ} (hp3 : 3 ≤ p) (i j : Fin p) :
     ∃ k : Fin p, k ≠ i ∧ k ≠ j := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Finset.univ : Finset (Fin p)) ⊆ {i, j} := by
     intro k _
     by_cases hk : k = i

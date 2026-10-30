@@ -104,7 +104,7 @@ private lemma exists_two_support {v : Fin 5 → ZMod 2} (hv : IsEvenVec v) (hv0 
     ∃ i j : Fin 5, i ≠ j ∧ v i ≠ 0 ∧ v j ≠ 0 := by
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv0 (funext fun i => by simpa using h i)
   refine ⟨i, ?_⟩
   by_contra h
@@ -199,12 +199,12 @@ theorem even_mem_closure_orbit {v w : Fin 5 → ZMod 2} (hv : IsEvenVec v) (hv0 
       exact ihx
   have hjnz : ∃ j, v j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv0 (funext fun j => by simpa using h j)
   obtain ⟨j, hj⟩ := hjnz
   have hkz : ∃ k, v k = 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : ∀ i : Fin 5, v i = 1 := fun i => zmod2_eq_one_of_ne_zero (h i)
     have hsum : (∑ i : Fin 5, v i) = 1 := by
       rw [Finset.sum_congr rfl (fun i _ => h1 i)]

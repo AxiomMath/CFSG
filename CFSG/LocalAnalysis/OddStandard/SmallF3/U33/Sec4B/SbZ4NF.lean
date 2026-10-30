@@ -290,7 +290,7 @@ section
 
 theorem W_pow_four : ∀ w ∈ ctxWN t tau x₁ x₂ rho, w ^ 4 = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨w, hwmem, hw4⟩ := h
   have hz := hw.toCtx4Z
   obtain ⟨w₁, hw₁, h4⟩ := hw.exists_pow_four_y ⟨w, hwmem, hw4⟩

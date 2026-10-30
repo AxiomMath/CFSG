@@ -125,7 +125,7 @@ theorem spor_threeB {w : W} (hw : orderOf w = 3)
   have hg2 : Nat.gcd 2 (s - 1) ≤ 2 := Nat.le_of_dvd (by norm_num) (Nat.gcd_dvd_left _ _)
   have hs10 : s ≤ 10 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : 11 * (11 ^ 2 - 1) ≤ s * (s ^ 2 - 1) :=
       Nat.mul_le_mul h (Nat.sub_le_sub_right (Nat.pow_le_pow_left h 2) 1)
     have h2 : s * (s ^ 2 - 1) ≤ 504 * 2 := by

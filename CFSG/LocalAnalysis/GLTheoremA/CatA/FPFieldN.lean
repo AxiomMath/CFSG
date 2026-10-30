@@ -298,7 +298,7 @@ theorem fieldNAt_marking {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup 
     exact dvd_n_of_dvd_fieldDeg hp hp2 h3 this
   · exfalso
     obtain ⟨ht, hp3⟩ : lab.tag = .triD4 ∧ p = 3 := by
-      push_neg at hne
+      push Not at hne
       exact hne
     subst hp3
     obtain ⟨tg, rk, nn⟩ := lab

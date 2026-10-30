@@ -53,7 +53,7 @@ theorem q14_exists_fixed_coset {rho w : G} {N : Subgroup G} (hρ : rho ^ 3 = 1)
     ∃ x : G, x * w⁻¹ ∈ N ∧ rho * x * rho⁻¹ = x := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   let Ω : Set G := {x : G | x * w⁻¹ ∈ N}
   have hΩ : ∀ x ∈ Ω, rho * x * rho⁻¹ ∈ Ω := by
     intro x hx

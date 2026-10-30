@@ -50,7 +50,7 @@ theorem Setup.exists_order_five_not_centralizing (X : Setup Γ G)
   have hxGi : (x : G) ∈ X.Gi i := X.L_le_Gi i hxL
   have hex : ∃ q ∈ X.Q i, (x : G) * q * (x : G)⁻¹ ≠ q := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hxCent : (x : G) ∈ Subgroup.centralizer (X.Q i : Set G) := by
       rw [Subgroup.mem_centralizer_iff]
       intro q hq

@@ -53,15 +53,15 @@ open FactF0Proof in
 theorem factF0_holds : FactF0 := by
   intro I _ _ _ c hc
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨h0, h1⟩ := hne
   obtain ⟨v, hv⟩ : ∃ v, c v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h0 (LinearMap.ext fun x => h x)
   obtain ⟨w, hw⟩ : ∃ w, c w ≠ w := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h1 (LinearMap.ext fun x => h x)
   have hcv : c v = v := (eq_zero_or_self_of_commute c hc v).resolve_left hv
   have hw0 : c w = 0 := (eq_zero_or_self_of_commute c hc w).resolve_right hw

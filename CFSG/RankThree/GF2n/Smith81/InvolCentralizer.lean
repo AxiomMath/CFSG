@@ -62,7 +62,7 @@ theorem involIndepTriple {V : Type} [AddCommGroup V] [Module K V] {w p r : V} (h
 theorem involExists_mulVec_ne_zero {N : Matrix (Fin 4) (Fin 4) K} (hN : N ≠ 0) :
     ∃ x : Fin 4 → K, N *ᵥ x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hN
   ext i j
   have := congrFun (h (Pi.single j 1)) i
@@ -110,7 +110,7 @@ theorem involNormalForm {N : Matrix (Fin 4) (Fin 4) K} (hNN : N * N = 0) (hN : N
     refine ⟨involOfCols ![w, v, x, y], hunit, Or.inr (key _ _ fun j => ?_)⟩
     fin_cases j <;> simp [involNilTwo, hxw, hyv, hw2, hv2, Fin.sum_univ_four]
   ·
-    push_neg at hB
+    push Not at hB
     have hrange : LinearMap.range (Matrix.mulVecLin N) = Submodule.span K {w} := by
       apply le_antisymm
       · rintro _ ⟨y, rfl⟩

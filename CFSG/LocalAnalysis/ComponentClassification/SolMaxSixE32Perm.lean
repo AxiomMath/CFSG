@@ -163,7 +163,7 @@ private theorem map_σ₀ {π : Perm (Fin 9)} (hπ : π * σ₀ = σ₀ * π) (a
 private theorem lt_six_of_lt_six {π : Perm (Fin 9)} (hπ : π * σ₀ = σ₀ * π) {a : Fin 9}
     (ha : a.val < 6) : (π a).val < 6 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h1 : σ₀ (π a) = π a := σ₀_eq_self _ h
   have h2 : π (σ₀ a) = π a := by rw [map_σ₀ hπ, h1]
   exact σ₀_ne_self a ha (π.injective h2)
@@ -175,7 +175,7 @@ private theorem lt_six_inv {π : Perm (Fin 9)} (hπ : π * σ₀ = σ₀ * π) {
 private theorem six_le_of_six_le {π : Perm (Fin 9)} (hπ : π * σ₀ = σ₀ * π) {a : Fin 9}
     (ha : 6 ≤ a.val) : 6 ≤ (π a).val := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h1 := lt_six_inv hπ h
   have h2 : π⁻¹ (π a) = a := by simp
   rw [h2] at h1
@@ -305,7 +305,7 @@ theorem Stab6_alt_pow_three {τ : Perm (Fin 9)} (hτ : τ ∈ Stab6)
   have hge : ∀ x : Fin 9, 6 ≤ x.val → 6 ≤ (τ x).val := by
     intro x hx
     by_contra h
-    push_neg at h
+    push Not at h
     have h2 : τ x = x := τ.injective (hlow _ h)
     rw [h2] at h
     omega

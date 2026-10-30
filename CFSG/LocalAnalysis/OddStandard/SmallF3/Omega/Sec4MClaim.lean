@@ -27,7 +27,7 @@ theorem sec4M_perm_trichotomy {α : Type} [DecidableEq α] (σ : Equiv.Perm α) 
     ext x
     exact hfix x
   · right
-    push_neg at hfix
+    push Not at hfix
     obtain ⟨x, hx⟩ := hfix
     by_cases hmove : ∀ y : α, σ y ≠ y → y = x ∨ y = σ x
     · left
@@ -46,7 +46,7 @@ theorem sec4M_perm_trichotomy {α : Type} [DecidableEq α] (σ : Equiv.Perm α) 
         · rw [h, Equiv.swap_apply_left]
         · rw [h, hσσ x, Equiv.swap_apply_right]
     · right
-      push_neg at hmove
+      push Not at hmove
       obtain ⟨y, hy, hyx, hyσx⟩ := hmove
       exact ⟨x, y, hx, hy, hyx, hyσx⟩
 

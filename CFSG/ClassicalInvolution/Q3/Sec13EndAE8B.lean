@@ -23,7 +23,7 @@ variable {Ω : Set (Subgroup G)} {u : G}
 private theorem ae8b1_exists_avoid {n : ℕ} (s : Finset (Fin n)) (hs : s.card < n) :
     ∃ j : Fin n, j ∉ s := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Finset.univ : Finset (Fin n)) ⊆ s := fun j _ => h j
   have := Finset.card_le_card hsub
   simp only [Finset.card_univ, Fintype.card_fin] at this
@@ -1608,7 +1608,7 @@ theorem ae8b2_card_ge (H : End18.Hyp Ω) : 64 ≤ Nat.card ↥(zGroup Ω) := by
   have hKs : conjSub s K ∈ twinSet Ω K := H.conjSub_mem_twinSet hK hs
   obtain ⟨K₃, hK₃T, hK₃K, hK₃s⟩ : ∃ K₃ ∈ twinSet Ω K, K₃ ≠ K ∧ K₃ ≠ conjSub s K := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : twinSet Ω K ⊆ {K, conjSub s K} := by
       intro L hL
       by_cases hLK : L = K

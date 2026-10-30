@@ -159,7 +159,7 @@ theorem exists_nontrivial [Finite G] (hb : CatDistinct.OrderBridge) {X J D K : S
     ∃ d : G, ∃ hd : d ∈ D, chevAut 3 J ⟨d, hD hd⟩ ≠ 1 := by
   haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   set H : Subgroup G := J ⊓ Subgroup.centralizer (D : Set G) with hHdef
   have hKH : K ≤ H := by rw [hK]; exact GLALayer_le _
   have hKJ : K ≤ J := hKH.trans inf_le_left

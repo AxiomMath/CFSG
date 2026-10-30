@@ -142,7 +142,7 @@ theorem m23_fixSub_card_not_dvd
     exact h
   have hne : ∃ y, t * y * t⁻¹ ≠ y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hβX1
     refine MulEquiv.ext (fun y => ?_)
     rw [MulAut.one_apply, ht]
@@ -181,7 +181,7 @@ theorem m24_fixSub_card_not_dvd
     exact h
   have hne : ∃ y, t * y * t⁻¹ ≠ y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hβX1
     refine MulEquiv.ext (fun y => ?_)
     rw [MulAut.one_apply, ht]

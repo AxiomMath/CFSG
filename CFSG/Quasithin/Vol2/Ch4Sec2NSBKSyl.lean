@@ -13,7 +13,7 @@ theorem exists_mem_ne_one_of_isSylowTwoOf {X Y : Type*} [Group X] [Finite X] [Gr
     {T : Subgroup X} (hT : IsSylowTwoOf T ⊤) (f : X →* Y) {x₀ : X} (h2 : f x₀ ^ 2 = 1)
     (h1 : f x₀ ≠ 1) : ∃ t ∈ T, f t ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : T.map f.rangeRestrict = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     rintro _ ⟨t, ht, rfl⟩

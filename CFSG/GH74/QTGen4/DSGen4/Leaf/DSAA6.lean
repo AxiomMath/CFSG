@@ -101,7 +101,7 @@ private theorem dsa6_card_sylow_of_card60 {X : Type} [Group X] [Finite X] (T : S
   have hle : 2 ^ k ≤ 60 := Nat.le_of_dvd (by norm_num) hdvd
   have hk6 : k < 6 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 2 ^ 6 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
     omega
   rw [hk]
@@ -1316,7 +1316,7 @@ theorem dsa6_D4 {G : Type} [Group G] [Finite G] {L1 L2 B Q1 Q2 K2 S : Subgroup G
     exact hK2c y hyK2 r (hQ1L2 hr)
   have hvex : ∃ v ∈ Q1, v ∉ Q1 ⊓ Q2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Q1 ≤ Q1 ⊓ Q2 := fun v hv => hcon v hv
     have := Subgroup.card_le_of_le hle
     omega
@@ -1607,7 +1607,7 @@ theorem dsa6_D8 {G : Type} [Group G] [Finite G] {L1 L2 S Q1 Q2 K1 K2 : Subgroup 
     Subgroup.mem_inf.mpr ⟨hyQ1 z hz.1, hyQ2 z hz.2⟩
   have hZnc : ∃ z0 ∈ Q1 ⊓ Q2, y * z0 ≠ z0 * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyQ2' : y ∈ Q2 := hKZ2 y hyK2 (fun z hz => hcon z hz)
     have h2 : y * y = 1 := by rw [← pow_two]; exact hsq2 y hyQ2'
     have h1 : y = 1 := by
@@ -1623,7 +1623,7 @@ theorem dsa6_D8 {G : Type} [Group G] [Finite G] {L1 L2 S Q1 Q2 K1 K2 : Subgroup 
     exact hz0ne (dsa6_orbit hZ4 hy3 hZy hc hc1 hcy hz0)
   have hvex : ∃ v ∈ Q2, v ∉ Q1 ⊓ Q2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Q2 ≤ Q1 ⊓ Q2 := fun v hv => hcon v hv
     have := Subgroup.card_le_of_le hle
     omega

@@ -212,7 +212,7 @@ theorem exists_E_of_hess (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
   have hπc3 : (π c) ^ 3 = 1 := by rw [← map_pow, hc3, map_one]
   obtain ⟨f₀, hf₀F, hf₀c⟩ : ∃ f₀ ∈ Fh, f₀ ∉ Subgroup.zpowers (π c) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Fh ≤ Subgroup.zpowers (π c) := hcon
     have h1 := Subgroup.card_le_of_le hle
     rw [hF9, Nat.card_zpowers] at h1

@@ -19,7 +19,7 @@ theorem lit_sigma_nontriv (d : LitTData π Z τ σ) {H : Subgroup X} (hH : ⁅H,
     (hτH : ∀ x ∈ H, τ x ∈ H) (hcent : ∀ x ∈ H, ∀ y ∈ π.ker, x * y = y * x) {z : X}
     (hzH : z ∈ H) (hz : τ z ≠ z) : ∃ x, σ x ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hmem : ∀ x ∈ H, τ x * x⁻¹ ∈ H := fun x hx => H.mul_mem (hτH x hx) (H.inv_mem hx)
   have hcent' : ∀ x ∈ H, ∀ y ∈ H, (τ x * x⁻¹) * y = y * (τ x * x⁻¹) := by
     intro x hx y hy

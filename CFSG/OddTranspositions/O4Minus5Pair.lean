@@ -224,7 +224,7 @@ theorem exists_distinct_class65 : ∃ d ∈ class65, ∃ e ∈ class65, d ≠ e 
     simpa using h
   have hex : ∃ p, CFSG.GorensteinWalter.psl2FieldAut K25 frob25 p ≠ p := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hfne (MulEquiv.ext (fun p => by simpa using h p))
   obtain ⟨p, hp⟩ := hex
   refine ⟨SemidirectProduct.inr frob25, inr_frob25_mem_class65,

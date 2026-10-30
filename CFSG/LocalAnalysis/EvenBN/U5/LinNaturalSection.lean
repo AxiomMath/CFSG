@@ -62,7 +62,7 @@ theorem linns_addSubgroup_invariant {k : Type*} [Field k] (S : AddSubgroup (Fin 
     intro v hv
     exact AddSubgroup.mem_bot.2 (h0 v hv)
   · right
-    push_neg at h0
+    push Not at h0
     obtain ⟨v, hv, hv0⟩ := h0
     by_cases h1 : v 1 = 0
     ·
