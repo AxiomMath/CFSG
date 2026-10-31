@@ -11,7 +11,7 @@ import CFSG.FeitThompson.Foundations.HallContainsNormalPrimeSupport
 import CFSG.FeitThompson.Representations.NoInducedIrreducibleFixedOrbitOrder
 import CFSG.FeitThompson.Definitions.PowerOperationOnClassFunctions
 import CFSG.FeitThompson.Representations.TensorAndDualCharacters
-import Mathlib.Data.Complex.Basic
+import Mathlib.Basic.Complex.Basic
 
 namespace CFSG.FeitThompson
 
