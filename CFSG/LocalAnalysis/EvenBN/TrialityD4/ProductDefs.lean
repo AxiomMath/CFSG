@@ -142,10 +142,10 @@ section Setting
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
-@[expose] abbrev uG {q : ℕ} (d : TrialityD4Data L q) : G :=
+abbrev uG {q : ℕ} (d : TrialityD4Data L q) : G :=
   ((d.u : L) : G)
 
-@[expose] abbrev vG {q : ℕ} (d : TrialityD4Data L q) : G :=
+abbrev vG {q : ℕ} (d : TrialityD4Data L q) : G :=
   ((d.v : L) : G)
 
 @[expose] def jZeroCentralizer {q : ℕ} (d : TrialityD4Data L q) : Subgroup G :=

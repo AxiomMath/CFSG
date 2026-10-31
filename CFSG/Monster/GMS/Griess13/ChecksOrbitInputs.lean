@@ -8,22 +8,22 @@ namespace CFSG.Monster.GMS.Griess13.Co1Data
 
 open scoped Matrix
 
-@[expose] def codeOf (v : Fin 6 → ZMod 3) : ℕ := ∑ i : Fin 6, (v i).val * 3 ^ i.val
+def codeOf (v : Fin 6 → ZMod 3) : ℕ := ∑ i : Fin 6, (v i).val * 3 ^ i.val
 
-@[expose] def vecOfCode (c : ℕ) : Fin 6 → ZMod 3 := fun i => ((c / 3 ^ i.val % 3 : ℕ) : ZMod 3)
+def vecOfCode (c : ℕ) : Fin 6 → ZMod 3 := fun i => ((c / 3 ^ i.val % 3 : ℕ) : ZMod 3)
 
-@[expose] def matN (s : Fin 2) : Array (Array ℕ) :=
+def matN (s : Fin 2) : Array (Array ℕ) :=
   Array.ofFn fun i : Fin 6 => Array.ofFn fun j : Fin 6 => (actN s i j).val
 
-@[expose] def stepN (A : Array (Array ℕ)) (c : ℕ) : ℕ :=
+def stepN (A : Array (Array ℕ)) (c : ℕ) : ℕ :=
   (List.range 6).foldl (fun acc i =>
     acc + 3 ^ i * ((List.range 6).foldl (fun t j => t + (A[i]!)[j]! * (c / 3 ^ j % 3)) 0 % 3)) 0
 
-@[expose] def matNs : Array (Array (Array ℕ)) := #[matN 0, matN 1]
+def matNs : Array (Array (Array ℕ)) := #[matN 0, matN 1]
 
-@[expose] def stepS (s c : ℕ) : ℕ := stepN (matNs[s]!) c
+def stepS (s c : ℕ) : ℕ := stepN (matNs[s]!) c
 
-@[expose] def orbitBFS (reps : List ℕ) : Array ℕ × Array ℕ × Array ℕ × Array ℕ := Id.run do
+def orbitBFS (reps : List ℕ) : Array ℕ × Array ℕ × Array ℕ × Array ℕ := Id.run do
   let mut cls : Array ℕ := Array.replicate 729 0
   let mut dist : Array ℕ := Array.replicate 729 0
   let mut par : Array ℕ := Array.replicate 729 0
@@ -48,16 +48,16 @@ open scoped Matrix
         queue := queue.push d
   return (cls, dist, par, gen)
 
-@[expose] def repVec (k : ℕ) : Fin 6 → ZMod 3 := if k = 1 then w1 else if k = 2 then wB else wC
+def repVec (k : ℕ) : Fin 6 → ZMod 3 := if k = 1 then w1 else if k = 2 then wB else wC
 
-@[expose] def repCode (k : ℕ) : ℕ := codeOf (repVec k)
+def repCode (k : ℕ) : ℕ := codeOf (repVec k)
 
-@[expose] def orbTab : Array ℕ × Array ℕ × Array ℕ × Array ℕ :=
+def orbTab : Array ℕ × Array ℕ × Array ℕ × Array ℕ :=
   orbitBFS [repCode 1, repCode 2, repCode 3]
 
-@[expose] def orbitClass (w : Fin 6 → ZMod 3) : ℕ := orbTab.1[codeOf w]!
+def orbitClass (w : Fin 6 → ZMod 3) : ℕ := orbTab.1[codeOf w]!
 
-@[expose] def orbCheck : Bool :=
+def orbCheck : Bool :=
   (List.range 729).all fun c => c == 0 ||
     ((orbTab.1[c]! == 1 || orbTab.1[c]! == 2 || orbTab.1[c]! == 3) &&
       (if c == repCode orbTab.1[c]! then orbTab.2.1[c]! == 0 else
@@ -67,7 +67,7 @@ open scoped Matrix
         orbTab.1[orbTab.2.2.1[c]!]! == orbTab.1[c]! &&
         decide (orbTab.2.1[orbTab.2.2.1[c]!]! < orbTab.2.1[c]!)))
 
-@[expose] def orbitIndex (w : Fin 6 → ZMod 3) : Fin 3 :=
+def orbitIndex (w : Fin 6 → ZMod 3) : Fin 3 :=
   if orbitClass w = 1 then 0 else if orbitClass w = 2 then 1 else 2
 
 end CFSG.Monster.GMS.Griess13.Co1Data

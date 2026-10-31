@@ -13,7 +13,7 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelMisc.HS100
 
-@[expose] def d1 : List (List Int) := CFSG.RankThree.Native.hs100Words.toList.drop 2
+def d1 : List (List Int) := CFSG.RankThree.Native.hs100Words.toList.drop 2
 
 end CertificateChecks.KernelMisc.HS100
 

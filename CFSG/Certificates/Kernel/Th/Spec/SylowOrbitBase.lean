@@ -23,16 +23,16 @@ local notation "𝕄" g:max =>
 
 variable {c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE : ℕ}
 
-@[expose] def pcSub (J : Subgroup (GL (Fin 248) (ZMod 2))) (RB : ℕ → ℕ) (PR i n : ℕ) :
+def pcSub (J : Subgroup (GL (Fin 248) (ZMod 2))) (RB : ℕ → ℕ) (PR i n : ℕ) :
     Subgroup J :=
   Subgroup.closure {g | ∃ k, i ≤ k ∧ k < n ∧ 𝕄 g = pkMat (RB (regAt PR k))}
 
-@[expose] noncomputable def blkFr (BL b : ℕ) : ℕ := bitsN BL (Nat.mul (nat_lit 10) b) (nat_lit 5)
+noncomputable def blkFr (BL b : ℕ) : ℕ := bitsN BL (Nat.mul (nat_lit 10) b) (nat_lit 5)
 
-@[expose] noncomputable def blkTo (BL b : ℕ) : ℕ :=
+noncomputable def blkTo (BL b : ℕ) : ℕ :=
   bitsN BL (Nat.add (Nat.mul (nat_lit 10) b) (nat_lit 5)) (nat_lit 5)
 
-@[expose] def BlockOK (RB : ℕ → ℕ) (rm PR n p BL b : ℕ) : Prop :=
+def BlockOK (RB : ℕ → ℕ) (rm PR n p BL b : ℕ) : Prop :=
   ∃ PT : ℕ → ℕ, ∃ TC SC : List ℕ, ∃ SS : ℕ, PT 0 < 2 ^ 248 ∧
     baseFixed RB rm PR (PT 0) (blkTo BL b) n = true ∧
     runTree RB PT rm PR (blkFr BL b) (blkTo BL b) TC 2 = p ^ (blkTo BL b - blkFr BL b) + 1 ∧

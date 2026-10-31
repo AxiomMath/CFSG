@@ -33,15 +33,15 @@ namespace CFSG.Sporadic.Co1Schreier
 open CFSG.Sporadic.SmallF2 (toVecD toVecD_apply toVecD_xor toVecD_injective rowsMatrix)
 open CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.Th CFSG.Sporadic.Th.Native Matrix
 
-@[expose] noncomputable def stabH0 : GL24 := wordG [A₁, A₂] (Data.stabWord0.map Int.ofNat)
+noncomputable def stabH0 : GL24 := wordG [A₁, A₂] (Data.stabWord0.map Int.ofNat)
 
-@[expose] noncomputable def stabH1 : GL24 := wordG [A₁, A₂] (Data.stabWord1.map Int.ofNat)
+noncomputable def stabH1 : GL24 := wordG [A₁, A₂] (Data.stabWord1.map Int.ofNat)
 
-@[expose] noncomputable def stabH : Subgroup GL24 := Subgroup.closure {stabH0, stabH1}
+noncomputable def stabH : Subgroup GL24 := Subgroup.closure {stabH0, stabH1}
 
-@[expose] noncomputable def stabVecOf (k : ℕ) : Vec24 := toVecD 24 (Native.stabVec k)
+noncomputable def stabVecOf (k : ℕ) : Vec24 := toVecD 24 (Native.stabVec k)
 
-@[expose] def fixSpace (v : Vec24) : Set Vec24 :=
+def fixSpace (v : Vec24) : Set Vec24 :=
   {u | ∀ h ∈ stabH, ((h : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v = v →
     ((h : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ u = u}
 
@@ -71,7 +71,7 @@ theorem stabH_le_GA : stabH ≤ GA := by
   · rw [Set.mem_singleton_iff.mp hg]
     exact wordG_mem hAB _
 
-@[expose] noncomputable def witMats (m : ℕ) : List GL24 :=
+noncomputable def witMats (m : ℕ) : List GL24 :=
   (Data.fixWords.getD m []).map fun w => wordG [stabH0, stabH1] w
 
 theorem witMats_mem (m i : ℕ) : (witMats m).getD i 1 ∈ stabH := by
@@ -85,7 +85,7 @@ theorem witMats_mem (m i : ℕ) : (witMats m).getD i 1 ∈ stabH := by
   · rw [hx]
     exact stabH1_mem
 
-@[expose] def fixN (m c : ℕ) (v : Fin 24) : ZMod 2 :=
+def fixN (m c : ℕ) (v : Fin 24) : ZMod 2 :=
   if Native.fixCoef (Native.witRows m) c v.val then 1 else 0
 
 theorem exists_ab (z₁ z₂ v₁ v₂ u₁ u₂ : ZMod 2) (h : z₁ * v₂ ≠ z₂ * v₁) :
@@ -96,7 +96,7 @@ theorem exists_ab (z₁ z₂ v₁ v₂ u₁ u₂ : ZMod 2) (h : z₁ * v₂ ≠ 
 theorem toVecD_testBit (n : ℕ) (j : Fin 24) :
     toVecD 24 n j = if n.testBit j.val then 1 else 0 := toVecD_apply 24 n j
 
-@[expose] def fixPts (v : Vec24) : Set Vec24 := kOrbit stabH v ∩ fixSpace v
+def fixPts (v : Vec24) : Set Vec24 := kOrbit stabH v ∩ fixSpace v
 
 theorem mem_enumSet_iff {cP cQ : Array ℕ} {root n : ℕ} {O : VOrbit}
     (h : Native.enumOK cP cQ root n O = true) {w : ℕ} (hw : w < 2 ^ 24) :

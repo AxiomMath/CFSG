@@ -10,7 +10,7 @@ open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial Matrix
 
 variable {p f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData p f K}
 
-@[expose] abbrev suMat (g : hypSU h 1 1) : Matrix (HypIndex 1 1) (HypIndex 1 1) K :=
+abbrev suMat (g : hypSU h 1 1) : Matrix (HypIndex 1 1) (HypIndex 1 1) K :=
   ((g : GL (HypIndex 1 1) K) : Matrix (HypIndex 1 1) (HypIndex 1 1) K)
 
 theorem exists_eq_tau (n : hypSU h 1 1) (hoff : ∀ i j, i ≠ j → suMat n i j = 0) :

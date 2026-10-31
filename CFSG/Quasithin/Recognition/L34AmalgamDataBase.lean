@@ -31,9 +31,9 @@ theorem evalW_map {X Y : Type*} [Group X] [Group Y] (φ : X →* Y) (f : Fin 5 �
   rcases x with ⟨i, b⟩
   cases b <;> simp [h _ hx]
 
-@[expose] def relsOf (i : Fin 12) (k : ℕ) : List (List (Fin 5 × Bool)) := amalRels ++ [extra i k]
+def relsOf (i : Fin 12) (k : ℕ) : List (List (Fin 5 × Bool)) := amalRels ++ [extra i k]
 
-@[expose] def rep (i : Fin 12) : M22 := evalW gen (word (repStr i))
+def rep (i : Fin 12) : M22 := evalW gen (word (repStr i))
 
 theorem letters_facts : (∀ s ∈ rels1, ∀ x ∈ word s, x.1 ≠ 4) ∧ (∀ s ∈ rels2, ∀ x ∈ word s, x.1 ≠ 3)
     ∧ ∀ i : Fin 12, ∀ x ∈ word (repStr i), x.1 ≠ 3 := by

@@ -34,7 +34,7 @@ theorem zmod2_cases (x : ZMod 2) : x = 0 ∨ x = 1 := by
   · exact Or.inl rfl
   · exact Or.inr rfl
 
-@[expose] def slPair : Pvis := signLiftPair ⟨dC, 0⟩
+def slPair : Pvis := signLiftPair ⟨dC, 0⟩
 
 theorem slPair_eq : slPair = ⟨(YU ⟨toC 3, 0⟩, gO (toC 3)), YU_gO_mem_Pvis _⟩ := by
   apply Subtype.ext

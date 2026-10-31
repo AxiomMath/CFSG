@@ -37,7 +37,7 @@ private theorem of_local
     (EvenSixTupleLocal.to_set_property hlocal) A (P.isPGroup'.map (stabilizer G b).subtype) hfree
   exact ⟨hne,hsq,hcomm,hs⟩
 
-@[expose] abbrev InducedCondition
+abbrev InducedCondition
     {G X:Type*} [Group G] [Finite G] [Fintype X] [MulAction G X] (Q:Subgroup G) : Prop :=
   letI := Fintype.ofFinite (Fixed (X:=X) Q)
   Condition (Image (X:=X) Q) (Fixed (X:=X) Q)

@@ -22,7 +22,7 @@ namespace CFSG.Sporadic.J4Schreier
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2.Native
 
-@[expose] def genElt (g : ℕ) : J := if g = 0 then vS else kgen (g - 1)
+def genElt (g : ℕ) : J := if g = 0 then vS else kgen (g - 1)
 
 theorem genElt_mem {g : ℕ} (hg : g < 5) : genElt g ∈ S0 := by
   unfold genElt

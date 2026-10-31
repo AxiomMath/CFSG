@@ -19,7 +19,7 @@ theorem e6_dominant : ∀ a : Fin e6Data.d, (∀ i, e6Data.wt a i ≠ -1) → a 
 
 theorem e6_reach : reachCheck e6Data 0 20 = true := by decide +kernel
 
-@[expose] abbrev e6n0 : Fin TwistTag.E6.tag.rank := ⟨0, by decide⟩
+abbrev e6n0 : Fin TwistTag.E6.tag.rank := ⟨0, by decide⟩
 
 theorem e6_wt_zero_aux : ∀ s : Fin (Tag.rank .E6),
     e6Data.wt 0 s = if s = (⟨0, by decide⟩ : Fin (Tag.rank .E6)) then 1 else 0 := by

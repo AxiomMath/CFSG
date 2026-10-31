@@ -28,21 +28,21 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 
-@[expose] noncomputable def twoC0 : J := wordG (pairLetters localX localY) centWord0
+noncomputable def twoC0 : J := wordG (pairLetters localX localY) centWord0
 
-@[expose] noncomputable def twoC1 : J := wordG (pairLetters localX localY) centWord1
+noncomputable def twoC1 : J := wordG (pairLetters localX localY) centWord1
 
-@[expose] noncomputable def twoK : J := wordG (pairLetters localX localY) kWord
+noncomputable def twoK : J := wordG (pairLetters localX localY) kWord
 
-@[expose] noncomputable def twoU4 : List J :=
+noncomputable def twoU4 : List J :=
   [twoC0, twoC1, twoK * twoC0 * twoK⁻¹, twoK * twoC1 * twoK⁻¹]
 
-@[expose] noncomputable def twoStep (L : List J) (w : List ℤ) : List J :=
+noncomputable def twoStep (L : List J) (w : List ℤ) : List J :=
   L ++ [wordG (tupleLetters L) w]
 
-@[expose] noncomputable def twoList : List J := strongWords.foldl twoStep twoU4
+noncomputable def twoList : List J := strongWords.foldl twoStep twoU4
 
-@[expose] noncomputable def twoU (i : ℕ) : J := twoList.getD i 1
+noncomputable def twoU (i : ℕ) : J := twoList.getD i 1
 
 theorem getD_forall₂ {Rs : List (Array V4)} {us : List J} (h : List.Forall₂ IsRows Rs us)
     (n : ℕ) : IsRows (Rs.getD n idRows) (us.getD n 1) := by
@@ -95,7 +95,7 @@ theorem foldl_forall₂ (ws : List (List ℤ)) : ∀ (Rs : List (Array V4)) (us 
     rw [List.foldl_cons, hT, twoRowsStep]
     exact List.mem_append_left _ (List.mem_append_left _ hR)
 
-@[expose] noncomputable def twoH4 : Subgroup J :=
+noncomputable def twoH4 : Subgroup J :=
   Subgroup.closure {twoC0, twoC1, twoK * twoC0 * twoK⁻¹, twoK * twoC1 * twoK⁻¹}
 
 theorem tupleLetters_mem {K : Subgroup J} {us : List J} (h : ∀ u ∈ us, u ∈ K) (l : ℤ) :

@@ -76,7 +76,7 @@ theorem prep_t2 :
   rw [t2J_eq]
   exact prep_hWord (letters_of_natOK nat_parts.1)
 
-@[expose] def A8J :
+def A8J :
     Subgroup JH :=
   ((fixingSubgroup (Perm (Fin 12)) {i : Fin 12 | i.val < 4}).comap thetaHom).map
     HJ.subtype

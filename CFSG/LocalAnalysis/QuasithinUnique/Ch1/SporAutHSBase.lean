@@ -36,7 +36,7 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
 
 namespace SporAutHS
 
-@[expose] def CntPr (g : Equiv.Perm (Fin 3850)) : Prop :=
+def CntPr (g : Equiv.Perm (Fin 3850)) : Prop :=
   g * hsLtr 0 = wordElt yWord * g ∧ orderOf g = 15 ∧ orderOf (wordElt l1Word * g) = 5 ∧
     orderOf (wordElt l2Word * g) = 12
 
@@ -71,9 +71,9 @@ theorem wordElt_memS0 : ∀ {w : List ℕ}, (∀ k ∈ w, k < 4) →
     exact Subgroup.mul_mem _ (ltr_memS0 (h k List.mem_cons_self))
       (wordElt_memS0 fun j hj => h j (List.mem_cons_of_mem k hj))
 
-@[expose] def A0 : hsChain.originalSubgroup := ⟨hsGen 0, hsGen_mem 0 (by norm_num)⟩
+def A0 : hsChain.originalSubgroup := ⟨hsGen 0, hsGen_mem 0 (by norm_num)⟩
 
-@[expose] def A1 : hsChain.originalSubgroup := ⟨hsGen 1, hsGen_mem 1 (by norm_num)⟩
+def A1 : hsChain.originalSubgroup := ⟨hsGen 1, hsGen_mem 1 (by norm_num)⟩
 
 theorem order_A1 : orderOf (A1 : Equiv.Perm (Fin 3850)) = 5 := hs_word_orders.2.1
 

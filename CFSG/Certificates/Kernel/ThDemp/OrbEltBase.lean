@@ -34,7 +34,7 @@ theorem chainEl_eq (e : ℕ) : chainEl D e = D.mul (D.mul (D.mul (D.mul (D.mul (
 theorem codeChk_sound {e : ℕ} (h : codeChk D e = true) : ∀ l < 6, bitsN e (8 * l) 8 < D.oszL l :=
   fun l hl => Nat.blt_eq.mp (Unfold.allBelow_spec h (by norm_num) l hl)
 
-@[expose] noncomputable def coordsOf (e : ℕ) : Coords :=
+noncomputable def coordsOf (e : ℕ) : Coords :=
   (⟨bitsN e 0 8 % 31, Nat.mod_lt _ (by norm_num)⟩, ⟨bitsN e 8 8 % 30, Nat.mod_lt _ (by norm_num)⟩,
     ⟨bitsN e 16 8 % 28, Nat.mod_lt _ (by norm_num)⟩, ⟨bitsN e 24 8 % 24, Nat.mod_lt _ (by norm_num)⟩,
     ⟨bitsN e 32 8 % 16, Nat.mod_lt _ (by norm_num)⟩, ⟨bitsN e 40 8 % 32, Nat.mod_lt _ (by norm_num)⟩)
@@ -80,11 +80,11 @@ namespace Ctx
 
 end Ctx
 
-@[expose] noncomputable def Qm (q : ℕ) (M : Matrix (Fin 248) (Fin 248) (ZMod 2)) :
+noncomputable def Qm (q : ℕ) (M : Matrix (Fin 248) (Fin 248) (ZMod 2)) :
     Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   M ^ 5 + ∑ j ∈ Finset.range 5, ((bitsN q j 1 : ℕ) : ZMod 2) • M ^ j
 
-@[expose] def KillU (D : DempData) (N : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
+def KillU (D : DempData) (N : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
   ∀ w ∈ (sp (U0 D) : Submodule (ZMod 2) (Fin 248 → ZMod 2)), Matrix.vecMul w N = 0
 
 theorem pow_semiconj {A M N : Matrix (Fin 248) (Fin 248) (ZMod 2)} (h : A * M = N * A) :

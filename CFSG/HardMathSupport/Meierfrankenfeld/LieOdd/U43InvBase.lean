@@ -20,7 +20,7 @@ theorem rep_one : Rep 820 (idA 820) (psi (1 : X₀)) := by
   rw [map_one]
   exact rep_idA
 
-@[expose] noncomputable def letElt (l : ℕ) : X₀ :=
+noncomputable def letElt (l : ℕ) : X₀ :=
   if l = 0 then xElt else if l = 1 then yElt else if l = 2 then xElt⁻¹ else yElt⁻¹
 
 theorem rep_letTab (l : ℕ) :
@@ -32,7 +32,7 @@ theorem rep_letTab (l : ℕ) :
   · exact rep_inv' rep_tabA isInvA_tabA
   · exact rep_inv' rep_tabB isInvA_tabB
 
-@[expose] noncomputable def wordElt (w : List ℕ) : X₀ := w.foldl (fun g l => g * letElt l) 1
+noncomputable def wordElt (w : List ℕ) : X₀ := w.foldl (fun g l => g * letElt l) 1
 
 theorem rep_foldl (w : List ℕ) : ∀ (t : Array ℕ) (g : X₀),
     Rep 820 t (psi g) → Rep 820 (w.foldl (fun t l => compA 820 t (letTab l)) t)
@@ -51,7 +51,7 @@ theorem rep_wordTab (w : List ℕ) :
     Rep 820 (wordTab w) (psi (wordElt w)) :=
   rep_foldl w _ _ rep_one
 
-@[expose] noncomputable def treeG (root : X₀) (step : X₀ → ℕ → X₀) (par lab : Array ℕ) (nl : ℕ) :
+noncomputable def treeG (root : X₀) (step : X₀ → ℕ → X₀) (par lab : Array ℕ) (nl : ℕ) :
     ℕ → ℕ → X₀
   | 0, _ => root
   | f + 1, k => if k = 0 then root else
@@ -110,7 +110,7 @@ theorem getD_map_lt {α : Type*} (f : α → X₀) (l : List α) {j : ℕ} (hj :
   rw [List.getD_eq_getElem _ _ (by simpa using hj)]
   simp
 
-@[expose] noncomputable def mulStepG (gs : List X₀) (g : X₀) (l : ℕ) : X₀ :=
+noncomputable def mulStepG (gs : List X₀) (g : X₀) (l : ℕ) : X₀ :=
   if l % 2 = 0 then g * gs.getD (l / 2) 1 else g * (gs.getD (l / 2) 1)⁻¹
 
 theorem rep_mulStep {ts : List (Array ℕ)} {gs : List X₀} (_hlen : ts.length = gs.length)
@@ -215,12 +215,12 @@ structure CheckFacts : Prop where
   f2 : ∀ k < 1152, f2OK k = true
   g0 : g0OK = true
 
-@[expose] noncomputable def hGensG : List X₀ := hGenWords.map wordElt
+noncomputable def hGensG : List X₀ := hGenWords.map wordElt
 
-@[expose] noncomputable def hElt (k : ℕ) : X₀ :=
+noncomputable def hElt (k : ℕ) : X₀ :=
   treeG 1 (mulStepG hGensG) hPar hLab (2 * hGensG.length) fuel k
 
-@[expose] noncomputable def hSub : Subgroup X₀ := Subgroup.closure {g | g ∈ hGensG}
+noncomputable def hSub : Subgroup X₀ := Subgroup.closure {g | g ∈ hGensG}
 
 theorem hGens_length : hGens.length = hGensG.length := by simp [hGens, hGensG]
 
@@ -231,18 +231,18 @@ theorem rep_hGens :
   rw [hGens, getElem!_map_lt _ _ hj', hGensG, getD_map_lt _ _ hj']
   exact rep_wordTab _
 
-@[expose] noncomputable def pGensG : List X₀ := pGenIdx.map hElt
+noncomputable def pGensG : List X₀ := pGenIdx.map hElt
 
-@[expose] noncomputable def pElt (k : ℕ) : X₀ :=
+noncomputable def pElt (k : ℕ) : X₀ :=
   treeG 1 (mulStepG pGensG) pPar pLab (2 * pGensG.length) fuel k
 
-@[expose] noncomputable def pSub : Subgroup X₀ := Subgroup.closure {g | g ∈ pGensG}
+noncomputable def pSub : Subgroup X₀ := Subgroup.closure {g | g ∈ pGensG}
 
 theorem pGens_length : pGens.length = pGensG.length := by simp [pGens, pGensG]
 
-@[expose] noncomputable def conjStepG (g : X₀) (l : ℕ) : X₀ := letElt l * g * letElt (l ^^^ 2)
+noncomputable def conjStepG (g : X₀) (l : ℕ) : X₀ := letElt l * g * letElt (l ^^^ 2)
 
-@[expose] noncomputable def cElt (k : ℕ) : X₀ := treeG xElt conjStepG cPar cLab 4 fuel k
+noncomputable def cElt (k : ℕ) : X₀ := treeG xElt conjStepG cPar cLab 4 fuel k
 
 theorem rep_cTab (k : ℕ) : Rep 820 (cTab k) (psi (cElt k)) := by
   unfold cTab cElt
@@ -288,7 +288,7 @@ theorem rep_powTab {t : Array ℕ} {g : X₀}
     rw [pow_succ', map_mul]
     exact rep_compA h (rep_powTab h k)
 
-@[expose] noncomputable def g0Elt : X₀ := wordElt g0Word
+noncomputable def g0Elt : X₀ := wordElt g0Word
 
 theorem conj_comm_iff {G : Type*} [Group G] (d x y : G) :
     d * x * d⁻¹ * (d * y * d⁻¹) = d * y * d⁻¹ * (d * x * d⁻¹) ↔ x * y = y * x := by

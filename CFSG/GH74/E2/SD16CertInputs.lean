@@ -11,7 +11,7 @@ public section
 namespace CFSG.GH74.E2
 
 open CFSG.Semidihedral
-@[expose] abbrev SD16M : Type := Model 4 (by norm_num)
+abbrev SD16M : Type := Model 4 (by norm_num)
 
 section Relations
 

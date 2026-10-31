@@ -19,7 +19,7 @@ public section
 namespace CFSG.GH74.E2.OuterRank
 
 open CFSG.Semidihedral
-@[expose] abbrev SD : Type := Model 4 (by norm_num)
+abbrev SD : Type := Model 4 (by norm_num)
 
 instance instFintypeSD : Fintype SD := Fintype.ofEquiv _ SemidirectProduct.equivProd.symm
 

@@ -10,9 +10,9 @@ namespace FiveTransitive.FixedNormalizerImage
 
 open MulAction FixedNormalizerAction
 
-@[expose] abbrev Ambient {G:Type*} [Group G] {Q:Subgroup G} (B:Subgroup (Normalizer Q)) :=
+abbrev Ambient {G:Type*} [Group G] {Q:Subgroup G} (B:Subgroup (Normalizer Q)) :=
   B.map (Normalizer Q).subtype
-@[expose] abbrev Restricted {G X:Type*} [Group G] [MulAction G X] {Q:Subgroup G}
+abbrev Restricted {G X:Type*} [Group G] [MulAction G X] {Q:Subgroup G}
     (B:Subgroup (Normalizer Q)) :=
   B.map (toPermHom (Normalizer Q) (Fixed (X:=X) Q)).rangeRestrict
 

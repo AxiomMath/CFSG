@@ -11,7 +11,7 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43 CFSG.GH74.KGroups CFSG.Spo
 
 local notation "P45" => Equiv.Perm (Fin 45)
 
-@[expose] abbrev SL23 : Type := Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)
+abbrev SL23 : Type := Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)
 
 @[expose] def code (A : SL23) : ℕ :=
   27 * (A.1 0 0).val + 9 * (A.1 0 1).val + 3 * (A.1 1 0).val + (A.1 1 1).val

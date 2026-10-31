@@ -45,7 +45,7 @@ open CFSG.Sporadic.Th.Native CFSG.Perm.Native
 
 set_option compiler.extract_closed false
 
-@[expose] def huntChecks (O : WOrbit) (k : Nat) : Bool :=
+def huntChecks (O : WOrbit) (k : Nat) : Bool :=
   let D := dTab O
   let bi := genTables O (-2)
   let D1 := treeActTab O D bi 1
@@ -54,6 +54,6 @@ set_option compiler.extract_closed false
   decide (k < 31671) && k != 0 && k != 1 && k != 39 && ap D k == k && ap D1 k == k &&
     ap C k == k && fixCount (compT 31671 XC (treeActTab O D bi k)) == 183
 
-@[expose] def huntCertificate : Bool := huntChecks (orbitData ()) 53
+def huntCertificate : Bool := huntChecks (orbitData ()) 53
 
 end CFSG.Sporadic.Fi23.Native

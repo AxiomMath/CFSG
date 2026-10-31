@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD309L
 
 open Equiv Subgroup
 
-@[expose] abbrev V3 : Type := Fin 3 → ZMod 5
+abbrev V3 : Type := Fin 3 → ZMod 5
 
 @[expose] def ext5 (v : V3) : Fin 5 → ZMod 5 := ![v 0, v 1, v 2, -(v 0 + v 1 + v 2), 0]
 

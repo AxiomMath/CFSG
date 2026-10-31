@@ -44,6 +44,6 @@ open CFSG.Sporadic.Co2Cert
 
 set_option compiler.extract_closed false
 
-@[expose] def seedRowsArr : Array (Array ℕ) := #[co2RowsA, co2RowsB]
+def seedRowsArr : Array (Array ℕ) := #[co2RowsA, co2RowsB]
 
 end CFSG.Sporadic.Co2Smith

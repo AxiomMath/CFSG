@@ -37,12 +37,12 @@ theorem getD_of_ge {α : Type*} {l : List α} {i : Nat} {d : α} (h : l.length �
   rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none h]
   rfl
 
-@[expose] def evFrom (x : List Nat) (a : Nat) (w : List Nat) : Nat :=
+def evFrom (x : List Nat) (a : Nat) (w : List Nat) : Nat :=
   w.foldl (fun a k => mt0.getD (a * 128 + x.getD k 0) 0) a
 
-@[expose] def evI (x : List Nat) (w : List Nat) : Nat := evFrom x 0 w
+def evI (x : List Nat) (w : List Nat) : Nat := evFrom x 0 w
 
-@[expose] def evH {H : Type*} [Monoid H] (f : Nat → H) (w : List Nat) : H :=
+def evH {H : Type*} [Monoid H] (f : Nat → H) (w : List Nat) : H :=
   w.foldl (fun A k => A * f k) 1
 
 theorem foldl_map_hom {H H' : Type*} [Monoid H] [Monoid H'] (f : H →* H') (g : Nat → H)

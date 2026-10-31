@@ -8,7 +8,7 @@ namespace CFSG
 
 namespace FiveTransitive.Degree15
 
-@[expose] abbrev NonidentitySylowElements
+abbrev NonidentitySylowElements
     (p : ℕ) (G : Type) [Group G] :=
   Σ S : Sylow p G, {u : S // u ≠ 1}
 

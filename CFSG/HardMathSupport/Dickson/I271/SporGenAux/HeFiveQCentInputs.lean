@@ -11,7 +11,7 @@ namespace CFSG.HardMathSupport.Dickson.I271
 open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Monster.B.Mathieu CFSG.RankThree.Native
   CFSG.RankThree.PartOne
 
-@[expose] def heFiveQCentOK (_ : Unit := ()) : Bool :=
+def heFiveQCentOK (_ : Unit := ()) : Bool :=
   let cC := heFiveC0Cert
   allLt cC.pts.size (fun k =>
     !(commA 8330 cC.pts[k]! heFiveQGens[0]! && commA 8330 cC.pts[k]! heFiveQGens[1]!) ||

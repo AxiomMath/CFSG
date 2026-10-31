@@ -50,7 +50,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.Griess CFSG.Monster.ScalarKernel CFSG.Monster.Visible CFSG.Monster.VisCert
   CFSG.Monster.Generated
 
-@[expose] def wStar (i : ℕ) : ℤ := if i = 0 then 4 else if i = 1 then -4 else 0
+def wStar (i : ℕ) : ℤ := if i = 0 then 4 else if i = 1 then -4 else 0
 
 theorem wStar_apply : ∀ i : Fin 24, wStar i = vMinus 0 1 i := by decide +kernel
 

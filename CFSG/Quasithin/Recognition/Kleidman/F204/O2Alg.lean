@@ -372,10 +372,10 @@ theorem quot_fpf (q : U ⧸ fixSub x) (hq : qeq (fixSub x) x (map_fixSub_x x t h
   rw [Submodule.Quotient.mk_eq_zero]
   exact h6
 
-@[expose] abbrev xq : (U ⧸ fixSub x) ≃ₗ[ZMod 2] (U ⧸ fixSub x) :=
+abbrev xq : (U ⧸ fixSub x) ≃ₗ[ZMod 2] (U ⧸ fixSub x) :=
   qeq (fixSub x) x (map_fixSub_x x t hx ht htx)
 
-@[expose] abbrev tq : (U ⧸ fixSub x) ≃ₗ[ZMod 2] (U ⧸ fixSub x) :=
+abbrev tq : (U ⧸ fixSub x) ≃ₗ[ZMod 2] (U ⧸ fixSub x) :=
   qeq (fixSub x) t (map_fixSub_t x t hx ht htx)
 
 theorem xq_mk (u : U) : xq x t hx ht htx (Submodule.Quotient.mk u) = Submodule.Quotient.mk (x u) :=
@@ -556,7 +556,7 @@ theorem fixSub_d_inv (f : U) (hf : f ∈ fixSub x) : d f ∈ fixSub x := by
 theorem map_fixSub_d : (fixSub x).map (d : U →ₗ[ZMod 2] U) = fixSub x :=
   map_eq_of_pow _ d 2 hd3 (fixSub_d_inv x t hx ht htx d hd3 hdx)
 
-@[expose] abbrev dq : (U ⧸ fixSub x) ≃ₗ[ZMod 2] (U ⧸ fixSub x) :=
+abbrev dq : (U ⧸ fixSub x) ≃ₗ[ZMod 2] (U ⧸ fixSub x) :=
   qeq (fixSub x) d (map_fixSub_d x t hx ht htx d hd3 hdx)
 
 theorem dq_mk (u : U) : dq x t hx ht htx d hd3 hdx (Submodule.Quotient.mk u)

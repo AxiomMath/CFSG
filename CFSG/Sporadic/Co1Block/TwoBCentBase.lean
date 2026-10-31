@@ -50,7 +50,7 @@ abbrev a₁ : GA := ⟨A₁, A₁_mem⟩
 
 theorem coe_a₁ : ((a₁ : GA) : GL24) = A₁ := Subtype.coe_mk _ _
 
-@[expose] def conjB : GL24 := (dagG [A₁, A₂] conjBDerivs).getD 10 1
+def conjB : GL24 := (dagG [A₁, A₂] conjBDerivs).getD 10 1
 
 abbrev conjBRows : List Native.Rows := (Native.dag [Native.aR, Native.bR] conjBDerivs).1
 

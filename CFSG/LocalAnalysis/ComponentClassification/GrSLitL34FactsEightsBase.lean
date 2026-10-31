@@ -10,7 +10,7 @@ namespace CFSG.ComponentClassification.GrSLit.L34Facts
 open CFSG Subgroup CFSG.PSL3Four CFSG.PSL3Four.Native CFSG.ComponentClassification.PSL3Four
 open CFSG.LieType.Multipliers CFSG.LieType.Multipliers.L34
 
-@[expose] noncomputable def ilift {E : Type*} [Group E]
+noncomputable def ilift {E : Type*} [Group E]
     (l : Cover →* E) (d : ℕ × ℕ × ℕ × ℕ) : E :=
   l (cv (tw d.1)) * psi l (Multiplicative.ofAdd (-(d.2.1 : ZMod 4)),
     Multiplicative.ofAdd (-(d.2.2.1 : ZMod 4)))

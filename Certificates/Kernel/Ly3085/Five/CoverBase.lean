@@ -173,7 +173,7 @@ theorem conj_tA : ∃ g : J, g * lyTA * g⁻¹ = fiveX :=
 theorem conj_tB : ∃ g : J, g * lyTB * g⁻¹ = fiveY :=
   conj_of_check gx_lt.2 (by decide) y_facts.1 y_facts.2 CFSG.KD.LyFive.gy
 
-@[expose] def RelF (u : J) : Prop :=
+def RelF (u : J) : Prop :=
   ∃ g : J, ∃ r ∈ ({fiveX, fiveY} : Set J), ∃ m : ℕ, 1 ≤ m ∧ m ≤ 4 ∧ g * u * g⁻¹ = r ^ m
 
 theorem relF_conj {u v t : J} (h : t * u * t⁻¹ = v) (hu : RelF u) : RelF v := by

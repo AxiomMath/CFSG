@@ -14,7 +14,7 @@ open CFSG.RankThree.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Mon
 
 section Stage1
 
-@[expose] noncomputable def ruXperm : Equiv.Perm (Fin 4060) := permOfArr 4060 ruX
+noncomputable def ruXperm : Equiv.Perm (Fin 4060) := permOfArr 4060 ruX
 
 theorem ruChainJoin_arrays :
     ChainArrays ruChainJoin ((ruField4060 3).extract 0 4) (ruField4060 3)
@@ -35,14 +35,14 @@ end Stage1
 
 section Stage2
 
-@[expose] noncomputable def ruSylowSub : Subgroup (Equiv.Perm (Fin 4060)) :=
+noncomputable def ruSylowSub : Subgroup (Equiv.Perm (Fin 4060)) :=
   Subgroup.closure (permsA 4060 ruSylGs)
 
 end Stage2
 
 section Stage3
 
-@[expose] def ruCAct (σ : Equiv.Perm (Fin 4060)) (n : ℕ) : ℕ :=
+def ruCAct (σ : Equiv.Perm (Fin 4060)) (n : ℕ) : ℕ :=
   if h : n < 4060 then (σ ⟨n, h⟩ : ℕ) else n
 
 theorem ruCAct_eq (σ : Equiv.Perm (Fin 4060)) {n : ℕ} (hn : n < 4060) :
@@ -83,7 +83,7 @@ end Stage3
 
 section Stage4
 
-@[expose] def RuComm (σ : Equiv.Perm (Fin 4060)) : Prop := ruXperm * σ = σ * ruXperm
+def RuComm (σ : Equiv.Perm (Fin 4060)) : Prop := ruXperm * σ = σ * ruXperm
 
 theorem ruCAct_comm_fixed {X σ : Equiv.Perm (Fin 4060)} (hσ : X * σ = σ * X) {p : ℕ}
     (hp : p < 4060) (hfix : ruCAct X p = p) : ruCAct X (ruCAct σ p) = ruCAct σ p := by
@@ -95,7 +95,7 @@ theorem ruCAct_comm_fixed {X σ : Equiv.Perm (Fin 4060)} (hσ : X * σ = σ * X)
   rw [ruCAct_eq σ hp, ruCAct_eq X (σ ⟨p, hp⟩).2]
   exact h
 
-@[expose] def ruActNat (σ : Equiv.Perm (Fin 4060)) (k : ℕ) : ℕ := ruF.idxOf (ruCAct σ ruF[k]!)
+def ruActNat (σ : Equiv.Perm (Fin 4060)) (k : ℕ) : ℕ := ruF.idxOf (ruCAct σ ruF[k]!)
 
 theorem ruF_getElem_mem {k : ℕ} (hk : k < 10) : ruF[k]! ∈ ruF := by
   revert k; decide

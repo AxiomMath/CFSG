@@ -84,7 +84,7 @@ theorem burnsideF48t_g23_R_preserves :
   · exact ⟨_, burnsideF48t_g23_RGen3 ▸ burnsideF48t_g23_RGen_smul (i := 3) (by decide) k⟩
 
 open scoped Pointwise in
-@[expose] noncomputable def burnsideF48t_g23ρ : ↥burnsideF48t_g23R →* Equiv.Perm (Fin 728) :=
+noncomputable def burnsideF48t_g23ρ : ↥burnsideF48t_g23R →* Equiv.Perm (Fin 728) :=
   burnsideF48t_resHom burnsideF48t_g23_Pt_injective burnsideF48t_g23_R_preserves
 
 open scoped Pointwise in

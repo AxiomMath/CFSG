@@ -190,7 +190,7 @@ theorem commP_le_mb : CFSG.Quasithin.commV P2 ≤ maskSub 9 mbL8_mb := by
       exact mem_maskSub.2 ⟨_, actM_id_mem_mb colsY2 (mbP_basis_mem_mb colsY2 (by simp)) hm',
         (comm_y2_toW_mb hm').symm⟩
 
-@[expose] noncomputable abbrev BStd_mb : Subgroup W9 :=
+noncomputable abbrev BStd_mb : Subgroup W9 :=
   CFSG.Quasithin.commV QW9 ⊔ CFSG.Quasithin.commV P2 ⊔ U0
 
 theorem U0_le_mb : U0 ≤ maskSub 9 mbL8_mb := by

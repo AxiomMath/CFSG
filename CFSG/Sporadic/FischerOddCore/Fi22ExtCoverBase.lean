@@ -33,15 +33,15 @@ namespace CFSG.Sporadic.FischerOddCore
 open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 open CFSG.Monster.B.Fischer CFSG.Sporadic.FischerOddCore.Native
 
-@[expose] def fi22ExtElt (x : Fin 1024 × Fin 32 × Fin 4) (e : Bool) : Equiv.Perm (Fin 3510) :=
+def fi22ExtElt (x : Fin 1024 × Fin 32 × Fin 4) (e : Bool) : Equiv.Perm (Fin 3510) :=
   fi22ExtQ * fi22TProd x * fi22ExtQ⁻¹ * (if e then fi22ExtV else 1)
 
-@[expose] def fi22ExtCoord (I : ℕ) : Fin 1024 × Fin 32 × Fin 4 :=
+def fi22ExtCoord (I : ℕ) : Fin 1024 × Fin 32 × Fin 4 :=
   (⟨I / 2 / 4 / 32 % 1024, Nat.mod_lt _ (by norm_num)⟩,
     ⟨I / 2 / 4 % 32, Nat.mod_lt _ (by norm_num)⟩,
     ⟨I / 2 % 4, Nat.mod_lt _ (by norm_num)⟩)
 
-@[expose] def fi22ExtEltIdx (I : ℕ) : Equiv.Perm (Fin 3510) :=
+def fi22ExtEltIdx (I : ℕ) : Equiv.Perm (Fin 3510) :=
   fi22ExtElt (fi22ExtCoord I) (I % 2 == 1)
 
 theorem fi22ExtElt_false (x : Fin 1024 × Fin 32 × Fin 4) :
@@ -56,7 +56,7 @@ theorem perm_mul4_apply {α : Type*} (A B C D : Equiv.Perm α) (p : α) :
     (A * B * C * D) p = A (B (C (D p))) :=
   rfl
 
-@[expose] def fi22ExtIdx (x : Fin 1024 × Fin 32 × Fin 4) (e : Bool) : ℕ :=
+def fi22ExtIdx (x : Fin 1024 × Fin 32 × Fin 4) (e : Bool) : ℕ :=
   2 * ((x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val) + e.toNat
 
 theorem fi22ExtIdx_lt (x : Fin 1024 × Fin 32 × Fin 4) (e : Bool) : fi22ExtIdx x e < 262144 := by

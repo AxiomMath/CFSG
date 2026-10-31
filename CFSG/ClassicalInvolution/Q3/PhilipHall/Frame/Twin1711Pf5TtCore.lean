@@ -13,7 +13,7 @@ open CFSG.Monster.B.Co2 PkG CovK CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.Sp
 
 set_option linter.unusedSectionVars false
 
-@[expose] abbrev RR (p : ℕ) (x : ↥ySub) : Prop := ResRep p (x : Equiv.Perm (Fin 240))
+abbrev RR (p : ℕ) (x : ↥ySub) : Prop := ResRep p (x : Equiv.Perm (Fin 240))
 
 theorem RR.mul {p q : ℕ} {x y : ↥ySub} (hp : RR p x) (hq : RR q y) :
     RR (PkG.comp 64 48 p q) (x * y) := ResRep.comp hp hq

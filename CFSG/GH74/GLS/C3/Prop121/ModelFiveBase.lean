@@ -23,7 +23,7 @@ namespace CFSG.GH74.GLS.C3.Prop121
 
 open Equiv Perm Subgroup CFSG.GH74.GLS.C3.Layer2 CFSG.GH74.GLS.C3.Layer2.Model
 
-@[expose] def T5 : Subgroup (Amb 5) :=
+def T5 : Subgroup (Amb 5) :=
   Fgrp 5 ⊓ (Subgroup.centralizer ({z5} : Set (Perm (Fin 5)))).prod ⊤
 
 theorem mem_T5 {p : Amb 5} :

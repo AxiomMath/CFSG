@@ -96,7 +96,7 @@ theorem fix_of_base {base : Array Nat} {G : Equiv.Perm (Fin 3510)}
   subst e
   exact hfix t ht h
 
-@[expose] noncomputable def fi22Chain7 : RawSchreierDatum 3510 where
+noncomputable def fi22Chain7 : RawSchreierDatum 3510 where
   degree_pos := by decide
   originalCount := 2
   strongCount := 19

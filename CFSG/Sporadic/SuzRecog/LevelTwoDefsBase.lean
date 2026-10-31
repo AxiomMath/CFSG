@@ -38,11 +38,11 @@ theorem rep_of_conjEq {g gi a b : Array ℕ} {G A : Equiv.Perm (Fin 1782)} (hg :
   have := Rep.of_eqA (rep_compA hg (rep_compA ha hgi)) h
   rwa [← mul_assoc] at this
 
-@[expose] noncomputable def x1 : Equiv.Perm (Fin 1782) := permC 1782 gens[0]!
+noncomputable def x1 : Equiv.Perm (Fin 1782) := permC 1782 gens[0]!
 
-@[expose] noncomputable def x2 : Equiv.Perm (Fin 1782) := permC 1782 gens[1]!
+noncomputable def x2 : Equiv.Perm (Fin 1782) := permC 1782 gens[1]!
 
-@[expose] noncomputable def xGroup : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.closure {x1, x2}
+noncomputable def xGroup : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.closure {x1, x2}
 
 theorem gens_size : gens.size = 2 := rfl
 
@@ -51,7 +51,7 @@ theorem xStrongArrs_size : xStrongArrs.size = 9 := by simp [xStrongArrs]
 theorem gensInv_get {s : ℕ} (hs : s < 2) : gensInv[s]! = invCand 1782 gens[s]! :=
   getElem!_map_nat _ (by rw [gens_size]; exact hs)
 
-@[expose] def xBaseFin : List (Fin 1782) := xBase.map (pt 1782)
+def xBaseFin : List (Fin 1782) := xBase.map (pt 1782)
 
 theorem xBaseFin_eq : xBaseFin = [1, 15, 33, 20, 0] := by decide
 
@@ -64,7 +64,7 @@ theorem xBaseFin_vals : (xBaseFin.map Fin.val).toArray = xBase.toArray := by
 theorem gens_le_strong : gens.size ≤ xStrongArrs.size := by
   rw [gens_size, xStrongArrs_size]; norm_num
 
-@[expose] noncomputable def xChain : RawSchreierDatum 1782 :=
+noncomputable def xChain : RawSchreierDatum 1782 :=
   rawOfArrays 1782 (by norm_num) gens xStrongArrs gens_le_strong xBaseFin xBaseFin_nodup xWords
 
 theorem xChain_originalCount : xChain.originalCount = 2 := rfl

@@ -97,7 +97,7 @@ theorem P_key {x : Nat} (hx : x < 245520) : P x = vecK (key ONW.K x) := by
   change vecOf (orbitData ()).keys[x]! = _
   rw [CertificateChecks.KernelSpor.ON2.key_get hx, vecK_wOfK (pv_key hx)]
 
-@[expose] noncomputable def matHom : J0 →* Matrix (Fin 154) (Fin 154) (ZMod 3) :=
+noncomputable def matHom : J0 →* Matrix (Fin 154) (Fin 154) (ZMod 3) :=
   (Units.coeHom _).comp J0.subtype
 
 theorem matHom_apply (g : J0) : matHom g = mat0 g := rfl
@@ -126,9 +126,9 @@ theorem colB (r c : Fin 154) : matHom gb0 r c = vecK (ONW.LB.getD c.val 0) r := 
       (CertificateChecks.KernelSpor.ON.list_eq ONW.LB ONW.CB
         (CFSG.KS.allN_spec CertificateChecks.KernelSpor.ON2.listB2))) r c
 
-@[expose] noncomputable def regs0G (r : ℕ) : J0 := if r = 0 then ga0 else if r = 1 then gb0 * ga0 * gb0 else 1
+noncomputable def regs0G (r : ℕ) : J0 := if r = 0 then ga0 else if r = 1 then gb0 * ga0 * gb0 else 1
 
-@[expose] noncomputable def gs0 (j : ℕ) : J0 := runSLPG prog regs0G (sel.toList.getD j 0)
+noncomputable def gs0 (j : ℕ) : J0 := runSLPG prog regs0G (sel.toList.getD j 0)
 
 theorem prog_lt : ∀ ins ∈ prog, instrRegsLt 26 ins := by
   have h : prog.all (instrLt 26) = true := by decide

@@ -14,7 +14,7 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certifi
 variable (h : ECheckH)
 include h
 
-@[expose] def chainEH : RawSchreierDatum 2300 :=
+def chainEH : RawSchreierDatum 2300 :=
   rawOfArrays 2300 eRec.origArrs eRec.strongArrs eRec.baseArr eRec.wordArrs (by norm_num)
     (by rw [(eRec_shapeH h).origArrs_size, (eRec_shapeH h).strongArrs_size]; norm_num)
     (baseArr_lt_of_shape (eRec_shapeH h) thirdBase_lt)

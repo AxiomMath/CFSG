@@ -39,7 +39,7 @@ theorem imOK_parts {C : Array ℕ} {L : List ℕ} (h : imOK C L = true) :
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   exact ⟨h1, fun w hw => ⟨(h2 w hw).1, (h2 w hw).2⟩, h3⟩
 
-@[expose] def e2 : J := signedWord x y e2Word ^ 6
+def e2 : J := signedWord x y e2Word ^ 6
 
 theorem letters_ok_of {w : List ℤ} (h : lettersOK w = true) :
     ∀ l ∈ w, l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2 := by
@@ -83,7 +83,7 @@ theorem conj_mem_conjOrbit {L : Subgroup J} {e x s : J} (hx : x ∈ L) (hs : s �
   obtain ⟨h, hh, rfl⟩ := hs
   exact ⟨x * h, L.mul_mem hx hh, by group⟩
 
-@[expose] def gxy (g : ℕ) : J := if g = 0 then x else y
+def gxy (g : ℕ) : J := if g = 0 then x else y
 
 theorem gxy_mem (g : ℕ) : gxy g ∈ K := by
   unfold gxy
@@ -91,13 +91,13 @@ theorem gxy_mem (g : ℕ) : gxy g ∈ K := by
   · exact x_mem_K
   · exact y_mem_K
 
-@[expose] def e3 : J := η 1096 * x
+def e3 : J := η 1096 * x
 
 theorem z_mem_H' : z ∈ H := z_mem_H
 
 theorem e3_mem_H : e3 ∈ H := H.mul_mem (N_le_H (η_mem_N _)) x_mem_H
 
-@[expose] def vS : J := signedWord a b vLetters
+def vS : J := signedWord a b vLetters
 
 theorem coe_letter_ab {l : ℤ} (hl : l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2) :
     ((letter a b l : J) : GL (Fin 112) (ZMod 2)) =
@@ -236,9 +236,9 @@ theorem fusion_parts : conjEqP (cnjP (mulP Bn An) Zn 3) Zn = true ∧
   exact ⟨h.1.1, h.1.2, h.2⟩
 
 
-@[expose] def uS : J := signedWord a b uLetters
+def uS : J := signedWord a b uLetters
 
-@[expose] def tS : J := (vS⁻¹ * uS * vS * uS) ^ 22
+def tS : J := (vS⁻¹ * uS * vS * uS) ^ 22
 
 theorem tS_coe
     : (tS : GL (Fin 112) (ZMod 2)) = CFSG.Quasithin.H13.J4.t := by

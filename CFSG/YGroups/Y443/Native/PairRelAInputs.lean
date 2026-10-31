@@ -9,6 +9,6 @@ namespace CFSG.YGroups.Y443
 open CFSG.Monster CFSG.Monster.AxisCount CFSG.Monster.Griess CFSG.Monster.Generated
   CFSG.YGroups.Y443Native
 
-@[expose] def pairAWords : List (List Native.Gen) := pairWords [0, 1]
+def pairAWords : List (List Native.Gen) := pairWords [0, 1]
 
 end CFSG.YGroups.Y443

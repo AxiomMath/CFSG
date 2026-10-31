@@ -20,7 +20,7 @@ open CFSG.Open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.
 
 local notation "Rows" => CFSG.Sporadic.Co1Schreier.Native.Rows
 
-@[expose] noncomputable def gElts : List GL24 := dagG [A₁, A₂] (dagWords.map Native.decWord)
+noncomputable def gElts : List GL24 := dagG [A₁, A₂] (dagWords.map Native.decWord)
 
 theorem base_mem : ∀ g ∈ ([A₁, A₂] : List GL24), g ∈ GA := by
   intro g hg
@@ -33,7 +33,7 @@ theorem gElts_mem : ∀ g ∈ gElts, g ∈ GA := by
   unfold gElts
   exact dagG_mem base_mem _
 
-@[expose] noncomputable def gE (k : ℕ) : ↥GA := ⟨gElts.getD k 1, getD_mem_of_forall gElts_mem k⟩
+noncomputable def gE (k : ℕ) : ↥GA := ⟨gElts.getD k 1, getD_mem_of_forall gElts_mem k⟩
 
 abbrev gRows : List Rows := (gDag Native.aR Native.bR).1
 
@@ -71,7 +71,7 @@ theorem a0OK_parts {rs : List Rows} (h : a0OK rs = true) :
 
 section Elts
 
-@[expose] noncomputable def dE (i : Fin 3) : ↥GA := gE (idxD.getD i.val 0)
+noncomputable def dE (i : Fin 3) : ↥GA := gE (idxD.getD i.val 0)
 
 abbrev GOK : Prop := globalOK Native.aR Native.bR = true
 
@@ -96,7 +96,7 @@ theorem dE_comm (hG : GOK) (i j : Fin 3) : dE i * dE j = dE j * dE i := by
   rw [Subgroup.coe_mul, Subgroup.coe_mul]
   exact r1.eq r2
 
-@[expose] noncomputable def φ (hG : GOK) : Multiplicative (Fin 3 → ZMod 5) →* ↥GA :=
+noncomputable def φ (hG : GOK) : Multiplicative (Fin 3 → ZMod 5) →* ↥GA :=
   Co3T.vecProdHom (p := 5) dE (fun i j => dE_comm hG i j) (dE_pow hG)
 
 theorem φ_apply (hG : GOK) (a : Fin 3 → ZMod 5) :
@@ -106,10 +106,10 @@ theorem vecProd_eq (a : Fin 3 → ZMod 5) : Co3T.vecProd dE a =
     dE 0 ^ (a 0).val * (dE 1 ^ (a 1).val * dE 2 ^ (a 2).val) := by
   simp [Co3T.vecProd, List.finRange_succ]
 
-@[expose] def vec3 (k : ℕ) : Fin 3 → ZMod 5 :=
+def vec3 (k : ℕ) : Fin 3 → ZMod 5 :=
   ![((k % 5 : ℕ) : ZMod 5), (((k / 5) % 5 : ℕ) : ZMod 5), ((k / 25 : ℕ) : ZMod 5)]
 
-@[expose] def idx3 (a : Fin 3 → ZMod 5) : ℕ := (a 0).val + 5 * (a 1).val + 25 * (a 2).val
+def idx3 (a : Fin 3 → ZMod 5) : ℕ := (a 0).val + 5 * (a 1).val + 25 * (a 2).val
 
 theorem idx3_lt (a : Fin 3 → ZMod 5) : idx3 a < 125 := by
   have h0 := ZMod.val_lt (a 0)
@@ -167,7 +167,7 @@ theorem φ_injective (hG : GOK) : Function.Injective (φ hG) := by
   rw [vec3_idx3, vec3_idx3] at this
   exact Multiplicative.toAdd.injective this
 
-@[expose] noncomputable def A0 (hG : GOK) : Subgroup ↥GA := (φ hG).range
+noncomputable def A0 (hG : GOK) : Subgroup ↥GA := (φ hG).range
 
 theorem card_A0 (hG : GOK) : Nat.card (A0 hG) = 125 := by
   rw [A0, MonoidHom.range_eq_map, Subgroup.card_map_of_injective (φ_injective hG),
@@ -205,7 +205,7 @@ theorem qOK_parts {rs : List Rows} (h : qOK rs = true) :
   have := h3 i hi'
   simpa using this
 
-@[expose] noncomputable def qG (l : ℕ) : ↥GA := gE (idxQ.getD l 0)
+noncomputable def qG (l : ℕ) : ↥GA := gE (idxQ.getD l 0)
 
 theorem qGens_getElem (l : ℕ) (hl : l < (qGens gRows).toArray.size) :
     (qGens gRows).toArray[l]! = rowAt gRows (idxQ.getD l 0) := by
@@ -220,7 +220,7 @@ theorem qG_rep (hG : GOK) :
   rw [qGens_getElem l hl, μG_apply]
   exact (rep_gE (globalOK_parts hG).1 _).symm
 
-@[expose] noncomputable def Qsub : Subgroup ↥GA :=
+noncomputable def Qsub : Subgroup ↥GA :=
   Subgroup.closure (qG '' {l | l < (qGens gRows).toArray.size})
 
 theorem card_Qsub (hG : GOK) : Nat.card Qsub = 625 := by
@@ -372,23 +372,23 @@ theorem planeOK_parts {rs : List Rows} (h : planeOK rs = true) :
   · obtain ⟨⟨a, b⟩, c, d⟩ := h3 τ hτ
     exact ⟨a, b, c, d⟩
 
-@[expose] noncomputable def gensGL (hG : GOK) (τ : ℕ) : List GL24 :=
+noncomputable def gensGL (hG : GOK) (τ : ℕ) : List GL24 :=
   [((φ hG (Multiplicative.ofAdd (vec3 (repA.getD τ 0))) : ↥GA) : GL24),
     ((φ hG (Multiplicative.ofAdd (vec3 (repB.getD τ 0))) : ↥GA) : GL24)] ++
     (idxH.getD τ []).map (fun k => gElts.getD k 1)
 
-@[expose] noncomputable def g1 (hG : GOK) (τ : ℕ) : ↥GA :=
+noncomputable def g1 (hG : GOK) (τ : ℕ) : ↥GA :=
   φ hG (Multiplicative.ofAdd (vec3 (repA.getD τ 0)))
 
-@[expose] noncomputable def g2 (hG : GOK) (τ : ℕ) : ↥GA :=
+noncomputable def g2 (hG : GOK) (τ : ℕ) : ↥GA :=
   φ hG (Multiplicative.ofAdd (vec3 (repB.getD τ 0)))
 
-@[expose] noncomputable def cP (p : ℕ) : ↥GA := gE (idxPC.getD p 0)
+noncomputable def cP (p : ℕ) : ↥GA := gE (idxPC.getD p 0)
 
-@[expose] noncomputable def xP (hG : GOK) (p : ℕ) : ↥GA :=
+noncomputable def xP (hG : GOK) (p : ℕ) : ↥GA :=
   φ hG (Multiplicative.ofAdd (vec3 (planeA.getD p 0)))
 
-@[expose] noncomputable def yP (hG : GOK) (p : ℕ) : ↥GA :=
+noncomputable def yP (hG : GOK) (p : ℕ) : ↥GA :=
   φ hG (Multiplicative.ofAdd (vec3 (planeB.getD p 0)))
 
 theorem xP_eq (hG : GOK) {p : ℕ} (hp : p < 31) :

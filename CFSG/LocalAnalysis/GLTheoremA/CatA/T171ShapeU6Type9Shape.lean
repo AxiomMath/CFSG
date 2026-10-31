@@ -31,7 +31,7 @@ theorem card_image_le_three_of_pow_three_eq_one {K : Type} [Field K] [DecidableE
   rw [hp0] at hdeg
   norm_num at hdeg
 
-@[expose] abbrev fiber {ι M : Type*} [Fintype ι] [DecidableEq M] (f : ι → M) (v : M) : Finset ι :=
+abbrev fiber {ι M : Type*} [Fintype ι] [DecidableEq M] (f : ι → M) (v : M) : Finset ι :=
   Finset.univ.filter fun i => f i = v
 
 theorem exists_two_le_fiber {ι M : Type*} [Fintype ι] [DecidableEq M] (f : ι → M)

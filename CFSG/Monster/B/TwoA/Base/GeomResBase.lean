@@ -14,7 +14,7 @@ open CFSG.Monster CFSG.Monster.B.Short CFSG.Monster.B Module
 
 attribute [local instance] parAction
 
-@[expose] def parRes (F : Set ParGeom) : Set ParGeom :=
+def parRes (F : Set ParGeom) : Set ParGeom :=
   {x | parType x ∉ parType '' F ∧ ∀ y ∈ F, parInc x y}
 
 theorem smul_mem_parRes {g : Shat} {F : Set ParGeom} {x : ParGeom} (hx : x ∈ parRes F) :
@@ -32,7 +32,7 @@ theorem parRes_smul (g : Shat) (F : Set ParGeom) :
   · rintro _ ⟨x, hx, rfl⟩
     exact smul_mem_parRes hx
 
-@[expose] def stdSub (J : Set ℕ) : Set ParGeom := {x | x ∈ stdParFlag ∧ parType x ∈ J}
+def stdSub (J : Set ℕ) : Set ParGeom := {x | x ∈ stdParFlag ∧ parType x ∈ J}
 
 theorem isParFlag_stdSub (J : Set ℕ) : IsParFlag (stdSub J) :=
   fun x hx y hy => stdParFlag_isParFlag.1 x hx.1 y hy.1
@@ -46,7 +46,7 @@ theorem parType_stdSub (J : Set ℕ) (hJ : J ⊆ Set.Icc 1 5) : parType '' stdSu
     obtain ⟨h1, h5⟩ := hJ hs
     exact ⟨stdObj s h1 h5, ⟨rfl, hs⟩, rfl⟩
 
-@[expose] def resTransport (g : Shat) (F : Set ParGeom) (j : ℕ) :
+def resTransport (g : Shat) (F : Set ParGeom) (j : ℕ) :
     {x : ParGeom // x ∈ parRes F ∧ parType x = j} ≃
       {x : ParGeom // x ∈ parRes ((g • ·) '' F) ∧ parType x = j} where
   toFun x := ⟨g • x.1, smul_mem_parRes x.2.1, by rw [parType_smul]; exact x.2.2⟩

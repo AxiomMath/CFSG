@@ -52,7 +52,7 @@ theorem orderOf_coe_of_equiv {H₀ : Subgroup G} (θ : H₀ ≃* S) (h : H₀) {
 
 end Abstract
 
-@[expose] def sigma7 : Perm (Fin 12) := List.formPerm [(1 : Fin 12), 4, 3, 7, 6, 2, 11]
+def sigma7 : Perm (Fin 12) := List.formPerm [(1 : Fin 12), 4, 3, 7, 6, 2, 11]
 
 theorem sigma7_isCycle : sigma7.IsCycle :=
   List.isCycle_formPerm (by decide) (by decide)

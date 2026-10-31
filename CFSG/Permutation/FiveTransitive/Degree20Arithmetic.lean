@@ -44,10 +44,10 @@ namespace CFSG
 
 namespace FiveTransitive.Degree20
 
-@[expose] abbrev SeventeenNormalizerRatio :=
+abbrev SeventeenNormalizerRatio :=
   ↥(Nat.divisors 16)
 
-@[expose] abbrev NineteenNormalizerRatio :=
+abbrev NineteenNormalizerRatio :=
   ↥(Nat.divisors 18)
 
 @[expose] def stabilizerFactorArithmeticPredicateZero

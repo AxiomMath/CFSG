@@ -70,7 +70,7 @@ theorem conjE_Vhat_surjective :
   change Nat.card Ntwo = Nat.card (MulAut Vhat) * Nat.card Ctwo
   rw [natCard_Ntwo, natCard_mulAut_Vhat, natCard_Ctwo]
 
-@[expose] def Echain : ℕ → Subgroup Dfull
+def Echain : ℕ → Subgroup Dfull
   | 1 => Subgroup.zpowers xhat
   | 2 => Vhat
   | 3 => E3

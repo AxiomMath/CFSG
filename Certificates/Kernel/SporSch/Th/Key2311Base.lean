@@ -16,9 +16,9 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.SporSch CFSG.Sporadic.Th.Native CFSG.Sporadic.
 open CertificateChecks.KernelSporSch
 open CertificateChecks.KernelSporSch.ThRow (sh1 lt_of ltFC bindFC)
 
-@[expose] def C1 : Nat := 0xb9318bc60b06215ff4eb15e228ba41526fe75848bd0133807208caa1fa8551
+def C1 : Nat := 0xb9318bc60b06215ff4eb15e228ba41526fe75848bd0133807208caa1fa8551
 
-@[expose] def C2 : Nat := 0x1e1057aa10c4abdf6972134ec61140ccf2027af03f80a7ed5002b65e4b1cca
+def C2 : Nat := 0x1e1057aa10c4abdf6972134ec61140ccf2027af03f80a7ed5002b65e4b1cca
 
 theorem key_ok : Nat.beq (canonN (colK ThFC (v4N wKey.u)) (colK ThFC (v4N wKey.v))) (canonN C1 C2) =
     true := by quickRfl

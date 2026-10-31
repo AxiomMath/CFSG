@@ -55,14 +55,14 @@ theorem qV_Uplane :
   · rw [qV_add, qV_wFr, show qV sW = 0 from qV_pairW offPair23 0,
       show bV wFr sW = 0 from bV_wFr_pairW offPair23 0, add_zero, add_zero]
 
-@[expose] def zhat : Dfull := dhat 2 3
+def zhat : Dfull := dhat 2 3
 
-@[expose] def zhatE : Ehat := dhatE 2 3
+def zhatE : Ehat := dhatE 2 3
 
 theorem psiW_zhat :
     psiW zhatE = sW := psiW_dhat (by decide) offPair23
 
-@[expose] def E3 : Subgroup Dfull := Subgroup.closure {xhat, yhat, zhat}
+def E3 : Subgroup Dfull := Subgroup.closure {xhat, yhat, zhat}
 
 theorem mem_closure_of_fiber
     {S : Set Dfull} {d p : Ehat} (h : psiW d = psiW p)
@@ -134,11 +134,11 @@ theorem tauhat_mem_normalizer_E3 : tauhat ∈ Subgroup.normalizer (E3 : Set Dful
   · rw [tauhat_conj_zhat]
     exact hz
 
-@[expose] def H3 : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (E3 : Set Dfull)
+def H3 : Subgroup Dfull := Jhat ⊓ Subgroup.normalizer (E3 : Set Dfull)
 
 abbrev K3 : Subgroup Dfull := Subgroup.normalizer (E3 : Set Dfull)
 
-@[expose] def C3 : Subgroup Dfull := Subgroup.centralizer (E3 : Set Dfull)
+def C3 : Subgroup Dfull := Subgroup.centralizer (E3 : Set Dfull)
 
 theorem H3_eq :
     H3 = HU Uplane :=
@@ -173,7 +173,7 @@ theorem C3_le_Jhat :
   rw [C3_eq]
   exact ZU_le_Jhat
 
-@[expose] def c3Proj :
+def c3Proj :
     C3 →* CU :=
   (zuProj Uplane).comp (MulEquiv.subgroupCongr C3_eq).toMonoidHom
 
@@ -217,7 +217,7 @@ theorem natCard_mulAut_E3 :
     Nat.card (MulAut E3) = 168 := by
   rw [Nat.card_congr (mulAutEquivGL natCard_E3_pow).toEquiv, natCard_GL_three]
 
-@[expose] def actE3 :
+def actE3 :
     K3 →* GL (Fin 3) (ZMod 2) :=
   (mulAutEquivGL natCard_E3_pow).toMonoidHom.comp (conjE E3)
 
@@ -284,9 +284,9 @@ theorem natCard_H3_inf_Ntwo :
 
 attribute [local instance] vAction
 
-@[expose] def l3ToNtwo : ↥(K3 ⊓ Ntwo) →* Ntwo := Subgroup.inclusion inf_le_right
+def l3ToNtwo : ↥(K3 ⊓ Ntwo) →* Ntwo := Subgroup.inclusion inf_le_right
 
-@[expose, instance_reducible] noncomputable def l3Action : MulAction ↥(K3 ⊓ Ntwo) Vsharp :=
+@[instance_reducible] noncomputable def l3Action : MulAction ↥(K3 ⊓ Ntwo) Vsharp :=
   MulAction.compHom _ l3ToNtwo
 
 attribute [local instance] l3Action
@@ -294,7 +294,7 @@ attribute [local instance] l3Action
 theorem tauhat_mem_K3 :
     tauhat ∈ K3 := tauhat_mem_normalizer_E3
 
-@[expose] def tauL :
+def tauL :
     ↥(K3 ⊓ Ntwo) := ⟨tauhat, tauhat_mem_K3, tauhat_mem_Ntwo⟩
 
 theorem tauL_smul

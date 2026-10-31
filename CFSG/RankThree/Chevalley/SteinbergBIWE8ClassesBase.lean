@@ -11,9 +11,9 @@ namespace CFSG.RankThree.Chevalley.WeylE8
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjoint
 open CFSG.LieType.Chevalley.WE8.Native
 
-@[expose] def rootsV : Set V8 := castV '' {α | IsRoot .E8 α}
+def rootsV : Set V8 := castV '' {α | IsRoot .E8 α}
 
-@[expose] def nInv (t : W8) : ℕ := (rootsV ∩ (negSpace t : Set V8)).ncard / 2
+def nInv (t : W8) : ℕ := (rootsV ∩ (negSpace t : Set V8)).ncard / 2
 
 theorem rootsV_inter_negSpace (t : W8) :
     rootsV ∩ (negSpace t : Set V8) = castV '' {α : L8 | IsRoot .E8 α ∧ t • α = -α} := by
@@ -46,7 +46,7 @@ theorem ncard_neg_conj (u t : W8) :
       rw [mul_smul, mul_smul, inv_smul_smul, h, smul_neg]
   rw [e, Set.ncard_image_of_injective _ (MulAction.injective u)]
 
-@[expose] def frameF (i : ℕ) : Fin (frame i).length → L8 := (frame i).get
+def frameF (i : ℕ) : Fin (frame i).length → L8 := (frame i).get
 
 theorem frameF_orth {i : ℕ} (hi : i < 9) : IsOrthFrame (frameF i) := by
   refine ⟨fun j => frame_isRoot hi _ (List.get_mem _ _), fun a b hab => ?_⟩
@@ -64,7 +64,7 @@ theorem rep_eq_prodRefl (i : ℕ) : rep i = prodRefl (frameF i) := by
   rw [List.map_ofFn]
   rfl
 
-@[expose] def nList : List ℕ := [1, 2, 3, 4, 12, 13, 30, 63, 120]
+def nList : List ℕ := [1, 2, 3, 4, 12, 13, 30, 63, 120]
 
 theorem negCounts_eq : ∀ i < 9, negCounts.getD i 0 / 2 = nList.getD i 0 := by
   decide

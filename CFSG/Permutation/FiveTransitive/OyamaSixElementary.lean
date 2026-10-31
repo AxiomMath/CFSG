@@ -13,7 +13,7 @@ namespace FiveTransitive.OyamaSixElementary
 
 open MulAction FixedSetNormalizerPerm
 
-@[expose] abbrev fixedHom
+abbrev fixedHom
     (G X : Type*) [Group G] [MulAction G X] (Q : Subgroup G) :=
   FixedSetNormalizerHom.fixedPermHom G X Q
 

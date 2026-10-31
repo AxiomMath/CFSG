@@ -8,7 +8,7 @@ namespace CFSG.GH74.GLS.C3.Layer1.P89
 
 open CFSG.GH74.KGroups.A6 CFSG.Sporadic.Schreier
 
-@[expose] abbrev G10 : Type := Equiv.Perm (Fin 10)
+abbrev G10 : Type := Equiv.Perm (Fin 10)
 
 @[expose] def cyc (l : List (Fin 10)) : G10 := List.formPerm l
 

@@ -19,7 +19,7 @@ namespace Fi23Sylow
 
 section Tables
 
-@[expose] noncomputable def qG (j : ℕ) : CFSG.Sporadic.Fi23.J := ((qWords[j]!).map (pairG gs)).prod
+noncomputable def qG (j : ℕ) : CFSG.Sporadic.Fi23.J := ((qWords[j]!).map (pairG gs)).prod
 
 theorem qLettersT_nil (L : Array Table) : qLettersT L [] = idT 31671 := by
   unfold qLettersT

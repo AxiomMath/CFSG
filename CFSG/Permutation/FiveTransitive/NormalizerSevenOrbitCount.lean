@@ -18,7 +18,7 @@ open MulAction NormalizerFixedComplement
     change y.val ∈ Q ↔ x.val * y.val * x.val⁻¹ ∈ Q
     exact Subgroup.mem_normalizer_iff.mp x.property y.val)⟩
 
-@[expose] abbrev orbitPerm {G X : Type*} [Group G] [MulAction G X]
+abbrev orbitPerm {G X : Type*} [Group G] [MulAction G X]
     (Q : Subgroup G) (x : Normalizer Q) :=
   NormalizerOrbitPermutation.orbitPerm (Y := Domain (X := X) Q) (Inside Q) (lift Q x)
 

@@ -21,7 +21,7 @@ section Act
 
 variable {A L : Subgroup G}
 
-@[expose] abbrev NLA (A L : Subgroup G) : Subgroup (Subgroup.normalizer (A : Set G)) :=
+abbrev NLA (A L : Subgroup G) : Subgroup (Subgroup.normalizer (A : Set G)) :=
   L.subgroupOf (Subgroup.normalizer (A : Set G))
 
 @[expose] noncomputable def classNLA (A L : Subgroup G) : ↥(NLA A L) →* lBar L where

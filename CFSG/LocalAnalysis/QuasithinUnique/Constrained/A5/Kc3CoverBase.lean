@@ -192,7 +192,7 @@ theorem d5_img {L : Subgroup G} (hLK : L ≤ K) (hZ : IsPGroup 2 (zK K)) (h : D5
     rw [e1, e2, hαbar]
     exact hβ l v w h5
 
-@[expose] def sK : ↥K →* ↥(img K K) :=
+def sK : ↥K →* ↥(img K K) :=
   ((psi K).comp (Subgroup.inclusion (K_le_nK K))).codRestrict (img K K)
     (fun k => (mem_img K).2 ⟨k, K_le_nK K k.2, k.2, rfl⟩)
 
@@ -268,7 +268,7 @@ namespace CFSG.QuasithinUnique.A5
 
 open CFSG.Open CFSG.QuasithinUnique CFSG.QuasithinUnique.A5.Kc3Cover
 
-@[expose] def Kc3ForS (P : ∀ (X : Type) [Group X], Prop) : Prop :=
+def Kc3ForS (P : ∀ (X : Type) [Group X], Prop) : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (K L S₀ T₀ : Subgroup G),
     CFSG.IsQuasisimple ↥K → P ↥K → Subgroup.center ↥K = ⊥ → L ≤ K → D5Data L → ⁅L, L⁆ = L →
     S₀ ≤ Subgroup.normalizer (L : Set G) → IsPGroup 2 S₀ → IsPGroup 2 T₀ → S₀ ≤ T₀ →

@@ -9,7 +9,7 @@ namespace CFSG.Mathieu.Asc1113M22
 
 open CFSG.M23
 
-@[expose] abbrev Perm22 := Equiv.Perm (Fin 22)
+abbrev Perm22 := Equiv.Perm (Fin 22)
 
 @[expose] def z : Perm22 :=
   Equiv.swap 3 4 *

@@ -18,7 +18,7 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 Pointwise
 
-@[expose] def transporterWord : List ℤ :=
+def transporterWord : List ℤ :=
   [2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2,
     1, 2, 2]
 

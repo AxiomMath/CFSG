@@ -133,7 +133,7 @@ theorem q_parts :
     have := allBelowN_spec this.2 hm
     simpa only [Bool.and_eq_true, decide_eq_true_eq] using this
 
-@[expose] def qbar (i : ℕ) : Perm (Fin 800) := Monster.B.Co2.permOfArr 800 InvData.qPerms[i]!
+def qbar (i : ℕ) : Perm (Fin 800) := Monster.B.Co2.permOfArr 800 InvData.qPerms[i]!
 
 abbrev Qbar : Subgroup (Perm (Fin 800)) := Subgroup.closure (Set.range fun i : Fin 8 => qbar i)
 
@@ -146,7 +146,7 @@ theorem qbList_get {m : ℕ} (hm : m < 256) :
     (qbList 800 InvData.qPerms)[m]! = subQ 800 InvData.qPerms m := by
   rw [qbList, getElem!_pos _ m (by simp [hm]), Array.getElem_ofFn]
 
-@[expose] def qb (m : ℕ) : Perm (Fin 800) :=
+def qb (m : ℕ) : Perm (Fin 800) :=
   Monster.B.Co2.permOfArr 800 (qbList 800 InvData.qPerms)[m]!
 
 theorem foldl_acc {α : Type*} : ∀ (L : List ℕ) (acc : α), L.foldl (fun acc _ => acc) acc = acc

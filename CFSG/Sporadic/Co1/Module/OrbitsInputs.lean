@@ -13,9 +13,9 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Spor
 
 abbrev dat : VecData := Native.co1Data
 
-@[expose] def orbitOf (v n : ℕ) : VOrbit := vOrbitBFS 24 dat.colsA dat.colsB v n
+def orbitOf (v n : ℕ) : VOrbit := vOrbitBFS 24 dat.colsA dat.colsB v n
 
-@[expose] def orbitCheck (v n : ℕ) (others : List ℕ) : Bool :=
+def orbitCheck (v n : ℕ) (others : List ℕ) : Bool :=
   let O := orbitOf v n
   let ls : Array Table := #[O.alpha, O.beta]
   let T := treeBFS n 0 ls #[0, 1]

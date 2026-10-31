@@ -16,11 +16,11 @@ attribute [local irreducible] sAct sMt sGinv p9List p9Index a9LinTab a9CoTab sNf
 
 variable {G : Type*} [Group G]
 
-@[expose] def tCode : Eps → ℕ
+def tCode : Eps → ℕ
   | .plus => 64
   | .minus => 75
 
-@[expose] def tInv : Eps → ℕ × ℕ
+def tInv : Eps → ℕ × ℕ
   | .plus => (1439, 10336)
   | .minus => (1439, 9312)
 
@@ -29,7 +29,7 @@ theorem tM_code (ε : Eps) : (SModel.tM ε).code = tCode ε := by cases ε <;> r
 theorem mem_sMarked (ε : Eps) : (tCode ε, tInv ε) ∈ sMarked := by
   cases ε <;> simp [sMarked, tCode, tInv]
 
-@[expose] noncomputable def sIso {S : Subgroup G}
+noncomputable def sIso {S : Subgroup G}
     (e : S ≃* SModel) : CodeIso S 65536 sMul :=
   SModel.codeIso.ofEquiv e
 

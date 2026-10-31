@@ -11,9 +11,9 @@ namespace CFSG.QuasithinUnique.Lin2
 open CFSG.Open CFSG.QuasithinUnique.K1.SporadicPerm CFSG.Sporadic.He
 open CFSG.Blueprint.NativeSporadic (Carrier)
 
-@[expose] def heZI : ℕ := 5
+def heZI : ℕ := 5
 
-@[expose] def heWit : List (List ℕ × List ℕ × ℕ) := [
+def heWit : List (List ℕ × List ℕ × ℕ) := [
   ([0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0,
       1, 0],
    [0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -82,7 +82,7 @@ open CFSG.Blueprint.NativeSporadic (Carrier)
       1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
    904)]
 
-@[expose] def heGW : List (List ℕ) := [
+def heGW : List (List ℕ) := [
   [9, 3, 2, 1],
   [7, 4, 6, 5, 1],
   [7, 9],

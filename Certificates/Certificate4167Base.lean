@@ -9,7 +9,7 @@ open CFSG.QuasithinUnique.Ch1.SporLat.He CFSG.Quasithin
 
 namespace CFSG.Quasithin.A312He
 
-@[expose] def HeHatFacts (Y : Subgroup CFSG.Sporadic.He.J) : Prop :=
+def HeHatFacts (Y : Subgroup CFSG.Sporadic.He.J) : Prop :=
   ∃ (ol : List CFSG.Sporadic.He.J) (t : CFSG.Sporadic.He.J), A312Words.IdxTwoData Y ol t ∧
     ∃ pf : Fin 6 → Fin 8330, Function.Injective pf ∧
       (∀ g ∈ ol ++ [t], ∀ i, ∃ k, g • pf i = pf k) ∧
@@ -21,7 +21,7 @@ namespace CFSG.Quasithin.A312He
         (∀ a ∈ vl, ∀ b ∈ vl, a * b = b * a) ∧ (∀ a ∈ vl, a * a = 1) ∧
         (∀ a ∈ vl, ∀ i, a • pf i = pf i) ∧ Nat.card (Subgroup.closure {v | v ∈ vl}) = 64
 
-@[expose] def HeExtFacts (Y : Subgroup CFSG.Sporadic.He.J) : Prop :=
+def HeExtFacts (Y : Subgroup CFSG.Sporadic.He.J) : Prop :=
   ∃ (ol : List CFSG.Sporadic.He.J) (W : Subgroup CFSG.Sporadic.He.J),
     A312Words.IdxTwoData Y ol 1 ∧ W ≤ Y ∧ (∀ g ∈ ol, ∀ v ∈ W, g⁻¹ * v * g ∈ W) ∧
     Nat.card W = 2 ^ 7 ∧ IsExtraspecial2 3 W

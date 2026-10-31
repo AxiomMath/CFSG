@@ -38,9 +38,9 @@ namespace CFSG.Sporadic.HNOddCore
 open CFSG.Sporadic.HNSchreier CFSG.Sporadic.HNSchreier.Native CFSG.ONSchreier
 open CFSG.ONSchreier.Native CFSG.Sporadic.HNOddCore.Native Equiv
 
-@[expose] def c4W (j : Fin 9) : JH := hWordJ InvData.c4Words[(j : ℕ)]!
+def c4W (j : Fin 9) : JH := hWordJ InvData.c4Words[(j : ℕ)]!
 
-@[expose] def c6W (j : Fin 10) : JH := hWordJ InvData.c6Words[(j : ℕ)]!
+def c6W (j : Fin 10) : JH := hWordJ InvData.c6Words[(j : ℕ)]!
 
 theorem t1R_eq : t1R = cR := rfl
 

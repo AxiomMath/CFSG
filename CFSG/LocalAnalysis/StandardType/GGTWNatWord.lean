@@ -13,7 +13,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 @[expose] def GGTWNValid (p N : ℕ) (q : GGDepANPair) : Prop :=
   q.1.length = N - 1 ∧ q.2.length = N - 1 ∧ ggDepANDot p q.2 q.1 = 2 % p
 
-@[expose] abbrev ggTWNRflOf (p N : ℕ) (q : GGDepANPair) : Module.End (ZMod p) (GGTWE p N) :=
+abbrev ggTWNRflOf (p N : ℕ) (q : GGDepANPair) : Module.End (ZMod p) (GGTWE p N) :=
   ggTWRefl (ggTWNToZ p N q.1) (ggTWNToZ p N q.2)
 
 @[expose] def ggTWNNews (p N : ℕ) (news : List GGDepANPair) : Set (GGTWE p N × GGTWE p N) :=

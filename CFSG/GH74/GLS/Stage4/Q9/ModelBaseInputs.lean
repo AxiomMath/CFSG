@@ -98,7 +98,7 @@ end F9
 
 theorem nu_ne_zero : nu ≠ 0 := by decide
 
-@[expose] abbrev SL2 : Type := Matrix.SpecialLinearGroup (Fin 2) F9
+abbrev SL2 : Type := Matrix.SpecialLinearGroup (Fin 2) F9
 
 @[expose] def A0 : Matrix.GeneralLinearGroup (Fin 2) F9 where
   val := !![0, nu; 1, 0]
@@ -171,7 +171,7 @@ theorem sigmaAut_pow_two : sigmaAut ^ 2 = 1 := by
   map_mul' a b := by
     rw [toAdd_mul, ZMod.val_add, ← pow_add, ← pow_eq_pow_mod _ sigmaAut_pow_two]
 
-@[expose] abbrev Lg : Type := SL2 ⋊[sigmaHom] Multiplicative (ZMod 2)
+abbrev Lg : Type := SL2 ⋊[sigmaHom] Multiplicative (ZMod 2)
 
 instance : Fintype Lg := Fintype.ofEquiv _ SemidirectProduct.equivProd.symm
 

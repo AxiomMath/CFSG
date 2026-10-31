@@ -18,7 +18,7 @@ open CFSG.ONSchreier CFSG.ONSchreier.Native CFSG.Sporadic.HNSchreier CFSG.Sporad
 open CFSG.Sporadic.HNOddCore CFSG.Sporadic.HNOddCore.Native CFSG.Sporadic.He.Native
 open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Native
 
-@[expose] def sigma11 : Perm (Fin 12) :=
+def sigma11 : Perm (Fin 12) :=
   List.formPerm [(0 : Fin 12), 1, 11, 4, 2, 3, 6, 8, 9, 10, 5]
 
 theorem sigma11_isCycle : sigma11.IsCycle :=
@@ -40,7 +40,7 @@ theorem prep_sigma11 : PRep 12 (natArr cyc11) sigma11 := by
   unfold PRep
   decide
 
-@[expose] def elevenJ : JH := hWordJ elevenWord
+def elevenJ : JH := hWordJ elevenWord
 
 theorem elevenJ_mem : elevenJ ∈ HJ := hWordJ_mem elevenWord
 

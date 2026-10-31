@@ -10,7 +10,7 @@ namespace FiveTransitive.TupleSemiregularFour
 
 open MulAction
 
-@[expose] abbrev image {G X : Type*} [Group G] [MulAction G X] {k p : ℕ}
+abbrev image {G X : Type*} [Group G] [MulAction G X] {k p : ℕ}
     (e : Fin k ↪ X) (S : Sylow p (stabilizer G e)) : Subgroup G :=
   (S : Subgroup (stabilizer G e)).map (stabilizer G e).subtype
 

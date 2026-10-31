@@ -13,7 +13,7 @@ open MulAction
 
 variable {G X : Type*} [Group G] [Finite G] [MulAction G X] [Finite X]
 
-@[expose] abbrev image (s : Set X) (S : Sylow 2 (fixingSubgroup G s)) : Subgroup G :=
+abbrev image (s : Set X) (S : Sylow 2 (fixingSubgroup G s)) : Subgroup G :=
   (S : Subgroup (fixingSubgroup G s)).map (fixingSubgroup G s).subtype
 
 @[expose] def FourFixedSix (G X : Type*) [Group G] [MulAction G X] : Prop :=

@@ -11,21 +11,21 @@ namespace FiveTransitive.Degree24
 open MulAction SubMulAction Subgroup
 open scoped Pointwise
 
-@[expose] abbrev OrderFiveSupportElements
+abbrev OrderFiveSupportElements
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (d : ℕ) :=
   {u : P //
     orderOf u = 5 ∧
       (u.1 : Equiv.Perm X).support.card = d}
 
-@[expose] abbrev OrderFiveSupportFixesEmbedding
+abbrev OrderFiveSupportFixesEmbedding
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (d : ℕ)
     (e : Fin 5 ↪ X) :=
   {u : OrderFiveSupportElements X P d //
     (u.1 : P) ∈ fixingSubgroup P (Set.range e)}
 
-@[expose] abbrev LocalOrderFiveSupportElements
+abbrev LocalOrderFiveSupportElements
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (s : Set X)
     (d : ℕ) :=

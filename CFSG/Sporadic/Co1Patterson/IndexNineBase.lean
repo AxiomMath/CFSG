@@ -28,7 +28,7 @@ structure Co1Flag where
   hsing_L : ∀ v ∈ L, q₀ v = 0
   hsum : ∀ u ∈ L, ∀ v ∈ L, u ≠ v → u + v ∈ L
 
-@[expose] noncomputable def Co1Flag.smulFlag (g : L₀) (f : Co1Flag) : Co1Flag where
+noncomputable def Co1Flag.smulFlag (g : L₀) (f : Co1Flag) : Co1Flag where
   p := g.val f.p
   L := f.L.image g.val
   hp := fun h => f.hp (g.val.injective (by simpa using h))
@@ -140,7 +140,7 @@ noncomputable instance : MulAction L₀ Co1Flag where
       rw [hfun, Finset.image_image]
       rfl
 
-@[expose] noncomputable def co1BaseFlagL : Co1Flag where
+noncomputable def co1BaseFlagL : Co1Flag where
   p := bv 8
   L := {bv 4, bv 8, bv 12}
   hp := by
@@ -213,7 +213,7 @@ theorem co1Flag_erase_eq (f : Co1Flag) {q : Fin 8 → ZMod 2} (hq : q ∈ f.L.er
     Finset.card_pair hsumq
   exact Finset.eq_of_superset_of_card_ge hsub (by rw [hcard, hpair])
 
-@[expose] noncomputable def co1FlagSecond (f : Co1Flag) : Fin 8 → ZMod 2 :=
+noncomputable def co1FlagSecond (f : Co1Flag) : Fin 8 → ZMod 2 :=
   Classical.choose (Finset.card_pos.mp (show 0 < (f.L.erase f.p).card from by
     rw [Finset.card_erase_of_mem f.hpL, f.hcard]
     norm_num))
@@ -232,7 +232,7 @@ theorem co1FlagSecond_erase (f : Co1Flag) :
     f.L.erase f.p = {co1FlagSecond f, co1FlagSecond f + f.p} :=
   co1Flag_erase_eq f (co1FlagSecond_mem f)
 
-@[expose] noncomputable def co1FlagCode (f : Co1Flag) : Nat × Nat :=
+noncomputable def co1FlagCode (f : Co1Flag) : Nat × Nat :=
   let p := enc f.p
   let q := enc (co1FlagSecond f)
   (p, min q (q ^^^ p))
@@ -329,7 +329,7 @@ theorem co1FlagCode_injective : Function.Injective co1FlagCode := by
       _ = insert g.p (g.L.erase g.p) := by rw [co1FlagSecond_erase g]
       _ = g.L := Finset.insert_erase g.hpL
 
-@[expose] def co1PairKey (c : Nat × Nat) : Nat := c.1 * 256 + c.2
+def co1PairKey (c : Nat × Nat) : Nat := c.1 * 256 + c.2
 
 theorem co1FlagCode_lt (f : Co1Flag) : (co1FlagCode f).1 < 256 ∧ (co1FlagCode f).2 < 256 := by
   constructor
@@ -366,7 +366,7 @@ theorem co1FlagKey_injective :
   have hpq := co1PairKey_injective hf.1 hf.2 hg.1 hg.2 h
   exact co1FlagCode_injective (Prod.ext hpq.1 hpq.2)
 
-@[expose] noncomputable def brayC (l : ℕ) (hl : l < brayArr.size) :
+noncomputable def brayC (l : ℕ) (hl : l < brayArr.size) :
     centralizer ({aNC} : Set NativeSporadic.Co1) :=
   ⟨brayNC l, brayNC_mem l hl⟩
 
@@ -400,7 +400,7 @@ theorem hasCols_brayC (l : ℕ) (hl : l < brayArr.size) {m : List ℕ}
       (Fin 8 → ZMod 2) →ₗ[ZMod 2] (Fin 8 → ZMod 2)) m := fun k hk =>
   (phi_bv_of_conj (brayC l hl) m (brayC_conj l hl hc) (2 ^ k)).trans (bv_colsApply_two_pow m hk)
 
-@[expose] noncomputable def brayCList (_ : Unit := ()) :
+noncomputable def brayCList (_ : Unit := ()) :
     List (centralizer ({aNC} : Set NativeSporadic.Co1)) :=
   List.ofFn fun l : Fin 8 => brayC l.val (by rw [brayArr_size]; exact l.isLt)
 
@@ -416,12 +416,12 @@ theorem co1MatsC_getD {i : ℕ} (hi : i < 8) :
   rw [co1MatsC, List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_map,
     List.getElem_range]
 
-@[expose] noncomputable def co1WordElGo :
+noncomputable def co1WordElGo :
     List (Nat × Nat) → centralizer ({aNC} : Set NativeSporadic.Co1)
   | [] => 1
   | x :: xs => co1WordElGo xs * ((brayCList ()).getD x.1 1) ^ x.2
 
-@[expose] noncomputable def co1WordEl (w : List (Nat × Nat)) :
+noncomputable def co1WordEl (w : List (Nat × Nat)) :
     centralizer ({aNC} : Set NativeSporadic.Co1) :=
   co1WordElGo w.reverse
 
@@ -470,21 +470,21 @@ theorem hasCols_wordC (M : List (List Nat))
   rw [co1WordEl, co1WordC]
   exact hasCols_wordCGo M w.reverse (fun x hx => hw x (List.mem_reverse.mp hx)) hM
 
-@[expose] noncomputable def co1XEl : L₀ := typeSystemC.φ (co1WordEl co1XWord)
+noncomputable def co1XEl : L₀ := typeSystemC.φ (co1WordEl co1XWord)
 
-@[expose] noncomputable def co1YEl : L₀ := typeSystemC.φ (co1WordEl co1YWord)
+noncomputable def co1YEl : L₀ := typeSystemC.φ (co1WordEl co1YWord)
 
-@[expose] noncomputable def co1Ubar : Subgroup L₀ :=
+noncomputable def co1Ubar : Subgroup L₀ :=
   Subgroup.closure (Set.range fun i : Fin co1UWords.length =>
     typeSystemC.φ (co1WordEl (co1UWords.get i)))
 
-@[expose] noncomputable def co1BrayGens (i : Fin 8) : L₀ :=
+noncomputable def co1BrayGens (i : Fin 8) : L₀ :=
   typeSystemC.φ (brayC i.val (by rw [brayArr_size]; exact i.isLt))
 
-@[expose] noncomputable def co1UGens (i : Fin 4) : L₀ :=
+noncomputable def co1UGens (i : Fin 4) : L₀ :=
   typeSystemC.φ (co1WordEl (co1UWords.get i))
 
-@[expose] noncomputable def co1EvalWord {n : Nat} (gens : Fin n → L₀) (w : List (Fin n)) : L₀ :=
+noncomputable def co1EvalWord {n : Nat} (gens : Fin n → L₀) (w : List (Fin n)) : L₀ :=
   w.foldr (fun i acc => gens i * acc) 1
 
 theorem closure_brayC :
@@ -519,7 +519,7 @@ theorem closure_co1Gens : Subgroup.closure (Set.range co1BrayGens) = ⊤ := by
   rw [hgen, ← MonoidHom.map_closure, closure_brayC]
   exact Subgroup.map_top_of_surjective _ typeSystemC.φ_surj
 
-@[expose] noncomputable def co1Cols (g : L₀) : List Nat :=
+noncomputable def co1Cols (g : L₀) : List Nat :=
   cols ((g : L₀) : (Fin 8 → ZMod 2) →ₗ[ZMod 2] (Fin 8 → ZMod 2))
 
 theorem hasCols_co1Cols (g : L₀) :
@@ -546,7 +546,7 @@ theorem co1Cols_eq_of_hasCols {g : L₀} {m : List Nat} (hm : m.length = 8)
   rw [← List.getD_eq_getElem m 0 hk', ← List.getD_eq_getElem (co1Cols g) 0 hk]
   exact cols_getD_eq h (fun k _ => hm' k) (by omega)
 
-@[expose] def co1WordFin {n : Nat} (w : List Nat) (hw : ∀ i ∈ w, i < n) : List (Fin n) :=
+def co1WordFin {n : Nat} (w : List Nat) (hw : ∀ i ∈ w, i < n) : List (Fin n) :=
   List.pmap (fun i (hi : i < n) => ⟨i, hi⟩) w hw
 
 @[simp] theorem co1WordFin_nil {n : Nat} (hw : ∀ i ∈ ([] : List Nat), i < n) :
@@ -561,10 +561,10 @@ theorem co1WordFin_cons {n : Nat} {i : Nat} {w : List Nat} (hi : i < n)
   rw [co1WordFin, List.pmap_cons]
   rfl
 
-@[expose] def co1LetterFin (n : Nat) [NeZero n] (i : Nat) : Fin n :=
+def co1LetterFin (n : Nat) [NeZero n] (i : Nat) : Fin n :=
   ⟨i % n, Nat.mod_lt _ (Nat.pos_of_ne_zero (NeZero.ne n))⟩
 
-@[expose] def co1WordMod (n : Nat) [NeZero n] (w : List Nat) : List (Fin n) :=
+def co1WordMod (n : Nat) [NeZero n] (w : List Nat) : List (Fin n) :=
   w.map (co1LetterFin n)
 
 theorem co1WordMod_eq_wordFin {n : Nat} [NeZero n] (w : List Nat)

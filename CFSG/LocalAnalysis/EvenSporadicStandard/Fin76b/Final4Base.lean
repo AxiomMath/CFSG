@@ -28,7 +28,7 @@ namespace CFSG.EvenSporadicStandard.Fin76b
 
 open Subgroup CFSG.Open CFSG.Blueprint CFSG.Blueprint.NativeSporadic
 
-@[expose] def Fin76bNotZ2A6 : Prop :=
+def Fin76bNotZ2A6 : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L : Subgroup G) (z t : G) (T₀ E : Subgroup G)
     (Q : Sylow 2 G) (x β : G) (B : Subgroup G), Rest6Config L z t T₀ E Q x β B →
     WFacts L t E → ∀ y ∈ normalizer (E : Set G), y * β = β * y → y * z * y⁻¹ = z * t →

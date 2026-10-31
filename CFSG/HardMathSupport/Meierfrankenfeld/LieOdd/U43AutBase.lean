@@ -27,13 +27,13 @@ structure AutFacts : Prop where
 
 abbrev Gp : Type := Equiv.Perm (Fin 820)
 
-@[expose] noncomputable def Nsub : Subgroup Gp := psi.range
+noncomputable def Nsub : Subgroup Gp := psi.range
 
 noncomputable abbrev Nrm : Subgroup Gp := Subgroup.normalizer (Nsub : Set Gp)
 
-@[expose] noncomputable def dPerm : Gp := permOfArr 820 dTab
+noncomputable def dPerm : Gp := permOfArr 820 dTab
 
-@[expose] noncomputable def sPerm : Gp := permOfArr 820 sTab
+noncomputable def sPerm : Gp := permOfArr 820 sTab
 
 theorem rep_dTab (hf : AutFacts) : Rep 820 dTab dPerm := (rep_permOfArr hf.dinv).1
 theorem rep_dTab_inv (hf : AutFacts) : Rep 820 (invCand 820 dTab) dPerm⁻¹ :=
@@ -50,7 +50,7 @@ theorem closure_range :
   rw [← hmap, closure_xy]
   simp [Nsub, MonoidHom.range_eq_map]
 
-@[expose] noncomputable def chainQ' : RawSchreierDatum 820 :=
+noncomputable def chainQ' : RawSchreierDatum 820 :=
   RawSchreierDatum.ofArrays 820 (by norm_num) chainS 2 (by decide) chainBase (by decide) chainW
 
 theorem chainQ'_eq :
@@ -152,7 +152,7 @@ theorem rep_powTab_perm {t : Array ℕ} {g : Gp} (h : Rep 820 t g) :
     rw [pow_succ']
     exact rep_compA h (rep_powTab_perm h k)
 
-@[expose] noncomputable def dsPerm (i j : ℕ) : Gp := dPerm ^ i * sPerm ^ j
+noncomputable def dsPerm (i j : ℕ) : Gp := dPerm ^ i * sPerm ^ j
 
 theorem rep_dsElt (hf : AutFacts) (i j : ℕ) : Rep 820 (dsElt i j) (dsPerm i j) :=
   rep_compA (rep_powTab_perm (rep_dTab hf) i) (rep_powTab_perm (rep_sTab hf) j)
@@ -265,7 +265,7 @@ theorem centralizer_trivial (hf : AutFacts) (z : Gp)
   · exact key r 0 (by norm_num) h0 _ (beq_iff_eq.1 hr)
   · exact key r 4 (by norm_num) h4 _ (beq_iff_eq.1 hr)
 
-@[expose] noncomputable def e0 : X₀ ≃* Nsub :=
+noncomputable def e0 : X₀ ≃* Nsub :=
   MonoidHom.ofInjective psi_injective
 
 theorem card_mulAut_Nsub_le :
@@ -308,7 +308,7 @@ theorem kappa_bijective (hf : AutFacts) :
   refine (kappa_injective hf).bijective_of_nat_card_le ?_
   exact (card_mulAut_Nsub_le).trans (le_card_Nrm hf)
 
-@[expose] noncomputable def autEquiv (hf : AutFacts) :
+noncomputable def autEquiv (hf : AutFacts) :
     (Nrm : Subgroup Gp) ≃* MulAut X₀ :=
   (MulEquiv.ofBijective _ (kappa_bijective hf)).trans (MulAut.congr e0).symm
 

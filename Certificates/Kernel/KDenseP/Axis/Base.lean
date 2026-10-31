@@ -40,7 +40,7 @@ elab "kd_allE " pre:ident base:ident : tactic => liftMetaFinishingTactic fun g =
     prf := mkAppN (mkConst ``allLt_succ) #[P, mkRawNatLit k, prf, tk]
   g.assign prf
 
-@[expose] noncomputable def monoFold (F : Fix) (MT : MonoTab) (L : List (List ℕ)) (k : ℕ) : Bool :=
+noncomputable def monoFold (F : Fix) (MT : MonoTab) (L : List (List ℕ)) (k : ℕ) : Bool :=
   List.rec (motive := fun _ => ℕ → Bool) (fun _ => true)
     (fun l _ ih k => andB (monoEntOK F l (MT.ents k)) (ih (Nat.add k 1))) L k
 
@@ -172,7 +172,7 @@ theorem words_odd (l : List (List Native.Gen × List Native.Gen)) (t : ℕ) :
   rw [h1, h2]
   rfl
 
-@[expose] def witsOK : List ℕ → List ℕ → Bool
+def witsOK : List ℕ → List ℕ → Bool
   | [], [] => true
   | it :: IT, w :: ws => (Nat.beq (it % 4) w && Nat.beq (it / 4 % 2) 0) && witsOK IT ws
   | _, _ => false
@@ -192,9 +192,9 @@ theorem witsOK_spec : ∀ {IT ws : List ℕ}, witsOK IT ws = true →
     · have := hl t (by simpa using ht)
       simpa using this
 
-@[expose] def wit (x : ℕ) : Native.DVec := if x = 1 then HS.axisM else HS.axisP
+def wit (x : ℕ) : Native.DVec := if x = 1 then HS.axisM else HS.axisP
 
-@[expose] noncomputable def wv (x : ℕ) : SpaceB := if x = 1 then aStarMinus else aStar
+noncomputable def wv (x : ℕ) : SpaceB := if x = 1 then aStarMinus else aStar
 
 theorem wv_zero : wv 0 = aStar := rfl
 
@@ -232,7 +232,7 @@ theorem rep_wit {n : ℕ} (hn : 2 ≤ n) {S : ℕ → St}
   · rw [e2, axisP_eq, h2]
     exact listInit_sound hn _ _ h0
 
-@[expose] noncomputable def endSt (S : ℕ → St) (CHI : ℕ → ℕ) (IT : List ℕ) (t : ℕ) : St :=
+noncomputable def endSt (S : ℕ → St) (CHI : ℕ → ℕ) (IT : List ℕ) (t : ℕ) : St :=
   S (f20 (CHI fld(IT[t]!, 84, 1048575)) 3)
 
 theorem item_facts {n lg q : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) (hq : q ∣ 2 ^ n - 1)
@@ -341,7 +341,7 @@ macro "kd_axC% " pre:ident : term => do
       (S0 := $(n "S0")) (w := 3) (ng := kd_count% $pre $(mkIdent `u))
       (nch := kd_count% $pre $(mkIdent `CH)) (by kd_allE $pre $(mkIdent `u)) (by quickRfl))
 
-@[expose] def DyRes (n : ℕ) (x : ℚ) (r : ZMod (2 ^ n - 1)) : Prop :=
+def DyRes (n : ℕ) (x : ℚ) (r : ZMod (2 ^ n - 1)) : Prop :=
   ∃ (a : ℤ) (e : ℕ), x = a / 2 ^ e ∧ (a : ZMod (2 ^ n - 1)) * (2 ^ (n - 1)) ^ e = r
 
 theorem dyRes_unique {n : ℕ} (hn : 1 ≤ n) {x : ℚ} {r r' : ZMod (2 ^ n - 1)} (h : DyRes n x r)
@@ -360,9 +360,9 @@ theorem dyRes_unique {n : ℕ} (hn : 1 ≤ n) {x : ℚ} {r r' : ZMod (2 ^ n - 1)
     _ = b * (2 ^ (n - 1)) ^ f * (2 * 2 ^ (n - 1)) ^ e := by ring
     _ = b * (2 ^ (n - 1)) ^ f := by rw [u, one_pow, mul_one]
 
-@[expose] noncomputable def trOf (n : ℕ) (s : St) : ℕ := trRes n s.2.2.1
+noncomputable def trOf (n : ℕ) (s : St) : ℕ := trRes n s.2.2.1
 
-@[expose] noncomputable def xOf (n : ℕ) (s : St) : ℕ := resAt SX n s.2.1 114689
+noncomputable def xOf (n : ℕ) (s : St) : ℕ := resAt SX n s.2.1 114689
 
 theorem trOf_lt (n : ℕ) (s : St) (hn : 1 ≤ n) : trOf n s < 2 ^ n - 1 := by
   unfold trOf

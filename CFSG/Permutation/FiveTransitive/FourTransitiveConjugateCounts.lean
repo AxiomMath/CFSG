@@ -10,7 +10,7 @@ namespace FiveTransitive.FourTransitiveConjugateCounts
 
 open Equiv MulAction ConjugateCounting
 
-@[expose] abbrev twoPointFixer {X : Type*} (P : Subgroup (Perm X)) (α β : X) :=
+abbrev twoPointFixer {X : Type*} (P : Subgroup (Perm X)) (α β : X) :=
   fixingSubgroup P ({α, β} : Set X)
 
 @[expose] def conjugate {X : Type*} {P : Subgroup (Perm X)} {α β : X}

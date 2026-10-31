@@ -19,9 +19,9 @@ open CFSG.Monster.Code CFSG.Monster.B.TwoA.Census CFSG.Sporadic.Mathieu
 
 open scoped Pointwise
 
-@[expose] def vb2 : Fin 2 → Fin 24 → ZMod 2 := ![ePair 2 3, ePair 4 5]
+def vb2 : Fin 2 → Fin 24 → ZMod 2 := ![ePair 2 3, ePair 4 5]
 
-@[expose] def zb2 : Fin 2 → Zcoc := fun i => Submodule.Quotient.mk (vb2 i)
+def zb2 : Fin 2 → Zcoc := fun i => Submodule.Quotient.mk (vb2 i)
 
 theorem lab2_rel : ∀ ℓ : Fin 4, ℓ ≠ 0 →
     ePair (labA ⟨ℓ, by omega⟩) (labB ⟨ℓ, by omega⟩) - ∑ i : Fin 2, digit ℓ i • vb2 i ∈ Zsub := by
@@ -43,9 +43,9 @@ theorem linearIndependent_zb2 : LinearIndependent (ZMod 2) zb2 := by
     simpa only [zb2, Submodule.Quotient.mk_smul] using hc
   exact congrFun (indep2_rel c h)
 
-@[expose] def Z2 : Submodule (ZMod 2) Zcoc := Submodule.span (ZMod 2) (Set.range zb2)
+def Z2 : Submodule (ZMod 2) Zcoc := Submodule.span (ZMod 2) (Set.range zb2)
 
-@[expose] noncomputable def basis2 : Module.Basis (Fin 2) (ZMod 2) Z2 :=
+noncomputable def basis2 : Module.Basis (Fin 2) (ZMod 2) Z2 :=
   Module.Basis.span linearIndependent_zb2
 
 theorem coe_basis2 (i : Fin 2) : (basis2 i : Zcoc) = zb2 i :=
@@ -85,9 +85,9 @@ theorem duad_smul_mem_A2 {p : AutPerm} (hp : p ∈ FA2) {x y : Fin 24} (hxy : x 
   rw [e] at h1
   exact h1
 
-@[expose] def bpA2 : Fin 2 → Fin 24 := ![2, 4]
+def bpA2 : Fin 2 → Fin 24 := ![2, 4]
 
-@[expose] def bpB2 : Fin 2 → Fin 24 := ![3, 5]
+def bpB2 : Fin 2 → Fin 24 := ![3, 5]
 
 theorem zb2_eq (j : Fin 2) : zb2 j = zPair (bpA2 j) (bpB2 j) := by
   fin_cases j <;> rfl
@@ -106,7 +106,7 @@ theorem zAct_mem_Z2 {p : AutPerm} (hp : p ∈ FA2) {z : Zcoc} (hz : z ∈ Z2) :
     exact zPair_mem_Z2 _ (duad_smul_mem_A2 hp hj hA)
   exact hle hz
 
-@[expose] noncomputable def linEnd2 : FA2 →* Module.End (ZMod 2) Z2 where
+noncomputable def linEnd2 : FA2 →* Module.End (ZMod 2) Z2 where
   toFun p := (zAct ⟨p, FA2_le_Ppair p.2⟩).restrict fun _ hz => zAct_mem_Z2 p.2 hz
   map_one' := LinearMap.ext fun z => Subtype.ext (by
     change zAct 1 z = z
@@ -114,7 +114,7 @@ theorem zAct_mem_Z2 {p : AutPerm} (hp : p ∈ FA2) {z : Zcoc} (hz : z ∈ Z2) :
   map_mul' p q := LinearMap.ext fun z => Subtype.ext
     (LinearMap.congr_fun (zAct_mul ⟨p, FA2_le_Ppair p.2⟩ ⟨q, FA2_le_Ppair q.2⟩) (z : Zcoc))
 
-@[expose] noncomputable def glHom2 : FA2 →* GL (Fin 2) (ZMod 2) :=
+noncomputable def glHom2 : FA2 →* GL (Fin 2) (ZMod 2) :=
   (Units.mapEquiv (LinearMap.toMatrixAlgEquiv basis2).toMulEquiv).toMonoidHom.comp
     linEnd2.toHomUnits
 
@@ -138,31 +138,31 @@ theorem glHom2_apply (p : FA2) :
   change LinearMap.toMatrix basis2 basis2 (linEnd2 p) = N
   rw [hlin, LinearMap.toMatrix_toLin]
 
-@[expose] def wit1 : Equiv.Perm (Fin 24) where
+def wit1 : Equiv.Perm (Fin 24) where
   toFun := ![0, 1, 2, 3, 6, 7, 4, 5, 8, 9, 10, 11, 14, 15, 12, 13, 19, 18, 17, 16, 21, 20, 23, 22]
   invFun := ![0, 1, 2, 3, 6, 7, 4, 5, 8, 9, 10, 11, 14, 15, 12, 13, 19, 18, 17, 16, 21, 20, 23, 22]
   left_inv := by decide
   right_inv := by decide
 
-@[expose] def wit2 : Equiv.Perm (Fin 24) where
+def wit2 : Equiv.Perm (Fin 24) where
   toFun := ![0, 1, 4, 5, 2, 3, 6, 7, 8, 9, 12, 13, 10, 11, 14, 15, 17, 16, 21, 20, 19, 18, 23, 22]
   invFun := ![0, 1, 4, 5, 2, 3, 6, 7, 8, 9, 12, 13, 10, 11, 14, 15, 17, 16, 21, 20, 19, 18, 23, 22]
   left_inv := by decide
   right_inv := by decide
 
-@[expose] def wit3 : Equiv.Perm (Fin 24) where
+def wit3 : Equiv.Perm (Fin 24) where
   toFun := ![0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 8, 9, 14, 15, 12, 13, 18, 19, 16, 17, 22, 23, 20, 21]
   invFun := ![0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 8, 9, 14, 15, 12, 13, 18, 19, 16, 17, 22, 23, 20, 21]
   left_inv := by decide
   right_inv := by decide
 
-@[expose] def wit4 : Equiv.Perm (Fin 24) where
+def wit4 : Equiv.Perm (Fin 24) where
   toFun := ![0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 8, 9, 10, 11, 20, 21, 22, 23, 16, 17, 18, 19]
   invFun := ![0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 8, 9, 10, 11, 20, 21, 22, 23, 16, 17, 18, 19]
   left_inv := by decide
   right_inv := by decide
 
-@[expose] def wit5 : Equiv.Perm (Fin 24) where
+def wit5 : Equiv.Perm (Fin 24) where
   toFun := ![0, 1, 2, 3, 8, 9, 10, 11, 4, 5, 6, 7, 12, 13, 14, 15, 20, 23, 21, 22, 16, 18, 19, 17]
   invFun := ![0, 1, 2, 3, 8, 9, 10, 11, 4, 5, 6, 7, 12, 13, 14, 15, 20, 23, 21, 22, 16, 18, 19, 17]
   left_inv := by decide
@@ -202,10 +202,10 @@ theorem matW2_sq : ∀ k : Fin 2, matW2 k * matW2 k = 1 := by decide
 
 theorem matW3_sq : ∀ k : Fin 5, matW3 k * matW3 k = 1 := by decide
 
-@[expose] def unitW2 (k : ℕ) : GL (Fin 2) (ZMod 2) :=
+def unitW2 (k : ℕ) : GL (Fin 2) (ZMod 2) :=
   if hk : k < 2 then ⟨matW2 k, matW2 k, matW2_sq ⟨k, hk⟩, matW2_sq ⟨k, hk⟩⟩ else 1
 
-@[expose] def unitW3 (k : ℕ) : GL (Fin 3) (ZMod 2) :=
+def unitW3 (k : ℕ) : GL (Fin 3) (ZMod 2) :=
   if hk : k < 5 then ⟨matW3 k, matW3 k, matW3_sq ⟨k, hk⟩, matW3_sq ⟨k, hk⟩⟩ else 1
 
 theorem coe_unitW2 {k : ℕ} (hk : k < 2) :
@@ -224,11 +224,11 @@ theorem natCard_GL_three' : Nat.card (GL (Fin 3) (ZMod 2)) = 168 := by
   rw [Matrix.card_GL_field, ZMod.card, Fin.prod_univ_three]
   rfl
 
-@[expose] def witF2 (k : ℕ) : FA2 :=
+def witF2 (k : ℕ) : FA2 :=
   if k = 0 then ⟨⟨wit1, wit1_mem⟩, mem_FA2_of rfl rfl (by decide)⟩
   else ⟨⟨wit2, wit2_mem⟩, mem_FA2_of rfl rfl (by decide)⟩
 
-@[expose] def witF3 (k : ℕ) : FA3 :=
+def witF3 (k : ℕ) : FA3 :=
   if k = 0 then ⟨⟨wit3, wit3_mem⟩, mem_FA3_of rfl rfl (by decide)⟩ else
   if k = 1 then ⟨⟨wit4, wit4_mem⟩, mem_FA3_of rfl rfl (by decide)⟩ else
   if k = 2 then ⟨⟨wit1, wit1_mem⟩, mem_FA3_of rfl rfl (by decide)⟩ else
@@ -247,7 +247,7 @@ theorem glHom3_witF3 : ∀ k < 5, glHom3 (witF3 k) = unitW3 k := by
   rw [glHom3_apply, coe_unitW3 hk]
   interval_cases k <;> decide
 
-@[expose] def evalMap3 : Ceq →ₗ[ZMod 2] (Fin 3 → ZMod 2) :=
+def evalMap3 : Ceq →ₗ[ZMod 2] (Fin 3 → ZMod 2) :=
   (LinearMap.pi fun j : Fin 3 =>
     (LinearMap.proj (R := ZMod 2) (φ := fun _ : Fin 24 => ZMod 2) (bpA3 j) +
       LinearMap.proj (R := ZMod 2) (φ := fun _ : Fin 24 => ZMod 2) (bpB3 j))).comp Ceq.subtype
@@ -255,7 +255,7 @@ theorem glHom3_witF3 : ∀ k < 5, glHom3 (witF3 k) = unitW3 k := by
 theorem evalMap3_apply (c : Ceq) :
     evalMap3 c = fun j => (c : Fin 24 → ZMod 2) (bpA3 j) + (c : Fin 24 → ZMod 2) (bpB3 j) := rfl
 
-@[expose] def evalMap2 : Ceq →ₗ[ZMod 2] (Fin 2 → ZMod 2) :=
+def evalMap2 : Ceq →ₗ[ZMod 2] (Fin 2 → ZMod 2) :=
   (LinearMap.pi fun j : Fin 2 =>
     (LinearMap.proj (R := ZMod 2) (φ := fun _ : Fin 24 => ZMod 2) (bpA2 j) +
       LinearMap.proj (R := ZMod 2) (φ := fun _ : Fin 24 => ZMod 2) (bpB2 j))).comp Ceq.subtype
@@ -263,7 +263,7 @@ theorem evalMap3_apply (c : Ceq) :
 theorem evalMap2_apply (c : Ceq) :
     evalMap2 c = fun j => (c : Fin 24 → ZMod 2) (bpA2 j) + (c : Fin 24 → ZMod 2) (bpB2 j) := rfl
 
-@[expose] def evW (j : Fin 3) : Fin 24 → ZMod 2 := bvec 24 (![0x1e4444, 0xc9a050, 0xa5a500] j)
+def evW (j : Fin 3) : Fin 24 → ZMod 2 := bvec 24 (![0x1e4444, 0xc9a050, 0xa5a500] j)
 
 theorem evW_mem : ∀ j, evW j ∈ Ceq := by
   intro j

@@ -13,7 +13,7 @@ namespace CFSG.Monster.B.TwoA.Amalgam
 open CFSG.Monster CFSG.Monster.B CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Sp8
 open scoped Pointwise
 
-@[expose] def elS {a : Dfull} (ha : a ∈ Ehat) : Shat := ⟨a, Ehat_le_Shat ha⟩
+def elS {a : Dfull} (ha : a ∈ Ehat) : Shat := ⟨a, Ehat_le_Shat ha⟩
 
 theorem coe_elS {a : Dfull} (ha : a ∈ Ehat) : (elS ha : Dfull) = a := rfl
 
@@ -91,7 +91,7 @@ theorem range_clabel
   · rintro ⟨s, rfl⟩
     exact ⟨cvOf s, rfl⟩
 
-@[expose] def CSc : Subgroup Shat := (Subgroup.centralizer {cQ}).comap Shat.subtype
+def CSc : Subgroup Shat := (Subgroup.centralizer {cQ}).comap Shat.subtype
 
 theorem mem_CSc {g : Shat} : g ∈ CSc ↔ (g : Dfull) ∈ Subgroup.centralizer {cQ} := Iff.rfl
 
@@ -114,7 +114,7 @@ theorem fiber_rel_iff {g h : CSc} :
   (QuotientGroup.rightRel_apply (s := EinC)).trans
     (Subgroup.mem_subgroupOf.trans Subgroup.mem_subgroupOf)
 
-@[expose] def fiberMap :
+def fiberMap :
     Quotient (QuotientGroup.rightRel EinC) → clabel ⁻¹' {cQ} :=
   Quotient.lift (fun g : CSc => ⟨cvOf g, (clabel_eq_cQ_iff g).2 g.2⟩) fun _ _ hgh =>
     Subtype.ext (cvOf_eq_iff.2 (fiber_rel_iff.1 hgh))

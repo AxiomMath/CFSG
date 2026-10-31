@@ -14,7 +14,7 @@ public section
 namespace CFSG.GH74.GLS.C3.Layer2.Model
 
 open Equiv Perm Subgroup CFSG.GH74.GLS.C3.Layer2
-@[expose] abbrev Tbl : Type := Vector (Fin 64) 64
+abbrev Tbl : Type := Vector (Fin 64) 64
 
 @[expose, macro_inline] def imp (p q : Bool) : Bool :=
   match p with

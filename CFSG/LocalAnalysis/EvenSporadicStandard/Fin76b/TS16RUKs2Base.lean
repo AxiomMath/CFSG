@@ -16,9 +16,9 @@ open Subgroup CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Sporadic.Schreie
 
 section Inv7
 
-@[expose] noncomputable def y8Perm : Equiv.Perm (Fin 820) := permOfArr 820 y8Arr
+noncomputable def y8Perm : Equiv.Perm (Fin 820) := permOfArr 820 y8Arr
 
-@[expose] noncomputable def CKs7 : Subgroup (Equiv.Perm (Fin 820)) :=
+noncomputable def CKs7 : Subgroup (Equiv.Perm (Fin 820)) :=
   U43ExtStar ⊓ centralizer ({rP 4} : Set (Equiv.Perm (Fin 820)))
 
 theorem repCoset_eq_seven : ∀ j < 9, repCoset[j]! = 7 → j = 4 := by decide
@@ -62,7 +62,7 @@ theorem invRelW_iff {k : ℕ} {v vi : Array ℕ} {V W : Equiv.Perm (Fin 820)} (h
   rw [Bool.and_eq_true]
   exact and_congr (allLt_sq_iff hH) (allLt_twist_iff hH hv hvi)
 
-@[expose] def Xi7 (V W : Equiv.Perm (Fin 820)) : Set ↥U43ExtStar :=
+def Xi7 (V W : Equiv.Perm (Fin 820)) : Set ↥U43ExtStar :=
   {x | InCos 7 x ∧ (x : Equiv.Perm (Fin 820)) * x = 1 ∧ (x : Equiv.Perm (Fin 820)) * V = W * x}
 
 theorem card_Xi7 {v vi : Array ℕ} {V W : Equiv.Perm (Fin 820)} (hv : Rep 820 v V)
@@ -110,7 +110,7 @@ theorem card_cent_Ks2 {v ξ : Array ℕ} {V X : Equiv.Perm (Fin 820)} (hv : Rep 
   rw [centKs2, vIxL, List.foldl_cons, List.foldl_cons, List.foldl_cons, List.foldl_cons,
     List.foldl_nil, Nat.zero_add]
 
-@[expose] noncomputable def xiPerm (i : ℕ) : Equiv.Perm (Fin 820) := permOfArr 820 xiArrs[i]!
+noncomputable def xiPerm (i : ℕ) : Equiv.Perm (Fin 820) := permOfArr 820 xiArrs[i]!
 
 theorem rep_ks8_inv {j : ℕ} (hj : j < 8) :
     Rep 820 (invCand 820 ks8Reps[j]!) (ks8Perm j)⁻¹ :=
@@ -118,18 +118,18 @@ theorem rep_ks8_inv {j : ℕ} (hj : j < 8) :
 
 theorem pair_arith : ∀ i < 3, ks8Cent[5 + i]! = pairNum[i]! * pairCent[i]! := by decide +kernel
 
-@[expose] noncomputable def d16a : Equiv.Perm (Fin 820) := permOfArr 820 d16A
+noncomputable def d16a : Equiv.Perm (Fin 820) := permOfArr 820 d16A
 
-@[expose] noncomputable def d16b : Equiv.Perm (Fin 820) := permOfArr 820 d16B
+noncomputable def d16b : Equiv.Perm (Fin 820) := permOfArr 820 d16B
 
-@[expose] noncomputable def D16sub : Subgroup (Equiv.Perm (Fin 820)) :=
+noncomputable def D16sub : Subgroup (Equiv.Perm (Fin 820)) :=
   zpowers d16a ⊔ zpowers d16b
 
 theorem ks8Coset_seven : ∀ j < 8, ks8Coset[j]! = 7 → 5 ≤ j := by decide
 
 theorem pairCent_sixteen : ∀ i < 3, 16 ∣ pairCent[i]! → i = 2 := by decide
 
-@[expose] noncomputable def Cpair (i : ℕ) : Subgroup (Equiv.Perm (Fin 820)) :=
+noncomputable def Cpair (i : ℕ) : Subgroup (Equiv.Perm (Fin 820)) :=
   U43ExtStar ⊓ centralizer ({ks8Perm (5 + i)} : Set (Equiv.Perm (Fin 820))) ⊓
     centralizer ({xiPerm i} : Set (Equiv.Perm (Fin 820)))
 

@@ -31,7 +31,7 @@ theorem keyOf_eq_of_mem_iff {l l' : Array ℕ} (hl : l.toList.Nodup) (hl' : l'.t
   rw [Array.mem_toList_iff, Array.mem_toList_iff]
   exact h x
 
-@[expose] def IsFixList (x : Vtx) (l : Array ℕ) : Prop :=
+def IsFixList (x : Vtx) (l : Array ℕ) : Prop :=
   l.toList.Nodup ∧ (∀ y ∈ l, y < 1782) ∧ ∀ p : Fin 1782, p ∈ fixSet x ↔ (p : ℕ) ∈ l
 
 theorem IsFixList.key_eq {x : Vtx} {l l' : Array ℕ} (h : IsFixList x l) (h' : IsFixList x l') :
@@ -121,7 +121,7 @@ theorem exists_pow_iff (a b : Equiv.Perm (Fin 1782)) :
   simp only [Finset.mem_insert, Finset.mem_singleton, exists_eq_or_imp, exists_eq_left, pow_one,
     sq]
 
-@[expose] def bP (s : ℕ) : Equiv.Perm (Fin 1782) := if s = 0 then suzB0 else suzB1
+def bP (s : ℕ) : Equiv.Perm (Fin 1782) := if s = 0 then suzB0 else suzB1
 
 theorem bP_mem (s : ℕ) : bP s ∈ suzM := by
   unfold bP
@@ -129,7 +129,7 @@ theorem bP_mem (s : ℕ) : bP s ∈ suzM := by
   · exact subset_closure (Set.mem_insert _ _)
   · exact subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
-@[expose] def cPerm (i : ℕ) : Equiv.Perm (Fin 1782) :=
+def cPerm (i : ℕ) : Equiv.Perm (Fin 1782) :=
   if _h : 0 < i ∧ tpar[i]! < i then bP tlab[i]! * cPerm tpar[i]! else 1
 termination_by i
 decreasing_by exact _h.2
@@ -158,9 +158,9 @@ theorem cArrInv_eq (i : ℕ) :
   rw [cArrInv]
   split_ifs <;> rfl
 
-@[expose] def cG (i : ℕ) : ↥suzM := ⟨cPerm i, cPerm_mem i⟩
+def cG (i : ℕ) : ↥suzM := ⟨cPerm i, cPerm_mem i⟩
 
-@[expose] def vtx (i : ℕ) : Vtx := cG i • v0
+def vtx (i : ℕ) : Vtx := cG i • v0
 
 theorem vtx_zero : vtx 0 = v0 := by
   unfold vtx cG
@@ -177,7 +177,7 @@ theorem vtx_succ {i : ℕ} (h : 0 < i ∧ tpar[i]! < i) :
   show cPerm i = bP tlab[i]! * cPerm tpar[i]!
   rw [cPerm_eq i, ite_eq_left h]
 
-@[expose] def xP (s : ℕ) : Equiv.Perm (Fin 1782) := permC 1782 (xA s)
+def xP (s : ℕ) : Equiv.Perm (Fin 1782) := permC 1782 (xA s)
 
 theorem card_vtx_eq : Nat.card Vtx = (MulAction.stabilizer ↥suzM v0).index := by
   rw [MulAction.index_stabilizer]

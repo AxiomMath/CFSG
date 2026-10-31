@@ -29,10 +29,10 @@ theorem QP_closure : QP.originalSubgroup = Subgroup.closure {PA, PB} := by
   ext g
   simp
 
-@[expose] def vecTab : List (List ℕ) :=
+def vecTab : List (List ℕ) :=
   [[0, 0, 1], [0, 1, 0], [0, 1, 1], [0, 1, 2], [0, 1, 3], [1, 0, 0], [1, 0, 1], [1, 0, 2], [1, 0, 3], [1, 1, 0], [1, 1, 1], [1, 1, 2], [1, 1, 3], [1, 2, 0], [1, 2, 1], [1, 2, 2], [1, 2, 3], [1, 3, 0], [1, 3, 1], [1, 3, 2], [1, 3, 3]]
 
-@[expose] def vec (i : Fin 21) : Fin 3 → GF4 :=
+def vec (i : Fin 21) : Fin 3 → GF4 :=
   fun j => GF4.ofNat' ((vecTab.getD i.val [0, 0, 0]).getD j.val 0)
 
 theorem vec_ne : ∀ i, vec i ≠ 0 := by decide +kernel
@@ -42,11 +42,11 @@ theorem vec_inj : ∀ i j (c : GF4), c • vec j = vec i → i = j := by decide 
 theorem vec_surj : ∀ v : Fin 3 → GF4, v ≠ 0 → ∃ i, ∃ c : GF4, c • v = vec i := by
   decide +kernel
 
-@[expose] def mA : Matrix.SpecialLinearGroup (Fin 3) GF4 :=
+def mA : Matrix.SpecialLinearGroup (Fin 3) GF4 :=
   ⟨!![(GF4.ofNat' 3), (GF4.ofNat' 0), (GF4.ofNat' 2); (GF4.ofNat' 0), (GF4.ofNat' 1), (GF4.ofNat' 0); (GF4.ofNat' 2), (GF4.ofNat' 0), (GF4.ofNat' 3)], by
     rw [Matrix.det_fin_three]; decide⟩
 
-@[expose] def mB : Matrix.SpecialLinearGroup (Fin 3) GF4 :=
+def mB : Matrix.SpecialLinearGroup (Fin 3) GF4 :=
   ⟨!![(GF4.ofNat' 1), (GF4.ofNat' 2), (GF4.ofNat' 3); (GF4.ofNat' 1), (GF4.ofNat' 3), (GF4.ofNat' 0); (GF4.ofNat' 3), (GF4.ofNat' 0), (GF4.ofNat' 0)], by
     rw [Matrix.det_fin_three]; decide⟩
 

@@ -67,9 +67,9 @@ structure EFacts : Prop where
   qOK : recordOK 1024 quRec 4 = true
   qOrb : (recordOrbits 1024 quRec == [45, 16, 1, 2, 1, 1, 1, 1, 1, 1]) = true
 
-@[expose] def gPerm (i : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 gA[i]!
+def gPerm (i : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 gA[i]!
 
-@[expose] def gTuple : List (Equiv.Perm (Fin 2300)) := (List.range 15).map gPerm
+def gTuple : List (Equiv.Perm (Fin 2300)) := (List.range 15).map gPerm
 
 theorem gTuple_length : gTuple.length = 15 := by simp [gTuple]
 
@@ -77,7 +77,7 @@ theorem gTuple_getD {i : ℕ} (hi : i < 15) : gTuple.getD i 1 = gPerm i := by
   rw [List.getD_eq_getElem _ _ (by rw [gTuple_length]; exact hi)]
   simp [gTuple]
 
-@[expose] def locE : Subgroup (Equiv.Perm (Fin 2300)) := Subgroup.closure {g | g ∈ gTuple}
+def locE : Subgroup (Equiv.Perm (Fin 2300)) := Subgroup.closure {g | g ∈ gTuple}
 
 theorem gPerm_mem_E {i : ℕ} (hi : i < 15) : gPerm i ∈ locE := by
   rw [← gTuple_getD hi]
@@ -95,9 +95,9 @@ theorem rep_powA {t : Array ℕ} {g : Equiv.Perm (Fin 2300)} (ht : Rep 2300 t g)
     rw [powA, pow_succ]
     exact rep_compA (rep_powA ht e) ht
 
-@[expose] def quPerm (i : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 quA[i]!
+def quPerm (i : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 quA[i]!
 
-@[expose] def quTuple : List (Equiv.Perm (Fin 2300)) := (List.range 10).map quPerm
+def quTuple : List (Equiv.Perm (Fin 2300)) := (List.range 10).map quPerm
 
 theorem quTuple_length : quTuple.length = 10 := by simp [quTuple]
 
@@ -107,7 +107,7 @@ theorem quTuple_getD {i : ℕ} (hi : i < 10) : quTuple.getD i 1 = quPerm i := by
 
 theorem quA_size : quA.size = 10 := by simp [quA, quArrsOf, quRecipe]
 
-@[expose] def locQu : Subgroup (Equiv.Perm (Fin 2300)) := Subgroup.closure {g | g ∈ quTuple}
+def locQu : Subgroup (Equiv.Perm (Fin 2300)) := Subgroup.closure {g | g ∈ quTuple}
 
 theorem mem_quTuple {x : Equiv.Perm (Fin 2300)} (hx : x ∈ quTuple) : ∃ i < 10, x = quPerm i := by
   obtain ⟨i, hi, rfl⟩ := (mem_iff_exists_getD (d := 1)).1 hx

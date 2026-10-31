@@ -221,7 +221,7 @@ theorem exists_u_originalI_eq_ahat (hn : 1 ≤ n) (hF : 4 < Nat.card F)
   · rw [map_mul, hu0, hq0z0, mul_one]
 
 
-@[expose] abbrev originalN (hker : ψ.ker ≤ Subgroup.center J) : Subgroup J :=
+abbrev originalN (hker : ψ.ker ≤ Subgroup.center J) : Subgroup J :=
   TableBU.twoPartOf ψ.ker hker (Nat.card J)
 
 theorem originalN_le_ker (hker : ψ.ker ≤ Subgroup.center J) :

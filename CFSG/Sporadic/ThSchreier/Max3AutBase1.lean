@@ -30,7 +30,7 @@ namespace CFSG.Sporadic.ThSchreier
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Max3 CFSG.Certificates
 open scoped commutatorElement
 
-@[expose] noncomputable def zM : ↥M := ⟨z, z_mem_M⟩
+noncomputable def zM : ↥M := ⟨z, z_mem_M⟩
 
 theorem closure_xM_yM :
     Subgroup.closure ({xM, yM} : Set ↥M) = ⊤ := by

@@ -60,7 +60,7 @@ theorem e7_dominant : ∀ a : Fin e7Data.d, (∀ i, e7Data.wt a i ≠ -1) → a 
 
 theorem e7_reach : reachCheck e7Data 0 30 = true := by decide +kernel
 
-@[expose] abbrev e7n6 : Fin (Tag.rank .E7) := ⟨6, by decide⟩
+abbrev e7n6 : Fin (Tag.rank .E7) := ⟨6, by decide⟩
 
 theorem e7_wt_zero_aux : ∀ s : Fin (Tag.rank .E7),
     e7Data.wt 0 s = if s = e7n6 then 1 else 0 := by

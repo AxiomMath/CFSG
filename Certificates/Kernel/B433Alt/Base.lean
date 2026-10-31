@@ -227,7 +227,7 @@ theorem orb0 {l i : ℕ} (hl : l < 5) (hi : i < LK l) :
 
 section
 
-@[expose] noncomputable def β5 (m : ℕ) : Fin 31671 :=
+noncomputable def β5 (m : ℕ) : Fin 31671 :=
   if h : m < 5 then ⟨b5 m, b5_lt m h⟩ else 0
 
 theorem cbOf'_congr {b b' : ℕ → ℕ} : ∀ k, (∀ m < k, b m = b' m) → cbOf' b k = cbOf' b' k
@@ -237,7 +237,7 @@ theorem cbOf'_congr {b b' : ℕ → ℕ} : ∀ k, (∀ m < k, b m = b' m) → cb
     rw [cbOf'_congr k (fun m hm => h m (by omega)), h k (by omega)]
 
 open CFSG.KD.B4AC in
-@[expose] noncomputable def gen0 (l k : ℕ) : ℕ :=
+noncomputable def gen0 (l k : ℕ) : ℕ :=
   genWord CFSG.KD.B4A.RD CFSG.KD.B4A.RW EL EW 0 l (LG l) (LN l) k
 
 open CFSG.KD.B4AC in

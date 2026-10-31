@@ -62,7 +62,7 @@ theorem rep_n7Tab (hinv : n7InvCheck = true) (w : List (Fin 6 × Bool)) :
   rw [← n7L_eq hz0 hz6] at this
   exact this
 
-@[expose] noncomputable def n7Gen (i : Fin 6) : NativeSporadic.M23 := m23Gen i.castSucc
+noncomputable def n7Gen (i : Fin 6) : NativeSporadic.M23 := m23Gen i.castSucc
 
 theorem evalWord7_m23Gen (w : List (Fin 6 × Bool)) :
     FreeGroup.lift m23Gen (FreeGroup.mk (liftWord7 w)) =

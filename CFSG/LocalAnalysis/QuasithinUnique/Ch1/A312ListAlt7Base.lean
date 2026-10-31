@@ -17,7 +17,7 @@ open Equiv CFSG.QuasithinUnique.Unc25K1.Six CFSG.Assembly.LowTwoRank
 open CFSG.Quasithin hiding lemma_1_2_1_one lemma_1_2_1_two lemma_1_2_4_exists lemma_1_2_4_unique
   lemma_1_2_4_existsUnique normal_conjClosure_of_pCoreOf_ne_bot
 
-@[expose] def T7 : Subgroup ↥A7s := D7.subgroupOf A7s
+def T7 : Subgroup ↥A7s := D7.subgroupOf A7s
 
 theorem card_A7s : Nat.card ↥A7s = 2520 := by
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
@@ -26,17 +26,17 @@ theorem card_A7s : Nat.card ↥A7s = 2520 := by
 theorem card_map_subtype (M : Subgroup ↥A7s) : Nat.card (M.map A7s.subtype) = Nat.card M :=
   Subgroup.card_map_of_injective A7s.subtype_injective
 
-@[expose] def s5 : Finset (Fin 7) := {0, 1, 2, 3, 6}
+def s5 : Finset (Fin 7) := {0, 1, 2, 3, 6}
 
-@[expose] def s6 : Finset (Fin 7) := {0, 1, 2, 3, 4, 5}
+def s6 : Finset (Fin 7) := {0, 1, 2, 3, 4, 5}
 
 theorem card_s5 : s5.card = 5 := by decide
 
 theorem card_s6 : s6.card = 6 := by decide
 
-@[expose] def rng5 : Subgroup ↥A7s := (alternatingGroup.ofSubtype s5).range
+def rng5 : Subgroup ↥A7s := (alternatingGroup.ofSubtype s5).range
 
-@[expose] def rng6 : Subgroup ↥A7s := (alternatingGroup.ofSubtype s6).range
+def rng6 : Subgroup ↥A7s := (alternatingGroup.ofSubtype s6).range
 
 theorem mem_rng5 (k : ↥A7s) : k ∈ rng5 ↔ k.1 4 = 4 ∧ k.1 5 = 5 := by
   rw [rng5, alternatingGroup.mem_range_ofSubtype_iff]

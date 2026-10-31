@@ -11,9 +11,9 @@ namespace FiveTransitive.Degree24
 
 open MulAction SubMulAction Subgroup
 
-@[expose] abbrev FourFiveBase := Degree20.FourFiveBase
+abbrev FourFiveBase := Degree20.FourFiveBase
 
-@[expose] abbrev TwentyFourFivePoints :=
+abbrev TwentyFourFivePoints :=
   Degree20.TwentyFivePoints ⊕ Fin 4
 
 instance : SMul FourFiveBase TwentyFourFivePoints where

@@ -39,14 +39,14 @@ theorem factorization_card_co2P_three :
     Nat.Prime.factorization_pow Nat.prime_three, Finsupp.single_eq_same,
     Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
 
-@[expose] def vec (k : ℕ) : Fin 4 → ZMod 3 := fun i => (digit3 k i : ZMod 3)
+def vec (k : ℕ) : Fin 4 → ZMod 3 := fun i => (digit3 k i : ZMod 3)
 
 theorem vec_val (k : ℕ) (i : Fin 4) : (vec k i).val = digit3 k i := by
   rw [vec, ZMod.val_natCast]
   unfold digit3
   exact Nat.mod_mod _ _
 
-@[expose] def idx (a : Fin 4 → ZMod 3) : ℕ :=
+def idx (a : Fin 4 → ZMod 3) : ℕ :=
   (a 0).val + 3 * (a 1).val + 9 * (a 2).val + 27 * (a 3).val
 
 theorem idx_lt (a : Fin 4 → ZMod 3) : idx a < 81 := by
@@ -78,7 +78,7 @@ theorem idx_eq_zero_iff (a : Fin 4 → ZMod 3) : idx a = 0 ↔ a = 0 := by
   · rintro rfl
     simp [idx]
 
-@[expose] noncomputable def dPerm (i : Fin 4) : Equiv.Perm (Fin 2300) :=
+noncomputable def dPerm (i : Fin 4) : Equiv.Perm (Fin 2300) :=
   permOfArr 2300 (dGens ())[(i : ℕ)]!
 
 section D

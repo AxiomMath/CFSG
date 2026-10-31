@@ -59,13 +59,13 @@ theorem wordCat_spec (w : List ℤ) :
     rw [decodeN_amulN (PermArrN_letterCat z) ih.1, decodeN_letterCat, ih.2, wordM22, wordM22,
       List.map_cons, List.prod_cons, Subgroup.coe_mul]
 
-@[expose] def hRep (i : ℕ) : CFSG.Blueprint.NativeSporadic.M22 := wordM22 (blockWord i)
+def hRep (i : ℕ) : CFSG.Blueprint.NativeSporadic.M22 := wordM22 (blockWord i)
 
 theorem hCat_spec (i : ℕ) : PermArrN 22 (hCat i) = true ∧
     decodeN 22 (hCat i) = ((hRep i : CFSG.Blueprint.NativeSporadic.M22) : Equiv.Perm (Fin 22)) :=
   wordCat_spec _
 
-@[expose] def jEmb : Fin 22 ↪ Fin 24 := ⟨jCat, jCat_injective⟩
+def jEmb : Fin 22 ↪ Fin 24 := ⟨jCat, jCat_injective⟩
 
 theorem B₀_eq_map_jCat : B₀ = catB₀.map jEmb := by decide
 
@@ -126,10 +126,10 @@ theorem hexadOf_zMk
     (k : CFSG.Blueprint.NativeSporadic.M22) (q : Q₀) :
     hexadOf (zMk k q) = B₀.map (psiHom k).toEmbedding := rfl
 
-@[expose] def decZ
+def decZ
     (p : Fin 77 × Q₀) : Z := zMk (hRep p.1) p.2
 
-@[expose] noncomputable def decY
+noncomputable def decY
     (n : ℕ) : Y :=
   if h : n < 22 then .inl (coordAt ⟨n, h⟩)
   else if n < 1046 then .inr (.inl (wv (n - 22)))

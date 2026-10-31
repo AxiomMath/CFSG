@@ -120,16 +120,16 @@ theorem letM_eq (c : ℕ) : letM (R 1) (R 10) (R 2) (R 11) c =
     if c = 0 then R 1 else if c = 1 then R 10 else if c = 2 then R 2 else R 11 := by
   rcases c with _ | _ | _ | c <;> rfl
 
-@[expose] noncomputable def genE (g : List ℕ × ℕ) : J := signedWord x y (toI g.1) * η g.2
+noncomputable def genE (g : List ℕ × ℕ) : J := signedWord x y (toI g.1) * η g.2
 
 theorem genE_mem_H (g : List ℕ × ℕ) : genE g ∈ H :=
   H.mul_mem (K_le_H (signedWord_mem_K _)) (N_le_H (η_mem_N _))
 
 noncomputable abbrev Lj (l : ℕ) : Subgroup J := H ⊓ MulAction.stabilizer J (qv l)
 
-@[expose] noncomputable def gsl (l : ℕ) : List J := (GN l).map genE
+noncomputable def gsl (l : ℕ) : List J := (GN l).map genE
 
-@[expose] noncomputable def WE (l : ℕ) (w : List ℕ) : J := wordE (gsl l) w
+noncomputable def WE (l : ℕ) (w : List ℕ) : J := wordE (gsl l) w
 
 theorem nth_map_of_lt {α β : Type} (f : α → β) (d : β) (d' : α) {l : List α} {i : ℕ}
     (hi : i < l.length) : nth d (l.map f) i = f (nth d' l i) := by
@@ -155,20 +155,20 @@ section Local
 
 theorem finite_J : Finite J := CertificateChecks.KernelJ4Hub.finite_J
 
-@[expose] noncomputable def PE (l : ℕ) : List J := (nth [] PW l).map (WE l)
+noncomputable def PE (l : ℕ) : List J := (nth [] PW l).map (WE l)
 
 theorem PE_length {l : ℕ} (hl : l < 7) : (PE l).length = nth 0 NP l := by
   have h := CFSG.KS.allN_spec plen_ok l hl
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true] at h
   rw [← Nat.eq_of_beq_eq_true h.1, PE, PL, List.length_map, List.length_map]
 
-@[expose] noncomputable def PJ (l : ℕ) : Subgroup J := Subgroup.closure {g | g ∈ PE l}
+noncomputable def PJ (l : ℕ) : Subgroup J := Subgroup.closure {g | g ∈ PE l}
 
-@[expose] noncomputable def RE (l r : ℕ) : J := WE l (nth [] (nth [] RW l) r)
+noncomputable def RE (l r : ℕ) : J := WE l (nth [] (nth [] RW l) r)
 
-@[expose] noncomputable def CE (l r : ℕ) : List J := (CWL l r).map (WE l)
+noncomputable def CE (l r : ℕ) : List J := (CWL l r).map (WE l)
 
-@[expose] noncomputable def TE (l r j : ℕ) : J := wordE (CE l r) (nth [] (nth [] (nth [] TW l) r) j)
+noncomputable def TE (l r j : ℕ) : J := wordE (CE l r) (nth [] (nth [] (nth [] TW l) r) j)
 
 theorem RL_nth {l r : ℕ} (hr : r < NR l) : nth 0 (RL l) r = EV l (nth [] (nth [] RW l) r) :=
   nth_map_of_lt _ _ _ hr
@@ -210,7 +210,7 @@ theorem card_le_of_injOn {G X : Type*} [Group G] [Finite G] (S : Subgroup G) (s 
   · have e' := congrArg Subtype.val e
     exact Subtype.ext e'
 
-@[expose] noncomputable def AF (l r : ℕ) : Finset ℕ :=
+noncomputable def AF (l r : ℕ) : Finset ℕ :=
   (Finset.range 2048).filter fun a =>
     bAnd(Nat.beq (combo (nth [] BS l) (decode (nth [] PS l) a)) a,
       Nat.beq (appK (pcK (nth 0 (RL l) r)) a) a) = true
@@ -246,7 +246,7 @@ end Bound
 
 section Final
 
-@[expose] def FB : List ℕ := [1, 0, 0, 480, 120, 60, 76]
+def FB : List ℕ := [1, 0, 0, 480, 120, 60, 76]
 
 end Final
 

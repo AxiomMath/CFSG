@@ -8,9 +8,9 @@ namespace CertificateChecks.KernelU38R
 
 open CFSG.RankThree.PartTwo.Sec18.Item185Proof.U38Elim
 
-@[expose] def rGensA : Array (Array Nat) := rGens ()
+def rGensA : Array (Array Nat) := rGens ()
 
-@[expose] def psA : Array Nat := #[0, 1]
+def psA : Array Nat := #[0, 1]
 
 end CertificateChecks.KernelU38R
 

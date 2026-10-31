@@ -10,9 +10,9 @@ namespace CFSG.OddStandard.SmallF3.Omega
 
 open Subgroup CFSG.Blueprint
 
-@[expose] abbrev E16 : Type := Fin 4 → Multiplicative (ZMod 2)
+abbrev E16 : Type := Fin 4 → Multiplicative (ZMod 2)
 
-@[expose] abbrev Z4Pow4 : Type := Fin 4 → Multiplicative (ZMod 4)
+abbrev Z4Pow4 : Type := Fin 4 → Multiplicative (ZMod 4)
 
 structure Sec7Ctx (G : Type) [Group G] [Finite G] (t : G) (L S : Subgroup G) (z : G) : Prop
     extends Sec3SettingLB G t L, Asc82Notation t L S z where

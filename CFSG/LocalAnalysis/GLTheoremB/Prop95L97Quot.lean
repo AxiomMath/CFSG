@@ -10,7 +10,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] abbrev piM (M : Subgroup G) : ↥M →* Mt M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
+abbrev piM (M : Subgroup G) : ↥M →* Mt M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
 
 theorem piM_surjective (M : Subgroup G) : Function.Surjective (piM M) :=
   QuotientGroup.mk'_surjective _

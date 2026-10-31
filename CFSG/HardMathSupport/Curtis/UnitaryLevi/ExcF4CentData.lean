@@ -9,7 +9,7 @@ namespace CFSG.HardMathSupport.Curtis.UnitaryLevi
 
 open CFSG.LieType.Chevalley CFSG.Blueprint.Chevalley
 
-@[expose] abbrev RM (l : List (Fin Tag.F4.rank)) : Matrix (Fin 4) (Fin 4) ℤ :=
+abbrev RM (l : List (Fin Tag.F4.rank)) : Matrix (Fin 4) (Fin 4) ℤ :=
   (l.map (Rmat Tag.F4)).prod
 
 @[expose] def lAB : List (Fin Tag.F4.rank) := laF ++ lbF

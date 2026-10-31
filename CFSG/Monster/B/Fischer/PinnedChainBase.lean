@@ -17,13 +17,13 @@ open CFSG.Certificates CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 theorem fi22StrongArrs_get {j : ℕ} (hj : j < 19) : fi22StrongArrs[j]! = fi22ChainStrong j := by
   rw [fi22StrongArrs, getElem!_pos _ j (by simp [hj]), Array.getElem_ofFn]
 
-@[expose] noncomputable def fi22StrongPerm (j : ℕ) : Equiv.Perm (Fin 3510) :=
+noncomputable def fi22StrongPerm (j : ℕ) : Equiv.Perm (Fin 3510) :=
   permOfArr 3510 (fi22ChainStrong j)
 
-@[expose] noncomputable def fi22GenPerm (k : ℕ) : Equiv.Perm (Fin 3510) :=
+noncomputable def fi22GenPerm (k : ℕ) : Equiv.Perm (Fin 3510) :=
   permOfArr 3510 (fi22ChainGen k)
 
-@[expose] noncomputable def fi22Chain : RawSchreierDatum 3510 where
+noncomputable def fi22Chain : RawSchreierDatum 3510 where
   degree_pos := by decide
   originalCount := 2
   strongCount := 19
@@ -35,7 +35,7 @@ theorem fi22StrongArrs_get {j : ℕ} (hj : j < 19) : fi22StrongArrs[j]! = fi22Ch
   base_distinct := by decide
   derivation j _ := toLetters j.val (fi22Derivation j.val)
 
-@[expose] noncomputable def fi22P : Subgroup (Equiv.Perm (Fin 3510)) := fi22Chain.originalSubgroup
+noncomputable def fi22P : Subgroup (Equiv.Perm (Fin 3510)) := fi22Chain.originalSubgroup
 
 theorem fi22Chain_strong_get (j : Fin fi22Chain.strongCount) :
     fi22Chain.strong.get j = fi22StrongPerm j := by

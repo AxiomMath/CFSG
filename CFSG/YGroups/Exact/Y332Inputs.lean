@@ -9,11 +9,11 @@ public import Certificates.Data.CFSGNative.YGroups.ExactData
 
 namespace CFSG.YGroups
 
-@[expose] def y332Arrays : Array (Array ℕ) :=
+def y332Arrays : Array (Array ℕ) :=
   ModelNative.withSign (ModelNative.parsePerms ModelNative.y332PermText)
 
-@[expose] def y332Words : Array (List ℤ) := ModelNative.chainWords ModelNative.y332ChainText
+def y332Words : Array (List ℤ) := ModelNative.chainWords ModelNative.y332ChainText
 
-@[expose] def y332Base : Array ℕ := ModelNative.chainBase ModelNative.y332ChainText
+def y332Base : Array ℕ := ModelNative.chainBase ModelNative.y332ChainText
 
 end CFSG.YGroups

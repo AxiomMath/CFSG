@@ -11,7 +11,7 @@ namespace FiveTransitive.Degree19
 open MulAction Subgroup
 open scoped Pointwise
 
-@[expose] abbrev SylowFixesEmbedding
+abbrev SylowFixesEmbedding
     {X : Type} [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (p m : ℕ)
     (e : Fin m ↪ X) :=

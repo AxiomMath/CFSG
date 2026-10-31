@@ -319,7 +319,7 @@ theorem isSimpleRep_twRep27 : IsSimpleRep (twRep27 σ) :=
     (y := (e6Y27 : Fin e6Data.d →₀ K)) (fun _ hx => fixU_le_line_tw hf hK σ hσ hx)
     (orbitSpan_twRep27 hf hK σ hσ)
 
-@[expose] abbrev twA0 : Fin TwistTag.E6.foldedTag.rank := ⟨0, by decide⟩
+abbrev twA0 : Fin TwistTag.E6.foldedTag.rank := ⟨0, by decide⟩
 
 theorem orbitIndex_e6n0 : TwistTag.E6.orbitIndex e6n0 = twA0 := by decide
 
