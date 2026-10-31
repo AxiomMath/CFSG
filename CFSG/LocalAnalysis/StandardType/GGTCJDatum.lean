@@ -480,7 +480,7 @@ theorem ggTCJ_datum_marking {lab : LargeEvenLabel}
           ∀ φ, φ ∈ LargeEvenChevIDImage LargeEvenCartanF4 K
             (LargeEvenTwF4H ((n - 1) / 2) K) → MulAut.congr e φ ∈ I') := by
       dsimp only [CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeTwF4Inherited]
-      split_ifs with h0
+      split_ifs
       exact ⟨K, hf, hfin, hK, ⟨MulEquiv.refl _, fun φ hφ => by
           rw [tcjDatum_congr_refl]
           exact Subgroup.subset_closure (Set.mem_union_left _ hφ)⟩⟩

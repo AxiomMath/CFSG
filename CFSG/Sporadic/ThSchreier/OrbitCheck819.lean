@@ -26,9 +26,6 @@ open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 theorem isRows_rowsT : IsRows rowsT involT :=
   (isRows_rowsVInv.mul isRows_a).mul isRows_rowsV
 
-termination_by i
-decreasing_by exact _h.2
-
 theorem orbit_facts : orbitChecks orbTable = true :=
   Certificates.certificate2315
 

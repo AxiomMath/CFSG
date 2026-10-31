@@ -31,7 +31,7 @@ variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {N : Subgroup G
   {K : Subgroup G} {S : Sylow 2 G} {R W H : Subgroup G}
 
 variable (Ω N) in
-structure CentQuotQ8 extends CentQuotGen Ω N : Prop where
+structure CentQuotQ8 : Prop extends CentQuotGen Ω N where
   central : N ≤ Subgroup.center G
   two : IsPGroup 2 ↥N
 

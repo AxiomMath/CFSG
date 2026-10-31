@@ -48,7 +48,7 @@ theorem Tr_one : D.Tr 1 = 1 := by
   rw [D.hTr, map_one, map_one]
   have h := D.add_self (1 : K)
   rw [Subfield.coe_one]
-  linear_combination (1 : K) * h + (1 : K) * 0
+  linear_combination (1 : K) * h
 
 theorem Tr_mul_inv {x : K} (hx : x ≠ 0) : D.Tr (x * x⁻¹) = 1 := by
   rw [mul_inv_cancel₀ hx, D.Tr_one]
@@ -214,7 +214,7 @@ theorem Tr_coe (a : k) : D.Tr (a : K) = a := by
   apply Subtype.ext
   rw [D.hTr, D.σ_of_mem, D.σ_of_mem]
   have h := D.add_self (a : K)
-  linear_combination (a : K) + h
+  linear_combination h
 
 theorem fix_eqs {s : K} {w : k × K × K × k} (h : D.Mfun s w = w) :
     (w.1 : K) * s = 0 ∧
