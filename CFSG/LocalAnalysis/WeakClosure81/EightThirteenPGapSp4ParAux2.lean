@@ -94,7 +94,7 @@ section Lev
 
 variable [Finite F] [CharP F 2]
 
-@[expose] private def wcgapsq_fixE1 : Subgroup (StatedSp 2 F) where
+private def wcgapsq_fixE1 : Subgroup (StatedSp 2 F) where
   carrier := {x | mat x *ᵥ e₁ F = e₁ F}
   one_mem' := by
     change mat (1 : StatedSp 2 F) *ᵥ e₁ F = e₁ F
