@@ -26,27 +26,27 @@ open scoped Matrix commutatorElement
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-@[expose] def nrm₁ : J := runProg (initRegs a b) max7Prog 1
+def nrm₁ : J := runProg (initRegs a b) max7Prog 1
 
-@[expose] def nrm₂ : J := runProg (initRegs a b) max7Prog 2
+def nrm₂ : J := runProg (initRegs a b) max7Prog 2
 
-@[expose] def qs : J := nrm₂ ^ 8
+def qs : J := nrm₂ ^ 8
 
-@[expose] def qx₀ : J := qs * nrm₁⁻¹ * qs⁻¹ * nrm₁
+def qx₀ : J := qs * nrm₁⁻¹ * qs⁻¹ * nrm₁
 
-@[expose] def qy₀ : J := ⁅qs, nrm₁ * nrm₂⁆
+def qy₀ : J := ⁅qs, nrm₁ * nrm₂⁆
 
-@[expose] def qx : J := qx₀ * qy₀ ^ 7
+def qx : J := qx₀ * qy₀ ^ 7
 
-@[expose] def qy : J := qy₀ ^ 3
+def qy : J := qy₀ ^ 3
 
-@[expose] def qz : J := ⁅qx, qy⁆
+def qz : J := ⁅qx, qy⁆
 
-@[expose] def qu : J := nrm₂ ^ 5
+def qu : J := nrm₂ ^ 5
 
-@[expose] def qw : J := qx ^ 3 * qy ^ 9 * qz * signedWord nrm₁ nrm₂ [1, 2, 1, 2, 2, 2, 2]
+def qw : J := qx ^ 3 * qy ^ 9 * qz * signedWord nrm₁ nrm₂ [1, 2, 1, 2, 2, 2, 2]
 
-@[expose] def Q11 : Subgroup J := Subgroup.closure ({qx, qy} : Set J)
+def Q11 : Subgroup J := Subgroup.closure ({qx, qy} : Set J)
 
 theorem rep_commP {g h : J} {P Q : Pair} (hg : Rep Sp φ g P) (hh : Rep Sp φ h Q) :
     Rep Sp φ ⁅g, h⁆ (commP P Q) := by
@@ -121,7 +121,7 @@ theorem mem_normalizer_Q11 {h : J} (hx : h * qx * h⁻¹ ∈ Q11) (hy : h * qy *
 theorem qWord_mem (i j k : ℕ) : qx ^ i * qy ^ j * qz ^ k ∈ Q11 :=
   Q11.mul_mem (Q11.mul_mem (Q11.pow_mem qx_mem i) (Q11.pow_mem qy_mem j)) (Q11.pow_mem qz_mem k)
 
-@[expose] def rowFix (M : Matrix (Fin 112) (Fin 112) (ZMod 2)) :
+def rowFix (M : Matrix (Fin 112) (Fin 112) (ZMod 2)) :
     Submodule (ZMod 2) (Fin 112 → ZMod 2) :=
   LinearMap.eqLocus (Matrix.vecMulLinear M) LinearMap.id
 
@@ -129,7 +129,7 @@ theorem mem_rowFix {M : Matrix (Fin 112) (Fin 112) (ZMod 2)} {v : Fin 112 → ZM
     v ∈ rowFix M ↔ v ᵥ* M = v := by
   rw [rowFix, LinearMap.mem_eqLocus, Matrix.vecMulLinear_apply, LinearMap.id_apply]
 
-@[expose] def extZero (k : ℕ) : (Fin k → ZMod 2) →ₗ[ZMod 2] (Fin 112 → ZMod 2) where
+def extZero (k : ℕ) : (Fin k → ZMod 2) →ₗ[ZMod 2] (Fin 112 → ZMod 2) where
   toFun c i := if h : i.val < k then c ⟨i.val, h⟩ else 0
   map_add' c d := by
     funext i

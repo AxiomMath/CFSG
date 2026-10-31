@@ -41,7 +41,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.BfsPin
 open CFSG.Monster.B.Co2.Native CFSG.Sporadic.HeldB CFSG.AGLEmbeddingD2.Wilson.ThetaSpor.He
 open CertificateChecks.KernelLC.HeFix
 
-@[expose] noncomputable abbrev pc (p q : Nat) : Nat := pcomp 8330 14 (mask 14) p q
+noncomputable abbrev pc (p q : Nat) : Nat := pcomp 8330 14 (mask 14) p q
 
 @[expose] noncomputable def classK (W : List (List Int)) (o cnt : Nat) (Δ : Array Nat) (m : Nat) :
     Bool :=

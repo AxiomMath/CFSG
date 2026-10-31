@@ -10,7 +10,7 @@ namespace CFSG.Sporadic.Co2Rank3
 open CFSG.Sporadic.Co2Cert CFSG.Monster.B.Co2.Native CFSG.Certificates.Native
   CFSG.Sporadic.Co2Rank3.Native CFSG.Sporadic.FischerOddCore.Native
 
-@[expose] def co2Rank3TOK : Bool :=
+def co2Rank3TOK : Bool :=
   let nbr := co2Nbr
   let l0 := p0Rec.1
   let lb := stabRec.1

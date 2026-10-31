@@ -14,7 +14,7 @@ namespace CFSG.ComponentClassification.WittDesign
 
 open MulAction CFSG.Sporadic.Mathieu
 
-@[expose] def baseTriple : Fin 3 ↪ Fin 22 := ⟨![0, 1, 2], by decide⟩
+def baseTriple : Fin 3 ↪ Fin 22 := ⟨![0, 1, 2], by decide⟩
 
 theorem mem_stabilizer_baseTriple_iff {g : M22} :
     g ∈ stabilizer M22 baseTriple ↔

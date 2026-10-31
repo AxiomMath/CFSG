@@ -14,8 +14,8 @@ open scoped BigOperators
 
 variable {G X : Type*} [Group G] [Fintype G] [Fintype X] [MulAction G X]
 
-@[expose] noncomputable abbrev c2 (g : Perm X) : ℕ := Nat.card (TwoRoot g)
-@[expose] noncomputable abbrev c4 (g : Perm X) : ℕ := Nat.card (FourRoot g)
+noncomputable abbrev c2 (g : Perm X) : ℕ := Nat.card (TwoRoot g)
+noncomputable abbrev c4 (g : Perm X) : ℕ := Nat.card (FourRoot g)
 
 theorem sum_four (h4 : IsMultiplyPretransitive G X 4) (hn : 4 ≤ Fintype.card X) :
     (∑ g : G, c4 (toPerm g : Perm X)) = Nat.card G := by

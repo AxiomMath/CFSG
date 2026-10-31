@@ -18,9 +18,9 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
 
 open scoped IsMulCommutative
 
-@[expose] def X4 : Set (Subgroup Dfull) := {F | (∃ g ∈ Shat, F = conjSub g E4) ∧ E3 ≤ F}
+def X4 : Set (Subgroup Dfull) := {F | (∃ g ∈ Shat, F = conjSub g E4) ∧ E3 ≤ F}
 
-@[expose] def X5 : Set (Subgroup Dfull) := {F | (∃ g ∈ Shat, F = conjSub g E5) ∧ E3 ≤ F}
+def X5 : Set (Subgroup Dfull) := {F | (∃ g ∈ Shat, F = conjSub g E5) ∧ E3 ≤ F}
 
 theorem subgroupOf_K3_eq (H : Subgroup Dfull) : H.subgroupOf K3 = (K3 ⊓ H).subgroupOf K3 := by
   ext k

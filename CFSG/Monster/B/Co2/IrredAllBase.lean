@@ -29,10 +29,10 @@ theorem kOp_mem_vLineL_of (g : OLq) {x z : L2} (hz : z ∈ vLineL x) :
     exact zero_mem _
   · exact Submodule.mem_span_singleton_self _
 
-@[expose] def perpMap (g : OLq) (x : L2) : vPerpL x →ₗ[ZMod 2] vPerpL (kOp g x) :=
+def perpMap (g : OLq) (x : L2) : vPerpL x →ₗ[ZMod 2] vPerpL (kOp g x) :=
   (kOp g).restrict fun _ hz => kOp_mem_vPerpL_of g hz
 
-@[expose] def trW (g : OLq) (x : L2) : Wv x →ₗ[ZMod 2] Wv (kOp g x) :=
+def trW (g : OLq) (x : L2) : Wv x →ₗ[ZMod 2] Wv (kOp g x) :=
   Submodule.mapQ (vLineInL x) (vLineInL (kOp g x)) (perpMap g x) fun _ hz =>
     kOp_mem_vLineL_of g hz
 

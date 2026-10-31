@@ -60,7 +60,7 @@ theorem linear_bvec {f : V8 →ₗ[ZMod 2] V8} {arr : Array ℕ}
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_smul, h]
 
-@[expose] def genArr (k : ℕ) : Array ℕ := (genRows.getD k []).toArray
+def genArr (k : ℕ) : Array ℕ := (genRows.getD k []).toArray
 
 theorem genArr_get : ∀ k : Fin 45, ∀ j : Fin 8, (genArr k)[(j : ℕ)]! = genRow k j := by decide
 

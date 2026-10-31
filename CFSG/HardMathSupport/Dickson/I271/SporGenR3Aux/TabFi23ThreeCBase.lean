@@ -72,11 +72,11 @@ end Bridge
 
 section Twins
 
-@[expose] noncomputable def ePt (i : Fin 31671) : CFSG.Sporadic.Fi23.J := conjPt i.val
+noncomputable def ePt (i : Fin 31671) : CFSG.Sporadic.Fi23.J := conjPt i.val
 
-@[expose] noncomputable def thirdPt (a b : Fin 31671) : Fin 31671 := conjPt a.val • b
+noncomputable def thirdPt (a b : Fin 31671) : Fin 31671 := conjPt a.val • b
 
-@[expose] noncomputable def cPt (k : ℕ) (t : Fin chainQ.size) : Fin 31671 :=
+noncomputable def cPt (k : ℕ) (t : Fin chainQ.size) : Fin 31671 :=
   conjPt k • (⟨chainQ[t.val]!, chainQ_lt t.2⟩ : Fin 31671)
 
 theorem ePt_smul (g : CFSG.Sporadic.Fi23.J) (i : Fin 31671) : ePt (g • i) = g * ePt i * g⁻¹ := conjPt_smul g i

@@ -12,10 +12,10 @@ section Defs
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] abbrev wcSub (T L V V₁ : Subgroup G) : Subgroup G :=
+abbrev wcSub (T L V V₁ : Subgroup G) : Subgroup G :=
   centerOf (i128 T L V V₁) ⊔ V₁
 
-@[expose] abbrev kcSub (T L V V₁ : Subgroup G) (g : G) : Subgroup G :=
+abbrev kcSub (T L V V₁ : Subgroup G) (g : G) : Subgroup G :=
   centerOf (i128 T L V V₁) ⊔ CFSG.conjugate V₁ g
 
 theorem mem_centerOf_iff' {X : Subgroup G} {x : G} :

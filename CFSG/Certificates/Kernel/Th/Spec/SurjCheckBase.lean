@@ -10,14 +10,14 @@ namespace CFSG.KC.Th.Spec
 open CFSG.KC.Th CFSG.KC.Th.BigS CFSG.KC.Th.SurjS CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
   CFSG.Sporadic.Bridge.Th
 
-@[expose] def regMat (RB : ℕ → ℕ) (l : ℕ × Bool) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+def regMat (RB : ℕ → ℕ) (l : ℕ × Bool) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   pkMat (RB (if l.2 then l.1 + 1 else l.1 + 9))
 
-@[expose] def wordMatFrom (RB : ℕ → ℕ) (M : Matrix (Fin 248) (Fin 248) (ZMod 2))
+def wordMatFrom (RB : ℕ → ℕ) (M : Matrix (Fin 248) (Fin 248) (ZMod 2))
     (w : List (ℕ × Bool)) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   w.foldl (fun N l => N * regMat RB l) M
 
-@[expose] def wordMat (RB : ℕ → ℕ) (w : List (ℕ × Bool)) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+def wordMat (RB : ℕ → ℕ) (w : List (ℕ × Bool)) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   wordMatFrom RB 1 w
 
 private theorem scAndB {a b : Bool} : andB a b = true ↔ a = true ∧ b = true := by

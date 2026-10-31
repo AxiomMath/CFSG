@@ -15,7 +15,7 @@ namespace CFSG.Sporadic.FischerOddCore
 
 open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer
 
-@[expose] def fi22ExtSmallStrong : Array (Array Nat) :=
+def fi22ExtSmallStrong : Array (Array Nat) :=
   Array.ofFn (n := 18) fun j => fi22ExtArr256 j.val
 
 end CFSG.Sporadic.FischerOddCore

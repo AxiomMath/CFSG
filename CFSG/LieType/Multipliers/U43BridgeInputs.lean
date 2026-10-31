@@ -9,6 +9,6 @@ namespace CFSG.LieType.Multipliers.U43
 
 open CFSG.Sporadic.Th.Native
 
-@[expose] def toTable (t : Array ℕ) : Table := Array.ofFn (n := 820) fun i => UInt32.ofNat t[i.val]!
+def toTable (t : Array ℕ) : Table := Array.ofFn (n := 820) fun i => UInt32.ofNat t[i.val]!
 
 end CFSG.LieType.Multipliers.U43

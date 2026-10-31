@@ -35,10 +35,10 @@ private theorem turn_commutes (i : Fin 8) :
 
 variable {G X : Type*} [Group G] [MulAction G X]
 
-@[expose] abbrev Admissible := FrobeniusCyclePattern.admissible (G := G) (X := X)
+abbrev Admissible := FrobeniusCyclePattern.admissible (G := G) (X := X)
   CyclePatternFinite.fourTwoTwo
 
-@[expose] abbrev Fiber (b : Fin 4 ↪ X) := TupleFiberOrbits.fiber
+abbrev Fiber (b : Fin 4 ↪ X) := TupleFiberOrbits.fiber
   (Admissible (G := G) (X := X)) basePositions b
 
 private def rotateFiber (b : Fin 4 ↪ X) (e : Fiber (G := G) b) : Fiber (G := G) b := by

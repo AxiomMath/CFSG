@@ -15,7 +15,7 @@ instance Fz_subgroupOf_normal (z : G) : ((Fz z).subgroupOf (Hz z)).Normal := by
   rw [Subgroup.mem_subgroupOf] at hn ⊢
   simpa using Aschbacher1976Full.Width.Fz_conj_mem g.2 hn
 
-@[expose] abbrev Qbar (z : G) : Type := ↥(Hz z) ⧸ (Fz z).subgroupOf (Hz z)
+abbrev Qbar (z : G) : Type := ↥(Hz z) ⧸ (Fz z).subgroupOf (Hz z)
 
 @[expose] def qmk (z : G) : ↥(Hz z) →* Qbar z := QuotientGroup.mk' _
 

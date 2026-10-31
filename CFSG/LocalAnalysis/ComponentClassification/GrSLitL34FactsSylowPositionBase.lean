@@ -44,7 +44,7 @@ theorem exists_conj_sylow_image
     rw [hT] at hjT
     exact ⟨hyS, j, mem_subgroupOf.mp hjT, j.2, congrArg Subtype.val hj⟩
 
-@[expose] def pullP (J P : Subgroup G) (hPJ : P ≤ J) (H : Subgroup (Jhat J)) : Subgroup G :=
+def pullP (J P : Subgroup G) (hPJ : P ≤ J) (H : Subgroup (Jhat J)) : Subgroup G :=
   (H.comap ((jq J).comp (Subgroup.inclusion hPJ))).map P.subtype
 
 variable {hPJ : P ≤ J}

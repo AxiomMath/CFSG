@@ -21,11 +21,11 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointIsometry (elementaryI
 abbrev qM (K : Type) [Field K] : QuadraticForm K ((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K)) :=
   quadTail 3 (minusTailForm K 1 1)
 
-@[expose] def cidx : Fin 3 ⊕ Fin 3 → ℕ
+def cidx : Fin 3 ⊕ Fin 3 → ℕ
   | .inl i => i
   | .inr i => i + 3
 
-@[expose] def vecK (K : Type) [Field K] (v : ℕ) : (Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K) :=
+def vecK (K : Type) [Field K] (v : ℕ) : (Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K) :=
   (fun c => ind K (v.testBit (cidx c)), fun i => ind K (v.testBit (i + 6)))
 
 section Vectors
@@ -131,7 +131,7 @@ theorem quad_elementary (g : orthElementaryGroup (qM K))
   map_of_mem (orthElementaryGroup_le _ g.2) v
 
 omit [Finite K] hK in
-@[expose] def nsPerm (g : orthElementaryGroup (qM K)) : Equiv.Perm (NS K) :=
+def nsPerm (g : orthElementaryGroup (qM K)) : Equiv.Perm (NS K) :=
   Equiv.Perm.subtypePerm (g : ((Fin 3 ⊕ Fin 3 → K) × (Fin 2 → K)) ≃ₗ[K] _).toEquiv
     fun v => by rw [LinearEquiv.coe_toEquiv, quad_elementary]
 
@@ -166,7 +166,7 @@ variable {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
 include hK
 
 omit [Finite K] hK in
-@[expose] def eichGen (K : Type) [Field K] (i : ℕ) : orthElementaryGroup (qM K) :=
+def eichGen (K : Type) [Field K] (i : ℕ) : orthElementaryGroup (qM K) :=
   ⟨eichler (qM K) (vecK K (gPairs.getD i (0, 0)).1) (vecK K (gPairs.getD i (0, 0)).2),
     eichler_mem_elementaryGroup _ _ _⟩
 

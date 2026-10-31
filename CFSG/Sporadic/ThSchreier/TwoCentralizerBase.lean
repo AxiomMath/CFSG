@@ -25,10 +25,10 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 
-@[expose] def tupleLetters {G : Type*} [Group G] (u : List G) (l : ℤ) : G :=
+def tupleLetters {G : Type*} [Group G] (u : List G) (l : ℤ) : G :=
   if 0 < l then u.getD (l.toNat - 1) 1 else (u.getD ((-l).toNat - 1) 1)⁻¹
 
-@[expose] def InvOK (R : Array V4) : Prop :=
+def InvOK (R : Array V4) : Prop :=
   eqRows (mulRows R (invRows R)) idRows = true ∧ (invRows R).size = 248 ∧
     ∀ r ∈ invRows R, r.wf = true
 

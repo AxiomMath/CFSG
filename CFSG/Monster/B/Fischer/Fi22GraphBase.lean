@@ -11,14 +11,14 @@ namespace CFSG.Monster.B.Fischer
 
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 
-@[expose] def fi22N0 : Set (Fin 3510) := {i | i ≠ 0 ∧ fi22OuterZ i = i}
+def fi22N0 : Set (Fin 3510) := {i | i ≠ 0 ∧ fi22OuterZ i = i}
 
-@[expose] def fi22Graph : SimpleGraph (Fin 3510) :=
+def fi22Graph : SimpleGraph (Fin 3510) :=
   SimpleGraph.fromEdgeSet {e | ∃ g ∈ fi22P, ∃ i ∈ fi22N0, e = s(g 0, g i)}
 
-@[expose] def fi22U : Equiv.Perm (Fin 3510) := permOfArr 3510 fi22GraphOuterArr
+def fi22U : Equiv.Perm (Fin 3510) := permOfArr 3510 fi22GraphOuterArr
 
-@[expose] def fi22R : Subgroup (Equiv.Perm (Fin 3510)) :=
+def fi22R : Subgroup (Equiv.Perm (Fin 3510)) :=
   Subgroup.closure (insert fi22U (fi22P : Set (Equiv.Perm (Fin 3510))))
 
 theorem fi22N0_ends_ne {g : Equiv.Perm (Fin 3510)} {i : Fin 3510} (hi : i ∈ fi22N0) :

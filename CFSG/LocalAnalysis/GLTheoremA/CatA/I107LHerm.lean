@@ -13,7 +13,7 @@ section Herm
 
 variable {K : Type} [Field K]
 
-@[expose] abbrev OffIdx (k : ℕ) : Type := {s : Sym2 (Fin k) // ¬ s.IsDiag}
+abbrev OffIdx (k : ℕ) : Type := {s : Sym2 (Fin k) // ¬ s.IsDiag}
 
 @[expose] def offEntry {k : ℕ} (f : OffIdx k → K) (i j : Fin k) : K :=
   if h : i = j then 0 else f ⟨s(i, j), by rw [Sym2.mk_isDiag_iff]; exact h⟩
@@ -165,7 +165,7 @@ theorem herm_eq_zero_of_UHU {d k : ℕ} (hkd : 2 * k ≤ d) (H : Matrix (Fin k) 
   zero_mem' := fun i => by simp
   neg_mem' := fun {a} ha i => by simp only [Pi.neg_apply, map_neg, ha i]
 
-@[expose] abbrev HermPar (σ : K →+* K) (k : ℕ) : Type := ↥(diagSub σ k) × (OffIdx k → K)
+abbrev HermPar (σ : K →+* K) (k : ℕ) : Type := ↥(diagSub σ k) × (OffIdx k → K)
 
 @[expose] def hermM (σ : K →+* K) (d k : ℕ) (p : HermPar σ k) : Matrix (Fin d) (Fin d) K :=
   1 + hookU (K := K) d k * hermMat σ (p.1 : Fin k → K) p.2 * (hookU (K := K) d k)ᵀ

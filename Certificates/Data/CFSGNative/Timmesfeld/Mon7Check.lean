@@ -41,10 +41,10 @@ set_option compiler.extract_closed false
 
 @[expose] def nMovesT : Thunk Nat := .mk fun _ => autIdxT.get.size + 5
 
-@[expose] noncomputable abbrev autIdx : Array (Array Nat) := autIdxT.get
-@[expose] noncomputable abbrev targetElts : Array Nat := targetEltsT.get
-@[expose] noncomputable abbrev targetCls : Array Nat := targetClsT.get
-@[expose] noncomputable abbrev nMoves : Nat := nMovesT.get
+noncomputable abbrev autIdx : Array (Array Nat) := autIdxT.get
+noncomputable abbrev targetElts : Array Nat := targetEltsT.get
+noncomputable abbrev targetCls : Array Nat := targetClsT.get
+noncomputable abbrev nMoves : Nat := nMovesT.get
 
 @[expose] def fusRoute (lab rep : Array Nat) (P : Array (Nat × Nat)) (L : Array (Array Nat)) :
     Array (Nat × Nat) × Array Nat := Id.run do

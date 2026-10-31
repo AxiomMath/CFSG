@@ -16,30 +16,30 @@ section Defs
 
 variable {G : Type} [Group G] (a b : G)
 
-@[expose] def t3 : G := a * b
-@[expose] def t4 : G := t3 a b * b
-@[expose] def t5 : G := t3 a b * t4 a b
-@[expose] def t6 : G := t3 a b * t5 a b
-@[expose] def t7 : G := a * t6 a b
-@[expose] def t8 : G := t6 a b * a
-@[expose] def u : G := (t8 a b)⁻¹ * t7 a b
-@[expose] def s8 : G := t6 a b * t5 a b
-@[expose] def s9 : G := t3 a b * s8 a b
-@[expose] def s10 : G := s9 a b * t4 a b
-@[expose] def s7 : G := a * s10 a b
-@[expose] def s8' : G := s10 a b * a
-@[expose] def v : G := (s8' a b)⁻¹ * s7 a b
-@[expose] def x : G := v a b ^ 14
-@[expose] def y : G := t7 a b * u a b ^ 9
-@[expose] def wordProd (w : List CFSG.Sporadic.Th.Max3.Gen) : G :=
+def t3 : G := a * b
+def t4 : G := t3 a b * b
+def t5 : G := t3 a b * t4 a b
+def t6 : G := t3 a b * t5 a b
+def t7 : G := a * t6 a b
+def t8 : G := t6 a b * a
+def u : G := (t8 a b)⁻¹ * t7 a b
+def s8 : G := t6 a b * t5 a b
+def s9 : G := t3 a b * s8 a b
+def s10 : G := s9 a b * t4 a b
+def s7 : G := a * s10 a b
+def s8' : G := s10 a b * a
+def v : G := (s8' a b)⁻¹ * s7 a b
+def x : G := v a b ^ 14
+def y : G := t7 a b * u a b ^ 9
+def wordProd (w : List CFSG.Sporadic.Th.Max3.Gen) : G :=
   (w.map (CFSG.Sporadic.Th.Max3.Gen.eval (x a b) (y a b))).prod
-@[expose] def abLetter (i : ℕ) : G := if i = 1 then a else b
-@[expose] def abProd (w : List ℕ) : G := (w.map (abLetter a b)).prod
-@[expose] def fusionConj (w : List ℕ) (r : G) : G :=
+def abLetter (i : ℕ) : G := if i = 1 then a else b
+def abProd (w : List ℕ) : G := (w.map (abLetter a b)).prod
+def fusionConj (w : List ℕ) (r : G) : G :=
   ((abProd a b w)⁻¹ * r * abProd a b w * a) ^ 9 * (abProd a b w)⁻¹
-@[expose] def genPair (c : G) : Set G :=
+def genPair (c : G) : Set G :=
   {x a b * (c⁻¹ * (x a b * c)), y a b * (c⁻¹ * (y a b * c))}
-@[expose] def GenFact (w : List ℕ) (r : G) : Prop :=
+def GenFact (w : List ℕ) (r : G) : Prop :=
   fusionConj a b w r * r * (fusionConj a b w r)⁻¹ = a ∧
     a ∈ Subgroup.closure (genPair a b (fusionConj a b w r)) ∧
       b ∈ Subgroup.closure (genPair a b (fusionConj a b w r))

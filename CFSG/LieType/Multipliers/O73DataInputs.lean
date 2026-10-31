@@ -12,33 +12,33 @@ open CFSG.YGroups CFSG.YGroups.ModelNative CFSG.Monster.B.Co2.Native Matrix
 
 abbrev Idx : Type := Fin 3 ⊕ Fin 3 ⊕ Unit
 
-@[expose] def idx : Idx → ℕ
+def idx : Idx → ℕ
   | .inl k => k
   | .inr (.inl k) => 3 + k
   | .inr (.inr _) => 6
 
-@[expose] def dec (x : ℕ) : Idx → ZMod 3 := fun i => ((x / 3 ^ idx i % 3 : ℕ) : ZMod 3)
+def dec (x : ℕ) : Idx → ZMod 3 := fun i => ((x / 3 ^ idx i % 3 : ℕ) : ZMod 3)
 
-@[expose] def code (v : Idx → ZMod 3) : ℕ :=
+def code (v : Idx → ZMod 3) : ℕ :=
   (v (.inl 0)).val + 3 * (v (.inl 1)).val + 9 * (v (.inl 2)).val +
     27 * (v (.inr (.inl 0))).val + 81 * (v (.inr (.inl 1))).val +
     243 * (v (.inr (.inl 2))).val + 729 * (v (.inr (.inr ()))).val
 
-@[expose] def q3 (v : Idx → ZMod 3) : ZMod 3 :=
+def q3 (v : Idx → ZMod 3) : ZMod 3 :=
   v (.inl 0) * v (.inr (.inl 0)) + v (.inl 1) * v (.inr (.inl 1)) +
     v (.inl 2) * v (.inr (.inl 2)) + v (.inr (.inr ())) ^ 2
 
-@[expose] def gv (v : Idx → ZMod 3) : Idx → ZMod 3
+def gv (v : Idx → ZMod 3) : Idx → ZMod 3
   | .inl k => v (.inr (.inl k))
   | .inr (.inl k) => v (.inl k)
   | .inr (.inr _) => 2 * v (.inr (.inr ()))
 
-@[expose] def rMat (v : Idx → ZMod 3) : Matrix Idx Idx (ZMod 3) :=
+def rMat (v : Idx → ZMod 3) : Matrix Idx Idx (ZMod 3) :=
   Matrix.of fun a b => (if a = b then 1 else 0) + v a * gv v b
 
-@[expose] def tMat (v : Idx → ZMod 3) : Matrix Idx Idx (ZMod 3) := -rMat v
+def tMat (v : Idx → ZMod 3) : Matrix Idx Idx (ZMod 3) := -rMat v
 
-@[expose] def vecList : List (List ℕ) :=
+def vecList : List (List ℕ) :=
   [[2, 0, 0, 1, 0, 0, 0],
     [1, 1, 0, 2, 0, 0, 0],
     [0, 1, 0, 0, 2, 0, 0],
@@ -48,7 +48,7 @@ abbrev Idx : Type := Fin 3 ⊕ Fin 3 ⊕ Unit
     [0, 2, 1, 1, 2, 0, 1],
     [1, 0, 1, 1, 0, 1, 0]]
 
-@[expose] def betaText : String :=
+def betaText : String :=
     "990 1227 1305 1363 1337 1990 2018 1766 709 1738 431 683 456 483 232 648 430 451 1112 206 \
     492 479 1084 295 1086 171 859 887 18 323 1061 523 1164 15 1060 836 861 1513 551 1139 1113 \
     1428 243 1138 914 939 1741 888 1490 835 1487 1403 1191 1769 1402 1151 1176 1196 1819 966 \
@@ -86,28 +86,28 @@ abbrev Idx : Type := Fin 3 ⊕ Fin 3 ⊕ Unit
     1382 57 4 559 307 1588 1616 1187 1953 930 905 1381 826 162 879 1956 223 8 33 533 1434 281 2 \
     27 1213 904 6 957 1439 2034 54 1 1411 962 934 2092 2066"
 
-@[expose] def betaArr : Array ℕ := parseNats betaText
+def betaArr : Array ℕ := parseNats betaText
 
-@[expose] def vecOf (l : List ℕ) : Idx → ZMod 3 := fun i => ((l.getD (idx i) 0 : ℕ) : ZMod 3)
+def vecOf (l : List ℕ) : Idx → ZMod 3 := fun i => ((l.getD (idx i) 0 : ℕ) : ZMod 3)
 
-@[expose] def vecs (i : ℕ) : Idx → ZMod 3 := vecOf (vecList.getD i [])
+def vecs (i : ℕ) : Idx → ZMod 3 := vecOf (vecList.getD i [])
 
-@[expose] def tabOf (A : Matrix Idx Idx (ZMod 3)) : Array ℕ :=
+def tabOf (A : Matrix Idx Idx (ZMod 3)) : Array ℕ :=
   Array.ofFn fun x : Fin 2187 => code (A *ᵥ dec x)
 
-@[expose] def tTabs : Array (Array ℕ) := Array.ofFn fun i : Fin 8 => tabOf (tMat (vecs i))
+def tTabs : Array (Array ℕ) := Array.ofFn fun i : Fin 8 => tabOf (tMat (vecs i))
 
-@[expose] def rTabs : Array (Array ℕ) := Array.ofFn fun i : Fin 8 => tabOf (rMat (vecs i))
+def rTabs : Array (Array ℕ) := Array.ofFn fun i : Fin 8 => tabOf (rMat (vecs i))
 
-@[expose] def spW : List ℕ := (List.replicate 10 (spiderWord 3 2)).flatten
+def spW : List ℕ := (List.replicate 10 (spiderWord 3 2)).flatten
 
-@[expose] def coxWords : List (List ℕ) := (yRels 3 2 2).dropLast
+def coxWords : List (List ℕ) := (yRels 3 2 2).dropLast
 
-@[expose] def eWords : List (List ℕ) :=
+def eWords : List (List ℕ) :=
   coxWords ++ [y322WordF1, spW ++ spW ++ spW] ++
     (List.range 8).map fun i => [i] ++ spW ++ [i] ++ spW.reverse
 
-@[expose] def liftText : String :=
+def liftText : String :=
     "0 53 2 23 4 86 50 7 8 9 58 11 49 172 163 119 167 17 105 19 20 21 22 3 161 189 26 168 137 \
     265 138 98 133 73 34 71 264 37 194 122 254 322 130 139 44 107 79 120 59 12 6 311 52 1 54 118 \
     206 57 10 48 60 61 132 213 78 65 267 188 68 169 140 35 72 33 101 75 76 210 64 46 187 186 124 \
@@ -511,6 +511,6 @@ abbrev Idx : Type := Fin 3 ⊕ Fin 3 ⊕ Unit
     1118 826 793 847 1122 320 1124 930 1126 1017 1128 913 585 279 600 497 \n\
     "
 
-@[expose] def liftArrs : Array (Array ℕ) := parsePerms liftText
+def liftArrs : Array (Array ℕ) := parsePerms liftText
 
 end CFSG.LieType.Multipliers.O73

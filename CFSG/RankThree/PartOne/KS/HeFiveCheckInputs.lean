@@ -46,16 +46,16 @@ namespace CFSG.RankThree.PartOne
 open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Monster.B.Mathieu
   CFSG.Monster.B.Fischer CFSG.RankThree.Native CFSG.Sporadic.HeldB
 
-@[expose] def heFiveKeys : List ℕ := heFiveCase0Base.map Fin.val
+def heFiveKeys : List ℕ := heFiveCase0Base.map Fin.val
 
-@[expose] def heFiveCase0BaseArr : Array ℕ := (heFiveCase0Base.map Fin.val).toArray
+def heFiveCase0BaseArr : Array ℕ := (heFiveCase0Base.map Fin.val).toArray
 
-@[expose] def heFiveRLevels : Array Level := rawLevels 8330 heFiveCase0Arrs heFiveCase0BaseArr
+def heFiveRLevels : Array Level := rawLevels 8330 heFiveCase0Arrs heFiveCase0BaseArr
 
-@[expose] def heFiveQCert : ArrCert := enumBfs 8330 heFiveQGens heFiveKeys 33
+def heFiveQCert : ArrCert := enumBfs 8330 heFiveQGens heFiveKeys 33
 
-@[expose] def heFiveC0Cert : ArrCert := enumBfs 8330 heFiveC0Gens heFiveKeys 608
+def heFiveC0Cert : ArrCert := enumBfs 8330 heFiveC0Gens heFiveKeys 608
 
-@[expose] def heFiveDCert0 : ArrCert := enumBfs 8330 heFiveDGens0 heFiveKeys 68
+def heFiveDCert0 : ArrCert := enumBfs 8330 heFiveDGens0 heFiveKeys 68
 
 end CFSG.RankThree.PartOne

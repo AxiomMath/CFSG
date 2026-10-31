@@ -26,7 +26,7 @@ theorem rhoOK_spec (h : rhoOK = true) :
   rw [← mul_assoc] at e1 e2
   exact ⟨mem_normalizer_P_of_gens e1 e2, (inP_iff (rep_compA rep_rhoArr rep_rhoArr)).1 h3⟩
 
-@[expose] def extSub (hn : rhoPerm ∈ normalizer (P : Set (Equiv.Perm (Fin 820))))
+def extSub (hn : rhoPerm ∈ normalizer (P : Set (Equiv.Perm (Fin 820))))
     (h2 : rhoPerm * rhoPerm ∈ P) : Subgroup (Equiv.Perm (Fin 820)) where
   carrier := {x | x ∈ P ∨ ∃ g ∈ P, x = g * rhoPerm}
   one_mem' := Or.inl P.one_mem

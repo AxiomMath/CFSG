@@ -12,7 +12,7 @@ open CFSG CFSG.Assembly
   ((c = 0 ∨ c + 1 = k) ∧ (m = 3 ∨ m = 4)) ∨ (3 ≤ k ∧ (c = 1 ∨ c + 2 = k) ∧ m = 3) ∨
     (5 ≤ k ∧ k ≤ 7 ∧ (c = 2 ∨ c + 3 = k) ∧ m = 3)
 
-@[expose] instance (k c m : ℕ) : Decidable (GGTWPosCoxK k c m) := by
+instance (k c m : ℕ) : Decidable (GGTWPosCoxK k c m) := by
   unfold GGTWPosCoxK; infer_instance
 
 @[expose] def GGTWPosCox (N : ℕ) (pos : GGTWPos) (c m : ℕ) : Prop :=
@@ -28,7 +28,7 @@ open CFSG CFSG.Assembly
       (∀ j, j ≠ c0 → X t' (f j) = 2) ∧
       (X t t' = 3 ∨ (X t t' = 4 ∧ X t' (f c0) = 3 ∧ (c0.val = 0 ∨ c0.val + 1 = k))))
 
-@[expose] instance {n k : ℕ} (X : CoxeterMatrix (Fin n)) (f : Fin k → Fin n) (t t' : Fin n) :
+instance {n k : ℕ} (X : CoxeterMatrix (Fin n)) (f : Fin k → Fin n) (t t' : Fin n) :
     Decidable (GGTWExt2Fin X f t t') := by
   unfold GGTWExt2Fin; infer_instance
 

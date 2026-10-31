@@ -10,20 +10,20 @@ namespace CFSG.Sporadic.Th
 
 open Native Pointwise
 
-@[expose] noncomputable def xJ : J := wordG (pairLetters a b) xWord
+noncomputable def xJ : J := wordG (pairLetters a b) xWord
 
-@[expose] noncomputable def yJ : J := wordG (pairLetters a b) yWord
+noncomputable def yJ : J := wordG (pairLetters a b) yWord
 
-@[expose] noncomputable def z0J :
+noncomputable def z0J :
     J := wordG (pairLetters xJ yJ) zWord0
 
-@[expose] noncomputable def z1J :
+noncomputable def z1J :
     J := wordG (pairLetters xJ yJ) zWord1
 
-@[expose] noncomputable def H :
+noncomputable def H :
     Subgroup J := Subgroup.closure {xJ, yJ}
 
-@[expose] noncomputable def L :
+noncomputable def L :
     Subgroup J := Subgroup.closure {z0J, z1J}
 
 theorem xJ_mem_H :

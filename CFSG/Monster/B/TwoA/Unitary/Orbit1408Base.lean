@@ -37,18 +37,18 @@ open CFSG.Fischer CFSG.Monster CFSG.Monster.B.Short CFSG.Monster.B.Co2 CFSG.Mons
 
 attribute [local irreducible] Native.vectors
 
-@[expose] def OmegaW :
+def OmegaW :
     Set (Wv v0) := wOrbit sigmaW
 
-@[expose] def tauW : Wv v0 := decW o14Tau
+def tauW : Wv v0 := decW o14Tau
 
-@[expose] def DeltaW :
+def DeltaW :
     Set (Wv v0) := {x | ∃ j : Fin 891, sigmaW + n6vec j = x}
 
-@[expose] def usigOrbit
+def usigOrbit
     (x : Wv v0) : Set (Wv v0) := {y | ∃ u ∈ Usig, wAct v0 u x = y}
 
-@[expose] def Atau :
+def Atau :
     Subgroup Usig := (wStab tauW).subgroupOf Usig
 
 theorem mem_Atau
@@ -138,11 +138,11 @@ theorem stabilizer_tauW :
     conv_lhs => rw [← h]
     exact wAct_inv_apply _ _
 
-@[expose] def deltaIdx
+def deltaIdx
     (x : Wv v0) : Fin 891 :=
   Function.invFun (fun j : Fin 891 => sigmaW + n6vec j) x
 
-@[expose] def shiftPlane
+def shiftPlane
     (x : Wv v0) : Submodule F4 V6 := plane (b6Iso (deltaIdx x))
 
 abbrev OmegaPt :
@@ -165,7 +165,7 @@ theorem coe_smul_OmegaPt
 noncomputable instance :
     Fintype OmegaPt := Fintype.ofFinite _
 
-@[expose] def sigmaPt :
+def sigmaPt :
     OmegaPt := ⟨sigmaW, sigmaW_mem_OmegaW⟩
 
 theorem stabilizer_sigmaPt :
@@ -204,7 +204,7 @@ theorem card_orbit_sigmaPt
   rw [← val_image_orbit_sigmaPt, Set.ncard_image_of_injective _ Subtype.val_injective,
     Nat.card_coe_set_eq]
 
-@[expose] def omegaGraph :
+def omegaGraph :
     SimpleGraph OmegaPt := suborbitGraph (Kstab v0) OmegaPt 891
 
 end CFSG.Monster.B.TwoA.Unitary

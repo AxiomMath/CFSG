@@ -28,14 +28,14 @@ theorem length_gG (i : ℕ) : (gG.getD i one12).length = 12 := (validN_getD vali
 
 theorem length_gInv (i : ℕ) : (gInv.getD i one12).length = 12 := (validN_getD validN_gInv i).1
 
-@[expose] def gU (i : ℕ) : GL (Fin 12) (ZMod 2) :=
+def gU (i : ℕ) : GL (Fin 12) (ZMod 2) :=
   if h : i < 2 then
     ⟨decN 12 (gG.getD i one12), decN 12 (gInv.getD i one12),
       by rw [← decN_mulN (length_gG i) (length_gInv i), (gG_inv i h).1, decN_oneN],
       by rw [← decN_mulN (length_gInv i) (length_gG i), (gG_inv i h).2, decN_oneN]⟩
   else 1
 
-@[expose] def tU (w : List ℕ) : GL (Fin 12) (ZMod 2) := (w.map gU).prod
+def tU (w : List ℕ) : GL (Fin 12) (ZMod 2) := (w.map gU).prod
 
 theorem gU_val (i : ℕ) : ((gU i : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)) =
     decN 12 (gG.getD i one12) := by
@@ -58,7 +58,7 @@ theorem tU_val (w : List ℕ) :
     show _ = decN 12 (evalW 12 gG (i :: w))
     rw [evalW_cons, decN_mulN (validN_getD validN_gG i).1 (length_evalW gG w)]
 
-@[expose] def G : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 gG
+def G : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 gG
 
 theorem getD_mem_gG {i : ℕ} (hi : i < 2) : gG.getD i one12 ∈ gG := by
   rw [List.getD_eq_getElem _ _ (by simp [gG]; omega)]
@@ -114,7 +114,7 @@ theorem z12_facts : z12.length = 12 ∧ tW zW = z12 ∧ (∀ g ∈ gG, mulN z12 
 
 theorem validN_z12 : ValidN 12 z12 := z12_facts.2.1 ▸ validN_evalW gG validN_gG zW
 
-@[expose] def zU : GL (Fin 12) (ZMod 2) := tU zW
+def zU : GL (Fin 12) (ZMod 2) := tU zW
 
 theorem zU_val :
     ((zU : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 z12 := by
@@ -150,7 +150,7 @@ theorem zU_ne_one : zU ≠ 1 := by
 theorem orderOf_zU : orderOf zU = 3 :=
   orderOf_eq_prime zU_pow_three zU_ne_one
 
-@[expose] def S0 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 s0G
+def S0 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 s0G
 
 theorem s0G_unit : ∀ g ∈ s0G, ∃ u : GL (Fin 12) (ZMod 2),
     (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 g := by
@@ -175,7 +175,7 @@ theorem S0_le : S0 ≤ G := by
 
 abbrev w0 : Fin 12 → ZMod 2 := vecN 12 v0
 
-@[expose] def F0v : Set (Fin 12 → ZMod 2) := {v | ∃ c ∈ f0, v = vecN 12 c}
+def F0v : Set (Fin 12 → ZMod 2) := {v | ∃ c ∈ f0, v = vecN 12 c}
 
 theorem zU_mulVec_vecN (c : ℕ) :
     ((zU : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)).mulVec (vecN 12 c) =
@@ -218,7 +218,7 @@ theorem mem_F0v_iff (v : Fin 12 → ZMod 2) :
     · exact ⟨10, by rw [z12_facts.2.2.2.2.2]; simp, rfl⟩
     · exact ⟨15, by rw [z12_facts.2.2.2.2.2]; simp, rfl⟩
 
-@[expose] def T0 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 tG
+def T0 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 tG
 
 theorem mulVec_zU_comm {g : GL (Fin 12) (ZMod 2)} (hg : g * zU = zU * g)
     (x : Fin 12 → ZMod 2) :
@@ -241,7 +241,7 @@ theorem mapsTo_F0v {g : GL (Fin 12) (ZMod 2)} (h1 : g * zU = zU * g)
   · rw [mulVec_zU_comm h1, mulVec_zU_comm h1]
     exact zU_mem_F0v (zU_mem_F0v h2)
 
-@[expose] def lineStabM : Submonoid (GL (Fin 12) (ZMod 2)) where
+def lineStabM : Submonoid (GL (Fin 12) (ZMod 2)) where
   carrier := {g | g * zU = zU * g ∧
     ((g : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)).mulVec w0 ∈ F0v}
   mul_mem' := by
@@ -251,7 +251,7 @@ theorem mapsTo_F0v {g : GL (Fin 12) (ZMod 2)} (h1 : g * zU = zU * g)
     exact mapsTo_F0v ha1 ha2 hb2
   one_mem' := ⟨by rw [one_mul, mul_one], by rw [Units.val_one, Matrix.one_mulVec]; exact w0_mem_F0v⟩
 
-@[expose] def lineStab : Subgroup (GL (Fin 12) (ZMod 2)) :=
+def lineStab : Subgroup (GL (Fin 12) (ZMod 2)) :=
   { lineStabM with
     inv_mem' := fun {g} hg => by
       have hfin : IsOfFinOrder g := isOfFinOrder_of_finite g
@@ -310,9 +310,9 @@ theorem inv_mul_not_mem_of_lineNe {x y : GL (Fin 12) (ZMod 2)}
   · rw [hyb, hxa, zU_mulVec_vecN, zU_mulVec_vecN] at h0
     exact h3 (vecN_inj hb hz2 h0)
 
-@[expose] def R0 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 rG
+def R0 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 rG
 
-@[expose] def y0U : GL (Fin 12) (ZMod 2) := tU y0W
+def y0U : GL (Fin 12) (ZMod 2) := tU y0W
 
 theorem T0_le_R0 : T0 ≤ R0 := Subgroup.closure_mono fun _ hu => List.mem_append_left _ hu
 

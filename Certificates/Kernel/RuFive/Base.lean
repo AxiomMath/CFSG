@@ -250,7 +250,7 @@ theorem arr_eq (k : Nat) (hk : k < 75) : ruFiveArr k = unpack 4060 12 (F k) := b
 theorem perm_k (k : Nat) (hk : k < 75) :
     permOK 4060 12 (mask 12) (4060 * 12) (F k) (AI k) = true := Orb.allN_iff.1 kPermF k hk
 
-@[expose] noncomputable def gp (k : Nat) : Equiv.Perm (Fin 4060) :=
+noncomputable def gp (k : Nat) : Equiv.Perm (Fin 4060) :=
   permOfArr 4060 (unpack 4060 12 (F k))
 
 theorem rep_gp (k : Nat) (hk : k < 75) : Rep 4060 (unpack 4060 12 (F k)) (gp k) :=

@@ -145,7 +145,7 @@ theorem Ru_perfect_odd_cover_trivial
       (coprime_pow_of_ne hr Nat.prime_two hr2 _) (coprime_pow_of_ne hr Nat.prime_three h3 _))
       (coprime_pow_of_ne hr (by norm_num) h5 _)) _ (by norm_num) (by decide) hsq
 
-@[expose] def J4OrderHyp : Prop :=
+def J4OrderHyp : Prop :=
   Nat.card NativeSporadic.J4 ∣ 86775571046077562880
 
 theorem central_quotient_exclusion_of_three_rank_four {G T : Type} [Group G] [Finite G] [Group T]

@@ -11,10 +11,10 @@ namespace FiveTransitive.FixedSetConjugateCounts
 
 open Equiv MulAction ConjugateCounting FixedSetConjugateCore
 
-@[expose] abbrev Fixer {X : Type*} (P : Subgroup (Perm X)) (S : Finset X) :=
+abbrev Fixer {X : Type*} (P : Subgroup (Perm X)) (S : Finset X) :=
   fixingSubgroup P (S : Set X)
 
-@[expose] abbrev Remainder {X : Type*} (P : Subgroup (Perm X)) (S : Finset X) :=
+abbrev Remainder {X : Type*} (P : Subgroup (Perm X)) (S : Finset X) :=
   SubMulAction.ofFixingSubgroup P (S : Set X)
 
 @[expose] def conjugate {X : Type*} {P : Subgroup (Perm X)} {S : Finset X}

@@ -12,7 +12,6 @@ namespace NoOuterGraph
 variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
   [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
-@[expose]
 abbrev RootN := Subgroup.normalizer
   (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))
 
@@ -78,12 +77,10 @@ lemma center_apply_smul {z : SpecialLinearGroup k (DSpace E X)}
   have h := congrArg SpecialLinearGroup.toLinearEquiv hzs
   simpa only [map_mul] using h
 
-@[expose]
 abbrev AnnK (k E X : Type) [Field k] [Field E] [Algebra k E]
     [AddCommGroup X] [Module k X] : Submodule k (Module.Dual k (DSpace E X)) :=
   (flagK k E X).dualAnnihilator
 
-@[expose]
 abbrev AnnW (k E X : Type) [Field k] [Field E] [Algebra k E]
     [AddCommGroup X] [Module k X] : Submodule k (Module.Dual k (DSpace E X)) :=
   (flagW k E X).dualAnnihilator

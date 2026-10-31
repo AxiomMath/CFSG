@@ -73,10 +73,10 @@ namespace Lemma1314
     ∀ (K B : Subgroup Y), IsComponentOf K ⊤ → IsElemAbelian 5 B →
       IsSporType .Fi23 ↥K → IsGMinusOne 5 B K
 
-@[expose] abbrev L0bOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (b : G) : Subgroup G :=
+abbrev L0bOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (b : G) : Subgroup G :=
   GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G))
 
-@[expose] abbrev LOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (d b : G) : Subgroup G :=
+abbrev LOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (d b : G) : Subgroup G :=
   ⨆ g ∈ GLAPLayer p (Subgroup.centralizer ({d} : Set G)), GLBConj g (L0bOf p L0 b)
 
 @[expose] def PumpupBlock : Prop :=

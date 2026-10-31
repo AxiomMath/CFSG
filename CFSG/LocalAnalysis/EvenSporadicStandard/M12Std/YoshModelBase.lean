@@ -13,10 +13,10 @@ open CFSG.Sporadic.SmallOddCore.Native CFSG.GH74.M12 AutETable Subgroup
 
 export Spec (yK)
 
-@[expose] noncomputable def yperm (k : ℕ) : Equiv.Perm (Fin 14) := tablePerm 14 yEl[k]!
+noncomputable def yperm (k : ℕ) : Equiv.Perm (Fin 14) := tablePerm 14 yEl[k]!
 
 open Classical in
-@[expose] noncomputable def yelt (k : ℕ) : ↥yK :=
+noncomputable def yelt (k : ℕ) : ↥yK :=
   if h : yperm k ∈ yK then ⟨yperm k, h⟩ else 1
 
 theorem yelt_coe {k : ℕ} (h : yperm k ∈ yK) : (yelt k : Equiv.Perm (Fin 14)) = yperm k := by

@@ -42,6 +42,6 @@ theorem ainv_n6PermArr_apply (k : Fin 6) (i : Fin 24) :
   rw [h1] at h2
   exact h2
 
-@[expose] def genRows (k : Fin 17) : Array ℕ := n6RowArr[(k : ℕ)]!
+def genRows (k : Fin 17) : Array ℕ := n6RowArr[(k : ℕ)]!
 
 end CFSG.Monster.B.TwoA.Unitary

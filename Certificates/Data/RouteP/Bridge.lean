@@ -18,7 +18,7 @@ set_option compiler.extract_closed false
 
 @[expose, irreducible] def bridgeGensText : String := include_str "CoverBridgeGens.txt"
 
-@[expose] abbrev degree : Nat := 920808
+abbrev degree : Nat := 920808
 
 @[expose] def numLines (s : String) : Array (Array UInt32) := Id.run do
   let b := s.toUTF8

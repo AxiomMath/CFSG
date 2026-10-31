@@ -127,7 +127,7 @@ theorem family_bound
   obtain ⟨⟨x, hx, hfx⟩, -⟩ := hf1 i (lt_of_lt_of_le hi hle)
   exact ⟨x, hcl hx, hfx⟩
 
-@[expose] def RepFacts (sA sB sC : NativeSporadic.Co1) : Prop :=
+def RepFacts (sA sB sC : NativeSporadic.Co1) : Prop :=
   orderOf sA = 2 ∧ orderOf sB = 2 ∧ orderOf sC = 2 ∧
   {v : Vec24 | co1Act sA v = v}.ncard = 2 ^ 16 ∧
   {v : Vec24 | co1Act sB v = v}.ncard = 2 ^ 12 ∧

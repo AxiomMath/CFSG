@@ -8,7 +8,7 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF81.S58
 
 open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF79
 
-@[expose] abbrev CommCenP {G : Type} [Group G] (T : Subgroup G) (x : G) : Prop :=
+abbrev CommCenP {G : Type} [Group G] (T : Subgroup G) (x : G) : Prop :=
   ∀ u ∈ T, x * u * x⁻¹ * u⁻¹ ∈ T ⊓ CenS T
 
 theorem inv_conj_mem_of_mem_nor {G : Type} [Group G] {T : Subgroup G} {g : G} (hg : g ∈ Nor T)

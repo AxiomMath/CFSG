@@ -43,7 +43,7 @@ theorem exists_involution_of_conj_le {Y : Type} [Group Y] (Hy : Subgroup Y)
       _ = g * (y * (g⁻¹ * l * g)) * g⁻¹ := by rw [h2]
       _ = g * y * g⁻¹ * l := by group
 
-@[expose] def J4GlobalRad : Prop :=
+def J4GlobalRad : Prop :=
   ∀ L : Subgroup ↥J, D5Plus L → ⁅L, L⁆ = L →
     (∀ g : ↥J, ¬ L ≤ Hj.map (MulAut.conj g).toMonoidHom) →
     (¬ ∃ y : ↥J, orderOf y = 2 ∧ ∀ l ∈ L, l * y = y * l) →

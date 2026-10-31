@@ -36,7 +36,7 @@ namespace CFSG.Sporadic.HNOddCore
 open CFSG.Sporadic.HNSchreier CFSG.Sporadic.HNSchreier.Native CFSG.ONSchreier
 open CFSG.ONSchreier.Native CFSG.Sporadic.HNOddCore.Native Equiv
 
-@[expose] def pk (g : ℕ) : Perm (Fin 256) := Monster.B.Co2.permOfArr 256 colPerms[g]!
+def pk (g : ℕ) : Perm (Fin 256) := Monster.B.Co2.permOfArr 256 colPerms[g]!
 
 theorem prep_pk
     {g : ℕ} (hg : g < 11) : PRep 256 colPerms[g]! (pk g) := by

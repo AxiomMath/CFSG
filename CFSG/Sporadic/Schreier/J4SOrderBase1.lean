@@ -200,10 +200,10 @@ theorem K_inf_N : K ⊓ N = ⊥ := by
   intro hN
   exact z_not_mem_K ((hN.symm ▸ z_mem_N : z ∈ K ⊓ N).1)
 
-@[expose] def ρK :
+def ρK :
     K →* MulAut N := ρN.comp (Subgroup.inclusion K_le_normalizer)
 
-@[expose] def ρH :
+def ρH :
     H →* MulAut N := ρN.comp (Subgroup.inclusion H_le_normalizer)
 
 theorem ρK_apply (k : K) (n : N) : ((ρK k n : N) : J) = k * n * (k : J)⁻¹ :=
@@ -241,10 +241,10 @@ theorem le_orbit_ncard
   rw [Set.ncard_range_of_injective hf, Nat.card_fin] at h1
   exact h1
 
-@[expose] def G1 : Subgroup (MulAut N) :=
+def G1 : Subgroup (MulAut N) :=
   Subgroup.closure (Set.range fun g : Fin 8 => ρK (sgenK idx1[g.val]!))
 
-@[expose] def G2 : Subgroup (MulAut N) :=
+def G2 : Subgroup (MulAut N) :=
   Subgroup.closure (Set.range fun g : Fin 5 => ρK (sgenK idx2[g.val]!))
 
 theorem fixCheck_parts :

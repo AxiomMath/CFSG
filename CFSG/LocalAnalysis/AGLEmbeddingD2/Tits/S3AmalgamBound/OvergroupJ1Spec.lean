@@ -82,9 +82,9 @@ theorem map_getElem! {α β : Type*} [Inhabited α] [Inhabited β] (f : α → �
     (hp : p < a.size) : (a.map f)[p]! = f a[p]! := by
   rw [getElem!_pos _ p (by simpa using hp), Array.getElem_map, getElem!_pos a p hp]
 
-@[expose] abbrev tw : Array (List ℤ) := parseWords (tWordsStr ())
+abbrev tw : Array (List ℤ) := parseWords (tWordsStr ())
 
-@[expose] abbrev nw : Array (List ℤ) := parseWords (nWordsStr ())
+abbrev nw : Array (List ℤ) := parseWords (nWordsStr ())
 
 @[expose] noncomputable def tg (p : ℕ) : J := wordG genG tw[p]!
 

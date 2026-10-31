@@ -51,7 +51,7 @@ theorem wordW_spec
   have := wordW_aux w h letterOK_idW
   rwa [one_mul] at this
 
-@[expose] noncomputable def matHom :
+noncomputable def matHom :
     J →* Matrix (Fin 781) (Fin 781) (ZMod 3) :=
   (Units.coeHom _).comp J.subtype
 
@@ -176,10 +176,10 @@ theorem genG_neg_two : genG (-2) = b⁻¹ := by simp [genG]
 theorem letterOK_matB :
     LetterOK matB mB := ⟨rowsWF_matB, matB_size, matW_matB⟩
 
-@[expose] noncomputable def genLetterG (z : ℤ) : J :=
+noncomputable def genLetterG (z : ℤ) : J :=
   if 0 < z then gs (z.natAbs - 1) else (gs (z.natAbs - 1))⁻¹
 
-@[expose] noncomputable def extWord
+noncomputable def extWord
     (w : List ℤ) : J := wordG genLetterG w
 
 noncomputable abbrev mR : Matrix (Fin 253) (Fin 781) (ZMod 3) := matW 253 781 rootForm.rows

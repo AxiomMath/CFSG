@@ -30,9 +30,9 @@ theorem burnsideF48t_g23_P2Arr : burnsideF48t_g23P2Arr.size = 3 ∧
     burnsideF48t_g23P2Arr[2]! = burnsideF48t_g23LArr[3]! :=
   ⟨rfl, rfl, rfl, rfl⟩
 
-@[expose] def burnsideF48t_g23P1Idx (k : ℕ) : ℕ := k
+def burnsideF48t_g23P1Idx (k : ℕ) : ℕ := k
 
-@[expose] def burnsideF48t_g23P2Idx (k : ℕ) : ℕ := k + k / 2
+def burnsideF48t_g23P2Idx (k : ℕ) : ℕ := k + k / 2
 
 section Letters
 

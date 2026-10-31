@@ -12,11 +12,11 @@ public import CFSG.Sporadic.Schreier.J4SSylowBase
 
 namespace CFSG.ComponentClassification.Sol76.Sig.GSYard02.CoverAltGroup
 
-@[expose] def treeAux {G : Type*} [Mul G] [One G] (gs : List G) : List G → List (ℕ × ℕ) → List G
+def treeAux {G : Type*} [Mul G] [One G] (gs : List G) : List G → List (ℕ × ℕ) → List G
   | acc, [] => acc
   | acc, (p, g) :: tr => treeAux gs (acc ++ [gs.getD g 1 * acc.getD p 1]) tr
 
-@[expose] def treeTab {G : Type*} [Mul G] [One G] (gs : List G) (tr : List (ℕ × ℕ)) : List G :=
+def treeTab {G : Type*} [Mul G] [One G] (gs : List G) (tr : List (ℕ × ℕ)) : List G :=
   treeAux gs [1] tr
 
 private theorem getD_mem_of {α : Type*} [One α] {P : α → Prop} (h1 : P 1) :
@@ -238,7 +238,7 @@ theorem exists_negE (hm : 2 ≤ m) : ∃ x : E (m + 2), ((x : H (m + 2)) : monom
   exact ⟨⟨⁅x, y⁆, commutator_mem_commutator (mem_top x) (mem_top y)⟩,
     commutator_dd h01 h02 h03 h12 h13 h23⟩
 
-@[expose] noncomputable def negE (hm : 2 ≤ m) : E (m + 2) := (exists_negE (m := m) hm).choose
+noncomputable def negE (hm : 2 ≤ m) : E (m + 2) := (exists_negE (m := m) hm).choose
 
 theorem coe_negE (hm : 2 ≤ m) :
     ((negE hm : H (m + 2)) : monomial (m + 2)) = negOne :=
@@ -421,20 +421,20 @@ end Model3
 
 namespace SpinM
 
-@[expose] def Mdd {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (q : Q4) :
+def Mdd {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (q : Q4) :
     Matrix (Fin N) (Fin N) ℚ :=
   if q.1 = q.2.1 ∨ q.2.2.1 = q.2.2.2 then 1
   else (1 / 2 : ℚ) • ((Γ q.1 - Γ q.2.1) * (Γ q.2.2.1 - Γ q.2.2.2))
 
-@[expose] def Mw {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (w : Wd) :
+def Mw {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (w : Wd) :
     Matrix (Fin N) (Fin N) ℚ :=
   (w.map (Mdd Γ)).prod
 
-@[expose] def Mcomm {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (p : Wd × Wd) :
+def Mcomm {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (p : Wd × Wd) :
     Matrix (Fin N) (Fin N) ℚ :=
   Mw Γ p.1 * Mw Γ p.2 * Mw Γ (invW p.1) * Mw Γ (invW p.2)
 
-@[expose] def gensM {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (ps : List (Wd × Wd)) :
+def gensM {N : ℕ} (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (ps : List (Wd × Wd)) :
     List (Matrix (Fin N) (Fin N) ℚ) :=
   ps.map (Mcomm Γ) ++ ps.map fun p => Mcomm Γ (p.2, p.1)
 
@@ -447,11 +447,11 @@ open SpinNative (Mat ent ofF oneM zeroM addM subM smulM mulM prodM gensM closedB
 
 variable {N : ℕ}
 
-@[expose] def toMat (A : Mat N) : Matrix (Fin N) (Fin N) ℚ := Matrix.of fun i j => ent A i j
+def toMat (A : Mat N) : Matrix (Fin N) (Fin N) ℚ := Matrix.of fun i j => ent A i j
 
-@[expose] def Gm (Γ : ℕ → Mat N) : ℕ → Matrix (Fin N) (Fin N) ℚ := fun k => toMat (Γ k)
+def Gm (Γ : ℕ → Mat N) : ℕ → Matrix (Fin N) (Fin N) ℚ := fun k => toMat (Γ k)
 
-@[expose] def klTab (Γ : ℕ → Mat N) : List (Matrix (Fin N) (Fin N) ℚ) :=
+def klTab (Γ : ℕ → Mat N) : List (Matrix (Fin N) (Fin N) ℚ) :=
   CoverAltGroup.treeTab (SpinM.gensM (Gm Γ) pairsS10) treeS10
 
 theorem ent_ofF (f : Fin N → Fin N → ℚ) (i j : Fin N) : ent (ofF f) i j = f i j := by
@@ -625,7 +625,7 @@ section Clifford
 
 variable {N : ℕ}
 
-@[expose] def GammaRel (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) : Prop :=
+def GammaRel (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) : Prop :=
   ∀ i < n, ∀ j < n, Γ i * Γ j + Γ j * Γ i = if i = j then (2 : ℚ) • (1 : Matrix (Fin N) (Fin N) ℚ) else 0
 
 theorem gamRelB_spec {n : ℕ} {Γ : ℕ → SpinNative.Mat N} (h : SpinNative.gamRelB Γ n = true) :
@@ -639,7 +639,7 @@ theorem gamRelB_spec {n : ℕ} {Γ : ℕ → SpinNative.Mat N} (h : SpinNative.g
   · rw [toMat_smulM, toMat_oneM] at h3; exact h3
   · rw [toMat_zeroM] at h3; exact h3
 
-@[expose] def gammaLin (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) :
+def gammaLin (Γ : ℕ → Matrix (Fin N) (Fin N) ℚ) (n : ℕ) :
     (Fin n → ℚ) →ₗ[ℚ] Matrix (Fin N) (Fin N) ℚ where
   toFun x := ∑ i : Fin n, x i • Γ i.val
   map_add' x y := by simp [add_smul, Finset.sum_add_distrib]
@@ -684,7 +684,7 @@ theorem gammaLin_mul_self {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h
   rw [hAA]
   exact smul_right_injective (Matrix (Fin N) (Fin N) ℚ) two_ne_zero hsum2
 
-@[expose] def cliffHom {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
+def cliffHom {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
     CliffordAlgebra (CFSG.Alternating.Multipliers.Spin.sumSq n) →ₐ[ℚ] Matrix (Fin N) (Fin N) ℚ :=
   CliffordAlgebra.lift (CFSG.Alternating.Multipliers.Spin.sumSq n)
     ⟨gammaLin Γ n, fun x => by rw [sumSq_apply']; exact gammaLin_mul_self h x⟩
@@ -706,11 +706,11 @@ section Rep
 
 variable {N : ℕ}
 
-@[expose] def thetaH {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
+def thetaH {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
     H n →* (Matrix (Fin N) (Fin N) ℚ)ˣ :=
   (Units.map (cliffHom h).toMonoidHom).comp ((monomial n).subtype.comp (H n).subtype)
 
-@[expose] def thetaE {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
+def thetaE {Γ : ℕ → Matrix (Fin N) (Fin N) ℚ} {n : ℕ} (h : GammaRel Γ n) :
     E n →* (Matrix (Fin N) (Fin N) ℚ)ˣ :=
   (thetaH h).comp (E n).subtype
 
@@ -810,7 +810,7 @@ abbrev ValidQ (n : ℕ) (q : Q4) : Prop :=
 instance (n : ℕ) (q : Q4) : Decidable (ValidQ n q) := by
   unfold ValidQ; infer_instance
 
-@[expose] def ddH (n : ℕ) (q : Q4) : H n :=
+def ddH (n : ℕ) (q : Q4) : H n :=
   if h : ValidQ n q then
     have hab : (⟨q.1, h.1⟩ : Fin n) ≠ ⟨q.2.1, h.2.1⟩ := fun e => h.2.2.2.2.1 (congrArg Fin.val e)
     have hcd : (⟨q.2.2.1, h.2.2.1⟩ : Fin n) ≠ ⟨q.2.2.2, h.2.2.2.1⟩ :=
@@ -818,15 +818,15 @@ instance (n : ℕ) (q : Q4) : Decidable (ValidQ n q) := by
     ⟨dd hab hcd, subset_closure ⟨_, _, _, _, hab, hcd, rfl⟩⟩
   else 1
 
-@[expose] def wordH (n : ℕ) (X : Wd) : H n := (X.map (ddH n)).prod
+def wordH (n : ℕ) (X : Wd) : H n := (X.map (ddH n)).prod
 
-@[expose] def liftE (n : ℕ) (X Y : Wd) : E n :=
+def liftE (n : ℕ) (X Y : Wd) : E n :=
   ⟨⁅wordH n X, wordH n Y⁆, commutator_mem_commutator (mem_top _) (mem_top _)⟩
 
-@[expose] def gensE (n : ℕ) (ps : List (Wd × Wd)) : List (E n) :=
+def gensE (n : ℕ) (ps : List (Wd × Wd)) : List (E n) :=
   ps.map (fun p => liftE n p.1 p.2) ++ ps.map (fun p => liftE n p.2 p.1)
 
-@[expose] def thetaM (h : GammaRel Γ n) : E n →* Matrix (Fin N) (Fin N) ℚ :=
+def thetaM (h : GammaRel Γ n) : E n →* Matrix (Fin N) (Fin N) ℚ :=
   (Units.coeHom (Matrix (Fin N) (Fin N) ℚ)).comp (thetaE h)
 
 theorem thetaM_injective_of_thetaE {h : GammaRel Γ n} (hinj : Function.Injective (thetaE h)) :
@@ -1092,10 +1092,10 @@ theorem wordsOK_spec {n : ℕ} {ps : List (Wd × Wd)} (h : wordsOK n ps = true) 
     simpa [ValidQ] using this
   exact ⟨fun q hq => key q (List.mem_append_left _ hq), fun q hq => key q (List.mem_append_right _ hq)⟩
 
-@[expose] def klP (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).1
-@[expose] def klQ (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.1
-@[expose] def klR (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.1
-@[expose] def klPar (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.2
+def klP (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).1
+def klQ (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.1
+def klR (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.1
+def klPar (idx : ℕ) : ℕ := (SpinNative.kleinS10.getD idx (0, 0, 0, 0)).2.2.2
 
 theorem normalCheck_spec {N n : ℕ} {Γ : ℕ → SpinNative.Mat N}
     (hC : SpinNative.normalCheck Γ n = true) :

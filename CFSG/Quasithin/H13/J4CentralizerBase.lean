@@ -31,7 +31,7 @@ instance omFinite : Finite Om := by
   have : Finite Row := inferInstanceAs (Finite (Fin 112 → ZMod 2))
   exact Subtype.finite
 
-@[expose] def vOm : Om := ⟨_, MulAction.mem_orbit_self _⟩
+def vOm : Om := ⟨_, MulAction.mem_orbit_self _⟩
 
 abbrev hClass (e : J) : Set J :=
   CFSG.Sporadic.J4Schreier.conjOrbit CFSG.Sporadic.J4Schreier.H e

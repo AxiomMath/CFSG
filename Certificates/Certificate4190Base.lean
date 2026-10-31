@@ -10,7 +10,7 @@ namespace Certificates
 
 open CFSG.Quasithin CFSG.Sporadic.Schreier.Tits CFSG.Quasithin.H13.F45Ru CFSG.Quasithin.TitsGeo
 
-@[expose] def titsGeoFacts : Prop :=
+def titsGeoFacts : Prop :=
   PtLoc ↥titsD octGraph (Sum.inl 0) (ofCode 87) (Sum.inr 0) ∧
     (∃ lab : ZMod 5 → Vtx, AffLab ↥titsD octGraph (Sum.inl 0) lab) ∧
     LnLoc ↥titsD octGraph (Sum.inr 0) (ofCode 45) (ofCode 1862) (ofCode 1896) ∧

@@ -37,7 +37,7 @@ theorem enc_dec (n : Fin 81) : enc (dec n) = n := by
 @[expose] def actFn (u : S2 × S2) (n : Fin 81) : Fin 81 :=
   enc ((u.1 : Matrix (Fin 2) (Fin 2) (ZMod 3)) * dec n * (u.2 : Matrix (Fin 2) (Fin 2) (ZMod 3))ᵀ)
 
-@[expose] instance actQ : MulAction (S2 × S2) (Fin 81) where
+instance actQ : MulAction (S2 × S2) (Fin 81) where
   smul := actFn
   one_smul n := by
     show enc (((1 : S2) : Matrix (Fin 2) (Fin 2) (ZMod 3)) * dec n *

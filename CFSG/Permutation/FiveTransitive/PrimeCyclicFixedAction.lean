@@ -10,29 +10,29 @@ namespace FiveTransitive.PrimeCyclicFixedAction
 
 open Subgroup MulAction SubMulAction
 
-@[expose] abbrev cyclicSubgroup
+abbrev cyclicSubgroup
     {X : Type*} (P : Subgroup (Equiv.Perm X)) (r : P) :
     Subgroup P :=
   Subgroup.zpowers r
 
-@[expose] abbrev cyclicNormalizer
+abbrev cyclicNormalizer
     {X : Type*} (P : Subgroup (Equiv.Perm X)) (r : P) :
     Subgroup P :=
   Subgroup.normalizer (cyclicSubgroup P r : Set P)
 
-@[expose] abbrev cyclicInNormalizer
+abbrev cyclicInNormalizer
     {X : Type*} (P : Subgroup (Equiv.Perm X)) (r : P) :
     Subgroup (cyclicNormalizer P r) :=
   (cyclicSubgroup P r).subgroupOf (cyclicNormalizer P r)
 
-@[expose] abbrev cyclicFixedPoints
+abbrev cyclicFixedPoints
     (X : Type*) (P : Subgroup (Equiv.Perm X)) (r : P) :
     SubMulAction (cyclicNormalizer P r) X :=
   fixedPointsSubMulOfNormal
     (G := cyclicNormalizer P r) (α := X)
     (H := cyclicInNormalizer P r)
 
-@[expose] abbrev cyclicComplement
+abbrev cyclicComplement
     (X : Type*) (P : Subgroup (Equiv.Perm X)) (r : P) :
     SubMulAction (cyclicNormalizer P r) X :=
   (cyclicFixedPoints X P r)ᶜ

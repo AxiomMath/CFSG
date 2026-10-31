@@ -27,7 +27,7 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 Pointwise
 
-@[expose] noncomputable def psiSet (S : Set V) : Set RowV := psi '' S
+noncomputable def psiSet (S : Set V) : Set RowV := psi '' S
 
 section Facts
 

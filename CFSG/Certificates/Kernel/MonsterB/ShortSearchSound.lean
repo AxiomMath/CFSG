@@ -30,7 +30,7 @@ theorem fastAct_frame {g v : ℕ} (hg : g < 15) (hv : v < 2 ^ 24) :
   rw [frameTabs_get hg, fastAct_fastTables _ hv]
   rfl
 
-@[expose] abbrev shortF (g v : ℕ) : ℕ := fastAct (frameRows.map fastTables)[g]! v
+abbrev shortF (g v : ℕ) : ℕ := fastAct (frameRows.map fastTables)[g]! v
 
 theorem shortTables_eq : shortTables = ⟨(kRun shortF 15 (1 <<< 24) 12288).1,
     (kRun shortF 15 (1 <<< 24) 12288).2.1, (kRun shortF 15 (1 <<< 24) 12288).2.2.1⟩ := by

@@ -18,9 +18,9 @@ open CFSG.Sporadic.Ly.TwoWeights
 
 section
 
-@[expose] noncomputable def twGs (j : ℕ) : J := slpG genG twWords j
+noncomputable def twGs (j : ℕ) : J := slpG genG twWords j
 
-@[expose] noncomputable def twLetterG (z : ℤ) : J :=
+noncomputable def twLetterG (z : ℤ) : J :=
   if z.natAbs ≤ 2 then genG z
   else if 0 < z then twGs (z.natAbs - 3) else (twGs (z.natAbs - 3))⁻¹
 

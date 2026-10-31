@@ -28,7 +28,7 @@ theorem tauhat_conj_yhat : tauhat * yhat * tauhat⁻¹ = xhat := by
 theorem tauhat_conj_dhat (i j : Fin 24) : tauhat * dhat i j * tauhat⁻¹ = dhat i j := by
   rw [tauhat_mul_dhat, mul_inv_cancel_right]
 
-@[expose] def triRows : List ℕ := [3, 1, 4, 8, 16, 32, 128, 192]
+def triRows : List ℕ := [3, 1, 4, 8, 16, 32, 128, 192]
 
 theorem bvec_triRows : ∀ k : Fin 8, bvec 8 (triRows.getD k 0) =
     ![Pi.single 0 1 + Pi.single 1 1, Pi.single 0 1, Pi.single 2 1, Pi.single 3 1, Pi.single 4 1,

@@ -22,56 +22,56 @@ namespace CFSG.Sporadic.Schreier
 open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
   CFSG.Sporadic.Schreier.PairText CFSG.Sporadic.Schreier.PairF2
 
-@[expose] def j3SchemaVersion : ℕ := 1
+def j3SchemaVersion : ℕ := 1
 
-@[expose] def j3GroupName : String := "J3"
+def j3GroupName : String := "J3"
 
-@[expose] def j3Prime : ℕ := 2
+def j3Prime : ℕ := 2
 
-@[expose] def j3Dimension : ℕ := 80
+def j3Dimension : ℕ := 80
 
 abbrev J3V : Type := Fin 80 → ZMod 2
 
-@[expose] def j3Quad (z : ℕ) : J3V → ZMod 2 := quadZ 80 z
+def j3Quad (z : ℕ) : J3V → ZMod 2 := quadZ 80 z
 
-@[expose] def j3FormsBytes : ByteArray := j3FormsHex.toUTF8
+def j3FormsBytes : ByteArray := j3FormsHex.toUTF8
 
-@[expose] def j3FormWord (r : ℕ) : ℕ := hexAt j3FormsBytes (810 * r) 810
+def j3FormWord (r : ℕ) : ℕ := hexAt j3FormsBytes (810 * r) 810
 
-@[expose] def j3Form (r : ℕ) : J3V → ZMod 2 := j3Quad (j3FormWord r)
+def j3Form (r : ℕ) : J3V → ZMod 2 := j3Quad (j3FormWord r)
 
-@[expose] def j3X : Set (J3V → ZMod 2) := {q | ∃ r < 6156, j3Form r = q}
+def j3X : Set (J3V → ZMod 2) := {q | ∃ r < 6156, j3Form r = q}
 
-@[expose] def j3InvForm : J3V → ZMod 2 := j3Quad j3InvWord
+def j3InvForm : J3V → ZMod 2 := j3Quad j3InvWord
 
-@[expose] def j3B : Matrix (Fin 80) (Fin 80) (ZMod 2) := polarMatrix j3InvForm
+def j3B : Matrix (Fin 80) (Fin 80) (ZMod 2) := polarMatrix j3InvForm
 
-@[expose] def j3CentralizerIdx : List ℕ := [0, 1, 2, 3]
+def j3CentralizerIdx : List ℕ := [0, 1, 2, 3]
 
-@[expose] def j3CentralizerRank : ℕ := 6399
+def j3CentralizerRank : ℕ := 6399
 
-@[expose] def j3Words : Array (List ℤ) :=
+def j3Words : Array (List ℤ) :=
   #[[], [], [-2, -2, 1, -2, 1, -2, -2, 1, -2, 1, -2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2],
     [-3, -3, 1, -3, -3, -3, 1, 3, 3, 3, 1, 3, 3],
     [-3, -3, 1, -3, 1, -3, -3, 1, 3, 3, 3, 3, 1, 3, 3, 3]]
 
-@[expose] def j3BaseFin : List (Fin 6156) := [0, 1, 3, 2]
+def j3BaseFin : List (Fin 6156) := [0, 1, 3, 2]
 
-@[expose] def j3StrongPerm (j : ℕ) : Equiv.Perm (Fin 6156) := permOfArr 6156 j3StrongArrs[j]!
+def j3StrongPerm (j : ℕ) : Equiv.Perm (Fin 6156) := permOfArr 6156 j3StrongArrs[j]!
 
-@[expose] def j3Gen (k : ℕ) : Equiv.Perm (Fin 6156) := j3StrongPerm k
+def j3Gen (k : ℕ) : Equiv.Perm (Fin 6156) := j3StrongPerm k
 
-@[expose] def j3Chain : RawSchreierDatum 6156 :=
+def j3Chain : RawSchreierDatum 6156 :=
   RawSchreierDatum.ofArrays 6156 (by decide) j3StrongArrs 2 (by simp [j3StrongArrs]) j3BaseFin
     (by decide) j3Words
 
-@[expose] def j3P : Subgroup (Equiv.Perm (Fin 6156)) := Subgroup.closure {j3Gen 0, j3Gen 1}
+def j3P : Subgroup (Equiv.Perm (Fin 6156)) := Subgroup.closure {j3Gen 0, j3Gen 1}
 
-@[expose] def j3Point : ℕ := 0
+def j3Point : ℕ := 0
 
-@[expose] def j3StabIdx : List ℕ := [0, 2, 3, 4]
+def j3StabIdx : List ℕ := [0, 2, 3, 4]
 
-@[expose] def j3H0 : Subgroup (Equiv.Perm (Fin 6156)) :=
+def j3H0 : Subgroup (Equiv.Perm (Fin 6156)) :=
   Subgroup.closure {g | ∃ j ∈ j3StabIdx, j3StrongPerm j = g}
 
 theorem j3Chain_strong_get (j : Fin j3Chain.strongCount) :

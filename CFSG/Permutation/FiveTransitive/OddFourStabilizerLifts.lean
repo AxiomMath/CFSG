@@ -102,7 +102,7 @@ variable {G X : Type*} [Group G] [MulAction G X]
     Fin 4 ≃ (Set.range e : Set X) :=
   Equiv.ofInjective e e.injective
 
-@[expose] abbrev baseSetwiseStabilizer (e : Fin 4 ↪ X) : Subgroup G :=
+abbrev baseSetwiseStabilizer (e : Fin 4 ↪ X) : Subgroup G :=
   MulAction.stabilizer G (Set.range e)
 
 @[expose] noncomputable def baseSetwisePermHom (e : Fin 4 ↪ X) :

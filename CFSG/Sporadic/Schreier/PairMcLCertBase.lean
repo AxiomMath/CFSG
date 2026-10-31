@@ -22,22 +22,22 @@ namespace CFSG.Sporadic.Schreier
 open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
   CFSG.Sporadic.Schreier.PairText
 
-@[expose] def mclSchemaVersion : ℕ := 1
+def mclSchemaVersion : ℕ := 1
 
-@[expose] def mclGroupName : String := "McL"
+def mclGroupName : String := "McL"
 
-@[expose] def mclPrime : ℕ := 3
+def mclPrime : ℕ := 3
 
-@[expose] def mclDimension : ℕ := 21
+def mclDimension : ℕ := 21
 
-@[expose] def mclBasisIdx : List ℕ :=
+def mclBasisIdx : List ℕ :=
   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21]
 
-@[expose] def mclVec (i : ℕ) : Fin 21 → ZMod 3 := CFSG.Sporadic.J1.toV 3 21 mclVectors[i]!
+def mclVec (i : ℕ) : Fin 21 → ZMod 3 := CFSG.Sporadic.J1.toV 3 21 mclVectors[i]!
 
-@[expose] def mclX : Set (Fin 21 → ZMod 3) := {v | ∃ i < 275, mclVec i = v}
+def mclX : Set (Fin 21 → ZMod 3) := {v | ∃ i < 275, mclVec i = v}
 
-@[expose] def mclWords : Array (List ℤ) :=
+def mclWords : Array (List ℤ) :=
   #[[], [],
     [-2, -2, 1, -2, 1, -2, 1, 2, 1, 2, 1, 2, 2],
     [-2, -2, 1, -2, -2, -2, 1, 2, 2, 2, 1, 2, 2],
@@ -51,23 +51,23 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
     [-5, 9, 6, 5],
     [7, -12, 10, 12]]
 
-@[expose] def mclBaseFin : List (Fin 275) := [0, 1, 2, 3, 4]
+def mclBaseFin : List (Fin 275) := [0, 1, 2, 3, 4]
 
-@[expose] def mclStrongPerm (j : ℕ) : Equiv.Perm (Fin 275) := permOfArr 275 mclStrongArrs[j]!
+def mclStrongPerm (j : ℕ) : Equiv.Perm (Fin 275) := permOfArr 275 mclStrongArrs[j]!
 
-@[expose] def mclGen (k : ℕ) : Equiv.Perm (Fin 275) := mclStrongPerm k
+def mclGen (k : ℕ) : Equiv.Perm (Fin 275) := mclStrongPerm k
 
-@[expose] def mclChain : RawSchreierDatum 275 :=
+def mclChain : RawSchreierDatum 275 :=
   RawSchreierDatum.ofArrays 275 (by decide) mclStrongArrs 2 (by simp [mclStrongArrs]) mclBaseFin
     (by decide) mclWords
 
-@[expose] def mclP : Subgroup (Equiv.Perm (Fin 275)) := Subgroup.closure {mclGen 0, mclGen 1}
+def mclP : Subgroup (Equiv.Perm (Fin 275)) := Subgroup.closure {mclGen 0, mclGen 1}
 
-@[expose] def mclPoint : ℕ := 0
+def mclPoint : ℕ := 0
 
-@[expose] def mclStabIdx : List ℕ := [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+def mclStabIdx : List ℕ := [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-@[expose] def mclH0 : Subgroup (Equiv.Perm (Fin 275)) :=
+def mclH0 : Subgroup (Equiv.Perm (Fin 275)) :=
   Subgroup.closure {g | ∃ j ∈ mclStabIdx, mclStrongPerm j = g}
 
 irreducible_def mclStabOrbits : List (List ℕ) := mclStabData.1

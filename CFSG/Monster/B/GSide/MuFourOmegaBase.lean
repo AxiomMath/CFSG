@@ -121,7 +121,7 @@ theorem muIdx_inj {i i' : ℕ} (hi : i < 324) (hi' : i' < 324) (h : muIdx[i]! = 
     ← Array.getElem_toList] at h
   exact (hn.getElem_inj_iff).1 h
 
-@[expose] def muJ (i : Fin 324) : Fin 891 := ⟨muIdx[(i : ℕ)]!, (muTree_spec i i.2).1⟩
+def muJ (i : Fin 324) : Fin 891 := ⟨muIdx[(i : ℕ)]!, (muTree_spec i i.2).1⟩
 
 theorem muJ_val (i : Fin 324) : (muJ i : ℕ) = muIdx[(i : ℕ)]! := rfl
 

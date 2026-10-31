@@ -38,7 +38,7 @@ section Fam
 variable (hM : MatFacts)
 include hM
 
-@[expose] noncomputable def eGs (ℓ m : ℕ) : J :=
+noncomputable def eGs (ℓ m : ℕ) : J :=
   if m < 11 then uJ m else if m < 22 then uEl ℓ * uJ (m - 11) * (uEl ℓ)⁻¹ else 1
 
 theorem uJ_inv {j : ℕ} (hj : j < 11) : (uJ j)⁻¹ = uJ j :=

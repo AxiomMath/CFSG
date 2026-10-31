@@ -87,11 +87,11 @@ theorem rowsMatrix_wordRows {P Q : Array V4} {g h : J} (hP : rowsMatrix P = matJ
   rw [rowsMatrix_idRows, one_mul] at this
   exact this
 
-@[expose] noncomputable def x1J : J := wordG (pairLetters a b) (abWord x1Str)
+noncomputable def x1J : J := wordG (pairLetters a b) (abWord x1Str)
 
-@[expose] noncomputable def x2J : J := wordG (pairLetters a b) (abWord x2Str)
+noncomputable def x2J : J := wordG (pairLetters a b) (abWord x2Str)
 
-@[expose] noncomputable def zJ : J := (x1J * x2J) ^ 9
+noncomputable def zJ : J := (x1J * x2J) ^ 9
 
 theorem smul_val (g : J) (p : Fin nX) : (g • p).val = idx nX g p.val := (idx_val g p).symm
 

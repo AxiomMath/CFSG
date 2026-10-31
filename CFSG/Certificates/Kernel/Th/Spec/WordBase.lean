@@ -9,9 +9,9 @@ namespace CFSG.KC.Th.Spec
 
 open CFSG.KC.Th CFSG.KC.Th.BigS CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.ThSchreier
 
-@[expose] def wordCode (l : ℤ) : ℕ := if l = 1 ∨ l = -1 then 0 else if l = 2 then 1 else 2
+def wordCode (l : ℤ) : ℕ := if l = 1 ∨ l = -1 then 0 else if l = 2 then 1 else 2
 
-@[expose] def codeLetter {M : Type*} (a b bi : M) (x : ℕ) : M :=
+def codeLetter {M : Type*} (a b bi : M) (x : ℕ) : M :=
   if x = 0 then a else if x = 1 then b else bi
 
 theorem pkMat_wordLetter (A B Bi x : ℕ) :

@@ -20,7 +20,7 @@ open CFSG.ComponentClassification.HarrisLit.P1 CFSG.ComponentClassification.Harr
   CFSG.KC.OrbGroup CFSG.KC.ConjOrb CFSG.KC.LeftOrb CFSG.KC.BfsPin CFSG.Sporadic.SmallOddCore
   CFSG.Sporadic.SmallOddCore.Native CFSG.Sporadic.Th.Native CFSG.Certificates Subgroup
 
-@[expose] noncomputable def pp (P : ℕ) : Equiv.Perm (Fin 80) :=
+noncomputable def pp (P : ℕ) : Equiv.Perm (Fin 80) :=
   CFSG.Monster.B.Co2.permOfArr 80 (unpack 80 7 P)
 
 theorem prep_pp {P Q : ℕ} (h : permOK 80 7 (mask 7) (80 * 7) P Q = true) :

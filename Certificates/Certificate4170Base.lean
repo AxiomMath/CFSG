@@ -14,13 +14,13 @@ open CFSG.Quasithin.A312Words
 
 variable {G : Type} [Group G]
 
-@[expose] def M22Facts (α : Type) [MulAction G α] (Y : Subgroup G) : Prop :=
+def M22Facts (α : Type) [MulAction G α] (Y : Subgroup G) : Prop :=
   ∃ (pt : Fin 22 → α) (hpt : Function.Injective pt) (hYp : ∀ z ∈ Y, ∀ i, ∃ j, z • pt i = pt j)
     (eA eB : G), eA ∈ Y ∧ eB ∈ Y ∧
     (∀ i, (rhoFn Y pt hpt hYp eA i).val = m22TabA.toList.getD i.val 0) ∧
     ∀ i, (rhoFn Y pt hpt hYp eB i).val = m22TabB.toList.getD i.val 0
 
-@[expose] def L34Facts (Y : Subgroup G) : Prop :=
+def L34Facts (Y : Subgroup G) : Prop :=
   ∃ (ol : List G) (t : G), IdxTwoData Y ol t ∧
     (∀ v ∈ Subgroup.closure {g | g ∈ ol}, t⁻¹ * v * t ∈ Subgroup.closure {g | g ∈ ol}) ∧
     ∃ u v : G, u ∈ Subgroup.closure {g | g ∈ ol} ∧ v ∈ Subgroup.closure {g | g ∈ ol} ∧
@@ -28,7 +28,7 @@ variable {G : Type} [Group G]
         CFSG.Sporadic.Bridge.wordProd (CFSG.Sporadic.Bridge.TwoGen.img2 u v) w = 1) ∧
       ∀ g ∈ ol, g ∈ Subgroup.closure ({u, v} : Set G)
 
-@[expose] def E2Facts (α : Type) [MulAction G α] (Y : Subgroup G) (k m r : ℕ) (alt tr : Bool) :
+def E2Facts (α : Type) [MulAction G α] (Y : Subgroup G) (k m r : ℕ) (alt tr : Bool) :
     Prop :=
   ∃ (ol : List G) (t : G), IdxTwoData Y ol t ∧
     (alt = true →
@@ -45,7 +45,7 @@ variable {G : Type} [Group G]
       (tr = true → ∀ i j : Fin m,
         ∃ e ∈ Subgroup.closure {e | e ∈ ol.map (rhoFn Y pt hpt hYp)}, e i = j)
 
-@[expose] def TriFacts (α : Type) [MulAction G α] (Y : Subgroup G) : Prop :=
+def TriFacts (α : Type) [MulAction G α] (Y : Subgroup G) : Prop :=
   ∃ (pt : Fin 3 → α) (_ : Function.Injective pt), (∀ z ∈ Y, ∀ i, ∃ j, z • pt i = pt j) ∧
     ∃ x ∈ Y, ∃ k, k % 2 = 1 ∧ x ^ k = 1 ∧ ∃ i, x • pt i ≠ pt i
 

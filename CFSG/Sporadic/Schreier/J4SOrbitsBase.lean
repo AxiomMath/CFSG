@@ -11,7 +11,7 @@ namespace CFSG.Sporadic.J4Schreier
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 
-@[expose] def bfs11 (gens : Array (Array ℕ)) (s : ℕ) : Array ℕ × Array ℕ × Array ℕ := Id.run do
+def bfs11 (gens : Array (Array ℕ)) (s : ℕ) : Array ℕ × Array ℕ × Array ℕ := Id.run do
   let mut seen : Array Bool := Array.replicate 2048 false
   seen := seen.set! s true
   let mut pts : Array ℕ := #[s]
@@ -31,7 +31,7 @@ open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2 CFSG.Sporadic.Smal
       i := i + 1
   return (pts, par, lab)
 
-@[expose] def bfsOK (gens : Array (Array ℕ)) (s n : ℕ) (B : Array ℕ × Array ℕ × Array ℕ) :
+def bfsOK (gens : Array (Array ℕ)) (s n : ℕ) (B : Array ℕ × Array ℕ × Array ℕ) :
     Bool :=
   B.1.size == n && B.2.1.size == n && B.2.2.size == n && B.1[0]! == s &&
     (List.range n).all fun i => decide (B.1[i]! < 2048) &&
@@ -88,7 +88,7 @@ theorem reach_of_bfsOK (hB : bfsOK gens s n B = true) (L : Subgroup J)
 
 end BFS
 
-@[expose] def wordCols (w : List ℤ) : Array ℕ := Array.ofFn (n := 11) fun j => app11W w (2 ^ j.val)
+def wordCols (w : List ℤ) : Array ℕ := Array.ofFn (n := 11) fun j => app11W w (2 ^ j.val)
 
 theorem prod_ofFn_one : ∀ n : ℕ, (List.ofFn fun _ : Fin n => (1 : J)).prod = 1
   | 0 => rfl
@@ -125,7 +125,7 @@ theorem η_two_pow (j : Fin 11) : η (2 ^ j.val) = u j := by
   rw [h]
   exact prod_ofFn_single j (u j)
 
-@[expose] def closedOK (gens : Array (Array ℕ)) (pts : Array ℕ) (n : ℕ) : Bool :=
+def closedOK (gens : Array (Array ℕ)) (pts : Array ℕ) (n : ℕ) : Bool :=
   (List.range n).all fun i => (List.range gens.size).all fun g =>
     (List.range n).any fun k => pts[k]! == app11 gens[g]! pts[i]!
 
@@ -141,38 +141,38 @@ theorem closedOK_spec {gens : Array (Array ℕ)} {pts : Array ℕ} {n : ℕ}
   obtain ⟨k, hk, e⟩ := List.any_eq_true.1 h2
   exact ⟨k, List.mem_range.1 hk, beq_iff_eq.1 e⟩
 
-@[expose] def xyGens : Array (Array ℕ) := #[xColumns, yColumns]
+def xyGens : Array (Array ℕ) := #[xColumns, yColumns]
 
-@[expose] def xyInvGens : Array (Array ℕ) := #[xInvColumns, yInvColumns]
+def xyInvGens : Array (Array ℕ) := #[xInvColumns, yInvColumns]
 
-@[expose] def orb1 : Array ℕ × Array ℕ × Array ℕ := bfs11 xyGens 1
+def orb1 : Array ℕ × Array ℕ × Array ℕ := bfs11 xyGens 1
 
-@[expose] def orb14 : Array ℕ × Array ℕ × Array ℕ := bfs11 xyGens 14
+def orb14 : Array ℕ × Array ℕ × Array ℕ := bfs11 xyGens 14
 
-@[expose] def coverCheck : Bool :=
+def coverCheck : Bool :=
   (List.range 2048).all fun a => a == 0 || (List.range 1771).any (fun i => orb1.1[i]! == a) ||
     (List.range 276).any (fun i => orb14.1[i]! == a)
 
-@[expose] noncomputable def sgen (m : ℕ) : J := signedWord x y (strongWords[m]!)
+noncomputable def sgen (m : ℕ) : J := signedWord x y (strongWords[m]!)
 
-@[expose] def sCols (m : ℕ) : Array ℕ := wordCols (strongWords[m]!)
+def sCols (m : ℕ) : Array ℕ := wordCols (strongWords[m]!)
 
-@[expose] def gens1 : Array (Array ℕ) := #[sCols 1, sCols 2, sCols 3, sCols 4, sCols 5, sCols 6,
+def gens1 : Array (Array ℕ) := #[sCols 1, sCols 2, sCols 3, sCols 4, sCols 5, sCols 6,
   sCols 7, sCols 8]
 
-@[expose] def gens2 : Array (Array ℕ) := #[sCols 3, sCols 4, sCols 5, sCols 7, sCols 8]
+def gens2 : Array (Array ℕ) := #[sCols 3, sCols 4, sCols 5, sCols 7, sCols 8]
 
-@[expose] def idx1 : Array ℕ := #[1, 2, 3, 4, 5, 6, 7, 8]
+def idx1 : Array ℕ := #[1, 2, 3, 4, 5, 6, 7, 8]
 
-@[expose] def idx2 : Array ℕ := #[3, 4, 5, 7, 8]
+def idx2 : Array ℕ := #[3, 4, 5, 7, 8]
 
-@[expose] def fixCheck : Bool :=
+def fixCheck : Bool :=
   (List.range 8).all (fun g => app11 gens1[g]! 1 == 1) &&
     (List.range 5).all fun g => app11 gens2[g]! 1 == 1 && app11 gens2[g]! 2 == 2
 
-@[expose] def orbB : Array ℕ × Array ℕ × Array ℕ := bfs11 gens1 2
+def orbB : Array ℕ × Array ℕ × Array ℕ := bfs11 gens1 2
 
-@[expose] def orbC : Array ℕ × Array ℕ × Array ℕ := bfs11 gens2 4
+def orbC : Array ℕ × Array ℕ × Array ℕ := bfs11 gens2 4
 
 theorem sgen_mem_K (m : ℕ) : sgen m ∈ K := signedWord_mem_K _
 

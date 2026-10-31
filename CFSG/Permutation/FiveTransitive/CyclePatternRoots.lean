@@ -16,11 +16,11 @@ open Equiv
 
 variable {X : Type*}
 
-@[expose] abbrev Pattern {I : Type*} (g : Perm X) (π : Perm I) :=
+abbrev Pattern {I : Type*} (g : Perm X) (π : Perm I) :=
   {e : I ↪ X // ∀ i, g (e i) = e (π i)}
 
-@[expose] abbrev TwoRoot (g : Perm X) := {x : X // g (g x) = x ∧ g x ≠ x}
-@[expose] abbrev FourRoot (g : Perm X) := {x : X // g (g (g (g x))) = x ∧ g (g x) ≠ x}
+abbrev TwoRoot (g : Perm X) := {x : X // g (g x) = x ∧ g x ≠ x}
+abbrev FourRoot (g : Perm X) := {x : X // g (g (g (g x))) = x ∧ g (g x) ≠ x}
 
 @[expose] def twoEquiv (g : Perm X) : Pattern g (finRotate 2) ≃ TwoRoot g where
   toFun e := ⟨e.val 0, by

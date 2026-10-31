@@ -18,15 +18,15 @@ open CFSG.KC.BvecLoop
 open scoped commutatorElement
 attribute [local instance low] Classical.propDecidable
 
-@[expose] def layerD (E : Subgroup Dfull) : Finset ℕ :=
+def layerD (E : Subgroup Dfull) : Finset ℕ :=
   (Finset.range (2 ^ 16)).filter fun σ =>
     ∃ x : Lgrp, (x : Dfull) ∈ E ∧ sCoord x = Multiplicative.ofAdd (bvec 16 σ)
 
-@[expose] def layerW (E : Subgroup Dfull) : Finset ℕ :=
+def layerW (E : Subgroup Dfull) : Finset ℕ :=
   (Finset.range (2 ^ 10)).filter fun κ =>
     ∃ g : P0, (g : Dfull) ∈ E ∧ uCoord g = Multiplicative.ofAdd (bvec 10 κ)
 
-@[expose] def layerY (E : Subgroup Dfull) : Finset ℕ :=
+def layerY (E : Subgroup Dfull) : Finset ℕ :=
   (Finset.range (2 ^ 9)).filter fun τ => tD τ ∈ E
 
 private noncomputable def kerUEquiv {E : Subgroup Dfull} (hE : E ≤ P0) :

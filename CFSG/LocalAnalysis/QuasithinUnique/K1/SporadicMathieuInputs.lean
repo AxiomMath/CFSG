@@ -14,13 +14,13 @@ namespace CFSG.QuasithinUnique.K1.SporadicPerm
 open CFSG.Sporadic.Mathieu (m11a m11b m12a m12b m22a m22b m24a m24b card_M11 card_M12 card_M22 card_M24)
 open CFSG.Sporadic.Schreier (m23GenA m23GenB m23_card)
 
-@[expose] def m11ta : List ℕ := [
+def m11ta : List ℕ := [
    0, 9, 2, 10, 6, 5, 4, 8, 7, 1, 3]
 
-@[expose] def m11tb : List ℕ := [
+def m11tb : List ℕ := [
    3, 4, 7, 2, 5, 8, 6, 0, 1, 9, 10]
 
-@[expose] def m11Prog : List (ℕ × ℕ) := [
+def m11Prog : List (ℕ × ℕ) := [
    (0, 0), (1, 2), (1, 1), (1, 0), (5, 0), (0, 1), (0, 5), (1, 7), (8, 7), (6, 9), (8, 11),
    (4, 0), (12, 9), (2, 13), (15, 11), (15, 3), (10, 0), (18, 16), (14, 2), (19, 15), (18, 19),
    (17, 21), (20, 22), (18, 9), (25, 10), (17, 24), (24, 2), (10, 20), (28, 26), (29, 20),
@@ -46,21 +46,21 @@ open CFSG.Sporadic.Schreier (m23GenA m23GenB m23_card)
    (188, 77), (58, 70), (190, 52), (138, 136), (154, 192), (147, 135), (129, 194), (168, 163),
    (172, 180), (182, 197), (198, 172), (199, 199), (200, 199)]
 
-@[expose] def m11Qp : List (ℕ × ℕ) := [(178, 196), (187, 201)]
+def m11Qp : List (ℕ × ℕ) := [(178, 196), (187, 201)]
 
-@[expose] def m11SLP : Array (Array ℕ) := slpTabsA m11ta.toArray m11tb.toArray m11Prog
+def m11SLP : Array (Array ℕ) := slpTabsA m11ta.toArray m11tb.toArray m11Prog
 
-@[expose] def m11Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
+def m11Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
   bfsEnumB 11 (List.range 11) (m11Qp.map fun p => m11SLP[p.1]!)
     (m11Qp.map fun p => m11SLP[p.2]!) 100000
 
-@[expose] def m12ta : List ℕ := [
+def m12ta : List ℕ := [
    3, 1, 9, 0, 10, 11, 6, 7, 8, 2, 4, 5]
 
-@[expose] def m12tb : List ℕ := [
+def m12tb : List ℕ := [
    7, 2, 3, 1, 11, 9, 5, 8, 0, 6, 4, 10]
 
-@[expose] def m12Prog : List (ℕ × ℕ) := [
+def m12Prog : List (ℕ × ℕ) := [
    (0, 0), (1, 2), (1, 1), (1, 0), (5, 0), (0, 1), (0, 5), (1, 7), (8, 7), (6, 9), (8, 11),
    (4, 0), (12, 9), (2, 13), (15, 11), (15, 3), (10, 0), (18, 16), (14, 2), (19, 15), (18, 19),
    (17, 21), (20, 22), (18, 9), (25, 10), (17, 24), (24, 2), (10, 20), (28, 26), (29, 20),
@@ -88,21 +88,21 @@ open CFSG.Sporadic.Schreier (m23GenA m23GenB m23_card)
    (61, 75), (205, 65), (139, 98), (135, 207), (147, 133), (137, 209), (162, 157), (181, 176),
    (196, 191)]
 
-@[expose] def m12Qp : List (ℕ × ℕ) := [(172, 211), (187, 212), (202, 213)]
+def m12Qp : List (ℕ × ℕ) := [(172, 211), (187, 212), (202, 213)]
 
-@[expose] def m12SLP : Array (Array ℕ) := slpTabsA m12ta.toArray m12tb.toArray m12Prog
+def m12SLP : Array (Array ℕ) := slpTabsA m12ta.toArray m12tb.toArray m12Prog
 
-@[expose] def m12Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
+def m12Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
   bfsEnumB 12 (List.range 12) (m12Qp.map fun p => m12SLP[p.1]!)
     (m12Qp.map fun p => m12SLP[p.2]!) 100000
 
-@[expose] def m22ta : List ℕ := [
+def m22ta : List ℕ := [
    12, 7, 15, 11, 4, 21, 16, 1, 9, 8, 13, 3, 0, 10, 14, 2, 6, 17, 18, 19, 20, 5]
 
-@[expose] def m22tb : List ℕ := [
+def m22tb : List ℕ := [
    21, 17, 20, 12, 11, 10, 14, 13, 8, 7, 6, 4, 1, 19, 5, 15, 18, 3, 16, 9, 0, 2]
 
-@[expose] def m22Prog : List (ℕ × ℕ) := [
+def m22Prog : List (ℕ × ℕ) := [
    (0, 0), (1, 2), (1, 1), (1, 0), (5, 0), (0, 1), (0, 5), (1, 7), (8, 7), (6, 9), (8, 11),
    (4, 0), (12, 9), (2, 13), (15, 11), (15, 3), (10, 0), (18, 16), (14, 2), (19, 15), (18, 19),
    (17, 21), (20, 22), (18, 9), (25, 10), (17, 24), (24, 2), (10, 20), (28, 26), (29, 20),
@@ -130,21 +130,21 @@ open CFSG.Sporadic.Schreier (m23GenA m23GenB m23_card)
    (202, 202), (42, 67), (204, 63), (58, 70), (206, 52), (146, 105), (142, 208), (149, 137),
    (131, 210), (171, 167), (189, 184), (175, 197), (199, 214), (215, 175), (216, 216)]
 
-@[expose] def m22Qp : List (ℕ × ℕ) := [(180, 212), (195, 213), (203, 217)]
+def m22Qp : List (ℕ × ℕ) := [(180, 212), (195, 213), (203, 217)]
 
-@[expose] def m22SLP : Array (Array ℕ) := slpTabsA m22ta.toArray m22tb.toArray m22Prog
+def m22SLP : Array (Array ℕ) := slpTabsA m22ta.toArray m22tb.toArray m22Prog
 
-@[expose] def m22Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
+def m22Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
   bfsEnumB 22 (List.range 22) (m22Qp.map fun p => m22SLP[p.1]!)
     (m22Qp.map fun p => m22SLP[p.2]!) 100000
 
-@[expose] def m23ta : List ℕ := [
+def m23ta : List ℕ := [
    1, 0, 3, 2, 4, 5, 7, 6, 9, 8, 10, 11, 13, 12, 15, 14, 16, 17, 19, 18, 21, 20, 22]
 
-@[expose] def m23tb : List ℕ := [
+def m23tb : List ℕ := [
    15, 8, 0, 4, 7, 21, 6, 22, 20, 9, 2, 1, 19, 17, 16, 10, 14, 5, 18, 12, 11, 13, 3]
 
-@[expose] def m23Prog : List (ℕ × ℕ) := [
+def m23Prog : List (ℕ × ℕ) := [
    (0, 0), (1, 2), (1, 1), (1, 0), (5, 0), (0, 1), (0, 5), (1, 7), (8, 7), (6, 9), (8, 11),
    (4, 0), (12, 9), (2, 13), (15, 11), (15, 3), (10, 0), (18, 16), (14, 2), (19, 15), (18, 19),
    (17, 21), (20, 22), (18, 9), (25, 10), (17, 24), (24, 2), (10, 20), (28, 26), (29, 20),
@@ -172,21 +172,21 @@ open CFSG.Sporadic.Schreier (m23GenA m23GenB m23_card)
    (150, 142), (102, 204), (182, 161), (163, 206), (207, 182), (208, 208), (176, 171),
    (182, 190), (192, 211), (212, 182), (213, 213), (214, 213)]
 
-@[expose] def m23Qp : List (ℕ × ℕ) := [(167, 209), (188, 210), (197, 215)]
+def m23Qp : List (ℕ × ℕ) := [(167, 209), (188, 210), (197, 215)]
 
-@[expose] def m23SLP : Array (Array ℕ) := slpTabsA m23ta.toArray m23tb.toArray m23Prog
+def m23SLP : Array (Array ℕ) := slpTabsA m23ta.toArray m23tb.toArray m23Prog
 
-@[expose] def m23Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
+def m23Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
   bfsEnumB 23 (List.range 23) (m23Qp.map fun p => m23SLP[p.1]!)
     (m23Qp.map fun p => m23SLP[p.2]!) 100000
 
-@[expose] def m24ta : List ℕ := [
+def m24ta : List ℕ := [
    3, 6, 16, 0, 12, 8, 1, 14, 5, 18, 17, 20, 4, 15, 7, 13, 2, 10, 9, 23, 11, 22, 21, 19]
 
-@[expose] def m24tb : List ℕ := [
+def m24tb : List ℕ := [
    3, 20, 8, 5, 17, 0, 6, 7, 14, 4, 10, 11, 16, 1, 2, 12, 15, 9, 23, 19, 13, 21, 18, 22]
 
-@[expose] def m24Prog : List (ℕ × ℕ) := [
+def m24Prog : List (ℕ × ℕ) := [
    (0, 0), (1, 2), (1, 1), (1, 0), (5, 0), (0, 1), (0, 5), (1, 7), (8, 7), (6, 9), (8, 11),
    (4, 0), (12, 9), (2, 13), (15, 11), (15, 3), (10, 0), (18, 16), (14, 2), (19, 15), (18, 19),
    (17, 21), (20, 22), (18, 9), (25, 10), (17, 24), (24, 2), (10, 20), (28, 26), (29, 20),
@@ -216,11 +216,11 @@ open CFSG.Sporadic.Schreier (m23GenA m23GenB m23_card)
    (174, 181), (182, 219), (220, 174), (221, 221), (222, 221), (174, 189), (191, 224),
    (225, 174), (226, 226), (227, 226), (203, 198), (229, 229), (230, 229)]
 
-@[expose] def m24Qp : List (ℕ × ℕ) := [(180, 218), (187, 223), (196, 228), (211, 231)]
+def m24Qp : List (ℕ × ℕ) := [(180, 218), (187, 223), (196, 228), (211, 231)]
 
-@[expose] def m24SLP : Array (Array ℕ) := slpTabsA m24ta.toArray m24tb.toArray m24Prog
+def m24SLP : Array (Array ℕ) := slpTabsA m24ta.toArray m24tb.toArray m24Prog
 
-@[expose] def m24Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
+def m24Enum : Array (List ℕ) × Array ℕ × Array ℕ :=
   bfsEnumB 24 (List.range 24) (m24Qp.map fun p => m24SLP[p.1]!)
     (m24Qp.map fun p => m24SLP[p.2]!) 100000
 

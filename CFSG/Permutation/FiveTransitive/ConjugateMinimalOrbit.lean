@@ -58,7 +58,7 @@ private theorem minimal_orbit_equivariant
   have h := hmin (e.symm y) hy'
   simpa only [card_orbit_equivariant φ e he, e.apply_symm_apply] using h
 
-@[expose] abbrev conjugateSubgroup {G : Type*} [Group G] (P : Subgroup G) (a : G) :=
+abbrev conjugateSubgroup {G : Type*} [Group G] (P : Subgroup G) (a : G) :=
   P.map (MulAut.conj a).toMonoidHom
 
 noncomputable def conjugateEquiv {G : Type*} [Group G] (P : Subgroup G) (a : G) :

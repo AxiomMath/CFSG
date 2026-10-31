@@ -27,7 +27,7 @@ open CFSG.LieType.Steinberg.Minuscule CFSG.Blueprint.Chevalley CFSG.LieType.Chev
 
 section LevelE6
 
-@[expose] abbrev fE6 : (Fin Tag.E6.rank → ℤ) →+ ℤ := fWt Tag.E6.rank
+abbrev fE6 : (Fin Tag.E6.rank → ℤ) →+ ℤ := fWt Tag.E6.rank
 
 theorem posS_finite : (posS fE6 : Set (Fin Tag.E6.rank → ℤ)).Finite :=
   isRoot_finite.subset fun _ h => h.1

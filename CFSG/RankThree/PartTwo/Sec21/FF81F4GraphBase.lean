@@ -52,9 +52,9 @@ section Transport
 
 variable {X : Type} [Group X] {Y : Subgroup X} {C : Type} [Group C] (e : ↥Y ≃* C)
 
-@[expose] def fixSub (α : MulAut C) : Subgroup C := α.toMonoidHom.eqLocus (MonoidHom.id C)
+def fixSub (α : MulAut C) : Subgroup C := α.toMonoidHom.eqLocus (MonoidHom.id C)
 
-@[expose] def embedY (ψ : MulAut C) : C →* X :=
+def embedY (ψ : MulAut C) : C →* X :=
   (Y.subtype.comp e.symm.toMonoidHom).comp ψ.symm.toMonoidHom
 
 theorem embedY_injective (ψ : MulAut C) : Function.Injective (embedY e ψ) := by

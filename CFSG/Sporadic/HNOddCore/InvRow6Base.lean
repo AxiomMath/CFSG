@@ -42,7 +42,7 @@ theorem comm_of_mem_centralizer {t g : JH} (h : g ∈ Subgroup.centralizer {t}) 
   have e := Subgroup.mem_centralizer_singleton_iff.1 h
   exact e
 
-@[expose] def progRunG {G : Type*} [Group G] : (ℕ → G) → List (Bool × ℕ × ℕ × ℕ) → ℕ → G
+def progRunG {G : Type*} [Group G] : (ℕ → G) → List (Bool × ℕ × ℕ × ℕ) → ℕ → G
   | regs, [] => regs
   | regs, (true, a, b, c) :: rest => progRunG (Function.update regs c (regs a * regs b)) rest
   | regs, (false, a, b, _) :: rest => progRunG (Function.update regs b (regs a)⁻¹) rest
@@ -110,11 +110,11 @@ theorem regsRep_progRun : ∀ (prog : List (Bool × ℕ × ℕ × ℕ)) (arr : A
       (Function.update perm b (perm a)⁻¹) (fun t ht' => hp t (List.mem_cons_of_mem _ ht'))
       (regsRep_inv_step h ht.1 ht.2.1 hr'.1) hr'.2
 
-@[expose] def m2RegsJ : ℕ → JH := progRunG jRegs0 InvData.m2Prog
+def m2RegsJ : ℕ → JH := progRunG jRegs0 InvData.m2Prog
 
-@[expose] def g6cJ : JH := seedWordJ InvData.m2ConjRoot * hWordJ InvData.m2ConjH
+def g6cJ : JH := seedWordJ InvData.m2ConjRoot * hWordJ InvData.m2ConjH
 
-@[expose] def e6J (i : ℕ) : JH := g6cJ⁻¹ * (m2RegsJ i * g6cJ)
+def e6J (i : ℕ) : JH := g6cJ⁻¹ * (m2RegsJ i * g6cJ)
 
 abbrev m2Run : Array (Array ℕ) × Bool :=
   progRun hnsData.n (initRegs hnsData.n (natTab (hnsData.orbit ()).alpha)
@@ -156,9 +156,9 @@ theorem x0_fix_t6 :
   rw [jR_smul]
   exact (mem_HJ_iff_fix _).1 aJ_mem_HJ
 
-@[expose] def c6G (j : ℕ) : JH := hWordJ InvData.c6Words[j]!
+def c6G (j : ℕ) : JH := hWordJ InvData.c6Words[j]!
 
-@[expose] def g6 (s : ℕ) : JH := if s < 10 then c6G s else e6J (s - 9)
+def g6 (s : ℕ) : JH := if s < 10 then c6G s else e6J (s - 9)
 
 theorem c6G_mem_HJ (j : ℕ) : c6G j ∈ HJ := hWordJ_mem _
 

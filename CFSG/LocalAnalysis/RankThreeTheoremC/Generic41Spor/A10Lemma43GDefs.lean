@@ -24,10 +24,10 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.AGLEmbedding Subgroup
     Subgroup G :=
   fiveRes (a10Pre J ψ Λ)
 
-@[expose] abbrev A10Y {G : Type} [Group G] (M : Subgroup G) : Type :=
+abbrev A10Y {G : Type} [Group G] (M : Subgroup G) : Type :=
   ↥M ⧸ primeComplementCore (G := ↥M) 5
 
-@[expose] abbrev a10π {G : Type} [Group G] (M : Subgroup G) : ↥M →* A10Y M :=
+abbrev a10π {G : Type} [Group G] (M : Subgroup G) : ↥M →* A10Y M :=
   QuotientGroup.mk' (primeComplementCore (G := ↥M) 5)
 
 @[expose] def a10Img {G : Type} [Group G] (M H : Subgroup G) : Subgroup (A10Y M) :=

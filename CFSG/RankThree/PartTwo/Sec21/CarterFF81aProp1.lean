@@ -13,7 +13,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] def FF81aProp1RankStep : Prop :=
+def FF81aProp1RankStep : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (b : G) (L : Subgroup G), FF81Hyp b L →
     localRank 3 G = 3 → (∀ g : G, g * b * g⁻¹ ∉ L) → KF_Sp6Torus →
       4 ≤ localRank 3 G

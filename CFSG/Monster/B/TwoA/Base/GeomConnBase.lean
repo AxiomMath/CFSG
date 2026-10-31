@@ -17,12 +17,12 @@ open scoped IsMulCommutative
 
 attribute [local instance] parAction
 
-@[expose] def parGraph : SimpleGraph ParGeom where
+def parGraph : SimpleGraph ParGeom where
   Adj x y := x ≠ y ∧ parInc x y
   symm := ⟨fun _ _ h => ⟨h.1.symm, parInc_symm h.2⟩⟩
   loopless := ⟨fun _ h => h.1 rfl⟩
 
-@[expose] def RAdj (R : Set ParGeom) (x y : ParGeom) : Prop := x ∈ R ∧ y ∈ R ∧ parInc x y
+def RAdj (R : Set ParGeom) (x y : ParGeom) : Prop := x ∈ R ∧ y ∈ R ∧ parInc x y
 
 abbrev RReach (R : Set ParGeom) : ParGeom → ParGeom → Prop := ReflTransGen (RAdj R)
 
@@ -60,7 +60,7 @@ theorem RReach.smul {R : Set ParGeom} (g : Shat) {x y : ParGeom} (h : RReach R x
   | tail _ hbc ih =>
     exact ih.tail ⟨⟨_, hbc.1, rfl⟩, ⟨_, hbc.2.1, rfl⟩, (parInc_smul_iff g _ _).2 hbc.2.2⟩
 
-@[expose] def mkObj (t : ℕ) (A : Subgroup Dfull) (h : IsObj t A) : ParGeom := ⟨(t, A), h⟩
+def mkObj (t : ℕ) (A : Subgroup Dfull) (h : IsObj t A) : ParGeom := ⟨(t, A), h⟩
 
 theorem natCard_ofSub_of_finrank
     {E : Subgroup Dfull} [CFSG.IsElementaryAbelian 2 E]

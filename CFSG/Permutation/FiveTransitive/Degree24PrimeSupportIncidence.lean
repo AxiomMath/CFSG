@@ -103,21 +103,21 @@ theorem card_order_prime_elements_of_sylow_card_prime
         Nat.card (Sylow p G) * (p - 1) :=
       hAcard
 
-@[expose] abbrev OrderPrimeSupportElements
+abbrev OrderPrimeSupportElements
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (p d : ℕ) :=
   {u : P //
     orderOf u = p ∧
       (u.1 : Equiv.Perm X).support.card = d}
 
-@[expose] abbrev OrderPrimeSupportFixesEmbedding
+abbrev OrderPrimeSupportFixesEmbedding
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (p d : ℕ)
     (e : Fin 5 ↪ X) :=
   {u : OrderPrimeSupportElements X P p d //
     (u.1 : P) ∈ fixingSubgroup P (Set.range e)}
 
-@[expose] abbrev LocalOrderPrimeSupportElements
+abbrev LocalOrderPrimeSupportElements
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (s : Set X)
     (p d : ℕ) :=

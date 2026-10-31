@@ -9,10 +9,10 @@ namespace CFSG.HardMathSupport.Curtis.UnitaryLevi
 
 open CFSG.LieType.Chevalley CFSG.Blueprint.Chevalley
 
-@[expose] noncomputable abbrev SM6 (l : List (Fin Tag.E6.rank)) : Matrix (Fin 6) (Fin 6) ℤ :=
+noncomputable abbrev SM6 (l : List (Fin Tag.E6.rank)) : Matrix (Fin 6) (Fin 6) ℤ :=
   (l.map (Smat Tag.E6)).prod
 
-@[expose] abbrev RM6 (l : List (Fin Tag.E6.rank)) : Matrix (Fin 6) (Fin 6) ℤ :=
+abbrev RM6 (l : List (Fin Tag.E6.rank)) : Matrix (Fin 6) (Fin 6) ℤ :=
   (l.map (Rmat Tag.E6)).prod
 
 theorem RM6_eq_SM6 (l : List (Fin Tag.E6.rank)) : RM6 l = SM6 l := by

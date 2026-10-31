@@ -45,14 +45,14 @@ namespace CFSG.Sporadic.Th.Max3.AltQuot
 open CFSG.Sporadic.Th.Native CFSG.ComponentClassification.PresentationLocal
 open scoped commutatorElement
 
-@[expose] def carmIdx (k : ℕ) (h : 2 ≤ k := by omega) (h' : k < 9 := by omega) :
+def carmIdx (k : ℕ) (h : 2 ≤ k := by omega) (h' : k < 9 := by omega) :
     CarmichaelIndex 9 :=
   ⟨⟨k, h'⟩, h⟩
 
-@[expose] def carmCubeIdx (k : CarmichaelIndex 9) : Fin 512 :=
+def carmCubeIdx (k : CarmichaelIndex 9) : Fin 512 :=
   ![0, 0, 0, 0, 0, 1, 1, 1, 0] k.1
 
-@[expose] def carmPairIdx (j k : CarmichaelIndex 9) : Fin 512 :=
+def carmPairIdx (j k : CarmichaelIndex 9) : Fin 512 :=
   ![![0, 0, 0, 0, 0, 0, 0, 0, 0], ![0, 0, 0, 0, 0, 0, 0, 0, 0],
     ![0, 0, 0, 510, 373, 249, 323, 406, 473], ![0, 0, 0, 0, 1, 458, 465, 462, 68],
     ![0, 0, 0, 0, 0, 160, 202, 263, 475], ![0, 0, 0, 0, 0, 0, 1, 1, 386],

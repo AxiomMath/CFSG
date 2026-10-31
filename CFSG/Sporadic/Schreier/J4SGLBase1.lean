@@ -25,7 +25,7 @@ theorem etaV_eq
 theorem etaV_toVecD (i : ℕ) : etaV (toVecD 11 i) = η i := by
   rw [etaV_eq, η_eq]
 
-@[expose] def eN : Multiplicative (Fin 11 → ZMod 2) ≃* N :=
+def eN : Multiplicative (Fin 11 → ZMod 2) ≃* N :=
   (MonoidHom.ofInjective etaHom_injective).trans (MulEquiv.subgroupCongr etaHom_range)
 
 theorem eN_apply (a : Multiplicative (Fin 11 → ZMod 2)) :
@@ -33,7 +33,7 @@ theorem eN_apply (a : Multiplicative (Fin 11 → ZMod 2)) :
   rw [etaV_eq]
   rfl
 
-@[expose] def addOf
+def addOf
     (g : NN) : (Fin 11 → ZMod 2) →+ (Fin 11 → ZMod 2) where
   toFun a := Multiplicative.toAdd (eN.symm (ρN g (eN (Multiplicative.ofAdd a))))
   map_zero' := by
@@ -41,7 +41,7 @@ theorem eN_apply (a : Multiplicative (Fin 11 → ZMod 2)) :
   map_add' a b := by
     rw [ofAdd_add, map_mul, map_mul, map_mul, toAdd_mul]
 
-@[expose] def linOf
+def linOf
     (g : NN) : (Fin 11 → ZMod 2) →ₗ[ZMod 2] (Fin 11 → ZMod 2) where
   toFun := addOf g
   map_add' := (addOf g).map_add
@@ -64,14 +64,14 @@ theorem linOf_mul
   rw [LinearMap.comp_apply, linOf_apply, linOf_apply, linOf_apply, map_mul, MulAut.mul_apply,
     ofAdd_toAdd, MulEquiv.apply_symm_apply]
 
-@[expose] def matOf : NN →* Matrix (Fin 11) (Fin 11) (ZMod 2) where
+def matOf : NN →* Matrix (Fin 11) (Fin 11) (ZMod 2) where
   toFun g := LinearMap.toMatrix' (linOf g)
   map_one' := by rw [linOf_one, LinearMap.toMatrix'_id]
   map_mul' g h := by rw [linOf_mul, LinearMap.toMatrix'_comp]
 
-@[expose] def ρGLN : NN →* GL (Fin 11) (ZMod 2) := matOf.toHomUnits
+def ρGLN : NN →* GL (Fin 11) (ZMod 2) := matOf.toHomUnits
 
-@[expose] def ρGL :
+def ρGL :
     K →* GL (Fin 11) (ZMod 2) := ρGLN.comp (Subgroup.inclusion K_le_normalizer)
 
 theorem ρGLN_mulVec (g : NN) (a : Fin 11 → ZMod 2) :

@@ -26,7 +26,7 @@ structure TriD4LineKGXData (n : ℕ) (K : Type) [Field K] (k : Type) [Field k] [
   Θ_α : ∀ (y : Subgroup.centralizer {z₀}) (hy : α y ∈ Subgroup.centralizer {z₀}),
     (Θ ⟨α y, hy⟩ : TriD4LineX k K) = triD4LineSigma k K σ (Θ y)
 
-@[expose] noncomputable abbrev triD4LineE (n : ℕ) (K : Type) [Field K]
+noncomputable abbrev triD4LineE (n : ℕ) (K : Type) [Field K]
     (A : Subgroup (MulAut (GGTriD4R n K))) : Subgroup (GGTriD4R n K) :=
   A.comap (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K))
 

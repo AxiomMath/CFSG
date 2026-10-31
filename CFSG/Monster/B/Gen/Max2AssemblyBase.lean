@@ -42,7 +42,7 @@ theorem wAct_one_eq {v : L2} : wAct v 1 = 1 := by
   change MulOpposite.op (wAct v 1) = 1 at h
   exact MulOpposite.op_injective (h.trans MulOpposite.op_one.symm)
 
-@[expose] noncomputable def kvMat {v : L2} (β : Module.Basis (Fin 22) (ZMod 2) (Wv v))
+noncomputable def kvMat {v : L2} (β : Module.Basis (Fin 22) (ZMod 2) (Wv v))
     (k : Kstab v) : Matrix (Fin 22) (Fin 22) (ZMod 2) :=
   Matrix.of fun i j => β.repr (wAct v k (β i)) j
 
@@ -63,7 +63,7 @@ theorem kvMat_mul
   simp only [map_sum, map_smul, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.coe_smul,
     Pi.smul_apply, smul_eq_mul, kvMat_apply]
 
-@[expose] noncomputable def kvGL
+noncomputable def kvGL
     {v : L2} (β : Module.Basis (Fin 22) (ZMod 2) (Wv v)) :
     Kstab v →* GL (Fin 22) (ZMod 2) :=
   MonoidHom.toHomUnits
@@ -93,7 +93,7 @@ theorem phi0_coordOf_rStar_ne_zero : phi0 (coordOf rStar) ≠ 0 := by
 theorem finrank_Wv_rStar : Module.finrank (ZMod 2) (Wv (phi0 (coordOf rStar))) = 22 :=
   finrank_Wv phi0_coordOf_rStar_ne_zero
 
-@[expose] noncomputable def psiBasis (e : Fin 22 → Cbar) (he : ∀ i, e i ∈ Ebar)
+noncomputable def psiBasis (e : Fin 22 → Cbar) (he : ∀ i, e i ∈ Ebar)
     (hind : LinearIndependent (ZMod 2) fun i => Multiplicative.toAdd (psiBar ⟨e i, he i⟩)) :
     Module.Basis (Fin 22) (ZMod 2) (Wv (phi0 (coordOf rStar))) :=
   basisOfLinearIndependentOfCardEqFinrank hind (by rw [Fintype.card_fin, finrank_Wv_rStar])
@@ -155,10 +155,10 @@ theorem jbarToKv_onto_of_max2
   obtain ⟨g, hg, rfl⟩ := hk
   exact ⟨g, Subgroup.mem_subgroupOf.1 hg, rfl⟩
 
-@[expose] def letterIn {M : Type*} [Group M] (x y : M) (t : Bool × Bool) : M :=
+def letterIn {M : Type*} [Group M] (x y : M) (t : Bool × Bool) : M :=
   if t.2 then (if t.1 then x else y)⁻¹ else if t.1 then x else y
 
-@[expose] def wordIn {M : Type*} [Group M] (x y : M) (w : List (Bool × Bool)) : M :=
+def wordIn {M : Type*} [Group M] (x y : M) (w : List (Bool × Bool)) : M :=
   (w.map (letterIn x y)).prod
 
 theorem map_letterIn {M N : Type*} [Group M] [Group N] (f : M →* N) (x y : M) (t : Bool × Bool) :
@@ -179,10 +179,10 @@ theorem wordIn_mem {M : Type*} [Group M] (H : Subgroup M) {x y : M} (hx : x ∈ 
   obtain ⟨⟨s, i⟩, -, rfl⟩ := List.mem_map.1 hz
   cases s <;> cases i <;> simp [letterIn, hx, hy, H.inv_mem]
 
-@[expose] def mulRows (A B : Array ℕ) : Array ℕ :=
+def mulRows (A B : Array ℕ) : Array ℕ :=
   ((List.range 22).map fun i => Max2.Native.act22 B A[i]!).toArray
 
-@[expose] def idRows : Array ℕ := ((List.range 22).map fun i => 1 <<< i).toArray
+def idRows : Array ℕ := ((List.range 22).map fun i => 1 <<< i).toArray
 
 theorem getElem!_listRange_map {f : ℕ → ℕ} {i : ℕ} (hi : i < 22) :
     ((List.range 22).map f).toArray[i]! = f i := by
@@ -206,7 +206,7 @@ theorem decMat_idRows : Max2.decMat idRows = 1 := by
   · have h' : (i : ℕ) ≠ j := fun e => h (Fin.ext e)
     simp [h, h']
 
-@[expose] def r2InvRows : Array ℕ :=
+def r2InvRows : Array ℕ :=
   #[1127759, 4185780, 1092240, 3349584, 2446896, 1588250, 3008677, 2381804, 3694636, 2173409,
     1840875, 2418042, 776914, 3494035, 4183051, 845183, 3826102, 1306480, 1104742, 1299143,
     2278585, 1103961]
@@ -235,7 +235,7 @@ theorem coe_R2u_inv :
         rw [h, mul_one]
     _ = Max2.decMat r2InvRows := by rw [← mul_assoc, Units.inv_mul, one_mul]
 
-@[expose] def letterRows (t : Bool × Bool) : Array ℕ :=
+def letterRows (t : Bool × Bool) : Array ℕ :=
   if t.1 then Max2.Native.r1Rows else if t.2 then r2InvRows else Max2.Native.r2Rows
 
 theorem decMat_letterRows (t : Bool × Bool) :
@@ -260,7 +260,7 @@ theorem decMat_foldl_letterRows
     rw [List.foldl_cons, ih, decMat_mulRows, decMat_letterRows]
     simp only [wordIn, List.map_cons, List.prod_cons, Units.val_mul, mul_assoc]
 
-@[expose] def kernelWord : List (Bool × Bool) :=
+def kernelWord : List (Bool × Bool) :=
   (List.replicate 14 [(true, false), (false, true), (false, true), (true, false), (true, false),
     (false, true)]).flatten
 
@@ -300,12 +300,12 @@ theorem wordIn_mem_Ebar
   rw [ker_jbarToKv, Subgroup.mem_subgroupOf, hg] at hker
   exact hker
 
-@[expose] def gramRows : Array ℕ :=
+def gramRows : Array ℕ :=
   #[1949072, 4152928, 2289248, 1275280, 4091849, 4175814, 3657014, 1569337, 1739897, 3879094,
     1388927, 459095, 3655339, 3376829, 233694, 3961317, 2916075, 2915326, 1285363, 230195,
     2406395, 1290870]
 
-@[expose] def gramInvRows : Array ℕ :=
+def gramInvRows : Array ℕ :=
   #[723488, 225572, 2697498, 4027892, 1072748, 2326747, 397624, 2109992, 478798, 2717073,
     3552024, 69909, 3968730, 3688078, 2728730, 4083744, 3558191, 1410403, 1283400, 1110541,
     1029144, 128684]

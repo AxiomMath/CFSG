@@ -17,7 +17,7 @@ namespace CFSG.Sporadic.J4Schreier
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ
 
-@[expose] def gens5 : Fin 5 → J := ![vS, kgen 0, kgen 1, kgen 2, kgen 3]
+def gens5 : Fin 5 → J := ![vS, kgen 0, kgen 1, kgen 2, kgen 3]
 
 private theorem insert_range_vec5 {α : Type*} (v : α) (k : ℕ → α) :
     insert v (Set.range fun i : Fin 4 => k i) = Set.range ![v, k 0, k 1, k 2, k 3] := by

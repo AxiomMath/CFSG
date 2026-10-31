@@ -68,7 +68,7 @@ theorem kgens_ok : chkKGens = true := by
   simp only [Bool.and_eq_true, beq_iff_eq]
   exact ⟨⟨⟨⟨⟨⟨hl, hs⟩, hsi⟩, hlet⟩, h5⟩, hpts⟩, hdiff⟩
 
-@[expose] noncomputable def commQ (m : Nat) : Bool :=
+noncomputable def commQ (m : Nat) : Bool :=
   Nat.beq (mulJ c rm m (getN one XG 0)) (mulJ c rm (getN one XG 0) m)
 
 theorem kcomm_chk : eqLK ((List.range 15360).filter fun k => inLK k KCOMM) KCOMM = true := by quickRfl

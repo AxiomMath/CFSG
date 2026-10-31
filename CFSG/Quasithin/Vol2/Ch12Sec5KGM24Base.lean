@@ -235,7 +235,7 @@ theorem om_size [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat]
   rw [m24_Om_size j hj]
   interval_cases j <;> rfl
 
-@[expose] noncomputable def kgCtx [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat] :
+noncomputable def kgCtx [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat] :
     LatCtx Γ 24 (List ℕ) :=
   m24Ctx
 

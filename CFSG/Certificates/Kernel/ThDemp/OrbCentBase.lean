@@ -47,7 +47,7 @@ theorem smul_vec_gl (g : GL (Fin 248) (ZMod 2)) (w : Vec) :
 theorem smul_vec (g : J) (w : Vec) : (g • w).v = Matrix.vecMul w.v (𝕄 g⁻¹) := by
   rw [Subgroup.smul_def, smul_vec_gl, Subgroup.coe_inv]
 
-@[expose] noncomputable def fixSub (M : Matrix (Fin 248) (Fin 248) (ZMod 2)) :
+noncomputable def fixSub (M : Matrix (Fin 248) (Fin 248) (ZMod 2)) :
     Submodule (ZMod 2) (Fin 248 → ZMod 2) where
   carrier := {w | Matrix.vecMul w M = w}
   add_mem' {a b} ha hb := by
@@ -154,7 +154,7 @@ theorem cent5_eq (X : ℕ) : cent5 D X = ((Finset.range 32).filter
   rw [Unfold.card_filter_of_sumBelow (by norm_num)]
   congr 1
 
-@[expose] noncomputable def nrm (M : Matrix (Fin 248) (Fin 248) (ZMod 2)) (w : Fin 248 → ZMod 2) :
+noncomputable def nrm (M : Matrix (Fin 248) (Fin 248) (ZMod 2)) (w : Fin 248 → ZMod 2) :
     Fin 248 → ZMod 2 :=
   w + Matrix.vecMul w M + Matrix.vecMul (Matrix.vecMul w M) M +
     Matrix.vecMul (Matrix.vecMul (Matrix.vecMul w M) M) M +

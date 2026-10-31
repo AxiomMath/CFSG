@@ -48,7 +48,7 @@ theorem exists_q3Elt :
       rw [heq]
       exact actsBy_mul hgA (q3gen_acts hg)
 
-@[expose] def q3Elt
+def q3Elt
     (k : ℕ) : J := if h : k < 27 then Classical.choose (exists_q3Elt k h) else 1
 
 theorem q3Elt_spec

@@ -13,14 +13,14 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.Quasith
   CFSG.LieType.Steinberg CFSG.LieType.Steinberg.Minuscule
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisTw
 
-@[expose] abbrev e6n5 : Fin TwistTag.E6.tag.rank := ⟨5, by decide⟩
+abbrev e6n5 : Fin TwistTag.E6.tag.rank := ⟨5, by decide⟩
 
 theorem rho_aux : ∀ s : Fin (Tag.rank .E6),
     (TwistedE6.rhoPerm s = ⟨0, by decide⟩ ↔ s = ⟨5, by decide⟩) ∧
       TwistedE6.rhoPerm (TwistedE6.rhoPerm s) = s := by decide
 
-@[expose] abbrev n0T : Fin (Tag.rank .E6) := ⟨0, by decide⟩
-@[expose] abbrev n5T : Fin (Tag.rank .E6) := ⟨5, by decide⟩
+abbrev n0T : Fin (Tag.rank .E6) := ⟨0, by decide⟩
+abbrev n5T : Fin (Tag.rank .E6) := ⟨5, by decide⟩
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 

@@ -10,7 +10,7 @@ namespace CFSG.StandardType.SympMinus
 
 open CFSG.Open CFSG.Assembly CFSG.HardMathSupport.Solomon.Coordinator
 
-@[expose] abbrev BlockCases {p m : ℕ} {L' : Type} [Group L']
+abbrev BlockCases {p m : ℕ} {L' : Type} [Group L']
     (σ : (Fin m → Multiplicative (ZMod p)) →* L') (J : Subgroup L') : Prop :=
   (∃ S : Finset (Fin m), 1 ≤ S.card ∧
     FrameBs.sectionFrameAut σ J = TypeBDatum.signedSupportedAut m p S ∧

@@ -83,7 +83,7 @@ theorem adjB_nbrC {u w : Nat} (hu : u < 8991) (hw : w < 8991) : adjB nbrC u w = 
   unfold adjB adjC
   rw [occB_nbrC hu, occB_nbrC hw, L2G.bne_eq, L2G.bIf_or, L2G.bAnd_and]
 
-@[expose] def BaseH : Prop := ∀ x < 2835, baseK x = true
+def BaseH : Prop := ∀ x < 2835, baseK x = true
 
 theorem base_at (H : BaseH) {x : Nat} (hx : x < 2835) {k : Nat} (hk : k < 36) :
     nbK x k < 2997 ∧ nbK x k ≠ x ∧ (∀ j < k, nbK x j ≠ nbK x k) ∧

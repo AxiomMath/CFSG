@@ -12,7 +12,7 @@ open scoped commutatorElement IsMulCommutative
 
 variable {G : Type*} [Group G]
 
-@[expose] abbrev QB (V B U : Subgroup G) [IsMulCommutative ↥V] : Type _ :=
+abbrev QB (V B U : Subgroup G) [IsMulCommutative ↥V] : Type _ :=
   QMod (W := ↥V) (B.subgroupOf V) (U.subgroupOf V)
 
 @[expose] def qb (V B U : Subgroup G) [IsMulCommutative ↥V] (b : ↥(B.subgroupOf V)) : QB V B U :=

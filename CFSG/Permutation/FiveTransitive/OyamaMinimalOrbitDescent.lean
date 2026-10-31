@@ -11,7 +11,7 @@ namespace FiveTransitive.OyamaMinimalOrbitDescent
 
 open MulAction
 
-@[expose] abbrev ambientSylow {G Y : Type*} [Group G] [MulAction G Y] {p : ℕ}
+abbrev ambientSylow {G Y : Type*} [Group G] [MulAction G Y] {p : ℕ}
     (a:Y) (P : Sylow p (stabilizer G a)) : Subgroup G :=
   (P : Subgroup (stabilizer G a)).map (stabilizer G a).subtype
 

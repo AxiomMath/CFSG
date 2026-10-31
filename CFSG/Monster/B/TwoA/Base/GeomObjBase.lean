@@ -77,7 +77,7 @@ theorem smul_obj_eq (g : Shat) {x : ParGeom} {h : Dfull}
 theorem obj_ext {x y : ParGeom} (ht : parType x = parType y) (hA : x.1.2 = y.1.2) : x = y :=
   Subtype.ext (Prod.ext ht hA)
 
-@[expose] def stdChamber (g : Shat) : Set ParGeom := (g • ·) '' stdParFlag
+def stdChamber (g : Shat) : Set ParGeom := (g • ·) '' stdParFlag
 
 theorem isParFlag_smul {F : Set ParGeom} (hF : IsParFlag F) (g : Shat) :
     IsParFlag ((g • ·) '' F) := by

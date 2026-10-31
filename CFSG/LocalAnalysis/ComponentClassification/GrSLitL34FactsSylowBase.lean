@@ -30,9 +30,9 @@ structure SylowParts : Prop where
     ((wordTabs wP₂).map (invTab 42)) (wordTabs wU₂) = true
   prod : prodOK = true
 
-@[expose] def U1 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₁)
+def U1 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₁)
 
-@[expose] def U2 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₂)
+def U2 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₂)
 
 theorem le_normalizer_of_normalOK {ws us : List (List ℕ)} {T : Array Tab}
     (hT : Enumerates (closure (wordSet us)) T.toList)

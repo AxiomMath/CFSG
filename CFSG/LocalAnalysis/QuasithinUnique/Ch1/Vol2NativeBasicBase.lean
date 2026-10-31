@@ -19,27 +19,27 @@ structure SQTKHypCat (G : Type) [Group G] : Prop where
 
 abbrev A23ListCat (S : Type) [Group S] : Prop := CFSG.Milestones.SQTKSimpleList S
 
-@[expose] def A36ConclusionCat {G : Type} [Group G] (L : Subgroup G) : Prop :=
+def A36ConclusionCat {G : Type} [Group G] (L : Subgroup G) : Prop :=
   (CFSG.IsComponent L ∧ IsSimpleGroup ↥L ∧ A23ListCat ↥L) ∨
     (CFSG.IsComponent L ∧ Nat.card (Subgroup.center ↥L) = 3 ∧ A36Case2List ↥L) ∨
     A36Case3 ↥L ∨ A36Case4 ↥L
 
-@[expose] def A36StrongCat {G : Type} [Group G] (L : Subgroup G) : Prop :=
+def A36StrongCat {G : Type} [Group G] (L : Subgroup G) : Prop :=
   A36ConclusionCat L ∧ A36Common ↥L ∧ ((A36Case3 ↥L ∨ A36Case4 ↥L) → A36Extra ↥L)
 
-@[expose] def A36StatementCat (G : Type) [Group G] : Prop :=
+def A36StatementCat (G : Type) [Group G] : Prop :=
   ∀ L ∈ cComp (⊤ : Subgroup G), A36StrongCat L
 
-@[expose] def A36ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A36StatementCat Q
+def A36ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A36StatementCat Q
 
-@[expose] def A36CoreCat {G : Type} [Group G] (L : Subgroup G) : Prop :=
+def A36CoreCat {G : Type} [Group G] (L : Subgroup G) : Prop :=
   (CFSG.IsComponent L ∨ A36Case3 ↥L ∨ A36Case4 ↥L) ∧ A36Common ↥L ∧
     ((A36Case3 ↥L ∨ A36Case4 ↥L) → A36Extra ↥L)
 
-@[expose] def A36CoreStatementCat (G : Type) [Group G] : Prop :=
+def A36CoreStatementCat (G : Type) [Group G] : Prop :=
   ∀ L ∈ cComp (⊤ : Subgroup G), A36CoreCat L
 
-@[expose] def A36CoreForSQTKCat : Prop :=
+def A36CoreForSQTKCat : Prop :=
   ∀ (Q : Type) [Group Q], SQTKHypCat Q → A36CoreStatementCat Q
 
 theorem A36StrongCat.core {G : Type} [Group G] {L : Subgroup G} (h : A36StrongCat L) :
@@ -54,13 +54,13 @@ theorem A36StrongCat.core {G : Type} [Group G] {L : Subgroup G} (h : A36StrongCa
 theorem A36ForSQTKCat.core (h : A36ForSQTKCat) : A36CoreForSQTKCat := fun Q _ hQ L hL =>
   (h Q hQ L hL).core
 
-@[expose] def A37ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A37Statement Q
+def A37ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A37Statement Q
 
-@[expose] def A38ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A38Part3 Q
+def A38ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A38Part3 Q
 
-@[expose] def A39ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A39Statement Q
+def A39ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A39Statement Q
 
-@[expose] def A312ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A312Statement Q
+def A312ForSQTKCat : Prop := ∀ (Q : Type) [Group Q], SQTKHypCat Q → A312Statement Q
 
 theorem SQTKHypCat.quotient_pCore (X : Type) [Group X] [Finite X]
     (hX : CFSG.SectionRank.IsSQTKCat X) : SQTKHypCat (X ⧸ CFSG.pCore 2 X) where

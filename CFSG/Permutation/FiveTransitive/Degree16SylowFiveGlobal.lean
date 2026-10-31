@@ -203,7 +203,7 @@ private theorem sylow_five_normalizer_card_le_seven_thousand_two_hundred
   rw [hNcardEq, hrEq]
   exact (Nat.mul_le_mul hRcardLe hCcardLe).trans (by norm_num)
 
-@[expose] abbrev DoubleFiveIncidences
+abbrev DoubleFiveIncidences
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) :=
   Σ S : Sylow 5 P, DoubleFiveElements X P S

@@ -56,7 +56,7 @@ end MulE
 
 section Sympl
 
-@[expose] abbrev Jmat (n : ℕ) (F : Type) [Field F] : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F :=
+abbrev Jmat (n : ℕ) (F : Type) [Field F] : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F :=
   CFSG.ClassicalInvolution.Models.SymplecticPairs.gram F n
 
 variable {n : ℕ} {F : Type} [Field F]

@@ -99,7 +99,7 @@ theorem inv_smul_ptsV {l i j : ℕ} (hl : l < 16) (hi : i < 14) (hj : j < 14)
   change Matrix.vecMul (pV i).toVec (CFSG.Sporadic.J4.rowsMatrix (x0AllRows[l]!)) = (pV j).toVec
   rw [← e, frApply_toVec_eq_vecMul]
 
-@[expose] def BlockOK (g : J) : Prop :=
+def BlockOK (g : J) : Prop :=
   ∀ i < 14, ∃ j < 14, g • ptsV i = ptsV j ∧ g • ptsV (getN 0 PHI i) = ptsV (getN 0 PHI j)
 
 theorem phi_lt' {i : ℕ} (hi : i < 14) : getN 0 PHI i < 14 :=

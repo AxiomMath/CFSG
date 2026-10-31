@@ -29,7 +29,7 @@ theorem unMats_get (j : Fin 11) : unMats[j.val]! = (Un j).1 := by
   unfold unMats
   rw [getElem!_pos _ j.val (by simp), Array.getElem_ofFn]
 
-@[expose] def mRep (l : ℕ) : J := signedWord a b repWords[l]!
+def mRep (l : ℕ) : J := signedWord a b repWords[l]!
 
 theorem mRep_zero : mRep 0 = 1 := rfl
 
@@ -37,7 +37,7 @@ theorem repVecs_get {l : ℕ} (hl : l < 7) : repVecs[l]! = O.vmul rootBits (repP
   unfold repVecs
   rw [getElem!_pos _ l (by simpa using hl), Array.getElem_ofFn]
 
-@[expose] def fixCard (w : Row) : ℕ := Nat.card (N ⊓ stabilizer J w : Subgroup J)
+def fixCard (w : Row) : ℕ := Nat.card (N ⊓ stabilizer J w : Subgroup J)
 
 theorem toVecD_injOn {x y : ℕ} (h : toVecD 112 x = toVecD 112 y) (hx : x = y ∨ O.vne x y = true) :
     x = y := by
@@ -45,7 +45,7 @@ theorem toVecD_injOn {x y : ℕ} (h : toVecD 112 x = toVecD 112 y) (hx : x = y �
   · exact hx
   · exact absurd h (Sp.toVec_ne hx)
 
-@[expose] def bilV (w : Row) : ZMod 2 := ofRow v ⬝ᵥ (formF *ᵥ ofRow w)
+def bilV (w : Row) : ZMod 2 := ofRow v ⬝ᵥ (formF *ᵥ ofRow w)
 
 theorem dot_toVecD (x : Fin 112 → ZMod 2) (V : ℕ) :
     x ⬝ᵥ toVecD 112 V = (x ᵥ* rowsMatrix 112 (colRows V)) 0 := by

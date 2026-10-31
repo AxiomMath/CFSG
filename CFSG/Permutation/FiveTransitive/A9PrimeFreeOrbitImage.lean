@@ -11,13 +11,13 @@ namespace FiveTransitive.A9PrimeFreeOrbitImage
 
 variable {L F E : Type} [Group L] [Fintype F] [DecidableEq F]
 
-@[expose] abbrev AltPreimage (rho : L →* Equiv.Perm F) : Subgroup L :=
+abbrev AltPreimage (rho : L →* Equiv.Perm F) : Subgroup L :=
   (alternatingGroup F).comap rho
 
 @[expose] def fixedHom (rho : L →* Equiv.Perm F) : AltPreimage rho →* alternatingGroup F :=
   (rho.comp (AltPreimage rho).subtype).codRestrict (alternatingGroup F) (fun n => n.property)
 
-@[expose] abbrev labelHom (rho : L →* Equiv.Perm F) (sigma : L →* Equiv.Perm E) :
+abbrev labelHom (rho : L →* Equiv.Perm F) (sigma : L →* Equiv.Perm E) :
     AltPreimage rho →* Equiv.Perm E := sigma.comp (AltPreimage rho).subtype
 
 theorem fixedHom_surjective (rho : L →* Equiv.Perm F)

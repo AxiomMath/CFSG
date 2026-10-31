@@ -11,7 +11,7 @@ namespace CFSG.ComponentClassification.GrSLit.L34Facts
 open CFSG Subgroup CFSG.PSL3Four CFSG.PSL3Four.Native CFSG.ComponentClassification.PSL3Four
 open CFSG.LieType.Multipliers CFSG.LieType.Multipliers.L34
 
-@[expose] noncomputable def psi {E : Type*} [Group E]
+noncomputable def psi {E : Type*} [Group E]
     (l : Cover →* E) : Multiplicative (ZMod 4) × Multiplicative (ZMod 4) →* E :=
   l.comp (zHom.comp ((MonoidHom.id _).prodMap (MonoidHom.inl _ _)))
 

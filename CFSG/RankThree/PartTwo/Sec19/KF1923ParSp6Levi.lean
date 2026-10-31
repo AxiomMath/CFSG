@@ -12,7 +12,7 @@ open Matrix CFSG.Assembly.LowTwoRank CFSG.LocalAnalysis.ComponentInitial
   CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher
   CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 
-@[expose] abbrev Jg (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (ZMod 2) :=
+abbrev Jg (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (ZMod 2) :=
   Matrix.fromBlocks 0 1 (-1) 0
 
 theorem pairedSympForm_eq_dotg (n : ℕ) (x y : Fin n ⊕ Fin n → ZMod 2) :
@@ -218,10 +218,10 @@ theorem liftGL3_inv (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :
   apply eq_inv_of_mul_eq_one_left
   rw [← liftGL3_mul, inv_mul_cancel, liftGL3_one]
 
-@[expose] abbrev mat3 (g : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) :
+abbrev mat3 (g : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) :
     Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) := g
 
-@[expose] abbrev mat2 (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :
+abbrev mat2 (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :
     Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2) := A
 
 theorem liftGL3_form (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2))
