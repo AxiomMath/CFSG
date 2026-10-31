@@ -1,9 +1,9 @@
 module
 
-public import Mathlib.Data.Complex.Basic
+public import Mathlib.Basic.Complex.Basic
 public import Mathlib.Analysis.Complex.Polynomial.Basic
 public import Mathlib.RepresentationTheory.Character
-public import Mathlib.Data.Complex.BigOperators
+public import Mathlib.Basic.Complex.BigOperators
 public import Mathlib.LinearAlgebra.Basis.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.Theory.Character.ClassFunction
 public import CFSG.ThirdParty.QiuzhenCFSG.Theory.Character.ConjClassFunction

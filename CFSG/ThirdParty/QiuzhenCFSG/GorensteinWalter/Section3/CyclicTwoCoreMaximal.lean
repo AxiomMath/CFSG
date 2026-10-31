@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 import Mathlib.Order.Atoms.Finite
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.CyclicTwoCoreNormalizer

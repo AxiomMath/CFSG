@@ -24,7 +24,7 @@ import CFSG.FeitThompson.OddOrder.SharedSylowNormalizedByIntersection
 import Mathlib.Tactic.Group
 public import CFSG.FeitThompson.Representations.DadeAveragingClassFunction
 public import CFSG.FeitThompson.Representations.TensorAndDualCharacters
-public import Mathlib.Data.Complex.Basic
+public import Mathlib.Basic.Complex.Basic
 
 namespace CFSG.FeitThompson
 
