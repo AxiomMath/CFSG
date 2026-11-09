@@ -18,7 +18,7 @@ example : (!allC (clsOneR 45 6 tX tY 3 1000) P45CL) = true := by quickRfl
 example : (!clsDisj 45 6 (P45CL ++ P45CL)) = true := by quickRfl
 
 example : (!Nat.beq (cntOrdK 45 6 (mask 6) (45 * 6) (pidn 45 6) P45Q.LR P45Q.TR 4 One 3 0)
-    (P45X.CS.getD 0 0)) = true := by quickRfl
+    43) = true := by quickRfl
 
 example : (!CFSG.KS.M11.ordIs 45 6 (mask 6) (pidn 45 6) One (2 - 1)) = true := by quickRfl
 

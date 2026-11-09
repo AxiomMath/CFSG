@@ -111,16 +111,16 @@ theorem fixCnt_eq {lo m hi c : ℕ} (hm : m ≤ 64 * hi)
 theorem cnt_all : ((Finset.range 31671).filter fun t =>
     walk TG AW (walk TG PW (S t)) = walk TG PW (S t)).card = 360 := by
   have e : ((Finset.range 31671).filter fun t =>
-      walk TG AW (walk TG PW (S t)) = walk TG PW (S t)).card = fixCnt 0 31671 := by
+      walk TG AW (walk TG PW (S t)) = walk TG PW (S t)).card = fixCnt (nat_lit 0) (nat_lit 31671) := by
     unfold fixCnt
-    simp only [Nat.zero_add]
-  rw [e, fixCnt_split 0 4096 27575 31671 4096 rfl rfl,
-    fixCnt_split 4096 4096 23479 27575 8192 rfl rfl,
-    fixCnt_split 8192 4096 19383 23479 12288 rfl rfl,
-    fixCnt_split 12288 4096 15287 19383 16384 rfl rfl,
-    fixCnt_split 16384 4096 11191 15287 20480 rfl rfl,
-    fixCnt_split 20480 4096 7095 11191 24576 rfl rfl,
-    fixCnt_split 24576 4096 2999 7095 28672 rfl rfl,
+    exact congrArg Finset.card (Finset.filter_congr fun t _ => by rw [Nat.zero_add])
+  rw [e, fixCnt_split (nat_lit 0) (nat_lit 4096) (nat_lit 27575) (nat_lit 31671) (nat_lit 4096) rfl rfl,
+    fixCnt_split (nat_lit 4096) (nat_lit 4096) (nat_lit 23479) (nat_lit 27575) (nat_lit 8192) rfl rfl,
+    fixCnt_split (nat_lit 8192) (nat_lit 4096) (nat_lit 19383) (nat_lit 23479) (nat_lit 12288) rfl rfl,
+    fixCnt_split (nat_lit 12288) (nat_lit 4096) (nat_lit 15287) (nat_lit 19383) (nat_lit 16384) rfl rfl,
+    fixCnt_split (nat_lit 16384) (nat_lit 4096) (nat_lit 11191) (nat_lit 15287) (nat_lit 20480) rfl rfl,
+    fixCnt_split (nat_lit 20480) (nat_lit 4096) (nat_lit 7095) (nat_lit 11191) (nat_lit 24576) rfl rfl,
+    fixCnt_split (nat_lit 24576) (nat_lit 4096) (nat_lit 2999) (nat_lit 7095) (nat_lit 28672) rfl rfl,
     fixCnt_eq (by norm_num) cnt0, fixCnt_eq (by norm_num) cnt1, fixCnt_eq (by norm_num) cnt2,
     fixCnt_eq (by norm_num) cnt3, fixCnt_eq (by norm_num) cnt4, fixCnt_eq (by norm_num) cnt5,
     fixCnt_eq (by norm_num) cnt6, fixCnt_eq (by norm_num) cnt7]

@@ -190,6 +190,72 @@ theorem ordIs_eq {g : Equiv.Perm (Fin n)} {P e : Nat} (hsz : szOK n w = true)
     (by rw [Nat.add_sub_cancel' he, ← ho]; exact pow_orderOf_eq_one g)
   exact pow_ne_one_of_lt_orderOf (by omega) (by omega)
 
+theorem invPtK_eq {g : Equiv.Perm (Fin n)} {P : Nat} (hsz : szOK n w = true)
+    (hP : PRep n w P g) (sP : P >>> (n * w) = 0) :
+    invPtK n w (mask w) (pidn n w) P = decide (orderOf g = 2) := by
+  have hf := szOK_facts hsz
+  have hgg : (∀ i < n, Nat.beq (pg w (mask w) P (pg w (mask w) P i)) i = true) ↔ g * g = 1 := by
+    constructor
+    · intro h
+      refine Equiv.ext fun x => Fin.ext ?_
+      have := Nat.eq_of_beq_eq_true (h x x.2)
+      rw [hP x, hP (g x)] at this
+      exact this
+    · intro h i hi
+      have h1 : pg w (mask w) P i = g ⟨i, hi⟩ := hP ⟨i, hi⟩
+      rw [h1, hP (g ⟨i, hi⟩), ← Equiv.Perm.mul_apply, h]
+      exact Nat.beq_refl i
+  have hb : ∀ c : Bool, bIf(c, false, true) = !c := fun c => by cases c <;> rfl
+  rw [invPtK, bAnd_eq, hb, beq_prep (PF.w_pos hf.2) hP (prep_pidn hf.1 hf.2) sP
+    (PF.pidn_shr hf.1 hf.2), Bool.eq_iff_iff, Bool.and_eq_true, allN_iff, hgg,
+    Bool.not_eq_true', decide_eq_false_iff_not, decide_eq_true_iff, ← pow_two]
+  constructor
+  · exact fun h => orderOf_eq_prime h.1 h.2
+  · intro ho
+    refine ⟨by rw [← ho]; exact pow_orderOf_eq_one g, fun h1 => ?_⟩
+    rw [h1, orderOf_one] at ho
+    omega
+
+theorem ordIsK_eq {g : Equiv.Perm (Fin n)} {P e : Nat} (hsz : szOK n w = true)
+    (hP : PRep n w P g) (sP : P >>> (n * w) = 0) (he : 0 < e) :
+    ordIsK n w (mask w) (pidn n w) P (e - 1) = decide (orderOf g = e) := by
+  by_cases h : e - 1 = 1
+  · obtain rfl : e = 2 := by omega
+    exact invPtK_eq hsz hP sP
+  · have hb : Nat.beq (e - 1) 1 = false := by
+      cases hb : Nat.beq (e - 1) 1
+      · rfl
+      · exact absurd (Nat.eq_of_beq_eq_true hb) h
+    rw [ordIsK, hb]
+    exact ordIs_eq hsz hP sP he
+
+theorem ordIs2_eq {g t : Equiv.Perm (Fin n)} {G T e : Nat} (hsz : szOK n w = true)
+    (hG : PRep n w G g) (hT : PRep n w T t) (sP : pcomp n w (mask w) G T >>> (n * w) = 0)
+    (he : 0 < e) :
+    ordIs2 n w (mask w) (pidn n w) G T (e - 1) = decide (orderOf (g * t) = e) := by
+  have hn := szOK_lt hsz
+  have hP := prep_pcomp hn hG hT
+  rw [← ordIsK_eq hsz hP sP he]
+  have hi2 : invPt2 n w (mask w) (pidn n w) G T =
+      invPtK n w (mask w) (pidn n w) (pcomp n w (mask w) G T) := by
+    unfold invPt2 invPtK
+    rw [bAnd_eq, bAnd_eq]
+    congr 1
+    rw [Bool.eq_iff_iff, allN_iff, allN_iff]
+    refine forall₂_congr fun i hi => ?_
+    have hlt : pg w (mask w) (pcomp n w (mask w) G T) i < n := by
+      rw [hP ⟨i, hi⟩]
+      exact Fin.isLt _
+    rw [PF.pg_pcomp hn hlt, PF.pg_pcomp hn hi]
+  by_cases h : e - 1 = 1
+  · rw [h, ordIs2, ordIsK]
+    exact hi2
+  · have hb : Nat.beq (e - 1) 1 = false := by
+      cases hb : Nat.beq (e - 1) 1
+      · rfl
+      · exact absurd (Nat.eq_of_beq_eq_true hb) h
+    rw [ordIs2, ordIsK, hb]
+
 theorem ordTest_of_ordIs' {g : Equiv.Perm (Fin n)} {P e : Nat} (hsz : szOK n w = true)
     (hg : imageList g = (unpack n w P).toList) (hP : canonK n w (mask w) (n * w) P = true)
     (he : 0 < e)

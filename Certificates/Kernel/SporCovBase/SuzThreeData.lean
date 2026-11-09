@@ -2,15 +2,15 @@ module
 
 public import Init
 public import Certificates.Data.Kernel.Spor.PEnum
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CFSG.KD.SporCovBase.SuzThree TBF "Certificates/Kernel/SporCovBase/data/suz3tb.bin.gz" 64 4 31616 7780746356388481390
+#kc_repo #kc_ktree CFSG.KD.SporCovBase.SuzThree TBF "Certificates/Kernel/SporCovBase/data/suz3tb.bin" 64 4 31616 7780746356388481390
 
-#kc_repo #kc_ktree_gz CFSG.KD.SporCovBase.SuzThree LGF "Certificates/Kernel/SporCovBase/data/suz3lg.bin.gz" 64 4 2432 11286595673470940521
+#kc_repo #kc_ktree CFSG.KD.SporCovBase.SuzThree LGF "Certificates/Kernel/SporCovBase/data/suz3lg.bin" 64 4 2432 11286595673470940521
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.SuzThree.F "Certificates/Kernel/SporCovBase/data/suz3.json.gz"
+#kc_repo #kc_json CFSG.KD.SporCovBase.SuzThree.F "Certificates/Kernel/SporCovBase/data/suz3.json"
   37102 7967462996525682375
   (bs : List Nat) (gw : List Nat) (Rg : List (List Nat)) (H : List (List Nat)) (R : List (List Nat))
   (P : List Nat) (T : List (List Nat)) (Rp : List (List Nat)) (Gs : List (List Nat))

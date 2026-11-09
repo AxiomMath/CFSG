@@ -63,8 +63,35 @@ theorem ch25010P_letters : (List.range 5).all (fun i =>
         (CertificateChecks.KernelSuz.fwW.getD i []))) = true := by
   quickRfl
 
+theorem ch25010P_cF0 : cn (F 0) = true := by quickRfl
+
+theorem ch25010P_cI0 : cn (FI 0) = true := by quickRfl
+
+theorem ch25010P_cF1 : cn (F 1) = true := by quickRfl
+
+theorem ch25010P_cI1 : cn (FI 1) = true := by quickRfl
+
+theorem ch25010P_cF2 : cn (F 2) = true := by quickRfl
+
+theorem ch25010P_cI2 : cn (FI 2) = true := by quickRfl
+
+theorem ch25010P_cF3 : cn (F 3) = true := by quickRfl
+
+theorem ch25010P_cI3 : cn (FI 3) = true := by quickRfl
+
+theorem ch25010P_cF4 : cn (F 4) = true := by quickRfl
+
+theorem ch25010P_cI4 : cn (FI 4) = true := by quickRfl
+
 theorem ch25010P_canon : (List.range 5).all (fun i => cn (F i) && cn (FI i)) = true := by
-  quickRfl
+  refine List.all_eq_true.2 fun i hi => ?_
+  have h := List.mem_range.1 hi
+  obtain rfl | rfl | rfl | rfl | rfl : i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4 := by omega
+  · rw [ch25010P_cF0, ch25010P_cI0]; rfl
+  · rw [ch25010P_cF1, ch25010P_cI1]; rfl
+  · rw [ch25010P_cF2, ch25010P_cI2]; rfl
+  · rw [ch25010P_cF3, ch25010P_cI3]; rfl
+  · rw [ch25010P_cF4, ch25010P_cI4]; rfl
 
 theorem ch25010P_t2 :
     Nat.beq (pc (pc (pc (F 1) (SuzTP 2)) (FI 1)) (SuzTP 2)) (pc (pc (F 2) (F 0)) (FI 2)) = true := by

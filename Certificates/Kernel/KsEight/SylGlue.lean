@@ -176,8 +176,7 @@ theorem card_centKv {j : Nat} (hj : j < 8) :
         right_inv := fun _ => rfl }
   have hr := rep_ks hj
   rw [e, card_Kv_pred (fun x => x * rK j = rK j * x), ← count_coset hr, ← count_coset hr,
-    ← count_coset hr, ← count_coset hr]
-  simp only [centKs, vIxL, List.foldl_cons, List.foldl_nil, zero_add]
+    ← count_coset hr, ← count_coset hr, centKs_eq_sum]
 
 theorem card_centKv' {j : Nat} (hj : j < 8) : Nat.card (centralizerIn Kv (rK j)) =
     4 * Nat.card ↥(P ⊓ centralizer ({rK j} : Set (Equiv.Perm (Fin 820)))) := by

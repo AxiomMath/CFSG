@@ -144,7 +144,12 @@ def table : List (List (Fin 3)) := [
 
 theorem table_length : table.length = 360 := by decide +kernel
 
-theorem table_nodup : (table.map ev).Nodup := by decide +kernel
+def code6 (g : alternatingGroup (Fin 6)) : ℕ :=
+  (List.finRange 6).foldr (fun i acc => acc * 8 + ((g : Perm (Fin 6)) i : ℕ)) 0
+
+theorem table_codes_nodup : ((table.map ev).map code6).Nodup := by decide +kernel
+
+theorem table_nodup : (table.map ev).Nodup := List.Nodup.of_map code6 table_codes_nodup
 
 theorem gen_mem (i : Fin 3) :
     gen i ∈ Subgroup.closure ({a₀A, s₀A, y₀A} : Set (alternatingGroup (Fin 6))) := by

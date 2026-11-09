@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Fi23Cov.Base
 public import Certificates.Data.Kernel.Fi23Cov.Defs
 
-#kc_repo #kc_json_gz CFSG.KD.Fi23Cov.Th "Certificates/Kernel/Fi23Cov/data/three.json.gz" 7366
+#kc_repo #kc_json CFSG.KD.Fi23Cov.Th "Certificates/Kernel/Fi23Cov/data/three.json" 7366
   8358992658937212085
   (T : List (List Nat)) (AG : List Nat) (AX : List Nat) (AZa : List Nat) (AHa : List Nat)
   (AZb : List Nat) (AHb : List Nat) (BG : List Nat) (BX : List Nat)

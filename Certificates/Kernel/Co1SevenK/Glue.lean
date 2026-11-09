@@ -62,7 +62,7 @@ section Tree
 
 
 theorem cen_tree {g : ↥GA} {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → Nat}
-    (hT : gtPinK GM ng cap N P PAR LAB W S = true) {gg : ℕ → ↥GA}
+    (hT : bfsK (gtStepK GM) P PAR LAB W S ng cap N idM = true) (hcap : N < cap) {gg : ℕ → ↥GA}
     (hrep : ∀ l < ng, MRep (U (GM l)) (gg l : GL24)) (hcomm : ∀ l < ng, gg l * g = g * gg l)
     (hle : Nat.card (Subgroup.centralizer ({g} : Set ↥GA)) ≤ N) :
     Nat.card (Subgroup.centralizer ({g} : Set ↥GA)) = N ∧
@@ -70,7 +70,7 @@ theorem cen_tree {g : ↥GA} {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S 
       f i ∈ Subgroup.centralizer ({g} : Set ↥GA)) ∧
       ∀ c ∈ Subgroup.centralizer ({g} : Set ↥GA), ∃ i < N, c = f i := by
   have : Finite ↥GA := finite_GA
-  obtain ⟨-, hok⟩ := gtBFS_of_K hT
+  obtain ⟨-, hok⟩ := gtBFS_of_bfsK hT hcap
   have hsz : (bfsTree N P PAR LAB).pts.size = N := by simp [bfsTree]
   obtain ⟨f, hf, -, heq⟩ := prodTree_closure_eq μG μG_injective hok gg (hgg_pk hrep)
   have hcard := prodTree_card μG μG_injective hok gg (hgg_pk hrep)

@@ -516,11 +516,94 @@ theorem closureCodes_spec (gens : List Mat4) :
   wlN_inv gens 400 _ _ ⟨fun c hc => ⟨I4, InGen.one, by rw [List.mem_singleton.mp hc]⟩,
     List.nodup_singleton _, fun c hc => hc⟩
 
-set_option maxRecDepth 100000 in
-theorem closure1 : ∀ Y ∈ Ylist1, (closureCodes [Mx, Y]).length = 360 := by decide +kernel
+@[expose] def stepQ (e : ℕ) (st : List ℕ × List ℕ × ℕ) (g : Mat4) : List ℕ × List ℕ × ℕ :=
+  if st.2.2.testBit (mmN e (pack g)) then st
+  else (mmN e (pack g) :: st.1, mmN e (pack g) :: st.2.1, st.2.2 ||| (1 <<< mmN e (pack g)))
+
+@[expose] def wlQ (gens : List Mat4) : ℕ → List ℕ → List ℕ → List ℕ → ℕ → List ℕ
+  | 0, cs, _, _, _ => cs
+  | n + 1, cs, e :: f, b, m =>
+    let st := gens.foldl (stepQ e) (cs, b, m)
+    wlQ gens n st.1 f st.2.1 st.2.2
+  | n + 1, cs, [], b, m =>
+    match b.reverse with
+    | [] => cs
+    | e :: f =>
+      let st := gens.foldl (stepQ e) (cs, [], m)
+      wlQ gens n st.1 f st.2.1 st.2.2
+
+theorem testBit_or_one_shiftLeft (m x y : ℕ) :
+    (m ||| (1 <<< x)).testBit y = true ↔ m.testBit y = true ∨ y = x := by
+  rw [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow, Bool.or_eq_true, decide_eq_true_iff]
+  exact or_congr Iff.rfl eq_comm
+
+theorem foldl_stepQ (e : ℕ) (f : List ℕ) : ∀ (l : List Mat4) (cs b : List ℕ) (m : ℕ),
+    (∀ x, m.testBit x = true ↔ x ∈ cs) →
+      (l.foldl (stepAdd e) (cs, f ++ b.reverse)).1 = (l.foldl (stepQ e) (cs, b, m)).1 ∧
+      (l.foldl (stepAdd e) (cs, f ++ b.reverse)).2 = f ++ (l.foldl (stepQ e) (cs, b, m)).2.1.reverse ∧
+      ∀ x, (l.foldl (stepQ e) (cs, b, m)).2.2.testBit x = true ↔ x ∈ (l.foldl (stepQ e) (cs, b, m)).1
+  | [], cs, b, m, h => ⟨rfl, rfl, h⟩
+  | g :: l, cs, b, m, h => by
+    simp only [List.foldl_cons]
+    by_cases hc : mmN e (pack g) ∈ cs
+    · have hb : m.testBit (mmN e (pack g)) = true := (h _).2 hc
+      have e1 : stepQ e (cs, b, m) g = (cs, b, m) := by simp [stepQ, hb]
+      have e2 : stepAdd e (cs, f ++ b.reverse) g = (cs, f ++ b.reverse) := by simp [stepAdd, hc]
+      rw [e1, e2]
+      exact foldl_stepQ e f l cs b m h
+    · have hb : m.testBit (mmN e (pack g)) = false := by
+        cases hm : m.testBit (mmN e (pack g))
+        · rfl
+        · exact absurd ((h _).1 hm) hc
+      have e1 : stepQ e (cs, b, m) g = (mmN e (pack g) :: cs, mmN e (pack g) :: b,
+          m ||| (1 <<< mmN e (pack g))) := by simp [stepQ, hb]
+      have e2 : stepAdd e (cs, f ++ b.reverse) g =
+          (mmN e (pack g) :: cs, f ++ (mmN e (pack g) :: b).reverse) := by
+        simp [stepAdd, hc]
+      rw [e1, e2]
+      refine foldl_stepQ e f l _ _ _ fun x => ?_
+      rw [testBit_or_one_shiftLeft, h, List.mem_cons, or_comm]
+
+theorem wlQ_eq (gens : List Mat4) : ∀ (n : ℕ) (cs f b : List ℕ) (m : ℕ),
+    (∀ x, m.testBit x = true ↔ x ∈ cs) → wlQ gens n cs f b m = wlN gens n cs (f ++ b.reverse)
+  | 0, _, _, _, _, _ => rfl
+  | n + 1, cs, e :: f, b, m, h => by
+    obtain ⟨h1, h2, h3⟩ := foldl_stepQ e f gens cs b m h
+    simp only [wlQ, List.cons_append, wlN]
+    rw [h1, h2]
+    exact wlQ_eq gens n _ _ _ _ h3
+  | n + 1, cs, [], b, m, h => by
+    simp only [wlQ, List.nil_append]
+    cases hr : b.reverse with
+    | nil => simp [wlN]
+    | cons e f =>
+      obtain ⟨h1, h2, h3⟩ := foldl_stepQ e f gens cs [] m h
+      simp only [List.reverse_nil, List.append_nil] at h1 h2
+      simp only [wlN]
+      rw [h1, h2]
+      exact wlQ_eq gens n _ _ _ _ h3
+
+theorem closureCodes_eq_wlQ (gens : List Mat4) :
+    closureCodes gens = wlQ gens 400 [pack I4] [pack I4] [] (1 <<< pack I4) := by
+  have hm : ∀ x, (1 <<< pack I4).testBit x = true ↔ x ∈ [pack I4] := fun x => by
+    rw [Nat.one_shiftLeft, Nat.testBit_two_pow, decide_eq_true_iff, List.mem_singleton, eq_comm]
+  rw [closureCodes, wlQ_eq gens 400 _ _ _ _ hm, List.reverse_nil, List.append_nil]
 
 set_option maxRecDepth 100000 in
-theorem closure2 : ∀ Y ∈ Ylist2, (closureCodes [Mx, Y]).length = 360 := by decide +kernel
+theorem closure1 : ∀ Y ∈ Ylist1, (closureCodes [Mx, Y]).length = 360 := by
+  have hw : ∀ Y ∈ Ylist1, (wlQ [Mx, Y] 400 [pack I4] [pack I4] [] (1 <<< pack I4)).length = 360 := by
+    decide +kernel
+  intro Y hY
+  rw [closureCodes_eq_wlQ]
+  exact hw Y hY
+
+set_option maxRecDepth 100000 in
+theorem closure2 : ∀ Y ∈ Ylist2, (closureCodes [Mx, Y]).length = 360 := by
+  have hw : ∀ Y ∈ Ylist2, (wlQ [Mx, Y] 400 [pack I4] [pack I4] [] (1 <<< pack I4)).length = 360 := by
+    decide +kernel
+  intro Y hY
+  rw [closureCodes_eq_wlQ]
+  exact hw Y hY
 
 @[expose] def IsRMat (M : Mat4) : Prop :=
   M.r0 = ⟨true, false, false, false⟩ ∧ M.r1 = ⟨false, true, false, false⟩ ∧ M.r2.x2 = true ∧

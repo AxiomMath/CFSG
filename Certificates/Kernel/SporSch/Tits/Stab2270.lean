@@ -52,6 +52,49 @@ theorem memN_contains (p : Nat) : ∀ L : List Nat, memN p L = L.contains p
 theorem allN_two {f : Nat → Bool} (h : allN 13 f = true) : allN 2 f = true :=
   allN_of_forall fun i hi => allN_spec h i (by omega)
 
+theorem bAnd3 {b1 b2 b3 b4 : Bool} (h : bAnd(b1, bAnd(b2, bAnd(b3, b4))) = true) :
+    b1 = true ∧ b2 = true ∧ b3 = true := by
+  obtain ⟨h1, h⟩ := (bAnd_iff _ _).1 h
+  obtain ⟨h2, h⟩ := (bAnd_iff _ _).1 h
+  exact ⟨h1, h2, ((bAnd_iff _ _).1 h).1⟩
+
+theorem fUp0 : bAnd(permW 8775 14 (TitsSF.U 0) (TitsSF.UI 0),
+    permW 8775 14 (TitsSF.V 0) (TitsSF.VI 0)) = true := by quickRfl
+theorem fUp1 : bAnd(permW 8775 14 (TitsSF.U 1) (TitsSF.UI 1),
+    permW 8775 14 (TitsSF.V 1) (TitsSF.VI 1)) = true := by quickRfl
+theorem aUp0 : bAnd(permW 2925 12 (TitsSS.U 0) (TitsSS.UI 0),
+    permW 2925 12 (TitsSS.V 0) (TitsSS.VI 0)) = true := by quickRfl
+theorem aUp1 : bAnd(permW 2925 12 (TitsSS.U 1) (TitsSS.UI 1),
+    permW 2925 12 (TitsSS.V 1) (TitsSS.VI 1)) = true := by quickRfl
+
+theorem fUp_j {j : Nat} (hj : j < 2) : permW 8775 14 (TitsSF.U j) (TitsSF.UI j) = true ∧
+    permW 8775 14 (TitsSF.V j) (TitsSF.VI j) = true := by
+  match j, hj with
+  | 0, _ => exact (bAnd_iff _ _).1 fUp0
+  | 1, _ => exact (bAnd_iff _ _).1 fUp1
+
+theorem aUp_j {j : Nat} (hj : j < 2) : permW 2925 12 (TitsSS.U j) (TitsSS.UI j) = true ∧
+    permW 2925 12 (TitsSS.V j) (TitsSS.VI j) = true := by
+  match j, hj with
+  | 0, _ => exact (bAnd_iff _ _).1 aUp0
+  | 1, _ => exact (bAnd_iff _ _).1 aUp1
+
+theorem fC_j {j : Nat} (hj : j < 2) :
+    eq2W 8775 14 (TitsSF.A j) (TitsSF.UI j) (TitsSF.VI j) = true ∧
+    eq2W 8775 14 (TitsSF.B j) (TitsSF.A j) (TitsSF.U j) = true ∧
+    eq2W 8775 14 (TitsSF.T j) (TitsSF.B j) (TitsSF.V j) = true := by
+  match j, hj with
+  | 0, _ => exact bAnd3 fC0
+  | 1, _ => exact bAnd3 fC1
+
+theorem aC_j {j : Nat} (hj : j < 2) :
+    eq2W 2925 12 (TitsSS.A j) (TitsSS.UI j) (TitsSS.VI j) = true ∧
+    eq2W 2925 12 (TitsSS.B j) (TitsSS.A j) (TitsSS.U j) = true ∧
+    eq2W 2925 12 (TitsSS.T j) (TitsSS.B j) (TitsSS.V j) = true := by
+  match j, hj with
+  | 0, _ => exact bAnd3 aC0
+  | 1, _ => exact bAnd3 aC1
+
 theorem flag_size : titsFlagArrs.size = 4 := by
   unfold titsFlagArrs
   simp
@@ -115,10 +158,8 @@ theorem dF_get {j : Nat} (hj : j < 2) : titsDFlagArrs[j]! = unpack 8775 14 (Tits
   rw [getElem!_ofFn_of_lt _ hj]
   dsimp only
   unfold commArr
-  obtain ⟨hu, hv⟩ := (bAnd_iff _ _).1 (allN_spec fUp j hj)
-  obtain ⟨c1, c23⟩ := (bAnd_iff _ _).1 (allN_spec fC j hj)
-  obtain ⟨c2, c34⟩ := (bAnd_iff _ _).1 c23
-  obtain ⟨c3, -⟩ := (bAnd_iff _ _).1 c34
+  obtain ⟨hu, hv⟩ := fUp_j hj
+  obtain ⟨c1, c2, c3⟩ := fC_j hj
   rw [uF hj, vF hj, inv_unpack hu, inv_unpack hv, eq2W_sound c1, eq2W_sound c2, eq2W_sound c3]
 
 theorem dS_get {j : Nat} (hj : j < 2) : titsDStarArrs[j]! = unpack 2925 12 (TitsSS.T j) := by
@@ -126,10 +167,8 @@ theorem dS_get {j : Nat} (hj : j < 2) : titsDStarArrs[j]! = unpack 2925 12 (Tits
   rw [getElem!_ofFn_of_lt _ hj]
   dsimp only
   unfold commArr
-  obtain ⟨hu, hv⟩ := (bAnd_iff _ _).1 (allN_spec aUp j hj)
-  obtain ⟨c1, c23⟩ := (bAnd_iff _ _).1 (allN_spec aC j hj)
-  obtain ⟨c2, c34⟩ := (bAnd_iff _ _).1 c23
-  obtain ⟨c3, -⟩ := (bAnd_iff _ _).1 c34
+  obtain ⟨hu, hv⟩ := aUp_j hj
+  obtain ⟨c1, c2, c3⟩ := aC_j hj
   rw [uS hj, vS hj, inv_unpack hu, inv_unpack hv, eq2W_sound c1, eq2W_sound c2, eq2W_sound c3]
 
 theorem tF_stored {j : Nat} (hj : j < 2) : TitsSF.T j = T8775.F (4 + j) := by
@@ -267,8 +306,8 @@ theorem facts : (∀ j < 2, isInvA 8775 (wordArr 8775 titsFlagArrs (titsU j))
       false := by
   refine ⟨fun j hj => ?_, strF.2, strS.2, fun j hj => ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, rfl, rfl,
     ?_, ?_, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · obtain ⟨hu, hv⟩ := (bAnd_iff _ _).1 (allN_spec fUp j hj)
-    obtain ⟨hu', hv'⟩ := (bAnd_iff _ _).1 (allN_spec aUp j hj)
+  · obtain ⟨hu, hv⟩ := fUp_j hj
+    obtain ⟨hu', hv'⟩ := aUp_j hj
     rw [uF hj, vF hj, uS hj, vS hj]
     exact ⟨isInv_unpack hu, isInv_unpack hv, isInv_unpack hu', isInv_unpack hv'⟩
   · have e1 : titsDFlagStored[j]! = unpack 8775 14 (T8775.F (4 + j)) := by

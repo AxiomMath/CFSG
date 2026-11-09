@@ -26,9 +26,7 @@ private theorem gD_mem {α : Type} {l : List α} {d : α} {i : Nat} (h : i < l.l
 private theorem blt_dec (a b : Nat) : Nat.blt a b = decide (a < b) := by
   rw [Bool.eq_iff_iff, Nat.blt_eq, decide_eq_true_iff]
 
-private theorem validT_iff (t : Tab) : validT t = true ↔ ValidT t := by
-  unfold validT ValidT
-  simp only [Bool.and_eq_true, Nat.beq_eq, List.all_eq_true, Nat.blt_eq]
+private theorem validT_iff (t : Tab) : validT t = true ↔ ValidT t := validK_iff t
 
 private theorem all_valid {L : List Tab} (h : L.all validT = true) : ∀ t ∈ L, ValidT t :=
   fun t ht => (validT_iff t).1 (List.all_eq_true.1 h t ht)
@@ -71,14 +69,14 @@ private theorem head :
       U.length = 5760 ∧ cs.getD 0 0 = 1 ∧ cs.getD 12 0 = 5760 ∧
       ∀ w ∈ W, w.length < 17 ∧ ∀ i ∈ w, i < 2 := by
   have h := ch24790head
-  simp only [Bool.and_eq_true, beq_iff_eq, Nat.beq_eq, List.all_eq_true, Nat.blt_eq] at h
+  simp only [allK_eq, Bool.and_eq_true, beq_iff_eq, Nat.beq_eq, List.all_eq_true, Nat.blt_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, -⟩, h6⟩, h7⟩, h8⟩, -⟩, h10⟩ := h
   exact ⟨h1, h2, h3, h4, h6, h7, h8, h10⟩
 
 private theorem valid :
     (∀ t ∈ T, ValidT t) ∧ (∀ t ∈ U, ValidT t) ∧ ∀ t ∈ IT, ValidT t := by
   have h := ch24790valid
-  simp only [Bool.and_eq_true] at h
+  simp only [Bool.and_eq_true, allK_eq] at h
   exact ⟨all_valid h.1.1, all_valid h.1.2, all_valid h.2⟩
 
 private theorem icf : IC.getD 0 0 = 0 ∧ IC.getD 12 0 = 375 ∧ IT.length = 375 ∧ IX.length = 375 := by
@@ -96,7 +94,7 @@ private theorem normf : tmul (tmul betaTab (nGensTab.getD 0 idTab)) betaTab ∈ 
     tmul (tmul betaTab (nGensTab.getD 1 idTab)) betaTab ∈ T ∧
     (nGensTab.all fun g => normOK (elemTabs 1) g) = true := by
   have h := ch24790norm
-  simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+  simp only [Bool.and_eq_true, memK_eq, tmulK_eq, decide_eq_true_eq] at h
   exact ⟨h.1.1.1, h.1.1.2, h.2⟩
 
 private theorem hseg : ∀ s < 12, segOK s = true := fun s hs =>
@@ -141,6 +139,9 @@ private theorem replay_full : replayK (packTs T) (packW W) (nGensTab.getD 0 idTa
   have h12 := RS_chain 12 (Nat.le_refl 12)
   obtain ⟨-, -, hT, -, -, hc0, hc12, -⟩ := head
   unfold RS at h12
+  have htw := ch24790tw
+  simp only [Bool.and_eq_true, Nat.beq_eq] at htw
+  rw [htw.1, htw.2] at h12
   rw [Nat.mul_zero, List.drop_zero, List.drop_zero, List.drop_zero, hc0,
     show 480 * 12 = T.length by omega, List.drop_length, hc12] at h12
   rw [hT]
@@ -173,6 +174,7 @@ private theorem U_eq : T.map (tmul betaTab) = U := by
       intro hm
       have hs := hu (5 - m) (by omega)
       unfold uSegOK at hs
+      rw [show tmulK betaTab = tmul betaTab from funext (tmulK_eq betaTab)] at hs
       have hc := map_eq_of_mapEqK _ _ (by simp [List.length_take, List.length_drop, hT, hU])
         (fun a ha => tmul_valid hb (hvT a (List.mem_of_mem_drop (List.mem_of_mem_take ha))))
         (fun b hb' => hvU b (List.mem_of_mem_drop (List.mem_of_mem_take hb'))) hs
@@ -265,68 +267,6 @@ private theorem hvL : ∀ t ∈ T ++ U, ValidT t :=
 private theorem hvIT {j : Nat} (hj : j < 375) : ValidT (IT.getD j idTab) :=
   valid.2.2 _ (gD_mem (by rw [icf.2.2.1]; exact hj))
 
-private theorem rep {j : Nat} (hj : j < 375) (h3 : (PR[j]'(by rw [treef.2.1]; exact hj)).2.1 = 3) :
-    centN (T ++ U) (IT.getD j idTab) = centOf (CL.getD j 5) := by
-  have h := ch24790repIdx
-  have hlen : j < (PR.zip (List.range 375)).length := by simp [treef.2.1, hj]
-  have := List.all_eq_true.1 h _ (List.getElem_mem hlen)
-  simp only [List.getElem_zip, List.getElem_range, h3, Nat.beq_refl, Bool.not_true,
-    Bool.false_or] at this
-  have hm : j ∈ repIdx := List.contains_iff_mem.1 this
-  simp only [repIdx, List.mem_cons, List.not_mem_nil, or_false] at hm
-  rcases hm with rfl | rfl | rfl | rfl | rfl
-  · have := ch24790rep0
-    unfold repOK at this
-    exact Nat.eq_of_beq_eq_true this
-  · have := ch24790rep12
-    unfold repOK at this
-    exact Nat.eq_of_beq_eq_true this
-  · have := ch24790rep195
-    unfold repOK at this
-    exact Nat.eq_of_beq_eq_true this
-  · have := ch24790rep196
-    unfold repOK at this
-    exact Nat.eq_of_beq_eq_true this
-  · have := ch24790rep197
-    unfold repOK at this
-    exact Nat.eq_of_beq_eq_true this
-
-private theorem cent_all : ∀ d j (hj : j < 375),
-    (PR[j]'(by rw [treef.2.1]; exact hj)).2.2 ≤ d →
-      centN (T ++ U) (IT.getD j idTab) = centOf (CL.getD j 5) := by
-  have hPR := treef.2.1
-  have hclass : ∀ j (hj : j < 375),
-      CL.getD (PR[j]'(by rw [hPR]; exact hj)).1 5 = CL.getD j 5 := by
-    intro j hj
-    have h := treef.2.2.2
-    unfold classTreeOK at h
-    have hlen : j < (PR.zip CL).length := by simp [hPR, treef.2.2.1, hj]
-    have := List.all_eq_true.1 h _ (List.getElem_mem hlen)
-    simp only [List.getElem_zip, Nat.beq_eq] at this
-    rw [this, gD (by rw [treef.2.2.1]; exact hj)]
-  have hpar : ∀ j (hj : j < 375), (PR[j]'(by rw [hPR]; exact hj)).1 < 375 := by
-    intro j hj
-    have := List.all_eq_true.1 sm7 _ (List.getElem_mem (by rw [hPR]; exact hj))
-    simpa only [Nat.blt_eq] using this
-  intro d
-  induction d with
-  | zero =>
-    intro j hj hd
-    rcases conjTreeK_spec gens3 GI IT PR PR IT treef.1 j (by rw [hPR]; exact hj) with
-      ⟨h3, -⟩ | ⟨-, hdep, -⟩
-    · exact rep hj h3
-    · omega
-  | succ d ih =>
-    intro j hj hd
-    rcases conjTreeK_spec gens3 GI IT PR PR IT treef.1 j (by rw [hPR]; exact hj) with
-      ⟨h3, -⟩ | ⟨hl, hdep, hconj⟩
-    · exact rep hj h3
-    · have hp := hpar j hj
-      obtain ⟨hg, hgi, h1, h2⟩ := letter hl
-      rw [← hconj, centN_conj hg hgi h1 h2 nodupL hvL (hcl hl) (hvIT hp)]
-      rw [gD (l := PR) (d := (0, 0, 0)) (by omega)] at hdep
-      rw [ih _ hp (by omega), hclass j hj]
-
 private theorem hi : ∀ s < 12, invSegOK s = true := fun s hs =>
   match s, hs with
   | 0, _ => ch24790i0
@@ -360,10 +300,8 @@ private theorem filter_eq : (T ++ U).filter isInv = IT := by
       intro hm
       have hs := hi (11 - m) (by omega)
       unfold invSegOK at hs
-      have hc := eq_of_map_packT _ _
-        (fun a ha => hvL a (List.mem_of_mem_drop (List.mem_of_mem_take (List.mem_of_mem_filter ha))))
-        (fun b hb => valid.2.2 b (List.mem_of_mem_drop (List.mem_of_mem_take hb)))
-        (beq_iff_eq.1 hs)
+      have hc := filtEqK_spec _ _ _ hs
+      rw [show isInvK = isInv from funext isInvK_eq] at hc
       have e1 := List.take_append_drop 960 ((T ++ U).drop (960 * (11 - m)))
       rw [List.drop_drop, show 960 * (11 - m) + 960 = 960 * (12 - m) by omega] at e1
       have hmn : IC.getD (11 - m) 0 ≤ IC.getD (11 - m + 1) 0 := by
@@ -378,6 +316,187 @@ private theorem filter_eq : (T ++ U).filter isInv = IT := by
   have := step 12 (Nat.le_refl 12)
   rwa [Nat.sub_self, Nat.mul_zero, List.drop_zero, hIC0, List.drop_zero] at this
 
+private theorem hclass : ∀ j (hj : j < 375),
+    CL.getD (PR[j]'(by rw [treef.2.1]; exact hj)).1 5 = CL.getD j 5 := by
+  intro j hj
+  have h := treef.2.2.2
+  unfold classTreeOK at h
+  rw [allK_eq] at h
+  simp only [getLK_eq] at h
+  have hlen : j < (PR.zip CL).length := by simp [treef.2.1, treef.2.2.1, hj]
+  have := List.all_eq_true.1 h _ (List.getElem_mem hlen)
+  simp only [List.getElem_zip, Nat.beq_eq] at this
+  rw [this, gD (by rw [treef.2.2.1]; exact hj)]
+
+private theorem hpar : ∀ j (hj : j < 375), (PR[j]'(by rw [treef.2.1]; exact hj)).1 < 375 := by
+  intro j hj
+  have := List.all_eq_true.1 sm7 _ (List.getElem_mem (by rw [treef.2.1]; exact hj))
+  simpa only [Nat.blt_eq] using this
+
+private theorem root_rep {j : Nat} (hj : j < 375)
+    (h3 : (PR[j]'(by rw [treef.2.1]; exact hj)).2.1 = 3) : j ∈ repIdx := by
+  have h := ch24790repIdx
+  have hlen : j < (PR.zip (List.range 375)).length := by simp [treef.2.1, hj]
+  have := List.all_eq_true.1 h _ (List.getElem_mem hlen)
+  simp only [List.getElem_zip, List.getElem_range, h3, Nat.beq_refl, Bool.not_true,
+    Bool.false_or] at this
+  exact List.contains_iff_mem.1 this
+
+private theorem gens3_mem {l : Nat} (hl : l < 3) : gens3.getD l idTab ∈ T ++ T.map (tmul betaTab) := by
+  rcases (by omega : l < 2 ∨ l = 2) with h | h
+  · rw [sm10 l h]
+    exact List.mem_append_left _ (hyp.gen_mem h)
+  · subst h
+    rw [sm11]
+    exact List.mem_append_right _
+      (List.mem_map.2 ⟨idTab, hyp.one, tmul_id_right ((validT_iff _).1 sm5)⟩)
+
+private theorem tree_conj : ∀ d j (hj : j < 375),
+    (PR[j]'(by rw [treef.2.1]; exact hj)).2.2 ≤ d →
+      ∃ r ∈ repIdx, CL.getD r 5 = CL.getD j 5 ∧ ∃ g ∈ T ++ T.map (tmul betaTab),
+        tmul g (IT.getD r idTab) = tmul (IT.getD j idTab) g := by
+  have hPR := treef.2.1
+  intro d
+  induction d with
+  | zero =>
+    intro j hj hd
+    rcases conjTreeK_spec gens3 GI IT PR PR IT treef.1 j (by rw [hPR]; exact hj) with
+      ⟨h3, -⟩ | ⟨-, hdep, -⟩
+    · exact ⟨j, root_rep hj h3, rfl, idTab, List.mem_append_left _ hyp.one,
+        by rw [tmul_id_left (hvIT hj), tmul_id_right (hvIT hj)]⟩
+    · omega
+  | succ d ih =>
+    intro j hj hd
+    rcases conjTreeK_spec gens3 GI IT PR PR IT treef.1 j (by rw [hPR]; exact hj) with
+      ⟨h3, -⟩ | ⟨hl, hdep, hconj⟩
+    · exact ⟨j, root_rep hj h3, rfl, idTab, List.mem_append_left _ hyp.one,
+        by rw [tmul_id_left (hvIT hj), tmul_id_right (hvIT hj)]⟩
+    · have hp := hpar j hj
+      rw [gD (l := PR) (d := (0, 0, 0)) (by omega)] at hdep
+      obtain ⟨r, hr, hcr, g, hg, he⟩ := ih _ hp (by omega)
+      obtain ⟨hgl, hgil, h1, -⟩ := letter hl
+      have hgv := hyp.valid hg
+      have hx := hvIT hp
+      have hrv := hvIT (j := r) (by
+        simp only [repIdx, List.mem_cons, List.not_mem_nil, or_false] at hr
+        omega)
+      refine ⟨r, hr, by rw [hcr, hclass j hj], _, hyp.mulL (gens3_mem hl) hg, ?_⟩
+      rw [← hconj]
+      unfold conjT
+      rw [tmul_assoc' _ hgv hrv, he, tmul_assoc' _ hgil (tmul_valid hgl hgv),
+        ← tmul_assoc' _ hgl hgv, h1, tmul_id_left hgv, tmul_assoc' _ hx hgv]
+
+private theorem centN_eq (L : List Tab) (t : Tab) :
+    centN L t = L.countP fun g => tmul g t = tmul t g := by
+  unfold centN
+  exact List.countP_congr fun x _ => by rw [commF_iff, decide_eq_true_eq]
+
+private theorem repCent {i r : Nat} (hr : r ∈ repIdx) (hok : repOK i r = true) :
+    centN (T ++ U) (IT.getD r idTab) = centOf (CL.getD r 5) := by
+  have hr375 : r < 375 := by
+    simp only [repIdx, List.mem_cons, List.not_mem_nil, or_false] at hr
+    omega
+  unfold repOK at hok
+  rw [Bool.and_eq_true, Nat.beq_eq] at hok
+  have hlo := centWK_le _ _ _ hok.1
+  rw [hok.2] at hlo
+  obtain ⟨hinj, hcnt⟩ := ch24790cls
+  have hc := hcnt r hr
+  set c := CL.getD r 5
+  obtain ⟨-, -, hIT, -⟩ := icf
+  have hCL := treef.2.2.1
+  obtain ⟨-, -, hT, -, hU, -, -, -⟩ := head
+  have hnd : (T ++ T.map (tmul betaTab)).Nodup := by
+    rw [U_eq]
+    exact nodupL
+  obtain ⟨inv, HG⟩ := hyp.grpOn hnd
+  have hITnd : IT.Nodup := by
+    rw [← filter_eq]
+    exact nodupL.filter _
+  set O := ((IT.zip CL).filter fun e => e.2 == c).map Prod.fst
+  have hOnd : O.Nodup := by
+    refine hITnd.sublist ?_
+    have := (List.filter_sublist (p := fun e : Tab × Nat => e.2 == c) (l := IT.zip CL)).map
+      Prod.fst
+    rwa [List.map_fst_zip (l₁ := IT) (l₂ := CL) (by omega)] at this
+  have hOlen : O.length = CL.countP (· == c) := by
+    rw [List.length_map, ← List.countP_eq_length_filter]
+    have := List.countP_map (p := (· == c)) (f := Prod.snd) (l := IT.zip CL)
+    rw [List.map_snd_zip (l₁ := IT) (l₂ := CL) (by omega)] at this
+    rw [this]
+    rfl
+  have hmem : ∀ s ∈ O, ∃ k, ∃ _ : k < 375, IT.getD k idTab = s ∧ CL.getD k 5 = c := by
+    intro s hs
+    obtain ⟨e, he, rfl⟩ := List.mem_map.1 hs
+    rw [List.mem_filter, beq_iff_eq] at he
+    obtain ⟨k, hk, hke⟩ := List.mem_iff_getElem.1 he.1
+    have hk' : k < 375 := by simpa [hIT, hCL] using hk
+    refine ⟨k, hk', ?_, ?_⟩
+    · rw [← hke, List.getElem_zip, gD (l := IT) (by omega)]
+    · rw [← he.2, ← hke, List.getElem_zip, gD (l := CL) (by omega)]
+  have hITL : ∀ s ∈ IT, s ∈ T ++ T.map (tmul betaTab) := by
+    intro s hs
+    rw [← filter_eq] at hs
+    rw [U_eq]
+    exact (List.mem_filter.1 hs).1
+  have hup := HG.orbit_bound (hITL _ (gD_mem (l := IT) (i := r) (by omega))) O hOnd
+    (fun s hs => by
+      obtain ⟨k, hk, rfl, -⟩ := hmem s hs
+      exact hITL _ (gD_mem (l := IT) (i := k) (by omega)))
+    (fun s hs => by
+      obtain ⟨k, hk, rfl, hck⟩ := hmem s hs
+      obtain ⟨r', hr', hcr', g, hg, he⟩ := tree_conj _ k hk (Nat.le_refl _)
+      have : r' = r := List.inj_on_of_nodup_map hinj hr' hr (by rw [hcr', hck])
+      subst this
+      exact ⟨g, hg, he⟩)
+  rw [U_eq, ← centN_eq, hOlen, List.length_append, hT, hU] at hup
+  generalize centN (T ++ U) (IT.getD r idTab) = x at hup hlo ⊢
+  generalize CL.countP (· == c) = n at hup hc
+  generalize centOf c = y at hc hlo ⊢
+  have hpos : 0 < n := Nat.pos_of_ne_zero fun h0 => by
+    rw [h0, Nat.zero_mul] at hc
+    omega
+  have hle : x * n ≤ y * n := by
+    rw [Nat.mul_comm y, hc]
+    omega
+  have := Nat.le_of_mul_le_mul_right hle hpos
+  omega
+
+private theorem rep {j : Nat} (hj : j < 375) (h3 : (PR[j]'(by rw [treef.2.1]; exact hj)).2.1 = 3) :
+    centN (T ++ U) (IT.getD j idTab) = centOf (CL.getD j 5) := by
+  have hm := root_rep hj h3
+  have hm' := hm
+  simp only [repIdx, List.mem_cons, List.not_mem_nil, or_false] at hm'
+  rcases hm' with rfl | rfl | rfl | rfl | rfl
+  · exact repCent hm ch24790rep0
+  · exact repCent hm ch24790rep12
+  · exact repCent hm ch24790rep195
+  · exact repCent hm ch24790rep196
+  · exact repCent hm ch24790rep197
+
+private theorem cent_all : ∀ d j (hj : j < 375),
+    (PR[j]'(by rw [treef.2.1]; exact hj)).2.2 ≤ d →
+      centN (T ++ U) (IT.getD j idTab) = centOf (CL.getD j 5) := by
+  have hPR := treef.2.1
+  intro d
+  induction d with
+  | zero =>
+    intro j hj hd
+    rcases conjTreeK_spec gens3 GI IT PR PR IT treef.1 j (by rw [hPR]; exact hj) with
+      ⟨h3, -⟩ | ⟨-, hdep, -⟩
+    · exact rep hj h3
+    · omega
+  | succ d ih =>
+    intro j hj hd
+    rcases conjTreeK_spec gens3 GI IT PR PR IT treef.1 j (by rw [hPR]; exact hj) with
+      ⟨h3, -⟩ | ⟨hl, hdep, hconj⟩
+    · exact rep hj h3
+    · have hp := hpar j hj
+      obtain ⟨hg, hgi, h1, h2⟩ := letter hl
+      rw [← hconj, centN_conj hg hgi h1 h2 nodupL hvL (hcl hl) (hvIT hp)]
+      rw [gD (l := PR) (d := (0, 0, 0)) (by omega)] at hdep
+      rw [ih _ hp (by omega), hclass j hj]
+
 private theorem data_j {j : Nat} (hj : j < 375) :
     packT (IT.getD j idTab) = tabAt LP (IX.getD j 0) ∧ IX.getD j 0 < 11520 ∧
       Nat.blt (IX.getD j 0) 5760 = (invClassData.getD (CL.getD j 5) (0, 0, false, false)).2.2.1 ∧
@@ -390,7 +509,8 @@ private theorem data_j {j : Nat} (hj : j < 375) :
   have hCL := treef.2.2.1
   have hlen : j < (IT.zip (IX.zip CL)).length := by simp [hIT, hIX, hCL, hj]
   have := List.all_eq_true.1 h _ (List.getElem_mem hlen)
-  simp only [List.getElem_zip, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq, beq_iff_eq] at this
+  simp only [List.getElem_zip, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq, beq_iff_eq, fixK_eq,
+    memK_eq] at this
   rw [gD (l := IT) (by rw [hIT]; exact hj), gD (l := IX) (by rw [hIX]; exact hj),
     gD (l := CL) (by rw [hCL]; exact hj)]
   exact ⟨this.1.1.1.1, this.1.1.1.2, this.1.1.2, this.1.2, this.2⟩

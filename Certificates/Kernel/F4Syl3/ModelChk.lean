@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/model.json.gz" 5611
+#kc_repo #kc_json CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/model.json" 5611
   9714946842021026086 (reps : List Nat) (tgt : List Nat) (cover : List (Nat × Nat))
   (lineA : List Nat) (lineB : List Nat)
 

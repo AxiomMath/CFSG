@@ -703,7 +703,7 @@ theorem clos_all {n kL m i : Nat} {LT : Nat → Nat → Nat} {B pt ix : Nat → 
 theorem tree_dec {n kL m i r : Nat} {LT : Nat → Nat → Nat} {B Ot IX Op Ol : Nat → Nat}
     (h : ∀ t < m, CFSG.KC.VecK.treeAt n kL m i r LT B Ot IX Op Ol t = true) :
     ∀ t < m, lk Ot 32 t < n ∧ lk IX 32 (lk Ot 32 t) = t ∧
-      (∀ j < kL / 2, fixB LT B i (2 * j) = false ∨
+      (m = n ∨ ∀ j < kL / 2, fixB LT B i (2 * j) = false ∨
         (lk IX 32 (lk (LT (2 * j)) 32 (lk Ot 32 t)) < m ∧
           lk Ot 32 (lk IX 32 (lk (LT (2 * j)) 32 (lk Ot 32 t))) = lk (LT (2 * j)) 32 (lk Ot 32 t))) ∧
       (if t = 0 then lk Ot 32 t = r else lk Op 32 t < t ∧ lk Ol 32 t < kL ∧ fixB LT B i (lk Ol 32 t) = true ∧
@@ -731,12 +731,24 @@ theorem kernel_tree {n kL m i r : Nat} {LT : Nat → Nat → Nat} {B Ot IX Op Ol
     TreeFacts m r (fun l => l < kL ∧ fixB LT B i l = true) (fun l x => lk (LT l) 32 x) (lk Ot 32) (lk IX 32) ∧
       ∀ t < m, lk Ot 32 t < n := by
   have dec := tree_dec h
-  have hcl := clos_all (pt := lk Ot 32) (ix := lk IX 32) hkE hLn hpair hB (fun t ht => (dec t ht).2.1)
-    (fun t ht => (dec t ht).1) (fun j hj hf t ht => by
-      rcases (dec t ht).2.2.1 j hj with h1 | h1
-      · rw [hf] at h1
-        exact absurd h1 (by decide)
-      · exact h1)
+  have hcl : ∀ l < kL, fixB LT B i l = true → ∀ t < m, lk IX 32 (lk (LT l) 32 (lk Ot 32 t)) < m ∧
+      lk Ot 32 (lk IX 32 (lk (LT l) 32 (lk Ot 32 t))) = lk (LT l) 32 (lk Ot 32 t) := by
+    by_cases hmn : m = n
+    · intro l hl _ t ht
+      obtain ⟨u, hu, e⟩ := onto_of_inj (m := m) (φ := lk Ot 32)
+        (fun t ht => by rw [hmn]; exact (dec t ht).1)
+        (fun a ha b hb e => by rw [← (dec a ha).2.1, ← (dec b hb).2.1, e]) _
+        (by rw [hmn]; exact hLn l hl _ (dec t ht).1)
+      rw [← e, (dec u hu).2.1]
+      exact ⟨hu, rfl⟩
+    · exact clos_all (pt := lk Ot 32) (ix := lk IX 32) hkE hLn hpair hB (fun t ht => (dec t ht).2.1)
+        (fun t ht => (dec t ht).1) (fun j hj hf t ht => by
+          rcases (dec t ht).2.2.1 with h0 | h0
+          · exact absurd h0 hmn
+          rcases h0 j hj with h1 | h1
+          · rw [hf] at h1
+            exact absurd h1 (by decide)
+          · exact h1)
   refine ⟨⟨hm, ?_, fun t ht => (dec t ht).2.1, fun t ht l ⟨hl, hf⟩ => hcl l hl hf t ht, fun t ht h0 => ?_⟩,
     fun t ht => (dec t ht).1⟩
   · have := (dec 0 hm).2.2.2
@@ -747,33 +759,27 @@ theorem kernel_tree {n kL m i r : Nat} {LT : Nat → Nat → Nat} {B Ot IX Op Ol
     obtain ⟨a, b, c, e⟩ := this
     exact ⟨_, a, _, ⟨b, c⟩, e⟩
 
-theorem kernel_sub {n kL m j r : Nat} {LT : Nat → Nat → Nat} {B St LB PS Sp Sl : Nat → Nat}
-    (hkE : kL % 2 = 0) (hLn : ∀ l < kL, ∀ x < n, lk (LT l) 32 x < n)
-    (hpair : ∀ j, 2 * j + 1 < kL → ∀ x < n, lk (LT (2 * j + 1)) 32 (lk (LT (2 * j)) 32 x) = x)
-    (hB : ∀ k < 1, B k < n)
-    (hm : 0 < m) (h : ∀ t < m, subAt n kL m j r LT B St LB PS Sp Sl t = true) :
-    TreeFacts m r (fun l => l < kL ∧ fixB LT B 1 l = true) (fun l x => lk (LT l) 32 x) (lk St 32) (lk PS 32) ∧
-      ∀ t < m, lk St 32 t < n ∧ lk LB 32 (lk St 32 t) = j := by
-  have dec : ∀ t < m, lk St 32 t < n ∧ lk LB 32 (lk St 32 t) = j ∧ lk PS 32 (lk St 32 t) = t ∧
-      (∀ k < kL / 2, fixB LT B 1 (2 * k) = false ∨
+theorem sub_dec {n kL m j Jk Jt r : Nat} {LT : Nat → Nat → Nat} {B St LB PS Sp Sl : Nat → Nat}
+    (h : ∀ t < m, subAt n kL m j Jk Jt r LT B St LB PS Sp Sl t = true) :
+    ∀ t < m, lk St 32 t < n ∧ lk LB 32 (lk St 32 t) = j ∧ lk PS 32 (lk St 32 t) = t ∧
+      (j = Jk ∨ j = Jt ∨ ∀ k < kL / 2, fixB LT B 1 (2 * k) = false ∨
         (lk LB 32 (lk (LT (2 * k)) 32 (lk St 32 t)) = j ∧ lk PS 32 (lk (LT (2 * k)) 32 (lk St 32 t)) < m ∧
           lk St 32 (lk PS 32 (lk (LT (2 * k)) 32 (lk St 32 t))) = lk (LT (2 * k)) 32 (lk St 32 t))) ∧
       (if t = 0 then lk St 32 t = r else lk Sp 32 t < t ∧ lk Sl 32 t < kL ∧ fixB LT B 1 (lk Sl 32 t) = true ∧
         lk (LT (lk Sl 32 t)) 32 (lk St 32 (lk Sp 32 t)) = lk St 32 t) := by
-    intro t ht
-    have := h t ht
-    unfold subAt at this
-    simp only [strictB_eq, andB_eq, orB_eq, notB_eq, bif_eq, Bool.and_eq_true, Bool.or_eq_true,
-      Bool.not_eq_true', Nat.blt_eq, Nat.beq_eq, allN_iff] at this
-    exact this
-  have hcl := clos_all (pt := lk St 32) (ix := lk PS 32) hkE hLn hpair hB (fun t ht => (dec t ht).2.2.1)
-    (fun t ht => (dec t ht).1) (fun k hk hf t ht => by
-      rcases (dec t ht).2.2.2.1 k hk with h1 | h1
-      · rw [hf] at h1
-        exact absurd h1 (by decide)
-      · exact h1.2)
-  refine ⟨⟨hm, ?_, fun t ht => (dec t ht).2.2.1, fun t ht l ⟨hl, hf⟩ => hcl l hl hf t ht, fun t ht h0 => ?_⟩,
-    fun t ht => ⟨(dec t ht).1, (dec t ht).2.1⟩⟩
+  intro t ht
+  have := h t ht
+  unfold subAt at this
+  simp only [strictB_eq, andB_eq, orB_eq, notB_eq, bif_eq, Bool.and_eq_true, Bool.or_eq_true,
+    Bool.not_eq_true', Nat.blt_eq, Nat.beq_eq, allN_iff] at this
+  exact this
+
+theorem sub_rootpar {n kL m j Jk Jt r : Nat} {LT : Nat → Nat → Nat} {B St LB PS Sp Sl : Nat → Nat}
+    (hm : 0 < m) (h : ∀ t < m, subAt n kL m j Jk Jt r LT B St LB PS Sp Sl t = true) :
+    lk St 32 0 = r ∧ ∀ t < m, 0 < t → ∃ u < t, ∃ l, (l < kL ∧ fixB LT B 1 l = true) ∧
+      lk (LT l) 32 (lk St 32 u) = lk St 32 t := by
+  have dec := sub_dec h
+  refine ⟨?_, fun t ht h0 => ?_⟩
   · have := (dec 0 hm).2.2.2.2
     rw [ite_eq_left rfl] at this
     exact this
@@ -781,6 +787,120 @@ theorem kernel_sub {n kL m j r : Nat} {LT : Nat → Nat → Nat} {B St LB PS Sp 
     rw [ite_eq_right (by omega)] at this
     obtain ⟨a, b, c, e⟩ := this
     exact ⟨_, a, _, ⟨b, c⟩, e⟩
+
+theorem sub_facts {n kL m j Jk Jt r : Nat} {LT : Nat → Nat → Nat} {B St LB PS Sp Sl : Nat → Nat}
+    (hm : 0 < m) (h : ∀ t < m, subAt n kL m j Jk Jt r LT B St LB PS Sp Sl t = true)
+    (hcl : ∀ l < kL, fixB LT B 1 l = true → ∀ t < m, lk PS 32 (lk (LT l) 32 (lk St 32 t)) < m ∧
+      lk St 32 (lk PS 32 (lk (LT l) 32 (lk St 32 t))) = lk (LT l) 32 (lk St 32 t)) :
+    TreeFacts m r (fun l => l < kL ∧ fixB LT B 1 l = true) (fun l x => lk (LT l) 32 x) (lk St 32) (lk PS 32) ∧
+      ∀ t < m, lk St 32 t < n ∧ lk LB 32 (lk St 32 t) = j := by
+  have dec := sub_dec h
+  have rp := sub_rootpar hm h
+  exact ⟨⟨hm, rp.1, fun t ht => (dec t ht).2.2.1, fun t ht l ⟨hl, hf⟩ => hcl l hl hf t ht, rp.2⟩,
+    fun t ht => ⟨(dec t ht).1, (dec t ht).2.1⟩⟩
+
+theorem kernel_sub {n kL m j Jk Jt r : Nat} {LT : Nat → Nat → Nat} {B St LB PS Sp Sl : Nat → Nat}
+    (hkE : kL % 2 = 0) (hLn : ∀ l < kL, ∀ x < n, lk (LT l) 32 x < n)
+    (hpair : ∀ j, 2 * j + 1 < kL → ∀ x < n, lk (LT (2 * j + 1)) 32 (lk (LT (2 * j)) 32 x) = x)
+    (hB : ∀ k < 1, B k < n) (hJ : j ≠ Jk) (hJt : j ≠ Jt)
+    (hm : 0 < m) (h : ∀ t < m, subAt n kL m j Jk Jt r LT B St LB PS Sp Sl t = true) :
+    TreeFacts m r (fun l => l < kL ∧ fixB LT B 1 l = true) (fun l x => lk (LT l) 32 x) (lk St 32) (lk PS 32) ∧
+      ∀ t < m, lk St 32 t < n ∧ lk LB 32 (lk St 32 t) = j := by
+  have dec := sub_dec h
+  refine sub_facts hm h (clos_all (pt := lk St 32) (ix := lk PS 32) hkE hLn hpair hB
+    (fun t ht => (dec t ht).2.2.1) (fun t ht => (dec t ht).1) (fun k hk hf t ht => ?_))
+  rcases (dec t ht).2.2.2.1 with h0 | h0 | h0
+  · exact absurd h0 hJ
+  · exact absurd h0 hJt
+  rcases h0 k hk with h1 | h1
+  · rw [hf] at h1
+    exact absurd h1 (by decide)
+  · exact h1.2
+
+theorem letter_inj {n kL : Nat} {LT : Nat → Nat → Nat} (hkE : kL % 2 = 0)
+    (hLn : ∀ l < kL, ∀ x < n, lk (LT l) 32 x < n)
+    (hpair : ∀ j, 2 * j + 1 < kL → ∀ x < n, lk (LT (2 * j + 1)) 32 (lk (LT (2 * j)) 32 x) = x)
+    {l : Nat} (hl : l < kL) : ∀ a < n, ∀ b < n, lk (LT l) 32 a = lk (LT l) 32 b → a = b := by
+  intro a ha b hb e
+  obtain ⟨j, rfl | rfl⟩ : ∃ j, l = 2 * j ∨ l = 2 * j + 1 := ⟨l / 2, by omega⟩
+  · have hp := hpair j (by omega)
+    rw [← hp a ha, ← hp b hb, e]
+  · have hr := right_inv (g := fun x => lk (LT (2 * j)) 32 x) (g' := fun x => lk (LT (2 * j + 1)) 32 x)
+      (hLn _ (by omega)) (hpair j hl)
+    have ea : lk (LT (2 * j)) 32 (lk (LT (2 * j + 1)) 32 a) = a := hr a ha
+    have eb : lk (LT (2 * j)) 32 (lk (LT (2 * j + 1)) 32 b) = b := hr b hb
+    rw [← ea, ← eb, e]
+
+theorem clos_compl {n k Jk : Nat} {g LB PS sz : Nat → Nat} {pt : Nat → Nat → Nat}
+    (hg : ∀ x < n, g x < n) (hinj : ∀ a < n, ∀ b < n, g a = g b → a = b)
+    (hlab : ∀ y < n, LB y < k ∧ PS y < sz (LB y) ∧ pt (LB y) (PS y) = y)
+    (hoth : ∀ j < k, j ≠ Jk → (∀ t < sz j, PS (pt j t) = t ∧ pt j t < n ∧ LB (pt j t) = j) ∧
+      ∀ t < sz j, PS (g (pt j t)) < sz j ∧ pt j (PS (g (pt j t))) = g (pt j t))
+    {x : Nat} (hx : x < n) (hxJ : LB x = Jk) :
+    PS (g x) < sz Jk ∧ pt Jk (PS (g x)) = g x := by
+  obtain ⟨h1, h2, h3⟩ := hlab (g x) (hg x hx)
+  by_cases hj : LB (g x) = Jk
+  · rw [← hj]
+    exact ⟨h2, h3⟩
+  · exfalso
+    obtain ⟨hf, hc⟩ := hoth _ h1 hj
+    obtain ⟨u, hu, e⟩ := onto_of_inj (m := sz (LB (g x))) (φ := fun t => PS (g (pt (LB (g x)) t)))
+      (fun t ht => (hc t ht).1) (fun a ha b hb e => by
+        have e1 : g (pt (LB (g x)) a) = g (pt (LB (g x)) b) := by
+          rw [← (hc a ha).2, ← (hc b hb).2]
+          exact congrArg (pt (LB (g x))) e
+        have e2 := hinj _ (hf a ha).2.1 _ (hf b hb).2.1 e1
+        rw [← (hf a ha).1, ← (hf b hb).1, e2]) _ h2
+    have e0 : PS (g (pt (LB (g x)) u)) = PS (g x) := e
+    have e' : g (pt (LB (g x)) u) = g x := by
+      rw [← (hc u hu).2, e0, h3]
+    have hxu := hinj _ (hf u hu).2.1 _ hx e'
+    have hL := (hf u hu).2.2
+    rw [hxu] at hL
+    exact hj (hL.symm.trans hxJ)
+
+theorem reach_of_par {m r : Nat} {good : Nat → Prop} {f : Nat → Nat → Nat} {pt : Nat → Nat}
+    (hroot : pt 0 = r) (hpar : ∀ t < m, 0 < t → ∃ u < t, ∃ l, good l ∧ f l (pt u) = pt t) :
+    ∀ t < m, Reach good f r (pt t) := by
+  intro t ht
+  induction t using Nat.strong_induction_on with
+  | _ t ih =>
+    rcases Nat.eq_zero_or_pos t with h0 | h0
+    · subst h0
+      rw [hroot]
+      exact Reach.root
+    · obtain ⟨u, hu, l, hl, e⟩ := hpar t ht h0
+      rw [← e]
+      exact Reach.step (ih u hu (by omega)) hl
+
+theorem clos_of_tree {m r : Nat} {good : Nat → Prop} {f : Nat → Nat → Nat} {pt ix pt1 ix1 : Nat → Nat}
+    (H1 : TreeFacts m r good f pt1 ix1) (hroot : pt 0 = r) (hix : ∀ t < m, ix (pt t) = t)
+    (hpar : ∀ t < m, 0 < t → ∃ u < t, ∃ l, good l ∧ f l (pt u) = pt t) :
+    ∀ t < m, ∀ l, good l → ix (f l (pt t)) < m ∧ pt (ix (f l (pt t))) = f l (pt t) := by
+  have hsub : ∀ t < m, ∃ u < m, pt1 u = pt t := fun t ht =>
+    (H1.reach_iff _).1 (reach_of_par hroot hpar t ht)
+  have hm1 : ∀ t < m, pt1 (ix1 (pt t)) = pt t := fun t ht => by
+    obtain ⟨u, hu, e⟩ := hsub t ht
+    rw [← e, H1.ix_pt u hu]
+  have hlt : ∀ t < m, ix1 (pt t) < m := fun t ht => by
+    obtain ⟨u, hu, e⟩ := hsub t ht
+    rw [← e, H1.ix_pt u hu]
+    exact hu
+  have honto := onto_of_inj (φ := fun t => ix1 (pt t)) hlt (fun a ha b hb e => by
+    have hab : pt a = pt b := by
+      rw [← hm1 a ha, ← hm1 b hb]
+      exact congrArg pt1 e
+    rw [← hix a ha, ← hix b hb, hab])
+  intro t ht l hl
+  obtain ⟨u, hu, e⟩ := hsub t ht
+  have hc := H1.clos u hu l hl
+  rw [e] at hc
+  obtain ⟨s, hs, es⟩ := honto _ hc.1
+  have es' : ix1 (pt s) = ix1 (f l (pt t)) := es
+  have hy : pt s = f l (pt t) := by
+    rw [← hm1 s hs, es', hc.2]
+  rw [← hy, hix s hs]
+  exact ⟨hs, rfl⟩
 
 theorem bfs_of_kernel {n kL m i r : Nat} {L : Array Table} {LT : Nat → Nat → Nat} {base : Array Nat}
     {pt ix : Nat → Nat} (hn : n < 2 ^ 32) (hkL : kL < 2 ^ 32) (hLs : L.size = kL)
@@ -821,6 +941,40 @@ theorem chainTrees_get {n : Nat} {L : Array Table} {base : Array Nat} {i : Nat} 
     (chainTrees n L base)[i]! = treeBFS n base[i]! L (levelLetters L base i) := by
   unfold chainTrees
   rw [getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn]
+
+theorem chainTree_facts (D : VecData) {d kL : Nat} {L : Array Table} {LM : List Nat} {P : Nat → Nat}
+    {LT Ot IX Op Ol : Nat → Nat → Nat}
+    (hL : L.size = kL ∧ ∀ l < kL, L[l]!.size = D.n ∧ ∀ x < D.n, ap L[l]! x = lk (LT l) 32 x)
+    (hLT : ∀ j < kL, ∀ h < D.n, letAt d D.n (getL (nat_lit 0) LM j) P (LT j) h = true)
+    (hkE : kL % 2 = 0) (hinv : ∀ j < L.size / 2, invOK D.n L[2 * j]! L[2 * j + 1]! = true)
+    (hchain : andB (Nat.beq D.base.size D.orbSizes.length) (andB (Nat.beq D.qb.size D.base.size)
+      (andB (allL (fun s => Nat.blt (nat_lit 0) s) D.orbSizes)
+      (andB (allN D.basis.size fun t => Nat.blt (getL (nat_lit 0) D.basis.toList t) D.n)
+      (allN D.base.size fun i => strictB (getL (nat_lit 0) D.qb.toList i) fun x =>
+        andB (Nat.blt x D.basis.size)
+          (Nat.beq (getL (nat_lit 0) D.basis.toList x) (getL (nat_lit 0) D.base.toList i)))))) = true)
+    (htree : ∀ i < D.base.size, ∀ t < getL (nat_lit 0) D.orbSizes i,
+      CFSG.KC.VecK.treeAt D.n kL (getL (nat_lit 0) D.orbSizes i) i (getL (nat_lit 0) D.base.toList i) LT
+        (getL (nat_lit 0) D.base.toList) (Ot i) (IX i) (Op i) (Ol i) t = true) :
+    ∀ i < D.base.size, TreeFacts (getL 0 D.orbSizes i) (getL 0 D.base.toList i)
+      (fun l => l < kL ∧ fixB LT (getL 0 D.base.toList) i l = true) (fun l x => lk (LT l) 32 x)
+      (lk (Ot i) 32) (lk (IX i) 32) := by
+  simp only [andB_eq, Bool.and_eq_true] at hchain
+  obtain ⟨hlen, -, hpos, -, -⟩ := hchain
+  have hlen := Nat.eq_of_beq_eq_true hlen
+  rw [allL_iff] at hpos
+  have hLn : ∀ l < kL, ∀ x < D.n, lk (LT l) 32 x < D.n := fun l hl x hx => letAt_lt (hLT l hl x hx)
+  have hmpos : ∀ i < D.base.size, 0 < getL 0 D.orbSizes i := fun i hi => by
+    have hi' : i < D.orbSizes.length := by omega
+    rw [getL_list hi']
+    have := hpos _ (List.getElem_mem hi')
+    simpa using this
+  have hb : ∀ k < D.base.size, D.base[k]! < D.n := fun k hk => by
+    have := tree_root (hmpos k hk) (htree k hk)
+    rw [getL_array _ hk] at this
+    exact this
+  exact fun i hi => (kernel_tree hkE hLn (pair_of_inv hL hLn hinv)
+    (fun k hk => by rw [getL_array _ (by omega)]; exact hb k (by omega)) (hmpos i hi) (htree i hi)).1
 
 theorem chainTrees_spec (D : VecData) {d kL : Nat} {L : Array Table} {LM : List Nat} {P : Nat → Nat}
     {LT Ot IX Op Ol : Nat → Nat → Nat}
@@ -880,7 +1034,8 @@ private theorem map_get {S : Array Nat} {f : Nat → Tree} {j : Nat} (hj : j < S
   rw [getElem!_pos _ j (by simpa using hj), Array.getElem_map, getElem!_pos S j hj]
 
 theorem subChecks_ok (D : VecData) {d kL : Nat} {L : Array Table} {LM : List Nat} {P : Nat → Nat}
-    {LT : Nat → Nat → Nat} {STs SPs SLs : List (Nat → Nat)} {LB PS : Nat → Nat}
+    {LT : Nat → Nat → Nat} {STs SPs SLs : List (Nat → Nat)} {LB PS : Nat → Nat} {Jk Jt : Nat}
+    {pt1 ix1 : Nat → Nat}
     (hn : andB (Nat.blt (nat_lit 0) D.n) (Nat.blt D.n (pw2 (nat_lit 30))) = true)
     (hkL32 : Nat.blt kL (pw2 (nat_lit 32)) = true)
     (hL : L.size = kL ∧ ∀ l < kL, L[l]!.size = D.n ∧ ∀ x < D.n, ap L[l]! x = lk (LT l) 32 x)
@@ -890,8 +1045,13 @@ theorem subChecks_ok (D : VecData) {d kL : Nat} {L : Array Table} {LM : List Nat
       (andB (Nat.blt (nat_lit 0) D.subReps.size) (andB (Nat.beq (getL (nat_lit 0) D.subReps.toList 0) 0)
       (andB (Nat.beq D.subSizes.length D.subReps.size)
         (allL (fun s => Nat.blt (nat_lit 0) s) D.subSizes))))) = true)
+    (hJt : orB (Nat.ble D.subReps.size Jt) (andB (Nat.blt (nat_lit 1) D.base.size)
+      (andB (Nat.beq (getL (nat_lit 0) D.subReps.toList Jt) (getL (nat_lit 0) D.base.toList (nat_lit 1)))
+        (Nat.beq (getL (nat_lit 0) D.subSizes Jt) (getL (nat_lit 0) D.orbSizes (nat_lit 1))))) = true)
+    (hT1 : 1 < D.base.size → TreeFacts (getL 0 D.orbSizes 1) (getL 0 D.base.toList 1)
+      (fun l => l < kL ∧ fixB LT (getL 0 D.base.toList) 1 l = true) (fun l x => lk (LT l) 32 x) pt1 ix1)
     (hsub : ∀ j < D.subReps.size, ∀ t < getL (nat_lit 0) D.subSizes j,
-      subAt D.n kL (getL (nat_lit 0) D.subSizes j) j (getL (nat_lit 0) D.subReps.toList j) LT
+      subAt D.n kL (getL (nat_lit 0) D.subSizes j) j Jk Jt (getL (nat_lit 0) D.subReps.toList j) LT
         (getL (nat_lit 0) D.base.toList) (getF STs j) LB PS (getF SPs j) (getF SLs j) t = true)
     (hlab : ∀ p < D.n, labAt D.subReps.size D.subSizes STs LB PS p = true) :
     subChecks D L (levelLetters L D.base 1)
@@ -916,8 +1076,59 @@ theorem subChecks_ok (D : VecData) {d kL : Nat} {L : Array Table} {LM : List Nat
     subst this
     rw [← getL_array _ hb0, hB0]
     exact hn.1
-  have hK : ∀ j (hj : j < D.subReps.size), _ := fun j hj => kernel_sub hkE hLn (pair_of_inv hL hLn hinv)
-    (fun k hk => by rw [getL_array _ (by omega)]; exact hb k hk) (hmpos j hj) (hsub j hj)
+  have hpair := pair_of_inv hL hLn hinv
+  have hB1 : ∀ k < 1, getL 0 D.base.toList k < D.n := fun k hk => by
+    rw [getL_array _ (by omega)]
+    exact hb k hk
+  have hKo : ∀ j (hj : j < D.subReps.size) (hjJ : j ≠ Jk) (hjT : j ≠ Jt), _ := fun j hj hjJ hjT =>
+    kernel_sub hkE hLn hpair hB1 hjJ hjT (hmpos j hj) (hsub j hj)
+  have hKt : ∀ j (hj : j < D.subReps.size) (hjT : j = Jt),
+      TreeFacts (getL 0 D.subSizes j) (getL 0 D.subReps.toList j)
+        (fun l => l < kL ∧ fixB LT (getL 0 D.base.toList) 1 l = true) (fun l x => lk (LT l) 32 x)
+        (lk (getF STs j) 32) (lk PS 32) ∧
+      ∀ t < getL 0 D.subSizes j, lk (getF STs j) 32 t < D.n ∧ lk LB 32 (lk (getF STs j) 32 t) = j :=
+    fun j hj hjT => by
+      subst hjT
+      simp only [orB_eq, andB_eq, Bool.or_eq_true, Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq,
+        Nat.beq_eq] at hJt
+      rcases hJt with h0 | ⟨h1, hr, hs⟩
+      · omega
+      have H1 := hT1 h1
+      rw [← hr, ← hs] at H1
+      have rp := sub_rootpar (hmpos _ hj) (hsub _ hj)
+      exact sub_facts (hmpos _ hj) (hsub _ hj) fun l hl hf t ht =>
+        clos_of_tree (pt := lk (getF STs j) 32) (ix := lk PS 32) H1 rp.1 (fun t ht => (sub_dec (hsub _ hj) t ht).2.2.1) rp.2 t ht l ⟨hl, hf⟩
+  have hK1 : ∀ j (hj : j < D.subReps.size) (hjJ : j ≠ Jk),
+      TreeFacts (getL 0 D.subSizes j) (getL 0 D.subReps.toList j)
+        (fun l => l < kL ∧ fixB LT (getL 0 D.base.toList) 1 l = true) (fun l x => lk (LT l) 32 x)
+        (lk (getF STs j) 32) (lk PS 32) ∧
+      ∀ t < getL 0 D.subSizes j, lk (getF STs j) 32 t < D.n ∧ lk LB 32 (lk (getF STs j) 32 t) = j :=
+    fun j hj hjJ => if hjT : j = Jt then hKt j hj hjT else hKo j hj hjJ hjT
+  have hlab' : ∀ p < D.n, lk LB 32 p < D.subReps.size ∧ lk PS 32 p < getL 0 D.subSizes (lk LB 32 p) ∧
+      lk (getF STs (lk LB 32 p)) 32 (lk PS 32 p) = p := fun p hp => by
+    have hl := hlab p hp
+    unfold labAt at hl
+    simp only [strictB_eq, andB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hl
+    exact hl
+  have hK : ∀ j (hj : j < D.subReps.size),
+      TreeFacts (getL 0 D.subSizes j) (getL 0 D.subReps.toList j)
+        (fun l => l < kL ∧ fixB LT (getL 0 D.base.toList) 1 l = true) (fun l x => lk (LT l) 32 x)
+        (lk (getF STs j) 32) (lk PS 32) ∧
+      ∀ t < getL 0 D.subSizes j, lk (getF STs j) 32 t < D.n ∧ lk LB 32 (lk (getF STs j) 32 t) = j :=
+    fun j hj => by
+      by_cases hjT : j = Jt
+      · exact hKt j hj hjT
+      by_cases hjJ : j = Jk
+      · subst hjJ
+        have dec := sub_dec (hsub j hj)
+        refine sub_facts (hmpos j hj) (hsub j hj) fun l hl hf t ht => ?_
+        exact clos_compl (k := D.subReps.size) (g := fun x => lk (LT l) 32 x) (LB := lk LB 32)
+          (PS := lk PS 32) (sz := getL 0 D.subSizes) (pt := fun j t => lk (getF STs j) 32 t)
+          (hLn l hl) (letter_inj hkE hLn hpair hl) hlab'
+          (fun j' hj' hne => ⟨fun t ht => ⟨(hK1 j' hj' hne).1.ix_pt t ht, ((hK1 j' hj' hne).2 t ht).1,
+            ((hK1 j' hj' hne).2 t ht).2⟩, fun t ht => (hK1 j' hj' hne).1.clos t ht l ⟨hl, hf⟩⟩)
+          (dec t ht).1 (dec t ht).2.1
+      · exact hKo j hj hjJ hjT
   have hBFS : ∀ j (hj : j < D.subReps.size), _ := fun j hj =>
     bfs_of_kernel hn32 hkL32 hL.1 (fun l hl => (hL.2 l hl).2) hLn (by omega) hb (hK j hj).1
       (fun t ht => ((hK j hj).2 t ht).1)

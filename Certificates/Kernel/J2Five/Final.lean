@@ -63,13 +63,28 @@ theorem prep_u : PRep (getN gen 2) j2u := by
   exact prep_of_arr r1
 
 
+theorem σ0_zero : σ0 0 = j2Gen 0 := by
+  unfold σ0
+  exact List.getD_cons_zero
+
+theorem σ0_one : σ0 1 = j2Gen 1 := by
+  unfold σ0
+  exact List.getD_cons_succ.trans List.getD_cons_zero
+
+theorem σ0_two : σ0 2 = j2u := by
+  unfold σ0
+  exact List.getD_cons_succ.trans (List.getD_cons_succ.trans List.getD_cons_zero)
+
 theorem hG0 : ∀ i < G0.length, PRep (getN G0 i) (σ0 i) := by
   intro i hi
   have hi3 : i < 3 := by simpa [G0] using hi
   interval_cases i
-  · exact prep_gen (j := 0) (by norm_num)
-  · exact prep_gen (j := 1) (by norm_num)
-  · exact prep_u
+  · rw [σ0_zero]
+    exact prep_gen (j := 0) (by norm_num)
+  · rw [σ0_one]
+    exact prep_gen (j := 1) (by norm_num)
+  · rw [σ0_two]
+    exact prep_u
 
 theorem gens_facts : σ0 0 * σ0 0 = 1 ∧ σ0 1 * (σ0 1 * σ0 1) = 1 ∧ σ0 2 * σ0 2 = 1 ∧
     PRep (getN gen 3) (σ0 1 * σ0 1) := by
@@ -101,8 +116,10 @@ theorem hGi0 : ∀ i < G0.length, PRep (getN Gi0 i) (σ0 i)⁻¹ := by
 
 theorem σ0_memP {i : ℕ} (hi : i < 2) : σ0 i ∈ j2P := by
   interval_cases i
-  · exact subset_closure (by simp [σ0])
-  · exact subset_closure (by simp [σ0])
+  · rw [σ0_zero]
+    exact subset_closure (Set.mem_insert _ _)
+  · rw [σ0_one]
+    exact subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
 theorem j2u_memR : j2u ∈ j2R := (le_sup_right : zpowers j2u ≤ j2R) (mem_zpowers j2u)
 
@@ -111,6 +128,7 @@ theorem σ0_memR {i : ℕ} (hi : i < 3) : σ0 i ∈ j2R := by
   · exact (le_sup_left : j2P ≤ j2R) (σ0_memP h)
   · have : i = 2 := by omega
     subst this
+    rw [σ0_two]
     exact j2u_memR
 
 theorem hpts {pts : List ℕ} (h : pts.all (fun p => decide (p < 315)) = true) :

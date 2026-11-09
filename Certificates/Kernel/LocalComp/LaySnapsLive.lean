@@ -3,10 +3,9 @@ module
 public meta import Lean
 public meta import Certificates.Kernel.LocalQT.Cmd
 public meta import Certificates.Kernel.LocalComp.LaySnaps
-public import CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Data.Kernel.NC2L
 meta import all CFSG.Certificates.Kernel.Common.Harness
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
 public import Certificates.Kernel.LocalComp.LaySnaps
 
 open Lean Elab Command Meta CFSG.KC.LQT.Cmd CFSG.SectionRank.Native
@@ -66,13 +65,13 @@ meta def listE (α : Expr) (es : List Expr) : Expr :=
 
 end CFSG.KC.LaySnapsLive
 
-open CFSG.KC.Gz CFSG.KC.LaySnaps CFSG.KC.LaySnapsLive in
+open CFSG.KC.LaySnaps CFSG.KC.LaySnapsLive in
 elab "#lay_snaps_live " pre:ident p:num d:num a:ident b:ident path:str size:num hash:num :
     command => do
   let pre := pre.getId
   let A ← liftCoreM <| natOf (← liftCoreM <| realizeGlobalConstNoOverload a)
   let B ← liftCoreM <| natOf (← liftCoreM <| realizeGlobalConstNoOverload b)
-  let bytes ← readPinnedGz path.getString size.getNat hash.getNat
+  let bytes ← CFSG.KC.Load.readPinned path.getString size.getNat hash.getNat
   let some s := String.fromUTF8? bytes | throwError "#lay_snaps_live: {path.getString} is not UTF-8"
   let chunks ← match do (← (← (← Json.parse s).getObjVal? "chunks").getArr?).mapM chunkJ with
     | .ok cs => pure cs

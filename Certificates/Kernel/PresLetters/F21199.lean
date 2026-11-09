@@ -10,7 +10,7 @@ open CFSG.CGT.A8S
 
 public section
 
-#kb_family "data/F21199.json.gz" 6191 14051187532328018050 (r0 := a8Rels)
+#kb_family "data/F21199.json" 6191 14051187532328018050 (r0 := a8Rels)
   (collRelsA8 := collRelsA8)
 
 end

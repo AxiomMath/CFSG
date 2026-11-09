@@ -2,12 +2,13 @@ module
 
 public meta import CFSG.Certificates.Kernel.Common.Eval
 public meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-public meta import CFSG.Certificates.Kernel.Common.HarnessGz
+public meta import CFSG.Certificates.Kernel.Common.Harness
 public meta import CFSG.Certificates.Kernel.Common.Repo
 meta import all CFSG.Certificates.Kernel.Common.Eval
 meta import all CFSG.Certificates.Kernel.Common.Harness
+meta import all CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.BabyMonster.Twin
-public import CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.Common.Repo
 
 namespace CFSG.KC.BM.Twin

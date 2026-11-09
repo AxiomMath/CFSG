@@ -5,6 +5,7 @@ public import Certificates.Kernel.HMathieu.C490011
 import CFSG.Certificates.Kernel.HMathieu.MatSearch
 import CFSG.Certificates.Kernel.HMathieu.PredSound
 import CFSG.Certificates.Kernel.HMathieu.NormalSound
+import CFSG.Certificates.Kernel.HMathieu.PredQKSound
 
 public section
 
@@ -18,7 +19,7 @@ theorem certificate490011 :
     forallGreedyAll pos24s2 inv24s2 predOff24 7 [] = true := by
   refine forallGreedyAll_fix T24.gtabs (by rw [T24.len]; exact T24.lenOK.2) pos24s2_eq T24.Mc 11
     predOff24 (fun L _ st => predOff24K T24.P L st) (fun l hl hind => ?_) 7
-    (by rw [T24.len]; exact C490011.search)
+    (by rw [T24.len]; exact (gAllR_fixK _ _ _ _ _ _ _ _ _ _).trans C490011.search)
   have hci := isCommInvol_of_indepList hind
   have hfix : l.all fixesOff24 = (l.map inv24s2.idxOf).all fun a =>
       offPts24.all fun i => CFSG.KC.Enum.pg 5 (CFSG.KS.mask 5) (T24.P.getD a 0) i == i := by

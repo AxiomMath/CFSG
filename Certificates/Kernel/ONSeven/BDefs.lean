@@ -10,6 +10,7 @@ namespace CertificateChecks.KernelSpor.ONS
 
 open CFSG.KC.Enum CFSG.KS.CB CFSG.RankThree.Native
 open CertificateChecks.KernelSpor.ON (TT UU stepF invF PARf LABf)
+open CFSG.KS.ON (tab)
 
 @[expose] def invL (w : List Int) : List Int := w.reverse.map fun l => -l
 
@@ -27,11 +28,54 @@ open CertificateChecks.KernelSpor.ON (TT UU stepF invF PARf LABf)
 
 @[expose] def badB (r q : Nat) : Bool := (bd r).any fun b => Nat.beq b.1 q
 
+@[expose] noncomputable def stepO1 (j x : Nat) : Nat :=
+  nIf(Nat.blt j (nat_lit 5),
+    nIf(Nat.blt j (nat_lit 2), nIf(Nat.beq j (nat_lit 0), tab ONV.T2 x, tab ONV.T3 x),
+      nIf(Nat.beq j (nat_lit 2), tab ONV.T4 x, nIf(Nat.beq j (nat_lit 3), tab ONV.T5 x, tab ONV.T6 x))),
+    nIf(Nat.blt j (nat_lit 10),
+      nIf(Nat.blt j (nat_lit 7), nIf(Nat.beq j (nat_lit 5), tab ONV.U2 x, tab ONV.U3 x),
+        nIf(Nat.beq j (nat_lit 7), tab ONV.U4 x, nIf(Nat.beq j (nat_lit 8), tab ONV.U5 x, tab ONV.U6 x))),
+      stepF 1 j x))
+
+@[expose] noncomputable def invO1 (j x : Nat) : Nat :=
+  nIf(Nat.blt j (nat_lit 5),
+    nIf(Nat.blt j (nat_lit 2), nIf(Nat.beq j (nat_lit 0), tab ONV.U2 x, tab ONV.U3 x),
+      nIf(Nat.beq j (nat_lit 2), tab ONV.U4 x, nIf(Nat.beq j (nat_lit 3), tab ONV.U5 x, tab ONV.U6 x))),
+    nIf(Nat.blt j (nat_lit 10),
+      nIf(Nat.blt j (nat_lit 7), nIf(Nat.beq j (nat_lit 5), tab ONV.T2 x, tab ONV.T3 x),
+        nIf(Nat.beq j (nat_lit 7), tab ONV.T4 x, nIf(Nat.beq j (nat_lit 8), tab ONV.T5 x, tab ONV.T6 x))),
+      invF 1 j x))
+
+@[expose] noncomputable def stepO2 (j x : Nat) : Nat :=
+  nIf(Nat.blt j (nat_lit 2), nIf(Nat.beq j (nat_lit 0), tab ONV.T5 x, tab ONV.T6 x),
+    nIf(Nat.blt j (nat_lit 4), nIf(Nat.beq j (nat_lit 2), tab ONV.U5 x, tab ONV.U6 x), stepF 2 j x))
+
+theorem stepO1_eq : stepO1 = stepF 1 := by
+  funext j x
+  rcases j with _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | j <;> rfl
+
+theorem invO1_eq : invO1 = invF 1 := by
+  funext j x
+  rcases j with _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | j <;> rfl
+
+theorem stepO2_eq : stepO2 = stepF 2 := by
+  funext j x
+  rcases j with _ | _ | _ | _ | j <;> rfl
+
+@[expose] noncomputable def ccZo (Z A : Nat → Nat) (k : Nat) : Nat :=
+  ccF Z A stepO1 invO1 (PARf 1) (LABf 1) (nat_lit 52136) stepO2 (PARf 2) (LABf 2)
+    (nat_lit 36) (nat_lit 227759) (nat_lit 100817) k
+
+theorem ccZo_eq : ccZo = ccZ := by
+  funext Z A k
+  unfold ccZo ccZ
+  rw [stepO1_eq, invO1_eq, stepO2_eq]
+
 @[expose] noncomputable def ccS (Z A V : Nat → Nat) (s : Nat) : Bool :=
-  Nat.beq (sumR2 (ccZ Z A) (Nat.mul (nat_lit 2048) s) (nat_lit 32)) (V s)
+  Nat.beq (sumR2 (ccZo Z A) (Nat.mul (nat_lit 2048) s) (nat_lit 32)) (V s)
 
 @[expose] noncomputable def cfT (U Ui X A : Nat → Nat) (k₁ : Nat) : Bool :=
-  cfK U Ui X A (stepF 1) (invF 1) (PARf 1) (LABf 1) (nat_lit 52136) (stepF 2) (PARf 2) (LABf 2)
+  cfK U Ui X A stepO1 invO1 (PARf 1) (LABf 1) (nat_lit 52136) stepO2 (PARf 2) (LABf 2)
     (nat_lit 36) (nat_lit 227759) (nat_lit 100817) k₁
 
 @[expose] noncomputable def cfS (U Ui X A : Nat → Nat) (s : Nat) : Bool :=

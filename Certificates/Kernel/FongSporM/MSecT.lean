@@ -6,6 +6,7 @@ public import Certificates.Kernel.TcGen.Suz
 public import Certificates.Data.Kernel.OpsMcertT
 public import Certificates.Data.Kernel.OpsLayT
 public import CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.FongSporLocalMSecData
+public import Certificates.Kernel.FongSporM.MSecK
 import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 400000
@@ -21,9 +22,14 @@ theorem ch40262T_mcl : mcertLT McL.lay McL.A McL.B
     ⟨mcl_7_claims.nregs, mcl_7_claims.prog, mcl_7_claims.facts⟩ = true := by
   quickRfl
 
+theorem ch40262T_co3K : mcertT (opsF2K 22) C3A.M C3B.M
+    ⟨co3_11_claims.nregs, co3_11_claims.prog, MSecK.factsK co3_11_claims⟩ = true := by
+  quickRfl
+
 theorem ch40262T_co3 : mcertT (opsF2K 22) C3A.M C3B.M
     ⟨co3_11_claims.nregs, co3_11_claims.prog, co3_11_claims.facts⟩ = true := by
-  quickRfl
+  rw [MSecK.facts_eqK]
+  exact ch40262T_co3K
 
 theorem ch40262T_suz : mcertLT Suz.lay Suz.A Suz.B
     ⟨suz_7_claims.nregs, suz_7_claims.prog, suz_7_claims.facts⟩ = true := by

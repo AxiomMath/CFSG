@@ -1,11 +1,7 @@
 
 module
 
-public import Certificates.Kernel.SporSch.Co2M.ThES0
-public import Certificates.Kernel.SporSch.Co2M.ThES1
-public import Certificates.Kernel.SporSch.Co2M.ThES2
-public import Certificates.Kernel.SporSch.Co2M.ThES3
-public import Certificates.Kernel.SporSch.Co2M.ThES4
+public import Certificates.Kernel.SporSch.Co2M.ThED
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section

@@ -9,8 +9,8 @@ public section
 
 namespace CFSG.KD.Co1M
 
-#kc_repo #kc_json_gz CFSG.KD.Co1M
-  "Certificates/Kernel/Co1M/data/D10064.json.gz" 162743 11785422224961214869
+#kc_repo #kc_json CFSG.KD.Co1M
+  "Certificates/Kernel/Co1M/data/D10064.json" 162743 11785422224961214869
   (R64 : List Nat) (RT64 : List Nat) (P64 : List (List (Nat × Nat))) (RS64 : List Nat)
   (RST64 : List Nat) (PS64 : List (List (Nat × Nat))) (Q64 : Nat) (QI64 : Nat) (BASE64 : List Nat)
   (LV64 : List (List Nat)) (SZ64 : List Nat) (E64 : List Nat) (CN64 : List Nat)

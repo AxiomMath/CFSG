@@ -183,6 +183,17 @@ theorem witness {j e : Nat} (hj : j < 8) (he : e < 2) :
   have hr := (rK_spec hj).1
   exact ⟨ω, hωP, pr_eq (pr_pc hω hr) (pr_pc hr hω) (Nat.eq_of_beq_eq_true h2)⟩
 
+theorem foldl_vIxL (f : ℕ → ℕ) : vIxL.foldl (fun c k => c + f k) 0 = f 0 + f 2 + f 5 + f 7 := by
+  rw [vIxL, List.foldl_cons, List.foldl_cons, List.foldl_cons, List.foldl_cons, List.foldl_nil,
+    Nat.zero_add]
+
+theorem centKs_eq_sum (r : Array ℕ) :
+    centKs r = countW (commW (tArr 0) [r]) blocks [] +
+      countW (commW (tArr 2) [r]) blocks [] +
+      countW (commW (tArr 5) [r]) blocks [] +
+      countW (commW (tArr 7) [r]) blocks [] := by
+  rw [centKs, foldl_vIxL]
+
 theorem centKs_eq {j : Nat} (hj : j < 8) :
     centKs ks8Reps[j]! = 4 * Nat.card ↥(P ⊓ centralizer ({rK j} : Set (Equiv.Perm (Fin 820)))) := by
   obtain ⟨w2, hw2, hc2⟩ := witness hj (e := 0) (by norm_num)
@@ -198,8 +209,7 @@ theorem centKs_eq {j : Nat} (hj : j < 8) :
     rw [tP_zero, inv_one, one_mul]
     exact one_mem _
   have hr := rep_ks hj
-  simp only [centKs, vIxL, List.foldl_cons, List.foldl_nil, zero_add]
-  rw [count_coset hr, count_coset hr, count_coset hr, count_coset hr,
+  rw [centKs_eq_sum, count_coset hr, count_coset hr, count_coset hr, count_coset hr,
     card_coset_cent hw0 (Commute.one_left _), card_coset_cent hw2 hc2,
     card_coset_cent hw5 hc5, card_coset_cent hw7 (hc2.mul_left hc5)]
   ring

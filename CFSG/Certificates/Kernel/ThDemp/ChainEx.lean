@@ -188,10 +188,10 @@ theorem exists_chain {D : DempData} (hF : DempFacts D) {J : Subgroup (GL (Fin 24
     intro l hl g hg1 hg2
     change Matrix.vecMul _ (𝕄 (s g)) = _
     rw [hsM g hg2, ← pkVec_vecB hk, hF.fix l hl g hg1 hg2]
-  have hres : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l,
-      t l i * s g * (t l z)⁻¹ ∈ lev D.frL D.npr s (l + 1) := by
-    intro l hl i hi g hg1 hg2
-    obtain ⟨z, hz, e, hy, heq⟩ := hF.res l hl i hi g hg1 hg2
+  have hres1 : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → (0 < l ∨ g < 2) →
+      ∃ z < D.oszL l, t l i * s g * (t l z)⁻¹ ∈ lev D.frL D.npr s (l + 1) := by
+    intro l hl i hi g hg1 hg2 hlg
+    obtain ⟨z, hz, e, hy, heq⟩ := hF.res l hl i hi g hg1 hg2 hlg
     obtain ⟨u, hu, eu⟩ := hsift l hl e hy (D.T l z)
     refine ⟨z, hz, ?_⟩
     have e1 : t l i * s g = u * t l z := by
@@ -201,6 +201,38 @@ theorem exists_chain {D : DempData} (hF : DempFacts D) {J : Subgroup (GL (Fin 24
         htM l z hl hz]
     rw [e1, mul_inv_cancel_right]
     exact hu
+  have hnpr2 := hF.npr2
+  have e0 : s 0 = d₀ := mat_injective (by
+    change 𝕄 (s 0) = 𝕄 d₀
+    rw [hsM 0 (by omega), hd₀, DempData.S, hF.pr0])
+  have e1 : s 1 = d₁ := mat_injective (by
+    change 𝕄 (s 1) = 𝕄 d₁
+    rw [hsM 1 (by omega), hd₁, DempData.S, hF.pr1])
+  have hres : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l,
+      t l i * s g * (t l z)⁻¹ ∈ lev D.frL D.npr s (l + 1) := by
+    intro l hl i hi g hg1 hg2
+    rcases Nat.eq_zero_or_pos l with rfl | hl0
+    · have hD : t 0 i * s g ∈ Dg := by
+        refine Subgroup.mul_mem _ ?_ (hsD g)
+        refine (Subgroup.closure_le _).2 ?_ (htree 0 hl i hi).1
+        rintro x ⟨g', -, -, rfl⟩
+        exact hsD g'
+      obtain ⟨h, hh, z, hz, e⟩ := decomp_closure (b := fun l => pkVec (D.bvL l))
+        (O := fun l i => pkVec (D.P l i)) (fr := D.frL) (n := D.npr) (s := s) (t := t)
+        (N := D.oszL) hact1 hact2 (hpos 0 hl) (ht0 0 hl) (fun i hi => (htree 0 hl i hi).2)
+        (fun i j hi hj e => hF.inj 0 hl i j hi hj
+          (pkVec_inj (hpt_lt 0 hl i hi) (hpt_lt 0 hl j hj) e)) (hfix 0 hl)
+        (X := ({d₀, d₁} : Set J)) (fun i hi x hx => by
+          rcases hx with rfl | rfl
+          · rw [← e0]
+            exact hres1 0 hl i hi 0 (by rw [hF.fr0]) (by omega) (Or.inr (by norm_num))
+          · rw [← e1]
+            exact hres1 0 hl i hi 1 (by rw [hF.fr0]; omega) (by omega) (Or.inr (by norm_num)))
+        hD
+      refine ⟨z, hz, ?_⟩
+      rw [e, mul_inv_cancel_right]
+      exact hh
+    · exact hres1 l hl i hi g hg1 hg2 (Or.inl hl0)
   have hH : ChainHyp act D.L D.npr D.frL D.oszL (fun l => pkVec (D.bvL l)) s
       (fun l i => pkVec (D.P l i)) t :=
     { act_one := hact1

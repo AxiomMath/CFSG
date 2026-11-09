@@ -30,13 +30,14 @@ namespace CertificateChecks.KernelLC.Witt
   [true, true, false, true, true, false, true, false, true, false, true, true, true, false,
     true, false, true, true, false, true, true, false]
 
+@[expose] def wH1 : List Bool :=
+  [true, false, true, true, false, true]
+
 @[expose] def wH2 : List Bool :=
-  [true, false, true, false, true, true, false, true, false, true, true, false, true, false,
-    true, false, true, false, true, false, true, false]
+  [true, false, true, false, true, true, true, false]
 
 @[expose] def wH3 : List Bool :=
-  [false, true, true, false, true, true, true, false, true, false, true, false, true, true,
-    false, true, false, true, false, true, false, true, true, false, true, false]
+  [true, false, true, true, false, true, false, true, true]
 
 @[expose] def wT0 : List Bool :=
   [false, true, false, true, true, false, true, false, true, true, false, true, false, true,

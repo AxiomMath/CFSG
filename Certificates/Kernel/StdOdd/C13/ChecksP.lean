@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.StdOdd.C13.Data
 public import Certificates.Kernel.StdOdd.CentRefPSound
 public import Certificates.Kernel.StdOdd.RootOrbit
+public import Certificates.Kernel.StdOdd.C13.ChecksX
+public import Certificates.Kernel.StdOdd.CentOrbGlue
 public meta import Certificates.Kernel.Co1B.GenTri2045
 import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Kernel.Co1B.GenTri2045
@@ -15,7 +17,7 @@ public section
 namespace CFSG.KD.StdOdd.Cent
 
 open CFSG.KC.StdOdd.Orbit CFSG.KC.StdOdd.Chain CFSG.KC.Misc.E6Std CFSG.KD.StdOdd.Orbit
-  CFSG.Monster.Existence.StdOdd.Cert CFSG.KC.LQT.P
+  CFSG.Monster.Existence.StdOdd.Cert CFSG.KC.LQT.P CFSG.KS.StdOdd.Chain Matrix
 
 namespace C13
 
@@ -27,13 +29,34 @@ theorem len : Nat.beq (lenN D13.V) (Nat.add 2 (lenLL D13.prog)) = true := by qui
 
 theorem base : D13.baseOK AM BM = true := by quickRfl
 
-@[expose] noncomputable def levF (j : ℕ) : Bool := D13.levOK (j + 1)
+@[expose] noncomputable def levF (j : ℕ) : Bool := D13.levQZ 8640 (j + 1)
 
 #kc_slices CFSG.KD.StdOdd.Cent.C13.LV CFSG.KD.StdOdd.Cent.C13.levF 12
 
-@[expose] noncomputable def chF (q : ℕ) : Bool := D13.chunkF RO.PL AM BM q
+theorem LVK : ∀ j < D13.p - 1, D13.LevFact (j + 1) := fun j hj =>
+  levFact_of_levOK D13 (levQZ_sound D13 (LV.all j hj))
 
-#kc_slices CFSG.KD.StdOdd.Cent.C13.CH CFSG.KD.StdOdd.Cent.C13.chF 16
+theorem nbAll : ∀ c < 156, Nat.beq (net RO.DS NX (nthN RO.PL c))
+    (orbPlane (D13.xB AM BM) UR 305235 13 c) = true := fun c hc => by
+  have hs : c / 12 < 13 := by omega
+  have h0 : orbNetOK RO.DS NX RO.PL (D13.xB AM BM) UR 305235 13 12 (c / 12) = true :=
+    NBX.all (c / 12) hs
+  have h := orbNetOK_sound h0 (c % 12) (Nat.mod_lt _ (by norm_num))
+  rwa [Nat.div_add_mod] at h
+
+theorem cntK1 : ((Finset.range 3968055).filter fun i => ∀ k ∈ D13.K1,
+    rhoC (ptK RO.PL i) (wM D13.xw ^ k.1 *ᵥ ptK RO.PL i) = k.2).card = D13.s := by
+  have e : (13 * 305235 + 0 : ℕ) = 3968055 := rfl
+  have hf : Nat.beq (net RO.DS NX (full (13 * 305235 + 0))) (full (13 * 305235 + 0)) = true := by
+    rw [e]
+    exact nxFull
+  have h := D13.card_prof_orb (PL := RO.PL) (Ds := RO.DS) (Ms := NX) (U := UR) (cs := cr)
+    (m := 305235) (p := 13) (f := 0) (Q := 2) (d := 18) (rep_wM rep_A rep_B D13.xw) (by decide)
+    (by norm_num) (lenN_leafPl _ _ _) nxOK hf nbAll (by norm_num) (fun q hq => CRX.all q hq)
+    orbFix
+  have e2 : 13 * ∑ q ∈ Finset.range 2, nthN cr q = D13.s := by decide +kernel
+  rw [e, e2] at h
+  exact h
 
 theorem Lc : D13.LOK AM BM = true := by quickRfl
 
@@ -41,9 +64,7 @@ theorem Hc : D13.HOK AM BM = true := by quickRfl
 
 theorem cand : D13.candF AM BM = true := by quickRfl
 
-@[expose] noncomputable def segC (k : ℕ) : Bool := D13.segF AM BM CK 3 k
-
-#kc_slices CFSG.KD.StdOdd.Cent.C13.SG CFSG.KD.StdOdd.Cent.C13.segC 3
+theorem start : D13.startP AM BM = true := by quickRfl
 
 @[expose] noncomputable def RB : ℕ :=
   (List.range 13).foldl (fun a j => a + nthN rs j * nthN nl j) 0
@@ -79,13 +100,13 @@ theorem RCF : ∀ q < 8 * ((D13.p - 1) * 3), flatC (D13.p - 1) 3 (fun ri => nthN
     (fun a b c h => @rchP_sound D13 AM BM RK 3 a (orbF a) (stepF a) b c h) q (RCP.all q hq)
 
 theorem facts13 : CentFacts D13.p 13 D13.xw D13.d0 D13.e D13.K1 D13.Kall :=
-  centFacts_of_start D13 rep_A rep_B bits (Nat.eq_of_beq_eq_true lenOK) v0 v1 P.lines len
-    (by decide) (by decide) (by decide) base (fun j hj => LV.all j hj) Lc (by decide +kernel)
-    (by decide) (by decide +kernel) (by decide) (by decide) (fun q hq => CH.all q hq)
-    (by decide +kernel) Hc cand
-    (start_of_segs D13 rep_A rep_B (by decide) fun k hk => SG.all k hk)
+  centFacts_of_count D13 rep_A rep_B bits v0 v1 P.lines len
+    (by decide) (by decide) (by decide) base LVK Lc (by decide +kernel)
+    (by decide) (by decide +kernel) (by decide) (by decide) cntK1 Hc
+    (candWalk_of_candF D13 cand).1 (candWalk_of_candF D13 cand).2
+    (start_of_startF D13 rep_A rep_B (startP_sound D13 start))
     (by decide +kernel)
-    (refs_of_flat D13 rep_A rep_B v0 v1 P.lines len base (fun j hj => LV.all j hj) (by decide)
+    (refs_of_flat D13 rep_A rep_B v0 v1 P.lines len base LVK (by decide)
       (by decide) (by decide) (RK := RK) (K := 3) (R := 8) (by decide) (O := orbF) (Sr := stepF)
       (fl := fun ri => nthN fail ri) (sidx := fun ri => nthN sidx ri) (fun ri hri => RBS.all ri hri)
       RCF (fun ri hri => RFS.all ri hri) cov)

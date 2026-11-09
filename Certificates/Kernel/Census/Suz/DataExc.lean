@@ -5,8 +5,8 @@ import CFSG.Certificates.Kernel.Common.JsonGzC
 import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.Suz
-  "Certificates/Kernel/Census/Suz/data/suzExc.json.gz" 1749657 2357406781495629297
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.Suz
+  "Certificates/Kernel/Census/Suz/data/suzExc.json" 1749657 2357406781495629297
   (suzWitsExc : Array WitP) (suzExcsExc : List ExcRefP)
 
 public section

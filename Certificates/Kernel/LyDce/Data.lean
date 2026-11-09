@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLyDce "Certificates/Kernel/LyDce/data/facts.json.gz" 770759 4055732628688960846
+#kc_repo #kc_json CertificateChecks.KernelLyDce "Certificates/Kernel/LyDce/data/facts.json" 770759 4055732628688960846
   (nt : List (Nat × Nat)) (rep : List (List Nat)) (vw : List (List Nat)) (aw : List (List Nat))
   (steps : List (List (Nat × Nat × List Nat × List Nat)))
   (dR : List (List Nat × List Nat)) (dLen : List (Nat × Nat))

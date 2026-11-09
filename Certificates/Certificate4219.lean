@@ -139,11 +139,13 @@ theorem mem_SFK {v : V2} : v2N v ∈ SFK ↔ v ∈ sevenFix := by
 
 theorem wfF : ∀ v ∈ sevenFix, v.wf = true := by decide
 
+theorem mem_fixedS_iff (M : Array V2) (O : VOrb) (v : V2) :
+    v ∈ fixedS M O ↔ v ∈ O.pts ∧ (frApply (frTable M) v).beq v = true := by
+  simp [fixedS]
+
 theorem fix5 : ∀ v, v ∈ fixedS sevenR orbS5 ↔ v ∈ sevenFix := by
   intro v
-  have hmem : v ∈ fixedS sevenR orbS5 ↔
-      v ∈ orbS5.pts ∧ (frApply (frTable sevenR) v).beq v = true := by
-    simp [fixedS]
+  have hmem := mem_fixedS_iff sevenR orbS5 v
   rw [hmem]
   constructor
   · rintro ⟨hp, hfx⟩

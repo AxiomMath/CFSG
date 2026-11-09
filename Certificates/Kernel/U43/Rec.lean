@@ -1,10 +1,7 @@
 module
 
-public meta import Lean
-meta import CFSG.RankThree.PartTwo.Sec4.T444.Item434U43PairCheck
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
-meta import Mathlib
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
@@ -42,32 +39,26 @@ import Mathlib.Topology.Sheaves.Init
 
 namespace CFSG.KD.U43.Gen
 
-open CFSG.RankThree.PartTwo.Sec4.Item434RemU43
+meta def aL : List Nat :=
+  (String.splitOn (include_str "Rec.0.txt") ",").map String.toNat!
 
-meta def pkM (c : List Nat) : Nat := c.foldr (fun e acc => e + 16 * acc) 0
+meta def gL : List Nat :=
+  (String.splitOn (include_str "Rec.1.txt") ",").map String.toNat!
 
-meta def xA : Array Nat := uElems.map pkM
-
-meta def aL : List Nat := (List.range 4).map fun s => pkM (letterCode s)
-meta def gL : List Nat := uGens.map pkM
-meta def xL : List Nat := xA.toList
-
-meta def sortM (xs : Array Nat) : List Nat × List Nat :=
-  let srt := (Array.range xs.size).qsort (fun a b => xs[a]! < xs[b]!)
-  let sri := (Array.range srt.size).foldl (fun acc i => acc.set! srt[i]! i)
-    (Array.replicate srt.size 0)
-  (srt.toList, sri.toList)
-
-meta def srtL : List Nat := (sortM xA).1
-meta def sriL : List Nat := (sortM xA).2
+meta def xL : List Nat :=
+  (String.splitOn (include_str "Rec.2.txt") ",").map String.toNat!
 
 meta def posL : List Nat :=
-  [(List.range 2187).foldl (fun acc i =>
-    acc ||| (posOf (mul4 (uAt (i / 3)) (uGens.getD (i % 3) one4)) <<< (10 * i))) 0]
+  (String.splitOn (include_str "Rec.3.txt") ",").map String.toNat!
+
+meta def srtL : List Nat :=
+  (String.splitOn (include_str "Rec.4.txt") ",").map String.toNat!
+
+meta def sriL : List Nat :=
+  (String.splitOn (include_str "Rec.5.txt") ",").map String.toNat!
 
 meta def kwL : List Nat :=
-  (List.range 12).flatMap fun k =>
-    (e9Elems (badA k) (badB k)).toList.map fun c => if c == one4 then 0 else posOf c
+  (String.splitOn (include_str "Rec.6.txt") ",").map String.toNat!
 
 end CFSG.KD.U43.Gen
 

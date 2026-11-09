@@ -3,40 +3,40 @@ module
 public import Certificates.Data.Kernel.CosetLat.Avoid
 public import Certificates.Data.Kernel.Misc.PermClos
 public import Certificates.Data.Kernel.Spor.Chain
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat EL
-  "Certificates/Kernel/U42Lat/data/el.bin.gz" 34 4 1224 12433712086100545280
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat TE
-  "Certificates/Kernel/U42Lat/data/te.bin.gz" 34 4 2176 17561405795144075433
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat TP
-  "Certificates/Kernel/U42Lat/data/tp.bin.gz" 4 4 256 7430492118311566423
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat TS
-  "Certificates/Kernel/U42Lat/data/ts.bin.gz" 4 4 256 13555701462154184577
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat TC
-  "Certificates/Kernel/U42Lat/data/tc.bin.gz" 4 4 768 13606741015103419677
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat UE
-  "Certificates/Kernel/U42Lat/data/ue.bin.gz" 34 4 13770 15773376770897291535
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat UR
-  "Certificates/Kernel/U42Lat/data/ur.bin.gz" 4 4 1620 14291298003787082242
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat CR
-  "Certificates/Kernel/U42Lat/data/cr.bin.gz" 8 4 7440 12690703646209561464
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat MJ
-  "Certificates/Kernel/U42Lat/data/mj.bin.gz" 4 4 120 13708985409745502522
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat SE
-  "Certificates/Kernel/U42Lat/data/se.bin.gz" 34 4 3706 13847872670433366156
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat SP
-  "Certificates/Kernel/U42Lat/data/sp.bin.gz" 4 4 436 7478323554391881667
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat SS
-  "Certificates/Kernel/U42Lat/data/ss.bin.gz" 4 4 436 641449908983416665
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat SC
-  "Certificates/Kernel/U42Lat/data/sc.bin.gz" 4 4 1120 5931959303075627855
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU42Lat SK
-  "Certificates/Kernel/U42Lat/data/sk.bin.gz" 34 4 340 8351228004739869943
-#kc_repo #kc_json_gz CertificateChecks.KernelU42Lat
-  "Certificates/Kernel/U42Lat/data/w409001.json.gz" 2403 14702181852370238359
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat EL
+  "Certificates/Kernel/U42Lat/data/el.bin" 34 4 1224 12433712086100545280
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat TE
+  "Certificates/Kernel/U42Lat/data/te.bin" 34 4 2176 17561405795144075433
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat TP
+  "Certificates/Kernel/U42Lat/data/tp.bin" 4 4 256 7430492118311566423
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat TS
+  "Certificates/Kernel/U42Lat/data/ts.bin" 4 4 256 13555701462154184577
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat TC
+  "Certificates/Kernel/U42Lat/data/tc.bin" 4 4 768 13606741015103419677
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat UE
+  "Certificates/Kernel/U42Lat/data/ue.bin" 34 4 13770 15773376770897291535
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat UR
+  "Certificates/Kernel/U42Lat/data/ur.bin" 4 4 1620 14291298003787082242
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat CR
+  "Certificates/Kernel/U42Lat/data/cr.bin" 8 4 7440 12690703646209561464
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat MJ
+  "Certificates/Kernel/U42Lat/data/mj.bin" 4 4 120 13708985409745502522
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat SE
+  "Certificates/Kernel/U42Lat/data/se.bin" 34 4 3706 13847872670433366156
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat SP
+  "Certificates/Kernel/U42Lat/data/sp.bin" 4 4 436 7478323554391881667
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat SS
+  "Certificates/Kernel/U42Lat/data/ss.bin" 4 4 436 641449908983416665
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat SC
+  "Certificates/Kernel/U42Lat/data/sc.bin" 4 4 1120 5931959303075627855
+#kc_repo #kc_ktree CertificateChecks.KernelU42Lat SK
+  "Certificates/Kernel/U42Lat/data/sk.bin" 34 4 340 8351228004739869943
+#kc_repo #kc_json CertificateChecks.KernelU42Lat
+  "Certificates/Kernel/U42Lat/data/w409001.json" 2403 14702181852370238359
   (subW : List (List Nat)) (repW : List (List (List Nat))) (joinW : List (List (List Nat)))
   (incW : List (List Nat))
 

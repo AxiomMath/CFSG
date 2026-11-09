@@ -3,12 +3,12 @@ module
 public import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.YModel.Texts.YM233F
 public import Certificates.Data.Kernel.YModel.Model
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.YMS233F "CFSG/Certificates/Kernel/YModel/S233F/data/nets.items.gz" 429373 12702149612951295131
+#kc_repo #kc_nat_items CFSG.KD.YMS233F "CFSG/Certificates/Kernel/YModel/S233F/data/nets.items" 429373 12702149612951295131
   N[9] (U 9 36) GP[36] GL[36] TT0_[3510] TT1_[2816] TT2_[567] TT3_[120] TT4_[24] TT5_[2] TT6_[2]
 
 namespace CFSG.KD.YMS233F

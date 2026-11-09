@@ -76,6 +76,11 @@ status:
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparator.json"
       literature_dependencies: []
+    - declaration: "CFSG.Certified.classification_finite_simple_groups"
+      file: "CFSG/Certified/Classification.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
     - declaration: "CFSG.Milestones.cfsg_classification_native_and_realization"
       file: "CFSG/Milestones/CFSG_classification.lean"
       sorry_count: 0

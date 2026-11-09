@@ -3,7 +3,15 @@ module
 public import CFSG.Certificates.Kernel.BabyMonster.FiveAFacts
 public import CFSG.Certificates.Kernel.BabyMonster.RegRun
 public import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data3
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data4
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data10
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data11
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data12
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data14
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data15
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data16
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
 public import Certificates.Data.CFSGNative.MonsterB.Primes
 public import CFSG.Blueprint.NativeSporadic

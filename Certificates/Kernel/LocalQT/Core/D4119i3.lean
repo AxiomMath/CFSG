@@ -5,8 +5,8 @@ public import Certificates.Data.Kernel.LocalQT.Perm
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.LQT.C4119i
-  "Certificates/Kernel/LocalQT/Core/data/d4119i3.json.gz" 793404 7225434942380727004
+#kc_repo #kc_json CFSG.KD.LQT.C4119i
+  "Certificates/Kernel/LocalQT/Core/data/d4119i3.json" 793404 7225434942380727004
   (IL33 : List Nat) (H33 : List Nat) (IL34 : List Nat) (H34 : List Nat) (IL35 : List Nat)
   (H35 : List Nat) (IL36 : List Nat) (H36 : List Nat) (IL37 : List Nat) (H37 : List Nat)
   (IL38 : List Nat) (H38 : List Nat) (IL39 : List Nat) (H39 : List Nat) (IL40 : List Nat)

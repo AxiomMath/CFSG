@@ -24,8 +24,8 @@ meta def strongI0 : Array (Array Nat) := CFSG.Sporadic.SuzOddCore.invInnerStrong
 
 end CertificateChecks.KernelSpor.SuzInv
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.SuzInvWI0
-  "Certificates/Kernel/Sporadic/SuzInv/data/I0.json.gz" 1615 6532274370428331035
+#kc_repo #kc_json CertificateChecks.KernelSpor.SuzInvWI0
+  "Certificates/Kernel/Sporadic/SuzInv/data/I0.json" 1615 6532274370428331035
   (W : List (List Nat))
 
 #ks_rawchain_sl3g CertificateChecks.KernelSpor.SuzInvI0 1782 11 8 64 0

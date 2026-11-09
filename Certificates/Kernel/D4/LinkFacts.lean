@@ -37,7 +37,8 @@ theorem pin : arrCertOK projAct 18 validV keyV rootV lineCert = true ∧ lineCer
     (forall_of_slices (L := 117) (K := 21) (by norm_num) VA.all) dist
     (Nat.eq_of_beq_eq_true c0) (Nat.eq_of_beq_eq_true cK) RA.all
 
-theorem pLP : ∀ k < 18, permB 2457 12 (LP k) = true := fun k hk => Orb.allN_iff.1 pP k hk
+theorem pLP : ∀ k < 18, permB 2457 12 (LP k) = true := fun k hk =>
+  permB_of_permImgK szOK' (Orb.allN_iff.1 pP k hk)
 
 theorem piArr_eq {k : ℕ} (hk : k < 18) : piArr lineCert k = unpack 2457 12 (LP k) := by
   apply Array.ext
@@ -72,12 +73,12 @@ theorem genB_eq : d4GenB = unpack 2457 12 (HX.F 67) := by
 
 theorem wordA_ok : eqA 2457 d4GenA (compWord lineCert [2, 5, 10]) = true := by
   obtain ⟨h1, h2⟩ := word_eq [2, 5, 10] (by decide)
-  rw [genA_eq, h1, eqA_unpack' szOK' pAB.1 h2]
+  rw [genA_eq, h1, eqA_unpack' szOK' (permB_of_permImgK szOK' pAB.1) h2]
   exact wordA
 
 theorem wordB_ok : eqA 2457 d4GenB (compWord lineCert [16, 17, 7, 4, 10]) = true := by
   obtain ⟨h1, h2⟩ := word_eq [16, 17, 7, 4, 10] (by decide)
-  rw [genB_eq, h1, eqA_unpack' szOK' pAB.2 h2]
+  rw [genB_eq, h1, eqA_unpack' szOK' (permB_of_permImgK szOK' pAB.2) h2]
   exact wordB
 
 theorem siftL_ok :

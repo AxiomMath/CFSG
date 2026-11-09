@@ -37,7 +37,6 @@ meta def r9M : Array Nat := cM 9
 meta def r17M : Array Nat := cM 17
 meta def r31M : Array Nat := cM 31
 meta def syM : Array (Array Nat) := gsM [1, 2, 3, 4, 5, 6, 7, 8]
-meta def syiM : Array (Array Nat) := gsiM [1, 2, 3, 4, 5, 6, 7, 8]
 meta def k1M : Array (Array Nat) := gsM [10, 11, 12]
 meta def k1iM : Array (Array Nat) := gsiM [10, 11, 12]
 meta def k2M : Array (Array Nat) := gsM [18, 19, 20, 21, 22]
@@ -74,11 +73,23 @@ meta def q3cR : Array (Array Nat) := conjRec k3M k3iM q40M
 meta def e2aR : Array (Array Nat) := mulRec e2aM
 meta def e2bR : Array (Array Nat) := mulRec e2bM
 
-meta def syClM : Array (Array Nat) :=
-  (syR.map fun x => (syM ++ syiM).map fun g => comp 315 x g).flatten
 meta def uqM : Array (Array Nat) :=
   #[conjTab 315 (cM 0) (ciM 0) r9M, conjTab 315 (cM 0) (ciM 0) r17M,
     conjTab 315 (cM 0) (ciM 0) r31M]
+meta def hvOfR (R : Array (Array Nat)) : Array (Array Nat) :=
+  R.map fun t => #[(hkey 315 (t.map UInt32.ofNat)).toNat]
+meta def syHvM : Array (Array Nat) := hvOfR syR
+meta def k1HvM : Array (Array Nat) := hvOfR k1R
+meta def q1aHvM : Array (Array Nat) := hvOfR q1aR
+meta def q1bHvM : Array (Array Nat) := hvOfR q1bR
+meta def e2aHvM : Array (Array Nat) := hvOfR e2aR
+meta def e2bHvM : Array (Array Nat) := hvOfR e2bR
+meta def q3aHvM : Array (Array Nat) := hvOfR q3aR
+meta def q3bHvM : Array (Array Nat) := hvOfR q3bR
+meta def q3cHvM : Array (Array Nat) := hvOfR q3cR
+meta def o1HvM : Array (Array Nat) := hvOfR o1R
+meta def o2HvM : Array (Array Nat) := hvOfR o2R
+meta def o3HvM : Array (Array Nat) := hvOfR o3R
 meta def isInvM (x : Array Nat) : Bool := comp 315 x x == idM && x != idM
 meta def einvM : Array Nat :=
   #[((List.range e2aR.size).find? fun i => isInvM e2aR[i]!).getD 0,
@@ -100,7 +111,18 @@ meta def einvM : Array Nat :=
 #kmulh CertificateChecks.KernelSpor.J2E2a 315 9 ids2M e2aM idM 3000
 #kmulh CertificateChecks.KernelSpor.J2E2b 315 9 ids2M e2bM idM 3000
 
-#kfind CertificateChecks.KernelSpor.J2SYCl syR syClM
+#kmisc_packarrs CertificateChecks.KernelSpor.J2SYV syHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2K1V k1HvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2Q1aV q1aHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2Q1bV q1bHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2E2aV e2aHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2E2bV e2bHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2Q3aV q3aHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2Q3bV q3bHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2Q3cV q3cHvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2R1V o1HvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2R2V o2HvM 64
+#kmisc_packarrs CertificateChecks.KernelSpor.J2R3V o3HvM 64
 #kfind CertificateChecks.KernelSpor.J2SYin1 o1R syR
 #kfind CertificateChecks.KernelSpor.J2SYin2 o2R syR
 #kfind CertificateChecks.KernelSpor.J2SYin3 o3R syR

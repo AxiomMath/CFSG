@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.TNS708603 "Certificates/Kernel/TwoNodeSmall/data/wk.json.gz"
+#kc_repo #kc_json CFSG.KD.TNS708603 "Certificates/Kernel/TwoNodeSmall/data/wk.json"
   1895248 1976498242090500598
   (w8 : List (List CFSG.TwoNodeSmall.WitK.Rec)) (w9 : List (List CFSG.TwoNodeSmall.WitK.Rec))
   (w9m : List (List CFSG.TwoNodeSmall.WitK.Rec))

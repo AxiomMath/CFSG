@@ -2,19 +2,19 @@ module
 
 public import Init
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CertificateChecks.KernelCosetJ.RuTab
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelCosetJ.RuTab
-  "Certificates/Kernel/CosetJ/data/RuTabData.items.gz" 5902 4359731871632806012
+#kc_repo #kc_nat_items CertificateChecks.KernelCosetJ.RuTab
+  "Certificates/Kernel/CosetJ/data/RuTabData.items" 5902 4359731871632806012
   (G 1 11)
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCosetJ.RuTab
-  "Certificates/Kernel/CosetJ/data/RuTabData.json.gz" 60054 15410069550640573302
+#kc_repo #kc_json CertificateChecks.KernelCosetJ.RuTab
+  "Certificates/Kernel/CosetJ/data/RuTabData.json" 60054 15410069550640573302
   (RI : List (List (Nat × Bool))) (RT : List (List (Nat × Bool)))
 
 @[expose] noncomputable def RG (k : Nat) : Nat :=

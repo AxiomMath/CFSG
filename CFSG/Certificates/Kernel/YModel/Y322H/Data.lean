@@ -3,12 +3,12 @@ module
 public import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.YModel.Texts.YM322H
 public import Certificates.Data.Kernel.YModel.Model
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.YMY322H "CFSG/Certificates/Kernel/YModel/Y322H/data/nets.items.gz" 92872 17141650588042406549
+#kc_repo #kc_nat_items CFSG.KD.YMY322H "CFSG/Certificates/Kernel/YModel/Y322H/data/nets.items" 92872 17141650588042406549
   N[8] B0 M0_[7] R0_[7] Z0_[7]
 
 namespace CFSG.KD.YMY322H

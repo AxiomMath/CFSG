@@ -18,7 +18,7 @@ public section
 set_option maxRecDepth 400000
 
 #kon_join CertificateChecks.KernelSpor.McLK.sch0All CertificateChecks.KernelSpor.McLK.sch0 5
-#kon_join CertificateChecks.KernelSpor.McLK.wordsSlAll CertificateChecks.KernelSpor.McLK.wordsSl 99
+#kon_join CertificateChecks.KernelSpor.McLK.mclGramSlAll CertificateChecks.KernelSpor.McLK.mclGramSl 18
 
 namespace CertificateChecks.KernelSpor.McLK
 
@@ -106,30 +106,48 @@ theorem inv_spec {j x : Nat} (hj : j < 9) (hx : x < 275) : LJ (2 * j) x < 275 �
   simp only [bAnd_iff, Nat.blt_eq, Nat.beq_eq] at h
   exact h
 
-theorem dec_code (z : Int) : decZ (codeZ z) = z := by
-  rcases z with k | k
-  · have e : Nat.mod (Nat.mul 2 k) 2 = 0 := by
-      change 2 * k % 2 = 0
+theorem GNM_other {c : Nat} (y : Nat) (h1 : c ≠ 1) (h2 : c ≠ 2) (h4 : c ≠ 4) :
+    GNM c y = r32 BI y := by
+  have e1 : Nat.beq c 1 = false := Bool.eq_false_iff.2 fun h => h1 (Nat.eq_of_beq_eq_true h)
+  have e2 : Nat.beq c 2 = false := Bool.eq_false_iff.2 fun h => h2 (Nat.eq_of_beq_eq_true h)
+  have e4 : Nat.beq c 4 = false := Bool.eq_false_iff.2 fun h => h4 (Nat.eq_of_beq_eq_true h)
+  unfold GNM
+  rw [e2, e1, e4]
+
+theorem GNM_code (z : Int) (y : Nat) : GNM (codeZ z) y = GJ z y := by
+  rcases z with ((_ | _ | _ | k) | (_ | k))
+  · rfl
+  · rfl
+  · rfl
+  · change GNM (2 * (k + 3)) y = GJ (Int.ofNat (k + 3)) y
+    rw [GJ_eq, GNM_other y (by omega) (by omega) (by omega)]
+    have h1 : ¬(Int.ofNat (k + 3) = 1 ∨ Int.ofNat (k + 3) = -1) := by
+      rw [Int.ofNat_eq_coe]
       omega
-    have e2 : Nat.div (Nat.mul 2 k) 2 = k := by
-      change 2 * k / 2 = k
+    have h2 : ¬Int.ofNat (k + 3) = 2 := by
+      rw [Int.ofNat_eq_coe]
       omega
-    simp only [decZ, codeZ, e, e2]
-    rfl
-  · have e : Nat.mod (Nat.succ (Nat.mul 2 k)) 2 = 1 := by
-      change (2 * k + 1) % 2 = 1
+    rw [if_neg h1, if_neg h2]
+  · rfl
+  · change GNM (2 * (k + 1) + 1) y = GJ (Int.negSucc (k + 1)) y
+    rw [GJ_eq, GNM_other y (by omega) (by omega) (by omega)]
+    have h1 : ¬(Int.negSucc (k + 1) = 1 ∨ Int.negSucc (k + 1) = -1) := by
+      rw [Int.negSucc_eq]
       omega
-    have e2 : Nat.div (Nat.succ (Nat.mul 2 k)) 2 = k := by
-      change (2 * k + 1) / 2 = k
+    have h2 : ¬Int.negSucc (k + 1) = 2 := by
+      rw [Int.negSucc_eq]
       omega
-    simp only [decZ, codeZ, e, e2]
-    rfl
+    rw [if_neg h1, if_neg h2]
+
+theorem foldWM_cons (x c : Nat) (w : List Nat) : foldWM x (c :: w) = GNM c (foldWM x w) := by
+  change CFSG.KC.Loop.strictN (foldWM x w) (GNM c) = _
+  cases foldWM x w <;> rfl
 
 theorem foldr_code (x : Nat) (w : List Int) :
-    List.foldr GJ x w = List.foldr GC x (w.map codeZ) := by
+    List.foldr GJ x w = foldWM x (w.map codeZ) := by
   induction w with
   | nil => rfl
-  | cons z w ih => simp only [List.foldr_cons, List.map_cons, ih, GC, dec_code]
+  | cons z w ih => rw [List.foldr_cons, List.map_cons, foldWM_cons, ← ih, GNM_code]
 
 theorem map_get {α β : Type} [Inhabited α] {a : Array α} {f : α → β} {L : List β}
     (h : a.toList.map f = L) {j : Nat} (hj : j < L.length) (d : β) : f a[j]! = L.getD j d := by
@@ -142,30 +160,100 @@ theorem map_get {α β : Type} [Inhabited α] {a : Array α} {f : α → β} {L 
 
 theorem wl_eq {j : Nat} (hj : j < 9) : ((chainWords ())[j]!).map codeZ = WL j := by
   rw [map_get words_all (by simpa using hj) []]
-  rfl
+  interval_cases j <;> rfl
+
+theorem gram_get {s : Nat} (hs : s < 177) : mclGramS s = true := by
+  have hs' : s / 10 < 18 := by omega
+  have h := mclGramSlAll (s / 10) hs'
+  unfold mclGramSl at h
+  have h' := allN_spec h (s % 10) (Nat.mod_lt _ (by norm_num))
+  rw [strictB_eq] at h'
+  have e : Nat.add (Nat.mul (s / 10) 10) (s % 10) = s := by
+    change s / 10 * 10 + s % 10 = s
+    omega
+  rw [e, Eq.mpr Nat.blt_eq hs] at h'
+  exact h'
+
+theorem gram_term {s : Nat} (hs : s < 5) {x : Nat} (hx : x < 275) : SymTJ s x = GNM s x := by
+  have h := gram_get (s := s) (by omega)
+  unfold mclGramS at h
+  rw [Eq.mpr Nat.blt_eq hs] at h
+  dsimp only at h
+  exact Nat.eq_of_beq_eq_true (allN_spec h x hx)
+
+theorem gram_rule {s : Nat} (hs : s < 177) (h5 : 5 ≤ s) : r32 MclGL s < s ∧ r32 MclGR s < s ∧
+    ∀ x < 275, SymTJ s x = SymTJ (r32 MclGL s) (SymTJ (r32 MclGR s) x) := by
+  have h := gram_get hs
+  unfold mclGramS at h
+  have e : Nat.blt s 5 = false := Bool.eq_false_iff.2 fun h' => by
+    rw [Nat.blt_eq] at h'
+    omega
+  rw [e] at h
+  dsimp only at h
+  rw [strictB_eq, strictB_eq] at h
+  simp only [bAnd_iff, Nat.blt_eq] at h
+  exact ⟨h.1, h.2.1, fun x hx => Nat.eq_of_beq_eq_true (allN_spec h.2.2 x hx)⟩
+
+theorem GNM_lt {s : Nat} (hs : s < 5) {x : Nat} (hx : x < 275) : GNM s x < 275 := by
+  have hf := inv_facts hx
+  interval_cases s
+  · exact hf.2.2.2.2
+  · exact hf.1
+  · exact hf.1
+  · exact hf.2.2.2.2
+  · exact hf.2.2.1
+
+theorem SymTJ_lt : ∀ s < 177, ∀ x < 275, SymTJ s x < 275 := by
+  intro s
+  induction s using Nat.strong_induction_on with
+  | _ s ih =>
+    intro hs x hx
+    rcases Nat.lt_or_ge s 5 with h5 | h5
+    · rw [gram_term h5 hx]
+      exact GNM_lt h5 hx
+    · obtain ⟨hl, hr, he⟩ := gram_rule hs h5
+      rw [he x hx]
+      exact ih _ hl (by omega) _ (ih _ hr (by omega) x hx)
+
+theorem expSymK_spec : ∀ k s, s ≤ k → s < 177 → ∀ acc x, foldWM x acc < 275 →
+    foldWM x (expSymK k s acc) = SymTJ s (foldWM x acc) := by
+  intro k
+  induction k with
+  | zero =>
+    intro s hs _ acc x hy
+    obtain rfl : s = 0 := by omega
+    change foldWM x (0 :: acc) = _
+    rw [foldWM_cons, gram_term (by norm_num) hy]
+  | succ k ih =>
+    intro s hs hs' acc x hy
+    rcases Nat.lt_or_ge s 5 with h5 | h5
+    · have e : expSymK (k + 1) s acc = s :: acc := by
+        change Bool.rec (motive := fun _ => List Nat) _ (s :: acc) (Nat.blt s 5) = _
+        rw [Eq.mpr Nat.blt_eq h5]
+      rw [e, foldWM_cons, gram_term h5 hy]
+    · obtain ⟨hl, hr, he⟩ := gram_rule hs' h5
+      have e : expSymK (k + 1) s acc = expSymK k (r32 MclGL s) (expSymK k (r32 MclGR s) acc) := by
+        change Bool.rec (motive := fun _ => List Nat) _ (s :: acc) (Nat.blt s 5) = _
+        have e5 : Nat.blt s 5 = false := Bool.eq_false_iff.2 fun h' => by
+          rw [Nat.blt_eq] at h'
+          omega
+        rw [e5]
+        rfl
+      have hr' := ih (r32 MclGR s) (by omega) (by omega) acc x hy
+      have hy' : foldWM x (expSymK k (r32 MclGR s) acc) < 275 := by
+        rw [hr']
+        exact SymTJ_lt _ (by omega) _ hy
+      rw [e, ih (r32 MclGL s) (by omega) (by omega) _ x hy', hr', ← he _ hy]
 
 theorem word_spec {j x : Nat} (hj : j < 9) (hx : x < 275) :
     LJ (2 * j) x = List.foldr GJ x (chainWords ())[j]! := by
   rw [foldr_code, wl_eq hj]
-  have hs : 11 * j + x / 25 < 99 := by omega
-  have h := wordsSlAll (11 * j + x / 25) hs
-  unfold wordsSl at h
-  rw [strictB_eq, strictB_eq] at h
-  have e1 : Nat.div (11 * j + x / 25) 11 = j := by
-    change (11 * j + x / 25) / 11 = j
-    omega
-  have e2 : Nat.mul (Nat.mod (11 * j + x / 25) 11) 25 = x / 25 * 25 := by
-    change (11 * j + x / 25) % 11 * 25 = x / 25 * 25
-    rw [Nat.mul_add_mod]
-    rw [Nat.mod_eq_of_lt (by omega)]
-  rw [e1, e2] at h
-  have h' := allN_spec h (x % 25) (Nat.mod_lt _ (by norm_num))
-  rw [strictB_eq] at h'
-  have e3 : Nat.add (x / 25 * 25) (x % 25) = x := by
-    change x / 25 * 25 + x % 25 = x
-    omega
-  rw [e3, Eq.mpr Nat.blt_eq hx] at h'
-  exact Nat.eq_of_beq_eq_true h'
+  have h := allN_spec mclLettersW_ok j hj
+  rw [strictB_eq] at h
+  simp only [bAnd_iff, Nat.blt_eq] at h
+  have h' : LJ (2 * j) x = SymTJ (r32 MclRO j) x := Nat.eq_of_beq_eq_true (allN_spec h.2 x hx)
+  rw [h']
+  exact (expSymK_spec _ _ (Nat.le_refl _) h.1 [] x hx).symm
 
 theorem letters_get : (chainLetters OJ).size = 18 ∧
     ∀ l < 18, ∀ x < 275, ap (chainLetters OJ)[l]! x = LJ l x ∧ LJ l x < 275 := by

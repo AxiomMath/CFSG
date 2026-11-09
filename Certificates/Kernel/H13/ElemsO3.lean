@@ -3,29 +3,30 @@ module
 public import CFSG.Quasithin.H13.L32NO3Inputs
 public import CFSG.Certificates.Kernel.Mat8PSound
 public import Certificates.Kernel.H13.Data
+public import Certificates.Kernel.H13.BfsO3
 
 public section
 
 namespace CertificateChecks.KernelH13
 
-open CFSG.Quasithin.H13.Mat8Cert CFSG.Quasithin.H13.O3Cert CFSG.KC.Mat8P
+open CFSG.Quasithin.H13.Mat8Cert CFSG.Quasithin.H13.O3Cert CFSG.KC.Mat8P CFSG.KC.Mat8T
 
 set_option maxRecDepth 100000
 
-set_option maxHeartbeats 0 in
-theorem om3L_eq : elemsP (o3G.map code64R) = D.om3L := by decide +kernel
+theorem om3L_eq : elemsP (o3G.map code64R) = D.om3L := by
+  rw [elemsP_eq_T 16 65521, bfsOm3_bfs]
 
-set_option maxHeartbeats 0 in
-theorem om3FL_eq : elemsP ((o3G ++ [fG]).map code64R) = D.om3FL := by decide +kernel
+theorem om3FL_eq : elemsP ((o3G ++ [fG]).map code64R) = D.om3FL := by
+  rw [elemsP_eq_T 16 65521, bfsOm3F_bfs]
 
-set_option maxHeartbeats 0 in
-theorem omNL_eq : elemsP ((o3G ++ [fG, sG]).map code64R) = D.omNL := by decide +kernel
+theorem omNL_eq : elemsP ((o3G ++ [fG, sG]).map code64R) = D.omNL := by
+  rw [elemsP_eq_T 16 65521, bfsOmN_bfs]
 
-set_option maxHeartbeats 0 in
-theorem h1L_eq : elemsP ((o3G ++ [sG]).map code64R) = D.h1L := by decide +kernel
+theorem h1L_eq : elemsP ((o3G ++ [sG]).map code64R) = D.h1L := by
+  rw [elemsP_eq_T 16 65521, bfsH1_bfs]
 
-set_option maxHeartbeats 0 in
-theorem h2L_eq : elemsP ((o3G ++ [sfG]).map code64R) = D.h2L := by decide +kernel
+theorem h2L_eq : elemsP ((o3G ++ [sfG]).map code64R) = D.h2L := by
+  rw [elemsP_eq_T 16 65521, bfsH2_bfs]
 
 theorem om3E_eq : om3E = D.om3L.map unpackM := by
   rw [om3E, elemsOf_eqP _ (by decide), om3L_eq]

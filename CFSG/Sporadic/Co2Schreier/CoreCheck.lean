@@ -26,11 +26,11 @@ theorem coreR_check :
     eqA 2300 enumR.elems[617]! zArr = true ∧ eqA 2300 enumR.elems[434]! tArr = true :=
   Certificates.certificate2051.2.1
 
-theorem chainQAction_check : recordOK 512 localRec.chains.qAction 4 = true ∧
+theorem chainQAction_check : recordOK 512 localRec.chains.qAction 0 = true ∧
     recordOrbits 512 localRec.chains.qAction = [270, 28, 64, 24, 4, 2, 2, 2] :=
   Certificates.certificate2051.2.2.1
 
-theorem chainRAction_check : recordOK 2048 localRec.chains.rAction 4 = true ∧
+theorem chainRAction_check : recordOK 2048 localRec.chains.rAction 0 = true ∧
     recordOrbits 2048 localRec.chains.rAction = [840, 8, 6, 4, 2, 2, 2] :=
   Certificates.certificate2051.2.2.2
 

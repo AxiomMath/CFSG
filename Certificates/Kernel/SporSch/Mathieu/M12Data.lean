@@ -44,8 +44,6 @@ meta def rep0M : Array Nat := repsM[0]!
 
 meta def rep1M : Array Nat := repsM[1]!
 
-meta def oneM : Array Nat := idA 12
-
 end CertificateChecks.KernelSporSch.M12OC
 
 #kss_list CertificateChecks.KernelSporSch.M12OC.tA CertificateChecks.KernelSporSch.M12OC.tAM
@@ -73,20 +71,6 @@ namespace CertificateChecks.KernelSporSch.M12OC
 @[expose] noncomputable def R1 : Nat := (M12CL.getD 1 (0, 0, 0, [], [], [], [])).2.2.1
 
 end CertificateChecks.KernelSporSch.M12OC
-
-#kss_cntord CertificateChecks.KernelSporSch.M12X CertificateChecks.KernelSporSch.M12Q 12 4
-  CertificateChecks.KernelSporSch.M12OC.SM CertificateChecks.KernelSporSch.M12OC.baseM
-  CertificateChecks.KernelSporSch.M12OC.One CertificateChecks.KernelSporSch.M12OC.oneM 2
-
-#kss_cntword CertificateChecks.KernelSporSch.M12Y0 CertificateChecks.KernelSporSch.M12Q 12 4
-  CertificateChecks.KernelSporSch.M12OC.SM CertificateChecks.KernelSporSch.M12OC.baseM 2 3
-  CFSG.Sporadic.Schreier.m12AutWords CertificateChecks.KernelSporSch.M12OC.R0
-  CertificateChecks.KernelSporSch.M12OC.rep0M
-
-#kss_cntword CertificateChecks.KernelSporSch.M12Y1 CertificateChecks.KernelSporSch.M12Q 12 4
-  CertificateChecks.KernelSporSch.M12OC.SM CertificateChecks.KernelSporSch.M12OC.baseM 2 3
-  CFSG.Sporadic.Schreier.m12AutWords CertificateChecks.KernelSporSch.M12OC.R1
-  CertificateChecks.KernelSporSch.M12OC.rep1M
 
 #kss_odd CertificateChecks.KernelSporSch.M12O1 CertificateChecks.KernelSporSch.M12C1 12 4
   CertificateChecks.KernelSporSch.M12OC.SC1 CertificateChecks.KernelSporSch.M12OC.baseC 3

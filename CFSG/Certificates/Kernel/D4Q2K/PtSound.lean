@@ -291,25 +291,31 @@ theorem pf_sorted_eq : ∀ {l1 l2 : List Nat}, l1.Pairwise (· < ·) → l2.Pair
           omega
         · exact e
 
+theorem ptCodes_toList : (ptCodes ()).toList =
+    (List.range 65536).filter fun v => normC v && quadC v == 0 && hermC v v != 0 := by
+  unfold ptCodes
+  rw [Array.toList_filter, Array.toList_range]
+
 theorem ptK_sound {L : List Nat} (h : ptK L = true) : ptCodes () = L.toArray := by
   change (incFrom L 0 && Nat.beq (plOf L) ptPl) = true at h
   rw [Bool.and_eq_true] at h
   obtain ⟨h1, h2⟩ := h
   have hp : plOf L = ptPl := Nat.eq_of_beq_eq_true h2
   obtain ⟨hb, hs⟩ := pf_incFrom L 0 h1
-  rw [← Array.toList_inj, List.toList_toArray]
-  unfold ptCodes
-  rw [Array.toList_filter, Array.toList_range]
-  refine (pf_sorted_eq hs (List.pairwise_lt_range.filter _) (fun x => ?_)).symm
-  rw [List.mem_filter, List.mem_range]
-  have hx : x ∈ L ↔ ptPl.testBit x = true := by
-    rw [← hp, pf_tb_plOf, decide_eq_true_iff]
-  rw [hx]
-  by_cases h : x < 65536
-  · rw [pf_tb_ptPl_lo h]
-    simp [h]
-  · rw [pf_tb_ptPl_hi h]
-    simp [h]
+  have hl : (ptCodes ()).toList = L := by
+    rw [ptCodes_toList]
+    refine (pf_sorted_eq hs (List.pairwise_lt_range.filter _) (fun x => ?_)).symm
+    rw [List.mem_filter, List.mem_range]
+    have hx : x ∈ L ↔ ptPl.testBit x = true := by
+      rw [← hp, pf_tb_plOf, decide_eq_true_iff]
+    rw [hx]
+    by_cases h : x < 65536
+    · rw [pf_tb_ptPl_lo h]
+      simp [h]
+    · rw [pf_tb_ptPl_hi h]
+      simp [h]
+  calc ptCodes () = (ptCodes ()).toList.toArray := Array.toArray_toList.symm
+    _ = L.toArray := by rw [hl]
 
 theorem lenL_eq (l : List Nat) : lenL l = l.length := by
   induction l with

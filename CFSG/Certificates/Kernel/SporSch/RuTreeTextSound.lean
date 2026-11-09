@@ -4,6 +4,7 @@ public import Certificates.Data.Kernel.SporSch.RuTreeK
 public import CFSG.Certificates.Kernel.Misc.HexDropSound
 public import CFSG.Certificates.Kernel.Misc.HexFlatSound
 import all CFSG.Certificates.Kernel.Misc.HexFlatSound
+import CFSG.Certificates.Kernel.Spor.PackFld
 
 public section
 
@@ -208,6 +209,80 @@ theorem size_ofList {cs : List Char} (h : ∀ k < cs.length, (cs[k]!).toNat < 12
     (String.ofList cs).toUTF8.size = cs.length := by
   rw [String.toUTF8_eq_toByteArray, String.toByteArray_ofList]
   exact utf8_size_ascii' cs h
+
+@[expose] def RowsOK (cs : List Char) (n : Nat) (F : Nat → Nat) (a b : Nat) : Prop :=
+  ∀ j, a ≤ j → j < b → ∀ i < n, pg 24 (mask 24) (F j) i = numA cs (6 * (n * j + i)) 6 ∧
+    ∀ s < 6, 6 * (n * j + i) + s < cs.length ∧ hexV (Char.toNat cs[6 * (n * j + i) + s]!) < 16
+
+theorem dropL_dropL (cs : List Char) (x y : Nat) : dropL x (dropL y cs) = cs.drop (y + x) := by
+  simp only [dropL_eq, List.drop_drop]
+  all_goals (congr 1; omega)
+
+open CFSG.KS.PackFld in
+theorem rows_of_run {cs : List Char} {n a b x y : Nat} {F : Nat → Nat} (hn : 0 < n)
+    (hab : a ≤ b)
+    (hxy : y + x = 6 * (n * a))
+    (h : run 6 n 24 b F (dropL x (dropL y cs)) a 0 0 0 0 = true) : RowsOK cs n F a b := by
+  rw [dropL_dropL, hxy] at h
+  have T := tables (cs := cs) (F := F) (w := 24) (N := b) (d := 6) (by decide) hn (b - a) a
+    (by omega) h
+  intro j h1 h2 i hi
+  obtain ⟨hA, hF⟩ := T j h1 h2
+  refine ⟨?_, (hA i hi).2⟩
+  rw [pg_of_fld hF (by simp only [hi, ↓reduceIte]; exact (hA i hi).1)]
+  simp only [hi, ↓reduceIte]
+
+theorem rows_cat {cs : List Char} {n a b c : Nat} {F : Nat → Nat} (h₁ : RowsOK cs n F a b)
+    (h₂ : RowsOK cs n F b c) : RowsOK cs n F a c := by
+  intro j hj1 hj2
+  by_cases h : j < b
+  · exact h₁ j hj1 h
+  · exact h₂ j (by omega) hj2
+
+theorem chunk_of_rows {cs : List Char} {n T a b : Nat} {F : Nat → Nat} (hn : 0 < n)
+    (hR : RowsOK cs n F 0 T) (hE : isNilK (dropL a (dropL b cs)) = true)
+    (hab : a + b = 6 * n * T) :
+    cs.length = 6 * n * T ∧ (∀ k < cs.length, AH cs[k]!) ∧
+    ∀ k < n * T, numA cs (6 * k) 6 = entK n F k := by
+  rw [dropL_eq, dropL_eq, List.drop_drop] at hE
+  have hE' := isNilK_eq hE
+  have h1 : cs.length ≤ 6 * n * T := by
+    have := congrArg List.length hE'
+    rw [List.length_drop, List.length_nil] at this
+    omega
+  have hpos : ∀ k < 6 * n * T, k < cs.length ∧ hexV (Char.toNat cs[k]!) < 16 := by
+    intro k hk
+    have hq : k / 6 < n * T := by
+      rw [Nat.div_lt_iff_lt_mul (by decide)]
+      rw [Nat.mul_comm (n * T) 6, ← Nat.mul_assoc]
+      exact hk
+    have hjj : k / 6 / n < T := by
+      rw [Nat.div_lt_iff_lt_mul hn]
+      rw [Nat.mul_comm T n]
+      exact hq
+    have ek : k = 6 * (n * (k / 6 / n) + k / 6 % n) + k % 6 := by
+      rw [Nat.div_add_mod (k / 6) n, Nat.div_add_mod k 6]
+    obtain ⟨-, hB⟩ := hR (k / 6 / n) (Nat.zero_le _) hjj (k / 6 % n) (Nat.mod_lt _ hn)
+    obtain ⟨hl, hx⟩ := hB (k % 6) (Nat.mod_lt _ (by decide))
+    rw [← ek] at hl hx
+    exact ⟨hl, hx⟩
+  have hlen : cs.length = 6 * n * T := by
+    rcases Nat.eq_zero_or_pos T with hT | hT
+    · subst hT
+      omega
+    · have hp : 0 < 6 * n * T := Nat.mul_pos (Nat.mul_pos (by decide) hn) hT
+      have h2 := (hpos (6 * n * T - 1) (by omega)).1
+      omega
+  refine ⟨hlen, fun k hk => ?_, fun k hk => ?_⟩
+  · have hx := (hpos k (by omega)).2
+    refine ⟨?_, hx⟩
+    rcases hexV_dig hx with ⟨-, h2, -⟩ | ⟨-, h2, -⟩ <;> omega
+  · have hj : k / n < T := by
+      rw [Nat.div_lt_iff_lt_mul hn]
+      rw [Nat.mul_comm] at hk
+      exact hk
+    change numA cs (6 * k) 6 = pg 24 (mask 24) (F (k / n)) (k % n)
+    rw [(hR (k / n) (Nat.zero_le _) hj (k % n) (Nat.mod_lt _ hn)).1, Nat.div_add_mod]
 
 end CFSG.KC.Misc.HexFlat
 

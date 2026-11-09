@@ -54,6 +54,36 @@ meta def prodRows (C : Array (Array Nat)) : Array (Array Nat) :=
   let idx := posIn C
   C.map fun x => #[pack 8 (C.map fun y => idx.getD (comp 42 x y) 0)]
 
+meta def genRows (C : Array (Array Nat)) : Array (Array Nat) := Id.run do
+  let idx := posIn C
+  let m := C.size
+  let mut gens : Array Nat := #[]
+  let mut par := Array.replicate m 0
+  let mut lt := Array.replicate m 0
+  let mut dep := Array.replicate m 0
+  let mut seen := (Array.replicate m false).set! 0 true
+  for _ in [0:m] do
+    match seen.findIdx? (· == false) with
+    | none => break
+    | some g =>
+      gens := gens.push g
+      seen := (Array.replicate m false).set! 0 true
+      let mut queue := #[0]
+      let mut i := 0
+      for _ in [0:m] do
+        if i < queue.size then
+          let a := queue[i]!
+          i := i + 1
+          for j in [0:gens.size] do
+            let b := idx.getD (comp 42 C[a]! C[gens[j]!]!) 0
+            if !seen[b]! then
+              seen := seen.set! b true
+              par := par.set! b a
+              lt := lt.set! b j
+              dep := dep.set! b (dep[a]! + 1)
+              queue := queue.push b
+  return #[#[pack 8 gens], #[pack 8 par], #[pack 8 lt], #[pack 8 dep], #[gens.size]]
+
 meta def conjRows (C : Array (Array Nat)) : Array (Array Nat) :=
   let idx := posIn C
   C.map fun x => #[pack 8 (C.map fun y => idx.getD (comp 42 (comp 42 y x) (invTab 42 y)) 0)]
@@ -86,6 +116,11 @@ meta def d1P : Array (Array Nat) := ones d1
 meta def d2P : Array (Array Nat) := ones d2
 meta def d3P : Array (Array Nat) := ones d3
 meta def c4I : Array (Array Nat) := ones (c4.map (invTab 42))
+meta def c4Q : Array (Array Nat) := prodRows c4
+meta def c4G : Array (Array Nat) := genRows c4
+meta def c4V : Array (Array Nat) :=
+  let idx := posIn c4
+  #[#[pack 8 (c4.map fun x => idx.getD (invTab 42 x) 0)]]
 meta def d1I : Array (Array Nat) := ones (d1.map (invTab 42))
 meta def d2I : Array (Array Nat) := ones (d2.map (invTab 42))
 meta def d1Prod : Array (Array Nat) := dProd d1
@@ -104,6 +139,8 @@ meta def c2I : Array (Array Nat) := ones (c2.map (invTab 42))
 meta def c3I : Array (Array Nat) := ones (c3.map (invTab 42))
 meta def c2Q : Array (Array Nat) := prodRows c2
 meta def c3Q : Array (Array Nat) := prodRows c3
+meta def c2G : Array (Array Nat) := genRows c2
+meta def c3G : Array (Array Nat) := genRows c3
 meta def c2P : Array (Array Nat) := conjRows c2
 meta def c3P : Array (Array Nat) := conjRows c3
 meta def c2L : Array (Array Nat) := classP c2 sizes₂

@@ -5,6 +5,7 @@ public import Certificates.Kernel.OmegaEight.N3MCand1
 public import Certificates.Kernel.OmegaEight.N3MCand2
 public import Certificates.Kernel.OmegaEight.N3MCand3
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.O8UnitSound
 import Mathlib.Tactic.IntervalCases
 
 public section
@@ -31,8 +32,8 @@ theorem cand_okN3M : candChk wN3M = true := by
     rw [List.mem_range, ht] at hb
     rw [Bool.and_eq_true, candP_eqN3M]
     constructor
-    · simp only [linCheckWith, linRec, conPart_eq, tuples, wN3M, decE_toList, idK_eq,
-        N3Split.Minus.cases, mulK_eq]
+    · apply linCheckWith_of_P
+      simp only [tuples, wN3M, decE_toList, idK_eq, N3Split.Minus.cases, mulK_eq]
       interval_cases a <;> interval_cases b <;> decide +kernel
     · change spanAll (N3mLin a b).2.1 (N3mLin a b).2.2.length candPN3M = true
       interval_cases a

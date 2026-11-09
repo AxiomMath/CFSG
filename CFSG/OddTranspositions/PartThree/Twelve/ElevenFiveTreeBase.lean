@@ -78,8 +78,22 @@ theorem e11Decode_code : ∀ v : Fin 4 → ZMod 5, e11Decode (e11Code v) = v := 
 theorem e11Code_lt : ∀ v : Fin 4 → ZMod 5, e11Code v < 625 := by
   decide +kernel
 
+theorem e11Check_one : e11Check 1 = true := by decide +kernel
+
+theorem e11Check_two : e11Check 2 = true := by decide +kernel
+
+theorem e11Check_three : e11Check 3 = true := by decide +kernel
+
+theorem e11Check_four : e11Check 4 = true := by decide +kernel
+
 theorem e11Check_ne_zero : ∀ a : ZMod 5, a ≠ 0 → e11Check a = true := by
-  decide +kernel
+  intro a ha
+  fin_cases a
+  · exact (ha rfl).elim
+  · exact e11Check_one
+  · exact e11Check_two
+  · exact e11Check_three
+  · exact e11Check_four
 
 @[expose] def e11StepSet (a : ZMod 5) (S : Set (Fin 4 → ZMod 5)) : Set (Fin 4 → ZMod 5) :=
   S ∪ ({w | ∃ i v, v ∈ S ∧ w = (e11M a i).mulVec v}

@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.LocalComp.HeAutPin
 public import Certificates.Kernel.LocalComp.HeAutFlags
 public import CFSG.Certificates.Kernel.HeAutKSound
+public import CFSG.Certificates.Kernel.HeAutKPt
+import CFSG.Certificates.Kernel.HeAutKLoops
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -22,10 +24,11 @@ theorem kRest : restK 32 6 HeAutY.ng HeAutY.G HeAutY.N HeAutY.T HeAutQ.ng HeAutQ
     HeAutE.ng HeAutE.G HeAutE.N HeAutE.T HeAutF.ng HeAutF.G HeAutF.N HeAutF.T
     HeAutU.ng HeAutU.G HeAutU.N HeAutU.T Pz Pr Ps = true := by quickRfl
 
-@[expose] noncomputable def U : Nat → Bool := uqAt 32 6 HeAutY.N HeAutY.T HeAutQ.N HeAutQ.T HeAutFZ Pz
+@[expose] noncomputable def U : Nat → Bool :=
+  uqAtPt 32 6 HeAutY.N HeAutY.T HeAutQ.N HeAutQ.T HeAutFZ Pz
 
 @[expose] noncomputable def V : Nat → Bool :=
-  ueAt 32 6 HeAutY.N HeAutY.T HeAutE.N HeAutE.T HeAutF.N HeAutF.T HeAutF1
+  ueAtPt 32 6 HeAutY.N HeAutY.T HeAutE.N HeAutE.T HeAutF.N HeAutF.T HeAutF1
 
 theorem uq0 : Nat.beq (cntR U 0 256) 0 = true := by quickRfl
 theorem uq1 : Nat.beq (cntR U 256 256) 0 = true := by quickRfl
@@ -45,41 +48,62 @@ theorem ue5 : allR V 1280 256 = true := by quickRfl
 theorem ue6 : allR V 1536 256 = true := by quickRfl
 theorem ue7 : allR V 1792 256 = true := by quickRfl
 
-theorem uqTotal : cntR U 0 2048 = 16 := by
-  have a1 := cntR_add U 0 256 256
-  have a2 := cntR_add U 0 512 256
-  have a3 := cntR_add U 0 768 256
-  have a4 := cntR_add U 0 1024 256
-  have a5 := cntR_add U 0 1280 256
-  have a6 := cntR_add U 0 1536 256
-  have a7 := cntR_add U 0 1792 256
+theorem cntR_blocks8 (f : Nat → Bool) {c0 c1 c2 c3 c4 c5 c6 c7 : Nat}
+    (h0 : Nat.beq (cntR f 0 256) c0 = true) (h1 : Nat.beq (cntR f 256 256) c1 = true)
+    (h2 : Nat.beq (cntR f 512 256) c2 = true) (h3 : Nat.beq (cntR f 768 256) c3 = true)
+    (h4 : Nat.beq (cntR f 1024 256) c4 = true) (h5 : Nat.beq (cntR f 1280 256) c5 = true)
+    (h6 : Nat.beq (cntR f 1536 256) c6 = true) (h7 : Nat.beq (cntR f 1792 256) c7 = true) :
+    cntR f 0 2048 = c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 := by
+  have a1 := cntR_add f 0 256 256
+  have a2 := cntR_add f 0 512 256
+  have a3 := cntR_add f 0 768 256
+  have a4 := cntR_add f 0 1024 256
+  have a5 := cntR_add f 0 1280 256
+  have a6 := cntR_add f 0 1536 256
+  have a7 := cntR_add f 0 1792 256
   simp only [Nat.reduceAdd] at a1 a2 a3 a4 a5 a6 a7
-  rw [a7, a6, a5, a4, a3, a2, a1, Nat.eq_of_beq_eq_true uq0, Nat.eq_of_beq_eq_true uq1,
-    Nat.eq_of_beq_eq_true uq2, Nat.eq_of_beq_eq_true uq3, Nat.eq_of_beq_eq_true uq4,
-    Nat.eq_of_beq_eq_true uq5, Nat.eq_of_beq_eq_true uq6, Nat.eq_of_beq_eq_true uq7]
+  rw [a7, a6, a5, a4, a3, a2, a1, Nat.eq_of_beq_eq_true h0, Nat.eq_of_beq_eq_true h1,
+    Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h3, Nat.eq_of_beq_eq_true h4,
+    Nat.eq_of_beq_eq_true h5, Nat.eq_of_beq_eq_true h6, Nat.eq_of_beq_eq_true h7]
 
-theorem ueTotal : allR V 0 2048 = true := by
-  have a1 := allR_add V 0 256 256
-  have a2 := allR_add V 0 512 256
-  have a3 := allR_add V 0 768 256
-  have a4 := allR_add V 0 1024 256
-  have a5 := allR_add V 0 1280 256
-  have a6 := allR_add V 0 1536 256
-  have a7 := allR_add V 0 1792 256
+theorem allR_blocks8 (f : Nat → Bool) (h0 : allR f 0 256 = true) (h1 : allR f 256 256 = true)
+    (h2 : allR f 512 256 = true) (h3 : allR f 768 256 = true) (h4 : allR f 1024 256 = true)
+    (h5 : allR f 1280 256 = true) (h6 : allR f 1536 256 = true) (h7 : allR f 1792 256 = true) :
+    allR f 0 2048 = true := by
+  have a1 := allR_add f 0 256 256
+  have a2 := allR_add f 0 512 256
+  have a3 := allR_add f 0 768 256
+  have a4 := allR_add f 0 1024 256
+  have a5 := allR_add f 0 1280 256
+  have a6 := allR_add f 0 1536 256
+  have a7 := allR_add f 0 1792 256
   simp only [Nat.reduceAdd] at a1 a2 a3 a4 a5 a6 a7
-  rw [a7, a6, a5, a4, a3, a2, a1, ue0, ue1, ue2, ue3, ue4, ue5, ue6, ue7]
+  rw [a7, a6, a5, a4, a3, a2, a1, h0, h1, h2, h3, h4, h5, h6, h7]
   rfl
+
+theorem uqTotal : cntR U 0 2048 = 16 := cntR_blocks8 U uq0 uq1 uq2 uq3 uq4 uq5 uq6 uq7
+
+theorem ueTotal : allR V 0 2048 = true := allR_blocks8 V ue0 ue1 ue2 ue3 ue4 ue5 ue6 ue7
 
 theorem heAutSylowCheck_true : heAutSylowCheck = true := by
   have kp := kPermG
   simp only [Bool.and_eq_true] at kp
   obtain ⟨⟨⟨⟨pY, pQ⟩, pE⟩, pF⟩, pU⟩ := kp
   have hN : HeAutY.N = 2048 := rfl
-  have huq : cntR U 0 HeAutY.N < 64 := by
-    rw [hN, uqTotal]
+  have hX := PP_pts (pinY pY).ok (pinY pY).perm
+  have hz : PP 32 6 Pz := PP_of_permOK (hX 0 (by rw [hN]; decide)).sz kPermZ
+  have eU : cntR U 0 HeAutY.N =
+      cntR (uqAt 32 6 HeAutY.N HeAutY.T HeAutQ.N HeAutQ.T HeAutFZ Pz) 0 HeAutY.N :=
+    cntR_congrH0 fun k hk => uqAtPt_eq hX hz hk
+  have eV : allR V 0 HeAutY.N =
+      allR (ueAt 32 6 HeAutY.N HeAutY.T HeAutE.N HeAutE.T HeAutF.N HeAutF.T HeAutF1) 0 HeAutY.N :=
+    allR_congr0 fun k hk => ueAtPt_eq hX hk
+  have huq : cntR (uqAt 32 6 HeAutY.N HeAutY.T HeAutQ.N HeAutQ.T HeAutFZ Pz) 0 HeAutY.N < 64 := by
+    rw [← eU, hN, uqTotal]
     decide
-  have hue : allR V 0 HeAutY.N = true := by
-    rw [hN]
+  have hue : allR (ueAt 32 6 HeAutY.N HeAutY.T HeAutE.N HeAutE.T HeAutF.N HeAutF.T HeAutF1) 0
+      HeAutY.N = true := by
+    rw [← eV, hN]
     exact ueTotal
   rw [heAutSylowCheck_eq]
   exact heAutK_sound (pinY pY) (pin kBindQ pQ HeAutQ.ok (by decide))

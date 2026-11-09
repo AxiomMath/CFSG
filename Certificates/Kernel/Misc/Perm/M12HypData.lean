@@ -8,8 +8,8 @@ public section
 
 namespace CertificateChecks.KernelMisc.M12Hyp
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.M12Hyp
-  "Certificates/Kernel/Misc/Perm/data/M12HypData.json.gz" 5998 12622104809212469491
+#kc_repo #kc_json CertificateChecks.KernelMisc.M12Hyp
+  "Certificates/Kernel/Misc/Perm/data/M12HypData.json" 5998 12622104809212469491
   (Hc : List Nat) (Qc : List Nat) (Q1c : List Nat) (Q2c : List Nat) (Bc : List Nat) (Gc : List Nat)
   (Jc : Nat) (Ec : Nat) (Nc : Nat) (Fc : Nat) (Xc : Nat)
 

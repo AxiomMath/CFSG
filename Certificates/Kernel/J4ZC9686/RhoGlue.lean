@@ -183,10 +183,14 @@ theorem p5Phi_codes : p5Phi.map code7 = [codeL (PL.getD 0 []), codeL (PL.getD 1 
   rw [← code7_phiPerm (j := 0) (by norm_num), ← code7_phiPerm (j := 1) (by norm_num)]
   rfl
 
-theorem b0Perms_codes : b0Perms.map code7 = (List.range 16).map b0C := by
-  unfold b0Perms
+theorem map_map_congr {α β γ : Type} {f : β → γ} {g : α → β} {h : α → γ} (l : List α)
+    (H : ∀ a ∈ l, f (g a) = h a) : (l.map g).map f = l.map h := by
   rw [List.map_map]
-  exact List.map_congr_left fun i _ => code7_b0Perm i
+  exact List.map_congr_left fun a ha => by rw [Function.comp_apply]; exact H a ha
+
+theorem b0Perms_codes : b0Perms.map code7 = (List.range 16).map b0C := by
+  rw [b0Perms]
+  exact map_map_congr _ fun i _ => code7_b0Perm i
 
 theorem negOK_rW : ∀ w ∈ rW, negOK w = true := by
   have h := ch9686neg
@@ -203,9 +207,8 @@ theorem negOK_tW (i : ℕ) : negOK (tW.getD i []) = true := by
     rfl
 
 theorem rPerms_codes : rPerms.map code7 = rW.map wordC := by
-  unfold rPerms
-  rw [List.map_map]
-  exact List.map_congr_left fun w hw => code7_wordPerm w (negOK_rW w hw)
+  rw [rPerms]
+  exact map_map_congr _ fun w hw => code7_wordPerm w (negOK_rW w hw)
 
 theorem mem_p5Gens {g : Perm (Fin 22)} (hg : g ∈ p5Gens) : ∃ j < 2, g = p5Gens.getD j 1 := by
   obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hg

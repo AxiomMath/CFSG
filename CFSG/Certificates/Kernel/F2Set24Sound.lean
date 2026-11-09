@@ -25,7 +25,7 @@ theorem beq_mod2 (x : ℕ) : Nat.beq (x % 2) 1 = x.testBit 0 := by
 
 theorem par_succ (d x : ℕ) : par (d + 1) x = (x.testBit 0 ^^ par d (x / 2)) := by
   change Bool.xor (Nat.beq (x % 2) 1) (par d (x / 2)) = _
-  rw [beq_mod2] <;> rfl
+  rw [beq_mod2]
 
 theorem xor_div2 (x y : ℕ) : (x ^^^ y) / 2 = x / 2 ^^^ y / 2 :=
   Nat.eq_of_testBit_eq fun i => by simp only [Nat.testBit_div_two, Nat.testBit_xor]
@@ -153,14 +153,14 @@ theorem opApp_eq (o : ℕ × ℕ) (v : ℕ) :
 theorem opApp_invol {o : ℕ × ℕ} (ho : OK o) (v : ℕ) : opApp o (opApp o v) = v := by
   rw [opApp_eq o v]
   split_ifs with h
-  · rw [opApp_eq, and_xor_clear ho.2, if_pos h, Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
-  · rw [opApp_eq, if_neg h]
+  · rw [opApp_eq, and_xor_clear ho.2, ite_eq_left h, Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
+  · rw [opApp_eq, ite_eq_right h]
 
 theorem opApp_xor (o : ℕ × ℕ) (u w : ℕ) : opApp o (u ^^^ w) = opApp o u ^^^ opApp o w := by
   rw [opApp_eq, opApp_eq o u, opApp_eq o w, Nat.and_xor_distrib_left, par_xor]
-  cases par 24 (o.2 &&& u) <;> cases par 24 (o.2 &&& w) <;> simp only [Bool.false_xor,
-    Bool.xor_false, Bool.true_xor, Bool.xor_true, Bool.not_true, Bool.not_false, if_true,
-    if_false, Bool.false_eq_true] <;>
+  cases par 24 (o.2 &&& u) <;> cases par 24 (o.2 &&& w) <;> simp only [Bool.xor_false,
+    Bool.xor_true, Bool.not_true, Bool.not_false, ite_true,
+    ite_false, Bool.false_eq_true] <;>
   · apply Nat.eq_of_testBit_eq
     intro j
     simp only [Nat.testBit_xor]
@@ -248,12 +248,12 @@ theorem mod_split (v L : ℕ) :
   rcases lt_trichotomy j L with h | rfl | h
   · have h1 : j < L + 1 := by omega
     have h2 : L ≠ j := by omega
-    split_ifs <;> simp [h, h1, h2, Nat.testBit_two_pow]
-  · split_ifs with hv <;> simp [hv, Nat.testBit_two_pow]
+    split_ifs <;> simp [h, h1, h2]
+  · split_ifs with hv <;> simp [hv]
   · have h1 : ¬ j < L + 1 := by omega
     have h1' : ¬ j < L := by omega
     have h2 : L ≠ j := by omega
-    split_ifs <;> simp [h1, h1', h2, Nat.testBit_two_pow]
+    split_ifs <;> simp [h1, h1', h2]
 
 theorem fold_eq (ops : List (ℕ × ℕ)) (R : Array ℕ) (v : ℕ) :
     ∀ L, (∀ j < L, opsApp ops (2 ^ j) = R[j]?.getD 0) →
@@ -335,7 +335,7 @@ theorem mapRevK_eq {α : Sort*} (f : ℕ → ℕ) :
     rw [strict_eq, mapRevK_eq f xs]
     simp
 
-noncomputable def pms24 : List ℕ := (List.range' 0 24).map pmask
+@[expose] noncomputable def pms24 : List ℕ := (List.range' 0 24).map pmask
 
 theorem withPms_eq {α : Sort*} (k : List ℕ → α) : withPms k = k pms24 := by
   unfold withPms
@@ -361,8 +361,8 @@ theorem xorSel_bits : ∀ (L k a acc p : ℕ), k + L ≤ 24 →
       par_and_shift]
     have hpm := pmask_bits (show k < 24 by omega) p
     cases ha : a.testBit 0
-    · simp only [Bool.false_eq_true, if_false, Bool.false_and, Bool.false_xor]
-    · simp only [if_true, Nat.testBit_xor, hpm, Bool.true_and]
+    · simp only [Bool.false_eq_true, ite_false, Bool.false_and, Bool.false_xor]
+    · simp only [ite_true, Nat.testBit_xor, hpm, Bool.true_and]
       cases acc.testBit p <;> cases decide (p < 2 ^ 24) <;> cases p.testBit k <;>
         cases par L (a / 2 &&& (p >>> (k + 1))) <;> rfl
 
@@ -414,16 +414,15 @@ theorem swp_bits {o : ℕ × ℕ} (ho : OK o) {m : ℕ}
       · simp [hge]
     rw [hsh, Bool.xor_false, Nat.add_comm (2 ^ o.1) q]
     by_cases hq : q < 2 ^ 24 <;> cases hp : par 24 (o.2 &&& q) <;>
-      simp [-Nat.reducePow, hq, hp] <;>
-      cases S.testBit q <;> cases S.testBit (q + 2 ^ o.1) <;> rfl
+      simp [-Nat.reducePow, hq]
   · have hge := Nat.ge_two_pow_of_testBit hqi
     rw [xor_set hqi, ← xor_set hqi, and_xor_clear ha, xor_set hqi, set_sub hqi,
       show 2 ^ o.1 + (q - 2 ^ o.1) = q by omega,
       show decide (q - 2 ^ o.1 < 2 ^ 24) = decide (q < 2 ^ 24) from
         decide_eq_decide.2 (sub_lt_iff hi hqi)]
     by_cases hq : q < 2 ^ 24 <;> cases hp : par 24 (o.2 &&& q) <;>
-      simp [-Nat.reducePow, hq, hp, hge] <;>
-      cases S.testBit q <;> cases S.testBit (q - 2 ^ o.1) <;> rfl
+      simp [-Nat.reducePow, hq, hge]
+    cases S.testBit q <;> cases S.testBit (q - 2 ^ o.1) <;> rfl
 
 theorem img_bits {ops : List (ℕ × ℕ)} (hok : ∀ o ∈ ops, OK o) :
     ∀ S q, (img (ops.map stp) S).testBit q =
@@ -436,15 +435,15 @@ theorem img_bits {ops : List (ℕ × ℕ)} (hok : ∀ o ∈ ops, OK o) :
     change (img (ops.map stp) (swp (1 <<< o.1) (opMask pms24 o) S)).testBit q = _
     rw [ih (fun o' h => hok o' (List.mem_cons_of_mem _ h))]
     split_ifs with hq
-    · rw [swp_bits ho (opMask_bits ho.1), if_pos (opsApp_lt (fun o' h =>
+    · rw [swp_bits ho (opMask_bits ho.1), ite_eq_left (opsApp_lt (fun o' h =>
         hok o' (List.mem_cons_of_mem _ h)) hq), opsApp_cons]
-    · rw [swp_bits ho (opMask_bits ho.1), if_neg hq]
+    · rw [swp_bits ho (opMask_bits ho.1), ite_eq_right hq]
 
 theorem img_lt {ops : List (ℕ × ℕ)} (hok : ∀ o ∈ ops, OK o) {S : ℕ} (hS : S < 2 ^ 2 ^ 24) :
     img (ops.map stp) S < 2 ^ 2 ^ 24 := by
   apply Nat.lt_pow_two_of_testBit
   intro q hq
-  rw [img_bits hok, if_neg (by
+  rw [img_bits hok, ite_eq_right (by
     have : (24 : ℕ) < 2 ^ 24 := by norm_num
     have := Nat.pow_lt_pow_right (show 1 < 2 by norm_num) this
     omega)]
@@ -472,7 +471,7 @@ theorem round_inv {opsP opsQ : List (ℕ × ℕ)} {F G : ℕ → ℕ} {root : �
   refine ⟨Nat.or_lt_two_pow hlt (Nat.or_lt_two_pow (img_lt hPok hlt) (img_lt hQok hlt)), ?_, ?_⟩
   · simp [hr]
   · intro q hq h
-    rw [Nat.testBit_or, Nat.testBit_or, img_bits hPok, img_bits hQok, if_pos hq, if_pos hq] at h
+    rw [Nat.testBit_or, Nat.testBit_or, img_bits hPok, img_bits hQok, ite_eq_left hq, ite_eq_left hq] at h
     rcases Bool.or_eq_true_iff.1 h with h | h
     · exact hb q hq h
     rcases Bool.or_eq_true_iff.1 h with h | h
@@ -483,7 +482,7 @@ theorem round_inv {opsP opsQ : List (ℕ × ℕ)} {F G : ℕ → ℕ} {root : �
       rw [hG q hq] at this
       exact Back.sg this
 
-def D (w : ℕ) (f : ℕ → ℕ) : ℕ → ℕ
+@[expose] def D (w : ℕ) (f : ℕ → ℕ) : ℕ → ℕ
   | 0 => 0
   | M + 1 => f 0 + 2 ^ w * D w (fun j => f (j + 1)) M
 
@@ -519,12 +518,12 @@ theorem D_pair (w : ℕ) : ∀ (M : ℕ) (f : ℕ → ℕ),
         (fun j => if j % 2 = 0 then f (j / 2 + 1) else 0) := by
       funext j
       rw [Nat.add_assoc, Nat.add_mod_right, Nat.add_div_right _ (by norm_num)]
-    simp only [Nat.zero_mod, Nat.zero_div, if_true, show (0 + 1) % 2 = 1 from rfl,
-      show (1 : ℕ) ≠ 0 from one_ne_zero, if_false, Nat.zero_add]
+    simp only [Nat.zero_div, ite_true, show (0 + 1) % 2 = 1 from rfl,
+      show (1 : ℕ) ≠ 0 from one_ne_zero, ite_false, Nat.zero_add]
     rw [h, D_pair w M (fun j => f (j + 1)), two_mul w, pow_add]
     ring
 
-noncomputable def cnt (S k j : ℕ) : ℕ :=
+@[expose] noncomputable def cnt (S k j : ℕ) : ℕ :=
   ((Finset.range (2 ^ 24)).filter (fun p => S.testBit p = true ∧ p / 2 ^ k = j)).card
 
 theorem cnt_succ (S k J : ℕ) : cnt S (k + 1) J = cnt S k (2 * J) + cnt S k (2 * J + 1) := by
@@ -580,12 +579,12 @@ theorem cnt_init {S : ℕ} (hS : S < 2 ^ 2 ^ 24) : S = D (2 ^ 0) (cnt S 0) (2 ^ 
       exact h ⟨Finset.mem_range.1 hp, hs⟩
   rw [hc]
   by_cases hq : q < 2 ^ 24
-  · cases hs : S.testBit q <;> simp [-Nat.reducePow, hq, hs]
+  · cases hs : S.testBit q <;> simp [-Nat.reducePow, hq]
   · have : S.testBit q = false :=
       Nat.testBit_lt_two_pow (lt_of_lt_of_le hS (Nat.pow_le_pow_right (by norm_num) (by omega)))
     simp [-Nat.reducePow, hq, this]
 
-noncomputable def popG (M : ℕ) (pms : List ℕ) : ℕ → ℕ → ℕ :=
+@[expose] noncomputable def popG (M : ℕ) (pms : List ℕ) : ℕ → ℕ → ℕ :=
   List.rec (motive := fun _ => ℕ → ℕ → ℕ) (fun _ c => c)
     (fun P _ ih w c => strict (Nat.xor M P) fun Q =>
       strict (Nat.add (Nat.land c Q) (Nat.land (Nat.shiftRight c w) Q)) (ih (Nat.mul 2 w))) pms
@@ -620,7 +619,7 @@ theorem pop_step {M S k : ℕ} (hM : ∀ q, M.testBit q = decide (q < 2 ^ 24)) (
     have h1 : q / 2 ^ k < 2 * 2 ^ (23 - k) ↔ q < 2 ^ 24 := by
       rw [Nat.div_lt_iff_lt_mul hw, hNw]
     by_cases hq : q < 2 ^ 24
-    · cases hb : decide (q / 2 ^ k % 2 = 1) <;> simp [-Nat.reducePow, hq, h1.2 hq, hb]
+    · cases hb : decide (q / 2 ^ k % 2 = 1) <;> simp [-Nat.reducePow, hq, h1.2 hq]
     · have : ¬ q / 2 ^ k < 2 * 2 ^ (23 - k) := fun h => hq (h1.1 h)
       simp [-Nat.reducePow, hq, this]
   have hbd : ∀ j < 2 * 2 ^ (23 - k), cnt S k j < 2 ^ 2 ^ k := fun j _ => cnt_lt S k j
@@ -750,7 +749,7 @@ theorem orbOK_sound {cP cQ : List ℕ} {opsP opsQ : List (ℕ × ℕ)} {root n s
     intro q hq
     have := congrArg (fun x => x.testBit q) hcl
     change (S ||| (img (opsP.map stp) S ||| img (opsQ.map stp) S)).testBit q = S.testBit q at this
-    rwa [Nat.testBit_or, Nat.testBit_or, img_bits hPok, img_bits hQok, if_pos hq, if_pos hq] at this
+    rwa [Nat.testBit_or, Nat.testBit_or, img_bits hPok, img_bits hQok, ite_eq_left hq, ite_eq_left hq] at this
   have hpreP : ∀ q < 2 ^ 24, opsApp opsP q ∈ T → q ∈ T := by
     intro q hq h
     rw [hmem] at h ⊢
@@ -773,7 +772,7 @@ theorem orbOK_sound {cP cQ : List ℕ} {opsP opsQ : List (ℕ × ℕ)} {root n s
   · intro v hv
     by_contra! hlt
     have := congrArg (fun x => x.testBit v) hlow
-    simp [Nat.testBit_and, ((hmem v).1 hv).2, hlt] at this
+    simp [((hmem v).1 hv).2, hlt] at this
 
 theorem back_mem {P Q : GL24} {cP cQ : Array ℕ} (hP : ActsBy P cP) (hQ : ActsBy Q cQ)
     {root v : ℕ} (hb : Back (vecMulN 24 cP) (vecMulN 24 cQ) root v) :

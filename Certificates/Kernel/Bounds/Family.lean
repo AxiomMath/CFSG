@@ -4,14 +4,17 @@ public meta import Lean
 public import Certificates.Data.Kernel.Bounds.TableFact
 public import CFSG.Certificates.Kernel.Bounds.Checks
 public import Certificates.Kernel.Bounds.Assemble
+meta import Certificates.Kernel.Bounds.Assemble
+meta import Certificates.Data.Kernel.Bounds.Table
+meta import CFSG.Certificates.Kernel.Bounds.Checks
+meta import CFSG.Certificates.Kernel.Common.AddThm
 public import CFSG.Certificates.Kernel.Bounds.Load
-public import CFSG.Certificates.Kernel.Bounds.LoadGz
+public import CFSG.Certificates.Kernel.Bounds.LoadRoot
 public import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.Common.Harness
 meta import CFSG.Certificates.Kernel.Bounds.Load
 meta import all CFSG.Certificates.Kernel.Common.Repo
 meta import all CFSG.Certificates.Kernel.Common.Harness
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
 public import Lean.Parser.Term
 
 open Lean Elab Command
@@ -28,12 +31,9 @@ set_option hygiene false
 meta def readManifest (rel : String) (size hash : Nat) : CommandElabM Json := do
   let some dir := (System.FilePath.mk (← getFileName)).parent
     | throwError "cannot compute the directory of {← getFileName}"
-  let z ← IO.FS.readBinFile (dir / rel)
-  let b ← if !rel.endsWith ".gz" then pure z else match CFSG.KC.Gz.gunzip z with
-    | .ok b => pure b
-    | .error e => throwError "manifest {rel}: {e}"
+  let b ← IO.FS.readBinFile (dir / rel)
   unless b.size == size && b.hash.toNat == hash do
-    throwError "manifest {rel}: decompressed size {b.size} hash {b.hash.toNat}, pinned size {size} hash {hash}"
+    throwError "manifest {rel}: JSON size {b.size} hash {b.hash.toNat}, pinned size {size} hash {hash}"
   let some s := String.fromUTF8? b | throwError "manifest {rel} is not UTF-8"
   match Json.parse s with
   | .ok j => pure j
@@ -120,10 +120,49 @@ meta def certCmds (c : Ctx) (t : Json) : CommandElabM Unit := do
     $(num hs) $(num hh) $(mkIdent (ns ++ `rels))))
   elabCommand (← `(command| theorem $(mkIdent (ns ++ `t1)) : $(mkIdent (ns ++ `T1.ok)) = true := by
     kb_assemble $(mkIdent dp)))
+  let fwd := (CFSG.Certificates.KB.Checks.parseHeader (←CFSG.Certificates.KB.Load.readPinned hp hs hh)).get "covFwd" == 1
+  let tf := mkIdent (if fwd then `CFSG.Certificates.KB.TableFactE else `CFSG.Certificates.KB.TableFact)
+  let ti := mkIdent (if fwd then `CFSG.Certificates.KB.TableFactE.intro
+    else `CFSG.Certificates.KB.TableFact.intro)
   elabCommand (← `(command| theorem $(mkIdent (c.fact ++ P)) :
-      CFSG.Certificates.KB.TableFact $(num (← natF t "m")) $(mkIdent (ns ++ `rels))
+      $tf $(num (← natF t "m")) $(mkIdent (ns ++ `rels))
         $(mkIdent (ns ++ `T1.words)) $(num (← natF t "N")) :=
-    CFSG.Certificates.KB.TableFact.intro $(mkIdent (ns ++ `t1)) $(mkIdent (ns ++ `top))))
+    $ti $(mkIdent (ns ++ `t1)) $(mkIdent (ns ++ `top))))
+
+open CFSG.Certificates.KB.Checks CFSG.Certificates.KB.Cert CFSG.Certificates.KB.Assemble in
+meta def factsCmds (c : Ctx) (t : Json) : CommandElabM Unit := do
+  let P := (← str t "P").toName
+  let (dp, hp, hs, hh) ← hdr c t
+  let ns := c.route ++ P
+  let T := ns ++ `T1
+  let R := ns ++ `rels
+  let D := `CFSG.KBData ++ dp
+  let cn := counts (parseHeader (← CFSG.Certificates.KB.Load.readPinned hp hs hh))
+  let d := fun (s : String) => mkConst (D ++ s.toName)
+  let walkL := appendTree D "wl" 0 (cn.wf.size - 1)
+  let (parts, _) := proofOf T dp R cn
+  let part := fun (s : String) => mkConst (ns ++ `t1 ++ s.toName)
+  CFSG.Certificates.KB.Load.withSync do
+    addTop (T ++ `walk) listNatT walkL
+    addTop (T ++ `ok) (mkConst ``Bool) (mkAppN (kb "factsOk")
+      #[lit cn.inv, lit cn.L, lit cn.eps, lit cn.nLab, lit cn.nT, lit cn.RW, lit cn.RM, lit cn.nR,
+        lit cn.nS, lit cn.nW, lit cn.nF, d "F", d "D", d "Wd", d "Wd2", d "R", d "S",
+        mkConst (T ++ `amap), mkConst R, mkConst (T ++ `words), mkConst (T ++ `walk)])
+    for (s, type, value) in parts do
+      unless s == "cov" do
+        CFSG.KC.addThmDecl { name := ns ++ `t1 ++ s.toName, levelParams := [], type, value }
+    CFSG.KC.addThmDecl
+      { name := ns ++ `t1, levelParams := [], type := isTrue (mkConst (T ++ `ok)),
+        value := mkAppN (kb "factsOk_intro")
+          #[lit cn.inv, lit cn.L, lit cn.eps, lit cn.nLab, lit cn.nT, lit cn.RW, lit cn.RM,
+            lit cn.nR, lit cn.nS, lit cn.nW, lit cn.nF, d "F", d "D", d "Wd", d "Wd2", d "R", d "S",
+            mkConst (T ++ `amap), mkConst R, mkConst (T ++ `words), walkL,
+            reflBoolTrue, reflBoolTrue, reflBoolTrue, reflBoolTrue, reflBoolTrue, reflBoolTrue,
+            reflBoolTrue, reflBoolTrue, mkConst (T ++ `hdr_ok), mkConst (T ++ `rels_ok),
+            mkConst (T ++ `subs_ok), part "words", part "pairs", part "tree", part "walk"] }
+
+meta def tableCmds (c : Ctx) (t : Json) : CommandElabM Unit := do
+  if (← natF t "N") == 0 then factsCmds c t else certCmds c t
 
 meta def flag (t : Json) (k : String) : Bool :=
   match t.getObjVal? k with
@@ -200,30 +239,16 @@ meta def loadCmds (c : Ctx) (t : Json) (part : Option Nat) : CommandElabM Unit :
     let .ok k := a[0]!.getStr? | throwError "manifest: loader {l.compress}"
     let .ok nm := a[1]!.getStr? | throwError "manifest: loader {l.compress}"
     let F := `CFSG.KBData ++ dp ++ nm.toName
-    let id := mkIdent F
     let as ← (← arr a[3]!).mapM nat
     let (sz, hs) := (← nat a[4]!, ← nat a[5]!)
-    let (s, h) := (num sz, num hs)
-    let gz := match a[2]!.getStr? with
-      | .ok f => if f.endsWith ".gz" then some f else none
-      | .error _ => none
-    let some f := gz | do
-      let files ← match a[2]! with
-        | .str f => pure #[(f, sz, hs)]
-        | .arr ps => ps.mapM fun q => do
-          let #[f, qs, qh] ← arr q | throwError "manifest: part {q.compress}"
-          let .ok f := f.getStr? | throwError "manifest: part {q.compress}"
-          pure (f, ← nat qs, ← nat qh)
-        | _ => throwError "manifest: loader {l.compress}"
-      plainLoad k F as (← readFiles c (files.map fun (f, x, y) => (c.dir ++ "/" ++ f, x, y)) sz hs)
-      continue
-    let p := quote (c.dir ++ "/" ++ f)
-    let cmd ← match k, as with
-      | "blocked", #[x, y, m] => `(command| #kc_blocked_gz $id $p $(num x) $(num y) $(num m) $s $h)
-      | "items", #[] => `(command| #kc_items_gz $id $p $s $h)
-      | "list", #[per] => `(command| #kc_list_gz $id $p $(num per) $s $h)
-      | _, _ => throwError "manifest: loader {l.compress}"
-    elabCommand (← if c.repo then `(command| #kc_repo $cmd) else pure cmd)
+    let files ← match a[2]! with
+      | .str f => pure #[(if f.endsWith ".gz" then String.ofList (f.toList.take (f.length - 3)) else f, sz, hs)]
+      | .arr ps => ps.mapM fun q => do
+        let #[f, qs, qh] ← arr q | throwError "manifest: part {q.compress}"
+        let .ok f := f.getStr? | throwError "manifest: part {q.compress}"
+        pure (f, ← nat qs, ← nat qh)
+      | _ => throwError "manifest: loader {l.compress}"
+    plainLoad k F as (← readFiles c (files.map fun (f, x, y) => (c.dir ++ "/" ++ f, x, y)) sz hs)
 
 meta def mainCmds (c : Ctx) (srcs : Array (Name × Term)) (t : Json) : CommandElabM Unit := do
   let P := (← str t "P").toName
@@ -242,7 +267,7 @@ meta def mainCmds (c : Ctx) (srcs : Array (Name × Term)) (t : Json) : CommandEl
   if (t.getObjVal? "parts").toOption.isNone then
     if let .ok n := t.getObjVal? "slices" then
       checkCmds c t (Array.range (← nat n))
-  unless flag t "close" do certCmds c t
+  unless flag t "close" do tableCmds c t
 
 end CFSG.Certificates.KB.Family
 
@@ -268,4 +293,4 @@ elab "#kb_family_close " path:str size:num hash:num : command => do
   for t in c.tables do
     if let .ok cs := t.getObjVal? "closeSlices" then
       checkCmds c t (← (← arr cs).mapM nat)
-    if flag t "close" then certCmds c t
+    if flag t "close" then tableCmds c t

@@ -135,7 +135,8 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.SporSch CFSG.KC.HeLoc
 @[expose] noncomputable def btD (t i : Nat) : Nat := fld(BT t, Nat.add (Nat.mul 20 i) 16, 15)
 
 @[expose] noncomputable def mtB (a : Nat) : Bool :=
-  allN 60 fun b => bAnd(Nat.blt (mt a b) 60, eqOnL bs (dv (mt a b)) (fun y => dv a (dv b y)))
+  allN 60 fun b => bAnd(Nat.blt (mt a b) 60, bIf(Nat.beq a 0, Nat.beq (mt a b) b,
+    Nat.beq (mt a b) (DE (mt (D0.P a) b) (D0.L a))))
 
 @[expose] noncomputable def btB (t : Nat) : Bool :=
   bIf(Nat.beq t 0, true, allN 60 fun i => bIf(Nat.beq i 0, true,

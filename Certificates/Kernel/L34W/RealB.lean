@@ -29,7 +29,7 @@ theorem ch22220k_4 : cK T1X.F AlX.F YT RBH RBW 4 2 1 2565 = true := by decide +k
 
 theorem ch22220k_5 : cK T1X.F AlX.F YT RBH RBW 5 1 3 9345 = true := by decide +kernel
 
-theorem ch22220s_0 : repSK GT L34S.T 0 = true := by decide +kernel
+theorem ch22220s_0 : Nat.beq (L34S.T 0) (repK GT 0) = true := by decide +kernel
 
 theorem ch22220s_25 : repSK GT L34S.T 25 = true := by decide +kernel
 

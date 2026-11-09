@@ -3,7 +3,7 @@ module
 public import Certificates.Kernel.Sporadic.Fi22.N2070Chk
 public import Certificates.Kernel.Sporadic.Fi22.N2070Sift
 public import Certificates.Kernel.Sporadic.Fi22.N3153Final
-public import Certificates.Kernel.Sporadic.Fi22.E2065Eq
+public import Certificates.Kernel.Sporadic.Fi22.E2065
 public import CFSG.Sporadic.FischerOddCore.Fi22RelBoundCheckInputs
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
@@ -25,9 +25,7 @@ theorem up2 : UP 2 = Fi22ExtT.L 24 := Nat.eq_of_beq_eq_true (by quickRfl)
 theorem up3 : UP 3 = Fi22ExtT.L 25 := Nat.eq_of_beq_eq_true (by quickRfl)
 theorem up4 : UP 4 = Fi22ExtT.L 26 := Nat.eq_of_beq_eq_true (by quickRfl)
 
-theorem cent_eq {L : Nat} (hL : L < 306) : fi22CentArr L = unpack 3510 12 (Fi22CentT.L L) := by
-  rw [fi22CentArr, fi22CentBytes, Fi22CentB.text_eq]
-  exact Fi22E2065.cent_eq hL
+theorem cent_eq {L : Nat} : fi22CentArr L = unpack 3510 12 (Fi22CentT.L L) := Fi22E2065.cent_eq
 
 theorem cell_of {c s : Nat} (hc : c < 4) (hs : s < (fi22CentRefPoints.getD c []).length) :
     cellK 3510 S (UP (c + 1)) (fi22CentRefPoints.getD c []) 4 s
@@ -83,7 +81,7 @@ theorem facts2070 :
       (∀ c < 4, ∀ x ∈ fi22CentRefPoints.getD c [], x < 3510)) ∧
     fi22RelBoundOK 1 = true ∧ fi22RelBoundOK 2 = true ∧ fi22RelBoundOK 3 = true ∧
       fi22RelBoundOK 4 = true := by
-  have eC := cent_eq (L := 79) (by norm_num)
+  have eC := cent_eq (L := 79)
   have eT := Fi22E2067.ext_eq (L := 22) (by norm_num)
   refine ⟨⟨?_, ?_, ?_, ?_, by decide⟩, rel_ok (c := 0) (by norm_num), rel_ok (c := 1) (by norm_num),
     rel_ok (c := 2) (by norm_num), rel_ok (c := 3) (by norm_num)⟩

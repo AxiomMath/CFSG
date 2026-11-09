@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.Spor.MSylowCent
+public import Certificates.Data.Kernel.Spor.MSylowFast
 public import CFSG.Sporadic.Schreier.MathieuSylowAutM24Derivs
 public import Certificates.Kernel.SporSch.Mathieu.M24Data
 public import CFSG.Sporadic.Schreier.MathieuSylowAutM24Inputs
@@ -53,8 +54,63 @@ set_option maxRecDepth 100000
 
 @[expose] def ES : List (List Int) := m24SylowExprs
 
-theorem syl : sylowAutP 24 5 (mask 5) I A Ai B Bi m24Derivs ES Z Zi 1100 244823040 10 = true := by
+#kw_list CertificateChecks.KernelSpor.M24Syl.pTr
+  (exprsV 24 5 (mask 5) I (slpP 24 5 (mask 5) I A Ai B Bi m24Derivs) ES) 128
+#kw_list CertificateChecks.KernelSpor.M24Syl.pTir
+  (exprsI 24 5 (mask 5) I (slpP 24 5 (mask 5) I A Ai B Bi m24Derivs) ES) 128
+#kw_list CertificateChecks.KernelSpor.M24Syl.Er
+  (MSylF.clRunQ 24 5 (mask 5) pTr 1100 (nat_lit 0) ([I], MSylF.bucketsOfS [I], [I], [])).1.reverse
+  128
+
+theorem s_pT : MSylF.eqNL (exprsV 24 5 (mask 5) I (slpP 24 5 (mask 5) I A Ai B Bi m24Derivs) ES)
+    pTr = true := by
   quickRfl
+
+theorem s_pTi : MSylF.eqNL (exprsI 24 5 (mask 5) I (slpP 24 5 (mask 5) I A Ai B Bi m24Derivs) ES)
+    pTir = true := by
+  quickRfl
+
+theorem s_E : MSylF.eqNL (MSylF.clRunQ 24 5 (mask 5) pTr 1100 (nat_lit 0)
+    ([I], MSylF.bucketsOfS [I], [I], [])).1.reverse Er = true := by
+  quickRfl
+
+theorem s_1 : Nat.beq (pcomp 24 5 (mask 5) A Ai) I = true := by quickRfl
+
+theorem s_2 : Nat.beq (pcomp 24 5 (mask 5) B Bi) I = true := by quickRfl
+
+theorem s_3 : Nat.beq (pcomp 24 5 (mask 5) Z Zi) I = true := by quickRfl
+
+theorem s_4 : allL (fun e => allL (fun g =>
+    CFSG.KC.NatBuckets.memB (MSylF.bucketsOfS Er) (pcomp 24 5 (mask 5) e g)) pTr) Er =
+    true := by
+  quickRfl
+
+theorem s_5 : allL (fun e => allL (fun g =>
+    CFSG.KC.NatBuckets.memB (MSylF.bucketsOfS Er) (pcomp 24 5 (mask 5) e g)) pTir) Er =
+    true := by
+  quickRfl
+
+theorem s_6 : distB Er = true := by quickRfl
+
+theorem s_7 : Nat.beq Er.length (Nat.shiftLeft (nat_lit 1) 10) = true := by quickRfl
+
+theorem s_8 : Nat.beq (Nat.mod 244823040 (Nat.shiftLeft (nat_lit 1) 10)) (nat_lit 0) = true := by
+  quickRfl
+
+theorem s_9 : Nat.beq (Nat.mod (Nat.div 244823040 (Nat.shiftLeft (nat_lit 1) 10)) (nat_lit 2))
+    (nat_lit 1) = true := by
+  quickRfl
+
+theorem s_10 : memB A Er = true := by quickRfl
+
+theorem s_11 : memB Z Er = true := by quickRfl
+
+theorem s_12 : commAllP 24 5 (mask 5) Z pTr = true := by quickRfl
+
+theorem syl : sylowAutP 24 5 (mask 5) I A Ai B Bi m24Derivs ES Z Zi 1100 244823040 10 = true :=
+  MSylF.sylowAutP_of (MSylF.eq_of_eqNL s_pT) (MSylF.eq_of_eqNL s_pTi)
+    ((MSylF.closP_eqQ _ _ _ _ _ _).trans (MSylF.eq_of_eqNL s_E)) s_1 s_2 s_3 (MSylF.closedP_of s_4)
+    (MSylF.closedP_of s_5) s_6 s_7 s_8 s_9 s_10 s_11 s_12
 
 theorem pt : (exprsV 24 5 (mask 5) I (slpP 24 5 (mask 5) I A Ai B Bi m24Derivs) ES == PT) = true := by
   quickRfl

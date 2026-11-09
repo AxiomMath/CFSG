@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.CoreD2K.Check
+public import Certificates.Data.Kernel.CoreD2K.Extra
 
 public section
 
@@ -40,6 +41,24 @@ deriving Inhabited
 @[expose] def chainOK (nl : Nat) : List Nat → List CStep → Bool
   | cov, [] => (List.range nl).all fun i => cov.contains i
   | cov, s :: r => cov.contains s.src && chainOK nl (s.tgt :: cov) r
+
+@[expose] noncomputable def linesGK (n w p : Nat) (V : VData) (EG : Nat → Nat)
+    (out : Nat → Nat → Nat → Bool) : Bool :=
+  strictB (EG (nat_lit 0)) (fun z =>
+  bAnd(Nat.beq V.ys.length (Nat.succ p),
+  bAnd(allN V.ys.length (fun i => bAnd(Nat.blt (V.ys.getD i (nat_lit 0)) V.base.eW.length,
+      vK n w p z (EG (V.ys.getD i (nat_lit 0))))),
+    allN V.ys.length (fun j => strictB (EG (V.ys.getD j (nat_lit 0))) (fun x =>
+      allN j (fun i => out z (EG (V.ys.getD i (nat_lit 0))) x))))))
+
+@[expose] noncomputable def outPK (w p z v x q : Nat) : Bool :=
+  strictB (pg w (mask w) x q) (fun xq => allN p (fun a => allN p (fun b =>
+    bIf(Nat.beq xq (pit w z a (pit w v b q)), false, true))))
+
+@[expose] noncomputable def bitDistK (l : List Nat) : Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun p _ ih m => Nat.beq (Nat.land (Nat.shiftRight m p) 1) 0 &&
+      ih (Nat.lor m (Nat.shiftLeft 1 p))) l
 
 end CFSG.KS.CoreD2K
 

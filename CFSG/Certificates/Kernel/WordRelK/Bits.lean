@@ -1,24 +1,13 @@
 module
 
 public import Certificates.Data.Kernel.WordRelK
+public import CFSG.Certificates.Kernel.WordRelK.PackHom
 
 public section
 
 namespace CFSG.KC.WordRelK
 
 open CFSG.Monster.B CFSG.Monster.B.TwoA.Sp8 CFSG.Monster.B.TwoA.Sp8.WordRel
-
-theorem allBelow_true {n : Nat} {f : Nat → Bool} (h : allBelow n f = true) :
-    ∀ k < n, f k = true := by
-  induction n with
-  | zero => intro k hk; omega
-  | succ n ih =>
-    have h' : (allBelow n f && f n) = true := h
-    rw [Bool.and_eq_true] at h'
-    intro k hk
-    rcases Nat.lt_succ_iff_lt_or_eq.1 hk with hk | rfl
-    · exact ih h'.1 k hk
-    · exact h'.2
 
 theorem allL_true {p : XLetter → Bool} {w : List XLetter} (h : allL p w = true) :
     ∀ ℓ ∈ w, p ℓ = true := by
@@ -31,62 +20,6 @@ theorem allL_true {p : XLetter → Bool} {w : List XLetter} (h : allL p w = true
     rcases List.mem_cons.1 hℓ with rfl | hℓ
     · exact h'.1
     · exact ih h'.2 ℓ hℓ
-
-private theorem par12_all : allBelow 64 (fun h => allBelow 64 fun l =>
-    Nat.beq (par12 (64 * h + l)) (if Model.parN 12 (64 * h + l) then 1 else 0)) = true := by
-  decide +kernel
-
-theorem par12_eq : ∀ v < 4096, par12 v = if Model.parN 12 v then 1 else 0 := by
-  intro v hv
-  have h := allBelow_true (allBelow_true par12_all (v / 64) (by omega)) (v % 64) (by omega)
-  rw [Nat.div_add_mod] at h
-  exact Nat.eq_of_beq_eq_true h
-
-theorem beq_div_mod (n : Nat) : Nat.beq (n / 16777216 % 2) 1 = n.testBit 24 := by
-  rw [Nat.testBit_eq_decide_div_mod_eq, show (2 : Nat) ^ 24 = 16777216 from rfl]
-  rcases Nat.mod_two_eq_zero_or_one (n / 16777216) with h | h <;> rw [h] <;> rfl
-
-private theorem bit24 (b : Bool) (i : Nat) :
-    ((if b then 1 else 0) * 16777216).testBit i = (b && decide (i = 24)) := by
-  cases b
-  · simp
-  · rw [show (if true then 1 else 0) * 16777216 = 2 ^ 24 from rfl, Nat.testBit_two_pow]
-    simp [eq_comm]
-
-theorem unpackP_mulP (x y : Nat) : unpackP (mulP x y) = (unpackP x).mul (unpackP y) := by
-  have hv : (y % 4096) &&& (x / 4096 % 4096) < 4096 :=
-    Nat.and_lt_two_pow (n := 12) _ (Nat.mod_lt _ (by decide))
-  unfold mulP
-  rw [par12_eq _ hv]
-  generalize hb : Model.parN 12 ((y % 4096) &&& (x / 4096 % 4096)) = b
-  have hpair : Model.pairN (y % 4096) (x / 4096 % 4096) = b := hb
-  simp only [unpackP, Model.Pauli.mul, Model.Pauli.s, Model.Pauli.a, Model.Pauli.d, hpair,
-    beq_div_mod]
-  refine Prod.ext ?_ (Prod.ext ?_ ?_)
-  · simp only [Nat.testBit_xor, bit24]
-    simp
-  · apply Nat.eq_of_testBit_eq
-    intro i
-    rw [show (4096 : Nat) = 2 ^ 12 from rfl]
-    simp only [Nat.testBit_mod_two_pow, Nat.testBit_xor, bit24]
-    by_cases hi : i < 12
-    · simp [hi, show i ≠ 24 by omega]
-    · simp [hi]
-  · apply Nat.eq_of_testBit_eq
-    intro i
-    rw [show (4096 : Nat) = 2 ^ 12 from rfl]
-    simp only [Nat.testBit_mod_two_pow, Nat.testBit_div_two_pow, Nat.testBit_xor, bit24]
-    by_cases hi : i < 12
-    · simp [hi, show i + 12 ≠ 24 by omega]
-    · simp [hi]
-
-theorem mulP_lt {x y : Nat} (hx : x < 2 ^ 25) (hy : y < 2 ^ 25) : mulP x y < 2 ^ 25 := by
-  unfold mulP
-  refine Nat.xor_lt_two_pow (Nat.xor_lt_two_pow hx hy) ?_
-  have h := Nat.mod_two_eq_zero_or_one (foldX 1 (foldX 2 (foldX 4 (foldX 8
-    ((y % 4096) &&& (x / 4096 % 4096))))))
-  unfold par12
-  rcases h with h | h <;> rw [h] <;> decide
 
 theorem unpackP_canon (x : Nat) : (unpackP x).2.1 < 4096 ∧ (unpackP x).2.2 < 4096 :=
   ⟨Nat.mod_lt _ (by decide), Nat.mod_lt _ (by decide)⟩
@@ -124,9 +57,9 @@ private theorem idx_spec (ℓ : XLetter) : ∀ L : List XLetter,
     change (t :: L).getD (bif letterEq ℓ t then 0 else _ + 1) (.lift 0) = ℓ
     cases he : letterEq ℓ t
     · rw [he] at h
-      simp only [cond_false, List.getD_cons_succ] at h ⊢
+      simp only [Bool.cond_false, List.getD_cons_succ] at h ⊢
       exact idx_spec ℓ L (by omega)
-    · simp only [cond_true, List.getD_cons_zero]
+    · simp only [Bool.cond_true, List.getD_cons_zero]
       exact (letterEq_sound he).symm
 
 theorem tLetters_length : tLetters.length = 9 := rfl
@@ -158,13 +91,13 @@ theorem letterAt_rowIdx {ℓ : XLetter} (h : okT ℓ = true) : letterAt (rowIdx 
     have hi : tIdx (.pc y) < 9 := by simpa [okT] using h
     have hb : Nat.blt (43 + tIdx (.pc y)) 43 = false :=
       Bool.eq_false_iff.2 (by rw [Ne, Nat.blt_eq]; omega)
-    simp only [letterAt, rowIdx, hb, cond_false, Nat.add_sub_cancel_left]
+    simp only [letterAt, rowIdx, hb, Bool.cond_false, Nat.add_sub_cancel_left]
     exact tLetters_getD_tIdx hi
   | sign a =>
     have hi : tIdx (.sign a) < 9 := by simpa [okT] using h
     have hb : Nat.blt (43 + tIdx (.sign a)) 43 = false :=
       Bool.eq_false_iff.2 (by rw [Ne, Nat.blt_eq]; omega)
-    simp only [letterAt, rowIdx, hb, cond_false, Nat.add_sub_cancel_left]
+    simp only [letterAt, rowIdx, hb, Bool.cond_false, Nat.add_sub_cancel_left]
     exact tLetters_getD_tIdx hi
 
 private theorem tLetters_ok : ∀ j < 9, (tLetters.getD j (.lift 0)).ok = true := by decide +kernel
@@ -260,9 +193,7 @@ theorem conjN_canon {ℓ : XLetter} (hℓ : okT ℓ = true) {y : Model.Pauli} (h
     · exact conjPauliN_canon _ hy
     · split
       · exact conjPauliN_canon _ (conjPermN_canon _ _)
-      · first
-          | exact foldl_conjYN_canon _ (signCodes_lt (k - 32) (by omega)) hy
-          | (rw [if_pos hk]; exact foldl_conjYN_canon _ (signCodes_lt (k - 32) (by omega)) hy)
+      · exact foldl_conjYN_canon _ (signCodes_lt (k - 32) (by omega)) hy
   | pc q => exact conjPauliN_canon q hy
   | sign a =>
     have hi : tIdx (.sign a) < 9 := by simpa [okT] using hℓ

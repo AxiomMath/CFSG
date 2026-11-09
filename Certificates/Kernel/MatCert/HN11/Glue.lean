@@ -43,7 +43,10 @@ theorem facts : hn_11_claims.facts.all (factOK (opsP 5 133)
     (fun i hi => match i, hi with
       | 0, _ => chk0 | 1, _ => chk1 | 2, _ => chk2 | 3, _ => chk3 | 4, _ => chk4 | 5, _ => chk5
       | 6, _ => chk6 | 7, _ => chk7 | 8, _ => chk8 | 9, _ => chk9 | 10, _ => chk10
-      | 11, _ => chk11 | 12, _ => chk12 | 13, _ => chk13)
+      | 11, _ => chk11 | 12, _ => chk12 | 13, _ => chk13 | 14, _ => chk14 | 15, _ => chk15
+      | 16, _ => chk16 | 17, _ => chk17 | 18, _ => chk18 | 19, _ => chk19 | 20, _ => chk20
+      | 21, _ => chk21 | 22, _ => chk22 | 23, _ => chk23 | 24, _ => chk24 | 25, _ => chk25
+      | 26, _ => chk26 | 27, _ => chk27 | _ + 28, h => absurd h (by omega))
   simpa using h
 
 theorem sec : SClaim.check (opsP 5 133) NativeSporadic.HNSeed1 NativeSporadic.HNSeed2

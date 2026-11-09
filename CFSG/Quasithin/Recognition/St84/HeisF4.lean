@@ -367,10 +367,40 @@ theorem mem_AJ_iff {α : MulAut Q1M} : α ∈ AJ ↔ α ∈ ajList := by
   rw [AJ_eq_ajSub]
   rfl
 
+theorem aj'List_gen_mul_exp : ∀ i j : Fin 3, ∀ k l : Fin 2,
+    ρM * (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) ∈ aj'List ∧
+    βM * (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) ∈ aj'List ∧
+    τM * (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) ∈ aj'List ∧
+    γM * (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) ∈ aj'List := by
+  decide +kernel
+
+theorem aj'List_gen_mul : ∀ g ∈ [ρM, βM, τM, γM], ∀ α ∈ aj'List, g * α ∈ aj'List := by
+  intro g hg α hα
+  obtain ⟨i, j, k, l, rfl⟩ := mem_aj'List.1 hα
+  have h := aj'List_gen_mul_exp i j k l
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hg
+  rcases hg with rfl | rfl | rfl | rfl
+  exacts [h.1, h.2.1, h.2.2.1, h.2.2.2]
+
+theorem pow_mul_mem_of_mul_mem {L : List (MulAut Q1M)} {g : MulAut Q1M}
+    (hg : ∀ α ∈ L, g * α ∈ L) (n : ℕ) {α : MulAut Q1M} (hα : α ∈ L) : g ^ n * α ∈ L := by
+  induction n with
+  | zero => simpa using hα
+  | succ n ih =>
+    rw [pow_succ', mul_assoc]
+    exact hg _ ih
+
 theorem aj'List_mul : ∀ i j : Fin 3, ∀ k l : Fin 2, ∀ i' j' : Fin 3, ∀ k' l' : Fin 2,
     (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) *
       (ρM ^ (i' : ℕ) * βM ^ (j' : ℕ) * τM ^ (k' : ℕ) * γM ^ (l' : ℕ)) ∈ aj'List := by
-  decide +kernel
+  intro i j k l i' j' k' l'
+  have hgen := aj'List_gen_mul
+  rw [show ∀ a b c d e : MulAut Q1M, a * b * c * d * e = a * (b * (c * (d * e))) from
+    fun a b c d e => by simp only [mul_assoc]]
+  refine pow_mul_mem_of_mul_mem (hgen ρM (by simp)) _ ?_
+  refine pow_mul_mem_of_mul_mem (hgen βM (by simp)) _ ?_
+  refine pow_mul_mem_of_mul_mem (hgen τM (by simp)) _ ?_
+  exact pow_mul_mem_of_mul_mem (hgen γM (by simp)) _ (aj'List_exponents_mem i' j' k' l')
 
 theorem aj'List_inv : ∀ i j : Fin 3, ∀ k l : Fin 2,
     (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ))⁻¹ ∈ aj'List := by
@@ -485,11 +515,28 @@ theorem AJ_le_AJ' : AJ ≤ AJ' := by
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
   rcases hx with rfl | rfl | rfl <;> simp
 
+theorem ajp_conj_aj3_gens : ∀ i j : Fin 3, ∀ k l : Fin 2, ∀ i' j' : Fin 3, ∃ m ∈ aj3List,
+    ((ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) *
+      (ρM ^ (i' : ℕ) * βM ^ (j' : ℕ)) *
+      (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ))⁻¹) e1 = m e1 ∧
+    ((ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) *
+      (ρM ^ (i' : ℕ) * βM ^ (j' : ℕ)) *
+      (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ))⁻¹) e2 = m e2 ∧
+    ((ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) *
+      (ρM ^ (i' : ℕ) * βM ^ (j' : ℕ)) *
+      (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ))⁻¹) f1 = m f1 ∧
+    ((ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) *
+      (ρM ^ (i' : ℕ) * βM ^ (j' : ℕ)) *
+      (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ))⁻¹) f2 = m f2 := by
+  decide +kernel
+
 theorem aj'_conj_aj3_aux : ∀ i j : Fin 3, ∀ k l : Fin 2, ∀ i' j' : Fin 3,
     (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) *
       (ρM ^ (i' : ℕ) * βM ^ (j' : ℕ)) *
       (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ))⁻¹ ∈ aj3List := by
-  decide +kernel
+  intro i j k l i' j'
+  obtain ⟨m, hm, h1, h2, h3, h4⟩ := ajp_conj_aj3_gens i j k l i' j'
+  rwa [aut_ext h1 h2 h3 h4]
 
 theorem aj'_conj_aj3 : ∀ i j : Fin 3, ∀ k l : Fin 2, ∀ h : MulAut Q1M, h ∈ aj3List →
     (ρM ^ (i : ℕ) * βM ^ (j : ℕ) * τM ^ (k : ℕ) * γM ^ (l : ℕ)) * h *

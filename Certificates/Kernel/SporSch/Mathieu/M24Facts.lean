@@ -152,7 +152,7 @@ theorem chainQ : ChainK 24 5 [m24gA, m24gB] m24Words
     (#v[0, 1, 2, 3, 4, 5, 6] : Vector (Fin 24) 7)
     M24Q.S M24Q.SI M24Q.LR M24Q.TR M24Q.TRI 11 M24Q.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M24Q.head, M24Q.hl,
-    by norm_num, M24Q.hs⟩
+    by norm_num, .inl M24Q.hs⟩
   have hj2 : j < 2 := hj
   interval_cases j
   · exact imgA
@@ -163,7 +163,7 @@ theorem chainC1 : ChainK 24 5 (m24CentWords1.map (evalCodes [m24gA, m24gB]))
     (#v[0, 1, 2] : Vector (Fin 24) 3) M24C1.S M24C1.SI M24C1.LR M24C1.TR M24C1.TRI 8 M24C1.BP 2
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M24C1.head, M24C1.hl,
-    by norm_num, M24C1.hs⟩
+    by norm_num, .inl M24C1.hs⟩
   have hj3 : j < 3 := by simpa [m24CentWords1] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensC1a j hj3) (allN_spec gensC1b j hj3)
@@ -173,7 +173,7 @@ theorem chainC2 : ChainK 24 5 (m24CentWords2.map (evalCodes [m24gA, m24gB]))
     (#v[1, 0, 2, 3] : Vector (Fin 24) 4) M24C2.S M24C2.SI M24C2.LR M24C2.TR M24C2.TRI 7 M24C2.BP 2
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M24C2.head, M24C2.hl,
-    by norm_num, M24C2.hs⟩
+    by norm_num, .inl M24C2.hs⟩
   have hj3 : j < 2 := by simpa [m24CentWords2] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensC2a j hj3) (allN_spec gensC2b j hj3)

@@ -5,6 +5,7 @@ public import Certificates.Kernel.Sporadic.J3K.ChecksP
 public import Certificates.Kernel.Sporadic.J3K.ChecksS
 public import Certificates.Kernel.Sporadic.J3K.ChecksW
 public import Certificates.Kernel.Sporadic.J3K.ChecksR
+public import Certificates.Kernel.Sporadic.J3K.Lin
 public import CFSG.Certificates.Kernel.Spor.SlpCard
 public import CFSG.Certificates.Kernel.Spor.VOrbSound
 public import CFSG.Certificates.Kernel.Spor.Loops
@@ -16,6 +17,7 @@ import CFSG.Certificates.Kernel.LocalCompSPCode
 import all TauCeti.GroupTheory.SpecificGroups.CFSG.Sporadic.Presentation
 import Certificates.Kernel.Sporadic.ON.Gen
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.RawOrbEval
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Certificates.Kernel.BfsPinSound
@@ -29,10 +31,11 @@ set_option maxRecDepth 400000
 
 #kon_join CertificateChecks.KernelSpor.J3K.ptAll CertificateChecks.KernelSpor.J3K.ptSl 42
 #kon_join CertificateChecks.KernelSpor.J3K.wordsAll CertificateChecks.KernelSpor.J3K.wordsSl 40
-#kon_join CertificateChecks.KernelSpor.J3K.relAll CertificateChecks.KernelSpor.J3K.relSl 80
+#kon_join CertificateChecks.KernelSpor.J3K.relAll CertificateChecks.KernelSpor.J3K.relSl 8
 #kon_join CertificateChecks.KernelSpor.J3K.tree0All CertificateChecks.KernelSpor.J3K.tree0Sl 10
 #kon_join CertificateChecks.KernelSpor.J3K.labAll CertificateChecks.KernelSpor.J3K.labSl 10
 #kon_join CertificateChecks.KernelSpor.J3K.subAll CertificateChecks.KernelSpor.J3K.subTree 22
+#kon_join CertificateChecks.KernelSpor.J3K.posWAll CertificateChecks.KernelSpor.J3K.posWSl 6
 
 namespace CertificateChecks.KernelSpor.J3K
 
@@ -60,6 +63,14 @@ theorem sl_spec {lo len n : Nat} {p : Nat → Bool}
   rw [e, Eq.mpr Nat.blt_eq h3] at h'
   exact h'
 
+theorem CAL_len : CAL.length = 80 := by decide +kernel
+theorem CBL_len : CBL.length = 80 := by decide +kernel
+
+theorem j3VecL_eq (L : List Nat) (hL : L.length = 80) (v : Nat) :
+    vecMulN 80 L.toArray v = j3VecK L v := by
+  have h := j3_vecMulN_toArray L v
+  rwa [hL] at h
+
 theorem pt_spec {i : Nat} (hi : i < 20520) : PJ i < 2 ^ 80 ∧ r32 TA i < 20520 ∧ r32 TB i < 20520 ∧
     vecMulN 80 CAJ (PJ i) = PJ (r32 TA i) ∧ vecMulN 80 CBJ (PJ i) = PJ (r32 TB i) ∧
     (i + 1 < 20520 → PJ i < PJ (i + 1)) := by
@@ -70,7 +81,8 @@ theorem pt_spec {i : Nat} (hi : i < 20520) : PJ i < 2 ^ 80 ∧ r32 TA i < 20520 
     simp only [Nat.mul_eq]; omega) (by simp only [Nat.mul_eq]; omega) hi
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, Bool.or_eq_true] at h'
   obtain ⟨⟨⟨⟨⟨a1, a2⟩, a3⟩, a4⟩, a5⟩, a6⟩ := h'
-  exact ⟨a1, a2, a3, a4, a5, fun hh => a6.resolve_left (by omega)⟩
+  exact ⟨a1, a2, a3, (j3VecL_eq CAL CAL_len _).trans a4, (j3VecL_eq CBL CBL_len _).trans a5,
+    fun hh => a6.resolve_left (by omega)⟩
 
 theorem inv_facts {x : Nat} (hx : x < 20520) : r32 AI x < 20520 ∧ r32 AI (r32 TA x) = x ∧
     r32 BI x < 20520 ∧ r32 BI (r32 TB x) = x := by
@@ -195,9 +207,10 @@ theorem inv_spec {j x : Nat} (hj : j < 4) (hx : x < 20520) : LJ (2 * j) x < 2052
   simp only [bAnd_iff, Nat.blt_eq, Nat.beq_eq] at h
   exact h
 
-theorem word_spec {j x : Nat} (hj : j < 4) (hx : x < 20520) :
-    LJ (2 * j) x = List.foldr (slpG GJ LJ) x ((j3Data ()).words)[j]! := by
-  rw [← slpGK_eq]
+theorem word_sl {j x : Nat} (hj : j < 4) (hx : x < 20520) :
+    bIf(Nat.blt j (nat_lit 2),
+      Nat.beq (LJ (Nat.mul (nat_lit 2) j) x) (List.foldr slpGK x ((j3Data ()).words)[j]!),
+      Nat.beq (PJ (LJ (Nat.mul (nat_lit 2) j) x)) (j3VecK (MWJ j) (PJ x))) = true := by
   have hs : 10 * j + x / 2052 < 40 := by omega
   have h := wordsAll (10 * j + x / 2052) hs
   unfold wordsSl at h
@@ -211,22 +224,22 @@ theorem word_spec {j x : Nat} (hj : j < 4) (hx : x < 20520) :
   rw [e1, e2] at h
   have h1 : x / 2052 * 2052 ≤ x := by omega
   have h2 : x < x / 2052 * 2052 + 2052 := by omega
-  exact Nat.eq_of_beq_eq_true (sl_spec h x h1 h2 hx)
+  exact sl_spec h x h1 h2 hx
 
-theorem words_ok : ∀ j < (j3Data ()).words.size, ∀ z ∈ ((j3Data ()).words)[j]!,
-    z ≠ 0 ∧ (z.natAbs ≤ 2 ∨ z.natAbs < j + 3) := by
-  decide
+theorem word_small {j x : Nat} (hj : j < 2) (hx : x < 20520) :
+    LJ (2 * j) x = List.foldr slpGK x ((j3Data ()).words)[j]! := by
+  have h := word_sl (j := j) (by omega) hx
+  have e : Nat.blt j (nat_lit 2) = true := by
+    simp only [Nat.blt_eq]
+    exact hj
+  rw [e] at h
+  exact Nat.eq_of_beq_eq_true h
 
-noncomputable abbrev LT8 : Array Table :=
-  CFSG.Sporadic.Fi23.Native.slpLetters 20520 (genT 20520 TAt TBt) (j3Data ()).words
+theorem LJ0 {x : Nat} (hx : x < 20520) : LJ 0 x = r32 TA x :=
+  word_small (j := 0) (by norm_num) hx
 
-theorem letters_get : LT8.size = 8 ∧ ∀ l < 8, ∀ x < 20520, ap LT8[l]! x = LJ l x := by
-  have hs : (j3Data ()).words.size = 4 := rfl
-  have h := slpLetters_get (n := 20520) (gens := genT 20520 TAt TBt) (G := GJ) (L := LJ)
-    (by norm_num) (fun z x hx => gens_get z hx) words_ok (fun j hj x hx => word_spec (by omega) hx)
-    (fun j hj x hx => inv_spec (by omega) hx)
-  rw [hs] at h
-  exact h
+theorem LJ2 {x : Nat} (hx : x < 20520) : LJ 2 x = r32 TB x :=
+  word_small (j := 1) (by norm_num) hx
 
 theorem lt_range {l x : Nat} (hl : l < 8) (hx : x < 20520) : LJ l x < 20520 := by
   rcases Nat.even_or_odd' l with ⟨j, rfl | rfl⟩
@@ -256,6 +269,207 @@ theorem tree_spec {i : Nat} (hi : i < 2) :
     rw [bAnd_iff] at h
     exact ⟨h.1, allN_spec h.2⟩
 
+theorem basisJ_lt : ∀ i ∈ (j3Data ()).basis, i < 20520 := by
+  intro i hi
+  have h := Array.all_eq_true_iff_forall_mem.1 (by rw [← Array.all_toList]; decide :
+    (j3Data ()).basis.all (fun i => decide (i < 20520)) = true) i hi
+  simpa using h
+
+theorem basis_span : CFSG.Sporadic.J3.Native.mulRows 80 (j3Data ()).basisInv
+    ((j3Data ()).basis.map PJ) = CFSG.Sporadic.J3.Native.idRows 80 := by
+  decide +kernel
+
+theorem letK_ite (l : Nat × Bool) (v : Nat) : letK l v =
+    if l.1 = 0 then (if l.2 then r32 TA v else r32 AI v)
+    else (if l.2 then r32 TB v else r32 BI v) := by
+  obtain ⟨i, b⟩ := l
+  rcases i with _ | i <;> cases b <;> rfl
+
+noncomputable def FJ (l : Nat × Bool) : Nat → Nat :=
+  if l.1 = 0 then vecMulN 80 CAJ
+  else if l.2 then vecMulN 80 CBJ else fun v => vecMulN 80 CBJ (vecMulN 80 CBJ v)
+
+theorem FJ_lin (l : Nat × Bool) : LinX (FJ l) := by
+  unfold FJ
+  split_ifs
+  · exact vecMulN_lin 80 CAJ
+  · exact vecMulN_lin 80 CBJ
+  · exact (vecMulN_lin 80 CBJ).comp (vecMulN_lin 80 CBJ)
+
+theorem rel_fix {r : Nat} (hr : r < 8)
+    (hact : ∀ l ∈ CFSG.KC.J3A.rels.getD r [], ∀ x < 20520,
+      letK l x < 20520 ∧ PJ (letK l x) = FJ l (PJ x)) :
+    ∀ x < 20520, List.foldr letK x (CFSG.KC.J3A.rels.getD r []) = x := by
+  have hb : (j3Data ()).basis.size = 80 := rfl
+  refine word_fix_lin (d := 80) (P := PJ)
+    (inj_of_strict fun i hi => (pt_spec (by omega)).2.2.2.2.2 hi)
+    (fun x hx => (pt_spec hx).1) hact (fun l _ => FJ_lin l) basis_span fun j hj => ?_
+  have hj' : j < (j3Data ()).basis.size := by omega
+  have h := allN_spec (relAll r hr) j hj
+  rw [strictB_eq] at h
+  have hm : (j3Data ()).basis[j]! ∈ (j3Data ()).basis := by
+    rw [getElem!_pos _ j hj']
+    exact Array.getElem_mem hj'
+  refine ⟨(j3Data ()).basis[j]!, basisJ_lt _ hm, ?_, Nat.eq_of_beq_eq_true h⟩
+  rw [Array.getElem?_map, Array.getElem?_eq_getElem hj', getElem!_pos _ j hj']
+  rfl
+
+theorem act_pos {l : Nat × Bool} (hl : l.2 = true) {x : Nat} (hx : x < 20520) :
+    letK l x < 20520 ∧ PJ (letK l x) = FJ l (PJ x) := by
+  have hp := pt_spec hx
+  rw [letK_ite, FJ]
+  by_cases h0 : l.1 = 0
+  · simp only [h0, hl, ↓reduceIte]
+    exact ⟨hp.2.1, hp.2.2.2.1.symm⟩
+  · simp only [h0, hl, ↓reduceIte]
+    exact ⟨hp.2.2.1, hp.2.2.2.2.1.symm⟩
+
+theorem ta_ta {x : Nat} (hx : x < 20520) : r32 TA (r32 TA x) = x := by
+  have e : CFSG.KC.J3A.rels.getD 0 [] = [(0, true), (0, true)] := rfl
+  have h := rel_fix (r := 0) (by norm_num) (fun l hl y hy => by
+    rw [e] at hl
+    exact act_pos (by simp at hl; rw [hl]) hy) x hx
+  rw [e] at h
+  simpa [letK_ite] using h
+
+theorem tb_tb_tb {x : Nat} (hx : x < 20520) : r32 TB (r32 TB (r32 TB x)) = x := by
+  have e : CFSG.KC.J3A.rels.getD 1 [] = [(1, true), (1, true), (1, true)] := rfl
+  have h := rel_fix (r := 1) (by norm_num) (fun l hl y hy => by
+    rw [e] at hl
+    exact act_pos (by simp at hl; rw [hl]) hy) x hx
+  rw [e] at h
+  simpa [letK_ite] using h
+
+theorem act_all (l : Nat × Bool) {x : Nat} (hx : x < 20520) :
+    letK l x < 20520 ∧ PJ (letK l x) = FJ l (PJ x) := by
+  cases hl : l.2
+  · have hp := pt_spec hx
+    have ha : r32 AI x = r32 TA x := by
+      have h := (inv_facts hp.2.1).2.1
+      rw [ta_ta hx] at h
+      exact h
+    have hpb := pt_spec hp.2.2.1
+    have hb : r32 BI x = r32 TB (r32 TB x) := by
+      have h := (inv_facts hpb.2.2.1).2.2.2
+      rw [tb_tb_tb hx] at h
+      exact h
+    rw [letK_ite, FJ]
+    by_cases h0 : l.1 = 0
+    · simp only [h0, hl, ↓reduceIte, ha]
+      exact ⟨hp.2.1, hp.2.2.2.1.symm⟩
+    · simp only [h0, hl, ↓reduceIte, hb, Bool.false_eq_true]
+      exact ⟨hpb.2.2.1, by rw [hp.2.2.2.2.1, hpb.2.2.2.2.1]⟩
+  · exact act_pos hl hx
+
+theorem LJ1 {x : Nat} (hx : x < 20520) : LJ 1 x = r32 TA x := by
+  have hy := (pt_spec hx).2.1
+  have h : LJ 1 (LJ 0 (r32 TA x)) = r32 TA x := (inv_spec (j := 0) (by norm_num) hy).2.2
+  rw [LJ0 hy, ta_ta hx] at h
+  exact h
+
+theorem LJ3 {x : Nat} (hx : x < 20520) : LJ 3 x = r32 TB (r32 TB x) := by
+  have hb1 := (pt_spec hx).2.2.1
+  have hb2 := (pt_spec hb1).2.2.1
+  have h : LJ 3 (LJ 2 (r32 TB (r32 TB x))) = r32 TB (r32 TB x) :=
+    (inv_spec (j := 1) (by norm_num) hb2).2.2
+  rw [LJ2 hb2, tb_tb_tb hx] at h
+  exact h
+
+theorem linJ (L : List Nat) (hL : L.length = 80) : LinX (j3VecK L) := by
+  have e : j3VecK L = vecMulN 80 L.toArray := funext fun v => (j3VecL_eq L hL v).symm
+  rw [e]
+  exact vecMulN_lin 80 L.toArray
+
+theorem slp_act {z : Int} (hz : z = 3 ∨ z = -3 ∨ z = 4 ∨ z = -4) {x : Nat} (hx : x < 20520) :
+    (slpGK z x < 20520 ∧ PJ (slpGK z x) = FWK z (PJ x)) ∧ LinX (FWK z) := by
+  have hp := pt_spec hx
+  have hA : PJ (r32 TA x) = j3VecK CAL (PJ x) := hp.2.2.2.1.symm.trans (j3VecL_eq CAL CAL_len _)
+  have hB : PJ (r32 TB x) = j3VecK CBL (PJ x) := hp.2.2.2.2.1.symm.trans (j3VecL_eq CBL CBL_len _)
+  rcases hz with rfl | rfl | rfl | rfl
+  · have e : slpGK 3 x = LJ 0 x := rfl
+    have f : FWK 3 = j3VecK CAL := rfl
+    rw [e, f, LJ0 hx]
+    exact ⟨⟨hp.2.1, hA⟩, linJ CAL CAL_len⟩
+  · have e : slpGK (-3) x = LJ 1 x := rfl
+    have f : FWK (-3) = j3VecK CAL := rfl
+    rw [e, f, LJ1 hx]
+    exact ⟨⟨hp.2.1, hA⟩, linJ CAL CAL_len⟩
+  · have e : slpGK 4 x = LJ 2 x := rfl
+    have f : FWK 4 = j3VecK CBL := rfl
+    rw [e, f, LJ2 hx]
+    exact ⟨⟨hp.2.2.1, hB⟩, linJ CBL CBL_len⟩
+  · have e : slpGK (-4) x = LJ 3 x := rfl
+    have f : FWK (-4) = fun v => j3VecK CBL (j3VecK CBL v) := rfl
+    have hpb := pt_spec hp.2.2.1
+    have hB2 : PJ (r32 TB (r32 TB x)) = j3VecK CBL (PJ (r32 TB x)) :=
+      hpb.2.2.2.2.1.symm.trans (j3VecL_eq CBL CBL_len _)
+    rw [e, f, LJ3 hx]
+    refine ⟨⟨hpb.2.2.1, ?_⟩, (linJ CBL CBL_len).comp (linJ CBL CBL_len)⟩
+    rw [hB2, hB]
+
+theorem word_lin {j : Nat} (hj : j = 2 ∨ j = 3) {x : Nat} (hx : x < 20520) :
+    LJ (2 * j) x = List.foldr slpGK x ((j3Data ()).words)[j]! := by
+  have hw : ∀ z ∈ ((j3Data ()).words)[j]!, z = 3 ∨ z = -3 ∨ z = 4 ∨ z = -4 := by
+    rcases hj with rfl | rfl <;> decide
+  have hlen : (MWJ j).length = 80 := by
+    rcases hj with rfl | rfl <;> decide +kernel
+  have hc : colChk j = true := by
+    rcases hj with rfl | rfl
+    · exact colChk_ok.1
+    · exact colChk_ok.2
+  have hT := foldr_transfer (n := 20520) (P := PJ) (act := slpGK) (F := FWK)
+    (w := ((j3Data ()).words)[j]!) (fun z hz y hy => (slp_act (hw z hz) hy).1) hx
+  have hf := foldr_linX (F := FWK) (w := ((j3Data ()).words)[j]!)
+    fun z hz => (slp_act (hw z hz) hx).2
+  have hcol : ∀ k < 80,
+      List.foldr FWK ((CFSG.Sporadic.J3.Native.idRows 80)[k]?.getD 0) ((j3Data ()).words)[j]! =
+      (MWJ j).toArray[k]?.getD 0 := by
+    intro k hk
+    unfold colChk at hc
+    have h := Nat.eq_of_beq_eq_true (allN_spec hc k hk)
+    have e1 : (CFSG.Sporadic.J3.Native.idRows 80)[k]?.getD 0 = 1 <<< k := by
+      simp [CFSG.Sporadic.J3.Native.idRows, hk]
+    have e2 : (MWJ j).toArray[k]?.getD 0 = List.getD (MWJ j) k 0 := by
+      simp [List.getD_eq_getElem?_getD]
+    rw [e1, e2]
+    exact h
+  have hv := (pt_spec hx).1
+  have hM : List.foldr FWK (PJ x) ((j3Data ()).words)[j]! = j3VecK (MWJ j) (PJ x) := by
+    have h := LinX.vecMulN_eq hf hcol (PJ x)
+    rw [vecMulN_id hv, j3VecL_eq _ hlen] at h
+    exact h
+  have hs := word_sl (j := j) (by omega) hx
+  have e : Nat.blt j (nat_lit 2) = false := by
+    rcases hj with rfl | rfl <;> rfl
+  rw [e] at hs
+  have hL : PJ (LJ (2 * j) x) = j3VecK (MWJ j) (PJ x) := Nat.eq_of_beq_eq_true hs
+  refine inj_of_strict (n := 20520) (P := PJ)
+    (fun i hi => (pt_spec (i := i) (by omega)).2.2.2.2.2 hi) _
+    (inv_spec (by omega) hx).1 _ hT.1 ?_
+  rw [hL, hT.2, hM]
+
+theorem word_spec {j x : Nat} (hj : j < 4) (hx : x < 20520) :
+    LJ (2 * j) x = List.foldr (slpG GJ LJ) x ((j3Data ()).words)[j]! := by
+  rw [← slpGK_eq]
+  by_cases h2 : j < 2
+  · exact word_small h2 hx
+  · exact word_lin (by omega) hx
+
+theorem words_ok : ∀ j < (j3Data ()).words.size, ∀ z ∈ ((j3Data ()).words)[j]!,
+    z ≠ 0 ∧ (z.natAbs ≤ 2 ∨ z.natAbs < j + 3) := by
+  decide
+
+noncomputable abbrev LT8 : Array Table :=
+  CFSG.Sporadic.Fi23.Native.slpLetters 20520 (genT 20520 TAt TBt) (j3Data ()).words
+
+theorem letters_get : LT8.size = 8 ∧ ∀ l < 8, ∀ x < 20520, ap LT8[l]! x = LJ l x := by
+  have hs : (j3Data ()).words.size = 4 := rfl
+  have h := slpLetters_get (n := 20520) (gens := genT 20520 TAt TBt) (G := GJ) (L := LJ)
+    (by norm_num) (fun z x hx => gens_get z hx) words_ok (fun j hj x hx => word_spec (by omega) hx)
+    (fun j hj x hx => inv_spec (by omega) hx)
+  rw [hs] at h
+  exact h
+
 theorem chain_hyp : ChainHyp 20520 8 2 LT8 (j3Data ()).base (j3Data ()).basis (j3Data ()).qb LJ BJ
     (j3Data ()).basis.toList (fun i => i) CNTJ PTSJ POSJ PARJ LABJ TIJ where
   letters := ⟨letters_get.1, letters_get.2⟩
@@ -270,20 +484,7 @@ theorem rels_spec : ∀ v ∈ TauCeti.Sporadic.j3Presentation.relatorLetters, �
   rw [CFSG.KC.J3A.rels_eq] at hv
   obtain ⟨r, hr, rfl⟩ := List.getElem_of_mem hv
   have hl : CFSG.KC.J3A.rels.length = 8 := rfl
-  have hs : 10 * r + x / 2052 < 80 := by omega
-  have h := relAll (10 * r + x / 2052) hs
-  unfold relSl at h
-  rw [strictB_eq, strictB_eq] at h
-  have e1 : Nat.div (10 * r + x / 2052) 10 = r := by
-    change (10 * r + x / 2052) / 10 = r
-    omega
-  have e2 : Nat.mul (Nat.mod (10 * r + x / 2052) 10) 2052 = x / 2052 * 2052 := by
-    change (10 * r + x / 2052) % 10 * 2052 = x / 2052 * 2052
-    rw [Nat.mul_add_mod, Nat.mod_eq_of_lt (by omega)]
-  rw [e1, e2] at h
-  have h1 : x / 2052 * 2052 ≤ x := by omega
-  have h2 : x < x / 2052 * 2052 + 2052 := by omega
-  have h' := Nat.eq_of_beq_eq_true (sl_spec h x h1 h2 hx)
+  have h' := rel_fix (r := r) (by omega) (fun l _ y hy => act_all l hy) x hx
   rw [List.getD_eq_getElem _ _ hr] at h'
   have e : letK = letV (r32 TA) (r32 AI) (r32 TB) (r32 BI) := by
     funext l v
@@ -372,9 +573,10 @@ theorem lv1_eq : levelLetters LT8 (j3Data ()).base 1 = (lvK LJ BJ 8 1).toArray :
   rw [e, letters_get.2 l hl' 0 (by norm_num), Bool.eq_iff_iff, CFSG.KLC.E8.allN_iff]
   simp [BJ]
 
-theorem lab_spec {z : Nat} (hz : z < 20520) : r32 LBL z < 22 ∧
+theorem lab_full {z : Nat} (hz : z < 20520) : r32 LBL z < 22 ∧
     r32 (SPOSJ (r32 LBL z)) z < SCNTJ (r32 LBL z) ∧
-    r32 (SPTSJ (r32 LBL z)) (r32 (SPOSJ (r32 LBL z)) z) = z := by
+    r32 (SPTSJ (r32 LBL z)) (r32 (SPOSJ (r32 LBL z)) z) = z ∧
+    r32 CPOS z = r32 (SPOSJ (r32 LBL z)) z := by
   have hs : z / 2052 < 10 := by omega
   have h := labAll (z / 2052) hs
   unfold labSl at h
@@ -382,7 +584,130 @@ theorem lab_spec {z : Nat} (hz : z < 20520) : r32 LBL z < 22 ∧
     simp only [Nat.mul_eq]; omega) (by simp only [Nat.mul_eq]; omega) hz
   rw [strictB_eq] at h'
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h'
-  exact ⟨h'.1.1, h'.1.2, h'.2⟩
+  exact ⟨h'.1.1.1, h'.1.1.2, h'.1.2, h'.2⟩
+
+theorem lab_spec {z : Nat} (hz : z < 20520) : r32 LBL z < 22 ∧
+    r32 (SPOSJ (r32 LBL z)) z < SCNTJ (r32 LBL z) ∧
+    r32 (SPTSJ (r32 LBL z)) (r32 (SPOSJ (r32 LBL z)) z) = z :=
+  ⟨(lab_full hz).1, (lab_full hz).2.1, (lab_full hz).2.2.1⟩
+
+theorem r32_tb (F : Nat → Nat) (i k : Nat) : (r32 F i).testBit k =
+    (decide (k < 32) && (F (i / 32)).testBit (32 * (i % 32) + k)) := by
+  have h1 : Nat.add 0 (Nat.shiftRight i 5) = i / 32 := by
+    rw [Nat.add_eq, Nat.zero_add]
+    exact Nat.shiftRight_eq_div_pow i 5
+  have h2 : Nat.mul 32 (Nat.land i 31) = 32 * (i % 32) := by
+    rw [Nat.mul_eq]
+    congr 1
+    exact Nat.and_two_pow_sub_one_eq_mod i 5
+  have e : r32 F i = (F (Nat.add 0 (Nat.shiftRight i 5)) >>> (Nat.mul 32 (Nat.land i 31))) &&&
+      (2 ^ 32 - 1) := rfl
+  rw [e, h1, h2, Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one,
+    Bool.and_comm]
+
+set_option exponentiation.threshold 2048 in
+theorem defW_tb (F : Nat → Nat) (w b : Nat) : (defW F w).testBit b =
+    (((F w).testBit b ^^ decide (b < 1024)) && (vW w).testBit b) := by
+  have e : defW F w = (F w ^^^ (2 ^ 1024 - 1)) &&& vW w := rfl
+  rw [e, Nat.testBit_and, Nat.testBit_xor, Nat.testBit_two_pow_sub_one]
+
+set_option exponentiation.threshold 2048 in
+theorem vW_tb {z k : Nat} (hz : z < 20520) (hk : k < 32) :
+    (vW (z / 32)).testBit (32 * (z % 32) + k) = true := by
+  have e : vW (z / 32) = if z / 32 < 641 then 2 ^ 1024 - 1 else 2 ^ 256 - 1 := by
+    unfold vW
+    by_cases hc : z / 32 < 641
+    · have hb : Nat.blt (z / 32) (nat_lit 641) = true := by
+        rw [Nat.blt_eq]
+        exact hc
+      rw [hb, if_pos hc]
+      rfl
+    · have hb : Nat.blt (z / 32) (nat_lit 641) = false := by
+        rw [Bool.eq_false_iff]
+        intro h'
+        rw [Nat.blt_eq] at h'
+        exact hc h'
+      rw [hb, if_neg hc]
+      rfl
+  rw [e]
+  split_ifs with h
+  · rw [Nat.testBit_two_pow_sub_one, decide_eq_true_eq]
+    omega
+  · rw [Nat.testBit_two_pow_sub_one, decide_eq_true_eq]
+    omega
+
+theorem pos_word (q r : Nat) (hq : q < 6) (hr : r < 107) :
+    bitDisjK (fun l => defW (SPOSJ l) (Nat.add (Nat.mul q 107) r))
+      (defW CPOS (Nat.add (Nat.mul q 107) r)) 22 0 0 = true := by
+  have h := posWAll q hq
+  unfold posWSl at h
+  have h' := allN_spec h r hr
+  rw [strictB_eq] at h'
+  exact h'
+
+theorem spos_none {l z : Nat} (hl : l < 22) (hz : z < 20520) (hne : r32 LBL z ≠ l) :
+    r32 (SPOSJ l) z = 4294967295 := by
+  have hW := pos_word (z / 32 / 107) (z / 32 % 107) (by omega) (by omega)
+  have ew : Nat.add (Nat.mul (z / 32 / 107) 107) (z / 32 % 107) = z / 32 := by
+    simp only [Nat.add_eq, Nat.mul_eq]
+    omega
+  rw [ew] at hW
+  have hS := (bitDisjK_spec 22 0 0 hW).2
+  obtain ⟨hl0, -, -, hc⟩ := lab_full hz
+  apply Nat.eq_of_testBit_eq
+  intro k
+  have e4 : (4294967295 : Nat) = 2 ^ 32 - 1 := rfl
+  rw [r32_tb, e4, Nat.testBit_two_pow_sub_one]
+  by_cases hk : k < 32
+  · simp only [hk, decide_true, Bool.true_and]
+    cases hb : (SPOSJ l (z / 32)).testBit (32 * (z % 32) + k)
+    · exfalso
+      have hv := vW_tb hz hk
+      have hd : (defW (SPOSJ l) (z / 32)).testBit (32 * (z % 32) + k) = true := by
+        rw [defW_tb, hb, hv, Bool.false_xor, Bool.and_true, decide_eq_true_eq]
+        omega
+      obtain ⟨hT, -, hoth⟩ := hS l hl _ (by rw [Nat.zero_add]; exact hd)
+      have h2 := hoth (r32 LBL z) hl0 hne
+      rw [Nat.zero_add] at h2
+      have hcb : (CPOS (z / 32)).testBit (32 * (z % 32) + k) =
+          (SPOSJ (r32 LBL z) (z / 32)).testBit (32 * (z % 32) + k) := by
+        have := congrArg (fun x => x.testBit k) hc
+        simpa only [r32_tb, hk, decide_true, Bool.true_and] using this
+      have h2' : (defW (SPOSJ (r32 LBL z)) (z / 32)).testBit (32 * (z % 32) + k) = false := h2
+      rw [defW_tb, hcb] at hT
+      rw [defW_tb] at h2'
+      rw [h2'] at hT
+      exact absurd hT (by decide)
+    · rfl
+  · simp [hk]
+
+open CFSG.KS.Raw.Orb in
+theorem j3hdK_of {n root cnt : Nat} {PTS POS PAR LAB : Nat → Nat}
+    (h : Hd n root cnt PTS POS PAR LAB) : tbfsHdK n root cnt PTS POS PAR LAB = true := by
+  unfold tbfsHdK none32K
+  simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq]
+  refine ⟨h.cnt_pos, h.cnt_le, h.n_lt, h.root, h.par0, h.lab0, allN_iff.2 fun z hz => ?_⟩
+  rw [strictB_eq, bIf_eq]
+  rcases h.pos z hz with h1 | ⟨h1, h2⟩
+  · simp [h1]
+  · have := h.cnt_le
+    have := h.n_lt
+    have : r32 POS z ≠ 4294967295 := by omega
+    simp [this, bAnd_eq, Nat.blt_eq, Nat.beq_eq, h1, h2]
+
+theorem sub_hd {l : Nat} (hl : l < 22) (h : subHd l = true) :
+    tbfsHdK 20520 (REPJ l) (SCNTJ l) (SPTSJ l) (SPOSJ l) (SPARJ l) (SLABJ l) = true := by
+  unfold subHd at h
+  simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq] at h
+  obtain ⟨h1, h2, h3, h4, h5⟩ := h
+  refine j3hdK_of ⟨h1, h2, by norm_num, h3, h4, h5, fun z hz => ?_⟩
+  by_cases e : r32 LBL z = l
+  · right
+    obtain ⟨-, a, b⟩ := lab_spec hz
+    rw [e] at a b
+    exact ⟨a, b⟩
+  · left
+    exact spos_none hl hz e
 
 theorem labOK_spec : ∀ l < 22, (r32 CT0.POS (REPJ l) < CT0.cnt ∧
     r32 CT0.PTS (r32 CT0.POS (REPJ l)) = REPJ l) ∧ ∀ q < SCNTJ l, r32 LBL (r32 (SPTSJ l) q) = l := by
@@ -412,7 +737,7 @@ theorem sub_ok : subChecks (j3Data ()) LT8 (levelLetters LT8 (j3Data ()).base 1)
       have h := subAll l hl
       unfold subTree at h
       rw [bAnd_iff] at h
-      exact ⟨h.1, allN_spec h.2⟩)
+      exact ⟨sub_hd hl h.1, allN_spec h.2⟩)
     (fun z hz => lab_spec hz) (fun l hl q hq => (labOK_spec l hl).2 q hq)
     (fun c h1 h2 => by
       obtain ⟨c', rfl⟩ : ∃ c', c = Nat.succ c' := ⟨c - 1, by omega⟩
@@ -444,13 +769,8 @@ theorem orbit_ok : orbitChecks (j3Data ()) CAJ CBJ PTS TAt TBt = true := by
   · decide
   · rw [← Array.all_toList]
     decide
-  · have hb : ∀ i ∈ (j3Data ()).basis, i < 20520 := by
-      intro i hi
-      have h := Array.all_eq_true_iff_forall_mem.1 (by rw [← Array.all_toList]; decide :
-        (j3Data ()).basis.all (fun i => decide (i < 20520)) = true) i hi
-      simpa using h
-    rw [Array.map_congr_left (g := PJ) fun i hi => pts_get (hb i hi)]
-    decide +kernel
+  · rw [Array.map_congr_left (g := PJ) fun i hi => pts_get (basisJ_lt i hi), basis_span]
+    exact beq_self_eq_true _
 
 theorem j3_cert : check (j3Data ()) 3 = true := by
   unfold check

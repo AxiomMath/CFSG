@@ -6,6 +6,8 @@ public import CFSG.RankThree.PartOne.CTP.FusionDefs
 public import CFSG.Certificates.Kernel.OpsLayKSnd
 import CFSG.Certificates.Kernel.OpsLayFusSound
 import CFSG.Certificates.Kernel.OpsRenLSound
+import CFSG.Certificates.Kernel.CosetLat.MatEnc
+import all CFSG.Certificates.Kernel.Spor.OrdSound
 
 public section
 
@@ -148,6 +150,84 @@ theorem fusRen_sound {c : Lay} {d A B : Nat} {LA LB : List Char} {sA sB : String
     exact he
   exact fusCheck_of_seeds (seeds_of_runL (C := ⟨n, prog, D.facts⟩) hc hp hd hA hB hsA hsB hprog
     hrA hrB hfacts hseed) hw
+
+theorem mul_ONE_of_canon {c : Lay} (hc : c.ok = true) {x : Nat}
+    (hx : CFSG.KS.Ord.Canon c.p c.d c.w x) : c.mul x c.ONE = x := by
+  obtain ⟨-, hS, hw, -⟩ := CFSG.KS.Ord.consts_facts hc
+  have h1 := CFSG.KS.Ord.one_sound hc
+  obtain ⟨m1, m2⟩ := SecS.mul_sound c hc hx h1.1
+  refine CFSG.KC.CosetLat.canon_eq_of_ordMat hw m1 hx ?_
+  rw [← hS, m2, h1.2, mul_one]
+
+theorem evalWL1_eq {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {R K : List Nat} {n : Nat}
+    (hK : ∀ r ∈ K, CFSG.KS.Ord.Canon c.p c.d c.w (getR c R r)) :
+    ∀ w : Word, wordIn K w = true → wordOK n w = true → evalWL1 c R w = evalWL c R w
+  | [], _, _ => rfl
+  | [(r, e)], h, ho => by
+    simp only [wordIn, wordOK, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true,
+      memB_iff, decide_eq_true_eq] at h ho
+    simp only [evalWL1, evalWL]
+    exact (mul_ONE_of_canon hc (powN_spec hc hp 17 e (hK r h) (by omega)).1).symm
+  | (r, e) :: q :: w, h, ho => by
+    have ih := evalWL1_eq hc hp hK (n := n) (q :: w) (Eq.mp (Bool.and_eq_true _ _) h).2
+      (Eq.mp (Bool.and_eq_true _ _) ho).2
+    change c.mul _ (evalWL1 c R (q :: w)) = c.mul _ (evalWL c R (q :: w))
+    rw [ih]
+
+theorem factL_of_factL1 {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {R K : List Nat} {n : Nat}
+    (hK : ∀ r ∈ K, CFSG.KS.Ord.Canon c.p c.d c.w (getR c R r)) :
+    ∀ f : MFact, factIn K f = true → factL1 c R n f = true → factL c R n f = true
+  | .ord r e, _, h => h
+  | .conj g u w, hi, h => by
+    simp only [factIn, Bool.and_eq_true] at hi
+    simp only [factL1, factL, Bool.and_eq_true] at h ⊢
+    rw [← evalWL1_eq hc hp hK u hi.1.2 h.1.1.2, ← evalWL1_eq hc hp hK w hi.2 h.1.2]
+    exact h
+  | .ne u w t, hi, h => by
+    simp only [factIn, Bool.and_eq_true] at hi
+    simp only [factL1, factL, Bool.and_eq_true] at h ⊢
+    rw [← evalWL1_eq hc hp hK u hi.1 h.1.1.1, ← evalWL1_eq hc hp hK w hi.2 h.1.1.2]
+    exact h
+  | .eq u w, hi, h => by
+    simp only [factIn, Bool.and_eq_true] at hi
+    simp only [factL1, factL, Bool.and_eq_true] at h ⊢
+    rw [← evalWL1_eq hc hp hK u hi.1 h.1.1, ← evalWL1_eq hc hp hK w hi.2 h.1.2]
+    exact h
+
+theorem fusRen_sound1 {c : Lay} {d A B : Nat} {LA LB : List Char} {sA sB : String}
+    (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+    (hA : decOK c A LA = true) (hB : decOK c B LB = true)
+    (hsA : sA = String.ofList LA) (hsB : sB = String.ofList LB) {n : Nat} {prog : List Op}
+    {D : Spec} (hw : D.wf = true) (hprog : progOK n prog = true) (hrA : D.rA < n)
+    (hrB : D.rB < n) {outs : List Nat} {cs : List RChunk} {S : Nat → List Nat}
+    (hren : renOK outs prog cs = true) (h0 : S 0 = [A, B])
+    (hch : ∀ i < cs.length, chunkV c (cs.getD i (0, [], [])) (S i) (S (i + 1)) = true)
+    (hin : (D.facts.all (factIn outs) && memB D.rA outs && memB D.rB outs) = true)
+    (hf : ∀ j < D.facts.length,
+      factL1 c (fillR c n outs (S cs.length)) n (D.facts.getD j default) = true)
+    (he : seedRegsL c (fillR c n outs (S cs.length)) A B D.rA D.rB = true) :
+    fusCheck (ops3 d) sA sB n prog D = true := by
+  obtain ⟨h2, hlt⟩ := progOK_spec hprog
+  have hS := renOK_sound (c := c) (A := A) (B := B) h2 hlt hren h0 hch
+  have hT : (runL c prog (initR c A B n)).length = n := runL_initR_length c prog A B n
+  have hL := lcorr_regs hc hp hA hB hsA hsB hprog
+  have hK : ∀ r ∈ outs,
+      CFSG.KS.Ord.Canon c.p c.d c.w (getR c (fillR c n outs (S cs.length)) r) := by
+    intro r hr
+    rw [← hS, fillR_agree c hT r hr]
+    by_cases hrn : r < (runL c prog (initR c A B n)).length
+    · exact (hL.2 r hrn).1
+    · have e : getR c (runL c prog (initR c A B n)) r = c.ONE := by
+        unfold getR
+        rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega), Option.getD_none]
+      rw [e]
+      exact (CFSG.KS.Ord.one_sound hc).1
+  have hin' := hin
+  simp only [Bool.and_eq_true, List.all_eq_true] at hin'
+  refine fusRen_sound hc hp hd hA hB hsA hsB hw hprog hrA hrB hren h0 hch hin (fun j hj => ?_) he
+  refine factL_of_factL1 hc hp hK _ (hin'.1.1 _ ?_) (hf j hj)
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj, Option.getD_some]
+  exact List.getElem_mem hj
 
 end CFSG.KC.OpsLayK
 

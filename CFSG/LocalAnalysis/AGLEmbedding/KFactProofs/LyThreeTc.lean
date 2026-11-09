@@ -66,7 +66,7 @@ theorem tcGenDatum_of_lycheck
     refine tc_sub Sp hC' hp Dz.pc s hpcf (hsubf s hs)
       (fun u hu => List.all_eq_true.1 hgw u hu) hv0 hv1 hv2 ?_ ?_
     · intro v hv
-      obtain ⟨q, hq, hqv⟩ := List.any_eq_true.1 (List.all_eq_true.1 hind v hv)
+      obtain ⟨q, hq, hqv⟩ := List.any_eq_true.1 (List.all_eq_true.1 hind v (mem_nonzeroTriples_of_proj hv))
       simp only [Bool.and_eq_true, beq_iff_eq] at hqv
       exact ⟨q, hq, hqv.1.1, hqv.1.2, hqv.2⟩
     · intro g hg

@@ -14,7 +14,8 @@ open CFSG.Quasithin.H13.LocDbl.DcNative CFSG.Quasithin.H13.LocDbl.DcRank CFSG.Qu
 open CFSG.RankThree.Native
 
 theorem mSpec :
-    SubSpec Mg mElems 11520 :=
-  subSpec_words mWords_lt Certificates.certificate589206.1
+    SubSpec Mg mElems 11520 := by
+  rw [mElems_def]
+  exact subSpec_words mWords_lt Certificates.certificate589206.1
 
 end CFSG.Quasithin.H13.LocDbl.HSLoc

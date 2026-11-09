@@ -7,7 +7,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CFSG.KD.Co1Pairs "Certificates/Kernel/Co1Pairs/data/pairs.json.gz" 79207 8487701637038944288
+#kc_repo #kc_json CFSG.KD.Co1Pairs "Certificates/Kernel/Co1Pairs/data/pairs.json" 79207 8487701637038944288
   (w0 : List Nat) (w1 : List Nat) (w2 : List Nat) (w3 : List Nat) (w4 : List Nat) (w5 : List Nat)
   (w6 : List Nat) (w7 : List Nat) (w8 : List Nat) (w9 : List Nat)
   (K0 : Nat) (K1 : Nat) (K2 : Nat) (K3 : Nat) (K4 : Nat) (K5 : Nat) (K6 : Nat) (K7 : Nat)

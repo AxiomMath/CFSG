@@ -12,14 +12,6 @@ namespace CertificateChecks.KernelHS3850.H2CE
 open CFSG.ComponentClassification.HarrisLit.N36.HS2C CFSG.Sporadic.SmallOddCore.Native
 open CFSG.KS.SporSch.MOCG
 
-meta def idM : Array Nat := idA 3850
-
-meta def ids : Array (Array Nat) := #[idM, idM]
-
-meta def gs7 : Array (Array Nat) := #[natArr y7, natArr x7]
-
-meta def gs5 : Array (Array Nat) := #[natArr y5, natArr x5]
-
 meta def letter (l : Nat) : Array Nat :=
   let S := CFSG.Sporadic.Schreier.hsStrongArrs
   if l < 8 then S[l]! else invA S[l - 8]!
@@ -66,10 +58,6 @@ public section
 
 set_option maxRecDepth 400000
 
-#kmulh CertificateChecks.KernelHS3850.M7 3850 12 CertificateChecks.KernelHS3850.H2CE.ids
-  CertificateChecks.KernelHS3850.H2CE.gs7 CertificateChecks.KernelHS3850.H2CE.idM 200
-#kmulh CertificateChecks.KernelHS3850.M5 3850 12 CertificateChecks.KernelHS3850.H2CE.ids
-  CertificateChecks.KernelHS3850.H2CE.gs5 CertificateChecks.KernelHS3850.H2CE.idM 400
 #kss_list CertificateChecks.KernelHS3850.SW7 CertificateChecks.KernelHS3850.H2CE.sw7
 #kss_list CertificateChecks.KernelHS3850.SW5 CertificateChecks.KernelHS3850.H2CE.sw5
 

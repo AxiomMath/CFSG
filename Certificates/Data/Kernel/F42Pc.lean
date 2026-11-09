@@ -15,8 +15,17 @@ open CFSG.KC.Enum
   Nat.land (Nat.shiftRight cmP (Nat.mul (nat_lit 25) (Nat.add (Nat.mul (nat_lit 25) j) i)))
     (nat_lit 33554431)
 
+@[expose] noncomputable def lgStep (w : Nat) (k : Nat → Nat → Nat) (b s : Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat) (k b s) (k (Nat.shiftRight b w) (Nat.add s w))
+    (Nat.ble (Nat.shiftLeft (nat_lit 1) w) b)
+
+@[expose] noncomputable def lgK (b : Nat) : Nat :=
+  lgStep (nat_lit 16) (lgStep (nat_lit 8) (lgStep (nat_lit 4) (lgStep (nat_lit 2)
+    (lgStep (nat_lit 1) (fun _ s => s))))) b (nat_lit 0)
+
 @[expose] noncomputable def lowK (m : Nat) : Nat :=
-  Nat.log2 (Nat.land m (Nat.xor m (Nat.sub m (nat_lit 1))))
+  strictN (Nat.land m (Nat.xor m (Nat.sub m (nat_lit 1)))) fun b =>
+  strictN (lgK b) fun j => nIf(Nat.beq (Nat.shiftLeft (nat_lit 1) j) b, j, Nat.log2 b)
 
 @[expose] noncomputable def dropK (m : Nat) : Nat := Nat.land m (Nat.sub m (nat_lit 1))
 

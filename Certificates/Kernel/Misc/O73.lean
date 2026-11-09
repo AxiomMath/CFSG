@@ -4,6 +4,7 @@ public import CFSG.Certificates.Kernel.Misc.O73Defs
 public import Certificates.Kernel.Misc.O73Data
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Misc.KernelRfl
+public import CFSG.Certificates.Kernel.Spor.PK.O73Word
 import Mathlib.Tactic.IntervalCases
 public import Certificates.Data.Kernel.Misc.O73
 public import Mathlib
@@ -26,7 +27,17 @@ theorem bY : y322PermText = CFSG.KC.Misc.O73.strOf cY := by kernelRfl
 theorem mat : matK vecList Ts Rs = true := by quickRfl
 theorem relM : relMK Ts Rs R1 EW = true := by quickRfl
 theorem lift : liftTextK cL LP = true := by quickRfl
-theorem sp : spK LP SP = true := by quickRfl
+def SPI : List Nat := [7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0,
+  7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0,
+  2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0, 7, 6, 0, 5, 4, 0, 2, 1, 0]
+theorem relS : relSK LP SP SPI = true := by quickRfl
+theorem relSF : spK LP SP = true ∧ wordP 1134 11 LP (SP ++ (SP ++ SP)) = idP 1134 11 ∧
+    ∀ i < 8, wordP 1134 11 LP ([i] ++ (SP ++ ([i] ++ SPI))) = idP 1134 11 :=
+  CFSG.KS.PK.relSK_sound lift relS
+theorem sp : spK LP SP = true := relSF.1
+theorem eEW37 : EW.getD 37 [] = SP ++ (SP ++ SP) := by decide +kernel
+theorem eEW (i : Nat) (hi : i < 8) : EW.getD (38 + i) [] = [i] ++ (SP ++ ([i] ++ SPI)) := by
+  interval_cases i <;> decide +kernel
 theorem beta : betaK Rs cB cY BP YP = true := by quickRfl
 theorem nEW : Nat.beq (relPK.lenLLN EW) 46 = true := by quickRfl
 theorem lenL : cL.length < 2 ^ 16 := by decide +kernel
@@ -70,15 +81,18 @@ theorem relP33 : relPK LP EW 33 1 = true := by quickRfl
 theorem relP34 : relPK LP EW 34 1 = true := by quickRfl
 theorem relP35 : relPK LP EW 35 1 = true := by quickRfl
 theorem relP36 : relPK LP EW 36 1 = true := by quickRfl
-theorem relP37 : relPK LP EW 37 1 = true := by quickRfl
-theorem relP38 : relPK LP EW 38 1 = true := by quickRfl
-theorem relP39 : relPK LP EW 39 1 = true := by quickRfl
-theorem relP40 : relPK LP EW 40 1 = true := by quickRfl
-theorem relP41 : relPK LP EW 41 1 = true := by quickRfl
-theorem relP42 : relPK LP EW 42 1 = true := by quickRfl
-theorem relP43 : relPK LP EW 43 1 = true := by quickRfl
-theorem relP44 : relPK LP EW 44 1 = true := by quickRfl
-theorem relP45 : relPK LP EW 45 1 = true := by quickRfl
+theorem relP37 : relPK LP EW 37 1 = true :=
+  CFSG.KS.PK.relPK_of_wordP (by rw [eEW37]; exact relSF.2.1)
+theorem relPC (i : Nat) (hi : i < 8) : relPK LP EW (38 + i) 1 = true :=
+  CFSG.KS.PK.relPK_of_wordP (by rw [eEW i hi]; exact relSF.2.2 i hi)
+theorem relP38 : relPK LP EW 38 1 = true := relPC 0 (by decide)
+theorem relP39 : relPK LP EW 39 1 = true := relPC 1 (by decide)
+theorem relP40 : relPK LP EW 40 1 = true := relPC 2 (by decide)
+theorem relP41 : relPK LP EW 41 1 = true := relPC 3 (by decide)
+theorem relP42 : relPK LP EW 42 1 = true := relPC 4 (by decide)
+theorem relP43 : relPK LP EW 43 1 = true := relPC 5 (by decide)
+theorem relP44 : relPK LP EW 44 1 = true := relPC 6 (by decide)
+theorem relP45 : relPK LP EW 45 1 = true := relPC 7 (by decide)
 theorem relPAll : ∀ k < 46, relPK LP EW k 1 = true := by
   intro k hk
   interval_cases k

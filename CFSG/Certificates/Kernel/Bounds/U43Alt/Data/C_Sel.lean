@@ -6,16 +6,16 @@ public import CFSG.Certificates.Kernel.Bounds.U43Alt.Data.C_0
 public import CFSG.Certificates.Kernel.Common.LceS
 public import CFSG.Certificates.Kernel.Bounds.U43Alt.Rels
 public import Certificates.Data.Kernel.Multipliers.LabZ
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.U43C "CFSG/Certificates/Kernel/Bounds/U43Alt/Data/data/C/lces_const.items.gz" 11019 5132208783296739808
+#kc_repo #kc_nat_items CFSG.KD.U43C "CFSG/Certificates/Kernel/Bounds/U43Alt/Data/data/C/lces_const.items" 11019 5132208783296739808
   WT[303] RT[9] ST0 HS
 #kc_selectT CFSG.KD.U43C blk B 109
 #kc_selectT CFSG.KD.U43C selWT WT 303
 #kc_select CFSG.KD.U43C litRT RT 9
 #kc_select CFSG.KD.U43C litST ST 1
-#kc_repo #kc_nat_items_gz CFSG.KD.U43C "CFSG/Certificates/Kernel/Bounds/U43Alt/Data/data/C/lab_const.items.gz" 1695571 9654423187691470272
+#kc_repo #kc_nat_items CFSG.KD.U43C "CFSG/Certificates/Kernel/Bounds/U43Alt/Data/data/C/lab_const.items" 1695571 9654423187691470272
   LBB[436] TG[303] BIAS QQ HIGH TOP
 #kc_selectT CFSG.KD.U43C lblk LBB 436
 #kc_selectT CFSG.KD.U43C TG TG 303

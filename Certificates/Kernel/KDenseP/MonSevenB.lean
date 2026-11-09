@@ -30,7 +30,7 @@ theorem c17473 : agreeAll CFSG.HardMathSupport.Dickson.Sec6.BM2.m3bT3Eqs = true 
 
 theorem c716100 :
     agreeAll CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterSevenFlag.m7hPairs = true :=
-  agreeAll_of_opEqs (kd_m7% CFSG.KD.M7.c716100
+  agreeAll_of_opEqs (kd_m7% CFSG.KD.M7.c716100 111
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterSevenFlag.m7hPairs)
 
 theorem c716201 :

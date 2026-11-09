@@ -212,8 +212,13 @@ theorem u5_not_blocks : uE 5 ∉ blocks1408 := by
   rw [swapsZero_eq hr.1]
   exact decide_eq_true (Nat.ble_eq.mp h2)
 
+theorem getD_map_finRange {α : Type} {n : ℕ} (f : Fin n → α) (j : Fin n) (d : α) :
+    ((List.finRange n).map f).getD j.val d = f j := by
+  simp
+
 theorem gen_eq (j : Fin 7) : elemW [j.val + 1] = h1408GenPerm j := by
-  simp [elemW, CFSG.EvenSporadicStandard.TwoHS.wordVal, h1408Perms]
+  simp only [elemW, CFSG.EvenSporadicStandard.TwoHS.wordVal, List.map_cons, List.map_nil,
+    List.prod_cons, List.prod_nil, mul_one, Nat.add_sub_cancel, h1408Perms, getD_map_finRange]
 
 theorem blk_or_swap_P : ∀ g ∈ P1408, g ∈ blocks1408 ∨ SylTF.Swap g := by
   refine SylTF.blk_or_swap_closure ?_

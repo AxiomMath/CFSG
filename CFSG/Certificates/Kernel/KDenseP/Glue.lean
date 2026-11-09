@@ -4,6 +4,10 @@ public import CFSG.Certificates.Kernel.KDenseP.StepSound
 public import CFSG.Certificates.Kernel.KDense.Glue
 public import Certificates.Data.Kernel.KDenseP.Plan
 public import Certificates.Data.Kernel.KDenseP.Val
+import CFSG.Certificates.Kernel.KStep.XiInv
+import CFSG.Certificates.Kernel.KStep.TauInv
+import CFSG.Certificates.Kernel.KDense.Data.Checks
+import CFSG.Certificates.Kernel.KDense.Data.KeySort
 
 public section
 
@@ -218,10 +222,18 @@ theorem stepN_flag {n lg : ℕ} {F : Fix} {T : MonoTab} (g : Native.Gen) (s : St
 theorem runN_cons {n lg : ℕ} {F : Fix} {T : MonoTab} (g : Native.Gen) (w : List Native.Gen)
     (i m : ℕ) (s : St) :
     runN n lg F T (g :: w) i m s = Bool.rec (motive := fun _ => St)
-      (Bool.rec (motive := fun _ => St) (runN n lg F T w i (m - 1) (stepN n lg F T g s)) s
+      (Bool.rec (motive := fun _ => St)
+        (Bool.rec (motive := fun _ => St)
+          (Bool.rec (motive := fun _ => St) (runN n lg F T w i (m - 1) (stepN n lg F T g s))
+            (runN n lg F T w 1 (m - 2) (tauInvSt n lg F s))
+            (andB (isTauLB g) (andB (headTauLB w) (Nat.blt 1 m))))
+          (runN n lg F T w 1 (m - 2) (xiInvSt n lg F s))
+          (andB (isXiB g) (andB (headXiB w) (Nat.blt 1 m)))) s
         (Nat.beq m 0))
       (runN n lg F T w (i - 1) m s) (Nat.blt 0 i) := by
-  rw [← forceSt_eq (stepN n lg F T g s) (fun t' => runN n lg F T w i (m - 1) t')]
+  rw [← forceSt_eq (stepN n lg F T g s) (fun t' => runN n lg F T w i (m - 1) t'),
+    ← forceSt_eq (tauInvSt n lg F s) (fun t' => runN n lg F T w 1 (m - 2) t'),
+    ← forceSt_eq (xiInvSt n lg F s) (fun t' => runN n lg F T w 1 (m - 2) t')]
   rfl
 
 theorem runN_pos {n lg : ℕ} {F : Fix} {T : MonoTab} (g : Native.Gen) (w : List Native.Gen) {i : ℕ}
@@ -229,10 +241,120 @@ theorem runN_pos {n lg : ℕ} {F : Fix} {T : MonoTab} (g : Native.Gen) (w : List
   rw [runN_cons, (Nat.blt_eq.mpr hi : Nat.blt 0 i = true)]
 
 theorem runN_zero_succ {n lg : ℕ} {F : Fix} {T : MonoTab} (g : Native.Gen) (w : List Native.Gen)
-    (m : ℕ) (s : St) :
+    (m : ℕ) (s : St) (hc : andB (isXiB g) (andB (headXiB w) (Nat.blt 1 (m + 1))) = false)
+    (hct : andB (isTauLB g) (andB (headTauLB w) (Nat.blt 1 (m + 1))) = false) :
     runN n lg F T (g :: w) 0 (m + 1) s = runN n lg F T w 0 m (stepN n lg F T g s) := by
+  rw [runN_cons, hc, hct]
+  rfl
+
+theorem runN_zero_xi {n lg : ℕ} {F : Fix} {T : MonoTab} (w : List Native.Gen) (m : ℕ) (s : St) :
+    runN n lg F T (.xi :: .xi :: w) 0 (m + 1 + 1) s = runN n lg F T (.xi :: w) 1 m (xiInvSt n lg F s) := by
   rw [runN_cons]
   rfl
+
+theorem runN_zero_tau {n lg : ℕ} {F : Fix} {T : MonoTab} (w : List Native.Gen) (m : ℕ) (s : St) :
+    runN n lg F T (.tau :: .tau :: w) 0 (m + 1 + 1) s =
+      runN n lg F T (.tau :: w) 1 m (tauInvSt n lg F s) := by
+  rw [runN_cons]
+  rfl
+
+theorem tau_cond {g : Native.Gen} {w : List Native.Gen} {m : ℕ}
+    (h : andB (isTauLB g) (andB (headTauLB w) (Nat.blt 1 m)) = true) :
+    g = .tau ∧ (∃ w', w = .tau :: w') ∧ 1 < m := by
+  cases g with
+  | tau =>
+    cases w with
+    | nil => exact absurd h Bool.false_ne_true
+    | cons g' w' =>
+      cases g' with
+      | tau =>
+        have hm : Nat.blt 1 m = true := h
+        exact ⟨rfl, ⟨w', rfl⟩, Nat.blt_eq.mp hm⟩
+      | _ => exact absurd h Bool.false_ne_true
+  | _ => exact absurd h Bool.false_ne_true
+
+theorem tauInvSt_flag {n lg : ℕ} {F : Fix} (s : St) : (tauInvSt n lg F s).1 = s.1 := by
+  obtain ⟨f, X, A, W⟩ := s
+  rfl
+
+theorem xi_cond {g : Native.Gen} {w : List Native.Gen} {m : ℕ}
+    (h : andB (isXiB g) (andB (headXiB w) (Nat.blt 1 m)) = true) :
+    g = .xi ∧ (∃ w', w = .xi :: w') ∧ 1 < m := by
+  cases g with
+  | xi =>
+    cases w with
+    | nil => exact absurd h Bool.false_ne_true
+    | cons g' w' =>
+      cases g' with
+      | xi =>
+        have hm : Nat.blt 1 m = true := h
+        exact ⟨rfl, ⟨w', rfl⟩, Nat.blt_eq.mp hm⟩
+      | _ => exact absurd h Bool.false_ne_true
+  | _ => exact absurd h Bool.false_ne_true
+
+theorem xiInvSt_flag {n lg : ℕ} {F : Fix} (s : St) : (xiInvSt n lg F s).1 = s.1 := by
+  obtain ⟨f, X, A, W⟩ := s
+  rfl
+
+theorem rep_congrN {n : ℕ} {u v : Native.DVec} {s : St}
+    (h : ∀ k < 196884, resN n u k = resN n v k) (hv : RepN n v s) : RepN n u s := by
+  obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9⟩ := hv
+  refine ⟨fun q hq => (h1 q hq).trans (h _ (by omega)).symm, h2, h3,
+    fun i hi j hj => (h4 i hi j hj).trans (h _ (by have := InitAux.aIdx_lt i hi j hj; omega)).symm, h5, h6,
+    fun r hr j hj => (h7 r hr j hj).trans (h _ (by omega)).symm, h8, h9⟩
+
+theorem rep_uniqueN {n : ℕ} {u v : Native.DVec} {s : St} (hu : RepN n u s) (hv : RepN n v s)
+    {k : ℕ} (hk : k < 196884) : resN n u k = resN n v k := by
+  by_cases h1 : k < 300
+  · obtain ⟨i, hi, j, hj, rfl⟩ := aIdx_cover h1
+    rw [← hu.2.2.2.1 i hi j hj, hv.2.2.2.1 i hi j hj]
+  by_cases h2 : k < 98580
+  · have e : k = 300 + (k - 300) := by omega
+    rw [e, ← hu.1 _ (by omega), hv.1 _ (by omega)]
+  · have e : k = 98580 + 24 * ((k - 98580) / 24) + (k - 98580) % 24 := by omega
+    rw [e, ← hu.2.2.2.2.2.2.1 _ (by omega) _ (by omega),
+      hv.2.2.2.2.2.2.1 _ (by omega) _ (by omega)]
+
+open CFSG.KC.KStep in
+theorem xiInvSt_sound {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {F : Fix} {T : MonoTab}
+    {KT TH OCT DU1 : Nat} (hd : dataOKP F T KT TH OCT DU1 = true) {v : Native.DVec} {s : St}
+    (hs : RepN n v s) (hf : s.1 = true) :
+    RepN n (Native.applyGen (Native.mkCtx ()) .xi
+      (Native.applyGen (Native.mkCtx ()) .xi v).reduce).reduce (xiInvSt n lg F s) := by
+  obtain ⟨hK, hx, hp, -, -, -⟩ := CFSG.KC.KStep.dataOKP_parts hd
+  have hG : KeysGood := CFSG.KC.KDense.keys_sound CFSG.KD.KDF.F CFSG.KD.KDF.KT CFSG.KD.KDF.TH
+      CFSG.KD.KDF.OCT CFSG.KD.KDF.DU1 CFSG.KD.KDK.NK CFSG.KD.KDF.th_ok CFSG.KD.KDF.oct_ok
+      CFSG.KD.KDF.du1_ok CFSG.KD.KDF.keys_ok CFSG.KD.KDF.keyPlanes_ok CFSG.KD.KDK.keys_distinct
+  obtain ⟨f, X, A, W⟩ := s
+  have h2 : RepN n (Native.applyGen (Native.mkCtx ()) .xi (Native.applyGen (Native.mkCtx ()) .xi v))
+      (xiInvSt n lg F (f, X, A, W)) :=
+    CFSG.KC.KStep.xiInv_sound_rev (opsN_law hn hlg) hn hK hG hx hp hs f
+  refine rep_reduceN (by omega) (rep_congrN (fun k hk => ?_) h2)
+  have hf1 : (stepN n lg F T .xi (f, X, A, W)).1 = true := hf
+  have t1 := (stepN_sound hn hlg hd .xi rfl v _ hs hf1).2
+  have hf2 : (stepN n lg F T .xi (stepN n lg F T .xi (f, X, A, W))).1 = true := hf
+  have b1 := (stepN_sound hn hlg hd .xi rfl _ _ (rep_reduceN (by omega) t1) hf2).2
+  have b2 := (stepN_sound hn hlg hd .xi rfl _ _ t1 hf2).2
+  exact rep_uniqueN b1 b2 hk
+
+open CFSG.KC.KStep in
+theorem tauInvSt_sound {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {F : Fix} {T : MonoTab}
+    {KT TH OCT DU1 : Nat} (hd : dataOKP F T KT TH OCT DU1 = true) {v : Native.DVec} {s : St}
+    (hs : RepN n v s) (hf : s.1 = true) :
+    RepN n (Native.applyGen (Native.mkCtx ()) .tau
+      (Native.applyGen (Native.mkCtx ()) .tau v).reduce).reduce (tauInvSt n lg F s) := by
+  obtain ⟨-, -, -, h6, hm, -⟩ := CFSG.KC.KStep.dataOKP_parts hd
+  obtain ⟨f, X, A, W⟩ := s
+  have h2 : RepN n (Native.applyGen (Native.mkCtx ()) .tau (Native.applyGen (Native.mkCtx ()) .tau v))
+      (tauInvSt n lg F (f, X, A, W)) :=
+    CFSG.KC.KStep.tauInv_sound (opsN_law hn hlg) hn h6 hm hs f
+  refine rep_reduceN (by omega) (rep_congrN (fun k hk => ?_) h2)
+  have hf1 : (stepN n lg F T .tau (f, X, A, W)).1 = true := hf
+  have t1 := (stepN_sound hn hlg hd .tau rfl v _ hs hf1).2
+  have hf2 : (stepN n lg F T .tau (stepN n lg F T .tau (f, X, A, W))).1 = true := hf
+  have b1 := (stepN_sound hn hlg hd .tau rfl _ _ (rep_reduceN (by omega) t1) hf2).2
+  have b2 := (stepN_sound hn hlg hd .tau rfl _ _ t1 hf2).2
+  exact rep_uniqueN b1 b2 hk
 
 theorem runN_len_zero {n lg : ℕ} {F : Fix} {T : MonoTab} (w : List Native.Gen) (i : ℕ) (s : St) :
     runN n lg F T w i 0 s = s := by
@@ -251,8 +373,20 @@ theorem runN_flag {n lg : ℕ} {F : Fix} {T : MonoTab} (w : List Native.Gen) (i 
     rcases Nat.eq_zero_or_pos i with rfl | hi
     · rcases m with _ | m
       · exact h
-      · rw [runN_zero_succ] at h
-        exact stepN_flag g s (ih 0 m _ h)
+      · by_cases hc : andB (isXiB g) (andB (headXiB w) (Nat.blt 1 (m + 1))) = true
+        · obtain ⟨rfl, ⟨w', rfl⟩, hm⟩ := xi_cond hc
+          obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+          rw [runN_zero_xi] at h
+          rw [← xiInvSt_flag (n := n) (lg := lg) (F := F)]
+          exact ih 1 m' _ h
+        by_cases hct : andB (isTauLB g) (andB (headTauLB w) (Nat.blt 1 (m + 1))) = true
+        · obtain ⟨rfl, ⟨w', rfl⟩, hm⟩ := tau_cond hct
+          obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+          rw [runN_zero_tau] at h
+          rw [← tauInvSt_flag (n := n) (lg := lg) (F := F)]
+          exact ih 1 m' _ h
+        · rw [runN_zero_succ g w m s (Bool.eq_false_iff.2 hc) (Bool.eq_false_iff.2 hct)] at h
+          exact stepN_flag g s (ih 0 m _ h)
     · rw [runN_pos g w hi] at h
       exact ih _ _ _ h
 
@@ -273,7 +407,41 @@ theorem runN_rep {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {F : Fix} {T :
     rcases Nat.eq_zero_or_pos i with rfl | hi
     · rcases m with _ | m
       · exact ⟨by simp, hs⟩
-      · rw [runN_zero_succ] at hf ⊢
+      · by_cases hc : andB (isXiB g) (andB (headXiB w) (Nat.blt 1 (m + 1))) = true
+        · obtain ⟨rfl, ⟨w', rfl⟩, hm⟩ := xi_cond hc
+          obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+          rw [runN_zero_xi] at hf ⊢
+          have hs0 : s.1 = true := by
+            rw [← xiInvSt_flag (n := n) (lg := lg) (F := F)]
+            exact runN_flag _ _ _ _ hf
+          obtain ⟨h1, h2⟩ := ih hL' 1 m' _ _ (xiInvSt_sound hn hlg hd hs hs0) hf
+          have e : ((Native.Gen.xi :: .xi :: w').drop 0).take (m' + 1 + 1) =
+              .xi :: .xi :: (((Native.Gen.xi :: w').drop 1).take m') := rfl
+          rw [e, CFSG.KC.KDense.evalWordC_cons, CFSG.KC.KDense.evalWordC_cons]
+          refine ⟨fun g hg => ?_, h2⟩
+          rcases List.mem_cons.1 hg with rfl | hg
+          · rfl
+          rcases List.mem_cons.1 hg with rfl | hg
+          · rfl
+          exact h1 g hg
+        by_cases hct : andB (isTauLB g) (andB (headTauLB w) (Nat.blt 1 (m + 1))) = true
+        · obtain ⟨rfl, ⟨w', rfl⟩, hm⟩ := tau_cond hct
+          obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+          rw [runN_zero_tau] at hf ⊢
+          have hs0 : s.1 = true := by
+            rw [← tauInvSt_flag (n := n) (lg := lg) (F := F)]
+            exact runN_flag _ _ _ _ hf
+          obtain ⟨h1, h2⟩ := ih hL' 1 m' _ _ (tauInvSt_sound hn hlg hd hs hs0) hf
+          have e : ((Native.Gen.tau :: .tau :: w').drop 0).take (m' + 1 + 1) =
+              .tau :: .tau :: (((Native.Gen.tau :: w').drop 1).take m') := rfl
+          rw [e, CFSG.KC.KDense.evalWordC_cons, CFSG.KC.KDense.evalWordC_cons]
+          refine ⟨fun g hg => ?_, h2⟩
+          rcases List.mem_cons.1 hg with rfl | hg
+          · rfl
+          rcases List.mem_cons.1 hg with rfl | hg
+          · rfl
+          exact h1 g hg
+        rw [runN_zero_succ g w m s (Bool.eq_false_iff.2 hc) (Bool.eq_false_iff.2 hct)] at hf ⊢
         obtain ⟨hv, hr⟩ :=
           stepN_sound hn hlg hd g (hL g List.mem_cons_self) v s hs (runN_flag w 0 m _ hf)
         obtain ⟨h1, h2⟩ := ih hL' 0 m _ _ (rep_reduceN (by omega) hr) hf
@@ -282,18 +450,6 @@ theorem runN_rep {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {F : Fix} {T :
     · rw [runN_pos g w hi] at hf ⊢
       obtain ⟨i, rfl⟩ := Nat.exists_eq_add_of_lt hi
       simpa using ih hL' _ m v s hs hf
-
-theorem rep_uniqueN {n : ℕ} {u v : Native.DVec} {s : St} (hu : RepN n u s) (hv : RepN n v s)
-    {k : ℕ} (hk : k < 196884) : resN n u k = resN n v k := by
-  by_cases h1 : k < 300
-  · obtain ⟨i, hi, j, hj, rfl⟩ := aIdx_cover h1
-    rw [← hu.2.2.2.1 i hi j hj, hv.2.2.2.1 i hi j hj]
-  by_cases h2 : k < 98580
-  · have e : k = 300 + (k - 300) := by omega
-    rw [e, ← hu.1 _ (by omega), hv.1 _ (by omega)]
-  · have e : k = 98580 + 24 * ((k - 98580) / 24) + (k - 98580) % 24 := by omega
-    rw [e, ← hu.2.2.2.2.2.2.1 _ (by omega) _ (by omega),
-      hv.2.2.2.2.2.2.1 _ (by omega) _ (by omega)]
 
 theorem resAt_eq (S n x p : ℕ) :
     resAt S n x p = (∑ b ∈ Finset.range n, 2 ^ b * (x / 2 ^ (b * S + p) % 2)) % (2 ^ n - 1) := by

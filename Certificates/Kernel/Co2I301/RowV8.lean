@@ -4,7 +4,6 @@ public import Certificates.Kernel.Co2I301.Mats
 public import Certificates.Kernel.SporSch.Co2M.QMod
 public import Certificates.Data.Kernel.SporSch.SpanK3
 public import Certificates.Data.Co2RowChk
-public meta import Certificates.Data.Co2RowChk
 meta import Certificates.Kernel.SporSch.HN.GenNTree
 import CFSG.Certificates.Kernel.Common.Harness
 import all Init.Data.Nat.Fold
@@ -18,10 +17,8 @@ set_option exponentiation.threshold 600
 
 namespace CertificateChecks.KernelCo2I301
 
-open CFSG.Sporadic.SmallF2.Native CFSG.LocalAnalysis.GLTheoremA.H301B.Co2RowNative
-
-meta def rowTabs : List Nat := [co2K1Cols, co2K2Cols, co2DCols].map fun T =>
-  (List.range 256).foldl (fun acc a => acc ||| (vecMulN 8 T a <<< (8 * a))) 0
+meta def rowTabs : List Nat :=
+  (String.splitOn (include_str "RowV8.0.txt") ",").map String.toNat!
 
 end CertificateChecks.KernelCo2I301
 

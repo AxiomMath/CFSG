@@ -8,7 +8,7 @@ public section
 
 open CFSG.KC.GHFus
 
-#kc_repo #kc_json_gz CFSG.KD.GHFus "Certificates/Kernel/GHarrisFus/data/fus.json.gz" 70177 2368697828510892178
+#kc_repo #kc_json CFSG.KD.GHFus "Certificates/Kernel/GHarrisFus/data/fus.json" 70177 2368697828510892178
   (dmT : Nat) (mvT : Nat) (CT : Nat) (L : List (Nat × Nat))
   (aT : FusT) (aA1L : FusT) (aZ : FusT) (aA34 : FusT)
   (yIZ : FusT) (yIX : FusT) (bIZ : FusT) (bIA1L : FusT) (bIX : FusT) (bIIZ : FusT) (bIIA1L : FusT)

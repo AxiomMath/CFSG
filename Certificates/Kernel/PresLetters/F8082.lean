@@ -11,6 +11,6 @@ open CFSG CFSG.Quasithin
 
 public section
 
-#kb_family "data/F8082.json.gz" 811 11450422768102282387 (r0 := u33CRels)
+#kb_family "data/F8082.json" 811 11450422768102282387 (r0 := u33CRels)
 
 end

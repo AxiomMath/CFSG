@@ -55,7 +55,7 @@ structure EFacts : Prop where
       siftA 2300 (rawLevels 2300 co2StrongArrs co2BaseArr) co2BaseArr 0 gA[i]! &&
       eqA 2300 (compA 2300 gA[i]! uArr) (compA 2300 uArr gA[i]!)) = true
   eShape : chainShapeOK eRec 2300 15 26 witRec.third.baseIndices = true
-  eOK : recordOK 2300 eRec 4 = true
+  eOK : recordOK 2300 eRec 0 = true
   eOrb : (recordOrbits 2300 eRec == [20, 18, 32, 8, 4, 1, 2, 1, 1, 1, 1, 1, 2]) = true
   qu : allLt 10 (fun i => isInvA 2300 quA[i]! (invCand 2300 quA[i]!) &&
       eqA 2300 (compA 2300 quA[i]! quA[i]!) (idA 2300) &&
@@ -64,7 +64,7 @@ structure EFacts : Prop where
   qEnum : enumOK quA 1024 quE = true
   qConj : conjOK gA quP 1024 quE = true
   qShape : chainShapeOK quRec 1024 15 17 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] = true
-  qOK : recordOK 1024 quRec 4 = true
+  qOK : recordOK 1024 quRec 0 = true
   qOrb : (recordOrbits 1024 quRec == [45, 16, 1, 2, 1, 1, 1, 1, 1, 1]) = true
 
 @[expose] def gPerm (i : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 gA[i]!

@@ -124,6 +124,15 @@ theorem filter_succ (p : Nat → Bool) (B n : Nat) :
     List.length_map]
   rfl
 
+theorem range_filter_blocks (p : Nat → Bool) (B : Nat) (c : Nat → Nat) : ∀ n : Nat,
+    (∀ k < n, ((List.range B).filter fun d => p (B * k + d)).length = c k) →
+      ((List.range (B * n)).filter p).length = ((List.range n).map c).sum
+  | 0, _ => by simp
+  | n + 1, h => by
+    rw [filter_succ, range_filter_blocks p B c n fun k hk => h k (by omega), h n (by omega),
+      List.range_succ, List.map_append, List.sum_append]
+    simp
+
 theorem cnt : ((List.range 4608).filter fun j => commutesA 276 hList[j]! yArr).length = 128 := by
   have e : ((List.range 4608).filter fun j => commutesA 276 hList[j]! yArr) =
       (List.range 4608).filter fun j => cy (HR.E j) := by
@@ -132,13 +141,18 @@ theorem cnt : ((List.range 4608).filter fun j => commutesA 276 hList[j]! yArr).l
     rw [hList_get j hj', y_eq, comm_unpack (cHR j hj') cY]
     rfl
   rw [e]
-  have h : ((List.range (512 * 9)).filter fun j => cy (HR.E j)).length = 128 := by
-    rw [filter_succ, filter_succ, filter_succ, filter_succ, filter_succ, filter_succ, filter_succ,
-      filter_succ, filter_succ, Nat.eq_of_beq_eq_true kCnt0, Nat.eq_of_beq_eq_true kCnt1,
-      Nat.eq_of_beq_eq_true kCnt2, Nat.eq_of_beq_eq_true kCnt3, Nat.eq_of_beq_eq_true kCnt4,
-      Nat.eq_of_beq_eq_true kCnt5, Nat.eq_of_beq_eq_true kCnt6, Nat.eq_of_beq_eq_true kCnt7,
-      Nat.eq_of_beq_eq_true kCnt8]
-    rfl
+  have h := range_filter_blocks (fun j => cy (HR.E j)) 512
+    (fun k => [14, 8, 9, 10, 13, 13, 19, 19, 23].getD k 0) 9 fun k hk => by
+      interval_cases k
+      · rw [Nat.eq_of_beq_eq_true kCnt0] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt1] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt2] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt3] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt4] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt5] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt6] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt7] <;> rfl
+      · rw [Nat.eq_of_beq_eq_true kCnt8] <;> rfl
   exact h
 
 theorem kEdge2 : allN 6 (fun k => bAnd(wordOK (pos (edgePairs.getD k ([], [])).1),

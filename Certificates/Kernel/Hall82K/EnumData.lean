@@ -1,10 +1,10 @@
 module
 
 public import Certificates.Data.Kernel.Hall82K.Enum
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Hall82E "Certificates/Kernel/Hall82K/data/hall82enum.items.gz" 42148 8187696255565631042
+#kc_repo #kc_nat_items CFSG.KD.Hall82E "Certificates/Kernel/Hall82K/data/hall82enum.items" 42148 8187696255565631042
   ME MPA MSG MCT LE LPA LSG LCT
 
 public section

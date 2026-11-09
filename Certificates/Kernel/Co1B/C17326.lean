@@ -23,8 +23,8 @@ open CFSG.KC.Co1BBoundN CFSG.KC.Co1BBound CFSG.KC.Co1BSpin CFSG.KC.Co1B CFSG.KC.
   CFSG.Sporadic.Co1Schreier.Native CFSG.Sporadic.Co1Block CFSG.Sporadic.Co1.TwoBNative
 open CertificateChecks.KernelCo1B.Bound17591 (XB)
 open CertificateChecks.KernelCo1B.Bound17330 (boundOK_of_sel wf_unpackR not_of_notB mul_unpackW')
-open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_K bfsMemK_sound contains_bfsTree
-  bfsTree gensArr gtPinK bfsMemK)
+open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_bfsK bfsMemK_sound
+  contains_bfsTree bfsTree gensArr bfsK gtStepK idM bfsMemK)
 
 theorem DC_base : [aR, bR] = (List.range 2).map fun i => CFSG.KS.Raw.unpack 24 24 (DC.M i) := by
   have h := kDCB
@@ -124,12 +124,14 @@ theorem c_comm : (nd (kDag ext) 88 == mul (mul (nd (kDag ext) 89) (nd (kDag ext)
   rw [z_eq, t1_eq, t2_eq, t1I_eq, t2I_eq, mul_unpackW', mul_unpackW', mul_unpackW', beq_unpack]
   exact kSmall'.2.2.2.2.2.2.2
 
-theorem kTT' : gtPinK TM 2 200 TT.N TT.P TT.PAR TT.LAB TT.W TT.S = true ∧ TT.N = 125 := by
+theorem kTT' : bfsK (gtStepK TM) TT.P TT.PAR TT.LAB TT.W TT.S 2 200 TT.N idM = true ∧
+    TT.N = 125 := by
   have h := kTT
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem kCT' : gtPinK CM 2 20000 CT.N CT.P CT.PAR CT.LAB CT.W CT.S = true ∧ CT.N = 15000 := by
+theorem kCT' : bfsK (gtStepK CM) CT.P CT.PAR CT.LAB CT.W CT.S 2 20000 CT.N idM = true ∧
+    CT.N = 15000 := by
   have h := kCT
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
@@ -151,22 +153,22 @@ theorem CG_eq : [nd (kDag ext) 91, nd (kDag ext) 92].toArray = gensArr 2 CM := b
 theorem gtT_eq : gtBFS [nd (kDag ext) 89, nd (kDag ext) 90].toArray 200 =
     bfsTree TT.N TT.P TT.PAR TT.LAB := by
   rw [TG_eq]
-  exact (gtBFS_of_K kTT'.1).1
+  exact (gtBFS_of_bfsK kTT'.1 (by rw [kTT'.2]; decide)).1
 
 theorem gtC_eq : gtBFS [nd (kDag ext) 91, nd (kDag ext) 92].toArray 20000 =
     bfsTree CT.N CT.P CT.PAR CT.LAB := by
   rw [CG_eq]
-  exact (gtBFS_of_K kCT'.1).1
+  exact (gtBFS_of_bfsK kCT'.1 (by rw [kCT'.2]; decide)).1
 
 theorem c_gtT : gtOK [nd (kDag ext) 89, nd (kDag ext) 90].toArray
     (gtBFS [nd (kDag ext) 89, nd (kDag ext) 90].toArray 200) = true := by
   rw [gtT_eq, TG_eq]
-  exact (gtBFS_of_K kTT'.1).2
+  exact (gtBFS_of_bfsK kTT'.1 (by rw [kTT'.2]; decide)).2
 
 theorem c_gtC : gtOK [nd (kDag ext) 91, nd (kDag ext) 92].toArray
     (gtBFS [nd (kDag ext) 91, nd (kDag ext) 92].toArray 20000) = true := by
   rw [gtC_eq, CG_eq]
-  exact (gtBFS_of_K kCT'.1).2
+  exact (gtBFS_of_bfsK kCT'.1 (by rw [kCT'.2]; decide)).2
 
 theorem c_sizeT : decide ((gtBFS [nd (kDag ext) 89, nd (kDag ext) 90].toArray 200).pts.size = 125) =
     true := by

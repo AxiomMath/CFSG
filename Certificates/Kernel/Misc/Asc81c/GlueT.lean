@@ -45,16 +45,30 @@ theorem mem_partners {n : Nat} {x a : Array Nat} (h : a ∈ partners n x) :
   · rw [if_neg h1] at hs
     exact absurd hs (by simp)
 
-theorem cand_of {m n : Nat} {R : Nat → Nat} {c x : List Nat}
-    (h : (!ord3V n c || ((List.range m).any fun i => decC n (R i) == c) ||
+theorem cand_of {m n v : Nat} {R : Nat → Nat} {c x : List Nat} (hv : decC n v = c)
+    (h : (!ord3G n c || ((List.range m).any fun i => Nat.beq (R i) v) ||
       !pre1L n x c) = true)
     (h1 : ord3V n c = true) (h2 : pre1L n x c = true) :
     ∃ i < m, linA n (decC n (R i)) = linA n c := by
-  rw [h1, h2] at h
-  simp only [Bool.not_true, Bool.false_or, Bool.or_false, List.any_eq_true, List.mem_range,
-    beq_iff_eq] at h
+  rw [ord3G_eq, h1, h2] at h
+  simp only [Bool.not_true, Bool.false_or, Bool.or_false, List.any_eq_true, List.mem_range] at h
   obtain ⟨i, hi, he⟩ := h
-  exact ⟨i, hi, by rw [he]⟩
+  exact ⟨i, hi, by rw [Nat.eq_of_beq_eq_true he, hv]⟩
+
+theorem decC4_pack {a b c d : Nat} (ha : a < 16) (hb : b < 16) (hc : c < 16) (hd : d < 16) :
+    decC 4 (Nat.add a (Nat.mul 16 (Nat.add b (Nat.mul 16 (Nat.add c (Nat.mul 16 d)))))) =
+      [a, b, c, d] := by
+  simp only [decC, List.range_succ, List.range_zero, List.nil_append, List.cons_append,
+    List.map_cons, List.map_nil, List.cons.injEq, Nat.add_eq, Nat.mul_eq]
+  norm_num
+  omega
+
+theorem decC3_pack {a b c : Nat} (ha : a < 8) (hb : b < 8) (hc : c < 8) :
+    decC 3 (Nat.add a (Nat.mul 8 (Nat.add b (Nat.mul 8 c)))) = [a, b, c] := by
+  simp only [decC, List.range_succ, List.range_zero, List.nil_append, List.cons_append,
+    List.map_cons, List.map_nil, List.cons.injEq, Nat.add_eq, Nat.mul_eq]
+  norm_num
+  omega
 
 theorem good_decC (n v : Nat) : Good n (decC n v) := by
   intro u hu
@@ -62,24 +76,6 @@ theorem good_decC (n v : Nat) : Good n (decC n v) := by
   exact Nat.mod_lt _ (Nat.two_pow_pos n)
 
 theorem good_of_lt {n : Nat} {c : List Nat} (h : ∀ v ∈ c, v < 2 ^ n) : Good n c := h
-
-theorem hid4 : idA (2 ^ 4) = linA 4 (idL 4) := by decide +kernel
-
-theorem hid3 : idA (2 ^ 3) = linA 3 (idL 3) := by decide +kernel
-
-theorem good_x0c4 : Good 4 (x0c 4) := by
-  intro v hv
-  have e : x0c 4 = [2, 3, 4, 8] := by decide
-  rw [e] at hv
-  simp only [List.mem_cons, List.not_mem_nil, or_false] at hv
-  omega
-
-theorem good_x0c3 : Good 3 (x0c 3) := by
-  intro v hv
-  have e : x0c 3 = [2, 3, 4] := by decide
-  rw [e] at hv
-  simp only [List.mem_cons, List.not_mem_nil, or_false] at hv
-  omega
 
 theorem candL4_all : ∀ d < 16, candL4 d = true := by
   intro d hd
@@ -100,7 +96,8 @@ theorem mem_partners4 {a : Array Nat} (h : a ∈ partners 4 (x0 4)) : ∃ i < 14
     have hc' := CFSG.Monster.B.Co2.allLt_iff.1 (CFSG.Monster.B.Co2.allLt_iff.1
       (CFSG.Monster.B.Co2.allLt_iff.1 hc c0 (hb c0 (by simp))) c1 (hb c1 (by simp))) c2
       (hb c2 (by simp))
-    obtain ⟨i, hi, he⟩ := cand_of hc' h1 h2'
+    obtain ⟨i, hi, he⟩ := cand_of (decC4_pack (hb c0 (by simp)) (hb c1 (by simp))
+      (hb c2 (by simp)) (hb c3 (by simp))) hc' h1 h2'
     exact ⟨i, hi, he.symm⟩
 
 theorem mem_partners3 {a : Array Nat} (h : a ∈ partners 3 (x0 3)) : ∃ i < 24, a = P3 i := by
@@ -116,7 +113,8 @@ theorem mem_partners3 {a : Array Nat} (h : a ∈ partners 3 (x0 3)) : ∃ i < 24
     have hc' := CFSG.Monster.B.Co2.allLt_iff.1 (CFSG.Monster.B.Co2.allLt_iff.1
       (CFSG.Monster.B.Co2.allLt_iff.1 hc c0 (hb c0 (by simp))) c1 (hb c1 (by simp))) c2
       (hb c2 (by simp))
-    obtain ⟨i, hi, he⟩ := cand_of (R := fun i => WT (144 + i)) hc' h1 h2'
+    obtain ⟨i, hi, he⟩ := cand_of (R := fun i => WT (144 + i))
+      (decC3_pack (hb c0 (by simp)) (hb c1 (by simp)) (hb c2 (by simp))) hc' h1 h2'
     exact ⟨i, hi, he.symm⟩
 
 theorem or3_mono {a p s p' s' : Bool} (hp : p' = true → p = true) (hs : s' = true → s = true)

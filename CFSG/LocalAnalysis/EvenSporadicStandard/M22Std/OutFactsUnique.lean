@@ -96,8 +96,42 @@ theorem closure_class_eq {G : Type*} [Group G] [Finite G] (E : Subgroup G) (hE :
     interval_cases n <;> omega
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [h16, hE])
 
-theorem uniqOK_spec : uniqOK s0Tabs f1Tabs = true :=
+theorem uniqRepOK_spec : uniqRepOK s0Tabs f1Tabs s0Reps = true :=
   Certificates.certificate24802
+
+theorem exists_rep {E : Subgroup (MulAut (Carrier .M22))} (hES : E ≤ s0)
+    (hEn : ∀ α ∈ s0, ∀ β ∈ E, α * β * α⁻¹ ∈ E) (hEsq : ∀ α ∈ E, α * α = 1)
+    {a1 : MulAut (Carrier .M22)} (ha1E : a1 ∈ E) (ha11 : a1 ≠ 1) :
+    ∃ a0 ∈ E, a0 ≠ 1 ∧ autConjClass s0 a0 = autConjClass s0 a1 ∧ autTab a0 ∈ s0Reps := by
+  have hchk := uniqRepOK_spec
+  simp only [uniqRepOK, Bool.and_eq_true, List.all_eq_true, List.any_eq_true,
+    decide_eq_true_eq] at hchk
+  obtain ⟨⟨hRT, hcov⟩, -⟩ := hchk
+  have haT : autTab a1 ∈ s0Tabs := (mem_s0_iff a1).1 (hES ha1E)
+  have hinv : isInv (autTab a1) = true := by
+    simp only [isInv, decide_eq_true_eq]
+    refine ⟨fun h => ha11 (autTab_injective (h.trans autTab_one.symm)), ?_⟩
+    rw [← autTab_mul, hEsq a1 ha1E, autTab_one]
+  obtain ⟨r, hr, hra⟩ := hcov _ (List.mem_filter.2 ⟨haT, hinv⟩)
+  obtain ⟨ρ, hρ, rfl⟩ := isTabsOf_s0.exists_mem r (hRT r hr)
+  obtain ⟨α, hα, hαa⟩ := (mem_classTabs_iff ρ _).1 hra
+  have he : α * ρ * α⁻¹ = a1 := autTab_injective hαa
+  have hρ' : ρ = α⁻¹ * a1 * α⁻¹⁻¹ := by
+    rw [← he]
+    group
+  refine ⟨ρ, ?_, ?_, ?_, hr⟩
+  · rw [hρ']
+    exact hEn _ (s0.inv_mem hα) a1 ha1E
+  · rintro rfl
+    apply ha11
+    rw [← he]
+    group
+  · ext γ
+    constructor
+    · rintro ⟨β, hβ, rfl⟩
+      exact ⟨β * α⁻¹, s0.mul_mem hβ (s0.inv_mem hα), by rw [hρ']; group⟩
+    · rintro ⟨β, hβ, rfl⟩
+      exact ⟨β * α, s0.mul_mem hβ hα, by rw [← he]; group⟩
 
 theorem s0_unique {F : Subgroup (Carrier .M22)}
     (hF : ∀ x, x ∈ F ↔ x = 1 ∨ x ∈ invs16 1) (hFcard : Nat.card F = 16) :
@@ -105,7 +139,9 @@ theorem s0_unique {F : Subgroup (Carrier .M22)}
       (∀ α ∈ E, ∀ β ∈ E, α * β = β * α) → (∀ α ∈ E, α * α = 1) → Nat.card E = 16 →
       (∀ γ ∈ s0, (∀ β ∈ E, γ * β = β * γ) → γ ∈ E) →
       (∃ β ∈ E, β ≠ 1 ∧ (autConjClass s0 β).ncard = 8) → E = innerImage (Carrier .M22) F := by
-  intro E hES hEn hEc hEsq hEcard hEself ⟨a0, ha0E, ha01, ha08⟩
+  intro E hES hEn hEc hEsq hEcard hEself ⟨a1, ha1E, ha11, ha18⟩
+  obtain ⟨a0, ha0E, ha01, hcl, haR⟩ := exists_rep hES hEn hEsq ha1E ha11
+  have ha08 : (autConjClass s0 a0).ncard = 8 := by rw [hcl, ha18]
   have hCE : autConjClass s0 a0 ⊆ E := by
     rintro _ ⟨α, hα, rfl⟩
     exact hEn α hα a0 ha0E
@@ -115,22 +151,14 @@ theorem s0_unique {F : Subgroup (Carrier .M22)}
     calc a0 = α⁻¹ * (α * a0 * α⁻¹) * α := by group
       _ = 1 := by rw [← h]; group
   have hD := closure_class_eq E hEcard _ hCE hC1 ha08
-  have haT : autTab a0 ∈ s0Tabs := (mem_s0_iff a0).1 (hES ha0E)
-  have hinv : isInv (autTab a0) = true := by
-    simp only [isInv, decide_eq_true_eq]
-    refine ⟨fun h => ha01 (autTab_injective (h.trans autTab_one.symm)), ?_⟩
-    rw [← autTab_mul, hEsq a0 ha0E, autTab_one]
   have hcls : ((classTabs s0Tabs (autTab a0)).length == 8) = true := by
     rw [length_classTabs, ha08]
     rfl
-  have hmem : autTab a0 ∈ cls8Invs s0Tabs := by
-    unfold cls8Invs
-    rw [List.mem_filter, List.mem_filter]
-    exact ⟨⟨haT, hinv⟩, hcls⟩
-  have hchk := uniqOK_spec
-  unfold uniqOK at hchk
-  rw [List.all_eq_true] at hchk
-  have h1 := hchk _ hmem
+  have hchk := uniqRepOK_spec
+  simp only [uniqRepOK, Bool.and_eq_true, List.all_eq_true] at hchk
+  have h1 := hchk.2 _ haR
+  unfold uniqAt at h1
+  simp only [hcls, Bool.not_true, Bool.false_or] at h1
   have hCl : ∀ x ∈ classTabs s0Tabs (autTab a0), ∃ c ∈ autConjClass s0 a0, autTab c = x := by
     intro x hx
     obtain ⟨α, hα, rfl⟩ := (mem_classTabs_iff a0 x).1 hx

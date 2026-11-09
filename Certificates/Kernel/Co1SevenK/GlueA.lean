@@ -103,7 +103,7 @@ theorem cenA : Nat.card (Subgroup.centralizer ({sE} : Set ↥GA)) = 17640 ∧
   have h := kTA
   rw [MatL.bAnd_eq, Bool.and_eq_true] at h
   rw [← nA]
-  exact cen_tree h.2 rep_GA' comm_GA' (by rw [nA]; exact card_le_A)
+  exact cen_tree h.2 (by rw [nA]; decide) rep_GA' comm_GA' (by rw [nA]; exact card_le_A)
 
 theorem qs_17640 (q : ℕ) (hq : q.Prime) (hd : q ∣ 17640) (h7 : q ≠ 7) : q ∈ qsList :=
   qs_A q hq hd h7

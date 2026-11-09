@@ -15,8 +15,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.Fix7062
-  "Certificates/Kernel/HMathieu/data/FixCert.json.gz" 3938 7272315038100942511
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.Fix7062
+  "Certificates/Kernel/HMathieu/data/FixCert.json" 3938 7272315038100942511
   (J22 : List (List Nat)) (J23 : List (List Nat)) (K23 : List (List Nat))
   (J24 : List (List Nat)) (J4 : List (List Nat)) (K4 : List (List Nat))
 

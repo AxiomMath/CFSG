@@ -53,6 +53,12 @@ open CFSG.KC.Enum CFSG.KC.IntLines CFSG.KC.B45P CFSG.KC.LQT.SV CertificateChecks
 @[expose] noncomputable def ckW (s : Nat) : Bool :=
   tGenK 4060 12 [A0, A1] [A0I, A1I] A0 A0I (SY.G.getD s 0) (wsK.getD s [])
 
+@[expose] noncomputable def ckWF (s : Nat) : Bool :=
+  tGenF 4060 12 [A0, A1] [A0I, A1I] A0 A0I (SY.G.getD s 0) (wsK.getD s [])
+
+theorem ckW_eq (s : Nat) : ckW s = ckWF s :=
+  tGenK_eq_tGenF _ _ _ _ _ _ _ _
+
 @[expose] noncomputable def ckSY (s : Nat) : Bool :=
   chunkSV 4060 12 256 7 SY.G SY.E SY.PT SY.LT SY.TB (Nat.mul s 8) 8
 

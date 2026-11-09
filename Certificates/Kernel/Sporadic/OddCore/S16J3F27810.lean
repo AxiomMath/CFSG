@@ -11,6 +11,9 @@ public import CFSG.Certificates.Kernel.Spor.MulHInvSound
 public import CFSG.Certificates.Kernel.Spor.MulHFSound
 public import CFSG.Certificates.Kernel.Common.ForallChunks
 import Mathlib.Tactic.IntervalCases
+import CFSG.Certificates.Kernel.Spor.PcompFacts
+import CFSG.Certificates.Kernel.Spor.RawOrbHead
+import CFSG.Certificates.Kernel.Spor.PK.Perm.Inv
 public import CFSG.Certificates.Kernel.Misc.RuInvHash
 
 public section
@@ -111,20 +114,91 @@ theorem canon_of {k cnt : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
     ∀ i < cnt, cK (T i) = true := fun i hi =>
   penumPt_canon (penumSl_spec (i := i) hE (Nat.zero_le _) (by rw [Nat.zero_add]; exact hi) hi)
 
+theorem s16pos_of {k cnt i j : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
+    (h : penumPtK 6156 13 (mask 13) (6156 * 13) true G GI k cnt T PL POS SRT SRI i = true)
+    (hj : j < k) :
+    r32 POS (i * k + j) < cnt ∧
+      T (r32 POS (i * k + j)) = stepK 6156 13 (mask 13) true G GI j (T i) := by
+  unfold penumPtK at h
+  rw [strictB_eq''] at h
+  obtain ⟨-, h2⟩ := (bAnd_iff _ _).1 h
+  obtain ⟨-, h3⟩ := (bAnd_iff _ _).1 h2
+  obtain ⟨hpos, -⟩ := (bAnd_iff _ _).1 h3
+  have hq := allN_spec hpos j hj
+  simp only [strictB_eq''] at hq
+  obtain ⟨h4, h5⟩ := (bAnd_iff _ _).1 hq
+  obtain ⟨h6, -⟩ := (bAnd_iff _ _).1 h5
+  exact ⟨Nat.le_of_ble_eq_true h4, Nat.eq_of_beq_eq_true h6⟩
+
+theorem s16closed_of {k cnt : Nat} {G GI GJ T PL POS SRT SRI CL : Nat → Nat} {gs : List Table}
+    (hG : ∀ j < k, G j = idK) (hg : TabsOK 6156 13 k GI gs.toArray)
+    (hgj : ∀ j < k, iK (GI j) (GJ j) = true ∧ cK (GJ j) = true)
+    (hp : ∀ i < cnt,
+      penumPtK 6156 13 (mask 13) (6156 * 13) true G GI k cnt T PL POS SRT SRI i = true)
+    (hCl : slK (Nat.mul cnt k) (findPtK cnt T (prodQK 6156 13 (mask 13) k T GJ) CL) 0
+      (Nat.mul cnt k) = true) :
+    closedOK 6156 (gs.toArray ++ gs.toArray.map (invT 6156)) (hRec 6156 13 cnt T PL).1 = true := by
+  have hT : ∀ i < cnt, cK (T i) = true := fun i hi => penumPt_canon (hp i hi)
+  have hA := TabsOK_both hg hgj
+  unfold closedOK
+  rw [Array.all_eq_true]
+  intro i hi
+  have hi' : i < cnt := by simpa [hRec] using hi
+  rw [Array.all_eq_true]
+  intro j hj
+  have hj' : j < k + k := by rw [← hA.1]; exact hj
+  obtain ⟨hgj', hcj⟩ := hA.2 j hj'
+  have hx : (hRec 6156 13 cnt T PL).1[i] = ⟪T i⟫ := by simp [hRec]
+  rw [hx, ← getElem!_pos _ j hj, hgj', compT_unpack (hT i hi') hcj]
+  obtain ⟨q, hq, he⟩ : ∃ q, q < cnt ∧ T q = pcomp 6156 13 (mask 13) (T i) (bothK k GI GJ j) := by
+    by_cases hjk : j < k
+    · obtain ⟨h1, h2⟩ := s16pos_of (hp i hi') hjk
+      refine ⟨_, h1, ?_⟩
+      rw [h2, bothK_lt hjk]
+      exact s16step_id (hG j hjk) (hT i hi')
+    · have hjk' : j - k < k := by omega
+      have hc : i * k + (j - k) < cnt * k := by
+        have := Nat.mul_le_mul_right k (Nat.succ_le_of_lt hi')
+        rw [Nat.succ_mul] at this
+        omega
+      obtain ⟨h1, h2⟩ :=
+        findPt_spec (slK_spec hCl _ (Nat.zero_le _) (by rw [Nat.zero_add]; exact hc) hc)
+      unfold prodQK at h2
+      obtain ⟨e1, e2⟩ := div_mod_pair (i := i) hjk'
+      have e1' : Nat.div (i * k + (j - k)) k = i := e1
+      have e2' : Nat.mod (i * k + (j - k)) k = j - k := e2
+      rw [e1', e2'] at h2
+      refine ⟨_, h1, ?_⟩
+      rw [h2, bothK_ge (by omega)]
+  rw [← he]
+  exact memT_of hq (tblEq_self (hT _ hq))
+
 theorem enum_of {k cnt m : Nat} {G GI GJ T PL POS SRT SRI HS HSI CL : Nat → Nat}
     {gs : List Table} (hG : ∀ j < k, G j = idK) (hg : TabsOK 6156 13 k GI gs.toArray)
     (hgj : ∀ j < k, iK (GI j) (GJ j) = true ∧ cK (GJ j) = true)
     (hh : penumHdK idK cnt 40 T PL = true)
     (hE : penumSlK 6156 13 (mask 13) (6156 * 13) true G GI k cnt T PL POS SRT SRI 0 cnt = true)
     (hH : slK cnt (hsortPtK 6156 13 (mask 13) cnt T HS HSI) 0 cnt = true)
-    (hCl : slK (Nat.mul cnt (k + k))
-      (findPtK cnt T (prodQK 6156 13 (mask 13) (k + k) T (bothK k GI GJ)) CL) 0
-      (Nat.mul cnt (k + k)) = true)
-    (hm : cnt = m) : enumOK 6156 40 m gs = true :=
-  enumOK_of hn hG hg hgj hh
-    (fun i hi => penumSl_spec (i := i) hE (Nat.zero_le _) (by rw [Nat.zero_add]; exact hi) hi)
-    (fun i hi => slK_spec hH i (Nat.zero_le _) (by rw [Nat.zero_add]; exact hi) hi)
-    (fun c hc => slK_spec hCl c (Nat.zero_le _) (by rw [Nat.zero_add]; exact hc) hc) hm
+    (hCl : slK (Nat.mul cnt k) (findPtK cnt T (prodQK 6156 13 (mask 13) k T GJ) CL) 0
+      (Nat.mul cnt k) = true)
+    (hm : cnt = m) : enumOK 6156 40 m gs = true := by
+  have hp : ∀ i < cnt,
+      penumPtK 6156 13 (mask 13) (6156 * 13) true G GI k cnt T PL POS SRT SRI i = true :=
+    fun i hi => penumSl_spec (i := i) hE (Nat.zero_le _) (by rw [Nat.zero_add]; exact hi) hi
+  have hs : ∀ i < cnt, hsortPtK 6156 13 (mask 13) cnt T HS HSI i = true :=
+    fun i hi => slK_spec hH i (Nat.zero_le _) (by rw [Nat.zero_add]; exact hi) hi
+  obtain ⟨e, ht, hd⟩ := mulH_sound hn hG hg hh hp hs
+  unfold CFSG.Sporadic.SmallOddCore.enumOK
+  simp only [Bool.and_eq_true]
+  rw [e]
+  refine ⟨⟨⟨⟨?_, ht⟩, s16closed_of hG hg hgj hp hCl⟩, hd⟩, ?_⟩
+  · rw [List.all_eq_true]
+    intro g hgm
+    obtain ⟨j, hj, rfl, hc⟩ := TabsOK_list hg hgm
+    rw [invT_unpack (lt_of_canonK (hgj j hj).2) (hgj j hj).1]
+    exact invOK_unpack hc (hgj j hj).2 (hgj j hj).1
+  · rw [hRec_size, hm]
+    exact beq_self_eq_true m
 
 theorem mem_at {k cnt i y : Nat} {G GI T PL POS SRT SRI P : Nat → Nat}
     (hE : penumSlK 6156 13 (mask 13) (6156 * 13) true G GI k cnt T PL POS SRT SRI 0 cnt = true)
@@ -199,6 +273,114 @@ theorem cs_eq : cTbls 6156 (j3Tb 0) [j3Tb 7, j3Tb 8, j3Tb 9, j3Tb 10] [true, fal
     [compT 6156 (j3Tb 7) (j3Tb 0), j3Tb 8, j3Tb 9, compT 6156 (j3Tb 10) (j3Tb 0)] := by
   simp [cTbls]
 
+
+theorem s16pgExt {p q : Nat} (hp : cK p = true) (hq : cK q = true)
+    (h : ∀ i < 6156, pg 13 (mask 13) p i = pg 13 (mask 13) q i) : p = q := by
+  unfold cK at hp hq
+  obtain ⟨-, hw, hp1, -⟩ := CFSG.KS.PF.canon_facts hp
+  obtain ⟨-, -, hq1, -⟩ := CFSG.KS.PF.canon_facts hq
+  exact CFSG.KS.PF.eq_of_fields (CFSG.KS.PF.w_pos hw) hp1 hq1 h
+
+theorem s16pgLt {p : Nat} (hp : cK p = true) : ∀ i < 6156, pg 13 (mask 13) p i < 6156 := by
+  unfold cK at hp
+  exact (CFSG.KS.PF.canon_facts hp).2.2.2
+
+theorem s16pgC {p q i : Nat} (hi : i < 6156) :
+    pg 13 (mask 13) (pc p q) i = pg 13 (mask 13) p (pg 13 (mask 13) q i) :=
+  CFSG.KS.PF.pg_pcomp (by norm_num) hi
+
+theorem s16invL {a a' : Nat} (h : iK a a' = true) :
+    ∀ i < 6156, pg 13 (mask 13) a' (pg 13 (mask 13) a i) = i := by
+  unfold iK invEqK at h
+  exact fun i hi => ((CFSG.KS.Raw.Orb.permOK_facts h).2.2 i hi).2
+
+theorem s16invR {a a' : Nat} (ha : cK a = true) (h : iK a a' = true) :
+    ∀ j < 6156, pg 13 (mask 13) a (pg 13 (mask 13) a' j) = j := by
+  have hl := s16invL h
+  intro j hj
+  obtain ⟨i, hi, rfl⟩ := CFSG.KS.PK.surj_of_inj (s16pgLt ha)
+    (fun i hi k hk e => by rw [← hl i hi, ← hl k hk, e]) j hj
+  rw [hl i hi]
+
+theorem s16quadInvo {z : Nat} (h : quadK z = true) :
+    ∀ i < 6156, pg 13 (mask 13) z (pg 13 (mask 13) z i) = i := by
+  have hv := s16vInvo
+  simp only [bAnd_iff] at hv
+  obtain ⟨vt, vx, vtx⟩ := hv
+  unfold quadK at h
+  rw [Bool.or_eq_true, Bool.or_eq_true, Bool.or_eq_true] at h
+  intro i hi
+  have hid' : pg 13 (mask 13) idK i = i := CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hi
+  rcases h with ((h | h) | h) | h <;> rw [Nat.eq_of_beq_eq_true h]
+  · rw [hid', hid']
+  · rw [← s16pgC hi, Nat.eq_of_beq_eq_true vt, hid']
+  · rw [← s16pgC hi, Nat.eq_of_beq_eq_true vx, hid']
+  · rw [← s16pgC hi, Nat.eq_of_beq_eq_true vtx, hid']
+
+theorem s16commSwap {a b a' b' : Nat} (ha : cK a = true) (hb : cK b = true) (ha' : cK a' = true)
+    (hb' : cK b' = true) (iaa : iK a a' = true) (ibb : iK b b' = true)
+    (h : quadK (pc (pc b a) (pc b' a')) = true) : quadK (pc (pc a b) (pc a' b')) = true := by
+  have cy : cK (pc (pc a b) (pc a' b')) = true :=
+    canonK_pcomp (canonK_pcomp ha hb) (canonK_pcomp ha' hb')
+  have cz : cK (pc (pc b a) (pc b' a')) = true :=
+    canonK_pcomp (canonK_pcomp hb ha) (canonK_pcomp hb' ha')
+  have c1 : cK (pc a' b') = true := canonK_pcomp ha' hb'
+  have c2 : cK (pc b' a') = true := canonK_pcomp hb' ha'
+  have e : pc (pc a b) (pc a' b') = pc (pc b a) (pc b' a') := by
+    refine s16pgExt cy cz fun i hi => ?_
+    have ey : ∀ k < 6156, pg 13 (mask 13) (pc (pc a b) (pc a' b')) k = pg 13 (mask 13) a
+        (pg 13 (mask 13) b (pg 13 (mask 13) a' (pg 13 (mask 13) b' k))) := fun k hk => by
+      rw [s16pgC hk, s16pgC (s16pgLt c1 k hk), s16pgC hk]
+    have ez : ∀ k < 6156, pg 13 (mask 13) (pc (pc b a) (pc b' a')) k = pg 13 (mask 13) b
+        (pg 13 (mask 13) a (pg 13 (mask 13) b' (pg 13 (mask 13) a' k))) := fun k hk => by
+      rw [s16pgC hk, s16pgC (s16pgLt c2 k hk), s16pgC hk]
+    have yz : ∀ k < 6156, pg 13 (mask 13) (pc (pc a b) (pc a' b'))
+        (pg 13 (mask 13) (pc (pc b a) (pc b' a')) k) = k := fun k hk => by
+      have l1 := s16pgLt ha' k hk
+      have l2 := s16pgLt hb' _ l1
+      have l3 := s16pgLt ha _ l2
+      rw [ey _ (s16pgLt cz k hk), ez k hk, s16invL ibb _ l3, s16invL iaa _ l2,
+        s16invR hb ibb _ l1, s16invR ha iaa k hk]
+    have hy := yz _ (s16pgLt cz i hi)
+    rw [s16quadInvo h i hi] at hy
+    exact hy
+  rw [e]
+  exact h
+
+theorem s16commSelf {a a' : Nat} (ha : cK a = true) (ha' : cK a' = true) (iaa : iK a a' = true) :
+    quadK (pc (pc a a) (pc a' a')) = true := by
+  have c1 : cK (pc a' a') = true := canonK_pcomp ha' ha'
+  have e : pc (pc a a) (pc a' a') = idK := by
+    refine s16pgExt (canonK_pcomp (canonK_pcomp ha ha) c1) hidc fun i hi => ?_
+    have hid' : pg 13 (mask 13) idK i = i := CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hi
+    rw [s16pgC hi, s16pgC (s16pgLt c1 i hi), s16pgC hi,
+      s16invR ha iaa _ (s16pgLt ha' i hi), s16invR ha iaa i hi, hid']
+  rw [e]
+  unfold quadK
+  rw [Nat.beq_refl, Bool.true_or, Bool.true_or, Bool.true_or]
+
+theorem s16pairQ (hc : ∀ i < 32, cK (S16J3C.T i) = true) (hq : ∀ i < 32, s16j3q i = true)
+    {i j : Nat} (hi : i < 32) (hj : j < 32) :
+    quadK (pc (pc (S16J3C.T i) (S16J3C.T j)) (pc (S16J3CA i) (S16J3CA j))) = true := by
+  have qi := hq i hi
+  have qj := hq j hj
+  rw [s16j3q_pc] at qi qj
+  unfold s16j3qB at qi qj
+  simp only [bAnd_iff] at qi qj
+  obtain ⟨cai, iai, -, halli⟩ := qi
+  obtain ⟨caj, iaj, -, hallj⟩ := qj
+  by_cases e : i = j
+  · subst e
+    exact s16commSelf (hc i hi) cai iai
+  by_cases hd : (j + 32 - i) % 32 ≤ 16
+  · have h := allN_spec halli ((j + 32 - i) % 32 - 1) (by omega)
+    have hx : (i + ((j + 32 - i) % 32 - 1) + 1) % 32 = j := by omega
+    rw [hx] at h
+    exact h
+  · have h := allN_spec hallj ((i + 32 - j) % 32 - 1) (by omega)
+    have hx : (j + ((i + 32 - j) % 32 - 1) + 1) % 32 = i := by omega
+    rw [hx] at h
+    exact s16commSwap (hc i hi) (hc j hj) cai caj iai iaj h
 
 theorem j3 : j3S16OK = true := by
   have hb := k_base
@@ -454,9 +636,10 @@ theorem j3 : j3S16OK = true := by
     beta_reduce
     have ci := cCT i hi
     have hq := s16j3qA i (by rw [hnC] at hi; exact hi)
-    unfold s16j3q at hq
+    rw [s16j3q_pc] at hq
+    unfold s16j3qB at hq
     simp only [bAnd_iff] at hq
-    obtain ⟨cai, iai, qi, hall⟩ := hq
+    obtain ⟨cai, iai, qi, -⟩ := hq
     rw [invT_unpack (by norm_num) iai, compT_unpack ci ci, quadIn_eq ct cx (canonK_pcomp ci ci)]
     simp only [Bool.and_eq_true]
     refine ⟨⟨invOK_unpack ci cai iai, qi⟩, ?_⟩
@@ -465,13 +648,15 @@ theorem j3 : j3S16OK = true := by
     beta_reduce
     have cj := cCT j hj
     have hq' := s16j3qA j (by rw [hnC] at hj; exact hj)
-    unfold s16j3q at hq'
+    rw [s16j3q_pc] at hq'
+    unfold s16j3qB at hq'
     simp only [bAnd_iff] at hq'
     obtain ⟨caj, iaj, -, -⟩ := hq'
     rw [compT_unpack ci cj, invT_unpack (by norm_num) iaj, compT_unpack cai caj,
       compT_unpack (canonK_pcomp ci cj) (canonK_pcomp cai caj),
       quadIn_eq ct cx (canonK_pcomp (canonK_pcomp ci cj) (canonK_pcomp cai caj))]
-    exact allN_spec hall j (by rw [← hnC]; exact hj)
+    exact s16pairQ (fun k hk => cCT k (by rw [hnC]; exact hk)) s16j3qA
+      (by rw [hnC] at hi; exact hi) (by rw [hnC] at hj; exact hj)
   simp only [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14, g15, g16, g17, g18, g19,
     g20, g21, g22, g23, g24, g25, g26, g27, g28, g29, g30, g31, g32, g33, g34, g35, g36, g37, g38,
     g39, g40, g41, g42, g43, g44, g45, g46, g47, g48, g49, g50, g51, Bool.and_self]

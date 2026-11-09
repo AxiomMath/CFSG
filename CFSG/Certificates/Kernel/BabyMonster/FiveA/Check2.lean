@@ -1,11 +1,20 @@
 module
 
 import CFSG.Certificates.Kernel.BabyMonster.LoadFour
+import CFSG.Certificates.Kernel.BabyMonster.LoadChain
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data3
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data4
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data10
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data11
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data12
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data16
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data0
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data3
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data4
-public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data5
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data15
 
 #bm_mul4 CFSG.KC.BM.FiveA cp25 p24 [v21] p25 []
 #bm_mul4 CFSG.KC.BM.FiveA cp26 p25 [p25] p26 []
@@ -16,10 +25,10 @@ public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data5
 #bm_mul4 CFSG.KC.BM.FiveA cv31 v27 [p26 p29] v31 []
 #bm_mul4 CFSG.KC.BM.FiveA cv32 p26 [v31] v32 []
 #bm_mul4 CFSG.KC.BM.FiveA cv33 v27 [v32 p29] v33 []
-#bm_mul4 CFSG.KC.BM.FiveA cv34 p30 [v32 p28 v33] v34 []
+#bm_mul4c CFSG.KC.BM.FiveA cv34 p30 [v32 p28 v33] v34 []
 #bm_mul4 CFSG.KC.BM.FiveA cv35 p26 [v34] v35 []
 #bm_mul4 CFSG.KC.BM.FiveA cv36 v27 [v35 p29] v36 []
 #bm_mul4 CFSG.KC.BM.FiveA cv37 v35 [v36] v37 []
 #bm_mul4 CFSG.KC.BM.FiveA cv38 v27 [v37 p29] v38 []
-#bm_mul4 CFSG.KC.BM.FiveA cv39 p30 [v37 p28 v38] v39 []
+#bm_mul4c CFSG.KC.BM.FiveA cv39 p30 [v37 p28 v38] v39 []
 #bm_mul4 CFSG.KC.BM.FiveA cv40 v35 [v39] v40 []

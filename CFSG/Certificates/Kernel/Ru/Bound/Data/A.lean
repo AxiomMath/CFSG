@@ -1,9 +1,9 @@
 module
 
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.RuBA "CFSG/Certificates/Kernel/Ru/Bound/Data/data/A/data.items.gz" 223041 12995638201578267503
+#kc_repo #kc_nat_items CFSG.KD.RuBA "CFSG/Certificates/Kernel/Ru/Bound/Data/data/A/data.items" 223041 12995638201578267503
   FB[101] WT[51] ST0 SL0 TW[9] TL[9] INV INV8 nF nC nW K nT d JF[27] JT[9]
 
 #kc_select CFSG.KD.RuBA FB FB 101

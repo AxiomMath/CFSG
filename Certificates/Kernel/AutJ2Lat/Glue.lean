@@ -50,7 +50,7 @@ private theorem pi_word_nil {Γ : Type} [Group Γ] (ρ : Γ →* Equiv.Perm (Fin
     (els : Array Γ) (cs : List ℕ) : piWordProp ρ els cs [] := by
   change PI (ρ (evalElt els [])) (imgW 9 (([] : List ℕ).foldr
     (fun l acc => mulW 315 9 (cs.getD l 0) acc) (oneW 315 9)))
-  rw [evalElt_nil, map_one]
+  rw [evalElt_nil, map_one, List.foldr_nil]
   exact pi_one
 
 private theorem pi_word_cons {Γ : Type} [Group Γ] (ρ : Γ →* Equiv.Perm (Fin 315))

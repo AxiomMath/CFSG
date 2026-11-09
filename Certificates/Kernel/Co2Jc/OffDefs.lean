@@ -30,4 +30,6 @@ open CFSG.KC.Enum
 
 @[expose] noncomputable def stI (q s : Nat) : Nat := pg (nat_lit 10) (nat_lit 1023) (OS q) s
 
+@[expose] noncomputable def offSM (k : Nat) : Nat := OSM k
+
 end CertificateChecks.KernelCo2Jc

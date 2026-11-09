@@ -38,6 +38,7 @@ theorem vlCx_elt
     (h31 : eqRows (mulRows vlCx[c]! vlCxInv[c]!) idRows = true) :
     ∃ x : J, Mx x = rowsMatrix vlCx[c]! ∧ Mx x⁻¹ = rowsMatrix vlCxInv[c]! := by
   obtain ⟨x, -, hx⟩ := mem_X0Sub_of_lt hM c hc
+  rw [← vlCx_def] at hx
   have e1 : Mx x * rowsMatrix vlCxInv[c]! = 1 := by
     have := eqRows_iff.1 h31
     have h' := congrArg rowsMatrix this

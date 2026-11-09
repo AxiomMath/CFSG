@@ -2,17 +2,23 @@ module
 
 import CFSG.Certificates.Kernel.Common.Eval
 meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data9
-import CFSG.Certificates.Kernel.BabyMonster.Max2.Data5
-import CFSG.Certificates.Kernel.BabyMonster.Max2.Data6
-import CFSG.Certificates.Kernel.BabyMonster.NativePair.Data3
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.CTIB Pf2_sq1 CFSG.KC.BM.Twin.prod 4370 2412240 7430774168177654802 Pf2 Pf2
-#kc_eval CFSG.KC.BM.CTIB Pf2_sq2 CFSG.KC.BM.Twin.prod 4370 2412240 9500214249489003989 Pf2_sq1 Pf2_sq1
-#kc_eval CFSG.KC.BM.CTIB W4_0 CFSG.KC.BM.Twin.prod 4370 2412240 8592852588407103564 Tau2 CFSG.KC.BM.Max2.G1 CFSG.KC.BM.Max2.Gi2
-#kc_eval CFSG.KC.BM.CTIB W4_1 CFSG.KC.BM.Twin.prod 4370 2412240 12936419230793734748 W4_0 CFSG.KC.BM.NativePair.Q25 CFSG.KC.BM.NativePair.Q25
-#kc_eval CFSG.KC.BM.CTIB W4_2 CFSG.KC.BM.Twin.prod 4370 2412240 2332146536726569149 W4_1 CFSG.KC.BM.Max2.G1 CFSG.KC.BM.Max2.G2
-#kc_eval CFSG.KC.BM.CTIB W4_3 CFSG.KC.BM.Twin.prod 4370 2412240 8527642204437462535 W4_2 CFSG.KC.BM.Max2.G1 CFSG.KC.BM.Max2.G2
-#kc_eval CFSG.KC.BM.CTIB W4_4 CFSG.KC.BM.Twin.prod 4370 2412240 4854709339839940637 W4_3 CFSG.KC.BM.Max2.G1 CFSG.KC.BM.Max2.G2
-#kc_eval CFSG.KC.BM.CTIB W4 CFSG.KC.BM.Twin.prod 4370 2412240 13262383476050477523 W4_4 CFSG.KC.BM.Max2.G1 CFSG.KC.BM.NativePair.Q25
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf2_sq1
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf2_sq1.bin" 2412240 7430774168177654802
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf2_sq2
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf2_sq2.bin" 2412240 9500214249489003989
+#kc_repo #bm_mat CFSG.KC.BM.CTIB W4_0
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/W4_0.bin" 2412240 8592852588407103564
+#kc_repo #bm_mat CFSG.KC.BM.CTIB W4_1
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/W4_1.bin" 2412240 12936419230793734748
+#kc_repo #bm_mat CFSG.KC.BM.CTIB W4_2
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/W4_2.bin" 2412240 2332146536726569149
+#kc_repo #bm_mat CFSG.KC.BM.CTIB W4_3
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/W4_3.bin" 2412240 8527642204437462535
+#kc_repo #bm_mat CFSG.KC.BM.CTIB W4_4
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/W4_4.bin" 2412240 4854709339839940637
+#kc_repo #bm_mat CFSG.KC.BM.CTIB W4
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/W4.bin" 2412240 13262383476050477523
 #kc_eval CFSG.KC.BM.CTIB W4_inv CFSG.KC.BM.Twin.inv 4370 0 0 W4

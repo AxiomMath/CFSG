@@ -8,12 +8,12 @@ public import Certificates.Data.CFSGNative.HN.Local.TypeData
 public import CFSG.Certificates.Kernel.Orders.HN.Data.Const
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.HNLocal "Certificates/Kernel/HNLocal/data/regs.items.gz" 3707301 17900193135692568574
+#kc_repo #kc_nat_items CFSG.KD.HNLocal "Certificates/Kernel/HNLocal/data/regs.items" 3707301 17900193135692568574
     (R 0 95) (P 0 14) GA GB (GX 2 4) GT2 GT4 PF2 QF2 PF4 QF4 LC GFC MS (MSF 0 8) CM3 M TGN
-#kc_repo #kc_json_family_gz CFSG.KD.HNLocal "Certificates/Kernel/HNLocal/data/regs.json.gz" 2650 6107227363552920052
+#kc_repo #kc_json_family CFSG.KD.HNLocal "Certificates/Kernel/HNLocal/data/regs.json" 2650 6107227363552920052
   (WD : List Nat)
 #kc_select CFSG.KD.HNLocal RB R 95
 #kc_select CFSG.KD.HNLocal PC P 14

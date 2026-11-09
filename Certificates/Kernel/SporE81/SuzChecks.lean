@@ -5,6 +5,8 @@ public import Certificates.Kernel.SporE81.SuzDData
 public import Certificates.Kernel.Sporadic.Suz.Text2306
 public import Certificates.Data.Kernel.E81IK
 public import Certificates.Data.Kernel.Misc.ArrEnum
+public import Certificates.Kernel.SporE81.SuzQWords
+public import CFSG.Certificates.Kernel.Spor.PosWordSplit
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -98,9 +100,16 @@ theorem lettersD : (suzE81.dW.toList.all fun ws => ws.toList.all fun w => w.all 
   simp only [suzE81, List.toList_toArray, List.all_cons, List.all_nil, Array.toList_map]
   decide +kernel
 
+#kc_posword_split wordsQ0 75 : posWordK 1782 11 PG SuzQW.W0 = S9Q.G 0
+
+#kc_posword_split wordsQ1 75 : posWordK 1782 11 PG SuzQW.W1 = S9Q.G 1
+
+#kc_posword_split wordsQ2 75 : posWordK 1782 11 PG SuzQW.W2 = S9Q.G 2
+
 theorem wordsQ : suzE81.qW.toList.map (posWordK 1782 11 PG) = (List.range 3).map S9Q.G := by
-  simp only [suzE81, Array.toList_map]
-  decide +kernel
+  show _ = [S9Q.G 0, S9Q.G 1, S9Q.G 2]
+  rw [SuzQW.qW_toList, List.map_cons, List.map_cons, List.map_cons, List.map_nil, wordsQ0,
+    wordsQ1, wordsQ2]
 
 theorem wordsR : suzE81.rW.toList.map (posWordK 1782 11 S9Q.G) = (List.range 3).map S9Q.G := by
   simp only [suzE81, Array.toList_map]

@@ -222,6 +222,55 @@ private theorem tf_kernelRoots_perm {M : Type*} [CommGroup M]
     permLattice TwistTag.E6.perm x ∈ kernelRoots χ₆ :=
   ⟨(tf_isRoot_permLattice_iff x).2 hx.1, by rw [hρ x]; exact hx.2⟩
 
+private def decEqTwE6Fast : DecidableEq (Fin TwistTag.E6.tag.rank → ℤ) := fun u v =>
+  decidable_of_iff (((List.finRange TwistTag.E6.tag.rank).all fun i => decide (u i = v i)) =
+      true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+private abbrev tfN1At (m : Fin 72) : Prop :=
+  ∀ m' : Fin 72, iform (tf_e6RootVec m) (tf_e6RootVec m') ≠ 0 →
+    iform (twE6OrbSum (tf_e6RootVec m)) (twE6OrbSum (tf_e6RootVec m')) ≠ 0 ∨
+    ∃ n : Fin 72,
+      (tf_e6RootVec n = tf_e6RootVec m + permLattice TwistTag.E6.perm (tf_e6RootVec m') ∨
+       tf_e6RootVec n = tf_e6RootVec m - permLattice TwistTag.E6.perm (tf_e6RootVec m') ∨
+       tf_e6RootVec n = -tf_e6RootVec m + permLattice TwistTag.E6.perm (tf_e6RootVec m') ∨
+       tf_e6RootVec n = -tf_e6RootVec m - permLattice TwistTag.E6.perm (tf_e6RootVec m')) ∧
+      iform (twE6OrbSum (tf_e6RootVec n)) (twE6OrbSum (tf_e6RootVec m)) ≠ 0 ∧
+      iform (twE6OrbSum (tf_e6RootVec n)) (twE6OrbSum (tf_e6RootVec m')) ≠ 0
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_0 : ∀ m : Fin 72, m.val / 9 = 0 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_1 : ∀ m : Fin 72, m.val / 9 = 1 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_2 : ∀ m : Fin 72, m.val / 9 = 2 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_3 : ∀ m : Fin 72, m.val / 9 = 3 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_4 : ∀ m : Fin 72, m.val / 9 = 4 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_5 : ∀ m : Fin 72, m.val / 9 = 5 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_6 : ∀ m : Fin 72, m.val / 9 = 6 → tfN1At m := by
+  decide +kernel
+
+attribute [local instance high] decEqTwE6Fast in
+private theorem tf_N1_check_7 : ∀ m : Fin 72, m.val / 9 = 7 → tfN1At m := by
+  decide +kernel
+
 private theorem tf_N1_check :
     ∀ m m' : Fin 72, iform (tf_e6RootVec m) (tf_e6RootVec m') ≠ 0 →
     iform (twE6OrbSum (tf_e6RootVec m)) (twE6OrbSum (tf_e6RootVec m')) ≠ 0 ∨
@@ -232,7 +281,13 @@ private theorem tf_N1_check :
        tf_e6RootVec n = -tf_e6RootVec m - permLattice TwistTag.E6.perm (tf_e6RootVec m')) ∧
       iform (twE6OrbSum (tf_e6RootVec n)) (twE6OrbSum (tf_e6RootVec m)) ≠ 0 ∧
       iform (twE6OrbSum (tf_e6RootVec n)) (twE6OrbSum (tf_e6RootVec m')) ≠ 0 := by
-  decide +kernel
+  intro m
+  have hm := m.isLt
+  rcases (by omega : m.val / 9 = 0 ∨ m.val / 9 = 1 ∨ m.val / 9 = 2 ∨ m.val / 9 = 3 ∨
+    m.val / 9 = 4 ∨ m.val / 9 = 5 ∨ m.val / 9 = 6 ∨ m.val / 9 = 7) with
+    h | h | h | h | h | h | h | h
+  exacts [tf_N1_check_0 m h, tf_N1_check_1 m h, tf_N1_check_2 m h, tf_N1_check_3 m h,
+    tf_N1_check_4 m h, tf_N1_check_5 m h, tf_N1_check_6 m h, tf_N1_check_7 m h]
 
 private theorem tf_N1 {β β' : Fin TwistTag.E6.tag.rank → ℤ}
     (hβ : IsRoot Tag.E6 β) (hβ' : IsRoot Tag.E6 β') (hif : iform β β' ≠ 0) :

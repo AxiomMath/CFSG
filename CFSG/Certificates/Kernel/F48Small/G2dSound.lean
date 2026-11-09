@@ -85,7 +85,7 @@ theorem valG_foldl {n : ℕ} (L : (Fin n × Bool) → List ℕ) (hL : ∀ l, Val
     ∀ (w : List (Fin n × Bool)) (acc : List ℕ), ValG acc →
       ValG (w.foldl (fun acc l => compL acc (L l)) acc)
   | [], _, h => h
-  | l :: w, acc, h => valG_foldl L hL w _ (valG_compL h (hL l))
+  | l :: w, _, h => valG_foldl L hL w _ (valG_compL h (hL l))
 
 theorem walkC_cons (P : ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → Bool) (a₀ : ℕ) (x : ℕ × ℕ × ℕ)
     (l : List (ℕ × ℕ × ℕ)) (e : ℕ) :
@@ -119,13 +119,10 @@ theorem walkC_sound (P : ℕ → ℕ → ℕ → ℕ → ℕ → ℕ → Bool) (
       rw [e1] at this
       simpa using this
 
-theorem candAt_iff (TV TiV AV BV VV : List ℕ) (U Y a b c j t r : ℕ) :
-    candAt TV TiV AV BV VV U Y a b c j t r = true ↔
-      j < 4 ∧ t < 32 ∧ r < 32 ∧
-      pcomp (pcomp (getK TV t) 28 (getK AV a)) 28 (getK TiV t) = U ∧
-      pcomp (pcomp (pcomp (getK TV t) 28 (getK BV b)) 28 (getK TiV t)) 28 (getK TV r) = Y ∧
-      pcomp (pcomp (getK TiV r) 28 (pcomp (pcomp (getK TV t) 28 (getK AV c)) 28 (getK TiV t))) 28
-        (getK TV r) = getK VV j := by
+theorem candAt_iff (CA CB VR : List (List ℕ)) (YR : List ℕ) (U a b c j t r : ℕ) :
+    candAt CA CB VR YR U a b c j t r = true ↔
+      j < 4 ∧ t < 32 ∧ r < 32 ∧ getK (getKL CA t) a = U ∧
+      getK (getKL CB t) b = getK YR r ∧ getK (getKL CA t) c = getK (getKL VR r) j := by
   simp only [candAt, andB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq]
 
 end CFSG.KC.F48S

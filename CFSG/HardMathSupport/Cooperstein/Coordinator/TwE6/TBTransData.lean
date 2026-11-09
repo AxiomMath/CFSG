@@ -2,6 +2,7 @@ module
 
 public import CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisTw.F4Orbits
 public import CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisTw.Weyl
+public import CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc.SortCheck
 
 public section
 
@@ -346,8 +347,31 @@ theorem pairWeight_fixed : ∀ a b j : Fin 4, j ≠ a → j ≠ b →
 theorem pairWords_length : ∀ a b : Fin 4, a ≠ b → 144 ≤ (pairWords a b).length := by
   decide +kernel
 
+@[expose] def code4 (v : Fin Tag.F4.rank → ℤ) : ℕ :=
+  ((List.finRange Tag.F4.rank).map v).foldr (fun x a => (x + 64).toNat + 128 * a) 0
+
+theorem pairWords_symm : ∀ a b : Fin 4, pairWords a b = pairWords b a := by decide +kernel
+
+theorem pairWords_codes : ∀ a b : Fin 4, a < b →
+    CurtisExc.strictB (CurtisExc.msortN ((pairWords a b).map fun w =>
+      code4 (w.foldr (reflect Tag.F4) (f4Weight a + f4Weight b)))) = true := by
+  decide +kernel
+
 theorem pairWords_nodup : ∀ a b : Fin 4, a ≠ b →
     ((pairWords a b).map fun w => w.foldr (reflect Tag.F4) (f4Weight a + f4Weight b)).Nodup := by
-  decide +kernel
+  have key : ∀ a b : Fin 4, a < b →
+      ((pairWords a b).map fun w => w.foldr (reflect Tag.F4) (f4Weight a + f4Weight b)).Nodup := by
+    intro a b h
+    have h1 := CurtisExc.nodup_of_strictB (pairWords_codes a b h)
+    have h2 : (((pairWords a b).map fun w => w.foldr (reflect Tag.F4) (f4Weight a + f4Weight b)).map
+        code4).Nodup := by
+      rw [List.map_map]
+      exact h1
+    exact List.Nodup.of_map code4 h2
+  intro a b hab
+  rcases lt_or_gt_of_ne hab with h | h
+  · exact key a b h
+  · rw [pairWords_symm a b, add_comm (f4Weight a) (f4Weight b)]
+    exact key b a h
 
 end CFSG.HardMathSupport.Cooperstein.Coordinator.TwE6

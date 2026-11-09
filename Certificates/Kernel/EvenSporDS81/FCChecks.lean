@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.EvenSporDS81.FCDefs
 import CFSG.Certificates.Kernel.Common.StrLitToList
 import CFSG.Certificates.Kernel.EvenSporDS81.FCFast
+import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
@@ -26,9 +27,10 @@ theorem fc_tab : tabAllL (tabK (uqMs.toList.map keyA)) uqMs.size = true := by
 set_option maxHeartbeats 0 in
 theorem fc_rest : fcRestL (uqCols uqW uqSg0).toList (uqCols uqW uqSg1).toList uqMs.toList uqFam
     (tabK (uqMs.toList.map keyA)) = true := by
+  rw [tabK_eq uq_treeOK]
   simp only [uqCols, uqSg0, uqSg1, uqSg0S, uqSg1S, uqDecode, List.map_toArray, List.map_cons,
     List.map_nil, CFSG.KC.StrLitToList.strLitToList]
-  decide +kernel
+  quickRfl
 
 set_option maxHeartbeats 0 in
 theorem fc_dist : fcDistinct uqMs = true := by

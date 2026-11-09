@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSL4ModClass
-  "Certificates/Kernel/SL4ModClass/data/class.json.gz" 1081662 569789838700175079
+#kc_repo #kc_json CertificateChecks.KernelSL4ModClass
+  "Certificates/Kernel/SL4ModClass/data/class.json" 1081662 569789838700175079
   (C00 : List (List Nat × List (Nat × Nat) × Nat × Nat × List Nat × List Nat × Nat × List Nat ×
     List Nat × Nat × Nat))
   (C01 : List (List Nat × List (Nat × Nat) × Nat × Nat × List Nat × List Nat × Nat × List Nat ×

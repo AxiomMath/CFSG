@@ -10,6 +10,7 @@ namespace Certificates
 open CertificateChecks
 
 open CFSG.EvenSporadicStandard.HSStd.U43 in
-theorem certificate27278 : vaCheck = true := KernelHSStd.U43Va.vaCheck_true
+theorem certificate27278 : ∃ par : Array (ℕ × ℕ), vaCheck par = true :=
+  ⟨_, KernelHSStd.U43Va.vaCheck_true⟩
 
 end Certificates

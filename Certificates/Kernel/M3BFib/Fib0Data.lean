@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.M3BF "Certificates/Kernel/M3BFib/data/fib0.json.gz"
+#kc_repo #kc_json CFSG.KD.M3BF "Certificates/Kernel/M3BFib/data/fib0.json"
   408199 5644624020488652395
   (g0 : List CFSG.KC.M3BF.GenK) (sM : List Nat) (sI : List Nat) (kM : List (List Nat))
   (hw : List Nat) (nw : List Nat) (dT : List (List Nat)) (tb : List Nat)

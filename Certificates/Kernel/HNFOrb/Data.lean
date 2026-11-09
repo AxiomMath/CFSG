@@ -5,13 +5,13 @@ public import Certificates.Kernel.HNF26729.Data
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.HNFOrb.O1 "Certificates/Kernel/HNFOrb/data/orb1.json.gz" 39705 9936167071978593628
+#kc_repo #kc_json CFSG.KD.HNFOrb.O1 "Certificates/Kernel/HNFOrb/data/orb1.json" 39839 16758841185829550330
     (u : Nat) (mv : List (List Nat)) (ks : List (List Nat)) (ord : List Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.HNFOrb.O2 "Certificates/Kernel/HNFOrb/data/orb2.json.gz" 62476 15033137511648767963
+#kc_repo #kc_json CFSG.KD.HNFOrb.O2 "Certificates/Kernel/HNFOrb/data/orb2.json" 62758 2255032066607603094
     (u : Nat) (mv : List (List Nat)) (ks : List (List Nat)) (ord : List Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.HNFOrb.O3 "Certificates/Kernel/HNFOrb/data/orb3.json.gz" 164760 17370247412314696253
+#kc_repo #kc_json CFSG.KD.HNFOrb.O3 "Certificates/Kernel/HNFOrb/data/orb3.json" 165680 11821112050065751774
     (u : Nat) (mv : List (List Nat)) (ks : List (List Nat)) (ord : List Nat)
 
 public section

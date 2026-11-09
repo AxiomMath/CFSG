@@ -2,13 +2,13 @@ module
 
 public import CFSG.Certificates.Kernel.YModel.Y332.Data
 public import CFSG.Certificates.Kernel.YModel.Texts.YM332C
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Benes
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.YMY332 "CFSG/Certificates/Kernel/YModel/Y332/data/plan.items.gz" 9657 10754323425329252469
+#kc_repo #kc_nat_items CFSG.KD.YMY332 "CFSG/Certificates/Kernel/YModel/Y332/data/plan.items" 9657 10754323425329252469
   M0_[9] R0_[9] Z0_[9]
 
 namespace CFSG.KD.YMY332

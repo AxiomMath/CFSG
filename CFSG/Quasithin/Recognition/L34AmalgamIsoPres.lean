@@ -9,11 +9,17 @@ namespace CFSG.Quasithin.L34Amalgam
 
 open MulAction CFSG.ComponentClassification.WittDesign CFSG.Quasithin.Asc94 CFSG.CosetTable
 
-theorem cert_relsP1 : subsetCheck relsP1 [] 100000 960 = true :=
-  Certificates.certificate7078.1
+theorem cert_relsP1 : Finite (PG 5 relsP1) ∧ Nat.card (PG 5 relsP1) ≤ 960 := by
+  obtain ⟨hi, hs⟩ := Certificates.certificate7078.1
+  obtain ⟨hsf, hsc⟩ := card_le_of_subsetCheck_nil _ hs
+  obtain ⟨hf, hc⟩ := card_le_of_subsetCheck _ _ hi
+  exact ⟨hf, hc.trans (Nat.mul_le_mul_left 80 hsc)⟩
 
-theorem cert_relsP2 : subsetCheck relsP2 [] 100000 960 = true :=
-  Certificates.certificate7078.2
+theorem cert_relsP2 : Finite (PG 5 relsP2) ∧ Nat.card (PG 5 relsP2) ≤ 960 := by
+  obtain ⟨hi, hs⟩ := Certificates.certificate7078.2
+  obtain ⟨hsf, hsc⟩ := card_le_of_subsetCheck_nil _ hs
+  obtain ⟨hf, hc⟩ := card_le_of_subsetCheck _ _ hi
+  exact ⟨hf, hc.trans (Nat.mul_le_mul_left 80 hsc)⟩
 
 theorem word_u : word "u" = [(4, true)] := by decide
 
@@ -73,15 +79,15 @@ theorem presHom_surj₂ :
 
 @[expose] noncomputable def pres1 :
     PG 5 relsP1 ≃* ↥m22TwoStab :=
-  have : Finite (PG 5 relsP1) := (card_le_of_subsetCheck_nil _ cert_relsP1).1
+  have : Finite (PG 5 relsP1) := cert_relsP1.1
   MulEquiv.ofBijective (presHom relsP1 gen₁ gen₁_relsP1) (presHom_surj₁.bijective_of_nat_card_le
-    (by rw [card_m22TwoStab]; exact (card_le_of_subsetCheck_nil _ cert_relsP1).2))
+    (by rw [card_m22TwoStab]; exact cert_relsP1.2))
 
 @[expose] noncomputable def pres2 :
     PG 5 relsP2 ≃* ↥m22PtHexStab :=
-  have : Finite (PG 5 relsP2) := (card_le_of_subsetCheck_nil _ cert_relsP2).1
+  have : Finite (PG 5 relsP2) := cert_relsP2.1
   MulEquiv.ofBijective (presHom relsP2 gen₂ gen₂_relsP2) (presHom_surj₂.bijective_of_nat_card_le
-    (by rw [M22Witt.card_m22PtHexStab]; exact (card_le_of_subsetCheck_nil _ cert_relsP2).2))
+    (by rw [M22Witt.card_m22PtHexStab]; exact cert_relsP2.2))
 
 theorem pres1_of
     (j : Fin 5) : pres1 (PresentedGroup.of j) = gen₁ j :=

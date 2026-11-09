@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz_eval CertificateChecks.KernelHN14969
-  "Certificates/Kernel/HN14969/data/hn14969.json.gz" 9679 7253863941293918395
+#kc_repo #kc_json_eval CertificateChecks.KernelHN14969
+  "Certificates/Kernel/HN14969/data/hn14969.json" 9679 7253863941293918395
   (iso : List (List Nat))
   (hS : Array (Array Nat)) (hBase : Array Nat) (hD : List (List Nat))
   (rS : Array (Array Nat)) (rBase : Array Nat) (rD : List (List Nat))

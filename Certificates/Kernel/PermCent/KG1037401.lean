@@ -8,8 +8,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.Certificates.Kernel.PkCV.Gs03.K1037401
-  "Certificates/Kernel/PermCent/data/kg1037401.json.gz" 8767 6072821468486099162
+#kc_repo #kc_json CFSG.Certificates.Kernel.PkCV.Gs03.K1037401
+  "Certificates/Kernel/PermCent/data/kg1037401.json" 8767 6072821468486099162
   (wit : List (Nat × Nat))
 
 set_option maxHeartbeats 0

@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.AE6F5 "Certificates/Kernel/AE6F5/data/f5.json.gz" 179222
+#kc_repo #kc_json CFSG.KD.AE6F5 "Certificates/Kernel/AE6F5/data/f5.json" 179222
   17645552689080162309
   (D : List Nat) (FP : Nat) (FS : Nat) (CT : Nat) (CP : Nat) (HT : Nat) (HP : Nat) (GN : Nat)
 

@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.J3Tk
 public import CFSG.Certificates.Kernel.Spor.MulHSound
 import CFSG.Certificates.Kernel.Spor.PcompFacts
+import CFSG.Certificates.Kernel.Spor.PK.Perm.CompC
 
 namespace CFSG.KC.J3Tk
 
@@ -48,8 +49,10 @@ def Tb (X : Nat) (g : Gp) : Prop := ∀ p : Fin 6156, ap X p = (g p : Nat)
 
 theorem ap_lt (X i : Nat) : ap X i < 8192 := pg_lt 13 X i
 
-theorem ap_pc (X Y : Nat) {i : Nat} (hi : i < 6156) : ap (pc X Y) i = ap X (ap Y i) :=
-  pg_pcomp (n := 6156) (w := 13) (p := X) (q := Y) (by norm_num) hi
+theorem ap_pc (X Y : Nat) {i : Nat} (hi : i < 6156) : ap (pc X Y) i = ap X (ap Y i) := by
+  change pg 13 8191 (pcompC 6156 13 (mask 13) X Y) i = _
+  rw [CFSG.KS.PK.pcompC_eq]
+  exact pg_pcomp (n := 6156) (w := 13) (p := X) (q := Y) (by norm_num) hi
 
 theorem ap_pid {i : Nat} (hi : i < 6156) : ap pid i = i :=
   pg_pidn (n := 6156) (w := 13) (by norm_num) (by norm_num) hi
@@ -239,7 +242,8 @@ theorem run_good {RT MT : Nat → Nat} {PR k i e : Nat}
       · exact hv
     have hsa := hg a ha
     change Gd (Bool.rec (Bool.rec (val RT MT e) (pw (Bool.rec (RT a) v (Nat.beq a k)) b)
-      (Nat.beq op 1)) (pc (Bool.rec (RT a) v (Nat.beq a k)) (Bool.rec (RT b) v (Nat.beq b k)))
+      (Nat.beq op 1)) (Bool.rec (pc (Bool.rec (RT a) v (Nat.beq a k)) (RT b))
+        (pc (Bool.rec (RT a) v (Nat.beq a k)) v) (Nat.beq b k))
       (Nat.beq op 0))
     generalize Bool.rec (motive := fun _ => Nat) (RT a) v (Nat.beq a k) = sa at hsa hrest ⊢
     cases h0 : Nat.beq op 0
@@ -250,6 +254,10 @@ theorem run_good {RT MT : Nat → Nat} {PR k i e : Nat}
         exact gd_inv hsa (Nat.eq_of_beq_eq_true hinv)
       · exact gd_pw hsa b
     · rw [h0] at hrest
+      have e2 : Bool.rec (motive := fun _ => Nat) (pc sa (RT b)) (pc sa v) (Nat.beq b k) =
+          pc sa (Bool.rec (RT b) v (Nat.beq b k)) := by
+        cases Nat.beq b k <;> rfl
+      rw [e2]
       exact gd_pc hsa (hg b hrest)
 
 theorem chunk_good {RT MT : Nat → Nat} {PR PM NM c : Nat}
@@ -326,19 +334,19 @@ theorem chunksK_get {RT MT : Nat → Nat} {PR PM NM : Nat} :
 theorem slp_good {RT MT : Nat → Nat} {PR PM NM : Nat}
     {chunks : List (Nat × Nat × Nat × List (Nat × Nat × Nat))}
     (hI : ∀ r < 19, Gd (RT r)) (hlen : chunks.length ≤ 152)
-    (hslp : ∀ j < 19, chunksK RT MT PR PM NM ((chunks.drop (Nat.mul 8 j)).take 8) (Nat.mul 8 j) =
+    (hslp : ∀ j < 38, chunksK RT MT PR PM NM ((chunks.drop (Nat.mul 4 j)).take 4) (Nat.mul 4 j) =
       true)
     (hcov : coverK PR (ends chunks) = true) (hcovM : coverM PM NM (ends chunks) = true) :
     ∀ x < 109, Gd (RT x) := by
   have hch : ∀ c (hc : c < chunks.length), chunkK RT MT PR PM NM c chunks[c] = true := by
     intro c hc
-    have hj : c / 8 < 19 := by omega
-    have h := chunksK_get _ _ (hslp (c / 8) hj) (c % 8) (by
+    have hj : c / 4 < 38 := by omega
+    have h := chunksK_get _ _ (hslp (c / 4) hj) (c % 4) (by
       simp only [List.length_take, List.length_drop]
-      have : Nat.mul 8 (c / 8) = 8 * (c / 8) := rfl
+      have : Nat.mul 4 (c / 4) = 4 * (c / 4) := rfl
       omega)
-    have e1 : Nat.mul 8 (c / 8) + c % 8 = c := by
-      have : Nat.mul 8 (c / 8) = 8 * (c / 8) := rfl
+    have e1 : Nat.mul 4 (c / 4) + c % 4 = c := by
+      have : Nat.mul 4 (c / 4) = 4 * (c / 4) := rfl
       omega
     rw [e1] at h
     simp only [List.getElem_take, List.getElem_drop] at h
@@ -749,8 +757,7 @@ theorem enum_glue (hB : ∀ g ∈ j3R, g 0 = 0 → g 1 = 1 → g 3 = 3 → g 2 =
     have h1 := allBlk_spec hgens j hj
     have e0 : Nat.add 0 j = j := Nat.zero_add j
     rw [e0] at h1
-    obtain ⟨h2, h3⟩ := bA h1
-    obtain ⟨-, h4⟩ := bA h3
+    obtain ⟨h2, h4⟩ := bA h1
     have hr := hRg _ (nLt h2)
     exact ⟨hr.1, hr.2, tb_inv hr.1 (Nat.eq_of_beq_eq_true h4), nLt h2⟩
   obtain ⟨c1, c2, c3, c4, c5, c6⟩ := enum_core hB (g := fun j => Rg (nth gl j)) (G := gT RT gl)
@@ -1012,6 +1019,73 @@ theorem ncard_eq {x : Nat → Gp} {N : Nat} {S : Set Gp} (hmem : ∀ i < N, x i 
     simp
   rw [this, Set.ncard_coe_finset, List.toFinset_card_of_nodup ((List.nodup_range).filter _)]
 
+theorem sem_conjAll {Rg : Nat → Gp} {K : Nat → Subgroup Gp} {x : Gp} (f : Nat) :
+    ∀ rs : List Nat, rs ≠ [] → ((conjAll f rs).sem Rg K x ↔ ∀ r ∈ rs, x * Rg r * x⁻¹ ∈ K f)
+  | [], h => absurd rfl h
+  | [r], _ => by simp [conjAll, Cond.sem]
+  | r :: s :: rs, _ => by
+    have ih := sem_conjAll (Rg := Rg) (K := K) (x := x) f (s :: rs) (List.cons_ne_nil _ _)
+    change (x * Rg r * x⁻¹ ∈ K f ∧ (conjAll f (s :: rs)).sem Rg K x) ↔ _
+    rw [ih]
+    simp
+
+theorem mem_normalizer_of_conj {G : List Nat} {Rg : Nat → Gp} {y : Gp}
+    (h : ∀ r ∈ G, y * Rg r * y⁻¹ ∈ Ksub Rg G) :
+    y ∈ Subgroup.normalizer (Ksub Rg G : Set Gp) := by
+  have hle : (Ksub Rg G).map (MulAut.conj y).toMonoidHom ≤ Ksub Rg G := by
+    unfold Ksub
+    rw [MonoidHom.map_closure, Subgroup.closure_le]
+    rintro _ ⟨_, ⟨r, hr, rfl⟩, rfl⟩
+    exact h r hr
+  have hinj : Function.Injective (MulAut.conj y).toMonoidHom := (MulAut.conj y).injective
+  have heq : (Ksub Rg G).map (MulAut.conj y).toMonoidHom = Ksub Rg G :=
+    Subgroup.eq_of_le_of_card_ge hle (by rw [Subgroup.card_map_of_injective hinj])
+  rw [Subgroup.mem_normalizer_iff]
+  intro z
+  constructor
+  · intro hz
+    exact hle ⟨z, hz, rfl⟩
+  · intro hz
+    rw [← heq] at hz
+    obtain ⟨w, hw, hwz⟩ := Subgroup.mem_map.1 hz
+    have e : w = z := hinj (hwz.trans rfl)
+    rw [← e]
+    exact hw
+
+theorem allE_of_gens {Rg : Nat → Gp} {gl G : List Nat} {c : Cond} {K : Nat → Subgroup Gp}
+    {f : Nat} (hK : K f = Ksub Rg G) (hG : G ≠ []) (hc : c = conjAll f G)
+    (hgen : ∀ r ∈ gl, c.sem Rg K (Rg r)) : ∀ x ∈ Ksub Rg gl, c.sem Rg K x := by
+  subst hc
+  have hN : Ksub Rg gl ≤ Subgroup.normalizer (Ksub Rg G : Set Gp) := by
+    refine (Subgroup.closure_le _).2 ?_
+    rintro _ ⟨r, hr, rfl⟩
+    have h1 := hgen r hr
+    rw [sem_conjAll f G hG, hK] at h1
+    exact mem_normalizer_of_conj h1
+  intro x hx
+  rw [sem_conjAll f G hG, hK]
+  intro r hr
+  have hrH : Rg r ∈ Ksub Rg G := Subgroup.subset_closure ⟨r, hr, rfl⟩
+  exact ((Subgroup.mem_normalizer_iff.1 (hN hx)) (Rg r)).1 hrH
+
+theorem head_gens {RT ET : Nat → Nat} {D : TData} {Rg : Nat → Gp}
+    (hRg : ∀ x < 109, Tb (RT x) (Rg x) ∧ Rg x ∈ j3R) {e : Nat}
+    (hh : enumHeadK RT ET D e = true) : ∀ j < len (gensOf D e),
+      Tb (gT RT (gensOf D e) j) (Rg (nth (gensOf D e) j)) ∧ Rg (nth (gensOf D e) j) ∈ j3R ∧
+      Tb (gTI RT (gensOf D e) j) (Rg (nth (gensOf D e) j))⁻¹ := by
+  dsimp only [enumHeadK] at hh
+  obtain ⟨-, hh⟩ := bA hh
+  obtain ⟨-, hh⟩ := bA hh
+  obtain ⟨-, hh⟩ := bA hh
+  obtain ⟨-, hgens⟩ := bA hh
+  intro j hj
+  have h1 := allBlk_spec hgens j hj
+  have e0 : Nat.add 0 j = j := Nat.zero_add j
+  rw [e0] at h1
+  obtain ⟨h2, h4⟩ := bA h1
+  have hr := hRg _ (nLt h2)
+  exact ⟨hr.1, hr.2, tb_inv hr.1 (Nat.eq_of_beq_eq_true h4)⟩
+
 theorem facts_get {RT ET PS PSI : Nat → Nat} {D : TData} :
     ∀ (fs : List TFact) (W : List (List Nat)), factsK RT ET PS PSI D fs W = true →
       ∀ f ∈ fs, ∃ wd, factK RT ET PS PSI D wd f = true
@@ -1053,13 +1127,14 @@ theorem tcheckK_sound {RT MT ET PS PSI : Nat → Nat}
       Rep 6156 (unpack 6156 13 (PSI h)) (j3StrongPerm h)⁻¹)
     (hB : ∀ g ∈ j3R, g 0 = 0 → g 1 = 1 → g 3 = 3 → g 2 = 2 → g = 1)
     (hlen : chunks.length ≤ 152)
-    (hslp : ∀ j < 19, chunksK RT MT PR PM NM ((chunks.drop (Nat.mul 8 j)).take 8) (Nat.mul 8 j) =
+    (hslp : ∀ j < 38, chunksK RT MT PR PM NM ((chunks.drop (Nat.mul 4 j)).take 4) (Nat.mul 4 j) =
       true)
     (hcov : coverK PR (ends chunks) = true) (hcovM : coverM PM NM (ends chunks) = true)
     (henum : ∀ e < D.enums.length, enumHeadK RT ET D e = true ∧
       ∀ j < cardOf D e / 512 + 1, enumPartK RT ET D e (Nat.mul 512 j) 512 = true)
     (hfacts : factsK RT ET PS PSI D D.facts W = true)
-    (hloops : ∀ l ∈ D.loops, loopK RT ET D l = true)
+    (hloops : ∀ l ∈ D.loops, loopK RT ET D l = true ∨
+      ∃ f, loopNK RT ET D f l = true ∧ loopCond l = conjAll f (gensOf D f))
     (hSP : ∀ h < 5, j3StrongPerm h ∈ j3P)
     (hwf : ∀ l ∈ D.loops, (loopCond l).wfB 109 D.enums.length = true) :
     TSem initG (regsOf RT) D := by
@@ -1119,6 +1194,41 @@ theorem tcheckK_sound {RT MT ET PS PSI : Nat → Nat}
     intro e h
     have := nLt h
     rwa [len_eq, List.length_map] at this
+  have hNK : ∀ l, (loopCond l).wfB 109 D.enums.length = true → ∀ f, loopNK RT ET D f l = true →
+      loopCond l = conjAll f (gensOf D f) → l.sem Rg (fun e => Ksub Rg (D.enums[e]!).1) := by
+    intro l hw f hk hc
+    cases l with
+    | allE e c =>
+      dsimp only [loopNK] at hk
+      obtain ⟨h1, hk⟩ := bA hk
+      obtain ⟨h2, hk⟩ := bA hk
+      obtain ⟨h4, h5⟩ := bA hk
+      have he := hlen' e h1
+      have hf := hlen' f h2
+      change c = conjAll f (gensOf D f) at hc
+      have hne : gensOf D f ≠ [] := by
+        intro h0
+        rw [h0] at h4
+        exact absurd h4 Bool.false_ne_true
+      have hgen : ∀ r ∈ gensOf D e, c.sem Rg (fun e => Ksub Rg (D.enums[e]!).1) (Rg r) := by
+        intro r hr
+        obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hr
+        have hjl : j < len (gensOf D e) := by
+          rw [len_eq]
+          exact hj
+        obtain ⟨t1, t2, t3⟩ := head_gens hRg (henum e he).1 j hjl
+        rw [← nth_get hj]
+        have h6 := CFSG.KS.allBlk_spec h5 j hjl
+        have e0 : Nat.add 0 j = j := Nat.zero_add j
+        rw [e0] at h6
+        exact (cond_iff hB hRg hmemE t2 (keyF_eq t1) t1 t3 c hw).1 h6
+      rw [(hgl e he).1] at hgen
+      have hK : Ksub Rg (D.enums[f]!).1 = Ksub Rg (gensOf D f) := by
+        rw [(hgl f hf).1]
+      exact allE_of_gens (K := fun e => Ksub Rg (D.enums[e]!).1) hK hne hc hgen
+    | countEq _ _ _ => exact absurd hk Bool.false_ne_true
+    | countLe _ _ _ => exact absurd hk Bool.false_ne_true
+    | exE _ _ => exact absurd hk Bool.false_ne_true
   have hPR : j3P ≤ j3R := le_sup_left
   refine ⟨fun r hr => perm_eq (tb_of_thRep (hI r (lt_of_lt_of_le hr hfix))), fun e he => ?_,
     fun f hf => ?_, fun l hl => ?_⟩
@@ -1192,8 +1302,10 @@ theorem tcheckK_sound {RT MT ET PS PSI : Nat → Nat}
       have : Fact m.Prime := ⟨prime_of h2⟩
       exact orderOf_eq_prime hpow hne
   ·
-    have hk := hloops l hl
     have hw := hwf l hl
+    obtain hk | ⟨f, hk, hc⟩ := hloops l hl
+    rotate_left
+    · exact hNK l hw f hk hc
     cases l with
     | allE e c =>
       dsimp only [loopK] at hk

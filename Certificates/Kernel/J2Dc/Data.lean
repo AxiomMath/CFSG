@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.SLDc
 
-#kc_repo #kc_json_gz CFSG.KD.J2Dc.J "Certificates/Kernel/J2Dc/data/j2.json.gz" 1539091
+#kc_repo #kc_json CFSG.KD.J2Dc.J "Certificates/Kernel/J2Dc/data/j2.json" 1539091
   17168647170186053383
   (w : Nat) (oidC : Nat) (tlC : Nat) (dpC : Nat) (obase : List Nat) (osz : List Nat)
   (K : List (List (List Nat))) (sep : List Nat) (mw : List (List (List Nat)))

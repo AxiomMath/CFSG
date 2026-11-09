@@ -7,6 +7,6 @@ public import Certificates.Kernel.Co2Cover.TabsK3
 
 public section
 
-#kb_family_close "data/Co2Cover.json.gz" 13171 10159321133200645132
+#kb_family_close "data/Co2Cover.json" 13171 10159321133200645132
 
 end

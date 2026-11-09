@@ -47,6 +47,6 @@ set_option maxRecDepth 400000
 
 #kss_co1tower CertificateChecks.KernelCo1B.Cent2045.TW0 CertificateChecks.KernelCo1B.Cent2045.dag₂
   CertificateChecks.KernelCo1B.Cent2045.D2.M CertificateChecks.KernelCo1B.Cent2045.lvB0
-  CertificateChecks.KernelCo1B.Cent2045.lvG0 CertificateChecks.KernelCo1B.Cent2045.lvS0 22 512
+  CertificateChecks.KernelCo1B.Cent2045.lvG0 CertificateChecks.KernelCo1B.Cent2045.lvS0 22 128
 
 end

@@ -103,22 +103,33 @@ meta def sw07M : List Nat := sylDat 0 7
 meta def sw12M : List Nat := sylDat 1 2
 meta def sw17M : List Nat := sylDat 1 7
 
-meta def syl3N : Array (Array Nat) := Id.run do
+meta def keyNM (a : Array Nat) : Nat := [0, 1, 2, 3, 4].foldr (fun b acc => (ev a b + 8330 - b) % 8330 + 8330 * acc) 0
+
+meta def syl3G : Array (Array Nat) := Id.run do
   let C := cN 0
   let A := C.filter fun a => ordN a == 3
   for a in A do
     for b in A do
       let S := closN #[a, b] 28
-      if S.size == 27 then return S
+      if S.size == 27 then return #[a, b]
   return #[]
 
-meta def sw03M : List Nat := tabN syl3N
+meta def syl3N : Array (Array Nat) := (closN syl3G 28).qsort fun a b => keyNM a < keyNM b
+
+meta def gcDat (G L : Array (Array Nat)) : List Nat :=
+  (L.map packNF).toList ++
+    (List.range (L.size * G.size)).map (fun q => idxN L (mulN G[q % G.size]! L[q / G.size]!)) ++
+    [idxN L idN] ++ (G.map packNF).toList ++ wordsN G L
+
+meta def sw03M : List Nat := gcDat syl3G syl3N
 
 meta def gwM : List Nat := (heS3QGens.map fun g => packNF (nfA g)).toList ++
   (heS3C0Gens.map fun g => packNF (nfA g)).toList
 
-meta def qcwM : List Nat :=
-  wordsN (heS3QGens.map nfA) (closN (heS3QGens.map nfA) 100)
+meta def qSortN : Array (Array Nat) :=
+  (closN (heS3QGens.map nfA) 100).qsort fun a b => keyNM a < keyNM b
+
+meta def qcwM : List Nat := wordsN (heS3QGens.map nfA) qSortN
 
 meta def cwM : List Nat :=
   let C := cN 0
@@ -126,14 +137,17 @@ meta def cwM : List Nat :=
   wordsN gs (sylN C 2) ++ wordsN gs (sylN C 5) ++ wordsN gs (sylN C 7) ++ wordsN gs syl3N
 
 meta def qwM : List Nat :=
-  let Q := closN (heS3QGens.map nfA) 100
+  let Q := qSortN
+  let G := heS3QGens.map nfA
   let ls := heS3Lines.map nfA
   let je := Q.map fun g => Id.run do
     for j in [0:ls.size] do
       for e in [1:3] do
         if powN ls[j]! e == g then return (j, e)
     return (0, 0)
-  tabN Q ++ (je.map (·.1)).toList ++ (je.map (·.2)).toList
+  (Q.map packNF).toList ++
+    (List.range (Q.size * G.size)).map (fun q => idxN Q (mulN G[q % G.size]! Q[q / G.size]!)) ++
+    [idxN Q idN] ++ (je.map (·.1)).toList ++ (je.map (·.2)).toList
 
 meta def lwM : List Nat :=
   let ls := heS3Lines.map nfA
@@ -184,14 +198,11 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch.HeCn CFSG.Spor
 
 @[expose] noncomputable def QL (i : Nat) : Nat := atL QW i
 @[expose] noncomputable def QT (q : Nat) : Nat := atL QW (Nat.add 27 q)
-@[expose] noncomputable def QI (i : Nat) : Nat := atL QW (Nat.add 756 i)
-@[expose] noncomputable def QJ (i : Nat) : Nat := atL QW (Nat.add 783 i)
-@[expose] noncomputable def QE (i : Nat) : Nat := atL QW (Nat.add 810 i)
+@[expose] noncomputable def QJ (i : Nat) : Nat := atL QW (Nat.add 82 i)
+@[expose] noncomputable def QE (i : Nat) : Nat := atL QW (Nat.add 109 i)
 @[expose] noncomputable def LN (j : Nat) : Nat := atL LW j
 @[expose] noncomputable def HN (j : Nat) : Nat := atL LW (Nat.add 13 j)
 @[expose] noncomputable def RC (j : Nat) : Nat := atL LW (Nat.add 26 j)
-
-@[expose] noncomputable def qOK : Bool := lgOK evH vldH bsH QL QT QI 27
 
 @[expose] noncomputable def qLines : Bool :=
   allN 26 (fun i => strictB (Nat.add i 1) (fun k => bAnd(Nat.blt (QJ k) 13,
@@ -209,7 +220,7 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch.HeCn CFSG.Spor
       (Bool.rec (motive := fun _ => List Nat) SW07 SW05 (Nat.beq p 5)) SW00 (Nat.beq p 2))
     (Nat.beq c 0)
 
-@[expose] noncomputable def SL (c p m i : Nat) : Nat := atL (SW c p) i
+@[expose] noncomputable def SL (c p _m i : Nat) : Nat := atL (SW c p) i
 @[expose] noncomputable def ST (c p m q : Nat) : Nat := atL (SW c p) (Nat.add m q)
 @[expose] noncomputable def SI (c p m i : Nat) : Nat :=
   atL (SW c p) (Nat.add (Nat.add m (Nat.mul m m)) i)
@@ -238,23 +249,38 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch.HeCn CFSG.Spor
 @[expose] noncomputable def CG (j : Nat) : Nat :=
   Bool.rec (motive := fun _ => Nat) 0 (atL GW (Nat.add 2 j)) (Nat.blt j 3)
 
+@[expose] noncomputable def qOK : Bool := gcOK 8330 evH vldH bsH QL QG QT 27 2 0
+
 @[expose] noncomputable def gb (s : Nat) : Bool :=
   allN 170 (fun j => strictB (Nat.add (Nat.mul s 170) j) (fun x =>
-    bAnd(allN 2 (fun i => Nat.beq (pm (QGX.F i) x) (evH (QG i) x)),
-      allN 3 (fun i => Nat.beq (pm (CGX.F i) x) (evH (CG i) x)))))
+    bAnd(allN 2 (fun i => Nat.beq (pm (QGX.F i) x) (wHe (HWi i) x)),
+      allN 3 (fun i => Nat.beq (pm (CGX.F i) x) (wHe (HWi (Nat.add 2 i)) x)))))
+
+@[expose] noncomputable def hwbOK : Bool :=
+  bAnd(allN 2 (fun i => eqOnL bsH (wHe (HWi i)) (evH (QG i))),
+  bAnd(allN 3 (fun i => eqOnL bsH (wHe (HWi (Nat.add 2 i))) (evH (CG i))),
+    allN 2 (fun i => eqOnL bsH (wHe (HWi (Nat.add 5 i))) (evH (G i)))))
+
+@[expose] noncomputable def xcjOK : Bool :=
+  allN 2 (fun c => eqOnL bsH (fun x => evH (F c) (wHe (HWi (Nat.add 7 c)) x))
+    (fun x => pmR (RY c) (evH (F c) x)))
 
 @[expose] noncomputable def gOK : Bool :=
   bAnd(vldH 0, bAnd(eqOnL bsH (evH 0) (fun x => x),
-  bAnd(allN 2 (fun i => bAnd(vldH (QG i), eqOnL bsH (evH (QG i)) (evH (QL (Nat.add i 1))))),
+  bAnd(allN 2 (fun i => vldH (QG i)),
     allN 3 (fun i => bAnd(vldH (CG i), comL evH bsH (pmR (RY 0)) (CG i))))))
 
 @[expose] noncomputable def qwOK : Bool := wordsOK evH bsH QG QL (fun i => atL QCW i) 27
 
 @[expose] noncomputable def S3L (i : Nat) : Nat := atL SW03 i
 @[expose] noncomputable def S3T (q : Nat) : Nat := atL SW03 (Nat.add 27 q)
-@[expose] noncomputable def S3I (i : Nat) : Nat := atL SW03 (Nat.add 756 i)
+@[expose] noncomputable def S3Z : Nat := atL SW03 81
+@[expose] noncomputable def S3G (t : Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat) 0 (atL SW03 (Nat.add 82 t)) (Nat.blt t 2)
+@[expose] noncomputable def S3W (i : Nat) : Nat := atL SW03 (Nat.add 84 i)
 
-@[expose] noncomputable def s3OK : Bool := lgOK evH vldH bsH S3L S3T S3I 27
+@[expose] noncomputable def s3OK : Bool :=
+  bAnd(gcOK 8330 evH vldH bsH S3L S3G S3T 27 2 S3Z, wordsOK evH bsH S3G S3L S3W 27)
 
 @[expose] noncomputable def cwOK : Bool :=
   bAnd(wordsOK evH bsH CG (SL 0 2 8) (fun i => atL CW i) 8,

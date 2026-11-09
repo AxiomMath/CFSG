@@ -4,13 +4,44 @@ public import Certificates.Kernel.Sporadic.Co3.Bind
 public import CFSG.Sporadic.Schreier.Co3GenerationCheckInputs
 meta import CFSG.Sporadic.Schreier.Co3GenerationCheckInputs
 import CFSG.Certificates.Kernel.Common.Harness
+public import Certificates.Kernel.Sporadic.RawGenSchOJ
+public meta import Certificates.Kernel.Sporadic.RawGenSchOJ
 
 public section
 
 set_option maxRecDepth 400000
 
-#ks_rawchain CertificateChecks.KernelSporSch.Co3J 276 9 16 CFSG.Sporadic.Schreier.Co3.co3JointArrs
-  CFSG.Sporadic.Schreier.Co3.co3JointBaseArr 13 CFSG.Sporadic.Schreier.Co3.co3JointDerivations
+namespace CertificateChecks.KernelSporSch
+
+@[expose] def wSubCo3J : List (List Nat) :=
+  [[0], [1, 1], [1], [2], [3], [4], [5], [6], [7], [9, 9, 9], [8], [9], [10]]
+
+end CertificateChecks.KernelSporSch
+
+#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co3J 276 9 16 16
+  CFSG.Sporadic.Schreier.Co3.co3JointArrs CFSG.Sporadic.Schreier.Co3.co3JointBaseArr 13
+  CFSG.Sporadic.Schreier.Co3.co3JointDerivations
+
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 0 0 18
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 1 0 18
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 2 0 18
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 3 0 18
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 4 0 18
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 5 0 18
+#ks_rawchain_sl2_lv CertificateChecks.KernelSporSch.Co3J 6 0 18
+
+#ks_rawchain_sl2_sch CertificateChecks.KernelSporSch.Co3J 1 0 18
+#ks_rawchain_sl2_sch CertificateChecks.KernelSporSch.Co3J 2 0 7
+#ks_rawchain_sl2_sch CertificateChecks.KernelSporSch.Co3J 3 0 6
+#ks_rawchain_sl2_sch CertificateChecks.KernelSporSch.Co3J 4 0 2
+#ks_rawchain_sl2_sch CertificateChecks.KernelSporSch.Co3J 5 0 2
+#ks_rawchain_sl2_sch CertificateChecks.KernelSporSch.Co3J 6 0 1
+
+#ks_rawchain_sl2_osub CertificateChecks.KernelSporSch.Co3J 0 2 3 4 5 6 7 8 10 11 12
+  CertificateChecks.KernelSporSch.wSubCo3J
+#ks_rawchain_sl2_scho CertificateChecks.KernelSporSch.Co3J 0 18
+
+#ks_rawchain_sl2_joino CertificateChecks.KernelSporSch.Co3J
 
 namespace CertificateChecks.KernelSporSch.Co3J
 

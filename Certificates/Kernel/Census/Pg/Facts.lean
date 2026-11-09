@@ -1,48 +1,37 @@
 module
 
-public import Certificates.Kernel.Census.Pg.Chain
-public import CFSG.Certificates.Kernel.W16PgSound
-public import CFSG.Certificates.Kernel.Spor.RawSound
-public import CFSG.Certificates.Kernel.Misc.ArrBind
+public import Certificates.Kernel.Census.Pg.FactsBase
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.TS16RWAutCard
 
 public section
 
 namespace CertificateChecks.KernelPg
 
 open CFSG.EvenSporadicStandard.Fin76b.W16 CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.Misc.ArrEnum
-  CFSG.KC.W16Pg
-
-theorem binds : Binds 128 8 C.S 36 6 C.BP sgsArr baseArr :=
-  ⟨by norm_num, by norm_num, by norm_num, by decide +kernel, fun j hj => arrBind_sound (bS j hj),
-    by decide +kernel, bget⟩
-
-theorem bindE : BindE ET := fun a ha => arrBind_sound (bE a ha)
-
-theorem words_eq : wordsArr = CFSG.Sporadic.Schreier.Co3.Native.wordsArr 36 36 dNil := by
-  apply Array.ext
-  · simp [wordsArr, CFSG.Sporadic.Schreier.Co3.Native.wordsArr]
-  · intro i h1 h2
-    simp [wordsArr, CFSG.Sporadic.Schreier.Co3.Native.wordsArr, dNil]
+  CFSG.KC.W16Pg CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2
 
 theorem chain_ok : chainCheck = true := by
+  have hA : ChainArrays (RawSchreierDatum.ofArrays 128 (by norm_num) sgsArr 36 (by decide)
+      [32, 64, 1, 2, 15, 22] (by decide) wordsArr) (sgsArr.extract 0 36) sgsArr baseArr wordsArr :=
+    chainArrays_ofArrays (chainCheckFacts chain_zero).strong_inv
+  have hord : (rawOrbitSizes 128 sgsArr baseArr).prod = 3317760 := by
+    rw [rawOrbitSizesK_sound binds perm C.hl, orbProd]
+  have hle : (RawSchreierDatum.ofArrays 128 (by norm_num) sgsArr 36 (by decide)
+      [32, 64, 1, 2, 15, 22] (by decide) wordsArr).levelSubgroup 0 ≤ AutC := by
+    rw [RawSchreierDatum.levelSubgroup, RawSchreierDatum.levelGenerators_zero, Subgroup.closure_le]
+    intro g hg
+    change g ∈ (Vector.ofFn fun j : Fin sgsArr.size => permOfArr 128 sgsArr[(j : ℕ)]!).toList at hg
+    rw [Vector.toList_ofFn, List.mem_ofFn] at hg
+    obtain ⟨j, rfl⟩ := hg
+    exact permOfArr_mem_autC j.2
+  have hc := (Subgroup.card_le_of_le hle).trans card_autC_le
+  rw [← hord, ← hA.orderCertificate_eq (chainCheckFacts chain_zero)] at hc
   unfold chainCheck
-  rw [Bool.and_eq_true, words_eq, rawOrbitSizesK_sound binds perm C.hl, orbProd]
-  exact ⟨rawChainK_sound binds C.head C.hl hNS C.hs, rfl⟩
-
-theorem table_ok' : tableCheck = true := by
-  rw [tableCheck_eq bindE]
-  exact table_ok
-
-theorem mulC_lt' : ∀ a < 128, ∀ b < 128, mulC a b < 128 := by
-  have h := table_ok'
-  unfold tableCheck at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, decide_eq_true_eq] at h
-  exact h.1.1.1.1.1.1
+  rw [Bool.and_eq_true, hord]
+  exact ⟨rawChainOK_of_card hA chain_zero hc 4, rfl⟩
 
 theorem cert27820 : tableCheck = true ∧ autCheck = true ∧ chainCheck = true ∧ genCheck = true ∧
     candCheck = true :=
-  ⟨table_ok', autCheck_of bindE (by decide +kernel) (fun j hj => arrBind_sound (bS j hj))
-      mulC_lt' aut_ok, chain_ok, by rw [genCheck_eq bindE]; exact gen_ok,
-    by rw [candCheck_eq bindE]; exact cand_ok⟩
+  ⟨table_ok', aut_ok', chain_ok, gen_ok', cand_ok'⟩
 
 end CertificateChecks.KernelPg

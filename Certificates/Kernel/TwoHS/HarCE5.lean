@@ -1,8 +1,10 @@
 module
 
 public import Certificates.Kernel.TwoHS.HarCK
+public import Certificates.Kernel.TwoHS.FastC
 public import Certificates.Data.Kernel.Spor.MulHF
 import CFSG.Certificates.Kernel.Common.Each
+import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 400000
 
@@ -19,11 +21,21 @@ theorem ch7291hsF_neg :
     hsortPtKF 11200 14 (mask 14) TQ.cnt (fun _ => 0) TQ.HS TQ.HSI 0 = false := by
   decide +kernel
 
+theorem cnQ0 : cnK (TQ.T 0) = true := by
+  quickRfl
+
+theorem nqQI_ok : nqQI = true := by
+  quickRfl
+
+theorem nqQG_ok : nqQG = true := by
+  unfold nqQG
+  rw [FC.nqGK_C]
+  quickRfl
+
 end CFSG.KD.TwoHS
 
 end
 
-#kc_each CFSG.KD.TwoHS.peQ 0 8
+#kc_each CFSG.KD.TwoHS.peQ 0 2
 #kc_each CFSG.KD.TwoHS.ch7291hsF 0 2
-#kc_each CFSG.KD.TwoHS.clQ 0 12
-#kc_each CFSG.KD.TwoHS.nqQ 0 10
+#kc_each CFSG.KD.TwoHS.nqQ 0 2

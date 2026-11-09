@@ -65,6 +65,13 @@ theorem repS_found {i : ℕ} (hi : i < 36) (h : repSK GT L34S.T i = true) :
     · exact absurd (by unfold pts; exact found_pts hq (Nat.eq_of_beq_eq_true hq')) hne
   exact absurd ((allN_iff'.2 h1).symm.trans h) (by decide)
 
+theorem repS_found_at {i q : ℕ} (hi : i < 36) (hq : q < 20160)
+    (h : Nat.beq (L34S.T q) (repK GT i) = true) :
+    found (indexOf (pts 42 6 20160 L34S.T)) (pts 42 6 20160 L34S.T) (repTab i) = true := by
+  rw [(repK_eq gensG hi).2]
+  unfold pts
+  exact found_pts hq (Nat.eq_of_beq_eq_true h)
+
 theorem repSOK_true : repSOK = true := by
   unfold repSOK
   dsimp only
@@ -72,7 +79,7 @@ theorem repSOK_true : repSOK = true := by
   intro i hi
   simp only [repInS, List.mem_cons, List.not_mem_nil, or_false] at hi
   rcases hi with rfl | rfl | rfl
-  · exact repS_found (by norm_num) ch22220s_0
+  · exact repS_found_at (by norm_num) (by norm_num) ch22220s_0
   · exact repS_found (by norm_num) ch22220s_25
   · exact repS_found (by norm_num) ch22220s_31
 

@@ -15,7 +15,7 @@ open CFSG.KS.SporSch.M24 CFSG.KC.Co1B
 
 @[expose] noncomputable def GA (l : Nat) : Nat := nIf(Nat.beq l (nat_lit 0), S.M 40, S.M 38)
 
-theorem kQ : gtPinK GA 2 700 T.N T.P T.PAR T.LAB T.W T.S = true := by quickRfl
+theorem kQ : bfsK (gtStepK GA) T.P T.PAR T.LAB T.W T.S 2 700 T.N idM = true := by quickRfl
 
 theorem kT : Nat.beq T.N 625 = true := by quickRfl
 

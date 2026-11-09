@@ -6,6 +6,7 @@ public import Certificates.Kernel.Co1B.Data2041
 public import Certificates.Data.Kernel.Co1BFix
 public import Certificates.Data.Kernel.Co1BW
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Co1BFixPSound
 
 public section
 
@@ -19,9 +20,15 @@ theorem trA_chk : Nat.beq (trK 24 (getL oneK IRS 23)) TA = true := by quickRfl
 theorem trC_chk : Nat.beq (trK 24 (getL oneK IRS 51)) TC = true := by quickRfl
 theorem tr1_chk : Nat.beq (trK 24 R0) T1 = true := by quickRfl
 
-theorem fixA_chk : Nat.beq (fixTabK TA CV.F 117) 2280 = true := by quickRfl
-theorem fixC_chk : Nat.beq (fixTabK TC CV.F 117) 264 = true := by quickRfl
-theorem fix1_chk : Nat.beq (fixTabK T1 CV.F 117) 0 = true := by quickRfl
+theorem fixA_chk : Nat.beq (fixTabK TA CV.F 117) 2280 = true := by
+  rw [← fixTabP_eq]
+  quickRfl
+theorem fixC_chk : Nat.beq (fixTabK TC CV.F 117) 264 = true := by
+  rw [← fixTabP_eq]
+  quickRfl
+theorem fix1_chk : Nat.beq (fixTabK T1 CV.F 117) 0 = true := by
+  rw [← fixTabP_eq]
+  quickRfl
 
 theorem sq_chk : CFSG.KLie.CT.andB (Nat.beq (mulWK (getL oneK IRS 23) (getL oneK IRS 23)) oneK)
     (CFSG.KLie.CT.andB (Nat.beq (mulWK (getL oneK IRS 51) (getL oneK IRS 51)) oneK)

@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.SLDc
 
-#kc_repo #kc_json_gz CFSG.KD.HeDc.J "Certificates/Kernel/HeDc/data/he.json.gz" 1592591
+#kc_repo #kc_json CFSG.KD.HeDc.J "Certificates/Kernel/HeDc/data/he.json" 1592591
   5726029533723649554
   (w : Nat) (oidC : Nat) (tlC : Nat) (dpC : Nat) (obase : List Nat) (osz : List Nat)
   (K : List (List (List Nat))) (sep : List Nat) (mw : List (List (List Nat)))

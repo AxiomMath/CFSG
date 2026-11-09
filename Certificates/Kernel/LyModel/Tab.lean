@@ -52,11 +52,11 @@ theorem rep_dT : Rep Ly0.deg Ly0.dT (netPerm (valid_all 1 (by decide)) ly6110_ra
   exact ((bindOK_sound bind1).2 i hi).symm
 
 theorem cT_size : Ly0.cT.size = Ly0.deg := by
-  unfold Ly0.cT Ly0.tabOfHex
+  unfold Ly0.cT Ly0.tabOfBlks
   simp
 
 theorem dT_size : Ly0.dT.size = Ly0.deg := by
-  unfold Ly0.dT Ly0.tabOfHex
+  unfold Ly0.dT Ly0.tabOfBlks
   simp
 
 theorem permOK_invT {T : Table} {g : Perm (Fin Ly0.deg)} (hs : T.size = Ly0.deg)

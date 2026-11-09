@@ -128,19 +128,51 @@ theorem clsN_eq (k : Nat) : clsN k = clsK k := by
     rw [clsMR_eq, meetN_eq, rowN_eq, rowN_eq, rankR_eq, bfB_eq, bfB_eq, bfB_eq, bfB_eq]
     rfl
 
-theorem stTreeGo_sound : ∀ (l : List Nat) (i : Nat), stTreeGo l i = true →
-    ∀ j < l.length, stRecGo (l.getD j 0) (pkGet JST.stD 4 (i + j)) (pkGet JST.stG 6 (i + j)) = true
-  | [], _, _, j, hj => absurd hj (Nat.not_lt_zero _)
-  | k :: l, i, h, j, hj => by
-    have e : stTreeGo (k :: l) i =
-        bAnd(stRecGo k (pkGet JST.stD 4 i) (pkGet JST.stG 6 i), stTreeGo l (i + 1)) := rfl
+theorem stStrict_eq (y : Nat) (k : Nat → Bool) : strictKB y k = k y := by
+  cases y <;> rfl
+
+theorem stPkShift_eq (D w j : Nat) : pkGet (Nat.shiftRight D w) w j = pkGet D w (j + 1) := by
+  unfold pkGet
+  change Nat.land ((D >>> w) >>> (w * j)) (2 ^ w - 1) = Nat.land (D >>> (w * (j + 1))) (2 ^ w - 1)
+  rw [← Nat.shiftRight_add, Nat.mul_succ, Nat.add_comm w]
+
+theorem stPkSlice_eq (D w c : Nat) {j : Nat} (hj : j < 2048) :
+    pkGet (stSlice D w c) w j = pkGet D w (2048 * c + j) := by
+  unfold pkGet stSlice
+  change ((D >>> (w * 2048 * c)) &&& (2 ^ (w * 2048) - 1)) >>> (w * j) &&& (2 ^ w - 1) =
+    D >>> (w * (2048 * c + j)) &&& (2 ^ w - 1)
+  apply Nat.eq_of_testBit_eq
+  intro i
+  simp only [Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one]
+  have e : w * 2048 * c + (w * j + i) = w * (2048 * c + j) + i := by
+    rw [Nat.mul_add, ← Nat.mul_assoc, Nat.add_assoc]
+  rw [e]
+  by_cases hi : i < w
+  · have h1 : w * j + w ≤ w * 2048 := by
+      rw [← Nat.mul_succ]
+      exact Nat.mul_le_mul_left w hj
+    have h2 : w * j + i < w * 2048 := by omega
+    simp [hi, h2]
+  · simp [hi]
+
+theorem stTreeGo_sound : ∀ (l : List Nat) (D G : Nat), stTreeGo l D G = true →
+    ∀ j < l.length, stRecGo (l.getD j 0) (pkGet D 4 j) (pkGet G 6 j) = true
+  | [], _, _, _, j, hj => absurd hj (Nat.not_lt_zero _)
+  | k :: l, D, G, h, j, hj => by
+    have e : stTreeGo (k :: l) D G = bAnd(stRecGo k (Nat.land D 15) (Nat.land G 63),
+        strictKB (Nat.shiftRight D 4)
+          (fun D' => strictKB (Nat.shiftRight G 6) (fun G' => stTreeGo l D' G'))) := rfl
     rw [e] at h
+    simp only [stStrict_eq] at h
     obtain ⟨h1, h2⟩ := band_true h
     rcases j with _ | j
-    · simpa using h1
-    · have := stTreeGo_sound l (i + 1) h2 j (by simpa using hj)
-      rw [List.getD_cons_succ, show i + (j + 1) = i + 1 + j by omega]
+    · exact h1
+    · have := stTreeGo_sound l _ _ h2 j (by simpa using hj)
+      rw [stPkShift_eq, stPkShift_eq] at this
+      rw [List.getD_cons_succ]
       exact this
+
+theorem stKeyP_eq : ∀ g < 42, stKeyP g = stKeysL.getD g 0 := by decide +kernel
 
 theorem stRecGo_sound {k d g : Nat} (h : stRecGo k d g = true) :
     0 < d ∧ (d = 1 → k = repKeys.getD (clsK k) 0) ∧
@@ -159,6 +191,7 @@ theorem stRecGo_sound {k d g : Nat} (h : stRecGo k d g = true) :
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) hd
     obtain ⟨hg, h⟩ := pkAnd_true (pkIf_false h hb)
+    rw [stKeyP_eq g (Nat.le_of_ble_eq_true hg)] at h
     unfold stStepOK stParOK at h
     rw [clsN_eq, clsN_eq] at h
     obtain ⟨hp, h⟩ := pkAnd_true h

@@ -32,9 +32,9 @@ open CFSG.KC CFSG.KC.RouteP CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coord
 
 @[expose] def qw (i : Nat) : List Int := (relsQ[i]!).map cq
 
-@[expose] noncomputable def qck (g : Nat) : Bool :=
-  Bool.rec (motive := fun _ => Bool) (idKOK NWP KAP KBP (qw (Nat.div g 20)))
-    (idOK NWP (qw (Nat.div g 20)) (Nat.mod g 20)) (Nat.blt (Nat.mod g 20) 19)
+@[expose] noncomputable def qckT (T : List (List Int)) (g : Nat) : Bool :=
+  Bool.rec (motive := fun _ => Bool) (idKOK NWP KAP KBP (List.getD T (Nat.div g 20) []))
+    (idOK NWP (List.getD T (Nat.div g 20) []) (Nat.mod g 20)) (Nat.blt (Nat.mod g 20) 19)
 
 @[expose] noncomputable def nkP (j : Nat) : Bool :=
   andB (CFSG.KC.Fi24Net.netOK (NWP j)) (kapOK KAP KBP j)

@@ -10,7 +10,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.B4AX "Certificates/Kernel/B433Alt/Data/fix.json.gz" 360129 16504752886583352525
+#kc_repo #kc_json CFSG.KD.B4AX "Certificates/Kernel/B433Alt/Data/fix.json" 360129 16504752886583352525
   (F0 : Nat) (JO : Nat) (JR : Nat) (JM : Nat) (JT : List Nat) (IW : Nat) (IX : Nat) (IR : Nat)
   (IM : Nat) (IT : List Nat) (NJ : List Nat) (NX : List Nat) (NY : List Nat)
   (NH : List (List (Nat × List Nat))) (RA : List Nat) (RP : Nat) (RS : List (Nat × List Nat))

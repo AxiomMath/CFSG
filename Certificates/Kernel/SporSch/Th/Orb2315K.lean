@@ -14,9 +14,7 @@ public section
 set_option maxRecDepth 400000
 
 #kss_natlist CertificateChecks.KernelSporSch.ThO.M CFSG.KS.SporSchGen.matsL
-#kss_natlist CertificateChecks.KernelSporSch.ThO.S CFSG.KS.SporSchGen.sortedL
-#kss_natlist CertificateChecks.KernelSporSch.ThO.SG CFSG.KS.SporSchGen.sgL
-#kss_natlist CertificateChecks.KernelSporSch.ThO.TU CFSG.KS.SporSchGen.soL
+#kss_natlist CertificateChecks.KernelSporSch.ThO.SX CFSG.KS.SporSchGen.thOrbL
 #kss_natlist CertificateChecks.KernelSporSch.ThO.PAR CFSG.Sporadic.ThSchreier.centOrbitPar
 #kss_natlist CertificateChecks.KernelSporSch.ThO.LAB CFSG.Sporadic.ThSchreier.centOrbitLab
 #kss_natlist CertificateChecks.KernelSporSch.ThO.EDG CFSG.Sporadic.ThSchreier.centOrbitEdges
@@ -34,6 +32,12 @@ open CFSG.KC.Enum CFSG.KS.SporSch
 @[expose] noncomputable def V : Nat := M 6
 @[expose] noncomputable def VI : Nat := M 7
 @[expose] noncomputable def T : Nat := M 8
+
+@[expose] noncomputable def S (k : Nat) : Nat := SX k
+
+@[expose] noncomputable def SG (i : Nat) : Nat := SX (Nat.add i 819)
+
+@[expose] noncomputable def TU (g : Nat) : Nat := SX (Nat.add g 1638)
 
 @[expose] noncomputable def eB (q : Nat) : Bool :=
   allBlk (Nat.mul q 7) (entK S SG TU PAR LAB EDG T X Y YY) 7

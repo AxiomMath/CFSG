@@ -7,10 +7,10 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/phi.json.gz" 858
+#kc_repo #kc_json CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/phi.json" 858
   16350917158555814213 (wa : Nat) (la : Nat) (waf : Nat) (wb : Nat) (lb : Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/inv.json.gz" 5083
+#kc_repo #kc_json CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/inv.json" 5083
   7431744092612327882 (iw : List Nat) (il : List Nat) (iwr : List Nat)
 
 #kc_each CFSG.KD.F4Syl3.ch799602inv r (fun k => CFSG.KC.F4Syl3.invN k (CFSG.KD.F4Syl3.iw.getD k 0)

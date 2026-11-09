@@ -20,8 +20,7 @@ open CFSG.Certificates CFSG.Sporadic.Schreier CFSG.Sporadic.Schreier.Native CFSG
   Binds n w PS kS nb BP S base ∧
     headK n w (mask w) (n * w) (pidn n w) PS PSI kS kO D nb BP = true ∧
     LevelsOK n w PS PSI LR TR TRI kS nb BP ∧ n ≤ NS * CH ∧
-    ∀ i < nb, ∀ s < NS, schK n w (mask w) (n * w) (pidn n w) PS PSI LR TR TRI kS BP nb i
-      (stepsAt n w PS kS BP i) (s * CH) CH = true
+    SchTestsK n w PS PSI LR TR TRI kS kO BP nb NS CH
 
 @[expose] def condWords (conds : List (List Bool × Nat)) : List (List Nat × Nat) :=
   conds.map fun c => (c.1.map fun b => if b then 1 else 0, c.2)

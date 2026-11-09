@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.G23A22 "Certificates/Kernel/G23F48/data/a22.json.gz" 52786
+#kc_repo #kc_json CFSG.KD.G23A22 "Certificates/Kernel/G23F48/data/a22.json" 52786
   11900740250075975509
   (wX : List (List (Nat × Bool))) (wS : List (List (Nat × Bool)))
   (trP1_1 : List (Nat × Nat × Nat)) (trP1_7 : List (Nat × Nat × Nat))

@@ -2,6 +2,7 @@ module
 
 public import CFSG.HardMathSupport.Curtis.Coordinator.AnisoE7.CertCases
 public import CFSG.LocalAnalysis.AGLEmbeddingD2.Ambient
+import Certificates.Certificate14976
 
 public section
 
@@ -30,11 +31,18 @@ instance (τ : List ℤ) (X : List (List ℤ)) : Decidable (SpanGen τ X) := by
 @[expose] def e7CompB (c : E7T3Cert) : List (List ℤ) :=
   (e7StdRoots (e7T3Nodes 1)).map (lmulVec Tag.E7.rank (e7wl c.w))
 
+theorem cert_cases01_span : ∀ c ∈ e7T3Certs, c.comps.map E7T3Comp.kind = [0, 1] →
+    sigma0 ∈ c.rootList →
+    sigma0 ∈ e7CompB c ∧ SpanGen sigma0 (e7CompB c) ∧
+      ∃ τ ∈ e7CompA c, SpanGen τ (e7CompA c) := by
+  decide +kernel
+
 theorem cert_cases01 : ∀ c ∈ e7T3Certs, c.comps.map E7T3Comp.kind = [0, 1] →
     sigma0 ∈ c.rootList →
     c.Good ∧ sigma0 ∈ e7CompB c ∧ SpanGen sigma0 (e7CompB c) ∧
-      ∃ τ ∈ e7CompA c, SpanGen τ (e7CompA c) := by
-  decide +kernel
+      ∃ τ ∈ e7CompA c, SpanGen τ (e7CompA c) :=
+  fun c hc hk hs =>
+    ⟨(Certificates.certificate14976).2.2.2.2.2.1 c hc, cert_cases01_span c hc hk hs⟩
 
 theorem toVec_negIter (τ : List ℤ) (j : ℕ) :
     toVec Tag.E7.rank (negIter τ j) =

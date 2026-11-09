@@ -54,14 +54,13 @@ theorem swpT_bits {i : ℕ} (hi : i < 24) {m : ℕ}
       · simp [clear_sub hqi hge]
       · simp [hge]
     rw [hsh, Bool.xor_false, Nat.add_comm (2 ^ i) q]
-    by_cases hq : q < 2 ^ 24 <;> simp [-Nat.reducePow, hq] <;>
-      cases S.testBit q <;> cases S.testBit (q + 2 ^ i) <;> rfl
+    by_cases hq : q < 2 ^ 24 <;> simp [-Nat.reducePow, hq]
   · have hge := Nat.ge_two_pow_of_testBit hqi
     rw [xor_set hqi, set_sub hqi, show 2 ^ i + (q - 2 ^ i) = q by omega,
       show decide (q - 2 ^ i < 2 ^ 24) = decide (q < 2 ^ 24) from
         decide_eq_decide.2 (sub_lt_iff hi hqi)]
-    by_cases hq : q < 2 ^ 24 <;> simp [-Nat.reducePow, hq, hge] <;>
-      cases S.testBit q <;> cases S.testBit (q - 2 ^ i) <;> rfl
+    by_cases hq : q < 2 ^ 24 <;> simp [-Nat.reducePow, hq, hge]
+    cases S.testBit q <;> cases S.testBit (q - 2 ^ i) <;> rfl
 
 noncomputable def tstp (i : ℕ) : ℕ × ℕ :=
   (1 <<< i, Nat.xor (@HPow.hPow ℕ ℕ ℕ (@instHPow ℕ ℕ instPowNat) 2 W - 1) (pms24.getD i 0))
@@ -145,15 +144,15 @@ theorem trV_bits : ∀ (n k b S q : ℕ), k + n = 24 → b < 2 ^ n →
         calc b / 2 * 2 ^ (k + 1) < 2 ^ n * 2 ^ (k + 1) :=
               Nat.mul_lt_mul_of_lt_of_le hb2 (le_refl _) (by positivity)
           _ = 2 ^ 24 := by rw [← pow_add]; congr 1; omega
-      rw [hS1, if_pos (Nat.xor_lt_two_pow hq hy), Nat.xor_assoc]
-    · rw [hS1, if_neg hq]
+      rw [hS1, ite_eq_left (Nat.xor_lt_two_pow hq hy), Nat.xor_assoc]
+    · rw [hS1, ite_eq_right hq]
 
 theorem trV24_bits {b : ℕ} (hb : b < 2 ^ 24) (S q : ℕ) :
     (trV ((List.range' 0 24).map tstp) b S).testBit q =
       if q < 2 ^ 24 then S.testBit (q ^^^ b) else S.testBit q := by
   rw [trV_bits 24 0 b S q rfl hb, Nat.shiftLeft_zero]
 
-def v7 (a0 a1 a2 a3 a4 a5 a6 : Bool) : ℕ :=
+@[expose] def v7 (a0 a1 a2 a3 a4 a5 a6 : Bool) : ℕ :=
   a0.toNat + 2 * a1.toNat + 4 * a2.toNat + 8 * a3.toNat + 16 * a4.toNat + 32 * a5.toNat +
     64 * a6.toNat
 
@@ -170,7 +169,7 @@ theorem v7_ge : ∀ a0 a1 a2 a3 a4 a5 a6 : Bool,
     (a6 || (a5 || (a4 || (a3 && (a2 || a1))))) = decide (10 ≤ v7 a0 a1 a2 a3 a4 a5 a6) := by
   decide
 
-def cv (q c0 c1 c2 c3 c4 c5 c6 : ℕ) : ℕ :=
+@[expose] def cv (q c0 c1 c2 c3 c4 c5 c6 : ℕ) : ℕ :=
   v7 (c0.testBit q) (c1.testBit q) (c2.testBit q) (c3.testBit q) (c4.testBit q) (c5.testBit q)
     (c6.testBit q)
 
@@ -233,7 +232,7 @@ theorem walk_spec {α : Sort*} (Sf : ℕ) {B : List ℕ} (hB : ∀ b ∈ B, b < 
     set S' := trV ((List.range' 0 24).map tstp) (B.getD j 0) Sc with hS'
     have hS'b : ∀ q < 2 ^ 24, S'.testBit q = Sf.testBit (q ^^^ (x ^^^ B.getD j 0)) := by
       intro q hq
-      rw [hS', trV24_bits hb, if_pos hq, hSc _ (Nat.xor_lt_two_pow hq hb), Nat.xor_assoc,
+      rw [hS', trV24_bits hb, ite_eq_left hq, hSc _ (Nat.xor_lt_two_pow hq hb), Nat.xor_assoc,
         Nat.xor_comm (B.getD j 0) x]
     obtain ⟨e0, e1, e2, e3, e4, e5, e6, he, hev⟩ := add7_spec S' c0 c1 c2 c3 c4 c5 c6
       fun d0 d1 d2 d3 d4 d5 d6 => walk ((List.range' 0 24).map tstp) B g S' d0 d1 d2 d3 d4 d5 d6 k
@@ -246,7 +245,8 @@ theorem walk_spec {α : Sort*} (Sf : ℕ) {B : List ℕ} (hB : ∀ b ∈ B, b < 
       (c5.testBit q) (c6.testBit q)
     unfold cv at this ⊢
     generalize Sf.testBit (q ^^^ (x ^^^ B.getD j 0)) = s
-    cases s <;> simp <;> omega
+    cases s <;> simp
+    omega
 
 theorem spanSet_bits (B : List ℕ) : ∀ (g : List ℕ) (x acc q : ℕ),
     (spanSet B g x acc).testBit q = (acc.testBit q || decide (q ∈ (grayWs B g x).tail))
@@ -314,8 +314,8 @@ theorem blockOK_sound {P Q : GL24} {cP cQ : List ℕ} {opsP opsQ : List (ℕ × 
     have := congrArg (fun x => x.testBit q) hcl
     change (Sf ||| (img (opsP.map stp) Sf ||| img (opsQ.map stp) Sf)).testBit q =
       Sf.testBit q at this
-    rwa [Nat.testBit_or, Nat.testBit_or, img_bits hPok, img_bits hQok, if_pos hq,
-      if_pos hq] at this
+    rwa [Nat.testBit_or, Nat.testBit_or, img_bits hPok, img_bits hQok, ite_eq_left hq,
+      ite_eq_left hq] at this
   have hpreP : ∀ q < 2 ^ 24, opsApp opsP q ∈ T → q ∈ T := by
     intro q hq h
     rw [hmem] at h ⊢

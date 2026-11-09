@@ -2,6 +2,7 @@ module
 
 public import CFSG.Sporadic.SuzRecog.ModelGroupsChecks
 public import CFSG.Certificates.NativeSchreierCard
+public import CFSG.Certificates.NativeSchreierLowerBound
 
 public section
 
@@ -228,12 +229,12 @@ theorem range_two {α : Type*} (a b : α) : Set.range ![a, b] = {a, b} := by
   · rintro (rfl | rfl)
     exacts [⟨0, rfl⟩, ⟨1, rfl⟩]
 
-theorem card_closure_of_chainOK {S : Array (Array ℕ)} {k : ℕ} {base : List ℕ}
+theorem le_card_closure_of_chainLowOK {S : Array (Array ℕ)} {k : ℕ} {base : List ℕ}
     {W : Array (List ℤ)} {orbits : List ℕ} (hk : k ≤ S.size) (hb : base.Nodup)
-    (hlt : ∀ b ∈ base, b < 1782) (h : chainOK S k base W orbits = true)
+    (hlt : ∀ b ∈ base, b < 1782) (h : chainLowOK S k base W orbits = true)
     (gs : Fin k → Equiv.Perm (Fin 1782)) (hgs : ∀ i : Fin k, Rep 1782 S[(i : ℕ)]! (gs i)) :
-    Nat.card (closure (Set.range gs)) = orbits.prod := by
-  simp only [chainOK, Bool.and_eq_true, beq_iff_eq] at h
+    orbits.prod ≤ Nat.card (closure (Set.range gs)) := by
+  simp only [chainLowOK, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨hc, horb⟩ := h
   let bs : List (Fin 1782) := base.pmap (fun b hb => ⟨b, hb⟩) hlt
   have hbs : (bs.map Fin.val).toArray = base.toArray := by
@@ -241,11 +242,10 @@ theorem card_closure_of_chainOK {S : Array (Array ℕ)} {k : ℕ} {base : List �
     simp [bs, List.map_pmap]
   have hbn : bs.Nodup := List.Nodup.pmap (fun _ _ _ _ e => congrArg Fin.val e) hb
   rw [← hbs] at hc horb
-  have hcard := card_originalSubgroup_of_chainOK
+  have hcard := rawOrbitSizes_prod_le_card
     (chainArrays_ofArrays (n := 1782) (hn := by norm_num) (k := k) (hk := hk) (hb := hbn)
-      (W := W) (chainCheckFacts hc).strong_inv) (by norm_num) hc
+      (W := W) (chainCheckFacts hc).strong_inv) hc
   rw [horb] at hcard
-  rw [← hcard]
   have hrep : ∀ i : Fin k, permOfArr 1782 S[(i : ℕ)]! = gs i := fun i =>
     Rep.unique (rep_permOfArr ((chainCheckFacts hc).strong_inv i (by omega))).1 (hgs i)
   have hsub : closure (Set.range gs) = (RawSchreierDatum.ofArrays 1782 (by norm_num) S k hk bs hbn
@@ -260,5 +260,6 @@ theorem card_closure_of_chainOK {S : Array (Array ℕ)} {k : ℕ} {base : List �
     · rintro ⟨i, hi, rfl⟩
       exact ⟨⟨i, hi⟩, (hrep ⟨i, hi⟩).symm⟩
   rw [hsub]
+  exact hcard
 
 end CFSG.Sporadic.SuzRecog.ModelGroups

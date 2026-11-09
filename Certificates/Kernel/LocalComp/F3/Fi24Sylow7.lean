@@ -1,5 +1,6 @@
 module
 
+public import Certificates.Kernel.LocalQT.Seeds.Fi24
 public import Certificates.Data.Kernel.LocalComp.CubParts
 public import Certificates.Data.CFSGNative.CTP.Fi24Sylow7
 import Certificates.Kernel.LocalQT.Cmd

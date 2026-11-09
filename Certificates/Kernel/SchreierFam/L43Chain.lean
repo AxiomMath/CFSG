@@ -40,7 +40,7 @@ open CFSG.ComponentClassification.HarrisLit.P1 CFSG.ComponentClassification.Harr
 
 theorem bS : ∀ j < 11, arrBind chainS[j]! 80 7 (S j) = true := by
   intro j hj
-  interval_cases j <;> quickRfl
+  interval_cases j <;> decide +kernel
 
 theorem perm : allN 11 (fun j => permOK 80 7 (mask 7) (80 * 7) (S j) (SI j)) = true := by
   quickRfl
@@ -57,7 +57,12 @@ theorem hNS : 80 ≤ NS * 16 := by decide +kernel
     Nat.beq (Nat.shiftRight (packL 7 (natArr T).toList).1 (80 * 7)) 0 &&
     siftK 80 7 (mask 7) (80 * 7) (pidn 80 7) LR TRI BP 6 0 (packL 7 (natArr T).toList).1
 
-theorem centK : centTrivOK 80 siftL43 l43CentTriv = true := by decide +kernel
+theorem centK : centTrivOK 80 siftL43 l43CentTriv = true := by
+  unfold centTrivOK
+  rw [Bool.and_eq_true, List.all_eq_true]
+  refine ⟨by decide +kernel, fun i hi => ?_⟩
+  rw [List.mem_range] at hi
+  interval_cases i <;> decide +kernel
 
 theorem centNeg : centTrivOK 80 siftL43 l43CentTriv.dropLast = false := by decide +kernel
 

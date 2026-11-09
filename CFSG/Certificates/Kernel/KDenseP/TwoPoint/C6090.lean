@@ -41,13 +41,13 @@ public section
 set_option maxRecDepth 100000
 
 #kc_plan CFSG.KD.TP.c6090 "c6090.plan.txt" 13046 9094728641581049258
-#kc_plan CFSG.KD.TP.c6090 "c6090.grp.txt" 434 5702846082457385764
+#kc_plan CFSG.KD.TP.c6090 "c6090.grp.txt" 565 10728716477814980531
 #kc_select CFSG.KD.TP.c6090 CH CH 33
 #kc_select CFSG.KD.TP.c6090 IXf IX 60
 #kc_select CFSG.KD.TP.c6090 PRf PR 3
 #kc_select CFSG.KD.TP.c6090 GKf GK 33
 #kc_listDispatch CFSG.KD.TP.c6090 WD wd 60
-#kc_listDispatch CFSG.KD.TP.c6090 Gf G 1
+#kc_listDispatch CFSG.KD.TP.c6090 Gf G 18
 
 namespace CFSG.KD.TP.c6090
 

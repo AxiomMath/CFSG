@@ -14,7 +14,7 @@ open CFSG.CGT.T75JM
 
 public section
 
-#kb_family "data/F14982.json.gz" 3097 9763134864480958931 (r2 := m22RelsK) (r6 := m22RelsN6)
+#kb_family "data/F14982.json" 3097 9763134864480958931 (r2 := m22RelsK) (r6 := m22RelsN6)
   (r7 := m22Rels) (rpd := m22RelsPD)
 
 end

@@ -35,6 +35,13 @@ theorem vals_of {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {LA LB : List Char}
   · rw [h1]
     exact (mat3_one c hc hp).2
 
+theorem vals_of_seed {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {Vk P : ℕ → ℕ} {N : ℕ}
+    (hN : N ≤ 1048576) (hA : Canon c.p c.d c.w (Vk 0)) (hB : Canon c.p c.d c.w (Vk 1))
+    (h1 : Vk 2 = c.ONE) (hs : StepsTo (stepOK c Vk P) N) : Vals c Vk P N := by
+  refine ⟨hc, hp, hN, SecS.vals_canon c hc hA hB h1 hs, hs, ?_⟩
+  rw [h1]
+  exact (mat3_one c hc hp).2
+
 theorem land_add_shift {a b : ℕ} (ha : a < 1048576) :
     Nat.land (a + 1048576 * b) 1048575 = a ∧ Nat.shiftRight (a + 1048576 * b) 20 = b := by
   have h20 : (2 : ℕ) ^ 20 = 1048576 := by norm_num

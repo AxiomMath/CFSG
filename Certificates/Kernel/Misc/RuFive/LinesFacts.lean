@@ -15,8 +15,8 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.Misc.ArrEnum CFSG.KC.FiveLocK CFSG
 open CFSG.RankThree.PartOne
 
 theorem line_eq {j : Nat} (hj : j < 31) : ruFiveLines[j]! = unpack 4060 12 (L j) := by
-  have h := CFSG.KC.Misc.HexFlat.hexTable3_sound RF.all (j + 2) (show j + 2 < 33 by omega)
-  rw [← RF.eq] at h
+  have h := CFSG.KC.Misc.HexFlat.hexTable_sound_rowsD (by decide) (by decide) RG.rows (j + 2) (show j + 2 < 75 by omega)
+  rw [← RG.eq] at h
   unfold ruFiveLines
   rw [getElem!_pos _ j (by simpa using hj), Array.getElem_ofFn]
   exact h

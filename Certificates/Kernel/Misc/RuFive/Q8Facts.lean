@@ -15,7 +15,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.Misc.ArrEnum CFSG.KC.SignedWordK
 open CFSG.Monster.B.Co2.Native CFSG.RankThree.PartOne CFSG.EvenSporadicStandard.RuStd.S2
 
 theorem gens_eq (k : Nat) (hk : k < 3) : ruFiveC0Gens[k]! = unpack 4060 12 (G k) := by
-  have h := CFSG.KC.Misc.HexFlat.hexTable3_sound RG.all (k + 64) (show k + 64 < 75 by omega)
+  have h := CFSG.KC.Misc.HexFlat.hexTable_sound_rowsD (by decide) (by decide) RG.rows (k + 64) (show k + 64 < 75 by omega)
   rw [← RG.eq] at h
   have e : ruFiveC0Gens[k]! = ruFiveArr (k + 64) := by
     interval_cases k <;> rfl

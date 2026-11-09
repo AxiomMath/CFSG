@@ -49,6 +49,12 @@ deriving Inhabited
   m.acts.all (fun g => decide (g.mat.length = m.basis.length * m.basis.length)) &&
   (allVecs p m.basis.length).all fun c => c.all (· == 0) || m.indep.any fun q => q.1 == c
 
+@[expose] def NMod.wfN (p : Nat) (m : NMod) : Bool :=
+  decide (2 ≤ p) &&
+  m.acts.all (fun g => decide (g.mat.length = m.basis.length * m.basis.length)) &&
+  (allVecs p m.basis.length).all fun c => c.all (· == 0) ||
+    (List.range p).any fun s => m.indep.any fun q => q.1 == c.map fun x => x * (s + 1) % p
+
 @[expose] def kd (a b : Nat) : Int := if a = b then 1 else 0
 
 @[expose] def fsum (N : Nat) (f : Fin N → Int) : Int := ((List.finRange N).map f).sum

@@ -3,17 +3,12 @@ module
 
 public import Certificates.Kernel.SporSch.J4S.Eta
 public import Certificates.Kernel.SporSch.J4S.FiveW
-meta import Certificates.Kernel.SporSch.J4S.InvData
+public import Certificates.Data.Kernel.SporSch.J4SInvK
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
 set_option maxRecDepth 400000
-
-#kss_pairs CertificateChecks.KernelSporSch.J4K0 CertificateChecks.KernelSporSch.J4Inv.kSuf0
-#kss_pairs CertificateChecks.KernelSporSch.J4K1 CertificateChecks.KernelSporSch.J4Inv.kSuf1
-#kss_pairs CertificateChecks.KernelSporSch.J4K2 CertificateChecks.KernelSporSch.J4Inv.kSuf2
-#kss_pairs CertificateChecks.KernelSporSch.J4K3 CertificateChecks.KernelSporSch.J4Inv.kSuf3
 
 namespace CertificateChecks.KernelSporSch.J4InvW
 

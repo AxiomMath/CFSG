@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.C21205C "Certificates/Kernel/C21205/data/crit.json.gz" 539445
+#kc_repo #kc_json CFSG.KD.C21205C "Certificates/Kernel/C21205/data/crit.json" 539445
     6930773068755477502
   (O0 : List Nat) (F0 : List Nat) (W0 : List Nat) (S0 : List Nat) (D0 : List (List Nat))
   (nA0 : Nat) (A0 : Nat) (B0 : Nat)

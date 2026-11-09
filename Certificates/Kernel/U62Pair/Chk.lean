@@ -26,9 +26,16 @@ open CFSG.KC.U62P CFSG.ComponentClassification.RankTwoHypIICover.U62
 
 @[expose] noncomputable def rep : Nat → Bool := repAt D.GV D.RV RWN
 
+@[expose] noncomputable def lvFU (i : Nat) : Nat :=
+  nIf(Nat.blt i 32768, f72 (D.LVB (Nat.shiftRight i 8)) (Nat.land i 255), 0)
+
+@[expose] noncomputable def lvBlk (k : Nat) : Bool :=
+  Nat.beq (D.LVB k) (fld(D.LV, Nat.mul 18432 k, Nat.sub (Nat.shiftLeft 1 18432) 1))
+
 @[expose] noncomputable def lst (i : Nat) : Bool :=
-  bAnd(treeAt D.GV D.LV D.PT D.LB i, bAnd(sortAt D.LV D.SO 32768 i,
-    bAnd(phiAt D.LV D.UP D.XP D.NXP i, scanAt D.LV D.PO D.EI D.NO i)))
+  bAnd(treeFU D.GV lvFU D.PT D.LB i, bAnd(sortFU lvFU D.SO 32768 i, scanFU lvFU D.PO D.EI D.NO i))
+
+@[expose] noncomputable def phq (q : Nat) : Bool := phiAt D.LV D.UP D.XP D.NXP (f16 D.EI q)
 
 @[expose] noncomputable def nrm : Nat → Bool := normAt D.GV D.LV D.NI 32768
 
@@ -36,12 +43,18 @@ open CFSG.KC.U62P CFSG.ComponentClassification.RankTwoHypIICover.U62
 
 @[expose] noncomputable def pool : Nat → Bool := poolAt D.PV
 
+@[expose] noncomputable def poolCU : Nat → Bool := poolL D.PV D.LW D.UW D.RI D.RT 63
+
+@[expose] noncomputable def rdt (r : Nat) : Bool := Nat.beq (CFSG.KC.F4M.det (f72 D.RT r)) 1
+
 @[expose] noncomputable def rec : Nat → Bool := recAt D.PV D.NP D.G1 D.G2 D.GG
 
 @[expose] noncomputable def ent : Nat → Bool := entAt ET0
 
 end CertificateChecks.KernelU62P
 
+#bm_bool CertificateChecks.KernelU62P kLVB (CFSG.KC.Enum.allBlk 0 lvBlk 128)
+#bm_bool CertificateChecks.KernelU62P kLVlt (Nat.blt D.LV (Nat.shiftLeft 1 2359296))
 #bm_bool CertificateChecks.KernelU62P kNO (Nat.beq D.NO 512)
 #bm_bool CertificateChecks.KernelU62P kNG (Nat.beq D.NG 896)
 #bm_bool CertificateChecks.KernelU62P kNP (Nat.beq D.NP 1771)
@@ -49,6 +62,7 @@ end CertificateChecks.KernelU62P
 #bm_bool CertificateChecks.KernelU62P kRep (CFSG.KC.Enum.allBlk 0 rep 43)
 #bm_bool CertificateChecks.KernelU62P kNorm (CFSG.KC.Enum.allBlk 0 nrm 13)
 #bm_bool CertificateChecks.KernelU62P kFix (CFSG.KC.Enum.allBlk 0 fix 693)
+#bm_bool CertificateChecks.KernelU62P kPhi (CFSG.KC.Enum.allBlk 0 phq 512)
 #bm_bool CertificateChecks.KernelU62P kLst_0 (CFSG.KC.Enum.allBlk 0 lst 2048)
 #bm_bool CertificateChecks.KernelU62P kLst_1 (CFSG.KC.Enum.allBlk 2048 lst 2048)
 #bm_bool CertificateChecks.KernelU62P kLst_2 (CFSG.KC.Enum.allBlk 4096 lst 2048)
@@ -65,13 +79,14 @@ end CertificateChecks.KernelU62P
 #bm_bool CertificateChecks.KernelU62P kLst_13 (CFSG.KC.Enum.allBlk 26624 lst 2048)
 #bm_bool CertificateChecks.KernelU62P kLst_14 (CFSG.KC.Enum.allBlk 28672 lst 2048)
 #bm_bool CertificateChecks.KernelU62P kLst_15 (CFSG.KC.Enum.allBlk 30720 lst 2048)
-#bm_bool CertificateChecks.KernelU62P kPool_0 (CFSG.KC.Enum.allBlk 0 pool 256)
-#bm_bool CertificateChecks.KernelU62P kPool_1 (CFSG.KC.Enum.allBlk 256 pool 256)
-#bm_bool CertificateChecks.KernelU62P kPool_2 (CFSG.KC.Enum.allBlk 512 pool 256)
-#bm_bool CertificateChecks.KernelU62P kPool_3 (CFSG.KC.Enum.allBlk 768 pool 256)
-#bm_bool CertificateChecks.KernelU62P kPool_4 (CFSG.KC.Enum.allBlk 1024 pool 256)
-#bm_bool CertificateChecks.KernelU62P kPool_5 (CFSG.KC.Enum.allBlk 1280 pool 256)
-#bm_bool CertificateChecks.KernelU62P kPool_6 (CFSG.KC.Enum.allBlk 1536 pool 235)
+#bm_bool CertificateChecks.KernelU62P kRTU (CFSG.KC.Enum.allBlk 0 rdt 63)
+#bm_bool CertificateChecks.KernelU62P kPool_0 (CFSG.KC.Enum.allBlk 0 poolCU 256)
+#bm_bool CertificateChecks.KernelU62P kPool_1 (CFSG.KC.Enum.allBlk 256 poolCU 256)
+#bm_bool CertificateChecks.KernelU62P kPool_2 (CFSG.KC.Enum.allBlk 512 poolCU 256)
+#bm_bool CertificateChecks.KernelU62P kPool_3 (CFSG.KC.Enum.allBlk 768 poolCU 256)
+#bm_bool CertificateChecks.KernelU62P kPool_4 (CFSG.KC.Enum.allBlk 1024 poolCU 256)
+#bm_bool CertificateChecks.KernelU62P kPool_5 (CFSG.KC.Enum.allBlk 1280 poolCU 256)
+#bm_bool CertificateChecks.KernelU62P kPool_6 (CFSG.KC.Enum.allBlk 1536 poolCU 235)
 #bm_bool CertificateChecks.KernelU62P kRec_0 (CFSG.KC.Enum.allBlk 0 rec 448)
 #bm_bool CertificateChecks.KernelU62P kRec_1 (CFSG.KC.Enum.allBlk 448 rec 448)
 #bm_bool CertificateChecks.KernelU62P kEnt_0 (CFSG.KC.Enum.allBlk 0 ent 32)

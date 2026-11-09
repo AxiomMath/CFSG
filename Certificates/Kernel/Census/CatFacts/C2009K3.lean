@@ -14,9 +14,9 @@ open CFSG.ComponentClassification.CatFactsSmall CFSG.ComponentClassification.Cat
   CFSG.Certificates.Kernel.PkEnum CFSG.Certificates.Kernel.CatFacts CFSG.GH74.KGroups
   CFSG.Sporadic.Schreier
 
-theorem orb2009K : (cfOz.all fun p => decide (p.2⁻¹ * cfZ * p.2 = p.1) && siftP QA45 p.2 0 &&
+theorem orb2009K : (cfOz.all fun p => decide (p.2⁻¹ * cfZ * p.2 = p.1) && siftAQ p.2 &&
       (cfEgens.all fun e => siftP cfQE (p.2 * e * p.2⁻¹) 0)) = true ∧
-    (cfOzt.all fun p => decide (p.2⁻¹ * (cfZ * cfTau) * p.2 = p.1) && siftP QA45 p.2 0 &&
+    (cfOzt.all fun p => decide (p.2⁻¹ * (cfZ * cfTau) * p.2 = p.1) && siftAQ p.2 &&
       (cfEgens.all fun e => siftP cfQE (p.2 * e * p.2⁻¹) 0)) = true ∧
     (cfOz.map Prod.fst).Nodup ∧ (cfOzt.map Prod.fst).Nodup ∧
     (elemsV cfQE).all (fun w => decide (w = 1) || decide (w ∈ cfOz.map Prod.fst) ||
@@ -28,22 +28,27 @@ theorem orb2009K : (cfOz.all fun p => decide (p.2⁻¹ * cfZ * p.2 = p.1) && sif
 theorem esub2009K : (cfEgens.all fun x => decide (x ∈ cfOzt.map Prod.fst)) = true := by
   decide +kernel
 
-theorem normal2009K : (elemsV cfQR).all (fun w => !decide (w * w = 1) || siftP QP45 w 0 ||
-    decide (w ∈ cls1P) ||
-    (elemsV cfQR).any (fun r => !decide (w * (r * w * r⁻¹) = r * w * r⁻¹ * w)) ||
-    decide (((elemsV cfQR).filter fun y => decide (y * y = 1) && !decide (y ∈ cls1P) &&
-      (elemsV cfQR).all fun r => decide (y * (r * w * r⁻¹) = r * w * r⁻¹ * y)).length < 16)) =
-      true := by
-  decide +kernel
+theorem normal2009K0 : ((elemsV cfQR).take 32).all normT = true := by decide +kernel
+
+theorem normal2009K1 : (((elemsV cfQR).drop 32).take 32).all normT = true := by decide +kernel
+
+theorem normal2009K2 : (((elemsV cfQR).drop 64).take 32).all normT = true := by decide +kernel
+
+theorem normal2009K3 : ((elemsV cfQR).drop 96).all normT = true := by decide +kernel
 
 theorem misc2009K : (elemsV cfQE).all (fun e => decide (e * s045 * e⁻¹ * s045⁻¹ = 1) ||
       decide (e * s045 * e⁻¹ * s045⁻¹ = cfCE)) = true ∧ s045 * s045 = 1 ∧
     siftP cfQE cfE1 0 = true ∧ cfE1 * s045 * cfE1⁻¹ * s045⁻¹ = cfCE ∧ cfCE * cfCE = 1 ∧
-    cfCE ≠ 1 ∧ siftP cfQR cfEe 0 = true ∧ siftP QP45 cfEe 0 = true ∧
+    cfCE ≠ 1 ∧ siftP cfQR cfEe 0 = true ∧ siftPQ cfEe = true ∧
     cfEn1 * cfEn2 * cfEn1⁻¹ * cfEn2⁻¹ = cfEe ∧ cfEe * cfEe = 1 ∧
-    (cfEgens.all fun g => decide (g * cfEe = cfEe * g)) = false ∧ siftP QA45 cfEn1 0 = true ∧
-    siftP QA45 cfEn2 0 = true ∧ (cfEgens.all fun e => siftP cfQE (cfEn1 * e * cfEn1⁻¹) 0) = true ∧
+    (cfEgens.all fun g => decide (g * cfEe = cfEe * g)) = false ∧ siftAQ cfEn1 = true ∧
+    siftAQ cfEn2 = true ∧ (cfEgens.all fun e => siftP cfQE (cfEn1 * e * cfEn1⁻¹) 0) = true ∧
     (cfEgens.all fun e => siftP cfQE (cfEn2 * e * cfEn2⁻¹) 0) = true := by
+  repeat' apply And.intro
+  all_goals decide +kernel
+
+theorem nz2009K : (cfFgens.all fun x => cfEgens.all fun e => siftP cfQE (x * e * x⁻¹) 0) = true ∧
+    cfOzKd * cfOztKe * cfZ = cfZ * (cfOzKd * cfOztKe) ∧ orderIs (cfOzKd * cfOztKe) 3 = true := by
   repeat' apply And.intro
   all_goals decide +kernel
 

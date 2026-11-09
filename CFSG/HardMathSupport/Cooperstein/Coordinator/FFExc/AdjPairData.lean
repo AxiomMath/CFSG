@@ -2,6 +2,10 @@ module
 
 public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFExc.AdjPairGraph
 public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFExc.MinPair
+public import Certificates.Data.Kernel.PairBnb
+import CFSG.Certificates.Kernel.PairBnbSound
+import CFSG.Certificates.Kernel.Common.ForallTree
+import CFSG.Certificates.Kernel.Common.EachTrue
 
 public section
 
@@ -68,10 +72,43 @@ theorem e6Adj_nb : e6AdjNb = (List.range (e6AllR.length + e6R.length)).map fun v
     bitsOf (e6AllR.length + e6R.length) (adjQ e6R e6AllR (List.replicate 6 0) v) := by
   decide +kernel
 
+open CFSG.KC.PairBnb in
+#kc_each CFSG.HardMathSupport.Cooperstein.Coordinator.FFExc.e6AdjK i
+  (fun i => bnbR (nbP (packT e6AdjNb)) (wtF 72 2 1) e6AdjO 200 (rootMask 72 108 e6AdjNb i) 51) 0 36
+
+open CFSG.KC.PairBnb in
+#kc_forall_tree e6AdjAll (fun i => bnbR (nbP (packT e6AdjNb)) (wtF 72 2 1) e6AdjO 200
+  (rootMask 72 108 e6AdjNb i) 51 = true) 36 CFSG.HardMathSupport.Cooperstein.Coordinator.FFExc.e6AdjK.i
+
+open CFSG.KC.PairBnb in
+theorem e6Adj_nbP_lt : ∀ v < 108, nbP (packT e6AdjNb) v = e6AdjNb.getD v 0 := by
+  decide +kernel
+
+open CFSG.KC.PairBnb in
+theorem e6Adj_packT_lt : packT e6AdjNb < 2 ^ 13824 := by
+  decide +kernel
+
+open CFSG.KC.PairBnb in
+theorem e6Adj_nbP (v : ℕ) : nbP (packT e6AdjNb) v = e6AdjNb.getD v 0 := by
+  rcases Nat.lt_or_ge v 108 with h | h
+  · exact e6Adj_nbP_lt v h
+  · have hl : e6AdjNb.length = 108 := rfl
+    rw [nbP_of_lt _ v 13824 e6Adj_packT_lt (by omega), List.getD_eq_getElem?_getD,
+      List.getElem?_eq_none (by omega)]
+    rfl
+
+theorem e6AllR_length : e6AllR.length = 72 := by decide +kernel
+
+theorem e6R_length : e6R.length = 36 := by decide +kernel
+
+open CFSG.KC.PairBnb in
 theorem e6Adj_chk : ∀ i < e6R.length,
     (pairGraph e6AllR.length e6AdjNb 2 1).bnb e6AdjO 200
       (rootMask e6AllR.length (e6AllR.length + e6R.length) e6AdjNb i) 51 = true := by
-  decide +kernel
+  rw [e6AllR_length, e6R_length]
+  intro i hi
+  rw [← bnbR_pairGraph 72 e6AdjNb 2 1 _ e6Adj_nbP]
+  exact e6AdjAll i hi
 
 theorem e6AllR_iff : ∀ l : List ℤ, l ∈ Tag.E6.artifactRoots ↔ l ∈ e6AllR := by
   have h1 : ∀ l ∈ Tag.E6.artifactRoots, l ∈ e6AllR := by decide +kernel

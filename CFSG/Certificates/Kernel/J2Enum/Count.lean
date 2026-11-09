@@ -152,8 +152,8 @@ private theorem blk_eq (n w : ℕ) (LR TR : ℕ → ℕ) (BP G₀ R₁ R₂ : �
     sumF (rcnt (LR 0)) (blkCnt n w LR TR BP G₀ R₁ R₂) =
       tri (rcnt (LR 0)) (rcnt (LR 1)) (rcnt (LR 2)) fun a b c =>
         contrib w (mask w) BP R₁ R₂ fun p => pg w (mask w)
-          (pcomp n w (mask w) (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a)))
-            (TR (roff n (n * w) (LR 1) + b))) (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p) := by
+          (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a))) (pg w (mask w)
+            (TR (roff n (n * w) (LR 1) + b)) (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p)) := by
   rw [sumF_eq]
   unfold tri
   congr 1
@@ -165,8 +165,8 @@ private theorem blkU_eq (n w : ℕ) (LR TR : ℕ → ℕ) (BP G₀ : ℕ) :
     sumF (rcnt (LR 0)) (blkCntU n w LR TR BP G₀) =
       tri (rcnt (LR 0)) (rcnt (LR 1)) (rcnt (LR 2)) fun a b c =>
         nIf(fix3 w (mask w) BP (fun p => pg w (mask w)
-          (pcomp n w (mask w) (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a)))
-            (TR (roff n (n * w) (LR 1) + b))) (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p)) 2,
+          (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a))) (pg w (mask w)
+            (TR (roff n (n * w) (LR 1) + b)) (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p))) 2,
           1, 0) := by
   rw [sumF_eq]
   unfold tri
@@ -179,8 +179,8 @@ private theorem blkQ_eq (n w : ℕ) (LR TR : ℕ → ℕ) (BP G₀ R₁ R₂ q r
     sumF (rcnt (LR 0)) (blkCntQ n w LR TR BP G₀ R₁ R₂ q r s) =
       tri (rcnt (LR 0)) (rcnt (LR 1)) (rcnt (LR 2)) fun a b c =>
         contribQ w (mask w) BP R₁ R₂ q r s fun p => pg w (mask w)
-          (pcomp n w (mask w) (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a)))
-            (TR (roff n (n * w) (LR 1) + b))) (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p) := by
+          (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a))) (pg w (mask w)
+            (TR (roff n (n * w) (LR 1) + b)) (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p)) := by
   rw [sumF_eq]
   unfold tri
   congr 1
@@ -407,20 +407,20 @@ private theorem prod3_rep {n w : ℕ} {LR TR BP : ℕ → ℕ} {G : Subgroup (Eq
     (hG₀ : Raw.Orb.PRep n w G₀ υ) {a b c : ℕ} (ha : a < rcnt (LR 0)) (hb : b < rcnt (LR 1))
     (hc : c < rcnt (LR 2)) :
     ∃ g ∈ G, Raw.Orb.PRep n w (prod3 n w LR TR G₀ a b c) (υ * g) ∧
-      Acts n (fun p => pg w (mask w) (pcomp n w (mask w) (pcomp n w (mask w) G₀
-        (TR (roff n (n * w) (LR 0) + a))) (TR (roff n (n * w) (LR 1) + b)))
-          (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p)) (υ * g) := by
+      Acts n (fun p => pg w (mask w) (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + a)))
+        (pg w (mask w) (TR (roff n (n * w) (LR 1) + b))
+          (pg w (mask w) (TR (roff n (n * w) (LR 2) + c)) p))) (υ * g) := by
   have hn32 : n < 2 ^ 32 := by have := C.hn; omega
   obtain ⟨t0, h0, r0⟩ := C.tr 0 (by norm_num) a ha
   obtain ⟨t1, h1, r1⟩ := C.tr 1 (by norm_num) b hb
   obtain ⟨t2, h2, r2⟩ := C.tr 2 (by norm_num) c hc
-  have g2 := Raw.Orb.prep_pcomp hn32 (Raw.Orb.prep_pcomp hn32 hG₀ r0) r1
-  have X := Raw.Orb.prep_pcomp hn32 g2 r2
+  have g1 := Raw.Orb.prep_pcomp hn32 hG₀ r0
+  have X := Raw.Orb.prep_pcomp hn32 (Raw.Orb.prep_pcomp hn32 g1 r1) r2
   refine ⟨t0 * t1 * t2, mul_mem (mul_mem h0 h1) h2, ?_, ?_⟩
   · rw [show υ * (t0 * t1 * t2) = υ * t0 * t1 * t2 by simp only [mul_assoc]]
     exact X
-  · rw [show υ * (t0 * t1 * t2) = υ * t0 * t1 * t2 by simp only [mul_assoc]]
-    exact acts_comp (acts_pg g2) (acts_pg r2)
+  · rw [show υ * (t0 * t1 * t2) = υ * t0 * (t1 * t2) by simp only [mul_assoc]]
+    exact acts_comp (acts_pg g1) (acts_comp (acts_pg r1) (acts_pg r2))
 
 private theorem ch_of {n w kS kO BP NS CH : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {D : List (List ℤ)}
     {S : Array (Array ℕ)} {base : Array ℕ}

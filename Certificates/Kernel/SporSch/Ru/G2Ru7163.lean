@@ -76,10 +76,12 @@ theorem normB_iff {G E : ℕ → ℕ} {r m c : ℕ} (hc : c < 16384) {gG gE : �
       mul_inv_eq_iff_eq_mul]
     constructor
     · rintro ⟨h1, h0⟩
+      rw [← Equiv.Perm.mul_apply (gC c) (gG k), ← Equiv.Perm.mul_apply (gE e) (gC c)] at h1 h0
       exact eq_of_base (ruS.mul_mem hm (hGS k hk)) (ruS.mul_mem (hES e he) hm) h1 h0
     · intro h
-      exact ⟨congrArg (fun g : Equiv.Perm (Fin 4060) => g 1) h,
-        congrArg (fun g : Equiv.Perm (Fin 4060) => g 0) h⟩
+      constructor
+      · rw [← Equiv.Perm.mul_apply (gC c) (gG k), h, Equiv.Perm.mul_apply]
+      · rw [← Equiv.Perm.mul_apply (gC c) (gG k), h, Equiv.Perm.mul_apply]
   constructor
   · rintro ⟨e, he, h⟩
     have he' := List.mem_range.1 he

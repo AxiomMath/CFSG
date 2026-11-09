@@ -3,7 +3,7 @@ module
 public import Certificates.Kernel.Co1P.Defs21150Q
 public import Certificates.Kernel.Co1P.Q2Glue
 public import CFSG.Certificates.Kernel.Co1PPathMSound
-public import Certificates.Kernel.Co1P.Defs21150
+public import Certificates.Kernel.Co1P.Defs21150T
 public import Certificates.Kernel.Co1P.Defs21150S
 
 public section
@@ -134,20 +134,25 @@ theorem pt4M_eq (hr : recsEqK r4W (recsT orb4cMasks) 0 = true) (ht : allN 43 th4
     (conjL_get (repK 3) _ _ (l1.trans l2.symm)).2 i (by rw [l1]; exact hi')]
   rfl
 
+theorem eqK_trans' {X Y Z : Nat} (h1 : eqK X Y = true) (h2 : eqK Y Z = true) : eqK X Z = true := by
+  unfold eqK at *
+  rw [Nat.beq_eq] at *
+  exact h1.trans h2
+
 theorem exact_4c (hb : andB (Nat.beq (lenL BK) 8) (invsOK BK BIK) = true)
     (hr : recsEqK r4W (recsT orb4cMasks) 0 = true) (ht : allN 43 th4_chunk = true)
-    (hcl : ∀ c < 540, clos4C c = true) : exactOK orb4c (repRows 3) 34560 = true := by
+    (hcl : ∀ c < 540, clos4TC c = true) : exactOK orb4c (repRows 3) 34560 = true := by
   have hG := fun l (hl : l < 8) => brayArr_get hl
   have hGi := fun l (hl : l < 8) => brayInvArr_get hl
   have hlen4 : (ptsL BK BIK 8 (repK 3) (recsT orb4cMasks)).length = 34560 := by
     rw [ptsL_length walk4C_hs walk4C_his, recs4C_len]
-  have hcl' : ∀ c < 540, chunkK 34560 (clos4 (getL 0 J4 c)) c = true := by
+  have hcl' : ∀ c < 540, chunkK 34560 (clos4T (getL 0 J4 c)) c = true := by
     intro c hc
     have h := hcl c hc
-    unfold clos4C at h
+    unfold clos4TC at h
     rw [strictB_eq'] at h
     exact h
-  have hall := chunks_all' (F := fun c => clos4 (getL 0 J4 c)) (N := 34560) (nc := 540) (by decide) hcl'
+  have hall := chunks_all' (F := fun c => clos4T (getL 0 J4 c)) (N := 34560) (nc := 540) (by decide) hcl'
   unfold exactOK
   rw [Bool.and_eq_true, Bool.and_eq_true, beq_iff_eq]
   refine ⟨⟨orbOK_4c hb, ?_⟩, orb4c_size⟩
@@ -156,14 +161,19 @@ theorem exact_4c (hb : andB (Nat.beq (lenL BK) 8) (invsOK BK BIK) = true)
   · rw [orb4c, repRows_eq, treeT_eq]
     exact mkOrbT_get hG hGi walk4C_hs walk4C_his (by rw [recs4C_len]; exact hi)
   · have h := hall i hi
-    unfold clos4 at h
-    obtain ⟨h1, h2⟩ := CFSG.KC.TreeK.andB_true h
+    unfold clos4T at h
+    obtain ⟨h0, h2⟩ := CFSG.KC.TreeK.andB_true h
+    obtain ⟨h1, -⟩ := CFSG.KC.TreeK.andB_true h0
     rw [strictB_eq'] at h2
     have h3 := allN_true h2 l hl
     rw [strictB_eq'] at h3
     obtain ⟨h4, h5⟩ := CFSG.KC.TreeK.andB_true h3
-    obtain ⟨h6, h7⟩ := CFSG.KC.TreeK.andB_true h5
     have hj := lt_of_blt' h4
+    have hJ := hall _ hj
+    unfold clos4T at hJ
+    obtain ⟨hJ0, -⟩ := CFSG.KC.TreeK.andB_true hJ
+    obtain ⟨h6, hJ1⟩ := CFSG.KC.TreeK.andB_true hJ0
+    have h7 := eqK_trans' h5 hJ1
     rw [pt4M_eq hr ht hj h6, pt4M_eq hr ht hi h1] at h7
     rw [orb4c, repRows_eq, treeT_eq, contains_mkOrbT hG hGi walk4C_hs walk4C_his, List.any_eq_true]
     refine ⟨_, List.getElem_mem (by rw [hlen4]; exact hj), ?_⟩

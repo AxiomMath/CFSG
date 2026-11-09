@@ -11,6 +11,7 @@ public import CFSG.Sporadic.HeldB.HeBlocks
 public import CFSG.Sporadic.HeldB.OuterArithCheck
 public import CFSG.RankThree.PartOne.KS.HeFiveCheckInputs
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.RankThree.Native.ChainCentralizerOrb
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Sporadic.Schreier.PairHeClasses
 
@@ -143,31 +144,31 @@ theorem dgs : ∀ l < 2, Rep 8330 heFiveDGens0[l]! (gpD l) := by
   intro l hl
   rw [heFiveDGens0]
   interval_cases l
-  · rw [lit2_0, gpD, if_pos rfl]
+  · rw [lit2_0, gpD, ite_eq_left rfl]
     have h := rep_commutatorA (F2.validA_of_rep (Five.hgs 1 (by norm_num)))
       (F2.validA_of_rep (Five.hgs 2 (by norm_num)))
     rwa [CFSG.RankThree.Native.permOfArr_eq_of_rep (Five.hgs 1 (by norm_num)),
       CFSG.RankThree.Native.permOfArr_eq_of_rep (Five.hgs 2 (by norm_num))] at h
-  · rw [lit2_1, gpD, if_neg (by norm_num)]
+  · rw [lit2_1, gpD, ite_eq_right (by norm_num)]
     exact Five.hgs 2 (by norm_num)
 
 theorem dg : ∀ l < 2, RepF 8330 (gD l) (gpD l) := by
   intro l hl
   interval_cases l
-  · rw [gpD, if_pos rfl, commutatorElement_def]
+  · rw [gpD, ite_eq_left rfl, commutatorElement_def]
     have h := (repF_pa 9 (by norm_num)).comp ((repF_pa 10 (by norm_num)).comp
       ((repF_pi 9 (by norm_num)).comp (repF_pi 10 (by norm_num))))
     rw [← mul_assoc, ← mul_assoc] at h
     exact h
-  · rw [gpD, if_neg (by norm_num)]
+  · rw [gpD, ite_eq_right (by norm_num)]
     exact repF_pa 10 (by norm_num)
 
 theorem dg_inP : ∀ l < 2, gpD l ∈ heP := by
   intro l hl
   interval_cases l
-  · rw [gpD, if_pos rfl]
+  · rw [gpD, ite_eq_left rfl]
     exact comm_inP (Five.gp_mem 1 (by norm_num)) (Five.gp_mem 2 (by norm_num))
-  · rw [gpD, if_neg (by norm_num)]
+  · rw [gpD, ite_eq_right (by norm_num)]
     exact (Five.gp_par 2 (by norm_num)).2 rfl
 
 theorem pfaith : ∀ x ∈ heP, ∀ y ∈ heP, (x ∈ heP ↔ y ∈ heP) →
@@ -347,24 +348,127 @@ theorem fr_ok : ∀ i < 9, fr5 i = 0 ∨ ∃ l e, fr5 i = 8 * l + e + 1 ∧ l < 
     rw [← e]
     exact hr
 
+open CFSG.Certificates.ChainArrays (lev levPts levT) in
 theorem tail : ptailOK 8330 (rawLevels 8330 heFiveCase0Arrs heFiveCase0BaseArr)
     heFiveCase0BaseArr heFiveLines[0]! (powPA 5 8330 heFiveLines[0]!) heFiveCase0Rels
     heFiveC0Cert.pts.toList 9 0 (idA 8330) = true := by
-  refine ptailOK_of_ptK_ tc x0_rep x0_repF (fun r hr => ?_) fr_ok Five.bs_lt ?_ (by norm_num) kTail
-  · have h := List.all_eq_true.1 kRels r hr
+  have hrels5 : ∀ r ∈ heFiveCase0Rels, r.2.2 < 5 := fun r hr => by
+    have h := List.all_eq_true.1 kRels r hr
     unfold relAt at h
     rw [bAnd_iff, Nat.blt_eq] at h
     exact h.1
-  · intro a A ha hA ⟨j, hj, e⟩
+  have hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin 8330)), Rep 8330 a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin 11 => permOfArr 8330 heFiveCase0Arrs[j.val]!) →
+      (∃ j < 600, keyA 8330 heFiveKeys a = Five.key (Five.C0.SK j)) →
+      heFiveC0Cert.pts.toList.any (eqA 8330 a) = true := by
+    intro a A ha hA ⟨j, hj, e⟩
     have hR : A ∈ heAutGroup := by
       refine (Subgroup.closure_le _).2 ?_ hA
       rintro _ ⟨i, rfl⟩
-      exact faith0.2 i (by simpa [heFiveCase0Arrs] using i.2)
+      exact faith0.2 i (by simp [heFiveCase0Arrs])
     have hm := csk_lt j hj
     unfold Five.key Five.tv at e
     rw [← keyA_treeArr Five.tree Five.hg Five.hgs Five.keys_lt hm, ← c_get hm] at e
     have he := key_faith ha (c_rep hm) hR (c_mem hm).1 e
     exact any_mem (by rw [c_size]; exact hm) ((eqA_iff ha (c_rep hm)).2 he)
+  obtain ⟨hc', -, -, -⟩ := caseChainOK3_parts chain0
+  have hF := chainCheckFacts hc'
+  obtain ⟨Q, hA⟩ : ∃ Q : RawSchreierDatum 8330, ChainArrays Q (heFiveCase0Arrs.extract 0 3)
+      heFiveCase0Arrs heFiveCase0BaseArr heFiveCase0Words :=
+    ⟨_, chainArrays_ofArrays (hn := by norm_num) (k := 3) (hk := by simp [heFiveCase0Arrs])
+      (hb := (by decide : heFiveCase0Base.Nodup)) hF.strong_inv⟩
+  have hQ := (validSchreier_of_chainOK hA (by norm_num) hc').1
+  have hs : heFiveCase0BaseArr.size = 9 := by decide
+  have hb9 : Q.baseCount = 9 := hA.base_size.symm.trans hs
+  have hps : ∀ q ∈ heFiveKeys, q < 8330 := Five.keys_lt
+  have hK : Subgroup.closure (permsA 8330 heFiveC0Gens) ≤
+      Subgroup.centralizer {lp 0} ⊓ Q.originalSubgroup := by
+    rw [Subgroup.closure_le]
+    rintro _ ⟨k, hk, rfl⟩
+    have hk3 : k < 3 := hk
+    have hc := commA_R (Five.hgs k hk3) x0_rep (Five.hg k hk3) x0_repF (Five.gp_mem k hk3)
+      (heP_le_heAutGroup x0_inP) (allN_spec kComm k hk3)
+    change permOfArr 8330 heFiveC0Gens[k]! ∈ Subgroup.centralizer {lp 0} ⊓ Q.originalSubgroup
+    rw [CFSG.RankThree.Native.permOfArr_eq_of_rep (Five.hgs k hk3)]
+    refine Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 ?_, ?_⟩
+    · exact (commA_iff (Five.hgs k hk3) x0_rep).1 hc
+    · exact (siftA_iff_mem_originalSubgroup hA (by norm_num) hc' (Five.hgs k hk3)).1
+        ((sift0_iff (Five.hgs k hk3)).2 (Five.gp_mem k hk3))
+  have hKE : ∀ g ∈ Subgroup.closure (permsA 8330 heFiveC0Gens), ∃ e ∈ heFiveC0Cert.pts.toList,
+      Rep 8330 e g := by
+    intro g hg'
+    obtain ⟨i, hi, hre⟩ := enumOK_exists_rep hps c_enum hg'
+    refine ⟨heFiveC0Cert.pts[i]!, ?_, hre⟩
+    rw [getElem!_pos heFiveC0Cert.pts i hi, ← Array.getElem_toList]
+    exact List.getElem_mem _
+  have hEK : ∀ e ∈ heFiveC0Cert.pts.toList, ∃ g ∈ Subgroup.closure (permsA 8330 heFiveC0Gens),
+      Rep 8330 e g := by
+    intro e he
+    obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem he
+    have hi' : i < heFiveC0Cert.pts.size := by simpa using hi
+    have hv : validA 8330 heFiveC0Cert.pts.toList[i] = true := by
+      rw [Array.getElem_toList, ← getElem!_pos heFiveC0Cert.pts i hi']
+      exact (enumOK_spec hps c_enum).2.2 i hi'
+    exact ⟨_, enumOK_mem_of_mem hps c_enum (rep_of_validA hv) (List.getElem_mem _),
+      rep_of_validA hv⟩
+  have h0 : 0 < Q.baseCount := by omega
+  obtain ⟨hsz0, hpt0⟩ := tabChain_pts tc (i := 0) (by norm_num)
+  suffices htl : ptailOK 8330 (rawLevels 8330 heFiveCase0Arrs heFiveCase0BaseArr)
+      heFiveCase0BaseArr heFiveLines[0]! (powPA 5 8330 heFiveLines[0]!) heFiveCase0Rels
+      heFiveC0Cert.pts.toList Q.baseCount 0 (idA 8330) = true by
+    rw [hb9] at htl
+    exact htl
+  refine ptailOK_of_orbits_rel hA hF hQ x0_rep (rep_powPA x0_rep) (relsOKP_spec rels_ok) hK
+    hKE hEK h0 fun k hk => ?_
+  have hk' : k < rcnt (S50.LR 0) := by
+    rw [← hsz0]
+    exact hk
+  obtain ⟨hpk, hqn⟩ := hpt0 k hk'
+  have ho := allN_spec kOrb5 k hk'
+  by_cases hfx : x0 (p50 k) = p50 k
+  · right
+    have hb : Nat.beq (x0 (p50 k)) (p50 k) = true := by
+      rw [hfx]
+      exact Nat.beq_refl _
+    rw [hb] at ho
+    change bAnd(Nat.blt (Nat.mod (ep5 k) 1024) 600, bAnd(Nat.blt (Nat.div (ep5 k) 1024) nr5,
+      Nat.beq (Five.tv (Nat.mod (ep5 k) 1024) (p50 (rb5 (Nat.div (ep5 k) 1024)))) (p50 k))) =
+      true at ho
+    rw [bAnd_iff, bAnd_iff, Nat.blt_eq, Nat.blt_eq] at ho
+    obtain ⟨hj, hr, he⟩ := ho
+    have hrb' : rb5 (Nat.div (ep5 k) 1024) < rcnt (S50.LR 0) :=
+      Nat.blt_eq.mp (allN_spec kRb5 (Nat.div (ep5 k) 1024) hr)
+    obtain ⟨hpr, -⟩ := hpt0 _ hrb'
+    have hrs : rb5 (Nat.div (ep5 k) 1024) <
+        (lev 8330 heFiveCase0Arrs heFiveCase0BaseArr 0).pts.size := by
+      change _ < ((rawLevels 8330 heFiveCase0Arrs heFiveCase0BaseArr)[0]!).pts.size
+      rw [hsz0]
+      exact hrb'
+    refine ⟨rb5 (Nat.div (ep5 k) 1024), hrs, cT (Nat.mod (ep5 k) 1024),
+      enumOK_mem hps c_enum (by rw [c_size]; exact hj) (c_rep hj), ?_, ?_⟩
+    · apply Fin.ext
+      have hv := c_repF hj _ (levPts Q heFiveCase0Arrs heFiveCase0BaseArr 0
+        (rb5 (Nat.div (ep5 k) 1024))).2
+      simp only [Fin.eta] at hv
+      rw [← hv, hA.levPts_val hF h0 hrs, hA.levPts_val hF h0 hk]
+      change Five.tv (Nat.mod (ep5 k) 1024) ((rawLevels 8330 heFiveCase0Arrs
+        heFiveCase0BaseArr)[0]!).pts[rb5 (Nat.div (ep5 k) 1024)]! =
+        ((rawLevels 8330 heFiveCase0Arrs heFiveCase0BaseArr)[0]!).pts[k]!
+      rw [hpr, hpk]
+      exact Nat.eq_of_beq_eq_true he
+    · rw [hb9]
+      exact ptailOK1_of_ptK tc x0_rep x0_repF hrels5 fr_ok Five.bs_lt hE (by norm_num) hrb'
+        (allN_spec kTail _ hr)
+  · left
+    rw [Bool.eq_false_iff]
+    intro h
+    unfold relOK at h
+    have h1 := List.all_eq_true.1 h (0, 0, 1) (by decide)
+    simp only [relImg, lt_irrefl, ↓reduceIte, max_self, decide_true, Bool.not_true,
+      Bool.false_or, beq_iff_eq] at h1
+    rw [hpk, idA_get hqn] at h1
+    rw [(rep_powPA x0_rep 1 (by simp [powPA])).apply hqn, pow_one, ← x0_repF _ hqn] at h1
+    exact hfx h1.symm
 
 theorem cent : centOKP 5 8330 heFiveCase0Arrs heFiveCase0BaseArr heFiveLines[0]!
     heFiveCase0Rels heFiveC0Gens heFiveKeys heFiveC0Cert 600 = true := by

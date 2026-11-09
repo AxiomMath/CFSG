@@ -113,18 +113,24 @@ theorem nodup : fi22OuterMPointsNat.Nodup := by
     rw [e, Nat.beq_refl] at this
     exact Bool.false_ne_true this
 
-theorem cuinv {y : Nat} (hy : y < 693) :
-    (invCand 693 (fi22OuterArr693 0))[y]! = pg 10 (mask 10) Inv693.inv0 y := by
-  have r0 := rep_fi22OuterPerm693 (L := 0) (by norm_num)
+theorem cuinv_gen {A : Array ℕ} {σ : Equiv.Perm (Fin 693)} {L I : ℕ}
+    (r0 : CFSG.Monster.B.Co2.Rep 693 A σ)
+    (hA : ∀ i : Fin 693, pg 10 (mask 10) L i = A[(i : ℕ)]!)
+    (hI : ∀ i < 693, pg 10 (mask 10) I (pg 10 (mask 10) L i) = i) {y : ℕ} (hy : y < 693) :
+    (invCand 693 A)[y]! = pg 10 (mask 10) I y := by
   have ri := rep_invCand r0
   rw [ri ⟨y, hy⟩]
-  set i := (fi22OuterPerm693 0)⁻¹ ⟨y, hy⟩ with hi
-  have e : pg 10 (mask 10) (Fi22O693T.L 0) i = y := by
-    rw [← Orb.unpack_get i.2, ← Fi22F1O.arr693_eq (by norm_num), r0 i, hi]
-    simp
-  have hinv := Nat.eq_of_beq_eq_true (allN_spec MK.inv i i.2)
+  have key : σ (σ⁻¹ ⟨y, hy⟩) = ⟨y, hy⟩ := σ.apply_symm_apply _
+  have e : pg 10 (mask 10) L (σ⁻¹ ⟨y, hy⟩) = y := by rw [hA, r0, key]
+  have hinv := hI _ (σ⁻¹ ⟨y, hy⟩).2
   rw [e] at hinv
   exact hinv.symm
+
+theorem cuinv {y : Nat} (hy : y < 693) :
+    (invCand 693 (fi22OuterArr693 0))[y]! = pg 10 (mask 10) Inv693.inv0 y :=
+  cuinv_gen (rep_fi22OuterPerm693 (L := 0) (by norm_num))
+    (fun i => by rw [← Orb.unpack_get i.2, ← Fi22F1O.arr693_eq (by norm_num)])
+    (fun i hi => Nat.eq_of_beq_eq_true (allN_spec MK.inv i hi)) hy
 
 theorem restrict : ∀ k < 3, ∀ j < 693,
     fi22OuterMPointsNat.getD ((invCand 693 (fi22OuterArr693 0))[

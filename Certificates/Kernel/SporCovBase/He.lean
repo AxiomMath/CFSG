@@ -10,19 +10,19 @@ public import Certificates.Data.Kernel.Spor.PEnum
 public import Certificates.Kernel.HeOrb.Data
 public import Certificates.Kernel.HeTab.Data
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.He.F3 "Certificates/Kernel/SporCovBase/data/he3.json.gz" 2608
+#kc_repo #kc_json CFSG.KD.SporCovBase.He.F3 "Certificates/Kernel/SporCovBase/data/he3.json" 2608
   12794876632364487936
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))
   (K : List Nat) (C : List (List Nat)) (R : List (List Nat)) (GZ : List Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.He.F5 "Certificates/Kernel/SporCovBase/data/he5.json.gz" 4150
+#kc_repo #kc_json CFSG.KD.SporCovBase.He.F5 "Certificates/Kernel/SporCovBase/data/he5.json" 4150
   1226357633754216699
   (G1 : List Nat) (G2 : List Nat) (T : List Nat) (M : List (List Nat)) (Y : List (List Nat))
   (H : List (List Nat)) (Yc : List (List Nat)) (K : List Nat) (C : List (List Nat))
   (R : List (List Nat))
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.He.F7 "Certificates/Kernel/SporCovBase/data/he7.json.gz" 3305
+#kc_repo #kc_json CFSG.KD.SporCovBase.He.F7 "Certificates/Kernel/SporCovBase/data/he7.json" 3305
   6819540877619384230
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))

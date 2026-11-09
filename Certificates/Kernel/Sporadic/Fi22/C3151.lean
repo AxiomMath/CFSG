@@ -193,25 +193,25 @@ theorem seen
       have := hcl (SV (PR k)) (by rw [sz_eq]; exact hpl) ihp (GN k) (by simp [size4]; omega)
       rwa [dec_eq, coord_conj hs hl hpl c2, idx_xN hl] at this
 
-theorem wit_ok :
+private theorem wit_ok_core (W : Array (ℕ × ℕ × ℕ × ℕ)) (Sn : Array Bool)
+    (hval : ∀ i < CS3.sz fi22TLevels, Sn[i]! = true →
+      CS3.Valid 3510 fi22TLevels (fi22OuterStrong3510 7) (CS3.dec fi22TLevels i) W[i]!.1
+        (W[i]!.2.1, W[i]!.2.2.1, W[i]!.2.2.2))
+    (hseen : ∀ k < 3263, Sn[SV k]! = true) :
     ∀ x : Fin 1024 × Fin 32 × Fin 4, isInv3 fi22TLevels 3510 x.1 x.2.1 x.2.2 = true →
-      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).1 < 54 ∧
-      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.1 < 1024 ∧
-      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.1 < 32 ∧
-      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.2 < 4 ∧
+      (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).1 < 54 ∧
+      (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.1 < 1024 ∧
+      (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.1 < 32 ∧
+      (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.2 < 4 ∧
       conjOK3 fi22TLevels 3510
-        (fi22OuterStrong3510 7)[(fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).1]!
+        (fi22OuterStrong3510 7)[(W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).1]!
         x.1 x.2.1 x.2.2
-        (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.1
-        (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.1
-        (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.2 = true := by
-  obtain ⟨Sn, hval, hroot, hcl⟩ := CS3.conjSearch3_spec hyp
-  have hseen := seen Sn hroot hcl
+        (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.1
+        (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.1
+        (W[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.2 = true := by
   intro x hx
   have e0 : (x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val = iX x := rfl
-  have ew : fi22CoverWit = conjSearch3 3510 fi22TLevels #[0, 1, 2, 3, 6, 4]
-      ((fi22OuterStrong3510 4).extract 0 9) (fi22OuterStrong3510 7) := rfl
-  rw [e0, ew]
+  rw [e0]
   have hl := iX_lt x
   have hxI : invB (iX x / 128) (iX x / 4 % 32) (iX x % 4) = true := by
     rw [invB_xF hl, xF_iX]
@@ -226,6 +226,21 @@ theorem wit_ok :
   rw [inR_iff] at ht
   rw [size7] at hj
   exact ⟨hj, ht.1, ht.2.1, ht.2.2, hok⟩
+
+theorem wit_ok :
+    ∀ x : Fin 1024 × Fin 32 × Fin 4, isInv3 fi22TLevels 3510 x.1 x.2.1 x.2.2 = true →
+      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).1 < 54 ∧
+      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.1 < 1024 ∧
+      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.1 < 32 ∧
+      (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.2 < 4 ∧
+      conjOK3 fi22TLevels 3510
+        (fi22OuterStrong3510 7)[(fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).1]!
+        x.1 x.2.1 x.2.2
+        (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.1
+        (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.1
+        (fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!).2.2.2 = true := by
+  obtain ⟨Sn, hval, hroot, hcl⟩ := CS3.conjSearch3_spec hyp
+  exact wit_ok_core fi22CoverWit Sn hval (seen Sn hroot hcl)
 
 theorem u_inv
     {j : Nat} (hj : j < 54) : orderOf (fi22TProd (xF (RT j))) = 2 := by

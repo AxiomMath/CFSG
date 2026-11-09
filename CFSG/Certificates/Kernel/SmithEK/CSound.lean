@@ -49,12 +49,12 @@ theorem ptImg_eq {R : Nat → Nat} (hn : uPts.size = 693)
   rw [e, CFSG.KC.U6.Snd.fget_eq, Nat.mul_comm a 10]
   all_goals norm_num
 
-theorem bounds_of {C : List (List Nat)} {R : Nat → Nat} (h : chkCF C R = true) :
+theorem bounds_of {C : List (List Nat)} {R : Nat → Nat} (h : chkCTree C R = true) :
     C.length = 693 ∧
       ∀ k < 693, (C.getD k []).length = 20 ∧ ∀ m < 20, (C.getD k []).getD m 0 < 2 ^ 20 := by
-  unfold chkCF at h
+  unfold chkCTree at h
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, decide_eq_true_eq] at h
-  obtain ⟨⟨hl, hc⟩, -⟩ := h
+  obtain ⟨⟨⟨hl, hc⟩, -⟩, -⟩ := h
   refine ⟨hl, fun k hk => ?_⟩
   have hmem : C.getD k [] ∈ C := by
     rw [List.getD_eq_getElem _ _ (by omega)]
@@ -62,18 +62,29 @@ theorem bounds_of {C : List (List Nat)} {R : Nat → Nat} (h : chkCF C R = true)
   obtain ⟨h20, hlt⟩ := hc _ hmem
   exact ⟨h20, fun m hm => hlt _ (getD_mem (by rw [h20]; exact hm))⟩
 
-theorem rows_of {C : List (List Nat)} {R : Nat → Nat} (h : chkCF C R = true) :
+theorem rows_of {C : List (List Nat)} {R : Nat → Nat} (h : chkCTree C R = true) :
     ∀ j < 693, (∀ m < 20, applyL (C.getD j []) ((C.getD j []).getD m 0) = 2 ^ m) ∧
       ∀ a < 693, fldR R j a < 693 ∧ ∀ m < 20,
         applyL (C.getD j []) (applyL (C.getD a []) ((C.getD j []).getD m 0)) =
           (C.getD (fldR R j a) []).getD m 0 := by
   obtain ⟨hl, hc⟩ := bounds_of h
-  unfold chkCF at h
+  unfold chkCTree at h
   simp only [Bool.and_eq_true] at h
-  exact rowsC_sound hl hc h.2
+  obtain ⟨⟨-, hg⟩, ht⟩ := h
+  have hG := cctGen_get _ hg
+  have hall := cctTree_get (R := R) (fun i => i < 693 ∧ cctLane C R i)
+    (fun g p j Pg Pp hj hR => by
+      have hj' : j < 693 := by
+        rw [← hj]
+        exact (Pg.2.2 p Pp.1).1
+      exact ⟨hj', cctStep hl hc Pg.1 Pp.1 hj' Pg.2 Pp.2 hj hR⟩)
+    _ _ _ _ ht (fun i hi => by
+      obtain ⟨h1, h2⟩ := hG i (cctMask_bit _ i hi)
+      exact ⟨h1, rowC_lanes hl hc h1 h2⟩)
+  exact fun j hj => (hall j hj).2
 
 theorem chkTvInv_of {C : List (List Nat)} {R : Nat → Nat}
-    (hT : ∀ k, tvArr[k]! = (C.getD k []).toArray) (h : chkCF C R = true) : chkTvInv = true := by
+    (hT : ∀ k, tvArr[k]! = (C.getD k []).toArray) (h : chkCTree C R = true) : chkTvInv = true := by
   obtain ⟨-, hc⟩ := bounds_of h
   have hr := rows_of h
   unfold chkTvInv
@@ -88,7 +99,7 @@ theorem chkTvConj_of {C : List (List Nat)} {R : Nat → Nat}
     (hT : ∀ k, tvArr[k]! = (C.getD k []).toArray) (hn : uPts.size = 693)
     (hR : ∀ m < 693, ∀ q < 693,
       ap (CFSG.KC.U6.tvTabsG uPts uPos)[m]! q = CFSG.KLie.CT.fget (R m) q 10)
-    (h : chkCF C R = true) : chkTvConj = true := by
+    (h : chkCTree C R = true) : chkTvConj = true := by
   have hr := rows_of h
   unfold chkTvConj
   rw [List.all_eq_true]

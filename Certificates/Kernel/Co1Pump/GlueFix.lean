@@ -116,7 +116,7 @@ theorem fix_facts {M J : ℕ} {F : List (ℕ × ℕ × ℕ)} (h : entsK M J F 0 
   · have e : {v : Vec24 | rowsMatrix 24 (unpack 24 24 M) *ᵥ v = v} =
         toVecD 24 '' {x | x ∈ L ∧ True} := by
       ext v
-      rw [Set.mem_setOf_eq, hfix]
+      rw [Set.mem_ofPred_eq, hfix]
       simp
     rw [Nat.card_coe_set_eq, e, (hinj _).ncard_image]
     have e2 : {x | x ∈ L ∧ True} = (L.toFinset : Set ℕ) := by ext; simp
@@ -124,7 +124,7 @@ theorem fix_facts {M J : ℕ} {F : List (ℕ × ℕ × ℕ)} (h : entsK M J F 0 
   · have e : S ∩ {v : Vec24 | rowsMatrix 24 (unpack 24 24 M) *ᵥ v = v} =
         toVecD 24 '' {x | x ∈ L ∧ mem x = true} := by
       ext v
-      rw [Set.mem_inter_iff, Set.mem_setOf_eq, hfix]
+      rw [Set.mem_inter_iff, Set.mem_ofPred_eq, hfix]
       constructor
       · rintro ⟨hv, x, hx, rfl⟩
         exact ⟨x, ⟨hx, (hmem x (hlt x hx)).2 hv⟩, rfl⟩
@@ -163,6 +163,39 @@ theorem orbit_eq_certX (h : CFSG.KC.F2Set24.orbOK CFSG.KD.Co1KOrb.cY CFSG.KD.Co1
   rintro _ ⟨g, hg, rfl⟩
   rw [CertificateChecks.KernelCo1KOrb.closure_inv_eq] at hg
   exact mulVec_mem_certX (K_le_GA hg) two_mem_certX
+
+theorem mem_certX_iff_orb {S : ℕ} (hback : ∀ q < 2 ^ 24, S.testBit q = true →
+      CFSG.KS.F2Set24.Back (CFSG.Sporadic.SmallF2.Native.vecMulN 24 CFSG.KD.Co1KOrb.cY.toArray)
+        (CFSG.Sporadic.SmallF2.Native.vecMulN 24 CFSG.KD.Co1KOrb.cT.toArray) 2 q)
+    (hcard : ((Finset.range (2 ^ 24)).filter (fun v => S.testBit v = true)).card = 98280) :
+    ∀ x < 2 ^ 24, toVecD 24 x ∈ certX ↔ S.testBit x = true := by
+  set T := (Finset.range (2 ^ 24)).filter (fun v => S.testBit v = true) with hT
+  have hmem : ∀ v, v ∈ T ↔ v < 2 ^ 24 ∧ S.testBit v = true := fun v => by simp [T]
+  have horb : toVecD 24 '' (T : Set ℕ) ⊆
+      kOrbit (Subgroup.closure {ThreeLocal.y⁻¹, ThreeLocal.t⁻¹}) (toVecD 24 2) := by
+    rintro _ ⟨v, hv, rfl⟩
+    have hv' := (hmem v).1 hv
+    exact CFSG.KS.F2Set24.back_mem CertificateChecks.KernelCo1KOrb.actsBy_yInv
+      CertificateChecks.KernelCo1KOrb.actsBy_tInv (hback v hv'.1 hv'.2)
+  have hsub : kOrbit (Subgroup.closure {ThreeLocal.y⁻¹, ThreeLocal.t⁻¹}) (toVecD 24 2) ⊆ certX := by
+    rintro _ ⟨g, hg, rfl⟩
+    rw [CertificateChecks.KernelCo1KOrb.closure_inv_eq] at hg
+    exact mulVec_mem_certX (K_le_GA hg) two_mem_certX
+  have hinj : Set.InjOn (toVecD 24) (T : Set ℕ) := fun a ha b hb e =>
+    toVecD_injective ((hmem a).1 ha).1 ((hmem b).1 hb).1 e
+  have heq : toVecD 24 '' (T : Set ℕ) = certX :=
+    Set.eq_of_subset_of_ncard_le (horb.trans hsub)
+      (by rw [ncard_certX, hinj.ncard_image, Set.ncard_coe_finset, hcard]) certX_finite
+  intro x hx
+  constructor
+  · intro h
+    rw [← heq] at h
+    obtain ⟨v, hv, hvx⟩ := h
+    rw [← toVecD_injective ((hmem v).1 hv).1 hx hvx]
+    exact ((hmem v).1 hv).2
+  · intro h
+    rw [← heq]
+    exact ⟨x, (hmem x).2 ⟨hx, h⟩, rfl⟩
 
 @[expose] noncomputable def wsW : List ℕ := grayWs ch36909WB ch36909gray 0
 
@@ -229,13 +262,22 @@ theorem w_facts :
       omega
     · rintro ⟨w, hw, rfl⟩
       rw [rows_mulVec, (hws w hw).1]
-  have hb := blockOK_sound CertificateChecks.KernelCo1KOrb.actsBy_yInv
-    CertificateChecks.KernelCo1KOrb.actsBy_tInv ch36909b (by decide +kernel) (by decide +kernel)
-  rw [orbit_eq_certX hb.1] at hb
+  obtain ⟨S, hI, hcard, hblk⟩ := ch36909orb
+  have hS := mem_certX_iff_orb hI.2 hcard
   intro x hx hxW
   obtain ⟨x0, hx0, rfl⟩ := CFSG.KC.Co1Orb.toVecD_surj24 x
   have hx0W : x0 ∉ wsW := fun h => hxW ((hfixW _).2 ⟨x0, h, rfl⟩)
-  have h9 := hb.2 x0 hx0 hx hx0W
+  have hWB : ∀ b ∈ ch36909WB, b < 2 ^ 24 := by decide +kernel
+  have h9 : ((wsW.toFinset.filter fun w => toVecD 24 (x0 ^^^ w) ∈ certX : Finset ℕ)).card ≤ 9 := by
+    refine le_trans ?_ (hblk x0 hx0 ((hS x0 hx0).1 hx) hx0W)
+    rw [List.countP_eq_length_filter]
+    refine le_trans (Finset.card_le_card ?_) (List.toFinset_card_le _)
+    intro w hw
+    rw [Finset.mem_filter, List.mem_toFinset] at hw
+    rw [List.mem_toFinset, List.mem_filter]
+    refine ⟨hw.1, ?_⟩
+    have hwl := CFSG.KS.Co1PumpFix.grayWs_lt hWB ch36909gray 0 (by positivity) w hw.1
+    simpa using (hS _ (Nat.xor_lt_two_pow hx0 hwl)).1 hw.2
   have hsub : {y | y ∈ certX ∧ y - toVecD 24 x0 ∈
       {v : Vec24 | rowsMatrix 24 (unpack 24 24 R2) *ᵥ v = v}} ⊆
       (fun w => toVecD 24 (x0 ^^^ w)) ''
@@ -246,7 +288,7 @@ theorem w_facts :
       rw [toVecD_xor, hwy]
       abel
     refine ⟨w, ?_, hy'⟩
-    simp only [Finset.coe_filter, List.mem_toFinset, Set.mem_setOf_eq]
+    simp only [Finset.coe_filter, List.mem_toFinset, Set.mem_ofPred_eq]
     exact ⟨hw, hy' ▸ hy⟩
   calc _ ≤ _ := Set.ncard_le_ncard hsub (Set.toFinite _)
     _ ≤ _ := Set.ncard_image_le (Set.toFinite _)

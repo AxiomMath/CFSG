@@ -11,7 +11,7 @@ namespace CertificateChecks.KernelK133
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.BfsPin
 
-@[expose] noncomputable def GB.SK : List Nat := (List.range 14400).map GB.SKT
+@[expose] noncomputable def GB.SK : List Nat := (List.range 14400).map GB.K
 
 theorem gbKeys : keysSK 256 9 [4, 1, 8, 16] GB.N GB.T GB.SK = true := by quickRfl
 

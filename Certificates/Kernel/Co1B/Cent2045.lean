@@ -24,9 +24,9 @@ open CFSG.KS.Raw CFSG.KS.SporSch.M24 CFSG.KS.SporSch.VOrb CFSG.Sporadic.Co1Schre
 theorem kb0 : Nat.beq (D1.M 0) PA = true := by quickRfl
 theorem kb1 : Nat.beq (D1.M 1) PB = true := by quickRfl
 theorem kb2 : Nat.beq (D1.M 2) PA = true := by quickRfl
-theorem kD1 : dagIK D1.M D1.MI 3 43 twoBD1 = true := by quickRfl
+theorem kD1 : dagIWK D1.M D1.MI 3 43 twoBD1 = true := by quickRfl
 theorem kBind : bindK D1.M D2.M twoBBray = true := by quickRfl
-theorem kD2 : dagIK D2.M D2.MI 10 22 twoBD2 = true := by quickRfl
+theorem kD2 : dagIWK D2.M D2.MI 10 22 twoBD2 = true := by quickRfl
 theorem kC : commK D1.M PA twoBBray = true := by quickRfl
 theorem kI : twoBBray.all (fun j => decide (3 < j) && decide (j ≤ 43)) = true := by quickRfl
 
@@ -42,17 +42,17 @@ theorem base_eq : [aR, bR, aR] = (List.range 3).map fun i => unpack 24 24 (D1.M 
 
 theorem twoB_cent_check : centCheckOf aR twoBD1 twoBBray twoBD2 twoBVBase twoBVGens
     twoBVSizes = true := by
-  refine centCheckOf_of_K (P := PA) aR_u base_eq kD1 kI kBind kD2 kC ?_ ?_
+  refine centCheckOf_of_W (P := PA) aR_u base_eq kD1 kI kBind kD2 kC ?_ ?_
   · intro i hi
     have : i < 4 := by simpa [twoBVBase] using hi
     interval_cases i <;> decide
   · intro i hi
     have : i < 4 := by simpa [twoBVBase] using hi
     interval_cases i
-    · exact ⟨_, _, _, _, _, 512, TW0.hd0, TW0.hc0, TW0.hn0, by decide, TW0.hl0, TW0.hp0, f0⟩
-    · exact ⟨_, _, _, _, _, 512, TW1.hd0, TW1.hc0, TW1.hn0, by decide, TW1.hl0, TW1.hp0, f1⟩
-    · exact ⟨_, _, _, _, _, 512, TW2.hd0, TW2.hc0, TW2.hn0, by decide, TW2.hl0, TW2.hp0, f2⟩
-    · exact ⟨_, _, _, _, _, 512, TW3.hd0, TW3.hc0, TW3.hn0, by decide, TW3.hl0, TW3.hp0, f3⟩
+    · exact ⟨_, _, _, _, _, 128, TW0.hd0, TW0.hc0, TW0.hn0, by decide, TW0.hl0, TW0.hp0, f0⟩
+    · exact ⟨_, _, _, _, _, 128, TW1.hd0, TW1.hc0, TW1.hn0, by decide, TW1.hl0, TW1.hp0, f1⟩
+    · exact ⟨_, _, _, _, _, 128, TW2.hd0, TW2.hc0, TW2.hn0, by decide, TW2.hl0, TW2.hp0, f2⟩
+    · exact ⟨_, _, _, _, _, 128, TW3.hd0, TW3.hc0, TW3.hn0, by decide, TW3.hl0, TW3.hp0, f3⟩
 
 end CertificateChecks.KernelCo1B.Cent2045
 

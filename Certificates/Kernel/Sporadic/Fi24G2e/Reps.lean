@@ -255,46 +255,55 @@ theorem τ_GWL_sq {i : ℕ} (hi : i < 7) : τ ((GWL i).map g0).prod * τ ((GWL i
       (τ ((GCL i).map g0).prod)⁻¹ := by group
     _ = 1 := by rw [h, mul_one, mul_inv_cancel]
 
+private theorem pstepS {Z : ℕ} {a b : ℕ} {s : ℕ} (hs : s < 21)
+    (hA : Cn (RX (ZPAs s)) ∧ Mt (RX (ZPAs s)) = Mt Z ^ a)
+    (hB : Cn (RX (ZPBs s)) ∧ Mt (RX (ZPBs s)) = Mt Z ^ b) :
+    Cn (RX (ZPCs s)) ∧ Mt (RX (ZPCs s)) = Mt Z ^ (a + b) :=
+  pstep hA hB (CFSG.KD.Fi24G2e.RZ.P.all s hs)
+
+private theorem pfinS {Z : ℕ} {a b : ℕ} (n : ℕ) (hn : a + b = n) {s : ℕ} (hs : s < 7)
+    (hA : Cn (RX (ZFAs s)) ∧ Mt (RX (ZFAs s)) = Mt Z ^ a)
+    (hB : Cn (RX (ZFBs s)) ∧ Mt (RX (ZFBs s)) = Mt Z ^ b) : Mt Z ^ n = 1 :=
+  pfin n hn hA hB (CFSG.KD.Fi24G2e.RZ.F.all s hs)
+
 theorem zz_pow {i : ℕ} (hi : i < 7) : Mt (ZZ i) ^ nO i = 1 := by
   have cz : ∀ j < 7, Cn (ZZ j) := fun j hj => cn_of_beq (cn_REP hj) (YY_facts hj).1 (z_all j hj)
-  have P := CFSG.KD.Fi24G2e.RZ.P.all
-  have F := CFSG.KD.Fi24G2e.RZ.F.all
   interval_cases i
   · have p0 : Cn (ZZ 0) ∧ Mt (ZZ 0) = Mt (ZZ 0) ^ 1 := ⟨cz 0 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 0 (by norm_num))
-    have p2 := pstep p1 p1 (P 1 (by norm_num))
-    exact pfin _ (by decide) p2 p0 (F 0 (by norm_num))
+    have p1 := pstepS (s := 0) (by norm_num) p0 p0
+    have p2 := pstepS (s := 1) (by norm_num) p1 p1
+    exact pfinS _ (by decide) (s := 0) (by norm_num) p2 p0
   · have p0 : Cn (ZZ 1) ∧ Mt (ZZ 1) = Mt (ZZ 1) ^ 1 := ⟨cz 1 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 2 (by norm_num))
-    have p2 := pstep p1 p1 (P 3 (by norm_num))
-    exact pfin _ (by decide) p2 p0 (F 1 (by norm_num))
+    have p1 := pstepS (s := 2) (by norm_num) p0 p0
+    have p2 := pstepS (s := 3) (by norm_num) p1 p1
+    exact pfinS _ (by decide) (s := 1) (by norm_num) p2 p0
   · have p0 : Cn (ZZ 2) ∧ Mt (ZZ 2) = Mt (ZZ 2) ^ 1 := ⟨cz 2 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 4 (by norm_num))
-    have p2 := pstep p1 p0 (P 5 (by norm_num))
-    have p3 := pstep p2 p2 (P 6 (by norm_num))
-    have p4 := pstep p3 p2 (P 7 (by norm_num))
-    have p5 := pstep p4 p4 (P 8 (by norm_num))
-    exact pfin _ (by decide) p5 p4 (F 2 (by norm_num))
+    have p1 := pstepS (s := 4) (by norm_num) p0 p0
+    have p2 := pstepS (s := 5) (by norm_num) p1 p0
+    have p3 := pstepS (s := 6) (by norm_num) p2 p2
+    have p4 := pstepS (s := 7) (by norm_num) p3 p2
+    have p5 := pstepS (s := 8) (by norm_num) p4 p4
+    exact pfinS _ (by decide) (s := 2) (by norm_num) p5 p4
   · have p0 : Cn (ZZ 3) ∧ Mt (ZZ 3) = Mt (ZZ 3) ^ 1 := ⟨cz 3 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 9 (by norm_num))
-    exact pfin _ (by decide) p1 p0 (F 3 (by norm_num))
+    have p1 := pstepS (s := 9) (by norm_num) p0 p0
+    exact pfinS _ (by decide) (s := 3) (by norm_num) p1 p0
   · have p0 : Cn (ZZ 4) ∧ Mt (ZZ 4) = Mt (ZZ 4) ^ 1 := ⟨cz 4 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 10 (by norm_num))
-    exact pfin _ (by decide) p1 p0 (F 4 (by norm_num))
+    have p1 := pstepS (s := 10) (by norm_num) p0 p0
+    exact pfinS _ (by decide) (s := 4) (by norm_num) p1 p0
   · have p0 : Cn (ZZ 5) ∧ Mt (ZZ 5) = Mt (ZZ 5) ^ 1 := ⟨cz 5 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 11 (by norm_num))
-    have p2 := pstep p1 p1 (P 12 (by norm_num))
-    have p3 := pstep p2 p2 (P 13 (by norm_num))
-    have p4 := pstep p3 p1 (P 14 (by norm_num))
-    exact pfin _ (by decide) p4 p0 (F 5 (by norm_num))
+    have p1 := pstepS (s := 11) (by norm_num) p0 p0
+    have p2 := pstepS (s := 12) (by norm_num) p1 p1
+    have p3 := pstepS (s := 13) (by norm_num) p2 p2
+    have p4 := pstepS (s := 14) (by norm_num) p3 p1
+    exact pfinS _ (by decide) (s := 5) (by norm_num) p4 p0
   · have p0 : Cn (ZZ 6) ∧ Mt (ZZ 6) = Mt (ZZ 6) ^ 1 := ⟨cz 6 (by norm_num), (pow_one _).symm⟩
-    have p1 := pstep p0 p0 (P 15 (by norm_num))
-    have p2 := pstep p1 p0 (P 16 (by norm_num))
-    have p3 := pstep p2 p2 (P 17 (by norm_num))
-    have p4 := pstep p3 p3 (P 18 (by norm_num))
-    have p5 := pstep p4 p4 (P 19 (by norm_num))
-    have p6 := pstep p5 p3 (P 20 (by norm_num))
-    exact pfin _ (by decide) p6 p2 (F 6 (by norm_num))
+    have p1 := pstepS (s := 15) (by norm_num) p0 p0
+    have p2 := pstepS (s := 16) (by norm_num) p1 p0
+    have p3 := pstepS (s := 17) (by norm_num) p2 p2
+    have p4 := pstepS (s := 18) (by norm_num) p3 p3
+    have p5 := pstepS (s := 19) (by norm_num) p4 p4
+    have p6 := pstepS (s := 20) (by norm_num) p5 p3
+    exact pfinS _ (by decide) (s := 6) (by norm_num) p6 p2
 
 theorem nO_odd {i : ℕ} (hi : i < 7) : nO i = 2 * ((nO i - 1) / 2) + 1 := by
   interval_cases i <;> rfl

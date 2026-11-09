@@ -37,13 +37,20 @@ theorem wmP_eq {i : Nat} (hi : i < 1395) : fldW 64 wmP i = wMask i := by
   rw [e, wMask_eq hi, getD_of_lt (by rw [wmk_length]; exact hi)]
 
 theorem close_rows : ∀ s < 6, closeRowK (tcl.getD (gns.getD s 0) []) (fldW 12 tcP (gns.getD s 0))
-    (gpP.getD s 0) wtP wmP = true
-  | 0, _ => close_ok0
-  | 1, _ => close_ok1
-  | 2, _ => close_ok2
-  | 3, _ => close_ok3
-  | 4, _ => close_ok4
-  | 5, _ => close_ok5
+    (gpP.getD s 0) wtP wmP = true := by
+  intro s hs
+  have hb : closeRowB (tcl.getD (gns.getD s 0) []) (fldW 12 tcP (gns.getD s 0)) (gpP.getD s 0)
+      wtP wmP = true :=
+    match s, hs with
+    | 0, _ => close_ok0
+    | 1, _ => close_ok1
+    | 2, _ => close_ok2
+    | 3, _ => close_ok3
+    | 4, _ => close_ok4
+    | 5, _ => close_ok5
+  have hg := gns_lt s (by rw [gns_len]; exact hs)
+  rw [fld_tcP hg] at hb ⊢
+  exact closeRowK_of_closeRowB (tvP_tvPair hg) hb
 
 theorem clo_gns : ∀ s < gns.length, Clo (gns.getD s 0) := by
   intro s hs

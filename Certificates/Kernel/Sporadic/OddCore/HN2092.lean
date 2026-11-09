@@ -252,18 +252,17 @@ theorem strong_list : CFSG.Sporadic.HNOddCore.strongArrs 1100 O2 SixData.dWords 
     rw [← getElem!_pos _ j h1, strong_get.2 j hj]
     simp
 
+theorem unpack_zero_beq (P : Nat) :
+    ((unpack 1100 11 P)[0]! == 0) = Nat.beq (pg 11 (mask 11) P 0) 0 := by
+  rw [unpack_get' (by norm_num : 0 < 1100), Bool.eq_iff_iff, beq_iff_eq, Nat.beq_eq]
+
 theorem stab_eq : dStab (unpack 1100 11 (HSD.S 0)) (unpack 1100 11 (HSD.S 1)) = Hc := by
   unfold dStab
   rw [strong_list, List.filter_toArray, List.filter_map]
   unfold Hc
   apply congrArg List.toArray
-  have e : ((fun s : Array Nat => s[0]! == 0) ∘ fun j => unpack 1100 11 (HSD.S j)) =
-      fun j => Nat.beq (pg 11 (mask 11) (HSD.S j) 0) 0 := by
-    funext j
-    simp only [Function.comp, unpack_get' (by norm_num : 0 < 1100)]
-    rw [Bool.eq_iff_iff, beq_iff_eq]
-    exact ⟨fun h => by rw [h]; rfl, fun h => Nat.eq_of_beq_eq_true h⟩
-  rw [e, fz, List.map_map]
+  simp only [Function.comp_def, unpack_zero_beq]
+  rw [fz, List.map_map]
   simp only [Function.comp_def]
 
 theorem hc_size : Hc.size = 7 := by simp [Hc]
@@ -485,8 +484,11 @@ theorem facts2092 : sixChecks = true := by
   · unfold Lsc
     rw [Array.size_ofFn]
     rfl
-  · decide +kernel
-  · decide +kernel
+  · unfold Lsc
+    simp only [Array.map_ofFn, Function.comp_def, Array.size_ofFn]
+    decide +kernel
+  · rw [lsc_get (by norm_num), ofFn_get2 (by decide)]
+    decide +kernel
   · rw [allBelowN_iff]
     intro i hi
     rw [lsc_get hi]

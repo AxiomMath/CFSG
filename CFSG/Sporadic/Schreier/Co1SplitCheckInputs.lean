@@ -31,12 +31,15 @@ open CFSG.Sporadic.SmallF2.Native
 
 @[expose] def zq (e k : Nat) : Nat := zqT.getD (3 * k + e) 0
 
-@[expose] def msSearch (X : Rows) (j : Nat) : Nat × Nat × Nat :=
+@[expose] def msSearchB (zq : Nat → Nat → Nat) (zqT : Array Nat) (X : Rows) (j : Nat) :
+    Nat × Nat × Nat :=
   let v := act X (zq 0 j)
   let w := act X (zq 1 j)
   match (List.range 36).find? (fun i => zqT.getD i 0 == v) with
   | some i => (i / 3, i % 3, ((List.range 3).find? fun f => zq f (i / 3) == w).getD 0)
   | none => (0, 0, 0)
+
+@[expose] def msSearch (X : Rows) (j : Nat) : Nat × Nat × Nat := msSearchB zq zqT X j
 
 @[expose] def msSgn (X : Rows) (j : Nat) : Nat :=
   ((msSearch X j).2.2 + 3 - (msSearch X j).2.1) % 3

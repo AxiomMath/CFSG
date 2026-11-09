@@ -1,9 +1,8 @@
 module
 
-public import Certificates.Kernel.AS91Sx.SxX
-public import Certificates.Kernel.AS91Sx.SxY
-public import Certificates.Kernel.AS91Sx.SxCls
+public import Certificates.Kernel.AS91Sx.SxZ
 public import CFSG.Certificates.Kernel.SporSch.MathieuClsSound
+public import CFSG.Certificates.Kernel.SporSch.MathieuBTSound
 public import CFSG.Certificates.Kernel.SporSch.MathieuOC2Sound
 public import CFSG.Certificates.Kernel.SporSch.ChainKCount
 public import CFSG.Certificates.Kernel.Spor.BindList
@@ -20,7 +19,7 @@ namespace CertificateChecks.KernelAS91Sx.Sx664OC
 open CFSG CFSG.Sporadic CFSG.Sporadic.Schreier CFSG.Certificates
 open CFSG.Sporadic.Schreier.Native CFSG.Monster.B.Mathieu CFSG.Quasithin.H13.AS91.M24G
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.M11 CFSG.KS.MEnum CFSG.KS.SporSch.MOC
-open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
+open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.KS.SporSch.MBT
 
 theorem bindA : bindListK 24 5 (Sx664Q.S 0) tA = true := by quickRfl
 
@@ -81,7 +80,7 @@ theorem clsOK5 : ClsOK 24 5 tA tB 5 40000 Sx664CK := by
 theorem chainQ : ChainK 24 5 [sxAT, sxBT] sxChainWords sxBase
     Sx664Q.S Sx664Q.SI Sx664Q.LR Sx664Q.TR Sx664Q.TRI 10 Sx664Q.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, Sx664Q.head, Sx664Q.hl,
-    by norm_num, Sx664Q.hs⟩
+    by norm_num, .inl Sx664Q.hs⟩
   have hj2 : j < 2 := hj
   interval_cases j
   · exact imgA
@@ -134,9 +133,6 @@ theorem centerOK : sxCenterOK = true := by
     · simp [h2]
   · simp [h1]
 
-theorem cosetX : (cosetOrderTables sxCert 1 5).length = (Sx664X.CS.map List.sum).sum :=
-  chainK_cosetCount2 (by decide) (by decide) chainQ imgOne cOne (by norm_num) (by norm_num) Sx664X.hc
-
 theorem hR : [sxAT].length = Sx664CK.length ∧ ∀ j < Sx664CK.length,
     imageList ([sxAT].getD j 1) = (unpack 24 5 (Sx664CK.getD j clsD0).R).toList := by
   refine ⟨by decide, fun j hj => ?_⟩
@@ -144,6 +140,74 @@ theorem hR : [sxAT].length = Sx664CK.length ∧ ∀ j < Sx664CK.length,
   interval_cases j
   rw [Nat.eq_of_beq_eq_true repCK]
   exact imgA
+
+theorem siftR : ∀ j < Sx664CK.length, bAnd(canonK 24 5 (mask 5) (24 * 5) (Sx664CK.getD j clsD0).R,
+    siftK 24 5 (mask 5) (24 * 5) (pidn 24 5) Sx664Q.LR Sx664Q.TRI Sx664Q.BP 6 0
+      (Sx664CK.getD j clsD0).R) = true := by
+  intro j hj
+  have hj1 : j < 1 := by simpa [Sx664CK] using hj
+  interval_cases j
+  quickRfl
+
+theorem classEq : ClassEqK 24 5 Sx664Q.LR Sx664Q.TR Sx664Q.TRI Sx664Q.BP 6 Sx664BC.XL Sx664BC.CL :=
+  ⟨rfl, CFSG.KS.SporSch.MOC.repK_of_conjLowK chainQ (by decide) (by decide) (by norm_num) rfl
+    Sx664BC.hr Sx664BC.hd Sx664BC.hs, Sx664BC.hd, Sx664BC.hs⟩
+
+theorem sxTot5 : Nat.beq (sumOrdK 24 5 (mask 5) (ordK Sx664Q.LR 6) Sx664BC.XL Sx664BC.CL 5
+    Sx664BC.XL.length) 2304 = true := by quickRfl
+
+theorem cosetX : (cosetOrderTables sxCert 1 5).length = 2304 :=
+  (classEq_sound (by decide) (by decide) chainQ classEq (mo := 5) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true sxTot5)
+
+theorem scansZA : ZScans 24 5 5 4 12 sxAutWords Sx664BC.XL Sx664CK Sx664ZA.SC := by
+  refine ⟨rfl, fun i hi hord => ?_⟩
+  have hi' : i < 32 := hi
+  interval_cases i
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n0)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n1)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n2)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n3)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n4)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n5)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n6)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n7)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n8)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n9)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n10)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n11)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n12)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n13)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n14)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n15)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n16)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n17)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n18)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n19)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n20)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n21)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n22)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n23)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n24)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n25)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n26)
+  · exact ⟨rfl, fun j hj => by
+      have hj' : j < 1 := hj
+      interval_cases j
+      exact ⟨by decide, Sx664ZA.h27_0⟩⟩
+  · exact ⟨rfl, fun j hj => by
+      have hj' : j < 1 := hj
+      interval_cases j
+      exact ⟨by decide, Sx664ZA.h28_0⟩⟩
+  · exact ⟨rfl, fun j hj => by
+      have hj' : j < 1 := hj
+      interval_cases j
+      exact ⟨by decide, Sx664ZA.h29_0⟩⟩
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n30)
+  · exact absurd hord (Nat.ne_of_beq_eq_false Sx664ZA.n31)
+
+theorem totA : Nat.beq (zTotK 24 5 (mask 5) (ordK Sx664Q.LR 6) Sx664BC.XL Sx664BC.CL Sx664ZA.SC 12
+    Sx664BC.XL.length) 138240 = true := by quickRfl
 
 theorem facts :
     (sxCert.check = true ∧ sxCert.orderCertificate = 138240)
@@ -157,16 +221,12 @@ theorem facts :
   obtain ⟨q1, q2⟩ := chainK_check (by decide) (by decide) chainQ
   obtain ⟨r1, -, -⟩ := chainK_reps3 tA_eq tB_eq szOK' clsOK5 hR (by norm_num)
     (X := cosetOrderTables sxCert 1 5) (by rw [cosetX]; decide)
-  have h := chainK_repsTotal3 (mx := 5) (my := 4) (by decide) (by decide) chainQ tA_eq tB_eq
-    (by norm_num) clsOK5 hR (by norm_num) (by norm_num) (CW := [Sx664Y0.CS])
-    ⟨rfl, fun j hj => by
-      have hj1 : j < 1 := by simpa [Sx664CK] using hj
-      interval_cases j
-      exact Sx664Y0.hc⟩
+  have h := zReps_sound (by decide) (by decide) chainQ classEq (by norm_num) tA_eq tB_eq clsOK5
+    siftR hR (by norm_num) (by norm_num) (by norm_num) (by decide) scansZA
   exact ⟨⟨q1, q2.trans (by decide)⟩, centerOK,
     ⟨ordTest_of_ordIs szOK' imgA cA (by norm_num) ordA,
       ordTest_of_ordIs szOK' imgB cB (by norm_num) ordB⟩,
-    wordsTest_of_wordOrdK szOK' imgA imgB wordsAB, r1, h.trans (by decide)⟩
+    wordsTest_of_wordOrdK szOK' imgA imgB wordsAB, r1, h.trans (Nat.eq_of_beq_eq_true totA)⟩
 
 end CertificateChecks.KernelAS91Sx.Sx664OC
 

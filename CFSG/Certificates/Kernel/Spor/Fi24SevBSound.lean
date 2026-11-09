@@ -110,6 +110,76 @@ theorem fixK_spec (hV : VN NW NT) {w : List Nat} {n : Nat} (h : fixK NW NT w n =
       exact ⟨h1, h2⟩
   rw [hsub]
 
+theorem testBit_zero_mod (x y : Nat) (h : x.testBit 0 = y.testBit 0) : x % 2 = y % 2 := by
+  rw [Nat.testBit_zero, Nat.testBit_zero] at h
+  rcases Nat.mod_two_eq_zero_or_one x with hx | hx <;>
+    rcases Nat.mod_two_eq_zero_or_one y with hy | hy <;> simp_all
+
+set_option exponentiation.threshold 4096 in
+theorem bitK_eq (m q : Nat) : bitK m q = Nat.land (Nat.shiftRight m q) 1 := by
+  unfold bitK
+  rw [strictN_eq]
+  have h12 : mk12 = 2 ^ 4096 - 1 := by
+    unfold mk12
+    change 1 <<< 4096 - 1 = _
+    rw [Nat.one_shiftLeft]
+  rw [h12]
+  change ((m >>> ((q >>> 12) <<< 12)) &&& (2 ^ 4096 - 1)) >>> (q &&& 4095) &&& 1 = (m >>> q) &&& 1
+  rw [Nat.and_one_is_mod, Nat.and_one_is_mod]
+  apply testBit_zero_mod
+  have hA : (q >>> 12) <<< 12 = q / 4096 * 4096 := by
+    rw [Nat.shiftLeft_eq, Nat.shiftRight_eq_div_pow]
+  have hr : q &&& 4095 = q % 4096 := by
+    rw [show (4095 : Nat) = 2 ^ 12 - 1 from rfl, Nat.and_two_pow_sub_one_eq_mod]
+  rw [hA, hr]
+  simp only [Nat.testBit_shiftRight, Nat.testBit_and, Nat.testBit_two_pow_sub_one, Nat.add_zero]
+  have e1 : q % 4096 < 4096 := Nat.mod_lt _ (by omega)
+  have e2 : q / 4096 * 4096 + q % 4096 = q := by omega
+  simp only [e1, e2, decide_true, Bool.true_and, Bool.and_true]
+
+theorem swpB_eq : swpB = swpK := by
+  funext d m q
+  unfold swpB swpK
+  rw [bitK_eq, bitK_eq]
+
+theorem ptFB_eq : ptFB = ptF := by
+  funext M q
+  unfold ptFB ptF
+  rw [swpB_eq]
+
+theorem ptRB_eq : ptRB = ptR := by
+  funext M q
+  unfold ptRB ptR
+  rw [swpB_eq]
+
+theorem letNB_eq : letNB = letN := by
+  funext NW l x
+  unfold letNB letN
+  rw [ptFB_eq, ptRB_eq]
+
+theorem apCB_eq : apCB = apC := by
+  funext NW NT c x
+  unfold apCB apC
+  rw [ptFB_eq, letNB_eq]
+
+theorem ptCB_eq : ptCB = ptC := by
+  funext NW NT cs x
+  unfold ptCB ptC
+  rw [apCB_eq]
+
+theorem agBB_eq : agBB = agB := by
+  funext NW NT u v
+  unfold agBB agB
+  rw [ptCB_eq]
+
+theorem slInB_eq : slInB = slIn := by
+  funext NW NT sl part
+  unfold slInB slIn
+  rw [agBB_eq]
+
+theorem brec_same (a b : Bool) : Bool.rec (motive := fun _ => Bool) a a b = a := by
+  cases b <;> rfl
+
 end CFSG.KS.Fi24SevB
 
 end

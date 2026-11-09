@@ -1,6 +1,6 @@
 module
 
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Tab
 public import CFSG.Certificates.Kernel.Ru.BoundAlt.Data.B_0
@@ -31,7 +31,7 @@ public import CFSG.Certificates.Kernel.Ru.BoundAlt.Data.B_24
 public import CFSG.Certificates.Kernel.Ru.BoundAlt.Data.B_25
 public import CFSG.Certificates.Kernel.Common.LabF
 
-#kc_repo #kc_nat_items_gz CFSG.KD.RuBAB "CFSG/Certificates/Kernel/Ru/BoundAlt/Data/data/B/lces_const.items.gz" 289086 5965873215584435533
+#kc_repo #kc_nat_items CFSG.KD.RuBAB "CFSG/Certificates/Kernel/Ru/BoundAlt/Data/data/B/lces_const.items" 289086 5965873215584435533
   WT[6749] RT[81] ST[2] HS nLive
 #kc_selectT CFSG.KD.RuBAB blk B 1624
 #kc_selectT CFSG.KD.RuBAB selWT WT 6749

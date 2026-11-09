@@ -735,12 +735,139 @@ namespace CFSG.StandardType.TestLin
 
 @[expose] def a8cS (k : Fin 8) : Vn 9 ≃ₗ[ZMod 3] Vn 9 := letLin (letAt a8cGens k)
 
-theorem a8c_certOK :
-    certOK a8cGens (xLast 8) a8cSets a8cPats a8cReps a8cS2 = true := by
+private theorem a8c_all_of_chunks {α : Type} (f : α → Bool) (n : ℕ) :
+    ∀ (K : ℕ) (l : List α), l.length ≤ n * K →
+      (∀ k < K, ((l.drop (n * k)).take n).all f = true) → l.all f = true
+  | 0, l, hl, _ => by
+      have : l = [] := List.eq_nil_of_length_eq_zero (by omega)
+      subst this
+      rfl
+  | K + 1, l, hl, h => by
+      rw [← List.take_append_drop n l, List.all_append, Bool.and_eq_true]
+      refine ⟨by simpa using h 0 (Nat.succ_pos K), ?_⟩
+      refine a8c_all_of_chunks f n K (l.drop n) (by
+        rw [List.length_drop]
+        rw [Nat.mul_add_one] at hl
+        omega) ?_
+      intro k hk
+      have h' := h (k + 1) (by omega)
+      rwa [show n * (k + 1) = n + n * k by rw [Nat.mul_add_one, Nat.add_comm],
+        ← List.drop_drop] at h'
+
+private theorem of_decide_inst {p : Prop} {i : Decidable p} (h : @decide p i = true) : p :=
+  @of_decide_eq_true p i h
+
+private def decEqVn9Fast : DecidableEq (Vn 9) := fun u v =>
+  decidable_of_iff (((List.finRange 9).all fun i => decide (u i = v i)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+attribute [local instance high] decEqVn9Fast in
+private theorem a8c_sets_fast :
+    a8cSets.all (fun S => a8cGens.all fun g => S.all fun v => decide (letApp g v ∈ S)) = true := by
   decide +kernel
 
-theorem a8c_cov : prefCovB 8 a8cPats = true := by
+private theorem a8c_pats_0 :
+    ((a8cPats.drop (90 * 0)).take 90).all (patB a8cGens a8cSets (xLast 8) a8cReps) = true := by
   decide +kernel
+
+private theorem a8c_pats_1 :
+    ((a8cPats.drop (90 * 1)).take 90).all (patB a8cGens a8cSets (xLast 8) a8cReps) = true := by
+  decide +kernel
+
+private theorem a8c_pats_2 :
+    ((a8cPats.drop (90 * 2)).take 90).all (patB a8cGens a8cSets (xLast 8) a8cReps) = true := by
+  decide +kernel
+
+private theorem a8c_pats_3 :
+    ((a8cPats.drop (90 * 3)).take 90).all (patB a8cGens a8cSets (xLast 8) a8cReps) = true := by
+  decide +kernel
+
+private theorem a8c_pats_4 :
+    ((a8cPats.drop (90 * 4)).take 90).all (patB a8cGens a8cSets (xLast 8) a8cReps) = true := by
+  decide +kernel
+
+private theorem a8c_pats_5 :
+    ((a8cPats.drop (90 * 5)).take 90).all (patB a8cGens a8cSets (xLast 8) a8cReps) = true := by
+  decide +kernel
+
+theorem a8c_certOK :
+    certOK a8cGens (xLast 8) a8cSets a8cPats a8cReps a8cS2 = true := by
+  unfold certOK
+  rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]
+  refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  · decide +kernel
+  · decide +kernel
+  · have h := a8c_sets_fast
+    exact List.all_eq_true.mpr fun S hS => List.all_eq_true.mpr fun g hg =>
+      List.all_eq_true.mpr fun v hv => decide_eq_true (of_decide_inst
+        (List.all_eq_true.mp (List.all_eq_true.mp (List.all_eq_true.mp h S hS) g hg) v hv))
+  · refine a8c_all_of_chunks _ 90 6 _ (by decide +kernel) fun k hk => ?_
+    rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5) with
+      rfl | rfl | rfl | rfl | rfl | rfl
+    exacts [a8c_pats_0, a8c_pats_1, a8c_pats_2, a8c_pats_3, a8c_pats_4, a8c_pats_5]
+  · decide +kernel
+
+private def a8cRow (m : ℕ) (pats : List ((Vn (m + 1) × Vn (m + 1)) × PatV (m + 1))) (a : ℕ) :
+    Bool :=
+  (List.range (m + 1 - a)).all fun b => triples.all fun f =>
+    [0, 1, 2].all fun g => [0, 1, 2].all fun d =>
+      !prefCondB f (prefVec m a b g) (prefFun f (prefVec m a b g) d) ||
+        decide ((prefVec m a b g, prefFun f (prefVec m a b g) d) ∈ pats.map Prod.fst)
+
+private theorem a8c_prefCovB_eq (m : ℕ) (pats : List ((Vn (m + 1) × Vn (m + 1)) × PatV (m + 1))) :
+    prefCovB m pats = (List.range (m + 1)).all (a8cRow m pats) := rfl
+
+attribute [local instance high] decEqVn9Fast in
+private def a8cRowF (a : ℕ) : Bool :=
+  (List.range (8 + 1 - a)).all fun b => triples.all fun f =>
+    [0, 1, 2].all fun g => [0, 1, 2].all fun d =>
+      !prefCondB f (prefVec 8 a b g) (prefFun f (prefVec 8 a b g) d) ||
+        decide ((prefVec 8 a b g, prefFun f (prefVec 8 a b g) d) ∈ a8cPats.map Prod.fst)
+
+private theorem a8cRow_of_F (a : ℕ) (h : a8cRowF a = true) : a8cRow 8 a8cPats a = true :=
+  List.all_eq_true.mpr fun b hb => List.all_eq_true.mpr fun f hf =>
+    List.all_eq_true.mpr fun g hg => List.all_eq_true.mpr fun d hd => by
+      have h' := List.all_eq_true.mp (List.all_eq_true.mp (List.all_eq_true.mp
+        (List.all_eq_true.mp h b hb) f hf) g hg) d hd
+      simp only [Bool.or_eq_true] at h' ⊢
+      exact h'.imp id fun h2 => decide_eq_true (of_decide_inst h2)
+
+private theorem a8c_cov_0 : a8cRow 8 a8cPats 0 = true :=
+  a8cRow_of_F 0 (by decide +kernel)
+
+private theorem a8c_cov_1 : a8cRow 8 a8cPats 1 = true :=
+  a8cRow_of_F 1 (by decide +kernel)
+
+private theorem a8c_cov_2 : a8cRow 8 a8cPats 2 = true :=
+  a8cRow_of_F 2 (by decide +kernel)
+
+private theorem a8c_cov_3 : a8cRow 8 a8cPats 3 = true :=
+  a8cRow_of_F 3 (by decide +kernel)
+
+private theorem a8c_cov_4 : a8cRow 8 a8cPats 4 = true :=
+  a8cRow_of_F 4 (by decide +kernel)
+
+private theorem a8c_cov_5 : a8cRow 8 a8cPats 5 = true :=
+  a8cRow_of_F 5 (by decide +kernel)
+
+private theorem a8c_cov_6 : a8cRow 8 a8cPats 6 = true :=
+  a8cRow_of_F 6 (by decide +kernel)
+
+private theorem a8c_cov_7 : a8cRow 8 a8cPats 7 = true :=
+  a8cRow_of_F 7 (by decide +kernel)
+
+private theorem a8c_cov_8 : a8cRow 8 a8cPats 8 = true :=
+  a8cRow_of_F 8 (by decide +kernel)
+
+theorem a8c_cov : prefCovB 8 a8cPats = true := by
+  rw [a8c_prefCovB_eq]
+  refine List.all_eq_true.mpr fun a ha => ?_
+  have ha' : a < 9 := List.mem_range.mp ha
+  rcases (by omega : a = 0 ∨ a = 1 ∨ a = 2 ∨ a = 3 ∨ a = 4 ∨ a = 5 ∨ a = 6 ∨ a = 7 ∨ a = 8) with
+    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  exacts [a8c_cov_0, a8c_cov_1, a8c_cov_2, a8c_cov_3, a8c_cov_4, a8c_cov_5, a8c_cov_6,
+    a8c_cov_7, a8c_cov_8]
 
 theorem a8c_adj : ∀ i : Fin 7, letAt a8cGens i =
     (Pi.single i.castSucc.castSucc 1 - Pi.single i.succ.castSucc 1,

@@ -10,6 +10,6 @@ public section
 
 set_option maxRecDepth 400000
 
-#kon_slices CertificateChecks.KernelSpor.J3K.relSl 0 80
+#kon_slices CertificateChecks.KernelSpor.J3K.relSl 0 8
 
 end

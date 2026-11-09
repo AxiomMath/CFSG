@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.S5FiveYHsData
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.HSFiveData
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.PartA.S0Data
 
 public section
 
@@ -17,7 +18,12 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Ra
 
 @[expose] def adjA (b c : Array ℕ) : Bool := involA (compA 100 b c)
 
-@[expose] def nbrL : List (Array ℕ) := x3Cert.pts.toList.filter fun b => adjA x3 b
+@[expose] def invPtsL : List (Array ℕ) :=
+  Zassenhaus.PartA.S0.zOrbit.pts.toList ++ Zassenhaus.PartA.S0.uOrbit.pts.toList
+
+@[expose] def nbrL : List (Array ℕ) :=
+  (invPtsL.map fun u => compA 100 (compA 100 x3 x3) u).filter fun b =>
+    eqA 100 (compA 100 b (compA 100 b b)) (idA 100)
 
 @[expose] def cliqueOK : Bool :=
   validA 100 Zassenhaus.HSFive.u0 &&

@@ -80,14 +80,16 @@ theorem exists_entry_of_any {elts : Array Table} {f : Table → Bool}
   obtain ⟨k, hk, hf⟩ := h
   exact ⟨k, hk, by rw [getElem!_pos elts k hk]; exact hf⟩
 
-theorem sylow_core_of_checks (hn : n < 2 ^ 32) (G : Subgroup (Equiv.Perm (Fin n)))
-    {a b : Equiv.Perm (Fin n)} (hgen : G = Subgroup.closure {a, b}) (Q : RawSchreierDatum n)
-    (hQ : ValidSchreier Q) (hQG : Q.originalSubgroup = G) {N mb r s : ℕ} (hN : Nat.card G = N)
+theorem sylow_core_of_cover (hn : n < 2 ^ 32) (G : Subgroup (Equiv.Perm (Fin n)))
+    {a b : Equiv.Perm (Fin n)} (hgen : G = Subgroup.closure {a, b}) {N mb r s : ℕ}
+    (hN : Nat.card G = N)
     (hmb : 0 < mb) (hr : 0 < r) (hs : 0 < s) (ha2 : orderOf a = 2) (hbo : orderOf b = mb)
     (hab : orderOf (a * b) = r) (hc : orderOf (a * b * a⁻¹ * b⁻¹) = s)
     (ds exprs : List (List ℤ)) (z0T : Table) (cap k : ℕ)
-    (hP : sylowAutOK n (toTable a) (toTable b) ds exprs z0T cap N k = true)
-    (hS : survivorsOK n (toTable a) (toTable b) z0T ds exprs r s mb (orderTables Q mb) = true) :
+    (hP : sylowAutOK n (toTable a) (toTable b) ds exprs z0T cap N k = true) (Ys : List Table)
+    (hYs : ∀ y ∈ G, orderOf y = mb → orderOf (a * y) = r → orderOf (a * y * a⁻¹ * y⁻¹) = s →
+      ∃ Y ∈ Ys, Rep n Y y)
+    (hS : survivorsOK n (toTable a) (toTable b) z0T ds exprs r s mb Ys = true) :
     ∃ P : Sylow 2 G, ∀ α : MulAut G, (∀ t ∈ (P : Subgroup G), α t = t) →
       ∃ z ∈ (P : Subgroup G), (∀ t ∈ (P : Subgroup G), z * t = t * z) ∧
         ∀ g, α g = z * g * z⁻¹ := by
@@ -202,10 +204,7 @@ theorem sylow_core_of_checks (hn : n < 2 ^ 32) (G : Subgroup (Equiv.Perm (Fin n)
       exact Subgroup.subset_closure ⟨i, by rw [Set.mem_ofPred_eq, hpTsize]; exact hi, rfl⟩
     change ((α (slpExpr a' b' ds (exprs.getD i [])) : G) : Equiv.Perm (Fin n)) = pPerm i
     rw [hα _ hmem, hval]
-  have hyQ : y ∈ ((enumeration Q).filter fun h => decide (orderOf h = mb)).reverse := by
-    rw [List.mem_reverse, List.mem_filter, mem_enumeration_iff Q hQ, hQG, decide_eq_true_eq]
-    exact ⟨hyG, hyo⟩
-  obtain ⟨Y, hYmem, hYy⟩ := exists_mem_of_forall₂_left (forall₂_orderTables hn Q hmb) y hyQ
+  obtain ⟨Y, hYmem, hYy⟩ := hYs y hyG hyo hayo hcyo
   have hSy := List.all_eq_true.1 hS Y hYmem
   have hpair : pairTest n r s 2 mb (toTable a) Y = true :=
     (pairTest_iff perm_faithful hra hYy hr hs ha2 hyo (by norm_num) hmb).2 ⟨hayo, hcyo⟩
@@ -269,6 +268,24 @@ theorem sylow_core_of_checks (hn : n < 2 ^ 32) (G : Subgroup (Equiv.Perm (Fin n)
         exact hyb
     have := congrArg (fun f : G →* G => f g) hαeq
     simpa using this
+
+theorem sylow_core_of_checks (hn : n < 2 ^ 32) (G : Subgroup (Equiv.Perm (Fin n)))
+    {a b : Equiv.Perm (Fin n)} (hgen : G = Subgroup.closure {a, b}) (Q : RawSchreierDatum n)
+    (hQ : ValidSchreier Q) (hQG : Q.originalSubgroup = G) {N mb r s : ℕ} (hN : Nat.card G = N)
+    (hmb : 0 < mb) (hr : 0 < r) (hs : 0 < s) (ha2 : orderOf a = 2) (hbo : orderOf b = mb)
+    (hab : orderOf (a * b) = r) (hc : orderOf (a * b * a⁻¹ * b⁻¹) = s)
+    (ds exprs : List (List ℤ)) (z0T : Table) (cap k : ℕ)
+    (hP : sylowAutOK n (toTable a) (toTable b) ds exprs z0T cap N k = true)
+    (hS : survivorsOK n (toTable a) (toTable b) z0T ds exprs r s mb (orderTables Q mb) = true) :
+    ∃ P : Sylow 2 G, ∀ α : MulAut G, (∀ t ∈ (P : Subgroup G), α t = t) →
+      ∃ z ∈ (P : Subgroup G), (∀ t ∈ (P : Subgroup G), z * t = t * z) ∧
+        ∀ g, α g = z * g * z⁻¹ := by
+  refine sylow_core_of_cover hn G hgen hN hmb hr hs ha2 hbo hab hc ds exprs z0T cap k hP
+    (orderTables Q mb) (fun y hyG hyo _ _ => ?_) hS
+  have hyQ : y ∈ ((enumeration Q).filter fun h => decide (orderOf h = mb)).reverse := by
+    rw [List.mem_reverse, List.mem_filter, mem_enumeration_iff Q hQ, hQG, decide_eq_true_eq]
+    exact ⟨hyG, hyo⟩
+  exact exists_mem_of_forall₂_left (forall₂_orderTables hn Q hmb) y hyQ
 
 theorem sylow_pointwise_inner_of_checks (hn : n < 2 ^ 32) (G : Subgroup (Equiv.Perm (Fin n)))
     {a b : Equiv.Perm (Fin n)} (hgen : G = Subgroup.closure {a, b}) (Q : RawSchreierDatum n)

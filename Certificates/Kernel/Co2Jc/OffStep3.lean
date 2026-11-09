@@ -9,6 +9,9 @@ set_option maxRecDepth 100000
 
 namespace CertificateChecks.KernelCo2Jc
 
-theorem step3_k : ∀ d < 5, stepC (18 + d) = true := by kc_cover 1
+theorem step3_q : ∀ t < 20, stepR (32 * (18 + t / 4) + t % 4 * 8) 8 = true := by
+  kc_cover 1
+
+theorem step3_k : ∀ d < 5, stepC (18 + d) = true := stepC_of_pieces 18 5 step3_q
 
 end CertificateChecks.KernelCo2Jc

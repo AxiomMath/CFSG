@@ -42,16 +42,6 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.SporSch CertificateChecks.KernelSp
 @[expose] noncomputable def srZ2 (g r : Nat) : Bool :=
   Nat.beq (srAt zP z2P (Nat.add (Nat.mul g 6) r)) (PJ3N.VZ2 (Nat.add (Nat.mul g 6) r))
 
-@[expose] noncomputable def scAt (Z : Nat → Nat) (q : Nat) : Nat :=
-  scanR 13 PJ3T.NR PJ3T.NR PJ3T.LT PJ3T.PT bs PJ3T.c PJ3Cl.X Z (Nat.mul q (nat_lit 512))
-    (nat_lit 512)
-
-@[expose] noncomputable def scZ (g r : Nat) : Bool :=
-  Nat.beq (scAt zP (Nat.add (Nat.mul g 4) r)) (PJ3N.SZ (Nat.add (Nat.mul g 4) r))
-
-@[expose] noncomputable def scZ2 (g r : Nat) : Bool :=
-  Nat.beq (scAt z2P (Nat.add (Nat.mul g 4) r)) (PJ3N.SZ2 (Nat.add (Nat.mul g 4) r))
-
 @[expose] noncomputable def invB (g r : Nat) : Bool :=
   allBlk (Nat.mul (Nat.add (Nat.mul g 4) r) (nat_lit 512))
     (invAt 13 PJ3T.NR PJ3T.NR PJ3T.LT PJ3T.PT PJ3.LR bs PJ3T.c PJ3Cl.X) (nat_lit 512)

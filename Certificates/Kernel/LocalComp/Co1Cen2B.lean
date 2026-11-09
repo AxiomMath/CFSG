@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.LocalComp.Co1Cen2BW
 public import Certificates.Kernel.Co1B.Prim2045
 public import CFSG.Certificates.Kernel.LocalCompCo1PWSound
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 public import CFSG.Sporadic.Co1Block.TwoBD
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1Cen2BTests
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1Cen2BData
@@ -35,12 +36,12 @@ theorem powK_unpack (X : Nat) : ∀ e, pow (unpack 24 24 X) e = unpack 24 24 (po
 theorem kE : Nat.beq (powK (mulK (Cent2045.D2.M 19) (Cent2045.D2.M 21)) 13) TA.E = true := by
   quickRfl
 
-theorem kH : dagK H.M H.MI 2 H.N co1Cen2BH = true := by quickRfl
+theorem kH : dagWK H.M H.MI 2 H.N co1Cen2BH = true := by quickRfl
 
 theorem kH0 : (Nat.beq (H.M 0) (Cent2045.D2.M 19) && Nat.beq (H.M 1) (Cent2045.D2.M 21) &&
     Nat.beq H.N 4) = true := by quickRfl
 
-theorem kC : dagK C.M C.MI 2 C.N co1Cen2BC = true := by quickRfl
+theorem kC : dagWK C.M C.MI 2 C.N co1Cen2BC = true := by quickRfl
 
 theorem kC0 : (Nat.beq (C.M 0) PA && Nat.beq (C.M 1) PB && Nat.beq C.N 9) = true := by quickRfl
 
@@ -81,12 +82,12 @@ theorem c0 : C.M 0 = PA ∧ C.M 1 = PB ∧ C.N = 9 := by
 
 theorem h_eq : dag [twoBXYRows.1, twoBXYRows.2] (co1Cen2BH.map decWord) =
     (rowsOf H.M H.N, rowsOf H.MI H.N, true) := by
-  refine dagK_sound ?_ kH
+  refine dagWK_sound ?_ kH
   rw [Tri2045.rx_eq, Tri2045.ry_eq, ← h0.1, ← h0.2.1]
   rfl
 
 theorem c_eq : dag [aR, bR] (co1Cen2BC.map decWord) = (rowsOf C.M C.N, rowsOf C.MI C.N, true) := by
-  refine dagK_sound ?_ kC
+  refine dagWK_sound ?_ kC
   rw [aR_u, bR_u, ← c0.1, ← c0.2.1]
   rfl
 
@@ -96,17 +97,20 @@ theorem eV : entryR (rowsOf H.M H.N) 4 = unpack 24 24 (H.M 3) := entryR_rows (by
 
 theorem eC : entryR (rowsOf C.M C.N) 9 = unpack 24 24 (C.M 8) := entryR_rows (by quickRfl)
 
+theorem hI (k : Nat) (hk : k < H.N) :
+    CFSG.Sporadic.Co1Schreier.Native.inv (unpack 24 24 (H.M k)) = unpack 24 24 (H.MI k) :=
+  (invOKW_sound (dagWK_inv kH k hk)).2
+
 theorem z_eq : commRows (unpack 24 24 (H.M 2)) (unpack 24 24 (H.M 3)) = unpack 24 24 TA.Z := by
   unfold commRows
-  rw [inv_of_dagK kH (k := 2) (by rw [h0.2.2]; norm_num),
-    inv_of_dagK kH (k := 3) (by rw [h0.2.2]; norm_num), ← MatL.unpack_mulK, ← MatL.unpack_mulK,
-    ← MatL.unpack_mulK, Nat.eq_of_beq_eq_true kZ]
+  rw [hI 2 (by rw [h0.2.2]; norm_num), hI 3 (by rw [h0.2.2]; norm_num), ← MatL.unpack_mulK,
+    ← MatL.unpack_mulK, ← MatL.unpack_mulK, Nat.eq_of_beq_eq_true kZ]
 
 theorem invs_ok : invsOK (rowsOf H.M H.N) [3, 4] = true := by
   unfold invsOK
   simp only [List.all_cons, List.all_nil, Bool.and_true]
-  rw [eU, eV, inv_of_dagK kH (k := 2) (by rw [h0.2.2]; norm_num),
-    inv_of_dagK kH (k := 3) (by rw [h0.2.2]; norm_num), ← MatL.unpack_mulK, ← MatL.unpack_mulK,
+  rw [eU, eV, hI 2 (by rw [h0.2.2]; norm_num), hI 3 (by rw [h0.2.2]; norm_num),
+    ← MatL.unpack_mulK, ← MatL.unpack_mulK,
     ← MatL.unpack_idM, beq_unpack, beq_unpack]
   exact kInv
 

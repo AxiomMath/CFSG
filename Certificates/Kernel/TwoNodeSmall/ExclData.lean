@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.TNS708602 "Certificates/Kernel/TwoNodeSmall/data/xk.json.gz"
+#kc_repo #kc_json CFSG.KD.TNS708602 "Certificates/Kernel/TwoNodeSmall/data/xk.json"
   534369 13696346777465306488
   (cs : List (List (List Nat))) (rk : List (List CFSG.TwoNodeSmall.ExclK.Rec))
 

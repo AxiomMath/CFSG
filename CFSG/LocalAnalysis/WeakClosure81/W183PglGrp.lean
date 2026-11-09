@@ -37,9 +37,14 @@ private instance (x y : w183PglM3) : Decidable (w183PglAx x y) := by
   unfold w183PglAx
   infer_instance
 
-private theorem w183Pgl_klein_mat : ∀ x y : w183PglM3, w183PglKp x y →
-    w183PglAx x y ∨ w183PglAx xᵀ yᵀ := by
+private theorem w183Pgl_klein_mat_hoist : ∀ x : w183PglM3, x * x = 1 → x ≠ 1 →
+    ∀ y : w183PglM3, y * y = 1 → y ≠ 1 → x ≠ y → x * y = y * x →
+      w183PglAx x y ∨ w183PglAx xᵀ yᵀ := by
   decide +kernel
+
+private theorem w183Pgl_klein_mat : ∀ x y : w183PglM3, w183PglKp x y →
+    w183PglAx x y ∨ w183PglAx xᵀ yᵀ :=
+  fun x y ⟨hx, hy, hx1, hy1, hxy, hc⟩ => w183Pgl_klein_mat_hoist x hx hx1 y hy hy1 hxy hc
 
 private theorem w183Pgl_kp_of_klein {x y : GL (Fin 3) (ZMod 2)} (h : W183PglKlein x y) :
     w183PglKp (x : w183PglM3) (y : w183PglM3) := by

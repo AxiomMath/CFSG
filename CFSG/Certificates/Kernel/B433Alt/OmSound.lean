@@ -2,6 +2,7 @@ module
 
 public import CFSG.YGroups.Defs
 public import CFSG.Certificates.Kernel.B433Alt.OmSoundCol
+public import Certificates.Data.Kernel.B433Alt.OmPl
 
 public section
 
@@ -220,10 +221,29 @@ private theorem omS_eq_of_idP {f F : ℕ → ℕ} (hF : omS_Acts f F) (h : F (id
   · rw [Nat.testBit_lt_two_pow (lt_two_pow_mono hfr (by omega)),
       Nat.testBit_lt_two_pow (lt_two_pow_mono hr (by omega))]
 
+private theorem omS_testBit_wordPl19 (hm : masksOK19 MS = true) :
+    ∀ w : List ℕ, (∀ c ∈ w, c < 10) → ∀ X q, (wordPl19 MS w X).testBit q = X.testBit (omS_wpi (omS_pi MS) w q)
+  | [], _, _, _ => rfl
+  | c :: w, h, X, q => by
+    have e : wordPl19 MS (c :: w) X = wordPl19 MS w (netApp19 MS c X) := omS_sN _ _
+    rw [e, omS_testBit_wordPl19 hm w (fun c' hc' => h c' (List.mem_cons_of_mem _ hc')),
+      omS_testBit_netApp19 hm (h c List.mem_cons_self)]
+    rfl
+
 private theorem omS_relOK (hm : masksOK19 MS = true) {w : List ℕ} (hw : ∀ c ∈ w, c < 10)
-    (h : relOK MS w = true) : ∀ r < 2 ^ 19, omS_wpi (omS_pi MS) w r = r :=
-  omS_eq_of_idP (omS_acts_wordOn19 hm w hw)
-    (Nat.eq_of_beq_eq_true (n := wordOn19 MS w (idP 19)) (m := idP 19) h)
+    (h : ∀ u < 19, relPlOK MS w u = true) : ∀ r < 2 ^ 19, omS_wpi (omS_pi MS) w r = r := by
+  intro r hr
+  have hfr := (omS_acts_wordOn19 hm w hw).1 r hr
+  apply Nat.eq_of_testBit_eq
+  intro u
+  by_cases hu : u < 19
+  · have e := Nat.eq_of_beq_eq_true (h u hu)
+    have := congrArg (fun x => x.testBit r) e
+    simp only [omS_testBit_wordPl19 hm w hw, omS_OW, idPlane_testBit hu, decide_eq_true hfr,
+      decide_eq_true hr, Bool.true_and] at this
+    exact this
+  · rw [Nat.testBit_lt_two_pow (lt_two_pow_mono hfr (by omega)),
+      Nat.testBit_lt_two_pow (lt_two_pow_mono hr (by omega))]
 
 private theorem omS_testBit_omStepRec (MS : ℕ → ℕ) (X q : ℕ) : ∀ n,
     (Nat.rec (motive := fun _ => ℕ) X (fun c acc => Nat.lor acc (netApp19 MS c X)) n).testBit q =
@@ -267,7 +287,7 @@ private theorem omS_closed {R : ℕ} (hm : masksOK19 MS = true) (horb : omOrbitO
 
 private theorem omS_invol (hm : masksOK19 MS = true)
     (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten],
-      relOK MS w = true) {c : ℕ} (hc : c < 10) {r : ℕ} (hr : r < 2 ^ 19) :
+      ∀ u < 19, relPlOK MS w u = true) {c : ℕ} (hc : c < 10) {r : ℕ} (hr : r < 2 ^ 19) :
     omS_pi MS c (omS_pi MS c r) = r := by
   have hmem : [c, c] ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten] :=
     List.mem_append_left _ (square_mem_yRels (show c < ngen 4 3 2 from hc))
@@ -275,7 +295,8 @@ private theorem omS_invol (hm : masksOK19 MS = true)
 
 private theorem omS_pi_omega {R : ℕ} (hm : masksOK19 MS = true)
     (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten],
-      relOK MS w = true) (horb : omOrbitOK MS R = true) {c : ℕ} (hc : c < 10) {q : ℕ} :
+      ∀ u < 19, relPlOK MS w u = true) (horb : omOrbitOK MS R = true) {c : ℕ} (hc : c < 10)
+    {q : ℕ} :
     omS_pi MS c q < 412896 ↔ q < 412896 := by
   constructor
   · exact omS_closed hm horb hc
@@ -370,7 +391,8 @@ private theorem omS_netApp_lt {R : ℕ} (hm : masksOK19 MS = true) (horb : omOrb
 
 private theorem omS_orbit {R : ℕ} (hm : masksOK19 MS = true)
     (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten],
-      relOK MS w = true) (horb : omOrbitOK MS R = true) {σ : ℕ → Equiv.Perm (Fin 412896)}
+      ∀ u < 19, relPlOK MS w u = true) (horb : omOrbitOK MS R = true)
+    {σ : ℕ → Equiv.Perm (Fin 412896)}
     (hσ : ∀ c < 10, ∀ x : Fin 412896, (σ c x : ℕ) = omS_pi MS c x)
     {ρ : YGroup 4 3 2 →* Equiv.Perm (Fin 412896)} (hgen : ∀ c < 10, ρ (yGen 4 3 2 c) = σ c) :
     ∀ x : Fin 412896, x ∈ MulAction.orbit ρ.range (0 : Fin 412896) := by
@@ -414,7 +436,8 @@ private theorem omS_orbit {R : ℕ} (hm : masksOK19 MS = true)
 theorem om_sound_aux {MS CB : ℕ → ℕ} {R : ℕ} (hm : masksOK19 MS = true)
     (hnc : ∀ c < 10, ∀ b < 19, netColOK MS CB c b = true)
     (htag : ∀ c < 10, ∀ b < 128, CB (256 * c + b) >>> 81920 = b)
-    (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten], relOK MS w = true)
+    (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten],
+      ∀ u < 19, relPlOK MS w u = true)
     (horb : omOrbitOK MS R = true) :
     ∃ ρΩ : YGroup 4 3 2 →* Equiv.Perm (Fin 412896),
       (∀ c < 10, ∀ x : Fin 412896, (ρΩ (yGen 4 3 2 c) x : ℕ) = colAt CB c x) ∧

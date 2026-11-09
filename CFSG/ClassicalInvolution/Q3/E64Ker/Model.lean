@@ -154,9 +154,35 @@ theorem conjData_bounds : ∀ d ∈ e64ConjData, d.1 < 28 ∧ d.2.1 < 14 ∧ d.2
     d.2.2.2.1 < 14 ∧ ∀ l ∈ d.2.2.2.2, l < 2 := by
   decide +kernel
 
+@[expose] def sibPairs : List (Nat × Nat × Nat × Nat × List Nat) → Bool
+  | x :: y :: r => (x.1 == y.1 && x.2.1 == y.2.1 && x.2.2.1 == 0 && y.2.2.1 == 1 &&
+      x.2.2.2.1 == y.2.2.2.1) && sibPairs r
+  | [] => true
+  | [_] => false
+
+theorem sib_of_pairs : ∀ (L : List (Nat × Nat × Nat × Nat × List Nat)), sibPairs L = true →
+    ∀ d ∈ L, ∀ l < 2, ∃ d' ∈ L, d'.1 = d.1 ∧ d'.2.1 = d.2.1 ∧ d'.2.2.1 = l ∧
+      d'.2.2.2.1 = d.2.2.2.1
+  | [], _, d, hd, _, _ => absurd hd List.not_mem_nil
+  | [_], h, _, _, _, _ => by simp [sibPairs] at h
+  | x :: y :: r, h, d, hd, l, hl => by
+    simp only [sibPairs, Bool.and_eq_true, beq_iff_eq] at h
+    obtain ⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, hr⟩ := h
+    have hl' : l = 0 ∨ l = 1 := by omega
+    rcases List.mem_cons.1 hd with rfl | hd
+    · rcases hl' with rfl | rfl
+      · exact ⟨d, by simp, rfl, rfl, h3, rfl⟩
+      · exact ⟨y, by simp, h1.symm, h2.symm, h4, h5.symm⟩
+    rcases List.mem_cons.1 hd with rfl | hd
+    · rcases hl' with rfl | rfl
+      · exact ⟨x, by simp, h1, h2, h3, h5⟩
+      · exact ⟨d, by simp, rfl, rfl, h4, rfl⟩
+    · obtain ⟨d', hd', e⟩ := sib_of_pairs r hr d hd l hl
+      exact ⟨d', by simp [hd'], e⟩
+
 theorem conjData_sibling : ∀ d ∈ e64ConjData, ∀ l < 2, ∃ d' ∈ e64ConjData, d'.1 = d.1 ∧
-    d'.2.1 = d.2.1 ∧ d'.2.2.1 = l ∧ d'.2.2.2.1 = d.2.2.2.1 := by
-  decide +kernel
+    d'.2.1 = d.2.1 ∧ d'.2.2.1 = l ∧ d'.2.2.2.1 = d.2.2.2.1 :=
+  sib_of_pairs e64ConjData (by decide +kernel)
 
 theorem row_eq {d : Nat × Nat × Nat × Nat × List Nat}
     (hd : d ∈ e64ConjData) :

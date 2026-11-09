@@ -38,7 +38,7 @@ theorem arr_eq_of_rep {n : Nat} {t u : Array Nat} {g : Equiv.Perm (Fin n)} (ht :
   rw [← getElem!_pos t i h1, ← getElem!_pos u i h2, hgt.apply (ht ▸ h1), hgu.apply (ht ▸ h1)]
 
 theorem enumBfs_of_group {n w N fuel : Nat} {T : Nat → Nat} {gs : Array (Array Nat)}
-    {ps : List Nat} (hps : ∀ p ∈ ps, p < n)
+    {ps : List Nat} (_hps : ∀ p ∈ ps, p < n)
     (hval : ∀ i < N, validA n (unpack n w (T i)) = true)
     (hgv : ∀ k < gs.size, validA n gs[k]! = true)
     (hid : ∃ i < N, unpack n w (T i) = idA n)
@@ -188,6 +188,129 @@ theorem conjSimpleOK_of_ctree {n w N : Nat} (hw : szOK n w = true) {T WT : Nat �
           exact Reach.step _ hlab hpr
     have hR : ∀ i < N, Reach (leftA n gk) gk.size (idA n) (unpack n w (T i)) :=
       fun i hi => hreach _ i hi rfl
+    obtain ⟨hE, hS⟩ := enumBfs_of_group (fuel := c.pts.size + 1) hps hval hgv
+      ⟨0, hN, by rw [h0, ← idA_eq hw]⟩ hcl hR hkey (by rw [hsz]; omega)
+    unfold conjPointOK
+    rw [hE, hS, hsz, beq_self_eq_true, Bool.and_true, Bool.or_true]
+
+theorem conjSimpleOK_of_ctreeR {n w N : Nat} (hw : szOK n w = true) {T WT : Nat → Nat}
+    {gs : Array (Array Nat)} {ps : List Nat} {c : ArrCert} (hps : ∀ p ∈ ps, p < n)
+    (hc : enumOK n gs ps c = true)
+    (hpts : c.pts = Array.ofFn (n := N) fun i => unpack n w (T i.val))
+    (hperm : ∀ i < N, permB n w (T i) = true) (h0 : T 0 = pidn n w)
+    (hkey : ∀ i < N, ∀ j < N, keyA n ps (unpack n w (T i)) = keyA n ps (unpack n w (T j)) → i = j)
+    (htree : ∀ k < N, Nat.beq (T k) (pidn n w) = true ∨ ∃ r < N, ∃ x < N,
+      T k = CFSG.KC.ConjOrb.pconj n w (mask w) (T x) (pinvS n w (mask w) (T x)) (T r) ∧
+      ∀ i < N, ctreePt n w N r T (WT r) i = true) :
+    conjSimpleOK n ps c = true := by
+  classical
+  have hsz : c.pts.size = N := by rw [hpts, Array.size_ofFn]
+  have hget : ∀ i < N, c.pts[i]! = unpack n w (T i) := by
+    intro i hi
+    rw [hpts, getElem!_pos _ i (by rw [Array.size_ofFn]; exact hi), Array.getElem_ofFn]
+  have hPP : ∀ i < N, PP n w (T i) := fun i hi => pp_of_permB hw (hperm i hi)
+  have hval : ∀ i < N, validA n (unpack n w (T i)) = true := fun i hi => validA_unpack (hperm i hi)
+  obtain ⟨hmem, -, -⟩ := enumOK_spec hps hc
+  let P : Nat → Equiv.Perm (Fin n) := fun i => permOfArr n (unpack n w (T i))
+  have hin : ∀ i < N, P i ∈ Subgroup.closure (permsA n gs) := by
+    intro i hi
+    exact (hmem _).2 ⟨i, by rw [hsz]; exact hi, by rw [hget i hi]⟩
+  have hgs : ∀ k, (conjGens n c k).size = N := fun k => by rw [conjGens_size, hsz]
+  have hgget : ∀ k < N, ∀ j < N, (conjGens n c k)[j]! = unpack n w (pcomp n w (mask w) (T j)
+      (pcomp n w (mask w) (T k) (pinvS n w (mask w) (T j)))) := by
+    intro k hk j hj
+    rw [conjGens_get (by rw [hsz]; exact hj), hget j hj, hget k hk,
+      conj_unpack' hw (hperm j hj) (hperm k hk)]
+  have hgrep : ∀ k < N, ∀ j < N, Rep n (conjGens n c k)[j]! (P j * P k * (P j)⁻¹) := by
+    intro k hk j hj
+    rw [conjGens_get (by rw [hsz]; exact hj), hget j hj, hget k hk]
+    exact rep_conjA (hval j hj) (rep_of_validA (hval k hk))
+  unfold conjSimpleOK
+  rw [allLt_iff]
+  intro k hk
+  rw [hsz] at hk
+  rcases htree k hk with hid | ⟨r, hr, x, hx, hkx, htr⟩
+  · rw [hget k hk, Nat.eq_of_beq_eq_true hid, ← idA_eq hw]
+    have : eqA n (idA n) (idA n) = true := (eqA_iff rep_idA rep_idA).2 rfl
+    rw [this, Bool.true_or]
+  · have hN : 0 < N := by omega
+    have hgv : ∀ j < (conjGens n c k).size, validA n (conjGens n c k)[j]! = true := by
+      intro j hj
+      rw [hgs] at hj
+      exact CFSG.RankThree.Native.F2.validA_of_rep (hgrep k hk j hj)
+    have hcl : ∀ i < N, ∀ j < (conjGens n c k).size, ∃ i' < N,
+        leftA n (conjGens n c k) j (unpack n w (T i)) = unpack n w (T i') := by
+      intro i hi j hj
+      rw [hgs] at hj
+      have hQm : P j * P k * (P j)⁻¹ * P i ∈ Subgroup.closure (permsA n gs) :=
+        Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ (hin j hj) (hin k hk))
+          (Subgroup.inv_mem _ (hin j hj))) (hin i hi)
+      obtain ⟨i', hi', e⟩ := (hmem _).1 hQm
+      rw [hsz] at hi'
+      refine ⟨i', hi', ?_⟩
+      have hrep : Rep n (leftA n (conjGens n c k) j (unpack n w (T i)))
+          (P j * P k * (P j)⁻¹ * P i) := by
+        unfold leftA
+        exact rep_compA (hgrep k hk j hj) (rep_of_validA (hval i hi))
+      have hrep' : Rep n (unpack n w (T i')) (P j * P k * (P j)⁻¹ * P i) := by
+        rw [← e, hget i' hi']
+        exact rep_of_validA (hval i' hi')
+      refine arr_eq_of_rep (by simp [leftA, compA]) (by simp [unpack]) hrep hrep'
+    have hreach : ∀ d, ∀ i < N, cDep (fget (WT r) i 16) = d →
+        Reach (leftA n (conjGens n c r)) (conjGens n c r).size (idA n) (unpack n w (T i)) := by
+      intro d
+      induction d using Nat.strong_induction_on with
+      | _ d ih =>
+        intro i hi hd
+        by_cases hi0 : i = 0
+        · rw [hi0, h0, ← idA_eq hw]
+          exact Reach.root
+        · obtain ⟨hl, hp, hdep, he⟩ := ctreePt_spec (htr i hi) hi0
+          have hpr := ih _ (by omega) _ hp rfl
+          have hlab : cLab (fget (WT r) i 16) < (conjGens n c r).size := by rw [hgs]; exact hl
+          have e : unpack n w (T i) = leftA n (conjGens n c r) (cLab (fget (WT r) i 16))
+              (unpack n w (T (cPar (fget (WT r) i 16)))) := by
+            unfold leftA
+            rw [hgget r hr _ hl, he, CFSG.KC.ConjOrb.pconj,
+              compA_PP ((hPP _ hl).mul ((hPP r hr).mul (hPP _ hl).inv)) (hPP _ hp)]
+          rw [e]
+          exact Reach.step _ hlab hpr
+    have hPk : P k = P x * P r * (P x)⁻¹ := by
+      have e1 : unpack n w (T k) = conjA n (unpack n w (T x)) (unpack n w (T r)) := by
+        rw [conj_unpack' hw (hperm x hx) (hperm r hr), hkx]
+        rfl
+      have h1 : Rep n (unpack n w (T k)) (P x * P r * (P x)⁻¹) := by
+        rw [e1]
+        exact rep_conjA (hval x hx) (rep_of_validA (hval r hr))
+      exact (rep_of_validA (hval k hk)).unique h1
+    have hsub : ∀ j < N, ∃ j' < N, (conjGens n c r)[j]! = (conjGens n c k)[j']! := by
+      intro j hj
+      obtain ⟨j', hj', e⟩ := (hmem (P j * (P x)⁻¹)).1
+        (Subgroup.mul_mem _ (hin j hj) (Subgroup.inv_mem _ (hin x hx)))
+      rw [hsz] at hj'
+      refine ⟨j', hj', arr_eq_of_rep (by rw [conjGens_get (by rw [hsz]; exact hj)]; simp [conjA, compA])
+        (by rw [conjGens_get (by rw [hsz]; exact hj')]; simp [conjA, compA]) (hgrep r hr j hj) ?_⟩
+      have hj'e : P j' = P j * (P x)⁻¹ := by
+        rw [← e, hget j' hj']
+      have h2 := hgrep k hk j' hj'
+      have eg : P j * (P x)⁻¹ * (P x * P r * (P x)⁻¹) * (P j * (P x)⁻¹)⁻¹ =
+          P j * P r * (P j)⁻¹ := by group
+      rwa [hj'e, hPk, eg] at h2
+    have hmono : ∀ y, Reach (leftA n (conjGens n c r)) (conjGens n c r).size (idA n) y →
+        Reach (leftA n (conjGens n c k)) (conjGens n c k).size (idA n) y := by
+      intro y hy
+      induction hy with
+      | root => exact Reach.root
+      | @step z j hj _ ih =>
+        rw [hgs] at hj
+        obtain ⟨j', hj', e⟩ := hsub j hj
+        have e2 : leftA n (conjGens n c r) j z = leftA n (conjGens n c k) j' z := by
+          unfold leftA
+          rw [e]
+        rw [e2]
+        exact Reach.step _ (by rw [hgs]; exact hj') ih
+    have hR : ∀ i < N, Reach (leftA n (conjGens n c k)) (conjGens n c k).size (idA n)
+        (unpack n w (T i)) := fun i hi => hmono _ (hreach _ i hi rfl)
     obtain ⟨hE, hS⟩ := enumBfs_of_group (fuel := c.pts.size + 1) hps hval hgv
       ⟨0, hN, by rw [h0, ← idA_eq hw]⟩ hcl hR hkey (by rw [hsz]; omega)
     unfold conjPointOK

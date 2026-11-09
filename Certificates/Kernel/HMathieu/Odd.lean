@@ -19,8 +19,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.Odd
-  "Certificates/Kernel/HMathieu/data/Odd.json.gz" 11126 17303551749236284121
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.Odd
+  "Certificates/Kernel/HMathieu/data/Odd.json" 11126 17303551749236284121
   (G : List (List Nat)) (E : List (List Nat)) (J : List (List (List Nat)))
 
 namespace CertificateChecks.KernelHMathieu.Odd

@@ -6,6 +6,8 @@ public import Certificates.Kernel.SporSch.J3K426.Sift
 public import CFSG.Certificates.Kernel.Spor.ClassOneH
 public import CFSG.Certificates.Kernel.Spor.JoinSound
 public import CFSG.Certificates.Kernel.Spor.MulHFSound
+import CFSG.Certificates.Kernel.Spor.PEnumRSound
+import CFSG.Certificates.Kernel.BfsPinSeedSound
 
 public section
 
@@ -83,7 +85,9 @@ theorem base : szOK 6156 13 = true ∧ cK (pidn 6156 13) = true ∧
       bAnd(Nat.beq (J3BA.GI j) (J3BetaP (Nat.add j 5)), bAnd(Nat.beq (J3BA.G j) (pidn 6156 13),
       Nat.beq (pc (J3BetaP 0) (J3BA.GI j)) (pc (J3BA.GI j) (J3BetaP 0)))))))) = true ∧
     Nat.beq (J3BetaP 6) (J3BetaP 7) = true ∧ Nat.beq (J3BetaP 0) (J3BetaP 8) = true ∧
-    Nat.beq J3BA.cnt 60 = true ∧ penumHdK (pidn 6156 13) J3BA.cnt 100 J3BA.T J3BA.PL = true := by
+    Nat.beq J3BA.cnt 60 = true ∧ penumHdK (pidn 6156 13) J3BA.cnt 100 J3BA.T J3BA.PL = true ∧
+    Nat.beq (J3BetaI 0) (J3BA.GI 0) = true ∧
+    Nat.beq (J3BetaI 1) (pc (J3BA.GI 1) (J3BA.GI 1)) = true := by
   simpa only [bAnd_iff] using base_ok
 
 theorem hcnt : J3BA.cnt = 60 := Nat.eq_of_beq_eq_true base.2.2.2.2.2.2.2.2.2.1
@@ -122,26 +126,29 @@ theorem s_tabs : TabsOK 6156 13 2 J3BA.GI gensK := by
   refine ⟨rfl, fun j hj => ⟨?_, (gen hj).1⟩⟩
   interval_cases j <;> (rw [getElem!_pos _ _ (by simp [gensK])]; simp [gensK])
 
+theorem s_r : ∀ i < J3BA.cnt, CFSG.KS.PEnumR.penumPtR 6156 13 (mask 13) J3BA.GI 2 J3BA.cnt
+    J3BA.T J3BA.PL J3BA.POS J3BA.SRT J3BA.SRI i = true :=
+  fun i hi => by
+    by_cases h : i < 30
+    · exact slK_spec sE0 i (Nat.zero_le _) (by omega) hi
+    · exact slK_spec sE1 i (by omega) (by rw [hcnt] at hi; omega) hi
+
 theorem s_pe : ∀ i < J3BA.cnt, penumPtK 6156 13 (mask 13) (6156 * 13) true J3BA.G J3BA.GI 2
     J3BA.cnt J3BA.T J3BA.PL J3BA.POS J3BA.SRT J3BA.SRI i = true :=
-  fun i hi => penumSl_spec sE i (Nat.zero_le _) (by omega) hi
+  CFSG.KS.PEnumR.penumPtK_of_R base.1 (fun j hj => (gen hj).1) (fun j hj => (gen hj).2.2.2.2.1)
+    base.2.2.2.2.2.2.2.2.2.2.1 s_r
 
 theorem s_hs : ∀ i < J3BA.cnt,
     hsortPtK 6156 13 (mask 13) J3BA.cnt J3BA.T J3BA.HS J3BA.HSI i = true := fun i hi => by
   rw [← hsortPtKF_eq 6156 13 J3BA.cnt J3BA.T J3BA.HS J3BA.HSI i]
   exact slK_spec sHF i (Nat.zero_le _) (by omega) hi
 
-theorem s_cl : ∀ c < J3BA.cnt * 4, findPtK J3BA.cnt J3BA.T
-    (prodQK 6156 13 (mask 13) 4 J3BA.T (bothK 2 J3BA.GI J3BetaI)) J3BACl c = true :=
-  fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul J3BA.cnt 4; omega)
-    (by change c < Nat.mul J3BA.cnt 4; omega)
-
 theorem mul_eq : mulClosureH 6156 gensK 100 = hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL ∧
     mulTreeOK 6156 gensK (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).1
       (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).2.1 (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).2.2 =
         true ∧
     hkeysDistinct 6156 (hRec 6156 13 J3BA.cnt J3BA.T J3BA.PL).1.toList = true :=
-  mulH_sound base.1 (fun j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2 s_pe s_hs
+  mulH_sound base.1 (fun j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2.1 s_pe s_hs
 
 theorem hT {i : ℕ} (hi : i < 60) : canonK 6156 13 (mask 13) (6156 * 13) (J3BA.T i) = true :=
   penumPt_canon (s_pe i (by rw [hcnt]; exact hi))
@@ -169,20 +176,44 @@ theorem LK_inj : ∀ a < LK.size, ∀ b < LK.size, hkey 6156 LK[a]! = hkey 6156 
 theorem gensK_get {l : ℕ} (hl : l < 2) : gensK[l]! = tabT (unpack 6156 13 (J3BA.GI l)) :=
   (s_tabs.2 l hl).1
 
-theorem prod_entry {k l : ℕ} (hk : k < 60) (hl : l < 4) :
-    r32 J3BACl (k * 4 + l) < 60 ∧
-      compT 6156 LK[k]! (gensK ++ gensK.map (invT 6156))[l]! = LK[r32 J3BACl (k * 4 + l)]! := by
-  have hb := TabsOK_both s_tabs (fun j hj => ⟨(gen hj).2.2.1, (gen hj).2.1⟩)
-  obtain ⟨hgj, hcj⟩ := hb.2 l hl
-  have hc : k * 4 + l < J3BA.cnt * 4 := by rw [hcnt]; omega
-  obtain ⟨hq, he⟩ := findPt_spec (s_cl _ hc)
-  unfold prodQK at he
-  obtain ⟨e1, e2⟩ := div_mod_pair (i := k) hl
-  change r32 J3BACl (k * 4 + l) < J3BA.cnt at hq
-  rw [show Nat.div (k * 4 + l) 4 = k from e1, show Nat.mod (k * 4 + l) 4 = l from e2] at he
-  rw [hcnt] at hq
+theorem pos_step {k l : ℕ} (hk : k < 60) (hl : l < 2) : r32 J3BA.POS (k * 2 + l) < 60 ∧
+    J3BA.T (r32 J3BA.POS (k * 2 + l)) = pcomp 6156 13 (mask 13) (J3BA.T k) (J3BA.GI l) := by
+  have h := (CFSG.KS.PEnumR.penumPtR_spec (s_r k (by rw [hcnt]; exact hk))).2 l hl
+  rw [hcnt] at h
+  exact h
+
+theorem prod_gen {k l : ℕ} (hk : k < 60) (hl : l < 2) : r32 J3BA.POS (k * 2 + l) < 60 ∧
+    compT 6156 LK[k]! gensK[l]! = LK[r32 J3BA.POS (k * 2 + l)]! := by
+  obtain ⟨hq, he⟩ := pos_step hk hl
   refine ⟨hq, ?_⟩
-  rw [LK_get hk, hgj, compT_unpack (hT hk) hcj, ← he, LK_get hq]
+  rw [LK_get hk, gensK_get hl, compT_unpack (hT hk) (gen hl).1, ← he, LK_get hq]
+
+theorem prod_entry {k l : ℕ} (hk : k < 60) (hl : l < 4) :
+    ∃ q < 60, compT 6156 LK[k]! (gensK ++ gensK.map (invT 6156))[l]! = LK[q]! := by
+  have hb := TabsOK_both s_tabs (fun j hj => ⟨(gen hj).2.2.1, (gen hj).2.1⟩)
+  rw [(hb.2 l hl).1]
+  have hi0 : J3BetaI 0 = J3BA.GI 0 := Nat.eq_of_beq_eq_true base.2.2.2.2.2.2.2.2.2.2.2.1
+  have hi1 : J3BetaI 1 = pc (J3BA.GI 1) (J3BA.GI 1) :=
+    Nat.eq_of_beq_eq_true base.2.2.2.2.2.2.2.2.2.2.2.2
+  have g0 := (gen (j := 0) (by norm_num)).1
+  have g1 := (gen (j := 1) (by norm_num)).1
+  interval_cases l
+  · rw [bothK_lt (by norm_num), ← gensK_get (l := 0) (by norm_num)]
+    obtain ⟨hq, he⟩ := prod_gen hk (l := 0) (by norm_num)
+    exact ⟨_, hq, he⟩
+  · rw [bothK_lt (by norm_num), ← gensK_get (l := 1) (by norm_num)]
+    obtain ⟨hq, he⟩ := prod_gen hk (l := 1) (by norm_num)
+    exact ⟨_, hq, he⟩
+  · rw [bothK_ge (by norm_num), Nat.sub_self, hi0, ← gensK_get (l := 0) (by norm_num)]
+    obtain ⟨hq, he⟩ := prod_gen hk (l := 0) (by norm_num)
+    exact ⟨_, hq, he⟩
+  · have e : (3 : ℕ) - 2 = 1 := rfl
+    rw [bothK_ge (by norm_num), e, hi1, LK_get hk]
+    unfold pc
+    obtain ⟨hq1, he1⟩ := pos_step hk (l := 1) (by norm_num)
+    obtain ⟨hq2, he2⟩ := pos_step hq1 (l := 1) (by norm_num)
+    rw [compT_unpack (hT hk) (canonK_pcomp g1 g1), ← pcomp_assocS (hT hk) g1 g1, ← he1, ← he2]
+    exact ⟨_, hq2, (LK_get hq2).symm⟩
 
 theorem himg : treeImgN 5 piA5J3 (hRec 6156 13 60 J3BA.T J3BA.PL).2.1
     (hRec 6156 13 60 J3BA.T J3BA.PL).2.2 LK.size = imgK := by
@@ -190,8 +221,8 @@ theorem himg : treeImgN 5 piA5J3 (hRec 6156 13 60 J3BA.T J3BA.PL).2.1
   rfl
 
 theorem cay : imgK.size = 60 ∧ imgK.toList.all pK = true ∧ eq5 imgK[0]! (idT 5) = true ∧
-    (∀ k < 60, ∀ l < 2, Nat.blt (r32 J3BACl (4 * k + l)) 60 = true ∧
-      eq5 imgK[r32 J3BACl (4 * k + l)]! (compT 5 imgK[k]! piA5J3[l]!) = true) ∧
+    (∀ k < 60, ∀ l < 2, Nat.blt (r32 J3BA.POS (2 * k + l)) 60 = true ∧
+      eq5 imgK[r32 J3BA.POS (2 * k + l)]! (compT 5 imgK[k]! piA5J3[l]!) = true) ∧
     (∀ k < 60, (eq5 imgK[k]! (idT 5) == Nat.beq (J3BA.T k) (pidn 6156 13)) = true) ∧
     piA5J3.toList.all pK = true := by
   have hc := cay_ok
@@ -246,7 +277,7 @@ theorem facts24605a : j3A5OK = true := by
     intro l hl
     have hi' : i < 60 := by rw [← LK_size]; exact hi
     have hl' : l < 4 := by simpa [s_tabs.1] using hl
-    obtain ⟨hq, he⟩ := prod_entry hi' hl'
+    obtain ⟨q, hq, he⟩ := prod_entry hi' hl'
     rw [← getElem!_pos LK i hi, ← getElem!_pos _ l hl, he]
     exact memTH_of LK_inj (by rw [LK_size]; exact hq) (by rw [LK_get hq]; exact tblEq_self (hT hq))
   · rw [LK_size]
@@ -263,13 +294,9 @@ theorem facts24605a : j3A5OK = true := by
     intro l hl
     have hk' := List.mem_range.1 hk
     have hl' := List.mem_range.1 hl
-    obtain ⟨hq, he⟩ := prod_entry hk' (l := l) (by omega)
-    have hg : (gensK ++ gensK.map (invT 6156))[l]! = gensK[l]! := by
-      rw [getElem!_pos _ l (by simp [s_tabs.1]; omega), getElem!_pos _ l (by rw [s_tabs.1]; omega),
-        Array.getElem_append_left]
-    rw [hg] at he
+    obtain ⟨hq, he⟩ := prod_gen hk' hl'
     rw [he, idxTH_of LK_inj (by rw [LK_size]; exact hq) (by rw [LK_get hq]; exact tblEq_self (hT hq)),
-      tblEq5_eq, Nat.mul_comm k 4]
+      tblEq5_eq, Nat.mul_comm k 2]
     obtain ⟨d1, d2⟩ := c4 k hk' l hl'
     simp only [Bool.and_eq_true, decide_eq_true_eq]
     exact ⟨Nat.le_of_ble_eq_true d1, d2⟩

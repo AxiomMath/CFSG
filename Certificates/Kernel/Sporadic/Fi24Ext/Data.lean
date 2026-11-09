@@ -1,8 +1,6 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.HarnessGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Br.Data
@@ -11,13 +9,13 @@ public import Certificates.Kernel.Sporadic.Fi24Fix.Data
 public import Certificates.Data.Kernel.Spor.Fi24Ext
 public import Certificates.Data.Kernel.Spor.Fi24Fix
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Ext MX "Certificates/Kernel/Sporadic/Fi24Ext/data/mats.bin.gz" 152491 4 14334154 16922523253043304296
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Ext M3 "Certificates/Kernel/Sporadic/Fi24Ext/data/s253.bin.gz" 16003 4 32006 7033818493439680831
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Ext CFT "Certificates/Kernel/Sporadic/Fi24Ext/data/digF.bin.gz" 512 4 152491 3673358099226235069
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Ext CQT "Certificates/Kernel/Sporadic/Fi24Ext/data/digQ.bin.gz" 512 4 16003 14115846266573629579
-#kc_repo #kc_json_family_gz CFSG.KD.Fi24Ext "Certificates/Kernel/Sporadic/Fi24Ext/data/regs.json.gz" 9273 15590466030930604455
+#kc_repo #kc_ktree CFSG.KD.Fi24Ext MX "Certificates/Kernel/Sporadic/Fi24Ext/data/mats.bin" 152491 4 14334154 16922523253043304296
+#kc_repo #kc_ktree CFSG.KD.Fi24Ext M3 "Certificates/Kernel/Sporadic/Fi24Ext/data/s253.bin" 16003 4 32006 7033818493439680831
+#kc_repo #kc_ktree CFSG.KD.Fi24Ext CFT "Certificates/Kernel/Sporadic/Fi24Ext/data/digF.bin" 512 4 152491 3673358099226235069
+#kc_repo #kc_ktree CFSG.KD.Fi24Ext CQT "Certificates/Kernel/Sporadic/Fi24Ext/data/digQ.bin" 512 4 16003 14115846266573629579
+#kc_repo #kc_json_family CFSG.KD.Fi24Ext "Certificates/Kernel/Sporadic/Fi24Ext/data/regs.json" 9273 15590466030930604455
   (WC : List Nat) (WL : List Nat)
-#kc_repo #kc_json_gz CFSG.KD.Fi24Ext "Certificates/Kernel/Sporadic/Fi24Ext/data/regs.json.gz" 9273 15590466030930604455
+#kc_repo #kc_json CFSG.KD.Fi24Ext "Certificates/Kernel/Sporadic/Fi24Ext/data/regs.json" 9273 15590466030930604455
   (FSM : Nat) (OJ : List Nat) (MJ : List Nat) (SI : List Nat)
 #kc_listDispatch CFSG.KD.Fi24Ext WC WC 55
 #kc_listDispatch CFSG.KD.Fi24Ext WL WL 19

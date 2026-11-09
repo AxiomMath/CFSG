@@ -26,6 +26,12 @@ open CFSG.KC.Enum
 @[expose] noncomputable def wordP (n w PA PB PU : Nat) (ws : List Nat) : Nat :=
   ws.foldl (fun acc l => pcomp n w (CFSG.KS.mask w) acc (letP n w PA PB PU l)) (pidn n w)
 
+@[expose] noncomputable def letPI (PA PB IA IB PU l : Nat) : Nat :=
+  if l = 0 then PA else if l = 1 then PB else if l = 2 then IA else if l = 3 then IB else PU
+
+@[expose] noncomputable def wordPI (n w PA PB IA IB PU : Nat) (ws : List Nat) : Nat :=
+  ws.foldl (fun acc l => pcomp n w (CFSG.KS.mask w) acc (letPI PA PB IA IB PU l)) (pidn n w)
+
 @[expose] noncomputable def mF (MT : Nat → Nat → Nat) (a b : Nat) : Nat :=
   if a < 256 ∧ b < 256 then MT a b else 0
 

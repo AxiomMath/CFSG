@@ -90,8 +90,7 @@ theorem titsWC_true : titsWCCheck = true := by
   have h6 : sylArrs.all (fun g => !(commA g titsYArr && commA g titsZArr) ||
       eqA 1755 g (idA 1755) || eqA 1755 g titsXArr || eqA 1755 g (compA 1755 titsXArr titsXArr)) =
       true := by
-    unfold sylArrs
-    rw [List.all_map]
+    rw [sylArrs, List.all_map, Function.comp_def]
     refine List.all_eq_true.2 fun w hw => ?_
     exact wcP_sound (List.all_eq_true.1 lS w hw) (List.all_eq_true.1 kSyl w hw)
   have h7 : (!(eqA 1755 titsYArr (idA 1755)) && !(eqA 1755 titsYArr titsXArr) &&

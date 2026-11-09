@@ -24,17 +24,18 @@ namespace CertificateChecks.KernelSeitz
 
 open CFSG.KC.SeitzB45 Certificates.Seitz77CaseB45
 
-#kc_forall_chunks slice_all (fun c => sliceK c = true) 91 CertificateChecks.KernelSeitz.sliceK 1
+#kc_forall_chunks slice_all (fun c => sliceK c = true) 15 CertificateChecks.KernelSeitz.sliceK 1
 #kc_forall_chunks stats_all (fun i => statsK i = true) 15 CertificateChecks.KernelSeitz.statsK 1
 #kc_forall_chunks adm_all (fun c => admK c = true) 16 CertificateChecks.KernelSeitz.admK 1
 
-theorem sl_len : P6.SL.length = 91 := by decide +kernel
+theorem sl_len : P6.SL.length = 15 := by decide +kernel
 
 theorem ms_len : P6.MS.length = 15 := by decide +kernel
 
 theorem fb6_true : fb6Check mtF labF laddF = true := by
   rw [mtF_fun, labF_fun, laddF_fun]
-  exact fb6_of ms_len adm_all stats_all k_cover fun c hc => slice_all c (by rwa [sl_len] at hc)
+  exact fb6_of_orb gT lab_facts.1 (fun _ _ _ => labT_cj) (fun _ => labT_inv) k_orb ms_len adm_all
+    stats_all k_cover fun c hc => slice_all c (by rwa [sl_len] at hc)
 
 theorem fbSix_true : fbSixCheck = true := by
   unfold fbSixCheck

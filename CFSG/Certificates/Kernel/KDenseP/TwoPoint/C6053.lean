@@ -8,6 +8,8 @@ public import CFSG.Certificates.Kernel.KDense.Data.Fix
 public import CFSG.Certificates.Kernel.KDenseP.TwoPoint.Run
 public import Certificates.Data.Kernel.KDenseP.Replay
 public import CFSG.Certificates.Kernel.Common.Plan
+import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.KDense.Y443.Pairs
 public import CFSG.Monster.AxisCount.CoverLetters
 public import CFSG.Monster.B.TwoA.Base.Flags
@@ -42,13 +44,15 @@ public section
 set_option maxRecDepth 100000
 
 #kc_plan CFSG.KD.TP.c6053 "c6053.plan.txt" 17289 7194805170559101378
-#kc_plan CFSG.KD.TP.c6053 "c6053.grp.txt" 563 6718153439818765450
+#kc_plan CFSG.KD.TP.c6053 "c6053.grp.txt" 748 1327681586998270059
+#kc_repo #kc_ktree CFSG.KD.TP.c6053 RT "CFSG/Certificates/Kernel/KDenseP/TwoPoint/c6053.rec.bin" 129721 4
+  778326 18047647967910017636
 #kc_select CFSG.KD.TP.c6053 CH CH 39
 #kc_select CFSG.KD.TP.c6053 IXf IX 66
 #kc_select CFSG.KD.TP.c6053 PRf PR 9
 #kc_select CFSG.KD.TP.c6053 GKf GK 39
 #kc_listDispatch CFSG.KD.TP.c6053 WD wd 60
-#kc_listDispatch CFSG.KD.TP.c6053 Gf G 1
+#kc_listDispatch CFSG.KD.TP.c6053 Gf G 24
 
 namespace CFSG.KD.TP.c6053
 
@@ -56,6 +60,18 @@ open CFSG.KC.KDense
 
 @[expose] noncomputable def WL (σ : Nat) : List CFSG.Monster.AxisCount.Native.Gen :=
   CFSG.KC.KDenseP.decW (WD σ)
+
+@[expose] noncomputable def RXf (j : Nat) : Nat :=
+  Nat.land (RT j) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 509656)) (nat_lit 1))
+
+@[expose] noncomputable def RAf (j : Nat) : Nat :=
+  Nat.land (Nat.shiftRight (RT j) (nat_lit 509656)) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 3832)) (nat_lit 1))
+
+@[expose] noncomputable def RWf (j : Nat) : Nat := Nat.shiftRight (RT j) (nat_lit 513488)
+
+@[expose] noncomputable def S0 (k : Nat) : St :=
+  Bool.rec (motive := fun _ => St) ((fun j => mkSt (RXf j) (RAf j) (RWf j)) (Nat.sub k 3))
+    (CFSG.KD.KDF.I k) (Nat.blt k 3)
 
 @[expose] noncomputable def rn (c : Nat) (s : St) : St := CFSG.KD.TP.run (WD (f20 c (nat_lit 0))) c s
 

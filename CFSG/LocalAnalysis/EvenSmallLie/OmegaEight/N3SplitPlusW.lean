@@ -47,9 +47,10 @@ structure Wit where
     avoidCheck W.tcE W.ukE
 
 @[expose] def m2Check (W : Wit) : Bool :=
-  allRootsF 256 (invsOf W.tcE.keys) ((List.range 4096).filter fun v => mulVecK phiK v == v)
+  allRootsMinF 256 (invsOf W.tcE.keys) ((List.range 4096).filter fun v => mulVecK phiK v == v)
 
-@[expose] def offCheck (W : Wit) : Bool := allRootsF 2048 (invsOf W.tcE.keys) (List.range 4096)
+@[expose] def offCheck (W : Wit) : Bool :=
+  allRootsMinF 2048 (invsOf W.tcE.keys) (List.range 4096)
 
 @[expose] def phiCheck (W : Wit) : Bool :=
   fixCount phiK == 64 && imgCheckW phiK W.imgX && invPair phiK phiK && phiK != idK &&

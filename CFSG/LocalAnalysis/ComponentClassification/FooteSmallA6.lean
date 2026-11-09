@@ -30,7 +30,9 @@ theorem ab_ok : (a0 ∈ Q0list ∧ b0 ∈ Q0list) ∧ (QP.sift a0 0 = true ∧ Q
     dihB a0 b0 = true :=
   Certificates.certificate2016.2.2.2.2.1
 
-theorem pair_ok : pairCheck 3 4 Q0list (elemsT QP) [pa, pb] = true :=
+theorem pair_ok : ∀ u ∈ Q0list, ∀ v ∈ Q0list, IsDihPair u v →
+    ∀ X : Subgroup (Equiv.Perm (Fin 10)),
+      (∀ c, QP.sift c 0 = true → ∀ t ∈ dihInvs u v, c * t = t * c → c ∈ X) → pa ∈ X ∧ pb ∈ X :=
   Certificates.certificate2016.2.2.2.2.2
 
 theorem iSup_fix_eq_top {K : Type} [Group K] [Finite K] (e : K ≃* QP.originalSubgroup)
@@ -42,7 +44,7 @@ theorem iSup_fix_eq_top {K : Type} [Group K] [Finite K] (e : K ≃* QP.originalS
   have hcard : Q0list.length = 2 ^ QA.orderCertificate.factorization 2 := by
     rw [QA_valid.2, factorization_two_of_eq (k := 5) (r := 45) (by norm_num) (by norm_num)]
     exact Q0_length
-  exact iSup_fix_eq_top_of_checks QP QA QP_ok QA_ok QP_closure M hMP hMA Q0list Q0_closed
+  exact iSup_fix_eq_top_of_gen QP QA QP_ok QA_ok QP_closure M hMP hMA Q0list Q0_closed
     Q0_nodup hcard Q0_le pair_ok ab_ok.1.1 ab_ok.1.2 ab_ok.2.1.1 ab_ok.2.1.2 ab_ok.2.2 T hT hTP
 
 end CFSG.ComponentClassification.FooteSmall.A6

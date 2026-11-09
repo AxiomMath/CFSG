@@ -3,7 +3,7 @@ module
 public import CFSG.Sporadic.Recognition.Fi24PrimeMultiplierInputs
 import Certificates.Kernel.CosetCC.C24052A
 import Certificates.Kernel.Fi24PG10.Rels
-import CFSG.Certificates.Kernel.Misc.Coset.TableFact
+import CFSG.Certificates.Kernel.Misc.Coset.TableFactE
 
 public section
 
@@ -50,6 +50,6 @@ theorem certificate24052 : (genSub {r : FreeGroup (Fin nG) | r ∈ wsN.map FreeG
       (subsetOf nG [0, 1, 2, 3, 4, 5, 6, 7, 9, 10])).index ≤ 306936 := by
   have h := CFSG.KBFact.F24052
   rw [← CertificateChecks.Batch24052.rels_eq] at h
-  exact TableFact.genSub_index wsN (by norm_num) (subsetOf nG [0, 1, 2, 3, 4, 5, 6, 7, 9, 10]) h
+  exact TableFactE.genSub_index wsN (by norm_num) (subsetOf nG [0, 1, 2, 3, 4, 5, 6, 7, 9, 10]) h
 
 end Certificates

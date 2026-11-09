@@ -5,15 +5,15 @@ public import Certificates.Kernel.J4Q.MatData
 public import Certificates.Kernel.J4Q.QTData
 public import Certificates.Kernel.J4Q.QT2AData
 public import Certificates.Kernel.J4Q.MaskData
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CFSG.KD.J4NPV
 
-#kc_repo #kc_nat_items_gz CFSG.KD.J4NPV
-  "Certificates/Kernel/J4NPVerdict/data/Tabs.items.gz" 41262 16851517622876944126
+#kc_repo #kc_nat_items CFSG.KD.J4NPV
+  "Certificates/Kernel/J4NPVerdict/data/Tabs.items" 41262 16851517622876944126
   GI_[9] W1 W2 W1i W2i FM_[10]
 
 end CFSG.KD.J4NPV

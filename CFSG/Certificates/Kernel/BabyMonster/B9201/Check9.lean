@@ -15,9 +15,17 @@ public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data9
 public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data10
 public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data11
 public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data12
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data13
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data14
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data15
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data16
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data17
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data18
+public import CFSG.Certificates.Kernel.BabyMonster.BProg.Data19
 public import CFSG.Certificates.Kernel.BabyMonster.B9201.Data0
 public import CFSG.Certificates.Kernel.BabyMonster.B9201.Data1
 public import CFSG.Certificates.Kernel.BabyMonster.B9201.Data2
+public import CFSG.Certificates.Kernel.BabyMonster.B9201.Data3
 public import CFSG.Certificates.Kernel.BabyMonster.B9201.Spin
 public import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
 

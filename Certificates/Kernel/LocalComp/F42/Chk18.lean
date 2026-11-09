@@ -2,6 +2,7 @@ module
 
 public import Certificates.Data.Kernel.F42Lev.L18
 public import Certificates.Data.Kernel.F42Lev.L19
+public import Certificates.Data.Kernel.F42Lev.Sq
 public import Certificates.Kernel.LocalComp.BlockGen
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -12,7 +13,7 @@ namespace CertificateChecks.KernelLC.F42
 open CFSG.KC.F42
 
 @[expose] noncomputable def chk18 (c : Nat) : Bool :=
-  stepOK (nat_lit 18) L18 L19 Q18 (nat_lit 0) false c
+  stepOK (nat_lit 18) L18 R18 (nat_lit 7) L19 Q18 R19 (nat_lit 6) c
 
 theorem q0_18 : Nat.beq (fldW Q18 (nat_lit 17) (nat_lit 0)) (nat_lit 0) = true := by
   quickRfl

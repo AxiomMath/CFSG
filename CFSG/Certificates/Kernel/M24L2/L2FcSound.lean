@@ -196,6 +196,133 @@ theorem fcAllK_eq (hlen : dTwin.all.length ≤ 2048) : fcAllK = fcAllK2 := by
     List.filter_congr fun p hp => by rw [hps p hp, Bool.and_true]
   rw [eA, eB, eN, eP]
 
+theorem getD_evensFc {α : Type} (d : α) : ∀ (l : List α) (k : Nat),
+    (evensFc l).getD k d = l.getD (2 * k) d
+  | [], k => by simp [evensFc]
+  | [x], 0 => by simp [evensFc]
+  | [x], k + 1 => by simp [evensFc, Nat.mul_succ]
+  | x :: y :: l, 0 => by simp [evensFc]
+  | x :: y :: l, k + 1 => by
+    rw [evensFc, Nat.mul_succ, List.getD_cons_succ, getD_evensFc d l k]
+    simp
+
+theorem getD_oddsFc {α : Type} (d : α) : ∀ (l : List α) (k : Nat),
+    (oddsFc l).getD k d = l.getD (2 * k + 1) d
+  | [], k => by simp [oddsFc]
+  | [x], k => by simp [oddsFc]
+  | x :: y :: l, 0 => by simp [oddsFc]
+  | x :: y :: l, k + 1 => by
+    rw [oddsFc, List.getD_cons_succ, getD_oddsFc d l k, Nat.mul_succ]
+    simp
+
+theorem length_evensFc {α : Type} : ∀ l : List α, (evensFc l).length ≤ (l.length + 1) / 2
+  | [] => by simp [evensFc]
+  | [x] => by simp [evensFc]
+  | x :: y :: l => by
+    have := length_evensFc l
+    simp only [evensFc, List.length_cons]
+    omega
+
+theorem length_oddsFc {α : Type} : ∀ l : List α, (oddsFc l).length ≤ l.length / 2
+  | [] => by simp [oddsFc]
+  | [x] => by simp [oddsFc]
+  | x :: y :: l => by
+    have := length_oddsFc l
+    simp only [oddsFc, List.length_cons]
+    omega
+
+theorem getFc_ofListFc {α : Type} [Inhabited α] : ∀ (n : Nat) (L : List α), L.length ≤ n →
+    ∀ i, getFc (ofListFc n L) i = L.getD i default
+  | 0, L, h, i => by
+    rw [List.length_eq_zero_iff.1 (Nat.le_zero.1 h)]
+    simp [ofListFc, getFc]
+  | n + 1, [], _, i => by simp [ofListFc, getFc]
+  | n + 1, x :: l, h, 0 => by simp [ofListFc, getFc]
+  | n + 1, x :: l, h, i + 1 => by
+    simp only [List.length_cons] at h
+    have he := length_evensFc l
+    have ho := length_oddsFc l
+    simp only [ofListFc, getFc, List.getD_cons_succ]
+    split
+    · rw [getFc_ofListFc n _ (by omega), getD_evensFc]
+      congr 1
+      omega
+    · rw [getFc_ofListFc n _ (by omega), getD_oddsFc]
+      congr 1
+      omega
+
+theorem getFc_treeFc {α : Type} [Inhabited α] (L : List α) (i : Nat) :
+    getFc (treeFc L) i = L.getD i default :=
+  getFc_ofListFc L.length L (Nat.le_refl _) i
+
+theorem find?_fst_of_nodup {β : Type} : ∀ {l : List (Nat × β)} {e : Nat × β},
+    (l.map Prod.fst).Nodup → e ∈ l → l.find? (fun x => x.1 == e.1) = some e
+  | [], _, _, he => absurd he List.not_mem_nil
+  | a :: l, e, hnd, he => by
+    rw [List.map_cons, List.nodup_cons] at hnd
+    rcases List.mem_cons.1 he with rfl | he
+    · simp
+    · have hne : a.1 ≠ e.1 := fun h => hnd.1 (h ▸ List.mem_map_of_mem he)
+      rw [List.find?_cons_of_neg (by simpa using hne)]
+      exact find?_fst_of_nodup hnd.2 he
+
+theorem dQ_nodup : (dQ.map Prod.fst).Nodup := by
+  have h := ti_loop (lets := List.finRange 3) (lc := dC) (N := 2 ^ 20) (keyN := fun c => c)
+    (fun c hc => hc) 2048 0 _ (ti_init (fun c hc => hc) idC_lt)
+  rw [Nat.zero_add] at h
+  change TI (2 ^ 20) (fun c => c) dC (List.finRange 3) idC 2048 dTwin at h
+  have hnd := h.nd
+  rw [dQ, List.map_reverse, List.nodup_reverse]
+  exact hnd
+
+theorem flatMap_src {β : Type} (F : Nat × List (Fin 3) → Fin 3 → β) :
+    ∀ l : List (Nat × List (Fin 3)), (l.flatMap fun xw => (List.finRange 3).map fun k => F xw k) =
+      (fcSrcK l).map fun s => F s.1 s.2
+  | [] => rfl
+  | a :: l => by
+    rw [fcSrcK, List.flatMap_cons, List.flatMap_cons, List.map_append, ← fcSrcK,
+      flatMap_src F l, List.map_map]
+    rfl
+
+theorem zip_lookup {Q : List (Nat × List (Fin 3))} (hnd : (Q.map Prod.fst).Nodup) {n : Nat}
+    (hn : Q.length = n) {g : Nat → Nat × List (Fin 3)} (hg : ∀ m, g m = Q.getD m default) :
+    ∀ (S : List ((Nat × List (Fin 3)) × Fin 3)) (M : List Nat), S.length = M.length →
+    (List.zipWith (fun s m => Nat.blt m n && Nat.beq (g m).1 (mulC s.1.1 (dC s.2))) S M).all id =
+      true →
+    S.map (fun s => (s.1.2 ++ [s.2],
+      ((Q.find? fun e => e.1 == mulC s.1.1 (dC s.2)).map Prod.snd).getD [])) =
+    List.zipWith (fun s m => (s.1.2 ++ [s.2], (g m).2)) S M
+  | [], _, _, _ => by simp
+  | _ :: _, [], h, _ => by simp at h
+  | s :: S, m :: M, h, hall => by
+    rw [List.zipWith_cons_cons, List.all_cons, Bool.and_eq_true] at hall
+    obtain ⟨h1, h2⟩ := hall
+    simp only [id, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
+    obtain ⟨hm, hk⟩ := h1
+    rw [List.map_cons, List.zipWith_cons_cons,
+      zip_lookup hnd hn hg S M (by simpa using h) h2]
+    rw [hg] at hk ⊢
+    have hmd : m < Q.length := by rw [hn]; exact hm
+    rw [List.getD_eq_getElem _ _ hmd] at hk ⊢
+    rw [← hk, find?_fst_of_nodup hnd (List.getElem_mem hmd)]
+    rfl
+
+theorem fcAllK2_eq3 (hpos : fcPosOk (treeFc dQ) = true) : fcAllK2 = fcAllK3 := by
+  unfold fcPosOk at hpos
+  rw [Bool.and_eq_true, Bool.and_eq_true, Nat.beq_eq, Nat.beq_eq] at hpos
+  obtain ⟨⟨hdq, hpl⟩, hall⟩ := hpos
+  have h2 := zip_lookup dQ_nodup (n := 1152) (g := getFc (treeFc dQ)) hdq (getFc_treeFc dQ)
+    (fcSrcK dQ) fcPosK hpl hall
+  have h1 := flatMap_src (fun xw k =>
+      (xw.2 ++ [k], ((dQ.find? fun e => e.1 == mulC xw.1 (dC k)).map Prod.snd).getD [])) dQ
+  have hps : (dQ.flatMap fun xw => (List.finRange 3).map fun k =>
+      (xw.2 ++ [k], ((dQ.find? fun e => e.1 == mulC xw.1 (dC k)).map Prod.snd).getD [])) =
+      List.zipWith (fun s m => (s.1.2 ++ [s.2], (getFc (treeFc dQ) m).2)) (fcSrcK dQ) fcPosK :=
+    h1.trans h2
+  unfold fcAllK2 fcAllK3
+  simp only []
+  rw [hps]
+
 section Tree
 
 variable {L : List Nat} (hR : ReachL L) (h0 : L.contains 0 = false)
@@ -371,5 +498,164 @@ theorem fcCheck_of {L : List Nat} (hR : ReachL L) (hL : ∀ m ∈ L, m < 65536)
     rw [hdl, fcAll_eq, hthc, fcTree_eq hR h0 (fun d hd => hG d (hD d hd).1) fcAllK thCodesK 3 []
       (by simp)]
     exact htree
+
+theorem nthFc_mem {α : Type} : ∀ {l : List α} {i : Nat} {a : α}, nthFc l i = some a → a ∈ l
+  | [], _, _, h => by simp [nthFc] at h
+  | _ :: _, 0, _, h => by
+    simp only [nthFc, Option.some.injEq] at h
+    rw [h]
+    exact List.mem_cons_self
+  | _ :: l, i + 1, _, h => List.mem_cons_of_mem _ (nthFc_mem (l := l) (i := i) h)
+
+theorem option_all_false {α : Type} {p : α → Bool} :
+    ∀ {o : Option α}, o.all p = false → ∃ a, o = some a ∧ p a = false
+  | none, h => by simp at h
+  | some a, h => ⟨a, rfl, h⟩
+
+theorem list_all_false {α : Type} {p : α → Bool} {l : List α} {a : α} (ha : a ∈ l)
+    (hp : p a = false) : l.all p = false := by
+  cases h : l.all p
+  · rfl
+  · rw [List.all_eq_true] at h
+    rw [h a ha] at hp
+    exact hp
+
+theorem goodCK_of_condFcK {cs : FCConds} {u : Fin 3 → Nat} {k : Nat}
+    (h : condFcK cs u k = false) : goodCK cs u = false := by
+  unfold condFcK at h
+  unfold goodCK
+  cases h0 : Nat.beq (k % 4) 0 <;> simp only [h0, Bool.cond_true, Bool.cond_false] at h
+  · cases h1 : Nat.beq (k % 4) 1 <;> simp only [h1, Bool.cond_true, Bool.cond_false] at h
+    · cases h2 : Nat.beq (k % 4) 2 <;> simp only [h2, Bool.cond_true, Bool.cond_false] at h
+      · obtain ⟨w, hw, hf⟩ := option_all_false h
+        rw [list_all_false (nthFc_mem hw) hf, Bool.and_false]
+      · obtain ⟨w, hw, hf⟩ := option_all_false h
+        rw [list_all_false (p := fun p => Nat.beq (evK u p.1) (evK u p.2)) (nthFc_mem hw) hf]
+        simp
+    · obtain ⟨w, hw, hf⟩ := option_all_false h
+      rw [list_all_false (p := fun w => isTtK (evK u w)) (nthFc_mem hw) hf]
+      simp
+  · obtain ⟨w, hw, hf⟩ := option_all_false h
+    rw [list_all_false (p := fun w => isBtK (evK u w)) (nthFc_mem hw) hf]
+    simp
+
+theorem eq_of_fcTupK {a b : List FCConds} (h : (a.map fcTupK == b.map fcTupK) = true) : a = b := by
+  refine List.map_injective_iff.2 (fun x y hxy => ?_) (beq_iff_eq.1 h)
+  cases x
+  cases y
+  simp only [fcTupK, Prod.mk.injEq] at hxy
+  obtain ⟨h1, h2, h3, h4⟩ := hxy
+  rw [h1, h2, h3, h4]
+
+theorem goodFcK_eq (cs : FCConds) (u : Fin 3 → Nat) : goodFcK cs u = goodCK cs u := by
+  have hP : cs.wP.all (fun p => p.1 == p.2 || Nat.beq (evK u p.1) (evK u p.2)) =
+      cs.wP.all (fun p => Nat.beq (evK u p.1) (evK u p.2)) := by
+    congr 1
+    funext p
+    by_cases h : p.1 = p.2
+    · rw [h, Nat.beq_refl]
+      simp
+    · simp [h]
+  unfold goodFcK goodCK
+  rw [hP]
+
+theorem filter_selFc (cs : FCConds) (P : List Nat) : ∀ (dl fl : List Nat),
+    flOkK cs P dl fl = true → dl.filter (fun v => goodCK cs (asgK (P ++ [v]))) = selFc dl fl
+  | [], [], _ => rfl
+  | v :: dl, 0 :: fl, h => by
+    simp only [flOkK, Bool.and_eq_true, goodFcK_eq] at h
+    rw [List.filter_cons_of_pos (p := fun v => goodCK cs (asgK (P ++ [v]))) h.1,
+      filter_selFc cs P dl fl h.2]
+    rfl
+  | v :: dl, (k + 1) :: fl, h => by
+    simp only [flOkK, Bool.and_eq_true, Bool.not_eq_true'] at h
+    have hg := goodCK_of_condFcK h.1
+    rw [List.filter_cons_of_neg (p := fun v => goodCK cs (asgK (P ++ [v])))
+      (by rw [hg]; exact Bool.false_ne_true), filter_selFc cs P dl fl h.2]
+    rfl
+  | [], _ :: _, h => by simp [flOkK] at h
+  | _ :: _, [], h => by simp [flOkK] at h
+
+theorem repsOkK_spec (C : List Nat) : ∀ (reps G : List Nat) (rc : List (Bool × Nat × Nat)),
+    repsOkK C reps G rc = true →
+    G.foldl (fun reps v => if reps.any fun r => C.any fun e => conjEqK e v r
+      then reps else reps ++ [v]) reps = reps ++ repsOfFc G rc ∧
+    ∀ v ∈ G, ∃ r ∈ reps ++ repsOfFc G rc, ∃ e ∈ C, conjEqK e v r = true
+  | reps, [], [], _ => ⟨by simp [repsOfFc], by simp⟩
+  | reps, v :: G, (a, r, e) :: rc, h => by
+    simp only [repsOkK, Bool.and_eq_true] at h
+    obtain ⟨⟨hce, hcj⟩, h⟩ := h
+    have he := List.contains_iff_mem.1 hce
+    cases a
+    · simp only [Bool.cond_false, Bool.and_eq_true] at h
+      obtain ⟨hr, h⟩ := h
+      have hr' := List.contains_iff_mem.1 hr
+      have hany : (reps.any fun x => C.any fun f => conjEqK f v x) = true :=
+        List.any_eq_true.2 ⟨r, hr', List.any_eq_true.2 ⟨e, he, hcj⟩⟩
+      obtain ⟨ih1, ih2⟩ := repsOkK_spec C reps G rc h
+      rw [List.foldl_cons]
+      simp only [hany, ↓reduceIte]
+      rw [ih1]
+      refine ⟨rfl, fun y hy => ?_⟩
+      rcases List.mem_cons.1 hy with rfl | hy
+      · exact ⟨r, List.mem_append_left _ hr', e, he, hcj⟩
+      · exact ih2 y hy
+    · simp only [Bool.cond_true, Bool.and_eq_true, Nat.beq_eq] at h
+      obtain ⟨⟨hrv, hall⟩, h⟩ := h
+      have hany : (reps.any fun x => C.any fun f => conjEqK f v x) = false := by
+        cases hh : reps.any fun x => C.any fun f => conjEqK f v x
+        · rfl
+        · obtain ⟨x, hx, hx2⟩ := List.any_eq_true.1 hh
+          obtain ⟨f, hf, hf2⟩ := List.any_eq_true.1 hx2
+          have h3 := List.all_eq_true.1 (List.all_eq_true.1 hall x hx) f hf
+          rw [hf2] at h3
+          exact absurd h3 Bool.false_ne_true
+      obtain ⟨ih1, ih2⟩ := repsOkK_spec C (reps ++ [v]) G rc h
+      rw [List.foldl_cons]
+      simp only [hany, Bool.false_eq_true, ↓reduceIte]
+      rw [ih1]
+      have hR : repsOfFc (v :: G) ((true, r, e) :: rc) = v :: repsOfFc G rc := rfl
+      rw [hR]
+      refine ⟨by simp, fun y hy => ?_⟩
+      rcases List.mem_cons.1 hy with rfl | hy
+      · refine ⟨y, by simp, e, he, ?_⟩
+        rw [hrv] at hcj
+        exact hcj
+      · obtain ⟨x, hx, f, hf, hxf⟩ := ih2 y hy
+        exact ⟨x, by simpa using hx, f, hf, hxf⟩
+  | _, [], _ :: _, h => by simp [repsOkK] at h
+  | _, _ :: _, [], h => by simp [repsOkK] at h
+
+theorem mkRepsK_of_rec {C G : List Nat} {rc : List (Bool × Nat × Nat)}
+    (h : repsOkK C [] G rc = true) : mkRepsK C G = repsOfFc G rc ∧
+      ∀ v ∈ G, ∃ r ∈ repsOfFc G rc, ∃ e ∈ C, conjEqK e v r = true := by
+  have h' := repsOkK_spec C [] G rc h
+  rw [List.nil_append] at h'
+  exact h'
+
+theorem fcTreeK_of_R (dl : List Nat) (cs : List FCConds) (thc : List Nat)
+    (R : List (List Nat × List Nat × List (Bool × Nat × Nat))) : ∀ (fuel : Nat) (P : List Nat),
+      fcTreeR dl cs thc R fuel P = true → fcTreeK dl cs thc fuel P = true
+  | 0, _, h => h
+  | fuel + 1, P, h => by
+    unfold fcTreeR at h
+    unfold fcTreeK
+    simp only [Bool.and_eq_true] at h ⊢
+    obtain ⟨⟨⟨hfl, hrc⟩, hlt⟩, hch⟩ := h
+    rw [filter_selFc _ P dl _ hfl]
+    obtain ⟨hm1, hm2⟩ := mkRepsK_of_rec hrc
+    rw [hm1]
+    refine ⟨⟨hlt, ?_⟩, ?_⟩
+    · rw [List.all_eq_true]
+      intro v hv
+      have hv' : v ∈ (if (selFc dl (recFc R P).1).contains (thc.getD P.length 0) = true then
+          thc.getD P.length 0 :: selFc dl (recFc R P).1 else selFc dl (recFc R P).1) := by
+        split
+        · exact List.mem_cons_of_mem _ hv
+        · exact hv
+      obtain ⟨r, hr, e, he, hre⟩ := hm2 v hv'
+      exact List.any_eq_true.2 ⟨r, hr, List.any_eq_true.2 ⟨e, he, hre⟩⟩
+    · rw [List.all_eq_true] at hch ⊢
+      exact fun r hr => fcTreeK_of_R dl cs thc R fuel _ (hch r hr)
 
 end CFSG.KC.M24L2

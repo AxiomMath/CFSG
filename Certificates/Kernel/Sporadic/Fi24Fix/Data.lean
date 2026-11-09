@@ -1,16 +1,15 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Br.Data
 public import Certificates.Data.Kernel.Spor.Fi24Fix
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Fix MX "Certificates/Kernel/Sporadic/Fi24Fix/data/mats.bin.gz" 152491 4 609964 15731757062940866396
-#kc_repo #kc_json_gz CFSG.KD.Fi24Fix "Certificates/Kernel/Sporadic/Fi24Fix/data/word.json.gz" 82
+#kc_repo #kc_ktree CFSG.KD.Fi24Fix MX "Certificates/Kernel/Sporadic/Fi24Fix/data/mats.bin" 152491 4 609964 15731757062940866396
+#kc_repo #kc_json CFSG.KD.Fi24Fix "Certificates/Kernel/Sporadic/Fi24Fix/data/word.json" 82
   16998776890645267019 (W : List Nat)
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Fix ST "Certificates/Kernel/Sporadic/Fi24Fix/data/orbit.bin.gz" 768 4 95013 197314662179044685
+#kc_repo #kc_ktree CFSG.KD.Fi24Fix ST "Certificates/Kernel/Sporadic/Fi24Fix/data/orbit.bin" 768 4 95013 197314662179044685
 
 public section
 

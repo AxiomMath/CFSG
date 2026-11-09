@@ -9,8 +9,8 @@ set_option maxRecDepth 100000
 
 namespace CFSG.KD.Co1P
 
-#kc_repo #kc_json_gz CFSG.KD.Co1P
-  "Certificates/Kernel/Co1P/data/Pin21154.json.gz" 348884 7145479115284291943
+#kc_repo #kc_json CFSG.KD.Co1P
+  "Certificates/Kernel/Co1P/data/Pin21154.json" 348884 7145479115284291943
   (QM0 : List Nat) (OF0 : List Nat) (NF0 : List Nat) (MQ0 : List Nat) (QM1 : List Nat)
   (OF1 : List Nat) (NF1 : List Nat) (MQ1 : List Nat) (QM2 : List Nat) (OF2 : List Nat)
   (NF2 : List Nat) (MQ2 : List Nat) (QM3 : List Nat) (OF3 : List Nat) (NF3 : List Nat)

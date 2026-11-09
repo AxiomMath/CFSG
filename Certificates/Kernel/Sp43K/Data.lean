@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Sp43K "Certificates/Kernel/Sp43K/data/sp43k.json.gz" 115199 18325373957644355228
+#kc_repo #kc_json CFSG.KD.Sp43K "Certificates/Kernel/Sp43K/data/sp43k.json" 115199 18325373957644355228
   (g : List (Nat × Nat)) (ns : List ((Nat × Nat) × (Nat × Nat)))
   (nq : List (Nat × Nat × Nat × Nat))
   (m0P : Nat) (m0D : Nat) (m0R : List (Nat × Nat × Nat × Nat))

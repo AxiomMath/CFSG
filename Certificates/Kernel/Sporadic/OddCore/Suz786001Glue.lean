@@ -66,23 +66,29 @@ theorem isInv_of {t : Array Nat} {P : Nat} (ht : t = unpack 1782 11 P) (hP : PP 
   rw [ht, invCand_PP hP]
   exact CFSG.KS.Raw.Orb.isInvA_unpack (permB_of_pp hP)
 
+theorem arr4_get0 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[0]! = a := rfl
+
+theorem arr4_get1 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[1]! = b := rfl
+
+theorem arr4_get2 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[2]! = c := rfl
+
+theorem arr4_get3 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[3]! = d := rfl
+
 theorem rep_gs {h : Nat} (hh : h < 4) : Rep 1782 suzCtrlGens[h]! (gs h) := by
   have r1 := (rep_permOfArr (isInv_of y1_eq pp0)).1
   have r2 := (rep_permOfArr (isInv_of y2_eq pp1)).1
   have rm := rep_permOfArr (isInv_of m_eq pp2)
   have hh' : h = 0 ∨ h = 1 ∨ h = 2 ∨ h = 3 := by omega
   rcases hh' with rfl | rfl | rfl | rfl
-  · exact r1
-  · exact r2
-  · have e : suzCtrlGens[2]! =
-        compA 1782 (compA 1782 suzMArr suzY1Arr) (invCand 1782 suzMArr) := by
-      simp [suzCtrlGens]
-    rw [e]
+  · rw [suzCtrlGens, arr4_get0, show gs 0 = permOfArr 1782 suzY1Arr by simp [gs]]
+    exact r1
+  · rw [suzCtrlGens, arr4_get1, show gs 1 = permOfArr 1782 suzY2Arr by simp [gs]]
+    exact r2
+  · rw [suzCtrlGens, arr4_get2, show gs 2 = permOfArr 1782 suzMArr * permOfArr 1782 suzY1Arr *
+      (permOfArr 1782 suzMArr)⁻¹ by simp [gs]]
     exact rep_compA (rep_compA rm.1 r1) rm.2
-  · have e : suzCtrlGens[3]! =
-        compA 1782 (compA 1782 suzMArr suzY2Arr) (invCand 1782 suzMArr) := by
-      simp [suzCtrlGens]
-    rw [e]
+  · rw [suzCtrlGens, arr4_get3, show gs 3 = permOfArr 1782 suzMArr * permOfArr 1782 suzY2Arr *
+      (permOfArr 1782 suzMArr)⁻¹ by simp [gs]]
     exact rep_compA (rep_compA rm.1 r2) rm.2
 
 theorem rep_gsInv {h : Nat} (hh : h < 4) : Rep 1782 suzCtrlGensInv[h]! (gs h)⁻¹ := by

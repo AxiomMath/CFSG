@@ -50,44 +50,72 @@ meta def mulF (c : LayV) (A B : Nat) : Nat := Id.run do
   return joinN c.S rc 0 c.d
 
 meta def powF (c : LayV) (X e : Nat) : Nat := Id.run do
-  if e == 0 then return c.ONE
-  let mut acc := X
-  for _ in [1:e] do acc := mulF c acc X
-  return acc
+  let mut acc : Option Nat := none
+  let mut b := X
+  let mut k := e
+  while 0 < k do
+    if k % 2 == 1 then
+      acc := some (match acc with
+        | none => b
+        | some a => mulF c a b)
+    k := k / 2
+    if 0 < k then b := mulF c b b
+  return acc.getD c.ONE
 
-meta def runChunkF (c : LayV) (S : List Nat) (n : Nat) (ops : List (List Nat)) (out : List Nat) :
-    CoreM (List Nat) := do
-  let mut R : Array Nat := (S ++ List.replicate (n - S.length) c.ONE).toArray
+meta def runChunkF (c : LayV) (pre : Name) (i : Nat) (one : Expr) (S : List (Nat × Expr)) (n : Nat)
+    (ops : List (List Nat)) (out : List Nat) : CoreM (List (Nat × Expr)) := do
+  let mut R : Array (Nat × Option Expr) :=
+    (S.map (fun (p : Nat × Expr) => (p.1, some p.2)) ++
+      List.replicate (n - S.length) (c.ONE, some one)).toArray
+  let val (R : Array (Nat × Option Expr)) (i : Nat) : Nat := (R.getD i (c.ONE, none)).1
   for o in ops do
     match o with
-    | [0, i, j, k] => R := R.set! k (mulF c (R.getD i c.ONE) (R.getD j c.ONE))
-    | [e, i, _, k] => R := R.set! k (powF c (R.getD i c.ONE) e)
+    | [0, i, j, k] => R := R.set! k (mulF c (val R i) (val R j), none)
+    | [e, i, _, k] => R := R.set! k (powF c (val R i) e, none)
     | _ => throwError "#lay_snaps_chunks_f: not an operation: {o}"
-  return out.map fun r => R.getD r c.ONE
+  let mut res := #[]
+  for r in out do
+    match R.getD r (c.ONE, some one) with
+    | (x, some e) => res := res.push (x, e)
+    | (x, none) =>
+      let nm := pre ++ Name.mkSimple s!"S{i}_{res.size}"
+      addDef nm natE (bigLit x)
+      res := res.push (x, mkConst nm)
+  return res.toList
 
 elab "#lay_snaps_chunks_f " pre:ident p:num d:num a:ident b:ident cs:ident : command => do
   let pre := pre.getId
-  let A ← liftCoreM <| do natOfE (← valueOf (← realizeGlobalConstNoOverload a))
-  let B ← liftCoreM <| do natOfE (← valueOf (← realizeGlobalConstNoOverload b))
+  let AE := mkConst (← liftCoreM <| realizeGlobalConstNoOverload a)
+  let BE := mkConst (← liftCoreM <| realizeGlobalConstNoOverload b)
+  let A ← liftCoreM <| natOfE AE
+  let B ← liftCoreM <| natOfE BE
   let chs ← liftCoreM <| do listOfE (← valueOf (← realizeGlobalConstNoOverload cs))
   let c := layOf p.getNat d.getNat
   withSync do
     let listT := mkApp (mkConst ``List [0]) natE
-    let mut S : List Nat := [A, B]
-    addDef (pre ++ `S0) listT (natList S)
+    let exprList (S : List (Nat × Expr)) : Expr := S.foldr
+      (fun (p : Nat × Expr) acc => mkApp3 (mkConst ``List.cons [0]) natE p.2 acc)
+      (mkApp (mkConst ``List.nil [0]) natE)
+    addDef (pre ++ `SONE) natE (bigLit c.ONE)
+    let one := mkConst (pre ++ `SONE)
+    let mut S : List (Nat × Expr) := [(A, AE), (B, BE)]
+    addDef (pre ++ `S0) listT (exprList S)
     let mut i := 0
     for ch in chs do
       let (nE, rest) ← pairOfE ch
       let (opsE, outE) ← pairOfE rest
       let ops ← (← listOfE opsE).mapM fun o => do (← listOfE o).mapM natOfE
-      S ← runChunkF c S (← natOfE nE) ops (← (← listOfE outE).mapM natOfE)
+      S ← runChunkF c pre (i + 1) one S (← natOfE nE) ops (← (← listOfE outE).mapM natOfE)
       i := i + 1
-      addDef (pre ++ Name.mkSimple s!"S{i}") listT (natList S)
+      addDef (pre ++ Name.mkSimple s!"S{i}") listT (exprList S)
     let sl := (List.range (i + 1)).foldr
       (fun k acc => mkApp3 (mkConst ``List.cons [0]) listT
         (mkConst (pre ++ Name.mkSimple s!"S{k}")) acc)
       (mkApp (mkConst ``List.nil [0]) listT)
     addDef (pre ++ `SL) (mkApp (mkConst ``List [0]) listT) sl
+
+meta def canonLayF (c : LayV) (X : Nat) : Bool :=
+  X >>> (c.d * c.S) == 0 && X &&& c.H == 0 && c.red c.L c.H X == X
 
 meta unsafe def evalWord (n : Name) : CoreM (List (Nat × Nat)) :=
   evalConst (List (Nat × Nat)) n
@@ -110,14 +138,17 @@ elab "#lay_wsegs_f " pre:ident p:num d:num s:ident i:ident w:ident k:num : comma
   let nseg := (wd.length + k - 1) / k
   withSync do
     let mut acc := c.ONE
+    let mut first := true
     let mut ws : Array Nat := Array.replicate nseg 0
     for j in [0:nseg] do
       let i := nseg - 1 - j
       for q in ((wd.drop (i * k)).take k).reverse do
-        acc := mulF c (powF c (get q.1) q.2) acc
+        let y := powF c (get q.1) q.2
+        acc := if first && canonLayF c y then y else mulF c y acc
+        first := false
       ws := ws.set! i acc
     for i in [0:nseg] do
-      addDef (pre ++ Name.mkSimple s!"W{i}") natE (lit ws[i]!)
+      addDef (pre ++ Name.mkSimple s!"W{i}") natE (bigLit ws[i]!)
     let wl := (List.range nseg).foldr
       (fun i acc => mkApp3 (mkConst ``List.cons [0]) natE
         (mkConst (pre ++ Name.mkSimple s!"W{i}")) acc)

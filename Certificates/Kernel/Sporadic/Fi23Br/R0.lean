@@ -10,8 +10,6 @@ public section
 
 #kc_each CFSG.KD.BrFi23.relC 0 55
 
-#kc_each CFSG.KD.BrFi23.rsC 0 2
-
 #kc_each CFSG.KD.BrFi23.relC 56 57
 
 end

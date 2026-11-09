@@ -2,21 +2,21 @@ module
 
 public import Certificates.Kernel.Sporadic.OddCore.Suz1379101
 public import Certificates.Data.Kernel.Spor.Prim
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Each
 
 public section
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelSpor.S1379101 CW
-  "Certificates/Kernel/Sporadic/OddCore/data1379101/CW.bin.gz" 2451 4 14706 14811029822122032292
-#kc_repo #kc_ktree_gz CertificateChecks.KernelSpor.S1379101 TRI
-  "Certificates/Kernel/Sporadic/OddCore/data1379101/TRI.bin.gz" 2451 4 7353 13064891601533556731
-#kc_repo #kc_ktree_gz CertificateChecks.KernelSpor.S1379101 TRII
-  "Certificates/Kernel/Sporadic/OddCore/data1379101/TRII.bin.gz" 2451 4 7353 10655682379573407829
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.S1379101.WD
-  "Certificates/Kernel/Sporadic/OddCore/data1379101/W.json.gz" 18833 17913779928114083853
+#kc_repo #kc_ktree CertificateChecks.KernelSpor.S1379101 CW
+  "Certificates/Kernel/Sporadic/OddCore/data1379101/CW.bin" 2451 4 14706 14811029822122032292
+#kc_repo #kc_ktree CertificateChecks.KernelSpor.S1379101 TRI
+  "Certificates/Kernel/Sporadic/OddCore/data1379101/TRI.bin" 2451 4 7353 13064891601533556731
+#kc_repo #kc_ktree CertificateChecks.KernelSpor.S1379101 TRII
+  "Certificates/Kernel/Sporadic/OddCore/data1379101/TRII.bin" 2451 4 7353 10655682379573407829
+#kc_repo #kc_json CertificateChecks.KernelSpor.S1379101.WD
+  "Certificates/Kernel/Sporadic/OddCore/data1379101/W.json" 18833 17913779928114083853
   (rw : List (List Nat)) (g2u : List (List Nat)) (g2v : List (List Nat)) (g3u : List (List Nat))
   (g3v : List (List Nat)) (q : List (List Nat)) (c : List (List Nat)) (wa : List Nat) (wb : List Nat)
 

@@ -47,7 +47,7 @@ deriving Inhabited
 
 @[expose] def RSpec.wf (D : RSpec) : Bool :=
   decide (2 ≤ D.p) && pcWf D.pc &&
-  D.mods.all (fun m => m.nm.wf D.p && decide (2 ≤ m.nm.basis.length) &&
+  D.mods.all (fun m => m.nm.wfN D.p && decide (2 ≤ m.nm.basis.length) &&
     decide (m.ws.length = m.nm.basis.length) &&
     m.ws.all fun w => w.all fun a => D.pc.any (·.reg == a.1)) &&
   derWf D.actRegs D.ders &&

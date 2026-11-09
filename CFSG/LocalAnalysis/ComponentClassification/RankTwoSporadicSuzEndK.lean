@@ -34,7 +34,10 @@ structure SuzEndFactsK : Prop where
       suzEndE 0 * ((permOfArr 1782 b)⁻¹ * suzEndE 0 * permOfArr 1782 b)
   lgrp : ∃ l : Array (Array ℕ), (∀ k < l.size, suzInMA l[k]! ∧
       ∀ j < 2, permOfArr 1782 l[k]! * suzEndE j = suzEndE j * permOfArr 1782 l[k]!) ∧
-    Nat.card (closure (permsA 1782 l)) = 20160 ∧
+    20160 ≤ Nat.card (closure (permsA 1782 l)) ∧
+    (∃ Δ : Set (Fin 1782), (∀ k < l.size, ∀ x, permOfArr 1782 l[k]! x ∈ Δ ↔ x ∈ Δ) ∧
+      ∀ y ∈ ({suzEndE 0, suzEndE 1, suzEndE 0 * suzEndE 1} : Set (Equiv.Perm (Fin 1782))),
+        ∃ x ∈ Δ, y x ∉ Δ) ∧
     ∃ s : Array (Array ℕ), (∀ k < s.size, permOfArr 1782 s[k]! ∈ closure (permsA 1782 l)) ∧
       Nat.card (closure (permsA 1782 s)) = 64 ∧
       ∀ z ∈ closure (permsA 1782 s), z ^ 2 = 1 → z ≠ 1 → fix1782 z ≠ 42

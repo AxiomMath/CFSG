@@ -7,8 +7,8 @@ public section
 
 namespace CertificateChecks.KernelO8.SB3873
 
-#kc_repo #kc_json_gz CertificateChecks.KernelO8.SB3873
-  "Certificates/Kernel/OmegaEight/data/SB3873E1.json.gz" 14739 17686041439241129465
+#kc_repo #kc_json CertificateChecks.KernelO8.SB3873
+  "Certificates/Kernel/OmegaEight/data/SB3873E1.json" 14739 17686041439241129465
   (cenQ10 : List Nat) (cenB10 : List Nat) (cenQ11 : List Nat) (cenB11 : List Nat)
   (cenQ12 : List Nat) (cenB12 : List Nat) (cenQ13 : List Nat) (cenB13 : List Nat)
   (cenQ14 : List Nat) (cenB14 : List Nat) (cenQ15 : List Nat) (cenB15 : List Nat)

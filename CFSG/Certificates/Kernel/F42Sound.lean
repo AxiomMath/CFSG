@@ -12,7 +12,19 @@ open CFSG.KC.Enum CFSG.EvenSmallLie.FFourTwo
 
 theorem strictN_eq (y : ℕ) (k : ℕ → ℕ) : strictN y k = k y := by cases y <;> rfl
 
-theorem lowK_eq (m : ℕ) : lowK m = Pc.lowIdx m := rfl
+theorem lowSel_eq (b j : ℕ) :
+    Bool.rec (motive := fun _ => ℕ) (Nat.log2 b) j (Nat.beq (Nat.shiftLeft 1 j) b) = Nat.log2 b := by
+  cases h : Nat.beq (Nat.shiftLeft 1 j) b
+  · rfl
+  · change j = Nat.log2 b
+    have e := Nat.eq_of_beq_eq_true h
+    have h2 : Nat.shiftLeft 1 j = 2 ^ j := Nat.one_shiftLeft j
+    rw [← e, h2, Nat.log2_two_pow]
+
+theorem lowK_eq (m : ℕ) : lowK m = Pc.lowIdx m := by
+  unfold lowK
+  rw [strictN_eq, strictN_eq]
+  exact lowSel_eq _ _
 
 theorem dropK_eq (m : ℕ) : dropK m = Pc.dropLow m := rfl
 

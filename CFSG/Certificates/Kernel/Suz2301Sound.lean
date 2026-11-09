@@ -340,18 +340,20 @@ private theorem hasF_start (n X Q T : Nat) :
   omega
 
 private theorem wmaskK_eq (d r : Nat) :
-    wmaskK d r = 2 ^ 64 * ∑ i ∈ Finset.range d, (2 ^ 64 - 1) * 2 ^ (64 * rg r i) := by
-  have h := foldN_add (f := fun i a => Nat.add a (Nat.shiftLeft (nat_lit 18446744073709551615)
-    (Nat.mul (nat_lit 64) (Nat.add (rg r i) (nat_lit 1)))))
-    (g := fun i => 2 ^ 64 * ((2 ^ 64 - 1) * 2 ^ (64 * rg r i))) (fun i a => by
-      change a + 18446744073709551615 <<< (64 * (rg r i + 1)) = _
+    wmaskK d r = 2 ^ 64 * ∑ i ∈ Finset.range d, (2 ^ 64 - 1) * 2 ^ (64 * rg r i) + d := by
+  have h := foldN_add (f := fun i a => Nat.add (Nat.add a (Nat.shiftLeft
+    (nat_lit 18446744073709551615) (Nat.mul (nat_lit 64) (Nat.add (rg r i) (nat_lit 1)))))
+    (nat_lit 1))
+    (g := fun i => 2 ^ 64 * ((2 ^ 64 - 1) * 2 ^ (64 * rg r i)) + 1) (fun i a => by
+      change a + 18446744073709551615 <<< (64 * (rg r i + 1)) + 1 = _
       rw [Nat.shiftLeft_eq, show 64 * (rg r i + 1) = 64 * rg r i + 64 by ring, pow_add]
       norm_num
       ring) d 0
-  rw [Nat.zero_add, ← Finset.mul_sum] at h
+  rw [Nat.zero_add, Finset.sum_add_distrib, ← Finset.mul_sum, Finset.sum_const, Finset.card_range,
+    smul_eq_mul, Nat.mul_one] at h
   exact h
 
-private theorem hasF_mask {n d w : Nat} {R M S W : Nat → Nat}
+private theorem hasF_mask {n d w : Nat} {R M S W : Nat → Nat} (hd : d < 2 ^ 64)
     (hrow : rowOK n d R M S w = true) (hmask : maskOK d R W w = true) :
     ∃ wf, HasF (n + 1) wf (W w) ∧
       ∀ p < n, wf (p + 1) = if p ∈ decodeRow d (R w) then 2 ^ 64 - 1 else 0 := by
@@ -360,7 +362,7 @@ private theorem hasF_mask {n d w : Nat} {R M S W : Nat → Nat}
     have e := Nat.eq_of_beq_eq_true hmask
     change W w >>> 64 = wmaskK d (R w) >>> 64 at e
     rw [Nat.shiftRight_eq_div_pow, Nat.shiftRight_eq_div_pow, wmaskK_eq,
-      Nat.mul_div_cancel_left _ (Nat.two_pow_pos 64)] at e
+      Nat.mul_add_div (Nat.two_pow_pos 64), Nat.div_eq_of_lt hd, Nat.add_zero] at e
     rw [e]
     have e2 := row_sum_rg (R := R) (x := w) (d := d) (fun p => (2 ^ 64 - 1) * 2 ^ (64 * p))
     rw [e2, ← sum_ite_row hrow (fun p => (2 ^ 64 - 1) * 2 ^ (64 * p))]
@@ -510,7 +512,7 @@ private theorem startK_eq (X Q T v : Nat) :
   rfl
 
 theorem round_sound {n d K X Q X' Q' T O : Nat} {R M S W : Nat → Nat} (hn : n < 2048)
-    (hrow : ∀ x < n, rowOK n d R M S x = true)
+    (hd : d < 2 ^ 64) (hrow : ∀ x < n, rowOK n d R M S x = true)
     (hsym : ∀ x < n, ∀ y < n, y ∈ decodeRow d (R x) → x ∈ decodeRow d (R y))
     (hmask : ∀ x < n, maskOK d R W x = true) (htab : tabOK n K X Q = true)
     (hord : ordOK n Q O = true) (hT : ∀ v < n, tg T v < n)
@@ -530,7 +532,7 @@ theorem round_sound {n d K X Q X' Q' T O : Nat} {R M S W : Nat → Nat} (hn : n 
     (c := fun w => xg X (rk Q w)) (adj := fun w p => decide (p ∈ decodeRow d (R w)))
     (hasF_ones n) (hasF_L n) (hasF_H n)
     (fun w hw => by
-      obtain ⟨wf, h1, h2⟩ := hasF_mask (hrow w hw) (hmask w hw)
+      obtain ⟨wf, h1, h2⟩ := hasF_mask hd (hrow w hw) (hmask w hw)
       exact ⟨wf, h1, fun p hp => by rw [h2 p hp]; simp⟩)
     (fun w _ => by have := xg_lt X (rk Q w); omega)
     _ hws (startVec n X Q T 5) _ (hasF_start n X Q T)

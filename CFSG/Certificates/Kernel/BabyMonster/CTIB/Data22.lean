@@ -1,12 +1,17 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.CTIB.Data21
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.CTIB Pf13_sq1 CFSG.KC.BM.Twin.prod 4370 2412240 1335305185536477179 Pf13 Pf13
-#kc_eval CFSG.KC.BM.CTIB Pf13_sq2 CFSG.KC.BM.Twin.prod 4370 2412240 11659261851521474332 Pf13_sq1 Pf13_sq1
-#kc_eval CFSG.KC.BM.CTIB Pf13_sq3 CFSG.KC.BM.Twin.prod 4370 2412240 3634247567055039913 Pf13_sq2 Pf13_sq2
-#kc_eval CFSG.KC.BM.CTIB Pf13_sq4 CFSG.KC.BM.Twin.prod 4370 2412240 14202023937824284654 Pf13_sq3 Pf13_sq3
-#kc_eval CFSG.KC.BM.CTIB Pf13_sq5 CFSG.KC.BM.Twin.prod 4370 2412240 4286640414697663641 Pf13_sq4 Pf13_sq4
-#kc_eval CFSG.KC.BM.CTIB Pf13p CFSG.KC.BM.Twin.prod 4370 2412240 15550234540299371815 Pf13_sq1 Pf13_sq5
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf13_sq1
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf13_sq1.bin" 2412240 1335305185536477179
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf13_sq2
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf13_sq2.bin" 2412240 11659261851521474332
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf13_sq3
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf13_sq3.bin" 2412240 3634247567055039913
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf13_sq4
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf13_sq4.bin" 2412240 14202023937824284654
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf13_sq5
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf13_sq5.bin" 2412240 4286640414697663641
+#kc_repo #bm_mat CFSG.KC.BM.CTIB Pf13p
+  "CFSG/Certificates/Kernel/BabyMonster/CTIB/data/Pf13p.bin" 2412240 15550234540299371815

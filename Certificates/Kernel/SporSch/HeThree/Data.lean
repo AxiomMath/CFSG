@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.SporSch.HeT.CntData
 public import Certificates.Kernel.B3S3.HexGen
 public import Certificates.Data.B3Spor3.He
+public import Certificates.Data.Kernel.SporSch.NfGroup
 public meta import Certificates.Kernel.SporSch.HeT.CntData
 public meta import Certificates.Data.B3Spor3.He
 import CFSG.Certificates.Kernel.Common.Harness
@@ -96,13 +97,24 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch.HeCn CFSG.Spor
   CFSG.KS.Row.rg 12 (mask 12) (pick c HeThreeV0 HeThreeV1) 0 k
 
 @[expose] noncomputable def rx (c : Nat) : Bool :=
-  bAnd(rbAll (RX c) (X c), bAnd(Nat.beq (pmR (RX c) 0) 0, Nat.beq (pmR (RX c) 1) 2))
+  bAnd(Nat.beq (pmR (RX c) 0) 0, Nat.beq (pmR (RX c) 1) 2)
+
+@[expose] noncomputable def HWd : List Nat :=
+  [7957374026858561, 329964921733321762, 9510069170649378, 325843131154478, 76146661603561,
+    9510069170649378, 1450439925336225, 114177, 3445249]
+
+@[expose] noncomputable def HWi (i : Nat) : Nat := HWd.getD i 0
+
+@[expose] noncomputable def wHe (P x : Nat) : Nat := wEvK 14 HeTb.NR HeTb.LT 18 16 P x
 
 @[expose] noncomputable def ry (c s : Nat) : Bool :=
   allN 170 (fun j => strictB (Nat.add (Nat.mul s 170) j) (fun x =>
-    bAnd(Nat.beq (pmR (RY c) x) (pm (XC.F c) x), Nat.beq (pmR (RY c) x) (HeTc.nfp (G c) x))))
+    bAnd(Nat.beq (pmR (RY c) x) (pm (XC.F c) x),
+      Nat.beq (pmR (RY c) x) (wHe (HWi (Nat.add 5 c)) x))))
 
-@[expose] noncomputable def cj (c s : Nat) : Bool := cjB (RX c) (RY c) (F c) s
+@[expose] noncomputable def cj (c s : Nat) : Bool :=
+  allN 170 (fun j => strictB (Nat.add (Nat.mul s 170) j) (fun x =>
+    Nat.beq (pmR (RX c) x) (wHe (HWi (Nat.add 7 c)) x)))
 
 @[expose] noncomputable def Rc (c k : Nat) : Nat :=
   CFSG.KS.Row.rg 14 (mask 14) (pick c HeThreeR0 HeThreeR1) 0 k
@@ -110,7 +122,7 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch.HeCn CFSG.Spor
 @[expose] noncomputable def Zc (c k : Nat) : Nat :=
   CFSG.KS.Row.rg 80 (mask 80) (pick c HeThreeZ0 HeThreeZ1) 0 k
 
-@[expose] noncomputable def orc (c s : Nat) : Bool := orB (RX c) (RY c) (V c) (Rc c) (Zc c) 8330 s
+@[expose] noncomputable def orc (c s : Nat) : Bool := orB false (RX c) (RY c) (V c) (Rc c) (Zc c) 8330 s
 
 @[expose] noncomputable def or0 (s : Nat) : Bool := orc 0 s
 

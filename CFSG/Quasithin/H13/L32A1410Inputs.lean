@@ -69,16 +69,10 @@ open Mat8Cert S7Cert S8Cert G5Cert
 
 @[expose] def ovAB : Bool :=
   [true, false].all fun b =>
-    let hP : Std.HashSet (List ℕ) := Std.HashSet.ofList (pEA b)
-    let hM : List (Std.HashSet (List ℕ)) := [0, 1].map fun i => Std.HashSet.ofList (mEA b i)
     let hG : Std.HashSet (List ℕ) := Std.HashSet.ofList (gEA b)
     (mRA b).length == 2 && (mRA b).all hG.contains &&
     ([0, 1].all fun i => (mEA b i).length == 3 * nPA b &&
-      subB (pGA b ++ [(mRA b).getD i one8]) (mEA b i)) &&
-    (gEA b).all fun y => hP.contains y ||
-      (let B := elemsOf (pGA b ++ [y]) (3 * nPA b + 1)
-       (3 * nPA b + 1 ≤ B.length && nodupB B) ||
-         (B.length == 3 * nPA b && nodupB B && hM.any fun h => B.all h.contains))
+      subB (pGA b ++ [(mRA b).getD i one8]) (mEA b i))
 
 @[expose] def oEA (b : Bool) (i : ℕ) : List (List ℕ) := elemsOf (oddOf (mEA b i))
 
@@ -103,8 +97,16 @@ open Mat8Cert S7Cert S8Cert G5Cert
 @[expose] def kAP : List (List ℕ × List ℕ) :=
   kAE.map fun k => (k, (kAE.find? fun y => mul8 k y == one8).getD one8)
 
+@[expose] def kAConjGens : List (List ℕ) :=
+  [[1, 2, 4, 8, 16, 32, 64, 128], [1, 4, 8, 2, 16, 64, 128, 32], [2, 3, 6, 10, 32, 48, 96, 160],
+    [3, 9, 1, 5, 48, 144, 16, 80]]
+
 @[expose] def conjA (x : List ℕ) : List (List ℕ) :=
-  kAP.map fun p => mul8 (mul8 p.1 x) p.2
+  (kAP.filter fun p => kAConjGens.contains p.1).map fun p => mul8 (mul8 p.1 x) p.2
+
+@[expose] def kAReps : List (List ℕ) :=
+  [[1, 3, 9, 5, 16, 48, 144, 80], [1, 4, 8, 2, 16, 64, 128, 32], [2, 6, 10, 3, 32, 96, 160, 48],
+    [2, 10, 3, 6, 32, 160, 48, 96]]
 
 @[expose] def kAB : Bool :=
   subB kAG kAE && kAE.length == 60 &&
@@ -115,8 +117,8 @@ open Mat8Cert S7Cert S8Cert G5Cert
       (gGA b).all fun g =>
         let hKg : Std.HashSet (List ℕ) := Std.HashSet.ofList (kAE.map fun k => mul8 k g)
         kAE.all fun k => hKg.contains (mul8 g k)) &&
-    (kAE.all fun x => x == one8 ||
-      (subB (conjA x) (elemsOf (conjA x)) && (elemsOf (conjA x)).length == 60)) &&
+    (kAE.all fun x => x == one8 || kAP.any fun p => kAReps.contains (mul8 (mul8 p.1 x) p.2)) &&
+    (kAReps.all fun r => subB (conjA r) (elemsOf (conjA r)) && (elemsOf (conjA r)).length == 60) &&
     kAE.any (fun k => mv8 k vA != vA) &&
     [true, false].all fun b =>
       kAP.all fun p => (mEA b 1).contains p.1 ||

@@ -23,7 +23,7 @@ theorem sg_eq : #[unpack 24 24 (S.M 40), unpack 24 24 (S.M 38)] = gensArr 2 GA :
 
 theorem gt_eq : gtBFS (gensArr 2 GA) 700 = bfsTree T.N T.P T.PAR T.LAB ∧
     gtOK (gensArr 2 GA) (bfsTree T.N T.P T.PAR T.LAB) = true :=
-  gtBFS_of_K kQ
+  gtBFS_of_bfsK kQ (by rw [Nat.eq_of_beq_eq_true kT]; decide)
 
 theorem hT : T.N = 625 := Nat.eq_of_beq_eq_true kT
 

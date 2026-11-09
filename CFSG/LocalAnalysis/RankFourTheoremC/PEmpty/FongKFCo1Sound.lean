@@ -394,6 +394,123 @@ theorem isElemAbelian_closure_pair {G : Type*} [Group G] {p : ℕ} {u v : G} (hu
     rw [hc.mul_pow, ihx, ihy, one_mul]
   | inv x hx ih => rw [inv_pow, ih, inv_one]
 
+def IsCo1PC {G : Type*} [Group G] : List G → Prop
+  | [] => True
+  | g :: gs => g ^ 5 = 1 ∧ (∀ h ∈ gs, g * h * g⁻¹ ∈ Subgroup.closure {x | x ∈ gs}) ∧ IsCo1PC gs
+
+omit Sp in
+theorem co1PC_conj_pow_mem {G : Type*} [Group G] {K : Subgroup G} {g : G}
+    (h : ∀ s ∈ K, g * s * g⁻¹ ∈ K) : ∀ (k : ℕ), ∀ s ∈ K, g ^ k * s * (g ^ k)⁻¹ ∈ K
+  | 0, s, hs => by simpa using hs
+  | k + 1, s, hs => by
+    have e : g ^ (k + 1) * s * (g ^ (k + 1))⁻¹ = g * (g ^ k * s * (g ^ k)⁻¹) * g⁻¹ := by group
+    rw [e]
+    exact h _ (co1PC_conj_pow_mem h k s hs)
+
+omit Sp in
+theorem co1PC_mem_normalizer {G : Type*} [Group G] {K : Subgroup G} {g : G} (h5 : g ^ 5 = 1)
+    (h : ∀ s ∈ K, g * s * g⁻¹ ∈ K) : g ∈ Subgroup.normalizer (K : Set G) := by
+  rw [Subgroup.mem_normalizer_iff]
+  intro s
+  refine ⟨fun hs => h s hs, fun hs => ?_⟩
+  have e : s = g ^ 4 * (g * s * g⁻¹) * (g ^ 4)⁻¹ := by
+    have : g ^ 4 = g⁻¹ := by
+      rw [eq_inv_iff_mul_eq_one, ← pow_succ, h5]
+    rw [this]
+    group
+  rw [e]
+  exact co1PC_conj_pow_mem h 4 _ hs
+
+omit Sp in
+theorem isPGroup_of_co1PC {G : Type*} [Group G] :
+    ∀ gs : List G, IsCo1PC gs → IsPGroup 5 (Subgroup.closure {x | x ∈ gs})
+  | [], _ => by
+    have : {x : G | x ∈ ([] : List G)} = ∅ := by simp
+    rw [this, Subgroup.closure_empty]
+    exact IsPGroup.of_bot
+  | g :: gs, ⟨h5, hc, hpc⟩ => by
+    have e : {x | x ∈ g :: gs} = {g} ∪ {x | x ∈ gs} := by
+      ext x
+      simp
+    rw [e, Subgroup.closure_union]
+    set K := Subgroup.closure {x | x ∈ gs}
+    have hK : ∀ s ∈ K, g * s * g⁻¹ ∈ K := by
+      intro s hs
+      induction hs using Subgroup.closure_induction with
+      | mem x hx => exact hc x hx
+      | one => simp
+      | mul x y _ _ ihx ihy =>
+        have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
+        rw [this]
+        exact K.mul_mem ihx ihy
+      | inv x _ ih =>
+        have : g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ := by group
+        rw [this]
+        exact K.inv_mem ih
+    have hg : IsPGroup 5 (Subgroup.closure ({g} : Set G)) := by
+      rw [← Subgroup.zpowers_eq_closure]
+      refine IsPGroup.of_card_dvd_pow (n := 1) ?_
+      rw [Nat.card_zpowers, pow_one]
+      exact orderOf_dvd_of_pow_eq_one h5
+    refine IsPGroup.to_sup_of_normal_right' hg (isPGroup_of_co1PC gs hpc) ?_
+    rw [Subgroup.closure_le, Set.singleton_subset_iff]
+    exact co1PC_mem_normalizer h5 hK
+
+omit Sp in
+theorem co1PC_forall₂_mem {α β : Type*} {R : α → β → Prop} :
+    ∀ {l₁ : List α} {l₂ : List β}, List.Forall₂ R l₁ l₂ → ∀ b ∈ l₂, ∃ a ∈ l₁, R a b
+  | _, _, .nil, _, hb => absurd hb List.not_mem_nil
+  | a :: _, _, .cons hab hr, b, hb => by
+    rcases List.mem_cons.1 hb with rfl | hb
+    · exact ⟨a, List.mem_cons_self, hab⟩
+    · obtain ⟨a', ha', h'⟩ := co1PC_forall₂_mem hr b hb
+      exact ⟨a', List.mem_cons_of_mem _ ha', h'⟩
+
+theorem co1Span_sound (S : Submonoid (Matrix (Fin d) (Fin d) (ZMod p))) {gs : List M} {us : List Sˣ}
+    (hgu : List.Forall₂ (fun g u => Sp.WF g ∧ valHom S u = Sp.toMat g) gs us) :
+    ∀ x ∈ O.co1Span gs, Sp.WF x ∧ ∃ w ∈ Subgroup.closure {u | u ∈ us}, valHom S w = Sp.toMat x := by
+  induction hgu with
+  | nil =>
+    intro x hx
+    rw [Ops.co1Span, List.mem_singleton] at hx
+    subst hx
+    exact ⟨Sp.one_wf, 1, Subgroup.one_mem _, by rw [map_one, Sp.toMat_one]⟩
+  | @cons g u gs us hu _ ih =>
+    intro x hx
+    rw [Ops.co1Span] at hx
+    obtain ⟨y, hy, hx⟩ := List.mem_flatMap.1 hx
+    obtain ⟨a, -, rfl⟩ := List.mem_map.1 hx
+    obtain ⟨wy, w, hw, hwv⟩ := ih y hy
+    have hpa := Sp.pow_spec hu.1 a
+    refine ⟨Sp.mul_wf wy hpa.1, w * u ^ a, Subgroup.mul_mem _ ?_ ?_, ?_⟩
+    · exact Subgroup.closure_mono (fun z hz => List.mem_cons_of_mem _ hz) hw
+    · exact Subgroup.pow_mem _ (Subgroup.subset_closure (k := {x | x ∈ u :: us})
+        List.mem_cons_self) _
+    · rw [map_mul, map_pow, hwv, hu.2, Sp.toMat_mul wy hpa.1, hpa.2]
+
+theorem co1PC_sound (S : Submonoid (Matrix (Fin d) (Fin d) (ZMod p))) {gs : List M} {us : List Sˣ}
+    (hgu : List.Forall₂ (fun g u => Sp.WF g ∧ valHom S u = Sp.toMat g) gs us)
+    (h : O.co1PC gs = true) : IsCo1PC us := by
+  induction hgu with
+  | nil => trivial
+  | @cons g u gs us hu hr ih =>
+    rw [Ops.co1PC, Bool.and_eq_true, Bool.and_eq_true] at h
+    obtain ⟨⟨h5, hc⟩, hpc⟩ := h
+    refine ⟨valHom_injective S ?_, fun v hv => ?_, ih hpc⟩
+    · rw [map_pow, map_one, hu.2]
+      exact Sp.pow_eq_one_of_check hu.1 h5
+    · obtain ⟨k, hk, wk, hkv⟩ := co1PC_forall₂_mem hr v hv
+      obtain ⟨w, hw, hcw⟩ := List.any_eq_true.1 (List.all_eq_true.1 hc k hk)
+      obtain ⟨ww, w', hw', hw'v⟩ := co1Span_sound Sp S hr w hw
+      have hmat := Sp.toMat_of_conjOK hu.1 wk ww hcw
+      have e : u * v * u⁻¹ = w' := by
+        rw [mul_inv_eq_iff_eq_mul]
+        apply valHom_injective S
+        rw [map_mul, map_mul, hu.2, hkv, hw'v]
+        exact hmat
+      rw [e]
+      exact hw'
+
 theorem co1Gen_of_check [Inhabited M] [Inhabited V] (D : Co1Gen.Data)
     (h : O.co1GenCheck D = true) :
     ∃ (P₀ : Subgroup (NativeSporadic.seedMonoid p d 1 D.seedA D.seedB)ˣ)
@@ -407,7 +524,7 @@ theorem co1Gen_of_check [Inhabited M] [Inhabited V] (D : Co1Gen.Data)
   set S := NativeSporadic.seedMonoid p d 1 D.seedA D.seedB with hS
   unfold Ops.co1GenCheck at h
   simp only [Bool.and_eq_true, decide_eq_true_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h2, hprog⟩, hA2⟩, hB3⟩, hpg5⟩, hcl⟩, hx625⟩, hpl1⟩, hpl2⟩, hlen⟩,
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h2, hprog⟩, hA2⟩, hB3⟩, hpc⟩, hspan⟩, hpl1⟩, hpl2⟩, hlen⟩,
     hprog2⟩, hrA⟩, hrB⟩, hAeq⟩, hBeq⟩ := h
   set R := O.regsOf D.seedA D.seedB D.nregs D.prog with hR
   have wA : Sp.WF (O.decode D.seedA) := Sp.decode_wf _
@@ -442,40 +559,36 @@ theorem co1Gen_of_check [Inhabited M] [Inhabited V] (D : Co1Gen.Data)
     Sp.plane_sound hprog D.plane1 hpl1
   obtain ⟨uu2, vv2, N2, fu2, fv2, hu2, hv2, huv2, hcard2, hn2, hc2, hb2, hw2, hwu2, hwv2⟩ :=
     Sp.plane_sound hprog D.plane2 hpl2
-  set pg : List M := [R[D.plane1.u]!, R[D.plane1.v]!, R[D.plane2.u]!, R[D.plane2.v]!] with hpg
-  have hgw : ∀ g ∈ pg, Sp.WF g := by
-    intro g hg
-    simp only [hpg, List.mem_cons, List.not_mem_nil, or_false] at hg
-    rcases hg with rfl | rfl | rfl | rfl <;> assumption
-  set Tg := Submonoid.closure (Sp.toMat '' {g | g ∈ pg}) with hTg
-  have hgT : Sp.LstOK Tg pg := fun g hg => ⟨hgw g hg, Submonoid.subset_closure ⟨g, hg, rfl⟩⟩
-  set xs := O.co1GenClosure pg D.fuelP with hxs
-  have hxsOK : Sp.LstOK Tg xs := by
-    refine lstOK_aux Sp Tg hgT D.fuelP [O.one] ?_
-    intro x hx
-    rw [List.mem_singleton] at hx
-    subst hx
-    exact ⟨Sp.one_wf, by rw [Sp.toMat_one]; exact Tg.one_mem⟩
-  have hone : O.one ∈ xs := mem_aux D.fuelP [O.one] O.one (List.mem_singleton_self _)
   set G₀ : Set Sˣ := {uu1, vv1, uu2, vv2} with hG₀
-  have hsub : valHom S '' G₀ ⊆ Sp.toMat '' {g | g ∈ pg} := by
-    rintro _ ⟨g, hg, rfl⟩
+  have w4 := Sp.mul_wf (Sp.pow_spec hwu1 4).1 (Sp.pow_spec hwu2 4).1
+  have hfor : List.Forall₂ (fun g u => Sp.WF g ∧ valHom S u = Sp.toMat g)
+      [R[D.plane2.u]!, R[D.plane1.u]!, O.mul (O.mul R[D.plane1.u]! R[D.plane2.u]!)
+        (O.mul (O.pow R[D.plane1.u]! 4) (O.pow R[D.plane2.u]! 4)), R[D.plane1.v]!]
+      [uu2, uu1, uu1 * uu2 * (uu1 ^ 4 * uu2 ^ 4), vv1] := by
+    refine .cons ⟨hwu2, fu2⟩ (.cons ⟨hwu1, fu1⟩
+      (.cons ⟨Sp.mul_wf (Sp.mul_wf hwu1 hwu2) w4, ?_⟩ (.cons ⟨hwv1, fv1⟩ .nil)))
+    rw [map_mul, map_mul, map_mul, map_pow, map_pow, fu1, fu2,
+      Sp.toMat_mul (Sp.mul_wf hwu1 hwu2) w4, Sp.toMat_mul hwu1 hwu2,
+      Sp.toMat_mul (Sp.pow_spec hwu1 4).1 (Sp.pow_spec hwu2 4).1,
+      (Sp.pow_spec hwu1 4).2, (Sp.pow_spec hwu2 4).2]
+  have hpc' := isPGroup_of_co1PC _ (co1PC_sound Sp S hfor hpc)
+  have hfor1 : List.Forall₂ (fun g u => Sp.WF g ∧ valHom S u = Sp.toMat g)
+      [R[D.plane1.u]!, R[D.plane1.v]!] [uu1, vv1] := .cons ⟨hwu1, fu1⟩ (.cons ⟨hwv1, fv1⟩ .nil)
+  obtain ⟨x, hx, hxv⟩ := List.any_eq_true.1 hspan
+  obtain ⟨wx, w, hw, hwx⟩ := co1Span_sound Sp S hfor1 x hx
+  have hv2w : vv2 = w := valHom_injective S (by rw [fv2, hwx]; exact Sp.toMat_eq hwv2 wx hxv)
+  have hP₀ : IsPGroup 5 (Subgroup.closure G₀) := by
+    refine hpc'.to_le ((Subgroup.closure_le _).2 ?_)
+    intro g hg
     simp only [hG₀, Set.mem_insert_iff, Set.mem_singleton_iff] at hg
     rcases hg with rfl | rfl | rfl | rfl
-    · exact ⟨R[D.plane1.u]!, by simp [hpg], fu1.symm⟩
-    · exact ⟨R[D.plane1.v]!, by simp [hpg], fv1.symm⟩
-    · exact ⟨R[D.plane2.u]!, by simp [hpg], fu2.symm⟩
-    · exact ⟨R[D.plane2.v]!, by simp [hpg], fv2.symm⟩
-  have hT625 : ∀ t ∈ Submonoid.closure (valHom S '' G₀), t ^ 625 = 1 := by
-    intro t ht
-    have ht' : t ∈ Tg := Submonoid.closure_mono hsub ht
-    obtain ⟨y, hy, rfl⟩ := Sp.closure_le_of_closed hgw (fun x hx => (hxsOK x hx).1) hone hcl ht'
-    exact Sp.pow_eq_one_of_check (hxsOK y hy).1 (List.all_eq_true.1 hx625 y hy)
-  have hord : ∀ g ∈ G₀, g ^ 5 = 1 := by
-    intro g hg
-    simp only [hG₀, Set.mem_insert_iff, Set.mem_singleton_iff] at hg
-    rcases hg with rfl | rfl | rfl | rfl <;> assumption
-  have hP₀ : IsPGroup 5 (Subgroup.closure G₀) := isPGroup_of_closed G₀ hord hT625
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
+    · rw [hv2w]
+      refine Subgroup.closure_mono (fun z hz => ?_) hw
+      simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hz ⊢
+      rcases hz with rfl | rfl <;> simp
   have hgen : Subgroup.closure (N1 ∪ N2) = ⊤ := by
     set ns : List M := (D.plane1.norms ++ D.plane2.norms).map fun n => R[n.reg]! with hns
     set init : Array M := Array.ofFn (n := D.nregs2) fun r => (ns[r.val]?).getD O.one with hinit

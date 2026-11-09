@@ -24,11 +24,28 @@ meta def bs2M : List Nat := CFSG.RankThree.PartOne.heSevenCase2Base.map Fin.val
 meta def cl2M : List (List (Array Nat) × Array (Array Nat) × Array Nat × Array Nat) :=
   [([], #[(Array.range 7).map fun _ => 0], #[0], #[0])]
 
+meta def ep2M : Array (Array Nat) := Id.run do
+  let L := levels2M[0]!
+  let mut tab : Array Nat := Array.replicate L.pts.size 0
+  let mut done : Array Bool := Array.replicate L.pts.size false
+  let mut reps : Array Nat := #[]
+  for k in [0:L.pts.size] do
+    if !done[k]! then
+      let r := reps.size
+      reps := reps.push k
+      for j in [0:CFSG.RankThree.PartOne.heSevenC2Cert.pts.size] do
+        let q := L.pos[(CFSG.RankThree.PartOne.heSevenC2Cert.pts[j]!)[L.pts[k]!]!]!
+        if !done[q]! then
+          done := done.set! q true
+          tab := tab.set! q (128 * r + j)
+  return #[tab, reps, #[reps.size]]
+
 end CertificateChecks.KernelHeLoc.Seven
 
 #kss_cltdata CertificateChecks.KernelHeLoc.T72 8330 14 7 CFSG.RankThree.PartOne.heSevenCase2Arrs
   CertificateChecks.KernelHeLoc.Seven.base2M CertificateChecks.KernelHeLoc.Seven.levels2M
   CertificateChecks.KernelHeLoc.Seven.bs2M CertificateChecks.KernelHeLoc.Seven.cl2M 32 8 64
+#kmisc_packarrs CertificateChecks.KernelHeLoc.Seven.EP2 CertificateChecks.KernelHeLoc.Seven.ep2M 16
 
 namespace CertificateChecks.KernelHeLoc.Seven
 

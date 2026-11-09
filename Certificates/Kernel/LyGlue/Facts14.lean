@@ -23,7 +23,7 @@ theorem xIso (hM : Ly0.ModelChecks) (hY : Ly1080.YOK) (hT : Ly243.trCheck = true
       (∀ (l : ℕ) (_ : l < 5) (hmem : Glue.txyBp l ∈ closure (Glue.txG '' {k | k < 4})),
         (Φx ⟨Glue.txyBp l, hmem⟩ : Perm (Fin Ly243.deg)) = Ly243.txyG l) ∧
       Nat.card ↥(closure (Glue.txG '' {k | k < 4})) = 7776 := by
-  obtain ⟨φ, hsurj, hgen, hcomp⟩ := exists_phiT hM.tab hT
+  obtain ⟨φ, hsurj, hgen, -⟩ := exists_phiT hM.tab hT
   have eT : closure (Ly243.gg '' {k | k < 4}) = Ly243.Tx0 :=
     le_antisymm ((closure_le _).2 (by rintro _ ⟨k, hk, rfl⟩; exact Ly243.gg_mem_Tx0 hT hk))
       (Glue.Tx0_le_closure243 hT)
@@ -35,36 +35,26 @@ theorem xIso (hM : Ly0.ModelChecks) (hY : Ly1080.YOK) (hT : Ly243.trCheck = true
     rw [eT]
     exact card_Tx0_ge hT
   have hbij : Function.Bijective φ := hsurj.bijective_of_nat_card_le (by omega)
-  refine ⟨(MulEquiv.ofBijective φ hbij).trans (MulEquiv.subgroupCongr eT),
-    fun k hk hmem => hgen k hk, fun l hl hmem => ?_, by omega⟩
-  ext i
-  obtain ⟨hs, hi, hO⟩ := fT_ST i
-  obtain ⟨h1, h2⟩ := hcomp ⟨Glue.txyBp l, hmem⟩ _ hO
-  rw [hi] at h2
-  change ((φ ⟨Glue.txyBp l, hmem⟩ : Perm (Fin 243)) i : Nat) = _
-  rw [← h2, (fT_val h1).1]
+  let Φx := (MulEquiv.ofBijective φ hbij).trans (MulEquiv.subgroupCongr eT)
+  refine ⟨Φx, fun k hk hmem => hgen k hk, fun l hl hmem => ?_, by omega⟩
   have hr4 : ∀ l' ∈ Ly1080.txyWords.getD l [], l' ≠ 0 ∧ l'.natAbs ≤ 4 := by
     rw [← txyWords_getD hl]
     exact fun l' hl' =>
       Ly1080.words_range₄ hY _ (List.mem_append_right _ (Ly1080.txyWords_get_mem hY hl)) l' hl'
-  have hpt := uwPt_eq hM.tab _ hr4 ⟨ST i, hs⟩
-  rw [← txyWords_getD hl] at hpt
-  change FT (Glue.txyBp l ⟨ST i, hs⟩ : Nat) = _
-  unfold Glue.txyBp
-  rw [← hpt, txyWords_getD hl, agree_spec l hl i i.2]
-  have hr5 : ∀ l' ∈ Ly243.txyWords.getD l [], l' ≠ 0 ∧ l'.natAbs ≤ 5 := by
-    have he : Ly243.txyWords.getD l [] = Ly243.txyWords[l]! := by
-      interval_cases l <;> rfl
-    rw [he]
-    exact fun l' hl' => by
-      have := (Ly243.words_range_tr hT).1 _ (Ly243.txyWords_get_mem hT hl) l' hl'
-      omega
-  rw [ghWord_eq hT hr5]
-  have e2 := congrArg (fun σ : Perm (Fin 243) => (σ i : Nat))
-    (ev_wordC_letter (gcv hT) Ly243.gg (m := 5) (fun k hk => ev_gcv hT hk) hr5)
-  rw [show (pg 8 (mask 8) (wordC (wordLetter (gcv hT)) (Ly243.txyWords.getD l [])).1 i : Nat) =
-    (ev (wordC (wordLetter (gcv hT)) (Ly243.txyWords.getD l [])) i : Nat) by
-      rw [ev_apply]; change _ = pg (wC 243) (mask (wC 243)) _ _; rw [wC243], e2]
+  have h4 : ∀ l' ∈ Ly243.txyWords.getD l [], l' ≠ 0 ∧ l'.natAbs ≤ 4 := by
+    interval_cases l <;> decide
+  let ψ := Ly243.Tx0.subtype.comp Φx.toMonoidHom
+  obtain ⟨h, hψ⟩ := wordG_hom _ ψ (wordLetter Glue.txG) (wordLetter Ly243.gg) _
+    fun l' hl' => wordLetter_hom _ ψ Glue.txG Ly243.gg (n := 4)
+      (fun i hi => ⟨subset_closure ⟨i, hi, rfl⟩, hgen i hi⟩) (h4 l' hl')
+  have e : (⟨Glue.txyBp l, hmem⟩ : ↥(closure (Glue.txG '' {k | k < 4}))) = ⟨_, h⟩ := by
+    apply Subtype.ext
+    change wordG (wordLetter Ly0.uG) Ly1080.txyWords[l]! = _
+    rw [txyWords_getD hl]
+    exact txyBp_txG hM hl hr4 h4
+  rw [e]
+  change ψ _ = _
+  rw [hψ]
   have he : Ly243.txyWords.getD l [] = Ly243.txyWords[l]! := by
     interval_cases l <;> rfl
   rw [he]

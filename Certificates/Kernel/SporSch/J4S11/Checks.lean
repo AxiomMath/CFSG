@@ -10,6 +10,9 @@ public import CFSG.Sporadic.Schreier.J4SElevenData
 public meta import CFSG.Sporadic.Schreier.J4SElevenData
 public meta import Certificates.Kernel.SporSch.J4S.Gen
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.Loops
+import CFSG.Certificates.Kernel.Spor.PackFld
+import Mathlib.Tactic.IntervalCases
 public meta import CFSG.LocalAnalysis.SectionRank.Sporadic.LocalWitness
 public meta import CFSG.Open.Defs
 public import CFSG.Sporadic.Th.F2Spec
@@ -123,7 +126,46 @@ theorem basic : andB (Nat.beq (mulJ c rm QZ QX) (mulJ c rm QX QZ))
     (andB (Nat.beq (mulJ c rm QZ QY) (mulJ c rm QY QZ))
       (notB (Nat.beq (vecJ rm (nat_lit 1) QZ) (nat_lit 1)))) = true := by quickRfl
 
-theorem exp : expK c rm one QX QY QZ = true := by quickRfl
+@[expose] noncomputable def expT (t : Nat) : Bool :=
+  Nat.beq (powJ c rm one (mulJ c rm (mulJ c rm (powJ c rm one QX (Nat.mod t (nat_lit 11)))
+    (powJ c rm one QY (Nat.mod (Nat.div t (nat_lit 11)) (nat_lit 11))))
+    (powJ c rm one QZ (Nat.mod (Nat.div t (nat_lit 121)) (nat_lit 11)))) (nat_lit 11)) one
+
+@[expose] noncomputable def expS (h : Nat) : Bool := allBlk (Nat.mul h (nat_lit 64)) expT (nat_lit 64)
+
+theorem exp0 : expS (nat_lit 0) = true := by quickRfl
+theorem exp1 : expS (nat_lit 1) = true := by quickRfl
+theorem exp2 : expS (nat_lit 2) = true := by quickRfl
+theorem exp3 : expS (nat_lit 3) = true := by quickRfl
+theorem exp4 : expS (nat_lit 4) = true := by quickRfl
+theorem exp5 : expS (nat_lit 5) = true := by quickRfl
+theorem exp6 : expS (nat_lit 6) = true := by quickRfl
+theorem exp7 : expS (nat_lit 7) = true := by quickRfl
+theorem exp8 : expS (nat_lit 8) = true := by quickRfl
+theorem exp9 : expS (nat_lit 9) = true := by quickRfl
+theorem exp10 : expS (nat_lit 10) = true := by quickRfl
+theorem exp11 : expS (nat_lit 11) = true := by quickRfl
+theorem exp12 : expS (nat_lit 12) = true := by quickRfl
+theorem exp13 : expS (nat_lit 13) = true := by quickRfl
+theorem exp14 : expS (nat_lit 14) = true := by quickRfl
+theorem exp15 : expS (nat_lit 15) = true := by quickRfl
+theorem exp16 : expS (nat_lit 16) = true := by quickRfl
+theorem exp17 : expS (nat_lit 17) = true := by quickRfl
+theorem exp18 : expS (nat_lit 18) = true := by quickRfl
+theorem exp19 : expS (nat_lit 19) = true := by quickRfl
+theorem exp20 : expS (nat_lit 20) = true := by quickRfl
+
+theorem exp : expK c rm one QX QY QZ = true := by
+  have hs : ∀ h, h < 21 → expS h = true := fun h hh => by
+    interval_cases h
+    exacts [exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13, exp14, exp15, exp16, exp17, exp18, exp19, exp20]
+  change allN 1331 expT = true
+  refine CFSG.KS.PackFld.allN_of_forall fun i hi => ?_
+  have h := CFSG.KS.allBlk_spec (hs (i / 64) (by omega)) (i % 64) (Nat.mod_lt i (by omega))
+  have e : Nat.add (Nat.mul (i / 64) 64) (i % 64) = i := by
+    simp only [Nat.add_eq, Nat.mul_eq]
+    omega
+  rwa [e] at h
 
 theorem cen : centerK c rm one QX QY = true := by quickRfl
 

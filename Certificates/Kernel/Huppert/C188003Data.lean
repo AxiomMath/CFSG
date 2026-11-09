@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.C188003 "Certificates/Kernel/Huppert/data/c188003.json.gz" 74956
+#kc_repo #kc_json CFSG.KD.C188003 "Certificates/Kernel/Huppert/data/c188003.json" 74956
   3234574931660242677
   (rowCodes : List (List Nat)) (rowW1 : List (List (List Nat))) (rowWO : List (List (List Nat)))
   (rowWO2 : List (List (List Nat))) (rowIdx : List Nat) (rowG : List (List (List Nat)))

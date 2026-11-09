@@ -3,6 +3,7 @@ module
 public import CFSG.GH74.Generic.S45.LEvSporSpec
 public import Certificates.Kernel.Sporadic.OddCore.M12SylF
 public import Certificates.Kernel.Sporadic.OddCore.PEnumGlue3
+public import Certificates.Kernel.Sporadic.OddCore.MulHPos
 
 public section
 
@@ -53,6 +54,21 @@ theorem evEnum_of_rec {n w k cnt cap m : Nat} {G GI GJ T PL POS SRT SRI HS HSI C
       findPtK cnt T (prodQK n w (mask w) (k + k) T (bothK k GI GJ)) CL c = true)
     (hm : cnt = m) : enumOK n cap gs m = true := by
   refine KernelSpor.M12Syl.evEnum_of (enumOK_of hn hG hg hgj hh hp hs hcl hm) ?_
+  rw [List.all_eq_true]
+  intro g hgm
+  obtain ⟨j, hj, rfl, hc⟩ := TabsOK_list hg hgm
+  exact permOK_unpack hc (hgj j hj).1
+
+theorem evEnum_of_pos {n w k cnt cap m : Nat} {G GI GJ T PL POS SRT SRI HS HSI : Nat → Nat}
+    {gs : List Table} (hn : szOK n w = true) (hG : ∀ j < k, G j = pidn n w)
+    (hg : TabsOK n w k GI gs.toArray)
+    (hgj : ∀ j < k, invEqK n w (mask w) (n * w) (GI j) (GJ j) = true ∧
+      canonK n w (mask w) (n * w) (GJ j) = true)
+    (hh : penumHdK (pidn n w) cnt cap T PL = true)
+    (hp : ∀ i < cnt, penumPtK n w (mask w) (n * w) true G GI k cnt T PL POS SRT SRI i = true)
+    (hs : ∀ i < cnt, hsortPtK n w (mask w) cnt T HS HSI i = true)
+    (hm : cnt = m) : enumOK n cap gs m = true := by
+  refine KernelSpor.M12Syl.evEnum_of (enumOK_of_pos hn hG hg hgj hh hp hs hm) ?_
   rw [List.all_eq_true]
   intro g hgm
   obtain ⟨j, hj, rfl, hc⟩ := TabsOK_list hg hgm

@@ -47,7 +47,8 @@ structure DempFacts (D : DempData) : Prop where
     D.P l i = vecB D.rm (D.P l par) (D.S g)
   inj : ∀ l < D.L, ∀ i j, i < D.oszL l → j < D.oszL l → D.P l i = D.P l j → i = j
   fix : ∀ l < D.L, ∀ g, D.frL (l + 1) ≤ g → g < D.npr → vecB D.rm (D.bvL l) (D.S g) = D.bvL l
-  res : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l, ∃ e : ℕ,
+  res : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → (0 < l ∨ g < 2) →
+    ∃ z < D.oszL l, ∃ e : ℕ,
     (∀ q, l + 1 + q < D.L → bitsN e (8 * (q + 1)) 8 < D.oszL (l + 1 + q)) ∧
     D.mul (D.T l i) (D.S g) = D.sift l e (D.T l z)
 
@@ -91,39 +92,78 @@ private theorem levelChk_spec {D : DempData} {l : ℕ} (h : levelChk D l = true)
     exact Nat.eq_of_beq_eq_true
       (bIf_demp (allBelow_demp hfix (by change D.npr ≤ 64 * 1; omega) g hg2) (Nat.ble_eq.mpr hg1))
 
-private theorem resChk_spec {D : DempData} {l : ℕ} (h : resChk D l = true) (hL : D.L ≤ 64) :
-    ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l, ∃ e : ℕ,
-      (∀ q, l + 1 + q < D.L → bitsN e (8 * (q + 1)) 8 < D.oszL (l + 1 + q)) ∧
-      D.mul (D.T l i) (D.S g) = D.sift l e (D.T l z) := by
+private theorem allBelow_of_demp {m hi : ℕ} {f : ℕ → Bool} (h : ∀ i < m, f i = true) :
+    CFSG.KC.Loop.allBelow m hi f = true :=
+  (recAnd_demp (fun h => Nat.rec (motive := fun _ => Bool) true (fun l ih2 =>
+      Bool.rec (motive := fun _ => Bool) false ih2
+        ((fun i => Bool.rec (motive := fun _ => Bool) true (f i) (Nat.blt i m))
+          (Nat.add (Nat.shiftLeft h 6) l))) 64) hi).2 fun k _ =>
+    (recAnd_demp (fun l => (fun i => Bool.rec (motive := fun _ => Bool) true (f i)
+      (Nat.blt i m)) (Nat.add (Nat.shiftLeft k 6) l)) 64).2 fun j _ => by
+      dsimp only
+      cases hb : Nat.blt (Nat.add (Nat.shiftLeft k 6) j) m
+      · rfl
+      · exact h _ (Nat.blt_eq.mp hb)
+
+theorem resChkR_spec {D : DempData} {l g0 m : ℕ} (h : resChkR D l g0 m = true) :
+    ∀ i < D.oszL l, ∀ g, g0 ≤ g → g < g0 + m → resEnt D l i g = true := by
   intro i hi g hg1 hg2
-  unfold resChk at h
-  have hm : 0 < D.npr - D.frL l := by omega
-  have hp : i * (D.npr - D.frL l) + (g - D.frL l) < D.oszL l * (D.npr - D.frL l) := by
-    have : (i + 1) * (D.npr - D.frL l) ≤ D.oszL l * (D.npr - D.frL l) :=
-      Nat.mul_le_mul_right _ hi
+  unfold resChkR at h
+  have hm : 0 < m := by omega
+  have hp : i * m + (g - g0) < D.oszL l * m := by
+    have : (i + 1) * m ≤ D.oszL l * m := Nat.mul_le_mul_right _ hi
     rw [Nat.add_mul, one_mul] at this
     omega
-  have hbd : D.oszL l * (D.npr - D.frL l) ≤
-      64 * (Nat.shiftRight (D.oszL l * (D.npr - D.frL l)) 6 + 1) := by
-    change _ ≤ 64 * ((D.oszL l * (D.npr - D.frL l)) >>> 6 + 1)
+  have hbd : D.oszL l * m ≤ 64 * (Nat.shiftRight (D.oszL l * m) 6 + 1) := by
+    change _ ≤ 64 * ((D.oszL l * m) >>> 6 + 1)
     rw [Nat.shiftRight_eq_div_pow, show (2 : ℕ) ^ 6 = 64 from rfl]
     omega
   have h1 := allBelow_demp h hbd _ hp
-  have hdiv : Nat.div (i * (D.npr - D.frL l) + (g - D.frL l)) (Nat.sub D.npr (D.frL l)) = i := by
-    change (i * (D.npr - D.frL l) + (g - D.frL l)) / (D.npr - D.frL l) = i
+  have hdiv : Nat.div (i * m + (g - g0)) m = i := by
+    change (i * m + (g - g0)) / m = i
     rw [Nat.add_comm, Nat.add_mul_div_right _ _ hm, Nat.div_eq_of_lt (by omega), zero_add]
-  have hmod : Nat.add (D.frL l) (Nat.mod (i * (D.npr - D.frL l) + (g - D.frL l))
-      (Nat.sub D.npr (D.frL l))) = g := by
-    change D.frL l + (i * (D.npr - D.frL l) + (g - D.frL l)) % (D.npr - D.frL l) = g
+  have hmod : Nat.add g0 (Nat.mod (i * m + (g - g0)) m) = g := by
+    change g0 + (i * m + (g - g0)) % m = g
     rw [Nat.add_comm (i * _), Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt (by omega)]
     omega
-  dsimp only at h1
-  rw [hdiv, hmod] at h1
-  obtain ⟨hz, h1⟩ := Dce.andB_iff.1 h1
+  rwa [hdiv, hmod] at h1
+
+theorem resChk_of_ents {D : DempData} {l : ℕ}
+    (h : ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → resEnt D l i g = true) :
+    resChk D l = true := by
+  unfold resChk resChkR
+  refine allBelow_of_demp fun p hp => ?_
+  change p < D.oszL l * (D.npr - D.frL l) at hp
+  have hm : 0 < D.npr - D.frL l := Nat.pos_of_ne_zero fun e => by rw [e, mul_zero] at hp; omega
+  refine h _ ?_ _ (Nat.le_add_right _ _) ?_
+  · change p / (D.npr - D.frL l) < D.oszL l
+    exact Nat.div_lt_of_lt_mul (by rwa [Nat.mul_comm])
+  · change D.frL l + p % (D.npr - D.frL l) < D.npr
+    have := Nat.mod_lt p hm
+    omega
+
+theorem resChk_of_gens {D : DempData} {l : ℕ}
+    (h : ∀ j < D.npr - D.frL l, resChkR D l (D.frL l + j) 1 = true) : resChk D l = true :=
+  resChk_of_ents fun i hi g hg1 hg2 =>
+    resChkR_spec (h (g - D.frL l) (by omega)) i hi g (by omega) (by omega)
+
+private theorem resEnt_spec {D : DempData} {l i g : ℕ} (h : resEnt D l i g = true)
+    (hL : D.L ≤ 64) : ∃ z < D.oszL l, ∃ e : ℕ,
+      (∀ q, l + 1 + q < D.L → bitsN e (8 * (q + 1)) 8 < D.oszL (l + 1 + q)) ∧
+      D.mul (D.T l i) (D.S g) = D.sift l e (D.T l z) := by
+  unfold resEnt at h
+  dsimp only at h
+  obtain ⟨hz, h1⟩ := Dce.andB_iff.1 h
   obtain ⟨hq, heq⟩ := Dce.andB_iff.1 h1
   refine ⟨_, Nat.blt_eq.mp hz, _, fun q hq' => ?_, Nat.eq_of_beq_eq_true heq⟩
   exact Nat.blt_eq.mp (allBelow_demp hq (by change D.L - l - 1 ≤ 64 * 1; omega) q
     (by change q < D.L - l - 1; omega))
+
+private theorem resChk_spec {D : DempData} {l : ℕ} (h : resChk D l = true) (hL : D.L ≤ 64) :
+    ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l, ∃ e : ℕ,
+      (∀ q, l + 1 + q < D.L → bitsN e (8 * (q + 1)) 8 < D.oszL (l + 1 + q)) ∧
+      D.mul (D.T l i) (D.S g) = D.sift l e (D.T l z) := fun i hi g hg1 hg2 =>
+  resEnt_spec (resChkR_spec h i hi g hg1 (by change g < D.frL l + (D.npr - D.frL l); omega)) hL
 
 theorem dempChk_facts (D : DempData) (h : dempChk D = true) : DempFacts D := by
   unfold dempChk at h
@@ -179,12 +219,11 @@ theorem dempChk_facts (D : DempData) (h : dempChk D = true) : DempFacts D := by
     · exact hl3
     · exact hl4
     · exact hl5
-  have hres : ∀ l < D.L, resChk D l = true := by
-    intro l hl
+  have hres : ∀ l < D.L, 0 < l → resChk D l = true := by
+    intro l hl hl0
     rw [hL6] at hl
-    rcases (by omega : l = 0 ∨ l = 1 ∨ l = 2 ∨ l = 3 ∨ l = 4 ∨ l = 5) with
-      rfl | rfl | rfl | rfl | rfl | rfl
-    · exact hr0
+    rcases (by omega : l = 1 ∨ l = 2 ∨ l = 3 ∨ l = 4 ∨ l = 5) with
+      rfl | rfl | rfl | rfl | rfl
     · exact hr1
     · exact hr2
     · exact hr3
@@ -223,7 +262,11 @@ theorem dempChk_facts (D : DempData) (h : dempChk D = true) : DempFacts D := by
       tree := fun l hl => (hspec l hl).2.2.2.2.1
       inj := fun l hl => (hspec l hl).2.2.2.2.2.1
       fix := fun l hl => (hspec l hl).2.2.2.2.2.2
-      res := fun l hl => resChk_spec (hres l hl) (by omega) }
+      res := fun l hl i hi g hg1 hg2 hlg => by
+        rcases Nat.eq_zero_or_pos l with rfl | hl0
+        · exact resEnt_spec (resChkR_spec hr0 i hi g (Nat.zero_le _) (by change g < 2; omega))
+            (by omega)
+        · exact resChk_spec (hres l hl hl0) (by omega) i hi g hg1 hg2 }
 
 variable {D : DempData}
 
@@ -388,10 +431,10 @@ theorem card_closure_eq (hF : DempFacts D) {J : Subgroup (GL (Fin 248) (ZMod 2))
     intro l hl g hg1 hg2
     change Matrix.vecMul _ (𝕄 (s g)) = _
     rw [hsM g hg2, ← pkVec_vecB hk, hF.fix l hl g hg1 hg2]
-  have hres : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l,
-      t l i * s g * (t l z)⁻¹ ∈ lev D.frL D.npr s (l + 1) := by
-    intro l hl i hi g hg1 hg2
-    obtain ⟨z, hz, e, hy, heq⟩ := hF.res l hl i hi g hg1 hg2
+  have hres1 : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → (0 < l ∨ g < 2) →
+      ∃ z < D.oszL l, t l i * s g * (t l z)⁻¹ ∈ lev D.frL D.npr s (l + 1) := by
+    intro l hl i hi g hg1 hg2 hlg
+    obtain ⟨z, hz, e, hy, heq⟩ := hF.res l hl i hi g hg1 hg2 hlg
     obtain ⟨u, hu, eu⟩ := hsift l hl e hy (D.T l z)
     refine ⟨z, hz, ?_⟩
     have e1 : t l i * s g = u * t l z := by
@@ -401,6 +444,38 @@ theorem card_closure_eq (hF : DempFacts D) {J : Subgroup (GL (Fin 248) (ZMod 2))
         htM l z hl hz]
     rw [e1, mul_inv_cancel_right]
     exact hu
+  have hnpr2 := hF.npr2
+  have e0 : s 0 = d₀ := mat_injective (by
+    change 𝕄 (s 0) = 𝕄 d₀
+    rw [hsM 0 (by omega), hd₀, DempData.S, hF.pr0])
+  have e1 : s 1 = d₁ := mat_injective (by
+    change 𝕄 (s 1) = 𝕄 d₁
+    rw [hsM 1 (by omega), hd₁, DempData.S, hF.pr1])
+  have hres : ∀ l < D.L, ∀ i < D.oszL l, ∀ g, D.frL l ≤ g → g < D.npr → ∃ z < D.oszL l,
+      t l i * s g * (t l z)⁻¹ ∈ lev D.frL D.npr s (l + 1) := by
+    intro l hl i hi g hg1 hg2
+    rcases Nat.eq_zero_or_pos l with rfl | hl0
+    · have hD : t 0 i * s g ∈ Dg := by
+        refine Subgroup.mul_mem _ ?_ (hsD g)
+        refine (Subgroup.closure_le _).2 ?_ (htree 0 hl i hi).1
+        rintro x ⟨g', -, -, rfl⟩
+        exact hsD g'
+      obtain ⟨h, hh, z, hz, e⟩ := decomp_closure (b := fun l => pkVec (D.bvL l))
+        (O := fun l i => pkVec (D.P l i)) (fr := D.frL) (n := D.npr) (s := s) (t := t)
+        (N := D.oszL) hact1 hact2 (hpos 0 hl) (ht0 0 hl) (fun i hi => (htree 0 hl i hi).2)
+        (fun i j hi hj e => hF.inj 0 hl i j hi hj
+          (pkVec_inj (hpt_lt 0 hl i hi) (hpt_lt 0 hl j hj) e)) (hfix 0 hl)
+        (X := ({d₀, d₁} : Set J)) (fun i hi x hx => by
+          rcases hx with rfl | rfl
+          · rw [← e0]
+            exact hres1 0 hl i hi 0 (by rw [hF.fr0]) (by omega) (Or.inr (by norm_num))
+          · rw [← e1]
+            exact hres1 0 hl i hi 1 (by rw [hF.fr0]; omega) (by omega) (Or.inr (by norm_num)))
+        hD
+      refine ⟨z, hz, ?_⟩
+      rw [e, mul_inv_cancel_right]
+      exact hh
+    · exact hres1 l hl i hi g hg1 hg2 (Or.inl hl0)
   have hH : ChainHyp act D.L D.npr D.frL D.oszL (fun l => pkVec (D.bvL l)) s
       (fun l i => pkVec (D.P l i)) t :=
     { act_one := hact1

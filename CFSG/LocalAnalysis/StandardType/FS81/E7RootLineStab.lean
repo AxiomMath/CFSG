@@ -206,8 +206,39 @@ private abbrev e7LocalTableOK (l : Fin 63) (k : Fin 7) : Prop :=
     (∀ i j : Fin 8, (e7LocalTinv (e7LocalTable l k) * e7LocalGen k * e7LocalT l) i j =
       (if i = e7LocalTablePermFun l k j then e7LocalTableSign l k j else 0))
 
-private theorem e7LocalTableOK_all : ∀ l : Fin 63, ∀ k : Fin 7, e7LocalTableOK l k := by
+private theorem e7LocalTableOK_q0 : ∀ l : Fin 63, l.val / 9 = 0 → ∀ k : Fin 7, e7LocalTableOK l k := by
   decide +kernel
+
+private theorem e7LocalTableOK_q1 : ∀ l : Fin 63, l.val / 9 = 1 → ∀ k : Fin 7, e7LocalTableOK l k := by
+  decide +kernel
+
+private theorem e7LocalTableOK_q2 : ∀ l : Fin 63, l.val / 9 = 2 → ∀ k : Fin 7, e7LocalTableOK l k := by
+  decide +kernel
+
+private theorem e7LocalTableOK_q3 : ∀ l : Fin 63, l.val / 9 = 3 → ∀ k : Fin 7, e7LocalTableOK l k := by
+  decide +kernel
+
+private theorem e7LocalTableOK_q4 : ∀ l : Fin 63, l.val / 9 = 4 → ∀ k : Fin 7, e7LocalTableOK l k := by
+  decide +kernel
+
+private theorem e7LocalTableOK_q5 : ∀ l : Fin 63, l.val / 9 = 5 → ∀ k : Fin 7, e7LocalTableOK l k := by
+  decide +kernel
+
+private theorem e7LocalTableOK_q6 : ∀ l : Fin 63, l.val / 9 = 6 → ∀ k : Fin 7, e7LocalTableOK l k := by
+  decide +kernel
+
+private theorem e7LocalTableOK_all : ∀ l : Fin 63, ∀ k : Fin 7, e7LocalTableOK l k := by
+  intro l
+  have hl := l.isLt
+  rcases (by omega : l.val / 9 = 0 ∨ l.val / 9 = 1 ∨ l.val / 9 = 2 ∨ l.val / 9 = 3 ∨
+      l.val / 9 = 4 ∨ l.val / 9 = 5 ∨ l.val / 9 = 6) with h | h | h | h | h | h | h
+  · exact e7LocalTableOK_q0 l h
+  · exact e7LocalTableOK_q1 l h
+  · exact e7LocalTableOK_q2 l h
+  · exact e7LocalTableOK_q3 l h
+  · exact e7LocalTableOK_q4 l h
+  · exact e7LocalTableOK_q5 l h
+  · exact e7LocalTableOK_q6 l h
 
 private theorem e7LocalTable_mem :
     ∀ (l : Fin 63) (k : Fin 7),

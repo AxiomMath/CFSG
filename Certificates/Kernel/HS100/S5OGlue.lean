@@ -1,7 +1,6 @@
 module
 
 public import Certificates.Kernel.HS100.S5OChecks
-public import Certificates.Kernel.HS100.S5OCChecks
 public import Certificates.Kernel.HS100.FyThrChecks
 public import Certificates.Kernel.HS100.S5OT0
 public import Certificates.Kernel.HS100.S5OT1
@@ -10,8 +9,6 @@ public import Certificates.Kernel.HS100.S5OT3
 public import Certificates.Kernel.HS100.S5OT4
 public import Certificates.Kernel.HS100.S5OT5
 public import Certificates.Kernel.HS100.S5OT6
-public import Certificates.Kernel.HS100.S5OZ0
-public import Certificates.Kernel.HS100.S5OZ1
 public import Certificates.Kernel.HS100.Chain
 public import Certificates.Kernel.HS100.Five
 public import CFSG.Certificates.Kernel.BfsPinAlg
@@ -37,8 +34,6 @@ open CFSG.EvenSporadicStandard.HSStd CFSG.Monster.B.Co2.Native CFSG.Monster.B.Co
 open CFSG.RankThree.Native CFSG.Certificates.Native
 
 #kc_forall_chunks s5oBrAll (fun k => s5oBr k = true) 77 CertificateChecks.KernelHS100.s5oBr 1
-
-#kc_forall_chunks zcAll (fun b => zcBlk b = true) 24 CertificateChecks.KernelHS100.zcBlk 1
 
 theorem oTab_eq {k : ℕ} (hk : k < 16) : s5oTab k = unpack 100 7 (OX.F k) := by
   rw [s5oTab, OX.eq]
@@ -125,19 +120,6 @@ theorem oe_perm : ∀ k < OE.ng, permOK 100 7 (mask 7) (100 * 7) (OE.G k)
   rw [Nat.eq_of_beq_eq_true (allN_spec s5oGensO.2 k hk2)]
   exact allN_spec S5O.perm _ (by omega)
 
-theorem oc_gens : s5oXs.size = OC.ng ∧ ∀ k < OC.ng, s5oXs[k]! = unpack 100 7 (OC.G k) := by
-  refine ⟨rfl, fun k hk => ?_⟩
-  have hk7 : k < 7 := hk
-  rw [Nat.eq_of_beq_eq_true (allN_spec OC.gensX k hk7)]
-  exact xgen_eq hk7
-
-theorem oc_perm : ∀ k < OC.ng, permOK 100 7 (mask 7) (100 * 7) (OC.G k)
-    (pinvS 100 7 (mask 7) (OC.G k)) = true := by
-  intro k hk
-  have hk7 : k < 7 := hk
-  rw [Nat.eq_of_beq_eq_true (allN_spec OC.gensX k hk7)]
-  exact allN_spec S5O.perm _ (by omega)
-
 theorem os_pts : s5oSCert.pts = Array.ofFn (n := OS.N) fun i => unpack 100 7 (OS.T i.val) := by
   unfold s5oSCert
   rw [s5Keys5]
@@ -148,31 +130,18 @@ theorem os_enumOK : enumOK 100 s5oSGens s5Keys s5oSCert = true := by
   rw [s5Keys5]
   exact enumOK_of_bfsK_base os_gens.1 os_gens.2 os_perm OS.ok (by decide) OS.keys (by decide)
 
-theorem oc_pts : s5oXCert.pts = Array.ofFn (n := OC.N) fun i => unpack 100 7 (OC.T i.val) := by
-  unfold s5oXCert
-  rw [s5Keys5]
-  exact enumBfs_pts_base oc_gens.1 oc_gens.2 OC.ok (by decide) OC.keys (by decide)
-
-theorem oc_enumOK : enumOK 100 s5oXs s5Keys s5oXCert = true := by
-  unfold s5oXCert
-  rw [s5Keys5]
-  exact enumOK_of_bfsK_base oc_gens.1 oc_gens.2 oc_perm OC.ok (by decide) OC.keys (by decide)
-
 theorem oe_list : s5oE = (List.range OE.N).map fun e => unpack 100 7 (OE.T e) := by
   unfold s5oE
   rw [s5Keys5, enumBfs_pts_base oe_gens.1 oe_gens.2 OE.ok (by decide) OE.keys (by decide)]
   exact pts_toList (N := OE.N) fun e => unpack 100 7 (OE.T e)
 
-theorem oSizes : OS.N = 1024 ∧ OE.N = 1344 ∧ OC.N = 40320 := by
+theorem oSizes : OS.N = 1024 ∧ OE.N = 1344 := by
   have h := S5O.sizes
   rw [Bool.and_eq_true] at h
-  exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2, Nat.eq_of_beq_eq_true OC.card⟩
+  exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2⟩
 
 theorem ppOS {k : ℕ} (hk : k < 1024) : PP 100 7 (OS.T k) :=
   PP_pts OS.ok os_perm k (by rw [oSizes.1]; exact hk)
-
-theorem ppOC {k : ℕ} (hk : k < 40320) : PP 100 7 (OC.T k) :=
-  PP_pts OC.ok oc_perm k (by rw [oSizes.2.2]; exact hk)
 
 theorem gensP : allLt s5oSGens.size
     (fun k => s5InP s5oSGens[k]! || s5InP (compA 100 s5U s5oSGens[k]!)) = true := by
@@ -307,7 +276,7 @@ theorem cent : s5oCentOK = true := by
     rw [hy, fixLevCount_eq binds HC.perm HC.hl (i := 0) (by norm_num) (OX.F 5), beq_iff_eq]
     exact Nat.eq_of_beq_eq_true S5O.fixCnt
   have hl : (s5oE.length == 1344) = true := by
-    rw [oe_list, List.length_map, List.length_range, oSizes.2.1]
+    rw [oe_list, List.length_map, List.length_range, oSizes.2]
     rfl
   unfold s5oCentOK
   rw [hv, h0, hf, hl, s5oTail]
@@ -331,25 +300,6 @@ theorem zw : s5oZWord.foldl (fun acc i => compA 100 acc s5oXs[i]!) (idA 100) =
     PP 100 7 (s5oZWord.foldl (fun acc i => pm acc (OX.F (i + 7))) (pidn 100 7)) :=
   wordProd_eq s5oZWord (by decide) _ _ (PP.id hw) (idA_eq hw)
 
-theorem zcPt {k : ℕ} (hk : k < 40320) :
-    (!eqA 100 (compA 100 s5oZ (unpack 100 7 (OC.T k))) (compA 100 (unpack 100 7 (OC.T k)) s5oZ) ||
-      !eqA 100 (s5oPow5 (unpack 100 7 (OC.T k))) (idA 100) ||
-      eqA 100 (unpack 100 7 (OC.T k)) (idA 100)) = true := by
-  have hT := ppOC hk
-  have p4 : PP 100 7 (OX.F 4) := ppO (by norm_num)
-  have h0 := zcAll (k / 1680) (Nat.div_lt_of_lt_mul (by omega : k < 1680 * 24))
-  unfold zcBlk at h0
-  have h := allN_spec h0 (k % 1680) (Nat.mod_lt _ (by norm_num))
-  beta_reduce at h
-  rw [Nat.div_add_mod] at h
-  unfold zcOne pw5 at h
-  unfold s5oPow5
-  rw [s5oZ, oTab_eq (by norm_num), compO p4 hT, compO hT p4, eqO (ppm p4 hT) (ppm hT p4),
-    compO hT hT, compO hT (ppm hT hT), compO hT (ppm hT (ppm hT hT)),
-    compO hT (ppm hT (ppm hT (ppm hT hT))), idA_eq hw,
-    eqO (ppm hT (ppm hT (ppm hT (ppm hT hT)))) (PP.id hw), eqO hT (PP.id hw)]
-  exact h
-
 theorem zok : s5oZOK = true := by
   obtain ⟨hz1, hz2⟩ := zw
   have hzw := S5O.zw
@@ -370,15 +320,8 @@ theorem zok : s5oZOK = true := by
   have w3 : eqA 100 (compA 100 s5oZ s5oY) (compA 100 s5oY s5oZ) = true := by
     rw [hz, hy, compO p4 p5, compO p5 p4, eqO (ppm p4 p5) (ppm p5 p4)]
     exact e3
-  have w4 : (s5oXCert.pts.toList.all fun a => !eqA 100 (compA 100 s5oZ a) (compA 100 a s5oZ) ||
-      !eqA 100 (s5oPow5 a) (idA 100) || eqA 100 a (idA 100)) = true := by
-    rw [oc_pts, pts_toList (N := OC.N) fun e => unpack 100 7 (OC.T e), List.all_map,
-      List.all_eq_true]
-    intro k hk
-    have hk' : k < 40320 := by rw [← oSizes.2.2]; exact List.mem_range.1 hk
-    exact zcPt hk'
   unfold s5oZOK
-  rw [w1, w2, w3, w4]
+  rw [w1, w2, w3]
   rfl
 
 theorem s5o : s5oOK = true := by
@@ -411,12 +354,9 @@ theorem s5o : s5oOK = true := by
     rw [hs, hy, hz, compO p6 p5, compO p5 p4, compO (ppm p5 p4) p6,
       eqO (ppm p6 p5) (ppm (ppm p5 p4) p6)]
     exact sy
-  have c13 : (s5oXCert.pts.size == 40320) = true := by
-    rw [oc_pts, Array.size_ofFn, oSizes.2.2]
-    rfl
   unfold s5oOK
   rw [os_enumOK, c1, gensP, c2, c3, c4, c5, osAll, c6, c7, c8, c9, c10, c11, c12, xsAll, s5oCox,
-    oc_enumOK, c13, cent, zok]
+    cent, zok]
   rfl
 
 end CertificateChecks.KernelHS100

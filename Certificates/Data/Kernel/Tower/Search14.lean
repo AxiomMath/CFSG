@@ -8,17 +8,22 @@ namespace Certificates.KernelTower
 
 @[expose] def cz15 (LB CZ c : Nat) : Nat := lane CZ 15 32767 (lbL LB c)
 
-@[expose] noncomputable def labC16 (n k : Nat) (mul : Nat → Nat → Nat) (GS GI LB RP nl c : Nat) :
+@[expose] def lbG16 (LB c : Nat) : Nat := Nat.land (lbW LB c) 7
+
+@[expose] def lbD16 (LB c : Nat) : Nat := Nat.shiftRight (lbW LB c) 3
+
+@[expose] noncomputable def labC16 (k : Nat) (mul : Nat → Nat → Nat) (GS GI LB RP nl c : Nat) :
     Bool :=
-  Nat.blt (lbL LB c) nl && Nat.blt (lbW LB c) n &&
-    Nat.beq (mul (lbW LB c) (l16 RP (lbL LB c))) (mul c (lbW LB c)) &&
-    allB k fun i => Nat.beq (lbL LB (mul (mul (l16 GS i) c) (l16 GI i))) (lbL LB c)
+  Nat.blt (lbL LB c) nl && (Nat.blt (lbG16 LB c) k || Nat.beq c (l16 RP (lbL LB c))) &&
+    allB k fun i => (fun x => Nat.beq (lbL LB x) (lbL LB c) &&
+      (!Nat.beq i (lbG16 LB c) || Nat.blt (lbD16 LB x) (lbD16 LB c)))
+      (mul (mul (l16 GS i) c) (l16 GI i))
 
 @[expose] noncomputable def labOK16 (n k : Nat) (mul : Nat → Nat → Nat) (GS GI LB RP nl : Nat) :
     Bool :=
   allB k (fun i => Nat.blt (l16 GI i) n && Nat.beq (mul (l16 GS i) (l16 GI i)) 0) &&
     allB nl (fun l => Nat.blt (l16 RP l) n && Nat.beq (lbL LB (l16 RP l)) l) &&
-    allB n (labC16 n k mul GS GI LB RP nl)
+    allB n (labC16 k mul GS GI LB RP nl)
 
 @[expose] noncomputable def histB (n LB : Nat) : Nat :=
   Nat.rec 0 (fun c acc => Nat.add acc (Nat.shiftLeft 1 (Nat.mul 15 (lbL LB c)))) n
@@ -29,6 +34,10 @@ namespace Certificates.KernelTower
   Nat.blt t n && allB 256 (fun j => Nat.blt (l16 HL j) n && Nat.beq (mul (l16 HL j) t) (mul t (l16 HL j))) &&
     allB 255 (fun j => Nat.blt (l16 HL j) (l16 HL (Nat.succ j))) &&
     Nat.beq (cntB n fun c => Nat.beq (mul c t) (mul t c)) 256
+
+@[expose] noncomputable def hcOK16 (n : Nat) (mul : Nat → Nat → Nat) (t HL : Nat) : Bool :=
+  Nat.blt t n &&
+    allB 256 (fun j => Nat.blt (l16 HL j) n && Nat.beq (mul (l16 HL j) t) (mul t (l16 HL j)))
 
 @[expose] def ocOf (OT LB CZ u : Nat) : Nat := Nat.add (oe OT u) (Nat.mul 4 (cz15 LB CZ u))
 

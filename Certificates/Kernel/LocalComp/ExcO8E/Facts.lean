@@ -155,15 +155,15 @@ theorem p16 : ∀ j < s16Gens.length, permOK 480 9 (mask 9) (480 * 9) (Q16.S j) 
 
 theorem chainSE : ChainK 480 9 seGens seQWords (#v[0, 1, 4, 240] : Vector (Fin 480) 4)
     SE.S SE.SI SE.LR SE.TR SE.TRI 9 SE.BP 30 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgSE, by decide, SE.head, SE.hl, by norm_num, SE.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgSE, by decide, SE.head, SE.hl, by norm_num, .inl SE.hs⟩
 
 theorem chain48 : ChainK 480 9 s48Gens s48QWords (#v[0, 1, 240] : Vector (Fin 480) 3)
     Q48.S Q48.SI Q48.LR Q48.TR Q48.TRI 11 Q48.BP 30 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img48, by decide, Q48.head, Q48.hl, by norm_num, Q48.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img48, by decide, Q48.head, Q48.hl, by norm_num, .inl Q48.hs⟩
 
 theorem chain16 : ChainK 480 9 s16Gens s16QWords (#v[0, 1, 4, 240] : Vector (Fin 480) 4)
     Q16.S Q16.SI Q16.LR Q16.TR Q16.TRI 7 Q16.BP 30 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img16, by decide, Q16.head, Q16.hl, by norm_num, Q16.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img16, by decide, Q16.head, Q16.hl, by norm_num, .inl Q16.hs⟩
 
 theorem kNE : Nat.beq (ordK SE.LR 4) 16384 = true := by quickRfl
 theorem kN48 : Nat.beq (ordK Q48.LR 3) 4096 = true := by quickRfl

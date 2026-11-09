@@ -4,6 +4,7 @@ public import Certificates.Kernel.HeLoc.Seven2K
 public import Certificates.Kernel.HeLoc.Seven0Facts
 public import CFSG.RankThree.PartOne.KS.HeSevenCheckDefs
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.RankThree.Native.ChainCentralizerOrb
 import Mathlib.Tactic.IntervalCases
 
 public section
@@ -262,24 +263,107 @@ theorem csk2_lt : ∀ j < 98, C2.SK j < 98 := sk_lt fun j hj => by
   rw [bAnd_iff, bAnd_iff, Nat.blt_eq] at h
   exact ⟨h.1, Nat.eq_of_beq_eq_true h.2.1⟩
 
+open CFSG.Certificates.ChainArrays (lev levPts levT) in
 theorem tail2 : ptailOK 8330 (rawLevels 8330 heSevenCase2Arrs heSevenCase2BaseArr)
     heSevenCase2BaseArr heSevenLines[2]! (powPA 7 8330 heSevenLines[2]!) heSevenCase2Rels
     heSevenC2Cert.pts.toList 7 0 (idA 8330) = true := by
-  refine ptailOK_of_ptK_ tc2 x2_rep x2_repF (fun r hr => ?_) fr_ok2 bs_lt ?_ (by norm_num) kTail2
-  · have h := List.all_eq_true.1 kRels2 r hr
+  have hrels7 : ∀ r ∈ heSevenCase2Rels, r.2.2 < 7 := fun r hr => by
+    have h := List.all_eq_true.1 kRels2 r hr
     unfold relAt2 at h
     rw [bAnd_iff, Nat.blt_eq] at h
     exact h.1
-  · intro a A ha hA ⟨j, hj, e⟩
+  have hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin 8330)), Rep 8330 a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin 10 => permOfArr 8330 heSevenCase2Arrs[j.val]!) →
+      (∃ j < 98, keyA 8330 heSevenKeys a = ckey2 (C2.SK j)) →
+      heSevenC2Cert.pts.toList.any (eqA 8330 a) = true := by
+    intro a A ha hA ⟨j, hj, e⟩
     have hR : A ∈ heAutGroup := by
       refine (Subgroup.closure_le _).2 ?_ hA
       rintro _ ⟨i, rfl⟩
-      exact faith2 i (by simpa [heSevenCase2Arrs] using i.2)
+      exact faith2 i (by simp [heSevenCase2Arrs])
     have hm := csk2_lt j hj
     unfold ckey2 cv2 at e
     rw [← keyA_treeArr ctree2 c2g c2gs keys_lt hm, ← c2_get hm] at e
     have he := key_faith ha (c2_rep hm) hR (heP_le_heAutGroup (c2_inP hm)) e
     exact any_mem (by rw [c2_size]; exact hm) ((eqA_iff ha (c2_rep hm)).2 he)
+  obtain ⟨hc', -, -, -⟩ := caseChainOK3_parts chain2
+  have hF := chainCheckFacts hc'
+  obtain ⟨Q, hA⟩ : ∃ Q : RawSchreierDatum 8330, ChainArrays Q (heSevenCase2Arrs.extract 0 3)
+      heSevenCase2Arrs heSevenCase2BaseArr heSevenCase2Words :=
+    ⟨_, chainArrays_ofArrays (hn := by norm_num) (k := 3) (hk := by simp [heSevenCase2Arrs])
+      (hb := (by decide : heSevenCase2Base.Nodup)) hF.strong_inv⟩
+  have hQ := (validSchreier_of_chainOK hA (by norm_num) hc').1
+  have hs : heSevenCase2BaseArr.size = 7 := by decide
+  have hb7 : Q.baseCount = 7 := hA.base_size.symm.trans hs
+  have hps : ∀ q ∈ heSevenKeys, q < 8330 := keys_lt
+  have hK : Subgroup.closure (permsA 8330 heSevenC2Gens) ≤
+      Subgroup.centralizer {lp 2} ⊓ Q.originalSubgroup := by
+    rw [Subgroup.closure_le]
+    rintro _ ⟨k, hk, rfl⟩
+    have hk3 : k < 3 := hk
+    have hc := commA_R (c2gs k hk3) x2_rep (c2g k hk3) x2_repF (heP_le_heAutGroup (c2g_inP k hk3))
+      (heP_le_heAutGroup x2_inP) (allN_spec kComm2 k hk3)
+    change permOfArr 8330 heSevenC2Gens[k]! ∈ Subgroup.centralizer {lp 2} ⊓ Q.originalSubgroup
+    rw [CFSG.RankThree.Native.permOfArr_eq_of_rep (c2gs k hk3)]
+    refine Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 ?_, ?_⟩
+    · exact (commA_iff (c2gs k hk3) x2_rep).1 hc
+    · exact (siftA_iff_mem_originalSubgroup hA (by norm_num) hc' (c2gs k hk3)).1
+        ((sift2_iff (c2gs k hk3)).2 (heP_le_heAutGroup (c2g_inP k hk3)))
+  have hKE : ∀ g ∈ Subgroup.closure (permsA 8330 heSevenC2Gens), ∃ e ∈ heSevenC2Cert.pts.toList,
+      Rep 8330 e g := by
+    intro g hg'
+    obtain ⟨i, hi, hre⟩ := enumOK_exists_rep hps c2_enum hg'
+    refine ⟨heSevenC2Cert.pts[i]!, ?_, hre⟩
+    rw [getElem!_pos heSevenC2Cert.pts i hi, ← Array.getElem_toList]
+    exact List.getElem_mem _
+  have hEK : ∀ e ∈ heSevenC2Cert.pts.toList, ∃ g ∈ Subgroup.closure (permsA 8330 heSevenC2Gens),
+      Rep 8330 e g := by
+    intro e he
+    obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem he
+    have hi' : i < heSevenC2Cert.pts.size := by simpa using hi
+    have hv : validA 8330 heSevenC2Cert.pts.toList[i] = true := by
+      rw [Array.getElem_toList, ← getElem!_pos heSevenC2Cert.pts i hi']
+      exact (enumOK_spec hps c2_enum).2.2 i hi'
+    exact ⟨_, enumOK_mem_of_mem hps c2_enum (rep_of_validA hv) (List.getElem_mem _),
+      rep_of_validA hv⟩
+  have h0 : 0 < Q.baseCount := by omega
+  obtain ⟨hsz0, hpt0⟩ := tabChain_pts tc2 (i := 0) (by norm_num)
+  suffices htl : ptailOK 8330 (rawLevels 8330 heSevenCase2Arrs heSevenCase2BaseArr)
+      heSevenCase2BaseArr heSevenLines[2]! (powPA 7 8330 heSevenLines[2]!) heSevenCase2Rels
+      heSevenC2Cert.pts.toList Q.baseCount 0 (idA 8330) = true by
+    rw [hb7] at htl
+    exact htl
+  refine ptailOK_of_orbits_rel hA hF hQ x2_rep (rep_powPA x2_rep) (relsOKP_spec rels_ok2) hK
+    hKE hEK h0 fun k hk => Or.inr ?_
+  have hk' : k < rcnt (S72.LR 0) := by
+    rw [← hsz0]
+    exact hk
+  obtain ⟨hpk, -⟩ := hpt0 k hk'
+  have ho := allN_spec kOrb2 k hk'
+  rw [bAnd_iff, bAnd_iff, Nat.blt_eq, Nat.blt_eq] at ho
+  obtain ⟨hj, hr, he⟩ := ho
+  have hrb' : rb2 (Nat.div (ep2 k) 128) < rcnt (S72.LR 0) :=
+    Nat.blt_eq.mp (allN_spec kRb2 (Nat.div (ep2 k) 128) hr)
+  obtain ⟨hpr, -⟩ := hpt0 _ hrb'
+  have hrs : rb2 (Nat.div (ep2 k) 128) <
+      (lev 8330 heSevenCase2Arrs heSevenCase2BaseArr 0).pts.size := by
+    change _ < ((rawLevels 8330 heSevenCase2Arrs heSevenCase2BaseArr)[0]!).pts.size
+    rw [hsz0]
+    exact hrb'
+  refine ⟨rb2 (Nat.div (ep2 k) 128), hrs, treePerm gpC2 C2.P C2.L (Nat.mod (ep2 k) 128),
+    enumOK_mem hps c2_enum (by rw [c2_size]; exact hj) (c2_rep hj), ?_, ?_⟩
+  · apply Fin.ext
+    have hv := c2_repF hj _ (levPts Q heSevenCase2Arrs heSevenCase2BaseArr 0
+      (rb2 (Nat.div (ep2 k) 128))).2
+    simp only [Fin.eta] at hv
+    rw [← hv, hA.levPts_val hF h0 hrs, hA.levPts_val hF h0 hk]
+    change cv2 (Nat.mod (ep2 k) 128) ((rawLevels 8330 heSevenCase2Arrs heSevenCase2BaseArr)[0]!).pts[
+      rb2 (Nat.div (ep2 k) 128)]! = ((rawLevels 8330 heSevenCase2Arrs heSevenCase2BaseArr)[0]!).pts[k]!
+    rw [hpr, hpk]
+    exact Nat.eq_of_beq_eq_true he
+  · rw [hb7]
+    exact ptailOK1_of_ptK tc2 x2_rep x2_repF hrels7 fr_ok2 bs_lt hE (by norm_num) hrb'
+      (allN_spec kTail2 _ hr)
 
 theorem cent2 : centOKP 7 8330 heSevenCase2Arrs heSevenCase2BaseArr heSevenLines[2]!
     heSevenCase2Rels heSevenC2Gens heSevenKeys heSevenC2Cert 98 = true := by

@@ -318,15 +318,15 @@ private theorem low_Run_nodup {prev r : Nat} {ps : List (Nat × Nat)} (h : low_R
 private noncomputable def low_gpairs (g : List Nat) : List (Nat × Nat) :=
   g.tail.map fun e => (lget g 0, e >>> 25)
 
-private theorem low_pairOK {Z W : List Nat} {x e : Nat} (h : pairOK D Z W x e = true) :
-    x < 12288 ∧ e >>> 25 < 26040 ∧ ∃ G, combChk D.rm (xPt Z x) (yPt W (e >>> 25)) G = true := by
+private theorem low_pairOK {Z W : Nat → Nat} {x e : Nat} (h : pairOK D Z W x e = true) :
+    x < 12288 ∧ e >>> 25 < 26040 ∧ ∃ G, combChk D.rm (Z x) (W (e >>> 25)) G = true := by
   change andB (Nat.blt x 12288) (andB (Nat.blt (e >>> 25) 26040)
-    (combChk D.rm (xPt Z x) (yPt W (e >>> 25)) (bitsN e 0 25))) = true at h
+    (combChk D.rm (Z x) (W (e >>> 25)) (bitsN e 0 25))) = true at h
   obtain ⟨h1, h2⟩ := Unfold.andB_split h
   obtain ⟨h2, h3⟩ := Unfold.andB_split h2
   exact ⟨Nat.blt_eq.mp h1, Nat.blt_eq.mp h2, _, h3⟩
 
-private theorem low_groupRun_cons {Z W : List Nat} {x e : Nat} {es : List Nat} {prev : Nat}
+private theorem low_groupRun_cons {Z W : Nat → Nat} {x e : Nat} {es : List Nat} {prev : Nat}
     (h : 0 < groupRun D Z W x (e :: es) prev) :
     Nat.blt prev (low_code (x, e >>> 25)) = true ∧ pairOK D Z W x e = true ∧
       groupRun D Z W x (e :: es) prev = groupRun D Z W x es (low_code (x, e >>> 25)) := by
@@ -339,7 +339,7 @@ private theorem low_groupRun_cons {Z W : List Nat} {x e : Nat} {es : List Nat} {
   · obtain ⟨h1, h2⟩ := Unfold.andB_split hb
     exact ⟨h1, h2, by rw [hc, hb]⟩
 
-private theorem low_groupRun {Z W : List Nat} {x : Nat} :
+private theorem low_groupRun {Z W : Nat → Nat} {x : Nat} :
     ∀ (es : List Nat) (prev : Nat), 0 < groupRun D Z W x es prev →
       (∀ e ∈ es, pairOK D Z W x e = true) ∧
         low_Run prev (es.map fun e => (x, e >>> 25)) (groupRun D Z W x es prev)
@@ -355,7 +355,7 @@ private theorem low_groupRun {Z W : List Nat} {x : Nat} :
     · exact h2
     · exact ih1 e' he'
 
-private theorem low_groupsRun_cons {Z W : List Nat} {g : List Nat} {gs : List (List Nat)}
+private theorem low_groupsRun_cons {Z W : Nat → Nat} {g : List Nat} {gs : List (List Nat)}
     {prev : Nat} (h : 0 < groupsRun D Z W (g :: gs) prev) :
     0 < groupRun D Z W (lget g 0) g.tail prev ∧
       groupsRun D Z W (g :: gs) prev =
@@ -368,7 +368,7 @@ private theorem low_groupsRun_cons {Z W : List Nat} {g : List Nat} {gs : List (L
     exact absurd h (lt_irrefl 0)
   · exact ⟨Nat.blt_eq.mp hb, by rw [hc, hb]⟩
 
-private theorem low_groupsRun {Z W : List Nat} :
+private theorem low_groupsRun {Z W : Nat → Nat} :
     ∀ (gs : List (List Nat)) (prev : Nat), 0 < groupsRun D Z W gs prev →
       (∀ g ∈ gs, ∀ e ∈ g.tail, pairOK D Z W (lget g 0) e = true) ∧
         low_Run prev (gs.flatMap low_gpairs) (groupsRun D Z W gs prev)
@@ -385,7 +385,7 @@ private theorem low_groupsRun {Z W : List Nat} :
     · exact g1
     · exact ih1 g' hg'
 
-private theorem low_batchesRun_cons {Z W : List Nat} {gs : List (List Nat)}
+private theorem low_batchesRun_cons {Z W : Nat → Nat} {gs : List (List Nat)}
     {bs : List (List (List Nat))} {prev : Nat} (h : 0 < batchesRun D Z W (gs :: bs) prev) :
     0 < groupsRun D Z W gs prev ∧
       batchesRun D Z W (gs :: bs) prev = batchesRun D Z W bs (groupsRun D Z W gs prev) := by
@@ -396,7 +396,7 @@ private theorem low_batchesRun_cons {Z W : List Nat} {gs : List (List Nat)}
     exact absurd h (lt_irrefl 0)
   · exact ⟨Nat.blt_eq.mp hb, by rw [hc, hb]⟩
 
-private theorem low_batchesRun {Z W : List Nat} :
+private theorem low_batchesRun {Z W : Nat → Nat} :
     ∀ (bs : List (List (List Nat))) (prev : Nat), 0 < batchesRun D Z W bs prev →
       (∀ gs ∈ bs, ∀ g ∈ gs, ∀ e ∈ g.tail, pairOK D Z W (lget g 0) e = true) ∧
         low_Run prev (bs.flatMap fun gs => gs.flatMap low_gpairs) (batchesRun D Z W bs prev)
@@ -443,17 +443,12 @@ private theorem low_lgetLL_mem :
     · exact Or.inl (List.mem_cons_of_mem _ h)
     · exact Or.inr h
 
-theorem lowChk_sound {i : Nat} (h : lowChk D O i = true) :
+private theorem low_core {Z W : Nat → Nat} {i : Nat}
+    (hlen : pairsLen (lgetL3 O.grp i) = lget O.sb i)
+    (hpos : 0 < batchesRun D Z W (lgetL3 O.grp i) 0) :
     ∃ L : List (Nat × Nat), L.length = lget O.sb i ∧ L.Nodup ∧
-      (∀ e ∈ L, e.1 < 12288 ∧ e.2 < 26040 ∧ ∃ G,
-        combChk D.rm (xPt (xBat D (pt D O i)) e.1) (yPt (yBat D O (pt D O i)) e.2) G = true) ∧
+      (∀ e ∈ L, e.1 < 12288 ∧ e.2 < 26040 ∧ ∃ G, combChk D.rm (Z e.1) (W e.2) G = true) ∧
       ∀ b, ∀ g ∈ O.grpOf i b, ∀ e ∈ g.tail, (lget g 0, e >>> 25) ∈ L := by
-  unfold lowChk at h
-  beta_reduce at h
-  rw [Batches.strictB_eq] at h
-  obtain ⟨h1, h2⟩ := Unfold.andB_split h
-  have hlen : pairsLen (lgetL3 O.grp i) = lget O.sb i := Nat.eq_of_beq_eq_true h1
-  have hpos := Nat.blt_eq.mp h2
   obtain ⟨hpairs, hrun⟩ := low_batchesRun D (lgetL3 O.grp i) 0 hpos
   refine ⟨(lgetL3 O.grp i).flatMap fun gs => gs.flatMap low_gpairs, ?_, low_Run_nodup hrun, ?_, ?_⟩
   · rw [← hlen, low_pairsLen]
@@ -466,6 +461,33 @@ theorem lowChk_sound {i : Nat} (h : lowChk D O i = true) :
     · simp only [List.mem_flatMap, low_gpairs, List.mem_map]
       exact ⟨O.grpOf i b, hb, g, hg, e, he, rfl⟩
     · exact absurd hg (by rw [OrbData.grpOf, hb]; simp)
+
+theorem lowChk_sound {i : Nat} (h : lowChk D O i = true) :
+    ∃ L : List (Nat × Nat), L.length = lget O.sb i ∧ L.Nodup ∧
+      (∀ e ∈ L, e.1 < 12288 ∧ e.2 < 26040 ∧ ∃ G,
+        combChk D.rm (xD D (pt D O i) e.1) (yD D O (pt D O i) e.2) G = true ∨
+        combChk D.rm (xPt (xBat D (pt D O i)) e.1) (yD D O (pt D O i) e.2) G = true) ∧
+      ∀ b, ∀ g ∈ O.grpOf i b, ∀ e ∈ g.tail, (lget g 0, e >>> 25) ∈ L := by
+  unfold lowChk at h
+  beta_reduce at h
+  rw [Batches.strictB_eq] at h
+  obtain ⟨h1, h2⟩ := Unfold.andB_split h
+  have hlen : pairsLen (lgetL3 O.grp i) = lget O.sb i := Nat.eq_of_beq_eq_true h1
+  cases hc : Nat.blt 1000 (lget O.sb i)
+  · rw [hc] at h2
+    have hpos : 0 < batchesRun D (xD D (pt D O i)) (yD D O (pt D O i)) (lgetL3 O.grp i) 0 :=
+      Nat.blt_eq.mp h2
+    obtain ⟨L, a1, a2, a3, a4⟩ := low_core D O hlen hpos
+    refine ⟨L, a1, a2, fun e he => ?_, a4⟩
+    obtain ⟨b1, b2, G, hG⟩ := a3 e he
+    exact ⟨b1, b2, G, Or.inl hG⟩
+  · rw [hc] at h2
+    have hpos : 0 < batchesRun D (xPt (xBat D (pt D O i))) (yD D O (pt D O i)) (lgetL3 O.grp i) 0 :=
+      Nat.blt_eq.mp h2
+    obtain ⟨L, a1, a2, a3, a4⟩ := low_core D O hlen hpos
+    refine ⟨L, a1, a2, fun e he => ?_, a4⟩
+    obtain ⟨b1, b2, G, hG⟩ := a3 e he
+    exact ⟨b1, b2, G, Or.inr hG⟩
 
 section
 

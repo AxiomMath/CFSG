@@ -64,6 +64,23 @@ theorem nadd (a b : ℕ) : Nat.add a b = a + b := rfl
 theorem letN_eq {α : Sort u} (y : ℕ) (k : ℕ → α) : letN y k = k y := by
   cases y <;> rfl
 
+theorem dotT_nil (T : ℕ) : dotT T [] = 0 := rfl
+
+theorem dotT_cons (T t : ℕ) (ts : List ℕ) : dotT T (t :: ts) = letN (dotT T ts) fun s =>
+    Nat.add s (Nat.mul (lnT T (Nat.mod t 128)) (lnT T (Nat.add 72 (Nat.div t 128)))) := rfl
+
+theorem stepS_nil (T : ℕ) : stepS T [] = T := rfl
+
+theorem stepS_cons (T S : ℕ) (ts : List ℕ) (sch : List (ℕ × List ℕ)) :
+    stepS T ((S, ts) :: sch) =
+      letN (Nat.mod (dotT T ts) 4294967296) fun d =>
+      letN (Nat.mod T 18446744073709551616) fun s =>
+      letN (Nat.add (Nat.sub T s)
+        (Nat.add (Nat.mod (Nat.add (Nat.mul s 6364136223846793005) (Nat.add d S))
+          18446744073709551616)
+          (Nat.shiftLeft d (Nat.add 64 (Nat.mul 32 (Nat.add 72 S)))))) fun T' => stepS T' sch :=
+  rfl
+
 theorem lnT_eq (T L : ℕ) : lnT T L = T / 2 ^ (64 + 32 * L) % 2 ^ 32 := by
   change (T >>> (64 + 32 * L)) &&& (2 ^ 32 - 1) = _
   rw [Nat.shiftRight_eq_div_pow, Nat.and_two_pow_sub_one_eq_mod]
@@ -329,12 +346,6 @@ end Minors
           && bitsOf (S - 2 ^ ((bitsOf S).getD j 0 : ℕ)) == (bitsOf S).eraseIdx j) &&
       schOK sc (S :: done)
 
-theorem schOK_sch : schOK sch [] = true := by
-  decide +kernel
-
-theorem mem_sch_63 : 63 ∈ sch.map Prod.fst := by
-  decide +kernel
-
 theorem bitsOf_63 : bitsOf 63 = [0, 1, 2, 3, 4, 5] := by
   decide +kernel
 
@@ -352,9 +363,9 @@ def Inv (A : Matrix (Fin 6) (Fin 6) Z) (T : ℕ) (done : List ℕ) : Prop :=
 
 theorem dotT_cast (T : ℕ) : ∀ ts : List ℕ,
     (dotT T ts : Z) = (ts.map fun t => (lnT T (t % 128) : Z) * lnT T (72 + t / 128)).sum
-  | [] => by simp [dotT]
+  | [] => by simp [dotT_nil]
   | t :: ts => by
-    rw [dotT, letN_eq, List.map_cons, List.sum_cons, ← dotT_cast T ts]
+    rw [dotT_cons, letN_eq, List.map_cons, List.sum_cons, ← dotT_cast T ts]
     change ((dotT T ts + lnT T (t % 128) * lnT T (72 + t / 128) : ℕ) : Z) = _
     push_cast
     ring
@@ -435,7 +446,7 @@ theorem inv_step {A : Matrix (Fin 6) (Fin 6) Z} {T S : ℕ} {done : List ℕ}
 theorem inv_stepS {A : Matrix (Fin 6) (Fin 6) Z} : ∀ (sc : List (ℕ × List ℕ)) (done : List ℕ)
     (T : ℕ), schOK sc done = true → Inv A T done →
       Inv A (stepS T sc) ((sc.map Prod.fst).reverse ++ done)
-  | [], done, T, _, hI => by simpa [stepS] using hI
+  | [], done, T, _, hI => by simpa [stepS_nil] using hI
   | (S, ts) :: sc, done, T, h, hI => by
     simp only [schOK, Bool.and_eq_true, decide_eq_true_eq, Bool.not_eq_true',
       beq_iff_eq, List.all_eq_true, List.mem_range, Bool.or_eq_true] at h
@@ -447,7 +458,7 @@ theorem inv_stepS {A : Matrix (Fin 6) (Fin 6) Z} : ∀ (sc : List (ℕ × List �
       exact ⟨h1.imp id (fun h => by simpa using h), h2⟩
     have hI'' := inv_stepS sc (S :: done) _ hrest hI'
     simp only [List.map_cons, List.reverse_cons, List.append_assoc, List.singleton_append]
-    simp only [stepS, letN_eq]
+    simp only [stepS_cons, letN_eq]
     exact hI''
 
 @[expose] def AZ (vp p v : ℕ) : Matrix (Fin 6) (Fin 6) ℤ :=
@@ -494,19 +505,6 @@ theorem Dl_six (A : Matrix (Fin 6) (Fin 6) Z) : Dl A 6 [0, 1, 2, 3, 4, 5] = A.de
   ext i j
   fin_cases i <;> fin_cases j <;> rfl
 
-theorem detS_cast {vp p v : ℕ} (hr : ∀ k < 6, rIdx p v k < 72) :
-    (detS sch (tabA (rt vp) p v) : Z) = (((AZ vp p v).det : ℤ) : Z) := by
-  have hI := inv_stepS sch [] _ schOK_sch (inv_tabA (vp := vp) hr)
-  have h63 : 63 ∈ (sch.map Prod.fst).reverse ++ [] := by
-    rw [List.append_nil, List.mem_reverse]
-    exact mem_sch_63
-  have h := hI.2.1 63 (Or.inr h63)
-  have e : (135 : ℕ) = 72 + 63 := rfl
-  have e6 : ([0, 1, 2, 3, 4, 5] : List (Fin 6)).length = 6 := rfl
-  unfold detS
-  rw [e, h, DS, bitsOf_63, e6, Dl_six]
-  exact (RingHom.map_det (Int.castRingHom Z) (AZ vp p v)).symm
-
 theorem abs_AZ (vp p v : ℕ) (k i : Fin 6) : |AZ vp p v k i| ≤ 10 := by
   have hc := crd_lt vp (rIdx p v k) i
   simp only [AZ, Matrix.of_apply]
@@ -522,19 +520,6 @@ theorem natAbs_det_lt (vp p v : ℕ) : ((AZ vp p v).det).natAbs < 2 ^ 31 := by
   zify
   have h31 : (720000000 : ℤ) < 2 ^ 31 := by norm_num
   linarith
-
-theorem absK_detS {vp p v : ℕ} (hr : ∀ k < 6, rIdx p v k < 72) :
-    absK (detS sch (tabA (rt vp) p v)) = ((AZ vp p v).det).natAbs := by
-  have hx : detS sch (tabA (rt vp) p v) < 2 ^ 32 := lnT_lt _ _
-  have hmod : (detS sch (tabA (rt vp) p v) : ℤ) % 2 ^ 32 = (AZ vp p v).det % 2 ^ 32 := by
-    have h : (((detS sch (tabA (rt vp) p v) : ℤ)) : Z) = (((AZ vp p v).det : ℤ) : Z) := by
-      rw [Int.cast_natCast]
-      exact detS_cast hr
-    exact (ZMod.intCast_eq_intCast_iff' _ _ _).1 h
-  have hb := natAbs_det_lt vp p v
-  unfold absK
-  simp only [Nat.reducePow, Int.reducePow] at *
-  rcases Int.natAbs_eq (AZ vp p v).det with h | h <;> split_ifs <;> omega
 
 theorem exists_tuple
     {vp ir rm : ℕ} {words : List (List ℕ)} {up vk : List ℕ}
@@ -604,47 +589,198 @@ theorem okD_spec {d : ℕ} (h : okD d = true) : (13 ∣ d → d = 39) ∧ (19 �
   simp only [okD, Bool.and_eq_true, Bool.or_eq_true, bne_iff_ne, ne_eq, beq_iff_eq] at h
   omega
 
-theorem mem_chunk {vk : List ℕ} {m : ℕ} (hm : m < vk.length) : vk[m] ∈ chunk vk (m / 128) := by
-  have hq : m - 128 * (m / 128) < ((vk.drop (128 * (m / 128))).take 128).length := by
-    simp only [List.length_take, List.length_drop]
-    omega
-  have h := List.getElem_mem hq
-  simp only [List.getElem_take, List.getElem_drop] at h
-  have e : 128 * (m / 128) + (m - 128 * (m / 128)) = m := by omega
-  simp only [e] at h
-  exact h
+theorem lnT_det {A : Matrix (Fin 6) (Fin 6) ℤ} {T : ℕ} {done : List ℕ}
+    (hI : Inv (A.map (Int.cast : ℤ → Z)) T done) (h63 : 63 ∈ done) :
+    (lnT T 135 : Z) = ((A.det : ℤ) : Z) := by
+  have h := hI.2.1 63 (Or.inr h63)
+  have e : (135 : ℕ) = 72 + 63 := rfl
+  have e6 : ([0, 1, 2, 3, 4, 5] : List (Fin 6)).length = 6 := rfl
+  rw [e, h, DS, bitsOf_63, e6, Dl_six]
+  exact (RingHom.map_det (Int.castRingHom Z) A).symm
+
+theorem absK_lnT {vp p v T : ℕ} {done : List ℕ}
+    (hI : Inv ((AZ vp p v).map (Int.cast : ℤ → Z)) T done) (h63 : 63 ∈ done) :
+    absK (lnT T 135) = ((AZ vp p v).det).natAbs := by
+  have hx : lnT T 135 < 2 ^ 32 := lnT_lt _ _
+  have hmod : (lnT T 135 : ℤ) % 2 ^ 32 = (AZ vp p v).det % 2 ^ 32 := by
+    have h : (((lnT T 135 : ℤ)) : Z) = (((AZ vp p v).det : ℤ) : Z) := by
+      rw [Int.cast_natCast]
+      exact lnT_det hI h63
+    exact (ZMod.intCast_eq_intCast_iff' _ _ _).1 h
+  have hb := natAbs_det_lt vp p v
+  unfold absK
+  simp only [Nat.reducePow, Int.reducePow] at *
+  rcases Int.natAbs_eq (AZ vp p v).det with h | h <;> split_ifs <;> omega
+
+theorem graft_eq (G T : ℕ) : graft G T = G % 2 ^ 2368 + T / 2 ^ 2368 * 2 ^ 2368 := by
+  unfold graft
+  rw [nadd, nland, nshl, nshr]
+
+theorem lnT_graft (G T L : ℕ) : lnT (graft G T) L = if L < 72 then lnT G L else lnT T L := by
+  simp only [graft_eq, lnT_eq]
+  split_ifs with hL
+  · have hM : (2 : ℕ) ^ 2368 = 2 ^ (64 + 32 * L) * (2 ^ 32 * 2 ^ (32 * (71 - L))) := by
+      rw [← pow_add, ← pow_add]
+      congr 1
+      omega
+    rw [hM]
+    have e : T / (2 ^ (64 + 32 * L) * (2 ^ 32 * 2 ^ (32 * (71 - L)))) *
+        (2 ^ (64 + 32 * L) * (2 ^ 32 * 2 ^ (32 * (71 - L)))) =
+        2 ^ 32 * (T / (2 ^ (64 + 32 * L) * (2 ^ 32 * 2 ^ (32 * (71 - L)))) *
+          2 ^ (32 * (71 - L))) * 2 ^ (64 + 32 * L) := by ring
+    rw [e, Nat.add_mul_div_right _ _ (by positivity), Nat.add_mul_mod_self_left,
+      Nat.mod_mul_right_div_self, Nat.mod_mul_right_mod]
+  · have hq : (2 : ℕ) ^ (64 + 32 * L) = 2 ^ 2368 * 2 ^ (32 * (L - 72)) := by
+      rw [← pow_add]
+      congr 1
+      omega
+    rw [hq, ← Nat.div_div_eq_div_mul, ← Nat.div_div_eq_div_mul,
+      Nat.add_mul_div_right _ _ (by positivity),
+      Nat.div_eq_of_lt (Nat.mod_lt _ (by positivity)), zero_add]
+
+theorem inv_graft {A B : Matrix (Fin 6) (Fin 6) Z} {G T : ℕ} {done : List ℕ}
+    (hG : Inv A G []) (hT : Inv B T done) (hD : ∀ S, S = 0 ∨ S ∈ done → DS A S = DS B S) :
+    Inv A (graft G T) done := by
+  refine ⟨fun e he => ?_, fun S hS => ?_, fun S h1 h2 h3 => ?_⟩
+  · rw [lnT_graft, if_pos he]
+    exact hG.1 e he
+  · rw [lnT_graft, if_neg (by omega), hT.2.1 S hS, hD S hS]
+  · rw [lnT_graft, if_neg (by omega)]
+    exact hT.2.2 S h1 h2 h3
+
+theorem DS_agree {A B : Matrix (Fin 6) (Fin 6) Z} {S r : ℕ} (hS : (bitsOf S).length ≤ 6 - r)
+    (hAB : ∀ k : Fin 6, r ≤ (k : ℕ) → A k = B k) : DS A S = DS B S := by
+  unfold DS Dl
+  congr 1
+  ext i j
+  simp only [Matrix.of_apply]
+  have hi := i.2
+  refine congrFun (hAB _ ?_) _
+  change r ≤ (6 - (bitsOf S).length + (i : ℕ)) % 6
+  rw [Nat.mod_eq_of_lt (by omega)]
+  omega
+
+theorem agree_AZ {vp p x y r : ℕ} {d : List ℕ} (hd : ∀ S ∈ d, (bitsOf S).length ≤ 6 - r)
+    (h : ∀ k < 6, r ≤ k → lane x (wkRho.getD k 0) = lane y (wkRho.getD k 0)) :
+    ∀ S, S = 0 ∨ S ∈ d →
+      DS ((AZ vp p x).map (Int.cast : ℤ → Z)) S = DS ((AZ vp p y).map (Int.cast : ℤ → Z)) S := by
+  intro S hS
+  refine DS_agree (r := r) ?_ fun k hk => ?_
+  · rcases hS with rfl | hS
+    · have hb : bitsOf 0 = [] := by decide +kernel
+      rw [hb]
+      exact Nat.zero_le _
+    · exact hd S hS
+  · ext i
+    have hk' : rIdx p x k = rIdx p y k := by
+      unfold rIdx
+      rw [h k k.2 hk]
+    simp only [Matrix.map_apply, AZ, Matrix.of_apply, hk']
+
+theorem rOK_spec {p a : ℕ} (h : rOKE6 p a = true) : ∀ k < 6, rIdx p a k < 72 := by
+  intro k hk
+  unfold rOKE6 at h
+  rw [List.all_eq_true] at h
+  have hl : wkRho.length = 6 := rfl
+  have hm := h (wkRho.getD k 0) (by
+    rw [List.getD_eq_getElem _ _ (by rw [hl]; exact hk)]
+    exact List.getElem_mem _)
+  unfold rIdx
+  simpa using hm
+
+@[expose] def dTr1 : List ℕ := (schT1.map Prod.fst).reverse ++ []
+
+@[expose] def dTr2 : List ℕ := (schT2.map Prod.fst).reverse ++ dTr1
+
+@[expose] def dTr3 : List ℕ := (schT3.map Prod.fst).reverse ++ dTr2
+
+@[expose] def dTr4 : List ℕ := (schT4.map Prod.fst).reverse ++ dTr3
+
+theorem schOK_T1 : schOK schT1 [] = true := by
+  decide +kernel
+
+theorem schOK_T2 : schOK schT2 dTr1 = true := by
+  decide +kernel
+
+theorem schOK_T3 : schOK schT3 dTr2 = true := by
+  decide +kernel
+
+theorem schOK_T4 : schOK schT4 dTr3 = true := by
+  decide +kernel
+
+theorem mem_T4 : 63 ∈ dTr4 := by
+  decide +kernel
+
+theorem len_T1 : ∀ S ∈ dTr1, (bitsOf S).length ≤ 6 - 5 := by
+  decide +kernel
+
+theorem len_T2 : ∀ S ∈ dTr2, (bitsOf S).length ≤ 6 - 4 := by
+  decide +kernel
+
+theorem len_T3 : ∀ S ∈ dTr3, (bitsOf S).length ≤ 6 - 3 := by
+  decide +kernel
 
 theorem charpoly_two_of_checks
     {vp ir rm : ℕ} {words : List (List ℕ)} {up vk : List ℕ}
     (htab : tabCheckWith vp ir rm = true) (hup : upCheckWith ir words up = true)
     (hk : kCheckWith up = true) (hv : vCheckWith ir vk (KTree.ofSorted vk) = true)
-    (hlen : up.length = 27) (hvk : vk.length ≤ 1920)
-    (hch : ∀ i < 405, chkAt vp up vk i = true) (v : WeylGroup TwistTag.E6.tag)
+    (hlen : up.length = 27) {vt : List (List (List (List ℕ)))} (hvt : vt.length ≤ 16)
+    {RT : ℕ} (hRT : rt vp = RT) (hcov : covVT vk vt = true)
+    (hch : ∀ i < 432, chkAtT RT up vt i = true)
+    (v : WeylGroup TwistTag.E6.tag)
     (M : Matrix (Fin TwistTag.E6.tag.rank) (Fin TwistTag.E6.tag.rank) ℤ)
     (hvM : ∀ x, v • x = M *ᵥ permLattice TwistTag.E6.perm x) :
     (13 ∣ (M.charpoly.eval (2 : ℤ)).natAbs → (M.charpoly.eval (2 : ℤ)).natAbs = 39) ∧
       (19 ∣ (M.charpoly.eval (2 : ℤ)).natAbs → (M.charpoly.eval (2 : ℤ)).natAbs = 57) := by
   obtain ⟨p, hp, c, hc, hrep⟩ := exists_tuple htab hup hk hv v
   obtain ⟨n, hn, rfl⟩ := List.getElem_of_mem hp
-  obtain ⟨m, hm, rfl⟩ := List.getElem_of_mem hc
-  have hr : ∀ k < 6, rIdx up[n] vk[m] k < 72 := fun k hk => by
-    have e : rIdx up[n] vk[m] k = rIdx up[n] vk[m] ((⟨k, hk⟩ : Fin TwistTag.E6.tag.rank) : ℕ) :=
+  have hr : ∀ k < 6, rIdx up[n] c k < 72 := fun k hk => by
+    have e : rIdx up[n] c k = rIdx up[n] c ((⟨k, hk⟩ : Fin TwistTag.E6.tag.rank) : ℕ) :=
       rfl
     rw [e, rIdx_eq]
     have h := (hrep.2 (TwistTag.E6.perm ⟨k, hk⟩)).1
     rwa [roots_length] at h
-  have hi := hch (15 * n + m / 128) (by omega)
-  have e1 : (15 * n + m / 128) / 15 = n := by omega
-  have e2 : (15 * n + m / 128) % 15 = m / 128 := by omega
-  unfold chkAt at hi
-  rw [letN_eq, e1, e2, List.getD_eq_getElem _ _ hn] at hi
-  have hok := List.all_eq_true.1 hi _ (mem_chunk hm)
-  have hdet : (AZ vp up[n] vk[m]).det = (charMatrix ((decodeT 6 vk[m]).map (lane up[n]))).det :=
+  have hmem := List.all_eq_true.1 hcov c hc
+  simp only [memVT, List.any_eq_true, Bool.and_eq_true, beq_iff_eq, List.contains_iff_mem] at hmem
+  obtain ⟨g1, hg1, -, g2, hg2, -, g3, hg3, hcg3⟩ := hmem
+  obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hg1
+  have hi := hch (16 * n + j) (by omega)
+  have e1 : (16 * n + j) / 16 = n := by omega
+  have e2 : (16 * n + j) % 16 = j := by omega
+  unfold chkAtT at hi
+  rw [letN_eq, letN_eq, e1, e2, List.getD_eq_getElem _ _ hn, List.getD_eq_getElem _ _ hj,
+    ← hRT] at hi
+  unfold chkTr at hi
+  simp only [letN_eq, Bool.and_eq_true, List.all_eq_true, beq_iff_eq] at hi
+  obtain ⟨hr1, hi⟩ := hi
+  obtain ⟨⟨h20, hr2⟩, hi⟩ := hi g2 hg2
+  obtain ⟨⟨⟨h30, h32⟩, hr3⟩, hi⟩ := hi g3 hg3
+  have hok := hi c hcg3
+  unfold okVT at hok
+  simp only [Bool.and_eq_true, beq_iff_eq] at hok
+  obtain ⟨⟨⟨hc0, hc2⟩, hc3⟩, hok⟩ := hok
+  have I1 := inv_stepS schT1 [] _ schOK_T1 (inv_tabA (vp := vp) (rOK_spec hr1))
+  have I2 := inv_stepS schT2 dTr1 _ schOK_T2 (inv_graft (inv_tabA (vp := vp) (rOK_spec hr2)) I1
+    (agree_AZ len_T1 fun k hk h5 => by
+      obtain rfl : k = 5 := by omega
+      exact h20))
+  have I3 := inv_stepS schT3 dTr2 _ schOK_T3 (inv_graft (inv_tabA (vp := vp) (rOK_spec hr3)) I2
+    (agree_AZ len_T2 fun k hk h4 => by
+      rcases (by omega : k = 4 ∨ k = 5) with rfl | rfl
+      · exact h32
+      · exact h30))
+  have I4 := inv_stepS schT4 dTr3 _ schOK_T4 (inv_graft (inv_tabA (vp := vp) hr) I3
+    (agree_AZ len_T3 fun k hk h3 => by
+      rcases (by omega : k = 3 ∨ k = 4 ∨ k = 5) with rfl | rfl | rfl
+      · exact hc3
+      · exact hc2
+      · exact hc0))
+  have hdet : (AZ vp up[n] c).det = (charMatrix ((decodeT 6 c).map (lane up[n]))).det :=
     (congrArg Matrix.det (AZ_eq htab hr)).trans (Matrix.det_transpose _)
-  have hord : (AZ vp up[n] vk[m]).det.natAbs = (M.charpoly.eval (2 : ℤ)).natAbs := by
+  have hord : (AZ vp up[n] c).det.natAbs = (M.charpoly.eval (2 : ℤ)).natAbs := by
     rw [hdet, charMatrix_eq hrep hvM, natAbs_eval_charpoly]
     rfl
-  rw [absK_detS hr, hord] at hok
+  rw [absK_lnT I4 mem_T4, hord] at hok
   exact okD_spec hok
 
 end CFSG.KC.TwE6Det

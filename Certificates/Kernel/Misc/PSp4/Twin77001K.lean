@@ -8,6 +8,7 @@ public meta import Certificates.Data.CFSGNative.KGroups.Enum
 public meta import Certificates.Data.CFSGNative.KGroups.Perm
 public import Certificates.Kernel.SporSch.Th.GenV4
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PtCheck
 import CFSG.Certificates.Kernel.Common.Each
 import Init.Data.Nat.Fold
 import Init.Data.Range.Basic
@@ -116,9 +117,15 @@ theorem kPermT : allN 2 (fun k => permOK 45 6 (mask 6) (45 * 6) (TW k) (pinvS 45
 
 theorem kSz : szOK 45 6 = true := by quickRfl
 
-theorem kT1 : twinK (prodsP lvls) (TW 0) = true := by quickRfl
+theorem kT1 : twinK (prodsP lvls) (TW 0) = true := by
+  unfold twinK
+  simp only [pc, CFSG.KS.PtC.beq_pcomp_pcomp (n := 45) (w := 6) (by decide) (by decide)]
+  quickRfl
 
-theorem kT2 : twinK (prodsP lvls) (TW 1) = true := by quickRfl
+theorem kT2 : twinK (prodsP lvls) (TW 1) = true := by
+  unfold twinK
+  simp only [pc, CFSG.KS.PtC.beq_pcomp_pcomp (n := 45) (w := 6) (by decide) (by decide)]
+  quickRfl
 
 #kc_each CertificateChecks.KernelMisc.Twin77001.coverA 0 45
 

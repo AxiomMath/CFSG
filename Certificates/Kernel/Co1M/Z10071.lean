@@ -1,7 +1,7 @@
 module
 
 public import Certificates.Kernel.Co1M.Regs10071
-public import Certificates.Data.Kernel.Co1Odd71
+public import Certificates.Data.Kernel.Co1Odd71S
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -18,7 +18,9 @@ theorem z71_gens : (Z1G == [getL 0 cmRP71 81, getL 0 cmRP71 82] &&
 theorem z71_head1 : (Z1P.length == 1344 && Z1Par.length == 1344 && Z1Lab.length == 1344 &&
     Z1P.getD 0 0 == idF 24) = true := by quickRfl
 
-theorem z71_dist1 : distinctL Z1P = true := by quickRfl
+theorem z71_dist1_b : bucketOK 61 Z1P = true := by quickRfl
+
+theorem z71_dist1 : distinctL Z1P = true := distinctL_of_buckets (by decide) z71_dist1_b
 
 theorem z71_tree2 : (treeOK71 Z2G Z2P Z2Par Z2Lab 96 && distinctL Z2P && canonL Z2P) = true := by
   quickRfl

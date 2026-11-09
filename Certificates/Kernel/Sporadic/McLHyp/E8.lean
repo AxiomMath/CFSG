@@ -10,8 +10,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.McLHE
-  "Certificates/Kernel/Sporadic/McLHyp/data/hyp24430_e8f.json.gz" 5249 2585773670227800669
+#kc_repo #kc_json CertificateChecks.KernelSpor.McLHE
+  "Certificates/Kernel/Sporadic/McLHyp/data/hyp24430_e8f.json" 5249 2585773670227800669
   (E : List Nat) (W : Nat) (WI : Nat) (RI0 : Nat) (RI1 : Nat)
 
 namespace CertificateChecks.KernelSpor.McLHE

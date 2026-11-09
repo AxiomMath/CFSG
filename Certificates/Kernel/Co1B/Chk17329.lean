@@ -55,7 +55,8 @@ theorem kSmall : (eqK (powWK XK 3) oneK && notB (eqK XK oneK) &&
     eqK (mulWK XK Q3K) (mulWK Q3K XK) && eqK (mulWK XK Q4K) (mulWK Q4K XK)) = true := by
   quickRfl
 
-theorem kQ : (gtPinK QM 4 300 QT.N QT.P QT.PAR QT.LAB QT.W QT.S && Nat.beq QT.N 243) = true := by
+theorem kQ : (bfsK (gtStepK QM) QT.P QT.PAR QT.LAB QT.W QT.S 4 300 QT.N idM && Nat.beq QT.N 243) =
+    true := by
   quickRfl
 
 theorem kBF : allN 6 (fun i => andB (memK XB (base.getD i 0))

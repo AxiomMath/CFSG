@@ -80,7 +80,7 @@ theorem order5 {n w P : Nat} {g : Equiv.Perm (Fin n)} (hsz : szOK n w = true)
 theorem chainA : ChainK 240 8 [tab y00, tab y01] wY0 (#v[0, 1, 2] : Vector (Fin 240) 3) QA.S QA.SI
     QA.LR QA.TR QA.TRI 5 QA.BP 15 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, QA.head, QA.hl,
-    by norm_num, QA.hs⟩
+    by norm_num, .inl QA.hs⟩
   have hj' : j < 2 := by simpa using hj
   interval_cases j
   · simpa only [List.getD_cons_zero, tab_eq] using img_y00
@@ -89,7 +89,7 @@ theorem chainA : ChainK 240 8 [tab y00, tab y01] wY0 (#v[0, 1, 2] : Vector (Fin 
 theorem chainB : ChainK 98 7 [tab yu0, tab yu1] wYu (#v[0, 8] : Vector (Fin 98) 2) QB.S QB.SI
     QB.LR QB.TR QB.TRI 4 QB.BP 7 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, QB.head, QB.hl,
-    by norm_num, QB.hs⟩
+    by norm_num, .inl QB.hs⟩
   have hj' : j < 2 := by simpa using hj
   interval_cases j
   · simpa only [List.getD_cons_zero, tab_eq] using img_yu0

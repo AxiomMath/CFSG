@@ -19,8 +19,6 @@ open CFSG.Monster.AxisCount CFSG.AGLEmbedding.Norton.MON5_7 CFSG.AGLEmbedding.No
   [(tW13 ++ tW13, []),
     (tW13 ++ vW13, vW13 ++ tW13),
     (genD13W1 ++ tW13 ++ genD13W1 ++ tW13, []),
-    (tW13 ++ b3W13, b3W13 ++ tW13),
-    (vtW13 ++ bp3W13, bp3W13 ++ vtW13),
     (vW13 ++ vW13, []),
     (wvW13 ++ wvW13, vW13),
     (wvW13 ++ genD13W1, genD13W1 ++ wvW13),

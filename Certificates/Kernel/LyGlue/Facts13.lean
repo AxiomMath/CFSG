@@ -47,7 +47,7 @@ theorem card_Tx0_ge (hT : Ly243.trCheck = true) : 7776 ≤ Nat.card Ly243.Tx0 :=
     have : (⟨Ly243.gg 0, Ly243.gg_mem_Tx0 hT (by norm_num)⟩ : Ly243.Tx0) ∈ H := by
       rw [htop]
       exact mem_top _
-    exact gg0_not_mem hT this
+    exact gg0_not_mem hT (Subgroup.mem_subgroupOf.1 this)
   have hi1 : H.index ≠ 1 := fun h => hne (Subgroup.index_eq_one.1 h)
   have hfin : Finite ↥Ly243.Tx0 := inferInstance
   have hi0 : H.index ≠ 0 := Subgroup.index_ne_zero_of_finite

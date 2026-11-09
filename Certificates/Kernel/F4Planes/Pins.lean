@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Planes "Certificates/Kernel/F4Planes/data/pins.json.gz" 7284
+#kc_repo #kc_json CFSG.KD.F4Planes "Certificates/Kernel/F4Planes/data/pins.json" 7284
   12852867051033098006 (gw : List Nat) (gl : List Nat) (paths : List (List Nat)) (pS : List Nat)
 
 namespace CFSG.KD.F4Planes

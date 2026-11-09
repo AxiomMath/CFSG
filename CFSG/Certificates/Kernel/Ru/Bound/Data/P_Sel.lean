@@ -1,12 +1,12 @@
 module
 
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Tab
 public import CFSG.Certificates.Kernel.Ru.Bound.Data.P_0
 public import CFSG.Certificates.Kernel.Ru.Bound.Lab
 
-#kc_repo #kc_nat_items_gz CFSG.KD.RuBP "CFSG/Certificates/Kernel/Ru/Bound/Data/data/P/lces_const.items.gz" 16945 14903723759525996091
+#kc_repo #kc_nat_items CFSG.KD.RuBP "CFSG/Certificates/Kernel/Ru/Bound/Data/data/P/lces_const.items" 16945 14903723759525996091
   WT[352] RT[12] ST[2] HS nLive
 #kc_selectT CFSG.KD.RuBP blk B 340
 #kc_selectT CFSG.KD.RuBP selWT WT 352

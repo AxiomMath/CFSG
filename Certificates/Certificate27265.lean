@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.PumpHSCliqueData
-import Certificates.Kernel.Misc.Perm.HS100.CliqueGlue
+import Certificates.Kernel.Misc.Perm.HS100.NbrGlue
 
 public section
 
@@ -11,7 +11,7 @@ namespace Certificates
 
 open CertificateChecks
 
-theorem cliqueOK_true : cliqueOK = true := KernelMisc.HS100.Clique.cliqueOK_true
+theorem cliqueOK_true : cliqueOK = true := KernelMisc.HS100.Nbr.cliqueOK_true
 
 theorem certificate27265 : CFSG.EvenSporadicStandard.HSStd.PumpHS.cliqueOK = true := cliqueOK_true
 

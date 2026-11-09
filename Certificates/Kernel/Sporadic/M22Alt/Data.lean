@@ -10,18 +10,16 @@ set_option maxRecDepth 100000
 
 namespace CertificateChecks.KernelSpor.M22Alt
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.M22Alt
-  "Certificates/Kernel/Sporadic/M22Alt/data/Data.json.gz" 86384 6266398317398826742
+#kc_repo #kc_json CertificateChecks.KernelSpor.M22Alt
+  "Certificates/Kernel/Sporadic/M22Alt/data/Data.json" 100403 16251999304123043801
   (R0 : Nat) (Ri0 : Nat) (Bl0 : List Nat) (P0 : List Nat) (Lb0 : List Nat) (S0 : List Nat)
-  (tA : List Nat) (tB : List Nat) (CS : List Nat)
+  (tA : List Nat) (tB : List Nat) (CS : List Nat) (QA0 : List Nat) (QB0 : List Nat)
+  (QT0 : List Nat)
 
 @[expose] noncomputable def C0 : CFSG.KS.MEnum.ClassDatum := (0, 0, R0, Bl0, P0, Lb0, S0)
 
 @[expose] noncomputable def CL : List CFSG.KS.MEnum.ClassDatum :=
   [C0]
-
-@[expose] noncomputable def Rs : List (Nat × Nat) :=
-  [(R0, Ri0)]
 
 @[expose] def W : List (List Int) :=
   [[1], [2], [4, 3, -4], [-3, -5, 3, 5, 3], [-4, -6, 3, 4, 3], [-4, -4, 7, 4],

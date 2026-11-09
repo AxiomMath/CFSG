@@ -90,11 +90,17 @@ theorem ok_spec {p : Nat} (h : ok p = true) : Cn p ∧ Cn (pinv p) ∧ pk p (pin
   obtain ⟨h2, h3⟩ := andB_iff.1 h
   exact ⟨h1, h2, h3⟩
 
+theorem okI_spec {p q : Nat} (h : okI p q = true) : Cn p ∧ Cn q ∧ pk p q = true := by
+  unfold okI at h
+  obtain ⟨h1, h⟩ := andB_iff.1 h
+  obtain ⟨h2, h3⟩ := andB_iff.1 h
+  exact ⟨h1, h2, h3⟩
+
 theorem inv_parts : (Cn TA ∧ Cn TAI ∧ pk TA TAI = true) ∧ (Cn TB ∧ Cn TBI ∧ pk TB TBI = true) ∧
     (Cn TL ∧ Cn TLI ∧ pk TL TLI = true) ∧ (Cn TAl ∧ Cn TAlI ∧ pk TAl TAlI = true) ∧
     (Cn TBl ∧ Cn TBlI ∧ pk TBl TBlI = true) ∧ Cn TZ ∧
     (∀ i < 4, Cn (SG i) ∧ Cn (pinv (SG i)) ∧ pk (SG i) (pinv (SG i)) = true) ∧
-    (∀ j < 7, Cn (CG j) ∧ Cn (pinv (CG j)) ∧ pk (CG j) (pinv (CG j)) = true) := by
+    (∀ j < 7, Cn (CG j) ∧ Cn (CGI j) ∧ pk (CG j) (CGI j) = true) := by
   have h := kInv
   obtain ⟨h1, h⟩ := andB_iff.1 h
   obtain ⟨h2, h⟩ := andB_iff.1 h
@@ -105,7 +111,7 @@ theorem inv_parts : (Cn TA ∧ Cn TAI ∧ pk TA TAI = true) ∧ (Cn TB ∧ Cn TB
   obtain ⟨h7, h8⟩ := andB_iff.1 h
   exact ⟨ok_spec h1, ok_spec h2, ok_spec h3, ok_spec h4, ok_spec h5, h6,
     fun i hi => ok_spec (CFSG.KS.Raw.Orb.allN_iff.1 h7 i hi),
-    fun j hj => ok_spec (CFSG.KS.Raw.Orb.allN_iff.1 h8 j hj)⟩
+    fun j hj => okI_spec (CFSG.KS.Raw.Orb.allN_iff.1 h8 j hj)⟩
 
 theorem word_of {S : Array (Array Nat)} {k : Nat} {PS PSI : Nat → Nat} {wd : List Int}
     (hS : S.size = k ∧ ∀ j < k, S[j]! = unpack 4060 12 (PS j))
@@ -134,20 +140,26 @@ theorem gen2_p : ∀ j < 2, pk (sel2 A0 A1 j) (sel2 A0I A1I j) = true := by
 theorem gen2i_eq : tmGen2i = rawInvs 4060 tmGen2 := by
   simp [rawInvs, tmGen2, tmGen2i, ruInv]
 
+theorem w2_eq {wd : List Int} {T : Nat} (h : Nat.beq (W2 wd) T = true) :
+    wordK 4060 12 (mask 12) e (sel2 A0 A1) (sel2 A0I A1I) wd = T := by
+  have e1 : W2 wd = T := Nat.eq_of_beq_eq_true h
+  unfold W2 at e1
+  exact e1
+
 theorem tA_eq : tmTA = unpack 4060 12 TA := by
-  unfold tmTA TA W2
-  rw [gen2i_eq, word_of gen2_bind gen2_p letters.1]
+  unfold tmTA
+  rw [gen2i_eq, word_of gen2_bind gen2_p letters.1, w2_eq kTA]
 
 theorem tB_eq : tmTB = unpack 4060 12 TB := by
-  unfold tmTB TB W2
-  rw [gen2i_eq, word_of gen2_bind gen2_p letters.2.1]
+  unfold tmTB
+  rw [gen2i_eq, word_of gen2_bind gen2_p letters.2.1, w2_eq kTB]
 
 theorem tL_eq : tmTL = unpack 4060 12 TL := by
-  unfold tmTL TL W2
-  rw [gen2i_eq, word_of gen2_bind gen2_p letters.2.2.1]
+  unfold tmTL
+  rw [gen2i_eq, word_of gen2_bind gen2_p letters.2.2.1, w2_eq kTL]
 
-theorem inv_u {a : Array Nat} {P : Nat} (ha : a = unpack 4060 12 P) (h : pk P (pinv P) = true) :
-    ruInv a = unpack 4060 12 (pinv P) ∧ isInvA 4060 a (ruInv a) = true := inv_of ha h
+theorem inv_u {a : Array Nat} {P PI : Nat} (ha : a = unpack 4060 12 P) (h : pk P PI = true) :
+    ruInv a = unpack 4060 12 PI ∧ isInvA 4060 a (ruInv a) = true := inv_of ha h
 
 theorem genAB_bind : tmGenAB.size = 2 ∧ ∀ j < 2, tmGenAB[j]! = unpack 4060 12 (sel2 TA TB j) := by
   refine ⟨rfl, fun j hj => ?_⟩
@@ -164,17 +176,25 @@ theorem genAB_p : ∀ j < 2, pk (sel2 TA TB j) (sel2 TAI TBI j) = true := by
 theorem genABi_eq : tmGenABi = rawInvs 4060 tmGenAB := by
   simp [rawInvs, tmGenAB, tmGenABi, ruInv]
 
+theorem wab_eq {wd : List Int} {T : Nat} (h : Nat.beq (WAB wd) T = true) :
+    wordK 4060 12 (mask 12) e (sel2 TA TB) (sel2 TAI TBI) wd = T := by
+  have e1 : WAB wd = T := Nat.eq_of_beq_eq_true h
+  unfold WAB at e1
+  exact e1
+
 theorem tZ_eq : tmTZ = unpack 4060 12 TZ := by
-  unfold tmTZ TZ WAB
-  rw [genABi_eq, word_of genAB_bind genAB_p letters.2.2.2.1]
+  unfold tmTZ
+  rw [genABi_eq, word_of genAB_bind genAB_p letters.2.2.2.1, wab_eq kTZ]
 
 theorem sG_eq {i : Nat} (hi : i < 4) : tmSGen i = unpack 4060 12 (SG i) := by
-  unfold tmSGen SG WAB
-  rw [genABi_eq, word_of genAB_bind genAB_p (letters.2.2.2.2.2.2.1 i hi)]
+  unfold tmSGen
+  rw [genABi_eq, word_of genAB_bind genAB_p (letters.2.2.2.2.2.2.1 i hi),
+    wab_eq (CFSG.KS.Raw.Orb.allN_iff.1 kSG i hi)]
 
 theorem cG_eq {j : Nat} (hj : j < 7) : tmCGen j = unpack 4060 12 (CG j) := by
-  unfold tmCGen CG WAB
-  rw [genABi_eq, word_of genAB_bind genAB_p (letters.2.2.2.2.2.2.2 j hj)]
+  unfold tmCGen
+  rw [genABi_eq, word_of genAB_bind genAB_p (letters.2.2.2.2.2.2.2 j hj),
+    wab_eq (CFSG.KS.Raw.Orb.allN_iff.1 kCG j hj)]
 
 theorem tLi_eq : ruInv tmTL = unpack 4060 12 TLI := (inv_u tL_eq inv_parts.2.2.1.2.2).1
 
@@ -364,7 +384,7 @@ theorem sTabs_size : tmSTabs.size = 4 := rfl
 theorem enum_parts : SE.cnt = 64 ∧ SE.k = 4 ∧ penumHdK e SE.cnt 64 SE.T SE.PL = true ∧
     (∀ i < 4, SE.G i = SG i) ∧
     penumSlK 4060 12 (mask 12) (4060 * 12) false SE.G SE.GI 4 SE.cnt SE.T SE.PL SE.POS SE.SRT
-      SE.SRI 0 64 = true := by
+      SE.SRI 0 16 = true := by
   have h := kEnum
   obtain ⟨h1, h⟩ := andB_iff.1 h
   obtain ⟨h2, h⟩ := andB_iff.1 h
@@ -379,8 +399,16 @@ theorem gensS : GensOK 4060 12 4 SE.G tmSTabs := by
   exact ⟨rfl, (inv_parts.2.2.2.2.2.2.1 j hj).1⟩
 
 theorem ptS : ∀ i < SE.cnt, penumPtK 4060 12 (mask 12) (4060 * 12) false SE.G SE.GI 4 SE.cnt SE.T
-    SE.PL SE.POS SE.SRT SE.SRI i = true := fun i hi =>
-  penumSl_spec enum_parts.2.2.2.2 i (Nat.zero_le _) (by rw [enum_parts.1] at hi; omega) hi
+    SE.PL SE.POS SE.SRT SE.SRI i = true := by
+  intro i hi
+  have hc : SE.cnt = 64 := enum_parts.1
+  rcases Nat.lt_or_ge i 16 with h0 | h0
+  · exact penumSl_spec enum_parts.2.2.2.2 i (Nat.zero_le _) (by omega) hi
+  rcases Nat.lt_or_ge i 32 with h1 | h1
+  · exact penumSl_spec kEnum1 i h0 (by omega) hi
+  rcases Nat.lt_or_ge i 48 with h2 | h2
+  · exact penumSl_spec kEnum2 i h1 (by omega) hi
+  · exact penumSl_spec kEnum3 i h2 (by omega) hi
 
 theorem encS : enumBFS 4060 tmSTabs 64 = penumRec 4060 12 SE.cnt SE.T SE.PL ∧
     enumOK 4060 tmSTabs (penumRec 4060 12 SE.cnt SE.T SE.PL) = true :=
@@ -397,8 +425,8 @@ theorem zj_eq {j : Nat} (hj : j < 7) : tmZj j = unpack 4060 12 (ZJ j) ∧ Cn (ZJ
   exact ⟨rfl, cpc (cpc cC cZ) cCI⟩
 
 theorem cover_pt {x : Nat} (hx : Cn x) (h : orB (Nat.beq x e) (orB (notB (invPt 4060 12 x))
-    (orB (notB (allN 4 fun g => commPt 4060 12 x (SG g)))
-      (notB (allN 7 fun j => notB (Nat.beq x (ZJ j)))))) = true) :
+    (orB (notB (allN 7 fun j => notB (Nat.beq x (ZJ j))))
+      (notB (allN 4 fun g => commPt 4060 12 x (SG g))))) = true) :
     (unpack 4060 12 x == idTab 4060 || !(comp 4060 (unpack 4060 12 x) (unpack 4060 12 x) == idTab 4060) ||
       !(tmSTabs.all fun g => comp 4060 (unpack 4060 12 x) g == comp 4060 g (unpack 4060 12 x)) ||
       (List.range 7).any fun j => unpack 4060 12 x == tmZj j) = true := by

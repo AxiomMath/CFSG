@@ -1,6 +1,7 @@
 module
 
 public import CFSG.RankThree.GF2n.Smith81.S81E7Frame
+public import CFSG.RankThree.GF2n.Smith81.S81E7Fast
 
 public noncomputable section
 
@@ -235,9 +236,155 @@ theorem adjD_iff {a b : Fin e7Data.d} :
 @[expose] def stepSet (S : Finset (Fin e7Data.d)) : Finset (Fin e7Data.d) :=
   S ∪ idx0.filter fun b => ∃ a ∈ S, adjD a b
 
-theorem bfs_idx0 : ∀ a ∈ idx0, stepSet^[3] {a} = idx0 := by
-  unfold stepSet adjD idx0 pr
+private def adjTab : List ℕ :=
+  [0, 0, 0, 0, 0, 0, 0, 0, 9894062592, 73877645568, 0, 586983039744, 0, 2491816676096,
+    4440265001728, 0, 17889970643712, 5027639872256, 0, 70698596919552, 19886093050624,
+    5065528199936, 281808676153856, 73145677129984, 20149439636224, 284312621689344,
+    92388246372608, 73436989237504, 303557657182720, 284606198721024, 92681320087808,
+    356843445176320, 303845068587520, 95177778790656, 371912338907136, 357074595235840,
+    306227732152832, 0, 371692531163136, 358555322550272, 0, 370355760799744, 370105185878016, 0,
+    358815879987200, 0, 306552427249664, 0, 95510178299904, 0, 0, 0, 0, 0, 0, 0]
+
+private def adjC (x x' : ℕ × ℕ × ℕ) : Bool :=
+  E7Fast.rRecs.any fun y =>
+    y.1 % 16 == 8 && E7Fast.pNeg x y && E7Fast.pOne x' y && E7Fast.shC x'.1 x.1 y.1
+
+private def rowOK (w : ℕ × ℕ × ℕ) : List (ℕ × ℕ × ℕ) → ℕ → Bool
+  | [], _ => true
+  | w' :: ws, row => (row % 2 == 0 || adjC w w') && rowOK w ws (row / 2)
+
+private theorem rowOK_spec (w : ℕ × ℕ × ℕ) : ∀ (ws : List (ℕ × ℕ × ℕ)) (row : ℕ), rowOK w ws row = true →
+    ∀ i (hi : i < ws.length), row.testBit i = true → adjC w ws[i] = true
+  | [], _, _, i, hi, _ => absurd hi (Nat.not_lt_zero _)
+  | w' :: ws, row, h, i, hi, hb => by
+    simp only [rowOK, Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq] at h
+    cases i with
+    | zero =>
+      rcases h.1 with h0 | h0
+      · rw [Nat.testBit_zero, h0] at hb
+        exact absurd hb (by decide)
+      · exact h0
+    | succ i =>
+      rw [Nat.testBit_succ] at hb
+      exact rowOK_spec w ws (row / 2) h.2 i (by simpa using hi) hb
+
+private theorem adjTab_ok : (List.range 56).all
+    (fun i => rowOK (E7Fast.wRecs.getD i (0, 0, 0)) E7Fast.wRecs (adjTab.getD i 0)) = true := by
   decide +kernel
+
+private theorem adjD_of_adjC {a b : Fin e7Data.d}
+    (h : adjC (E7Fast.wrec (e7Data.weights.getD a 0)) (E7Fast.wrec (e7Data.weights.getD b 0)) =
+      true) : adjD a b := by
+  obtain ⟨y, hy, h⟩ := List.any_eq_true.1 h
+  obtain ⟨k, rfl⟩ := E7Fast.exists_of_mem_rRecs hy
+  simp only [Bool.and_eq_true, beq_iff_eq, E7Fast.pNeg_rec] at h
+  refine ⟨k, ?_, ?_, ?_⟩
+  · rw [E7Fast.root_eq, pair_theta]
+    show ((((Tag.rootCertificate .E7).roots.getD k 0) / 16 ^ 0 % 16 : ℕ) : ℤ) - 8 = 0
+    rw [pow_zero, Nat.div_one]
+    have h0 : (Tag.rootCertificate .E7).roots.getD k 0 % 16 = 8 := h.1.1.1
+    rw [h0]
+    rfl
+  · rw [E7Fast.root_eq, E7Fast.pr_neg_iff]
+    exact h.1.1.2
+  · rw [E7Fast.root_eq, E7Fast.wt_eq_add_iff]
+    exact h.2
+
+private theorem wRecs_getD (a : Fin e7Data.d) :
+    E7Fast.wRecs.getD a (0, 0, 0) = E7Fast.wrec (e7Data.weights.getD a 0) := by
+  have ha : (a : ℕ) < e7Data.weights.length := by rw [E7Fast.weights_length_eq]; exact a.2
+  rw [E7Fast.wRecs_eq, List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_eq_getElem ha,
+    Option.map_some, Option.getD_some, E7Fast.getD_weight_eq]
+
+private theorem adjD_of_testBit (a b : Fin e7Data.d) (h : (adjTab.getD a 0).testBit b = true) :
+    adjD a b := by
+  have h1 := List.all_eq_true.1 adjTab_ok a (List.mem_range.2 a.2)
+  have hb : (b : ℕ) < E7Fast.wRecs.length := by
+    rw [E7Fast.wRecs_eq, List.length_map, E7Fast.weights_length_eq]; exact b.2
+  have h2 := rowOK_spec _ _ _ h1 b hb h
+  apply adjD_of_adjC
+  rw [← wRecs_getD, ← wRecs_getD b, List.getD_eq_getElem?_getD (l := E7Fast.wRecs) (i := b),
+    List.getElem?_eq_getElem hb, Option.getD_some]
+  exact h2
+
+private theorem idx0_of_adjD {a b : Fin e7Data.d} (ha : a ∈ idx0) (h : adjD a b) : b ∈ idx0 := by
+  obtain ⟨k, hk, -, hw⟩ := h
+  rw [mem_idx0] at ha ⊢
+  unfold pr at ha ⊢
+  rw [hw, add_dotProduct, ha, zero_add]
+  exact hk
+
+private def orRows : ℕ → List ℕ → ℕ
+  | _, [] => 0
+  | S, row :: rows => (if S % 2 = 1 then row else 0) ||| orRows (S / 2) rows
+
+private theorem testBit_orRows : ∀ (rows : List ℕ) (S c : ℕ), (orRows S rows).testBit c = true →
+    ∃ i, ∃ hi : i < rows.length, S.testBit i = true ∧ rows[i].testBit c = true
+  | [], _, c, h => by simp [orRows] at h
+  | row :: rows, S, c, h => by
+    rw [orRows, Nat.testBit_or, Bool.or_eq_true] at h
+    rcases h with h | h
+    · by_cases hS : S % 2 = 1
+      · rw [if_pos hS] at h
+        exact ⟨0, by simp, by rw [Nat.testBit_zero, hS]; rfl, h⟩
+      · rw [if_neg hS, Nat.zero_testBit] at h
+        exact absurd h (by decide)
+    · obtain ⟨i, hi, h1, h2⟩ := testBit_orRows rows (S / 2) c h
+      exact ⟨i + 1, by simpa using hi, by rw [Nat.testBit_succ]; exact h1, h2⟩
+
+private def stepM (S : ℕ) : ℕ := S ||| orRows S adjTab
+
+private theorem iterate_stepSet_sub (S : Finset (Fin e7Data.d)) (hS : S ⊆ idx0) :
+    ∀ n, stepSet^[n] S ⊆ idx0
+  | 0 => hS
+  | n + 1 => by
+    rw [Function.iterate_succ_apply']
+    exact Finset.union_subset (iterate_stepSet_sub S hS n) (Finset.filter_subset _ _)
+
+private theorem mem_iterate_of_testBit (a : Fin e7Data.d) (ha : a ∈ idx0) :
+    ∀ n (c : Fin e7Data.d), (stepM^[n] (2 ^ (a : ℕ))).testBit c = true → c ∈ stepSet^[n] {a}
+  | 0, c, h => by
+    rw [Function.iterate_zero, id, Nat.testBit_two_pow, decide_eq_true_eq] at h
+    rw [Function.iterate_zero, id, Finset.mem_singleton]
+    exact (Fin.ext h).symm
+  | n + 1, c, h => by
+    rw [Function.iterate_succ_apply', stepM, Nat.testBit_or, Bool.or_eq_true] at h
+    rw [Function.iterate_succ_apply']
+    rcases h with h | h
+    · exact Finset.mem_union_left _ (mem_iterate_of_testBit a ha n c h)
+    · obtain ⟨i, hi, h1, h2⟩ := testBit_orRows adjTab _ c h
+      have hi' : i < e7Data.d := hi
+      have hmem := mem_iterate_of_testBit a ha n ⟨i, hi'⟩ h1
+      have hadj : adjD ⟨i, hi'⟩ c := by
+        apply adjD_of_testBit
+        rwa [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some]
+      have hc : c ∈ idx0 := idx0_of_adjD
+        (iterate_stepSet_sub {a} (Finset.singleton_subset_iff.2 ha) n hmem) hadj
+      exact Finset.mem_union_right _ (Finset.mem_filter.2 ⟨hc, _, hmem, hadj⟩)
+
+private def idx0Mask : ℕ := 376995049073408
+
+private theorem idx0Mask_check : ∀ c : Fin e7Data.d,
+    E7Fast.prZero (e7Data.weights.getD c 0) E7Fast.thetaCode = true → idx0Mask.testBit c = true := by
+  decide +kernel
+
+private theorem idx0Mask_spec (c : Fin e7Data.d) (hc : pr c theta = 0) : idx0Mask.testBit c = true :=
+  idx0Mask_check c ((E7Fast.pr_theta_zero_iff c).1 hc)
+
+private theorem bfs_check : ∀ a : Fin e7Data.d,
+    E7Fast.prZero (e7Data.weights.getD a 0) E7Fast.thetaCode = true →
+      stepM^[3] (2 ^ (a : ℕ)) &&& idx0Mask = idx0Mask := by
+  decide +kernel
+
+theorem bfs_idx0 : ∀ a ∈ idx0, stepSet^[3] {a} = idx0 := by
+  intro a ha
+  refine Finset.Subset.antisymm (iterate_stepSet_sub {a} (Finset.singleton_subset_iff.2 ha) 3) ?_
+  intro c hc
+  apply mem_iterate_of_testBit a ha 3 c
+  have h := congrArg (fun m => m.testBit c)
+    (bfs_check a ((E7Fast.pr_theta_zero_iff a).1 (mem_idx0.1 ha)))
+  simp only [Nat.testBit_and, idx0Mask_spec c (mem_idx0.1 hc), Bool.and_true] at h
+  exact h
 
 theorem reach_of_mem_iterate (a : Fin e7Data.d) :
     ∀ n b, b ∈ stepSet^[n] {a} → Relation.ReflTransGen adjD a b := by

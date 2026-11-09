@@ -53,6 +53,40 @@ theorem relOK_spec {w : List Nat} {hs : List (List Nat)} (h : relOK NW NT w hs =
     rw [ptC_eq, ptC_eq] at e
     exact e
 
+theorem inW_cons {ws : List (List Nat)} {w v : List Nat} (h : InW ws v) : InW (w :: ws) v := by
+  obtain ⟨l, hl, rfl⟩ := h
+  exact ⟨l, fun u hu => List.mem_cons_of_mem w (hl u hu), rfl⟩
+
+theorem testBit_sweepW (hV : VN NW NT) : ∀ (ws : List (List Nat)) (S x : Nat), x < 524288 →
+    (sweepW NW NT ws S).testBit x = true → ∃ v, InW ws v ∧ S.testBit (cP NW NT v x) = true
+  | [], _, _, _, h => ⟨[], InW.nil _, h⟩
+  | w :: ws, S, x, hx, h => by
+    have e : sweepW NW NT (w :: ws) S = sweepW NW NT ws (Nat.lor (wkC NW NT w S) S) :=
+      Fi24NetPt.strictN_eq _ _
+    rw [e] at h
+    obtain ⟨v, hv, h1⟩ := testBit_sweepW hV ws _ x hx h
+    change (wkC NW NT w S ||| S).testBit (cP NW NT v x) = true at h1
+    rw [Nat.testBit_or, Bool.or_eq_true, testBit_wkC hV w S (cP_lt hV v hx)] at h1
+    rcases h1 with h1 | h1
+    · refine ⟨w ++ v, (InW.single List.mem_cons_self).append (inW_cons hv), ?_⟩
+      rw [cP_append]
+      exact h1
+    · exact ⟨v, inW_cons hv, h1⟩
+
+theorem sweepsW_spec (hV : VN NW NT) (ws : List (List Nat)) (S : Nat) :
+    ∀ d x, x < 524288 → (sweepsW NW NT ws d S).testBit x = true →
+      ∃ v, InW ws v ∧ S.testBit (cP NW NT v x) = true
+  | 0, _, _, h => ⟨[], InW.nil ws, h⟩
+  | d + 1, x, hx, h => by
+    have e : sweepsW NW NT ws (d + 1) S = sweepW NW NT ws (sweepsW NW NT ws d S) :=
+      Fi24NetPt.strictN_eq _ _
+    rw [e] at h
+    obtain ⟨u, hu, h1⟩ := testBit_sweepW hV ws _ x hx h
+    obtain ⟨v, hv, hS⟩ := sweepsW_spec hV ws S d _ (cP_lt hV u hx) h1
+    refine ⟨v ++ u, hv.append hu, ?_⟩
+    rw [cP_append]
+    exact hS
+
 theorem covOK_spec (hV : VN NW NT) {ws : List (List Nat)} {d d2 om c : Nat} {reps : List Nat}
     (h : covOK NW NT ws d reps d2 om c = true) :
     ∃ F : Nat, (∀ x < 524288, F.testBit x = true → ∃ v, InW ws v ∧ cP NW NT v x = om) ∧
@@ -61,9 +95,9 @@ theorem covOK_spec (hV : VN NW NT) {ws : List (List Nat)} {d d2 om c : Nat} {rep
   unfold covOK at h
   rw [letB_eq'] at h
   obtain ⟨h1, h2⟩ := andB_true' h
-  set F := iterW NW NT ws d2 (Nat.shiftLeft 1 om) with hF
+  set F := sweepsW NW NT ws d2 (Nat.shiftLeft 1 om) with hF
   refine ⟨F, fun x hx hFx => ?_, ?_, fun x hx => ?_⟩
-  · obtain ⟨v, hv, hS⟩ := iterW_spec hV ws _ d2 x hx hFx
+  · obtain ⟨v, hv, hS⟩ := sweepsW_spec hV ws _ d2 x hx hFx
     refine ⟨v, hv, ?_⟩
     change (Nat.shiftLeft 1 om).testBit _ = true at hS
     rw [show Nat.shiftLeft 1 om = 1 <<< om from rfl, Nat.one_shiftLeft, Nat.testBit_two_pow] at hS
@@ -71,9 +105,15 @@ theorem covOK_spec (hV : VN NW NT) {ws : List (List Nat)} {d d2 om c : Nat} {rep
   · have e := Nat.eq_of_beq_eq_true h2
     rw [CFSG.KS.Fi24FixP.popcount_19, CFSG.KS.Fi24FixP.sum_bits] at e
     exact e
-  · rcases covW_spec hV h1 hx with e | ⟨v, hv, e⟩
+  · have e : ((sweepsW NW NT ws d (plOf reps) ||| F) &&& ptsM).testBit x = ptsM.testBit x := by
+      have e0 := Nat.eq_of_beq_eq_true h1
+      change (sweepsW NW NT ws d (plOf reps) ||| F) &&& ptsM = ptsM at e0
+      rw [e0]
+    rw [Nat.testBit_and, Nat.testBit_or, ptsM_bit hx, Bool.and_true, Bool.or_eq_true] at e
+    rcases e with e | e
+    · obtain ⟨v, hv, e⟩ := sweepsW_spec hV ws _ d x (by omega) e
+      exact Or.inr ⟨v, hv, (testBit_plOf reps _).1 e⟩
     · exact Or.inl e
-    · exact Or.inr ⟨v, hv, (testBit_plOf reps _).1 e⟩
 
 theorem slOK_spec {sl : List (Nat × List Nat × List Nat)} (h : slOK NW NT sl = true) :
     ∀ e ∈ sl, (∀ z ∈ e.2.1, 2 ≤ z ∧ (z ≤ 5 ∨ (z / 2 - 3 < e.1 ∧ ∃ e' ∈ sl, e'.1 = z / 2 - 3))) ∧

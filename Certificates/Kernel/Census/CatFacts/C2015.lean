@@ -3,6 +3,7 @@ module
 
 public import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallQ3P45Inputs
 public meta import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallPSp43Model
+import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallPSp43Model
 public meta import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallArrChecks
 public meta import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallQ3Gen
 public meta import CFSG.GH74.KGroups.Checks3
@@ -35,20 +36,6 @@ theorem pkpW_powW {n : Nat} (u : List (VP n)) (k : Nat) : pkpW (powW u k) = pkpW
   induction k with
   | zero => rfl
   | succ k ih => rw [powW, pkpW_append, ih, pow_succ']
-
-theorem pkp_prodW {n : Nat} (w : List (VP n)) : pkp (prodW w) = pkpW w := by
-  induction w with
-  | nil => exact pkp_oneV n
-  | cons a w ih => rw [prodW, List.foldr_cons, ← prodW, pkp_mulV, ih, pkpW_cons]
-
-theorem pkp_cubeV {n : Nat} (u : VP n) : pkp (cubeV u) = pkp u ^ 3 := by
-  rw [cubeV, forceV_eq, pkp_mulV, pkp_mulV, pow_succ', pow_succ', pow_one]
-
-theorem pkp_pow45 {n : Nat} (u : VP n) : pkp (pow45 u) = pkp u ^ 45 := by
-  rw [pow45, forceV_eq, pkp_mulV, pkp_mulV, pkp_mulV, pkp_mulV, pkp_cubeV, pkp_cubeV,
-    show 45 = 3 * 3 * 5 by rfl, pow_mul, pow_mul]
-  generalize (pkp u ^ 3) ^ 3 = d
-  rw [pow_succ', pow_succ', pow_succ', pow_succ', pow_one]
 
 theorem pkp_pow405 {n : Nat} (u : VP n) : pkp (pow405 u) = pkp u ^ 405 := by
   rw [pow405, pkp_cubeV, pkp_cubeV, pkp_pow45, ← pow_mul, ← pow_mul]
@@ -93,20 +80,8 @@ theorem mem_elemsT_P {x : List (VP 45)} (hx : x ∈ productsW c15.tP) : pkpW x �
   exact List.mem_map_of_mem hx
 
 theorem fpf_of_five {x : P45} (hx : x ∈ elemsT QP45) (h5 : x ^ 5 = 1) (h1 : x ≠ 1) (j : Fin 45) :
-    x j ≠ j := by
-  have h := fpf2015K
-  unfold fpf2015 at h
-  rw [forceLL_eq, List.all_eq_true] at h
-  rw [elemsT_eq_W, List.mem_map] at hx
-  obtain ⟨w, hw, rfl⟩ := hx
-  have h2 := h w hw
-  rw [isOneW_eq, isOneW_eq, pkpW_powW, h5] at h2
-  simp only [decide_true, decide_eq_true_eq, h1, decide_false, Bool.not_false, Bool.and_true,
-    Bool.not_true, Bool.false_or] at h2
-  have h3 := (range_all_iff _).1 h2 j
-  rw [imgW_eq, bne_iff_ne, ne_eq] at h3
-  intro h4
-  exact h3 (by rw [h4])
+    x j ≠ j :=
+  fpf_five ((mem_elemsT QP45 QP45_ok x).1 hx) h5 h1 j
 
 theorem not_comm_five {s : P45}
     (hs : (Finset.univ.filter fun j : Fin 45 => s j = j).card % 5 ≠ 0) :

@@ -8,6 +8,6 @@ open CFSG.CGT.T75M23
 
 public section
 
-#kb_family "data/F271010.json.gz" 1599 13458770049015264761 (r0 := rels7) (r1 := rels7K)
+#kb_family "data/F271010.json" 1599 13458770049015264761 (r0 := rels7) (r1 := rels7K)
 
 end

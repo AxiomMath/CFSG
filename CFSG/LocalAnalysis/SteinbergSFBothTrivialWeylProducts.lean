@@ -160,6 +160,40 @@ theorem card_map_mk' {Y : Type*} [Group Y] (N : Subgroup Y) [N.Normal] {A : Subg
 
 end General
 
+end BothTrivial
+
+section BothTrivialDefs
+
+open Subgroup GomiFusion RootAxisTwoCore FullCenter FullCenterRadical FullCenterParabolic
+open CFSG.ComponentClassification.UnbalancedCatalog.SpChain CFSG.QuasithinUnique.Setup.X7b
+  CFSG.RankThree.PartOne.KCRootAxis
+
+variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
+
+abbrev btD (φ : L ≃* antiSp K) (t : G) (i : Axis) : Subgroup G :=
+  (CFSG.pCore 2 (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) :
+    Set G))).map
+  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+
+abbrev btE (φ : L ≃* antiSp K) (t : G) (i : Axis) : Subgroup G :=
+  (CFSG.pCore 2 (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) :
+    Set G))).map
+  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+
+abbrev btF (φ : L ≃* antiSp K) (t : G) : Subgroup G :=
+  closure {x : G | ∃ e ∈ (btE φ t Axis.one ⊓ btE φ t Axis.two : Subgroup G),
+    ∃ j ∈ pull φ (diagTorus K), x = e⁻¹ * (j⁻¹ * e * j)}
+
+end BothTrivialDefs
+
+namespace BothTrivial
+
+open Subgroup GomiFusion RootAxisTwoCore FullCenter FullCenterRadical FullCenterParabolic
+  FullCenterTorus FullCenterWeyl FullCenterMutual
+open CFSG.ComponentClassification.UnbalancedCatalog.SpChain CFSG.QuasithinUnique.Setup.X7b
+  CFSG.RankThree.PartOne.KCRootAxis
+open scoped Matrix Pointwise
+
 section Cent
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
@@ -172,13 +206,9 @@ local notation "𝐁[" i "]" => (zpowers t ⊔ pull φ (rootA K i) : Subgroup G)
 local notation "𝐀[" i "]" => pull φ (rootA K i)
 local notation "𝐔[" i "]" => pull φ (rootU K i)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => btD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => btE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -190,8 +220,7 @@ local notation "𝐄₀" => (𝐄[Axis.one] ⊓ 𝐄[Axis.two] : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => btF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)

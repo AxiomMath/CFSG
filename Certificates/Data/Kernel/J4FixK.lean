@@ -39,10 +39,12 @@ open CFSG.KC.M1F2 CFSG.KLie.CT CFSG.Quasithin.H13.NQCat.Native
   | 0 => idF d
   | e + 1 => mulF d (powLK d M e) M
 
-@[expose] noncomputable def fixRowK (d X Y Z i : Nat) : Bool :=
-  (List.range 11).all fun j => (i == 0 && j == 0) ||
-    (let W := mulF d (powLK d X i) (powLK d Y j)
-     (List.range 11).all fun k => fixDimK d (mulF d W (powLK d Z k)) 12)
+@[expose] noncomputable def wordK (d X Y Z a b c : Nat) : Nat :=
+  mulF d (mulF d (powLK d X a) (powLK d Y b)) (powLK d Z c)
+
+@[expose] noncomputable def fixRepsK (d X Y Z : Nat) : Bool :=
+  fixDimK d (wordK d X Y Z 0 1 0) 12 &&
+    (List.range 11).all fun b => fixDimK d (wordK d X Y Z 1 b 0) 12
 
 @[expose] noncomputable def colCF (d X j : Nat) : Nat :=
   orN d fun i => nIf(bit X (d * i + j), nat_lit 1, nat_lit 0) <<< (1 * i)
@@ -75,22 +77,36 @@ open CFSG.KC.M1F2 CFSG.KLie.CT CFSG.Quasithin.H13.NQCat.Native
   Nat.rec (motive := fun _ => List (Nat × Nat × Nat) × List Nat) ([], [])
     (fun i acc => stepRK d acc (img i, 1 <<< i)) d
 
+@[expose] noncomputable def pivOKR (d : Nat) : List (Nat × Nat) → Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true) (fun e _ ih acc =>
+    andB (andB (Nat.blt e.1 d) (Nat.blt 0 (Nat.land e.2 (Nat.shiftLeft 1 e.1))))
+      (andB (Nat.beq (Nat.land acc (Nat.shiftLeft 1 e.1)) 0)
+        (ih (Nat.lor acc (Nat.shiftLeft 1 e.1)))))
+
+@[expose] noncomputable def pivMaskR : List (Nat × Nat) → Nat :=
+  List.rec (motive := fun _ => Nat) 0 (fun e _ ih => Nat.lor (Nat.shiftLeft 1 e.1) ih)
+
+@[expose] noncomputable def clrOKR (P : Nat) : List (Nat × Nat) → Bool :=
+  List.rec (motive := fun _ => Bool) true (fun e _ ih =>
+    andB (Nat.beq (Nat.land e.2 P) (Nat.shiftLeft 1 e.1)) ih)
+
+@[expose] noncomputable def rrefOKK (d : Nat) (A : List (Nat × Nat)) : Bool :=
+  andB (pivOKR d A 0) (clrOKR (pivMaskR A) A)
+
+@[expose] noncomputable def fixCertFK (d T : Nat) (K : List (Nat × Nat))
+    (I : List (Nat × Nat × Nat)) (k : Nat) : Bool :=
+  rrefOKK d K && K.all (fun e => colFixK d T e.2 == 0) &&
+    rrefOKK d (I.map fun e => (e.1, colFixK d T e.2.2)) && K.length == k &&
+    K.length + I.length == d
+
 @[expose] noncomputable def fixDimFK (d X k : Nat) : Bool :=
   let T := transCF d X
   let R := rrefImK d fun i => colFixK d T (1 <<< i)
-  fixCertK d T (rrefL d R.2) R.1 k
+  fixCertFK d T (rrefL d R.2) R.1 k
 
-@[expose] noncomputable def fixRowFK (d X Y Z i : Nat) : Bool :=
-  (List.range 11).all fun j => (i == 0 && j == 0) ||
-    (let W := mulF d (powLK d X i) (powLK d Y j)
-     (List.range 11).all fun k => fixDimFK d (mulF d W (powLK d Z k)) 12)
-
-@[expose] noncomputable def fixCentralK (d Z : Nat) : Bool :=
-  (List.range 11).all fun k => k == 0 || fixDimK d (powLK d Z k) 2
-
-@[expose] noncomputable def powXYK (d X Y : Nat) : Bool :=
-  (List.range 11).all fun i => (List.range 11).all fun j =>
-    Nat.beq (CFSG.KC.OpsF2K.powK d (mulF d (powLK d X i) (powLK d Y j)) 11) (idF d)
+@[expose] noncomputable def fixRepsFK (d X Y Z : Nat) : Bool :=
+  fixDimFK d (wordK d X Y Z 0 1 0) 12 &&
+    (List.range 11).all fun b => fixDimFK d (wordK d X Y Z 1 b 0) 12
 
 open CFSG.KC.OpsF2K CFSG.SectionRank.Native in
 @[expose] noncomputable def regsK (A B : Nat) : List Nat :=

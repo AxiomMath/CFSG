@@ -23,17 +23,24 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43
   (L.filter fun g => eq22C g r r g).length
 
 @[expose] noncomputable def n7C : Bool :=
-  let L0 := elemsC QP45
-  let T := elemsC QT0
+  let S := [cOf x45, cOf y45]
+  let G := Certificates.OmegaT0.sylW.map (Certificates.OmegaT0.wordW S)
+  let T := Certificates.OmegaT0.treeL (· * ·) 1 G Certificates.OmegaT0.t0P
   let z := cOf (Certificates.OmegaT0.z0 ())
   let y := cOf (Certificates.OmegaT0.yB ())
   let a := cOf (Certificates.OmegaT0.za ())
   let b := cOf (Certificates.OmegaT0.zb ())
   let c := cOf (Certificates.OmegaT0.ya ())
   let d := cOf (Certificates.OmegaT0.yb ())
-  coverC [z, y] L0 && decide (z ∈ T) && decide (y ∈ T) &&
-    decide (cntCentC L0 z = 576) && decide (cntCentC T z = 64) &&
-    decide (cntCentC L0 y = 96) && decide (cntCentC T y = 32) &&
+  Certificates.OmegaT0.mulTab G T Certificates.OmegaT0.t0T 64 &&
+    Certificates.OmegaT0.coverW S [z, y] T Certificates.OmegaT0.covW && decide (z ∈ T) &&
+    decide (y ∈ T) &&
+    Certificates.OmegaT0.orbTr (fun c => Certificates.OmegaT0.pcode [0, 1, 3] (ev c)) S z
+      Certificates.OmegaT0.orbZP Certificates.OmegaT0.orbZT 45 &&
+    decide (cntCentC T z = 64) &&
+    Certificates.OmegaT0.orbTr (fun c => Certificates.OmegaT0.pcode [0, 1, 3] (ev c)) S y
+      Certificates.OmegaT0.orbYP Certificates.OmegaT0.orbYT 270 &&
+    decide (cntCentC T y = 32) &&
     decide (a ∈ T) && decide (b ∈ T) && eq22C a z z a && eq22C b z z b &&
     decide (a * b * a⁻¹ * b⁻¹ = z) &&
     decide (c ∈ T) && decide (d ∈ T) && eq22C c y y c && eq22C d y y d &&

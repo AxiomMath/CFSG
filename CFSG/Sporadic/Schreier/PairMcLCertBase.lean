@@ -70,9 +70,22 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
 @[expose] def mclH0 : Subgroup (Equiv.Perm (Fin 275)) :=
   Subgroup.closure {g | ∃ j ∈ mclStabIdx, mclStrongPerm j = g}
 
-irreducible_def mclStabOrbits : List (List ℕ) := mclStabData.1
+opaque mclStabOrbitsSeal : {x : List (List ℕ) // x = mclStabData.1} := ⟨mclStabData.1, rfl⟩
 
-irreducible_def mclMerges : List (ℕ × List (ℕ × ℕ × ℕ)) := mclStabData.2
+@[expose] def mclStabOrbits : List (List ℕ) := mclStabOrbitsSeal.1
+
+theorem mclStabOrbits_def : mclStabOrbits = mclStabData.1 := mclStabOrbitsSeal.2
+
+attribute [irreducible] mclStabOrbits
+
+opaque mclMergesSeal : {x : List (ℕ × List (ℕ × ℕ × ℕ)) // x = mclStabData.2} :=
+  ⟨mclStabData.2, rfl⟩
+
+@[expose] def mclMerges : List (ℕ × List (ℕ × ℕ × ℕ)) := mclMergesSeal.1
+
+theorem mclMerges_def : mclMerges = mclStabData.2 := mclMergesSeal.2
+
+attribute [irreducible] mclMerges
 
 theorem mclChain_strong_get (j : Fin mclChain.strongCount) :
     mclChain.strong.get j = mclStrongPerm j :=

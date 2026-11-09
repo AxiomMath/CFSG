@@ -7,6 +7,9 @@ import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Certificates.Kernel.O8MinusSound
 public import CFSG.Certificates.Kernel.O8NodeSound
+public import CFSG.Certificates.Kernel.O8CentOrbKSound
+public import CFSG.Certificates.Kernel.O8PhiImgSound
+public import Certificates.Kernel.OmegaEight.CentOrbData
 
 public section
 
@@ -54,21 +57,24 @@ theorem uk_okN3M : ukCheck wN3M = true := by
     quickRfl
   · simp only [wN3M, avoidCheck, ← Array.all_toList]
     simp only [candB, fixCountF_eqM PnSW_eq, fixVecs_eq, commCount_eq, zfixCount, zfixOn,
-      decE_toList, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq, idK_eq, ← Array.all_toList,
-      List.all_map]
+      decE_toList, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq, idK_eq, List.all_map]
     refine all_range_of_blocks (m := EnN3MUK.m) (s := 3) (nb := 16) (by decide +kernel)
       fun b hb => ?_
     interval_cases b <;> decide +kernel
 
 theorem phi_okN3M : phiCheck wN3M = true := by
-  simp only [phiCheck, Bool.and_eq_true]
-  refine ⟨⟨⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
-  · rw [fixCount_eq]
-    decide +kernel
-  · simp only [imgCheckW, mulVecK_eq, wN3M]
+  have hi : imgCheckW phiK wN3M.imgX = true := by
+    simp only [imgCheckW, mulVecK_eq, wN3M]
     quickRfl
+  have hinv : invPair phiK phiK = true := by
+    simp only [invPair, mulK_eq, idK_eq]
+    quickRfl
+  simp only [phiCheck, Bool.and_eq_true]
+  refine ⟨⟨⟨⟨⟨⟨⟨⟨?_, hi⟩, hinv⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  · rw [fixCount_eq_of_imgCheckW hinv hi]
+    rfl
   all_goals
-    try simp only [invPair, commGens, mulK_eq, idK_eq, ← Array.all_toList, N3Split.Minus.cGens,
+    try simp only [commGens, mulK_eq, idK_eq, ← Array.all_toList, N3Split.Minus.cGens,
       splitCGens, kronK_eq]
     quickRfl
 
@@ -84,25 +90,31 @@ theorem p3_okN3M : p3Check wN3M = true := by
     try simp only [mulK_eq, idK_eq]
     decide +kernel
 
-set_option maxHeartbeats 0 in
 theorem c2_okN3M : c2Check wN3M = true := by
   have hsC : sortedK (decE EnN3MC.D EnN3MC.m).keys = true := (Enum.of_enumOK cE_okN3M).2.1
-  have hs2 : sortedK (decE EnN3MC2.D EnN3MC2.m).keys = true := (Enum.of_enumOK c2E_okN3M).2.1
+  have hin : gensIn N3Split.Minus.c2Gens wN3M.cE = true := by
+    simp only [wN3M, gensIn, memK_decE_eq hsC (by decide +kernel), ← Array.all_toList]
+    quickRfl
+  have hcb : commGens N3Split.Minus.c2Gens N3Split.Minus.bK = true := by
+    simp only [commGens, mulK_eq, ← Array.all_toList]
+    quickRfl
+  have ho : orbCertK wN3M.cE N3Split.Minus.bK orbRsN3M orbCsM = true := by
+    simp only [wN3M, orbCertK, mulK_eq, memK_decE_eq hsC (by decide +kernel)]
+    decide +kernel
+  have hbb : invPair N3Split.Minus.bK N3Split.Minus.bK = true := by
+    simp only [invPair, mulK_eq, idK_eq]
+    quickRfl
   simp only [c2Check, Bool.and_eq_true, beq_iff_eq]
-  refine ⟨⟨⟨⟨⟨⟨c2E_okN3M, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  refine ⟨⟨⟨⟨⟨⟨c2E_okN3M, ?_⟩, hin⟩, ?_⟩, hcb⟩,
+    centInCheck_of_orbCertK cE_okN3M c2E_okN3M ?_ hbb hin hcb ho ?_⟩, ?_⟩
   · simp only [wN3M, decE_keys_size]
     decide +kernel
-  · simp only [wN3M, gensIn, memK_decE_eq hsC (by decide +kernel), ← Array.all_toList]
-    quickRfl
   · simp only [commGens, mulK_eq, ← Array.all_toList]
     quickRfl
-  · simp only [commGens, mulK_eq, ← Array.all_toList]
-    quickRfl
-  · simp only [wN3M, centInCheck, mulK_eq, memK_decE_eq hs2 (by decide +kernel),
-      ← Array.all_toList, decE_toList, List.all_map]
-    refine all_range_of_blocks (m := EnN3MC.m) (s := 12) (nb := 26) (by decide +kernel)
-      fun b hb => ?_
-    interval_cases b <;> decide +kernel
+  · simp only [wN3M, decE_keys_size]
+    decide +kernel
+  · simp only [wN3M, decE_keys_size]
+    decide +kernel
   · simp only [wN3M, fpowK_eq, idK_eq, ← Array.all_toList, decE_toList]
     quickRfl
 

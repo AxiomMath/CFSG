@@ -1,19 +1,13 @@
 module
 
-public import Certificates.Kernel.Misc.Perm.HexCmd
+public import Certificates.Kernel.Misc.RuFive.Text
 public import Certificates.Data.Kernel.Misc.SignedWordK
-public import CFSG.RankThree.PartOne.KS.RuFiveData
-meta import CFSG.RankThree.PartOne.KS.RuFiveData
-meta import Certificates.Kernel.Sporadic.RawGen
 import CFSG.Certificates.Kernel.Common.Harness
 public import Std.Data.HashMap
 
 public section
 
 set_option maxRecDepth 400000
-
-#ks_chars CertificateChecks.KernelMisc.RuFive.RG CFSG.RankThree.PartOne.ruFiveHex
-#kmisc_hexflat CertificateChecks.KernelMisc.RuFive.RG CFSG.RankThree.PartOne.ruFiveHex 3 4060 12 75
 
 namespace CertificateChecks.KernelMisc.RuFive
 

@@ -2,11 +2,6 @@ module
 
 public import Certificates.Kernel.LyTr.Tau
 public import Certificates.Kernel.LyTr.Checks1080
-public import Certificates.Kernel.LyTr.ChecksR1ClA
-public import Certificates.Kernel.LyTr.ChecksR1ClB
-public import Certificates.Kernel.LyTr.ChecksR1ClC
-public import Certificates.Kernel.LyTr.ChecksR1ClD
-public import Certificates.Kernel.LyTr.ChecksR1ClE
 
 public section
 
@@ -153,39 +148,8 @@ theorem txy1080_invs : ∀ j < 5, invEqK 1080 11 (mask 11) (1080 * 11) (R1.GI j)
     canonK 1080 11 (mask 11) (1080 * 11) (R1I j) = true :=
   fun j hj => ⟨(y0.2.2.2 j hj).2, (y0.2.2.2 j hj).1⟩
 
-theorem r1_cl : ∀ c < R1.cnt * (5 + 5), findPtK R1.cnt R1.T
-    (prodQK 1080 11 (mask 11) (5 + 5) R1.T (bothK 5 R1.GI R1I)) R1Cl c = true := by
-  have hc := base11.2.2.2.2.2.1
-  intro c hcl
-  have hc' : c < Nat.mul R1.cnt 10 := by change c < R1.cnt * 10; omega
-  have hs : c / 1944 < 20 := by omega
-  have h1 : 1944 * (c / 1944) ≤ c := Nat.mul_div_le c 1944
-  have h2 : c < 1944 * (c / 1944) + 1944 := by omega
-  generalize c / 1944 = s at hs h1 h2
-  interval_cases s
-  · exact slK_spec k_r1cl0 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl1 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl2 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl3 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl4 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl5 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl6 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl7 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl8 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl9 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl10 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl11 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl12 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl13 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl14 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl15 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl16 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl17 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl18 c (by omega) (by omega) hc'
-  · exact slK_spec k_r1cl19 c (by omega) (by omega) hc'
-
 theorem txyEnumOK1080_of : Ly1080.txyEnumOK = true :=
-  enumOK_of base11.1 r1G txy1080_tabs txy1080_invs base11.2.2.2.2.2.2 r1_pe r1_hs r1_cl
+  enumOK_of_pos base11.1 r1G txy1080_tabs txy1080_invs base11.2.2.2.2.2.2 r1_pe r1_hs
     base11.2.2.2.2.2.1
 
 end CertificateChecks.KernelLyTr

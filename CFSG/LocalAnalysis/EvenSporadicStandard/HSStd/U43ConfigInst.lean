@@ -53,7 +53,8 @@ theorem hG_of_cosSet
     rw [hK, hKks]
     exact hk
 
-theorem solList_facts {d : CaseData} (hd : caseCheck d = true) :
+theorem solList_facts {d : CaseData} {tPar yPar : Array (ℕ × ℕ)}
+    (hd : caseCheck d tPar yPar = true) :
     (solList d).length = d.nsol ∧ ∀ s ∈ solList d, cent5Of d s = 3 := by
   simp only [caseCheck, Bool.and_eq_true, beq_iff_eq] at hd
   obtain ⟨⟨-, hlen⟩, hall⟩ := hd
@@ -100,7 +101,7 @@ theorem caseZ4_spec (hP : P ≤ G) (hR : G ≤ R)
     Nat.card ↥(G ⊓ centralizer ({y} : Set (Equiv.Perm (Fin 820)))) = 1944 ∧
       Nat.card ↥(G ⊓ centralizer ({y, c, T * c * T⁻¹, k, T * k * T⁻¹} :
         Set (Equiv.Perm (Fin 820)))) = 3 := by
-  have hd := Certificates.certificate27276
+  obtain ⟨_, _, hd⟩ := Certificates.certificate27276
   have hG := hG_of_cosSet hP hR (ks := dZ4.ks) hK (by intro k; simp [dZ4])
     (by intro k hk; simp [dZ4] at hk; omega)
   have hsz : Nat.card G = dZ4.sizeG := card_of_cosSet_four hP hR (by rw [hK]; rfl)
@@ -114,7 +115,7 @@ theorem caseVb_spec (hP : P ≤ G) (hR : G ≤ R)
     Nat.card ↥(G ⊓ centralizer ({y} : Set (Equiv.Perm (Fin 820)))) = 1944 ∧
       Nat.card ↥(G ⊓ centralizer ({y, c, T * c * T⁻¹, k, T * k * T⁻¹} :
         Set (Equiv.Perm (Fin 820)))) = 3 := by
-  have hd := Certificates.certificate27277
+  obtain ⟨_, _, hd⟩ := Certificates.certificate27277
   have hG := hG_of_cosSet hP hR (ks := dVb.ks) hK (by intro k; simp [dVb])
     (by intro k hk; simp [dVb] at hk; omega)
   have hsz : Nat.card G = dVb.sizeG := card_of_cosSet_four hP hR (by rw [hK]; rfl)
@@ -126,7 +127,7 @@ theorem va_central (hP : P ≤ G) (hR : G ≤ R)
     (hC : Nat.card ↥(G ⊓ centralizer ({rP 8} : Set (Equiv.Perm (Fin 820)))) = 2880) :
     ∃ z ∈ G, z ≠ 1 ∧ z ≠ rP 8 ∧ z * rP 8 = rP 8 * z ∧
       ∀ x ∈ G ⊓ centralizer ({rP 8} : Set (Equiv.Perm (Fin 820))), z * x = x * z := by
-  have hd := Certificates.certificate27278
+  obtain ⟨par, hd⟩ := Certificates.certificate27278
   have hG := hG_of_cosSet hP hR (ks := [0, 2, 4, 6]) hK (by intro k; simp)
     (by intro k hk; simp at hk; omega)
   have hT := rep_tabOf_rP (j := 8) (by norm_num)
@@ -137,7 +138,7 @@ theorem va_central (hP : P ≤ G) (hR : G ≤ R)
     simp only [permInvOK, Bool.and_eq_true] at this
     exact this.1
   have hz : Rep 820 (tabOf vaZ) (tp 820 (tabOf vaZ)) := rep_tp hzperm
-  obtain ⟨hcgperm, -, -, -, hcgcard, -, -⟩ := enumOK_spec hecg
+  obtain ⟨hcgperm, hcgcard⟩ := enumRecOK_spec hecg
   have hcgle : closure (tp 820 '' {x | x ∈ tabsOf vaCg}) ≤
       G ⊓ centralizer ({rP 8} : Set (Equiv.Perm (Fin 820))) := by
     rw [closure_le]
@@ -147,7 +148,7 @@ theorem va_central (hP : P ≤ G) (hR : G ≤ R)
     exact (commTT_iff (rep_tp (hcgperm x hx).1) hT).1 (hcg x hx).1.2
   have hCeq : closure (tp 820 '' {x | x ∈ tabsOf vaCg}) =
       G ⊓ centralizer ({rP 8} : Set (Equiv.Perm (Fin 820))) :=
-    Subgroup.eq_of_le_of_card_ge hcgle (by rw [hcgcard, hC])
+    Subgroup.eq_of_le_of_card_ge hcgle (by rw [hC]; exact hcgcard)
   have hzcomm : closure (tp 820 '' {x | x ∈ tabsOf vaCg}) ≤
       centralizer ({tp 820 (tabOf vaZ)} : Set (Equiv.Perm (Fin 820))) := by
     rw [closure_le]

@@ -110,16 +110,68 @@ theorem class_lt : ∀ m < 10, (∀ d ∈ CFSG.KD.D4F.CD.getD m [], d < 81) ∧
     (CFSG.KD.D4F.CR.getD m (0, 0)).1 < 81 ∧ (CFSG.KD.D4F.CR.getD m (0, 0)).2 < 81 := by
   decide +kernel
 
-theorem phi_pk : pk (PH 0) = d4Phi := (rep_pk phiFacts.1).unique rep_phi
+theorem phi_pk : pk (PH 0) = d4Phi := by
+  rw [pk, d4Phi, phiArr_eq]
 
-set_option maxRecDepth 400000 in
+theorem zAt_one (T : ℕ → ℕ) (F i y : ℕ) : zAt T F i 1 y = ap (T i) (ap F y) := by
+  rw [zAt, fp]
+  rfl
+
+theorem zAt_two (T : ℕ → ℕ) (F i y : ℕ) : zAt T F i 2 y = ap (T i) (ap F (ap F y)) := by
+  rw [zAt, fp]
+  rfl
+
+theorem zAt_eq1 {i : ℕ} (hi : i < 81) (y : Fin 2457) :
+    zAt EQ.T (FX 0) i 1 y = ((pk (EQ.T i) * pk (FX 0) ^ 1) y : ℕ) := by
+  rw [mul_ap, pow1_ap]
+  exact (zAt_one _ _ _ _).trans ((congrArg (ap (EQ.T i)) (ap_eq pF y)).trans (ap_eq (pT hi) _))
+
+theorem zAt_eq2 {i : ℕ} (hi : i < 81) (y : Fin 2457) :
+    zAt EQ.T (FX 0) i 2 y = ((pk (EQ.T i) * pk (FX 0) ^ 2) y : ℕ) := by
+  rw [mul_ap, pow2_ap]
+  exact (zAt_two _ _ _ _).trans ((congrArg (fun t => ap (EQ.T i) (ap (FX 0) t)) (ap_eq pF y)).trans
+    ((congrArg (ap (EQ.T i)) (ap_eq pF _)).trans (ap_eq (pT hi) _)))
+
 theorem zAt_eq {i c : ℕ} (hi : i < 81) (hc : c = 1 ∨ c = 2) (y : Fin 2457) :
     zAt EQ.T (FX 0) i c y = ((pk (EQ.T i) * pk (FX 0) ^ c) y : ℕ) := by
   rcases hc with rfl | rfl
-  · have e : zAt EQ.T (FX 0) i 1 y = ap (EQ.T i) (ap (FX 0) y) := rfl
-    rw [e, ap_eq pF, ap_eq (pT hi), mul_ap, pow1_ap]
-  · have e : zAt EQ.T (FX 0) i 2 y = ap (EQ.T i) (ap (FX 0) (ap (FX 0) y)) := rfl
-    rw [e, ap_eq pF, ap_eq pF, ap_eq (pT hi), mul_ap, pow2_ap]
+  · exact zAt_eq1 hi y
+  · exact zAt_eq2 hi y
+
+theorem zrep_one (r : ℕ × ℕ) : rep r 1 = r.1 := rfl
+
+theorem zrep_two (r : ℕ × ℕ) : rep r 2 = r.2 := rfl
+
+theorem zrep_lt {r : ℕ × ℕ} (hr1 : r.1 < 81) (hr2 : r.2 < 81) {c : ℕ} (hc : c = 1 ∨ c = 2) :
+    rep r c < 81 := by
+  rcases hc with rfl | rfl
+  · rw [zrep_one]
+    exact hr1
+  · rw [zrep_two]
+    exact hr2
+
+theorem zR1_mem_two {B : Subgroup (Equiv.Perm (Fin 2457))} {r : ℕ × ℕ} (hr1 : r.1 < 81)
+    (hr2 : r.2 < 81) (hR21 : ∀ x < 2457,
+      zAt EQ.T (FX 0) r.2 2 (zAt EQ.T (FX 0) r.2 2 x) = zAt EQ.T (FX 0) r.1 1 x)
+    (h : pk (EQ.T r.2) * pk (FX 0) ^ 2 ∈ B) : pk (EQ.T r.1) * pk (FX 0) ^ 1 ∈ B := by
+  have e : (pk (EQ.T r.2) * pk (FX 0) ^ 2) * (pk (EQ.T r.2) * pk (FX 0) ^ 2) =
+      pk (EQ.T r.1) * pk (FX 0) ^ 1 :=
+    perm_eq (f := fun x => zAt EQ.T (FX 0) r.2 2 (zAt EQ.T (FX 0) r.2 2 x))
+      (g := zAt EQ.T (FX 0) r.1 1)
+      (fun y => by simp only [zAt_eq2 hr2, mul_ap]) (zAt_eq1 hr1) hR21
+  rw [← e]
+  exact B.mul_mem h h
+
+theorem zR1_mem {B : Subgroup (Equiv.Perm (Fin 2457))} {r : ℕ × ℕ} (hr1 : r.1 < 81)
+    (hr2 : r.2 < 81) (hR21 : ∀ x < 2457,
+      zAt EQ.T (FX 0) r.2 2 (zAt EQ.T (FX 0) r.2 2 x) = zAt EQ.T (FX 0) r.1 1 x)
+    {c : ℕ} (hc : c = 1 ∨ c = 2) (h : pk (EQ.T (rep r c)) * pk (FX 0) ^ c ∈ B) :
+    pk (EQ.T r.1) * pk (FX 0) ^ 1 ∈ B := by
+  rcases hc with rfl | rfl
+  · rw [zrep_one] at h
+    exact h
+  · rw [zrep_two] at h
+    exact zR1_mem_two hr1 hr2 hR21 h
 
 theorem T_mem {i : ℕ} (hi : i < 81) : pk (EQ.T i) ∈ d4Q := by
   have hi' : i < EQ.N := by rw [hN81]; exact hi
@@ -141,7 +193,7 @@ theorem T_zero : pk (EQ.T 0) = 1 :=
 theorem F_cube : pk (FX 0) ^ 3 = 1 := by
   refine perm_eq (f := fun x => ap (FX 0) (ap (FX 0) (ap (FX 0) x))) (g := fun x => x)
     (fun y => ?_) (fun _ => rfl) (fOK_sound (fieldK_parts fieldOK).1).2.1
-  simp only [ap_eq pF, pow3_ap, mul_ap]
+  simp only [ap_eq pF, pow3_ap]
 
 theorem G0_eq : pk (FX 1) = pk (FX 0) * d4Phi * d4Phi := by
   rw [← phi_pk]
@@ -196,7 +248,7 @@ theorem F_norm : pk (FX 0) ∈ normalizer (d4Q : Set (Equiv.Perm (Fin 2457))) :=
   refine mem_normalizer_of_conj_mem_closure ?_
   rintro _ ⟨k, hk, rfl⟩
   have hk4 : k < 4 := by
-    rw [Set.mem_setOf_eq, d4QGens_size_eq] at hk
+    rw [Set.mem_ofPred_eq, d4QGens_size_eq] at hk
     exact hk
   obtain ⟨hNJ, hpt⟩ := (fOK_sound (fieldK_parts fieldOK).1).2.2.2.2.2.2 k hk4
   have hg : permOfArr 2457 d4QGens[k]! = pk (EQ.G k) := by
@@ -304,7 +356,7 @@ theorem d4X_zero_fix :
 theorem isSolvable_centralizer_of_noFix
     {u : Equiv.Perm (Fin 2457)}
     (hu : u ∈ d4P) (huo : orderOf u = 3) (hfix : ∀ x, u x ≠ x) :
-    IsSolvable ↥(centralizer {u} ⊓ d4P) := by
+    Group.IsSolvable ↥(centralizer {u} ⊓ d4P) := by
   obtain ⟨k, hk, j, hj, e, he, hvk⟩ := exists_conj_rep d4Q_le card_d4Q
     (fun j => permOfArr 2457 d4Lines[j]!) (fun c => permOfArr 2457 d4Lines[c]!)
     (fun j => permOfArr 2457 d4Trans[j]!) (fun j => d4Rec.getD j 0) (r := 31)
@@ -334,12 +386,11 @@ theorem isSolvable_centralizer_of_noFix
     rw [← hX, hx1]
     exact isSolvable_centralizer_d4X_one
 
-set_option maxRecDepth 400000 in
 theorem field_in_sS
     {B : Subgroup (Equiv.Perm (Fin 2457))} (hBS : B ≤ sS) (hB : IsElemAbelian 3 B)
     (hB27 : Nat.card B = 27) (hBP : ¬ B ≤ d4P) {u : Equiv.Perm (Fin 2457)} (huB : u ∈ B)
     (huP : u ∈ d4P) (hu1 : u ≠ 1) :
-    IsSolvable ↥(centralizer {u} ⊓ d4P) ∨
+    Group.IsSolvable ↥(centralizer {u} ⊓ d4P) ∨
       ∃ n ∈ d4P, n ∈ normalizer (B : Set (Equiv.Perm (Fin 2457))) ∧ n * u * n⁻¹ ∉ zpowers u := by
   classical
   have hBG : B ≤ d4G := hBS.trans sS_le_G
@@ -375,8 +426,11 @@ theorem field_in_sS
     refine perm_ne (a := z ^ 3) (b := 1)
       (f := fun x => zAt EQ.T (FX 0) i c (zAt EQ.T (FX 0) i c (zAt EQ.T (FX 0) i c x)))
       (g := fun x => x) (fun y => ?_) (fun _ => rfl) (zOK_zero hzOK) hz3
-    simp only [hzf, pow3_ap, mul_ap]
-  obtain ⟨hA, hlen, hW, hM⟩ := zOK_sound ho hzOK
+    simp only [hzf, pow3_ap]
+  obtain ⟨hA, hlen, hW, hM⟩ := zOK_sound (fun x hx => by
+    have e : ap (FX 0) x = (pk (FX 0) ⟨x, hx⟩ : ℕ) := ap_eq pF ⟨x, hx⟩
+    rw [e]
+    exact (pk (FX 0) ⟨x, hx⟩).2) ho hzOK
   have comm_ne : ∀ {j}, j < 81 → (∃ x < 2457, ap (EQ.T j) (zAt EQ.T (FX 0) i c x) ≠
       zAt EQ.T (FX 0) i c (ap (EQ.T j) x)) → pk (EQ.T j) * z ≠ z * pk (EQ.T j) :=
     fun hj h => perm_ne (fun y => by simp only [hzf, ap_eq (pT hj), mul_ap])
@@ -384,7 +438,7 @@ theorem field_in_sS
   have cube_ne : ∀ {j}, j < 81 →
       (∃ x < 2457, ap (EQ.T j) (ap (EQ.T j) (ap (EQ.T j) x)) ≠ x) → pk (EQ.T j) ^ 3 ≠ 1 :=
     fun hj h => perm_ne (g := fun x => x)
-      (fun y => by simp only [ap_eq (pT hj), pow3_ap, mul_ap]) (fun _ => rfl) h
+      (fun y => by simp only [ap_eq (pT hj), pow3_ap]) (fun _ => rfl) h
   have tcomm_ne : ∀ {j w}, j < 81 → w < 81 →
       (∃ y < 2457, ap (EQ.T j) (ap (EQ.T w) y) ≠ ap (EQ.T w) (ap (EQ.T j) y)) →
       pk (EQ.T j) * pk (EQ.T w) ≠ pk (EQ.T w) * pk (EQ.T j) :=
@@ -466,12 +520,9 @@ theorem field_in_sS
     rw [← heqT] at this
     exact this.1
   have hR1def : ∀ y : Fin 2457, zAt EQ.T (FX 0) r.1 1 y =
-      ((pk (EQ.T r.1) * pk (FX 0) ^ 1) y : ℕ) := zAt_eq hr1 (Or.inl rfl)
+      ((pk (EQ.T r.1) * pk (FX 0) ^ 1) y : ℕ) := zAt_eq1 hr1
   have hR1B : pk (EQ.T r.1) * pk (FX 0) ^ 1 ∈ B := by
-    have hrc : rep r c < 81 := by
-      rcases hc with rfl | rfl
-      · exact hr1
-      · exact hr2
+    have hrc : rep r c < 81 := zrep_lt hr1 hr2 hc
     have hRc : z = pk (EQ.T ma.2) * (pk (EQ.T (rep r c)) * pk (FX 0) ^ c) :=
       perm_eq (f := zAt EQ.T (FX 0) i c)
         (g := fun x => ap (EQ.T ma.2) (zAt EQ.T (FX 0) (rep r c) c x)) hzf
@@ -480,15 +531,7 @@ theorem field_in_sS
     have hRcB : pk (EQ.T (rep r c)) * pk (FX 0) ^ c ∈ B := by
       have := B.mul_mem (B.inv_mem (hDB _ haD)) hzB
       rwa [hRc, inv_mul_cancel_left] at this
-    rcases hc with rfl | rfl
-    · exact hRcB
-    · have e : (pk (EQ.T r.2) * pk (FX 0) ^ 2) * (pk (EQ.T r.2) * pk (FX 0) ^ 2) =
-          pk (EQ.T r.1) * pk (FX 0) ^ 1 :=
-        perm_eq (f := fun x => zAt EQ.T (FX 0) r.2 2 (zAt EQ.T (FX 0) r.2 2 x))
-          (g := zAt EQ.T (FX 0) r.1 1)
-          (fun y => by simp only [zAt_eq hr2 (Or.inr rfl), mul_ap]) hR1def hR21
-      rw [← e]
-      exact B.mul_mem hRcB hRcB
+    exact zR1_mem hr1 hr2 hR21 hc hRcB
   have hR1P : pk (EQ.T r.1) * pk (FX 0) ^ 1 ∉ d4P := by
     intro h
     apply F_not_mem
@@ -597,7 +640,7 @@ theorem field_in_sS
 
 theorem field_facts :     ∀ B : Subgroup (Equiv.Perm (Fin 2457)), B ≤ zpowers d4Phi ⊔ d4P → IsElemAbelian 3 B →
       Nat.card B = 27 → ¬ B ≤ d4P → ∀ u ∈ B, u ∈ d4P → u ≠ 1 →
-      IsSolvable ↥(centralizer {u} ⊓ d4P) ∨
+      Group.IsSolvable ↥(centralizer {u} ⊓ d4P) ∨
         ∃ n ∈ d4P, n ∈ normalizer (B : Set (Equiv.Perm (Fin 2457))) ∧ n * u * n⁻¹ ∉ zpowers u := by
   intro B hBG hB hB27 hBP u huB huP hu1
   obtain ⟨g, hgG, hg⟩ := exists_conj_le_sS hBG hB.isPGroup

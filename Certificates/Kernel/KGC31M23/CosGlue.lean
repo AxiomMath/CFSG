@@ -319,14 +319,20 @@ theorem sum_map_const {α : Type*} {l : List α} {g : α → Nat} {N : Nat} (h :
     rw [List.map_cons, List.sum_cons, h a List.mem_cons_self,
       ih fun x hx => h x (List.mem_cons_of_mem _ hx), List.length_cons, Nat.succ_mul, Nat.add_comm]
 
-theorem cosetCount_eq {f : Table → Bool} {ws : List (List ℤ)}
-    (h : ∀ m (hm : m < ws.length), cbT.countP (fun c => f (compT 23 (wordT 23 gensT ws[m]) c)) =
-      cbT.countP f) :
-    cosetCount 23 cbT (ws.map (wordT 23 gensT)) f = ws.length * cbT.countP f := by
+theorem cosetCount_eq_of {T : List Table} {G : ℤ → Table} {f : Table → Bool} {ws : List (List ℤ)}
+    (h : ∀ m (hm : m < ws.length), T.countP (fun c => f (compT 23 (wordT 23 G ws[m]) c)) =
+      T.countP f) :
+    cosetCount 23 T (ws.map (wordT 23 G)) f = ws.length * T.countP f := by
   rw [cosetCount, List.map_map]
   refine sum_map_const fun w hw => ?_
   obtain ⟨m, hm, rfl⟩ := List.getElem_of_mem hw
   exact h m hm
+
+theorem cosetCount_eq {f : Table → Bool} {ws : List (List ℤ)}
+    (h : ∀ m (hm : m < ws.length), cbT.countP (fun c => f (compT 23 (wordT 23 gensT ws[m]) c)) =
+      cbT.countP f) :
+    cosetCount 23 cbT (ws.map (wordT 23 gensT)) f = ws.length * cbT.countP f :=
+  cosetCount_eq_of h
 
 theorem beq_nat (x y : Nat) : (x == y) = Nat.beq x y := by
   rw [Bool.eq_iff_iff, beq_iff_eq]

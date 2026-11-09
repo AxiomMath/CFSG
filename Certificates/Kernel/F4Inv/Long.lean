@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Inv "Certificates/Kernel/F4Inv/data/long.json.gz" 103
+#kc_repo #kc_json CFSG.KD.F4Inv "Certificates/Kernel/F4Inv/data/long.json" 103
   14727494982522844257 (lw : List Nat) (ll : List Nat)
 
 #kc_each CFSG.KD.F4Inv.ch799601long r (fun k => CFSG.KC.F4Inv.longN (CFSG.KD.F4Inv.lw.getD k 0)

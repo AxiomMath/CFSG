@@ -2,17 +2,17 @@ module
 
 public import Init
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSmithL6K
-  "Certificates/Kernel/SmithL6K/data/l6n.json.gz" 14492 14051539917506608098
+#kc_repo #kc_json CertificateChecks.KernelSmithL6K
+  "Certificates/Kernel/SmithL6K/data/l6n.json" 14492 14051539917506608098
   (prt : List Nat) (prc : List (Nat × Nat × Nat)) (frt : Nat)
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelSmithL6K
-  "Certificates/Kernel/SmithL6K/data/l6n.items.gz" 164205 16680381500053603375
+#kc_repo #kc_nat_items CertificateChecks.KernelSmithL6K
+  "Certificates/Kernel/SmithL6K/data/l6n.items" 164205 16680381500053603375
   fpk[21] frp[21] fgm
 
 namespace CertificateChecks.KernelSmithL6K

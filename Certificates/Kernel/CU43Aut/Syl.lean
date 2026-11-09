@@ -4,6 +4,7 @@ public import Certificates.Kernel.CU43Aut.Small
 public import Certificates.Kernel.CU43Aut.SylData
 public import Certificates.Kernel.Sporadic.OddCore.MulHCmd
 public import Certificates.Data.Kernel.Spor.MulHQ
+public import Certificates.Data.Kernel.Spor.PEnumR
 public import CFSG.LocalAnalysis.EvenSporadicStandard.M24Std.CU43Data3
 meta import Certificates.Kernel.CU43Aut.SylData
 meta import Certificates.Data.CFSGNative.PSL3Four.Basic
@@ -74,8 +75,8 @@ theorem tIn : bAnd(allN 5 (fun j => inPK (TS.GI j)), bAnd(inPK (pc (TS.GI 5) (CU
   quickRfl
 
 @[expose] noncomputable def slT (s : Nat) : Bool :=
-  penumSlK 820 10 (mask 10) (820 * 10) true TS.G TS.GI 7 TS.cnt TS.T TS.PL TS.POS TS.SRT TS.SRI
-    (Nat.mul 128 s) 128
+  slK TS.cnt (CFSG.KS.PEnumR.penumPtR 820 10 (mask 10) TS.GI 7 TS.cnt TS.T TS.PL TS.POS TS.SRT
+    TS.SRI) (Nat.mul 128 s) 128
 
 theorem tE0 : slT 0 = true := by quickRfl
 theorem tE1 : slT 1 = true := by quickRfl
@@ -85,9 +86,6 @@ theorem tE4 : slT 4 = true := by quickRfl
 theorem tE5 : slT 5 = true := by quickRfl
 theorem tE6 : slT 6 = true := by quickRfl
 theorem tE7 : slT 7 = true := by quickRfl
-
-theorem tH : slK TS.cnt (hsortPtK 820 10 (mask 10) TS.cnt TS.T TS.HS TS.HSI) 0 TS.cnt = true := by
-  quickRfl
 
 theorem tIvN : Nat.beq (nInvT 1024) 191 = true := by quickRfl
 

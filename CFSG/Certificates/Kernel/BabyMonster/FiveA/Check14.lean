@@ -1,11 +1,26 @@
 module
 
 import CFSG.Certificates.Kernel.BabyMonster.LoadFour
+import CFSG.Certificates.Kernel.BabyMonster.LoadChain
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data3
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data4
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data10
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data11
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data12
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data14
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data15
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data16
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data0
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data2
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data3
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data4
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data9
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data12
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data13
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data14
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data15
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data17
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data21
@@ -13,10 +28,8 @@ public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data23
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data24
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data25
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data26
-public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data3
-public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data5
 
-#bm_mul4 CFSG.KC.BM.FiveA cv174 p165 [v172 p163 v173] v174 []
+#bm_mul4c CFSG.KC.BM.FiveA cv174 p165 [v172 p163 v173] v174 []
 #bm_mul4 CFSG.KC.BM.FiveA cv175 v170 [v174] v175 []
 #bm_mul4 CFSG.KC.BM.FiveA cv176 v161 [v175] v176 []
 #bm_mul4 CFSG.KC.BM.FiveA cv177 v97 [v84] v177 []

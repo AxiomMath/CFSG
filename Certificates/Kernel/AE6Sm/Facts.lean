@@ -70,12 +70,12 @@ theorem czGens_img : ∀ j < (czGens ()).length,
 theorem chainS : ChainK 360 9 (sGens ()) sDerive (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5)
     SC.S SC.SI SC.LR SC.TR SC.TRI 7 SC.BP 15 24 :=
   ⟨by norm_num, by norm_num, by norm_num, sGens_img, by decide, SC.head, SC.hl, by norm_num,
-    SC.hs⟩
+    .inl SC.hs⟩
 
 theorem chainCZ : ChainK 360 9 (czGens ()) czDerive (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5)
     CZ.S CZ.SI CZ.LR CZ.TR CZ.TRI 11 CZ.BP 15 24 :=
   ⟨by norm_num, by norm_num, by norm_num, czGens_img, by decide, CZ.head, CZ.hl, by norm_num,
-    CZ.hs⟩
+    .inl CZ.hs⟩
 
 theorem ordS : ordK SC.LR 5 = 4096 := by decide +kernel
 
@@ -366,21 +366,42 @@ theorem root_idx {x : Equiv.Perm (Fin 360)} (hx : x ∈ Gen 360 SA 4) (hxx : x *
     rw [e]
     exact hpx
 
-theorem pairAll : ∀ d < nrZ, pairQK 360 9 (mask 9) (360 * 9) SC.BP 5 SC.LR SC.TR rlZ ZR.CT ZR.PQ
-    ZR.QJ nrZ ZR.nq d = true := by
+theorem rootAll : ∀ d < nrZ, rootTK 360 9 (mask 9) (360 * 9) SC.BP 5 SC.LR SC.TR rlZ ZR.RT ZR.CT
+    ZR.IV d = true := by
   intro d hd
   have hn : nrZ = 240 := Nat.eq_of_beq_eq_true ch517503nr
-  have key : ∀ b < 4, pairB (60 * b) = true := by
+  have key : ∀ b < 2, rootB (120 * b) = true := by
     intro b hb
     interval_cases b
-    exacts [ch517503p0, ch517503p1, ch517503p2, ch517503p3]
-  have hk := key (d / 60) (by omega)
-  unfold pairB at hk
-  have := CFSG.KS.allBlk_spec hk (d % 60) (Nat.mod_lt _ (by norm_num))
-  have e : Nat.add (60 * (d / 60)) (d % 60) = d := by
-    change 60 * (d / 60) + d % 60 = d
+    exacts [ch517503r0, ch517503r1]
+  have hk := key (d / 120) (by omega)
+  unfold rootB at hk
+  have := CFSG.KS.allBlk_spec hk (d % 120) (Nat.mod_lt _ (by norm_num))
+  have e : Nat.add (120 * (d / 120)) (d % 120) = d := by
+    change 120 * (d / 120) + d % 120 = d
     omega
   rwa [e] at this
+
+theorem pairAll : ∀ d < nrZ, pairRK 9 (mask 9) 17 (mask 17) SC.BP 5 rlZ ZR.RT ZR.CT ZR.PR ZR.QJ
+    nrZ ZR.nq d = true := by
+  intro d hd
+  have hn : nrZ = 240 := Nat.eq_of_beq_eq_true ch517503nr
+  have blk : ∀ {b len : Nat}, pairB b len = true → b ≤ d → d < b + len →
+      pairRK 9 (mask 9) 17 (mask 17) SC.BP 5 rlZ ZR.RT ZR.CT ZR.PR ZR.QJ nrZ ZR.nq d = true := by
+    intro b len hk h1 h2
+    unfold pairB at hk
+    have := CFSG.KS.allBlk_spec hk (d - b) (by omega)
+    have e : Nat.add b (d - b) = d := by
+      change b + (d - b) = d
+      omega
+    rwa [e] at this
+  rcases Nat.lt_or_ge d 32 with h | h
+  · exact blk ch517503p0 (by omega) (by omega)
+  rcases Nat.lt_or_ge d 70 with h' | h'
+  · exact blk ch517503p1 h (by omega)
+  rcases Nat.lt_or_ge d 120 with h'' | h''
+  · exact blk ch517503p2 h' (by omega)
+  · exact blk ch517503p3 h'' (by omega)
 
 theorem nq_eq : ZR.ntw = 4 ∧ ZR.nq = 1120 := by
   have h := ch517503nq
@@ -389,8 +410,8 @@ theorem nq_eq : ZR.ntw = 4 ∧ ZR.nq = 1120 := by
   · exact ⟨Nat.eq_of_beq_eq_true ha, Nat.eq_of_beq_eq_true h⟩
 
 theorem subAll {mm : Nat} (h4 : 4 ≤ mm) (hmm : mm < ZR.nq) :
-    subAK 360 9 (mask 9) (360 * 9) SC.BP 5 SK.N ZR.nx (SK.E (SR.RP SR.zc)) SC.LR SC.TR ZR.X ZR.XI
-      ZR.QJ ZR.QA ZR.QW ZR.QP mm = true := by
+    subRK 360 9 (mask 9) (360 * 9) SC.BP 5 SK.N nrZ ZR.nx (SK.E (SR.RP SR.zc)) SC.LR SC.TR rlZ
+      ZR.RT ZR.CT ZR.X ZR.XI ZR.QJ ZR.QR ZR.QA ZR.QW ZR.QP mm = true := by
   rw [nq_eq.2] at hmm
   have key : ∀ b < 4, subB (4 + 279 * b) = true := by
     intro b hb
@@ -455,6 +476,14 @@ theorem pairs_gen {x y : Equiv.Perm (Fin 360)} (hx : x ∈ Gen 360 SA 4) (hy : y
     (∃ p ∈ twinPairs (), x ∈ Subgroup.closure {p.1, p.2} ∧ y ∈ Subgroup.closure {p.1, p.2}) ∨
       5 ≤ Set.ncard {J | ∃ c ∈ conjPerms (),
         J = (Subgroup.closure {x, y}).map (MulAut.conj c).toMonoidHom} := by
+  have hyx : y * x * y = x := by
+    calc y * x * y = y * x * (x * y * x) := by rw [hxy]
+      _ = y * (x * x) * y * x := by simp only [mul_assoc]
+      _ = y * y * (y * y) * x := by rw [hxx, ← hyy]; simp only [mul_assoc]
+      _ = x := by rw [hyy, z0_sq, one_mul]
+  have hx1 : x * x ≠ 1 := by
+    rw [hxx]
+    exact z0_ne
   obtain ⟨d, hd, rfl⟩ := root_idx hx hxx
   obtain ⟨e, he, rfl⟩ := root_idx hy hyy
   have h0 := prepX (t := 0) (by rw [Nat.eq_of_beq_eq_true ch517503nx]; norm_num)
@@ -463,12 +492,20 @@ theorem pairs_gen {x y : Equiv.Perm (Fin 360)} (hx : x ∈ Gen 360 SA 4) (hy : y
     intro d hd hm
     by_contra hct
     exact cutZ_sound chainCK h0.1 h0.2 ((Orb.allN_iff.1 ch517503cut) d hd) hct hm
-  obtain ⟨hmm, ⟨k1, hk1, e1⟩, ⟨k2, hk2, e2⟩⟩ := pairQ_sound chainCK SK.hN rl_lt pairAll hd he
-    (hkeep d hd hcx) (hkeep e he hcy) hxy
-  by_cases htw : ZR.PQ (d * nrZ + e) < 4
+  have hsub : ∃ mm, mm < ZR.nq ∧ (∃ k < 8, ZR.QJ (8 * mm + k) = rlZ d) ∧
+      ∃ k < 8, ZR.QJ (8 * mm + k) = rlZ e := by
+    rcases Nat.lt_trichotomy d e with hde | rfl | hde
+    · exact pairR_sound chainCK SK.hN rl_lt rootAll pairAll hde he (hkeep d hd hcx)
+        (hkeep e he hcy) hxy
+    · exact absurd (mul_right_cancel (hxy.trans (one_mul _).symm)) hx1
+    · obtain ⟨mm, h1, h2, h3⟩ := pairR_sound chainCK SK.hN rl_lt rootAll pairAll hde hd
+        (hkeep e he hcy) (hkeep d hd hcx) hyx
+      exact ⟨mm, h1, h3, h2⟩
+  obtain ⟨mm, hmm, ⟨k1, hk1, e1⟩, ⟨k2, hk2, e2⟩⟩ := hsub
+  by_cases htw : mm < 4
   · left
-    have htf := twin_facts chainCK (prep_PL (j := 2 * ZR.PQ (d * nrZ + e)) (by omega))
-      (prep_PL (j := 2 * ZR.PQ (d * nrZ + e) + 1) (by omega))
+    have htf := twin_facts chainCK (prep_PL (j := 2 * mm) (by omega))
+      (prep_PL (j := 2 * mm + 1) (by omega))
       ((Orb.allN_iff.1 ch517503tw) _ (by rw [nq_eq.1]; exact htw))
     refine ⟨_, mem_twinPairs'.2 ⟨_, htw, rfl⟩, ?_, ?_⟩
     · rw [← e1, htf k1 hk1 (by rw [e1]; exact rl_lt d hd)]
@@ -476,9 +513,8 @@ theorem pairs_gen {x y : Equiv.Perm (Fin 360)} (hx : x ∈ Gen 360 SA 4) (hy : y
     · rw [← e2, htf k2 hk2 (by rw [e2]; exact rl_lt e he)]
       exact q8G_mem hk2
   · right
-    obtain ⟨-, hzj, hQw, hBB, hABA, hQA, hdist⟩ := subA_facts chainCK SK.hN
+    obtain ⟨-, hzj, hQw, hBB, hABA, hQA, hdist⟩ := subR_facts chainCK SK.hN rl_lt rootAll
       (fun t ht => prepX ht) (subAll (by omega) hmm)
-    set mm := ZR.PQ (d * nrZ + e)
     set A := el 360 SA baseA 5 (ZR.QJ (8 * mm + 2))
     set B := el 360 SA baseA 5 (ZR.QJ (8 * mm + 4))
     have hJ1 : el 360 SA baseA 5 (ZR.QJ (8 * mm + 1)) = z0 () := by

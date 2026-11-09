@@ -32,7 +32,7 @@ namespace CFSG.KD.Fi23M
 end CFSG.KD.Fi23M
 
 #kc_repo #kc_ktree CFSG.KD.Fi23M MT "Certificates/Kernel/Fi23M/data/mats.bin" 16003 4 208039 18280033295982358323
-#kc_repo #kc_json_family_gz CFSG.KD.Fi23M "Certificates/Kernel/Fi23M/data/lists.json.gz" 2092 6363451889728345144
+#kc_repo #kc_json_family CFSG.KD.Fi23M "Certificates/Kernel/Fi23M/data/lists.json" 2092 6363451889728345144
   (PS : List Nat) (WC : List Nat) (PR : List Nat)
 
 public section

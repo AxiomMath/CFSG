@@ -1,9 +1,9 @@
 module
 
 public import CFSG.RankThree.PartTwo.Sec21.HoltCatalog
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import Certificates.Certificate43
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

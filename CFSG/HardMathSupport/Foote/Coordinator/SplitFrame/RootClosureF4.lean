@@ -100,7 +100,38 @@ def tableOK : Bool :=
     | some L => coverOK β L
     | none => false
 
-theorem tableOK_eq : tableOK = true := by decide +kernel
+def tbF (β : List ℤ) : Bool :=
+  match tableF4.lookup β with
+  | some L => coverOK β L
+  | none => false
+
+theorem tableOK_1 : ((rootsL.filter fun x => !inS x).take 9).all tbF = true := by decide +kernel
+
+theorem tableOK_2 : (((rootsL.filter fun x => !inS x).drop 9).take 9).all tbF = true := by decide +kernel
+
+theorem tableOK_3 : ((((rootsL.filter fun x => !inS x).drop 9).drop 9).take 9).all tbF = true := by decide +kernel
+
+theorem tableOK_4 : ((((rootsL.filter fun x => !inS x).drop 9).drop 9).drop 9).all tbF = true := by decide +kernel
+
+theorem tbF_all : ∀ β ∈ (rootsL.filter fun x => !inS x), tbF β = true := by
+  intro β hβ
+  have e : ∀ l : List (List ℤ), l = l.take 9 ++ ((l.drop 9).take 9 ++
+      (((l.drop 9).drop 9).take 9 ++ ((l.drop 9).drop 9).drop 9)) := by
+    intro l
+    simp only [List.take_append_drop]
+  rw [e (rootsL.filter fun x => !inS x)] at hβ
+  simp only [List.mem_append] at hβ
+  rcases hβ with h | h | h | h
+  · exact List.all_eq_true.1 tableOK_1 β h
+  · exact List.all_eq_true.1 tableOK_2 β h
+  · exact List.all_eq_true.1 tableOK_3 β h
+  · exact List.all_eq_true.1 tableOK_4 β h
+
+theorem tableOK_eq : tableOK = true := by
+  unfold tableOK
+  rw [List.all_eq_true]
+  intro β hβ
+  exact tbF_all β hβ
 
 end F4Closure
 

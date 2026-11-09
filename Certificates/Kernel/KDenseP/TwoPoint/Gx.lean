@@ -40,56 +40,56 @@ theorem gx_ok {js : List ℕ}
 theorem c6063 :
     ∀ j ∈ [2, 3, 4, 5], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6063 17 p6063) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6063 89 p6063) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6064 :
     ∀ j ∈ [6, 7, 8], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6064 18 p6064) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6064 89 p6064) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6065 :
     wordLin (yW 9 ++ bpW) aStar ≠ wordLin (yW 9) aStar ∧
       wordLin (yW 10 ++ fiWAlpha) aStar ≠ wordLin (yW 10) aStar ∧
       wordLin (yW 10 ++ bpW) aStar ≠ wordLin (yW 10) aStar :=
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6065 19 p6065)
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6065 81 p6065)
   ⟨(h 9 (by simp)).2, (h 10 (by simp)).1 (by decide), (h 10 (by simp)).2⟩
 
 theorem c6066 :
     ∀ j ∈ [11, 12], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6066 19 p6066) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6066 79 p6066) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6067 :
     ∀ j ∈ [13, 14], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6067 26 p6067) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6067 95 p6067) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6068 :
     ∀ j ∈ [15, 16], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6068 20 p6068) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6068 96 p6068) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6069 :
     ∀ j ∈ [17, 18], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6069 24 p6069) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6069 95 p6069) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6070 :
     ∀ j ∈ [19, 20], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := fun j hj =>
-  have h := gx_ok (kd_axis% CFSG.KD.TP.c6070 17 p6070) j hj
+  have h := gx_ok (kd_axis% CFSG.KD.TP.c6070 83 p6070) j hj
   ⟨h.1 (by simp at hj; omega), h.2⟩
 
 theorem c6071 :
     ∀ j ∈ [21, 22], wordLin (yW j ++ fiWAlpha) aStar ≠ wordLin (yW j) aStar ∧
       wordLin (yW j ++ bpW) aStar ≠ wordLin (yW j) aStar := by
-  have h := kd_axis% CFSG.KD.TP.c6071 21 p6071
+  have h := kd_axis% CFSG.KD.TP.c6071 97 p6071
   simp only [p6071, List.forall_mem_append] at h
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   intro j hj
@@ -100,7 +100,7 @@ theorem c6071 :
 
 theorem c6072 :
     wordLin (gxXWord ++ gxCW9) = wordLin (gxCW9 ++ gxProdWord (gxXList 9)) := by
-  have h := (kd_tp3% CFSG.KD.TP.c6072 24).1
+  have h := (kd_tp3% CFSG.KD.TP.c6072 113).1
   simp only [List.forall_mem_cons, List.not_mem_nil, IsEmpty.forall_iff, implies_true, and_true] at h
   exact h
 

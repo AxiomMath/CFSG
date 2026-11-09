@@ -4,10 +4,10 @@ public import Certificates.Kernel.Ly3085.Omega.Data
 public import Certificates.Data.Kernel.LyOmega.Cent
 public import Certificates.Data.Kernel.LyOmega.Base
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.LyY "Certificates/Kernel/Ly3085/Omega/data/yb_decls.items.gz" 2889 8735464934510361257
+#kc_repo #kc_nat_items CFSG.KD.LyY "Certificates/Kernel/Ly3085/Omega/data/yb_decls.items" 2889 8735464934510361257
   T0 WCt[] WS0[] WS1[] WS2[] ZK[] ZP[] ZL[]
 
 public section

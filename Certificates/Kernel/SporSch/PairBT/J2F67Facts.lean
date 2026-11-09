@@ -284,7 +284,7 @@ theorem img1 : imageList (j2Gen 1) = (unpack 315 9 (PJ2.S 1)).toList := by
 
 theorem chainS : ChainS 315 9 PJ2.S PJ2.SI PJ2.LR PJ2.TR PJ2.TRI 7 2 3 PJ2.BP (j2StrongArrs ())
     baseArr PJ2Words.D 40 8 :=
-  ⟨PJ2.binds, PJ2.head, PJ2.hl, by norm_num, PJ2.hs⟩
+  ⟨PJ2.binds, PJ2.head, PJ2.hl, by norm_num, .inl PJ2.hs⟩
 
 theorem base_nodup : CFSG.Sporadic.Schreier.PairJ2.baseArr.toList.Nodup := by decide
 

@@ -1,5 +1,7 @@
 module
 
+public import CFSG.LieType.Steinberg.Adjoint.IformFast
+public import CFSG.Blueprint.RootFinsetFast
 public import CFSG.LocalAnalysis.UniquenessCase.UC22FunSplitF4Geometry
 public import CFSG.LocalAnalysis.UniquenessCase.UC22FunSplitOrthogonalGeometry
 public import CFSG.LocalAnalysis.StandardType.GGTableBExcTwoTorus
@@ -74,6 +76,7 @@ theorem weighted_kernel_frameE8 : ∀ (k : Fin 8) (γ : Fin Tag.E8.rank → ℤ)
     γ ∈ rootFinset .E8 →
     (∑ j : Fin 8, if j = k then 0 else (5 : ℤ) ^ j.val * iform γ (frameE8Root j)) = 0 →
       γ = frameE8Root k ∨ γ = -frameE8Root k := by
+  simp only [forall_mem_rootFinset_iff, iform_eq_iform8]
   decide +kernel
 
 

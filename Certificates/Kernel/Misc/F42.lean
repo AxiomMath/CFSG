@@ -12,6 +12,7 @@ set_option maxRecDepth 200000
 namespace CFSG.KD.Misc.F42
 
 open CFSG.KC.Misc CFSG.KC.Misc.F42 CFSG.LieType.Multipliers.F42 CFSG.Blueprint.Chevalley
+open CFSG.KS.PK (pairsSwapChunk)
 
 theorem bA : payloadA = strOf cA := rfl
 theorem bB : payloadB = strOf cB := rfl
@@ -106,54 +107,54 @@ theorem lift44 : liftK LF LI 44 = true := by quickRfl
 theorem lift45 : liftK LF LI 45 = true := by quickRfl
 theorem lift46 : liftK LF LI 46 = true := by quickRfl
 theorem lift47 : liftK LF LI 47 = true := by quickRfl
-theorem pair0 : pairsChunk LF LI RC 0 1 = true := by quickRfl
-theorem pair1 : pairsChunk LF LI RC 1 1 = true := by quickRfl
-theorem pair2 : pairsChunk LF LI RC 2 1 = true := by quickRfl
-theorem pair3 : pairsChunk LF LI RC 3 1 = true := by quickRfl
-theorem pair4 : pairsChunk LF LI RC 4 1 = true := by quickRfl
-theorem pair5 : pairsChunk LF LI RC 5 1 = true := by quickRfl
-theorem pair6 : pairsChunk LF LI RC 6 1 = true := by quickRfl
-theorem pair7 : pairsChunk LF LI RC 7 1 = true := by quickRfl
-theorem pair8 : pairsChunk LF LI RC 8 1 = true := by quickRfl
-theorem pair9 : pairsChunk LF LI RC 9 1 = true := by quickRfl
-theorem pair10 : pairsChunk LF LI RC 10 1 = true := by quickRfl
-theorem pair11 : pairsChunk LF LI RC 11 1 = true := by quickRfl
-theorem pair12 : pairsChunk LF LI RC 12 1 = true := by quickRfl
-theorem pair13 : pairsChunk LF LI RC 13 1 = true := by quickRfl
-theorem pair14 : pairsChunk LF LI RC 14 1 = true := by quickRfl
-theorem pair15 : pairsChunk LF LI RC 15 1 = true := by quickRfl
-theorem pair16 : pairsChunk LF LI RC 16 1 = true := by quickRfl
-theorem pair17 : pairsChunk LF LI RC 17 1 = true := by quickRfl
-theorem pair18 : pairsChunk LF LI RC 18 1 = true := by quickRfl
-theorem pair19 : pairsChunk LF LI RC 19 1 = true := by quickRfl
-theorem pair20 : pairsChunk LF LI RC 20 1 = true := by quickRfl
-theorem pair21 : pairsChunk LF LI RC 21 1 = true := by quickRfl
-theorem pair22 : pairsChunk LF LI RC 22 1 = true := by quickRfl
-theorem pair23 : pairsChunk LF LI RC 23 1 = true := by quickRfl
-theorem pair24 : pairsChunk LF LI RC 24 1 = true := by quickRfl
-theorem pair25 : pairsChunk LF LI RC 25 1 = true := by quickRfl
-theorem pair26 : pairsChunk LF LI RC 26 1 = true := by quickRfl
-theorem pair27 : pairsChunk LF LI RC 27 1 = true := by quickRfl
-theorem pair28 : pairsChunk LF LI RC 28 1 = true := by quickRfl
-theorem pair29 : pairsChunk LF LI RC 29 1 = true := by quickRfl
-theorem pair30 : pairsChunk LF LI RC 30 1 = true := by quickRfl
-theorem pair31 : pairsChunk LF LI RC 31 1 = true := by quickRfl
-theorem pair32 : pairsChunk LF LI RC 32 1 = true := by quickRfl
-theorem pair33 : pairsChunk LF LI RC 33 1 = true := by quickRfl
-theorem pair34 : pairsChunk LF LI RC 34 1 = true := by quickRfl
-theorem pair35 : pairsChunk LF LI RC 35 1 = true := by quickRfl
-theorem pair36 : pairsChunk LF LI RC 36 1 = true := by quickRfl
-theorem pair37 : pairsChunk LF LI RC 37 1 = true := by quickRfl
-theorem pair38 : pairsChunk LF LI RC 38 1 = true := by quickRfl
-theorem pair39 : pairsChunk LF LI RC 39 1 = true := by quickRfl
-theorem pair40 : pairsChunk LF LI RC 40 1 = true := by quickRfl
-theorem pair41 : pairsChunk LF LI RC 41 1 = true := by quickRfl
-theorem pair42 : pairsChunk LF LI RC 42 1 = true := by quickRfl
-theorem pair43 : pairsChunk LF LI RC 43 1 = true := by quickRfl
-theorem pair44 : pairsChunk LF LI RC 44 1 = true := by quickRfl
-theorem pair45 : pairsChunk LF LI RC 45 1 = true := by quickRfl
-theorem pair46 : pairsChunk LF LI RC 46 1 = true := by quickRfl
-theorem pair47 : pairsChunk LF LI RC 47 1 = true := by quickRfl
+theorem pairSwap0 : pairsSwapChunk LF RC 0 = true := by quickRfl
+theorem pairSwap1 : pairsSwapChunk LF RC 1 = true := by quickRfl
+theorem pairSwap2 : pairsSwapChunk LF RC 2 = true := by quickRfl
+theorem pairSwap3 : pairsSwapChunk LF RC 3 = true := by quickRfl
+theorem pairSwap4 : pairsSwapChunk LF RC 4 = true := by quickRfl
+theorem pairSwap5 : pairsSwapChunk LF RC 5 = true := by quickRfl
+theorem pairSwap6 : pairsSwapChunk LF RC 6 = true := by quickRfl
+theorem pairSwap7 : pairsSwapChunk LF RC 7 = true := by quickRfl
+theorem pairSwap8 : pairsSwapChunk LF RC 8 = true := by quickRfl
+theorem pairSwap9 : pairsSwapChunk LF RC 9 = true := by quickRfl
+theorem pairSwap10 : pairsSwapChunk LF RC 10 = true := by quickRfl
+theorem pairSwap11 : pairsSwapChunk LF RC 11 = true := by quickRfl
+theorem pairSwap12 : pairsSwapChunk LF RC 12 = true := by quickRfl
+theorem pairSwap13 : pairsSwapChunk LF RC 13 = true := by quickRfl
+theorem pairSwap14 : pairsSwapChunk LF RC 14 = true := by quickRfl
+theorem pairSwap15 : pairsSwapChunk LF RC 15 = true := by quickRfl
+theorem pairSwap16 : pairsSwapChunk LF RC 16 = true := by quickRfl
+theorem pairSwap17 : pairsSwapChunk LF RC 17 = true := by quickRfl
+theorem pairSwap18 : pairsSwapChunk LF RC 18 = true := by quickRfl
+theorem pairSwap19 : pairsSwapChunk LF RC 19 = true := by quickRfl
+theorem pairSwap20 : pairsSwapChunk LF RC 20 = true := by quickRfl
+theorem pairSwap21 : pairsSwapChunk LF RC 21 = true := by quickRfl
+theorem pairSwap22 : pairsSwapChunk LF RC 22 = true := by quickRfl
+theorem pairSwap23 : pairsSwapChunk LF RC 23 = true := by quickRfl
+theorem pairSwap24 : pairsSwapChunk LF RC 24 = true := by quickRfl
+theorem pairSwap25 : pairsSwapChunk LF RC 25 = true := by quickRfl
+theorem pairSwap26 : pairsSwapChunk LF RC 26 = true := by quickRfl
+theorem pairSwap27 : pairsSwapChunk LF RC 27 = true := by quickRfl
+theorem pairSwap28 : pairsSwapChunk LF RC 28 = true := by quickRfl
+theorem pairSwap29 : pairsSwapChunk LF RC 29 = true := by quickRfl
+theorem pairSwap30 : pairsSwapChunk LF RC 30 = true := by quickRfl
+theorem pairSwap31 : pairsSwapChunk LF RC 31 = true := by quickRfl
+theorem pairSwap32 : pairsSwapChunk LF RC 32 = true := by quickRfl
+theorem pairSwap33 : pairsSwapChunk LF RC 33 = true := by quickRfl
+theorem pairSwap34 : pairsSwapChunk LF RC 34 = true := by quickRfl
+theorem pairSwap35 : pairsSwapChunk LF RC 35 = true := by quickRfl
+theorem pairSwap36 : pairsSwapChunk LF RC 36 = true := by quickRfl
+theorem pairSwap37 : pairsSwapChunk LF RC 37 = true := by quickRfl
+theorem pairSwap38 : pairsSwapChunk LF RC 38 = true := by quickRfl
+theorem pairSwap39 : pairsSwapChunk LF RC 39 = true := by quickRfl
+theorem pairSwap40 : pairsSwapChunk LF RC 40 = true := by quickRfl
+theorem pairSwap41 : pairsSwapChunk LF RC 41 = true := by quickRfl
+theorem pairSwap42 : pairsSwapChunk LF RC 42 = true := by quickRfl
+theorem pairSwap43 : pairsSwapChunk LF RC 43 = true := by quickRfl
+theorem pairSwap44 : pairsSwapChunk LF RC 44 = true := by quickRfl
+theorem pairSwap45 : pairsSwapChunk LF RC 45 = true := by quickRfl
+theorem pairSwap46 : pairsSwapChunk LF RC 46 = true := by quickRfl
+theorem pairSwap47 : pairsSwapChunk LF RC 47 = true := by quickRfl
 theorem word0 : wordK LF LI RC 0 (commPairs.getD 0 (0, 0)).1 (commPairs.getD 0 (0, 0)).2 = true := by
   quickRfl
 theorem word1 : wordK LF LI RC 1 (commPairs.getD 1 (0, 0)).1 (commPairs.getD 1 (0, 0)).2 = true := by
@@ -258,10 +259,15 @@ theorem liftAll : ∀ c < 48, liftK LF LI c = true := by
   intro c hc
   interval_cases c
   exacts [lift0, lift1, lift2, lift3, lift4, lift5, lift6, lift7, lift8, lift9, lift10, lift11, lift12, lift13, lift14, lift15, lift16, lift17, lift18, lift19, lift20, lift21, lift22, lift23, lift24, lift25, lift26, lift27, lift28, lift29, lift30, lift31, lift32, lift33, lift34, lift35, lift36, lift37, lift38, lift39, lift40, lift41, lift42, lift43, lift44, lift45, lift46, lift47]
-theorem pairAll : ∀ c < 48, pairsChunk LF LI RC c 1 = true := by
+theorem pairSwapAll : ∀ c < 48, pairsSwapChunk LF RC c = true := by
   intro c hc
   interval_cases c
-  exacts [pair0, pair1, pair2, pair3, pair4, pair5, pair6, pair7, pair8, pair9, pair10, pair11, pair12, pair13, pair14, pair15, pair16, pair17, pair18, pair19, pair20, pair21, pair22, pair23, pair24, pair25, pair26, pair27, pair28, pair29, pair30, pair31, pair32, pair33, pair34, pair35, pair36, pair37, pair38, pair39, pair40, pair41, pair42, pair43, pair44, pair45, pair46, pair47]
+  exacts [pairSwap0, pairSwap1, pairSwap2, pairSwap3, pairSwap4, pairSwap5, pairSwap6, pairSwap7,
+    pairSwap8, pairSwap9, pairSwap10, pairSwap11, pairSwap12, pairSwap13, pairSwap14, pairSwap15,
+    pairSwap16, pairSwap17, pairSwap18, pairSwap19, pairSwap20, pairSwap21, pairSwap22, pairSwap23,
+    pairSwap24, pairSwap25, pairSwap26, pairSwap27, pairSwap28, pairSwap29, pairSwap30, pairSwap31,
+    pairSwap32, pairSwap33, pairSwap34, pairSwap35, pairSwap36, pairSwap37, pairSwap38, pairSwap39,
+    pairSwap40, pairSwap41, pairSwap42, pairSwap43, pairSwap44, pairSwap45, pairSwap46, pairSwap47]
 theorem wordAll : ∀ c < 48, wordK LF LI RC c (commPairs.getD c (0, 0)).1 (commPairs.getD c (0, 0)).2 = true := by
   intro c hc
   interval_cases c

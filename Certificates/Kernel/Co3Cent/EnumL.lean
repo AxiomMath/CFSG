@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Kernel.Co3Cent.LGens
 public import Certificates.Kernel.B3S3.GenSl
 public meta import Certificates.Kernel.Co3Cent.LGens

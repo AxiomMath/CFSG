@@ -107,6 +107,23 @@ theorem g2d_W2 : getK G2dW.V 2 = encL (burnsideF48s_g2dEvL (u33Word "X")) := by
   rw [← h, g2d_enc, g2dFW]
   rfl
 
+theorem g2d_CA {t a : ℕ} (ht : t < 32) (ha : a < 8) : getK (getKL G2dCA.V t) a =
+    pcomp (pcomp (getK G2dT.V t) 28 (getK G2dA.V a)) 28 (getK G2dTi.V t) :=
+  Nat.eq_of_beq_eq_true (G2dCA.all t ht a ha)
+
+theorem g2d_CB {t b : ℕ} (ht : t < 32) (hb : b < 64) : getK (getKL G2dCB.V t) b =
+    pcomp (pcomp (getK G2dT.V t) 28 (getK G2dB.V b)) 28 (getK G2dTi.V t) :=
+  Nat.eq_of_beq_eq_true (G2dCB.all t ht b hb)
+
+theorem g2d_YR {r : ℕ} (hr : r < 32) :
+    pcomp (getK G2dYR.V r) 28 (getK G2dT.V r) = getK G2dW.V 1 :=
+  Nat.eq_of_beq_eq_true (G2dYR.all r hr)
+
+theorem g2d_Vr {r j : ℕ} (hr : r < 32) (hj : j < 4) :
+    pcomp (pcomp (getK G2dTi.V r) 28 (getK (getKL G2dVr.V r) j)) 28 (getK G2dT.V r) =
+      getK G2dV.V j :=
+  Nat.eq_of_beq_eq_true (G2dVr.all r hr j hj)
+
 theorem g2d_id : g2dId = encL (List.range 28) := rfl
 
 theorem g2d_T_len : G2dT.V.length = 32 := rfl
@@ -199,7 +216,7 @@ theorem g2d_tri_len : g2dTri.length = 4096 := by
 theorem g2d_cs (k : ℕ) :
     burnsideF48s_g2dTab.toList.toArray.getD k '0' = G2dTab.chars.getD k '0' := by
   rw [G2dTab.eq, String.toList_ofList]
-  simp only [Array.getD, List.getD_eq_getElem?_getD, List.size_toArray, List.getElem_toArray]
+  simp only [Array.getD, List.getD_eq_getElem?_getD, List.size_toArray]
   split <;> simp_all
 
 theorem g2dCheckCand_ok : burnsideF48s_g2dCheckCand () = true := by
@@ -218,6 +235,12 @@ theorem g2dCheckCand_ok : burnsideF48s_g2dCheckCand () = true := by
   rw [hdig, h1, h2, h3, g2dCandP, candAt_iff] at hw
   dsimp only at hw
   obtain ⟨hj, ht, hr, e1, e2, e3⟩ := hw
+  rw [g2d_CA ht ha] at e1
+  rw [g2d_CB ht hb] at e2
+  rw [g2d_CA ht hc] at e3
+  replace e2 := (congrArg (fun x => pcomp x 28 (getK G2dT.V _)) e2).trans (g2d_YR hr)
+  replace e3 := (congrArg (fun x => pcomp (pcomp (getK G2dTi.V _) 28 x) 28 (getK G2dT.V _))
+    e3).trans (g2d_Vr hr hj)
   simp only [burnsideF48s_g2dTL, burnsideF48s_g2dTiL, burnsideF48s_g2dAL, burnsideF48s_g2dBL,
     burnsideF48s_g2dVL]
   rw [g2d_getD_map_range _ (by omega : a < 64), g2d_getD_map_range _ (by omega : c < 64),

@@ -6,15 +6,13 @@ public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L239PairsSporHash
 public import CFSG.Sporadic.Mathieu.M24
 public import CFSG.Sporadic.Schreier.Enumeration
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L239PairsSporM24CheckInputs
+import CFSG.LocalAnalysis.QuasithinUnique.Ch1.L239PairsSporGood
 import Certificates.Kernel.LocalQT.Pairs.C4094c
 import Certificates.Kernel.LocalQT.Pairs.C4094o
 import Certificates.Kernel.LocalQT.Pairs.C4094k1
 import Certificates.Kernel.LocalQT.Pairs.C4094k1h
 import Certificates.Kernel.LocalQT.Pairs.C4094k2
-import Certificates.Kernel.LocalQT.Pairs.C4094ti
 import Certificates.Kernel.LocalQT.Pairs.C4094tt
-import Certificates.Kernel.LocalQT.Pairs.C4094tn0
-import Certificates.Kernel.LocalQT.Pairs.C4094tn1
 import Certificates.Kernel.Sporadic.ON.Gen
 
 set_option maxRecDepth 100000
@@ -26,8 +24,6 @@ public section
 #kon_join CFSG.KD.LQT.C4094.k2fAll CFSG.KD.LQT.C4094.k2f 24
 #kon_join CFSG.KD.LQT.C4094.k2hAll CFSG.KD.LQT.C4094.k2h 3
 #kon_join CFSG.KD.LQT.C4094.ttAll CFSG.KD.LQT.C4094.tt 24
-#kon_join CFSG.KD.LQT.C4094.tnAll CFSG.KD.LQT.C4094.tn 24
-#kon_join CFSG.KD.LQT.C4094.tiAll CFSG.KD.LQT.C4094.ti 8
 #kon_join CFSG.KD.LQT.C4094.clBAll CFSG.KD.LQT.C4094.clB 12
 
 namespace CFSG.KD.LQT.C4094
@@ -59,16 +55,6 @@ private theorem map_code (L : List X24) (f : X24 → ℕ) (g : ℕ → ℕ) (h :
   induction L with
   | nil => rfl
   | cons q L ih => rw [List.map_cons, List.map_cons, List.map_cons, h q, ih]
-
-private theorem cnt_const (C : List Lvl) (hC : chainOK 24 C = true) (L : List X24) (hnd : L.Nodup)
-    (hL : ∀ x, x ∈ L ↔ inC 24 C (chainF C) (cX x) = true)
-    (hs : ∀ σ : Equiv.Perm (Fin 24), inC 24 C (chainF C) (CFSG.KC.LQT.W.codeP σ) = true →
-      ∃ x ∈ L, cX x = CFSG.KC.LQT.W.codeP σ) (p : X24 → Bool) (pk : ℕ → Bool)
-    (hp : ∀ x, p x = pk (cX x)) (cs : List ℕ) (m : ℕ) (hcs : cs = List.replicate 24 m)
-    (hc : ∀ j < 24, Nat.beq (cntChunk 24 C pk j) m = true) : (L.filter p).length = cs.sum := by
-  rw [hcs, chain_cnt C hC L hnd hL hs p pk hp _ List.length_replicate fun j hj => by
-    rw [Nat.eq_of_beq_eq_true (hc j hj), List.getD_eq_getElem _ _ (by simpa using hj),
-      List.getElem_replicate]]
 
 private theorem beq_of_eq {a b : ℕ} (h : a = b) : Nat.beq a b = true := h ▸ Nat.beq_refl a
 
@@ -415,10 +401,9 @@ private theorem hT0 : T0X.Nodup ∧ T0X.length = chainF CT0 ∧
       (x ∈ T0X ↔ x ∈ Subgroup.closure {g | g ∈ tgen})) ∧
     ∀ σ : Equiv.Perm (Fin 24), inC 24 CT0 (chainF CT0) (CFSG.KC.LQT.W.codeP σ) = true →
       ∃ x ∈ T0X, cX x = CFSG.KC.LQT.W.codeP σ :=
-  clH_sound tgen (by rw [t0c]) 60 60 le_rfl CT0 WT0 kCT0 iCT0
+  clHK_sound enc tgen (by rw [t0c]) 60 60 le_rfl CT0 WT0 kCT0 iCT0
     (grpS_imp (by norm_num) kCT0 pT0 gT0)
-    (hk_data CT0 kCT0 iCT0 CFSG.KD.LQT.M24Idx.I 8 (by rw [Nat.eq_of_beq_eq_true tiN, lT0]) rfl
-      tiAll)
+    (fun _ _ _ _ h => Subtype.ext (encPerm_injective (by norm_num) h))
 
 private theorem pN_eq (x : X24) : nrmTestGens enc (A2X.map enc) a2gen x = pN (cX x) := by
   rw [nrmTestGens, all_codes ha2g _
@@ -426,17 +411,6 @@ private theorem pN_eq (x : X24) : nrmTestGens enc (A2X.map enc) a2gen x = pN (cX
   intro a
   rw [decide_enc hA2, cX_mul, cX_mul, cX_inv]
   rfl
-
-private theorem t0_facts : T0X.length = 64512 ∧
-    strictAsc ((T0X.map enc).mergeSort (fun a b => decide (a ≤ b))) = true ∧
-    (∀ x ∈ T0X, x • trio = trio) ∧ T0N.length = 9216 := by
-  refine ⟨hT0.2.1.trans lT0, strictAsc_enc hT0.1, fun x hx => ?_, ?_⟩
-  · refine trio_fix x trio trio_ne trio_card ?_
-    rw [trio_code']
-    exact Nat.eq_of_beq_eq_true (chain_all CT0 kCT0 fT ttAll x ((hT0.2.2.1 x).1.1 hx))
-  · have hc : ∀ j < 24, Nat.beq (cntChunk 24 CT0 pN j) 384 = true := tnAll
-    exact (cnt_const CT0 kCT0 T0X hT0.1 (fun x => (hT0.2.2.1 x).1) hT0.2.2.2 _ pN pN_eq nT0 384
-      rfl hc).trans (by decide +kernel)
 
 private theorem ht2X : cX t2X = t2C := by
   obtain ⟨w, hw, hwc⟩ := hT0.2.2.2 (t2Perm.headD 1) (by rw [ht2]; exact kt2)
@@ -479,6 +453,74 @@ private theorem k2_facts : K2X.length = 9216 ∧
     strictAsc ((K2X.map enc).mergeSort (fun a b => decide (a ≤ b))) = true ∧
     (∀ x ∈ K2X, nrmTestGens enc (A2X.map enc) a2gen x = true) :=
   ⟨hK2.2.1.trans lK2, strictAsc_enc hK2.1, fun x hx => by rw [pN_eq]; exact (fK2_at hx).1⟩
+
+private theorem card_eq_len (S : Subgroup X24) (L : List X24) (hnd : L.Nodup)
+    (h : ∀ x, x ∈ L ↔ x ∈ S) : Nat.card S = L.length := by
+  rw [← List.toFinset_card_of_nodup hnd, ← Nat.card_eq_finsetCard]
+  exact Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [List.mem_toFinset, h])
+
+private theorem kt3N : pN t3C = false := by decide +kernel
+
+private theorem t0N_len : T0N.length = 9216 := by
+  have mA : ∀ x, x ∈ A2X ↔ x ∈ Subgroup.closure {g | g ∈ a2gen} := fun x =>
+    (A2X_iff x).trans ((hA2c.2.2.1 x).1.symm.trans (hA2c.2.2.1 x).2)
+  have hnt := CFSG.QuasithinUnique.Vol2Native.L239.mem_normalizer_of_gens enc enc_injective'
+    (Subgroup.closure {g | g ∈ a2gen}) A2X a2gen (fun y => (mA y).symm)
+    (fun a ha => (mA a).2 (Subgroup.subset_closure ha)) (fun y hy => (mA y).1 hy)
+  set T := Subgroup.closure {g | g ∈ tgen} with hTdef
+  set N := Subgroup.normalizer ((Subgroup.closure {g | g ∈ a2gen} : Subgroup X24) : Set X24)
+    with hNdef
+  have hT : ∀ x, x ∈ T0X ↔ x ∈ T := fun x => (hT0.2.2.1 x).2
+  have hK : ∀ x, x ∈ K2X ↔ x ∈ Subgroup.closure {g | g ∈ k2gen} := fun x => (hK2.2.2.1 x).2
+  have hKT : Subgroup.closure {g | g ∈ k2gen} ≤ T ⊓ N := by
+    intro x hx
+    refine Subgroup.mem_inf.2 ⟨?_, (hnt x).2 (by rw [pN_eq]; exact (fK2_at ((hK x).2 hx)).1)⟩
+    revert x
+    change Subgroup.closure {g | g ∈ k2gen} ≤ T
+    rw [Subgroup.closure_le]
+    intro g hg
+    simp only [Set.mem_setOf_eq, k2gen, List.mem_append, List.mem_singleton] at hg
+    rcases hg with hg | rfl
+    · refine Subgroup.subset_closure ?_
+      simp only [Set.mem_setOf_eq, tgen, List.mem_append]
+      exact Or.inl hg
+    · exact (hT t2X).1 ((hT0.2.2.1 t2X).1.2 (by rw [ht2X]; exact kt2))
+  have hnot : ¬ T ≤ N := fun h => by
+    have h3 : t3X ∈ T := Subgroup.subset_closure
+      (by simp only [Set.mem_setOf_eq, tgen, List.mem_append, List.mem_singleton, or_true])
+    have h3n := (hnt t3X).1 (h h3)
+    rw [pN_eq, t3c, kt3N] at h3n
+    exact Bool.false_ne_true h3n
+  have hTc : Nat.card T = 64512 := by rw [card_eq_len T T0X hT0.1 hT, hT0.2.1, lT0]
+  have hKc : Nat.card (Subgroup.closure {g | g ∈ k2gen}) = 9216 := by
+    rw [card_eq_len _ K2X hK2.1 hK, hK2.2.1, lK2]
+  have hH : Nat.card ↥(T ⊓ N) = 9216 := by
+    obtain ⟨a, ha⟩ := Subgroup.card_dvd_of_le hKT
+    obtain ⟨b, hb⟩ := Subgroup.card_dvd_of_le (inf_le_left : T ⊓ N ≤ T)
+    rw [hKc] at ha
+    rw [hTc, ha] at hb
+    have hab : a * b = 7 := by
+      have h9 : 9216 * (a * b) = 9216 * 7 := by rw [← mul_assoc, ← hb]
+      exact Nat.eq_of_mul_eq_mul_left (by norm_num) h9
+    rcases (Nat.dvd_prime (by norm_num)).1 (⟨b, hab.symm⟩ : a ∣ 7) with h1 | h7
+    · rw [ha, h1]
+    · exfalso
+      apply hnot
+      have hle : T ⊓ N = T := Subgroup.eq_of_le_of_card_ge inf_le_left
+        (le_of_eq (by rw [hTc, ha, h7]))
+      rw [← hle]
+      exact inf_le_right
+  have hL := card_eq_len (T ⊓ N) T0N (hT0.1.filter _) fun x => by
+    rw [T0N, List.mem_filter, Subgroup.mem_inf, hT, hnt]
+  exact hL.symm.trans hH
+
+private theorem t0_facts : T0X.length = 64512 ∧
+    strictAsc ((T0X.map enc).mergeSort (fun a b => decide (a ≤ b))) = true ∧
+    (∀ x ∈ T0X, x • trio = trio) ∧ T0N.length = 9216 := by
+  refine ⟨hT0.2.1.trans lT0, strictAsc_enc hT0.1, fun x hx => ?_, t0N_len⟩
+  refine trio_fix x trio trio_ne trio_card ?_
+  rw [trio_code']
+  exact Nat.eq_of_beq_eq_true (chain_all CT0 kCT0 fT ttAll x ((hT0.2.2.1 x).1.1 hx))
 
 private theorem q2_facts :
     strictAsc ((A2X.map enc).mergeSort (fun a b => decide (a ≤ b))) = true ∧

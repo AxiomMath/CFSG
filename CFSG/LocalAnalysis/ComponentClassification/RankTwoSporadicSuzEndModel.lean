@@ -57,7 +57,7 @@ theorem suzEndFacts_of_K
     (h : SuzEndFactsK) :
     EndFacts suzT suzM suzE0Sub suzE0e (fun σ => fix1782 σ = 42) := by
   obtain ⟨he_mem, he_sq, he_comm, ⟨hf0, hf1, hf01⟩, ⟨b, x, hb, hx, hbc, hbn, hxc, htree⟩,
-    ⟨l, hl, hcardL, s, hs, hcardS, hfixS⟩, ⟨σa, hσM, hσ0, hσ1⟩, ⟨c0, hc0M, hc0e⟩⟩ := h
+    ⟨l, hl, hcardL', ⟨Δ, hΔL, hΔe⟩, s, hs, hcardS, hfixS⟩, ⟨σa, hσM, hσ0, hσ1⟩, ⟨c0, hc0M, hc0e⟩⟩ := h
   have hE := suzE0Sub_eq
   have hcases : ∀ e ∈ suzE0Sub, e = 1 ∨ e = suzEndE 0 ∨ e = suzEndE 1 ∨
       e = suzEndE 0 * suzEndE 1 :=
@@ -155,28 +155,6 @@ theorem suzEndFacts_of_K
       rintro _ (rfl | rfl)
       · exact mem_suzM_of (he_mem 0 (by norm_num))
       · exact mem_suzM_of (he_mem 1 (by norm_num))
-    have hLinv : ∀ z ∈ L, z ^ 2 = 1 → z ≠ 1 → fix1782 z ≠ 42 := by
-      intro z hzL hz2 hz1
-      have hSL : closure (permsA 1782 s) ≤ L := by
-        rw [closure_le]
-        rintro _ ⟨k, hk, rfl⟩
-        exact hs k hk
-      obtain ⟨g, -, hgS⟩ := exists_conj_mem_of_card hSL Nat.prime_two
-        (hcardS.trans (by norm_num : (64 : ℕ) = 2 ^ 6)) (hcardL.trans (by norm_num :
-          (20160 : ℕ) = 2 ^ 6 * 315)) (by norm_num) hzL hz2
-      have hs2 : (g⁻¹ * z * g) ^ 2 = 1 := by
-        have hzz : z * z = 1 := by rw [← sq]; exact hz2
-        rw [sq]
-        calc g⁻¹ * z * g * (g⁻¹ * z * g) = g⁻¹ * (z * z) * g := by
-              simp only [mul_assoc, mul_inv_cancel_left]
-          _ = 1 := by rw [hzz, mul_one, inv_mul_cancel]
-      have hs1 : g⁻¹ * z * g ≠ 1 := by
-        intro h1
-        apply hz1
-        calc z = g * (g⁻¹ * z * g) * g⁻¹ := by group
-          _ = 1 := by rw [h1, mul_one, mul_inv_cancel]
-      have := hfixS _ hgS hs2 hs1
-      rwa [show g⁻¹ * z * g = g⁻¹ * z * g⁻¹⁻¹ by rw [inv_inv], fix1782_conj] at this
     have hcardE : Nat.card E₀ = 4 := by
       have hne1 : suzEndE 0 ≠ 1 := fun h1 => by rw [h1, fix1782_one] at hf0; norm_num at hf0
       have hne2 : suzEndE 1 ≠ 1 := fun h1 => by rw [h1, fix1782_one] at hf1; norm_num at hf1
@@ -217,14 +195,31 @@ theorem suzEndFacts_of_K
       change Nat.card ↥(E₀ : Set (Equiv.Perm (Fin 1782))) = 4
       rw [hc, hset, Set.ncard_insert_of_notMem h1, Set.ncard_insert_of_notMem h2,
         Set.ncard_pair hne23]
+    have hLS : ∀ y ∈ L, ∀ x, y x ∈ Δ ↔ x ∈ Δ := by
+      intro y hy
+      refine closure_induction (p := fun y _ => ∀ x, y x ∈ Δ ↔ x ∈ Δ) ?_ ?_ ?_ ?_ hy
+      · rintro _ ⟨k, hk, rfl⟩
+        exact hΔL k hk
+      · exact fun x => Iff.rfl
+      · intro a b _ _ ha hb x
+        rw [Equiv.Perm.mul_apply, ha, hb]
+      · intro a _ ha x
+        simpa using (ha (a⁻¹ x)).symm
     have hinf : E₀ ⊓ L = ⊥ := by
       rw [eq_bot_iff]
       rintro y ⟨hyE, hyL⟩
       rw [mem_bot]
       by_contra hy1
-      obtain ⟨h42, hy2⟩ := hE42 y hyE hy1
-      exact hLinv y hyL hy2 hy1 h42
-    have hcardH : Nat.card (E₀ ⊔ L : Subgroup (Equiv.Perm (Fin 1782))) = 80640 := by
+      have hy : y ∈ ({suzEndE 0, suzEndE 1, suzEndE 0 * suzEndE 1} :
+          Set (Equiv.Perm (Fin 1782))) := by
+        rcases hcases y hyE with h | h | h | h
+        · exact absurd h hy1
+        · exact Or.inl h
+        · exact Or.inr (Or.inl h)
+        · exact Or.inr (Or.inr h)
+      obtain ⟨x, hx, hyx⟩ := hΔe y hy
+      exact hyx ((hLS y hyL x).2 hx)
+    have hcardH : Nat.card (E₀ ⊔ L : Subgroup (Equiv.Perm (Fin 1782))) = 4 * Nat.card L := by
       have hN : L ≤ normalizer (E₀ : Set (Equiv.Perm (Fin 1782))) := by
         intro y hy
         rw [mem_normalizer_iff]
@@ -240,7 +235,7 @@ theorem suzEndFacts_of_K
             exact mul_left_cancel h2
           rw [← e1]
           exact hz
-      rw [AS76b.card_sup_eq_mul hN hinf, hcardE, hcardL]
+      rw [AS76b.card_sup_eq_mul hN hinf, hcardE]
     set t₀ := suzInv 0 with ht₀
     set c₀ := permOfArr 1782 c0 with hc₀
     have hc₀M : c₀ ∈ suzM := mem_suzM_of hc0M
@@ -297,7 +292,7 @@ theorem suzEndFacts_of_K
       · omega
       · nlinarith
     have hHC : E₀ ⊔ L = suzM ⊓ centralizer (E₀ : Set (Equiv.Perm (Fin 1782))) := by
-      refine eq_of_le_of_card_ge ?_ (by rw [hcardH]; exact hcardCE)
+      refine eq_of_le_of_card_ge ?_ (by rw [hcardH]; omega)
       refine sup_le (le_inf hEM ?_) (le_inf hLM ?_)
       · intro y hy
         rw [mem_centralizer_iff]
@@ -307,6 +302,32 @@ theorem suzEndFacts_of_K
         rw [mem_centralizer_iff]
         intro z hz
         exact (hLE y hy z hz).symm
+    have hcardL : Nat.card L = 20160 := by
+      have h1 := hcardH
+      rw [hHC] at h1
+      omega
+    have hLinv : ∀ z ∈ L, z ^ 2 = 1 → z ≠ 1 → fix1782 z ≠ 42 := by
+      intro z hzL hz2 hz1
+      have hSL : closure (permsA 1782 s) ≤ L := by
+        rw [closure_le]
+        rintro _ ⟨k, hk, rfl⟩
+        exact hs k hk
+      obtain ⟨g, -, hgS⟩ := exists_conj_mem_of_card hSL Nat.prime_two
+        (hcardS.trans (by norm_num : (64 : ℕ) = 2 ^ 6)) (hcardL.trans (by norm_num :
+          (20160 : ℕ) = 2 ^ 6 * 315)) (by norm_num) hzL hz2
+      have hs2 : (g⁻¹ * z * g) ^ 2 = 1 := by
+        have hzz : z * z = 1 := by rw [← sq]; exact hz2
+        rw [sq]
+        calc g⁻¹ * z * g * (g⁻¹ * z * g) = g⁻¹ * (z * z) * g := by
+              simp only [mul_assoc, mul_inv_cancel_left]
+          _ = 1 := by rw [hzz, mul_one, inv_mul_cancel]
+      have hs1 : g⁻¹ * z * g ≠ 1 := by
+        intro h1
+        apply hz1
+        calc z = g * (g⁻¹ * z * g) * g⁻¹ := by group
+          _ = 1 := by rw [h1, mul_one, mul_inv_cancel]
+      have := hfixS _ hgS hs2 hs1
+      rwa [show g⁻¹ * z * g = g⁻¹ * z * g⁻¹⁻¹ by rw [inv_inv], fix1782_conj] at this
     have hder : ⁅suzM ⊓ centralizer (E₀ : Set (Equiv.Perm (Fin 1782))),
         suzM ⊓ centralizer (E₀ : Set (Equiv.Perm (Fin 1782)))⁆ ≤ L := by
       rw [← hHC]

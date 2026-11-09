@@ -4,13 +4,13 @@ public import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.YModel.Texts.YM432FC
 public import CFSG.Certificates.Kernel.YModel.Texts.YM432P
 public import Certificates.Data.Kernel.YModel.Model
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Benes
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.YMY432F "CFSG/Certificates/Kernel/YModel/Y432F/data/plan.items.gz" 11267 14519129019501751879
+#kc_repo #kc_nat_items CFSG.KD.YMY432F "CFSG/Certificates/Kernel/YModel/Y432F/data/plan.items" 11267 14519129019501751879
   M0_[9] R0_[9] Z0_[9]
 
 namespace CFSG.KD.YMY432F

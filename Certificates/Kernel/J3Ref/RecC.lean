@@ -6,6 +6,7 @@ public import Certificates.Kernel.LocalQT.PEnumD
 public import CFSG.Certificates.Kernel.Common.Each
 public import Certificates.Data.Kernel.Spor.PEnumB
 public import Certificates.Data.Kernel.Spor.MulHQ
+public import Certificates.Data.Kernel.Spor.HKeyU
 meta import Certificates.Data.J3Cls
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -25,7 +26,17 @@ meta def cRecM : Array (Array Nat) := recOfM cGM
 
 meta def cHVM : Array (Array Nat) := hvOfM cRecM
 
-meta def cClM : Array Nat := clOfM cRecM cGM
+meta def clBsM (rec gens : Array (Array Nat)) : Array Nat := Id.run do
+  let bs : Array Nat := #[0, 1, 3, 2]
+  let idx := indexM (rec.map fun x => bs.map fun b => x[b]!)
+  let letters := gens ++ gens.map invM
+  let mut out : Array Nat := #[]
+  for x in rec do
+    for g in letters do
+      out := out.push (idx.getD (bs.map fun b => x[g[b]!]!) rec.size)
+  return out
+
+meta def cClM : Array Nat := clBsM cRecM cGM
 
 end CertificateChecks.KernelJ3Ref
 
@@ -52,7 +63,8 @@ theorem c_head : bAnd(allN 5 (fun j => bAnd(Nat.beq (J3RC.GI j) (J3CentP (Nat.ad
 
 #kc_each CertificateChecks.KernelJ3Ref.cPt 0 30
 
-@[expose] noncomputable def hvC (i : Nat) : Bool := hvK 6156 13 (mask 13) J3RC.T J3RCV i
+@[expose] noncomputable def hvC (i : Nat) : Bool :=
+  Nat.beq (hkeyU 6156 13 (mask 13) (J3RC.T i)) (J3RCV i)
 
 #kc_each CertificateChecks.KernelJ3Ref.hvC 0 1920
 

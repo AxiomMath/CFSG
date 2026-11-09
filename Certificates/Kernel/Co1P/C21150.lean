@@ -19,14 +19,14 @@ namespace CertificateChecks.KernelCo1P
 
 open CFSG.KC.Co1B CFSG.KC.Co1P CFSG.KD.Co1P CFSG.KC.TreeK CFSG.Sporadic.Co1Patterson.Native
 
-theorem clos4_all : ∀ c < 540, clos4C c = true := by
-  have h : ∀ q < 4, ∀ r < 135, clos4C (135 * q + r) = true := by
+theorem clos4_all : ∀ c < 540, clos4TC c = true := by
+  have h : ∀ q < 4, ∀ r < 135, clos4TC (135 * q + r) = true := by
     intro q hq r hr
     interval_cases q
-    · exact Clos4Q0.all r hr
-    · exact Clos4Q1.all r hr
-    · exact Clos4Q2.all r hr
-    · exact Clos4Q3.all r hr
+    · exact Clos4T0.all r hr
+    · exact Clos4T1.all r hr
+    · exact Clos4T2.all r hr
+    · exact Clos4T3.all r hr
   intro c hc
   rw [← Nat.div_add_mod c 135]
   exact h _ (by omega) _ (Nat.mod_lt _ (by decide))

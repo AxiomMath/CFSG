@@ -147,7 +147,7 @@ theorem eq_Z8_of {K : Subgroup (GL (Fin 8) (ZMod 2))} (hKZ : K ≤ Z8)
     exact ⟨u, by rw [← hu, dec8_colsOf]⟩
   have hle : genSub gens ≤ K := by
     refine (Subgroup.closure_le _).mpr fun u hu => ?_
-    obtain ⟨u', hu'K, hu'c⟩ := hgK _ hu
+    obtain ⟨u', hu'K, hu'c⟩ := hgK _ (Set.mem_setOf_eq.mp hu)
     have : u = u' := eq_of_colsOf_eq hu'c.symm
     rw [this]
     exact hu'K

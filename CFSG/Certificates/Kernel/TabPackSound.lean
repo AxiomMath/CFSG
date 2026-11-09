@@ -96,6 +96,25 @@ abbrev Tab : Type := List Nat
           else true) Ib
       else true) Ia) I
 
+@[expose] noncomputable def elemAbA (n : Nat) (I : List Nat) (As : List (List Nat)) (a : Nat) : Bool :=
+  let Ia := filterR (commN n a) I
+  let P1 := extN n [enc (List.range n)] a
+  allR (fun b =>
+    if !memN b P1 then
+      let Ib := filterR (commN n b) Ia
+      let P2 := extN n P1 b
+      allR (fun c =>
+        if !memN c P2 then
+          let Ic := filterR (commN n c) Ib
+          let P3 := extN n P2 c
+          allR (fun d =>
+            if !memN d P3 then
+              let P4 := extN n P3 d
+              anyR (fun A => allR (fun y => memN y P4) A) As
+            else true) Ic
+        else true) Ib
+    else true) Ia
+
 @[expose] noncomputable def spanN (n : Nat) : List Nat → List Nat :=
   List.rec [enc (List.range n)] fun g _ ih => extN n ih g
 
@@ -320,6 +339,18 @@ theorem elemAbT_eq {n : Nat} (hn : n ≤ 32) {L : List Tab} {As : List (List Tab
   refine any_congr_mem fun A hA' => ?_
   exact all_enc (g := fun z => memN z (List.map enc _)) (hA A hA')
     (fun y hy => decide_mem_enc (hA A hA' y hy) hP4)
+
+theorem elemAbN_eq_allR (n : Nat) (L : List Nat) (As : List (List Nat)) :
+    elemAbN n L As = allR (elemAbA n (filterR (isInvN n) L) As) (filterR (isInvN n) L) := rfl
+
+theorem allR_drop_succ {α : Type} (p : α → Bool) (d : α) : ∀ (l : List α) (i : Nat),
+    p ((l.drop i).headD d) = true → allR p (l.drop (i + 1)) = true → allR p (l.drop i) = true
+  | [], _, _, _ => by rw [List.drop_nil]; rfl
+  | x :: l, 0, h, ht => by
+    change (p x && allR p l) = true
+    rw [Bool.and_eq_true]
+    exact ⟨h, ht⟩
+  | _ :: l, i + 1, h, ht => allR_drop_succ p d l i h ht
 
 theorem spanT_W {n : Nat} (hn : n ≤ 32) {gs : List Tab} (hg : ∀ g ∈ gs, W n g) :
     ∀ x ∈ spanT n gs, W n x := by

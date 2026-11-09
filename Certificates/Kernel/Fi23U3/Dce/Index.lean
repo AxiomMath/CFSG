@@ -26,8 +26,45 @@ open CFSG.KC.LaneChain (getN getL colDat)
   (wList (RW r)).all (fun c => decide (c < 12)) &&
     (wList (wInv INVM (RW r)) == (wList (RW r)).reverse.map (ivL INVM))
 
-theorem rec_bool : (List.range 44010).all recBool = true := by
+private theorem range'_join {f : ℕ → Bool} {s m n : ℕ} (h1 : (List.range' s m).all f = true)
+    (h2 : (List.range' (s + m) n).all f = true) : (List.range' s (m + n)).all f = true := by
+  rw [← List.range'_append_1, List.all_append, h1, h2]
+  rfl
+
+theorem rec_bool_0 : (List.range' 0 5502).all recBool = true := by
   quickRfl
+
+theorem rec_bool_1 : (List.range' 5502 5502).all recBool = true := by
+  quickRfl
+
+theorem rec_bool_2 : (List.range' 11004 5502).all recBool = true := by
+  quickRfl
+
+theorem rec_bool_3 : (List.range' 16506 5502).all recBool = true := by
+  quickRfl
+
+theorem rec_bool_4 : (List.range' 22008 5502).all recBool = true := by
+  quickRfl
+
+theorem rec_bool_5 : (List.range' 27510 5502).all recBool = true := by
+  quickRfl
+
+theorem rec_bool_6 : (List.range' 33012 5502).all recBool = true := by
+  quickRfl
+
+theorem rec_bool_7 : (List.range' 38514 5496).all recBool = true := by
+  quickRfl
+
+theorem rec_bool : (List.range 44010).all recBool = true := by
+  rw [List.range_eq_range']
+  exact range'_join (s := 0) (m := 5502) (n := 38508) rec_bool_0 <|
+    range'_join (s := 5502) (m := 5502) (n := 33006) rec_bool_1 <|
+    range'_join (s := 11004) (m := 5502) (n := 27504) rec_bool_2 <|
+    range'_join (s := 16506) (m := 5502) (n := 22002) rec_bool_3 <|
+    range'_join (s := 22008) (m := 5502) (n := 16500) rec_bool_4 <|
+    range'_join (s := 27510) (m := 5502) (n := 10998) rec_bool_5 <|
+    range'_join (s := 33012) (m := 5502) (n := 5496) rec_bool_6 <|
+    rec_bool_7
 
 theorem rec_ok : ∀ r < 44010, (∀ c ∈ wList (RW r), c < 12) ∧
     wList (wInv INVM (RW r)) = (wList (RW r)).reverse.map (ivL INVM) := by

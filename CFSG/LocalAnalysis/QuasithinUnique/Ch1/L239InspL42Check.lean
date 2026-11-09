@@ -28,8 +28,40 @@ theorem p0_check :
   (!(p0genW.all fun g => pm σ (pw g) == pm (pw g) σ) || σ == pone || σ == ptau0) &&
     (!(pm σ σ == pone) || hasFix σ || σ == ptau0 || keyTbl.any fun e => e.1 == σ)
 
+private def enumS8eFrom (f : Nat → Bool) (j0 : Nat) : Bool :=
+  (List.range' 1 7).all fun j1 => (List.range' 2 6).all fun j2 =>
+  (List.range' 3 5).all fun j3 => (List.range' 4 4).all fun j4 => (List.range' 5 3).all fun j5 =>
+  (List.range' 6 2).all fun j6 =>
+    ((if j0 = 0 then 0 else 1) + (if j1 = 1 then 0 else 1) + (if j2 = 2 then 0 else 1) +
+      (if j3 = 3 then 0 else 1) + (if j4 = 4 then 0 else 1) + (if j5 = 5 then 0 else 1) +
+      (if j6 = 6 then 0 else 1)) % 2 != 0 ||
+    f (pm (pm (pm (pm (pm (pm (pswap 0 j0) (pswap 1 j1)) (pswap 2 j2)) (pswap 3 j3)) (pswap 4 j4))
+      (pswap 5 j5)) (pswap 6 j6))
+
+private theorem s8_check_0 : enumS8eFrom s8test 0 = true := by decide +kernel
+private theorem s8_check_1 : enumS8eFrom s8test 1 = true := by decide +kernel
+private theorem s8_check_2 : enumS8eFrom s8test 2 = true := by decide +kernel
+private theorem s8_check_3 : enumS8eFrom s8test 3 = true := by decide +kernel
+private theorem s8_check_4 : enumS8eFrom s8test 4 = true := by decide +kernel
+private theorem s8_check_5 : enumS8eFrom s8test 5 = true := by decide +kernel
+private theorem s8_check_6 : enumS8eFrom s8test 6 = true := by decide +kernel
+private theorem s8_check_7 : enumS8eFrom s8test 7 = true := by decide +kernel
+
 theorem s8_check : enumS8e s8test = true := by
-  decide +kernel
+  change (List.range' 0 8).all (enumS8eFrom s8test) = true
+  rw [List.all_eq_true]
+  intro j hj
+  rw [List.mem_range'_1] at hj
+  match j, hj with
+  | 0, _ => exact s8_check_0
+  | 1, _ => exact s8_check_1
+  | 2, _ => exact s8_check_2
+  | 3, _ => exact s8_check_3
+  | 4, _ => exact s8_check_4
+  | 5, _ => exact s8_check_5
+  | 6, _ => exact s8_check_6
+  | 7, _ => exact s8_check_7
+  | _ + 8, h => exact absurd h.2 (by omega)
 
 @[expose] def yw (i : Nat) : List Nat := repY.getD i []
 

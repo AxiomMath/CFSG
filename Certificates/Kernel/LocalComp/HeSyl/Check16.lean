@@ -4,6 +4,8 @@ public import Certificates.Kernel.LocalComp.HeSylEnum
 public import Certificates.Kernel.LocalComp.HeSyl.Flags
 public import CFSG.Certificates.Kernel.HeSylKSound
 public import CFSG.Certificates.Kernel.LocalCompUnpack
+public import CFSG.Certificates.Kernel.HeSylKCent
+public import Certificates.Kernel.LocalComp.HeSyl.Cent16
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -55,23 +57,43 @@ theorem kRest : restK16 16 5 HeSylX.ng HeSylX.G HeSylX.N HeSylX.T HeSylQ.ng HeSy
 @[expose] noncomputable def V : Nat → Bool :=
   ueAt 16 5 HeSylX.N HeSylX.T HeSylE.N HeSylE.T HeSylF.N HeSylF.T F.F1
 
-theorem uq0 : Nat.beq (cntR U 0 256) 0 = true := by quickRfl
-theorem uq1 : Nat.beq (cntR U 256 256) 0 = true := by quickRfl
-theorem uq2 : Nat.beq (cntR U 512 256) 0 = true := by quickRfl
-theorem uq3 : Nat.beq (cntR U 768 256) 0 = true := by quickRfl
+@[expose] noncomputable def UR : Nat → Bool :=
+  uqAtR 16 5 HeSylX.N HeSylX.T HeSylQ.N HeSylQ.T F.FZ Pz cosD16
+
+theorem kZcH : zcHK 16 5 HeSylX.N HeSylX.T Pz = true := by quickRfl
+
+theorem uq0 : Nat.beq (cntR UR 0 256) 0 = true := by quickRfl
+theorem uq1 : Nat.beq (cntR UR 256 256) 0 = true := by quickRfl
+theorem uq2 : Nat.beq (cntR UR 512 256) 0 = true := by quickRfl
+theorem uq3 : Nat.beq (cntR UR 768 256) 0 = true := by quickRfl
 
 theorem ue0 : allR V 0 256 = true := by quickRfl
 theorem ue1 : allR V 256 256 = true := by quickRfl
 theorem ue2 : allR V 512 256 = true := by quickRfl
 theorem ue3 : allR V 768 256 = true := by quickRfl
 
-theorem uqTotal : cntR U 0 1024 = 0 := by
-  have a1 := cntR_add U 0 256 256
-  have a2 := cntR_add U 0 512 256
-  have a3 := cntR_add U 0 768 256
+theorem cntR_four16 (f : Nat → Bool) (h0 : Nat.beq (cntR f 0 256) 0 = true)
+    (h1 : Nat.beq (cntR f 256 256) 0 = true) (h2 : Nat.beq (cntR f 512 256) 0 = true)
+    (h3 : Nat.beq (cntR f 768 256) 0 = true) : cntR f 0 1024 = 0 := by
+  have a1 := cntR_add f 0 256 256
+  have a2 := cntR_add f 0 512 256
+  have a3 := cntR_add f 0 768 256
   simp only [Nat.reduceAdd] at a1 a2 a3
-  rw [a3, a2, a1, Nat.eq_of_beq_eq_true uq0, Nat.eq_of_beq_eq_true uq1,
-    Nat.eq_of_beq_eq_true uq2, Nat.eq_of_beq_eq_true uq3]
+  rw [a3, a2, a1, Nat.eq_of_beq_eq_true h0, Nat.eq_of_beq_eq_true h1,
+    Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h3]
+
+theorem uqTotalR : cntR UR 0 1024 = 0 := cntR_four16 UR uq0 uq1 uq2 uq3
+
+theorem uqTotal : cntR U 0 1024 = 0 := by
+  have kp := kPermG
+  simp only [Bool.and_eq_true] at kp
+  obtain ⟨⟨⟨⟨pX, -⟩, -⟩, -⟩, -⟩ := kp
+  have hp := allN_spec pX
+  have hN : HeSylX.N = 1024 := rfl
+  have sX := PP_pts HeSylX.ok hp
+  have pz : PP 16 5 Pz := PP_of_permOK (sX 0 (by rw [hN]; decide)).sz kPermZ
+  exact cntR_uqAt_of_R hN sX (bfsK_injR HeSylX.ok) (pts_mulR HeSylX.ok hp) pz kZcH
+    (le_of_eq hN.symm) uqTotalR
 
 theorem ueTotal : allR V 0 1024 = true := by
   have a1 := allR_add V 0 256 256

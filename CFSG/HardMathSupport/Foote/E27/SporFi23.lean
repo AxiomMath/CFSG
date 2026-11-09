@@ -71,12 +71,12 @@ theorem fact_zc (i : Fin 8) :
   fin_cases i <;> rfl
 
 theorem fact_act_x (i : Fin 8) :
-    Ct.facts[121 + (i : ℕ)]? = some (MFact.conj 45 [(33 + (i : ℕ), 1)]
+    Ct.facts[108 + (i : ℕ)]? = some (MFact.conj 45 [(33 + (i : ℕ), 1)]
       ((fullWord (rowsMat 3 8 XRows) cX i).filter fun a => a.2 ≠ 0)) := by
   fin_cases i <;> rfl
 
 theorem fact_act_h (i : Fin 8) :
-    Ct.facts[131 + (i : ℕ)]? = some (MFact.conj 46 [(33 + (i : ℕ), 1)]
+    Ct.facts[118 + (i : ℕ)]? = some (MFact.conj 46 [(33 + (i : ℕ), 1)]
       ((fullWord (rowsMat 3 8 YRows) cY i).filter fun a => a.2 ≠ 0)) := by
   fin_cases i <;> rfl
 
@@ -214,7 +214,7 @@ theorem hasOrd_fullWord (A : Matrix (Fin 8) (Fin 8) (ZMod 3)) (c : Fin 8 → ℕ
 theorem conj_b₁ (i : Fin 8) :
     b₁⁻¹ * q i * b₁ = (List.ofFn fun j => q j ^ (rowsMat 3 8 XRows i j).val).prod * zq ^ cX i := by
   have h := regUnit_conj (spec3 253) hCt (mem_facts _ (fact_act_x i))
-    (mem_facts 120 rfl : MFact.ord 45 3 ∈ Ct.facts) (hasOrd_regs (by fin_cases i <;> decide))
+    (mem_facts 107 rfl : MFact.ord 45 3 ∈ Ct.facts) (hasOrd_regs (by fin_cases i <;> decide))
     (hasOrd_fullWord _ _ i)
   rw [Wd_filter, Wd_fullWord, Wd_single, ← q_def] at h
   rw [b₁, inv_inv]
@@ -223,7 +223,7 @@ theorem conj_b₁ (i : Fin 8) :
 theorem conj_b₂ (i : Fin 8) :
     b₂⁻¹ * q i * b₂ = (List.ofFn fun j => q j ^ (rowsMat 3 8 YRows i j).val).prod * zq ^ cY i := by
   have h := regUnit_conj (spec3 253) hCt (mem_facts _ (fact_act_h i))
-    (mem_facts 130 rfl : MFact.ord 46 16 ∈ Ct.facts) (hasOrd_regs (by fin_cases i <;> decide))
+    (mem_facts 117 rfl : MFact.ord 46 16 ∈ Ct.facts) (hasOrd_regs (by fin_cases i <;> decide))
     (hasOrd_fullWord _ _ i)
   rw [Wd_filter, Wd_fullWord, Wd_single, ← q_def] at h
   rw [b₂, inv_inv]

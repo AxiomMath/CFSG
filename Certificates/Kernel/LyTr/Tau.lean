@@ -103,42 +103,84 @@ theorem replay_foldl {N : Nat} (U : Nat → Table) (f : Array Table → Nat → 
     simp only [List.foldl_cons, List.foldl_nil]
     rw [show 1 + 1 * m = m + 1 by omega, hstep (m + 1) (by omega) (by omega), push_ofFn]
 
-theorem tEnum_eq : Tau.tEnum = (hRec 243 8 R2.cnt R2.T R2.PL).1 := by
-  have hpar : Tau.yEnum.2.1.size = R2.cnt := by rw [yEnum_eq, hRec_snd]; simp [hRec]
+theorem fst_mk3 {α β : Type} (a : α) (b : β) : (a, b).1 = a := rfl
+
+theorem tE_par : Tau.yEnum.2.1.size = R2.cnt := by rw [yEnum_eq, hRec_snd]; simp [hRec]
+
+theorem tE_step : ∀ k, 1 ≤ k → k < R2.cnt →
+    compT Ly243.deg (Array.ofFn (n := k) fun i => tabT (unpack 243 8 (R2.T i.val)))[Tau.yEnum.2.1[k]!]!
+      Ly243.txyTabs[Tau.yEnum.2.2[k]!]! = tabT (unpack 243 8 (R2.T k)) := by
+  intro k hk1 hk
+  obtain ⟨-, hs, -, -⟩ := penumPt_specH (r2_pe k hk)
+  obtain ⟨hp, hl, he, -⟩ := hs (by omega)
+  have ep : Tau.yEnum.2.1[k]! = parOf R2.PL k := by
+    rw [yEnum_eq, hRec_snd, getElem!_pos _ k (by simp [hRec]; omega)]
+    simp [hRec]
+  have el : Tau.yEnum.2.2[k]! = labOf R2.PL k := by
+    rw [yEnum_eq, hRec_snd, getElem!_pos _ k (by simp [hRec]; omega)]
+    simp [hRec]
+  rw [ep, el, getElem!_pos _ _ (by simp; exact hp), Array.getElem_ofFn, txy243T hl, he]
+  unfold stepK
+  rw [r2G _ hl]
+  exact (step_tab hid8 base8.2.1 (r2c (by omega)) (tc hl)).symm
+
+theorem tE_h0 : idT Ly243.deg = tabT (unpack 243 8 (R2.T 0)) := by
+  have hh := base8.2.2.2.2.2.2.2.2
+  unfold penumHdK at hh
+  simp only [bAnd_iff, Nat.beq_eq] at hh
+  rw [hh.2.2.1]
+  exact hid8
+
+theorem tE_replay : (List.range' 1 (R2.cnt - 1)).foldl (fun out k => out.push
+      (compT Ly243.deg out[Tau.yEnum.2.1[k]!]! Ly243.txyTabs[Tau.yEnum.2.2[k]!]!))
+      #[tabT (unpack 243 8 (R2.T 0))] =
+    Array.ofFn (n := R2.cnt) fun i => tabT (unpack 243 8 (R2.T i.val)) := by
   have hc2 := base8.2.2.2.2.2.2.2.1
-  have hstep : ∀ k, 1 ≤ k → k < R2.cnt →
-      compT Ly243.deg (Array.ofFn (n := k) fun i => tabT (unpack 243 8 (R2.T i.val)))[Tau.yEnum.2.1[k]!]!
-        Ly243.txyTabs[Tau.yEnum.2.2[k]!]! = tabT (unpack 243 8 (R2.T k)) := by
-    intro k hk1 hk
-    obtain ⟨-, hs, -, -⟩ := penumPt_specH (r2_pe k hk)
-    obtain ⟨hp, hl, he, -⟩ := hs (by omega)
-    have ep : Tau.yEnum.2.1[k]! = parOf R2.PL k := by
-      rw [yEnum_eq, hRec_snd, getElem!_pos _ k (by simp [hRec]; omega)]
-      simp [hRec]
-    have el : Tau.yEnum.2.2[k]! = labOf R2.PL k := by
-      rw [yEnum_eq, hRec_snd, getElem!_pos _ k (by simp [hRec]; omega)]
-      simp [hRec]
-    rw [ep, el, getElem!_pos _ _ (by simp; exact hp), Array.getElem_ofFn, txy243T hl, he]
-    unfold stepK
-    rw [r2G _ hl]
-    exact (step_tab hid8 base8.2.1 (r2c (by omega)) (tc hl)).symm
-  unfold Tau.tEnum
-  simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
-    Nat.add_sub_cancel, Nat.div_one, List.forIn_pure_yield_eq_foldl]
-  rw [hpar]
-  have h0 : idT Ly243.deg = tabT (unpack 243 8 (R2.T 0)) := by
-    have hh := base8.2.2.2.2.2.2.2.2
-    unfold penumHdK at hh
-    simp only [bAnd_iff, Nat.beq_eq] at hh
-    rw [hh.2.2.1]
-    exact hid8
-  rw [h0]
   have := replay_foldl (N := R2.cnt) (fun i => tabT (unpack 243 8 (R2.T i)))
     (fun out k => compT Ly243.deg out[Tau.yEnum.2.1[k]!]! Ly243.txyTabs[Tau.yEnum.2.2[k]!]!)
-    hstep (R2.cnt - 1) (by omega)
+    tE_step (R2.cnt - 1) (by omega)
   rw [show R2.cnt - 1 + 1 = R2.cnt by omega] at this
-  simp only [pure_bind]
   exact this
+
+theorem tEnum_gen (y : Array Table × Array Nat × Array Nat) (T : Array Table) (d : Nat) :
+    (Id.run do
+      let par := y.2.1
+      let lab := y.2.2
+      let mut out : Array Table := #[idT d]
+      for k in [1:par.size] do
+        out := out.push (compT d out[par[k]!]! T[lab[k]!]!)
+      return out) =
+    (List.range' 1 (y.2.1.size - 1)).foldl (fun out k => out.push
+      (compT d out[y.2.1[k]!]! T[y.2.2[k]!]!)) #[idT d] := by
+  simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
+    Nat.add_sub_cancel, Nat.div_one, List.forIn_pure_yield_eq_foldl, pure_bind]
+  try rfl
+
+theorem tEnum_eq1 : Tau.tEnum = (List.range' 1 (Tau.yEnum.2.1.size - 1)).foldl (fun out k =>
+    out.push (compT Ly243.deg out[Tau.yEnum.2.1[k]!]! Ly243.txyTabs[Tau.yEnum.2.2[k]!]!))
+      #[idT Ly243.deg] := by
+  unfold Tau.tEnum
+  exact tEnum_gen Tau.yEnum Ly243.txyTabs Ly243.deg
+
+theorem tE_pA : Tau.tEnum = (List.range' 1 (R2.cnt - 1)).foldl (fun out k =>
+    out.push (compT Ly243.deg out[Tau.yEnum.2.1[k]!]! Ly243.txyTabs[Tau.yEnum.2.2[k]!]!))
+      #[idT Ly243.deg] := by
+  rw [tEnum_eq1, tE_par]
+
+theorem tE_pB : Tau.tEnum = (List.range' 1 (R2.cnt - 1)).foldl (fun out k =>
+    out.push (compT Ly243.deg out[Tau.yEnum.2.1[k]!]! Ly243.txyTabs[Tau.yEnum.2.2[k]!]!))
+      #[tabT (unpack 243 8 (R2.T 0))] := by
+  rw [tE_pA, tE_h0]
+
+theorem tE_pC : Tau.tEnum = Array.ofFn (n := R2.cnt) fun i => tabT (unpack 243 8 (R2.T i.val)) :=
+  tE_pB.trans tE_replay
+
+theorem tE_pD : (hRec 243 8 R2.cnt R2.T R2.PL).1 =
+    Array.ofFn (n := R2.cnt) fun i => tabT (unpack 243 8 (R2.T i.val)) := by
+  rw [hRec, fst_mk3]
+
+theorem tEnum_eq : Tau.tEnum = (hRec 243 8 R2.cnt R2.T R2.PL).1 :=
+  tE_pC.trans tE_pD.symm
 
 theorem getD_foldl_notin (l : List (UInt64 × Nat)) (m : Std.HashMap UInt64 Nat) (a : UInt64)
     (h : ∀ p ∈ l, p.1 ≠ a) : (l.foldl (fun m p => m.insert p.1 p.2) m).getD a 0 = m.getD a 0 := by

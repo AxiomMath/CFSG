@@ -72,7 +72,7 @@ theorem rankTwoGen_of_facts (hp : D.p.Prime)
       apply hmodf m hm
       simp only [RMod.facts, List.mem_append]
       exact Or.inl hf
-    let DS := NMod.spec Sp hC' m.nm hf hwfm
+    let DS := NMod.specN Sp hC' m.nm hf hwfm
     have hDSn : DS.n = m.nm.basis.length := rfl
     refine ⟨DS, by rw [hDSn]; exact hrank, ?_, ?_⟩
     ·

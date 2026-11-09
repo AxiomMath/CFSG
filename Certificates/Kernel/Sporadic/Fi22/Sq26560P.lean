@@ -9,8 +9,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Fi22Sq26560I
-  "Certificates/Kernel/Sporadic/Fi22/data/pc26560i.json.gz" 202896 16922551273433244093
+#kc_repo #kc_json CertificateChecks.KernelSpor.Fi22Sq26560I
+  "Certificates/Kernel/Sporadic/Fi22/data/pc26560i.json" 202896 16922551273433244093
   (XI : List Nat)
 
 namespace CertificateChecks.KernelSpor.Fi22Sq26560

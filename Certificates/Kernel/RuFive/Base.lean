@@ -237,12 +237,13 @@ theorem hF : ∀ x ∈ ruP, ∀ y ∈ ruP, (x ∈ ruP ↔ y ∈ ruP) →
   exact (inv_mul_eq_one.1 h1).symm
 
 theorem hmul : ∀ a ∈ ruP, ∀ b ∈ ruP, (a * b ∈ ruP ↔ (a ∈ ruP ↔ b ∈ ruP)) :=
-  fun a ha b hb => iff_of_true (ruP.mul_mem ha hb) (iff_of_true ha hb)
+  fun _ ha _ hb => iff_of_true (ruP.mul_mem ha hb) (iff_of_true ha hb)
 
 end Ru
 
 theorem arr_eq (k : Nat) (hk : k < 75) : ruFiveArr k = unpack 4060 12 (F k) := by
-  have h := hexTable3_sound CertificateChecks.KernelMisc.RuFive.RG.all k hk
+  have h := CFSG.KC.Misc.HexFlat.hexTable_sound_rowsD (by decide) (by decide)
+    CertificateChecks.KernelMisc.RuFive.RG.rows k hk
   rw [← CertificateChecks.KernelMisc.RuFive.RG.eq] at h
   rw [ruFiveArr]
   exact h
@@ -250,7 +251,7 @@ theorem arr_eq (k : Nat) (hk : k < 75) : ruFiveArr k = unpack 4060 12 (F k) := b
 theorem perm_k (k : Nat) (hk : k < 75) :
     permOK 4060 12 (mask 12) (4060 * 12) (F k) (AI k) = true := Orb.allN_iff.1 kPermF k hk
 
-@[expose] noncomputable def gp (k : Nat) : Equiv.Perm (Fin 4060) :=
+noncomputable def gp (k : Nat) : Equiv.Perm (Fin 4060) :=
   permOfArr 4060 (unpack 4060 12 (F k))
 
 theorem rep_gp (k : Nat) (hk : k < 75) : Rep 4060 (unpack 4060 12 (F k)) (gp k) :=
@@ -264,15 +265,8 @@ theorem repF_pa (k : Nat) (hk : k < 75) : RepF 4060 (pa k) (gp k) := repF_of_rep
 theorem repF_pi (k : Nat) (hk : k < 75) : RepF 4060 (pi k) (gp k)⁻¹ := repF_of_rep (rep_gpi k hk)
 
 theorem word_k (k : Nat) (hk : k < 75) :
-    wordEqK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI 8 (wd k) (F k) = true := by
-  have hc : k / 20 < 4 := by omega
-  have h : wordB (k / 20) = true := WB.all _ hc
-  unfold wordB at h
-  have h2 := Orb.allN_iff.1 h (k % 20) (Nat.mod_lt _ (by norm_num))
-  have e : Nat.add (Nat.mul 20 (k / 20)) (k % 20) = k := Nat.div_add_mod k 20
-  simp only [e] at h2
-  rw [show Nat.blt k 75 = true from Nat.blt_eq.mpr hk] at h2
-  exact h2
+    wordEqK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI 8 (wd k) (F k) = true :=
+  kWord k hk
 
 section Mem
 

@@ -79,14 +79,51 @@ theorem unequalResidue_trace_zero_square_bound
     (Nat.pow_le_pow_iff_right (by decide : 1 < 2)).mp hcard
   omega
 
+@[expose] def unequalOddLift (b : Bool) : ZMod 4 := if b then 3 else 1
+
+@[expose] def unequalEvenLift (b : Bool) : ZMod 4 := if b then 2 else 0
+
+theorem unequalOddLift_surjective : ∀ x : ZMod 4, x.val % 2 = 1 → ∃ b, unequalOddLift b = x := by
+  decide
+
+theorem unequalEvenLift_surjective : ∀ x : ZMod 4, x.val % 2 = 0 → ∃ b, unequalEvenLift b = x := by
+  decide
+
+theorem unequalEvenLift_twist : ∀ x : ZMod 4, (x = 0 ∨ x = 2) → ∃ b, unequalEvenLift b = x := by
+  decide
+
+@[expose] def unequalLiftU (t a b c d : Bool) : ResidualRing (unequalEvenLift t) :=
+  ((unequalOddLift a, unequalOddLift b), (unequalEvenLift c, unequalOddLift d))
+
+@[expose] def unequalLiftV (t e f g h : Bool) : ResidualRing (unequalEvenLift t) :=
+  ((unequalOddLift e, unequalEvenLift f), (unequalOddLift g, unequalOddLift h))
+
 set_option maxRecDepth 10000 in
+theorem unequalResidualRing_outer_relations_lifted :
+    ∀ t a b c d e f g h : Bool,
+      unequalLiftU t a b c d ^ 2 ≠ 1 ∨ unequalLiftV t e f g h ^ 2 ≠ 1 ∨
+        unequalLiftU t a b c d * unequalLiftV t e f g h ≠
+          unequalLiftV t e f g h * unequalLiftU t a b c d := by
+  decide +kernel
+
 theorem unequalResidualRing_outer_relations_nonzero :
     ∀ (twist : ZMod 4) (u v : ResidualRing twist),
       (twist = 0 ∨ twist = 2) →
       (u.1.1.val % 2 = 1 ∧ u.1.2.val % 2 = 1 ∧ u.2.1.val % 2 = 0 ∧ u.2.2.val % 2 = 1) →
       (v.1.1.val % 2 = 1 ∧ v.1.2.val % 2 = 0 ∧ v.2.1.val % 2 = 1 ∧ v.2.2.val % 2 = 1) →
       u ^ 2 ≠ 1 ∨ v ^ 2 ≠ 1 ∨ u * v ≠ v * u := by
-  decide +kernel
+  rintro twist ⟨⟨u₁, u₂⟩, ⟨u₃, u₄⟩⟩ ⟨⟨v₁, v₂⟩, ⟨v₃, v₄⟩⟩ htwist ⟨hu₁, hu₂, hu₃, hu₄⟩
+    ⟨hv₁, hv₂, hv₃, hv₄⟩
+  obtain ⟨t, rfl⟩ := unequalEvenLift_twist twist htwist
+  obtain ⟨a, rfl⟩ := unequalOddLift_surjective u₁ hu₁
+  obtain ⟨b, rfl⟩ := unequalOddLift_surjective u₂ hu₂
+  obtain ⟨c, rfl⟩ := unequalEvenLift_surjective u₃ hu₃
+  obtain ⟨d, rfl⟩ := unequalOddLift_surjective u₄ hu₄
+  obtain ⟨e, rfl⟩ := unequalOddLift_surjective v₁ hv₁
+  obtain ⟨f, rfl⟩ := unequalEvenLift_surjective v₂ hv₂
+  obtain ⟨g, rfl⟩ := unequalOddLift_surjective v₃ hv₃
+  obtain ⟨h, rfl⟩ := unequalOddLift_surjective v₄ hv₄
+  exact unequalResidualRing_outer_relations_lifted t a b c d e f g h
 
 @[expose] def unequalResidueUnitOffHom : (RankTwoBinaryResidue 0)ˣ →* Multiplicative (ZMod 2 × ZMod 2) where
   toFun j := Multiplicative.ofAdd (j.val.1.2, j.val.2.1)

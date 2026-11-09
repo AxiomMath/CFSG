@@ -6,6 +6,7 @@ public import Certificates.Data.Kernel.SporSch.HNF5Rank
 public import CFSG.Sporadic.HNOddCore.RkCheckInputs
 meta import CFSG.Sporadic.HNOddCore.RkCheckInputs
 meta import CFSG.Sporadic.HNOddCore.RankData
+public meta import Certificates.Data.Kernel.SporSch.HNStrongData
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -34,14 +35,9 @@ meta def letR (l : Int) : Nat := if 0 < l then l.toNat - 1 else 16 + (-l).toNat
 
 meta def build : List (Array (Array Nat)) × List (Nat × Nat × Nat) := Id.run do
   let m := mulM 5 133
-  let st := CertificateChecks.KernelSporSch.HNStrong.mats.toArray
-  let mut M : Array (Array (Array Nat)) := #[]
+  let mut M : Array (Array (Array Nat)) := CFSG.KS.SporSch.hnStrongRows
   let mut sp : Array (Nat × Nat × Nat) := #[]
-  for j in [0:17] do
-    M := M.push st[13 + j]!
-    sp := sp.push (2, 0, 0)
-  for j in [0:17] do
-    M := M.push st[30 + j]!
+  for _ in [0:34] do
     sp := sp.push (2, 0, 0)
   let mut ends : Array Nat := #[]
   for w0 in [InvData.t2Word, InvData.t4Word] do
@@ -79,9 +75,26 @@ meta def build : List (Array (Array Nat)) × List (Nat × Nat × Nat) := Id.run 
     sp := sp.push (0, b + 7, b + 2)
   return (M.toList, sp.toList)
 
+meta def specOnly : List (Nat × Nat × Nat) := Id.run do
+  let mut sp : Array (Nat × Nat × Nat) := #[]
+  for _ in [0:34] do
+    sp := sp.push (2, 0, 0)
+  for w0 in [InvData.t2Word, InvData.t4Word] do
+    let w := w0.reverse
+    sp := sp.push (1, letR w[0]!, 0)
+    for l in w.drop 1 do
+      sp := sp.push (0, letR l, sp.size - 1)
+  sp := sp.push (2, 0, 0)
+  for _ in [0:3] do
+    let b := sp.size
+    for _ in [0:5] do
+      sp := sp.push (2, 0, 0)
+    sp := sp ++ #[(0, b, b + 1), (0, b + 2, b + 3), (0, b, b + 4), (0, b + 7, b + 2)]
+  return sp.toList
+
 meta def mats : List (Array (Array Nat)) := build.1
 
-meta def spec : List (Nat × Nat × Nat) := build.2
+meta def spec : List (Nat × Nat × Nat) := specOnly
 
 end CertificateChecks.KernelSpor.HN2090
 

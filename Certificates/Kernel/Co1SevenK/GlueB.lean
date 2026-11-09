@@ -100,7 +100,7 @@ theorem cenB : Nat.card (Subgroup.centralizer ({tE} : Set ↥GA)) = 1176 ∧
   have h := kTB
   rw [MatL.bAnd_eq, Bool.and_eq_true] at h
   rw [← nB]
-  exact cen_tree h.2 rep_GB comm_GB (by rw [nB]; exact card_le_B)
+  exact cen_tree h.2 (by rw [nB]; decide) rep_GB comm_GB (by rw [nB]; exact card_le_B)
 
 theorem factsB : Nat.card (Subgroup.centralizer ({tE} : Set ↥GA)) = 1176 ∧
     gE 70 ∈ Subgroup.centralizer ({tE} : Set ↥GA) ∧

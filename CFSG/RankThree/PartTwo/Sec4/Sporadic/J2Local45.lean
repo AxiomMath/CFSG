@@ -484,9 +484,7 @@ theorem normalizer_V : normalizer ((VJ : Subgroup GJ) : Set GJ) = subOf gensNVAr
   apply le_antisymm
   · intro g hg
     have hv1 : g * v1J * g⁻¹ ∈ VJ := (mem_normalizer_iff.mp hg v1J).mp v1_mem_V
-    have hne : g * v1J * g⁻¹ ≠ 1 := fun h => v1_ne_one (by
-      have : g * v1J * g⁻¹ = g * 1 * g⁻¹ := by rw [h, mul_one, mul_inv_cancel]
-      exact mul_right_cancel (mul_left_cancel this))
+    have hne : g * v1J * g⁻¹ ≠ 1 := fun h => v1_ne_one (conj_eq_one_iff.mp h)
     rcases mem_kleinSub.1 hv1 with h | h | h | h
     · exact absurd h hne
     · apply hle

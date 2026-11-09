@@ -47,10 +47,26 @@ theorem kK3 : ∀ j < 2, heRK3 HRW HRI HeRC.S heRCentWords j = true := by
   | 0, _ => exact kK3_0
   | 1, _ => exact kK3_1
 
-theorem kK4 : heRK4 HeRC.S HeRC.SI (fun j => heRChainWords[j]!) = true := by quickRfl
+theorem kPS : allN 9 (fun j => permOK 8330 14 (mask 14) (8330 * 14) (HeRC.S j) (HeRC.SI j)) = true :=
+  (CFSG.KS.Raw.Orb.head_facts HeRC.head).1
 
-theorem kPS : allN 9 (fun j => permOK 8330 14 (mask 14) (8330 * 14) (HeRC.S j) (HeRC.SI j)) = true := by
-  quickRfl
+theorem kK4 : heRK4 HeRC.S HeRC.SI (fun j => heRChainWords[j]!) = true := by
+  have hD : ∀ j < 7, heRChainWords[2 + j]! = CFSG.KS.Raw.dword heRDerivs 2 (2 + j) := by
+    intro j hj
+    interval_cases j <;> rfl
+  have hW : allN 7 (fun j => wordEqK 8330 14 (mask 14) (pidn 8330 14) HeRC.S HeRC.SI (2 + j)
+      heRChainWords[2 + j]! (HeRC.S (2 + j))) = true := by
+    rw [CFSG.KS.Raw.Orb.allN_iff]
+    intro j hj
+    beta_reduce
+    rw [hD j hj]
+    exact CFSG.KS.Raw.Orb.wordEqK_of_headK HeRC.head (Nat.le_add_right 2 j)
+      (by omega : 2 + j < 9)
+  have hA : ∀ a b : Bool, a = true → b = true → CFSG.KLie.CT.andB a b = true := by
+    intro a b ha hb
+    rw [ha, hb]
+    rfl
+  exact hA _ _ kPS hW
 
 theorem kB : (Nat.beq heRChainBaseArr.size 3 &&
     allN 3 fun t => Nat.beq heRChainBaseArr[t]! (pg 14 (mask 14) HeRC.BP t)) = true := by quickRfl

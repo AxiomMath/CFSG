@@ -25,7 +25,8 @@ open CFSG.KC.Co1BBoundN CFSG.KC.Co1BBound CFSG.KC.Co1BSpin CFSG.KC.Co1B CFSG.KC.
   CFSG.Sporadic.Co1.InvNative
 open CertificateChecks.KernelCo1B.Bound17591 (XB)
 open CertificateChecks.KernelCo1B.Bound17330 (boundOK_of_sel not_of_notB mul_unpackW')
-open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_K bfsTree gensArr gtPinK)
+open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_bfsK bfsTree gensArr bfsK
+  gtStepK idM)
 
 theorem DF_base : [aR, bR] = (List.range 2).map fun i => CFSG.KS.Raw.unpack 24 24 (DF.M i) := by
   have h := kDFB
@@ -86,22 +87,26 @@ theorem side_parts {t f₁ f₂ f₃ nfix : Nat} (h : sideK t f₁ f₂ f₃ nfi
   · rw [CertificateChecks.KernelCo1B.xFix_eq rfl, beq_iff_eq]
     exact Nat.eq_of_beq_eq_true h3
 
-theorem kFA' : gtPinK FAM 2 100 FAT.N FAT.P FAT.PAR FAT.LAB FAT.W FAT.S = true ∧ FAT.N = 25 := by
+theorem kFA' : bfsK (gtStepK FAM) FAT.P FAT.PAR FAT.LAB FAT.W FAT.S 2 100 FAT.N idM = true ∧
+    FAT.N = 25 := by
   have h := kFA
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem kEA' : gtPinK EAM 3 400 EAT.N EAT.P EAT.PAR EAT.LAB EAT.W EAT.S = true ∧ EAT.N = 125 := by
+theorem kEA' : bfsK (gtStepK EAM) EAT.P EAT.PAR EAT.LAB EAT.W EAT.S 3 400 EAT.N idM = true ∧
+    EAT.N = 125 := by
   have h := kEA
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem kFB' : gtPinK FBM 2 100 FBT.N FBT.P FBT.PAR FBT.LAB FBT.W FBT.S = true ∧ FBT.N = 25 := by
+theorem kFB' : bfsK (gtStepK FBM) FBT.P FBT.PAR FBT.LAB FBT.W FBT.S 2 100 FBT.N idM = true ∧
+    FBT.N = 25 := by
   have h := kFB
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem kEB' : gtPinK EBM 3 400 EBT.N EBT.P EBT.PAR EBT.LAB EBT.W EBT.S = true ∧ EBT.N = 125 := by
+theorem kEB' : bfsK (gtStepK EBM) EBT.P EBT.PAR EBT.LAB EBT.W EBT.S 3 400 EBT.N idM = true ∧
+    EBT.N = 125 := by
   have h := kEB
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
@@ -193,8 +198,8 @@ theorem chunksB : ∀ n < 27,
 theorem sideA_ok : sideOK (nd (kDag ext5) 91) (nd (kDag ext5) 88) (nd (kDag ext5) 94)
     (nd (kDag ext5) 92) 2280 baseA condsA cntsA spanA combA = true := by
   obtain ⟨s1, s2, s3, s4, s5, s6, s7, s8, s9⟩ := side_parts kSideA
-  have gF := gtBFS_of_K kFA'.1
-  have gE := gtBFS_of_K kEA'.1
+  have gF := gtBFS_of_bfsK kFA'.1 (by rw [kFA'.2]; decide)
+  have gE := gtBFS_of_bfsK kEA'.1 (by rw [kEA'.2]; decide)
   rw [t_eq, k_eq, d_eq, c_eq]
   unfold sideOK
   simp only [Bool.and_eq_true, decide_eq_true_eq]
@@ -215,8 +220,8 @@ theorem sideA_ok : sideOK (nd (kDag ext5) 91) (nd (kDag ext5) 88) (nd (kDag ext5
 theorem sideB_ok : sideOK (nd (kDag ext5) 95) (nd (kDag ext5) 88) (nd (kDag ext5) 92)
     (nd (kDag ext5) 93) 0 baseB condsB cntsB spanB combB = true := by
   obtain ⟨s1, s2, s3, s4, s5, s6, s7, s8, s9⟩ := side_parts kSideB
-  have gF := gtBFS_of_K kFB'.1
-  have gE := gtBFS_of_K kEB'.1
+  have gF := gtBFS_of_bfsK kFB'.1 (by rw [kFB'.2]; decide)
+  have gE := gtBFS_of_bfsK kEB'.1 (by rw [kEB'.2]; decide)
   rw [x2_eq, k_eq, c_eq, c2_eq]
   unfold sideOK
   simp only [Bool.and_eq_true, decide_eq_true_eq]

@@ -50,17 +50,58 @@ theorem pairPre_of (x y : CV 11) (h : orderIsP (x * y) 11 [11] = true) : pairPre
   ((E.filter (orderIsP · 2 [2]) ×ˢ E.filter (orderIsP · 4 [2])).filter
     fun q => pairPre q.1 q.2 && pairQ q.1 q.2).length
 
+theorem pairPQ_eq (x y : CV 11) : (pairPre x y && pairQ x y) =
+    (orderIsP (x * y) 11 [11] && orderIsP (x * y * x⁻¹ * y⁻¹) 6 [2, 3] &&
+      orderIsP (x * y * x * y⁻¹ * x * y * y) 5 [5]) := by
+  simp only [pairQ, orderQ_eq]
+  cases e : orderIsP (x * y) 11 [11]
+  · simp only [Bool.false_and, Bool.and_false]
+  · rw [pairPre_of x y e, Bool.true_and]
+
 theorem pairCntQ_eq : pairCntQ = pairCntC := by
-  have h : ∀ q : CV 11 × CV 11, (pairPre q.1 q.2 && pairQ q.1 q.2) =
-      (orderIsP (q.1 * q.2) 11 [11] && orderIsP (q.1 * q.2 * q.1⁻¹ * q.2⁻¹) 6 [2, 3] &&
-        orderIsP (q.1 * q.2 * q.1 * q.2⁻¹ * q.1 * q.2 * q.2) 5 [5]) := by
-    intro q
-    simp only [pairQ, orderQ_eq]
-    cases e : orderIsP (q.1 * q.2) 11 [11]
-    · simp only [Bool.false_and, Bool.and_false]
-    · rw [pairPre_of q.1 q.2 e, Bool.true_and]
   rw [pairCntQ, pairCntC]
-  exact congrArg List.length (List.filter_congr fun q _ => h q)
+  exact congrArg List.length (List.filter_congr fun q _ => pairPQ_eq q.1 q.2)
+
+@[expose] def pickGaps {α : Type*} : List α → List Nat → List α
+  | _, [] => []
+  | l, d :: ds => match l.drop d with
+    | [] => []
+    | a :: r => a :: pickGaps r ds
+
+theorem mem_pickGaps {α : Type*} {l : List α} {ds : List Nat} {a : α} (h : a ∈ pickGaps l ds) :
+    a ∈ l := by
+  induction ds generalizing l with
+  | nil => simp [pickGaps] at h
+  | cons d ds ih =>
+    rw [pickGaps] at h
+    split at h
+    · simp at h
+    · rename_i b r hr
+      have hsub : b :: r ⊆ l := hr ▸ List.drop_subset d l
+      rcases List.mem_cons.1 h with rfl | h
+      · exact hsub List.mem_cons_self
+      · exact hsub (List.mem_cons_of_mem _ (ih h))
+
+@[expose] def m11ConjD : List Nat :=
+  [0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 15, 7, 7, 7, 7, 7, 7, 23, 7, 7, 7, 7, 7, 7, 7, 15, 7, 15, 7, 15,
+    7, 15, 15, 7, 15, 15, 15, 15, 31, 7, 47, 7, 31, 7, 95, 95, 7, 7, 7, 7, 7, 7, 15, 7, 15, 7, 7, 7,
+    7, 7, 31, 7, 15, 7, 7, 7, 7, 15, 7, 15, 23, 7, 15, 23, 15, 15, 31, 31, 7, 55, 135, 103, 7, 7, 7,
+    7, 15, 7, 23, 7, 7, 15, 7, 7, 23, 15, 7, 15, 7, 23, 23, 7, 15, 39, 7, 15, 175, 7, 95, 95, 7, 7,
+    7, 23, 15, 7, 15, 7, 15, 15, 31, 7, 23, 7, 159, 31, 31, 7, 55, 135, 103, 7, 7, 7, 31, 23, 7, 7,
+    23, 31, 23, 15, 31, 23, 367, 183, 15, 7, 15, 55, 7, 7, 31, 7, 183, 455, 23, 15, 31, 23, 367, 95,
+    63, 423, 559]
+
+@[expose] noncomputable def m11X0 : CV 11 := E.getD 1 1
+
+@[expose] noncomputable def m11ConjT : List (CV 11) := pickGaps E m11ConjD
+
+@[expose] noncomputable def m11ConjJ : List (CV 11) := m11ConjT.map fun g => g * m11X0 * g⁻¹
+
+@[expose] noncomputable def m11ConjOK : Bool :=
+  (E.filter (orderIsP · 2 [2])).all fun x => decide (x ∈ m11ConjJ)
+
+@[expose] noncomputable def m11FixCnt : Nat :=
+  ((E.filter (orderIsP · 4 [2])).filter fun y => pairPre m11X0 y && pairQ m11X0 y).length
 
 end CFSG.Certificates.Kernel.PkCV.M11B
 

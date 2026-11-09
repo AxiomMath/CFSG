@@ -124,6 +124,10 @@ private theorem suzE0_facts :
     rw [he] at hncD
     exact Bool.noConfusion hncD
 
+private theorem arr2_get0 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[0]! = a := rfl
+
+private theorem arr2_get1 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[1]! = b := rfl
+
 private theorem suzK_facts :
     suzK ≤ suzM ∧ (∀ k ∈ suzK, k * suzInv 0 = suzInv 0 * k) ∧ ⁅suzK, suzK⁆ = suzK ∧
       Nat.card suzK = 20160 := by
@@ -132,13 +136,17 @@ private theorem suzK_facts :
   have hS2 : ∀ h < 2, Rep 1782 suzArrAB[h]! (gs2 h) := by
     intro h hh
     interval_cases h
-    · exact hRA
-    · exact hRB
+    · rw [suzArrAB, arr2_get0]
+      exact hRA
+    · rw [suzArrAB, arr2_get1]
+      exact hRB
   have hS2i : ∀ h < 2, Rep 1782 suzArrABi[h]! (gs2 h)⁻¹ := by
     intro h hh
     interval_cases h
-    · exact hRAi
-    · exact hRBi
+    · rw [suzArrABi, arr2_get0]
+      exact hRAi
+    · rw [suzArrABi, arr2_get1]
+      exact hRBi
   obtain ⟨ev, hev, hevK⟩ : ∃ ev : List ℤ → Equiv.Perm (Fin 1782),
       (∀ w, lettersOK 2 w = true → Rep 1782 (suzArrWord w) (ev w)) ∧
         ∀ w, ev w ∈ suzK := by
@@ -201,13 +209,13 @@ private theorem suzK_facts :
     have hE : Enumerates suzK (enumOf 1782 suzArrAB 20160).tabs.toList := by
       refine enumerates_closure ?_ ?_ hgenK
       · rintro a (rfl | rfl)
-        · exact ⟨0, by simp [suzArrAB], hTA⟩
-        · exact ⟨1, by simp [suzArrAB], hTB⟩
+        · exact ⟨0, by simp [suzArrAB], by rw [suzArrAB, arr2_get0]; exact hTA⟩
+        · exact ⟨1, by simp [suzArrAB], by rw [suzArrAB, arr2_get1]; exact hTB⟩
       · intro j hj
         have hj2 : j < 2 := by simpa [suzArrAB] using hj
         interval_cases j
-        · exact ⟨suzWord suzWordA, Or.inl rfl, hTA⟩
-        · exact ⟨suzWord suzWordB, Or.inr rfl, hTB⟩
+        · exact ⟨suzWord suzWordA, Or.inl rfl, by rw [suzArrAB, arr2_get0]; exact hTA⟩
+        · exact ⟨suzWord suzWordB, Or.inr rfl, by rw [suzArrAB, arr2_get1]; exact hTB⟩
     rw [hE.card, Array.length_toList, hsize]
 
 

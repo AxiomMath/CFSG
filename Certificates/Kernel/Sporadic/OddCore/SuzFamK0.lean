@@ -13,6 +13,6 @@ namespace CertificateChecks.KernelSpor.SuzFamD
 end CertificateChecks.KernelSpor.SuzFamD
 
 #kss_each CertificateChecks.KernelSpor.SuzFamD.FP0 CertificateChecks.KernelSpor.SuzFamD.fPart0 14
-#kss_each CertificateChecks.KernelSpor.SuzFamD.IP CertificateChecks.KernelSpor.SuzFamD.incSl 2
+#kss_each CertificateChecks.KernelSpor.SuzFamD.IP CertificateChecks.KernelSpor.SuzFamD.incSl2 2
 
 end

@@ -31,7 +31,36 @@ theorem wordWK_eq (M MI : Nat → Nat) (w : List Nat) :
   | nil => rfl
   | cons c w ih => exact (strictN_eq _ _).trans (ih _)
 
-theorem wordW_unpack {M MI : Nat → Nat} {k : Nat} (w : List Nat) (a : Nat)
+theorem wordPWK_eq (A B : Nat) (w : List Nat) :
+    wordPWK A B w =
+      w.foldl (fun acc j => CFSG.KC.Co1B.mulWK acc (nIf(Nat.beq j (nat_lit 1), A, B))) idM := by
+  unfold wordPWK
+  generalize idM = a
+  induction w generalizing a with
+  | nil => rfl
+  | cons j w ih => exact (strictN_eq _ _).trans (ih _)
+
+theorem wordEqWK_sound {A B R : Nat} {w : List Nat} (h : wordEqWK A B w R = true)
+    (is : List Rows) :
+    word [unpack 24 24 A, unpack 24 24 B] is (w.map Int.ofNat) = unpack 24 24 R := by
+  obtain ⟨hp, hR⟩ := MatS.bAnd_split h
+  obtain rfl := Nat.eq_of_beq_eq_true hR
+  have hpos := MatS.posK_spec hp
+  unfold word
+  rw [List.foldl_map, ← unpack_idM, wordPWK_eq]
+  clear h hp hR
+  generalize idM = a
+  induction w generalizing a with
+  | nil => rfl
+  | cons j w ih =>
+    rw [List.foldl_cons, List.foldl_cons]
+    have hj : letter [unpack 24 24 A, unpack 24 24 B] is (Int.ofNat j) =
+        unpack 24 24 (nIf(Nat.beq j (nat_lit 1), A, B)) := by
+      rcases hpos j (by simp) with rfl | rfl <;> simp [letter, nIf_eq]
+    rw [hj, mul_unpackW]
+    exact ih (fun j' hj' => hpos j' (List.mem_cons_of_mem j hj')) _
+
+theorem wordW_unpack{M MI : Nat → Nat} {k : Nat} (w : List Nat) (a : Nat)
     (hl : ∀ c ∈ w, 2 ≤ c ∧ c / 2 - 1 < k) :
     w.foldl (fun A c => mul A (letter (rowsL M k) (rowsL MI k) (decLetter c))) (unpack 24 24 a) =
       unpack 24 24 (w.foldl (fun acc c => CFSG.KC.Co1B.mulWK acc (letterK M MI c)) a) := by

@@ -2,16 +2,16 @@ module
 
 public import Certificates.Data.Kernel.TcRes.C3
 public import Certificates.Kernel.TcRes.C2MovedData
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.TcRes.C3 "Certificates/Kernel/TcRes/data/c3.bin.gz"
+#kc_repo #kc_nat_items CFSG.KD.TcRes.C3 "Certificates/Kernel/TcRes/data/c3.bin"
   2952 9101851116379602981 TG[3] PG[3] ZL COLS XM DD SG KE REPS CM[12] LC[13] LP[13]
 
-#kc_repo #kc_ktree_gz CFSG.KD.TcRes.C3 LF "Certificates/Kernel/TcRes/data/c3tree.bin.gz"
+#kc_repo #kc_ktree CFSG.KD.TcRes.C3 LF "Certificates/Kernel/TcRes/data/c3tree.bin"
   320 4 38400 34109054361760600
 
 #kc_select CFSG.KD.TcRes.C3 TGs TG 3

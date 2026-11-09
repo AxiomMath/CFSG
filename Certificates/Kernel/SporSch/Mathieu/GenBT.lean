@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.SporSch.Mathieu.Gen
 public import CFSG.Certificates.Kernel.SporSch.MathieuBTSound
+public import CFSG.Certificates.Kernel.SporSch.ChainKClassLow
 public meta import Certificates.Kernel.SporSch.Mathieu.Gen
 public import CFSG.Certificates.Kernel.SporSch.MathieuOCSound
 
@@ -17,13 +18,36 @@ meta def parseHint (n : Nat) (s : String) : Except String (Array (Array Nat × N
   let mut out := #[]
   for ln in s.splitOn "\n" do
     let ws := (ln.splitOn " ").filter (· ≠ "")
-    if ws.isEmpty then continue
+    if ws.isEmpty || ws.head! == "g" then continue
     let vs ← ws.mapM fun t => match t.toNat? with
       | some v => pure v
       | none => throw s!"parseHint: bad token {t}"
     if vs.length != n + 1 then throw s!"parseHint: line of {vs.length} entries"
     out := out.push ((vs.take n).toArray, vs.getLast!)
   return out
+
+meta def hintGens (s : String) : Array (Array Nat) :=
+  (s.splitOn "\n").foldl (fun acc ln =>
+    let ws := (ln.splitOn " ").filter (· ≠ "")
+    if !ws.isEmpty && ws.head! == "g" then acc.push (ws.tail.map String.toNat!).toArray
+    else acc) #[]
+
+meta def btConj (w cap : Nat) (gens : Array (Array Nat)) (X : Array Nat) :
+    Array (Nat × Nat) := Id.run do
+  let gi := gens.map invA
+  let mut bl : Array (Array Nat × Array Nat) := #[(idA X.size, X)]
+  let mut seen : Std.HashSet Nat := (∅ : Std.HashSet Nat).insert (pack w X)
+  let mut h := 0
+  while h < bl.size do
+    if bl.size > cap then return #[]
+    let (g, Y) := bl[h]!
+    for j in [0:gens.size] do
+      let Z := comp gens[j]! (comp Y gi[j]!)
+      if !seen.contains (pack w Z) then
+        seen := seen.insert (pack w Z)
+        bl := bl.push (comp gens[j]! g, Z)
+    h := h + 1
+  return bl.map fun p => (pack w p.1, pack w p.2)
 
 meta def evalStr (id : Ident) : CommandElabM String := do
   let nm ← liftCoreM <| realizeGlobalConstNoOverload id
@@ -90,16 +114,38 @@ elab "#kss_bt " pre:ident qq:ident nn:num ww:num kk:num hId:ident : command => d
   let len := reps.size
   let rN := fun (i : Nat) => P ++ Name.mkSimple s!"r{i}"
   let dN := fun (i j : Nat) => P ++ Name.mkSimple s!"d{i}_{j}"
+  let gens := hintGens (← evalStr hId)
+  let cj : Array (Array (Nat × Nat)) := reps.map fun p =>
+    if gens.isEmpty then #[] else btConj w 64 gens p.1
+  let prodT := mkApp2 (mkConst ``Prod [0, 0]) natT natT
+  let plT := mkApp (mkConst ``List [0]) prodT
+  let cjE := cj.foldr (fun r acc => mkApp3 (mkConst ``List.cons [0]) plT
+    (r.foldr (fun q acc' => mkApp3 (mkConst ``List.cons [0]) prodT
+      (pairE natT (lit q.1) (lit q.2)) acc') (mkApp (mkConst ``List.nil [0]) prodT)) acc)
+    (mkApp (mkConst ``List.nil [0]) plT)
+  let lowT := fun (iE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.SporSch.MOC.conjLowK)
+    #[nE, wE, mkConst (Q ++ `LR), mkConst (Q ++ `TRI), mkConst (Q ++ `BP), lit k,
+      mkApp2 (mkConst ``CFSG.KS.SporSch.MOC.ordK) (mkConst (Q ++ `LR)) (lit k), getD XL iE,
+      getD CL iE, mkAppN (mkConst ``List.getD [0]) #[plT, mkConst (P ++ `CJ), iE,
+        mkApp (mkConst ``List.nil [0]) prodT]])
+  let anyLow := cj.any (!·.isEmpty)
+  let rowT := fun (iE : Expr) =>
+    if anyLow then mkApp2 (mkConst ``Or) (repT iE) (lowT iE) else repT iE
   withSync do
     addDef (P ++ `XL) listT (listE (reps.map fun p => pack w p.1).toList)
     addDef (P ++ `CL) listT (listE (reps.map fun p => p.2).toList)
+    if anyLow then addDef (P ++ `CJ) (mkApp (mkConst ``List [0]) plT) cjE
     for i in [0:len] do
       let nm := P ++ Name.mkSimple s!"r{i}"
-      addThm nm (repT (lit i)) reflBoolTrue
-    let pR := mkLambda `i .default natT (repT (mkBVar 0))
+      addThm nm (if cj[i]!.isEmpty then repT (lit i) else lowT (lit i)) reflBoolTrue
+    let pR := mkLambda `i .default natT (rowT (mkBVar 0))
     let hrT := mkForall `i .default natT (mkForall `h .default (ltE (mkBVar 0) (lit len))
-      (repT (mkBVar 1)))
-    let hrV := forallChain pR len fun i => mkConst (rN i)
+      (rowT (mkBVar 1)))
+    let hrV := forallChain pR len fun i =>
+      if !anyLow then mkConst (rN i)
+      else if cj[i]!.isEmpty then
+        mkApp3 (mkConst ``Or.inl) (repT (lit i)) (lowT (lit i)) (mkConst (rN i))
+      else mkApp3 (mkConst ``Or.inr) (repT (lit i)) (lowT (lit i)) (mkConst (rN i))
     addThm (P ++ `hr) hrT hrV
     for i in [0:len] do
       for j in [0:i] do

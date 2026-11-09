@@ -54,7 +54,7 @@ theorem otB : (m24OtK.map (fun o => o.lbl.size) ==
 theorem facts : M24DcFacts :=
   ⟨dc_ok, eq_of_beq tabsB, tabs, invs, eq_of_beq sepB, mws, eq_of_beq mw0B,
     Nat.eq_of_beq_eq_true mwLenB, mems, ots, fix, move, top, eq_of_beq omB,
-    eq_of_beq otB⟩
+    eq_of_beq otB, l0⟩
 
 end CFSG.KD.M24Dc
 

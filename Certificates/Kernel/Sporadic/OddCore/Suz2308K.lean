@@ -20,9 +20,6 @@ open CFSG.Sporadic.SuzOddCore CFSG.KC.Enum CFSG.KS CFSG.KS.Row CFSG.KS.Prim CFSG
 open CFSG.KS.Raw CFSG.KS.Mathieu CertificateChecks.KernelSpor
 @[expose] noncomputable def notB (a : Bool) : Bool := Bool.rec true false a
 
-@[expose] noncomputable def allR (lo len : Nat) (f : Nat → Bool) : Bool :=
-  allN len (fun d => f (Nat.add lo d))
-
 @[expose] noncomputable def rl (F : Nat → Nat) (o x : Nat) : Nat := rg 15 (mask 15) F o x
 
 @[expose] noncomputable def o2 (f g : Nat → Nat) (x : Nat) : Nat := strictN (g x) f
@@ -32,92 +29,68 @@ open CFSG.KS.Raw CFSG.KS.Mathieu CertificateChecks.KernelSpor
 
 @[expose] noncomputable def ofs (j : Nat) : Nat := Nat.mul 715 j
 @[expose] noncomputable def ocs (h : Nat) : Nat := Nat.mul 715 (Nat.add h 2)
-@[expose] noncomputable def fx (j x : Nat) : Nat := rl S2308FX (ofs j) x
-@[expose] noncomputable def tx (a x : Nat) : Nat := rl S2308TX (ofs a) x
-@[expose] noncomputable def wx (x : Nat) : Nat := rl S2308WX 0 x
-@[expose] noncomputable def zx (x : Nat) : Nat := rl S2308ZX 0 x
-@[expose] noncomputable def gx (x : Nat) : Nat := rl S2308GX 0 x
-@[expose] noncomputable def gxi (x : Nat) : Nat := rl S2308GXI 0 x
 @[expose] noncomputable def cgk (k x : Nat) : Nat := rl SuzCertT.F (ofs k) x
 @[expose] noncomputable def ci (k x : Nat) : Nat := rl SuzCertI (ofs k) x
 @[expose] noncomputable def cf (r x : Nat) : Nat := rl SuzCenR (ofs r) x
+@[expose] noncomputable def zx (x : Nat) : Nat := cf 1 x
 @[expose] noncomputable def ld (i : Nat) : Nat := pg 15 (mask 15) (SuzLocT.F 0) i
 
-@[expose] noncomputable def wpF (wd : List Int) (x : Nat) : Nat :=
-  rwordPt 15 (mask 15) S2308FX S2308FXI ofs wd x
+@[expose] noncomputable def rwG (f g : Nat → Nat → Nat) (wd : List Int) : Nat → Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun x => x)
+    (fun z _ ih x => strictN (ih x) (fun y => Int.rec (motive := fun _ => Nat)
+      (fun k => f (Nat.sub k (nat_lit 1)) y) (fun k => g k y) z)) wd
 
 @[expose] noncomputable def wpC (wd : List Int) (x : Nat) : Nat :=
   rwordPt 15 (mask 15) SuzCertT.F SuzCertI ofs wd x
+
+@[expose] def suzRowW : List (List Int) :=
+  [[-7, 9, 6], [-6, -11, 12, 6], [9, -8, 6, 11, -8, 5], [-6, 10, -12, -11, 8, -6, 7, -6],
+    [-6, -5, -9, -6, 7, -10, 5, 12], [-6, 10, -5, 8, -7, 5, 8, -11]]
+
+@[expose] def suzTxW : List (List Int) :=
+  [[-5, 6, -10, 11, 10, 5, 6], [-12, -5, 9, 6, -10, -6, 11], [-5, 11, 6, 12, 10, -11, 6],
+    [-6, 9, 6, -9, 6, 6, 8, 11], [-5, -8, -5, 10, 7, 6, -11, 7]]
+
+@[expose] def suzInvW (wd : List Int) : List Int := (wd.map Int.neg).reverse
+
+@[expose] noncomputable def fy (j x : Nat) : Nat :=
+  nIf(Nat.blt j 8, cgk (Nat.add j 4) x, wpC (suzRowW.getD (Nat.sub j 8) []) x)
+@[expose] noncomputable def fyi (j x : Nat) : Nat :=
+  nIf(Nat.blt j 8, ci (Nat.add j 4) x, wpC (suzInvW (suzRowW.getD (Nat.sub j 8) [])) x)
+
+@[expose] noncomputable def tx (a x : Nat) : Nat := wpC (suzTxW.getD a []) x
 
 @[expose] noncomputable def wpS (wd : List Int) (x : Nat) : Nat :=
   rwordPt 15 (mask 15) SuzCertT.F SuzCertI ocs wd x
 
 @[expose] def fusW : List Int := [2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2]
 
-@[expose] noncomputable def qtr (f : Nat → Bool) (q : Nat) : Bool := allR (Nat.mul 5720 q) 5720 f
+@[expose] def suzC5W : List Int := [11, 5, -8, 5, -11]
+@[expose] def suzC8W : List Int := [6, -8]
+@[expose] def suzGW : List Int := [-2, -5, -1, 2, 1, 5, 2]
 
-theorem fbase : allN 8 (fun j => allN 715 (fun r => Nat.beq (S2308FX (Nat.add (ofs j) r))
-    (SuzCertT.F (Nat.add (ofs (Nat.add j 4)) r)))) = true := by quickRfl
+@[expose] noncomputable def gx (x : Nat) : Nat := wpC suzGW x
+@[expose] noncomputable def gxi (x : Nat) : Nat := wpC (suzInvW suzGW) x
 
-theorem fperm : allN 14 (fun j => rpermK 22880 15 (mask 15) S2308FX (ofs j) S2308FXI (ofs j)) =
-    true := by quickRfl
+theorem suzLvl : allN 6 (fun p => bAnd(allN 6 (fun k =>
+      bAnd(Nat.beq (fy (Nat.add 8 k) p) (rwG fy fyi (localDerivs.getD (Nat.add 8 k) []) p),
+        Nat.beq (fy (Nat.add 8 k) (fyi (Nat.add 8 k) p)) p)),
+    allN 5 (fun a => Nat.beq (tx a p) (rwG fy fyi (sylowQuotWords.getD a []) p)))) = true := by
+  quickRfl
 
-@[expose] noncomputable def fdP (k x : Nat) : Bool :=
-  Nat.beq (fx (Nat.add 8 k) x) (wpF (localDerivs.getD (Nat.add 8 k) []) x)
-
-theorem fd0 : allN 22880 (fdP 0) = true := by quickRfl
-theorem fd1 : allN 22880 (fdP 1) = true := by quickRfl
-theorem fd2 : allN 22880 (fdP 2) = true := by quickRfl
-theorem fd3 : allN 22880 (fdP 3) = true := by quickRfl
-theorem fd4 : allN 22880 (fdP 4) = true := by quickRfl
-theorem fd5 : allN 22880 (fdP 5) = true := by quickRfl
-
-@[expose] noncomputable def twP (a x : Nat) : Bool :=
-  Nat.beq (tx a x) (wpF (sylowQuotWords.getD a []) x)
-
-theorem tw0q0 : qtr (twP 0) 0 = true := by quickRfl
-theorem tw0q1 : qtr (twP 0) 1 = true := by quickRfl
-theorem tw0q2 : qtr (twP 0) 2 = true := by quickRfl
-theorem tw0q3 : qtr (twP 0) 3 = true := by quickRfl
-theorem tw1q0 : qtr (twP 1) 0 = true := by quickRfl
-theorem tw1q1 : qtr (twP 1) 1 = true := by quickRfl
-theorem tw1q2 : qtr (twP 1) 2 = true := by quickRfl
-theorem tw1q3 : qtr (twP 1) 3 = true := by quickRfl
-theorem tw2q0 : qtr (twP 2) 0 = true := by quickRfl
-theorem tw2q1 : qtr (twP 2) 1 = true := by quickRfl
-theorem tw2q2 : qtr (twP 2) 2 = true := by quickRfl
-theorem tw2q3 : qtr (twP 2) 3 = true := by quickRfl
-theorem tw3q0 : qtr (twP 3) 0 = true := by quickRfl
-theorem tw3q1 : qtr (twP 3) 1 = true := by quickRfl
-theorem tw3q2 : qtr (twP 3) 2 = true := by quickRfl
-theorem tw3q3 : qtr (twP 3) 3 = true := by quickRfl
-theorem tw4q0 : qtr (twP 4) 0 = true := by quickRfl
-theorem tw4q1 : qtr (twP 4) 1 = true := by quickRfl
-theorem tw4q2 : qtr (twP 4) 2 = true := by quickRfl
-theorem tw4q3 : qtr (twP 4) 3 = true := by quickRfl
-
-@[expose] noncomputable def zP (x : Nat) : Bool :=
-  bAnd(Nat.beq (wx x) (wpS zWord x), bAnd(Nat.beq (zx x) (itr wx 7 x),
+@[expose] noncomputable def zBP (x : Nat) : Bool :=
   bAnd(Nat.beq (itr zx 3 x) x,
     allN 8 (fun j => Nat.beq (o2 (cgk (Nat.add j 4)) (o2 zx (ci (Nat.add j 4))) x)
-      (nIf(Nat.beq (nget S2308W (Nat.add 82 j)) 0, zx x, o2 zx zx x))))))
+      (nIf(Nat.beq (nget S2308W (Nat.add 82 j)) 0, zx x, o2 zx zx x))))
 
-theorem zq0 : qtr zP 0 = true := by quickRfl
-theorem zq1 : qtr zP 1 = true := by quickRfl
-theorem zq2 : qtr zP 2 = true := by quickRfl
-theorem zq3 : qtr zP 3 = true := by quickRfl
-
-@[expose] noncomputable def cntK (n : Nat) (p : Nat → Bool) : Nat :=
-  foldN n (fun i s => nIf(p i, Nat.succ s, s)) 0
+theorem zbase : allN 6 zBP = true := by quickRfl
 
 theorem zpts : bAnd(Nat.beq (zx 0) 0, bAnd(notB (Nat.beq (zx (nget S2308W 0)) (nget S2308W 0)),
-    bAnd(Nat.blt (nget S2308W 0) 22880,
-    bAnd(Nat.beq (cntK 22880 (fun i => bAnd(notB (Nat.beq i 0), Nat.beq (zx i) i))) 280,
-    bAnd(Nat.beq (cntK 22880 (fun i => Nat.beq (cf 3 i) i)) 38,
-      Nat.beq (cntK 22880 (fun i => Nat.beq (cf 4 i) i)) 38))))) = true := by quickRfl
+    Nat.blt (nget S2308W 0) 22880)) = true := by
+  quickRfl
 
 theorem rst : bAnd(allN 14 (fun j => allN 280 (fun i =>
-      Nat.beq (fx j (ld i)) (ld (pg 9 (mask 9) (SuzLocR (Nat.add 8 j)) i)))),
+      Nat.beq (fy j (ld i)) (ld (pg 9 (mask 9) (SuzLocR (Nat.add 8 j)) i)))),
     bAnd(allN 5 (fun a => allN 280 (fun i =>
       Nat.beq (tx a (ld i)) (ld (pg 9 (mask 9) (S2308CE.G a) i)))),
     bAnd(allN 280 (fun i => Nat.beq (cf 3 (ld i)) (ld (pg 9 (mask 9) (SuzCenC 3) i))),
@@ -133,10 +106,28 @@ theorem pen : bAnd(szOK 280 9, bAnd(allN 5 (fun a => canonK 280 9 (mask 9) (280 
     bAnd(notB (Nat.beq (SuzCenC 3) (pidn 280 9)),
       penumHdK (pidn 280 9) S2308CE.cnt 729 S2308CE.T S2308CE.PL)))))) = true := by quickRfl
 
-theorem pts0 : penumSlK 280 9 (mask 9) (280 * 9) false S2308CE.G S2308CE.GI 5 S2308CE.cnt
-    S2308CE.T S2308CE.PL S2308CE.POS S2308CE.SRT S2308CE.SRI 0 365 = true := by quickRfl
-theorem pts1 : penumSlK 280 9 (mask 9) (280 * 9) false S2308CE.G S2308CE.GI 5 S2308CE.cnt
-    S2308CE.T S2308CE.PL S2308CE.POS S2308CE.SRT S2308CE.SRI 365 365 = true := by quickRfl
+@[expose] noncomputable def s23Pt (n w m : Nat) (conj : Bool) (G GI : Nat → Nat)
+    (k cnt : Nat) (T PL POS SRT SRI : Nat → Nat) (i : Nat) : Bool :=
+  strictB (T i) (fun t =>
+  bAnd(bIf(Nat.beq i (nat_lit 0), true,
+    strictB (parOf PL i) (fun p => strictB (labOf PL i) (fun l =>
+    bAnd(Nat.blt p i, bAnd(Nat.blt l k, bAnd(Nat.beq (r32 POS (Nat.add (Nat.mul p k) l)) i,
+      bIf(Nat.blt (Nat.succ i) cnt,
+        lexLtK p l (parOf PL (Nat.succ i)) (labOf PL (Nat.succ i)), true))))))),
+  bAnd(allN k (fun j => strictB (r32 POS (Nat.add (Nat.mul i k) j)) (fun q =>
+    bAnd(Nat.blt q cnt, bAnd(Nat.beq (T q) (stepK n w m conj G GI j t),
+      bIf(Nat.beq q (nat_lit 0), true,
+        bIf(lexLtK i j (parOf PL q) (labOf PL q), false, true)))))),
+  strictB (r32 SRT i) (fun s => bAnd(Nat.blt s cnt, bAnd(Nat.beq (r32 SRI s) i,
+    bIf(Nat.blt (Nat.succ i) cnt, Nat.blt (T s) (T (r32 SRT (Nat.succ i))), true)))))))
+
+@[expose] noncomputable def s23Sl (lo len : Nat) : Bool :=
+  allN len (fun d => strictB (Nat.add lo d) (fun i =>
+    bIf(Nat.blt i S2308CE.cnt, s23Pt 280 9 (mask 9) false S2308CE.G S2308CE.GI 5 S2308CE.cnt
+      S2308CE.T S2308CE.PL S2308CE.POS S2308CE.SRT S2308CE.SRI i, true)))
+
+theorem pts0 : s23Sl 0 365 = true := by quickRfl
+theorem pts1 : s23Sl 365 365 = true := by quickRfl
 
 @[expose] noncomputable def escP (k : Nat) : Bool :=
   strictB (S2308CE.T k) (fun t =>
@@ -148,18 +139,37 @@ theorem pts1 : penumSlK 280 9 (mask 9) (280 * 9) false S2308CE.G S2308CE.GI 5 S2
 theorem esc : allN 729 escP = true := by quickRfl
 
 @[expose] noncomputable def cenP (x : Nat) : Bool :=
-  bAnd(allN 9 (fun r => Nat.beq (cf r x) (o2 (itr (cf 3) (Nat.div r 3)) (itr zx (Nat.mod r 3)) x)),
+  bAnd(Nat.beq (cf 0 x) x, bAnd(Nat.beq (zx x) (cf 5 (cf 8 x)), bAnd(Nat.beq (cf 2 x) (cf 1 (zx x)),
+  bAnd(Nat.beq (cf 4 x) (cf 3 (zx x)), bAnd(Nat.beq (cf 5 x) (cf 4 (zx x)),
+  bAnd(Nat.beq (cf 6 x) (cf 3 (cf 3 x)), bAnd(Nat.beq (cf 7 x) (cf 6 (zx x)),
+  bAnd(Nat.beq (cf 8 x) (wpC suzC8W (cf 5 (wpC suzC8W x))), Nat.beq (cf 5 x) (wpC suzC5W x)))))))))
+
+@[expose] noncomputable def s23cV (x : Nat) : Nat :=
+  nIf(cenP x, Nat.add (nIf(Nat.beq (cf 3 x) x, 1, 0)) (Nat.add (nIf(Nat.beq (cf 4 x) x, 8192, 0))
+    (nIf(bAnd(notB (Nat.beq x 0), Nat.beq (zx x) x), 67108864, 0))), 549755813888)
+
+@[expose] noncomputable def s23cS (q : Nat) : Nat :=
+  foldN 5720 (fun d s => Nat.add s (s23cV (Nat.add (Nat.mul 5720 q) d))) 0
+
+@[expose] noncomputable def s23cB (q N : Nat) : Bool := Nat.beq (s23cS q) N
+
+theorem cq0 : s23cB 0 4899061774 = true := by quickRfl
+theorem cq1 : s23cB 1 4831895559 = true := by quickRfl
+theorem cq2 : s23cB 2 4093706248 = true := by quickRfl
+theorem cq3 : s23cB 3 4966129673 = true := by quickRfl
+
+@[expose] noncomputable def cenBP (x : Nat) : Bool :=
   bAnd(Nat.beq (o2 (cf 1) (cf 1) x) (cf 2 x), bAnd(Nat.beq (o2 (cf 3) (cf 3) x) (cf 6 x),
   bAnd(Nat.beq (o2 (cf 4) (cf 4) x) (cf 8 x), bAnd(Nat.beq (o2 (cf 5) (cf 5) x) (cf 7 x),
-  bAnd(Nat.beq (cf 3 x) (tx 1 x), bAnd(Nat.beq (o2 (cf 3) zx x) (o2 zx (cf 3) x),
+  bAnd(Nat.beq (o2 (cf 3) zx x) (o2 zx (cf 3) x),
   bAnd(allN 5 (fun a => bAnd(Nat.beq (o2 (cf 3) (tx a) x) (o2 (tx a) (cf 3) x),
     Nat.beq (o2 zx (tx a) x) (o2 (tx a) zx x))),
-    Nat.beq (itr (cf 3) 3 x) x))))))))
+    bAnd(Nat.beq (itr (cf 3) 3 x) x, Nat.beq (cf 8 x) (cf 7 (zx x)))))))))
 
-theorem cq0 : qtr cenP 0 = true := by quickRfl
-theorem cq1 : qtr cenP 1 = true := by quickRfl
-theorem cq2 : qtr cenP 2 = true := by quickRfl
-theorem cq3 : qtr cenP 3 = true := by quickRfl
+theorem cenbase : allN 6 cenBP = true := by quickRfl
+
+theorem sbase : allN 6 (fun x => bAnd(Nat.beq (zx x) (itr (wpS zWord) 7 x),
+    bAnd(Nat.beq (gx x) (wpC fusW x), Nat.beq (cf 3 x) (tx 1 x)))) = true := by quickRfl
 
 theorem cdist : allN 9 (fun r => allN 9 (fun r' => bIf(Nat.blt r r',
     bAnd(Nat.blt (nget S2308W (Nat.add 1 (Nat.add (Nat.mul 9 r) r'))) 22880,
@@ -167,16 +177,8 @@ theorem cdist : allN 9 (fun r => allN 9 (fun r' => bIf(Nat.blt r r',
         (cf r' (nget S2308W (Nat.add 1 (Nat.add (Nat.mul 9 r) r')))))), true))) = true := by
   quickRfl
 
-@[expose] noncomputable def gP (x : Nat) : Bool :=
-  bAnd(Nat.beq (gx x) (wpC fusW x), Nat.beq (o2 gx (o2 zx gxi) x) (cf 5 x))
-
-theorem gq0 : qtr gP 0 = true := by quickRfl
-theorem gq1 : qtr gP 1 = true := by quickRfl
-theorem gq2 : qtr gP 2 = true := by quickRfl
-theorem gq3 : qtr gP 3 = true := by quickRfl
-
-theorem gperm : bAnd(rpermK 22880 15 (mask 15) S2308GX 0 S2308GXI 0, Nat.beq (gx 0) 95) = true := by
-  quickRfl
+theorem gzbase : bAnd(Nat.beq (gx 0) 95, allN 6 (fun x => bAnd(Nat.beq (o2 gx (o2 zx gxi) x) (cf 5 x),
+    Nat.beq (gx (gxi x)) x))) = true := by quickRfl
 
 @[expose] noncomputable def nwN (k : Nat) : List Nat := (normWords.getD k []).map fun l => l.toNat - 1
 

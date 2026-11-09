@@ -29,15 +29,25 @@ open CFSG.Monster.B.Co2.Native CFSG.Sporadic.Th.Native CFSG.Sporadic.SmallOddCor
     closedOK 820 (A ++ A.map (invT 820)) (mulClosureH 820 A cap).1 &&
     hkeysDistinct 820 (mulClosureH 820 A cap).1.toList && (mulClosureH 820 A cap).1.size == size
 
-@[expose] def classOK (gG : Array Table) (x : Table) (cap sizeG csz : ℕ) : Bool :=
-  gG.all permInvOK &&
-    conjTreeOK 820 gG (gG.map (invT 820)) x (conjClosureH 820 gG (gG.map (invT 820)) x cap).1
-      (conjClosureH 820 gG (gG.map (invT 820)) x cap).2.1
-      (conjClosureH 820 gG (gG.map (invT 820)) x cap).2.2 &&
-    hkeysDistinct 820 (conjClosureH 820 gG (gG.map (invT 820)) x cap).1.toList &&
-    decide (sizeG ≤ csz * (conjClosureH 820 gG (gG.map (invT 820)) x cap).1.size)
+@[expose] def mulRecArr (A : Array Table) (par : Array (ℕ × ℕ)) : Array Table :=
+  par.foldl (fun a e => a.push (compT 820 a[e.1]! A[e.2]!)) #[idT 820]
 
-@[expose] def coverOK (cg : Array Table) (y0 : Table) (cap : ℕ) : Bool :=
+@[expose] def enumRecOK (A : Array Table) (par : Array (ℕ × ℕ)) (size : ℕ) : Bool :=
+  A.all permInvOK &&
+    (List.range par.size).all (fun i => decide (par[i]!.1 ≤ i) && decide (par[i]!.2 < A.size)) &&
+    hkeysDistinct 820 (mulRecArr A par).toList && decide (size ≤ par.size + 1)
+
+@[expose] def clsRecArr (gG gGinv : Array Table) (x : Table) (par : Array (ℕ × ℕ)) : Array Table :=
+  par.foldl (fun a e => a.push (conjT 820 gG[e.2]! gGinv[e.2]! a[e.1]!)) #[x]
+
+@[expose] def classRecOK (gG : Array Table) (x : Table) (par : Array (ℕ × ℕ)) (sizeG csz : ℕ) :
+    Bool :=
+  gG.all permInvOK &&
+    (List.range par.size).all (fun i => decide (par[i]!.1 ≤ i) && decide (par[i]!.2 < gG.size)) &&
+    hkeysDistinct 820 (clsRecArr gG (gG.map (invT 820)) x par).toList &&
+    decide (sizeG ≤ csz * (par.size + 1))
+
+@[expose] def coverOK(cg : Array Table) (y0 : Table) (cap : ℕ) : Bool :=
   conjTreeOK 820 cg (cg.map (invT 820)) y0 (conjClosureH 820 cg (cg.map (invT 820)) y0 cap).1
     (conjClosureH 820 cg (cg.map (invT 820)) y0 cap).2.1
     (conjClosureH 820 cg (cg.map (invT 820)) y0 cap).2.2 &&
@@ -80,14 +90,14 @@ structure CaseData where
   ((yEnum d).toList.filter fun z => commTT 820 z s.1 && commTT 820 z (cpOf d.Tt s.1) &&
     commTT 820 z s.2 && commTT 820 z (cpOf d.Tt s.2)).length
 
-@[expose] def caseCheck (d : CaseData) : Bool :=
+@[expose] def caseCheck (d : CaseData) (tPar yPar : Array (ℕ × ℕ)) : Bool :=
   permOK 820 d.Tt && permOK 820 d.y0 &&
     d.gensG.all (memCos d.ks) &&
-    classOK d.gensG d.Tt closureCap d.sizeG 2880 &&
+    classRecOK d.gensG d.Tt tPar d.sizeG 2880 &&
     d.cg.all (fun g => memCos d.ks g && commTT 820 g d.Tt) &&
     enumOK d.cg closureCap 2880 && coverOK d.cg d.y0 closureCap &&
     d.yg.all (fun g => memCos d.ks g && commTT 820 g d.y0) &&
-    enumOK d.yg closureCap d.ysz && classOK d.gensG d.y0 closureCap d.sizeG d.ysz &&
+    enumOK d.yg closureCap d.ysz && classRecOK d.gensG d.y0 yPar d.sizeG d.ysz &&
     (solList d).length == d.nsol && (solList d).all fun s => cent5Of d s == 3
 
 end CFSG.EvenSporadicStandard.HSStd.U43

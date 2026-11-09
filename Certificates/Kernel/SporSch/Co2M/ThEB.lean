@@ -184,9 +184,8 @@ theorem te_qR_dlen : (quRecOf tePis).derivations.length + 15 = 17 := by
   change quDerivs.length + 15 = 17
   rw [te_facts.2.2.2.2.2.2.2.1]
 
-theorem te_qRecord : recordOK 1024 (quRecOf tePis) 4 = true :=
-  recordOK_of (NS := 64) (CH := 16) te_qR_gens te_qR_glen te_qR_dlen te_qBinds Co2EQ.head
-    Co2EQ.hl (by norm_num) Co2EQ.hs
+theorem te_qRecord : recordOK 1024 (quRecOf tePis) 0 = true :=
+  recordOK0_of te_qR_gens te_qR_glen te_qR_dlen te_qBinds Co2EQ.head
 
 theorem te_qOrbits : recordOrbits 1024 (quRecOf tePis) = [45, 16, 1, 2, 1, 1, 1, 1, 1, 1] := by
   rw [recordOrbits_of te_qBinds Co2EQ.perm Co2EQ.hl]

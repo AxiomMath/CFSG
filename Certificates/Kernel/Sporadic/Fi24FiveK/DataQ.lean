@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24FiveK.Data
 public import Certificates.Data.Kernel.Spor.Fi24FiveKQ
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24FiveK.DQ "Certificates/Kernel/Sporadic/Fi24FiveK/data/fiveq.json.gz"
+#kc_repo #kc_json CFSG.KD.Fi24FiveK.DQ "Certificates/Kernel/Sporadic/Fi24FiveK/data/fiveq.json"
   783 10675364746736288747
   (Q : List (List Nat))
 

@@ -299,14 +299,13 @@ private theorem m7r_bcv33 :
   exact m7r_diag (gq 4)
 
 
-theorem m7h_conj :
+private theorem m7r_conj4 :
     gw m7hW * gq 1 * (gw m7hW)⁻¹ = gq 1 * gq 2 * gq 4 ^ 2 ∧
       gw m7hW * gq 2 * (gw m7hW)⁻¹ = gq 2 * gq 3 ∧
       gw m7hW * gq 3 * (gw m7hW)⁻¹ = gq 1 ^ 4 * gq 3 * gq 4 ^ 5 ∧
-      gw m7hW * gq 4 * (gw m7hW)⁻¹ = gq 1 ^ 2 * gq 4 ^ 3 ∧
-      gw m7hW * gq 5 * (gw m7hW)⁻¹ = gq 5 := by
+      gw m7hW * gq 4 * (gw m7hW)⁻¹ = gq 1 ^ 2 * gq 4 ^ 3 := by
   have hp := Certificates.certificate716100
-  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_⟩
   · have h := agreeAll_sound hp
       (wq1 ++ m7hW, m7hW ++ CFSG.YGroups.Y443.powL 2 wq4 ++ wq2 ++ wq1)
       (by simp [m7hPairs])
@@ -341,14 +340,6 @@ theorem m7h_conj :
       simp only [gw_append, gw_powL'] at h
       rw [h]; group
     rw [m7r_intro_gq1, m7r_intro_gq4]
-    exact m7r_conj h1
-  · have h := agreeAll_sound hp
-      (wq5 ++ m7hW, m7hW ++ wq5)
-      (by simp [m7hPairs])
-    have h1 : gw m7hW * gw wq5 = gw wq5 * gw m7hW := by
-      simp only [gw_append, gw_powL'] at h
-      exact h
-    rw [m7r_intro_gq5]
     exact m7r_conj h1
 
 theorem gq_commData :
@@ -411,6 +402,72 @@ theorem gq_commData :
         (Subgroup.inv_mem _ h1) (Subgroup.inv_mem _ h3)) h1) h3
     rw [show gq 5 = bcomm (gq 1) (gq 3) from by rw [m7r_bc13, pow_one]]
     exact hb
+
+private theorem m7r_bpowL {n : ℕ} {q : Fin n → Gmat} {z : Gmat} {M : Matrix (Fin n) (Fin n) (ZMod 7)}
+    (hD : CommData 7 q z M) {x y : Gmat} (hx : x ∈ Subgroup.closure (Set.range q))
+    (hy : y ∈ Subgroup.closure (Set.range q)) : ∀ k : ℕ, bcomm (x ^ k) y = bcomm x y ^ k
+  | 0 => by rw [pow_zero, pow_zero, bcomm_one_left]
+  | k + 1 => by
+    rw [pow_succ x k, hD.bcomm_mul (Subgroup.pow_mem _ hx k) hx hy, m7r_bpowL hD hx hy k, pow_succ]
+
+private theorem m7r_bmulR {n : ℕ} {q : Fin n → Gmat} {z : Gmat} {M : Matrix (Fin n) (Fin n) (ZMod 7)}
+    (hD : CommData 7 q z M) {g h k : Gmat} (hg : g ∈ Subgroup.closure (Set.range q))
+    (hh : h ∈ Subgroup.closure (Set.range q)) (hk : k ∈ Subgroup.closure (Set.range q)) :
+    bcomm g (h * k) = bcomm g h * bcomm g k := by
+  rw [bcomm_swap (h * k) g, hD.bcomm_mul hh hk hg, mul_inv_rev, ← bcomm_swap k g,
+    ← bcomm_swap h g]
+  obtain ⟨a, ha⟩ := Subgroup.mem_zpowers_iff.1 (hD.bcomm_mem hg hh)
+  obtain ⟨b, hb⟩ := Subgroup.mem_zpowers_iff.1 (hD.bcomm_mem hg hk)
+  rw [← ha, ← hb]
+  exact (Commute.zpow_zpow_self z b a).eq
+
+private theorem m7r_bpowR {n : ℕ} {q : Fin n → Gmat} {z : Gmat} {M : Matrix (Fin n) (Fin n) (ZMod 7)}
+    (hD : CommData 7 q z M) {x y : Gmat} (hx : x ∈ Subgroup.closure (Set.range q))
+    (hy : y ∈ Subgroup.closure (Set.range q)) (k : ℕ) : bcomm y (x ^ k) = bcomm y x ^ k := by
+  rw [bcomm_swap (x ^ k) y, m7r_bpowL hD hx hy k, ← inv_pow, ← bcomm_swap x y]
+
+theorem m7h_conj :
+    gw m7hW * gq 1 * (gw m7hW)⁻¹ = gq 1 * gq 2 * gq 4 ^ 2 ∧
+      gw m7hW * gq 2 * (gw m7hW)⁻¹ = gq 2 * gq 3 ∧
+      gw m7hW * gq 3 * (gw m7hW)⁻¹ = gq 1 ^ 4 * gq 3 * gq 4 ^ 5 ∧
+      gw m7hW * gq 4 * (gw m7hW)⁻¹ = gq 1 ^ 2 * gq 4 ^ 3 ∧
+      gw m7hW * gq 5 * (gw m7hW)⁻¹ = gq 5 := by
+  obtain ⟨h1, h2, h3, h4⟩ := m7r_conj4
+  refine ⟨h1, h2, h3, h4, ?_⟩
+  have hD := gq_commData
+  have m1 : gq 1 ∈ Subgroup.closure (Set.range (![gq 1, gq 2, gq 3, gq 4] : Fin 4 → Gmat)) :=
+    Subgroup.subset_closure ⟨0, rfl⟩
+  have m2 : gq 2 ∈ Subgroup.closure (Set.range (![gq 1, gq 2, gq 3, gq 4] : Fin 4 → Gmat)) :=
+    Subgroup.subset_closure ⟨1, rfl⟩
+  have m3 : gq 3 ∈ Subgroup.closure (Set.range (![gq 1, gq 2, gq 3, gq 4] : Fin 4 → Gmat)) :=
+    Subgroup.subset_closure ⟨2, rfl⟩
+  have m4 : gq 4 ∈ Subgroup.closure (Set.range (![gq 1, gq 2, gq 3, gq 4] : Fin 4 → Gmat)) :=
+    Subgroup.subset_closure ⟨3, rfl⟩
+  have hY := Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.pow_mem _ m1 4) m3)
+    (Subgroup.pow_mem _ m4 5)
+  have hc : ∀ c a b : Gmat, c * bcomm a b * c⁻¹ = bcomm (c * a * c⁻¹) (c * b * c⁻¹) := by
+    intro c a b
+    simp only [bcomm]
+    group
+  have hR : ∀ g, g ∈ Subgroup.closure (Set.range (![gq 1, gq 2, gq 3, gq 4] : Fin 4 → Gmat)) →
+      bcomm g (gq 1 ^ 4 * gq 3 * gq 4 ^ 5) =
+        bcomm g (gq 1) ^ 4 * bcomm g (gq 3) * bcomm g (gq 4) ^ 5 := by
+    intro g hg
+    rw [m7r_bmulR hD hg (Subgroup.mul_mem _ (Subgroup.pow_mem _ m1 4) m3) (Subgroup.pow_mem _ m4 5),
+      m7r_bmulR hD hg (Subgroup.pow_mem _ m1 4) m3, m7r_bpowR hD m1 hg 4, m7r_bpowR hD m4 hg 5]
+  have h7 : gq 5 ^ 7 = 1 := gq_pow (i := 5) (by norm_num)
+  calc gw m7hW * gq 5 * (gw m7hW)⁻¹
+      = gw m7hW * bcomm (gq 1) (gq 3) * (gw m7hW)⁻¹ := by rw [m7r_bc13, pow_one]
+    _ = bcomm (gq 1 * gq 2 * gq 4 ^ 2) (gq 1 ^ 4 * gq 3 * gq 4 ^ 5) := by rw [hc, h1, h3]
+    _ = gq 5 ^ 64 := by
+      rw [hD.bcomm_mul (Subgroup.mul_mem _ m1 m2) (Subgroup.pow_mem _ m4 2) hY,
+        hD.bcomm_mul m1 m2 hY, m7r_bpowL hD m4 hY 2, hR _ m1, hR _ m2, hR _ m4,
+        m7r_diag (gq 1), m7r_bc13, m7r_bc14, m7r_bc21, m7r_bc23, m7r_bc24, m7r_bc41, m7r_bc43,
+        m7r_diag (gq 4)]
+      simp only [← pow_mul, ← pow_add, Nat.reduceMul, Nat.reduceAdd]
+    _ = gq 5 := by
+      have e : (64 : ℕ) = 7 * 9 + 1 := rfl
+      rw [e, pow_succ, pow_mul, h7, one_pow, one_mul]
 
 private theorem m7l_cw1 : Timmesfeld.Mon7.wordOfVec 6 (Timmesfeld.Mon7.cw7[1]!) =
     [1, 2, 5, 5, 5] := by

@@ -10,14 +10,14 @@ public import Certificates.Data.Kernel.SporCov.BaseKit
 public import Certificates.Data.Kernel.Spor.ONK
 public import Certificates.Kernel.Sporadic.ON2.Data
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.ON.F3 "Certificates/Kernel/SporCovBase/data/on3.json.gz" 9707
+#kc_repo #kc_json CFSG.KD.SporCovBase.ON.F3 "Certificates/Kernel/SporCovBase/data/on3.json" 9707
   561630405550524435
   (S : List (List Nat)) (Q : List (List Nat)) (T : List Nat) (P : List Nat) (Tg : List (List Nat))
   (Gs : List (List Nat)) (X0 : Nat) (G1 : List Nat) (G2 : List Nat) (M : List (List Nat))
   (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat)) (K : List Nat)
   (C : List (List Nat)) (R : List (List Nat))
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.ON.F7 "Certificates/Kernel/SporCovBase/data/on7.json.gz" 3385
+#kc_repo #kc_json CFSG.KD.SporCovBase.ON.F7 "Certificates/Kernel/SporCovBase/data/on7.json" 3385
   7631241990651689215
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))

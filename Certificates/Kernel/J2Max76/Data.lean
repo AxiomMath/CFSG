@@ -7,8 +7,8 @@ public import Std.Data.HashMap
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz_eval CertificateChecks.KernelJ2Max76
-  "Certificates/Kernel/J2Max76/data/j2max76.json.gz" 72411 12997460557605489323
+#kc_repo #kc_json_eval CertificateChecks.KernelJ2Max76
+  "Certificates/Kernel/J2Max76/data/j2max76.json" 72411 12997460557605489323
   (rootLit : Nat) (gensL : List (List Nat)) (nTabsL : Array (Array Nat))
   (orbPts : Array Nat) (orbEdges : Array (Array Nat)) (orbPar : Array Nat) (orbLab : Array Nat)
   (o0Pts : Array Nat) (o0Edges : Array (Array Nat)) (o0Par : Array Nat) (o0Lab : Array Nat)

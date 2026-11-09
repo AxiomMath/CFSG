@@ -1,5 +1,6 @@
 module
 
+public import CFSG.LieType.Steinberg.Adjoint.IformFast
 public import CFSG.LocalAnalysis.StandardType.GGTableBExcTwoTBE7E8
 public import CFSG.LocalAnalysis.StandardType.GGExcFrameLang
 public import CFSG.LocalAnalysis.StandardType.GGTableBExcSylow
@@ -153,6 +154,7 @@ theorem frameCoord_e8FrameLambda_lineRep :
 theorem e8LineKernel_count : ∀ α ∈ e8Finset, α 6 % 3 = 0 →
     ((α 6 = 0 ∧ α 7 = 0) ↔
       ((e8Finset).filter fun β => β 6 % 3 = 0 ∧ iform α β = 0).card = 36) := by
+  rw [iform_E8_fun]
   decide +kernel
 
 theorem e8LineKernel_orth : ∀ α ∈ e8Finset, α 6 % 3 = 0 → ¬(α 6 = 0 ∧ α 7 = 0) →

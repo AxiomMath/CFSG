@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.StandardType.FS81.OddCoreE7Irr
+import CFSG.Mathlib.Decide.FinFun
 
 public section
 
@@ -79,9 +80,53 @@ instance (v : Coords 8) : Decidable (StepOK v) := by
   unfold StepOK
   split <;> infer_instance
 
+section StepSomePieces
+
+attribute [local instance high] CFSG.Decide.FinFun.decForallZ3
+
 set_option maxRecDepth 100000 in
-theorem step_some : ∀ v : Coords 8, StepOK v := by
+theorem step_some_p00 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 0 (Fin.cons 0 w)) := by
   decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p01 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 0 (Fin.cons 1 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p02 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 0 (Fin.cons 2 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p10 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 1 (Fin.cons 0 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p11 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 1 (Fin.cons 1 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p12 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 1 (Fin.cons 2 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p20 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 2 (Fin.cons 0 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p21 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 2 (Fin.cons 1 w)) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem step_some_p22 : ∀ w : Fin 6 → ZMod 3, StepOK (Fin.cons 2 (Fin.cons 2 w)) := by
+  decide +kernel
+
+end StepSomePieces
+
+theorem step_some : ∀ v : Coords 8, StepOK v :=
+  CFSG.Decide.FinFun.forall_of_forall_cons_cons <| CFSG.Decide.FinFun.zmod3_cases
+    (CFSG.Decide.FinFun.zmod3_cases step_some_p00 step_some_p01 step_some_p02)
+    (CFSG.Decide.FinFun.zmod3_cases step_some_p10 step_some_p11 step_some_p12)
+    (CFSG.Decide.FinFun.zmod3_cases step_some_p20 step_some_p21 step_some_p22)
 
 theorem Gen.act_act (g : Gen) (v : Coords 8) : g.act (g.act v) = v := by
   funext k

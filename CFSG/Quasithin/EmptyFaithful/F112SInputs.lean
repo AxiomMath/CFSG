@@ -63,8 +63,6 @@ open CFSG.Sporadic.Schreier.Tits CFSG.Certificates.Native CFSG.Monster.B.Co2.Nat
   invsOK = true ∧ invsDistinct = true ∧ invsComplete = true ∧
     search numInvs prodAt 6 [] 0 = true ∧ outerOK = true
 
-instance : Decidable TitsRankCheck :=
-  inferInstanceAs (Decidable (invsOK = true ∧ invsDistinct = true ∧ invsComplete = true ∧
-    search numInvs prodAt 6 [] 0 = true ∧ outerOK = true))
+instance : Decidable TitsRankCheck := instDecidableAnd
 
 end CFSG.Quasithin.F112S

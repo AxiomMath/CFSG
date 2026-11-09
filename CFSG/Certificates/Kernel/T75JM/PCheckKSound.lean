@@ -99,21 +99,17 @@ theorem pChecks_of (hL : LetterRd L) (h : pOkK L = true) :
     unfold eW
     rw [idx3_single0]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · unfold eMulCheck
-    exact decide_eq_true fun c d => tabEq_mul hL (of_decide_eq_true h1 c d)
-  · unfold eInjCheck
-    refine decide_eq_true fun c d hcd => idx3_inj c d ?_
+  · exact allVV_intro fun c d => tabEq_mul hL (of_decide_eq_true h1 c d)
+  · refine allVVInj_intro fun c d hcd => idx3_inj c d ?_
     have e : keyL (List.range 22) (ePk L (idx3 c)) = keyL (List.range 22) (ePk L (idx3 d)) :=
       keyP_congr _ fun p hp => fd_of_tabEq hL hcd (List.mem_range.1 hp)
     exact eq_of_nodupN (f := fun i => keyL (List.range 22) (ePk L i)) h2 (idx3_lt c) (idx3_lt d) e
   · unfold eTorsCheck
     rw [Bool.and_eq_true, hE1]
     exact ⟨tabEq_of_beq hL h3, by decide⟩
-  · unfold actVCheck
-    exact decide_eq_true fun c =>
+  · exact allVBoth_intro fun c =>
       ⟨tabEq_conj hL (of_decide_eq_true h4 c), tabEq_conj hL (of_decide_eq_true h5 c)⟩
-  · unfold actGCheck
-    exact decide_eq_true fun c =>
+  · exact allVBoth_intro fun c =>
       ⟨tabEq_of_beq hL (of_decide_eq_true h6 c).1, tabEq_of_beq hL (of_decide_eq_true h6 c).2⟩
   · unfold thetaCheck
     rw [Bool.and_eq_true]

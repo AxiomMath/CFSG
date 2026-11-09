@@ -8,6 +8,7 @@ public meta import CFSG.Certificates.Kernel.Common.Tab
 public meta import CFSG.Sporadic.Schreier.Co1ChainCheck
 public import Certificates.Data.Kernel.SporSch.Co1Tower
 public import Certificates.Kernel.SporSch.Co1.GenVOrb
+public import CFSG.Certificates.Kernel.SporSch.Co1GenBSound
 
 open Lean Elab Command
 
@@ -27,6 +28,11 @@ elab "#kss_co1tower " pre:ident dId:ident mId:ident bId:ident gId:ident sId:iden
   let L := lN.getNat
   let P := pre.getId
   let cols := Array.ofFn (n := K) fun j => transposeRows 24 (D.1.getD j.val (one ()))
+  let tabs := cols.map fun c => (List.range 96).foldl (fun acc e =>
+    acc ||| (vecMulN 24 c ((e % 16) <<< (4 * (e / 16))) <<< (24 * e))) 0
+  let Bc := mkConst (P ++ `B)
+  liftCoreM <| withOptions (Elab.async.set · false) do
+    addTree (P ++ `B) tabs
   for i in [0:B.length] do
     let gens := Gs.getD i []
     let n := Ss.getD i 0
@@ -69,13 +75,22 @@ elab "#kss_co1tower " pre:ident dId:ident mId:ident bId:ident gId:ident sId:iden
       (Q.beta #[mkBVar 1]))
     let rflN := fun (v : Nat) => mkApp2 (mkConst ``Eq.refl [1]) natT (lit v)
     liftCoreM <| withOptions (Elab.async.set · false) do
-      addTree (nm "T") (leaves recs)
-      addTree (nm "E") (leaves es)
+      addTree (nm "TR") (leaves recs)
+      addTree (nm "ER") (leaves es)
+      addDef (nm "T") fnT (strictTab (nm "TR"))
+      addDef (nm "E") fnT (strictTab (nm "ER"))
       addTree (nm "S") (leaves srecs)
       addTree (nm "C") cs
       addDef (nm "NS") natT (lit NS)
+      addThm (nm "tb") (isT (mkApp2 (mkApp (mkConst ``List.all [0]) natT) gE
+        (mkLambda `g .default natT (mkApp2 (mkConst ``CFSG.KS.SporSch.VOrb.tabOK)
+          (mkApp (mkConst mN) (mkBVar 0)) (mkApp Bc (mkBVar 0))))))
       for s in [0:NS] do
-        addThm (P ++ Name.mkSimple s!"l{i}_{s}") (lP.beta #[lit s])
+        let lN := P ++ Name.mkSimple s!"l{i}_{s}"
+        let lV := mkAppN (mkConst ``CFSG.KS.SporSch.VOrb.levelSl_of_tab)
+          #[mkConst mN, Bc, T, E, gE, lit n, mulE (lit s) (lit L), lit L, mkApp C (lit s),
+            mkApp C (addE (lit s) (lit 1)), mkConst (nm "tb"), reflBoolTrue]
+        CFSG.KC.addThmDecl <| { name := lN, levelParams := [], type := lP.beta #[lit s], value := lV }
         addThm (P ++ Name.mkSimple s!"p{i}_{s}") (pP.beta #[lit s])
       let hlV := forallChain lP NS fun s => mkConst (P ++ Name.mkSimple s!"l{i}_{s}")
       let hpV := forallChain pP NS fun s => mkConst (P ++ Name.mkSimple s!"p{i}_{s}")

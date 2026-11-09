@@ -3,7 +3,7 @@ module
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.He7222 "Certificates/Kernel/He7222/data/he7222.json.gz" 115678
+#kc_repo #kc_json CFSG.KD.He7222 "Certificates/Kernel/He7222/data/he7222.json" 115678
   13990750916706734666
   (a0Cg : List Nat) (a0Base : List Nat) (a0Tree : List (List Nat)) (a0LGens : List (List Nat))
   (a0CTree : List (List Nat)) (a0CSorted : List (List Nat)) (a0CKeys : List (List Nat))

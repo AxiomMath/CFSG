@@ -10,8 +10,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelC690.SqPgl
-  "Certificates/Kernel/Cert690/data/SqPgl.json.gz" 653 3691000035046290130
+#kc_repo #kc_json CertificateChecks.KernelC690.SqPgl
+  "Certificates/Kernel/Cert690/data/SqPgl.json" 653 3691000035046290130
   (r1 : Nat) (r2 : Nat) (W1 : List (Nat × Nat)) (M1 : Nat) (W2 : List (Nat × Nat)) (M2 : Nat)
 
 end

@@ -29,7 +29,10 @@ theorem involOK_true : Native.involOK = true := mem_checks_true (by simp [Native
 theorem stepOK_true : Native.stepOK = true := mem_checks_true (by simp [Native.checks])
 theorem boundOK_true : Native.boundOK = true := mem_checks_true (by simp [Native.checks])
 
-theorem tabs_length : Native.tabs.length = 256 := beq_iff_eq.mp lenOK_true
+theorem tabs_length : Native.tabs.length = 256 := by
+  have h := lenOK_true
+  rw [Native.lenOK, Native.lenOKg] at h
+  exact beq_iff_eq.mp h
 
 theorem nodup_spec {i j : ℕ} (hi : i < 256) (hj : j < 256) (hij : i ≠ j) :
     Native.tabs.getD i [] ≠ Native.tabs.getD j [] := by

@@ -21,4 +21,22 @@ open CertificateChecks.KernelSporSch.Co2M
   (List.range n).all fun j => (lo + j) == 0 || glNJOm.contains (lo + j) ||
     fixVK (jcK (lo + j)) != 284
 
+theorem njFixK_add (lo a b : Nat) : njFixK lo (a + b) = (njFixK lo a && njFixK (lo + a) b) := by
+  unfold njFixK
+  rw [List.range_add, List.all_append, List.all_map]
+  simp only [Function.comp_def, Nat.add_assoc]
+
+theorem njFixK_chunks (lo m : Nat) : ∀ k : Nat, (∀ c < k, njFixK (lo + c * m) m = true) →
+    njFixK lo (k * m) = true
+  | 0, _ => by simp [njFixK]
+  | k + 1, h => by
+    rw [Nat.add_mul, Nat.one_mul, njFixK_add, njFixK_chunks lo m k (fun c hc => h c (by omega)),
+      h k (by omega)]
+    all_goals rfl
+
+theorem njFixK_of_chunks (lo k m n : Nat) (hn : k * m = n)
+    (h : ∀ c < k, njFixK (lo + c * m) m = true) : njFixK lo n = true := by
+  subst hn
+  exact njFixK_chunks lo m k h
+
 end CertificateChecks.KernelCo2Smith

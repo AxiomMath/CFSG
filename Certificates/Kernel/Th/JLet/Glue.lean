@@ -94,6 +94,103 @@ theorem hV_eq (l : Fin 8 × Bool) :
     List.singleton_append]
   rfl
 
+noncomputable def cMatJ : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+  (cWord.map fun l => regMat CFSG.KD.ThSj.RB (l.1.val, l.2)).prod
+
+noncomputable def cMatJI : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+  ((FreeGroup.invRev cWord).map fun l => regMat CFSG.KD.ThSj.RB (l.1.val, l.2)).prod
+
+theorem hV_conj (l : Fin 8 × Bool) :
+    pkMat (hV (codeL l)) = cMatJ * regMat CFSG.KD.ThSj.RB (l.1.val, l.2) * cMatJI := by
+  rw [hV_eq, pk_codeW, List.map_append, List.map_append, List.prod_append, List.prod_append,
+    List.map_singleton, List.prod_singleton]
+  rfl
+
+theorem cMatJ_mul : cMatJ * cMatJI = 1 := by
+  have e : wordV CFSG.KD.ThSj.RB c rm (List.append cC cI) ONE =
+      wordV CFSG.KD.ThSj.RB c rm (codeW (cWord ++ FreeGroup.invRev cWord)) ONE := by
+    unfold cC cI codeW
+    rw [List.map_append]
+    rfl
+  have h := congrArg pkMat (Nat.eq_of_beq_eq_true k687002_ci)
+  rw [e, pk_codeW, List.map_append, List.prod_append, pkMat_one k0] at h
+  exact h
+
+theorem cMatJI_mul : cMatJI * cMatJ = 1 := by
+  have e : wordV CFSG.KD.ThSj.RB c rm (List.append cI cC) ONE =
+      wordV CFSG.KD.ThSj.RB c rm (codeW (FreeGroup.invRev cWord ++ cWord)) ONE := by
+    unfold cC cI codeW
+    rw [List.map_append]
+    rfl
+  have h := congrArg pkMat (Nat.eq_of_beq_eq_true k687002_ic)
+  rw [e, pk_codeW, List.map_append, List.prod_append, pkMat_one k0] at h
+  exact h
+
+theorem conjJ_mul (A B : Matrix (Fin 248) (Fin 248) (ZMod 2)) :
+    cMatJ * A * cMatJI * (cMatJ * B * cMatJI) = cMatJ * (A * B) * cMatJI := by
+  simp only [mul_assoc]
+  rw [← mul_assoc cMatJI cMatJ, cMatJI_mul, one_mul]
+
+theorem prod_conjJ {α : Type} (f : α → Matrix (Fin 248) (Fin 248) (ZMod 2)) (w : List α) :
+    (w.map fun a => cMatJ * f a * cMatJI).prod = cMatJ * (w.map f).prod * cMatJI := by
+  induction w with
+  | nil => simp [cMatJ_mul]
+  | cons a w ih => rw [List.map_cons, List.prod_cons, ih, List.map_cons, List.prod_cons, conjJ_mul]
+
+theorem regMat_RH (l : Fin 8 × Bool) : regMat RH (l.1.val, l.2) = pkMat (hV (codeL l)) := by
+  obtain ⟨g, b⟩ := l
+  have hg := g.isLt
+  unfold regMat RH
+  cases b
+  · have e : regCode (g.val + 9) = codeL (g, false) := by
+      unfold regCode codeL
+      have h9 : Nat.blt (g.val + 9) 9 = false := by
+        refine Bool.eq_false_iff.2 fun h => ?_
+        rw [Nat.blt_eq] at h
+        omega
+      rw [h9]
+      change 2 * (g.val + 9 - 9) + 1 = 2 * g.val + 1
+      omega
+    simp only [Bool.false_eq_true, ↓reduceIte]
+    rw [e]
+  · have e : regCode (g.val + 1) = codeL (g, true) := by
+      unfold regCode codeL
+      have h9 : Nat.blt (g.val + 1) 9 = true := by rw [Nat.blt_eq]; omega
+      rw [h9]
+      change 2 * (g.val + 1 - 1) = 2 * g.val + 0
+      omega
+    simp only [↓reduceIte]
+    rw [e]
+
+theorem codeW_conj (w : List (Fin 8 × Bool)) :
+    pkMat (wordV RH c rm (codeW w) ONE) =
+      cMatJ * pkMat (wordV CFSG.KD.ThSj.RB c rm (codeW w) ONE) * cMatJI := by
+  rw [pk_codeW, pk_codeW,
+    ← prod_conjJ (fun l : Fin 8 × Bool => regMat CFSG.KD.ThSj.RB (l.1.val, l.2))]
+  exact congrArg List.prod (List.map_congr_left fun l _ => (regMat_RH l).trans (hV_conj l))
+
+theorem RL_conj (r : ℕ) : pkMat (RL r) = cMatJ * pkMat (RLRB r) * cMatJI := by
+  unfold RL RLRB lV lIV lVRB lIVRB
+  cases Nat.blt r 9
+  · exact codeW_conj _
+  · exact codeW_conj _
+
+theorem rels_conj (w : List (Fin 6 × Bool))
+    (h : Nat.beq (wordV RLRB c rm (code6 w) ONE) ONE = true) :
+    Nat.beq (wordV RL c rm (code6 w) ONE) ONE = true := by
+  have e := congrArg pkMat (Nat.eq_of_beq_eq_true h)
+  rw [pk_code6, pkMat_one k0] at e
+  have hr : ∀ l : Fin 6 × Bool,
+      regMat RL (l.1.val, l.2) = cMatJ * regMat RLRB (l.1.val, l.2) * cMatJI := by
+    intro l
+    unfold regMat
+    exact RL_conj _
+  have e2 : pkMat (wordV RL c rm (code6 w) ONE) = pkMat ONE := by
+    rw [pk_code6, pkMat_one k0]
+    simp only [hr]
+    rw [prod_conjJ, e, mul_one, cMatJ_mul]
+  rw [pkMat_inj (lay_wordV _ _ _ (inLayout_one k0)) (inLayout_one k0) e2, Nat.beq_refl]
+
 theorem hsw_pk (g : Fin 8) : pkMat (hV (codeL (g, true))) = rowsMatrix (rowsHsw g) := by
   rw [hV_eq, pk_codeW]
   exact ((wRows_spec (hswWord g)).2).symm
@@ -257,6 +354,32 @@ theorem comm_of {X Y : Array V4} {P Q : ℕ} (hX : WfRows X) (hY : WfRows Y)
   · rw [pkMat_mulB k0, hP, hQ, rowsMatrix_mulRows]
   · rw [pkMat_mulB k0, hP, hQ, rowsMatrix_mulRows]
 
+theorem commV_conj {A B A' B' : ℕ} {X Y : Matrix (Fin 248) (Fin 248) (ZMod 2)}
+    (hA : pkMat A = cMatJ * X * cMatJI) (hB : pkMat B = cMatJ * Y * cMatJI)
+    (hA' : pkMat A' = X) (hB' : pkMat B' = Y) (h : commV A' B' = true) : commV A B = true := by
+  have e := congrArg pkMat (Nat.eq_of_beq_eq_true h)
+  rw [pkMat_mulB k0, pkMat_mulB k0, hA', hB'] at e
+  have e2 : mulB c rm A B = mulB c rm B A := by
+    refine pkMat_inj (inLayout_mulB k0 _ _) (inLayout_mulB k0 _ _) ?_
+    rw [pkMat_mulB k0, pkMat_mulB k0, hA, hB, conjJ_mul, conjJ_mul, e]
+  unfold commV
+  rw [e2, Nat.beq_refl]
+
+theorem notB_conj {A A' : ℕ} (hA : pkMat A = cMatJ * pkMat A' * cMatJI) (hA'l : InLayout A')
+    (h : BigS.notB (Nat.beq A' ONE) = true) : BigS.notB (Nat.beq A ONE) = true := by
+  cases hb : Nat.beq A ONE
+  · rfl
+  · exfalso
+    have e := congrArg pkMat (Nat.eq_of_beq_eq_true hb)
+    rw [hA, pkMat_one k0] at e
+    have hx : cMatJI * (cMatJ * pkMat A' * cMatJI) * cMatJ = pkMat A' := by
+      simp only [← mul_assoc, cMatJI_mul, one_mul]
+      rw [mul_assoc, cMatJI_mul, mul_one]
+    have e2 : pkMat A' = pkMat ONE := by
+      rw [pkMat_one k0, ← hx, e, mul_one, cMatJI_mul]
+    rw [pkMat_inj hA'l (inLayout_one k0) e2, Nat.beq_refl] at h
+    exact Bool.noConfusion h
+
 theorem lay_hV (x : ℕ) : InLayout (hV x) := lay_wordV _ _ _ (inLayout_one k0)
 
 theorem lay_lV (j : ℕ) : InLayout (lV j) := lay_wordV _ _ _ (inLayout_one k0)
@@ -270,9 +393,11 @@ theorem conj1 : rowsMatrix (rowsHsw 1) ≠ rowsMatrix CFSG.Sporadic.Th.Max3.rows
 theorem conj2 : ∀ i : Fin 8, i ≠ 1 → eqRows (mulRows (rowsHsw 0) (rowsHsw i))
     (mulRows (rowsHsw i) (rowsHsw 0)) = true := by
   intro i hi
-  have h : ∀ k : Fin 8, commV (hV (codeL (0, true))) (hV (codeL (k, true))) = true →
+  have h : ∀ k : Fin 8, commV (CFSG.KD.ThSj.RB 1) (CFSG.KD.ThSj.RB (k.val + 1)) = true →
       eqRows (mulRows (rowsHsw 0) (rowsHsw k)) (mulRows (rowsHsw k) (rowsHsw 0)) = true :=
-    fun k hk => comm_of (wf_hsw 0) (wf_hsw k) (hsw_pk 0) (hsw_pk k) hk
+    fun k hk => comm_of (wf_hsw 0) (wf_hsw k) (hsw_pk 0) (hsw_pk k)
+      (commV_conj (A' := CFSG.KD.ThSj.RB 1) (B' := CFSG.KD.ThSj.RB (k.val + 1))
+        (hV_conj (0, true)) (hV_conj (k, true)) rfl rfl hk)
   fin_cases i
   · exact h 0 k687002_c0
   · exact absurd rfl hi
@@ -299,19 +424,73 @@ theorem relsV_mem {R : ℕ → ℕ} {ws : List (List ℕ)} (h : relsV R ws = tru
       · exact hv
       · exact ih h w hw
 
+theorem lMatJ_eq : ∀ j : Fin 6,
+    [lMatJ0, lMatJ1, lMatJ2, lMatJ3, lMatJ4, lMatJ5].getD j.val 0 = lVRB j.val
+  | ⟨0, _⟩ => (Nat.eq_of_beq_eq_true k687002_m0).symm
+  | ⟨1, _⟩ => (Nat.eq_of_beq_eq_true k687002_m1).symm
+  | ⟨2, _⟩ => (Nat.eq_of_beq_eq_true k687002_m2).symm
+  | ⟨3, _⟩ => (Nat.eq_of_beq_eq_true k687002_m3).symm
+  | ⟨4, _⟩ => (Nat.eq_of_beq_eq_true k687002_m4).symm
+  | ⟨5, _⟩ => (Nat.eq_of_beq_eq_true k687002_m5).symm
+
+theorem lIMatJ_eq : ∀ j : Fin 6,
+    [lIMatJ0, lIMatJ1, lIMatJ2, lIMatJ3, lIMatJ4, lIMatJ5].getD j.val 0 = lIVRB j.val
+  | ⟨0, _⟩ => (Nat.eq_of_beq_eq_true k687002_mi0).symm
+  | ⟨1, _⟩ => (Nat.eq_of_beq_eq_true k687002_mi1).symm
+  | ⟨2, _⟩ => (Nat.eq_of_beq_eq_true k687002_mi2).symm
+  | ⟨3, _⟩ => (Nat.eq_of_beq_eq_true k687002_mi3).symm
+  | ⟨4, _⟩ => (Nat.eq_of_beq_eq_true k687002_mi4).symm
+  | ⟨5, _⟩ => (Nat.eq_of_beq_eq_true k687002_mi5).symm
+
+theorem RLJ_reg (l : Fin 6 × Bool) :
+    regMat RLJ (l.1.val, l.2) = regMat RLRB (l.1.val, l.2) := by
+  obtain ⟨g, b⟩ := l
+  have hg := g.isLt
+  unfold regMat RLJ RLRB
+  cases b
+  · have h9 : Nat.blt (g.val + 9) 9 = false := by
+      refine Bool.eq_false_iff.2 fun h => ?_
+      rw [Nat.blt_eq] at h
+      omega
+    simp only [Bool.false_eq_true, ↓reduceIte]
+    rw [h9]
+    change pkMat ([lIMatJ0, lIMatJ1, lIMatJ2, lIMatJ3, lIMatJ4, lIMatJ5].getD (g.val + 9 - 9) 0) =
+      pkMat (lIVRB (g.val + 9 - 9))
+    rw [Nat.add_sub_cancel, lIMatJ_eq]
+  · have h9 : Nat.blt (g.val + 1) 9 = true := by rw [Nat.blt_eq]; omega
+    simp only [↓reduceIte]
+    rw [h9]
+    change pkMat ([lMatJ0, lMatJ1, lMatJ2, lMatJ3, lMatJ4, lMatJ5].getD (g.val + 1 - 1) 0) =
+      pkMat (lVRB (g.val + 1 - 1))
+    rw [Nat.add_sub_cancel, lMatJ_eq]
+
+theorem rels_lit (w : List (Fin 6 × Bool))
+    (h : Nat.beq (wordV RLJ c rm (code6 w) ONE) ONE = true) :
+    Nat.beq (wordV RLRB c rm (code6 w) ONE) ONE = true := by
+  have e := congrArg pkMat (Nat.eq_of_beq_eq_true h)
+  rw [pk_code6, pkMat_one k0] at e
+  simp only [RLJ_reg] at e
+  have e2 : pkMat (wordV RLRB c rm (code6 w) ONE) = pkMat ONE := by
+    rw [pk_code6, pkMat_one k0]
+    exact e
+  rw [pkMat_inj (lay_wordV _ _ _ (inLayout_one k0)) (inLayout_one k0) e2, Nat.beq_refl]
+
 theorem conj3 : checkLJ () = true := by
   unfold checkLJ
   refine List.all_eq_true.2 fun r hr => ?_
-  have hb := relsV_mem k687002_rels (code6 r) (List.mem_map.2 ⟨r, hr, rfl⟩)
+  have hb := rels_conj r
+    (rels_lit r (relsV_mem k687002_rels (code6 r) (List.mem_map.2 ⟨r, hr, rfl⟩)))
   exact eqRows_of_beq (wRowsArr_L r).1 wfRows_idRows (wRowsArr_L r).2.symm
     ((pkMat_one k0).trans rowsMatrix_idRows.symm) hb
 
 theorem conj4 : ∀ i : Fin 6, eqRows (mulRows (rowsL i) (rowsHsw 6))
     (mulRows (rowsHsw 6) (rowsL i)) = true := by
   intro i
-  have h : ∀ k : Fin 6, commV (lV k.val) (hV (codeL (6, true))) = true →
+  have h : ∀ k : Fin 6, commV (lVRB k.val) (CFSG.KD.ThSj.RB 7) = true →
       eqRows (mulRows (rowsL k) (rowsHsw 6)) (mulRows (rowsHsw 6) (rowsL k)) = true :=
-    fun k hk => comm_of (wf_L k) (wf_hsw 6) (L_pk k) (hsw_pk 6) hk
+    fun k hk => comm_of (wf_L k) (wf_hsw 6) (L_pk k) (hsw_pk 6)
+      (commV_conj (A' := lVRB k.val) (B' := CFSG.KD.ThSj.RB 7) (codeW_conj _) (hV_conj (6, true))
+        rfl rfl hk)
   fin_cases i
   · exact h 0 k687002_t0
   · exact h 1 k687002_t1
@@ -322,7 +501,7 @@ theorem conj4 : ∀ i : Fin 6, eqRows (mulRows (rowsL i) (rowsHsw 6))
 
 theorem conj5 : rowsMatrix (rowsL 0) ≠ rowsMatrix idRows :=
   ne_of_notB (lay_lV 0) (inLayout_one k0) (L_pk 0) ((pkMat_one k0).trans rowsMatrix_idRows.symm)
-    k687002_l0
+    (notB_conj (A' := lVRB 0) (codeW_conj _) (lay_wordV _ _ _ (inLayout_one k0)) k687002_l0)
 
 theorem wj_of (k : Fin 8) (h : Nat.beq (hV (codeL (k, true))) (wjV k) = true) :
     eqRows (rowsHsw k) (rowsWJ k) = true :=

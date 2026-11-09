@@ -44,12 +44,12 @@ theorem certificate4059 : (m24rl.length = 2 ^ 10 ∧ m24rl.Nodup ∧ (1 : ↥Nat
   · exact g1cov_sound _ m24a m24b hA hB m24RGens m24RWords m24G1 h1 (by decide) k1c
   · exact g2okP_sound _ m24a m24b hA hB m24RGens m24RWords m24PoolWords m24G2_11 11 (by decide)
       k11
-  · exact Nat.le_zero.1 (bad_sound _ m24a m24b hA hB m24RGens m24RWords m24G2_11 _ 0
+  · exact Nat.le_zero.1 (badSK_sound _ m24a m24b hA hB m24RGens m24RWords m24G2_11 _ 0
       (by decide) (by decide)
       k11c)
   · exact g2okP_sound _ m24a m24b hA hB m24RGens m24RWords m24PoolWords m24G2_23 23 (by decide)
       k23
-  · exact lt_of_le_of_lt (bad_sound _ m24a m24b hA hB m24RGens m24RWords m24G2_23 _ 888
+  · exact lt_of_le_of_lt (badSK_sound _ m24a m24b hA hB m24RGens m24RWords m24G2_23 _ 888
       (by decide) (by decide) k23c) (by decide)
 
 end Certificates

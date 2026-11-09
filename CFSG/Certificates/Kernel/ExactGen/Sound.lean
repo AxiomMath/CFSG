@@ -141,8 +141,17 @@ theorem ctx_of {c : Ctx} (hP : c.chP.check n = true) (hN : c.chN.check n = true)
 
 theorem hash_pk (P : ℕ) : hashN n (unpack n w P) = hashK n w P := by
   unfold hashN hashK
+  rw [Raw.Orb.foldUp_eq]
   refine List.foldl_ext _ _ _ fun acc i hi => ?_
   rw [get_pk (List.mem_range.1 hi)]
+  rfl
+
+theorem ptKey_pk (B : List ℕ) (P : ℕ) : ptKeyN n B (unpack n w P) = ptKeyK n w B P := by
+  unfold ptKeyN ptKeyK
+  refine List.foldl_ext _ _ _ fun acc b _ => ?_
+  by_cases hb : b < n
+  · rw [ite_eq_left hb, ite_eq_left hb, get_pk hb]
+  · rw [ite_eq_right hb, ite_eq_right hb]
 
 theorem getElem!_mem {α : Type} [Inhabited α] {l : List α} {i : ℕ} (hi : i < l.length) :
     l[i]! ∈ l := by
@@ -200,9 +209,9 @@ theorem letterA_pk {cd : ChainData} (hc : CB n w cd) {l : ℤ}
   obtain ⟨h0, hle⟩ := lettersOK_single.1 hl
   unfold letterA letK
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     exact hc _ (by omega)
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     exact cb_inv hw hc _ (by omega)
 
 include hw in
@@ -251,13 +260,443 @@ theorem bfsAux_pk {cd : ChainData} (hc : CB n w cd) {BT : ℕ → ℕ} :
     rw [e] at ih
     exact ih
 
+theorem testBit_maskFold (i : ℕ) : ∀ (F : List ℕ) (a : ℕ),
+    (F.foldl (fun h x => h ||| (1 <<< x)) a).testBit i = (a.testBit i || decide (i ∈ F))
+  | [], a => by simp
+  | x :: F, a => by
+    rw [List.foldl_cons, testBit_maskFold i F, Nat.testBit_or, Nat.one_shiftLeft,
+      Nat.testBit_two_pow]
+    by_cases h : i = x
+    · subst h
+      simp
+    · have h' : ¬ x = i := fun e => h e.symm
+      simp [h, h']
+
+theorem testBit_setKeyK (q i : ℕ) : ∀ k,
+    (setKeyK w k q).testBit i = decide (∃ j < k, pg w (mask w) q j = i)
+  | 0 => by simp [setKeyK]
+  | k + 1 => by
+    change (setKeyK w k q ||| (1 <<< pg w (mask w) q k)).testBit i = _
+    rw [Nat.testBit_or, testBit_setKeyK q i k, Nat.one_shiftLeft, Nat.testBit_two_pow]
+    refine Bool.eq_iff_iff.2 ?_
+    simp only [Bool.or_eq_true, decide_eq_true_eq]
+    constructor
+    · rintro (⟨j, hj, e⟩ | e)
+      · exact ⟨j, by omega, e⟩
+      · exact ⟨k, by omega, e⟩
+    · rintro ⟨j, hj, e⟩
+      by_cases hjk : j < k
+      · exact Or.inl ⟨j, hjk, e⟩
+      · exact Or.inr (by rw [← e, show j = k by omega])
+
+theorem testBit_fixFold (p i : ℕ) : ∀ (l : List ℕ) (a : ℕ),
+    (l.foldl (fun s x => if Nat.beq (pg w (mask w) p x) x then Nat.lor s (Nat.shiftLeft 1 x)
+      else s) a).testBit i = (a.testBit i || decide (i ∈ l ∧ pg w (mask w) p i = i))
+  | [], a => by simp
+  | x :: l, a => by
+    rw [List.foldl_cons, testBit_fixFold p i l]
+    by_cases hx : Nat.beq (pg w (mask w) p x) x = true
+    · rw [ite_eq_left hx]
+      change ((a ||| (1 <<< x)).testBit i || _) = _
+      rw [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
+      have hx' := Nat.eq_of_beq_eq_true hx
+      by_cases h : x = i
+      · subst h
+        simp [hx']
+      · simp [h, Ne.symm h]
+    · rw [ite_eq_right hx]
+      by_cases h : x = i
+      · subst h
+        have : ¬ pg w (mask w) p x = x := fun e => hx (by rw [e]; exact Nat.beq_refl x)
+        simp [this]
+      · simp [Ne.symm h]
+
+theorem testBit_fixBitsK (p i : ℕ) :
+    (fixBitsK n w p).testBit i = decide (i < n ∧ pg w (mask w) p i = i) := by
+  unfold fixBitsK
+  rw [Raw.Orb.foldUp_eq, testBit_fixFold]
+  simp
+
+theorem mem_fixPtP {Y : Equiv.Perm (Fin n)} {x : ℕ} :
+    x ∈ fixPtP n Y ↔ ∃ hx : x < n, Y ⟨x, hx⟩ = ⟨x, hx⟩ := by
+  unfold fixPtP
+  rw [List.mem_filter, List.mem_range]
+  constructor
+  · rintro ⟨hx, e⟩
+    rw [dite_eq_left hx, decide_eq_true_eq] at e
+    exact ⟨hx, Fin.ext e⟩
+  · rintro ⟨hx, e⟩
+    refine ⟨hx, ?_⟩
+    rw [dite_eq_left hx, e]
+    simp
+
+theorem letterA_rep {cd : ChainData} (hcd : cd.check n = true) {l : ℤ}
+    (hl' : l ≠ 0 ∧ l.natAbs ≤ cd.S.size) :
+    ∃ g ∈ cd.sub n, CFSG.Monster.B.Co2.Rep n (letterA cd.S (rawInvs n cd.S) l) g ∧
+      CFSG.Monster.B.Co2.Rep n (letterA cd.S (rawInvs n cd.S) (-l)) g⁻¹ := by
+  have h1 := CFSG.Monster.B.Co2.rep_letterA (S := cd.S) (Sinv := rawInvs n cd.S) (gs := fun h => cd.gs n h)
+    (j := cd.S.size) (fun h hh => ((cd.check_sound n hcd).1 h hh).1)
+    (fun h hh => ((cd.check_sound n hcd).1 h hh).2) hl'
+  have h2 := CFSG.Monster.B.Co2.rep_letterA (S := cd.S) (Sinv := rawInvs n cd.S) (gs := fun h => cd.gs n h)
+    (j := cd.S.size) (fun h hh => ((cd.check_sound n hcd).1 h hh).1)
+    (fun h hh => ((cd.check_sound n hcd).1 h hh).2) (l := -l)
+    ⟨by simpa using hl'.1, by simpa using hl'.2⟩
+  have hmem : cd.gs n (l.natAbs - 1) ∈ cd.sub n :=
+    (cd.check_sound n hcd).2.1 _ (by omega)
+  by_cases hpos : 0 < l
+  · refine ⟨cd.gs n (l.natAbs - 1), hmem, ?_, ?_⟩
+    · simpa [hpos] using h1
+    · have hn : ¬ l < 0 := by omega
+      simpa [hn] using h2
+  · refine ⟨(cd.gs n (l.natAbs - 1))⁻¹, cd.sub n |>.inv_mem hmem, ?_, ?_⟩
+    · simpa [hpos] using h1
+    · have hn : l < 0 := by omega
+      simpa [hn] using h2
+
 include hw in
-theorem bfs_of {cd : ChainData} (hc : CB n w cd) {seed : ℕ} (hs : permB n w seed = true)
-    {par : List (ℕ × ℤ)} {ord : List ℕ} {BT : ℕ → ℕ} (h : bfsK n w cd seed par ord BT = true) :
-    bfsCheck n cd.S (unpack n w seed) par ord = true := by
+theorem fixAux_pk {cd : ChainData} (hcd : cd.check n = true) (hc : CB n w cd) {FT : ℕ → ℕ}
+    {k : ℕ} (hk : k < 2 ^ 32) :
+    ∀ (par : List (ℕ × ℤ)) (m : ℕ) (L : Array (Array ℕ)), L.size = m + 1 →
+      (∀ i < m + 1, ∃ Y : Equiv.Perm (Fin n), CFSG.Monster.B.Co2.Rep n L[i]! Y ∧
+        ∀ x, x ∈ fixPtP n Y ↔ ∃ j < k, pg w (mask w) (FT i) j = x) →
+      bfsOK cd.S.size par L.size = true → imgSetK w k (letK n w cd) FT m par = true →
+      ∀ i < m + 1 + par.length, ∃ Y : Equiv.Perm (Fin n),
+        CFSG.Monster.B.Co2.Rep n (bfsAux n cd.S (rawInvs n cd.S) par L)[i]! Y ∧
+        ∀ x, x ∈ fixPtP n Y ↔ ∃ j < k, pg w (mask w) (FT i) j = x
+  | [], m, L, _, hL, _, _ => fun i hi => by simpa [bfsAux] using hL i (by simpa using hi)
+  | (p, l) :: rest, m, L, hs, hL, hok, hpar => by
+    simp only [bfsOK, Bool.and_eq_true, decide_eq_true_eq] at hok
+    obtain ⟨⟨hpl, hl⟩, hrest⟩ := hok
+    unfold imgSetK at hpar
+    rw [Bool.and_eq_true] at hpar
+    obtain ⟨hpar1, hpar2⟩ := hpar
+    have hl' : l ≠ 0 ∧ l.natAbs ≤ cd.S.size := lettersOK_single.1 hl
+    obtain ⟨g, -, hg1, hg2⟩ := letterA_rep hcd hl'
+    obtain ⟨e1, -⟩ := letterA_pk hw hc hl
+    obtain ⟨Y, hY, hYF⟩ := hL p (by omega)
+    have hZ := rep_conjArr hg1 hg2 hY
+    have hZF : ∀ x, x ∈ fixPtP n (g * Y * g⁻¹) ↔ ∃ j < k, pg w (mask w) (FT (m + 1)) j = x := by
+      intro x
+      rw [Nat.eq_of_beq_eq_true hpar1, mem_fixPtP]
+      have hgz : ∀ z : Fin n, pg w (mask w) (letK n w cd l) z = (g z : ℕ) := fun z => by
+        rw [← get_pk z.2, ← e1]
+        exact hg1 z
+      constructor
+      · rintro ⟨hx, e⟩
+        have hz : Y (g⁻¹ ⟨x, hx⟩) = g⁻¹ ⟨x, hx⟩ := by
+          have := congrArg (⇑g⁻¹) e
+          simpa [Equiv.Perm.mul_apply] using this
+        obtain ⟨j, hj, ej⟩ := (hYF (g⁻¹ ⟨x, hx⟩ : Fin n)).1 (mem_fixPtP.2 ⟨(g⁻¹ ⟨x, hx⟩).2, hz⟩)
+        refine ⟨j, hj, ?_⟩
+        rw [PF.pg_pcomp hk hj, ej, hgz]
+        simp
+      · rintro ⟨j, hj, ej⟩
+        rw [PF.pg_pcomp hk hj] at ej
+        obtain ⟨hzn, hz⟩ := mem_fixPtP.1 ((hYF _).2 ⟨j, hj, rfl⟩)
+        rw [hgz ⟨_, hzn⟩] at ej
+        subst ej
+        refine ⟨(g _).2, ?_⟩
+        simp [Equiv.Perm.mul_apply, hz]
+    have hL' : ∀ i < m + 1 + 1, ∃ Y : Equiv.Perm (Fin n), CFSG.Monster.B.Co2.Rep n (L.push (conjArr n
+        (letterA cd.S (rawInvs n cd.S) l) (letterA cd.S (rawInvs n cd.S) (-l)) L[p]!))[i]! Y ∧
+        ∀ x, x ∈ fixPtP n Y ↔ ∃ j < k, pg w (mask w) (FT i) j = x := by
+      intro i hi
+      by_cases h : i < m + 1
+      · rw [getElem!_pos _ i (by simp; omega), Array.getElem_push_lt (by omega),
+          ← getElem!_pos L i (by omega)]
+        exact hL i h
+      · have e : i = L.size := by omega
+        subst e
+        rw [getElem!_pos _ L.size (by simp), Array.getElem_push_eq, hs]
+        exact ⟨_, hZ, hZF⟩
+    have ih := fixAux_pk hcd hc hk rest (m + 1) _ (by simp [hs]) hL' (by simpa [hs] using hrest)
+      hpar2
+    intro i hi
+    exact ih i (by simp at hi; omega)
+
+include hw in
+theorem fixSet_of {cd : ChainData} (hcd : cd.check n = true) (hc : CB n w cd) {seed : ℕ}
+    {ν : Equiv.Perm (Fin n)} (hν : CFSG.Monster.B.Co2.Rep n (unpack n w seed) ν) {par : List (ℕ × ℤ)}
+    {ord : List ℕ} {FT : ℕ → ℕ} (hok : bfsOK cd.S.size par 1 = true)
+    (hord : ∀ m ∈ ord, m < par.length + 1) (h : fixOrbK n w cd seed par ord FT = true) :
+    bfsCheckFix n cd.S (unpack n w seed) par ord = true := by
+  unfold fixOrbK at h
+  simp only [Bool.and_eq_true] at h
+  obtain ⟨⟨⟨hk, h0⟩, hset⟩, hinc⟩ := h
+  have hk' : fixNumK n w seed < 2 ^ 32 := by
+    rw [Nat.blt_eq] at hk
+    exact hk
+  have hL : ∀ i < 0 + 1, ∃ Y : Equiv.Perm (Fin n), CFSG.Monster.B.Co2.Rep n (#[unpack n w seed] : Array _)[i]! Y ∧
+      ∀ x, x ∈ fixPtP n Y ↔ ∃ j < fixNumK n w seed, pg w (mask w) (FT i) j = x := by
+    intro i hi
+    have e : i = 0 := by omega
+    subst e
+    refine ⟨ν, hν, fun x => ?_⟩
+    have e0 := congrArg (fun a => a.testBit x) (Nat.eq_of_beq_eq_true h0)
+    simp only [testBit_setKeyK, testBit_fixBitsK] at e0
+    rw [decide_eq_decide.1 e0, mem_fixPtP]
+    constructor
+    · rintro ⟨hx, e⟩
+      refine ⟨hx, ?_⟩
+      rw [← get_pk hx, hν ⟨x, hx⟩, e]
+    · rintro ⟨hx, e⟩
+      refine ⟨hx, Fin.ext ?_⟩
+      rw [← hν ⟨x, hx⟩, get_pk hx, e]
+  have hF := fixAux_pk hw hcd hc hk' par 0 _ rfl hL hok hset
+  unfold bfsCheckFix
+  simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq]
+  refine ⟨⟨hok, hord⟩, ?_⟩
+  have hm : (ord.map fun m =>
+      ptMaskL (fixPtA n (bfsAux n cd.S (rawInvs n cd.S) par #[unpack n w seed])[m]!)) =
+      ord.map fun m => setKeyK w (fixNumK n w seed) (FT m) :=
+    List.map_congr_left fun m hm => by
+      obtain ⟨Y, hY, hYF⟩ := hF m (by have := hord m hm; omega)
+      rw [fixPtA_eq hY]
+      refine Nat.eq_of_testBit_eq fun i => ?_
+      unfold ptMaskL
+      rw [testBit_maskFold, testBit_setKeyK, Nat.zero_testBit, Bool.false_or]
+      exact decide_eq_decide.2 (hYF i)
+  rw [hm]
+  exact hinc
+
+theorem relMapK_sound {k : ℕ} {RP : ℕ → ℕ} {p : ℕ} {g : Equiv.Perm (Fin n)}
+    (hg : ∀ x : Fin n, pg w (mask w) p x = g x) (h : relMapK n w k RP p = true) (a b : Fin n)
+    (hab : (setKeyK w k (RP a)).testBit b = true) :
+    (setKeyK w k (RP (g a))).testBit (g b) = true := by
+  unfold relMapK relRowK at h
+  simp only [List.all_eq_true, List.mem_range] at h
+  rw [testBit_setKeyK, decide_eq_true_eq] at hab
+  obtain ⟨j, hj, e⟩ := hab
+  have := h a a.2 j hj
+  rwa [e, hg, hg] at this
+
+include hw in
+theorem relInv_of {cd : ChainData} (hcd : cd.check n = true) (hc : CB n w cd) {k : ℕ}
+    {RP : ℕ → ℕ} (h : (List.range cd.k).all (fun i => relMapK n w k RP (SC w cd i) &&
+      relMapK n w k RP (SIC n w cd i)) = true) :
+    ∀ g ∈ cd.sub n, ∀ a b : Fin n,
+      (setKeyK w k (RP (g a))).testBit (g b) = (setKeyK w k (RP a)).testBit b := by
+  intro g hg
+  induction hg using Subgroup.closure_induction with
+  | mem x hx =>
+    obtain ⟨i, hi, rfl⟩ := hx
+    have hiS : i < cd.S.size := lt_of_lt_of_le hi (ChainData.k_le_size n hcd)
+    obtain ⟨e, -⟩ := hc i hiS
+    obtain ⟨e', -⟩ := cb_inv hw hc i hiS
+    have hr := (cd.check_sound n hcd).1 i hiS
+    have h1 : ∀ x : Fin n, pg w (mask w) (SC w cd i) x = CFSG.Monster.B.Co2.permOfArr n cd.S[i]! x :=
+      fun x => by
+        rw [← get_pk x.2, ← e]
+        exact hr.1 x
+    have h2 : ∀ x : Fin n,
+        pg w (mask w) (SIC n w cd i) x = (CFSG.Monster.B.Co2.permOfArr n cd.S[i]!)⁻¹ x :=
+      fun x => by
+        rw [← get_pk x.2, ← e']
+        exact hr.2 x
+    have hi' := List.all_eq_true.1 h i (List.mem_range.2 hi)
+    rw [Bool.and_eq_true] at hi'
+    intro a b
+    refine Bool.eq_iff_iff.2 ⟨fun hab => ?_, relMapK_sound h1 hi'.1 a b⟩
+    have := relMapK_sound h2 hi'.2 _ _ hab
+    have ea : (CFSG.Monster.B.Co2.permOfArr n cd.S[i]!)⁻¹ (CFSG.Monster.B.Co2.permOfArr n cd.S[i]! a) =
+      a := Equiv.symm_apply_apply _ a
+    have eb : (CFSG.Monster.B.Co2.permOfArr n cd.S[i]!)⁻¹ (CFSG.Monster.B.Co2.permOfArr n cd.S[i]! b) =
+      b := Equiv.symm_apply_apply _ b
+    rwa [ea, eb] at this
+  | one => exact fun a b => rfl
+  | mul x y _ _ hx hy =>
+    intro a b
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hx, hy]
+  | inv x _ hx =>
+    intro a b
+    have := hx (x⁻¹ a) (x⁻¹ b)
+    have ea : x (x⁻¹ a) = a := Equiv.apply_symm_apply x a
+    have eb : x (x⁻¹ b) = b := Equiv.apply_symm_apply x b
+    rw [ea, eb] at this
+    exact this.symm
+
+theorem testBit_condFold (c : ℕ → Bool) (i : ℕ) : ∀ (l : List ℕ) (a : ℕ),
+    (l.foldl (fun s x => if c x = true then Nat.lor s (Nat.shiftLeft 1 x) else s) a).testBit i =
+      (a.testBit i || decide (i ∈ l ∧ c i = true))
+  | [], a => by simp
+  | x :: l, a => by
+    rw [List.foldl_cons, testBit_condFold c i l]
+    by_cases hx : c x = true
+    · rw [ite_eq_left hx]
+      change ((a ||| (1 <<< x)).testBit i || _) = _
+      rw [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
+      by_cases h : x = i
+      · subst h
+        simp [hx]
+      · simp [h, Ne.symm h]
+    · rw [ite_eq_right hx]
+      by_cases h : x = i
+      · subst h
+        simp [hx]
+      · simp [Ne.symm h]
+
+theorem testBit_relBitsK (kr : ℕ) (RP : ℕ → ℕ) (p i : ℕ) :
+    (relBitsK n w kr RP p).testBit i =
+      decide (i < n ∧ (setKeyK w kr (RP i)).testBit (pg w (mask w) p i) = true) := by
+  unfold relBitsK
+  rw [Raw.Orb.foldUp_eq, testBit_condFold]
+  simp
+
+theorem mem_relPtP {R : List ℕ} {kr : ℕ} {RP : ℕ → ℕ} (hR : ∀ a < n, R[a]! = setKeyK w kr (RP a))
+    {Y : Equiv.Perm (Fin n)} {x : ℕ} :
+    x ∈ relPtP n R Y ↔ ∃ hx : x < n, (setKeyK w kr (RP x)).testBit (Y ⟨x, hx⟩) = true := by
+  unfold relPtP
+  rw [List.mem_filter, List.mem_range]
+  constructor
+  · rintro ⟨hx, e⟩
+    rw [dite_eq_left hx, hR x hx] at e
+    exact ⟨hx, e⟩
+  · rintro ⟨hx, e⟩
+    refine ⟨hx, ?_⟩
+    rw [dite_eq_left hx, hR x hx]
+    exact e
+
+include hw in
+theorem relAux_pk {cd : ChainData} (hcd : cd.check n = true) (hc : CB n w cd) {FT : ℕ → ℕ}
+    {k : ℕ} (hk : k < 2 ^ 32) {T : ℕ → ℕ → Bool}
+    (hT : ∀ g ∈ cd.sub n, ∀ a b : Fin n, T (g a) (g b) = T a b) :
+    ∀ (par : List (ℕ × ℤ)) (m : ℕ) (L : Array (Array ℕ)), L.size = m + 1 →
+      (∀ i < m + 1, ∃ Y : Equiv.Perm (Fin n), CFSG.Monster.B.Co2.Rep n L[i]! Y ∧
+        ∀ x, (∃ hx : x < n, T x (Y ⟨x, hx⟩) = true) ↔ ∃ j < k, pg w (mask w) (FT i) j = x) →
+      bfsOK cd.S.size par L.size = true → imgSetK w k (letK n w cd) FT m par = true →
+      ∀ i < m + 1 + par.length, ∃ Y : Equiv.Perm (Fin n),
+        CFSG.Monster.B.Co2.Rep n (bfsAux n cd.S (rawInvs n cd.S) par L)[i]! Y ∧
+        ∀ x, (∃ hx : x < n, T x (Y ⟨x, hx⟩) = true) ↔ ∃ j < k, pg w (mask w) (FT i) j = x
+  | [], m, L, _, hL, _, _ => fun i hi => by simpa [bfsAux] using hL i (by simpa using hi)
+  | (p, l) :: rest, m, L, hs, hL, hok, hpar => by
+    simp only [bfsOK, Bool.and_eq_true, decide_eq_true_eq] at hok
+    obtain ⟨⟨hpl, hl⟩, hrest⟩ := hok
+    unfold imgSetK at hpar
+    rw [Bool.and_eq_true] at hpar
+    obtain ⟨hpar1, hpar2⟩ := hpar
+    have hl' : l ≠ 0 ∧ l.natAbs ≤ cd.S.size := lettersOK_single.1 hl
+    obtain ⟨g, hgm, hg1, hg2⟩ := letterA_rep hcd hl'
+    obtain ⟨e1, -⟩ := letterA_pk hw hc hl
+    obtain ⟨Y, hY, hYF⟩ := hL p (by omega)
+    have hZ := rep_conjArr hg1 hg2 hY
+    have hZF : ∀ x, (∃ hx : x < n, T x ((g * Y * g⁻¹) ⟨x, hx⟩) = true) ↔
+        ∃ j < k, pg w (mask w) (FT (m + 1)) j = x := by
+      intro x
+      rw [Nat.eq_of_beq_eq_true hpar1]
+      have hgz : ∀ z : Fin n, pg w (mask w) (letK n w cd l) z = (g z : ℕ) := fun z => by
+        rw [← get_pk z.2, ← e1]
+        exact hg1 z
+      constructor
+      · rintro ⟨hx, e⟩
+        have e' : T (g⁻¹ ⟨x, hx⟩) (Y (g⁻¹ ⟨x, hx⟩)) = true := by
+          have := hT g hgm (g⁻¹ ⟨x, hx⟩) (Y (g⁻¹ ⟨x, hx⟩))
+          rw [← this]
+          simpa [Equiv.Perm.mul_apply] using e
+        obtain ⟨j, hj, ej⟩ := (hYF (g⁻¹ ⟨x, hx⟩ : Fin n)).1 ⟨(g⁻¹ ⟨x, hx⟩).2, e'⟩
+        refine ⟨j, hj, ?_⟩
+        rw [PF.pg_pcomp hk hj, ej, hgz]
+        simp
+      · rintro ⟨j, hj, ej⟩
+        rw [PF.pg_pcomp hk hj] at ej
+        obtain ⟨hzn, hz⟩ := (hYF _).2 ⟨j, hj, rfl⟩
+        rw [hgz ⟨_, hzn⟩] at ej
+        subst ej
+        refine ⟨(g _).2, ?_⟩
+        have := hT g hgm ⟨_, hzn⟩ (Y ⟨_, hzn⟩)
+        simpa [Equiv.Perm.mul_apply, this] using hz
+    have hL' : ∀ i < m + 1 + 1, ∃ Y : Equiv.Perm (Fin n), CFSG.Monster.B.Co2.Rep n (L.push (conjArr n
+        (letterA cd.S (rawInvs n cd.S) l) (letterA cd.S (rawInvs n cd.S) (-l)) L[p]!))[i]! Y ∧
+        ∀ x, (∃ hx : x < n, T x (Y ⟨x, hx⟩) = true) ↔ ∃ j < k, pg w (mask w) (FT i) j = x := by
+      intro i hi
+      by_cases h : i < m + 1
+      · rw [getElem!_pos _ i (by simp; omega), Array.getElem_push_lt (by omega),
+          ← getElem!_pos L i (by omega)]
+        exact hL i h
+      · have e : i = L.size := by omega
+        subst e
+        rw [getElem!_pos _ L.size (by simp), Array.getElem_push_eq, hs]
+        exact ⟨_, hZ, hZF⟩
+    have ih := relAux_pk hcd hc hk hT rest (m + 1) _ (by simp [hs]) hL' (by simpa [hs] using hrest)
+      hpar2
+    intro i hi
+    exact ih i (by simp at hi; omega)
+
+include hw in
+theorem relSet_of {cd : ChainData} (hcd : cd.check n = true) (hc : CB n w cd) {seed : ℕ}
+    {ν : Equiv.Perm (Fin n)} (hν : CFSG.Monster.B.Co2.Rep n (unpack n w seed) ν)
+    {par : List (ℕ × ℤ)} {ord : List ℕ} {R : List ℕ} {kr k : ℕ} {RP FT : ℕ → ℕ}
+    (hok : bfsOK cd.S.size par 1 = true) (hord : ∀ m ∈ ord, m < par.length + 1)
+    (h : relOrbK n w cd seed R kr RP k par ord FT = true) :
+    bfsCheckRel n cd.S R (unpack n w seed) par ord = true := by
+  unfold relOrbK at h
+  simp only [Bool.and_eq_true] at h
+  obtain ⟨⟨⟨⟨⟨hk, hR⟩, hmap⟩, h0⟩, hset⟩, hinc⟩ := h
+  have hk' : k < 2 ^ 32 := by
+    rw [Nat.blt_eq] at hk
+    exact hk
+  have hR' : ∀ a < n, R[a]! = setKeyK w kr (RP a) := by
+    simp only [List.all_eq_true, List.mem_range] at hR
+    exact fun a ha => Nat.eq_of_beq_eq_true (hR a ha)
+  have hL : ∀ i < 0 + 1, ∃ Y : Equiv.Perm (Fin n),
+      CFSG.Monster.B.Co2.Rep n (#[unpack n w seed] : Array _)[i]! Y ∧
+      ∀ x, (∃ hx : x < n, (setKeyK w kr (RP x)).testBit (Y ⟨x, hx⟩) = true) ↔
+        ∃ j < k, pg w (mask w) (FT i) j = x := by
+    intro i hi
+    have e : i = 0 := by omega
+    subst e
+    refine ⟨ν, hν, fun x => ?_⟩
+    have e0 := congrArg (fun a => a.testBit x) (Nat.eq_of_beq_eq_true h0)
+    rw [testBit_setKeyK, testBit_relBitsK] at e0
+    rw [decide_eq_decide.1 e0]
+    constructor
+    · rintro ⟨hx, e⟩
+      refine ⟨hx, ?_⟩
+      rw [← get_pk hx, hν ⟨x, hx⟩]
+      exact e
+    · rintro ⟨hx, e⟩
+      refine ⟨hx, ?_⟩
+      rw [← hν ⟨x, hx⟩, get_pk hx]
+      exact e
+  have hF := relAux_pk hw hcd hc hk' (T := fun a b => (setKeyK w kr (RP a)).testBit b)
+    (relInv_of hw hcd hc hmap) par 0 _ rfl hL hok hset
+  unfold bfsCheckRel
+  simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq]
+  refine ⟨⟨hok, hord⟩, ?_⟩
+  have hm : (ord.map fun m =>
+      ptMaskL (relPtA n R (bfsAux n cd.S (rawInvs n cd.S) par #[unpack n w seed])[m]!)) =
+      ord.map fun m => setKeyK w k (FT m) :=
+    List.map_congr_left fun m hm => by
+      obtain ⟨Y, hY, hYF⟩ := hF m (by have := hord m hm; omega)
+      rw [relPtA_eq R hY]
+      refine Nat.eq_of_testBit_eq fun i => ?_
+      unfold ptMaskL
+      rw [testBit_maskFold, testBit_setKeyK, Nat.zero_testBit, Bool.false_or]
+      exact decide_eq_decide.2 ((mem_relPtP hR').trans (hYF i))
+  rw [hm]
+  exact hinc
+
+include hw in
+theorem bfs_of {cd : ChainData} (hcd : cd.check n = true) (hc : CB n w cd) {seed : ℕ}
+    (hs : permB n w seed = true) {ν : Equiv.Perm (Fin n)} (hν : CFSG.Monster.B.Co2.Rep n (unpack n w seed) ν)
+    {B R RL : List ℕ} {kr : ℕ} {par : List (ℕ × ℤ)} {ord : List ℕ} {BT : ℕ → ℕ}
+    (h : bfsK n w cd B R RL kr seed par ord BT = true) :
+    (bfsCheck n cd.S (unpack n w seed) par ord ||
+      bfsCheckPt n cd.S B (unpack n w seed) par ord ||
+      bfsCheckFix n cd.S (unpack n w seed) par ord ||
+      bfsCheckRel n cd.S R (unpack n w seed) par ord) = true := by
   unfold bfsK at h
-  unfold bfsCheck
-  simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at h ⊢
+  rw [Bool.or_eq_true] at h
+  rcases h with h | h
+  swap
+  · simp only [Bool.and_eq_true, Bool.or_eq_true, List.all_eq_true, decide_eq_true_eq] at h
+    rcases h.2 with h2 | h2
+    · rw [fixSet_of hw hcd hc hν h.1.1 h.1.2 h2, Bool.or_true, Bool.true_or]
+    · unfold relOrbL at h2
+      rw [relSet_of hw hcd hc hν h.1.1 h.1.2 h2, Bool.or_true]
+  rw [Bool.or_eq_true, Bool.or_eq_true]
+  refine Or.inl (Or.inl ?_)
+  unfold bfsCheck bfsCheckPt
+  simp only [Bool.and_eq_true, Bool.or_eq_true, List.all_eq_true, decide_eq_true_eq] at h ⊢
   obtain ⟨⟨⟨⟨hok, hord⟩, h0⟩, hpar⟩, hinc⟩ := h
   have hL : ∀ i < 0 + 1, (#[unpack n w seed] : Array (Array ℕ))[i]! = unpack n w (BT i) ∧
       permB n w (BT i) = true := by
@@ -267,13 +706,23 @@ theorem bfs_of {cd : ChainData} (hc : CB n w cd) {seed : ℕ} (hs : permB n w se
     rw [Nat.eq_of_beq_eq_true h0]
     exact ⟨rfl, hs⟩
   obtain ⟨-, e⟩ := bfsAux_pk hw hc par 0 _ rfl hL hok hpar
-  refine ⟨⟨hok, hord⟩, ?_⟩
-  have hm : (ord.map fun m => hashN n (bfsAux n cd.S (rawInvs n cd.S) par #[unpack n w seed])[m]!) =
-      ord.map fun m => hashK n w (BT m) :=
-    List.map_congr_left fun m hm => by
-      rw [e m (by have := hord m hm; omega), hash_pk]
-  rw [hm]
-  exact hinc
+  rcases hinc with hinc | hinc
+  · refine Or.inl ⟨⟨hok, hord⟩, ?_⟩
+    have hm : (ord.map fun m =>
+        hashN n (bfsAux n cd.S (rawInvs n cd.S) par #[unpack n w seed])[m]!) =
+        ord.map fun m => hashK n w (BT m) :=
+      List.map_congr_left fun m hm => by
+        rw [e m (by have := hord m hm; omega), hash_pk]
+    rw [hm]
+    exact hinc
+  · refine Or.inr ⟨⟨hok, hord⟩, ?_⟩
+    have hm : (ord.map fun m =>
+        ptKeyN n B (bfsAux n cd.S (rawInvs n cd.S) par #[unpack n w seed])[m]!) =
+        ord.map fun m => ptKeyK n w B (BT m) :=
+      List.map_congr_left fun m hm => by
+        rw [e m (by have := hord m hm; omega), ptKey_pk]
+    rw [hm]
+    exact hinc
 
 theorem powA_eq (t : Array ℕ) : ∀ k, powA n t k = CFSG.Monster.B.Mathieu.powArr n t k
   | 0 => rfl
@@ -366,8 +815,8 @@ include hw in
 theorem rep_of {ctx : Ctx} {r : RepCert} {oP oC oX oT : ℕ} (hP : ctx.chP.check n = true)
     (hPo : ctx.chP.order n = oP) (hC : r.chC.check n = true) (hCo : r.chC.order n = oC)
     (hX : r.chX.check n = true) (hXo : r.chX.order n = oX) (hT : r.chT.check n = true)
-    (hTo : r.chT.order n = oT) (hcP : CB n w ctx.chP) (hcN : CB n w ctx.chN)
-    (hcC : CB n w r.chC) (hcX : CB n w r.chX) (hcT : CB n w r.chT)
+    (hTo : r.chT.order n = oT) (hN : ctx.chN.check n = true) (hcP : CB n w ctx.chP)
+    (hcN : CB n w ctx.chN) (hcC : CB n w r.chC) (hcX : CB n w r.chX) (hcT : CB n w r.chT)
     {BT : ℕ → ℕ} (h : repK n w ctx r BT oP oC oX oT = true) : r.ok n ctx = true := by
   have hkC := ChainData.k_le_size n hC
   have hkX := ChainData.k_le_size n hX
@@ -391,7 +840,10 @@ theorem rep_of {ctx : Ctx} {r : RepCert} {oP oC oX oT : ℕ} (hP : ctx.chP.check
     unfold RepCert.okE
     simp only [Bool.and_eq_true, decide_eq_true_eq]
     rw [eNu, hPo, hCo]
-    exact ⟨bfs_of hw hcP pNu h5, h6⟩
+    have hν : CFSG.Monster.B.Co2.Rep n (r.nuA n ctx) (ctx.chN.val n r.nuW) :=
+      ctx.chN.rep_wordArr n hN h1
+    rw [eNu] at hν
+    exact ⟨bfs_of hw hP hcP pNu hν h5, h6⟩
   have hokX : r.okX n = true := by
     unfold RepCert.okX
     simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range]
@@ -567,7 +1019,7 @@ theorem fc_ok_of {c : FCCert} {oP oN oTN : ℕ} {ro : List RepOrd}
   rw [hj'] at hC hCo hX hXo hT' hTo''
   have := hreps j hj
   rw [hj'] at this
-  exact rep_of hw hP hPo hC hCo hX hXo hT' hTo'' cP cN cC cX cT' this
+  exact rep_of hw hP hPo hC hCo hX hXo hT' hTo'' hN cP cN cC cX cT' this
 
 end CFSG.KC.ExactGen
 

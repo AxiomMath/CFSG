@@ -10,6 +10,8 @@ public import Certificates.Kernel.Sporadic.Fi24PairK.Pc.B0
 public import Certificates.Kernel.Sporadic.Fi24PairK.Pc.B1
 public import Certificates.Kernel.Sporadic.Fi24PairK.Pc.B2
 public import Certificates.Kernel.Sporadic.Fi24PairK.Pc.B3
+public import Certificates.Kernel.Sporadic.Fi24PairK.PTabVSound
+public import Certificates.Kernel.Sporadic.Fi24PairK.Checks.W0
 public import CFSG.Certificates.Kernel.Spor.Fi24PairPcSound
 import CFSG.Certificates.Kernel.Common.ForallTree
 
@@ -20,10 +22,27 @@ namespace CFSG.KD.Fi24PairPc
 open CFSG.KC CFSG.KC.Fi24PairK CFSG.KC.Fi24PairPc CFSG.KS.Fi24PairPc
 open CFSG.KD.Fi24PairK (NV net)
 
-#kc_forall_tree tAll (fun g => cT g = true) 441 CFSG.KD.Fi24PairPc.Ck.t
-#kc_forall_tree aAll (fun g => cA g = true) 576 CFSG.KD.Fi24PairPc.Ck.a
-#kc_forall_tree bAll (fun g => cB g = true) 529 CFSG.KD.Fi24PairPc.Ck.b
-#kc_forall_tree gAll (fun g => gck g = true) 34 CFSG.KD.Fi24PairPc.Ck.g
+#kc_forall_tree nAllV (fun g => CFSG.KD.Fi24PairK.nck g = true) 27 CFSG.KD.Fi24PairK.Ck.n
+#kc_forall_tree tAllV (fun g => cTV g = true) 441 CFSG.KD.Fi24PairPc.Ck.tV
+#kc_forall_tree aAllV (fun g => cAV g = true) 576 CFSG.KD.Fi24PairPc.Ck.aV
+#kc_forall_tree bAllV (fun g => cBV g = true) 529 CFSG.KD.Fi24PairPc.Ck.bV
+#kc_forall_tree gAllV (fun g => gckV g = true) 34 CFSG.KD.Fi24PairPc.Ck.gV
+
+theorem tAll (g : Nat) (hg : g < 441) : cT g = true := by
+  rw [← cTV_eq nAllV]
+  exact tAllV g hg
+
+theorem aAll (g : Nat) (hg : g < 576) : cA g = true := by
+  rw [← cAV_eq nAllV]
+  exact aAllV g hg
+
+theorem bAll (g : Nat) (hg : g < 529) : cB g = true := by
+  rw [← cBV_eq nAllV]
+  exact bAllV g hg
+
+theorem gAll (g : Nat) (hg : g < 34) : gck g = true := by
+  rw [← gckV_eq nAllV]
+  exact gAllV g hg
 
 theorem nthN_eq : ∀ (l : List Nat) (g : Nat) (h : g < l.length), nthN l g = l[g]
   | [], _, h => absurd h (by simp)
@@ -55,19 +74,25 @@ theorem genT : ∀ l ∈ lvT, ∃ r, genOK NV net J.xsT 21 l r = true := gen_of 
   have hg' : g < 10 := by simpa [lvT] using hg
   have := gAll g (by omega : g < 34)
   unfold gck at this
-  rwa [blt_t hg'] at this
+  rw [blt_t hg'] at this
+  have h : gT g = true := this
+  rwa [gT, genOKC_eq] at h
 
 theorem genA : ∀ l ∈ lvA, ∃ r, genOK NV net J.xsA 24 l r = true := gen_of (gw := J.gwA) fun g hg => by
   have hg' : g < 12 := by simpa [lvA] using hg
   have := gAll (10 + g) (by omega : 10 + g < 34)
   unfold gck at this
-  rwa [blt_f (by omega : 10 ≤ 10 + g), blt_t (by omega : 10 + g < 22), sub_add'] at this
+  rw [blt_f (by omega : 10 ≤ 10 + g), blt_t (by omega : 10 + g < 22), sub_add'] at this
+  have h : gA g = true := this
+  rwa [gA, genOKC_eq] at h
 
 theorem genB : ∀ l ∈ lvB, ∃ r, genOK NV net J.xsB 23 l r = true := gen_of (gw := J.gwB) fun g hg => by
   have hg' : g < 12 := by simpa [lvB] using hg
   have := gAll (22 + g) (by omega : 22 + g < 34)
   unfold gck at this
-  rwa [blt_f (by omega : 10 ≤ 22 + g), blt_f (by omega : 22 ≤ 22 + g), sub_add'] at this
+  rw [blt_f (by omega : 10 ≤ 22 + g), blt_f (by omega : 22 ≤ 22 + g), sub_add'] at this
+  have h : gB g = true := this
+  rwa [gB, genOKC_eq] at h
 
 theorem prodT : ∏ j ∈ Finset.range 21, nthN J.psT j = 2 ^ 21 := by decide +kernel
 
@@ -85,15 +110,21 @@ variable {L : ℤ → CFSG.Sporadic.Fi24.J}
 
 theorem card_T0_le (hN : PtHyp L NV net) (hinv : ∀ z, z ≠ 0 → L (-z) = (L z)⁻¹) :
     Nat.card (Subgroup.closure {g | ∃ l ∈ lvT, g = L (Int.ofNat (l + 3))}) ≤ 2 ^ 21 :=
-  prodT ▸ card_le_of hN hinv nzT (relOK_of_pcCk fun g hg => tAll g hg) genT
+  prodT ▸ card_le_of hN hinv nzT (relOK_of_pcCk fun g hg => by
+    have h := tAll g hg
+    rwa [cT, pcCkC_eq] at h) genT
 
 theorem card_A0_le (hN : PtHyp L NV net) (hinv : ∀ z, z ≠ 0 → L (-z) = (L z)⁻¹) :
     Nat.card (Subgroup.closure {g | ∃ l ∈ lvA, g = L (Int.ofNat (l + 3))}) ≤ 2 ^ 21 * 27 :=
-  prodA ▸ card_le_of hN hinv nzA (relOK_of_pcCk fun g hg => aAll g hg) genA
+  prodA ▸ card_le_of hN hinv nzA (relOK_of_pcCk fun g hg => by
+    have h := aAll g hg
+    rwa [cA, pcCkC_eq] at h) genA
 
 theorem card_B0_le (hN : PtHyp L NV net) (hinv : ∀ z, z ≠ 0 → L (-z) = (L z)⁻¹) :
     Nat.card (Subgroup.closure {g | ∃ l ∈ lvB, g = L (Int.ofNat (l + 3))}) ≤ 2 ^ 21 * 9 :=
-  prodB ▸ card_le_of hN hinv nzB (relOK_of_pcCk fun g hg => bAll g hg) genB
+  prodB ▸ card_le_of hN hinv nzB (relOK_of_pcCk fun g hg => by
+    have h := bAll g hg
+    rwa [cB, pcCkC_eq] at h) genB
 
 end CFSG.KD.Fi24PairPc
 

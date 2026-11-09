@@ -13,10 +13,11 @@ open CFSG.Sporadic.Schreier.Co3 CFSG.Sporadic.Schreier.Co3.Native CFSG.Certifica
 open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch
 
 theorem replay : SetReplayOK 276 9 36 2 170775 170775 134 10 42 32 128 Co3OZ.G Co3OZ.GI
-    (rowGet Co3OZ.XT 352) (rowGet Co3OZ.WT 40) (rowGet Co3OZ.ST 20) (rowGet Co3OZ.SIT 20) Co3OZ.C
-    co3IzNat :=
+    (rowGet Co3OZ.XT 352) (rowGet Co3OZ.WT 40) (rowGet Co3OZ.KT 340) (rowGet Co3OZ.ST 20)
+    (rowGet Co3OZ.SIT 20) Co3OZ.C co3IzNat :=
   ⟨by norm_num, by norm_num, by norm_num, by norm_num, le_refl _, by norm_num, by norm_num,
-    by norm_num, by norm_num, fun k hk => allN_spec Co3OrbZ.perm k hk, Co3OrbZ.start, Co3OZ.helt,
+    by norm_num, by norm_num, fun k hk => allN_spec Co3OrbZ.perm k hk, Co3OrbZ.start,
+    SRP.rowGet_lt rfl, by norm_num,
     Co3OZ.hsrt, Nat.eq_of_beq_eq_true Co3OrbZ.c0, Nat.eq_of_beq_eq_true Co3OrbZ.cN, Co3OZ.hrun⟩
 
 theorem facts : translatesOK co3OrigArrs co3IzNat co3OrbitZ.1 co3OrbitZ.2.1 co3OrbitZ.2.2 = true ∧

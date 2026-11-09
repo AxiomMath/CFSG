@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.HNLocal.Data
+public import Certificates.Data.Kernel.HNLocalV
 public import CFSG.Certificates.Kernel.Orders.HN.Data.Const
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -11,11 +12,7 @@ public section
 
 namespace CFSG.KD.HNLocal
 
-theorem ce8 : CFSG.KC.HNLocal.cenAt mul vm PC RP TG (nat_lit 0x20) CFSG.KD.OrdHN.ONE CFSG.KD.OrdHN.RM
-    (nat_lit 0x8) (nat_lit 0x4) (nat_lit 0xa) = true := by
-  quickRfl
-
-theorem ce9 : CFSG.KC.HNLocal.cenAt mul vm PC RP TG (nat_lit 0x20) CFSG.KD.OrdHN.ONE CFSG.KD.OrdHN.RM
+theorem ce9 : CFSG.KC.HNLocal.cenVAt vm PC TG (nat_lit 0x0)
     (nat_lit 0x9) (nat_lit 0x4) (nat_lit 0xa) = true := by
   quickRfl
 

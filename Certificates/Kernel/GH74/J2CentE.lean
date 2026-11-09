@@ -5,6 +5,9 @@ public import Certificates.Kernel.Sporadic.OddCore.J2Loc
 public import Certificates.Data.Kernel.GH74Ev
 public import Certificates.Data.GH74J2CentCheck
 public import Certificates.Kernel.Sporadic.ON.Gen
+public import Certificates.Data.Kernel.Spor.PEnumR
+public import Certificates.Data.Kernel.Spor.PEnumB
+public import Certificates.Data.Kernel.Spor.HKeyU
 meta import Certificates.Data.GH74J2CentCheck
 meta import Certificates.Kernel.Sporadic.OddCore.J2Loc
 import CFSG.Certificates.Kernel.Common.Harness
@@ -43,20 +46,12 @@ meta def ids6M : Array (Array Nat) := idsM 6
 
 meta def recOf (gs : Array (Array Nat)) : Array (Array Nat) :=
   (bfs (fun j t => conjTab 315 idM gs[j]! t) gs.size idM 3000).tabs
-meta def clOf (gs : Array (Array Nat)) : Array (Array Nat) :=
-  ((recOf gs).map fun x => (gs ++ gs.map invM).map fun g => comp 315 x g).flatten
 meta def eRecM : Array (Array Nat) := recOf eM
-meta def o1RecM : Array (Array Nat) := recOf o1M
-meta def o2RecM : Array (Array Nat) := recOf o2M
-meta def pfRecM : Array (Array Nat) := recOf pfM
-meta def s1RecM : Array (Array Nat) := recOf s1M
-meta def s2RecM : Array (Array Nat) := recOf s2M
-meta def eClM : Array (Array Nat) := clOf eM
-meta def o1ClM : Array (Array Nat) := clOf o1M
-meta def o2ClM : Array (Array Nat) := clOf o2M
-meta def pfClM : Array (Array Nat) := clOf pfM
-meta def s1ClM : Array (Array Nat) := clOf s1M
-meta def s2ClM : Array (Array Nat) := clOf s2M
+meta def hvOf (gs : Array (Array Nat)) : Array (Array Nat) :=
+  (recOf gs).map fun t => #[(hkey 315 (t.map UInt32.ofNat)).toNat]
+meta def pfHvM : Array (Array Nat) := hvOf pfM
+meta def s1HvM : Array (Array Nat) := hvOf s1M
+meta def s2HvM : Array (Array Nat) := hvOf s2M
 
 meta def eIM : Array (Array Nat) := eM.map invM
 meta def o1IM : Array (Array Nat) := o1M.map invM
@@ -101,18 +96,6 @@ open CertificateChecks.KernelGH74.J2CentE in
 open CertificateChecks.KernelGH74.J2CentE in
 #kmulh CertificateChecks.KernelGH74.J2S2 315 9 ids6M s2M idM 3000
 open CertificateChecks.KernelGH74.J2CentE in
-#kfind CertificateChecks.KernelGH74.J2ECl eRecM eClM
-open CertificateChecks.KernelGH74.J2CentE in
-#kfind CertificateChecks.KernelGH74.J2O1Cl o1RecM o1ClM
-open CertificateChecks.KernelGH74.J2CentE in
-#kfind CertificateChecks.KernelGH74.J2O2Cl o2RecM o2ClM
-open CertificateChecks.KernelGH74.J2CentE in
-#kfind CertificateChecks.KernelGH74.J2PFCl pfRecM pfClM
-open CertificateChecks.KernelGH74.J2CentE in
-#kfind CertificateChecks.KernelGH74.J2S1Cl s1RecM s1ClM
-open CertificateChecks.KernelGH74.J2CentE in
-#kfind CertificateChecks.KernelGH74.J2S2Cl s2RecM s2ClM
-open CertificateChecks.KernelGH74.J2CentE in
 #kmisc_packarrs CertificateChecks.KernelGH74.J2EI eIM 9
 open CertificateChecks.KernelGH74.J2CentE in
 #kmisc_packarrs CertificateChecks.KernelGH74.J2O1I o1IM 9
@@ -132,6 +115,12 @@ open CertificateChecks.KernelGH74.J2CentE in
 #kmisc_packarrs CertificateChecks.KernelGH74.J2PFW pfWM 9
 open CertificateChecks.KernelGH74.J2CentE in
 #kmisc_packarrs CertificateChecks.KernelGH74.J2EAI eAllIM 9
+open CertificateChecks.KernelGH74.J2CentE in
+#kmisc_packarrs CertificateChecks.KernelGH74.J2PFV pfHvM 64
+open CertificateChecks.KernelGH74.J2CentE in
+#kmisc_packarrs CertificateChecks.KernelGH74.J2S1V s1HvM 64
+open CertificateChecks.KernelGH74.J2CentE in
+#kmisc_packarrs CertificateChecks.KernelGH74.J2S2V s2HvM 64
 open CertificateChecks.KernelGH74.J2CentE in
 #kfind CertificateChecks.KernelGH74.J2EP eRecM ePM
 open CertificateChecks.KernelGH74.J2CentE in
@@ -243,66 +232,142 @@ theorem syl_ok : allN J2S1.cnt (fun i => bIf(memK J2S2.cnt J2S2.T (J2S1.T i),
     memK J2E.cnt J2E.T (J2S1.T i), true)) = true := by
   quickRfl
 
+theorem nc_inv : (List.range 32).filter (fun i => bAnd(involK (J2E.T i),
+      bIf(Nat.beq (J2E.T i) tK, false, true))) = J2NCI := by
+  decide +kernel
+
+theorem nc_cm : allN 10 (fun a => allN 10 (fun b => Nat.beq (getL J2CM (Nat.add (Nat.mul 10 a) b))
+      (bN (commK (J2E.T (getL J2NCI a)) (J2E.T (getL J2NCI b)))))) = true := by
+  decide +kernel
+
+theorem nc_gp : allN 4 (fun a => allN 4 (fun b => Nat.beq (getL J2GP (Nat.add (Nat.mul 4 a) b))
+      (bN (commK (J2E.GI a) (J2E.GI b))))) = true := by
+  decide +kernel
+
+@[expose] noncomputable def qSum (k : Nat) (f : Nat → Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0 (fun i ih => Nat.add ih (f i)) k
+
+theorem qSum_succ (k : Nat) (f : Nat → Nat) : qSum (k + 1) f = qSum k f + f k := rfl
+
+theorem qSum_zero_fn (k : Nat) : qSum k (fun _ => 0) = 0 := by
+  induction k with
+  | zero => rfl
+  | succ k ih => rw [qSum_succ, ih]
+
+theorem qSum_congr {k : Nat} {f g : Nat → Nat} (h : ∀ i < k, f i = g i) : qSum k f = qSum k g := by
+  induction k with
+  | zero => rfl
+  | succ k ih => rw [qSum_succ, qSum_succ, ih (fun i hi => h i (by omega)), h k (by omega)]
+
+theorem qSum_filter_map {α : Type} (k : Nat) (h : Nat → α) (q : α → Bool) :
+    (((List.range k).map h).filter q).length = qSum k (fun i => bN (q (h i))) := by
+  induction k with
+  | zero => rfl
+  | succ k ih =>
+    rw [List.range_succ, List.map_append, List.filter_append, List.length_append, ih, qSum_succ]
+    cases hq : q (h k) <;> simp [hq, bN]
+
+theorem qSum_filter_flatMap {α : Type} (k : Nat) (g : Nat → List α) (q : α → Bool) :
+    (((List.range k).flatMap g).filter q).length = qSum k (fun i => ((g i).filter q).length) := by
+  induction k with
+  | zero => rfl
+  | succ k ih =>
+    rw [List.range_succ, List.flatMap_append, List.filter_append, List.length_append, ih, qSum_succ]
+    simp
+
+theorem quad_len (p : Nat → Nat → Nat → Nat → Bool) (k : Nat) :
+    ((quadIdx k).filter (fun t => p t.1 t.2.1 t.2.2.1 t.2.2.2)).length =
+      qSum k fun a => qSum k fun b => qSum k fun c => qSum k fun d => bN (p a b c d) := by
+  unfold quadIdx
+  rw [qSum_filter_flatMap]
+  refine qSum_congr fun a _ => ?_
+  rw [qSum_filter_flatMap]
+  refine qSum_congr fun b _ => ?_
+  rw [qSum_filter_flatMap]
+  exact qSum_congr fun c _ => (qSum_filter_map k _ _).trans rfl
+
+@[expose] noncomputable def pairCm (x y g : Nat) : Bool :=
+  Nat.beq (getL J2CM (Nat.add (Nat.mul 10 x) y)) (getL J2GP g)
+
+@[expose] noncomputable def patCnt : Nat :=
+  qSum 10 fun a => qSum 10 fun b => nIf(pairCm a b 1, qSum 10 fun c => nIf(pairCm a c 2,
+    qSum 10 fun d => bN (bAnd(pairCm a d 3, bAnd(pairCm b c 6, bAnd(pairCm b d 7, pairCm c d 11)))), 0), 0)
+
+theorem qSum_bAnd2 (k : Nat) (P Q : Bool) (R : Nat → Bool) :
+    qSum k (fun d => bN (bAnd(P, bAnd(Q, R d)))) = nIf(P, nIf(Q, qSum k fun d => bN (R d), 0), 0) := by
+  cases P <;> cases Q
+  · exact qSum_zero_fn k
+  · exact qSum_zero_fn k
+  · exact qSum_zero_fn k
+  · rfl
+
+theorem qSum_nIf (k : Nat) (P : Bool) (g : Nat → Nat) :
+    qSum k (fun c => nIf(P, g c, 0)) = nIf(P, qSum k g, 0) := by
+  cases P
+  · exact qSum_zero_fn k
+  · rfl
+
+theorem patCnt_eq :
+    (qSum 10 fun a => qSum 10 fun b => qSum 10 fun c => qSum 10 fun d => bN (patK a b c d)) =
+      patCnt :=
+  qSum_congr fun a _ => qSum_congr fun b _ =>
+    (qSum_congr fun c _ => qSum_bAnd2 10 (pairCm a b 1) (pairCm a c 2) _).trans (qSum_nIf 10 _ _)
+
+theorem nc_cnt : Nat.ble patCnt 1920 = true := by
+  decide +kernel
+
+theorem nc_quad : Nat.ble ((quadIdx 10).filter (fun t => patK t.1 t.2.1 t.2.2.1 t.2.2.2)).length 1920 =
+    true := by
+  rw [quad_len patK 10, patCnt_eq]
+  exact nc_cnt
+
 theorem nc_ok : (List.range 32).filter (fun i => bAnd(involK (J2E.T i),
       bIf(Nat.beq (J2E.T i) tK, false, true))) = J2NCI ∧
     allN 10 (fun a => allN 10 (fun b => Nat.beq (getL J2CM (Nat.add (Nat.mul 10 a) b))
       (bN (commK (J2E.T (getL J2NCI a)) (J2E.T (getL J2NCI b)))))) = true ∧
     allN 4 (fun a => allN 4 (fun b => Nat.beq (getL J2GP (Nat.add (Nat.mul 4 a) b))
       (bN (commK (J2E.GI a) (J2E.GI b))))) = true ∧
-    Nat.ble ((quadIdx 10).filter (fun t => patK t.1 t.2.1 t.2.2.1 t.2.2.2)).length 1920 = true := by
-  decide +kernel
+    Nat.ble ((quadIdx 10).filter (fun t => patK t.1 t.2.1 t.2.2.1 t.2.2.2)).length 1920 = true :=
+  ⟨nc_inv, nc_cm, nc_gp, nc_quad⟩
 
-theorem eE : penumSlK 315 9 (mask 9) (315 * 9) true J2E.G J2E.GI 4 J2E.cnt J2E.T J2E.PL
-    J2E.POS J2E.SRT J2E.SRI 0 J2E.cnt = true := by quickRfl
+theorem eE : slK J2E.cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) J2E.GI 4 J2E.cnt J2E.T J2E.PL
+    J2E.POS J2E.SRT J2E.SRI) 0 J2E.cnt = true := by quickRfl
 theorem eH : slK J2E.cnt (hsortPtK 315 9 (mask 9) J2E.cnt J2E.T J2E.HS J2E.HSI) 0 J2E.cnt = true := by
   quickRfl
-theorem eCl : slK (Nat.mul J2E.cnt 8)
-    (findPtK J2E.cnt J2E.T (prodQK 315 9 (mask 9) 8 J2E.T (bothK 4 J2E.GI J2EI)) J2ECl) 0
-    (Nat.mul J2E.cnt 8) = true := by quickRfl
 
-theorem o1E : penumSlK 315 9 (mask 9) (315 * 9) true J2O1.G J2O1.GI 11 J2O1.cnt J2O1.T J2O1.PL
-    J2O1.POS J2O1.SRT J2O1.SRI 0 J2O1.cnt = true := by quickRfl
+theorem o1E : slK J2O1.cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) J2O1.GI 11 J2O1.cnt J2O1.T
+    J2O1.PL J2O1.POS J2O1.SRT J2O1.SRI) 0 J2O1.cnt = true := by quickRfl
 theorem o1H : slK J2O1.cnt (hsortPtK 315 9 (mask 9) J2O1.cnt J2O1.T J2O1.HS J2O1.HSI) 0 J2O1.cnt =
     true := by quickRfl
-theorem o1Cl : slK (Nat.mul J2O1.cnt 22)
-    (findPtK J2O1.cnt J2O1.T (prodQK 315 9 (mask 9) 22 J2O1.T (bothK 11 J2O1.GI J2O1I)) J2O1Cl) 0
-    (Nat.mul J2O1.cnt 22) = true := by quickRfl
 
-theorem o2E : penumSlK 315 9 (mask 9) (315 * 9) true J2O2.G J2O2.GI 21 J2O2.cnt J2O2.T J2O2.PL
-    J2O2.POS J2O2.SRT J2O2.SRI 0 J2O2.cnt = true := by quickRfl
+theorem o2E : slK J2O2.cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) J2O2.GI 21 J2O2.cnt J2O2.T
+    J2O2.PL J2O2.POS J2O2.SRT J2O2.SRI) 0 J2O2.cnt = true := by quickRfl
 theorem o2H : slK J2O2.cnt (hsortPtK 315 9 (mask 9) J2O2.cnt J2O2.T J2O2.HS J2O2.HSI) 0 J2O2.cnt =
     true := by quickRfl
-theorem o2Cl : slK (Nat.mul J2O2.cnt 42)
-    (findPtK J2O2.cnt J2O2.T (prodQK 315 9 (mask 9) 42 J2O2.T (bothK 21 J2O2.GI J2O2I)) J2O2Cl) 0
-    (Nat.mul J2O2.cnt 42) = true := by quickRfl
 
-theorem s1E : penumSlK 315 9 (mask 9) (315 * 9) true J2S1.G J2S1.GI 6 J2S1.cnt J2S1.T J2S1.PL
-    J2S1.POS J2S1.SRT J2S1.SRI 0 J2S1.cnt = true := by quickRfl
-theorem s1H : slK J2S1.cnt (hsortPtK 315 9 (mask 9) J2S1.cnt J2S1.T J2S1.HS J2S1.HSI) 0 J2S1.cnt =
+theorem s1E : slK J2S1.cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) J2S1.GI 6 J2S1.cnt J2S1.T
+    J2S1.PL J2S1.POS J2S1.SRT J2S1.SRI) 0 J2S1.cnt = true := by quickRfl
+theorem s1H : slK J2S1.cnt (fun i => Nat.beq (hkeyU 315 9 (mask 9) (J2S1.T i)) (J2S1V i)) 0
+    J2S1.cnt = true := by quickRfl
+theorem s1Hs : slK J2S1.cnt (CFSG.KS.PEnumB.hsortVK J2S1.cnt J2S1V J2S1.HS J2S1.HSI) 0 J2S1.cnt =
     true := by quickRfl
-theorem s1Cl : slK (Nat.mul J2S1.cnt 12)
-    (findPtK J2S1.cnt J2S1.T (prodQK 315 9 (mask 9) 12 J2S1.T (bothK 6 J2S1.GI J2S1I)) J2S1Cl) 0
-    (Nat.mul J2S1.cnt 12) = true := by quickRfl
 
-theorem s2E : penumSlK 315 9 (mask 9) (315 * 9) true J2S2.G J2S2.GI 6 J2S2.cnt J2S2.T J2S2.PL
-    J2S2.POS J2S2.SRT J2S2.SRI 0 J2S2.cnt = true := by quickRfl
-theorem s2H : slK J2S2.cnt (hsortPtK 315 9 (mask 9) J2S2.cnt J2S2.T J2S2.HS J2S2.HSI) 0 J2S2.cnt =
+theorem s2E : slK J2S2.cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) J2S2.GI 6 J2S2.cnt J2S2.T
+    J2S2.PL J2S2.POS J2S2.SRT J2S2.SRI) 0 J2S2.cnt = true := by quickRfl
+theorem s2H : slK J2S2.cnt (fun i => Nat.beq (hkeyU 315 9 (mask 9) (J2S2.T i)) (J2S2V i)) 0
+    J2S2.cnt = true := by quickRfl
+theorem s2Hs : slK J2S2.cnt (CFSG.KS.PEnumB.hsortVK J2S2.cnt J2S2V J2S2.HS J2S2.HSI) 0 J2S2.cnt =
     true := by quickRfl
-theorem s2Cl : slK (Nat.mul J2S2.cnt 12)
-    (findPtK J2S2.cnt J2S2.T (prodQK 315 9 (mask 9) 12 J2S2.T (bothK 6 J2S2.GI J2S2I)) J2S2Cl) 0
-    (Nat.mul J2S2.cnt 12) = true := by quickRfl
 
 @[expose] noncomputable def pfE (s : Nat) : Bool :=
-  penumSlK 315 9 (mask 9) (315 * 9) true J2PF.G J2PF.GI 3 J2PF.cnt J2PF.T J2PF.PL J2PF.POS J2PF.SRT
-    J2PF.SRI (Nat.mul 240 s) 240
+  slK J2PF.cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) J2PF.GI 3 J2PF.cnt J2PF.T J2PF.PL J2PF.POS
+    J2PF.SRT J2PF.SRI) (Nat.mul 240 s) 240
 
 @[expose] noncomputable def pfH (s : Nat) : Bool :=
-  slK J2PF.cnt (hsortPtK 315 9 (mask 9) J2PF.cnt J2PF.T J2PF.HS J2PF.HSI) (Nat.mul 240 s) 240
+  slK J2PF.cnt (fun i => Nat.beq (hkeyU 315 9 (mask 9) (J2PF.T i)) (J2PFV i)) (Nat.mul 240 s) 240
 
-@[expose] noncomputable def pfCl (s : Nat) : Bool :=
-  slK (Nat.mul J2PF.cnt 6)
-    (findPtK J2PF.cnt J2PF.T (prodQK 315 9 (mask 9) 6 J2PF.T (bothK 3 J2PF.GI J2PFI)) J2PFCl)
-    (Nat.mul 720 s) 720
+theorem pfHs : slK J2PF.cnt (CFSG.KS.PEnumB.hsortVK J2PF.cnt J2PFV J2PF.HS J2PF.HSI) 0 J2PF.cnt =
+    true := by quickRfl
 
 end CertificateChecks.KernelGH74.J2CentE
 
@@ -310,7 +375,5 @@ end CertificateChecks.KernelGH74.J2CentE
 #kon_join CertificateChecks.KernelGH74.J2CentE.pfE_all CertificateChecks.KernelGH74.J2CentE.pfE 8
 #kon_slices CertificateChecks.KernelGH74.J2CentE.pfH 0 8
 #kon_join CertificateChecks.KernelGH74.J2CentE.pfH_all CertificateChecks.KernelGH74.J2CentE.pfH 8
-#kon_slices CertificateChecks.KernelGH74.J2CentE.pfCl 0 16
-#kon_join CertificateChecks.KernelGH74.J2CentE.pfCl_all CertificateChecks.KernelGH74.J2CentE.pfCl 16
 
 end

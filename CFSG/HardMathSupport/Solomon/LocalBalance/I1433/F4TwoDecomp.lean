@@ -27,7 +27,37 @@ abbrev decompP : Prop :=
         (2 * (ipL (e4 j) s' / κ') + ipL (e4 j) t' / κ') * s'.getD i 0 +
         ((ipL (e4 j) s' / κ') + 2 * (ipL (e4 j) t' / κ')) * t'.getD i 0
 
-theorem decompP_holds : decompP := by decide +kernel
+abbrev decompL (L L' : List ℤ) : Prop :=
+  ∀ κ ∈ L, ∀ κ' ∈ L',
+  ∀ s ∈ rts, ipL s s = 2 * κ → ∀ t ∈ rts, ipL t t = 2 * κ → ipL s t = -κ →
+  ∀ s' ∈ rts, ipL s' s' = 2 * κ' → ipL s s' = 0 → ipL t s' = 0 →
+  ∀ t' ∈ rts, ipL t' t' = 2 * κ' → ipL s' t' = -κ' → ipL s t' = 0 → ipL t t' = 0 →
+  ∀ j ∈ [0, 1, 2, 3],
+    ipL (e4 j) s % κ = 0 ∧ ipL (e4 j) t % κ = 0 ∧ ipL (e4 j) s' % κ' = 0 ∧
+    ipL (e4 j) t' % κ' = 0 ∧
+    ∀ i ∈ [0, 1, 2, 3],
+      3 * (e4 j).getD i 0 =
+        (2 * (ipL (e4 j) s / κ) + ipL (e4 j) t / κ) * s.getD i 0 +
+        ((ipL (e4 j) s / κ) + 2 * (ipL (e4 j) t / κ)) * t.getD i 0 +
+        (2 * (ipL (e4 j) s' / κ') + ipL (e4 j) t' / κ') * s'.getD i 0 +
+        ((ipL (e4 j) s' / κ') + 2 * (ipL (e4 j) t' / κ')) * t'.getD i 0
+
+theorem decompL_11 : decompL [1] [1] := by decide +kernel
+
+theorem decompL_12 : decompL [1] [2] := by decide +kernel
+
+theorem decompL_21 : decompL [2] [1] := by decide +kernel
+
+theorem decompL_22 : decompL [2] [2] := by decide +kernel
+
+theorem decompP_holds : decompP := by
+  intro κ hκ κ' hκ'
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hκ hκ'
+  rcases hκ with rfl | rfl <;> rcases hκ' with rfl | rfl
+  · exact decompL_11 1 (by simp) 1 (by simp)
+  · exact decompL_12 1 (by simp) 2 (by simp)
+  · exact decompL_21 2 (by simp) 1 (by simp)
+  · exact decompL_22 2 (by simp) 2 (by simp)
 
 theorem e4_vec4 (j : Fin Tag.F4.rank) : vec4 (e4 j.val) = Pi.single j 1 := by
   funext i

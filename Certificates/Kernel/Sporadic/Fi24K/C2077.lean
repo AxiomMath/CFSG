@@ -154,27 +154,63 @@ theorem steps_of {n w r N wt NS CH TF : Nat} {GS GSI T : Nat → Nat} (hN : N �
   obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
   exact ⟨Nat.blt_eq ▸ h1, Nat.eq_of_beq_eq_true h2⟩
 
-theorem acts_of {n w r wp m NS CH : Nat} {GS GSI T PA : Nat → Nat} (hN : m ≤ NS * CH)
-    (hs : ∀ s < NS, actSl n w r GS GSI T PA wp m (s * CH) CH = true) :
+theorem acts_of {n w r wt N wp m NS CH TF : Nat} {GS GSI T PA : Nat → Nat} (hN : m ≤ NS * CH)
+    (hS : ∀ i < N, pg wt (mask wt) TF i / r < i + 1 ∧
+      T (i + 1) = pconj n w (GS (pg wt (mask wt) TF i % r)) (T (pg wt (mask wt) TF i / r))
+        (GSI (pg wt (mask wt) TF i % r)))
+    (hs : ∀ s < NS, actSl n w r GS GSI T PA TF wt N wp m (s * CH) CH = true) :
     ∀ j < m, ∀ i < r, pg wp (mask wp) (PA i) j < m ∧
       pconj n w (GS i) (T j) (GSI i) = T (pg wp (mask wp) (PA i) j) := by
   intro j hj i hi
   have h := ct_of_sl (f := fun j => allN r (fun i => strictB (pg wp (mask wp) (PA i) j)
-    (fun j' => bAnd(Nat.blt j' m, Nat.beq (pconj n w (GS i) (T j) (GSI i)) (T j'))))) hN hs j hj
+    (fun j' => bAnd(Nat.blt j' m, bIf(ctEdgeB r TF wt N j i j', true,
+      Nat.beq (pconj n w (GS i) (T j) (GSI i)) (T j')))))) hN hs j hj
   have h' := allN_spec h i hi
   rw [strictB_eq] at h'
   obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h'
-  exact ⟨Nat.blt_eq ▸ h1, Nat.eq_of_beq_eq_true h2⟩
+  refine ⟨Nat.blt_eq ▸ h1, ?_⟩
+  cases he : ctEdgeB r TF wt N j i (pg wp (mask wp) (PA i) j)
+  · rw [he] at h2
+    exact Nat.eq_of_beq_eq_true h2
+  · rw [ctEdgeB] at he
+    obtain ⟨e1, e23⟩ := (bAnd_iff _ _).1 he
+    obtain ⟨e2, e3⟩ := (bAnd_iff _ _).1 e23
+    have q1 : 0 < pg wp (mask wp) (PA i) j := Nat.blt_eq ▸ e1
+    have q2 : pg wp (mask wp) (PA i) j ≤ N := Nat.ble_eq ▸ e2
+    have q3 := Nat.eq_of_beq_eq_true e3
+    rw [Nat.pred_eq_sub_one] at q3
+    obtain ⟨-, hst⟩ := hS (pg wp (mask wp) (PA i) j - 1) (by omega)
+    have hr : 0 < r := by omega
+    have ed : (j * r + i) / r = j := by
+      rw [Nat.add_comm, Nat.add_mul_div_right _ _ hr, Nat.div_eq_of_lt hi, Nat.zero_add]
+    have em : (j * r + i) % r = i := by
+      rw [Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hi]
+    have e1' : pg wp (mask wp) (PA i) j - 1 + 1 = pg wp (mask wp) (PA i) j := by omega
+    rw [e1', q3, Nat.add_eq, Nat.mul_eq, ed, em] at hst
+    exact hst.symm
 
-theorem dists_of {m NS CH : Nat} {T : Nat → Nat} (hN : m ≤ NS * CH)
-    (hs : ∀ s < NS, distSl T m (s * CH) CH = true) :
+theorem dists_of {m NS CH ws SG RK : Nat} {T : Nat → Nat} (hN : m ≤ NS * CH)
+    (hs : ∀ s < NS, ctOrdSl T ws SG RK m (s * CH) CH = true) :
     ∀ j < m, ∀ k < j, Nat.beq (T j) (T k) = false := by
+  have h := ct_of_sl (f := fun j => bAnd(strictB (pg ws (mask ws) RK j) (fun k =>
+      bAnd(Nat.blt k m, Nat.beq (pg ws (mask ws) SG k) j)),
+    bIf(Nat.blt (Nat.succ j) m,
+      Nat.blt (T (pg ws (mask ws) SG j)) (T (pg ws (mask ws) SG (Nat.succ j))), true))) hN hs
+  have hne := ne_of_rank_sorted (T := T) (SG := pg ws (mask ws) SG) (RK := pg ws (mask ws) RK)
+    (m := m) (fun j hj => by
+      obtain ⟨a, -⟩ := (bAnd_iff _ _).1 (h j hj)
+      rw [strictB_eq] at a
+      obtain ⟨a1, a2⟩ := (bAnd_iff _ _).1 a
+      exact ⟨Nat.blt_eq ▸ a1, Nat.eq_of_beq_eq_true a2⟩)
+    (fun j hj hj1 => by
+      obtain ⟨-, b⟩ := (bAnd_iff _ _).1 (h j hj)
+      have hc : Nat.blt (Nat.succ j) m = true := Nat.blt_eq ▸ hj1
+      have b' := bIf_of_true hc b
+      exact Nat.blt_eq ▸ b')
   intro j hj k hk
-  have h := ct_of_sl (f := fun j => strictB (T j) (fun x => allN j (fun k =>
-    Bool.not (Nat.beq x (T k))))) hN hs j hj
-  rw [strictB_eq] at h
-  have h' := allN_spec h k hk
-  simpa using h'
+  cases e : Nat.beq (T j) (T k)
+  · rfl
+  · exact absurd (Nat.eq_of_beq_eq_true e) (hne j hj k hk)
 
 theorem rep_of_perm {n w p q : Nat} (h : permOK n w (mask w) (n * w) p q = true) :
     Rep n (unpack n w p) (permOfArr n (unpack n w p)) ∧
@@ -265,7 +301,8 @@ theorem sOK : fi24SOK fi24KStrong fi24S0 fi24STree fi24PStrong = true := by
   rw [kS, pS, Fi24T.s0_eq, Fi24T.tree_eq]
   obtain ⟨hT, hcn, hrep⟩ := tree_facts
   have hA := acts_of (n := 504) (w := 9) (r := 2) (wp := 9) (m := 378) (NS := 6) (CH := 64)
-    (by norm_num) Fi24ST.hA
+    (by norm_num) (steps_of (n := 504) (w := 9) (r := 2) (N := 377) (wt := 10) (NS := 6)
+      (CH := 64) (by norm_num) Fi24ST.hS) Fi24ST.hA
   have hD := dists_of (m := 378) (NS := 6) (CH := 64) (by norm_num) Fi24ST.hD
   have hsift : ∀ j < 378, siftK 504 9 (mask 9) (504 * 9) (pidn 504 9) Fi24KC.LR Fi24KC.TRI
       Fi24KC.BP 7 0 (Fi24ST.T j) = true := by

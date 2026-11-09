@@ -7,6 +7,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HNRecog.HaradaModel.ACheck
 public import Certificates.Kernel.HN1408.CayleyDefs
 public import Certificates.Kernel.HN1408.CzTDefs
+public import Certificates.Kernel.HN1408.CyRecH
 
 public section
 
@@ -39,9 +40,13 @@ theorem ch441665fz : commWK fWords (WK wordZ₁) = true := by quickRfl
 theorem ch441665fHd : cyHd fWords 60 aCap R0KF.G R0KF.GI R0KFI R0KF.T R0KF.PL R0KF.cnt = true := by
   quickRfl
 
-theorem ch441665fRec : cyRec fWords.length R0KF.G R0KF.GI R0KFI R0KF.T R0KF.PL R0KF.POS R0KF.SRT
-    R0KF.SRI R0KF.HS R0KF.HSI R0KFCl R0KF.cnt = true := by
+theorem ch441665fRecH : cyRecC fWords.length R0KF.G R0KF.GI R0KFI R0KF.T R0KF.PL R0KF.POS R0KF.SRT
+    R0KF.SRI R0KF.HS R0KF.HSI R0KFH R0KFCl R0KF.cnt = true := by
   quickRfl
+
+theorem ch441665fRec : cyRec fWords.length R0KF.G R0KF.GI R0KFI R0KF.T R0KF.PL R0KF.POS R0KF.SRT
+    R0KF.SRI R0KF.HS R0KF.HSI R0KFCl R0KF.cnt = true :=
+  cyRec_of_cyRecH (cyRecH_of_cyRecC ch441665fRecH)
 
 theorem ch441665fCay : cayK a5Mul 2930 [1022, 2678] fWords.length R0KF.cnt R0KF.PL R0KFCl
     (cayCodes a5Mul 2930 [1022, 2678] R0KF.PL R0KF.cnt) = true := by

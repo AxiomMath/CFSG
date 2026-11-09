@@ -43,9 +43,14 @@ theorem pBi : pkMat 54 BiK = ML (1, false) := by
   rw [pkMat_mulF2, pB, mulM_eq, toM_ofM]
   rfl
 
+theorem nthV_map_finRange4 (f : Fin 4 → ℕ) (j : Fin 4) :
+    nthV ((List.finRange 4).map f) j.val = f j := by
+  fin_cases j <;> rfl
+
 theorem nth_RK (j : Fin 4) :
     nthV RK j.val = wordM CFSG.KD.Misc.G23.Ab Bb BiK (encC (genWord j)) := by
-  fin_cases j <;> rfl
+  rw [RK]
+  exact nthV_map_finRange4 (fun j => wordM CFSG.KD.Misc.G23.Ab Bb BiK (encC (genWord j))) j
 
 theorem coverRoot_eq (j : Fin 4) : coverRoot j = ofM (pkMat 54 (nthV RK j.val)) := by
   rw [nth_RK]

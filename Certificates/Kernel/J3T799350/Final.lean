@@ -81,20 +81,29 @@ theorem enums_ok : ∀ e < j3TData.enums.length, enumHeadK RT ET j3TData e = tru
   · have : cardOf j3TData 10 = 9 := rfl
     rw [this] at hj; interval_cases j; exact e10
 
-theorem loops_ok : ∀ l ∈ j3TData.loops, loopK RT ET j3TData l = true := by
+theorem loops_ok : ∀ l ∈ j3TData.loops,
+    loopK RT ET j3TData l = true ∨
+      ∃ f, loopNK RT ET j3TData f l = true ∧ loopCond l = conjAll f (gensOf j3TData f) := by
   intro l hl
   obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hl
-  rw [← loopS_eq hj]
   have h11 : j < 11 := by rwa [loops_len] at hj
+  by_cases h2 : j = 2
+  · subst h2
+    refine Or.inr ⟨3, ?_, rfl⟩
+    rw [← List.getD_eq_getElem _ (TLoop.exE 0 (Cond.memSelf 0)) hj]
+    exact l2
+  refine Or.inl ?_
+  rw [← loopS_eq hj]
   interval_cases j
-  exacts [l0, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10]
+  exacts [l0, l1, (h2 rfl).elim, l3, l4, l5, l6, l7, l8, l9, l10]
 
-theorem slp_ok : ∀ j < 19,
-    chunksK RT MT PR PM 57 ((chunks.drop (Nat.mul 8 j)).take 8) (Nat.mul 8 j) = true := by
+theorem slp_ok : ∀ j < 38,
+    chunksK RT MT PR PM 0 ((chunks.drop (Nat.mul 4 j)).take 4) (Nat.mul 4 j) = true := by
   intro j hj
   interval_cases j
   exacts [slp0, slp1, slp2, slp3, slp4, slp5, slp6, slp7, slp8, slp9, slp10, slp11, slp12, slp13,
-    slp14, slp15, slp16, slp17, slp18]
+    slp14, slp15, slp16, slp17, slp18, slp19, slp20, slp21, slp22, slp23, slp24, slp25, slp26,
+    slp27, slp28, slp29, slp30, slp31, slp32, slp33, slp34, slp35, slp36, slp37]
 
 
 theorem fixed_le : j3TData.fixedBelow ≤ 19 := le_refl _
@@ -111,7 +120,7 @@ theorem strong_rep : ∀ h < 5,
 set_option maxRecDepth 100000 in
 theorem tsem : TSem initG (regsOf RT) j3TData := by
   refine tcheckK_sound (RT := RT) (ET := ET) (D := j3TData) (initG := initG) (MT := MT)
-    (PS := PJ3.S) (PSI := PJ3.SI) (W := words) (NM := 57)
+    (PS := PJ3.S) (PSI := PJ3.SI) (W := words) (NM := 0)
     (chunks := chunks) (PR := PR) (PM := PM) fixed_le (fun r hr => rep_RT hr)
     (fun r hr => initG_mem hr) strong_rep (fun g hg => base_one hg)
     (Nat.le_of_ble_eq_true chunks_le) slp_ok cover coverMid enums_ok facts loops_ok

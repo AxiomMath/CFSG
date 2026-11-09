@@ -5,6 +5,7 @@ public import Certificates.Kernel.CoreD2K.RuCent.Datum
 public import Certificates.Kernel.CoreD2K.RuFive.Data
 public import Certificates.Data.Kernel.CoreD2K.Steps
 public import Certificates.Data.Kernel.Spor.PEnum
+public import Certificates.Data.Kernel.CoreD2K.Extra
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -69,14 +70,23 @@ theorem k_g8 : bAnd(wordEqK 4060 12 (mask 12) (pidn 4060 12) GP GPI (nat_lit 2)
     (ruCentK.base.gWs.getD 8 []) (GT 8), permOK 4060 12 (mask 12) (Nat.mul 4060 12) (GT 8)
     (GTI 8)) = true := by quickRfl
 
-theorem k_ek : Nat.beq RE.k ruCentK.base.eW.length = true := by quickRfl
-theorem k_eh : penumHdK (pidn 4060 12) RE.cnt 125 RE.T RE.PL = true := by quickRfl
-theorem k_ecnt : Nat.beq RE.cnt 125 = true := by quickRfl
-theorem k_esl : penumSlK 4060 12 (mask 12) (4060 * 12) false RE.G RE.GI RE.k RE.cnt RE.T RE.PL
-    RE.POS RE.SRT RE.SRI 0 125 = true := by quickRfl
+theorem k_exRel : exRel 4060 12 (RE.G 0) (RE.G 1) (RE.G 2) 1 = true := by quickRfl
+
+@[expose] noncomputable def eNA (k : Nat) : Nat := [1, 0, 0, 3, 4, 0, 3].getD k 0
+
+@[expose] noncomputable def eNB (k : Nat) : Nat := [0, 1, 0, 1, 1, 1, 4].getD k 0
+
+@[expose] noncomputable def eNC (k : Nat) : Nat := [0, 0, 1, 1, 2, 3, 1].getD k 0
+
+theorem k_gen : allN 7 (fun k =>
+    exGen 4060 12 (RE.G 0) (RE.G 1) (RE.G 2) (RE.G k) (eNA k) (eNB k) (eNC k)) = true := by
+  quickRfl
+
+theorem k_pts : bitDistK (nfPts 12 (RE.G 0) (RE.G 1) (RE.G 2) 0) 0 = true := by quickRfl
 theorem k_nab : nabK 4060 12 ruCentK.base.eW.length RE.G = true := by quickRfl
 theorem k_cen : cenK 4060 12 5 ruCentK.base.eW.length RE.G = true := by quickRfl
-theorem k_lines : linesK 4060 12 5 ruCentK RE.G = true := by quickRfl
+theorem k_lines : linesGK 4060 12 5 ruCentK RE.G (fun z v x => outPK 12 5 z v x 0) = true := by
+  quickRfl
 theorem k_kinds : kindsK 4060 12 ruCentK RE.G GT = true := by quickRfl
 theorem k_rep0 : repCK 4060 12 ruCentK GP GT GTI 0 = true := by quickRfl
 theorem k_rep3 : repCK 4060 12 ruCentK GP GT GTI 3 = true := by quickRfl

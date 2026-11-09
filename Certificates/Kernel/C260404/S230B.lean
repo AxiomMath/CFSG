@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.B45M12.Mask
+public import Certificates.Data.Kernel.B45M12.MaskK
 public import Certificates.Data.SmithB45MatM12Mod
 public import Certificates.Kernel.C260404.Pins
 
@@ -11,6 +12,7 @@ namespace CFSG.KD.C260404
 open CFSG.KC.B45M12 CFSG.Quasithin.B45Mat CFSG.Quasithin.B45Mat.M12
 
 theorem sub230B : subK 440 230 B230 P230 [(kronM 10 44 (cols10 arrB) T44B, T230B)] = true := by
+  rw [subK_eq_subKK]
   decide +kernel
 
 end CFSG.KD.C260404

@@ -3,6 +3,7 @@ module
 public import CFSG.Adapters.ProjectiveSpecialLinear
 public import CFSG.Quasithin.Background.B4L3Fin
 public import CFSG.Sporadic.Schreier.J4SSylowBase
+public import CFSG.Quasithin.Background.L3CodeK
 
 public section
 
@@ -29,8 +30,8 @@ theorem card_stab : ∀ c : Vec, c ≠ 0 →
 
 theorem a4_gen : ∀ c : Vec, c ≠ 0 → ∀ δ γ : Γ, act δ c = c → δ * δ * δ = 1 → δ ≠ 1 →
     act γ c = c → γ * γ * γ ∈ AS {0, c} →
-      γ * γ = 1 ∨ (δ⁻¹ * γ) * (δ⁻¹ * γ) = 1 ∨ (δ⁻¹ * δ⁻¹ * γ) * (δ⁻¹ * δ⁻¹ * γ) = 1 := by
-  decide +kernel
+      γ * γ = 1 ∨ (δ⁻¹ * γ) * (δ⁻¹ * γ) = 1 ∨ (δ⁻¹ * δ⁻¹ * γ) * (δ⁻¹ * δ⁻¹ * γ) = 1 :=
+  L3.CodeK.a4_gen_k
 
 @[expose] def StabSub (c : Vec) : Subgroup Γ where
   carrier := {γ | act γ c = c}

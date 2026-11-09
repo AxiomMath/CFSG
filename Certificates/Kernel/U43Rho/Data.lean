@@ -9,6 +9,6 @@ set_option maxRecDepth 400000
 public section
 
 #kc_repo #kmisc_json_pack CertificateChecks.KernelU43Rho
-  "Certificates/Kernel/U43Rho/data/rho.json.gz" 3181 4221034819726466064 (rho RH 10)
+  "Certificates/Kernel/U43Rho/data/rho.json" 3181 4221034819726466064 (rho RH 10)
 
 end

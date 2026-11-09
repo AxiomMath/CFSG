@@ -230,41 +230,53 @@ theorem groupS : ∃ G : Subgroup (Equiv.Perm (Fin 1755)),
     (by norm_num) TitsS.hs CertificateChecks.Batch27580.ndS
   exact ⟨G, fun i hi => (hmem _ _ (rep_sg hi)).1 (props.1 _ (invs_mem hi)).2, hsep⟩
 
+theorem base_fix_of {A B C : Nat} {f g h : Equiv.Perm (Fin 1755)} {L : Array Nat}
+    (hA : ∀ x (hx : x < 1755), pg 11 (mask 11) A x = (f ⟨x, hx⟩ : Nat))
+    (hB : ∀ x (hx : x < 1755), pg 11 (mask 11) B x = (g ⟨x, hx⟩ : Nat))
+    (hC : ∀ x (hx : x < 1755), pg 11 (mask 11) C x = (h ⟨x, hx⟩ : Nat))
+    (hBP : ∀ t < 5, L[t]! = pg 11 (mask 11) TitsS.BP t) (hb0 : baseEqK A B C = true) :
+    ∀ t < 5, ∀ hb : L[t]! < 1755, (h⁻¹ * (f * g)) ⟨L[t]!, hb⟩ = ⟨L[t]!, hb⟩ := by
+  intro t ht hb
+  have e := allN_spec hb0 t ht
+  rw [sB_eq, ← hBP t ht, Nat.beq_eq] at e
+  rw [hB _ hb, hA _ (g _).2, hC _ hb] at e
+  rw [Equiv.Perm.mul_apply, Equiv.Perm.inv_eq_iff_eq, Equiv.Perm.mul_apply]
+  exact Fin.ext e
+
 theorem base_eq {i j k : Nat} (hi : i < 143) (hj : j < 143) (hk : k < 143)
     (h : baseEqK (IT i) (IT j) (IT k) = true) : sg i * sg j = sg k := by
   obtain ⟨G, hG, hsep⟩ := groupS
-  have hbl := CFSG.KS.Raw.Orb.base_lt_of_levels bindsS TitsS.hl
   have hBP : ∀ t < 5, (baseArr 1755 titsSBase)[t]! = pg 11 (mask 11) TitsS.BP t :=
     fun t ht => bindsS.2.2.2.2.2.2 t ht
-  have hfix : ∀ t < 5, ∀ hb : (baseArr 1755 titsSBase)[t]! < 1755,
-      ((sg k)⁻¹ * (sg i * sg j)) ⟨(baseArr 1755 titsSBase)[t]!, hb⟩ =
-        ⟨(baseArr 1755 titsSBase)[t]!, hb⟩ := by
-    intro t ht hb
-    have e := allN_spec h t ht
-    rw [sB_eq, ← hBP t ht, Nat.beq_eq] at e
-    rw [pt_IT hj hb, pt_IT hi (sg j _).2, pt_IT hk hb] at e
-    rw [Equiv.Perm.mul_apply, Equiv.Perm.inv_eq_iff_eq, Equiv.Perm.mul_apply]
-    exact Fin.ext e
+  have hfix := base_fix_of (fun _ hx => pt_IT hi hx) (fun _ hx => pt_IT hj hx)
+    (fun _ hx => pt_IT hk hx) hBP h
   have h1 := hsep _ (G.mul_mem (G.inv_mem (hG k hk)) (G.mul_mem (hG i hi) (hG j hj))) hfix
   exact (inv_mul_eq_one.1 h1).symm
 
-theorem moved_ne {i j : Nat} (hi : i < 143) (hj : j < 143) (h : movedK (IT i) (IT j) = true) :
-    (sg i * sg j) * (sg i * sg j) ≠ 1 := by
+theorem moved_ne_of {A B : Nat} {f g : Equiv.Perm (Fin 1755)}
+    (hA : ∀ x (hx : x < 1755), pg 11 (mask 11) A x = (f ⟨x, hx⟩ : Nat))
+    (hB : ∀ x (hx : x < 1755), pg 11 (mask 11) B x = (g ⟨x, hx⟩ : Nat))
+    (h : movedK A B = true) : (f * g) * (f * g) ≠ 1 := by
   intro h1
-  have h' : allN 1755 (fun x => Nat.beq (pg 11 (mask 11) (IT i) (pg 11 (mask 11) (IT j)
-      (pg 11 (mask 11) (IT i) (pg 11 (mask 11) (IT j) x)))) x) = false := by
-    cases ha : allN 1755 (fun x => Nat.beq (pg 11 (mask 11) (IT i) (pg 11 (mask 11) (IT j)
-        (pg 11 (mask 11) (IT i) (pg 11 (mask 11) (IT j) x)))) x)
+  have h' : allN 1755 (fun x => Nat.beq (pg 11 (mask 11) A (pg 11 (mask 11) B
+      (pg 11 (mask 11) A (pg 11 (mask 11) B x)))) x) = false := by
+    cases ha : allN 1755 (fun x => Nat.beq (pg 11 (mask 11) A (pg 11 (mask 11) B
+        (pg 11 (mask 11) A (pg 11 (mask 11) B x)))) x)
     · rfl
     · unfold movedK at h
       rw [ha] at h
       exact absurd h (by decide)
   obtain ⟨x, hx, hf⟩ := exists_of_allN_false h'
-  have e := congrArg (fun g : Equiv.Perm (Fin 1755) => ((g ⟨x, hx⟩ : Fin 1755) : Nat)) h1
+  have e := congrArg (fun k : Equiv.Perm (Fin 1755) => ((k ⟨x, hx⟩ : Fin 1755) : Nat)) h1
   simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply] at e
-  rw [pt_IT hj hx, pt_IT hi (sg j _).2, pt_IT hj (sg i _).2, pt_IT hi (sg j _).2, e,
-    Nat.beq_refl] at hf
+  rw [hB x hx, hA _ (g _).2, hB _ (f _).2, hA _ (g _).2] at hf
+  simp only [Fin.eta] at hf
+  rw [e, Nat.beq_refl] at hf
   exact absurd hf (by decide)
+
+theorem moved_ne {i j : Nat} (hi : i < 143) (hj : j < 143) (h : movedK (IT i) (IT j) = true) :
+    (sg i * sg j) * (sg i * sg j) ≠ 1 :=
+  moved_ne_of (fun _ hx => pt_IT hi hx) (fun _ hx => pt_IT hj hx) h
 
 theorem find_none {p : Array Nat} {g : Equiv.Perm (Fin 1755)} (hp : CFSG.Monster.B.Co2.Rep 1755 p g)
     (hg : ∀ k < 143, sg k ≠ g) :

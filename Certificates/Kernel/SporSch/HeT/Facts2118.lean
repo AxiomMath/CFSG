@@ -39,7 +39,8 @@ theorem kVU : Nat.beq (sumN 8330 VU) 15120 = true := by quickRfl
 theorem kXU01 : bAnd(Nat.beq (pmR HeCnRXU 0) 0, Nat.beq (pmR HeCnRXU 1) 2) = true := by quickRfl
 theorem kRXU : rbAll HeCnRXU XU = true := by quickRfl
 theorem kRYU : rbAll HeCnRYU U5 = true := by quickRfl
-theorem kS1 : Nat.beq (sumN 35 S1) 3136 = true := by quickRfl
+theorem kS1 : Nat.beq (sumN 4480 VS1) 3136 = true := by quickRfl
+theorem kYU0 : Nat.beq (pmR HeCnRYU 0) 0 = true := by quickRfl
 
 theorem U_eq : heUArr = unpack 8330 14 U5 := by
   rw [heUArr, R_eq, (pow_unpack kCanon 5).1, Nat.eq_of_beq_eq_true kU5]
@@ -73,7 +74,9 @@ theorem cardU : Nat.card {x : heP // heAutU * (x : Equiv.Perm (Fin 8330)) = x * 
 
 theorem cardW : Nat.card {x : heP // (heAutU * x) ^ 2 = 1 ∧ (x : Equiv.Perm (Fin 8330)) 0 = 0} =
     3136 := by
-  rw [tw_of_cnt (repF_of_rb kRYU repU) (fun g hg => heAutU_twist_sq_mem hg) SS1.all]
+  rw [tw_of_or (repF_of_rb kRYU repU) (fun g hg => heAutU_twist_sq_mem hg)
+    (fun g hg => by rw [heAutU_inv]; exact heAutU_conj_mem hg) (Nat.eq_of_beq_eq_true kYU0)
+    SS1.all]
   exact Nat.eq_of_beq_eq_true kS1
 
 theorem blocks : ((heBlock1.all fun t => t[0]! == 0) && (heBlock2.all fun t => t[0]! == 0) &&

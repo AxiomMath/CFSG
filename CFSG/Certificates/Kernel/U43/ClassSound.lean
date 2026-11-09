@@ -96,6 +96,34 @@ theorem orbit_par {X GA GB : ℕ → ℕ} {x₀ : List ℕ}
 theorem letB_eq (v : ℕ) (k : ℕ → Bool) : letB v k = k v := by
   cases v <;> rfl
 
+theorem oparF_at {X GA GB : ℕ → ℕ} {N : ℕ} :
+    ∀ (W : List ℕ) (h : ℕ), oparF X GA GB N W h = true → ∀ i < W.length, ∀ l < 64,
+      64 * (h + i) + l < N →
+      Nat.land (Nat.shiftRight (W.getD i 0) (17 * l)) 131071 / 2 ≤ 64 * (h + i) + l ∧
+      X (64 * (h + i) + l + 1) = conjF GA GB (Nat.land (Nat.shiftRight (W.getD i 0) (17 * l))
+        131071 % 2) (X (Nat.land (Nat.shiftRight (W.getD i 0) (17 * l)) 131071 / 2))
+  | [], _, _, i, hi, _, _, _ => absurd hi (Nat.not_lt_zero i)
+  | w :: W, h, hc, i, hi, l, hl, hN => by
+    obtain ⟨h1, h2⟩ := bAnd_g2 hc
+    cases i with
+    | zero =>
+      have := allBelow_g2 h1 (by decide) l hl
+      simp only [letB_eq] at this
+      have hb : Nat.blt (Nat.add (Nat.mul 64 h) l) N = true := Nat.blt_eq.mpr (by
+        change 64 * h + l < N
+        omega)
+      rw [hb] at this
+      simp only [Bool.and_eq_true, Nat.ble_eq, Nat.beq_eq] at this
+      simp only [Nat.add_zero, List.getD_cons_zero]
+      exact ⟨this.1, this.2⟩
+    | succ i =>
+      have := oparF_at W (h + 1) h2 i (by simp only [List.length_cons] at hi; omega) l hl
+        (by omega)
+      rw [List.getD_cons_succ]
+      have e : h + (i + 1) = h + 1 + i := by omega
+      rw [e]
+      exact this
+
 theorem stepF_spec {X GA GB PP : ℕ → ℕ} {n h s c p x : ℕ} {k : ℕ → Bool}
     (hst : stepF X GA GB PP n h s c p x k = true) :
     h < c ∧ p ≤ c ∧ p < n ∧ X p = conjF GA GB s x ∧

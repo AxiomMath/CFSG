@@ -3,10 +3,10 @@ module
 public import Certificates.Data.Kernel.HNF26720K
 public import CFSG.Certificates.Kernel.Fam.HNSeed.Data.Sel
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.HNF26720 "Certificates/Kernel/HNF26720/data/rk.items.gz" 2069942 229550249062905889
+#kc_repo #kc_nat_items CFSG.KD.HNF26720 "Certificates/Kernel/HNF26720/data/rk.items" 2069942 229550249062905889
     (P 0 18) (Q 0 18) (U 0 18) (V 0 18) (K 0 18)
 #kc_select CFSG.KD.HNF26720 PS P 18
 #kc_select CFSG.KD.HNF26720 QS Q 18

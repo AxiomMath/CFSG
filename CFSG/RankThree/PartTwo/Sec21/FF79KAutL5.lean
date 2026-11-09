@@ -3,12 +3,13 @@ module
 public import CFSG.RankThree.PartTwo.Sec21.FF79KFacts
 public import CFSG.Quasithin.Background.F7TwoInvL5TwoAut
 public import CFSG.GroupTheory.GL52.SylowThree
+import CFSG.LinearAlgebra.F2NatMat
 
 public section
 
 namespace CFSG.RankThree.PartTwo.Sec21.FF79
 
-open CFSG.GroupTheory.GL52 CFSG.Quasithin.F7Two
+open CFSG.GroupTheory.GL52 CFSG.Quasithin.F7Two CFSG.F2NatMat
 
 private theorem isPGroup_sup_zpowers_three {y z : G52} (hy3 : y ^ 3 = 1) (hz3 : z ^ 3 = 1)
     (hyz : y * z = z * y) : IsPGroup 3 ↥(Subgroup.zpowers y ⊔ Subgroup.zpowers z) := by
@@ -120,16 +121,63 @@ private theorem ordChk_spec {M : Matrix (Fin 5) (Fin 5) (ZMod 2)} (h : ordChk M 
   · left; exact h
   · exact absurd h15 h
 
-set_option maxRecDepth 100000 in
-set_option synthInstance.maxSize 4000 in
-set_option synthInstance.maxHeartbeats 1000000 in
+private def oddCodes : List ℕ := [16, 8, 4, 28, 2, 26, 22, 14, 1, 25, 21, 13, 19, 11, 7, 31]
+
+private theorem oddVecs_eq : oddVecs = oddCodes.map (vdec 5) := by decide
+
+private theorem mul5_dec (a b : ℕ) : mul5 (dec 5 a) (dec 5 b) = dec 5 (mulK 5 a b) := by
+  rw [mul5_eq, dec_mulK]
+
+private def ordChkK (m : ℕ) : Bool :=
+  eqK 5 (mulK 5 m (mulK 5 m m)) 17043521 ||
+    eqK 5 (mulK 5 (mulK 5 m (mulK 5 m m)) (mulK 5 m m)) 17043521 ||
+    !eqK 5 (mulK 5 (mulK 5 (mulK 5 m (mulK 5 m m)) (mulK 5 m m))
+      (mulK 5 (mulK 5 (mulK 5 m (mulK 5 m m)) (mulK 5 m m))
+        (mulK 5 (mulK 5 m (mulK 5 m m)) (mulK 5 m m)))) 17043521
+
+private theorem ordChk_dec (m : ℕ) : ordChk (dec 5 m) = ordChkK m := by
+  unfold ordChk
+  simp only [mul5_dec]
+  rw [← dec_17043521]
+  simp only [decide_dec_eq]
+  rfl
+
+private def orthChkK : Bool :=
+  oddCodes.all fun c0 => oddCodes.all fun c1 => dotK 5 c0 c1 ||
+  oddCodes.all fun c2 => dotK 5 c0 c2 || dotK 5 c1 c2 ||
+  oddCodes.all fun c3 => dotK 5 c0 c3 || dotK 5 c1 c3 || dotK 5 c2 c3 ||
+  oddCodes.all fun c4 => dotK 5 c0 c4 || dotK 5 c1 c4 || dotK 5 c2 c4 || dotK 5 c3 c4 ||
+    ordChkK (packK 5 [c0, c1, c2, c3, c4])
+
+private theorem orthChkK_true : orthChkK = true := by decide +kernel
+
+private theorem dot5_vdec (a b : ℕ) : dot5 (vdec 5 a) (vdec 5 b) = 0 ↔ dotK 5 a b = false := by
+  rw [dot5_eq, dotProduct_vdec, ent_eq_zero]
+
 private theorem orthCheck :
     ∀ r0 ∈ oddVecs, ∀ r1 ∈ oddVecs, dot5 r0 r1 = 0 →
     ∀ r2 ∈ oddVecs, dot5 r0 r2 = 0 → dot5 r1 r2 = 0 →
     ∀ r3 ∈ oddVecs, dot5 r0 r3 = 0 → dot5 r1 r3 = 0 → dot5 r2 r3 = 0 →
     ∀ r4 ∈ oddVecs, dot5 r0 r4 = 0 → dot5 r1 r4 = 0 → dot5 r2 r4 = 0 → dot5 r3 r4 = 0 →
     ordChk (Matrix.of ![r0, r1, r2, r3, r4]) = true := by
-  decide +kernel
+  have hK := orthChkK_true
+  have hb : ∀ c ∈ oddCodes, c < 2 ^ 5 := by decide
+  rw [oddVecs_eq]
+  simp only [List.forall_mem_map, dot5_vdec]
+  intro c0 h0 c1 h1 d01 c2 h2 d02 d12 c3 h3 d03 d13 d23 c4 h4 d04 d14 d24 d34
+  have hL : ∀ r ∈ [c0, c1, c2, c3, c4], r < 2 ^ 5 := by
+    simp only [List.mem_cons, List.not_mem_nil, or_false]
+    rintro r (rfl | rfl | rfl | rfl | rfl) <;> exact hb _ ‹_›
+  rw [of_vdec_eq_dec [c0, c1, c2, c3, c4] hL _ (by intro i; fin_cases i <;> rfl), ordChk_dec]
+  simp only [orthChkK, List.all_eq_true] at hK
+  have := hK c0 h0 c1 h1
+  simp only [d01, Bool.false_or, List.all_eq_true] at this
+  have := this c2 h2
+  simp only [d02, d12, Bool.false_or, List.all_eq_true] at this
+  have := this c3 h3
+  simp only [d03, d13, d23, Bool.false_or, List.all_eq_true] at this
+  have := this c4 h4
+  simpa only [d04, d14, d24, d34, Bool.false_or] using this
 
 private theorem orth_no15 (M : M5) (h : M.transpose * M = 1) (h' : M * M.transpose = 1) :
     M ^ 15 = 1 → M ^ 5 = 1 ∨ M ^ 3 = 1 := by

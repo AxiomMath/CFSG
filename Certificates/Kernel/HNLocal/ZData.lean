@@ -5,12 +5,12 @@ public import Certificates.Kernel.HNLocal.Data
 public import Certificates.Data.Kernel.HNMultK
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.HNLocalZ "Certificates/Kernel/HNLocal/data/zregs.items.gz" 4977154 13728104516755301160
+#kc_repo #kc_nat_items CFSG.KD.HNLocalZ "Certificates/Kernel/HNLocal/data/zregs.items" 4977154 13728104516755301160
     TZ EV EZ (R 0 173)
-#kc_repo #kc_json_family_gz CFSG.KD.HNLocalZ "Certificates/Kernel/HNLocal/data/zregs.json.gz" 6244 4849985139563199706
+#kc_repo #kc_json_family CFSG.KD.HNLocalZ "Certificates/Kernel/HNLocal/data/zregs.json" 6244 4849985139563199706
   (WZ : List Nat)
 #kc_select CFSG.KD.HNLocalZ RZ R 173
 #kc_listDispatch CFSG.KD.HNLocalZ WZL WZ 127

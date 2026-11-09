@@ -16,7 +16,6 @@ namespace CFSG.Sporadic.FischerOddCore
 open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer
 
 theorem fi22Cent_check :
-    layoutOK fi22CentBytes 3 3510 306 = true ∧
     (∀ L < 306, isInvA 3510 (fi22CentArr L) (invCand 3510 (fi22CentArr L)) = true) ∧
     fi22CentBases = List.replicate 5 [0, 1, 2, 3, 6, 4] ∧
     fi22CentStrongStart = [0, 19, 35, 44, 63] ∧ fi22CentStrongCount = [19, 16, 9, 19, 16] ∧

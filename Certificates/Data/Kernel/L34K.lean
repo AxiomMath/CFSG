@@ -103,6 +103,29 @@ open CFSG.KLie.CT (fget andB orB notB)
       andB (orB (Nat.beq a b) (notB (Nat.beq x y)))
         (andB (Nat.blt q m) (Nat.beq (CT q) (pcomp n w (mask w) x y))))
 
+@[expose] noncomputable def groupGK (n w m : Nat) (CT CI Q : Nat → Nat) (ng gs par lt dep : Nat) :
+    Bool :=
+  strictB (pidn n w) fun e =>
+  andB (allN m fun a => andB (canonK n w (mask w) (Nat.mul n w) (CT a))
+    (andB (canonK n w (mask w) (Nat.mul n w) (CI a))
+      (Nat.beq (pcomp n w (mask w) (CI a) (CT a)) e)))
+  (andB (andB (Nat.beq (CT (nat_lit 0)) e) (Nat.beq (fget dep (nat_lit 0) (nat_lit 8)) (nat_lit 0)))
+  (andB (allN ng fun j => strictB (fget gs j (nat_lit 8)) fun g =>
+    andB (Nat.blt g m) (strictB (CT g) fun y => allN m fun a =>
+      strictB (fget (Q a) g (nat_lit 8)) fun q =>
+        andB (Nat.blt q m) (Nat.beq (CT q) (pcomp n w (mask w) (CT a) y))))
+  (allN m fun b => strictB (CT b) fun y =>
+    orB (andB (Nat.beq b (nat_lit 0)) (allN m fun a => strictB (fget (Q a) b (nat_lit 8)) fun q =>
+        andB (orB (Nat.beq a b) (notB (Nat.beq (CT a) y))) (Nat.beq q a)))
+      (strictB (fget par b (nat_lit 8)) fun p => strictB (fget lt b (nat_lit 8)) fun l =>
+        strictB (fget gs l (nat_lit 8)) fun g =>
+        andB (Nat.blt p m) (andB (Nat.blt (fget dep p (nat_lit 8)) (fget dep b (nat_lit 8)))
+        (andB (Nat.blt l ng) (andB (Nat.beq (fget (Q p) g (nat_lit 8)) b)
+          (allN m fun a => strictB (Q a) fun row => strictB (fget row b (nat_lit 8)) fun q =>
+            andB (orB (Nat.beq a b) (notB (Nat.beq (CT a) y)))
+              (andB (Nat.blt q m)
+                (Nat.beq q (fget (Q (fget row p (nat_lit 8))) g (nat_lit 8))))))))))))
+
 @[expose] noncomputable def classK (n w m : Nat) (CT CI P : Nat → Nat) (lab rep wit SZ ns : Nat) :
     Bool :=
   strictB (pidn n w) fun e =>
@@ -111,6 +134,24 @@ open CFSG.KLie.CT (fget andB orB notB)
       strictB (fget row a (nat_lit 8)) fun p =>
         andB (Nat.blt p m) (andB (Nat.beq (CT p) (pcomp n w (mask w) (CT a)
           (pcomp n w (mask w) x (CI a)))) (Nat.beq (fget lab p (nat_lit 8)) lk)))
+  (andB (allN ns fun l => strictB (fget rep l (nat_lit 8)) fun r =>
+    andB (Nat.blt r m) (Nat.beq (fget lab r (nat_lit 8)) l))
+  (andB (allN m fun k => strictB (fget lab k (nat_lit 8)) fun l =>
+    strictB (fget wit k (nat_lit 8)) fun v =>
+      andB (Nat.blt l ns) (andB (Nat.blt v m) (Nat.beq (pcomp n w (mask w) (CT v)
+        (pcomp n w (mask w) (CT (fget rep l (nat_lit 8))) (CI v))) (CT k))))
+  (andB (allN ns fun l => Nat.beq (CFSG.KC.HeAutK.cntR (fun k => Nat.beq (fget lab k (nat_lit 8)) l)
+      (nat_lit 0) m) (fget SZ l (nat_lit 8)))
+  (andB (Nat.blt (nat_lit 0) m) (andB (Nat.beq (CT (nat_lit 0)) e)
+    (Nat.beq (fget lab (nat_lit 0) (nat_lit 8)) (nat_lit 0)))))))
+
+@[expose] noncomputable def classQK (n w m : Nat) (CT CI Q P : Nat → Nat) (lab rep wit SZ ns : Nat) :
+    Bool :=
+  strictB (pidn n w) fun e =>
+  andB (allN m fun k => strictB (P k) fun row => strictB (fget lab k (nat_lit 8)) fun lk =>
+    allN m fun a => strictB (fget row a (nat_lit 8)) fun p =>
+      andB (Nat.blt p m) (andB (Nat.beq (fget (Q p) a (nat_lit 8)) (fget (Q a) k (nat_lit 8)))
+        (Nat.beq (fget lab p (nat_lit 8)) lk)))
   (andB (allN ns fun l => strictB (fget rep l (nat_lit 8)) fun r =>
     andB (Nat.blt r m) (Nat.beq (fget lab r (nat_lit 8)) l))
   (andB (allN m fun k => strictB (fget lab k (nat_lit 8)) fun l =>
@@ -147,6 +188,30 @@ open CFSG.KLie.CT (fget andB orB notB)
     strictB (fget v (nat_lit 2) (nat_lit 8)) fun a3 => strictB (fget v (nat_lit 3) (nat_lit 8)) fun a4 =>
       andB (andB (Nat.blt a1 m) (andB (Nat.blt a2 m) (andB (Nat.blt a3 m) (Nat.blt a4 m))))
         (Nat.beq (D a) (pcomp n w (mask w) (commK n w T TI a1 a2) (commK n w T TI a3 a4)))))))
+
+@[expose] noncomputable def derQK (n w m : Nat) (T TI Q : Nat → Nat) (iv m' : Nat)
+    (D PW CW : Nat → Nat) (IW W : Nat) : Bool :=
+  strictB (pidn n w) fun e =>
+  andB (andB (Nat.blt (nat_lit 0) m') (Nat.beq (D (nat_lit 0)) e))
+  (andB (allN m' fun a => andB (canonK n w (mask w) (Nat.mul n w) (D a))
+    (strictB (D a) fun x => strictB (PW a) fun row =>
+      andB (strictB (fget IW a (nat_lit 8)) fun q =>
+          andB (Nat.blt q m') (Nat.beq (pcomp n w (mask w) (D q) x) e))
+        (allN m' fun b => strictB (D b) fun y => strictB (fget row b (nat_lit 8)) fun q =>
+          andB (orB (Nat.beq a b) (notB (Nat.beq x y)))
+            (andB (Nat.blt q m') (Nat.beq (D q) (pcomp n w (mask w) x y))))))
+  (andB (allN m fun a => strictB (CW a) fun row => strictB (Q a) fun qa =>
+    strictB (fget iv a (nat_lit 8)) fun ia => andB (andB (Nat.blt ia m) (Nat.beq (T ia) (TI a)))
+    (allN m fun b => strictB (fget row b (nat_lit 8)) fun c =>
+      strictB (fget iv b (nat_lit 8)) fun ib => andB (andB (Nat.blt c m') (Nat.blt ib m)) (andB (Nat.beq (T ib) (TI b))
+        (Nat.beq (D c) (T (fget (Q (fget (Q (fget qa b (nat_lit 8))) ia (nat_lit 8))) ib
+          (nat_lit 8)))))))
+  (allN m' fun a => strictB (fget W a (nat_lit 32)) fun v =>
+    strictB (fget v (nat_lit 0) (nat_lit 8)) fun a1 => strictB (fget v (nat_lit 1) (nat_lit 8))
+    fun a2 => strictB (fget v (nat_lit 2) (nat_lit 8)) fun a3 =>
+    strictB (fget v (nat_lit 3) (nat_lit 8)) fun a4 =>
+      andB (andB (Nat.blt a1 m) (andB (Nat.blt a2 m) (andB (Nat.blt a3 m) (Nat.blt a4 m))))
+        (Nat.beq (D a) (pcomp n w (mask w) (commK n w T TI a1 a2) (commK n w T TI a3 a4))))))
 
 @[expose] noncomputable def normK (n w ng : Nat) (G GI : Nat → Nat) (ngS : Nat) (GS : Nat → Nat)
     (N : Nat) (T : Nat → Nat) (NW : Nat) : Bool :=

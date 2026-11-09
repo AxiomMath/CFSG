@@ -6,6 +6,7 @@ import all CFSG.Certificates.Kernel.LocalQT.Steps
 public import Certificates.Data.CFSGNative.SectionRank.F3
 public import Certificates.Data.CFSGNative.SectionRank.Fp
 public import CFSG.Certificates.Kernel.SporSch.LyMatLemmas
+public import CFSG.Certificates.Kernel.LocalCompOps3Snd.Bridge
 import CFSG.Certificates.Kernel.LocalCompOps3Snd.Replay
 import CFSG.Certificates.Kernel.OpsKSound
 import CFSG.Certificates.Kernel.Spor.OrdCanon
@@ -43,7 +44,7 @@ private def ksFV_CorrN (c : Lay) (V : Nat → Nat) (N n : Nat) (R : Nat → Nat)
 private theorem ksFV_replay_init {c : Lay} (hc : c.ok = true) (hp : c.p = 3)
     {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
     (hsB : sB = String.ofList LB) {V P : Nat → Nat} {N n : Nat}
-    (hA : decOK c (V 0) LA = true) (hB : decOK c (V 1) LB = true)
+    (hA : SeedM c (V 0) LA) (hB : SeedM c (V 1) LB)
     (hV : Vals c V P N) :
     Corr c V N (initK n) ((ops3 c.d).initRegs ((ops3 c.d).decode sA)
       ((ops3 c.d).decode sB) n) := by
@@ -69,14 +70,14 @@ private theorem ksFV_replay_init {c : Lay} (hc : c.ok = true) (hp : c.p = 3)
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d sA, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sA) = mat3 c (V 0)
       exact ((spec3b c.d).toMat_decode sA).trans
-        (by rw [hsA]; exact (mat3_decode c hc hp hA).2.symm)
+        (by rw [hsA]; exact hA.2.symm)
     by_cases h01 : r = 1
     · subst h01
       simp only [if_false, if_true, one_ne_zero]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d sB, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sB) = mat3 c (V 1)
       exact ((spec3b c.d).toMat_decode sB).trans
-        (by rw [hsB]; exact (mat3_decode c hc hp hB).2.symm)
+        (by rw [hsB]; exact hB.2.symm)
     · simp only [h0, h01, if_false]
       refine ⟨Or.inr (by norm_num), wfb_idM c.d, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.idM c.d) = mat3 c (V 2)
@@ -86,14 +87,14 @@ private theorem ksFV_replay_init {c : Lay} (hc : c.ok = true) (hp : c.p = 3)
 private theorem ksFV_replay {c : Lay} (hc : c.ok = true) (hp : c.p = 3)
     {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
     (hsB : sB = String.ofList LB) {V P T Rf : Nat → Nat} {N n : Nat} {prog : List Op}
-    (hA : decOK c (V 0) LA = true) (hB : decOK c (V 1) LB = true) (h1 : V 2 = c.ONE)
+    (hA : SeedM c (V 0) LA) (hB : SeedM c (V 1) LB) (h1 : V 2 = c.ONE)
     (hs : StepsTo (stepOK c V P) N) (hr : regsV c V P T N n prog Rf = true) :
     (∀ r < n, Rf r = (replayK c V P T N prog 0 (initK n)).2.getD r 0) ∧
       ksFV_CorrN c V N n Rf ((ops3 c.d).regsOf sA sB n prog) := by
   unfold regsV at hr
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hr
   obtain ⟨⟨⟨⟨hN, h2⟩, hprog⟩, hrep⟩, hlist⟩ := hr
-  have hV := vals_of hc hp hN hA hB h1 hs
+  have hV := vals_of_seed hc hp hN hA.1 hB.1 h1 hs
   set Rk0 : List ℕ := initK n with hRk0
   set Rn0 : Array (Array FV) := (ops3 c.d).initRegs ((ops3 c.d).decode sA)
     ((ops3 c.d).decode sB) n with hRn0
@@ -517,10 +518,10 @@ private theorem ksFV_factOK_V3 {c : Lay} {V P : Nat → Nat} {N : Nat} (hV : Val
   | ne w1 w2 t => exact ksFV_factOK_V3_ne hV hR hf
   | eq w1 w2 => exact ksFV_factOK_V3_eq hV hR hf
 
-theorem factOK_of_V3 {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+theorem factOK_of_V3S {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
     {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
     (hsB : sB = String.ofList LB) {V P T Rf : Nat → Nat} {N n : Nat} {prog : List Op}
-    (hA : decOK c (V 0) LA = true) (hB : decOK c (V 1) LB = true) (h1 : V 2 = c.ONE)
+    (hA : SeedM c (V 0) LA) (hB : SeedM c (V 1) LB) (h1 : V 2 = c.ONE)
     (hs : StepsTo (stepOK c V P) N) (hr : regsV c V P T N n prog Rf = true) (h : Nat)
     (f : MFact) (hf : factV c V P N Rf n h f = true) :
     factOK (ops3 d) ((ops3 d).regsOf sA sB n prog) n f = true := by
@@ -530,14 +531,24 @@ theorem factOK_of_V3 {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd :
     unfold regsV at h
     simp only [Bool.and_eq_true, decide_eq_true_eq] at h
     exact h.1.1.1.1
-  have hV := vals_of hc hp hN hA hB h1 hs
+  have hV := vals_of_seed hc hp hN hA.1 hB.1 h1 hs
   obtain ⟨-, hcorr⟩ := ksFV_replay hc hp hsA hsB hA hB h1 hs hr
   exact ksFV_factOK_V3 hV hcorr hf
 
-theorem seed_of_V3 {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+theorem factOK_of_V3 {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
     {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
     (hsB : sB = String.ofList LB) {V P T Rf : Nat → Nat} {N n : Nat} {prog : List Op}
     (hA : decOK c (V 0) LA = true) (hB : decOK c (V 1) LB = true) (h1 : V 2 = c.ONE)
+    (hs : StepsTo (stepOK c V P) N) (hr : regsV c V P T N n prog Rf = true) (h : Nat)
+    (f : MFact) (hf : factV c V P N Rf n h f = true) :
+    factOK (ops3 d) ((ops3 d).regsOf sA sB n prog) n f = true :=
+  factOK_of_V3S hc hp hd hsA hsB (mat3_decode c hc hp hA) (mat3_decode c hc hp hB) h1 hs hr h f
+    hf
+
+theorem seed_of_V3S {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+    {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
+    (hsB : sB = String.ofList LB) {V P T Rf : Nat → Nat} {N n : Nat} {prog : List Op}
+    (hA : SeedM c (V 0) LA) (hB : SeedM c (V 1) LB) (h1 : V 2 = c.ONE)
     (hs : StepsTo (stepOK c V P) N) (hr : regsV c V P T N n prog Rf = true) {r : Nat}
     (hrn : r < n) :
     (Rf r = 0 → (ops3 d).eq ((ops3 d).regsOf sA sB n prog)[r]! ((ops3 d).decode sA) = true) ∧
@@ -548,16 +559,26 @@ theorem seed_of_V3 {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c
   have hdecA : CFSG.F3.Native.toMat c.d ((ops3 c.d).decode sA) = mat3 c (V 0) := by
     change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sA) = mat3 c (V 0)
     exact ((spec3b c.d).toMat_decode sA).trans
-      (by rw [hsA]; exact (mat3_decode c hc hp hA).2.symm)
+      (by rw [hsA]; exact hA.2.symm)
   have hdecB : CFSG.F3.Native.toMat c.d ((ops3 c.d).decode sB) = mat3 c (V 1) := by
     change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d sB) = mat3 c (V 1)
     exact ((spec3b c.d).toMat_decode sB).trans
-      (by rw [hsB]; exact (mat3_decode c hc hp hB).2.symm)
+      (by rw [hsB]; exact hB.2.symm)
   refine ⟨fun h0 => ?_, fun h1r => ?_⟩
   · refine eqM_of_toMat_eq hwf (wfb_rowsOf c.d sA) ?_
     rw [hmat, h0, hdecA]
   · refine eqM_of_toMat_eq hwf (wfb_rowsOf c.d sB) ?_
     rw [hmat, h1r, hdecB]
+
+theorem seed_of_V3 {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+    {LA LB : List Char} {sA sB : String} (hsA : sA = String.ofList LA)
+    (hsB : sB = String.ofList LB) {V P T Rf : Nat → Nat} {N n : Nat} {prog : List Op}
+    (hA : decOK c (V 0) LA = true) (hB : decOK c (V 1) LB = true) (h1 : V 2 = c.ONE)
+    (hs : StepsTo (stepOK c V P) N) (hr : regsV c V P T N n prog Rf = true) {r : Nat}
+    (hrn : r < n) :
+    (Rf r = 0 → (ops3 d).eq ((ops3 d).regsOf sA sB n prog)[r]! ((ops3 d).decode sA) = true) ∧
+      (Rf r = 1 → (ops3 d).eq ((ops3 d).regsOf sA sB n prog)[r]! ((ops3 d).decode sB) = true) :=
+  seed_of_V3S hc hp hd hsA hsB (mat3_decode c hc hp hA) (mat3_decode c hc hp hB) h1 hs hr hrn
 
 
 private def ksFV_ArrCanon (p d : Nat) (X : Array (Array Nat)) : Prop :=

@@ -62,7 +62,8 @@ meta def packLines (s : String) (w sgn : Nat) : Array Nat × Array Nat := Id.run
     E := E.push e
   return (F, E)
 
-elab "#ym_text " pre:ident sId:ident path:str size:num hash:num wN:num sgnN:num : command => do
+elab "#ym_text " pre:ident sId:ident path:str size:num hash:num wN:num sgnN:num cbN:(num)? :
+    command => do
   let P := pre.getId
   let sN ← liftCoreM <| realizeGlobalConstNoOverload sId
   let b ← IO.FS.readBinFile path.getString
@@ -84,7 +85,7 @@ elab "#ym_text " pre:ident sId:ident path:str size:num hash:num wN:num sgnN:num 
   let clE : Expr := (F.zip E).foldr (fun (x, n) acc => mkApp3 (mkConst ``List.cons [0]) listNatE
     (mkNatList ((chunksOf x n).map mkRawNatLit)) acc) (mkApp (mkConst ``List.nil [0]) listNatE)
   withSync do
-    addDef (P ++ `CH) (mkApp (mkConst ``List [0]) pairT) (chunksE b 256)
+    addDef (P ++ `CH) (mkApp (mkConst ``List [0]) pairT) (chunksE b ((cbN.map (·.getNat)).getD 256))
     addDef (P ++ `Cl) listListE clE
     addDef (P ++ `El) listNatE (mkNatList (E.map mkRawNatLit))
     addDef (P ++ `F) (mkForall `L .default natE natE) (mkLambda `L .default natE

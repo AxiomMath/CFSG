@@ -95,8 +95,45 @@ theorem codes_mem : ∀ r ∈ fiCoverCodes, ofCodes fi23U3Cover3.m r ∈
         (((wdRel i).map topCode).drop (wdOff i) ++ ((wdRel i).map topCode).take (wdOff i) ==
           wdF i)))
 
-theorem wd_bool : (List.range 4096).all wdBool = true := by
+private theorem range'_join {f : ℕ → Bool} {s m n : ℕ} (h1 : (List.range' s m).all f = true)
+    (h2 : (List.range' (s + m) n).all f = true) : (List.range' s (m + n)).all f = true := by
+  rw [← List.range'_append_1, List.all_append, h1, h2]
+  rfl
+
+theorem wd_bool_0 : (List.range' 0 512).all wdBool = true := by
   quickRfl
+
+theorem wd_bool_1 : (List.range' 512 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool_2 : (List.range' 1024 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool_3 : (List.range' 1536 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool_4 : (List.range' 2048 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool_5 : (List.range' 2560 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool_6 : (List.range' 3072 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool_7 : (List.range' 3584 512).all wdBool = true := by
+  quickRfl
+
+theorem wd_bool : (List.range 4096).all wdBool = true := by
+  rw [List.range_eq_range']
+  exact range'_join (s := 0) (m := 512) (n := 3584) wd_bool_0 <|
+    range'_join (s := 512) (m := 512) (n := 3072) wd_bool_1 <|
+    range'_join (s := 1024) (m := 512) (n := 2560) wd_bool_2 <|
+    range'_join (s := 1536) (m := 512) (n := 2048) wd_bool_3 <|
+    range'_join (s := 2048) (m := 512) (n := 1536) wd_bool_4 <|
+    range'_join (s := 2560) (m := 512) (n := 1024) wd_bool_5 <|
+    range'_join (s := 3072) (m := 512) (n := 512) wd_bool_6 <|
+    wd_bool_7
 
 theorem wd_ok : ∀ i < 4096, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
     (wdF i = [] ∨ wdF i = [12, 13] ∨ wdF i = [13, 12] ∨

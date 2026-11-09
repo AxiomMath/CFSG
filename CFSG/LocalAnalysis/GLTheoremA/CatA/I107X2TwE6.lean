@@ -25,7 +25,31 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
     ([0, 2, 3, 4, 5, 1, 3, 4, 2, 3, 0, 2, 1] : List (Fin 6)), ([3, 4] : List (Fin 6)),
     ([3, 2] : List (Fin 6)), ([3, 4, 5] : List (Fin 6)), ([3, 2, 0] : List (Fin 6))]
 
-theorem e6W_check : e6W.check = true := by decide +kernel
+private def pairFreeH (τ : Tag) (α β : Fin τ.rank → ℤ) : Bool :=
+  (List.range τ.rootCertificate.roots.length).all fun k =>
+    (List.range 7).all fun a => (List.range 7).all fun b =>
+      !(decide (1 ≤ a) && decide (1 ≤ b) &&
+        decide (height (τ.rootCertificate.root k) = a • height α + b • height β) &&
+        decide (τ.rootCertificate.root k = a • α + b • β))
+
+private lemma height_nsmul_add {τ : Tag} (a b : ℕ) (α β : Fin τ.rank → ℤ) :
+    height (a • α + b • β) = a • height α + b • height β := by
+  simp only [height, Pi.add_apply, Pi.smul_apply, Finset.sum_add_distrib, Finset.smul_sum]
+
+private lemma pairFree_eq_H (τ : Tag) (α β : Fin τ.rank → ℤ) :
+    pairFree τ α β = pairFreeH τ α β := by
+  unfold pairFree pairFreeH
+  congr 1; funext k; congr 1; funext a; congr 1; funext b
+  by_cases h : τ.rootCertificate.root k = a • α + b • β
+  · rw [h, height_nsmul_add]
+    simp
+  · rw [decide_eq_false h]
+    simp
+
+theorem e6W_check : e6W.check = true := by
+  unfold SepWitness.check
+  simp only [pairFree_eq_H]
+  decide +kernel
 
 @[expose] def e6π : Equiv.Perm (Fin 9) := Equiv.swap 5 6 * Equiv.swap 7 8
 

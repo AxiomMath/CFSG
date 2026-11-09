@@ -5,6 +5,7 @@ public import Certificates.Kernel.Co2Smith.NJ2Data
 public import Certificates.Kernel.Co2Smith.RootDefs
 public import Certificates.Data.Kernel.Co2Smith.Pts
 public import Certificates.Data.Kernel.Co1F2
+public import Certificates.Kernel.Co2Smith.IdxAll
 
 public section
 
@@ -79,6 +80,28 @@ theorem njPtB_k : njPtBK = true := by
   decide +kernel
 theorem njPtC_k : njPtCK = true := by decide +kernel
 theorem njBind_k : njBindK = true := by decide +kernel
-theorem njO77_k : njO77K = true := by decide +kernel
+
+theorem njO77Wx_size : glNJO77Wx.size = 1024 := by decide +kernel
+
+theorem njO77Wy_size : glNJO77Wy.size = 1024 := by decide +kernel
+
+@[expose] noncomputable def njO77KF : Bool :=
+  glNJO77.all (· < 2300) &&
+    ((List.range 3).all fun k => glNJO77.all fun x => glNJO77.contains (pg 12 4095 (NJGP k) x)) &&
+    glNJO77Wx.size == 1024 && glNJO77Wy.size == 1024 &&
+    (glNJO77Wx.toList.zip glNJO77Wy.toList).zipIdx.all fun p => p.2 == 0 ||
+      (glNJO77.contains p.1.1 && decide (p.1.2 < 2300) && !glNJO77.contains p.1.2 &&
+        jtK p.2 (VG (PV 0) p.1.1) == VG (PV 0) p.1.2)
+
+theorem njO77K_eqF : njO77K = njO77KF := by
+  rw [njO77K, njO77KF, CFSG.KC.IdxAll.all_range_get2 glNJO77Wx glNJO77Wy 1024 njO77Wx_size
+    njO77Wy_size (fun m x y => m == 0 || (glNJO77.contains x && decide (y < 2300) &&
+      !glNJO77.contains y && jtK m (VG (PV 0) x) == VG (PV 0) y))]
+
+theorem njO77F_k : njO77KF = true := by decide +kernel
+
+theorem njO77_k : njO77K = true := by
+  rw [njO77K_eqF]
+  exact njO77F_k
 
 end CertificateChecks.KernelCo2Smith

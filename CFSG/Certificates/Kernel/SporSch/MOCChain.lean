@@ -1,7 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.SporSch.MathieuOC
-public import CFSG.Certificates.Kernel.Spor.RawSound
+public import CFSG.Certificates.Kernel.Spor.RawPos
 public import CFSG.Sporadic.Schreier.Enumeration
 public import CFSG.Monster.B.Mathieu.Order
 import CFSG.Certificates.Kernel.U6Chain
@@ -21,8 +21,7 @@ open CFSG.Sporadic.Schreier CFSG.Monster.B.Co2.Native CFSG.Monster.B.Co2 CFSG.Mo
     bv.toList.map Fin.val = (List.range k).map (pg w (mask w) BP) ∧
     headK n w (mask w) (n * w) (pidn n w) PS PSI kS gens.length words k BP = true ∧
     LevelsOK n w PS PSI LR TR TRI kS k BP ∧ n ≤ NS * CH ∧
-    ∀ i < k, ∀ s < NS, schK n w (mask w) (n * w) (pidn n w) PS PSI LR TR TRI kS BP k i
-      (stepsAt n w PS kS BP i) (s * CH) CH = true
+    SchTestsK n w PS PSI LR TR TRI kS gens.length BP k NS CH
 
 @[expose] noncomputable def strongArr (n w kS : Nat) (PS : Nat → Nat) : Array (Array Nat) :=
   Array.ofFn (n := kS) fun j => unpack n w (PS j.val)
@@ -68,7 +67,7 @@ theorem chainK_arrays (hn : 1 ≤ n) (hbs : bv.toList.Nodup)
   have hb := binds_of hQ
   have hk := kS_eq hQ
   obtain ⟨-, -, -, hgen, hbv, hh, hl, hNS, hs⟩ := hQ
-  have hraw := rawChainK_sound (chunks := 1) hb hh hl hNS hs
+  have hraw := rawChainSK_sound (chunks := 1) hb hh hl hNS hs
   refine ⟨?_, hraw⟩
   subst hk
   refine certificate_chainArrays hn gens words bv hbs hraw (by simp [strongArr])

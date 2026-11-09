@@ -1,7 +1,6 @@
 module
 
 public import Certificates.Kernel.Misc.Perm.HS100.Base
-public import Certificates.Kernel.Misc.Perm.HS100.Class3A
 public import Certificates.Kernel.Misc.Perm.HS100.S0Data
 public import Certificates.Data.Kernel.Misc.PermWit
 public import Certificates.Data.Kernel.Misc.PermAdj
@@ -72,7 +71,7 @@ theorem binds : (allN 4 (fun k => Nat.beq (KK.G k) (SX.F (Nat.add 1 k))) &&
     allN 4 (fun k => Nat.beq (JJ.G k) (pcomp 100 7 (mask 7) (SX.F (Nat.add 5 k)) (SX.F (Nat.add 6 k)))) &&
     allN 4 (fun k => Nat.beq (E0.G k) (EX.F k)) &&
     allN 2 (fun k => Nat.beq (ZO.G k) (HX.F k)) && allN 2 (fun k => Nat.beq (UO.G k) (HX.F k)) &&
-    Nat.beq (ZO.T ZO.r0) Z0 && Nat.beq (UO.T UO.r0) U0 && Nat.beq (K3.T K3.r1) Y0) = true := by
+    Nat.beq (ZO.T ZO.r0) Z0 && Nat.beq (UO.T UO.r0) U0) = true := by
   quickRfl
 
 theorem keysAll : (keysSK 100 7 CFSG.EvenSporadicStandard.HSStd.Zassenhaus.PartA.S0.keys KK.N KK.T

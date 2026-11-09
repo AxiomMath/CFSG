@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.L5.S0C
+public import Certificates.Data.Kernel.L5.ClosureFast
 
 public section
 
@@ -9,6 +10,18 @@ namespace CFSG.KD.L5.S0Checks
 open CFSG.KD.L5 CFSG.Certificates.Kernel.PkCV CFSG.GH74.GLS.C3.Layer2.L5
 
 set_option maxRecDepth 100000
+
+@[expose] noncomputable def SCK : List (CV 16) :=
+  ((Fast.closureStepK (fun a : CV 16 => a.1) (sh1Gens.map cOf))^[12] [1]).filter ovC
+
+theorem SC_eq : SC = SCK := by
+  rw [SC, SCK, Fast.closureList_eq_K Subtype.val_injective]
+
+theorem AC_eq : AC = SCK.filter fun u => holdsC (fixC ++ [u, 1]) t1 := by
+  rw [AC, SC_eq]
+
+theorem BC_eq : BC = SCK.filter fun u => holdsC (fixC ++ [1, u]) t2 := by
+  rw [BC, SC_eq]
 
 theorem all_ok : (tabC.all (fun e => decide (wval gC e.2 = e.1) && decide (e.1 ∈ SC)) &&
     SC.all (fun s => tabC.any fun e => decide (e.1 = s)) &&
@@ -19,6 +32,7 @@ theorem all_ok : (tabC.all (fun e => decide (wval gC e.2 = e.1) && decide (e.1 �
       holdsC gC t) &&
     AC.all (fun u₁ => BC.all fun u₂ => !holdsC (fixC ++ [u₁, u₂]) t3) &&
     !AC.all (fun u₁ => BC.all fun u₂ => !holdsC (fixC ++ [u₁, u₂]) t1)) = true := by
+  rw [AC_eq, BC_eq, SC_eq]
   decide +kernel
 
 theorem hA : tabC.all (fun e => decide (wval gC e.2 = e.1) && decide (e.1 ∈ SC)) = true := by

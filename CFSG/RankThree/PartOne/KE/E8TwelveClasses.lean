@@ -44,8 +44,23 @@ theorem e8wl_e8T12WW : e8wl e8T12WW = e8T12VList := by decide +kernel
 theorem e8T12_twoA2_good : ∀ c ∈ e8T12TwoA2Certs, c.Good e8T12Rows e8T12VList := by
   decide +kernel
 
-theorem e8T12_d4_good : ∀ c ∈ e8T12D4Certs, c.Good e8T12Rows e8T12WW := by
+private theorem forall_mem_take_drop {α : Type} {P : α → Prop} {L : List α} (n : ℕ)
+    (h1 : ∀ c ∈ L.take n, P c) (h2 : ∀ c ∈ L.drop n, P c) : ∀ c ∈ L, P c := by
+  intro c hc
+  rw [← List.take_append_drop n L, List.mem_append] at hc
+  exact hc.elim (h1 c) (h2 c)
+
+theorem e8T12_d4_good_a : ∀ c ∈ e8T12D4Certs.take 2, c.Good e8T12Rows e8T12WW := by
   decide +kernel
+
+theorem e8T12_d4_good_b : ∀ c ∈ (e8T12D4Certs.drop 2).take 2, c.Good e8T12Rows e8T12WW := by
+  decide +kernel
+
+theorem e8T12_d4_good_c : ∀ c ∈ (e8T12D4Certs.drop 2).drop 2, c.Good e8T12Rows e8T12WW := by
+  decide +kernel
+
+theorem e8T12_d4_good : ∀ c ∈ e8T12D4Certs, c.Good e8T12Rows e8T12WW :=
+  forall_mem_take_drop 2 e8T12_d4_good_a (forall_mem_take_drop 2 e8T12_d4_good_b e8T12_d4_good_c)
 
 theorem e8T12_class_cover : ∀ j < 14, (∃ c ∈ e8T12D4Certs, c.cls = j) ∨
     ∃ c ∈ e8T12TwoA2Certs, c.cls = j := by

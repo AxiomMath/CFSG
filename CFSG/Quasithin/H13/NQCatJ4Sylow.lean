@@ -151,37 +151,6 @@ theorem commutator_conj
     ⁅g * j4x * g⁻¹, g * j4y * g⁻¹⁆ = g * j4z * g⁻¹ :=
   (map_commutatorElement (MulAut.conj g).toMonoidHom j4x j4y).symm
 
-theorem fixDim_conj (g u : Sporadic.J4.J) : fixDim (g * u * g⁻¹) = fixDim u := by
-  have h1 : jmat g * jmat g⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
-  have h2 : jmat g⁻¹ * jmat g = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
-  let e : (Fin 112 → ZMod 2) ≃ₗ[ZMod 2] (Fin 112 → ZMod 2) :=
-    LinearEquiv.ofLinearMap (Matrix.mulVecLin (jmat g)) (Matrix.mulVecLin (jmat g⁻¹))
-      (by rw [← Matrix.mulVecLin_mul, h1, Matrix.mulVecLin_one])
-      (by rw [← Matrix.mulVecLin_mul, h2, Matrix.mulVecLin_one])
-  have he : ∀ w, (e : (Fin 112 → ZMod 2) →ₗ[ZMod 2] (Fin 112 → ZMod 2)) w = jmat g *ᵥ w :=
-    fun _ => rfl
-  have hm : jmat (g * u * g⁻¹) - 1 = jmat g * ((jmat u - 1) * jmat g⁻¹) := by
-    rw [map_mul, map_mul, Matrix.sub_mul, Matrix.one_mul, Matrix.mul_sub, ← Matrix.mul_assoc,
-      h1]
-  have hk : LinearMap.ker (Matrix.mulVecLin (jmat (g * u * g⁻¹) - 1)) =
-      (LinearMap.ker (Matrix.mulVecLin (jmat u - 1))).map
-        (e : (Fin 112 → ZMod 2) →ₗ[ZMod 2] (Fin 112 → ZMod 2)) := by
-    apply le_antisymm
-    · intro v hv
-      rw [LinearMap.mem_ker, Matrix.mulVecLin_apply, hm, ← Matrix.mulVec_mulVec] at hv
-      refine ⟨jmat g⁻¹ *ᵥ v, ?_, ?_⟩
-      · rw [SetLike.mem_coe, LinearMap.mem_ker, Matrix.mulVecLin_apply]
-        have h3 := congrArg (fun w => jmat g⁻¹ *ᵥ w) hv
-        simp only [Matrix.mulVec_mulVec, Matrix.mulVec_zero] at h3
-        rwa [← Matrix.mul_assoc, h2, Matrix.one_mul, ← Matrix.mulVec_mulVec] at h3
-      · rw [he, Matrix.mulVec_mulVec, h1, Matrix.one_mulVec]
-    · rintro _ ⟨w, hw, rfl⟩
-      rw [SetLike.mem_coe, LinearMap.mem_ker, Matrix.mulVecLin_apply] at hw
-      rw [LinearMap.mem_ker, Matrix.mulVecLin_apply]
-      rw [he, hm, Matrix.mulVec_mulVec, Matrix.mul_assoc, Matrix.mul_assoc, h2, Matrix.mul_one,
-        ← Matrix.mulVec_mulVec, hw, Matrix.mulVec_zero]
-  rw [fixDim, fixDim, hk, LinearEquiv.finrank_map_eq]
-
 theorem fixDim_of_mem_conj
     (g : Sporadic.J4.J) {u : Sporadic.J4.J}
     (hu : u ∈ j4Q.map (MulAut.conj g).toMonoidHom) (hu1 : u ≠ 1) :

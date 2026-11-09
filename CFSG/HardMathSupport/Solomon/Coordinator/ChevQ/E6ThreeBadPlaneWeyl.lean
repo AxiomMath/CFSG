@@ -73,6 +73,7 @@ theorem e6PW_complete : ∀ a b c d e f : ZMod 3,
     e6KerCount (e6PWComb 1 1 (e6ConjVec a b c d e f)) = 24 →
     e6KerCount (e6PWComb 2 1 (e6ConjVec a b c d e f)) = 24 →
     ∃ p ∈ e6PWTable, p.1 = e6ConjVec a b c d e f := by
+  simp only [e6KerCount_eq]
   decide +kernel
 
 theorem e6PW_exists_word (x : Fin Tag.E6.rank → ZMod 3)

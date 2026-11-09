@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.L5.Sh2FusT "Certificates/Data/Kernel/L5/data/sh2fus.json.gz" 9834
+#kc_repo #kc_json CFSG.KD.L5.Sh2FusT "Certificates/Data/Kernel/L5/data/sh2fus.json" 9834
   9593564629663545965 (embT : List (Nat × Nat)) (f5C : List (Nat × Nat))
 
 namespace CFSG.KD.L5

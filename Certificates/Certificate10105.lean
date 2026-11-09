@@ -8,7 +8,7 @@ import Certificates.Kernel.Y442.Bound
 import Certificates.Kernel.Y442.Data
 import Certificates.Data.Kernel.TwistDce.Defs
 import CFSG.Certificates.Kernel.YModel.Texts.YM432P
-import CFSG.Certificates.Kernel.Common.HarnessGz
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 public import Mathlib
 

@@ -17,6 +17,11 @@ open CFSG.KC.KeyTree CFSG.KC.PkTree CFSG.KD.SmithD6 CFSG.KD.SmithD6Stab CFSG.KD.
     131328, 32784, 2098176, 33792, 66048, 32800, 2099200, 34816, 131584, 65568, 4196352, 67584,
     132096]
 
+@[expose] noncomputable def stKP : Nat :=
+  9821449876136537138002238928418149937574100848654485161469550891266335683366975909493723899634906371890507774351278905995678453846910977058733619670402220695241304884058018586243331443304030812891638485988255870340145113709750680488101418537915209214010718739015715544015353106970529763456
+
+@[expose] noncomputable def stKeyP (g : Nat) : Nat := pkGet stKP 23 g
+
 @[expose] noncomputable def parB (x : Nat) : Bool :=
   Nat.beq (Nat.land (Nat.shiftRight 0x6996966996696996 x) 1) 1
 
@@ -82,14 +87,18 @@ open CFSG.KC.KeyTree CFSG.KC.PkTree CFSG.KD.SmithD6 CFSG.KD.SmithD6Stab CFSG.KD.
 
 @[expose] noncomputable def stRecGo (k d g : Nat) : Bool :=
   bAnd(Nat.blt 0 d, bIf(Nat.beq d 1, Nat.beq k (repKeys.getD (clsN k) 0),
-    bAnd(Nat.blt g 42, stStepOK k d (stKeysL.getD g 0) (imgN (stKeysL.getD g 0) k))))
+    bAnd(Nat.blt g 42, stStepOK k d (stKeyP g) (imgN (stKeyP g) k))))
 
-@[expose] noncomputable def stTreeGo (l : List Nat) : Nat → Bool :=
-  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-    (fun k _ ih i => bAnd(stRecGo k (pkGet JST.stD 4 i) (pkGet JST.stG 6 i), ih (Nat.succ i))) l
+@[expose] noncomputable def stSlice (D w c : Nat) : Nat :=
+  Nat.land (Nat.shiftRight D (Nat.mul (Nat.mul w 2048) c)) (Nat.sub (Nat.pow 2 (Nat.mul w 2048)) 1)
+
+@[expose] noncomputable def stTreeGo (l : List Nat) : Nat → Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Nat → Bool) (fun _ _ => true)
+    (fun k _ ih D G => bAnd(stRecGo k (Nat.land D 15) (Nat.land G 63),
+      strictKB (Nat.shiftRight D 4) (fun D' => strictKB (Nat.shiftRight G 6) (fun G' => ih D' G')))) l
 
 @[expose] noncomputable def stTreeOK (c : Nat) : Bool :=
-  stTreeGo (nthC J.lineKeysC c) (Nat.mul 2048 c)
+  stTreeGo (nthC J.lineKeysC c) (stSlice JST.stD 4 c) (stSlice JST.stG 6 c)
 
 end CFSG.KD.SmithD6ST
 

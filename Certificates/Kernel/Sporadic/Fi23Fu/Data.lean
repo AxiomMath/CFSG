@@ -1,10 +1,10 @@
 module
 
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi23Br.Data
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Fi23Fu "Certificates/Kernel/Sporadic/Fi23Fu/data/gens.items.gz" 2112368 270297859131404279
+#kc_repo #kc_nat_items CFSG.KD.Fi23Fu "Certificates/Kernel/Sporadic/Fi23Fu/data/gens.items" 2112368 270297859131404279
     (G 0 12) (Gi 0 12)
 
 public noncomputable section

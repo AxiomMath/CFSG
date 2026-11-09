@@ -258,6 +258,19 @@ theorem prod_sizes : (rawOrbitSizes n S base).prod =
   rw [e, List.prod_ofFn]
   exact Fin.prod_univ_eq_prod_range (fun i => (lev n S base i).pts.size) base.size
 
+theorem prod_le_card_Gen : (rawOrbitSizes n S base).prod ≤ Nat.card (Gen n S kO) := by
+  have h : ∀ s ≤ base.size, (∏ i ∈ Finset.range s, (lev n S base i).pts.size) *
+      Nat.card (Fix n S kO base s) ≤ Nat.card (Gen n S kO) := by
+    intro s
+    induction s with
+    | zero => intro _; simp [Fix_zero]
+    | succ s ih =>
+      intro hs
+      rw [Finset.prod_range_succ, Nat.mul_assoc]
+      exact le_trans (Nat.mul_le_mul_left _ (card_step hd (by omega))) (ih (by omega))
+  rw [prod_sizes]
+  exact le_trans (Nat.le_mul_of_pos_right _ Nat.card_pos) (h _ le_rfl)
+
 variable (hcard : Nat.card (Gen n S kO) ≤ (rawOrbitSizes n S base).prod)
 include hcard
 

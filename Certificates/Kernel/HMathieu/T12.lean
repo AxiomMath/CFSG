@@ -16,8 +16,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.T12
-  "Certificates/Kernel/HMathieu/data/T12.json.gz" 11264 5152084004615231311
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.T12
+  "Certificates/Kernel/HMathieu/data/T12.json" 11264 5152084004615231311
   (gens : List Nat) (E : List Nat) (inv : List Nat) (P : List Nat) (rows : List (Nat × Nat))
   (Mc : List (List Nat))
 

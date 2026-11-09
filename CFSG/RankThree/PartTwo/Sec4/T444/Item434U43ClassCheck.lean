@@ -1,6 +1,7 @@
 module
 
 public import CFSG.RankThree.PartTwo.Sec4.T444.Item434U43Check
+public import CFSG.RankThree.PartTwo.Sec4.T444.Item434U43OrbPar
 
 public section
 
@@ -63,9 +64,13 @@ open CFSG.Quasithin.G2U
   par.foldl (fun acc ps =>
     acc.push (conjStep (gens.getD ps.2 (wordPair [])) (acc.getD ps.1 x₀))) #[x₀]
 
+@[expose] def uOrbPar : List (ℕ × ℕ) :=
+  (List.range 40319).map fun c =>
+    let v := Nat.land (Nat.shiftRight (uOrbParW.getD (c / 64) 0) (17 * (c % 64))) 131071
+    (v / 2, v % 2)
+
 @[expose] def uOrbit : Array (List ℕ) :=
-  orbitBuild (uAt uB0) orbGens
-    (bfsParents (uAt uB0) (fun x p => conjStep p x) orbGens 40320)
+  orbitBuild (uAt uB0) orbGens uOrbPar
 
 set_option compiler.extract_closed false in
 @[noinline, expose] def uOrbitCheck : Bool :=

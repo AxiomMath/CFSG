@@ -25,6 +25,6 @@ theorem small_ok : smallOK = true := by quickRfl
 end CertificateChecks.KernelSpor.ON5K
 
 #kon_slices CertificateChecks.KernelSpor.ON5K.mSl 0 20
-#kon_slices CertificateChecks.KernelSpor.ON5K.dSelS 0 20
+#kon_slices CertificateChecks.KernelSpor.ON5K.dSelW 0 20
 
 end

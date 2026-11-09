@@ -5,6 +5,8 @@ public import Certificates.Kernel.LocalComp.HeFixBind
 public import Certificates.Kernel.Sporadic.OddCore.HeL2F
 public import CFSG.Certificates.Kernel.MaxD2.Basic
 public import CFSG.Certificates.Kernel.L34KSnd.Tab
+public import Certificates.Kernel.LocalComp.HePtW
+public import Certificates.Kernel.SporSch.HeT.B2114
 
 public section
 
@@ -15,7 +17,7 @@ namespace CertificateChecks.KernelLC.HeFix2330
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KS.PEnum CFSG.KC.BfsPin
 open CFSG.PSL3Four.Native CFSG.Monster.B.Co2.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.HeldB
 open CFSG.ComponentClassification.GrSLit.HeldFix CertificateChecks.KernelLC.HeFix
-open CertificateChecks.KernelSpor
+open CertificateChecks.KernelSpor CertificateChecks.KernelLC.HePtW
 
 theorem hw {w : List Nat} (h : ∀ j ∈ w, j < 9) :
     hfCTab w = unpack 8330 14 (H w) ∧ cn (H w) = true :=
@@ -23,19 +25,84 @@ theorem hw {w : List Nat} (h : ∀ j ∈ w, j < 9) :
     (fun k hk => c1Tab_eq (h k hk)),
     CFSG.KC.PermTool.canonK_wordTabK hid w fun k hk => cnC1 (h k hk)⟩
 
+theorem pg_H (w : List Nat) {x : Nat} (hx : x < 8330) :
+    pg 14 (mask 14) (H w) x = ptW PC1 w x :=
+  pg_wordTabK PC1 w hx
+
+theorem c1T {k : Nat} (hk : k < 9) :
+    hfC1Tabs[k]! = unpack 8330 14 (CertificateChecks.KernelSporSch.HeB14.C1 k) := by
+  rw [hfC1Tabs, ofFn_get _ hk]
+  exact (CertificateChecks.KernelSporSch.HeB14.C1_word hk).1
+
+theorem c1can {j : Nat} (hj : j < 9) : cn (CertificateChecks.KernelSporSch.HeB14.C1 j) = true ∧
+    cn (CertificateChecks.KernelSporSch.HeB14.C1I j) = true :=
+  CFSG.KS.MaxD2.perm_canon (CertificateChecks.KernelSporSch.HeB14.c1_parts hj).1 hsz
+
+theorem pc1_eq {j : Nat} (hj : j < 9) : PC1 j = CertificateChecks.KernelSporSch.HeB14.C1 j :=
+  CFSG.KS.MaxD2.u_inj (cnC1 hj) (c1can hj).1 (by rw [← c1Tab_eq hj, c1T hj])
+
+theorem c1pt {j : Nat} (hj : j < 9) {x : Nat} (hx : x < 8330) :
+    (pg 14 (mask 14) (PC1 j) x < 8330 ∧
+      pg 14 (mask 14) (CertificateChecks.KernelSporSch.HeB14.C1I j) (pg 14 (mask 14) (PC1 j) x) = x) ∧
+    (pg 14 (mask 14) (CertificateChecks.KernelSporSch.HeB14.C1I j) x < 8330 ∧
+      pg 14 (mask 14) (PC1 j) (pg 14 (mask 14) (CertificateChecks.KernelSporSch.HeB14.C1I j) x) = x) := by
+  rw [pc1_eq hj]
+  exact ⟨(CFSG.KS.MaxD2.perm_spec (CertificateChecks.KernelSporSch.HeB14.c1_parts hj).1).1 x hx,
+    (CFSG.KS.MaxD2.perm_spec (CertificateChecks.KernelSporSch.HeB14.c1_parts hj).1).2 x hx⟩
+
+theorem qlt : ∀ i < 2, ∀ j ∈ hfQWords.getD i [], j < 9 := by decide
+
+theorem qpt {i : Nat} (hi : i < 2) {x : Nat} (hx : x < 8330) :
+    (ptW PC1 (hfQWords.getD i []) x < 8330 ∧
+      ptW CertificateChecks.KernelSporSch.HeB14.C1I (hfQWords.getD i []).reverse
+        (ptW PC1 (hfQWords.getD i []) x) = x) ∧
+    (ptW CertificateChecks.KernelSporSch.HeB14.C1I (hfQWords.getD i []).reverse x < 8330 ∧
+      ptW PC1 (hfQWords.getD i [])
+        (ptW CertificateChecks.KernelSporSch.HeB14.C1I (hfQWords.getD i []).reverse x) = x) := by
+  refine ⟨ptW_inv _ (fun j hj y hy => (c1pt (qlt i hi j hj) hy).1) x hx, ?_⟩
+  have h := ptW_inv (G := CertificateChecks.KernelSporSch.HeB14.C1I) (GI := PC1)
+    (hfQWords.getD i []).reverse
+    (fun j hj y hy => (c1pt (qlt i hi j (List.mem_reverse.1 hj)) hy).2) x hx
+  rwa [List.reverse_reverse] at h
+
+theorem cnQI {i : Nat} (hi : i < 2) : cn (QI i) = true :=
+  CFSG.KC.PermTool.canonK_wordTabK hid _ fun j hj =>
+    (c1can (qlt i hi j (List.mem_reverse.1 hj))).2
+
+theorem qinv2 {i : Nat} (hi : i < 2) {y : Nat} (hy : y < 8330) :
+    pg 14 (mask 14) (H (hfQWords.getD i [])) (pg 14 (mask 14) (QI i) y) = y := by
+  unfold QI
+  rw [pg_wordTabK _ _ hy, pg_H _ (qpt hi hy).2.1]
+  exact (qpt hi hy).2.2
+
+theorem cnPT1 : cn PT1 = true := by
+  have h := kCanonW
+  simp only [Bool.and_eq_true] at h
+  exact h.1.1
+
 theorem qparts : (∀ i < 2, permOK 8330 14 (mask 14) (8330 * 14) (H (hfQWords.getD i [])) (QI i) =
     true) ∧ (∀ j < 9, cn (CertificateChecks.KernelSporSch.HeB14.C1I j) = true) ∧
     Nat.beq (pc (pc (pc (H (hfQWords.getD 0 [])) (H (hfQWords.getD 1 []))) (QI 0)) (QI 1)) PT1 =
       true := by
-  have h := kQ
-  simp only [Bool.and_eq_true] at h
-  exact ⟨fun i hi => allN_spec h.1.1 i hi, fun j hj => allN_spec h.1.2 j hj, h.2⟩
-
-theorem qlt : ∀ i < 2, ∀ j ∈ hfQWords.getD i [], j < 9 := by decide
-
-theorem cnQI {i : Nat} (hi : i < 2) : cn (QI i) = true :=
-  CFSG.KC.PermTool.canonK_wordTabK hid _ fun j hj =>
-    qparts.2.1 j (qlt i hi j (List.mem_reverse.1 hj))
+  refine ⟨fun i hi => ?_, fun j hj => (c1can hj).2, ?_⟩
+  · refine permOK_of (hw (qlt i hi)).2 (cnQI hi) fun x hx => ?_
+    unfold QI
+    rw [pg_H _ hx, pg_wordTabK _ _ (qpt hi hx).1.1]
+    exact (qpt hi hx).1.2
+  have c0 := (hw (qlt 0 (by decide))).2
+  have c1 := (hw (qlt 1 (by decide))).2
+  have d0 := cnQI (i := 0) (by decide)
+  have d1 := cnQI (i := 1) (by decide)
+  have e : pc (pc (pc (H (hfQWords.getD 0 [])) (H (hfQWords.getD 1 []))) (QI 0)) (QI 1) = PT1 := by
+    refine CFSG.KC.L34KSnd.eq_of_pg (canonK_pcomp (canonK_pcomp (canonK_pcomp c0 c1) d0) d1) cnPT1 fun x hx => ?_
+    have hy := CFSG.KS.MaxD2.canon_lt d1 hx
+    have hz := CFSG.KS.MaxD2.canon_lt d0 hy
+    unfold pc
+    rw [CFSG.KS.MaxD2.pg_pc hsz hx, CFSG.KS.MaxD2.pg_pc hsz hy, CFSG.KS.MaxD2.pg_pc hsz hz,
+      Nat.eq_of_beq_eq_true (allN_spec kQ _ hz), qinv2 (i := 0) (by decide) hy,
+      qinv2 (i := 1) (by decide) hx]
+  exact (congrArg (fun t => Nat.beq (pc (pc (pc (H (hfQWords.getD 0 [])) (H (hfQWords.getD 1 [])))
+    (QI 0)) (QI 1)) t) e.symm).trans (Nat.beq_refl _)
 
 theorem qinv {i : Nat} (hi : i < 2) :
     invCand 8330 (hfCTab (hfQWords.getD i [])) = unpack 8330 14 (QI i) ∧
@@ -63,20 +130,6 @@ theorem ne_id {p : Nat} (hp : cn p = true) (h : Nat.beq p (pidn 8330 14) = false
   rw [← b] at h
   exact absurd h (by decide)
 
-theorem oparts : (∀ i < 2, Nat.beq (H (hfRep 7 (hfOrd7Words.getD i []))) (pidn 8330 14) = true ∧
-      Nat.beq (H (hfOrd7Words.getD i [])) (pidn 8330 14) = false) ∧
-    (∀ i < 3, Nat.beq (H (hfRep 3 (hfOrd3Words.getD i []))) (pidn 8330 14) = true ∧
-      Nat.beq (H (hfOrd3Words.getD i [])) (pidn 8330 14) = false) := by
-  have h := kO
-  simp only [Bool.and_eq_true] at h
-  refine ⟨fun i hi => ?_, fun i hi => ?_⟩
-  · have g := allN_spec h.1 i hi
-    simp only [Bool.and_eq_true, Bool.not_eq_true'] at g
-    exact g
-  · have g := allN_spec h.2 i hi
-    simp only [Bool.and_eq_true, Bool.not_eq_true'] at g
-    exact g
-
 theorem o7lt : ∀ i < 2, ∀ j ∈ hfOrd7Words.getD i [], j < 9 := by decide
 
 theorem o3lt : ∀ i < 3, ∀ j ∈ hfOrd3Words.getD i [], j < 9 := by decide
@@ -87,6 +140,45 @@ theorem rep_lt {k : Nat} {w : List Nat} (h : ∀ j ∈ w, j < 9) : ∀ j ∈ hfR
   obtain ⟨l, hl, hjl⟩ := List.mem_flatten.1 hj
   rw [(List.eq_of_mem_replicate hl)] at hjl
   exact h j hjl
+
+theorem ptP_lt {A : Nat} (hA : cn A = true) : ∀ k {x : Nat}, x < 8330 → ptP A k x < 8330
+  | 0, _, hx => hx
+  | k + 1, _, hx => CFSG.KS.MaxD2.canon_lt hA (ptP_lt hA k hx)
+
+theorem rep_pt {w : List Nat} (h : ∀ j ∈ w, j < 9) :
+    ∀ k {x : Nat}, x < 8330 → ptW PC1 (hfRep k w) x = ptP (H w) k x
+  | 0, _, _ => rfl
+  | k + 1, x, hx => by
+    have e : hfRep (k + 1) w = w ++ hfRep k w := by
+      unfold hfRep
+      rw [List.replicate_succ, List.flatten_cons]
+    rw [e, ptW_append, rep_pt h k hx]
+    exact (pg_H w (ptP_lt (hw h).2 k hx)).symm
+
+theorem ord_parts {w : List Nat} {k : Nat} (h : ∀ j ∈ w, j < 9) (g : ordK w k = true) :
+    Nat.beq (H (hfRep k w)) (pidn 8330 14) = true ∧ Nat.beq (H w) (pidn 8330 14) = false := by
+  unfold ordK at g
+  rw [Bool.and_eq_true, Bool.not_eq_true'] at g
+  refine ⟨?_, g.2⟩
+  have e : H (hfRep k w) = pidn 8330 14 := by
+    refine CFSG.KC.L34KSnd.eq_of_pg (hw (rep_lt h)).2 (CFSG.KS.MaxD2.pidn_canon hsz) fun x hx => ?_
+    rw [pg_H _ hx, rep_pt h k hx, CFSG.KS.MaxD2.pidn_get hsz hx]
+    exact Nat.eq_of_beq_eq_true (allN_spec g.1 x hx)
+  exact (congrArg (fun t => Nat.beq (H (hfRep k w)) t) e.symm).trans (Nat.beq_refl _)
+
+theorem oparts :(∀ i < 2, Nat.beq (H (hfRep 7 (hfOrd7Words.getD i []))) (pidn 8330 14) = true ∧
+      Nat.beq (H (hfOrd7Words.getD i [])) (pidn 8330 14) = false) ∧
+    (∀ i < 3, Nat.beq (H (hfRep 3 (hfOrd3Words.getD i []))) (pidn 8330 14) = true ∧
+      Nat.beq (H (hfOrd3Words.getD i [])) (pidn 8330 14) = false) := by
+  refine ⟨fun i hi => ?_, fun i hi => ?_⟩
+  · have g : ordK (hfOrd7Words.getD i []) 7 = true := by
+      interval_cases i
+      exacts [kO70, kO71]
+    exact ord_parts (o7lt i hi) g
+  · have g : ordK (hfOrd3Words.getD i []) 3 = true := by
+      interval_cases i
+      exacts [kO30, kO31, kO32]
+    exact ord_parts (o3lt i hi) g
 
 theorem hidT42 : idTab 42 = unpack 42 6 (pidn 42 6) := He2276.idTab_eq
 

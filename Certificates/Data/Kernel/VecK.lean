@@ -66,6 +66,9 @@ open CFSG.KLie.CT CFSG.KC.Loop CFSG.KC.M1F2 CFSG.KC.Co1F2
   strictB (lk T (nat_lit 32) h) fun q =>
     andB (Nat.blt q n) (Nat.beq (lk P (nat_lit 32) q) (vmF d N (lk P (nat_lit 32) h)))
 
+@[expose] noncomputable def letInvAt (n : Nat) (T U : Nat → Nat) (h : Nat) : Bool :=
+  strictB (lk U (nat_lit 32) h) fun q => andB (Nat.blt q n) (Nat.beq (lk T (nat_lit 32) q) h)
+
 @[expose] noncomputable def letN (NA NAi NB NBi : Nat) (z : Int) : Nat :=
   Int.rec (motive := fun _ => Nat)
     (fun k => nIf(Nat.beq k (nat_lit 1), NA, nIf(Nat.beq k (nat_lit 2), NB, NBi)))
@@ -129,22 +132,23 @@ open CFSG.KLie.CT CFSG.KC.Loop CFSG.KC.M1F2 CFSG.KC.Co1F2
     (t : Nat) : Bool :=
   strictB (lk Ot (nat_lit 32) t) fun p => andB (Nat.blt p n)
     (andB (Nat.beq (lk IX (nat_lit 32) p) t)
-    (andB (allN (Nat.div kL (nat_lit 2)) fun j => strictB (Nat.mul (nat_lit 2) j) fun l =>
+    (andB (orB (Nat.beq m n) (allN (Nat.div kL (nat_lit 2)) fun j => strictB (Nat.mul (nat_lit 2) j) fun l =>
         orB (notB (fixB LT B i l)) (strictB (lk (LT l) (nat_lit 32) p) fun q =>
-        strictB (lk IX (nat_lit 32) q) fun x => andB (Nat.blt x m) (Nat.beq (lk Ot (nat_lit 32) x) q)))
+        strictB (lk IX (nat_lit 32) q) fun x => andB (Nat.blt x m) (Nat.beq (lk Ot (nat_lit 32) x) q))))
       (bIf(Nat.beq t (nat_lit 0), Nat.beq p r,
         strictB (lk Op (nat_lit 32) t) fun u => strictB (lk Ol (nat_lit 32) t) fun l =>
           andB (Nat.blt u t) (andB (Nat.blt l kL) (andB (fixB LT B i l)
             (Nat.beq (lk (LT l) (nat_lit 32) (lk Ot (nat_lit 32) u)) p)))))))
 
-@[expose] noncomputable def subAt (n kL m j r : Nat) (LT : Nat → Nat → Nat) (B St LB PS Sp Sl : Nat → Nat)
+@[expose] noncomputable def subAt (n kL m j J J' r : Nat) (LT : Nat → Nat → Nat) (B St LB PS Sp Sl : Nat → Nat)
     (t : Nat) : Bool :=
   strictB (lk St (nat_lit 32) t) fun p => andB (Nat.blt p n)
     (andB (Nat.beq (lk LB (nat_lit 32) p) j) (andB (Nat.beq (lk PS (nat_lit 32) p) t)
-    (andB (allN (Nat.div kL (nat_lit 2)) fun k => strictB (Nat.mul (nat_lit 2) k) fun l =>
+    (andB (orB (Nat.beq j J) (orB (Nat.beq j J') (allN (Nat.div kL (nat_lit 2)) fun k =>
+      strictB (Nat.mul (nat_lit 2) k) fun l =>
       orB (notB (fixB LT B (nat_lit 1) l)) (strictB (lk (LT l) (nat_lit 32) p) fun q =>
         andB (Nat.beq (lk LB (nat_lit 32) q) j)
-          (strictB (lk PS (nat_lit 32) q) fun x => andB (Nat.blt x m) (Nat.beq (lk St (nat_lit 32) x) q))))
+          (strictB (lk PS (nat_lit 32) q) fun x => andB (Nat.blt x m) (Nat.beq (lk St (nat_lit 32) x) q))))))
       (bIf(Nat.beq t (nat_lit 0), Nat.beq p r,
         strictB (lk Sp (nat_lit 32) t) fun u => strictB (lk Sl (nat_lit 32) t) fun l =>
           andB (Nat.blt u t) (andB (Nat.blt l kL) (andB (fixB LT B (nat_lit 1) l)

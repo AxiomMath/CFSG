@@ -68,7 +68,7 @@ theorem fi22H_le
   rw [fi22H_eq_closure hc, Subgroup.closure_le]
   rintro _ ⟨j, hj, rfl⟩
   have hjs : j < fi22CentStrongCount.getD c 0 := by
-    obtain ⟨-, -, -, -, hs, hg, -⟩ := fi22Cent_check
+    obtain ⟨-, -, -, hs, hg, -⟩ := fi22Cent_check
     rw [hs]; rw [hg] at hj
     interval_cases c <;> simp at hj ⊢ <;> omega
   have hrep :

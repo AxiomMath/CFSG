@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LieType.Chevalley.C2E6SubsystemBruhatDefs
+public import CFSG.Blueprint.ChevalleyRootArtifact
 
 public noncomputable section
 
@@ -25,13 +26,27 @@ theorem isRoot_iff_exists_e6Root {v : Fin Tag.E6.rank → ℤ} :
     IsRoot Tag.E6 v ↔ ∃ k : Fin 72, e6Root k = v :=
   ⟨exists_e6Root_eq, fun ⟨k, hk⟩ => hk ▸ isRoot_e6Root k⟩
 
+theorem e6_root_strings_list : ∀ (k : Fin 72) (i : Fin Tag.E6.rank),
+    List.ofFn (e6Root k) ≠ List.ofFn (Pi.single i 1 : Fin Tag.E6.rank → ℤ) →
+    List.ofFn (e6Root k) ≠ List.ofFn (-Pi.single i 1 : Fin Tag.E6.rank → ℤ) →
+      List.ofFn (e6Root k + (2 : ℤ) • Pi.single i 1) ∉ e6ArtifactRoots ∧
+      List.ofFn (e6Root k - (2 : ℤ) • Pi.single i 1) ∉ e6ArtifactRoots ∧
+      ¬(List.ofFn (e6Root k + Pi.single i 1) ∈ e6ArtifactRoots ∧
+        List.ofFn (e6Root k - Pi.single i 1) ∈ e6ArtifactRoots) := by
+  decide +kernel
+
 theorem e6_root_strings : ∀ (k : Fin 72) (i : Fin Tag.E6.rank),
     e6Root k ≠ Pi.single i 1 → e6Root k ≠ -Pi.single i 1 →
       (¬∃ k', e6Root k' = e6Root k + (2 : ℤ) • Pi.single i 1) ∧
       (¬∃ k', e6Root k' = e6Root k - (2 : ℤ) • Pi.single i 1) ∧
       ¬((∃ k', e6Root k' = e6Root k + Pi.single i 1) ∧
         (∃ k', e6Root k' = e6Root k - Pi.single i 1)) := by
-  decide +kernel
+  intro k i h₁ h₂
+  have hex : ∀ w : Fin Tag.E6.rank → ℤ, (∃ k', e6Root k' = w) → List.ofFn w ∈ e6ArtifactRoots :=
+    fun w hw => isRoot_iff_mem_artifactRoots.mp (isRoot_iff_exists_e6Root.mpr hw)
+  obtain ⟨hp, hq, hpq⟩ := e6_root_strings_list k i (fun h => h₁ (List.ofFn_injective h))
+    (fun h => h₂ (List.ofFn_injective h))
+  exact ⟨fun h => hp (hex _ h), fun h => hq (hex _ h), fun h => hpq ⟨hex _ h.1, hex _ h.2⟩⟩
 
 theorem stringUp_add_stringDown_E6
     {α : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)

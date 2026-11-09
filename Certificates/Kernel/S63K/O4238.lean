@@ -144,7 +144,10 @@ theorem permArrs_get {k : ℕ} (hk : k < 8) : permArrs[k]! = unpack 819 12 (PA k
 
 theorem hgU : uPtArrs.size = 4 ∧ ∀ i < 4, uPtArrs[i]! = unpack 819 12 (OK.GU i) := by
   refine ⟨rfl, fun i hi => ?_⟩
-  interval_cases i
+  unfold uPtArrs
+  rw [getElem!_pos _ i (by simpa using hi)]
+  interval_cases i <;>
+    simp only [List.getElem_toArray, List.getElem_cons_succ, List.getElem_cons_zero]
   · exact permArrs_get (k := 0) (by norm_num)
   · exact permArrs_get (k := 1) (by norm_num)
   · exact permArrs_get (k := 2) (by norm_num)

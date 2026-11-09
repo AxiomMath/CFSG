@@ -54,13 +54,36 @@ meta def wq : List Nat :=
         if x == powM lines[j]! e then return 5 * j + e
     return 0
 
+meta def wc : List Nat :=
+  let pts := (search 276 9 c25L.toArray).1
+  (List.range 275).map fun q => Id.run do
+    for w in [0:pts.size] do
+      for i in [0:3] do
+        if (pts[w]!)[co3FiveC25Rep i]! == q + 1 then return 3 * w + i
+    return 0
+
+meta def wr : List Nat :=
+  let as := (search 276 9 co3FiveDGenArrs).1
+  let N := as.size
+  let idx : Std.HashMap Nat Nat := (Array.range N).foldl (fun m i => m.insert (pack 9 as[i]!) i) {}
+  Id.run do
+    let mut rs : Array Nat := Array.replicate N N
+    for r in [1:N] do
+      if rs[r]! == N then
+        for x in [0:N] do
+          let i := idx.getD (pack 9 (comp 276 as[x]! (comp 276 as[r]! (inv 276 as[x]!)))) 0
+          if rs[i]! == N then rs := rs.set! i (r + 64 * x)
+    return (rs.set! 0 1).toList
+
 meta def wt : Array (Array Nat) :=
   let as := (search 276 9 co3FiveDGenArrs).1
   let N := as.size
   let idx : Std.HashMap Nat Nat := (Array.range N).foldl (fun m i => m.insert (pack 9 as[i]!) i) {}
-  as.map fun ak => Id.run do
+  let reps := wr.toArray
+  (Array.range N).map fun k => Id.run do
+    let ak := as[k]!
     let mut rs : Array Nat := Array.replicate N 0
-    if ak == Array.range 276 then return rs
+    if ak == Array.range 276 || reps[k]! % 64 != k then return rs
     let cs := as.map fun aj => comp 276 aj (comp 276 ak (inv 276 aj))
     let mut seen : Array Bool := (Array.replicate N false).set! 0 true
     let mut q : Array Nat := #[0]
@@ -100,4 +123,6 @@ set_option maxRecDepth 400000
 #kmisc_packarrs CertificateChecks.KernelCo3Five.ZZ CertificateChecks.KernelCo3Five.zM 9
 #kmisc_packarrs CertificateChecks.KernelCo3Five.DG CertificateChecks.KernelCo3Five.dM 9
 #kss_natlist CertificateChecks.KernelCo3Five.WQ CertificateChecks.KernelCo3Five.wq
+#kss_natlist CertificateChecks.KernelCo3Five.WC CertificateChecks.KernelCo3Five.wc
 #kmisc_packarrs CertificateChecks.KernelCo3Five.WT CertificateChecks.KernelCo3Five.wt 16
+#kss_natlist CertificateChecks.KernelCo3Five.WR CertificateChecks.KernelCo3Five.wr

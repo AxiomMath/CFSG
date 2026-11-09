@@ -20,6 +20,19 @@ open CFSG.KC.Enum
   bAnd(allN m (fun i => strictB (I i) (fun k => bAnd(Nat.blt k m, mulL ev bs (L i) (L k) (L 0)))),
     allN m (fun i => allN i (fun j => bIf(eqOnL bs (ev (L i)) (ev (L j)), false, true)))))))
 
+@[expose] noncomputable def keyBL (n : Nat) (ev : Nat → Nat → Nat) (bs : List Nat) (a : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) (nat_lit 0)
+    (fun b _ ih => Nat.add (Nat.mod (Nat.add (ev a b) (Nat.sub n b)) n) (Nat.mul n ih)) bs
+
+@[expose] noncomputable def gcOK (n : Nat) (ev : Nat → Nat → Nat) (vld : Nat → Bool)
+    (bs : List Nat) (L G T : Nat → Nat) (m k z : Nat) : Bool :=
+  bAnd(allN m (fun i => vld (L i)),
+  bAnd(allN k (fun t => vld (G t)),
+  bAnd(bAnd(Nat.blt z m, eqOnL bs (ev (L z)) (fun x => x)),
+  bAnd(allN m (fun i => allN k (fun t => strictB (T (Nat.add (Nat.mul k i) t)) (fun j =>
+    bAnd(Nat.blt j m, mulL ev bs (G t) (L i) (L j))))),
+    allN (Nat.sub m 1) (fun i => Nat.blt (keyBL n ev bs (L i)) (keyBL n ev bs (L (Nat.add i 1))))))))
+
 @[expose] noncomputable def comL (ev : Nat → Nat → Nat) (bs : List Nat) (X : Nat → Nat)
     (a : Nat) : Bool :=
   eqOnL bs (fun x => ev a (X x)) (fun x => X (ev a x))
@@ -36,6 +49,14 @@ open CFSG.KC.Enum
 @[expose] noncomputable def wtL (ev : Nat → Nat → Nat) (bs : List Nat) (s u v e : Nat) : Bool :=
   bAnd(eqOnL bs (fun x => ev u (ev v x)) (fun x => x),
     bIf(eqOnL bs (powF (fun x => ev s (ev u (ev s (ev v x)))) e) (fun x => x), false, true))
+
+@[expose] noncomputable def wEvK (w NR : Nat) (LT : Nat → Nat) (kk f P x : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat → Nat → Nat) (fun _ x => x)
+    (fun _ ih P x => nIf(Nat.beq P (nat_lit 0), x,
+      strictN (ih (Nat.shiftRight P (nat_lit 5)) x) (fun y =>
+        strictN (Nat.sub (Nat.land P (nat_lit 31)) (nat_lit 1)) (fun l =>
+          nIf(Nat.blt l kk, lptK w NR LT l y, y)))))
+    f P x
 
 end CFSG.KS.SporSch
 

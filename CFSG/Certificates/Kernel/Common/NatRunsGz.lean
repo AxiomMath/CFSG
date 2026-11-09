@@ -1,10 +1,9 @@
 module
 
 public meta import Lean
-public import CFSG.Certificates.Kernel.Common.NatItemsGz
+public import CFSG.Certificates.Kernel.Common.NatItems
 meta import all CFSG.Certificates.Kernel.Common.Harness
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
-meta import all CFSG.Certificates.Kernel.Common.NatItemsGz
+meta import all CFSG.Certificates.Kernel.Common.NatItems
 
 open Lean Elab Command
 
@@ -12,14 +11,14 @@ declare_syntax_cat kcNatRun
 syntax "(" ident num num ")" : kcNatRun
 syntax "(" ident num num ")" noWs "[" noWs "]" : kcNatRun
 
-open CFSG.KC.Load CFSG.KC.Gz CFSG.KC.NatItems in
-elab "#kc_nat_runs_gz " pre:ident path:str size:num hash:num es:kcNatRun* : command => do
-  let b ← readPinnedGz path.getString size.getNat hash.getNat
+open CFSG.KC.Load CFSG.KC.NatItemsRaw in
+elab "#kc_nat_runs " pre:ident path:str size:num hash:num es:kcNatRun* : command => do
+  let b ← readPinned path.getString size.getNat hash.getNat
   let vs ← match items b with
     | .ok vs => pure vs
-    | .error e => throwError "#kc_nat_runs_gz: {path.getString}: {e}"
+    | .error e => throwError "#kc_nat_runs: {path.getString}: {e}"
   let take (pos : Nat) : CommandElabM Nat := do
-    let some v := vs[pos]? | throwError "#kc_nat_runs_gz: {path.getString} has too few items"
+    let some v := vs[pos]? | throwError "#kc_nat_runs: {path.getString} has too few items"
     return v
   let mut pos := 0
   let mut defs : Array (Name × Expr × Expr) := #[]
@@ -37,9 +36,9 @@ elab "#kc_nat_runs_gz " pre:ident path:str size:num hash:num es:kcNatRun* : comm
           xs := xs.push (mkRawNatLit (← take (pos + 1 + i)))
         defs := defs.push ((pre.getId ++ x.getId).appendAfter s!"{j}", listNatE, mkNatList xs)
         pos := pos + 1 + n
-    | _ => throwError "#kc_nat_runs_gz: bad entry"
+    | _ => throwError "#kc_nat_runs: bad entry"
   unless pos == vs.size do
-    throwError "#kc_nat_runs_gz: {path.getString} has {vs.size} items, the entries take {pos}"
+    throwError "#kc_nat_runs: {path.getString} has {vs.size} items, the entries take {pos}"
   withSync do
     for (n, ty, v) in defs do
       addDef n ty v true

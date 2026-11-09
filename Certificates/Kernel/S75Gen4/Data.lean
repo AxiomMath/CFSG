@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.S75Gen4 "Certificates/Kernel/S75Gen4/data/s75gen4.json.gz"
+#kc_repo #kc_json CFSG.KD.S75Gen4 "Certificates/Kernel/S75Gen4/data/s75gen4.json"
   341804 12463746120410325766
   (TAB10 : Nat) (TAB11 : Nat) (GI : List Nat) (TREE : List (Nat × Nat × Nat))
   (MP : Nat) (INVP : Nat) (SQP : Nat) (CATP : Nat)

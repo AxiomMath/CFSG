@@ -6,10 +6,52 @@ public import Certificates.Kernel.SchreierFam.C188001C2
 public import Certificates.Kernel.SchreierFam.C188001E
 public import Certificates.Kernel.SchreierFam.C188001E2
 public import Certificates.Data.Kernel.B3S3K
-public import Certificates.Data.Kernel.Misc.ChainTail
+public import Certificates.Data.Kernel.Misc.ChainTailOrb
+public import Certificates.Kernel.SporSch.Th.GenV4
+meta import Certificates.Data.HuppertU38.Data
+meta import CFSG.RankThree.Native.ChainCentralizer
+meta import CFSG.RankThree.PartOne.KS.PKit
+meta import Certificates.Data.CFSGNative.Schreier.Check
 import CFSG.Certificates.Kernel.Common.Harness
 
+namespace CertificateChecks.KernelSchreierFam.U38B.OB
+
+open CFSG.RankThree.PartTwo.Sec4.Item434U38 CFSG.Monster.B.Co2.Native CFSG.Certificates.Native
+  CFSG.RankThree.Native CFSG.RankThree.PartOne
+
+meta def orbL : List Nat × List Nat × List Nat := Id.run do
+  let p := ((rawLevels 513 strong1 base1)[0]!).pts
+  let c := (enumBfs 513 gens1 base1.toList 100).pts
+  let xs := powPA 19 513 x19
+  let mut idx := Array.replicate 513 0
+  for k in [0:p.size] do
+    idx := idx.set! (p[k]!) k
+  let mut ri := Array.replicate p.size p.size
+  let mut ek := Array.replicate p.size 0
+  let mut reps : Array Nat := #[]
+  for k in [0:p.size] do
+    if ri[k]! == p.size && relOK base1 xs rels1 0 (idA 513) p[k]! then
+      let j := reps.size
+      reps := reps.push k
+      let q := p[k]!
+      for e in [0:c.size] do
+        let t := idx.getD ((c.getD e #[]).getD q 0) 0
+        if ri[t]! == p.size then
+          ri := ri.set! t j
+          ek := ek.set! t e
+  return (reps.toList, (ri.map fun i => if i == p.size then 0 else i).toList, ek.toList)
+
+meta def repL : List Nat := orbL.1
+meta def riL : List Nat := orbL.2.1
+meta def ekL : List Nat := orbL.2.2
+
+end CertificateChecks.KernelSchreierFam.U38B.OB
+
 public section
+
+#kss_natlist CertificateChecks.KernelSchreierFam.U38B.RB CertificateChecks.KernelSchreierFam.U38B.OB.repL
+#kss_natlist CertificateChecks.KernelSchreierFam.U38B.RI CertificateChecks.KernelSchreierFam.U38B.OB.riL
+#kss_natlist CertificateChecks.KernelSchreierFam.U38B.EK CertificateChecks.KernelSchreierFam.U38B.OB.ekL
 
 set_option maxRecDepth 400000
 
@@ -100,8 +142,12 @@ theorem comm2 : commK 513 10 2 (PF 27) U38E2.G = true := by quickRfl
 theorem rc : bAnd(Nat.beq (rcnt (U38C1.LR 0)) 513, Nat.beq (rcnt (U38C2.LR 0)) 513) = true := by
   quickRfl
 
-theorem tail1 : allN 513 (ptailBranchK 513 10 U38C1.LR U38C1.TR U38C1.BP (PF 25)
-    (pw 513 10 (PF 25)) rels1 U38E1.N U38E1.T 3) = true := by
+theorem rep1 : allN 9 (fun j => repBranchK 513 10 U38C1.LR U38C1.TR U38C1.BP (PF 25)
+    (pw 513 10 (PF 25)) rels1 U38E1.N U38E1.T 3 (RB j)) = true := by
+  quickRfl
+
+theorem orb1K : allN 513 (orbRelK 513 10 U38C1.LR U38C1.BP (pw 513 10 (PF 25)) rels1 U38E1.N
+    U38E1.T 9 RB RI EK) = true := by
   quickRfl
 
 end CertificateChecks.KernelSchreierFam.U38B

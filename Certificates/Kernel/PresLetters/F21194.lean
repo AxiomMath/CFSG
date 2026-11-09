@@ -9,7 +9,7 @@ open CFSG.CGT.M24R CFSG.CGT.M24R.R3
 
 public section
 
-#kb_family "data/F21194.json.gz" 12061 9686228138885590679
+#kb_family "data/F21194.json" 12061 9686228138885590679
   (collRels := fun i : Fin 16 => relsN8 ++ thetaRels8 ++ [collRel i])
 
 end

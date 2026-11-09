@@ -50,22 +50,29 @@ theorem Om_size (j : ℕ) : (Om j).lbl.size = (oc j).1.flatten.length := by
   change (oc j).1.flatten.toArray.size = _
   simp
 
-theorem m23K_o2OK : O2OK (codeSetAct 23) m23LatK m23OtK := by
-  refine ⟨by rw [mw_size]; rfl, fun j hj => ?_⟩
-  have hj' : j < 16 := by rw [mw_size] at hj; exact hj
+theorem m23K_spec {j : ℕ} (hj' : j < 16) :
+    (Om j).lbl.size % 2 = 1 ∧ (∀ k ∈ X0 j, k < (Om j).lbl.size) ∧
+      OmegaSpec (tupAct (codeSetAct 23)) sT.toArray ((X0 j).map fun k => (Om j).lbl[k]!)
+        (OtD j) := by
   have hB := List.all_eq_true.1 rowsB j (List.mem_range.2 hj')
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, decide_eq_true_eq] at hB
   obtain ⟨⟨hlen, hrows⟩, hodd⟩ := hB
-  rw [Om_get hj', otD_get hj']
-  refine ⟨by rw [Om_size]; exact hodd, ?_⟩
-  have hs : m23LatK.sTabs.toArray = sT.toArray := by rw [T_eq.2.2]; rfl
-  rw [hs]
+  have hj : j < m23LatK.mw.size := by rw [mw_size]; exact hj'
   have hOm : OmegaSpec (codeSetAct 23) (mLet j) Δc (Om j) := by
     have e := (m23K_membersOK.2.2.2.2 j hj).2.2
     rwa [mLet_eq hj', delta_eq, Om_get hj'] at e
   have hsz : sT.toArray.size = 3 := rfl
-  refine otIdxOK_sound (w := 12) (Ps := Ps j) (O := OtI j) hOm (fun l hl => ?_)
-    (by rw [hlen]; rfl) (fun l hl k hk => ?_) (by rw [Om_size]; exact OT.all j hj')
+  have hc := OT.all j hj'
+  unfold otOK at hc
+  rw [Bool.and_eq_true] at hc
+  have hx0 : ∀ k ∈ X0 j, k < (Om j).lbl.size := by
+    intro k hk
+    rw [Om_size]
+    have e := List.all_eq_true.1 hc.1 k hk
+    simpa using e
+  refine ⟨by rw [Om_size]; exact hodd, hx0, ?_⟩
+  refine otIdxOKB_sound (w := 12) (Ps := Ps j) (O := OtI j) hOm (fun l hl => ?_) hx0
+    (by rw [hlen]; rfl) (fun l hl k hk => ?_) hc.2
   · rw [hsz] at hl
     have h3 : sT.length = 3 := rfl
     have hl' : l < (mLet j).size := by
@@ -101,10 +108,42 @@ open CFSG.Sporadic.Schreier (m23_card)
 open CFSG.Open (pCoreOf)
 
 
-theorem m23K_D_o2OK : O2OK (codeSetAct 23) m23CtxK.D m23OtK := by
-  unfold O2OK
-  rw [m23K_D_mw, m23K_D_Om, (rfl : m23CtxK.D.sTabs = m23LatK.sTabs)]
-  exact m23K_o2OK
+theorem X0_map_full {j : ℕ} (h12 : ¬(j = 1 ∨ j = 2)) :
+    (X0 j).map (fun k => (Om j).lbl[k]!) = (Om j).lbl.toList := by
+  rw [X0, if_neg h12, ← Om_size]
+  apply List.ext_getElem (by simp)
+  intro n h1 h2
+  simp only [List.getElem_map, List.getElem_range, Array.getElem_toList]
+  rw [getElem!_pos _ n (by simpa using h1)]
+
+theorem m23K_memStmt {j : ℕ} (hj : j < 16) :
+    MemStmt (m23CtxK.Y j) (defaultRow m23CtxK.k m23CtxK.D m23OtK j) := by
+  have hk : m23CtxK.k = 7 := rfl
+  have hjJ : j < m23CtxK.J := by rw [m23K_J]; exact hj
+  obtain ⟨hodd, hx0, hspec⟩ := m23K_spec hj
+  have hOmj : m23CtxK.D.Om[j]! = Om j := by rw [m23K_D_Om]; exact Om_get hj
+  have hodd' : m23CtxK.D.Om[j]!.lbl.size % 2 = 1 := by rw [hOmj]; exact hodd
+  have hs : m23CtxK.D.sTabs.toArray = sT.toArray := by
+    rw [(rfl : m23CtxK.D.sTabs = m23LatK.sTabs), T_eq.2.2]; rfl
+  rw [← otD_get hj, ← hs] at hspec
+  by_cases h12 : j = 1 ∨ j = 2
+  · have hmem : ∀ k < (Om j).lbl.size, (Om j).lbl[k]! ∈ m23CtxK.Λ j := by
+      intro k hk'
+      change _ ∈ m23CtxK.D.Om[j]!.lbl.toList
+      rw [hOmj, getElem!_pos _ k hk']
+      exact Array.getElem_mem_toList hk'
+    have hX : X0 j = [0, 7] := by rw [X0, if_pos h12]
+    refine m23CtxK.memStmt_sub hjJ hodd' (B := (X0 j).map fun k => (Om j).lbl[k]!) ?_ ?_ hspec ?_
+    · intro x hx
+      obtain ⟨k, hk', rfl⟩ := List.mem_map.1 hx
+      exact hmem k (hx0 k hk')
+    · rw [hX, ← (m23CtxK.hOm hjJ).1, hOmj]
+      exact List.mem_map.2 ⟨0, by simp, rfl⟩
+    · rw [otD_get hj, hk]
+      simp only [OtD, tupLbl, Array.size_map]
+      rcases h12 with rfl | rfl <;> rfl
+  · rw [X0_map_full h12, ← hOmj] at hspec
+    exact m23CtxK.memStmt_full hjJ hodd' hspec
 
 theorem m23K_D_rows : (List.range 16).map (defaultRow 7 m23CtxK.D m23OtK) = m23Mems := by
   unfold defaultRow
@@ -127,10 +166,9 @@ theorem m23K_overgroups {X : Type} [Group X] [Finite X]
   have hrows : ∀ j < 16, ∃ m ∈ m23Mems, MemStmt (m23CtxK.Y j) m := by
     intro j hj
     have hk : m23CtxK.k = 7 := rfl
-    refine m23CtxK.rows_of_default (Ot := m23OtK) m23K_D_o2OK m23Mems ?_ j
-      (by rw [m23K_J]; exact hj)
-    rw [m23K_J, hk]
-    exact m23K_D_rows
+    refine ⟨defaultRow m23CtxK.k m23CtxK.D m23OtK j, ?_, m23K_memStmt hj⟩
+    rw [hk, ← m23K_D_rows]
+    exact List.mem_map.mpr ⟨j, List.mem_range.mpr hj, rfl⟩
   exact overgroups_of_lattice m23CtxK.S hS 16 m23CtxK.Y m23Mems m23K_complete hrows hX hT hTY
 
 end CFSG.KD.M23Dc

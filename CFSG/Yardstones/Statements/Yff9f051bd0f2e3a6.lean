@@ -1,7 +1,7 @@
 module
 
 public import CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.ReeG2Outer
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.Assembly.OrderReductions.InvertedSubgroup
 public import CFSG.Assembly.OrderReductions.OddInversion
 public import CFSG.GroupTheory.HallHigmanPiCore
@@ -46,7 +46,7 @@ public import CFSG.StronglyEmbedded.ParityCriterion
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.External.Huppert.IV.theorem_3_3
 public import Certificates.Certificate1
 public import Certificates.Certificate2
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

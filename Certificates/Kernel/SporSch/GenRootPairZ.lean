@@ -91,8 +91,10 @@ elab "#kss_rootpairz " pre:ident nn:num ww:num sId:ident bId:ident zId:ident gId
         nPairs := nPairs + 1
         let nq := QJ.size / 8
         let found := subOf.get? (jx, jy)
+        let slot := fun (B : Array Nat) (mm j : Nat) =>
+          ((List.range 8).find? fun k => B[8 * mm + k]! == j).getD 0
         if let some mm := found then
-          PQ := PQ.set! (p * nr + q) mm
+          PQ := PQ.set! (p * nr + q) (64 * mm + 8 * slot QJ mm jx + slot QJ mm jy)
           if mm < ntw then nTw := nTw + 1
         else
           let J := wordsOf X Y
@@ -126,8 +128,8 @@ elab "#kss_rootpairz " pre:ident nn:num ww:num sId:ident bId:ident zId:ident gId
           for a in Jx do
             for b in Jx do
               if !subOf.contains (a, b) then subOf := subOf.insert (a, b) mm
-          PQ := PQ.set! (p * nr + q) mm
           QJ := QJ ++ Jx
+          PQ := PQ.set! (p * nr + q) (64 * mm + 8 * slot QJ mm jx + slot QJ mm jy)
           QA := QA ++ sel
           QW := QW ++ qw
           QP := QP ++ qp
@@ -142,13 +144,17 @@ elab "#kss_rootpairz " pre:ident nn:num ww:num sId:ident bId:ident zId:ident gId
     addDef (P ++ `XW) (mkForall `t .default natT listIntT) (mkLambda `t .default natT
       (mkAppN (mkConst ``List.getD [0]) #[listIntT, mkConst (P ++ `XWl), mkBVar 0,
         mkApp (mkConst ``List.nil [0]) (mkConst ``Int)]))
+    addTree (P ++ `RT) (RL.map fun j => pack w els[j]!)
+    addTree (P ++ `IV) (RL.map fun j => (RL.findIdx? fun k => els[k]! == invA els[j]!).getD nr)
     addTree (P ++ `CT) CT
     addTree (P ++ `CP) CP
     addTree (P ++ `QJ) QJ
+    addTree (P ++ `QR) (QJ.map fun j => (RL.findIdx? (· == j)).getD nr)
     addTree (P ++ `QA) QA
     addTree (P ++ `QW) QW
     addTree (P ++ `QP) QP
-    addTree (P ++ `PQ) PQ
+    addTree (P ++ `PR) ((Array.range nr).map fun p =>
+      pack 17 ((Array.range nr).map fun q => PQ[p * nr + q]!))
     addDef (P ++ `nq) natT (lit nq)
     addDef (P ++ `ntw) natT (lit ntw)
 

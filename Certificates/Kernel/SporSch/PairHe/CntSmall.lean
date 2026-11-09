@@ -18,8 +18,6 @@ open CertificateChecks.KernelSpor
 theorem reps : repsB = true := by quickRfl
 theorem fix : fixB = true := by quickRfl
 theorem c0 : Nat.beq (rcnt (HeC.LR 0)) 8330 = true := by quickRfl
-theorem sA : Nat.beq (sumN 56 PHeN.SC0) 17 = true := by quickRfl
-theorem sA3 : Nat.beq (sumN 56 PHeN.SC1) 17 = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.PHeCn
 

@@ -2,59 +2,29 @@ module
 
 public import Certificates.Kernel.K133.GBarData
 public import Certificates.Kernel.Misc.Perm.HexCmd
-meta import Certificates.Kernel.K133.GBarData
-meta import Certificates.Kernel.LocalComp.BfsGen
 import CFSG.Certificates.Kernel.Common.Harness
 
 namespace CertificateChecks.KernelK133.GBarE
 
-meta def ptsM : Array (Array Nat) := (CFSG.KC.BfsGen.search 256 9 gens.toArray).1
+meta def gbTwRows : Array (Array Nat) :=
+  ((include_str "GBarTwin.txt").splitOn "\n").toArray.map fun l =>
+    ((l.splitOn " ").filterMap String.toNat?).toArray
 
-meta def compM (t u : Array Nat) : Array Nat := u.map fun i => t[i]!
+meta def gbTwPerms (r : Nat) : Array (Array Nat) :=
+  let a := gbTwRows[r]!
+  (Array.range (a.size / 256)).map fun k => a.extract (256 * k) (256 * k + 256)
 
-meta def idM : Array Nat := Array.range 256
-
-meta def powM (x : Array Nat) : Nat → Array Nat
-  | 0 => idM
-  | k + 1 => compM x (powM x k)
-
-meta def movedM (x : Array Nat) (e : Nat) : Nat :=
-  let y := powM x e
-  ((List.range 256).find? fun p => y[p]! != p).getD 0
-
-meta def isOrd (x : Array Nat) (e : Nat) : Bool := powM x e == idM && x != idM
-
-meta def fiveM : Array Nat := (Array.range ptsM.size).filter fun i => isOrd ptsM[i]! 5
-meta def twoM : Array Nat := (Array.range ptsM.size).filter fun i => isOrd ptsM[i]! 2
-
-meta def posM (L : Array Nat) : List Nat := Id.run do
-  let mut r := Array.replicate ptsM.size 0
-  for k in [0:L.size] do
-    r := r.set! L[k]! k
-  return r.toList
-
-meta def fiL : List Nat := fiveM.toList
-meta def wiL : List Nat := twoM.toList
-meta def p5L : List Nat := posM fiveM
-meta def p2L : List Nat := posM twoM
-meta def q5L : List Nat := (List.range ptsM.size).map fun i => movedM ptsM[i]! 5
-meta def q2L : List Nat := (List.range ptsM.size).map fun i => movedM ptsM[i]! 2
-
-meta def powsM (e : Nat) : Array (Array Nat) := fiveM.map fun i => powM ptsM[i]! e
-meta def l2M : Array (Array Nat) := powsM 2
-meta def l3M : Array (Array Nat) := powsM 3
-meta def l4M : Array (Array Nat) := powsM 4
-
-meta def fuM (u : Array Nat) : List Nat :=
-  (List.range fiveM.size).filter fun k =>
-    let a := ptsM[fiveM[k]!]!
-    compM u a == compM a u
-
-meta def fusM : List (List Nat) := twoM.toList.map fun j => fuM ptsM[j]!
-
-meta def uvL : List Nat := fusM.flatten
-meta def uoL : List Nat := (fusM.foldl (fun (acc : List Nat × Nat) l => (acc.1 ++ [acc.2], acc.2 + l.length))
-  ([], 0)).1 ++ [uvL.length]
+meta def fiL : List Nat := gbTwRows[0]!.toList
+meta def wiL : List Nat := gbTwRows[1]!.toList
+meta def p5L : List Nat := gbTwRows[2]!.toList
+meta def p2L : List Nat := gbTwRows[3]!.toList
+meta def q5L : List Nat := gbTwRows[4]!.toList
+meta def q2L : List Nat := gbTwRows[5]!.toList
+meta def l2M : Array (Array Nat) := gbTwPerms 6
+meta def l3M : Array (Array Nat) := gbTwPerms 7
+meta def l4M : Array (Array Nat) := gbTwPerms 8
+meta def uvL : List Nat := gbTwRows[9]!.toList
+meta def uoL : List Nat := gbTwRows[10]!.toList
 
 end CertificateChecks.KernelK133.GBarE
 

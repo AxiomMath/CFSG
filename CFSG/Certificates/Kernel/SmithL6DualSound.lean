@@ -130,20 +130,23 @@ theorem foldl_bits (p : Nat → Bool) : ∀ n t,
         · have h3 : ¬ t < n + 1 := by omega
           simp [h1, h3]
 
+theorem gU_testBit (U t : Nat) :
+    (gU U).testBit t = (decide (t < 64) ^^ (U.testBit t && decide (t < 64))) := by
+  have hM : (18446744073709551615 : Nat) = 2 ^ 64 - 1 := by decide
+  unfold gU
+  have ex : ∀ x y : Nat, Nat.xor x y = x ^^^ y := fun _ _ => rfl
+  have ea : ∀ x y : Nat, Nat.land x y = x &&& y := fun _ _ => rfl
+  rw [ex, ea, hM, Nat.testBit_xor, Nat.testBit_and, Nat.testBit_two_pow_sub_one]
+
 theorem annK_eq (c : Nat) : annK c = annK2 c := by
   unfold annK annMaskOf
   change _ = gU ((fF (c % 64) ||| fF (c / 64 % 64)) ||| fF (c / 4096 % 64))
   have h1 : c % 64 < 64 := Nat.mod_lt _ (by decide)
   have h2 : c / 64 % 64 < 64 := Nat.mod_lt _ (by decide)
   have h3 : c / 4096 % 64 < 64 := Nat.mod_lt _ (by decide)
-  have hM : (18446744073709551615 : Nat) = 2 ^ 64 - 1 := by decide
   apply Nat.eq_of_testBit_eq
   intro t
-  rw [foldl_bits]
-  unfold gU
-  have ex : ∀ x y : Nat, Nat.xor x y = x ^^^ y := fun _ _ => rfl
-  have ea : ∀ x y : Nat, Nat.land x y = x &&& y := fun _ _ => rfl
-  rw [ex, ea, hM, Nat.testBit_xor, Nat.testBit_and, Nat.testBit_two_pow_sub_one]
+  rw [foldl_bits, gU_testBit]
   by_cases ht : t < 64
   · rw [Nat.testBit_or, Nat.testBit_or, form_mod t (c / 4096) ht, form_fF t _ ht h1,
       form_fF t _ ht h2, form_fF t _ ht h3]

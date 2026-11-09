@@ -2,6 +2,7 @@ module
 
 public import CFSG.RankThree.GF2n.Smith81.S81XE7Def
 public import CFSG.RankThree.GF2n.Smith81.S81E7Fe7
+public import CFSG.RankThree.GF2n.Smith81.S81E7Fast
 
 public section
 
@@ -33,14 +34,20 @@ private instance d6fin_decNW (a b : Fin e7Data.d) : Decidable (d6fin_NW a b) := 
 private theorem d6fin_NW_iff (a b : Fin e7Data.d) : NearW a b ↔ d6fin_NW a b :=
   nearW_iff a b
 
+private theorem d6fin_key_check :
+    E7Fast.keyUniq (E7Fast.wrec (e7Data.weights.getD b0 0))
+      (fun x => E7Fast.pZero x (E7Fast.rrec E7Fast.thetaCode)) = true := by
+  decide +kernel
+
 private theorem d6fin_key_unique : ∀ b : Fin e7Data.d, pr b theta = 0 → ¬ d6fin_NW b0 b →
     e7Data.wt b ≠ -e7Data.wt b0 →
     ∀ k k' : Fin 126, pr b0 ((Tag.rootCertificate .E7).root k) = 1 →
       pr b ((Tag.rootCertificate .E7).root k) = 1 →
       pr b0 ((Tag.rootCertificate .E7).root k') = 1 →
       pr b ((Tag.rootCertificate .E7).root k') = 1 →
-      (Tag.rootCertificate .E7).root k = (Tag.rootCertificate .E7).root k' := by
-  decide +kernel
+      (Tag.rootCertificate .E7).root k = (Tag.rootCertificate .E7).root k' :=
+  fun b hb hnw hneg =>
+    E7Fast.keyUniq_spec d6fin_key_check b ((E7Fast.pr_theta_zero_iff b).1 hb) hnw hneg
 
 theorem spec0_unique (b : Fin e7Data.d) (hb0 : pr b theta = 0) (hb : SpecW b0 b)
     (γ γ' : Fin (Tag.rank .E7) → ℤ) (hγ : IsRoot .E7 γ) (hγ' : IsRoot .E7 γ') (h1 : pr b0 γ = 1)

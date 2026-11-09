@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelT8074 "Certificates/Kernel/Tits8074/data/c8074.json.gz"
+#kc_repo #kc_json CertificateChecks.KernelT8074 "Certificates/Kernel/Tits8074/data/c8074.json"
   26865 13530145791583852487
   (x0 : List (List Nat × Nat)) (x1 : List (List Nat × Nat)) (x2 : List (List Nat × Nat))
   (x3 : List (List Nat × Nat)) (x4 : List (List Nat × Nat)) (x5 : List (List Nat × Nat))

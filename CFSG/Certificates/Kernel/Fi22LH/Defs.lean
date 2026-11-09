@@ -53,7 +53,7 @@ structure LHData where
   (∀ j < 351, ent D.lb0 j = ((lhData ())[0]!)[j]!) ∧
   (∀ j < 351, ent D.lb1 j = ((lhData ())[1]!)[j]!) ∧
   (∀ i < 693, fld(D.pd, 10 * i, 1023) = phiData[i]!) ∧
-  (∀ s < 26, tallSl D.R D.al D.be D.bi D.op D.ol s = true) ∧ (∀ s < 6, fixSl D.R D.Z s = true) ∧
+  (∀ s < 26, tallSl D.R D.al D.be D.bi D.op D.ol s = true) ∧ (∀ s < 27, fixSl D.R D.Z s = true) ∧
   biK D.be D.bi = true ∧
   (∀ s < 20, setSl D.QA D.al D.be s = true) ∧ (∀ s < 20, setSl D.QB D.al D.be s = true) ∧
   orbBfsK D.QA = true ∧ orbBfsK D.QB = true ∧

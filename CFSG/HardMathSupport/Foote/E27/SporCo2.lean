@@ -5,6 +5,8 @@ public import CFSG.RankThree.PartTwo.Sec4.T444.Item434SporCo227
 
 public section
 
+set_option maxRecDepth 100000
+
 namespace CFSG.HardMathSupport.Foote.E27
 
 open CFSG.RankThree.PartTwo.Sec4 CFSG.RankThree.PartTwo.Sec4.Item434SporE81

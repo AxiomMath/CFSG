@@ -122,47 +122,69 @@ theorem msize {j : ℕ} (hj : j < 11) :
   rw [mt_get hj, mwJ]
   simp [heLatK, sTabs_len]
 
+theorem tabs_left {j l : ℕ} (h4 : l < 4) :
+    (heSTabsC ++ (heMwLit[j]!).map (wordTabA #[heTa, heTb] 8330)).toArray.getD l #[] =
+      heSTabsC.toArray.getD l #[] := by
+  simp [Array.getD_eq_getD_getElem?, List.getElem?_append_left (show l < heSTabsC.length by
+    rw [sTabs_len]; exact h4), sTabs_len, h4]
+
+theorem getD_append4 {α : Type} (L M : List α) (d : α) (k : ℕ) (h : L.length = 4) :
+    (L ++ M).toArray.getD (4 + k) d = M.getD k d := by
+  simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, h, List.getD_eq_getElem?_getD]
+
+theorem getD_map_lt {α β : Type} (l : List α) (f : α → β) (d : β) (d' : α) {k : ℕ}
+    (hk : k < l.length) : (l.map f).getD k d = f (l.getD k d') := by
+  simp [List.getD_eq_getElem?_getD, hk]
+
+theorem tabs_right {j i : ℕ} (hi : i < (heMwLit[j]!).length) :
+    (heSTabsC ++ (heMwLit[j]!).map (wordTabA #[heTa, heTb] 8330)).toArray.getD (4 + i) #[] =
+      wordTabA #[heTa, heTb] 8330 ((heMwLit[j]!).getD i []) := by
+  rw [getD_append4 _ _ _ _ sTabs_len]
+  exact getD_map_lt _ _ _ _ hi
+
+theorem Lm_left {j l : ℕ} (h4 : l < 4) : Lm j l = L (Nat.add 2 l) := by
+  have hb : Nat.blt l 4 = true := by simpa using h4
+  unfold Lm
+  rw [hb]
+  rfl
+
+theorem Lm_right (j i : ℕ) : Lm j (4 + i) = wordF L ((heMwLit[j]!).getD i []) := by
+  have hb : Nat.blt (4 + i) 4 = false := by
+    cases h : Nat.blt (4 + i) 4
+    · rfl
+    · exact absurd (Nat.blt_eq.mp h) (by omega)
+  have hs4 : Nat.sub (4 + i) 4 = i := by change 4 + i - 4 = i; omega
+  unfold Lm
+  rw [hb]
+  change wordF L ((J.mw.getD j []).getD (Nat.sub (4 + i) 4) []) = _
+  rw [mwJ, hs4]
+
+theorem good_mw {j i : ℕ} (hj : j < 11) (hi : i < (heMwLit[j]!).length) :
+    Good 8330 (wordTabA #[heTa, heTb] 8330 ((heMwLit[j]!).getD i []))
+      (wordF L ((heMwLit[j]!).getD i [])) := by
+  have hmem : (heMwLit[j]!).getD i [] ∈ heMwLit[j]! := by
+    rw [List.getD_eq_getElem _ _ hi]; exact List.getElem_mem hi
+  have hw : ∀ l ∈ (heMwLit[j]!).getD i [], l < (#[heTa, heTb] : Array (Array ℕ)).size := by
+    intro l hl
+    have h2 := mw_lt2 hj _ hmem l hl
+    simp only [List.size_toArray, List.length_cons, List.length_nil]
+    omega
+  exact good_word good_ab hw
+
 theorem good_m {j : ℕ} (hj : j < 11) :
     ∀ l < (heLatK.sTabs ++ heLatK.mt[j]!).toArray.size,
       Good 8330 ((heLatK.sTabs ++ heLatK.mt[j]!).toArray.getD l #[]) (Lm j l) := by
   intro l hl
   have hs : heLatK.sTabs = heSTabsC := rfl
   rw [hs, mt_get hj] at hl ⊢
-  simp only [List.size_toArray, List.length_append, List.length_map, sTabs_len] at hl
+  rw [List.size_toArray, List.length_append, List.length_map, sTabs_len] at hl
   by_cases h4 : l < 4
-  · have e : (heSTabsC ++ (heMwLit[j]!).map (wordTabA #[heTa, heTb] 8330)).toArray.getD l #[] =
-        heSTabsC.toArray.getD l #[] := by
-      simp [Array.getD_eq_getD_getElem?, List.getElem?_append_left (show l < heSTabsC.length by
-        rw [sTabs_len]; exact h4), sTabs_len, h4]
-    rw [e]
-    have e2 : Lm j l = L (Nat.add 2 l) := by
-      have hb : Nat.blt l 4 = true := by simpa using h4
-      unfold Lm
-      rw [hb]
-      rfl
-    rw [e2]
+  · rw [tabs_left h4, Lm_left h4]
     exact good_s h4
   · obtain ⟨i, rfl⟩ : ∃ i, l = 4 + i := ⟨l - 4, by omega⟩
     have hi : i < (heMwLit[j]!).length := by omega
-    have e : (heSTabsC ++ (heMwLit[j]!).map (wordTabA #[heTa, heTb] 8330)).toArray.getD (4 + i) #[] =
-        wordTabA #[heTa, heTb] 8330 ((heMwLit[j]!).getD i []) := by
-      simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, sTabs_len, hi,
-        List.getD_eq_getElem?_getD]
-    rw [e]
-    have e2 : Lm j (4 + i) = wordF L ((heMwLit[j]!).getD i []) := by
-      have hb : Nat.blt (4 + i) 4 = false := by
-        cases h : Nat.blt (4 + i) 4
-        · rfl
-        · exact absurd (Nat.blt_eq.mp h) (by omega)
-      have hs4 : Nat.sub (4 + i) 4 = i := by change 4 + i - 4 = i; omega
-      unfold Lm
-      rw [hb]
-      change wordF L ((J.mw.getD j []).getD (Nat.sub (4 + i) 4) []) = _
-      rw [mwJ, hs4]
-    rw [e2]
-    have hmem : (heMwLit[j]!).getD i [] ∈ heMwLit[j]! := by
-      rw [List.getD_eq_getElem _ _ hi]; exact List.getElem_mem hi
-    exact good_word good_ab (fun l hl => by simpa using mw_lt2 hj _ hmem l hl)
+    rw [tabs_right hi, Lm_right]
+    exact good_mw hj hi
 
 theorem delta_lt : ∀ p ∈ heDelta, p < 8330 := by decide
 

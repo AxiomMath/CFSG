@@ -2,6 +2,7 @@ module
 
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf3DataP1
 public import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf3Bridge
+import CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThinPf3FilterN
 
 public section
 
@@ -35,8 +36,14 @@ theorem perm_chk_P1 : chk (fun q t => decide (∀ x, pc t.1 x = qf q x)) quadsLi
     dataP1.permWords = true := by
   decide +kernel
 
+private theorem gensF_h_P1 : dataP1.gensF (ofWr dataP1.h) = List.map (fun x => FilterN.decP x.1 x.2)
+      [(17, 267069840090634), (65, 257867905664908), (65, 267069840090634), (5, 257867905664908), (92, 230482180401760)] := by
+  decide +kernel
+
 theorem permWords_ok_P1 : ∀ t ∈ dataP1.permWords,
     eqPF (evalF (dataP1.gensF (ofWr dataP1.h)) t.2) (ofWr (⟨0, pc t.1⟩ : Wr 8)) := by
+  rw [gensF_h_P1]
+  simp only [FilterN.evalF_decP]
   decide +kernel
 
 theorem pairWords_ok_P1 : ∀ t ∈ dataP1.pairWords,

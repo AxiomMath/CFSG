@@ -36,8 +36,23 @@ open scoped Matrix
   { cls := 16, r := [-1, -1, -1, -2, -1, 0, 0, 0] },
   { cls := 17, r := [-1, -1, -1, -1, -1, -1, -1, 0] }]
 
-theorem e8T8_d4_good : ∀ c ∈ e8T8D4Certs, c.Good e8T8Rows e8T8WW := by
+private theorem forall_mem_take_drop {α : Type} {P : α → Prop} {L : List α} (n : ℕ)
+    (h1 : ∀ c ∈ L.take n, P c) (h2 : ∀ c ∈ L.drop n, P c) : ∀ c ∈ L, P c := by
+  intro c hc
+  rw [← List.take_append_drop n L, List.mem_append] at hc
+  exact hc.elim (h1 c) (h2 c)
+
+theorem e8T8_d4_good_a : ∀ c ∈ e8T8D4Certs.take 2, c.Good e8T8Rows e8T8WW := by
   decide +kernel
+
+theorem e8T8_d4_good_b : ∀ c ∈ (e8T8D4Certs.drop 2).take 2, c.Good e8T8Rows e8T8WW := by
+  decide +kernel
+
+theorem e8T8_d4_good_c : ∀ c ∈ (e8T8D4Certs.drop 2).drop 2, c.Good e8T8Rows e8T8WW := by
+  decide +kernel
+
+theorem e8T8_d4_good : ∀ c ∈ e8T8D4Certs, c.Good e8T8Rows e8T8WW :=
+  forall_mem_take_drop 2 e8T8_d4_good_a (forall_mem_take_drop 2 e8T8_d4_good_b e8T8_d4_good_c)
 
 theorem e8T8_fourA1_good : ∀ c ∈ e8T8FourA1Certs, c.Good e8T8Rows e8T8VList := by
   decide +kernel

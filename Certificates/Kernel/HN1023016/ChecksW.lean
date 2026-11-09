@@ -10,7 +10,7 @@ public section
 
 namespace CFSG.KD.HN1023016
 
-theorem chkW : chkWW hwm c0 keyc dep jb fus oth = true := by quickRfl
+theorem chkW : chkWW hwm c0 keyc dep jb fus oth pe = true := by quickRfl
 
 end CFSG.KD.HN1023016
 

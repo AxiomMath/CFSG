@@ -7,6 +7,6 @@ open CFSG.EvenSporadicStandard.HNRecog.Coxeter555
 
 public section
 
-#kb_family "data/F442151.json.gz" 839 14666036150443590313 (r0 := rels555)
+#kb_family "data/F442151.json" 839 14666036150443590313 (r0 := rels555)
 
 end

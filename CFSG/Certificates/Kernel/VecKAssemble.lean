@@ -377,7 +377,7 @@ end Letters
 
 theorem vecCert_of_kernel (D : VecData) (c : Nat) {csA csB : List Char}
     {MA MB NA NB NAi NBi BI BM kL : Nat} {P AT BT FO S IP SP : Nat → Nat} {R V LM : List Nat}
-    {LT Ot IX Op Ol : Nat → Nat → Nat} {STs SPs SLs : List (Nat → Nat)} {LB PS : Nat → Nat}
+    {LT Ot IX Op Ol : Nat → Nat → Nat} {STs SPs SLs : List (Nat → Nat)} {LB PS : Nat → Nat} {Jk Jt : Nat}
     (hA : D.seedA = String.ofList csA) (hB : D.seedB = String.ofList csB)
     (hseed : seedK csA csB D.d MA MB NA NB D.expA D.expB = true)
     (hAi : Nat.beq (mulF D.d NA NAi) (idF D.d) = true) (hBi : Nat.beq (mulF D.d NB NBi) (idF D.d) = true)
@@ -407,8 +407,11 @@ theorem vecCert_of_kernel (D : VecData) (c : Nat) {csA csB : List Char}
       (andB (Nat.blt (nat_lit 0) D.subReps.size) (andB (Nat.beq (getL (nat_lit 0) D.subReps.toList 0) 0)
       (andB (Nat.beq D.subSizes.length D.subReps.size)
         (allL (fun s => Nat.blt (nat_lit 0) s) D.subSizes))))) = true)
+    (hJt : orB (Nat.ble D.subReps.size Jt) (andB (Nat.blt (nat_lit 1) D.base.size)
+      (andB (Nat.beq (getL (nat_lit 0) D.subReps.toList Jt) (getL (nat_lit 0) D.base.toList (nat_lit 1)))
+        (Nat.beq (getL (nat_lit 0) D.subSizes Jt) (getL (nat_lit 0) D.orbSizes (nat_lit 1))))) = true)
     (hsub : ∀ j < D.subReps.size, ∀ t < getL (nat_lit 0) D.subSizes j,
-      subAt D.n kL (getL (nat_lit 0) D.subSizes j) j (getL (nat_lit 0) D.subReps.toList j) LT
+      subAt D.n kL (getL (nat_lit 0) D.subSizes j) j Jk Jt (getL (nat_lit 0) D.subReps.toList j) LT
         (getL (nat_lit 0) D.base.toList) (getF STs j) LB PS (getF SPs j) (getF SLs j) t = true)
     (hlab : ∀ p < D.n, labAt D.subReps.size D.subSizes STs LB PS p = true)
     (hord : andB (ordK D.d (wordN D.d NA NAi NB NBi D.w0) D.basis.size P (getL (nat_lit 0) D.basis.toList)
@@ -461,7 +464,8 @@ theorem vecCert_of_kernel (D : VecData) (c : Nat) {csA csB : List Char}
     rw [← hLs]
     exact h2
   obtain ⟨hos, hTs⟩ := chainTrees_spec D hn hkL32 hLeq hLT hkE hinv hchain htree
-  have hsubc := subChecks_ok D hn hkL32 hLeq hLT hkE hinv hsub0 hsub hlab
+  have hsubc := subChecks_ok D hn hkL32 hLeq hLT hkE hinv hsub0 hJt
+    (fun h1 => chainTree_facts D hLeq hLT hkE hinv hchain htree 1 h1) hsub hlab
   have hTsz : (CFSG.Sporadic.SmallF2.T D).size = D.base.size := CFSG.Sporadic.SmallF2.T_size D
   have hcard' : Nat.card (CFSG.Sporadic.SmallF2.J D) ≤
       ∏ i ∈ Finset.range D.base.size, (CFSG.Sporadic.SmallF2.T D)[i]!.pts.size := by

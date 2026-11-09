@@ -5,7 +5,7 @@ public import Certificates.Data.Kernel.SlpPcCl
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.HN1023016 "Certificates/Kernel/HN1023016/data/m5.json.gz" 20623 8162868710702990314
+#kc_repo #kc_json CFSG.KD.HN1023016 "Certificates/Kernel/HN1023016/data/m5.json" 7158 8951341654334376733
     (px : List (Nat × Nat)) (ce : List (List (List Nat))) (lp : List (List (Nat × Nat)))
     (lab : List (List Nat))
 

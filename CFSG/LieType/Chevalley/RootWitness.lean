@@ -2,6 +2,7 @@ module
 
 public import CFSG.LieType.Chevalley.RootRank
 public import CFSG.LieType.Chevalley.RelativeWeylTwist
+public import CFSG.LieType.Chevalley.RootCodeLookup
 
 public section
 
@@ -42,6 +43,34 @@ theorem root_val
     (List.finRange n).all fun j => decide (i = j) ||
       (pairFree τ (W.vec i) (W.vec j) &&
         decide (0 < height ((W.sepWord i).foldr (reflect τ) (W.vec j))))
+
+@[expose] def pairFreeC (τ : Tag) (α β : Fin τ.rank → ℤ) : Bool :=
+  (List.range 7).all fun a => (List.range 7).all fun b =>
+    !(decide (1 ≤ a) && decide (1 ≤ b)) ||
+      !(RootCode.inRange (a • α + b • β) &&
+        τ.rootCertificate.roots.contains (RootCode.code (a • α + b • β)))
+
+theorem pairFree_eq_pairFreeC {τ : Tag} (hL : RootCode.CodesFit τ.rootCertificate = true)
+    (α β : Fin τ.rank → ℤ) : pairFree τ α β = pairFreeC τ α β := by
+  unfold pairFree pairFreeC
+  refine (RootCode.all_swap_any τ.rootCertificate.roots.length
+    (fun a b => decide (1 ≤ a) && decide (1 ≤ b))
+    (fun k a b => decide (τ.rootCertificate.root k = a • α + b • β))).trans ?_
+  simp only [RootCode.any_root_eq _ hL]
+
+@[expose] def checkC : Bool :=
+  (List.finRange n).all fun i =>
+    decide (0 < height (W.vec i)) &&
+    (List.finRange τ.rank).all (fun k => decide (0 ≤ W.vec i k)) &&
+    decide (height ((W.sepWord i).foldr (reflect τ) (W.vec i)) < 0) &&
+    (List.finRange n).all fun j => decide (i = j) ||
+      (pairFreeC τ (W.vec i) (W.vec j) &&
+        decide (0 < height ((W.sepWord i).foldr (reflect τ) (W.vec j))))
+
+theorem check_eq_checkC (hL : RootCode.CodesFit τ.rootCertificate = true) :
+    W.check = W.checkC := by
+  unfold check checkC
+  simp only [pairFree_eq_pairFreeC hL]
 
 variable {W}
 
@@ -119,8 +148,15 @@ theorem witnessE6_check
 theorem witnessE7_check
     : witnessE7.check = true := by decide +kernel
 
+theorem witnessE8_codesFit : RootCode.CodesFit Tag.E8.rootCertificate = true := by decide +kernel
+
+theorem witnessE8_checkC
+    : witnessE8.checkC = true := by decide +kernel
+
 theorem witnessE8_check
-    : witnessE8.check = true := by decide +kernel
+    : witnessE8.check = true := by
+  rw [RootWitness.check_eq_checkC witnessE8 witnessE8_codesFit]
+  exact witnessE8_checkC
 
 theorem four_mul_le_pRank
     {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {K : Type}

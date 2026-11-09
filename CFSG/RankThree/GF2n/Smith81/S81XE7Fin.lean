@@ -1,6 +1,7 @@
 module
 
 public import CFSG.RankThree.GF2n.Smith81.S81XE7Def
+public import CFSG.RankThree.GF2n.Smith81.S81E7Fast
 
 public section
 
@@ -27,13 +28,17 @@ private theorem fin_NW_iff (a b : Fin e7Data.d) : NearW a b ↔ fin_NW a b :=
 theorem phi7_card : ((rootFinset .E7).filter fun γ => pr a7 γ = 1).card = 27 := by
   decide +kernel
 
+private theorem fin_key_check :
+    E7Fast.keyUniq (E7Fast.wrec (e7Data.weights.getD a7 0)) (fun _ => true) = true := by
+  decide +kernel
+
 private theorem fin_key_unique : ∀ b : Fin e7Data.d, ¬ fin_NW a7 b → e7Data.wt b ≠ -e7Data.wt a7 →
     ∀ k k' : Fin 126, pr a7 ((Tag.rootCertificate .E7).root k) = 1 →
       pr b ((Tag.rootCertificate .E7).root k) = 1 →
       pr a7 ((Tag.rootCertificate .E7).root k') = 1 →
       pr b ((Tag.rootCertificate .E7).root k') = 1 →
-      (Tag.rootCertificate .E7).root k = (Tag.rootCertificate .E7).root k' := by
-  decide +kernel
+      (Tag.rootCertificate .E7).root k = (Tag.rootCertificate .E7).root k' :=
+  fun b hnw hneg => E7Fast.keyUniq_spec fin_key_check b rfl hnw hneg
 
 theorem spec_unique (b : Fin e7Data.d) (hb : SpecW a7 b) (γ γ' : Fin (Tag.rank .E7) → ℤ)
     (hγ : IsRoot .E7 γ) (hγ' : IsRoot .E7 γ') (h1 : pr a7 γ = 1) (h2 : pr b γ = 1)

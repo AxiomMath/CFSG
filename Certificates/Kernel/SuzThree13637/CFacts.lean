@@ -55,21 +55,57 @@ theorem prep_Y2 : PRep 1782 11 CD.Y2 (yP * yP) := by
   rw [← cd_parts.2.2]
   exact prep_pcomp (by norm_num) prep_Y prep_Y
 
-@[expose] noncomputable def yLev : ℕ → Equiv.Perm (Fin 1782)
-  | 1 => yP
-  | 2 => yP
-  | 4 => yP * yP
+@[expose] def levOf (a b c : Equiv.Perm (Fin 1782)) : ℕ → Equiv.Perm (Fin 1782)
+  | 1 => a
+  | 2 => b
+  | 4 => c
   | _ => 1
+
+@[expose] noncomputable def yLev : ℕ → Equiv.Perm (Fin 1782) := levOf yP yP (yP * yP)
+
+theorem levOf_one (a b c : Equiv.Perm (Fin 1782)) : levOf a b c 1 = a := rfl
+
+theorem levOf_two (a b c : Equiv.Perm (Fin 1782)) : levOf a b c 2 = b := rfl
+
+theorem levOf_four (a b c : Equiv.Perm (Fin 1782)) : levOf a b c 4 = c := rfl
+
+theorem levOf_other (a b c : Equiv.Perm (Fin 1782)) {l : ℕ} (h1 : l ≠ 1) (h2 : l ≠ 2)
+    (h4 : l ≠ 4) : levOf a b c l = 1 := by
+  unfold levOf
+  split <;> simp_all
+
+theorem yLev_one : yLev 1 = yP := by rw [yLev, levOf_one]
+
+theorem yLev_two : yLev 2 = yP := by rw [yLev, levOf_two]
+
+theorem yLev_four : yLev 4 = yP * yP := by rw [yLev, levOf_four]
+
+theorem yLev_other {l : ℕ} (h1 : l ≠ 1) (h2 : l ≠ 2) (h4 : l ≠ 4) : yLev l = 1 := by
+  rw [yLev, levOf_other _ _ _ h1 h2 h4]
+
+theorem nthN_cons_zero (x : ℕ) (L : List ℕ) : nthN (x :: L) 0 = x := rfl
+
+theorem nthN_cons_succ (x : ℕ) (L : List ℕ) (i : ℕ) : nthN (x :: L) (i + 1) = nthN L i := rfl
 
 theorem prep_lev : ∀ l < 6, PRep 1782 11 (nthN yYs l) (yLev l) := by
   intro l hl
+  rw [yYs]
   interval_cases l
-  · exact prep_I
-  · exact prep_Y
-  · exact prep_Y
-  · exact prep_I
-  · exact prep_Y2
-  · exact prep_I
+  · rw [nthN_cons_zero, yLev_other (by omega) (by omega) (by omega)]
+    exact prep_I
+  · rw [nthN_cons_succ, nthN_cons_zero, yLev_one]
+    exact prep_Y
+  · rw [nthN_cons_succ, nthN_cons_succ, nthN_cons_zero, yLev_two]
+    exact prep_Y
+  · rw [nthN_cons_succ, nthN_cons_succ, nthN_cons_succ, nthN_cons_zero,
+      yLev_other (by omega) (by omega) (by omega)]
+    exact prep_I
+  · rw [nthN_cons_succ, nthN_cons_succ, nthN_cons_succ, nthN_cons_succ, nthN_cons_zero,
+      yLev_four]
+    exact prep_Y2
+  · rw [nthN_cons_succ, nthN_cons_succ, nthN_cons_succ, nthN_cons_succ, nthN_cons_succ,
+      nthN_cons_zero, yLev_other (by omega) (by omega) (by omega)]
+    exact prep_I
 
 theorem strictB_eq13637 (y : ℕ) (k : ℕ → Bool) : strictB y k = k y := by
   cases y <;> rfl
@@ -87,7 +123,7 @@ theorem gen_mem {k : ℕ}
   · refine Equiv.ext fun x => Fin.ext ?_
     have e := Nat.eq_of_beq_eq_true (allN_spec h1 x x.2)
     rw [prep_Y x, hG (yP x), hG x, prep_Y (permOfArr 1782 (unpack 1782 11 (CE.G k)) x)] at e
-    simp only [Equiv.Perm.mul_apply]
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
     exact e
   · apply (mem_suzM_iff_siftA (rep_of_validA (validA_of (ce_reb' hk).2.2))).1
     rw [smallLevels]
@@ -118,12 +154,18 @@ theorem c_cent :
     intro c hc l hl
     have h := hcy c hc
     interval_cases l
-    · exact (Commute.one_right c).eq
-    · exact h.eq
-    · exact h.eq
-    · exact (Commute.one_right c).eq
-    · exact (h.mul_right h).eq
-    · exact (Commute.one_right c).eq
+    · rw [yLev_other (by omega) (by omega) (by omega)]
+      exact (Commute.one_right c).eq
+    · rw [yLev_one]
+      exact h.eq
+    · rw [yLev_two]
+      exact h.eq
+    · rw [yLev_other (by omega) (by omega) (by omega)]
+      exact (Commute.one_right c).eq
+    · rw [yLev_four]
+      exact (h.mul_right h).eq
+    · rw [yLev_other (by omega) (by omega) (by omega)]
+      exact (Commute.one_right c).eq
   have hKpr : ∀ P ∈ [CD.Y], ∃ g : Equiv.Perm (Fin 1782), PRep 1782 11 P g ∧
       ∀ c ∈ K, c * g = g * c := by
     intro P hP

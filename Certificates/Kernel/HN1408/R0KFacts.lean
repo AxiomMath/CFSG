@@ -361,8 +361,7 @@ theorem mzB_of {A B H : Nat} {g h : Equiv.Perm (Fin 1408)}
   have z0 : ∀ x (hx : x < 1408), pt (WK wordZ) ((h * g) ⟨x, hx⟩).val =
       ((elemZ * h * g) ⟨x, hx⟩).val := by
     intro x hx
-    rw [← ptv repZ]
-    simp only [Equiv.Perm.mul_apply]
+    rw [← ptv repZ, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
   unfold mzB
   simp only [strictB_app]
   rw [l0 0 (by norm_num), l0 1 (by norm_num), r0 0 (by norm_num), r0 1 (by norm_num),

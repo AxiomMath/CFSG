@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Sporadic.OddCore.TBfsCmd
 public import Certificates.Kernel.Sporadic.OddCore.RowsCmd
+public import Certificates.Kernel.Sporadic.RowsWCmd
 public import Certificates.Kernel.Sporadic.OrbRecGen
 public import Certificates.Kernel.Misc.Perm.HexCmd
 public import CFSG.ClassicalInvolution.SmallCases.Sporadic.McLData
@@ -80,7 +81,15 @@ meta def lettersP : Array (Array Nat) := evM.foldl (fun acc s => (acc.push s.1).
 
 meta def lettersM : Array Table := lettersP.map fun t => t.map UInt32.ofNat
 
-meta def ltM : Array Nat := lettersP.flatten
+meta def mclcLwM : Array Nat := Id.run do
+  let mut r := Array.replicate (32 * lettersP.size) 0
+  for l in [0:lettersP.size] do
+    let t := lettersP[l]!
+    let mut v := l + 1
+    for x in [0:t.size] do
+      v := v ||| (t[x]! <<< (16 * (x + 1)))
+    r := r.set! (32 * l) v
+  return r
 
 meta def wcM : Array Nat := ((evM.extract 2 evM.size).toList.flatMap (·.2)).toArray
 
@@ -151,7 +160,7 @@ meta def witM : Array Nat := Id.run do
 
 end CertificateChecks.KernelSpor.McLC
 
-#krows CertificateChecks.KernelSpor.McLC.LT CertificateChecks.KernelSpor.McLC.ltM
+#krowsw CertificateChecks.KernelSpor.McLC.MclcLW 4416 CertificateChecks.KernelSpor.McLC.mclcLwM
 #kc_nattree CertificateChecks.KernelSpor.McLC.WC CertificateChecks.KernelSpor.McLC.wcM
 #kc_nattree CertificateChecks.KernelSpor.McLC.WS CertificateChecks.KernelSpor.McLC.wsM
 #kc_nattree CertificateChecks.KernelSpor.McLC.WN CertificateChecks.KernelSpor.McLC.wnM

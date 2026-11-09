@@ -6,6 +6,7 @@ public import Certificates.Kernel.Co1B.IotaData
 public import Certificates.Data.Kernel.SporSch.Co1Cent
 public import Certificates.Data.Kernel.SporSch.Co1Bfs
 public import Certificates.Data.Kernel.SporSch.Co1Stab
+public import Certificates.Data.Kernel.SporSch.Co1StabW
 public import Certificates.Data.CFSGNative.Co1.Involutions
 public import Certificates.Data.Kernel.Co1F2
 public import Certificates.Data.Kernel.Co1B
@@ -36,10 +37,10 @@ open CFSG.KC.Co1B (mulWK)
 
 theorem kb : (Nat.beq (D1.M 0) SA && Nat.beq (D1.M 1) SB && Nat.beq (D1.M 2) IC) = true := by
   quickRfl
-theorem kD1 : dagIK D1.M D1.MI 3 D1.N twoCD1 = true := by quickRfl
+theorem kD1 : dagIWK D1.M D1.MI 3 D1.N twoCD1 = true := by quickRfl
 theorem kI : twoCBray.all (fun j => decide (3 < j) && decide (j ≤ D1.N)) = true := by quickRfl
 theorem kBind : bindK D1.M D2.M twoCBray = true := by quickRfl
-theorem kD2 : dagIK D2.M D2.MI twoCBray.length D2.N twoCD2 = true := by quickRfl
+theorem kD2 : dagIWK D2.M D2.MI twoCBray.length D2.N twoCD2 = true := by quickRfl
 theorem kC : commK D1.M IC twoCBray = true := by quickRfl
 theorem kN : (Nat.beq D2.N 42 && Nat.beq QT.N 2048 && twoCQGens.all (fun j => decide (j < 42))) =
     true := by

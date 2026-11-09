@@ -6,6 +6,8 @@ public import Certificates.Data.Kernel.J2Cover
 public import Certificates.Data.Kernel.Spor.PEnum
 public import Certificates.Data.Kernel.Spor.MulH
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.Loops
+import CFSG.Certificates.Kernel.Spor.PackFld
 
 public section
 
@@ -126,8 +128,31 @@ theorem k3r : allN K3.N (repK 12 4 K3.GP K3.GIP 2 K3.CS K3.OFF K3.CI K3.E K3.P K
     K3.SI K3.N 20000) = true := by quickRfl
 theorem k5r : allN K5.N (repK 12 4 K5.GP K5.GIP 2 K5.CS K5.OFF K5.CI K5.E K5.P K5.L K5.K K5.S
     K5.SI K5.N 20000) = true := by quickRfl
+@[expose] noncomputable def k11f : Nat → Bool :=
+  repK 12 4 K11.GP K11.GIP 2 K11.CS K11.OFF K11.CI K11.E K11.P K11.L K11.K K11.S K11.SI K11.N 20000
+
+theorem k11N : K11.N = 17280 := rfl
+
+theorem k11r_0 : allBlk 0 k11f 4320 = true := by quickRfl
+theorem k11r_1 : allBlk 4320 k11f 4320 = true := by quickRfl
+theorem k11r_2 : allBlk 8640 k11f 4320 = true := by quickRfl
+theorem k11r_3 : allBlk 12960 k11f 4320 = true := by quickRfl
+
 theorem k11r : allN K11.N (repK 12 4 K11.GP K11.GIP 2 K11.CS K11.OFF K11.CI K11.E K11.P K11.L
-    K11.K K11.S K11.SI K11.N 20000) = true := by quickRfl
+    K11.K K11.S K11.SI K11.N 20000) = true := by
+  change allN K11.N k11f = true
+  refine CFSG.KS.PackFld.allN_of_forall fun i hi => ?_
+  rw [k11N] at hi
+  have pc : ∀ {lo : Nat}, allBlk lo k11f 4320 = true → lo ≤ i → i < lo + 4320 → k11f i = true :=
+    fun {lo} h h1 h2 => by
+      have e := CFSG.KS.allBlk_spec h (i - lo) (by omega)
+      rwa [show Nat.add lo (i - lo) = i by simp only [Nat.add_eq]; omega] at e
+  rcases (by omega : i < 4320 ∨ (4320 ≤ i ∧ i < 8640) ∨ (8640 ≤ i ∧ i < 12960) ∨ 12960 ≤ i) with
+    h | ⟨h1, h2⟩ | ⟨h1, h2⟩ | h1
+  · exact pc k11r_0 (by omega) (by omega)
+  · exact pc k11r_1 h1 (by omega)
+  · exact pc k11r_2 h1 (by omega)
+  · exact pc k11r_3 h1 (by omega)
 
 end CertificateChecks.KernelSporSch.M12Odd
 

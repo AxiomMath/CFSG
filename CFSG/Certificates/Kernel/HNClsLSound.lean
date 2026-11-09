@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.HNClsL
+public import Certificates.Data.Kernel.HNClsLRun
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Algebra.Order.Ring.Star
@@ -545,13 +546,9 @@ private theorem linesGo_sound (hM : Model mul ONE Can ev) {lt : ℕ → G} {pool
   | s :: lines, k, hc => by
     obtain ⟨he, hc⟩ := andB_t hc
     rw [sB_eq'] at hc
-    beta_reduce at hc
     rw [sB_eq'] at hc
-    beta_reduce at hc
     rw [sB_eq'] at hc
-    beta_reduce at hc
     rw [sB_eq'] at hc
-    beta_reduce at hc
     obtain ⟨h5, hc⟩ := andB_t hc
     obtain ⟨h1, hc⟩ := andB_t hc
     obtain ⟨pks, hlen, hLR, hk⟩ := linesGo_sound hM hF lines _ hc
@@ -693,28 +690,99 @@ private theorem witsOK_sound (hM : Model mul ONE Can ev) {lt : ℕ → G} {pool 
       rw [List.getD_cons_succ]
       exact witsOK_sound hM hF hG wits wl hk i (by rw [List.length_cons] at hi; omega)
 
-theorem chk_raw {mul : ℕ → ℕ → ℕ} {ONE : ℕ} {Can : ℕ → Prop} {ev : ℕ → G}
+theorem wordP_flat (hM : Model mul ONE Can ev) {lt : ℕ → G} {L : ℕ → ℕ} {E : ℕ → List ℕ}
+    (cs : List ℕ) (h : ∀ c ∈ cs, Can (L c) ∧ ev (L c) = lw lt (E c)) :
+    Can (wordP mul ONE L cs) ∧ ev (wordP mul ONE L cs) = lw lt (cs.flatMap E) := by
+  have key : ∀ (cs : List ℕ), (∀ c ∈ cs, Can (L c) ∧ ev (L c) = lw lt (E c)) → ∀ acc, Can acc →
+      Can (wordGo mul L cs acc) ∧ ev (wordGo mul L cs acc) = ev acc * lw lt (cs.flatMap E) := by
+    intro cs
+    induction cs with
+    | nil =>
+      intro _ acc h
+      refine ⟨h, ?_⟩
+      rw [List.flatMap_nil]
+      unfold lw
+      rw [List.map_nil, List.prod_nil, mul_one]
+      rfl
+    | cons c cs ih =>
+      intro hcs acc hacc
+      obtain ⟨hc1, hc2⟩ := hcs c List.mem_cons_self
+      obtain ⟨h1, h2⟩ := hM.mul hacc hc1
+      obtain ⟨h3, h4⟩ := ih (fun c' h' => hcs c' (List.mem_cons_of_mem _ h')) _ h1
+      rw [wordGo_cons]
+      refine ⟨h3, ?_⟩
+      rw [h4, h2, hc2, List.flatMap_cons]
+      unfold lw
+      rw [List.map_append, List.prod_append, mul_assoc]
+  obtain ⟨h1, h2⟩ := key cs h ONE hM.one.1
+  have e : wordP mul ONE L cs = wordGo mul L cs ONE := rfl
+  rw [e]
+  exact ⟨h1, by rw [h2, hM.one.2, one_mul]⟩
+
+private theorem gdL_t {c k : ℕ} (h : gdL c k = true) : okC c = true ∨ (37 ≤ c ∧ c < 37 + k) := by
+  rcases orB_t h with h | h
+  · exact Or.inl h
+  · obtain ⟨h1, h2⟩ := andB_t h
+    exact Or.inr ⟨Nat.le_of_ble_eq_true h1, Nat.blt_eq.mp h2⟩
+
+theorem slp_ev (hM : Model mul ONE Can ev) {lt : ℕ → G} {L : ℕ → ℕ} {E : ℕ → List ℕ}
+    (hb : ∀ c, okC c = true → Can (L c) ∧ ev (L c) = lw lt (E c)) {RA RB : List ℕ} :
+    ∀ n, (∀ k < n, slpR mul L E RA RB k = true) →
+      ∀ c, okC c = true ∨ (37 ≤ c ∧ c < 37 + n) → Can (L c) ∧ ev (L c) = lw lt (E c) := by
+  intro n
+  induction n with
+  | zero =>
+    intro _ c hc
+    rcases hc with hc | hc
+    · exact hb c hc
+    · omega
+  | succ n ih =>
+    intro hR c hc
+    rcases hc with hc | ⟨h1, h2⟩
+    · exact hb c hc
+    rcases Nat.lt_or_ge c (37 + n) with h3 | h3
+    · exact ih (fun k hk => hR k (by omega)) c (Or.inr ⟨h1, h3⟩)
+    obtain rfl : c = 37 + n := by omega
+    obtain ⟨ga, h⟩ := andB_t (hR n (by omega))
+    obtain ⟨gb, h⟩ := andB_t h
+    obtain ⟨hm, he⟩ := andB_t h
+    have IH := ih (fun k hk => hR k (by omega))
+    obtain ⟨ca, ea⟩ := IH _ (gdL_t ga)
+    obtain ⟨cb, eb⟩ := IH _ (gdL_t gb)
+    obtain ⟨cm, em⟩ := hM.mul ca cb
+    have hm' := Nat.eq_of_beq_eq_true hm
+    have he' := beq_iff_eq.mp he
+    change _ = L (37 + n) at hm'
+    change _ = E (37 + n) at he'
+    rw [← hm', ← he']
+    refine ⟨cm, ?_⟩
+    rw [em, ea, eb]
+    unfold lw
+    rw [List.append_eq, List.map_append, List.prod_append]
+
+theorem slp_pw (hM : Model mul ONE Can ev) {lt : ℕ → G} {L : ℕ → ℕ} {E : ℕ → List ℕ}
+    (hb : ∀ c, okC c = true → Can (L c) ∧ ev (L c) = lw lt (E c)) {RA RB : List ℕ} {n : ℕ}
+    (hR : ∀ k < n, slpR mul L E RA RB k = true) {cs w : List ℕ}
+    (hg : allL (fun c => gdL c n) cs = true) (hE : cs.flatMap E = w) {X : ℕ}
+    (hX : wordP mul ONE L cs = X) : Can X ∧ ev X = lw lt w := by
+  have h := wordP_flat hM (lt := lt) (E := E) cs fun c hc =>
+    slp_ev hM hb n hR c (gdL_t (allL_t hg c hc))
+  rw [hX, hE] at h
+  exact h
+
+theorem raw_of_rest {mul : ℕ → ℕ → ℕ} {ONE : ℕ} {Can : ℕ → Prop} {ev : ℕ → G}
     (hM : Model mul ONE Can ev) {L : ℕ → ℕ} (hL : ∀ c, okC c = true → Can (L c))
     {pool : List (List ℕ)} {gens : List ℕ} {nQ : ℕ} {lines : List (List (ℕ × ℕ))}
     {fuse : List (ℕ × (List (ℕ × ℕ) × ℕ))} {wl : List (List (ℕ × ℕ))}
-    {wits : List (List (List (ℕ × ℕ)) × ℕ)} {tr : List ℕ}
-    (h : chk mul ONE L pool gens nQ lines fuse wl wits tr = true) :
+    {wits : List (List (List (ℕ × ℕ)) × ℕ)} {tr : List ℕ} {F Gf : ℕ → ℕ}
+    (hal : alphOK mul ONE L = true) (hcod : allL (allL okC) pool = true)
+    (hF : ∀ j, Can (F j) ∧ ev (F j) = pw (fun c => ev (L c)) pool j)
+    (hG : ∀ j, Can (Gf j) ∧ ev (Gf j) = lw (fun c => ev (L c)) (invW (nthD [] pool j)))
+    (h : restK mul ONE pool gens nQ lines fuse wl wits tr F Gf = true) :
     Raw (fun c => ev (L c)) pool gens nQ lines wl := by
-  unfold chk at h
-  obtain ⟨hal, h⟩ := andB_t h
-  obtain ⟨hcod, h⟩ := andB_t h
+  unfold restK at h
   simp only [mapS_eq', sB_eq'] at h
-  set F := nthD ONE (List.map (wordP mul ONE L) pool) with hFd
   have hcodes : ∀ w ∈ pool, ∀ c ∈ w, okC c = true := fun w hw => allL_t (allL_t hcod w hw)
-  have hF : ∀ j, Can (F j) ∧ ev (F j) = pw (fun c => ev (L c)) pool j := by
-    intro j
-    have e : F j = wordP mul ONE L (nthD [] pool j) := nthD_map' (wordP mul ONE L) [] pool j
-    rw [e]
-    exact wordP_ev hM hL _ (nthD_codes hcodes j)
-  have hG : ∀ j, Can (wordP mul ONE L (invW (nthD [] pool j))) ∧
-      ev (wordP mul ONE L (invW (nthD [] pool j))) =
-        lw (fun c => ev (L c)) (invW (nthD [] pool j)) :=
-    fun j => wordP_ev hM hL _ (okC_invW _ (nthD_codes hcodes j))
   obtain ⟨ha1, ha2⟩ := andB_t hal
   obtain ⟨ha2, ha3⟩ := andB_t ha2
   have hLc : ∀ c, c < 37 → c ≠ 34 → Can (L c) := fun c h1 h2 => hL c ((okC_iff c).2 ⟨h1, h2⟩)
@@ -814,6 +882,33 @@ theorem chk_raw {mul : ℕ → ℕ → ℕ} {ONE : ℕ} {Can : ℕ → Prop} {ev
         exact quad q1 q2 q3 q4 f.2.2 hf2 hf3
       have e := ev_eq hM cg hWi.1 hp.1 cg hf6
       rwa [eg, hWi.2, hp.2] at e
+
+theorem invW_ev (hM : Model mul ONE Can ev) {L : ℕ → ℕ} (hL : ∀ c, okC c = true → Can (L c))
+    {pool : List (List ℕ)} (hcod : allL (allL okC) pool = true) (j : ℕ) :
+    Can (wordP mul ONE L (invW (nthD [] pool j))) ∧
+      ev (wordP mul ONE L (invW (nthD [] pool j))) =
+        lw (fun c => ev (L c)) (invW (nthD [] pool j)) :=
+  wordP_ev hM hL _ (okC_invW _ (nthD_codes (fun w hw => allL_t (allL_t hcod w hw)) j))
+
+theorem chk_raw {mul : ℕ → ℕ → ℕ} {ONE : ℕ} {Can : ℕ → Prop} {ev : ℕ → G}
+    (hM : Model mul ONE Can ev) {L : ℕ → ℕ} (hL : ∀ c, okC c = true → Can (L c))
+    {pool : List (List ℕ)} {gens : List ℕ} {nQ : ℕ} {lines : List (List (ℕ × ℕ))}
+    {fuse : List (ℕ × (List (ℕ × ℕ) × ℕ))} {wl : List (List (ℕ × ℕ))}
+    {wits : List (List (List (ℕ × ℕ)) × ℕ)} {tr : List ℕ}
+    (h : chk mul ONE L pool gens nQ lines fuse wl wits tr = true) :
+    Raw (fun c => ev (L c)) pool gens nQ lines wl := by
+  unfold chk at h
+  obtain ⟨hal, h⟩ := andB_t h
+  obtain ⟨hcod, h⟩ := andB_t h
+  rw [mapS_eq'] at h
+  have hcodes : ∀ w ∈ pool, ∀ c ∈ w, okC c = true := fun w hw => allL_t (allL_t hcod w hw)
+  refine raw_of_rest hM hL hal hcod (F := nthD ONE (List.map (wordP mul ONE L) pool))
+    (Gf := fun j => wordP mul ONE L (invW (nthD [] pool j))) (fun j => ?_)
+    (fun j => wordP_ev hM hL _ (okC_invW _ (nthD_codes hcodes j))) h
+  have e : nthD ONE (List.map (wordP mul ONE L) pool) j = wordP mul ONE L (nthD [] pool j) :=
+    nthD_map' (wordP mul ONE L) [] pool j
+  rw [e]
+  exact wordP_ev hM hL _ (nthD_codes hcodes j)
 
 end Check
 
@@ -938,7 +1033,7 @@ theorem facts_of_raw [Finite G] {lt : ℕ → G} {pool : List (List ℕ)} {gens 
         Submonoid.closure_le.2 fun x hx => Subgroup.subset_closure hx
       exact hle (hmon k hk)
   have hmemQ : ∀ z, z ∈ Subgroup.closure S ↔ z ∈ ks := fun z => by
-    rw [← SetLike.mem_coe, ← hTeq, Set.mem_setOf_eq]
+    rw [← SetLike.mem_coe, ← hTeq, Set.mem_ofPred_eq]
   have hspK : ∀ s, evS pool s = true → sp lt pool s ∈ K := fun s hs =>
     sp_mem K hK h36 hr.codes hs
   set xs : ℕ → G := fun i => sp lt pool (wl.getD i []) with hxs

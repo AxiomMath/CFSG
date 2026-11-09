@@ -11,5 +11,5 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 #kc_select CFSG.KD.PhanD4Dce NS NO 12
 
-#kc_repo #kc_json_gz CFSG.KD.PhanD4Dce "Certificates/Kernel/PhanD4Dce/data/covern.json.gz" 75127 18092069593194726121
+#kc_repo #kc_json CFSG.KD.PhanD4Dce "Certificates/Kernel/PhanD4Dce/data/covern.json" 75127 18092069593194726121
   (CR : List (List Nat)) (CA : List (List Nat))

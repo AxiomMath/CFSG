@@ -14,7 +14,7 @@ theorem fa_last : fa 31 = true := by
   have e : fusD2Fi24.facts.getD 31 default = .eq [(fusD2Fi24.rB, 1)] fusD2Fi24.wB := rfl
   unfold fa
   rw [e]
-  exact factL_eq_of_segs (k := 8) (m := 6) (W := fun i => W.WL.getD i lay.ONE) (by decide +kernel)
+  exact factL_eq_of_segs (k := 1) (m := 45) (W := fun i => W.WL.getD i lay.ONE) (by decide +kernel)
     (by decide +kernel) (List.getD_eq_default _ _ (by decide +kernel)) seg_all wB_first
 
 theorem fa_all : ∀ j < fusD2Fi24.facts.length, fa j = true := by

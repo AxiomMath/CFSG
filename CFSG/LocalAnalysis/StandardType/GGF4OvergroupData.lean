@@ -295,7 +295,26 @@ abbrev Mat5 : Type := Matrix (Fin 4) (Fin 4) (ZMod 5)
   a == 0 || isGood a || (List.finRange 9).all fun i => (List.finRange 9).all fun j =>
     i == j || !propB (wit (wg a i) *ᵥ a) (wit (wg a j) *ᵥ a)
 
-theorem witOK_all : ∀ a : Vec5, witOK a = true := by decide +kernel
+private theorem witOK_all_0 : ∀ a : Vec5, a 0 = 0 → witOK a = true := by
+  decide +kernel
+
+private theorem witOK_all_1 : ∀ a : Vec5, a 0 = 1 → witOK a = true := by
+  decide +kernel
+
+private theorem witOK_all_2 : ∀ a : Vec5, a 0 = 2 → witOK a = true := by
+  decide +kernel
+
+private theorem witOK_all_3 : ∀ a : Vec5, a 0 = 3 → witOK a = true := by
+  decide +kernel
+
+private theorem witOK_all_4 : ∀ a : Vec5, a 0 = 4 → witOK a = true := by
+  decide +kernel
+
+theorem witOK_all : ∀ a : Vec5, witOK a = true := by
+  intro a
+  have h : ∀ x : ZMod 5, x = 0 ∨ x = 1 ∨ x = 2 ∨ x = 3 ∨ x = 4 := by decide
+  rcases h (a 0) with h | h | h | h | h
+  exacts [witOK_all_0 a h, witOK_all_1 a h, witOK_all_2 a h, witOK_all_3 a h, witOK_all_4 a h]
 
 @[expose] def sgnMat (k : Fin 4) : Mat5 := Matrix.of fun i j => if i = j then (if i = k then 4 else 1) else 0
 

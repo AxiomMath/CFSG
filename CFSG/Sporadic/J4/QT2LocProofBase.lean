@@ -38,9 +38,9 @@ end Mat
 
 theorem pathVecFrom_toVec : ∀ (path : List ℕ) (v : V2),
     (pathVecFrom path v).toVec = v.toVec ᵥ* rowsMatrix (pathRows path)
-  | [], v => by simp [pathVecFrom, pathRows, rowsMatrix_idRows]
+  | [], v => by simp [pathVecFrom_nil, pathRows, rowsMatrix_idRows]
   | l :: ls, v => by
-    rw [pathVecFrom, pathVecFrom_toVec ls, frApply_toVec_eq_vecMul, pathRows,
+    rw [pathVecFrom_cons, pathVecFrom_toVec ls, frApply_toVec_eq_vecMul, pathRows,
       rowsMatrix_mulRows, Matrix.vecMul_vecMul]
 
 theorem subReps_get {ℓ : ℕ} (hℓ : ℓ < 7) : subReps[ℓ]! = subReps[ℓ]?.getD 0 := by

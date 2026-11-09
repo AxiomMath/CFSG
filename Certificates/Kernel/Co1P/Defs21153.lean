@@ -58,7 +58,7 @@ open CFSG.KC.Co1B CFSG.KC.Co1P CFSG.KC.Co1F2 CFSG.KD.Co1P CFSG.KLie.CT CFSG.KC.T
 
 @[expose] noncomputable def farAtK (t M k : Nat) : Bool :=
   strictB (xeP k) fun X => strictB (xeiP k) fun Xi =>
-    andB (orB (Nat.beq (dclsK (mulWK (mulWK Xi (RF t)) X)) 3) (bit M k))
+    andB (orB (bit M k) (Nat.beq (dclsK (mulWK (mulWK Xi (RF t)) X)) 3))
       (strictB (mulWK (mulWK (mulWK (RFX t) X) AL) (mulWK Xi (RFXi t))) fun G =>
         (fun d => orB (orB (Nat.beq d 1) (Nat.beq d 2)) (andB (Nat.beq d 3)
           ((fun w => andB (notB (Nat.beq w 0)) ((fun kk => andB (Nat.blt kk 12600)

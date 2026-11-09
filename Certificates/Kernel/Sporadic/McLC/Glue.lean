@@ -8,6 +8,7 @@ public import CFSG.Sporadic.SmallOddCore.LocalSpec
 public import CFSG.Certificates.Kernel.MonsterB.Co2PermSound
 public import CFSG.ClassicalInvolution.SmallCases.Sporadic.McLCheckInputs
 public import CFSG.Certificates.Kernel.SporSch.KeySearch
+public import CFSG.Sporadic.McL.VecSpec
 
 public section
 
@@ -323,25 +324,114 @@ theorem sg_mem {l : Nat} (hl : l < 10) : sg l ∈ KK := by
     rw [e] at h
     exact Subgroup.inv_mem _ h
 
-noncomputable abbrev gsK (j : Nat) : Equiv.Perm (Fin 275) := sg (2 * j)
+noncomputable abbrev vecMcK (k : Nat) : Fin 21 → ZMod 3 := CFSG.F3.Native.vecOf 21 McLK.OJ.pts[k]!
+
+theorem vfK : CFSG.Sporadic.VecOrbit.VecFacts 21 (CFSG.Sporadic.McL.Native.matA ())
+    (CFSG.Sporadic.McL.Native.matB ()) McLK.OJ :=
+  CFSG.Sporadic.VecOrbit.vecOrbitOK_facts (McLK.orb_eq.2 0)
+
+@[expose] def linMcK (g : Equiv.Perm (Fin 275)) : Prop :=
+  ∃ M : Matrix (Fin 21) (Fin 21) (ZMod 3), ∀ x < 275, vecMcK (actN g x) = M.mulVec (vecMcK x)
+
+theorem linMcK_mul {g h : Equiv.Perm (Fin 275)} (hg : linMcK g) (hh : linMcK h) : linMcK (g * h) := by
+  obtain ⟨M, hM⟩ := hg
+  obtain ⟨N, hN⟩ := hh
+  exact ⟨M * N, fun x hx => by rw [actN_mul, hM _ (actN_lt h hx), hN x hx, Matrix.mulVec_mulVec]⟩
+
+theorem linMcK_one : linMcK 1 := ⟨1, fun x _ => by rw [actN_one, Matrix.one_mulVec]⟩
+
+theorem linMcK_pow {g : Equiv.Perm (Fin 275)} (hg : linMcK g) (k : Nat) : linMcK (g ^ k) := by
+  induction k with
+  | zero => exact linMcK_one
+  | succ k ih =>
+    rw [pow_succ]
+    exact linMcK_mul ih hg
+
+@[expose] noncomputable def linSG : Subgroup (Equiv.Perm (Fin 275)) where
+  carrier := {g | linMcK g}
+  mul_mem' := linMcK_mul
+  one_mem' := linMcK_one
+  inv_mem' := by
+    intro g hg
+    have h1 : g ^ (orderOf g - 1) * g = 1 := by
+      rw [← pow_succ, Nat.sub_add_cancel (orderOf_pos g), pow_orderOf_eq_one]
+    change linMcK g⁻¹
+    rw [← eq_inv_of_mul_eq_one_left h1]
+    exact linMcK_pow hg _
+
+theorem alP_lin : alP ∈ linSG := by
+  change linMcK alP
+  refine ⟨CFSG.F3.Native.toMat 21 (CFSG.Sporadic.McL.Native.matA ()), fun x hx => ?_⟩
+  have hs : x < McLK.OJ.pts.size := by rw [McLK.size_OJ]; exact hx
+  rw [actN_alP hx, ← McLK.al_get hx]
+  exact (vfK.alpha x hs).2
+
+theorem beP_lin : beP ∈ linSG := by
+  change linMcK beP
+  refine ⟨CFSG.F3.Native.toMat 21 (CFSG.Sporadic.McL.Native.matB ()), fun x hx => ?_⟩
+  have hs : x < McLK.OJ.pts.size := by rw [McLK.size_OJ]; exact hx
+  rw [actN_beP hx, ← McLK.be_get hx]
+  exact (vfK.beta x hs).2
+
+theorem qAB_lin (l : Nat) : qAB l ∈ linSG := by
+  unfold qAB
+  split_ifs
+  · exact alP_lin
+  · exact beP_lin
+
+theorem KK_le : KK ≤ linSG := by
+  rw [Subgroup.closure_le]
+  intro g hg
+  rw [SetLike.mem_coe]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+  obtain h | h := hg
+  · rw [h, sg0_eq]
+    exact wp_mem (S := linSG) fun c _ => qAB_lin c
+  · rw [h, sg2_eq]
+    exact wp_mem (S := linSG) fun c _ => qAB_lin c
+
+theorem qkPtLt : ∀ t < QK.size, QK[t]! < 275 := by decide
+
+theorem fixQOne {g : Equiv.Perm (Fin 275)} (hg : g ∈ KK)
+    (hfix : ∀ t < QK.size, actN g QK[t]! = QK[t]!) : g = 1 := by
+  obtain ⟨M, hM⟩ : linMcK g := KK_le hg
+  have hM1 : M = 1 := by
+    refine CFSG.Sporadic.VecOrbit.eq_one_of_basisOK McLK.basis_ok M fun i hi => ?_
+    have hi' : i < QK.size := hi
+    change M.mulVec (CFSG.F3.Native.vecOf 21 (QK.map fun r => McLK.OJ.pts[r]!)[i]!) =
+      CFSG.F3.Native.vecOf 21 (QK.map fun r => McLK.OJ.pts[r]!)[i]!
+    have e : (QK.map fun r => McLK.OJ.pts[r]!)[i]! = McLK.OJ.pts[QK[i]!]! := by
+      rw [getElem!_pos _ i (by simpa using hi'), Array.getElem_map, getElem!_pos QK i hi']
+    rw [e]
+    have h := hM _ (qkPtLt i hi')
+    rw [hfix i hi'] at h
+    exact h.symm
+  apply perm_ext
+  intro x hx
+  rw [actN_one]
+  have h := hM x hx
+  rw [hM1, Matrix.one_mulVec] at h
+  exact vfK.inj _ (by rw [McLK.size_OJ]; exact actN_lt g hx) _ (by rw [McLK.size_OJ]; exact hx) h
+
+noncomputable abbrev gsK (j : Nat) : KK :=
+  if h : 2 * j < 10 then ⟨sg (2 * j), sg_mem h⟩ else 1
+
+theorem gsK_val {j : Nat} (hj : 2 * j < 10) : (gsK j : Equiv.Perm (Fin 275)) = sg (2 * j) := by
+  unfold gsK
+  rw [dif_pos hj]
+
+theorem idx_coeK (g : KK) (x : Nat) : idx 275 g x = idx 275 (g : Equiv.Perm (Fin 275)) x := rfl
 
 theorem hrepK : ∀ j < lettersK.size / 2, Rep 275 lettersK[2 * j]! (gsK j) := by
   intro j hj
   rw [letters_get.1] at hj
-  exact rep_of_actN fun x hx => by rw [letters_get.2 _ (by omega) x hx, actN_sg (by omega) hx]
-
-theorem QK_get {t : Nat} (ht : t < 275) : QK[t]! = t := by
-  unfold QK
-  rw [getElem!_pos _ t (by simpa using ht)]
-  simp
-
-theorem sepK (g : Equiv.Perm (Fin 275)) (hg : ∀ t < QK.size, idx 275 g QK[t]! = QK[t]!) :
-    g = 1 := by
-  apply perm_ext
   intro x hx
-  have h := hg x (by simpa [QK] using hx)
-  rw [QK_get hx, idx_eq] at h
-  rw [h, actN_one]
+  rw [idx_coeK, gsK_val (by omega)]
+  exact (rep_of_actN fun y hy => by
+    rw [letters_get.2 _ (by omega) y hy, actN_sg (by omega) hy]) x hx
+
+theorem sepK (g : KK) (hg : ∀ t < QK.size, idx 275 g QK[t]! = QK[t]!) : g = 1 :=
+  Subtype.ext (fixQOne g.2 fun t ht => by rw [← idx_eq, ← idx_coeK]; exact hg t ht)
 
 theorem chainK :
     (∀ i < baseK.size, TreeFacts 275 (chainTrees 275 lettersK baseK)[i]!
@@ -357,46 +447,49 @@ theorem tree_size {l : Nat} (hl : l < 3) :
   rw [chain_eq.1, getElem!_pos _ l (by simpa using hl), Array.getElem_ofFn]
   exact pts_size (n := 275) (CNT := CNTJ) (PTS := PTSJ) (POS := POSJ) (PAR := PARJ) (LAB := LABJ) l
 
+theorem prod_Ico_three (f : ℕ → ℕ) : ∏ l ∈ Finset.Ico 0 3, f l = f 0 * (f 1 * f 2) := by
+  have e : Finset.Ico 0 3 = {0, 1, 2} := by decide
+  rw [e, Finset.prod_insert (by decide), Finset.prod_insert (by decide), Finset.prod_singleton]
+
+@[expose] noncomputable def treeSz (l : Nat) : Nat := ((chainTrees 275 lettersK baseK)[l]!).pts.size
+
+theorem treeSz_eq {l : Nat} (hl : l < 3) : treeSz l = CNTJ l := tree_size hl
+
 theorem card_level : Nat.card (levelGroup lettersK baseK (pairG gsK) 0) = 40320 := by
   rw [chainK.2.2 0 (Nat.zero_le _)]
+  change ∏ l ∈ Finset.Ico 0 baseK.size, treeSz l = 40320
   have hb : baseK.size = 3 := rfl
-  have e : Finset.Ico 0 3 = {0, 1, 2} := by decide
-  rw [hb, e, Finset.prod_insert (by decide), Finset.prod_insert (by decide), Finset.prod_singleton,
-    tree_size (by norm_num), tree_size (by norm_num), tree_size (by norm_num)]
+  rw [hb, prod_Ico_three, treeSz_eq (by norm_num), treeSz_eq (by norm_num), treeSz_eq (by norm_num)]
   rfl
 
-theorem pairG_eq {l : Nat} (hl : l < 10) : pairG gsK l = sg l := by
+theorem pairG_eq {l : Nat} (hl : l < 10) : ((pairG gsK l : KK) : Equiv.Perm (Fin 275)) = sg l := by
   unfold pairG
   split_ifs with h
-  · change sg (2 * (l / 2)) = sg l
+  · rw [gsK_val (by omega)]
     congr 1
     omega
-  · change (sg (2 * (l / 2)))⁻¹ = sg l
-    rw [sg_odd hl (by omega)]
+  · rw [Subgroup.coe_inv, gsK_val (by omega), sg_odd hl (by omega)]
     congr 2
     omega
 
-theorem level_eq : levelGroup lettersK baseK (pairG gsK) 0 = KK := by
-  apply le_antisymm
-  · unfold levelGroup lettersGroup
-    rw [Subgroup.closure_le]
-    rintro _ ⟨l, hl, rfl⟩
-    have hl' : l < 10 := by
-      have := mem_levelLetters_zero.1 hl
-      rwa [letters_get.1] at this
-    rw [pairG_eq hl']
-    exact sg_mem hl'
-  · rw [Subgroup.closure_le]
-    intro g hg
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
-    obtain h | h := hg
-    · rw [h, ← pairG_eq (l := 0) (by norm_num)]
-      exact lG_mem (mem_levelLetters_zero.2 (by rw [letters_get.1]; norm_num))
-    · rw [h, ← pairG_eq (l := 2) (by norm_num)]
-      exact lG_mem (mem_levelLetters_zero.2 (by rw [letters_get.1]; norm_num))
+theorem level_eq : (levelGroup lettersK baseK (pairG gsK) 0).map KK.subtype = KK := by
+  apply le_antisymm (Subgroup.map_subtype_le _)
+  unfold levelGroup lettersGroup
+  rw [MonoidHom.map_closure, Subgroup.closure_le]
+  intro g hg
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+  obtain h | h := hg
+  · rw [h, ← pairG_eq (l := 0) (by norm_num)]
+    rw [← Subgroup.subtype_apply]
+    exact Subgroup.subset_closure (Set.mem_image_of_mem KK.subtype
+      ⟨0, mem_levelLetters_zero.2 (by rw [letters_get.1]; norm_num), rfl⟩)
+  · rw [h, ← pairG_eq (l := 2) (by norm_num)]
+    rw [← Subgroup.subtype_apply]
+    exact Subgroup.subset_closure (Set.mem_image_of_mem KK.subtype
+      ⟨2, mem_levelLetters_zero.2 (by rw [letters_get.1]; norm_num), rfl⟩)
 
 theorem card_KK : Nat.card KK = 40320 := by
-  rw [← level_eq, card_level]
+  rw [← level_eq, Subgroup.card_map_of_injective KK.subtype_injective, card_level]
 
 theorem card_K : Nat.card (genOf 275 McLData.kgens) = 40320 := by
   rw [genOf_kgens, card_KK]
@@ -450,8 +543,9 @@ theorem TT_spec {i k : Nat} (hi : i < 3) (hk : k < CNTJ i) {x : Nat} (hx : x < 2
   unfold trOK at h
   simp only [strictB_eq, bAnd_iff, listEqK_iff] at h
   obtain ⟨h1, h2⟩ := h
-  have hw := walkF_eq chain_hyp hi k k hk (Nat.le_refl _) QL (fun y hy => by simpa [QL] using hy)
-  have hm : x ∈ QL := by simpa [QL] using hx
+  have hw := walkF_eq chain_hyp hi k k hk (Nat.le_refl _) QAll
+    (fun y hy => by simpa [QAll] using hy)
+  have hm : x ∈ QAll := by simpa [QAll] using hx
   unfold walkK at h1
   rw [hw] at h1
   exact ⟨(List.map_inj_left.1 h1 x hm).symm, Nat.eq_of_beq_eq_true (allN_spec h2 x hx)⟩

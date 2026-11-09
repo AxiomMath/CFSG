@@ -18,7 +18,7 @@ open scoped Matrix
 theorem seqN_eq {α : Sort _} (y : Nat) (k : Nat → α) : seqN y k = k y := by
   cases y <;> rfl
 
-theorem getD_cases (L : List Nat) (c x : Nat) : L.getD c x ∈ L ∨ L.getD c x = x := by
+theorem getD_cases {α : Type*} (L : List α) (c : Nat) (x : α) : L.getD c x ∈ L ∨ L.getD c x = x := by
   rw [List.getD_eq_getElem?_getD]
   cases h : L[c]? with
   | none => exact Or.inr rfl
@@ -211,21 +211,30 @@ open CFSG.KC.Co1F2 (unpackR bind_sound)
 open CFSG.Sporadic.SmallF2.Native CFSG.SectionRank.LocalWitness
 open scoped Matrix
 
-theorem exists_local3_of_K {d A B : Nat} {csA csB ms : List Char} {m : Nat} {D : Local3Data m}
-    {root : Nat} (hA : m1Bind csA d A = true) (hB : m1Bind csB d B = true)
+end CFSG.KC.Local3K
+
+end
+
+namespace CFSG.KC.Local3K
+
+open CFSG.KC.M1F2 CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator
+open CFSG.KC.OpsF2K CFSG.Sporadic.SmallF2
+open CFSG.KC.Co1F2 (unpackR bind_sound)
+open CFSG.Sporadic.SmallF2.Native CFSG.SectionRank.LocalWitness
+open scoped Matrix
+
+theorem local3_units {d A B : Nat} {csA csB : List Char} {m : Nat} {D : Local3Data m}
+    (hA : m1Bind csA d A = true) (hB : m1Bind csB d B = true)
     (hsA : D.seedA = String.ofList csA) (hsB : D.seedB = String.ofList csB)
-    (hms : D.masks = String.ofList ms) (h : local3K d A B ms D root = true) :
+    (hord : ordsK d A B D (gensK d A B D) = true) :
     ∃ x : Fin m → (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ,
-      (∀ r ∈ D.rels, FreeGroup.lift x (FreeGroup.mk r) = 1) ∧
       (∀ i : Fin m, x i ^ D.ords.getD i 0 = 1) ∧
-      D.n ≤ Nat.card (Subgroup.closure (Set.range x)) := by
+      (∀ X ∈ gensK d A B D, ∃ i : Fin m, rowsMatrix d (unpackR d X) = valHom _ (x i)) ∧
+      ∀ w : List (Fin m × Bool), rowsMatrix d (unpackR d (evalGenK d (gensK d A B D)
+        (invsK d D (gensK d A B D)) w)) = valHom _ (FreeGroup.lift x (FreeGroup.mk w)) := by
   classical
-  clear hms
   set S := CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB with hS
-  unfold local3K at h
-  generalize hGd : gensK d A B D = G at h
-  simp only [Bool.and_eq_true] at h
-  obtain ⟨⟨hord, hrel⟩, horb⟩ := h
+  generalize hGd : gensK d A B D = G at hord ⊢
   unfold ordsK at hord
   simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range] at hord
   obtain ⟨⟨⟨⟨⟨⟨-, hoA⟩, hoB⟩, hlen⟩, -⟩, -⟩, hords⟩ := hord
@@ -287,65 +296,274 @@ theorem exists_local3_of_K {d A B : Nat} {csA csB ms : List Char} {m : Nat} {D :
       unfold invsK
       rw [List.getD_eq_getElem _ _ (by simp), List.getElem_map, List.getElem_range]
     rw [e, mat_pow (by have := hlt i; omega), hxval, valHom_inv_of_pow S (hne i) (hxpow i)]
-  have : Finite Sˣ := Finite.of_injective (valHom S) (valHom_injective S)
-  refine ⟨x, fun r hr => ?_, hxpow, ?_⟩
-  · unfold relsK at hrel
-    rw [List.all_eq_true] at hrel
-    have e := congrArg (fun X => rowsMatrix d (unpackR d X)) (Nat.eq_of_beq_eq_true (hrel r hr))
-    rw [evalGenK_mat hxval hxinv, mat_id, ← map_one (valHom S)] at e
-    exact valHom_injective S e
-  ·
-    let P : Nat → Prop := fun v => ∃ g ∈ Subgroup.closure (Set.range x),
-      toVecD d v = toVecD d root ᵥ* valHom S g
-    have hstep : ∀ v, P v → ∀ X ∈ G, P (vmF d X v) := by
-      rintro v ⟨g, hg, hv⟩ X hX
-      obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hX
-      have hj' : j < m := by rw [← hGlen]; exact hj
-      have hXj : G[j] = G.getD (⟨j, hj'⟩ : Fin m) (idF d) := (List.getD_eq_getElem _ _ hj).symm
-      refine ⟨g * x ⟨j, hj'⟩, Subgroup.mul_mem _ hg (Subgroup.subset_closure ⟨_, rfl⟩), ?_⟩
-      rw [vec_vmF, hv, hXj, hxval, Matrix.vecMul_vecMul, map_mul]
-    have hroot : P root := ⟨1, Subgroup.one_mem _, by rw [map_one, Matrix.vecMul_one]⟩
-    unfold orbitK at horb
-    rw [Bool.and_eq_true, decide_eq_true_eq] at horb
-    obtain ⟨-, horb⟩ := horb
-    generalize hres : orbK d D.n G (2 * D.n + 2) 1 [root] [] (ms.map fun c => c.toNat - 48) [root]
-      = res at horb
-    rcases res with _ | out
-    · exact absurd horb Bool.false_ne_true
-    have hout := orbK_inv P hstep _ _ _ _ _ _ out
-      (fun v hv => by rw [List.mem_singleton.1 hv]; exact hroot)
-      (fun v hv => absurd hv List.not_mem_nil)
-      (fun v hv => by rw [List.mem_singleton.1 hv]; exact hroot) hres
-    change (decide (D.n ≤ out.length) && _) = true at horb
-    rw [Bool.and_eq_true, decide_eq_true_eq] at horb
-    obtain ⟨hn, horb⟩ := horb
-    generalize hsort : sortK ((out.reverse.take D.n).map fun v => v % 2 ^ d) = so at horb
-    rcases so with _ | s
-    · exact absurd horb Bool.false_ne_true
-    have hnd : ((out.reverse.take D.n).map fun v => v % 2 ^ d).Nodup :=
-      (sortK_perm hsort).nodup_iff.1 (strictInc_nodup horb)
-    set ws := out.reverse.take D.n with hws
-    have hwlen : ws.length = D.n := by
-      rw [hws, List.length_take, List.length_reverse]
-      omega
-    have hsem : ∀ i : Fin D.n, P (ws[i.val]'(by rw [hwlen]; exact i.2)) := by
-      intro i
-      refine hout _ (List.mem_reverse.1 (List.mem_of_mem_take (List.getElem_mem _)))
-    choose g hg hv using hsem
-    let F : Fin D.n → Subgroup.closure (Set.range x) := fun i => ⟨g i, hg i⟩
-    have hF : Function.Injective F := by
-      intro i j hij
-      have hgij : g i = g j := congrArg Subtype.val hij
-      have hveq := mod_eq_of_toVecD (Eq.trans (hv i) (Eq.trans
-        (congrArg (fun g' => toVecD d root ᵥ* valHom S g') hgij) (hv j).symm))
-      have hlen : ∀ k : Fin D.n, k.val < (ws.map fun v => v % 2 ^ d).length := fun k => by
-        rw [List.length_map, hwlen]
-        exact k.2
-      have := (hnd.getElem_inj_iff (hi := hlen i) (hj := hlen j)).1
-        (by rw [List.getElem_map, List.getElem_map]; exact hveq)
-      exact Fin.ext this
-    calc D.n = Nat.card (Fin D.n) := by simp
-      _ ≤ Nat.card (Subgroup.closure (Set.range x)) := Nat.card_le_card_of_injective F hF
+  refine ⟨x, hxpow, fun X hX => ?_, evalGenK_mat hxval hxinv⟩
+  · obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hX
+    have hj' : j < m := by rw [← hGlen]; exact hj
+    refine ⟨⟨j, hj'⟩, ?_⟩
+    rw [← hxval]
+    exact congrArg (fun X => rowsMatrix d (unpackR d X)) (List.getD_eq_getElem _ _ hj).symm
+
+theorem rels_of_relsK {d m : Nat} {S : Submonoid (Matrix (Fin d) (Fin d) (ZMod 2))}
+    {x : Fin m → Sˣ} {G Gi : List Nat}
+    (hW : ∀ w : List (Fin m × Bool), rowsMatrix d (unpackR d (evalGenK d G Gi w)) =
+      valHom S (FreeGroup.lift x (FreeGroup.mk w)))
+    {rs : List (List (Fin m × Bool))} (h : relsK d G Gi rs = true) :
+    ∀ r ∈ rs, FreeGroup.lift x (FreeGroup.mk r) = 1 := by
+  intro r hr
+  unfold relsK at h
+  rw [List.all_eq_true] at h
+  have e := congrArg (fun X => rowsMatrix d (unpackR d X)) (Nat.eq_of_beq_eq_true (h r hr))
+  rw [hW, mat_id, ← map_one (valHom S)] at e
+  exact valHom_injective S e
+
+theorem lift_posW {H : Type*} [Group H] {m : Nat} {x : Fin m → H} (hx : ∀ i, x i ^ 2 = 1)
+    (r : List (Fin m × Bool)) :
+    FreeGroup.lift x (FreeGroup.mk (posW r)) = FreeGroup.lift x (FreeGroup.mk r) := by
+  rw [FreeGroup.lift_mk, FreeGroup.lift_mk, posW, List.map_map]
+  congr 1
+  apply List.map_congr_left
+  rintro ⟨i, b⟩ -
+  have hi : (x i)⁻¹ = x i := inv_eq_of_mul_eq_one_left (by rw [← pow_two]; exact hx i)
+  cases b
+  · simp only [Function.comp_apply, Bool.cond_true, Bool.cond_false, hi]
+  · rfl
+
+theorem posOK_mem {m : Nat} {rq : List (List (Fin m × Bool))} :
+    ∀ (rs : List (List (Fin m × Bool))) (ix : List Nat), posOK rq rs ix = true →
+      ∀ r ∈ rs, posW r ∈ rq ∨ posW r = []
+  | [], [], _ => fun _ h => absurd h List.not_mem_nil
+  | r :: rs, k :: ks, h => by
+    rw [posOK, Bool.and_eq_true, decide_eq_true_eq] at h
+    intro r' hr'
+    rcases List.mem_cons.1 hr' with rfl | hr'
+    · rw [h.1]
+      exact getD_cases rq k []
+    · exact posOK_mem rs ks h.2 r' hr'
+  | [], _ :: _, h => by simp [posOK] at h
+  | _ :: _, [], h => by simp [posOK] at h
+
+theorem orbitK_points (P : Nat → Prop) {d n root : Nat} {G ds : List Nat}
+    (hstep : ∀ v, P v → ∀ X ∈ G, P (vmF d X v)) (hroot : P root)
+    (h : orbitK d n G ds root = true) :
+    ∃ ws : List Nat, ws.length = n ∧ (ws.map fun v => v % 2 ^ d).Nodup ∧ ∀ v ∈ ws, P v := by
+  unfold orbitK at h
+  rw [Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨-, h⟩ := h
+  generalize hres : orbK d n G (2 * n + 2) 1 [root] [] ds [root] = res at h
+  rcases res with _ | out
+  · exact absurd h Bool.false_ne_true
+  have hout := orbK_inv P hstep _ _ _ _ _ _ out
+    (fun v hv => by rw [List.mem_singleton.1 hv]; exact hroot)
+    (fun v hv => absurd hv List.not_mem_nil)
+    (fun v hv => by rw [List.mem_singleton.1 hv]; exact hroot) hres
+  change (decide (n ≤ out.length) && _) = true at h
+  rw [Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨hn, h⟩ := h
+  generalize hsort : sortK ((out.reverse.take n).map fun v => v % 2 ^ d) = so at h
+  rcases so with _ | s
+  · exact absurd h Bool.false_ne_true
+  refine ⟨out.reverse.take n, ?_, (sortK_perm hsort).nodup_iff.1 (strictInc_nodup h),
+    fun v hv => hout v (List.mem_reverse.1 (List.mem_of_mem_take hv))⟩
+  rw [List.length_take, List.length_reverse]
+  omega
+
+theorem fin_eq_of_toVecD {d : Nat} {ws : List Nat} (hnd : (ws.map fun v => v % 2 ^ d).Nodup)
+    {i j : Fin ws.length} (h : toVecD d ws[i] = toVecD d ws[j]) : i = j := by
+  have hm := mod_eq_of_toVecD h
+  have hlen : ∀ k : Fin ws.length, k.val < (ws.map fun v => v % 2 ^ d).length := fun k => by
+    rw [List.length_map]
+    exact k.2
+  exact Fin.ext ((hnd.getElem_inj_iff (hi := hlen i) (hj := hlen j)).1
+    (by rw [List.getElem_map, List.getElem_map]; exact hm))
+
+theorem card_le_of_points {d : Nat} {S : Submonoid (Matrix (Fin d) (Fin d) (ZMod 2))} [Finite Sˣ]
+    {H : Subgroup Sˣ} {v₀ : Nat} {ws : List Nat} (hnd : (ws.map fun v => v % 2 ^ d).Nodup)
+    (hP : ∀ v ∈ ws, ∃ g ∈ H, toVecD d v = toVecD d v₀ ᵥ* valHom S g) :
+    ws.length ≤ Nat.card H := by
+  have s : ∀ i : Fin ws.length, ∃ g ∈ H, toVecD d ws[i] = toVecD d v₀ ᵥ* valHom S g :=
+    fun i => hP _ (List.getElem_mem _)
+  choose g hg hv using s
+  let F : Fin ws.length → H := fun i => ⟨g i, hg i⟩
+  have hF : Function.Injective F := by
+    intro i j hij
+    have hgij : g i = g j := congrArg Subtype.val hij
+    exact fin_eq_of_toVecD hnd (by rw [hv, hv, hgij])
+  calc ws.length = Nat.card (Fin ws.length) := by simp
+    _ ≤ Nat.card H := Nat.card_le_card_of_injective F hF
+
+theorem card_le_of_points₂ {d : Nat} {S : Submonoid (Matrix (Fin d) (Fin d) (ZMod 2))}
+    [Finite Sˣ] {H : Subgroup Sˣ} {v₁ v₂ : Nat} {ws₁ ws₂ : List Nat}
+    (hnd₁ : (ws₁.map fun v => v % 2 ^ d).Nodup) (hnd₂ : (ws₂.map fun v => v % 2 ^ d).Nodup)
+    (hP₁ : ∀ v ∈ ws₁, ∃ g ∈ H, toVecD d v = toVecD d v₁ ᵥ* valHom S g)
+    (hP₂ : ∀ v ∈ ws₂, ∃ h ∈ H, toVecD d v₁ ᵥ* valHom S h = toVecD d v₁ ∧
+      toVecD d v = toVecD d v₂ ᵥ* valHom S h) :
+    ws₁.length * ws₂.length ≤ Nat.card H := by
+  have s₁ : ∀ i : Fin ws₁.length, ∃ g ∈ H, toVecD d ws₁[i] = toVecD d v₁ ᵥ* valHom S g :=
+    fun i => hP₁ _ (List.getElem_mem _)
+  have s₂ : ∀ k : Fin ws₂.length, ∃ h ∈ H, toVecD d v₁ ᵥ* valHom S h = toVecD d v₁ ∧
+      toVecD d ws₂[k] = toVecD d v₂ ᵥ* valHom S h := fun k => hP₂ _ (List.getElem_mem _)
+  choose g hg hv using s₁
+  choose h hh hfix hw using s₂
+  have key : ∀ i k, toVecD d v₁ ᵥ* valHom S (h k * g i) = toVecD d ws₁[i] := by
+    intro i k
+    rw [map_mul, ← Matrix.vecMul_vecMul, hfix, hv]
+  let F : Fin ws₁.length × Fin ws₂.length → H :=
+    fun p => ⟨h p.2 * g p.1, H.mul_mem (hh p.2) (hg p.1)⟩
+  have hF : Function.Injective F := by
+    rintro ⟨i, k⟩ ⟨i', k'⟩ hij
+    have e : h k * g i = h k' * g i' := congrArg Subtype.val hij
+    have hi : i = i' := fin_eq_of_toVecD hnd₁ (by rw [← key i k, ← key i' k', e])
+    subst hi
+    have ehk : h k = h k' := mul_right_cancel e
+    have hk : k = k' := fin_eq_of_toVecD hnd₂ (by rw [hw, hw, ehk])
+    rw [hk]
+  calc ws₁.length * ws₂.length = Nat.card (Fin ws₁.length × Fin ws₂.length) := by simp
+    _ ≤ Nat.card H := Nat.card_le_card_of_injective F hF
+
+end CFSG.KC.Local3K
+
+public section
+
+namespace CFSG.KC.Local3K
+
+open CFSG.KC.M1F2 CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator
+open CFSG.KC.OpsF2K CFSG.Sporadic.SmallF2
+open CFSG.KC.Co1F2 (unpackR bind_sound)
+open CFSG.Sporadic.SmallF2.Native CFSG.SectionRank.LocalWitness
+open scoped Matrix
+
+theorem exists_local3_of_K {d A B : Nat} {csA csB ms : List Char} {m : Nat} {D : Local3Data m}
+    {root : Nat} (hA : m1Bind csA d A = true) (hB : m1Bind csB d B = true)
+    (hsA : D.seedA = String.ofList csA) (hsB : D.seedB = String.ofList csB)
+    (_hms : D.masks = String.ofList ms) (h : local3K d A B ms D root = true) :
+    ∃ x : Fin m → (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ,
+      (∀ r ∈ D.rels, FreeGroup.lift x (FreeGroup.mk r) = 1) ∧
+      (∀ i : Fin m, x i ^ D.ords.getD i 0 = 1) ∧
+      D.n ≤ Nat.card (Subgroup.closure (Set.range x)) := by
+  classical
+  unfold local3K at h
+  simp only [Bool.and_eq_true] at h
+  obtain ⟨⟨hord, hrel⟩, horb⟩ := h
+  obtain ⟨x, hpow, hG, hW⟩ := local3_units hA hB hsA hsB hord
+  refine ⟨x, rels_of_relsK hW hrel, hpow, ?_⟩
+  have : Finite (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ :=
+    Finite.of_injective (valHom _) (valHom_injective _)
+  obtain ⟨ws, hlen, hnd, hP⟩ := orbitK_points (fun v => ∃ g ∈ Subgroup.closure (Set.range x),
+      toVecD d v = toVecD d root ᵥ* valHom _ g)
+    (fun v ⟨g, hg, hv⟩ X hX => by
+      obtain ⟨i, hi⟩ := hG X hX
+      exact ⟨g * x i, Subgroup.mul_mem _ hg (Subgroup.subset_closure ⟨i, rfl⟩), by
+        rw [vec_vmF, hv, hi, Matrix.vecMul_vecMul, map_mul]⟩)
+    ⟨1, Subgroup.one_mem _, by rw [map_one, Matrix.vecMul_one]⟩ horb
+  rw [← hlen]
+  exact card_le_of_points hnd hP
+
+theorem exists_local3_of_K2 {d A B : Nat} {csA csB ms₁ ms₂ : List Char} {m : Nat}
+    {D : Local3Data m} {G : List Nat} {rq : List (List (Fin m × Bool))} {ix : List Nat}
+    {v₁ v₂ n₁ n₂ : Nat} {kw : List (List (Fin m × Bool))}
+    (hA : m1Bind csA d A = true) (hB : m1Bind csB d B = true)
+    (hsA : D.seedA = String.ofList csA) (hsB : D.seedB = String.ofList csB)
+    (hG : gensK d A B D = G) (h : local3K2 d A B D G rq ix ms₁ ms₂ v₁ v₂ n₁ n₂ kw = true) :
+    ∃ x : Fin m → (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ,
+      (∀ r ∈ D.rels, FreeGroup.lift x (FreeGroup.mk r) = 1) ∧
+      (∀ i : Fin m, x i ^ D.ords.getD i 0 = 1) ∧
+      D.n ≤ Nat.card (Subgroup.closure (Set.range x)) := by
+  classical
+  subst hG
+  unfold local3K2 at h
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨⟨⟨⟨⟨⟨⟨hord, h2⟩, hrel⟩, hpos⟩, horb₁⟩, hfix⟩, horb₂⟩, hn⟩ := h
+  obtain ⟨x, hpow, hG, hW⟩ := local3_units hA hB hsA hsB hord
+  have hq := rels_of_relsK hW hrel
+  rw [List.all_eq_true] at h2
+  have hx2 : ∀ i, x i ^ 2 = 1 := fun i => by
+    have e := of_decide_eq_true (h2 i (List.mem_range.2 i.2))
+    have h := hpow i
+    rwa [e] at h
+  refine ⟨x, fun r hr => ?_, hpow, ?_⟩
+  · rw [← lift_posW hx2]
+    rcases posOK_mem D.rels ix hpos r hr with h | h
+    · exact hq _ h
+    · rw [h, ← FreeGroup.one_eq_mk, map_one]
+  have : Finite (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ :=
+    Finite.of_injective (valHom _) (valHom_injective _)
+  obtain ⟨ws₁, hl₁, hnd₁, hP₁⟩ := orbitK_points (fun v => ∃ g ∈ Subgroup.closure (Set.range x),
+      toVecD d v = toVecD d v₁ ᵥ* valHom _ g)
+    (fun v ⟨g, hg, hv⟩ X hX => by
+      obtain ⟨i, hi⟩ := hG X hX
+      exact ⟨g * x i, Subgroup.mul_mem _ hg (Subgroup.subset_closure ⟨i, rfl⟩), by
+        rw [vec_vmF, hv, hi, Matrix.vecMul_vecMul, map_mul]⟩)
+    ⟨1, Subgroup.one_mem _, by rw [map_one, Matrix.vecMul_one]⟩ horb₁
+  have hK : ∀ X ∈ kw.map (evalGenK d (gensK d A B D) (invsK d D (gensK d A B D))),
+      ∃ k ∈ Subgroup.closure (Set.range x), rowsMatrix d (unpackR d X) = valHom _ k ∧
+        toVecD d v₁ ᵥ* valHom _ k = toVecD d v₁ := by
+    intro X hX
+    have hb := Nat.eq_of_beq_eq_true (List.all_eq_true.1 hfix X hX)
+    obtain ⟨w, -, rfl⟩ := List.mem_map.1 hX
+    refine ⟨FreeGroup.lift x (FreeGroup.mk w), ?_, hW w, ?_⟩
+    · rw [← FreeGroup.range_lift_eq_closure]
+      exact ⟨_, rfl⟩
+    · rw [← hW w, ← vec_vmF, hb]
+  obtain ⟨ws₂, hl₂, hnd₂, hP₂⟩ := orbitK_points (fun v => ∃ k ∈ Subgroup.closure (Set.range x),
+      toVecD d v₁ ᵥ* valHom _ k = toVecD d v₁ ∧ toVecD d v = toVecD d v₂ ᵥ* valHom _ k)
+    (fun v ⟨k, hk, hfx, hv⟩ X hX => by
+      obtain ⟨k', hk', hX', hf'⟩ := hK X hX
+      exact ⟨k * k', Subgroup.mul_mem _ hk hk',
+        by rw [map_mul, ← Matrix.vecMul_vecMul, hfx, hf'],
+        by rw [vec_vmF, hv, hX', Matrix.vecMul_vecMul, map_mul]⟩)
+    ⟨1, Subgroup.one_mem _, by rw [map_one, Matrix.vecMul_one],
+      by rw [map_one, Matrix.vecMul_one]⟩ horb₂
+  calc D.n ≤ n₁ * n₂ := hn
+    _ = ws₁.length * ws₂.length := by rw [hl₁, hl₂]
+    _ ≤ Nat.card (Subgroup.closure (Set.range x)) := card_le_of_points₂ hnd₁ hnd₂ hP₁ hP₂
+
+theorem exists_local3_of_K3 {d A B : Nat} {csA csB ms₁ ms₂ : List Char} {m : Nat}
+    {D : Local3Data m} {G : List Nat} {v₁ v₂ n₁ n₂ : Nat} {kw : List (List (Fin m × Bool))}
+    (hA : m1Bind csA d A = true) (hB : m1Bind csB d B = true)
+    (hsA : D.seedA = String.ofList csA) (hsB : D.seedB = String.ofList csB)
+    (hG : gensK d A B D = G) (h : local3K3 d A B D G ms₁ ms₂ v₁ v₂ n₁ n₂ kw = true) :
+    ∃ x : Fin m → (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ,
+      (∀ r ∈ D.rels, FreeGroup.lift x (FreeGroup.mk r) = 1) ∧
+      (∀ i : Fin m, x i ^ D.ords.getD i 0 = 1) ∧
+      D.n ≤ Nat.card (Subgroup.closure (Set.range x)) := by
+  classical
+  subst hG
+  unfold local3K3 at h
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨⟨⟨⟨⟨hord, hrel⟩, horb₁⟩, hfix⟩, horb₂⟩, hn⟩ := h
+  obtain ⟨x, hpow, hG, hW⟩ := local3_units hA hB hsA hsB hord
+  refine ⟨x, rels_of_relsK hW hrel, hpow, ?_⟩
+  have : Finite (CFSG.Blueprint.NativeSporadic.seedMonoid 2 d 1 D.seedA D.seedB)ˣ :=
+    Finite.of_injective (valHom _) (valHom_injective _)
+  obtain ⟨ws₁, hl₁, hnd₁, hP₁⟩ := orbitK_points (fun v => ∃ g ∈ Subgroup.closure (Set.range x),
+      toVecD d v = toVecD d v₁ ᵥ* valHom _ g)
+    (fun v ⟨g, hg, hv⟩ X hX => by
+      obtain ⟨i, hi⟩ := hG X hX
+      exact ⟨g * x i, Subgroup.mul_mem _ hg (Subgroup.subset_closure ⟨i, rfl⟩), by
+        rw [vec_vmF, hv, hi, Matrix.vecMul_vecMul, map_mul]⟩)
+    ⟨1, Subgroup.one_mem _, by rw [map_one, Matrix.vecMul_one]⟩ horb₁
+  have hK : ∀ X ∈ kw.map (evalGenK d (gensK d A B D) (invsK d D (gensK d A B D))),
+      ∃ k ∈ Subgroup.closure (Set.range x), rowsMatrix d (unpackR d X) = valHom _ k ∧
+        toVecD d v₁ ᵥ* valHom _ k = toVecD d v₁ := by
+    intro X hX
+    have hb := Nat.eq_of_beq_eq_true (List.all_eq_true.1 hfix X hX)
+    obtain ⟨w, -, rfl⟩ := List.mem_map.1 hX
+    refine ⟨FreeGroup.lift x (FreeGroup.mk w), ?_, hW w, ?_⟩
+    · rw [← FreeGroup.range_lift_eq_closure]
+      exact ⟨_, rfl⟩
+    · rw [← hW w, ← vec_vmF, hb]
+  obtain ⟨ws₂, hl₂, hnd₂, hP₂⟩ := orbitK_points (fun v => ∃ k ∈ Subgroup.closure (Set.range x),
+      toVecD d v₁ ᵥ* valHom _ k = toVecD d v₁ ∧ toVecD d v = toVecD d v₂ ᵥ* valHom _ k)
+    (fun v ⟨k, hk, hfx, hv⟩ X hX => by
+      obtain ⟨k', hk', hX', hf'⟩ := hK X hX
+      exact ⟨k * k', Subgroup.mul_mem _ hk hk',
+        by rw [map_mul, ← Matrix.vecMul_vecMul, hfx, hf'],
+        by rw [vec_vmF, hv, hX', Matrix.vecMul_vecMul, map_mul]⟩)
+    ⟨1, Subgroup.one_mem _, by rw [map_one, Matrix.vecMul_one],
+      by rw [map_one, Matrix.vecMul_one]⟩ horb₂
+  calc D.n ≤ n₁ * n₂ := hn
+    _ = ws₁.length * ws₂.length := by rw [hl₁, hl₂]
+    _ ≤ Nat.card (Subgroup.closure (Set.range x)) := card_le_of_points₂ hnd₁ hnd₂ hP₁ hP₂
 
 end CFSG.KC.Local3K
 

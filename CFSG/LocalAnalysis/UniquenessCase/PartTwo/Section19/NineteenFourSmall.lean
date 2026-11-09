@@ -1,5 +1,6 @@
 module
 
+public import CFSG.Permutation.FinPackDec
 public import CFSG.GroupTheory.InvolutionPair
 public import CFSG.GroupTheory.TISylowLocal
 public import CFSG.Timmesfeld.Bridge.StrongEmbedding
@@ -55,10 +56,72 @@ private instance : DecidablePred (fun a : Equiv.Perm (Fin 5) =>
     ∀ b : Equiv.Perm (Fin 5), Perm5KleinHasGoodConj a b) :=
   fun a => Fintype.decidableForallFintype (p := fun b => Perm5KleinHasGoodConj a b)
 
+section P5Codes
+
+open CFSG.Permutation.FinPack
+
+@[expose] noncomputable def p5K4 (x a b : ℕ) : Bool :=
+  Nat.beq x (enc (1 : Equiv.Perm (Fin 5))) || Nat.beq x a || Nat.beq x b || Nat.beq x (mulK 5 a b)
+
+@[expose] noncomputable def p5NormK (a b c e : ℕ) : Bool :=
+  p5K4 (mulK 5 (mulK 5 (mulK 5 (mulK 5 c e) (invCK 5 c)) a)
+      (invCK 5 (mulK 5 (mulK 5 c e) (invCK 5 c)))) a b &&
+    p5K4 (mulK 5 (mulK 5 (mulK 5 (mulK 5 c e) (invCK 5 c)) b)
+      (invCK 5 (mulK 5 (mulK 5 c e) (invCK 5 c)))) a b
+
+@[expose] noncomputable def p5GoodK (a b c : ℕ) : Bool :=
+  evenK 5 c && (!p5NormK a b c a && !p5NormK a b c b && !p5NormK a b c (mulK 5 a b)) &&
+    (!p5NormK a b (invCK 5 c) a && !p5NormK a b (invCK 5 c) b &&
+      !p5NormK a b (invCK 5 c) (mulK 5 a b))
+
+theorem p5klein_walk : walkK 5 (fun a => !Nat.beq (mulK 5 a a) (enc (1 : Equiv.Perm (Fin 5))) ||
+    Nat.beq a (enc (1 : Equiv.Perm (Fin 5))) ||
+    walkK 5 (fun b => !Nat.beq (mulK 5 b b) (enc (1 : Equiv.Perm (Fin 5))) ||
+      !Nat.beq (mulK 5 a b) (mulK 5 b a) || Nat.beq b (enc (1 : Equiv.Perm (Fin 5))) ||
+      Nat.beq a b || !walkK 5 (fun c => !p5GoodK a b c) 5 0 0 0) 5 0 0 0) 5 0 0 0 = true := by
+  decide +kernel
+
+private theorem p5K4_enc (x a b : Equiv.Perm (Fin 5)) :
+    p5K4 (enc x) (enc a) (enc b) = true ↔ x ∈ perm5KleinSet a b := by
+  have hn : 5 ≤ 16 := by norm_num
+  simp only [p5K4, mulK_enc hn, beq_enc_eq_decide hn, Bool.or_eq_true, decide_eq_true_eq,
+    perm5KleinSet, Finset.mem_insert, Finset.mem_singleton, or_assoc]
+
+private theorem p5NormK_enc (a b c e : Equiv.Perm (Fin 5)) :
+    p5NormK (enc a) (enc b) (enc c) (enc e) = true ↔ Perm5KleinNormalizes a b c e := by
+  have hn : 5 ≤ 16 := by norm_num
+  simp only [p5NormK, mulK_enc hn, invCK_enc hn, Bool.and_eq_true, p5K4_enc]
+
 private lemma perm5_klein_pair_check : ∀ a b : Equiv.Perm (Fin 5),
     a * a = 1 → b * b = 1 → a * b = b * a → a ≠ 1 → b ≠ 1 → a ≠ b →
     ∃ c : Equiv.Perm (Fin 5), Perm5KleinGoodConj a b c := by
-  decide +kernel
+  have hn : 5 ≤ 16 := by norm_num
+  intro a b ha hb hab ha1 hb1 hab1
+  have h := walkK_sound p5klein_walk a
+  simp only [mulK_enc hn, beq_enc_eq_decide hn, ha, ha1, decide_true, decide_false,
+    Bool.not_true, Bool.false_or] at h
+  have h2 := walkK_sound h b
+  simp only [mulK_enc hn, beq_enc_eq_decide hn, hb, hab, hb1, hab1, decide_true, decide_false,
+    Bool.not_true, Bool.false_or, Bool.not_eq_true'] at h2
+  obtain ⟨c, hc⟩ := exists_of_walkK h2
+  refine ⟨c, ?_⟩
+  simp only [p5GoodK, mulK_enc hn, invCK_enc hn, evenK_enc_eq_decide hn, Bool.and_eq_true,
+    Bool.not_eq_true', decide_eq_true_eq] at hc
+  obtain ⟨⟨hs, ⟨h1, h2⟩, h3⟩, ⟨h4, h5⟩, h6⟩ := hc
+  have key : ∀ d : Equiv.Perm (Fin 5), p5NormK (enc a) (enc b) (enc d) (enc a) = false →
+      p5NormK (enc a) (enc b) (enc d) (enc b) = false →
+      p5NormK (enc a) (enc b) (enc d) (enc (a * b)) = false →
+      ∀ e ∈ perm5KleinSet a b, e ≠ 1 → ¬Perm5KleinNormalizes a b d e := by
+    intro d g1 g2 g3 e he he1 hN
+    simp only [perm5KleinSet, Finset.mem_insert, Finset.mem_singleton] at he
+    rcases he with rfl | rfl | rfl | rfl
+    · exact he1 rfl
+    · exact absurd ((p5NormK_enc _ _ _ _).2 hN) (by rw [g1]; decide)
+    · exact absurd ((p5NormK_enc _ _ _ _).2 hN) (by rw [g2]; decide)
+    · exact absurd ((p5NormK_enc _ _ _ _).2 hN) (by rw [g3]; decide)
+  exact ⟨hs, key c h1 h2 h3, key c⁻¹ h4 h5 h6⟩
+
+end P5Codes
 
 private lemma mem_perm5KleinSet_iff {a b x : Equiv.Perm (Fin 5)} (ha : a * a = 1)
     (hb : b * b = 1) (hab : a * b = b * a) (ha1 : a ≠ 1) (hb1 : b ≠ 1)

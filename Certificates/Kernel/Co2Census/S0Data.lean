@@ -56,7 +56,7 @@ end CertificateChecks.KernelCo2Census
 #kmisc_packarrs CertificateChecks.KernelCo2Census.TRt CertificateChecks.KernelCo2Census.trFlatM 22
 
 #kc_repo #kmisc_json_pack CertificateChecks.KernelCo2Census
-  "Certificates/Kernel/Co2Census/data/s0.json.gz" 7124715 13236028180953791388
+  "Certificates/Kernel/Co2Census/data/s0.json" 7124715 13236028180953791388
   (LP LPt 22) (LX LXt 20) (Lroots Lrt 0) (AB ABt 22) (ABI ABIt 22)
   (TP TPt 22) (TX TXt 20) (TG TGt 0) (TGR TGRt 22) (TPOS TPOSt 0)
   (C2331P C2331Pt 22) (C2331X C2331Xt 20) (C2331G C2331Gt 0) (C2331GR C2331GRt 22)

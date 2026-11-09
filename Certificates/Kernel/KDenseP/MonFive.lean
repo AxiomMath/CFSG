@@ -16,8 +16,7 @@ public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136106
 public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136107
 public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136108
 public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136109
-public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136110
-public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136111
+public import Certificates.Kernel.KDenseP.MonFiveCw
 public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136112
 public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136113
 public import CFSG.Certificates.Kernel.KDenseP.MonFive.R136114
@@ -82,7 +81,7 @@ theorem tp3_exact
     rw [tp3_getD_ne eqs nes hj] at v1 n
     obtain ⟨k, hk', hne⟩ := n k2
     rw [k1, h2] at hne
-    have hw : CertificateChecks.KernelKDense.wit 0 = aV () := if_pos rfl
+    have hw : CertificateChecks.KernelKDense.wit 0 = aV () := ite_eq_left rfl
     have hn : Native.evalWord [] (aV ()) = aV () := rfl
     rw [hw, hn] at hne
     unfold EdgeNoncomm.moveCheck
@@ -125,7 +124,8 @@ theorem m5_prod (p : List (List Native.Gen × List Native.Gen)) :
         stEqN 4 (CFSG.KD.M5RL.runCL p c (S (f20 c (nat_lit 3)))) (S (f20 c (nat_lit 4))) := by
   intro S c h
   unfold CFSG.KD.M5RL.chkRL chunkOKNL
-  rw [h] <;> rfl
+  rw [h]
+  rfl
 
 theorem snd_of_mem_nesOf {lo n : ℕ} {e : List Native.Gen × List Native.Gen}
     (h : e ∈ nesOf lo n) : e.2 = [] := by
@@ -150,7 +150,7 @@ theorem repMovesOf_of {lo n : ℕ}
         nesOf lo n := by
       unfold nesOf
       rw [List.mem_filterMap]
-      exact ⟨i, hi, by rw [if_neg (by rw [hk']; exact Bool.false_ne_true)]⟩
+      exact ⟨i, hi, by rw [ite_eq_right (by rw [hk']; exact Bool.false_ne_true)]⟩
     exact Or.inr (h ((fiveReps[lo + i]!).wa ++ (fiveReps[lo + i]!).wb, []) hm)
 
 open Lean in
@@ -179,58 +179,83 @@ macro "kd_m5p% " pre:ident w?:(num)? eqs:term:max nes:term:max : term => do
 
 theorem c13699 : agreeAll (relSeg 0 13) = true := (kd_m5p% CFSG.KD.M5R.c13699 (relSeg 0 13) []).1
 theorem c136100 : agreeAll (relSeg 13 12) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136100 (relSeg 13 12) []).1
+  (kd_m5p% CFSG.KD.M5R.c136100 165 (relSeg 13 12) []).1
 theorem c136101 : agreeAll (relSeg 25 10) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136101 (relSeg 25 10) []).1
-theorem c136102 : agreeAll (relSeg 35 6) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136102 24 (relSeg 35 6) []).1
-theorem c136103 : agreeAll (relSeg 41 6) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136103 18 (relSeg 41 6) []).1
+  (kd_m5p% CFSG.KD.M5R.c136101 186 (relSeg 25 10) []).1
+theorem g136102 : agreeAll (relSeg 35 2 ++ relSeg 39 2) = true :=
+  (kd_m5p% CFSG.KD.M5R.c136102 117 (relSeg 35 2 ++ relSeg 39 2) []).1
+theorem g136103 : agreeAll (relSeg 41 1 ++ relSeg 44 3) = true :=
+  (kd_m5p% CFSG.KD.M5R.c136103 135 (relSeg 41 1 ++ relSeg 44 3) []).1
 theorem c136104 : agreeAll (relSeg 47 10) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136104 (relSeg 47 10) []).1
+  (kd_m5p% CFSG.KD.M5R.c136104 180 (relSeg 47 10) []).1
 theorem c136105 : agreeAll (relSeg 57 11) = true :=
   (kd_m5p% CFSG.KD.M5R.c136105 (relSeg 57 11) []).1
 theorem c136106 : agreeAll (relTail 68) = true := (kd_m5p% CFSG.KD.M5R.c136106 (relTail 68) []).1
-theorem c136107 : agreeAll (normSeg 0 5) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136107 24 (normSeg 0 5) []).1
-theorem c136108 : agreeAll (normSeg 5 6) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136108 24 (normSeg 5 6) []).1
-theorem c136109 : agreeAll (normSeg 11 6) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136109 24 (normSeg 11 6) []).1
-theorem c136110 : agreeAll (normSeg 17 6) = true :=
-  (kd_m5p% CFSG.KD.M5R.c136110 27 (normSeg 17 6) []).1
-theorem c136111 : agreeAll (normTail 23) = true := (kd_m5p% CFSG.KD.M5R.c136111 (normTail 23) []).1
+theorem c136102 : agreeAll (relSeg 35 6) = true :=
+  (relSeg35_ok c13699 c136100 c136101 g136102 g136103 c136104 c136105 c136106).1
+theorem c136103 : agreeAll (relSeg 41 6) = true :=
+  (relSeg35_ok c13699 c136100 c136101 g136102 g136103 c136104 c136105 c136106).2
+
+theorem rel_ok : agreeAll relEqs = true :=
+  relDrop_ok (a := 0) (b := 13) c13699 (relDrop_ok (a := 13) (b := 12) c136100
+    (relDrop_ok (a := 25) (b := 10) c136101 (relDrop_ok (a := 35) (b := 6) c136102
+      (relDrop_ok (a := 41) (b := 6) c136103 (relDrop_ok (a := 47) (b := 10) c136104
+        (relDrop_ok (a := 57) (b := 11) c136105 c136106))))))
+
+theorem g136107 : agreeAll (normPick 0 [0, 1, 4, 6]) = true :=
+  (kd_m5p% CFSG.KD.M5R.c136107 129 (normPick 0 [0, 1, 4, 6]) []).1
+theorem g136108 : agreeAll (normPick 1 [0, 1, 4, 6]) = true :=
+  (kd_m5p% CFSG.KD.M5R.c136108 126 (normPick 1 [0, 1, 4, 6]) []).1
+theorem g136109 : agreeAll (normPick 2 [0, 1, 4, 6]) = true :=
+  (kd_m5p% CFSG.KD.M5R.c136109 135 (normPick 2 [0, 1, 4, 6]) []).1
+
+theorem normSeg_ok (lo n : ℕ) : agreeAll (normSeg lo n) = true :=
+  normSub_ok rel_ok g136107 g136108 g136109 fun _ hp =>
+    List.mem_of_mem_drop (List.mem_of_mem_take hp)
+
+theorem c136107 : agreeAll (normSeg 0 5) = true := normSeg_ok 0 5
+theorem c136108 : agreeAll (normSeg 5 6) = true := normSeg_ok 5 6
+theorem c136109 : agreeAll (normSeg 11 6) = true := normSeg_ok 11 6
+theorem c136110 : agreeAll (normSeg 17 6) = true := normSeg_ok 17 6
+theorem c136111 : agreeAll (normTail 23) = true :=
+  normSub_ok rel_ok g136107 g136108 g136109 fun _ hp => List.mem_of_mem_drop hp
 theorem c136112 : EdgeNoncomm.moveCheck fiveGens[8]! (aV ()) = true :=
   (kd_m5p% CFSG.KD.M5R.c136112 [] [(fiveGens[8]!, [])]).2 (fiveGens[8]!, [])
     (List.mem_singleton.2 rfl) rfl
 
-open Lean in
-macro "kd_m5pg% " pre:ident lo:term:max n:term:max : term =>
-  `((fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
-      (kd_m5p% $pre (repEqsOf $lo $n) (nesOf $lo $n)))
-
 theorem c136113 : agreeAll (repEqsOf 0 3) = true ∧ repMovesOf 0 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136113 0 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136113 270 (repEqsOf 0 3) (nesOf 0 3))
 theorem c136114 : agreeAll (repEqsOf 3 3) = true ∧ repMovesOf 3 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136114 3 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136114 282 (repEqsOf 3 3) (nesOf 3 3))
 theorem c136115 : agreeAll (repEqsOf 6 3) = true ∧ repMovesOf 6 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136115 6 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136115 272 (repEqsOf 6 3) (nesOf 6 3))
 theorem c136116 : agreeAll (repEqsOf 9 3) = true ∧ repMovesOf 9 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136116 9 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136116 291 (repEqsOf 9 3) (nesOf 9 3))
 theorem c136117 : agreeAll (repEqsOf 12 3) = true ∧ repMovesOf 12 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136117 12 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136117 268 (repEqsOf 12 3) (nesOf 12 3))
 theorem c136118 : agreeAll (repEqsOf 15 3) = true ∧ repMovesOf 15 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136118 15 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136118 282 (repEqsOf 15 3) (nesOf 15 3))
 theorem c136119 : agreeAll (repEqsOf 18 2) = true ∧ repMovesOf 18 2 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136119 18 2
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136119 200 (repEqsOf 18 2) (nesOf 18 2))
 theorem c136120 : agreeAll (repEqsOf 20 2) = true ∧ repMovesOf 20 2 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136120 20 2
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136120 203 (repEqsOf 20 2) (nesOf 20 2))
 theorem c136121 : agreeAll (repEqsOf 22 3) = true ∧ repMovesOf 22 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136121 22 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136121 305 (repEqsOf 22 3) (nesOf 22 3))
 theorem c136122 : agreeAll (repEqsOf 25 3) = true ∧ repMovesOf 25 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136122 25 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136122 284 (repEqsOf 25 3) (nesOf 25 3))
 theorem c136123 : agreeAll (repEqsOf 28 3) = true ∧ repMovesOf 28 3 = true :=
-  kd_m5pg% CFSG.KD.M5R.c136123 28 3
+  (fun h => ⟨h.1, repMovesOf_of fun e he => h.2 e he (snd_of_mem_nesOf he)⟩)
+    (kd_m5p% CFSG.KD.M5R.c136123 306 (repEqsOf 28 3) (nesOf 28 3))
 
 end CertificateChecks.KernelKDenseP.MonFive
 

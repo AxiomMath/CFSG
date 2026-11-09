@@ -2,6 +2,7 @@ module
 
 public import Certificates.Data.J4M2.Orbit
 public import Certificates.Kernel.J4M2.Base
+import Certificates.Kernel.J4NP7850.SoundBase
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -341,7 +342,35 @@ theorem memK_sound {ev : List Nat} (hev : ev = (List.range 2048).map fun e => ve
             (memK ev (mulJ c rm (mulJ c rm ti ZM) t) true)))
         (i5List.contains i))
 
+@[expose] noncomputable def vecFrom (Ts : List Nat) (m : Nat) : Nat → Nat → Nat :=
+  List.rec (motive := fun _ => Nat → Nat → Nat) (fun _ v => v)
+    (fun T _ ih j v => Bool.rec (motive := fun _ => Nat) (ih (Nat.succ j) v)
+      (strictN (vecJ rm v T) (ih (Nat.succ j)))
+      (Nat.blt (nat_lit 0) (Nat.land m (Nat.shiftLeft (nat_lit 1) j)))) Ts
+
+theorem strictN_eq4200 (y : Nat) (k : Nat → Nat) : strictN y k = k y := by cases y <;> rfl
+
+theorem vecJ_etaFrom (v : Nat) : ∀ (Ts : List Nat) (m j acc : Nat),
+    vecJ rm v (etaFrom c rm Ts m j acc) = vecFrom Ts m j (vecJ rm v acc)
+  | [], _, _, _ => rfl
+  | T :: Ts, m, j, acc => by
+    change vecJ rm v (Bool.rec (motive := fun _ => Nat) (etaFrom c rm Ts m (Nat.succ j) acc)
+        (strictN (mulJ c rm acc T) (etaFrom c rm Ts m (Nat.succ j)))
+        (Nat.blt (nat_lit 0) (Nat.land m (Nat.shiftLeft (nat_lit 1) j)))) =
+      Bool.rec (motive := fun _ => Nat) (vecFrom Ts m (Nat.succ j) (vecJ rm v acc))
+        (strictN (vecJ rm (vecJ rm v acc) T) (vecFrom Ts m (Nat.succ j)))
+        (Nat.blt (nat_lit 0) (Nat.land m (Nat.shiftLeft (nat_lit 1) j)))
+    cases Nat.blt (nat_lit 0) (Nat.land m (Nat.shiftLeft (nat_lit 1) j))
+    · exact vecJ_etaFrom v Ts m (Nat.succ j) acc
+    · simp only [strictN_eq4200]
+      rw [vecJ_etaFrom v Ts m (Nat.succ j), CertificateChecks.KernelJ4NP7850.vecJ_mulJ_any]
+
+theorem evL_vecFrom : evL = smapK (fun e => vecFrom Us e (nat_lit 0) (vecJ rm wv one)) (rangeK 2048) := by
+  unfold evL etaK
+  simp only [vecJ_etaFrom]
+
 theorem v0_chk : (List.range 77).all (v0K evL (tOf gL) (tiOf (smapK giK (rangeK 32)))) = true := by
+  rw [evL_vecFrom]
   quickRfl
 
 theorem orB_eq (a b : Bool) : orB a b = (a || b) := by cases a <;> rfl

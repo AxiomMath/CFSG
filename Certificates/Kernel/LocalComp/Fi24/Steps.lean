@@ -1,8 +1,12 @@
 module
 
+public import Certificates.Kernel.LocalQT.Seeds.Fi24
 public import Certificates.Data.Kernel.LocalQT.Sec
+public import Certificates.Data.Kernel.LocalQT.SecF3
 public import CFSG.Certificates.Kernel.LocalQT.Steps
-import Certificates.Kernel.LocalQT.Cmd
+import Certificates.Kernel.LocalQT.CmdF
+import Certificates.Kernel.LocalQT.CmdF3
+import CFSG.Certificates.Kernel.LocalQT.StepsF3Sound
 import all CFSG.Blueprint.NativeSporadic
 public meta import Certificates.Data.CFSGNative.SectionRank.Fi24prime
 
@@ -31,5 +35,19 @@ end
 
 set_option maxRecDepth 100000
 
-#lqt_sr_elem CFSG.KD.LC.F24 CertificateChecks.KernelLC.F24.fi24Ext 3 781
+#lqt_sr_vals CFSG.KD.LC.F24 CertificateChecks.KernelLC.F24.fi24Ext 781
   CFSG.Blueprint.NativeSporadic.Fi24primeSeed1 CFSG.Blueprint.NativeSporadic.Fi24primeSeed2
+
+#lqt_sr_steps3 CFSG.KD.LC.F24 20 0 1000
+
+#lqt_sr_chain3 CFSG.KD.LC.F24 20
+
+namespace CFSG.KD.LC.F24
+
+open CFSG.KC.LocalComp.Ops3Snd in
+public theorem steps : CFSG.KC.LQT.StepsTo (CFSG.KC.LQT.stepOK lay V P) N :=
+  CFSG.KC.LQT.F3S.steps_of_F3 lay_ok rfl (by decide) (by decide)
+    (CFSG.KS.Ord.validM_canon lay_ok vA) (CFSG.KS.Ord.validM_canon lay_ok vB)
+    (by rw [one]; exact (mat3_one lay lay_ok rfl).1) steps3
+
+end CFSG.KD.LC.F24

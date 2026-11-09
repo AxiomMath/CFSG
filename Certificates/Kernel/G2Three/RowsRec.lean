@@ -1,7 +1,5 @@
 module
 
-public meta import Lean
-meta import Certificates.Data.S5RowsG23
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,13 +39,8 @@ import Mathlib.Topology.Sheaves.Init
 
 namespace CFSG.KD.G2Three.RowsGen
 
-open CFSG.RankThree.PartTwo.Census.Carrier.G2Three Certificates.S5RowsG23
-
 meta def rowW : List Nat :=
-  (List.range 4096).map fun t =>
-    let i := elemsS[t / 64]!
-    let j := elemsS[t % 64]!
-    if q8RelC i j then ((List.range 576).find? fun y => threeCycC elemsX[y]! i j).getD 0 else 0
+  (String.splitOn (include_str "RowsRec.0.txt") ",").map String.toNat!
 
 end CFSG.KD.G2Three.RowsGen
 

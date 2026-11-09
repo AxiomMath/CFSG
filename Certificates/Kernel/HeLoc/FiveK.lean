@@ -115,9 +115,27 @@ theorem kIV : allN 60 (fun a => bAnd(Nat.blt (iv a) 60,
 
 theorem kBT : allN 60 btB = true := by quickRfl
 
-theorem kTail : ptK 8330 14 11 T50.NR T50.NR T50.LT T50.PT T50.QT S50.LR fr5
+@[expose] noncomputable def p50 (k : Nat) : Nat := rpt 14 (mask 14) (S50.LR 0) k
+
+@[expose] noncomputable def ep5 (k : Nat) : Nat := fld(EP5 0, Nat.mul 32 k, 4294967295)
+
+@[expose] noncomputable def rb5 (r : Nat) : Nat := fld(EP5 1, Nat.mul 32 r, 4294967295)
+
+@[expose] noncomputable def nr5 : Nat := fld(EP5 2, 0, 4294967295)
+
+theorem kRb5 : allN nr5 (fun r => Nat.blt (rb5 r) (rcnt (S50.LR 0))) = true := by quickRfl
+
+theorem kOrb5 : allN (rcnt (S50.LR 0)) (fun k => bIf(Nat.beq (x0 (p50 k)) (p50 k),
+    bAnd(Nat.blt (Nat.mod (ep5 k) 1024) 600, bAnd(Nat.blt (Nat.div (ep5 k) 1024) nr5,
+      Nat.beq (Five.tv (Nat.mod (ep5 k) 1024) (p50 (rb5 (Nat.div (ep5 k) 1024)))) (p50 k))),
+    true)) = true := by
+  quickRfl
+
+theorem kTail : allN nr5 (fun r => ptK 8330 14 11 T50.NR T50.NR T50.LT T50.PT T50.QT S50.LR fr5
     CFSG.RankThree.PartOne.heFiveCase0Rels x0 Five.bs CFSG.RankThree.PartOne.heFiveKeys Five.key
-    Five.C0.SK 600 9 0 (fun y => y) (fun y => y) (fun _ => 0) = true := by
+    Five.C0.SK 600 8 1 (fun y => trPtT 14 T50.NR T50.NR T50.LT T50.PT 0 (rb5 r) y)
+    (fun y => trInvPtT 14 11 T50.NR T50.NR T50.LT T50.PT 0 (rb5 r) y)
+    (imgExt (fun _ => 0) 0 (p50 (rb5 r)))) = true := by
   quickRfl
 
 end CertificateChecks.KernelHeLoc.FiveL

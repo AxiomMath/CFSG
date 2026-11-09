@@ -19,7 +19,7 @@ meta def dB : Array Nat := CFSG.ComponentClassification.RankTwoSporadic.Fi24Prim
 
 end CertificateChecks.KernelLC.Fi24BR
 
-#ks_rawchain_sl2 CertificateChecks.KernelLC.Fi24BKd 504 9 16 64 0
+#ks_rawchain_sl2 CertificateChecks.KernelLC.Fi24BKd 504 9 0 64 0
   CertificateChecks.KernelLC.Fi24BR.dM CertificateChecks.KernelLC.Fi24BR.dB 5
   CertificateChecks.KernelLC.Fi24BW.dD
 

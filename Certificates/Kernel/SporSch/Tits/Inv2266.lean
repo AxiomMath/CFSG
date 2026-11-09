@@ -315,13 +315,27 @@ theorem hKN (j : Nat) (hj : j < 7) : siftA 1755 (rawLevels 1755 titsNArrs (baseA
   siftK_soundR bindsN permN TitsN.hl (bindsK.2.2.2.2.1 j hj) (hi_of (allN_spec canK j hj))
     (range_of_canonK (allN_spec canK j hj)) (allN_spec kKN j hj)
 
+theorem bRec_and5 (f g : Nat → Nat → Nat → Nat → Nat → Bool) :
+    (fun t0 t1 t2 t3 t4 => Bool.rec (motive := fun _ => Bool) false (g t0 t1 t2 t3 t4)
+      (f t0 t1 t2 t3 t4)) = fun t0 t1 t2 t3 t4 => (f t0 t1 t2 t3 t4 && g t0 t1 t2 t3 t4) := by
+  funext t0 t1 t2 t3 t4
+  cases f t0 t1 t2 t3 t4 <;> rfl
+
+theorem PK_and_eq : PK = fun t0 t1 t2 t3 t4 =>
+    (PTN t0 t1 t2 t3 t4 && ktKB TitsK.LR TitsK.TRI TitsK.BP TitsN.BP t0 t1 t2 t3 t4) :=
+  bRec_and5 PTN (ktKB TitsK.LR TitsK.TRI TitsK.BP TitsN.BP)
+
+theorem PC_and_eq : PC = fun t0 t1 t2 t3 t4 =>
+    (PTN t0 t1 t2 t3 t4 && ctKG TitsN.BP TitsN.LR TitsN.TR TitsMN.GC t0 t1 t2 t3 t4) :=
+  bRec_and5 PTN (ctKG TitsN.BP TitsN.LR TitsN.TR TitsMN.GC)
+
 theorem agrK : Agrees TitsN.LR TitsN.TR PK (fun a => commA a titsTArr && inK a) :=
   fun t0 t1 t2 t3 t4 h => by
-    change Bool.rec (motive := fun _ => Bool) false
-      (ktKB TitsK.LR TitsK.TRI TitsK.BP TitsN.BP t0 t1 t2 t3 t4) (PTN t0 t1 t2 t3 t4) = _
+    rw [PK_and_eq]
+    show (PTN t0 t1 t2 t3 t4 && ktKB TitsK.LR TitsK.TRI TitsK.BP TitsN.BP t0 t1 t2 t3 t4) = _
     rw [agrTN t0 t1 t2 t3 t4 h, ktKB_eq bindsK permK TitsK.hl bindsN TitsN.head TitsN.hl
       (NS := 220) (CH := 8) (by norm_num) TitsN.hs ndN hKN h]
-    cases commA (unpack 1755 11 (prod5K 1755 11 (mask 11) t0 t1 t2 t3 t4)) titsTArr <;> rfl
+    rfl
 
 theorem propsH : (∀ x ∈ titsCHt, isInvA 1755 x (invCand 1755 x) = true ∧ inH x = true) ∧
     titsCHt.Pairwise (fun a b => eqA 1755 a b = false) :=
@@ -369,8 +383,8 @@ theorem agrC : Agrees TitsN.LR TitsN.TR PC (fun a => commA a titsTArr &&
   obtain ⟨c0, c1, c2, c3, c4⟩ := canOf canTRN h
   have cx : C (prod5K 1755 11 (mask 11) t0 t1 t2 t3 t4) :=
     canonK_pcomp (canonK_pcomp (canonK_pcomp (canonK_pcomp c0 c1) c2) c3) c4
-  change Bool.rec (motive := fun _ => Bool) false
-    (ctKG TitsN.BP TitsN.LR TitsN.TR TitsMN.GC t0 t1 t2 t3 t4) (PTN t0 t1 t2 t3 t4) = _
+  rw [PC_and_eq]
+  show (PTN t0 t1 t2 t3 t4 && ctKG TitsN.BP TitsN.LR TitsN.TR TitsMN.GC t0 t1 t2 t3 t4) = _
   have hall : ctKG TitsN.BP TitsN.LR TitsN.TR TitsMN.GC t0 t1 t2 t3 t4 =
       titsQt.all fun q => commA (unpack 1755 11 (prod5K 1755 11 (mask 11) t0 t1 t2 t3 t4)) q := by
     rw [qt_eq, qtree_sound bindsN TitsN.head TitsN.hl (NS := 220) (CH := 8) (by norm_num)
@@ -380,7 +394,6 @@ theorem agrC : Agrees TitsN.LR TitsN.TR PC (fun a => commA a titsTArr &&
     rw [Function.comp_apply, baseComm_eq bindsN TitsN.head TitsN.hl (NS := 220) (CH := 8)
       (by norm_num) TitsN.hs ndN h (ascK_lt aK k (gc_mem hk))]
   rw [agrTN t0 t1 t2 t3 t4 h, hall]
-  cases commA (unpack 1755 11 (prod5K 1755 11 (mask 11) t0 t1 t2 t3 t4)) titsTArr <;> rfl
 
 theorem ccq_def : titsCCQ = survivors5 1755 (rawLevels 1755 titsNArrs (baseArr 1755 titsNBase))
     (fun a => commA a titsTArr && titsQt.all fun q => commA a q) := by

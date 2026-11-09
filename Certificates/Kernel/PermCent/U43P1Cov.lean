@@ -6,6 +6,7 @@ public import Certificates.Data.Kernel.PermCent.U43P1W
 public import Certificates.Kernel.PermCent.U43P1A6
 public import Certificates.Kernel.PermCent.U43P1Cen
 public import Certificates.Kernel.PermCent.U43P1S
+public import Certificates.Kernel.PermCent.U43P1Img
 
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
@@ -28,12 +29,14 @@ theorem look :
       lookOK (pk cM1 false) clsT clsN [0, 1, 2] [(0, clsR 0), (1, clsR 1), (2, clsR 2)] lkM1 &&
       lookOK (pk cI true) clsT clsN [0, 3, 4] [(0, clsR 0), (3, clsR 3), (4, clsR 4)] lkF &&
       lookOK (pk cDi true) clsT clsN [0, 5] [(0, clsR 0), (5, clsR 5)] lkI) = true := by
+  simp only [u43_pk]
   decide +kernel
 
 theorem dconj :
     (isId (pc (pk cDi false) (pk cDmi false)) &&
       Nat.beq (pc (pk cDi false) (pc (pk cI true) (pk cDmi false))) (pk cM1 true) &&
       Nat.beq (pc (pk cDi false) (pc (pk cDi true) (pk cDmi false))) (pk cDmi true)) = true := by
+  simp only [u43_pk]
   decide +kernel
 
 @[expose] noncomputable def ordP (p g : ℕ) : Bool :=

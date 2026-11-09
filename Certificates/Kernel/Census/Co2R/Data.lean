@@ -10,19 +10,19 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 1000000
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.Co2R.Z
-  "Certificates/Kernel/Census/Co2R/data/co2z.json.gz" 1057360 11961572167060610199 (r : RootR)
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.Co2R.Z
+  "Certificates/Kernel/Census/Co2R/data/co2z.json" 1057360 11961572167060610199 (r : RootR)
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.Co2R.T
-  "Certificates/Kernel/Census/Co2R/data/co2t.json.gz" 715865 2968051800055976139 (r : RootR)
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.Co2R.T
+  "Certificates/Kernel/Census/Co2R/data/co2t.json" 715865 2968051800055976139 (r : RootR)
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.Co2R.U
-  "Certificates/Kernel/Census/Co2R/data/co2u.json.gz" 218562 3886129654498415708 (r : RootR)
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.Co2R.U
+  "Certificates/Kernel/Census/Co2R/data/co2u.json" 218562 3886129654498415708 (r : RootR)
 
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.Co2R
-  "Certificates/Kernel/Census/Co2R/data/co2li.json.gz" 91416 4520772252056854651 (li : Array Nat)
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.Co2R
+  "Certificates/Kernel/Census/Co2R/data/co2li.json" 91416 4520772252056854651 (li : Array Nat)
 
 public section
 

@@ -3,8 +3,8 @@ module
 public meta import Lean
 public meta import Certificates.Kernel.Sporadic.RawGen
 public meta import CFSG.Certificates.Kernel.Common.Tab
-public import CFSG.Certificates.Kernel.Common.HarnessGz
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
+meta import all CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.SporSch.PairClTSound
 public import CFSG.Certificates.Kernel.SporSch.PairKSound
 public import Certificates.Kernel.Sporadic.RawGen
@@ -18,7 +18,7 @@ open CFSG.KC.Tab CFSG.KS.RawGen in
 elab "#kss_cltjsonp " pre:ident path:str size:num hash:num key:str : command => do
   let P := pre.getId
   let k := key.getString
-  let b ← CFSG.KC.Gz.readPinnedGz path.getString size.getNat hash.getNat
+  let b ← CFSG.KC.Load.readPinned path.getString size.getNat hash.getNat
   let some txt := String.fromUTF8? b | throwError "#kss_cltjsonp: {path.getString}: not UTF-8"
   let j ← match Json.parse txt with
     | .ok j => pure j

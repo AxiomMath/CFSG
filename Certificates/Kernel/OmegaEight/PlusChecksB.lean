@@ -2,6 +2,8 @@ module
 
 public import Certificates.Kernel.OmegaEight.PlusW
 public import CFSG.Certificates.Kernel.O8PlusSound
+public import CFSG.Certificates.Kernel.O8CentOrbKSound
+public import Certificates.Kernel.OmegaEight.CentOrbData
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -12,20 +14,29 @@ open CFSG.KC.O8 CFSG.EvenSmallLie.OmegaEight.Stage2 CFSG.EvenSmallLie.OmegaEight
 
 theorem c2_okP : c2Check wP = true := by
   have hsC : sortedK (decE EnCP.D EnCP.m).keys = true := (Enum.of_enumOK cE_ok).2.1
-  have hs2 : sortedK (decE EnC2.D EnC2.m).keys = true := (Enum.of_enumOK c2E_ok).2.1
+  have hin : gensIn Plus.c2Gens wP.cE = true := by
+    simp only [wP, gensIn, memK_decE_eq hsC (by decide +kernel), ← Array.all_toList]
+    quickRfl
+  have hcb : commGens Plus.c2Gens Plus.bK = true := by
+    simp only [commGens, mulK_eq, ← Array.all_toList]
+    quickRfl
+  have ho : orbCertK wP.cE Plus.bK orbRsP orbCsN3P = true := by
+    simp only [wP, orbCertK, mulK_eq, memK_decE_eq hsC (by decide +kernel)]
+    decide +kernel
+  have hbb : invPair Plus.bK Plus.bK = true := by
+    simp only [invPair, mulK_eq, idK_eq]
+    quickRfl
   simp only [c2Check, Bool.and_eq_true, beq_iff_eq]
-  refine ⟨⟨⟨⟨⟨c2E_ok, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  refine ⟨⟨⟨⟨⟨c2E_ok, ?_⟩, hin⟩, ?_⟩, hcb⟩,
+    centInCheck_of_orbCertK cE_ok c2E_ok ?_ hbb hin hcb ho ?_⟩
   · simp only [wP, decE_keys_size]
     decide +kernel
-  · simp only [wP, gensIn, memK_decE_eq hsC (by decide +kernel), ← Array.all_toList]
-    quickRfl
   · simp only [commGens, mulK_eq, ← Array.all_toList]
     quickRfl
-  · simp only [commGens, mulK_eq, ← Array.all_toList]
-    quickRfl
-  · simp only [wP, centInCheck, mulK_eq, memK_decE_eq hs2 (by decide +kernel),
-      ← Array.all_toList, decE_toList]
-    quickRfl
+  · simp only [wP, decE_keys_size]
+    decide +kernel
+  · simp only [wP, decE_keys_size]
+    decide +kernel
 
 theorem bray0_okP : brayChk wP 0 Plus.brayProg0 Plus.brayOut0 = true := by
   simp only [brayChk, brayCheck, wP, runK_eq, mulK_eq, idK_eq, contains_decE_eq, gensOK,

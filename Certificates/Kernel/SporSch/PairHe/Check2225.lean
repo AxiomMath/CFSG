@@ -45,9 +45,9 @@ theorem keyL_keyElt {n : Nat} {f : Nat → Nat} {g : Equiv.Perm (Fin n)} (hf : R
       hf b (h b List.mem_cons_self)]
     rfl
 
-def Qr {G : Type*} [Group G] (x y : G) : Prop := orderOf y = 7 ∧ PatRel PairHe.conds x y
+@[expose] def Qr {G : Type*} [Group G] (x y : G) : Prop := orderOf y = 7 ∧ PatRel PairHe.conds x y
 
-def TestG {G : Type*} [Group G] (x j : G) : Prop :=
+@[expose] def TestG {G : Type*} [Group G] (x j : G) : Prop :=
   orderOf (x * j) = 7 ∧ orderOf (j * x * j⁻¹ * x) = 6 ∧ orderOf (j * x * j) = 12 ∧
     orderOf (j * j * x * j) = 15
 
@@ -275,6 +275,55 @@ theorem card_class_filter {X K : Nat → Nat} {N nB : Nat} {rep : List (Array Na
   rw [← Nat.card_eq_finsetCard]
   exact (Nat.card_eq_of_bijective g hgb).symm
 
+theorem class_inv {X K : Nat → Nat} {N nB : Nat} {rep : List (Array Nat)}
+    {x₀ : Equiv.Perm (Fin 8330)} (hrep : RepW 8330 rep x₀) (hx₀ : x₀ ∈ P3) (h2 : orderOf x₀ = 2)
+    {Ecl : Array (Array Nat)} {par lab : Array Nat}
+    (hok : closureOK (rawLevels 8330 heStrongArrs heBase.toArray) PairHe.bs PairHe.gens
+      PairHe.gensInv rep Ecl par lab = true) (hsz : Ecl.size = N)
+    (hkeys : Ecl.toList.map (fun nf => imgKey 8330 (baseImgs PairHe.bs
+      (nfWord (rawLevels 8330 heStrongArrs heBase.toArray) nf))) = (List.range N).map K)
+    (hrec : ∀ g < nB, ∀ r < 8, allBlk (Nat.mul (Nat.add (Nat.mul g 8) r) 64)
+      (recOKT 8330 14 PHeT.NR PHeT.NR PHeT.LT PHeT.PT 5 PairHe.bs (fun t => rcnt (HeC.LR t)) X K
+        N) 64 = true) (hN : N ≤ nB * 8 * 64) {i : Nat} (hi : i < N) :
+    E (nfX 5 (X i)) * E (nfX 5 (X i)) = 1 := by
+  have hspec := closureOK_spec heChainArrays (chainCheckFacts heChain_check.1) heChain_valid.1 hH
+    hbs he_gens hrep hx₀ hok
+  have hR := rec_at hrec hi (by omega)
+  have hiE : i < Ecl.size := hsz ▸ hi
+  have hok' := (hspec i hiE).1
+  have heq : E (nfX 5 (X i)) = nfElt 8330 heStrongArrs heBase.toArray Ecl[i]! := by
+    refine keyElt_inj hH hbs (E_mem hR.1)
+      (nfElt_mem heChainArrays (chainCheckFacts heChain_check.1) heChain_valid.1 hok') ?_
+    exact ((keyL_keyElt (E_rep hR.1) hbs).symm.trans hR.2.symm).trans
+      ((entry_key hkeys hi hiE).symm.trans (imgKey_baseImgs hbs (repW_nfWord heChainArrays
+        (chainCheckFacts heChain_check.1) hok')))
+  have hxx : x₀ * x₀ = 1 := by rw [← pow_two, ← h2, pow_orderOf_eq_one]
+  obtain ⟨c, -, hce⟩ := (hspec i hiE).2
+  rw [heq, hce]
+  calc c * x₀ * c⁻¹ * (c * x₀ * c⁻¹) = c * (x₀ * x₀) * c⁻¹ := by group
+    _ = 1 := by rw [hxx, mul_one, mul_inv_cancel]
+
+theorem keyL_cons' (n : Nat) (f : Nat → Nat) (b : Nat) (bs : List Nat) :
+    keyL n f (b :: bs) = f b + n * keyL n f bs := by
+  change strictN (keyL n f bs) (fun r => Nat.add (f b) (Nat.mul n r)) = _
+  rw [strictN_val]
+  rfl
+
+theorem key_dig {f : Nat → Nat} (hf : ∀ b < 5, f b < 8330) :
+    keyL 8330 f PairHe.bs / 1 % 8330 = f 0 ∧ keyL 8330 f PairHe.bs / 8330 % 8330 = f 1 ∧
+      keyL 8330 f PairHe.bs / 578009537000 % 8330 = f 3 ∧
+      keyL 8330 f PairHe.bs / 4814819443210000 % 8330 = f 4 := by
+  have hb : PairHe.bs = [0, 1, 2, 3, 4] := rfl
+  have hn : keyL 8330 f [] = 0 := rfl
+  rw [hb]
+  simp only [keyL_cons', hn]
+  have h0 := hf 0 (by norm_num)
+  have h1 := hf 1 (by norm_num)
+  have h2 := hf 2 (by norm_num)
+  have h3 := hf 3 (by norm_num)
+  have h4 := hf 4 (by norm_num)
+  omega
+
 theorem tc' : TabChain 8330 14 9 5 HeC.BP 131 64 PHeT.NR PHeT.NR 147 1024 9 1024 HeC.S HeC.SI
     HeC.LR PHeT.Ts PHeT.LT PHeT.PT PHeT.QT heStrongArrs heBase.toArray PHeSn.bs := tc
 
@@ -282,19 +331,25 @@ theorem hH' : BaseFaithful P3 PHeSn.bs := hH
 
 open scoped Classical in
 theorem scan_part {j : Equiv.Perm (Fin 8330)} (hj : j ∈ P3) {Z ZI : Nat → Nat}
-    (hZ : RepF 8330 Z j) (hZI : RepF 8330 ZI j⁻¹) {X : Nat → Nat} {c m : Nat}
-    (hV : ∀ i < c, nfValidK 5 HeC.LR (nfX 5 (X i)) = true) {V : Nat → Nat} {a : Nat}
-    (hs : ∀ q < m, PHeCn.scAt X c Z ZI q = V q) (ha : sumN m V = a) (hN : c ≤ m * 512) :
+    (hZ : RepF 8330 Z j) (hZI : RepF 8330 ZI j⁻¹) {X K : Nat → Nat} {c m D1 D0 p : Nat}
+    (hp : p < 8330) (hV : ∀ i < c, nfValidK 5 HeC.LR (nfX 5 (X i)) = true)
+    (hI : ∀ i < c, E (nfX 5 (X i)) * E (nfX 5 (X i)) = 1)
+    (hK1 : ∀ i < c, Nat.mod (Nat.div (K i) D1) 8330 = PHeSn.nfp (nfX 5 (X i)) (Z p))
+    (hK0 : ∀ i < c, Nat.mod (Nat.div (K i) D0) 8330 = PHeSn.nfp (nfX 5 (X i)) p)
+    {V : Nat → Nat} {a : Nat}
+    (hs : ∀ q < m, PHeCn.scAt X K c Z ZI D1 D0 q = V q) (ha : sumN m V = a) (hN : c ≤ m * 512) :
     ((Finset.range c).filter fun i => TestG (E (nfX 5 (X i))) j).card = a := by
   classical
-  have hs1 := chunk_sum m 512 (scanHeAt 14 PHeT.NR PHeT.NR PHeT.LT PHeT.PT PHeSn.bs c X Z ZI) V
-    hs
+  have hs1 := chunk_sum m 512
+    (scanHeP 14 PHeT.NR PHeT.NR PHeT.LT PHeT.PT PHeSn.bs c X K Z ZI 8330 D1 D0) V hs
   rw [ha, sumN_finset] at hs1
   have hs2 : ∑ i ∈ Finset.range (m * 512), (if i < c ∧ TestG (E (nfX 5 (X i))) j then 1 else 0) =
       a := by
     rw [← hs1]
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [scanHeAt_eq tc' hH' hbs' hZ hZI hj (fun hi => hV i hi) (fun hi => E_mem (hV i hi))]
+    rw [scanHeP_eq tc' hH' hbs' hZ hZI hj hp (fun hi => hV i hi) (fun hi => E_mem (hV i hi))
+      (fun hi => hI i hi) (fun hi => hK1 i hi) (fun hi => hK0 i hi),
+      scanHeAt_eq tc' hH' hbs' hZ hZI hj (fun hi => hV i hi) (fun hi => E_mem (hV i hi))]
     exact if_congr Iff.rfl rfl rfl
   rw [← Finset.card_filter] at hs2
   rw [← hs2]
@@ -373,49 +428,6 @@ theorem card_qr {a : P3} (ha : orderOf a = 2) {j : P3} (hj : orderOf j = 17) :
   refine and_congr_right fun hx => ?_
   have hx2 : orderOf x = 2 := by rw [orderOf_of_isConj hx, ha]
   rw [qr_iff hx2 hj, testG_coe]
-
-theorem partners_of (hsA : ∀ g < 7, ∀ r < 8, PHeCn.scA g r = true)
-    (hsA3 : ∀ g < 7, ∀ r < 8, PHeCn.scA3 g r = true) :
-    countPair PairHe.bs 7 PairHe.wA PairHe.conds heBlocks ≤ 322560 := by
-  classical
-  have cSzA : PHeT.c = 24990 := Nat.eq_of_beq_eq_true PHeCl.cASz
-  have hkA := (ClTP.closNFT_proved (bs := PairHe.bs) (rep := PairHe.wA) He2112.binds He2112.perm
-    HeC.ho (by decide) PHeCheck.tabs rfl PHeCheck.hg PHeCheck.repA_eq PHeCheck.okA).2.2
-  have hnd := List.nodup_append.1 keys_nodup
-  have hndA : ((List.range PHeT.c).map PHeCl.KA).Nodup := by
-    rw [← hkA]
-    exact hnd.1
-  have hvA : ∀ i < PHeT.c, nfValidK 5 HeC.LR (nfX 5 (PHeCl.XA i)) = true := fun i hi =>
-    (rec_at PHeCl.recA_all hi (by rw [cSzA] at hi; change i < 49 * 8 * 64; omega)).1
-  have clA := card_class_filter (nB := 49) repW_hewA tAMem okA sizeA (cSzA ▸ hkA) (cSzA ▸ hndA)
-    PHeCl.recA_all (by norm_num) card_clA
-  have hchunk : ∀ {R : Nat} {h : Nat → Nat → Bool} {f V : Nat → Nat},
-      (∀ g r, h g r = Nat.beq (f (Nat.add (Nat.mul g 8) r)) (V (Nat.add (Nat.mul g 8) r))) →
-      (∀ g < R, ∀ r < 8, h g r = true) → ∀ q < R * 8, f q = V q := by
-    intro R h f V hh hall q hq
-    have := hall (q / 8) (by omega) (q % 8) (Nat.mod_lt _ (by norm_num))
-    rw [hh, split] at this
-    exact Nat.eq_of_beq_eq_true this
-  have kA : Nat.card {x : P3 // IsConj tAK x ∧ Qr x (x⁻¹ * zK)} = 17 := by
-    rw [card_qr (by rw [Subgroup.orderOf_mk]; exact tAOrd) zK_ord]
-    refine (clA (fun p => TestG p ((zK : P3) : Equiv.Perm (Fin 8330)))).trans ?_
-    exact scan_part (c := PHeT.c) zMem zRep ziRepK hvA
-      (hchunk (h := PHeCn.scA) (V := PHeN.SC0) (fun _ _ => rfl) hsA)
-      (Nat.eq_of_beq_eq_true PHeCn.sA) (by rw [cSzA]; norm_num)
-  have kA3 : Nat.card {x : P3 // IsConj tAK x ∧ Qr x (x⁻¹ * zK ^ 3)} = 17 := by
-    rw [card_qr (by rw [Subgroup.orderOf_mk]; exact tAOrd) zK3_ord]
-    refine (clA (fun p => TestG p ((zK ^ 3 : P3) : Equiv.Perm (Fin 8330)))).trans ?_
-    exact scan_part (c := PHeT.c) (zK ^ 3).2 z3Rep z3iRep hvA
-      (hchunk (h := PHeCn.scA3) (V := PHeN.SC1) (fun _ _ => rfl) hsA3)
-      (Nat.eq_of_beq_eq_true PHeCn.sA3) (by rw [cSzA]; norm_num)
-  have pA := partners_le tAK kA kA3
-  rw [card_clA] at pA
-  have hpA : Nat.card {y : P3 // Qr tAK y} ≤ 322560 := by omega
-  have hP : ∀ x : P3, hePartners x = Nat.card {y : P3 // Qr x y} := fun x =>
-    Nat.card_congr (Equiv.subtypeEquivRight fun y => by
-      rw [Qr, ← Subgroup.orderOf_coe, patRel_coe])
-  rw [← hePartners_rep repW_hewA tAMem]
-  exact (hP tAK).trans_le hpA
 
 theorem countP_fix {A : Array Nat} {f : Nat → Nat} (h : ∀ x < 8330, A[x]! = f x) :
     (List.range 8330).countP (fun i => A[i]! == i) = PHeCn.fixC f := by

@@ -8,7 +8,7 @@ import Certificates.Kernel.Misc.PackJson
 public section
 
 #kc_repo #kmisc_json_pack CertificateChecks.KernelCo2Census
-  "Certificates/Kernel/Co2Census/data/cc.json.gz" 2024440 12987813809606868758
+  "Certificates/Kernel/Co2Census/data/cc.json" 2024440 12987813809606868758
   (QI QIt 0)
   (K0gens K0Gt 21) (K0GR K0GRt 22) (K0GI K0GIt 22) (K0ZP K0ZPt 22) (K0ZX K0ZXt 20)
   (K0Zroots K0Zrt 21) (K0Zcov K0Zct 0) (K0fib K0Ft 21)

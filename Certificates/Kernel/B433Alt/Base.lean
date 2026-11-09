@@ -133,12 +133,42 @@ theorem RW_per (g : ℕ) : CFSG.KD.B4A.RW g = CFSG.KD.B4A.RW (g % 8192) := by
   dsimp only
   rw [land_land]
 
-theorem EL_zero : ∀ e < 4096, 2150 ≤ e → CFSG.KD.B4AC.EL e = 0 := by decide +kernel
+theorem el_zero_chk :
+    CFSG.KD.B4A.ptsOK (fun e => Nat.beq (CFSG.KD.B4AC.EL e) 0) 2150 1946 = true := by
+  decide +kernel
 
-theorem RD_tail : ∀ g < 8192, 5965 ≤ g → CFSG.KD.B4A.RD g = 0 := by decide +kernel
+theorem EL_zero : ∀ e < 4096, 2150 ≤ e → CFSG.KD.B4AC.EL e = 0 := by
+  intro e he h0
+  have h := ptsOK_spec el_zero_chk (e - 2150) (by omega) (by omega)
+  have ee : 2150 + (e - 2150) = e := by omega
+  rw [ee] at h
+  exact Nat.eq_of_beq_eq_true h
+
+theorem rd_tail_chk :
+    CFSG.KD.B4A.ptsOK (fun g => Nat.beq (CFSG.KD.B4A.RD g) 0) 5965 2227 = true := by
+  decide +kernel
+
+theorem RD_tail : ∀ g < 8192, 5965 ≤ g → CFSG.KD.B4A.RD g = 0 := by
+  intro g hg h0
+  have h := ptsOK_spec rd_tail_chk (g - 5965) (by omega) (by omega)
+  have ee : 5965 + (g - 5965) = g := by omega
+  rw [ee] at h
+  exact Nat.eq_of_beq_eq_true h
+
+theorem rw_stab_chk :
+    CFSG.KD.B4A.ptsOK (fun g => Bool.rec (motive := fun _ => Bool) true (wInH (CFSG.KD.B4A.RW g))
+      (isStab (dKind (CFSG.KD.B4A.RD g)))) 0 5965 = true := by
+  decide +kernel
 
 theorem rw_stab_lt : ∀ g < 5965, isStab (dKind (CFSG.KD.B4A.RD g)) = true →
-    wInH (CFSG.KD.B4A.RW g) = true := by decide +kernel
+    wInH (CFSG.KD.B4A.RW g) = true := by
+  intro g hg hs
+  have h := ptsOK_spec rw_stab_chk g hg (by omega)
+  rw [Nat.zero_add] at h
+  change Bool.rec (motive := fun _ => Bool) true (wInH (CFSG.KD.B4A.RW g))
+    (isStab (dKind (CFSG.KD.B4A.RD g))) = true at h
+  rw [hs] at h
+  exact h
 
 theorem rw_stab (g : ℕ) (h : isStab (dKind (CFSG.KD.B4A.RD g)) = true) :
     wInH (CFSG.KD.B4A.RW g) = true := by
@@ -150,13 +180,29 @@ theorem rw_stab (g : ℕ) (h : isStab (dKind (CFSG.KD.B4A.RD g)) = true) :
   · rw [RD_tail _ hg (by omega)] at h
     exact absurd h (by decide)
 
-theorem rw_len_lt : ∀ g < 8192, wLen (CFSG.KD.B4A.RW g) < 2 ^ 16 := by decide +kernel
+theorem rw_len_chk :
+    CFSG.KD.B4A.ptsOK (fun g => Nat.blt (wLen (CFSG.KD.B4A.RW g)) 65536) 0 8192 = true := by
+  decide +kernel
+
+theorem rw_len_lt : ∀ g < 8192, wLen (CFSG.KD.B4A.RW g) < 2 ^ 16 := by
+  intro g hg
+  have h := ptsOK_spec rw_len_chk g hg (by omega)
+  rw [Nat.zero_add] at h
+  exact Nat.lt_of_lt_of_le (Nat.blt_eq.mp h) (by norm_num)
 
 theorem rw_len (g : ℕ) : wLen (CFSG.KD.B4A.RW g) < 2 ^ 16 := by
   rw [RW_per]
   exact rw_len_lt _ (Nat.mod_lt _ (by norm_num))
 
-theorem ew_len_lt : ∀ e < 4096, wLen (CFSG.KD.B4AC.EW e) < 2 ^ 16 := by decide +kernel
+theorem ew_len_chk :
+    CFSG.KD.B4A.ptsOK (fun e => Nat.blt (wLen (CFSG.KD.B4AC.EW e)) 65536) 0 4096 = true := by
+  decide +kernel
+
+theorem ew_len_lt : ∀ e < 4096, wLen (CFSG.KD.B4AC.EW e) < 2 ^ 16 := by
+  intro e he
+  have h := ptsOK_spec ew_len_chk e he (by omega)
+  rw [Nat.zero_add] at h
+  exact Nat.lt_of_lt_of_le (Nat.blt_eq.mp h) (by norm_num)
 
 theorem ew_len (e : ℕ) : wLen (CFSG.KD.B4AC.EW e) < 2 ^ 16 := by
   rw [EW_per]
@@ -227,7 +273,7 @@ theorem orb0 {l i : ℕ} (hl : l < 5) (hi : i < LK l) :
 
 section
 
-@[expose] noncomputable def β5 (m : ℕ) : Fin 31671 :=
+noncomputable def β5 (m : ℕ) : Fin 31671 :=
   if h : m < 5 then ⟨b5 m, b5_lt m h⟩ else 0
 
 theorem cbOf'_congr {b b' : ℕ → ℕ} : ∀ k, (∀ m < k, b m = b' m) → cbOf' b k = cbOf' b' k
@@ -237,7 +283,7 @@ theorem cbOf'_congr {b b' : ℕ → ℕ} : ∀ k, (∀ m < k, b m = b' m) → cb
     rw [cbOf'_congr k (fun m hm => h m (by omega)), h k (by omega)]
 
 open CFSG.KD.B4AC in
-@[expose] noncomputable def gen0 (l k : ℕ) : ℕ :=
+noncomputable def gen0 (l k : ℕ) : ℕ :=
   genWord CFSG.KD.B4A.RD CFSG.KD.B4A.RW EL EW 0 l (LG l) (LN l) k
 
 open CFSG.KD.B4AC in
@@ -269,7 +315,7 @@ theorem lev0 {l : ℕ} (hl : l < 5) :
 theorem base_eq_one {g : Equiv.Perm (Fin 31671)} (hg : g ∈ rho432F.range)
     (hfix : ∀ m < 5, g (β5 m) = β5 m) : g = 1 := by
   have hβ : ∀ m (hm : m < 5), β5 m = ⟨b5 m, b5_lt m hm⟩ := fun m hm => by
-    rw [β5, dif_pos hm]
+    rw [β5, dite_eq_left hm]
   refine CFSG.YGroups.Y442Tw.eq_one_of_chain rho432F.range 5 β5
     (fun l => (fun k => rho432F (wVal (yGen 4 3 2) (gen0 l k))) '' {k | k < CFSG.KD.B4AC.LN l})
     (fun l _ => by rintro _ ⟨k, -, rfl⟩; exact ⟨_, rfl⟩) ?_ CFSG.KD.B4AC.LO ?_ ?_ hg hfix
@@ -284,7 +330,7 @@ theorem base_eq_one {g : Equiv.Perm (Fin 31671)} (hg : g ∈ rho432F.range)
 theorem isOne_rho {w : ℕ} (hw : wInH w = true) (h : isOne CFSG.KD.B4A.LP w = true) :
     rho432F (wVal (yGen 4 3 2) w) = 1 := by
   refine base_eq_one ⟨_, rfl⟩ fun m hm => ?_
-  rw [β5, dif_pos hm]
+  rw [β5, dite_eq_left hm]
   exact Fin.ext (isOne_spec tables hw h m hm)
 
 end

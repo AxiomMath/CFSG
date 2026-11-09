@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.AGLEmbedding.SeitzCyc.ExcCyc
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.Certificates.CentralKernel
 public import CFSG.Certificates.CosetTableWalkC
 public import CFSG.Certificates.FusionF2
@@ -167,7 +167,7 @@ public import Certificates.Certificate96
 public import Certificates.Certificate97
 public import Certificates.Certificate98
 public import Certificates.Certificate99
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

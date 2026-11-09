@@ -9,8 +9,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.FixTab12
-  "Certificates/Kernel/HMathieu/data/FixTab12.json.gz" 8207 6090279697636045439
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.FixTab12
+  "Certificates/Kernel/HMathieu/data/FixTab12.json" 8207 6090279697636045439
   (F12 : List (List Nat)) (J12 : List (List Nat))
 
 namespace CertificateChecks.KernelHMathieu.FixTab12

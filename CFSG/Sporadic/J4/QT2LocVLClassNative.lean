@@ -13,7 +13,13 @@ open CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT CFSG.Sporadic.J4.QT2A
 @[expose] def vlAll : Array (Array (Array V2)) :=
   ((lines17.map fun S => (S.map etaE).toArray) ++ vlGroups.map List.toArray).toArray
 
-@[expose] def vlCx : Array (Array V2) := x0Orb.mats
+opaque vlCxSeal : {m : Array (Array V2) // m = x0Orb.mats} := ⟨x0Orb.mats, rfl⟩
+
+@[expose] def vlCx : Array (Array V2) := vlCxSeal.1
+
+theorem vlCx_def : vlCx = x0Orb.mats := vlCxSeal.2
+
+attribute [irreducible] vlCx
 
 @[expose] def vlCxInv : Array (Array V2) := vlCx.map invRows
 

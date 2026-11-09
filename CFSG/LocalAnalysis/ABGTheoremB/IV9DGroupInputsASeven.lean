@@ -3,6 +3,7 @@ module
 public import CFSG.GroupTheory.ABGDGroups.LinearASeven
 public import Certificates.Certificate7
 public import CFSG.Adapters.QiuzhenLegacy.Compat.G7.ASeven
+import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.ASevenPermTable
 
 public section
 
@@ -24,6 +25,14 @@ theorem a7S_center_certificate {y : A₇} (hy : y ∈ a7S) (hyv : y * a7v = a7v 
 theorem a7t_centralizer_certificate : ∀ y : A₇, y * a7t = a7t * y →
     (y * a7a * y⁻¹ = a7a ∨ y * a7a * y⁻¹ = a7a ^ 2) ∧
       (y * a7a ^ 2 * y⁻¹ = a7a ∨ y * a7a ^ 2 * y⁻¹ = a7a ^ 2) := by
+  intro y
+  simp only [mul_inv_eq_iff_eq_mul, Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv, Subgroup.coe_one]
+  simp only [← CFSG.GorensteinWalter.PermTable.enc_inj, CFSG.GorensteinWalter.PermTable.enc_mul, CFSG.GorensteinWalter.PermTable.enc_pow, CFSG.GorensteinWalter.PermTable.enc_one, CFSG.GorensteinWalter.PermTable.enc_a7a,
+    CFSG.GorensteinWalter.PermTable.enc_a7t]
+  have hm := CFSG.GorensteinWalter.PermTable.enc_mem_permutations (y : Equiv.Perm (Fin 7))
+  generalize CFSG.GorensteinWalter.PermTable.enc (y : Equiv.Perm (Fin 7)) = l at hm ⊢
+  revert l
+  refine CFSG.GorensteinWalter.PermTable.forall_mem_of_all ?_
   decide +kernel
 
 theorem a7t_mem_a7V : a7t ∈ a7V := Or.inr (Or.inl rfl)

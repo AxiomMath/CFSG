@@ -35,11 +35,6 @@ meta def gIM : Array (Array Nat) := gM.map (CFSG.Monster.B.Co2.Native.invCand 82
 
 meta def ids5M : Array (Array Nat) := Array.replicate 5 idM
 
-meta def recM : Array (Array Nat) := (bfs (fun j t => conjTab 820 idM gM[j]! t) 5 idM 50000).tabs
-
-meta def clM : Array (Array Nat) :=
-  (recM.map fun x => (gM ++ gIM).map fun g => comp 820 x g).flatten
-
 end CertificateChecks.KernelHSStd.U43Va
 
 #kmisc_packarrs CertificateChecks.KernelHSStd.U43VP CertificateChecks.KernelHSStd.U43Va.inM 10
@@ -47,7 +42,5 @@ end CertificateChecks.KernelHSStd.U43Va
 #kmisc_packarrs CertificateChecks.KernelHSStd.U43VC CertificateChecks.KernelHSStd.U43Va.cosM 8
 #kmulh CertificateChecks.KernelHSStd.U43VA 820 10 CertificateChecks.KernelHSStd.U43Va.ids5M
   CertificateChecks.KernelHSStd.U43Va.gM CertificateChecks.KernelHSStd.U43Va.idM 50000
-#kfind CertificateChecks.KernelHSStd.U43VACl CertificateChecks.KernelHSStd.U43Va.recM
-  CertificateChecks.KernelHSStd.U43Va.clM
 
 end

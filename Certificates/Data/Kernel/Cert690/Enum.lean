@@ -30,14 +30,6 @@ namespace CFSG.KC.C690
 @[expose] noncomputable def enumInvK (gs E : List Nat) : Bool :=
   List.rec (motive := fun _ => Bool) true (fun g _ ih => andK (enumInvG g E) ih) gs
 
-@[expose] noncomputable def invMulK (getE : Nat → Nat) (n : Nat) (E : List Nat) :
-    List Nat → Bool :=
-  List.rec (motive := fun _ => List Nat → Bool)
-    (fun inv => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) inv)
-    (fun x _ ih inv => List.rec (motive := fun _ => Bool) false
-      (fun j inv' _ => andK (andK (Nat.blt j n) (Nat.beq (mulF x (getE j)) oneF)) (ih inv'))
-      inv) E
-
 end CFSG.KC.C690
 
 end

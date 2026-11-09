@@ -45,7 +45,7 @@ theorem total4105 : classTotal 315 #[tblA, tblB] #[tblAInv, tblBInv] (orderTable
   have hl : RC.CS.length = 2 := rfl
   have hr : List.range 2 = [0, 1] := rfl
   rw [hl, hr]
-  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
+  rw [List.map_cons, List.map_cons, List.map_nil, List.sum_cons, List.sum_cons, List.sum_nil]
   have h := cnt5
   unfold orderTablesOf autTables at h
   rw [eRC0, eRC1, h.1, h.2]

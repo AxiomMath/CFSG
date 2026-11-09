@@ -37,6 +37,8 @@ open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.Schreier.C
 @[expose] def co3FiveX25PowArrs : Array (Array Nat) :=
   Array.ofFn (n := 5) fun e => powArr 276 co3FiveX25Arr e
 
+@[expose] def co3FiveC25Rep (i : Nat) : Nat := if i = 0 then 1 else if i = 1 then 3 else 8
+
 @[expose] def co3FiveChainCheck (L : Array Level) (cC25 : ArrCert) : Bool :=
   co3FiveSiftArrs.all (siftA 276 L co3ChainBaseArr 0) &&
     (co3FiveZArr[0]! == 0 && co3FiveZArr[1]! == 1 && co3FiveZArr[2]! == 2 &&
@@ -47,8 +49,13 @@ open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.Schreier.C
     co3FiveRels.all (fun r => decide (r.2.2 < co3FiveX25PowArrs.size) &&
       decide (r.1 < co3ChainBaseArr.size) && decide (r.2.1 < co3ChainBaseArr.size) &&
       (co3FiveX25PowArrs[r.2.2]!)[co3ChainBaseArr[r.1]!]! == co3ChainBaseArr[r.2.1]!) &&
-    ptailOK 276 L co3ChainBaseArr co3FiveX25Arr co3FiveX25PowArrs co3FiveRels cC25.pts.toList 7
-      0 (idA 276)
+    co3FiveX25Arr[0]! == 0 && allLt 275 (fun p => co3FiveX25Arr[p + 1]! != p + 1) &&
+    allLt (L[1]!).pts.size (fun k =>
+      !((List.range 3).any fun i => (L[1]!).pts[k]! == co3FiveC25Rep i) ||
+      ptailOK 276 L co3ChainBaseArr co3FiveX25Arr co3FiveX25PowArrs co3FiveRels cC25.pts.toList 5 2
+        (L[1]!).tr[k]!) &&
+    allLt 275 (fun q => (List.range cC25.pts.size).any fun w => (List.range 3).any fun i =>
+      (cC25.pts[w]!)[co3FiveC25Rep i]! == q + 1)
 
 @[expose] def co3FiveLines : Array (Array Nat) := Array.ofFn (n := 31) fun j => co3FiveLineArr j
 

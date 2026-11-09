@@ -8,8 +8,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 import all Certificates.Data.HePresData
 import all Certificates.Data.HePresCheck
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCosetJ.HeModel
-  "Certificates/Kernel/CosetJ/data/hemodel.json.gz" 7868 2565357447463072950
+#kc_repo #kc_json CertificateChecks.KernelCosetJ.HeModel
+  "Certificates/Kernel/CosetJ/data/hemodel.json" 7868 2565357447463072950
   (IC0 : List (List Nat)) (IC1 : List (List Nat)) (IE : List (List Nat)) (IF : List (List Nat))
   (RC : List (List (Nat × Bool))) (RE : List (List (Nat × Bool))) (RF : List (List (Nat × Bool)))
 

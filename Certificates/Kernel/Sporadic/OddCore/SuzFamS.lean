@@ -35,6 +35,22 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Row CertificateChecks.KernelSpor.Suz2306
 
 @[expose] noncomputable def incSl (s : Nat) : Bool := allBlk (Nat.mul 891 s) incK 891
 
+@[expose] noncomputable def incIn (B i : Nat) : Bool :=
+  Nat.blt (fld(B, Nat.mul 15 i, mask 15)) (fld(B, Nat.mul 15 (Nat.succ i), mask 15))
+
+@[expose] noncomputable def incBlk (A b : Nat) : Bool :=
+  strictB (fld(A, Nat.mul 1950 b, mask 1950)) (fun B => allN 129 (incIn B))
+
+@[expose] noncomputable def incBd (A b : Nat) : Bool :=
+  Nat.blt (fld(A, Nat.add (Nat.mul 1950 b) 1935, mask 15))
+    (fld(A, Nat.mul 1950 (Nat.succ b), mask 15))
+
+@[expose] noncomputable def incK2 (d : Nat) : Bool :=
+  strictB (FAM d) (fun A => bAnd(Nat.blt (fld(A, Nat.mul 15 2079, mask 15)) 22880,
+    bAnd(allN 16 (incBlk A), allN 15 (incBd A))))
+
+@[expose] noncomputable def incSl2 (s : Nat) : Bool := allBlk (Nat.mul 891 s) incK2 891
+
 end CertificateChecks.KernelSpor.SuzFamD
 
 end

@@ -175,6 +175,81 @@ theorem cos_cd (r p h : Equiv.Perm (Fin 42)) :
   simp only [cd_mul]
   rfl
 
+theorem rd_cd_fin (σ : Equiv.Perm (Fin 42)) (x : Fin 42) : rd (cd σ) x = σ x := by
+  rw [rd_eq, fd_cd σ x.2]
+
+theorem rd_cd_zero (σ : Equiv.Perm (Fin 42)) : rd (cd σ) 0 = σ 0 := rd_cd_fin σ 0
+
+@[expose] noncomputable def fix4R (c j : Nat) : Bool := Nat.beq (rd c (rd c (rd c (rd c j)))) j
+
+@[expose] def brecF (a b : Bool) : Bool := Bool.rec false a b
+
+@[expose] def brecT (a b : Bool) : Bool := Bool.rec a true b
+
+theorem brecF_eq (a b : Bool) : brecF a b = (b && a) := by cases b <;> rfl
+
+theorem brecT_eq (a b : Bool) : brecT a b = (b || a) := by cases b <;> rfl
+
+theorem eq_and_of_imp (a b : Bool) (h : a = true → b = true) : a = (b && a) := by
+  cases a <;> cases b <;> simp_all
+
+theorem eq_or_of_imp (a b : Bool) (h : b = true → a = true) : a = (b || a) := by
+  cases a <;> cases b <;> simp_all
+
+@[expose] noncomputable def ord4Q (c : Nat) : Bool :=
+  brecF (brecF (ord4R c) (fix4R c 21)) (fix4R c 0)
+
+@[expose] noncomputable def commPre (B c : Nat) : Bool := Nat.beq (rd c (rd B 0)) (rd B (rd c 0))
+
+@[expose] noncomputable def commQ (B c : Nat) : Bool := brecF (commR B c) (commPre B c)
+
+@[expose] noncomputable def cosPre (R B c : Nat) : Bool :=
+  !Nat.beq (rd R (rd c (rd B 0))) (rd B (rd R (rd c 0)))
+
+@[expose] noncomputable def cosQ (R B c : Nat) : Bool := brecT (cosR R B c) (cosPre R B c)
+
+theorem pow4_apply (g : Equiv.Perm (Fin 42)) (h : g ^ 2 * g ^ 2 = 1) (x : Fin 42) :
+    g (g (g (g x))) = x := by
+  have e := congrArg (fun σ : Equiv.Perm (Fin 42) => σ x) h
+  simp only [pow_two, Equiv.Perm.mul_apply, Equiv.Perm.one_apply] at e
+  exact e
+
+theorem fix4_cd (g : Equiv.Perm (Fin 42)) (x : Fin 42) (h : g ^ 2 * g ^ 2 = 1) :
+    fix4R (cd g) x = true := by
+  simp only [fix4R, rd_cd_fin, pow4_apply g h x, Nat.beq_refl]
+
+theorem orderIs_cdQ (g : Equiv.Perm (Fin 42)) : orderIs g 4 = ord4Q (cd g) := by
+  rw [ord4Q, brecF_eq, brecF_eq, ← orderIs_cd, ← Bool.and_assoc]
+  refine eq_and_of_imp _ _ fun h => ?_
+  have hg : g ^ 2 * g ^ 2 = 1 := by
+    rw [orderIs_four, Bool.and_eq_true, decide_eq_true_iff] at h
+    exact h.1
+  have h0 : fix4R (cd g) 0 = true := fix4_cd g 0 hg
+  have h21 : fix4R (cd g) 21 = true := fix4_cd g 21 hg
+  rw [h0, h21, Bool.and_self]
+
+theorem comm_cdQ (g h : Equiv.Perm (Fin 42)) : decide (g * h = h * g) = commQ (cd h) (cd g) := by
+  rw [commQ, brecF_eq, ← comm_cd]
+  refine eq_and_of_imp _ _ fun hc => ?_
+  have e : g * h = h * g := by rwa [decide_eq_true_iff] at hc
+  have e0 := congrArg (fun σ : Equiv.Perm (Fin 42) => σ 0) e
+  simp only [Equiv.Perm.mul_apply] at e0
+  simp only [commPre, rd_cd_zero, rd_cd_fin, e0, Nat.beq_refl]
+
+theorem cos_cdQ (r p h : Equiv.Perm (Fin 42)) :
+    decide (r * p * h ≠ h * (r * p)) = cosQ (cd r) (cd h) (cd p) := by
+  rw [cosQ, brecT_eq, ← cos_cd]
+  refine eq_or_of_imp _ _ fun hp => ?_
+  rcases Bool.eq_false_or_eq_true (decide (r * p * h ≠ h * (r * p))) with hc | hc
+  · exact hc
+  · have e : r * p * h = h * (r * p) := by rwa [decide_eq_false_iff_not, not_not] at hc
+    have e0 := congrArg (fun σ : Equiv.Perm (Fin 42) => σ 0) e
+    simp only [Equiv.Perm.mul_apply] at e0
+    have hq : cosPre (cd r) (cd h) (cd p) = false := by
+      simp only [cosPre, rd_cd_zero, rd_cd_fin, e0, Nat.beq_refl, Bool.not_true]
+    rw [hq] at hp
+    exact absurd hp Bool.false_ne_true
+
 end CertificateChecks.KernelSchreierFam.C6144
 
 end

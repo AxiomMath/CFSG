@@ -12,13 +12,10 @@ open Subgroup CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier
 open CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SmallOddCore.Native
 open CFSG.EvenSporadicStandard.HypOne CFSG.EvenSporadicStandard.HypOne.J3
 
-private theorem sylXList_eq' : sylXList = (mulClosureH 6156 sylXGens 256).1 := by
-  unfold sylXList
-  rfl
+private theorem sylXList_eq' : sylXList = (mulClosureH 6156 sylXGens 256).1 := sylXList_fst
 
 private theorem sylXList_eq'' : sylXList = (mulClosureH 6156 j3SylowGenTbls.toArray 256).1 := by
-  unfold sylXList sylXGens
-  rfl
+  rw [sylXList_fst, sylXGens]
 
 theorem outerData_j3P :
     OuterData ↥j3P := by

@@ -191,8 +191,10 @@ theorem l3Facts_tgt (he : e < 12) {k : Nat} (hk : k < wrEP e 10) {j : Nat} (hj :
   have hMe : l3M f = wrEM e := by
     unfold l3M wrEM wrEm
     rw [hadd, hP1]
+  have Me : IsModel (⊤ : Subgroup (CycExt D)) 16384 (wrEM e) (dec2 D subModel_wr.decW) :=
+    tm_model wr_model D hFA (wrE_g_lt he) hg
   have hh := ch36408_eh_all he
-  have hl := ch36408_elab_all he
+  have hl := ch36408_elab_all he Me
   simp only [ch36408_elab, ch36408_eh, Bool.and_eq_true] at hl hh
   have hH : hOK16 16384 (l3M f) 128 (wrED e 4) = true := by
     rw [hMe]
@@ -203,8 +205,6 @@ theorem l3Facts_tgt (he : e < 12) {k : Nat} (hk : k < wrEP e 10) {j : Nat} (hj :
     rw [hIm]
     exact hβ'
   have hout := l3_out D hf hFA' hdg' hj' D' hβ'' hg'
-  have Me : IsModel (⊤ : Subgroup (CycExt D)) 16384 (wrEM e) (dec2 D subModel_wr.decW) :=
-    tm_model wr_model D hFA (wrE_g_lt he) hg
   have hT : treeB 16384 4 (wrEM e) (wrED e 5) (wrED e 7) = true := hh.1.2
   have hx0 : l16 (wrED e 5) 0 < 16384 := treeB_gen hT (by norm_num)
   have hchi := ch36408_echi_all he

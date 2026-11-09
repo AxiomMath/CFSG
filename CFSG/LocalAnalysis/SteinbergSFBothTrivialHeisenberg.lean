@@ -39,13 +39,9 @@ local notation "𝐏" => pull φ (antiUnipotent K)
 local notation "𝐙" => pull φ (antiUnipotentCenter K)
 local notation "𝐀[" i "]" => pull φ (rootA K i)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => btD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => btE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -55,8 +51,7 @@ local notation "𝐇" => (𝐐[Axis.one] ⊔ 𝐐[Axis.two] : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐄₀" => (𝐄[Axis.one] ⊓ 𝐄[Axis.two] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => btF φ t
 set_option quotPrecheck false in
 local notation "𝐊[" i "]" => (𝐀[i] ⊔ (𝐅 ⊓ 𝐃[i]) : Subgroup G)
 set_option quotPrecheck false in

@@ -130,6 +130,72 @@ theorem indep_N [Fact p.Prime] {m : NMod} (hf : ∀ f ∈ m.facts p, f ∈ C.fac
     refine List.map_congr_left fun k _ => ?_
     simp [hl]
 
+theorem prod_map_pow_of_commute {G ι : Type*} [Monoid G] (f : ι → G) (e : ι → ℕ)
+    (hc : ∀ i j, Commute (f i) (f j)) (s : ℕ) :
+    ∀ L : List ι, (L.map fun k => f k ^ e k).prod ^ s = (L.map fun k => f k ^ (e k * s)).prod
+  | [] => by simp
+  | a :: L => by
+    have h : Commute (f a ^ e a) (L.map fun k => f k ^ e k).prod :=
+      Commute.list_prod_right _ _ fun y hy => by
+        obtain ⟨b, -, rfl⟩ := List.mem_map.1 hy
+        exact (hc a b).pow_pow _ _
+    simp only [List.map_cons, List.prod_cons]
+    rw [h.mul_pow, prod_map_pow_of_commute f e hc s L, ← pow_mul]
+
+include Sp hC in
+theorem indep_NN [Fact p.Prime] {m : NMod} (hf : ∀ f ∈ m.facts p, f ∈ C.facts)
+    (hw : m.wfN p = true) (cc : Fin m.basis.length → ZMod p)
+    (h1 : ((List.finRange m.basis.length).map fun k =>
+      regUnit Sp hC (m.basis.getD k.val 0) ^ (cc k).val).prod = 1) : cc = 0 := by
+  by_contra hne
+  set l : List ℕ := List.ofFn fun k => (cc k).val with hl
+  have hlen : l.length = m.basis.length := by simp [hl]
+  have hlt : ∀ x ∈ l, x < p := by
+    intro x hx
+    simp only [hl, List.mem_ofFn'] at hx
+    obtain ⟨k, rfl⟩ := hx
+    exact ZMod.val_lt _
+  have hmem : l ∈ allVecs p m.basis.length := (mem_allVecs p _ l).2 ⟨hlen, hlt⟩
+  unfold NMod.wfN at hw
+  simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at hw
+  have h2 := hw.2 l hmem
+  rcases Bool.or_eq_true_iff.1 h2 with h3 | h3
+  · apply hne
+    funext k
+    have hk : (cc k).val = 0 := by
+      have := List.all_eq_true.1 h3 (cc k).val (by simp [hl])
+      simpa using this
+    exact (ZMod.val_eq_zero _).1 hk
+  · obtain ⟨s', -, hs⟩ := List.any_eq_true.1 h3
+    generalize s' + 1 = s at hs
+    obtain ⟨q, hq, hql⟩ := List.any_eq_true.1 hs
+    have hql' : q.1 = l.map fun x => x * s % p := beq_iff_eq.1 hql
+    have hfne : MFact.ne (m.word (l.map fun x => x * s % p)) [] q.2 ∈ C.facts := by
+      apply hf
+      simp only [NMod.facts, List.mem_append, List.mem_map]
+      exact Or.inl (Or.inr ⟨q, hq, by rw [hql']⟩)
+    have hne' := regUnit_ne Sp hC hfne (hasOrd_word_N hf _) (hasOrd_nil C)
+    have hpow : ∀ k : Fin m.basis.length, regUnit Sp hC (m.basis.getD k.val 0) ^ p = 1 :=
+      fun k => regUnit_pow Sp hC (basis_ord_N hf k.2)
+    have hc : ∀ i j : Fin m.basis.length, Commute (regUnit Sp hC (m.basis.getD i.val 0))
+        (regUnit Sp hC (m.basis.getD j.val 0)) := fun i j => by
+      rcases lt_trichotomy i.val j.val with h | h | h
+      · exact comm_lt_N Sp hC hf i.2 j.2 h
+      · rw [Fin.ext h]
+      · exact (comm_lt_N Sp hC hf j.2 i.2 h).symm
+    have h1s : ((List.finRange m.basis.length).map fun k =>
+        regUnit Sp hC (m.basis.getD k.val 0) ^ ((cc k).val * s)).prod = 1 := by
+      rw [← prod_map_pow_of_commute (fun k : Fin m.basis.length =>
+        regUnit Sp hC (m.basis.getD k.val 0)) (fun k => (cc k).val) hc s, h1, one_pow]
+    apply hne'
+    rw [wordUnit_nil, ← h1s]
+    unfold wordUnit NMod.word
+    rw [List.map_map, ← map_finRange_val]
+    congr 1
+    refine List.map_congr_left fun k _ => ?_
+    rw [pow_eq_pow_mod ((cc k).val * s) (hpow k)]
+    simp [hl]
+
 include Sp hC in
 theorem act_N [Fact p.Prime] {m : NMod} (hf : ∀ f ∈ m.facts p, f ∈ C.facts) {g : NAct}
     (hg : g ∈ m.acts) (i : Fin m.basis.length) :
@@ -178,6 +244,23 @@ theorem act_N [Fact p.Prime] {m : NMod} (hf : ∀ f ∈ m.facts p, f ∈ C.facts
     · exact (comm_lt_N Sp hC hf j.2 i.2 h).symm
   pow := fun i => regUnit_pow Sp hC (basis_ord_N hf i.2)
   indep := fun cc h1 => indep_N Sp hC hf hw cc h1
+  act := fun j i => act_N Sp hC hf (List.get_mem _ _) i
+
+@[expose] noncomputable def NMod.specN [Fact p.Prime] (m : NMod)
+    (hf : ∀ f ∈ m.facts p, f ∈ C.facts) (hw : m.wfN p = true) :
+    ModuleSpec (certMonoid c d sA sB)ˣ p where
+  n := m.basis.length
+  m := m.acts.length
+  a := fun i => regUnit Sp hC (m.basis.getD i.val 0)
+  g := fun j => regUnit Sp hC (m.acts.get j).reg
+  M := fun j => actMatN p m.basis.length (m.acts.get j)
+  comm := fun i j => by
+    rcases lt_trichotomy i.val j.val with h | h | h
+    · exact comm_lt_N Sp hC hf i.2 j.2 h
+    · rw [Fin.ext h]
+    · exact (comm_lt_N Sp hC hf j.2 i.2 h).symm
+  pow := fun i => regUnit_pow Sp hC (basis_ord_N hf i.2)
+  indep := fun cc h1 => indep_NN Sp hC hf hw cc h1
   act := fun j i => act_N Sp hC hf (List.get_mem _ _) i
 
 end Module

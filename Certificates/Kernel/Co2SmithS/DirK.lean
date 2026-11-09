@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.Co2SmithS.Lets
 public import CFSG.Certificates.Kernel.Co1F2Sound
 public import Certificates.Data.CFSGNative.Co2Smith.Check
+public import Certificates.Kernel.Co2SmithS.FrameK
 
 public section
 
@@ -17,7 +18,9 @@ open CFSG.Sporadic.Co2Smith.Native
 
 theorem beta_k : betaOK seedsK = true := by decide +kernel
 
-theorem frame_k : frameOK seedsK = true := by decide +kernel
+theorem frame_k : frameOK seedsK = true := by
+  rw [frameOK_eq_frameOKK]
+  decide +kernel
 
 theorem zeta_k : zetaOK seedsK = true := by decide +kernel
 

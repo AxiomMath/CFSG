@@ -141,6 +141,7 @@ private theorem orbR_parts {r : Rep} (hr : repOK P.C P.D r) :
     argOK P.D r.lab (Rep.j r) = true ∧ pathsOK P.C P.D r.lab (Rep.j r) = true ∧
     0 < (P.D.K.getD (Rep.j r) []).length ∧ 0 < Rep.m r ∧
     Rep.key r = Rep.j r :: headL (imgs P.C P.D r.lab (Rep.j r)) := by
+  have hvalid := rep_lab_valid P hr
   unfold repOK at hr
   rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true] at hr
   have horb := hr.1.2
@@ -148,17 +149,18 @@ private theorem orbR_parts {r : Rep} (hr : repOK P.C P.D r) :
   rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true,
     Bool.and_eq_true] at horb
   obtain ⟨⟨⟨⟨⟨hj, hcnt⟩, harg⟩, hpaths⟩, hm⟩, hsize⟩ := horb
-  unfold sizeKey at hsize
-  rw [Bool.and_eq_true] at hsize
-  have hkey : Rep.key r = Rep.j r :: headL (imgs P.C P.D r.lab (Rep.j r)) := by
-    have h := hsize.2
-    rwa [beq_iff_eq] at h
   have hargOK : argOK P.D r.lab (Rep.j r) = true := harg
   unfold argOK at harg
   rw [Bool.and_eq_true] at harg
   have hK0 : 0 < (P.D.K.getD (Rep.j r) []).length := by
     have h := harg.1
     rwa [Nat.blt_eq] at h
+  unfold sizeKey at hsize
+  rw [Bool.and_eq_true, imgsG_eq P (by rwa [Nat.blt_eq] at hj) hK0 (fun p hp => hvalid.2 p hp)
+    hpaths] at hsize
+  have hkey : Rep.key r = Rep.j r :: headL (imgs P.C P.D r.lab (Rep.j r)) := by
+    have h := hsize.2
+    rwa [beq_iff_eq] at h
   exact ⟨by rwa [Nat.blt_eq] at hj, by rwa [Nat.blt_eq] at hcnt, hargOK, hpaths, hK0,
     by rwa [Nat.blt_eq] at hm, hkey⟩
 
@@ -183,7 +185,8 @@ theorem key_eq_of_Sx_eq {r r' : Rep} (hr : repOK P.C P.D r) (hr' : repOK P.C P.D
   have hhead : headL (imgs P.C P.D r.lab (Rep.j r)) =
       headL (imgs P.C P.D r'.lab (Rep.j r')) := by
     refine headL_eq_of_toFinset_eq (imgs_sortedLt P _ _) (imgs_sortedLt P _ _) ?_
-    rw [imgs_toFinset, imgs_toFinset,
+    rw [imgs_toFinset P hj hK0 (fun p hp => hvalid.2 p hp) hpaths,
+      imgs_toFinset P hj' hK0' (fun p hp => hvalid'.2 p hp) hpaths',
       imgsF_eq_filter P hj hK0 (fun p hp => hvalid.2 p hp) hpaths,
       imgsF_eq_filter P hj' hK0' (fun p hp => hvalid'.2 p hp) hpaths', hj_eq, hSx]
   rw [hkey, hkey', hhead, hj_eq]

@@ -40,9 +40,21 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
 @[expose] def j3StabData : List (List ℕ) × List (ℕ × List (ℕ × ℕ × ℕ)) :=
   parseOrbitsMerges (tokens j3StabText)
 
-irreducible_def j3StabOrbits : List (List ℕ) := j3StabData.1
+opaque j3StabOrbitsSeal : {x : List (List ℕ) // x = j3StabData.1} := ⟨j3StabData.1, rfl⟩
 
-irreducible_def j3Merges : List (ℕ × List (ℕ × ℕ × ℕ)) := j3StabData.2
+@[expose] def j3StabOrbits : List (List ℕ) := j3StabOrbitsSeal.1
+
+theorem j3StabOrbits_def : j3StabOrbits = j3StabData.1 := j3StabOrbitsSeal.2
+
+attribute [irreducible] j3StabOrbits
+
+opaque j3MergesSeal : {x : List (ℕ × List (ℕ × ℕ × ℕ)) // x = j3StabData.2} := ⟨j3StabData.2, rfl⟩
+
+@[expose] def j3Merges : List (ℕ × List (ℕ × ℕ × ℕ)) := j3MergesSeal.1
+
+theorem j3Merges_def : j3Merges = j3StabData.2 := j3MergesSeal.2
+
+attribute [irreducible] j3Merges
 
 @[expose] def j3CertOKWith (bytes : ByteArray) (S : Array (Array ℕ)) : Bool :=
   let Sinv := rawInvs 6156 S

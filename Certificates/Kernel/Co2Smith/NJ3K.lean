@@ -36,6 +36,7 @@ public import Mathlib.Tactic.NormNum.Parity
 public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
+public import Certificates.Data.Kernel.BitT
 
 public section
 
@@ -85,6 +86,51 @@ open CFSG.Sporadic.Co2Smith.Native CFSG.Certificates.Native
     ((List.range 8).all fun s => njCntK (njColK nb s) glNJBase[s]! == glNJBounds[s]!) &&
     decide (njColK nb 8).Nodup
 
-theorem njRef_k : njRefK = true := by decide +kernel
+@[expose] noncomputable def njCntR (f : Nat → Bool) (l : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) 0
+    (fun a _ ih => Bool.rec (motive := fun _ => Nat) ih (Nat.succ ih) (f a)) l
+
+theorem njCntR_eq (f : Nat → Bool) : ∀ l : List Nat, njCntR f l = l.countP f
+  | [] => rfl
+  | a :: l => by
+    have e : njCntR f (a :: l) =
+        Bool.rec (motive := fun _ => Nat) (njCntR f l) (Nat.succ (njCntR f l)) (f a) := rfl
+    rw [e, njCntR_eq f l, List.countP_cons]
+    cases f a <;> rfl
+
+@[expose] noncomputable def njNKF (x : Nat) : Nat :=
+  njCntR (fun m => CFSG.KC.BitT.bitT njOmM (m ^^^ x)) glNJOm
+
+theorem njNK_eq_F (x : Nat) : njNK x = njNKF x := by
+  unfold njNK njNKF
+  rw [njCntR_eq]
+  simp only [CFSG.KC.BitT.bitT_eq]
+
+@[expose] noncomputable def njNbKF : List (List Nat) :=
+  (List.range 77).map fun a => (List.range 77).filter fun b =>
+    b != a && njNKF (glNJOm[a]! ^^^ glNJOm[b]!) == 2
+
+theorem njNbK_eq_F : njNbK = njNbKF := by
+  unfold njNbK njNbKF
+  simp only [njNK_eq_F]
+
+@[expose] noncomputable def njRefKF : Bool :=
+  let nb := njNbKF
+  nb.length == 77 && glNJBase.length == 8 && glNJBounds.length == 8 &&
+    glNJBase.all (· < 77) &&
+    ((List.range 77).all fun a =>
+      (nb.getD a []).all (· < 77) && CFSG.Certificates.Native.strictIncr (nb.getD a [])) &&
+    ((List.range 8).all fun s => njCntK (njColK nb s) glNJBase[s]! == glNJBounds[s]!) &&
+    decide (njColK nb 8).Nodup
+
+theorem njRefK_eq_F : njRefK = njRefKF := by
+  unfold njRefK njRefKF
+  rw [njNbK_eq_F]
+
+theorem njRefF_k : njRefKF = true := by decide +kernel
+
+theorem njRef_k : njRefK = true := by
+  rw [njRefK_eq_F]
+  exact njRefF_k
 
 end CertificateChecks.KernelCo2Smith

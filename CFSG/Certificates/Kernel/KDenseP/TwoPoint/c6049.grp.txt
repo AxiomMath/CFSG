@@ -1,43 +1,63 @@
 N PR0 0
 N PR1 0
 N PR2 0
-N PR3 4
-N PR4 10
-N PR5 1c
-L G0 [#0 #1 #2 #3 #4 #5 #6 #7 #8 #9 #a #b #c #d #e #f #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #1a #1b #1c #1d #1e #1f #20 #21 #22 #23]
+N PR3 0
+N PR4 0
+N PR5 0
+L G0 [#0 #1 #2 #3]
+L G1 [#4]
+L G2 [#5 #6 #7]
+L G3 [#8]
+L G4 [#9]
+L G5 [#a]
+L G6 [#b #c #d]
+L G7 [#e #f]
+L G8 [#10]
+L G9 [#11 #12 #13]
+L G10 [#14]
+L G11 [#15]
+L G12 [#16]
+L G13 [#17 #18 #19]
+L G14 [#1a #1b]
+L G15 [#1c]
+L G16 [#1d #1e #1f]
+L G17 [#20]
+L G18 [#21]
+L G19 [#22]
+L G20 [#23]
 N GK0 0
 N GK1 0
 N GK2 0
 N GK3 0
-N GK4 0
-N GK5 0
-N GK6 0
-N GK7 0
-N GK8 0
-N GK9 0
-N GK10 0
-N GK11 0
-N GK12 0
-N GK13 0
-N GK14 0
-N GK15 0
-N GK16 0
-N GK17 0
-N GK18 0
-N GK19 0
-N GK20 0
-N GK21 0
-N GK22 0
-N GK23 0
-N GK24 0
-N GK25 0
-N GK26 0
-N GK27 0
-N GK28 0
-N GK29 0
-N GK30 0
-N GK31 0
-N GK32 0
-N GK33 0
-N GK34 0
-N GK35 0
+N GK4 1
+N GK5 2
+N GK6 2
+N GK7 2
+N GK8 3
+N GK9 4
+N GK10 5
+N GK11 6
+N GK12 6
+N GK13 6
+N GK14 7
+N GK15 7
+N GK16 8
+N GK17 9
+N GK18 9
+N GK19 9
+N GK20 a
+N GK21 b
+N GK22 c
+N GK23 d
+N GK24 d
+N GK25 d
+N GK26 e
+N GK27 e
+N GK28 f
+N GK29 10
+N GK30 10
+N GK31 10
+N GK32 11
+N GK33 12
+N GK34 13
+N GK35 14

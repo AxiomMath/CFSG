@@ -24,10 +24,10 @@ meta def FP : Array Nat := (CFSG.Sporadic.Co1Schreier.Native.fullOrb 2).pts
 end CertificateChecks.KernelSporSch.Co1Full
 
 #kss_co1fib CertificateChecks.KernelSporSch.Co1Full.FW CertificateChecks.KernelSporSch.Co1Orbs.F2.T
-  CertificateChecks.KernelSporSch.Co1Orbs.F2.S CertificateChecks.KernelSporSch.Co1Full.FP 16120435 2048
+  CertificateChecks.KernelSporSch.Co1Orbs.F2.S CertificateChecks.KernelSporSch.Co1Full.FP 16120435 512
 
 #kss_co1fib CertificateChecks.KernelSporSch.Co1Full.FU CertificateChecks.KernelSporSch.Co1Orbs.F2.T
-  CertificateChecks.KernelSporSch.Co1Orbs.F2.S CertificateChecks.KernelSporSch.Co1Full.FP 10876918 2048
+  CertificateChecks.KernelSporSch.Co1Orbs.F2.S CertificateChecks.KernelSporSch.Co1Full.FP 10876918 512
 
 namespace CertificateChecks.KernelSporSch.Co1Full
 

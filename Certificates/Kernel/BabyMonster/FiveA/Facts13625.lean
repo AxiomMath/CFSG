@@ -2,6 +2,8 @@ module
 
 public import CFSG.Certificates.Kernel.BabyMonster.PcFive.Struct
 public import CFSG.Certificates.Kernel.BabyMonster.FiveN.Check0
+public import CFSG.Certificates.Kernel.BabyMonster.FiveN.Check1
+public import CFSG.Certificates.Kernel.BabyMonster.FiveN.Check2
 public import Certificates.Kernel.BabyMonster.FiveA.Basic
 public import Certificates.Kernel.BabyMonster.PcFive.Census
 
@@ -227,28 +229,43 @@ theorem chain {A C : List Nat} {Ws : List (List Nat)} (hW : ∀ W ∈ Ws, wfMat 
   stripMat_mul_of_allStrips hW hA h
 
 theorem n0_eq : ((evalW xU hU (nW 0) : MatBˣ) : MatB) = stripMat FiveN.n0 := by
-  have e := chain (C := FiveN.n0) (Ws := [f85_sq2, f86_sq1, f85_sq2, f85_sq2, f86, f85_sq2])
-    (by simp [wf_f85_sq2, wf_f86_sq1, wf_f86]) wf_f86 (by bm_strips4 CFSG.KC.BM.FiveN.cn0 69)
-  simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2, h_sq1] at e
-  rw [← e]
+  have e := chain (C := FiveN.n0a) (Ws := [f85_sq2, f86_sq1])
+    (by simp [wf_f85_sq2, wf_f86_sq1]) wf_f86 (by bm_strips4 CFSG.KC.BM.FiveN.cn0 69)
+  have e' := chain (C := FiveN.n0b) (Ws := [f85_sq2, f85_sq2])
+    (by simp [wf_f85_sq2]) FiveN.wf_n0a (by bm_strips4 CFSG.KC.BM.FiveN.cn0b 69)
+  have e'' := chain (C := FiveN.n0) (Ws := [f86, f85_sq2])
+    (by simp [wf_f85_sq2, wf_f86]) FiveN.wf_n0b (by bm_strips4 CFSG.KC.BM.FiveN.cn0c 69)
+  simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2,
+    h_sq1] at e e' e''
+  rw [← e'', ← e', ← e]
   simp only [evalW, nW, Units.val_mul, Units.val_one, cx, cxi, ch, chi, mul_one, sq, mul_assoc]
 
 theorem n1_eq : ((evalW xU hU (nW 1) : MatBˣ) : MatB) = stripMat FiveN.n1 := by
-  have e := chain (C := FiveN.n1)
-    (Ws := [f85_sq2, f85_sq2, f86_sq1, f85_sq2, f86_sq1, f85_sq2, f86, f85, H3])
-    (by simp [wf_f85_sq2, wf_f86_sq1, wf_f86, wf_f85, wf_H3]) wf_f86
-    (by bm_strips4 CFSG.KC.BM.FiveN.cn1 69)
+  have e := chain (C := FiveN.n1a) (Ws := [f85_sq2, f85_sq2])
+    (by simp [wf_f85_sq2]) wf_f86 (by bm_strips4 CFSG.KC.BM.FiveN.cn1 69)
+  have e' := chain (C := FiveN.n1b) (Ws := [f86_sq1, f85_sq2])
+    (by simp [wf_f85_sq2, wf_f86_sq1]) FiveN.wf_n1a (by bm_strips4 CFSG.KC.BM.FiveN.cn1b 69)
+  have e'' := chain (C := FiveN.n1c) (Ws := [f86_sq1, f85_sq2])
+    (by simp [wf_f85_sq2, wf_f86_sq1]) FiveN.wf_n1b (by bm_strips4 CFSG.KC.BM.FiveN.cn1c 69)
+  have e3 := chain (C := FiveN.n1d) (Ws := [f86, f85])
+    (by simp [wf_f86, wf_f85]) FiveN.wf_n1c (by bm_strips4 CFSG.KC.BM.FiveN.cn1d 69)
+  have e4 := chain (C := FiveN.n1) (Ws := [H3])
+    (by simp [wf_H3]) FiveN.wf_n1d (by bm_strips4 CFSG.KC.BM.FiveN.cn1e 69)
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2, h_sq1,
-    h_three] at e
-  rw [← e]
+    h_three] at e e' e'' e3 e4
+  rw [← e4, ← e3, ← e'', ← e', ← e]
   simp only [evalW, nW, Units.val_mul, Units.val_one, cx, cxi, ch, chi, mul_one, sq, mul_assoc,
     ← pow_three']
 
 theorem n2_eq : ((evalW xU hU (nW 2) : MatBˣ) : MatB) = stripMat FiveN.n2 := by
-  have e := chain (C := FiveN.n2) (Ws := [oh_p, f85, oh_p, f85, f86, f85])
-    (by simp [wf_oh_p, wf_f85, wf_f86]) wf_oh_p (by bm_strips4 CFSG.KC.BM.FiveN.cn2 69)
-  simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, h_p] at e
-  rw [← e]
+  have e := chain (C := FiveN.n2a) (Ws := [oh_p, f85])
+    (by simp [wf_oh_p, wf_f85]) wf_oh_p (by bm_strips4 CFSG.KC.BM.FiveN.cn2 69)
+  have e' := chain (C := FiveN.n2b) (Ws := [oh_p, f85])
+    (by simp [wf_oh_p, wf_f85]) FiveN.wf_n2a (by bm_strips4 CFSG.KC.BM.FiveN.cn2b 69)
+  have e'' := chain (C := FiveN.n2) (Ws := [f86, f85])
+    (by simp [wf_f85, wf_f86]) FiveN.wf_n2b (by bm_strips4 CFSG.KC.BM.FiveN.cn2c 69)
+  simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, h_p] at e e' e''
+  rw [← e'', ← e', ← e]
   simp only [evalW, nW, Units.val_mul, Units.val_one, cx, cxi, ch, chi, mul_one, mul_assoc]
 
 theorem psi_val (v : V6) : ((psi xU (qW xU hU) (zW xU hU) v : MatBˣ) : MatB) =
@@ -256,30 +273,45 @@ theorem psi_val (v : V6) : ((psi xU (qW xU hU) (zW xU hU) v : MatBˣ) : MatB) =
   simp only [psi, nfQ, Units.val_mul, Units.val_pow_eq_pow_val, cx, cq0, cq1, cq2, cq3, cz]
 
 theorem e0_eq : stripMat FiveN.e0 = MX ^ 4 * (MW ^ 1 * M2 ^ 2 * M3 ^ 4 * M4 ^ 3 * MZ ^ 3) := by
-  have e := chain (C := FiveN.e0) (Ws := [W_sq3, Q2_sq1, Q3_sq2, Q4_sq1, Q4, Zp3])
-    (by simp [wf_W_sq3, wf_Q2_sq1, wf_Q3_sq2, wf_Q4_sq1, wf_Q4, wf_Zp3]) wf_f85_sq2
+  have e := chain (C := FiveN.e0a) (Ws := [W_sq3, Q2_sq1])
+    (by simp [wf_W_sq3, wf_Q2_sq1]) wf_f85_sq2
     (by bm_strips4 CFSG.KC.BM.FiveN.ce0 69)
+  have e' := chain (C := FiveN.e0b) (Ws := [Q3_sq2, Q4_sq1])
+    (by simp [wf_Q3_sq2, wf_Q4_sq1]) FiveN.wf_e0a
+    (by bm_strips4 CFSG.KC.BM.FiveN.ce0b 69)
+  have e'' := chain (C := FiveN.e0) (Ws := [Q4, Zp3])
+    (by simp [wf_Q4, wf_Zp3]) FiveN.wf_e0b
+    (by bm_strips4 CFSG.KC.BM.FiveN.ce0c 69)
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2, b2, c4, d2,
-    z3] at e
-  rw [← e, pow_one, pow_succ M4 2]
+    z3] at e e' e''
+  rw [← e'', ← e', ← e, pow_one, pow_succ M4 2]
   simp only [mul_assoc]
 
 theorem e1_eq : stripMat FiveN.e1 = MX ^ 2 * (MW ^ 4 * M2 ^ 4 * M3 ^ 1 * M4 ^ 3 * MZ ^ 4) := by
-  have e := chain (C := FiveN.e1) (Ws := [W_sq3_sq2, Q2_sq2, Q3, Q4_sq1, Q4, Zp4])
-    (by simp [wf_W_sq3_sq2, wf_Q2_sq2, wf_Q3, wf_Q4_sq1, wf_Q4, wf_Zp4]) wf_f85_sq1
+  have e := chain (C := FiveN.e1a) (Ws := [W_sq3_sq2, Q2_sq2])
+    (by simp [wf_W_sq3_sq2, wf_Q2_sq2]) wf_f85_sq1
     (by bm_strips4 CFSG.KC.BM.FiveN.ce1 69)
+  have e' := chain (C := FiveN.e1b) (Ws := [Q3, Q4_sq1])
+    (by simp [wf_Q3, wf_Q4_sq1]) FiveN.wf_e1a
+    (by bm_strips4 CFSG.KC.BM.FiveN.ce1b 69)
+  have e'' := chain (C := FiveN.e1) (Ws := [Q4, Zp4])
+    (by simp [wf_Q4, wf_Zp4]) FiveN.wf_e1b
+    (by bm_strips4 CFSG.KC.BM.FiveN.ce1c 69)
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq1, w4, b4, d2,
-    z4] at e
-  rw [← e, pow_one, pow_succ M4 2]
+    z4] at e e' e''
+  rw [← e'', ← e', ← e, pow_one, pow_succ M4 2]
   simp only [mul_assoc]
 
 theorem e2_eq : stripMat FiveN.e2 = MX ^ 4 * (MW ^ 3 * M2 ^ 0 * M3 ^ 2 * M4 ^ 4 * MZ ^ 1) := by
-  have e := chain (C := FiveN.e2) (Ws := [Q1e3, Q3_sq1, Q4_sq2, Z])
-    (by simp [wf_Q1e3, wf_Q3_sq1, wf_Q4_sq2, wf_Z]) wf_f85_sq2
+  have e := chain (C := FiveN.e2a) (Ws := [Q1e3, Q3_sq1])
+    (by simp [wf_Q1e3, wf_Q3_sq1]) wf_f85_sq2
     (by bm_strips4 CFSG.KC.BM.FiveN.ce2 69)
+  have e' := chain (C := FiveN.e2) (Ws := [Q4_sq2, Z])
+    (by simp [wf_Q4_sq2, wf_Z]) FiveN.wf_e2a
+    (by bm_strips4 CFSG.KC.BM.FiveN.ce2b 69)
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2, w3, c2,
-    d4] at e
-  rw [← e, pow_one, pow_zero, mul_one]
+    d4] at e e'
+  rw [← e', ← e, pow_one, pow_zero, mul_one]
   simp only [mul_assoc]
 
 theorem na_of {N E : MatBˣ} {n e m : List Nat} (hn : (N : MatB) = stripMat n)

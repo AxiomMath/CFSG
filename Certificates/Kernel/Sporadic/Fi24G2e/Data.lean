@@ -1,18 +1,17 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Br.Data
 public import Certificates.Kernel.Sporadic.Fi24Ext.Data
 public import Certificates.Kernel.Sporadic.Fi24Fix.Data
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24G2e BX "Certificates/Kernel/Sporadic/Fi24G2e/data/bridge.bin.gz" 152491 4 2897329 7411202433937721026
-#kc_repo #kc_json_family_gz CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/bridge.json.gz" 265 14555122570214326293
+#kc_repo #kc_ktree CFSG.KD.Fi24G2e BX "Certificates/Kernel/Sporadic/Fi24G2e/data/bridge.bin" 152491 4 2897329 7411202433937721026
+#kc_repo #kc_json_family CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/bridge.json" 265 14555122570214326293
   (PC : List Nat)
-#kc_repo #kc_json_gz CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/bridge.json.gz" 265 14555122570214326293
+#kc_repo #kc_json CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/bridge.json" 265 14555122570214326293
   (PL : List Nat) (PV : List Nat)
 
 public section

@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.CoreGenN
+public import Certificates.Data.Kernel.CoreGenN2
 public import Certificates.Kernel.LocalComp.ThOrder
 public import Certificates.Kernel.MatCert.J4Seeds
 public import Certificates.Kernel.MatCert.Fp
@@ -32,8 +33,13 @@ theorem th_D : CoreTh5.spec.rA < CoreTh5.nregs ∧ CoreTh5.spec.rB < CoreTh5.nre
     CoreTh5.spec.wf = true := by
   decide +kernel
 
-theorem j4_K : coreGenN (opsF2K 112) JA.M JB.M CoreJ43.nregs CoreJ43.prog CoreJ43.spec = true := by
+theorem j4_K3 :
+    coreGenN3 (opsF2K 112) JA.M JB.M CoreJ43.nregs CoreJ43.prog CoreJ43.spec = true := by
   quickRfl
+
+theorem j4_K : coreGenN (opsF2K 112) JA.M JB.M CoreJ43.nregs CoreJ43.prog CoreJ43.spec = true := by
+  rw [coreGenN_eq3]
+  exact j4_K3
 
 theorem j4_D : CoreJ43.spec.rA < CoreJ43.nregs ∧ CoreJ43.spec.rB < CoreJ43.nregs ∧
     CoreJ43.spec.wf = true := by

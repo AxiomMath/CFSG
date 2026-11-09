@@ -9,7 +9,8 @@ public section
 namespace CFSG.KC.Fi24F4W
 
 open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24NetPt CFSG.KC.Fi24Kit
-open CFSG.KC.Fi24FixP (fixS)
+open CFSG.KC.Fi24FixP (idPl19)
+open CFSG.KC.MonsterConv.Perm (ones)
 open CFSG.KC.Enum (allN strictB)
 
 @[expose] noncomputable def rPt (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat) (t : Bool)
@@ -23,12 +24,6 @@ open CFSG.KC.Enum (allN strictB)
 @[expose] noncomputable def bitsL (l : List Nat) : Nat :=
   List.rec (motive := fun _ => Nat) (nat_lit 0)
     (fun x _ ih => Nat.lor (Nat.shiftLeft (nat_lit 1) x) ih) l
-
-@[expose] noncomputable def coverOK (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat)
-    (t : Bool) (prods : List (List Nat)) (q₀ : Nat) (E : List Nat) : Bool :=
-  letB (List.rec (motive := fun _ => Nat) (fixS (rPl NW NT cs t))
-      (fun c _ ih => Nat.land (fixS (walkP NW c)) ih) prods) (fun A =>
-    Nat.beq (Nat.land A (bitsL (q₀ :: E))) A)
 
 @[expose] noncomputable def allLN (l : List Nat) (f : Nat → Bool) : Bool :=
   List.rec (motive := fun _ => Bool) true (fun x _ ih => andB (f x) ih) l
@@ -55,6 +50,33 @@ open CFSG.KC.Enum (allN strictB)
 @[expose] noncomputable def nthL (l : List (List Nat)) (i : Nat) : List Nat :=
   List.rec (motive := fun _ => Nat → List Nat) (fun _ => [])
     (fun x _ ih i => Nat.rec (motive := fun _ => List Nat) x (fun j _ => ih j) i) l i
+
+@[expose] noncomputable def plK (F : Nat → Nat) (k a : Nat) : Nat :=
+  Nat.land a (Nat.xor (ones (nat_lit 524288)) (Nat.xor (F (idPl19 k)) (idPl19 k)))
+
+@[expose] noncomputable def wordF (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat)
+    (t : Bool) (prods : List (List Nat)) (j : Nat) : Nat → Nat :=
+  Nat.rec (motive := fun _ => Nat → Nat) (rPl NW NT cs t) (fun j _ => walkP NW (nthL prods j)) j
+
+@[expose] noncomputable def pickM (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat)
+    (t : Bool) (prods : List (List Nat)) (P : List (List Nat)) (a : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) a
+    (fun p _ ih => strictN ih (plK (wordF NW NT cs t prods (nthN p 0)) (nthN p 1))) P
+
+@[expose] noncomputable def covA (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat)
+    (t : Bool) (prods : List (List Nat)) (P : List (List Nat)) (R : List Nat) : Bool :=
+  letB (pickM NW NT cs t prods P (ones (nat_lit 306936))) (fun A =>
+    Nat.beq (Nat.land A (bitsL R)) A)
+
+@[expose] noncomputable def covB (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat)
+    (t : Bool) (prods : List (List Nat)) (q₀ : Nat) (E : List Nat) (P : List (List Nat))
+    (R : List Nat) : Bool :=
+  letB (pickM NW NT cs t prods P (bitsL R)) (fun A => Nat.beq (Nat.land A (bitsL (q₀ :: E))) A)
+
+@[expose] noncomputable def coverOK (NW : Nat → Nat → Nat) (NT : Nat → Nat) (cs : List Nat)
+    (t : Bool) (prods : List (List Nat)) (q₀ : Nat) (E : List Nat) (P₁ P₂ : List (List Nat))
+    (R : List Nat) : Bool :=
+  andB (covA NW NT cs t prods P₁ R) (covB NW NT cs t prods q₀ E P₂ R)
 
 @[expose] noncomputable def graphOK (OL NT : Nat → Nat) (Q par : List Nat) (th : List (List Nat))
     (m : Nat) : Bool :=

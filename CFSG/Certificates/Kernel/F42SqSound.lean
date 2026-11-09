@@ -45,46 +45,109 @@ theorem extend_toList (k A n : ℕ) :
     · rw [show (2 * n + 1) / 2 = n by omega, show (2 * n + 1) % 2 = 1 by omega]
       simp
 
-theorem stepOK_spec {k A B Q S c : ℕ} {last : Bool} (h : stepOK k A B Q S last c = true) :
-    (mulR (cand k A c) (cand k A c) % 2 ^ (k + 1) = 0 →
-      fldW Q 17 (c + 1) = fldW Q 17 c + 1 ∧ fldW B 22 (fldW Q 17 c) = cand k A c ∧
-        (last = true →
-          mulR (cand k A c) (cand k A c) >>> 22 = fldW S 3 (fldW Q 17 c))) ∧
-    (mulR (cand k A c) (cand k A c) % 2 ^ (k + 1) ≠ 0 → fldW Q 17 (c + 1) = fldW Q 17 c) := by
-  have hq : Nat.add (fldW A 22 (Nat.shiftRight c 1)) (Nat.mul (Nat.land c 1) (Nat.pow 2 k)) =
-      cand k A c := by
-    rw [cand]
-    change fldW A 22 (c >>> 1) + (c &&& 1) * 2 ^ k = _
-    rw [Nat.shiftRight_eq_div_pow, Nat.and_one_is_mod, pow_one]
-  unfold stepOK at h
-  simp only [strictB_eq, hq, bIf_eq] at h
+theorem evenOK_spec {B Q RB wB c x r : ℕ} (h : evenOK B Q RB wB c x r = true) :
+    (r % 2 = 0 → fldW Q 17 (c + 1) = fldW Q 17 c + 1 ∧ fldW B 22 (fldW Q 17 c) = x ∧
+        fldW RB wB (fldW Q 17 c) = r / 2) ∧
+    (r % 2 ≠ 0 → fldW Q 17 (c + 1) = fldW Q 17 c) := by
+  have e1 : Nat.shiftRight r 1 = r / 2 := by
+    change r >>> 1 = _
+    rw [Nat.shiftRight_eq_div_pow, pow_one]
+  have e2 : Nat.land r 1 = r % 2 := Nat.and_one_is_mod r
+  unfold evenOK at h
+  simp only [strictB_eq, bIf_eq, e1, e2] at h
   constructor
   · intro hp
-    have hb : Nat.beq (Nat.mod (mulR (cand k A c) (cand k A c)) (Nat.pow 2 (Nat.succ k))) 0 = true :=
-      Nat.beq_eq_true_eq _ _ ▸ hp
+    have hb : Nat.beq (r % 2) 0 = true := Nat.beq_eq_true_eq _ _ ▸ hp
     simp only [hb, ↓reduceIte] at h
-    split_ifs at h with h1 h2 h3
-    · exact ⟨Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2,
-        fun _ => (Nat.eq_of_beq_eq_true h).symm⟩
-    · exact ⟨Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2, fun hl => absurd hl h3⟩
+    split_ifs at h with h1 h2
+    exact ⟨Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h⟩
   · intro hp
-    have hb : Nat.beq (Nat.mod (mulR (cand k A c) (cand k A c)) (Nat.pow 2 (Nat.succ k))) 0 = false :=
-      beq_false_of_ne hp
+    have hb : Nat.beq (r % 2) 0 = false := beq_false_of_ne hp
     simp only [hb, Bool.false_eq_true, ↓reduceIte] at h
     exact Nat.eq_of_beq_eq_true h
 
-theorem level_sound {k A B Q S nA nB nC : ℕ} {last : Bool} (hC : nC = 2 * nA)
+theorem oddOK_spec {k B Q RB wB c q v : ℕ} (h : oddOK k B Q RB wB c q v = true) :
+    (v % 2 ^ (k + 1) = 0 → fldW Q 17 (c + 1) = fldW Q 17 c + 1 ∧ fldW B 22 (fldW Q 17 c) = q ∧
+        fldW RB wB (fldW Q 17 c) = v / 2 ^ (k + 1)) ∧
+    (v % 2 ^ (k + 1) ≠ 0 → fldW Q 17 (c + 1) = fldW Q 17 c) := by
+  have e1 : Nat.shiftRight v (Nat.succ k) = v / 2 ^ (k + 1) := by
+    change v >>> (k + 1) = _
+    rw [Nat.shiftRight_eq_div_pow]
+  unfold oddOK at h
+  simp only [strictB_eq, bIf_eq, e1] at h
+  constructor
+  · intro hp
+    have hb : Nat.beq (Nat.mod v (Nat.pow 2 (Nat.succ k))) 0 = true := Nat.beq_eq_true_eq _ _ ▸ hp
+    simp only [hb, ↓reduceIte] at h
+    split_ifs at h with h1 h2
+    exact ⟨Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h⟩
+  · intro hp
+    have hb : Nat.beq (Nat.mod v (Nat.pow 2 (Nat.succ k))) 0 = false := beq_false_of_ne hp
+    simp only [hb, Bool.false_eq_true, ↓reduceIte] at h
+    exact Nat.eq_of_beq_eq_true h
+
+theorem stepOK_spec {k A R wR B Q RB wB c : ℕ}
+    (hR : mulR (fldW A 22 (c / 2)) (fldW A 22 (c / 2)) = fldW R wR (c / 2) * 2 ^ k)
+    (h : stepOK k A R wR B Q RB wB c = true) :
+    (mulR (cand k A c) (cand k A c) % 2 ^ (k + 1) = 0 →
+      fldW Q 17 (c + 1) = fldW Q 17 c + 1 ∧ fldW B 22 (fldW Q 17 c) = cand k A c ∧
+        mulR (cand k A c) (cand k A c) = fldW RB wB (fldW Q 17 c) * 2 ^ (k + 1)) ∧
+    (mulR (cand k A c) (cand k A c) % 2 ^ (k + 1) ≠ 0 → fldW Q 17 (c + 1) = fldW Q 17 c) := by
+  have hs : Nat.shiftRight c 1 = c / 2 := by
+    change c >>> 1 = _
+    rw [Nat.shiftRight_eq_div_pow, pow_one]
+  have e2 : Nat.land c 1 = c % 2 := Nat.and_one_is_mod c
+  unfold stepOK at h
+  simp only [strictB_eq, hs, e2] at h
+  rcases Nat.mod_two_eq_zero_or_one c with hc | hc
+  · rw [hc] at h
+    change evenOK B Q RB wB c (fldW A 22 (c / 2)) (fldW R wR (c / 2)) = true at h
+    have hcand : cand k A c = fldW A 22 (c / 2) := by simp [cand, hc]
+    obtain ⟨hp, hf⟩ := evenOK_spec h
+    rw [hcand, hR]
+    have e : fldW R wR (c / 2) * 2 ^ k % 2 ^ (k + 1) = 2 ^ k * (fldW R wR (c / 2) % 2) := by
+      rw [pow_succ, mul_comm (fldW R wR (c / 2)), Nat.mul_mod_mul_left]
+    constructor
+    · intro h0
+      rw [e] at h0
+      have hr : fldW R wR (c / 2) % 2 = 0 :=
+        (Nat.mul_eq_zero.1 h0).resolve_left (Nat.two_pow_pos k).ne'
+      obtain ⟨q1, q2, q3⟩ := hp hr
+      refine ⟨q1, q2, ?_⟩
+      rw [q3, pow_succ]
+      obtain ⟨m, hm⟩ : ∃ m, fldW R wR (c / 2) = 2 * m := ⟨fldW R wR (c / 2) / 2, by omega⟩
+      rw [hm, Nat.mul_div_cancel_left m Nat.two_pos, Nat.mul_comm 2 m, Nat.mul_assoc,
+        Nat.mul_comm 2 (2 ^ k)]
+    · intro h0
+      refine hf fun hr => h0 ?_
+      rw [e, hr, mul_zero]
+  · rw [hc] at h
+    change oddOK k B Q RB wB c (fldW A 22 (c / 2) + 2 ^ k)
+      (mulR (fldW A 22 (c / 2) + 2 ^ k) (fldW A 22 (c / 2) + 2 ^ k)) = true at h
+    have hcand : cand k A c = fldW A 22 (c / 2) + 2 ^ k := by simp [cand, hc]
+    obtain ⟨hp, hf⟩ := oddOK_spec h
+    rw [hcand]
+    refine ⟨fun h0 => ?_, hf⟩
+    obtain ⟨q1, q2, q3⟩ := hp h0
+    refine ⟨q1, q2, ?_⟩
+    rw [q3]
+    have := Nat.div_add_mod (mulR (fldW A 22 (c / 2) + 2 ^ k) (fldW A 22 (c / 2) + 2 ^ k))
+      (2 ^ (k + 1))
+    rw [h0, add_zero] at this
+    rw [mul_comm]
+    exact this.symm
+
+theorem level_sound {k A R wR B Q RB wB nA nB nC : ℕ} (hC : nC = 2 * nA)
+    (hR : ∀ a < nA, mulR (fldW A 22 a) (fldW A 22 a) = fldW R wR a * 2 ^ k)
     (h0 : Nat.beq (fldW Q 17 0) 0 = true) (hn : Nat.beq (fldW Q 17 nC) nB = true)
-    (hc : ∀ c < nC, stepOK k A B Q S last c = true) :
+    (hc : ∀ c < nC, stepOK k A R wR B Q RB wB c = true) :
     (CFSG.EvenSmallLie.FFourTwo.Pc.extend k (arrOf A nA)).filter
         (fun q => mulR q q % 2 ^ (k + 1) == 0) = arrOf B nB ∧
-      ∀ a < nB, mulR (fldW B 22 a) (fldW B 22 a) % 2 ^ (k + 1) = 0 ∧
-        (last = true → mulR (fldW B 22 a) (fldW B 22 a) >>> 22 = fldW S 3 a) := by
+      ∀ a < nB, mulR (fldW B 22 a) (fldW B 22 a) = fldW RB wB a * 2 ^ (k + 1) := by
   set P : ℕ → Bool := fun q => mulR q q % 2 ^ (k + 1) == 0 with hP
   have inv : ∀ c ≤ nC, ((List.range c).map (cand k A)).filter P =
       (List.range (fldW Q 17 c)).map (fldW B 22) ∧
-      ∀ a < fldW Q 17 c, mulR (fldW B 22 a) (fldW B 22 a) % 2 ^ (k + 1) = 0 ∧
-        (last = true → mulR (fldW B 22 a) (fldW B 22 a) >>> 22 = fldW S 3 a) := by
+      ∀ a < fldW Q 17 c, mulR (fldW B 22 a) (fldW B 22 a) = fldW RB wB a * 2 ^ (k + 1) := by
     intro c
     induction c with
     | zero =>
@@ -94,7 +157,7 @@ theorem level_sound {k A B Q S nA nB nC : ℕ} {last : Bool} (hC : nC = 2 * nA)
     | succ c ih =>
       intro hc1
       obtain ⟨e, hall⟩ := ih (by omega)
-      obtain ⟨hpass, hfail⟩ := stepOK_spec (hc c (by omega))
+      obtain ⟨hpass, hfail⟩ := stepOK_spec (hR (c / 2) (by omega)) (hc c (by omega))
       rw [List.range_succ, List.map_append, List.filter_append, e]
       by_cases hp : mulR (cand k A c) (cand k A c) % 2 ^ (k + 1) = 0
       · obtain ⟨q1, q2, q3⟩ := hpass hp
@@ -107,7 +170,7 @@ theorem level_sound {k A B Q S nA nB nC : ℕ} {last : Bool} (hC : nC = 2 * nA)
         · exact hall a ha'
         · obtain rfl : a = fldW Q 17 c := by omega
           rw [q2]
-          exact ⟨hp, q3⟩
+          exact q3
       · have q1 := hfail hp
         have hPc : P (cand k A c) = false := by simp [hP, hp]
         rw [q1]

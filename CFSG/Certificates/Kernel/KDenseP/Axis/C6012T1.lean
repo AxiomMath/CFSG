@@ -7,6 +7,6 @@ public section
 
 set_option maxRecDepth 200000
 
-#kc_each CFSG.KD.AX.c6012.u 12 22
+#kc_each CFSG.KD.AX.c6012.u 74 147
 
 end

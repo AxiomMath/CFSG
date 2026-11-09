@@ -9,7 +9,7 @@ public import Certificates.Data.Kernel.SporCov.BaseKit
 public import Certificates.Data.Kernel.SporCov.BaseFix
 public import Certificates.Data.Kernel.Fi22.Orb
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.Fi22.D "Certificates/Kernel/SporCovBase/data/fi22.json.gz"
+#kc_repo #kc_json CFSG.KD.SporCovBase.Fi22.D "Certificates/Kernel/SporCovBase/data/fi22.json"
   61051 12177719431327265889
   (T : List (List Nat)) (F : List Nat) (BI : Nat) (PZ1 : List (List Nat)) (PH1 : List (List Nat))
   (PZ2 : List (List Nat)) (PH2 : List (List Nat)) (Y2c : List Nat) (G2c : List Nat)

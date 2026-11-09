@@ -10,12 +10,12 @@ namespace CertificateChecks.KernelCo2Three
 
 open CertificateChecks.KernelMisc.Co2K (decodeHex)
 
-#kc_repo #kc_text_gz HMtHex "Certificates/Kernel/Co2Three/data/HMtHex.txt.gz" 13915
+#kc_repo #kc_text HMtHex "Certificates/Kernel/Co2Three/data/HMtHex.txt" 13915
   13240034232236564855
 
 @[expose] def HMtArr : Array (Array Nat) := decodeHex HMtHex (List.replicate 115 1) 121
 
-#kc_repo #kc_text_gz HItHex "Certificates/Kernel/Co2Three/data/HItHex.txt.gz" 1647
+#kc_repo #kc_text HItHex "Certificates/Kernel/Co2Three/data/HItHex.txt" 1647
   7729672916902229398
 
 @[expose] def HItArr : Array (Array Nat) :=

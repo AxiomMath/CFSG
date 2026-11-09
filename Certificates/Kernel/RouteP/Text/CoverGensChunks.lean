@@ -3,16 +3,16 @@ module
 public import Certificates.Data.Kernel.RouteP.TextLinesJoin
 public import Certificates.Data.RouteP.Bridge
 public import Certificates.Kernel.RouteP.Text.Data
-public meta import CFSG.Certificates.Kernel.Common.StrChunks
-public import CFSG.Certificates.Kernel.Common.StrChunks
+public meta import CFSG.Certificates.Kernel.Common.StrChunksLits
+public import CFSG.Certificates.Kernel.Common.StrChunksLits
 
 public section
 
 set_option maxRecDepth 1000000
 set_option maxHeartbeats 0
 
-#str_chunks CertificateChecks.KernelRouteP.PCG
-  CFSG.EvenSporadicStandard.TwoFi22.DS81.RouteP.Model.Native.coverGensText 140000 100000000 8192
+#str_chunks_lits CertificateChecks.KernelRouteP.PCG
+  CFSG.EvenSporadicStandard.TwoFi22.DS81.RouteP.Model.Native.coverGensText 100000000 8192
 
 namespace CertificateChecks.KernelRouteP
 

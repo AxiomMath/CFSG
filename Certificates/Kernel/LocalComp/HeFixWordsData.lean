@@ -1,19 +1,19 @@
 module
 
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CertificateChecks.KernelLC.HeFix
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelLC.HeFix
-  "Certificates/Kernel/LocalComp/data/HeFixWordsData.items.gz" 524948 17942095412061356704
+#kc_repo #kc_nat_items CertificateChecks.KernelLC.HeFix
+  "Certificates/Kernel/LocalComp/data/HeFixWordsData.items" 524948 17942095412061356704
   XR[16] C3R[5] C7R[8] C8R[7]
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLC.HeFix
-  "Certificates/Kernel/LocalComp/data/HeFixWordsData.json.gz" 421369 14790322425027700373
+#kc_repo #kc_json CertificateChecks.KernelLC.HeFix
+  "Certificates/Kernel/LocalComp/data/HeFixWordsData.json" 421369 14790322425027700373
   (C0R0 : Nat) (C0R1 : Nat) (C1R0 : Nat) (C1R1 : Nat) (C2R0 : Nat) (C2R1 : Nat) (C4R0 : Nat)
   (C4R1 : Nat) (C5R0 : Nat) (C5R1 : Nat) (C6R0 : Nat) (C6R1 : Nat)
 

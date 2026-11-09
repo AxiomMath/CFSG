@@ -102,18 +102,22 @@ theorem ck_eq (i : Fin 4) :
   rw [CFSG.KS.PEnum.strictB_app', bind6_eq, bind6_eq, bind4_eq, bind4_eq, bind16_eq]
   rfl
 
-theorem inv_of_sq {p : Nat} (hp : Cn p) (h : Nat.beq (pc p p) idK = true) :
-    invEqK 11200 14 (mask 14) (11200 * 14) p p = true := by
+theorem inv_of_sq_gen {n w nw p : Nat} (hp : CFSG.KS.Prim.canonK n w (CFSG.KS.mask w) nw p = true)
+    (h : CFSG.KC.Enum.pcomp n w (CFSG.KS.mask w) p p = CFSG.KC.Enum.pidn n w) :
+    CFSG.KS.Prim.invEqK n w (CFSG.KS.mask w) nw p p = true := by
   obtain ⟨hn, hw, h0, hlt⟩ := CFSG.KS.PF.canon_facts hp
-  unfold invEqK CFSG.KC.Enum.permOK
+  unfold CFSG.KS.Prim.invEqK CFSG.KC.Enum.permOK
   simp only [bAnd_iff]
   refine ⟨by simpa using h0, by simpa using h0, CFSG.KS.PackFld.allN_of_forall fun i hi => ?_⟩
   rw [CFSG.KS.PEnum.strictB_app']
   simp only [bAnd_iff, Nat.blt_eq, Nat.beq_eq]
   refine ⟨hlt i hi, ?_⟩
-  unfold pc idK at h
-  rw [← CFSG.KS.PF.pg_pcomp (by norm_num) hi, Nat.eq_of_beq_eq_true h]
+  rw [← CFSG.KS.PF.pg_pcomp (by omega) hi, h]
   exact CFSG.KS.PF.pg_pidn hn hw hi
+
+theorem inv_of_sq {p : Nat} (hp : Cn p) (h : Nat.beq (pc p p) idK = true) :
+    invEqK 11200 14 (mask 14) (11200 * 14) p p = true :=
+  inv_of_sq_gen hp (Nat.eq_of_beq_eq_true h)
 
 theorem ckR_of (h : ck27020R = true) :
     (∀ j, inv3 (XK j) (XK j) = true) ∧ ∀ i, ck3Body i XK (fxR i) = true := by

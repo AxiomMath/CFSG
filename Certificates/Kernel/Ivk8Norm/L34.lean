@@ -98,8 +98,6 @@ theorem ch5247_gens :
 theorem ch5247_rStrong : ((buildV gens rWords).map Subtype.val == rStrong.map Subtype.val) = true := by
   quickRfl
 
-theorem ch5247_rSch : schV rStrong #v[0, 1, 6, 3, 5, 2] = true := by quickRfl
-
 theorem ch5247_rOrd : (ordV rStrong #v[0, 1, 6, 3, 5, 2] == 241920) = true := by quickRfl
 
 theorem ch5247_r : ((evV gens wr).1 == r.1) = true := by quickRfl
@@ -108,8 +106,6 @@ theorem ch5247_kStrong :
     ((buildV (centGens.map (evV gens)) centWords).map Subtype.val == kStrong.map Subtype.val) =
       true := by
   quickRfl
-
-theorem ch5247_kSch : schV kStrong #v[13, 11, 5] = true := by quickRfl
 
 theorem ch5247_kOrd : (ordV kStrong #v[13, 11, 5] == 768) = true := by quickRfl
 

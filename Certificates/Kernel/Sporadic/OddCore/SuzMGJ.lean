@@ -13,9 +13,6 @@ set_option maxRecDepth 400000
 #ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGJ 0 0 7
 #ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGJ 1 0 7
 #ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGJ 2 0 7
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGJ 0 0 15
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGJ 1 0 16
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGJ 2 0 1
 #ks_rawchain_sl2_join CertificateChecks.KernelSpor.SuzMGJ
 
 namespace CertificateChecks.KernelSpor.SuzMGJC
@@ -56,10 +53,10 @@ theorem pJ {j : Nat} (hj : j < 7) (hc : canonK 1782 11 (mask 11) (1782 * 11) (Su
 theorem j0rho15099 : j0rhoOK = true := by
   have hg := kGen
   simp only [Bool.and_eq_true] at hg
-  have hch : chainOK j0rhoStrongArrs 3 j0rhoBase j0rhoWords [120, 126, 4] = true :=
-    SuzMGCG.chainOK_of (NS := 223) (CH := 8) binds (by simp [j0rhoWords])
+  have hch : chainLowOK j0rhoStrongArrs 3 j0rhoBase j0rhoWords [120, 126, 4] = true :=
+    SuzMGCG.chainLowOK_of binds (by simp [j0rhoWords])
       (fun j hj => by interval_cases j <;> rfl) (by simp only [SuzMGJD.deriv, Array.toArray_toList]) SuzMGJ.head SuzMGJ.hl
-      (by norm_num) SuzMGJ.hs kPerm kOrb (by norm_num)
+      kPerm kOrb (by norm_num)
   unfold j0rhoOK zA
   rw [hch, eqA_P (pJ (by norm_num) hg.1.1.1.1.1) pT1,
     eqA_P (pJ (by norm_num) hg.1.1.1.1.2) SuzC1BF.pz,

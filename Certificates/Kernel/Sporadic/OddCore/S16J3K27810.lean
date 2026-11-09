@@ -4,6 +4,8 @@ public import Certificates.Kernel.Sporadic.OddCore.F1K27811
 public import Certificates.Kernel.Sporadic.OddCore.MulHCmd
 public import Certificates.Data.Kernel.Spor.RawOrbOut
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.TS16RYData
+public import CFSG.Certificates.Kernel.Enum.DefsC
+import CFSG.Certificates.Kernel.Spor.PK.Perm.CompC
 meta import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.TS16RYData
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Each
@@ -83,10 +85,24 @@ theorem k_rout : bAnd(cK rK, bAnd(iK rK rK, outJ3 rOut rK)) = true := by
 theorem k_rout_neg : outJ3 [] (PJ3.S 0) = false := by
   decide +kernel
 
-@[expose] noncomputable def s16j3q (i : Nat) : Bool :=
+@[expose] noncomputable def pcS16 (p q : Nat) : Nat := pcompC 6156 13 (mask 13) p q
+
+@[expose] noncomputable def s16j3qB (P Q : Nat → Nat → Nat) (i : Nat) : Bool :=
   bAnd(cK (S16J3CA i), bAnd(iK (S16J3C.T i) (S16J3CA i),
-    bAnd(quadK (pc (S16J3C.T i) (S16J3C.T i)),
-    allN 32 (fun j => quadK (pc (pc (S16J3C.T i) (S16J3C.T j)) (pc (S16J3CA i) (S16J3CA j)))))))
+    bAnd(quadK (P (S16J3C.T i) (S16J3C.T i)),
+    allN 16 (fun k => quadK (Q (P (S16J3C.T i) (S16J3C.T ((i + k + 1) % 32)))
+      (P (S16J3CA i) (S16J3CA ((i + k + 1) % 32))))))))
+
+@[expose] noncomputable def s16j3q (i : Nat) : Bool := s16j3qB pc pcS16 i
+
+theorem pcS16_eq : pcS16 = pc := funext fun p => funext fun q => CFSG.KS.PK.pcompC_eq 6156 13 p q
+
+theorem s16j3q_pc (i : Nat) : s16j3q i = s16j3qB pc pc i := congrArg (s16j3qB pc · i) pcS16_eq
+
+theorem s16vInvo : bAnd(Nat.beq (pc tK tK) idK, bAnd(Nat.beq (pc xK xK) idK,
+    Nat.beq (pc (pc tK xK) (pc tK xK)) idK)) = true := by
+  rw [← pcS16_eq]
+  quickRfl
 
 theorem s16j3q_neg : quadK rK = false := by
   decide +kernel

@@ -3,8 +3,8 @@ module
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ2Max76
-  "Certificates/Kernel/J2Max76/data/j2max76p.json.gz" 57253 7395978916022089397
+#kc_repo #kc_json CertificateChecks.KernelJ2Max76
+  "Certificates/Kernel/J2Max76/data/j2max76p.json" 57253 7395978916022089397
   (nTabsP : Nat) (orbPtsP : Nat) (orbEdgesP : Nat) (orbParP : Nat) (orbLabP : Nat)
   (o0PtsP : Nat) (o0EdgesP : Nat) (o0ParP : Nat) (o0LabP : Nat)
   (o1PtsP : Nat) (o1EdgesP : Nat) (o1ParP : Nat) (o1LabP : Nat)

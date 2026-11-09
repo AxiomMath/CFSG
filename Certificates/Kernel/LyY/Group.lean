@@ -215,20 +215,22 @@ theorem prep_sigma : Raw.Orb.PRep 1080 11 (SG.F 0) sigma0 := by
   rw [sigma_eq]
   exact prep_perm h.1
 
+theorem hall_of (s : Perm (Fin 1080)) (hs : s ∈ Subgroup.closure (Set.range gT))
+    (hP : Raw.Orb.PRep 1080 11 (SG.F 0) s) :
+    allN 1080 (fun p => Nat.beq (lget TL (pg 11 (mask 11) (SG.F 0) p)) (lget TL p)) = true := by
+  rw [Raw.Orb.allN_iff]
+  intro p hp
+  have e := (orbOK_sound prep_gT k_orb ⟨p, hp⟩ (s ⟨p, hp⟩)).1 ⟨s, hs, rfl⟩
+  rw [← hP ⟨p, hp⟩] at e
+  rw [Raw.Orb.beq_dec, decide_eq_true_eq]
+  exact e.symm
+
 theorem sigma_not_mem : sigma0 ∉ Txy0 := by
   intro hs
   rw [Txy0_eq] at hs
   have h := c_sig
   simp only [bAnd_iff] at h
-  have hall : allN 1080 (fun p => Nat.beq (lget TL (pg 11 (mask 11) (SG.F 0) p)) (lget TL p)) =
-      true := by
-    rw [Raw.Orb.allN_iff]
-    intro p hp
-    have e := (orbOK_sound prep_gT k_orb ⟨p, hp⟩ (sigma0 ⟨p, hp⟩)).1 ⟨sigma0, hs, rfl⟩
-    rw [← prep_sigma ⟨p, hp⟩] at e
-    rw [Raw.Orb.beq_dec, decide_eq_true_eq]
-    exact e.symm
-  rw [hall] at h
+  rw [hall_of sigma0 hs prep_sigma] at h
   exact absurd h.2 (by decide)
 
 theorem not_inner : ∀ t ∈ Txy0, ¬ ∀ i < 4, t * ug i * t⁻¹ = sigma0 * ug i * sigma0⁻¹ := by

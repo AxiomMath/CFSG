@@ -64,7 +64,7 @@ theorem atX1 {j : Nat} (hj : j < 9) :
 theorem chainX0 : ChainK 240 8 (heInnerSigma0.map (permOrId 240)) heInnerChainWords0
     (#v[0, 1, 2] : Vector (Fin 240) 3) X0Q.S X0Q.SI X0Q.LR X0Q.TR X0Q.TRI 13 X0Q.BP 15 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, X0Q.head, X0Q.hl,
-    by norm_num, X0Q.hs⟩
+    by norm_num, .inl X0Q.hs⟩
   have hj' : j < heInnerSigma0.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   exact imageList_bind (atX0 (len_X0 ▸ hj'))
@@ -73,7 +73,7 @@ theorem chainX1 : ChainK 42 6 (heInnerSigma1.map (permOrId 42)) heInnerChainWord
     (#v[0, 1, 7, 10, 3, 2] : Vector (Fin 42) 6) X1Q.S X1Q.SI X1Q.LR X1Q.TR X1Q.TRI 17 X1Q.BP 3
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, X1Q.head, X1Q.hl,
-    by norm_num, X1Q.hs⟩
+    by norm_num, .inl X1Q.hs⟩
   have hj' : j < heInnerSigma1.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   exact imageList_bind (atX1 (len_X1 ▸ hj'))

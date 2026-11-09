@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Fi23W6 "Certificates/Kernel/Fi23U3/data/w6.json.gz" 6066 970640858517818600
+#kc_repo #kc_json CFSG.KD.Fi23W6 "Certificates/Kernel/Fi23U3/data/w6.json" 6066 970640858517818600
   (cert : List (List Nat))
 
 namespace CFSG.KD.Fi23W6

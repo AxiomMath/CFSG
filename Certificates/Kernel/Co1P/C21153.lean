@@ -193,10 +193,10 @@ theorem far_parts {t k : Nat} (ht : t < 2) (hk : k < 12600) :
   obtain ⟨h1, h2⟩ := CFSG.KC.TreeK.andB_true h
   refine ⟨?_, h2⟩
   rcases orB_true h1 with e | e
-  · exact Or.inl (Nat.eq_of_beq_eq_true e)
   · refine Or.inr ?_
     rw [masks_eq ht, bit_bitsOf] at e
     exact e
+  · exact Or.inl (Nat.eq_of_beq_eq_true e)
 
 theorem ronan2 {t : Nat} (ht : t < 2) : ronanCheck2 t = true := by
   unfold ronanCheck2

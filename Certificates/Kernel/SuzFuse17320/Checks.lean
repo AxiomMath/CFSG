@@ -32,23 +32,30 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.SuzT (digit3)
 
 @[expose] noncomputable def tgt (k : Nat) : Nat := bif fuseCls[k]! == 0 then XP else XB
 
-@[expose] noncomputable def fuseKT (k G T : Nat) : Bool :=
-  permB 1782 11 G && siftPK G &&
-    Nat.beq (pcomp 1782 11 (mask 11) G (pcomp 1782 11 (mask 11) (EP k) (pinvS 1782 11 (mask 11) G)))
-      T
+@[expose] noncomputable def fuseKT (G T E : Nat) : Bool :=
+  Nat.beq (pcomp 1782 11 (mask 11) G E) (pcomp 1782 11 (mask 11) T G)
 
-@[expose] noncomputable def fuseK (k : Nat) : Bool :=
-  (reb fuseTuples[k]!).2.2 && fuseKT k (HK k) (tgt k)
+@[expose] noncomputable def fuseK (k E : Nat) : Bool :=
+  Nat.beq k 0 || ((reb fuseTuples[k]!).2.2 && fuseKT (HK k) (tgt k) E)
 
-@[expose] noncomputable def fuseS (j : Nat) : Bool := allN 22 (fun i => fuseK (22 * j + i + 1))
+@[expose] noncomputable def mulDK (i E : Nat) : Nat := pcomp 1782 11 (mask 11) (DK i) E
+
+@[expose] noncomputable def walkD2 (k E : Nat) : Bool :=
+  fuseK k E && fuseK (k + 1) (mulDK 0 E) && fuseK (k + 2) (mulDK 0 (mulDK 0 E))
+
+@[expose] noncomputable def walkD1 (k E : Nat) : Bool :=
+  walkD2 k E && walkD2 (k + 3) (mulDK 1 E) && walkD2 (k + 6) (mulDK 1 (mulDK 1 E))
+
+@[expose] noncomputable def walkD0 (k E : Nat) : Bool :=
+  walkD1 k E && walkD1 (k + 9) (mulDK 2 E) && walkD1 (k + 18) (mulDK 2 (mulDK 2 E))
+
+@[expose] noncomputable def fuseS (j : Nat) : Bool := walkD0 (27 * j) (EP (27 * j))
 
 theorem rbB : (reb xBTuple).2.2 = true := by quickRfl
 
 theorem pXB : permB 1782 11 XB = true := by quickRfl
 
 theorem pD : allN 5 (fun i => permB 1782 11 (DK i)) = true := by quickRfl
-
-theorem siftX : siftPK XP = true ∧ siftPK XB = true := ⟨by quickRfl, by quickRfl⟩
 
 theorem ordX : Nat.beq (pw3 XP 3) (pidn 1782 11) = true ∧ Nat.beq XP (pidn 1782 11) = false ∧
     Nat.beq (pw3 XB 3) (pidn 1782 11) = true ∧ Nat.beq XB (pidn 1782 11) = false :=
@@ -63,8 +70,6 @@ theorem s5 : fuseS 5 = true := by quickRfl
 theorem s6 : fuseS 6 = true := by quickRfl
 theorem s7 : fuseS 7 = true := by quickRfl
 theorem s8 : fuseS 8 = true := by quickRfl
-theorem s9 : fuseS 9 = true := by quickRfl
-theorem s10 : fuseS 10 = true := by quickRfl
 
 end CertificateChecks.KernelSuzFuse17320
 

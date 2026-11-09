@@ -7,8 +7,8 @@ public section
 
 namespace CertificateChecks.KernelHe7223
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHe7223
-  "Certificates/Kernel/He7223/data/He7223Cent.json.gz" 274062 2959394040088196321
+#kc_repo #kc_json CertificateChecks.KernelHe7223
+  "Certificates/Kernel/He7223/data/He7223Cent.json" 274062 2959394040088196321
   (PC5 : Nat) (PC10 : Nat) (PSG : Nat) (PC5I : Nat) (PC10I : Nat) (PSGI : Nat) (O5 : List Nat)
   (O7 : List Nat)
 

@@ -10,8 +10,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KC.M24G
-  "Certificates/Kernel/M24G/data/m24g-ts.json.gz" 123773 11749047905538809165
+#kc_repo #kc_json CFSG.KC.M24G
+  "Certificates/Kernel/M24G/data/m24g-ts.json" 123773 11749047905538809165
   (TS : List (List Nat))
 
 end

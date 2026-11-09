@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Planes "Certificates/Kernel/F4Planes/data/model.json.gz" 26952
+#kc_repo #kc_json CFSG.KD.F4Planes "Certificates/Kernel/F4Planes/data/model.json" 26952
   4247695855319381425 (VT : Nat) (AT : Nat) (QT : Nat) (OM : Nat) (PR : Nat) (rows : List (List (Nat × Nat × Nat)))
 
 #kc_each CFSG.KD.F4Planes.ch14950pl r (fun k => CFSG.KC.F4Planes.rowK CFSG.KD.F4Planes.VT

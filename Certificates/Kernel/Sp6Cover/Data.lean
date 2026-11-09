@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz_eval CertificateChecks.KernelSp6Cover
-  "Certificates/Kernel/Sp6Cover/Data/sp6cover.json.gz" 2767 18085289626975229593
+#kc_repo #kc_json_eval CertificateChecks.KernelSp6Cover
+  "Certificates/Kernel/Sp6Cover/Data/sp6cover.json" 2767 18085289626975229593
   (cX : Array (Array Nat)) (cBase : Array Nat) (cWN : List (List Nat)) (ew : List (List Nat))
   (nw : List (List Nat))
 

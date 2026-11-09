@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.B4AR "Certificates/Kernel/B433Alt/Data/arith.json.gz" 6052 9009012864013042058
+#kc_repo #kc_json CFSG.KD.B4AR "Certificates/Kernel/B433Alt/Data/arith.json" 6052 9009012864013042058
   (idx : List Nat) (F : List (Nat × Nat)) (A : List Nat) (M : List Nat)
 
 namespace CFSG.KD.B4AR

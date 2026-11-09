@@ -97,42 +97,30 @@ theorem c4_pe : ∀ i < C4.cnt, penumPtK 24 5 (mask 5) (24 * 5) true C4.G C4.GI 
   fun i hi => penumSl_spec c4E i (Nat.zero_le _) (by omega) hi
 theorem c4_hs : ∀ i < C4.cnt, hsortPtK 24 5 (mask 5) C4.cnt C4.T C4.HS C4.HSI i = true :=
   fun i hi => slK_spec c4H i (Nat.zero_le _) (by omega) hi
-theorem c4_cl : ∀ c < C4.cnt * (4 + 4), findPtK C4.cnt C4.T
-    (prodQK 24 5 (mask 5) (4 + 4) C4.T (bothK 4 C4.GI C4I)) C4Cl c = true :=
-  fun c hc => slK_spec c4Cl c (Nat.zero_le _) (by change c < Nat.mul C4.cnt 8; omega)
-    (by change c < Nat.mul C4.cnt 8; omega)
 
 theorem h3_pe : ∀ i < H3.cnt, penumPtK 24 5 (mask 5) (24 * 5) true H3.G H3.GI 3 H3.cnt
     H3.T H3.PL H3.POS H3.SRT H3.SRI i = true :=
   fun i hi => penumSl_spec h3E i (Nat.zero_le _) (by omega) hi
 theorem h3_hs : ∀ i < H3.cnt, hsortPtK 24 5 (mask 5) H3.cnt H3.T H3.HS H3.HSI i = true :=
   fun i hi => slK_spec h3H i (Nat.zero_le _) (by omega) hi
-theorem h3_cl : ∀ c < H3.cnt * (3 + 3), findPtK H3.cnt H3.T
-    (prodQK 24 5 (mask 5) (3 + 3) H3.T (bothK 3 H3.GI H3I)) H3Cl c = true :=
-  fun c hc => slK_spec h3Cl c (Nat.zero_le _) (by change c < Nat.mul H3.cnt 6; omega)
-    (by change c < Nat.mul H3.cnt 6; omega)
 
 theorem ka_pe : ∀ i < KA.cnt, penumPtK 24 5 (mask 5) (24 * 5) true KA.G KA.GI 2 KA.cnt
     KA.T KA.PL KA.POS KA.SRT KA.SRI i = true :=
   fun i hi => penumSl_spec kaE i (Nat.zero_le _) (by omega) hi
 theorem ka_hs : ∀ i < KA.cnt, hsortPtK 24 5 (mask 5) KA.cnt KA.T KA.HS KA.HSI i = true :=
   fun i hi => slK_spec kaH i (Nat.zero_le _) (by omega) hi
-theorem ka_cl : ∀ c < KA.cnt * (2 + 2), findPtK KA.cnt KA.T
-    (prodQK 24 5 (mask 5) (2 + 2) KA.T (bothK 2 KA.GI KAI)) KACl c = true :=
-  fun c hc => slK_spec kaCl c (Nat.zero_le _) (by change c < Nat.mul KA.cnt 4; omega)
-    (by change c < Nat.mul KA.cnt 4; omega)
 
 theorem c4_enum : enumOK 24 cap m12CGens 480 = true :=
-  evEnum_of_rec base.1 (fun j hj => (base.2.2.2.1 j hj).2.2.2) c4_tabs c4_invs
-    base.2.2.2.2.2.2.2.2.2.2.2.1 c4_pe c4_hs c4_cl base.2.2.2.2.2.2.2.2.1
+  evEnum_of_pos base.1 (fun j hj => (base.2.2.2.1 j hj).2.2.2) c4_tabs c4_invs
+    base.2.2.2.2.2.2.2.2.2.2.2.1 c4_pe c4_hs base.2.2.2.2.2.2.2.2.1
 
 theorem h3_enum : enumOK 24 cap (m12CGens.take 3) 240 = true :=
-  evEnum_of_rec base.1 (fun j hj => (base.2.2.2.2.1 j hj).2.2) h3_tabs h3_invs
-    base.2.2.2.2.2.2.2.2.2.2.2.2.1 h3_pe h3_hs h3_cl base.2.2.2.2.2.2.2.2.2.1
+  evEnum_of_pos base.1 (fun j hj => (base.2.2.2.2.1 j hj).2.2) h3_tabs h3_invs
+    base.2.2.2.2.2.2.2.2.2.2.2.2.1 h3_pe h3_hs base.2.2.2.2.2.2.2.2.2.1
 
 theorem ka_enum : enumOK 24 cap m12KaGens 60 = true :=
-  evEnum_of_rec base.1 (fun j hj => (base.2.2.2.2.2.1 j hj).2.2.2) ka_tabs ka_invs
-    base.2.2.2.2.2.2.2.2.2.2.2.2.2 ka_pe ka_hs ka_cl base.2.2.2.2.2.2.2.2.2.2.1
+  evEnum_of_pos base.1 (fun j hj => (base.2.2.2.2.2.1 j hj).2.2.2) ka_tabs ka_invs
+    base.2.2.2.2.2.2.2.2.2.2.2.2.2 ka_pe ka_hs base.2.2.2.2.2.2.2.2.2.2.1
 
 theorem c4_arr : m12C2A = (hRec 24 5 C4.cnt C4.T C4.PL).1 :=
   closArr_eq (cap := cap) base.1 (fun j hj => (base.2.2.2.1 j hj).2.2.2) c4_tabs
@@ -218,7 +206,7 @@ theorem outer_ok : m12OuterOK = true := by
 
 @[expose] def inner (g : Equiv.Perm (Fin 24)) : Prop := (g ⟨0, by norm_num⟩).val < 12
 
-instance : DecidablePred inner := fun g => inferInstanceAs (Decidable (_ < 12))
+instance : DecidablePred inner := fun _ => inferInstanceAs (Decidable (_ < 12))
 
 theorem innerT_iff {T : Table} {g : Equiv.Perm (Fin 24)} (hT : Rep 24 T g) :
     innerT T = true ↔ inner g := by

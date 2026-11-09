@@ -8,6 +8,7 @@ public import Certificates.Kernel.PermCent.U43P1Ia
 public import Certificates.Kernel.PermCent.U43P1In
 public import Certificates.Kernel.PermCent.U43P1M1a
 public import Certificates.Kernel.PermCent.U43P1M1b
+public import Certificates.Kernel.PermCent.U43P1Img
 
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
@@ -33,6 +34,7 @@ theorem bindsC :
     CIn.ng = 2 ∧ CM1a.ng = 2 ∧ CM1b.ng = 2 ∧ CFa.ng = 2 ∧ CFb.ng = 2 ∧ CIa.ng = 2 ∧
     CIn.r0 < 2835 ∧ CM1a.r0 < 4536 ∧ CM1b.r0 < 540 ∧ CFa.r0 < 5670 ∧ CFb.r0 < 126 ∧
     CIa.r0 < 4536 := by
+  simp only [u43_matOK, u43_tabOK tabA rfl, u43_tabOK tabB rfl]
   decide +kernel
 
 theorem bindsD :
@@ -44,6 +46,7 @@ theorem bindsD :
       Nat.beq (DgM1a.T 0) (pidn 826 10) && Nat.beq (DgIa.T 0) (pidn 826 10) &&
       Nat.beq (Y6.T 0) (pidn 6 3)) = true ∧
     DgM1a.N = 360 ∧ DgIa.N = 360 ∧ Y6.N = 360 ∧ DgM1a.ng = 2 ∧ DgIa.ng = 2 ∧ Y6.ng = 2 := by
+  simp only [u43_dgOK]
   decide +kernel
 
 end CertificateChecks.KernelPermCent.U43P1

@@ -11,8 +11,8 @@ public section
 
 namespace CFSG.KAct.XQP
 
-#kc_repo #kc_json_gz CFSG.KAct.XQP
-  "Certificates/Kernel/Misc/Coset/XQP/data/Data.json.gz" 8775 8089638243236851015
+#kc_repo #kc_json CFSG.KAct.XQP
+  "Certificates/Kernel/Misc/Coset/XQP/data/Data.json" 8775 8089638243236851015
   (rels : List (List Nat)) (ws : List (List Nat)) (base : List Nat) (ord : List Nat)
 
 end CFSG.KAct.XQP

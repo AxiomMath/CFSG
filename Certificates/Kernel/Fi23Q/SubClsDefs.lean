@@ -2,10 +2,10 @@ module
 
 public import Certificates.Data.Kernel.Fi23Q.SubCls
 public import Certificates.Kernel.Fi23Q.SubDefs
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Fi23Q "Certificates/Kernel/Fi23Q/data/cls.items.gz" 12166 10131625519534092196
+#kc_repo #kc_nat_items CFSG.KD.Fi23Q "Certificates/Kernel/Fi23Q/data/cls.items" 12166 10131625519534092196
   npV[] npB[] npQ[] npC[] npN[] npW[] clsR clsMt clsL[] clsB[] clsK[] clsX[] clsD3[]
   negR negL[] negB[] negNPV[] negA
 

@@ -39,18 +39,50 @@ theorem cosetCheck_eq : cosetCheck = cosetCheckG OmegaEight.genArrs[8]! OmegaEig
 theorem minusCheck_eq : minusCheck = minusCheckG OmegaEightMinus.genArrs[10]!
     OmegaEightMinus.omegaS (lBaseA .minus) := rfl
 
-theorem uSP_0 : (uS .plus)[0]! = unpack 120 9 (UP.S 0) := by decide +kernel
-theorem uSP_1 : (uS .plus)[1]! = unpack 120 9 (UP.S 1) := by decide +kernel
-theorem uSP_2 : (uS .plus)[2]! = unpack 120 9 (UP.S 2) := by decide +kernel
-theorem uSP_3 : (uS .plus)[3]! = unpack 120 9 (UP.S 3) := by decide +kernel
-theorem uSP_4 : (uS .plus)[4]! = unpack 120 9 (UP.S 4) := by decide +kernel
-theorem uSP_5 : (uS .plus)[5]! = unpack 120 9 (UP.S 5) := by decide +kernel
-theorem uSP_6 : (uS .plus)[6]! = unpack 120 9 (UP.S 6) := by decide +kernel
-theorem uSP_7 : (uS .plus)[7]! = unpack 120 9 (UP.S 7) := by decide +kernel
-theorem uSP_8 : (uS .plus)[8]! = unpack 120 9 (UP.S 8) := by decide +kernel
-theorem uSP_9 : (uS .plus)[9]! = unpack 120 9 (UP.S 9) := by decide +kernel
-theorem uSP_10 : (uS .plus)[10]! = unpack 120 9 (UP.S 10) := by decide +kernel
-theorem uSP_11 : (uS .plus)[11]! = unpack 120 9 (UP.S 11) := by decide +kernel
+private theorem psiUP : ∀ j < 6, UP.S j = psiK false NSP NIP 120 9 5665569 (2 ^ j) := by
+  decide +kernel
+
+private theorem psiUM : ∀ j < 6, UM.S j = psiK true NSM NIM 136 8 4552225 (2 ^ j) := by
+  decide +kernel
+
+private theorem leviUP : ∀ k < 6, ∀ i < 120, fget (UP.S (6 + k)) i 9 =
+    nsMap NSP NIP (leviMap .plus (CFSG.EvenSmallLie.OmegaEight.Stage2.urRows .plus k)) i := by
+  decide +kernel
+
+private theorem leviUM : ∀ k < 6, ∀ i < 136, fget (UM.S (6 + k)) i 8 =
+    nsMap NSM NIM (leviMap .minus (CFSG.EvenSmallLie.OmegaEight.Stage2.urRows .minus k)) i := by
+  decide +kernel
+
+private theorem uSP_psi {j : Nat} (hj : j < 6) (h : (uS .plus)[j]! = psiArr .plus (2 ^ j)) :
+    (uS .plus)[j]! = unpack 120 9 (UP.S j) := by
+  rw [h, psiArrP_unpack, psiUP j hj]
+
+private theorem uSM_psi {j : Nat} (hj : j < 6) (h : (uS .minus)[j]! = psiArr .minus (2 ^ j)) :
+    (uS .minus)[j]! = unpack 136 8 (UM.S j) := by
+  rw [h, psiArrM_unpack, psiUM j hj]
+
+private theorem uSP_levi {k : Nat} (hk : k < 6) (h : (uS .plus)[6 + k]! = uArr .plus k) :
+    (uS .plus)[6 + k]! = unpack 120 9 (UP.S (6 + k)) := by
+  rw [h]
+  exact leviArrP_unpack _ (leviUP k hk)
+
+private theorem uSM_levi {k : Nat} (hk : k < 6) (h : (uS .minus)[6 + k]! = uArr .minus k) :
+    (uS .minus)[6 + k]! = unpack 136 8 (UM.S (6 + k)) := by
+  rw [h]
+  exact leviArrM_unpack _ (leviUM k hk)
+
+theorem uSP_0 : (uS .plus)[0]! = unpack 120 9 (UP.S 0) := uSP_psi (by decide) rfl
+theorem uSP_1 : (uS .plus)[1]! = unpack 120 9 (UP.S 1) := uSP_psi (by decide) rfl
+theorem uSP_2 : (uS .plus)[2]! = unpack 120 9 (UP.S 2) := uSP_psi (by decide) rfl
+theorem uSP_3 : (uS .plus)[3]! = unpack 120 9 (UP.S 3) := uSP_psi (by decide) rfl
+theorem uSP_4 : (uS .plus)[4]! = unpack 120 9 (UP.S 4) := uSP_psi (by decide) rfl
+theorem uSP_5 : (uS .plus)[5]! = unpack 120 9 (UP.S 5) := uSP_psi (by decide) rfl
+theorem uSP_6 : (uS .plus)[6]! = unpack 120 9 (UP.S 6) := uSP_levi (k := 0) (by decide) rfl
+theorem uSP_7 : (uS .plus)[7]! = unpack 120 9 (UP.S 7) := uSP_levi (k := 1) (by decide) rfl
+theorem uSP_8 : (uS .plus)[8]! = unpack 120 9 (UP.S 8) := uSP_levi (k := 2) (by decide) rfl
+theorem uSP_9 : (uS .plus)[9]! = unpack 120 9 (UP.S 9) := uSP_levi (k := 3) (by decide) rfl
+theorem uSP_10 : (uS .plus)[10]! = unpack 120 9 (UP.S 10) := uSP_levi (k := 4) (by decide) rfl
+theorem uSP_11 : (uS .plus)[11]! = unpack 120 9 (UP.S 11) := uSP_levi (k := 5) (by decide) rfl
 
 theorem uSP_bind : ∀ j < 12, (uS .plus)[j]! = unpack 120 9 (UP.S j) := by
   intro j hj
@@ -58,18 +90,18 @@ theorem uSP_bind : ∀ j < 12, (uS .plus)[j]! = unpack 120 9 (UP.S j) := by
   exacts [uSP_0, uSP_1, uSP_2, uSP_3, uSP_4, uSP_5, uSP_6, uSP_7, uSP_8,
     uSP_9, uSP_10, uSP_11]
 
-theorem uSM_0 : (uS .minus)[0]! = unpack 136 8 (UM.S 0) := by decide +kernel
-theorem uSM_1 : (uS .minus)[1]! = unpack 136 8 (UM.S 1) := by decide +kernel
-theorem uSM_2 : (uS .minus)[2]! = unpack 136 8 (UM.S 2) := by decide +kernel
-theorem uSM_3 : (uS .minus)[3]! = unpack 136 8 (UM.S 3) := by decide +kernel
-theorem uSM_4 : (uS .minus)[4]! = unpack 136 8 (UM.S 4) := by decide +kernel
-theorem uSM_5 : (uS .minus)[5]! = unpack 136 8 (UM.S 5) := by decide +kernel
-theorem uSM_6 : (uS .minus)[6]! = unpack 136 8 (UM.S 6) := by decide +kernel
-theorem uSM_7 : (uS .minus)[7]! = unpack 136 8 (UM.S 7) := by decide +kernel
-theorem uSM_8 : (uS .minus)[8]! = unpack 136 8 (UM.S 8) := by decide +kernel
-theorem uSM_9 : (uS .minus)[9]! = unpack 136 8 (UM.S 9) := by decide +kernel
-theorem uSM_10 : (uS .minus)[10]! = unpack 136 8 (UM.S 10) := by decide +kernel
-theorem uSM_11 : (uS .minus)[11]! = unpack 136 8 (UM.S 11) := by decide +kernel
+theorem uSM_0 : (uS .minus)[0]! = unpack 136 8 (UM.S 0) := uSM_psi (by decide) rfl
+theorem uSM_1 : (uS .minus)[1]! = unpack 136 8 (UM.S 1) := uSM_psi (by decide) rfl
+theorem uSM_2 : (uS .minus)[2]! = unpack 136 8 (UM.S 2) := uSM_psi (by decide) rfl
+theorem uSM_3 : (uS .minus)[3]! = unpack 136 8 (UM.S 3) := uSM_psi (by decide) rfl
+theorem uSM_4 : (uS .minus)[4]! = unpack 136 8 (UM.S 4) := uSM_psi (by decide) rfl
+theorem uSM_5 : (uS .minus)[5]! = unpack 136 8 (UM.S 5) := uSM_psi (by decide) rfl
+theorem uSM_6 : (uS .minus)[6]! = unpack 136 8 (UM.S 6) := uSM_levi (k := 0) (by decide) rfl
+theorem uSM_7 : (uS .minus)[7]! = unpack 136 8 (UM.S 7) := uSM_levi (k := 1) (by decide) rfl
+theorem uSM_8 : (uS .minus)[8]! = unpack 136 8 (UM.S 8) := uSM_levi (k := 2) (by decide) rfl
+theorem uSM_9 : (uS .minus)[9]! = unpack 136 8 (UM.S 9) := uSM_levi (k := 3) (by decide) rfl
+theorem uSM_10 : (uS .minus)[10]! = unpack 136 8 (UM.S 10) := uSM_levi (k := 4) (by decide) rfl
+theorem uSM_11 : (uS .minus)[11]! = unpack 136 8 (UM.S 11) := uSM_levi (k := 5) (by decide) rfl
 
 theorem uSM_bind : ∀ j < 12, (uS .minus)[j]! = unpack 136 8 (UM.S j) := by
   intro j hj

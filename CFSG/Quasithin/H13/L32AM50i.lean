@@ -2,6 +2,7 @@ module
 
 public import CFSG.Quasithin.H13.L32AC49d
 public import CFSG.Quasithin.H13.L32AC50b
+public import CFSG.Quasithin.H13.A7SignCountK
 
 public section
 
@@ -14,8 +15,8 @@ theorem orbit6_cases : ∀ O : Finset (Fin 7), 6 ∈ O → O.card ∣ 72 →
   decide +kernel
 
 theorem card_filter_six : (Finset.univ.filter fun σ : Perm (Fin 7) =>
-    sign σ = 1 ∧ σ 6 = 6).card = 360 := by
-  decide +kernel
+    sign σ = 1 ∧ σ 6 = 6).card = 360 :=
+  CFSG.Quasithin.H13.A7SignCountK.card_sign_fix6
 
 @[expose] noncomputable def liftSix : Perm (Fin 6) →* Perm (Fin 7) :=
   Equiv.Perm.viaEmbeddingHom (Fin.castSuccEmb : Fin 6 ↪ Fin 7)

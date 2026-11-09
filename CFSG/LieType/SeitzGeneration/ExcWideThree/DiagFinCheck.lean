@@ -111,8 +111,31 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.SeitzGeneration.ExcHighThree
     ([0, 1, 2, 2, 1, 2], [1, 0, 0, 1, 0, 1]), ([0, 1, 2, 2, 1, 2], [1, 0, 0, 2, 2, 0]),
     ([0, 1, 2, 2, 1, 2], [1, 0, 2, 1, 1, 0]), ([0, 1, 2, 2, 1, 2], [1, 0, 2, 2, 0, 2])]
 
-theorem rfPlanes_true : rfPlaneBases.all (fun p => rfPlaneCheck p.1 p.2) = true := by
+theorem rfAll_take_drop {α : Type} (l : List α) (k : ℕ) (f : α → Bool) :
+    l.all f = ((l.take k).all f && (l.drop k).all f) := by
+  rw [← List.all_append, List.take_append_drop]
+
+theorem rfPlanes_0 : (rfPlaneBases.take 10).all
+    (fun p => rfPlaneCheck p.1 p.2) = true := by
   decide +kernel
+
+theorem rfPlanes_1 : ((rfPlaneBases.drop 10).take 10).all
+    (fun p => rfPlaneCheck p.1 p.2) = true := by
+  decide +kernel
+
+theorem rfPlanes_2 : (((rfPlaneBases.drop 10).drop 10).take 10).all
+    (fun p => rfPlaneCheck p.1 p.2) = true := by
+  decide +kernel
+
+theorem rfPlanes_3 : (((rfPlaneBases.drop 10).drop 10).drop 10).all
+    (fun p => rfPlaneCheck p.1 p.2) = true := by
+  decide +kernel
+
+theorem rfPlanes_true : rfPlaneBases.all (fun p => rfPlaneCheck p.1 p.2) = true := by
+  rw [rfAll_take_drop rfPlaneBases 10, rfAll_take_drop (rfPlaneBases.drop 10) 10,
+    rfAll_take_drop ((rfPlaneBases.drop 10).drop 10) 10, rfPlanes_0, rfPlanes_1, rfPlanes_2,
+    rfPlanes_3]
+  all_goals decide
 
 @[expose] def rfPlaneSets : List ℕ := rfPlaneBases.map fun p => planeBits p.1 p.2
 

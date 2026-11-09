@@ -142,8 +142,65 @@ theorem apC_code (u : V4) : apC (code u) = code (lin wC u) := by
   (List.range 16).all fun a => (List.range 16).all fun b => (List.range 16).all fun c =>
     (List.range 16).all fun d => !(isSol a b c d) || sols20.contains (a, b, c, d)
 
+private def checkA (a : ℕ) : Bool :=
+  (List.range 16).all fun b => (List.range 16).all fun c =>
+    (List.range 16).all fun d => !(isSol a b c d) || sols20.contains (a, b, c, d)
+
 set_option maxRecDepth 100000 in
-theorem check_eq : check = true := by decide +kernel
+private theorem checkA_0 : checkA 0 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_1 : checkA 1 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_2 : checkA 2 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_3 : checkA 3 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_4 : checkA 4 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_5 : checkA 5 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_6 : checkA 6 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_7 : checkA 7 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_8 : checkA 8 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_9 : checkA 9 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_10 : checkA 10 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_11 : checkA 11 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_12 : checkA 12 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_13 : checkA 13 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_14 : checkA 14 = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+private theorem checkA_15 : checkA 15 = true := by decide +kernel
+
+theorem check_eq : check = true := by
+  change (List.range 16).all checkA = true
+  rw [List.all_eq_true]
+  intro a ha
+  rw [List.mem_range] at ha
+  interval_cases a
+  exacts [checkA_0, checkA_1, checkA_2, checkA_3, checkA_4, checkA_5, checkA_6, checkA_7, checkA_8, checkA_9, checkA_10, checkA_11, checkA_12, checkA_13, checkA_14, checkA_15]
 
 theorem mem_sols20 (a b c d : ℕ) (ha : a < 16) (hb : b < 16) (hc : c < 16) (hd : d < 16)
     (h : isSol a b c d = true) : (a, b, c, d) ∈ sols20 := by

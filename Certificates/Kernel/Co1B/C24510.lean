@@ -15,7 +15,7 @@ open CFSG.KS.SporSch.M24 CFSG.EvenSporadicStandard.TwoCo1.HypOne CFSG.Sporadic.C
 open Certificates in
 theorem c24510 : CFSG.EvenSporadicStandard.TwoCo1.HypOne.perfectCheckA = true := by
   unfold perfectCheckA
-  exact perfectCheckOf_of_K C2044.bray_eq
+  exact perfectCheckOf_of_W C2044.bray_eq
     (fun i hi => Nat.eq_of_beq_eq_true (MatL.allN_iff.1 kPb i hi)) kP kpi
     (fun l hl => Nat.eq_of_beq_eq_true (MatL.allN_iff.1 kUb l hl)) kU kci
     (fun j hj => Nat.eq_of_beq_eq_true (MatL.allN_iff.1 kFb j hj)) kF kfi rfl

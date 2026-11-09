@@ -111,7 +111,7 @@ theorem coverPointDatum_of_check (hp : D.p.Prime)
   unfold CpSpec.wf at hwf
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hwf
   obtain ⟨⟨⟨⟨-, hptwf⟩, hind⟩, hderwf⟩, hseedwf⟩ := hwf
-  have hindep : ∀ v ∈ nonzeroTriples D.p, ∃ q ∈ D.m.indep,
+  have hindep : ∀ v ∈ projTriples D.p, ∃ q ∈ D.m.indep,
       q.1 = v.1 ∧ q.2.1 = v.2.1 ∧ q.2.2.1 = v.2.2 := by
     intro v hv
     obtain ⟨q, hq, hqv⟩ := List.any_eq_true.1 (List.all_eq_true.1 hind v hv)

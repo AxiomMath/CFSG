@@ -66,18 +66,13 @@ theorem chain : rawChainOK 42 (l34SW.extract 0 3) l34SW l34BaseW
   Nat.beq l34RegsP[12 + t]! (pc 42 6 l34RegsP[(l34Prog.getD t (0, 0)).1]!
     l34RegsP[(l34Prog.getD t (0, 0)).2]!)
 
-theorem kPL : Nat.beq l34Prog.length 1067 = true := by quickRfl
+theorem kPL : Nat.beq l34Prog.length 19 = true := by quickRfl
 
-theorem kT0 : (List.range' 0 270).all stepF = true := by quickRfl
-theorem kT1 : (List.range' 270 270).all stepF = true := by quickRfl
-theorem kT2 : (List.range' 540 270).all stepF = true := by quickRfl
-theorem kT3 : (List.range' 810 257).all stepF = true := by quickRfl
+theorem kT0 : (List.range' 0 19).all stepF = true := by quickRfl
 
 theorem kT : ∀ t < l34Prog.length, stepF t = true := by
   rw [Nat.eq_of_beq_eq_true kPL]
-  exact allRange_extend (a := 810) (len := 257) (allRange_extend (a := 540) (len := 270)
-    (allRange_extend (a := 270) (len := 270) (allRange_extend (a := 0) (len := 270)
-      (allRange_zero _) kT0) kT1) kT2) kT3
+  exact allRange_extend (a := 0) (len := 19) (allRange_zero _) kT0
 
 theorem kRS : Nat.beq l34RegsP.size (12 + l34Prog.length) = true := by quickRfl
 

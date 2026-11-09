@@ -139,24 +139,29 @@ theorem mem_krP2 {i : Nat × Nat} : i ∈ krP2 ↔ i.1 < 133 ∧ i.2 < 133 := by
   unfold krP2
   rw [Finset.mem_product, mem_range, mem_range]
 
-theorem krSpr_eq {r : Nat} (hr : canon5 r = true) :
-    krSpr (krConst 1 264) (krConst 65535 265) r =
-      ∑ c ∈ range 133, lane5 r c * 2 ^ (16 * (265 * c)) := by
-  have hl : ∀ c, lane5 r c < 5 := fun c => by
-    rcases Nat.lt_or_ge c 133 with hc | hc
-    · exact canon5_lane hr hc
-    · have h16 : r < 2 ^ (16 * 133) := canon5_lt hr
-      rw [lane_high h16 hc]
-      norm_num
-  have hRS : Nat.mul r (krConst 1 264) = ∑ i ∈ krP2,
-      lane5 r i.1 * 2 ^ (16 * (i.1 + 264 * i.2)) := by
-    change r * krConst 1 264 = _
-    conv_lhs => rw [row_expand (canon5_lt hr), krConst_eq, Finset.sum_mul_sum]
-    unfold krP2
-    rw [Finset.sum_product]
-    refine Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
-    rw [Nat.mul_add 16, Nat.pow_add]
-    ring
+theorem krSpr_lanes {r : Nat} (hr : canon5 r = true) : ∀ c, lane5 r c < 5 := fun c => by
+  rcases Nat.lt_or_ge c 133 with hc | hc
+  · exact canon5_lane hr hc
+  · have h16 : r < 2 ^ (16 * 133) := canon5_lt hr
+    rw [lane_high h16 hc]
+    norm_num
+
+theorem krSpr_mul {r S : Nat} (hr : canon5 r = true)
+    (hSe : S = ∑ d ∈ range 133, 1 * 2 ^ (16 * (264 * d))) :
+    Nat.mul r S = ∑ i ∈ krP2, lane5 r i.1 * 2 ^ (16 * (i.1 + 264 * i.2)) := by
+  rw [Nat.mul_eq]
+  conv_lhs => rw [row_expand (canon5_lt hr), hSe, Finset.sum_mul_sum]
+  unfold krP2
+  rw [Finset.sum_product]
+  refine Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
+  rw [Nat.mul_add 16, Nat.pow_add]
+  ring
+
+theorem krSpr_core {r S M : Nat} (hl : ∀ c, lane5 r c < 5)
+    (hB : ∀ t, lane5 M t = if t % 265 = 0 ∧ t / 265 < 133 then 65535 else 0)
+    (hMlt : M < 2 ^ (16 * (265 * 133)))
+    (hRS : Nat.mul r S = ∑ i ∈ krP2, lane5 r i.1 * 2 ^ (16 * (i.1 + 264 * i.2))) :
+    krSpr S M r = ∑ c ∈ range 133, lane5 r c * 2 ^ (16 * (265 * c)) := by
   have hpos : ∀ i ∈ krP2, i.1 + 264 * i.2 < 265 * 133 := fun i hi => by
     rw [mem_krP2] at hi
     omega
@@ -180,12 +185,12 @@ theorem krSpr_eq {r : Nat} (hr : canon5 r = true) :
   refine eq_of_lanes_n (n := 265 * 133) ?_ (lt_fiber _ _ (fun c => 265 * c) _ hpos2 hfb2)
     fun t ht => ?_
   · unfold krSpr
-    exact Nat.lt_of_le_of_lt (land_le _ _) (krConst_lt (by norm_num) (by norm_num))
-  · have A : lane5 (Nat.mul r (krConst 1 264)) t =
+    exact Nat.lt_of_le_of_lt (land_le _ _) hMlt
+  · have A : lane5 (Nat.mul r S) t =
         ∑ i ∈ krP2 with i.1 + 264 * i.2 = t, lane5 r i.1 := by
       rw [hRS]
       exact lane_fiber krP2 (fun i => lane5 r i.1) (fun i => i.1 + 264 * i.2) _ hpos hfb ht
-    have B := lane_krConst (v := 65535) (s := 265) (by norm_num) (by norm_num) t
+    have B := hB t
     have C : lane5 (∑ c ∈ range 133, lane5 r c * 2 ^ (16 * (265 * c))) t =
         ∑ c ∈ range 133 with 265 * c = t, lane5 r c :=
       lane_fiber _ _ (fun c => 265 * c) _ hpos2 hfb2 ht
@@ -211,6 +216,13 @@ theorem krSpr_eq {r : Nat} (hr : canon5 r = true) :
       obtain ⟨hc1, rfl⟩ := Finset.mem_filter.1 hc
       have := mem_range.1 hc1
       omega
+
+theorem krSpr_eq {r : Nat} (hr : canon5 r = true) :
+    krSpr (krConst 1 264) (krConst 65535 265) r =
+      ∑ c ∈ range 133, lane5 r c * 2 ^ (16 * (265 * c)) :=
+  krSpr_core (krSpr_lanes hr) (lane_krConst (v := 65535) (s := 265) (by norm_num) (by norm_num))
+    (krConst_lt (v := 65535) (s := 265) (by norm_num) (by norm_num))
+    (krSpr_mul hr (krConst_eq 1 264))
 
 theorem krCol_eq {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) :
     krCol (krConst 1 264) (krConst 65535 265) Y = ∑ i ∈ range 133 ×ˢ range 133,
@@ -241,11 +253,13 @@ theorem lane_prod {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x :
     refine Finset.sum_congr rfl fun j' _ => Finset.sum_congr rfl fun i _ => ?_
     rw [Nat.mul_add 16, Nat.pow_add]
     ring
-  have hpos : ∀ i ∈ I, i.1 + (265 * i.2.2 + (132 - i.2.1)) < 265 * 133 := fun i hi => by
-    simp only [I, Finset.mem_product, mem_range] at hi
+  have hpos : ∀ i ∈ I, i.1 + (265 * i.2.2 + (132 - i.2.1)) < 265 * 133 := by
+    simp only [I, Finset.mem_product, mem_range]
+    intro i hi
     omega
-  have hv : ∀ i ∈ I, lane5 x i.1 * lane5 (Y i.2.1) i.2.2 ≤ 16 := fun i hi => by
-    simp only [I, Finset.mem_product, mem_range] at hi
+  have hv : ∀ i ∈ I, lane5 x i.1 * lane5 (Y i.2.1) i.2.2 ≤ 16 := by
+    simp only [I, Finset.mem_product, mem_range]
+    intro i hi
     have h1 := canon5_lane hx hi.1
     have h2 := canon5_lane (hY _ hi.2.1) hi.2.2
     have h3 : lane5 x i.1 ≤ 4 := by omega
@@ -255,20 +269,14 @@ theorem lane_prod {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x :
     intro t
     rw [← Finset.card_range 133]
     apply Finset.card_le_card_of_injOn (fun i => i.1)
-    · intro i hi
-      rw [Finset.mem_coe, Finset.mem_filter, Finset.mem_product] at hi
-      rw [Finset.mem_coe]
+    · intro i
+      rw [Finset.mem_coe, Finset.mem_coe, Finset.mem_filter, Finset.mem_product]
+      intro hi
       exact hi.1.1
-    · intro a ha b hb hab
-      rw [Finset.mem_coe, Finset.mem_filter, Finset.mem_product, Finset.mem_product, mem_range,
-        mem_range, mem_range] at ha hb
-      obtain ⟨a1, a2, a3⟩ := a
-      obtain ⟨b1, b2, b3⟩ := b
-      simp only at ha hb hab
-      subst hab
-      have e3 : a3 = b3 := by omega
-      have e2 : a2 = b2 := by omega
-      rw [e2, e3]
+    · simp only [Set.InjOn, Finset.coe_filter, I, Finset.mem_product, mem_range,
+        Set.mem_ofPred_eq, Prod.forall, Prod.mk.injEq]
+      intro a1 a2 a3 ha b1 b2 b3 hb hab
+      refine ⟨hab, ?_, ?_⟩ <;> omega
   have hb : ∀ t, ∑ i ∈ I with i.1 + (265 * i.2.2 + (132 - i.2.1)) = t,
       lane5 x i.1 * lane5 (Y i.2.1) i.2.2 ≤ 2128 := fun t =>
     (fiber_le _ _ _ hv (hcard t)).trans (by norm_num)
@@ -325,22 +333,21 @@ theorem krRow_spec {S M F Q cs x c : Nat} (h : krRow S M F Q cs x c = true) :
   simp only [CFSG.KC.Pack.strictB_eq, CFSG.KC.Pack.band_iff, Nat.ble_eq, Nat.beq_eq] at h
   exact ⟨_, _, _, _, rfl, rfl, rfl, rfl, h.1, h.2.1, h.2.2⟩
 
-theorem krRow_sound {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x c : Nat}
-    (hx : canon5 x = true) (hc : canon5 c = true)
-    (h : krRow (krConst 1 264) (krConst 65535 265) (krConst 5 265) (krConst 4095 265)
-      (krCol (krConst 1 264) (krConst 65535 265) Y) x c = true) :
+theorem krRow_core {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x c : Nat}
+    (hx : canon5 x = true) (hc : canon5 c = true) {S M F Q cs : Nat}
+    (hall : ∀ t, lane5 (x * cs) t ≤ 2128)
+    (hdot : ∀ k < 133, lane5 (x * cs) (265 * k + 132) =
+      ∑ j ∈ range 133, lane5 x j * lane5 (Y j) k)
+    (hSpr : krSpr S M c = ∑ k ∈ range 133, lane5 c k * 2 ^ (16 * (265 * k)))
+    (hM : ∀ t, lane5 M t = if t % 265 = 0 ∧ t / 265 < 133 then 65535 else 0)
+    (hFl : ∀ t, lane5 F t = if t % 265 = 0 ∧ t / 265 < 133 then 5 else 0)
+    (hQl : ∀ t, lane5 Q t = if t % 265 = 0 ∧ t / 265 < 133 then 4095 else 0)
+    (hMlt : M < 2 ^ (16 * (265 * 133))) (hFlt : F < 2 ^ (16 * (265 * 133)))
+    (hQlt : Q < 2 ^ (16 * (265 * 133)))
+    (h : krRow S M F Q cs x c = true) :
     vm5 Y x = c := by
-  obtain ⟨hall, hdot⟩ := lane_prod hY hx
   obtain ⟨u, sc, D, q, hu, hsc, hD, hq, hle, hq5, hqQ⟩ := krRow_spec h
   clear h hq
-  generalize hS : krConst 1 264 = S at hall hdot hu hsc
-  generalize hM0 : krConst 65535 265 = M at hall hdot hu hsc
-  generalize hF0 : krConst 5 265 = F at hD hle
-  generalize hQ0 : krConst 4095 265 = Q at hqQ
-  generalize hcs : krCol S M Y = cs at hall hdot hu
-  have hM : ∀ t, lane5 M t = if t % 265 = 0 ∧ t / 265 < 133 then 65535 else 0 := by
-    rw [← hM0]
-    exact lane_krConst (by norm_num) (by norm_num)
   have hul : ∀ t, lane5 u t = if t % 265 = 0 ∧ t / 265 < 133 then
       lane5 (x * cs) (t + 132) else 0 := fun t => by
     have e : (2112 : Nat) = 16 * 132 := by norm_num
@@ -355,7 +362,7 @@ theorem krRow_sound {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x
     · exact Nat.zero_le _
   have hscl : ∀ t, lane5 sc t = if t % 265 = 0 ∧ t / 265 < 133 then lane5 c (t / 265) else 0 :=
     fun t => by
-      rw [hsc, ← hS, ← hM0, krSpr_eq hc]
+      rw [hsc, hSpr]
       have hp : ∀ c' ∈ range 133, 265 * c' < 265 * 133 := fun c' hc' => by
         have := mem_range.1 hc'
         omega
@@ -383,28 +390,16 @@ theorem krRow_sound {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x
     split_ifs with h1
     · exact Nat.le_of_lt_succ (canon5_lane hc h1.2)
     · exact Nat.zero_le _
-  have hFl : ∀ t, lane5 F t = if t % 265 = 0 ∧ t / 265 < 133 then 5 else 0 := by
-    rw [← hF0]
-    exact lane_krConst (by norm_num) (by norm_num)
-  have hQl : ∀ t, lane5 Q t = if t % 265 = 0 ∧ t / 265 < 133 then 4095 else 0 := by
-    rw [← hQ0]
-    exact lane_krConst (by norm_num) (by norm_num)
   have hql : ∀ t, lane5 q t ≤ 4095 := fun t => by
     rw [← hqQ, lane5_land, hQl]
     split_ifs
     · exact land_le _ _
     · rw [land_zero']
       exact Nat.zero_le _
-  have hMlt : M < 2 ^ (16 * (265 * 133)) := by
-    rw [← hM0]
-    exact krConst_lt (v := 65535) (s := 265) (by norm_num) (by norm_num)
   have e1 : u + F = ∑ t ∈ range (265 * 133), (lane5 u t + lane5 F t) * 2 ^ (16 * t) := by
     have hult : u < 2 ^ (16 * (265 * 133)) := by
       rw [hu]
       exact Nat.lt_of_le_of_lt (land_le _ _) hMlt
-    have hFlt : F < 2 ^ (16 * (265 * 133)) := by
-      rw [← hF0]
-      exact krConst_lt (v := 5) (s := 265) (by norm_num) (by norm_num)
     conv_lhs => rw [expand_n hult, expand_n hFlt]
     rw [← Finset.sum_add_distrib]
     exact Finset.sum_congr rfl fun t _ => by ring
@@ -412,9 +407,6 @@ theorem krRow_sound {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x
     have hsclt : sc < 2 ^ (16 * (265 * 133)) := by
       rw [hsc]
       exact Nat.lt_of_le_of_lt (land_le _ _) hMlt
-    have hQlt : Q < 2 ^ (16 * (265 * 133)) := by
-      rw [← hQ0]
-      exact krConst_lt (v := 4095) (s := 265) (by norm_num) (by norm_num)
     have hqlt : q < 2 ^ (16 * (265 * 133)) := by
       rw [← hqQ]
       exact Nat.lt_of_le_of_lt (land_le _ _) hQlt
@@ -449,6 +441,19 @@ theorem krRow_sound {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x
   rw [hul, hFl, hscl, if_pos c1, if_pos c1, if_pos c1, c2, hdot k hk] at h1
   have h2 := canon5_lane hc hk
   omega
+
+theorem krRow_sound {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x c : Nat}
+    (hx : canon5 x = true) (hc : canon5 c = true)
+    (h : krRow (krConst 1 264) (krConst 65535 265) (krConst 5 265) (krConst 4095 265)
+      (krCol (krConst 1 264) (krConst 65535 265) Y) x c = true) :
+    vm5 Y x = c :=
+  krRow_core hY hx hc (lane_prod hY hx).1 (lane_prod hY hx).2 (krSpr_eq hc)
+    (lane_krConst (v := 65535) (s := 265) (by norm_num) (by norm_num))
+    (lane_krConst (v := 5) (s := 265) (by norm_num) (by norm_num))
+    (lane_krConst (v := 4095) (s := 265) (by norm_num) (by norm_num))
+    (krConst_lt (v := 65535) (s := 265) (by norm_num) (by norm_num))
+    (krConst_lt (v := 5) (s := 265) (by norm_num) (by norm_num))
+    (krConst_lt (v := 4095) (s := 265) (by norm_num) (by norm_num)) h
 
 theorem krProd_sound {Y X C : Nat → Nat} (hY : Canon5 Y) (hX : Canon5 X) (hC : Canon5 C)
     (h : krProd (krConst 1 264) (krConst 65535 265) (krConst 5 265) (krConst 4095 265) Y X C = true) :

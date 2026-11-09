@@ -64,6 +64,20 @@ open CFSG.EvenSporadicStandard.TwoHS CFSG.Sporadic.Recognition.HSMultiplier
 
 @[expose] noncomputable def setC (k : Nat) : List Nat := sigmaC.map (ptK k k)
 
+@[expose] def mergeK : Nat → List Nat → List Nat → List Nat
+  | 0, a, b => a ++ b
+  | _ + 1, [], b => b
+  | _ + 1, a, [] => a
+  | f + 1, x :: a, y :: b => if x ≤ y then x :: mergeK f a (y :: b) else y :: mergeK f (x :: a) b
+
+@[expose] def mergePairsK : List (List Nat) → List (List Nat)
+  | a :: b :: L => mergeK 8192 a b :: mergePairsK L
+  | L => L
+
+@[expose] def msortK (l : List Nat) : List Nat :=
+  (Nat.rec (motive := fun _ => List (List Nat)) (l.map fun x => [x]) (fun _ L => mergePairsK L)
+    13).flatten
+
 @[expose] def dedupS : List Nat → List Nat
   | a :: b :: l => if a = b then dedupS (b :: l) else a :: dedupS (b :: l)
   | l => l

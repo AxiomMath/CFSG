@@ -33,7 +33,7 @@ theorem kD : dagWK D.M D.MI 2 137 dagWords = true := by quickRfl
 
 theorem kQN : Nat.beq QT.N 625 = true := by quickRfl
 
-theorem kQ : gtPinK QM 3 100000 QT.N QT.P QT.PAR QT.LAB QT.W QT.S = true := by quickRfl
+theorem kQ : bfsK (gtStepK QM) QT.P QT.PAR QT.LAB QT.W QT.S 3 100000 QT.N idM = true := by quickRfl
 
 theorem kQ5 : allN 625 (fun i => Nat.beq (pwK (QT.P i) 5) idM) = true := by quickRfl
 
@@ -85,11 +85,14 @@ theorem kRep : (List.range 3).all (fun τ => decide (repA.getD τ 0 < 125) && de
 
 theorem kPTN : (Nat.beq PT0.N 25 && Nat.beq PT1.N 25 && Nat.beq PT2.N 25) = true := by quickRfl
 
-theorem kPT0 : gtPinK (PG 0) 2 100000 PT0.N PT0.P PT0.PAR PT0.LAB PT0.W PT0.S = true := by quickRfl
+theorem kPT0 : bfsK (gtStepK (PG 0)) PT0.P PT0.PAR PT0.LAB PT0.W PT0.S 2 100000 PT0.N idM =
+    true := by quickRfl
 
-theorem kPT1 : gtPinK (PG 1) 2 100000 PT1.N PT1.P PT1.PAR PT1.LAB PT1.W PT1.S = true := by quickRfl
+theorem kPT1 : bfsK (gtStepK (PG 1)) PT1.P PT1.PAR PT1.LAB PT1.W PT1.S 2 100000 PT1.N idM =
+    true := by quickRfl
 
-theorem kPT2 : gtPinK (PG 2) 2 100000 PT2.N PT2.P PT2.PAR PT2.LAB PT2.W PT2.S = true := by quickRfl
+theorem kPT2 : bfsK (gtStepK (PG 2)) PT2.P PT2.PAR PT2.LAB PT2.W PT2.S 2 100000 PT2.N idM =
+    true := by quickRfl
 
 end CertificateChecks.KernelCo1FiveK
 

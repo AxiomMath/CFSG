@@ -3,6 +3,7 @@ module
 public import CFSG.Sporadic.SuzOddCore.ChainOrder
 public import CFSG.Sporadic.SuzOddCore.CertChainCheck
 public import CFSG.Sporadic.SuzOddCore.Family
+public import CFSG.Perm.PathSpec
 
 public noncomputable section
 
@@ -112,14 +113,12 @@ theorem rep_certLetters
     rw [certStrongArrs_get hj]; exact certArr_size (by omega)
   split_ifs
   · exact th_rep_of_rep (rep_certStrong hj) hsz fun x hx =>
-      (certChain_check.2.2.2.2.2.2.1 _ hj x hx).1
-  · exact th_rep_of_rep (rep_certStrongInv hj) (certChain_check.2.2.2.2.2.2.2 _ hj)
-      fun x hx => (certChain_check.2.2.2.2.2.2.1 _ hj x hx).2
+      (certChain_check.2.2.2.2.2.1 _ hj x hx).1
+  · exact th_rep_of_rep (rep_certStrongInv hj) (certChain_check.2.2.2.2.2.2 _ hj)
+      fun x hx => (certChain_check.2.2.2.2.2.1 _ hj x hx).2
 
-theorem certTree_facts
-    {i : ℕ} (hi : i < 6) :
-    TreeFacts 22880 (certTree i) (certLevelLetters i) (pairG suzS) (certBaseNat.getD i 0) := by
-  refine treeOK_facts (fun l hl => ?_) (certChain_check.2.2.2.2.1 i hi)
+theorem rep_certLevelLetters {i l : ℕ} (hl : l ∈ certLevelLetters i) :
+    CFSG.Sporadic.Th.Rep 22880 certLetters[l]! (pairG suzS l) := by
   obtain ⟨j, hj, rfl | rfl⟩ := certLevelLetters_spec hl
   · exact rep_certLetters (by have := certLevelIdx_lt hj; omega)
   · exact rep_certLetters (by have := certLevelIdx_lt hj; omega)
@@ -185,9 +184,12 @@ theorem certChain_orbit_card_ge
     (i : Fin certChain.baseCount) :
     certOrbitSizes.getD i 0 ≤ Nat.card (certChain.orbitPoints i) := by
   have hi : (i : ℕ) < 6 := lt_of_lt_of_eq i.2 certChain_baseCount
-  have hT := certTree_facts hi
-  rw [← certChain_check.2.2.2.2.2.1 i hi, ← hT.card_orbit, certChain.orbitPoints_eq_orbit i]
-  have hroot : (⟨certBaseNat.getD (i : ℕ) 0, hT.r_lt⟩ : Fin 22880) = certChain.base.get i :=
+  obtain ⟨T, hT, hsz⟩ := certChain_check.2.2.2.2.1 i hi
+  obtain ⟨hr, hle⟩ := orbPathOK_card_le (lG := pairG suzS) (fun l hl => rep_certLevelLetters hl) hT
+  rw [← hsz]
+  refine le_trans hle ?_
+  rw [certChain.orbitPoints_eq_orbit i]
+  have hroot : (⟨certBaseNat.getD (i : ℕ) 0, hr⟩ : Fin 22880) = certChain.base.get i :=
     Fin.ext (certChain_base_get i).symm
   rw [hroot]
   apply Nat.card_mono (Set.toFinite _)

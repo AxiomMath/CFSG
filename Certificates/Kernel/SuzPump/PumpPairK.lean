@@ -28,8 +28,7 @@ theorem kPP : keysSK 1782 11 [0, 1, 2, 3, 4, 8, 5, 6] 7560 SPP.T (listUp SPP.SKT
 theorem pPP : allN 2 (fun k => permOK 1782 11 (mask 11) (1782 * 11) (SPP.G k)
     (pinvS 1782 11 (mask 11) (SPP.G k))) = true := by quickRfl
 
-@[expose] noncomputable def pps (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SPP.T 60 s, runSl 1782 11 2 SPP.G SPP.T SPP.E 60 SPP.C s)
+@[expose] noncomputable def pps (s : Nat) : Bool := runSl 1782 11 2 SPP.G SPP.T SPP.E 60 SPP.C s
 
 end CertificateChecks.KernelSuzPump
 

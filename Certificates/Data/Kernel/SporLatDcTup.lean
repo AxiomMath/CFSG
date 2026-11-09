@@ -14,6 +14,9 @@ open CFSG.QuasithinUnique.Ch1.SporLat
 @[expose] def otIdxOK (w m : Nat) (Ps : List Nat) (O : OmegaData (List Nat)) : Bool :=
   omOKG (fun l t => tupW w (Ps.getD l 0) t) (List.range m) Ps.length O
 
+@[expose] def otIdxOKB (w : Nat) (x0 Ps : List Nat) (O : OmegaData (List Nat)) : Bool :=
+  omOKG (fun l t => tupW w (Ps.getD l 0) t) x0 Ps.length O
+
 @[expose] def tupLbl {Lab : Type} [Inhabited Lab] (Om : OmegaData Lab) (O : OmegaData (List Nat)) :
     OmegaData (List Lab) :=
   ⟨O.lbl.map (fun t => t.map (fun k => Om.lbl[k]!)), O.pn, O.par, O.via⟩

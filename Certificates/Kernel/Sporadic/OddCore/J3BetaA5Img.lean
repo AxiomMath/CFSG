@@ -31,8 +31,8 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.PEnum
 @[expose] noncomputable def cayK : Bool :=
   imgK.size == 60 && imgK.toList.all pK && eq5 imgK[0]! (idT 5) &&
     (List.range 60).all (fun k => (List.range 2).all fun l =>
-      Nat.blt (r32 J3BACl (4 * k + l)) 60 &&
-        eq5 imgK[r32 J3BACl (4 * k + l)]! (compT 5 imgK[k]! piA5J3[l]!)) &&
+      Nat.blt (r32 J3BA.POS (2 * k + l)) 60 &&
+        eq5 imgK[r32 J3BA.POS (2 * k + l)]! (compT 5 imgK[k]! piA5J3[l]!)) &&
     (List.range 60).all (fun k => eq5 imgK[k]! (idT 5) == Nat.beq (J3BA.T k) (pidn 6156 13)) &&
     piA5J3.toList.all pK
 
@@ -40,7 +40,7 @@ theorem cay_ok : cayK = true := by
   decide +kernel
 
 theorem cay_neg : ((List.range 60).all fun k => (List.range 2).all fun l =>
-    eq5 imgK[r32 J3BACl (4 * k + l)]! (compT 5 imgK[k]! piA5J3[1 - l]!)) = false := by
+    eq5 imgK[r32 J3BA.POS (2 * k + l)]! (compT 5 imgK[k]! piA5J3[1 - l]!)) = false := by
   decide +kernel
 
 end CertificateChecks.KernelSpor.J3BetaA5

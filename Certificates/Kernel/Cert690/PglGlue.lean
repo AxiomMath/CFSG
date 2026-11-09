@@ -28,13 +28,15 @@ theorem enumK0_eq : enumData kPGL0Gens = (K0.toArray, par0.toArray) :=
 
 theorem f10 : pglF10K K.toArray (invsL K).toArray = true := by
   unfold pglF10K
-  rw [List.all_eq_true]
+  rw [f10Vecs_eq, List.all_eq_true]
   intro e he
   obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem he
-  have hlen : f10Vecs.length = 21 := by decide
-  have e' : f10At K.toArray (invsL K).toArray f10Vecs[k] = f10I k := by
+  have hlen : f10Es.length = 21 := rfl
+  have e' : f10L K.toArray (invsL K).toArray f10Es[k] (f10Cs.getD k #[]) (f10Ts.getD k #[]) =
+      f10I k := by
     unfold f10I
     rw [List.getD_eq_getElem _ _ hk]
+  apply f10At_of_L _ _ _ (f10Cs.getD k #[]) (f10Ts.getD k #[])
   rw [e']
   rw [hlen] at hk
   interval_cases k

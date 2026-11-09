@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.AlphaMc.SeedsF2
 public import Certificates.Kernel.J3Local.Seeds
 public import Certificates.Data.Kernel.OpsF2KMcert
+public import Certificates.Data.Kernel.OpsF2KQT
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.BetaFusJ3Inputs
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.BetaFusCo1Inputs
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.BetaFusCo2Inputs
@@ -29,6 +30,7 @@ theorem betaCo1P3_K : fusK 24 C1A.M C1B.M betaCo1P3N betaCo1P3Prog betaCo1P3 = t
   decide +kernel
 
 theorem betaCo1P5_K : fusK 24 C1A.M C1B.M betaCo1P5N betaCo1P5Prog betaCo1P5 = true := by
+  rw [fusK_eq_T 11 _ _ _ _ _ _ (by decide) (by decide)]
   decide +kernel
 
 theorem fusD2Co1_K : fusK 24 C1A.M C1B.M fusD2Co1N fusD2Co1Prog fusD2Co1 = true := by

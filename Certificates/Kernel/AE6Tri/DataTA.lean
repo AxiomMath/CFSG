@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.AE6TA "Certificates/Kernel/AE6Tri/data/triTA.json.gz" 707926
+#kc_repo #kc_json CFSG.KD.AE6TA "Certificates/Kernel/AE6Tri/data/triTA.json" 707926
   8738419592427048881
   (taLL : List Nat) (taTau : Nat) (taEL : List Nat) (taTP : List Nat) (taTC : List Nat)
   (taKw1 : List Nat) (taKI : List Nat) (taKW : List (List Nat)) (taB : List Nat)

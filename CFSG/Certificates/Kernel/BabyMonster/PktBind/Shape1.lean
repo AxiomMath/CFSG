@@ -3,6 +3,7 @@ module
 import CFSG.Certificates.Kernel.BabyMonster.Load
 public import Certificates.Data.Kernel.BabyMonster.PktShape
 public import CFSG.Certificates.Kernel.BabyMonster.PktBind.Text
+public import CFSG.Certificates.Kernel.BabyMonster.PktSplit
 
 set_option maxRecDepth 200000
 
@@ -28,5 +29,14 @@ set_option maxRecDepth 200000
 #bm_bool CFSG.KD.PktBind shape43 (CFSG.KC.BM.Pkt.shapeOK (CFSG.KC.BM.Pkt.lineOf CH S 43))
 #bm_bool CFSG.KD.PktBind shape44 (CFSG.KC.BM.Pkt.shapeOK (CFSG.KC.BM.Pkt.lineOf CH S 44))
 #bm_bool CFSG.KD.PktBind shape45 (CFSG.KC.BM.Pkt.shapeOK (CFSG.KC.BM.Pkt.lineOf CH S 45))
-#bm_bool CFSG.KD.PktBind shape46 (CFSG.KC.BM.Pkt.shapeOK (CFSG.KC.BM.Pkt.lineOf CH S 46))
+@[expose] public noncomputable def CFSG.KD.PktBind.shape46s1 : Nat × Nat × Bool := (nat_lit 2576, nat_lit 2578, true)
+@[expose] public noncomputable def CFSG.KD.PktBind.shape46s2 : Nat × Nat × Bool := (nat_lit 3102, nat_lit 4122, true)
+#bm_bool CFSG.KD.PktBind shape46a (CFSG.KC.BM.Pkt.pktShapeHead (CFSG.KC.BM.Pkt.lineOf CH S 46) 6451 shape46s1)
+#bm_bool CFSG.KD.PktBind shape46b (CFSG.KC.BM.Pkt.pktShapeMid (CFSG.KC.BM.Pkt.lineOf CH S 46) 6451 14859 shape46s1 shape46s2)
+#bm_bool CFSG.KD.PktBind shape46c (CFSG.KC.BM.Pkt.pktShapeTail (CFSG.KC.BM.Pkt.lineOf CH S 46) 14859 shape46s2)
+public theorem CFSG.KD.PktBind.shape46 :
+    CFSG.KC.BM.Pkt.shapeOK (CFSG.KC.BM.Pkt.lineOf CFSG.KD.PktBind.CH CFSG.KD.PktBind.S (nat_lit 46)) =
+      true :=
+  CFSG.KC.BM.Pkt.pkt_shapeOK_split3 _ (nat_lit 6451) (nat_lit 14859) (by decide) _ _
+    CFSG.KD.PktBind.shape46a CFSG.KD.PktBind.shape46b CFSG.KD.PktBind.shape46c
 #bm_bool CFSG.KD.PktBind shape47 (CFSG.KC.BM.Pkt.shapeOK (CFSG.KC.BM.Pkt.lineOf CH S 47))

@@ -28,7 +28,7 @@ open CFSG.KC.Enum CFSG.KS.SporSch.M24 CFSG.KS.Raw CFSG.KC.Co1B Timmesfeld.Co1Sev
 @[expose] noncomputable def tK (k : Nat) : Nat := nIf(Nat.beq (fusTgt.getD k (nat_lit 0)) (nat_lit 0), SK, TK)
 
 theorem kP : bAnd(Nat.beq PT.N (nat_lit 49),
-    gtPinK GP 2 100000 PT.N PT.P PT.PAR PT.LAB PT.W PT.S) = true := by quickRfl
+    bfsK (gtStepK GP) PT.P PT.PAR PT.LAB PT.W PT.S 2 100000 PT.N idM) = true := by quickRfl
 
 theorem kS : (unpack 24 24 SK != unpack 24 24 idM && unpack 24 24 TK != unpack 24 24 idM &&
     Nat.beq (mulWK SK TK) (mulWK TK SK) && Nat.beq (powWK SK 7) idM &&

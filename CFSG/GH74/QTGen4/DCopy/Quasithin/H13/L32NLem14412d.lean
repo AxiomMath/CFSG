@@ -89,7 +89,7 @@ theorem mem_hatE_F4 : ∀ p ∈ wits, vecN 12 p.1 ∈ (D.hat (l32nE T V V₂ g))
   obtain ⟨a, ha, haV⟩ := C.base.abs.exists_mem_not_mem
   intro p hp
   obtain ⟨hp1, hp2, hp3⟩ := witB_spec p hp
-  obtain ⟨x, hxE, hx⟩ := exists_mem_of_elemsOf e0B_spec.1 (unit_of_s0E e0G_mem) hp1
+  obtain ⟨x, hxE, hx⟩ := exists_mem_of_elemsOf e0B_spec.1 (unit_of_pE e0G_mem) hp1
   have hxW : x ∈ imgN D e (CFSG.conjugate (l32nW T V V₂) g) := by
     rw [C.img_Wg_eq_F4]
     exact hxE

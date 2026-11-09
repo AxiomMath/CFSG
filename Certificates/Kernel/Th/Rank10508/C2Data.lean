@@ -2,12 +2,12 @@ module
 
 public import Certificates.Data.Kernel.ThRank10508.Defs
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.ThRk10508 "Certificates/Kernel/Th/Rank10508/data/L.items.gz"
+#kc_repo #kc_nat_items CFSG.KD.ThRk10508 "Certificates/Kernel/Th/Rank10508/data/L.items"
     95268 16243392093392414290
     (L 0 12)
 #kc_select CFSG.KD.ThRk10508 LB L 12

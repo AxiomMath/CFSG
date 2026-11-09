@@ -82,6 +82,70 @@ theorem model32 : ModelOK q47D 32 6 q47M32 K32 Q47Y.G := by
     pinB bNE gNE Q47NE.ok (by decide), rfl,
     b3, b4, b5, b6, b7, kRuns32, kRep32, kImg32, kModel32⟩
 
+theorem CS_eq : CS = CSL := by
+  have h1 : clsOf q47M16 K16 false = setTs (clsOf q47M16 K16 false) q47TE16E q47T116E q47T216E :=
+    eq_setTs (by quickRfl)
+  have h2 : clsOf q47M16 K16 true = setTs (clsOf q47M16 K16 true) q47TE16F q47T116F q47T216F :=
+    eq_setTs (by quickRfl)
+  have h3 : clsOf q47M32 K32 false = setTs (clsOf q47M32 K32 false) q47TE32E q47T132E q47T232E :=
+    eq_setTs (by quickRfl)
+  have h4 : clsOf q47M32 K32 true = setTs (clsOf q47M32 K32 true) q47TE32F q47T132F q47T232F :=
+    eq_setTs (by quickRfl)
+  unfold CS CSL
+  rw [← h1, ← h2, ← h3, ← h4]
+
+theorem oBlockF_congr {SZ : Nat → Nat} {TR : Nat → Nat → Nat} {m1 m2 : Nat} {W1 W2 : Array Nat}
+    {LM : List Nat} {cs cs' : List Cls}
+    (h : ∀ t, (cs.all fun c => clsC c t) = (cs'.all fun c => clsC c t)) (s : Nat) :
+    oBlockF SZ TR m1 m2 W1 W2 LM cs s = oBlockF SZ TR m1 m2 W1 W2 LM cs' s := by
+  have e : okF47 LM cs = okF47 LM cs' := by
+    funext t i1 i2
+    unfold okF47
+    rw [h t]
+  unfold oBlockF oStepF
+  rw [e]
+
+theorem addT2_eq {c : Cls} {R : List Nat} {W : List (Nat × Nat × Nat × Nat)}
+    (pD : ∀ k < c.gD, PP 64 7 (c.GD k)) (h : conjWK c.gD c.GD R W = true) (t : Nat) :
+    clsC (addT2 c (W.map Prod.fst)) t = clsC c t :=
+  clsC_addT2 (conjWK_sound pD h) t
+
+theorem CSW_all (t : Nat) : (CSW.all fun c => clsC c t) = (CSL.all fun c => clsC c t) := by
+  have b16 := bounds16.2.2.1
+  have b32 := bounds32.2.2.1
+  unfold CSW CSL
+  simp only [List.all_cons, List.all_nil]
+  rw [addT2_eq (c := setTs (clsOf q47M16 K16 false) q47TE16E q47T116E q47T216E) (R := q47R16E)
+      (fun k hk => PP_bound hsz64 b16 hk) (by quickRfl),
+    addT2_eq (c := setTs (clsOf q47M16 K16 true) q47TE16F q47T116F q47T216F) (R := q47R16F)
+      (fun k hk => PP_bound hsz64 b16 hk) (by quickRfl),
+    addT2_eq (c := setTs (clsOf q47M32 K32 false) q47TE32E q47T132E q47T232E) (R := q47R32E)
+      (fun k hk => PP_bound hsz64 b32 hk) (by quickRfl),
+    addT2_eq (c := setTs (clsOf q47M32 K32 true) q47TE32F q47T132F q47T232F) (R := q47R32F)
+      (fun k hk => PP_bound hsz64 b32 hk) (by quickRfl)]
+
+theorem q47TrLin : ∀ k < 6, ∀ j < SZ k, PP 64 7 (TR k j) ∧ addK (TR k j) = true := by
+  intro k hk j hj
+  have h := allN_spec kT k hk
+  rw [Bool.and_eq_true] at h
+  have hl := Nat.eq_of_beq_eq_true h.1
+  have ka := kAdd
+  simp only [Bool.and_eq_true] at ka
+  exact ⟨PP_bound hsz64 (bound_of_bndK h.2) (by rw [hl]; exact hj),
+    allN_spec (List.all_eq_true.1 ka.1.1.1 k (List.mem_range.2 hk)) j hj⟩
+
+theorem ob_eq {s : Nat} (hs : s < 35) : ob s = Nat.beq (oBlockF SZ TR (maskOf q47W1) (maskOf q47W2)
+    q47W1 q47W2 ((List.range 30).map fun j => maskOf (q47L30.getD j #[])) CS s) (BC s) := by
+  have m1 : maskOf q47W1 = q47M1 := Nat.eq_of_beq_eq_true (by quickRfl)
+  have m2 : maskOf q47W2 = q47M2 := Nat.eq_of_beq_eq_true (by quickRfl)
+  have hL : ((List.range 30).map fun j => maskOf (q47L30.getD j #[])) = q47LM :=
+    eq_of_beq (by quickRfl)
+  have w1 : ∀ a ∈ q47W1.toList, a < 64 := by decide
+  have w2 : ∀ a ∈ q47W2.toList, a < 64 := by decide
+  unfold ob
+  rw [← oBlockF_mat (TM := q47TM) w1 w2 _ _ q47TrLin (fun _ _ _ _ => rfl) hs,
+    oBlockF_congr CSW_all, m1, m2, hL, CS_eq]
+
 theorem q47Check_true : q47Check = true := by
   have hD : q47DirectG q47D q47M16 q47M32 = true := by
     rw [q47DirectG, kDT, kDR, kDM, kDM16, kDM32]
@@ -105,9 +169,11 @@ theorem q47Check_true : q47Check = true := by
     (pinB bY gY Q47Y.ok (by decide)) (pinB bN gN Q47N.ok (by decide))
     (pinB bUY1 gUY1 Q47UY1.ok (by decide)) (pinB bUY2 gUY2 Q47UY2.ok (by decide))
     ⟨rfl, rfl, rfl, rfl⟩
-    kRun kMP kRef kWit kHead (rows (k := 8) (m := 21) (by decide) rowYAll)
-    (rows (k := 16) (m := 21) (by decide) rowNAll) kAdd
-    obAll kBC model16 model32
+    kRun kMP kRef kWit kHead kGenRowY kGenRowN kAdd
+    (fun s hs => by
+      have h := obAll s hs
+      rw [ob_eq hs] at h
+      exact h) kBC model16 model32
 
 end CertificateChecks.KernelLC.Q47
 

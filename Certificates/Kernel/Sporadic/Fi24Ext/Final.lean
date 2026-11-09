@@ -238,8 +238,8 @@ theorem word_gen {w : List ℤ} (hw : ∀ z ∈ w, z ≠ 0 ∧ z.natAbs ≤ 13) 
     (fun z hz => genLetter_ok (hw z hz))
   exact ⟨h1, by rw [h2, map_reg_prod]⟩
 
-theorem zeroFrom_ofFn_ofTrits {n d m : ℕ} (hd : d ≤ 832) (e : Array ℕ) :
-    ZeroFrom d (Array.ofFn (n := n) fun i => ofTrits d fun j => e[m * i.val + j]?.getD 0) := by
+theorem zeroFrom_ofFn_ofTrits' {n d : ℕ} (hd : d ≤ 832) (f : Fin n → ℕ → ℕ) :
+    ZeroFrom d (Array.ofFn (n := n) fun i => ofTrits d (f i)) := by
   intro i j hj
   by_cases hi : i < n
   · unfold rowW
@@ -247,6 +247,10 @@ theorem zeroFrom_ofFn_ofTrits {n d m : ℕ} (hd : d ≤ 832) (e : Array ℕ) :
     simp only [hi, ↓reduceDIte, Option.getD_some]
     rw [ofTrits_val hd, if_neg (by omega)]
   · rw [rowW_ge (by rw [Array.size_ofFn]; omega), W.val_zero]
+
+theorem zeroFrom_ofFn_ofTrits {n d m : ℕ} (hd : d ≤ 832) (e : Array ℕ) :
+    ZeroFrom d (Array.ofFn (n := n) fun i => ofTrits d fun j => e[m * i.val + j]?.getD 0) :=
+  zeroFrom_ofFn_ofTrits' hd _
 
 theorem zeroFrom_matF : ZeroFrom 781 (matF ()) := by
   unfold matF
@@ -277,13 +281,8 @@ theorem Rt_pw : matW 781 781 (transposeW 253 781 (rootForm ()).rows) = Mt CFSG.K
 
 theorem zeroFrom_R : ZeroFrom 781 (rootForm ()).rows := by
   rw [rootForm_rows]
-  intro i j hj
-  by_cases hi : i < 253
-  · unfold rowW initRows
-    rw [Array.getElem?_ofFn]
-    simp only [hi, ↓reduceDIte, Option.getD_some]
-    rw [ofTrits_val (by norm_num), if_neg (by omega)]
-  · exact zeroFrom_initRows_rows i (by omega) j
+  unfold initRows
+  exact zeroFrom_ofFn_ofTrits' (by norm_num) _
 
 noncomputable abbrev KW : Array W := gramW 253 (rootForm ()).rows (matF ())
 

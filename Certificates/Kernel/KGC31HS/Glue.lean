@@ -311,32 +311,32 @@ theorem kOrdP : ordK CCA.LR 3 = 7680 ∧ ordK CCR.LR 4 = 2880 ∧ ordK CT0.LR 2 
 theorem chainCA : ChainK 100 7 (permsOf caGenW) caChainW (#v[0, 2, 3] : Vector (Fin 100) 3)
     CCA.S CCA.SI CCA.LR CCA.TR CCA.TRI 6 CCA.BP 1 100 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.1, by decide, CCA.head,
-    CCA.hl, by norm_num, CCA.hs⟩
+    CCA.hl, by norm_num, .inl CCA.hs⟩
 
 theorem chainCR : ChainK 100 7 (permsOf crGenW) crChainW (#v[0, 1, 2, 3] : Vector (Fin 100) 4)
     CCR.S CCR.SI CCR.LR CCR.TR CCR.TRI 7 CCR.BP 1 100 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.1, by decide, CCR.head,
-    CCR.hl, by norm_num, CCR.hs⟩
+    CCR.hl, by norm_num, .inl CCR.hs⟩
 
 theorem chainT0 : ChainK 100 7 (permsOf t0GenW) t0ChainW (#v[2, 0] : Vector (Fin 100) 2)
     CT0.S CT0.SI CT0.LR CT0.TR CT0.TRI 11 CT0.BP 1 100 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.1, by decide, CT0.head,
-    CT0.hl, by norm_num, CT0.hs⟩
+    CT0.hl, by norm_num, .inl CT0.hs⟩
 
 theorem chainM16 : ChainK 100 7 (permsOf m16GenW) m16ChainW (#v[0, 1, 2, 3] : Vector (Fin 100) 4)
     CM16.S CM16.SI CM16.LR CM16.TR CM16.TRI 8 CM16.BP 1 100 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.2.1, by decide, CM16.head,
-    CM16.hl, by norm_num, CM16.hs⟩
+    CM16.hl, by norm_num, .inl CM16.hs⟩
 
 theorem chainN8 : ChainK 100 7 (permsOf n8GenW) n8ChainW (#v[0, 1, 2] : Vector (Fin 100) 3)
     CN8.S CN8.SI CN8.LR CN8.TR CN8.TRI 6 CN8.BP 1 100 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.2.2.1, by decide, CN8.head,
-    CN8.hl, by norm_num, CN8.hs⟩
+    CN8.hl, by norm_num, .inl CN8.hs⟩
 
 theorem chainQ : ChainK 100 7 (permsOf qGenW) qChainW (#v[0] : Vector (Fin 100) 1)
     CQ.S CQ.SI CQ.LR CQ.TR CQ.TRI 6 CQ.BP 1 100 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.2.2.2, by decide, CQ.head,
-    CQ.hl, by norm_num, CQ.hs⟩
+    CQ.hl, by norm_num, .inl CQ.hs⟩
 
 theorem countP_congr' {α : Type} : ∀ {l : List α} {f g : α → Bool}, (∀ a ∈ l, f a = g a) →
     l.countP f = l.countP g

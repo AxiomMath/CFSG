@@ -74,7 +74,10 @@ theorem siftO : allN 5 (fun k => siftOK 275 9 5 McLC.LR McLC.TRI McLC.BP (F (319
 theorem siftCA : allN 3 (fun k => siftOK 275 9 10 MA.LR MA.TRI MA.BP (F (316 + k))) = true := by
   quickRfl
 
-theorem siftCB : allN 3 (fun k => siftOK 275 9 10 MB.LR MB.TRI MB.BP (F (336 + k))) = true := by
+theorem siftCAM : allN 3 (fun k => siftOK 275 9 5 McLC.LR McLC.TRI McLC.BP (F (316 + k))) =
+    true := by quickRfl
+
+theorem siftCB :allN 3 (fun k => siftOK 275 9 10 MB.LR MB.TRI MB.BP (F (336 + k))) = true := by
   quickRfl
 
 theorem relsA : relsK 275 9 3 MA.BP (F 4) 10 mcl3RelsA = true := by quickRfl

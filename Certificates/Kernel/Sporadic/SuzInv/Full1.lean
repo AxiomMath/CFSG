@@ -24,8 +24,8 @@ meta def strongF1 : Array (Array Nat) := CFSG.Sporadic.SuzOddCore.invFullStrongA
 
 end CertificateChecks.KernelSpor.SuzInv
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.SuzInvWF1
-  "Certificates/Kernel/Sporadic/SuzInv/data/F1.json.gz" 581 8225221321669896667
+#kc_repo #kc_json CertificateChecks.KernelSpor.SuzInvWF1
+  "Certificates/Kernel/Sporadic/SuzInv/data/F1.json" 581 8225221321669896667
   (W : List (List Nat))
 
 #ks_rawchain_sl3g CertificateChecks.KernelSpor.SuzInvF1 1782 11 8 64 0

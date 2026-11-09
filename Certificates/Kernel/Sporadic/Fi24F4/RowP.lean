@@ -51,7 +51,7 @@ theorem card_P_centralizer :
       ({CFSG.Sporadic.Th.wordG pLet dWord ^ 4} : Set (Equiv.Perm (Fin 378)))) = 5832 := by
   have hS := steps_of (N := 3359) (NS := 53) (CH := 64) (by norm_num) Fi24PY.hS
   have hA := acts_of (n := 378) (w := 9) (r := 2) (wp := 12) (m := 3360) (NS := 53) (CH := 64)
-    (by norm_num) Fi24PY.hA
+    (by norm_num) hS Fi24PY.hA
   have hD := dists_of (m := 3360) (NS := 53) (CH := 64) (by norm_num) Fi24PY.hD
   have h0 := prep_PY0
   have hc0 : Fi24PY.T 0 >>> (378 * 9) = 0 := (CFSG.KS.PF.canon_facts h0.2).2.2.1

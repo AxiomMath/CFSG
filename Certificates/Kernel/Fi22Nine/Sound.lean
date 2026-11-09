@@ -3,7 +3,6 @@ module
 public import Certificates.Kernel.Fi22Nine.Cent
 public import Certificates.Kernel.Fi22Nine.Let
 public import Certificates.Kernel.Sporadic.Fi22.C2064
-public import Certificates.Kernel.Sporadic.Fi22.E2065Eq
 public import Certificates.Kernel.Sporadic.Fi22.F1Model
 public import Certificates.Kernel.Sporadic.Fi22.HypWSound
 
@@ -56,7 +55,7 @@ theorem n9BT {t : Nat} (ht : t < 6) : bT t < 3510 := Fi22C3151.bT_lt ht
 theorem cG_eq {j : Nat} (hj : j < 9) (y : Fin 3510) :
     cG j y = (fi22CentPerm (19 + j) y : Nat) := by
   have h := rep_fi22CentPerm (L := 19 + j) (by omega)
-  rw [Fi22CtiA.cent_eq Fi22CentB.text_eq (by omega)] at h
+  rw [Fi22E2065.cent_eq] at h
   exact prep_of_rep h y
 
 theorem cPerm_mem {j : Nat} (hj : j < 9) :
@@ -474,31 +473,32 @@ theorem centK_of {I : Nat} (hI : I < 131072) : centK I = true := by
   rw [e] at this
   exact this
 
+private theorem perm_comm_apply {n : Nat} {σ τ : Equiv.Perm (Fin n)} (h : σ * τ = τ * σ)
+    (y : Fin n) : (σ (τ y) : Nat) = (τ (σ y) : Nat) := by
+  rw [← Equiv.Perm.mul_apply, h, Equiv.Perm.mul_apply]
+
 set_option maxRecDepth 100000 in
-theorem center_eq
-    {t : Equiv.Perm (Fin 3510)} (ht : t ∈ fi22OuterT)
-    (hc : ∀ y ∈ fi22OuterT, t * y = y * t) (hz : fi22ExtRep 1 ∈ fi22P) :
-    t = 1 ∨ t = fi22ExtRep 1 := by
-  obtain ⟨x, rfl⟩ := fi22TProd_surj ht
+private theorem center_hB (x : Fin 1024 × Fin 32 × Fin 4)
+    (hc : ∀ y ∈ fi22OuterT, fi22TProd x * y = y * fi22TProd x) :
+    centB (Fi22C3151.iX x) = true := by
   have hgI := tProd_eq_gI x
-  have hK := centK_of (Fi22C3151.iX_lt x)
-  have hB : centB (Fi22C3151.iX x) = true := by
-    unfold centB
-    refine n9All fun s hs => n9All fun u hu => ?_
-    have e := congrArg (fun g : Equiv.Perm (Fin 3510) => (g ⟨bT u, n9BT hu⟩ : Nat))
-      (hc _ (tSeed_mem hs))
-    simp only [Equiv.Perm.mul_apply] at e
-    unfold commB
-    have e1 : tS s (bT u) = (fi22TSeed s ⟨bT u, n9BT hu⟩ : Nat) :=
-      tS_eq hs ⟨bT u, n9BT hu⟩
-    have e2 : gI (Fi22C3151.iX x) (bT u) = (fi22TProd x ⟨bT u, n9BT hu⟩ : Nat) :=
-      hgI ⟨bT u, n9BT hu⟩
-    rw [e1, hgI, e2, tS_eq hs, e]
-    exact Nat.beq_refl _
-  have hK' : bIf(centB (Fi22C3151.iX x), oneOrZ zP (Fi22C3151.iX x), true) = true := hK
-  have hO : bIf(allN 6 fun u => Nat.beq (gI (Fi22C3151.iX x) (bT u)) (bT u), true,
-      allN 6 fun u => Nat.beq (gI (Fi22C3151.iX x) (bT u)) (zO (bT u))) = true :=
-    n9IfPos hK' hB
+  unfold centB
+  refine n9All fun s hs => n9All fun u hu => ?_
+  have e := perm_comm_apply (hc _ (tSeed_mem hs)) ⟨bT u, n9BT hu⟩
+  unfold commB
+  have e1 : tS s (bT u) = (fi22TSeed s ⟨bT u, n9BT hu⟩ : Nat) :=
+    tS_eq hs ⟨bT u, n9BT hu⟩
+  have e2 : gI (Fi22C3151.iX x) (bT u) = (fi22TProd x ⟨bT u, n9BT hu⟩ : Nat) :=
+    hgI ⟨bT u, n9BT hu⟩
+  rw [e1, hgI, e2, tS_eq hs, e]
+  exact Nat.beq_refl _
+
+set_option maxRecDepth 100000 in
+private theorem center_tail (x : Fin 1024 × Fin 32 × Fin 4) (hz : fi22ExtRep 1 ∈ fi22P)
+    (hO : oneOrZ zP (Fi22C3151.iX x) = true) :
+    fi22TProd x = 1 ∨ fi22TProd x = fi22ExtRep 1 := by
+  rw [oneOrZ] at hO
+  have hgI := tProd_eq_gI x
   have hP : fi22TProd x ∈ fi22P := fi22OuterT_le (fi22TProd_mem x)
   cases e : allN 6 fun u => Nat.beq (gI (Fi22C3151.iX x) (bT u)) (bT u)
   · have h2 := n9IfNeg hO e
@@ -507,8 +507,9 @@ theorem center_eq
     have h3 := Nat.eq_of_beq_eq_true (allN_spec h2 u hu)
     have e2 : gI (Fi22C3151.iX x) (bT u) = (fi22TProd x ⟨bT u, n9BT hu⟩ : Nat) :=
       hgI ⟨bT u, n9BT hu⟩
-    have e3 : zO (bT u) = (fi22ExtRep 1 ⟨bT u, n9BT hu⟩ : Nat) :=
-      zO_eq ⟨bT u, n9BT hu⟩
+    have e3 : pg 12 (mask 12) zP (bT u) = (fi22ExtRep 1 ⟨bT u, n9BT hu⟩ : Nat) := by
+      rw [← zO]
+      exact zO_eq ⟨bT u, n9BT hu⟩
     rw [e2, e3] at h3
     exact h3
   · left
@@ -518,6 +519,20 @@ theorem center_eq
       hgI ⟨bT u, n9BT hu⟩
     rw [e2] at h3
     exact h3
+
+private theorem center_x (x : Fin 1024 × Fin 32 × Fin 4)
+    (hc : ∀ y ∈ fi22OuterT, fi22TProd x * y = y * fi22TProd x) (hz : fi22ExtRep 1 ∈ fi22P) :
+    fi22TProd x = 1 ∨ fi22TProd x = fi22ExtRep 1 := by
+  have hK := centK_of (Fi22C3151.iX_lt x)
+  rw [centK, centKz] at hK
+  exact center_tail x hz (n9IfPos hK (center_hB x hc))
+
+theorem center_eq
+    {t : Equiv.Perm (Fin 3510)} (ht : t ∈ fi22OuterT)
+    (hc : ∀ y ∈ fi22OuterT, t * y = y * t) (hz : fi22ExtRep 1 ∈ fi22P) :
+    t = 1 ∨ t = fi22ExtRep 1 := by
+  obtain ⟨x, rfl⟩ := fi22TProd_surj ht
+  exact center_x x hc hz
 
 end CertificateChecks.KernelSpor.Fi22Nine
 

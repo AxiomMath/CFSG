@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.B3S3.M24
 public import CFSG.Certificates.Kernel.B3S3KSound
 public import CFSG.Certificates.Kernel.Misc.ArrBind
+public import CFSG.Certificates.Kernel.Misc.ChainTailOrbSound
+public import CFSG.Certificates.Kernel.Misc.ChainTailLvSound
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
 
 public section
@@ -104,25 +106,29 @@ theorem crit1 (pts : Array (Array ℕ)) (hs : pts.size = E1.N)
 
 theorem case0 : caseOK m24S3Data m24S3Data.cases[0]! m24S3CaseX[0]! = true := by
   have hN := Nat.eq_of_beq_eq_true n0.2.1
-  refine caseOK_of szOK' (n := 24) rfl (arrBind_sound bA) (arrBind_sound bB) pAB.1 pAB.2
+  refine caseOK_of_orb szOK' (n := 24) rfl (arrBind_sound bA) (arrBind_sound bB) pAB.1 pAB.2
     (arrBind_sound (bX 0 (by norm_num))) x0.1 x0.2 binds0 perm0 C0.head C0.hl hNS0 C0.hs hW0
     head0.1 head0.2 (by norm_num) hnd0 (by norm_num) bindG0 comm0 (fun j hj => ?_) E0.ok E0.keys
-    E0.perm hN rels0 ?_ crit0
+    E0.perm hN rels0 (NR := 1) (RB := RB0) (RI := RI0) (EK := EK0) (fun j hj => ?_) ?_ crit0
   · rw [Nat.eq_of_beq_eq_true n0.2.2.1] at hj
     exact siftG0 j hj
+  · obtain rfl : j = 0 := by omega
+    exact (repBranchLK_eq (relOKK_tbl (by decide +kernel) (by decide +kernel)) _ _).symm.trans rep0
   · rw [Nat.eq_of_beq_eq_true rc0]
-    exact tail0
+    exact Orb.allN_iff.1 kOrb0
 
 theorem case1 : caseOK m24S3Data m24S3Data.cases[1]! m24S3CaseX[1]! = true := by
   have hN := Nat.eq_of_beq_eq_true n0.2.2.2.2.1
-  refine caseOK_of szOK' (n := 24) rfl (arrBind_sound bA) (arrBind_sound bB) pAB.1 pAB.2
+  refine caseOK_of_orb szOK' (n := 24) rfl (arrBind_sound bA) (arrBind_sound bB) pAB.1 pAB.2
     (arrBind_sound (bX 1 (by norm_num))) x1.1 x1.2 binds1 perm1 C1.head C1.hl hNS1 C1.hs hW1
     head1.1 head1.2 (by norm_num) hnd1 (by norm_num) bindG1 comm1 (fun j hj => ?_) E1.ok E1.keys
-    E1.perm hN rels1 ?_ crit1
+    E1.perm hN rels1 (NR := 1) (RB := RB1) (RI := RI1) (EK := EK1) (fun j hj => ?_) ?_ crit1
   · rw [Nat.eq_of_beq_eq_true n0.2.2.2.2.2] at hj
     exact siftG1 j hj
+  · obtain rfl : j = 0 := by omega
+    exact (repBranchLK_eq (relOKK_tbl (by decide +kernel) (by decide +kernel)) _ _).symm.trans rep1
   · rw [Nat.eq_of_beq_eq_true rc1]
-    exact tail1
+    exact Orb.allN_iff.1 kOrb1
 
 theorem trans_ok : transOK2 13 24 m24S3Trans m24S3CaseX m24S3Lines m24S3Rec
     (rawLevels 24 m24S3C0S m24S3C0Base) m24S3C0Base = true :=

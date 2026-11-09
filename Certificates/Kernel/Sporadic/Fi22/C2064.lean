@@ -102,10 +102,6 @@ theorem rep_gl {L : Nat} (hL : L < 306) : Rep 3510 (unpack 3510 12 (Fi22CentT.L 
   have h := invEqK_sound (Fi22E2065.perm hL)
   exact ⟨(rep_permOfArr h.2).1, (rep_permOfArr h.2).2, h.1⟩
 
-theorem cent_eq (htext : fi22Cent3510Text = Fi22E2065.textP) {L : Nat} (hL : L < 306) :
-    fi22CentArr L = unpack 3510 12 (Fi22CentT.L L) := by
-  rw [fi22CentArr, fi22CentBytes, htext, Fi22E2065.cent_eq hL]
-
 theorem strong_mem_H1 {j : Nat} (hj : j < (fi22CentStrong 1).size) :
     permOfArr 3510 (fi22CentStrong 1)[j]! ∈ fi22H 1 := by
   have hV := fi22HChain_valid (c := 1) (by norm_num)
@@ -269,20 +265,16 @@ theorem powA_unpack {p : Nat} (hp : cn p = true) :
 
 section Text
 
-variable (htext : fi22Cent3510Text = Fi22E2065.textP)
-include htext
-
-theorem ctiG_eq {k : Nat} (hk : k < 9) : ctiG k = unpack 3510 12 (gL k) :=
-  cent_eq htext (L := 19 + k) (by omega)
+theorem ctiG_eq {k : Nat} : ctiG k = unpack 3510 12 (gL k) := Fi22E2065.cent_eq
 
 theorem ctiGi_eq {k : Nat} (hk : k < 9) : ctiGi k = unpack 3510 12 (gI k) := by
-  rw [ctiGi, ctiG_eq htext hk]
+  rw [ctiGi, ctiG_eq]
   exact (rep_gl (L := 19 + k) (by omega)).2.2
 
 theorem ctiQ3_eq : ctiQ3 = unpack 3510 12 (Q 2) := by
   have c2 := (g_parts (k := 2) (by norm_num)).1
   have c6 := (g_parts (k := 6) (by norm_num)).1
-  rw [ctiQ3, ctiG_eq htext (by norm_num), ctiG_eq htext (by norm_num), compA_unpack c2 c6,
+  rw [ctiQ3, ctiG_eq, ctiG_eq, compA_unpack c2 c6,
     powA_unpack (canonK_pcomp c2 c6) 6]
   exact (congrArg (unpack 3510 12) (Nat.eq_of_beq_eq_true qEq2)).symm
 
@@ -292,7 +284,7 @@ theorem pow_case {a b e j : Nat} (ha : a < 9) (hb : b < 9)
       unpack 3510 12 (Q j) := by
   have ca := (g_parts ha).1
   have cb := (g_parts hb).1
-  rw [ctiG_eq htext ha, ctiG_eq htext hb, compA_unpack ca cb, powA_unpack (canonK_pcomp ca cb) e]
+  rw [ctiG_eq, ctiG_eq, compA_unpack ca cb, powA_unpack (canonK_pcomp ca cb) e]
   exact (congrArg (unpack 3510 12) (Nat.eq_of_beq_eq_true hq)).symm
 
 theorem conj_case {a j : Nat} (ha : a < 9)
@@ -301,33 +293,32 @@ theorem conj_case {a j : Nat} (ha : a < 9)
   have ca := (g_parts ha).1
   have ci := (g_parts ha).2
   have c2 := cnQ (j := 2) (by norm_num)
-  rw [conjArr, ctiG_eq htext ha, ctiGi_eq htext ha, ctiQ3_eq htext, compA_unpack c2 ci,
+  rw [conjArr, ctiG_eq, ctiGi_eq ha, ctiQ3_eq, compA_unpack c2 ci,
     compA_unpack ca (canonK_pcomp c2 ci)]
   exact (congrArg (unpack 3510 12) (Nat.eq_of_beq_eq_true hq)).symm
 
-omit htext in
 theorem ctiQArr_size : ctiQArr.size = 10 := Array.size_ofFn
 
 theorem ctiQArr_get {j : Nat} (hj : j < 10) : ctiQArr[j]! = unpack 3510 12 (Q j) := by
   rw [ctiQArr, getElem!_pos _ j (by simpa using hj), Array.getElem_ofFn]
   interval_cases j
   · change ctiG 0 = _
-    rw [ctiG_eq htext (by norm_num)]
+    rw [ctiG_eq]
     exact (congrArg (unpack 3510 12) (Nat.eq_of_beq_eq_true qEq0)).symm
-  · exact pow_case htext (by norm_num) (by norm_num) qEq1
-  · exact ctiQ3_eq htext
-  · exact pow_case htext (by norm_num) (by norm_num) qEq3
-  · exact pow_case htext (by norm_num) (by norm_num) qEq4
-  · exact pow_case htext (by norm_num) (by norm_num) qEq5
-  · exact pow_case htext (by norm_num) (by norm_num) qEq6
-  · exact conj_case htext (by norm_num) qEq7
-  · exact conj_case htext (by norm_num) qEq8
-  · exact conj_case htext (by norm_num) qEq9
+  · exact pow_case (by norm_num) (by norm_num) qEq1
+  · exact ctiQ3_eq
+  · exact pow_case (by norm_num) (by norm_num) qEq3
+  · exact pow_case (by norm_num) (by norm_num) qEq4
+  · exact pow_case (by norm_num) (by norm_num) qEq5
+  · exact pow_case (by norm_num) (by norm_num) qEq6
+  · exact conj_case (by norm_num) qEq7
+  · exact conj_case (by norm_num) qEq8
+  · exact conj_case (by norm_num) qEq9
 
 theorem ctiQ_inv {j : Nat} (hj : j < 10) :
     invCand 3510 ctiQArr[j]! = unpack 3510 12 (Q (10 + j)) ∧
       isInvA 3510 ctiQArr[j]! (unpack 3510 12 (Q (10 + j))) = true := by
-  rw [ctiQArr_get htext hj]
+  rw [ctiQArr_get hj]
   exact invEqK_sound (q_parts hj).2.2
 
 theorem ctiZ_eq : ctiZ = unpack 3510 12 (Q 20) := by
@@ -335,8 +326,8 @@ theorem ctiZ_eq : ctiZ = unpack 3510 12 (Q 20) := by
   have c2 := cnQ (j := 2) (by norm_num)
   have c16 := cnQ (j := 16) (by norm_num)
   have c12 := cnQ (j := 12) (by norm_num)
-  rw [ctiZ, (ctiQ_inv htext (j := 6) (by norm_num)).1, (ctiQ_inv htext (j := 2) (by norm_num)).1,
-    ctiQArr_get htext (j := 6) (by norm_num), ctiQArr_get htext (j := 2) (by norm_num)]
+  rw [ctiZ, (ctiQ_inv (j := 6) (by norm_num)).1, (ctiQ_inv (j := 2) (by norm_num)).1,
+    ctiQArr_get (j := 6) (by norm_num), ctiQArr_get (j := 2) (by norm_num)]
   change compA 3510 (unpack 3510 12 (Q 6)) (compA 3510 (unpack 3510 12 (Q 2))
     (compA 3510 (unpack 3510 12 (Q 16)) (unpack 3510 12 (Q 12)))) = _
   rw [compA_unpack c16 c12, compA_unpack c2 (canonK_pcomp c16 c12),
@@ -361,83 +352,78 @@ theorem rep_G {k : Nat} (hk : k < 9) : Rep 3510 (unpack 3510 12 (gL k)) (GP k) �
 
 section Members
 
-variable (htext : fi22Cent3510Text = Fi22E2065.textP)
-include htext
-
 theorem rep_G' {k : Nat} (hk : k < 9) : Rep 3510 (ctiG k) (GP k) ∧ Rep 3510 (ctiGi k) (GP k)⁻¹ := by
-  rw [ctiG_eq htext hk, ctiGi_eq htext hk]
+  rw [ctiG_eq, ctiGi_eq hk]
   exact rep_G hk
 
 theorem GP_H {k : Nat} (hk : k < 9) : GP k ∈ fi22H 1 := by
   have hs : (fi22CentStrong 1).size = 16 := by rw [fi22CentStrong, Array.size_ofFn]; rfl
   have h := strong_mem_H1 (j := k) (by rw [hs]; omega)
   rw [fi22CentStrong_get (c := 1) (by norm_num) (by change k < 16; omega),
-    cent_eq htext (by change 19 + k < 306; omega)] at h
+    Fi22E2065.cent_eq] at h
   exact h
 
-omit htext in
 theorem H1_le_P :
     fi22H 1 ≤ fi22P := fun _ h => ((fi22H_le (c := 1) (by norm_num)) h).1
 
 theorem GP_P
-    {k : Nat} (hk : k < 9) : GP k ∈ fi22P := H1_le_P (GP_H htext hk)
+    {k : Nat} (hk : k < 9) : GP k ∈ fi22P := H1_le_P (GP_H hk)
 
 theorem pow_rep {a b e : Nat} (ha : a < 9) (hb : b < 9) :
     ∃ X ∈ fi22H 1, Rep 3510
     (CFSG.Sporadic.FischerOddCore.Native.powA 3510 (compA 3510 (ctiG a) (ctiG b)) e) X :=
-  ⟨(GP a * GP b) ^ e, Subgroup.pow_mem _ (Subgroup.mul_mem _ (GP_H htext ha) (GP_H htext hb)) e,
-    rep_powA (rep_compA (rep_G' htext ha).1 (rep_G' htext hb).1) e⟩
+  ⟨(GP a * GP b) ^ e, Subgroup.pow_mem _ (Subgroup.mul_mem _ (GP_H ha) (GP_H hb)) e,
+    rep_powA (rep_compA (rep_G' ha).1 (rep_G' hb).1) e⟩
 
 theorem conj_rep {a : Nat} (ha : a < 9) :
     ∃ X ∈ fi22H 1, Rep 3510 (conjArr 3510 (ctiG a) (ctiGi a) ctiQ3) X := by
-  obtain ⟨Y, hY, hr⟩ := pow_rep htext (a := 2) (b := 6) (e := 6) (by norm_num) (by norm_num)
-  exact ⟨GP a * (Y * (GP a)⁻¹), Subgroup.mul_mem _ (GP_H htext ha)
-    (Subgroup.mul_mem _ hY (Subgroup.inv_mem _ (GP_H htext ha))),
-    rep_compA (rep_G' htext ha).1 (rep_compA hr (rep_G' htext ha).2)⟩
+  obtain ⟨Y, hY, hr⟩ := pow_rep (a := 2) (b := 6) (e := 6) (by norm_num) (by norm_num)
+  exact ⟨GP a * (Y * (GP a)⁻¹), Subgroup.mul_mem _ (GP_H ha)
+    (Subgroup.mul_mem _ hY (Subgroup.inv_mem _ (GP_H ha))),
+    rep_compA (rep_G' ha).1 (rep_compA hr (rep_G' ha).2)⟩
 
 theorem q_word_H {j : Nat} (hj : j < 10) :
     ∃ X ∈ fi22H 1, Rep 3510 ctiQArr[j]! X := by
   rw [ctiQArr, getElem!_pos _ j (by simpa using hj), Array.getElem_ofFn]
   interval_cases j
-  · exact ⟨GP 0, GP_H htext (by norm_num), (rep_G' htext (k := 0) (by norm_num)).1⟩
-  · exact pow_rep htext (by norm_num) (by norm_num)
-  · exact pow_rep htext (by norm_num) (by norm_num)
-  · exact pow_rep htext (by norm_num) (by norm_num)
-  · exact pow_rep htext (by norm_num) (by norm_num)
-  · exact pow_rep htext (by norm_num) (by norm_num)
-  · exact pow_rep htext (by norm_num) (by norm_num)
-  · exact conj_rep htext (by norm_num)
-  · exact conj_rep htext (by norm_num)
-  · exact conj_rep htext (by norm_num)
+  · exact ⟨GP 0, GP_H (by norm_num), (rep_G' (k := 0) (by norm_num)).1⟩
+  · exact pow_rep (by norm_num) (by norm_num)
+  · exact pow_rep (by norm_num) (by norm_num)
+  · exact pow_rep (by norm_num) (by norm_num)
+  · exact pow_rep (by norm_num) (by norm_num)
+  · exact pow_rep (by norm_num) (by norm_num)
+  · exact pow_rep (by norm_num) (by norm_num)
+  · exact conj_rep (by norm_num)
+  · exact conj_rep (by norm_num)
+  · exact conj_rep (by norm_num)
 
 theorem QP_H {j : Nat} (hj : j < 10) : QP j ∈ fi22H 1 := by
-  obtain ⟨X, hX, hr⟩ := q_word_H htext hj
-  rw [ctiQArr_get htext hj] at hr
+  obtain ⟨X, hX, hr⟩ := q_word_H hj
+  rw [ctiQArr_get hj] at hr
   rw [(rep_Q hj).1.unique hr]
   exact hX
 
 theorem QP_P
-    {j : Nat} (hj : j < 10) : QP j ∈ fi22P := H1_le_P (QP_H htext hj)
+    {j : Nat} (hj : j < 10) : QP j ∈ fi22P := H1_le_P (QP_H hj)
 
 end Members
 
 noncomputable def ZP : Equiv.Perm (Fin 3510) := QP 6 * QP 2 * (QP 6)⁻¹ * (QP 2)⁻¹
 
-theorem rep_Z (htext : fi22Cent3510Text = Fi22E2065.textP) : Rep 3510 ctiZ ZP := by
+theorem rep_Z : Rep 3510 ctiZ ZP := by
   have h6 := rep_Q (j := 6) (by norm_num)
   have h2 := rep_Q (j := 2) (by norm_num)
-  rw [ctiZ, (ctiQ_inv htext (j := 6) (by norm_num)).1, (ctiQ_inv htext (j := 2) (by norm_num)).1,
-    ctiQArr_get htext (j := 6) (by norm_num), ctiQArr_get htext (j := 2) (by norm_num)]
+  rw [ctiZ, (ctiQ_inv (j := 6) (by norm_num)).1, (ctiQ_inv (j := 2) (by norm_num)).1,
+    ctiQArr_get (j := 6) (by norm_num), ctiQArr_get (j := 2) (by norm_num)]
   have h := rep_compA h6.1 (rep_compA h2.1 (rep_compA h6.2 h2.2))
   simpa only [ZP, mul_assoc] using h
 
-theorem rep_Z20 (htext : fi22Cent3510Text = Fi22E2065.textP) : Rep 3510 (unpack 3510 12 (Q 20)) ZP :=
-  ctiZ_eq htext ▸ rep_Z htext
+theorem rep_Z20 : Rep 3510 (unpack 3510 12 (Q 20)) ZP :=
+  ctiZ_eq ▸ rep_Z
 
-theorem ZP_P
-    (htext : fi22Cent3510Text = Fi22E2065.textP) : ZP ∈ fi22P :=
-  fi22P.mul_mem (fi22P.mul_mem (fi22P.mul_mem (QP_P htext (by norm_num)) (QP_P htext (by norm_num)))
-    (fi22P.inv_mem (QP_P htext (by norm_num)))) (fi22P.inv_mem (QP_P htext (by norm_num)))
+theorem ZP_P : ZP ∈ fi22P :=
+  fi22P.mul_mem (fi22P.mul_mem (fi22P.mul_mem (QP_P (by norm_num)) (QP_P (by norm_num)))
+    (fi22P.inv_mem (QP_P (by norm_num)))) (fi22P.inv_mem (QP_P (by norm_num)))
 
 theorem apply_of_rep {P : Nat} {G : Equiv.Perm (Fin 3510)} (h : Rep 3510 (unpack 3510 12 P) G)
     {x : Nat} (hx : x < 3510) : (G ⟨x, hx⟩ : Nat) = pg 12 (mask 12) P x := by
@@ -591,19 +577,19 @@ theorem rows_LA : ∀ i < 1024, 0 < i → LA i < 10 :=
 
 noncomputable def EE : Array (Array Nat) := mulTree 3510 ctiQArr ctiPar ctiLab
 
-theorem E_eq (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem E_eq :
     EE = Array.ofFn (n := 1024) fun i => Array.ofFn (n := 3510) fun z => E i z.val :=
-  mulTree_eq (gs := 10) (fun _ hk => ctiQArr_get htext hk)
+  mulTree_eq (gs := 10) (fun _ hk => ctiQArr_get hk)
     (fun _ hk x hx => pq_lt (by omega) hx) par_size (by norm_num)
     (fun i hi h0 => ⟨par_get hi, rows_PA i hi h0⟩) (fun i hi h0 => ⟨lab_get hi, rows_LA i hi h0⟩)
 
-theorem E_size (htext : fi22Cent3510Text = Fi22E2065.textP) : EE.size = 1024 := by
-  rw [E_eq htext]
+theorem E_size : EE.size = 1024 := by
+  rw [E_eq]
   simp
 
-theorem E_get (htext : fi22Cent3510Text = Fi22E2065.textP) {i z : Nat} (hi : i < 1024)
+theorem E_get {i z : Nat} (hi : i < 1024)
     (hz : z < 3510) : (EE[i]!)[z]! = E i z := by
-  rw [E_eq htext, getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn,
+  rw [E_eq, getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn,
     getElem!_ofFn_nat _ hz]
 
 theorem E_lt {i z : Nat} (hi : i < 1024) (hz : z < 3510) : E i z < 3510 :=
@@ -620,69 +606,65 @@ theorem E_succ {i z : Nat} (hi : i < 1024) (h0 : 0 < i) :
 theorem kd_eq {i t : Nat} (hi : i < 1024) (ht : t < 6) : kd i t = E i (bp t) :=
   (row_parts hi).2.1 t ht
 
-theorem rep_of_E (htext : fi22Cent3510Text = Fi22E2065.textP) {i : Nat} (hi : i < 1024)
+theorem rep_of_E {i : Nat} (hi : i < 1024)
     {X : Equiv.Perm (Fin 3510)} (h : ∀ z : Fin 3510, E i z.val = (X z : Nat)) :
     Rep 3510 EE[i]! X := fun z => by
-  rw [E_get htext hi z.2]
+  rw [E_get hi z.2]
   exact h z
 
 theorem E_zero (z : Nat) : E 0 z = z := by
   unfold E
   exact ev_zero _ _
 
-theorem EE_zero (htext : fi22Cent3510Text = Fi22E2065.textP) : Rep 3510 EE[0]! 1 :=
-  rep_of_E htext (by norm_num) fun z => E_zero z.val
+theorem EE_zero : Rep 3510 EE[0]! 1 :=
+  rep_of_E (by norm_num) fun z => E_zero z.val
 
-theorem EE_succ (htext : fi22Cent3510Text = Fi22E2065.textP) {i : Nat} (hi : i < 1024)
+theorem EE_succ {i : Nat} (hi : i < 1024)
     (h0 : 0 < i) {Y : Equiv.Perm (Fin 3510)} (hYr : Rep 3510 EE[PA i]! Y) :
     Rep 3510 EE[i]! (QP (LA i) * Y) := by
   have hp := rows_PA i hi h0
   have hl := rows_LA i hi h0
-  refine rep_of_E htext hi fun x => ?_
+  refine rep_of_E hi fun x => ?_
   have h1 : E (PA i) x = (Y x : Nat) := by
-    rw [← E_get htext (lt_trans hp hi) x.2]
+    rw [← E_get (lt_trans hp hi) x.2]
     exact hYr x
   rw [E_succ hi h0, h1, Equiv.Perm.mul_apply, perm_val (rep_Q hl).1]
   rfl
 
-theorem E_rep
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem E_rep :
     ∀ i < 1024, ∃ X ∈ fi22P, Rep 3510 EE[i]! X := by
   intro i
   induction i using Nat.strong_induction_on with
   | _ i ih =>
     intro hi
     rcases Nat.eq_zero_or_pos i with h0 | h0
-    · refine ⟨1, fi22P.one_mem, rep_of_E htext hi fun z => ?_⟩
+    · refine ⟨1, fi22P.one_mem, rep_of_E hi fun z => ?_⟩
       rw [h0, E_zero]
       rfl
     · have hp := rows_PA i hi h0
       obtain ⟨Y, hY, hYr⟩ := ih _ hp (lt_trans hp hi)
-      exact ⟨QP (LA i) * Y, fi22P.mul_mem (QP_P htext (rows_LA i hi h0)) hY,
-        EE_succ htext hi h0 hYr⟩
+      exact ⟨QP (LA i) * Y, fi22P.mul_mem (QP_P (rows_LA i hi h0)) hY,
+        EE_succ hi h0 hYr⟩
 
-theorem E_base (htext : fi22Cent3510Text = Fi22E2065.textP) {i : Nat} (hi : i < 1024)
+theorem E_base {i : Nat} (hi : i < 1024)
     {X : Equiv.Perm (Fin 3510)} (hX : Rep 3510 EE[i]! X) {x : Nat} (hx : x < 3510) :
     (X ⟨x, hx⟩ : Nat) = E i x := by
-  rw [← hX ⟨x, hx⟩, E_get htext hi hx]
+  rw [← hX ⟨x, hx⟩, E_get hi hx]
 
-theorem E_base' (htext : fi22Cent3510Text = Fi22E2065.textP) {i : Nat} (hi : i < 1024)
+theorem E_base' {i : Nat} (hi : i < 1024)
     {X : Equiv.Perm (Fin 3510)} (hX : Rep 3510 EE[i]! X) (y : Fin 3510) : (X y : Nat) = E i y.val := by
-  rw [← hX y, E_get htext hi y.2]
+  rw [← hX y, E_get hi y.2]
 
 section Conj
 
-variable (htext : fi22Cent3510Text = Fi22E2065.textP)
-include htext
-
-theorem cl0 : eqA 3510 EE[0]! (idA 3510) = true := (eqA_iff (EE_zero htext) rep_idA).2 rfl
+theorem cl0 : eqA 3510 EE[0]! (idA 3510) = true := (eqA_iff EE_zero rep_idA).2 rfl
 
 theorem cl1 {i : Nat} (hi : i < 1024) (h0 : i ≠ 0) :
     eqA 3510 EE[i]! (compA 3510 ctiQArr[ctiLab[i]!]! EE[ctiPar[i]!]!) = true := by
   obtain ⟨hp, hl⟩ := (row_parts hi).1 h0
   rw [par_get hi, lab_get hi]
   refine eqA_of_get fun z hz => ?_
-  rw [E_get htext hi hz, compA_get hz, E_get htext (lt_trans hp hi) hz, ctiQArr_get htext hl,
+  rw [E_get hi hz, compA_get hz, E_get (lt_trans hp hi) hz, ctiQArr_get hl,
     unpack_get' (E_lt (lt_trans hp hi) hz), E_succ hi (by omega)]
   rfl
 
@@ -690,38 +672,38 @@ theorem cl2
     {i k : Nat} (hi : i < 1024) (hk : k < 10) :
     eqA 3510 EE[NX (i * 10 + k)]! (compA 3510 ctiQArr[k]! EE[i]!) = true := by
   obtain ⟨hn, hb⟩ := (row_parts hi).2.2.1 k hk
-  obtain ⟨Xn, hXn, hrn⟩ := E_rep htext _ hn
-  obtain ⟨Xi, hXi, hri⟩ := E_rep htext i hi
+  obtain ⟨Xn, hXn, hrn⟩ := E_rep _ hn
+  obtain ⟨Xi, hXi, hri⟩ := E_rep i hi
   have hgk : Rep 3510 ctiQArr[k]! (QP k) := by
-    rw [ctiQArr_get htext hk]
+    rw [ctiQArr_get hk]
     exact (rep_Q hk).1
   refine (eqA_iff hrn (rep_compA hgk hri)).2
-    (sepP hXn (fi22P.mul_mem (QP_P htext hk) hXi) fun t ht => ?_)
-  rw [E_base htext hn hrn, ← kd_eq hn ht, hb t ht, kd_eq hi ht, Equiv.Perm.mul_apply,
-    perm_val (rep_Q hk).1, E_base' htext hi hri, Fin.val_mk]
+    (sepP hXn (fi22P.mul_mem (QP_P hk) hXi) fun t ht => ?_)
+  rw [E_base hn hrn, ← kd_eq hn ht, hb t ht, kd_eq hi ht, Equiv.Perm.mul_apply,
+    perm_val (rep_Q hk).1, E_base' hi hri, Fin.val_mk]
   all_goals rfl
 
 theorem closure_ok :
     closureOK 3510 ctiQArr EE ctiPar ctiLab ctiNxt = true := by
   unfold closureOK
   simp only [Bool.and_eq_true, decide_eq_true_eq]
-  rw [ctiQArr_size, E_size htext]
-  refine ⟨⟨⟨by norm_num, cl0 htext⟩, allLt_iff.2 fun i hi => ?_⟩,
+  rw [ctiQArr_size, E_size]
+  refine ⟨⟨⟨by norm_num, cl0⟩, allLt_iff.2 fun i hi => ?_⟩,
     allLt_iff.2 fun i hi => allLt_iff.2 fun k hk => ?_⟩
   · simp only [Bool.or_eq_true, beq_iff_eq, Bool.and_eq_true, decide_eq_true_eq]
     by_cases h0 : i = 0
     · exact Or.inl h0
     right
     obtain ⟨hp, hl⟩ := (row_parts hi).1 h0
-    refine ⟨⟨by rw [par_get hi]; exact hp, by rw [lab_get hi]; exact hl⟩, cl1 htext hi h0⟩
+    refine ⟨⟨by rw [par_get hi]; exact hp, by rw [lab_get hi]; exact hl⟩, cl1 hi h0⟩
   · simp only [Bool.and_eq_true, decide_eq_true_eq]
     obtain ⟨hn, -⟩ := (row_parts hi).2.2.1 k hk
     rw [nxt_get (by omega)]
-    exact ⟨hn, cl2 htext hi hk⟩
+    exact ⟨hn, cl2 hi hk⟩
 
 theorem keyAt_eq {i : Nat} (hi : i < 1024) : keyAt 3510 [0, 1, 2, 3, 6, 4] EE[i]! = kv i := by
   have h : ∀ t < 6, (EE[i]!)[bp t]! = kd i t := fun t ht => by
-    rw [E_get htext hi (bp_lt ht), kd_eq hi ht]
+    rw [E_get hi (bp_lt ht), kd_eq hi ht]
   have e0 : (EE[i]!)[0]! = kd i 0 := h 0 (by norm_num)
   have e1 : (EE[i]!)[1]! = kd i 1 := h 1 (by norm_num)
   have e2 : (EE[i]!)[2]! = kd i 2 := h 2 (by norm_num)
@@ -733,7 +715,7 @@ theorem keyAt_eq {i : Nat} (hi : i < 1024) : keyAt 3510 [0, 1, 2, 3, 6, 4] EE[i]
 
 theorem keys_ok : keysOK 3510 [0, 1, 2, 3, 6, 4] EE = true := by
   apply keysOK_of_nodup
-  have hsz := E_size htext
+  have hsz := E_size
   have hl : (EE.toList.map (keyAt 3510 [0, 1, 2, 3, 6, 4])) =
       List.ofFn (n := 1024) fun i => kv i.val := by
     apply List.ext_getElem
@@ -743,7 +725,7 @@ theorem keys_ok : keysOK 3510 [0, 1, 2, 3, 6, 4] EE = true := by
         rw [List.length_ofFn] at h2
         exact h2
       rw [List.getElem_map, Array.getElem_toList, List.getElem_ofFn, ← getElem!_pos EE k (by omega),
-        keyAt_eq htext hk]
+        keyAt_eq hk]
   rw [hl]
   refine List.nodup_ofFn.2 fun i j hij => Fin.ext ?_
   exact inj_of_sorted (N := 1024) (fun m hm => (row_parts hm).2.2.2.2.1)
@@ -752,10 +734,9 @@ theorem keys_ok : keysOK 3510 [0, 1, 2, 3, 6, 4] EE = true := by
 theorem sift_ok {j : Nat} (hj : j < 10) :
     siftA 3510 (rawLevels 3510 (fi22CentStrong 1) #[0, 1, 2, 3, 6, 4]) #[0, 1, 2, 3, 6, 4] 0
       ctiQArr[j]! = true := by
-  rw [ctiQArr_get htext hj]
-  exact (siftA_iff_mem_fi22H (c := 1) (by norm_num) (rep_Q hj).1).2 (QP_H htext hj)
+  rw [ctiQArr_get hj]
+  exact (siftA_iff_mem_fi22H (c := 1) (by norm_num) (rep_Q hj).1).2 (QP_H hj)
 
-omit htext in
 theorem conj_base {k : Nat} (hk : k < 9) {a : Array Nat} {X : Equiv.Perm (Fin 3510)}
     (ha : Rep 3510 a X) {t : Nat} (ht : t < 6) :
     ((GP k * X * (GP k)⁻¹) ⟨bp t, bp_lt ht⟩ : Nat) =
@@ -768,19 +749,19 @@ theorem mem_ok
     ctiMem EE (conjArr 3510 (ctiG k) (ctiGi k) ctiQArr[j]!) = true := by
   obtain ⟨hm, hb⟩ := mem_parts hk hj
   unfold ctiMem
-  refine Array.any_eq_true.2 ⟨MM k j, by rw [E_size htext]; exact hm, ?_⟩
-  obtain ⟨Xm, hXm, hrm⟩ := E_rep htext _ hm
+  refine Array.any_eq_true.2 ⟨MM k j, by rw [E_size]; exact hm, ?_⟩
+  obtain ⟨Xm, hXm, hrm⟩ := E_rep _ hm
   have hq : Rep 3510 ctiQArr[j]! (QP j) := by
-    rw [ctiQArr_get htext hj]
+    rw [ctiQArr_get hj]
     exact (rep_Q hj).1
   have hc : Rep 3510 (conjArr 3510 (ctiG k) (ctiGi k) ctiQArr[j]!) (GP k * QP j * (GP k)⁻¹) := by
     unfold conjArr
-    have := rep_compA (rep_G' htext hk).1 (rep_compA hq (rep_G' htext hk).2)
+    have := rep_compA (rep_G' hk).1 (rep_compA hq (rep_G' hk).2)
     simpa only [mul_assoc] using this
-  rw [← getElem!_pos EE (MM k j) (by rw [E_size htext]; exact hm)]
-  refine (eqA_iff hrm hc).2 (sepP hXm (fi22P.mul_mem (fi22P.mul_mem (GP_P htext hk) (QP_P htext hj))
-    (fi22P.inv_mem (GP_P htext hk))) fun t ht => ?_)
-  rw [E_base htext hm hrm, ← kd_eq hm ht, hb t ht, conj_base hk (rep_Q hj).1 ht,
+  rw [← getElem!_pos EE (MM k j) (by rw [E_size]; exact hm)]
+  refine (eqA_iff hrm hc).2 (sepP hXm (fi22P.mul_mem (fi22P.mul_mem (GP_P hk) (QP_P hj))
+    (fi22P.inv_mem (GP_P hk))) fun t ht => ?_)
+  rw [E_base hm hrm, ← kd_eq hm ht, hb t ht, conj_base hk (rep_Q hj).1 ht,
     unpack_get' (gI_lt hk (bp_lt ht))]
   rfl
 
@@ -788,33 +769,32 @@ theorem z_ne : eqA 3510 ctiZ (idA 3510) = false := by
   cases h : eqA 3510 ctiZ (idA 3510)
   · rfl
   · exfalso
-    have e := (eqA_iff (rep_Z htext) rep_idA).1 h
+    have e := (eqA_iff rep_Z rep_idA).1 h
     apply z_base.1
     intro t ht
-    have := apply_of_rep (rep_Z20 htext) (bp_lt ht)
+    have := apply_of_rep rep_Z20 (bp_lt ht)
     rw [e] at this
     exact this.symm
 
 theorem z_sq :
     eqA 3510 (compA 3510 ctiZ ctiZ) (idA 3510) = true := by
-  refine (eqA_iff (rep_compA (rep_Z htext) (rep_Z htext)) rep_idA).2
-    (sepP (fi22P.mul_mem (ZP_P htext) (ZP_P htext)) fi22P.one_mem fun t ht => ?_)
-  rw [Equiv.Perm.mul_apply, perm_val (rep_Z20 htext), perm_val (rep_Z20 htext),
+  refine (eqA_iff (rep_compA rep_Z rep_Z) rep_idA).2
+    (sepP (fi22P.mul_mem ZP_P ZP_P) fi22P.one_mem fun t ht => ?_)
+  rw [Equiv.Perm.mul_apply, perm_val rep_Z20, perm_val rep_Z20,
     Equiv.Perm.one_apply, Fin.val_mk]
   exact z_base.2.1 t ht
 
 theorem z_comm
     {k : Nat} (hk : k < 9) :
     eqA 3510 (compA 3510 (ctiG k) ctiZ) (compA 3510 ctiZ (ctiG k)) = true := by
-  refine (eqA_iff (rep_compA (rep_G' htext hk).1 (rep_Z htext))
-    (rep_compA (rep_Z htext) (rep_G' htext hk).1)).2
-    (sepP (fi22P.mul_mem (GP_P htext hk) (ZP_P htext)) (fi22P.mul_mem (ZP_P htext) (GP_P htext hk))
+  refine (eqA_iff (rep_compA (rep_G' hk).1 rep_Z)
+    (rep_compA rep_Z (rep_G' hk).1)).2
+    (sepP (fi22P.mul_mem (GP_P hk) ZP_P) (fi22P.mul_mem ZP_P (GP_P hk))
       fun t ht => ?_)
-  rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, perm_val (rep_G hk).1, perm_val (rep_Z20 htext),
-    perm_val (rep_Z20 htext), perm_val (rep_G hk).1, Fin.val_mk]
+  rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, perm_val (rep_G hk).1, perm_val rep_Z20,
+    perm_val rep_Z20, perm_val (rep_G hk).1, Fin.val_mk]
   exact z_base.2.2 k hk t ht
 
-omit htext in
 theorem reps_ok : ∀ c < 512, ctiReps[c]! < 1024 ∧ ctiCids[ctiReps[c]!]! = c := by
   intro c hc
   obtain ⟨h1, h2, -⟩ := rep_parts hc
@@ -826,15 +806,15 @@ theorem inCoset_ok
     {r : Nat} (hr : r < 1024) {f : Nat → Nat} (hf : ∀ t (ht : t < 6), (X ⟨bp t, bp_lt ht⟩ : Nat) = f t)
     (h : (∀ t < 6, f t = kd r t) ∨ ∀ t < 6, f t = E r (zf (bp t))) :
     ctiInCoset EE ctiZ x r = true := by
-  obtain ⟨Xr, hXr, hrr⟩ := E_rep htext r hr
+  obtain ⟨Xr, hXr, hrr⟩ := E_rep r hr
   unfold ctiInCoset
   rw [Bool.or_eq_true]
   rcases h with h | h
   · refine Or.inl ((eqA_iff hx hrr).2 (sepP hXP hXr fun t ht => ?_))
-    rw [hf t ht, h t ht, E_base htext hr hrr, kd_eq hr ht]
-  · refine Or.inr ((eqA_iff hx (rep_compA hrr (rep_Z htext))).2
-      (sepP hXP (fi22P.mul_mem hXr (ZP_P htext)) fun t ht => ?_))
-    rw [hf t ht, h t ht, Equiv.Perm.mul_apply, E_base' htext hr hrr, perm_val (rep_Z20 htext),
+    rw [hf t ht, h t ht, E_base hr hrr, kd_eq hr ht]
+  · refine Or.inr ((eqA_iff hx (rep_compA hrr rep_Z)).2
+      (sepP hXP (fi22P.mul_mem hXr ZP_P) fun t ht => ?_))
+    rw [hf t ht, h t ht, Equiv.Perm.mul_apply, E_base' hr hrr, perm_val rep_Z20,
       Fin.val_mk]
     all_goals rfl
 
@@ -845,15 +825,15 @@ theorem coset_ok
       ctiInCoset EE ctiZ EE[i]! ctiReps[ctiCids[i]!]! = true := by
   obtain ⟨hc, hz, hzb, hcz, hin⟩ := (row_parts hi).2.2.2.1
   rw [cid_get hi, zi_get hi, cid_get hz, reps_get hc]
-  obtain ⟨Xi, hXi, hri⟩ := E_rep htext i hi
-  obtain ⟨Xy, hXy, hry⟩ := E_rep htext _ hz
-  refine ⟨hc, hz, (eqA_iff hry (rep_compA hri (rep_Z htext))).2
-    (sepP hXy (fi22P.mul_mem hXi (ZP_P htext)) fun t ht => ?_), hcz, ?_⟩
-  · rw [E_base htext hz hry, ← kd_eq hz ht, hzb t ht, Equiv.Perm.mul_apply, E_base' htext hi hri,
-      perm_val (rep_Z20 htext), Fin.val_mk]
+  obtain ⟨Xi, hXi, hri⟩ := E_rep i hi
+  obtain ⟨Xy, hXy, hry⟩ := E_rep _ hz
+  refine ⟨hc, hz, (eqA_iff hry (rep_compA hri rep_Z)).2
+    (sepP hXy (fi22P.mul_mem hXi ZP_P) fun t ht => ?_), hcz, ?_⟩
+  · rw [E_base hz hry, ← kd_eq hz ht, hzb t ht, Equiv.Perm.mul_apply, E_base' hi hri,
+      perm_val rep_Z20, Fin.val_mk]
     all_goals rfl
-  · exact inCoset_ok htext hri hXi (rep_parts hc).1 (f := kd i)
-      (fun t ht => by rw [E_base htext hi hri, kd_eq hi ht]) hin
+  · exact inCoset_ok hri hXi (rep_parts hc).1 (f := kd i)
+      (fun t ht => by rw [E_base hi hri, kd_eq hi ht]) hin
 
 theorem qcomm_ok
     {j c : Nat} (hj : j < 10) (hc : c < 512) :
@@ -862,25 +842,25 @@ theorem qcomm_ok
         (compA 3510 (compA 3510 EE[ctiReps[c]!]! ctiZ) ctiQArr[j]!)) = true := by
   obtain ⟨hr, -, hq, -⟩ := rep_parts hc
   rw [reps_get hc, Bool.or_eq_true]
-  obtain ⟨Xr, hXr, hrr⟩ := E_rep htext _ hr
+  obtain ⟨Xr, hXr, hrr⟩ := E_rep _ hr
   have hqj : Rep 3510 ctiQArr[j]! (QP j) := by
-    rw [ctiQArr_get htext hj]
+    rw [ctiQArr_get hj]
     exact (rep_Q hj).1
   have hl : ∀ t (ht : t < 6), ((QP j * Xr) ⟨bp t, bp_lt ht⟩ : Nat) = pq j (kd (RP c) t) := by
     intro t ht
-    rw [Equiv.Perm.mul_apply, perm_val (rep_Q hj).1, E_base' htext hr hrr, Fin.val_mk, kd_eq hr ht]
+    rw [Equiv.Perm.mul_apply, perm_val (rep_Q hj).1, E_base' hr hrr, Fin.val_mk, kd_eq hr ht]
     all_goals rfl
   rcases hq j hj with h | h
   · refine Or.inl ((eqA_iff (rep_compA hqj hrr) (rep_compA hrr hqj)).2
-      (sepP (fi22P.mul_mem (QP_P htext hj) hXr) (fi22P.mul_mem hXr (QP_P htext hj)) fun t ht => ?_))
-    rw [hl t ht, h t ht, Equiv.Perm.mul_apply, E_base' htext hr hrr, perm_val (rep_Q hj).1,
+      (sepP (fi22P.mul_mem (QP_P hj) hXr) (fi22P.mul_mem hXr (QP_P hj)) fun t ht => ?_))
+    rw [hl t ht, h t ht, Equiv.Perm.mul_apply, E_base' hr hrr, perm_val (rep_Q hj).1,
       Fin.val_mk]
     all_goals rfl
-  · refine Or.inr ((eqA_iff (rep_compA hqj hrr) (rep_compA (rep_compA hrr (rep_Z htext)) hqj)).2
-      (sepP (fi22P.mul_mem (QP_P htext hj) hXr)
-        (fi22P.mul_mem (fi22P.mul_mem hXr (ZP_P htext)) (QP_P htext hj)) fun t ht => ?_))
-    rw [hl t ht, h t ht, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, E_base' htext hr hrr,
-      perm_val (rep_Z20 htext), perm_val (rep_Q hj).1, Fin.val_mk]
+  · refine Or.inr ((eqA_iff (rep_compA hqj hrr) (rep_compA (rep_compA hrr rep_Z) hqj)).2
+      (sepP (fi22P.mul_mem (QP_P hj) hXr)
+        (fi22P.mul_mem (fi22P.mul_mem hXr ZP_P) (QP_P hj)) fun t ht => ?_))
+    rw [hl t ht, h t ht, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, E_base' hr hrr,
+      perm_val rep_Z20, perm_val (rep_Q hj).1, Fin.val_mk]
     all_goals rfl
 
 end Conj
@@ -935,7 +915,7 @@ theorem pis_count : (ctiS5.extract 0 9).size = 9 := by
   simp
 
 theorem pi_ok
-    (htext : fi22Cent3510Text = Fi22E2065.textP) {k c : Nat} (hk : k < 9) (hc : c < 512) :
+    {k c : Nat} (hk : k < 9) (hc : c < 512) :
     ((ctiS5.extract 0 9)[k]!)[c]! < 512 ∧
       ctiInCoset EE ctiZ (conjArr 3510 (ctiG k) (ctiGi k) EE[ctiReps[c]!]!)
         ctiReps[((ctiS5.extract 0 9)[k]!)[c]!]! = true := by
@@ -943,41 +923,40 @@ theorem pi_ok
   obtain ⟨hlt, hin⟩ := hp k hk
   rw [pis_get hk hc, reps_get hc, reps_get hlt]
   refine ⟨hlt, ?_⟩
-  obtain ⟨Xr, hXr, hrr⟩ := E_rep htext _ hr
+  obtain ⟨Xr, hXr, hrr⟩ := E_rep _ hr
   have hconj : Rep 3510 (conjArr 3510 (ctiG k) (ctiGi k) EE[RP c]!) (GP k * Xr * (GP k)⁻¹) := by
     unfold conjArr
-    have := rep_compA (rep_G' htext hk).1 (rep_compA hrr (rep_G' htext hk).2)
+    have := rep_compA (rep_G' hk).1 (rep_compA hrr (rep_G' hk).2)
     simpa only [mul_assoc] using this
-  refine inCoset_ok htext hconj (fi22P.mul_mem (fi22P.mul_mem (GP_P htext hk) hXr)
-    (fi22P.inv_mem (GP_P htext hk))) (rep_parts hlt).1
+  refine inCoset_ok hconj (fi22P.mul_mem (fi22P.mul_mem (GP_P hk) hXr)
+    (fi22P.inv_mem (GP_P hk))) (rep_parts hlt).1
     (f := fun t => pg 12 (mask 12) (gL k) (E (RP c) (pg 12 (mask 12) (gI k) (bp t))))
     (fun t ht => ?_) hin
-  rw [conj_base hk hrr ht, E_get htext hr (gI_lt hk (bp_lt ht))]
+  rw [conj_base hk hrr ht, E_get hr (gI_lt hk (bp_lt ht))]
 
-theorem qok
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem qok :
     ctiQOK (mulTree 3510 ctiQArr ctiPar ctiLab) ctiPar ctiLab ctiNxt ctiCids ctiReps ctiZi
       (ctiS5.extract 0 9) = true := by
   unfold ctiQOK
   simp only [Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true']
-  refine ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨closure_ok htext, E_size htext⟩, keys_ok htext⟩,
-    allLt_iff.2 fun j hj => sift_ok htext hj⟩,
-    allLt_iff.2 fun k hk => allLt_iff.2 fun j hj => mem_ok htext hk hj⟩, z_ne htext⟩,
-    z_sq htext⟩, allLt_iff.2 fun k hk => z_comm htext hk⟩, reps_size⟩, pis_count⟩,
+  refine ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨closure_ok, E_size⟩, keys_ok⟩,
+    allLt_iff.2 fun j hj => sift_ok hj⟩,
+    allLt_iff.2 fun k hk => allLt_iff.2 fun j hj => mem_ok hk hj⟩, z_ne⟩,
+    z_sq⟩, allLt_iff.2 fun k hk => z_comm hk⟩, reps_size⟩, pis_count⟩,
     allLt_iff.2 fun c hc => ?_⟩, allLt_iff.2 fun i hi => ?_⟩,
-    allLt_iff.2 fun j hj => allLt_iff.2 fun c hc => qcomm_ok htext hj hc⟩,
+    allLt_iff.2 fun j hj => allLt_iff.2 fun c hc => qcomm_ok hj hc⟩,
     allLt_iff.2 fun k hk => ?_⟩, allLt_iff.2 fun j hj => ?_⟩
   · simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
     exact reps_ok c hc
   · simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
-    obtain ⟨a, b, c, d, e⟩ := coset_ok htext hi
+    obtain ⟨a, b, c, d, e⟩ := coset_ok hi
     exact ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩
   · simp only [Bool.and_eq_true, beq_iff_eq]
     refine ⟨pis_size hk, allLt_iff.2 fun c hc => ?_⟩
     simp only [Bool.and_eq_true, decide_eq_true_eq]
-    exact pi_ok htext hk hc
-  · rw [(ctiQ_inv htext hj).1]
-    exact (ctiQ_inv htext hj).2
+    exact pi_ok hk hc
+  · rw [(ctiQ_inv hj).1]
+    exact (ctiQ_inv hj).2
 
 end CertificateChecks.KernelSpor.Fi22CtiA
 

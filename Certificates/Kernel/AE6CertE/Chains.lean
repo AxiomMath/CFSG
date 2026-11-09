@@ -78,57 +78,57 @@ theorem hsP17 : ∀ j < 6,
 theorem chainU : ChainK 360 9 (eGens [0, 2, 4, 6]) dU (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5)
     U.S U.SI U.LR U.TR U.TRI 7 U.BP U.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsU, by decide,
-    by rw [eGens_length]; exact U.head, U.hl, by decide, U.hs⟩
+    by rw [eGens_length]; exact U.head, U.hl, by decide, .inl U.hs⟩
 
 theorem chainV0 : ChainK 360 9 (eGens [0, 2, 3, 4, 5, 6, 7]) dV0
     (#v[0, 2, 1, 4, 24, 8] : Vector (Fin 360) 6) V0.S V0.SI V0.LR V0.TR V0.TRI 12 V0.BP V0.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsV0, by decide,
-    by rw [eGens_length]; exact V0.head, V0.hl, by decide, V0.hs⟩
+    by rw [eGens_length]; exact V0.head, V0.hl, by decide, .inl V0.hs⟩
 
 theorem chainV1 : ChainK 360 9 (eGens [0, 1, 2, 3, 4, 5, 6]) dV1
     (#v[0, 2, 1, 4, 24, 8, 9] : Vector (Fin 360) 7) V1.S V1.SI V1.LR V1.TR V1.TRI 14 V1.BP V1.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsV1, by decide,
-    by rw [eGens_length]; exact V1.head, V1.hl, by decide, V1.hs⟩
+    by rw [eGens_length]; exact V1.head, V1.hl, by decide, .inl V1.hs⟩
 
 theorem chainV2 : ChainK 360 9 (eGens [0, 1, 2, 3, 4, 6, 7]) dV2
     (#v[0, 2, 1, 4, 24, 8] : Vector (Fin 360) 6) V2.S V2.SI V2.LR V2.TR V2.TRI 14 V2.BP V2.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsV2, by decide,
-    by rw [eGens_length]; exact V2.head, V2.hl, by decide, V2.hs⟩
+    by rw [eGens_length]; exact V2.head, V2.hl, by decide, .inl V2.hs⟩
 
 theorem chainP1 : ChainK 360 9 (eGens [0, 1, 2, 4, 6]) dP1
     (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5) P1.S P1.SI P1.LR P1.TR P1.TRI 9 P1.BP P1.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP1, by decide,
-    by rw [eGens_length]; exact P1.head, P1.hl, by decide, P1.hs⟩
+    by rw [eGens_length]; exact P1.head, P1.hl, by decide, .inl P1.hs⟩
 
 theorem chainP3 : ChainK 360 9 (eGens [0, 2, 3, 4, 6]) dP3
     (#v[0, 2, 1, 4, 24, 8] : Vector (Fin 360) 6) P3.S P3.SI P3.LR P3.TR P3.TRI 8 P3.BP P3.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP3, by decide,
-    by rw [eGens_length]; exact P3.head, P3.hl, by decide, P3.hs⟩
+    by rw [eGens_length]; exact P3.head, P3.hl, by decide, .inl P3.hs⟩
 
 theorem chainP5 : ChainK 360 9 (eGens [0, 2, 4, 5, 6]) dP5
     (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5) P5.S P5.SI P5.LR P5.TR P5.TRI 8 P5.BP P5.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP5, by decide,
-    by rw [eGens_length]; exact P5.head, P5.hl, by decide, P5.hs⟩
+    by rw [eGens_length]; exact P5.head, P5.hl, by decide, .inl P5.hs⟩
 
 theorem chainP7 : ChainK 360 9 (eGens [0, 2, 4, 6, 7]) dP7
     (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5) P7.S P7.SI P7.LR P7.TR P7.TRI 8 P7.BP P7.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP7, by decide,
-    by rw [eGens_length]; exact P7.head, P7.hl, by decide, P7.hs⟩
+    by rw [eGens_length]; exact P7.head, P7.hl, by decide, .inl P7.hs⟩
 
 theorem chainP57 : ChainK 360 9 (eGens [0, 2, 4, 5, 6, 7]) dP57
     (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5) P57.S P57.SI P57.LR P57.TR P57.TRI 9 P57.BP P57.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP57, by decide,
-    by rw [eGens_length]; exact P57.head, P57.hl, by decide, P57.hs⟩
+    by rw [eGens_length]; exact P57.head, P57.hl, by decide, .inl P57.hs⟩
 
 theorem chainP15 : ChainK 360 9 (eGens [0, 1, 2, 4, 5, 6]) dP15
     (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5) P15.S P15.SI P15.LR P15.TR P15.TRI 10 P15.BP P15.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP15, by decide,
-    by rw [eGens_length]; exact P15.head, P15.hl, by decide, P15.hs⟩
+    by rw [eGens_length]; exact P15.head, P15.hl, by decide, .inl P15.hs⟩
 
 theorem chainP17 : ChainK 360 9 (eGens [0, 1, 2, 4, 6, 7]) dP17
     (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5) P17.S P17.SI P17.LR P17.TR P17.TRI 10 P17.BP P17.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, eGens_img (by decide) hsP17, by decide,
-    by rw [eGens_length]; exact P17.head, P17.hl, by decide, P17.hs⟩
+    by rw [eGens_length]; exact P17.head, P17.hl, by decide, .inl P17.hs⟩
 
 theorem ordU : ordK U.LR 5 = 4096 := by decide +kernel
 theorem ordV0 : ordK V0.LR 6 = 1290240 := by decide +kernel

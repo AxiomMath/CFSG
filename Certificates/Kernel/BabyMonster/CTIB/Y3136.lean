@@ -4,10 +4,10 @@ public import Certificates.Data.Kernel.BabyMonster.CTIB.OrbTree
 public import Certificates.Kernel.BabyMonster.CTIB.CosetQData
 public import Certificates.Kernel.LocalComp.BlockTac
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Y3136 "Certificates/Kernel/BabyMonster/CTIB/data/y3136.items.gz" 45864 10509944385570019101
+#kc_repo #kc_nat_items CFSG.KD.Y3136 "Certificates/Kernel/BabyMonster/CTIB/data/y3136.items" 45864 10509944385570019101
   Y[6] ST0[] ST1[] ST2[] ST3[] ST4[] ST5[] S E T W[5]
 
 public section

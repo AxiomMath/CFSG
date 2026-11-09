@@ -3,12 +3,12 @@ module
 public import Certificates.Kernel.A45Cls.Data
 public import Certificates.Data.ParrottPSp43L1
 public import Certificates.Data.Kernel.PermCent.CV
-public import CFSG.Certificates.Kernel.Common.NatItemsGz
+public import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CertificateChecks.Parrott946.D17 "Certificates/Kernel/Parrott946/data/d17.items.gz" 5504 1276600529505692875 WT IT I[] CM[] CMT M[8]
+#kc_repo #kc_nat_items CertificateChecks.Parrott946.D17 "Certificates/Kernel/Parrott946/data/d17.items" 5504 1276600529505692875 WT IT I[] CM[] CMT M[8]
 
 namespace CertificateChecks.Parrott946
 

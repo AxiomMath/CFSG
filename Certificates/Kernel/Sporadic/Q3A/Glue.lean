@@ -156,11 +156,13 @@ theorem cI {j : Nat} (hj : j < 13) : cn (Q3AI j) = true := allN_get kcI hj
 
 theorem pBAi {s : Nat} (hs : s < 2) :
     P (bAi s) (BIK s) ∧ isInvA 1782 (bA s) (bAi s) = true := by
-  unfold bAi BIK bA b0i b1i
-  rw [beqN]
   interval_cases s
-  · exact pInv pB0 kiB0 (cI (by norm_num))
-  · exact pInv pB1 kiB1 (cI (by norm_num))
+  · rw [show bAi 0 = b0i from if_pos rfl, show bA 0 = b0 from if_pos rfl,
+      show BIK 0 = Q3AI 0 from rfl, b0i]
+    exact pInv pB0 kiB0 (cI (by norm_num))
+  · rw [show bAi 1 = b1i from if_neg (by decide), show bA 1 = b1 from if_neg (by decide),
+      show BIK 1 = Q3AI 1 from rfl, b1i]
+    exact pInv pB1 kiB1 (cI (by norm_num))
 
 theorem pRho : P CFSG.Sporadic.SuzRecog.LevelTwoData.rhoArr RHO := SuzTwCF.pRho
 

@@ -231,12 +231,33 @@ private theorem close16_ker_eq_Eelt (M : ↥ptStab) (hM : M ∈ close16_blockHom
 
 private theorem close16_Eelt_zero : close16_Eelt 0 = 1 := by decide +kernel
 
+private theorem close16_blk4_mul (y y' : Fin 3 → ZMod 2)
+    (A A' : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
+    blk4 y A * blk4 y' A' = blk4 (y' + y ᵥ* A') (A * A') := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [blk4, Matrix.mul_apply, Fin.sum_univ_four, Matrix.vecMul, dotProduct,
+      Fin.sum_univ_three] <;>
+    ring
+
 private theorem close16_conj_blk4SL :
     ∀ (y : Fin 3 → ZMod 2) (A : SL3),
       (⟨blk4SL 0 A, blk4SL_mem 0 A⟩ : ↥ptStab) * close16_Eelt y *
           (⟨blk4SL 0 A, blk4SL_mem 0 A⟩ : ↥ptStab)⁻¹ =
         close16_Eelt (y ᵥ* ((A⁻¹ : SL3) : Matrix (Fin 3) (Fin 3) (ZMod 2))) := by
-  decide +kernel
+  intro y A
+  rw [mul_inv_eq_iff_eq_mul]
+  apply Subtype.ext
+  apply Subtype.ext
+  show blk4 0 (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) *
+      blk4 y ((1 : SL3) : Matrix (Fin 3) (Fin 3) (ZMod 2)) =
+    blk4 (y ᵥ* ((A⁻¹ : SL3) : Matrix (Fin 3) (Fin 3) (ZMod 2)))
+        ((1 : SL3) : Matrix (Fin 3) (Fin 3) (ZMod 2)) *
+      blk4 0 (A : Matrix (Fin 3) (Fin 3) (ZMod 2))
+  rw [Matrix.SpecialLinearGroup.coe_one, close16_blk4_mul, close16_blk4_mul, Matrix.zero_vecMul,
+    add_zero, Matrix.mul_one, Matrix.one_mul, zero_add, Matrix.vecMul_vecMul,
+    ← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one,
+    Matrix.vecMul_one]
 
 private theorem close16_row_trans (y y' : Fin 3 → ZMod 2) (hy : y ≠ 0) (hy' : y' ≠ 0) :
     ∃ A : SL3, y ᵥ* ((A : SL3) : Matrix (Fin 3) (Fin 3) (ZMod 2)) = y' := by

@@ -43,6 +43,45 @@ open CFSG.KC.Enum CFSG.KS
     (MK == (YL.zip YI).map fun q => bitsN ((lE.zip LI).map fun p => cInI one c p.1 p.2 q.1 q.2)) &&
       MK.all fun m => Nat.ble (popN m lE.length) 32
 
+@[expose] noncomputable def allPtU (k : Nat) (f : Nat → Bool) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun i ih => Bool.rec (motive := fun _ => Bool) false ih (f i)) k
+
+@[expose] noncomputable def fNU (x j : Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat) 0 (pg 5 (mask 5) x j) (Nat.blt j 16)
+
+@[expose] noncomputable def fPU (x y j : Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat) 0 (fNU x (fNU y j)) (Nat.blt j 16)
+
+@[expose] noncomputable def cInPt (one c a ai b bi : Nat) : Bool :=
+  strictB a fun a => strictB ai fun ai => strictB b fun b => strictB bi fun bi =>
+    Bool.rec (motive := fun _ => Bool)
+      (allPtU 16 fun i => Nat.beq (fPU a b (fPU ai bi i)) (fNU c i)) true
+      (allPtU 16 fun i => Nat.beq (fPU a b (fPU ai bi i)) (fNU one i))
+
+@[expose] noncomputable def ueVP (c : Nat) (lE LI YL YI MK : List Nat) : Bool :=
+  strictB c fun c => strictB (pidn 16 5) fun one =>
+    (MK == (YL.zip YI).map fun q => bitsN ((lE.zip LI).map fun p => cInPt one c p.1 p.2 q.1 q.2)) &&
+      MK.all fun m => Nat.ble (popN m lE.length) 32
+
+@[expose] noncomputable def goodU (x : Nat) : Bool := allPtU 16 fun i => Nat.blt (fNU x i) 16
+
+@[expose] noncomputable def invOkU (one x xi : Nat) : Bool :=
+  goodU x && goodU xi && eqN 16 5 (pmN 16 5 x xi) one && eqN 16 5 (pmN 16 5 xi x) one
+
+@[expose] noncomputable def evalWU (one : Nat) (G : List Nat) (w : List Nat) : Nat :=
+  w.foldr (fun k acc => pmN 16 5 (G.getD k 0) acc) one
+
+@[expose] noncomputable def ue5G (c : Nat) (lE LI G : List Nat) (W : List (List Nat)) : Bool :=
+  strictB c fun c => strictB (pidn 16 5) fun one =>
+    invOkU one c c && (lE.zip LI).all (fun p => invOkU one p.1 p.2) &&
+      G.all (fun g => strictB (invN 16 5 g) fun gi =>
+        invOkU one g gi && eqN 16 5 (pmN 16 5 g c) (pmN 16 5 c g) &&
+          (lE.zip LI).all fun q => cInPt one c g gi q.1 q.2) &&
+      Nat.ble lE.length W.length &&
+      (lE.zip W).all fun p =>
+        p.2.all (fun k => Nat.blt k G.length) && eqN 16 5 p.1 (evalWU one G p.2)
+
 @[expose] noncomputable def ue8 (P M : Nat) (T : Nat → Nat) (YL YI MK : List Nat) : Bool :=
   (YL.zip (YI.zip MK)).all fun p => (YL.zip MK).all fun q =>
     !Nat.beq p.2.2 q.2 || memT P M T (pmN 16 5 p.2.1 q.1)

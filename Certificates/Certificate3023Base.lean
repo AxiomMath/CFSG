@@ -15,39 +15,24 @@ open CFSG.KC.KDense CFSG.KLie.CT CFSG.Monster.B CFSG.KC.SortTree CFSG.KC.Bfs
 
 theorem tab_spec {c : ℕ} {TT : ℕ → ℕ} {e : ℕ} {pe' : Bool} {BT : ℕ} (he : cosetA c = e)
     (hpe : Model.pN e = pe') (hP : ∀ i < 24, pe (PP c) i = (cosetArr c)[i]!)
-    (hBT : betaTabT (PP c) = BT) (ha : tabA TT e pe' (PP c) BT = true)
-    (hd : tabD TT e pe' (PP c) BT = true) : TabSpec TT (tT c) (tD c) := by
-  refine ⟨fun A hA => ?_, fun D hD => ?_⟩
-  · rw [tT_get c hA, alphaN, he, ← alphaW_eq th_ok hP, hpe, hBT]
-    exact of_decide_eq_true ((allN_iff' _ _).1 ha A hA)
-  · rw [tD_get c hD, alphaN, he, ← alphaW_eq th_ok hP, hpe, hBT]
-    exact of_decide_eq_true ((allN_iff' _ _).1 hd D hD)
+    (hBT : betaTabT (PP c) = BT) (hLA : c3TabL TT 0 = true) (hLD : c3TabL TT 4096 = true)
+    (ha : c3TabBA TT e pe' (PP c) BT = true) (hd : c3TabBD TT e pe' (PP c) BT = true) :
+    TabSpec TT (tT c) (tD c) :=
+  c3Tab_spec (fun y => by rw [alphaN, he, ← alphaW_eq th_ok hP, hpe, hBT]) hLA hLD ha hd
 
 theorem spec_1 : TabSpec T1 (tT 1) (tD 1) :=
-  tab_spec e_ok.1 pe_ok.1 pp_1 bt_1 ta_1 td_1
+  tab_spec e_ok.1 pe_ok.1 pp_1 bt_1 c3tl_1 c3tld_1 ta_1 td_1
 
 theorem spec_2 : TabSpec T2 (tT 2) (tD 2) :=
-  tab_spec e_ok.2.1 pe_ok.2.1 pp_2 bt_2 ta_2 td_2
+  tab_spec e_ok.2.1 pe_ok.2.1 pp_2 bt_2 c3tl_2 c3tld_2 ta_2 td_2
 
 theorem spec_6 : TabSpec T6 (tT 6) (tD 6) :=
-  tab_spec e_ok.2.2 pe_ok.2.2 pp_6 bt_6 ta_6 td_6
-
-theorem blocks_all {TT : ℕ → ℕ} {w : Model.Pauli} {J : ℕ → ℕ}
-    (h0 : blocksOK TT w J 0 2048 = true) (h1 : blocksOK TT w J 2048 2048 = true) :
-    ∀ a < 4096, blockOK TT w J a = true := by
-  intro a ha
-  rcases Nat.lt_or_ge a 2048 with h | h
-  · have := (allN_iff' _ _).1 h0 a h
-    change blockOK TT w J (0 + a) = true at this
-    rwa [Nat.zero_add] at this
-  · have := (allN_iff' _ _).1 h1 (a - 2048) (by omega)
-    change blockOK TT w J (2048 + (a - 2048)) = true at this
-    rwa [show 2048 + (a - 2048) = a by omega] at this
+  tab_spec e_ok.2.2 pe_ok.2.2 pp_6 bt_6 c3tl_6 c3tld_6 ta_6 td_6
 
 theorem count_1 : Rep4371.Native.CosetEnum.countSq (tT 1) (tD 1) (wP 1) = 69632 := by
   rw [countSq_eq_keys spec_1, w_ok.1,
     keys_sum_eq (v := fun k => [20480, 0, 16384, 0, 16384, 0, 16384, 0].getD k 0) sort_1
-      (blocks_all blk_1_0 blk_1_1) fun k hk => by
+      (c3Blocks_all blk_1_0 blk_1_1) fun k hk => by
         interval_cases k
         exacts [part_1_0, part_1_1, part_1_2, part_1_3, part_1_4, part_1_5, part_1_6, part_1_7]]
   simp [Finset.sum_range_succ]
@@ -55,14 +40,14 @@ theorem count_1 : Rep4371.Native.CosetEnum.countSq (tT 1) (tD 1) (wP 1) = 69632 
 theorem count_2 : Rep4371.Native.CosetEnum.countSq (tT 2) (tD 2) (wP 2) = 8192 := by
   rw [countSq_eq_keys spec_2, w_ok.2.1,
     keys_sum_eq (v := fun k => [4096, 4096, 0, 0, 0, 0, 0, 0].getD k 0) sort_2
-      (blocks_all blk_2_0 blk_2_1) fun k hk => by
+      (c3Blocks_all blk_2_0 blk_2_1) fun k hk => by
         interval_cases k
         exacts [part_2_0, part_2_1, part_2_2, part_2_3, part_2_4, part_2_5, part_2_6, part_2_7]]
   simp [Finset.sum_range_succ]
 
 theorem count_6 : Rep4371.Native.CosetEnum.countSq (tT 6) (tD 6) (wP 6) = 0 := by
   rw [countSq_eq_keys spec_6, w_ok.2.2,
-    keys_sum_eq (v := fun _ => 0) sort_6 (blocks_all blk_6_0 blk_6_1) fun k hk => by
+    keys_sum_eq (v := fun _ => 0) sort_6 (c3Blocks_all blk_6_0 blk_6_1) fun k hk => by
         interval_cases k
         exacts [part_6_0, part_6_1, part_6_2, part_6_3, part_6_4, part_6_5, part_6_6, part_6_7]]
   simp
@@ -85,12 +70,12 @@ theorem class_spec {k : ℕ} (hk : k < 137) :
   obtain ⟨h0, hT⟩ := ht
   have hs := classSize_eq k hk
   by_cases h04 : k = 0 ∨ k = 4
-  · rw [if_pos h04] at hs
+  · rw [ite_eq_left h04] at hs
     rw [hs] at hT ⊢
     rcases h04 with rfl | rfl
     · exact class_small hT h0 edges_0 (by norm_num)
     · exact class_small hT h0 edges_1 (by norm_num)
-  · rw [if_neg h04] at hs
+  · rw [ite_eq_right h04] at hs
     rw [hs] at hT ⊢
     exact class_big hT h0 span_1 (by norm_num)
 

@@ -1,7 +1,5 @@
 module
 
-public meta import Lean
-meta import Certificates.Data.RudvalisFF81Sp8Cent
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,69 +39,8 @@ import Mathlib.Topology.Sheaves.Init
 
 namespace CFSG.KD.Sp8Cz.Gen
 
-open CFSG.RankThree.PartTwo.Sec21.FF81.Sp8
-
-meta def c64 (x : List Nat) : Nat := x.foldr (fun c acc => c + 256 * acc) 0
-
-meta def mulM (A B : Nat) : Nat := Id.run do
-  let mut r := 0
-  for j in [0:8] do
-    let b := (B >>> (8 * j)) &&& 255
-    let mut col := 0
-    for i in [0:8] do
-      if (b >>> i) &&& 1 == 1 then
-        col := col ^^^ ((A >>> (8 * i)) &&& 255)
-    r := r ||| (col <<< (8 * j))
-  return r
-
-meta def bfsM (start : Nat) (st : Nat → Nat → Nat) (k fuel : Nat) :
-    Array Nat × Array (Nat × Nat) × Array Nat × Array Nat := Id.run do
-  let mut es : Array Nat := #[start]
-  let mut par : Array (Nat × Nat) := #[]
-  let mut idx : Std.HashMap Nat Nat := ({} : Std.HashMap Nat Nat).insert start 0
-  let mut C : Array Nat := #[]
-  let mut POS : Array Nat := #[]
-  for h in [0:fuel] do
-    if h < es.size then
-      for s in [0:k] do
-        C := C.push es.size
-        let y := st es[h]! s
-        match idx.get? y with
-        | some p => POS := POS.push p
-        | none =>
-          POS := POS.push es.size
-          idx := idx.insert y es.size
-          es := es.push y
-          par := par.push (h, s)
-  C := C.push es.size
-  return (es, par, C, POS)
-
-meta def sortM (xs : Array Nat) : Array Nat × Array Nat :=
-  let srt := (Array.range xs.size).qsort (fun a b => xs[a]! < xs[b]!)
-  let sri := (Array.range srt.size).foldl (fun acc i => acc.set! srt[i]! i)
-    (Array.replicate srt.size 0)
-  (srt, sri)
-
-meta def recsM (k : Nat) (b : Array Nat × Array (Nat × Nat) × Array Nat × Array Nat) : List Nat :=
-  let (es, par, C, POS) := b
-  let (srt, sri) := sortM es
-  let n := es.size
-  let f := fun (v : Nat) (i : Nat) => v <<< (64 + 16 * i)
-  (List.range (n + 1)).map fun t =>
-    let p := par.getD t (0, 0)
-    let base := es.getD t 0 ||| f p.1 0 ||| f p.2 1 ||| f (srt.getD t 0) 2 ||| f (sri.getD t 0) 3
-    (List.range k).foldl (fun acc s =>
-      acc ||| f (C.getD (k * t + s) 0) (4 + s) ||| f (POS.getD (k * t + s) 0) (4 + k + s)) base
-
-meta def hM : Array Nat := ((czGens ++ [z3S]).map c64).toArray
-meta def oneM : Nat := c64 CFSG.Quasithin.H13.Mat8Cert.one8
-
-meta def tab2 (a b : Nat) : List Nat :=
-  recsM 2 (bfsM oneM (fun x s => mulM x hM[if s == 0 then a else b]!) 2 9)
-
 meta def recM : List Nat :=
-  hM.toList ++ recsM 7 (bfsM oneM (fun x s => mulM x hM[s]!) 7 12960) ++ tab2 0 1 ++ tab2 3 7 ++
-    tab2 0 7
+  (String.splitOn (include_str "Rec.0.txt") ",").map String.toNat!
 
 end CFSG.KD.Sp8Cz.Gen
 

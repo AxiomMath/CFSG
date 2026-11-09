@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.S97RYK
+public import Certificates.Kernel.S97RYK.Fast
 public import CFSG.LargeExtraspecial.S97RYData
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -13,7 +14,11 @@ namespace CertificateChecks.KernelS97RY
 open CFSG.KC.S97RYK CFSG.LargeExtraspecial.S11.PairCheck CFSG.CGT.Timmesfeld75.WCCheck
   CFSG.Sporadic.Th.Native
 
-theorem a9_ok : pairCheckK a9PData = true := by quickRfl
+theorem a9_ok2 : pairCheckK2 a9PData = true := by quickRfl
+
+theorem a9_ok : pairCheckK a9PData = true := by
+  rw [pairCheckK_eq2]
+  exact a9_ok2
 
 theorem m22_ok : pairCheckK m22PData = true := by quickRfl
 

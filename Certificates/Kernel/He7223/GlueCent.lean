@@ -60,15 +60,15 @@ theorem card_CR_le :
       dsimp only [f] at hab
       rcases em ((a : Equiv.Perm (Fin 8330)) ∈ heP) with ha | ha <;>
         rcases em ((b : Equiv.Perm (Fin 8330)) ∈ heP) with hb | hb
-      · rw [dif_pos ha, dif_pos hb] at hab
+      · rw [dite_eq_left ha, dite_eq_left hb] at hab
         have h2 : (a : Equiv.Perm (Fin 8330)) = (b : Equiv.Perm (Fin 8330)) :=
           Subtype.mk.inj (Prod.mk.inj hab).2
         exact Subtype.ext h2
-      · rw [dif_pos ha, dif_neg hb] at hab
+      · rw [dite_eq_left ha, dite_eq_right hb] at hab
         exact absurd (Prod.mk.inj hab).1 (by decide)
-      · rw [dif_neg ha, dif_pos hb] at hab
+      · rw [dite_eq_right ha, dite_eq_left hb] at hab
         exact absurd (Prod.mk.inj hab).1 (by decide)
-      · rw [dif_neg ha, dif_neg hb] at hab
+      · rw [dite_eq_right ha, dite_eq_right hb] at hab
         have h2 : y⁻¹ * (a : Equiv.Perm (Fin 8330)) = y⁻¹ * b :=
           Subtype.mk.inj (Prod.mk.inj hab).2
         exact Subtype.ext (mul_left_cancel h2)
@@ -136,7 +136,7 @@ theorem sigmaW_eq : sigmaW = gw 7 := by
   decide +kernel
 
 theorem c1W_eq : c1W.getD 5 [] = gw 9 ∧ c1W.getD 10 [] = gw 10 := by
-  rw [C1S.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
+  rw [C1S.eq, decodeWs_splitK (by decide)]
   decide +kernel
 
 theorem elt_t1W :
@@ -232,7 +232,6 @@ theorem cent_E
       rw [← hget j]
       exact hxc ⟨j, hj⟩
   refine mem_eSub_of_orbit ebasis_E (fun i => by
-      change elt (eW.getD i []) ∈ heP
       rw [hget i]
       exact elt_mem_heP (EB_letters _ (getD_mem (lt_of_lt_of_eq i.2 (by decide +kernel)))))
     ⟨0, by norm_num⟩ (by
@@ -273,7 +272,6 @@ theorem cent_Q
       rw [← hget j]
       exact hxc ⟨j, hj⟩
   refine mem_eSub_of_orbit ebasis_Q (fun i => by
-      change elt (qW.getD i []) ∈ heP
       rw [hget i]
       exact elt_mem_heP (QB_letters _ (getD_mem (lt_of_lt_of_eq i.2 (by decide +kernel)))))
     ⟨0, by norm_num⟩ (by

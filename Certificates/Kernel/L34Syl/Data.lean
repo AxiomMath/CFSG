@@ -4,7 +4,7 @@ public import Certificates.Data.Kernel.L34Syl.Defs
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelL34Syl "Certificates/Kernel/L34Syl/data/l34syl.json.gz"
+#kc_repo #kc_json CertificateChecks.KernelL34Syl "Certificates/Kernel/L34Syl/data/l34syl.json"
   464686 15762480542393096331
   (LP : Nat) (LS : Nat) (PT : Nat) (PD : Nat) (TG : Nat) (ZW : List (List Nat)) (ZS : List Nat)
   (LZ : Nat) (PS : List (List Nat)) (RS : List (List Nat))

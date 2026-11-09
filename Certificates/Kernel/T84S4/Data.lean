@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.T84S4 "Certificates/Kernel/T84S4/data/t84s4.json.gz"
+#kc_repo #kc_json CFSG.KD.T84S4 "Certificates/Kernel/T84S4/data/t84s4.json"
   3153 3006638939487220531
   (ACT : Nat) (TM : Nat) (WP : Nat) (INV : Nat) (TC : Nat)
   (L3 : List Nat) (L4 : List Nat) (I2 : List Nat)

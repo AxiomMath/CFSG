@@ -96,8 +96,7 @@ theorem syl_get {i : Nat} (hi : i < 128) : sylList[i]! = fE i := by
 
 theorem syl_hk : hkeysDistinct 6156 sylList.toList = true := by
   have h := (mulH_sound base.1 (fun j hj => (gen hj).2.2) s_tabs base.2.2.2.2.2.2 s_pe s_hs).2.2
-  unfold sylList
-  rw [closure_eq]
+  rw [sylList_fst, closure_eq]
   exact h
 
 theorem hkey_inj_of {n : ℕ} {L : Array Table} (hk : hkeysDistinct n L.toList = true) :

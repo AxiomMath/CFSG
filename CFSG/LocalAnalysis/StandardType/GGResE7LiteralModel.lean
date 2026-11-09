@@ -662,9 +662,63 @@ lemma L_le_pairPres : L ≤ pairPres := by
   rintro _ ⟨i, hi, rfl⟩
   exact s7_pair i
 
+private def decEqV7Fast : DecidableEq (V7) := fun u v =>
+  decidable_of_iff (((List.finRange 7).all fun i => decide (u i = v i)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+private def reflIdxTab : List (List ℕ) :=
+  [
+   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 41, 42, 43, 44, 57, 58, 59, 60, 20, 21, 22, 23, 45,
+    46, 47, 48, 49, 50, 30, 31, 32, 33, 66, 67, 68, 69, 70, 71, 56, 12, 13, 14, 15, 24, 25, 26,
+    27, 28, 29, 51, 52, 53, 54, 55, 40, 16, 17, 18, 19, 61, 62, 63, 64, 65, 34, 35, 36, 37, 38,
+    39],
+   [0, 1, 2, 3, 4, 5, 21, 22, 23, 31, 32, 33, 12, 24, 25, 26, 16, 37, 38, 39, 30, 6, 7, 8, 13,
+    14, 15, 27, 28, 29, 20, 9, 10, 11, 34, 35, 36, 17, 18, 19, 40, 41, 45, 46, 47, 42, 43, 44,
+    48, 49, 50, 55, 52, 53, 54, 51, 56, 57, 69, 70, 71, 62, 61, 63, 64, 65, 66, 67, 68, 58, 59,
+    60],
+   [0, 1, 2, 3, 4, 5, 13, 14, 15, 17, 18, 19, 16, 6, 7, 8, 12, 9, 10, 11, 20, 24, 25, 26, 21,
+    22, 23, 27, 28, 29, 30, 37, 38, 39, 34, 35, 36, 31, 32, 33, 41, 40, 42, 43, 44, 45, 46, 47,
+    52, 53, 54, 51, 48, 49, 50, 55, 57, 56, 58, 59, 60, 61, 62, 66, 67, 68, 63, 64, 65, 69, 70,
+    71],
+   [0, 1, 7, 8, 10, 11, 9, 2, 3, 6, 4, 5, 13, 12, 14, 15, 17, 16, 18, 19, 21, 20, 22, 23, 24,
+    27, 28, 25, 26, 29, 31, 30, 32, 33, 34, 38, 39, 37, 35, 36, 40, 42, 41, 43, 44, 45, 48, 49,
+    46, 47, 50, 54, 52, 53, 51, 55, 56, 58, 57, 59, 60, 61, 63, 62, 64, 65, 66, 70, 71, 69, 67,
+    68],
+   [3, 5, 4, 0, 2, 1, 7, 6, 8, 10, 9, 11, 12, 14, 13, 15, 16, 18, 17, 19, 20, 22, 21, 23, 25,
+    24, 26, 27, 29, 28, 30, 32, 31, 33, 36, 35, 34, 38, 37, 39, 40, 41, 43, 42, 44, 46, 45, 47,
+    48, 50, 49, 51, 52, 54, 53, 55, 56, 57, 59, 58, 60, 61, 62, 65, 64, 63, 68, 67, 66, 70, 69,
+    71],
+   [1, 0, 3, 2, 5, 4, 6, 8, 7, 9, 11, 10, 12, 13, 15, 14, 16, 17, 19, 18, 20, 21, 23, 22, 24,
+    26, 25, 28, 27, 29, 30, 31, 33, 32, 34, 36, 35, 37, 39, 38, 40, 41, 42, 44, 43, 45, 47, 46,
+    49, 48, 50, 51, 53, 52, 54, 55, 56, 57, 58, 60, 59, 61, 62, 63, 65, 64, 66, 68, 67, 69, 71,
+    70]]
+
+attribute [local instance high] decEqV7Fast in
+private theorem reflIdx_ok : ∀ i : Fin 7, i.val < 6 → (List.range 72).all (fun k =>
+    decide ((reflIdxTab.getD i.val []).getD k 0 < 72) &&
+      decide (reflFun (e i) (rootList.getD k 0) =
+        rootList.getD ((reflIdxTab.getD i.val []).getD k 0) 0)) = true := by
+  decide +kernel
+
+private theorem rootList_length : rootList.length = 72 := by decide
+
 lemma reflFun_rootList_all :
     ∀ i : Fin 7, i.val < 6 → ∀ v ∈ rootList, reflFun (e i) v ∈ rootList := by
-  decide +kernel
+  intro i hi v hv
+  obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem hv
+  have h := List.all_eq_true.mp (reflIdx_ok i hi) k
+    (List.mem_range.mpr (by rw [rootList_length] at hk; exact hk))
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨hj, heq⟩ := h
+  have hj' : (reflIdxTab.getD i.val []).getD k 0 < rootList.length := by
+    rw [rootList_length]; exact hj
+  rw [List.getD_eq_getElem?_getD (l := rootList) (i := k), List.getElem?_eq_getElem hk,
+    Option.getD_some, List.getD_eq_getElem?_getD (l := rootList)
+      (i := (reflIdxTab.getD i.val []).getD k 0), List.getElem?_eq_getElem hj',
+    Option.getD_some] at heq
+  rw [heq]
+  exact List.getElem_mem hj'
 
 lemma s7_root_iff (i : Fin 7) (hi : i.val < 6) (v : V7) :
     v ∈ rootList ↔ s7 i v ∈ rootList := by

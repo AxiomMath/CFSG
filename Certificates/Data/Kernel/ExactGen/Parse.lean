@@ -44,6 +44,81 @@ open CFSG.ComponentClassification.SolMax.SwapP2.ExactFin
 
 @[expose] def intsOK (cs : List Char) : Bool := (toksL cs).all tokOK
 
+@[expose] noncomputable def natGoR (ds : List Char) : ℕ → ℕ :=
+  List.rec (motive := fun _ => ℕ → ℕ) (fun acc => acc)
+    (fun c _ ih acc => ih (Nat.add (Nat.mul acc 10) (Nat.sub c.toNat 48))) ds
+
+@[expose] noncomputable def intOfLR (t : List Char) : ℤ :=
+  List.rec (motive := fun _ => ℤ) 0
+    (fun c ds _ => Bool.rec (motive := fun _ => ℤ) (Int.ofNat (natGoR (c :: ds) 0))
+      (Int.negOfNat (natGoR ds 0)) (Nat.beq c.toNat 45)) t
+
+@[expose] noncomputable def toksGoR (cs : List Char) : List Char → List (List Char) :=
+  List.rec (motive := fun _ => List Char → List (List Char))
+    (fun acc => List.rec (motive := fun _ => List (List Char)) [] (fun _ _ _ => [acc.reverse]) acc)
+    (fun c _ ih acc => Bool.rec (motive := fun _ => List (List Char)) (ih (c :: acc))
+      (List.rec (motive := fun _ => List (List Char)) (ih []) (fun _ _ _ => acc.reverse :: ih []) acc)
+      (isWs c)) cs
+
+@[expose] noncomputable def intBeqR (z z' : ℤ) : Bool :=
+  Int.rec (motive := fun _ => Bool)
+    (fun n => Int.rec (motive := fun _ => Bool) (fun m => Nat.beq n m) (fun _ => false) z')
+    (fun n => Int.rec (motive := fun _ => Bool) (fun _ => false) (fun m => Nat.beq n m) z') z
+
+@[expose] noncomputable def toksCkR (ts : List (List Char)) : List ℤ → Bool :=
+  List.rec (motive := fun _ => List ℤ → Bool)
+    (fun l => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) l)
+    (fun t _ ih l => List.rec (motive := fun _ => Bool) false
+      (fun z zs _ => Bool.rec (motive := fun _ => Bool) false
+        (Bool.rec (motive := fun _ => Bool) false (ih zs) (tokOK t)) (intBeqR (intOfLR t) z)) l) ts
+
+theorem natGo_eq_R : ∀ (ds : List Char) (acc : ℕ), natGo acc ds = natGoR ds acc
+  | [], _ => rfl
+  | c :: ds, acc => natGo_eq_R ds (acc * 10 + (c.toNat - 48))
+
+theorem intOfL_eq_R : ∀ t : List Char, intOfL t = intOfLR t
+  | [] => rfl
+  | c :: ds => by
+    have e : intOfLR (c :: ds) = Bool.rec (motive := fun _ => ℤ) (Int.ofNat (natGoR (c :: ds) 0))
+        (Int.negOfNat (natGoR ds 0)) (Nat.beq c.toNat 45) := rfl
+    simp only [intOfL, natOfL, natGo_eq_R, e]
+    cases Nat.beq c.toNat 45 <;> rfl
+
+theorem toksGo_eq_R : ∀ (cs acc : List Char), toksGo cs acc = toksGoR cs acc
+  | [], acc => by cases acc <;> rfl
+  | c :: t, acc => by
+    have e : toksGoR (c :: t) acc = Bool.rec (motive := fun _ => List (List Char))
+        (toksGoR t (c :: acc)) (List.rec (motive := fun _ => List (List Char)) (toksGoR t [])
+          (fun _ _ _ => acc.reverse :: toksGoR t []) acc) (isWs c) := rfl
+    simp only [toksGo, toksGo_eq_R t, e]
+    cases isWs c <;> cases acc <;> rfl
+
+theorem intBeqR_eq : ∀ z z' : ℤ, intBeqR z z' = true → z = z'
+  | .ofNat _, .ofNat _, h => by rw [Nat.eq_of_beq_eq_true h]
+  | .ofNat _, .negSucc _, h => (Bool.false_ne_true h).elim
+  | .negSucc _, .ofNat _, h => (Bool.false_ne_true h).elim
+  | .negSucc _, .negSucc _, h => by rw [Nat.eq_of_beq_eq_true h]
+
+theorem toksCkR_sound : ∀ (ts : List (List Char)) (l : List ℤ), toksCkR ts l = true →
+    ts.map intOfLR = l ∧ ts.all tokOK = true
+  | [], [], _ => ⟨rfl, rfl⟩
+  | [], _ :: _, h => (Bool.false_ne_true h).elim
+  | _ :: _, [], h => (Bool.false_ne_true h).elim
+  | t :: ts, z :: zs, h => by
+    have e : toksCkR (t :: ts) (z :: zs) = (intBeqR (intOfLR t) z && (tokOK t && toksCkR ts zs)) := by
+      change Bool.rec (motive := fun _ => Bool) false
+        (Bool.rec (motive := fun _ => Bool) false (toksCkR ts zs) (tokOK t)) (intBeqR (intOfLR t) z) = _
+      cases intBeqR (intOfLR t) z <;> cases tokOK t <;> rfl
+    rw [e, Bool.and_eq_true, Bool.and_eq_true] at h
+    obtain ⟨ih1, ih2⟩ := toksCkR_sound ts zs h.2.2
+    exact ⟨by rw [List.map_cons, intBeqR_eq _ _ h.1, ih1], by rw [List.all_cons, h.2.1, ih2]; rfl⟩
+
+theorem ints_of_toksCkR (cs : List Char) (L : List ℤ) (h : toksCkR (toksGoR cs []) L = true) :
+    intsL cs = L ∧ intsOK cs = true := by
+  obtain ⟨h1, h2⟩ := toksCkR_sound _ _ h
+  have e : intOfL = intOfLR := funext intOfL_eq_R
+  exact ⟨by rw [intsL, toksL, toksGo_eq_R, e, h1], by rw [intsOK, toksL, toksGo_eq_R, h2]⟩
+
 abbrev RL (α : Type) := List ℤ → α × List ℤ
 
 @[expose] def rlInt : RL ℤ := fun l => (l.headD 0, l.tail)

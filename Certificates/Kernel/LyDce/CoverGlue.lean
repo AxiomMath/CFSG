@@ -346,20 +346,33 @@ theorem letterG_two : Ly0.letterG Ly0.gens0 2 = Ly0.dG := by
   rw [← rho1_eq, rho_eq]
   simp [jZ]
 
+omit hc hd in
+theorem mvX_lc_one (Tc Td l : Nat) : mvX Tc Td (lcode 1) l = fldW 16 Tc l := rfl
+
+omit hc hd in
+theorem mvX_lc_neg_one (Tc Td l : Nat) : mvX Tc Td (lcode (-1)) l = fldW 16 Tc l := rfl
+
+omit hc hd in
+theorem mvX_lc_two (Tc Td l : Nat) : mvX Tc Td (lcode 2) l = fldW 16 Td (fldW 16 Td l) :=
+  strictN_eq _ _
+
+omit hc hd in
+theorem mvX_lc_neg_two (Tc Td l : Nat) : mvX Tc Td (lcode (-2)) l = fldW 16 Td l := rfl
+
 theorem Lf_mvX (hbc : RB5Bound) {z : ℤ} (hz : z ≠ 0 ∧ z.natAbs ≤ 2) {l : Nat} (hl : l < nL) :
     mvX tc td (lcode z) l < nL ∧
       Lf (mvX tc td (lcode z) l) = Ly0.letterG Ly0.gens0 z • Lf l := by
   obtain ⟨⟨c1, c2⟩, ⟨d1, d2⟩⟩ := Lf_moves hc hd hbc hl
   have hcc : Ly0.cG⁻¹ = Ly0.cG := inv_eq_of_mul_eq_one_right (cG_mul_cG hc hd)
   rcases int_cases hz with rfl | rfl | rfl | rfl
-  · have e : mvX tc td (lcode 1) l = fldW 16 tc l := rfl
+  · have e : mvX tc td (lcode 1) l = fldW 16 tc l := mvX_lc_one tc td l
     rw [e, letterG_one]
     refine ⟨c1, ?_⟩
     rw [c2, hcc]
-  · have e : mvX tc td (lcode (-1)) l = fldW 16 tc l := rfl
-    rw [e, Ly0.letterG_neg _ one_ne_zero, letterG_one]
+  · have e : mvX tc td (lcode (-1)) l = fldW 16 tc l := mvX_lc_neg_one tc td l
+    rw [e, Ly0.letterG_neg _ (l := 1) (by decide), letterG_one]
     exact ⟨c1, c2⟩
-  · have e : mvX tc td (lcode 2) l = fldW 16 td (fldW 16 td l) := strictN_eq _ _
+  · have e : mvX tc td (lcode 2) l = fldW 16 td (fldW 16 td l) := mvX_lc_two tc td l
     obtain ⟨⟨-, -⟩, ⟨d1', d2'⟩⟩ := Lf_moves hc hd hbc d1
     have hdd : Ly0.dG⁻¹ * Ly0.dG⁻¹ = Ly0.dG := by
       calc Ly0.dG⁻¹ * Ly0.dG⁻¹ = Ly0.dG⁻¹ * Ly0.dG⁻¹ * Ly0.dG ^ 3 := by
@@ -368,8 +381,8 @@ theorem Lf_mvX (hbc : RB5Bound) {z : ℤ} (hz : z ≠ 0 ∧ z.natAbs ≤ 2) {l :
     rw [e, letterG_two]
     refine ⟨d1', ?_⟩
     rw [d2', d2, ← mul_smul, hdd]
-  · have e : mvX tc td (lcode (-2)) l = fldW 16 td l := rfl
-    rw [e, Ly0.letterG_neg _ two_ne_zero, letterG_two]
+  · have e : mvX tc td (lcode (-2)) l = fldW 16 td l := mvX_lc_neg_two tc td l
+    rw [e, Ly0.letterG_neg _ (l := 2) (by decide), letterG_two]
     exact ⟨d1, d2⟩
 
 theorem Lf_mvC (hbc : RB5Bound) (ws : List ℤ) (hws : ∀ z ∈ ws, z ≠ 0 ∧ z.natAbs ≤ 2) {l : Nat}

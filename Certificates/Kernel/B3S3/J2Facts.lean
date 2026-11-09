@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.B3S3.J2
 public import Certificates.Kernel.GFR3.J2Facts
+public import CFSG.Certificates.Kernel.Misc.ChainTailLvSound
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
 
 public section
@@ -135,14 +136,16 @@ theorem case0 : caseOK j2S3Data j2S3Data.cases[0]! j2S3Data.caseX[0]! = true := 
 
 theorem case1 : caseOK j2S3Data j2S3Data.cases[1]! j2S3Data.caseX[1]! = true := by
   have hN := Nat.eq_of_beq_eq_true n0.2.2.1
-  refine caseOK_of szOK' (n := 315) rfl KernelGFR3.J2.hA KernelGFR3.J2.hB KernelGFR3.J2.pAB.1
+  refine caseOK_of_orb szOK' (n := 315) rfl KernelGFR3.J2.hA KernelGFR3.J2.hB KernelGFR3.J2.pAB.1
     KernelGFR3.J2.pAB.2 hx1 x1.1 x1.2 binds1 perm1 C1.head C1.hl hNS1 C1.hs hW1 head1.1 head1.2
     (by norm_num) hnd1 (by norm_num) bindG1 comm1 (fun j hj => ?_) E1.ok E1.keys E1.perm hN rels1
-    ?_ crit1
+    (NR := NR1 0) (RB := RB1) (RI := RI1) (EK := EK1) (fun j hj => ?_) ?_ crit1
   · rw [hng1] at hj
     exact siftG1 j hj
+  · exact (repBranchLK_eq (relOKK_tbl (by decide +kernel) (by decide +kernel)) _ _).symm.trans
+      (Orb.allN_iff.1 rep1 j hj)
   · rw [Nat.eq_of_beq_eq_true rc1]
-    exact tail1
+    exact Orb.allN_iff.1 kOrb1
 
 theorem trans_ok : transOK2 13 315 j2S3Trans j2S3Data.caseX j2S3Lines j2S3Rec
     (rawLevels 315 j2ThreeArrs j2ThreeBaseArr) j2ThreeBaseArr = true :=

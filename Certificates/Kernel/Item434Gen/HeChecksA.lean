@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.Item434Gen.HeData
+public import CFSG.Certificates.Kernel.Spor.PtCheck
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -17,9 +18,11 @@ theorem kA : permOK 8330 14 (mask 14) (8330 * 14) (HV 0) (HV 1) = true := by qui
 
 theorem kB : permOK 8330 14 (mask 14) (8330 * 14) (HV 2) (HV 3) = true := by quickRfl
 
-theorem kX : wordEqK 8330 14 (mask 14) (pidn 8330 14) L LI 2 heXW (HV 4) = true := by quickRfl
+theorem kX : wordEqK 8330 14 (mask 14) (pidn 8330 14) L LI 2 heXW (HV 4) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 8330) (w := 14) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
 
-theorem kY : wordEqK 8330 14 (mask 14) (pidn 8330 14) L LI 2 heYW (HV 6) = true := by quickRfl
+theorem kY : wordEqK 8330 14 (mask 14) (pidn 8330 14) L LI 2 heYW (HV 6) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 8330) (w := 14) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
 
 theorem kXI : (permOK 8330 14 (mask 14) (8330 * 14) (HV 4) (HV 5) &&
     permOK 8330 14 (mask 14) (8330 * 14) (HV 5) (HV 4)) = true := by quickRfl

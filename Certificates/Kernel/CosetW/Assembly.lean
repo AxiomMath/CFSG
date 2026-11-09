@@ -27,10 +27,15 @@ theorem proof8059 : cyclicCheckC j3tLiftRels [2] 4 2000 90 = true := by
   rw [cyclicCheckC_eq_checkW _ _ (by norm_num), j3tLift_checkW]
   decide +kernel
 
-theorem proof7078 : subsetCheck relsP1 [] 100000 960 = true ∧
-    subsetCheck relsP2 [] 100000 960 = true := by
-  rw [subsetCheck_eq_checkW _ _ (by norm_num), subsetCheck_eq_checkW _ _ (by norm_num)]
-  exact ⟨isoP1_checkW, isoP2_checkW⟩
+theorem proof7078 :
+    (subsetCheck relsP1 [0, 2] 100000 80 = true ∧
+      subsetCheck (restrictWords (subsetOf 5 [0, 2]) relsP1) [] 100000 12 = true) ∧
+    (subsetCheck relsP2 [0, 2] 100000 80 = true ∧
+      subsetCheck (restrictWords (subsetOf 5 [0, 2]) relsP2) [] 100000 12 = true) := by
+  rw [subsetCheck_eq_checkW relsP1 _ (by norm_num), subsetCheck_eq_checkW relsP2 _ (by norm_num),
+    subsetCheck_eq_checkW (restrictWords _ relsP1) _ (by rw [isoSubset_length]; norm_num),
+    subsetCheck_eq_checkW (restrictWords _ relsP2) _ (by rw [isoSubset_length]; norm_num)]
+  exact ⟨⟨isoP1_checkW, isoP1Sub_checkW⟩, isoP2_checkW, isoP2Sub_checkW⟩
 
 theorem extra_eq_flatten (i : Fin 12) :
     ∀ k, extra i k = (List.replicate k (word "s" ++ word (repStr i))).flatten

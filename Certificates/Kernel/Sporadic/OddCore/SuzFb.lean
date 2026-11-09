@@ -405,7 +405,7 @@ theorem countW_eq : countW = 480 := by
       countBelow 128 fun j => kind x j == 1) ∘ ipos) q =
       countBelow 128 fun j => Nat.land (kE q j) 3 == 1 := by
     intro q hq
-    exact countBelow_congr fun j hj => by rw [kind_eq (List.mem_range.1 hq) hj]
+    rw [Function.comp_apply, countBelow_congr fun j hj => by rw [kind_eq (List.mem_range.1 hq) hj]]
   rw [List.map_congr_left e]
   exact beq_iff_eq.1 kCountW
 

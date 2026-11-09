@@ -9,6 +9,6 @@ public section
 
 set_option maxRecDepth 100000
 
-#kb_family "data/F255001.json.gz" 923 7112913923602851434 (r0 := e64Words)
+#kb_family "data/F255001.json" 923 7112913923602851434 (r0 := e64Words)
 
 end

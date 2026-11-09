@@ -11,6 +11,7 @@ public import CFSG.Certificates.Kernel.Misc.PairCountSound
 public import CFSG.Sporadic.SmallOddCore.ClassSimple
 import all CFSG.Sporadic.SuzOddCore.Arrays
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PackFld
 
 public section
 
@@ -64,13 +65,70 @@ theorem fe_eq {d j : Nat} (hj : j < (unpack 2080 15 (FAM d)).toList.length) :
     CFSG.KC.Misc.PairCount.unpack_get hj']
   rfl
 
+theorem fld_fld (A b i : Nat) (hi : i < 130) :
+    fld(fld(A, Nat.mul 1950 b, mask 1950), Nat.mul 15 i, mask 15) =
+      fld(A, Nat.mul 15 (Nat.add (Nat.mul 130 b) i), mask 15) := by
+  rw [CFSG.KS.PackFld.mask_eq, CFSG.KS.PackFld.mask_eq]
+  change ((A >>> (1950 * b)) &&& (2 ^ 1950 - 1)) >>> (15 * i) &&& (2 ^ 15 - 1) =
+    (A >>> (15 * (130 * b + i))) &&& (2 ^ 15 - 1)
+  apply Nat.eq_of_testBit_eq
+  intro k
+  simp only [Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one]
+  by_cases hk : k < 15
+  · have h1 : 15 * i + k < 1950 := by omega
+    have h2 : 1950 * b + (15 * i + k) = 15 * (130 * b + i) + k := by omega
+    simp [hk, h1, h2]
+  · simp [hk]
+
+theorem incK2_sound {d : Nat} (h : incK2 d = true) : incK d = true := by
+  unfold incK2 at h
+  unfold incK
+  rw [sB] at h ⊢
+  rw [bA, Bool.and_eq_true, bA, Bool.and_eq_true] at h
+  obtain ⟨h1, h2, h3⟩ := h
+  rw [bA, Bool.and_eq_true]
+  refine ⟨h1, CFSG.KS.PackFld.allN_of_forall fun j hj => ?_⟩
+  show Nat.blt (fld(FAM d, Nat.mul 15 j, mask 15)) (fld(FAM d, Nat.mul 15 (Nat.succ j), mask 15)) =
+    true
+  have hb : j / 130 < 16 := by omega
+  have ej : j = 130 * (j / 130) + j % 130 := (Nat.div_add_mod j 130).symm
+  by_cases hm : j % 130 < 129
+  · have hB := CFSG.KS.allN_spec h2 (j / 130) hb
+    unfold incBlk at hB
+    rw [sB] at hB
+    have hi := CFSG.KS.allN_spec hB (j % 130) hm
+    unfold incIn at hi
+    rw [fld_fld (FAM d) (j / 130) (j % 130) (by omega),
+      fld_fld (FAM d) (j / 130) (Nat.succ (j % 130)) (by omega)] at hi
+    have e1 : Nat.mul 15 (Nat.add (Nat.mul 130 (j / 130)) (j % 130)) = Nat.mul 15 j := by
+      change 15 * (130 * (j / 130) + j % 130) = 15 * j
+      omega
+    have e2 : Nat.mul 15 (Nat.add (Nat.mul 130 (j / 130)) (Nat.succ (j % 130))) =
+        Nat.mul 15 (Nat.succ j) := by
+      change 15 * (130 * (j / 130) + (j % 130 + 1)) = 15 * (j + 1)
+      omega
+    rw [e1, e2] at hi
+    exact hi
+  · have hb' : j / 130 < 15 := by omega
+    have hd := CFSG.KS.allN_spec h3 (j / 130) hb'
+    unfold incBd at hd
+    have e1 : Nat.add (Nat.mul 1950 (j / 130)) 1935 = Nat.mul 15 j := by
+      change 1950 * (j / 130) + 1935 = 15 * j
+      omega
+    have e2 : Nat.mul 1950 (Nat.succ (j / 130)) = Nat.mul 15 (Nat.succ j) := by
+      change 1950 * (j / 130 + 1) = 15 * (j + 1)
+      omega
+    rw [e1, e2] at hd
+    exact hd
+
 theorem inc_all {d : Nat} (hd : d < 1782) : incK d = true := by
   have hs : d / 891 < 2 := by omega
   have h := IP.all (d / 891) hs
-  unfold incSl at h
+  unfold incSl2 at h
   have := allBlk_spec h (d % 891) (Nat.mod_lt _ (by omega))
   have e : Nat.add (Nat.mul 891 (d / 891)) (d % 891) = d := Nat.div_add_mod d 891
-  rwa [e] at this
+  rw [e] at this
+  exact incK2_sound this
 
 theorem inc_facts {d : Nat} (hd : d < 1782) :
     fe d 2079 < 22880 ∧ ∀ j < 2079, fe d j < fe d (j + 1) := by
@@ -386,6 +444,14 @@ theorem small_tree : smallTreeOK = true := by
   rw [e, h, Bool.true_and, beq_iff_eq]
   simp [tbfsRec, st_cnt]
 
+theorem arr4_get0 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[0]! = a := rfl
+
+theorem arr4_get1 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[1]! = b := rfl
+
+theorem arr4_get2 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[2]! = c := rfl
+
+theorem arr4_get3 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[3]! = d := rfl
+
 theorem facts2293 : famOK 1782 22880 #[b0Arr, b1Arr] #[certArr 0, certArr 1] suzFam = true ∧
     smallTreeOK = true ∧ (b0Arr.map UInt32.ofNat).size = 1782 ∧
     (∀ i < 1782, (b0Arr[i]!) < 2 ^ 32) ∧ (∀ i < 1782, (b1Arr[i]!) < 2 ^ 32) ∧
@@ -400,8 +466,10 @@ theorem facts2293 : famOK 1782 22880 #[b0Arr, b1Arr] #[certArr 0, certArr 1] suz
     unfold sL at this
     omega
   refine ⟨by rw [suzFam_eq]; exact famOK_rec, small_tree, by rw [b0Arr_eq]; simp [unpack_size'],
-    fun i hi => hb 0 (by decide) i hi, fun i hi => hb 2 (by decide) i hi,
-    fun i hi => hb 1 (by decide) i hi, fun i hi => hb 3 (by decide) i hi, ?_,
+    fun i hi => by have h := hb 0 (by decide) i hi; rwa [arr4_get0] at h,
+    fun i hi => by have h := hb 2 (by decide) i hi; rwa [arr4_get2] at h,
+    fun i hi => by have h := hb 1 (by decide) i hi; rwa [arr4_get1] at h,
+    fun i hi => by have h := hb 3 (by decide) i hi; rwa [arr4_get3] at h, ?_,
     by rw [inv0_eq, unpack_size'], by rw [inv1_eq, unpack_size']⟩
   rw [b0Arr_eq, CFSG.KC.Misc.PairCount.unpack_get (by norm_num)]
   intro e

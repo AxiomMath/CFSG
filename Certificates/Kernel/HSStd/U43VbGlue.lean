@@ -17,6 +17,7 @@ import CFSG.Certificates.Kernel.Common.ForallChunks
 import CFSG.Certificates.Kernel.Spor.MulHCSound
 import CFSG.Certificates.Kernel.Spor.MulHFSound
 import CFSG.Certificates.Kernel.Spor.PEnumRSound
+import CFSG.Certificates.Kernel.Spor.PEnumRCSound
 
 public section
 
@@ -32,7 +33,7 @@ open CFSG.KC.U43Case
 open CFSG.Monster.B.Co2.Native CFSG.LieType.Multipliers.U43
 open CertificateChecks.KernelHSStd
 open CertificateChecks.KernelSpor (U43CoverK.inP_tab U43CoverK.gen_of U43CoverK.tP)
-open CertificateChecks.KernelHSStd.U43Z4 (fa slAll peAll classOK_of enum_of coverP_spec tabsOf_get)
+open CertificateChecks.KernelHSStd.U43Z4 (fa slAll peAll classRecOK_of enum_of coverP_spec tabsOf_get)
 
 #kc_forall_chunks peC_all (fun s => peCR s = true) 30 CertificateChecks.KernelHSStd.U43Vb.peCR 1
 #kc_forall_chunks hsC_all (fun s => hsCF s = true) 10 CertificateChecks.KernelHSStd.U43Vb.hsCF 1
@@ -369,7 +370,8 @@ theorem cover_ok : CFSG.EvenSporadicStandard.HSStd.U43.coverOK dVb.cg dVb.y0 clo
     rw [hq2]
     exact tblEq_self hc
 
-theorem caseCheck_true : caseCheck dVb = true := by
+theorem caseCheck_true : caseCheck dVb (CFSG.KS.PEnumRC.recParArr VbKT.cnt VbKT.PL)
+    (CFSG.KS.PEnumRC.recParArr VbKY.cnt VbKY.PL) = true := by
   obtain ⟨c0, -, v0⟩ := inF (i := 0) (by decide)
   obtain ⟨c1, -, v1⟩ := inF (i := 1) (by decide)
   obtain ⟨eC, tC, dC, clC', -⟩ := recCs
@@ -391,23 +393,27 @@ theorem caseCheck_true : caseCheck dVb = true := by
     exact permOK_unpack c0 v0
   · rw [tY]
     exact permOK_unpack c1 v1
-  · exact classOK_of hg.1 hg.2.1 (fun j hj => by
+  · exact classRecOK_of hg.1 hg.2.1 (fun j hj => by
       have h := allN_spec kHT j hj
       simp only [Bool.and_eq_true, Nat.beq_eq] at h
       rw [h.1.1.1, h.1.1.2]
-      exact gensI j hj) tT hd.2.2.1
-      (peAll (L := 126) (K := 36) (by rw [cnt.2.2.1]) (fun s hs => peT_all s hs))
-      (slAll (L := 567) (K := 8) (by rw [cnt.2.2.1]) (fun s hs => hsT_all s hs))
+      exact gensI j hj) tT hd.2.2.1 (inF (i := 0) (by decide)).1
+      (slAll (L := 126) (K := 36) (by rw [cnt.2.2.1]) (fun s hs => peT_all s hs))
+      (fun i hi => by
+        rw [← hsortPtKF_eq]
+        exact slAll (L := 567) (K := 8) (by rw [cnt.2.2.1]) (fun s hs => hsT_all s hs) i hi)
       (by rw [cnt.2.2.1])
   · exact enum_of cg_tabs cgI eC tC dC clC' cnt.1
   · exact enum_of yg_tabs ygI eY tY' dY clY' cnt.2.1
-  · exact classOK_of hg.2.2.1 hg.2.2.2 (fun j hj => by
+  · exact classRecOK_of hg.2.2.1 hg.2.2.2 (fun j hj => by
       have h := allN_spec kHT j hj
       simp only [Bool.and_eq_true, Nat.beq_eq] at h
       rw [h.1.2, h.2]
-      exact gensI j hj) tY hd.2.2.2.1
-      (peAll (L := 112) (K := 60) (by rw [cnt.2.2.2.1]) (fun s hs => peK_all s hs))
-      (slAll (L := 840) (K := 8) (by rw [cnt.2.2.2.1]) (fun s hs => hsK_all s hs))
+      exact gensI j hj) tY hd.2.2.2.1 (inF (i := 1) (by decide)).1
+      (slAll (L := 112) (K := 60) (by rw [cnt.2.2.2.1]) (fun s hs => peK_all s hs))
+      (fun i hi => by
+        rw [← hsortPtKF_eq]
+        exact slAll (L := 840) (K := 8) (by rw [cnt.2.2.2.1]) (fun s hs => hsK_all s hs) i hi)
       (by rw [cnt.2.2.2.1])
   · rw [hsl, List.length_map]
     exact hsol.1

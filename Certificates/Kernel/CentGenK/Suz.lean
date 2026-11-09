@@ -8,8 +8,8 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCentGenK.Suz
-  "Certificates/Kernel/CentGenK/data/suz.json.gz" 5461 9027704143372283617
+#kc_repo #kc_json CertificateChecks.KernelCentGenK.Suz
+  "Certificates/Kernel/CentGenK/data/suz.json" 5461 9027704143372283617
   (prog1 : List Nat) (prog2 : List Nat)
 
 namespace CertificateChecks.KernelCentGenK.Suz

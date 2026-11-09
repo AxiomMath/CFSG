@@ -33,11 +33,55 @@ theorem nj_all : ∀ j < 64, liveB j = true ∧ CFSG.KD.B4AT.PA.getD j 0 = 0 ∧
     j ∈ CFSG.KD.B4AX.NJ := by
   decide +kernel
 
+@[expose] def memNB (x : ℕ) (l : List ℕ) : Bool :=
+  List.rec (motive := fun _ => Bool) false
+    (fun a _ ih => Bool.rec (motive := fun _ => Bool) ih true (Nat.beq x a)) l
+
+theorem memNB_iff (x : ℕ) : ∀ l : List ℕ, memNB x l = true ↔ x ∈ l
+  | [] => ⟨fun h => absurd h Bool.false_ne_true, fun h => nomatch h⟩
+  | a :: l => by
+    show Bool.rec (motive := fun _ => Bool) (memNB x l) true (Nat.beq x a) = true ↔ x ∈ a :: l
+    rw [List.mem_cons, ← memNB_iff x l]
+    cases h : Nat.beq x a
+    · show memNB x l = true ↔ x = a ∨ memNB x l = true
+      exact ⟨Or.inr, fun h' => h'.resolve_left (Nat.ne_of_beq_eq_false h)⟩
+    · show true = true ↔ x = a ∨ memNB x l = true
+      exact ⟨fun _ => Or.inl (Nat.eq_of_beq_eq_true h), fun _ => rfl⟩
+
+@[expose] def allFromFN (lo : Nat) (f : Nat → Bool) (n : Nat) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun k ih => Bool.rec (motive := fun _ => Bool) false ih (f (Nat.add lo k))) n
+
+theorem allFromFN_spec {lo : Nat} {f : Nat → Bool} : ∀ {n : Nat}, allFromFN lo f n = true →
+    ∀ k < n, f (lo + k) = true
+  | 0, _, k, hk => absurd hk (Nat.not_lt_zero _)
+  | n + 1, h, k, hk => by
+    change Bool.rec (motive := fun _ => Bool) false (allFromFN lo f n) (f (Nat.add lo n)) = true at h
+    cases hf : f (Nat.add lo n)
+    · rw [hf] at h; exact absurd h Bool.false_ne_true
+    · rw [hf] at h
+      rcases Nat.lt_succ_iff_lt_or_eq.1 hk with hk | rfl
+      · exact allFromFN_spec h k hk
+      · exact hf
+
+theorem sr_loop : allFromFN 0 (fun g => !isStab (dKind (CFSG.KD.B4A.RD g)) ||
+    !memNB (dN2 (CFSG.KD.B4A.RD g)) CFSG.KD.B4AX.NJ || memNB g CFSG.KD.B4AX.SR) 5965 = true := by
+  decide +kernel
+
+theorem sr_data2 : ∀ i < 111, CFSG.KD.B4AX.SR.getD i 0 < 5965 := by
+  decide +kernel
+
+theorem sr_data3 : ∀ g ∈ CFSG.KD.B4AX.SR, ∃ i < 111, CFSG.KD.B4AX.SR.getD i 0 = g := by
+  decide +kernel
+
 theorem sr_data : (∀ g < 5965, isStab (dKind (CFSG.KD.B4A.RD g)) = true →
       dN2 (CFSG.KD.B4A.RD g) ∈ CFSG.KD.B4AX.NJ → g ∈ CFSG.KD.B4AX.SR) ∧
     (∀ i < 111, CFSG.KD.B4AX.SR.getD i 0 < 5965) ∧
     (∀ g ∈ CFSG.KD.B4AX.SR, ∃ i < 111, CFSG.KD.B4AX.SR.getD i 0 = g) := by
-  decide +kernel
+  refine ⟨fun g hg hs hm => ?_, sr_data2, sr_data3⟩
+  have h := allFromFN_spec sr_loop g hg
+  rw [Nat.zero_add, hs, (memNB_iff _ _).2 hm] at h
+  exact (memNB_iff _ _).1 h
 
 theorem hub_data : (∀ k < 22, ∀ h ∈ CFSG.KD.B4AX.NH.getD k [], h.1 < 31671 ∧ ∀ c ∈ h.2, c < 10) ∧
     (∀ i < 12, CFSG.KD.B4AX.WW.getD i 0 < 31671 ∧ (∀ c ∈ CFSG.KD.B4AX.WT.getD i [], c < 10) ∧
@@ -48,13 +92,42 @@ theorem hub_data : (∀ k < 22, ∀ h ∈ CFSG.KD.B4AX.NH.getD k [], h.1 < 31671
     CFSG.KD.B4AX.IW ≠ 0 ∧ CFSG.KD.B4AX.F0.testBit 0 = true := by
   decide +kernel
 
+theorem rel_loop : allFromFN 0 (fun g => Bool.rec (motive := fun _ => Bool) true
+    (Bool.rec (motive := fun _ => Bool) true
+      (memNB g [(CFSG.KD.B4AX.RS.getD 0 (0, [])).1, (CFSG.KD.B4AX.RS.getD 1 (0, [])).1,
+        (CFSG.KD.B4AX.RS.getD 2 (0, [])).1])
+      (Nat.beq (dN2 (CFSG.KD.B4A.RD g)) 33))
+    (isStab (dKind (CFSG.KD.B4A.RD g)))) 5965 = true := by
+  decide +kernel
+
+theorem rel_data1 : CFSG.KD.B4AX.RA.length = 12 ∧ CFSG.KD.B4AX.RA.Nodup ∧
+    (∀ a ∈ CFSG.KD.B4AX.RA, a < 31671) ∧ CFSG.KD.B4AX.RS.length = 3 := by
+  decide +kernel
+
+theorem rel_data2 : (∀ i < 3, (CFSG.KD.B4AX.RS.getD i (0, [])).2.Perm (List.range 12)) ∧
+    (∀ i < 3, (CFSG.KD.B4AX.RS.getD i (0, [])).2.length = 12) := by
+  decide +kernel
+
 theorem rel_data : CFSG.KD.B4AX.RA.length = 12 ∧ CFSG.KD.B4AX.RA.Nodup ∧
     (∀ a ∈ CFSG.KD.B4AX.RA, a < 31671) ∧ CFSG.KD.B4AX.RS.length = 3 ∧
     (∀ g < 5965, isStab (dKind (CFSG.KD.B4A.RD g)) = true → dN2 (CFSG.KD.B4A.RD g) = 33 →
       ∃ i < 3, (CFSG.KD.B4AX.RS.getD i (0, [])).1 = g) ∧
     (∀ i < 3, (CFSG.KD.B4AX.RS.getD i (0, [])).2.Perm (List.range 12)) ∧
     (∀ i < 3, (CFSG.KD.B4AX.RS.getD i (0, [])).2.length = 12) := by
-  decide +kernel
+  obtain ⟨h1, h2, h3, h4⟩ := rel_data1
+  refine ⟨h1, h2, h3, h4, fun g hg hs hd => ?_, rel_data2⟩
+  have hb : Nat.beq (dN2 (CFSG.KD.B4A.RD g)) 33 = true := by
+    rw [hd] <;> first | rfl | decide
+  have h := allFromFN_spec rel_loop g hg
+  rw [Nat.zero_add, hs, hb] at h
+  have hm := (memNB_iff _ _).1 h
+  rcases List.mem_cons.1 hm with e | hm
+  · exact ⟨0, by decide, e.symm⟩
+  rcases List.mem_cons.1 hm with e | hm
+  · exact ⟨1, by decide, e.symm⟩
+  rcases List.mem_cons.1 hm with e | hm
+  · exact ⟨2, by decide, e.symm⟩
+  exact nomatch hm
 
 theorem sum_data : 31671 + ∑ k ∈ Finset.range 22,
     CFSG.KD.B4AX.NX.getD k 0 * vN (idxOf (CFSG.KD.B4AX.NJ.getD k 0)) ≤ 75086567571456 := by

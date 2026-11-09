@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Co2Syl
-  "Certificates/Kernel/Co2Syl/data/small.json.gz" 14387 3736159505773733380
+#kc_repo #kc_json CertificateChecks.KernelSpor.Co2Syl
+  "Certificates/Kernel/Co2Syl/data/small.json" 14387 3736159505773733380
   (LT : List Nat) (RW : Array (List Nat)) (REP : List Nat)
   (GL1 : List Nat) (N1 : Nat) (B1 : Nat) (Bi1 : Nat) (MI1 : List Nat)
   (GL3 : List Nat) (N3 : Nat) (B3 : Nat) (Bi3 : Nat) (MI3 : List Nat)

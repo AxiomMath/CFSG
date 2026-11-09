@@ -1,6 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Net.Data
 public import Certificates.Data.Kernel.Spor.Fi24PairK
@@ -33,6 +34,8 @@ public import Certificates.Data.CFSGNative.Fi24Pair.Check
 #kc_repo #kc_ktree CFSG.KD.Fi24PairK L87 "Certificates/Kernel/Sporadic/Fi24PairK/data/line87.bin" 65536 4 2424832 9281157960925134897
 #kc_repo #kc_ktree CFSG.KD.Fi24PairK L88 "Certificates/Kernel/Sporadic/Fi24PairK/data/line88.bin" 65536 4 2424832 6685457648022541664
 #kc_repo #kc_ktree CFSG.KD.Fi24PairK L89 "Certificates/Kernel/Sporadic/Fi24PairK/data/line89.bin" 65536 4 2424832 7907464065531771841
+#kc_repo #kc_json CFSG.KD.Fi24PairK.Mid "Certificates/Kernel/Sporadic/Fi24PairK/data/mid2.json"
+  92395 17391687502926898111 (M : Nat)
 
 public section
 
@@ -105,10 +108,50 @@ open CFSG.KC CFSG.KC.Fi24Net CFSG.KC.Fi24PairK CFSG.Sporadic.Fi24Pair.Native
 @[expose] noncomputable def lvW (D : ChainData) (i : Nat) : List (List Int) :=
   (List.range' D.starts[i]! (D.starts[i + 1]! - D.starts[i]!)).map fun k => fl D.sel[k]!
 
+@[expose] def schLP : List (List Nat) :=
+  [[1, 2, 1, 2, 1],
+    [1, 5, 6, 5, 1, 5],
+    [4, 1, 0, 3, 4, 2, 0, 3],
+    [0],
+    [1, 2, 5, 1],
+    [5, 1, 2, 5, 3, 0, 5, 1, 1],
+    [2, 2, 7, 2, 3, 2, 4, 2, 5, 2, 3, 2, 4, 2, 7, 2, 3, 2, 4, 2, 0, 2],
+    [1, 0],
+    [5, 3, 5, 2, 5, 1],
+    [0, 0, 5, 5, 0, 5, 5, 5],
+    [1, 0, 4, 8, 0, 5, 8, 7, 6, 0, 8, 4, 5, 3, 6, 0, 2],
+    [0, 1]]
+
+@[expose] noncomputable def nthLP (l : List (List Nat)) (i : Nat) : List Nat :=
+  List.rec (motive := fun _ => Nat → List Nat) (fun _ => List.nil)
+    (fun a _ ih i => Nat.rec (motive := fun _ => List Nat) a (fun k _ => ih k) i) l i
+
+@[expose] def schLA : List (List Nat) := [[], [], [4, 2, 3, 0, 3, 4, 2, 3, 0]]
+
+@[expose] noncomputable def midL : List Nat := [0, 0, Mid.M]
+
 @[expose] noncomputable def och (g : Nat) : Bool :=
   (fun D i => (fun ws => andB (ws.all (dirOK net))
-      (orbW NV ws (nthN rd g) D.base[i]! (D.sizes.getD i 0))) (lvW D i))
+      (orB (orbSP NV ws (nthLP schLP g) D.base[i]! (D.sizes.getD i 0))
+        (orB (orbMP NV ws (nthLP schLA g) (nthLP schLP g) (nthN midL g) D.base[i]!
+            (D.sizes.getD i 0))
+          (orbW NV ws (nthN rd g) D.base[i]! (D.sizes.getD i 0))))) (lvW D i))
     (chOf g) (lvOf g)
+
+theorem och_of_mp {g : Nat} (hd : (lvW (chOf g) (lvOf g)).all (dirOK net) = true)
+    (ha : Nat.beq (schWP NV (lvW (chOf g) (lvOf g)) (nthLP schLA g)
+      (Nat.shiftLeft (nat_lit 1) (chOf g).base[lvOf g]!)) (nthN midL g) = true)
+    (hb : Nat.beq (popcount (schWP NV (lvW (chOf g) (lvOf g)) (nthLP schLP g) (nthN midL g))
+      (nat_lit 524288)) ((chOf g).sizes.getD (lvOf g) 0) = true) : och g = true := by
+  have e : orbMP NV (lvW (chOf g) (lvOf g)) (nthLP schLA g) (nthLP schLP g) (nthN midL g)
+      (chOf g).base[lvOf g]! ((chOf g).sizes.getD (lvOf g) 0) = true := by
+    unfold orbMP
+    rw [ha, hb]
+    rfl
+  simp only [och]
+  rw [hd, e]
+  cases orbSP NV (lvW (chOf g) (lvOf g)) (nthLP schLP g) (chOf g).base[lvOf g]!
+    ((chOf g).sizes.getD (lvOf g) 0) <;> rfl
 
 @[expose] noncomputable def fch (g : Nat) : Bool :=
   (fun D i => (lvW D i).all fun w => andB (dirOK net w) (fixW NV w (D.base.toList.take i)))

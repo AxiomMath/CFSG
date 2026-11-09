@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Co1B.Tri2045
 public import CFSG.Certificates.Kernel.LocalCompCo1EndSound
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1EndTests
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1EndData
 public meta import Certificates.Kernel.SporSch.Co1.GenDag
@@ -33,7 +34,7 @@ theorem rx : twoBXYRows.1 = unpack 24 24 PX := CertificateChecks.KernelCo1B.Tri2
 
 theorem ry : twoBXYRows.2 = unpack 24 24 PY := CertificateChecks.KernelCo1B.Tri2045.ry_eq
 
-theorem kD : dagK E.M E.MI 4 E.N co1EndD = true := by quickRfl
+theorem kD : dagWK E.M E.MI 4 E.N co1EndD = true := by quickRfl
 
 theorem kE : elemK PA PX PY (E.M 4) (E.M 12) (E.M 16) (E.M 27) (E.MI 27) (E.M 36) (E.MI 36)
     co1EndDB = true := by quickRfl
@@ -52,11 +53,11 @@ theorem base_eq : co1EndBase = (List.range 4).map fun i => unpack 24 24 (E.M i) 
 theorem dag_eq : dag co1EndBase (co1EndD.map decWord) =
     ((List.range E.N).map fun i => unpack 24 24 (E.M i),
       (List.range E.N).map fun i => unpack 24 24 (E.MI i), true) :=
-  dagK_sound base_eq kD
+  dagWK_sound base_eq kD
 
-theorem kI27 : invOKK (E.M 27) (E.MI 27) = true := by quickRfl
+theorem kI27 : invOKW (E.M 27) (E.MI 27) = true := by quickRfl
 
-theorem kI36 : invOKK (E.M 36) (E.MI 36) = true := by quickRfl
+theorem kI36 : invOKW (E.M 36) (E.MI 36) = true := by quickRfl
 
 theorem ent {k : Nat} (hk : k - 1 < E.N) :
     entryR ((List.range E.N).map fun i => unpack 24 24 (E.M i)) k = unpack 24 24 (E.M (k - 1)) :=
@@ -69,7 +70,7 @@ theorem check : co1EndCheck co1EndD co1EndIdx co1EndDB = true := by
   rw [ent (k := 5) (by rw [hN]; decide), ent (k := 13) (by rw [hN]; decide),
     ent (k := 17) (by rw [hN]; decide), ent (k := 28) (by rw [hN]; decide),
     ent (k := 37) (by rw [hN]; decide),
-    elemOK_eq co1EndDB aR_u rx ry (invOKK_sound kI27).2 (invOKK_sound kI36).2]
+    elemOK_eq co1EndDB aR_u rx ry (invOKW_sound kI27).2 (invOKW_sound kI36).2]
   exact kE
 
 open CFSG CFSG.ComponentClassification CFSG.ComponentClassification.RankTwoSporadic

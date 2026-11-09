@@ -46,6 +46,36 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.SporSch
                   (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
               true)))
 
+@[expose] noncomputable def ptKF (n w kS NR NL : Nat) (LT PT QT LR FR : Nat → Nat) (FM : Nat → Bool)
+    (FX : List Nat) (rels : List (Nat × Nat × Nat)) (xm : Nat → Nat) (cb ps : List Nat)
+    (KE SK : Nat → Nat) (NE : Nat) :
+    Nat → Nat → (Nat → Nat) → (Nat → Nat) → (Nat → Nat) → Bool :=
+  Nat.rec (motive := fun _ => Nat → (Nat → Nat) → (Nat → Nat) → (Nat → Nat) → Bool)
+    (fun _ acc _ _ => bIf(eqOnL cb (fun y => acc (xm y)) (fun y => xm (acc y)),
+      bsK KE SK (keyV n ps acc) (nat_lit 20) (nat_lit 0) NE, true))
+    (fun _ ih i acc accI img =>
+      strictB (rcnt (LR i)) fun c =>
+      strictB (FR i) fun fr =>
+        bIf(FM i,
+          FX.all fun f => strictB (accI f) fun q => strictB (lvT NL w QT i q) fun k =>
+            bIf(Nat.blt k c, strictB (acc (rpt w (mask w) (LR i) k)) fun p =>
+              bIf(relK rels xm (imgExt img i p) i,
+                ih (Nat.succ i) (fun y => acc (trPtT w NR NL LT PT i k y))
+                  (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
+              true),
+        bIf(Nat.beq fr 0,
+          allN c fun k => strictB (acc (rpt w (mask w) (LR i) k)) fun p =>
+            bIf(relK rels xm (imgExt img i p) i,
+              ih (Nat.succ i) (fun y => acc (trPtT w NR NL LT PT i k y))
+                (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
+          strictB (accI (powF xm (Nat.mod (Nat.sub fr 1) 8) (img (Nat.div (Nat.sub fr 1) 8))))
+            fun q => strictB (lvT NL w QT i q) fun k =>
+            bIf(Nat.blt k c, strictB (acc (rpt w (mask w) (LR i) k)) fun p =>
+              bIf(relK rels xm (imgExt img i p) i,
+                ih (Nat.succ i) (fun y => acc (trPtT w NR NL LT PT i k y))
+                  (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
+              true))))
+
 end CFSG.KC.HeLoc
 
 end

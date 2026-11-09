@@ -3,40 +3,40 @@ module
 public import Certificates.Data.Kernel.CosetLat.Defs
 public import Certificates.Data.Kernel.Misc.PermClos
 public import Certificates.Data.Kernel.Spor.Chain
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat EL
-  "Certificates/Kernel/A7Lat/data/el.bin.gz" 4 4 260 3405870532709925696
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat TE
-  "Certificates/Kernel/A7Lat/data/te.bin.gz" 4 4 32 18100795018634731174
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat TP
-  "Certificates/Kernel/A7Lat/data/tp.bin.gz" 4 4 32 14988634174925873820
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat TS
-  "Certificates/Kernel/A7Lat/data/ts.bin.gz" 4 4 32 4023578954133065578
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat TC
-  "Certificates/Kernel/A7Lat/data/tc.bin.gz" 4 4 64 2835073729914243262
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat UE
-  "Certificates/Kernel/A7Lat/data/ue.bin.gz" 4 4 1260 10658840658354069834
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat UR
-  "Certificates/Kernel/A7Lat/data/ur.bin.gz" 4 4 1260 5892503591013262503
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat CR
-  "Certificates/Kernel/A7Lat/data/cr.bin.gz" 8 4 8136 3992479816270205147
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat MJ
-  "Certificates/Kernel/A7Lat/data/mj.bin.gz" 4 4 504 15851839940740128376
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat SE
-  "Certificates/Kernel/A7Lat/data/se.bin.gz" 4 4 348 11026627419649377563
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat SP
-  "Certificates/Kernel/A7Lat/data/sp.bin.gz" 4 4 348 2094760184565812087
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat SS
-  "Certificates/Kernel/A7Lat/data/ss.bin.gz" 4 4 348 2249228326752276187
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat SC
-  "Certificates/Kernel/A7Lat/data/sc.bin.gz" 4 4 456 4229534725226717721
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA7Lat SK
-  "Certificates/Kernel/A7Lat/data/sk.bin.gz" 4 4 80 14391951296817581808
-#kc_repo #kc_json_gz CertificateChecks.KernelA7Lat
-  "Certificates/Kernel/A7Lat/data/w7250.json.gz" 13894 8007898194359706275
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat EL
+  "Certificates/Kernel/A7Lat/data/el.bin" 4 4 260 3405870532709925696
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat TE
+  "Certificates/Kernel/A7Lat/data/te.bin" 4 4 32 18100795018634731174
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat TP
+  "Certificates/Kernel/A7Lat/data/tp.bin" 4 4 32 14988634174925873820
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat TS
+  "Certificates/Kernel/A7Lat/data/ts.bin" 4 4 32 4023578954133065578
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat TC
+  "Certificates/Kernel/A7Lat/data/tc.bin" 4 4 64 2835073729914243262
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat UE
+  "Certificates/Kernel/A7Lat/data/ue.bin" 4 4 1260 10658840658354069834
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat UR
+  "Certificates/Kernel/A7Lat/data/ur.bin" 4 4 1260 5892503591013262503
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat CR
+  "Certificates/Kernel/A7Lat/data/cr.bin" 8 4 8136 3992479816270205147
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat MJ
+  "Certificates/Kernel/A7Lat/data/mj.bin" 4 4 504 15851839940740128376
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat SE
+  "Certificates/Kernel/A7Lat/data/se.bin" 4 4 348 11026627419649377563
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat SP
+  "Certificates/Kernel/A7Lat/data/sp.bin" 4 4 348 2094760184565812087
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat SS
+  "Certificates/Kernel/A7Lat/data/ss.bin" 4 4 348 2249228326752276187
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat SC
+  "Certificates/Kernel/A7Lat/data/sc.bin" 4 4 456 4229534725226717721
+#kc_repo #kc_ktree CertificateChecks.KernelA7Lat SK
+  "Certificates/Kernel/A7Lat/data/sk.bin" 4 4 80 14391951296817581808
+#kc_repo #kc_json CertificateChecks.KernelA7Lat
+  "Certificates/Kernel/A7Lat/data/w7250.json" 13894 8007898194359706275
   (subW : List (List Nat)) (repM : List (List Nat)) (repW : List (List (List Nat)))
   (joinW : List (List (List Nat))) (mInL : List (List Nat)) (lInM : List (List Nat))
 

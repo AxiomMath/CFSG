@@ -2,7 +2,7 @@ module
 
 public import Certificates.Data.Kernel.Misc.F42
 public import CFSG.Certificates.Kernel.Misc.F42Defs
-import CFSG.Certificates.Kernel.Spor.PK.F42
+public import CFSG.Certificates.Kernel.Spor.PK.F42
 
 public section
 
@@ -29,7 +29,7 @@ theorem f42_sound {pA pB slp : String} {refs : List ℤ} {R : List (List ℤ)} {
     (hins : ∀ c < nP, insChunk F I Rc nI (16 * c) 16 = true) (hnP : nI ≤ 16 * nP)
     (hl : liftsK F I LR LF LI (nI + 2) = true) (hr : rootsK RL RC = true)
     (hlk : ∀ k < 48, liftK LF LI k = true)
-    (hp : ∀ c < 48, pairsChunk LF LI RC c 1 = true)
+    (hp : ∀ i < 48, CFSG.KS.PK.pairsSwapChunk LF RC i = true)
     (hw : ∀ k < 48, wordK LF LI RC k (CP.getD k (0, 0)).1 (CP.getD k (0, 0)).2 = true)
     (hn : negK LF LI RC 0 35 = true) (hwI : ∀ k < nI + 2, wfS (nthV I k) = true) :
     (List.range 48).all (liftOK (liftsOf pA pB slp refs)) = true ∧

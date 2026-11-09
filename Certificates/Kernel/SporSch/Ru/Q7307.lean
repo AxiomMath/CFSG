@@ -34,6 +34,7 @@ theorem qlab_get {y : Nat} (hy : y < 4060) : ruQLab[y]! = Lf y := by
     change (ruR0Arr k)[x]! = _
     rw [Iso7047.r_eq hk, CFSG.KC.BfsPin.unpack_get' hx]
     rfl
+  rw [ruQLab, orbLab_eq]
   exact (orbLabels_of_K hs hg kOrb).2 y hy
 
 theorem ti_eq : ruTI1 = unpack 4060 12 TI := by

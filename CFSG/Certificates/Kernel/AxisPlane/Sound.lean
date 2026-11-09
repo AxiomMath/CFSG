@@ -51,10 +51,15 @@ theorem dat_allK (q : Nat) : dat allK q = decide (q < 16777216) := by
   unfold allK
   rw [dat_shl, testBit_onesW]
 
-theorem saltK_lt (k : Nat) : saltK k < 2 ^ 64 := by
-  unfold saltK
+theorem land_mask64_lt (a : Nat) : Nat.land a (nat_lit 18446744073709551615) < 2 ^ 64 := by
   rw [nland]
   exact Nat.lt_of_le_of_lt Nat.and_le_right (by decide)
+
+theorem saltK_lt (k : Nat) : saltK k < 2 ^ 64 := by
+  have h : saltK = fun k => Nat.land (Nat.mul (Nat.add k (nat_lit 1))
+      (nat_lit 11400714819323198485)) (nat_lit 18446744073709551615) := rfl
+  rw [h]
+  exact land_mask64_lt _
 
 theorem dat_salt (k q : Nat) : dat (saltK k) q = false := dat_lt (saltK_lt k) q
 
@@ -69,11 +74,6 @@ theorem testBit_bitW {j : Nat} (hj : j < 24) (q : Nat) :
   rw [← h]
   unfold bitW repW onesW
   simp only [nmul, nshl, nsub, ndiv, nadd, Nat.one_shiftLeft]
-
-theorem dat_bitK {j : Nat} (hj : j < 24) (q : Nat) :
-    dat (bitK j) q = (decide (q < 16777216) && q.testBit j) := by
-  unfold bitK
-  rw [dat_lor, dat_shl, dat_salt, testBit_bitW hj, Bool.or_false]
 
 @[expose] def parG (l q : Nat) : Nat → Bool
   | 0 => false
@@ -99,28 +99,73 @@ theorem parG_two_pow {l t : Nat} (ht : l.testBit t = false) : ∀ n, parG l (2 ^
       simp [ht]
     · simp [h]
 
-theorem dat_parRec (l q : Nat) : ∀ n, n ≤ 24 →
-    dat (Nat.rec (motive := fun _ => Nat) (saltK (nat_lit 64))
-      (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.xor acc (bitK j))
-        (Nat.beq (Nat.land (Nat.shiftRight l j) (nat_lit 1)) (nat_lit 1))) n) q =
-      (decide (q < 16777216) && parG l q n)
-  | 0, _ => by
-    change dat (saltK 64) q = _
-    rw [dat_salt, parG, Bool.and_false]
-  | n + 1, hn => by
-    have ih := dat_parRec l q n (by omega)
-    change dat (Bool.rec (motive := fun _ => Nat) _ (Nat.xor _ (bitK n))
-      (Nat.beq (Nat.land (Nat.shiftRight l n) 1) 1)) q = _
-    rw [beq_bit, parG]
-    cases hb : l.testBit n
-    · simp only [Bool.false_and, Bool.xor_false]
-      exact ih
-    · simp only [Bool.true_and]
-      rw [dat_xor, ih, dat_bitK (by omega)]
-      cases decide (q < 16777216) <;> simp
+theorem parG_congr (l : Nat) {a b : Nat} : ∀ n, (∀ i < n, a.testBit i = b.testBit i) →
+    parG l a n = parG l b n
+  | 0, _ => rfl
+  | n + 1, h => by
+    simp only [parG]
+    rw [parG_congr l n (fun i hi => h i (by omega)), h n (by omega)]
 
-theorem dat_parK (l q : Nat) : dat (parK l) q = (decide (q < 16777216) && parG l q 24) :=
-  dat_parRec l q 24 (Nat.le_refl 24)
+theorem testBit_parDK (l : Nat) : ∀ n q, (parDK l n).testBit q = (decide (q < 2 ^ n) && parG l q n)
+  | 0, q => by
+    change (0 : Nat).testBit q = _
+    simp [parG]
+  | n + 1, q => by
+    have ih := testBit_parDK l n
+    have e : parDK l (n + 1) = Nat.lor (parDK l n) (Nat.shiftLeft
+        (Bool.rec (motive := fun _ => Nat) (parDK l n)
+          (Nat.xor (parDK l n) (Nat.sub (Nat.shiftLeft 1 (Nat.shiftLeft 1 n)) 1))
+          (Nat.beq (Nat.land (Nat.shiftRight l n) 1) 1)) (Nat.shiftLeft 1 n)) := rfl
+    have hB : ∀ r, (Bool.rec (motive := fun _ => Nat) (parDK l n)
+        (Nat.xor (parDK l n) (Nat.sub (Nat.shiftLeft 1 (Nat.shiftLeft 1 n)) 1))
+        (Nat.beq (Nat.land (Nat.shiftRight l n) 1) 1)).testBit r =
+        (decide (r < 2 ^ n) && (parG l r n ^^ l.testBit n)) := fun r => by
+      rw [beq_bit]
+      cases l.testBit n
+      · rw [ih r, Bool.xor_false]
+      · change (Nat.xor (parDK l n) (Nat.sub (Nat.shiftLeft 1 (Nat.shiftLeft 1 n)) 1)).testBit r = _
+        rw [nxor, nsub, nshl, nshl, Nat.one_shiftLeft, Nat.one_shiftLeft, Nat.testBit_xor, ih r,
+          Nat.testBit_two_pow_sub_one]
+        cases decide (r < 2 ^ n) <;> simp
+    rw [e, nlor, nshl _ (Nat.shiftLeft 1 n), Nat.testBit_or, Nat.testBit_shiftLeft, hB, ih q,
+      nshl 1 n, Nat.one_shiftLeft, parG, Nat.pow_succ]
+    by_cases h1 : q < 2 ^ n
+    · have hq : q.testBit n = false := Nat.testBit_lt_two_pow h1
+      have h2 : ¬ 2 ^ n ≤ q := by omega
+      have h4 : q < 2 ^ n * 2 := by omega
+      simp [h1, h2, hq, h4]
+    · have h2 : 2 ^ n ≤ q := by omega
+      by_cases h3 : q < 2 ^ n * 2
+      · have hr : q - 2 ^ n < 2 ^ n := by omega
+        have eq : q = 2 ^ n + (q - 2 ^ n) := by omega
+        have hq : q.testBit n = true := by
+          rw [eq, Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hr]
+          rfl
+        have hg : parG l q n = parG l (q - 2 ^ n) n := parG_congr l n fun i hi => by
+          rw [eq, Nat.testBit_two_pow_add_gt hi, ← eq]
+        simp [h1, h2, h3, hr, hq, hg]
+      · have hr : ¬ q - 2 ^ n < 2 ^ n := by omega
+        simp [h1, h3, hr]
+
+theorem dat_parK (l q : Nat) : dat (parK l) q = (decide (q < 16777216) && parG l q 24) := by
+  unfold parK
+  rw [dat_lor, dat_shl, dat_salt, Bool.or_false, testBit_parDK]
+
+theorem parG_bit (j q : Nat) : ∀ n, parG (2 ^ j) q n = (decide (j < n) && q.testBit j)
+  | 0 => by simp [parG]
+  | n + 1 => by
+    simp only [parG, parG_bit j q n, Nat.testBit_two_pow]
+    by_cases h : j = n
+    · subst h
+      simp
+    · have hn : decide (j < n + 1) = decide (j < n) := decide_eq_decide.2 (by omega)
+      simp [h, hn]
+
+theorem dat_bitK {j : Nat} (hj : j < 24) (q : Nat) :
+    dat (bitK j) q = (decide (q < 16777216) && q.testBit j) := by
+  unfold bitK
+  rw [dat_lor, dat_shl, dat_salt, Bool.or_false, testBit_parDK, nshl, Nat.one_shiftLeft, parG_bit]
+  simp [hj]
 
 theorem dat_tmaskK {t : Nat} (ht : t < 24) (l q : Nat) :
     dat (tmaskK t l) q = (decide (q < 16777216) && !q.testBit t && parG l q 24) := by

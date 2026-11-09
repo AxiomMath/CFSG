@@ -61,12 +61,12 @@ theorem zOK_zero {T : Nat → Nat} {F : Nat} {CD : List (List Nat)} {CR : List (
     {i c : Nat} {L C : List Nat} {P : List (Nat × Nat)} (h : zOK T F CD CR i c 0 L C P = true) :
     ∃ x < 2457, zAt T F i c (zAt T F i c (zAt T F i c x)) ≠ x := by
   unfold zOK at h
-  rw [Nat.beq_refl, cond_true] at h
+  rw [Nat.beq_refl, Bool.cond_true] at h
   exact not_eqPt h
 
 theorem zOK_sound {T : Nat → Nat} {F : Nat} {CD : List (List Nat)} {CR : List (Nat × Nat)}
-    {i c o : Nat} {L C : List Nat} {P : List (Nat × Nat)} (ho : o ≠ 0)
-    (h : zOK T F CD CR i c o L C P = true) :
+    {i c o : Nat} {L C : List Nat} {P : List (Nat × Nat)} (hF : ∀ x < 2457, ap F x < 2457)
+    (ho : o ≠ 0) (h : zOK T F CD CR i c o L C P = true) :
     (∀ j < 81, j ≠ 0 → j ∉ L →
       (∃ x < 2457, ap (T j) (zAt T F i c x) ≠ zAt T F i c (ap (T j) x)) ∨
         ∃ x < 2457, ap (T j) (ap (T j) (ap (T j) x)) ≠ x) ∧
@@ -77,7 +77,7 @@ theorem zOK_sound {T : Nat → Nat} {F : Nat} {CD : List (List Nat)} {CR : List 
     ∀ ma ∈ P, ma.1 < 10 ∧ ma.2 ∈ CD.getD ma.1 [] ∧
       ∀ x < 2457, zAt T F i c x = ap (T ma.2) (zAt T F (rep (CR.getD ma.1 (0, 0)) c) c x) := by
   unfold zOK at h
-  rw [beq_f.2 ho, cond_false] at h
+  rw [beq_f.2 ho, Bool.cond_false] at h
   simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range] at h
   obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h
   refine ⟨fun j hj hj0 hjL => ?_, beq_t.1 h2, fun wc hwc => ?_, fun ma hma => ?_⟩
@@ -90,9 +90,9 @@ theorem zOK_sound {T : Nat → Nat} {F : Nat} {CD : List (List Nat)} {CR : List 
     · exact Or.inr (not_eqPt h)
   · have := h3 wc hwc
     by_cases e : wc.2 = 99
-    · rw [e, Nat.beq_refl, cond_true, noFix_iff] at this
+    · rw [e, Nat.beq_refl, Bool.cond_true, noFix_iff] at this
       exact Or.inl ⟨e, this⟩
-    · rw [beq_f.2 e, cond_false, Bool.and_eq_true, Nat.blt_eq, List.all_eq_true] at this
+    · rw [beq_f.2 e, Bool.cond_false, Bool.and_eq_true, Nat.blt_eq, List.all_eq_true] at this
       refine Or.inr ⟨this.1, fun x hx => ?_⟩
       have h' := this.2 x hx
       rw [Bool.or_eq_true] at h'
@@ -100,7 +100,13 @@ theorem zOK_sound {T : Nat → Nat} {F : Nat} {CD : List (List Nat)} {CR : List 
       · exact Or.inl (any_beq_iff.1 h')
       · exact Or.inr (not_eqPt h')
   · have := h4 ma hma
-    exact ⟨blt_t this.1.1, any_beq_iff.1 this.1.2, eqPt_iff.1 this.2⟩
+    refine ⟨blt_t this.1.1, any_beq_iff.1 this.1.2, fun x hx => ?_⟩
+    have hy : fp F c x < 2457 := by
+      unfold fp
+      cases Nat.beq c (nat_lit 1)
+      · exact hF _ (hF x hx)
+      · exact hF x hx
+    exact eqPt_iff.1 this.2 _ hy
 
 theorem cOK_sound {T W : Nat → Nat} {F : Nat} {D : List Nat} {r : Nat × Nat} {N : List Nat}
     {WL : List (Nat × (List Nat × Nat))} (h : cOK T W F D r N WL = true) :
@@ -123,9 +129,9 @@ theorem cOK_sound {T W : Nat → Nat} {F : Nat} {D : List Nat} {r : Nat × Nat} 
   refine ⟨beq_t.1 h1, beq_t.1 h2, beq_t.1 h3, eqPt_iff.1 h4, fun q hq => ?_, fun e he => ?_⟩
   · have := h5 q hq
     by_cases e : N.getD q 0 = 0
-    · rw [e, Nat.beq_refl, cond_true, noFix_iff] at this
+    · rw [e, Nat.beq_refl, Bool.cond_true, noFix_iff] at this
       exact Or.inl ⟨e, this⟩
-    · rw [beq_f.2 e, cond_false, Bool.and_eq_true, Bool.and_eq_true, List.any_eq_true] at this
+    · rw [beq_f.2 e, Bool.cond_false, Bool.and_eq_true, Bool.and_eq_true, List.any_eq_true] at this
       obtain ⟨⟨⟨e1, he1, he1'⟩, ha⟩, hb⟩ := this
       exact Or.inr ⟨⟨e1, he1, beq_t.1 he1'⟩, not_eqPt ha, not_eqPt hb⟩
   · have := h6 e he

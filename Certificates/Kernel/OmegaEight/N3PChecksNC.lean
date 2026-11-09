@@ -4,6 +4,7 @@ public import Certificates.Kernel.OmegaEight.N3PW
 public import Certificates.Kernel.OmegaEight.PnSWEq
 public import CFSG.Certificates.Kernel.O8N3Sound
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.O8UnitSound
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Certificates.Kernel.O8MinusSound
 public import CFSG.Certificates.Kernel.O8NodeSound
@@ -30,7 +31,8 @@ theorem nc_okN3P : ncChk wN3P = true := by
   · simp only [wN3P]
     rw [chainAux_eq _ _ (memK_decE_eq hsC hmC)]
     quickRfl
-  · simp only [wN3P, linCheckWith, linRec, conPart_eq, commCons]
+  · apply linCheckWith_of_P
+    simp only [wN3P, commCons]
     quickRfl
   · simp only [wN3P, idK_eq]
     quickRfl

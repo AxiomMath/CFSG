@@ -35,12 +35,14 @@ variable {G M : Type*} [Group G] [Monoid M]
   classical
   exact if h : ∃ r : G, f W = m r then Classical.choose h else 1
 
+omit [Monoid M] in
 theorem evM_spec {C : ℕ → Prop} {f : ℕ → M} {m : G → M} {W : ℕ} (h : CanM C f m W) :
     f W = m (evM f m W) := by
   unfold evM
-  rw [dif_pos h.2]
+  rw [dite_eq_left h.2]
   exact Classical.choose_spec h.2
 
+omit [Monoid M] in
 theorem evM_eq {C : ℕ → Prop} {f : ℕ → M} {m : G → M} (hm : Function.Injective m) {W : ℕ}
     {r : G} (hW : C W) (h : f W = m r) : CanM C f m W ∧ evM f m W = r :=
   ⟨⟨hW, r, h⟩, hm ((evM_spec (C := C) ⟨hW, r, h⟩).symm.trans h)⟩
@@ -101,16 +103,16 @@ theorem letter_mem {c : ℕ} (hc : okC c = true) : CanR (CFSG.KD.HNClsL.lt c) �
     evR (CFSG.KD.HNClsL.lt c) = if c < 36 then jR (genJ c) else cR := by
   obtain ⟨h37, -⟩ := (okC_iff c).1 hc
   rcases Nat.lt_or_ge c 36 with h | h
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact letter_lt h
   · obtain rfl : c = 36 := by omega
-    rw [if_neg (by omega), lt_36]
+    rw [ite_eq_right (by omega), lt_36]
     exact evR_eq (CertificateChecks.KernelSporSch.HNPtC.GT_canon (by norm_num))
       CertificateChecks.KernelSporSch.HNPtC.C_mat
 
 theorem letter_J : ∀ c, okC c = true → c < 36 → evR (CFSG.KD.HNClsL.lt c) ∈ jR.range :=
   fun c hc h => by
-    rw [(letter_mem hc).2, if_pos h]
+    rw [(letter_mem hc).2, ite_eq_left h]
     exact ⟨_, rfl⟩
 
 theorem lw_J : ∀ cs : List ℕ, (∀ c ∈ cs, c < 36) →
@@ -122,17 +124,155 @@ theorem lw_J : ∀ cs : List ℕ, (∀ c ∈ cs, c < 36) →
     rw [List.map_cons, List.prod_cons, ih, (letter_lt (h c List.mem_cons_self)).2, List.map_cons,
       List.prod_cons, map_mul]
 
+theorem baseA (c : ℕ) (h1 : okC c = true) : CanR (CFSG.KD.HNClsL.LMA c) ∧
+    evR (CFSG.KD.HNClsL.LMA c) =
+      lw (fun c => evR (CFSG.KD.HNClsL.lt c)) (CFSG.KD.HNClsL.EMA c) := by
+  obtain ⟨h37, -⟩ := (okC_iff c).1 h1
+  have e1 : CFSG.KD.HNClsL.LMA c = CFSG.KD.HNClsL.lt c := by
+    unfold CFSG.KD.HNClsL.LMA
+    rw [blt_t h37]
+  have e2 : CFSG.KD.HNClsL.EMA c = [c] := by
+    unfold CFSG.KD.HNClsL.EMA
+    rw [blt_t h37]
+  rw [e1, e2]
+  refine ⟨(letter_mem h1).1, ?_⟩
+  unfold lw
+  rw [List.map_singleton, List.prod_singleton]
+
+theorem macA (j : ℕ) : CanR (CFSG.KD.HNClsL.FA j) ∧ evR (CFSG.KD.HNClsL.FA j) =
+    pw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolA j := by
+  rcases Nat.lt_or_ge j 11 with hj | hj
+  · obtain ⟨hg, hE⟩ := andB_trueH (CFSG.KD.HNClsL.mEA_all j hj)
+    exact slp_pw model (L := CFSG.KD.HNClsL.LMA) (E := CFSG.KD.HNClsL.EMA)
+      (RA := CFSG.KD.HNClsL.SA.RA) (RB := CFSG.KD.HNClsL.SA.RB) (n := 221) baseA
+      CFSG.KD.HNClsL.rCA_all hg (beq_iff_eq.mp hE) (CFSG.KD.HNClsL.fW j hj)
+  · have e1 : CFSG.KD.HNClsL.FA j = CFSG.KD.OrdHN.ONE := by
+      change nthD CFSG.KD.OrdHN.ONE CFSG.KD.HNClsL.SA.PM j = _
+      rw [nthD_eqH, List.getD_eq_default _ _ (by rw [CFSG.KD.HNClsL.pmA_length]; omega)]
+    have e2 : nthD [] CFSG.KD.HNClsL.poolA j = [] := by
+      rw [nthD_eqH, List.getD_eq_default _ _ (by rw [CFSG.KD.HNClsL.poolA_length]; omega)]
+    unfold pw
+    rw [e1, e2]
+    refine ⟨model.one.1, ?_⟩
+    rw [model.one.2]
+    unfold lw
+    rw [List.map_nil, List.prod_nil]
+
 theorem rawA : Raw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolA CFSG.KD.HNClsL.gensA
     CFSG.KD.HNClsL.nQA CFSG.KD.HNClsL.linesA CFSG.KD.HNClsL.wlA :=
-  chk_raw model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.chkA
+  raw_of_rest model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.gAl
+    CFSG.KD.HNClsL.gOk macA (fun j => by
+      rw [← CFSG.KD.HNClsL.gGL]
+      exact invW_ev model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.gOk j)
+    CFSG.KD.HNClsL.gR
+
+theorem baseB (c : ℕ) (h1 : okC c = true) : CanR (CFSG.KD.HNClsL.ClsB.LM c) ∧
+    evR (CFSG.KD.HNClsL.ClsB.LM c) =
+      lw (fun c => evR (CFSG.KD.HNClsL.lt c)) (CFSG.KD.HNClsL.ClsB.EM c) := by
+  obtain ⟨h37, -⟩ := (okC_iff c).1 h1
+  have e1 : CFSG.KD.HNClsL.ClsB.LM c = CFSG.KD.HNClsL.lt c := by
+    unfold CFSG.KD.HNClsL.ClsB.LM
+    rw [blt_t h37]
+  have e2 : CFSG.KD.HNClsL.ClsB.EM c = [c] := by
+    unfold CFSG.KD.HNClsL.ClsB.EM
+    rw [blt_t h37]
+  rw [e1, e2]
+  refine ⟨(letter_mem h1).1, ?_⟩
+  unfold lw
+  rw [List.map_singleton, List.prod_singleton]
+
+theorem macB (j : ℕ) : CanR (CFSG.KD.HNClsL.ClsB.FA j) ∧ evR (CFSG.KD.HNClsL.ClsB.FA j) =
+    pw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolB j := by
+  rcases Nat.lt_or_ge j 9 with hj | hj
+  · obtain ⟨hg, hE⟩ := andB_trueH (CFSG.KD.HNClsL.ClsB.mE_all j hj)
+    exact slp_pw model (L := CFSG.KD.HNClsL.ClsB.LM) (E := CFSG.KD.HNClsL.ClsB.EM)
+      (RA := CFSG.KD.HNClsL.SB.RA) (RB := CFSG.KD.HNClsL.SB.RB) (n := 419) baseB
+      CFSG.KD.HNClsL.ClsB.rC_all hg (beq_iff_eq.mp hE) (CFSG.KD.HNClsL.ClsB.fW j hj)
+  · have e1 : CFSG.KD.HNClsL.ClsB.FA j = CFSG.KD.OrdHN.ONE := by
+      change nthD CFSG.KD.OrdHN.ONE CFSG.KD.HNClsL.SB.PM j = _
+      rw [nthD_eqH, List.getD_eq_default _ _ (by rw [CFSG.KD.HNClsL.ClsB.pmB_length]; omega)]
+    have e2 : nthD [] CFSG.KD.HNClsL.poolB j = [] := by
+      rw [nthD_eqH, List.getD_eq_default _ _ (by rw [CFSG.KD.HNClsL.ClsB.poolB_length]; omega)]
+    unfold pw
+    rw [e1, e2]
+    refine ⟨model.one.1, ?_⟩
+    rw [model.one.2]
+    unfold lw
+    rw [List.map_nil, List.prod_nil]
+
+theorem gGLB : (fun j => wordP CFSG.KC.LL.HN.mm CFSG.KD.OrdHN.ONE CFSG.KD.HNClsL.lt
+    (invW (nthD List.nil CFSG.KD.HNClsL.poolB j))) = CFSG.KD.HNClsL.ClsB.GWU :=
+  gRng_eq fun j h0 hj => by
+    obtain ⟨hg, hE⟩ := andB_trueH (CFSG.KD.HNClsL.ClsB.gC_all j h0 hj).2.2
+    have hs := slp_pw model (L := CFSG.KD.HNClsL.ClsB.LM) (E := CFSG.KD.HNClsL.ClsB.EM)
+      (RA := CFSG.KD.HNClsL.SB.RA) (RB := CFSG.KD.HNClsL.SB.RB) (n := 419) baseB
+      CFSG.KD.HNClsL.ClsB.rC_all hg
+      ((beq_iff_eq.mp hE).trans ((invWA_eq _ _).trans (List.append_nil _)))
+      (CFSG.KD.HNClsL.ClsB.gW j h0 hj)
+    have hi := invW_ev model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.ClsB.gOk j
+    exact model.inj hi.1 hs.1 (hi.2.trans hs.2.symm)
 
 theorem rawB : Raw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolB CFSG.KD.HNClsL.gensB
     CFSG.KD.HNClsL.nQB CFSG.KD.HNClsL.linesB CFSG.KD.HNClsL.wlB :=
-  chk_raw model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.chkB
+  raw_of_rest model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.ClsB.gAl
+    CFSG.KD.HNClsL.ClsB.gOk macB (fun j => by
+      rw [← gGLB]
+      exact invW_ev model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.ClsB.gOk j)
+    CFSG.KD.HNClsL.ClsB.gR
+
+theorem baseC (c : ℕ) (h1 : okC c = true) : CanR (CFSG.KD.HNClsL.ClsC.LM c) ∧
+    evR (CFSG.KD.HNClsL.ClsC.LM c) =
+      lw (fun c => evR (CFSG.KD.HNClsL.lt c)) (CFSG.KD.HNClsL.ClsC.EM c) := by
+  obtain ⟨h37, -⟩ := (okC_iff c).1 h1
+  have e1 : CFSG.KD.HNClsL.ClsC.LM c = CFSG.KD.HNClsL.lt c := by
+    unfold CFSG.KD.HNClsL.ClsC.LM
+    rw [blt_t h37]
+  have e2 : CFSG.KD.HNClsL.ClsC.EM c = [c] := by
+    unfold CFSG.KD.HNClsL.ClsC.EM
+    rw [blt_t h37]
+  rw [e1, e2]
+  refine ⟨(letter_mem h1).1, ?_⟩
+  unfold lw
+  rw [List.map_singleton, List.prod_singleton]
+
+theorem macC (j : ℕ) : CanR (CFSG.KD.HNClsL.ClsC.FA j) ∧ evR (CFSG.KD.HNClsL.ClsC.FA j) =
+    pw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolC j := by
+  rcases Nat.lt_or_ge j 13 with hj | hj
+  · obtain ⟨hg, hE⟩ := andB_trueH (CFSG.KD.HNClsL.ClsC.mE_all j hj)
+    exact slp_pw model (L := CFSG.KD.HNClsL.ClsC.LM) (E := CFSG.KD.HNClsL.ClsC.EM)
+      (RA := CFSG.KD.HNClsL.SC.RA) (RB := CFSG.KD.HNClsL.SC.RB) (n := 131) baseC
+      CFSG.KD.HNClsL.ClsC.rC_all hg (beq_iff_eq.mp hE) (CFSG.KD.HNClsL.ClsC.fW j hj)
+  · have e1 : CFSG.KD.HNClsL.ClsC.FA j = CFSG.KD.OrdHN.ONE := by
+      change nthD CFSG.KD.OrdHN.ONE CFSG.KD.HNClsL.SC.PM j = _
+      rw [nthD_eqH, List.getD_eq_default _ _ (by rw [CFSG.KD.HNClsL.ClsC.pmC_length]; omega)]
+    have e2 : nthD [] CFSG.KD.HNClsL.poolC j = [] := by
+      rw [nthD_eqH, List.getD_eq_default _ _ (by rw [CFSG.KD.HNClsL.ClsC.poolC_length]; omega)]
+    unfold pw
+    rw [e1, e2]
+    refine ⟨model.one.1, ?_⟩
+    rw [model.one.2]
+    unfold lw
+    rw [List.map_nil, List.prod_nil]
+
+theorem gGLC : (fun j => wordP CFSG.KC.LL.HN.mm CFSG.KD.OrdHN.ONE CFSG.KD.HNClsL.lt
+    (invW (nthD List.nil CFSG.KD.HNClsL.poolC j))) = CFSG.KD.HNClsL.ClsC.GWU :=
+  gRng_eq fun j h0 hj => by
+    obtain ⟨hg, hE⟩ := andB_trueH (CFSG.KD.HNClsL.ClsC.gC_all j h0 hj).2.2
+    have hs := slp_pw model (L := CFSG.KD.HNClsL.ClsC.LM) (E := CFSG.KD.HNClsL.ClsC.EM)
+      (RA := CFSG.KD.HNClsL.SC.RA) (RB := CFSG.KD.HNClsL.SC.RB) (n := 131) baseC
+      CFSG.KD.HNClsL.ClsC.rC_all hg
+      ((beq_iff_eq.mp hE).trans ((invWA_eq _ _).trans (List.append_nil _)))
+      (CFSG.KD.HNClsL.ClsC.gW j h0 hj)
+    have hi := invW_ev model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.ClsC.gOk j
+    exact model.inj hi.1 hs.1 (hi.2.trans hs.2.symm)
 
 theorem rawC : Raw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolC CFSG.KD.HNClsL.gensC
     CFSG.KD.HNClsL.nQC CFSG.KD.HNClsL.linesC CFSG.KD.HNClsL.wlC :=
-  chk_raw model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.chkC
+  raw_of_rest model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.ClsC.gAl
+    CFSG.KD.HNClsL.ClsC.gOk macC (fun j => by
+      rw [← gGLC]
+      exact invW_ev model (fun _ hc => (letter_mem hc).1) CFSG.KD.HNClsL.ClsC.gOk j)
+    CFSG.KD.HNClsL.ClsC.gR
 
 end Model
 
@@ -146,7 +286,7 @@ variable {R J : Type*} [Group R] [Group J] (j : J →* R)
 
 theorem j_preJ {r : R} (h : r ∈ j.range) : j (preJ j r) = r := by
   unfold preJ
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec (MonoidHom.mem_range.1 h)
 
 theorem prod_conj_preJ (φ : R →* MulAut J) (hφ : ∀ g, φ (j g) = MulAut.conj g) (y : R) :
@@ -256,7 +396,7 @@ theorem sizes : CFSG.KD.HNClsL.nQA = 125 ∧ CFSG.KD.HNClsL.wlA.length = 7 ∧
 theorem yA :
     pw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolA 0 = jR aJ := by
   unfold pw
-  rw [poolA0, lw_J [0] (by simp), List.map_singleton, List.prod_singleton, genJ, if_pos (by omega),
+  rw [poolA0, lw_J [0] (by simp), List.map_singleton, List.prod_singleton, genJ, ite_eq_left (by omega),
     CertificateChecks.KernelSporSch.HNPt2085.sL_eq_hJ 0 (by omega), hJ_zero, h1J_eq_aJ]
 
 theorem yB :
@@ -271,7 +411,7 @@ theorem yC :
     pw (fun c => evR (CFSG.KD.HNClsL.lt c)) CFSG.KD.HNClsL.poolC 0 = t1R := by
   unfold pw lw
   rw [poolC0, List.map_singleton, List.prod_singleton, (letter_mem (c := 36) rfl).2,
-    if_neg (by omega), t1R_eq]
+    ite_eq_right (by omega), t1R_eq]
 
 theorem factsA :
     ∃ (Q : Subgroup JH) (xs : ℕ → JH),

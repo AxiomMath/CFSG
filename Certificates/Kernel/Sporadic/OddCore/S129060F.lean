@@ -77,13 +77,18 @@ theorem cube {j : Nat} (hj : j < 5) : aP j ^ 3 = 1 := by
   unfold cK at h
   exact pow_of (pA (by omega)).1 (allN_spec (allN_spec h j hj))
 
+theorem comm_of_fv {P Q : Nat} {x y : Equiv.Perm (Fin 1782)} (hx : PRep 1782 11 P x)
+    (hy : PRep 1782 11 Q y) (hc : ∀ p < 1782, Nat.beq (fv P (fv Q p)) (fv Q (fv P p)) = true) :
+    x * y = y * x :=
+  ext1782 fun p => by
+    simp only [Equiv.Perm.mul_apply, ap hx, ap hy]
+    exact Nat.eq_of_beq_eq_true (hc p p.2)
+
 theorem comm {i j : Nat} (hi : i < 5) (hj : j < 5) : aP i * aP j = aP j * aP i := by
   have h := abOK
   unfold abK at h
-  have h' := allN_spec (allN_spec h i hi) j hj
-  refine ext1782 fun p => ?_
-  simp only [Equiv.Perm.mul_apply, ap (pA (k := i) (by omega)).1, ap (pA (k := j) (by omega)).1]
-  exact Nat.eq_of_beq_eq_true (allN_spec h' p p.2)
+  exact comm_of_fv (pA (by omega)).1 (pA (by omega)).1
+    (fun p hp => allN_spec (allN_spec (allN_spec h i hi) j hj) p hp)
 
 theorem g11 : aP 5 ^ 11 = 1 := by
   have h := gOK
@@ -170,17 +175,23 @@ theorem AS_comm : ∀ a ∈ AS, ∀ b ∈ AS, a * b = b * a := by
     exact (Subgroup.mem_centralizer_singleton_iff.1 (hstep1 x hx hb)).symm
   exact Subgroup.mem_centralizer_singleton_iff.1 (this ha)
 
-theorem AS_pow : ∀ a ∈ AS, a ^ 3 = 1 := by
+theorem closure_pow3 {G : Type*} [Group G] {S : Set G}
+    (hc : ∀ a ∈ Subgroup.closure S, ∀ b ∈ Subgroup.closure S, a * b = b * a)
+    (hs : ∀ s ∈ S, s ^ 3 = 1) : ∀ a ∈ Subgroup.closure S, a ^ 3 = 1 := by
   intro a ha
   induction ha using Subgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨j, rfl⟩ := hx
-    exact cube j.2
+  | mem x hx => exact hs x hx
   | one => exact one_pow 3
   | mul x y hx hy ihx ihy =>
-    have hc : Commute x y := AS_comm x hx y hy
-    rw [hc.mul_pow, ihx, ihy, one_mul]
+    have hxy : Commute x y := hc x hx y hy
+    rw [hxy.mul_pow, ihx, ihy, one_mul]
   | inv x hx ih => rw [inv_pow, ih, inv_one]
+
+theorem pow3_of_eq {G : Type*} [Monoid G] {x y : G} (e : x = y) (h : y ^ 3 = 1) : x ^ 3 = 1 :=
+  e ▸ h
+
+theorem AS_pow : ∀ a ∈ AS, a ^ 3 = 1 :=
+  closure_pow3 AS_comm fun _ ⟨j, hj⟩ => pow3_of_eq (y := aP j) hj.symm (cube j.2)
 
 @[reducible] noncomputable def ASComm : CommGroup AS :=
   { (inferInstance : Group AS) with

@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.TwoHS.Four
 public import Certificates.Kernel.TwoHS.HYOps
+public import Certificates.Kernel.TwoHS.HYFast
 public import CFSG.LocalAnalysis.EvenSporadicStandard.TwoHS.HarTbl2
 meta import CFSG.LocalAnalysis.EvenSporadicStandard.TwoHS.HarTbl2
 meta import Certificates.Kernel.Misc.Perm.HexCmd
@@ -18,7 +19,7 @@ set_option Elab.async false
 #ks_chars CFSG.KD.TwoHS.CJ CFSG.EvenSporadicStandard.TwoHS.harConjHex
 #kmisc_hexflat CFSG.KD.TwoHS.CJ CFSG.EvenSporadicStandard.TwoHS.harConjHex 3 3850 12 2
 
-#kc_repo #kc_json_gz CFSG.KD.TwoHS "Certificates/Kernel/TwoHS/data/cjw.json.gz" 71
+#kc_repo #kc_json CFSG.KD.TwoHS "Certificates/Kernel/TwoHS/data/cjw.json" 71
   15293426016868792600 (cjW : List (List Nat))
 
 namespace CFSG.KD.TwoHS
@@ -32,22 +33,34 @@ open CFSG.KS.MulH (wfoldK)
 @[expose] noncomputable def cmH (v : Nat) : Bool := (List.finRange 6).all fun i =>
   Nat.beq (CFSG.KD.TwoHS.pc (HYF i) v) (CFSG.KD.TwoHS.pc v (HYF i))
 
+@[expose] noncomputable def cmHF (v : Nat) : Bool := (List.finRange 6).all fun i =>
+  Nat.beq (pcF (HYF i) v) (pcF v (HYF i))
+
+theorem cmH_F : cmH = cmHF := by
+  funext v
+  unfold cmH cmHF
+  rw [pc_F]
+
 theorem hm_idc : cmH idK = true := by quickRfl
 
 theorem hm_coxK : hsCoxeter.all (fun r => strictB (EVK HYF HYF r) fun v =>
-    bIf(Nat.beq v idK, true, cmH v)) = true := by quickRfl
+    bIf(Nat.beq v idK, true, cmH v)) = true := by
+  rw [EVK_F, cmH_F]; quickRfl
 
 theorem hm_extraK : hsExtra.all (fun r => strictB (EVK HYF HYF r) fun v =>
-    bIf(Nat.beq v idK, true, cmH v)) = true := by quickRfl
+    bIf(Nat.beq v idK, true, cmH v)) = true := by
+  rw [EVK_F, cmH_F]; quickRfl
 
 theorem hm_comm : (List.finRange 6).all (fun i => Nat.beq (EVK HYF HYF (hsCommWord i)) (HYF i)) =
-    true := by quickRfl
+    true := by
+  rw [EVK_F]; quickRfl
 
 theorem hl_u : (((List.range 3).all fun j =>
     invEqK 11200 14 (mask 14) (11200 * 14) (WK (harUW.getD j [])) (WKI (harUW.getD j []))) &&
     !Nat.beq (UK [1, 2, 1, 2, 3, 1, 2, 1, 2, 3]) idK &&
     Nat.beq (CFSG.KD.TwoHS.pc (UK [1, 2, 1, 2, 3]) (UK [1, 2, 1, 2, 3]))
-      (UK [1, 2, 1, 2, 3, 1, 2, 1, 2, 3])) = true := by quickRfl
+      (UK [1, 2, 1, 2, 3, 1, 2, 1, 2, 3])) = true := by
+  rw [invEqK_F, WK_F, WKI_F, UK_F, pc_F]; quickRfl
 
 @[expose] noncomputable def A3 (i : Fin 2) : Nat := HS.F i.val
 

@@ -11,13 +11,13 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelCo1B.Bound17326
 
-open CFSG.KS.SporSch.M24 (gtPinK)
+open CFSG.KS.SporSch.M24 (bfsK gtStepK idM)
 open CFSG.KLie.CT (notB)
 
 @[expose] noncomputable def CM (l : Nat) : Nat := DC.M (Nat.add 90 l)
 
-theorem kCT : (gtPinK CM 2 20000 CT.N CT.P CT.PAR CT.LAB CT.W CT.S && Nat.beq CT.N 15000) =
-    true := by
+theorem kCT : (bfsK (gtStepK CM) CT.P CT.PAR CT.LAB CT.W CT.S 2 20000 CT.N idM &&
+    Nat.beq CT.N 15000) = true := by
   quickRfl
 
 end CertificateChecks.KernelCo1B.Bound17326

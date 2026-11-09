@@ -2,19 +2,19 @@ module
 
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CFSG.KD.SuzB
 
-#kc_repo #kc_nat_items_gz CFSG.KD.SuzB
-  "Certificates/Kernel/Sporadic/SuzBridge/data/Regs.items.gz" 54607 15959660293506387929
+#kc_repo #kc_nat_items CFSG.KD.SuzB
+  "Certificates/Kernel/Sporadic/SuzBridge/data/Regs.items" 54607 15959660293506387929
   R[10] P1_[17] P2_[17]
 
-#kc_repo #kc_json_gz CFSG.KD.SuzB
-  "Certificates/Kernel/Sporadic/SuzBridge/data/Regs.json.gz" 62062 8803857003790192310
+#kc_repo #kc_json CFSG.KD.SuzB
+  "Certificates/Kernel/Sporadic/SuzBridge/data/Regs.json" 62062 8803857003790192310
   (L : Nat) (H : Nat) (CM : Nat) (RM : Nat) (ONE : Nat) (LV : Nat) (HV : Nat) (R11 : Nat)
   (St1 : Nat) (St2 : Nat)
 

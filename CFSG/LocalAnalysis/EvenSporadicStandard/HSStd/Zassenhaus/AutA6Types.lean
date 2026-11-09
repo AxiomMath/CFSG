@@ -35,9 +35,46 @@ theorem inPglC_code (x : P10) : inPglC (code x) = inPgl (code x) := by
 
 @[expose] def invNoFix : List (List ℕ) := invOut.filter fun c => !fixes3 c
 
-theorem types_check : invFix.all (fun c => invNoFix.all fun d =>
-    !Core.pslLit.contains (Core.cmul c d)) = true := by
+private theorem all_of_chunks {α : Type*} (l : List α) (d : α) (f : α → Bool) (m K : ℕ)
+    (hm : 0 < m) (hlen : l.length ≤ m * K)
+    (h : ∀ k < K, (List.range' (m * k) m).all (fun i => f (l.getD i d)) = true) :
+    l.all f = true := by
+  rw [List.all_eq_true]
+  intro x hx
+  obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.1 hx
+  have hk : i / m < K := Nat.div_lt_of_lt_mul (lt_of_lt_of_le hi hlen)
+  have hmem : i ∈ List.range' (m * (i / m)) m := by
+    rw [List.mem_range'_1]
+    have h1 := Nat.div_add_mod i m
+    have h2 := Nat.mod_lt i hm
+    generalize m * (i / m) = q at h1 ⊢
+    generalize i % m = r at h1 h2
+    omega
+  have := List.all_eq_true.1 (h (i / m) hk) i hmem
+  rwa [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some] at this
+
+private theorem invFix_length_le : invFix.length ≤ 10 * 3 := by
   decide +kernel
+
+private theorem types_chunk_0 :
+    (List.range' (10 * 0) 10).all (fun i => invNoFix.all fun d => !Core.pslLit.contains (Core.cmul (invFix.getD i Core.cid) d)) = true := by
+  decide +kernel
+
+private theorem types_chunk_1 :
+    (List.range' (10 * 1) 10).all (fun i => invNoFix.all fun d => !Core.pslLit.contains (Core.cmul (invFix.getD i Core.cid) d)) = true := by
+  decide +kernel
+
+private theorem types_chunk_2 :
+    (List.range' (10 * 2) 10).all (fun i => invNoFix.all fun d => !Core.pslLit.contains (Core.cmul (invFix.getD i Core.cid) d)) = true := by
+  decide +kernel
+
+theorem types_check : invFix.all (fun c => invNoFix.all fun d =>
+    !Core.pslLit.contains (Core.cmul c d)) = true :=
+  all_of_chunks invFix Core.cid _ 10 3 (by decide) invFix_length_le (fun k hk => match k, hk with
+    | 0, _ => types_chunk_0
+    | 1, _ => types_chunk_1
+    | 2, _ => types_chunk_2
+    | _ + 3, h => absurd h (by omega))
 
 theorem pgl_check : invOut.all (fun c => fixes3 c || inPgl c) = true := by
   decide +kernel

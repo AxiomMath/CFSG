@@ -4,7 +4,8 @@ import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D LV "Certificates/Kernel/U62Pair/data/u62pair/LV.bin" 294912 10396255627537886929
-#kc_repo #kc_natBin CertificateChecks.KernelU62P.D PT "Certificates/Kernel/U62Pair/data/u62pair/PT.bin" 65536 16211245575754083127
+#kc_repo #kc_ktree CertificateChecks.KernelU62P.D LVB "Certificates/Kernel/U62Pair/data/u62pair/LV.bin" 2304 4 294912 10396255627537886929
+#kc_repo #kc_natBin CertificateChecks.KernelU62P.D PT"Certificates/Kernel/U62Pair/data/u62pair/PT.bin" 65536 16211245575754083127
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D LB "Certificates/Kernel/U62Pair/data/u62pair/LB.bin" 32768 514819730612762713
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D SO "Certificates/Kernel/U62Pair/data/u62pair/SO.bin" 65536 6929523013609692994
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D PO "Certificates/Kernel/U62Pair/data/u62pair/PO.bin" 64574 4523691166081663735
@@ -19,7 +20,11 @@ import CFSG.Certificates.Kernel.Common.Repo
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D GT "Certificates/Kernel/U62Pair/data/u62pair/GT.bin" 3328 6464396711387633123
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D GG "Certificates/Kernel/U62Pair/data/u62pair/GG.bin" 8064 9485351706688276432
 #kc_repo #kc_natBin CertificateChecks.KernelU62P.D PV "Certificates/Kernel/U62Pair/data/u62pair/PV.bin" 15939 8002573146521574281
-#kc_repo #kc_decls CertificateChecks.KernelU62P.D "Certificates/Kernel/U62Pair/data/u62pair.txt" 15669 13747251399938435489
+#kc_repo #kc_natBin CertificateChecks.KernelU62P.D LW "Certificates/Kernel/U62Pair/data/u62pair/LW.bin" 15939 218957884667831043
+#kc_repo #kc_natBin CertificateChecks.KernelU62P.D UW "Certificates/Kernel/U62Pair/data/u62pair/UW.bin" 15939 18314565424160810690
+#kc_repo #kc_natBin CertificateChecks.KernelU62P.D RI "Certificates/Kernel/U62Pair/data/u62pair/RI.bin" 1771 17659343402382791799
+#kc_repo #kc_natBin CertificateChecks.KernelU62P.D RT "Certificates/Kernel/U62Pair/data/u62pair/RT.bin" 567 12442193470599997524
+#kc_repo #kc_declsCertificateChecks.KernelU62P.D "Certificates/Kernel/U62Pair/data/u62pair.txt" 15669 13747251399938435489
 
 public section
 

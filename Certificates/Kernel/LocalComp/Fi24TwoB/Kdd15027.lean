@@ -21,7 +21,7 @@ meta def ddB : Array Nat :=
 
 end CertificateChecks.KernelLC.Fi24BR
 
-#ks_rawchain_sl2 CertificateChecks.KernelLC.Fi24BKdd 504 9 16 64 0
+#ks_rawchain_sl2 CertificateChecks.KernelLC.Fi24BKdd 504 9 0 64 0
   CertificateChecks.KernelLC.Fi24BR.ddM CertificateChecks.KernelLC.Fi24BR.ddB 10
   CertificateChecks.KernelLC.Fi24BW.ddD
 

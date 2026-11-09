@@ -58,7 +58,67 @@ theorem letters_of {w : List Int} {j : Nat} (h : lettersOK j w = true) :
 theorem permAB : P A0 ∧ P A1 := by
   have h := permA
   simp only [bAnd_iff] at h
-  exact ⟨PP_of_permOK hsz h.1, PP_of_permOK hsz h.2⟩
+  exact ⟨PP_of_permOK hsz h.1.1, PP_of_permOK hsz h.2.1⟩
+
+theorem GabI_eq (j : Nat) : GabI j = pinv (Gab j) := by
+  have h := permA
+  simp only [bAnd_iff] at h
+  unfold GabI Gab
+  cases Nat.beq j 0
+  · exact (Nat.eq_of_beq_eq_true h.2.2).symm
+  · exact (Nat.eq_of_beq_eq_true h.1.2).symm
+
+theorem P_Gab (j : Nat) : P (Gab j) := by
+  unfold Gab
+  cases Nat.beq j 0
+  · exact permAB.2
+  · exact permAB.1
+
+theorem j49kP_letK (l : Int) : P (letK Gab l) := by
+  unfold letK
+  cases decide (0 < l)
+  · exact P_pinv (P_Gab _)
+  · exact P_Gab _
+
+theorem letKJ_eq (l : Int) : letKJ l = letK Gab l := by
+  unfold letKJ letK
+  rw [GabI_eq]
+
+theorem pc_assoc' {p q r : Nat} (hp : P p) (hr : P r) : pc (pc p q) r = pc p (pc q r) := by
+  obtain ⟨hn, hw, -, -⟩ := CFSG.KS.PF.canon_facts hp.1
+  obtain ⟨-, -, -, hrr⟩ := CFSG.KS.PF.canon_facts hr.1
+  have hn32 : 4060 < 2 ^ 32 := by omega
+  have hw0 := CFSG.KS.PF.w_pos hw
+  refine CFSG.KS.PF.eq_of_fields hw0 (CFSG.KS.PF.pcomp_shr _ _ hn32 hw0)
+    (CFSG.KS.PF.pcomp_shr _ _ hn32 hw0) fun i hi => ?_
+  unfold pc
+  rw [CFSG.KS.PF.pg_pcomp hn32 hi, CFSG.KS.PF.pg_pcomp hn32 (hrr i hi),
+    CFSG.KS.PF.pg_pcomp hn32 hi, CFSG.KS.PF.pg_pcomp hn32 hi]
+
+theorem j49kPair_eq {a b : Int} (ha : a ≠ 0 ∧ a.natAbs ≤ 2) (hb : b ≠ 0 ∧ b.natAbs ≤ 2) :
+    j49kPair a b = pc (letK Gab a) (letK Gab b) := by
+  have hm : ∀ l : Int, l ≠ 0 ∧ l.natAbs ≤ 2 → l ∈ ([-2, -1, 1, 2] : List Int) := by
+    intro l hl
+    simp only [List.mem_cons, List.not_mem_nil, or_false]
+    omega
+  have h := List.all_eq_true.1 (List.all_eq_true.1 j49kPairOK a (hm a ha)) b (hm b hb)
+  rw [← letKJ_eq, ← letKJ_eq]
+  exact (Nat.eq_of_beq_eq_true h).symm
+
+theorem wKP_eq : ∀ (w : List Int) {acc : Nat}, (∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 2) → P acc →
+    wKP w acc = wKA Gab w acc ∧ P (wKA Gab w acc)
+  | [], _, _, hacc => ⟨rfl, hacc⟩
+  | [a], acc, _, hacc => by
+    have e : wKP [a] acc = pc (letKJ a) acc := by simp only [wKP]
+    rw [e, letKJ_eq]
+    exact ⟨rfl, P_pc (j49kP_letK a) hacc⟩
+  | a :: b :: w, acc, hw, hacc => by
+    obtain ⟨ih, hP⟩ := wKP_eq w (fun l hl => hw l (by simp [hl])) hacc
+    have e : wKP (a :: b :: w) acc = pc (j49kPair a b) (wKP w acc) := by simp only [wKP]
+    change wKP (a :: b :: w) acc = pc (letK Gab a) (pc (letK Gab b) (wKA Gab w acc)) ∧
+      P (pc (letK Gab a) (pc (letK Gab b) (wKA Gab w acc)))
+    rw [e, ih, j49kPair_eq (hw a (by simp)) (hw b (by simp)), pc_assoc' (j49kP_letK a) hP]
+    exact ⟨rfl, P_pc (j49kP_letK a) (P_pc (j49kP_letK b) hP)⟩
 
 theorem seed_eq {w : List Int} (hw : ∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 2) :
     ruSeedWordA w = unpack 4060 12 (wK Gab w) ∧ P (wK Gab w) := by
@@ -79,12 +139,33 @@ theorem seed_eq {w : List Int} (hw : ∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 2) :
   rw [e]
   exact wordA_eq (by rfl) hb hP w hw
 
-theorem wordChk_all : ∀ k < 19, wordChk k = true := by
-  intro k hk
-  interval_cases k
-  exacts [wordChk0, wordChk1, wordChk2, wordChk3, wordChk4, wordChk5, wordChk6, wordChk7,
-    wordChk8, wordChk9, wordChk10, wordChk11, wordChk12, wordChk13, wordChk14, wordChk15,
-    wordChk16, wordChk17, wordChk18]
+theorem wK_append (G : Nat → Nat) (b : List Int) : ∀ a : List Int, wK G (a ++ b) = wKA G a (wK G b)
+  | [] => rfl
+  | l :: a => congrArg (pc (letK G l)) (wK_append G b a)
+
+theorem j49kWord_eq {k : Nat} (hk : k < 19) (hw : ∀ l ∈ wordsK.getD k [], l ≠ 0 ∧ l.natAbs ≤ 2) :
+    wK Gab (wordsK.getD k []) = W k := by
+  have he := List.all_eq_true.1 chunkEnds k (List.mem_range.2 hk)
+  simp only [Bool.and_eq_true] at he
+  obtain ⟨⟨h13, hend⟩, hstart⟩ := he
+  have h13' : j49kNChk k < 13 := Nat.blt_eq.mp h13
+  rw [← Nat.eq_of_beq_eq_true hstart]
+  refine CFSG.KS.SporSch.chunks_eq (f := wK Gab) (wd := wordsK.getD k []) (c := 32)
+    (K := j49kNChk k) (P := fun q => Suf (13 * k + q)) (by unfold j49kNChk; omega)
+    (Nat.eq_of_beq_eq_true hend).symm fun q hq ih => ?_
+  have h := SufC.all (13 * k + q) (by change 13 * k + q < 247; omega)
+  have e1 : (13 * k + q) / 13 = k := by omega
+  have e2 : (13 * k + q) % 13 = q := by omega
+  unfold j49kChunkOK at h
+  rw [e1, e2, Nat.blt_eq.mpr hq] at h
+  have h' := Nat.eq_of_beq_eq_true h
+  rw [CFSG.KS.SporSch.takeK_eq, CFSG.KS.SporSch.dropK_eq, Nat.add_assoc] at h'
+  have hP : P (Suf (13 * k + (q + 1))) := by
+    rw [← ih]
+    exact (seed_eq fun l hl => hw l (List.mem_of_mem_drop hl)).2
+  have hc := wKP_eq (List.take 32 (List.drop (32 * q) (wordsK.getD k []))) (fun l hl => hw l (List.mem_of_mem_drop (List.mem_of_mem_take hl))) hP
+  rw [wK_append, ih, ← hc.1]
+  exact h'
 
 theorem tabs_size : (tabs ()).size = 19 := by
   unfold tabs
@@ -99,7 +180,7 @@ theorem tab_get {k : Nat} (hk : k < 19) : (tabs ())[k]! = unpack 4060 12 (W k) �
   have hw : ∀ l ∈ wordsK.getD k [], l ≠ 0 ∧ l.natAbs ≤ 2 := by
     rw [List.getD_eq_getElem _ _ hl]
     exact letters_of (List.all_eq_true.1 words_facts.2 _ (List.getElem_mem hl))
-  have hc : wK Gab (wordsK.getD k []) = W k := Nat.eq_of_beq_eq_true (wordChk_all k hk)
+  have hc : wK Gab (wordsK.getD k []) = W k := j49kWord_eq hk hw
   rw [e, ← hc]
   exact seed_eq hw
 
@@ -156,18 +237,20 @@ theorem at_eq (x : At) : x.checkA (tabs ()) = atK W x := by
     change (!h.checkA (tabs ()) || c.checkA (tabs ())) = (!atK W h || atK W c)
     rw [ih, ic]
 
-theorem atChunk_all : ∀ i < 19, atChunk i = true := by
+theorem atChunk_all : ∀ i < 37, atChunk i = true := by
   intro i hi
   interval_cases i
   exacts [atChunk0, atChunk1, atChunk2, atChunk3, atChunk4, atChunk5, atChunk6, atChunk7,
     atChunk8, atChunk9, atChunk10, atChunk11, atChunk12, atChunk13, atChunk14, atChunk15,
-    atChunk16, atChunk17, atChunk18]
+    atChunk16, atChunk17, atChunk18, atChunk19, atChunk20, atChunk21, atChunk22, atChunk23,
+    atChunk24, atChunk25, atChunk26, atChunk27, atChunk28, atChunk29, atChunk30, atChunk31,
+    atChunk32, atChunk33, atChunk34, atChunk35, atChunk36]
 
 theorem atoms_ok : (atoms ()).all (·.checkA (tabs ())) = true := by
   rw [List.all_eq_true]
   intro x hx
   rw [at_eq]
-  exact all_of_chunks (p := atK W) (d := At.eq .one .one) (c := 40) (n := 19) (by norm_num)
+  exact all_of_chunks (p := atK W) (d := At.eq .one .one) (c := 20) (n := 37) (by norm_num)
     (by rw [Nat.eq_of_beq_eq_true atomsLen]; norm_num) (fun i hi => atChunk_all i hi) x hx
 
 open Certificates in

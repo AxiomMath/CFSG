@@ -66,11 +66,42 @@ theorem nws1_check : nws1.Nodup ∧ ([] : List ℕ) ∈ nws1 ∧
       ∀ i ∈ gi1, comp (comp p.1 ((CL1 w).getD i [])) p.2 ∈ CL1 (T1 w p) := by
   decide +kernel
 
+@[expose] def u42GetR (r : List ℕ) : ℕ → ℕ :=
+  List.rec (motive := fun _ => ℕ → ℕ) (fun _ => 0)
+    (fun a _ ih j => Nat.rec (motive := fun _ => ℕ) a (fun j' _ => ih j') j) r
+
+theorem u42GetR_eq : ∀ (r : List ℕ) (j : ℕ), u42GetR r j = r.getD j 0
+  | [], _ => rfl
+  | a :: _, 0 => rfl
+  | _ :: r, j + 1 => by
+    change u42GetR r j = _
+    rw [u42GetR_eq r j]
+    simp
+
+@[expose] def u42MapR (f : ℕ → ℕ) (m : List ℕ) : List ℕ :=
+  List.rec (motive := fun _ => List ℕ) [] (fun a _ ih => f a :: ih) m
+
+theorem u42MapR_eq (f : ℕ → ℕ) : ∀ m : List ℕ, u42MapR f m = m.map f
+  | [] => rfl
+  | a :: m => by
+    change f a :: u42MapR f m = _
+    rw [u42MapR_eq f m, List.map_cons]
+
+@[expose] def u42CompR (l m : PL) : PL := u42MapR (fun j => u42GetR l j) m
+
+theorem comp_eq_u42CompR : comp = u42CompR := by
+  funext l m
+  unfold comp u42CompR
+  rw [u42MapR_eq]
+  simp only [u42GetR_eq]
+
 theorem nws2_check : nws2.Nodup ∧ ([] : List ℕ) ∈ nws2 ∧
     (∀ w ∈ nws2, (Pof w).getD 0 0 = 0) ∧
     (∀ w ∈ nws2, ∀ w' ∈ nws2, w ≠ w' → ∃ l ∈ CL2 w, l ∉ CL2 w') ∧
     ∀ w ∈ nws2, ∀ p ∈ gpairs, T2 w p ∈ nws2 ∧
       ∀ i ∈ gi2, comp (comp p.1 ((CL2 w).getD i [])) p.2 ∈ CL2 (T2 w p) := by
+  unfold CL2 CLs2 CLof
+  rw [comp_eq_u42CompR]
   decide +kernel
 
 theorem hgl_P1 :

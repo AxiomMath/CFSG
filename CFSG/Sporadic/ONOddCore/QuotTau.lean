@@ -39,9 +39,9 @@ theorem record_facts {r : QuotRecord} (hr : r ∈ localCert.records) :
     (∀ j < 2, found (indexOf m120Enum.tabs) m120Enum.tabs
       (pcomp 120 (pinvCand 120 Data.quotientConjugator)
         (pcomp 120 (qiArr r j) Data.quotientConjugator)) = true) ∧
-      treeOK (leftStep 240 (pairGens r)) 2 pairRoot
-        (bfs (leftStep 240 (pairGens r)) 2 pairRoot 50000) = true ∧
-      (bfs (leftStep 240 (pairGens r)) 2 pairRoot 50000).tabs.size = 40320 ∧
+      CFSG.Certificates.Native.rawChainOK 240 ((pairStrongs r).extract 0 2) (pairStrongs r)
+        pairChainBase (CFSG.Sporadic.Schreier.Co3.Native.wordsArr 2 6 pairDerWords) 1 = true ∧
+      (CFSG.Certificates.Native.rawOrbitSizes 240 (pairStrongs r) pairChainBase).prod = 40320 ∧
       ∀ m < 12, peq 120 (posArr 120 #[qiArr r 0, qiArr r 1] xWords[m]!)
         (posArr 120 Data.PSL120Chain.generators (sigWord r.diag r.field r.graph m)) = true := by
   have h := quot_facts.2.2.2 r hr

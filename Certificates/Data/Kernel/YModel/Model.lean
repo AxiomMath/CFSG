@@ -45,8 +45,8 @@ open CFSG.KC CFSG.KC.MonsterConv.Perm CFSG.KC.Loop
 
 @[expose] noncomputable def netRev (k N : Nat) : Nat :=
   Nat.rec (motive := fun _ => Nat) (nat_lit 0)
-    (fun i acc => Nat.lor acc (Nat.shiftLeft (Nat.land (Nat.shiftRight N (Nat.mul i (wid k))) (ones (wid k)))
-      (Nat.mul (Nat.sub (Nat.sub (Nat.mul (nat_lit 2) k) (nat_lit 2)) i) (wid k))))
+    (fun i acc => Nat.lor (Nat.shiftLeft acc (wid k))
+      (Nat.land (Nat.shiftRight N (Nat.mul i (wid k))) (ones (wid k))))
     (Nat.sub (Nat.mul (nat_lit 2) k) (nat_lit 1))
 
 @[expose] noncomputable def codeNet (k : Nat) (T : Nat → Nat) (x : Nat) : Nat :=

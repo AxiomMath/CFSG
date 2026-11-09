@@ -1156,6 +1156,7 @@ private theorem burnsideJ55_E0_trans
   have hor := orbit_eq_labels ruEGArrs_rep ruStabs_check.2.2.2.2.1 y
   have hz : z ∈ MulAction.orbit (genSubgroup 4060 ruEGArrs.size ruEGen) y := by
     rw [hor]
+    rw [ruELab, orbLab_eq] at h
     exact h.symm
   obtain ⟨⟨g, hg⟩, rfl⟩ := hz
   exact ⟨g, burnsideJ55_genE_le hg, rfl⟩
@@ -1534,6 +1535,7 @@ private theorem burnsideJ55_Fst_trans {y z : Fin 4060} (h : ruFLab[(y : ℕ)]! =
   have hor := orbit_eq_labels ruFGArrs_rep ruStabs_check.2.2.1 y
   have hz : z ∈ MulAction.orbit (genSubgroup 4060 ruFGArrs.size ruFGen) y := by
     rw [hor]
+    rw [ruFLab, orbLab_eq] at h
     exact h.symm
   obtain ⟨⟨g, hg⟩, rfl⟩ := hz
   exact ⟨g, burnsideJ55_genF_le hg, rfl⟩

@@ -240,6 +240,46 @@ noncomputable abbrev uj (j : Nat) : Equiv.Perm (Fin 275) :=
   if j = 0 then sa (r32 NoThrJ 0) else if j = 1 then sa (r32 NoThrJ 1)
     else sa (r32 NoThrJ 0) * sa (r32 NoThrJ 1)
 
+theorem uj_0 : uj 0 = sa (r32 NoThrJ 0) := if_pos rfl
+
+theorem uj_1 : uj 1 = sa (r32 NoThrJ 1) :=
+  (if_neg (show (1 : Nat) ≠ 0 by decide)).trans (if_pos rfl)
+
+theorem uj_2 : uj 2 = sa (r32 NoThrJ 0) * sa (r32 NoThrJ 1) :=
+  (if_neg (show (2 : Nat) ≠ 0 by decide)).trans (if_neg (show (2 : Nat) ≠ 1 by decide))
+
+theorem nIf_tt {c : Bool} (x y : Nat) (h : c = true) :
+    Bool.rec (motive := fun _ => Nat) y x c = x := by
+  subst h
+  rfl
+
+theorem nIf_ff {c : Bool} (x y : Nat) (h : c = false) :
+    Bool.rec (motive := fun _ => Nat) y x c = y := by
+  subst h
+  rfl
+
+theorem noThrU_0 : noThrU 0 = CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)) :=
+  nIf_tt (c := Nat.beq 0 (nat_lit 0)) (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0))) (nIf(Nat.beq 0 (nat_lit 1), CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)),
+      pc (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)))
+        (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1))))) rfl
+
+theorem noThrU_1 : noThrU 1 = CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)) :=
+  (nIf_ff (c := Nat.beq 1 (nat_lit 0)) (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0))) (nIf(Nat.beq 1 (nat_lit 1), CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)),
+      pc (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)))
+        (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1))))) rfl).trans
+    (nIf_tt (c := Nat.beq 1 (nat_lit 1)) (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)))
+      (pc (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)))
+        (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)))) rfl)
+
+theorem noThrU_2 : noThrU 2 = pc (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)))
+    (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1))) :=
+  (nIf_ff (c := Nat.beq 2 (nat_lit 0)) (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0))) (nIf(Nat.beq 2 (nat_lit 1), CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)),
+      pc (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)))
+        (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1))))) rfl).trans
+    (nIf_ff (c := Nat.beq 2 (nat_lit 1)) (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)))
+      (pc (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 0)))
+        (CertificateChecks.KernelSpor.McLTwoS.T (r32 NoThrJ (nat_lit 1)))) rfl)
+
 theorem gj_facts
     {j : Nat} (hj : j < 3) :
     Cn (NoThrG j) ∧ Cn (NoThrGI j) ∧ RP (NoThrG j) (gj j) ∧ RP (NoThrGI j) (gj j)⁻¹ ∧
@@ -261,11 +301,13 @@ theorem gj_facts
   obtain ⟨cz, -, rz, -, -⟩ := sa_facts hz
   obtain ⟨cv, -, rv, -, -⟩ := sa_facts hv
   have hU : Cn (noThrU j) ∧ RP (noThrU j) (uj j) := by
-    unfold noThrU uj
     interval_cases j
-    · exact ⟨cz, rz⟩
-    · exact ⟨cv, rv⟩
-    · exact ⟨cn_pc cz cv, rp_pc cz cv rz rv⟩
+    · rw [noThrU_0, uj_0]
+      exact ⟨cz, rz⟩
+    · rw [noThrU_1, uj_1]
+      exact ⟨cv, rv⟩
+    · rw [noThrU_2, uj_2]
+      exact ⟨cn_pc cz cv, rp_pc cz cv rz rv⟩
   have h := (beq_iff (cn_pc c1 (cn_pc cT c2)) hU.1 (rp_pc c1 (cn_pc cT c2) r1 (rp_pc cT c2 rT r2))
     hU.2).1 hconj
   rw [← h]
@@ -337,13 +379,21 @@ theorem noThree_sylTwo
   have hu2 : ∀ j < 3, uj j ^ 2 = 1 := by
     intro j hj
     rw [← (gj_facts hj).2.2.2.2.2, conj_pow, ht2, mul_one, mul_inv_cancel]
+  have hz2 : sa (r32 NoThrJ 0) ^ 2 = 1 := by
+    have h := hu2 0 (by norm_num)
+    rw [uj_0] at h
+    exact h
+  have hv2 : sa (r32 NoThrJ 1) ^ 2 = 1 := by
+    have h := hu2 1 (by norm_num)
+    rw [uj_1] at h
+    exact h
   refine eq_bot_of_witness_klein hWP hW (fun x hx => pow_729_of_le hWP hW hx) hn hzS hvS
-    (hu2 0 (by norm_num)) (hu2 1 (by norm_num)) ?_
+    hz2 hv2 ?_
   intro y hy hy3 hyu
   rcases hyu with h | h | h
-  · exact witness_uj (j := 0) (by norm_num) hy hy3 h
-  · exact witness_uj (j := 1) (by norm_num) hy hy3 h
-  · exact witness_uj (j := 2) (by norm_num) hy hy3 h
+  · exact witness_uj (j := 0) (by norm_num) hy hy3 (by rw [uj_0]; exact h)
+  · exact witness_uj (j := 1) (by norm_num) hy hy3 (by rw [uj_1]; exact h)
+  · exact witness_uj (j := 2) (by norm_num) hy hy3 (by rw [uj_2]; exact h)
 
 end CertificateChecks.KernelMcLAS.NoThr
 

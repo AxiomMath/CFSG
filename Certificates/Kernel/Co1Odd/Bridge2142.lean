@@ -94,10 +94,10 @@ theorem counts : oddACCountsOf oddACRegs = true := by
   unfold oddACCountsOf
   rw [r3, r10, Bool.and_eq_true]
   constructor
-  · obtain ⟨h1, h2⟩ := CFSG.KC.Co1Fix.fixK_sound fix3
+  · obtain ⟨h1, h2⟩ := CFSG.KC.Co1Fix.fixK_sound (fixK_of_fixKQ fix3)
     rw [CFSG.Sporadic.Co1.Module.countsOK, tr_sound tr3, qRows_eq, tr_sound trQ_ok, h1, h2]
     rfl
-  · obtain ⟨h1, h2⟩ := CFSG.KC.Co1Fix.fixK_sound fix10
+  · obtain ⟨h1, h2⟩ := CFSG.KC.Co1Fix.fixK_sound (fixK_of_fixKQ fix10)
     rw [CFSG.Sporadic.Co1.Module.countsOK, tr_sound tr10, qRows_eq, tr_sound trQ_ok, h1, h2]
     rfl
 
@@ -111,6 +111,9 @@ theorem sl_at {s : Nat} (hs : s < 39) :
       fixScanK F2.T [CTP, S1TP, S2TP] (s * 2520) 2520 (cl 3 s) = cl 3 (s + 1) := by
   have h := SL.all s hs
   unfold sl at h
+  rw [fixScanT_eq F2.T (.cons tabA .nil), fixScanT_eq F2.T (.cons tabA (.cons tabS .nil)),
+    fixScanT_eq F2.T (.cons tabC .nil),
+    fixScanT_eq F2.T (.cons tabC (.cons tabS1 (.cons tabS2 .nil)))] at h
   obtain ⟨h1, h⟩ := andB_true h
   obtain ⟨h2, h⟩ := andB_true h
   obtain ⟨h3, h4⟩ := andB_true h

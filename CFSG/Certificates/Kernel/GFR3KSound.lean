@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.GFR3K
 public import CFSG.Certificates.Kernel.FiveLocKSound
 public import CFSG.HardMathSupport.Solomon.Coordinator.GFR3Kit
+public import CFSG.Certificates.Kernel.Spor.PcompFacts
 
 public section
 
@@ -18,6 +19,29 @@ theorem card_filter_range (N : ℕ) (p : ℕ → Bool) :
     ext x
     simp
   rw [e, List.toFinset_card_of_nodup (List.nodup_range.filter _)]
+
+theorem commPK_eq {n w : ℕ} (hn : n < 2 ^ 32) (h1 : 1 < n) (p q : ℕ) :
+    commPK n w p q = FiveLocK.commK n w p q := by
+  unfold commPK
+  cases h : FiveLocK.commK n w p q with
+  | false => simp only [Bool.and_false]
+  | true =>
+    have e : cm n w p q = cm n w q p := Nat.eq_of_beq_eq_true h
+    have ht : ∀ t < n, commAtK w p q t = true := by
+      intro t ht
+      have h' := congrArg (fun r => pg w (mask w) r t) e
+      simp only [cm, CFSG.KS.PF.pg_pcomp hn ht] at h'
+      simp only [commAtK, h', Nat.beq_refl]
+    simp only [ht 0 (by omega), ht 1 h1, Bool.and_self]
+
+theorem gfr3AtPK_eq {n w : ℕ} (hn : n < 2 ^ 32) (h1 : 1 < n) (N : ℕ) (T : ℕ → ℕ)
+    (Nc e f i : ℕ) : gfr3AtPK n w N T Nc e f i = gfr3AtK n w N T Nc e f i := by
+  have hc : gfr3CntPK n w N T = gfr3CntK n w N T := by
+    funext x
+    unfold gfr3CntPK gfr3CntK
+    simp only [commPK_eq hn h1]
+  unfold gfr3AtPK gfr3AtK
+  rw [hc]
 
 variable {n w : ℕ} (hw : szOK n w = true)
 include hw

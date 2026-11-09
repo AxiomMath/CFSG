@@ -37,6 +37,31 @@ theorem enumFrom_succ (n w m nw : Nat) (LR TR : Nat → Nat) (p : Nat → Bool) 
   rw [Orb.strictN_eq]
   rfl
 
+theorem enumLast_zero (n w m nw : Nat) (LR TR : Nat → Nat) (q : Nat → Nat → Bool) (i g s : Nat) :
+    enumLast n w m nw LR TR q 0 i g s = (List.range (rcnt (LR i))).foldl
+      (fun s k => if q g (TR (roff n nw (LR i) + k)) = true then s + 1 else s) s := by
+  have e : enumLast n w m nw LR TR q 0 i g s = strictN (LR i) (fun R =>
+      foldUp (rcnt R) (fun k s => nIf(q g (TR (Nat.add (roff n nw R) k)), Nat.succ s, s)) s) :=
+    rfl
+  rw [e, Orb.strictN_eq, foldUp_eq]
+  congr 1
+  funext s k
+  change nIf(q g (TR (roff n nw (LR i) + k)), Nat.succ s, s) = _
+  cases q g (TR (roff n nw (LR i) + k)) <;> rfl
+
+theorem enumLast_succ (n w m nw : Nat) (LR TR : Nat → Nat) (q : Nat → Nat → Bool) (d i g s : Nat) :
+    enumLast n w m nw LR TR q (d + 1) i g s = (List.range (rcnt (LR i))).foldl
+      (fun s k => enumLast n w m nw LR TR q d (i + 1) (pcomp n w m g (TR (roff n nw (LR i) + k)))
+        s) s := by
+  have e : enumLast n w m nw LR TR q (d + 1) i g s = strictN (LR i) (fun R =>
+      foldUp (rcnt R) (fun k s => strictN (pcomp n w m g (TR (Nat.add (roff n nw R) k)))
+        (fun h => enumLast n w m nw LR TR q d (Nat.succ i) h s)) s) := rfl
+  rw [e, Orb.strictN_eq, foldUp_eq]
+  congr 1
+  funext s k
+  rw [Orb.strictN_eq]
+  rfl
+
 theorem foldl_eq_add {f : Nat → Nat → Nat} {X : Nat → Nat} :
     ∀ (l : List Nat), (∀ k ∈ l, ∀ s, f s k = s + X k) → ∀ s, l.foldl f s = s + (l.map X).sum
   | [], _, s => by simp
@@ -127,6 +152,75 @@ theorem enumFrom_spec {p : Nat → Bool} {q : Equiv.Perm (Fin n) → Bool}
       (PF.pcomp_shr _ _ hn hw)]
     rfl
 
+theorem enumLast_spec {q : Nat → Nat → Bool} {qq : Equiv.Perm (Fin n) → Bool}
+    (hq : ∀ P x Q y, PRep n w P x → PRep n w Q y → q P Q = qq (x * y)) :
+    ∀ d i, i + d + 1 ≤ k → ∀ G g s, PRep n w G g → G >>> (n * w) = 0 →
+      enumLast n w (mask w) (n * w) LR TR q d i G s =
+        s + ((products ((List.range (d + 1)).map fun t => trL n w LR TR (i + t))).map
+          (g * ·)).countP qq
+  | 0, i, hd, G, g, s, hG, _ => by
+    rw [enumLast_zero, range_map_succ, countP_products_cons, trL, List.map_map]
+    refine foldl_eq_add _ (fun k' hk' s => ?_) s
+    obtain ⟨h1, -⟩ := tr_facts hQ (by omega) (List.mem_range.1 hk')
+    rw [hq G g _ _ hG h1]
+    simp only [List.range_zero, List.map_nil, products, List.map_cons, mul_one,
+      List.countP_singleton, Function.comp_apply]
+    split <;> simp_all
+  | d + 1, i, hd, G, g, s, hG, sG => by
+    have hn := chainK_h32 hQ
+    have hw := PF.w_pos hQ.2.1
+    rw [enumLast_succ, range_map_succ, countP_products_cons, trL, List.map_map]
+    refine foldl_eq_add _ (fun k' hk' s => ?_) s
+    have hk := List.mem_range.1 hk'
+    obtain ⟨h1, -⟩ := tr_facts hQ (by omega) hk
+    rw [enumLast_spec hq d (i + 1) (by omega) _ (g * trP n w LR TR i k') s (prep_pcomp hn hG h1)
+      (PF.pcomp_shr _ _ hn hw)]
+    rfl
+
+theorem cntOrdK_eq {g₀ : Equiv.Perm (Fin n)} {G₀ e : Nat} (hg₀ : PRep n w G₀ g₀) (he : 0 < e)
+    (hk : 0 < k) {k₀ : Nat} (hk₀ : k₀ < rcnt (LR 0)) :
+    cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
+      ((products ((List.range (k - 1)).map fun t => trL n w LR TR (1 + t))).map
+        ((g₀ * trP n w LR TR 0 k₀) * ·)).countP (fun x => decide (orderOf x = e)) := by
+  have hn32 := chainK_h32 hQ
+  have hw := PF.w_pos hQ.2.1
+  have hsz := chainK_szOK hQ
+  obtain ⟨h1, -⟩ := tr_facts hQ hk hk₀
+  have hP := prep_pcomp hn32 hg₀ h1
+  by_cases hk2 : 1 < k
+  · have hb : Nat.blt (nat_lit 1) k = true := by
+      rw [Nat.blt_eq]
+      exact hk2
+    have e1 : cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
+        enumLast n w (mask w) (n * w) LR TR
+          (fun g t => ordIs2 n w (mask w) (pidn n w) g t (e - 1))
+          (k - 2) 1 (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + k₀))) 0 := by
+      unfold cntOrdK
+      rw [Orb.strictN_eq]
+      dsimp only
+      rw [hb]
+      rfl
+    have e2 : k - 2 + 1 = k - 1 := by omega
+    rw [e1, enumLast_spec hQ (qq := fun x => decide (orderOf x = e))
+      (fun P x Q y hP' hQ' => ordIs2_eq hsz hP' hQ' (PF.pcomp_shr _ _ hn32 hw) he) (k - 2) 1
+      (by omega) _ _ 0 hP (PF.pcomp_shr _ _ hn32 hw), Nat.zero_add, e2]
+  · have hb : Nat.blt (nat_lit 1) k = false := by
+      cases h : Nat.blt (nat_lit 1) k
+      · rfl
+      · rw [Nat.blt_eq] at h
+        exact absurd h hk2
+    have e1 : cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
+        enumFrom n w (mask w) (n * w) LR TR (fun g => ordIsK n w (mask w) (pidn n w) g (e - 1))
+          (k - 1) 1 (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + k₀))) 0 := by
+      unfold cntOrdK
+      rw [Orb.strictN_eq]
+      dsimp only
+      rw [hb]
+      rfl
+    rw [e1, enumFrom_spec hQ (q := fun x => decide (orderOf x = e))
+      (fun P x hP' sP => ordIsK_eq hsz hP' sP he) (k - 1) 1 (by omega) _ _ 0 hP
+      (PF.pcomp_shr _ _ hn32 hw), Nat.zero_add]
+
 variable (hn : 1 ≤ n) (hbs : bv.toList.Nodup)
 include hn hbs
 
@@ -177,22 +271,10 @@ theorem chainK_cosetCount' {g₀ : Equiv.Perm (Fin n)} {G₀ e : Nat}
       CS.getD k₀ 0) :
     (cosetOrderTables (certificate hn gens words bv hbs) g₀ e).length = CS.sum := by
   have hn32 := chainK_h32 hQ
-  have hw := PF.w_pos hQ.2.1
-  have hsz := chainK_szOK hQ
   rw [(forall₂_cosetOrderTables hn32 _ g₀ he).length_eq, List.length_reverse,
     ← List.countP_eq_length_filter, countP_coset1 hQ hn hbs hk]
   refine sum_range_getD hCS fun k₀ hk₀ => ?_
-  rw [← hc k₀ hk₀]
-  obtain ⟨h1, -⟩ := tr_facts hQ hk hk₀
-  have e1 : cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
-      enumFrom n w (mask w) (n * w) LR TR (fun g => ordIs n w (mask w) (pidn n w) g (e - 1))
-        (k - 1) 1 (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + k₀))) 0 := by
-    unfold cntOrdK
-    rw [Orb.strictN_eq]
-    rfl
-  rw [e1, enumFrom_spec hQ (q := fun x => decide (orderOf x = e))
-    (fun P x hP sP => ordIs_eq hsz hP sP he) (k - 1) 1 (by omega) _ _ 0
-    (prep_pcomp hn32 (prep_of_imageList hg₀) h1) (PF.pcomp_shr _ _ hn32 hw), Nat.zero_add]
+  rw [← hc k₀ hk₀, cntOrdK_eq hQ (prep_of_imageList hg₀) he hk hk₀]
 
 theorem chainK_cosetCount2' {g₀ : Equiv.Perm (Fin n)} {G₀ e : Nat}
     (hg₀ : imageList g₀ = (unpack n w G₀).toList) (he : 0 < e) (hk : 2 ≤ k)

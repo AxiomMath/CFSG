@@ -10,7 +10,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GUCP "Certificates/Kernel/GammaU/data/colpt.json.gz" 1191
+#kc_repo #kc_json CFSG.KD.GUCP "Certificates/Kernel/GammaU/data/colpt.json" 1191
   13898629516946796711 (R0 : List (List Nat)) (R1 : List (List Nat))
 
 namespace CFSG.KD.GUCP

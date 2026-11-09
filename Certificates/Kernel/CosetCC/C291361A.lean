@@ -7,6 +7,6 @@ public import Certificates.Kernel.CosetCC.C291361K3
 
 public section
 
-#kb_family_close "data/C291361.json.gz" 26879 708084346580481915
+#kb_family_close "data/C291361.json" 26879 708084346580481915
 
 end

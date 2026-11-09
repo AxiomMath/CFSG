@@ -464,6 +464,142 @@ theorem bad_sound' (hA : codeP (gA : Perm (Fin n)) = cA) (hB : codeP (gB : Perm 
   rw [hcov]
   rfl
 
+private theorem img_lt32S (s i : ℕ) : P.img s i < 32 := by
+  rw [P.img_eq]
+  exact Nat.mod_lt _ (by omega)
+
+private theorem img_mulS {s t i : ℕ} (hi : i < n) :
+    P.img (P.mul n s t) i = P.img s (P.img t i) := by
+  unfold P.mul
+  rw [P.img_eq, P.ofFn_eq, P.E_digit (fun _ _ => img_lt32S _ _) hi]
+
+private theorem ptEqS_iff (a b c d : ℕ) : ∀ m : ℕ,
+    ptEqS m a b c d = true ↔ ∀ i < m, P.img a (P.img b i) = P.img c (P.img d i)
+  | 0 => ⟨fun _ i hi => absurd hi (Nat.not_lt_zero _), fun _ => rfl⟩
+  | m + 1 => by
+    have e : ptEqS (m + 1) a b c d = CFSG.KC.Ord.andB
+        (Nat.beq (P.img a (P.img b m)) (P.img c (P.img d m))) (ptEqS m a b c d) := rfl
+    rw [e, P.andB_iff, P.beq_iff, ptEqS_iff a b c d m]
+    constructor
+    · rintro ⟨h1, h2⟩ i hi
+      rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
+      · exact h2 i hi
+      · exact h1
+    · intro h
+      exact ⟨h m (by omega), fun i hi => h i (by omega)⟩
+
+private theorem ptEqS_eq (a b c d : ℕ) :
+    ptEqS n a b c d = Nat.beq (P.mul n a b) (P.mul n c d) := by
+  rw [Bool.eq_iff_iff, ptEqS_iff, P.beq_iff]
+  constructor
+  · intro h
+    unfold P.mul
+    rw [P.ofFn_eq, P.ofFn_eq]
+    exact P.E_congr h
+  · intro h i hi
+    rw [← img_mulS hi, ← img_mulS hi, h]
+
+private theorem pairSK_eq (I : List ℕ) : pairSK n I = pairK n I := by
+  unfold pairSK pairK
+  simp only [ptEqS_eq]
+  rfl
+
+private theorem blk32_get {α : Type} (d : α) : ∀ (f : ℕ) (L : List α) (i : ℕ),
+    L.length ≤ 32 * f → getK (getK (blk32 f L) (i / 32) []) (i % 32) d = getK L i d
+  | 0, L, i, hL => by
+    have : L = [] := List.eq_nil_of_length_eq_zero (by omega)
+    subst this
+    have e : blk32 0 ([] : List α) = [] := rfl
+    rw [e, getK_eq, getK_eq, getK_eq]
+    simp
+  | f + 1, L, i, hL => by
+    have e : blk32 (f + 1) L = List.take 32 L :: blk32 f (List.drop 32 L) := rfl
+    rw [e]
+    rcases Nat.lt_or_ge i 32 with hi | hi
+    · rw [Nat.div_eq_of_lt hi, Nat.mod_eq_of_lt hi, getK_eq, getK_eq, getK_eq]
+      simp [List.getD_eq_getElem?_getD, List.getElem?_take, hi]
+    · obtain ⟨j, rfl⟩ : ∃ j, i = j + 32 := ⟨i - 32, by omega⟩
+      have h1 : (j + 32) / 32 = j / 32 + 1 := by omega
+      have h2 : (j + 32) % 32 = j % 32 := by omega
+      have e2 : getK (List.take 32 L :: blk32 f (List.drop 32 L)) (j / 32 + 1) [] =
+          getK (blk32 f (List.drop 32 L)) (j / 32) [] := by
+        rw [getK_eq, getK_eq]
+        simp
+      rw [h1, h2, e2, blk32_get d f (List.drop 32 L) j (by simp; omega), getK_eq, getK_eq,
+        List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_drop, Nat.add_comm]
+
+private theorem badOneS_zero {n : ℕ} {RL : List ℕ} {RP : List (ℕ × ℕ)} {m : ℕ} {x q : ℕ × ℕ}
+    (hm : RP.length ≤ 32 * m) (h : badOneS n RL RP m x q = 0) :
+    Nat.blt q.1 m = true ∧ Nat.blt q.2 (CFSG.KC.LQT.S.lenL RL) = true ∧
+      Nat.beq (P.mul n (getK RL q.2 (P.one n)) x.1)
+        (P.mul n (getK RP q.1 (0, 0)).1 (getK RL q.2 (P.one n))) = true ∧
+      Nat.beq (P.mul n (getK RL q.2 (P.one n)) x.2)
+        (P.mul n (getK RP q.1 (0, 0)).2 (getK RL q.2 (P.one n))) = true := by
+  unfold badOneS at h
+  cases hb1 : Nat.blt q.1 m
+  · rw [hb1] at h
+    change (1 : ℕ) = 0 at h
+    omega
+  · rw [hb1] at h
+    dsimp only at h
+    cases hb2 : CFSG.KC.Ord.andB (Nat.blt q.2 (CFSG.KC.LQT.S.lenL RL))
+        (P.letB (getK RL q.2 (P.one n)) fun r =>
+          P.letB (getK (getK (blk32 m RP) (Nat.div q.1 32) []) (Nat.mod q.1 32) (0, 0)).1
+            fun e1 =>
+          P.letB (getK (getK (blk32 m RP) (Nat.div q.1 32) []) (Nat.mod q.1 32) (0, 0)).2
+            fun e2 => CFSG.KC.Ord.andB (ptEqS n r x.1 e1 r) (ptEqS n r x.2 e2 r))
+    · rw [hb2] at h
+      change (1099511627776 : ℕ) = 0 at h
+      omega
+    · rw [P.andB_iff, P.letB_eq, P.letB_eq, P.letB_eq, P.andB_iff, ptEqS_eq, ptEqS_eq] at hb2
+      have e : getK (getK (blk32 m RP) (Nat.div q.1 32) []) (Nat.mod q.1 32) (0, 0) =
+          getK RP q.1 (0, 0) := blk32_get _ m RP q.1 hm
+      rw [e] at hb2
+      exact ⟨rfl, hb2.1, hb2.2.1, hb2.2.2⟩
+
+private theorem conj_of_mulS {a b c : H} (h : a * b = c * a) : a * b * a⁻¹ = c := by
+  rw [h, mul_inv_cancel_right]
+
+theorem badSK_sound' (hA : codeP (gA : Perm (Fin n)) = cA) (hB : codeP (gB : Perm (Fin n)) = cB)
+    (rgw rwords : List (List ℤ)) (G2 : List (ℕ × ℕ × List (List ℤ) × List ℕ))
+    (hs : List (ℕ × ℕ)) (c : ℕ) (hc : c < 2 ^ 40) (hn : n ≤ 32)
+    (h : atMost (badSK n (rlK n cA cB rgw rwords) G2 hs) c = true) :
+    (g2coverBad
+      (fun x : H => (List.finRange n).foldl (fun acc i => acc * n + ((x : Perm (Fin n)) i).val) 0)
+      (sylowList H gA gB rgw rwords) G2).length ≤ c := by
+  rw [rlK_eq gA gB hn hA hB] at h
+  generalize sylowList H gA gB rgw rwords = Rl at h ⊢
+  have hle : badSK n (Rl.map (cH H)) G2 hs ≤ c := Nat.le_of_ble_eq_true h
+  have e : badSK n (Rl.map (cH H)) G2 hs = bd (badOneS n (Rl.map (cH H))
+      (G2.map fun e => (getK (Rl.map (cH H)) e.1 (P.one n), getK (Rl.map (cH H)) e.2.1 (P.one n)))
+      (lenK G2)) (pairSK n (invK n (Rl.map (cH H)))) hs 0 := rfl
+  rw [e, pairSK_eq, invK_eq hn, pairK_eq hn] at hle
+  obtain ⟨hlen, hsum⟩ := bd_spec _ _ _ _ (lt_of_le_of_lt hle hc)
+  rw [List.length_map] at hlen
+  rw [zero_add, List.zip_map_left, List.map_map] at hsum
+  have hkey : Function.Injective (fun x : H =>
+      (List.finRange n).foldl (fun acc i => acc * n + ((x : Perm (Fin n)) i).val) 0) :=
+    fun x y hxy => Subtype.ext (key_inj _ _ hxy)
+  rw [hsum] at hle
+  unfold g2coverBad
+  dsimp only
+  refine le_trans (filter_len_le _ (fun x q => badOneS n (Rl.map (cH H))
+      (G2.map fun e : ℕ × ℕ × List (List ℤ) × List ℕ =>
+        (getK (Rl.map (cH H)) e.1 (P.one n), getK (Rl.map (cH H)) e.2.1 (P.one n)))
+      (lenK G2) (Prod.map (cH H) (cH H) x) q) _ hs hlen ?_) hle
+  intro x q _ h0
+  obtain ⟨h1, h2, h3, h4⟩ := badOneS_zero (by rw [List.length_map, lenK_eq]; omega) h0
+  rw [P.blt_iff, lenK_eq] at h1
+  rw [P.blt_iff, CFSG.KC.LQT.S.lenL_eq, List.length_map] at h2
+  simp only [Prod.map_fst, Prod.map_snd] at h3 h4
+  rw [getK_H, RP_get Rl G2 h1] at h3 h4
+  simp only [Prod.map_fst, Prod.map_snd] at h3 h4
+  rw [cH_mul hn, cH_mul hn, beq_cH hn] at h3 h4
+  have hcov := coveredG_of_inj _ hkey Rl (G2.map fun e => (Rl.getD e.1 1, Rl.getD e.2.1 1)) x
+    (i := q.1) (j := q.2) (by simpa using h1) h2 (conj_of_mulS h3) (conj_of_mulS h4)
+  rw [hcov]
+  rfl
+
 end Main
 
 end CFSG.KC.LQT.Syl.Pf24

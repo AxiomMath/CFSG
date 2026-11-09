@@ -461,9 +461,14 @@ theorem exists_central_involution_mem_commutator_closure
   have hRepW : Rep 2688 (witnessW inputs (liftInvArrays inputs) W)
       ((w : Equiv.Perm (Fin 2688))) := by
     by_cases hsign : W.sign
-    · simp only [w, hsign, if_true, witnessW, if_true]
+    · have hw : w = term := if_pos hsign
+      rw [hw]
+      simp only [hsign, if_true, witnessW]
       exact hRepT
-    · simp only [w, hsign, if_false, witnessW, if_false]
+    · have hs : W.sign = false := by simpa using hsign
+      have hw : w = term⁻¹ := if_neg hsign
+      rw [hw]
+      simp only [hs, Bool.false_eq_true, if_false, witnessW]
       exact rep_inv_of_isInvA hRepT hWinv_t
 
   have hw_sq : w * w = 1 := by

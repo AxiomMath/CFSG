@@ -10,6 +10,7 @@ namespace Certificates
 
 set_option maxHeartbeats 0 in
 set_option maxRecDepth 100000 in
+set_option synthInstance.maxSize 1024 in
 open CFSG CFSG.ASVolI in
 theorem certificate7531 : burnsideF48s_sp42PermFacts := by
   unfold burnsideF48s_sp42PermFacts

@@ -145,7 +145,62 @@ theorem gP_tab (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) : tab (gP i) = TP i := by
   let e := rotK (-i.2.2.2) (-i.1, -i.2.1, -i.2.2.1)
   (e.1, e.2.1, e.2.2, -i.2.2.2)
 
-theorem TP_mul : ∀ i j, tmul (TP i) (TP j) = TP (nfP i j) := by decide +kernel
+theorem ite_xor_distrib (p q : Bool) (a : ℕ) :
+    (if (p ^^ q) = true then a else 0) =
+      (if p = true then a else 0) ^^^ (if q = true then a else 0) := by
+  cases p <;> cases q <;> simp
+
+theorem app_xor (t : Tab) (x y : ℕ) : app t (x ^^^ y) = app t x ^^^ app t y := by
+  obtain ⟨a, b, c, d, e, f⟩ := t
+  simp only [app, Nat.testBit_xor, ite_xor_distrib]
+  ac_rfl
+
+theorem app_zero (t : Tab) : app t 0 = 0 := by simp [app]
+
+theorem app_ite (t : Tab) (p : Prop) [Decidable p] (x : ℕ) :
+    app t (if p then x else 0) = if p then app t x else 0 := by
+  split_ifs
+  · rfl
+  · exact app_zero t
+
+theorem app_tmul (t u : Tab) (n : ℕ) : app (tmul t u) n = app t (app u n) := by
+  conv_rhs => enter [2]; rw [app]
+  simp only [app_xor, app_ite]
+  rfl
+
+theorem tmul_assoc (t u v : Tab) : tmul (tmul t u) v = tmul t (tmul u v) := by
+  rw [tmul.eq_def (tmul t u) v]
+  simp only [app_tmul]
+  rfl
+
+theorem TP_genA : ∀ (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) (k : Fin 3),
+    tmul (TP i) (tpow (10, 9, 8, 15, 16, 32) k.val) = TP (nfP i (k, 0, 0, 0)) := by
+  decide +kernel
+
+theorem TP_genB : ∀ (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) (k : Fin 3),
+    tmul (TP i) (tpow (2, 15, 10, 6, 16, 32) k.val) = TP (nfP i (0, k, 0, 0)) := by
+  decide +kernel
+
+theorem TP_genC : ∀ (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) (k : Fin 3),
+    tmul (TP i) (tpow (1, 2, 4, 8, 32, 48) k.val) = TP (nfP i (0, 0, k, 0)) := by
+  decide +kernel
+
+theorem TP_genG : ∀ (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) (k : Fin 3),
+    tmul (TP i) (tpow (28, 23, 43, 59, 13, 14) k.val) = TP (nfP i (0, 0, 0, k)) := by
+  decide +kernel
+
+theorem nfP_four (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) (a b c d : Fin 3) :
+    nfP (nfP (nfP (nfP i (a, 0, 0, 0)) (0, b, 0, 0)) (0, 0, c, 0)) (0, 0, 0, d) =
+      nfP i (a, b, c, d) := by
+  obtain ⟨i1, i2, i3, i4⟩ := i
+  fin_cases i4 <;> simp [nfP, rotK] <;> abel
+
+theorem TP_mul : ∀ i j, tmul (TP i) (TP j) = TP (nfP i j) := by
+  rintro i ⟨a, b, c, d⟩
+  rw [show TP (a, b, c, d) = tmul (tmul (tmul (tpow (10, 9, 8, 15, 16, 32) a.val)
+      (tpow (2, 15, 10, 6, 16, 32) b.val)) (tpow (1, 2, 4, 8, 32, 48) c.val))
+      (tpow (28, 23, 43, 59, 13, 14) d.val) from rfl, ← tmul_assoc, ← tmul_assoc, ← tmul_assoc,
+    TP_genA, TP_genB, TP_genC, TP_genG, nfP_four]
 
 theorem TP_inv : ∀ i, tmul (TP i) (TP (invP i)) = tid := by decide +kernel
 

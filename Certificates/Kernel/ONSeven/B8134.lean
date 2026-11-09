@@ -18,18 +18,18 @@ public section
 
 set_option maxRecDepth 400000
 
-#kon_join CertificateChecks.KernelSpor.ONS.cc0All CertificateChecks.KernelSpor.ONS.cc0S 26
-#kon_join CertificateChecks.KernelSpor.ONS.cc1All CertificateChecks.KernelSpor.ONS.cc1S 26
-#kon_join CertificateChecks.KernelSpor.ONS.cc2All CertificateChecks.KernelSpor.ONS.cc2S 26
-#kon_join CertificateChecks.KernelSpor.ONS.cc3All CertificateChecks.KernelSpor.ONS.cc3S 26
-#kon_join CertificateChecks.KernelSpor.ONS.cc4All CertificateChecks.KernelSpor.ONS.cc4S 26
-#kon_join CertificateChecks.KernelSpor.ONS.fx0All CertificateChecks.KernelSpor.ONS.fx0S 8
-#kon_join CertificateChecks.KernelSpor.ONS.fx1All CertificateChecks.KernelSpor.ONS.fx1S 8
-#kon_join CertificateChecks.KernelSpor.ONS.fx2All CertificateChecks.KernelSpor.ONS.fx2S 8
-#kon_join CertificateChecks.KernelSpor.ONS.fx3All CertificateChecks.KernelSpor.ONS.fx3S 8
-#kon_join CertificateChecks.KernelSpor.ONS.fx4All CertificateChecks.KernelSpor.ONS.fx4S 8
-#kon_join CertificateChecks.KernelSpor.ONS.cf3All CertificateChecks.KernelSpor.ONS.cf3S 26
-#kon_join CertificateChecks.KernelSpor.ONS.cf4All CertificateChecks.KernelSpor.ONS.cf4S 26
+#kon_join CertificateChecks.KernelSpor.ONS.cd0All CertificateChecks.KernelSpor.ONS.cd0S 26
+#kon_join CertificateChecks.KernelSpor.ONS.cd1All CertificateChecks.KernelSpor.ONS.cd1S 26
+#kon_join CertificateChecks.KernelSpor.ONS.cd2All CertificateChecks.KernelSpor.ONS.cd2S 26
+#kon_join CertificateChecks.KernelSpor.ONS.cd3All CertificateChecks.KernelSpor.ONS.cd3S 26
+#kon_join CertificateChecks.KernelSpor.ONS.cd4All CertificateChecks.KernelSpor.ONS.cd4S 26
+#kon_join CertificateChecks.KernelSpor.ONS.fy0All CertificateChecks.KernelSpor.ONS.fy0S 8
+#kon_join CertificateChecks.KernelSpor.ONS.fy1All CertificateChecks.KernelSpor.ONS.fy1S 8
+#kon_join CertificateChecks.KernelSpor.ONS.fy2All CertificateChecks.KernelSpor.ONS.fy2S 8
+#kon_join CertificateChecks.KernelSpor.ONS.fy3All CertificateChecks.KernelSpor.ONS.fy3S 8
+#kon_join CertificateChecks.KernelSpor.ONS.fy4All CertificateChecks.KernelSpor.ONS.fy4S 8
+#kon_join CertificateChecks.KernelSpor.ONS.cq3All CertificateChecks.KernelSpor.ONS.cq3S 26
+#kon_join CertificateChecks.KernelSpor.ONS.cq4All CertificateChecks.KernelSpor.ONS.cq4S 26
 
 namespace CertificateChecks.KernelSpor.ONS
 
@@ -114,7 +114,7 @@ theorem count_eq' {x : Array Nat} {Z A : Nat → Nat} (hz : ∀ p < 245520, x[p]
 theorem slice_sums {Z A V : Nat → Nat} {s : Nat} (h : ccS Z A V s = true) :
     ∑ l ∈ Finset.range 2048, ccZ Z A (2048 * s + l) = V s := by
   have h' := Nat.eq_of_beq_eq_true h
-  rw [sumR2_eq, Nat.mul_eq] at h'
+  rw [ccZo_eq, sumR2_eq, Nat.mul_eq] at h'
   exact h'
 
 theorem count_split {x : Array Nat} {Z A : Nat → Nat} (hz : ∀ p < 245520, x[p]! = Z p)
@@ -238,6 +238,59 @@ theorem good_slices {r : Nat} (hr : r < 5) {V : Nat → Nat}
   unfold fxS at h'
   rw [sumR2_eq, Nat.mul_eq] at h'
   exact h'
+
+theorem lnX_eq0 : WW (xw 0) = lnX0 := funext fun _ => rfl
+theorem lnX_eq1 : WW (xw 1) = lnX1 := funext fun _ => rfl
+theorem lnX_eq2 : WW (xw 2) = lnX2 := funext fun _ => rfl
+theorem lnX_eq3 : WW (xw 3) = lnX3 := funext fun _ => rfl
+theorem lnX_eq4 : WW (xw 4) = lnX4 := funext fun _ => rfl
+theorem cjT_eq0 : WW (tw 0) = cjT0 := funext fun _ => rfl
+theorem cjT_eq1 : WW (tw 1) = cjT1 := funext fun _ => rfl
+theorem cjT_eqI {r : Nat} (hr : tw r = []) : WW (tw r) = fun p => p := by
+  rw [hr]
+  rfl
+
+theorem fxR_of {r : Nat} {X T : Nat → Nat} (hX : WW (xw r) = X) (hT : WW (tw r) = T)
+    (h : ∀ s < 8, fxS X T (badB r) (fun s => (FL r).getD s 0) s = true) : ∀ s < 8, fxR r s = true := by
+  intro s hs
+  rw [fxR, hX, hT]
+  exact h s hs
+
+theorem cwC_eq0 : WW (cw 0) = cwC0 := funext fun _ => rfl
+theorem cwC_eq1 : WW (cw 1) = cwC1 := funext fun _ => rfl
+theorem cwC_eq2 : WW (cw 2) = lnX2 := funext fun _ => rfl
+theorem cwC_eq3 : WW (cw 3) = lnX3 := funext fun _ => rfl
+theorem cwC_eq4 : WW (cw 4) = lnX4 := funext fun _ => rfl
+theorem bwC_eq00 : WW (bw 0 0) = bwC00 := funext fun _ => rfl
+theorem bwC_eq01 : WW (bw 0 1) = bwC01 := funext fun _ => rfl
+theorem bwC_eq10 : WW (bw 1 0) = bwC10 := funext fun _ => rfl
+theorem bwC_eq11 : WW (bw 1 1) = bwC11 := funext fun _ => rfl
+theorem bwC_eq20 : WW (bw 2 0) = bwC20 := funext fun _ => rfl
+theorem bwC_eq21 : WW (bw 2 1) = bwC21 := funext fun _ => rfl
+theorem ubW_eq3 : WW (uw 3 0) = ubW30 := funext fun _ => rfl
+theorem ubW_eq4 : WW (uw 4 0) = ubW30 := funext fun _ => rfl
+theorem ubI_eq3 : WW (invL (uw 3 0)) = ubI30 := funext fun _ => rfl
+theorem ubI_eq4 : WW (invL (uw 4 0)) = ubI30 := funext fun _ => rfl
+
+theorem ccR_of {r : Nat} {Z : Nat → Nat} (hZ : WW (cw r) = Z)
+    (h : ∀ s < 26, ccS Z (fun k => (AL r).getD k 0) (fun s => (CL r).getD s 0) s = true) :
+    ∀ s < 26, ccR r s = true := by
+  intro s hs
+  rw [ccR, hZ]
+  exact h s hs
+
+theorem cbR_of {r i s : Nat} {Z : Nat → Nat} (hZ : WW (bw r i) = Z)
+    (h : ccS Z (fun k => (ABL r i).getD k 0) (fun s => (CBL r i).getD s 0) s = true) :
+    cbR r i s = true := by
+  rw [cbR, hZ]
+  exact h
+
+theorem cfR_of {r : Nat} {U Ui X : Nat → Nat} (hU : WW (uw r 0) = U) (hUi : WW (invL (uw r 0)) = Ui)
+    (hX : WW (cw r) = X) (h : ∀ s < 26, cfS U Ui X (fun k => (AL r).getD k 0) s = true) :
+    ∀ s < 26, cfR r s = true := by
+  intro s hs
+  rw [cfR, hU, hUi, hX]
+  exact h s hs
 
 @[expose] noncomputable def smallB : Bool :=
   (List.range 5).all fun r => Nat.beq (WW (cw r) 0) 0 &&

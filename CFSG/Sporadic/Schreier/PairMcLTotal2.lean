@@ -20,8 +20,7 @@ theorem word_orders2 :
       ordB bs (patW wA wB pat10) 10 = true :=
   Certificates.certificate2246.1
 
-theorem total2 :
-    (cl.map fun c => c.2.1.size * countPair bs 5 c.1 conds2 blocks).sum = 1796256000 :=
+theorem total2 : countPair bs 5 wA conds2 blocks = 80640 :=
   Certificates.certificate2246.2
 
 end CFSG.Sporadic.Schreier.PairMcL

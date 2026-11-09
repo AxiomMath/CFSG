@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GL33T "Certificates/Kernel/GL33T/data/gl33t.json.gz" 436576 1522834716309877295
+#kc_repo #kc_json CFSG.KD.GL33T "Certificates/Kernel/GL33T/data/gl33t.json" 436576 1522834716309877295
   (gens : List (List Nat)) (recs : List (List (Nat × Nat × Nat))) (mask : List Nat)
   (kind : List Nat) (q : List Nat) (s1reps : List (List Nat)) (s1cov : List (List (Nat × Nat)))
   (orr : List (List Nat)) (org : List (List Nat)) (ori : List (List Nat))

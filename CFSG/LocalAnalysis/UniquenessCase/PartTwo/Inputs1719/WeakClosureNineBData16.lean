@@ -1,5 +1,6 @@
 module
 
+public import CFSG.Certificates.Kernel.F3152.SortSound
 public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.WeakClosureNineBModel
 public import CFSG.LocalAnalysis.QuasithinUnique.Unconstrained.A6FactsGeneric
 
@@ -100,7 +101,9 @@ theorem tb1_nodup : (Core.buildCodes (List.range 16) tb1GenC tb1Tree).Nodup := b
 
 theorem tb2_nodup : (Core.buildCodes (List.range 16) tb2GenC tb2Tree).Nodup := by decide +kernel
 
-theorem tb3_nodup : (Core.buildCodes (List.range 16) tb3GenC tb3Tree).Nodup := by decide +kernel
+theorem tb3_nodup : (Core.buildCodes (List.range 16) tb3GenC tb3Tree).Nodup :=
+  List.Nodup.of_map (fun l : List ℕ => l.foldr (fun a acc => a + 16 * acc) 0)
+    (CFSG.KS.F3152.nodup_of_sortedK (by decide +kernel))
 
 theorem tb0_length : (Core.buildCodes (List.range 16) tb0GenC tb0Tree).length = 128 := by
   decide +kernel

@@ -72,37 +72,37 @@ theorem kGensP : ((List.range 2).all (fun j => Nat.beq (CMO.S j) (pw (moGenW.get
 theorem chainMO : ChainK 24 5 moGen moChainW (#v[0, 1, 2, 3, 4] : Vector (Fin 24) 5)
     CMO.S CMO.SI CMO.LR CMO.TR CMO.TRI 8 CMO.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.1, by decide, CMO.head,
-    CMO.hl, by norm_num, CMO.hs⟩
+    CMO.hl, by norm_num, .inl CMO.hs⟩
 
 theorem chainNS : ChainK 24 5 nsGen nsChainW (#v[0, 1, 2, 3, 4, 5] : Vector (Fin 24) 6)
     CNS.S CNS.SI CNS.LR CNS.TR CNS.TRI 9 CNS.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.1, by decide, CNS.head,
-    CNS.hl, by norm_num, CNS.hs⟩
+    CNS.hl, by norm_num, .inl CNS.hs⟩
 
 theorem chainLS : ChainK 24 5 lsGen lsChainW (#v[0, 1, 2, 3, 4] : Vector (Fin 24) 5)
     CLS.S CLS.SI CLS.LR CLS.TR CLS.TRI 10 CLS.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, cgens_img rfl kGensP.2.2.1, by decide, CLS.head,
-    CLS.hl, by norm_num, CLS.hs⟩
+    CLS.hl, by norm_num, .inl CLS.hs⟩
 
 theorem chainNQ : ChainK 24 5 nqGen nqChainW (#v[0, 1, 2, 3, 4] : Vector (Fin 24) 5)
     CNQ.S CNQ.SI CNQ.LR CNQ.TR CNQ.TRI 7 CNQ.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.2.1, by decide, CNQ.head,
-    CNQ.hl, by norm_num, CNQ.hs⟩
+    CNQ.hl, by norm_num, .inl CNQ.hs⟩
 
 theorem chainLQ : ChainK 24 5 lqGen lqChainW (#v[0, 1, 2, 3, 4] : Vector (Fin 24) 5)
     CLQ.S CLQ.SI CLQ.LR CLQ.TR CLQ.TRI 7 CLQ.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, cgens_img rfl kGensP.2.2.2.2.1, by decide, CLQ.head,
-    CLQ.hl, by norm_num, CLQ.hs⟩
+    CLQ.hl, by norm_num, .inl CLQ.hs⟩
 
 theorem chainNT : ChainK 24 5 ntGen ntChainW (#v[0, 1, 2, 3, 4] : Vector (Fin 24) 5)
     CNT.S CNT.SI CNT.LR CNT.TR CNT.TRI 6 CNT.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.2.2.2.1, by decide, CNT.head,
-    CNT.hl, by norm_num, CNT.hs⟩
+    CNT.hl, by norm_num, .inl CNT.hs⟩
 
 theorem chainKQ : ChainK 24 5 kqGen kqChainW (#v[0, 1, 2, 3, 4] : Vector (Fin 24) 5)
     CKQ.S CKQ.SI CKQ.LR CKQ.TR CKQ.TRI 9 CKQ.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2.2.2.2.2, by decide, CKQ.head,
-    CKQ.hl, by norm_num, CKQ.hs⟩
+    CKQ.hl, by norm_num, .inl CKQ.hs⟩
 
 theorem kOrdP : ordK CMO.LR 5 = 322560 ∧ ordK CNS.LR 6 = 138240 ∧ ordK CLS.LR 5 = 69120 ∧
     ordK CNQ.LR 5 = 21504 ∧ ordK CLQ.LR 5 = 10752 ∧ ordK CNT.LR 5 = 64512 ∧
@@ -445,13 +445,13 @@ theorem cosCnt (i : Nat) (hi : i < 15) :
   have hr : ∀ r ∈ rsP, PP 24 5 r := ppL r2CosetW
   have hl : rsP.length = 15 := by simp [rsP, r2CosetW]
   rcases Nat.eq_zero_or_pos i with rfl | hpos
-  · rw [if_pos rfl, Nat.eq_of_beq_eq_true e0]
+  · rw [ite_eq_left rfl, Nat.eq_of_beq_eq_true e0]
     have h := kCos0
     unfold cos0K at h
     rw [Bool.and_eq_true] at h
     rw [← Nat.eq_of_beq_eq_true h.1]
     exact countP_congr' fun c hc => by rw [pc_pidn hsz (ppcb0 c hc)]
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     have hri : PP 24 5 (rsP.getD i 0) := by
       rw [List.getD_eq_getElem _ _ (by omega)]
       exact hr _ (List.getElem_mem _)
@@ -468,12 +468,12 @@ theorem sum_first {l : List Nat} {g : Nat → Nat} {c : Nat}
   | cons a t =>
     have h0 : g a = c := by
       have := h 0 (by simp)
-      rwa [List.getD_cons_zero, if_pos rfl] at this
+      rwa [List.getD_cons_zero, ite_eq_left rfl] at this
     have ht : ∀ x ∈ t, g x = 0 := by
       intro x hx
       obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hx
       have := h (j + 1) (by simp; omega)
-      rwa [List.getD_cons_succ, List.getD_eq_getElem _ _ hj, if_neg (Nat.succ_ne_zero j)] at this
+      rwa [List.getD_cons_succ, List.getD_eq_getElem _ _ hj, ite_eq_right (Nat.succ_ne_zero j)] at this
     have hs : (t.map g).sum = 0 := List.sum_eq_zero fun y hy => by
       obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hy
       exact ht x hx
@@ -528,7 +528,6 @@ theorem g7 : (!(inSpan 24 tT qtT) && (inSpan 24 tT (compT 24 qtT qtT)) &&
     refine beq_iff_eq.2 (sum_first (fun i hi => ?_) (by simp [r2CosetW]))
     have hi' : i < 15 := by simpa [r2CosetW] using hi
     have hr : r2CosetW.map pw = rsP := rfl
-    beta_reduce
     rw [hr]
     exact cosCnt i hi'
   simp only [e1, e2, e3, e4, e5, e6, Bool.and_self]

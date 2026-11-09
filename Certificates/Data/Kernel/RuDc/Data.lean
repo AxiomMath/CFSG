@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.SLDc
 
-#kc_repo #kc_json_gz CFSG.KD.RuDc.J "Certificates/Data/Kernel/RuDc/data/ru.json.gz" 500729
+#kc_repo #kc_json CFSG.KD.RuDc.J "Certificates/Data/Kernel/RuDc/data/ru.json" 500729
   5256381461595363081
   (w : Nat) (oidC : Nat) (tlC : Nat) (dpC : Nat) (obase : List Nat) (osz : List Nat)
   (K : List (List (List Nat))) (sep : List Nat) (mw : List (List (List Nat)))

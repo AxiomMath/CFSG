@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenC11AltCount
 import CFSG.Mathlib.Decide.Bounded
+import Mathlib.Tactic.FinCases
 
 public section
 
@@ -176,6 +177,69 @@ theorem s16c11_altSeven_ne :
       (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val) := by
   decide +kernel
 
+private theorem s16c11_altSeven_cover_0 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 0 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
+private theorem s16c11_altSeven_cover_1 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 1 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
+private theorem s16c11_altSeven_cover_2 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 2 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
+private theorem s16c11_altSeven_cover_3 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 3 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
+private theorem s16c11_altSeven_cover_4 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 4 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
+private theorem s16c11_altSeven_cover_5 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 5 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
+private theorem s16c11_altSeven_cover_6 :
+    (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = 6 ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+  decide +kernel
+
 theorem s16c11_altSeven_cover_card :
     (Finset.univ.filter fun g : Equiv.Perm (Fin 7) =>
       S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
@@ -183,7 +247,21 @@ theorem s16c11_altSeven_cover_card :
       ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
         g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
         g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
-  decide +kernel
+  have key : ∀ a : Fin 7, (Finset.univ.filter fun g : Equiv.Perm (Fin 7) => g 0 = a ∧
+      S16C11AltTriple s16c11AltSevenX0 s16c11AltSevenXa s16c11AltSevenXb g ∧ g ^ 3 = 1 ∧
+      ¬ S16C11AltEqv s16c11AltSevenX0 (S16C11AltPact g s16c11AltSevenX0) ∧
+      ¬ (g ∈ (S16C11AltWords s16c11AltSevenGens1 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens2 4).image Subtype.val ∨
+        g ∈ (S16C11AltWords s16c11AltSevenGens3 4).image Subtype.val)).card = 0 := by
+    intro a
+    fin_cases a
+    exacts [s16c11_altSeven_cover_0, s16c11_altSeven_cover_1, s16c11_altSeven_cover_2,
+      s16c11_altSeven_cover_3, s16c11_altSeven_cover_4, s16c11_altSeven_cover_5,
+      s16c11_altSeven_cover_6]
+  rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+  intro g _ hg
+  exact (Finset.filter_eq_empty_iff.1 (Finset.card_eq_zero.1 (key (g 0)))) (Finset.mem_univ g)
+    ⟨rfl, hg⟩
 
 theorem s16c11_altSeven_cover :
     ∀ g : Equiv.Perm (Fin 7),

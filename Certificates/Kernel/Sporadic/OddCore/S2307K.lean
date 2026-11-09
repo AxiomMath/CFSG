@@ -58,7 +58,7 @@ theorem sqCnt : Nat.beq (cntN 16384 (fun k => bIf(Nat.beq k (nat_lit 0), false,
 theorem hpc : allN 11 (fun j => Nat.beq (SSE.G j) (SSC.S j)) = true := by quickRfl
 theorem pPC : allN 14 (fun j => permOK 1782 11 (mask 11) (1782 * 11) (SSC.S j) (SSC.SI j)) =
     true := by quickRfl
-theorem bPC : allN 2 (fun t => Nat.beq (pg 11 (mask 11) SSC.BP t) ([0, 1].getD t 0)) = true := by
+theorem bPC : allN 3 (fun t => Nat.beq (pg 11 (mask 11) SSC.BP t) ([0, 1, 2].getD t 0)) = true := by
   quickRfl
 
 end CertificateChecks.KernelSpor.S2307

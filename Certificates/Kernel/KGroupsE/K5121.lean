@@ -2,6 +2,7 @@ module
 
 public import CFSG.GH74.KGroups.L33TablesInputs
 public import Certificates.Data.Kernel.Census.CatFacts.PkDefs
+public import Certificates.Kernel.KGroupsE.K5126
 
 public section
 
@@ -15,8 +16,12 @@ open CFSG.GH74.KGroups CFSG.GH74.KGroups.L33 CFSG.Certificates.Kernel.PkEnum
 theorem qs_5121K : schP QS = true ∧ orderV QS = 16 := by
   constructor <;> decide +kernel
 
-theorem inv_5121K : invConjCheck (elemsV QP) t0 = true := by
+theorem inv_5121K_pk : invConjPk (enumV (strongV QP) QP.base) (codeV t0) = true := by
   decide +kernel
+
+theorem inv_5121K : invConjCheck (elemsV QP) t0 = true := by
+  rw [elemsV, ← pkp_codeV t0, invConjCheck_map_pkp]
+  exact inv_5121K_pk
 
 theorem small_5121K : smallCheck (elemsV QS) s0 = true := by
   decide +kernel

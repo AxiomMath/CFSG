@@ -317,6 +317,7 @@ theorem cj_ok : cjOK = true := by
       rw [toList_eq cjElems_size, List.map_map]
       apply List.map_congr_left
       intro k hk
+      rw [Function.comp_apply]
       exact cjConj_eq (List.mem_range.1 hk)
     rw [e]
     apply pwDistinct_of_pairwise

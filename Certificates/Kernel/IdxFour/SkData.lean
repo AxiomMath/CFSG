@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.IF4K "Certificates/Kernel/IdxFour/data/skchain.json.gz" 34044
+#kc_repo #kc_json CFSG.KD.IF4K "Certificates/Kernel/IdxFour/data/skchain.json" 34044
   1595185594363432734 (B : List Nat) (O : List Nat) (SP : Nat) (SI : Nat) (WD : List (List Nat))
   (TL : List (List Nat)) (T : List Nat) (PS : List Nat) (TR : List (List (List Nat)))
   (R : List (List (List Nat))) (W : List (List Nat))

@@ -6,6 +6,7 @@ public import Certificates.Kernel.LocalQT.PEnumD
 public import CFSG.Certificates.Kernel.Common.Each
 public import Certificates.Data.Kernel.Spor.PEnumB
 public import Certificates.Data.Kernel.Spor.MulHQ
+public import Certificates.Data.Kernel.Spor.HKeyU
 meta import Certificates.Data.J3Cls
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -25,7 +26,14 @@ meta def sRecM : Array (Array Nat) := recOfM sGM
 
 meta def sHVM : Array (Array Nat) := hvOfM sRecM
 
-meta def sClM : Array Nat := clOfM sRecM sGM
+meta def sClM : Array Nat := Id.run do
+  let idx := indexM (sRecM.map fun x => #[x[0]!, x[1]!, x[3]!, x[2]!])
+  let letters := sGM ++ sGM.map invM
+  let mut out : Array Nat := #[]
+  for x in sRecM do
+    for g in letters do
+      out := out.push (idx.getD #[x[g[0]!]!, x[g[1]!]!, x[g[3]!]!, x[g[2]!]!] sRecM.size)
+  return out
 
 end CertificateChecks.KernelJ3Ref
 
@@ -53,9 +61,10 @@ theorem sE1 : allBlk 32 sPt 32 = true := by quickRfl
 theorem sE2 : allBlk 64 sPt 32 = true := by quickRfl
 theorem sE3 : allBlk 96 sPt 32 = true := by quickRfl
 
-@[expose] noncomputable def hvS (i : Nat) : Bool := hvK 6156 13 (mask 13) J3RS.T J3RSV i
+@[expose] noncomputable def hvS (b : Nat) : Bool :=
+  allBlk (Nat.mul b 16) (fun i => Nat.beq (hkeyU 6156 13 (mask 13) (J3RS.T i)) (J3RSV i)) 16
 
-#kc_each CertificateChecks.KernelJ3Ref.hvS 0 128
+#kc_each CertificateChecks.KernelJ3Ref.hvS 0 8
 
 theorem sHV : allBlk 0 (hsortVK J3RS.cnt J3RSV J3RS.HS J3RS.HSI) 128 = true := by quickRfl
 

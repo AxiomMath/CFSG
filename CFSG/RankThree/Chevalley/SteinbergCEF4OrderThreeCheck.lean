@@ -78,6 +78,47 @@ theorem bijective_mulVec_f4OrderThreeBasis : Function.Bijective f4OrderThreeBasi
       Matrix.one_mulVec] at this
   · rw [Matrix.mulVec_mulVec, h1, Matrix.one_mulVec]
 
+@[expose] def o3rPred (J : Finset (Fin Tag.F4.rank)) : Prop :=
+  J.Nonempty → J ≠ Finset.univ →
+      ∀ c₀ ∈ colChoices J (f4Index 0), ∀ c₁ ∈ colChoices J (f4Index 1),
+        ∀ c₂ ∈ colChoices J (f4Index 2), ∀ c₃ ∈ colChoices J (f4Index 3),
+        (∀ i ∈ J, colMap (cols4 c₀ c₁ c₂ c₃) (cols4 c₀ c₁ c₂ c₃ i) + cols4 c₀ c₁ c₂ c₃ i +
+          Pi.single i 1 = 0) →
+        (∀ β ∈ parabolicRootList J, colMap (cols4 c₀ c₁ c₂ c₃) β ∈ parabolicRootList J) →
+        (J = {f4Index 0, f4Index 1} ∧
+          (cols4 c₀ c₁ c₂ c₃ = (fun i => if i ∈ J then f4WordAct [0, 1] (Pi.single i 1) else 0) ∨
+            cols4 c₀ c₁ c₂ c₃ =
+              (fun i => if i ∈ J then f4WordAct [1, 0] (Pi.single i 1) else 0))) ∨
+        (J = {f4Index 2, f4Index 3} ∧
+          (cols4 c₀ c₁ c₂ c₃ = (fun i => if i ∈ J then f4WordAct [2, 3] (Pi.single i 1) else 0) ∨
+            cols4 c₀ c₁ c₂ c₃ =
+              (fun i => if i ∈ J then f4WordAct [3, 2] (Pi.single i 1) else 0)))
+
+instance instDecidableO3rPred (J : Finset (Fin Tag.F4.rank)) : Decidable (o3rPred J) := by
+  unfold o3rPred
+  infer_instance
+
+@[expose] def o3rRest : List (Finset (Fin Tag.F4.rank)) :=
+  [∅, {f4Index 0}, {f4Index 1}, {f4Index 2}, {f4Index 3}, {f4Index 0, f4Index 1},
+    {f4Index 0, f4Index 2}, {f4Index 0, f4Index 3}, {f4Index 1, f4Index 2},
+    {f4Index 1, f4Index 3}, {f4Index 2, f4Index 3}, Finset.univ]
+
+theorem o3r_cover : ∀ J : Finset (Fin Tag.F4.rank),
+    J = {f4Index 0, f4Index 1, f4Index 2} ∨ J = {f4Index 0, f4Index 1, f4Index 3} ∨
+      J = {f4Index 0, f4Index 2, f4Index 3} ∨ J = {f4Index 1, f4Index 2, f4Index 3} ∨
+      J ∈ o3rRest := by
+  decide +kernel
+
+theorem o3r_012 : o3rPred {f4Index 0, f4Index 1, f4Index 2} := by decide +kernel
+
+theorem o3r_013 : o3rPred {f4Index 0, f4Index 1, f4Index 3} := by decide +kernel
+
+theorem o3r_023 : o3rPred {f4Index 0, f4Index 2, f4Index 3} := by decide +kernel
+
+theorem o3r_123 : o3rPred {f4Index 1, f4Index 2, f4Index 3} := by decide +kernel
+
+theorem o3r_rest : ∀ J ∈ o3rRest, o3rPred J := by decide +kernel
+
 theorem order_three_restriction_check :
     ∀ J : Finset (Fin Tag.F4.rank), J.Nonempty → J ≠ Finset.univ →
       ∀ c₀ ∈ colChoices J (f4Index 0), ∀ c₁ ∈ colChoices J (f4Index 1),
@@ -93,7 +134,15 @@ theorem order_three_restriction_check :
           (cols4 c₀ c₁ c₂ c₃ = (fun i => if i ∈ J then f4WordAct [2, 3] (Pi.single i 1) else 0) ∨
             cols4 c₀ c₁ c₂ c₃ =
               (fun i => if i ∈ J then f4WordAct [3, 2] (Pi.single i 1) else 0))) := by
-  decide +kernel
+  intro J
+  have h : o3rPred J := by
+    rcases o3r_cover J with rfl | rfl | rfl | rfl | h
+    · exact o3r_012
+    · exact o3r_013
+    · exact o3r_023
+    · exact o3r_123
+    · exact o3r_rest J h
+  exact h
 
 theorem parabolicRootList_card_01 :
     (parabolicRootList {f4Index 0, f4Index 1}).toFinset.card = 6 := by

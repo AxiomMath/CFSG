@@ -55,7 +55,7 @@ theorem qF_proved (v : Nat) :
 
 theorem orb_proved : stabOrbCheck = true := by
   unfold stabOrbCheck
-  rw [i0, i1, h0u, h1u, (invOKK_sound k0).1, (invOKK_sound k1).1, wf_unpack, wf_unpack]
+  rw [i0, i1, h0u, h1u, (invOKW_sound k0).1, (invOKW_sound k1).1, wf_unpack, wf_unpack]
   simp only [beq_self_eq_true, Bool.true_and, List.all_eq_true, List.mem_range]
   intro k hk
   rw [so]

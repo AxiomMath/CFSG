@@ -1,8 +1,7 @@
 module
 
 public import CFSG.Sporadic.FischerOddCore.Fi22CentData
-public meta import CFSG.Sporadic.FischerOddCore.Fi22CentText
-public meta import CFSG.Monster.B.Fischer.Fi22OuterArrays
+public meta import CFSG.Sporadic.FischerOddCore.Fi22CentCheckInputs
 
 public section
 
@@ -10,11 +9,9 @@ namespace CertificateChecks.KernelSpor.Fi22H
 
 open CFSG.Sporadic.FischerOddCore
 
-meta def bytes : ByteArray := (fi22CentP0 ++ fi22CentP1 ++ fi22CentP2 ++ fi22CentP3).toUTF8
-
 meta def S (c : Nat) : Array (Array Nat) :=
   Array.ofFn (n := [19, 16, 9, 19, 16].getD c 0) fun j =>
-    CFSG.Monster.B.Fischer.hexLine bytes 3 3510 ([0, 19, 35, 44, 63].getD c 0 + j.val)
+    fi22CentArr ([0, 19, 35, 44, 63].getD c 0 + j.val)
 
 meta def S0 : Array (Array Nat) := S 0
 meta def S1 : Array (Array Nat) := S 1

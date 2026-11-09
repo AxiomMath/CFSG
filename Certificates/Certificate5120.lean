@@ -57,9 +57,9 @@ theorem certificate5120 : (QP13.check = true ∧ QP13.orderCertificate = 5616)
   · rw [elemsT_eq_elemsC, inner3_C]
     exact K5120.kInner3
   · rw [elemsT_eq_elemsC, cent3_C]
-    exact K5120.kCent3
+    exact K5120.kCent3 (check_certificate_of _ _ _ _ _ K5120.kQP.1)
   · rw [elemsT_eq_elemsC, elemsT_eq_elemsC]
-    refine solv_C _ _ _ K5120.kSolv fun c hc => ?_
+    refine solv_C _ _ _ (K5120.kSolv (check_certificate_of _ _ _ _ _ K5120.kQP.1)) fun c hc => ?_
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hc
     rcases hc with rfl | rfl
     · exact pf_le_two 2 3 4 1 Nat.prime_two Nat.prime_three

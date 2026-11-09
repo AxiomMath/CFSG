@@ -2,14 +2,14 @@ module
 
 public import Init
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.ThI301 "Certificates/Kernel/ThI301/data/gens.json.gz" 205
+#kc_repo #kc_json CFSG.KD.ThI301 "Certificates/Kernel/ThI301/data/gens.json" 205
   6794993328121371484 (A : Nat) (AI : Nat) (B : Nat) (BI : Nat) (Y : List Nat) (YI : List Nat)
   (PM : Nat) (RO : Nat) (NL : Nat)
 
-#kc_repo #kc_ktree_gz CFSG.KD.ThI301 IT "Certificates/Kernel/ThI301/data/invol.bin.gz" 9 4
+#kc_repo #kc_ktree CFSG.KD.ThI301 IT "Certificates/Kernel/ThI301/data/invol.bin" 9 4
   23571 8943540531612570244
 
 public section

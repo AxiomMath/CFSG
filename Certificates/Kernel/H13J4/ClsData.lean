@@ -13,12 +13,17 @@ open CFSG.Quasithin.H13.J4 CFSG.Quasithin.H13.J4.Native
   let m := clsIdx E.1
   (E.1.toList.flatMap fun B => gens.toList.map fun g => m.getD (conjCols g.2 g.1 B) E.1.size).toArray
 
+@[expose] def invTabs : Array (Array Nat) :=
+  xyPairs.map fun g => (Array.range 2048).map (CFSG.Sporadic.J4Schreier.app11 g.2)
+
+@[expose] def rowTabs : Array (Array Nat) :=
+  xyPairs.map fun g => (Array.range 11).map fun k =>
+    (List.range 11).foldl (fun acc j => acc ||| (((g.1[j]! >>> k) &&& 1) <<< (11 * j))) 0
+
 @[expose] def e2E : Array (Array Nat) := cls2.1
-@[expose] def e2P : Array Nat := cls2.2.1
 @[expose] def e2G : Array Nat := cls2.2.2
 @[expose] def e2N : Array Nat := nextIdx xyPairs cls2
 @[expose] def e3E : Array (Array Nat) := cls3.1
-@[expose] def e3P : Array Nat := cls3.2.1
 @[expose] def e3G : Array Nat := cls3.2.2
 @[expose] def e3N : Array Nat := nextIdx xyPairs cls3
 

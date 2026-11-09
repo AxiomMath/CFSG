@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.LocalComp.HeFix
 public import Certificates.Data.Kernel.Spor.Prim
+public import CFSG.Certificates.Kernel.Spor.WordSplit
 public import CFSG.RankThree.PartTwo.Sec4.Ronan148RHeInputs
 import Certificates.Kernel.Misc.Perm.HexCmd
 meta import CFSG.RankThree.PartTwo.Sec4.Ronan148RHeInputs
@@ -44,8 +45,7 @@ open CertificateChecks.KernelLC.HeFix
         (pcomp 8330 14 (mask 14) N (pcomp 8330 14 (mask 14) X NI)) NI))
       (pcomp 8330 14 (mask 14) X (pcomp 8330 14 (mask 14) N (pcomp 8330 14 (mask 14) X NI)))
 
-theorem kW : wordEqK 8330 14 (mask 14) (pidn 8330 14) L2 L2I 2 heN0W (HN 0) = true := by
-  quickRfl
+#kc_wordeq_split kW 112 : wordEqK 8330 14 (mask 14) (pidn 8330 14) L2 L2I 2 heN0W (HN 0) = true
 
 theorem kX : wordEqK 8330 14 (mask 14) (pidn 8330 14) L2 L2I 2 (heThreeWordsA.getD 0 [])
     (HN 1) = true := by

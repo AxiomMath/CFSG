@@ -18,26 +18,26 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.BfsPin CFSG.KS.ConjTr
 open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 open CFSG.Monster.B.Fischer CFSG.Sporadic.FischerOddCore CertificateChecks.KernelSpor
 
-theorem bindsH (htext : fi22Cent3510Text = Fi22E2065.textP) {c st kS BP : Nat}
+theorem bindsH {c st kS BP : Nat}
     {PS : Nat → Nat} (hc : c < 5) (hst : fi22CentStrongStart.getD c 0 = st)
-    (hcnt : fi22CentStrongCount.getD c 0 = kS) (hline : st + kS ≤ 306)
+    (hcnt : fi22CentStrongCount.getD c 0 = kS)
     (hbind : Fi22C2066.bindK PS kS st = true) (hbase : Fi22C2066.baseK BP = true) :
     Binds 3510 12 PS kS 6 BP (fi22CentStrong c) #[0, 1, 2, 3, 6, 4] := by
   refine ⟨by norm_num, by norm_num, by norm_num, by rw [fi22CentStrong, Array.size_ofFn, hcnt],
     fun j hj => ?_, rfl, fun t ht => Nat.eq_of_beq_eq_true (allN_spec hbase t ht)⟩
-  rw [fi22CentStrong_get hc (by rw [hcnt]; exact hj), fi22CentArr, fi22CentBytes, htext, hst,
-    Fi22E2065.cent_eq (by omega), Nat.eq_of_beq_eq_true (allN_spec hbind j hj)]
+  rw [fi22CentStrong_get hc (by rw [hcnt]; exact hj), hst, Fi22E2065.cent_eq,
+    Nat.eq_of_beq_eq_true (allN_spec hbind j hj)]
   rfl
 
-theorem bindsH2 (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem bindsH2 :
     Binds 3510 12 Fi22H2.S 9 6 Fi22H2.BP (fi22CentStrong 2) #[0, 1, 2, 3, 6, 4] :=
-  bindsH htext (st := 35) (by norm_num) rfl rfl (by norm_num) Fi22C2066.b2 Fi22C2066.p2
-theorem bindsH3 (htext : fi22Cent3510Text = Fi22E2065.textP) :
+  bindsH (st := 35) (by norm_num) rfl rfl Fi22C2066.b2 Fi22C2066.p2
+theorem bindsH3 :
     Binds 3510 12 Fi22H3.S 19 6 Fi22H3.BP (fi22CentStrong 3) #[0, 1, 2, 3, 6, 4] :=
-  bindsH htext (st := 44) (by norm_num) rfl rfl (by norm_num) Fi22C2066.b3 Fi22C2066.p3
-theorem bindsH4 (htext : fi22Cent3510Text = Fi22E2065.textP) :
+  bindsH (st := 44) (by norm_num) rfl rfl Fi22C2066.b3 Fi22C2066.p3
+theorem bindsH4 :
     Binds 3510 12 Fi22H4.S 16 6 Fi22H4.BP (fi22CentStrong 4) #[0, 1, 2, 3, 6, 4] :=
-  bindsH htext (st := 63) (by norm_num) rfl rfl (by norm_num) Fi22C2066.b4 Fi22C2066.p4
+  bindsH (st := 63) (by norm_num) rfl rfl Fi22C2066.b4 Fi22C2066.p4
 
 theorem strong_le_H {c : Nat} (hc : c < 5) :
     Subgroup.closure {g : Equiv.Perm (Fin 3510) |
@@ -128,12 +128,11 @@ theorem hcnH4 : ∀ j < 16, Fi22X.cn (Fi22H4.S j) = true :=
   allN_spec ((bAnd_iff (allN 16 (fun j => Fi22X.cn (Fi22H4.S j)))
     (allN 16 (fun j => Fi22X.siftP (Fi22H4.S j)))).1 Fi22C2066.s4).1
 
-theorem inNormal3
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem inNormal3 :
     fo22InNormalOK fo22N3Strong #[9, 0, 1, 2] (fi22CentStrong 3)
       ((fi22CentStrong 3).extract 0 9) = true := by
   rw [n3S]
-  have hbH := bindsH3 htext
+  have hbH := bindsH3
   have hN : ∀ i < 7, Rep 3510 SN3[i]! (permOfArr 3510 SN3[i]!) ∧
       isInvA 3510 SN3[i]! (invCand 3510 SN3[i]!) = true ∧ permOfArr 3510 SN3[i]! ∈ fi22P := by
     intro i hi
@@ -195,12 +194,11 @@ theorem inNormal3
   exact inNormalOK_of (hH 0 (by norm_num)) (hH 1 (by norm_num)) fun j hj =>
     ⟨hC j (hsz ▸ hj) 0 (by norm_num), hC j (hsz ▸ hj) 1 (by norm_num)⟩
 
-theorem inNormal4
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem inNormal4 :
     fo22InNormalOK fo22N4Strong #[0, 1, 2] (fi22CentStrong 4)
       ((fi22CentStrong 4).extract 0 9) = true := by
   rw [n4S]
-  have hbH := bindsH4 htext
+  have hbH := bindsH4
   have hN : ∀ i < 7, Rep 3510 SN4[i]! (permOfArr 3510 SN4[i]!) ∧
       isInvA 3510 SN4[i]! (invCand 3510 SN4[i]!) = true ∧ permOfArr 3510 SN4[i]! ∈ fi22P := by
     intro i hi

@@ -4,6 +4,6 @@ public import Certificates.Kernel.Misc.Coset.XC3VT
 
 public section
 
-#kb_family_part "data/XC3V.json.gz" 1759 15564484661551651723 4
+#kb_family_part "data/XC3V.json" 1758 15891411337695890883 4
 
 end

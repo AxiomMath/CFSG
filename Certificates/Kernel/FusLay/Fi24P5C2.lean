@@ -9,7 +9,7 @@ public section
 
 namespace CertificateChecks.KernelFusLay.Fi24P5
 
-#kc_each ch9586 10 15
+#kc_each ch9586 80 120
 
 end CertificateChecks.KernelFusLay.Fi24P5
 

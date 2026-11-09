@@ -61,12 +61,17 @@ end CertificateChecks.KernelLC.L34X
 #kmisc_packarrs CertificateChecks.KernelLC.L34C2.Q CertificateChecks.KernelLC.L34Gen.c2Q 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34C2.CP CertificateChecks.KernelLC.L34Gen.c2P 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34C2.L CertificateChecks.KernelLC.L34Gen.c2L 8
+#kmisc_packarrs CertificateChecks.KernelLC.L34C2.G CertificateChecks.KernelLC.L34Gen.c2G 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34C3.I CertificateChecks.KernelLC.L34Gen.c3I 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34C3.Q CertificateChecks.KernelLC.L34Gen.c3Q 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34C3.CP CertificateChecks.KernelLC.L34Gen.c3P 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34C3.L CertificateChecks.KernelLC.L34Gen.c3L 8
+#kmisc_packarrs CertificateChecks.KernelLC.L34C3.G CertificateChecks.KernelLC.L34Gen.c3G 8
 
 #kmisc_packarrs CertificateChecks.KernelLC.L34C4.I CertificateChecks.KernelLC.L34Gen.c4I 8
+#kmisc_packarrs CertificateChecks.KernelLC.L34C4.Q CertificateChecks.KernelLC.L34Gen.c4Q 8
+#kmisc_packarrs CertificateChecks.KernelLC.L34C4.G CertificateChecks.KernelLC.L34Gen.c4G 8
+#kmisc_packarrs CertificateChecks.KernelLC.L34C4.V CertificateChecks.KernelLC.L34Gen.c4V 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34D1.P CertificateChecks.KernelLC.L34Gen.d1P 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34D1.I CertificateChecks.KernelLC.L34Gen.d1I 8
 #kmisc_packarrs CertificateChecks.KernelLC.L34D1.PW CertificateChecks.KernelLC.L34Gen.d1Prod 8

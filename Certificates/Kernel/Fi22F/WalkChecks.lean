@@ -10,7 +10,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.FiFW "Certificates/Kernel/Fi22F/data/walks.json.gz" 19309 5233489210237734752
+#kc_repo #kc_json CFSG.KD.FiFW "Certificates/Kernel/Fi22F/data/walks.json" 19309 5233489210237734752
   (cs : List (List Nat)) (pairs : List (Nat × List Nat × Nat × Nat × Nat))
   (hg : List (List Nat × Nat × List Nat × Nat))
 

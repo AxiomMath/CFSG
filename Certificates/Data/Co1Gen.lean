@@ -52,6 +52,15 @@ variable {M V : Type} (O : Ops M V)
 @[expose] def co1GenClosed (gens xs : List M) : Bool :=
   xs.all fun x => gens.all fun g => xs.any (O.eq (O.mul x g))
 
+@[expose] def co1Span : List M → List M
+  | [] => [O.one]
+  | g :: gs => (co1Span gs).flatMap fun x => (List.range 5).map fun a => O.mul x (O.pow g a)
+
+@[expose] def co1PC : List M → Bool
+  | [] => true
+  | g :: gs => O.eq (O.pow g 5) O.one && gs.all (fun h => (O.co1Span gs).any (O.conjOK g h)) &&
+      co1PC gs
+
 @[expose] def co1GenPlane [Inhabited M] [Inhabited V] (nregs : Nat) (R : Array M) (Pl : Co1Gen.Plane) :
     Bool :=
   decide (Pl.u < nregs) && decide (Pl.v < nregs) && O.eq (O.pow R[Pl.u]! 5) O.one &&
@@ -67,14 +76,15 @@ variable {M V : Type} (O : Ops M V)
   let A0 := O.decode D.seedA
   let B0 := O.decode D.seedB
   let R := O.regsOf D.seedA D.seedB D.nregs D.prog
-  let pg := [R[D.plane1.u]!, R[D.plane1.v]!, R[D.plane2.u]!, R[D.plane2.v]!]
-  let xs := O.co1GenClosure pg D.fuelP
+  let U1 := R[D.plane1.u]!
+  let V1 := R[D.plane1.v]!
+  let U2 := R[D.plane2.u]!
+  let C := O.mul (O.mul U1 U2) (O.mul (O.pow U1 4) (O.pow U2 4))
   let ns := (D.plane1.norms ++ D.plane2.norms).map fun n => R[n.reg]!
   let R2 := O.run D.prog2 (Array.ofFn (n := D.nregs2) fun r => (ns[r.val]?).getD O.one)
   decide (2 ≤ D.nregs) && D.prog.all (Op.lt D.nregs) &&
     O.eq (O.pow A0 2) O.one && O.eq (O.pow B0 3) O.one &&
-    pg.all (fun x => O.eq (O.pow x 5) O.one) && O.co1GenClosed pg xs &&
-    xs.all (fun x => O.eq (O.pow x 625) O.one) &&
+    O.co1PC [U2, U1, C, V1] && (O.co1Span [U1, V1]).any (O.eq R[D.plane2.v]!) &&
     O.co1GenPlane D.nregs R D.plane1 && O.co1GenPlane D.nregs R D.plane2 &&
     decide (ns.length ≤ D.nregs2) && D.prog2.all (Op.lt D.nregs2) &&
     decide (D.rA < D.nregs2) && decide (D.rB < D.nregs2) &&

@@ -2,6 +2,7 @@ module
 
 public meta import Lean
 public import Lean.Exception
+public meta import CFSG.Certificates.Kernel.Common.NatTree
 
 open Lean Elab Command
 
@@ -13,6 +14,7 @@ inductive Val where
   | nat (v : Nat)
   | list (xs : Array Val)
   | ref (n : Name)
+  | chunks (v : Nat)
   deriving Inhabited
 
 abbrev Step := Array Val → Except String (Array (Name × Val))
@@ -39,6 +41,8 @@ meta partial def readExpr (e : Expr) : CoreM Val := do
         return .list xs
       else if e.isAppOfArity ``OfNat.ofNat 3 then
         return ← readExpr (e.getArg! 1)
+      else if let some v ← CFSG.KC.NatTree.natOf? e then
+        return .nat v
       else
         throwError "#kc_eval: cannot read {e}"
     return .list xs
@@ -50,27 +54,43 @@ where
 
 meta partial def valType (pre : Name) (v : Val) : CoreM Expr := do
   match v with
-  | .nat _ => return mkConst ``Nat
+  | .nat _ | .chunks _ => return mkConst ``Nat
   | .ref m => return (← getConstInfo (pre ++ m)).type
   | .list xs =>
     let t ← if h : 0 < xs.size then valType pre xs[0] else pure (mkConst ``Nat)
     return mkApp (mkConst ``List [0]) t
 
-meta partial def valExpr (pre : Name) (v : Val) : CoreM Expr := do
+meta def chunkBytes : Nat := 1024
+
+meta partial def valExpr (pre : Name) (leaf : Nat → CoreM Expr) (v : Val) : CoreM Expr := do
   match v with
   | .nat n => return mkRawNatLit n
+  | .chunks n =>
+    let w := 8 * chunkBytes
+    let k := n.log2 / w + 1
+    if k == 1 then return mkRawNatLit n
+    let ls ← (Array.range k).mapM fun i => leaf ((n >>> (w * i)) % (1 <<< w))
+    return CFSG.KC.NatTree.mkTree (ls[·]!) w 0 k
   | .ref m => return mkConst (pre ++ m)
   | .list xs =>
     let t ← if h : 0 < xs.size then valType pre xs[0] else pure (mkConst ``Nat)
     let mut acc := mkApp (mkConst ``List.nil [0]) t
     for x in xs.reverse do
-      acc := mkApp3 (mkConst ``List.cons [0]) t (← valExpr pre x) acc
+      acc := mkApp3 (mkConst ``List.cons [0]) t (← valExpr pre leaf x) acc
     return acc
 
 meta def addVal (pre name : Name) (v : Val) : CoreM Unit := do
+  let c ← IO.mkRef 0
+  let leaf (n : Nat) : CoreM Expr := do
+    let k ← c.modifyGet fun k => (k, k + 1)
+    let ln := name ++ Name.mkSimple s!"nb{k}"
+    addDecl (forceExpose := true) <| .defnDecl
+      { name := ln, levelParams := [], type := mkConst ``Nat, value := mkRawNatLit n,
+        hints := .regular 0, safety := .safe }
+    return mkConst ln
+  let value ← valExpr pre leaf v
   addDecl (forceExpose := true) <| .defnDecl
-    { name, levelParams := [], type := ← valType pre v, value := ← valExpr pre v,
-      hints := .regular 0, safety := .safe }
+    { name, levelParams := [], type := ← valType pre v, value, hints := .regular 0, safety := .safe }
 
 end CFSG.KC.Eval
 

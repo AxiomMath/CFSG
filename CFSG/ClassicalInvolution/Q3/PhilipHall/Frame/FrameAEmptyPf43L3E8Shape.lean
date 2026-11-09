@@ -26,8 +26,33 @@ section Shape
 
 variable {X : Type} [Group X]
 
-theorem l3Two_no_q8 : ∀ i j : L3Two, i * i = j * j → i * i ≠ 1 → j * i * j⁻¹ = i⁻¹ → False := by
+theorem q8_rel_aux {G : Type*} [Group G] {i j : G} (h1 : i * i = j * j)
+    (h3 : j * i * j⁻¹ = i⁻¹) : i * j * i = j ∧ i * i * (i * i) = 1 := by
+  have hji : j * i = i⁻¹ * j := by
+    calc j * i = j * i * j⁻¹ * j := by group
+      _ = i⁻¹ * j := by rw [h3]
+  have e1 : j * (i * i) * j⁻¹ = i⁻¹ * i⁻¹ := by
+    calc j * (i * i) * j⁻¹ = (j * i * j⁻¹) * (j * i * j⁻¹) := by group
+      _ = i⁻¹ * i⁻¹ := by rw [h3]
+  have e2 : j * (i * i) * j⁻¹ = i * i := by
+    rw [h1]
+    group
+  refine ⟨?_, ?_⟩
+  · calc i * j * i = i * (j * i) := by group
+      _ = i * (i⁻¹ * j) := by rw [hji]
+      _ = j := by group
+  · calc i * i * (i * i) = i * i * (j * (i * i) * j⁻¹) := by rw [e2]
+      _ = i * i * (i⁻¹ * i⁻¹) := by rw [e1]
+      _ = 1 := by group
+
+theorem l3Two_no_q8_check : ∀ i : L3Two, i * i ≠ 1 → i * i * (i * i) = 1 →
+    ∀ j : L3Two, i * i = j * j → i * j * i = j → False := by
   decide +kernel
+
+theorem l3Two_no_q8 : ∀ i j : L3Two, i * i = j * j → i * i ≠ 1 → j * i * j⁻¹ = i⁻¹ → False := by
+  intro i j h1 h2 h3
+  obtain ⟨hij, h4⟩ := q8_rel_aux h1 h3
+  exact l3Two_no_q8_check i h2 h4 j h1 hij
 
 private def l3Inv : L3Two := ⟨!![1, 1, 0; 0, 1, 0; 0, 0, 1], by decide⟩
 

@@ -104,25 +104,6 @@ open CertificateChecks.KernelSpor
 @[expose] noncomputable def cfR (r s : Nat) : Bool :=
   cfS (WW (uw r 0)) (WW (invL (uw r 0))) (WW (cw r)) (fun k => (AL r).getD k 0) s
 
-@[expose] noncomputable def cc0S (s : Nat) : Bool := ccR 0 s
-@[expose] noncomputable def cc1S (s : Nat) : Bool := ccR 1 s
-@[expose] noncomputable def cc2S (s : Nat) : Bool := ccR 2 s
-@[expose] noncomputable def cc3S (s : Nat) : Bool := ccR 3 s
-@[expose] noncomputable def cc4S (s : Nat) : Bool := ccR 4 s
-@[expose] noncomputable def fx0S (s : Nat) : Bool := fxR 0 s
-@[expose] noncomputable def fx1S (s : Nat) : Bool := fxR 1 s
-@[expose] noncomputable def fx2S (s : Nat) : Bool := fxR 2 s
-@[expose] noncomputable def fx3S (s : Nat) : Bool := fxR 3 s
-@[expose] noncomputable def fx4S (s : Nat) : Bool := fxR 4 s
-@[expose] noncomputable def cb00S (s : Nat) : Bool := cbR 0 0 s
-@[expose] noncomputable def cb01S (s : Nat) : Bool := cbR 0 1 s
-@[expose] noncomputable def cb10S (s : Nat) : Bool := cbR 1 0 s
-@[expose] noncomputable def cb11S (s : Nat) : Bool := cbR 1 1 s
-@[expose] noncomputable def cb20S (s : Nat) : Bool := cbR 2 0 s
-@[expose] noncomputable def cb21S (s : Nat) : Bool := cbR 2 1 s
-@[expose] noncomputable def cf3S (s : Nat) : Bool := cfR 3 s
-@[expose] noncomputable def cf4S (s : Nat) : Bool := cfR 4 s
-
 end CertificateChecks.KernelSpor.ONS
 
 end

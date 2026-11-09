@@ -112,12 +112,11 @@ open CFSG.EvenSmallLie.OmegaEight CFSG.Certificates CFSG.Sporadic.Schreier
   let Q := sylQ ()
   Q.check && Q.orderCertificate == 4096
 
-@[expose] def o8TwinReps (_ : Unit := ()) : Bool :=
-  let gs := sylGens ()
-  let R := (fourReps ()).map toTable
-  repsOK 120 (listTables gs) (listTables (gs.map (·⁻¹))) (cosetOrderTables (sylQ ()) 1 4) R
-      4000 &&
-    R.all (ordTest 120 4)
+@[expose] noncomputable def o8TwinReps (_ : Unit := ()) : Bool :=
+  open Classical in
+  decide (∀ u ∈ (sylQ ()).originalSubgroup, orderOf u = 4 →
+      ∃ r ∈ fourReps (), ∃ s ∈ (sylQ ()).originalSubgroup, u = s * r * s⁻¹) &&
+    ((fourReps ()).map toTable).all (ordTest 120 4)
 
 @[expose] def o8TwinK0 (_ : Unit := ()) : Bool :=
   let x := x0 ()

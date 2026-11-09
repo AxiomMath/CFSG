@@ -16,8 +16,28 @@ open CFSG.ONSchreier CFSG.KC.Enum CFSG.KS CFSG.KS.ON CFSG.KS.CB CFSG.KS.CH CFSG.
 
 open CertificateChecks.KernelSpor.ON3 (lv3 nat3)
 
+@[expose] noncomputable def penumPtKP (n w m : Nat) (conj : Bool) (G GI : Nat → Nat)
+    (k cnt : Nat) (T PL POS SRT SRI : Nat → Nat) (i : Nat) : Bool :=
+  strictB (T i) (fun t =>
+  bAnd(bIf(Nat.beq i (nat_lit 0), true,
+    strictB (parOf PL i) (fun p => strictB (labOf PL i) (fun l =>
+    bAnd(Nat.blt p i, bAnd(Nat.blt l k, bAnd(Nat.beq (r32 POS (Nat.add (Nat.mul p k) l)) i,
+      bIf(Nat.blt (Nat.succ i) cnt,
+        lexLtK p l (parOf PL (Nat.succ i)) (labOf PL (Nat.succ i)), true))))))),
+  bAnd(allN k (fun j => strictB (r32 POS (Nat.add (Nat.mul i k) j)) (fun q =>
+    bAnd(Nat.blt q cnt, bAnd(Nat.beq (T q) (stepK n w m conj G GI j t),
+      bIf(Nat.beq q (nat_lit 0), true,
+        bIf(lexLtK i j (parOf PL q) (labOf PL q), false, true)))))),
+  strictB (r32 SRT i) (fun s => bAnd(Nat.blt s cnt, bAnd(Nat.beq (r32 SRI s) i,
+    bIf(Nat.blt (Nat.succ i) cnt, Nat.blt (T s) (T (r32 SRT (Nat.succ i))), true)))))))
+
+@[expose] noncomputable def penumSlKP (n w m : Nat) (conj : Bool) (G GI : Nat → Nat)
+    (k cnt : Nat) (T PL POS SRT SRI : Nat → Nat) (lo len : Nat) : Bool :=
+  allN len (fun d => strictB (Nat.add lo d) (fun i =>
+    bIf(Nat.blt i cnt, penumPtKP n w m conj G GI k cnt T PL POS SRT SRI i, true)))
+
 @[expose] noncomputable def mSl (s : Nat) : Bool :=
-  penumSlK 120 7 (mask 7) (Nat.mul 120 7) false ON5M.G ON5M.GI ON5M.k ON5M.cnt ON5M.T ON5M.PL
+  penumSlKP 120 7 (mask 7) false ON5M.G ON5M.GI ON5M.k ON5M.cnt ON5M.T ON5M.PL
     ON5M.POS ON5M.SRT ON5M.SRI (Nat.mul s 2016) 2016
 
 @[expose] noncomputable def dG (j : Nat) : Nat := List.getD ON5.dPack j 0
@@ -30,6 +50,16 @@ open CertificateChecks.KernelSpor.ON3 (lv3 nat3)
   ON5.dSel.filter fun i => decide (2016 * s ≤ i) && decide (i < 2016 * s + 2016)
 
 @[expose] noncomputable def dSelS (s : Nat) : Bool := selFrom qD 2016 (Nat.mul s 2016) (selIn s)
+
+@[expose] noncomputable def wNC (t c : Nat) : Bool :=
+  Nat.beq (pg 7 (mask 7) t (pg 7 (mask 7) (dG (Nat.div (Nat.sub c 1) 120)) (Nat.mod (Nat.sub c 1) 120)))
+    (pg 7 (mask 7) (dG (Nat.div (Nat.sub c 1) 120)) (pg 7 (mask 7) t (Nat.mod (Nat.sub c 1) 120)))
+
+@[expose] noncomputable def qDw (i : Nat) : Bool :=
+  strictB (tab ON5T.DW i) fun c => bIf(Nat.blt 0 c, bIf(Nat.blt c 481,
+    bIf(wNC (ON5M.T i) c, qD i, false), qD i), qD i)
+
+@[expose] noncomputable def dSelW (s : Nat) : Bool := selFrom qDw 2016 (Nat.mul s 2016) (selIn s)
 
 @[expose] noncomputable def qT (i : Nat) : Bool :=
   strictB (T32E.T i) fun t => allN 6 fun j =>

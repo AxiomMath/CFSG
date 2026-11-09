@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.Sporadic.ON.Kernel "Certificates/Data/Kernel/ON/data/basis_x.json.gz" 14827
+#kc_repo #kc_json CFSG.Sporadic.ON.Kernel "Certificates/Data/Kernel/ON/data/basis_x.json" 14827
   4587233633910778088
   (basisXPairs : List (Nat × Nat))
 

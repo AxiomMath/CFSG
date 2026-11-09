@@ -9,8 +9,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelS6I.D
-  "Certificates/Kernel/Sp6Insp443/data/cent.json.gz" 54883 15703681507973203373
+#kc_repo #kc_json CertificateChecks.KernelS6I.D
+  "Certificates/Kernel/Sp6Insp443/data/cent.json" 54883 15703681507973203373
   (cls : List Nat) (cw : List (List Nat)) (cP : List Nat) (cI : List Nat) (nU : List Nat)
   (nW : List Nat) (uP : List Nat) (uM : List Nat) (wP : List Nat) (sP : List Nat)
   (wIdx : List Nat) (uT : List Nat) (wT : List Nat)

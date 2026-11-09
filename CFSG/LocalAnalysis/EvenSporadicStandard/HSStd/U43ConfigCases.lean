@@ -74,13 +74,13 @@ open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.Schreier.P
   ysz := 1944
   nsol := 12
 
-@[expose] def vaCheck : Bool :=
+@[expose] def vaCheck (par : Array (ℕ × ℕ)) : Bool :=
   permOK 820 (tabOf reps[8]!) && permInvOK (tabOf vaZ) && memCos [0, 2, 4, 6] (tabOf vaZ) &&
     commTT 820 (tabOf vaZ) (tabOf reps[8]!) && !tblEq 820 (tabOf vaZ) (idT 820) &&
     !tblEq 820 (tabOf vaZ) (tabOf reps[8]!) &&
     (tabsOf vaCg).all (fun g => memCos [0, 2, 4, 6] g && commTT 820 g (tabOf reps[8]!) &&
       commTT 820 (tabOf vaZ) g) &&
-    enumOK (tabsOf vaCg) closureCap 2880
+    enumRecOK (tabsOf vaCg) par 2880
 
 @[expose] def mulIdx (k k' : ℕ) : ℕ :=
   4 * ((k / 4 + k' / 4) % 2) + ((if k' / 4 = 1 then 4 - k % 4 else k % 4) + k' % 4) % 4

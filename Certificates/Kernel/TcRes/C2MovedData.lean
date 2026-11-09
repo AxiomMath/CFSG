@@ -3,12 +3,12 @@ module
 public import Certificates.Data.Kernel.TcRes.C2Moved
 public import Certificates.Kernel.TcRes.C2PlaneData
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.TcRes.C2M "Certificates/Kernel/TcRes/data/c2moved.bin.gz"
+#kc_repo #kc_nat_items CFSG.KD.TcRes.C2M "Certificates/Kernel/TcRes/data/c2moved.bin"
   226882 11219785741879709977 POS DEC LT[1038] A[1360]
 
 #kc_select CFSG.KD.TcRes.C2M LS LT 1038

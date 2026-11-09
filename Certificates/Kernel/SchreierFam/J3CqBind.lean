@@ -96,12 +96,8 @@ theorem kk_eq : ∀ h < 2,
     KK h = wordK 20520 15 (mask 15) (pidn 20520 15) AB ABI kWordsAB[h]! := by
   intro h hh
   interval_cases h
-  · have e := wordK_of_chunks (L := 17) (NC := 4) (V := V0) (by decide +kernel) (by norm_num)
-      k0All
-    exact e.symm
-  · have e := wordK_of_chunks (L := 17) (NC := 4) (V := V1) (by decide +kernel) (by norm_num)
-      k1All
-    exact e.symm
+  · exact k0_wordJ.symm
+  · exact k1_wordJ.symm
 
 theorem kWords_len : kWordsAB.length = 2 := rfl
 

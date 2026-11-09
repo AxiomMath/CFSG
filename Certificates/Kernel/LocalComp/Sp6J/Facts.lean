@@ -42,7 +42,7 @@ theorem pX : ∀ j < sp6Gens.length, permOK 36 6 (mask 6) (36 * 6) (XQ.S j) (XQ.
 
 theorem chainX : ChainK 36 6 sp6Gens xQWords (#v[0, 1, 2, 4, 8, 12] : Vector (Fin 36) 6)
     XQ.S XQ.SI XQ.LR XQ.TR XQ.TRI 10 XQ.BP 1 36 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgX, by decide, XQ.head, XQ.hl, by norm_num, XQ.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgX, by decide, XQ.head, XQ.hl, by norm_num, .inl XQ.hs⟩
 
 theorem xq_eq : sp6Q = certificate (by decide) sp6Gens xQWords
     (#v[0, 1, 2, 4, 8, 12] : Vector (Fin 36) 6) (by decide) := rfl
@@ -174,22 +174,22 @@ theorem rep_img (i : Nat) (hi : i < 4) :
 theorem chainC1 : ChainK 36 6 sp6CentGens1 q1Words (#v[0, 1, 4, 2, 12] : Vector (Fin 36) 5)
     C1Q.S C1Q.SI C1Q.LR C1Q.TR C1Q.TRI 10 C1Q.BP 1 36 :=
   ⟨by norm_num, by norm_num, by norm_num, cent_img kG1, by decide, C1Q.head, C1Q.hl, by norm_num,
-    C1Q.hs⟩
+    .inl C1Q.hs⟩
 
 theorem chainC2 : ChainK 36 6 sp6CentGens2 q2Words (#v[0, 1, 4, 2] : Vector (Fin 36) 4)
     C2Q.S C2Q.SI C2Q.LR C2Q.TR C2Q.TRI 9 C2Q.BP 1 36 :=
   ⟨by norm_num, by norm_num, by norm_num, cent_img kG2, by decide, C2Q.head, C2Q.hl, by norm_num,
-    C2Q.hs⟩
+    .inl C2Q.hs⟩
 
 theorem chainC3 : ChainK 36 6 sp6CentGens3 q3Words (#v[0, 1, 2, 4] : Vector (Fin 36) 4)
     C3Q.S C3Q.SI C3Q.LR C3Q.TR C3Q.TRI 11 C3Q.BP 1 36 :=
   ⟨by norm_num, by norm_num, by norm_num, cent_img kG3, by decide, C3Q.head, C3Q.hl, by norm_num,
-    C3Q.hs⟩
+    .inl C3Q.hs⟩
 
 theorem chainC4 : ChainK 36 6 sp6CentGens4 q4Words (#v[0, 1, 2, 4] : Vector (Fin 36) 4)
     C4Q.S C4Q.SI C4Q.LR C4Q.TR C4Q.TRI 10 C4Q.BP 1 36 :=
   ⟨by norm_num, by norm_num, by norm_num, cent_img kG4, by decide, C4Q.head, C4Q.hl, by norm_num,
-    C4Q.hs⟩
+    .inl C4Q.hs⟩
 
 theorem cent1 : centCheck sp6CentQ1 23040 sp6CentGens1 sp6FourReps1 sp6Rep1 = true :=
   centCheck_of (cw := c1Words) (fw := f1Words) rfl rfl (by decide) kG1 kP1 kC1 chainC1 kN1

@@ -30,6 +30,7 @@ open CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
 #kc_forall_chunks hsR_all (fun s => hsR s = true) 2 CFSG.KD.HN1408.hsR 1
 #kc_forall_chunks clA_all (fun s => clA s = true) 16 CFSG.KD.HN1408.clA 1
 #kc_forall_chunks oA_all (fun s => oA s = true) 8 CFSG.KD.HN1408.oA 1
+#kc_forall_chunks bA_all (fun s => m11BaseA s = true) 1 CFSG.KD.HN1408.m11BaseA 1
 
 theorem mkA {a b : Bool} (h : bAnd(a, b) = true) : a = true ∧ b = true := (bAnd_iff _ _).1 h
 
@@ -48,84 +49,6 @@ theorem mkAndNot {a b : Bool} (h : bAnd(a, bIf(b, false, true)) = true) : (a && 
   obtain ⟨h1, h2⟩ := mkA h
   rw [h1, mkNot h2]
   rfl
-
-theorem pc_id_left {Y : Nat} (hY : Cn Y) : pc idK Y = Y :=
-  CFSG.KC.L34KSnd.eq_of_pg (canonK_pcomp cId hY) hY fun i hi => by
-    change pt (pc idK Y) i = pt Y i
-    rw [pt_pc cId hi, pt_id (pt_lt hY hi)]
-
-theorem pc_id_right {Y : Nat} (hY : Cn Y) : pc Y idK = Y :=
-  CFSG.KC.L34KSnd.eq_of_pg (canonK_pcomp hY cId) hY fun i hi => by
-    change pt (pc Y idK) i = pt Y i
-    rw [pt_pc hY hi, pt_id hi]
-
-theorem ppK_add {X : Nat} (hX : Cn X) : ∀ a b, ppK X (a + b) = pc (ppK X a) (ppK X b)
-  | 0, b => by
-    rw [Nat.zero_add]
-    exact (pc_id_left (cn_ppK hX b)).symm
-  | a + 1, b => by
-    rw [Nat.add_right_comm]
-    change pc X (ppK X (a + b)) = pc (pc X (ppK X a)) (ppK X b)
-    rw [ppK_add hX a b]
-    exact (CFSG.KC.L34KSnd.pcomp_assoc' hX (cn_ppK hX a) (cn_ppK hX b)).symm
-
-theorem ppK_two {X : Nat} (hX : Cn X) : ppK X 2 = pc X X := by
-  have h1 : ppK X 1 = X := pc_id_right hX
-  have h := ppK_add hX 1 1
-  rw [h1] at h
-  exact h
-
-theorem ppK_four {X : Nat} (hX : Cn X) : ppK X 4 = pc (pc X X) (pc X X) := by
-  have h := ppK_add hX 2 2
-  rw [ppK_two hX] at h
-  exact h
-
-theorem ppK_eight {X : Nat} (hX : Cn X) :
-    ppK X 8 = pc (pc (pc X X) (pc X X)) (pc (pc X X) (pc X X)) := by
-  have h := ppK_add hX 4 4
-  rw [ppK_four hX] at h
-  exact h
-
-theorem ppK_six {X : Nat} (hX : Cn X) : ppK X 6 = pc (pc X (pc X X)) (pc X (pc X X)) := by
-  have h3 : ppK X 3 = pc X (pc X X) := by
-    change pc X (ppK X 2) = _
-    rw [ppK_two hX]
-  have h := ppK_add hX 3 3
-  rw [h3] at h
-  exact h
-
-theorem ppK_five {X : Nat} (hX : Cn X) : ppK X 5 = pc X (pc (pc X X) (pc X X)) := by
-  change pc X (ppK X 4) = _
-  rw [ppK_four hX]
-
-theorem ppK_eleven {X : Nat} (hX : Cn X) :
-    ppK X 11 = pc X (pc (pc (pc (pc X X) (pc X X)) (pc (pc X X) (pc X X))) (pc X X)) := by
-  have h := ppK_add hX 8 2
-  rw [ppK_eight hX, ppK_two hX] at h
-  change pc X (ppK X 10) = _
-  rw [h]
-
-theorem ordK_spec {X e : Nat} (hX : Cn X) (h : ordK X e = true) :
-    ordInS (idT 1408) (tabT (unpack 1408 11 X)) = true := by
-  unfold ordK at h
-  simp only [strictB_app] at h
-  rcases mkIf h with ⟨he, h⟩ | ⟨-, h⟩
-  · have e8 := Nat.eq_of_beq_eq_true he
-    subst e8
-    exact ordInS_of hX (Or.inl rfl) (by rw [ppK_eight hX]; exact h)
-  rcases mkIf h with ⟨he, h⟩ | ⟨-, h⟩
-  · have e6 := Nat.eq_of_beq_eq_true he
-    subst e6
-    exact ordInS_of hX (Or.inr (Or.inl rfl)) (by rw [ppK_six hX]; exact h)
-  rcases mkIf h with ⟨he, h⟩ | ⟨-, h⟩
-  · have e5 := Nat.eq_of_beq_eq_true he
-    subst e5
-    exact ordInS_of hX (Or.inr (Or.inr (Or.inl rfl))) (by rw [ppK_five hX]; exact h)
-  rcases mkIf h with ⟨he, h⟩ | ⟨-, h⟩
-  · have e11 := Nat.eq_of_beq_eq_true he
-    subst e11
-    exact ordInS_of hX (Or.inr (Or.inr (Or.inr rfl))) (by rw [ppK_eleven hX]; exact h)
-  · exact absurd h Bool.false_ne_true
 
 theorem headM_spec {ws : List (List Nat)} {k m cnt : Nat} {G GI GJ T PL : Nat → Nat}
     (h : headM ws k m G GI GJ T PL cnt = true) :
@@ -254,17 +177,6 @@ theorem mkRel : m11Relators.all (fun w => tblEq 1408 (relTab (tabW y0Word) (tabW
   have h := allN_spec kRel r hr'
   rw [List.getD_eq_getElem _ [] hr, hrw] at h
   exact h
-
-theorem mkOrd : ordAllOK (idT 1408) (subgroupList invCap [y0Word, vWord]) = true := by
-  rw [recA.2.1]
-  unfold ordAllOK
-  rw [Array.all_eq_true]
-  intro i hi
-  have hi' : i < MR1.cnt := by simpa [hRec] using hi
-  rw [← getElem!_pos _ i hi, hRec_get hi']
-  have h := slAll (L := 990) (K := 8) (by rw [cntA]) (fun s hs => oA_all s hs) i hi'
-  simp only [strictB_app] at h
-  exact ordK_spec (recA.2.2 i hi') h
 
 theorem mkI : primeOrderOK 2 (tabW i0Word) = true := by
   rw [wI.1, primeOrderOK_eq wI.2]

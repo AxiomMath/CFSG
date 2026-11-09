@@ -48,7 +48,14 @@ open CFSG.RankThree.Native (hs100Arr)
 
 @[expose] def s5Elems : Array (Array Nat) := enumTabs s5Tabs (bfsEnumL 100 B100 s5Tabs 200) 125
 
-@[expose] def mElems : Array (Array Nat) := enumTabs mTabs (bfsEnumL 100 B100 mTabs 12000) 11520
+opaque mElemsSeal : {x : Array (Array Nat) // x = enumTabs mTabs (bfsEnumL 100 B100 mTabs 12000) 11520} :=
+  ⟨enumTabs mTabs (bfsEnumL 100 B100 mTabs 12000) 11520, rfl⟩
+
+@[expose] def mElems : Array (Array Nat) := mElemsSeal.1
+
+theorem mElems_def : mElems = enumTabs mTabs (bfsEnumL 100 B100 mTabs 12000) 11520 := mElemsSeal.2
+
+attribute [irreducible] mElems
 
 @[expose] def conjT (g gi t : Array Nat) : Array Nat := compT g (compT t gi)
 

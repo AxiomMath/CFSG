@@ -5,6 +5,7 @@ public import Certificates.Kernel.HeLoc.SevenQFacts
 public import CFSG.Certificates.Kernel.HeLoc.PTailSound
 public import CFSG.RankThree.PartOne.KS.HeSevenCheckDefs
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.RankThree.Native.ChainCentralizerOrb
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Sporadic.Schreier.PairHeClasses
 
@@ -61,7 +62,7 @@ theorem cg_par : ∀ k < 3, (gpC k ∈ heP ↔ qC k = 0) := fun k hk => (gp_mem 
 theorem cq_lt : ∀ k < 3, qC k < 2 := fun k hk => (nf_k (59 + k) (by omega)).2
 
 theorem hmulR : ∀ a ∈ heAutGroup, ∀ b ∈ heAutGroup, (a * b ∈ heP ↔ (a ∈ heP ↔ b ∈ heP)) :=
-  fun a ha b hb => he_mul_mem_iff ha hb
+  fun _ ha _ hb => he_mul_mem_iff ha hb
 
 theorem ctree : TreeOK 3 2058 C0.P C0.L := treeOK_of fun i hi h0 => by
   have h := allN_spec kCTree i hi
@@ -289,24 +290,113 @@ theorem fr_ok : ∀ i < 14, fr0 i = 0 ∨ ∃ l e, fr0 i = 8 * l + e + 1 ∧ l <
     rw [← e]
     exact hr
 
+open CFSG.Certificates.ChainArrays (lev levPts levT) in
 theorem tail0 : ptailOK 8330 (rawLevels 8330 heSevenCase0Arrs heSevenCase0BaseArr)
     heSevenCase0BaseArr heSevenLines[0]! (powPA 7 8330 heSevenLines[0]!) heSevenCase0Rels
     heSevenC0Cert.pts.toList 14 0 (idA 8330) = true := by
-  refine ptailOK_of_ptK_ tc0 x0_rep x0_repF (fun r hr => ?_) fr_ok bs_lt ?_ (by norm_num) kTail
-  · have h := List.all_eq_true.1 kRels r hr
+  have hrels7 : ∀ r ∈ heSevenCase0Rels, r.2.2 < 7 := fun r hr => by
+    have h := List.all_eq_true.1 kRels r hr
     unfold relAt at h
     rw [bAnd_iff, Nat.blt_eq] at h
     exact h.1
-  · intro a A ha hA ⟨j, hj, e⟩
+  have hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin 8330)), Rep 8330 a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin 10 => permOfArr 8330 heSevenCase0Arrs[j.val]!) →
+      (∃ j < 2058, keyA 8330 heSevenKeys a = ckey (C0.SK j)) →
+      heSevenC0Cert.pts.toList.any (eqA 8330 a) = true := by
+    intro a A ha hA ⟨j, hj, e⟩
     have hR : A ∈ heAutGroup := by
       refine (Subgroup.closure_le _).2 ?_ hA
       rintro _ ⟨i, rfl⟩
-      exact faith0.2 i (by simpa [heSevenCase0Arrs] using i.2)
+      exact faith0.2 i (by simp [heSevenCase0Arrs])
     have hm := csk_lt j hj
     unfold ckey cv at e
     rw [← keyA_treeArr ctree cg cgs keys_lt hm, ← c_get hm] at e
     have he := key_faith ha (c_rep hm) hR (c_mem hm).1 e
     exact any_mem (by rw [c_size]; exact hm) ((eqA_iff ha (c_rep hm)).2 he)
+  obtain ⟨hc', -, -, -⟩ := caseChainOK3_parts chain0
+  have hF := chainCheckFacts hc'
+  obtain ⟨Q, hA⟩ : ∃ Q : RawSchreierDatum 8330, ChainArrays Q (heSevenCase0Arrs.extract 0 3)
+      heSevenCase0Arrs heSevenCase0BaseArr heSevenCase0Words :=
+    ⟨_, chainArrays_ofArrays (hn := by norm_num) (k := 3) (hk := by simp [heSevenCase0Arrs])
+      (hb := (by decide : heSevenCase0Base.Nodup)) hF.strong_inv⟩
+  have hQ := (validSchreier_of_chainOK hA (by norm_num) hc').1
+  have hs : heSevenCase0BaseArr.size = 14 := by decide
+  have hb14 : Q.baseCount = 14 := hA.base_size.symm.trans hs
+  have hps : ∀ q ∈ heSevenKeys, q < 8330 := keys_lt
+  have hK : Subgroup.closure (permsA 8330 heSevenC0Gens) ≤
+      Subgroup.centralizer {lp 0} ⊓ Q.originalSubgroup := by
+    rw [Subgroup.closure_le]
+    rintro _ ⟨k, hk, rfl⟩
+    have hk3 : k < 3 := hk
+    have hc := commA_R (cgs k hk3) x0_rep (cg k hk3) x0_repF (cg_mem k hk3) x0_mem
+      (allN_spec kComm k hk3)
+    change permOfArr 8330 heSevenC0Gens[k]! ∈ Subgroup.centralizer {lp 0} ⊓ Q.originalSubgroup
+    rw [CFSG.RankThree.Native.permOfArr_eq_of_rep (cgs k hk3)]
+    refine Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 ?_, ?_⟩
+    · exact (commA_iff (cgs k hk3) x0_rep).1 hc
+    · exact (siftA_iff_mem_originalSubgroup hA (by norm_num) hc' (cgs k hk3)).1
+        ((sift0_iff (cgs k hk3)).2 (cg_mem k hk3))
+  have hKE : ∀ g ∈ Subgroup.closure (permsA 8330 heSevenC0Gens), ∃ e ∈ heSevenC0Cert.pts.toList,
+      Rep 8330 e g := by
+    intro g hg'
+    obtain ⟨i, hi, hre⟩ := enumOK_exists_rep hps c_enum hg'
+    refine ⟨heSevenC0Cert.pts[i]!, ?_, hre⟩
+    rw [getElem!_pos heSevenC0Cert.pts i hi, ← Array.getElem_toList]
+    exact List.getElem_mem _
+  have hEK : ∀ e ∈ heSevenC0Cert.pts.toList, ∃ g ∈ Subgroup.closure (permsA 8330 heSevenC0Gens),
+      Rep 8330 e g := by
+    intro e he
+    obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem he
+    have hi' : i < heSevenC0Cert.pts.size := by simpa using hi
+    have hv : validA 8330 heSevenC0Cert.pts.toList[i] = true := by
+      rw [Array.getElem_toList, ← getElem!_pos heSevenC0Cert.pts i hi']
+      exact (enumOK_spec hps c_enum).2.2 i hi'
+    exact ⟨_, enumOK_mem_of_mem hps c_enum (rep_of_validA hv) (List.getElem_mem _),
+      rep_of_validA hv⟩
+  have h0 : 0 < Q.baseCount := by omega
+  obtain ⟨hsz0, hpt0⟩ := tabChain_pts tc0 (i := 0) (by norm_num)
+  have hrb := kRb0
+  rw [bAnd_iff] at hrb
+  have hrc : rcnt (S70.LR 0) = 8330 := Nat.eq_of_beq_eq_true hrb.1
+  suffices htl : ptailOK 8330 (rawLevels 8330 heSevenCase0Arrs heSevenCase0BaseArr)
+      heSevenCase0BaseArr heSevenLines[0]! (powPA 7 8330 heSevenLines[0]!) heSevenCase0Rels
+      heSevenC0Cert.pts.toList Q.baseCount 0 (idA 8330) = true by
+    rw [hb14] at htl
+    exact htl
+  refine ptailOK_of_orbits_rel hA hF hQ x0_rep (rep_powPA x0_rep) (relsOKP_spec rels_ok) hK
+    hKE hEK h0 fun k hk => Or.inr ?_
+  have hk' : k < rcnt (S70.LR 0) := by
+    rw [← hsz0]
+    exact hk
+  have hk8 : k < 8330 := hrc ▸ hk'
+  obtain ⟨hpk, -⟩ := hpt0 k hk'
+  have ho := allN_spec kOrb0 k hk8
+  rw [bAnd_iff, bAnd_iff, Nat.blt_eq, Nat.blt_eq] at ho
+  obtain ⟨hj, hr, he⟩ := ho
+  have hrb8 : rb0 (Nat.mod (ep0 k) 16) < 8330 :=
+    Nat.blt_eq.mp (allN_spec hrb.2 (Nat.mod (ep0 k) 16) hr)
+  have hrb' : rb0 (Nat.mod (ep0 k) 16) < rcnt (S70.LR 0) := by
+    rw [hrc]
+    exact hrb8
+  obtain ⟨hpr, -⟩ := hpt0 _ hrb'
+  have hrs : rb0 (Nat.mod (ep0 k) 16) < (lev 8330 heSevenCase0Arrs heSevenCase0BaseArr 0).pts.size := by
+    change _ < ((rawLevels 8330 heSevenCase0Arrs heSevenCase0BaseArr)[0]!).pts.size
+    rw [hsz0]
+    exact hrb'
+  refine ⟨rb0 (Nat.mod (ep0 k) 16), hrs, treePerm gpC C0.P C0.L (Nat.div (ep0 k) 16),
+    enumOK_mem hps c_enum (by rw [c_size]; exact hj) (c_rep hj), ?_, ?_⟩
+  · apply Fin.ext
+    have hv := c_repF hj _ (levPts Q heSevenCase0Arrs heSevenCase0BaseArr 0
+      (rb0 (Nat.mod (ep0 k) 16))).2
+    simp only [Fin.eta] at hv
+    rw [← hv, hA.levPts_val hF h0 hrs, hA.levPts_val hF h0 hk]
+    change cv (Nat.div (ep0 k) 16) ((rawLevels 8330 heSevenCase0Arrs heSevenCase0BaseArr)[0]!).pts[
+      rb0 (Nat.mod (ep0 k) 16)]! = ((rawLevels 8330 heSevenCase0Arrs heSevenCase0BaseArr)[0]!).pts[k]!
+    rw [hpr, hpk]
+    exact Nat.eq_of_beq_eq_true he
+  · rw [hb14]
+    exact ptailOK1_of_ptK tc0 x0_rep x0_repF hrels7 fr_ok bs_lt hE (by norm_num) hrb'
+      (allN_spec kTail _ hr)
 
 theorem cent0 : centOKP 7 8330 heSevenCase0Arrs heSevenCase0BaseArr heSevenLines[0]!
     heSevenCase0Rels heSevenC0Gens heSevenKeys heSevenC0Cert 2058 = true := by

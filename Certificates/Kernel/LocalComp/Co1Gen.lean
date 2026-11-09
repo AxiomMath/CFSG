@@ -13,8 +13,12 @@ namespace CertificateChecks.KernelLC.Co1Gen
 open CFSG.KC.OpsF2K CFSG.SectionRank.Native CertificateChecks.KernelLC.Co1Ops
 
 set_option maxHeartbeats 0 in
-theorem gen_K : co1GenK 24 SA.M SB.M CFSG.SectionRank.Native.Co1Gen.dataFive = true := by
+theorem gen_G : co1GenG 24 SA.M SB.M CFSG.SectionRank.Native.Co1Gen.dataFive = true := by
   decide +kernel
+
+theorem gen_K : co1GenK 24 SA.M SB.M CFSG.SectionRank.Native.Co1Gen.dataFive = true := by
+  rw [← co1GenG_eq]
+  exact gen_G
 
 end CertificateChecks.KernelLC.Co1Gen
 

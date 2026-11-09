@@ -47,6 +47,17 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.SporSch.M24 CFSG.KS.Mathieu
           lvlGensA A T E q G h v gens (nat_lit 0) c, failC)), failC), c), failC)))
       c₀) c₁)
 
+@[expose] noncomputable def bfsStepA (fa fb : Nat → Nat) (T : Nat → Nat) (n h c : Nat) : Nat :=
+  nIf(Nat.blt c failC, nIf(Nat.blt h n, nIf(Nat.blt h c,
+    strictN (ptK T h) (fun v =>
+      strictN (imgStep T (fa v) (iaK T h) c) (fun c' =>
+        nIf(Nat.blt c' failC, imgStep T (fb v) (ibK T h) c', failC))),
+    failC), c), failC)
+
+@[expose] noncomputable def bfsSlA (fa fb : Nat → Nat) (T : Nat → Nat) (n lo len c₀ c₁ : Nat) :
+    Bool :=
+  Nat.beq (foldUp len (fun d c => bfsStepA fa fb T n (Nat.add lo d) c) c₀) c₁
+
 end CFSG.KS.SporSch.VOrb
 
 end

@@ -13,8 +13,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelS6I.F
-  "Certificates/Kernel/Sp6Insp443/data/fano.json.gz" 70708 7954237937862006898
+#kc_repo #kc_json CertificateChecks.KernelS6I.F
+  "Certificates/Kernel/Sp6Insp443/data/fano.json" 70708 7954237937862006898
   (aT : List Nat) (sA : List Nat) (wT : List Nat) (sW : List Nat) (kT : List Nat) (kS : List Nat)
   (hT : List Nat) (hS : List Nat) (uM : List Nat) (cw : List (List Nat)) (cP : List Nat)
   (cI : List Nat) (nM : List (List Nat)) (nw : List (List (List Nat))) (nP : List (List Nat))

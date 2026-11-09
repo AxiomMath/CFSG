@@ -27,7 +27,7 @@ meta def base : Array Nat := CFSG.Sporadic.SuzRecog.ModelGroupsData.nr0Base.toAr
 
 end CertificateChecks.KernelSpor.SuzMGND
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSpor.SuzMGN 1782 11 8 256
+#ks_rawchain_sl2_data CertificateChecks.KernelSpor.SuzMGN 1782 11 0 256
   CertificateChecks.KernelSpor.SuzMGND.strong CertificateChecks.KernelSpor.SuzMGND.base 5
   CertificateChecks.KernelSpor.SuzMGND.deriv
 

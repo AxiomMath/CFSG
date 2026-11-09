@@ -12,8 +12,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelS6I.O
-  "Certificates/Kernel/Sp6Insp443/data/orb.json.gz" 3542 9772778147944615757
+#kc_repo #kc_json CertificateChecks.KernelS6I.O
+  "Certificates/Kernel/Sp6Insp443/data/orb.json" 3542 9772778147944615757
   (X5 : Nat) (X7 : Nat) (C5 : List (List Nat)) (C7 : List (List Nat))
 
 namespace CertificateChecks.KernelS6I

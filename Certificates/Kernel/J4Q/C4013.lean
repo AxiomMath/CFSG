@@ -37,8 +37,7 @@ theorem kcomm_ok : chkKComm = true := by
   rw [hx] at hf
   have hl := congrArg List.length hf
   rw [List.length_map, List.length_map, kcomm_len] at hl
-  unfold chkKComm
-  rw [hl]
+  rw [chkKComm_def, hl]
   rfl
 
 theorem c4013 : chkKAll = true := by

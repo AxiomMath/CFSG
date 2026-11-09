@@ -2,6 +2,7 @@ module
 
 import CFSG.Certificates.Kernel.BabyMonster.Load
 public import CFSG.Certificates.Kernel.BabyMonster.PktCheck
+public import CFSG.Certificates.Kernel.BabyMonster.PktSplit
 public import CFSG.Certificates.Kernel.BabyMonster.PktBind.Text
 public import CFSG.Certificates.Kernel.BabyMonster.Dyadic.Gens
 public import CFSG.Certificates.Kernel.BabyMonster.Native.Small
@@ -56,5 +57,13 @@ set_option maxRecDepth 200000
 #bm_bool CFSG.KD.PktBind ln43 (CFSG.KC.BM.Pkt.lineOK (CFSG.KC.BM.Pkt.lineOf CH S 43))
 #bm_bool CFSG.KD.PktBind ln44 (CFSG.KC.BM.Pkt.lineOK (CFSG.KC.BM.Pkt.lineOf CH S 44))
 #bm_bool CFSG.KD.PktBind ln45 (CFSG.KC.BM.Pkt.lineOK (CFSG.KC.BM.Pkt.lineOf CH S 45))
-#bm_bool CFSG.KD.PktBind ln46 (CFSG.KC.BM.Pkt.lineOK (CFSG.KC.BM.Pkt.lineOf CH S 46))
+#bm_bool CFSG.KD.PktBind ln46h (CFSG.KC.BM.Pkt.pktLineHead (CFSG.KC.BM.Pkt.lineOf CH S 46) 14859)
+#bm_bool CFSG.KD.PktBind ln46a (CFSG.KC.BM.Pkt.pktEntsOK (CFSG.KC.BM.Pkt.lineOf CH S 46) 0 6451)
+#bm_bool CFSG.KD.PktBind ln46b (CFSG.KC.BM.Pkt.pktEntsOK (CFSG.KC.BM.Pkt.lineOf CH S 46) 6451 8408)
+#bm_bool CFSG.KD.PktBind ln46c (CFSG.KC.BM.Pkt.pktEntsTail (CFSG.KC.BM.Pkt.lineOf CH S 46) 14859)
+public theorem CFSG.KD.PktBind.ln46 :
+    CFSG.KC.BM.Pkt.lineOK (CFSG.KC.BM.Pkt.lineOf CFSG.KD.PktBind.CH CFSG.KD.PktBind.S (nat_lit 46)) =
+      true :=
+  CFSG.KC.BM.Pkt.pkt_lineOK_split3 _ (nat_lit 6451) (nat_lit 14859) (by decide) CFSG.KD.PktBind.ln46h
+    CFSG.KD.PktBind.ln46a CFSG.KD.PktBind.ln46b CFSG.KD.PktBind.ln46c
 #bm_bool CFSG.KD.PktBind ln47 (CFSG.KC.BM.Pkt.lineOK (CFSG.KC.BM.Pkt.lineOf CH S 47))

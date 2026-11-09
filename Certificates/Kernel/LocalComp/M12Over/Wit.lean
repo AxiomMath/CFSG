@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.SporSch.Mathieu.M12MData
 public import Certificates.Data.Kernel.SporSch.OddConj
+public import Certificates.Data.Kernel.SporSch.OddFix
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM12EndTests
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM12Data
 public import CFSG.Certificates.Kernel.LocalCompUnpack
@@ -55,7 +56,7 @@ theorem kWit : allPairsK witOK wsP = true := by quickRfl
 theorem kCnt : rcnt (M12DQ.LR 0) = 12 ∧ rcnt (M12DQ.LR 1) = 11 := by decide +kernel
 
 @[expose] noncomputable def cK (k₀ k₁ : Nat) : Bool :=
-  Nat.beq (cntOddBad2K 24 5 (mask 5) (24 * 5) (pidn 24 5) M12DQ.LR M12DQ.TR 5 eb wsP k₀ k₁) 0
+  Nat.beq (cntOddFixK 24 5 (mask 5) (24 * 5) (pidn 24 5) M12DQ.LR M12DQ.TR 5 1485 wsP k₀ k₁) 0
 
 end CertificateChecks.KernelLC.M12Over
 

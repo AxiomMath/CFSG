@@ -61,12 +61,19 @@ theorem cls_bbar_val (hB : Bridge) (i : Fin 24) (k : Fin 306936) :
   rw [← wc_root hB i]
   exact cls_word hB (wc_lt i.val i.isLt) k
 
-theorem bbar_comm (hB : Bridge) (i j : Fin 24) :
+theorem bbar_comm_lt (hB : Bridge) (i j : Fin 24) (h : i.val < j.val) :
     cls (bbarPt i) * cls (bbarPt j) = cls (bbarPt j) * cls (bbarPt i) := by
   rw [comm_iff]
   apply Fin.ext
   have hj : (bbarPt j).val = nthO 0 pts j.val := (pts_eq j.val j.isLt).symm
-  rw [cls_bbar_val hB, hj, oct_facts.2.1 i.val i.isLt j.val j.isLt]
+  rw [cls_bbar_val hB, hj, oct_facts.2.1 i.val i.isLt j.val j.isLt h]
+
+theorem bbar_comm (hB : Bridge) (i j : Fin 24) :
+    cls (bbarPt i) * cls (bbarPt j) = cls (bbarPt j) * cls (bbarPt i) := by
+  rcases lt_trichotomy i.val j.val with h | h | h
+  · exact bbar_comm_lt hB i j h
+  · rw [Fin.ext h]
+  · exact (bbar_comm_lt hB j i h).symm
 
 @[expose] def sepP : Fin 306936 := ⟨59207, by norm_num⟩
 
@@ -76,10 +83,13 @@ theorem pair_val (hB : Bridge) (a b : Fin 24) :
   rw [mul_smul, cls_bbar_val hB, cls_bbar_val hB]
   rfl
 
-theorem pair_sorted (hB : Bridge) {a b : Fin 24} (h : a ≠ b) : ∃ i j : Fin 24, i.val < j.val ∧
-    ((i = a ∧ j = b) ∨ (i = b ∧ j = a)) ∧
+theorem posO24_ne {a b : Fin 24} (h : a ≠ b) : nthO 0 posO24 a.val ≠ nthO 0 posO24 b.val := fun e =>
+  h (Fin.ext (by rw [← (ordO24_pos a.val a.isLt).1, e, (ordO24_pos b.val b.isLt).1]))
+
+theorem pair_sorted (hB : Bridge) {a b : Fin 24} (h : a ≠ b) : ∃ i j : Fin 24,
+    nthO 0 posO24 i.val < nthO 0 posO24 j.val ∧ ((i = a ∧ j = b) ∨ (i = b ∧ j = a)) ∧
     cls (bbarPt a) * cls (bbarPt b) = cls (bbarPt i) * cls (bbarPt j) := by
-  rcases lt_or_gt_of_ne h with h | h
+  rcases lt_or_gt_of_ne (posO24_ne h) with h | h
   · exact ⟨a, b, h, Or.inl ⟨rfl, rfl⟩, rfl⟩
   · exact ⟨b, a, h, Or.inr ⟨rfl, rfl⟩, bbar_comm hB a b⟩
 
@@ -92,13 +102,14 @@ theorem bbar_pair (hB : Bridge) (a b c d : Fin 24) (hab : a ≠ b) (hcd : c ≠ 
   intro h
   have hv := congrArg (fun g : R => (g • sepP).val) h
   simp only [pair_val hB] at hv
-  have hab' := Fin.val_ne_of_ne hab
-  have hac' := Fin.val_ne_of_ne hac
-  have had' := Fin.val_ne_of_ne had
-  have hbc' := Fin.val_ne_of_ne hbc
-  have hbd' := Fin.val_ne_of_ne hbd
-  refine oct_facts.2.2.1 i.val j.val k.val l.val hij hkl j.isLt l.isLt ?_ ?_ ?_ ?_ hv <;>
-    rcases hs1 with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> rcases hs2 with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> omega
+  have hd : i ≠ k ∧ i ≠ l ∧ j ≠ k ∧ j ≠ l := by
+    rcases hs1 with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> rcases hs2 with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
+      exact ⟨by assumption, by assumption, by assumption, by assumption⟩
+  have h3 := oct_facts.2.2.1 _ _ _ _ hij hkl (ordO24_pos j.val j.isLt).2 (ordO24_pos l.val l.isLt).2
+    (posO24_ne hd.1) (posO24_ne hd.2.1) (posO24_ne hd.2.2.1) (posO24_ne hd.2.2.2)
+  rw [(ordO24_pos i.val i.isLt).1, (ordO24_pos j.val j.isLt).1, (ordO24_pos k.val k.isLt).1,
+    (ordO24_pos l.val l.isLt).1] at h3
+  exact h3 hv
 
 theorem prod_val (hB : Bridge) : ∀ (l : List ℕ), (∀ n ∈ l, n < 24) → ∀ p : Fin 306936,
     ((l.map fun n => cls (bbarPt (toFin24 n))).prod • p).val = cP NW NT (prodC (l.map wc)) p.val

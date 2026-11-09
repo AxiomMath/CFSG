@@ -174,7 +174,16 @@ theorem p3K_parts {P : Nat → Nat} (h : p3K P = true) :
   unfold p3K at h
   exact mkA h
 
-set_option maxHeartbeats 0 in
+theorem el_cube (hC : Nat.card cC = 1440) {g h u : Nat} (hg : g < 1440) (hh : h < 1440)
+    (hu : u < 1440) (hb : base2 (fun p => Nat.beq (ev g (ev h (ev g (ev h (ev g (ev h p))))))
+      (ev u p)) = true) : (el g * el h) ^ 3 = el u := by
+  obtain ⟨c0, c1⟩ := base2_parts hb
+  refine eq_el hC (pow_mem (mul_mem (el_mem hg) (el_mem hh)) 3) hu ?_ ?_
+  · simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, el_fin hg, el_fin hh]
+    exact Nat.eq_of_beq_eq_true c0
+  · simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, el_fin hg, el_fin hh]
+    exact Nat.eq_of_beq_eq_true c1
+
 theorem odd_normal (hpf : PrimeFacts 3 [fix3]) : OddNormalAt (repP fix3) := by
   have hC := hC_of hpf
   obtain ⟨hx, hx2, hx3⟩ := x_parts hC hpf
@@ -185,13 +194,7 @@ theorem odd_normal (hpf : PrimeFacts 3 [fix3]) : OddNormalAt (repP fix3) := by
   have hmul5 : el (P5 0) * el (P5 1) = el (P5 2) := el_mul hC g5 h5 u5 pm5
   have hi5 := (invK_iff hC u5).1 iu5
   have hi3 := (invK_iff hC u3).1 iu3
-  have hcube : (el (P3 0) * el (P3 1)) ^ 3 = el (P3 2) := by
-    obtain ⟨c0, c1⟩ := base2_parts pb3
-    refine eq_el hC (pow_mem (mul_mem (el_mem g3) (el_mem h3)) 3) u3 ?_ ?_
-    · simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, el_fin g3, el_fin h3]
-      exact Nat.eq_of_beq_eq_true c0
-    · simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, el_fin g3, el_fin h3]
-      exact Nat.eq_of_beq_eq_true c1
+  have hcube : (el (P3 0) * el (P3 1)) ^ 3 = el (P3 2) := el_cube hC g3 h3 u3 pb3
   have memC : ∀ {k : Nat} (hk : k < 1440), elH hk ∈ centralizer ({repP fix3} : Set ↥P1408) :=
     fun hk => (mem_cent_iff hpf _).2 (by rw [elH_val]; exact el_mem hk)
   have hmap : (centralizer ({repP fix3} : Set ↥P1408)).map P1408.subtype = cC := by

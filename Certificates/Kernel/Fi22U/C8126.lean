@@ -122,27 +122,39 @@ theorem chain : rawChainOK 693 ((fi22OuterStrong693 2).extract 0 fi22OuterUnitar
   rw [orbits]
   exact (Bound.card_closure_le ufacts).trans (by norm_num)
 
+private theorem perm16_zero : (fi22OuterPerm693 16 0 : Nat) = 2 := by
+  have r16 := rep_fi22OuterPerm693 (L := 16) (by norm_num)
+  rw [← r16 0, Fi22F1O.arr693_eq (by norm_num), Orb.unpack_get (by norm_num)]
+  decide +kernel
+
+private theorem perm15_zero : (fi22OuterPerm693 15 0 : Nat) = 0 := by
+  have r15 := rep_fi22OuterPerm693 (L := 15) (by norm_num)
+  rw [← r15 0, Fi22F1O.arr693_eq (by norm_num), Orb.unpack_get (by norm_num)]
+  decide +kernel
+
+private theorem perm15_two : (fi22OuterPerm693 15 2 : Nat) = 1 := by
+  have r15 := rep_fi22OuterPerm693 (L := 15) (by norm_num)
+  rw [← r15 2, Fi22F1O.arr693_eq (by norm_num), Orb.unpack_get (by norm_num)]
+  decide +kernel
+
+private theorem perm_noncomm_of_values (σ τ : Equiv.Perm (Fin 693))
+    (hτ0 : τ 0 = 2) (hσ0 : σ 0 = 0) (hσ2 : σ 2 = 1) : σ * τ ≠ τ * σ := by
+  intro he
+  have e := congrArg (fun g : Equiv.Perm (Fin 693) => (g 0 : Nat)) he
+  simp only [Equiv.Perm.mul_apply] at e
+  rw [hτ0, hσ0, hτ0, hσ2] at e
+  exact absurd e (by decide)
+
 theorem noncomm : eqA 693 (compA 693 (fi22OuterArr693 15) (fi22OuterArr693 16))
     (compA 693 (fi22OuterArr693 16) (fi22OuterArr693 15)) = false := by
   have r15 := rep_fi22OuterPerm693 (L := 15) (by norm_num)
   have r16 := rep_fi22OuterPerm693 (L := 16) (by norm_num)
+  have hne : fi22OuterPerm693 15 * fi22OuterPerm693 16 ≠
+      fi22OuterPerm693 16 * fi22OuterPerm693 15 :=
+    perm_noncomm_of_values _ _ (Fin.ext perm16_zero) (Fin.ext perm15_zero)
+      (Fin.ext perm15_two)
   refine Bool.eq_false_iff.2 fun he => ?_
-  have e := congrArg (fun g : Equiv.Perm (Fin 693) => (g 0 : Nat))
-    ((eqA_iff (rep_compA r15 r16) (rep_compA r16 r15)).1 he)
-  simp only [Equiv.Perm.mul_apply] at e
-  have a0 : (fi22OuterPerm693 16 0 : Nat) = 2 := by
-    rw [← r16 0, Fi22F1O.arr693_eq (by norm_num), Orb.unpack_get (by norm_num)]
-    decide +kernel
-  have a1 : (fi22OuterPerm693 15 0 : Nat) = 0 := by
-    rw [← r15 0, Fi22F1O.arr693_eq (by norm_num), Orb.unpack_get (by norm_num)]
-    decide +kernel
-  have a2 : fi22OuterPerm693 16 0 = 2 := Fin.ext a0
-  have a3 : fi22OuterPerm693 15 0 = 0 := Fin.ext a1
-  have a4 : (fi22OuterPerm693 15 2 : Nat) = 1 := by
-    rw [← r15 2, Fi22F1O.arr693_eq (by norm_num), Orb.unpack_get (by norm_num)]
-    decide +kernel
-  rw [a2, a3, a2, a4] at e
-  exact absurd e (by decide)
+  exact hne ((eqA_iff (rep_compA r15 r16) (rep_compA r16 r15)).1 he)
 
 theorem facts8126 :
     rawChainOK 693 ((fi22OuterStrong693 2).extract 0 fi22OuterUnitaryGenCount)

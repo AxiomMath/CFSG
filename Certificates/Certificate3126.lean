@@ -93,13 +93,15 @@ theorem cands_of {y : ℕ} (hy : y < 2 ^ 22) (h1 : Co2.Native.actD 22 centP₁ y
   rw [← hEy]
   exact kCands _ h8
 
+theorem nat_all_eq_allLt (n : Nat) (p : Nat → Bool) :
+    Nat.all n (fun i _ => p i) = CFSG.Monster.B.Co2.Native.allLt n p := rfl
+
 theorem centCheck_brute : Nat.all (2 ^ 22) (fun y _ =>
     !(Co2.Native.actD 22 centP₁ y == 0 && Co2.Native.actD 22 centP₂ y == 0) ||
       centCands.contains y) = true := by
-  change CFSG.Monster.B.Co2.Native.allLt (2 ^ 22) (fun y =>
+  rw [nat_all_eq_allLt (2 ^ 22) (fun y =>
     !(Co2.Native.actD 22 centP₁ y == 0 && Co2.Native.actD 22 centP₂ y == 0) ||
-      centCands.contains y) = true
-  rw [CFSG.Monster.B.Co2.allLt_iff]
+      centCands.contains y), CFSG.Monster.B.Co2.allLt_iff]
   intro y hy
   cases h1 : (Co2.Native.actD 22 centP₁ y == 0)
   · rfl

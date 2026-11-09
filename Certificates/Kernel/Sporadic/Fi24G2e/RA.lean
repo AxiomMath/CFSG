@@ -3,6 +3,11 @@ module
 public import Certificates.Kernel.Sporadic.Fi24G2e.RData
 public import Certificates.Kernel.SporSch.Ru.RowsGen
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Repo
+import Certificates.Kernel.Sporadic.Fi24Fix.Split
+
+#kc_repo #kc_ktree CFSG.KD.Fi24G2e RAS "Certificates/Kernel/Sporadic/Fi24G2e/data/ras.bin" 152491 4 914946
+  11711753601305379328
 
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
@@ -41,9 +46,37 @@ theorem d7 : Nat.beq (MUL D6 D1) RD = true := by quickRfl
 
 theorem u2 : Nat.beq (MUL RD (MUL Fi24Ext.H0 (MUL RD Fi24Ext.H0))) RU2 = true := by quickRfl
 
-theorem ww : Nat.beq (wordMul MUL HR WWL ONE) WW = true := by quickRfl
+theorem ww_3 : Nat.beq (wordMul MUL HR [1, 2] ONE) (RAS (nat_lit 0)) = true := by
+  quickRfl
 
-theorem wi : Nat.beq (wordMul MUL HR WIL ONE) WI = true := by quickRfl
+theorem ww_2 : Nat.beq (wordMul MUL HR [2, 2] (RAS (nat_lit 0))) (RAS (nat_lit 1)) = true := by
+  quickRfl
+
+theorem ww_1 : Nat.beq (wordMul MUL HR [2, 1] (RAS (nat_lit 1))) (RAS (nat_lit 2)) = true := by
+  quickRfl
+
+theorem ww_0 : Nat.beq (wordMul MUL HR [2] (RAS (nat_lit 2))) WW = true := by
+  quickRfl
+
+theorem ww : Nat.beq (wordMul MUL HR WWL ONE) WW = true :=
+  beq_wordMul_of_eq (w' := [2] ++ ([2, 1] ++ ([2, 2] ++ [1, 2]))) rfl
+    (beq_wordMul_append (beq_wordMul_append (beq_wordMul_append ww_3 ww_2) ww_1) ww_0)
+
+theorem wi_3 : Nat.beq (wordMul MUL HR [3, 3] ONE) (RAS (nat_lit 3)) = true := by
+  quickRfl
+
+theorem wi_2 : Nat.beq (wordMul MUL HR [3, 1] (RAS (nat_lit 3))) (RAS (nat_lit 4)) = true := by
+  quickRfl
+
+theorem wi_1 : Nat.beq (wordMul MUL HR [1, 3] (RAS (nat_lit 4))) (RAS (nat_lit 5)) = true := by
+  quickRfl
+
+theorem wi_0 : Nat.beq (wordMul MUL HR [3] (RAS (nat_lit 5))) WI = true := by
+  quickRfl
+
+theorem wi : Nat.beq (wordMul MUL HR WIL ONE) WI = true :=
+  beq_wordMul_of_eq (w' := [3] ++ ([1, 3] ++ ([3, 1] ++ [3, 3]))) rfl
+    (beq_wordMul_append (beq_wordMul_append (beq_wordMul_append wi_3 wi_2) wi_1) wi_0)
 
 theorem u3 : Nat.beq (MUL RU2 (MUL WW (MUL RD WI))) RU3 = true := by quickRfl
 

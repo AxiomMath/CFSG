@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.StandardType.GGLangTorusInnerDiagLie
 public import CFSG.LocalAnalysis.StandardType.GGSixTCWP5Inputs
+public import CFSG.LocalAnalysis.StandardType.GGLangTorusInnerDiagE6
 
 public section
 

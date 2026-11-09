@@ -20,7 +20,7 @@ private theorem getD_comp {v : ℕ} (hv : v < 16) (t u : List ℕ) :
 private theorem getD_idTab {v : ℕ} (hv : v < 16) : idTab.getD v 0 = v := by
   simp [idTab, List.getD_eq_getElem?_getD, hv]
 
-private theorem length_comp (t u : List ℕ) : (comp t u).length = 16 := by
+private theorem length_comp16 (t u : List ℕ) : (comp t u).length = 16 := by
   simp [comp]
 
 private theorem eq_idTab_of_getD {L : List ℕ} (hL : L.length = 16) (h : ∀ v < 16, L.getD v 0 = v) :
@@ -44,7 +44,7 @@ private theorem forall_lt_comp {t : List ℕ} (ht : ∀ x ∈ t, x < 16) (u : Li
   obtain ⟨v, -, rfl⟩ := hx
   exact getD_lt ht _
 
-private theorem vmul_lt {v r0 r1 r2 r3 : ℕ} (h0 : r0 < 16) (h1 : r1 < 16) (h2 : r2 < 16)
+private theorem vmul_lt16 {v r0 r1 r2 r3 : ℕ} (h0 : r0 < 16) (h1 : r1 < 16) (h2 : r2 < 16)
     (h3 : r3 < 16) : vmul v r0 r1 r2 r3 < 16 := by
   have hx : ∀ m n : ℕ, m < 16 → n < 16 → m ^^^ n < 16 := fun m n hm hn =>
     Nat.xor_lt_two_pow (n := 4) hm hn
@@ -56,7 +56,7 @@ private theorem forall_lt_tab {r0 r1 r2 r3 : ℕ} (h0 : r0 < 16) (h1 : r1 < 16) 
   intro x hx
   simp only [tab, List.mem_map, List.mem_range] at hx
   obtain ⟨v, -, rfl⟩ := hx
-  exact vmul_lt h0 h1 h2 h3
+  exact vmul_lt16 h0 h1 h2 h3
 
 private theorem forall_lt_A4tabs : ∀ T ∈ A4tabs, ∀ x ∈ T, x < 16 := by decide +kernel
 
@@ -533,7 +533,7 @@ private theorem false_of_order_four {W : X} {T : List ℕ} (hTb : ∀ x ∈ T, x
     have e : c * ((c⁻¹ * W * c) * (c⁻¹ * W * c)) * c⁻¹ = W * W := by group
     rwa [e] at h1
   apply hT2
-  refine eq_idTab_of_getD (length_comp T T) fun v hv => ?_
+  refine eq_idTab_of_getD (length_comp16 T T) fun v hv => ?_
   have h1 := hW2 v hv
   rw [cfg.conj_ev_of_mem hWW v] at h1
   exact (cfg.ev_inj v hv _ (getD_lt hTTb v) h1).symm

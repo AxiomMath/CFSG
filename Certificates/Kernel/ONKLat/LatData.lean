@@ -3,28 +3,28 @@ module
 public import Certificates.Data.Kernel.CosetLat.Defs
 public import Certificates.Data.Kernel.Misc.PermClos
 public import Certificates.Data.Kernel.Spor.Chain
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat EL
-  "Certificates/Kernel/ONKLat/data/el.bin.gz" 105 4 1995 13503387921255215058
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat TE
-  "Certificates/Kernel/ONKLat/data/te.bin.gz" 105 4 13440 13201770863331068737
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat TP
-  "Certificates/Kernel/ONKLat/data/tp.bin.gz" 4 4 512 16759274585063113815
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat TS
-  "Certificates/Kernel/ONKLat/data/ts.bin.gz" 4 4 512 17505766093811879063
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat TC
-  "Certificates/Kernel/ONKLat/data/tc.bin.gz" 4 4 1536 3762301704764579858
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat UE
-  "Certificates/Kernel/ONKLat/data/ue.bin.gz" 105 4 33075 5685902131541005915
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat UR
-  "Certificates/Kernel/ONKLat/data/ur.bin.gz" 4 4 1260 13218512004346405204
-#kc_repo #kc_ktree_gz CertificateChecks.KernelONKLat CR
-  "Certificates/Kernel/ONKLat/data/cr.bin.gz" 8 4 5040 14709025149440047696
-#kc_repo #kc_json_gz CertificateChecks.KernelONKLat
-  "Certificates/Kernel/ONKLat/data/w812105.json.gz" 1831 5287312557862080550
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat EL
+  "Certificates/Kernel/ONKLat/data/el.bin" 105 4 1995 13503387921255215058
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat TE
+  "Certificates/Kernel/ONKLat/data/te.bin" 105 4 13440 13201770863331068737
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat TP
+  "Certificates/Kernel/ONKLat/data/tp.bin" 4 4 512 16759274585063113815
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat TS
+  "Certificates/Kernel/ONKLat/data/ts.bin" 4 4 512 17505766093811879063
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat TC
+  "Certificates/Kernel/ONKLat/data/tc.bin" 4 4 1536 3762301704764579858
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat UE
+  "Certificates/Kernel/ONKLat/data/ue.bin" 105 4 33075 5685902131541005915
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat UR
+  "Certificates/Kernel/ONKLat/data/ur.bin" 4 4 1260 13218512004346405204
+#kc_repo #kc_ktree CertificateChecks.KernelONKLat CR
+  "Certificates/Kernel/ONKLat/data/cr.bin" 8 4 5040 14709025149440047696
+#kc_repo #kc_json CertificateChecks.KernelONKLat
+  "Certificates/Kernel/ONKLat/data/w812105.json" 1831 5287312557862080550
   (repM : List (List Nat)) (repW : List (List (List Nat))) (joinW : List (List (List Nat)))
   (h3W : List Nat)
 

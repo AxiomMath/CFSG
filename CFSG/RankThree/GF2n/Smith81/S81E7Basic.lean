@@ -84,13 +84,16 @@ theorem shift_eq {γ : Fin (Tag.rank .E7) → ℤ} {a b : Fin e7Data.d}
   rw [shift, dif_pos h]
   exact wt_injective (h.choose_spec.trans hb.symm)
 
+set_option maxRecDepth 20000 in
 theorem exists_wt_shift_aux : ∀ γ : Fin (Tag.rank .E7) → ℤ, IsRoot .E7 γ →
     ∀ a : Fin e7Data.d, pr a γ = -1 →
       ∃ b : Fin e7Data.d, e7Data.wt b = e7Data.wt a + MinData.toWeight γ := by
-  refine (forall_isRoot_iff fun γ => ∀ a : Fin e7Data.d, pr a γ = -1 →
-    ∃ b : Fin e7Data.d, e7Data.wt b = e7Data.wt a + MinData.toWeight γ).2 ?_
-  unfold pr
-  decide +kernel
+  intro γ hγ a h
+  have hne : e7Data.rootOp ℤ γ (Finsupp.single a 1) ≠ 0 :=
+    (e7Data_valid.rootOp_single_ne_zero_iff (fun i j => cartan_symm posDef_cartan_E7 i j) hγ a).2 h
+  rcases e7Data_valid.isSignedMap_rootOp (R := ℤ) hγ a with h0 | ⟨b, hb, -⟩
+  · exact absurd h0 hne
+  · exact ⟨b, hb⟩
 
 theorem exists_wt_shift {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ) {a : Fin e7Data.d}
     (h : pr a γ = -1) : ∃ b : Fin e7Data.d, e7Data.wt b = e7Data.wt a + MinData.toWeight γ :=

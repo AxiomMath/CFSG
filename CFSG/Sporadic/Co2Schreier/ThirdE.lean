@@ -22,6 +22,7 @@ public meta import CFSG.Sporadic.Co2Schreier.CoreCheck
 public meta import CFSG.Sporadic.Co2Cert.FaithfulCheck
 public import CFSG.Sporadic.Co2Cert.CheckInputs
 public import CFSG.Sporadic.Co2Cert.OrderCheckInputs
+public import CFSG.Certificates.NativeSchreierLowerBound
 
 public noncomputable section
 
@@ -107,12 +108,15 @@ theorem chainE_original : chainE.originalSubgroup = locE := by
     rw [eRec_origArrs]
     exact (eqA_iff (rep_gPerm hk') (rep_gPerm hk')).2 rfl
 
-theorem card_locE : Nat.card locE = 1474560 := by
-  rw [← chainE_original, card_originalSubgroup_of_chainOK chainE_records.2.2 (by norm_num)
-    eFacts.eOK]
-  change (recordOrbits 2300 eRec).prod = _
-  rw [beq_iff_eq.1 eFacts.eOrb]
-  rfl
+theorem le_card_locE : 1474560 ≤ Nat.card locE := by
+  have h := rawOrbitSizes_prod_le_card chainE_records.2.2 eFacts.eOK
+  rw [chainE_original] at h
+  change (recordOrbits 2300 eRec).prod ≤ _ at h
+  rw [beq_iff_eq.1 eFacts.eOrb] at h
+  exact h
+
+theorem card_locE : Nat.card locE = 1474560 :=
+  le_antisymm ((Subgroup.card_le_of_le locE_le_H3).trans card_locH3_le) le_card_locE
 
 theorem locH3_eq_E : locH3 = locE :=
   (Subgroup.eq_of_le_of_card_ge locE_le_H3 (by rw [card_locE]; exact card_locH3_le)).symm
@@ -208,11 +212,11 @@ theorem quRec_shape : ChainShape quRec 1024 15 17 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 theorem chainQu_records : quRec.Records chainQu :=
   records_rawOfArrays_of_shape quRec_shape _ _ _ _ (by norm_num)
 
-theorem card_chainQu : Nat.card chainQu.originalSubgroup = 1440 := by
-  rw [card_originalSubgroup_of_chainOK chainQu_records.2.2 (by norm_num) eFacts.qOK]
-  change (recordOrbits 1024 quRec).prod = _
-  rw [beq_iff_eq.1 eFacts.qOrb]
-  rfl
+theorem le_card_chainQu : 1440 ≤ Nat.card chainQu.originalSubgroup := by
+  have h := rawOrbitSizes_prod_le_card chainQu_records.2.2 eFacts.qOK
+  change (recordOrbits 1024 quRec).prod ≤ _ at h
+  rw [beq_iff_eq.1 eFacts.qOrb] at h
+  exact h
 
 theorem chainQu_original : chainQu.originalSubgroup =
     Subgroup.closure {π | ∃ i < gTuple.length, permOfArr 1024 quP[i]! = π} := by
@@ -225,11 +229,28 @@ theorem chainQu_original : chainQu.originalSubgroup =
 
 theorem card_conjNormal_Qu :
     Nat.card (MulAut.conjNormal (H := locQu.subgroupOf locE)).range = 1440 := by
-  rw [← card_chainQu, chainQu_original]
-  exact card_range_conjNormal quE_facts repTuple_qu locQu_le_E (hN := locQu_normal) repTuple_g
-    allInv_gA eFacts.qConj fun i hi => by
-      have := quRec_shape.orig_inv (i := i) (by rwa [gTuple_length] at hi)
-      rwa [quRec_origArrs] at this
+  have e : Nat.card (MulAut.conjNormal (H := locQu.subgroupOf locE)).range =
+      Nat.card chainQu.originalSubgroup := by
+    rw [chainQu_original]
+    exact card_range_conjNormal quE_facts repTuple_qu locQu_le_E (hN := locQu_normal) repTuple_g
+      allInv_gA eFacts.qConj fun i hi => by
+        have := quRec_shape.orig_inv (i := i) (by rwa [gTuple_length] at hi)
+        rwa [quRec_origArrs] at this
+  have hlo : 1440 ≤ Nat.card (MulAut.conjNormal (H := locQu.subgroupOf locE)).range := by
+    rw [e]
+    exact le_card_chainQu
+  have h := card_inf_centralizer_mul locQu_le_E (hN := locQu_normal)
+  change Nat.card ↥(locE ⊓ Subgroup.centralizer (locQu : Set (Equiv.Perm (Fin 2300)))) *
+    Nat.card (MulAut.conjNormal (H := locQu.subgroupOf locE)).range = Nat.card locE at h
+  rw [card_locE] at h
+  have hc : 1024 ≤
+      Nat.card ↥(locE ⊓ Subgroup.centralizer (locQu : Set (Equiv.Perm (Fin 2300)))) := by
+    rw [← card_locQu]
+    exact Subgroup.card_le_of_le fun x hx => Subgroup.mem_inf.2 ⟨locQu_le_E hx,
+      Subgroup.mem_centralizer_iff.2 fun y hy => locQu_comm hy hx⟩
+  have hm :=
+    Nat.mul_le_mul_right (Nat.card (MulAut.conjNormal (H := locQu.subgroupOf locE)).range) hc
+  exact le_antisymm (by linarith) hlo
 
 theorem locE_inf_centralizer_Qu :
     locE ⊓ Subgroup.centralizer (locQu : Set (Equiv.Perm (Fin 2300))) = locQu := by

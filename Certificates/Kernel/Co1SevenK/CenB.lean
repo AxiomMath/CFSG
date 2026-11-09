@@ -21,7 +21,7 @@ theorem kGB : bAnd(Nat.beq (Inst7.gens instB).length (nat_lit 2), commGK GB 2 TB
   quickRfl
 
 theorem kTB : bAnd(Nat.beq CB.N (nat_lit 1176),
-    gtPinK GB 2 100000 CB.N CB.P CB.PAR CB.LAB CB.W CB.S) = true := by quickRfl
+    bfsK (gtStepK GB) CB.P CB.PAR CB.LAB CB.W CB.S 2 100000 CB.N idM) = true := by quickRfl
 
 theorem kFB : closK CB.P CB.N FB.R FB.C FB.W = true := by quickRfl
 

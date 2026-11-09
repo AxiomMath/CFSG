@@ -2,6 +2,8 @@ module
 
 public import Certificates.Data.Kernel.CoreD2K.Steps
 public import CFSG.Certificates.Kernel.CoreD2K.Sound
+public import CFSG.Certificates.Kernel.CoreD2K.Extra5
+public import Certificates.Data.Kernel.CoreD2K.Extra
 
 public section
 
@@ -36,33 +38,200 @@ theorem conj_mem_of_closure {X : Type*} [Group X] {g : X} {S : Set X} {H : Subgr
     rw [e]
     exact H.inv_mem hx
 
-structure KHypsC (n w : Nat) (V : VData) (reps : List Nat) (steps : List CStep)
-    (GP GPI GT GTI EG EGI T PL POS SRT SRI : Nat → Nat) (cnt cap len : Nat) : Prop where
+structure KHypsCB (n w : Nat) (V : VData) (reps : List Nat) (steps : List CStep)
+    (GP GPI GT GTI EG : Nat → Nat) : Prop where
   hn : szOK n w = true
   hgp : allN (nat_lit 2) (fun j => permOK n w (mask w) (Nat.mul n w) (GP j) (GPI j)) = true
   hE : ∀ k < V.base.eW.length, bAnd(wordEqK n w (mask w) (pidn n w) GP GPI (nat_lit 2)
     (V.base.eW.getD k []) (EG k), canonK n w (mask w) (Nat.mul n w) (EG k)) = true
   hG : ∀ j < V.base.gWs.length, bAnd(wordEqK n w (mask w) (pidn n w) GP GPI (nat_lit 2)
     (V.base.gWs.getD j []) (GT j), permOK n w (mask w) (Nat.mul n w) (GT j) (GTI j)) = true
-  hh : penumHdK (pidn n w) cnt cap T PL = true
-  hsl : penumSlK n w (mask w) (n * w) false EG EGI V.base.eW.length cnt T PL POS SRT SRI 0 len =
-    true
-  hlen : cnt ≤ len
-  hcnt : cnt = V.base.p ^ 3
   hnab : nabK n w V.base.eW.length EG = true
   hcen : cenK n w V.base.p V.base.eW.length EG = true
-  hlines : linesK n w V.base.p V EG = true
   hkinds : kindsK n w V EG GT = true
   hreps : ∀ i ∈ reps, repCK n w V GP GT GTI i = true
   hsteps : ∀ s ∈ steps, stepCK n w V EG GT s = true
   hchain : chainOK V.ys.length reps steps = true
 
-theorem cent_facts {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep}
-    {GP GPI GT GTI EG EGI T PL POS SRT SRI : Nat → Nat} {cnt cap len : Nat}
-    (H : KHypsC n w V reps steps GP GPI GT GTI EG EGI T PL POS SRT SRI cnt cap len)
-    (hp : V.base.p.Prime) (hkd : ∀ f ∈ V.gk, f.kind ≠ 0) (hf3 : ∀ f ∈ V.gk, f.f3 = 1)
+structure KHypsC (n w : Nat) (V : VData) (reps : List Nat) (steps : List CStep)
+    (GP GPI GT GTI EG EGI T PL POS SRT SRI : Nat → Nat) (cnt cap len : Nat) : Prop
+    extends KHypsCB n w V reps steps GP GPI GT GTI EG where
+  hh : penumHdK (pidn n w) cnt cap T PL = true
+  hsl : penumSlK n w (mask w) (n * w) false EG EGI V.base.eW.length cnt T PL POS SRT SRI 0 len =
+    true
+  hlen : cnt ≤ len
+  hcnt : cnt = V.base.p ^ 3
+  hlines : linesK n w V.base.p V EG = true
+
+structure KHypsCN (n w : Nat) (V : VData) (reps : List Nat) (steps : List CStep)
+    (GP GPI GT GTI EG A B C : Nat → Nat) (t p0 : Nat) : Prop
+    extends KHypsCB n w V reps steps GP GPI GT GTI EG where
+  h3 : 3 ≤ V.base.eW.length
+  hp5 : V.base.p = 5
+  hrel : exRel n w (EG 0) (EG 1) (EG 2) t = true
+  hgen : ∀ k < V.base.eW.length,
+    exGen n w (EG 0) (EG 1) (EG 2) (EG k) (A k) (B k) (C k) = true
+  hp0 : p0 < n
+  hpts : bitDistK (nfPts w (EG 0) (EG 1) (EG 2) p0) 0 = true
+  hlines : linesGK n w V.base.p V EG (fun z v x => outPK w V.base.p z v x p0) = true
+
+theorem pr_pit {n w P : Nat} {g : Equiv.Perm (Fin n)} (hP : PR n w P g) :
+    ∀ (a : ℕ) (i : Fin n), ((g ^ a) i : ℕ) = pit w P a i := by
+  intro a i
+  induction a with
+  | zero =>
+    simp only [pow_zero, Equiv.Perm.one_apply]
+    rfl
+  | succ a ih =>
+    have hlt : pit w P a i < n := by
+      rw [← ih]
+      exact ((g ^ a) i).isLt
+    rw [pow_succ', Equiv.Perm.mul_apply, ← hP.2.apply, ih]
+    unfold unpack
+    rw [getElem!_pos _ _ (by rw [Array.size_ofFn]; exact hlt), Array.getElem_ofFn]
+    rfl
+
+theorem outPK_sound {n w p z v x q : Nat} {zz vv xx : Equiv.Perm (Fin n)}
+    (hz : PR n w z zz) (hv : PR n w v vv) (hx : PR n w x xx) (hq : q < n)
+    (h : outPK w p z v x q = true) : ∀ a < p, ∀ b < p, xx ≠ zz ^ a * vv ^ b := by
+  intro a ha b hb e
+  unfold outPK at h
+  rw [PK.strictB_eq] at h
+  have h1 := PK.allN_iff.1 (PK.allN_iff.1 h a ha) b hb
+  beta_reduce at h1
+  have ex : pg w (mask w) x q = ((xx ^ 1) ⟨q, hq⟩ : ℕ) := (pr_pit hx 1 ⟨q, hq⟩).symm
+  have ez : pit w z a (pit w v b q) = ((zz ^ a * vv ^ b) ⟨q, hq⟩ : ℕ) := by
+    rw [Equiv.Perm.mul_apply, pr_pit hz a, pr_pit hv b]
+  rw [ex, ez, pow_one, e, Nat.beq_refl] at h1
+  exact absurd h1 (by decide)
+
+theorem bitDistK_sound : ∀ (l : List Nat) (m : Nat), bitDistK l m = true →
+    l.Nodup ∧ ∀ q ∈ l, m.testBit q = false := by
+  intro l
+  induction l with
+  | nil => intro m _; exact ⟨List.nodup_nil, by simp⟩
+  | cons p ps ih =>
+    intro m h
+    change (Nat.beq (Nat.land (Nat.shiftRight m p) 1) 0 &&
+      bitDistK ps (Nat.lor m (Nat.shiftLeft 1 p))) = true at h
+    rw [Bool.and_eq_true] at h
+    obtain ⟨hb, hr⟩ := h
+    obtain ⟨hnd, hnot⟩ := ih _ hr
+    have hb' : (m >>> p) &&& 1 = 0 := Nat.eq_of_beq_eq_true hb
+    have hmp : m.testBit p = false := by
+      unfold Nat.testBit
+      rw [Nat.and_comm, hb']
+      rfl
+    have hor1 : (Nat.lor m (Nat.shiftLeft 1 p)).testBit p = true := by
+      change (m ||| 1 <<< p).testBit p = true
+      rw [Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow_self, Bool.or_true]
+    have hor2 : ∀ q, (Nat.lor m (Nat.shiftLeft 1 p)).testBit q = false → m.testBit q = false := by
+      intro q h
+      change (m ||| 1 <<< p).testBit q = false at h
+      rw [Nat.testBit_or, Bool.or_eq_false_iff] at h
+      exact h.1
+    refine ⟨List.nodup_cons.2 ⟨fun hp => ?_, hnd⟩, fun q hq => ?_⟩
+    · have := hnot p hp
+      rw [hor1] at this
+      exact Bool.noConfusion this
+    · rcases List.mem_cons.1 hq with rfl | hq
+      · exact hmp
+      · exact hor2 q (hnot q hq)
+
+theorem cent_eP {n w : Nat} {V : VData} {GP GPI EG : Nat → Nat}
+    (hgp : allN (nat_lit 2) (fun j => permOK n w (mask w) (Nat.mul n w) (GP j) (GPI j)) = true)
+    (hE : ∀ k < V.base.eW.length, bAnd(wordEqK n w (mask w) (pidn n w) GP GPI (nat_lit 2)
+      (V.base.eW.getD k []) (EG k), canonK n w (mask w) (Nat.mul n w) (EG k)) = true)
     {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
     (hb : TabRep (unpack n w (GP 1)) b) :
+    ∀ k < V.base.eW.length, PR n w (EG k) ((V.base.eW.map (wordVal [a, b])).getD k 1) := by
+  intro k hk
+  have hG2' : allN 2 (fun j => permOK n w (mask w) (n * w) (GP j) (GPI j)) = true := hgp
+  have hSr : ∀ j < 2, TabRep (unpack n w (GP j)) ([a, b].getD j 1) := by
+    intro j hj
+    rcases j with _ | _ | j
+    · exact ha
+    · exact hb
+    · omega
+  have e : (V.base.eW.map (wordVal [a, b])).getD k 1 = wordVal [a, b] (V.base.eW.getD k []) := by
+    rw [List.getD_eq_getElem _ _ (by simpa using hk), List.getD_eq_getElem _ _ hk,
+      List.getElem_map]
+  obtain ⟨h1, h2⟩ := band_e (hE k hk)
+  rw [e]
+  exact ⟨h2, pr_word (k := 2) rfl hG2' hSr h1⟩
+
+theorem cent_card_nf {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep}
+    {GP GPI GT GTI EG A B C : Nat → Nat} {t p0 : Nat}
+    (H : KHypsCN n w V reps steps GP GPI GT GTI EG A B C t p0)
+    {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
+    (hb : TabRep (unpack n w (GP 1)) b) :
+    Nat.card (Subgroup.closure {g | g ∈ V.base.eW.map (wordVal [a, b])}) = V.base.p ^ 3 := by
+  have hn := H.hn
+  have hEP := cent_eP H.hgp H.hE ha hb
+  set ne := V.base.eW.length with hne
+  set Le : List (Equiv.Perm (Fin n)) := V.base.eW.map (wordVal [a, b]) with hLe
+  have hLmem : ∀ k < ne, Le.getD k 1 ∈ Le := fun k hk => by
+    rw [List.getD_eq_getElem _ _ (by simpa [hLe] using hk)]
+    exact List.getElem_mem _
+  have h3 := H.h3
+  have hzP := hEP 0 (by omega)
+  have hxP := hEP 1 (by omega)
+  have hyP := hEP 2 (by omega)
+  have hrel := H.hrel
+  unfold exRel at hrel
+  obtain ⟨r1, hrel⟩ := band_e hrel
+  obtain ⟨r2, hrel⟩ := band_e hrel
+  obtain ⟨r3, hrel⟩ := band_e hrel
+  obtain ⟨r4, hrel⟩ := band_e hrel
+  obtain ⟨r5, r6⟩ := band_e hrel
+  have hz5 : Le.getD 0 1 ^ 5 = 1 := (pr_beq (pr_pow hn hzP 5) (pr_one hn)).1 r1
+  have hx5 : Le.getD 1 1 ^ 5 = 1 := (pr_beq (pr_pow hn hxP 5) (pr_one hn)).1 r2
+  have hy5 : Le.getD 2 1 ^ 5 = 1 := (pr_beq (pr_pow hn hyP 5) (pr_one hn)).1 r3
+  have hzx : Le.getD 0 1 * Le.getD 1 1 = Le.getD 1 1 * Le.getD 0 1 :=
+    (pr_beq (pr_mul hzP hxP) (pr_mul hxP hzP)).1 r4
+  have hzy : Le.getD 0 1 * Le.getD 2 1 = Le.getD 2 1 * Le.getD 0 1 :=
+    (pr_beq (pr_mul hzP hyP) (pr_mul hyP hzP)).1 r5
+  have hyx : Le.getD 2 1 * Le.getD 1 1 = Le.getD 1 1 * Le.getD 2 1 * Le.getD 0 1 ^ t :=
+    (pr_beq (pr_mul hyP hxP) (pr_mul (pr_mul hxP hyP) (pr_pow hn hzP t))).1 r6
+  have hS : ∀ s ∈ {g | g ∈ Le}, NF (Le.getD 0 1) (Le.getD 1 1) (Le.getD 2 1) s := by
+    intro s hs
+    obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem hs
+    have hk' : k < ne := by simpa [hLe] using hk
+    have hg := H.hgen k hk'
+    unfold exGen at hg
+    refine ⟨A k, B k, C k, ?_⟩
+    rw [← List.getD_eq_getElem _ 1 hk]
+    exact (pr_beq (hEP k hk')
+      (pr_mul (pr_mul (pr_pow hn hzP _) (pr_pow hn hxP _)) (pr_pow hn hyP _))).1 hg
+  have happ : ∀ k, ((nfk (Le.getD 0 1) (Le.getD 1 1) (Le.getD 2 1) k) ⟨p0, H.hp0⟩ : ℕ) =
+      pit w (EG 0) (k / 25) (pit w (EG 1) (k / 5 % 5) (pit w (EG 2) (k % 5) p0)) := by
+    intro k
+    unfold nfk
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, pr_pit hzP, pr_pit hxP, pr_pit hyP]
+  have hinj : ∀ k < 125, ∀ k' < 125, nfk (Le.getD 0 1) (Le.getD 1 1) (Le.getD 2 1) k =
+      nfk (Le.getD 0 1) (Le.getD 1 1) (Le.getD 2 1) k' → k = k' := by
+    intro k hk k' hk' e
+    have e' := congrArg (fun g : Equiv.Perm (Fin n) => ((g ⟨p0, H.hp0⟩ : Fin n) : ℕ)) e
+    simp only [happ] at e'
+    have hnd := (bitDistK_sound _ _ H.hpts).1
+    unfold nfPts at hnd
+    exact List.inj_on_of_nodup_map hnd (List.mem_range.2 hk) (List.mem_range.2 hk') e'
+  have e125 : (5 : ℕ) ^ 3 = 125 := by norm_num
+  rw [H.hp5, e125]
+  exact card_eq_of_nf hzx hzy hyx hz5 hx5 hy5 hS
+    (Subgroup.subset_closure (hLmem 0 (by omega))) (Subgroup.subset_closure (hLmem 1 (by omega)))
+    (Subgroup.subset_closure (hLmem 2 (by omega))) hinj
+
+theorem cent_facts_of_card {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep}
+    {GP GPI GT GTI EG : Nat → Nat}
+    (H : KHypsCB n w V reps steps GP GPI GT GTI EG) {out : Nat → Nat → Nat → Bool}
+    (hlines : linesGK n w V.base.p V EG out = true)
+    (hout' : ∀ {z v x : Nat} {zz vv xx : Equiv.Perm (Fin n)}, PR n w z zz → PR n w v vv →
+      PR n w x xx → out z v x = true → ∀ a < V.base.p, ∀ b < V.base.p, xx ≠ zz ^ a * vv ^ b)
+    (hp : V.base.p.Prime) (hkd : ∀ f ∈ V.gk, f.kind ≠ 0) (hf3 : ∀ f ∈ V.gk, f.f3 = 1)
+    {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
+    (hb : TabRep (unpack n w (GP 1)) b)
+    (hEc : Nat.card (Subgroup.closure {g | g ∈ V.base.eW.map (wordVal [a, b])}) = V.base.p ^ 3) :
     ∃ E : Subgroup (Equiv.Perm (Fin n)), Nat.card E = V.base.p ^ 3 ∧
       E ≤ Subgroup.closure {a, b} ∧
       ∀ A : Subgroup (Equiv.Perm (Fin n)), A ≤ E → IsElemAbelian V.base.p A →
@@ -127,28 +296,7 @@ theorem cent_facts {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep
     intro g hg
     obtain ⟨wd, -, rfl⟩ := List.mem_map.1 hg
     exact wordVal_mem S G hSG wd
-  set gens : Array Tab := Array.ofFn (n := ne) fun k => unpack n w (EG k.val) with hgens'
-  have hgget : ∀ k < ne, gens[k]! = unpack n w (EG k) := fun k hk => by
-    rw [hgens', getElem!_pos _ k (by simpa using hk), Array.getElem_ofFn]
-  have hgsz : gens.size = ne := Array.size_ofFn
-  have hgOK : GensOK n w ne EG gens := ⟨hgsz, fun j hj => ⟨hgget j hj, (hEk j hj).2⟩⟩
-  obtain ⟨-, henum⟩ := penumK_left_sound hn hgOK H.hh
-    (fun i hi => CFSG.KS.BaseMask.penumSl_spec H.hsl (Nat.zero_le i) (by have := H.hlen; omega) hi)
   set E := Subgroup.closure {g | g ∈ Le} with hEdef
-  have hA : ∀ g ∈ {g | g ∈ Le}, ∃ j < gens.size, TabRep gens[j]! g := by
-    intro g hg
-    obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem hg
-    have hk' : k < ne := by simpa [hLe] using hk
-    refine ⟨k, by rw [hgsz]; exact hk', ?_⟩
-    rw [hgget k hk', ← List.getD_eq_getElem _ 1 hk]
-    exact (hEP k hk').2
-  have hgensE : ∀ j < gens.size, ∃ g ∈ {g | g ∈ Le}, TabRep gens[j]! g := by
-    intro j hj
-    rw [hgsz] at hj
-    exact ⟨Le.getD j 1, hLmem j hj, by rw [hgget j hj]; exact (hEP j hj).2⟩
-  have hE := enumerates_closure hA hgensE henum
-  have hEc : Nat.card E = p ^ 3 := by
-    rw [hE.card, Array.length_toList, rec_size, H.hcnt]
   have hEG : E ≤ G := by
     rw [hEdef, Subgroup.closure_le]
     exact fun g hg => hLeG g hg
@@ -193,8 +341,7 @@ theorem cent_facts {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep
       exact ((pr_beq (pr_mul hzP (hEP k hk')) (pr_mul (hEP k hk') hzP)).1 hc).symm
     intro x hx
     exact Subgroup.mem_centralizer_singleton_iff.1 (hcl hx)
-  have hlines := H.hlines
-  unfold linesK at hlines
+  unfold linesGK at hlines
   rw [PK.strictB_eq] at hlines
   obtain ⟨hys, hlines⟩ := band_e hlines
   obtain ⟨hvs, hds⟩ := band_e hlines
@@ -226,7 +373,7 @@ theorem cent_facts {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep
     have hout := PK.allN_iff.1 hdj i hij
     obtain ⟨hvi, hvp, hzv, -⟩ := hvfacts i hi'
     obtain ⟨c, hc, d, hd, e⟩ := exists_pow_mul_pow_of_mem hp.pos hzv hzp' hvp hmem
-    exact outK_sound hn hzP (hvP i hi') (hvP j hj') hout c hc d hd e
+    exact hout' hzP (hvP i hi') (hvP j hj') hout c hc d hd e
   have hkinds := H.hkinds
   unfold kindsK at hkinds
   obtain ⟨hgkl, hkall⟩ := band_e hkinds
@@ -373,12 +520,50 @@ theorem cent_facts {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep
   obtain ⟨y, hy, hy1, hgy⟩ := hΓc g hg
   exact ⟨y, hYA ▸ hy, hy1, hgy⟩
 
-theorem exists_cent_gens_of_kchecks {n w : Nat} {V : VData} {reps : List Nat}
-    {steps : List CStep} {GP GPI GT GTI EG EGI T PL POS SRT SRI : Nat → Nat} {cnt cap len : Nat}
+theorem cent_card_penum {n w : Nat} {V : VData} {reps : List Nat} {steps : List CStep}
+    {GP GPI GT GTI EG EGI T PL POS SRT SRI : Nat → Nat} {cnt cap len : Nat}
     (H : KHypsC n w V reps steps GP GPI GT GTI EG EGI T PL POS SRT SRI cnt cap len)
-    (hp : V.base.p.Prime) (hkd : ∀ f ∈ V.gk, f.kind ≠ 0) (hf3 : ∀ f ∈ V.gk, f.f3 = 1)
     {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
     (hb : TabRep (unpack n w (GP 1)) b) :
+    Nat.card (Subgroup.closure {g | g ∈ V.base.eW.map (wordVal [a, b])}) = V.base.p ^ 3 := by
+  have hn := H.hn
+  have hEP := cent_eP H.hgp H.hE ha hb
+  set ne := V.base.eW.length with hne
+  set Le : List (Equiv.Perm (Fin n)) := V.base.eW.map (wordVal [a, b]) with hLe
+  have hLmem : ∀ k < ne, Le.getD k 1 ∈ Le := fun k hk => by
+    rw [List.getD_eq_getElem _ _ (by simpa [hLe] using hk)]
+    exact List.getElem_mem _
+  set gens : Array Tab := Array.ofFn (n := ne) fun k => unpack n w (EG k.val) with hgens'
+  have hgget : ∀ k < ne, gens[k]! = unpack n w (EG k) := fun k hk => by
+    rw [hgens', getElem!_pos _ k (by simpa using hk), Array.getElem_ofFn]
+  have hgsz : gens.size = ne := Array.size_ofFn
+  have hgOK : GensOK n w ne EG gens := ⟨hgsz, fun j hj => ⟨hgget j hj, (band_e (H.hE j hj)).2⟩⟩
+  obtain ⟨-, henum⟩ := penumK_left_sound hn hgOK H.hh
+    (fun i hi => CFSG.KS.BaseMask.penumSl_spec H.hsl (Nat.zero_le i) (by have := H.hlen; omega) hi)
+  have hA : ∀ g ∈ {g | g ∈ Le}, ∃ j < gens.size, TabRep gens[j]! g := by
+    intro g hg
+    obtain ⟨k, hk, rfl⟩ := List.getElem_of_mem hg
+    have hk' : k < ne := by simpa [hLe] using hk
+    refine ⟨k, by rw [hgsz]; exact hk', ?_⟩
+    rw [hgget k hk', ← List.getD_eq_getElem _ 1 hk]
+    exact (hEP k hk').2
+  have hgensE : ∀ j < gens.size, ∃ g ∈ {g | g ∈ Le}, TabRep gens[j]! g := by
+    intro j hj
+    rw [hgsz] at hj
+    exact ⟨Le.getD j 1, hLmem j hj, by rw [hgget j hj]; exact (hEP j hj).2⟩
+  have hE := enumerates_closure hA hgensE henum
+  rw [hE.card, Array.length_toList, rec_size, H.hcnt]
+
+theorem exists_cent_gens_of_card {n w : Nat} {V : VData} {reps : List Nat}
+    {steps : List CStep} {GP GPI GT GTI EG : Nat → Nat}
+    (H : KHypsCB n w V reps steps GP GPI GT GTI EG) {out : Nat → Nat → Nat → Bool}
+    (hlines : linesGK n w V.base.p V EG out = true)
+    (hout' : ∀ {z v x : Nat} {zz vv xx : Equiv.Perm (Fin n)}, PR n w z zz → PR n w v vv →
+      PR n w x xx → out z v x = true → ∀ a < V.base.p, ∀ b < V.base.p, xx ≠ zz ^ a * vv ^ b)
+    (hp : V.base.p.Prime) (hkd : ∀ f ∈ V.gk, f.kind ≠ 0) (hf3 : ∀ f ∈ V.gk, f.f3 = 1)
+    {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
+    (hb : TabRep (unpack n w (GP 1)) b)
+    (hEc : Nat.card (Subgroup.closure {g | g ∈ V.base.eW.map (wordVal [a, b])}) = V.base.p ^ 3) :
     ∃ E : Subgroup ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))),
       Nat.card E = V.base.p ^ 3 ∧
       ∀ A : Subgroup ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))), A ≤ E →
@@ -386,7 +571,7 @@ theorem exists_cent_gens_of_kchecks {n w : Nat} {V : VData} {reps : List Nat}
         ∃ Γ : Set ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))),
           Subgroup.closure Γ = ⊤ ∧ ∀ g ∈ Γ, ∃ y ∈ A, y ≠ 1 ∧ g * y = y * g := by
   set G := Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n))) with hGdef
-  obtain ⟨E, hEc, hEG, hΓ⟩ := cent_facts H hp hkd hf3 ha hb
+  obtain ⟨E, hEc, hEG, hΓ⟩ := cent_facts_of_card H hlines hout' hp hkd hf3 ha hb hEc
   refine ⟨E.subgroupOf G, ?_, ?_⟩
   · rw [← hEc]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEG).toEquiv
@@ -422,6 +607,36 @@ theorem exists_cent_gens_of_kchecks {n w : Nat} {V : VData} {reps : List Nat}
     obtain ⟨y, hyA, hy1, h1⟩ := hcent _ hg
     obtain ⟨y', hy'A, rfl⟩ := Subgroup.mem_map.1 hyA
     refine ⟨y', hy'A, fun h0 => hy1 (by rw [h0]; rfl), Subtype.ext (by simpa using h1)⟩
+
+theorem exists_cent_gens_of_kchecks {n w : Nat} {V : VData} {reps : List Nat}
+    {steps : List CStep} {GP GPI GT GTI EG EGI T PL POS SRT SRI : Nat → Nat} {cnt cap len : Nat}
+    (H : KHypsC n w V reps steps GP GPI GT GTI EG EGI T PL POS SRT SRI cnt cap len)
+    (hp : V.base.p.Prime) (hkd : ∀ f ∈ V.gk, f.kind ≠ 0) (hf3 : ∀ f ∈ V.gk, f.f3 = 1)
+    {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
+    (hb : TabRep (unpack n w (GP 1)) b) :
+    ∃ E : Subgroup ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))),
+      Nat.card E = V.base.p ^ 3 ∧
+      ∀ A : Subgroup ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))), A ≤ E →
+        IsElemAbelian V.base.p A → Nat.card A = V.base.p ^ 2 →
+        ∃ Γ : Set ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))),
+          Subgroup.closure Γ = ⊤ ∧ ∀ g ∈ Γ, ∃ y ∈ A, y ≠ 1 ∧ g * y = y * g :=
+  exists_cent_gens_of_card H.toKHypsCB (out := fun z v x => outK n w V.base.p z v x) H.hlines
+    (fun hz hv hx h => outK_sound H.hn hz hv hx h) hp hkd hf3 ha hb (cent_card_penum H ha hb)
+
+theorem exists_cent_gens_of_kchecksN {n w : Nat} {V : VData} {reps : List Nat}
+    {steps : List CStep} {GP GPI GT GTI EG A B C : Nat → Nat} {t p0 : Nat}
+    (H : KHypsCN n w V reps steps GP GPI GT GTI EG A B C t p0)
+    (hp : V.base.p.Prime) (hkd : ∀ f ∈ V.gk, f.kind ≠ 0) (hf3 : ∀ f ∈ V.gk, f.f3 = 1)
+    {a b : Equiv.Perm (Fin n)} (ha : TabRep (unpack n w (GP 0)) a)
+    (hb : TabRep (unpack n w (GP 1)) b) :
+    ∃ E : Subgroup ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))),
+      Nat.card E = V.base.p ^ 3 ∧
+      ∀ A : Subgroup ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))), A ≤ E →
+        IsElemAbelian V.base.p A → Nat.card A = V.base.p ^ 2 →
+        ∃ Γ : Set ↥(Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin n)))),
+          Subgroup.closure Γ = ⊤ ∧ ∀ g ∈ Γ, ∃ y ∈ A, y ≠ 1 ∧ g * y = y * g :=
+  exists_cent_gens_of_card H.toKHypsCB H.hlines (fun hz hv hx h => outPK_sound hz hv hx H.hp0 h)
+    hp hkd hf3 ha hb (cent_card_nf H ha hb)
 
 end CFSG.KD.CoreD2K
 

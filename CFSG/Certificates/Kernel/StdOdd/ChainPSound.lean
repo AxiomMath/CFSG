@@ -235,6 +235,15 @@ theorem letP_bit {U : List ℕ} (hU : Bd U) (hl : lenN U = 156) : ∀ (Ms ms : L
     simp
   | M :: Ms, m :: ms, p => by
     rw [shiftN_cons]
+    have e : letP c0P (packP U) (M :: Ms) (m :: ms) =
+        (((m &&& full 156) * c0P) &&& mulP c0P M (packP U)) ^^^ letP c0P (packP U) Ms ms := by
+      change Bool.rec (motive := fun _ => ℕ)
+        ((((m &&& full 156) * c0P) &&& mulP c0P M (packP U)) ^^^ letP c0P (packP U) Ms ms)
+        (letP c0P (packP U) Ms ms) (Nat.beq (m &&& full 156) 0) = _
+      cases h0 : Nat.beq (m &&& full 156) 0
+      · rfl
+      · rw [Nat.eq_of_beq_eq_true h0, Nat.zero_mul, Nat.zero_and, Nat.zero_xor]
+    rw [e]
     change ((((m &&& full 156) * c0P) &&& mulP c0P M (packP U)) ^^^
         letP c0P (packP U) Ms ms).testBit p =
       (_ && ((m &&& rowX (M >>> (156 * (p / 156))) U) ^^^

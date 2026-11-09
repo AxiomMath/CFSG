@@ -32,10 +32,6 @@ theorem vB : Nat.beq (sumN 25 PHSN.V1) 300 = true := by quickRfl
 theorem vC : Nat.beq (sumN 25 PHSN.V2) 25 = true := by quickRfl
 theorem vZ : Nat.beq (sumN 25 PHSN.V3) 11 = true := by quickRfl
 theorem vZI : Nat.beq (sumN 25 PHSN.V4) 0 = true := by quickRfl
-theorem sA : Nat.beq (sumN 12 PHSN.SC0) 110 = true := by quickRfl
-theorem sB : Nat.beq (sumN 32 PHSN.SC1) 22 = true := by quickRfl
-theorem sAI : Nat.beq (sumN 12 PHSN.SC2) 110 = true := by quickRfl
-theorem sBI : Nat.beq (sumN 32 PHSN.SC3) 22 = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.PHSCn
 

@@ -312,6 +312,108 @@ theorem enumData_of_bfsOK {ix : ℕ → ℕ} {gs E : List ℕ} {P : List (ℕ ×
       exact ksBFgo_run hix hPlen (e :: Er) 0 1 Er Pr fuel ((∅ : Std.HashSet ℕ).insert Code.one)
         (by simp) rfl rfl (Nat.zero_le 1) (by simp) hseen hf hrun
 
+private theorem ksBFgen_spec {ix : ℕ → ℕ} {gs E : List ℕ} {P : List (ℕ × ℕ)} {x i : ℕ}
+    {k : ℕ → List ℕ → List (ℕ × ℕ) → Bool} :
+    ∀ (L : List ℕ) (j c : ℕ) (Er : List ℕ) (Pr : List (ℕ × ℕ)),
+      L = gs.drop j → Er = E.drop c → Pr = P.drop c →
+      bfsGen ix x i k L j c Er Pr = true →
+      ∃ c', c ≤ c' ∧ k c' (E.drop c') (P.drop c') = true ∧
+        (∀ j' (hj : j' < gs.length), j ≤ j' → ix (mulF x gs[j']) < c') ∧
+        ∀ t, c ≤ t → t < c' → ∃ (ht : t < E.length) (hp : t < P.length),
+          P[t].1 = i ∧ P[t].2 < gs.length ∧ E[t] = mulF x (gs.getD P[t].2 0)
+  | [], j, c, Er, Pr, hL, hEr, hPr, h => by
+    refine ⟨c, le_rfl, ?_, fun j' hj hjj => ?_, fun t h1 h2 => absurd h2 (by omega)⟩
+    · rw [← hEr, ← hPr]
+      exact h
+    · have := congrArg List.length hL
+      simp only [List.length_nil, List.length_drop] at this
+      omega
+  | g :: L', j, c, Er, Pr, hL, hEr, hPr, h => by
+    obtain ⟨hj, hgj, hL', -⟩ := ksBFdrop_cons hL
+    rcases ksBFgen_cons h with ⟨hlt, h'⟩ | ⟨heq, e, Er', p, Pr', rfl, rfl, hey, hpi, hpj, h'⟩
+    · obtain ⟨c', hcc, hk, hcl, hpar⟩ := ksBFgen_spec L' (j + 1) c Er Pr hL' hEr hPr h'
+      refine ⟨c', hcc, hk, fun j' hj' hjj => ?_, hpar⟩
+      rcases Nat.eq_or_lt_of_le hjj with rfl | hjj
+      · rw [hgj]
+        omega
+      · exact hcl j' hj' hjj
+    · obtain ⟨hcE, hEc, hEr'⟩ := ksBFdrop_succ hEr.symm
+      obtain ⟨hcP, hPc, hPr'⟩ := ksBFdrop_succ hPr.symm
+      obtain ⟨c', hcc, hk, hcl, hpar⟩ := ksBFgen_spec L' (j + 1) (c + 1) Er' Pr' hL' hEr' hPr' h'
+      refine ⟨c', by omega, hk, fun j' hj' hjj => ?_, fun t h1 h2 => ?_⟩
+      · rcases Nat.eq_or_lt_of_le hjj with rfl | hjj
+        · rw [hgj]
+          omega
+        · exact hcl j' hj' hjj
+      · rcases Nat.eq_or_lt_of_le h1 with rfl | h1
+        · refine ⟨hcE, hcP, ?_, ?_, ?_⟩
+          · rw [hPc]
+            exact hpi
+          · rw [hPc, hpj]
+            exact hj
+          · rw [hEc, hPc, hpj, hey, List.getD_eq_getElem _ _ hj, hgj]
+        · exact hpar t h1 h2
+
+private theorem ksBFrun_spec {ix : ℕ → ℕ} {gs E : List ℕ} {P : List (ℕ × ℕ)} :
+    ∀ (xs : List ℕ) (i c : ℕ) (Er : List ℕ) (Pr : List (ℕ × ℕ)),
+      xs = E.drop i → Er = E.drop c → Pr = P.drop c →
+      bfsRun ix gs E.length xs i c Er Pr = true →
+      c ≤ E.length ∧
+        (∀ i' (hi : i' < E.length) j' (hj : j' < gs.length), i ≤ i' →
+          ix (mulF E[i'] gs[j']) < E.length) ∧
+        ∀ t, c ≤ t → (ht : t < E.length) → ∃ (hp : t < P.length),
+          P[t].1 < t ∧ P[t].2 < gs.length ∧ E[t] = mulF E[P[t].1]! (gs.getD P[t].2 0)
+  | [], i, c, Er, Pr, hxs, hEr, hPr, h => by
+    rw [ksBFrun_nil] at h
+    have hlen : E.length ≤ i := by
+      have h' := congrArg List.length hxs
+      rw [List.length_nil, List.length_drop] at h'
+      omega
+    exact ⟨h.le, fun i' hi _ _ hii => absurd hi (by omega), fun t h1 h2 => absurd h2 (by omega)⟩
+  | x :: xs, i, c, Er, Pr, hxs, hEr, hPr, h => by
+    obtain ⟨hic, hgen⟩ := (ksBFrun_cons (n := E.length)).1 h
+    obtain ⟨hiE, hEi, hxs'⟩ := ksBFdrop_succ hxs.symm
+    obtain ⟨c', hcc, hk, hcl, hpar⟩ :=
+      ksBFgen_spec (gs := gs) (E := E) (P := P) gs 0 c Er Pr (List.drop_zero).symm hEr hPr hgen
+    obtain ⟨hcn, hcl', hpar'⟩ := ksBFrun_spec xs (i + 1) c' _ _ hxs' rfl rfl hk
+    refine ⟨by omega, fun i' hi j' hj hii => ?_, fun t h1 h2 => ?_⟩
+    · rcases Nat.eq_or_lt_of_le hii with rfl | hii
+      · have := hcl j' hj (Nat.zero_le _)
+        rw [hEi]
+        omega
+      · exact hcl' i' hi j' hj hii
+    · by_cases ht : t < c'
+      · obtain ⟨_, hp, h1', h2', h3'⟩ := hpar t h1 ht
+        refine ⟨hp, by omega, h2', ?_⟩
+        rw [h3', h1', getElem!_pos E i hiE, hEi]
+      · exact hpar' t (by omega) h2
+
+theorem bfsOK_spec {ix : ℕ → ℕ} {gs E : List ℕ} {P : List (ℕ × ℕ)}
+    (h : bfsOK ix gs E P = true) :
+    P.length = E.length ∧
+      (∀ i (hi : i < E.length) (hp : i < P.length), i = 0 ∨
+        ((P[i].1 < i ∧ P[i].2 < gs.length) ∧ E[i] = mulF E[P[i].1]! (gs.getD P[i].2 0))) ∧
+      ∀ x ∈ E, ∀ g ∈ gs, ix (mulF x g) < E.length := by
+  rw [bfsOK] at h
+  cases E with
+  | nil => simp at h
+  | cons e Er =>
+    cases P with
+    | nil => simp at h
+    | cons p Pr =>
+      simp only [bAnd_eq, Bool.and_eq_true, Nat.beq_eq] at h
+      obtain ⟨-, hPlen, hrun⟩ := h
+      obtain ⟨-, hcl, hpar⟩ :=
+        ksBFrun_spec (E := e :: Er) (P := p :: Pr) (e :: Er) 0 1 Er Pr rfl rfl rfl hrun
+      refine ⟨hPlen, fun i hi hp => ?_, fun x hx g hg => ?_⟩
+      · rcases Nat.eq_zero_or_pos i with h0 | h0
+        · exact Or.inl h0
+        · obtain ⟨_, h1, h2, h3⟩ := hpar i h0 hi
+          exact Or.inr ⟨⟨h1, h2⟩, h3⟩
+      · obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hx
+        obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hg
+        exact hcl i hi j hj (Nat.zero_le _)
+
 theorem ifN_eq (c : Bool) (t e : ℕ) : ifN c t e = if c then t else e := by cases c <;> rfl
 
 theorem invStep_eq (x : ℕ) (k : ℕ → ℕ) (y : ℕ) :
@@ -340,26 +442,24 @@ theorem codeInv_eq (bound x : ℕ) : codeInv bound x = invGo x bound x := codeIn
 theorem andK_eq (a b : Bool) : andK a b = (a && b) := by cases a <;> rfl
 
 theorem invK_spec (T : IT) (n : ℕ) :
-    ∀ (E inv : List ℕ), invK T n E inv = true → inv = E.map fun x => T.find (invGo x n x) n
-  | [], [], _ => rfl
-  | [], _ :: _, h => absurd h (by simp [invK])
-  | _ :: _, [], h => absurd h (by simp [invK])
-  | x :: E, j :: inv, h => by
-    have h' : andK (Nat.beq (T.find (invGo x n x) n) j) (invK T n E inv) = true := h
-    rw [andK_eq, Bool.and_eq_true, Nat.beq_eq] at h'
-    rw [List.map_cons, invK_spec T n E inv h'.2, h'.1]
-
-theorem invI_of {E inv : List ℕ} {T : IT} (hnd : E.Nodup)
-    (hT : ∀ c, T.find c E.length = E.idxOf c) (h : invK T E.length E inv = true) :
-    (invArr E.toArray).map (fun c => (idxMapOf E.toArray).getD c E.toArray.size) =
-      inv.toArray := by
-  rw [invK_spec T E.length E inv h]
-  unfold invArr
-  rw [List.map_toArray, List.map_toArray, List.size_toArray, List.map_map]
-  congr 1
-  apply List.map_congr_left
-  intro x _
-  simp only [Function.comp, codeInv_eq, idxMapOf_getD hnd, hT]
+    ∀ (E C inv : List ℕ), invK T n E C inv = true → inv = C.map (fun y => T.find y n) ∧
+      C.length = E.length ∧ ∀ p ∈ E.zip C, T.find p.2 n < n ∧ mulF p.1 p.2 = oneF
+  | [], [], [], _ => ⟨rfl, rfl, by simp⟩
+  | [], [], _ :: _, h => absurd h (by simp [invK])
+  | [], _ :: _, _, h => absurd h (by simp [invK])
+  | _ :: _, [], _, h => absurd h (by simp [invK])
+  | _ :: _, _ :: _, [], h => absurd h (by simp [invK])
+  | x :: E, y :: C, j :: inv, h => by
+    have h' : andK (andK (Nat.beq (T.find y n) j)
+        (andK (Nat.blt j n) (Nat.beq (mulF x y) oneF))) (invK T n E C inv) = true := h
+    simp only [andK_eq, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq] at h'
+    obtain ⟨⟨h1, h2, h3⟩, h4⟩ := h'
+    obtain ⟨hr, hl, hm⟩ := invK_spec T n E C inv h4
+    refine ⟨by rw [List.map_cons, hr, h1], by rw [List.length_cons, List.length_cons, hl],
+      fun p hp => ?_⟩
+    rcases List.mem_cons.1 hp with rfl | hp
+    · exact ⟨by rw [h1]; exact h2, h3⟩
+    · exact hm p hp
 
 end CFSG.KC.C690
 

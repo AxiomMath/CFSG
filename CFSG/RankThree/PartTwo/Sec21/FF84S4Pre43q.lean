@@ -17,8 +17,11 @@ variable {θ : ↥(Nor L) →* Perm (Fin 8)}
 set_option maxRecDepth 200000 in
 set_option maxHeartbeats 0 in
 theorem a5s_props : ∀ x ∈ a5s, x 0 = 0 ∧ x 1 = 1 ∧ x 2 = 2 ∧ sign x = 1 := by
-  unfold a5s xa xb xc xd
-  decide +kernel
+  intro x hx
+  simp only [a5s, List.mem_cons, List.not_mem_nil, or_false] at hx
+  rcases hx with rfl | rfl | rfl | rfl <;> simp only [xa, xb, xc, xd] <;>
+    exact ⟨by decide, by decide, by decide, by
+      rw [Perm.sign_mul, Perm.sign_swap', Perm.sign_swap']; decide⟩
 
 theorem a8d_ne_one : a8d ≠ 1 := by
   unfold a8d

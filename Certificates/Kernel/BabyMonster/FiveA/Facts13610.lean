@@ -34,11 +34,14 @@ theorem p2_eq : stripMat p2 = MH ^ 2 * MH ^ 4 := by
 
 theorem a3_eq : stripMat a3 = MH ^ 7 * stripMat a1 * stripMat p2 * stripMat a1 * MH ^ 3 *
     stripMat a1 * MH ^ 4 := by
-  have e := stripMat_mul_of_allStrips (Ws := [a1, p2, a1, Five.H3, a1, Five.f86_sq2]) (C := a3)
-    (by simp [wf_a1, wf_p2, Five.wf_H3, Five.wf_f86_sq2]) Five.wf_oh_p
-    (by bm_strips4 CFSG.KC.BM.FiveA.ca3 69)
-  simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil] at e
-  rw [← e, h_p, h_three, h_sq2]
+  have e := stripMat_mul_of_allStrips (Ws := [a1, p2]) (C := a3a)
+    (by simp [wf_a1, wf_p2]) Five.wf_oh_p (by bm_strips4 CFSG.KC.BM.FiveA.ca3 69)
+  have e' := stripMat_mul_of_allStrips (Ws := [a1, Five.H3]) (C := a3b)
+    (by simp [wf_a1, Five.wf_H3]) wf_a3a (by bm_strips4 CFSG.KC.BM.FiveA.ca3b 69)
+  have e'' := stripMat_mul_of_allStrips (Ws := [a1, Five.f86_sq2]) (C := a3)
+    (by simp [wf_a1, Five.wf_f86_sq2]) wf_a3b (by bm_strips4 CFSG.KC.BM.FiveA.ca3c 69)
+  simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil] at e e' e''
+  rw [← e'', ← e', ← e, h_p, h_three, h_sq2]
 
 theorem uWord_eq : uWord MX MH = stripMat a3 := by
   have e5 : MH ^ 5 = ((hU⁻¹ ^ 3 : MatBˣ) : MatB) := by

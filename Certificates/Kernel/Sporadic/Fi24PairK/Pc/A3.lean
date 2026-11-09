@@ -1,10 +1,10 @@
 module
 
-public import Certificates.Kernel.Sporadic.Fi24PairK.PcData
+public import Certificates.Kernel.Sporadic.Fi24PairK.PTabV
 import CFSG.Certificates.Kernel.Common.SliceRange
 
 public section
 
-#kc_slice_range CFSG.KD.Fi24PairPc.cA CFSG.KD.Fi24PairPc.Ck.a 432 576
+#kc_slice_range CFSG.KD.Fi24PairPc.cAV CFSG.KD.Fi24PairPc.Ck.aV 432 576
 
 end

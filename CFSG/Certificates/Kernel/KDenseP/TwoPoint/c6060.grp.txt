@@ -2,27 +2,38 @@ N PR0 0
 N PR1 0
 N PR2 0
 N PR3 0
-N PR4 3
-N PR5 6
-N PR6 9
-N PR7 c
-N PR8 f
-L G0 [#0 #1 #2 #3 #4 #5 #6 #7 #8 #9 #a #b #c #d #e #f #10 #11]
+N PR4 0
+N PR5 0
+N PR6 0
+N PR7 0
+N PR8 0
+L G0 [#0]
+L G1 [#1 #2]
+L G2 [#3]
+L G3 [#4 #5]
+L G4 [#6]
+L G5 [#7 #8]
+L G6 [#9]
+L G7 [#a #b]
+L G8 [#c]
+L G9 [#d #e]
+L G10 [#f]
+L G11 [#10 #11]
 N GK0 0
-N GK1 0
-N GK2 0
-N GK3 0
-N GK4 0
-N GK5 0
-N GK6 0
-N GK7 0
-N GK8 0
-N GK9 0
-N GK10 0
-N GK11 0
-N GK12 0
-N GK13 0
-N GK14 0
-N GK15 0
-N GK16 0
-N GK17 0
+N GK1 1
+N GK2 1
+N GK3 2
+N GK4 3
+N GK5 3
+N GK6 4
+N GK7 5
+N GK8 5
+N GK9 6
+N GK10 7
+N GK11 7
+N GK12 8
+N GK13 9
+N GK14 9
+N GK15 a
+N GK16 b
+N GK17 b

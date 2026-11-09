@@ -51,6 +51,89 @@ theorem relOK0_eq {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Arr
     (A.pt k (by rw [← A.cnt]; exact hk)).symm
   rw [hpt, relOK_eq hbase hbn hxs hrels hnb hacc0 hI.2.1 (hR.pt k hk).1]
 
+theorem rawLevels_facts {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {i : ℕ} (hi : i < nb) :
+    ((rawLevels n S base)[i]!).pts.size = rcnt (LR i) ∧
+      ∀ k < rcnt (LR i), ((rawLevels n S base)[i]!).pts[k]! = rpt w (mask w) (LR i) k ∧
+        rpt w (mask w) (LR i) k < n ∧ PP n w (TR (roff n (n * w) (LR i) + k)) ∧
+        Ag n w (((rawLevels n S base)[i]!).tr[k]!) (TR (roff n (n * w) (LR i) + k)) := by
+  have hsz : szOK n w = true := (Orb.levelK_facts (hl i hi)).1
+  have hbl := Orb.base_lt_of_levels hb hl
+  obtain ⟨A, P⟩ := Orb.agree_levelK hb hp hbl (R := LR) (TRI := TRI) hi (hl i hi)
+  obtain ⟨-, -, hR, -, -, hperm⟩ := Orb.levelK_facts (hl i hi)
+  refine ⟨A.cnt.symm, fun k hk => ⟨(A.pt k (by rw [← A.cnt]; exact hk)).symm, (hR.pt k hk).1,
+    pp_of_permOK hsz (hperm k hk), fun y hy => ?_⟩⟩
+  have R := (A.tr k (by rw [← A.cnt]; exact hk)).1 ⟨y, hy⟩
+  rw [(P k hk).1 ⟨y, hy⟩]
+  exact R
+
+theorem ptailK_soundAt {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {x : Array ℕ} {X : ℕ}
+    (hx : x = unpack n w X) (hX : permB n w X = true) {xs : Array (Array ℕ)} {XP : ℕ → ℕ}
+    (hxs : ∀ e < xs.size, xs[e]! = unpack n w (XP e)) {rels : List (ℕ × ℕ × ℕ)}
+    (hrels : ∀ r ∈ rels, r.2.2 < xs.size) {E : List (Array ℕ)} {NE : ℕ} {EP : ℕ → ℕ}
+    (hE : E = (List.range NE).map fun e => unpack n w (EP e))
+    (hEp : ∀ e < NE, permB n w (EP e) = true) (hnb : 0 < nb) :
+    ∀ fuel i, i + fuel = nb → ∀ (acc : Array ℕ) (ACC : ℕ), PP n w ACC →
+      Ag n w acc ACC → ptailK n w LR TR BP X XP rels NE EP fuel i ACC = true →
+      ptailOK n (rawLevels n S base) base x xs rels E fuel i acc = true := by
+  have hn : n < 2 ^ 32 := by have := hb.2.2.1; omega
+  have hsz : szOK n w = true := (Orb.levelK_facts (hl 0 hnb)).1
+  have hbl := Orb.base_lt_of_levels hb hl
+  have hbase : ∀ t < nb, base[t]! = pg w (mask w) BP t := hb.2.2.2.2.2.2
+  have hbn : ∀ t < nb, pg w (mask w) BP t < n := fun t ht => by
+    rw [← hbase t ht]
+    exact hbl t ht
+  have hXP : PP n w X := pp_of_permB hsz hX
+  have hxa : Ag n w x X := by
+    rw [hx]
+    exact ag_unpack n w X
+  intro fuel
+  induction fuel with
+  | zero =>
+    intro i _ acc ACC hA hacc hk
+    have hc : commA n acc x =
+        Nat.beq (pcomp n w (mask w) ACC X) (pcomp n w (mask w) X ACC) :=
+      eqA_ag (ag_compA hn hacc hxa hXP.2.1) (ag_compA hn hxa hacc hA.2.1) (hA.mul hXP)
+        (hXP.mul hA)
+    have he : E.any (eqA n acc) = CFSG.KC.LQT.P.anyN NE fun e => Nat.beq ACC (EP e) := by
+      rw [hE, anyNP_eq]
+      apply Bool.eq_iff_iff.2
+      simp only [List.any_map, List.any_eq_true, List.mem_range, Function.comp_apply]
+      constructor
+      · rintro ⟨e, he, h⟩
+        exact ⟨e, he, by
+          rwa [eqA_ag hacc (ag_unpack n w (EP e)) hA (pp_of_permB hsz (hEp e he))] at h⟩
+      · rintro ⟨e, he, h⟩
+        exact ⟨e, he, by
+          rwa [eqA_ag hacc (ag_unpack n w (EP e)) hA (pp_of_permB hsz (hEp e he))]⟩
+    rw [ptailOK, hc, he]
+    exact hk
+  | succ fuel ih =>
+    intro i hif acc ACC hA hacc hk
+    have hi : i < nb := by omega
+    obtain ⟨hsz', hpt⟩ := rawLevels_facts hb hp hl (TRI := TRI) hi
+    have e : ptailK n w LR TR BP X XP rels NE EP (fuel + 1) i ACC = strictB (LR i) fun R =>
+        allN (rcnt R) fun k => !(relOKK w (mask w) BP XP rels i ACC (rpt w (mask w) R k)) ||
+          ptailK n w LR TR BP X XP rels NE EP fuel (i + 1)
+            (pcomp n w (mask w) ACC (TR (roff n (n * w) R + k))) := rfl
+    rw [e, Orb.strictB_eq] at hk
+    rw [ptailOK, allLt_iff]
+    intro k hkc
+    rw [hsz'] at hkc
+    obtain ⟨hp1, hp2, hp3, hp4⟩ := hpt k hkc
+    have hk' := Orb.allN_iff.1 hk k hkc
+    rw [hp1, relOK_eq hbase hbn hxs hrels hi hacc hA.2.1 hp2]
+    cases hr : relOKK w (mask w) BP XP rels i ACC (rpt w (mask w) (LR i) k)
+    · rfl
+    · rw [hr, Bool.not_true, Bool.false_or] at hk'
+      rw [Bool.not_true, Bool.false_or]
+      exact ih (i + 1) (by omega) _ _ (hA.mul hp3) (ag_compA hn hacc hp4 hp3.2.1) hk'
+
 theorem ptailBranchK_soundR {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
     {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
     (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
@@ -64,77 +147,9 @@ theorem ptailBranchK_soundR {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ
     (h : ptailBranchK n w LR TR BP X XP rels NE EP nb k = true) :
     ptailOK n (rawLevels n S base) base x xs rels E (nb - 1) 1
       (compA n (idA n) ((rawLevels n S base)[0]!).tr[k]!) = true := by
-  have hn : n < 2 ^ 32 := by have := hb.2.2.1; omega
-  have hn24 : n < 16777216 := by have := hb.2.2.1; omega
-  have hw2 : n + 1 < 2 ^ w := hb.2.1
-  have hsz : szOK n w = true := (Orb.levelK_facts (hl 0 hnb)).1
-  have hbl := Orb.base_lt_of_levels hb hl
-  have hbase : ∀ t < nb, base[t]! = pg w (mask w) BP t := hb.2.2.2.2.2.2
-  have hbn : ∀ t < nb, pg w (mask w) BP t < n := fun t ht => by
-    rw [← hbase t ht]
-    exact hbl t ht
-  have hXP : PP n w X := pp_of_permB hsz hX
-  have hxa : Ag n w x X := by
-    rw [hx]
-    exact ag_unpack n w X
-  have hlev : ∀ i < nb, ((rawLevels n S base)[i]!).pts.size = rcnt (LR i) ∧
-      ∀ k < rcnt (LR i), ((rawLevels n S base)[i]!).pts[k]! = rpt w (mask w) (LR i) k ∧
-        rpt w (mask w) (LR i) k < n ∧ PP n w (TR (roff n (n * w) (LR i) + k)) ∧
-        Ag n w (((rawLevels n S base)[i]!).tr[k]!) (TR (roff n (n * w) (LR i) + k)) := by
-    intro i hi
-    obtain ⟨A, P⟩ := Orb.agree_levelK hb hp hbl (R := LR) (TRI := TRI) hi (hl i hi)
-    obtain ⟨-, -, hR, -, -, hperm⟩ := Orb.levelK_facts (hl i hi)
-    refine ⟨A.cnt.symm, fun k hk => ⟨(A.pt k (by rw [← A.cnt]; exact hk)).symm, (hR.pt k hk).1,
-      pp_of_permOK hsz (hperm k hk), fun y hy => ?_⟩⟩
-    have R := (A.tr k (by rw [← A.cnt]; exact hk)).1 ⟨y, hy⟩
-    rw [(P k hk).1 ⟨y, hy⟩]
-    exact R
-  have key : ∀ fuel i, i + fuel = nb → ∀ (acc : Array ℕ) (ACC : ℕ), PP n w ACC →
-      Ag n w acc ACC → ptailK n w LR TR BP X XP rels NE EP fuel i ACC = true →
-      ptailOK n (rawLevels n S base) base x xs rels E fuel i acc = true := by
-    intro fuel
-    induction fuel with
-    | zero =>
-      intro i _ acc ACC hA hacc hk
-      have hc : commA n acc x =
-          Nat.beq (pcomp n w (mask w) ACC X) (pcomp n w (mask w) X ACC) :=
-        eqA_ag (ag_compA hn hacc hxa hXP.2.1) (ag_compA hn hxa hacc hA.2.1) (hA.mul hXP)
-          (hXP.mul hA)
-      have he : E.any (eqA n acc) = CFSG.KC.LQT.P.anyN NE fun e => Nat.beq ACC (EP e) := by
-        rw [hE, anyNP_eq]
-        apply Bool.eq_iff_iff.2
-        simp only [List.any_map, List.any_eq_true, List.mem_range, Function.comp_apply]
-        constructor
-        · rintro ⟨e, he, h⟩
-          exact ⟨e, he, by
-            rwa [eqA_ag hacc (ag_unpack n w (EP e)) hA (pp_of_permB hsz (hEp e he))] at h⟩
-        · rintro ⟨e, he, h⟩
-          exact ⟨e, he, by
-            rwa [eqA_ag hacc (ag_unpack n w (EP e)) hA (pp_of_permB hsz (hEp e he))]⟩
-      rw [ptailOK, hc, he]
-      exact hk
-    | succ fuel ih =>
-      intro i hif acc ACC hA hacc hk
-      have hi : i < nb := by omega
-      obtain ⟨hsz', hpt⟩ := hlev i hi
-      have e : ptailK n w LR TR BP X XP rels NE EP (fuel + 1) i ACC = strictB (LR i) fun R =>
-          allN (rcnt R) fun k => !(relOKK w (mask w) BP XP rels i ACC (rpt w (mask w) R k)) ||
-            ptailK n w LR TR BP X XP rels NE EP fuel (i + 1)
-              (pcomp n w (mask w) ACC (TR (roff n (n * w) R + k))) := rfl
-      rw [e, Orb.strictB_eq] at hk
-      rw [ptailOK, allLt_iff]
-      intro k hkc
-      rw [hsz'] at hkc
-      obtain ⟨hp1, hp2, hp3, hp4⟩ := hpt k hkc
-      have hk' := Orb.allN_iff.1 hk k hkc
-      rw [hp1, relOK_eq hbase hbn hxs hrels hi hacc hA.2.1 hp2]
-      cases hr : relOKK w (mask w) BP XP rels i ACC (rpt w (mask w) (LR i) k)
-      · rfl
-      · rw [hr, Bool.not_true, Bool.false_or] at hk'
-        rw [Bool.not_true, Bool.false_or]
-        exact ih (i + 1) (by omega) _ _ (hA.mul hp3) (ag_compA hn hacc hp4 hp3.2.1) hk'
+  have key := ptailK_soundAt hb hp hl hx hX hxs hrels hE hEp hnb
   obtain ⟨m, rfl⟩ : ∃ m, nb = m + 1 := ⟨nb - 1, by omega⟩
-  obtain ⟨-, hpt0⟩ := hlev 0 (by omega)
+  obtain ⟨-, hpt0⟩ := rawLevels_facts hb hp hl (TRI := TRI) (by omega : 0 < m + 1)
   obtain ⟨-, -, hp3, hp4⟩ := hpt0 k hk
   unfold ptailBranchK at h
   rw [hrel0, Bool.not_true, Bool.false_or] at h
@@ -169,7 +184,116 @@ open CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native CFSG.R
   CFSG.RankThree.PartOne CFSG.Monster.B.Mathieu CFSG.Monster.B.Fischer
   CFSG.RankThree.PartTwo.KFacts.K426 CFSG.HardMathSupport.Solomon.Coordinator.B3S3
 open CFSG.Monster.B.Co2 (allLt_iff permOfArr)
-open CFSG.Certificates.ChainArrays (lev levPts)
+open CFSG.Certificates.ChainArrays (lev levPts levT)
+
+theorem ptailOK_of_orbK1 {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {Q : RawSchreierDatum n}
+    {O : Array (Array ℕ)} {W : Array (List ℤ)} {chunks : ℕ} (hA : ChainArrays Q O S base W)
+    (hF : ChainCheckFacts n O S base W chunks) (hQ : ValidSchreier Q) {X : ℕ}
+    (hX : permB n w X = true) {xs : Array (Array ℕ)} {XP : ℕ → ℕ}
+    (hxs : ∀ e < xs.size, xs[e]! = unpack n w (XP e))
+    (hxsX : ∀ e < xs.size, CFSG.Monster.B.Co2.Rep n xs[e]! (permOfArr n (unpack n w X) ^ e))
+    {rels : List (ℕ × ℕ × ℕ)} (hrels : ∀ r ∈ rels, r.2.2 < xs.size)
+    (hrelsX : ∀ r ∈ rels, r.2.2 < xs.size ∧ r.1 < base.size ∧ r.2.1 < base.size ∧
+      (xs[r.2.2]!)[base[r.1]!]! = base[r.2.1]!)
+    {E : List (Array ℕ)} {NE : ℕ} {EP : ℕ → ℕ}
+    (hE : E = (List.range NE).map fun e => unpack n w (EP e))
+    (hEp : ∀ e < NE, permB n w (EP e) = true) {K : Subgroup (Equiv.Perm (Fin n))}
+    (hK : K ≤ Subgroup.centralizer {permOfArr n (unpack n w X)} ⊓ Q.originalSubgroup)
+    (hKE : ∀ g ∈ K, ∃ e ∈ E, CFSG.Monster.B.Co2.Rep n e g)
+    (hEK : ∀ e ∈ E, ∃ g ∈ K, CFSG.Monster.B.Co2.Rep n e g)
+    (hEPK : ∀ e < NE, permOfArr n (unpack n w (EP e)) ∈ K) (hnb : 1 < nb) {q0 : ℕ}
+    (hq0 : q0 < rcnt (LR 0)) (hq0b : rpt w (mask w) (LR 0) q0 = pg w (mask w) BP 0)
+    {NR : ℕ} {RB RI EK : ℕ → ℕ}
+    (hrep : ∀ j < NR, repBranchK1 n w LR TR BP X XP rels NE EP nb q0 (RB j) = true)
+    (horb : ∀ k < rcnt (LR 1), orbRelK1 n w LR TR BP XP rels NE EP q0 NR RB RI EK k = true) :
+    ptailOK n (rawLevels n S base) base (unpack n w X) xs rels E (nb - 1) 1
+      (compA n (idA n) ((rawLevels n S base)[0]!).tr[q0]!) = true := by
+  have hn : n < 2 ^ 32 := by have := hb.2.2.1; omega
+  have hbl := Orb.base_lt_of_levels hb hl
+  have hbase : ∀ t < nb, base[t]! = pg w (mask w) BP t := hb.2.2.2.2.2.2
+  have hbn : ∀ t < nb, pg w (mask w) BP t < n := fun t ht => by
+    rw [← hbase t ht]
+    exact hbl t ht
+  have hnbQ : nb = Q.baseCount := hb.2.2.2.2.2.1.symm.trans hA.base_size
+  have h0 : 0 < Q.baseCount := by omega
+  have h1 : 1 < Q.baseCount := by omega
+  have hxX := rep_of_validA (validA_of hX)
+  obtain ⟨hs0, hpt0⟩ := rawLevels_facts hb hp hl (TRI := TRI) (by omega : 0 < nb)
+  obtain ⟨hs1, hpt1⟩ := rawLevels_facts hb hp hl (TRI := TRI) hnb
+  obtain ⟨hq1, -, hq3, hq4⟩ := hpt0 q0 hq0
+  have hq0' : q0 < (lev n S base 0).pts.size := by
+    change q0 < ((rawLevels n S base)[0]!).pts.size
+    rw [hs0]
+    exact hq0
+  have hacc : CFSG.Monster.B.Co2.Rep n (compA n (idA n) ((rawLevels n S base)[0]!).tr[q0]!)
+      (1 * levT n S base 0 q0) :=
+    CFSG.Monster.B.Co2.rep_compA CFSG.Monster.B.Co2.rep_idA (hA.rep_levT hF h0 hq0')
+  have hag : Ag n w (compA n (idA n) (((rawLevels n S base)[0]!).tr[q0]!))
+      (TR (roff n (n * w) (LR 0) + q0)) := fun y hy => by
+    rw [CFSG.Monster.B.Co2.compA_get hy, hq4 y hy, CFSG.Monster.B.Co2.idA_get (hq3.2.1 y hy)]
+  have hq1' : (lev n S base 0).pts[q0]! = rpt w (mask w) (LR 0) q0 := hq1
+  have hb0 : levPts Q S base 0 q0 = Q.base.get ⟨0, h0⟩ := by
+    apply Fin.ext
+    rw [hA.levPts_val hF h0 hq0', hA.base_val, hq1', hq0b]
+    exact (hbase 0 (by omega)).symm
+  have hP : 1 * levT n S base 0 q0 ∈ Q.levelSubgroup 1 := by
+    rw [Q.levelSubgroup_succ_eq_stabilizer hQ ⟨0, h0⟩]
+    refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
+    · change 1 * levT n S base 0 q0 ∈ Q.levelSubgroup 0
+      exact (Q.levelSubgroup 0).mul_mem (Q.levelSubgroup 0).one_mem (hA.levT_mem hF h0 hq0')
+    · rw [MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def, Equiv.Perm.mul_apply,
+        levT_base hA hF h0 hq0', hb0, Equiv.Perm.one_apply]
+  have key := ptailK_soundAt hb hp hl rfl hX hxs hrels hE hEp (by omega : 0 < nb)
+  have htl := ptailOK_of_orbits_rel1 hA hF hQ hxX hxsX hrelsX hK hKE hEK h1 hacc hP ?_
+  · rw [hnbQ]
+    exact htl
+  intro k hk
+  have hk' : k < rcnt (LR 1) := by
+    rw [← hs1]
+    exact hk
+  obtain ⟨hk1, hk2, -, -⟩ := hpt1 k hk'
+  have h := horb k hk'
+  unfold orbRelK1 at h
+  have hrelEq : relOK base xs rels 1 (compA n (idA n) ((rawLevels n S base)[0]!).tr[q0]!)
+      ((rawLevels n S base)[1]!).pts[k]! = relOKK w (mask w) BP XP rels 1
+        (TR (Nat.add (roff n (Nat.mul n w) (LR 0)) q0)) (rpt w (mask w) (LR 1) k) := by
+    rw [hk1]
+    exact relOK_eq hbase hbn hxs hrels hnb hag hq3.2.1 hk2
+  cases hr : relOKK w (mask w) BP XP rels 1 (TR (Nat.add (roff n (Nat.mul n w) (LR 0)) q0))
+      (rpt w (mask w) (LR 1) k)
+  · left
+    rw [hrelEq, hr]
+  right
+  rw [hr, Bool.not_true, Bool.false_or, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true,
+    Bool.and_eq_true, Nat.blt_eq, Nat.blt_eq, Nat.blt_eq] at h
+  obtain ⟨⟨⟨⟨hR, hRl⟩, hEl⟩, hfixB⟩, himgB⟩ := h
+  have hfix := Nat.eq_of_beq_eq_true hfixB
+  have himg := Nat.eq_of_beq_eq_true himgB
+  have hr' : RB (RI k) < (lev n S base 1).pts.size := by
+    change RB (RI k) < ((rawLevels n S base)[1]!).pts.size
+    rw [hs1]
+    exact hRl
+  obtain ⟨hr1, hr2, hr3, hr4⟩ := hpt1 _ hRl
+  have hr1' : (lev n S base 1).pts[RB (RI k)]! = rpt w (mask w) (LR 1) (RB (RI k)) := hr1
+  have hk1' : (lev n S base 1).pts[k]! = rpt w (mask w) (LR 1) k := hk1
+  have hrepE := rep_of_validA (validA_of (hEp _ hEl))
+  refine ⟨RB (RI k), hr', permOfArr n (unpack n w (EP (EK k))), hEPK _ hEl, ?_, ?_, ?_⟩
+  · apply Fin.ext
+    rw [← hrepE, hA.base_val]
+    change (unpack n w (EP (EK k)))[base[0]!]! = base[0]!
+    rw [hbase 0 (by omega), Orb.unpack_get (hbn 0 (by omega))]
+    exact hfix
+  · apply Fin.ext
+    rw [← hrepE, ← hacc, ← hacc, hA.levPts_val hF h1 hr', hA.levPts_val hF h1 hk, hr1', hk1',
+      hag _ hr2, hag _ hk2, Orb.unpack_get (hq3.2.1 _ hr2)]
+    exact himg
+  · have hbr := hrep _ hR
+    unfold repBranchK1 at hbr
+    rw [← hnbQ]
+    exact key (nb - 2) 2 (by omega) _ _ (hq3.mul hr3) (ag_compA hn hag hr4 hr3.2.1) hbr
 
 section Codes
 
@@ -298,6 +422,140 @@ theorem centOKP_of_orbR {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ}
     rw [hA.base_size]
     exact htl⟩
 
+theorem centOKP_of_orbR1 {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {Q : RawSchreierDatum n}
+    {O : Array (Array ℕ)} {W : Array (List ℤ)} {chunks : ℕ} (hA : ChainArrays Q O S base W)
+    (hch : 0 < chunks) (hcOK : rawChainOK n O S base W chunks = true) {X : ℕ}
+    (hX : permB n w X = true) {rels : List (ℕ × ℕ × ℕ)} (hr : relsK n w p BP X nb rels = true)
+    {gs : Array (Array ℕ)} {GC : ℕ → ℕ}
+    (hg : BindA n w gs ng GC) (hcomm : commK n w ng X GC = true)
+    (hsift : ∀ k < ng, siftA n (rawLevels n S base) base 0 (unpack n w (GC k)) = true)
+    {ps : List ℕ} {c : ArrCert} {T : ℕ → ℕ} (hps : ∀ q ∈ ps, q < n)
+    (hc : enumOK n gs ps c = true) (hN : c.pts.size = N)
+    (hT : ∀ i < N, c.pts[i]! = unpack n w (T i)) (hTp : ∀ i < N, permB n w (T i) = true)
+    (hnb : 1 < nb) {q0 : ℕ} (hq0 : q0 < rcnt (LR 0))
+    (hq0b : rpt w (mask w) (LR 0) q0 = pg w (mask w) BP 0) {NR1 : ℕ} {RB1 RI1 EK1 : ℕ → ℕ}
+    (hrep1 : ∀ j < NR1, repBranchK1 n w LR TR BP X (pw n w X) rels N T nb q0 (RB1 j) = true)
+    (horb1 : ∀ k < rcnt (LR 1),
+      orbRelK1 n w LR TR BP (pw n w X) rels N T q0 NR1 RB1 RI1 EK1 k = true)
+    {RK EK : ℕ → ℕ}
+    (horb : ∀ k < rcnt (LR 0),
+      relOKK w (mask w) BP (pw n w X) rels 0 (pidn n w) (rpt w (mask w) (LR 0) k) = false ∨
+      RK k < rcnt (LR 0) ∧ EK k < N ∧
+      pg w (mask w) (T (EK k)) (rpt w (mask w) (LR 0) (RK k)) = rpt w (mask w) (LR 0) k ∧
+      (RK k = q0 ∨
+        relOKK w (mask w) BP (pw n w X) rels 0 (pidn n w) (rpt w (mask w) (LR 0) (RK k)) = true ∧
+        ptailBranchK n w LR TR BP X (pw n w X) rels N T nb (RK k) = true)) :
+    centOKP p n S base (unpack n w X) rels gs ps c N = true := by
+  have hbs : base.size = nb := hb.2.2.2.2.2.1
+  have hbp : ∀ t < nb, base[t]! = pg w (mask w) BP t := hb.2.2.2.2.2.2
+  have hbl := Orb.base_lt_of_levels hb hl
+  have hbn : ∀ t < nb, pg w (mask w) BP t < n := fun t ht => by
+    rw [← hbp t ht]
+    exact hbl t ht
+  have hrel := relsOKP_of hw hbs hbp hbn hX hr
+  have hrels : ∀ r ∈ rels, r.2.2 < (powPA p n (unpack n w X)).size := by
+    intro r hr'
+    rw [relsK, List.all_eq_true] at hr
+    have := hr r hr'
+    simp only [Bool.and_eq_true, Nat.blt_eq] at this
+    simpa [powPA] using this.1.1.1
+  have hQ := (validSchreier_of_chainOK hA hch hcOK).1
+  have hF := chainCheckFacts hcOK
+  have hnbQ : nb = Q.baseCount := hbs.symm.trans hA.base_size
+  have hx := rep_of_validA (validA_of hX)
+  unfold commK at hcomm
+  rw [Orb.allN_iff] at hcomm
+  have hcommA : ∀ k < gs.size, commA n gs[k]! (unpack n w X) = true := by
+    intro k hk
+    rw [hg.1] at hk
+    have hk' := hcomm k hk
+    rw [Bool.and_eq_true] at hk'
+    rw [hg.2 k hk, commA, comp_unpack' hw hk'.1 hX, comp_unpack' hw hX hk'.1,
+      eqA_unpack' hw (permB_pcomp hw hk'.1 hX) (permB_pcomp hw hX hk'.1)]
+    exact hk'.2
+  have hsiftA : ∀ k < gs.size, siftA n (rawLevels n S base) base 0 gs[k]! = true := by
+    intro k hk
+    rw [hg.1] at hk
+    rw [hg.2 k hk]
+    exact hsift k hk
+  have hK : Subgroup.closure (permsA n gs) ≤
+      Subgroup.centralizer {permOfArr n (unpack n w X)} ⊓ Q.originalSubgroup := by
+    rw [Subgroup.closure_le]
+    rintro _ ⟨k, hk, rfl⟩
+    have hrep := rep_of_validA (enumOK_gens_valid hc hk)
+    refine Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 ?_, ?_⟩
+    · exact (commA_iff hrep hx).1 (hcommA k hk)
+    · exact (siftA_iff_mem_originalSubgroup hA hch hcOK hrep).1 (hsiftA k hk)
+  have hKE : ∀ g ∈ Subgroup.closure (permsA n gs), ∃ e ∈ c.pts.toList,
+      CFSG.Monster.B.Co2.Rep n e g := by
+    intro g hg'
+    obtain ⟨i, hi, hre⟩ := enumOK_exists_rep hps hc hg'
+    refine ⟨c.pts[i]!, ?_, hre⟩
+    rw [getElem!_pos c.pts i hi, ← Array.getElem_toList]
+    exact List.getElem_mem _
+  have hEK : ∀ e ∈ c.pts.toList, ∃ g ∈ Subgroup.closure (permsA n gs),
+      CFSG.Monster.B.Co2.Rep n e g := by
+    intro e he
+    obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem he
+    have hi' : i < c.pts.size := by simpa using hi
+    have hv : validA n c.pts.toList[i] = true := by
+      rw [Array.getElem_toList, ← getElem!_pos c.pts i hi']
+      exact (enumOK_spec hps hc).2.2 i hi'
+    exact ⟨_, enumOK_mem_of_mem hps hc (rep_of_validA hv) (List.getElem_mem _), rep_of_validA hv⟩
+  have hTK : ∀ e < N, permOfArr n (unpack n w (T e)) ∈ Subgroup.closure (permsA n gs) := by
+    intro e he
+    refine enumOK_mem hps hc (hN ▸ he) ?_
+    rw [hT _ he]
+    exact rep_of_validA (validA_of (hTp _ he))
+  obtain ⟨A0, -⟩ := Orb.agree_levelK hb hp hbl (R := LR) (TRI := TRI) (by omega) (hl 0 (by omega))
+  obtain ⟨-, -, hR0, -, -, -⟩ := Orb.levelK_facts (hl 0 (by omega))
+  have h0 : 0 < Q.baseCount := by omega
+  have horb' : ∀ k < (lev n S base 0).pts.size,
+      relOK base (powPA p n (unpack n w X)) rels 0 (idA n)
+        ((rawLevels n S base)[0]!).pts[k]! = false ∨
+      ∃ r < (lev n S base 0).pts.size,
+      ∃ g ∈ Subgroup.closure (permsA n gs), g (levPts Q S base 0 r) = levPts Q S base 0 k ∧
+      ptailOK n (rawLevels n S base) base (unpack n w X) (powPA p n (unpack n w X)) rels
+        c.pts.toList (Q.baseCount - 1) 1
+        (compA n (idA n) ((rawLevels n S base)[0]!).tr[r]!) = true := by
+    intro k hk
+    have hk' : k < rcnt (LR 0) := by rw [A0.cnt]; exact hk
+    rcases horb k hk' with hf | ⟨hR, hE, hpg, hbr⟩
+    · left
+      rw [relOK0_eq hb hp hl (powPA_get hw hX) hrels (by omega) hk']
+      exact hf
+    right
+    have hRl : RK k < (lev n S base 0).pts.size := by rw [← A0.cnt]; exact hR
+    have hEv : EK k < c.pts.size := hN ▸ hE
+    have hrepE := rep_of_validA (validA_of (hTp _ hE))
+    refine ⟨RK k, hRl, permOfArr n (unpack n w (T (EK k))), enumOK_mem hps hc hEv ?_, ?_, ?_⟩
+    · rw [hT _ hE]
+      exact hrepE
+    · apply Fin.ext
+      have hq : ((levPts Q S base 0 (RK k) : Fin n) : ℕ) = rpt w (mask w) (LR 0) (RK k) := by
+        rw [hA.levPts_val hF h0 hRl]
+        exact (A0.pt _ hRl).symm
+      rw [hA.levPts_val hF h0 hk, ← hrepE (levPts Q S base 0 (RK k)), hq,
+        Orb.unpack_get (hR0.pt _ hR).1, hpg]
+      exact A0.pt k hk
+    · rw [← hnbQ]
+      rcases hbr with h0q | ⟨hrr, hbr⟩
+      · rw [h0q]
+        exact ptailOK_of_orbK1 hb hp hl hA hF hQ hX (powPA_get hw hX) (rep_powPA hx) hrels
+          (relsOKP_spec hrel) (toList_of hN hT) hTp hK hKE hEK hTK hnb hq0 hq0b hrep1 horb1
+      · exact ptailBranchK_soundR hb hp hl rfl hX (powPA_get hw hX) hrels (toList_of hN hT)
+          hTp (by omega) hR hrr hbr
+  have htl := ptailOK_of_orbits_rel hA hF hQ hx (rep_powPA hx) (relsOKP_spec hrel) hK hKE hEK h0
+    horb'
+  unfold centOKP
+  simp only [Bool.and_eq_true, beq_iff_eq]
+  refine ⟨⟨⟨⟨⟨hrel, hc⟩, hN⟩, allLt_iff.2 hcommA⟩, allLt_iff.2 hsiftA⟩, by
+    rw [hA.base_size]
+    exact htl⟩
+
 theorem centOKP_of_orb {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
     {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
     (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
@@ -350,6 +608,85 @@ theorem centOKP_of_orbT {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ}
     unfold repBranchK at hb'
     rw [Bool.and_eq_true] at hb'
     exact Or.inr ⟨h2, h3, Nat.eq_of_beq_eq_true h4, hb'.1, hb'.2⟩
+
+theorem centOKP_of_orbT1 {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {Q : RawSchreierDatum n}
+    {O : Array (Array ℕ)} {W : Array (List ℤ)} {chunks : ℕ} (hA : ChainArrays Q O S base W)
+    (hch : 0 < chunks) (hcOK : rawChainOK n O S base W chunks = true) {X : ℕ}
+    (hX : permB n w X = true) {rels : List (ℕ × ℕ × ℕ)} (hr : relsK n w p BP X nb rels = true)
+    {gs : Array (Array ℕ)} {GC : ℕ → ℕ}
+    (hg : BindA n w gs ng GC) (hcomm : commK n w ng X GC = true)
+    (hsift : ∀ k < ng, siftA n (rawLevels n S base) base 0 (unpack n w (GC k)) = true)
+    {ps : List ℕ} {c : ArrCert} {T : ℕ → ℕ} (hps : ∀ q ∈ ps, q < n)
+    (hc : enumOK n gs ps c = true) (hN : c.pts.size = N)
+    (hT : ∀ i < N, c.pts[i]! = unpack n w (T i)) (hTp : ∀ i < N, permB n w (T i) = true)
+    (hnb : 1 < nb) {NR : ℕ} {RB RI EK : ℕ → ℕ}
+    (hrep : ∀ j < NR, 0 < j → repBranchK n w LR TR BP X (pw n w X) rels N T nb (RB j) = true)
+    (horb : ∀ k < rcnt (LR 0), orbRelK n w LR BP (pw n w X) rels N T NR RB RI EK k = true)
+    (hq0 : RB 0 < rcnt (LR 0)) (hq0b : rpt w (mask w) (LR 0) (RB 0) = pg w (mask w) BP 0)
+    {NR1 : ℕ} {RB1 RI1 EK1 : ℕ → ℕ}
+    (hrep1 : ∀ j < NR1, repBranchK1 n w LR TR BP X (pw n w X) rels N T nb (RB 0) (RB1 j) = true)
+    (horb1 : ∀ k < rcnt (LR 1),
+      orbRelK1 n w LR TR BP (pw n w X) rels N T (RB 0) NR1 RB1 RI1 EK1 k = true) :
+    centOKP p n S base (unpack n w X) rels gs ps c N = true := by
+  refine centOKP_of_orbR1 hw hb hp hl hA hch hcOK hX hr hg hcomm hsift hps hc hN hT hTp hnb hq0
+    hq0b hrep1 horb1 (RK := fun k => RB (RI k)) (EK := EK) fun k hk => ?_
+  have h := horb k hk
+  unfold orbRelK at h
+  cases hr0 : relOKK w (mask w) BP (pw n w X) rels 0 (pidn n w) (rpt w (mask w) (LR 0) k)
+  · exact Or.inl rfl
+  · rw [hr0, Bool.not_true, Bool.false_or, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true,
+      Nat.blt_eq, Nat.blt_eq, Nat.blt_eq] at h
+    obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h
+    refine Or.inr ⟨h2, h3, Nat.eq_of_beq_eq_true h4, ?_⟩
+    rcases Nat.eq_zero_or_pos (RI k) with h0 | h0
+    · left
+      rw [h0]
+    · right
+      have hb' := hrep _ h1 h0
+      unfold repBranchK at hb'
+      rw [Bool.and_eq_true] at hb'
+      exact hb'
+
+theorem centOKP_of_orbS1 {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {k : ℕ} (hk : k ≤ S.size)
+    (hnd : base.toList.Nodup) {W : Array (List ℤ)} {chunks : ℕ}
+    (hch : 0 < chunks) (hcOK : rawChainOK n (S.extract 0 k) S base W chunks = true) {X : ℕ}
+    (hX : permB n w X = true) {rels : List (ℕ × ℕ × ℕ)} (hr : relsK n w p BP X nb rels = true)
+    {gs : Array (Array ℕ)} {GC : ℕ → ℕ}
+    (hg : BindA n w gs ng GC) (hcomm : commK n w ng X GC = true)
+    (hsift : ∀ k < ng, siftA n (rawLevels n S base) base 0 (unpack n w (GC k)) = true)
+    {ps : List ℕ} {c : ArrCert} {T : ℕ → ℕ} (hps : ∀ q ∈ ps, q < n)
+    (hc : enumOK n gs ps c = true) (hN : c.pts.size = N)
+    (hT : ∀ i < N, c.pts[i]! = unpack n w (T i)) (hTp : ∀ i < N, permB n w (T i) = true)
+    (hnb : 1 < nb) {NR : ℕ} {RB RI EK : ℕ → ℕ}
+    (hrep : ∀ j < NR, 0 < j → repBranchK n w LR TR BP X (pw n w X) rels N T nb (RB j) = true)
+    (horb : ∀ k < rcnt (LR 0), orbRelK n w LR BP (pw n w X) rels N T NR RB RI EK k = true)
+    (hq0 : RB 0 < rcnt (LR 0)) (hq0b : rpt w (mask w) (LR 0) (RB 0) = pg w (mask w) BP 0)
+    {NR1 : ℕ} {RB1 RI1 EK1 : ℕ → ℕ}
+    (hrep1 : ∀ j < NR1, repBranchK1 n w LR TR BP X (pw n w X) rels N T nb (RB 0) (RB1 j) = true)
+    (horb1 : ∀ k < rcnt (LR 1),
+      orbRelK1 n w LR TR BP (pw n w X) rels N T (RB 0) NR1 RB1 RI1 EK1 k = true) :
+    centOKP p n S base (unpack n w X) rels gs ps c N = true := by
+  have hlt : ∀ q ∈ base.toList, q < n := mem_base_lt hb hl
+  have hn1 : 1 ≤ n := hb.1
+  have hLv : (base.toList.attach.map fun q => (⟨q.1, hlt q.1 q.2⟩ : Fin n)).map Fin.val =
+      base.toList := by
+    simp
+  have hLnd : (base.toList.attach.map fun q => (⟨q.1, hlt q.1 q.2⟩ : Fin n)).Nodup :=
+    List.Nodup.of_map Fin.val (by rw [hLv]; exact hnd)
+  have hA := chainArrays_ofArrays (n := n) (hn := hn1) (k := k) (hk := hk) (hb := hLnd) (W := W)
+    (Orb.isInv_of hb hp)
+  have hL : ((base.toList.attach.map fun q => (⟨q.1, hlt q.1 q.2⟩ : Fin n)).map Fin.val).toArray =
+      base := by
+    rw [hLv, Array.toArray_toList]
+  rw [hL] at hA
+  exact centOKP_of_orbT1 hw hb hp hl hA hch hcOK hX hr hg hcomm hsift hps hc hN hT hTp hnb hrep
+    horb hq0 hq0b hrep1 horb1
 
 theorem centOKP_of_orbS {p N kS nb BP ng : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
     {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)

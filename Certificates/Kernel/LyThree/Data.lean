@@ -6,7 +6,7 @@ public import Certificates.Kernel.SporSch.Ly.BSData
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.LyThree "Certificates/Kernel/LyThree/data/classes.json.gz" 9387 673612190874577139
+#kc_repo #kc_json CFSG.KD.LyThree "Certificates/Kernel/LyThree/data/classes.json" 9387 673612190874577139
     (prgA : List (Nat × Nat)) (rxA : Nat) (sgA : List Nat) (tbA : List Nat)
     (clA : List (List Nat)) (cbA : List Nat) (entA : List (Nat × (List Nat × List Nat)))
     (lpA : List (Nat × Nat)) (abA : List Nat)

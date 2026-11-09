@@ -57,6 +57,15 @@ theorem bad_sound (hA : codeP (gA : Perm (Fin n)) = cA) (hB : codeP (gB : Perm (
       (sylowList H gA gB rgw rwords) G2).length ≤ c := by
   exact Pf24.bad_sound' gA gB hA hB rgw rwords G2 hs c hc hn h
 
+theorem badSK_sound (hA : codeP (gA : Perm (Fin n)) = cA) (hB : codeP (gB : Perm (Fin n)) = cB)
+    (rgw rwords : List (List ℤ)) (G2 : List (ℕ × ℕ × List (List ℤ) × List ℕ))
+    (hs : List (ℕ × ℕ)) (c : ℕ) (hc : c < 2 ^ 40) (hn : n ≤ 32)
+    (h : atMost (badSK n (rlK n cA cB rgw rwords) G2 hs) c = true) :
+    (g2coverBad
+      (fun x : H => (List.finRange n).foldl (fun acc i => acc * n + ((x : Perm (Fin n)) i).val) 0)
+      (sylowList H gA gB rgw rwords) G2).length ≤ c := by
+  exact Pf24.badSK_sound' gA gB hA hB rgw rwords G2 hs c hc hn h
+
 end CFSG.KC.LQT.Syl
 
 end

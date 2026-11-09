@@ -1,7 +1,7 @@
 module
 
 public import CFSG.Yardstones.M0a200c08cf60.Definitions
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.CGT.PushingUpLit.SolK.Inputs
 public import CFSG.CGT.PushingUpLit.SolKNA.QuatLieLift
 public import CFSG.CGT.PushingUpLit.SolKNA.QuatLieRanges
@@ -84,7 +84,7 @@ public import CFSG.RankThree.PartTwo.Sec19.Item194Used
 public import CFSG.Sporadic.Schreier.J4SNoCompCover
 public import CFSG.Sporadic.ThSchreier.Max3Action
 public import CFSG.Sporadic.ThSchreier.Max3ActionBase1
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

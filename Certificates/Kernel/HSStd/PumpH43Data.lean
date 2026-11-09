@@ -52,15 +52,17 @@ meta def c10Key : List Nat := keyOrder c10L
 meta def x0M : Array Nat :=
   ((search 80 7 c10L.toArray).1.toList.filter isOrd3).headD (Array.range 80)
 
+meta def x040M : Array Nat := res40 x0M
+
 meta def i0M : List Nat :=
   let cs := (search 80 7 c10L.toArray).1
   [((List.range cs.size).find? fun i => isOrd3 cs[i]!).getD 0]
 
 meta def qWit : List Nat :=
   let cs := (search 80 7 c10L.toArray).1
-  let qs := (CFSG.KC.ConjOrbGen.search 80 7 gsP x0M).1
+  let qs := (CFSG.KC.ConjOrbGen.search 40 7 gs40 x040M).1
   let idx : Std.HashMap (Array Nat) Nat := (Array.range qs.size).foldl (fun m i => m.insert qs[i]! i) {}
-  (cs.map fun a => if isOrd3 a then idx.getD a 0 else 0).toList
+  (cs.map fun a => if isOrd3 a then idx.getD (res40 a) 0 else 0).toList
 
 end CertificateChecks.KernelHSStd.PumpH43
 
@@ -84,6 +86,6 @@ set_option maxRecDepth 400000
 #kss_natlist CertificateChecks.KernelHSStd.PumpH43.QW CertificateChecks.KernelHSStd.PumpH43.qWit
 #kss_natlist CertificateChecks.KernelHSStd.PumpH43.I0 CertificateChecks.KernelHSStd.PumpH43.i0M
 
-#conj_orb CertificateChecks.KernelHSStd.PumpH43.Q CFSG.EvenSporadicStandard.HSStd.PumpTC7.gsP 80 7
+#conj_orb CertificateChecks.KernelHSStd.PumpH43.Q CFSG.EvenSporadicStandard.HSStd.PumpTC7.gs40 40 7
   CFSG.EvenSporadicStandard.HSStd.PumpTC7.keys43 1440
-  roots CertificateChecks.KernelHSStd.PumpH43.x0M gens 2
+  roots CertificateChecks.KernelHSStd.PumpH43.x040M gens 2

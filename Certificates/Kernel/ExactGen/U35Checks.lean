@@ -14,9 +14,14 @@ namespace CertificateChecks.KernelEG.U35
 
 open CFSG.KC.ExactGen CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
 
-theorem kTok : [intsL PT.chars] = PTok := by decide +kernel
+theorem kTokAll : intsL PT.chars = PTok.head! ∧ intsOK PT.chars = true :=
+  ints_of_toksCkR PT.chars PTok.head! (by decide +kernel)
 
-theorem kTokOK : intsOK PT.chars = true := by decide +kernel
+theorem kTok : [intsL PT.chars] = PTok := by
+  rw [kTokAll.1]
+  rfl
+
+theorem kTokOK : intsOK PT.chars = true := kTokAll.2
 
 theorem hbP : chainBindK 50 6 C.ctx.chP CP.S CP.SI 11 4 CP.BP DP = true := by decide +kernel
 theorem hbN : chainBindK 50 6 C.ctx.chN CN.S CN.SI 12 4 CN.BP DN = true := by decide +kernel

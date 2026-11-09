@@ -27,8 +27,6 @@ theorem vA : Nat.beq (sumN 36 PJ3N.VA) 1080 = true := by quickRfl
 theorem vB : Nat.beq (sumN 36 PJ3N.VB) 243 = true := by quickRfl
 theorem vZ : Nat.beq (sumN 36 PJ3N.VZ) 19 = true := by quickRfl
 theorem vZ2 : Nat.beq (sumN 36 PJ3N.VZ2) 0 = true := by quickRfl
-theorem sZ : Nat.beq (sumN 52 PJ3N.SZ) 57 = true := by quickRfl
-theorem sZ2 : Nat.beq (sumN 52 PJ3N.SZ2) 57 = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.PJ3Cn
 

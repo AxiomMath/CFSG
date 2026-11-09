@@ -307,13 +307,13 @@ private theorem surj_of_inj {n : Nat} {a : Nat → Nat} (hlt : ∀ v < n, a v < 
   obtain ⟨v, hv, hvx⟩ := Finset.mem_image.1 hmem
   exact ⟨v, Finset.mem_range.1 hv, hvx⟩
 
-theorem leafOK_of_leafK {n na k D T : Nat} {S AC : Nat → Nat} {base : List Nat} {N : SNode}
+theorem leafOK_of_leafK {n na k D T Cs : Nat} {S AC : Nat → Nat} {N : SNode}
     {nbr : Array (List Nat)} {t : Array Nat} {acc : Array (Array Nat)} {c src : Array Nat}
     (hacc : acc.size = na) (hAC : ∀ i < na, acc[i]! = unpack n 12 (AC i))
     (hc : ∀ w < n, cget (colourK n S T N.pre k) w = c[w]!)
-    (hs : ∀ w < n, cget (colourK n S T base k) w = src[w]!)
+    (hs : ∀ w < n, cget Cs w = src[w]!)
     (hinj : ∀ v < n, ∀ w < n, src[v]! = src[w]! → v = w)
-    (h : leafK n S T AC na base k D N = true) :
+    (h : leafK n S T AC na Cs k D N = true) :
     leafOK n nbr t acc c src N = true := by
   unfold leafK at h
   simp only [CFSG.KC.Pack.strictB_eq] at h
@@ -326,7 +326,7 @@ theorem leafOK_of_leafK {n na k D T : Nat} {S AC : Nat → Nat} {base : List Nat
     have hall := CFSG.KC.Pack.allN_spec hh2
     obtain ⟨a, hadef⟩ : ∃ a : Nat → Nat, ∀ v, a v = pg 12 4095 (AC N.acc) v := ⟨_, fun _ => rfl⟩
     have ha : ∀ v < n, a v < n ∧
-        cget (colourK n S T N.pre k) (a v) = cget (colourK n S T base k) v := by
+        cget (colourK n S T N.pre k) (a v) = cget Cs v := by
       intro v hv
       obtain ⟨h1, h2⟩ := CFSG.KC.Pack.band_iff.1 (hall v hv)
       rw [hadef]
@@ -371,7 +371,7 @@ theorem leafOK_of_leafK {n na k D T : Nat} {S AC : Nat → Nat} {base : List Nat
     have hmiss : ∀ w < n, c[w]! ≠ src[wd D 1]! := by
       intro w hw e
       have h6 : ((cget (colourK n S T N.pre k) w).beq
-          (cget (colourK n S T base k) (wd D 1))) = false := by simpa using hall w hw
+          (cget Cs (wd D 1))) = false := by simpa using hall w hw
       exact Nat.ne_of_beq_eq_false h6 (by rw [hc w hw, hs _ hv0]; exact e)
     have hA0 : (colMatch n c src)[wd D 1]! = n := colMatch_eq_n hv0 hmiss
     unfold leafOK

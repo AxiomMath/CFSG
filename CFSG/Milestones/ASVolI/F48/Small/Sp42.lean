@@ -84,7 +84,7 @@ theorem burnsideF48s_sp42_closure_UV :
 
 theorem burnsideF48s_sp42_aut_inner (ψ : S6 ≃* S6) (h1 : ∀ x, ψ x ∈ S6G1 ↔ x ∈ S6G1)
     (h2 : ∀ x, ψ x ∈ S6G2 ↔ x ∈ S6G2) : ∃ g : S6, ∀ x, ψ x = g * x * g⁻¹ := by
-  obtain ⟨-, -, -, -, -, -, -, -, -, hrUV, hw1, hw2, haut⟩ := burnsideF48s_sp42_facts
+  obtain ⟨-, -, -, hcovA, hcovB, -, -, -, -, hrUV, hw1, hw2, haut⟩ := burnsideF48s_sp42_facts
   have hUVψ : ∀ s : String, burnsideF48s_sp42EvUV ![ψ (burnsideF48s_sp42UV 0),
       ψ (burnsideF48s_sp42UV 1)] s = ψ (burnsideF48s_sp42EvUV burnsideF48s_sp42UV s) := by
     intro s
@@ -112,7 +112,27 @@ theorem burnsideF48s_sp42_aut_inner (ψ : S6 ≃* S6) (h1 : ∀ x, ψ x ∈ S6G1
     · intro s hs
       rw [hUVψ]
       exact mem_S6G2.1 ((h2 _).2 (mem_S6G2.2 (hw2 s hs)))
-  obtain ⟨g, hgu, hgv⟩ := haut _ _ hcond
+  obtain ⟨s, hs, hsu⟩ := hcovA _ (mem_S6G1.1 ((h1 _).2 hu1))
+  obtain ⟨t, ht, htv⟩ := hcovB _ (mem_S6G2.1 ((h2 _).2 hv2))
+  rw [← hsu, ← htv] at hcond
+  have hu2 : burnsideF48s_sp42UV 0 * burnsideF48s_sp42UV 0 = 1 := by decide
+  have hvv : burnsideF48s_sp42UV 1 * burnsideF48s_sp42UV 1 ≠ 1 := by decide
+  have hv3 : burnsideF48s_sp42UV 1 * burnsideF48s_sp42UV 1 * burnsideF48s_sp42UV 1 ≠ 1 := by decide
+  have hv4 : burnsideF48s_sp42UV 1 * burnsideF48s_sp42UV 1 * burnsideF48s_sp42UV 1 *
+      burnsideF48s_sp42UV 1 ≠ 1 := by decide
+  have hu1' : burnsideF48s_sp42UV 0 ≠ 1 := by decide
+  obtain ⟨r, -, hgu, hgv⟩ := haut s hs
+    (by rw [hsu]; exact fun h => hu1' (ψ.injective (h.trans (map_one ψ).symm)))
+    (by rw [hsu, ← map_mul, hu2, map_one]) t ht
+    (by rw [htv, ← map_mul]; exact fun h => hvv (ψ.injective (h.trans (map_one ψ).symm)))
+    (by rw [htv, ← map_mul, ← map_mul]; exact fun h => hv3 (ψ.injective (h.trans (map_one ψ).symm)))
+    (by
+      rw [htv, ← map_mul, ← map_mul, ← map_mul]
+      exact fun h => hv4 (ψ.injective (h.trans (map_one ψ).symm)))
+    hcond
+  rw [hsu] at hgu
+  rw [htv] at hgv
+  generalize burnsideF48s_sp42Ev r = g at hgu hgv
   refine ⟨g, fun x => ?_⟩
   have hle : Subgroup.closure ({burnsideF48s_sp42UV 1, burnsideF48s_sp42UV 0} : Set S6) ≤
       MonoidHom.eqLocus ψ.toMonoidHom (MulAut.conj g).toMonoidHom := by
@@ -264,8 +284,14 @@ theorem burnsideF48s_sp42_core {Y : Type} [Group Y] (f₁ : ↥S6G1 →* Y) (f�
       have : burnsideF48s_ev LB (burnsideF48s_sp42Word s) = 1 :=
         Subtype.ext (e1.trans (hrels s hs))
       rw [this, map_one]
-  obtain ⟨g, hg1, hg2, j, hj, hgx, hgy⟩ := hcand x (mem_S6G1.1 hx) (fun h => hxT (mem_S6G2.2 h))
-    hx2 y (mem_S6G2.1 hy) (fun h => hyT (mem_S6G1.2 h)) hy2
+  obtain ⟨s, hs, hsx⟩ := hcovA x (mem_S6G1.1 hx)
+  obtain ⟨t, ht, hty⟩ := hcovB y (mem_S6G2.1 hy)
+  obtain ⟨r, -, hg1, hg2, j, hj, hgx, hgy⟩ := hcand s hs
+    (by rw [hsx]; exact fun h => hxT (mem_S6G2.2 h)) (by rw [hsx]; exact hx2) t ht
+    (by rw [hty]; exact fun h => hyT (mem_S6G1.2 h)) (by rw [hty]; exact hy2)
+  rw [hsx] at hgx
+  rw [hty] at hgy
+  set g := burnsideF48s_sp42Ev r
   have hg1' : g ∈ S6G1 := mem_S6G1.2 hg1
   have hg2' : g ∈ S6G2 := mem_S6G2.2 hg2
   have hextY : burnsideF48s_ev yL (burnsideF48s_sp42Ext j) = 1 := by

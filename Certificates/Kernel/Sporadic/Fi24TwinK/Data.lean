@@ -1,12 +1,12 @@
 module
 
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.JsonGz
 public import Certificates.Kernel.Sporadic.Fi24Kit.Data
 public import Certificates.Data.Kernel.Spor.Fi24TwinK
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24TwinK "Certificates/Kernel/Sporadic/Fi24TwinK/data/twin.json.gz" 67763 10588073203583119968 (m0 : Nat) (F0 : Nat) (hc0 : List (List Nat)) (hd0 : Nat) (bw0 : List (List Nat)) (bp0 : List Nat) (cd0 : List (Nat × Nat)) (lt0 : List Nat) (xt0 : List (List Nat)) (gw0 : List (List Nat)) (nw0 : List (List (List Nat))) (ab0 : Bool) (gt0 : List (List Nat)) (m1 : Nat) (F1 : Nat) (hc1 : List (List Nat)) (hd1 : Nat) (bw1 : List (List Nat)) (bp1 : List Nat) (cd1 : List (Nat × Nat)) (lt1 : List Nat) (xt1 : List (List Nat)) (gw1 : List (List Nat)) (nw1 : List (List (List Nat))) (ab1 : Bool) (gt1 : List (List Nat)) (m2 : Nat) (F2 : Nat) (hc2 : List (List Nat)) (hd2 : Nat) (bw2 : List (List Nat)) (bp2 : List Nat) (cd2 : List (Nat × Nat)) (lt2 : List Nat) (xt2 : List (List Nat)) (gw2 : List (List Nat)) (nw2 : List (List (List Nat))) (ab2 : Bool) (gt2 : List (List Nat))
+#kc_repo #kc_json CFSG.KD.Fi24TwinK "Certificates/Kernel/Sporadic/Fi24TwinK/data/twin.json" 67763 10588073203583119968 (m0 : Nat) (F0 : Nat) (hc0 : List (List Nat)) (hd0 : Nat) (bw0 : List (List Nat)) (bp0 : List Nat) (cd0 : List (Nat × Nat)) (lt0 : List Nat) (xt0 : List (List Nat)) (gw0 : List (List Nat)) (nw0 : List (List (List Nat))) (ab0 : Bool) (gt0 : List (List Nat)) (m1 : Nat) (F1 : Nat) (hc1 : List (List Nat)) (hd1 : Nat) (bw1 : List (List Nat)) (bp1 : List Nat) (cd1 : List (Nat × Nat)) (lt1 : List Nat) (xt1 : List (List Nat)) (gw1 : List (List Nat)) (nw1 : List (List (List Nat))) (ab1 : Bool) (gt1 : List (List Nat)) (m2 : Nat) (F2 : Nat) (hc2 : List (List Nat)) (hd2 : Nat) (bw2 : List (List Nat)) (bp2 : List Nat) (cd2 : List (Nat × Nat)) (lt2 : List Nat) (xt2 : List (List Nat)) (gw2 : List (List Nat)) (nw2 : List (List (List Nat))) (ab2 : Bool) (gt2 : List (List Nat))
 
 public section
 

@@ -106,8 +106,8 @@ open CertificateChecks.KernelSporSch.HeCn CertificateChecks.KernelCo2Chain Certi
 @[expose] noncomputable def ZA (k : Nat) : Nat := CFSG.KS.Row.rg 80 (mask 80) H36ZA 0 k
 @[expose] noncomputable def RB (k : Nat) : Nat := CFSG.KS.Row.rg 14 (mask 14) H36RB 0 k
 @[expose] noncomputable def ZB (k : Nat) : Nat := CFSG.KS.Row.rg 80 (mask 80) H36ZB 0 k
-@[expose] noncomputable def orA36 (s : Nat) : Bool := orB H36RXA H36RYA VA RA ZA 8330 s
-@[expose] noncomputable def orB36 (s : Nat) : Bool := orB H36RXB H36RYB VB RB ZB 8330 s
+@[expose] noncomputable def orA36 (s : Nat) : Bool := orB false H36RXA H36RYA VA RA ZA 8330 s
+@[expose] noncomputable def orB36 (s : Nat) : Bool := orB false H36RXB H36RYB VB RB ZB 8330 s
 
 end CertificateChecks.KernelCo2Chain.He12636
 

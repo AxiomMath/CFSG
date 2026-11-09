@@ -4,6 +4,7 @@ public import CFSG.Certificates.Kernel.LocalQTSecSound
 public import Certificates.Data.Kernel.LocalComp.ReplayWit
 public import Certificates.Data.CFSGNative.ComponentPrimary.Witnesses
 import Certificates.Kernel.LocalQT.Cmd
+import CFSG.Certificates.Kernel.LocalQT.StepsF3Sound
 import Certificates.Kernel.LocalComp.ReplayCmd
 import all CFSG.Blueprint.NativeSporadic
 public meta import Certificates.Data.Kernel.LocalComp.ReplayWit

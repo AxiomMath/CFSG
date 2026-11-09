@@ -72,10 +72,34 @@ private lemma s16kProdU_val (e : Fin 3 → Fin 3) :
     (s16kProdU e : Matrix (Fin 6) (Fin 6) (ZMod 2)) = s16kProdB e := by
   simp only [s16kProdU, s16kProdB, Units.val_mul, Units.val_pow_eq_pow_val, s16kDi_val]
 
+private lemma s16kBlockMat_comm : ∀ i j : Fin 3,
+    s16kBlockMat i * s16kBlockMat j = s16kBlockMat j * s16kBlockMat i := by
+  decide +kernel
+
+private lemma s16kBlockMat_cube : ∀ i : Fin 3, s16kBlockMat i ^ 3 = 1 := by
+  decide +kernel
+
+private lemma s16kBlockMat_pow_add3 (i : Fin 3) (a b : Fin 3) :
+    s16kBlockMat i ^ (s16kAdd3 a b).val = s16kBlockMat i ^ a.val * s16kBlockMat i ^ b.val := by
+  rw [← pow_add, pow_eq_pow_mod (a.val + b.val) (s16kBlockMat_cube i)]
+  rfl
+
+private lemma s16k_rearr {M : Type*} [Monoid M] (x y z x' y' z' : M) (h1 : Commute z x')
+    (h2 : Commute y x') (h3 : Commute z y') :
+    x * y * z * (x' * y' * z') = x * x' * (y * y') * (z * z') := by
+  calc x * y * z * (x' * y' * z') = x * y * (z * x') * (y' * z') := by simp only [mul_assoc]
+    _ = x * y * (x' * z) * (y' * z') := by rw [h1.eq]
+    _ = x * (y * x') * (z * y') * z' := by simp only [mul_assoc]
+    _ = x * (x' * y) * (y' * z) * z' := by rw [h2.eq, h3.eq]
+    _ = x * x' * (y * y') * (z * z') := by simp only [mul_assoc]
+
 private lemma s16kProdB_mul (e e' : Fin 3 → Fin 3) :
     s16kProdB e * s16kProdB e' = s16kProdB (fun i => s16kAdd3 (e i) (e' i)) := by
-  revert e e'
-  decide +kernel
+  have hc : ∀ i j : Fin 3, ∀ a b : ℕ, Commute (s16kBlockMat i ^ a) (s16kBlockMat j ^ b) :=
+    fun i j a b => Commute.pow_pow (s16kBlockMat_comm i j) a b
+  simp only [s16kProdB]
+  rw [s16kBlockMat_pow_add3, s16kBlockMat_pow_add3, s16kBlockMat_pow_add3]
+  exact s16k_rearr _ _ _ _ _ _ (hc _ _ _ _) (hc _ _ _ _) (hc _ _ _ _)
 
 private lemma s16kProdB_eq_one_iff (e : Fin 3 → Fin 3) :
     s16kProdB e = 1 ↔ ∀ i, e i = 0 := by

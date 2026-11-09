@@ -144,10 +144,16 @@ theorem tab_w : TabRep (unpack 100 7 (HSU.REP 1)) hsOW := by
   rw [rep1, e, c_rep_get HSU.hypsH.toHypsC (by decide : 1 < HSU.KH.nr)] at h
   exact h
 
+theorem hsu35e_getD_eq {α : Type} [Inhabited α] (a : Array α) (d : α) {i : ℕ}
+    (hi : i < a.size) : a.getD i d = a[i]! := by
+  rw [getElem!_pos a i hi]
+  simp [hi]
+
 theorem tab_wi : TabRep (unpack 100 7 (HSU.REPI 1)) hsOW⁻¹ := by
   have h := CFSG.AGLEmbedding.MaxD2.repI_rep hsU35_gsU hsU35_giU (c_invsRep HSU.hypsH.toHypsC) 1
   have hs : (repI dataU).size = 2 := c_repi_size HSU.hypsH.toHypsC
-  have e : (repI dataU).getD 1 (idTab dataU.n) = (repI dataU)[1]! := by simp [hs]
+  have e : (repI dataU).getD 1 (idTab dataU.n) = (repI dataU)[1]! :=
+    hsu35e_getD_eq (repI dataU) (idTab dataU.n) (by rw [hs]; decide)
   rw [rep1, e, c_repi_get HSU.hypsH.toHypsC (by decide : 1 < HSU.KH.nr)] at h
   exact h
 

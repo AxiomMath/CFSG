@@ -68,11 +68,64 @@ theorem m12Sf_mem : ∀ p, m12Sf p ∈ Subgroup.closure ({m12Sx, m12Sy} : Set Na
 theorem m12Sf_exp3 : ∀ p, m12Sf p ^ 3 = 1 := by
   decide +kernel
 
+section M12Codes
+
+open CFSG.Permutation.FinPack
+open CFSG.AGLEmbeddingD2.Wilson.MaximalityAmbient.RealThree (m12WordK m12WordK_enc)
+
+@[expose] noncomputable def m12SfK (p : Fin 3 × Fin 3 × Fin 3) : ℕ :=
+  mulK 12 (mulK 12
+      (powK 12 (enc (1 : Equiv.Perm (Fin 12))) (m12WordK [2, 1, -2, 1, 2, 1, 2, 1, -2])
+        (p.1 : ℕ))
+      (powK 12 (enc (1 : Equiv.Perm (Fin 12)))
+        (m12WordK [1, 2, 1, -2, 1, 2, 1, 2, 1, -2, 1]) (p.2.1 : ℕ)))
+    (powK 12 (enc (1 : Equiv.Perm (Fin 12)))
+      (mulK 12 (mulK 12 (mulK 12
+        (m12WordK [2, 1, -2, 1, 2, 1, 2, 1, -2])
+        (m12WordK [1, 2, 1, -2, 1, 2, 1, 2, 1, -2, 1]))
+        (invCK 12 (m12WordK [2, 1, -2, 1, 2, 1, 2, 1, -2])))
+        (invCK 12 (m12WordK [1, 2, 1, -2, 1, 2, 1, 2, 1, -2, 1]))) (p.2.2 : ℕ))
+
+theorem m12SfK_enc (p : Fin 3 × Fin 3 × Fin 3) :
+    enc ((m12Sf p : NativeSporadic.M12) : Equiv.Perm (Fin 12)) = m12SfK p := by
+  have hn : 12 ≤ 16 := by norm_num
+  simp only [m12Sf, m12Sz, Subgroup.coe_mul, SubmonoidClass.coe_pow, InvMemClass.coe_inv,
+    enc_mul hn, ← powK_enc hn, enc_inv_invCK hn, m12Sx, m12Sy, m12WordK_enc, m12SfK]
+
+@[expose] noncomputable def m12SwK (p : Fin 3 × Fin 3 × Fin 3) : ℕ :=
+  m12WordK (m12Sws.getD (9 * (p.1 : ℕ) + 3 * (p.2.1 : ℕ) + (p.2.2 : ℕ)) [])
+
+theorem m12Sf_wit_codes : ∀ p : Fin 3 × Fin 3 × Fin 3,
+    Nat.beq (m12SfK p) (enc (1 : Equiv.Perm (Fin 12))) = true ∨
+    (Nat.beq (mulK 12 (mulK 12 (mulK 12 (m12SwK p) (m12SfK p)) (invCK 12 (m12SwK p))) (m12SfK p))
+        (mulK 12 (m12SfK p) (mulK 12 (mulK 12 (m12SwK p) (m12SfK p)) (invCK 12 (m12SwK p)))) =
+        true ∧
+      Nat.beq (mulK 12 (mulK 12 (m12SwK p) (m12SfK p)) (invCK 12 (m12SwK p))) (m12SfK p) = false ∧
+      Nat.beq (mulK 12 (mulK 12 (m12SwK p) (m12SfK p)) (invCK 12 (m12SwK p)))
+        (invCK 12 (m12SfK p)) = false ∧
+      Nat.beq (mulK 12 (mulK 12 (m12SwK p) (m12SfK p)) (invCK 12 (m12SwK p)))
+        (enc (1 : Equiv.Perm (Fin 12))) = false) := by
+  decide +kernel
+
 theorem m12Sf_wit : ∀ p, m12Sf p ≠ 1 →
     (m12Sw p * m12Sf p * (m12Sw p)⁻¹) * m12Sf p = m12Sf p * (m12Sw p * m12Sf p * (m12Sw p)⁻¹) ∧
       m12Sw p * m12Sf p * (m12Sw p)⁻¹ ≠ m12Sf p ∧ m12Sw p * m12Sf p * (m12Sw p)⁻¹ ≠ (m12Sf p)⁻¹ ∧
       m12Sw p * m12Sf p * (m12Sw p)⁻¹ ≠ 1 := by
-  decide +kernel
+  have hn : 12 ≤ 16 := by norm_num
+  have key : ∀ g h : NativeSporadic.M12, g = h ↔
+      Nat.beq (enc (g : Equiv.Perm (Fin 12))) (enc (h : Equiv.Perm (Fin 12))) = true :=
+    fun g h => Subtype.ext_iff.trans (beq_enc_iff hn).symm
+  have hW : ∀ p, enc ((m12Sw p : NativeSporadic.M12) : Equiv.Perm (Fin 12)) = m12SwK p :=
+    fun p => m12WordK_enc _
+  intro p hp
+  rw [ne_eq, key] at hp
+  simp only [ne_eq, key, Subgroup.coe_mul, InvMemClass.coe_inv, OneMemClass.coe_one, enc_mul hn,
+    enc_inv_invCK hn, m12SfK_enc, hW, Bool.not_eq_true] at hp ⊢
+  rcases m12Sf_wit_codes p with h | ⟨h2, h3, h4, h5⟩
+  · simp [h] at hp
+  · exact ⟨h2, h3, h4, h5⟩
+
+end M12Codes
 
 theorem listRow_m12 : ListRow NativeSporadic.M12 :=
   listRow_of_gen (x := m12Sx) (y := m12Sy) m12Sf m12σx m12σy m12Sf_inj m12Sf_mem m12Sf_one

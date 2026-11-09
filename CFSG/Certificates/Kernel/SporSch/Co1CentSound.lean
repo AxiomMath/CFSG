@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.SporSch.Co1Cent
 public import CFSG.Certificates.Kernel.SporSch.Co1TowerSound
 public import CFSG.Certificates.Kernel.SporSch.Co1StabSound
+public import CFSG.Certificates.Kernel.SporSch.Co1StabWSound
 public import CFSG.Certificates.Kernel.SporSch.Co1MatSound
 public import CFSG.Sporadic.Co1Block.CentCheck
 
@@ -113,6 +114,35 @@ theorem centCheckOf_of_K {tR : Rows} {d₁ d₂ : List (List Int)} {bidx base si
   have hi' : i < bidx.length := List.mem_range.1 hi
   rw [ht, mul_unpackK, mul_unpackK, hbi i hi', hcm _ (List.getElem_mem hi')]
   exact beq_self_eq_true _
+
+theorem brayElts_of_W {tR : Rows} {d₁ : List (List Int)} {bidx : List Nat}
+    {M MI M' : Nat → Nat} {N : Nat}
+    (hb : [aR, bR, tR] = (List.range 3).map fun i => unpack 24 24 (M i))
+    (hD : dagIWK M MI 3 N d₁ = true)
+    (hidx : bidx.all (fun j => decide (3 < j) && decide (j ≤ N)) = true)
+    (hbind : bindK M M' bidx = true) :
+    brayElts (brayRows tR d₁) bidx = (List.range bidx.length).map fun i => unpack 24 24 (M' i) :=
+  brayElts_of_K hb (dagIWK_eq_dagIK ▸ hD) hidx hbind
+
+theorem centCheckOf_of_W {tR : Rows} {d₁ d₂ : List (List Int)} {bidx base sizes : List Nat}
+    {gens : List (List Nat)} {M MI M' MI' : Nat → Nat} {P N N' : Nat}
+    (ht : tR = unpack 24 24 P)
+    (hb : [aR, bR, tR] = (List.range 3).map fun i => unpack 24 24 (M i))
+    (hD : dagIWK M MI 3 N d₁ = true)
+    (hidx : bidx.all (fun j => decide (3 < j) && decide (j ≤ N)) = true)
+    (hbind : bindK M M' bidx = true)
+    (hD' : dagIWK M' MI' bidx.length N' d₂ = true)
+    (hc : commK M P bidx = true)
+    (hn : ∀ i < base.length, 0 < sizes.getD i 0 ∧ sizes.getD i 0 < 131072)
+    (hl : ∀ i < base.length, ∃ (T E S C : Nat → Nat) (NS L : Nat),
+      levelHd N' (gens.getD i []) (base.getD i 0) T = true ∧ C 0 = 1 ∧
+        C NS = sizes.getD i 0 ∧ sizes.getD i 0 ≤ NS * L ∧
+        (∀ s < NS, levelSl M' (gens.getD i []) (sizes.getD i 0) T E (s * L) L (C s) (C (s + 1)) =
+          true) ∧
+        (∀ s < NS, permSl S T (sizes.getD i 0) (s * L) L = true) ∧
+        fixesK M' (gens.getD i []) base i = true) :
+    centCheckOf tR d₁ bidx d₂ base gens sizes = true :=
+  centCheckOf_of_K ht hb (dagIWK_eq_dagIK ▸ hD) hidx hbind (dagIWK_eq_dagIK ▸ hD') hc hn hl
 
 end CFSG.KS.SporSch.M24
 

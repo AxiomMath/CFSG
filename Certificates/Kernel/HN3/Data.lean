@@ -3,12 +3,12 @@ module
 public import Certificates.Data.Kernel.HN3K
 public import CFSG.Certificates.Kernel.Fam.HNSeed.Data.Sel
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.HN3 "Certificates/Kernel/HN3/data/regs.items.gz" 172489 13928110532256865320
+#kc_repo #kc_nat_items CFSG.KD.HN3 "Certificates/Kernel/HN3/data/regs.items" 172489 13928110532256865320
     regs[]
-#kc_repo #kc_json_gz CFSG.KD.HN3 "Certificates/Kernel/HN3/data/hn3.json.gz" 412787 14033165728886441635
+#kc_repo #kc_json CFSG.KD.HN3 "Certificates/Kernel/HN3/data/hn3.json" 412787 14033165728886441635
     (prog : List (List Nat)) (rels : List (List Nat))
     (g2 : List (List Nat)) (S2 : List Nat) (I2 : List (List Nat)) (T2 : List (Nat × Nat))
     (O2 : List Nat)

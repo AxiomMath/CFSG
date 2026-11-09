@@ -202,8 +202,8 @@ theorem card_split (P : Lg → Prop) [DecidablePred P] :
     · exact Or.inr ⟨g, rfl⟩
   have hD : Disjoint (Finset.univ.image innerL) (Finset.univ.image outerL) := by
     rw [Finset.disjoint_left]
+    simp only [Finset.mem_image, Finset.mem_univ, true_and]
     intro l h1 h2
-    simp only [Finset.mem_image, Finset.mem_univ, true_and] at h1 h2
     obtain ⟨g, rfl⟩ := h1
     obtain ⟨g', hg'⟩ := h2
     have h := congrArg parityL hg'

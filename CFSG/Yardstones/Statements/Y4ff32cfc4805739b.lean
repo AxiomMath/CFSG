@@ -1,8 +1,8 @@
 module
 
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.ONanP1ThreeLieOffCharAlmostSimple
-meta import YardstoneContract
-import YardstoneContract
+meta import CFSG.YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

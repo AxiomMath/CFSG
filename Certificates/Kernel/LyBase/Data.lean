@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLyBase "Certificates/Kernel/LyBase/data/chain.json.gz" 3037 4339763140199388309
+#kc_repo #kc_json CertificateChecks.KernelLyBase "Certificates/Kernel/LyBase/data/chain.json" 3037 4339763140199388309
   (S1 : List (List Nat)) (S2 : List (List Nat)) (R0 : Nat) (R1 : Nat) (O2 : List Nat)
   (T2 : List (Nat × Nat))
 

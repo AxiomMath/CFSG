@@ -7,6 +7,6 @@ public section
 set_option maxRecDepth 400000
 
 #konf_slices CertificateChecks.KernelSpor.ONLine.lnS
-  CertificateChecks.KernelSpor.ONLine.lnS_of_F 384 512
+  CertificateChecks.KernelSpor.ONLine.lnS_of_W 384 512
 
 end

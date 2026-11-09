@@ -35,11 +35,23 @@ theorem rec_ok : ∀ r < 498, CFSG.KC.TwDce.wLen (RW r) < 2 ^ 16 ∧
   decide +kernel
 
 set_option maxRecDepth 100000 in
-theorem wd_ok : ∀ i < 4096, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
+theorem wd_mod : ∀ i < 4096, WD i = WD (i % 64) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem wd_ok64 : ∀ i < 64, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
     ((wList (WD i)).filter (· != 14) = [] ∨ (wList (WD i)).filter (· != 14) = [12, 13] ∨
       (wList (WD i)).filter (· != 14) = [13, 12] ∨
       ∃ r ∈ hnTopCodes, (wList (WD i)).filter (· != 14) ∈ rotations r) := by
   decide +kernel
+
+theorem wd_ok : ∀ i < 4096, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
+    ((wList (WD i)).filter (· != 14) = [] ∨ (wList (WD i)).filter (· != 14) = [12, 13] ∨
+      (wList (WD i)).filter (· != 14) = [13, 12] ∨
+      ∃ r ∈ hnTopCodes, (wList (WD i)).filter (· != 14) ∈ rotations r) := by
+  intro i hi
+  rw [wd_mod i hi]
+  exact wd_ok64 (i % 64) (Nat.mod_lt _ (by norm_num))
 
 theorem top_lt : ∀ r ∈ hnTopCodes, ∀ c ∈ r, c < 14 := by decide +kernel
 
@@ -71,9 +83,9 @@ theorem gWord_eq (c : ℕ) :
   have h2 : Nat.land c 1 = c % 2 := Nat.and_one_is_mod c
   rw [h1, h2]
   rcases Nat.mod_two_eq_zero_or_one c with h | h
-  · rw [h, if_neg (by norm_num)]
+  · rw [h, ite_eq_right (by norm_num)]
     rfl
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
 
 theorem ivL_lt {c : ℕ} (hc : c < 12) : ivL INVM c < 12 := by
@@ -144,7 +156,7 @@ theorem range_hnPi : hnPi.range = hnHP := by
   rw [MonoidHom.range_eq_map, ← PresentedGroup.closure_range_of, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_range, exists_exists_eq_and, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_range, exists_exists_eq_and, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨j, rfl⟩
     exact ⟨hnTL.get j, List.get_mem _ _, (hnPi_of j).symm⟩
@@ -160,7 +172,7 @@ theorem evalWord_hnXP (w : List ℕ) : evalWord hnXP w = hnPi (evalWord hnX w) :
 
 theorem wVal_hnXP (w : ℕ) : wVal hnXP w = hnPi (wVal hnX w) := evalWord_hnXP _
 
-theorem hnX_eq {c : ℕ} (hc : c < 14) :
+theorem hnX_eq {c : ℕ} (_hc : c < 14) :
     hnX c = if c % 2 = 0 then PresentedGroup.of (⟨c / 2 % hnTL.length, Nat.mod_lt _ (by decide)⟩)
       else (PresentedGroup.of (⟨c / 2 % hnTL.length, Nat.mod_lt _ (by decide)⟩))⁻¹ := rfl
 
@@ -187,11 +199,11 @@ theorem hnX_ivL {c : ℕ} (hc : c < 12) : hnX (ivL INVM c) = (hnX c)⁻¹ := by
     intro d e h
     simp only [h]
   by_cases h : c % 2 = 0
-  · rw [if_pos h]
-    simp only [hnX, if_pos h, if_neg (show ¬ (c + 1) % 2 = 0 by omega)]
+  · rw [ite_eq_left h]
+    simp only [hnX, ite_eq_left h, ite_eq_right (show ¬ (c + 1) % 2 = 0 by omega)]
     rw [hj (c + 1) c (by omega)]
-  · rw [if_neg h]
-    simp only [hnX, if_neg h, if_pos (show (c - 1) % 2 = 0 by omega), inv_inv]
+  · rw [ite_eq_right h]
+    simp only [hnX, ite_eq_right h, ite_eq_left (show (c - 1) % 2 = 0 by omega), inv_inv]
     rw [hj (c - 1) c (by omega)]
 
 theorem hnXP_ivL {c : ℕ} (hc : c < 12) : hnXP (ivL INVM c) = (hnXP c)⁻¹ := by
@@ -230,7 +242,7 @@ theorem allRange_sound {P : ℕ → Bool} {a : ℕ} :
 theorem isStabOf_sound {n k g : ℕ} (h : isStabOf RD n k g = true) :
     g < n ∧ 3 ≤ dKind (RD g) ∧ dKind (RD g) < 5 ∧ dN1 (RD g) = k ∧ dN2 (RD g) = k := by
   unfold isStabOf isEq at h
-  simp only [CFSG.Certificates.TwDce2.Words.kandB_iff, andB_iff, Nat.blt_eq, Nat.ble_eq, sB_eq] at h
+  simp only [CFSG.Certificates.TwDce2.Words.kandB_iff, Nat.blt_eq, Nat.ble_eq, sB_eq] at h
   obtain ⟨h1, ⟨h2, h3⟩, h4, h5⟩ := h
   exact ⟨h1, h2, h3, Nat.eq_of_beq_eq_true h4, Nat.eq_of_beq_eq_true h5⟩
 
@@ -299,6 +311,7 @@ variable [Finite hnPR] (hQ : Nat.card hnPR ≤ 177408000)
 
 include hQ
 
+omit [Finite hnPR] hQ in
 theorem stab_k {k : ℕ} (hk : k < 9) : chainB F 1408 (getLL CW k) (getLL CB k) (getLL CS k)
     (getLL CT k) (gRegs INVM RW (CFSG.KC.LaneChain.getL CG k))
     (CFSG.KC.LaneChain.getN hnCN k) = true := by
@@ -306,12 +319,13 @@ theorem stab_k {k : ℕ} (hk : k < 9) : chainB F 1408 (getLL CW k) (getLL CB k) 
   rw [Nat.zero_add] at h
   exact (CFSG.Certificates.TwDce2.Words.kandB_iff.1 h).2
 
+omit hQ in
 theorem card_hnK_ge {k : ℕ} (hk : k < 9) :
     CFSG.KC.LaneChain.getN hnCN k ≤ Nat.card (hnK k) := by
   have hs := chainB_sound (G := hnPR) hnX hnPt hnPt_one hnPt_mul (fun c hc p hp => hnF_lt hc hp)
     (fun c hc p hp => hnPt_x hc hp) (hnK k)
     (fun c hc => ⟨(gens_ok k hk c hc).1, Subgroup.subset_closure ⟨c, hc, rfl⟩⟩)
-    (lens_ok k hk) (stab_k hQ hk)
+    (lens_ok k hk) (stab_k hk)
   have : Finite {g : hnPR // g ∈ hnK k ∧ ∀ b ∈ getLL CB k,
       hnPt g (CFSG.KC.LaneChain.colDat 11 b / 2) = CFSG.KC.LaneChain.colDat 11 b / 2} :=
     Subtype.finite
@@ -325,7 +339,7 @@ theorem pt_eq_one {q : hnPR} (hq : ∀ i < NB, hnPt q (CFSG.KC.TwDce.fld BS (16 
   have hs := chainB_sound (G := hnPR) hnX hnPt hnPt_one hnPt_mul (fun c hc p hp => hnF_lt hc hp)
     (fun c hc p hp => hnPt_x hc hp) ⊤
     (fun c hc => ⟨(gens_ok 0 (by norm_num) c hc).1, Subgroup.mem_top _⟩)
-    (lens_ok 0 (by norm_num)) (stab_k hQ (k := 0) (by norm_num))
+    (lens_ok 0 (by norm_num)) (stab_k (k := 0) (by norm_num))
   rw [Subgroup.card_top] at hs
   have e0 : CFSG.KC.LaneChain.getN hnCN 0 = 177408000 := rfl
   rw [e0] at hs
@@ -354,6 +368,7 @@ theorem hone : ∀ w : List ℕ, (∀ c ∈ w, c < 12) →
     rw [hnPt_evalWord w hw (base_ok.1 i hi)]
     exact hfix i hi), map_one]
 
+omit [Finite hnPR] hQ in
 theorem orbit_zero {p : ℕ} (hp : p < 1408) : ∃ q : hnPR, hnPt q 0 = p := by
   obtain ⟨f, -, -, -, -, g, -, he⟩ := cover_pt (k := 0) (by norm_num) hp
   exact ⟨_, he.symm⟩
@@ -369,7 +384,7 @@ theorem card_hnS0_le : Nat.card hnS0 ≤ 126000 := by
       rw [e, hnPt_mul, mem_hnS0.1 (hnS0.inv_mem hab)])
   have hsurj : Function.Surjective φ := by
     intro p
-    obtain ⟨q, hq⟩ := orbit_zero hQ p.2
+    obtain ⟨q, hq⟩ := orbit_zero p.2
     refine ⟨((q⁻¹ : hnPR) : hnPR ⧸ hnS0), Fin.ext ?_⟩
     change hnPt q⁻¹⁻¹ 0 = p
     rw [inv_inv, hq]
@@ -382,7 +397,8 @@ theorem card_hnS0_le : Nat.card hnS0 ≤ 126000 := by
   have h3 := Nat.mul_le_mul (Nat.succ_le_of_lt (not_le.1 h)) h1
   omega
 
-theorem hnK1_le : hnK 1 ≤ hnS0 := by
+omit [Finite hnPR] hQ in
+theorem hnK1_le :hnK 1 ≤ hnS0 := by
   rw [hnK, Subgroup.closure_le]
   rintro _ ⟨c, hc, rfl⟩
   change hnPt _ 0 = 0
@@ -390,10 +406,10 @@ theorem hnK1_le : hnK 1 ≤ hnS0 := by
   exact node1_fix c hc
 
 theorem hnS0_eq : hnK 1 = hnS0 := by
-  have h := card_hnK_ge hQ (k := 1) (by norm_num)
+  have h := card_hnK_ge (k := 1) (by norm_num)
   have e1 : CFSG.KC.LaneChain.getN hnCN 1 = 126000 := rfl
   rw [e1] at h
-  exact Subgroup.eq_of_le_of_card_ge (hnK1_le hQ) ((card_hnS0_le hQ).trans h)
+  exact Subgroup.eq_of_le_of_card_ge hnK1_le ((card_hnS0_le hQ).trans h)
 
 end Card
 
@@ -456,12 +472,12 @@ theorem wdVal_letter {c : ℕ} (hc : c < 14) : wdVal hnXP hnT c =
       (PresentedGroup.of (⟨c / 2 % 7, Nat.mod_lt _ (by norm_num)⟩ : Fin 7))⁻¹ := by
   unfold wdVal
   by_cases h12 : c < 12
-  · rw [if_pos h12, hnXP_eq h12]
+  · rw [ite_eq_left h12, hnXP_eq h12]
     have e : (⟨c / 2 % 7, Nat.mod_lt _ (by norm_num)⟩ : Fin 7) = ⟨c / 2, by omega⟩ :=
       Fin.ext (by simp only; omega)
     rw [e]
     by_cases h : c % 2 = 0 <;> simp [h]
-  · rw [if_neg h12]
+  · rw [ite_eq_right h12]
     rcases (show c = 12 ∨ c = 13 by omega) with rfl | rfl
     · rfl
     · rfl
@@ -521,7 +537,7 @@ theorem hxH : ∀ c < 12, hnXP c ∈ hnHP := by
   exact ⟨_, rfl⟩
 
 theorem hinvP : ∀ c < 12, ivL INVM c < 12 ∧ hnXP (ivL INVM c) = (hnXP c)⁻¹ :=
-  fun c hc => ⟨ivL_lt hc, hnXP_ivL hc⟩
+  fun _c hc => ⟨ivL_lt hc, hnXP_ivL hc⟩
 
 theorem hTP : ∀ c < 4, hnXP c * hnT = hnT * hnXP c := by
   intro c hc
@@ -550,19 +566,21 @@ theorem facts : ∃ X : ℕ → hnPP, X 0 = 1 ∧ ∀ r < 498, dKind (RD r) < 5 
   CFSG.Certificates.TwDce2.dce_sound fold_ok (by norm_num) hnHP hnXP hnT hxH hinvP hTP hWD (hone hQ)
     hlenR
 
-theorem relIndex_map_hnPi_le (P : Subgroup hnPR) : (P.map hnPi).relIndex hnPi.range ≤ P.index := by
+omit hQ in
+theorem relIndex_map_hnPi_le(P : Subgroup hnPR) : (P.map hnPi).relIndex hnPi.range ≤ P.index := by
   rw [MonoidHom.range_eq_map, Subgroup.relIndex_map_map, top_sup_eq, Subgroup.relIndex_top_right]
   exact Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite)
     (Subgroup.index_dvd_of_le le_sup_left)
 
-theorem cn_pos : ∀ k < 9, 0 < CFSG.KC.LaneChain.getN hnCN k := by decide
+omit [Finite hnPR] hQ in
+theorem cn_pos :∀ k < 9, 0 < CFSG.KC.LaneChain.getN hnCN k := by decide
 
 theorem idx_le (i : Fin 9) :
     ((hnSt i).map hnPi).relIndex hnHP ≤ 177408000 / CFSG.KC.LaneChain.getN hnCN i := by
   rw [← range_hnPi]
-  refine (relIndex_map_hnPi_le hQ (hnSt i)).trans ?_
-  rw [Nat.le_div_iff_mul_le (cn_pos hQ i i.2)]
-  have h1 := (card_hnK_ge hQ i.2).trans (Subgroup.card_le_of_le (hnK_le_hnSt i.2))
+  refine (relIndex_map_hnPi_le (hnSt i)).trans ?_
+  rw [Nat.le_div_iff_mul_le (cn_pos i i.2)]
+  have h1 := (card_hnK_ge i.2).trans (Subgroup.card_le_of_le (hnK_le_hnSt i.2))
   calc (hnSt i).index * CFSG.KC.LaneChain.getN hnCN i ≤ (hnSt i).index * Nat.card (hnSt i) :=
         Nat.mul_le_mul_left _ h1
     _ = Nat.card hnPR := (hnSt i).index_mul_card
@@ -644,12 +662,12 @@ theorem index_hnHP_le : hnHP.FiniteIndex ∧ hnHP.index ≤ 1539000 := by
       tgtElt_mem := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.1
       tgt_spec := by
         intro i k hk
         have h := htP i k hk
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.2 }
   have : Finite hnHP := by
     rw [← range_hnPi]

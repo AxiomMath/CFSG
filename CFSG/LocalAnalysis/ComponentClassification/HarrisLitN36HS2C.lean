@@ -24,33 +24,6 @@ theorem mem_of_pow_eq_one_of_coprime {H : Type*} [Group H] [Finite H] {N : Subgr
     rwa [hcop.gcd_eq_one] at this
   exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp h5)
 
-theorem le_card_of_big {A : Array Table} {cap N : ℕ} (h : HS2C.big A cap N = true)
-    {K : Subgroup (Equiv.Perm (Fin 3850))} (hK : ∀ l < A.size, tp 3850 A[l]! ∈ K) :
-    N ≤ Nat.card K := by
-  have hn : (3850 : ℕ) < 2 ^ 32 := by norm_num
-  simp only [HS2C.big, Bool.and_eq_true, decide_eq_true_eq] at h
-  obtain ⟨⟨⟨hperm, htree⟩, hkeys⟩, hN⟩ := h
-  rw [Array.all_eq_true] at hperm
-  have hga : ∀ l < A.size, Rep 3850 A[l]! (tp 3850 A[l]!) ∧ tp 3850 A[l]! ∈ K := fun l hl =>
-    ⟨rep_tp (by rw [getElem!_pos A l hl]; exact hperm l hl), hK l hl⟩
-  have hE := mulTreeOK_spec hn K (gg := fun l => tp 3850 A[l]!) hga htree
-  set E := (mulClosureH 3850 A cap).1
-  have hErep : ∀ k < E.size, Rep 3850 E[k]! (tablePerm 3850 E[k]!) := by
-    intro k hk
-    obtain ⟨c, -, hrep⟩ := hE k hk
-    rw [tablePerm_eq hrep]
-    exact hrep
-  have hnodup := nodup_of_hkeysDistinct (forall₂_tablePerm hErep) hkeys
-  have hmem : ∀ g ∈ E.toList.map (tablePerm 3850), g ∈ K := by
-    intro g hg
-    obtain ⟨k, hk, rfl⟩ := mem_map_tablePerm hErep hg
-    obtain ⟨c, hcK, hrep⟩ := hE k hk
-    rw [tablePerm_eq hrep]
-    exact hcK
-  have hlen := length_le_card_of_nodup hnodup hmem
-  rw [List.length_map, Array.length_toList] at hlen
-  omega
-
 theorem exists_model
     {Y : Type} [Group Y] [Finite Y] (e : Y ≃* NativeSporadic.HS) {σ : MulAut Y}
     (hσ : orderOf σ = 2) (hcard : Nat.card ↥(fixedPoints σ) = 40320)
@@ -169,8 +142,8 @@ theorem hs2CNormalFact_holds :
   have hn : (3850 : ℕ) < 2 ^ 32 := by norm_num
   have hcheck := Certificates.certificate22619
   simp only [HS2C.hs2CCheck, Bool.and_eq_true] at hcheck
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨ht, h23⟩, h25⟩, hy7p⟩, hy7s⟩, hy7c⟩, hy7o⟩, hy5p⟩, hy5s⟩, hy5c⟩,
-    hy5o⟩, hg7p⟩, hg7i⟩, hg5p⟩, hg5i⟩, hbig7⟩, hbig5⟩ := hcheck
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨ht, h23⟩, h24⟩, h25⟩, hy7p⟩, hy7s⟩, hy7c⟩, hy7o⟩, hy5p⟩, hy5s⟩,
+    hy5c⟩, hy5o⟩, hg7p⟩, hg7i⟩, hg5p⟩, hg5i⟩, hx7p⟩, hw5⟩, hw1⟩, hx5p⟩, hz7⟩, hz1⟩ := hcheck
   obtain ⟨L₀, hL₀C, hL₀card, hL₀n, hC₀card, hC⟩ := exists_model e hσ hcard L hLn
   set t := tp 3850 (hsCentTbl 21) with htdef
   set C₀ := hsP ⊓ centralizer ({t} : Set (Equiv.Perm (Fin 3850))) with hC₀
@@ -183,7 +156,7 @@ theorem hs2CNormalFact_holds :
   have hgen : ∀ k : ℕ, hsCentTbl k ∈ ([hsCentTbl 22, hsCentTbl 23, hsCentTbl 24, hsCentTbl 25] :
       List Table).toArray → tp 3850 (hsCentTbl k) ∈ C₀ :=
     fun k hk => hC ▸ subset_closure ⟨hsCentTbl k, hk, rfl⟩
-  have h24 : tp 3850 HS2C.g7 ∈ C₀ := hgen 24 (by
+  have h24' : tp 3850 (hsCentTbl 24) ∈ C₀ := hgen 24 (by
     exact List.mem_toArray.mpr (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))
   have h23' : tp 3850 (hsCentTbl 23) ∈ C₀ := hgen 23 (by
     exact List.mem_toArray.mpr (List.Mem.tail _ (List.Mem.head _)))
@@ -197,6 +170,11 @@ theorem hs2CNormalFact_holds :
   have hg5eq : tp 3850 HS2C.g5 = tp 3850 (hsCentTbl 25) * tp 3850 (hsCentTbl 23) :=
     rep_unique (rep_tp hg5p) hg5rep
   have hg5C : tp 3850 HS2C.g5 ∈ C₀ := hg5eq ▸ C₀.mul_mem h25' h23'
+  have hg7rep : Rep 3850 HS2C.g7 (tp 3850 (hsCentTbl 23) * tp 3850 (hsCentTbl 24)) :=
+    Rep.compT (rep_tp h23) (rep_tp h24)
+  have hg7eq : tp 3850 HS2C.g7 = tp 3850 (hsCentTbl 23) * tp 3850 (hsCentTbl 24) :=
+    rep_unique (rep_tp hg7p) hg7rep
+  have hg7C : tp 3850 HS2C.g7 ∈ C₀ := hg7eq ▸ C₀.mul_mem h23' h24'
   have hconjC : ∀ {g y x : Table}, permOK 3850 g = true → invOK 3850 g (invT 3850 g) = true →
       permOK 3850 y = true → permOK 3850 x = true →
       x = compT 3850 (compT 3850 g y) (invT 3850 g) → tp 3850 g ∈ C₀ → tp 3850 y ∈ C₀ →
@@ -207,16 +185,7 @@ theorem hs2CNormalFact_holds :
       exact Rep.compT (Rep.compT (rep_tp hgp) (rep_tp hyp)) (rep_invT (rep_tp hgp) hgi)
     have heq := rep_unique (rep_tp hxp) hrep
     exact ⟨heq, heq ▸ C₀.mul_mem (C₀.mul_mem hgC hyC) (C₀.inv_mem hgC)⟩
-  have hb7 := hbig7
-  have hb5 := hbig5
-  simp only [HS2C.big, Bool.and_eq_true] at hb7 hb5
-  have hx7p : permOK 3850 HS2C.x7 = true := by
-    have := (Array.all_eq_true.mp hb7.1.1.1) 1 (by decide)
-    simpa using this
-  have hx5p : permOK 3850 HS2C.x5 = true := by
-    have := (Array.all_eq_true.mp hb5.1.1.1) 1 (by decide)
-    simpa using this
-  obtain ⟨hx7eq, hx7C⟩ := hconjC hg7p hg7i hy7p hx7p rfl h24 hy7C
+  obtain ⟨hx7eq, hx7C⟩ := hconjC hg7p hg7i hy7p hx7p rfl hg7C hy7C
   obtain ⟨hx5eq, hx5C⟩ := hconjC hg5p hg5i hy5p hx5p rfl hg5C hy5C
   have hy7pow : tp 3850 HS2C.y7 ^ 7 = 1 :=
     (tblEq_idT_iff hn (Rep.powT hn (rep_tp hy7p) 7)).mp hy7o
@@ -242,22 +211,33 @@ theorem hs2CNormalFact_holds :
   · rw [hL₀card, h168] at hindex
     have hidx : (L₀.subgroupOf C₀).index = 240 := by omega
     have hcop : Nat.Coprime 7 (L₀.subgroupOf C₀).index := by rw [hidx]; norm_num
-    have hle := le_card_of_big hbig7 (K := L₀) (fun l hl => by
-      have hl2 : l < 2 := by simpa using hl
-      interval_cases l
-      · simpa using hmemL hy7C hy7pow hcop
-      · simpa using hmemL hx7C hx7pow hcop)
-    rw [hL₀card, h168] at hle
+    have hwL : (tp 3850 HS2C.y7 * tp 3850 HS2C.x7) ^ 3 ∈ L₀ :=
+      L₀.pow_mem (L₀.mul_mem (hmemL hy7C hy7pow hcop) (hmemL hx7C hx7pow hcop)) 3
+    have hw : Rep 3850 (powT 3850 3 (compT 3850 HS2C.y7 HS2C.x7))
+        ((tp 3850 HS2C.y7 * tp 3850 HS2C.x7) ^ 3) :=
+      Rep.powT hn (Rep.compT (rep_tp hy7p) (rep_tp hx7p)) 3
+    have hwo : orderOf ((tp 3850 HS2C.y7 * tp 3850 HS2C.x7) ^ 3) = 5 := by
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      refine orderOf_eq_prime ((tblEq_idT_iff hn (Rep.powT hn hw 5)).mp hw5) fun h1 => ?_
+      rw [(tblEq_idT_iff hn hw).2 h1] at hw1
+      exact Bool.false_ne_true hw1
+    have hdvd := Subgroup.orderOf_dvd_natCard L₀ hwL
+    rw [hwo, hL₀card, h168] at hdvd
     omega
   · rw [hL₀card, h360] at hindex
     have hidx : (L₀.subgroupOf C₀).index = 112 := by omega
     have hcop : Nat.Coprime 5 (L₀.subgroupOf C₀).index := by rw [hidx]; norm_num
-    have hle := le_card_of_big hbig5 (K := L₀) (fun l hl => by
-      have hl2 : l < 2 := by simpa using hl
-      interval_cases l
-      · simpa using hmemL hy5C hy5pow hcop
-      · simpa using hmemL hx5C hx5pow hcop)
-    rw [hL₀card, h360] at hle
+    have hzL : tp 3850 HS2C.y5 * tp 3850 HS2C.x5 ∈ L₀ :=
+      L₀.mul_mem (hmemL hy5C hy5pow hcop) (hmemL hx5C hx5pow hcop)
+    have hz : Rep 3850 (compT 3850 HS2C.y5 HS2C.x5) (tp 3850 HS2C.y5 * tp 3850 HS2C.x5) :=
+      Rep.compT (rep_tp hy5p) (rep_tp hx5p)
+    have hzo : orderOf (tp 3850 HS2C.y5 * tp 3850 HS2C.x5) = 7 := by
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      refine orderOf_eq_prime ((tblEq_idT_iff hn (Rep.powT hn hz 7)).mp hz7) fun h1 => ?_
+      rw [(tblEq_idT_iff hn hz).2 h1] at hz1
+      exact Bool.false_ne_true hz1
+    have hdvd := Subgroup.orderOf_dvd_natCard L₀ hzL
+    rw [hzo, hL₀card, h360] at hdvd
     omega
 
 end CFSG.ComponentClassification.HarrisLit.N36

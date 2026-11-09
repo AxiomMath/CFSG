@@ -23,10 +23,12 @@ theorem kHG1 : bAnd(commGK (HG 1) 6 (HG 1 0), commGK (HG 1) 6 (HG 1 1)) = true :
 theorem kHG2 : bAnd(commGK (HG 2) 6 (HG 2 0), commGK (HG 2) 6 (HG 2 1)) = true := by quickRfl
 
 theorem kHT0 : bAnd(Nat.beq HT0.N (nat_lit 125),
-    gtPinK (HG 0) 5 100000 HT0.N HT0.P HT0.PAR HT0.LAB HT0.W HT0.S) = true := by quickRfl
+    bfsK (gtStepK (HG 0)) HT0.P HT0.PAR HT0.LAB HT0.W HT0.S 5 100000 HT0.N idM) = true := by
+  quickRfl
 
 theorem kHT2 : bAnd(Nat.beq HT2.N (nat_lit 250),
-    gtPinK (HG 2) 6 100000 HT2.N HT2.P HT2.PAR HT2.LAB HT2.W HT2.S) = true := by quickRfl
+    bfsK (gtStepK (HG 2)) HT2.P HT2.PAR HT2.LAB HT2.W HT2.S 6 100000 HT2.N idM) = true := by
+  quickRfl
 
 theorem kCl2 : closPK HT2.P HT2.N [2] 5 0 F2.R F2.C F2.W = true := by quickRfl
 

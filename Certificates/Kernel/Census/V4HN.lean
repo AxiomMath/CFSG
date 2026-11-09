@@ -13,7 +13,7 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.V4HN "Certificates/Kernel/Census/data/v4hn.json.gz" 11580 11126438805012824855
+#kc_repo #kc_json CFSG.KD.V4HN "Certificates/Kernel/Census/data/v4hn.json" 11580 11126438805012824855
   (cs : List CFSG.KC.OpsLayK.RChunk)
 
 #lay_snaps_chunks CFSG.KD.V4HN 5 133 CFSG.KD.LC.Fp.HN.A CFSG.KD.LC.Fp.HN.B CFSG.KD.V4HN.cs

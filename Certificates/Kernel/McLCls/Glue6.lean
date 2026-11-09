@@ -98,9 +98,19 @@ theorem m2_act (i : Fin 7) : tp 275 (clsTbl 5) (oSf i) = oSf (σ2 i) := by
 
 @[expose] noncomputable def mE (j : Nat) : ↥F.M := ⟨gM j, gM_mem j⟩
 
-theorem rho_m1 : rho (mE 0) = τ * σ1 * τ⁻¹ := rho_eq m1_act
+theorem mE0 : ((mE 0 : ↥F.M) : Equiv.Perm (Fin 275)) = tp 275 (clsTbl 4) := by
+  show gM 0 = _
+  unfold gM
+  rfl
 
-theorem rho_m2 : rho (mE 1) = τ * σ2 * τ⁻¹ := rho_eq m2_act
+theorem mE1 : ((mE 1 : ↥F.M) : Equiv.Perm (Fin 275)) = tp 275 (clsTbl 5) := by
+  show gM 1 = _
+  unfold gM
+  rfl
+
+theorem rho_m1 : rho (mE 0) = τ * σ1 * τ⁻¹ := rho_eq fun i => by rw [mE0]; exact m1_act i
+
+theorem rho_m2 : rho (mE 1) = τ * σ2 * τ⁻¹ := rho_eq fun i => by rw [mE1]; exact m2_act i
 
 theorem card_range_ge : 2520 ≤ Nat.card rho.range := by
   have hK : (closure {s | s ∈ [σ1, σ2]}).map (MulAut.conj τ).toMonoidHom ≤ rho.range := by

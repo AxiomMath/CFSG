@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.LocalComp.L34RData
 public import Certificates.Kernel.LocalComp.L34SData
 public import Certificates.Kernel.LocalComp.L34WData
+public import Certificates.Data.Kernel.L34KB
 
 public section
 
@@ -19,8 +20,10 @@ open CFSG.KC.L34K CertificateChecks.KernelLC.L34X
   nIf(Nat.beq o (nat_lit 0), nat_lit 315, nIf(Nat.beq o (nat_lit 1), nat_lit 360,
     nIf(Nat.beq o (nat_lit 2), nat_lit 1008, nat_lit 280)))
 
+@[expose] def L34R.B : List Nat := [nat_lit 34, nat_lit 40, nat_lit 28, nat_lit 32, nat_lit 26]
+
 @[expose] noncomputable def L34R.pr (s : Nat) : Bool :=
-  pinSl 42 6 6 L34R.G L34R.T L34R.E L34R.C L34R.S L34R.SI 241920 1344 18 s
+  pinSlB 42 6 (nat_lit 63) 6 L34R.G L34R.T L34R.E L34R.C L34R.S L34R.SI L34R.B 241920 1344 18 s
 
 @[expose] noncomputable def L34R.rp (s : Nat) : Bool :=
   rPassSl 42 6 L34R.G L34R.T L34O.T L34O.N L34W.W 1344 s

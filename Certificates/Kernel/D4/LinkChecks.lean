@@ -38,9 +38,9 @@ theorem cK : Nat.beq (LC 21) 2457 = true := by quickRfl
   allBlk (Nat.mul 117 s) (fun i => allN 18 fun k =>
     Nat.beq (pg 12 (mask 12) (LP k) i) (fget (LE i) k 12)) 117
 
-theorem pP : allN 18 (fun k => permB 2457 12 (LP k)) = true := by quickRfl
+theorem pP : allN 18 (fun k => permImgK 2457 12 (LP k)) = true := by quickRfl
 
-theorem pAB : permB 2457 12 (HX.F 66) = true ∧ permB 2457 12 (HX.F 67) = true :=
+theorem pAB : permImgK 2457 12 (HX.F 66) = true ∧ permImgK 2457 12 (HX.F 67) = true :=
   ⟨by quickRfl, by quickRfl⟩
 
 theorem wordA : Nat.beq (HX.F 66) (cm 2457 12 (LP 2) (cm 2457 12 (LP 5)

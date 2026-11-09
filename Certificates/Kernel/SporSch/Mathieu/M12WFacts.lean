@@ -95,7 +95,7 @@ abbrev hGens1 : List (Equiv.Perm (Fin 12)) := MathieuC3.m12Words1.map (evalCodes
 theorem chainH0 : ChainK 12 4 hGens0 MathieuC3.m12ChainWords0 (#v[2, 3] : Vector (Fin 12) 2)
     M12CH0.S M12CH0.SI M12CH0.LR M12CH0.TR M12CH0.TRI 5 M12CH0.BP 1 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M12CH0.head,
-    M12CH0.hl, by norm_num, M12CH0.hs⟩
+    M12CH0.hl, by norm_num, .inl M12CH0.hs⟩
   have hj4 : j < 4 := by simpa [hGens0, MathieuC3.m12Words0] using hj
   rw [getD_map_eval]
   have h := allN_spec bH0 j hj4
@@ -104,7 +104,7 @@ theorem chainH0 : ChainK 12 4 hGens0 MathieuC3.m12ChainWords0 (#v[2, 3] : Vector
 theorem chainH1 : ChainK 12 4 hGens1 MathieuC3.m12ChainWords1 (#v[2, 3] : Vector (Fin 12) 2)
     M12CH1.S M12CH1.SI M12CH1.LR M12CH1.TR M12CH1.TRI 6 M12CH1.BP 1 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M12CH1.head,
-    M12CH1.hl, by norm_num, M12CH1.hs⟩
+    M12CH1.hl, by norm_num, .inl M12CH1.hs⟩
   have hj4 : j < 4 := by simpa [hGens1, MathieuC3.m12Words1] using hj
   rw [getD_map_eval]
   have h := allN_spec bH1 j hj4
@@ -184,7 +184,7 @@ theorem hel0 : ∀ g ∈ HQ0.originalSubgroup, g * (es.getD 0 (1, 1)).2 = (es.ge
     decide_eq_true hgb] at h
   exact pow_eq_one_of szOK' pE (by simpa using h)
 
-theorem hel1 (e : ℕ) (he : e < 4) (he1 : 1 ≤ e)
+theorem hel1 (e : ℕ) (he : e < 4) (_he1 : 1 ≤ e)
     (hc : allN 54 (fun j => powCommK 12 4 (E2L.getD e 0) 27
       (elemK 12 4 (mask 4) (12 * 4) (pidn 12 4) M12CH1.LR M12CH1.TR 2 j)) = true) :
     ∀ g ∈ HQ1.originalSubgroup, g * (es.getD e (1, 1)).2 = (es.getD e (1, 1)).2 * g →
@@ -235,7 +235,7 @@ theorem cf67 : Certificates.CF67.M12.m12CF67OK = true := by
     rw [List.length_map]
     rfl
   obtain ⟨h1, h2, h3⟩ := sylK_sound szOK' (m := 27) (c := 4) lP lE hP hE syl
-  simp only [Bool.and_eq_true, h1, h2, h3, and_true, true_and]
+  simp only [Bool.and_eq_true, h1, h2, h3, and_true]
   refine ⟨⟨by rw [List.length_map, lP]; rfl, ?_⟩, ?_⟩
   · rw [hord]
     decide

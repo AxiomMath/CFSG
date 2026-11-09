@@ -9,8 +9,8 @@ set_option maxRecDepth 100000
 
 namespace CertificateChecks.KernelO8.SB3871
 
-#kc_repo #kc_json_gz CertificateChecks.KernelO8.SB3871
-  "Certificates/Kernel/OmegaEight/data/SB3871Data.json.gz" 42686 5365208508639766683
+#kc_repo #kc_json CertificateChecks.KernelO8.SB3871
+  "Certificates/Kernel/OmegaEight/data/SB3871Data.json" 42686 5365208508639766683
   (sInvListLit : List Nat) (sYLit : List Nat) (sInvRows : List (List Nat))
   (sYRows : List (List Nat))
 

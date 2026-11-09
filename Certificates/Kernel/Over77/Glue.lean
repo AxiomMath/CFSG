@@ -16,31 +16,31 @@ import CFSG.Certificates.Kernel.Common.Repo
 public import Mathlib.GroupTheory.Perm.Basic
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630mulA (fun i D => CFSG.KD.Over77.mulR i D)
-  "Certificates/Kernel/Over77/data/mul.txt.gz" 442046 18050228659166210537 0 252
+  "Certificates/Kernel/Over77/data/mul.txt" 442046 18050228659166210537 0 252
   CFSG.KD.Over77.c12630mul
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630mulB (fun i D => CFSG.KD.Over77.mulR i D)
-  "Certificates/Kernel/Over77/data/mul.txt.gz" 442046 18050228659166210537 252 504
+  "Certificates/Kernel/Over77/data/mul.txt" 442046 18050228659166210537 252 504
   CFSG.KD.Over77.c12630mul
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630mulC (fun i D => CFSG.KD.Over77.mulR i D)
-  "Certificates/Kernel/Over77/data/mul.txt.gz" 442046 18050228659166210537 504 756
+  "Certificates/Kernel/Over77/data/mul.txt" 442046 18050228659166210537 504 756
   CFSG.KD.Over77.c12630mul
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630mulD (fun i D => CFSG.KD.Over77.mulR i D)
-  "Certificates/Kernel/Over77/data/mul.txt.gz" 442046 18050228659166210537 756 1008
+  "Certificates/Kernel/Over77/data/mul.txt" 442046 18050228659166210537 756 1008
   CFSG.KD.Over77.c12630mul
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630clsAll (fun i D => CFSG.KD.Over77.clsR i D)
-  "Certificates/Kernel/Over77/data/cls.txt.gz" 52120 3933342631937138028 0 252
+  "Certificates/Kernel/Over77/data/cls.txt" 52120 3933342631937138028 0 252
   CFSG.KD.Over77.c12630cls
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630pwAll (fun p len W => CFSG.KD.Over77.pwR p len W)
-  "Certificates/Kernel/Over77/data/pw.txt.gz" 1045 6243921055104446018 0 110
+  "Certificates/Kernel/Over77/data/pw.txt" 1045 6243921055104446018 0 110
   CFSG.KD.Over77.c12630pw
 
 #kc_repo #kc_rows_forall CFSG.KD.Over77.c12630swAll (fun i len W => CFSG.KD.Over77.swR i len W)
-  "Certificates/Kernel/Over77/data/sw.txt.gz" 1109 10199449385633197420 0 82
+  "Certificates/Kernel/Over77/data/sw.txt" 1109 10199449385633197420 0 82
   CFSG.KD.Over77.c12630sw
 
 public section

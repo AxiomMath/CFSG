@@ -117,6 +117,10 @@ elab "#kc_letters " tI:ident fI:ident hRI:ident hVI:ident srcs:ident* " with " f
     let mut total : Float := 0
     let mut evalT : Float := 0
     let mut np : Nat := 0
+    let mut ns : Nat := 0
+    let mut visT : Float := 0
+    let mut permT : Float := 0
+    let mut signT : Float := 0
     let fV ← unsafe evalConst (Nat → CFSG.Monster.AxisCount.Native.Gen) f
     for (c, k, g) in lets do
       let e0 ← IO.monoNanosNow
@@ -134,10 +138,19 @@ elab "#kc_letters " tI:ident fI:ident hRI:ident hVI:ident srcs:ident* " with " f
       if c == 0 then
         np := np + 1
         let kE := g.getArg! 0
-        total := total + (← addThm (T ++ Name.mkSimple s!"r{k}")
-          (mkAppN (mkConst hR) #[kE, l, reflBoolTrue]))
-        total := total + (← addThm (T ++ Name.mkSimple s!"v{k}")
-          (mkAppN (mkConst hV) #[kE, reflBoolTrue]))
+        let vN := T ++ Name.mkSimple s!"v{k}"
+        let dv ← addThm vN (mkAppN (mkConst hV) #[kE, reflBoolTrue])
+        let dr ← addThm (T ++ Name.mkSimple s!"r{k}")
+          (mkAppN (mkConst hR) #[kE, l, mkConst vN, reflBoolTrue])
+        visT := visT + dv
+        permT := permT + dr
+        total := total + dv + dr
+      else if c == 1 then
+        ns := ns + 1
+        let ds ← addThm (T ++ Name.mkSimple s!"r{k}")
+          (mkAppN (mkConst ``l2Rows_sign_of) #[g.getArg! 0, l, reflBoolTrue])
+        signT := signT + ds
+        total := total + ds
       else if c == 3 then
         total := total + (← addThm (T ++ `rho)
           (mkAppN (mkConst ``l2Rows_rho) #[g.getArg! 0, l, reflBoolTrue]))
@@ -145,7 +158,9 @@ elab "#kc_letters " tI:ident fI:ident hRI:ident hVI:ident srcs:ident* " with " f
         total := total + (← addThm (T ++ Name.mkSimple s!"r{k}")
           (mkAppN (mkConst ``l2Rows_of) #[g, l, reflBoolTrue]))
     let t1 ← IO.monoNanosNow
-    logInfo m!"LETTERS {T}: {lets.size} letters ({np} permutations), matrices {evalT} ms, checks {total} ms, total {(t1 - t0).toFloat / 1e6} ms"
+    logInfo (m!"LETTERS {T}: {lets.size} letters ({np} permutations, {ns} signs), " ++
+      m!"matrices {evalT} ms, checks {total} ms (permutation isVis {visT}, " ++
+      m!"permutation rows {permT}, sign rows {signT}), total {(t1 - t0).toFloat / 1e6} ms")
 
 open CertificateChecks.KernelAP CertificateChecks.KernelAP.Words in
 elab "#kc_words " xI:ident tI:ident fI:ident srcI:ident " with " flds:ident+ : command => do

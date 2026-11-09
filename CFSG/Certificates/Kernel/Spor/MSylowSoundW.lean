@@ -449,10 +449,12 @@ theorem sylowAutP_sound_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w)
     rw [commT, CFSG.KS.Tbl.tblEq_iff_eq (Rep.compT hz hGi') (Rep.compT hGi' hz)]
     exact pkw_inj hw this
 
-theorem survF_sound_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (Q : RawSchreierDatum n)
+theorem survF_sound_cond_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (Q : RawSchreierDatum n)
     (a b z : Equiv.Perm (Fin n)) (ds es : List (List Int)) {r s mb : Nat} (hr : 0 < r)
     (hs : 0 < s) (hmb : 0 < mb)
-    (h : ∀ g ∈ enumeration Q, survF n w (mask w) (pkw w (1 : Equiv.Perm (Fin n))) (pkw w a)
+    (h : ∀ g ∈ enumeration Q, orderOf g = mb → orderOf (a * g) = r →
+      orderOf (a * g * a * g⁻¹) = s →
+      survF n w (mask w) (pkw w (1 : Equiv.Perm (Fin n))) (pkw w a)
       (pkw w a⁻¹) (pkw w b) (pkw w (z * b * z⁻¹)) ds es
       (exprsV n w (mask w) (pkw w (1 : Equiv.Perm (Fin n)))
         (slpP n w (mask w) (pkw w (1 : Equiv.Perm (Fin n))) (pkw w a) (pkw w a⁻¹) (pkw w b)
@@ -481,7 +483,7 @@ theorem survF_sound_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (Q : RawS
     ordW_iff perm_faithful hcw hs] at hpo
   simp only [List.prod_cons, List.prod_nil, mul_one, Nat.reduceSub, List.replicate_one,
     List.singleton_append, List.prod_replicate, hgi] at hpo
-  have hF := h g hgQ
+  have hF := h g hgQ hgo hpo.1 hpo.2
   unfold survF at hF
   have hgi' : g ^ (Nat.sub mb 1) = g⁻¹ := hgi
   rw [powP_pkw hn32 hw, hgi'] at hF
@@ -518,6 +520,18 @@ theorem survF_sound_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (Q : RawS
   · exact Or.inl (Or.inr ((CFSG.KS.Tbl.tblEq_iff_eq hyg hb).2 rfl))
   · exact Or.inr ((CFSG.KS.Tbl.tblEq_iff_eq hyg
       (rep_conjT hz (CFSG.KS.Tbl.invT_rep hn32 hz) hb)).2 rfl)
+
+theorem survF_sound_w {w : Nat} (hn32 : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (Q : RawSchreierDatum n)
+    (a b z : Equiv.Perm (Fin n)) (ds es : List (List Int)) {r s mb : Nat} (hr : 0 < r)
+    (hs : 0 < s) (hmb : 0 < mb)
+    (h : ∀ g ∈ enumeration Q, survF n w (mask w) (pkw w (1 : Equiv.Perm (Fin n))) (pkw w a)
+      (pkw w a⁻¹) (pkw w b) (pkw w (z * b * z⁻¹)) ds es
+      (exprsV n w (mask w) (pkw w (1 : Equiv.Perm (Fin n)))
+        (slpP n w (mask w) (pkw w (1 : Equiv.Perm (Fin n))) (pkw w a) (pkw w a⁻¹) (pkw w b)
+          (pkw w b⁻¹) ds) es)
+      r s mb (pkw w g) = 0) :
+    survivorsOK n (toTable a) (toTable b) (toTable z) ds es r s mb (orderTables Q mb) = true :=
+  survF_sound_cond_w hn32 hw Q a b z ds es hr hs hmb fun g hg _ _ _ => h g hg
 
 end CFSG.KS.MSyl
 

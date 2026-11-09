@@ -15,16 +15,7 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
 theorem mcl_card_pairs2 :
     Nat.card {p : mclChain.originalSubgroup × mclChain.originalSubgroup // orderOf p.1 = 2 ∧
       orderOf p.2 = 5 ∧ PatRel PairMcL.conds2 p.1 p.2} = 1796256000 := by
-  obtain ⟨h1', h2, h3, h4⟩ := PairMcL.classes
-  have h4' : (PairMcL.cl.map fun c => c.2.1.size).sum =
-      countW (fun w => ordB PairMcL.bs w 2) (blocksOf 275 (rawLevels 275 mclStrongArrs
-        PairMcL.baseArr) PairMcL.groups) [] := by
-    rw [h4, ← PairMcL.count_two, countOrd_eq]
-    rfl
-  rw [card_pairs_eq_classTotalNF mclChainArrays (by norm_num) PairMcL.chain_check.1 mcl_bs_eq
-    mcl_groups (conds := PairMcL.conds2) (by norm_num) (by norm_num) (by decide) mcl_gens
-    PairMcL.cl mcl_reps h1' h2 h3 h4', ← PairMcL.total2]
-  congr 1
+  rw [mcl_card_pairsW (by decide), PairMcL.total2]
 
 theorem mcl_patRel2 :
     PatRel PairMcL.conds2 (mclGen 0) (mclGen 1) := by

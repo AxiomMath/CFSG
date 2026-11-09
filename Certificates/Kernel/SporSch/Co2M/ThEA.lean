@@ -156,9 +156,8 @@ theorem te_eR_dlen : (eRecOf (gArrsOf co2PosTable witRec) witRec).derivations.le
   change eDerivs.length + 15 = 26
   rw [te_facts.2.2.1]
 
-theorem te_eRecord : recordOK 2300 (eRecOf (gArrsOf co2PosTable witRec) witRec) 4 = true :=
-  recordOK_of (NS := 288) (CH := 8) te_eR_gens te_eR_glen te_eR_dlen te_eBinds Co2E.head Co2E.hl
-    (by norm_num) Co2E.hs
+theorem te_eRecord : recordOK 2300 (eRecOf (gArrsOf co2PosTable witRec) witRec) 0 = true :=
+  recordOK0_of te_eR_gens te_eR_glen te_eR_dlen te_eBinds Co2E.head
 
 theorem te_eOrbits : recordOrbits 2300 (eRecOf (gArrsOf co2PosTable witRec) witRec) =
     [20, 18, 32, 8, 4, 1, 2, 1, 1, 1, 1, 1, 2] := by

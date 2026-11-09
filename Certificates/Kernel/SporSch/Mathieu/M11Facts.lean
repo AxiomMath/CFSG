@@ -103,7 +103,7 @@ theorem imgRep : imageList (m11InvReps.getD 0 1) = (unpack 11 4 R0).toList := by
 theorem chainQ : ChainK 11 4 [m11gA, m11gB] m11Words (#v[0, 1, 2, 3] : Vector (Fin 11) 4)
     M11Q.S M11Q.SI M11Q.LR M11Q.TR M11Q.TRI 6 M11Q.BP 1 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M11Q.head, M11Q.hl,
-    by norm_num, M11Q.hs⟩
+    by norm_num, .inl M11Q.hs⟩
   have hj2 : j < 2 := hj
   interval_cases j
   · exact imgA
@@ -112,7 +112,7 @@ theorem chainQ : ChainK 11 4 [m11gA, m11gB] m11Words (#v[0, 1, 2, 3] : Vector (F
 theorem chainC1 : ChainK 11 4 (m11CentWords1.map (evalCodes [m11gA, m11gB])) m11CentChainWords1
     (#v[0, 1, 2] : Vector (Fin 11) 3) M11C1.S M11C1.SI M11C1.LR M11C1.TR M11C1.TRI 8 M11C1.BP 1 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M11C1.head, M11C1.hl,
-    by norm_num, M11C1.hs⟩
+    by norm_num, .inl M11C1.hs⟩
   have hj4 : j < 4 := by simpa [m11CentWords1] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensC1a j hj4) (allN_spec gensC1b j hj4)

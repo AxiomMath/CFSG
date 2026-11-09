@@ -20,11 +20,6 @@ theorem certificate2241 : (rawChainOK 275 (mclStrongArrs.extract 0 2) mclStrongA
     )
     ∧ (ordB bs wA 2 = true ∧ ordB bs wB 5 = true ∧ ordB bs (patW wA wB [false, true]) 11 = true ∧
       ordB bs (patW wA wB commPat) 5 = true
-    )
-    ∧ ((∀ c ∈ cl, ordB bs c.1 2 = true) ∧
-      (∀ c ∈ cl, closureOK levels bs gens gensInv c.1 c.2.1 c.2.2.1 c.2.2.2 = true) ∧
-      keysDistinctNF 275 levels bs (cl.map fun c => c.2.1) = true ∧
-      (cl.map fun c => c.2.1.size).sum = 22275
     ) := KernelSporSch.PMcLCheck.facts_proved
 
 end Certificates

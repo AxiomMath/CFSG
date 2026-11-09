@@ -4,6 +4,7 @@ module
 public import CFSG.Sporadic.SuzRecog.LevelTwoDefsBase
 
 public import Certificates.Certificate15090
+public import CFSG.Certificates.NativeSchreierLowerBound
 
 public section
 
@@ -76,7 +77,7 @@ theorem rep_rhoInv : Rep 1782 rhoInv Model.rho1⁻¹ :=
   (rep_permC basicOK_parts.1).2
 
 theorem chainOK_parts :
-    rawChainOK 1782 gens xStrongArrs xBase.toArray xWords 4 = true ∧
+    rawChainOK 1782 gens xStrongArrs xBase.toArray xWords 0 = true ∧
       rawOrbitSizes 1782 xStrongArrs xBase.toArray = [162, 105, 64, 3, 3] := by
   have h := chain_check
   simp only [chainOK, Bool.and_eq_true, beq_iff_eq] at h
@@ -92,15 +93,15 @@ theorem xChain_arrays :
   · have := (chainCheckFacts chainOK_parts.1).strong_inv j hj
     rwa [rawInvs, getElem!_map_nat _ hj] at this
 
-theorem card_xGroup : Nat.card xGroup = 9797760 := by
-  rw [← xChain_originalSubgroup, card_originalSubgroup_of_chainOK xChain_arrays (by norm_num)
-    chainOK_parts.1, chainOK_parts.2]
-  rfl
+theorem le_card_xGroup : 9797760 ≤ Nat.card xGroup := by
+  have h := rawOrbitSizes_prod_le_card xChain_arrays chainOK_parts.1
+  rw [chainOK_parts.2, xChain_originalSubgroup] at h
+  exact h
 
 theorem mem_xGroup_of_memX {g : Array ℕ}
     {G : Equiv.Perm (Fin 1782)} (hG : Rep 1782 g G) (h : memX g = true) : G ∈ xGroup := by
   rw [← xChain_originalSubgroup]
-  exact (siftA_iff_mem_originalSubgroup xChain_arrays (by norm_num) chainOK_parts.1 hG).1 h
+  exact mem_originalSubgroup_of_siftA xChain_arrays chainOK_parts.1 hG h
 
 theorem gens_comm_rho1 {s : ℕ} (hs : s < 2) :
     permC 1782 gens[s]! * Model.rho1 = Model.rho1 * permC 1782 gens[s]! := by
@@ -211,6 +212,9 @@ theorem card_Crho1_le :
     rw [hk]
     exact Nat.mul_le_mul_left _ hk2
   omega
+
+theorem card_xGroup : Nat.card xGroup = 9797760 :=
+  le_antisymm ((Subgroup.card_le_of_le xGroup_le_Crho1).trans card_Crho1_le) le_card_xGroup
 
 theorem xGroup_eq_Crho1 :
     xGroup = Model.Crho1 :=

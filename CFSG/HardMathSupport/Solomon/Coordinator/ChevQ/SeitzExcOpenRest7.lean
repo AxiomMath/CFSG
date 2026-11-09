@@ -1071,10 +1071,30 @@ theorem rootCertsE8_ok : ∀ c ∈ rootCertsE8,
     (∀ i, (c.2.1 i - (actE8 c.1 c.2.2 i - c.2.2 i)) % 3 = 0) ∧ IsListedRootE8 c.2.1 := by
   decide +kernel
 
-theorem conjCertsE8_ok : ∀ c ∈ conjCertsE8, ∀ k : Fin Tag.E8.rank,
+theorem conjCertsE8a_ok : ∀ c ∈ conjCertsE8a, ∀ k : Fin Tag.E8.rank,
     actE8 c.1 (c.2.foldr (reflect Tag.E8) (Pi.single k 1)) =
       (c.2 ++ e8c0Word).foldr (reflect Tag.E8) (Pi.single k 1) := by
   decide +kernel
+
+theorem conjCertsE8b_ok : ∀ c ∈ conjCertsE8b, ∀ k : Fin Tag.E8.rank,
+    actE8 c.1 (c.2.foldr (reflect Tag.E8) (Pi.single k 1)) =
+      (c.2 ++ e8c0Word).foldr (reflect Tag.E8) (Pi.single k 1) := by
+  decide +kernel
+
+theorem conjCertsE8c_ok : ∀ c ∈ conjCertsE8c, ∀ k : Fin Tag.E8.rank,
+    actE8 c.1 (c.2.foldr (reflect Tag.E8) (Pi.single k 1)) =
+      (c.2 ++ e8c0Word).foldr (reflect Tag.E8) (Pi.single k 1) := by
+  decide +kernel
+
+theorem conjCertsE8_ok : ∀ c ∈ conjCertsE8, ∀ k : Fin Tag.E8.rank,
+    actE8 c.1 (c.2.foldr (reflect Tag.E8) (Pi.single k 1)) =
+      (c.2 ++ e8c0Word).foldr (reflect Tag.E8) (Pi.single k 1) := by
+  intro c hc
+  simp only [conjCertsE8, List.mem_append] at hc
+  rcases hc with (hc | hc) | hc
+  · exact conjCertsE8a_ok c hc
+  · exact conjCertsE8b_ok c hc
+  · exact conjCertsE8c_ok c hc
 
 theorem qcasesE8two : ∀ v : Fin 5 → Fin 3, v ≠ 0 →
     (∃ c ∈ rootCertsE8, c.1 = v) ∨ (∃ c ∈ certs4E8, c.1 = v) ∨ (∃ c ∈ conjCertsE8, c.1 = v) := by

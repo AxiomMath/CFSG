@@ -58,16 +58,19 @@ theorem fi23_pin_facts :
   obtain ⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩ := h
   exact fi23_pin_facts_of rep_y13Fi rep_g13Fi h1 h2 h3 h4 h5 h6
 
-theorem fi23_thirteen_card_J : 13 * Nat.card {h : CFSG.Sporadic.Fi23.J // orderOf h = 13} ≤ Nat.card CFSG.Sporadic.Fi23.J := by
-  obtain ⟨ho, hrel, hcomm, hdo⟩ := fi23_pin_facts
+theorem fi23_thirteen_card_J_of {y g z : CFSG.Sporadic.Fi23.J} (ho : orderOf y = 13)
+    (hrel : y * g = g * y ^ 4) (hcomm : z * y = y * z) (hdo : orderOf z = 2) :
+    13 * Nat.card {h : CFSG.Sporadic.Fi23.J // orderOf h = 13} ≤ Nat.card CFSG.Sporadic.Fi23.J := by
   have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   have hH : ¬ 13 ^ 2 ∣ Nat.card J := by
     rw [card_J]
     norm_num
-  refine thirteen_mul_card_orderOf_le_of_involution hH ho (g := (g13Fi)⁻¹) ?_ hdo hcomm
-  calc (g13Fi)⁻¹ * y13Fi * ((g13Fi)⁻¹)⁻¹ = (g13Fi)⁻¹ * (y13Fi * g13Fi) := by group
-    _ = (g13Fi)⁻¹ * (g13Fi * y13Fi ^ 4) := by rw [hrel]
-    _ = y13Fi ^ 4 := by group
+  refine thirteen_mul_card_orderOf_le_of_involution hH ho (g := g⁻¹) ?_ hdo hcomm
+  rw [inv_inv, mul_assoc, hrel, ← mul_assoc, inv_mul_cancel, one_mul]
+
+theorem fi23_thirteen_card_J : 13 * Nat.card {h : CFSG.Sporadic.Fi23.J // orderOf h = 13} ≤ Nat.card CFSG.Sporadic.Fi23.J := by
+  obtain ⟨ho, hrel, hcomm, hdo⟩ := fi23_pin_facts
+  exact fi23_thirteen_card_J_of ho hrel hcomm hdo
 
 theorem fi23_thirteen_card :
     13 * Nat.card {h : NativeSporadic.Fi23 // orderOf h = 13} ≤ Nat.card NativeSporadic.Fi23 := by

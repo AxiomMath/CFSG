@@ -196,7 +196,9 @@ theorem countQ5 : countN orbQ (repX 0) (repXi 0) (ptSet orb4c) (repRows 5) = 9 :
   rw [orbQ_size', repRows_eq, List.filter_congr (q := fun i => mem4 (conjQ i (repK 5))) (fun i hi => by
     rw [conjPt_Q (List.mem_range.1 hi), orb4c_mem]),
     count_chunks _ (nc := 5) (by decide)]
-  exact Nat.eq_of_beq_eq_true cntQ_ok
+  have h := cntQ_ok
+  rw [Nat.beq_eq] at h
+  exact h
 
 theorem valid_E (B : Nat) : conjValid orbE (repX 1) (repXi 1) (unpackR 24 B) = true := by
   unfold conjValid

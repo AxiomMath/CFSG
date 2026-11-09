@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Kernel.Sporadic.OrbRecGen
 public import Certificates.Kernel.B3S3.Gen
 public import Certificates.Kernel.B3S3.GenSl

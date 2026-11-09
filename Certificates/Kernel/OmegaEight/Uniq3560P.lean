@@ -26,7 +26,7 @@ set_option maxHeartbeats 0 in
 theorem countPK : ∀ b < 16, ((List.range (2 ^ 9)).filter fun c => decide (b * 2 ^ 9 + c < 8192) &&
     (invSA CFSG.EvenSmallLie.OmegaEight.saCodes (b * 2 ^ 9 + c) &&
       decide (2 ≤ wUPK.kind (wUPK.cl (b * 2 ^ 9 + c))))).length =
-    [0, 3, 0, 3, 8, 1, 0, 0, 3, 5, 0, 0, 0, 3, 2, 3].getD b 0 := by
+    [6, 6, 2, 3, 9, 1, 0, 1, 4, 5, 1, 0, 0, 9, 5, 3].getD b 0 := by
   intro b hb
   interval_cases b <;> decide +kernel
 

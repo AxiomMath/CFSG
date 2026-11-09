@@ -12,6 +12,7 @@ public import CFSG.Certificates.Kernel.Spor.PackWord
 public import CFSG.Certificates.Kernel.Spor.MulHFSound
 public import CFSG.Certificates.Kernel.BfsPinAlg
 import Mathlib.Tactic.IntervalCases
+import CFSG.Certificates.Kernel.Spor.PEnumRSound
 
 public section
 
@@ -120,7 +121,7 @@ theorem lineIT {j : Nat} (hj : j < 3) : Ly243.lineInvTabs[j]! = tabT (unpack 243
   rw [get_map (by simp [Ly243.lineTabs]; omega), lineT hj,
     invT_unpack (by norm_num) (base8.2.2.2.2.1 j hj).2.2]
 
-theorem trLetT {l : Int} (h0 : l ≠ 0) (h5 : l.natAbs ≤ 5) :
+theorem trLetT {l : Int} (_h0 : l ≠ 0) (h5 : l.natAbs ≤ 5) :
     Ly243.trLet l = tabT (unpack 243 8 (LG l)) ∧ C8 (LG l) := by
   unfold Ly243.trLet LG
   by_cases hl : 0 < l
@@ -169,7 +170,7 @@ theorem repT {j : Nat} (hj : j < 6) : Ly243.repTabs[j]! = tabT (unpack 243 8 (RP
   rw [e, (wordT_eqK hid8 base8.2.1 _ fun l hl =>
     trLetT (repWords_ok j hj l hl).1 (repWords_ok j hj l hl).2).1, kw.2 j hj]
 
-theorem txyLetT {l : Int} (h0 : l ≠ 0) (h5 : l.natAbs ≤ 5) :
+theorem txyLetT {l : Int} (_h0 : l ≠ 0) (h5 : l.natAbs ≤ 5) :
     Ly243.txyLet l = tabT (unpack 243 8 (LT l)) ∧ C8 (LT l) := by
   unfold Ly243.txyLet LT
   by_cases hl : 0 < l
@@ -192,7 +193,7 @@ theorem uIT {j : Nat} (hj : j < 4) : Ly1080.uInvTabs[j]! = tabT (unpack 1080 11 
   rw [get_map (by simp [Ly1080.uTabs]; omega), uT hj,
     invT_unpack (by norm_num) (base11.2.2.2.1 j hj).2.2]
 
-theorem uLetT {l : Int} (h0 : l ≠ 0) (h4 : l.natAbs ≤ 4) :
+theorem uLetT {l : Int} (_h0 : l ≠ 0) (h4 : l.natAbs ≤ 4) :
     Ly1080.uLet l = tabT (unpack 1080 11 (LU l)) ∧ C11 (LU l) := by
   unfold Ly1080.uLet LU
   by_cases hl : 0 < l
@@ -225,10 +226,11 @@ theorem r2Sl_all : ∀ s < 16, r2Sl s = true := by
 
 theorem r2_pe : ∀ i < R2.cnt, penumPtK 243 8 (mask 8) (243 * 8) true R2.G R2.GI 5 R2.cnt
     R2.T R2.PL R2.POS R2.SRT R2.SRI i = true := by
-  intro i hi
   have hc : R2.cnt = 3888 := base8.2.2.2.2.2.2.2.1
+  refine CFSG.KS.PEnumR.penumPtK_of_R base8.1 (fun j hj => (base8.2.2.2.2.2.1 j hj).1)
+    (fun j hj => (base8.2.2.2.2.2.1 j hj).2.2.2) base8.2.2.2.2.2.2.2.2 fun i hi => ?_
   have hs := r2Sl_all (i / 243) (by omega)
-  exact penumSl_spec hs i (by omega) (by omega) hi
+  exact slK_spec hs i (by omega) (by omega) hi
 
 theorem r2_hs : ∀ i < R2.cnt, hsortPtK 243 8 (mask 8) R2.cnt R2.T R2.HS R2.HSI i = true :=
   fun i hi => by
@@ -249,10 +251,11 @@ theorem r1Sl_all : ∀ s < 48, r1Sl s = true := by
 
 theorem r1_pe : ∀ i < R1.cnt, penumPtK 1080 11 (mask 11) (1080 * 11) true R1.G R1.GI 5 R1.cnt
     R1.T R1.PL R1.POS R1.SRT R1.SRI i = true := by
-  intro i hi
   have hc : R1.cnt = 3888 := base11.2.2.2.2.2.1
+  refine CFSG.KS.PEnumR.penumPtK_of_R base11.1 (fun j hj => (base11.2.2.2.2.1 j hj).1)
+    (fun j hj => (base11.2.2.2.2.1 j hj).2.1) base11.2.2.2.2.2.2 fun i hi => ?_
   have hs := r1Sl_all (i / 81) (by omega)
-  exact penumSl_spec hs i (by omega) (by omega) hi
+  exact slK_spec hs i (by omega) (by omega) hi
 
 theorem r1_hsF : ∀ i < R1.cnt, hsortPtKF 1080 11 (mask 11) R1.cnt R1.T R1.HS R1.HSI i = true := by
   have hc := base11.2.2.2.2.2.1

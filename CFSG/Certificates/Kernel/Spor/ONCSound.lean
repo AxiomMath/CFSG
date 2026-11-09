@@ -357,6 +357,11 @@ theorem letS_sound {ML : Nat → Nat} {LT : Nat → Nat → Nat} {K : Nat → Na
     simp only [Matrix.mulVec, dotProduct, hcol]
   rw [hv, hrc]
 
+theorem hom_inv_of_mul_eq_one {G M : Type*} [Group G] [Monoid M] (f : G →* M) {g : G} {X : M}
+    (h : f g * X = 1) : X = f g⁻¹ := by
+  calc X = f g⁻¹ * (f g * X) := by rw [← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
+    _ = f g⁻¹ := by rw [h, mul_one]
+
 section Slp
 
 variable {G : Type*} [Group G] (φ : G →* Matrix (Fin 154) (Fin 154) (ZMod 3))
@@ -374,11 +379,15 @@ theorem getD_set' (R : List Nat) {k : Nat} (hk : k < R.length) (x r : Nat) :
   · simp [h, Ne.symm h]
 
 variable {φ} in
-theorem step_inv {nr : Nat} {V : Nat → Nat} {ins : CFSG.Sporadic.Th.Native.Instr}
+theorem step_inv_gen {mul : Nat → Nat → Nat} {vld : Nat → Bool} {one : Nat}
+    (hmul : ∀ {A B : Nat}, Canon 3 154 11 A → Canon 3 154 11 B →
+      Canon 3 154 11 (mul A B) ∧ omat (mul A B) = omat A * omat B)
+    (hvld : ∀ {X : Nat}, vld X = true → Canon 3 154 11 X)
+    (hone : omat one = 1)
+    {nr : Nat} {V : Nat → Nat} {ins : CFSG.Sporadic.Th.Native.Instr}
     (hins : CFSG.Sporadic.Th.instrRegsLt nr ins) {st : List Nat × Nat × Bool} {ρ : ℕ → G}
     (H : SInv φ nr st ρ) :
-    SInv φ nr (slpStep (mul3 LL HH CM RM) (vld3 LL HH) ONE V st ins)
-      (CFSG.Sporadic.Th.stepG ρ ins) := by
+    SInv φ nr (slpStep mul vld one V st ins) (CFSG.Sporadic.Th.stepG ρ ins) := by
   obtain ⟨R, t, ok⟩ := st
   obtain ⟨hl, hR⟩ := H
   dsimp only at hl hR
@@ -394,7 +403,7 @@ theorem step_inv {nr : Nat} {V : Nat → Nat} {ins : CFSG.Sporadic.Th.Native.Ins
       rw [getD_set' R (by omega), CFSG.Sporadic.Th.stepG, Function.update_apply]
       by_cases e : r = k
       · rw [if_pos e, if_pos e]
-        obtain ⟨c, hm⟩ := mul3_sound ci cj
+        obtain ⟨c, hm⟩ := hmul ci cj
         exact ⟨c, by rw [hm, ei, ej, map_mul]⟩
       · rw [if_neg e, if_neg e]
         exact hR hok r hr
@@ -408,18 +417,24 @@ theorem step_inv {nr : Nat} {V : Nat → Nat} {ins : CFSG.Sporadic.Th.Native.Ins
       obtain ⟨hok0, hv, he⟩ := hok
       intro r hr
       obtain ⟨ci, ei⟩ := hR hok0 i hi
-      have cx := vld3_canon hv
+      have cx := hvld hv
       rw [getD_set' R (by omega), CFSG.Sporadic.Th.stepG, Function.update_apply]
       by_cases e : r = k
       · rw [if_pos e, if_pos e]
         refine ⟨cx, ?_⟩
-        have hm := (mul3_sound ci cx).2
-        rw [Nat.eq_of_beq_eq_true he, one_canon.2, ei] at hm
-        calc omat (V t) = φ (ρ i)⁻¹ * (φ (ρ i) * omat (V t)) := by
-              rw [← Matrix.mul_assoc, ← map_mul, inv_mul_cancel, map_one, Matrix.one_mul]
-          _ = φ (ρ i)⁻¹ := by rw [← hm, Matrix.mul_one]
+        have hm := (hmul ci cx).2
+        rw [Nat.eq_of_beq_eq_true he, hone, ei] at hm
+        exact hom_inv_of_mul_eq_one φ hm.symm
       · rw [if_neg e, if_neg e]
         exact hR hok0 r hr
+
+variable {φ} in
+theorem step_inv {nr : Nat} {V : Nat → Nat} {ins : CFSG.Sporadic.Th.Native.Instr}
+    (hins : CFSG.Sporadic.Th.instrRegsLt nr ins) {st : List Nat × Nat × Bool} {ρ : ℕ → G}
+    (H : SInv φ nr st ρ) :
+    SInv φ nr (slpStep (mul3 LL HH CM RM) (vld3 LL HH) ONE V st ins)
+      (CFSG.Sporadic.Th.stepG ρ ins) :=
+  step_inv_gen mul3_sound vld3_canon one_canon.2 hins H
 
 variable {φ} in
 theorem run_inv {nr : Nat} {V : Nat → Nat} {fin : List Nat × Nat × Bool → Bool} :

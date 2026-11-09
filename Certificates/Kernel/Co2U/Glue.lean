@@ -45,6 +45,13 @@ theorem check1 : w12UCheck1 () = true := by
 theorem check2 : w12UCheck2 () = true := by
   rw [w12UCheck2, rows_eq, eqCheck_eq (getElem_rows ch38957len_), ch38958a_]
 
+theorem check3 : w12UCheck3 () = true := by
+  rw [w12UCheck3]
+  simp only [rows_eq]
+  rw [eqCheck_eq (getElem_rows ch38957len_), powCheck_eq (getElem_rows ch38957len_), ch38959a_,
+    ch38959b_]
+  rfl
+
 end CertificateChecks.KernelCo2U
 
 end

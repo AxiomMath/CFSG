@@ -11,6 +11,7 @@ public import CFSG.LocalAnalysis.RankThreeEvenClassification.ComponentCore
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.A7SylowCentralizer
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.ASevenInvolutionCount
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Defs
+import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.ASevenPermTable
 
 public noncomputable section
 
@@ -92,12 +93,19 @@ theorem a7U_inf_a7S : a7U ⊓ a7S = ⊥ := by
   · exact absurd hxS (by decide +kernel)
   · exact absurd hxS (by decide +kernel)
 
-set_option synthInstance.maxSize 4096 in
 theorem aSeven_centralizer_involution_a7V_certificate : ∀ x : A₇,
     (x * a7t = a7t * x → x ^ 12 = 1 ∧ (x ^ 3 = 1 → x = 1 ∨ x = a7a ∨ x = a7a ^ 2)) ∧
     (x * a7u = a7u * x → x ^ 12 = 1 ∧ (x ^ 3 = 1 → x = 1 ∨ x = a7a ∨ x = a7a ^ 2)) ∧
     (x * (a7t * a7u) = a7t * a7u * x →
       x ^ 12 = 1 ∧ (x ^ 3 = 1 → x = 1 ∨ x = a7a ∨ x = a7a ^ 2)) := by
+  intro x
+  simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv, Subgroup.coe_one]
+  simp only [← CFSG.GorensteinWalter.PermTable.enc_inj, CFSG.GorensteinWalter.PermTable.enc_mul, CFSG.GorensteinWalter.PermTable.enc_pow, CFSG.GorensteinWalter.PermTable.enc_one, CFSG.GorensteinWalter.PermTable.enc_a7a,
+    CFSG.GorensteinWalter.PermTable.enc_a7t, CFSG.GorensteinWalter.PermTable.enc_a7u]
+  have hm := CFSG.GorensteinWalter.PermTable.enc_mem_permutations (x : Equiv.Perm (Fin 7))
+  generalize CFSG.GorensteinWalter.PermTable.enc (x : Equiv.Perm (Fin 7)) = l at hm ⊢
+  revert l
+  refine CFSG.GorensteinWalter.PermTable.forall_mem_of_all ?_
   decide +kernel
 
 theorem le_a7U_of_odd_of_a7V_le_normalizer

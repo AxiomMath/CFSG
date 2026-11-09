@@ -4,6 +4,7 @@ public import CFSG.Certificates.Kernel.SporSch.McLSylowCountSound
 public import CFSG.Certificates.Kernel.SporSch.CountPairProof
 public import CFSG.Certificates.Kernel.SporSch.BtKProof
 public import CFSG.Certificates.Kernel.SporSch.CntZKProof
+public import CFSG.Certificates.Kernel.SporSch.CntZOrbProof
 public import CFSG.Certificates.Kernel.SporSch.SylowCover
 
 public section
@@ -19,7 +20,7 @@ variable {n w : Nat} {PS PSI LR TR TRI : Nat → Nat} {kS nb BP NS CH : Nat}
 
 open scoped Classical
 
-theorem pair11_proved (hsz : szOK n w = true)
+theorem pair11_sem (hsz : szOK n w = true)
     (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH) (hnd : base.toList.Nodup)
     (hk64 : nb ≤ 64)
     (hpA : permOK n w (mask w) (n * w) (PS 0) (PSI 0) = true)
@@ -38,17 +39,22 @@ theorem pair11_proved (hsz : szOK n w = true)
       (pcomp n w (mask w) Z Gc)))
     (hC : btK n w (mask w) (n * w) BP nb LR TR TRI Z Z = C)
     (hzi : btK n w (mask w) (n * w) BP nb LR TR TRI Z Zi = 0)
-    {d : ClsD} {cap : Nat}
-    (hcls : ClsOK n w (unpack n w (PS 0)).toList (unpack n w (PS 1)).toList 2 cap [d])
-    (hR : d.R = PS 0) {rest : List (List Bool × Nat)} (hpos : ∀ c ∈ rest, 0 < c.2)
-    {row₀ row₁ : List Nat} (hL₀ : d.c ≤ row₀.length * 256) (hL₁ : d.c ≤ row₁.length * 256)
+    {d : ClsD}
+    (hsem : ∀ {gA gB : Equiv.Perm (Fin n)}, imageList gA = (unpack n w (PS 0)).toList →
+      imageList gB = (unpack n w (PS 1)).toList → ClsSem n w (gen2 gA gB) gA 2 d)
+    {rest : List (List Bool × Nat)} (hpos : ∀ c ∈ rest, 0 < c.2)
+    {nr q : Nat} {RP OT : Nat → Nat} (hc : d.c = nr * q)
+    (hO : ∀ k < d.c, zOrbK n w (mask w) nr q Z RP OT d k = true)
+    (hRP : zRepLtK nr d.c RP = true)
+    {row₀ row₁ : List Nat} (hL₀ : nr ≤ row₀.length * 256) (hL₁ : nr ≤ row₁.length * 256)
     (h₀ : ∀ b < row₀.length, cntZK n w (mask w) (pidn n w) 2 5
-      (condWords (([false, true], 11) :: rest)) Z d (b * 256) 256 = row₀.getD b 0)
+      (condWords (([false, true], 11) :: rest)) Z (clsSub d nr RP) (b * 256) 256 = row₀.getD b 0)
     (h₁ : ∀ b < row₁.length, cntZK n w (mask w) (pidn n w) 2 5
-      (condWords (([false, true], 11) :: rest)) Zi d (b * 256) 256 = row₁.getD b 0) :
+      (condWords (([false, true], 11) :: rest)) Zi (clsSub d nr RP) (b * 256) 256 =
+        row₁.getD b 0) :
     d.c * countPair bs 5 [unpack n w (PS 0)] (([false, true], 11) :: rest)
         (blocksOf n (rawLevels n S base) groups) * C =
-      ordK LR nb * (row₀.sum + row₁.sum) := by
+      ordK LR nb * (q * row₀.sum + q * row₁.sum) := by
   obtain ⟨gA, hA⟩ := exists_perm_of_permOK hpA
   obtain ⟨gB, hB⟩ := exists_perm_of_permOK hpB
   obtain ⟨z₀, hz₀⟩ := exists_perm_of_permOK hpZ
@@ -89,19 +95,21 @@ theorem pair11_proved (hsz : szOK n w = true)
   have hdvd : ¬11 ^ 2 ∣ Nat.card (gen2 gA gB) := by
     rw [hcard]
     exact hN
-  have hR' : imageList (a : Equiv.Perm (Fin n)) = (unpack n w d.R).toList := by
-    rw [hR]
-    exact hA
-  have hcl : #(univ.filter fun x : gen2 gA gB => IsConj a x) = d.c :=
-    clsCard_proved hQ hA hB hnd hcls a hR'
+  have hS : ClsSem n w (gen2 gA gB) (a : Equiv.Perm (Fin n)) 2 d := hsem hA hB
+  have hw : 0 < w := by
+    obtain ⟨bv, -, hK, -, -, -⟩ := chainK_of_chainS hQ hA hB hnd
+    exact (gens_prep hK hA.symm hB.symm).2.2.2.2.2
+  have hcl : #(univ.filter fun x : gen2 gA gB => IsConj a x) = d.c := clsCard_sem hw a hS
   have hpos' : ∀ c ∈ (([false, true], 11) :: rest), 0 < c.2 := by
     intro c hc
     rcases List.mem_cons.1 hc with rfl | hc
     · decide
     · exact hpos c hc
   have hcp := countPair_proved hQ hA hB hnd hbs hg a ha (by decide : 0 < 5) hpos'
-  have hs₀ := cntZK_proved hQ hA hB hnd hcls a hR' z hz (by decide) (by decide) hL₀ h₀
-  have hs₁ := cntZK_proved hQ hA hB hnd hcls a hR' z⁻¹ hzinv (by decide) (by decide) hL₁ h₁
+  have hs₀ := cntZOrb_sem hQ hA hB hnd a hS z hz (by decide) (by decide) hc z hz rfl hO
+    hRP hL₀ h₀
+  have hs₁ := cntZOrb_sem hQ hA hB hnd a hS z⁻¹ hzinv (by decide) (by decide) hc z hz
+    (by group) hO hRP hL₁ h₁
   let Q : gen2 gA gB → gen2 gA gB → Prop := fun x y =>
     orderOf y = 5 ∧ ∀ c ∈ rest, orderOf (patP x y c.1) = c.2
   have hQc : ∀ c x y, Q (c * x * c⁻¹) (c * y * c⁻¹) ↔ Q x y := fun c x y => by
@@ -170,10 +178,48 @@ theorem pair11_proved (hsz : szOK n w = true)
     rw [hcl', hpc, hCz]
   have e2 : Fintype.card (gen2 gA gB) * (#(univ.filter fun x => IsConj a x ∧ Q x (x⁻¹ * z)) +
         #(univ.filter fun x => IsConj a x ∧ Q x (x⁻¹ * z⁻¹))) =
-      ordK LR nb * (row₀.sum + row₁.sum) := by
+      ordK LR nb * (q * row₀.sum + q * row₁.sum) := by
     rw [Fintype.card_eq_nat_card, hcard, hs₀, hs₁, hscan z hzo, hscan z⁻¹ hzio]
   rw [e1, ← e2]
   convert key
+
+theorem pair11_proved (hsz : szOK n w = true)
+    (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH) (hnd : base.toList.Nodup)
+    (hk64 : nb ≤ 64)
+    (hpA : permOK n w (mask w) (n * w) (PS 0) (PSI 0) = true)
+    (hpB : permOK n w (mask w) (n * w) (PS 1) (PSI 1) = true)
+    (hAc : canonK n w (mask w) (n * w) (PS 0) = true)
+    (hAo : ordIs n w (mask w) (pidn n w) (PS 0) 1 = true)
+    (hN : ¬11 ^ 2 ∣ ordK LR nb) {bs : List Nat} (hbs : bs = base.toList)
+    {groups : List (List Nat)} (hg : groups.flatten = List.range nb)
+    {Z Zi Gc Gi C : Nat} (hpZ : permOK n w (mask w) (n * w) Z Zi = true)
+    (hpG : permOK n w (mask w) (n * w) Gc Gi = true)
+    (hZc : canonK n w (mask w) (n * w) Z = true) (hGc : canonK n w (mask w) (n * w) Gc = true)
+    (hZs : siftK n w (mask w) (n * w) (pidn n w) LR TRI BP nb 0 Z = true)
+    (hGs : siftK n w (mask w) (n * w) (pidn n w) LR TRI BP nb 0 Gc = true)
+    (hZo : ordIs n w (mask w) (pidn n w) Z 10 = true)
+    (hrel : pcomp n w (mask w) Gc Z = pcomp n w (mask w) Z (pcomp n w (mask w) Z
+      (pcomp n w (mask w) Z Gc)))
+    (hC : btK n w (mask w) (n * w) BP nb LR TR TRI Z Z = C)
+    (hzi : btK n w (mask w) (n * w) BP nb LR TR TRI Z Zi = 0)
+    {d : ClsD} {cap : Nat}
+    (hcls : ClsOK n w (unpack n w (PS 0)).toList (unpack n w (PS 1)).toList 2 cap [d])
+    (hR : d.R = PS 0) {rest : List (List Bool × Nat)} (hpos : ∀ c ∈ rest, 0 < c.2)
+    {nr q : Nat} {RP OT : Nat → Nat} (hc : d.c = nr * q)
+    (hO : ∀ k < d.c, zOrbK n w (mask w) nr q Z RP OT d k = true)
+    (hRP : zRepLtK nr d.c RP = true)
+    {row₀ row₁ : List Nat} (hL₀ : nr ≤ row₀.length * 256) (hL₁ : nr ≤ row₁.length * 256)
+    (h₀ : ∀ b < row₀.length, cntZK n w (mask w) (pidn n w) 2 5
+      (condWords (([false, true], 11) :: rest)) Z (clsSub d nr RP) (b * 256) 256 = row₀.getD b 0)
+    (h₁ : ∀ b < row₁.length, cntZK n w (mask w) (pidn n w) 2 5
+      (condWords (([false, true], 11) :: rest)) Zi (clsSub d nr RP) (b * 256) 256 =
+        row₁.getD b 0) :
+    d.c * countPair bs 5 [unpack n w (PS 0)] (([false, true], 11) :: rest)
+        (blocksOf n (rawLevels n S base) groups) * C =
+      ordK LR nb * (q * row₀.sum + q * row₁.sum) :=
+  pair11_sem hsz hQ hnd hk64 hpA hpB hAc hAo hN hbs hg hpZ hpG hZc hGc hZs hGs hZo hrel hC hzi
+    (fun hA hB => clsSem_of_clsOK hQ hA hB hnd hcls (prep_of_imageList (by rw [hR]; exact hA)))
+    hpos hc hO hRP hL₀ hL₁ h₀ h₁
 
 theorem cover_proved (hsz : szOK n w = true)
     (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH) (hnd : base.toList.Nodup)
@@ -273,7 +319,7 @@ theorem cover_proved (hsz : szOK n w = true)
     have h2 : IsConj y (el i) := isConj_iff.2 ⟨c, hi.symm⟩
     exact h1.trans (isConj_comm.1 h2)
 
-theorem count_one_proved (hsz : szOK n w = true)
+theorem count_one_sem (hsz : szOK n w = true)
     (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH) (hnd : base.toList.Nodup)
     (hpA : permOK n w (mask w) (n * w) (PS 0) (PSI 0) = true)
     (hpB : permOK n w (mask w) (n * w) (PS 1) (PSI 1) = true)
@@ -284,9 +330,10 @@ theorem count_one_proved (hsz : szOK n w = true)
     (hinc : incL 0 XL = true)
     (hE : ∀ i < XL.length, eltK n w (mask w) (n * w) (pidn n w) LR TRI BP nb XL [PS 0] mo
       (XL.getD i 0) (OL.getD i 0) (JL.getD i 0) (CL.getD i 0) = true)
-    {d : ClsD} {cap : Nat}
-    (hcls : ClsOK n w (unpack n w (PS 0)).toList (unpack n w (PS 1)).toList mo cap [d])
-    (hR : d.R = PS 0) {bs : List Nat} (hbs : bs = base.toList)
+    {d : ClsD}
+    (hsem : ∀ {gA gB : Equiv.Perm (Fin n)}, imageList gA = (unpack n w (PS 0)).toList →
+      imageList gB = (unpack n w (PS 1)).toList → ClsSem n w (gen2 gA gB) gA mo d)
+    {bs : List Nat} (hbs : bs = base.toList)
     {groups : List (List Nat)} (hg : groups.flatten = List.range nb) :
     countOrd bs mo (blocksOf n (rawLevels n S base) groups) = d.c := by
   obtain ⟨gA, hA⟩ := exists_perm_of_permOK hpA
@@ -302,13 +349,33 @@ theorem count_one_proved (hsz : szOK n w = true)
     subst hj0
     exact hA)
   have hcnt := card_order_classes mo [a] (by simpa using hao) (List.pairwise_singleton _ _) hcov
-  have hR' : imageList (a : Equiv.Perm (Fin n)) = (unpack n w d.R).toList := by
-    rw [hR]
-    exact hA
-  have hcl := clsCard_proved hQ hA hB hnd hcls a hR'
+  have hw : 0 < w := by
+    obtain ⟨bv, -, hK, -, -, -⟩ := chainK_of_chainS hQ hA hB hnd
+    exact (gens_prep hK hA.symm hB.symm).2.2.2.2.2
+  have hcl := clsCard_sem hw a (hsem hA hB)
   rw [countOrd_proved hQ hA hB hnd hbs hg (by omega), ← hcl]
   convert hcnt using 1
   simp
+
+theorem count_one_proved (hsz : szOK n w = true)
+    (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH) (hnd : base.toList.Nodup)
+    (hpA : permOK n w (mask w) (n * w) (PS 0) (PSI 0) = true)
+    (hpB : permOK n w (mask w) (n * w) (PS 1) (PSI 1) = true)
+    (hAc : canonK n w (mask w) (n * w) (PS 0) = true) {p k mo e : Nat} [Fact p.Prime]
+    (hmo : mo = p ^ e) (hmo2 : 2 ≤ mo)
+    (hAo : ordIs n w (mask w) (pidn n w) (PS 0) (mo - 1) = true)
+    (hN : ¬p ^ (k + 1) ∣ ordK LR nb) {XL OL JL CL : List Nat} (hlen : XL.length = p ^ k)
+    (hinc : incL 0 XL = true)
+    (hE : ∀ i < XL.length, eltK n w (mask w) (n * w) (pidn n w) LR TRI BP nb XL [PS 0] mo
+      (XL.getD i 0) (OL.getD i 0) (JL.getD i 0) (CL.getD i 0) = true)
+    {d : ClsD} {cap : Nat}
+    (hcls : ClsOK n w (unpack n w (PS 0)).toList (unpack n w (PS 1)).toList mo cap [d])
+    (hR : d.R = PS 0) {bs : List Nat} (hbs : bs = base.toList)
+    {groups : List (List Nat)} (hg : groups.flatten = List.range nb) :
+    countOrd bs mo (blocksOf n (rawLevels n S base) groups) = d.c :=
+  count_one_sem hsz hQ hnd hpA hpB hAc hmo hmo2 hAo hN hlen hinc hE
+    (fun hA hB => clsSem_of_clsOK hQ hA hB hnd hcls (prep_of_imageList (by rw [hR]; exact hA)))
+    hbs hg
 
 theorem count_two_proved (hsz : szOK n w = true)
     (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH) (hnd : base.toList.Nodup)

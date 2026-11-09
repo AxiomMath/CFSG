@@ -102,14 +102,20 @@ elab "#kst_merge " pre:ident nn:num ww:num gId:ident sId:ident k0:num lc:num nl:
   let mut tps : Array Nat := #[]
   let mut pps : Array Nat := #[]
   let mut cks : Array Nat := #[]
+  let mut mps : Array Nat := #[]
   for l in [0:nl.getNat] do
     let x := R[oo.getNat + l]!
     let mut lab := Array.ofFn (n := n) fun i => if i.val = x then 0 else i.val
     let mut tp := Array.replicate n Lc
     let mut pp := Array.replicate n 0
     let mut ck : Array Nat := #[]
+    let mut mp : Array Nat := #[]
+    let mut f := Array.ofFn (n := n) fun i => i.val
     for k in [0:Lc] do
-      if k % S == 0 then ck := ck.push (pack w lab)
+      if k % S == 0 then
+        ck := ck.push (pack w lab)
+        if k != 0 then mp := mp.push (pack w f)
+        f := Array.ofFn (n := n) fun i => i.val
       let o := 7 * (K0 + Lc * l + k)
       let i := hx o 1 % 2
       let u := hx (o + 1) 3 % n
@@ -120,12 +126,18 @@ elab "#kst_merge " pre:ident nn:num ww:num gId:ident sId:ident k0:num lc:num nl:
         tp := tp.set! lq k
         pp := pp.set! lq lp
         lab := lab.map fun z => if z == lq then lp else z
+        f := f.map fun z => if z == lq then lp else z
+    mp := mp.push (pack w f)
     while ck.size ≤ NS do
       ck := ck.push (pack w lab)
+    while mp.size < NS do
+      mp := mp.push (pack w (Array.ofFn (n := n) fun i => i.val))
     cks := cks ++ ck ++ Array.replicate (128 - ck.size) 0
+    mps := mps ++ mp ++ Array.replicate (128 - mp.size) 0
     tps := tps.push (pack 12 tp)
     pps := pps.push (pack w pp)
   liftCoreM <| withOptions (Elab.async.set · false) do
     addTree (P ++ `TP) tps
     addTree (P ++ `PP) pps
     addTree (P ++ `A) cks
+    addTree (P ++ `M) mps

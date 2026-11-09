@@ -12,6 +12,7 @@ public import Certificates.Data.Kernel.SporSch.Co1Bfs
 public import Certificates.Data.Co1FiveRank
 public import CFSG.Certificates.Kernel.Lie.CT.Core
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Co1BFixPSound
 
 public section
 
@@ -53,21 +54,27 @@ theorem kDFB : (Nat.beq (DF.M 0) (CertificateChecks.KernelCo1ThreeK.L.M 9) &&
 theorem kDFW : KF.KW.map CFSG.Sporadic.Co1Schreier.Native.decWord =
     CFSG.HardMathSupport.Dickson.I271.TabCo1.chainDerivs () ++ ext5 := by decide +kernel
 
-theorem kSideA : sideK TK KK DK CK 2280 = true := by quickRfl
+theorem kSideA : sideK TK KK DK CK 2280 = true := by
+  unfold sideK
+  rw [← fixTabP_eq]
+  quickRfl
 
-theorem kSideB : sideK X2K KK CK C2K 0 = true := by quickRfl
+theorem kSideB : sideK X2K KK CK C2K 0 = true := by
+  unfold sideK
+  rw [← fixTabP_eq]
+  quickRfl
 
-theorem kFA : (gtPinK FAM 2 100 FAT.N FAT.P FAT.PAR FAT.LAB FAT.W FAT.S && Nat.beq FAT.N 25) =
-    true := by quickRfl
+theorem kFA : (bfsK (gtStepK FAM) FAT.P FAT.PAR FAT.LAB FAT.W FAT.S 2 100 FAT.N idM &&
+    Nat.beq FAT.N 25) = true := by quickRfl
 
-theorem kEA : (gtPinK EAM 3 400 EAT.N EAT.P EAT.PAR EAT.LAB EAT.W EAT.S && Nat.beq EAT.N 125) =
-    true := by quickRfl
+theorem kEA : (bfsK (gtStepK EAM) EAT.P EAT.PAR EAT.LAB EAT.W EAT.S 3 400 EAT.N idM &&
+    Nat.beq EAT.N 125) = true := by quickRfl
 
-theorem kFB : (gtPinK FBM 2 100 FBT.N FBT.P FBT.PAR FBT.LAB FBT.W FBT.S && Nat.beq FBT.N 25) =
-    true := by quickRfl
+theorem kFB : (bfsK (gtStepK FBM) FBT.P FBT.PAR FBT.LAB FBT.W FBT.S 2 100 FBT.N idM &&
+    Nat.beq FBT.N 25) = true := by quickRfl
 
-theorem kEB : (gtPinK EBM 3 400 EBT.N EBT.P EBT.PAR EBT.LAB EBT.W EBT.S && Nat.beq EBT.N 125) =
-    true := by quickRfl
+theorem kEB : (bfsK (gtStepK EBM) EBT.P EBT.PAR EBT.LAB EBT.W EBT.S 3 400 EBT.N idM &&
+    Nat.beq EBT.N 125) = true := by quickRfl
 
 theorem kTA : (Nat.beq KF.TA.length 25 &&
     allN 25 fun i => eqK (getL 0 KF.TA i) (trK 24 (betaK KK DK i))) = true := by quickRfl

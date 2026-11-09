@@ -91,12 +91,12 @@ theorem c125538 : prodCheck genD13Gens genD13Steps 343 354 = true := by
 theorem c125539 : prodCheck genD13Gens genD13Steps 354 377 = true := by
   rw [steps_eq]
   exact prodCheck_of CFSG.KD.SLP.c125539.idx
-    (kd_slpK% data_ok CFSG.KD.SLP.c125539 CFSG.KD.SLP.GenD13 15 CFSG.KD.SLP.c125539.E)
+    (kd_slpK% data_ok CFSG.KD.SLP.c125539 CFSG.KD.SLP.GenD13 303 CFSG.KD.SLP.c125539.E)
 
 theorem c125540 : prodCheck genD13Gens genD13Steps 377 396 = true := by
   rw [steps_eq]
   exact prodCheck_of CFSG.KD.SLP.c125540.idx
-    (kd_slpK% data_ok CFSG.KD.SLP.c125540 CFSG.KD.SLP.GenD13 15 CFSG.KD.SLP.c125540.E)
+    (kd_slpK% data_ok CFSG.KD.SLP.c125540 CFSG.KD.SLP.GenD13 303 CFSG.KD.SLP.c125540.E)
 
 theorem c125541 : prodCheck genD13Gens genD13Steps 396 397 = true := by
   rw [steps_eq]

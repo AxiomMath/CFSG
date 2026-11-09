@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.HSStd.U43VaData
 public import Certificates.Kernel.Multipliers.U43BChain
 public import Certificates.Data.Kernel.Spor.MulHQ
+public import Certificates.Data.Kernel.Spor.MulHF
+public import Certificates.Data.Kernel.Spor.PEnumRC
 public import CFSG.Certificates.Kernel.Spor.BindList
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Each
@@ -78,20 +80,15 @@ theorem kHead : bAnd(allN 5 (fun j => bAnd(Nat.beq (U43VA.GI j) (U43VP (Nat.add 
   quickRfl
 
 @[expose] noncomputable def pe (s : Nat) : Bool :=
-  penumSlK 820 10 (mask 10) (820 * 10) true U43VA.G U43VA.GI 5 U43VA.cnt U43VA.T U43VA.PL
-    U43VA.POS U43VA.SRT U43VA.SRI (Nat.mul 96 s) 96
+  slK U43VA.cnt (CFSG.KS.PEnumRC.recMulPtK 820 10 (mask 10) U43VA.GI 5 U43VA.T U43VA.PL)
+    (Nat.mul 96 s) 96
 
 @[expose] noncomputable def hs (s : Nat) : Bool :=
-  slK U43VA.cnt (hsortPtK 820 10 (mask 10) U43VA.cnt U43VA.T U43VA.HS U43VA.HSI) (Nat.mul 288 s) 288
-
-@[expose] noncomputable def cl (s : Nat) : Bool :=
-  slK (Nat.mul U43VA.cnt 10) (findPtK U43VA.cnt U43VA.T
-    (prodQK 820 10 (mask 10) 10 U43VA.T (bothK 5 U43VA.GI GJ)) U43VACl) (Nat.mul 960 s) 960
+  slK U43VA.cnt (hsortPtKF 820 10 (mask 10) U43VA.cnt U43VA.T U43VA.HS U43VA.HSI) (Nat.mul 288 s) 288
 
 end CertificateChecks.KernelHSStd.U43Va
 
 #kc_each CertificateChecks.KernelHSStd.U43Va.pe 0 30
 #kc_each CertificateChecks.KernelHSStd.U43Va.hs 0 10
-#kc_each CertificateChecks.KernelHSStd.U43Va.cl 0 30
 
 end

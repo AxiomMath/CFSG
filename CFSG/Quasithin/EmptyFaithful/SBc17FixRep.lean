@@ -4,6 +4,7 @@ public import CFSG.Quasithin.EmptyFaithful.SBc16FDec
 import CFSG.Quasithin.EmptyFaithful.SBc16FCoord
 import CFSG.Quasithin.EmptyFaithful.SBc16FCore
 import CFSG.Quasithin.EmptyFaithful.SBc16FSyl
+import Mathlib.Tactic.LinearCombination
 
 public section
 
@@ -168,11 +169,44 @@ theorem exists_matrix_rep_lines (V : Type) [CommGroup V] [Finite V] (hV : Nat.ca
     · rw [hent, hb0]
       exact hτ₁1
 
+private theorem unip_pow_five : ∀ r : ZMod 5,
+    (!![1, 0; r, 1] : Matrix (Fin 2) (Fin 2) (ZMod 5)) ^ 5 = 1 := by
+  decide
+
+private theorem zmod5_two_mul_eq_zero : ∀ x : ZMod 5, 2 * x = 0 → x = 0 := by decide
+
 theorem commutator_decide : ∀ a d : ZMod 5, a * d ≠ 0 → ∀ c : ZMod 5, c ≠ 0 →
     ∀ B : Matrix (Fin 2) (Fin 2) (ZMod 5),
       B * (!![-1, 0; 0, 1] * !![a, 0; c, d]) = !![a, 0; c, d] * !![-1, 0; 0, 1] →
       B ^ 5 = 1 ∧ B ≠ 1 := by
-  decide +kernel
+  intro a d had c hc B hB
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have ha : a ≠ 0 := left_ne_zero_of_mul had
+  have hd : d ≠ 0 := right_ne_zero_of_mul had
+  obtain ⟨p, q, r, s, rfl⟩ : ∃ p q r s : ZMod 5, B = !![p, q; r, s] :=
+    ⟨B 0 0, B 0 1, B 1 0, B 1 1, Matrix.eta_fin_two B⟩
+  rw [Matrix.mul_fin_two, Matrix.mul_fin_two, Matrix.mul_fin_two] at hB
+  have e1 := congrFun (congrFun hB 0) 0
+  have e2 := congrFun (congrFun hB 0) 1
+  have e3 := congrFun (congrFun hB 1) 0
+  have e4 := congrFun (congrFun hB 1) 1
+  simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
+    Matrix.empty_val', Matrix.cons_val_fin_one] at e1 e2 e3 e4
+  have hq : q = 0 := by
+    have : q * d = 0 := by linear_combination e2
+    exact (mul_eq_zero.1 this).resolve_right hd
+  have hs : s = 1 := by
+    have : (s - 1) * d = 0 := by linear_combination e4
+    exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right hd)
+  have hp : p = 1 := by
+    have : (p - 1) * a = 0 := by linear_combination -e1 + c * hq
+    exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_right ha)
+  subst hq hs hp
+  have hr : r * a = 2 * c := by linear_combination -e3
+  have hr0 : r ≠ 0 := fun h0 => hc (zmod5_two_mul_eq_zero c (by rw [← hr, h0, zero_mul]))
+  refine ⟨unip_pow_five r, fun h => hr0 ?_⟩
+  have := congrFun (congrFun h 1) 0
+  simpa using this
 
 theorem orderOf_eq_five_of_mul_eq {S X B : GL25}
     (hs00 : (S : Matrix (Fin 2) (Fin 2) (ZMod 5)) 0 0 = -1)

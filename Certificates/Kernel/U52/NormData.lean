@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelU52.N "Certificates/Kernel/U52/data/U52Norm.json.gz"
+#kc_repo #kc_json CertificateChecks.KernelU52.N "Certificates/Kernel/U52/data/U52Norm.json"
   119785 8200412110635862543
   (NF : List Nat)
   (OBN : List (List Nat)) (OBP : List Nat) (OBG : List Nat)

@@ -15,6 +15,19 @@ open CFSG.KC.Loop CFSG.KC.M1F2 CFSG.KC.Co1F2 CFSG.KC.Co1B CFSG.KLie.CT CFSG.KC.S
 
 @[expose] def goodNl (cs : List Char) : Bool := ((cs.map nlSp).splitOn ' ').all fun p => p.all Char.isDigit
 
+@[expose] noncomputable def okC131 (c : Char) : Bool :=
+  strictB c.toNat fun n => orB (andB (Nat.blt 47 n) (Nat.blt n 58)) (orB (Nat.beq n 32) (Nat.beq n 10))
+
+@[expose] noncomputable def good131R (cs : List Char) : Bool :=
+  List.rec (motive := fun _ => Bool) true (fun c _ ih => andB (okC131 c) ih) cs
+
+@[expose] noncomputable def nums131R (cs : List Char) : Nat → Bool → List Nat :=
+  List.rec (motive := fun _ => Nat → Bool → List Nat)
+    (fun v b => Bool.rec (motive := fun _ => List Nat) [] [v] b)
+    (fun c _ ih v b => Bool.rec (motive := fun _ => List Nat)
+      (Bool.rec (motive := fun _ => List Nat) (ih 0 false) (v :: ih 0 false) b)
+      (ih (Nat.add (Nat.mul v 10) (Nat.sub c.toNat 48)) true) (Nat.blt 47 c.toNat)) cs
+
 @[expose] def pairsL : List Nat → List (Nat × Nat)
   | a :: b :: t => (a, b) :: pairsL t
   | _ => []
@@ -28,15 +41,15 @@ open CFSG.KC.Loop CFSG.KC.M1F2 CFSG.KC.Co1F2 CFSG.KC.Co1B CFSG.KLie.CT CFSG.KC.S
     (fun o _ ih t => andB (Nat.blt o.1 (Nat.add t 3)) (andB (Nat.blt o.2 (Nat.add t 3))
       (andB (eqK (R (Nat.add t 3)) (mulWK (R o.1) (R o.2))) (strictB (Nat.succ t) ih)))) ops t
 
-@[expose] noncomputable def parK (R E : Nat → Nat) (par : List (Nat × Nat)) (i : Nat) : Bool :=
+@[expose] noncomputable def parK (LG : Nat → Nat) (par : List (Nat × Nat)) (i : Nat) : Bool :=
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
     (fun o _ ih i => andB (orB (Nat.beq i 0) (andB (Nat.blt o.1 i) (andB (Nat.blt o.2 3)
-      (eqK (E i) (mulWK (GK R o.2) (E o.1)))))) (strictB (Nat.succ i) ih)) par i
+      (Nat.beq (LG (Nat.add (Nat.mul o.2 nSK) o.1)) i)))) (strictB (Nat.succ i) ih)) par i
 
-@[expose] noncomputable def leftK (R E : Nat → Nat) (L : List Nat) (t : Nat) : Bool :=
+@[expose] noncomputable def leftK (R E LG : Nat → Nat) (L : List Nat) (t : Nat) : Bool :=
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-    (fun v _ ih t => andB (Nat.blt v nSK)
-      (andB (eqK (mulWK (GK R (Nat.div t nSK)) (E (Nat.mod t nSK))) (E v)) (strictB (Nat.succ t) ih))) L t
+    (fun v _ ih t => andB (Nat.blt v nSK) (andB (Nat.beq v (LG t))
+      (andB (eqK (mulWK (GK R (Nat.div t nSK)) (E (Nat.mod t nSK))) (E v)) (strictB (Nat.succ t) ih)))) L t
 
 @[expose] noncomputable def sortK (E S : Nat → Nat) : Bool :=
   andB (allN (Nat.sub nSK 1) fun t => Nat.blt (E (S t)) (E (S (Nat.succ t))))

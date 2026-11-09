@@ -7,8 +7,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSp62F.DC
-  "Certificates/Kernel/Sp62F/data/dc.json.gz" 8579 11154273989494448450
+#kc_repo #kc_json CertificateChecks.KernelSp62F.DC
+  "Certificates/Kernel/Sp62F/data/dc.json" 8579 11154273989494448450
   (DC : List (Nat × Nat))
 
 namespace CertificateChecks.KernelSp62F

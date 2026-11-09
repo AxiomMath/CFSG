@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 namespace CFSG.KD.LyO2
 
 #kc_repo #kc_each_rows CFSG.KD.LyO2 cn (fun _ b₀ c => CFSG.KC.LyOm.canonRange KX b₀ c)
-  "Certificates/Kernel/Ly3085/O2/data/canon.txt.gz" 356 8603939073109531078 0 30
+  "Certificates/Kernel/Ly3085/O2/data/canon.txt" 356 8603939073109531078 0 30
 
 end CFSG.KD.LyO2
 

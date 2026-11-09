@@ -7,7 +7,7 @@ import Certificates.Kernel.Misc.PackJson
 public section
 
 #kc_repo #kmisc_json_pack CertificateChecks.KernelHSStd.U43I4
-  "Certificates/Kernel/HSStd/data/u43i4.json.gz" 2258842 3601981747469997937
+  "Certificates/Kernel/HSStd/data/u43i4.json" 2258842 3601981747469997937
   (G I4G 10) (GI I4GI 10) (GK I4GK 0)
   (H I4H 10) (HI I4HI 10) (HK I4HK 0) (L I4L 10)
   (Q I4Q 10) (QI I4QI 10) (QK I4QK 0)

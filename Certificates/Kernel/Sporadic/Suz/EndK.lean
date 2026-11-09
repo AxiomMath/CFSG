@@ -11,6 +11,9 @@ import Mathlib.Tactic.IntervalCases
 import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Sporadic.Schreier.MathieuOddCoreWords
 public import CFSG.Sporadic.SuzOddCore.InvCentralizerBounds
+public import CFSG.Certificates.Kernel.Spor.RawLevelsK
+public import CFSG.Certificates.NativeSchreierLowerBound
+import CFSG.Certificates.Kernel.U6Chain
 
 public section
 
@@ -385,14 +388,50 @@ theorem pS {j : Nat} (hj : j < 4) :
     permOK 1782 11 (mask 11) (1782 * 11) (SuzES.S j) (SuzES.SI j) = true :=
   CFSG.KS.allN_spec (head_facts SuzES.head).1 j hj
 
-theorem nsL : 1782 ≤ SuzEL.NS * 16 := Nat.le_of_ble_eq_true (by quickRfl)
-
 theorem nsS : 1782 ≤ SuzES.NS * 4 := Nat.le_of_ble_eq_true (by quickRfl)
 
-theorem chainL : ChainK 1782 11 gensL noDerivs (#v[0, 1] : Vector (Fin 1782) 2) SuzEL.S SuzEL.SI
-    SuzEL.LR SuzEL.TR SuzEL.TRI 4 SuzEL.BP SuzEL.NS 16 := by
-  refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, SuzEL.head, SuzEL.hl,
-    nsL, SuzEL.hs⟩
+theorem ordK_le_card_of_levels {n w : Nat} {gens : List (Equiv.Perm (Fin n))}
+    {words : List (List Int)} {k : Nat} {bv : Vector (Fin n) k} {PS PSI LR TR TRI : Nat → Nat}
+    {kS BP : Nat} (hn : 1 ≤ n) (hbs : bv.toList.Nodup) (h1 : n + 1 < 2 ^ w) (h2 : n < 65536)
+    (hgen : ∀ j < gens.length,
+      CFSG.Monster.B.Mathieu.imageList (gens.getD j 1) = (unpack n w (PS j)).toList)
+    (hbv : bv.toList.map Fin.val = (List.range k).map (pg w (mask w) BP))
+    (hh : headK n w (mask w) (n * w) (pidn n w) PS PSI kS gens.length words k BP = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS k BP) :
+    ordK LR k ≤ Nat.card (certificate hn gens words bv hbs).originalSubgroup := by
+  have hb : Binds n w PS kS k BP (strongArr n w kS PS) (baseArr w k BP) :=
+    ⟨hn, h1, h2, by simp [strongArr], fun j hj => by
+      rw [strongArr, getElem!_pos _ j (by simpa using hj), Array.getElem_ofFn], by simp [baseArr],
+      fun t ht => by rw [baseArr, getElem!_pos _ t (by simpa using ht), Array.getElem_ofFn]⟩
+  have hk : kS = gens.length + words.length := by
+    have hh' := hh
+    unfold headK at hh'
+    simp only [Orb.bAnd_eq, Bool.and_eq_true] at hh'
+    have := Nat.eq_of_beq_eq_true hh'.2.2.2.1
+    rw [Nat.add_eq, lenW_eq] at this
+    omega
+  have hraw := rawChainOK0_of_K hb hh
+  have hp := (Orb.head_facts hh).1
+  have hos := rawOrbitSizesK_sound hb hp hl
+  subst hk
+  have hA := CFSG.Certificates.certificate_chainArrays hn gens words bv hbs hraw
+    (by simp [strongArr]) (by simp [strongArr])
+    (fun j hj => by
+      rw [getElem!_pos _ j (by simp [strongArr]; omega), Array.getElem_extract]
+      simp only [strongArr, Nat.zero_add, Array.getElem_ofFn]
+      exact rep_of_imageList (hgen j hj))
+    (by simp [baseArr])
+    (fun i => by
+      have e := List.getElem_of_eq hbv (i := i.val) (by simp)
+      simp only [List.getElem_map, Vector.getElem_toList, List.getElem_range] at e
+      rw [baseArr, getElem!_pos _ i.val (by simp), Array.getElem_ofFn, ← e]
+      rfl)
+  have hle := CFSG.Certificates.rawOrbitSizes_prod_le_card hA hraw
+  rw [hos] at hle
+  rwa [ordK_eq]
+
+theorem gensL_img (j : Nat) (hj : j < gensL.length) :
+    CFSG.Monster.B.Mathieu.imageList (gensL.getD j 1) = (unpack 1782 11 (SuzEL.S j)).toList := by
   have hj4 : j < 4 := by simpa [gensL] using hj
   rw [List.getD_eq_getElem _ _ hj]
   simp only [gensL, List.getElem_map, List.getElem_range]
@@ -401,7 +440,7 @@ theorem chainL : ChainK 1782 11 gensL noDerivs (#v[0, 1] : Vector (Fin 1782) 2) 
 theorem chainS : ChainK 1782 11 gensS noDerivs (#v[0] : Vector (Fin 1782) 1) SuzES.S SuzES.SI
     SuzES.LR SuzES.TR SuzES.TRI 4 SuzES.BP SuzES.NS 4 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, SuzES.head, SuzES.hl,
-    nsS, SuzES.hs⟩
+    nsS, .inl SuzES.hs⟩
   have hj4 : j < 4 := by simpa [gensS] using hj
   rw [List.getD_eq_getElem _ _ hj]
   simp only [gensS, List.getElem_map, List.getElem_range]
@@ -455,10 +494,65 @@ theorem ordS : ordK SuzES.LR 1 = 64 := by
   have e : ordK SuzES.LR 1 = rcnt (SuzES.LR 0) * 1 := rfl
   rw [e, beq_eq cntS]
 
+theorem low_L : 20160 ≤ Nat.card (Subgroup.closure (permsA 1782 arrL)) := by
+  rw [closure_arrL, ← ordL]
+  exact ordK_le_card_of_levels (by norm_num) hbsL (by norm_num) (by norm_num) gensL_img
+    (by decide) SuzEL.head SuzEL.hl
+
+theorem dFacts : (allN 4 fun j => allN 1782 fun p => Nat.beq (bitD (fv (SuzEL.S j) p)) (bitD p)) =
+      true ∧ anyN 1782 (fun p => outD E0 p) = true ∧ anyN 1782 (fun p => outD E1 p) = true ∧
+    anyN 1782 (fun p => bAnd(Nat.beq (bitD p) 1, Nat.beq (bitD (fv E0 (fv E1 p))) 0)) = true := by
+  have hd := dOK
+  unfold dK at hd
+  simp only [CFSG.KS.bAnd_iff] at hd
+  exact hd
+
+theorem delta_pres (k : Nat) (hk : k < arrL.size) (x : Fin 1782) :
+    permOfArr 1782 arrL[k]! x ∈ {x : Fin 1782 | bitD x.val = 1} ↔
+      x ∈ {x : Fin 1782 | bitD x.val = 1} := by
+  have hd := dFacts
+  have hk4 : k < 4 := by simpa [arrL] using hk
+  rw [arrL_get hk4]
+  have hs := (prep_of (pL hk4)).1
+  have e := beq_eq (CFSG.KS.allN_spec (CFSG.KS.allN_spec hd.1 k hk4) x x.2)
+  simp only [Set.mem_setOf_eq]
+  rw [ap hs, e]
+
+theorem out_of {y : Equiv.Perm (Fin 1782)} {p q : Nat} (hp : p < 1782)
+    (hy : ((y ⟨p, hp⟩ : Fin 1782) : ℕ) = q) (h0 : bitD q = 0) :
+    y ⟨p, hp⟩ ∉ {x : Fin 1782 | bitD x.val = 1} := fun h => by
+  rw [Set.mem_setOf_eq, hy, h0] at h
+  exact Nat.zero_ne_one h
+
+theorem delta_L : (∀ k < arrL.size, ∀ x : Fin 1782,
+      permOfArr 1782 arrL[k]! x ∈ {x : Fin 1782 | bitD x.val = 1} ↔
+        x ∈ {x : Fin 1782 | bitD x.val = 1}) ∧
+    ∀ y ∈ ({suzEndE 0, suzEndE 1, suzEndE 0 * suzEndE 1} : Set (Equiv.Perm (Fin 1782))),
+      ∃ x ∈ {x : Fin 1782 | bitD x.val = 1}, y x ∉ {x : Fin 1782 | bitD x.val = 1} := by
+  have hd := dFacts
+  refine ⟨delta_pres, ?_⟩
+  · rintro y (rfl | rfl | rfl)
+    · obtain ⟨p, hp, hq⟩ := anyN_spec hd.2.1
+      unfold outD at hq
+      simp only [CFSG.KS.bAnd_iff] at hq
+      exact ⟨⟨p, hp⟩, beq_eq hq.1, out_of hp (ap pE0 ⟨p, hp⟩) (beq_eq hq.2)⟩
+    · obtain ⟨p, hp, hq⟩ := anyN_spec hd.2.2.1
+      unfold outD at hq
+      simp only [CFSG.KS.bAnd_iff] at hq
+      exact ⟨⟨p, hp⟩, beq_eq hq.1, out_of hp (ap pE1 ⟨p, hp⟩) (beq_eq hq.2)⟩
+    · obtain ⟨p, hp, hq⟩ := anyN_spec hd.2.2.2
+      simp only [CFSG.KS.bAnd_iff] at hq
+      have e : (((suzEndE 0 * suzEndE 1) ⟨p, hp⟩ : Fin 1782) : ℕ) = fv E0 (fv E1 p) := by
+        rw [Equiv.Perm.mul_apply, ap pE0, ap pE1]
+      exact ⟨⟨p, hp⟩, beq_eq hq.1, out_of hp e (beq_eq hq.2)⟩
+
 theorem lgrp_facts (hel : ∀ j < 64, elemOK j = true) : ∃ l : Array (Array ℕ),
     (∀ k < l.size, suzInMA l[k]! ∧
       ∀ j < 2, permOfArr 1782 l[k]! * suzEndE j = suzEndE j * permOfArr 1782 l[k]!) ∧
-    Nat.card (Subgroup.closure (permsA 1782 l)) = 20160 ∧
+    20160 ≤ Nat.card (Subgroup.closure (permsA 1782 l)) ∧
+    (∃ Δ : Set (Fin 1782), (∀ k < l.size, ∀ x, permOfArr 1782 l[k]! x ∈ Δ ↔ x ∈ Δ) ∧
+      ∀ y ∈ ({suzEndE 0, suzEndE 1, suzEndE 0 * suzEndE 1} : Set (Equiv.Perm (Fin 1782))),
+        ∃ x ∈ Δ, y x ∉ Δ) ∧
     ∃ s : Array (Array ℕ), (∀ k < s.size, permOfArr 1782 s[k]! ∈ Subgroup.closure (permsA 1782 l)) ∧
       Nat.card (Subgroup.closure (permsA 1782 s)) = 64 ∧
       ∀ z ∈ Subgroup.closure (permsA 1782 s), z ^ 2 = 1 → z ≠ 1 → fix1782 z ≠ 42 := by
@@ -467,7 +561,8 @@ theorem lgrp_facts (hel : ∀ j < 64, elemOK j = true) : ∃ l : Array (Array �
   have hmem : ∀ k < 4, permOfArr 1782 (unpack 1782 11 (SuzEL.S k)) ∈
       Subgroup.closure (permsA 1782 arrL) := fun k hk =>
     Subgroup.subset_closure ⟨k, by simpa [arrL] using hk, by simp only [arrL_get hk]⟩
-  refine ⟨arrL, fun k hk => ?_, ?_, arrS, fun k hk => ?_, ?_, ?_⟩
+  refine ⟨arrL, fun k hk => ?_, ?_, ⟨{x | bitD x.val = 1}, fun k hk x => ?_, ?_⟩, arrS,
+    fun k hk => ?_, ?_, ?_⟩
   · have hk4 : k < 4 := by simpa [arrL] using hk
     rw [arrL_get hk4]
     refine ⟨inMA_of (pL hk4) (SuzEndML.all k hk4), fun j hj => ?_⟩
@@ -483,7 +578,9 @@ theorem lgrp_facts (hel : ∀ j < 64, elemOK j = true) : ∃ l : Array (Array �
         have := CFSG.KS.allN_spec (CFSG.KS.allN_spec h k hk4) p p.2
         simp only [CFSG.KS.bAnd_iff] at this
         exact this.2)
-  · rw [closure_arrL, card_group chainL (by norm_num) hbsL, ordL]
+  · exact low_L
+  · exact delta_L.1 k hk x
+  · exact delta_L.2
   · have hk4 : k < 4 := by simpa [arrS] using hk
     rw [arrS_get hk4]
     have hw : permOfArr 1782 (unpack 1782 11 (SuzES.S k)) =

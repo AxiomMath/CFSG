@@ -7,6 +7,7 @@ public import Certificates.Data.Kernel.ConjOrb
 public import Certificates.Data.Kernel.PkPow
 
 set_option maxRecDepth 400000
+set_option Elab.async false
 
 public section
 
@@ -43,15 +44,54 @@ open CFSG.Quasithin.B45Exc.HS CFSG.Quasithin.B45Exc.Tab
       (Nat.beq (FX w.e') 170 || Nat.beq (FX w.e') 30) &&
       Nat.beq (pc G (xE w.c)) (pc (xE w.c) G) && Nat.beq (pwK 5 Y) idn && !(Nat.beq Y idn)
 
-theorem ecanon : allN 1024 (fun i => canonK 3850 12 (mask 12) (3850 * 12) (SY.E i)) = true := by
-  quickRfl
-
 theorem gcanon : allN 2 (fun k => canonK 3850 12 (mask 12) (3850 * 12) (HS.F k) &&
     canonK 3850 12 (mask 12) (3850 * 12) (HSI k)) = true := by quickRfl
 
-theorem gen : hsGenWits.all genK = true := by quickRfl
+theorem genW0 : genK (hsGenWits[0]'(by decide)) = true := by quickRfl
+theorem genW1 : genK (hsGenWits[1]'(by decide)) = true := by quickRfl
+theorem genW2 : genK (hsGenWits[2]'(by decide)) = true := by quickRfl
+theorem genW3 : genK (hsGenWits[3]'(by decide)) = true := by quickRfl
+theorem genW4 : genK (hsGenWits[4]'(by decide)) = true := by quickRfl
+theorem genW5 : genK (hsGenWits[5]'(by decide)) = true := by quickRfl
+theorem genW6 : genK (hsGenWits[6]'(by decide)) = true := by quickRfl
+theorem genW7 : genK (hsGenWits[7]'(by decide)) = true := by quickRfl
+theorem genW8 : genK (hsGenWits[8]'(by decide)) = true := by quickRfl
+theorem genW9 : genK (hsGenWits[9]'(by decide)) = true := by quickRfl
+theorem genW10 : genK (hsGenWits[10]'(by decide)) = true := by quickRfl
+theorem genW11 : genK (hsGenWits[11]'(by decide)) = true := by quickRfl
+theorem genW12 : genK (hsGenWits[12]'(by decide)) = true := by quickRfl
+theorem genW13 : genK (hsGenWits[13]'(by decide)) = true := by quickRfl
+theorem genW14 : genK (hsGenWits[14]'(by decide)) = true := by quickRfl
 
-theorem dim : hsDimWits.all dimK = true := by quickRfl
+theorem dimW0 : dimK (hsDimWits[0]'(by decide)) = true := by quickRfl
+theorem dimW1 : dimK (hsDimWits[1]'(by decide)) = true := by quickRfl
+theorem dimW2 : dimK (hsDimWits[2]'(by decide)) = true := by quickRfl
+theorem dimW3 : dimK (hsDimWits[3]'(by decide)) = true := by quickRfl
+theorem dimW4 : dimK (hsDimWits[4]'(by decide)) = true := by quickRfl
+theorem dimW5 : dimK (hsDimWits[5]'(by decide)) = true := by quickRfl
+theorem dimW6 : dimK (hsDimWits[6]'(by decide)) = true := by quickRfl
+theorem dimW7 : dimK (hsDimWits[7]'(by decide)) = true := by quickRfl
+
+theorem gen : hsGenWits.all genK = true := by
+  rw [List.all_eq_true]
+  intro x hx
+  obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hx
+  have hi' : i < 15 := by
+    have hl : hsGenWits.length = 15 := by decide
+    omega
+  interval_cases i
+  exacts [genW0, genW1, genW2, genW3, genW4, genW5, genW6, genW7, genW8, genW9, genW10, genW11,
+    genW12, genW13, genW14]
+
+theorem dim : hsDimWits.all dimK = true := by
+  rw [List.all_eq_true]
+  intro x hx
+  obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hx
+  have hi' : i < 8 := by
+    have hl : hsDimWits.length = 8 := by decide
+    omega
+  interval_cases i
+  exacts [dimW0, dimW1, dimW2, dimW3, dimW4, dimW5, dimW6, dimW7]
 
 end CertificateChecks.KernelHS3850.UT
 

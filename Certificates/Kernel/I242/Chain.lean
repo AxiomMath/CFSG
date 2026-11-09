@@ -24,8 +24,8 @@ theorem bindsY : Binds 3510 12 Y.S 17 7 Y.BP i242S ((i242Base.map Fin.val).toArr
 theorem chain_k : i242ChainCheck = true := by
   unfold i242ChainCheck
   rw [Bool.and_eq_true, wordsOf_eq]
-  refine ⟨rawChainK_sound (chunks := 4) (NS := Y.NS) bindsY Y.head Y.hl
-    (Nat.le_of_ble_eq_true (by quickRfl)) Y.hs, ?_⟩
+  refine ⟨rawChainPK_sound (chunks := 4) (NS := 3510) (CH := 1) bindsY Y.head Y.hl
+    (by norm_num) YP.spAll, ?_⟩
   rw [rawOrbitSizesK_sound bindsY permY Y.hl]
   decide +kernel
 

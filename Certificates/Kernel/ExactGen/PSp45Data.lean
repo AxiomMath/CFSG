@@ -5,6 +5,7 @@ public import Certificates.Kernel.Sporadic.IntWordsCmd
 public import Certificates.Kernel.Misc.Perm.HexCmd
 public import Certificates.Data.Kernel.ExactGen.Parse
 public import Certificates.Data.ExactGen.PSp45Text
+public import Certificates.Data.ExactGen.PSp45Rel
 public meta import CFSG.LocalAnalysis.ComponentClassification.ExactGenPSp45Inputs
 public meta import Mathlib
 
@@ -23,10 +24,38 @@ public meta def btOf (j : Nat) : Array (Array Nat) :=
   bfsAux 156 fcM.ctx.chP.S (CFSG.Certificates.Native.rawInvs 156 fcM.ctx.chP.S) r.par
     #[r.nuA 156 fcM.ctx]
 
+public meta def ftOf (j : Nat) : Array (Array Nat) :=
+  let r := fcM.reps[j]!
+  let S := fcM.ctx.chP.S
+  let Si := CFSG.Certificates.Native.rawInvs 156 S
+  let nu := r.nuA 156 fcM.ctx
+  let f0 := ((List.range 156).filter fun i => nu[i]! == i).toArray
+  r.par.foldl (fun L e => L.push (L[e.1]!.map fun x => (CFSG.Monster.B.Co2.Native.letterA S Si e.2)[x]!)) #[f0]
+
+public meta def relRowsOf (j : Nat) : Array (Array Nat) :=
+  let r := fcM.reps[j]!
+  let S := fcM.ctx.chP.S
+  let Si := CFSG.Certificates.Native.rawInvs 156 S
+  let nu := r.nuA 156 fcM.ctx
+  let f0 := ((List.range 156).filter fun i => (fcM.ctx.rel[i]!).testBit nu[i]!).toArray
+  r.par.foldl (fun L e =>
+    L.push (L[e.1]!.map fun x => (CFSG.Monster.B.Co2.Native.letterA S Si e.2)[x]!)) #[f0]
+
 public meta def bt0 : Array (Array Nat) := btOf 0
-public meta def bt1 : Array (Array Nat) := btOf 1
+public meta def bt1 : Array (Array Nat) := ftOf 1
 public meta def bt2 : Array (Array Nat) := btOf 2
-public meta def bt3 : Array (Array Nat) := btOf 3
+public meta def bt3 : Array (Array Nat) := relRowsOf 3
+
+public meta def relPRows : Array (Array Nat) :=
+  (fcM.ctx.relP.map fun q => ((List.range 30).map fun j => (q >>> (8 * j)) % 256).toArray).toArray
+
+public meta def parRows (r c : Nat) : List (List (Nat × Int)) :=
+  (List.range c).map fun j => (fcM.reps[r]!.par.drop (j * 1400)).take 1400
+
+public meta def p1P : Array (List Int) := ((parRows 1 7).map (·.map fun e => (e.1 : Int))).toArray
+public meta def p1L : Array (List Int) := ((parRows 1 7).map (·.map (·.2))).toArray
+public meta def p3P : Array (List Int) := ((parRows 3 5).map (·.map fun e => (e.1 : Int))).toArray
+public meta def p3L : Array (List Int) := ((parRows 3 5).map (·.map (·.2))).toArray
 
 public meta def dP : Array (List Int) := dOf fcM.ctx.chP
 public meta def dN : Array (List Int) := dOf fcM.ctx.chN
@@ -90,6 +119,12 @@ set_option maxRecDepth 1000000
 #kmisc_packarrs CertificateChecks.KernelEG.PSp45.BT1 CertificateChecks.KernelEG.PSp45.bt1 8
 #kmisc_packarrs CertificateChecks.KernelEG.PSp45.BT2 CertificateChecks.KernelEG.PSp45.bt2 8
 #kmisc_packarrs CertificateChecks.KernelEG.PSp45.BT3 CertificateChecks.KernelEG.PSp45.bt3 8
+#kmisc_packarrs CertificateChecks.KernelEG.PSp45.RelRP CertificateChecks.KernelEG.PSp45.relPRows 8
+
+#kc_intwords CertificateChecks.KernelEG.PSp45.Par1P CertificateChecks.KernelEG.PSp45.p1P
+#kc_intwords CertificateChecks.KernelEG.PSp45.Par1L CertificateChecks.KernelEG.PSp45.p1L
+#kc_intwords CertificateChecks.KernelEG.PSp45.Par3P CertificateChecks.KernelEG.PSp45.p3P
+#kc_intwords CertificateChecks.KernelEG.PSp45.Par3L CertificateChecks.KernelEG.PSp45.p3L
 
 #kc_intwords CertificateChecks.KernelEG.PSp45.DP CertificateChecks.KernelEG.PSp45.dP
 #kc_intwords CertificateChecks.KernelEG.PSp45.DN CertificateChecks.KernelEG.PSp45.dN
@@ -110,10 +145,14 @@ set_option maxRecDepth 1000000
 namespace CertificateChecks.KernelEG.PSp45
 
 @[expose] noncomputable def C : CFSG.ComponentClassification.SolMax.SwapP2.ExactFin.FCCert :=
-  CFSG.KC.ExactGen.parseFCL 156 PTok.head!
+  let c := CFSG.KC.ExactGen.parseFCL 156 PTok.head!
+  { c with
+    ctx := { c.ctx with rel := ExactGenData.psp45Rel, relP := ExactGenData.psp45RelP, relK := 30 } }
 
 @[expose] noncomputable def BT (j : Nat) : Nat → Nat :=
   if j = 0 then BT0 else if j = 1 then BT1 else if j = 2 then BT2 else BT3
+
+@[expose] noncomputable def RelRG (a : Nat) : Nat := bif Nat.blt a 156 then RelRP a else 0
 
 end CertificateChecks.KernelEG.PSp45
 

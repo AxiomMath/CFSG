@@ -202,12 +202,16 @@ theorem prep_a0 :
   intro x
   exact h x
 
+theorem pcomp_of_commK {n w m nw p q : ℕ} (h : commK n w m nw p q = true) :
+    pcomp n w m p q = pcomp n w m q p := by
+  unfold commK at h
+  rw [bAnd_iff, bAnd_iff] at h
+  exact Nat.eq_of_beq_eq_true h.2.2
+
 theorem comm_of_commK {p q : ℕ} {g a : Equiv.Perm (Fin 8330)}
     (h : commK 8330 14 (mask 14) (8330 * 14) p q = true) (hp : PRep 8330 14 p g)
     (hq : PRep 8330 14 q a) : g * a = a * g := by
-  unfold commK at h
-  rw [bAnd_iff, bAnd_iff] at h
-  have he := Nat.eq_of_beq_eq_true h.2.2
+  have he := pcomp_of_commK h
   have h1 := prep_pcomp (by norm_num) hp hq
   have h2 := prep_pcomp (by norm_num) hq hp
   rw [he] at h1

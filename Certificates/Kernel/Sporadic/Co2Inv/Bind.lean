@@ -5,6 +5,7 @@ public import Certificates.Kernel.Sporadic.Co2Inv.Mats
 public import CFSG.Certificates.Kernel.Co2InvS.Check
 public import Certificates.Kernel.Sporadic.Co2.FRows
 public import CFSG.Certificates.Kernel.Spor.Loops
+public import Certificates.Kernel.Sporadic.Co2Inv.InvP
 import all Init.Data.Nat.Fold
 import all Init.Data.Range.Basic
 import all Init.Data.Array.Basic
@@ -98,8 +99,7 @@ theorem wordRowsSeed_eq : ∀ w : List Nat, wordRowsSeed w = unpackR 22 (wordK w
 
 theorem cands_ok : CFSG.KC.Enum.allN 54 candK = true := by quickRfl
 
-theorem inv_ok : ∀ c < 54, (CFSG.Monster.B.Max2.Native.inv22 (unpackR 22 (WT c)) ==
-    unpackR 22 (WT (Nat.add 54 c))) = true := by
+theorem inv_ok : ∀ c < 54, Nat.beq (invP22 (WT c)) (WT (Nat.add 54 c)) = true := by
   kc_cover 2
 
 theorem cand_facts {c : Nat} (hc : c < 54) : (co2InvCands[c]!).1 < 3 ∧
@@ -114,8 +114,8 @@ theorem cand_facts {c : Nat} (hc : c < 54) : (co2InvCands[c]!).1 < 3 ∧
   have hw : candW c = unpackR 22 (WT c) := by
     rw [candW, wordRowsSeed_eq, Nat.eq_of_beq_eq_true h2]
   refine ⟨blt_iff.1 h1, hw, ?_, Nat.eq_of_beq_eq_true h3, Nat.eq_of_beq_eq_true h4⟩
-  rw [hw]
-  exact beq_iff_eq.1 (inv_ok c hc)
+  rw [hw, inv22_unpack, Nat.eq_of_beq_eq_true (inv_ok c hc)]
+  rfl
 
 theorem ybind : YBind YT := by
   refine ⟨Array.size_ofFn, fun c hc => ?_⟩

@@ -2,6 +2,7 @@ module
 
 public import Certificates.Data.Kernel.Spor.FiveK
 public import CFSG.Certificates.Kernel.Spor.HKeyBSound
+public import CFSG.Certificates.Kernel.Spor.HKeyUSound
 public import CFSG.Certificates.Kernel.Spor.FiveConj
 import CFSG.Certificates.Kernel.Spor.PcompFacts
 
@@ -11,6 +12,9 @@ namespace CFSG.KS.MulH
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.HBfs
 open CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore.Native
+
+theorem hkeyU_eq_hkeyB (n w : Nat) : hkeyU n w (mask w) = hkeyB n w (mask w) :=
+  funext fun X => (hkeyU_eq n w X).trans (hkeyB_eq n w X).symm
 
 theorem bAnd_eqF (a b : Bool) : Bool.rec (motive := fun _ => Bool) false b a = (a && b) := by
   cases a <;> rfl
@@ -92,31 +96,31 @@ variable (n w m : Nat) (G GI : Nat → Nat)
 theorem extK_spec (c : Nat) : ∀ r l cs ck (kont : List Nat → List Nat → Bool),
     extK n w m G GI c r l cs ck kont =
       kont (cs ++ (List.range' l r).map fun j => cjK n w m G GI j c)
-        (ck ++ (List.range' l r).map fun j => hkeyB n w m (cjK n w m G GI j c))
+        (ck ++ (List.range' l r).map fun j => hkeyU n w m (cjK n w m G GI j c))
   | 0, l, cs, ck, kont => by
     change kont cs ck = _
     simp
   | r + 1, l, cs, ck, kont => by
-    change strictB (cjK n w m G GI l c) (fun y => strictB (hkeyB n w m y) (fun hy =>
+    change strictB (cjK n w m G GI l c) (fun y => strictB (hkeyU n w m y) (fun hy =>
       extK n w m G GI c r (Nat.succ l) (appK cs [y]) (appK ck [hy]) kont)) = _
     rw [CFSG.KS.PF.strictB_eqP, CFSG.KS.PF.strictB_eqP, extK_spec c r, appK_eq, appK_eq,
       List.range'_succ, List.map_cons, List.map_cons, List.append_assoc, List.append_assoc]
     rfl
 
 theorem kidsK_spec (k : Nat) (nx : List Nat → List Nat → List Nat → Bool) (kk cs0 ck0 : List Nat) :
-    ∀ cs : List Nat, kidsK n w m G GI k nx kk cs0 ck0 cs (cs.map (hkeyB n w m)) = true →
-      ∀ c ∈ cs, hkeyB n w m c ∉ kk →
+    ∀ cs : List Nat, kidsK n w m G GI k nx kk cs0 ck0 cs (cs.map (hkeyU n w m)) = true →
+      ∀ c ∈ cs, hkeyU n w m c ∉ kk →
         extK n w m G GI c k (nat_lit 0) cs0 ck0
-          (fun cs' ck' => nx (appK kk [hkeyB n w m c]) cs' ck') = true
+          (fun cs' ck' => nx (appK kk [hkeyU n w m c]) cs' ck') = true
   | [], _, c, hc, _ => absurd hc List.not_mem_nil
   | c :: cs, h, c', hc', hn => by
-    change bAnd(bIf(keyMemK (hkeyB n w m c) kk, true, extK n w m G GI c k (nat_lit 0) cs0 ck0
-        (fun cs' ck' => nx (appK kk [hkeyB n w m c]) cs' ck')),
-      kidsK n w m G GI k nx kk cs0 ck0 cs (cs.map (hkeyB n w m))) = true at h
+    change bAnd(bIf(keyMemK (hkeyU n w m c) kk, true, extK n w m G GI c k (nat_lit 0) cs0 ck0
+        (fun cs' ck' => nx (appK kk [hkeyU n w m c]) cs' ck')),
+      kidsK n w m G GI k nx kk cs0 ck0 cs (cs.map (hkeyU n w m))) = true at h
     rw [bAnd_eqF, bIf_eqF, Bool.and_eq_true] at h
     rcases List.mem_cons.1 hc' with rfl | hc'
-    · have hm : keyMemK (hkeyB n w m c') kk = false := by
-        cases e : keyMemK (hkeyB n w m c') kk
+    · have hm : keyMemK (hkeyU n w m c') kk = false := by
+        cases e : keyMemK (hkeyU n w m c') kk
         · rfl
         · exact absurd ((keyMemK_iff _ _).1 e) hn
       rw [hm] at h
@@ -125,10 +129,10 @@ theorem kidsK_spec (k : Nat) (nx : List Nat → List Nat → List Nat → Bool) 
 
 theorem leaf_of_cnt {k : Nat} {Kn cs : List Nat}
     (hcs : ∀ x, x ∈ cs ↔ ∃ Y ∈ Kn, ∃ l < k, x = cjK n w m G GI l Y)
-    (h : Nat.ble 5 (cntD (appK (Kn.map (hkeyB n w m)) (cs.map (hkeyB n w m))) []) = true) :
-    FiveTree (hkeyB n w m) (cjK n w m G GI) k 0 Kn := by
+    (h : Nat.ble 5 (cntD (appK (Kn.map (hkeyU n w m)) (cs.map (hkeyU n w m))) []) = true) :
+    FiveTree (hkeyU n w m) (cjK n w m G GI) k 0 Kn := by
   rw [appK_eq, ← List.map_append] at h
-  obtain ⟨Xs, h1, h2, -, h4⟩ := cnt_spec (hkeyB n w m) (Kn ++ cs) []
+  obtain ⟨Xs, h1, h2, -, h4⟩ := cnt_spec (hkeyU n w m) (Kn ++ cs) []
   rw [FiveTree.eq_1]
   refine ⟨Xs, fun X hX => (List.mem_append.1 (h1 X hX)).imp id fun hc => (hcs X).1 hc, h2, ?_⟩
   rw [h4]
@@ -136,8 +140,8 @@ theorem leaf_of_cnt {k : Nat} {Kn cs : List Nat}
 
 theorem fiveK_sound (k : Nat) : ∀ f (Kn cs : List Nat),
     (∀ x, x ∈ cs ↔ ∃ Y ∈ Kn, ∃ l < k, x = cjK n w m G GI l Y) →
-    fiveK n w m G GI k f (Kn.map (hkeyB n w m)) cs (cs.map (hkeyB n w m)) = true →
-      FiveTree (hkeyB n w m) (cjK n w m G GI) k f Kn := by
+    fiveK n w m G GI k f (Kn.map (hkeyU n w m)) cs (cs.map (hkeyU n w m)) = true →
+      FiveTree (hkeyU n w m) (cjK n w m G GI) k f Kn := by
   intro f
   induction f with
   | zero =>
@@ -145,14 +149,14 @@ theorem fiveK_sound (k : Nat) : ∀ f (Kn cs : List Nat),
     exact leaf_of_cnt n w m G GI hcs h
   | succ f ih =>
     intro Kn cs hcs h
-    change bIf(Nat.ble (nat_lit 5) (cntD (appK (Kn.map (hkeyB n w m)) (cs.map (hkeyB n w m)))
+    change bIf(Nat.ble (nat_lit 5) (cntD (appK (Kn.map (hkeyU n w m)) (cs.map (hkeyU n w m)))
         List.nil), true,
-      bAnd(anyNewK (Kn.map (hkeyB n w m)) (cs.map (hkeyB n w m)),
-        kidsK n w m G GI k (fiveK n w m G GI k f) (Kn.map (hkeyB n w m)) cs
-          (cs.map (hkeyB n w m)) cs (cs.map (hkeyB n w m)))) = true at h
+      bAnd(anyNewK (Kn.map (hkeyU n w m)) (cs.map (hkeyU n w m)),
+        kidsK n w m G GI k (fiveK n w m G GI k f) (Kn.map (hkeyU n w m)) cs
+          (cs.map (hkeyU n w m)) cs (cs.map (hkeyU n w m)))) = true at h
     rw [FiveTree.eq_2]
     rw [bIf_eqF] at h
-    cases hl : Nat.ble 5 (cntD (appK (Kn.map (hkeyB n w m)) (cs.map (hkeyB n w m))) [])
+    cases hl : Nat.ble 5 (cntD (appK (Kn.map (hkeyU n w m)) (cs.map (hkeyU n w m))) [])
     · rw [hl, Bool.cond_false, bAnd_eqF, Bool.and_eq_true] at h
       obtain ⟨ha, hk⟩ := h
       refine Or.inr ⟨?_, fun Y hY l hl hn => ?_⟩
@@ -161,7 +165,7 @@ theorem fiveK_sound (k : Nat) : ∀ f (Kn cs : List Nat),
         obtain ⟨Y, hY, l, hl, rfl⟩ := (hcs c).1 hc
         exact ⟨Y, hY, l, hl, hnew⟩
       · have hc : cjK n w m G GI l Y ∈ cs := (hcs _).2 ⟨Y, hY, l, hl, rfl⟩
-        have hx := kidsK_spec n w m G GI k (fiveK n w m G GI k f) _ cs (cs.map (hkeyB n w m)) cs
+        have hx := kidsK_spec n w m G GI k (fiveK n w m G GI k f) _ cs (cs.map (hkeyU n w m)) cs
           hk _ hc hn
         rw [extK_spec, appK_eq] at hx
         refine ih (Kn ++ [cjK n w m G GI l Y])
@@ -185,8 +189,8 @@ theorem fiveK_sound (k : Nat) : ∀ f (Kn cs : List Nat),
     · exact Or.inl (leaf_of_cnt n w m G GI hcs hl)
 
 theorem fiveTopK_sound {k f S : Nat} (h : fiveTopK n w m G GI k f S = true) :
-    FiveTree (hkeyB n w m) (cjK n w m G GI) k f [S] := by
-  change strictB (hkeyB n w m S) (fun hs => extK n w m G GI S k (nat_lit 0) [] []
+    FiveTree (hkeyU n w m) (cjK n w m G GI) k f [S] := by
+  change strictB (hkeyU n w m S) (fun hs => extK n w m G GI S k (nat_lit 0) [] []
     (fun cs ck => fiveK n w m G GI k f [hs] cs ck)) = true at h
   rw [CFSG.KS.PF.strictB_eqP, extK_spec, List.nil_append, List.nil_append] at h
   refine fiveK_sound n w m G GI k f [S] ((List.range' 0 k).map fun j => cjK n w m G GI j S)
@@ -223,9 +227,10 @@ theorem fiveConjOK_of_fiveTopK {n w k f cap S : Nat} {G GI : Nat → Nat} {cg cg
       CFSG.KC.BfsPin.compA_unpack (hg.2 l hl).2 hx, CFSG.KC.BfsPin.compA_unpack h1 (hgi.2 l hl).2]
     rfl
   have := FiveTree.map (k := k) (st := fun l y => conjT n cg[l]! cgInv[l]! y) (key' := hkey n)
-    (g := UInt64.toNat) (keyA := hkeyB n w (mask w)) (stA := cjK n w (mask w) G GI)
+    (g := UInt64.toNat) (keyA := hkeyU n w (mask w)) (stA := cjK n w (mask w) G GI)
     (Good := fun x => canonK n w (mask w) (n * w) x = true) (fun a b e => UInt64.toNat_inj.1 e)
-    (fun x => tabT (unpack n w x)) hst (fun x hx => hkeyB_tabT hx) f [S] (by simpa using hS)
+    (fun x => tabT (unpack n w x)) hst
+    (fun x hx => by rw [hkeyU_eq_hkeyB]; exact hkeyB_tabT hx) f [S] (by simpa using hS)
     (fiveTopK_sound n w (mask w) G GI h)
   simpa using this
 

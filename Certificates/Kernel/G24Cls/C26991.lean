@@ -45,9 +45,15 @@ theorem gen_get {h : Nat} (hh : h < 2) : co1GenArr[h]! = unpack 1365 11 (e8S h) 
   · exact strong_get (h := 0) (by norm_num)
   · exact strong_get (h := 1) (by norm_num)
 
+theorem arr2_get0 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[0]! = a := rfl
+
+theorem arr2_get1 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[1]! = b := rfl
+
 theorem inv_get {h : Nat} (hh : h < 2) : co1GenInv[h]! = unpack 1365 11 (e8SI h) := by
   have e : co1GenInv[h]! = invCand 1365 twoBStrong[h]! := by
-    rcases (by omega : h = 0 ∨ h = 1) with rfl | rfl <;> rfl
+    rcases (by omega : h = 0 ∨ h = 1) with rfl | rfl
+    · rw [co1GenInv, arr2_get0]
+    · rw [co1GenInv, arr2_get1]
   rw [e, strong_get hh]
   exact invCand_PP (pp_of_permB hw (permB_S hh))
 

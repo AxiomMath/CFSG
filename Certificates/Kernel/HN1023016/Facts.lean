@@ -38,13 +38,15 @@ theorem unitB : IsUnit (CFSG.KS.HNLocal.OM (CFSG.KD.FamHNSeed.RW 2)) :=
   isUnit_of_pow (n := 2) omB_cube
 
 theorem jfacts : ∃ R hs BW, JFacts (CFSG.KS.HNLocal.OM (CFSG.KD.FamHNSeed.RW 1))
-    (CFSG.KS.HNLocal.OM (CFSG.KD.FamHNSeed.RW 2)) wr fus ce R hs BW
+    (CFSG.KS.HNLocal.OM (CFSG.KD.FamHNSeed.RW 2)) wr fus ce lp R hs BW
     (fun i => CFSG.KS.Ord.ordMat 5 9 13 117 (hwm.getD i.val 0)) :=
   chkJCl_sound CFSG.KD.FamHNSeed.consts consts9 cA cB unitA unitB rel0 rel6 chkJCl
 
 theorem wfacts : ∃ D, WFacts (fun i => CFSG.KS.Ord.ordMat 5 9 13 117 (hwm.getD i.val 0))
-    (vOf 9 c0) D fus oth :=
+    (vOf 9 c0) D fus oth pe :=
   chkW_sound chkW
+
+theorem peLink : CFSG.KC.SlpPc.peLinkOK fus pe lp = true := by quickRfl
 
 theorem sporKRest_cover_JH :
     SporKRestCover 5 ↥JH := by
@@ -57,7 +59,7 @@ theorem sporKRest_cover_JH :
     (ρJ_apply bJ).trans matJ_bJ
   rw [← ea, ← eb] at hJ
   obtain ⟨S₀, X, hp, hcomp, hgen⟩ := classes_of_facts ρJ ρJ_injective aJ bJ
-    (m := 17473978368) (by rw [card_JH]; norm_num) (by norm_num) hJ hW
+    (m := 17473978368) (by rw [card_JH]; norm_num) (by norm_num) hJ hW peLink
   refine sporKRest_cover_of_classes Nat.prime_five ((List.range 5).map X) ?_ ?_
   · intro s hs
     obtain ⟨k, hk, h⟩ := hcomp s hs

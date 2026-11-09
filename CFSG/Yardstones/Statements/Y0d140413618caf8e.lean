@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LieType.SeitzGeneration.RootPairOrthMinusChar2
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.ClassicalInvolution.WeakCT.StandardPair
 public import CFSG.LieType.CurtisTits.SpecialLinear
 public import CFSG.LocalAnalysis.ComponentClassification.CatalogueBDerivedNormalSectionBound
@@ -43,7 +43,7 @@ public import Certificates.Certificate1
 public import Certificates.Certificate2
 public import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
 public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalBasis
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

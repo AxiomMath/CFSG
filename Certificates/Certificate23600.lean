@@ -4,6 +4,7 @@ public import Mathlib.Data.Nat.Totient
 public import Mathlib.Data.Sym.Sym2.Init
 public import Mathlib.GroupTheory.Perm.Sign
 public import Mathlib.Tactic.NormNum.GCD
+import CFSG.Certificates.Kernel.PermCent.FastDecide
 import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
 import Mathlib.Tactic.Echelon.Zsqrtd
 import Mathlib.Tactic.Inclusion.Extension.Core.Core
@@ -37,8 +38,33 @@ private instance (σ q : Perm (Fin 6)) : Decidable (Cond σ q) := by
   unfold Cond
   infer_instance
 
-private theorem odd_involution_swap_0 : ∀ σ q : Perm (Fin 6), Cond σ q := by
+open scoped CFSG.Certificates.Kernel.PkCV.FastDecide
+
+private def CondQ (σ q : Perm (Fin 6)) : Prop :=
+  σ * q = q * σ → q ^ 4 = 1 → q ^ 2 ≠ 1 → Perm.sign q = 1 →
+    ∃ i j : Fin 6, i ≠ j ∧ σ * q ^ 2 = swap i j
+
+private instance (σ q : Perm (Fin 6)) : Decidable (CondQ σ q) := by
+  unfold CondQ
+  infer_instance
+
+private def CondS (σ : Perm (Fin 6)) : Prop :=
+  σ * σ = 1 → Perm.sign σ = -1 → (∃ i j : Fin 6, i ≠ j ∧ σ = swap i j) ∨ ∀ q, CondQ σ q
+
+private noncomputable instance (σ : Perm (Fin 6)) : Decidable (CondS σ) := by
+  unfold CondS
+  infer_instance
+
+private theorem odd_involution_swap_aux : ∀ σ : Perm (Fin 6), CondS σ := by
   decide +kernel
+
+private theorem odd_involution_swap_0 : ∀ σ q : Perm (Fin 6), Cond σ q := by
+  intro σ q
+  unfold Cond
+  intro h1 h2 h3 h4 h5 h6
+  rcases odd_involution_swap_aux σ h1 h2 with h | h
+  · exact Or.inl h
+  · exact Or.inr (h q h6 h4 h5 h3)
 
 end CertificateChecks.Batch23600
 

@@ -548,6 +548,29 @@ theorem vals_sound (c : Lay) (hc : c.ok = true) {LA LB : List Char} {V P : Nat �
       rw [eAB]
       exact Submonoid.mul_mem _ mA mB
 
+theorem vals_canon (c : Lay) (hc : c.ok = true) {V P : Nat → Nat} {N : Nat}
+    (hA : Canon c.p c.d c.w (V 0)) (hB : Canon c.p c.d c.w (V 1)) (h1 : V 2 = c.ONE)
+    (hs : StepsTo (stepOK c V P) N) : ∀ n, n < N ∨ n < 3 → Canon c.p c.d c.w (V n) := by
+  unfold StepsTo at hs
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro hn
+    rcases (by omega : n = 0 ∨ n = 1 ∨ n = 2 ∨ 3 ≤ n) with rfl | rfl | rfl | h3
+    · exact hA
+    · exact hB
+    · rw [h1]
+      exact (one_sound hc).1
+    · have hst := hs n h3 (by omega)
+      unfold stepOK at hst
+      simp only [strictB_eq] at hst
+      obtain ⟨ha, hst⟩ := andT hst
+      obtain ⟨hb, hst⟩ := andT hst
+      have ha' := Nat.blt_eq.mp ha
+      have hb' := Nat.blt_eq.mp hb
+      rw [Nat.eq_of_beq_eq_true hst]
+      exact (mul_sound c hc (ih _ ha' (Or.inl (by omega))) (ih _ hb' (Or.inl (by omega)))).1
+
 theorem pow_sound (c : Lay) (hc : c.ok = true) {X : Nat} (hX : Canon c.p c.d c.w X) :
     ∀ e : Nat, Canon c.p c.d c.w (c.pow X e) ∧
       ordMat c.p c.d c.w c.S (c.pow X e) = ordMat c.p c.d c.w c.S X ^ e

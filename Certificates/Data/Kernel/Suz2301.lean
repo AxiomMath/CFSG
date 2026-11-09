@@ -41,8 +41,8 @@ open CFSG.KC.Enum CFSG.KC.N3153
       Nat.blt (xg X (rk Q (rg O i))) (xg X (rk Q (rg O (Nat.add i (nat_lit 1)))))))
 
 @[expose] noncomputable def wmaskK (d r : Nat) : Nat :=
-  foldN d (fun i a => Nat.add a (Nat.shiftLeft (nat_lit 18446744073709551615)
-    (Nat.mul (nat_lit 64) (Nat.add (rg r i) (nat_lit 1))))) (nat_lit 0)
+  foldN d (fun i a => Nat.add (Nat.add a (Nat.shiftLeft (nat_lit 18446744073709551615)
+    (Nat.mul (nat_lit 64) (Nat.add (rg r i) (nat_lit 1))))) (nat_lit 1)) (nat_lit 0)
 
 @[expose] noncomputable def maskOK (d : Nat) (R W : Nat → Nat) (x : Nat) : Bool :=
   Nat.beq (Nat.shiftRight (W x) (nat_lit 64)) (Nat.shiftRight (wmaskK d (R x)) (nat_lit 64))

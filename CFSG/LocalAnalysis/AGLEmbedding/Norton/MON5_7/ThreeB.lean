@@ -80,20 +80,20 @@ theorem tbChain_check : ∀ g ∈ ([[0], [1, 10], [2, 9], [3, 8], [4, 7], [5, 6]
   · exact tbChain_check4
   · exact tbChain_check5
 
-theorem tbAct1_check0 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [0, 1, 2]) = true :=
+theorem tbAct1_check0 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [0, 1, 2]) = true :=
   Certificates.certificate125368
 
-theorem tbAct1_check1 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [3, 4, 5]) = true :=
+theorem tbAct1_check1 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [3, 4, 5]) = true :=
   Certificates.certificate125369
 
-theorem tbAct1_check2 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [6, 7, 8]) = true :=
+theorem tbAct1_check2 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [6, 7, 8]) = true :=
   Certificates.certificate125370
 
-theorem tbAct1_check3 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [9, 10, 11]) = true :=
+theorem tbAct1_check3 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [9, 10, 11]) = true :=
   Certificates.certificate125371
 
 theorem tbAct1_check : ∀ g ∈ ([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]] : List (List ℕ)),
-    agreeAll (tbActPairs tbB1 tbXRows tbC1 g) = true := by
+    agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC g) = true := by
   intro g hg
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hg
   rcases hg with rfl | rfl | rfl | rfl
@@ -102,17 +102,17 @@ theorem tbAct1_check : ∀ g ∈ ([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]]
   · exact tbAct1_check2
   · exact tbAct1_check3
 
-theorem tbAct2_check0 : agreeAll (tbActPairs tbB2 tbYRows tbC2 [0, 1, 2, 3]) = true :=
+theorem tbAct2_check0 : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC [0, 1, 2, 3]) = true :=
   Certificates.certificate125372
 
-theorem tbAct2_check1 : agreeAll (tbActPairs tbB2 tbYRows tbC2 [4, 5, 6, 7]) = true :=
+theorem tbAct2_check1 : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC [4, 5, 6, 7]) = true :=
   Certificates.certificate125373
 
-theorem tbAct2_check2 : agreeAll (tbActPairs tbB2 tbYRows tbC2 [8, 9, 10, 11]) = true :=
+theorem tbAct2_check2 : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC [8, 9, 10, 11]) = true :=
   Certificates.certificate125374
 
 theorem tbAct2_check : ∀ g ∈ ([[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]] : List (List ℕ)),
-    agreeAll (tbActPairs tbB2 tbYRows tbC2 g) = true := by
+    agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC g) = true := by
   intro g hg
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hg
   rcases hg with rfl | rfl | rfl
@@ -210,6 +210,199 @@ theorem tbAct_aux (b : List Native.Gen) (R : List (List ℕ)) (c : List ℕ) (gs
   rw [show tbw = gw tbW from rfl]
   simpa [mul_assoc] using h
 
+noncomputable def tbqN (i : ℕ) : Gmat := gw (tbQ i)
+
+theorem tbqN_comm {i : ℕ} (hi : i < 12) : Commute (tbqN i) tbw := tbq_mul_tbw ⟨i, hi⟩
+
+theorem tbqN_swap {i j : ℕ} (hij : i < j) (hj : j < 12) :
+    tbqN j * tbqN i = tbqN i * tbqN j * tbw ^ (2 * tbEntry tbMRows i j) := by
+  have h := tbq_chain_aux (i := ⟨i, by omega⟩) (j := ⟨j, hj⟩) (Fin.mk_lt_mk.2 hij)
+  change tbqN i * tbqN j = tbqN j * tbw ^ tbEntry tbMRows i j * tbqN i at h
+  generalize tbEntry tbMRows i j = M at h ⊢
+  have hc : tbw ^ M * tbqN i = tbqN i * tbw ^ M := ((tbqN_comm (by omega)).pow_right M).symm.eq
+  have e3 : tbw ^ (M + 2 * M) = 1 := by
+    rw [show M + 2 * M = 3 * M by ring, pow_mul, tbw_pow_three, one_pow]
+  calc tbqN j * tbqN i = tbqN j * tbqN i * tbw ^ (M + 2 * M) := by rw [e3, mul_one]
+    _ = tbqN j * (tbw ^ M * tbqN i) * tbw ^ (2 * M) := by
+      rw [hc, pow_add]
+      simp only [mul_assoc]
+    _ = tbqN i * tbqN j * tbw ^ (2 * M) := by rw [← mul_assoc (tbqN j), ← h]
+
+theorem tbqN_swap_pow {i j : ℕ} (hij : i < j) (hj : j < 12) (a : ℕ) :
+    tbqN j * tbqN i ^ a = tbqN i ^ a * tbqN j * tbw ^ (2 * tbEntry tbMRows i j * a) := by
+  induction a with
+  | zero => simp
+  | succ a ih =>
+    have hc : tbw ^ (2 * tbEntry tbMRows i j * a) * tbqN i =
+        tbqN i * tbw ^ (2 * tbEntry tbMRows i j * a) :=
+      ((tbqN_comm (by omega)).pow_right _).symm.eq
+    calc tbqN j * tbqN i ^ (a + 1) = tbqN j * tbqN i ^ a * tbqN i := by rw [pow_succ, mul_assoc]
+      _ = tbqN i ^ a * tbqN j * (tbw ^ (2 * tbEntry tbMRows i j * a) * tbqN i) := by
+        rw [ih]
+        simp only [mul_assoc]
+      _ = tbqN i ^ a * (tbqN j * tbqN i) * tbw ^ (2 * tbEntry tbMRows i j * a) := by
+        rw [hc]
+        simp only [mul_assoc]
+      _ = tbqN i ^ (a + 1) * tbqN j * tbw ^ (2 * tbEntry tbMRows i j * (a + 1)) := by
+        have e : 2 * tbEntry tbMRows i j * (a + 1) =
+            2 * tbEntry tbMRows i j + 2 * tbEntry tbMRows i j * a := by ring
+        rw [tbqN_swap hij hj, pow_succ, e, pow_add]
+        simp only [mul_assoc]
+
+noncomputable def tbQProd (e : ℕ → ℕ) (m : ℕ) : Gmat :=
+  ((List.range m).map fun i => tbqN i ^ e i).prod
+
+theorem tbQProd_succ (e : ℕ → ℕ) (m : ℕ) : tbQProd e (m + 1) = tbQProd e m * tbqN m ^ e m := by
+  simp [tbQProd, List.range_succ, List.prod_append]
+
+theorem tbQProd_congr {e e' : ℕ → ℕ} {m : ℕ} (h : ∀ i < m, e i = e' i) :
+    tbQProd e m = tbQProd e' m := by
+  unfold tbQProd
+  congr 1
+  apply List.map_congr_left
+  intro i hi
+  rw [h i (List.mem_range.1 hi)]
+
+theorem tbQProd_comm (e : ℕ → ℕ) : ∀ {m : ℕ}, m ≤ 12 → Commute (tbQProd e m) tbw
+  | 0, _ => by simp [tbQProd]
+  | m + 1, hm => by
+    rw [tbQProd_succ]
+    exact (tbQProd_comm e (m := m) (by omega)).mul_left ((tbqN_comm (by omega)).pow_left _)
+
+@[expose] def tbNFs (e : ℕ → ℕ) (j m : ℕ) : ℕ :=
+  ((List.range m).map fun i => 2 * tbEntry tbMRows i j * e i).sum
+
+@[expose] def tbNFz (e : ℕ → ℕ) (j : ℕ) : ℕ := tbNFs e j j
+
+theorem tbNFs_succ (e : ℕ → ℕ) (j m : ℕ) :
+    tbNFs e j (m + 1) = tbNFs e j m + 2 * tbEntry tbMRows m j * e m := by
+  simp [tbNFs, List.range_succ]
+
+theorem tbqN_mul_tbQProd {j : ℕ} (hj : j < 12) (e : ℕ → ℕ) : ∀ {m : ℕ}, m ≤ j →
+    tbqN j * tbQProd e m = tbQProd e m * tbqN j * tbw ^ tbNFs e j m
+  | 0, _ => by simp [tbQProd, tbNFs]
+  | m + 1, hm => by
+    have hc : tbw ^ tbNFs e j m * tbqN m ^ e m = tbqN m ^ e m * tbw ^ tbNFs e j m :=
+      (((tbqN_comm (by omega)).pow_right _).pow_left _).symm.eq
+    rw [tbQProd_succ, tbNFs_succ]
+    calc tbqN j * (tbQProd e m * tbqN m ^ e m) = tbqN j * tbQProd e m * tbqN m ^ e m :=
+          (mul_assoc _ _ _).symm
+      _ = tbQProd e m * tbqN j * tbw ^ tbNFs e j m * tbqN m ^ e m := by
+        rw [tbqN_mul_tbQProd hj e (m := m) (by omega)]
+      _ = tbQProd e m * (tbqN j * tbqN m ^ e m) * tbw ^ tbNFs e j m := by
+        simp only [mul_assoc, hc]
+      _ = tbQProd e m * (tbqN m ^ e m * tbqN j * tbw ^ (2 * tbEntry tbMRows m j * e m)) *
+            tbw ^ tbNFs e j m := by
+        rw [tbqN_swap_pow (i := m) (by omega) hj]
+      _ = tbQProd e m * tbqN m ^ e m * tbqN j *
+            tbw ^ (tbNFs e j m + 2 * tbEntry tbMRows m j * e m) := by
+        rw [pow_add, pow_mul_comm tbw (tbNFs e j m)]
+        simp only [mul_assoc]
+
+theorem tbqN_mul_tbQProd_self {j : ℕ} (hj : j < 12) (e : ℕ → ℕ) :
+    tbqN j * tbQProd e (j + 1) =
+      tbQProd (Function.update e j (e j + 1)) (j + 1) * tbw ^ tbNFz e j := by
+  have hc : tbw ^ tbNFz e j * tbqN j ^ e j = tbqN j ^ e j * tbw ^ tbNFz e j :=
+    (((tbqN_comm hj).pow_right _).pow_left _).symm.eq
+  have hm := tbqN_mul_tbQProd hj e (m := j) le_rfl
+  rw [tbQProd_succ, tbQProd_succ, Function.update_self,
+    tbQProd_congr (e := Function.update e j (e j + 1)) (e' := e) (m := j)
+      (fun i hi => Function.update_of_ne (by omega) _ _)]
+  calc tbqN j * (tbQProd e j * tbqN j ^ e j) = tbqN j * tbQProd e j * tbqN j ^ e j :=
+        (mul_assoc _ _ _).symm
+    _ = tbQProd e j * tbqN j * tbw ^ tbNFz e j * tbqN j ^ e j := by rw [hm, tbNFz]
+    _ = tbQProd e j * tbqN j ^ (e j + 1) * tbw ^ tbNFz e j := by
+      rw [pow_succ']
+      simp only [mul_assoc, hc]
+
+theorem tbqN_mul_tbQProd_top {j : ℕ} (hj : j < 12) (e : ℕ → ℕ) : ∀ {m : ℕ}, j < m → m ≤ 12 →
+    tbqN j * tbQProd e m = tbQProd (Function.update e j (e j + 1)) m * tbw ^ tbNFz e j
+  | 0, h, _ => absurd h (Nat.not_lt_zero _)
+  | m + 1, h1, h2 => by
+    by_cases hmj : m = j
+    · subst hmj
+      exact tbqN_mul_tbQProd_self hj e
+    · have hc : tbw ^ tbNFz e j * tbqN m ^ e m = tbqN m ^ e m * tbw ^ tbNFz e j :=
+        (((tbqN_comm (by omega)).pow_right _).pow_left _).symm.eq
+      rw [tbQProd_succ, tbQProd_succ, Function.update_of_ne hmj]
+      calc tbqN j * (tbQProd e m * tbqN m ^ e m) = tbqN j * tbQProd e m * tbqN m ^ e m :=
+            (mul_assoc _ _ _).symm
+        _ = tbQProd (Function.update e j (e j + 1)) m * tbw ^ tbNFz e j * tbqN m ^ e m := by
+          rw [tbqN_mul_tbQProd_top hj e (m := m) (by omega) (by omega)]
+        _ = tbQProd (Function.update e j (e j + 1)) m * tbqN m ^ e m * tbw ^ tbNFz e j := by
+          simp only [mul_assoc, hc]
+
+@[expose] def tbNF (L : List ℕ) : (ℕ → ℕ) × ℕ :=
+  L.foldl (fun s j => (Function.update s.1 j (s.1 j + 1), s.2 + tbNFz s.1 j)) (fun _ => 0, 0)
+
+theorem gw_tbTreeWord (L : List ℕ) (hL : ∀ j ∈ L, j < 12) :
+    gw (tbTreeWord L) = tbQProd (tbNF L).1 12 * tbw ^ (tbNF L).2 := by
+  induction L using List.reverseRecOn with
+  | nil => simp [tbTreeWord, tbNF, tbQProd, gw_nil]
+  | append_singleton L j ih =>
+    have hj : j < 12 := hL j (by simp)
+    have e1 : tbTreeWord (L ++ [j]) = tbTreeWord L ++ tbQ j := by simp [tbTreeWord]
+    have e2 : (tbNF (L ++ [j])).1 = Function.update (tbNF L).1 j ((tbNF L).1 j + 1) := by
+      simp [tbNF, List.foldl_append]
+    have e3 : (tbNF (L ++ [j])).2 = (tbNF L).2 + tbNFz (tbNF L).1 j := by
+      simp [tbNF, List.foldl_append]
+    have eq : gw (tbQ j) = tbqN j := rfl
+    have ht := tbqN_mul_tbQProd_top hj (tbNF L).1 (m := 12) hj le_rfl
+    rw [e1, gw_append, ih (fun k hk => hL k (by simp [hk])), e2, e3, eq, ← mul_assoc, ht, pow_add,
+      pow_mul_comm tbw (tbNF L).2]
+    simp only [mul_assoc]
+
+theorem tbw_pow_mod (n : ℕ) : tbw ^ n = tbw ^ (n % 3) := by
+  conv_lhs => rw [← Nat.div_add_mod n 3, pow_add, pow_mul, tbw_pow_three, one_pow, one_mul]
+
+theorem tbQProd_mod (e : ℕ → ℕ) : ∀ {m : ℕ}, m ≤ 12 → tbQProd e m = tbQProd (fun i => e i % 3) m
+  | 0, _ => rfl
+  | m + 1, hm => by
+    have hq : tbqN m ^ 3 = 1 := tbq_pow_three ⟨m, by omega⟩
+    rw [tbQProd_succ, tbQProd_succ, tbQProd_mod e (by omega)]
+    conv_lhs => rw [← Nat.div_add_mod (e m) 3, pow_add, pow_mul, hq, one_pow, one_mul]
+
+theorem tbQProd_ofFn (e : ℕ → ℕ) :
+    tbQProd e 12 = (List.ofFn fun j : Fin 12 => tbq j ^ e j).prod := by
+  unfold tbQProd
+  congr 1
+
+@[expose] def tbTreeOK (R : List (List ℕ)) (c : List ℕ) (T : List (List ℕ)) (Tc : List ℕ) (i : ℕ) :
+    Bool :=
+  (T.getD i []).all (fun j => decide (j < 12)) &&
+    (List.range 12).all (fun j => (tbNF (T.getD i [])).1 j % 3 == tbEntry R i j) &&
+    (((tbNF (T.getD i [])).2 + Tc.getD i 0) % 3 == c.getD i 0 % 3)
+
+theorem tbXTree_ok : ∀ i : Fin 12, tbTreeOK tbXRows tbC1 tbXTree tbXTreeC i = true := by
+  decide +kernel
+
+theorem tbYTree_ok : ∀ i : Fin 12, tbTreeOK tbYRows tbC2 tbYTree tbYTreeC i = true := by
+  decide +kernel
+
+theorem tbTree_aux (b : List Native.Gen) (R : List (List ℕ)) (c : List ℕ) (T : List (List ℕ))
+    (Tc : List ℕ) (gs : List ℕ) (hall : agreeAll (tbTreePairs b T Tc gs) = true) {i : ℕ}
+    (hok : tbTreeOK R c T Tc i = true) (hi : i ∈ gs) :
+    gw (tbQ i) * gw b =
+      gw b * (List.ofFn fun j : Fin 12 => tbq j ^ tbEntry R i j).prod * tbw ^ c.getD i 0 := by
+  have h := agreeAll_sound hall
+    (b ++ tbQ i, tbTreeWord (T.getD i []) ++ powL (Tc.getD i 0) tbW ++ b)
+    (List.mem_map.2 ⟨i, hi, rfl⟩)
+  simp only [tbTreeOK, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq, List.mem_range,
+    beq_iff_eq] at hok
+  obtain ⟨⟨hL, hE⟩, hZ⟩ := hok
+  simp only [gw_append, tb_gw_powL] at h
+  have ew : gw tbW = tbw := rfl
+  have hw : gw (tbTreeWord (T.getD i [])) =
+      (List.ofFn fun j : Fin 12 => tbq j ^ tbEntry R i j).prod * tbw ^ (tbNF (T.getD i [])).2 := by
+    rw [gw_tbTreeWord _ hL, tbQProd_mod _ le_rfl,
+      tbQProd_congr (e' := fun j => tbEntry R i j) (fun j hj => hE j hj), tbQProd_ofFn]
+  have hc := ((tbQProd_comm (fun j => tbEntry R i j) (m := 12) le_rfl).pow_right (Tc.getD i 0)).eq
+  rw [tbQProd_ofFn] at hc
+  have hz : tbw ^ (Tc.getD i 0 + (tbNF (T.getD i [])).2) = tbw ^ c.getD i 0 := by
+    rw [tbw_pow_mod (Tc.getD i 0 + _), tbw_pow_mod (c.getD i 0), add_comm (Tc.getD i 0), hZ]
+  rw [h, hw, ew, ← hz, pow_add, ← mul_assoc (tbw ^ Tc.getD i 0), ← hc]
+  simp only [mul_assoc]
+
 theorem tbb₁_conj (i : Fin 12) :
     tbb₁⁻¹ * tbq i * tbb₁ = (List.ofFn fun j => tbq j ^ (tbXMat i j).val).prod *
       tbw ^ tbc₁ i := by
@@ -217,7 +410,7 @@ theorem tbb₁_conj (i : Fin 12) :
     have := i.2
     interval_cases hi : (i : ℕ) <;> simp
   obtain ⟨g, hg, hig⟩ := hg
-  have h := tbAct_aux tbB1 tbXRows tbC1 g (tbAct1_check g hg) hig
+  have h := tbTree_aux tbB1 tbXRows tbC1 tbXTree tbXTreeC g (tbAct1_check g hg) (tbXTree_ok i) hig
   rw [mul_assoc, inv_mul_eq_iff_eq_mul]
   have e : ∀ j : Fin 12, (tbXMat i j).val = tbEntry tbXRows i j := fun j =>
     tbMat_val tbXRows (by decide +kernel) i j
@@ -231,7 +424,7 @@ theorem tbb₂_conj (i : Fin 12) :
     have := i.2
     interval_cases hi : (i : ℕ) <;> simp
   obtain ⟨g, hg, hig⟩ := hg
-  have h := tbAct_aux tbB2 tbYRows tbC2 g (tbAct2_check g hg) hig
+  have h := tbTree_aux tbB2 tbYRows tbC2 tbYTree tbYTreeC g (tbAct2_check g hg) (tbYTree_ok i) hig
   rw [mul_assoc, inv_mul_eq_iff_eq_mul]
   have e : ∀ j : Fin 12, (tbYMat i j).val = tbEntry tbYRows i j := fun j =>
     tbMat_val tbYRows (by decide +kernel) i j

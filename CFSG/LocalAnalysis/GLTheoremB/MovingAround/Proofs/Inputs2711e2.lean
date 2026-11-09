@@ -222,7 +222,8 @@ theorem co1_gen_data :
     obtain ⟨q, hq, hqv⟩ := List.any_eq_true.1 (List.all_eq_true.1 hcov v hv)
     simp only [Bool.and_eq_true, beq_iff_eq] at hqv
     exact ⟨q, hq, hqv.1.1, hqv.1.2, hqv.2⟩
-  obtain ⟨DS₀, hn3, hact, hspan⟩ := exists_moduleSpec_core (spec2 24) hC co1Mod hmodf hindep
+  obtain ⟨DS₀, hn3, hact, hspan⟩ := exists_moduleSpec_core (spec2 24) hC co1Mod hmodf
+    fun v hv => hindep v (mem_nonzeroTriples_of_proj hv)
   obtain ⟨n, m, a, g, M, hcomm, hpw, hind, hac⟩ := DS₀
   simp only at hn3
   subst hn3

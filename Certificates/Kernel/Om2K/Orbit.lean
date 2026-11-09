@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.Om2K.Rel
 public import Certificates.Kernel.Om2K.ChecksO
 public import CFSG.Certificates.Kernel.BfsPinBaseSound
+public import Certificates.Kernel.Om2K.OrbInv
+import CFSG.Certificates.Kernel.Spor.PcompFacts
 
 public section
 
@@ -140,6 +142,161 @@ theorem orbit_k : orbitCheckY (reflTab ()) = true := by
   refine ⟨valid_V (by norm_num), h1, ?_⟩
   rw [h3]
   rfl
+
+def omS (i : Nat) : Set Nat := {x | (Orb.M i).testBit x = true}
+
+theorem mem_omS {i x : Nat} (hi : i < 6300) :
+    x ∈ omS i ↔ ∃ t < 48, pg 9 (mask 9) (Orb.C i) t = x := by
+  obtain ⟨-, -, m⟩ := codeOK_facts (code_ok hi)
+  change (Orb.M i).testBit x = true ↔ _
+  rw [← m, mem_maskK]
+
+theorem omS_lt {i x : Nat} (hi : i < 6300) (hx : x ∈ omS i) : x < 480 := by
+  obtain ⟨t, ht, rfl⟩ := (mem_omS hi).1 hx
+  exact (codeOK_facts (code_ok hi)).1 t ht
+
+theorem omImg_iff {P i j : Nat} (hi : i < 6300) :
+    imgK 9 48 P (Orb.C i) = Orb.M j ↔ (pg 9 (mask 9) P) '' omS i = omS j := by
+  have key : ∀ x, (imgK 9 48 P (Orb.C i)).testBit x = true ↔ x ∈ (pg 9 (mask 9) P) '' omS i := by
+    intro x
+    rw [mem_imgK, Set.mem_image]
+    constructor
+    · rintro ⟨t, ht, rfl⟩
+      exact ⟨_, (mem_omS hi).2 ⟨t, ht, rfl⟩, rfl⟩
+    · rintro ⟨y, hy, rfl⟩
+      obtain ⟨t, ht, rfl⟩ := (mem_omS hi).1 hy
+      exact ⟨t, ht, rfl⟩
+  constructor
+  · intro h
+    ext x
+    rw [← key, h]
+    rfl
+  · intro h
+    apply Nat.eq_of_testBit_eq
+    intro x
+    apply Bool.eq_iff_iff.2
+    rw [key, h]
+    rfl
+
+theorem omS_inj : ∀ a < 6300, ∀ b < 6300, omS a = omS b → a = b := by
+  intro a ha b hb e
+  apply key_inj ha hb
+  have h : V a = V b := by
+    apply Array.ext'
+    apply eq_of_pairwise_lt (pairwise_codeArr (code_ok ha)) (pairwise_codeArr (code_ok hb))
+    intro x
+    rw [mem_codeArr, mem_codeArr, ← mem_omS ha, ← mem_omS hb, e]
+  rw [h]
+
+theorem omS_clos8 {k : Nat} (hk : k < 8) :
+    ∀ i < 6300, ∃ j < 6300, (pg 9 (mask 9) (L.G k)) '' omS i = omS j := by
+  intro i hi
+  obtain ⟨j, hj, e⟩ := closK_spec (orb_facts hi).2.1 k hk
+  exact ⟨j, hj, (omImg_iff hi).1 e⟩
+
+theorem omPg_inv {k y : Nat} (hk : k < 8) (hy : y < 480) :
+    pg 9 (mask 9) (L.G (k + 8)) (pg 9 (mask 9) (L.G k) y) = y := by
+  have hp := (okK_iff (L_ok (l := k) (by omega))).2.1
+  have e : L.G (k + 8) = pinv (L.G k) := Nat.eq_of_beq_eq_true (allN_spec kInv k hk)
+  rw [e]
+  unfold permOK at hp
+  obtain ⟨-, hp⟩ := band hp
+  obtain ⟨-, hp⟩ := band hp
+  have h := allN_spec hp y hy
+  rw [CFSG.KC.SetOrb.strictB_eq] at h
+  exact Nat.eq_of_beq_eq_true (band h).2
+
+theorem omS_clos16 {l : Nat} (hl : l < 16) :
+    ∀ i < 6300, ∃ j < 6300, (pg 9 (mask 9) (L.G l)) '' omS i = omS j := by
+  by_cases h8 : l < 8
+  · exact omS_clos8 h8
+  · obtain ⟨k, rfl⟩ : ∃ k, l = k + 8 := ⟨l - 8, by omega⟩
+    exact img_inv_closed omS_inj (fun i hi y hy => omPg_inv (by omega) (omS_lt hi hy))
+      (omS_clos8 (k := k) (by omega))
+
+theorem omPg_wYK : ∀ w : List Nat, ∀ y < 480, pg 9 (mask 9) (wYK w) y =
+    (w.map fun l => pg 9 (mask 9) (L.G l)).foldr (fun f acc => f ∘ acc) id y
+  | [], y, hy => CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hy
+  | l :: w, y, hy => by
+    change pg 9 (mask 9) (pcomp 480 9 (mask 9) (L.G l) (wYK w)) y = _
+    rw [CFSG.KS.PF.pg_pcomp (by norm_num) hy, omPg_wYK w y hy]
+    rfl
+
+theorem omS_closW {w : List Nat} (hw : ∀ l ∈ w, l < 16) :
+    ∀ i < 6300, ∃ j < 6300, imgK 9 48 (wYK w) (Orb.C i) = Orb.M j := by
+  intro i hi
+  obtain ⟨j, hj, e⟩ := img_word_closed (N := 6300) (S := omS)
+    (w.map fun l => pg 9 (mask 9) (L.G l)) (fun f hf => by
+      obtain ⟨l, hl, rfl⟩ := List.mem_map.1 hf
+      exact omS_clos16 (hw l hl)) i hi
+  refine ⟨j, hj, (omImg_iff hi).2 ?_⟩
+  rw [← e]
+  exact Set.image_congr fun y hy => omPg_wYK w y (omS_lt hi hy)
+
+theorem omWS_clos {s : Nat} (hs : s < 12) :
+    ∀ i < 6300, ∃ j < 6300, imgK 9 48 (WS.G s) (Orb.C i) = Orb.M j := by
+  have hm : wSub.getD s [] ∈ wSub := by
+    rw [List.getD_eq_getElem _ _ (by rw [wSub_len]; exact hs)]
+    exact List.getElem_mem _
+  rw [Nat.eq_of_beq_eq_true (allN_spec kWS s hs)]
+  exact omS_closW fun l hl => wSub_lt _ hm l hl
+
+open Classical in
+noncomputable def omGIx (R x : Nat) : Nat :=
+  if h : ∃ j < 6300, imgK 9 48 R (Orb.C x) = Orb.M j then h.choose else 0
+
+theorem omGIx_spec {s x : Nat} (hs : s < 12) (hx : x < 6300) :
+    omGIx (WS.G s) x < 6300 ∧ imgK 9 48 (WS.G s) (Orb.C x) = Orb.M (omGIx (WS.G s) x) := by
+  have h := omWS_clos hs x hx
+  unfold omGIx
+  split
+  · next h' => exact h'.choose_spec
+  · next h' => exact absurd h h'
+
+noncomputable def omG8 (s : Nat) (X Y : Nat → Nat) (i : Nat) : Nat := Y (omGIx (WS.G s) (X i))
+
+theorem omTr {s N : Nat} {X Y D : Nat → Nat} (hs : s < 12)
+    (h : oTransS N X Y D (WS.G s) = true) :
+    transOK N X Y (oEP X Y (omG8 s X Y)) D (WS.G s) = true := by
+  refine transOK_of_S h fun i hi => ?_
+  obtain ⟨-, h⟩ := band h
+  obtain ⟨h1, h⟩ := band h
+  obtain ⟨-, h⟩ := band h
+  obtain ⟨h3, -⟩ := band h
+  have hx := Nat.blt_eq.mp (band (allN_spec h1 i hi)).2
+  obtain ⟨hj, e⟩ := omGIx_spec hs hx
+  obtain ⟨a, b⟩ := band (allN_spec h3 _ hj)
+  refine ⟨Nat.blt_eq.mp a, ?_⟩
+  unfold omG8
+  rw [Nat.eq_of_beq_eq_true b]
+  exact e
+
+theorem kTr0 : transOK Tr.c0.N Tr.c0.X Tr.c0.Y (oEP Tr.c0.X Tr.c0.Y (omG8 0 Tr.c0.X Tr.c0.Y))
+    Tr.c0.D (WS.G 0) = true := omTr (by norm_num) kTrS0
+theorem kTr1 : transOK Tr.c1.N Tr.c1.X Tr.c1.Y (oEP Tr.c1.X Tr.c1.Y (omG8 1 Tr.c1.X Tr.c1.Y))
+    Tr.c1.D (WS.G 1) = true := omTr (by norm_num) kTrS1
+theorem kTr2 : transOK Tr.c2.N Tr.c2.X Tr.c2.Y (oEP Tr.c2.X Tr.c2.Y (omG8 2 Tr.c2.X Tr.c2.Y))
+    Tr.c2.D (WS.G 2) = true := omTr (by norm_num) kTrS2
+theorem kTr3 : transOK Tr.c3.N Tr.c3.X Tr.c3.Y (oEP Tr.c3.X Tr.c3.Y (omG8 3 Tr.c3.X Tr.c3.Y))
+    Tr.c3.D (WS.G 3) = true := omTr (by norm_num) kTrS3
+theorem kTr4 : transOK Tr.c4.N Tr.c4.X Tr.c4.Y (oEP Tr.c4.X Tr.c4.Y (omG8 4 Tr.c4.X Tr.c4.Y))
+    Tr.c4.D (WS.G 4) = true := omTr (by norm_num) kTrS4
+theorem kTr5 : transOK Tr.c5.N Tr.c5.X Tr.c5.Y (oEP Tr.c5.X Tr.c5.Y (omG8 5 Tr.c5.X Tr.c5.Y))
+    Tr.c5.D (WS.G 5) = true := omTr (by norm_num) kTrS5
+theorem kTr6 : transOK Tr.c6.N Tr.c6.X Tr.c6.Y (oEP Tr.c6.X Tr.c6.Y (omG8 6 Tr.c6.X Tr.c6.Y))
+    Tr.c6.D (WS.G 6) = true := omTr (by norm_num) kTrS6
+theorem kTr7 : transOK Tr.c7.N Tr.c7.X Tr.c7.Y (oEP Tr.c7.X Tr.c7.Y (omG8 7 Tr.c7.X Tr.c7.Y))
+    Tr.c7.D (WS.G 7) = true := omTr (by norm_num) kTrS7
+theorem kTr8 : transOK Tr.c8.N Tr.c8.X Tr.c8.Y (oEP Tr.c8.X Tr.c8.Y (omG8 8 Tr.c8.X Tr.c8.Y))
+    Tr.c8.D (WS.G 8) = true := omTr (by norm_num) kTrS8
+theorem kTr9 : transOK Tr.c9.N Tr.c9.X Tr.c9.Y (oEP Tr.c9.X Tr.c9.Y (omG8 9 Tr.c9.X Tr.c9.Y))
+    Tr.c9.D (WS.G 9) = true := omTr (by norm_num) kTrS9
+theorem kTr10 : transOK Tr.c10.N Tr.c10.X Tr.c10.Y
+    (oEP Tr.c10.X Tr.c10.Y (omG8 10 Tr.c10.X Tr.c10.Y)) Tr.c10.D (WS.G 10) = true :=
+  omTr (by norm_num) kTrS10
+theorem kTr11 : transOK Tr.c11.N Tr.c11.X Tr.c11.Y
+    (oEP Tr.c11.X Tr.c11.Y (omG8 11 Tr.c11.X Tr.c11.Y)) Tr.c11.D (WS.G 11) = true :=
+  omTr (by norm_num) kTrS11
 
 end CertificateChecks.KernelOm2
 

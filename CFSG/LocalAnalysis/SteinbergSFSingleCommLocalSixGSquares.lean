@@ -203,36 +203,29 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [
 local notation "𝐀[" i "]" => pull φ (rootA K i)
 local notation "𝐔[" i "]" => pull φ (rootU K i)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐄₀" => (𝐄[Axis.one] ⊓ 𝐄[Axis.two] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐊[" i "]" => (𝐀[i] ⊔ (𝐅 ⊓ 𝐃[i]) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 set_option quotPrecheck false in
 local notation "𝐄𝐧[" i "]" => (normalizer ((𝐄[i] : Subgroup G) : Set G) ⊓
   normalizer ((𝐊[i] : Subgroup G) : Set G) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₂[" i "]" => (CFSG.pCore 2 𝐄𝐧[i]).map 𝐄𝐧[i].subtype
+local notation "𝐏₂[" i "]" => SixG.sgP₂ φ t i
 set_option quotPrecheck false in
 local notation "𝐏₀[" i "]" => (𝐏₁[i] ⊓ 𝐏₂[Axis.swap i] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐌₀[" i "]" => closure {x : G | ∃ p ∈ 𝐏₀[i], ∃ j ∈ pull φ (diagTorus K),
-  x = p⁻¹ * (j⁻¹ * p * j)}
+local notation "𝐌₀[" i "]" => SixG.sgM₀ φ t i
 set_option quotPrecheck false in
 local notation "𝐕[" i "," k "]" => (𝐌₀[i] ⊓ centralizer (𝐉[k] : Set G) : Subgroup G)
 set_option quotPrecheck false in

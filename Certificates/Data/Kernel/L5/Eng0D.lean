@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.L5.E0 "Certificates/Data/Kernel/L5/data/eng0.json.gz" 12171
+#kc_repo #kc_json CFSG.KD.L5.E0 "Certificates/Data/Kernel/L5/data/eng0.json" 12171
   2297653540975287356
   (codesP : Nat) (keyP : Nat) (invP : Nat) (embT : List (Nat × Nat)) (repsN : List Nat)
   (xN : Nat) (ciA : Array Nat) (cszA : Array Nat) (invsN : List Nat)

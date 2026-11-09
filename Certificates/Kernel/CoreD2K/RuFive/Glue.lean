@@ -3,7 +3,7 @@ module
 public import Certificates.Kernel.CoreD2K.RuFive.Checks
 public import Certificates.Kernel.CoreD2K.RuFive.Bind
 public import Certificates.Kernel.Misc.RuInv.Proof
-public import CFSG.Certificates.Kernel.CoreD2K.SoundOne
+public import CFSG.Certificates.Kernel.CoreD2K.SoundOneC
 public import CFSG.Certificates.Kernel.CoreD2K.Parts
 public import CFSG.LocalAnalysis.RankThreeTheoremC.CoreGenerationOne
 
@@ -89,18 +89,17 @@ theorem k_words : wordsK 4060 12 V GP GT GTI = true :=
       (fB.eq_1 i).symm.trans (all_fAB i hi).2⟩)
     (by rw [len_ys']; exact k_wok)
 
-theorem hyps : KHyps 4060 12 V GP GPI GT GTI RE.G RE.GI RE.T RE.PL RE.POS RE.SRT RE.SRI RE.cnt
-    125 125 where
+theorem hyps : KHypsOneC 4060 12 V GP GPI GT GTI RE.G exA exB exC 3 0 where
   hn := k_sz
   hgens := k_gens
-  hh := k_eh
-  hsl := by
-    rw [← Nat.eq_of_beq_eq_true k_ek]
-    exact k_esl
-  hlen := by rw [Nat.eq_of_beq_eq_true k_ecnt]
-  hcnt := by
-    rw [Nat.eq_of_beq_eq_true k_ecnt]
-    rfl
+  h3 := by
+    rw [len_eW]
+    norm_num
+  hp5 := rfl
+  hrel := k_exRel
+  hgen := fun k hk => exGF_all k (by rw [len_eW] at hk; exact hk)
+  hp0 := by norm_num
+  hpts := k_pts
   hnab := k_nab
   hcen := k_cen
   hlines := k_lines
@@ -131,7 +130,7 @@ theorem strict_facts_ruP :
               u * v = v * u ∧ u ≠ 1 ∧ (∀ j < 5, v ≠ u ^ j) ∧ ∃ α β γ δ : ℕ,
                 g * u = (u ^ α * v ^ β) * g ∧ g * v = (u ^ γ * v ^ δ) * g) ∨
             (∃ y ∈ A, y ≠ 1 ∧ y ^ 5 = 1 ∧ ∃ α : ℕ, g * y = y ^ α * g) :=
-  lines_facts_one hyps (by rw [len_ys']; exact k_strict) Nat.prime_five tab0 tab1
+  lines_facts_oneC hyps (by rw [len_ys']; exact k_strict) Nat.prime_five tab0 tab1
 
 theorem coreGenerationOneOf_ruP_five :
     CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen.CoreGenerationOneOf ↥ruP 5 := by

@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.S5Ext "Certificates/Kernel/S5Ext/data/s5ext.json.gz"
+#kc_repo #kc_json CFSG.KD.S5Ext "Certificates/Kernel/S5Ext/data/s5ext.json"
   398414 7440850193964907771
   (autK : List Nat) (AKP : Nat) (CMP : Nat) (IDE : Nat) (SG0 : Nat) (SG1 : Nat)
   (tree : List (Nat × Nat × Nat))

@@ -4,6 +4,7 @@ public import Certificates.Kernel.B3S3.HSChecks
 public import Certificates.Kernel.B3S3.HSTail
 public import Certificates.Kernel.B3S3.HSJoin
 public import CFSG.Certificates.Kernel.B3S3KCard
+public import CFSG.Certificates.Kernel.B3S3KConj
 public import CFSG.Certificates.Kernel.HexArrsSound
 public import CFSG.Certificates.Kernel.Misc.PermClosSound
 public import CFSG.Sporadic.Schreier.PairHSOrder
@@ -143,9 +144,9 @@ theorem crit0 (pts : Array (Array ℕ)) (hs : pts.size = E0.N)
   change (convProdOK 3850 pts [2, 5] [1] &&
     (Nat.primeFactorsList 360).all fun q => q == 3 || [2, 5].contains q) = true
   rw [Bool.and_eq_true]
-  have hcv : allN E0.N (convAt 3850 12 E0.N E0.T [2, 5] [1] WJ WR) = true := by
+  have hcr : allN E0.N (convCR 3850 12 E0.N E0.T [2, 5] [1] WJ2 WR CR CG) = true := by
     rw [Orb.allN_iff, Nat.eq_of_beq_eq_true n0.2.1]
-    exact forall_of_chunks 60 6 cv fun c hc => by
+    exact forall_of_chunks 30 12 cv fun c hc => by
       interval_cases c
       · exact cv_0
       · exact cv_1
@@ -153,25 +154,51 @@ theorem crit0 (pts : Array (Array ℕ)) (hs : pts.size = E0.N)
       · exact cv_3
       · exact cv_4
       · exact cv_5
+      · exact cv_6
+      · exact cv_7
+      · exact cv_8
+      · exact cv_9
+      · exact cv_10
+      · exact cv_11
+  have hcv := convAt_of_convCR szOK' (fun i hi => Orb.allN_iff.1 hE0p i hi) hcr
   exact ⟨convProdOK_of szOK' hs hp (fun i hi => Orb.allN_iff.1 hE0p i hi) hcv,
     by simp only [Nat.primeFactorsList_ofNat]; decide⟩
 
-theorem tail0 : allN (rcnt (C0.LR 0)) (ptailBranchK 3850 12 C0.LR C0.TR C0.BP (XC.F 0)
-    (pw 3850 12 (XC.F 0)) hsS3C0Rels E0.N E0.T 6) = true := by
-  rw [Orb.allN_iff, Nat.eq_of_beq_eq_true rc0]
-  exact forall_of_chunks 350 11 br fun c hc => by
+theorem orbK0 : ∀ q < rcnt (C0.LR 0), orbRelK 3850 12 C0.LR C0.BP (pw 3850 12 (XC.F 0)) hsS3C0Rels
+    E0.N E0.T 2 RB RI EK q = true := by
+  rw [Nat.eq_of_beq_eq_true rc0]
+  exact forall_of_chunks 350 11 ob fun c hc => by
     interval_cases c
-    · exact br_0
-    · exact br_1
-    · exact br_2
-    · exact br_3
-    · exact br_4
-    · exact br_5
-    · exact br_6
-    · exact br_7
-    · exact br_8
-    · exact br_9
-    · exact br_10
+    · exact ob_0
+    · exact ob_1
+    · exact ob_2
+    · exact ob_3
+    · exact ob_4
+    · exact ob_5
+    · exact ob_6
+    · exact ob_7
+    · exact ob_8
+    · exact ob_9
+    · exact ob_10
+
+theorem rep : ∀ j < 2, 0 < j → repBranchK 3850 12 C0.LR C0.TR C0.BP (XC.F 0)
+    (pw 3850 12 (XC.F 0)) hsS3C0Rels E0.N E0.T 6 (RB j) = true := by
+  intro j hj hj0
+  interval_cases j
+  exact rep1
+
+theorem orbK1 : ∀ q < rcnt (C0.LR 1), orbRelK1 3850 12 C0.LR C0.TR C0.BP (pw 3850 12 (XC.F 0))
+    hsS3C0Rels E0.N E0.T (RB 0) 1 RB1 RI1 EK1 q = true := by
+  rw [Nat.eq_of_beq_eq_true rc1]
+  exact forall_of_chunks 120 1 ob1 fun c hc => by
+    interval_cases c
+    exact ob1_0
+
+theorem rep1K : ∀ j < 1, repBranchK1 3850 12 C0.LR C0.TR C0.BP (XC.F 0) (pw 3850 12 (XC.F 0))
+    hsS3C0Rels E0.N E0.T 6 (RB 0) (RB1 j) = true := by
+  intro j hj
+  interval_cases j
+  exact rep0
 
 theorem case_of {D : Data} {k : Case} (hn : D.n = 3850)
     (hDA : D.A = CFSG.Sporadic.Schreier.hsStrongArrs[0]!)
@@ -190,16 +217,23 @@ theorem case_of {D : Data} {k : Case} (hn : D.n = 3850)
   have hK : CFSG.KC.BfsPin.keysSK 3850 12 k.base.toList E0.N E0.T E0.SK = true := by
     rw [hbase]; exact E0.keys
   have hr : relsK 3850 12 3 C0.BP (XC.F 0) 6 k.rels = true := by rw [hrels]; exact rels0
-  have ht : allN (rcnt (C0.LR 0)) (ptailBranchK 3850 12 C0.LR C0.TR C0.BP (XC.F 0)
-      (pw 3850 12 (XC.F 0)) k.rels E0.N E0.T 6) = true := by rw [hrels]; exact tail0
+  have hrep : ∀ j < 2, 0 < j → repBranchK 3850 12 C0.LR C0.TR C0.BP (XC.F 0)
+      (pw 3850 12 (XC.F 0)) k.rels E0.N E0.T 6 (RB j) = true := by rw [hrels]; exact rep
+  have ho : ∀ q < rcnt (C0.LR 0), orbRelK 3850 12 C0.LR C0.BP (pw 3850 12 (XC.F 0)) k.rels
+      E0.N E0.T 2 RB RI EK q = true := by rw [hrels]; exact orbK0
+  have hrep1 : ∀ j < 1, repBranchK1 3850 12 C0.LR C0.TR C0.BP (XC.F 0) (pw 3850 12 (XC.F 0))
+      k.rels E0.N E0.T 6 (RB 0) (RB1 j) = true := by rw [hrels]; exact rep1K
+  have ho1 : ∀ q < rcnt (C0.LR 1), orbRelK1 3850 12 C0.LR C0.TR C0.BP (pw 3850 12 (XC.F 0))
+      k.rels E0.N E0.T (RB 0) 1 RB1 RI1 EK1 q = true := by rw [hrels]; exact orbK1
   have hc : ∀ pts : Array (Array ℕ), pts.size = E0.N →
       (∀ i < E0.N, pts[i]! = unpack 3850 12 (E0.T i)) → critOK 3850 pts k.card k.crit = true := by
     rw [hcard, hcrit]; exact crit0
-  refine caseOK_of_card szOK' hn (by rw [hDA]; exact hA 0 (by norm_num))
+  refine caseOK_of_card_orb1 szOK' hn (by rw [hDA]; exact hA 0 (by norm_num))
     (by rw [hDB]; exact hA 1 (by norm_num))
     (pS 0 (by norm_num)) (pS 1 (by norm_num)) rfl x0.1 x0.2 hb perm0
     C0.head C0.hl hor hW' (Nat.beq_refl _) (Nat.beq_refl _) (by norm_num) hnd (by norm_num)
-    hg comm0 (fun j hj => ?_) E0.ok hK hE0p hN hr ht hc
+    hg comm0 (fun j hj => ?_) E0.ok hK hE0p hN hr hrep ho (by rw [← Nat.blt_eq]; exact q0a)
+    (Nat.eq_of_beq_eq_true q0b) hrep1 ho1 hc
   rw [Nat.eq_of_beq_eq_true n0.2.2.1] at hj
   exact siftG j hj
 

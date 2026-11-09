@@ -36,8 +36,6 @@ meta def ogS11M : List (List Nat) := evL Certificates.Odd87F3.M12.oddWordsSig_11
 meta def irepsM : Array (Array Nat) :=
   #[evAB Certificates.Odd87F3.M12.repWordInn1, evAB Certificates.Odd87F3.M12.repWordInn2]
 
-meta def oneM : Array Nat := idA 24
-
 end CertificateChecks.KernelSporSch.M12DW
 
 #kss_packs CertificateChecks.KernelSporSch.M12DW.OG13 5 CertificateChecks.KernelSporSch.M12DW.og13M
@@ -64,9 +62,5 @@ namespace CertificateChecks.KernelSporSch.M12DW
 @[expose] noncomputable def One : Nat := CFSG.KC.Enum.pidn 24 5
 
 end CertificateChecks.KernelSporSch.M12DW
-
-#kss_cntord2 CertificateChecks.KernelSporSch.M12IX CertificateChecks.KernelSporSch.M12DQ 24 5
-  CertificateChecks.KernelSporSch.M12MOC.SM CertificateChecks.KernelSporSch.M12MOC.baseM
-  CertificateChecks.KernelSporSch.M12DW.One CertificateChecks.KernelSporSch.M12DW.oneM 2
 
 end

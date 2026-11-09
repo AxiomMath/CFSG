@@ -96,20 +96,21 @@ theorem land_pow_beq (x j : Nat) :
     have := congrArg (fun z => z.testBit j) h0
     simp [Nat.testBit_and, Nat.testBit_two_pow, hb] at this
 
+theorem land_mask64_lt (a : Nat) : Nat.land a (nat_lit 18446744073709551615) < 2 ^ 64 := by
+  rw [show ∀ b c : Nat, Nat.land b c = b &&& c from fun _ _ => rfl]
+  exact Nat.lt_of_le_of_lt Nat.and_le_right (by decide)
+
 theorem testBit_addKey (M m k : Nat) :
     (addKey M m).testBit (k + 64) = (M.testBit (k + 64) || k == m) := by
   unfold addKey
   have hs : ∀ s : Nat, s < 2 ^ 64 → s.testBit (k + 64) = false := fun s hs =>
     Nat.testBit_lt_two_pow (lt_of_lt_of_le hs (Nat.pow_le_pow_right (by norm_num) (by omega)))
-  have h1 : Nat.land M 18446744073709551615 < 2 ^ 64 := by
-    change M &&& (2 ^ 64 - 1) < 2 ^ 64
-    rw [Nat.and_two_pow_sub_one_eq_mod]
-    exact Nat.mod_lt _ (by norm_num)
+  have h1 : Nat.land M 18446744073709551615 < 2 ^ 64 := land_mask64_lt M
   have h2 : saltN (Nat.land M 18446744073709551615) < 2 ^ 64 := by
-    unfold saltN
-    change _ &&& (2 ^ 64 - 1) < 2 ^ 64
-    rw [Nat.and_two_pow_sub_one_eq_mod]
-    exact Nat.mod_lt _ (by norm_num)
+    have h : saltN = fun s => Nat.land (Nat.add (Nat.mul s (nat_lit 6364136223846793005))
+        (nat_lit 1442695040888963407)) (nat_lit 18446744073709551615) := rfl
+    rw [h]
+    exact land_mask64_lt _
   change ((M ||| 1 <<< (m + 64)) ^^^ (Nat.land M 18446744073709551615 ^^^
     saltN (Nat.land M 18446744073709551615))).testBit (k + 64) = _
   rw [Nat.testBit_xor, hs _ (Nat.xor_lt_two_pow h1 h2), Bool.xor_false, Nat.testBit_or,

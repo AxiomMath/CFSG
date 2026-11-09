@@ -3,6 +3,7 @@ module
 public import CFSG.Certificates.Kernel.Misc.LinesPerp
 public import CFSG.Certificates.Kernel.Misc.LinesGeom
 import CFSG.Certificates.Kernel.Misc.LinesAlg
+import CFSG.Certificates.Kernel.Common.Harness
 public import Std.Tactic.BVDecide.Normalize.BitVec
 public import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -100,10 +101,34 @@ theorem plK_spec {PB : Nat → Nat} {PL : Nat → List Nat} (h : plK PB PL = tru
 @[expose] def lineL (UP PP x y : Nat) : List Nat :=
   [x, y, lnP1 UP PP x y, lnP2 UP PP x y, lnP3 UP PP x y]
 
+theorem lnTab_ok : lnTabK = true := by quickRfl
+
+theorem lnTab_get {c : Nat} (hc : c < 4096) :
+    lnS2 c = scaleK 2 c ∧ lnS2 (lnS2 c) = scaleK 3 c ∧ lnNorm c = normK c := by
+  have h := lnTab_ok
+  unfold lnTabK at h
+  rw [allN_lqt_iff] at h
+  have h1 := h c hc
+  simp only [andB_eq, Bool.and_eq_true, Nat.beq_eq] at h1
+  exact h1
+
 theorem line3_eq (UP PP x y : Nat) :
     line3 UP PP x y = lnP1 UP PP x y + 1024 * (lnP2 UP PP x y + 1024 * lnP3 UP PP x y) := by
+  have hx : fd 12 UP x < 4096 := fd_lt 12 UP x
+  have hy : fd 12 UP y < 4096 := fd_lt 12 UP y
+  have hN : ∀ c < 4096, lnNorm c = normK c := fun c hc => (lnTab_get hc).2.2
+  have h2 : scaleK 2 (fd 12 UP y) < 4096 := by
+    rw [scaleK_eq]
+    exact scaleC_lt 2 _
+  have h3 : scaleK 3 (fd 12 UP y) < 4096 := by
+    rw [scaleK_eq]
+    exact scaleC_lt 3 _
   unfold line3
-  simp only [letN_eq, at'_eq, normK_eq, scaleK_eq]
+  simp only [letN_eq, at'_eq]
+  rw [(lnTab_get hy).2.1, (lnTab_get hy).1, hN (Nat.xor (fd 12 UP x) (fd 12 UP y)) (xor_lt_4096 hx hy),
+    hN (Nat.xor (fd 12 UP x) (scaleK 2 (fd 12 UP y))) (xor_lt_4096 hx h2),
+    hN (Nat.xor (fd 12 UP x) (scaleK 3 (fd 12 UP y))) (xor_lt_4096 hx h3)]
+  simp only [normK_eq, scaleK_eq]
   rfl
 
 theorem lnP1_lt (UP PP x y : Nat) : lnP1 UP PP x y < 1024 := fd_lt 10 PP _
@@ -148,6 +173,22 @@ theorem lineB_testBit (UP PP x y z : Nat) :
   constructor
   · rintro ((h | h) | h | h | h) <;> simp [h]
   · rintro (h | h | h | h | h) <;> simp [h]
+
+theorem lnP_comm (UP PP x y : Nat) : lnP1 UP PP y x = lnP1 UP PP x y ∧
+    lnP2 UP PP y x = lnP3 UP PP x y ∧ lnP3 UP PP y x = lnP2 UP PP x y := by
+  obtain ⟨e2, e3⟩ := normC_xor_scaleC_swap (fd_lt 12 UP x) (fd_lt 12 UP y)
+  unfold lnP1 lnP2 lnP3
+  rw [Nat.xor_comm, e2, e3]
+  exact ⟨rfl, rfl, rfl⟩
+
+theorem lineB_comm (UP PP x y : Nat) : lineB UP PP y x = lineB UP PP x y := by
+  obtain ⟨h1, h2, h3⟩ := lnP_comm UP PP x y
+  apply Nat.eq_of_testBit_eq
+  intro z
+  apply Bool.eq_iff_iff.2
+  rw [lineB_testBit, lineB_testBit]
+  simp only [lineL, List.mem_cons, List.not_mem_nil, or_false, h1, h2, h3]
+  tauto
 
 theorem line5_spec {UP PP x y : Nat} (h : line5 UP PP x y = true) :
     lnP1 UP PP x y < 693 ∧ lnP2 UP PP x y < 693 ∧ lnP3 UP PP x y < 693 ∧
@@ -199,36 +240,57 @@ theorem interB_testBit (PB : Nat → Nat) (Py : Nat) (l : List Nat) (z : Nat) :
       rw [hb']
       simp
 
-theorem linesK_spec {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
-    (h : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true) :
-    ∀ x < 693, ∀ y ∈ PL x, x < y →
-      line5 UP PP x y = true ∧ lineB UP PP y x = lineB UP PP x y ∧
-      ∀ z, (lineB UP PP x y).testBit z =
-        (decide (z < 693) && (PL x).all fun w => !bitK (PB y) w || (PB w).testBit z) := by
-  intro x hx y hy hxy
+theorem lnChk_of {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
+    (h : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true) {x y : Nat} (hx : x < 693)
+    (hy : y ∈ PL x) (hxy : x < y) : lnChk UP PP PB PL x y = true := by
   have hk : x / 33 < 21 := by omega
   have h1 := h (x / 33) hk
   unfold linesK at h1
   rw [allN_lqt_iff] at h1
   have h2 := h1 (x % 33) (by omega)
   have e : 33 * (x / 33) + x % 33 = x := by omega
-  simp only [Nat.add_eq, e, letB_eq, impB_eq, andB_eq, Bool.and_eq_true, Bool.or_eq_true,
-    Bool.not_eq_true', allL_lqt_iff, Nat.beq_eq] at h2
-  have hxb : Nat.blt x 693 = true := Nat.blt_eq.mpr hx
+  simp only [Nat.add_eq, e, letB_eq, impB_eq, Bool.or_eq_true, Bool.not_eq_true',
+    allL_lqt_iff] at h2
   rcases h2 with h2 | h2
-  · rw [hxb] at h2
+  · rw [Nat.blt_eq.mpr hx] at h2
     exact absurd h2 (by simp)
-  have h3 := h2 y hy
-  rcases h3 with h3 | ⟨h4, h5, h6⟩
-  · have : ¬ x < y := by
-      intro hlt
-      have := Nat.blt_eq.mpr hlt
-      rw [this] at h3
-      exact absurd h3 (by simp)
-    exact absurd hxy this
-  refine ⟨h4, h5, fun z => ?_⟩
-  have h7 : interB PB (PB y) (PL x) = lineB UP PP x y := h6
-  rw [← h7, interB_testBit]
+  rcases h2 y hy with h3 | h3
+  · rw [Nat.blt_eq.mpr hxy] at h3
+    exact absurd h3 (by simp)
+  exact h3
+
+theorem lnChk_parts {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat} {x y : Nat}
+    (h : lnChk UP PP PB PL x y = true) :
+    line5 UP PP x y = true ∧ lineB UP PP y x = lineB UP PP x y ∧ lnClq UP PP PB x y = true ∧
+      (lnCrit (lineB UP PP x y) x y = true → lnFold UP PP PB PL x y = true) ∧
+      (lnCrit (lineB UP PP x y) x y = false → lnRef UP PP PB x y = true) := by
+  unfold lnChk at h
+  simp only [andB_eq, Bool.and_eq_true] at h
+  obtain ⟨h1, h3, h4⟩ := h
+  refine ⟨h1, lineB_comm UP PP x y, h3, fun hc => ?_, fun hc => ?_⟩
+  · rw [hc] at h4
+    exact h4
+  · rw [hc] at h4
+    exact h4
+
+theorem lnClq_spec {UP PP : Nat} {PB : Nat → Nat} {x y : Nat} (h : lnClq UP PP PB x y = true) :
+    ∀ z ∈ lineL UP PP x y, (PB x &&& PB y).testBit z = true ∧
+      PB x &&& PB y &&& PB z = PB x &&& PB y := by
+  intro z hz
+  unfold lnClq at h
+  simp only [letB_eq, allL_lqt_iff, andB_eq, Bool.and_eq_true, Nat.beq_eq, line3_a, line3_b,
+    line3_c] at h
+  have h1 := h z hz
+  rw [bitK_eq_testBit] at h1
+  exact h1
+
+theorem lnRef_spec {UP PP : Nat} {PB : Nat → Nat} {x y : Nat} (h : lnRef UP PP PB x y = true) :
+    ∃ m1 m2, m1 < m2 ∧ m2 < 693 ∧ bitK (PB m1) m2 = true ∧
+      lineB UP PP m1 m2 = lineB UP PP x y ∧ lnCrit (lineB UP PP x y) m1 m2 = true := by
+  unfold lnRef at h
+  simp only [letB_eq, andB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h
+  obtain ⟨h1, h2, h3, h4, h5⟩ := h
+  exact ⟨_, _, h1, h2, h3, h4, h5⟩
 
 @[expose] noncomputable def relB (PB : Nat → Nat) (x y : Nat) : Bool := bitK (PB x) y
 
@@ -286,48 +348,107 @@ theorem relB_deg {UP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
     rw [mem_PL_iff hperp hpl hp]
   rw [e, List.toFinset_card_of_nodup hnd, hlen]
 
-theorem mem_lineL_iff {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
-    (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
+theorem lnSub {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} (H : Pts UL UP PP)
+    (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) {x y : Nat} (hx : x < 693) (hy : y < 693)
+    (h5 : line5 UP PP x y = true) (hc : lnClq UP PP PB x y = true) :
+    ∀ z ∈ lineL UP PP x y, z < 693 ∧ ∀ w < 693, relB PB x w = true → relB PB y w = true →
+      relB PB w z = true := by
+  intro z hz
+  have hz6 : z < 693 := by
+    obtain ⟨a1, a2, a3, -⟩ := line5_spec h5
+    simp only [lineL, List.mem_cons, List.not_mem_nil, or_false] at hz
+    rcases hz with rfl | rfl | rfl | rfl | rfl <;> assumption
+  refine ⟨hz6, fun w hw h1 h2 => ?_⟩
+  obtain ⟨-, hA⟩ := lnClq_spec hc z hz
+  simp only [relB, bitK_eq_testBit] at h1 h2
+  have hb : (PB x &&& PB y &&& PB z).testBit w = true := by
+    rw [hA, Nat.testBit_and, h1, h2]
+    rfl
+  rw [Nat.testBit_and, Bool.and_eq_true] at hb
+  have hzw : relB PB z w = true := by
+    rw [relB, bitK_eq_testBit]
+    exact hb.2
+  exact relB_symm H hperp hz6 hw hzw
+
+theorem lnBase {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
+    (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true) {x y : Nat}
+    (hx : x < 693) (hf : lnFold UP PP PB PL x y = true) (z : Nat) (hz : z < 693)
+    (hall : ∀ w < 693, relB PB x w = true → relB PB y w = true → relB PB w z = true) :
+    z ∈ lineL UP PP x y := by
+  rw [← lineB_testBit]
+  have h7 : interB PB (PB y) (PL x) = lineB UP PP x y := by
+    unfold lnFold at hf
+    simp only [letB_eq, Nat.beq_eq] at hf
+    exact hf
+  rw [← h7, interB_testBit]
+  simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, Bool.or_eq_true,
+    Bool.not_eq_true']
+  refine ⟨hz, fun w hw => ?_⟩
+  obtain ⟨hw1, hw2⟩ := (mem_PL_iff hperp hpl hx).1 hw
+  by_cases hb : bitK (PB y) w = true
+  · right
+    simpa [relB, bitK_eq_testBit] using hall w hw1 hw2 hb
+  · left
+    simpa using hb
+
+theorem linesK_spec {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
+    (H : Pts UL UP PP) (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
+    (h : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true) {x y : Nat} (hx : x < 693)
+    (hy : y ∈ PL x) (hxy : x < y) :
+    line5 UP PP x y = true ∧ lineB UP PP y x = lineB UP PP x y ∧
+      ∀ z, z ∈ lineL UP PP x y ↔ z < 693 ∧ ∀ w < 693, relB PB x w = true →
+        relB PB y w = true → relB PB w z = true := by
+  have hy6 := ((mem_PL_iff hperp hpl hx).1 hy).1
+  obtain ⟨h5, hs, hc, hr⟩ := lnChk_parts (lnChk_of h hx hy hxy)
+  refine ⟨h5, hs, fun z => ⟨lnSub H hperp hx hy6 h5 hc z, ?_⟩⟩
+  rintro ⟨hz, hall⟩
+  cases hcr : lnCrit (lineB UP PP x y) x y
+  · obtain ⟨m1, m2, hm, hm2, hr12, hL, hcrit⟩ := lnRef_spec (hr.2 hcr)
+    have hm1 : m1 < 693 := by omega
+    have hm2PL : m2 ∈ PL m1 := (mem_PL_iff hperp hpl hm1).2 ⟨hm2, hr12⟩
+    obtain ⟨h5', -, hc', hr'⟩ := lnChk_parts (lnChk_of h hm1 hm2PL hm)
+    have hcrit' : lnCrit (lineB UP PP m1 m2) m1 m2 = true := by
+      rw [hL]
+      exact hcrit
+    have hxm : x ∈ lineL UP PP m1 m2 := by
+      rw [← lineB_testBit, hL, lineB_testBit]
+      simp [lineL]
+    have hym : y ∈ lineL UP PP m1 m2 := by
+      rw [← lineB_testBit, hL, lineB_testBit]
+      simp [lineL]
+    have hall' : ∀ w < 693, relB PB m1 w = true → relB PB m2 w = true → relB PB w z = true := by
+      intro w hw h1 h2
+      have ax := (lnSub H hperp hm1 hm2 h5' hc' x hxm).2 w hw h1 h2
+      have ay := (lnSub H hperp hm1 hm2 h5' hc' y hym).2 w hw h1 h2
+      exact hall w hw (relB_symm H hperp hw hx ax) (relB_symm H hperp hw hy6 ay)
+    have hzm := lnBase hperp hpl hm1 (hr'.1 hcrit') z hz hall'
+    rw [← lineB_testBit, hL, lineB_testBit] at hzm
+    exact hzm
+  · exact lnBase hperp hpl hx (hr.1 hcr) z hz hall
+
+theorem mem_lineL_iff {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
+    (H : Pts UL UP PP) (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
     (hl : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true) {x y : Nat} (hx : x < 693)
     (hy : y < 693) (hxy : x < y) (hr : relB PB x y = true) (z : Nat) :
     z ∈ lineL UP PP x y ↔ z < 693 ∧ ∀ w < 693, relB PB x w = true → relB PB y w = true →
-      relB PB w z = true := by
-  have hyx : y ∈ PL x := (mem_PL_iff hperp hpl hx).2 ⟨hy, hr⟩
-  obtain ⟨-, -, hbit⟩ := linesK_spec hl x hx y hyx hxy
-  rw [← lineB_testBit, hbit z]
-  simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, Bool.or_eq_true,
-    Bool.not_eq_true']
-  refine and_congr Iff.rfl ?_
-  constructor
-  · intro h w hw h1 h2
-    have := h w ((mem_PL_iff hperp hpl hx).2 ⟨hw, h1⟩)
-    rcases this with h3 | h3
-    · exact absurd h2 (by rw [relB, h3]; simp)
-    · simpa [relB, bitK_eq_testBit] using h3
-  · intro h w hw
-    obtain ⟨hw1, hw2⟩ := (mem_PL_iff hperp hpl hx).1 hw
-    by_cases hb : bitK (PB y) w = true
-    · right
-      have := h w hw1 hw2 hb
-      simpa [relB, bitK_eq_testBit] using this
-    · left
-      simpa using hb
+      relB PB w z = true :=
+  (linesK_spec H hperp hpl hl hx ((mem_PL_iff hperp hpl hx).2 ⟨hy, hr⟩) hxy).2.2 z
 
-theorem lineL_symm_iff {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
-    (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
+theorem lineL_symm_iff {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
+    (H : Pts UL UP PP) (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
     (hl : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true) {x y : Nat} (hx : x < 693)
     (hy : y < 693) (hxy : x < y) (hr : relB PB x y = true) (z : Nat) :
     z ∈ lineL UP PP y x ↔ z ∈ lineL UP PP x y := by
-  have hyx : y ∈ PL x := (mem_PL_iff hperp hpl hx).2 ⟨hy, hr⟩
-  obtain ⟨-, h5, -⟩ := linesK_spec hl x hx y hyx hxy
+  obtain ⟨-, h5, -⟩ :=
+    linesK_spec H hperp hpl hl hx ((mem_PL_iff hperp hpl hx).2 ⟨hy, hr⟩) hxy
   rw [← lineB_testBit, ← lineB_testBit, h5]
 
-theorem nodup_lineL {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
-    (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
+theorem nodup_lineL {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
+    (H : Pts UL UP PP) (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true) (hpl : plK PB PL = true)
     (hl : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true) {x y : Nat} (hx : x < 693)
     (hy : y < 693) (hxy : x < y) (hr : relB PB x y = true) : (lineL UP PP x y).Nodup := by
-  have hyx : y ∈ PL x := (mem_PL_iff hperp hpl hx).2 ⟨hy, hr⟩
-  obtain ⟨h4, -, -⟩ := linesK_spec hl x hx y hyx hxy
+  obtain ⟨h4, -, -⟩ :=
+    linesK_spec H hperp hpl hl hx ((mem_PL_iff hperp hpl hx).2 ⟨hy, hr⟩) hxy
   exact (line5_spec h4).2.2.2
 
 theorem mem_lineL_Ln {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
@@ -336,9 +457,9 @@ theorem mem_lineL_Ln {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat 
     (hx : x < 693) (hy : y < 693) (hne : x ≠ y) (hr : relB PB x y = true) (z : Nat) :
     z ∈ lineL UP PP x y ↔ z ∈ Ln (relB PB) x y := by
   rcases Nat.lt_or_gt_of_ne hne with h | h
-  · rw [mem_lineL_iff hperp hpl hl hx hy h hr z, mem_Ln]
+  · rw [mem_lineL_iff H hperp hpl hl hx hy h hr z, mem_Ln]
   · have hr' : relB PB y x = true := relB_symm H hperp hx hy hr
-    rw [lineL_symm_iff hperp hpl hl hy hx h hr' z, mem_lineL_iff hperp hpl hl hy hx h hr' z,
+    rw [lineL_symm_iff H hperp hpl hl hy hx h hr' z, mem_lineL_iff H hperp hpl hl hy hx h hr' z,
       Ln_comm (relB PB) x y, mem_Ln]
 
 theorem polarRel_of_kernel {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
@@ -352,7 +473,7 @@ theorem polarRel_of_kernel {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} {PL 
     have e : Ln (relB PB) x y = (lineL UP PP x y).toFinset := by
       ext z
       rw [List.mem_toFinset, mem_lineL_Ln H hperp hpl hl hx hy (Nat.ne_of_lt hxy) hr z]
-    rw [e, List.toFinset_card_of_nodup (nodup_lineL hperp hpl hl hx hy hxy hr)]
+    rw [e, List.toFinset_card_of_nodup (nodup_lineL H hperp hpl hl hx hy hxy hr)]
     rfl
 
 theorem testBit_sub_one_of_odd {n : Nat} (h : n.testBit 0 = true) (w : Nat) :
@@ -495,6 +616,14 @@ theorem testBit_land_iff {UP : Nat} {PB : Nat → Nat}
   · rintro ⟨-, h1, h2⟩
     exact ⟨h1, h2⟩
 
+theorem ppNb_eq (S : Nat) (l : List Nat) : ppNb S l = l.filter (bitK S) := by
+  induction l with
+  | nil => rfl
+  | cons p t ih =>
+    change Bool.rec (motive := fun _ => List Nat) (ppNb S t) (p :: ppNb S t) (bitK S p) = _
+    rw [ih, List.filter_cons]
+    cases bitK S p <;> rfl
+
 theorem ppK_spec {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
     (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true)
     (hpl : plK PB PL = true) (hpp : ∀ k < 21, ppK UP PP PB PL (33 * k) 33 = true) :
@@ -515,7 +644,7 @@ theorem ppK_spec {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
   rw [allN_lqt_iff] at h1
   have h2 := h1 (q % 33) (by omega)
   have e : 33 * (q / 33) + q % 33 = q := by omega
-  simp only [Nat.add_eq, e, impB_eq, andB_eq, orB_eq, notB_eq, Bool.and_eq_true,
+  simp only [Nat.add_eq, e, plK_letLN'_eq, impB_eq, andB_eq, orB_eq, notB_eq, Bool.and_eq_true,
     Bool.or_eq_true, Bool.not_eq_true'] at h2
   rcases h2 with h2 | ⟨c1, c2, c3, c4⟩
   · have hq' : q.blt 693 = true := Nat.blt_eq.mpr hq
@@ -531,36 +660,34 @@ theorem ppK_spec {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
   have hNS_PL : ∀ a, a ∈ NS PB q → a ∈ PL 0 := fun a ha => by
     rw [mem_NS] at ha
     exact (hPL0 a).2 ⟨ha.1, ha.2.1⟩
+  have hN : ∀ a, a ∈ ppNb (Nat.land (PB 0) (PB q)) (PL 0) ↔ a ∈ NS PB q := fun a => by
+    rw [ppNb_eq, List.mem_filter]
+    exact ⟨fun h => (hbit a).1 h.2, fun h => ⟨hNS_PL a h, (hbit a).2 h⟩⟩
   refine ⟨?_, ?_, ?_, ?_⟩
   ·
-    have h45 : popK (Nat.land (PB 0) (PB q)) = 45 := by simpa using c1
-    rw [popK_eq] at h45
-    have e : NS PB q = (Finset.range 693).filter fun i : Nat =>
-        (Nat.land (PB 0) (PB q)).testBit i = true := by
+    have h45 : (ppNb (Nat.land (PB 0) (PB q)) (PL 0)).length = 45 := by
+      simpa [Nat.beq_eq, lenN_misc_eq] using c1
+    have hnd : (ppNb (Nat.land (PB 0) (PB q)) (PL 0)).Nodup := by
+      rw [ppNb_eq]
+      exact (((plK_spec hpl 0 (by norm_num)).2.1.imp Nat.ne_of_lt).sublist
+        List.filter_sublist)
+    have e : NS PB q = (ppNb (Nat.land (PB 0) (PB q)) (PL 0)).toFinset := by
       ext i
-      rw [Finset.mem_filter, Finset.mem_range, testBit_land_iff hperp]
-      constructor
-      · intro h
-        exact ⟨(mem_NS.1 h).1, h⟩
-      · exact fun h => h.2
-    rw [e]
+      rw [List.mem_toFinset, hN]
+    rw [e, List.toFinset_card_of_nodup hnd]
     exact h45
   ·
     rw [anyL_iff'] at c2
     obtain ⟨a, ha, h1⟩ := c2
-    simp only [Bool.and_eq_true] at h1
-    obtain ⟨h1a, h1b⟩ := h1
-    rw [anyL_iff'] at h1b
-    obtain ⟨b, hb, h2⟩ := h1b
+    rw [anyL_iff'] at h1
+    obtain ⟨b, hb, h2⟩ := h1
     simp only [Bool.and_eq_true, Bool.not_eq_true'] at h2
     obtain ⟨h2b, h2c, h2d⟩ := h2
-    have ha693 : a < 693 := ((hPL0 a).1 ha).1
     have hab' : a ≠ b := (nat_beq_eq_false_iff _ _).1 h2c
     have h3 : 3 ≤ popK (Nat.land (lineB UP PP a b) (Nat.land (PB 0) (PB q))) := by
       rwa [Nat.ble_eq] at h2d
     rw [popK_eq] at h3
-    refine ⟨a, b, (hbit a).1 h1a, (hbit b).1 h2b, hab',
-      ((mem_PL_iff hperp hpl ha693).1 hb).2, ?_⟩
+    refine ⟨a, b, (hN a).1 ha, (hN b).1 hb, hab', h2b, ?_⟩
     by_contra hno
     have hsub : ((Finset.range 693).filter fun i : Nat =>
         (Nat.land (lineB UP PP a b) (Nat.land (PB 0) (PB q))).testBit i = true) ⊆ {a, b} := by
@@ -579,18 +706,13 @@ theorem ppK_spec {UP PP : Nat} {PB : Nat → Nat} {PL : Nat → List Nat}
   ·
     intro a ha b hb hab hrab
     rw [allL_lqt_iff] at c3
-    have h1 := c3 a (hNS_PL a ha)
-    simp only [Bool.or_eq_true, Bool.not_eq_true'] at h1
-    rcases h1 with h1 | h1
-    · rw [(hbit a).2 ha] at h1
-      exact absurd h1 (by simp)
+    have h1 := c3 a ((hN a).2 ha)
     rw [allL_lqt_iff] at h1
-    have ha693 : a < 693 := (mem_NS.1 ha).1
-    have hbPL : b ∈ PL a := (mem_PL_iff hperp hpl ha693).2 ⟨(mem_NS.1 hb).1, hrab⟩
-    have h2 := h1 b hbPL
+    have h2 := h1 b ((hN b).2 hb)
     simp only [Bool.or_eq_true, Bool.not_eq_true'] at h2
     rcases h2 with h2 | h2
-    · rw [(hbit b).2 hb, (nat_beq_eq_false_iff a b).2 hab] at h2
+    · have hrab' : bitK (PB a) b = true := hrab
+      rw [hrab', (nat_beq_eq_false_iff a b).2 hab] at h2
       exact absurd h2 (by simp)
     by_contra hno
     have hno' : ∀ w ∈ NS PB q, relB PB a w = relB PB b w := fun w hw => by

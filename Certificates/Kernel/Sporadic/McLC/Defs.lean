@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.Sporadic.McLC.Data
 public import Certificates.Kernel.Sporadic.McLK.Data
 public import Certificates.Data.Kernel.Spor.PChain
+public import CFSG.Certificates.Kernel.Common.Loop
 
 public section
 
@@ -14,7 +15,8 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.PEnum CFSG.KS.TBfs CFSG.KS.PC
 
 @[expose] noncomputable def NL : Nat := 10
 
-@[expose] noncomputable def LJ (l x : Nat) : Nat := r32 LT (Nat.add (Nat.mul l (nat_lit 275)) x)
+@[expose] noncomputable def LJ (l x : Nat) : Nat :=
+  fld(MclcLW l, Nat.mul (nat_lit 16) (Nat.succ x), nat_lit 65535)
 
 @[expose] noncomputable def BJ (i : Nat) : Nat := List.getD [0, 14, 2] i (nat_lit 0)
 
@@ -27,7 +29,10 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.PEnum CFSG.KS.TBfs CFSG.KS.PC
 @[expose] noncomputable def TIJ : Nat → Nat → Nat := lvSel [CT0.TI, CT1.TI, CT2.TI]
 @[expose] noncomputable def CNTJ (i : Nat) : Nat := List.getD [CT0.cnt, CT1.cnt, CT2.cnt] i (nat_lit 0)
 
-@[expose] noncomputable def QL : List Nat := List.range 275
+@[expose] noncomputable def QL : List Nat :=
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 26]
+
+@[expose] noncomputable def QAll : List Nat := List.range 275
 
 @[expose] noncomputable def QB (i : Nat) : Nat := BJ i
 
@@ -71,7 +76,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.PEnum CFSG.KS.TBfs CFSG.KS.PC
 
 @[expose] noncomputable def trOK (i k : Nat) : Bool :=
   strictB (TT i k) fun P => strictB (TTI i k) fun PI =>
-    bAnd(listEqK (walkK LJ (PARJ i) (LABJ i) k QL) (List.map (pk P) QL),
+    bAnd(listEqK (walkK LJ (PARJ i) (LABJ i) k QAll) (List.map (pk P) QAll),
       allN (nat_lit 275) fun x => Nat.beq (pk PI (pk P x)) x)
 
 @[expose] noncomputable def trAll : Bool := allN (nat_lit 3) fun i => allN (CNTJ i) (trOK i)

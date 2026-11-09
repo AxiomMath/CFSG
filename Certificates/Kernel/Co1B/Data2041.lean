@@ -7,8 +7,8 @@ public section
 
 namespace CFSG.KD.Co1B
 
-#kc_repo #kc_json_gz CFSG.KD.Co1B
-  "Certificates/Kernel/Co1B/data/Data2041.json.gz" 540 4829189030375397936
+#kc_repo #kc_json CFSG.KD.Co1B
+  "Certificates/Kernel/Co1B/data/Data2041.json" 540 4829189030375397936
   (TA : Nat) (TC : Nat) (T1 : Nat)
 
 end CFSG.KD.Co1B

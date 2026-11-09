@@ -30,9 +30,8 @@ theorem card_codes (P : ℕ → Prop) [DecidablePred P] :
     ((Finset.range 512).filter P).card = (Finset.univ.filter fun x : FzElt => P (encE x)).card := by
   symm
   apply Finset.card_bij (fun x _ => encE x)
-  · intro x hx
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
-    simp only [Finset.mem_filter, Finset.mem_range]
+  · simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_range]
+    intro x hx
     exact ⟨encE_lt x, hx⟩
   · intro x _ y _ h
     exact encE_injective h

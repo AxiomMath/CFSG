@@ -29,6 +29,27 @@ meta def firstFail (Y : Array (Array Nat)) (ws : List (List Nat × List Nat)) : 
     u := u + 1
   return none
 
+meta def cheapFail (Y : Array (Array Nat)) (ws : List (List Nat × List Nat)) : Option (Nat × Nat) := Id.run do
+  let mut best : Option (Nat × Nat) := none
+  let mut bc := 1000000000
+  let mut u := 0
+  for p in ws do
+    let base := 4 * (p.1.length + 1) + 3 * u
+    if base + 5 < bc then
+      let t := prodA 276 Y p.1
+      let mut acc := idA 276
+      let mut m := 0
+      for e in p.2 do
+        if base + 5 * (m + 1) ≥ bc then break
+        acc := compA 276 acc t
+        if zcA acc != e then
+          best := some (u, m)
+          bc := base + 5 * (m + 1)
+          break
+        m := m + 1
+    u := u + 1
+  return best
+
 meta def code (o : Option (Nat × Nat)) : Nat :=
   match o with
   | some (u, m) => 32 * u + m
@@ -115,9 +136,13 @@ elab "#lc_e3 " pre:ident : command => do
     let k := P2[t]! / 4608
     let j2 := P2[t]! % 4608
     for j3 in [0:4608] do
-      let f := firstFail #[L[reps[k]!]!, L[j2]!, L[j3]!] wsE3
+      let f := cheapFail #[L[reps[k]!]!, L[j2]!, L[j3]!] wsE3
       W3 := W3.push (code f)
       if f.isNone then P3 := P3.push (4608 * t + j3)
+  let ws3a : List (List Nat × List Nat) := [([0], (wsE3.headD ([], [])).2)]
+  let mut F3 : Array Nat := #[]
+  for j in [0:4608] do
+    F3 := F3.push (match firstFail #[L[j]!] ws3a with | some (_, m) => m | none => 1000000)
   let cent := (List.range 4608).filter fun k => commutesA 276 L[k]! yArr
   let mut LK : Array Nat := #[]
   let mut LI : Array Nat := #[]
@@ -170,6 +195,8 @@ elab "#lc_e3 " pre:ident : command => do
     addDef (P ++ `WS1) wsT (toExpr wsE1)
     addDef (P ++ `WS2) wsT (toExpr wsE2)
     addDef (P ++ `WS3) wsT (toExpr wsE3)
+    addDef (P ++ `WS3h) wsT (toExpr ws3a)
+    addTree (P ++ `FJ3) F3
     addTree (P ++ `TB) TB
     addTree (P ++ `W1) W1
     addDef (P ++ `CS) (mkApp (mkConst ``List [0]) natT) (listE CS.toList)

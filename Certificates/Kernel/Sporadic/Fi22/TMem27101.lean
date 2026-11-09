@@ -5,6 +5,8 @@ public import CFSG.Certificates.Kernel.Misc.HexFlatSound
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.TMemFi22Check
 public meta import CFSG.LocalAnalysis.EvenSporadicStandard.Induction.Rows.TMemFi22Check
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.NatVal
+public import CFSG.Certificates.Kernel.Spor.PK.Perm.WordAppend
 import Mathlib.Tactic.IntervalCases
 public import Certificates.Kernel.Sporadic.Fi22.C2068
 public import Certificates.Kernel.Sporadic.Fi22.C3151
@@ -80,7 +82,39 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSpor.Fi22W
   strictB (W fcWord1) fun c1 => strictB (W fcWord2) fun c2 =>
     strictB (Fi22X.inv c1) fun c1i => strictB (Fi22X.inv c2) fun c2i => chkK c1 c2 c1i c2i
 
-theorem allOK : allK = true := by quickRfl
+#kc_natval Wd12 := wordK 3510 12 (mask 12) (pidn 3510 12) Fi22W.G Fi22W.GI (((fcWord1).drop 96).drop 96)
+#kc_natval Wd11 := wordK 3510 12 (mask 12) Wd12 Fi22W.G Fi22W.GI (((fcWord1).drop 96).take 96)
+#kc_natval Wd1v := wordK 3510 12 (mask 12) Wd11 Fi22W.G Fi22W.GI ((fcWord1).take 96)
+
+theorem Wd12_eq : wordK 3510 12 (mask 12) (pidn 3510 12) Fi22W.G Fi22W.GI (((fcWord1).drop 96).drop 96) = Wd12 :=
+  Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem Wd11_eq : wordK 3510 12 (mask 12) Wd12 Fi22W.G Fi22W.GI (((fcWord1).drop 96).take 96) = Wd11 :=
+  Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem Wd1_v : Fi22W.W (fcWord1) = Wd1v := by
+  rw [Fi22W.W, ← List.take_append_drop 96 (fcWord1), wordK_append,
+    ← List.take_append_drop 96 ((fcWord1).drop 96), wordK_append, Wd12_eq, Wd11_eq]
+  exact Nat.eq_of_beq_eq_true (by quickRfl)
+
+#kc_natval Wd22 := wordK 3510 12 (mask 12) (pidn 3510 12) Fi22W.G Fi22W.GI (((fcWord2).drop 105).drop 105)
+#kc_natval Wd21 := wordK 3510 12 (mask 12) Wd22 Fi22W.G Fi22W.GI (((fcWord2).drop 105).take 105)
+#kc_natval Wd2v := wordK 3510 12 (mask 12) Wd21 Fi22W.G Fi22W.GI ((fcWord2).take 105)
+
+theorem Wd22_eq : wordK 3510 12 (mask 12) (pidn 3510 12) Fi22W.G Fi22W.GI (((fcWord2).drop 105).drop 105) = Wd22 :=
+  Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem Wd21_eq : wordK 3510 12 (mask 12) Wd22 Fi22W.G Fi22W.GI (((fcWord2).drop 105).take 105) = Wd21 :=
+  Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem Wd2_v : Fi22W.W (fcWord2) = Wd2v := by
+  rw [Fi22W.W, ← List.take_append_drop 105 (fcWord2), wordK_append,
+    ← List.take_append_drop 105 ((fcWord2).drop 105), wordK_append, Wd22_eq, Wd21_eq]
+  exact Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem allOK : allK = true := by
+  rw [allK, Wd1_v, Wd2_v]
+  quickRfl
 
 theorem lettersOK' : bAnd(lettersK 2 fcWord1, bAnd(lettersK 2 fcWord2,
     (fcCons1 ++ fcCons2 ++ fcCons3).all (lettersK 2))) = true := by quickRfl
@@ -130,12 +164,14 @@ theorem facts : Fi22X.cn C1 = true ∧ Fi22X.cn C2 = true ∧ Fi22X.cn T = true 
 
 theorem perm1 : permOK 3510 12 (mask 12) (3510 * 12) C1 (Fi22X.inv C1) = true := by
   have h := allN_spec facts.2.2.2.1 0 (by norm_num)
-  simp only [sel0] at h
+  beta_reduce at h
+  rw [sel0, sel0] at h
   exact h
 
 theorem perm2 : permOK 3510 12 (mask 12) (3510 * 12) C2 (Fi22X.inv C2) = true := by
   have h := allN_spec facts.2.2.2.1 1 (by norm_num)
-  simp only [sel1] at h
+  beta_reduce at h
+  rw [sel1, sel1] at h
   exact h
 
 theorem letters : lettersK 2 fcWord1 = true ∧ lettersK 2 fcWord2 = true ∧

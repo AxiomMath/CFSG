@@ -1,13 +1,13 @@
 module
 
-public import CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.JsonGzEval
 import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KD.Mathieu "Certificates/Data/Kernel/Mathieu/data/records.json.gz"
+#kc_repo #kc_json CFSG.KD.Mathieu "Certificates/Data/Kernel/Mathieu/data/records.json"
   420209 970863736451678425
   (schema : Nat) (desc : List Nat) (conv : List Nat) (tags : List (List Nat))
   (seeds : List (List (List Nat)))
@@ -32,7 +32,7 @@ set_option maxRecDepth 100000
   (m24NC : List (List (List (List Nat)))) (m24ND : List (List (List (List Nat))))
   (m24PD : List (List (List Nat)))
 
-#kc_repo #kc_json_gz_eval CFSG.KD.Mathieu "Certificates/Data/Kernel/Mathieu/data/records.json.gz"
+#kc_repo #kc_json_eval CFSG.KD.Mathieu "Certificates/Data/Kernel/Mathieu/data/records.json"
   420209 970863736451678425
   (m11B : List Nat) (m11S : List (List Nat)) (m11NB : List (List (List Nat)))
   (m11NS : List (List (List (List Nat)))) (m11PS : List (List (List Nat)))

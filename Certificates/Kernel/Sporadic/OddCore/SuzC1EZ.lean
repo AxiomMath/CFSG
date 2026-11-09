@@ -133,7 +133,7 @@ theorem pQT {i : Nat} (hi : i < 192) : P ct0Enum.tabs[i]! (SuzC1EQ.T i) := by
 theorem filter_size {p : Tab → Bool} {q : Nat → Bool}
     (hq : ∀ i < 192, p (unpack 1782 11 (SuzC1EQ.T i)) = q i) :
     (ct0Tabs.filter p).size = cntK q 3 := by
-  unfold ct0Tabs
+  show (ct0Enum.tabs.filter p).size = cntK q 3
   rw [ct0E.1, penumRec_eq]
   simp only
   rw [kCnt.1, filter_ofFn 192 (fun i => unpack 1782 11 (SuzC1EQ.T i)), cntK_eq, List.size_toArray,

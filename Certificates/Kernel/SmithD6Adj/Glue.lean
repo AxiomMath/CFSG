@@ -52,12 +52,15 @@ theorem mem_of_memB64 {y : Nat} (h : wt64Tree.memB y = true) :
   obtain ⟨v, hvdef⟩ : ∃ v, v = wt64Tree.find y - 1 := ⟨_, rfl⟩
   obtain ⟨hv, hx⟩ := wt64_facts.2.2.2 y v (by omega)
   have hv' : v < J.wtC.flatten.length := by
+    have hv75 : v < 75735 := wt64_facts.2.1 ▸ hv
     rw [wtC_flatten_length]
-    rw [wt64_facts.2.1] at hv
-    exact hv
+    exact hv75
   refine ⟨J.wtC.flatten[v]'hv', List.getElem_mem hv', ?_⟩
   have e : J.wt64C.flatten[v]'hv = exC (J.wtC.flatten[v]'hv') := by
-    rw [List.getElem_of_eq wt64_eq_map.1 hv, List.getElem_map]
+    have h2 := congrArg (fun l : List Nat => l[v]?) wt64_eq_map.1
+    simp only [List.getElem?_map, List.getElem?_eq_getElem hv, List.getElem?_eq_getElem hv',
+      Option.map_some] at h2
+    exact Option.some.inj h2
   rw [← e, hx]
 
 theorem d6a_tvCols_lt (k : ℕ) {c : ℕ} (hc : c < 32) : (tvCols k)[c]! < 2 ^ 32 := by

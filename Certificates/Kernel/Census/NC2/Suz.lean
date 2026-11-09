@@ -14,11 +14,11 @@ set_option maxRecDepth 400000
   CFSG.Blueprint.NativeSporadic.SuzSeed1 CFSG.Blueprint.NativeSporadic.SuzSeed2
 
 #kc_repo #lay_snaps_live CertificateChecks.KernelNC2.Suz.P 3 64 CertificateChecks.KernelNC2.Suz.L.A
-  CertificateChecks.KernelNC2.Suz.L.B "Certificates/Kernel/Census/NC2/data/suz.json.gz" 40646
+  CertificateChecks.KernelNC2.Suz.L.B "Certificates/Kernel/Census/NC2/data/suz.json" 40646
   2160765264640993387
 
-#kc_repo #kc_json_gz CertificateChecks.KernelNC2.Suz.D
-  "Certificates/Kernel/Census/NC2/data/suz.json.gz" 40646 2160765264640993387
+#kc_repo #kc_json CertificateChecks.KernelNC2.Suz.D
+  "Certificates/Kernel/Census/NC2/data/suz.json" 40646 2160765264640993387
   (a : Nat) (tests : List Nat) (oddExp : Nat) (extra : List Nat) (sq : List Nat)
   (cj : List (List Nat)) (sig : List Nat) (sigma : List Nat) (tau : List Nat)
   (pairs : List (Nat × Nat))

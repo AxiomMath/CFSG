@@ -67,7 +67,27 @@ theorem embed_jQStar : embed ι₀ jQStar = gjs := by
   · rw [embed_vec_ι₀]; revert x; decide
   · rw [embed_perm_ι₀]; revert x; decide
 
+@[expose] def MfwStd (w : Wr 6) : Prop :=
+  w * gi = gi * w → w * gj = gj * w → w * gis = gis * w →
+    w * gjs = gjs * w → Equiv.Perm.sign w.perm = -1 →
+    (w * w) * ⟨v6 [0, 1], 1⟩ = ⟨v6 [0, 1], 1⟩ * (w * w) →
+    (w * w) * ⟨v6 [0, 2], 1⟩ = ⟨v6 [0, 2], 1⟩ * (w * w) →
+    (w * w) * ⟨v6 [0, 3], 1⟩ = ⟨v6 [0, 3], 1⟩ * (w * w) →
+    (w * w) * ⟨v6 [0, 4], 1⟩ = ⟨v6 [0, 4], 1⟩ * (w * w) →
+    (w * w) * ⟨v6 [0, 5], 1⟩ = ⟨v6 [0, 5], 1⟩ * (w * w) →
+    (w * w) * ⟨0, swap 0 1 * swap 1 2⟩ = ⟨0, swap 0 1 * swap 1 2⟩ * (w * w) →
+    (w * w) * ⟨0, swap 1 2 * swap 2 3⟩ = ⟨0, swap 1 2 * swap 2 3⟩ * (w * w) →
+    (w * w) * ⟨0, swap 2 3 * swap 3 4⟩ = ⟨0, swap 2 3 * swap 3 4⟩ * (w * w) →
+    (w * w) * ⟨0, swap 3 4 * swap 4 5⟩ = ⟨0, swap 3 4 * swap 4 5⟩ * (w * w) →
+    w * w = 1 ∧ wsum w = 0
+
+instance (w : Wr 6) : Decidable (MfwStd w) := by unfold MfwStd; infer_instance
+
 set_option maxRecDepth 100000 in
+theorem mfw_std_aux : ∀ π : Perm (Fin 6), π * d1 = d1 * π → π * d2 = d2 * π →
+    ∀ v : Fin 6 → ZMod 2, MfwStd ⟨v, π⟩ := by
+  decide +kernel
+
 theorem mfw_std : ∀ w : Wr 6, w * gi = gi * w → w * gj = gj * w → w * gis = gis * w →
     w * gjs = gjs * w → Equiv.Perm.sign w.perm = -1 →
     (w * w) * ⟨v6 [0, 1], 1⟩ = ⟨v6 [0, 1], 1⟩ * (w * w) →
@@ -80,7 +100,8 @@ theorem mfw_std : ∀ w : Wr 6, w * gi = gi * w → w * gj = gj * w → w * gis 
     (w * w) * ⟨0, swap 2 3 * swap 3 4⟩ = ⟨0, swap 2 3 * swap 3 4⟩ * (w * w) →
     (w * w) * ⟨0, swap 3 4 * swap 4 5⟩ = ⟨0, swap 3 4 * swap 4 5⟩ * (w * w) →
     w * w = 1 ∧ wsum w = 0 := by
-  decide +kernel
+  rintro ⟨v, π⟩ h1 h2
+  exact mfw_std_aux π (congrArg Wr.perm h1) (congrArg Wr.perm h2) v h1 h2
 
 theorem exists_perm_extend (ι : Fin 4 ↪ Fin 6) : ∃ π : Perm (Fin 6), ∀ i, π (ι₀ i) = ι i := by
   classical

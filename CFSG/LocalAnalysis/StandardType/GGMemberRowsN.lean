@@ -4,7 +4,6 @@ public import Certificates.Certificate709548
 public import Certificates.Certificate709549
 public import Certificates.Certificate709590
 
-import CFSG.LocalAnalysis.StandardType.GGResidualRk1FrameHolds
 import CFSG.LocalAnalysis.StandardType.GGResidualRk1ExcTops
 import CFSG.LocalAnalysis.StandardType.GGResidualExcRows
 import CFSG.LieType.Steinberg.CentralExt.TwistedE6ToralCoordsHolds

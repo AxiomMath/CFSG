@@ -73,8 +73,9 @@ theorem i2_perm_model :
   simp only [zasSpecialOK, Bool.and_eq_true, beq_iff_eq, and_assoc] at hS
   obtain ⟨-, h1, -, -, -, -, -, h7, h8, -⟩ := hS
   have hall : i2ModelOK = true := Certificates.certificate117021
-  simp only [i2ModelOK, Bool.and_eq_true, decide_eq_true_eq, and_assoc] at hall
-  obtain ⟨c1, c2, c3, v0, v1, m00, m11, m01, n0, n1, cent⟩ := hall
+  simp only [i2ModelOK, Bool.and_eq_true, decide_eq_true_eq, and_assoc, beq_iff_eq,
+    List.all_eq_true] at hall
+  obtain ⟨c1, c2, c3, v0, v1, m00, m11, m01, n0, n1, hlen, hlt, hpw⟩ := hall
   have hpsE : ∀ p ∈ zasEKeys, p < 100 := fun p hp => List.mem_range.1 hp
   have hpsN : ∀ p ∈ zasNKeys, p < 100 := by
     intro p hp
@@ -108,16 +109,66 @@ theorem i2_perm_model :
   refine ⟨E, hspec, hNeq, ?_, e, h, r, hEr, hHr, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [hcardN]; exact h8
   · intro x hx hcomm
-    obtain ⟨i, hi, hrx⟩ := enumOK_exists_rep hpsN h7 hx
-    have hk := List.all_eq_true.1 cent _ (zasPts_mem hi)
-    have hvx : validA 100 zasNCert.pts[i]! = true := hvalN i hi
-    have hall' : ∀ k : Fin 4, eqA 100 (compA 100 zasNCert.pts[i]! zasE0Gens[k.1]!)
-        (compA 100 zasE0Gens[k.1]! zasNCert.pts[i]!) = true := fun k =>
-      (eqA_iff (rep_compA hrx (hrepE k)) (rep_compA (hrepE k) hrx)).2 (hcomm k)
-    simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_false_iff_not] at hk
-    rcases hk with hk | hk
-    · exact absurd hall' hk
-    · exact hmemE hrx hk
+    set N := Subgroup.closure (permsA 100 zasNGens) with hN
+    have hEN : E ≤ N := by
+      rw [hNeq]
+      exact le_inf Subgroup.le_normalizer hspec.1
+    have hab : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
+      have := hspec.2.2.1.1
+      rw [isMulCommutative_iff_of_setLike] at this
+      exact this
+    set C : Subgroup (Equiv.Perm (Fin 100)) := N ⊓ Subgroup.centralizer (E : Set _) with hC
+    have hEC : E ≤ C := fun y hy =>
+      ⟨hEN hy, Subgroup.mem_centralizer_iff.2 fun z hz => hab z hz y hy⟩
+    set H := C.subgroupOf N with hH
+    have hiL : ∀ k : Fin 720, k.1 < i2Reps.length := fun k => by rw [hlen]; exact k.2
+    have hiP : ∀ k : Fin 720, i2Reps[k.1]'(hiL k) < zasNCert.pts.size := fun k =>
+      hlt _ (List.getElem_mem _)
+    let P : Fin 720 → Equiv.Perm (Fin 100) := fun k => permOfArr 100 zasNCert.pts[i2Reps[k.1]'(hiL k)]!
+    have hPN : ∀ k, P k ∈ N := fun k =>
+      enumOK_mem hpsN h7 (hiP k) (rep_of_validA (hvalN _ (hiP k)))
+    let f : Fin 720 → N ⧸ H := fun k => ((⟨P k, hPN k⟩ : N) : N ⧸ H)
+    have key : ∀ k l : Fin 720, k < l → f k ≠ f l := by
+      intro k l hkl hf
+      have hc := (Subgroup.mem_subgroupOf.1 (QuotientGroup.eq.1 hf)).2
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv] at hc
+      refine List.pairwise_iff_getElem.1 hpw k.1 l.1 (hiL k) (hiL l) hkl fun i => ?_
+      rw [eqA_iff (rep_zasConj (hvalN _ (hiP k)) (hrepE i)) (rep_zasConj (hvalN _ (hiP l)) (hrepE i))]
+      have hei : e i ∈ (E : Set (Equiv.Perm (Fin 100))) := by
+        rw [hEr]
+        exact Subgroup.subset_closure ⟨i, rfl⟩
+      have hce := Subgroup.mem_centralizer_iff.1 hc (e i) hei
+      change P k * e i * (P k)⁻¹ = P l * e i * (P l)⁻¹
+      calc P k * e i * (P k)⁻¹ = P k * (e i * ((P k)⁻¹ * P l)) * (P l)⁻¹ := by group
+        _ = P k * ((P k)⁻¹ * P l * e i) * (P l)⁻¹ := by rw [hce]
+        _ = P l * e i * (P l)⁻¹ := by group
+    have hinj : Function.Injective f := by
+      intro k l hkl
+      rcases lt_trichotomy k l with h | h | h
+      · exact absurd hkl (key k l h)
+      · exact h
+      · exact absurd hkl.symm (key l k h)
+    have hidx : 720 ≤ H.index := by
+      have := Nat.card_le_card_of_injective f hinj
+      rwa [Nat.card_eq_fintype_card, Fintype.card_fin] at this
+    have hmul := Subgroup.card_mul_index H
+    have hcN : Nat.card N = 11520 := by rw [hcardN]; exact h8
+    have hcardH : Nat.card H = Nat.card C :=
+      Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
+    have hC16 : Nat.card C ≤ 16 := by
+      rw [← hcardH]
+      rw [hcN] at hmul
+      nlinarith
+    have hEC' : E = C := Subgroup.eq_of_le_of_card_ge hEC (by rw [hspec.2.2.2.1]; exact hC16)
+    have hxE : E ≤ Subgroup.centralizer {x} := by
+      rw [hEr, Subgroup.closure_le]
+      rintro _ ⟨i, rfl⟩
+      exact Subgroup.mem_centralizer_iff.2 fun y hy => by
+        rw [Set.mem_singleton_iff.1 hy]
+        exact hcomm i
+    rw [hEC']
+    exact ⟨hx, Subgroup.mem_centralizer_iff.2 fun y hy =>
+      (Subgroup.mem_centralizer_iff.1 (hxE hy) x (Set.mem_singleton x)).symm⟩
   · intro j i
     exact (eqA_iff (rep_zasConj (hvH j) (hrepE i)) (rep_vecEA hvE (rho j i))).1 (c1 j i)
   · intro i

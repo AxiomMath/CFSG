@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Data.HuppertU38.Data
 public meta import Certificates.Data.HuppertU38.Data
 public import Certificates.Kernel.B3S3.GenSl

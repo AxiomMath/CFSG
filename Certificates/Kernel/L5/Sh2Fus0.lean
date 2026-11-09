@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.L5.Sh2FusT
+public import Certificates.Kernel.L5.Sh2FusF5
 public import Certificates.Data.Kernel.L5.Sh2EngD
 public import Certificates.Data.Kernel.L5.GrpOf
 public import CFSG.Certificates.Kernel.Common.DecideFV
@@ -19,6 +20,7 @@ theorem fus0 : @fusChkL 256 (grpOf G (mulI 0) hm (invI 0) hi oneI ho)
     (@fuseL 256 (grpOf G (mulI 0) hm (invI 0) hi oneI ho)
       (f5P eI (Sh2FusT.embT.map Prod.fst) Sh2FusT.f5C) (nbarPairsF embL))
     (embL x0T5) (engA 0).reps (engA 0).ciA (engA 0).invs (engA 0).x = true := by
+  rw [f5P_eq]
   kc_decide_fv
 
 end CFSG.KD.L5.Sh2Fus

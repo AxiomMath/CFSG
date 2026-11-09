@@ -82,9 +82,7 @@ theorem sylowEData_of_sub_table {M : Type*} [Group M] {K S : Subgroup M} (hSK : 
     rw [helt' a halt]
     exact hac
 
-theorem sylList_eq : sylList = (mulClosureH 6156 sgP0 128).1 := by
-  unfold sylList
-  rfl
+theorem sylList_eq : sylList = (mulClosureH 6156 sgP0 128).1 := sylList_fst
 
 theorem sylowEData_j3P :
     SylowEData ↥j3P := by

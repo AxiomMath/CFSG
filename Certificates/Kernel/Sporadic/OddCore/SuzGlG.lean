@@ -87,8 +87,15 @@ theorem y0_size {X : Nat} (hX : X < 2) : (y0Tabs[X]!).size = 64 := by
   rw [e]
   simp [y0TabsOf]
 
+theorem arr2_get0 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[0]! = a := rfl
+
+theorem arr2_get1 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[1]! = b := rfl
+
 theorem y0Fps_get {X z : Nat} (hX : X < 2) (hz : z < 1782) : (y0Fps[X]!)[z]! = fpY X z := by
-  have e : y0Fps[X]! = fpIndex y0Tabs[X]! := by interval_cases X <;> rfl
+  have e : y0Fps[X]! = fpIndex y0Tabs[X]! := by
+    interval_cases X
+    · rw [y0Fps, arr2_get0]
+    · rw [y0Fps, arr2_get1]
   rw [e, fpIndex_get _ hz, y0_size hX]
   exact fpL_congr fun j hj => by
     rw [(pY hX hj).1, unpack_getElem! (by norm_num)]

@@ -203,15 +203,15 @@ theorem pB : ∀ j < sbGens.length, permOK 276 9 (mask 9) (276 * 9) (SB.S j) (SB
 
 theorem chainT : ChainK 276 9 tGens tQWords (#v[0, 1, 2] : Vector (Fin 276) 3)
     TQ.S TQ.SI TQ.LR TQ.TR TQ.TRI 10 TQ.BP 18 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgT, by decide, TQ.head, TQ.hl, by norm_num, TQ.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgT, by decide, TQ.head, TQ.hl, by norm_num, .inl TQ.hs⟩
 
 theorem chainA : ChainK 276 9 saGens saQWords (#v[0, 1] : Vector (Fin 276) 2)
     SA.S SA.SI SA.LR SA.TR SA.TRI 9 SA.BP 18 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgSA, by decide, SA.head, SA.hl, by norm_num, SA.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgSA, by decide, SA.head, SA.hl, by norm_num, .inl SA.hs⟩
 
 theorem chainB : ChainK 276 9 sbGens sbQWords (#v[0, 2] : Vector (Fin 276) 2)
     SB.S SB.SI SB.LR SB.TR SB.TRI 6 SB.BP 18 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgSB, by decide, SB.head, SB.hl, by norm_num, SB.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgSB, by decide, SB.head, SB.hl, by norm_num, .inl SB.hs⟩
 
 theorem kNT : Nat.beq (ordK TQ.LR 3) 1024 = true := by quickRfl
 theorem kNA : Nat.beq (ordK SA.LR 2) 512 = true := by quickRfl

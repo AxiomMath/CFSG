@@ -8,6 +8,7 @@ public import CFSG.Sporadic.HeldB.CertPChainData
 public import CFSG.Sporadic.HeldB.CertPFieldsData
 meta import CFSG.Sporadic.HeldB.CertPChainData
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.Loops
 public import CFSG.Certificates.Kernel.Spor.RawSound
 public import Mathlib.Data.Fintype.Card
 
@@ -31,8 +32,29 @@ theorem heStrong_eq {j : Nat} (hj : j < 9) : heStrong j = unpack 8330 14 (F j) :
 theorem fixP : ∀ j ∈ heStabIdx, pg 14 (mask 14) (F j) 0 = 0 := by
   decide +kernel
 
+@[expose] noncomputable def movY (y : Nat) : Bool :=
+  bIf(Nat.beq y 0, true,
+    List.any heStabIdx (fun j => Bool.not (Nat.beq (pg 14 (mask 14) (F j) y) y)))
+
+theorem moveK : allN 8330 movY = true := by quickRfl
+
 theorem moveP : ∀ y < 8330, y = 0 ∨ ∃ j ∈ heStabIdx, pg 14 (mask 14) (F j) y ≠ y := by
-  decide +kernel
+  intro y hy
+  have h := CFSG.KS.allN_spec moveK y hy
+  by_cases h0 : y = 0
+  · exact Or.inl h0
+  · right
+    have hb : Nat.beq y 0 = false := by
+      cases h' : Nat.beq y 0
+      · rfl
+      · exact absurd (Nat.eq_of_beq_eq_true h') h0
+    unfold movY at h
+    rw [hb] at h
+    change List.any heStabIdx (fun j => Bool.not (Nat.beq (pg 14 (mask 14) (F j) y) y)) = true at h
+    obtain ⟨j, hj, hne⟩ := List.any_eq_true.mp h
+    refine ⟨j, hj, fun e => ?_⟩
+    rw [e, Nat.beq_refl] at hne
+    exact absurd hne (by decide)
 
 theorem idx_lt : ∀ j ∈ heStabIdx, j < 9 := by
   decide

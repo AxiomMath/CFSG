@@ -113,6 +113,10 @@ theorem glPlane_bit (c : Nat) (hc : c < 65536) : glPlane.testBit c = isGL8 (cols
     bit_div16 c _ 0 (by decide), bit_div16 c _ 1 (by decide), bit_div16 c _ 2 (by decide),
     bit_div16 c _ 3 (by decide), Nat.reduceAdd, Bool.or_assoc]
 
+theorem natEqB8_of_eq {a b : Nat} (h : a = b) : natEqB8 a b = true := by
+  subst h
+  exact Nat.beq_refl a
+
 theorem glCount_of (h : glCountK = true) : glCountCheck = true := by
   unfold glCountK at h
   have h1 := Nat.eq_of_beq_eq_true h
@@ -124,9 +128,7 @@ theorem glCount_of (h : glCountK = true) : glCountCheck = true := by
     intro c hc
     rw [List.mem_range] at hc
     simp [glPlane_bit c hc]
-  unfold glCountCheck natEqB8
-  rw [h2]
-  rfl
+  exact natEqB8_of_eq h2
 
 theorem modelCols8_lt' : ∀ i : Fin 6, ∀ j : Fin 4, (modelCols8 i).col j < 16 := by decide
 

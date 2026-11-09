@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.OpsF2KQ
+public import Certificates.Data.Kernel.OpsF2KQT
 public import Certificates.Data.RankThree46F2.Co3
 public import CFSG.RankThree.PartTwo.Census.Sporadic.Co1W4Data
 public import Certificates.Kernel.AlphaMc.SeedsF2
@@ -16,7 +17,9 @@ open CFSG.KC.OpsF2K CFSG.RankThree.PartTwo.Census CFSG.SectionRank.Native
 
 theorem co3_Q : w4Q 22 C3A.M C3B.M co3W3.base co3W3.inv = true := by decide +kernel
 
-theorem co1_Q : w4Q 24 C1A.M C1B.M co1W4.base co1W4.inv = true := by decide +kernel
+theorem co1_Q : w4Q 24 C1A.M C1B.M co1W4.base co1W4.inv = true := by
+  rw [w4Q_eq_T 10 _ _ _ _ _ (by decide) (by decide)]
+  decide +kernel
 
 theorem co3_negQ :
     (!w4Q 22 C3A.M C3B.M { co3W3.base with outs := [43, 43, 49] } co3W3.inv) = true := by

@@ -58,7 +58,7 @@ theorem gens_mem_wds {n w kS kO nb BP TJ TS : Nat} {S SI : Nat → Nat} {D : Lis
       exact Nat.lt_of_lt_of_le ha (Nat.div_le_self _ _)
     have e : lp n w S kO (stAt TJ a) = lp n w S kS (stAt TJ a) := by
       unfold lp
-      rw [if_pos hak, if_pos (by omega)]
+      rw [ite_eq_left hak, ite_eq_left (by omega)]
     rw [e]
     exact inc_sub (n := n) (w := w) (kS := kS) (S := S) hJ ⟨a, ha', rfl⟩
   have hWm := wds_facts hn24 hw hpO WS 0 hW
@@ -74,14 +74,15 @@ theorem lv12K_facts {w kS BP l T1 T2 : Nat} {S SI : Nat → Nat}
   exact h
 
 set_option maxHeartbeats 1000000 in
-theorem schK_of_schOL {n w kS BP E i TS NSi CH : Nat} {S SI LR TR TRI : Nat → Nat}
+theorem schK_of_schOM {n w kS BP E i TS NSi CH : Nat} {S SI LR TR TRI : Nat → Nat}
     (hp : allN kS (fun j => permOK n w (mask w) (n * w) (S j) (SI j)) = true)
     (hl : LevelsOK n w S SI LR TR TRI kS E BP) (hE : i + 3 ≤ E)
     (hinv : invTabK kS (stepsAt n w S kS BP i) = true)
     (hlv : ∀ k < E - i - 2, lv12K w (mask w) S SI kS BP (i + k) (stepsAt n w S kS BP (i + k + 1))
       (stepsAt n w S kS BP (i + k + 1 + 1)) = true)
     (hTS : ∀ a < stCnt TS, stAt TS a < kS + kS)
-    (hgm : ∀ j < kS, pp n w (S j) ∈ Submonoid.closure (LT n w S kS TS))
+    (hmem : ∀ j < stCnt (stepsAt n w S kS BP i),
+      lp n w S kS (stAt (stepsAt n w S kS BP i) j) ∈ Submonoid.closure (LT n w S kS TS))
     (hc : rcnt (LR i) ≤ NSi * CH)
     (hs : ∀ s < NSi, schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP E i TS
       (s * CH) CH = true)
@@ -171,14 +172,6 @@ theorem schK_of_schOL {n w kS BP E i TS NSi CH : Nat} {S SI LR TR TRI : Nat → 
   have hD := step_of_schK (d := D + 1 + 1) hn24 hw hp hTSb hP rfl hc hs
   have hT0 := letter_lt hinv
   have F0 := tree_facts hp (hl i (by omega)) hT0
-  have hmem : ∀ j < stCnt (stepsAt n w S kS BP i),
-      lp n w S kS (stAt (stepsAt n w S kS BP i) j) ∈ Submonoid.closure (LT n w S kS TS) := by
-    intro j hj
-    have hj' := hT0 j hj
-    unfold lp
-    split_ifs with hl'
-    · exact hgm _ hl'
-    · exact inv_mem_closure (hgm _ (by omega))
   have hfix : ∀ l d, i + 1 ≤ l → l + (d + 1) = i + 1 + (D + 1 + 1) →
       ∀ v ∈ PS n w TR LR (l + 1) d, ∀ x : Fin n, (x : Nat) = pg w (mask w) BP l → v x = x := by
     intro l d hlo hld v hv x hx
@@ -221,13 +214,38 @@ theorem schK_of_schOL {n w kS BP E i TS NSi CH : Nat} {S SI LR TR TRI : Nat → 
       (letterK S SI kS (stAt (stepsAt n w S kS BP i) j)) (rpt w (mask w) (LR i) (h₀ + dh))) = k' := by
     rw [ept]
     exact (hR0.pt k' hk').2
-  rw [ek, if_pos hk']
+  rw [ek, ite_eq_left hk']
   have hPG : PRep n w _ ((tp n w TR (LR i) k')⁻¹ *
       (lp n w S kS (stAt (stepsAt n w S kS BP i) j) * tp n w TR (LR i) (h₀ + dh))) :=
     prep_pcomp hn (prep_pp (hp0 _ hk')).2 (prep_pcomp hn hσ (prep_pp (hp0 _ hc')).1)
   rw [e, inv_mul_cancel_left] at hPG
   exact sift_of_mem_PS hsz hP hb ht hq hfix (D + 1 + 1) (i + 1) le_rfl (by omega) _ u hPG
     (PF.pcomp_shr _ _ hn (PF.w_pos hw)) hu
+
+theorem schK_of_schOL {n w kS BP E i TS NSi CH : Nat} {S SI LR TR TRI : Nat → Nat}
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (S j) (SI j)) = true)
+    (hl : LevelsOK n w S SI LR TR TRI kS E BP) (hE : i + 3 ≤ E)
+    (hinv : invTabK kS (stepsAt n w S kS BP i) = true)
+    (hlv : ∀ k < E - i - 2, lv12K w (mask w) S SI kS BP (i + k) (stepsAt n w S kS BP (i + k + 1))
+      (stepsAt n w S kS BP (i + k + 1 + 1)) = true)
+    (hTS : ∀ a < stCnt TS, stAt TS a < kS + kS)
+    (hgm : ∀ j < kS, pp n w (S j) ∈ Submonoid.closure (LT n w S kS TS))
+    (hc : rcnt (LR i) ≤ NSi * CH)
+    (hs : ∀ s < NSi, schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP E i TS
+      (s * CH) CH = true)
+    (hsl : ∀ k < E - i - 1, ∃ N, rcnt (LR (i + 1 + k)) ≤ N * CH ∧ ∀ s < N,
+      schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP E (i + 1 + k)
+        (stepsAt n w S kS BP (i + 1 + k)) (s * CH) CH = true)
+    (h₀ cnt : Nat) :
+    schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP E i
+      (stepsAt n w S kS BP i) h₀ cnt = true := by
+  have hT0 := letter_lt hinv
+  refine schK_of_schOM hp hl hE hinv hlv hTS (fun j hj => ?_) hc hs hsl h₀ cnt
+  have hj' := hT0 j hj
+  unfold lp
+  split_ifs with hl'
+  · exact hgm _ hl'
+  · exact inv_mem_closure (hgm _ (by omega))
 
 theorem schK_of_schOL_orig {n w kS kO BP E i TS NSi CH : Nat} {S SI LR TR TRI : Nat → Nat}
     {W : List (List Int)}

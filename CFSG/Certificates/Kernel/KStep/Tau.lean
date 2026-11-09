@@ -908,8 +908,8 @@ theorem oct_matrix : ∀ q < 64, ∀ c < 64,
   decide +kernel
 
 @[expose] noncomputable def octZ (O : POps) (F : Fix) (X : ℕ) : ℕ :=
-  O.half SX (nat_lit 3) (O.neg SX F.doct (O.net SX (nat_lit 17) F.pi6
-    (wht6G O (Nat.land X (O.rep SX regOct)))))
+  Nat.land (O.half SX (nat_lit 3) (O.neg SX F.doct (O.net SX (nat_lit 17) F.pi6 (wht6G O X))))
+    (O.rep SX regOct)
 
 theorem octZ_bd (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasksOK F = true) {X : ℕ}
     (hX : Bd np SX X) : Bd np SX (octZ O F X) := by
@@ -917,26 +917,16 @@ theorem octZ_bd (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasksO
   have hd := (masks_spec hm).1
   unfold octZ
   rw [hd]
-  exact hO.half_bd (by decide) (by decide) (hO.neg_bd doct_lt (hO.net_bd (k := 17) SX_eq hk
-    (Hn_bd hO 6 le_rfl _ (bdL hX))))
+  exact bdL (hO.half_bd (by decide) (by decide) (hO.neg_bd doct_lt (hO.net_bd (k := 17) SX_eq hk
+    (Hn_bd hO 6 le_rfl _ hX))))
 
-theorem octZ_zero (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasksOK F = true) {X : ℕ}
-    (hX : Bd np SX X) {p : ℕ} (hp : p < SX) (hr : ¬ (65536 ≤ p ∧ p < 114112)) :
+theorem octZ_zero (hO : PLaw np O) {F : Fix} (_h6 : pi6OK F = true) (_hm : tauMasksOK F = true)
+    {X : ℕ} (_hX : Bd np SX X) {p : ℕ} (hp : p < SX) (hr : ¬ (65536 ≤ p ∧ p < 114112)) :
     Zero np SX (octZ O F X) p := by
-  obtain ⟨hk, -⟩ := Benes.andB_true h6
-  have hd := (masks_spec hm).1
   have hro : regOct.testBit p = false := by
     rw [← Bool.not_eq_true, CFSG.KC.KDense.InitAux.testBit_regOct]
     exact hr
-  have hy := Hn_bd hO 6 le_rfl _ (bd_land (y := O.rep SX regOct) hX)
-  unfold octZ
-  rw [hd]
-  refine hO.half_zero (by decide) (by decide) (hO.neg_bd doct_lt (hO.net_bd (k := 17) SX_eq hk hy))
-    hp (hO.neg_zero doct_lt (hO.net_bd (k := 17) SX_eq hk hy) hp ?_ (hO.net_zero (k := 17) SX_eq hk
-      hy hp ?_))
-  · rw [doct_bit, decide_eq_false hr, Bool.false_and]
-  · rw [pi6_perm h6 hp, phi_out hp hr]
-    exact Hn_zero hO hp hro 6 le_rfl _ (bdL hX) (zero_land_rep hO regOct_lt hp hro)
+  exact zero_land_rep hO regOct_lt hp hro
 
 theorem octZ_res (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasksOK F = true) {X : ℕ}
     (hX : Bd np SX X) {B q : ℕ} (hB1 : 1024 ≤ B) (hB2 : B < 1783) (hq : q < 64) :
@@ -946,24 +936,18 @@ theorem octZ_res (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasks
   obtain ⟨hk, -⟩ := Benes.andB_true h6
   have hd := (masks_spec hm).1
   have hpS : 64 * B + q < SX := by change _ < 131072; omega
-  have hy : Bd np SX (Hn O 6 (Nat.land X (O.rep SX regOct))) :=
-    Hn_bd hO 6 le_rfl _ (bd_land (y := O.rep SX regOct) hX)
+  have hy : Bd np SX (Hn O 6 X) := Hn_bd hO 6 le_rfl _ hX
   unfold octZ
+  rw [res_land_rep' hO regOct_lt hpS,
+    (CFSG.KC.KDense.InitAux.testBit_regOct _).mpr ⟨by omega, by omega⟩, if_pos rfl]
   rw [hd, wht6G_eq, hO.half_res (by decide) (by decide)
     (hO.neg_bd doct_lt (hO.net_bd (k := 17) SX_eq hk hy)) hpS,
     hO.neg_res doct_lt (hO.net_bd (k := 17) SX_eq hk hy) hpS,
     hO.net_res (k := 17) SX_eq hk hy hpS, pi6_perm h6 hpS, phi_blk hB1 hB2 hq,
-    Hn_res hO 6 le_rfl (Nat.land X (O.rep SX regOct)) (bdL hX) B hB1 hB2 _ (phi6_lt hq),
+    Hn_res hO 6 le_rfl X hX B hB1 hB2 _ (phi6_lt hq),
     doct_bit,
     decide_eq_true (by omega), Bool.true_and, show (64 * B + q) % 64 = q by omega]
   congr 1
-  have hc : ∀ c ∈ Finset.range 64, resPN np SX (Nat.land X (O.rep SX regOct)) (64 * B + c) =
-      resPN np SX X (64 * B + c) := by
-    intro c hc
-    simp only [Finset.mem_range] at hc
-    rw [res_land_rep' hO regOct_lt (by change _ < 131072; omega),
-      (CFSG.KC.KDense.InitAux.testBit_regOct _).mpr ⟨by omega, by omega⟩]
-    rfl
   have hs : ∀ c ∈ Finset.range 64,
       ((octSign (2 * c + (xs c 6).toNat) (2 * q + (xs q 6).toNat) : ℤ) : ZMod (2 ^ np - 1)) =
         ((if POCT.testBit q then -Kz 6 (phi6 q) c else Kz 6 (phi6 q) c : ℤ) : ZMod (2 ^ np - 1)) :=
@@ -972,8 +956,8 @@ theorem octZ_res (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasks
       ((octSign (2 * c + (xs c 6).toNat) (2 * q + (xs q 6).toNat) : ℤ) : ZMod (2 ^ np - 1)) *
         resPN np SX X (64 * B + c) = ∑ c ∈ Finset.range 64,
       ((if POCT.testBit q then -Kz 6 (phi6 q) c else Kz 6 (phi6 q) c : ℤ) : ZMod (2 ^ np - 1)) *
-        resPN np SX (Nat.land X (O.rep SX regOct)) (64 * B + c) :=
-    Finset.sum_congr rfl fun c hc' => by rw [hs c hc', hc c hc']
+        resPN np SX X (64 * B + c) :=
+    Finset.sum_congr rfl fun c hc' => by rw [hs c hc']
   rw [hsum]
   split_ifs
   · simp only [Int.cast_neg, neg_mul, Finset.sum_neg_distrib]

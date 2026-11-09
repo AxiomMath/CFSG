@@ -45,6 +45,9 @@ open CFSG.GH74.KGroups CFSG.GH74.KGroups.U33 CFSG.LieType.ChevTwo.OppCl.U33Fin
 @[expose] def checkC (_ : Unit := ()) : Bool :=
   ((elems ()).filter fun x => x * t0 == t0 * x).length == 96
 
+theorem checkC_fun : @checkC = fun _ : optParam Unit () =>
+    ((elems ()).filter fun x => x * t0 == t0 * x).length == 96 := rfl
+
 @[expose] def checkE1 (_ : Unit := ()) : Bool :=
   let T := T0L ()
   (elems ()).all fun g =>

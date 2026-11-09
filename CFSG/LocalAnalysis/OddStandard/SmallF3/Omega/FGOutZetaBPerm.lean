@@ -138,9 +138,18 @@ private theorem zetaBPermLift_mk_val (w : List (Fin 2 × Bool)) (x : Fin 756) :
 private def zetaBPermWordOK (w : List (Fin 2 × Bool)) : Bool :=
   (List.range 756).all fun x => decide (zetaBPermAppW (zetaBPermToNatWord w) x = x)
 
+private theorem zetaBPermRelsOK_a :
+    ((coverWords rels fun i => commWords (coverPairs i)).take 7).all zetaBPermWordOK = true := by
+  decide +kernel
+
+private theorem zetaBPermRelsOK_b :
+    ((coverWords rels fun i => commWords (coverPairs i)).drop 7).all zetaBPermWordOK = true := by
+  decide +kernel
+
 private theorem zetaBPermRelsOK :
     (coverWords rels fun i => commWords (coverPairs i)).all zetaBPermWordOK = true := by
-  decide +kernel
+  rw [← List.take_append_drop 7 (coverWords rels fun i => commWords (coverPairs i)),
+    List.all_append, zetaBPermRelsOK_a, zetaBPermRelsOK_b, Bool.and_self]
 
 private theorem zetaBPermLift_eq_one_of_wordOK {w : List (Fin 2 × Bool)}
     (h : zetaBPermWordOK w = true) :

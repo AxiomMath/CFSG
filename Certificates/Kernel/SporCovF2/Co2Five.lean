@@ -7,7 +7,7 @@ public import Certificates.Data.Kernel.SporCov.F2Kit
 public import Certificates.Data.Kernel.SporCov.PCl
 public import Certificates.Kernel.VecCert.Co2
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovF2.Co2Five.F "Certificates/Kernel/SporCovF2/data/co25.json.gz"
+#kc_repo #kc_json CFSG.KD.SporCovF2.Co2Five.F "Certificates/Kernel/SporCovF2/data/co25.json"
   12159 12418643195457423550
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))

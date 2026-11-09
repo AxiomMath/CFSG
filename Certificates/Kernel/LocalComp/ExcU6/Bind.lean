@@ -60,9 +60,9 @@ theorem letters_map : u62Letters = letterWords.map u62W := by
   · intro k h1 h2
     have hk : k < letterWords.length := by simpa using h2
     rw [List.getElem_map, letterWords_get k hk, u62W, tab_eq, evalCodes, evalCodes, mul_one]
-    have hp : (0 : ℤ) < Int.ofNat k + 1 := by simp only [Int.ofNat_eq_coe]; omega
+    have hp : (0 : ℤ) < Int.ofNat k + 1 := by simp only [Int.ofNat_eq_natCast]; omega
     rw [ite_eq_left hp]
-    have ht : (Int.ofNat k + 1).toNat - 1 = k := by simp only [Int.ofNat_eq_coe]; omega
+    have ht : (Int.ofNat k + 1).toNat - 1 = k := by simp only [Int.ofNat_eq_natCast]; omega
     rw [ht, List.getD_eq_getElem _ _ h1]
 
 theorem alphabet_eq : alphabet = alWords.map u62W := by
@@ -177,15 +177,15 @@ theorem p3 : ∀ j < s3Gens.length, permOK 693 10 (mask 10) (693 * 10) (Q3.S j) 
 
 theorem chainA : ChainK 693 10 aGens aDer (#v[1, 3, 45] : Vector (Fin 693) 3)
     AQ.S AQ.SI AQ.LR AQ.TR AQ.TRI 12 AQ.BP 11 64 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgAq, by decide, AQ.head, AQ.hl, by norm_num, AQ.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgAq, by decide, AQ.head, AQ.hl, by norm_num, .inl AQ.hs⟩
 
 theorem chain2 : ChainK 693 10 s2Gens s2QWords (#v[1, 45, 3] : Vector (Fin 693) 3)
     Q2.S Q2.SI Q2.LR Q2.TR Q2.TRI 12 Q2.BP 11 64 :=
-  ⟨by norm_num, by norm_num, by norm_num, img2, by decide, Q2.head, Q2.hl, by norm_num, Q2.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img2, by decide, Q2.head, Q2.hl, by norm_num, .inl Q2.hs⟩
 
 theorem chain3 : ChainK 693 10 s3Gens s3QWords (#v[1, 3, 45] : Vector (Fin 693) 3)
     Q3.S Q3.SI Q3.LR Q3.TR Q3.TRI 14 Q3.BP 11 64 :=
-  ⟨by norm_num, by norm_num, by norm_num, img3, by decide, Q3.head, Q3.hl, by norm_num, Q3.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img3, by decide, Q3.head, Q3.hl, by norm_num, .inl Q3.hs⟩
 
 theorem kN2 : Nat.beq (ordK Q2.LR 3) 16384 = true := by quickRfl
 theorem kN3 : Nat.beq (ordK Q3.LR 3) 4096 = true := by quickRfl

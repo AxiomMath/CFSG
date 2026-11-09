@@ -40,7 +40,7 @@ open CertificateChecks.KernelSporSch.Co1Gen CFSG.Sporadic.Co1Schreier
 @[expose] noncomputable def CC (j : Nat) : Nat := nIf(Nat.beq j 0, CRP 0, nIf(Nat.beq j 1, CRP 1, GF 2))
 
 theorem kQ : transOK (E.M 2) (QP 0) Data.f4vecs = true := by quickRfl
-theorem kQI : invOKK (QP 0) (QP 1) = true := by quickRfl
+theorem kQI : invOKW (QP 0) (QP 1) = true := by quickRfl
 theorem kH : allN 3 (fun i => bAnd(pos3K (pr2 (ngetPL Data.witLeft i)),
     Nat.beq (locK AF CC (ngetPL Data.witLeft i)) (HP i))) = true := by quickRfl
 theorem kK : allN 3 (fun i => bAnd(pos3K (pr2 (ngetPL Data.witConj i)),

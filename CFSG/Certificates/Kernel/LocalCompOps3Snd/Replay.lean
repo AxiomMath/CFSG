@@ -230,10 +230,10 @@ theorem commsOK_of_pairs {d : ℕ} :
     rw [e1, e2]
     exact h
 
-theorem ops3_check_main {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+theorem ops3_check_seed {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
     {LA LB : List Char} {Vk P T O W : Nat → Nat} {N : Nat} {D : Data}
     (hsA : D.seedA = String.ofList LA) (hsB : D.seedB = String.ofList LB)
-    (hA : decOK c (Vk 0) LA = true) (hB : decOK c (Vk 1) LB = true) (h1 : Vk 2 = c.ONE)
+    (hA : SeedM c (Vk 0) LA) (hB : SeedM c (Vk 1) LB) (h1 : Vk 2 = c.ONE)
     (hs : StepsTo (stepOK c Vk P) N) (hr : replayOK c Vk P T N D O W = true)
     (he : elemOK c Vk N O W D.outs.length = true) :
     (ops3 d).check D = true := by
@@ -242,7 +242,7 @@ theorem ops3_check_main {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (h
   simp only [Bool.and_eq_true] at hr
   obtain ⟨⟨⟨⟨⟨⟨hN, h2⟩, hprog⟩, houts⟩, hrep⟩, hOut⟩, hTests⟩ := hr
   have hN' : N ≤ 1048576 := of_decide_eq_true hN
-  have hV := vals_of hc hp hN' hA hB h1 hs
+  have hV := vals_of_seed hc hp hN' hA.1 hB.1 h1 hs
   set Rk0 : List ℕ := (List.range D.nregs).map
     (fun x => if x = 0 then 0 else if x = 1 then 1 else 2) with hRk0
   set Rn0 : Array (Array FV) := (ops3 c.d).initRegs ((ops3 c.d).decode D.seedA)
@@ -266,14 +266,14 @@ theorem ops3_check_main {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (h
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d D.seedA, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d D.seedA) = mat3 c (Vk 0)
       exact ((spec3 c.d).toMat_decode D.seedA).trans
-        (by rw [hsA]; exact (mat3_decode c hc hp hA).2.symm)
+        (by rw [hsA]; exact hA.2.symm)
     by_cases h01 : r = 1
     · subst h01
       simp only [if_false, if_true, one_ne_zero]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d D.seedB, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d D.seedB) = mat3 c (Vk 1)
       exact ((spec3 c.d).toMat_decode D.seedB).trans
-        (by rw [hsB]; exact (mat3_decode c hc hp hB).2.symm)
+        (by rw [hsB]; exact hB.2.symm)
     · simp only [h0, h01, if_false]
       refine ⟨Or.inr (by norm_num), wfb_idM c.d, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.idM c.d) = mat3 c (Vk 2)
@@ -391,6 +391,15 @@ theorem ops3_check_main {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (h
     (ops3 c.d).kerOK xs D.tests)) = true
   rw [hcubeOK, hcommsOK, hkerOK]
   rfl
+
+theorem ops3_check_main {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (hd : c.d = d)
+    {LA LB : List Char} {Vk P T O W : Nat → Nat} {N : Nat} {D : Data}
+    (hsA : D.seedA = String.ofList LA) (hsB : D.seedB = String.ofList LB)
+    (hA : decOK c (Vk 0) LA = true) (hB : decOK c (Vk 1) LB = true) (h1 : Vk 2 = c.ONE)
+    (hs : StepsTo (stepOK c Vk P) N) (hr : replayOK c Vk P T N D O W = true)
+    (he : elemOK c Vk N O W D.outs.length = true) :
+    (ops3 d).check D = true :=
+  ops3_check_seed hc hp hd hsA hsB (mat3_decode c hc hp hA) (mat3_decode c hc hp hB) h1 hs hr he
 
 end CFSG.KC.LocalComp.Ops3Snd
 

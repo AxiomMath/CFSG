@@ -100,38 +100,6 @@ theorem k_r2s15 : r2Sl 15 = true := by quickRfl
 theorem k_r2h : slK R2.cnt (hsortPtKF 243 8 (mask 8) R2.cnt R2.T R2.HS R2.HSI) 0 R2.cnt = true := by
   quickRfl
 
-theorem k_r2cl0 : r2clSl 0 = true := by quickRfl
-
-theorem k_r2cl1 : r2clSl 1 = true := by quickRfl
-
-theorem k_r2cl2 : r2clSl 2 = true := by quickRfl
-
-theorem k_r2cl3 : r2clSl 3 = true := by quickRfl
-
-theorem k_r2cl4 : r2clSl 4 = true := by quickRfl
-
-theorem k_r2cl5 : r2clSl 5 = true := by quickRfl
-
-theorem k_r2cl6 : r2clSl 6 = true := by quickRfl
-
-theorem k_r2cl7 : r2clSl 7 = true := by quickRfl
-
-theorem k_r2cl8 : r2clSl 8 = true := by quickRfl
-
-theorem k_r2cl9 : r2clSl 9 = true := by quickRfl
-
-theorem k_r2cl10 : r2clSl 10 = true := by quickRfl
-
-theorem k_r2cl11 : r2clSl 11 = true := by quickRfl
-
-theorem k_r2cl12 : r2clSl 12 = true := by quickRfl
-
-theorem k_r2cl13 : r2clSl 13 = true := by quickRfl
-
-theorem k_r2cl14 : r2clSl 14 = true := by quickRfl
-
-theorem k_r2cl15 : r2clSl 15 = true := by quickRfl
-
 @[expose] noncomputable def centAt (X : Nat) : Bool :=
   bIf(allN 5 (fun g => Nat.beq (p8 X (R2.GI g)) (p8 (R2.GI g) X)), Nat.beq X id8, true)
 

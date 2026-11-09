@@ -8,6 +8,8 @@ import CFSG.Certificates.Kernel.Spor.Loops
 
 public section
 
+set_option maxRecDepth 100000
+
 namespace CertificateChecks.KernelE81.Co2K
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.BfsPin CFSG.KC.PGrp CFSG.KC.Misc.ArrEnum CFSG.KC.E81K

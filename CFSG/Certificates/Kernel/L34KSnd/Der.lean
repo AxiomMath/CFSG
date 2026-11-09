@@ -13,6 +13,7 @@ namespace CFSG.KC.L34KSnd
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KC.BfsPin CFSG.KC.L34K
 open CFSG.PSL3Four.Native
+open CFSG.KLie.CT (fget)
 
 variable {n w : Nat}
 
@@ -86,6 +87,74 @@ theorem derF_of_derK {m m' IW W : Nat} {T TI D PW CW : Nat → Nat}
     exact ⟨_, Nat.blt_eq.mp h4, _, Nat.blt_eq.mp h6, _, Nat.blt_eq.mp h8, _, Nat.blt_eq.mp h9,
       Nat.eq_of_beq_eq_true h3⟩
 
+theorem derF_of_derQK {m m' iv IW W : Nat} {T TI Q D PW CW : Nat → Nat}
+    (hT : ∀ a < m, canonK n w (mask w) (n * w) (T a) = true ∧
+      canonK n w (mask w) (n * w) (TI a) = true ∧ pcomp n w (mask w) (TI a) (T a) = pidn n w)
+    (hQ : ∀ a < m, ∀ b < m, (a = b ∨ T a ≠ T b) ∧ fget (Q a) b 8 < m ∧
+      T (fget (Q a) b 8) = pcomp n w (mask w) (T a) (T b))
+    (h : derQK n w m T TI Q iv m' D PW CW IW W = true) : DerF n w m T TI m' D := by
+  unfold derQK at h
+  rw [CFSG.KC.BfsPin.strictB_app] at h
+  obtain ⟨h0, h⟩ := andB_iff.1 h
+  obtain ⟨hD, h⟩ := andB_iff.1 h
+  obtain ⟨hC, hW⟩ := andB_iff.1 h
+  obtain ⟨hpos, hone⟩ := andB_iff.1 h0
+  have hDb : ∀ a < m', ∀ b < m',
+      (Nat.beq a b = true ∨ CFSG.KLie.CT.notB (Nat.beq (D a) (D b)) = true) ∧
+        ∃ q < m', D q = pcomp n w (mask w) (D a) (D b) := by
+    intro a ha b hb
+    have h3 := (andB_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 hD a ha)).2
+    rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h3
+    have h8 := CFSG.KS.Raw.Orb.allN_iff.1 (andB_iff.1 h3).2 b hb
+    rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h8
+    obtain ⟨h9, h10⟩ := andB_iff.1 h8
+    obtain ⟨h11, h12⟩ := andB_iff.1 h10
+    exact ⟨orB_iff.1 h9, _, Nat.blt_eq.mp h11, Nat.eq_of_beq_eq_true h12⟩
+  refine ⟨fun a ha => (hT a ha).1, fun a ha => (hT a ha).2.1, fun a ha => (hT a ha).2.2,
+    Nat.blt_eq.mp hpos, Nat.eq_of_beq_eq_true hone,
+    fun a ha => (andB_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 hD a ha)).1, ?_, ?_,
+    fun a ha b hb => (hDb a ha b hb).2, ?_, ?_⟩
+  · intro a ha
+    have h3 := (andB_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 hD a ha)).2
+    rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h3
+    have h4 := (andB_iff.1 h3).1
+    rw [CFSG.KC.BfsPin.strictB_app] at h4
+    obtain ⟨h6, h7⟩ := andB_iff.1 h4
+    exact ⟨_, Nat.blt_eq.mp h6, Nat.eq_of_beq_eq_true h7⟩
+  · intro a ha b hb e
+    rcases (hDb a ha b hb).1 with h1 | h1
+    · exact Nat.eq_of_beq_eq_true h1
+    · exact absurd e (Nat.ne_of_beq_eq_false (notB_iff.1 h1))
+  · intro a ha b hb
+    have h1 := CFSG.KS.Raw.Orb.allN_iff.1 hC a ha
+    rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h1
+    obtain ⟨h2, h3⟩ := andB_iff.1 h1
+    obtain ⟨h4, h5⟩ := andB_iff.1 h2
+    have hia := Nat.blt_eq.mp h4
+    have h6 := CFSG.KS.Raw.Orb.allN_iff.1 h3 b hb
+    rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h6
+    obtain ⟨h7, h8⟩ := andB_iff.1 h6
+    obtain ⟨h9, h10⟩ := andB_iff.1 h7
+    obtain ⟨h11, h12⟩ := andB_iff.1 h8
+    have hib := Nat.blt_eq.mp h10
+    refine ⟨_, Nat.blt_eq.mp h9, ?_⟩
+    have q1 := hQ a ha b hb
+    have q2 := hQ _ q1.2.1 _ hia
+    have q3 := hQ _ q2.2.1 _ hib
+    rw [Nat.eq_of_beq_eq_true h12, q3.2.2, q2.2.2, q1.2.2, Nat.eq_of_beq_eq_true h5,
+      Nat.eq_of_beq_eq_true h11]
+    rfl
+  · intro a ha
+    have h1 := CFSG.KS.Raw.Orb.allN_iff.1 hW a ha
+    rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app,
+      CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h1
+    obtain ⟨h2, h3⟩ := andB_iff.1 h1
+    obtain ⟨h4, h5⟩ := andB_iff.1 h2
+    obtain ⟨h6, h7⟩ := andB_iff.1 h5
+    obtain ⟨h8, h9⟩ := andB_iff.1 h7
+    exact ⟨_, Nat.blt_eq.mp h4, _, Nat.blt_eq.mp h6, _, Nat.blt_eq.mp h8, _, Nat.blt_eq.mp h9,
+      Nat.eq_of_beq_eq_true h3⟩
+
 private theorem mem_iff_get {X : Array Tab} {x : Tab} :
     x ∈ X.toList ↔ ∃ i < X.size, X[i]! = x := by
   rw [Array.mem_toList_iff, Array.mem_iff_getElem]
@@ -113,10 +182,10 @@ private theorem inj_of_nodup {X : Array Tab} (h : X.toList.Nodup) :
   have hb' : b < X.toList.length := by simpa using hb
   exact (List.Nodup.getElem_inj_iff h (hi := ha') (hj := hb')).1 (by simpa using e)
 
-theorem derivedOK_of_derK {m m' IW W : Nat} {TT TI D PW CW : Nat → Nat} {A DD : Array Tab}
+theorem derivedOK_of_derF {m m' : Nat} {TT TI D : Nat → Nat} {A DD : Array Tab}
     {WW : Array (Nat × Nat × Nat × Nat)}
     (hA : ∀ x, x ∈ A.toList ↔ x ∈ (Array.ofFn (n := m) fun i => unpack n w (TT i.val)).toList)
-    (h : derK n w m TT TI m' D PW CW IW W = true) (hnd : DD.toList.Nodup)
+    (F : DerF n w m TT TI m' D) (hnd : DD.toList.Nodup)
     (hsz : WW.size = DD.size)
     (hwit : ∀ i < DD.size, WW[i]!.1 < A.size ∧ WW[i]!.2.1 < A.size ∧ WW[i]!.2.2.1 < A.size ∧
       WW[i]!.2.2.2 < A.size ∧
@@ -129,7 +198,6 @@ theorem derivedOK_of_derK {m m' IW W : Nat} {TT TI D PW CW : Nat → Nat} {A DD 
         (commTab n A[a₃]! A[a₄]! (A.map (invTab n))[a₃]! (A.map (invTab n))[a₄]!) ∈ DD.toList) :
     derivedOK n A (A.map (invTab n)) DD WW = true ∧ DD.size = m' ∧
       ∀ x, x ∈ DD.toList ↔ x ∈ (Array.ofFn (n := m') fun i => unpack n w (D i.val)).toList := by
-  have F := derF_of_derK h
   have hTI : ∀ a < m, invTab n (unpack n w (TT a)) = unpack n w (TI a) := fun a ha =>
     invTab_eq_of_pcomp (F.canT a ha) (F.canTI a ha)
       (pcomp_inv_of_pcomp (F.canTI a ha) (F.canT a ha) (F.invT a ha))

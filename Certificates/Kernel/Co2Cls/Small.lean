@@ -7,8 +7,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Co2Cls
-  "Certificates/Kernel/Co2Cls/data/small.json.gz" 36619 15703106123726903873
+#kc_repo #kc_json CertificateChecks.KernelSpor.Co2Cls
+  "Certificates/Kernel/Co2Cls/data/small.json" 36619 15703106123726903873
   (HL : List Nat)
   (O1 : List Nat) (IX1 : List Nat) (K1 : Nat) (W1 : List Nat)
   (O2 : List Nat) (IX2 : List Nat) (K2 : Nat) (W2 : List Nat)

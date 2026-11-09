@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.BabyMonster.Stab.Common
 public import Certificates.Kernel.BabyMonster.Stab.Blk
+public import Certificates.Kernel.BabyMonster.Stab.Mono0
 public import CFSG.Certificates.Kernel.BabyMonster.StabCheck.Mono1
 public import CFSG.Certificates.Kernel.BabyMonster.DyLane.Mono6_0
 public import CFSG.Certificates.Kernel.BabyMonster.DyLane.Mono6_1
@@ -42,7 +43,7 @@ theorem stab6 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G6.b0
     (stOK_of_lanes lnData (F := monoF CFSG.KC.BM.Dyadic.Bs M6.b0 (nthN G6.b0 1))
       (R := recOf CFSG.KC.BM.FixedLine.C6.rows) (by forall_lt_consts CFSG.KC.BM.Dyadic.lnSt6_ 274))
     net6 Stab.v6 Stab.al6
-    (rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne6_ 68) Stab.ne6t)
+    (rowsNe_failRowZ <| rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne6_ 68) Stab.ne6t)
 
 theorem stab7 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G7.b0 0))
     (recOf CFSG.KC.BM.FixedLine.C7.rows i) i :=
@@ -50,7 +51,7 @@ theorem stab7 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G7.b0
     (stOK_of_lanes lnData (F := monoF CFSG.KC.BM.Dyadic.Bs M7.b0 (nthN G7.b0 1))
       (R := recOf CFSG.KC.BM.FixedLine.C7.rows) (by forall_lt_consts CFSG.KC.BM.Dyadic.lnSt7_ 274))
     net7 Stab.v7 Stab.al7
-    (rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne7_ 68) Stab.ne7t)
+    (rowsNe_failRowZ <| rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne7_ 68) Stab.ne7t)
 
 theorem stab8 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G8.b0 0))
     (recOf CFSG.KC.BM.FixedLine.C8.rows i) i :=
@@ -58,7 +59,7 @@ theorem stab8 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G8.b0
     (stOK_of_lanes lnData (F := monoF CFSG.KC.BM.Dyadic.Bs M8.b0 (nthN G8.b0 1))
       (R := recOf CFSG.KC.BM.FixedLine.C8.rows) (by forall_lt_consts CFSG.KC.BM.Dyadic.lnSt8_ 274))
     net8 Stab.v8 Stab.al8
-    (rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne8_ 68) Stab.ne8t)
+    (rowsNe_failRowZ <| rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne8_ 68) Stab.ne8t)
 
 theorem stab9 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G9.b0 0))
     (recOf CFSG.KC.BM.FixedLine.C9.rows i) i :=
@@ -66,7 +67,7 @@ theorem stab9 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G9.b0
     (stOK_of_lanes lnData (F := monoF CFSG.KC.BM.Dyadic.Bs M9.b0 (nthN G9.b0 1))
       (R := recOf CFSG.KC.BM.FixedLine.C9.rows) (by forall_lt_consts CFSG.KC.BM.Dyadic.lnSt9_ 274))
     net9 Stab.v9 Stab.al9
-    (rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne9_ 68) Stab.ne9t)
+    (rowsNe_failRowZ <| rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne9_ 68) Stab.ne9t)
 
 theorem stab10 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G10.b0 0))
     (recOf CFSG.KC.BM.FixedLine.C10.rows i) i :=
@@ -74,7 +75,7 @@ theorem stab10 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G10.
     (stOK_of_lanes lnData (F := monoF CFSG.KC.BM.Dyadic.Bs M10.b0 (nthN G10.b0 1))
       (R := recOf CFSG.KC.BM.FixedLine.C10.rows) (by forall_lt_consts CFSG.KC.BM.Dyadic.lnSt10_ 274))
     net10 Stab.v10 Stab.al10
-    (rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne10_ 68) Stab.ne10t)
+    (rowsNe_failRowZ <| rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne10_ 68) Stab.ne10t)
 
 theorem stab12 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G12.b0 0))
     (recOf CFSG.KC.BM.FixedLine.C12.rows i) i :=
@@ -82,7 +83,7 @@ theorem stab12 : ∀ i < 4371, RowStab CFSG.KC.BM.Dyadic.Bs (kNumMono (nthN G12.
     (stOK_of_lanes lnData (F := monoF CFSG.KC.BM.Dyadic.Bs M12.b0 (nthN G12.b0 1))
       (R := recOf CFSG.KC.BM.FixedLine.C12.rows) (by forall_lt_consts CFSG.KC.BM.Dyadic.lnSt12_ 274))
     net12 Stab.v12 Stab.al12
-    (rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne12_ 68) Stab.ne12t)
+    (rowsNe_failRowZ <| rowsNe_4371 (by forall_lt_consts CFSG.KC.BM.Dy.Stab.ne12_ 68) Stab.ne12t)
 
 end CertificateChecks.KernelBM.Dy
 

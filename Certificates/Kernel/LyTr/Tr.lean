@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.LyTr.Glue
 public import CFSG.Certificates.Kernel.Spor.RawOrbEval
+public import Certificates.Kernel.Sporadic.OddCore.MulHPos
 
 public section
 
@@ -190,21 +191,8 @@ theorem txy_invs : ∀ j < 5, invEqK 243 8 (mask 8) (243 * 8) (R2.GI j) (R2I j) 
 
 theorem r2G : ∀ j < 5, R2.G j = pidn 243 8 := fun j hj => (base8.2.2.2.2.2.1 j hj).2.2.2
 
-theorem r2clSl_all : ∀ s < 16, r2clSl s = true := by
-  intro s hs
-  interval_cases s
-  exacts [k_r2cl0, k_r2cl1, k_r2cl2, k_r2cl3, k_r2cl4, k_r2cl5, k_r2cl6, k_r2cl7, k_r2cl8, k_r2cl9,
-    k_r2cl10, k_r2cl11, k_r2cl12, k_r2cl13, k_r2cl14, k_r2cl15]
-
-theorem r2_cl : ∀ c < R2.cnt * (5 + 5), findPtK R2.cnt R2.T
-    (prodQK 243 8 (mask 8) (5 + 5) R2.T (bothK 5 R2.GI R2I)) R2Cl c = true := by
-  intro c hc
-  have hn : R2.cnt = 3888 := base8.2.2.2.2.2.2.2.1
-  have hs := r2clSl_all (c / 2430) (by rw [hn] at hc; omega)
-  exact slK_spec hs c (by omega) (by omega) (by change c < Nat.mul R2.cnt 10; omega)
-
 theorem txyEnumOK_of : Ly243.txyEnumOK = true :=
-  enumOK_of base8.1 r2G txy_tabs txy_invs base8.2.2.2.2.2.2.2.2 r2_pe r2_hs r2_cl base8.2.2.2.2.2.2.2.1
+  enumOK_of_pos base8.1 r2G txy_tabs txy_invs base8.2.2.2.2.2.2.2.2 r2_pe r2_hs base8.2.2.2.2.2.2.2.1
 
 theorem txyEnum_eq : Ly243.txyEnum = hRec 243 8 R2.cnt R2.T R2.PL :=
   (mulH_sound base8.1 r2G txy_tabs base8.2.2.2.2.2.2.2.2 r2_pe r2_hs).1
@@ -352,7 +340,7 @@ theorem kCompatOK_of : Ly243.kCompatOK = true := by
     (Ly1080.sigmaTxyWords.getD j []) fun l hl =>
       txyLetT (sigmaWords_ok j hj l hl).1 (sigmaWords_ok j hj l hl).2
   have e : Ly1080.sigmaTxyWords[j]! = Ly1080.sigmaTxyWords.getD j [] := by
-    simp [List.getD_eq_getElem?_getD, getElem!_def, hs, hj]
+    simp [List.getD_eq_getElem?_getD, hs, hj]
   have c4 := gc (by norm_num : 4 < 5)
   have ci4 := gic (by norm_num : 4 < 5)
   rw [e, hw.1, genT (by norm_num), genIT (by norm_num), txy243T hj, conjT_unpack c4 ci4 (tc hj),

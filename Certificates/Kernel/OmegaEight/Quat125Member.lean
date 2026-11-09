@@ -588,7 +588,9 @@ theorem q125m_PL {j : Nat} (hj : j < 4) :
   have hc : ∀ g, Nat.card (conjSub g q125K0) = Nat.card q125K0 := fun g =>
     Subgroup.card_map_of_injective (MulAut.conj g).injective
   rcases (by omega : j = 0 ∨ j = 1 ∨ j = 2 ∨ j = 3) with rfl | rfl | rfl | rfl
-  · exact ⟨fun y hy => q125m_e4L y hy, rfl, rfl, rfl⟩
+  · refine ⟨fun y hy => q125m_e4L y (q125PL_getD_zero ▸ hy), ?_, by rw [q125PL_getD_zero]; rfl, rfl⟩
+    rw [q125PL_getD_zero, e4L_getD_two, e4L_getD_four]
+    rfl
   · obtain ⟨h1, h2⟩ := hw _ (E4C.e4c_pp (by decide +kernel : permB 360 9 (wO (q125MW 1)) = true))
     exact ⟨h1, h2, rfl, hc _⟩
   · obtain ⟨h1, h2⟩ := hw _ (E4C.e4c_pp (by decide +kernel : permB 360 9 (wO (q125MW 3)) = true))

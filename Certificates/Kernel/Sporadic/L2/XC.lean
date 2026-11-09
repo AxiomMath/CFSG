@@ -1,8 +1,6 @@
 module
 
 public import Certificates.Kernel.Sporadic.L2.XC0
-public import Certificates.Kernel.Sporadic.L2.XC1
-public import Certificates.Kernel.Sporadic.L2.XC2
 public import Certificates.Kernel.Sporadic.L2.Text
 public import Certificates.Kernel.Sporadic.OddCore.SuzMGCG
 public import Certificates.Kernel.Sporadic.OddCore.SuzTwCF
@@ -52,7 +50,7 @@ theorem words_eq : xWords = CFSG.Sporadic.Schreier.Co3.Native.wordsArr 2 9 L2XCD
     (fun j hj => by interval_cases j <;> rfl) (by simp only [L2XCD.deriv, Array.toArray_toList])
 
 theorem chainOK_true : chainOK = true := by
-  have hc := rawChainK_sound (chunks := 4) binds L2XC.head L2XC.hl (by norm_num) L2XC.hs
+  have hc := CFSG.KS.Raw.Orb.rawChainOK0_of_K binds L2XC.head
   rw [← words_eq, ← gens_eq] at hc
   unfold chainOK
   rw [hc, rawOrbitSizesK_sound binds kPerm L2XC.hl, kOrb]

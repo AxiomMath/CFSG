@@ -31,7 +31,7 @@ end CertificateChecks.KernelKGC31J2
 #lc_reps CertificateChecks.KernelKGC31J2.RJ 9 CertificateChecks.KernelKGC31J2.GM
   CertificateChecks.KernelKGC31J2.repsL
 
-#kc_repo #kc_json_gz CertificateChecks.KernelKGC31J2 "Certificates/Kernel/KGC31J2/data/enum.json.gz" 4957 438796266428538775
+#kc_repo #kc_json CertificateChecks.KernelKGC31J2 "Certificates/Kernel/KGC31J2/data/enum.json" 4957 438796266428538775
   (E0 : List Nat)
 
 end

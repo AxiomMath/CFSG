@@ -10,8 +10,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Co3HE
-  "Certificates/Kernel/Sporadic/Co3/data/hyp24438_e8.json.gz" 2254 13901511896165549233
+#kc_repo #kc_json CertificateChecks.KernelSpor.Co3HE
+  "Certificates/Kernel/Sporadic/Co3/data/hyp24438_e8.json" 2254 13901511896165549233
   (E : List Nat)
 
 namespace CertificateChecks.KernelSpor.Co3HE

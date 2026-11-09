@@ -45,30 +45,6 @@ theorem bb_eq : mulRows CFSG.Sporadic.Th.Max3.rowsB CFSG.Sporadic.Th.Max3.rowsB 
   rw [rowsB_eq]
   exact mulRows_sound bB bB (un (fun _ => rfl) bBBall)
 
-theorem len_w : (invWord transporterWord).length = 35 := by decide
-
-theorem letters (k : Nat) (hk : k < 35) :
-    ((invWord transporterWord).map abLetterRows)[k]! = rowsV (letRow ThVI.LC ThA ThBB k) := by
-  have hl : k < (invWord transporterWord).length := by rw [len_w]; exact hk
-  rw [getElem!_pos _ k (by simpa using hl), List.getElem_map, ← getElem!_pos _ k hl]
-  rcases wc_sound wc k hl with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · rw [h1]
-    have e : letRow ThVI.LC ThA ThBB k = ThA := by
-      funext i
-      unfold letRow
-      rw [h2]
-      rfl
-    rw [e, ← rowsA_eq]
-    simp [abLetterRows]
-  · rw [h1]
-    have e : letRow ThVI.LC ThA ThBB k = ThBB := by
-      funext i
-      unfold letRow
-      rw [h2]
-      rfl
-    rw [e, ← bb_eq]
-    simp [abLetterRows]
-
 end CertificateChecks.KernelSporSch.ThPlane
 
 end

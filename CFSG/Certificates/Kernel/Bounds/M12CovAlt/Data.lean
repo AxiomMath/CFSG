@@ -1,27 +1,27 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Tab
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 public import CFSG.Certificates.Kernel.Bounds.Core3
 public import CFSG.Certificates.Kernel.Common.LceS
 public import Certificates.Data.Kernel.LceSSeg
 public import Certificates.Data.Kernel.Multipliers.LabZ
 public import Certificates.Data.Kernel.Multipliers.Mono
 
-#kc_repo #kc_nat_items_gz CFSG.KD.M12C "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/C.items.gz" 206895 14135993359727827001
+#kc_repo #kc_nat_items CFSG.KD.M12C "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/C.items" 206895 14135993359727827001
   B[17] INV INV8 nC WT[337] RT[5] ST[1] HS LBB[67] TG[337] BIAS QQ HIGH TOP
-#kc_repo #kc_items_gz CFSG.KD.M12C.JF "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/JF.bin.gz" 65203 14293444775739832793
-#kc_repo #kc_items_gz CFSG.KD.M12C.CY "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/cyc.bin.gz" 738 4943976837493002512
+#kc_repo #kc_items_root CFSG.KD.M12C.JF "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/JF.bin" 65203 14293444775739832793
+#kc_repo #kc_items_root CFSG.KD.M12C.CY "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/cyc.bin" 738 4943976837493002512
 #kc_selectT CFSG.KD.M12C blk B 17
 #kc_selectT CFSG.KD.M12C selWT WT 337
 #kc_select CFSG.KD.M12C selRT RT 5
 #kc_select CFSG.KD.M12C selST ST 1
 #kc_selectT CFSG.KD.M12C lblk LBB 67
 #kc_selectT CFSG.KD.M12C TG TG 337
-#kc_repo #kc_nat_items_gz CFSG.KD.M12M "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/M.items.gz" 193 4764344199562952776
+#kc_repo #kc_nat_items CFSG.KD.M12M "CFSG/Certificates/Kernel/Bounds/M12CovAlt/data/M.items" 193 4764344199562952776
   TBL
 
 public section

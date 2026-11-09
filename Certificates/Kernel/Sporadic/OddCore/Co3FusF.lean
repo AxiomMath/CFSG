@@ -9,6 +9,9 @@ public import CFSG.Certificates.Kernel.Spor.SiftRSound
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Certificates.Kernel.Spor.RawSlSound
+public import CFSG.Certificates.Kernel.Spor.PEnumCSound
+import CFSG.Certificates.Kernel.Spor.PackWord
+import CFSG.Certificates.Kernel.Spor.MulHCaySound
 public import CFSG.Sporadic.SmallOddCore.ClassSimple
 
 public section
@@ -66,37 +69,53 @@ theorem cover {L N : Nat} {P : Nat → Prop} (hL : 0 < L)
   rw [Nat.mul_add, Nat.mul_one] at this
   exact this
 
-theorem e_pe : ∀ i < Co3E.cnt, penumPtK 276 9 (mask 9) (276 * 9) true Co3E.G Co3E.GI 8 Co3E.cnt
-    Co3E.T Co3E.PL Co3E.POS Co3E.SRT Co3E.SRI i = true := by
-  rw [hcnt]
-  refine cover (L := 128) (N := 8) (by norm_num) fun s hs i h1 h2 => ?_
-  have hi : i < Co3E.cnt := by rw [hcnt]; omega
-  interval_cases s
-  · exact penumSl_spec eE0 i h1 h2 hi
-  · exact penumSl_spec eE1 i h1 h2 hi
-  · exact penumSl_spec eE2 i h1 h2 hi
-  · exact penumSl_spec eE3 i h1 h2 hi
-  · exact penumSl_spec eE4 i h1 h2 hi
-  · exact penumSl_spec eE5 i h1 h2 hi
-  · exact penumSl_spec eE6 i h1 h2 hi
-  · exact penumSl_spec eE7 i h1 h2 hi
+theorem hsGo_succ (n w m cnt : Nat) (T HS HSI : Nat → Nat) (r i a : Nat) :
+    hsGo n w m cnt T HS HSI (r + 1) i a = strictB (r32 HS i) (fun s => bAnd(Nat.blt s cnt,
+      bAnd(Nat.beq (r32 HSI s) i, bIf(Nat.blt (Nat.succ i) cnt,
+        strictB (hkeyK n w m (T (r32 HS (Nat.succ i))))
+          (fun b => bAnd(Nat.blt a b, hsGo n w m cnt T HS HSI r (Nat.succ i) b)), true)))) :=
+  rfl
+
+theorem hsGo_spec {n w m cnt : Nat} {T HS HSI : Nat → Nat} : ∀ r i a,
+    hsGo n w m cnt T HS HSI r i a = true → a = hkeyK n w m (T (r32 HS i)) →
+    ∀ j, i ≤ j → j < i + r → j < cnt → hsortPtK n w m cnt T HS HSI j = true := by
+  intro r
+  induction r with
+  | zero =>
+    intro i a _ _ j h1 h2 _
+    omega
+  | succ r ih =>
+    intro i a h ha j h1 h2 h3
+    simp only [hsGo_succ, strictB_eq'', bAnd_iff] at h
+    obtain ⟨hs, hi, hn⟩ := h
+    by_cases hij : j = i
+    · subst hij
+      unfold hsortPtK
+      simp only [strictB_eq'', bAnd_iff]
+      refine ⟨hs, hi, ?_⟩
+      cases hc : Nat.blt (Nat.succ j) cnt
+      · rfl
+      · simp only [hc, bAnd_iff] at hn
+        rw [← ha]
+        exact hn.1
+    · have hc : Nat.blt (Nat.succ i) cnt = true := Nat.blt_eq.mpr (by omega)
+      simp only [hc, bAnd_iff] at hn
+      exact ih (Nat.succ i) _ hn.2 rfl j (by omega) (by omega) h3
 
 theorem e_hs : ∀ i < Co3E.cnt, hsortPtK 276 9 (mask 9) Co3E.cnt Co3E.T Co3E.HS Co3E.HSI i =
     true := by
-  rw [hcnt]
-  refine cover (L := 256) (N := 4) (by norm_num) fun s hs i h1 h2 => ?_
-  have hi : i < Co3E.cnt := by rw [hcnt]; omega
-  interval_cases s
-  · exact slK_spec eH0 i h1 h2 hi
-  · exact slK_spec eH1 i h1 h2 hi
-  · exact slK_spec eH2 i h1 h2 hi
-  · exact slK_spec eH3 i h1 h2 hi
+  intro i hi
+  have h4 : i < 1024 := by
+    rw [hcnt] at hi
+    exact hi
+  by_cases h : i < 512
+  · exact hsGo_spec 512 0 _ eH0 rfl i (by omega) (by omega) hi
+  · exact hsGo_spec 512 512 _ eH1 rfl i (by omega) (by omega) hi
 
-theorem e_cl : ∀ c < Co3E.cnt * (8 + 8), findPtK Co3E.cnt Co3E.T
-    (prodQK 276 9 (mask 9) (8 + 8) Co3E.T (bothK 8 Co3T.S Co3T.SI)) Co3ECl c = true := by
-  have hc : Co3E.cnt * (8 + 8) = 2048 * 8 := by rw [hcnt]
+theorem clChk_all : ∀ c < Co3E.cnt * 16, clChkK c = true := by
+  have hc : Co3E.cnt * 16 = 4096 * 4 := by rw [hcnt]
   rw [hc]
-  refine cover (L := 2048) (N := 8) (by norm_num) fun s hs i h1 h2 => ?_
+  refine cover (L := 4096) (N := 4) (by norm_num) fun s hs i h1 h2 => ?_
   have hi : i < Nat.mul Co3E.cnt 16 := by
     change i < Co3E.cnt * 16
     rw [hcnt]
@@ -106,10 +125,108 @@ theorem e_cl : ∀ c < Co3E.cnt * (8 + 8), findPtK Co3E.cnt Co3E.T
   · exact slK_spec eCl1 i h1 h2 hi
   · exact slK_spec eCl2 i h1 h2 hi
   · exact slK_spec eCl3 i h1 h2 hi
-  · exact slK_spec eCl4 i h1 h2 hi
-  · exact slK_spec eCl5 i h1 h2 hi
-  · exact slK_spec eCl6 i h1 h2 hi
-  · exact slK_spec eCl7 i h1 h2 hi
+
+theorem prodQ_eq {i j : Nat} (hj : j < 16) :
+    prodQK 276 9 (mask 9) (8 + 8) Co3E.T (bothK 8 Co3T.S Co3T.SI) (i * 16 + j) =
+      pcomp 276 9 (mask 9) (Co3E.T i) (bothK 8 Co3T.S Co3T.SI j) := by
+  obtain ⟨e1, e2⟩ := div_mod_pair (i := i) hj
+  unfold prodQK
+  rw [show Nat.div (i * 16 + j) (8 + 8) = i from e1, show Nat.mod (i * 16 + j) (8 + 8) = j from e2]
+
+theorem e_fw {i j : Nat} (hi : i < Co3E.cnt) (hj : j < 8) :
+    r32 Co3ECl (i * 16 + j) < Co3E.cnt ∧
+      Co3E.T (r32 Co3ECl (i * 16 + j)) = pcomp 276 9 (mask 9) (Co3E.T i) (Co3T.S j) := by
+  have h := clChk_all (i * 16 + j) (by omega)
+  have hm : Nat.blt (Nat.mod (i * 16 + j) 16) 8 = true := by
+    apply Nat.blt_eq.mpr
+    change (i * 16 + j) % 16 < 8
+    omega
+  unfold clChkK at h
+  rw [hm] at h
+  obtain ⟨hq, he⟩ := findPt_spec (cnt := Co3E.cnt) (T := Co3E.T) (POS := Co3ECl)
+    (Q := prodQK 276 9 (mask 9) (8 + 8) Co3E.T (bothK 8 Co3T.S Co3T.SI)) h
+  refine ⟨hq, ?_⟩
+  rw [he, prodQ_eq (by omega), bothK_lt hj]
+
+theorem findPt_of {cnt c : Nat} {T Q POS : Nat → Nat} (h1 : r32 POS c < cnt)
+    (h2 : T (r32 POS c) = Q c) : findPtK cnt T Q POS c = true := by
+  unfold findPtK
+  rw [strictB_eq'', bAnd_iff]
+  exact ⟨Nat.blt_eq.mpr h1, Nat.beq_eq.mpr h2⟩
+
+theorem e_pc : ∀ i < Co3E.cnt, CFSG.KS.PEnumC.penumPtC 8 16 Co3E.cnt Co3E.T Co3E.PL Co3E.POS
+    Co3ECl Co3E.SRT Co3E.SRI i = true := by
+  rw [hcnt]
+  refine cover (L := 512) (N := 2) (by norm_num) fun s hs i h1 h2 => ?_
+  have hi : i < Co3E.cnt := by rw [hcnt]; omega
+  interval_cases s
+  · exact CFSG.KS.PEnumC.penumSlC_spec eE0 i h1 h2 hi
+  · exact CFSG.KS.PEnumC.penumSlC_spec eE1 i h1 h2 hi
+
+theorem e_t0 : canonK 276 9 (mask 9) (276 * 9) (Co3E.T 0) = true := by
+  have h := base.2.2.2.2.2.2.1
+  unfold penumHdK at h
+  simp only [bAnd_iff] at h
+  rw [Nat.eq_of_beq_eq_true h.2.2.1]
+  exact base.2.1
+
+theorem e_canon0 : ∀ i < Co3E.cnt, canonK 276 9 (mask 9) (276 * 9) (Co3E.T i) = true := by
+  intro i
+  induction i using Nat.strongRecOn with
+  | ind i ih =>
+    intro hi
+    by_cases hi0 : i = 0
+    · subst hi0
+      exact e_t0
+    · obtain ⟨hp, hl, e⟩ := CFSG.KS.PEnumC.penumPtC_par (e_pc i hi) hi0
+      have hq := (e_fw (Nat.lt_trans hp hi) hl).2
+      rw [e] at hq
+      rw [hq]
+      exact CFSG.KC.BfsPin.canonK_pcomp (ih _ hp (Nat.lt_trans hp hi)) (gen_ok hl).2.2.1
+
+theorem e_cube {j : Nat} (hj : j < 8) : pcomp 276 9 (mask 9) (Co3T.S j)
+    (pcomp 276 9 (mask 9) (Co3T.S j) (Co3T.S j)) = Co3T.SI j := by
+  have hs := (gen_ok hj).2.2.1
+  rw [← CFSG.KS.MulHCay.pcomp_assoc_c hs hs]
+  exact Nat.eq_of_beq_eq_true (allN_spec eCg j hj)
+
+theorem e_cl : ∀ c < Co3E.cnt * (8 + 8), findPtK Co3E.cnt Co3E.T
+    (prodQK 276 9 (mask 9) (8 + 8) Co3E.T (bothK 8 Co3T.S Co3T.SI)) Co3ECl c = true := by
+  intro c hc
+  obtain ⟨i, j, rfl, hj⟩ : ∃ i j, c = i * 16 + j ∧ j < 16 :=
+    ⟨c / 16, c % 16, by omega, Nat.mod_lt _ (by norm_num)⟩
+  have hi : i < Co3E.cnt := by omega
+  have e2 : Nat.mod (i * 16 + j) 16 = j := (div_mod_pair (i := i) hj).2
+  by_cases h8 : j < 8
+  · obtain ⟨hq, he⟩ := e_fw hi h8
+    exact findPt_of hq (by rw [he, prodQ_eq hj, bothK_lt h8])
+  · have hj' : j - 8 < 8 := by omega
+    have h0 := clChk_all (i * 16 + j) (by omega)
+    have hs : Nat.sub (i * 16 + j) 8 = i * 16 + (j - 8) := by
+      change i * 16 + j - 8 = _
+      omega
+    have hb : Nat.blt j 8 = false := Bool.eq_false_iff.2 fun h => h8 (Nat.blt_eq.mp h)
+    unfold clChkK at h0
+    rw [e2, hs, hb] at h0
+    have h3 : r32 Co3ECl (i * 16 + j) = r32 Co3ECl (r32 Co3ECl (r32 Co3ECl
+        (i * 16 + (j - 8)) * 16 + (j - 8)) * 16 + (j - 8)) := Nat.eq_of_beq_eq_true h0
+    obtain ⟨hq1, he1⟩ := e_fw hi hj'
+    obtain ⟨hq2, he2⟩ := e_fw hq1 hj'
+    obtain ⟨hq3, he3⟩ := e_fw hq2 hj'
+    have hs' := (gen_ok hj').2.2.1
+    have ha := e_canon0 i hi
+    refine findPt_of (by rw [h3]; exact hq3) ?_
+    rw [h3, he3, he2, he1, prodQ_eq hj, bothK_ge (by omega),
+      CFSG.KS.MulHCay.pcomp_assoc_c (CFSG.KC.BfsPin.canonK_pcomp ha hs') hs',
+      CFSG.KS.MulHCay.pcomp_assoc_c ha (CFSG.KC.BfsPin.canonK_pcomp hs' hs'), e_cube hj']
+
+theorem e_pe : ∀ i < Co3E.cnt, penumPtK 276 9 (mask 9) (276 * 9) true Co3E.G Co3E.GI 8 Co3E.cnt
+    Co3E.T Co3E.PL Co3E.POS Co3E.SRT Co3E.SRI i = true := by
+  refine CFSG.KS.PEnumC.penumPtK_of_C (K := 8 + 8) (S := bothK 8 Co3T.S Co3T.SI) (CL := Co3ECl)
+    (by omega) (fun j hj => (gen_ok hj).2.1) (fun j hj => ?_) (fun j hj => ?_) e_t0 e_cl e_pc
+  · rw [bothK_lt hj, (gen_ok hj).1]
+  · rw [(gen_ok hj).1]
+    exact (gen_ok hj).2.2.1
 
 theorem e_canon : ∀ i < Co3E.cnt, canonK 276 9 (mask 9) (276 * 9) (Co3E.T i) = true :=
   fun i hi => penumPt_canon (e_pe i hi)
@@ -158,8 +275,9 @@ theorem wits_ok : co3FusionWits.all (fun w => permOK 276 w.1 && invOK 276 w.1 (i
   intro k hk
   have hk' := List.mem_range.1 hk
   obtain ⟨h1, h2, h3, h4, h5⟩ := wit_facts hk'
-  simp only [Function.comp, Bool.and_eq_true]
-  rw [fus_tab hk', invT_unpack (by norm_num) h2]
+  rw [Function.comp_apply]
+  beta_reduce
+  rw [Bool.and_eq_true, Bool.and_eq_true, fus_tab hk', invT_unpack (by norm_num) h2]
   refine ⟨⟨permOK_unpack h1 h2, invOK_unpack h1 h3 h2⟩, ?_⟩
   unfold co3Sift
   rw [natArr_tabT h1]

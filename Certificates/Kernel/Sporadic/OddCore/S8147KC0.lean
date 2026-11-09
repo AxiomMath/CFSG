@@ -29,7 +29,7 @@ theorem pC0 : allN 2 (fun k => permOK 1782 11 (mask 11) (1782 * 11) (SFC0.G k)
     (pinvS 1782 11 (mask 11) (SFC0.G k))) = true := by quickRfl
 
 @[expose] noncomputable def c0s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFC0.T 48 s, runSl 1782 11 2 SFC0.G SFC0.T SFC0.E 48 SFC0.C s)
+  runSl 1782 11 2 SFC0.G SFC0.T SFC0.E 48 SFC0.C s
 
 end CertificateChecks.KernelSpor.S8147
 

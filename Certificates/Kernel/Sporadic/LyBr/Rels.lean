@@ -58,7 +58,34 @@ theorem regs0 : Regs (nat_lit 7) :=
   regsIn_rootsP (d := nat_lit 111) (w := nat_lit 12) (S := nat_lit 1332) hroots
 
 theorem regs : Regs (nat_lit 3891) :=
-  seg (S0 := nat_lit 2599) hm2 <| seg (S0 := nat_lit 1303) hm1 <| seg (S0 := nat_lit 7) hm0 regs0
+  seg (S0 := nat_lit 3751) hm2_8 <|
+    seg (S0 := nat_lit 3607) hm2_7 <|
+    seg (S0 := nat_lit 3463) hm2_6 <|
+    seg (S0 := nat_lit 3319) hm2_5 <|
+    seg (S0 := nat_lit 3175) hm2_4 <|
+    seg (S0 := nat_lit 3031) hm2_3 <|
+    seg (S0 := nat_lit 2887) hm2_2 <|
+    seg (S0 := nat_lit 2743) hm2_1 <|
+    seg (S0 := nat_lit 2599) hm2_0 <|
+    seg (S0 := nat_lit 2455) hm1_8 <|
+    seg (S0 := nat_lit 2311) hm1_7 <|
+    seg (S0 := nat_lit 2167) hm1_6 <|
+    seg (S0 := nat_lit 2023) hm1_5 <|
+    seg (S0 := nat_lit 1879) hm1_4 <|
+    seg (S0 := nat_lit 1735) hm1_3 <|
+    seg (S0 := nat_lit 1591) hm1_2 <|
+    seg (S0 := nat_lit 1447) hm1_1 <|
+    seg (S0 := nat_lit 1303) hm1_0 <|
+    seg (S0 := nat_lit 1159) hm0_8 <|
+    seg (S0 := nat_lit 1015) hm0_7 <|
+    seg (S0 := nat_lit 871) hm0_6 <|
+    seg (S0 := nat_lit 727) hm0_5 <|
+    seg (S0 := nat_lit 583) hm0_4 <|
+    seg (S0 := nat_lit 439) hm0_3 <|
+    seg (S0 := nat_lit 295) hm0_2 <|
+    seg (S0 := nat_lit 151) hm0_1 <|
+    seg (S0 := nat_lit 7) hm0_0 <|
+    regs0
 
 theorem hr : ∀ r < lenRels CFSG.KD.OrdLy.rels,
     relOK RH (mulR (nat_lit 5) (nat_lit 12) (nat_lit 1332) (nat_lit 111) (nat_lit 8) L H CM RM)

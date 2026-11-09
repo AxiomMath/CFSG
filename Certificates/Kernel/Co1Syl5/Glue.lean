@@ -4,6 +4,7 @@ public import Certificates.Kernel.Co1Syl5.Checks
 public import Certificates.Kernel.Co1B.Iota
 public import Certificates.Kernel.SporSch.Co1.Packed
 public import CFSG.Certificates.Kernel.SporSch.Co1StabSound
+public import CFSG.Certificates.Kernel.SporSch.Co1StabWSound
 public import CFSG.Certificates.Kernel.SporSch.Co1BfsSound
 public import CFSG.RankThree.PartOne.SPOR.Co1SylowGenData
 
@@ -51,7 +52,7 @@ theorem hN : S.N = 42 := Nat.eq_of_beq_eq_true kN
 theorem dag_eq : dag co1PlaneBase co1SylowDerivs =
     ((List.range S.N).map fun i => unpack 24 24 (S.M i),
       (List.range S.N).map fun i => unpack 24 24 (S.MI i), true) :=
-  dagIK_sound base_eq kD
+  dagIWK_sound base_eq kD
 
 theorem check : co1SylowGenOK co1SylowDerivs 41 39 = true := by
   unfold co1SylowGenOK

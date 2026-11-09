@@ -20,6 +20,15 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Row
 open CFSG.QuasithinUnique.Setup.X1 CFSG.QuasithinUnique.Bridge.RuExcl CFSG.Sporadic.RuSchreier
   CFSG.Monster.B.Co2.Native CFSG.Quasithin.B45Exc.Tab
 
+@[expose] def e25Step (p : ℕ) (cs : List (ℕ × ℕ)) (v : ℕ × ℕ) : ℕ × ℕ :=
+  ((v.1 * (cs.getD 0 (0, 0)).1 + v.2 * (cs.getD 1 (0, 0)).1) % p,
+    (v.1 * (cs.getD 0 (0, 0)).2 + v.2 * (cs.getD 1 (0, 0)).2) % p)
+
+@[expose] def e25Lines (p m : ℕ) (cs : List (ℕ × ℕ)) : Bool :=
+  allLt p (fun a => allLt p (fun b => (a == 0 && b == 0) ||
+    allLt m (fun k => k == 0 ||
+      allLt p (fun j => !((e25Step p cs)^[k] (a, b) == (j * a % p, j * b % p))))))
+
 @[expose] def invPackCheck (n p m : ℕ) (τ y w h : PArr) (cs : List (ℕ × ℕ)) : Bool :=
   let e := idA n
   let pr := fun ab : ℕ × ℕ => compA n (powA n y.1 ab.1) (powA n w.1 ab.2)
@@ -30,10 +39,7 @@ open CFSG.QuasithinUnique.Setup.X1 CFSG.QuasithinUnique.Bridge.RuExcl CFSG.Spora
     eqA n (compA n (compA n h.1 w.1) h.2) (pr (cs.getD 1 (0, 0))) &&
     eqA n (compA n (compA n h.2 y.1) h.1) (pr (cs.getD 2 (0, 0))) &&
     eqA n (compA n (compA n h.2 w.1) h.1) (pr (cs.getD 3 (0, 0))) &&
-    allLt p (fun a => allLt p (fun b => (a == 0 && b == 0) ||
-      allLt m (fun k => k == 0 ||
-        allLt p (fun j => !eqA n (compA n (compA n (powA n h.1 k) (pr (a, b))) (powA n h.2 k))
-          (powA n (pr (a, b)) j)))))
+    e25Lines p m cs
 
 @[expose] def ruE25WYStr : String :=
   "-1 -2 -2 1 2 1 2 1 -2 1 2 1 2 2 1 2 2 1 -2 -1 -1 -1 -1 -1 -2 -1 -2 -2 -1 -2 -2 -1 -2 -2 -1 -2 \

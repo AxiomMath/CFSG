@@ -154,6 +154,46 @@ theorem kOK_tb {t c k : Nat} (ht : Cn 820 10 t) (hc : Cn 820 10 c) (hk : Cn 820 
     tblEq_tb (cn_pp (cn_cp hk hc) hc) (cn_id hs)]
   rfl
 
+omit hs in
+theorem clsRecArr_tb {k : Nat} {G GI T : Nat → Nat} {gG gGinv : Array Table} {x : Table}
+    {par : Array (ℕ × ℕ)} (hG : TabsOK 820 10 k G gG) (hGI : TabsOK 820 10 k GI gGinv)
+    (hx : x = tb 820 10 (T 0)) (hT : ∀ i < par.size + 1, Cn 820 10 (T i))
+    (hpar : ∀ i < par.size, par[i]!.1 ≤ i ∧ par[i]!.2 < k ∧
+      T (i + 1) = pp 820 10 (pp 820 10 (G par[i]!.2) (T par[i]!.1)) (GI par[i]!.2)) :
+    clsRecArr gG gGinv x par = Array.ofFn (n := par.size + 1) fun i => tb 820 10 (T i.val) := by
+  have key : (clsRecArr gG gGinv x par).size = par.size + 1 ∧
+      ∀ j < par.size + 1, (clsRecArr gG gGinv x par)[j]! = tb 820 10 (T j) := by
+    unfold clsRecArr
+    refine Array.foldl_induction (motive := fun (i : ℕ) (a : Array Table) => a.size = i + 1 ∧
+      ∀ j < i + 1, a[j]! = tb 820 10 (T j)) ?_ ?_
+    · refine ⟨rfl, fun j hj => ?_⟩
+      have hj0 : j = 0 := by omega
+      subst hj0
+      exact hx
+    · rintro ⟨i, hi⟩ b ⟨hsz, hb⟩
+      change b.size = i + 1 at hsz
+      change ∀ j < i + 1, b[j]! = tb 820 10 (T j) at hb
+      have hp := hpar i hi
+      rw [getElem!_pos par i hi] at hp
+      obtain ⟨h1, h2, h3⟩ := hp
+      simp only [Fin.getElem_fin]
+      refine ⟨by rw [Array.size_push, hsz], fun j hj => ?_⟩
+      by_cases hji : j < b.size
+      · rw [getElem!_pos _ j (by rw [Array.size_push]; omega), Array.getElem_push_lt hji,
+          ← getElem!_pos b j hji]
+        exact hb j (by omega)
+      · have hj' : j = b.size := by omega
+        subst hj'
+        rw [getElem!_pos _ _ (by rw [Array.size_push]; omega), Array.getElem_push_eq, hsz,
+          hb _ (by omega), (hG.2 _ h2).1, (hGI.2 _ h2).1, h3]
+        have cg := (hG.2 _ h2).2
+        have cgi := (hGI.2 _ h2).2
+        have cx := hT _ (by omega : par[i].1 < par.size + 1)
+        change compT 820 (compT 820 (tb 820 10 _) (tb 820 10 _)) (tb 820 10 _) = _
+        rw [compT_tb cg cx, compT_tb (cn_pp cg cx) cgi]
+  refine Array.ext (by rw [key.1, Array.size_ofFn]) fun j h1 h2 => ?_
+  rw [← getElem!_pos _ j h1, key.2 j (by rw [key.1] at h1; exact h1), Array.getElem_ofFn]
+
 variable {N : Nat} {Y : Nat → Nat} (hY : ∀ i < N, Cn 820 10 (Y i))
 include hY
 

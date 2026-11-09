@@ -14,7 +14,19 @@ open scoped commutatorElement
 
 instance (σ : Perm (Fin 6)) : Decidable (FpfMoves σ) := by unfold FpfMoves; infer_instance
 
-theorem fpfMoves_all : ∀ σ : Perm (Fin 6), FpfMoves σ := by decide +kernel
+theorem fpfMoves_all : ∀ σ : Perm (Fin 6), FpfMoves σ := by
+  intro σ hfpf hfix
+  have h0 : e0123 ∈ W4 := mem_W4.2 (by decide)
+  let f : ↥W4 → ↥W4 := fun x => x * (act4 σ x)⁻¹
+  have hsurj : Function.Surjective f := by
+    intro y
+    obtain ⟨x, hx, e⟩ := hfpf y.1 y.2
+    exact ⟨⟨x, hx⟩, Subtype.ext e.symm⟩
+  have hfix' : act4 σ ⟨e0123, h0⟩ = ⟨e0123, h0⟩ := Subtype.ext hfix
+  have hf : f ⟨e0123, h0⟩ = f 1 := by
+    simp only [f, hfix', mul_inv_cancel, map_one, inv_one, mul_one]
+  have he := (Finite.injective_iff_surjective.2 hsurj) hf
+  exact absurd (congrArg Subtype.val he) (show e0123 ≠ (1 : P6) by decide)
 
 namespace Setting4
 

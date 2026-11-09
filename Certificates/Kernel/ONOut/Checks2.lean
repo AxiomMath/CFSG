@@ -11,7 +11,7 @@ public import Certificates.Data.Kernel.Spor.BytesF
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.ONOut "Certificates/Kernel/ONOut/data/seed.json.gz" 58
+#kc_repo #kc_json CFSG.KD.ONOut "Certificates/Kernel/ONOut/data/seed.json" 58
   11264094121665876189 (DA1 : List Nat) (DA2 : List Nat)
 
 public noncomputable section

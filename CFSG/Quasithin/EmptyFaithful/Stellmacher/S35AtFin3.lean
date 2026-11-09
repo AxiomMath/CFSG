@@ -1,6 +1,8 @@
 module
 
 public import CFSG.Quasithin.EmptyFaithful.Stellmacher.S35Fin1
+public import CFSG.Quasithin.EmptyFaithful.Stellmacher.S35Fin3
+public import CFSG.Quasithin.EmptyFaithful.Stellmacher.S35AtInvStabK
 
 public section
 
@@ -15,9 +17,18 @@ theorem pow_six_of_fix : ∀ x y : Fin 5, x ≠ y → ∀ g : Perm (Fin 5),
     orth.act g (ep x y) = ep x y → g ^ 6 = 1 := by
   decide +kernel
 
+theorem ep_eq_ep_imp : ∀ a b c d : Fin 5, a ≠ b → ep c d = ep a b →
+    (c = a ∧ d = b) ∨ (c = b ∧ d = a) := by
+  decide +kernel
+
 theorem subsets_invStab : ∀ x y : Fin 5, x ≠ y → ∀ F ∈ (invStab x y).powerset,
     (1 ∈ F ∧ ∀ a ∈ F, ∀ b ∈ F, a * b ∈ F) → F.card ≤ 4 ∧ (3 ≤ F.card → swap x y ∈ F) := by
-  unfold invStab; decide +kernel
+  intro x y hxy F hF hc
+  refine invStab_card_of_fix x y hxy F (fun g hg => ?_) hc.1 hc.2
+  have h := Finset.mem_powerset.1 hF hg
+  simp only [invStab, Finset.mem_filter, Finset.mem_univ, true_and] at h
+  rw [act_ep] at h
+  exact ⟨ep_eq_ep_imp x y (g x) (g y) hxy h.1, h.2⟩
 
 theorem sq_eq_one_of_fix {X : Subgroup (Perm (Fin 5))} (hX : IsPGroup 2 X) {x y : Fin 5}
     (hxy : x ≠ y) (hfix : ∀ g ∈ X, orth.act g (ep x y) = ep x y) {g : Perm (Fin 5)}

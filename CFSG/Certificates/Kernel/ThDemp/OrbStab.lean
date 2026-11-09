@@ -186,13 +186,29 @@ theorem xPt_idx (P : ℕ) (y : Coords) : xPt (xBat D P) (idx y).1 = xP D P y :=
 theorem yPt_idx (P : ℕ) (y : Coords) : yPt (yBat D O P) (idx y).2 = yP O P y :=
   yPt_yBat hrm P y.1.isLt y.2.1.isLt y.2.2.1.isLt
 
+theorem xD_ofIdx (P : ℕ) {a b : ℕ} (ha : a < 12288) (hb : b < 26040) :
+    xD D P a = xP D P (ofIdx a b ha hb) := by
+  simp only [xD, xD3, xD2, xD1, mul5L, strictN_eq]
+  unfold xP
+  rw [hrm]
+  simp only [cR_eq, mulCol_eq]
+  rfl
+
+theorem yD_ofIdx (P : ℕ) {a b : ℕ} (ha : a < 12288) (hb : b < 26040) :
+    yD D O P b = yP O P (ofIdx a b ha hb) := by
+  simp only [yD, yD3, yD2, yD1, mul5L, strictN_eq]
+  unfold yP
+  rw [hrm]
+  simp only [cR_eq, mulCol_eq]
+  rfl
+
 theorem card_stabilizer_pt {i : ℕ} (hb : ∀ y3 < 24, batchChk D O i y3 = true)
     (hk : kyChk D O i = true) (hl : lowChk D O i = true)
     (hP : LIL (rowsOf (2 ^ 248 - 1) (pt D O i))) :
     Nat.card (stabilizer C.Dg (sp (pt D O i))) = lget O.sb i := by
   classical
   obtain ⟨L, hlen, hnd, hL, hgrp⟩ := Facts.lowChk_sound D O hl
-  have hky : yKeys D (yBat D O (pt D O i)) = lget O.ky i := Nat.eq_of_beq_eq_true hk
+  have hky : yKeysD D O (pt D O i) = lget O.ky i := Nat.eq_of_beq_eq_true hk
   rw [C.card_stabilizer_eq, Nat.card_eq_fintype_card, Fintype.card_subtype, ← hlen,
     ← List.toFinset_card_of_nodup hnd]
   refine Finset.card_bij (fun y _ => idx y) ?_ (fun y _ y' _ e => idx_injective e) ?_
@@ -211,7 +227,7 @@ theorem card_stabilizer_pt {i : ℕ} (hb : ∀ y3 < 24, batchChk D O i y3 = true
       simp only [idx]
       omega
     have e1 := keyAt_xKeys hrm (pt D O i) h3 hp
-    have e2 := keyAt_yKeys hrm (yBat D O (pt D O i)) hq
+    have e2 := keyAt_yKeysD hrm (O := O) (pt D O i) hq
     rw [hky] at e2
     have hx : keyAt (xKeys D (pt D O i) y.2.2.2.1.val) (32 * y.2.2.2.2.1.val + y.2.2.2.2.2.val) =
         keyAt (lget O.ky i) (idx y).2 := by
@@ -229,14 +245,15 @@ theorem card_stabilizer_pt {i : ℕ} (hb : ∀ y3 < 24, batchChk D O i y3 = true
     obtain ⟨ha, hb', G, hG⟩ := hL ab hab'
     refine ⟨ofIdx ab.1 ab.2 ha hb', ?_, by rw [idx_ofIdx]⟩
     refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, ?_⟩
-    have e := idx_ofIdx ha hb'
-    rw [← xPt_idx hrm, ← yPt_idx hrm, e]
-    rw [hrm] at hG
-    have h1 := C.lil_xP hP (ofIdx ab.1 ab.2 ha hb')
-    have h2 := C.lil_yP hP (ofIdx ab.1 ab.2 ha hb')
-    rw [← xPt_idx hrm, e] at h1
-    rw [← yPt_idx hrm, e] at h2
-    exact sp_eq_of_combChk hG h1 h2
+    rcases hG with hG | hG
+    · rw [xD_ofIdx hrm _ ha hb', yD_ofIdx hrm _ ha hb', hrm] at hG
+      exact sp_eq_of_combChk hG (C.lil_xP hP _) (C.lil_yP hP _)
+    · have e := idx_ofIdx ha hb'
+      rw [yD_ofIdx hrm _ ha hb', hrm] at hG
+      rw [← xPt_idx hrm, e]
+      have h1 := C.lil_xP hP (ofIdx ab.1 ab.2 ha hb')
+      rw [← xPt_idx hrm, e] at h1
+      exact sp_eq_of_combChk hG h1 (C.lil_yP hP _)
 
 theorem not_mem_orbit_pt {i j : ℕ} (hc : ∀ y3 < 24, crossChk D O i j y3 = true)
     (hk : kyChk D O j = true) (hPi : LIL (rowsOf (2 ^ 248 - 1) (pt D O i)))
@@ -273,9 +290,9 @@ theorem not_mem_orbit_pt {i j : ℕ} (hc : ∀ y3 < 24, crossChk D O i j y3 = tr
     have := y.2.2.1.isLt
     simp only [idx]
     omega
-  have hky : yKeys D (yBat D O (pt D O j)) = lget O.ky j := Nat.eq_of_beq_eq_true hk
+  have hky : yKeysD D O (pt D O j) = lget O.ky j := Nat.eq_of_beq_eq_true hk
   have e1 := keyAt_xKeys hrm (pt D O i) h3 hp
-  have e2 := keyAt_yKeys hrm (yBat D O (pt D O j)) hq
+  have e2 := keyAt_yKeysD hrm (O := O) (pt D O j) hq
   rw [hky] at e2
   apply Facts.crossChk_sound D O (hc _ h3) _ hp _ hq
   rw [e1, e2]

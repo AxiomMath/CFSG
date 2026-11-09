@@ -46,7 +46,7 @@ theorem kFA : nfValidK 5 HeC.LR FA = true := by quickRfl
 theorem kFT : nfValidK 5 HeC.LR FT = true := by quickRfl
 theorem kVA : Nat.beq (sumN 8330 VA) 161280 = true := by quickRfl
 theorem kVT : Nat.beq (sumN 8330 VT) 21504 = true := by quickRfl
-theorem kS0 : Nat.beq (sumN 35 S0) 1984 = true := by quickRfl
+theorem kS0 : Nat.beq (sumN 4480 VS0) 1984 = true := by quickRfl
 
 theorem canonSI (j : Nat) (hj : j < 9) :
     canonK 8330 14 (mask 14) (8330 * 14) (HeC.SI j) = true :=
@@ -107,7 +107,16 @@ theorem cardA : Nat.card {x : heP // heGenPerm 0 * (x : Equiv.Perm (Fin 8330)) =
   rw [cent_of_or hX hY kFA hc (Nat.eq_of_beq_eq_true ((bAnd_iff (Nat.beq (pmR HeCnRXA 0) 0) (Nat.beq (pmR HeCnRXA 1) 2)).1 kXA01).1)
     (Nat.eq_of_beq_eq_true ((bAnd_iff (Nat.beq (pmR HeCnRXA 0) 0) (Nat.beq (pmR HeCnRXA 1) 2)).1 kXA01).2)
     (hxy_of_mem hX hY kFA hc (heGenPerm_mem (by norm_num)))
-    (e := 598) (fun _ => srchAAt_eq_zero (m := 16) (c := 280) rfl fun i hi => Nat.eq_of_beq_eq_true (AH.all i hi))
+    (e := 598) (fun _ => Tab.srchAAt_zero_of_pc heChainArrays heChain_check.1 (by norm_num) HeTc.tc hX hY
+      (hxy_of_mem hX hY kFA hc (heGenPerm_mem (by norm_num)))
+      (Nat.eq_of_beq_eq_true ((bAnd_iff (Nat.beq (pmR HeCnRXA 0) 0) (Nat.beq (pmR HeCnRXA 1) 2)).1 kXA01).1)
+      (Nat.eq_of_beq_eq_true ((bAnd_iff (Nat.beq (pmR HeCnRXA 0) 0) (Nat.beq (pmR HeCnRXA 1) 2)).1 kXA01).2)
+      (by norm_num) (by norm_num) (by norm_num) (by rw [Nat.eq_of_beq_eq_true lr0]; norm_num)
+      (by rw [Nat.eq_of_beq_eq_true lr0]; norm_num) (Nat.eq_of_beq_eq_true heTr000)
+      (fun h => by
+        have e := hePass598
+        rw [h, Nat.beq_refl] at e
+        exact absurd e (by decide)))
     OA.all]
   exact Nat.eq_of_beq_eq_true kVA
 
@@ -123,8 +132,9 @@ theorem cardT : Nat.card {x : heP // heT1cP * (x : Equiv.Perm (Fin 8330)) = x * 
 
 theorem cardS : Nat.card {x : heP // (x : Equiv.Perm (Fin 8330)) ^ 2 = 1 ∧
     (x : Equiv.Perm (Fin 8330)) 0 = 0} = 1984 := by
-  have h := tw_of_cnt (U := fun b => b) (u := 1) RepF.one
-    (fun g hg => by rw [one_mul]; exact heP.pow_mem hg 2) SS0.all
+  have h := tw_of_or (U := fun b => b) (u := 1) RepF.one
+    (fun g hg => by rw [one_mul]; exact heP.pow_mem hg 2)
+    (fun g hg => by rw [inv_one, one_mul, mul_one]; exact hg) rfl SS0.all
   rw [Nat.eq_of_beq_eq_true kS0] at h
   rw [← h]
   exact Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [one_mul])

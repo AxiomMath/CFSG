@@ -318,6 +318,133 @@ theorem invs_p0 : allLt 9 (fun i => isInvA 2688 (p0 ())[i]! (nPI)[i]!) = true :=
 theorem invs_l : allLt 256 (fun i => isInvA 2688 (lifts ())[i]! (nLI)[i]!) = true :=
   allLt_iff.2 fun _ hi => (lF hi).2.2.2.2
 
+theorem vRep : ∀ h < 2, Rep 2688 (nV)[h]! (pOf (nt44V h)) := fun h hh => by
+  rw [vF hh]
+  exact rep_unpack (perm_of (inv_v h hh)).1
+
+theorem vIRep : ∀ h < 2, Rep 2688 (nVI)[h]! (pOf (nt44V h))⁻¹ := fun h hh => by
+  rw [vIF hh]
+  exact rep_unpack (perm_of (inv_v h hh)).2
+
+noncomputable def vEv (u : List (Fin 2 × Bool)) : 𝔖 :=
+  wv (fun j => pOf (nt44V j)) (u.map CFSG.Certificates.schreierLetterCode)
+
+theorem vRepW {u : List (Fin 2 × Bool)} {r : ℕ}
+    (h : CFSG.KS.Prim.wordEqK 2688 12 (mask 12) (pidn 2688 12) nt44V nt44VI 2
+      (u.map CFSG.Certificates.schreierLetterCode) r = true) :
+    Rep 2688 (unpack 2688 12 r) (vEv u) := by
+  obtain ⟨e, hl⟩ := vWord h
+  rw [← e]
+  exact rep_wordA_wv vRep vIRep _ hl
+
+theorem code_lettersOK (u : List (Fin 2 × Bool)) :
+    lettersOK 2 (u.map CFSG.Certificates.schreierLetterCode) = true := by
+  rw [lettersOK, List.all_eq_true]
+  intro z hz
+  obtain ⟨a, -, rfl⟩ := List.mem_map.1 hz
+  have := CFSG.Certificates.schreierLetterCode_bounds a
+  simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, decide_eq_true_eq]
+  exact ⟨fun h => by simp [h] at this, this.2⟩
+
+theorem vEv_append (u v : List (Fin 2 × Bool)) : vEv (u ++ v) = vEv u * vEv v := by
+  rw [vEv, List.map_append, CFSG.KC.Misc.ConjTree.wv_append]
+  rfl
+
+theorem vEv_invRev (u : List (Fin 2 × Bool)) : vEv (FreeGroup.invRev u) = (vEv u)⁻¹ := by
+  have e : (FreeGroup.invRev u).map CFSG.Certificates.schreierLetterCode =
+      (u.map CFSG.Certificates.schreierLetterCode).reverse.map fun l => -l := by
+    simp only [FreeGroup.invRev, List.map_reverse, List.map_map]
+    congr 1
+    apply List.map_congr_left
+    rintro ⟨a, b⟩ -
+    cases b <;> simp [CFSG.Certificates.schreierLetterCode]
+  rw [vEv, e, wv_revneg]
+  · rfl
+  · intro z hz
+    have hl := List.all_eq_true.1 (code_lettersOK u) z hz
+    simp only [Bool.and_eq_true, bne_iff_ne] at hl
+    exact hl.1
+
+theorem vEv_gen (i : Fin 2) : vEv [(i, true)] = pOf (nt44V i) := by
+  change CFSG.KC.Misc.ConjTree.wv _ [((i.val + 1 : ℕ) : ℤ)] = _
+  rw [CFSG.KC.Misc.ConjTree.wv_cons, CFSG.KC.Misc.ConjTree.wv_nil, mul_one, if_pos (by omega)]
+  congr 2
+
+theorem strictB_eq (y : ℕ) (k : ℕ → Bool) : CFSG.KC.Enum.strictB y k = k y := by
+  cases y <;> rfl
+
+theorem rel_comm {r : List (Fin 2 × Bool)} (hr : r ∈ CFSG.LieType.Multipliers.L34.rels)
+    (i : Fin 2) : vEv (CFSG.LieType.Multipliers.commWord [(i, true)] r) = 1 := by
+  have h := List.all_eq_true.1 nt44_rels _ (List.mem_map_of_mem hr)
+  simp only [nt44RelOK, strictB_eq, Bool.and_eq_true] at h
+  have hR := vRepW h.1.1
+  have key : ∀ j < 2, CFSG.KS.Prim.commK 2688 12 (mask 12) (2688 * 12) (nt44V j)
+      (CFSG.KS.Raw.wordK 2688 12 (mask 12) (pidn 2688 12) nt44V nt44VI
+        (r.map CFSG.Certificates.schreierLetterCode)) = true →
+      pOf (nt44V j) * vEv r = vEv r * pOf (nt44V j) := fun j hj hk => by
+    have hV := rep_unpack (perm_of (inv_v j hj)).1
+    exact (eqA_iff (rep_compA hV hR) (rep_compA hR hV)).1 (CFSG.KS.Prim.commK_sound hk)
+  have hc : ∀ j : Fin 2, pOf (nt44V j) * vEv r = vEv r * pOf (nt44V j) := by
+    intro j
+    fin_cases j
+    · exact key 0 (by norm_num) h.1.2
+    · exact key 1 (by norm_num) h.2
+  rw [CFSG.LieType.Multipliers.commWord, vEv_append, vEv_append, vEv_append, vEv_invRev,
+    vEv_invRev, vEv_gen, hc i]
+  group
+
+theorem pow4 {z : List (Fin 2 × Bool)}
+    (h : nt44Pow4OK (z.map CFSG.Certificates.schreierLetterCode) = true) :
+    vEv (CFSG.LieType.Multipliers.L34.wpow z 4) = 1 := by
+  simp only [nt44Pow4OK, strictB_eq, Bool.and_eq_true] at h
+  have hZ := vRepW h.1.1
+  have hZ2 := rep_compA hZ hZ
+  rw [CFSG.KS.Prim.compEqK_sound h.1.2] at hZ2
+  have h1 := rep_compA hZ2 hZ2
+  rw [CFSG.KS.Prim.compEqK_sound h.2, ← idA12] at h1
+  have e := h1.unique CFSG.Monster.B.Co2.rep_idA
+  have ew : CFSG.LieType.Multipliers.L34.wpow z 4 = z ++ (z ++ (z ++ z)) := by
+    simp [CFSG.LieType.Multipliers.L34.wpow]
+  rw [ew, vEv_append, vEv_append, vEv_append, ← e]
+  group
+
+theorem cover_one {w : List (Fin 2 × Bool)} (h : vEv w = 1) :
+    (lettersOK 2 (w.map CFSG.Certificates.schreierLetterCode) &&
+      eqA 2688 (wordA 2688 nV nVI (w.map CFSG.Certificates.schreierLetterCode))
+        (idA 2688)) = true := by
+  rw [code_lettersOK, Bool.true_and]
+  exact (eqA_iff (rep_wordA_wv vRep vIRep _ (code_lettersOK w)) CFSG.Monster.B.Co2.rep_idA).2 h
+
+theorem cover_on {ws : List (List (Fin 2 × Bool))} (h : nt44CoverOn ws = true)
+    {w : List (Fin 2 × Bool)} (hw : w ∈ ws) : vEv w = 1 := by
+  have h1 := vRepW (List.all_eq_true.1 h _ (List.mem_map_of_mem hw))
+  rw [idA12.symm] at h1
+  exact h1.unique CFSG.Monster.B.Co2.rep_idA
+
+theorem coverWs_eq : CFSG.LieType.Multipliers.L34.coverWs =
+    (List.finRange 2).flatMap (fun i => CFSG.LieType.Multipliers.L34.rels.map fun r =>
+      CFSG.LieType.Multipliers.commWord [(i, true)] r) ++ nt44CWT ++
+      [CFSG.LieType.Multipliers.L34.bFive,
+        CFSG.LieType.Multipliers.L34.wpow CFSG.LieType.Multipliers.L34.zOne 4,
+        CFSG.LieType.Multipliers.L34.wpow CFSG.LieType.Multipliers.L34.zTwo 4,
+        CFSG.LieType.Multipliers.L34.wpow CFSG.LieType.Multipliers.L34.zThree 3] := rfl
+
+theorem cover_word {w : List (Fin 2 × Bool)} (hw : w ∈ CFSG.LieType.Multipliers.L34.coverWs) :
+    (lettersOK 2 (w.map CFSG.Certificates.schreierLetterCode) &&
+      eqA 2688 (wordA 2688 nV nVI (w.map CFSG.Certificates.schreierLetterCode))
+        (idA 2688)) = true := by
+  apply cover_one
+  rw [coverWs_eq] at hw
+  simp only [List.mem_append, List.mem_flatMap, List.mem_map, List.mem_cons, List.mem_nil_iff,
+    or_false] at hw
+  rcases hw with ((⟨i, -, r, hr, rfl⟩ | hT) | rfl | rfl | rfl | rfl)
+  · exact rel_comm hr i
+  · exact cover_on nt44_coverT hT
+  · exact cover_on nt44_coverE (by simp)
+  · exact pow4 nt44_zOne4
+  · exact pow4 nt44_zTwo4
+  · exact cover_on nt44_coverE (by simp)
+
 theorem cover_ok : coverCheck (CFSG.LieType.Multipliers.L34.coverWs.map
     (List.map CFSG.Certificates.schreierLetterCode))
     (CFSG.LieType.Multipliers.L34.zThree.map CFSG.Certificates.schreierLetterCode)
@@ -328,9 +455,8 @@ theorem cover_ok : coverCheck (CFSG.LieType.Multipliers.L34.coverWs.map
     allLt_iff.2 fun i hi => ?_⟩
   · rw [vF hi, vIF hi]
     exact CFSG.KS.Raw.Orb.isInvA_unpack (inv_v i hi)
-  · obtain ⟨e, hl⟩ := vWord (List.all_eq_true.1 nt44_cover w hw)
-    rw [Bool.and_eq_true, e, idA12]
-    exact ⟨hl, eqA_self _⟩
+  · obtain ⟨u, hu, rfl⟩ := List.mem_map.1 hw
+    exact cover_word hu
   · exact (vWord nt44_z).2
   · rw [(vWord nt44_z).1, idA12]
     exact eqA_self _
@@ -434,30 +560,20 @@ theorem bF {k : ℕ} (hk : k < 4) : Rep 2688 (nB)[k]! (pOf (nt44L (k + 1))) ∧
 
 theorem norm_word {k j : ℕ} (hk : k < 4) (hj : j < 2) :
     Rep 2688 (wordA 2688 (ks ()) nKI (nw ())[k]!.left[j]!) (sg (k + 1) j) ∧
-      Rep 2688 (wordA 2688 (ks ()) nKI (nw ())[k]!.inverse[j]!)
-        ((pOf (nt44L (k + 1)))⁻¹ * pOf (nt44KS j) * pOf (nt44L (k + 1))) ∧
       lettersOK 2 (nw ())[k]!.left[j]! = true := by
-  have h := allNP_iff.1 (allNP_iff.1 nt44_norm k hk) j hj
-  rw [Bool.and_eq_true] at h
-  obtain ⟨e1, hl⟩ := ksWord h.1
-  obtain ⟨e2, -⟩ := ksWord h.2
+  obtain ⟨e1, hl⟩ := ksWord (allNP_iff.1 (allNP_iff.1 nt44_norm k hk) j hj)
   have pl := perm_of (inv_l (k + 1) (by omega))
   have pk := (perm_of (inv_ks j hj)).1
-  refine ⟨?_, ?_, hl⟩
-  · rw [e1]
-    exact rep_unpack (prep_cj3 pl.1 pk pl.2)
-  · rw [e2]
-    exact rep_unpack (prep_cj3 pl.2 pk pl.1)
+  refine ⟨?_, hl⟩
+  rw [e1]
+  exact rep_unpack (prep_cj3 pl.1 pk pl.2)
 
 theorem norm_ok : normalizerCheck (inputs ()) nKI nB nBI = true := by
   unfold normalizerCheck
   simp only [i_ks, i_nw]
   refine allLt_iff.2 fun k hk => allLt_iff.2 fun j hj => ?_
-  obtain ⟨r1, r2, -⟩ := norm_word hk hj
-  have rk := (ksF hj).2.2.1
-  rw [Bool.and_eq_true]
-  exact ⟨(eqA_iff r1 (rep_compA (rep_compA (bF hk).1 rk) (bF hk).2)).2 rfl,
-    (eqA_iff r2 (rep_compA (rep_compA (bF hk).2 rk) (bF hk).1)).2 rfl⟩
+  obtain ⟨r1, -⟩ := norm_word hk hj
+  exact (eqA_iff r1 (rep_compA (rep_compA (bF hk).1 (ksF hj).2.2.1) (bF hk).2)).2 rfl
 
 theorem sgR {i j : ℕ} (hi : i < 256) (hj : j < 2) : Rep 2688 ((nSG)[i]!)[j]! (sg i j) := by
   rw [ofFn_get _ hi]
@@ -556,7 +672,7 @@ theorem parent_tree : ∀ i < 256, (∀ z ∈ (parent ()).toList.getD i [], 1 �
     rw [e]
     exact hw
   · intro c hc j hj
-    obtain ⟨r1, -, hl⟩ := norm_word hc hj
+    obtain ⟨r1, hl⟩ := norm_word hc hj
     exact ⟨_, hl, r1.unique (ks_rep _ hl)⟩
 
 theorem letters_pos {w : List ℤ} {d : ℕ} (h : ∀ z ∈ w, 1 ≤ z ∧ z ≤ d) : lettersOK d w = true :=

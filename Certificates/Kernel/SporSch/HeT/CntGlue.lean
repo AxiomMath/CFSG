@@ -3,6 +3,7 @@ module
 
 public import Certificates.Kernel.SporSch.HeT.CntData
 public import CFSG.Certificates.Kernel.SporSch.HeSrchSound
+public import CFSG.Certificates.Kernel.SporSch.HeSrchPass
 public import CFSG.Certificates.Kernel.HeFixKSound
 public import CFSG.Sporadic.HeldB.InnerClassBase
 public import CFSG.Sporadic.HeldB.OuterClassBase
@@ -25,6 +26,7 @@ open CertificateChecks.KernelSporSch CertificateChecks.KernelSpor CertificateChe
 
 theorem lr0 : Nat.beq (rcnt (HeC.LR 0)) 8330 = true := by quickRfl
 theorem lr1 : Nat.beq (rcnt (HeC.LR 1)) 4480 = true := by quickRfl
+theorem heTr000 : Nat.beq (trPtT 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT 0 0 0) 0 = true := by quickRfl
 
 theorem repF_of_rep {p : Nat} {g : Equiv.Perm (Fin 8330)} (h : Rep 8330 (unpack 8330 14 p) g) :
     RepF 8330 (pm p) g := fun x hx => by
@@ -89,12 +91,12 @@ theorem cent_card {c x y : Equiv.Perm (Fin 8330)} (hc : c ∈ heP) (h : c * x = 
     calc ↑↑g * c * (c⁻¹ * y * c) = ↑↑g * y * c := by group
       _ = y * (↑↑g * c) := by rw [← hg]; group
 
-theorem srch_eq_of_or {X Y V R Z : Nat → Nat} {x y : Equiv.Perm (Fin 8330)}
+theorem srch_eq_of_or {P : Bool} {X Y V R Z : Nat → Nat} {x y : Equiv.Perm (Fin 8330)}
     (hX : RepF 8330 (pmR X) x) (hY : RepF 8330 (pmR Y) y) (hx0 : pmR X 0 = 0) (hx1 : pmR X 1 = 2)
     (hxy : ∀ g ∈ heChain.originalSubgroup, (g * x)⁻¹ * (y * g) ∈ heChain.originalSubgroup)
     {e : Nat} (hE : e < 8330 → srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT HeTb.QT HeC.LR heBase 0
       (pmR X) (pmR Y) e = 0)
-    (h : ∀ k < 8330, orAt X Y V R Z e k = true) :
+    (h : ∀ k < 8330, orAt P X Y V R Z e k = true) :
     ∀ k < 8330, srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT HeTb.QT HeC.LR heBase 0
       (pmR X) (pmR Y) k = V k := by
   have hrep : ∀ k < 8330, R k = k → srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT HeTb.QT HeC.LR
@@ -107,7 +109,19 @@ theorem srch_eq_of_or {X Y V R Z : Nat → Nat} {x y : Equiv.Perm (Fin 8330)}
     rw [strictB_val, hb] at hk'
     cases hkE : Nat.beq k e
     · rw [hkE] at hk'
-      exact Nat.eq_of_beq_eq_true hk'
+      cases hs : pcSkip P X Y V k
+      · rw [hs] at hk'
+        exact Nat.eq_of_beq_eq_true hk'
+      · unfold pcSkip at hs
+        have h3 := (bAnd_iff _ _).1 ((bAnd_iff _ _).1 hs).2
+        have h4 := (bAnd_iff _ _).1 h3.2
+        rw [Nat.eq_of_beq_eq_true h3.1]
+        refine Tab.srchAAt_zero_of_pc heChainArrays heChain_check.1 (by norm_num) HeTc.tc hX hY hxy
+          hx0 hx1 (by norm_num) (by norm_num) (by norm_num) (by rw [Nat.eq_of_beq_eq_true lr0]; exact hk)
+          (by rw [Nat.eq_of_beq_eq_true lr0]; norm_num) (Nat.eq_of_beq_eq_true heTr000) (fun h => ?_)
+        have e := h4.2
+        rw [h, Nat.beq_refl] at e
+        exact absurd e (by decide)
     · rw [hkE] at hk'
       have hke : k = e := Nat.eq_of_beq_eq_true hkE
       subst hke
@@ -139,23 +153,24 @@ theorem srch_eq_of_or {X Y V R Z : Nat → Nat} {x y : Equiv.Perm (Fin 8330)}
     rw [hcard k hk, e, ← hcard (R k) hr1, hrep (R k) hr1 hrr, Nat.eq_of_beq_eq_true hV]
   · exact hrep k hk (Nat.eq_of_beq_eq_true hr)
 
-theorem cent_of_or {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
+theorem cent_of_conj {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
     (hX : RepF 8330 (pmR X) x) (hY : RepF 8330 (pmR Y) y) (hF : nfValidK 5 HeC.LR F = true)
-    (hc : ∀ s < 49, cjB X Y F s = true) (hx0 : pmR X 0 = 0) (hx1 : pmR X 1 = 2)
+    (hcj : E F * x = y * E F) (hx0 : pmR X 0 = 0) (hx1 : pmR X 1 = 2)
     (hxy : ∀ g ∈ heChain.originalSubgroup, (g * x)⁻¹ * (y * g) ∈ heChain.originalSubgroup)
     {V R Z : Nat → Nat} {e : Nat} (hE : e < 8330 → srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT
-      HeTb.QT HeC.LR heBase 0 (pmR X) (pmR Y) e = 0) (hV : ∀ s < 49, orB X Y V R Z e s = true) :
+      HeTb.QT HeC.LR heBase 0 (pmR X) (pmR Y) e = 0) {P : Bool}
+    (hV : ∀ s < 49, orB P X Y V R Z e s = true) :
     Nat.card {g : heP // y * (g : Equiv.Perm (Fin 8330)) = g * y} = sumN 8330 V := by
   have hcm : E F ∈ heP := by
     rw [heP_eq_originalSubgroup]
     exact E_mem hF
-  have hor : ∀ k < 8330, orAt X Y V R Z e k = true := slices (f := orAt X Y V R Z e) hV
+  have hor : ∀ k < 8330, orAt P X Y V R Z e k = true := slices (f := orAt P X Y V R Z e) hV
   have hsum : sumN (rcnt (HeC.LR 0)) (srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT HeTb.QT HeC.LR
       heBase 0 (pmR X) (pmR Y)) = sumN 8330 V := by
     rw [Nat.eq_of_beq_eq_true lr0, sumN_eq, sumN_eq]
     exact congrArg List.sum (List.map_congr_left fun k hk =>
       srch_eq_of_or hX hY hx0 hx1 hxy hE hor k (List.mem_range.1 hk))
-  rw [← cent_card hcm (conj_of_cj hX hY hF hc), ← hsum]
+  rw [← cent_card hcm hcj, ← hsum]
   have hs : sumN (rcnt (HeC.LR 0)) (srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT HeTb.QT HeC.LR
       heBase 0 (pmR X) (pmR Y)) =
       Nat.card {g : heChain.originalSubgroup // (g : Equiv.Perm (Fin 8330)) * x = y * g} :=
@@ -168,11 +183,19 @@ theorem cent_of_or {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
   rintro rfl
   rfl
 
-theorem hxy_of_mem {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
+theorem cent_of_or {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
     (hX : RepF 8330 (pmR X) x) (hY : RepF 8330 (pmR Y) y) (hF : nfValidK 5 HeC.LR F = true)
-    (hc : ∀ s < 49, cjB X Y F s = true) (hy : y ∈ heP) :
+    (hc : ∀ s < 49, cjB X Y F s = true) (hx0 : pmR X 0 = 0) (hx1 : pmR X 1 = 2)
+    (hxy : ∀ g ∈ heChain.originalSubgroup, (g * x)⁻¹ * (y * g) ∈ heChain.originalSubgroup)
+    {V R Z : Nat → Nat} {e : Nat} (hE : e < 8330 → srchAAt 14 9 HeTb.NR HeTb.NR HeTb.LT HeTb.PT
+      HeTb.QT HeC.LR heBase 0 (pmR X) (pmR Y) e = 0) {P : Bool}
+    (hV : ∀ s < 49, orB P X Y V R Z e s = true) :
+    Nat.card {g : heP // y * (g : Equiv.Perm (Fin 8330)) = g * y} = sumN 8330 V :=
+  cent_of_conj hX hY hF (conj_of_cj hX hY hF hc) hx0 hx1 hxy hE hV
+
+theorem hxy_of_conj {F : Nat} {x y : Equiv.Perm (Fin 8330)} (hF : nfValidK 5 HeC.LR F = true)
+    (h : E F * x = y * E F) (hy : y ∈ heP) :
     ∀ g ∈ heChain.originalSubgroup, (g * x)⁻¹ * (y * g) ∈ heChain.originalSubgroup := by
-  have h := conj_of_cj hX hY hF hc
   have hx : x = (E F)⁻¹ * (y * E F) := by rw [← h, inv_mul_cancel_left]
   have hE : E F ∈ heP := by
     rw [heP_eq_originalSubgroup]
@@ -182,6 +205,12 @@ theorem hxy_of_mem {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
   rw [hx]
   exact heP.mul_mem (heP.inv_mem (heP.mul_mem hg (heP.mul_mem (heP.inv_mem hE)
     (heP.mul_mem hy hE)))) (heP.mul_mem hy hg)
+
+theorem hxy_of_mem {X Y : Nat → Nat} {F : Nat} {x y : Equiv.Perm (Fin 8330)}
+    (hX : RepF 8330 (pmR X) x) (hY : RepF 8330 (pmR Y) y) (hF : nfValidK 5 HeC.LR F = true)
+    (hc : ∀ s < 49, cjB X Y F s = true) (hy : y ∈ heP) :
+    ∀ g ∈ heChain.originalSubgroup, (g * x)⁻¹ * (y * g) ∈ heChain.originalSubgroup :=
+  hxy_of_conj hF (conj_of_cj hX hY hF hc) hy
 
 theorem hxy_u {X Y : Nat → Nat}
     {F : Nat} {x : Equiv.Perm (Fin 8330)} (hX : RepF 8330 (pmR X) x)
@@ -201,34 +230,106 @@ theorem hxy_u {X Y : Nat → Nat}
   exact heP.mul_mem (heP.mul_mem (heP.inv_mem hE)
     (heAutU_conj_mem (heP.mul_mem hE (heP.inv_mem hg)))) hg
 
-theorem stab_sum {U : Nat → Nat} {V : Nat → Nat} (h : ∀ q < 35, stB U V q = true) :
-    cnt0R HeC.LR (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U) 0 (rcnt (HeC.LR 1)) =
-      sumN 35 V := by
-  have e0 : ∀ (t : Nat → Bool) (m : Nat), cnt0R HeC.LR t 0 m =
-      sumN m (fun j => cnt234 HeC.LR t 0 j) := fun t m => by
-    unfold cnt0R
-    congr 1
-    funext j
-    exact congrArg _ (Nat.zero_add j)
-  rw [e0, Nat.eq_of_beq_eq_true lr1, show (4480 : Nat) = 35 * 128 from rfl, sumN_mul, sumN_eq,
-    sumN_eq]
-  exact congrArg List.sum (List.map_congr_left fun q hq =>
-    Nat.eq_of_beq_eq_true (h q (List.mem_range.1 hq)))
+theorem slices128 {f : Nat → Bool}
+    (h : ∀ s < 35, allN 128 (fun j => f (Nat.add (Nat.mul s 128) j)) = true) :
+    ∀ x < 4480, f x = true := by
+  intro x hx
+  have h1 := allN_spec (h (x / 128) (by omega)) (x % 128) (Nat.mod_lt _ (by norm_num))
+  have e : Nat.add (Nat.mul (x / 128) 128) (x % 128) = x := by
+    change x / 128 * 128 + x % 128 = x
+    exact Nat.div_add_mod' x 128
+  rwa [e] at h1
 
-theorem tw_of_cnt {U : Nat → Nat} {u : Equiv.Perm (Fin 8330)}
-    (hU : RepF 8330 U u) (hm : ∀ g ∈ heP, (u * g) ^ 2 ∈ heP) {V : Nat → Nat}
-    (hV : ∀ q < 35, stB U V q = true) :
-    Nat.card {x : heP // (u * x) ^ 2 = 1 ∧ (x : Equiv.Perm (Fin 8330)) 0 = 0} = sumN 35 V := by
-  rw [← stab_sum hV]
+theorem cnt_eq_of_or {U : Nat → Nat} {u : Equiv.Perm (Fin 8330)} (hU : RepF 8330 U u)
+    (hm : ∀ g ∈ heChain.originalSubgroup, (u * g) ^ 2 ∈ heChain.originalSubgroup)
+    (hn : ∀ g ∈ heChain.originalSubgroup, u⁻¹ * g * u ∈ heChain.originalSubgroup)
+    (hu0 : U 0 = 0) {V R Z : Nat → Nat} (h : ∀ k < 4480, orSt U V R Z k = true) :
+    ∀ k < 4480, cnt234 HeC.LR (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U) 0 k = V k := by
   have ht : ∀ F, nfValidK 5 HeC.LR F = true → F % 65536 = 0 →
-      (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U F = true ↔ (u * E F) ^ 2 = 1) := by
-    intro F hF _
-    have hE : E F ∈ heP := by
-      rw [heP_eq_originalSubgroup]
-      exact E_mem hF
-    have hm' := hm _ hE
-    rw [heP_eq_originalSubgroup] at hm'
-    exact twK_iff he_baseFaithful he_bs_lt (E_rep hF) hU hm'
+      (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U F = true ↔ (u * E F) ^ 2 = 1) :=
+    fun F hF _ => twK_iff he_baseFaithful he_bs_lt (E_rep hF) hU (hm _ (E_mem hF))
+  have hcard : ∀ k < 4480, cnt234 HeC.LR (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U) 0 k =
+      Nat.card {g : heChain.originalSubgroup //
+        (g : Equiv.Perm (Fin 8330)) ⟨0, by norm_num⟩ = ⟨0, by norm_num⟩ ∧
+        (((g : Equiv.Perm (Fin 8330)) ⟨1, by norm_num⟩ : Fin 8330) : Nat) = p1K k ∧
+          (u * g) ^ 2 = 1} := fun k hk =>
+    cnt234_sound (b0 := 0) (b1 := 1) (bs := [2, 3, 4]) heChainArrays heChain_check.1
+      (by norm_num) HeTc.tc (by norm_num) (by norm_num) (Pr := fun g => (u * g) ^ 2 = 1) ht
+      (by rw [Nat.eq_of_beq_eq_true lr1]; exact hk)
+  have hrep : ∀ k < 4480, R k = k →
+      cnt234 HeC.LR (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U) 0 k = V k := fun k hk hr => by
+    have hk' := h k hk
+    have hb : Nat.beq (R k) k = true := by
+      rw [Nat.beq_eq]
+      exact hr
+    unfold orSt at hk'
+    rw [strictB_val, hb] at hk'
+    exact Nat.eq_of_beq_eq_true hk'
+  intro k hk
+  cases hr : Nat.beq (R k) k
+  · have hk' := h k hk
+    unfold orSt at hk'
+    rw [strictB_val, hr, strictB_val] at hk'
+    simp only [bAnd_iff] at hk'
+    obtain ⟨hr1, hrr, hV, hpr, hpk, hF, hz0, hz1, hz⟩ := hk'
+    rw [Nat.blt_eq] at hr1 hpr hpk
+    have hrr := Nat.eq_of_beq_eq_true hrr
+    have hz := Nat.eq_of_beq_eq_true hz
+    have hz0 := Nat.eq_of_beq_eq_true hz0
+    have hz1 := Nat.eq_of_beq_eq_true hz1
+    have hzm : E (Z k) ∈ heChain.originalSubgroup := E_mem hF
+    have hzr := E_rep hF
+    have e0 : E (Z k) ⟨0, by norm_num⟩ = ⟨0, by norm_num⟩ :=
+      Fin.ext (by rw [← hzr 0 (by norm_num)]; exact hz0)
+    have e1 : E (Z k) ⟨1, by norm_num⟩ = ⟨1, by norm_num⟩ :=
+      Fin.ext (by rw [← hzr 1 (by norm_num)]; exact hz1)
+    have hu0' : u ⟨0, by norm_num⟩ = ⟨0, by norm_num⟩ :=
+      Fin.ext (by rw [← hU 0 (by norm_num)]; exact hu0)
+    have hUr : U (p1K (R k)) < 8330 := by
+      rw [hU _ hpr]
+      exact (u _).2
+    have hUk : U (p1K k) < 8330 := by
+      rw [hU _ hpk]
+      exact (u _).2
+    have hua : (⟨U (p1K (R k)), hUr⟩ : Fin 8330) = u ⟨p1K (R k), hpr⟩ := Fin.ext (hU _ hpr)
+    have huk : (⟨U (p1K k), hUk⟩ : Fin 8330) = u ⟨p1K k, hpk⟩ := Fin.ext (hU _ hpk)
+    have hzu : E (Z k) (u ⟨p1K (R k), hpr⟩) = u ⟨p1K k, hpk⟩ := by
+      rw [← hua, ← huk]
+      exact Fin.ext (by rw [← hzr _ hUr]; exact hz)
+    have hw : (((u⁻¹ * E (Z k) * u) ⟨p1K (R k), hpr⟩ : Fin 8330) : Nat) = p1K k := by
+      rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hzu, ← Equiv.Perm.mul_apply,
+        inv_mul_cancel, Equiv.Perm.one_apply]
+    have e := fib_card_tw hzm (hn _ hzm) e0 e1 hu0' ⟨p1K (R k), hpr⟩
+    rw [hw] at e
+    rw [hcard k hk, e, ← hcard (R k) hr1, hrep (R k) hr1 hrr, Nat.eq_of_beq_eq_true hV]
+  · exact hrep k hk (Nat.eq_of_beq_eq_true hr)
+
+theorem tw_of_or {U : Nat → Nat} {u : Equiv.Perm (Fin 8330)}
+    (hU : RepF 8330 U u) (hm : ∀ g ∈ heP, (u * g) ^ 2 ∈ heP)
+    (hn : ∀ g ∈ heP, u⁻¹ * g * u ∈ heP) (hu0 : U 0 = 0) {V R Z : Nat → Nat}
+    (hV : ∀ s < 35, orSB U V R Z s = true) :
+    Nat.card {x : heP // (u * x) ^ 2 = 1 ∧ (x : Equiv.Perm (Fin 8330)) 0 = 0} = sumN 4480 V := by
+  have hm' : ∀ g ∈ heChain.originalSubgroup, (u * g) ^ 2 ∈ heChain.originalSubgroup := by
+    rw [← heP_eq_originalSubgroup]
+    exact hm
+  have hn' : ∀ g ∈ heChain.originalSubgroup, u⁻¹ * g * u ∈ heChain.originalSubgroup := by
+    rw [← heP_eq_originalSubgroup]
+    exact hn
+  have hc := cnt_eq_of_or hU hm' hn' hu0 (slices128 (f := orSt U V R Z) hV)
+  have hsum : cnt0R HeC.LR (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U) 0 (rcnt (HeC.LR 1)) =
+      sumN 4480 V := by
+    have e0 : ∀ (t : Nat → Bool) (m : Nat), cnt0R HeC.LR t 0 m =
+        sumN m (fun j => cnt234 HeC.LR t 0 j) := fun t m => by
+      unfold cnt0R
+      congr 1
+      funext j
+      exact congrArg _ (Nat.zero_add j)
+    rw [e0, Nat.eq_of_beq_eq_true lr1, sumN_eq, sumN_eq]
+    exact congrArg List.sum (List.map_congr_left fun k hk => hc k (List.mem_range.1 hk))
+  rw [← hsum]
+  have ht : ∀ F, nfValidK 5 HeC.LR F = true → F % 65536 = 0 →
+      (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U F = true ↔ (u * E F) ^ 2 = 1) :=
+    fun F hF _ => twK_iff he_baseFaithful he_bs_lt (E_rep hF) hU (hm' _ (E_mem hF))
   have hs : cnt0R HeC.LR (twK 14 HeTb.NR HeTb.NR HeTb.LT HeTb.PT heBase U) 0 (rcnt (HeC.LR 1)) =
       Nat.card {g : heChain.originalSubgroup // (g : Equiv.Perm (Fin 8330)) 0 = 0 ∧
         (u * g) ^ 2 = 1} :=

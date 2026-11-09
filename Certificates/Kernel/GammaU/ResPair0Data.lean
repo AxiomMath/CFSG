@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GURP0 "Certificates/Kernel/GammaU/data/rp0.json.gz" 875
+#kc_repo #kc_json CFSG.KD.GURP0 "Certificates/Kernel/GammaU/data/rp0.json" 875
   12231197359568599853 (RT : List Nat) (RW : List (List (List Nat)))
 
 namespace CFSG.KD.GURP0

@@ -72,7 +72,7 @@ theorem repD {k : Nat} (hk : k < 5) : Rep 105 (unpack 105 7 (DQ.S k)) (heDpPerm 
 theorem chainX : ChainK 105 7 (heSigmaP.map (permOrId 105)) heXpWords
     (#v[1, 0, 2, 3] : Vector (Fin 105) 4) XQ.S XQ.SI XQ.LR XQ.TR XQ.TRI 15 XQ.BP 7 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, XQ.head, XQ.hl,
-    by norm_num, XQ.hs⟩
+    by norm_num, .inl XQ.hs⟩
   have hj' : j < heSigmaP.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   exact imageList_bind (atX (len_X ▸ hj'))
@@ -80,7 +80,7 @@ theorem chainX : ChainK 105 7 (heSigmaP.map (permOrId 105)) heXpWords
 theorem chainD : ChainK 105 7 (heDpGens.map (permOrId 105)) heDpWords
     (#v[1, 0, 2] : Vector (Fin 105) 3) DQ.S DQ.SI DQ.LR DQ.TR DQ.TRI 10 DQ.BP 7 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, DQ.head, DQ.hl,
-    by norm_num, DQ.hs⟩
+    by norm_num, .inl DQ.hs⟩
   have hj' : j < heDpGens.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   exact imageList_bind (atD (len_D ▸ hj'))

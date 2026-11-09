@@ -67,11 +67,15 @@ inductive IT where
   bAnd(bAnd(sortedK S, bAnd(Nat.beq S.length E.length, Nat.ble S.length (nat_lit 65535))),
     ixAllK (idxT S) E.length E (nat_lit 0))
 
-@[expose] noncomputable def invK (T : IT) (n : Nat) (E inv : List Nat) : Bool :=
-  List.rec (motive := fun _ => List Nat → Bool)
-    (fun inv => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) inv)
-    (fun x _ ih inv => List.rec (motive := fun _ => Bool) false
-      (fun j inv' _ => andK (Nat.beq (T.find (invGo x n x) n) j) (ih inv')) inv) E inv
+@[expose] noncomputable def invK (T : IT) (n : Nat) (E C inv : List Nat) : Bool :=
+  List.rec (motive := fun _ => List Nat → List Nat → Bool)
+    (fun C inv => List.rec (motive := fun _ => Bool)
+      (List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) inv) (fun _ _ _ => false) C)
+    (fun x _ ih C inv => List.rec (motive := fun _ => Bool) false
+      (fun y C' _ => List.rec (motive := fun _ => Bool) false
+        (fun j inv' _ =>
+          andK (andK (Nat.beq (T.find y n) j) (andK (Nat.blt j n) (Nat.beq (mulF x y) oneF)))
+            (ih C' inv')) inv) C) E C inv
 
 @[expose] noncomputable def bfsGen (ix : Nat → Nat) (x i : Nat)
     (k : Nat → List Nat → List (Nat × Nat) → Bool) (gs : List Nat) :

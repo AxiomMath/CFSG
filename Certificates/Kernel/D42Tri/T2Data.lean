@@ -11,8 +11,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz_eval CertificateChecks.KernelD42Tri.TD
-  "Certificates/Kernel/D42Tri/data/t2.json.gz" 2775 6207383598988234263
+#kc_repo #kc_json_eval CertificateChecks.KernelD42Tri.TD
+  "Certificates/Kernel/D42Tri/data/t2.json" 2775 6207383598988234263
   (w1 : List Nat) (w2 : List Nat) (w3 : List Nat) (w4 : List Nat) (w5 : List Nat)
   (w6 : List Nat) (o0p : List Nat) (o0q : List Nat) (o0l : List Nat) (o1p : List Nat)
   (o1q : List Nat) (o1l : List Nat) (o2p : List Nat) (o2q : List Nat) (o2l : List Nat)

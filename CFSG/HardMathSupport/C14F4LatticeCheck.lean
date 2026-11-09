@@ -300,4 +300,14 @@ theorem dep1_spec {x : Q4} (h : dep1 x = true) : x = 0 := by
   simp only [dep1, BEq.beq, beq_iff]
   exact id
 
+theorem all_eq_true_of_take_drop {α : Type*} {f : α → Bool} {l : List α} (n : ℕ)
+    (h₁ : (l.take n).all f = true) (h₂ : (l.drop n).all f = true) : l.all f = true := by
+  rw [← List.take_append_drop n l, List.all_append, h₁, h₂]
+  rfl
+
+@[expose] def rank2F (l : List Q4) : Bool :=
+  match l with
+  | [x, y] => case2 x y
+  | _ => false
+
 end CFSG.HardMathSupport.C14F4LatticeCheck

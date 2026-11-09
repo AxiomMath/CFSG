@@ -19,8 +19,7 @@ private theorem w4Fi23_ch_all : ∀ i < cs.length, CFSG.KC.OpsLayK.chunkV Fi23.l
     (SL.getD i []) (SL.getD (i + 1) []) = true := by
   intro i hi
   rw [len_K] at hi
-  interval_cases i
-  exacts [ch0, ch1, ch2, ch3, ch4, ch5, ch6, ch7]
+  exact ch_all i hi
 
 open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Census CFSG.Blueprint
   CFSG.SectionRank CFSG.SectionRank.Native in

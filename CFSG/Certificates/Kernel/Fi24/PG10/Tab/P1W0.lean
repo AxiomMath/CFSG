@@ -6,6 +6,6 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_items_root CFSG.KD.PG10P1.JFp0 "CFSG/Certificates/Kernel/Fi24/PG10/Tab/data/P1/tab/W_0.bin" 19226564 6018679629284944682
+#kc_repo #kc_items_root CFSG.KD.PG10P1.JFp0 "CFSG/Certificates/Kernel/Fi24/PG10/Tab/data/P1/tab/W_0.bin" 17889449 149296247021696797
 
 end

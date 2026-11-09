@@ -151,6 +151,16 @@ theorem conjK_parts {A B c₁ i' j' : Nat} (h : CzInv.conjK R A B c₁ i' j' = t
   obtain ⟨e, f⟩ := mkA h
   exact ⟨Nat.blt_eq.mp a, Nat.blt_eq.mp b, Nat.blt_eq.mp c, Nat.blt_eq.mp d, e, f⟩
 
+theorem sq_base {i j : Nat} {E : Equiv.Perm (Fin 1408)} (hi : i < 1280) (hj : j < 24)
+    (h2 : t0P i * t1P j * (t0P i * t1P j) = E) (ha0 : E ⟨0, by norm_num⟩ = ⟨45, by norm_num⟩)
+    (ha1 : E ⟨1, by norm_num⟩ = ⟨88, by norm_num⟩) :
+    isBase (pt (T0 i) (pt (T1 j) (pt (T0 i) (pt (T1 j) 0))))
+      (pt (T0 i) (pt (T1 j) (pt (T0 i) (pt (T1 j) 1)))) 45 88 = true := by
+  unfold isBase
+  rw [CzInv.ev_mul hi hj hi hj (by norm_num), CzInv.ev_mul hi hj hi hj (by norm_num), h2, ha0,
+    ha1]
+  rfl
+
 theorem sq_conj (hP : Nat.card ↥P1408 = 177408000) {g : Equiv.Perm (Fin 1408)}
     (hg : g ∈ P1408 ⊓ centralizer ({elemZ} : Set (Equiv.Perm (Fin 1408)))) (h2 : g * g = elemA) :
     ∃ c < 2, ∃ h ∈ P1408 ⊓ centralizer ({elemZ} : Set (Equiv.Perm (Fin 1408))),
@@ -160,13 +170,7 @@ theorem sq_conj (hP : Nat.card ↥P1408 = 177408000) {g : Equiv.Perm (Fin 1408)}
   have hc := sq_cell_ok hi hj
   unfold sqCellK at hc
   simp only [strictB_app] at hc
-  have hsq : isBase (pt (T0 i) (pt (T1 j) (pt (T0 i) (pt (T1 j) 0))))
-      (pt (T0 i) (pt (T1 j) (pt (T0 i) (pt (T1 j) 1)))) 45 88 = true := by
-    unfold isBase
-    rw [CzInv.ev_mul hi hj hi hj (by norm_num), CzInv.ev_mul hi hj hi hj (by norm_num), h2, ha0,
-      ha1]
-    rfl
-  rw [hsq] at hc
+  rw [sq_base hi hj h2 ha0 ha1] at hc
   rcases mkIf hc with ⟨-, hX⟩ | ⟨hc0, hX⟩
   · exact absurd hX Bool.false_ne_true
   rcases mkIf hX with ⟨-, hX⟩ | ⟨h12, hK⟩

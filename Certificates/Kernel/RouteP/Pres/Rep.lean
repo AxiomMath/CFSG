@@ -25,13 +25,13 @@ theorem bridgeGensW_eq : bridgeGensLinesK = CFSG.KD.RouteP.PresW.BL :=
 theorem plck_all : ∀ g < 740, CFSG.KD.RouteP.plck g = true := by
   intro g hg
   unfold CFSG.KD.RouteP.plck
-  rw [presW_eq]
+  rw [presW_eq, ← CFSG.KD.RouteP.plckL_eq]
   exact plckL_all g hg
 
 theorem bgck_all : ∀ g < 80, CFSG.KD.RouteP.bgck g = true := by
   intro g hg
   unfold CFSG.KD.RouteP.bgck
-  rw [bridgeGensW_eq]
+  rw [bridgeGensW_eq, ← CFSG.KD.RouteP.bgckL_eq]
   exact bgckL_all g hg
 
 noncomputable abbrev gP (j : Nat) : Perm Pt := gT NWP KAP KBP j

@@ -5,7 +5,7 @@ public meta import CFSG.Certificates.Kernel.Common.AddThm
 public meta import Std.Data.HashMap
 public meta import Certificates.Kernel.Sporadic.RawGen
 public meta import CFSG.Certificates.Kernel.Common.Tab
-public import Certificates.Data.Kernel.SporSch.SetReplay
+public import Certificates.Data.Kernel.SporSch.SetReplayKT
 public import CFSG.Certificates.Kernel.Common.AddThm
 public import Certificates.Kernel.Sporadic.RawGen
 
@@ -86,10 +86,13 @@ elab "#kss_setreplay " pre:ident nn:num ww:num gId:ident sId:ident bb:num hh:num
   let kg := gens.size
   let s := start.length
   let key := fun (l : Array Nat) => l.foldl (fun acc p => acc ||| (1 <<< p)) 0
+  let hs : Array UInt64 := (Array.range n).map fun p => UInt64.ofNat (p + 1) * 11400714819323198485
+  let salt := fun (l : Array Nat) => l.foldl (fun (acc : UInt64) p => acc ^^^ hs[p]!) 0
   let mut sets : Array (Array Nat) := #[start.toArray]
+  let mut salts : Array UInt64 := #[salt start.toArray]
   let mut par : Array Nat := #[0]
   let mut lab : Array Nat := #[0]
-  let mut seen : Std.HashMap Nat Nat := (∅ : Std.HashMap Nat Nat).insert (key start.toArray) 0
+  let mut seen : Std.HashMap UInt64 Nat := (∅ : Std.HashMap UInt64 Nat).insert salts[0]! 0
   let mut wit : Array Nat := #[]
   let mut curAt : Array Nat := #[]
   let mut head := 0
@@ -100,14 +103,15 @@ elab "#kss_setreplay " pre:ident nn:num ww:num gId:ident sId:ident bb:num hh:num
       let mut wv := 0
       for k in [0:kg] do
         if sets.size < bound then
-          let t := (st.map fun p => (gens[k]!)[p]!).qsort (· < ·)
-          let kt := key t
+          let g := gens[k]!
+          let kt := st.foldl (fun (acc : UInt64) p => acc ^^^ hs[g[p]!]!) 0
           match seen.get? kt with
           | some j => wv := wv ||| (j <<< (20 * k))
           | none =>
             wv := wv ||| (sets.size <<< (20 * k))
             seen := seen.insert kt sets.size
-            sets := sets.push t
+            sets := sets.push ((st.map fun p => g[p]!).qsort (· < ·))
+            salts := salts.push kt
             par := par.push head
             lab := lab.push k
       wit := wit.push wv
@@ -119,9 +123,7 @@ elab "#kss_setreplay " pre:ident nn:num ww:num gId:ident sId:ident bb:num hh:num
   let sw := s * w
   let rx := sw + 28
   let xs := (Array.range c).map fun i => pack w sets[i]! ||| (par[i]! <<< sw) ||| (lab[i]! <<< (sw + 20))
-  let kkey := fun (l : Array Nat) =>
-    (l.foldl (fun acc p => acc + (p + 1) * 11400714819323198485) 0 % 2 ^ 64) ||| (key l <<< 64)
-  let keys := sets.map kkey
+  let keys := (Array.range c).map fun i => (key sets[i]! <<< 64) ||| salts[i]!.toNat
   let so := (Array.range c).qsort fun a b => keys[a]! < keys[b]!
   let soi := Id.run do
     let mut r := Array.replicate c 0
@@ -136,6 +138,7 @@ elab "#kss_setreplay " pre:ident nn:num ww:num gId:ident sId:ident bb:num hh:num
     addTree (P ++ `WT) (rows rwW wit)
     addTree (P ++ `ST) (rows 20 so)
     addTree (P ++ `SIT) (rows 20 soi)
+    addTree (P ++ `KT) (rows (n + 64) keys)
     addTree (P ++ `C) C
     addDef (P ++ `c) natT (lit c)
     addDef (P ++ `nS) natT (lit nS)
@@ -144,20 +147,17 @@ elab "#kss_setreplay " pre:ident nn:num ww:num gId:ident sId:ident bb:num hh:num
     let rg := fun (T : Name) (rw : Nat) => app ``CFSG.KS.SporSch.rowGet #[mkConst (P ++ T), lit rw]
     let X := rg `XT rx
     let W := rg `WT rwW
+    let KT := rg `KT (n + 64)
     let SO := rg `ST 20
     let SOI := rg `SIT 20
     let Cf := mkConst (P ++ `C)
     let runT := fun (q : Expr) => isTrue (mkApp2 (mkConst ``Nat.beq)
-      (app ``CFSG.KS.SporSch.runFrom #[lit w, lit s, mkConst (P ++ `G), X, W, lit kg, lit c,
+      (app ``CFSG.KS.SporSch.runFromF #[lit n, lit w, lit s, mkConst (P ++ `G), X, W, KT, lit kg, lit c,
         lit bound, lit H, mkApp2 (mkConst ``Nat.mul) q (lit H), mkApp Cf q])
       (mkApp Cf (mkApp (mkConst ``Nat.succ) q)))
     addChain2 P "run" "hrun" nS R runT
-    let eltT := fun (q : Expr) => isTrue (app ``CFSG.KC.Enum.allBlk
-      #[mkApp2 (mkConst ``Nat.mul) q (lit B), app ``CFSG.KS.SporSch.eltAt #[lit n, lit w, lit s, X, lit c],
-        lit B])
-    addChain2 P "elt" "helt" nB R eltT
     let srtT := fun (q : Expr) => isTrue (app ``CFSG.KC.Enum.allBlk
-      #[mkApp2 (mkConst ``Nat.mul) q (lit B), app ``CFSG.KS.SporSch.sortAt #[lit w, lit s, X, SO, SOI, lit c],
+      #[mkApp2 (mkConst ``Nat.mul) q (lit B), app ``CFSG.KS.SporSch.sortAtKT #[KT, SO, SOI, lit c],
         lit B])
     addChain2 P "srt" "hsrt" nB R srtT
 

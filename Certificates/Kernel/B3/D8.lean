@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.B3M8 "Certificates/Kernel/B3/data/n8.json.gz"
+#kc_repo #kc_json CFSG.KD.B3M8 "Certificates/Kernel/B3/data/n8.json"
   128354 7000828438839842735
   (n : Nat) (nT : Nat) (e : Nat) (m : Nat) (iw : Nat) (TN : Nat) (mtN : Nat) (CN : Nat) (DN : Nat)
   (Db : List (List Nat)) (nD : Nat) (ext : List (List (Nat × Nat))) (WN : Nat) (FN : Nat)

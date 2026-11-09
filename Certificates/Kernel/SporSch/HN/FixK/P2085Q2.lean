@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.SporSch.HN.FixK.Tab2085
 public import Certificates.Kernel.SporSch.Ru.RowsGen
+public import Certificates.Kernel.SporSch.HN.FixK.SplitAuto
 
 public noncomputable section
 
@@ -11,6 +12,7 @@ namespace CFSG.KD.HNXK
 
 end CFSG.KD.HNXK
 
-#kss_each CFSG.KD.HNXK.F2085_2 CFSG.KD.HNXK.fix2085_2 2
+#kss_fix_auto CFSG.KD.HNXK.F2085_2 CFSG.KD.HNXK.fix2085_2 CFSG.KD.HNPt2085.GF
+  CFSG.KD.HNXK.FIX2085 0 4 2
 
 end

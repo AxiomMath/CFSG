@@ -195,12 +195,21 @@ theorem add3b_small {a0 a1 b0 b1 : Nat} (hb : ∀ q, 524288 ≤ q → b0.testBit
   rw [testBit_add3b, decide_eq_false (by omega), hb q hq]
   simp
 
-theorem kapOK_spec {KA KB : Nat → Nat} {j : Nat} (h : kapOK KA KB j = true) :
+theorem kapOK_andB_true {a b : Bool} (h : CFSG.KC.andB a b = true) : a = true ∧ b = true := by
+  cases a <;> cases b
+  · exact absurd h (by decide)
+  · exact absurd h (by decide)
+  · exact absurd h (by decide)
+  · exact ⟨rfl, rfl⟩
+
+theorem kapOK_specN {KA KB : Nat → Nat} {j N : Nat}
+    (h : CFSG.KC.andB (Nat.beq (Nat.land (KA j) (KB j)) (nat_lit 0))
+      (CFSG.KC.andB (Nat.beq (Nat.shiftRight (KA j) N) (nat_lit 0))
+        (Nat.beq (Nat.shiftRight (KB j) N) (nat_lit 0))) = true) :
     (∀ p, ¬ ((KA j).testBit p = true ∧ (KB j).testBit p = true)) ∧
-      (∀ q, 306936 ≤ q → (KA j).testBit q = false) ∧ (∀ q, 306936 ≤ q → (KB j).testBit q = false) := by
-  unfold kapOK at h
-  obtain ⟨h1, h2⟩ := andB_true h
-  obtain ⟨h2, h3⟩ := andB_true h2
+      (∀ q, N ≤ q → (KA j).testBit q = false) ∧ (∀ q, N ≤ q → (KB j).testBit q = false) := by
+  obtain ⟨h1, h2⟩ := kapOK_andB_true h
+  obtain ⟨h2, h3⟩ := kapOK_andB_true h2
   have e1 := Nat.eq_of_beq_eq_true h1
   have e2 := Nat.eq_of_beq_eq_true h2
   have e3 := Nat.eq_of_beq_eq_true h3
@@ -208,12 +217,17 @@ theorem kapOK_spec {KA KB : Nat → Nat} {j : Nat} (h : kapOK KA KB j = true) :
   · have := congrArg (fun x => x.testBit p) e1
     simp only [nland, Nat.testBit_and, Nat.zero_testBit, hp.1, hp.2] at this
     exact absurd this (by decide)
-  · have := congrArg (fun x => x.testBit (q - 306936)) e2
+  · have := congrArg (fun x => x.testBit (q - N)) e2
     simp only [nshr, Nat.testBit_shiftRight, Nat.zero_testBit] at this
-    rwa [show 306936 + (q - 306936) = q by omega] at this
-  · have := congrArg (fun x => x.testBit (q - 306936)) e3
+    rwa [show N + (q - N) = q by omega] at this
+  · have := congrArg (fun x => x.testBit (q - N)) e3
     simp only [nshr, Nat.testBit_shiftRight, Nat.zero_testBit] at this
-    rwa [show 306936 + (q - 306936) = q by omega] at this
+    rwa [show N + (q - N) = q by omega] at this
+
+theorem kapOK_spec {KA KB : Nat → Nat} {j : Nat} (h : kapOK KA KB j = true) :
+    (∀ p, ¬ ((KA j).testBit p = true ∧ (KB j).testBit p = true)) ∧
+      (∀ q, 306936 ≤ q → (KA j).testBit q = false) ∧ (∀ q, 306936 ≤ q → (KB j).testBit q = false) :=
+  kapOK_specN (N := nat_lit 306936) h
 
 @[expose] noncomputable def lK (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) : Int → Nat → Nat
   | Int.ofNat m, p => if m = 0 then 0 else kv (KA (m - 1)) (KB (m - 1)) p

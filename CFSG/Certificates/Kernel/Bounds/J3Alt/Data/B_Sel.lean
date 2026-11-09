@@ -1,7 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.Bounds.J3Alt.Data.B_0
 public import CFSG.Certificates.Kernel.Bounds.J3Alt.Data.B_1
@@ -9,7 +9,7 @@ public import CFSG.Certificates.Kernel.Bounds.J3Alt.Data.B_2
 public import CFSG.Certificates.Kernel.Common.LabF
 
 
-#kc_repo #kc_nat_items_gz CFSG.KD.J3AB "CFSG/Certificates/Kernel/Bounds/J3Alt/Data/B/lces_const.items.gz" 74381 3416454944845140162
+#kc_repo #kc_nat_items CFSG.KD.J3AB "CFSG/Certificates/Kernel/Bounds/J3Alt/Data/B/lces_const.items" 74381 3416454944845140162
   WT[434] RT[30] ST0 HS nLive
 #kc_select CFSG.KD.J3AB blk B 134
 #kc_select CFSG.KD.J3AB selWT WT 434

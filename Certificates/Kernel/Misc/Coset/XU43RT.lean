@@ -1,9 +1,10 @@
 module
 
 public import Certificates.Kernel.Bounds.Family
+public import Certificates.Kernel.Bounds.AssembleE
 
 public section
 
-#kb_family "data/XU43R.json.gz" 1591 6334674639617859668
+#kb_family "data/XU43R.json" 1593 632459118706079535
 
 end

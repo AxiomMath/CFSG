@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.J2Five "Certificates/Kernel/J2Five/data/j2five.json.gz" 478614
+#kc_repo #kc_json CFSG.KD.J2Five "Certificates/Kernel/J2Five/data/j2five.json" 478614
   1241723391700423768
   (gen : List Nat) (s3 : List (List Nat)) (pts3 : List Nat) (x3 : List (List Nat))
   (c3 : List (List Nat)) (id3 : Nat) (k3 : List (List Nat)) (s5 : List (List Nat))

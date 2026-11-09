@@ -3,6 +3,8 @@ module
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.S5CntSpec
 public import CFSG.Permutation.SymmetricCoxeter
 public import Certificates.Certificate26961
+public import Mathlib.GroupTheory.Perm.Centralizer
+public import Mathlib.GroupTheory.SpecificGroups.Alternating.Simple
 
 public section
 
@@ -34,7 +36,41 @@ theorem sign_adjSwap {i : ℕ} (hi : i < 7) : Equiv.Perm.sign (adjSwap 7 i) = -1
   rw [adjSwap_of_lt hi, Equiv.Perm.sign_swap]
   simp [Fin.ext_iff]
 
-@[expose] noncomputable def s5oS1 : Subgroup (Equiv.Perm (Fin 100)) :=
+@[expose] def s5oTau : Equiv.Perm (Fin 8) :=
+  Equiv.swap 0 4 * Equiv.swap 1 2 * Equiv.swap 3 6 * Equiv.swap 5 7
+
+theorem s5oTau_cycleType : s5oTau.cycleType = {2, 2, 2, 2} := by
+  have d1 : Equiv.Perm.Disjoint (Equiv.swap (0 : Fin 8) 4) (Equiv.swap 1 2) := by
+    intro x
+    fin_cases x <;> decide
+  have d2 : Equiv.Perm.Disjoint (Equiv.swap (0 : Fin 8) 4 * Equiv.swap 1 2) (Equiv.swap 3 6) := by
+    intro x
+    fin_cases x <;> decide
+  have d3 : Equiv.Perm.Disjoint (Equiv.swap (0 : Fin 8) 4 * Equiv.swap 1 2 * Equiv.swap 3 6)
+      (Equiv.swap 5 7) := by
+    intro x
+    fin_cases x <;> decide
+  have c : ∀ a b : Fin 8, a ≠ b → (Equiv.swap a b).cycleType = {2} := fun a b h => by
+    rw [(Equiv.Perm.isCycle_swap h).cycleType, Equiv.Perm.card_support_swap h]
+  rw [s5oTau, d3.cycleType_mul, d2.cycleType_mul, d1.cycleType_mul, c 0 4 (by decide),
+    c 1 2 (by decide), c 3 6 (by decide), c 5 7 (by decide)]
+  rfl
+
+theorem s5oTau_card_centralizer :
+    Nat.card (centralizer ({s5oTau} : Set (Equiv.Perm (Fin 8)))) = 384 := by
+  rw [Equiv.Perm.nat_card_centralizer, s5oTau_cycleType]
+  rfl
+
+theorem s5oTau_five_free (σ : Equiv.Perm (Fin 8)) (hc : σ * s5oTau = s5oTau * σ)
+    (h5 : σ ^ 5 = 1) : σ = 1 := by
+  have hm : σ ∈ centralizer ({s5oTau} : Set (Equiv.Perm (Fin 8))) :=
+    mem_centralizer_singleton_iff.2 hc
+  have h1 : orderOf σ ∣ 384 := s5oTau_card_centralizer ▸ Subgroup.orderOf_dvd_natCard _ hm
+  have h3 : orderOf σ ∣ Nat.gcd 5 384 := Nat.dvd_gcd (orderOf_dvd_of_pow_eq_one h5) h1
+  rw [← orderOf_eq_one_iff]
+  simpa using h3
+
+@[expose] noncomputable def s5oS1: Subgroup (Equiv.Perm (Fin 100)) :=
   Subgroup.closure (permsA 100 s5oSGens)
 
 @[expose] noncomputable def s5oz : Equiv.Perm (Fin 100) := permOfArr 100 s5oZ
@@ -59,8 +95,8 @@ theorem s5o_spec1 :
   classical
   have h : s5oOK = true := Certificates.certificate26961
   simp only [s5oOK, Bool.and_eq_true, beq_iff_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨henum, hsize⟩, hsift⟩, hvz⟩, hinz⟩, hnez⟩, hz2⟩, hcen⟩, hvy⟩, hny⟩,
-    hy2⟩, hyin⟩, hvs⟩, hsin⟩, hsy⟩, hxs⟩, hcox⟩, henumX⟩, hsizeX⟩, hcent⟩, hzok⟩ := h
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨henum, hsize⟩, hsift⟩, hvz⟩, hinz⟩, hnez⟩, hz2⟩, hcen⟩, hvy⟩, hny⟩,
+    hy2⟩, hyin⟩, hvs⟩, hsin⟩, hsy⟩, hxs⟩, hcox⟩, hcent⟩, hzok⟩ := h
   have hps : ∀ p ∈ s5Keys, p < 100 := by
     intro p hp
     simp only [s5Keys, List.mem_cons, List.not_mem_nil, or_false] at hp
@@ -87,7 +123,6 @@ theorem s5o_spec1 :
       permOfArr 100 s5oY * permOfArr 100 s5oZ * permOfArr 100 s5oS :=
     (eqA_iff (rep_compA hrs hry) (rep_compA (rep_compA hry hrz) hrs)).1 hsy
   set xs : ℕ → Equiv.Perm (Fin 100) := s5ox with hxsdef
-  have hxsz : s5oXs.size = 7 := rfl
   have hxsv : ∀ i < 7, validA 100 s5oXs[i]! = true ∧ s5InP s5oXs[i]! = true ∧
       eqA 100 (compA 100 s5oXs[i]! s5oY) (compA 100 s5oY s5oXs[i]!) = true := by
     intro i hi
@@ -116,51 +151,6 @@ theorem s5o_spec1 :
       · omega
       · exact (eqA_iff (rep_compA (hrx i (by omega)) (hrx j hj))
           (rep_compA (hrx j hj) (hrx i (by omega)))).1 h1
-  obtain ⟨hmemX, hcardX, hvalX⟩ := enumOK_spec hps henumX
-  have hpermsX : permsA 100 s5oXs = xs '' Set.Iio 7 := by
-    ext g
-    simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_Iio, hxsz]
-    exact Iff.rfl
-  have hKcard : Nat.card (Subgroup.closure (xs '' Set.Iio 7)) = 40320 := by
-    rw [← hpermsX, hcardX, hsizeX]
-  have hKle : Subgroup.closure (xs '' Set.Iio 7) ≤
-      centralizer ({permOfArr 100 s5oY} : Set (Equiv.Perm (Fin 100))) ⊓ hs100P := by
-    rw [Subgroup.closure_le]
-    rintro _ ⟨i, hi, rfl⟩
-    exact ⟨mem_centralizer_singleton_iff.2 (hxc i hi), hxP i hi⟩
-  have hCle : Nat.card ↥(centralizer ({permOfArr 100 s5oY} : Set (Equiv.Perm (Fin 100))) ⊓
-      hs100P) ≤ 40320 := by
-    simp only [s5oCentOK, Bool.and_eq_true, beq_iff_eq] at hcent
-    obtain ⟨⟨⟨⟨hv, h0⟩, hfix⟩, hlen⟩, htail⟩ := hcent
-    have hx : Rep 100 s5oY (permOfArr 100 s5oY) := rep_of_validA hv
-    have hA := hs100ChainArrays
-    have hF := chainCheckFacts hs100_chain_check.1
-    have hQ := hs100Chain_valid
-    have hbc : hs100Chain.baseCount = 5 := by
-      rw [← hA.base_size]
-      rfl
-    have hi0 : 0 < hs100Chain.baseCount := by omega
-    have hb0 : ((hs100Chain.base.get ⟨0, hi0⟩ : Fin 100) : ℕ) = 0 := by
-      rw [hA.base_val]
-      rfl
-    have hfix0 : permOfArr 100 s5oY (hs100Chain.base.get ⟨0, hi0⟩) =
-        hs100Chain.base.get ⟨0, hi0⟩ := by
-      apply Fin.ext
-      rw [← hx, hb0, h0]
-    have h1 := card_centralizer_inf_levelSubgroup_le hA hF hQ hx hi0 hfix0
-    have h2 := card_centralizer_inf_levelSubgroup_le_of_tailOK hA hF hQ hx (m := 1) (by omega)
-      (E := s5oE) (by
-        rw [hbc]
-        exact htail)
-    rw [hs100P_eq_original, ← hs100Chain.levelSubgroup_zero_eq_original hQ]
-    have hcount : fixLevCount 100 (rawLevels 100 hs100StrongArrs hs100BaseArr) s5oY 0 = 30 := hfix
-    rw [hcount] at h1
-    calc _ ≤ 30 * Nat.card ↥(Subgroup.centralizer ({permOfArr 100 s5oY} :
-          Set (Equiv.Perm (Fin 100))) ⊓ hs100Chain.levelSubgroup (0 + 1)) := h1
-      _ ≤ 30 * 1344 := Nat.mul_le_mul_left _ (h2.trans hlen.le)
-  have hKeq : Subgroup.closure (xs '' Set.Iio 7) =
-      centralizer ({permOfArr 100 s5oY} : Set (Equiv.Perm (Fin 100))) ⊓ hs100P :=
-    Subgroup.eq_of_le_of_card_ge hKle (by rw [hKcard]; exact hCle)
   obtain ⟨ψ, hψ⟩ := exists_hom_perm 7 xs hcoxeter
   have hψrange : ψ.range = Subgroup.closure (xs '' Set.Iio 7) := by
     rw [MonoidHom.range_eq_map, ← closure_adjSwap 7, MonoidHom.map_closure]
@@ -172,16 +162,8 @@ theorem s5o_spec1 :
       exact ⟨i, hi, (hψ i hi).symm ▸ rfl⟩
     · rintro ⟨i, hi, rfl⟩
       exact ⟨_, ⟨i, hi, rfl⟩, hψ i hi⟩
-  have hpc : Nat.card (Equiv.Perm (Fin 8)) = 40320 := by
-    rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
-    decide
-  have hψinj : Function.Injective ψ := by
-    rw [← MonoidHom.ker_eq_bot_iff, ← Subgroup.card_eq_one]
-    have h := Subgroup.card_ker_mul_card_range ψ
-    rw [hψrange, hKcard, hpc] at h
-    omega
   simp only [s5oZOK, Bool.and_eq_true, beq_iff_eq] at hzok
-  obtain ⟨⟨⟨⟨⟨hzw1, hzw2⟩, hzw3⟩, hzw4⟩, hzy⟩, hzf⟩ := hzok
+  obtain ⟨⟨⟨⟨hzw1, hzw2⟩, hzw3⟩, hzw4⟩, hzy⟩ := hzok
   have hword : ∀ i ∈ s5oZWord, i < 7 := by
     intro i hi
     have := List.all_eq_true.1 hzw1 i hi
@@ -220,6 +202,58 @@ theorem s5o_spec1 :
     · intro g hg
       obtain ⟨i, hi, rfl⟩ := List.mem_map.1 hg
       exact isSwap_adjSwap (hword i hi)
+  have hψinj : Function.Injective ψ := by
+    rw [← MonoidHom.ker_eq_bot_iff]
+    by_contra hk
+    have hA : alternatingGroup (Fin 8) ≤ ψ.ker :=
+      Equiv.Perm.alternatingGroup_le_of_normal (by simp) ((Subgroup.nontrivial_iff_ne_bot _).2 hk)
+    apply hne1
+    rw [← hψword]
+    exact MonoidHom.mem_ker.1 (hA hσ₀)
+  have hKcard : Nat.card (Subgroup.closure (xs '' Set.Iio 7)) = 40320 := by
+    have h := Subgroup.card_ker_mul_card_range ψ
+    rw [(MonoidHom.ker_eq_bot_iff ψ).2 hψinj, Subgroup.card_bot, one_mul, hψrange,
+      Nat.card_perm, Nat.card_fin] at h
+    rw [h]
+    rfl
+  have hKle : Subgroup.closure (xs '' Set.Iio 7) ≤
+      centralizer ({permOfArr 100 s5oY} : Set (Equiv.Perm (Fin 100))) ⊓ hs100P := by
+    rw [Subgroup.closure_le]
+    rintro _ ⟨i, hi, rfl⟩
+    exact ⟨mem_centralizer_singleton_iff.2 (hxc i hi), hxP i hi⟩
+  have hCle : Nat.card ↥(centralizer ({permOfArr 100 s5oY} : Set (Equiv.Perm (Fin 100))) ⊓
+      hs100P) ≤ 40320 := by
+    simp only [s5oCentOK, Bool.and_eq_true, beq_iff_eq] at hcent
+    obtain ⟨⟨⟨⟨hv, h0⟩, hfix⟩, hlen⟩, htail⟩ := hcent
+    have hx : Rep 100 s5oY (permOfArr 100 s5oY) := rep_of_validA hv
+    have hA := hs100ChainArrays
+    have hF := chainCheckFacts hs100_chain_check.1
+    have hQ := hs100Chain_valid
+    have hbc : hs100Chain.baseCount = 5 := by
+      rw [← hA.base_size]
+      rfl
+    have hi0 : 0 < hs100Chain.baseCount := by omega
+    have hb0 : ((hs100Chain.base.get ⟨0, hi0⟩ : Fin 100) : ℕ) = 0 := by
+      rw [hA.base_val]
+      rfl
+    have hfix0 : permOfArr 100 s5oY (hs100Chain.base.get ⟨0, hi0⟩) =
+        hs100Chain.base.get ⟨0, hi0⟩ := by
+      apply Fin.ext
+      rw [← hx, hb0, h0]
+    have h1 := card_centralizer_inf_levelSubgroup_le hA hF hQ hx hi0 hfix0
+    have h2 := card_centralizer_inf_levelSubgroup_le_of_tailOK hA hF hQ hx (m := 1) (by omega)
+      (E := s5oE) (by
+        rw [hbc]
+        exact htail)
+    rw [hs100P_eq_original, ← hs100Chain.levelSubgroup_zero_eq_original hQ]
+    have hcount : fixLevCount 100 (rawLevels 100 hs100StrongArrs hs100BaseArr) s5oY 0 = 30 := hfix
+    rw [hcount] at h1
+    calc _ ≤ 30 * Nat.card ↥(Subgroup.centralizer ({permOfArr 100 s5oY} :
+          Set (Equiv.Perm (Fin 100))) ⊓ hs100Chain.levelSubgroup (0 + 1)) := h1
+      _ ≤ 30 * 1344 := Nat.mul_le_mul_left _ (h2.trans hlen.le)
+  have hKeq : Subgroup.closure (xs '' Set.Iio 7) =
+      centralizer ({permOfArr 100 s5oY} : Set (Equiv.Perm (Fin 100))) ⊓ hs100P :=
+    Subgroup.eq_of_le_of_card_ge hKle (by rw [hKcard]; exact hCle)
   have hκ : adjSwap 7 1 ∉ alternatingGroup (Fin 8) := by
     rw [Equiv.Perm.mem_alternatingGroup, sign_adjSwap (by norm_num)]
     decide
@@ -230,31 +264,10 @@ theorem s5o_spec1 :
   have hfive : ∀ σ, ψ σ * permOfArr 100 s5oZ = permOfArr 100 s5oZ * ψ σ → ψ σ ^ 5 = 1 →
       ψ σ = 1 := by
     intro σ hc h5
-    have hσmem : ψ σ ∈ Subgroup.closure (permsA 100 s5oXs) := by
-      rw [hpermsX, ← hψrange]
-      exact ⟨σ, rfl⟩
-    obtain ⟨i, hi, hiσ⟩ := (hmemX _).1 hσmem
-    have hrσ := rep_of_validA (hvalX i hi)
-    rw [hiσ] at hrσ
-    have hmemL : s5oXCert.pts[i]! ∈ s5oXCert.pts.toList := by
-      rw [getElem!_pos _ i hi]
-      exact Array.mem_toList_iff.2 (Array.getElem_mem hi)
-    have h1 := List.all_eq_true.1 hzf _ hmemL
-    simp only [Bool.or_eq_true, Bool.not_eq_true'] at h1
-    have hc' : eqA 100 (compA 100 s5oZ s5oXCert.pts[i]!) (compA 100 s5oXCert.pts[i]! s5oZ) = true :=
-      (eqA_iff (rep_compA hrz hrσ) (rep_compA hrσ hrz)).2 hc.symm
-    have h5' : eqA 100 (s5oPow5 s5oXCert.pts[i]!) (idA 100) = true := by
-      have hr5 : Rep 100 (s5oPow5 s5oXCert.pts[i]!) (ψ σ * (ψ σ * (ψ σ * (ψ σ * ψ σ)))) :=
-        rep_compA hrσ (rep_compA hrσ (rep_compA hrσ (rep_compA hrσ hrσ)))
-      refine (eqA_iff hr5 rep_idA).2 ?_
-      calc ψ σ * (ψ σ * (ψ σ * (ψ σ * ψ σ))) = ψ σ ^ 5 := by simp [pow_succ, mul_assoc]
-        _ = 1 := h5
-    rcases h1 with (h1 | h1) | h1
-    · rw [hc'] at h1
-      exact absurd h1 (by simp)
-    · rw [h5'] at h1
-      exact absurd h1 (by simp)
-    · exact (eqA_iff hrσ rep_idA).1 h1
+    have hτ : (s5oZWord.map (adjSwap 7)).prod = s5oTau := by decide
+    rw [← hψword, ← map_mul, ← map_mul, hτ] at hc
+    have h5' : σ ^ 5 = 1 := hψinj (by rw [map_pow, h5, map_one])
+    rw [s5oTau_five_free σ (hψinj hc) h5', map_one]
   have hprods : ∀ i < 6, xs i * xs (i + 1) ∈ (alternatingGroup (Fin 8)).map ψ := by
     intro i hi
     refine ⟨adjSwap 7 i * adjSwap 7 (i + 1), ?_, ?_⟩

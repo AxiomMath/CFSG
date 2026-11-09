@@ -2,6 +2,7 @@ module
 
 public import CFSG.Monster.AxisCount.CertBasic
 public import Certificates.Data.CFSGNative.MonsterAxis.Cover
+public import Certificates.Kernel.AxisPlane.FastRows
 
 public section
 
@@ -98,18 +99,24 @@ theorem rows_of_toList {a : Array Nat} {l : List Nat} (h : (a.toList == l) = tru
     a = l.toArray :=
   Array.ext' (by rw [eq_of_beq h])
 
-theorem l2Rows_pl {k : Nat} {l : List Nat} (h : ((Gen.perm (plArr k)).l2Rows.toList == l) = true) :
-    (pl k).l2Rows = l.toArray := by
-  rw [pl_eq]
+theorem l2Rows_pl {k : Nat} {l : List Nat} (hv : (pl k).isVis = true)
+    (h : ((fastRowsPB (plArr k)).toList == l) = true) : (pl k).l2Rows = l.toArray := by
+  rw [pl_eq] at hv ⊢
+  rw [FastRowsL.l2Rows_perm hv, ← PopcBL.fastRowsPB_eq]
   exact rows_of_toList h
 
-theorem isVis_pl {k : Nat} (h : (Gen.perm (plArr k)).isVis = true) : (pl k).isVis = true := by
+theorem isVis_pl {k : Nat} (h : permValidF (plArr k) = true) : (pl k).isVis = true := by
   rw [pl_eq]
-  exact h
+  exact ParFoldL.isVis_perm h
 
 theorem l2Rows_of {g : Gen} {l : List Nat} (h : (g.l2Rows.toList == l) = true) :
     g.l2Rows = l.toArray :=
   rows_of_toList h
+
+theorem l2Rows_sign_of {a : Nat} {l : List Nat} (h : ((fastRowsSB a).toList == l) = true) :
+    (Gen.sign a).l2Rows = l.toArray := by
+  rw [FastRowsL.l2Rows_sign, ← PopcBL.fastRowsSB_eq]
+  exact rows_of_toList h
 
 theorem l2Rows_rho {q₀ : Bool × Nat × Nat} {l : List Nat}
     (h : ((Gen.rho q₀).l2Rows.toList == l) = true) (q : Bool × Nat × Nat) :

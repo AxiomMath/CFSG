@@ -64,6 +64,9 @@ structure Ctx where
   normW : List (List ℤ)
   transW : List (List ℤ)
   stabLetters : List ℕ
+  rel : List ℕ := []
+  relP : List ℕ := []
+  relK : ℕ := 0
   deriving Inhabited
 
 namespace Ctx
@@ -287,7 +290,7 @@ theorem wordA_closure {n : ℕ} (S : Array (Array ℕ)) (T : Set (Equiv.Perm (Fi
     by_cases hpos : 0 < l
     · have hlet : letterA S (S.map (invCand n)) l = S[l.natAbs - 1]! := by
         unfold letterA
-        rw [if_pos hpos]
+        rw [ite_eq_left hpos]
         congr 2
         omega
       refine ⟨x * y, Subgroup.mul_mem _ hxcl hy, ?_⟩
@@ -295,7 +298,7 @@ theorem wordA_closure {n : ℕ} (S : Array (Array ℕ)) (T : Set (Equiv.Perm (Fi
       exact rep_compA hrx hry
     · have hlet : letterA S (S.map (invCand n)) l = invCand n S[l.natAbs - 1]! := by
         unfold letterA
-        rw [if_neg hpos]
+        rw [ite_eq_right hpos]
         have : (-l).toNat - 1 = l.natAbs - 1 := by omega
         rw [this]
         exact getElem!_map_inv n S hidx
@@ -487,12 +490,14 @@ theorem bfsAux_sound (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
       group
 
 
-theorem conjList_sound (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
+theorem conjList_soundFn (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
+    (fN : Array ℕ → ℕ) (fP : Equiv.Perm (Fin n) → ℕ)
+    (hf : ∀ (t : Array ℕ) (g : Equiv.Perm (Fin n)), Rep n t g → fN t = fP g)
     (ν : Equiv.Perm (Fin n)) (seed : Array ℕ) (hseed : Rep n seed ν) (par : List (ℕ × ℤ))
     (ord : List ℕ) (hbfs : bfsOK cd.S.size par 1 = true)
     (hord : ord.all (fun m => decide (m < par.length + 1)) = true)
     (hs : strictInc (ord.map fun m =>
-      hashN n ((bfsAux n cd.S (rawInvs n cd.S) par #[seed])[m]!)) = true) :
+      fN ((bfsAux n cd.S (rawInvs n cd.S) par #[seed])[m]!)) = true) :
     ∃ Ys : List (Equiv.Perm (Fin n)), Ys.Nodup ∧ Ys.length = ord.length ∧
       ∀ y ∈ Ys, ∃ g ∈ cd.sub n, g * ν * g⁻¹ = y := by
   classical
@@ -512,17 +517,56 @@ theorem conjList_sound (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
     have := (List.all_eq_true.1 hord) m hm
     rw [hsize]; simpa using this
   refine ⟨ord.map fun m => f m * ν * (f m)⁻¹, ?_, by simp, ?_⟩
-  · have hmap : (ord.map fun m => f m * ν * (f m)⁻¹).map (hashP n) =
-        ord.map fun m => hashN n L[m]! := by
+  · have hmap : (ord.map fun m => f m * ν * (f m)⁻¹).map fP = ord.map fun m => fN L[m]! := by
       rw [List.map_map]
       refine List.map_congr_left fun m hm => ?_
-      exact (hashN_eq_hashP (hfrep m (hordlt m hm))).symm
+      exact (hf _ _ (hfrep m (hordlt m hm))).symm
     have hp := strictInc_pairwise _ hs
     rw [← hmap] at hp
     exact List.Nodup.of_map _ (List.Pairwise.imp (fun hab => ne_of_lt hab) hp)
   · intro y hy
     obtain ⟨m, hm, rfl⟩ := List.mem_map.1 hy
     exact ⟨f m, hfmem m (hordlt m hm), rfl⟩
+
+@[expose] def ptKeyN (n : ℕ) (B : List ℕ) (t : Array ℕ) : ℕ :=
+  B.foldl (fun h b => h * n + (if b < n then t[b]! else 0)) 0
+
+@[expose] noncomputable def ptKeyP (n : ℕ) (B : List ℕ) (g : Equiv.Perm (Fin n)) : ℕ :=
+  B.foldl (fun h b => h * n + (if hb : b < n then (g ⟨b, hb⟩ : ℕ) else 0)) 0
+
+theorem ptKeyN_eq {n : ℕ} (B : List ℕ) {t : Array ℕ} {g : Equiv.Perm (Fin n)} (h : Rep n t g) :
+    ptKeyN n B t = ptKeyP n B g := by
+  unfold ptKeyN ptKeyP
+  refine List.foldl_ext _ _ _ fun acc b _ => ?_
+  by_cases hb : b < n
+  · rw [ite_eq_left hb, dite_eq_left hb, h ⟨b, hb⟩]
+  · rw [ite_eq_right hb, dite_eq_right hb]
+
+@[expose] def bfsCheckPt (n : ℕ) (S : Array (Array ℕ)) (B : List ℕ) (seed : Array ℕ)
+    (par : List (ℕ × ℤ)) (ord : List ℕ) : Bool :=
+  let L := bfsAux n S (rawInvs n S) par #[seed]
+  bfsOK S.size par 1 && ord.all (fun m => decide (m < par.length + 1)) &&
+    strictInc (ord.map fun m => ptKeyN n B L[m]!)
+
+theorem conjList_soundPt (n : ℕ) (cd : ChainData) (hcd : cd.check n = true) (B : List ℕ)
+    (ν : Equiv.Perm (Fin n)) (seed : Array ℕ) (hseed : Rep n seed ν) (par : List (ℕ × ℤ))
+    (ord : List ℕ) (hb : bfsCheckPt n cd.S B seed par ord = true) :
+    ∃ Ys : List (Equiv.Perm (Fin n)), Ys.Nodup ∧ Ys.length = ord.length ∧
+      ∀ y ∈ Ys, ∃ g ∈ cd.sub n, g * ν * g⁻¹ = y := by
+  simp only [bfsCheckPt, Bool.and_eq_true] at hb
+  exact conjList_soundFn n cd hcd (ptKeyN n B) (ptKeyP n B) (fun _ _ h => ptKeyN_eq B h) ν seed
+    hseed par ord hb.1.1 hb.1.2 hb.2
+
+theorem conjList_sound (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
+    (ν : Equiv.Perm (Fin n)) (seed : Array ℕ) (hseed : Rep n seed ν) (par : List (ℕ × ℤ))
+    (ord : List ℕ) (hbfs : bfsOK cd.S.size par 1 = true)
+    (hord : ord.all (fun m => decide (m < par.length + 1)) = true)
+    (hs : strictInc (ord.map fun m =>
+      hashN n ((bfsAux n cd.S (rawInvs n cd.S) par #[seed])[m]!)) = true) :
+    ∃ Ys : List (Equiv.Perm (Fin n)), Ys.Nodup ∧ Ys.length = ord.length ∧
+      ∀ y ∈ Ys, ∃ g ∈ cd.sub n, g * ν * g⁻¹ = y :=
+  conjList_soundFn n cd hcd (hashN n) (hashP n) (fun _ _ h => hashN_eq_hashP h) ν seed hseed par
+    ord hbfs hord hs
 
 @[expose] def bfsCheck (n : ℕ) (S : Array (Array ℕ)) (seed : Array ℕ) (par : List (ℕ × ℤ))
     (ord : List ℕ) : Bool :=
@@ -537,6 +581,64 @@ theorem conjList_sound' (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
       ∀ y ∈ Ys, ∃ g ∈ cd.sub n, g * ν * g⁻¹ = y := by
   simp only [bfsCheck, Bool.and_eq_true] at hb
   exact conjList_sound n cd hcd ν seed hseed par ord hb.1.1 hb.1.2 hb.2
+
+@[expose] def fixPtA (n : ℕ) (t : Array ℕ) : List ℕ := (List.range n).filter fun i => t[i]! == i
+
+@[expose] noncomputable def fixPtP (n : ℕ) (g : Equiv.Perm (Fin n)) : List ℕ :=
+  (List.range n).filter fun i => if hi : i < n then decide ((g ⟨i, hi⟩ : ℕ) = i) else false
+
+theorem fixPtA_eq {n : ℕ} {t : Array ℕ} {g : Equiv.Perm (Fin n)} (h : Rep n t g) :
+    fixPtA n t = fixPtP n g := by
+  unfold fixPtA fixPtP
+  refine List.filter_congr fun i hi => ?_
+  have hi' : i < n := List.mem_range.1 hi
+  rw [dite_eq_left hi', h ⟨i, hi'⟩, beq_eq_decide]
+
+@[expose] def ptMaskL (F : List ℕ) : ℕ := F.foldl (fun h x => h ||| (1 <<< x)) 0
+
+@[expose] def bfsCheckFix (n : ℕ) (S : Array (Array ℕ)) (seed : Array ℕ) (par : List (ℕ × ℤ))
+    (ord : List ℕ) : Bool :=
+  let L := bfsAux n S (rawInvs n S) par #[seed]
+  bfsOK S.size par 1 && ord.all (fun m => decide (m < par.length + 1)) &&
+    strictInc (ord.map fun m => ptMaskL (fixPtA n L[m]!))
+
+theorem conjList_soundFix (n : ℕ) (cd : ChainData) (hcd : cd.check n = true)
+    (ν : Equiv.Perm (Fin n)) (seed : Array ℕ) (hseed : Rep n seed ν) (par : List (ℕ × ℤ))
+    (ord : List ℕ) (hb : bfsCheckFix n cd.S seed par ord = true) :
+    ∃ Ys : List (Equiv.Perm (Fin n)), Ys.Nodup ∧ Ys.length = ord.length ∧
+      ∀ y ∈ Ys, ∃ g ∈ cd.sub n, g * ν * g⁻¹ = y := by
+  simp only [bfsCheckFix, Bool.and_eq_true] at hb
+  exact conjList_soundFn n cd hcd (fun t => ptMaskL (fixPtA n t)) (fun g => ptMaskL (fixPtP n g))
+    (fun _ _ h => by rw [fixPtA_eq h]) ν seed hseed par ord hb.1.1 hb.1.2 hb.2
+
+@[expose] def relPtA (n : ℕ) (R : List ℕ) (t : Array ℕ) : List ℕ :=
+  (List.range n).filter fun i => (R[i]!).testBit t[i]!
+
+@[expose] noncomputable def relPtP (n : ℕ) (R : List ℕ) (g : Equiv.Perm (Fin n)) : List ℕ :=
+  (List.range n).filter fun i => if hi : i < n then (R[i]!).testBit (g ⟨i, hi⟩ : ℕ) else false
+
+theorem relPtA_eq {n : ℕ} (R : List ℕ) {t : Array ℕ} {g : Equiv.Perm (Fin n)} (h : Rep n t g) :
+    relPtA n R t = relPtP n R g := by
+  unfold relPtA relPtP
+  refine List.filter_congr fun i hi => ?_
+  have hi' : i < n := List.mem_range.1 hi
+  rw [dite_eq_left hi', h ⟨i, hi'⟩]
+
+@[expose] def bfsCheckRel (n : ℕ) (S : Array (Array ℕ)) (R : List ℕ) (seed : Array ℕ)
+    (par : List (ℕ × ℤ)) (ord : List ℕ) : Bool :=
+  let L := bfsAux n S (rawInvs n S) par #[seed]
+  bfsOK S.size par 1 && ord.all (fun m => decide (m < par.length + 1)) &&
+    strictInc (ord.map fun m => ptMaskL (relPtA n R L[m]!))
+
+theorem conjList_soundRel (n : ℕ) (cd : ChainData) (hcd : cd.check n = true) (R : List ℕ)
+    (ν : Equiv.Perm (Fin n)) (seed : Array ℕ) (hseed : Rep n seed ν) (par : List (ℕ × ℤ))
+    (ord : List ℕ) (hb : bfsCheckRel n cd.S R seed par ord = true) :
+    ∃ Ys : List (Equiv.Perm (Fin n)), Ys.Nodup ∧ Ys.length = ord.length ∧
+      ∀ y ∈ Ys, ∃ g ∈ cd.sub n, g * ν * g⁻¹ = y := by
+  simp only [bfsCheckRel, Bool.and_eq_true] at hb
+  exact conjList_soundFn n cd hcd (fun t => ptMaskL (relPtA n R t))
+    (fun g => ptMaskL (relPtP n R g)) (fun _ _ h => by rw [relPtA_eq R h]) ν seed hseed par ord
+    hb.1.1 hb.1.2 hb.2
 
 
 @[expose] def commArr (n : ℕ) (a b ai bi : Array ℕ) : Array ℕ :=
@@ -577,7 +679,10 @@ variable (n : ℕ) (ctx : Ctx) (r : RepCert)
       eqA n (compA n (r.nuA n ctx) r.chC.S[i]!) (compA n r.chC.S[i]! (r.nuA n ctx)))
 
 @[expose] def okE : Bool :=
-  bfsCheck n ctx.chP.S (r.nuA n ctx) r.par r.ord &&
+  (bfsCheck n ctx.chP.S (r.nuA n ctx) r.par r.ord ||
+    bfsCheckPt n ctx.chP.S ctx.chN.base (r.nuA n ctx) r.par r.ord ||
+    bfsCheckFix n ctx.chP.S (r.nuA n ctx) r.par r.ord ||
+    bfsCheckRel n ctx.chP.S ctx.rel (r.nuA n ctx) r.par r.ord) &&
     decide (ctx.chP.order n ≤ r.ord.length * r.chC.order n)
 
 @[expose] def okX : Bool :=
@@ -612,7 +717,7 @@ theorem sound_C (hP : ctx.chP.check n = true) (hN : ctx.chN.check n = true)
       Rep n (r.nuA n ctx) (ctx.chN.val n r.nuW) ∧
       ctx.chN.val n r.nuW * ctx.chN.val n r.nuW = 1 ∧
       (∀ g ∈ r.chC.sub n, ctx.chN.val n r.nuW * g = g * ctx.chN.val n r.nuW) := by
-  simp only [okC, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range] at h
+  simp only [okC, Bool.and_eq_true, List.all_eq_true, List.mem_range] at h
   obtain ⟨⟨⟨⟨hl, hnu2⟩, hCc⟩, horig⟩, hcomm⟩ := h
   have hν : Rep n (r.nuA n ctx) (ctx.chN.val n r.nuW) := ctx.chN.rep_wordArr n hN hl
   have hgens : ∀ g ∈ {g | ∃ i < r.chC.k, g = permOfArr n r.chC.S[i]!},
@@ -637,7 +742,14 @@ theorem sound_E {ν : Equiv.Perm (Fin n)} (hP : ctx.chP.check n = true) (hC : r.
     ∀ g ∈ ctx.chP.sub n, ν * g = g * ν → g ∈ r.chC.sub n := by
   simp only [okE, Bool.and_eq_true, decide_eq_true_eq] at h
   obtain ⟨hb, hcard⟩ := h
-  obtain ⟨Ys, hnd, hlen, hconj⟩ := conjList_sound' n ctx.chP hP ν (r.nuA n ctx) hν r.par r.ord hb
+  obtain ⟨Ys, hnd, hlen, hconj⟩ : ∃ Ys : List (Equiv.Perm (Fin n)), Ys.Nodup ∧
+      Ys.length = r.ord.length ∧ ∀ y ∈ Ys, ∃ g ∈ ctx.chP.sub n, g * ν * g⁻¹ = y := by
+    simp only [Bool.or_eq_true] at hb
+    rcases hb with ((hb | hb) | hb) | hb
+    · exact conjList_sound' n ctx.chP hP ν (r.nuA n ctx) hν r.par r.ord hb
+    · exact conjList_soundPt n ctx.chP hP ctx.chN.base ν (r.nuA n ctx) hν r.par r.ord hb
+    · exact conjList_soundFix n ctx.chP hP ν (r.nuA n ctx) hν r.par r.ord hb
+    · exact conjList_soundRel n ctx.chP hP ctx.rel ν (r.nuA n ctx) hν r.par r.ord hb
   have hCs := (r.chC.check_sound n hC).2.2
   have hPs := (ctx.chP.check_sound n hP).2.2
   have hcgP : {g | ∃ i < r.chC.k, g = permOfArr n r.chC.S[i]!} ⊆ ctx.chP.sub n := fun g hg =>
@@ -651,7 +763,7 @@ theorem sound_E {ν : Equiv.Perm (Fin n)} (hP : ctx.chP.check n = true) (hC : r.
 theorem sound_X (hC : r.chC.check n = true) (h : r.okX n = true) :
     r.chX.check n = true ∧ r.chX.sub n ≤ r.chC.sub n ∧
       ⁅r.chC.sub n, r.chC.sub n⁆ ≤ r.chX.sub n := by
-  simp only [okX, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range] at h
+  simp only [okX, Bool.and_eq_true, List.all_eq_true, List.mem_range] at h
   obtain ⟨⟨⟨hX, horig⟩, hnormW⟩, hcommW⟩ := h
   have hXC : r.chX.sub n ≤ r.chC.sub n := ChainData.sub_le_of_origsOK n hX hC horig
   refine ⟨hX, hXC, ?_⟩
@@ -674,7 +786,7 @@ theorem sound_X (hC : r.chC.check n = true) (h : r.okX n = true) :
     | mem y hy =>
       obtain ⟨j, hj, rfl⟩ := hy
       exact hgen j hj
-    | one => simpa using (r.chX.sub n).one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have e : permOfArr n r.chC.S[i]! * (a * b) * (permOfArr n r.chC.S[i]!)⁻¹ =
           (permOfArr n r.chC.S[i]! * a * (permOfArr n r.chC.S[i]!)⁻¹) *
@@ -714,7 +826,7 @@ theorem factorization_two_pow_mul_odd (a m : ℕ) (hm : m % 2 = 1) :
 @[expose] def epsSet : Set (Equiv.Perm (Fin n)) :=
   {ε | ∃ k, 1 ≤ k ∧ k ≤ r.epsW.length ∧ ε = r.chX.val n (r.epsW[k - 1]!)}
 
-theorem sound_T (hX : r.chX.check n = true) (hC : r.chC.check n = true)
+theorem sound_T (hX : r.chX.check n = true) (_hC : r.chC.check n = true)
     (hXC : r.chX.sub n ≤ r.chC.sub n) (h : r.okT n = true) :
     (∀ k, 1 ≤ k → k ≤ r.epsW.length → lettersOK r.chX.S.size (r.epsW[k - 1]!) = true) ∧
     ∀ e ∈ r.chX.sub n, e * e = 1 → e ≠ 1 →

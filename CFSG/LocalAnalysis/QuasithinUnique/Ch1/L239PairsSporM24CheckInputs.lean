@@ -76,7 +76,7 @@ abbrev X24 : Type := ↥NativeSporadic.M24
 
 @[expose] def tgen : List X24 := s0gen ++ [t3X]
 
-@[expose] def T0X : List X24 := closureListH tabX hkey tgen 60
+@[expose] def T0X : List X24 := closureListH tabX enc tgen 60
 
 @[expose] def t2X : X24 := (T0X.filter fun x => enc x == encPerm (t2Perm.headD 1)).headD 1
 

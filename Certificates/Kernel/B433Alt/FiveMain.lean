@@ -200,16 +200,20 @@ theorem card_centralizer_dFive
       rw [h0, zero_mul] at hρ
       norm_num at hρ
     exact Nat.eq_of_mul_eq_mul_left hpos (hψ.trans hρ.symm)
-  let xN : ℕ → B433 := fun n => if h : n < 46 then yB ⟨n, h⟩ else 1
-  let I : Finset ℕ := Ev.map Fin.valEmbedding
-  have hxN : ∀ i : Fin 46, xN i = yB i := fun i => dif_pos i.2
-  let XcF : Fin 46 → Finset (Equiv.Perm (Fin 31671)) := fun i =>
+  obtain ⟨xN, hxNdef⟩ : ∃ f : ℕ → B433, f = fun n => if h : n < 46 then yB ⟨n, h⟩ else 1 :=
+    ⟨_, rfl⟩
+  obtain ⟨I, hIdef⟩ : ∃ s : Finset ℕ, s = Ev.map Fin.valEmbedding := ⟨_, rfl⟩
+  have hxN : ∀ i : Fin 46, xN i = yB i := fun i => by rw [hxNdef]; exact dif_pos i.2
+  obtain ⟨XcF, hXcFdef⟩ : ∃ f : Fin 46 → Finset (Equiv.Perm (Fin 31671)), f = fun i =>
     if i = idxOf 0 then (Set.toFinite (MulAction.orbit (YGroup 4 3 2) (rho432F dFive))).toFinset
-    else (Set.toFinite {σ : Equiv.Perm (Fin 31671) | σ ∈ Kof (nodeAt i) ∧ orderOf σ = 5}).toFinset
-  let XcN : ℕ → Finset (Equiv.Perm (Fin 31671)) := fun n => if h : n < 46 then XcF ⟨n, h⟩ else ∅
-  let sN : ℕ → ℕ := fun n => if h : n < 46 then vN ⟨n, h⟩ else 0
-  have hXcN : ∀ i : Fin 46, XcN i = XcF i := fun i => dif_pos i.2
-  have hsN : ∀ i : Fin 46, sN i = vN i := fun i => dif_pos i.2
+    else (Set.toFinite {σ : Equiv.Perm (Fin 31671) | σ ∈ Kof (nodeAt i) ∧ orderOf σ = 5}).toFinset :=
+    ⟨_, rfl⟩
+  obtain ⟨XcN, hXcNdef⟩ : ∃ f : ℕ → Finset (Equiv.Perm (Fin 31671)),
+      f = fun n => if h : n < 46 then XcF ⟨n, h⟩ else ∅ := ⟨_, rfl⟩
+  obtain ⟨sN, hsNdef⟩ : ∃ f : ℕ → ℕ, f = fun n => if h : n < 46 then vN ⟨n, h⟩ else 0 :=
+    ⟨_, rfl⟩
+  have hXcN : ∀ i : Fin 46, XcN i = XcF i := fun i => by rw [hXcNdef]; exact dif_pos i.2
+  have hsN : ∀ i : Fin 46, sN i = vN i := fun i => by rw [hsNdef]; exact dif_pos i.2
   have hcoverN : ∀ c : B433 ⧸ setupB.H, ∃ i ∈ I, ∃ e, c = setupB.cosetOf (xN i) e := by
     intro c
     induction c using QuotientGroup.induction_on with
@@ -226,7 +230,7 @@ theorem card_centralizer_dFive
         rw [e1]
         exact (inlB : B433 →* Ghat hsw).range.mul_mem ((inlB : B433 →* Ghat hsw).range.mul_mem
           ⟨(psi ea)⁻¹, by rw [map_inv]; rfl⟩ ⟨g⁻¹, rfl⟩) ⟨(psi eb)⁻¹, by rw [map_inv]; rfl⟩
-      refine ⟨ι, Finset.mem_map_of_mem _ hιE, eb⁻¹, ?_⟩
+      refine ⟨ι, by rw [hIdef]; exact Finset.mem_map_of_mem _ hιE, eb⁻¹, ?_⟩
       have hy : yB ι = psi ea⁻¹ * g⁻¹ * psi eb⁻¹ := by
         apply hinl
         rw [hyB ι hιE, map_mul, map_mul]
@@ -240,19 +244,21 @@ theorem card_centralizer_dFive
       group
   have hsI : ∀ i ∈ I, (CFSG.YGroups.DCE.B.stabSub setupB (xN i)).index ≤ sN i := by
     intro n hn
+    rw [hIdef] at hn
     obtain ⟨ι, hι, rfl⟩ := Finset.mem_map.1 hn
     simp only [Fin.valEmbedding_apply, hxN, hsN]
     exact (hSeq ι hι).2.le
   have hXN : ∀ i ∈ I, setupB.fixLabels (xN i) dFive (rho432F dFive) ⊆ XcN i := by
     intro n hn
+    rw [hIdef] at hn
     obtain ⟨ι, hι, rfl⟩ := Finset.mem_map.1 hn
     simp only [Fin.valEmbedding_apply, hxN, hXcN]
     intro ω hω
     obtain ⟨e, rfl, hed⟩ := hω
     by_cases h0 : ι = idxOf 0
-    · simp only [XcF, h0, if_true, Finset.coe_sort_coe, Set.Finite.coe_toFinset]
+    · simp only [hXcFdef, h0, if_true, Finset.coe_sort_coe, Set.Finite.coe_toFinset]
       exact MulAction.mem_orbit _ _
-    · simp only [XcF, h0, if_false, Set.Finite.coe_toFinset, Set.mem_setOf_eq]
+    · simp only [hXcFdef, h0, if_false, Set.Finite.coe_toFinset, Set.mem_setOf_eq]
       rw [hsmul]
       have e1 : rho432F e⁻¹ * rho432F dFive * (rho432F e⁻¹)⁻¹ = rho432F (e⁻¹ * dFive * e) := by
         simp only [map_mul, map_inv, inv_inv]
@@ -266,7 +272,7 @@ theorem card_centralizer_dFive
         CFSG.KD.B4AC.MJ (FJ.getD k 0) / FB.getD k 0 * (5 ^ FA.getD k 0 - 1) *
           (4089470473293004800 / CFSG.KD.B4AC.MJ (FJ.getD k 0)) else 0 := by
     intro i hi h0
-    simp only [XcF, h0, if_false]
+    simp only [hXcFdef, h0, if_false]
     rw [← Set.ncard_eq_toFinset_card _ (Set.toFinite _)]
     obtain ⟨hj, hlv⟩ := (liveL_spec _).1 (nodeAt_mem i)
     have hpa : CFSG.KD.B4AT.PA.getD (nodeAt i) 0 = 0 := by
@@ -301,11 +307,11 @@ theorem card_centralizer_dFive
       rw [ncard_five_eq_zero (by rw [hcardK i hi]; exact h5), zero_mul]
       exact Nat.zero_le _
   have hsum : ∑ i ∈ I, (XcN i).card * sN i ≤ Stab.index + 4089470473293004800 := by
-    rw [Finset.sum_map]
+    rw [hIdef, Finset.sum_map]
     simp only [Fin.valEmbedding_apply, hXcN, hsN]
     rw [← Finset.add_sum_erase _ _ idx0_mem]
     have h0 : (XcF (idxOf 0)).card * vN (idxOf 0) = Stab.index := by
-      simp only [XcF, if_true, vN_idx0, mul_one]
+      simp only [hXcFdef, if_true, vN_idx0, mul_one]
       rw [← Set.ncard_eq_toFinset_card _ (Set.toFinite _), ho]
     rw [h0]
     refine Nat.add_le_add_left ?_ _

@@ -33,7 +33,7 @@ theorem bray_rows : twoBBm = (List.range 10).map fun i => unpack 24 24 (Cent2045
   have e₁ : CFSG.Sporadic.Co1Block.Native.brayRows CFSG.Sporadic.Co1Schreier.Native.aR twoBD1 =
       ((List.range 43).map fun i => unpack 24 24 (Cent2045.D1.M i),
         (List.range 43).map fun i => unpack 24 24 (Cent2045.D1.MI i), true) :=
-    CFSG.KS.SporSch.M24.dagIK_sound Cent2045.base_eq Cent2045.kD1
+    CFSG.KS.SporSch.M24.dagIWK_sound Cent2045.base_eq Cent2045.kD1
   have hj : ∀ j ∈ twoBBray, 3 < j ∧ j ≤ 43 := fun j hj => by
     simpa using List.all_eq_true.1 Cent2045.kI j hj
   have hbi : ∀ (i : Nat) (hi : i < twoBBray.length),
@@ -52,7 +52,7 @@ theorem dag2_rows : (CFSG.Sporadic.Co1Schreier.Native.dag
     (CFSG.Sporadic.Co1Block.Native.brayElts
       (CFSG.Sporadic.Co1Block.Native.brayRows CFSG.Sporadic.Co1Schreier.Native.aR twoBD1)
       twoBBray) twoBD2).1 = (List.range 22).map fun i => unpack 24 24 (Cent2045.D2.M i) := by
-  rw [CFSG.KS.SporSch.M24.dagIK_sound bray_rows Cent2045.kD2]
+  rw [CFSG.KS.SporSch.M24.dagIWK_sound bray_rows Cent2045.kD2]
 
 theorem matIdx_lt {m : Nat} (hm : m < 10) : matIdx m = m := by
   unfold matIdx

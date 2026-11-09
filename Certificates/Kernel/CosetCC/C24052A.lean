@@ -19,6 +19,6 @@ public import Certificates.Kernel.CosetCC.C24052K15
 
 public section
 
-#kb_family_close "data/C24052.json" 6749 2946549603800237064
+#kb_family_close "data/C24052.json" 6752 2446564254084884083
 
 end

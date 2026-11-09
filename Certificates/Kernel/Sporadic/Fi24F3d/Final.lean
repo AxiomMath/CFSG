@@ -7,7 +7,7 @@ import Certificates.Kernel.Sporadic.Fi24F3d.SE
 import Certificates.Kernel.Sporadic.Fi24F3d.SEF
 import Certificates.Kernel.Sporadic.Fi24F3d.SY
 import Certificates.Kernel.Sporadic.Fi24F3d.M0
-import Certificates.Kernel.Sporadic.Fi24F3d.M1
+public import Certificates.Kernel.Sporadic.Fi24F3d.M1
 import Certificates.Kernel.Sporadic.Fi24F3d.M2
 import Certificates.Kernel.Sporadic.Fi24F3d.P
 
@@ -53,28 +53,71 @@ theorem eF_mem : eF ∈ seedGrp := xw_mem (by decide) (by decide)
 
 theorem eY_mem : eY ∈ seedGrp := xw_mem (by decide) (by decide)
 
+theorem cox_cxEdge : ∀ a b : Fin 12, fi24AutomorphismCoxeterMatrix a b =
+    if a = b then 1 else if cxEdge a b = true then 3 else 2 := by
+  intro a b
+  rw [fi24AutomorphismCoxeterMatrix_apply, fi24AutomorphismEdges_def]
+  revert a b
+  decide
+
+theorem cxEdge_self : ∀ a : Fin 12, cxEdge a a = false := by decide
+
+theorem cox_ne {i j : ℕ} (hi : i < 12) (hj : j < 12) (hij : i ≠ j) :
+    fi24AutomorphismCoxeterMatrix ⟨i, hi⟩ ⟨j, hj⟩ = if cxEdge i j = true then 3 else 2 := by
+  rw [cox_cxEdge]
+  simp only [Fin.mk.injEq, hij, ↓reduceIte]
+
+theorem g0_comm {i j : ℕ} (hi : i < 12) (hj : j < 12) (h : cxEdge i j = false) :
+    g0 i * g0 j = g0 j * g0 i := by
+  rcases eq_or_ne i j with rfl | hij
+  · rfl
+  have hm := fi24AutomorphismGroup_of_mul_of_pow ⟨i, hi⟩ ⟨j, hj⟩
+  rw [← g0_of hi, ← g0_of hj, cox_ne hi hj hij, h] at hm
+  simp only [Bool.false_eq_true, ↓reduceIte, pow_two] at hm
+  calc g0 i * g0 j = (g0 i * g0 j)⁻¹ := eq_inv_of_mul_eq_one_left hm
+    _ = g0 j * g0 i := by rw [mul_inv_rev, g0_inv, g0_inv]
+
+theorem g0_braid {i j : ℕ} (hi : i < 12) (hj : j < 12) (h : cxEdge i j = true) :
+    g0 i * g0 j * g0 i = g0 j * g0 i * g0 j := by
+  have hij : i ≠ j := by
+    rintro rfl
+    rw [cxEdge_self ⟨i, hi⟩] at h
+    cases h
+  have hm := fi24AutomorphismGroup_of_mul_of_pow ⟨i, hi⟩ ⟨j, hj⟩
+  rw [← g0_of hi, ← g0_of hj, cox_ne hi hj hij, h] at hm
+  simp only [↓reduceIte, pow_succ, pow_zero, one_mul] at hm
+  have e : g0 i * g0 j * g0 i * (g0 j * g0 i * g0 j) = 1 := by
+    rw [← hm]
+    simp only [mul_assoc]
+  calc g0 i * g0 j * g0 i = (g0 j * g0 i * g0 j)⁻¹ := eq_inv_of_mul_eq_one_left e
+    _ = g0 j * g0 i * g0 j := by simp only [mul_inv_rev, g0_inv, mul_assoc]
+
+theorem g0_cox : CoxRel g0 :=
+  ⟨g0_mul_self, fun _ _ hi hj h => g0_comm hi hj h, fun _ _ hi hj h => g0_braid hi hj h⟩
+
 theorem eE_pow5 : eE ^ 5 = 1 := by
-  have h := xw_eq_one_of_beq (u := WE ++ WE ++ WE ++ WE ++ WE) (by decide) M0.e5
+  have h : xw (WE ++ WE ++ WE ++ WE ++ WE) = 1 := (congrArg τ (M0.e5 g0_cox)).trans (map_one τ)
   simp only [xw_append] at h
   rw [← h]
   simp only [pow_succ, pow_zero, one_mul]
 
 theorem eY_pow7 : eY ^ 7 = 1 := by
-  have h := xw_eq_one_of_beq (u := WY ++ WY ++ WY ++ WY ++ WY ++ WY ++ WY) (by decide) M1.y7
+  have h : xw (WY ++ WY ++ WY ++ WY ++ WY ++ WY ++ WY) = 1 :=
+    (congrArg τ (M1.y7 g0_cox)).trans (map_one τ)
   simp only [xw_append] at h
   rw [← h]
   simp only [pow_succ, pow_zero, one_mul]
 
 theorem eEF_comm : eE * eF = eF * eE := by
-  have h := xw_eq_of_beq (u := WE ++ WF) (v := WF ++ WE) (by decide) (by decide) M0.ef
+  have h : xw (WE ++ WF) = xw (WF ++ WE) := congrArg τ (M0.ef g0_cox)
   rwa [xw_append, xw_append] at h
 
 theorem eEY_comm : eE * eY = eY * eE := by
-  have h := xw_eq_of_beq (u := WE ++ WY) (v := WY ++ WE) (by decide) (by decide) M0.ey
+  have h : xw (WE ++ WY) = xw (WY ++ WE) := congrArg τ (M0.ey g0_cox)
   rwa [xw_append, xw_append] at h
 
 theorem eF_conj : (xw NS)⁻¹ * eE * xw NS = eF := by
-  have h := xw_eq_of_beq (u := NS.reverse ++ WE ++ NS) (v := WF) (by decide) (by decide) M1.sw
+  have h : xw (NS.reverse ++ WE ++ NS) = xw WF := congrArg τ (M1.sw g0_cox)
   rwa [xw_append, xw_append, xw_reverse] at h
 
 theorem xw_WEF : xw WEF = eE * eF := by
@@ -87,21 +130,20 @@ theorem eF_pow5 : eF ^ 5 = 1 := by
   rw [← eF_conj, e, eE_pow5, mul_one, inv_mul_cancel]
 
 theorem eEFk_conj2 : (xw N2)⁻¹ * (eE * eF) * xw N2 = eE * eF ^ 2 := by
-  have h := xw_eq_of_beq (u := N2.reverse ++ WEF ++ N2) (v := WE ++ WF ++ WF) (by decide)
-    (by decide) M2.n2
+  have h : xw (N2.reverse ++ WEF ++ N2) = xw (WE ++ WF ++ WF) := congrArg τ (M2.n2 g0_cox)
   rw [xw_append, xw_append, xw_reverse, xw_WEF, xw_append, xw_append] at h
   rw [h, mul_assoc, ← pow_two]
 
 theorem eEFk_conj3 : (xw N3)⁻¹ * (eE * eF) * xw N3 = eE * eF ^ 3 := by
-  have h := xw_eq_of_beq (u := N3.reverse ++ WEF ++ N3) (v := WE ++ WF ++ WF ++ WF) (by decide)
-    (by decide) M2.n3
+  have h : xw (N3.reverse ++ WEF ++ N3) = xw (WE ++ WF ++ WF ++ WF) :=
+    congrArg τ (M2.n3 g0_cox)
   rw [xw_append, xw_append, xw_reverse, xw_WEF, xw_append, xw_append, xw_append] at h
   rw [h]
   simp only [pow_succ, pow_zero, one_mul, mul_assoc]
 
 theorem eEFk_conj4 : (xw N4)⁻¹ * (eE * eF) * xw N4 = eE * eF ^ 4 := by
-  have h := xw_eq_of_beq (u := N4.reverse ++ WEF ++ N4) (v := WE ++ WF ++ WF ++ WF ++ WF)
-    (by decide) (by decide) M2.n4
+  have h : xw (N4.reverse ++ WEF ++ N4) = xw (WE ++ WF ++ WF ++ WF ++ WF) :=
+    congrArg τ (M2.n4 g0_cox)
   rw [xw_append, xw_append, xw_reverse, xw_WEF, xw_append, xw_append, xw_append, xw_append] at h
   rw [h]
   simp only [pow_succ, pow_zero, one_mul, mul_assoc]

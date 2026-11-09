@@ -68,7 +68,7 @@ theorem chainX1 : ChainK 42 6 (heInnerSigma1.map (permOrId 42)) heInnerChainWord
     (#v[0, 1, 7, 10, 3, 2] : Vector (Fin 42) 6) X1Q.S X1Q.SI X1Q.LR X1Q.TR X1Q.TRI 17 X1Q.BP 3
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, X1Q.head, X1Q.hl,
-    by norm_num, X1Q.hs⟩
+    by norm_num, .inl X1Q.hs⟩
   have hj' : j < heInnerSigma1.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   have h := bindsK_spec bX1 j hj'

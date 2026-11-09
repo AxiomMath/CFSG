@@ -45,12 +45,18 @@ theorem s8_fin_faithful (a : S8A5)
   revert a h
   decide +kernel
 
+private theorem s8_fin_sum1 : ∀ u : Fin 5 → ZMod 2, IsEvenVec u →
+    ∃ (a₁ : S8A5) (w₁ : Fin 5 → ZMod 2), IsEvenVec w₁ ∧
+      u = permVec (a₁ : Equiv.Perm (Fin 5)) w₁ + w₁ := by
+  decide +kernel
+
 theorem s8_fin_sum2 (u : Fin 5 → ZMod 2) (hu : IsEvenVec u) :
     ∃ (a₁ a₂ : S8A5) (w₁ w₂ : Fin 5 → ZMod 2), IsEvenVec w₁ ∧ IsEvenVec w₂ ∧
       u = (permVec (a₁ : Equiv.Perm (Fin 5)) w₁ + w₁) +
         (permVec (a₂ : Equiv.Perm (Fin 5)) w₂ + w₂) := by
-  revert u hu
-  decide +kernel
+  obtain ⟨a₁, w₁, hw₁, hu₁⟩ := s8_fin_sum1 u hu
+  refine ⟨a₁, 1, w₁, 0, hw₁, s8_isEvenVec_zero, ?_⟩
+  rw [hu₁, OneMemClass.coe_one, s8_permVec_one, add_zero, add_zero]
 
 theorem s8_fin_irred (u w : Fin 5 → ZMod 2) (hu : IsEvenVec u) (hw : IsEvenVec w) (h0 : u ≠ 0) :
     ∃ a₁ a₂ : S8A5, w = permVec (a₁ : Equiv.Perm (Fin 5)) u + permVec (a₂ : Equiv.Perm (Fin 5)) u ∨

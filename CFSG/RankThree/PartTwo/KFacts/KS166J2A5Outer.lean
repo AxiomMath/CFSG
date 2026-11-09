@@ -213,8 +213,9 @@ private theorem exists_mem_VJ_decomposition
     intro u hu
     have hzInv : (zJ : GJ)⁻¹ ∈ normalizer (VJ : Set GJ) :=
       (normalizer (VJ : Set GJ)).inv_mem zJ_mem_normalizer_VJ
-    have hvV : (zJ : GJ)⁻¹ * u * (zJ : GJ) ∈ VJ :=
-      (Subgroup.mem_normalizer_iff.mp hzInv u).mp hu
+    have hvV : (zJ : GJ)⁻¹ * u * (zJ : GJ) ∈ VJ := by
+      have h := (Subgroup.mem_normalizer_iff.mp hzInv u).mp hu
+      rwa [inv_inv] at h
     have hsv : s * (((zJ : GJ)⁻¹ * u * (zJ : GJ) : GJ) : Equiv.Perm (Fin 315)) * s⁻¹ =
         (((zJ : GJ)⁻¹ * u * (zJ : GJ) : GJ) : Equiv.Perm (Fin 315)) := hcent _ hvV
     dsimp [s']

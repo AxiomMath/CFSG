@@ -68,7 +68,7 @@ theorem class_all : (closureOf (kGens.map cc)).toList.all
     right
     by_cases h4 : (CL.getD r.2.1 []).length = 4
     · right
-      exact set_contains (certOK_sound small_parts.1.1) small_parts.1.2 hxk (hF h4)
+      exact set_contains (certOK_sound small_parts.1.1) (closeOK_sound small_parts.1.2) hxk (hF h4)
     · left
       simpa using h4
 
@@ -106,6 +106,9 @@ theorem k539_ok : k539OK (closureOf (kGens.map cc)) (closureOf (fBasis.map cc))
   replace hFT := certOK_sound hFT
   replace hWT := certOK_sound hWT
   replace hRT := certOK_sound hRT
+  replace hFC := closeOK_sound hFC
+  replace hWC := closeOK_sound hWC
+  replace hRC := closeOK_sound hRC
   obtain ⟨n1, n2, n3, n4, n5, -, n7, n8, n9, n10⟩ := node_parts
   have hgc := rc_gc
   have hgci := rc_gci
@@ -174,6 +177,7 @@ theorem yOK_of {y w : List (ℕ × ℕ)} {yin os : List ℕ} {SL : List ℕ}
     yOK y w yin os = true := by
   unfold yOK yCore
   replace hT := certOK_sound hT
+  replace hC := closeOK_sound hC
   rw [set_sub hT hC]
   have e1 : (y.length == yin.length) = true := beq_iff_eq.mpr (Nat.beq_eq ▸ h1)
   have e2 : (List.range y.length).all (fun i => cc (y.getD i (0, 0)) == maskCodeL w (yin.getD i 0) &&

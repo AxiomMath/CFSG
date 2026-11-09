@@ -12,8 +12,8 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelG24Th
 
-#kc_repo #kc_json_gz CertificateChecks.KernelG24Th
-  "Certificates/Kernel/G24Th799103/data/m.json.gz" 497195 10513801421044380325
+#kc_repo #kc_json CertificateChecks.KernelG24Th
+  "Certificates/Kernel/G24Th799103/data/m.json" 497195 10513801421044380325
   (Y0 : Nat) (TM : Nat) (Q0 : List (Nat × Nat × Nat × Nat)) (AG : List Nat)
   (ST : List (Nat × Nat × Nat × Nat))
   (NM : List (Nat × List Nat × List (List Nat) × List (Nat × Nat × Nat × Nat)))

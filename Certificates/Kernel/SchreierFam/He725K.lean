@@ -46,8 +46,11 @@ theorem kLast : allN 3 (fun i => Nat.beq (rcnt (He725X.LR (Nat.add 2 i))) 1) = t
 theorem kProd : ((List.range 2).map fun i => rcnt (He725S.LR i)).prod = 21504 := by
   decide +kernel
 
-theorem kCn : bAnd(allN 4 (fun j => bAnd(cn (S j), cn (SI j))),
-    bAnd(cn (CC 0), bAnd(cn (CC 1), allN 4 (fun i => cn (QQ i))))) = true := by quickRfl
+theorem kCnS : allN 4 (fun j => cn (S j)) = true := by quickRfl
+
+theorem kCnSI : allN 4 (fun j => cn (SI j)) = true := by quickRfl
+
+theorem kCn : bAnd(cn (CC 0), bAnd(cn (CC 1), allN 4 (fun i => cn (QQ i)))) = true := by quickRfl
 
 theorem kFix : bAnd(fixBK 8330 14 bsL [S 0] 7, bIf(fixBK 8330 14 bsL [S 0] 1, false, true)) =
     true := by quickRfl

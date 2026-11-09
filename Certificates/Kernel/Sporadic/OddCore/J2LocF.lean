@@ -6,6 +6,11 @@ public import Certificates.Kernel.Sporadic.OddCore.MulHGlue
 public import Certificates.Kernel.Sporadic.OddCore.PEnumGlue3
 meta import Certificates.Kernel.Sporadic.OddCore.J2Loc
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PEnumRSound
+import CFSG.Certificates.Kernel.Spor.MulHFSound
+import CFSG.Certificates.Kernel.Spor.RawOrbHead
+import CFSG.Certificates.Kernel.L34KSnd.Tab
+import CFSG.Certificates.Kernel.J2ModelsSound
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Sporadic.SmallOddCore.ClassSimple
 
@@ -238,50 +243,88 @@ theorem ids_of {k : Nat} {G : Nat → Nat} (h : allN k (fun j => Nat.beq (G j) i
 
 theorem c2_pe : ∀ i < J2C2.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2C2.G J2C2.GI 4 J2C2.cnt
     J2C2.T J2C2.PL J2C2.POS J2C2.SRT J2C2.SRI i = true := by
-  have hc : J2C2.cnt = 240 * 8 := rfl
+  refine CFSG.KS.PEnumR.penumPtK_of_R hn (fun j hj => (c2_tabs.2 j hj).2) (ids_of idv.1.2.2.2)
+    hd.1.2.2.2 ?_
+  have hc : J2C2.cnt = 960 * 2 := rfl
   rw [hc]
   refine cover (by norm_num) fun s hs i h1 h2 => ?_
   have hi : i < J2C2.cnt := by rw [hc]; omega
   interval_cases s
-  · exact penumSl_spec c2E0 i h1 h2 hi
-  · exact penumSl_spec c2E1 i h1 h2 hi
-  · exact penumSl_spec c2E2 i h1 h2 hi
-  · exact penumSl_spec c2E3 i h1 h2 hi
-  · exact penumSl_spec c2E4 i h1 h2 hi
-  · exact penumSl_spec c2E5 i h1 h2 hi
-  · exact penumSl_spec c2E6 i h1 h2 hi
-  · exact penumSl_spec c2E7 i h1 h2 hi
+  · exact slK_spec c2E0 i h1 h2 hi
+  · exact slK_spec c2E1 i h1 h2 hi
 
 theorem c2_hs :
-    ∀ i < J2C2.cnt, hsortPtK 315 9 (mask 9) J2C2.cnt J2C2.T J2C2.HS J2C2.HSI i = true := by
-  have hc : J2C2.cnt = 480 * 4 := rfl
-  rw [hc]
-  refine cover (by norm_num) fun s hs i h1 h2 => ?_
-  have hi : i < J2C2.cnt := by rw [hc]; omega
-  interval_cases s
-  · exact slK_spec c2H0 i h1 h2 hi
-  · exact slK_spec c2H1 i h1 h2 hi
-  · exact slK_spec c2H2 i h1 h2 hi
-  · exact slK_spec c2H3 i h1 h2 hi
+    ∀ i < J2C2.cnt, hsortPtK 315 9 (mask 9) J2C2.cnt J2C2.T J2C2.HS J2C2.HSI i = true :=
+  fun i hi => by
+    rw [← hsortPtKF_eq]
+    exact slK_spec c2H0 i (Nat.zero_le _) hi hi
+
+theorem c2_step : ∀ x < J2C2.cnt, ∀ j < 4, r32 J2C2.POS (x * 4 + j) < J2C2.cnt ∧
+    J2C2.T (r32 J2C2.POS (x * 4 + j)) = pcomp 315 9 (mask 9) (J2C2.T x) (J2C2.GI j) := by
+  intro x hx j hj
+  obtain ⟨h1, h2, -⟩ := (penumPt_specH (c2_pe x hx)).2.2.1 j hj
+  refine ⟨h1, ?_⟩
+  rw [h2]
+  change pcomp 315 9 (mask 9) (pcomp 315 9 (mask 9) (J2C2.G j) (J2C2.T x)) (J2C2.GI j) = _
+  rw [ids_of idv.1.2.2.2 j hj, CFSG.KC.J2Models.pcomp_idL (penumPt_canon (c2_pe x hx))]
+
+theorem mul_inv_cancel_p {y g gi : Nat} (hy : canonK 315 9 (mask 9) (315 * 9) y = true)
+    (hg : canonK 315 9 (mask 9) (315 * 9) g = true)
+    (hgi : canonK 315 9 (mask 9) (315 * 9) gi = true)
+    (h : invEqK 315 9 (mask 9) (315 * 9) g gi = true) :
+    pcomp 315 9 (mask 9) (pcomp 315 9 (mask 9) y g) gi = y := by
+  have e : pcomp 315 9 (mask 9) gi g = pidn 315 9 := by
+    obtain ⟨-, -, h3⟩ := CFSG.KS.Raw.Orb.permOK_facts h
+    refine CFSG.KC.L34KSnd.eq_of_pg (CFSG.KC.BfsPin.canonK_pcomp hgi hg)
+      (CFSG.KC.L34KSnd.canon_pidn hn) fun i hi => ?_
+    rw [CFSG.KC.L34KSnd.pg_pcomp' hgi hi, CFSG.KC.L34KSnd.pg_pidn' hn hi]
+    exact (h3 i hi).2
+  rw [CFSG.KC.L34KSnd.pcomp_assoc' hy hg hgi,CFSG.KC.L34KSnd.pcomp_inv_of_pcomp hgi hg e,
+    CFSG.KC.J2Models.pcomp_idR hy]
 
 theorem c2_cl : ∀ c < J2C2.cnt * (4 + 4), findPtK J2C2.cnt J2C2.T
     (prodQK 315 9 (mask 9) (4 + 4) J2C2.T (bothK 4 J2C2.GI J2C2I)) J2C2Cl c = true := by
-  have hc : J2C2.cnt * (4 + 4) = 1920 * 8 := rfl
-  rw [hc]
-  refine cover (by norm_num) fun s hs i h1 h2 => ?_
-  have hi : i < Nat.mul J2C2.cnt 8 := by
-    change i < J2C2.cnt * 8
-    have : J2C2.cnt * 8 = 1920 * 8 := rfl
-    omega
-  interval_cases s
-  · exact slK_spec c2Cl0 i h1 h2 hi
-  · exact slK_spec c2Cl1 i h1 h2 hi
-  · exact slK_spec c2Cl2 i h1 h2 hi
-  · exact slK_spec c2Cl3 i h1 h2 hi
-  · exact slK_spec c2Cl4 i h1 h2 hi
-  · exact slK_spec c2Cl5 i h1 h2 hi
-  · exact slK_spec c2Cl6 i h1 h2 hi
-  · exact slK_spec c2Cl7 i h1 h2 hi
+  intro c hc
+  have hcn : J2C2.cnt = 1920 := rfl
+  have hc8 : c < Nat.mul J2C2.cnt 8 := hc
+  have h := slK_spec c2Cl0 c (Nat.zero_le _) (by rw [hcn] at hc; omega) hc8
+  have hi : c / 8 < J2C2.cnt := by rw [hcn] at hc ⊢; omega
+  unfold clIx at h
+  rw [strictB_eq'', bAnd_iff] at h
+  obtain ⟨hq, h⟩ := h
+  have hq' : r32 J2C2Cl c < J2C2.cnt := Nat.le_of_ble_eq_true hq
+  have e2 : prodQK 315 9 (mask 9) (4 + 4) J2C2.T (bothK 4 J2C2.GI J2C2I) c =
+      pcomp 315 9 (mask 9) (J2C2.T (c / 8)) (bothK 4 J2C2.GI J2C2I (c % 8)) := rfl
+  unfold findPtK
+  rw [strictB_eq'', bAnd_iff, e2]
+  refine ⟨hq, ?_⟩
+  cases hb : Nat.blt (Nat.mod c 8) 4
+  · rw [hb] at h
+    have hj : ¬ c % 8 < 4 := fun e => Bool.false_ne_true (hb.symm.trans (Eq.mpr Nat.blt_eq e))
+    have h' : Nat.beq (r32 J2C2.POS (Nat.add (Nat.mul (r32 J2C2Cl c) 4) (Nat.sub (Nat.mod c 8) 4)))
+        (Nat.div c 8) = true := h
+    have hj4 : c % 8 - 4 < 4 := by omega
+    have st := c2_step (r32 J2C2Cl c) hq' (c % 8 - 4) hj4
+    have e3 : J2C2.T (c / 8) =
+        pcomp 315 9 (mask 9) (J2C2.T (r32 J2C2Cl c)) (J2C2.GI (c % 8 - 4)) := by
+      have e4 : r32 J2C2.POS (r32 J2C2Cl c * 4 + (c % 8 - 4)) = c / 8 := Nat.eq_of_beq_eq_true h'
+      rw [← e4]
+      exact st.2
+    have hgi := (inv_of gens.1.2.2.2.2.2 invs.2.1) (c % 8 - 4) hj4
+    rw [bothK_ge (by omega), e3, mul_inv_cancel_p (penumPt_canon (c2_pe _ hq'))
+      ((c2_tabs.2 _ hj4).2) hgi.2 hgi.1]
+    exact Nat.beq_refl _
+  · rw [hb] at h
+    have hj : c % 8 < 4 := Nat.le_of_ble_eq_true hb
+    have h' : Nat.beq (r32 J2C2Cl c)
+        (r32 J2C2.POS (Nat.add (Nat.mul (Nat.div c 8) 4) (Nat.mod c 8))) = true := h
+    have e : J2C2.T (r32 J2C2Cl c) =
+        pcomp 315 9 (mask 9) (J2C2.T (c / 8)) (J2C2.GI (c % 8)) := by
+      have e4 : r32 J2C2Cl c = r32 J2C2.POS (c / 8 * 4 + c % 8) := Nat.eq_of_beq_eq_true h'
+      rw [e4]
+      exact (c2_step (c / 8) hi (c % 8) hj).2
+    rw [bothK_lt hj, e]
+    exact Nat.beq_refl _
 
 theorem d_rec : mulClosureH 315 j2DGens.toArray 100 = hRec 315 9 J2D.cnt J2D.T J2D.PL :=
   (mulH_sound hn (ids_of idv.1.1) d_tabs hd.1.1 (pe_all dE) (sl_all dH)).1
@@ -493,18 +536,8 @@ theorem cent_d : centCount 315 300 j2C1Gens j2DGens = 4 := by
       rw [all_comm_eq d_tabs (canon_of c1E i hi), allN_two, strictB_eq''])]
   exact Nat.eq_of_beq_eq_true cent1
 
-theorem qC_all : ∀ i < J2C2.cnt, qOK i = true := by
-  have hc : J2C2.cnt = 320 * 6 := rfl
-  rw [hc]
-  refine cover (by norm_num) fun s hs i h1 h2 => ?_
-  have hi : i < J2C2.cnt := by rw [hc]; omega
-  interval_cases s
-  · exact slK_spec qC0 i h1 h2 hi
-  · exact slK_spec qC1 i h1 h2 hi
-  · exact slK_spec qC2 i h1 h2 hi
-  · exact slK_spec qC3 i h1 h2 hi
-  · exact slK_spec qC4 i h1 h2 hi
-  · exact slK_spec qC5 i h1 h2 hi
+theorem qC_all : ∀ i < J2C2.cnt, qOK i = true :=
+  fun i hi => slK_spec qC0 i (Nat.zero_le _) hi hi
 
 theorem qOK_eq {i : Nat} (h : qOK i = true) : qComm i = lmemK CQ i := by
   unfold qOK at h
@@ -515,7 +548,8 @@ theorem cent_q : centCount 315 3000 j2C2Gens j2QGens = 2 := by
     (by decide) (fun i hi => by
       rw [all_comm_eq q_tabs (penumPt_canon (c2_pe i hi))]
       unfold qComm
-      rw [strictB_eq''])]
+      simp only [strictB_eq'', pc, eq22_pcomp _ _ (by norm_num : (315 : Nat) < 2 ^ 32)
+        (by norm_num : 0 < 9)])]
   have e : cntBelowK J2C2.cnt qComm 30 = cntBelowK J2C2.cnt (lmemK CQ) 30 := by
     unfold cntBelowK
     rw [cntK_eq, cntK_eq, countP_range_lt _ (by decide), countP_range_lt _ (by decide)]

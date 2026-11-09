@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.NPL587 "Certificates/Kernel/NPL587/data/npl.json.gz" 149791 11819357605070592512
+#kc_repo #kc_json CFSG.KD.NPL587 "Certificates/Kernel/NPL587/data/npl.json" 149791 11819357605070592512
   (gens : List Nat) (reps : List (Nat × Nat × List Nat × List (Nat × Nat × List Nat × List Nat)))
   (repc : List Nat) (s0 : List Nat) (s0w : List (Nat × List Nat))
   (ql : List (Nat × Nat × Nat × Nat)) (qc : List Nat) (bnd : List Nat)

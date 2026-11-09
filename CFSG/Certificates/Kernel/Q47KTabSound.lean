@@ -5,6 +5,10 @@ import CFSG.Certificates.Kernel.HexaKGlue
 import CFSG.Certificates.Kernel.BfsPinBaseSound
 import CFSG.Certificates.Kernel.Q47KOSound
 import CFSG.Certificates.Kernel.PackSetSound
+import CFSG.Certificates.Kernel.BfsPinSetSound
+import CFSG.Certificates.Kernel.Spor.PcompFacts
+import CFSG.Certificates.Kernel.Q47KGenRow
+public import CFSG.Certificates.Kernel.Q47KMatAssoc
 public import CFSG.Certificates.Kernel.HexaKSound
 public import Certificates.Data.Kernel.Q47K
 
@@ -15,7 +19,7 @@ namespace CFSG.KC.Q47K
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KC.BfsPin CFSG.KC.HexaK
 open CFSG.Monster.B.Co2.Native CFSG.RankThree.Native CFSG.ComponentClassification.AS81.HeSylow
 open CFSG.ComponentClassification.AS81.Q47
-open CFSG.KLie.CT (sumN anyN notB andB orB)
+open CFSG.KLie.CT (sumN anyN notB andB orB fget)
 
 theorem pg4 (m e : Nat) : pg 4 15 m e = m / 2 ^ (4 * e) % 16 := by
   change (m >>> (4 * e)) &&& (2 ^ 4 - 1) = _
@@ -167,15 +171,15 @@ theorem findK_lt {N : Nat} {T S : Nat → Nat} (hS : ∀ k < N, S k < N) (hN : 0
 
 theorem tab_sound {gs : List (Array Nat)} {g N : Nat} {G T E S MP : Nat → Nat}
     {Ms : List (List Nat)} {d p : Nat} {one : List Nat} {mulL : List Nat → List Nat → Bool}
-    {scal : List Nat → Bool} {mulOK : Nat → Nat → Bool}
-    (pin : Pin 64 7 gs g G N T E S) (hN : 0 < N) (hp : 0 < p) (hp16 : p ≤ 16)
+    {scal : List Nat → Bool}
+    (pin : Pin 64 7 gs g G N T E S) (hN : 0 < N)
     (hMs : Ms.length = N)
     (hMsD : Ms.all (fun m => m.length == d * d && m.all fun x => decide (x < p)) = true)
     (h1 : (Ms[0]! == one) = true)
     (hMP : allN N (fun i => matOf d (MP i) == Ms[i]!) = true)
-    (hmul : ∀ a b, mulOK a b = true → mulL (matOf d a) (matOf d b) = true)
     (hHead : tableHeadK N T MP d scal = true)
-    (hRow : ∀ i < N, tableRowK N T S MP d p mulOK i = true) :
+    (hRow : ∀ i < N, ∀ j < N, ∃ f < N, T f = pcomp 64 7 (mask 7) (T i) (T j) ∧
+      mulL (matMul d p Ms[i]! Ms[j]!) Ms[f]! = true) :
     tableOK (certN 64 gs).pts Ms d p one mulL scal = true := by
   have hPT : ∀ i < N, PP 64 7 (T i) := PP_pts pin.ok pin.perm
   have hL : (certN 64 gs).pts = Array.ofFn (n := N) fun i => unpack 64 7 (T i.val) := by
@@ -186,14 +190,6 @@ theorem tab_sound {gs : List (Array Nat)} {g N : Nat} {G T E S MP : Nat → Nat}
     unfold bfsK at hk
     simp only [bAnd_iff] at hk
     exact distinctK_inj hk.2.2.2.2.1
-  have hS : ∀ k < N, S k < N := by
-    have hk := pin.ok
-    unfold bfsK at hk
-    simp only [bAnd_iff] at hk
-    have hd := hk.2.2.2.2.1
-    unfold distinctK at hd
-    simp only [bAnd_iff] at hd
-    exact fun k hk' => Nat.blt_eq.mp (CFSG.KC.Pack.allN_spec hd.2.1 k hk')
   have hT0 : T 0 = pidn 64 7 := by
     have hk := pin.ok
     unfold bfsK at hk
@@ -241,20 +237,106 @@ theorem tab_sound {gs : List (Array Nat)} {g N : Nat} {G T E S MP : Nat → Nat}
   · refine List.all_eq_true.2 fun i hi => List.all_eq_true.2 fun j hj => ?_
     have hi' := List.mem_range.1 hi
     have hj' := List.mem_range.1 hj
-    have hr := CFSG.KC.Pack.allN_spec (hRow i hi') j hj'
-    rw [strictB_eq', andB_eq, Bool.and_eq_true] at hr
-    have hf := findK_lt (T := T) hS hN (HexaK.mul 64 7 (T i) (T j))
-    generalize findK N T S (HexaK.mul 64 7 (T i) (T j)) = f at hr hf
-    have hq : pcomp 64 7 (mask 7) (T i) (T j) = T f := (Nat.eq_of_beq_eq_true hr.1).symm
-    rw [hLi i hi', hLi j hj', key3Mul_eq, compA_PP (hPT i hi') (hPT j hj'), hq, hkt f hf,
-      hMi i hi', hMi j hj', hMi f hf, matMul_matOf hp hp16]
-    exact hmul _ _ hr.2
+    obtain ⟨f, hf, hq, hr⟩ := hRow i hi' j hj'
+    rw [hLi i hi', hLi j hj', key3Mul_eq, compA_PP (hPT i hi') (hPT j hj'), ← hq, hkt f hf]
+    exact hr
   · refine List.all_eq_true.2 fun i hi => ?_
     have hi' := List.mem_range.1 hi
     have := CFSG.KC.Pack.allN_spec hsc i hi'
     rw [orB_eq, notB_eq] at this
     rw [beq_nat, hMi i hi']
     exact this
+
+@[expose] noncomputable def genRowK (N : Nat) (G T E MP : Nat → Nat) (d p : Nat)
+    (mulOK : Nat → Nat → Bool) (k j : Nat) : Bool :=
+  andB (Nat.blt (fget (E j) k 16) N) (andB (Nat.beq (T (fget (E j) k 16)) (HexaK.mul 64 7 (G k) (T j)))
+    (andB (mulOK (mulMK d p (MP 0) (MP j)) (MP j))
+      (mulOK (mulMK d p (MP (fget (E 0) k 16)) (MP j)) (MP (fget (E j) k 16)))))
+
+theorem pcomp_assoc47 {a b c : Nat} (ha : PP 64 7 a) (hc : PP 64 7 c) :
+    pcomp 64 7 (mask 7) (pcomp 64 7 (mask 7) a b) c =
+      pcomp 64 7 (mask 7) a (pcomp 64 7 (mask 7) b c) := by
+  obtain ⟨-, hw, -, -⟩ := CFSG.KS.PF.canon_facts ha.1
+  obtain ⟨-, -, -, hcc⟩ := CFSG.KS.PF.canon_facts hc.1
+  have hn32 : (64 : Nat) < 2 ^ 32 := by decide
+  have hw0 := CFSG.KS.PF.w_pos hw
+  refine CFSG.KS.PF.eq_of_fields hw0 (CFSG.KS.PF.pcomp_shr _ _ hn32 hw0)
+    (CFSG.KS.PF.pcomp_shr _ _ hn32 hw0) fun i hi => ?_
+  rw [CFSG.KS.PF.pg_pcomp hn32 hi, CFSG.KS.PF.pg_pcomp hn32 (hcc i hi), CFSG.KS.PF.pg_pcomp hn32 hi,
+    CFSG.KS.PF.pg_pcomp hn32 hi]
+
+theorem pidn_pcomp47 {a : Nat} (ha : PP 64 7 a) : pcomp 64 7 (mask 7) (pidn 64 7) a = a := by
+  obtain ⟨hn, hw, hsh, hca⟩ := CFSG.KS.PF.canon_facts ha.1
+  have hn32 : (64 : Nat) < 2 ^ 32 := by decide
+  have hw0 := CFSG.KS.PF.w_pos hw
+  refine CFSG.KS.PF.eq_of_fields hw0 (CFSG.KS.PF.pcomp_shr _ _ hn32 hw0) hsh fun i hi => ?_
+  rw [CFSG.KS.PF.pg_pcomp hn32 hi, CFSG.KS.PF.pg_pidn hn hw (hca i hi)]
+
+theorem rows_of_gen {gs : List (Array Nat)} {g N : Nat} {G T E S MP : Nat → Nat}
+    {Ms : List (List Nat)} {d p : Nat} {mulL : List Nat → List Nat → Bool}
+    {mulOK : Nat → Nat → Bool} {V : List Nat → Prop}
+    (pin : Pin 64 7 gs g G N T E S) (hN : 0 < N) (hg : 0 < g) (hp : 0 < p) (hp16 : p ≤ 16)
+    (hMP : allN N (fun i => matOf d (MP i) == Ms[i]!) = true)
+    (hmul : ∀ a b, mulOK a b = true → mulL (matOf d a) (matOf d b) = true)
+    (hV : ∀ i < N, V Ms[i]!) (hVm : ∀ a b, V a → V b → V (matMul d p a b))
+    (hsymm : ∀ a b, V a → V b → mulL b a = true → mulL a b = true)
+    (htrans : ∀ a b c, V a → V b → V c → mulL b a = true → mulL c b = true → mulL c a = true)
+    (hleft : ∀ a b c, V a → V b → V c → mulL b a = true →
+      mulL (matMul d p c b) (matMul d p c a) = true)
+    (hright : ∀ a b c, V a → V b → V c → mulL b a = true →
+      mulL (matMul d p b c) (matMul d p a c) = true)
+    (hGR : allN g (fun k => allN N (genRowK N G T E MP d p mulOK k)) = true) :
+    ∀ i < N, ∀ j < N, ∃ f < N, T f = pcomp 64 7 (mask 7) (T i) (T j) ∧
+      mulL (matMul d p Ms[i]! Ms[j]!) Ms[f]! = true := by
+  have hPT : ∀ i < N, PP 64 7 (T i) := PP_pts pin.ok pin.perm
+  have hPG : ∀ k < g, PP 64 7 (G k) := PP_gen pin.ok pin.perm
+  have hMi : ∀ i < N, Ms[i]! = matOf d (MP i) := fun i hi =>
+    (beq_iff_eq.1 (CFSG.KC.Pack.allN_spec hMP i hi)).symm
+  have hdist : ∀ a < N, ∀ b < N, T a = T b → a = b := by
+    have hk := pin.ok
+    unfold bfsK at hk
+    simp only [bAnd_iff] at hk
+    exact distinctK_inj hk.2.2.2.2.1
+  have hT0 : T 0 = pidn 64 7 := by
+    have hk := pin.ok
+    unfold bfsK at hk
+    simp only [bAnd_iff] at hk
+    exact Nat.eq_of_beq_eq_true hk.2.2.2.1
+  have hrow : ∀ k < g, ∀ j < N, fget (E j) k 16 < N ∧
+      T (fget (E j) k 16) = pcomp 64 7 (mask 7) (G k) (T j) ∧
+      mulL (matMul d p Ms[0]! Ms[j]!) Ms[j]! = true ∧
+      mulL (matMul d p Ms[fget (E 0) k 16]! Ms[j]!) Ms[fget (E j) k 16]! = true := by
+    intro k hk j hj
+    have h := CFSG.KC.Pack.allN_spec (CFSG.KC.Pack.allN_spec hGR k hk) j hj
+    unfold genRowK at h
+    simp only [andB_eq, Bool.and_eq_true] at h
+    obtain ⟨h1, h2, h3, h4⟩ := h
+    have hq : fget (E j) k 16 < N := Nat.blt_eq.mp h1
+    have hq0 : fget (E 0) k 16 < N := by
+      have h0 := CFSG.KC.Pack.allN_spec (CFSG.KC.Pack.allN_spec hGR k hk) 0 hN
+      unfold genRowK at h0
+      simp only [andB_eq, Bool.and_eq_true] at h0
+      exact Nat.blt_eq.mp h0.1
+    refine ⟨hq, Nat.eq_of_beq_eq_true h2, ?_, ?_⟩
+    · rw [hMi 0 hN, hMi j hj, matMul_matOf hp hp16]
+      exact hmul _ _ h3
+    · rw [hMi _ hq0, hMi j hj, hMi _ hq, matMul_matOf hp hp16]
+      exact hmul _ _ h4
+  have hQ0 : RowQ N T (pcomp 64 7 (mask 7)) (fun i => Ms[i]!) (matMul d p)
+      (fun a b => mulL b a = true) (pidn 64 7) := by
+    rw [← hT0]
+    refine rowQ_zero hN fun j hj => ⟨?_, (hrow 0 hg j hj).2.2.1⟩
+    rw [hT0]
+    exact pidn_pcomp47 (hPT j hj)
+  have hstep := rowQ_step (V := V) (M := fun i => Ms[i]!) (e := fun j k => fget (E j) k 16)
+    hV hVm hsymm htrans hleft hright (matMul_assoc d p)
+    (fun k hk i _ j hj => pcomp_assoc47 (hPG k hk) (hPT j hj))
+    (fun k hk j hj => ⟨(hrow k hk j hj).1, (hrow k hk j hj).2.1, (hrow k hk j hj).2.2.2⟩) hN
+  obtain ⟨-, -, hQ, -⟩ := bfsK_points _ hQ0 hstep pin.ok
+  intro i hi j hj
+  obtain ⟨i', hi', hT', hy⟩ := hQ i hi
+  rw [hdist i' hi' i hi hT'] at hy
+  exact hy j hj
 
 end CFSG.KC.Q47K
 

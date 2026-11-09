@@ -191,17 +191,25 @@ theorem ks_eq {i : Nat} (hi : i < 64) : TU ((κArr ())[i]!) (VxK i) := by
 
 theorem bIf_ft (c : Bool) : bIf(c, false, true) = !c := by cases c <;> rfl
 
-theorem a1_true : a1OK = true := by
-  simp only [a1OK, a1Checks, List.all_cons, List.all_nil, id_eq, Bool.and_true]
-  rw [perm_eq (by norm_num) c2aT_eq, perm_eq (by norm_num) c2bT_eq]
+theorem all_id2 {a b : Bool} (ha : a = true) (hb : b = true) : [a, b].all id = true := by
+  subst ha hb
   rfl
+
+theorem all_id3 {a b c : Bool} (ha : a = true) (hb : b = true) (hc : c = true) :
+    [a, b, c].all id = true := by
+  subst ha hb hc
+  rfl
+
+theorem a1_true : a1OK = true := by
+  rw [a1OK, a1Checks]
+  exact all_id2 (perm_eq (by norm_num) c2aT_eq) (perm_eq (by norm_num) c2bT_eq)
 
 theorem a2_true : a2OK = true := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, s1, s2, s3, -⟩ := base_parts
-  simp only [a2OK, a2Checks, List.all_cons, List.all_nil, id_eq, Bool.and_true]
-  rw [tblEq_eq (comp_eq c2aT_eq c2aT_eq) idT_eq, tblEq_eq (pow_eq c2bT_eq 3) idT_eq,
-    tblEq_eq (pow_eq (comp_eq c2aT_eq c2bT_eq) 5) idT_eq, s1, s2, s3]
-  rfl
+  rw [a2OK, a2Checks]
+  exact all_id3 ((tblEq_eq (comp_eq c2aT_eq c2aT_eq) idT_eq).trans s1)
+    ((tblEq_eq (pow_eq c2bT_eq 3) idT_eq).trans s2)
+    ((tblEq_eq (pow_eq (comp_eq c2aT_eq c2bT_eq) 5) idT_eq).trans s3)
 
 theorem b0_true : b0OK = true := by
   simp only [b0OK, b0Tbls, List.all_cons, List.all_nil, Bool.and_true]
@@ -237,17 +245,16 @@ theorem conjV_of {c : Table} {j : Nat} (hj : j < 10) (hc : TU c (VxT j)) {α : M
 
 theorem b2_true : b2OK = true := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, c1, c2, c3, -⟩ := base_parts
-  simp only [b2OK, b2Checks, List.all_cons, List.all_nil, id_eq, Bool.and_true]
-  rw [conjV_of (by norm_num) bmT_eq c1, conjV_of (by norm_num) rmT_eq c2,
-    conjV_of (by norm_num) tmT_eq c3]
-  rfl
+  rw [b2OK, b2Checks]
+  exact all_id3 (conjV_of (by norm_num) bmT_eq c1) (conjV_of (by norm_num) rmT_eq c2)
+    (conjV_of (by norm_num) tmT_eq c3)
 
 theorem b3_true : b3OK = true := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, s1, s2, s3, -⟩ := base_parts
-  simp only [b3OK, b3Checks, List.all_cons, List.all_nil, id_eq, Bool.and_true]
-  rw [tblEq_eq (pow_eq bmT_eq 3) idT_eq, tblEq_eq (pow_eq tmT_eq 2) idT_eq,
-    tblEq_eq (comp_eq tmT_eq bmT_eq) (comp_eq bmT_eq tmT_eq), s1, s2, s3]
-  rfl
+  rw [b3OK, b3Checks]
+  exact all_id3 ((tblEq_eq (pow_eq bmT_eq 3) idT_eq).trans s1)
+    ((tblEq_eq (pow_eq tmT_eq 2) idT_eq).trans s2)
+    ((tblEq_eq (comp_eq tmT_eq bmT_eq) (comp_eq bmT_eq tmT_eq)).trans s3)
 
 theorem b5_true : b5OK = true := by
   unfold b5OK
@@ -385,9 +392,8 @@ theorem b4_true : b4OK = true := by
       have h18 : c' / 896 < 18 := by omega
       exact slK_spec (vxClX_all (c' / 896) h18) c' (by change 896 * (c' / 896) ≤ c'; omega)
         (by change c' < 896 * (c' / 896) + 896; omega) (by change c' < VxX.cnt * 14; omega)
-  simp only [b4OK, b4Checks, List.all_cons, List.all_nil, id_eq, Bool.and_true]
-  rw [eB, eC, eX]
-  rfl
+  rw [b4OK, b4Checks]
+  exact all_id3 eB eC eX
 
 theorem vx_neg_word : (!Nat.beq (VxT 0) (wC [4, 4])) = true := by quickRfl
 

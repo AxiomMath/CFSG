@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.J2GL4 "Certificates/Kernel/J2GL4/data/j2gl4.json.gz" 2141 7090753705155660581
+#kc_repo #kc_json CFSG.KD.J2GL4 "Certificates/Kernel/J2GL4/data/j2gl4.json" 2141 7090753705155660581
   (mX7 : List (List Nat)) (mY7 : List (List Nat)) (mA5 : List (List Nat)) (mB5 : List (List Nat))
   (mY5 : List (List Nat))
 

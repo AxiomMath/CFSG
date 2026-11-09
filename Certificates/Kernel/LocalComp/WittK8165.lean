@@ -46,20 +46,20 @@ theorem k8165b3 : wcB (fun y => relT tL3 tL3 y && fourB y) (pwp A B I wL3) (inM 
 
 theorem k8165c : trAll trW = true := by quickRfl
 
-theorem k8165d0 : wcB (presT 1626117 [0, 2, 12, 14, 15, 19, 20]) (pwp A B I wL2) (inM 1626117)
-    (fun _ => inM 1626117) (fun _ _ => inM 1626117) = 2520 :=
+theorem k8165d0 : wcB4 (presT 1626117 [0, 2, 12, 14, 15, 19, 20]) (pwp A B I wL2) (inM 1626117)
+    (fun _ => inM 1626117) (fun _ _ => inM 1626117) (fun _ _ _ => inM 1626117) = 2520 :=
   Nat.eq_of_beq_eq_true (by quickRfl)
 
-theorem k8165d1 : wcB (presT 1361953 [0, 5, 11, 14, 15, 18, 20]) (pwp A B I wL3) (inM 1361953)
-    (fun _ => inM 1361953) (fun _ _ => inM 1361953) = 2520 :=
+theorem k8165d1 : wcB4 (presT 1361953 [0, 5, 11, 14, 15, 18, 20]) (pwp A B I wH1) (inM 1361953)
+    (fun _ => inM 1361953) (fun _ _ => inM 1361953) (fun _ _ _ => inM 1361953) = 2520 :=
   Nat.eq_of_beq_eq_true (by quickRfl)
 
-theorem k8165d2 : wcB (presT 2626821 [0, 2, 8, 10, 12, 19, 21]) (pwp A B I wH2) (inM 2626821)
-    (fun _ => inM 2626821) (fun _ _ => inM 2626821) = 2520 :=
+theorem k8165d2 : wcB4 (presT 2626821 [0, 2, 8, 10, 12, 19, 21]) (pwp A B I wH2) (inM 2626821)
+    (fun _ => inM 2626821) (fun _ _ => inM 2626821) (fun _ _ _ => inM 2626821) = 2520 :=
   Nat.eq_of_beq_eq_true (by quickRfl)
 
-theorem k8165d3 : wcB (presT 2362657 [0, 5, 8, 10, 11, 18, 21]) (pwp A B I wH3) (inM 2362657)
-    (fun _ => inM 2362657) (fun _ _ => inM 2362657) = 2520 :=
+theorem k8165d3 : wcB4 (presT 2362657 [0, 5, 8, 10, 11, 18, 21]) (pwp A B I wH3) (inM 2362657)
+    (fun _ => inM 2362657) (fun _ _ => inM 2362657) (fun _ _ _ => inM 2362657) = 2520 :=
   Nat.eq_of_beq_eq_true (by quickRfl)
 
 theorem k8165e0 : wcB (presT 1097728 [14, 15, 20]) (pwp A B I wT0) (inM 1097728)

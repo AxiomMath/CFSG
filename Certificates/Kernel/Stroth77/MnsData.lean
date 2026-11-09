@@ -4,8 +4,8 @@ public import Certificates.Data.Kernel.Stroth77.MnsK
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMns778702
-  "Certificates/Kernel/Stroth77/data/mns-778702.json.gz" 3421 4615295499199032810
+#kc_repo #kc_json CertificateChecks.KernelMns778702
+  "Certificates/Kernel/Stroth77/data/mns-778702.json" 3421 4615295499199032810
   (MTC : Nat) (AT : Nat) (ITC : Nat) (AM : Nat) (REPM : Nat) (RW : Nat) (EF : Nat) (PF : Nat)
   (AF : Nat) (LF : Nat) (LP : Nat) (NPC : Nat) (NW : Nat)
 

@@ -1,7 +1,5 @@
 module
 
-public meta import Lean
-meta import Certificates.Data.G2ThreeMaxCheck
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,13 +39,8 @@ import Mathlib.Topology.Sheaves.Init
 
 namespace CFSG.KD.G2Three.K7bGen
 
-meta def bitsM (v : Nat) (l : List Nat) : Nat :=
-  l.foldr (fun e acc => 2 * acc + if e == v then 1 else 0) 0
-
-meta def pkM (m : List Nat) : Nat := 2 ^ 196 * bitsM 2 m + bitsM 1 m
-
 meta def genK : List Nat :=
-  (List.range 8).map fun k => pkM (Certificates.G2ThreeMax.genArr k).toList
+  (String.splitOn (include_str "K7bRec.0.txt") ",").map String.toNat!
 
 end CFSG.KD.G2Three.K7bGen
 

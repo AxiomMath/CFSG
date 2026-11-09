@@ -16,6 +16,6 @@ theorem weq : CFSG.KC.KDenseP.wordsEqB WD
 
 end CFSG.KD.AX.c6018
 
-#kc_each CFSG.KD.AX.c6018.u 0 11
+#kc_each CFSG.KD.AX.c6018.u 0 88
 
 end

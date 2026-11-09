@@ -1,7 +1,8 @@
 module
 
-public import Certificates.Kernel.SporSch.Mathieu.M12Data
+public import Certificates.Kernel.SporSch.Mathieu.M12Z
 public import CFSG.Certificates.Kernel.SporSch.MathieuOCSound
+public import CFSG.Certificates.Kernel.SporSch.MathieuBTSound
 public import CFSG.Certificates.Kernel.Spor.BindList
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
@@ -15,6 +16,7 @@ namespace CertificateChecks.KernelSporSch.M12OC
 open CFSG CFSG.Sporadic CFSG.Sporadic.Schreier CFSG.Certificates CFSG.Sporadic.Mathieu
 open CFSG.Sporadic.Schreier.Native CFSG.Monster.B.Mathieu
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.M11 CFSG.KS.MEnum CFSG.KS.SporSch.MOC
+open CFSG.KS.SporSch.MBT
 
 theorem bindA : bindListK 12 4 (M12Q.S 0) tA = true := by quickRfl
 
@@ -121,7 +123,7 @@ theorem imgRep1 : imageList (m12InvReps.getD 1 1) = (unpack 12 4 R1).toList := b
 theorem chainQ : ChainK 12 4 [m12gA, m12gB] m12Words (#v[0, 1, 2, 3, 4] : Vector (Fin 12) 5)
     M12Q.S M12Q.SI M12Q.LR M12Q.TR M12Q.TRI 12 M12Q.BP 1 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M12Q.head, M12Q.hl,
-    by norm_num, M12Q.hs⟩
+    by norm_num, .inl M12Q.hs⟩
   have hj2 : j < 2 := hj
   interval_cases j
   · exact imgA
@@ -131,7 +133,7 @@ theorem chainC1 : ChainK 12 4 (m12CentWords1.map (evalCodes [m12gA, m12gB])) m12
     (#v[0, 1, 2] : Vector (Fin 12) 3) M12C1.S M12C1.SI M12C1.LR M12C1.TR M12C1.TRI 8 M12C1.BP 1
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M12C1.head, M12C1.hl,
-    by norm_num, M12C1.hs⟩
+    by norm_num, .inl M12C1.hs⟩
   have hj4 : j < 4 := by simpa [m12CentWords1] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensC1a j hj4) (allN_spec gensC1b j hj4)
@@ -140,14 +142,20 @@ theorem chainC2 : ChainK 12 4 (m12CentWords2.map (evalCodes [m12gA, m12gB])) m12
     (#v[0, 1, 2] : Vector (Fin 12) 3) M12C2.S M12C2.SI M12C2.LR M12C2.TR M12C2.TRI 5 M12C2.BP 1
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M12C2.head, M12C2.hl,
-    by norm_num, M12C2.hs⟩
+    by norm_num, .inl M12C2.hs⟩
   have hj3 : j < 3 := by simpa [m12CentWords2] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensC2a j hj3) (allN_spec gensC2b j hj3)
 
-theorem cosetX : (cosetOrderTables m12Certificate 1 2).length = M12X.CS.sum :=
-  chainK_cosetCount (by decide) (by decide) chainQ imgOne cOne (by norm_num) (by norm_num)
-    (by decide) M12X.hc
+theorem classEq : ClassEqK 12 4 M12Q.LR M12Q.TR M12Q.TRI M12Q.BP 5 M12BC.XL M12BC.CL :=
+  ⟨rfl, M12BC.hr, M12BC.hd, M12BC.hs⟩
+
+theorem tot2 : Nat.beq (sumOrdK 12 4 (mask 4) (ordK M12Q.LR 5) M12BC.XL M12BC.CL 2
+    M12BC.XL.length) 891 = true := by quickRfl
+
+theorem cosetX : (cosetOrderTables m12Certificate 1 2).length = 891 :=
+  (classEq_sound (by decide) (by decide) chainQ classEq (mo := 2) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true tot2)
 
 theorem hR : m12InvReps.length = M12CL.length ∧ ∀ j < M12CL.length,
     imageList (m12InvReps.getD j 1) =
@@ -197,6 +205,79 @@ theorem cent2 : m12CentQ2.check = true ∧ m12CentQ2.orderCertificate = 240 ∧
   exact ⟨h1, h2.trans (by decide), comm_of imgRep1 chainC2.2.2.2.1 (by decide) commC2,
     chainK_odd (by decide) (by decide) chainC2 M12O2.ok⟩
 
+theorem elems_of_blocks {f : Nat → Bool} {c nb : Nat} (hc : c ≤ nb * 256)
+    (h : ∀ s < nb, allBlk (s * 256) f 256 = true) : ∀ k < c, f k = true := by
+  intro k hk
+  have hs : k / 256 < nb := by omega
+  have := allBlk_spec (h (k / 256) hs) (k % 256) (Nat.mod_lt _ (by norm_num))
+  have e : Nat.add (k / 256 * 256) (k % 256) = k := by
+    change k / 256 * 256 + k % 256 = k
+    omega
+  rwa [e] at this
+
+theorem clsOK2 : ClsOK 12 4 tA tB 2 1000 M12CK := by
+  intro j hj
+  have hj1 : j < 2 := by simpa [M12CK] using hj
+  interval_cases j
+  · exact ⟨M12CK.h0, elems_of_blocks (by decide) M12CK.hb0, fun i hi => absurd hi (by omega)⟩
+  · exact ⟨M12CK.h1, elems_of_blocks (by decide) M12CK.hb1, fun i hi => by
+      have hi1 : i < 1 := hi
+      interval_cases i
+      exact M12CK.n1_0⟩
+
+theorem siftR : ∀ j < M12CK.length, bAnd(canonK 12 4 (mask 4) (12 * 4) (M12CK.getD j clsD0).R,
+    siftK 12 4 (mask 4) (12 * 4) (pidn 12 4) M12Q.LR M12Q.TRI M12Q.BP 5 0
+      (M12CK.getD j clsD0).R) = true := by
+  intro j hj
+  have hj1 : j < 2 := by simpa [M12CK] using hj
+  interval_cases j
+  · quickRfl
+  · quickRfl
+
+theorem repCK0 : Nat.beq (M12CK.getD 0 clsD0).R R0 = true := by quickRfl
+
+theorem repCK1 : Nat.beq (M12CK.getD 1 clsD0).R R1 = true := by quickRfl
+
+theorem hRK : m12InvReps.length = M12CK.length ∧ ∀ j < M12CK.length,
+    imageList (m12InvReps.getD j 1) = (unpack 12 4 (M12CK.getD j clsD0).R).toList := by
+  refine ⟨by decide, fun j hj => ?_⟩
+  have hj1 : j < 2 := by simpa [M12CK] using hj
+  interval_cases j
+  · rw [Nat.eq_of_beq_eq_true repCK0]
+    exact imgRep0
+  · rw [Nat.eq_of_beq_eq_true repCK1]
+    exact imgRep1
+
+theorem scansZA : ZScans 12 4 2 3 11 m12AutWords M12BC.XL M12CK M12ZA.SC := by
+  refine ⟨rfl, fun i hi hord => ?_⟩
+  have hi' : i < 14 := hi
+  interval_cases i
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n0)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n1)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n2)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n3)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n4)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n5)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n6)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n7)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n8)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n9)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n10)
+  · exact absurd hord (Nat.ne_of_beq_eq_false M12ZA.n11)
+  · refine ⟨rfl, fun j hj => ?_⟩
+    have hj' : j < 2 := hj
+    interval_cases j
+    · exact ⟨by decide, M12ZA.h12_0⟩
+    · exact ⟨by decide, M12ZA.h12_1⟩
+  · refine ⟨rfl, fun j hj => ?_⟩
+    have hj' : j < 2 := hj
+    interval_cases j
+    · exact ⟨by decide, M12ZA.h13_0⟩
+    · exact ⟨by decide, M12ZA.h13_1⟩
+
+theorem totA : Nat.beq (zTotK 12 4 (mask 4) (ordK M12Q.LR 5) M12BC.XL M12BC.CL M12ZA.SC 11
+    M12BC.XL.length) 190080 = true := by quickRfl
+
 theorem aut : ordTest 12 2 (toTable m12gA) = true ∧ ordTest 12 3 (toTable m12gB) = true ∧
       wordsTest 12 2 3 m12AutWords (toTable m12gA) (toTable m12gB) = true ∧
       repsTotal 12 (pairTables m12gA m12gB) (pairTables m12gA⁻¹ m12gB⁻¹)
@@ -205,14 +286,9 @@ theorem aut : ordTest 12 2 (toTable m12gA) = true ∧ ordTest 12 3 (toTable m12g
   refine ⟨ordTest_of_ordIs szOK' imgA cA (by norm_num) ordA,
     ordTest_of_ordIs szOK' imgB cB (by norm_num) ordB,
     wordsTest_of_wordOrdK szOK' imgA imgB wordsAB, ?_⟩
-  have h := chainK_repsTotal (mx := 2) (my := 3) (by decide) (by decide) chainQ tA_eq tB_eq
-    (by norm_num) clsOK' hR (by norm_num) (by norm_num) (CW := [M12Y0.CS, M12Y1.CS])
-    ⟨rfl, fun j hj => by
-      have hj2 : j < 2 := by simpa [M12CL] using hj
-      interval_cases j
-      · exact ⟨by decide, M12Y0.hc⟩
-      · exact ⟨by decide, M12Y1.hc⟩⟩ neOK
-  exact h.trans (by decide)
+  exact (zReps_sound (by decide) (by decide) chainQ classEq (by norm_num) tA_eq tB_eq clsOK2
+    siftR hRK (by norm_num) (by norm_num) (by norm_num) (by decide) scansZA).trans
+    (Nat.eq_of_beq_eq_true totA)
 
 theorem facts : (repsOK 12 (pairTables m12gA m12gB) (pairTables m12gA⁻¹ m12gB⁻¹)
         (cosetOrderTables m12Certificate 1 2) (m12InvReps.map toTable) 1000 = true ∧

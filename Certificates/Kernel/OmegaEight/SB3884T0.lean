@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.OmegaEight.SB3884
+public import Certificates.Kernel.OmegaEight.SB3884M
 public import Certificates.Kernel.OmegaEight.SB3884TH
 
 public section
@@ -14,7 +14,9 @@ open CFSG.KC.Enum CFSG.KC.SB CFSG.EvenSmallLie.OmegaEight.SpBranch CertificateCh
 
 set_option maxHeartbeats 0 in
 theorem th0 : l2THOK 0 thGs0 thPs0 = true :=
-  l2THOK_of (by decide +kernel) fun s hs => by interval_cases s <;> decide +kernel
+  l2THOK_of (by decide +kernel) fun s hs => by
+    rw [thMask_eq]
+    interval_cases s <;> decide +kernel
 
 end CertificateChecks.KernelO8.SB3884
 

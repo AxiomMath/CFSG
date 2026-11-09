@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.SporSch.Co1.AutK
 public import Certificates.Kernel.SporSch.Co1.Stab2148
 public import CFSG.Certificates.Kernel.SporSch.Co1TowerSound
+public import CFSG.Certificates.Kernel.SporSch.Co1StabWSound
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 
@@ -18,7 +19,7 @@ open CertificateChecks.KernelSporSch.Co1Orbs CertificateChecks.KernelSporSch.Co1
 theorem dag_eq : stabDag = ((List.range SD.N).map fun i => unpack 24 24 (SD.M i),
     (List.range SD.N).map fun i => unpack 24 24 (SD.MI i), true) := by
   unfold stabDag
-  refine dagIK_sound ?_ kD
+  refine dagIWK_sound ?_ kD
   rw [h0u, h1u, ← Nat.eq_of_beq_eq_true kb0, ← Nat.eq_of_beq_eq_true kb1]
   rfl
 
@@ -40,11 +41,11 @@ theorem tower : stabTowerCheck = true := by
   · intro i hi
     have : i < 5 := by simpa [Data.stabTowerBase] using hi
     interval_cases i
-    · exact ⟨_, _, _, _, _, 512, TW.hd0, TW.hc0, TW.hn0, by decide, TW.hl0, TW.hp0, f0⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd1, TW.hc1, TW.hn1, by decide, TW.hl1, TW.hp1, f1⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd2, TW.hc2, TW.hn2, by decide, TW.hl2, TW.hp2, f2⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd3, TW.hc3, TW.hn3, by decide, TW.hl3, TW.hp3, f3⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd4, TW.hc4, TW.hn4, by decide, TW.hl4, TW.hp4, f4⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd0, TW.hc0, TW.hn0, by decide, TW.hl0, TW.hp0, f0⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd1, TW.hc1, TW.hn1, by decide, TW.hl1, TW.hp1, f1⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd2, TW.hc2, TW.hn2, by decide, TW.hl2, TW.hp2, f2⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd3, TW.hc3, TW.hn3, by decide, TW.hl3, TW.hp3, f3⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd4, TW.hc4, TW.hn4, by decide, TW.hl4, TW.hp4, f4⟩
 
 theorem nonlin : nonlinCheck = true := by
   have h : nonlinCheck = nonlinP aR (stabVec 0) (stabVec 3) 11752856 15263478 Data.nonlinVecs

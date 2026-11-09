@@ -109,6 +109,19 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSpor.OddCore
     bAnd(anyN 1782 (fun p => ne (fv (SG 0) (fv E1 p)) (fv E1 (fv (SG 0) p))),
       allN 1782 (fun p => Nat.beq (fv (SG 1) (fv E0 (fv (SGI 1) p))) (fv T0 p))))
 
+@[expose] noncomputable def dD : Nat :=
+  519859370159888852803465250424785883393597521240425016218185042282478694602921405818279877719431579861205772933740560144319112156550928821512116088175347619485591969906018562991442351621841907653194985655689715816961170709285411671478000700433426120759903312996497865576972489592833506048053210968527827434131717175311020912807929398785936158417521771515544085217962110294635365297512701693513493870021076935739865383786067630520713259758405069287703720609660036938326033409261183009963782308316360162758224072459697554279821755232
+
+@[expose] noncomputable def bitD (p : Nat) : Nat := Nat.land (Nat.shiftRight dD p) 1
+
+@[expose] noncomputable def outD (P p : Nat) : Bool := bAnd(Nat.beq (bitD p) 1, Nat.beq (bitD (fv P p)) 0)
+
+@[expose] noncomputable def dK : Bool :=
+  bAnd(allN 4 (fun j => allN 1782 fun p => Nat.beq (bitD (fv (SuzEL.S j) p)) (bitD p)),
+    bAnd(anyN 1782 (fun p => outD E0 p), bAnd(anyN 1782 (fun p => outD E1 p),
+      anyN 1782 (fun p => bAnd(Nat.beq (bitD p) 1, Nat.beq (bitD (fv E0 (fv E1 p))) 0)))))
+
+theorem dOK : dK = true := by quickRfl
 theorem eOK : eK = true := by quickRfl
 theorem fOK : fK = true := by quickRfl
 theorem pOK : pK = true := by quickRfl

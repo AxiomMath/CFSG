@@ -356,8 +356,121 @@ private theorem rel_fus (hw : ∀ w ∈ d.words, ∀ l ∈ w, l < 2) :
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true]
     exact ⟨⟨⟨hb.1, hb.2.1⟩, hb.2.2.1⟩, hb.2.2.2⟩
 
+private theorem fieldRT : ∀ (r : List Nat), (∀ x ∈ r, x < 4096) → ∀ m : Nat,
+    (List.rec (motive := fun _ => Nat) 0 (fun x _ ih => Nat.add x (Nat.mul 4096 ih)) r
+      >>> (12 * m)) &&& 4095 = r.getD m 0
+  | [], _, m => by simp
+  | x :: r, hr, m => by
+    have hx : x < 4096 := hr x List.mem_cons_self
+    change ((x + 4096 * List.rec (motive := fun _ => Nat) 0
+      (fun x _ ih => Nat.add x (Nat.mul 4096 ih)) r) >>> (12 * m)) &&& 4095 = _
+    cases m with
+    | zero =>
+      rw [Nat.mul_zero, Nat.shiftRight_zero, show (4095 : Nat) = 2 ^ 12 - 1 from rfl,
+        Nat.and_two_pow_sub_one_eq_mod]
+      simp
+      omega
+    | succ m =>
+      rw [show 12 * (m + 1) = 12 + 12 * m by ring, Nat.shiftRight_add,
+        Nat.shiftRight_eq_div_pow (x + _) 12]
+      rw [show (x + 4096 * List.rec (motive := fun _ => Nat) 0
+        (fun x _ ih => Nat.add x (Nat.mul 4096 ih)) r) / 2 ^ 12 = List.rec (motive := fun _ => Nat) 0
+        (fun x _ ih => Nat.add x (Nat.mul 4096 ih)) r by omega]
+      rw [fieldRT r (fun y hy => hr y (List.mem_cons_of_mem _ hy)) m]
+      simp
+
+private theorem pkGT_eq {R : List (List Nat)} (hR : okRT R = true) (i : Nat) :
+    pkGT (packRT R) i = getRG R i 0 := by
+  have hrows : ∀ r ∈ R, CFSG.KC.LQT.P.allL r (fun x => Nat.blt x 4096) = true := by
+    induction R with
+    | nil => exact fun _ h => absurd h List.not_mem_nil
+    | cons r R ih =>
+      change CFSG.KC.Ord.andB _ (okRT R) = true at hR
+      rw [CFSG.KC.LQT.Cov.Parse.andB_eq', Bool.and_eq_true] at hR
+      intro r' hr'
+      rcases List.mem_cons.1 hr' with rfl | hr'
+      · exact hR.1
+      · exact ih hR.2 r' hr'
+  have hrow : ∀ x ∈ R.getD (Nat.div i 64) [], x < 4096 := by
+    intro x hx
+    rw [List.getD_eq_getElem?_getD] at hx
+    cases h : R[Nat.div i 64]? with
+    | none => simp [h] at hx
+    | some r =>
+      rw [h, Option.getD_some] at hx
+      have := (CFSG.KC.LQT.P.allL_iff _ _).1 (hrows r (List.mem_of_getElem? h)) x hx
+      simpa [Nat.blt_eq] using this
+  have e := fieldRT _ hrow (Nat.mod i 64)
+  unfold pkGT packRT getRG
+  rw [getK_getD, getK_getD, getK_getD, ← e]
+  change _ = (List.rec (motive := fun _ => Nat) 0 (fun x _ ih => Nat.add x (Nat.mul 4096 ih))
+    (R.getD (Nat.div i 64) []) >>> (12 * Nat.mod i 64)) &&& 4095
+  congr 3
+  rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_map]
+  cases R[Nat.div i 64]? <;> rfl
+
+theorem walkGT_eq (TG TB : List (List Nat)) (v : Nat) (w : List (Nat × Bool)) :
+    walkGT TG TB v w = walkT TG TB v w := by
+  unfold walkGT
+  cases hok : CFSG.KC.Ord.andB (okRT TG) (okRT TB)
+  · rfl
+  · rw [CFSG.KC.LQT.Cov.Parse.andB_eq', Bool.and_eq_true] at hok
+    have hs : stepPT (packRT TG) (packRT TB) = stepT TG TB := by
+      funext v l
+      obtain ⟨i, s⟩ := l
+      cases s
+      · exact pkGT_eq hok.2 _
+      · exact pkGT_eq hok.1 _
+    have he : edgePT (packRT TB) = edgeT TB := by
+      funext v l
+      obtain ⟨i, s⟩ := l
+      cases s
+      · change 2 * pkGT (packRT TB) (2 * v + i) + i = 2 * getRG TB (2 * v + i) 0 + i
+        rw [pkGT_eq hok.2]
+      · rfl
+    change List.rec (motive := fun _ => Nat → Nat → Nat × Nat) (fun f v => (f, v))
+      (fun l _ ih f v => letNN (Nat.xor f (Nat.pow 2 (edgePT (packRT TB) v l))) fun f' =>
+        letNN (stepPT (packRT TG) (packRT TB) v l) fun v' => ih f' v') w 0 v = _
+    rw [hs, he]
+    rfl
+
+private noncomputable def eqnsOT (d : CT) (WR : List (List (List Nat))) (TG TB : List (List Nat)) :
+    List (Bool × Nat) :=
+  letI edges := List.flatten (List.map (fun v => List.map (fun i => (v, i)) [0, 1])
+    (List.range d.nV))
+  letI isT := fun (p : Nat × Nat) =>
+    CFSG.KC.LQT.Syl.eqL (getRG WR (getRG TG (Nat.add (Nat.mul 2 p.1) p.2) 0) [])
+      (List.append (getRG WR p.1 []) [p.2])
+  List.append (List.append
+    (List.map (fun p => (Nat.blt p.1 d.nV, Nat.pow 2 (Nat.add (Nat.mul 2 p.1) p.2)))
+      (List.filter isT edges))
+    (List.flatten (List.map (fun p =>
+      letI w := List.append (List.append (posK (getRG WR p.1 [])) [(p.2, true)])
+        (invWK (getRG WR (getRG TG (Nat.add (Nat.mul 2 p.1) p.2) 0) []))
+      List.map (fun j =>
+        letI r0 := walkT TG TB 0 w
+        letI r1 := walkT TG TB (getRG TG j 0) w
+        (CFSG.KC.LQT.S.allBs [Nat.blt (getRG TG j 0) d.nV, Nat.beq r0.2 0,
+            Nat.beq r1.2 (getRG TG j 0)],
+          Nat.xor r0.1 r1.1)) [0, 1])
+      (List.filter (fun p => CFSG.KC.Ord.notB (isT p)) edges))))
+    (List.flatten (List.map (fun b =>
+      List.map (fun ρ =>
+        letI bl := getK d.blocks b ([], [], [], [])
+        letI ra := walkT TG TB 0 (substT WR bl.2.1 ρ)
+        letI rb := walkT TG TB 0 (substT WR bl.2.2.1 ρ)
+        (CFSG.KC.LQT.S.allBs [Nat.blt b (lenK d.blocks), CFSG.KC.LQT.P.allL (List.map (fun p => p.1) ρ)
+            (fun j => Nat.blt j (lenK bl.2.1)), Nat.beq ra.2 0, Nat.beq rb.2 0],
+          Nat.xor (Nat.xor ra.1 rb.1)
+            (formK (List.map (fun p => Nat.add (Nat.add (Nat.mul 2 d.nV) (Nat.mul 32 b)) p.1) ρ))))
+        (getK d.blocks b ([], [], [], [])).2.2.2) (List.range (lenK d.blocks))))
+
+private theorem eqnsT_eqO (d : CT) (WR : List (List (List Nat))) (TG TB : List (List Nat)) :
+    eqnsT d WR TG TB = eqnsOT d WR TG TB := by
+  simp only [eqnsT, eqnsOT, walkGT_eq]
+
 private theorem eqnsT_rel (hw : ∀ w ∈ d.words, ∀ l ∈ w, l < 2) :
-    List.Forall₂ (Rel (d := d)) (eqnsT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back))
+    List.Forall₂ (Rel (d := d)) (eqnsOT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back))
       (ofCT d).eqns :=
   List.rel_append (List.rel_append (rel_tree hw) (rel_trans hw)) (rel_fus hw)
 
@@ -380,13 +493,15 @@ private theorem forall_of_forall₂ {α β : Type} {P : α → Prop} {Q : β →
     · exact ih (fun a ha => hP a (List.mem_cons_of_mem _ ha)) b hb
 
 theorem eqnsT_forms {d : CT} (hw : ∀ w ∈ d.words, ∀ l ∈ w, l < 2) :
-    (eqnsT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back)).map Prod.snd = (ofCT d).forms :=
-  map_eq_of_forall₂ (fun _ _ h => h.1) (eqnsT_rel hw)
+    (eqnsT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back)).map Prod.snd = (ofCT d).forms := by
+  rw [eqnsT_eqO]
+  exact map_eq_of_forall₂ (fun _ _ h => h.1) (eqnsT_rel hw)
 
 theorem eqnsT_valid {d : CT} (hw : ∀ w ∈ d.words, ∀ l ∈ w, l < 2) (hn : 0 < d.nV)
     (hv : ∀ q ∈ eqnsT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back), q.1 = true) :
-    (ofCT d).eqns.all (Eqn.valid (ofCT d)) = true :=
-  List.all_eq_true.2 (forall_of_forall₂ (fun _ _ h hq => h.2 hn hq) (eqnsT_rel hw) hv)
+    (ofCT d).eqns.all (Eqn.valid (ofCT d)) = true := by
+  rw [eqnsT_eqO] at hv
+  exact List.all_eq_true.2 (forall_of_forall₂ (fun _ _ h hq => h.2 hn hq) (eqnsT_rel hw) hv)
 
 end CFSG.KC.LQT.Cov.TEqns
 

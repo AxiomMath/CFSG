@@ -11,7 +11,7 @@ meta import CFSG.RankThree.PartTwo.Sec4.Ronan148VJ2OverInputs
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.Over148004 "Certificates/Kernel/Misc/Perm/data/over148004.json.gz" 9590 6140142810791047752
+#kc_repo #kc_json CertificateChecks.KernelMisc.Over148004 "Certificates/Kernel/Misc/Perm/data/over148004.json" 9590 6140142810791047752
   (TR : List Nat) (W : List Nat)
 
 #kmisc_packarrs CertificateChecks.KernelMisc.Over148004.MA

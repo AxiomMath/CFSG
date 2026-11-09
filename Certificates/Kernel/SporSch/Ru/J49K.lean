@@ -24,9 +24,36 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.IntLines
 
 meta def tabsM : Array (Array Nat) := CFSG.Sporadic.RuSchreier.J49.tabs ()
 
+meta def j49kSufM : Array (Array Nat) := Id.run do
+  let mut out : Array (Array Nat) := #[]
+  for w in CFSG.Sporadic.RuSchreier.J49.wordList () do
+    let K := (w.length + 31) / 32
+    let mut S : Array (Array Nat) := Array.replicate 13 #[]
+    let mut cur := CFSG.Sporadic.RuSchreier.ruSeedWordA []
+    S := S.set! K cur
+    for i in [0:K] do
+      let q := K - 1 - i
+      cur := CFSG.Monster.B.Co2.Native.compA 4060
+        (CFSG.Sporadic.RuSchreier.ruSeedWordA ((w.drop (32 * q)).take 32)) cur
+      S := S.set! q cur
+    out := out ++ S
+  return out
+
+meta def j49kPairM : Array (Array Nat) := Id.run do
+  let mut out : Array (Array Nat) := #[]
+  for a in [0:5] do
+    for b in [0:5] do
+      let la : Int := (a : Int) - 2
+      let lb : Int := (b : Int) - 2
+      out := out.push (if la == 0 || lb == 0 then #[]
+        else CFSG.Sporadic.RuSchreier.ruSeedWordA [la, lb])
+  return out
+
 end CertificateChecks.KernelSporSch.RuJ49
 
 #kss_perms CertificateChecks.KernelSporSch.RuJ49.W 12 CertificateChecks.KernelSporSch.RuJ49.tabsM
+#kss_perms CertificateChecks.KernelSporSch.RuJ49.Suf 12 CertificateChecks.KernelSporSch.RuJ49.j49kSufM
+#kss_perms CertificateChecks.KernelSporSch.RuJ49.j49kG2 12 CertificateChecks.KernelSporSch.RuJ49.j49kPairM
 
 namespace CertificateChecks.KernelSporSch.RuJ49
 
@@ -51,16 +78,56 @@ theorem wordsOK : (Nat.beq wordsK.length 19 && wordsK.all (CFSG.Monster.B.Co2.Na
 
 @[expose] noncomputable def Gab (j : Nat) : Nat := Bool.rec (motive := fun _ => Nat) A1 A0 (Nat.beq j 0)
 
-@[expose] noncomputable def wordChk (k : Nat) : Bool := Nat.beq (wK Gab (wordsK.getD k [])) (W k)
+@[expose] noncomputable def wKA (G : Nat → Nat) (w : List Int) (a : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) a (fun l _ ih => pc (letK G l) ih) w
+
+@[expose] noncomputable def GabI (j : Nat) : Nat := Bool.rec (motive := fun _ => Nat) A1I A0I (Nat.beq j 0)
+
+@[expose] noncomputable def letKJ (l : Int) : Nat :=
+  Bool.rec (motive := fun _ => Nat) (GabI ((-l).toNat - 1)) (Gab (l.toNat - 1)) (decide (0 < l))
+
+@[expose] noncomputable def j49kPair (a b : Int) : Nat := j49kG2 (5 * (a + 2).toNat + (b + 2).toNat)
+
+@[expose] noncomputable def wKP : List Int → Nat → Nat
+  | a :: b :: w, acc => pc (j49kPair a b) (wKP w acc)
+  | [a], acc => pc (letKJ a) acc
+  | [], acc => acc
+
+@[expose] noncomputable def j49kNChk (k : Nat) : Nat := ((wordsK.getD k []).length + 31) / 32
+
+@[expose] noncomputable def j49kChunkOK (g : Nat) : Bool :=
+  Bool.rec (motive := fun _ => Bool) true
+    (Nat.beq (wKP (CFSG.KS.SporSch.takeK 32
+        (CFSG.KS.SporSch.dropK (32 * (g % 13)) (wordsK.getD (g / 13) []))) (Suf (g + 1)))
+      (Suf g))
+    (Nat.blt (g % 13) (j49kNChk (g / 13)))
+
+end CertificateChecks.KernelSporSch.RuJ49
+
+#kss_each CertificateChecks.KernelSporSch.RuJ49.SufC CertificateChecks.KernelSporSch.RuJ49.j49kChunkOK 247
+
+namespace CertificateChecks.KernelSporSch.RuJ49
+
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.IntLines
+  CertificateChecks.KernelSporSch.RuG CertificateChecks.KernelSporSch.G2Ru7164
+  CFSG.Sporadic.RuSchreier.J49 CFSG.Sporadic.RuSchreier.J49.Sl2
+
+theorem chunkEnds : (List.range 19).all (fun k => Nat.blt (j49kNChk k) 13 &&
+    Nat.beq (Suf (13 * k + j49kNChk k)) pid && Nat.beq (Suf (13 * k)) (W k)) = true := by
+  quickRfl
+
+theorem j49kPairOK : ([-2, -1, 1, 2] : List Int).all (fun a =>
+    ([-2, -1, 1, 2] : List Int).all fun b => Nat.beq (pc (letKJ a) (letKJ b)) (j49kPair a b)) = true := by
+  quickRfl
 
 @[expose] noncomputable def permChk (k : Nat) : Bool :=
   permOK 4060 12 (mask 12) (4060 * 12) (W k) (pinv (W k))
 
-#kc_each wordChk 0 19
-#kc_each permChk 0 19
+#kc_each permChk 0 1
+#kc_each permChk 3 4
 
-theorem permA : bAnd(permOK 4060 12 (mask 12) (4060 * 12) A0 (pinv A0),
-    permOK 4060 12 (mask 12) (4060 * 12) A1 (pinv A1)) = true := by
+theorem permA : bAnd(bAnd(permOK 4060 12 (mask 12) (4060 * 12) A0 (pinv A0), Nat.beq (pinv A0) A0I),
+    bAnd(permOK 4060 12 (mask 12) (4060 * 12) A1 (pinv A1), Nat.beq (pinv A1) A1I)) = true := by
   quickRfl
 
 @[expose] noncomputable def exK (T : Nat → Nat) (e : Ex) : Nat :=
@@ -75,11 +142,11 @@ theorem permA : bAnd(permOK 4060 12 (mask 12) (4060 * 12) A0 (pinv A0),
     (fun _ _ ih ic => !ih || ic) a
 
 @[expose] noncomputable def atChunk (c : Nat) : Bool :=
-  (List.range 40).all fun j => atK W ((atoms ()).getD (40 * c + j) (.eq .one .one))
+  (List.range 20).all fun j => atK W ((atoms ()).getD (20 * c + j) (.eq .one .one))
 
 theorem atomsLen : Nat.beq (atoms ()).length 737 = true := by quickRfl
 
-#kc_each atChunk 0 19
+#kc_each atChunk 0 37
 
 @[expose] noncomputable def G03 (j : Nat) : Nat := Bool.rec (motive := fun _ => Nat) (W 3) (W 0) (Nat.beq j 0)
 

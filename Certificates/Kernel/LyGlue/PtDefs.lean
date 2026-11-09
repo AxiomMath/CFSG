@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.LyGlue.TabData
+public import Certificates.Kernel.LyGlue.Flat
 
 public section
 
@@ -26,37 +26,49 @@ open CFSG.KC.Enum CFSG.KS CFSG.KC.LyGlue CFSG.Sporadic.Recognition.LyonsSims
 @[expose] noncomputable def tBlkK (e0 e1 e2 e3 : Nat) : Bool :=
   blkOK 66825 243 4 8 FT (fun k a => cdPt (tLen k) (sel4 k e0 e1 e2 e3) a) GH.F
 
-@[expose] noncomputable def imgY (k : Nat) : Nat :=
-  pmk 1080 11 (fun j => FY (tl (tIdx k) (SY j)))
+@[expose] noncomputable def lyPtE (L : List Nat) : Nat → Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun a => a)
+    (fun k _ ih a => nIf(Nat.beq k 1, cL (ih a), nIf(Nat.beq k 2, dL (ih a), ih a))) L
 
-@[expose] noncomputable def imgW (len e : Nat) : Nat :=
-  pmk 1080 11 (fun j => FY (cdPt len e (SY j)))
+@[expose] def wShort : List Nat :=
+  [2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 2,
+    1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 2,
+    1, 2, 1, 2, 1, 2, 2, 1, 2]
 
-@[expose] noncomputable def uhInv (k : Nat) : Nat := pinvS 1080 11 (mask 11) (UH.F k)
+@[expose] def yShort : List Nat :=
+  [2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2,
+    2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2,
+    1, 2, 1, 2, 2, 1]
 
-@[expose] noncomputable def uWord1080 (ws : List Int) : Nat :=
-  wprod 1080 11 (mask 11) (letT UH.F uhInv) ws
 
-@[expose] noncomputable def lineK (t a : Nat) : Bool :=
-  bIf(eq22 1080 11 (mask 11) t a a t, true,
-    eq22 1080 11 (mask 11) t a (pinvS 1080 11 (mask 11) a) t)
+@[expose] def uEs (w : List Int) : List Nat :=
+  w.flatMap fun l => if 0 < l then cdE (Ly0.uWords.getD (l.toNat - 1) [])
+    else cdE (McLMultiplier.invW (Ly0.uWords.getD ((-l).toNat - 1) []))
 
-@[expose] noncomputable def imgK (ax ay aw : Nat) : Bool :=
-  bAnd(Nat.beq ay (uWord1080 yU), bAnd(Nat.beq ax (uWord1080 xU),
-    allN 5 (fun j => strictB (uWord1080 (Ly1080.txyWords.getD j [])) fun t =>
-      bAnd(lineK t ax, bAnd(lineK t ay, lineK t aw)))))
+@[expose] def cdInv (L : List Nat) : List Nat :=
+  L.reverse.flatMap fun k => if k = 2 then [2, 2] else [k]
 
-@[expose] noncomputable def ghInv (k : Nat) : Nat := pinvS 243 8 (mask 8) (GH.F k)
+@[expose] noncomputable def lyBase3 (A B : List Nat) : Bool :=
+  bAnd(Nat.beq (lyPtE A 0) (lyPtE B 0),
+    bAnd(Nat.beq (lyPtE A 3) (lyPtE B 3), Nat.beq (lyPtE A 1) (lyPtE B 1)))
 
-@[expose] noncomputable def uwPt (e0 e1 e2 e3 f0 f1 f2 f3 : Nat) (ws : List Int) (a : Nat) : Nat :=
-  wptG (fun k a => cdPt (uLen k) (sel4 k e0 e1 e2 e3) a)
-    (fun k a => cdPt (uLen k) (sel4 k f0 f1 f2 f3) a) ws a
+@[expose] noncomputable def lyConjK (T L : List Nat) : Bool :=
+  bIf(lyBase3 (T ++ L) (L ++ T), true, lyBase3 (T ++ L) (cdInv L ++ T))
 
-@[expose] noncomputable def agreeK (e0 e1 e2 e3 f0 f1 f2 f3 : Nat) : Bool :=
-  allN 5 (fun j => strictB (wprod 243 8 (mask 8) (letT GH.F ghInv) (Ly243.txyWords.getD j []))
-    fun t => allN 243 (fun k => Nat.beq
-      (FT (uwPt e0 e1 e2 e3 f0 f1 f2 f3 (Ly1080.txyWords.getD j []) (ST k)))
-      (pg 8 (mask 8) t k)))
+@[expose] noncomputable def txyConjK : Bool :=
+  allN 5 fun j => bAnd(lyConjK (uEs (Ly1080.txyWords.getD j [])) (cdE Ly0.wordX),
+    bAnd(lyConjK (uEs (Ly1080.txyWords.getD j [])) yShort,
+      lyConjK (uEs (Ly1080.txyWords.getD j [])) wShort))
+
+@[expose] noncomputable def imgK : Bool :=
+  bAnd(lyBase3 yShort (uE yU), lyBase3 (cdE Ly0.wordX) (uE xU))
+
+@[expose] def txE (w : List Int) : List Nat :=
+  w.flatMap fun l => if 0 < l then cdE (Glue.txWords.getD (l.toNat - 1) [])
+    else cdE (McLMultiplier.invW (Glue.txWords.getD ((-l).toNat - 1) []))
+
+@[expose] noncomputable def agreeK : Bool :=
+  allN 5 fun j => lyBase3 (uEs (Ly1080.txyWords.getD j [])) (txE (Ly243.txyWords.getD j []))
 
 end CertificateChecks.KernelLy
 

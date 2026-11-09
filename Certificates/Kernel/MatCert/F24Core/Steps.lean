@@ -22,7 +22,7 @@ namespace CFSG.KD.MC.F24C
 open CFSG.KC.LocalComp.Ops3Snd in
 public theorem steps : CFSG.KC.LQT.StepsTo (CFSG.KC.LQT.stepOK lay V P) N :=
   CFSG.KC.LQT.F3S.steps_of_F3 lay_ok rfl (by decide) (by decide)
-    (mat3_decode lay lay_ok rfl decA).1 (mat3_decode lay lay_ok rfl decB).1
+    (CFSG.KS.Ord.validM_canon lay_ok vA) (CFSG.KS.Ord.validM_canon lay_ok vB)
     (by rw [one]; exact (mat3_one lay lay_ok rfl).1) steps3
 
 end CFSG.KD.MC.F24C

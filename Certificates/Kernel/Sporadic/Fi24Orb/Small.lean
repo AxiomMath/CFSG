@@ -1,8 +1,12 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Orb.Data
 public import Certificates.Data.Kernel.Spor.Fi24OrbP
+
+#kc_repo #kc_ktree CFSG.KD.Fi24Orb MAB "Certificates/Kernel/Sporadic/Fi24Orb/data/abpow.bin" 152491 4 1067437
+  8636394970179043979
 
 public section
 
@@ -19,9 +23,47 @@ theorem b_cube : Nat.beq (CFSG.KD.BrFi24.MUL (CFSG.KD.BrFi24.RB 24)
     (CFSG.KD.BrFi24.MUL (CFSG.KD.BrFi24.RB 24) (CFSG.KD.BrFi24.RB 24))) CFSG.KD.BrFi24.ONE = true := by
   quickRfl
 
+theorem beq_pow29 {mul : Nat → Nat → Nat} {X0 X X2 X4 X8 X16 U V Z : Nat}
+    (h1 : Nat.beq X0 X = true) (h2 : Nat.beq (mul X X) X2 = true)
+    (h4 : Nat.beq (mul X2 X2) X4 = true) (h8 : Nat.beq (mul X4 X4) X8 = true)
+    (h16 : Nat.beq (mul X8 X8) X16 = true) (hu : Nat.beq (mul X4 X) U = true)
+    (hv : Nat.beq (mul X8 U) V = true) (hz : Nat.beq (mul X16 V) Z = true) :
+    Nat.beq (pow29 mul X0) Z = true := by
+  have hs : ∀ (y : Nat) (k : Nat → Nat), CFSG.KC.Loop.strictN y k = k y := by
+    intro y k; cases y <;> rfl
+  rw [Nat.eq_of_beq_eq_true h1]
+  simp only [pow29, hs]
+  rw [Nat.eq_of_beq_eq_true h2, Nat.eq_of_beq_eq_true h4, Nat.eq_of_beq_eq_true h8,
+    Nat.eq_of_beq_eq_true h16, Nat.eq_of_beq_eq_true hu, Nat.eq_of_beq_eq_true hv]
+  exact hz
+
+theorem ab_pow_x : Nat.beq (CFSG.KD.BrFi24.MUL (CFSG.KD.BrFi24.RB 23) (CFSG.KD.BrFi24.RB 24))
+    (MAB (nat_lit 0)) = true := by quickRfl
+
+theorem ab_pow_2 : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 0)) (MAB (nat_lit 0)))
+    (MAB (nat_lit 1)) = true := by quickRfl
+
+theorem ab_pow_4 : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 1)) (MAB (nat_lit 1)))
+    (MAB (nat_lit 2)) = true := by quickRfl
+
+theorem ab_pow_8 : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 2)) (MAB (nat_lit 2)))
+    (MAB (nat_lit 3)) = true := by quickRfl
+
+theorem ab_pow_16 : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 3)) (MAB (nat_lit 3)))
+    (MAB (nat_lit 4)) = true := by quickRfl
+
+theorem ab_pow_u : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 2)) (MAB (nat_lit 0)))
+    (MAB (nat_lit 5)) = true := by quickRfl
+
+theorem ab_pow_v : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 3)) (MAB (nat_lit 5)))
+    (MAB (nat_lit 6)) = true := by quickRfl
+
+theorem ab_pow_z : Nat.beq (CFSG.KD.BrFi24.MUL (MAB (nat_lit 4)) (MAB (nat_lit 6)))
+    CFSG.KD.BrFi24.ONE = true := by quickRfl
+
 theorem ab_pow : Nat.beq (pow29 CFSG.KD.BrFi24.MUL
-    (CFSG.KD.BrFi24.MUL (CFSG.KD.BrFi24.RB 23) (CFSG.KD.BrFi24.RB 24))) CFSG.KD.BrFi24.ONE = true := by
-  quickRfl
+    (CFSG.KD.BrFi24.MUL (CFSG.KD.BrFi24.RB 23) (CFSG.KD.BrFi24.RB 24))) CFSG.KD.BrFi24.ONE = true :=
+  beq_pow29 ab_pow_x ab_pow_2 ab_pow_4 ab_pow_8 ab_pow_16 ab_pow_u ab_pow_v ab_pow_z
 
 theorem a_ne : notB (Nat.beq (CFSG.KD.BrFi24.RB 23) CFSG.KD.BrFi24.ONE) = true := by quickRfl
 

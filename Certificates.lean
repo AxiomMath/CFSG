@@ -2012,7 +2012,7 @@ import CFSG.Certificates.Kernel.ArrBfsCert
 import CFSG.Certificates.Kernel.U43Pk.Sound
 import CFSG.Certificates.Kernel.PackSetSound
 import CFSG.Certificates.Kernel.SporSch.LyLoop
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Certificate8124
 public import Certificates.Certificate8125
@@ -2103,7 +2103,6 @@ public import CFSG.Sporadic.Schreier.TitsArrays
 public import Certificates.Data.CFSGNative.SectionRank.TitsChain
 public import Mathlib.LinearAlgebra.Matrix.Block
 public import Mathlib.Data.ZMod.Defs
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
 public import Certificates.Data.Kernel.Misc.G24
 import CFSG.Certificates.Kernel.Common.EachTrue
 public import Certificates.Kernel.Sporadic.Tits.Texts2268
@@ -3761,7 +3760,7 @@ public import CFSG.Sporadic.FischerOddCore.Fi22QCheckInputs
 public meta import CFSG.Sporadic.FischerOddCore.Fi22SylowCheck
 import Certificates.Kernel.Sporadic.Fi22.Q1212221K
 import Certificates.Kernel.Sporadic.Fi22.C2066
-import Certificates.Kernel.Sporadic.Fi22.E2065Eq
+import Certificates.Kernel.Sporadic.Fi22.E2065
 import Certificates.Kernel.Sporadic.Fi22.G2064
 import CFSG.Sporadic.FischerOddCore.Fi22CentOrder
 import CFSG.Sporadic.FischerOddCore.LabelSpec

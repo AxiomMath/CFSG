@@ -38,6 +38,13 @@ meta def g7I : Array (Array Nat) := g7.map invM
 meta def i7 : Array (Array Nat) := idsOf g7
 meta def r7 : Array (Array Nat) := recOf g7
 meta def c7 : Array (Array Nat) := clOf g7
+meta def hkM (t : Array Nat) : Nat :=
+  t.foldl (fun h x => Nat.xor h x * 1099511628211 % 18446744073709551616) 14695981039346656037
+meta def hsOf (r : Array (Array Nat)) : Array (Array Nat) := r.map fun t => #[hkM t]
+meta def h2 : Array (Array Nat) := hsOf r2
+meta def h4 : Array (Array Nat) := hsOf r4
+meta def h6 : Array (Array Nat) := hsOf r6
+meta def h7 : Array (Array Nat) := hsOf r7
 
 end CFSG.KD.HN1408.Tab6Gen
 
@@ -61,3 +68,7 @@ set_option maxRecDepth 400000
   CFSG.KD.HN1408.RecGen.idM 100000
 #kfind CFSG.KD.HN1408.Tab6S7Cl CFSG.KD.HN1408.Tab6Gen.r7 CFSG.KD.HN1408.Tab6Gen.c7
 #kmisc_packarrs CFSG.KD.HN1408.Tab6S7I CFSG.KD.HN1408.Tab6Gen.g7I 11
+#kmisc_packarrs CFSG.KD.HN1408.Tab6S2H CFSG.KD.HN1408.Tab6Gen.h2 64
+#kmisc_packarrs CFSG.KD.HN1408.Tab6S4H CFSG.KD.HN1408.Tab6Gen.h4 64
+#kmisc_packarrs CFSG.KD.HN1408.Tab6S6H CFSG.KD.HN1408.Tab6Gen.h6 64
+#kmisc_packarrs CFSG.KD.HN1408.Tab6S7H CFSG.KD.HN1408.Tab6Gen.h7 64

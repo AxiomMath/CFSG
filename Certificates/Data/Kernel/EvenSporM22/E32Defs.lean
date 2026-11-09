@@ -18,27 +18,45 @@ open CFSG.EvenSporadicStandard.M22Std.TabCheck CFSG.EvenSporadicStandard.M22Std.
   | [] => []
   | b :: l => insK b (isortK l)
 
-@[expose] def elemStepK (I : List Tab) (lv : List (List Tab)) : List (List Tab) :=
-  (lv.flatMap fun L => (extCands I L).map fun x => isortK (ext L x)).dedup
+@[expose] def StepOKK (T : List Tab) (k : Nat) : Prop :=
+  (∀ L ∈ elemLevel T k, ∀ x ∈ extCands (invTabs T) L, isortK (ext L x) ∈ elemLevel T (k + 1)) ∧
+    ∀ L ∈ elemLevel T (k + 1), L.length = 2 ^ (k + 2)
 
-@[expose] def elemLevelK (T : List Tab) : Nat → List (List Tab)
-  | 0 => [[idTab]]
-  | k + 1 => elemStepK (invTabs T) (elemLevelK T k)
+instance (T : List Tab) (k : Nat) : Decidable (StepOKK T k) := by
+  unfold StepOKK
+  infer_instance
 
-@[expose] def jTabsK : List Tab := (elemLevelK s0Tabs 5).headD []
+@[expose] def stepB (k i : Nat) : Bool :=
+  (extCands (invTabs s0Tabs) ((elemLevel s0Tabs k).getD i [])).all fun x =>
+    decide (isortK (ext ((elemLevel s0Tabs k).getD i []) x) ∈ elemLevel s0Tabs (k + 1))
 
-@[expose] def CheckPropK : Prop :=
-  (elemLevelK s0Tabs 5).length = 1 ∧ elemLevelK s0Tabs 6 = [] ∧
-  jTabsK.length = 32 ∧ jTabsK.Nodup ∧ idTab ∈ jTabsK ∧
+theorem stepOKK_of (k n : Nat) (hn : (elemLevel s0Tabs k).length = n)
+    (h : ∀ i < n, stepB k i = true)
+    (hl : ∀ L ∈ elemLevel s0Tabs (k + 1), L.length = 2 ^ (k + 2)) : StepOKK s0Tabs k := by
+  refine ⟨fun L hL x hx => ?_, hl⟩
+  obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hL
+  have hb := h i (by omega)
+  unfold stepB at hb
+  rw [List.getD_eq_getElem _ _ hi] at hb
+  exact of_decide_eq_true (List.all_eq_true.1 hb x hx)
+
+@[expose] def jTabsK : List Tab := (elemLevel s0Tabs 4).headD []
+
+@[expose] def CheckRestK : Prop :=
+  (elemLevel s0Tabs 4).length = 1 ∧
+  jTabsK.length = 32 ∧ jTabsK.Nodup ∧ jTabsK.Pairwise (fun a b => tabLE a b = true) ∧
+  idTab ∈ jTabsK ∧ tTab ∈ jTabsK ∧
   (∀ a ∈ jTabsK, a ∈ s0Tabs ∧ tmul a a = idTab ∧
     ∀ b ∈ jTabsK, tmul a b ∈ jTabsK ∧ comm a b = true) ∧
   (∃ l ∈ s0Inner, l ∈ jTabsK ∧ l ∉ f1Tabs) ∧
-  ∀ L ∈ elemLevelK s0Tabs 4, L.Nodup ∧
+  ∀ L ∈ elemLevel s0Tabs 3, L.Nodup ∧
     (normB L = true → 4 < (L.filter fun l => decide (l ∈ jTabsK)).length ∨ ∀ l ∈ L, l ∈ f1Tabs)
 
-instance : Decidable CheckPropK := by
-  unfold CheckPropK
+instance : Decidable CheckRestK := by
+  unfold CheckRestK
   infer_instance
+
+@[expose] def CheckPropK : Prop := (∀ k < 5, StepOKK s0Tabs k) ∧ CheckRestK
 
 @[expose] def xPropK : Prop :=
   ∃ l ∈ jTabsK, l ∈ s0Outer ∧ tmul l l = idTab ∧ fixF l = 4

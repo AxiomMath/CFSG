@@ -11,16 +11,17 @@ open Subgroup CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier
   CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SmallOddCore.Native
   CFSG.EvenSporadicStandard.M24Std.CU43
 
-theorem classOK_gens {gG : Array Table} {x : Table} {cap sizeG csz : ℕ}
-    (h : classOK gG x cap sizeG csz = true) : ∀ g ∈ gG, permOK 820 g = true := by
-  simp only [classOK, Bool.and_eq_true, Array.all_eq_true'] at h
+theorem classRecOK_gens {gG : Array Table} {x : Table} {par : Array (ℕ × ℕ)} {sizeG csz : ℕ}
+    (h : classRecOK gG x par sizeG csz = true) : ∀ g ∈ gG, permOK 820 g = true := by
+  simp only [classRecOK, Bool.and_eq_true, Array.all_eq_true'] at h
   intro g hg
   have := h.1.1.1 g hg
   simp only [permInvOK, Bool.and_eq_true] at this
   exact this.1
 
 theorem case_spec_norm
-    (d : CaseData) (hd : caseCheck d = true) {G : Subgroup (Equiv.Perm (Fin 820))}
+    (d : CaseData) {tPar yPar : Array (ℕ × ℕ)} (hd : caseCheck d tPar yPar = true)
+    {G : Subgroup (Equiv.Perm (Fin 820))}
     (hG : ∀ x, x ∈ G ↔ ∃ g ∈ P, ∃ k ∈ d.ks, k < 8 ∧ x = g * tP k) (hsz : Nat.card G = d.sizeG)
     {T y c k : Equiv.Perm (Fin 820)} (hT : Rep 820 d.Tt T) (hT2 : T * T = 1)
     (hy : Rep 820 d.y0 y) (hs : SigRel T y c k) (hcG : c ∈ G) (hkG : k ∈ G) :
@@ -35,8 +36,8 @@ theorem case_spec_norm
   have hyeq : y = tp 820 d.y0 := CFSG.Sporadic.Schreier.rep_unique hy hy0
   subst hyeq
   have hgG : ∀ x ∈ d.gensG, tp 820 x ∈ G := fun x hx =>
-    mem_G_of_memCos hG (classOK_gens hcly x hx) (hgens x hx)
-  have hYbound := classOK_card_le hsz hgG hy0 hcly
+    mem_G_of_memCos hG (classRecOK_gens hcly x hx) (hgens x hx)
+  have hYbound := classRecOK_card_le hsz hgG hy0 hcly
   obtain ⟨hygperm, hyrep, hymem, hycov, hycard, hynodup, hysize⟩ := enumOK_spec heyg
   have hysize' : (yEnum d).size = d.ysz := hysize
   have hygle : closure (tp 820 '' {x | x ∈ d.yg}) ≤
@@ -85,7 +86,8 @@ theorem case_spec_norm
     (fun i hi => hYeq ▸ hymem i (hysize' ▸ hi)) hcov' hynodup hrc hcp hrk hkp
 
 theorem case_spec
-    (d : CaseData) (hd : caseCheck d = true) {G : Subgroup (Equiv.Perm (Fin 820))}
+    (d : CaseData) {tPar yPar : Array (ℕ × ℕ)} (hd : caseCheck d tPar yPar = true)
+    {G : Subgroup (Equiv.Perm (Fin 820))}
     (hG : ∀ x, x ∈ G ↔ ∃ g ∈ P, ∃ k ∈ d.ks, k < 8 ∧ x = g * tP k) (hsz : Nat.card G = d.sizeG)
     {T y c k : Equiv.Perm (Fin 820)} (hT : Rep 820 d.Tt T) (hT2 : T * T = 1)
     (hs : SigRel T y c k) (hyG : y ∈ G) (hcG : c ∈ G) (hkG : k ∈ G) :
@@ -99,8 +101,8 @@ theorem case_spec
   simp only [Bool.and_eq_true] at hcg
   have hy0 : Rep 820 d.y0 (tp 820 d.y0) := rep_tp hy0p
   have hgG : ∀ x ∈ d.gensG, tp 820 x ∈ G := fun x hx =>
-    mem_G_of_memCos hG (classOK_gens hclT x hx) (hgens x hx)
-  have hCT := classOK_card_le hsz hgG hT hclT
+    mem_G_of_memCos hG (classRecOK_gens hclT x hx) (hgens x hx)
+  have hCT := classRecOK_card_le hsz hgG hT hclT
   obtain ⟨hcgperm, -, -, -, hcgcard, -, -⟩ := enumOK_spec hecg
   have hcgle : closure (tp 820 '' {x | x ∈ d.cg}) ≤
       G ⊓ centralizer ({T} : Set (Equiv.Perm (Fin 820))) := by

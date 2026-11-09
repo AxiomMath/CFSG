@@ -26,18 +26,33 @@ theorem s_get {j : Nat} (hj : j < 3) {x : Nat} (hx : x < 1755) :
   rw [titsSArrs, CertificateChecks.KernelSpor.Tits2264.field_get (by omega) (by norm_num),
     CFSG.KC.BfsPin.unpack_get' hx]
 
+theorem arr4_get0 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[0]! = a := rfl
+
+theorem arr4_get1 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[1]! = b := rfl
+
+theorem arr4_get2 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[2]! = c := rfl
+
+theorem arr4_get3 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[3]! = d := rfl
+
 theorem g_get : ∀ k < 4, ∀ x < 1755, (titsPAGens[k]!)[x]! = gP k x := by
   intro k hk x hx
   interval_cases k
-  · exact s_get (j := 0) (by norm_num) hx
-  · exact s_get (j := 1) (by norm_num) hx
-  · exact s_get (j := 2) (by norm_num) hx
-  · change (titsGenArrs[1]!)[x]! = _
-    rw [CertificateChecks.KernelSpor.Tits2264.gen_eq (by norm_num), CFSG.KC.BfsPin.unpack_get' hx]
+  · rw [titsPAGens, arr4_get0]
+    exact s_get (j := 0) (by norm_num) hx
+  · rw [titsPAGens, arr4_get1]
+    exact s_get (j := 1) (by norm_num) hx
+  · rw [titsPAGens, arr4_get2]
+    exact s_get (j := 2) (by norm_num) hx
+  · rw [titsPAGens, arr4_get3, CertificateChecks.KernelSpor.Tits2264.gen_eq (by norm_num),
+      CFSG.KC.BfsPin.unpack_get' hx]
     rfl
 
-theorem lab_get {x : Nat} (hx : x < 1755) : titsPALab[x]! = Lf x :=
+theorem lab_get' {x : Nat} (hx : x < 1755) : (orbLabels 1755 titsPAGens).1[x]! = Lf x :=
   (orbLabels_of_K gs g_get kOrb).2 x hx
+
+theorem lab_get {x : Nat} (hx : x < 1755) : titsPALab[x]! = Lf x := by
+  rw [titsPALab, orbLab_eq]
+  exact lab_get' hx
 
 theorem qr : Mv ≤ 1755 ∧ ∀ t < Mv, Qf t = Rf t := by
   obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff (Nat.ble Mv 1755)
@@ -48,7 +63,7 @@ theorem orb_ok : orbCheck 1755 titsPAGens = true := by
   unfold orbCheck
   obtain ⟨r1, r2⟩ := orbRoots_of_K gs g_get kOrb
   exact orbitPartOK_forestKG (by norm_num) gs g_get
-    ⟨r1, fun t ht => by rw [r2 t ht, qr.2 t ht]⟩ qr.1 (fun x hx => lab_get hx)
+    ⟨r1, fun t ht => by rw [r2 t ht, qr.2 t ht]⟩ qr.1 (fun x hx => lab_get' hx)
     (fun t ht => allN_spec kF t ht) (fun e he => allN_spec kE e (by omega))
     (fun x hx => allN_spec kP x hx) (fun k hk => allN_spec kRt k hk)
 

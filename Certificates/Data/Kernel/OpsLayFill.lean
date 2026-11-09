@@ -27,6 +27,20 @@ open CFSG.KC.LQT CFSG.SectionRank.Native CFSG.RankThree.Asc83Table.Native
   | .ne u w _ => wordIn K u && wordIn K w
   | .eq u w => wordIn K u && wordIn K w
 
+@[expose] noncomputable def evalWL1 (c : Lay) (R : List Nat) : Word → Nat
+  | [] => c.ONE
+  | [(r, e)] => powK c (getR c R r) e
+  | (r, e) :: w => c.mul (powK c (getR c R r) e) (evalWL1 c R w)
+
+@[expose] noncomputable def factL1 (c : Lay) (R : List Nat) (n : Nat) : MFact → Bool
+  | .ord r e => decide (r < n) && decide (0 < e) && decide (e < 65536) &&
+      Nat.beq (powK c (getR c R r) e) c.ONE
+  | .conj h u w => decide (h < n) && wordOK n u && wordOK n w &&
+      Nat.beq (c.mul (getR c R h) (evalWL1 c R u)) (c.mul (evalWL1 c R w) (getR c R h))
+  | .ne w₁ w₂ t => wordOK n w₁ && wordOK n w₂ && decide (t < c.d) &&
+      !Nat.beq (c.vec (c.unit t) (evalWL1 c R w₁)) (c.vec (c.unit t) (evalWL1 c R w₂))
+  | .eq w₁ w₂ => wordOK n w₁ && wordOK n w₂ && Nat.beq (evalWL1 c R w₁) (evalWL1 c R w₂)
+
 @[expose] noncomputable def evalOnto (c : Lay) (R : List Nat) (w : Word) (X : Nat) : Nat :=
   w.foldr (fun q acc => CFSG.KC.Loop.strictN acc fun Y => c.mul (powK c (getR c R q.1) q.2) Y) X
 

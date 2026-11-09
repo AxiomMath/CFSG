@@ -1,6 +1,6 @@
 module
 
-public import CFSG.Certificates.Kernel.Enum.Defs
+public import CFSG.Certificates.Kernel.Enum.DefsC
 public import CFSG.RankThree.PartTwo.Sec8.Hering611S4Tab
 public import CFSG.GroupTheory.Fitting.CharacteristicP
 public import CFSG.GroupTheory.LocalCores.Components
@@ -21,7 +21,7 @@ open CFSG.KC.Enum CFSG.Sporadic.Th.Native CFSG.RankThree.PartTwo.Sec8.Hering611.
 
 @[expose] noncomputable def ap (T q : Nat) : Nat := pg (nat_lit 13) (nat_lit 8191) T q
 
-@[expose] noncomputable def pc (p q : Nat) : Nat := pcomp (nat_lit 6156) (nat_lit 13) (nat_lit 8191) p q
+@[expose] noncomputable def pc (p q : Nat) : Nat := pcompC (nat_lit 6156) (nat_lit 13) (nat_lit 8191) p q
 
 @[expose] noncomputable def pid : Nat := pidn (nat_lit 6156) (nat_lit 13)
 
@@ -65,7 +65,7 @@ open CFSG.KC.Enum CFSG.Sporadic.Th.Native CFSG.RankThree.PartTwo.Sec8.Hering611.
 
 @[expose] noncomputable def stepV (RT MT : Nat → Nat) (k e v op a b : Nat) : Nat :=
   (fun sa => Bool.rec (Bool.rec (val RT MT e) (pw sa b) (Nat.beq op (nat_lit 1)))
-      (pc sa (Bool.rec (RT b) v (Nat.beq b k))) (Nat.beq op (nat_lit 0)))
+      (Bool.rec (pc sa (RT b)) (pc sa v) (Nat.beq b k)) (Nat.beq op (nat_lit 0)))
     (Bool.rec (RT a) v (Nat.beq a k))
 
 @[expose] noncomputable def stepOK (RT MT : Nat → Nat) (PR k i e v op a b : Nat) : Bool :=
@@ -163,8 +163,7 @@ open CFSG.KC.Enum CFSG.Sporadic.Th.Native CFSG.RankThree.PartTwo.Sec8.Hering611.
   (fun gl N => (fun K SR => bAnd(Nat.blt e (len (D.enums.map fun p => p.2)),
       bAnd(Nat.ble 1 N, bAnd(Nat.beq (keyAt K 0) key1, bAnd(Nat.blt (kf SR (Nat.sub N 1)) N,
       allBlk (nat_lit 0) (fun j => bAnd(Nat.blt (nth gl j) (nat_lit 109),
-        bAnd(Nat.beq (pc (gT RT gl j) (gTI RT gl j)) pid,
-          Nat.beq (pc (gTI RT gl j) (gT RT gl j)) pid))) (len gl))))))
+        Nat.beq (pc (gTI RT gl j) (gT RT gl j)) pid)) (len gl))))))
       (ET (Nat.mul 4 e)) (ET (Nat.add (Nat.mul 4 e) 3)))
     (gensOf D e) (cardOf D e)
 
@@ -260,5 +259,19 @@ open CFSG.KC.Enum CFSG.Sporadic.Th.Native CFSG.RankThree.PartTwo.Sec8.Hering611.
       Nat.ble (cntK RT ET D e c 0 (cardOf D e)) b))
     (fun e c => bAnd(Nat.blt e (len (D.enums.map fun p => p.2)),
       Nat.blt 0 (cntK RT ET D e c 0 (cardOf D e)))) l
+
+@[expose] def conjAll (f : Nat) : List Nat → Cond
+  | [] => .memSelf f
+  | [r] => .memConj f r
+  | r :: rs => .and (.memConj f r) (conjAll f rs)
+
+@[expose] noncomputable def loopNK (RT ET : Nat → Nat) (D : TData) (f : Nat) : TLoop → Bool :=
+  fun l => TLoop.rec (motive := fun _ => Bool)
+    (fun e c => (fun gl => bAnd(Nat.blt e (len (D.enums.map fun p => p.2)),
+      bAnd(Nat.blt f (len (D.enums.map fun p => p.2)),
+      bAnd(Nat.ble 1 (len (gensOf D f)),
+      allBlk (nat_lit 0) (fun j => condK RT ET D (keyF (ap (gT RT gl j))) (ap (gT RT gl j))
+        (ap (gTI RT gl j)) c) (len gl))))) (gensOf D e))
+    (fun _ _ _ => false) (fun _ _ _ => false) (fun _ _ => false) l
 
 end CFSG.KC.J3Tk

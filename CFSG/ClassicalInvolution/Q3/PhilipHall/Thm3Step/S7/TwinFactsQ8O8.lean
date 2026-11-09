@@ -28,7 +28,7 @@ theorem rep_permOfInv {n : ℕ} {t r : Array ℕ} (h : invPairB n t r = true) :
     CFSG.Monster.B.Co2.Rep n t (permOfInv n t r) := by
   intro x
   unfold permOfInv
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 section Cert
@@ -106,12 +106,8 @@ theorem fourReps_mem : ∀ r ∈ fourReps (), r ∈ S ∧ orderOf r = 4 := by
 
 theorem o8_cov : ∀ u ∈ S, orderOf u = 4 → ∃ r ∈ fourReps (), ∃ s ∈ S, u = s * r * s⁻¹ := by
   have h := parts.2.2.1
-  simp only [o8TwinReps, Bool.and_eq_true] at h
-  obtain ⟨hcov, -⟩ := exists_conj_of_repsOK degree_lt (sylQ ()) sylQ_valid
-    (listTables_spec degree_lt sylGens_mem_S) 1 (fun g hg => by simpa using hg) (by norm_num)
-    (fourReps ()) (fun r hr => by simpa using fourReps_mem r hr) 4000 h.1
-  intro u hu ho
-  exact hcov u (by simpa using hu) ho
+  simp only [o8TwinReps, Bool.and_eq_true, decide_eq_true_eq] at h
+  exact h.1
 
 theorem x0_mem : x0 () ∈ S := evalCodes_mem _ sylGens_mem_S _
 

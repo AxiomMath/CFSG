@@ -17,6 +17,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 import Mathlib.Tactic.NormNum
 public import CFSG.Certificates.Kernel.Spor.RawOrbGrp
+public import CFSG.Certificates.Kernel.Kc3E16TSound
 
 public section
 
@@ -40,8 +41,10 @@ theorem nats_eq : liftResNats = natsSL LiftResT.chars := by
 
 @[expose] noncomputable def YK : Array Nat := ((natsSL LiftResT.chars).take 480).toArray
 
-@[expose] noncomputable def RK (j : Nat) : Array Nat :=
-  (((natsSL LiftResT.chars).drop (480 * (j + 1))).take 480).toArray
+@[expose] noncomputable def RL (j : Nat) : List Nat :=
+  ((natsSL LiftResT.chars).drop (480 * (j + 1))).take 480
+
+@[expose] noncomputable def RK (j : Nat) : Array Nat := (RL j).toArray
 
 theorem resY_eq : resY = YK := by
   rw [resY, nats_eq]
@@ -97,8 +100,37 @@ theorem posArr_unpack {n w k : Nat} {G : Nat → Nat} {gs : Array (Array Nat)}
     rw [e1, e2, hl.1, ih1]
     exact ⟨compA_unpack hl.2 ih2, canonK_pcomp hl.2 ih2⟩
 
-theorem bindM : allN 3 (fun j => bindArrK (RK j) 480 9 (PM2122.S j)) = true := by
+@[expose] noncomputable def bindL (j : Nat) : Bool :=
+  bAnd(Nat.beq (RL j).length 480, bAnd((RL j).all (fun y => Nat.blt y 512),
+    Nat.beq (CFSG.KC.Kc3K.packL 9 (RL j)) (PM2122.S j)))
+
+theorem bindM : allN 3 bindL = true := by
   quickRfl
+
+theorem toArray_unpack {l : List Nat} {P : Nat} (h : bAnd(Nat.beq l.length 480,
+    bAnd(l.all (fun y => Nat.blt y 512), Nat.beq (CFSG.KC.Kc3K.packL 9 l) P)) = true) :
+    l.toArray = unpack 480 9 P := by
+  simp only [bAnd_iff, List.all_eq_true] at h
+  obtain ⟨h1, h2, h3⟩ := h
+  have hlen : l.length = 480 := Nat.eq_of_beq_eq_true h1
+  have hlt : ∀ y ∈ l, y < 2 ^ 9 := fun y hy =>
+    lt_of_lt_of_eq (Nat.blt_eq.mp (h2 y hy)) (by norm_num)
+  apply unpack_eq_of_bindArrK
+  unfold bindArrK
+  rw [bAnd_iff]
+  refine ⟨by rw [List.size_toArray, hlen]; rfl, ?_⟩
+  rw [CFSG.KS.Raw.Orb.allN_iff]
+  intro i hi
+  have hil : i < l.length := by rw [hlen]; exact hi
+  rw [getElem!_pos l.toArray i (by simpa using hil), List.getElem_toArray,
+    ← List.getD_eq_getElem _ 0 hil, ← Nat.eq_of_beq_eq_true h3,
+    CFSG.KC.Kc3K.pg_packL (w := 9) (m := mask 9) (by decide) l hlt i hil]
+  exact Nat.beq_refl _
+
+theorem RK_unpack {j : Nat} (h : bindL j = true) : RK j = unpack 480 9 (PM2122.S j) := by
+  rw [bindL.eq_1] at h
+  rw [RK.eq_1]
+  exact toArray_unpack h
 
 theorem canonM : allN 3 (fun j => canonK 480 9 (mask 9) (480 * 9) (PM2122.S j)) = true := by
   quickRfl
@@ -110,7 +142,7 @@ theorem canonI9 : canonK 480 9 (mask 9) (480 * 9) (pidn 480 9) = true := by
   quickRfl
 
 theorem resArrs_bind : resArrs.size = 3 ∧ ∀ j < 3, resArrs[j]! = unpack 480 9 (PM2122.S j) :=
-  ⟨rfl, fun j hj => by rw [resArrs_get_eq hj]; exact unpack_eq_of_bindArrK (allN_spec bindM j hj)⟩
+  ⟨rfl, fun j hj => by rw [resArrs_get_eq hj]; exact RK_unpack (allN_spec bindM j hj)⟩
 
 theorem posArr_res (wd : List Nat) : posArr 480 resArrs wd = unpack 480 9 (posK 480 9 3 PM2122.S wd) ∧
     canonK 480 9 (mask 9) (480 * 9) (posK 480 9 3 PM2122.S wd) = true :=
@@ -141,45 +173,92 @@ theorem chainM : CFSG.Sporadic.HNOddCore.chainCheck 480 resArrs resW resBase res
   chainCheck_of resArrs_bind rfl w0 wD (by norm_num) (base_of (by quickRfl)) PM2122.head
     PM2122.hl (by norm_num) PM2122.hs (by quickRfl) (by decide +kernel)
 
-@[expose] noncomputable def resK : Bool :=
-  bAnd(Nat.beq YK.size 480, bAnd(allN 479 (fun k => Nat.blt YK[k]! YK[k + 1]!),
-    bAnd(allN 480 (fun k => Nat.blt YK[k]! 245520),
-      allN 3 (fun j => bAnd(Nat.beq (RK j).size 480, allN 480 (fun k =>
-        bAnd(Nat.blt (RK j)[k]! 480, Nat.beq YK[(RK j)[k]!]! (ON3.mG j YK[k]!))))))))
+@[expose] noncomputable def YL : List Nat := (natsSL LiftResT.chars).take 480
 
-theorem resK_ok : resK = true := by
+@[expose] noncomputable def YP : Nat := CFSG.KC.Kc3K.packL 18 YL
+
+@[expose] noncomputable def ascB : List Nat → Bool
+  | x :: y :: l => bAnd(Nat.blt x y, ascB (y :: l))
+  | _ => true
+
+@[expose] noncomputable def resK2 : Bool :=
+  bAnd(Nat.beq YL.length 480, bAnd(ascB YL, bAnd(YL.all (fun y => Nat.blt y 245520),
+    allN 3 (fun j => allN 480 (fun k => bAnd(Nat.blt (pg 9 (mask 9) (PM2122.S j) k) 480,
+      Nat.beq (pg 18 (mask 18) YP (pg 9 (mask 9) (PM2122.S j) k))
+        (ON3.mG j (pg 18 (mask 18) YP k))))))))
+
+theorem resK2_ok : resK2 = true := by
   quickRfl
 
+theorem ascB_spec : ∀ (l : List Nat), ascB l = true →
+    ∀ k, k + 1 < l.length → l.getD k 0 < l.getD (k + 1) 0
+  | [], _, k, hk => absurd hk (by simp)
+  | [_], _, k, hk => absurd hk (by simp)
+  | x :: y :: l, h, k, hk => by
+    have h' : Nat.blt x y = true ∧ ascB (y :: l) = true := by
+      simpa only [ascB, bAnd_iff] using h
+    cases k with
+    | zero => simpa using Nat.blt_eq.mp h'.1
+    | succ k =>
+      have := ascB_spec (y :: l) h'.2 k (by simp only [List.length_cons] at hk ⊢; omega)
+      simpa using this
+
+theorem getD_eq_getK (l : List Nat) {k : Nat} (hk : k < l.length) : l.getD k 0 = l[k] := by
+  simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk]
+
+theorem YK_get {k : Nat} (hk : k < YL.length) : YK[k]! = YL.getD k 0 := by
+  have e : YK = YL.toArray := rfl
+  rw [e, getElem!_pos YL.toArray k (by simpa using hk), List.getElem_toArray, getD_eq_getK YL hk]
+
+theorem YP_get (hlen : YL.length = 480) (hlt : ∀ y ∈ YL, y < 245520) {k : Nat} (hk : k < 480) :
+    pg 18 (mask 18) YP k = YL.getD k 0 :=
+  CFSG.KC.Kc3K.pg_packL (w := 18) (m := mask 18) (by decide) YL
+    (fun x hx => lt_trans (hlt x hx) (by norm_num)) k (hlen ▸ hk)
+
+theorem RK_get {j k : Nat} (hj : j < 3) (hk : k < 480) :
+    (RK j)[k]! = pg 9 (mask 9) (PM2122.S j) k := by
+  rw [← resArrs_get_eq hj, resArrs_bind.2 j hj, Orb.unpack_get hk]
+
+theorem RK_size {j : Nat} (hj : j < 3) : (RK j).size = 480 := by
+  rw [← resArrs_get_eq hj, resArrs_bind.2 j hj, unpack, Array.size_ofFn]
+
 theorem res_ok : liftResOK (wordArrs Data.MWords) = true := by
-  have h := resK_ok
-  unfold resK at h
-  simp only [bAnd_iff] at h
+  have h := resK2_ok
+  unfold resK2 at h
+  simp only [bAnd_iff, List.all_eq_true] at h
   obtain ⟨h1, h2, h3, h4⟩ := h
-  have hY := resY_eq
+  have hlen : YL.length = 480 := Nat.eq_of_beq_eq_true h1
+  have hlt : ∀ y ∈ YL, y < 245520 := fun y hy => Nat.blt_eq.mp (h3 y hy)
+  have hY : ∀ k < 480, resY[k]! = YL.getD k 0 := fun k hk => by
+    rw [resY_eq, YK_get (by rw [hlen]; exact hk)]
+  have hYl : ∀ k < 480, YL.getD k 0 < 245520 := fun k hk => by
+    rw [getD_eq_getK YL (by omega)]
+    exact hlt _ (List.getElem_mem _)
   unfold liftResOK
   simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq]
-  refine ⟨⟨⟨⟨by rw [hY]; exact Nat.eq_of_beq_eq_true h1, ?_⟩, ?_⟩, ?_⟩, chainM⟩
+  refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, chainM⟩
+  · have e : YK = YL.toArray := rfl
+    rw [resY_eq, e, List.size_toArray, hlen]
   · rw [allBelowN_iff]
     intro k hk
-    rw [hY]
-    simpa using Nat.blt_eq.mp (allN_spec h2 k hk)
-  · rw [hY]
-    exact Nat.blt_eq.mp (allN_spec h3 479 (by norm_num))
+    rw [hY k (by omega), hY (k + 1) (by omega)]
+    simpa using ascB_spec YL h2 k (by omega)
+  · rw [hY 479 (by norm_num)]
+    exact hYl 479 (by norm_num)
   · rw [allBelowN_iff]
     intro j hj
-    have hj' := allN_spec h4 j hj
-    simp only [bAnd_iff] at hj'
-    obtain ⟨g1, g2⟩ := hj'
-    simp only [Bool.and_eq_true, beq_iff_eq, resArrs_get_eq hj, hY]
-    refine ⟨Nat.eq_of_beq_eq_true g1, ?_⟩
+    simp only [Bool.and_eq_true, beq_iff_eq, resArrs_get_eq hj]
+    refine ⟨RK_size hj, ?_⟩
     rw [allBelowN_iff]
     intro k hk
-    have hk' := allN_spec g2 k hk
-    simp only [bAnd_iff] at hk'
-    obtain ⟨k1, k2⟩ := hk'
+    have g := allN_spec (allN_spec h4 j hj) k hk
+    rw [bAnd_iff] at g
+    have g1 := Nat.blt_eq.mp g.1
     simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq]
-    refine ⟨Nat.blt_eq.mp k1, ?_⟩
-    rw [Nat.eq_of_beq_eq_true k2, (ON3.m_get hj _ (Nat.blt_eq.mp (allN_spec h3 k hk))).1]
+    rw [RK_get hj hk]
+    refine ⟨g1, ?_⟩
+    rw [hY _ g1, hY k hk, ← YP_get hlen hlt g1, ← YP_get hlen hlt hk, Nat.eq_of_beq_eq_true g.2,
+      (ON3.m_get hj _ (by rw [YP_get hlen hlt hk]; exact hYl k hk)).1]
 
 theorem localCert_eq : localCert = decodeCert (natsSL LocAutT.chars) := by
   rw [localCert, LocAutT.eq, natsOf_ofList ON2123.digits]
@@ -196,7 +275,12 @@ theorem liftAt_eq (k i : Nat) : liftAt k i = liftK k i := by
 @[expose] noncomputable def imgK (e : LiftEntry) (j : Nat) : Nat :=
   posK 480 9 3 PM2122.S (e.words.getD j [])
 
-@[expose] noncomputable def qK : Nat := posK 480 9 3 PM2122.S (decodeLifts (natsSL LiftsT.chars)).qWord
+@[expose] noncomputable def qW : List Nat := [3, 3, 3, 3, 2, 3, 2, 2, 2, 2, 3, 2]
+
+theorem qW_eq : (decodeLifts (natsSL LiftsT.chars)).qWord = qW := by
+  decide +kernel
+
+@[expose] noncomputable def qK : Nat := posK 480 9 3 PM2122.S qW
 
 @[expose] noncomputable def qPowK (p : Nat) : Nat :=
   Nat.rec (motive := fun _ => Nat) (pidn 480 9) (fun _ acc => CFSG.KC.Enum.pcomp 480 9 (mask 9) qK acc) p
@@ -207,7 +291,7 @@ theorem liftAt_eq (k i : Nat) : liftAt k i = liftK k i := by
 
 @[expose] noncomputable def graphK (e : LiftEntry) (P : Nat → Nat) : Bool :=
   bAnd(Nat.beq e.words.length 3, bAnd(allN 3 (fun j => pairK (PM2122.S j) (imgK e j) (P j)),
-    Nat.beq (posK 480 9 3 (imgK e) (decodeLifts (natsSL LiftsT.chars)).qWord) (qPowK e.power)))
+    Nat.beq (posK 480 9 3 (imgK e) qW) (qPowK e.power)))
 
 theorem dbl_unpack_of {n w w2 A B P : Nat}
     (h1 : ∀ i < n, pg w2 (mask w2) P i = pg w (mask w) A i)
@@ -259,9 +343,9 @@ theorem resQPow_unpack : ∀ p : Nat, resQPow p = unpack 480 9 (qPowK p) ∧
   | p + 1 => by
     obtain ⟨ih1, ih2⟩ := resQPow_unpack p
     have hq := posArr_res liftData.qWord
-    rw [liftData_eq] at hq
+    rw [liftData_eq, qW_eq] at hq
     have e1 : resQPow (p + 1) = compA 480 resQ (resQPow p) := rfl
-    rw [e1, resQ, liftData_eq, hq.1, ih1]
+    rw [e1, resQ, liftData_eq, qW_eq, hq.1, ih1]
     exact ⟨compA_unpack hq.2 ih2, canonK_pcomp hq.2 ih2⟩
 
 theorem graph_of {k i : Nat} {P : Nat → Nat} (hk : graphK (liftK k i) P = true)
@@ -286,7 +370,7 @@ theorem graph_of {k i : Nat} {P : Nat → Nat} (hk : graphK (liftK k i) P = true
   rw [Bool.and_eq_true]
   refine ⟨hc hO, ?_⟩
   have hp := posArr_unpack idK9 canonI9 hs hg liftData.qWord
-  rw [hp.1, (resQPow_unpack _).1, liftData_eq, Nat.eq_of_beq_eq_true hq]
+  rw [hp.1, (resQPow_unpack _).1, liftData_eq, qW_eq, Nat.eq_of_beq_eq_true hq]
   exact peq_self _ _
 
 theorem hn960 : 0 < 960 ∧ 960 + 1 < 2 ^ 10 ∧ 960 < 65536 := by norm_num

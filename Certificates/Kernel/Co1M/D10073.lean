@@ -2,22 +2,22 @@ module
 
 public import Init
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s0.items.gz" 3453658 11261678278124418116
+#kc_repo #kc_nat_items CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s0.items" 3453658 11261678278124418116
   S73B0_[2859]
 #kc_select CFSG.KD.Co1M S73L0 S73B0_ 2859
-#kc_repo #kc_nat_items_gz CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s1.items.gz" 3453658 6497527589252724130
+#kc_repo #kc_nat_items CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s1.items" 3453658 6497527589252724130
   S73B1_[2859]
 #kc_select CFSG.KD.Co1M S73L1 S73B1_ 2859
-#kc_repo #kc_nat_items_gz CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s2.items.gz" 3453654 7005103435518806319
+#kc_repo #kc_nat_items CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s2.items" 3453654 7005103435518806319
   S73B2_[2859]
 #kc_select CFSG.KD.Co1M S73L2 S73B2_ 2859
-#kc_repo #kc_nat_items_gz CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s3.items.gz" 3449355 12325198591636691963
+#kc_repo #kc_nat_items CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/s3.items" 3449355 12325198591636691963
   S73B3_[2856]
 #kc_select CFSG.KD.Co1M S73L3 S73B3_ 2856
-#kc_repo #kc_nat_items_gz CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/a.items.gz" 1906347 14710420856309158664
+#kc_repo #kc_nat_items CFSG.KD.Co1M "Certificates/Kernel/Co1M/D10073/a.items" 1906347 14710420856309158664
   A73B_[2859]
 #kc_select CFSG.KD.Co1M A73L A73B_ 2859
 

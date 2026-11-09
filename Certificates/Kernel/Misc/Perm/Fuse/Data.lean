@@ -6,7 +6,7 @@ public import Certificates.Data.Kernel.Misc.PermM22
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.Fuse "Certificates/Kernel/Misc/Perm/Fuse/data/fuse.json.gz" 117251 13013292556499836633
+#kc_repo #kc_json CertificateChecks.KernelMisc.Fuse "Certificates/Kernel/Misc/Perm/Fuse/data/fuse.json" 117251 13013292556499836633
   (gL : List Nat)
   (kW2 : List (List Nat)) (kL2 : List Nat) (eL2 : List Nat) (paL2 : List Nat) (sgL2 : List Nat)
   (ctL2 : List Nat) (oL2 : List Nat) (opL2 : List Nat) (osL2 : List Nat) (wW2 : List (List Nat))

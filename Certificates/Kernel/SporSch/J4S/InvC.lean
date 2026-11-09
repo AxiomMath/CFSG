@@ -5,6 +5,7 @@ public import Certificates.Kernel.SporSch.J4S.FiveT
 public import CFSG.Sporadic.Schreier.J4SInvData
 public import Certificates.Data.Kernel.J4Q.Mat
 public import CFSG.Certificates.Kernel.SporSch.J4STextSound
+public import Certificates.Data.Kernel.SporSch.J4SInvFX
 meta import CFSG.Sporadic.Schreier.J4SInvData
 meta import Certificates.Kernel.SporSch.J4S.InvData
 import CFSG.Certificates.Kernel.Common.Harness
@@ -69,11 +70,25 @@ open CFSG.Sporadic.J4Schreier CertificateChecks.KernelSporSch
 
 @[expose] noncomputable def WI (n e : Nat) : Nat := ent 15 (J4FW2 e) n
 
+@[expose] noncomputable def idxFixK (P n e : Nat) : Bool :=
+  bAnd(Nat.beq (appK P n) n, notB (bAnd(Nat.beq n 0, Nat.beq e 0)))
+
+@[expose] noncomputable def fxK (P X : Nat) : Bool :=
+  bAnd(allN 11 (fun i => Nat.blt (colK (ent 121 X 1) i) (Nat.shiftLeft 1 (ent 121 X 3))),
+    allN 11 (fun i => Nat.beq
+      (Nat.xor (Nat.shiftLeft 1 i) (appK (ent 121 X 0) (appK (ent 121 X 1) (Nat.shiftLeft 1 i))))
+      (appK (ent 121 X 2) (Nat.xor (appK P (Nat.shiftLeft 1 i)) (Nat.shiftLeft 1 i)))))
+
+@[expose] noncomputable def idxRK (P n e : Nat) : Bool :=
+  bIf(idxFixK P n e,
+    bAnd(Nat.blt (WI n e) 19967, bAnd(Nat.beq (FF 0 (WI n e)) n, Nat.beq (FF 1 (WI n e)) e)),
+    true)
+
 @[expose] noncomputable def idxK (e : Nat) : Bool :=
   bIf(bAnd(Nat.blt e 1024, Nat.beq (J4SQ.T e) 0),
-    allN 2048 (fun n => bIf(fixK n e,
-      bAnd(Nat.blt (WI n e) 19967, bAnd(Nat.beq (FF 0 (WI n e)) n, Nat.beq (FF 1 (WI n e)) e)),
-      true)),
+    CFSG.KC.J4Q.strictB (J4E.T e) fun P => CFSG.KC.J4Q.strictB (J4FX e) fun X =>
+      bAnd(fxK P X, allN (Nat.shiftLeft 1 (ent 121 X 3)) (fun c =>
+        CFSG.KC.J4Q.strictB (appK (ent 121 X 0) c) fun n => idxRK P n e)),
     true)
 
 @[expose] noncomputable def conjK (i e : Nat) : Bool :=

@@ -24,8 +24,8 @@ theorem g5a_pAB_true : pAB = true := by
 
 set_option maxHeartbeats 0 in
 theorem g5a_ovAB_true : ovAB = true := by
-  simp only [ovAB, gEA, gSAE, gAAE, pEA, mEA, subB, closedB, nodupB_toP, elemsOf_toF,
-    List.any_map, Function.comp_def, hs_contains_toLR', contains_toLR, mul8_toF]
+  simp only [ovAB, gEA, gSAE, gAAE, mEA, subB, closedB, nodupB_toP, elemsOf_toF,
+    hs_contains_toLR', contains_toLR, mul8_toF]
   decide +kernel
 
 theorem g5a_oAB_true : oAB = true := by

@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.Sporadic.J1K.Checks
+public import Certificates.Kernel.Sporadic.J1K.Sep
 public import CFSG.Certificates.Kernel.Spor.VOrbSound
 public import CFSG.Certificates.Kernel.Spor.PrimKSound
 public import CFSG.Certificates.Kernel.Spor.Loops
@@ -17,7 +18,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kon_join CertificateChecks.KernelSpor.J1K.sch0All CertificateChecks.KernelSpor.J1K.sch0 28
+#kon_join CertificateChecks.KernelSpor.J1K.schG0All CertificateChecks.KernelSpor.J1K.schG0 5
 
 namespace CertificateChecks.KernelSpor.J1K
 
@@ -92,23 +93,57 @@ theorem GJ_eq (z : Int) (x : Nat) : GJ z x =
     if z = 1 then r32 AL x else if z = -1 then r32 AI x else if z = 2 then r32 BE x else r32 BI x := by
   rcases z with ((_ | _ | _ | k) | (_ | k)) <;> rfl
 
+theorem gt1 : genTables OJ 1 = OJ.alpha := if_pos rfl
+
+theorem gt2 : genTables OJ (-1) = invT 1540 OJ.alpha := by
+  rw [← size_OJ]
+  exact (if_neg (by decide : ¬((-1 : Int) = 1))).trans (if_pos rfl)
+
+theorem gt3 : genTables OJ 2 = OJ.beta :=
+  (if_neg (by decide : ¬((2 : Int) = 1))).trans
+    ((if_neg (by decide : ¬((2 : Int) = -1))).trans (if_pos rfl))
+
+theorem gt4 {z : Int} (h1 : ¬z = 1) (h2 : ¬z = -1) (h3 : ¬z = 2) :
+    genTables OJ z = invT 1540 OJ.beta := by
+  rw [← size_OJ]
+  exact (if_neg h1).trans ((if_neg h2).trans (if_neg h3))
+
+theorem gj4 {z : Int} {x : Nat} (h1 : ¬z = 1) (h2 : ¬z = -1) (h3 : ¬z = 2) :
+    GJ z x = r32 BI x := by
+  rw [GJ_eq, if_neg h1, if_neg h2, if_neg h3]
+
+theorem gens_get1 {x : Nat} (hx : x < 1540) :
+    ap (genTables OJ 1) x = GJ 1 x ∧ GJ 1 x < 1540 := by
+  rw [gt1]
+  exact ⟨al_get hx, (inv_facts hx).1⟩
+
+theorem gens_get2 {x : Nat} (hx : x < 1540) :
+    ap (genTables OJ (-1)) x = GJ (-1) x ∧ GJ (-1) x < 1540 := by
+  rw [gt2]
+  exact ⟨invA.2 x hx, (inv_facts hx).2.2.2.2.1⟩
+
+theorem gens_get3 {x : Nat} (hx : x < 1540) :
+    ap (genTables OJ 2) x = GJ 2 x ∧ GJ 2 x < 1540 := by
+  rw [gt3]
+  exact ⟨be_get hx, (inv_facts hx).2.2.1⟩
+
+theorem gens_get4 {z : Int} {x : Nat} (hx : x < 1540) (h1 : ¬z = 1) (h2 : ¬z = -1) (h3 : ¬z = 2) :
+    ap (genTables OJ z) x = GJ z x ∧ GJ z x < 1540 := by
+  rw [gt4 h1 h2 h3, gj4 h1 h2 h3]
+  exact ⟨invB.2 x hx, (inv_facts hx).2.2.2.2.2⟩
+
 theorem gens_get (z : Int) {x : Nat} (hx : x < 1540) :
     ap (genTables OJ z) x = GJ z x ∧ GJ z x < 1540 := by
-  have hf := inv_facts hx
-  rw [GJ_eq]
-  unfold genTables
-  rw [size_OJ]
   by_cases h1 : z = 1
-  · simp only [h1, ↓reduceIte]
-    exact ⟨al_get hx, hf.1⟩
+  · subst h1
+    exact gens_get1 hx
   by_cases h2 : z = -1
-  · simp only [h2, ↓reduceIte]
-    exact ⟨invA.2 x hx, hf.2.2.2.2.1⟩
+  · subst h2
+    exact gens_get2 hx
   by_cases h3 : z = 2
-  · simp only [h3, ↓reduceIte]
-    exact ⟨be_get hx, hf.2.2.1⟩
-  · simp only [h1, h2, h3, ↓reduceIte]
-    exact ⟨invB.2 x hx, hf.2.2.2.2.2⟩
+  · subst h3
+    exact gens_get3 hx
+  · exact gens_get4 hx h1 h2 h3
 
 theorem inv_spec {j x : Nat} (hj : j < 5) (hx : x < 1540) : LJ (2 * j) x < 1540 ∧
     LJ (2 * j + 1) x < 1540 ∧ LJ (2 * j + 1) (LJ (2 * j) x) = x := by
@@ -176,14 +211,28 @@ theorem schSl_spec {i lo len : Nat}
 theorem cnt0 : CNTJ 0 = 1540 := rfl
 theorem cnt1 : CNTJ 1 = 114 := rfl
 
-theorem sch_spec : ∀ i < 2, ∀ k < CNTJ i, ∀ t < (lvK LJ BJ 10 i).length,
+theorem sch_spec : ∀ i < 2, 0 < i → ∀ k < CNTJ i, ∀ t < (lvK LJ BJ 10 i).length,
     schK LJ PTSJ POSJ PARJ LABJ CNTJ QB QL 2 i (lvAt LJ BJ 10 i t) k = true := by
-  intro i hi k hk
-  interval_cases i
-  · have hs : k / 55 < 28 := by rw [cnt0] at hk; omega
-    exact schSl_spec (sch0All (k / 55) hs) k (by simp only [Nat.mul_eq]; omega)
-      (by simp only [Nat.mul_eq]; omega) hk
-  · exact schSl_spec sch1_ok k (Nat.zero_le _) (by rw [cnt1] at hk; omega) hk
+  intro i hi hi0 k hk
+  have e : i = 1 := by omega
+  subst e
+  exact schSl_spec sch1_ok k (Nat.zero_le _) (by rw [cnt1] at hk; omega) hk
+
+theorem sch0_spec : ∀ s ∈ [0, 2], ∀ k < CNTJ 0,
+    schK LJ PTSJ POSJ PARJ LABJ CNTJ QB QL 2 0 s k = true := by
+  intro s hs k hk
+  rw [cnt0] at hk
+  have hs5 : k / 308 < 5 := by omega
+  have h := allN_spec (schG0All (k / 308) hs5) (k % 308) (Nat.mod_lt _ (by norm_num))
+  rw [strictB_eq] at h
+  have e : Nat.add (Nat.mul (k / 308) 308) (k % 308) = k := by
+    change k / 308 * 308 + k % 308 = k
+    omega
+  rw [e, bAnd_iff] at h
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hs
+  rcases hs with rfl | rfl
+  · exact h.1
+  · exact h.2
 
 theorem chain_hyp : ChainHyp 1540 10 2 (chainLetters OJ) chainBase chainQ chainQb LJ BJ QL QB CNTJ
     PTSJ POSJ PARJ LABJ TIJ where
@@ -193,12 +242,131 @@ theorem chain_hyp : ChainHyp 1540 10 2 (chainLetters OJ) chainBase chainQ chainQ
   chk := ⟨rfl, by decide, rfl, fun i hi => by interval_cases i <;> exact ⟨rfl, by decide, rfl⟩⟩
   tree := fun i hi => tree_spec hi
 
+theorem lj0 {x : Nat} (hx : x < 1540) : LJ 0 x = r32 AL x := by
+  have h := word_spec (j := 0) (by norm_num) hx
+  rw [h]
+  change GJ 1 x = r32 AL x
+  rw [GJ_eq]
+  simp
+
+theorem lj2 {x : Nat} (hx : x < 1540) : LJ 2 x = r32 BE x := by
+  have h := word_spec (j := 1) (by norm_num) hx
+  rw [h]
+  change GJ 2 x = r32 BE x
+  rw [GJ_eq]
+  simp
+
+theorem lj1 {y : Nat} (hy : y < 1540) : LJ 1 y = r32 AI y := by
+  have hs := pair_inv (f := fun x => r32 AL x) (g := fun x => r32 AI x)
+    (fun x hx => (inv_facts hx).1) (fun x hx => (inv_facts hx).2.1) y hy
+  have ha := (inv_facts hy).2.2.2.2.1
+  have h := (inv_spec (j := 0) (by norm_num) ha).2.2
+  rw [lj0 ha] at h
+  calc LJ 1 y = LJ 1 (r32 AL (r32 AI y)) := by rw [hs]
+    _ = r32 AI y := h
+
+theorem lj3 {y : Nat} (hy : y < 1540) : LJ 3 y = r32 BI y := by
+  have hs := pair_inv (f := fun x => r32 BE x) (g := fun x => r32 BI x)
+    (fun x hx => (inv_facts hx).2.2.1) (fun x hx => (inv_facts hx).2.2.2.1) y hy
+  have hb := (inv_facts hy).2.2.2.2.2
+  have h := (inv_spec (j := 1) (by norm_num) hb).2.2
+  rw [lj2 hb] at h
+  calc LJ 3 y = LJ 3 (r32 BE (r32 BI y)) := by rw [hs]
+    _ = r32 BI y := h
+
+noncomputable abbrev genSet : Set (Equiv.Perm (Fin 1540)) :=
+  {g | ∃ s ∈ [0, 2], sig 1540 (chainLetters OJ) s = g}
+
+noncomputable def genP (z : Int) : Equiv.Perm (Fin 1540) :=
+  if z = 1 then sig 1540 (chainLetters OJ) 0 else if z = -1 then (sig 1540 (chainLetters OJ) 0)⁻¹
+    else if z = 2 then sig 1540 (chainLetters OJ) 2 else (sig 1540 (chainLetters OJ) 2)⁻¹
+
+theorem genP_mem (z : Int) : genP z ∈ Subgroup.closure genSet := by
+  have h0 : sig 1540 (chainLetters OJ) 0 ∈ Subgroup.closure genSet :=
+    Subgroup.subset_closure ⟨0, by simp, rfl⟩
+  have h2 : sig 1540 (chainLetters OJ) 2 ∈ Subgroup.closure genSet :=
+    Subgroup.subset_closure ⟨2, by simp, rfl⟩
+  unfold genP
+  split_ifs
+  · exact h0
+  · exact Subgroup.inv_mem _ h0
+  · exact h2
+  · exact Subgroup.inv_mem _ h2
+
+theorem genP_act (z : Int) {y : Nat} (hy : y < 1540) : actN (genP z) y = GJ z y := by
+  rw [GJ_eq]
+  unfold genP
+  split_ifs
+  · rw [actN_sig chain_hyp (by norm_num) hy, lj0 hy]
+  · rw [actN_sig_inv chain_hyp (by norm_num) hy]
+    exact lj1 hy
+  · rw [actN_sig chain_hyp (by norm_num) hy, lj2 hy]
+  · rw [actN_sig_inv chain_hyp (by norm_num) hy]
+    exact lj3 hy
+
+theorem word_act (w : List Int) {x : Nat} (hx : x < 1540) :
+    actN (w.foldr (fun z g => genP z * g) 1) x = List.foldr GJ x w := by
+  induction w with
+  | nil => exact actN_one x
+  | cons z w ih =>
+    rw [List.foldr_cons, List.foldr_cons, actN_mul, ih,
+      genP_act z (by rw [← ih]; exact actN_lt _ hx)]
+
+theorem word_mem (w : List Int) :
+    w.foldr (fun z g => genP z * g) 1 ∈ Subgroup.closure genSet := by
+  induction w with
+  | nil => exact Subgroup.one_mem _
+  | cons z w ih => exact Subgroup.mul_mem _ (genP_mem z) ih
+
+theorem grp_le : grp 1540 10 (chainLetters OJ) ≤ Subgroup.closure genSet := by
+  rw [Subgroup.closure_le]
+  rintro _ ⟨⟨l, hl⟩, rfl⟩
+  change sig 1540 (chainLetters OJ) l ∈ _
+  rcases Nat.even_or_odd' l with ⟨j, rfl | rfl⟩
+  · have hj : j < 5 := by omega
+    have e : sig 1540 (chainLetters OJ) (2 * j) =
+        ((chainWords ())[j]!).foldr (fun z g => genP z * g) 1 := by
+      apply Equiv.ext
+      intro x
+      apply Fin.ext
+      rw [← actN_fin, ← actN_fin, actN_sig chain_hyp hl x.isLt, word_act _ x.isLt,
+        word_spec hj x.isLt]
+    rw [e]
+    exact word_mem _
+  · have hj : j < 5 := by omega
+    have e : sig 1540 (chainLetters OJ) (2 * j + 1) = (sig 1540 (chainLetters OJ) (2 * j))⁻¹ := by
+      apply Equiv.ext
+      intro x
+      apply Fin.ext
+      have hi : CFSG.Perm.Native.invL (2 * j) = 2 * j + 1 := by
+        unfold CFSG.Perm.Native.invL
+        rw [ite_eq_left (by omega)]
+      rw [← actN_fin, ← actN_fin, actN_sig chain_hyp hl x.isLt,
+        actN_sig_inv chain_hyp (by omega) x.isLt, hi]
+    rw [e]
+    refine Subgroup.inv_mem _ ?_
+    have e2 : sig 1540 (chainLetters OJ) (2 * j) =
+        ((chainWords ())[j]!).foldr (fun z g => genP z * g) 1 := by
+      apply Equiv.ext
+      intro x
+      apply Fin.ext
+      rw [← actN_fin, ← actN_fin, actN_sig chain_hyp (by omega) x.isLt, word_act _ x.isLt,
+        word_spec hj x.isLt]
+    rw [e2]
+    exact word_mem _
+
 theorem chain_eq : chainTrees 1540 (chainLetters OJ) chainBase =
       Array.ofFn (n := 2) (fun i => tbfsRec 1540 (CNTJ i.val) (PTSJ i.val) (POSJ i.val) (PARJ i.val)
         (LABJ i.val)) ∧
     ∀ chunks, chainOK 1540 (chainLetters OJ) chainBase chainQ chainQb
-      (chainTrees 1540 (chainLetters OJ) chainBase) chunks = true :=
-  pchainK_sound chain_hyp sch_spec term_ok
+      (chainTrees 1540 (chainLetters OJ) chainBase) chunks = true := by
+  refine pchainK_gens_sound chain_hyp (by norm_num) [0, 2] (by simp) grp_le
+    (fun g hg => sep_J1 (fun x hx => ?_) g (grp_le hg)) sch0_spec sch_spec term_ok
+  obtain ⟨s, hs, rfl⟩ := hx
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hs
+  rcases hs with rfl | rfl
+  · exact Or.inl fun i hi => by rw [actN_sig chain_hyp (by norm_num) hi, lj0 hi]
+  · exact Or.inr fun i hi => by rw [actN_sig chain_hyp (by norm_num) hi, lj2 hi]
 
 theorem trees0 : (chainTrees 1540 (chainLetters OJ) chainBase)[0]! =
     tbfsRec 1540 CT0.cnt CT0.PTS CT0.POS CT0.PAR CT0.LAB := by
@@ -258,14 +426,6 @@ theorem prim_ok : primOK 1540 (chainLetters OJ) (levelLetters (chainLetters OJ) 
       exact ⟨h1, allN_spec h2⟩)
     (fun l hl q hq => allN_spec (allN_spec subLbl_ok l hl) q hq)
     (fun l hl x hx => allN_spec (allN_spec imAt_ok l hl) x hx) fun i hi hne => der_spec hi hne
-
-noncomputable abbrev PJ : List (List Nat) := colMat 7 [[1, 2, 7, 7, 2, 9, 10], [5, 5, 7, 1, 8, 0, 5],
-  [2, 1, 5, 8, 7, 3, 2], [5, 4, 8, 6, 6, 10, 0], [2, 1, 9, 1, 10, 8, 9], [4, 4, 4, 0, 9, 2, 1],
-  [5, 5, 4, 10, 8, 0, 5]]
-
-noncomputable abbrev YJ : List (List Nat) := [[0, 6, 7, 6, 2, 7, 4], [10, 5, 9, 9, 3, 5, 10],
-  [4, 4, 0, 0, 9, 2, 4], [8, 2, 6, 2, 10, 2, 7], [0, 10, 1, 4, 5, 3, 4], [9, 5, 6, 2, 1, 10, 2],
-  [2, 2, 7, 0, 0, 8, 6]]
 
 theorem pts_get {q : Nat} (hq : q < 1540) : OJ.pts[q]! = decV 7 (r32 PT q) := by
   rw [getElem!_pos _ q (by simpa [vorbRec] using hq)]

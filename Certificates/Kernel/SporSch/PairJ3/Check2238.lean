@@ -3,8 +3,11 @@ module
 
 public import Certificates.Kernel.SporSch.PairJ3.CntSmall
 public import Certificates.Kernel.SporSch.PairJ3.CntSrch
-public import Certificates.Kernel.SporSch.PairJ3.CntScan0
-public import Certificates.Kernel.SporSch.PairJ3.CntScan1
+public import CFSG.Certificates.Kernel.SporSch.PairClTSound
+public import CFSG.Certificates.Kernel.SporSch.PairKSound
+public import Certificates.Kernel.SporSch.PairJ3.CntOrb
+public import CFSG.Certificates.Kernel.SporSch.PairHeOrbSound
+public import CFSG.Certificates.Kernel.SporSch.PairHeOrbCount
 public import Certificates.Kernel.SporSch.PairJ3.CntInv1
 public import Certificates.Kernel.SporSch.PairJ3.CntGroup
 public import Certificates.Kernel.SporSch.PairJ3.Check2237
@@ -640,37 +643,24 @@ theorem acond_coe (x w : P3) : Acond x w ↔ orderOf x = 2 ∧
   rw [← Subgroup.orderOf_coe (x * w), ← Subgroup.orderOf_coe (w ^ 2 * x * w)]
   rfl
 
-theorem scan_count (w : P3) {Z : Nat → Nat} (hZ : RepF 6156 Z w) {V : Nat → Nat}
-    (hV : ∀ g < 13, ∀ r < 4, Nat.beq (PJ3Cn.scAt Z (Nat.add (Nat.mul g 4) r))
-      (V (Nat.add (Nat.mul g 4) r)) = true) (h57 : sumN 52 V = 57) :
+theorem scan_count (w : P3)
+    (cA : (Finset.filter (fun i => orderOf (xE i * (w : Equiv.Perm (Fin 6156))) = 3 ∧
+      orderOf ((w : Equiv.Perm (Fin 6156)) ^ 2 * xE i * w) = 9) (Finset.range 26163)).card = 57) :
     Nat.card {x : P3 // Acond x w} = 57 := by
   classical
-  have hs := chunk_sum 52 512 (scanAt 13 PJ3T.NR PJ3T.NR PJ3T.LT PJ3T.PT PJ3Cn.bs PJ3T.c PJ3Cl.X Z)
-    V fun q hq => by
-      have := Nat.eq_of_beq_eq_true (hV (q / 4) (by omega) (q % 4) (Nat.mod_lt _ (by norm_num)))
-      rw [split44] at this
-      exact this
-  rw [h57, sumN_finset] at hs
-  have hs2 : ∑ i ∈ Finset.range (52 * 512), (if i < 26163 ∧ orderOf (xE i * w) = 3 ∧
-      orderOf ((w : Equiv.Perm (Fin 6156)) ^ 2 * xE i * w) = 9 then 1 else 0) = 57 := by
-    rw [← hs]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    have hE := scanAt_eq (bs := PJ3Cn.bs) (c := PJ3T.c) (i := i) (X := PJ3Cl.X) tc hH hbs hZ w.2
-      (fun hi => (inv_rec (lt_of_lt_of_eq hi cSz)).1)
-      (fun hi => xE_mem (lt_of_lt_of_eq hi cSz))
-    rw [hE, cSz]
-  rw [← Finset.card_filter] at hs2
-  rw [← hs2, ← Nat.card_eq_finsetCard]
+  rw [← cA, ← Nat.card_eq_finsetCard]
   symm
-  refine Nat.card_eq_of_bijective (fun i => ⟨mk (xE i.1) (xE_mem (Finset.mem_filter.1 i.2).2.1),
-    (acond_coe _ _).2 ⟨by rw [Subgroup.orderOf_mk]; exact (inv_rec (Finset.mem_filter.1 i.2).2.1).2,
-      (Finset.mem_filter.1 i.2).2.2⟩⟩) ⟨fun i j h => ?_, fun x => ?_⟩
+  refine Nat.card_eq_of_bijective (fun i => ⟨mk (xE i.1)
+    (xE_mem (Finset.mem_range.1 (Finset.mem_filter.1 i.2).1)), (acond_coe _ _).2 ⟨by
+      rw [Subgroup.orderOf_mk]
+      exact (inv_rec (Finset.mem_range.1 (Finset.mem_filter.1 i.2).1)).2,
+      (Finset.mem_filter.1 i.2).2⟩⟩) ⟨fun i j h => ?_, fun x => ?_⟩
   · have h' := congrArg (fun g : {x : P3 // Acond x w} => ((g : P3) : Equiv.Perm (Fin 6156))) h
-    exact Subtype.ext (xE_inj (Finset.mem_filter.1 i.2).2.1 (Finset.mem_filter.1 j.2).2.1 h')
+    exact Subtype.ext (xE_inj (Finset.mem_range.1 (Finset.mem_filter.1 i.2).1)
+      (Finset.mem_range.1 (Finset.mem_filter.1 j.2).1) h')
   · have hx := (acond_coe _ _).1 x.2
     obtain ⟨i, hi, he⟩ := rec_cover hx.1
-    refine ⟨⟨i, Finset.mem_filter.2 ⟨Finset.mem_range.2 (by omega), hi, ?_⟩⟩, Subtype.ext
-      (Subtype.ext he)⟩
+    refine ⟨⟨i, Finset.mem_filter.2 ⟨Finset.mem_range.2 hi, ?_⟩⟩, Subtype.ext (Subtype.ext he)⟩
     rw [he]
     exact hx.2
 
@@ -678,14 +668,206 @@ theorem acond_conj (c x w : P3) : Acond (MulAut.conj c x) (MulAut.conj c w) ↔ 
   unfold Acond
   simp only [← map_pow, ← map_mul, MulEquiv.orderOf_eq]
 
+theorem acond_inv_of {x w : P3} (h : Acond x w) : Acond x w⁻¹ := by
+  unfold Acond at h ⊢
+  obtain ⟨h2, h3, h9⟩ := h
+  have hx : x⁻¹ = x := inv_eq_of_mul_eq_one_left (by rw [← pow_two, ← h2, pow_orderOf_eq_one])
+  have e1 : x * w⁻¹ = (MulAut.conj x⁻¹ (x * w))⁻¹ := by
+    rw [MulAut.conj_apply, inv_inv, inv_mul_cancel_left, mul_inv_rev, hx]
+  have e2 : w⁻¹ ^ 2 * x * w⁻¹ = (MulAut.conj w⁻¹ (w ^ 2 * x * w))⁻¹ := by
+    simp [pow_two, mul_assoc, hx]
+  refine ⟨h2, ?_, ?_⟩
+  · rw [e1, orderOf_inv, MulEquiv.orderOf_eq, h3]
+  · rw [e2, orderOf_inv, MulEquiv.orderOf_eq, h9]
+
+theorem keyL_elt {f : Nat → Nat} {g : Equiv.Perm (Fin 6156)} (hf : RepF 6156 f g) :
+    ∀ {bs : List Nat}, (∀ b ∈ bs, b < 6156) → keyL 6156 f bs = keyElt 6156 bs g
+  | [], _ => rfl
+  | b :: bs, h => by
+    change strictN (keyL 6156 f bs) (fun r => Nat.add (f b) (Nat.mul 6156 r)) = _
+    rw [strictN_val, keyL_elt hf fun c hc => h c (List.mem_cons_of_mem b hc), keyElt, keyElt,
+      List.map_cons, imgKey, imgKey, List.foldr_cons, dite_eq_left (h b List.mem_cons_self),
+      hf b (h b List.mem_cons_self)]
+    rfl
+
+theorem bs_lt {b : Nat} (hb : b ∈ PairJ3.bs) : b < 4 := by
+  have e : PairJ3.bs = [0, 1, 3, 2] := rfl
+  rw [e] at hb
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hb
+  omega
+
+theorem op_pt {m : Nat} (hm : m < 38) : fld(PJ3O.OP, Nat.mul 13 m, mask 13) < 6156 := by
+  have hop := PJ3Cn.op_ok
+  unfold PJ3Cn.opB at hop
+  rw [bAnd_iff] at hop
+  have h := allBlk_spec hop.1 m hm
+  have e : Nat.add 0 m = m := Nat.zero_add m
+  rw [e, bAnd_iff] at h
+  simpa [Nat.blt_eq] using h.1
+
+theorem op_mb {b : Nat} (hb : b < 4) : fld(5132352, Nat.mul 6 b, mask 6) < 38 := by
+  have hop := PJ3Cn.op_ok
+  unfold PJ3Cn.opB at hop
+  rw [bAnd_iff, bAnd_iff] at hop
+  have h := allBlk_spec hop.2.1 b hb
+  have e : Nat.add 0 b = b := Nat.zero_add b
+  rw [e, bAnd_iff] at h
+  simpa [Nat.blt_eq] using h.1
+
+theorem op_rep {j : Nat} (hj : j < 1377) : PJ3O.RP j < 26163 := by
+  have hop := PJ3Cn.op_ok
+  unfold PJ3Cn.opB at hop
+  rw [bAnd_iff, bAnd_iff] at hop
+  have h := allBlk_spec hop.2.2 j hj
+  have e : Nat.add 0 j = j := Nat.zero_add j
+  rw [e] at h
+  rw [← cSz]
+  simpa [Nat.blt_eq] using h
+
+theorem op2_pt {k b : Nat} (hk : k < 19) (hb : b < 4) :
+    powF PJ3Cn.zP (Nat.sub 19 k) b = fld(PJ3O.OP, Nat.mul 13 (heoIx 19 k
+      fld(5132352, Nat.mul 6 b, mask 6)), mask 13) := by
+  have hop2 := PJ3Cn.op2_ok
+  unfold PJ3Cn.opB2 at hop2
+  have h := allBlk_spec hop2 k hk
+  have e : Nat.add 0 k = k := Nat.zero_add k
+  rw [e] at h
+  have h' := allBlk_spec h b hb
+  have e' : Nat.add 0 b = b := Nat.zero_add b
+  rw [e'] at h'
+  exact Nat.eq_of_beq_eq_true h'
+
+theorem zP_lt (x : Nat) : PJ3Cn.zP x < 2 ^ 13 := heoFld_lt _ _ _
+
+theorem zpow_sub {k : Nat} (hk : k < 19) : zE ^ (Nat.sub 19 k) = (zE ^ k)⁻¹ := by
+  refine eq_inv_of_mul_eq_one_left ?_
+  have e : Nat.sub 19 k + k = orderOf zE := by
+    rw [zOrd]
+    change 19 - k + k = 19
+    omega
+  rw [← pow_add, e, pow_orderOf_eq_one]
+
+theorem zconj_rep {j k F : Nat}
+    (hA : heoAt 13 PJ3T.NR PJ3T.NR PJ3T.LT PJ3T.PT (nat_lit 4) (nat_lit 6156) (nat_lit 19)
+      (nat_lit 38) (nat_lit 6) (nat_lit 5132352) PJ3O.OP PJ3Cn.bs PJ3Cn.XR PJ3Cn.zP PJ3Cn.KS j =
+        true)
+    (hvR : nfValidK 4 PJ3.LR (nfX 4 (PJ3Cn.XR j)) = true) (hv : nfValidK 4 PJ3.LR F = true)
+    (hkey : PJ3Cn.KS (Nat.add (Nat.mul j 19) k) = keyL 6156 (PJ3Cn.nfp F) PairJ3.bs)
+    (hk : k < 19) : E F = zE ^ k * E (nfX 4 (PJ3Cn.XR j)) * (zE ^ k)⁻¹ := by
+  have hrR := E_rep hvR
+  have hIx : ∀ b ∈ PJ3Cn.bs, ∀ k < 19, heoIx 19 k fld(5132352, Nat.mul 6 b, mask 6) < 38 :=
+    fun b hb k _ => heoIx_lt (L := 19) (t := 2) (k := k) (by norm_num) (op_mb (bs_lt hb))
+  have hs := heoAt_spec (lv := 4) (n := 6156) (L := 19) (N := 38) (mw := 6) (MB := 5132352)
+    (OP := PJ3O.OP) (bs := PJ3Cn.bs) (X := PJ3Cn.XR) (Z := PJ3Cn.zP) (KS := PJ3Cn.KS) zP_lt hIx
+    (fun m hm => Nat.lt_trans (hrR.lt (op_pt hm)) (by norm_num)) hA hk
+  rw [hkey, keyL_elt (E_rep hv) hbs] at hs
+  have hg : RepF 6156 (fun b => powF PJ3Cn.zP k (PJ3Cn.nfp (nfX 4 (PJ3Cn.XR j))
+      (powF PJ3Cn.zP (Nat.sub 19 k) b))) (zE ^ k * E (nfX 4 (PJ3Cn.XR j)) * zE ^ (Nat.sub 19 k)) :=
+    ((zRep.powF k).comp (hrR.comp (zRep.powF (Nat.sub 19 k)))).congr (by rw [mul_assoc])
+  have hk2 : keyL 6156 (fun b => powF PJ3Cn.zP k (nfPtT 13 PJ3T.NR PJ3T.NR PJ3T.LT PJ3T.PT 4
+      (nfX 4 (PJ3Cn.XR j)) fld(PJ3O.OP, Nat.mul 13 (heoIx 19 k fld(5132352, Nat.mul 6 b, mask 6)),
+        mask 13))) PJ3Cn.bs =
+      keyElt 6156 PairJ3.bs (zE ^ k * E (nfX 4 (PJ3Cn.XR j)) * zE ^ (Nat.sub 19 k)) := by
+    rw [← keyL_elt hg hbs]
+    refine keyL_congr' 6156 fun b hb => ?_
+    rw [op2_pt hk (bs_lt hb)]
+    rfl
+  rw [hk2] at hs
+  have hmem : zE ^ k * E (nfX 4 (PJ3Cn.XR j)) * zE ^ (Nat.sub 19 k) ∈ P3 :=
+    P3.mul_mem (P3.mul_mem (P3.pow_mem zMem _) (E_mem hvR)) (P3.pow_mem zMem _)
+  rw [keyElt_inj hH hbs (E_mem hv) hmem hs, zpow_sub hk]
+
+theorem perm_facts {t : Nat} (ht : t < 26163) : PJ3O.SG t < 26163 ∧ PJ3O.TU (PJ3O.SG t) = t := by
+  have h0 : allBlk (Nat.mul (Nat.add (Nat.mul (t / 2048) 4) (t / 512 % 4)) 512)
+      (fun t => bIf(Nat.blt t PJ3T.c, bAnd(Nat.blt (PJ3O.SG t) PJ3T.c,
+        Nat.beq (PJ3O.TU (PJ3O.SG t)) t), true)) 512 = true :=
+    PJ3Cn.permB_all (t / 2048) (by change t / 2048 < 13; omega) (t / 512 % 4)
+      (by change t / 512 % 4 < 4; omega)
+  have h := allBlk_spec h0 (t % 512) (by omega)
+  have e : Nat.add (Nat.mul (Nat.add (Nat.mul (t / 2048) 4) (t / 512 % 4)) 512) (t % 512) = t := by
+    change (t / 2048 * 4 + t / 512 % 4) * 512 + t % 512 = t
+    omega
+  have ht' : t < PJ3T.c := by rw [cSz]; exact ht
+  rw [e, blt_true ht'] at h
+  have h' : bAnd(Nat.blt (PJ3O.SG t) PJ3T.c, Nat.beq (PJ3O.TU (PJ3O.SG t)) t) = true := h
+  rw [bAnd_iff, cSz] at h'
+  exact ⟨Nat.blt_eq.mp h'.1, Nat.eq_of_beq_eq_true h'.2⟩
+
+theorem conj_eq {t : Nat} (ht : t < 26163) : E (nfX 4 (PJ3Cl.X (PJ3O.SG t))) =
+    zE ^ (t % 19) * E (nfX 4 (PJ3Cn.XR (t / 19))) * (zE ^ (t % 19))⁻¹ := by
+  have hj : t / 19 < 1377 := by omega
+  have hP := perm_facts ht
+  have h0 := PJ3Cn.orbB_all (t / 19 / 512) (by change t / 19 / 512 < 3; omega) (t / 19 / 64 % 8)
+    (by change t / 19 / 64 % 8 < 8; omega)
+  have hA := allBlk_spec h0 (t / 19 % 64) (by omega)
+  have e1 : Nat.add (Nat.mul (Nat.add (Nat.mul (t / 19 / 512) 8) (t / 19 / 64 % 8)) 64)
+      (t / 19 % 64) = t / 19 := by
+    change (t / 19 / 512 * 8 + t / 19 / 64 % 8) * 64 + t / 19 % 64 = t / 19
+    omega
+  rw [e1, blt_true hj] at hA
+  have e : Nat.add (Nat.mul (t / 19) 19) (t % 19) = t := Nat.div_add_mod' t 19
+  have hkey : PJ3Cn.KS (Nat.add (Nat.mul (t / 19) 19) (t % 19)) =
+      keyL 6156 (PJ3Cn.nfp (nfX 4 (PJ3Cl.X (PJ3O.SG t)))) PairJ3.bs := by
+    rw [e]
+    exact key_rec hP.1
+  exact zconj_rep hA (inv_rec (op_rep hj)).1 (inv_rec hP.1).1 hkey (Nat.mod_lt _ (by norm_num))
+
+theorem accz_conj (k : Nat) (g : Equiv.Perm (Fin 6156)) :
+    (orderOf (zE ^ k * g * (zE ^ k)⁻¹ * zE) = 3 ∧
+      orderOf (zE ^ 2 * (zE ^ k * g * (zE ^ k)⁻¹) * zE) = 9) ↔
+    (orderOf (g * zE) = 3 ∧ orderOf (zE ^ 2 * g * zE) = 9) := by
+  have e1 : zE ^ k * g * (zE ^ k)⁻¹ * zE = MulAut.conj (zE ^ k) (g * zE) := by
+    rw [MulAut.conj_apply]
+    group
+  have e2 : zE ^ 2 * (zE ^ k * g * (zE ^ k)⁻¹) * zE = MulAut.conj (zE ^ k) (zE ^ 2 * g * zE) := by
+    rw [MulAut.conj_apply]
+    group
+  rw [e1, e2, MulEquiv.orderOf_eq, MulEquiv.orderOf_eq]
+
+theorem cnt_rep : (Finset.filter (fun j => orderOf (E (nfX 4 (PJ3Cn.XR j)) * zE) = 3 ∧
+    orderOf (zE ^ 2 * E (nfX 4 (PJ3Cn.XR j)) * zE) = 9) (Finset.range 1377)).card = 3 := by
+  classical
+  have hs := chunk_sum 3 512 (scanAt 13 PJ3T.NR PJ3T.NR PJ3T.LT PJ3T.PT PJ3Cn.bs (nat_lit 1377)
+    PJ3Cn.XR PJ3Cn.zP) PJ3Cn.scR fun q _ => rfl
+  have hR := PJ3Cn.rep_ok
+  unfold PJ3Cn.repB at hR
+  rw [Nat.eq_of_beq_eq_true hR, sumN_finset] at hs
+  have hs2 : ∑ i ∈ Finset.range (3 * 512), (if i < 1377 ∧
+      orderOf (E (nfX 4 (PJ3Cn.XR i)) * zE) = 3 ∧
+      orderOf (zE ^ 2 * E (nfX 4 (PJ3Cn.XR i)) * zE) = 9 then 1 else 0) = 3 := by
+    refine (Finset.sum_congr rfl fun i _ => ?_).trans hs
+    rw [scanAt_eq (bs := PJ3Cn.bs) (c := nat_lit 1377) (i := i) (X := PJ3Cn.XR) tc hH hbs zRep zMem
+      (fun hi => (inv_rec (op_rep hi)).1) (fun hi => xE_mem (op_rep hi))]
+  rw [← Finset.card_filter] at hs2
+  refine Eq.trans (congrArg Finset.card (Finset.ext fun i => ?_)) hs2
+  simp only [Finset.mem_filter, Finset.mem_range]
+  constructor
+  · rintro ⟨hi, h⟩
+    exact ⟨by omega, hi, h⟩
+  · rintro ⟨-, hi, h⟩
+    exact ⟨hi, h⟩
+
+theorem cnt_z : (Finset.filter (fun i => orderOf (xE i * zE) = 3 ∧
+    orderOf (zE ^ 2 * xE i * zE) = 9) (Finset.range 26163)).card = 57 := by
+  rw [OrbCount.count_orb (fun g => orderOf (g * zE) = 3 ∧ orderOf (zE ^ 2 * g * zE) = 9)
+    (fun i => E (nfX 4 (PJ3Cl.X i))) (fun j => E (nfX 4 (PJ3Cn.XR j))) zE (n := 1377) (L := 19)
+    (c := 26163) (by norm_num) (by norm_num) PJ3O.SG (fun t ht => (perm_facts ht).1)
+    (fun t ht u hu h => by rw [← (perm_facts ht).2, ← (perm_facts hu).2, h])
+    (fun t ht => conj_eq ht) accz_conj, cnt_rep]
+
 theorem K_val {w : P3} (hw : orderOf w = 19) : Nat.card {x : P3 // Acond x w} = 57 := by
-  have hz : Nat.card {x : P3 // Acond x zK} = 57 :=
-    scan_count zK (Z := PJ3Cn.zP) (V := PJ3N.SZ) zRep PJ3Cn.scZ_all
-      (Nat.eq_of_beq_eq_true PJ3Cn.sZ)
-  have hz2 : Nat.card {x : P3 // Acond x (zK ^ 2)} = 57 :=
-    scan_count (zK ^ 2) (Z := PJ3Cn.z2P) (V := PJ3N.SZ2)
-      ((zRep.comp zRep).congr (by rw [Subgroup.coe_pow, pow_two])) PJ3Cn.scZ2_all
-      (Nat.eq_of_beq_eq_true PJ3Cn.sZ2)
+  have hz : Nat.card {x : P3 // Acond x zK} = 57 := scan_count zK cnt_z
+  have hzi : Nat.card {x : P3 // Acond x zK⁻¹} = 57 := by
+    rw [← hz]
+    refine Nat.card_congr (Equiv.subtypeEquivRight fun x => ⟨fun h => ?_, acond_inv_of⟩)
+    rw [← inv_inv zK]
+    exact acond_inv_of h
+  have h18 : IsConj (zK ^ 2) zK⁻¹ := by
+    have e : (4 : Nat) ^ 4 * 2 % 19 + 1 = orderOf zK := zK_ord.symm
+    have hi : zK ^ (4 ^ 4 * 2 % 19) = zK⁻¹ :=
+      eq_inv_of_mul_eq_one_left (by rw [← pow_succ, e, pow_orderOf_eq_one])
+    have := conj4_iter 2 4
+    rwa [hi] at this
   have hc : ∀ v : P3, IsConj v w →
       Nat.card {x : P3 // Acond x w} = Nat.card {x : P3 // Acond x v} := by
     intro v h
@@ -694,7 +876,7 @@ theorem K_val {w : P3} (hw : orderOf w = 19) : Nat.card {x : P3 // Acond x w} = 
       (acond_conj c x v).symm)).symm
   rcases ord19_conj hw with h | h
   · rw [hc _ h, hz]
-  · rw [hc _ h, hz2]
+  · rw [hc _ (h18.symm.trans h), hzi]
 
 theorem patRel_iff (x y : P3) : PatRel PairJ3.conds x y ↔
     orderOf (x * y) = 19 ∧ orderOf (x * (y * (x * (y * y)))) = 9 := by

@@ -21,8 +21,8 @@ public section
 
 namespace CertificateChecks.KernelHS799102
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHS799102
-  "Certificates/Kernel/HS799102/data/cls.json.gz" 4080412 16236382003318263865
+#kc_repo #kc_json CertificateChecks.KernelHS799102
+  "Certificates/Kernel/HS799102/data/cls.json" 4080412 16236382003318263865
   (G : List Nat) (R1 : List (Nat × Nat × Nat × Nat)) (R2 : List (Nat × Nat × Nat × Nat))
   (R3 : List (Nat × Nat × Nat × Nat))
 

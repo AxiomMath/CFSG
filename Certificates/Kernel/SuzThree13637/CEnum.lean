@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Kernel.SuzThree13637.BindSrc
 public import Certificates.Kernel.Sporadic.Suz.Chain2306
 public import Certificates.Data.Kernel.Spor.RebuildK

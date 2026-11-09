@@ -6,6 +6,7 @@ public import Certificates.Kernel.LocalQT.PEnumD
 public import CFSG.Certificates.Kernel.Common.Each
 public import Certificates.Data.Kernel.Spor.PEnumB
 public import Certificates.Data.Kernel.Spor.MulHQ
+public import Certificates.Data.Kernel.Spor.HKeyU
 meta import Certificates.Data.J3Cls
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -25,12 +26,27 @@ meta def mRecM : Array (Array Nat) := recOfM mGM
 
 meta def mHVM : Array (Array Nat) := hvOfM mRecM
 
-meta def mClM : Array Nat := clOfM mRecM mGM
+private meta def bsImM (x : Array Nat) : Array Nat := #[x[0]!, x[1]!, x[3]!, x[2]!]
 
-meta def mNpM : Array Nat := conjOfM mRecM (natArr (clsTbl 3))
+private meta def mIdxM : Std.HashMap (Array Nat) Nat := indexM (mRecM.map bsImM)
+
+meta def mClM : Array Nat := Id.run do
+  let letters := mGM ++ mGM.map invM
+  let mut out : Array Nat := #[]
+  for x in mRecM do
+    for g in letters do
+      out := out.push (mIdxM.getD #[x[g[0]!]!, x[g[1]!]!, x[g[3]!]!, x[g[2]!]!] mRecM.size)
+  return out
+
+meta def mNpM : Array Nat :=
+  let c := natArr (clsTbl 3)
+  let ci := invM c
+  let im (x : Array Nat) (b : Nat) : Nat := c.getD (x.getD (ci.getD b 0) 0) 0
+  mRecM.map fun x => mIdxM.getD #[im x 0, im x 1, im x 3, im x 2] mRecM.size
 
 meta def mQpM : Array Nat :=
-  posOfM mRecM #[natArr (j3CentTbl 9), natArr (clsTbl 0), natArr (clsTbl 1), natArr (clsTbl 2)]
+  #[natArr (j3CentTbl 9), natArr (clsTbl 0), natArr (clsTbl 1), natArr (clsTbl 2)].map fun q =>
+    mIdxM.getD (bsImM q) mRecM.size
 
 end CertificateChecks.KernelJ3Ref
 
@@ -60,7 +76,8 @@ theorem m_head : bAnd(allN 2 (fun j => bAnd(Nat.beq (J3RM.GI j) (J3ClsP (Nat.add
 
 #kc_each CertificateChecks.KernelJ3Ref.mPt 0 15
 
-@[expose] noncomputable def hvM (i : Nat) : Bool := hvK 6156 13 (mask 13) J3RM.T J3RMV i
+@[expose] noncomputable def hvM (i : Nat) : Bool :=
+  Nat.beq (hkeyU 6156 13 (mask 13) (J3RM.T i)) (J3RMV i)
 
 #kc_each CertificateChecks.KernelJ3Ref.hvM 0 960
 

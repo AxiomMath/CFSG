@@ -33,6 +33,15 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
         s))))) (nat_lit 0),
     nat_lit 0))
 
+@[expose] noncomputable def srchPC (w kS NR NL : Nat) (LT PT QT LR : Nat → Nat) (Y : Nat → Nat)
+    (k0 : Nat) : Nat :=
+  foldUp (rcnt (LR (nat_lit 1))) (fun k1 s =>
+    strictN (trPtT w NR NL LT PT (nat_lit 0) k0 (rpt w (mask w) (LR (nat_lit 1)) k1)) (fun q =>
+    strictN (trInvPtT w kS NR NL LT PT (nat_lit 1) k1
+      (trInvPtT w kS NR NL LT PT (nat_lit 0) k0 (Y q))) (fun v =>
+    strictN (lvT NL w QT (nat_lit 2) v) (fun k2 =>
+    nIf(Nat.blt k2 (rcnt (LR (nat_lit 2))), Nat.succ s, s))))) (nat_lit 0)
+
 @[expose] noncomputable def srchAR (w kS NR NL : Nat) (LT PT QT LR : Nat → Nat) (bs : List Nat)
     (b0 : Nat) (X Y : Nat → Nat) (lo len : Nat) : Nat :=
   sumN len (fun j => srchAAt w kS NR NL LT PT QT LR bs b0 X Y (Nat.add lo j))

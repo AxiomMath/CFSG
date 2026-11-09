@@ -16,12 +16,38 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.M11 CFSG.KS.Mathieu
       foldUp (rcnt R) (fun k s => strictN (pcomp n w m g (TR (Nat.add (roff n nw R) k)))
         (fun h => ih (Nat.succ i) h s)) s))
 
+@[expose] noncomputable def invPtK (n w m idn g : Nat) : Bool :=
+  bAnd(allN n (fun i => Nat.beq (pg w m g (pg w m g i)) i), bIf(Nat.beq g idn, false, true))
+
+@[expose] noncomputable def ordIsK (n w m idn g k : Nat) : Bool :=
+  bIf(Nat.beq k (nat_lit 1), invPtK n w m idn g, ordIs n w m idn g k)
+
+@[expose] noncomputable def enumLast (n w m nw : Nat) (LR TR : Nat → Nat) (q : Nat → Nat → Bool) :
+    Nat → Nat → Nat → Nat → Nat :=
+  Nat.rec (motive := fun _ => Nat → Nat → Nat → Nat)
+    (fun i g s => strictN (LR i) (fun R =>
+      foldUp (rcnt R) (fun k s => nIf(q g (TR (Nat.add (roff n nw R) k)), Nat.succ s, s)) s))
+    (fun _ ih i g s => strictN (LR i) (fun R =>
+      foldUp (rcnt R) (fun k s => strictN (pcomp n w m g (TR (Nat.add (roff n nw R) k)))
+        (fun h => ih (Nat.succ i) h s)) s))
+
+@[expose] noncomputable def invPt2 (n w m idn G T : Nat) : Bool :=
+  bAnd(allN n (fun i => Nat.beq (pg w m G (pg w m T (pg w m G (pg w m T i)))) i),
+    bIf(Nat.beq (pcomp n w m G T) idn, false, true))
+
+@[expose] noncomputable def ordIs2 (n w m idn G T k : Nat) : Bool :=
+  bIf(Nat.beq k (nat_lit 1), invPt2 n w m idn G T, ordIs n w m idn (pcomp n w m G T) k)
+
 @[expose] noncomputable def cntOrdK (n w m nw idn : Nat) (LR TR : Nat → Nat) (nb g₀ e k₀ : Nat) :
     Nat :=
   strictN (LR (nat_lit 0)) (fun R =>
-    enumFrom n w m nw LR TR (fun g => ordIs n w m idn g (Nat.sub e (nat_lit 1)))
-      (Nat.sub nb (nat_lit 1)) (nat_lit 1) (pcomp n w m g₀ (TR (Nat.add (roff n nw R) k₀)))
-      (nat_lit 0))
+    nIf(Nat.blt (nat_lit 1) nb,
+      enumLast n w m nw LR TR (fun g t => ordIs2 n w m idn g t (Nat.sub e (nat_lit 1)))
+        (Nat.sub nb (nat_lit 2)) (nat_lit 1) (pcomp n w m g₀ (TR (Nat.add (roff n nw R) k₀)))
+        (nat_lit 0),
+      enumFrom n w m nw LR TR (fun g => ordIsK n w m idn g (Nat.sub e (nat_lit 1)))
+        (Nat.sub nb (nat_lit 1)) (nat_lit 1) (pcomp n w m g₀ (TR (Nat.add (roff n nw R) k₀)))
+        (nat_lit 0)))
 
 @[expose] noncomputable def abOK (wd : List Int) : Bool :=
   List.rec (motive := fun _ => Bool) true (fun z _ ih => strictB (icode z) (fun c =>

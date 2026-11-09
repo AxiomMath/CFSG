@@ -166,7 +166,7 @@ theorem strongOK : strongOKM (progRegsM (initRegsM rowsA rowsB) Data.subgroupPro
 
 theorem mletter_D {l : Int} (h0 : 0 < l) (h17 : l.natAbs ≤ 17) :
     mletter SA SIA l = rows5 (sx (ltD l)) := by
-  rw [mletter, if_pos h0, SA, ofFn_getElem! (by omega), F_eq (by omega), ltD]
+  rw [mletter, ite_eq_left h0, SA, ofFn_getElem! (by omega), F_eq (by omega), ltD]
   congr 2
   omega
 
@@ -187,17 +187,17 @@ theorem root_mem : ∀ l ∈ LocalData.rootWord, l = 1 ∨ l = 2 := by decide
 theorem sel_rowsU {l : Nat} (hl : l = 1 ∨ l = 2) :
     seedSel (rows5 (su 0)) (rows5 (su 1)) l = rows5 (su (ltc l)) := by
   rcases hl with rfl | rfl
-  · rw [seedSel, if_pos rfl]
+  · rw [seedSel, ite_eq_left rfl]
     rfl
-  · rw [seedSel, if_neg (by decide), if_pos rfl]
+  · rw [seedSel, ite_eq_right (by decide), ite_eq_left rfl]
     rfl
 
 theorem sel_cols {l : Nat} (hl : l = 1 ∨ l = 2) :
     seedSel (rows5 (sx 0)) (rows5 (sx 1)) l = colsMat 133 (rows5 (sx (ltT l))) := by
   rcases hl with rfl | rfl
-  · rw [seedSel, if_pos rfl]
+  · rw [seedSel, ite_eq_left rfl]
     exact (cols_eq (K := 2) (l := 0) (by omega) rfl rfl).symm
-  · rw [seedSel, if_neg (by decide), if_pos rfl]
+  · rw [seedSel, ite_eq_right (by decide), ite_eq_left rfl]
     exact (cols_eq (K := 3) (l := 1) (by omega) rfl rfl).symm
 
 @[expose] noncomputable def chainUB : Bool :=
@@ -297,26 +297,61 @@ theorem x0_eq : seedWordVec (rows5 (sx 0)) (rows5 (sx 1)) LocalData.rootWord (ve
   have := key 40 (le_refl _)
   rwa [Nat.sub_self, List.drop_zero] at this
 
+theorem recWalk5_spec {S M F Q cA cB : Nat} {X : Nat → Nat} :
+    ∀ {recs : List (Nat × Nat)} {i0 : Nat}, recWalk5 S M F Q cA cB X recs i0 = true →
+      ∀ t (ht : t < recs.length), recKr5 S M F Q cA cB X (i0 + t) recs[t].1 recs[t].2 = true
+  | [], _, _, t, ht => absurd ht (Nat.not_lt_zero _)
+  | p :: r, i0, h, t, ht => by
+    have h' : bAnd(recKr5 S M F Q cA cB X i0 p.1 p.2,
+        strictB (Nat.succ i0) (recWalk5 S M F Q cA cB X r)) = true := h
+    rw [CFSG.KS.Raw.strictB_eq] at h'
+    obtain ⟨a, b⟩ := (bAnd_iff _ _).1 h'
+    cases t with
+    | zero => exact a
+    | succ t =>
+      have := recWalk5_spec b t (by simp only [List.length_cons] at ht; omega)
+      rw [show Nat.succ i0 + t = i0 + (t + 1) by omega] at this
+      exact this
+
+theorem recK5_sound {MT : Nat → Nat} {kV kA kB : Nat} {recs : List (Nat × Nat)}
+    (hA : Canon5 (slice5 MT kA)) (hB : Canon5 (slice5 MT kB))
+    (hX : ∀ i < recs.length, canon5 (slice5 MT kV i) = true) (h : recK5 MT kV kA kB recs = true)
+    (i : Nat) (h1 : 1 ≤ i) (hi : i < recs.length) :
+    (recs.getD i (0, 0)).1 < i ∧ ((recs.getD i (0, 0)).2 = 1 ∨ (recs.getD i (0, 0)).2 = 2) ∧
+      vm5 (slice5 MT (nIf(Nat.beq (recs.getD i (0, 0)).2 1, kA, kB)))
+        (slice5 MT kV (recs.getD i (0, 0)).1) = slice5 MT kV i := by
+  obtain ⟨k, rfl⟩ : ∃ k, i = k + 1 := ⟨i - 1, by omega⟩
+  unfold recK5 at h
+  simp only [CFSG.KS.Raw.strictB_eq] at h
+  have hw := recWalk5_spec h k (by rw [List.length_tail]; omega)
+  rw [List.getElem_tail, show 1 + k = k + 1 by omega] at hw
+  rw [List.getD_eq_getElem _ _ hi]
+  generalize recs[k + 1] = p at hw
+  obtain ⟨j, l⟩ := p
+  dsimp only at hw ⊢
+  unfold recKr5 at hw
+  obtain ⟨a, bc⟩ := (bAnd_iff _ _).1 hw
+  obtain ⟨b, c⟩ := (bAnd_iff _ _).1 bc
+  have hj : j < k + 1 := Nat.le_of_ble_eq_true a
+  refine ⟨hj, ?_, ?_⟩
+  · cases h1' : Nat.beq l 1
+    · rw [h1'] at b
+      exact Or.inr (Nat.eq_of_beq_eq_true b)
+    · exact Or.inl (Nat.eq_of_beq_eq_true h1')
+  · cases h1' : Nat.beq l 1
+    · rw [h1'] at c
+      exact F5Kron.krRow_sound hB (hX j (by omega)) (hX _ hi) c
+    · rw [h1'] at c
+      exact F5Kron.krRow_sound hA (hX j (by omega)) (hX _ hi) c
+
 theorem xrec (i : Nat) (h1 : 1 ≤ i) (hi : i < 462) :
     (LocalData.parents.getD i (0, 0)).1 < i ∧
       ((LocalData.parents.getD i (0, 0)).2 = 1 ∨ (LocalData.parents.getD i (0, 0)).2 = 2) ∧
       vm5 (slice5 HNI.MT (nIf(Nat.beq (LocalData.parents.getD i (0, 0)).2 1, 21, 22)))
         (slice5 HNI.MT 58 (LocalData.parents.getD i (0, 0)).1) = slice5 HNI.MT 58 i := by
-  have h : recRow5 HNI.MT 58 21 22 LocalData.parents i = true := by
-    rcases Nat.lt_or_ge i 231 with a | a
-    · have := allBlk_spec xrec0 (i - 1) (by omega)
-      rwa [show Nat.add 1 (i - 1) = i by rw [Nat.add_eq]; omega] at this
-    · have := allBlk_spec xrec1 (i - 231) (by omega)
-      rwa [show Nat.add 231 (i - 231) = i by rw [Nat.add_eq]; omega] at this
-  unfold recRow5 at h
-  rw [CFSG.KS.Raw.strictB_eq, CFSG.KS.Raw.strictB_eq] at h
-  obtain ⟨a, bc⟩ := (bAnd_iff _ _).1 h
-  obtain ⟨b, c⟩ := (bAnd_iff _ _).1 bc
-  refine ⟨Nat.le_of_ble_eq_true a, ?_, Nat.eq_of_beq_eq_true c⟩
-  cases h1' : Nat.beq (LocalData.parents.getD i (0, 0)).2 1
-  · rw [h1'] at b
-    exact Or.inr (Nat.eq_of_beq_eq_true b)
-  · exact Or.inl (Nat.eq_of_beq_eq_true h1')
+  have hl : LocalData.parents.length = 462 := by decide
+  exact recK5_sound (canon 21 (by omega)) (canon 22 (by omega))
+    (fun i hi => canonX i (by omega)) xrecK i h1 (by omega)
 
 theorem parents_len : LocalData.parents.length = 462 := by decide
 

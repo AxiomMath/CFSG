@@ -14,6 +14,6 @@ open CertificateChecks
 
 open CFSG.AGLEmbedding.Norton.MON5_7 CFSG.YGroups.Y443 CFSG.YGroups.Y443Native in
 theorem certificate125368 :
-    agreeAll (tbActPairs tbB1 tbXRows tbC1 [0, 1, 2]) = true := KernelKDenseP.Norton.c125368
+    agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [0, 1, 2]) = true := KernelKDenseP.Norton.c125368
 
 end Certificates

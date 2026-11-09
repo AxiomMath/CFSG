@@ -21,15 +21,14 @@ meta def c1M1 : Array Nat := heInnerC1 1
 meta def c1M2 : Array Nat := heInnerC1 2
 meta def c1M3 : Array Nat := heInnerC1 3
 meta def c1M8 : Array Nat := heInnerC1 8
-meta def c1w (j k : Nat) : Array Nat :=
+meta def c1p (j a p : Nat) : Array Nat :=
   CFSG.Monster.B.Co2.Native.wordA 8330 heInnerLetters1
-    (heInnerLetters1.map (CFSG.Monster.B.Co2.Native.invCand 8330)) ((heInnerWords1.getD j []).drop k)
-meta def c3A : Array Nat := c1w 3 74
-meta def c3B : Array Nat := c1w 3 34
-meta def c8A : Array Nat := c1w 8 130
-meta def c8B : Array Nat := c1w 8 90
-meta def c8C : Array Nat := c1w 8 50
-meta def c8D : Array Nat := c1w 8 10
+    (heInnerLetters1.map (CFSG.Monster.B.Co2.Native.invCand 8330))
+    (((heInnerWords1.getD j []).drop a).take p)
+meta def p1M : Array Nat := c1p 1 5 12
+meta def p2M : Array Nat := c1p 2 0 8
+meta def p3M : Array Nat := c1p 3 4 10
+meta def p8M : Array Nat := c1p 8 8 18
 meta def tM1 : Array Nat := hfTTabs[1]!
 meta def tM2 : Array Nat := hfTTabs[2]!
 meta def tM3 : Array Nat := hfTTabs[3]!
@@ -37,6 +36,13 @@ meta def tM4 : Array Nat := hfTTabs[4]!
 meta def bM0 : Array Nat := hfB1Tabs[0]!
 meta def bM1 : Array Nat := hfB1Tabs[1]!
 meta def eM : Array Nat := hfE2Tab
+meta def invM (t : Array Nat) : Array Nat := CFSG.Monster.B.Co2.Native.invCand 8330 t
+meta def t1iM : Array Nat := invM heT1Arr
+meta def kiM : Array Nat := invM hfKTab
+meta def tiM1 : Array Nat := invM hfTTabs[1]!
+meta def tiM2 : Array Nat := invM hfTTabs[2]!
+meta def tiM3 : Array Nat := invM hfTTabs[3]!
+meta def tiM4 : Array Nat := invM hfTTabs[4]!
 meta def oM0 : Array Nat := hfOrbGens[0]!
 meta def oM1 : Array Nat := hfOrbGens[1]!
 meta def oM2 : Array Nat := hfOrbGens[2]!
@@ -52,16 +58,20 @@ end CertificateChecks.KernelLC.HeFix4
 
 #ks_perm CertificateChecks.KernelLC.HeFix4.T1P 14 CertificateChecks.KernelLC.HeFix4.t1M
 #ks_perm CertificateChecks.KernelLC.HeFix4.KP 14 CertificateChecks.KernelLC.HeFix4.kM
+#ks_perm CertificateChecks.KernelLC.HeFix4.T1I 14 CertificateChecks.KernelLC.HeFix4.t1iM
+#ks_perm CertificateChecks.KernelLC.HeFix4.KI 14 CertificateChecks.KernelLC.HeFix4.kiM
+#ks_perm CertificateChecks.KernelLC.HeFix4.TI1 14 CertificateChecks.KernelLC.HeFix4.tiM1
+#ks_perm CertificateChecks.KernelLC.HeFix4.TI2 14 CertificateChecks.KernelLC.HeFix4.tiM2
+#ks_perm CertificateChecks.KernelLC.HeFix4.TI3 14 CertificateChecks.KernelLC.HeFix4.tiM3
+#ks_perm CertificateChecks.KernelLC.HeFix4.TI4 14 CertificateChecks.KernelLC.HeFix4.tiM4
 #ks_perm CertificateChecks.KernelLC.HeFix4.C1L1 14 CertificateChecks.KernelLC.HeFix4.c1M1
 #ks_perm CertificateChecks.KernelLC.HeFix4.C1L2 14 CertificateChecks.KernelLC.HeFix4.c1M2
 #ks_perm CertificateChecks.KernelLC.HeFix4.C1L3 14 CertificateChecks.KernelLC.HeFix4.c1M3
 #ks_perm CertificateChecks.KernelLC.HeFix4.C1L8 14 CertificateChecks.KernelLC.HeFix4.c1M8
-#ks_perm CertificateChecks.KernelLC.HeFix4.C3A 14 CertificateChecks.KernelLC.HeFix4.c3A
-#ks_perm CertificateChecks.KernelLC.HeFix4.C3B 14 CertificateChecks.KernelLC.HeFix4.c3B
-#ks_perm CertificateChecks.KernelLC.HeFix4.C8A 14 CertificateChecks.KernelLC.HeFix4.c8A
-#ks_perm CertificateChecks.KernelLC.HeFix4.C8B 14 CertificateChecks.KernelLC.HeFix4.c8B
-#ks_perm CertificateChecks.KernelLC.HeFix4.C8C 14 CertificateChecks.KernelLC.HeFix4.c8C
-#ks_perm CertificateChecks.KernelLC.HeFix4.C8D 14 CertificateChecks.KernelLC.HeFix4.c8D
+#ks_perm CertificateChecks.KernelLC.HeFix4.P1 14 CertificateChecks.KernelLC.HeFix4.p1M
+#ks_perm CertificateChecks.KernelLC.HeFix4.P2 14 CertificateChecks.KernelLC.HeFix4.p2M
+#ks_perm CertificateChecks.KernelLC.HeFix4.P3 14 CertificateChecks.KernelLC.HeFix4.p3M
+#ks_perm CertificateChecks.KernelLC.HeFix4.P8 14 CertificateChecks.KernelLC.HeFix4.p8M
 #ks_perm CertificateChecks.KernelLC.HeFix4.TL1 14 CertificateChecks.KernelLC.HeFix4.tM1
 #ks_perm CertificateChecks.KernelLC.HeFix4.TL2 14 CertificateChecks.KernelLC.HeFix4.tM2
 #ks_perm CertificateChecks.KernelLC.HeFix4.TL3 14 CertificateChecks.KernelLC.HeFix4.tM3

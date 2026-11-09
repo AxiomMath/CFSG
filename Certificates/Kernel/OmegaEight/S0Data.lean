@@ -8,8 +8,8 @@ public section
 
 namespace CertificateChecks.KernelO8
 
-#kc_repo #kc_json_gz CertificateChecks.KernelO8
-  "Certificates/Kernel/OmegaEight/data/S0Data.json.gz" 80149 7842075207530376711
+#kc_repo #kc_json CertificateChecks.KernelO8
+  "Certificates/Kernel/OmegaEight/data/S0Data.json" 80149 7842075207530376711
   (LPlus : Nat) (MTPlus : Nat) (UPlus : Nat) (UIPlus : Nat) (TRPlus : Nat) (FPlus : Nat)
   (NPlus : Nat) (AMPlus : Nat) (CIPlus : Nat) (LMinus : Nat) (MTMinus : Nat) (UMinus : Nat)
   (UIMinus : Nat) (TRMinus : Nat) (FMinus : Nat) (NMinus : Nat) (AMMinus : Nat) (CIMinus : Nat)

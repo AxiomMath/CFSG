@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.QuasithinUnique.Defs
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -79,8 +80,13 @@ theorem T_closed : (Tlist.all fun a => tgens.all fun g => decide (a * g ∈ Tlis
 
 theorem T_invol : (tgens.all fun g => decide (g⁻¹ = g)) = true := by decide +kernel
 
+open CFSG.Permutation.FinPack in
 theorem J_closed : (Jlist8.all fun a => Jgens.all fun g => decide (a * g ∈ Jlist8)) = true := by
-  decide +kernel
+  have hw : mulInK 8 (Jlist8.map enc) (Jgens.map enc) = true := by
+    decide +kernel
+  have H := mul_mem_of_K (by norm_num) Jlist8 Jgens _ _ (beq_self_eq_true _) (beq_self_eq_true _) hw
+  simp only [List.all_eq_true, decide_eq_true_eq]
+  exact H
 
 theorem J_invol : (Jgens.all fun g => decide (g⁻¹ = g)) = true := by decide +kernel
 

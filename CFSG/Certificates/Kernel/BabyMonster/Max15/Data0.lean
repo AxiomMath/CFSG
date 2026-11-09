@@ -1,17 +1,27 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.Max15 r32 CFSG.KC.BM.Twin.prod 4370 2412240 2189829365564237077 CFSG.KC.BM.Seeds.A1 CFSG.KC.BM.Seeds.A2
-#kc_eval CFSG.KC.BM.Max15 r36 CFSG.KC.BM.Twin.prod 4370 2412240 3625796580463912857 r32 r32
-#kc_eval CFSG.KC.BM.Max15 r37 CFSG.KC.BM.Twin.prod 4370 2412240 17190031525081956036 CFSG.KC.BM.Seeds.A2 r36
-#kc_eval CFSG.KC.BM.Max15 r41 CFSG.KC.BM.Twin.prod 4370 2412240 9779768709651624354 r32 r37
-#kc_eval CFSG.KC.BM.Max15 r45 CFSG.KC.BM.Twin.prod 4370 2412240 2693473893469875556 r36 r41
-#kc_eval CFSG.KC.BM.Max15 g2 CFSG.KC.BM.Twin.prod 4370 2412240 9145572898828179747 r36 r45 r37 r41 CFSG.KC.BM.Seeds.A2
-#kc_eval CFSG.KC.BM.Max15 r16 CFSG.KC.BM.Twin.prod 4370 2412240 17259503032683986336 g2 g2
-#kc_eval CFSG.KC.BM.Max15 r17 CFSG.KC.BM.Twin.prod 4370 2412240 1244664655415671356 r16 r16
-#kc_eval CFSG.KC.BM.Max15 r18 CFSG.KC.BM.Twin.prod 4370 2412240 4438277901950458441 r17 r17
-#kc_eval CFSG.KC.BM.Max15 r19 CFSG.KC.BM.Twin.prod 4370 2412240 7473270737942613280 r17 r18
-#kc_eval CFSG.KC.BM.Max15 r1 CFSG.KC.BM.Twin.prod 4370 2412240 11008054551600326638 r16 r19
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r32
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r32.bin" 2412240 2189829365564237077
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r36
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r36.bin" 2412240 3625796580463912857
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r37
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r37.bin" 2412240 17190031525081956036
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r41
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r41.bin" 2412240 9779768709651624354
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r45
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r45.bin" 2412240 2693473893469875556
+#kc_repo #bm_mat CFSG.KC.BM.Max15 g2
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/g2.bin" 2412240 9145572898828179747
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r16
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r16.bin" 2412240 17259503032683986336
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r17
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r17.bin" 2412240 1244664655415671356
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r18
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r18.bin" 2412240 4438277901950458441
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r19
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r19.bin" 2412240 7473270737942613280
+#kc_repo #bm_mat CFSG.KC.BM.Max15 r1
+  "CFSG/Certificates/Kernel/BabyMonster/Max15/data/r1.bin" 2412240 11008054551600326638

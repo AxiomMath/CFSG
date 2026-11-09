@@ -6,6 +6,6 @@ public import Certificates.Kernel.PresLetters.F7771K2
 
 public section
 
-#kb_family_close "data/F7771.json.gz" 19351 10529695221807921635
+#kb_family_close "data/F7771.json" 19351 10529695221807921635
 
 end

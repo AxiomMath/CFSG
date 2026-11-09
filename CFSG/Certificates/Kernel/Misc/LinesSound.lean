@@ -82,10 +82,8 @@ theorem lines_sound {U : Array Nat} {UL : List Nat} {UP PP : Nat} {PB : Nat → 
     {PL : Nat → List Nat} (hU : U = UL.toArray) (hp : ptsK UL UP = true)
     (hpos : posK UL UP PP = true) (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true)
     (hpl : plK PB PL = true) (hl : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true)
-    (hc : Nat.beq (lineCnt UP PP PL 0 693) 6237 = true) (ht : twinsK UP PP PB PL = true)
-    (hpp : ∀ k < 21, ppK UP PP PB PL (33 * k) 33 = true) :
+    (ht : twinsK UP PP PB PL = true) (hpp : ∀ k < 21, ppK UP PP PB PL (33 * k) 33 = true) :
     polarLinesG U = true := by
-  have _hc := hc
   subst hU
   have H := Pts.of hp hpos
   have hplK := plK_spec hpl
@@ -95,7 +93,7 @@ theorem lines_sound {U : Array Nat} {UL : List Nat} {UP PP : Nat} {PB : Nat → 
       plsorted := fun x hx => (hplK x hx).2.1
       pllen := fun x hx => (hplK x hx).1
       lmem := fun x hx y hy hne hr z => mem_lineL_Ln H hperp hpl hl hx hy hne hr z
-      lnodup := fun x hx y hy hxy hr => nodup_lineL hperp hpl hl hx hy hxy hr
+      lnodup := fun x hx y hy hxy hr => nodup_lineL H hperp hpl hl hx hy hxy hr
       llen := fun x y => rfl }
   have hP : ∀ x < 693, ∀ y < 693, ((perpTabG UL.toArray)[x]!)[y]! = relB PB x y :=
     fun x hx y hy => perpTabG_get rfl hp hpos hperp x hx y hy

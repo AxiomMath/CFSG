@@ -3,15 +3,15 @@ module
 public import Certificates.Data.Kernel.J4Q.RRep
 public import Certificates.Kernel.J4Q.MatData
 public import Certificates.Kernel.J4Q.QT2AData
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CFSG.KD.J4RR
 
-#kc_repo #kc_nat_items_gz CFSG.KD.J4RR
-  "Certificates/Kernel/J4M2/data/rr12609.items.gz" 1283513 12782080997176720420
+#kc_repo #kc_nat_items CFSG.KD.J4RR
+  "Certificates/Kernel/J4M2/data/rr12609.items" 1283513 12782080997176720420
   E LO[] HI[] GL0[] GL1[] GL2[] HG0[] HG1[] HG2[] HZ0[] HZ1[] HZ2[]
 
 @[expose] noncomputable def GLs : List (List Nat) := [GL0, GL1, GL2]

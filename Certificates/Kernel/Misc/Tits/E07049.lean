@@ -179,17 +179,31 @@ theorem clos_eq {gens : Array (Array Nat)} {G T : Nat → Nat} {ng m : Nat} (hsz
   refine ⟨h1, fun j hj => h2 _ ?_⟩
   exact List.mem_map.2 ⟨j, List.mem_range.2 hj, rfl⟩
 
+theorem any_mm {l : List Nat} {f : Nat → Nat} {g : Nat → Array Nat} {p : Array Nat → Bool}
+    {q : Nat → Bool} (h : ∀ j ∈ l, p (g (f j)) = q j) :
+    ((l.map f).map g).toArray.any p = l.any q := by
+  rw [List.any_toArray]
+  induction l with
+  | nil => rfl
+  | cons a l ih =>
+    rw [List.map_cons, List.map_cons, List.any_cons, List.any_cons, h a List.mem_cons_self,
+      ih fun j hj => h j (List.mem_cons_of_mem a hj)]
+
+theorem all_mm {l : List Nat} {f : Nat → Nat} {g : Nat → Array Nat} {p : Array Nat → Bool}
+    (h : ∀ j ∈ l, p (g (f j)) = true) : ((l.map f).map g).toArray.all p = true := by
+  rw [List.all_toArray]
+  induction l with
+  | nil => rfl
+  | cons a l ih =>
+    rw [List.map_cons, List.map_cons, List.all_cons, h a List.mem_cons_self,
+      ih fun j hj => h j (List.mem_cons_of_mem a hj)]
+    rfl
+
 theorem any_eq {T : Nat → Nat} {m x : Nat} (hT : ∀ j < m, E7043.Cn (T j)) (hx : E7043.Cn x) :
     ((((List.range m).map T).map (unpack 1755 11)).toArray.any fun e =>
       eqA 1755 e (unpack 1755 11 x)) = lmem T m x := by
   unfold lmem
-  rw [List.any_toArray, List.any_map, List.any_map, Bool.eq_iff_iff]
-  simp only [List.any_eq_true, List.mem_range, Function.comp_apply]
-  constructor
-  · rintro ⟨j, hj, h⟩
-    exact ⟨j, hj, by rwa [E7043.eqU (hT j hj) hx] at h⟩
-  · rintro ⟨j, hj, h⟩
-    exact ⟨j, hj, by rwa [E7043.eqU (hT j hj) hx]⟩
+  exact any_mm fun j hj => E7043.eqU (hT j (List.mem_range.1 hj)) hx
 
 theorem closed_ok {gens : Array (Array Nat)} {G T : Nat → Nat} {ng m : Nat} (hsz : gens.size = ng)
     (hg : ∀ k < ng, gens[k]! = unpack 1755 11 (G k)) (hp : ∀ k < ng, permC (G k) = true)
@@ -227,11 +241,11 @@ theorem all_ok {gens : Array (Array Nat)} {G T : Nat → Nat} {ng m c : Nat} {f 
     (hc : allN m (fun j => bIf(Nat.beq (T j) (pidn 1755 11), true, Nat.beq (fK (T j)) c)) = true) :
     ((closureList 1755 gens 30).all fun e => eqA 1755 e (idA 1755) || f e == c) = true := by
   obtain ⟨hL, hT⟩ := clos_eq hsz hg hp hl
-  rw [hL, List.all_toArray, List.all_map, List.all_map, List.all_eq_true]
-  intro j hj
+  rw [hL]
+  refine all_mm fun j hj => ?_
   have hj' := List.mem_range.1 hj
   have h := allN_spec hc j hj'
-  simp only [Function.comp_apply]
+  show (eqA 1755 (unpack 1755 11 (T j)) (idA 1755) || f (unpack 1755 11 (T j)) == c) = true
   rw [E7043.idA_eq', E7043.eqU (hT j hj') E7043.cId, hf _ (hT j hj'), ← nbeq]
   cases e : Nat.beq (T j) (pidn 1755 11)
   · rw [e] at h

@@ -4,6 +4,9 @@ public import Certificates.Kernel.Sporadic.RawGen
 public import CFSG.Certificates.Kernel.Spor.RawSlSound
 public import CFSG.Certificates.Kernel.Spor.SchTriv
 public import CFSG.Certificates.Kernel.Spor.RawSch3GSound
+public import CFSG.Certificates.Kernel.Spor.RawSch3GCSound
+public import CFSG.Certificates.Kernel.Spor.RawSlPSound
+public import CFSG.Certificates.Kernel.Spor.RawTabSlSound
 public meta import CFSG.Certificates.Kernel.Common.Tab
 public meta import Certificates.Kernel.Sporadic.RawGen
 public meta import Lean
@@ -26,6 +29,16 @@ elab "#ks_rawchain_sl3g " pre:ident nn:num ww:num ch:num lch:num lm:num sId:iden
   let bN ← liftCoreM <| realizeGlobalConstNoOverload bId
   let dN ← liftCoreM <| realizeGlobalConstNoOverload dId
   let wN ← liftCoreM <| realizeGlobalConstNoOverload wId
+  let consLen : Expr → Option Nat := fun e => Id.run do
+    let mut e := e
+    let mut k := 0
+    while e.isAppOfArity ``List.cons 3 do
+      e := e.appArg!
+      k := k + 1
+    return if e.isAppOfArity ``List.nil 1 then some k else none
+  let nW ← match ((← getEnv).find? wN).bind ConstantInfo.value? |>.bind consLen with
+    | some k => pure k
+    | none => pure (← liftTermElabM <| unsafe evalConst (List (List Nat)) wN).length
   let S ← liftTermElabM <| unsafe evalConst (Array (Array Nat)) sN
   let base ← liftTermElabM <| unsafe evalConst (Array Nat) bN
   let kS := S.size
@@ -111,27 +124,75 @@ elab "#ks_rawchain_sl3g " pre:ident nn:num ww:num ch:num lch:num lm:num sId:iden
     let sfT := fun (sE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.Raw.sch3F)
       #[nE, wE, mE, nwE, c `S, c `SI, c `LR, c `TR, c `TRI, c `U, kSE, c `BP, lit i₀,
         lit TJ, lit D, mulE sE (lit CH), lit CH])
+    let jCov := (List.range kO).all fun j => J.contains j
+    let jcT := isTrue (mkAppN (mkConst ``CFSG.KC.Enum.allN) #[lit kO, mkLambda `j .default natE
+      (mkAppN (mkConst ``CFSG.KS.Raw.anyLt) #[mkAppN (mkConst ``Nat.shiftRight)
+        #[mkApp (mkConst ``CFSG.KS.Raw.stCnt) (lit TJ), mkRawNatLit 1], mkLambda `a .default natE
+        (mkApp2 (mkConst ``Nat.beq) (mkApp2 (mkConst ``CFSG.KS.Raw.stAt) (lit TJ) (mkBVar 0))
+          (mkBVar 1))])])
     let addU : CoreM Unit := do
       addTree (P ++ `U) us
       addDef (P ++ `D) natE (lit D)
       let utT := isTrue (mkAppN (mkConst ``CFSG.KS.Raw.utabF)
         #[nE, wE, mE, nwE, c `LR, c `TR, c `U, lit i₀, lit D])
-      addThm (P ++ `ut) utT reflBoolTrue
+      let UK := 1
+      let NU := (cnts[i₀ + 1]! + UK - 1) / UK
+      let usP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KS.Raw.utSlF)
+        #[nE, wE, mE, nwE, c `LR, c `TR, c `U, lit i₀, lit D, mulE (mkBVar 0) (lit UK), lit UK]))
+      for s in [0:NU] do
+        addThm (P ++ Name.mkSimple s!"ut_{s}") (mkApp usP (lit s)).headBeta reflBoolTrue
+      let uhc := mkApp (mkApp2 (mkConst ``Nat.le_of_ble_eq_true)
+          (mkApp (mkConst ``CFSG.KS.Raw.rcnt) (mkApp (c `LR) (lit (i₀ + 1)))) (mulE (lit NU) (lit UK)))
+        (mkApp2 (mkConst ``Eq.refl [1]) (mkConst ``Bool) (mkConst ``Bool.true))
+      let utV := mkAppN (mkConst ``CFSG.KS.Raw.utabF_of_sl)
+        #[nE, wE, mE, nwE, lit i₀, lit D, lit NU, lit UK, c `LR, c `TR, c `U,
+          forallChain usP NU fun s => mkConst (P ++ Name.mkSimple s!"ut_{s}"), uhc]
+      addThm (P ++ `ut) utT utV
       let ivT := isTrue (mkApp2 (mkConst ``CFSG.KS.Raw.invTabK) kSE (stepsE (lit i₀)))
       addThm (P ++ `inv) ivT reflBoolTrue
       let gT := isTrue (mkAppN (mkConst ``CFSG.KS.Raw.lv12K)
         #[wE, mE, c `S, c `SI, kSE, c `BP, lit i₀, stepsE (lit (i₀ + 1)), stepsE (lit (i₀ + 2))])
       addThm (P ++ `g12) gT reflBoolTrue
+      if jCov then
+        addThm (P ++ `jcov) jcT reflBoolTrue
+        return
       let wdT := isTrue (mkAppN (mkConst ``CFSG.KS.Raw.wdsK)
         #[nE, wE, mE, idE, c `S, c `SI, kSE, lit TJ, mkConst wN, lit 0])
-      addThm (P ++ `wd) wdT reflBoolTrue
+      let wdP := mkLambda `i .default natE (isTrue (mkAppN (mkConst ``CFSG.KS.Raw.wdOneK)
+        #[nE, wE, mE, idE, c `S, c `SI, kSE, lit TJ, mkConst wN, lit 0, mkBVar 0]))
+      for i in [0:nW] do
+        addThm (P ++ Name.mkSimple s!"wd_{i}") (mkApp wdP (lit i)).headBeta reflBoolTrue
+      let rflN := fun (k : Nat) => mkApp2 (mkConst ``Eq.refl [1]) natE (lit k)
+      let wdV := mkAppN (mkConst ``CFSG.KS.Raw.Orb.wdsK_of_one)
+        #[nE, wE, kSE, lit TJ, c `S, c `SI, idE, mkConst wN, lit 0, lit nW, rflN nW, rflN kS,
+          forallChain wdP nW fun i => mkConst (P ++ Name.mkSimple s!"wd_{i}")]
+      addThm (P ++ `wd) wdT wdV
     if lim > 0 then
       addU
       for s in [0:min lim ((cnts[i₀]! + CH - 1) / CH)] do
         let nm := P ++ Name.mkSimple s!"sf{s}"
         addThm nm (sfT (lit s)) reflBoolTrue
       return
-    addThm (P ++ `head) headT reflBoolTrue
+    if jCov then
+      addThm (P ++ `hr) (isTrue (mkAppN (mkConst ``CFSG.KS.Raw.headRK)
+        #[nE, wE, mE, idE, c `S, kSE, lit kO, mkConst dN, nbE, c `BP])) reflBoolTrue
+      let hpP := mkLambda `j .default natE (isTrue (mkAppN (mkConst ``CFSG.KC.Enum.permOK)
+        #[nE, wE, mE, nwE, mkApp (c `S) (mkBVar 0), mkApp (c `SI) (mkBVar 0)]))
+      for j in [0:kS] do
+        addThm (P ++ Name.mkSimple s!"hp_{j}") (mkApp hpP (lit j)).headBeta reflBoolTrue
+      let nD := kS - kO
+      let hdP := mkLambda `i .default natE (isTrue (mkAppN (mkConst ``CFSG.KS.Raw.derOneK)
+        #[nE, wE, mE, idE, c `S, c `SI, lit kO, mkConst dN, mkBVar 0]))
+      for i in [0:nD] do
+        addThm (P ++ Name.mkSimple s!"hd_{i}") (mkApp hdP (lit i)).headBeta reflBoolTrue
+      let hV := mkAppN (mkConst ``CFSG.KS.Raw.Orb.headK_of_parts)
+        #[nE, wE, kSE, lit kO, nbE, c `BP, c `S, c `SI, mkConst dN, mkConst (P ++ `hr),
+          forallChain hpP kS fun j => mkConst (P ++ Name.mkSimple s!"hp_{j}"), lit nD,
+          mkApp2 (mkConst ``Eq.refl [1]) natE (lit kS),
+          forallChain hdP nD fun i => mkConst (P ++ Name.mkSimple s!"hd_{i}")]
+      addThm (P ++ `head) headT hV
+    else
+      addThm (P ++ `head) headT reflBoolTrue
     let lvT := fun (iE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.Raw.levelK)
       #[nE, wE, mE, nwE, pmE, idE, c `S, c `SI, c `TR, c `TRI, kSE, rootE iE, stepsE iE,
         mkApp (c `LR) iE])
@@ -145,8 +206,16 @@ elab "#ks_rawchain_sl3g " pre:ident nn:num ww:num ch:num lch:num lm:num sId:iden
         #[nE, wE, mE, nwE, c `S, c `SI, c `TR, c `TRI, kSE, stepsE iE, mkApp (c `LR) iE,
           mulE (mkBVar 0) (lit LCH), lit LCH]))
       for s in [0:NL] do
+        let loE := mulE (lit s) (lit LCH)
+        let pN := P ++ Name.mkSimple s!"lsP{i}_{s}"
+        addThm pN (isTrue (mkAppN (mkConst ``CFSG.KS.Raw.lvSlKP)
+          #[nE, wE, mE, nwE, c `S, c `SI, c `TR, c `TRI, kSE, stepsE iE, mkApp (c `LR) iE, loE,
+            lit LCH])) reflBoolTrue
+        let v := mkAppN (mkConst ``CFSG.KS.Raw.lvSlK_of_P)
+          #[nE, wE, c `S, c `SI, c `TR, c `TRI, kSE, stepsE iE, mkApp (c `LR) iE, loE, lit LCH,
+            mkApp2 (mkConst ``Eq.refl [1]) (mkConst ``Bool) (mkConst ``Bool.true), mkConst pN]
         let nm := P ++ Name.mkSimple s!"ls{i}_{s}"
-        addThm nm (mkApp slP (lit s)).headBeta reflBoolTrue
+        addThm nm (mkApp slP (lit s)).headBeta v
       let hsV := forallChain slP NL fun s => mkConst (P ++ Name.mkSimple s!"ls{i}_{s}")
       let hN := mkApp2 (mkConst ``Nat.le_of_ble_eq_true) nE (mulE (lit NL) (lit LCH))
       let hNV := mkApp hN (mkApp2 (mkConst ``Eq.refl [1]) (mkConst ``Bool) (mkConst ``Bool.true))
@@ -185,7 +254,16 @@ elab "#ks_rawchain_sl3g " pre:ident nn:num ww:num ch:num lch:num lm:num sId:iden
       forallChain (innerP (lit i)) (NSi i) fun s => mkConst (P ++ Name.mkSimple s!"sch{i}_{s}")
     for s in [0:NSi i₀] do
       let nm := P ++ Name.mkSimple s!"sch{i₀}_{s}"
-      let v := mkAppN (mkConst ``CFSG.KS.Raw.Orb.schK_of_sch3GL)
+      let v := if jCov then
+        mkAppN (mkConst ``CFSG.KS.Raw.Orb.schK_of_sch3GLJ)
+        #[nE, wE, kSE, lit kO, c `BP, lit i₀, lit D, lit (NSi i₀), lit (NSi (i₀ + 1)),
+          lit (NSi (i₀ + 2)), lit CH, lit TJ, c `S, c `SI, c `LR, c `TR, c `TRI, c `U, mkConst dN,
+          mkConst (P ++ `head), mkConst (P ++ `hl), mkConst (P ++ `inv),
+          mkConst (P ++ `g12), mkConst (P ++ `ut), mkConst (P ++ `jcov), hcE i₀, mkConst (P ++ `fall),
+          hcE (i₀ + 1), chainAt (i₀ + 1), hcE (i₀ + 2), chainAt (i₀ + 2), mulE (lit s) (lit CH),
+          lit CH]
+      else
+        mkAppN (mkConst ``CFSG.KS.Raw.Orb.schK_of_sch3GL)
         #[nE, wE, kSE, lit kO, c `BP, lit i₀, lit D, lit (NSi i₀), lit (NSi (i₀ + 1)),
           lit (NSi (i₀ + 2)), lit CH, lit TJ, c `S, c `SI, c `LR, c `TR, c `TRI, c `U, mkConst dN,
           mkConst wN, mkConst (P ++ `head), mkConst (P ++ `hl), mkConst (P ++ `inv),

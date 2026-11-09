@@ -3,6 +3,7 @@ module
 public import CFSG.HardMathSupport.Curtis.Coordinator.AnisoE7.A5Line
 public import CFSG.HardMathSupport.Curtis.Coordinator.AnisoE7.PlaneAssembly
 public import CFSG.RankThree.PartOne.KE.E7ThreeLayerProof
+import Certificates.Certificate14976
 
 public noncomputable section
 
@@ -15,8 +16,8 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.RankThree.Lattice
 open scoped Matrix
 
-theorem cert_good3 : ∀ c ∈ e7T3Certs, c.comps.map E7T3Comp.kind = [3] → c.Good := by
-  decide +kernel
+theorem cert_good3 : ∀ c ∈ e7T3Certs, c.comps.map E7T3Comp.kind = [3] → c.Good :=
+  fun c hc _ => (Certificates.certificate14976).2.2.2.2.2.1 c hc
 
 
 theorem e7SixLinesKind_3 :

@@ -5,6 +5,8 @@ public import Certificates.Kernel.McLAS.RecKChk0
 public import Certificates.Kernel.McLAS.RecKChk1
 public import Certificates.Kernel.McLAS.RecKChk2
 public import Certificates.Kernel.McLAS.RecKChk3
+public import Certificates.Kernel.McLAS.RecKFSound
+public import CFSG.Certificates.Kernel.Spor.MulHFSound
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 
@@ -51,17 +53,34 @@ theorem rk_le : RK.cnt ≤ 200 * 146 := f6108.2.2.2.2.2.1
 theorem cK_all : ∀ s < 146, cK s = true :=
   join4 (a := 37) (b := 37) (c := 36) (d := 36) CK0.all CK1.all CK2.all CK3.all
 
+theorem rk_key {i : Nat} (hi : i < RK.cnt) :
+    (i / 200) * 200 ≤ i ∧ i < (i / 200) * 200 + 200 ∧ i / 200 < 146 := by
+  have hle := rk_le
+  exact ⟨Nat.div_mul_le_self i 200, by omega, by omega⟩
+
 theorem rk_spec : (∀ i < RK.cnt, penumPtK 275 9 (mask 9) (275 * 9) true RK.G RK.GI 3 RK.cnt RK.T
       RK.PL RK.POS RK.SRT RK.SRI i = true) ∧
-    (∀ i < RK.cnt, hsortPtK 275 9 (mask 9) RK.cnt RK.T RK.HS RK.HSI i = true) :=
-  rec_spec (cnt := RK.cnt) (NS := 146) rk_le fun s hs => ((bAnd_iff _ _).1 (cK_all s hs)).1
+    (∀ i < RK.cnt, hsortPtK 275 9 (mask 9) RK.cnt RK.T RK.HS RK.HSI i = true) := by
+  have hF : ∀ i < RK.cnt, penumPtKF 275 9 (mask 9) (275 * 9) RK.GI 3 RK.cnt RK.T RK.PL RK.POS
+      RK.SRT RK.SRI i = true := fun i hi => by
+    obtain ⟨h1, h2, h3⟩ := rk_key hi
+    have hs := (bAnd_iff _ _).1 (cK_all (i / 200) h3)
+    exact slK_spec ((bAnd_iff _ _).1 hs.1).1 i h1 h2 hi
+  refine ⟨penumPtK_of_F (fun j hj => (f6108.1 j hj).1) hF, fun i hi => ?_⟩
+  obtain ⟨h1, h2, h3⟩ := rk_key hi
+  have hs := (bAnd_iff _ _).1 (cK_all (i / 200) h3)
+  rw [← hsortPtKF_eq]
+  exact slK_spec ((bAnd_iff _ _).1 hs.1).2 i h1 h2 hi
+
+theorem selKF_eq (q : Nat) : selKF q = selK q := by
+  unfold selKF selK
+  simp only [pairSelKF_eq]
 
 theorem rk_sel : ∀ i < RK.cnt, selK i = true := by
   intro i hi
-  have hle := rk_le
-  have hs := (bAnd_iff _ _).1 (cK_all (i / 200) (by omega))
-  have h1 : (i / 200) * 200 ≤ i := Nat.div_mul_le_self i 200
-  have h2 : i < (i / 200) * 200 + 200 := by omega
+  obtain ⟨h1, h2, h3⟩ := rk_key hi
+  have hs := (bAnd_iff _ _).1 (cK_all (i / 200) h3)
+  rw [← selKF_eq]
   exact slK_spec hs.2 i h1 h2 hi
 
 theorem po_spec : (∀ i < PO.cnt, penumPtK 275 9 (mask 9) (275 * 9) true PO.G PO.GI 3 PO.cnt PO.T

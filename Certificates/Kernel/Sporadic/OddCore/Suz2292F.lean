@@ -12,6 +12,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Sporadic.SmallOddCore.ClassSimple
 public import Certificates.Kernel.Sporadic.OddCore.PEnumGlue
+public import CFSG.Certificates.Kernel.Spor.TPathSound
 
 public section
 
@@ -60,18 +61,32 @@ theorem deriv_eq {j : Nat} (hj : j < 10) (h2 : 2 ≤ j)
   rw [strong_rows hj, rowArr_get hx, word_get hl hx]
   exact Nat.eq_of_beq_eq_true (hd x hx)
 
+theorem derivs_pt {x : Nat} (hx : x < 22880) :
+    Nat.beq (cg 4 x) (wpt (certDerivs[2]!) x) = true ∧
+    Nat.beq (cg 5 x) (wpt (certDerivs[3]!) x) = true ∧
+    Nat.beq (cg 6 x) (wpt (certDerivs[4]!) x) = true ∧
+    Nat.beq (cg 7 x) (wpt (certDerivs[5]!) x) = true ∧
+    Nat.beq (cg 8 x) (wpt (certDerivs[6]!) x) = true ∧
+    Nat.beq (cg 9 x) (wpt (certDerivs[7]!) x) = true ∧
+    Nat.beq (cg 10 x) (wpt (certDerivs[8]!) x) = true ∧
+    Nat.beq (cg 11 x) (wpt (certDerivs[9]!) x) = true := by
+  have ha := allN_spec dwA2292 x hx
+  have hb := allN_spec dwB2292 x hx
+  simp only [bAnd_iff] at ha hb
+  exact ⟨ha.1, ha.2.1, hb.1, ha.2.2, hb.2.1, hb.2.2.1, hb.2.2.2.1, hb.2.2.2.2⟩
+
 theorem derivs_ok : ∀ j < 10, 2 ≤ j → eqA 22880 certStrongArrs[j]!
     (wordA 22880 certStrongArrs certStrongInvs certDerivs[j]!) = true := by
   intro j hj h2
   interval_cases j
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d2 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d3 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d4 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d5 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d6 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d7 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d8 x hx
-  · exact deriv_eq (by omega) h2 fun x hx => allN_spec d9 x hx
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.2.1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.2.2.1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.2.2.2.1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.2.2.2.2.1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.2.2.2.2.2.1
+  · exact deriv_eq (by omega) h2 fun x hx => (derivs_pt hx).2.2.2.2.2.2.2
 
 theorem fix_get {j k : Nat} (hj : j < 10) (hk : k < 6) :
     ((certStrongArrs[j]!)[k]! == k) = (nget fixBits (6 * j + k) == 1) := by
@@ -168,87 +183,52 @@ theorem lv_ok {i : Nat} (hi : i < 6) {LV : List Nat} (hL : LV = (certLevelLetter
     exact lv_lt i hi t (by rw [hlen]; exact ht)
   refine ⟨hv, by simp [certLetters]; exact hlt, fun x hx => lt_get hlt hx⟩
 
-theorem tree_of {i r cnt : Nat} (hi : i < 6) {LV : List Nat} (hL : LV = (certLevelLetters i).toList)
-    (hr : LV.length = r) {PTS POS PAR LAB TI : Nat → Nat}
-    (hh : tbfsHdK 22880 (certBaseNat.getD i 0) cnt PTS POS PAR LAB = true)
-    (hp : ∀ k < cnt, tbfsPtK 22880 cnt r certLt (nget LV) PTS POS PAR LAB TI k = true) :
-    certTree i = tbfsRec 22880 cnt PTS POS PAR LAB ∧
-      treeOK 22880 (certBaseNat.getD i 0) (tbfsRec 22880 cnt PTS POS PAR LAB) certLetters
-        (certLevelLetters i) = true := by
+theorem orbPath_of {i r cnt : Nat} (hi : i < 6) {LV : List Nat}
+    (hL : LV = (certLevelLetters i).toList) (hr : LV.length = r) {PTS POS PAR LAB TI : Nat → Nat}
+    (hc : cnt = certOrbitSizes.getD i 0)
+    (hh : tpathHdK (certBaseNat.getD i 0) cnt PTS = true)
+    (hp : ∀ k < cnt, tpathPtK 22880 r certLt (nget LV) PTS POS PAR LAB TI k = true) :
+    ∃ T : Tree, orbPathOK 22880 (certBaseNat.getD i 0) T certLetters (certLevelLetters i) = true ∧
+      T.pts.size = certOrbitSizes.getD i 0 := by
   obtain ⟨h1, h2⟩ := lv_ok hi hL
   subst hr
-  exact tbfsK_sound ⟨h1, h2⟩ hh hp
+  exact ⟨_, tpathK_sound ⟨h1, h2⟩ hh hp, by rw [← hc]; simp [tbfsRec]⟩
 
-theorem trees : ∀ i < 6, treeOK 22880 (certBaseNat.getD i 0) (certTree i) certLetters
-      (certLevelLetters i) = true ∧ (certTree i).pts.size = certOrbitSizes.getD i 0 := by
+theorem orbPaths : ∀ i < 6, ∃ T : Tree, orbPathOK 22880 (certBaseNat.getD i 0) T certLetters
+      (certLevelLetters i) = true ∧ T.pts.size = certOrbitSizes.getD i 0 := by
   intro i hi
-  have hsz : ∀ {cnt : Nat} {PTS POS PAR LAB : Nat → Nat},
-      (tbfsRec 22880 cnt PTS POS PAR LAB).pts.size = cnt := by simp [tbfsRec]
   interval_cases i
-  · obtain ⟨e, h⟩ := tree_of (i := 0) (r := 20) (LV := lvK0) (by omega) (by decide) rfl t0_hd fun k hk => by
+  · exact orbPath_of (i := 0) (r := 20) (cnt := CT0.cnt) (LV := lvK0) (by omega) (by decide) rfl rfl t0_hd fun k hk => by
       have hc : CT0.cnt = 22880 := rfl
-      rcases Nat.lt_or_ge k 2860 with a | a
-      · exact tbfsSl_spec t0_s0 k (Nat.zero_le _) (by omega) hk
-      rcases Nat.lt_or_ge k 5720 with b | b
-      · exact tbfsSl_spec t0_s1 k a (by omega) hk
-      rcases Nat.lt_or_ge k 8580 with c | c
-      · exact tbfsSl_spec t0_s2 k b (by omega) hk
-      rcases Nat.lt_or_ge k 11440 with d | d
-      · exact tbfsSl_spec t0_s3 k c (by omega) hk
-      rcases Nat.lt_or_ge k 14300 with f | f
-      · exact tbfsSl_spec t0_s4 k d (by omega) hk
-      rcases Nat.lt_or_ge k 17160 with g | g
-      · exact tbfsSl_spec t0_s5 k f (by omega) hk
-      rcases Nat.lt_or_ge k 20020 with m | m
-      · exact tbfsSl_spec t0_s6 k g (by omega) hk
-      · exact tbfsSl_spec t0_s7 k m (by omega) hk
-    rw [e]
-    exact ⟨h, by rw [hsz]; rfl⟩
-  · obtain ⟨e, h⟩ := tree_of (i := 1) (r := 16) (LV := lvK1) (by omega) (by decide) rfl t1_hd fun k hk => by
+      rcases Nat.lt_or_ge k 11440 with a | a
+      · exact tpathSl_spec t0_pa k (Nat.zero_le _) (by omega) hk
+      · exact tpathSl_spec t0_pb k a (by omega) hk
+  · exact orbPath_of (i := 1) (r := 16) (cnt := CT1.cnt) (LV := lvK1) (by omega) (by decide) rfl rfl t1_hd fun k hk => by
       have hc : CT1.cnt = 8505 := rfl
-      rcases Nat.lt_or_ge k 2127 with a | a
-      · exact tbfsSl_spec t1_s0 k (Nat.zero_le _) (by omega) hk
-      rcases Nat.lt_or_ge k 4254 with b | b
-      · exact tbfsSl_spec t1_s1 k a (by omega) hk
-      rcases Nat.lt_or_ge k 6381 with c | c
-      · exact tbfsSl_spec t1_s2 k b (by omega) hk
-      · exact tbfsSl_spec t1_s3 k c (by omega) hk
-    rw [e]
-    exact ⟨h, by rw [hsz]; rfl⟩
-  · obtain ⟨e, h⟩ := tree_of (i := 2) (r := 12) (LV := lvK2) (by omega) (by decide) rfl t2_hd fun k hk => by
+      exact tpathSl_spec t1_p k (Nat.zero_le _) (by omega) hk
+  · exact orbPath_of (i := 2) (r := 12) (cnt := CT2.cnt) (LV := lvK2) (by omega) (by decide) rfl rfl t2_hd fun k hk => by
       have hc : CT2.cnt = 1152 := rfl
-      exact tbfsSl_spec t2_s k (Nat.zero_le _) (by omega) hk
-    rw [e]
-    exact ⟨h, by rw [hsz]; rfl⟩
-  · obtain ⟨e, h⟩ := tree_of (i := 3) (r := 2) (LV := lvK3) (by omega) (by decide) rfl t3_hd fun k hk => by
+      exact tpathSl_spec t2_p k (Nat.zero_le _) (by omega) hk
+  · exact orbPath_of (i := 3) (r := 2) (cnt := CT3.cnt) (LV := lvK3) (by omega) (by decide) rfl rfl t3_hd fun k hk => by
       have hc : CT3.cnt = 2 := rfl
-      exact tbfsSl_spec t3_s k (Nat.zero_le _) (by omega) hk
-    rw [e]
-    exact ⟨h, by rw [hsz]; rfl⟩
-  · obtain ⟨e, h⟩ := tree_of (i := 4) (r := 0) (LV := []) (by omega) (by decide) rfl t4_hd
-      fun k hk => by
-        have hc : CT4.cnt = 1 := rfl
-        exact tbfsSl_spec t4_s k (Nat.zero_le _) (by omega) hk
-    rw [e]
-    exact ⟨h, by rw [hsz]; rfl⟩
-  · obtain ⟨e, h⟩ := tree_of (i := 5) (r := 0) (LV := []) (by omega) (by decide) rfl t5_hd
-      fun k hk => by
-        have hc : CT5.cnt = 1 := rfl
-        exact tbfsSl_spec t5_s k (Nat.zero_le _) (by omega) hk
-    rw [e]
-    exact ⟨h, by rw [hsz]; rfl⟩
+      exact tpathSl_spec t3_p k (Nat.zero_le _) (by omega) hk
+  · exact orbPath_of (i := 4) (r := 0) (cnt := CT4.cnt) (LV := []) (by omega) (by decide) rfl rfl t4_hd fun k hk => by
+      have hc : CT4.cnt = 1 := rfl
+      exact tpathSl_spec t4_p k (Nat.zero_le _) (by omega) hk
+  · exact orbPath_of (i := 5) (r := 0) (cnt := CT5.cnt) (LV := []) (by omega) (by decide) rfl rfl t5_hd fun k hk => by
+      have hc : CT5.cnt = 1 := rfl
+      exact tpathSl_spec t5_p k (Nat.zero_le _) (by omega) hk
 
 theorem facts2292 : certArr 2 = certArr 0 ∧ certArr 3 = certArr 1 ∧
     (∀ j < 10, 2 ≤ j → eqA 22880 certStrongArrs[j]!
       (wordA 22880 certStrongArrs certStrongInvs certDerivs[j]!) = true) ∧
     (∀ i ≤ 6, levelIdx certStrongArrs certBaseNat.toArray i = certLevelIdx i) ∧
-    (∀ i < 6, treeOK 22880 (certBaseNat.getD i 0) (certTree i) certLetters
-      (certLevelLetters i) = true) ∧
-    (∀ i < 6, (certTree i).pts.size = certOrbitSizes.getD i 0) ∧
+    (∀ i < 6, ∃ T : Tree, orbPathOK 22880 (certBaseNat.getD i 0) T certLetters
+      (certLevelLetters i) = true ∧ T.pts.size = certOrbitSizes.getD i 0) ∧
     (∀ j < 10, ∀ x < 22880, (certStrongArrs[j]!)[x]! < 2 ^ 32 ∧ (certStrongInvs[j]!)[x]! < 2 ^ 32) ∧
     (∀ j < 10, certStrongInvs[j]!.size = 22880) := by
-  refine ⟨gens_eq.1, gens_eq.2, derivs_ok, levels_eq, fun i hi => (trees i hi).1,
-    fun i hi => (trees i hi).2, fun j hj x hx => ⟨?_, ?_⟩, fun j hj => ?_⟩
+  refine ⟨gens_eq.1, gens_eq.2, derivs_ok, levels_eq, orbPaths,
+    fun j hj x hx => ⟨?_, ?_⟩, fun j hj => ?_⟩
   · rw [strong_rows hj, rowArr_get hx]
     exact Nat.lt_trans (rangeF hj x hx) (by decide)
   · rw [strongInv_rows hj, rowArr_get hx]

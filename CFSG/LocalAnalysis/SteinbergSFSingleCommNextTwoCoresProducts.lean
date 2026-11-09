@@ -32,13 +32,9 @@ local notation "𝐍[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootA K i) 
 local notation "𝐌[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) :
   Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -51,8 +47,7 @@ set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 local notation "𝐉" => pull φ (diagTorus K)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
@@ -64,7 +59,7 @@ set_option quotPrecheck false in
 local notation "𝐋[" i "]" => (𝐅 ⊔ 𝐀[i] : Subgroup G)
 local notation "𝐰[" i "]" => ((φ.symm (weylElt K i) : L) : G)
 set_option quotPrecheck false in
-local notation "𝐅ʷ[" i "]" => (𝐅.map (MulAut.conj 𝐰[i]⁻¹).toMonoidHom : Subgroup G)
+local notation "𝐅ʷ[" i "]" => SixG.sgFw φ t i
 set_option quotPrecheck false in
 local notation "𝐗[" i "]" => (𝐅 ⊔ 𝐅ʷ[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -79,13 +74,12 @@ local notation "𝐍𝐑[" k "]" => (normalizer (𝐑[k] : Set G) ⊓ normalizer
 set_option quotPrecheck false in
 local notation "𝐃𝐧[" i "]" => normalizer ((𝐃[i] : Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 set_option quotPrecheck false in
 local notation "𝐄𝐧[" i "]" => (normalizer ((𝐄[i] : Subgroup G) : Set G) ⊓
   normalizer ((𝐊[i] : Subgroup G) : Set G) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₂[" i "]" => (CFSG.pCore 2 𝐄𝐧[i]).map 𝐄𝐧[i].subtype
+local notation "𝐏₂[" i "]" => SixG.sgP₂ φ t i
 set_option quotPrecheck false in
 local notation "𝐓₁[" i "]" => (𝐑[i] ⊔ 𝐏₁[i] : Subgroup G)
 set_option quotPrecheck false in

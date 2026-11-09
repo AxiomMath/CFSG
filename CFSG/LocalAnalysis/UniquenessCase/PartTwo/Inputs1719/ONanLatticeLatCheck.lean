@@ -100,6 +100,41 @@ theorem onl_forest_check :
     onl_tauT.length = 120 := by
   decide +kernel
 
+@[expose] def onl_k5Body (i : Nat) : Bool :=
+    (onl_K5.getD i []).length == 315 && ((onl_K5.getD i []).getD 0 (0, 0, 0)).1 == 0 &&
+    (List.range 315).all (fun k => ((onl_K5.getD i []).map (·.1)).contains k) &&
+    (List.range 315).all (fun t => t == 0 ||
+      (decide (((onl_K5.getD i []).getD t (0, 0, 0)).2.1 < t) &&
+      decide (((onl_K5.getD i []).getD t (0, 0, 0)).2.2 < 8) &&
+      decide (((onl_K5.getD i []).getD t (0, 0, 0)).1 < 315) &&
+      onl_mapsTo (onl_kgenT i ((onl_K5.getD i []).getD t (0, 0, 0)).2.2)
+        ((onl_K5.getD i []).getD ((onl_K5.getD i []).getD t (0, 0, 0)).2.1 (0, 0, 0)).1
+        ((onl_K5.getD i []).getD t (0, 0, 0)).1))
+
+theorem onl_k5_check_0 : onl_k5Body 0 = true := by
+  decide +kernel
+
+theorem onl_k5_check_1 : onl_k5Body 1 = true := by
+  decide +kernel
+
+theorem onl_k5_check_2 : onl_k5Body 2 = true := by
+  decide +kernel
+
+theorem onl_k5_check_3 : onl_k5Body 3 = true := by
+  decide +kernel
+
+theorem onl_k5_check_4 : onl_k5Body 4 = true := by
+  decide +kernel
+
+theorem onl_k5_check_5 : onl_k5Body 5 = true := by
+  decide +kernel
+
+theorem onl_k5_check_6 : onl_k5Body 6 = true := by
+  decide +kernel
+
+theorem onl_k5_check_7 : onl_k5Body 7 = true := by
+  decide +kernel
+
 theorem onl_k5_check : onl_K5.length = 8 ∧ (List.range 8).all (fun i =>
     (onl_K5.getD i []).length == 315 && ((onl_K5.getD i []).getD 0 (0, 0, 0)).1 == 0 &&
     (List.range 315).all (fun k => ((onl_K5.getD i []).map (·.1)).contains k) &&
@@ -110,7 +145,22 @@ theorem onl_k5_check : onl_K5.length = 8 ∧ (List.range 8).all (fun i =>
       onl_mapsTo (onl_kgenT i ((onl_K5.getD i []).getD t (0, 0, 0)).2.2)
         ((onl_K5.getD i []).getD ((onl_K5.getD i []).getD t (0, 0, 0)).2.1 (0, 0, 0)).1
         ((onl_K5.getD i []).getD t (0, 0, 0)).1))) = true := by
-  decide +kernel
+  refine ⟨by decide +kernel, ?_⟩
+  show (List.range 8).all onl_k5Body = true
+  rw [List.all_eq_true]
+  intro i hi
+  have hi' : i < 8 := List.mem_range.mp hi
+  clear hi
+  match i, hi' with
+  | 0, _ => exact onl_k5_check_0
+  | 1, _ => exact onl_k5_check_1
+  | 2, _ => exact onl_k5_check_2
+  | 3, _ => exact onl_k5_check_3
+  | 4, _ => exact onl_k5_check_4
+  | 5, _ => exact onl_k5_check_5
+  | 6, _ => exact onl_k5_check_6
+  | 7, _ => exact onl_k5_check_7
+  | n + 8, h => exact absurd h (by omega)
 
 theorem onl_misc_check : (List.range 14).all (fun a => (onl_genT a).length == 120) = true ∧
     (List.range 315).filter (fun k => onl_A k == onl_mO) = [0, 48, 122] := by

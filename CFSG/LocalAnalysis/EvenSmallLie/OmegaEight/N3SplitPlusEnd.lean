@@ -102,7 +102,7 @@ theorem false_of_degenerate [Finite G] (hG : IsSimpleGroup G) (hnab : ∃ a b : 
     (hdeg : ∀ Z : Subgroup GL12, Z ≤ Xof W φ → IsPGroup 2 Z → (splitModel .plus).TC ≤ Z →
       Z = (splitModel .plus).TC) : False :=
   false_of_offender_cand hG hnab h splitFacts hX (S := grpOf tGens) h.TC_le_X TC_pgroup le_rfl
-    hdeg (fun A hA hsq hne => offender_bound tc_parts.1 (fun v hv _ => List.mem_range.2 hv)
+    hdeg (fun A hA hsq hne => offender_bound_min tc_parts.1 (fun v hv _ => List.mem_range.2 hv)
       off_roots hA hsq hne)
     (relIndex_of_card UK_le_TC card_UK (by rw [card_TC]) (by norm_num))
     (fun s hs => not_isCand_of_avoidCheck tc_parts.1 uk_parts.1 uk_parts.2.2.2 hs)

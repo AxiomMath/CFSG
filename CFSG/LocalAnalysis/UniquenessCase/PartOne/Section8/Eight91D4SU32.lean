@@ -10,6 +10,7 @@ public import CFSG.LocalAnalysis.UniquenessCase.UC22P22ry
 public import CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.ExtraspecialConstructor
 public import CFSG.Open.StatedSUFieldChange
 public import CFSG.Mathlib.Decide.Bounded
+import CFSG.Mathlib.Decide.FinFun
 public import CFSG.LocalAnalysis.RankThreeUC.AGL81S15O82
 import all CFSG.LocalAnalysis.RankThreeUC.SmallClassTwoGroups.IsExtraspecialExpP
 public import CFSG.HardMathSupport.Timmesfeld.CrossChar.OrthQ2Two
@@ -841,10 +842,43 @@ private theorem r891TwNodup_spec (w : SUg CFSG.F4) :
 private noncomputable def r891TwLen (w : SUg CFSG.F4) : Bool :=
   decide ((r891Tw w).length = 9)
 
-private theorem r891Tw_check :
-    r891NoncentralList.all (fun w =>
+private theorem r891Tw_check_0 : ((r891NoncentralList.drop (0 * 4)).take 4).all
+    (fun w =>
       r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true := by
   decide +kernel
+
+private theorem r891Tw_check_1 : ((r891NoncentralList.drop (1 * 4)).take 4).all
+    (fun w =>
+      r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true := by
+  decide +kernel
+
+private theorem r891Tw_check_2 : ((r891NoncentralList.drop (2 * 4)).take 4).all
+    (fun w =>
+      r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true := by
+  decide +kernel
+
+private theorem r891Tw_check_3 : ((r891NoncentralList.drop (3 * 4)).take 4).all
+    (fun w =>
+      r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true := by
+  decide +kernel
+
+private theorem r891Tw_check_4 : ((r891NoncentralList.drop (4 * 4)).take 4).all
+    (fun w =>
+      r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true := by
+  decide +kernel
+
+private theorem r891Tw_check_5 : ((r891NoncentralList.drop (5 * 4)).take 4).all
+    (fun w =>
+      r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true := by
+  decide +kernel
+
+private theorem r891Tw_check :
+    r891NoncentralList.all (fun w =>
+      r891TwMul w && r891TwSq w && r891TwSub w && r891TwNodup w && r891TwLen w) = true :=
+  CFSG.Decide.FinFun.all_of_chunks 4 6 _ (by decide +kernel) fun k hk => by
+    interval_cases k
+    exacts [r891Tw_check_0, r891Tw_check_1, r891Tw_check_2, r891Tw_check_3, r891Tw_check_4,
+      r891Tw_check_5]
 
 private theorem r891Tw_mul {w : SUg CFSG.F4} (hw : w ∈ r891NoncentralList) :
     ∀ a ∈ r891Tw w, ∀ b ∈ r891Tw w, a * b ∈ r891Tw w := by

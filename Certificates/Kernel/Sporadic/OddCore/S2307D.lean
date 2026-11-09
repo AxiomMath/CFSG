@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.Sporadic.OddCore.PEnumCmd
 public import Certificates.Kernel.Sporadic.OddCore.RowsCmd
 public import Certificates.Kernel.Sporadic.RawGen
+public import Certificates.Kernel.Sporadic.RawGenSchOJ
+public meta import Certificates.Kernel.Sporadic.RawGenSchOJ
 public import Certificates.Kernel.Sporadic.IntWordsCmd
 public import Certificates.Kernel.Misc.Perm.HexCmd
 public import CFSG.Sporadic.SuzOddCore.SylowCheckInputs
@@ -53,16 +55,21 @@ meta def extraM : Array Nat := Id.run do
     let b := baseM[i]!
     let fix := fun (t : Array Nat) => pre.all fun p => t[p]! == p
     let stab := (List.range eM.size).filter fun k => fix eM[k]!
-    let full := (stab.map fun k => eM[k]![b]!).eraseDups.length
+    let full := (stab.map fun k => (eM[k]!)[b]!).eraseDups.length
     let mut orb := orbitM ((gM ++ extra.map (eM[·]!)).filter fix) b
     for k in stab do
-      if orb.size < full && !orb.contains eM[k]![b]! then
+      if orb.size < full && !orb.contains (eM[k]!)[b]! then
         extra := extra.push k
         orb := orbitM ((gM ++ extra.map (eM[·]!)).filter fix) b
   return extra
 
 meta def sS : Array (Array Nat) := gM ++ extraM.map (eM[·]!)
 meta def sBA : Array Nat := baseM.toArray
+meta def sBA3 : Array Nat := #[0, 1, 2]
+
+@[expose] def wSSC : List (List Nat) :=
+  [[0], [2, 2, 2, 2], [1], [2, 1, 1, 1, 2, 1, 0], [3, 3, 2, 2, 2, 2, 0, 0], [2, 3, 3, 3, 1, 3, 0, 2],
+    [2, 3, 2, 3, 0, 3, 0, 3, 0], [2, 3, 0, 2, 1, 3, 1, 0, 0], [2], [3], [0, 0, 0, 0]]
 
 meta def sDM : Array (List Int) := extraM.map treeWordM
 
@@ -114,8 +121,17 @@ end CertificateChecks.KernelSpor.S2307
   CertificateChecks.KernelSpor.S2307.giM CertificateChecks.KernelSpor.S2307.idM 16384
 #kmisc_sortpair CertificateChecks.KernelSpor.SSK CertificateChecks.KernelSpor.S2307.keyM
   CertificateChecks.KernelSpor.S2307.zeroM 1 16384
-#ks_rawchain CertificateChecks.KernelSpor.SSC 1782 11 64 CertificateChecks.KernelSpor.S2307.sS
-  CertificateChecks.KernelSpor.S2307.sBA 11 CertificateChecks.KernelSpor.SSD
+#ks_rawchain_sl2_data CertificateChecks.KernelSpor.SSC 1782 11 64 64
+  CertificateChecks.KernelSpor.S2307.sS CertificateChecks.KernelSpor.S2307.sBA3 11
+  CertificateChecks.KernelSpor.SSD
+#ks_rawchain_sl2_lv CertificateChecks.KernelSpor.SSC 0 0 28
+#ks_rawchain_sl2_lv CertificateChecks.KernelSpor.SSC 1 0 28
+#ks_rawchain_sl2_lv CertificateChecks.KernelSpor.SSC 2 0 28
+#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SSC 1 0 2
+#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SSC 2 0 1
+#ks_rawchain_sl2_osub CertificateChecks.KernelSpor.SSC 0 2 8 9 CertificateChecks.KernelSpor.S2307.wSSC
+#ks_rawchain_sl2_scho CertificateChecks.KernelSpor.SSC 0 2
+#ks_rawchain_sl2_joino CertificateChecks.KernelSpor.SSC
 #krows CertificateChecks.KernelSpor.SSF.L CertificateChecks.KernelSpor.S2307.flM
 #krows CertificateChecks.KernelSpor.SSF.P CertificateChecks.KernelSpor.S2307.fpM
 #krows CertificateChecks.KernelSpor.SSF.G CertificateChecks.KernelSpor.S2307.fgM

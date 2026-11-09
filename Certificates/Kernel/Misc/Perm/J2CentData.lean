@@ -7,7 +7,7 @@ public import Certificates.Kernel.LocalComp.BlockGen
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.J2Cent "Certificates/Kernel/Misc/Perm/data/j2cent.json.gz" 1358 9904999915967177123
+#kc_repo #kc_json CertificateChecks.KernelMisc.J2Cent "Certificates/Kernel/Misc/Perm/data/j2cent.json" 1358 9904999915967177123
   (CT : List Nat)
 
 public section

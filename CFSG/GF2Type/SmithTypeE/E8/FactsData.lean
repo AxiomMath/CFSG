@@ -166,10 +166,39 @@ theorem clique_moves_listed : ∀ k ∈ List.range 126, e8fRoot k ≠ highRoot .
         e7Data.wt μ ⬝ᵥ e8fRoot j = -1 := by
   decide +kernel
 
+@[expose] def cliqueFixB : Bool :=
+  (List.range 126).all fun k => decide (e8fRoot k = highRoot .E7) ||
+    (e8fLam k).all fun μ => (e8fLam k).all fun l => decide (μ = l) ||
+      (List.range 126).all fun j =>
+        !(List.ofFn (MinData.toWeight (e8fRoot j)) == List.ofFn (e7Data.wt l - e7Data.wt μ)) ||
+          (e8fLam k).all fun ν => decide (ν = μ) || decide (ν = l) ||
+            !decide (e7Data.wt ν ⬝ᵥ e8fRoot j = -1)
+
+theorem cliqueFixB_eq : cliqueFixB = true := by decide +kernel
+
 theorem clique_fix_listed : ∀ k ∈ List.range 126, e8fRoot k ≠ highRoot .E7 →
     ∀ μ ∈ e8fLam k, ∀ l ∈ e8fLam k, μ ≠ l → ∀ j ∈ List.range 126,
       e7Data.wt l = e7Data.wt μ + MinData.toWeight (e8fRoot j) →
         ∀ ν ∈ e8fLam k, ν ≠ μ → ν ≠ l → e7Data.wt ν ⬝ᵥ e8fRoot j ≠ -1 := by
-  decide +kernel
+  intro k hk hne μ hμ l hl hμl j hj heq ν hν hνμ hνl
+  have h1 := List.all_eq_true.1 cliqueFixB_eq k hk
+  simp only [Bool.or_eq_true, decide_eq_true_eq] at h1
+  rcases h1 with h1 | h1
+  · exact absurd h1 hne
+  have h2 := List.all_eq_true.1 (List.all_eq_true.1 h1 μ hμ) l hl
+  simp only [Bool.or_eq_true, decide_eq_true_eq] at h2
+  rcases h2 with h2 | h2
+  · exact absurd h2 hμl
+  have hd : List.ofFn (MinData.toWeight (e8fRoot j)) = List.ofFn (e7Data.wt l - e7Data.wt μ) := by
+    rw [heq, add_sub_cancel_left]
+  have h3 := List.all_eq_true.1 h2 j hj
+  rw [hd, beq_self_eq_true, Bool.not_true, Bool.false_or] at h3
+  have h4 := List.all_eq_true.1 h3 ν hν
+  simp only [Bool.or_eq_true, decide_eq_true_eq, Bool.not_eq_eq_eq_not, Bool.not_true,
+    decide_eq_false_iff_not] at h4
+  rcases h4 with (h4 | h4) | h4
+  · exact absurd h4 hνμ
+  · exact absurd h4 hνl
+  · exact h4
 
 end CFSG.GF2Type.SmithTypeE.E8.F

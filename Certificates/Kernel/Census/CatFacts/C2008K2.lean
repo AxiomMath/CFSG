@@ -14,7 +14,7 @@ set_option maxRecDepth 100000
 namespace CertificateChecks.KernelCatFacts
 
 open CFSG.ComponentClassification.CatFactsSmall CFSG.ComponentClassification.CatFactsSmall.A8
-  CFSG.Certificates.Kernel.PkEnum CFSG.Sporadic.Schreier
+  CFSG.Certificates.Kernel.PkEnum CFSG.Sporadic.Schreier CFSG.KS.PK
 
 theorem cfComm2008K : (q0gens.all fun q => decide (q * cfTau = cfTau * q) &&
     decide (q * cfZ = cfZ * q)) = true ∧ g08⁻¹ * cfZ * g08 = cfZ := by
@@ -118,6 +118,49 @@ theorem cfEwit2008K : (cfEgens.all fun x => (cfOz.map Prod.fst).any fun u =>
     (cfOz.map Prod.fst).any fun v => decide (x = u * v)) = true := by
   decide +kernel
 
+theorem k2_pkp_mul {n : Nat} (a b : VP n) : pkp a * pkp b = pkp (mulV a b) := by
+  have h1 : ∀ j < n, fd (wd n) a.1.1 (fd (wd n) b.1.1 j) < n :=
+    fun j hj => (a.2 _ (b.2 j hj).1).1
+  refine Equiv.ext fun i => Fin.ext ?_
+  change fd (wd n) a.1.1 (fd (wd n) b.1.1 i) =
+    fd (wd n) (pk n fun i => fd (wd n) a.1.1 (fd (wd n) b.1.1 i)) i
+  exact (fd_pk h1 i.2).symm
+
+theorem k2_pkp_inv {n : Nat} (a : VP n) : (pkp a)⁻¹ = pkp (invV a) := rfl
+
+theorem k2_pkp_eq {n : Nat} {X Y : VP n} {f g : Nat → Nat} (hf : ∀ i < n, f i < n)
+    (hg : ∀ i < n, g i < n) (hX : X.1.1 = pk n f) (hY : Y.1.1 = pk n g) :
+    decide (pkp X = pkp Y) = Nat.beq X.1.1 Y.1.1 := by
+  rw [Bool.eq_iff_iff, decide_eq_true_iff, Nat.beq_eq]
+  constructor
+  · intro h
+    rw [hX, hY, pk, pk]
+    refine enc_congr fun i hi => ?_
+    have e := congrArg (fun σ : Equiv.Perm (Fin n) => ((σ ⟨i, hi⟩ : Fin n) : Nat)) h
+    change fd (wd n) X.1.1 i = fd (wd n) Y.1.1 i at e
+    rw [← fd_pk hf hi, ← fd_pk hg hi, ← hX, ← hY]
+    exact e
+  · intro h
+    refine Equiv.ext fun i => Fin.ext ?_
+    change fd (wd n) X.1.1 i = fd (wd n) Y.1.1 i
+    rw [h]
+
+theorem k2_mul_bd {n : Nat} (a b : VP n) :
+    ∀ j < n, fd (wd n) a.1.1 (fd (wd n) b.1.1 j) < n :=
+  fun j hj => (a.2 _ (b.2 j hj).1).1
+
+theorem k2_eq_mm {n : Nat} (a b c d : VP n) :
+    decide (pkp (mulV a b) = pkp (mulV c d)) = Nat.beq (mulV a b).1.1 (mulV c d).1.1 :=
+  k2_pkp_eq (k2_mul_bd a b) (k2_mul_bd c d) rfl rfl
+
+theorem k2_pkp_one (n : Nat) : pkp (oneV n) = 1 :=
+  Equiv.ext fun i => Fin.ext (fd_pk (fun _ hj => hj) i.2)
+
+theorem k2_eq_m1 {n : Nat} (a b : VP n) :
+    decide (pkp (mulV a b) = 1) = Nat.beq (mulV a b).1.1 (oneV n).1.1 := by
+  rw [← k2_pkp_one]
+  exact k2_pkp_eq (X := mulV a b) (Y := oneV n) (k2_mul_bd a b) (fun _ hj => hj) rfl rfl
+
 theorem cfNormal2008K : (elemsV cfQR).all (fun w => !decide (w * w = 1) || siftP QA8 w 0 ||
     (fun y => decide (y ∈ cfCls1C)) w ||
     (elemsV cfQR).any (fun r => !decide (w * (r * w * r⁻¹) = r * w * r⁻¹ * w)) ||
@@ -125,6 +168,8 @@ theorem cfNormal2008K : (elemsV cfQR).all (fun w => !decide (w * w = 1) || siftP
       !(fun y => decide (y ∈ cfCls1C)) y &&
       (elemsV cfQR).all fun r => decide (y * (r * w * r⁻¹) = r * w * r⁻¹ * y)).length < 16)) =
       true := by
+  simp only [elemsV, List.all_map, List.any_map, List.filter_map, List.length_map,
+    Function.comp_def, k2_eq_m1, k2_pkp_inv, k2_pkp_mul, k2_eq_mm]
   decide +kernel
 
 theorem cfMisc2008K : (elemsV cfQE).all (fun e => decide (e * s8 * e⁻¹ * s8⁻¹ = 1) ||

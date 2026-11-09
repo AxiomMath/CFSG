@@ -20,6 +20,46 @@ namespace CFSG.KC.LQT.Cmd
 meta def natE : Expr := mkConst ``Nat
 meta def boolE : Expr := mkConst ``Bool
 meta def lit (n : Nat) : Expr := mkRawNatLit n
+
+meta def litChunks (n : Nat) : Array Nat := Id.run do
+  let k0 := Nat.log2 (n.log2 / 8192) + 1
+  let masks := (Array.range k0).map fun k => (1 <<< (8192 <<< k)) - 1
+  let rec go : Nat → Nat → Array Nat → Array Nat
+    | 0, m, acc => acc.push m
+    | k + 1, m, acc => go k (m >>> (8192 <<< k)) (go k (m &&& masks[k]!) acc)
+  let mut cs := go k0 n #[]
+  while cs.size > 1 && cs.back! == 0 do
+    cs := cs.pop
+  return cs
+
+meta def bigLit (n : Nat) : Expr :=
+  if n < 1 <<< 16384 then mkRawNatLit n else
+    let cs := litChunks n
+    let salt (c i : Nat) : Nat :=
+      (c % 2305843009213693951 * 11400714819323198485 + (i + 1) * 14029467366897019727) % (1 <<< 64)
+    let ls := (Array.range cs.size).map fun i => mkApp2 (mkConst ``Nat.shiftRight)
+      (mkRawNatLit ((cs[i]! <<< 64) ||| salt cs[i]! i)) (mkRawNatLit 64)
+    let rec tree : Nat → Nat → Nat → Expr
+      | 0, lo, _ => ls[lo]!
+      | f + 1, lo, hi =>
+        if hi ≤ lo + 1 then ls[lo]! else
+          let mid := (lo + hi) / 2
+          mkApp2 (mkConst ``Nat.lor) (tree f lo mid)
+            (mkApp2 (mkConst ``Nat.shiftLeft) (tree f mid hi) (mkRawNatLit (8192 * (mid - lo))))
+    tree (cs.size.log2 + 2) 0 cs.size
+
+meta partial def natOfLit? (e : Expr) : Option Nat :=
+  match e.consumeMData with
+  | .lit (.natVal x) => some x
+  | e =>
+    let op? : Option (Nat → Nat → Nat) :=
+      if e.isAppOfArity ``Nat.lor 2 then some (· ||| ·)
+      else if e.isAppOfArity ``Nat.shiftLeft 2 then some (· <<< ·)
+      else if e.isAppOfArity ``Nat.shiftRight 2 then some (· >>> ·)
+      else none
+    match op? with
+    | some op => do return op (← natOfLit? e.appFn!.appArg!) (← natOfLit? e.appArg!)
+    | none => none
 meta def eqTrue (b : Expr) : Expr := mkApp3 (mkConst ``Eq [1]) boolE b (mkConst ``Bool.true)
 
 meta def addDef (name : Name) (type value : Expr) : CoreM Unit :=
@@ -78,6 +118,17 @@ meta def LayV.mul (c : LayV) (A B : Nat) : Nat := Id.run do
     acc := acc + ((A >>> (c.w * k)) &&& c.CM) * ((B >>> (c.S * k)) &&& c.RM)
   return c.red c.L c.H acc
 
+meta def LayV.rowsOf (c : LayV) (A : Nat) : Nat × Array CFSG.F3.Native.V :=
+  (A, if c.p == 3 then CFSG.KC.LQT.Fast.toRows c.w c.d A else #[])
+
+meta def LayV.mulRows (c : LayV) (A B : Nat × Array CFSG.F3.Native.V) :
+    Nat × Array CFSG.F3.Native.V :=
+  if A.1 == c.ONE then B else if B.1 == c.ONE then A else
+  if c.p == 3 then
+    let R := CFSG.F3.Native.mul c.d A.2 B.2
+    (CFSG.KC.LQT.Fast.ofRows c.w c.d R, R)
+  else (c.mul A.1 B.1, #[])
+
 meta def LayV.vec (c : LayV) (v M : Nat) : Nat := Id.run do
   let mut acc := 0
   let m := (1 <<< c.w) - 1
@@ -120,20 +171,21 @@ meta def LayV.decode (c : LayV) (s : String) : Nat := Id.run do
 
 meta def LayV.expr (c : LayV) : Expr :=
   mkAppN (mkConst ``CFSG.KC.LQT.Lay.mk)
-    #[lit c.p, lit c.w, lit c.S, lit c.d, lit c.T, lit c.L, lit c.H, lit c.CM, lit c.RM, lit c.ONE,
-      lit c.LV, lit c.HV]
+    #[lit c.p, lit c.w, lit c.S, lit c.d, lit c.T, bigLit c.L, bigLit c.H, bigLit c.CM, bigLit c.RM,
+      bigLit c.ONE, bigLit c.LV, bigLit c.HV]
 
 open CFSG.SectionRank.Native in
 meta def ssa (c : LayV) (A B : Nat) (nregs : Nat) (prog : List Op) :
     Array Nat × Array (Nat × Nat) × Array Nat := Id.run do
-  let mut vals : Array Nat := #[A, B, c.ONE]
+  let mut vals : Array (Nat × Array CFSG.F3.Native.V) := #[c.rowsOf A, c.rowsOf B, (c.ONE, #[])]
   let mut ops : Array (Nat × Nat) := #[(0, 0), (0, 0), (0, 0)]
   let mut regs : Array Nat := (Array.range nregs).map fun r => if r == 0 then 0 else if r == 1 then 1 else 2
-  let mulI := fun (vals : Array Nat) (ops : Array (Nat × Nat)) (a b : Nat) =>
+  let mulI := fun (vals : Array (Nat × Array CFSG.F3.Native.V)) (ops : Array (Nat × Nat))
+      (a b : Nat) =>
     match ops.findIdx? (· == (a, b)) with
     | some i => if i ≥ 3 then (vals, ops, i) else
-        (vals.push (c.mul vals[a]! vals[b]!), ops.push (a, b), vals.size)
-    | none => (vals.push (c.mul vals[a]! vals[b]!), ops.push (a, b), vals.size)
+        (vals.push (c.mulRows vals[a]! vals[b]!), ops.push (a, b), vals.size)
+    | none => (vals.push (c.mulRows vals[a]! vals[b]!), ops.push (a, b), vals.size)
   for o in prog do
     match o with
     | .mul i j k =>
@@ -157,7 +209,7 @@ meta def ssa (c : LayV) (A B : Nat) (nregs : Nat) (prog : List Op) :
             let (v', o', r) := mulI vals ops base base
             vals := v'; ops := o'; base := r
         regs := regs.set! k res.get!
-  return (vals, ops, regs)
+  return (vals.map (·.1), ops, regs)
 
 meta partial def addSel (F : Name) (leaf : Nat → Expr) (n : Nat) : CoreM Unit := do
   let d := max 1 (Nat.log2 (2 * n - 1))
@@ -179,7 +231,7 @@ meta partial def addSel (F : Name) (leaf : Nat → Expr) (n : Nat) : CoreM Unit 
     (mkLambda `k .default natE (mkApp (mkConst (F.appendAfter s!"_0_{d - 1}")) (.bvar 0)))
 
 meta def natList (xs : List Nat) : Expr :=
-  xs.foldr (fun x acc => mkApp3 (mkConst ``List.cons [0]) natE (lit x) acc)
+  xs.foldr (fun x acc => mkApp3 (mkConst ``List.cons [0]) natE (bigLit x) acc)
     (mkApp (mkConst ``List.nil [0]) natE)
 
 meta partial def literalOf (n : Name) : CoreM String := do
@@ -195,15 +247,25 @@ meta partial def literalOf (n : Name) : CoreM String := do
       else throwError "{n} is not a string literal or an append of literals: {e}"
   go v.value
 
-meta def addChars (L seed : Name) : CoreM String := do
+meta def seedRoot (seed : Name) : Name := `CFSG.KD.SeedDec ++ seed
+
+meta def seedDecRoot (seed : Name) (p d : Nat) : Name :=
+  seedRoot seed ++ Name.mkSimple s!"p{p}d{d}"
+
+meta def addCharsCut (L seed : Name) (cut : Nat) : CoreM (String × Array Expr) := do
   let s ← literalOf seed
   let charT := mkConst ``Char
   let cons := mkApp (mkConst ``List.cons [0]) charT
   let cache : Array Expr := (Array.range 128).map fun i => mkApp (mkConst ``Char.ofNat) (lit i)
+  let cs := s.toList.toArray
   let mut l := mkApp (mkConst ``List.nil [0]) charT
-  for ch in s.toList.reverse do
+  let mut sufs : Array Expr := #[]
+  for q' in [0:cs.size] do
+    let q := cs.size - 1 - q'
+    let ch := cs[q]!
     let e := if ch.toNat < 128 then cache[ch.toNat]! else mkApp (mkConst ``Char.ofNat) (lit ch.toNat)
     l := mkApp2 cons e l
+    if cut > 0 && q % cut == 0 then sufs := sufs.push l
   addDef L (mkApp (mkConst ``List [0]) charT) l
   let strT := mkConst ``String
   let ty := mkApp3 (mkConst ``Eq [1]) strT (mkConst seed) (mkApp (mkConst ``String.ofList) (mkConst L))
@@ -218,14 +280,47 @@ meta def addChars (L seed : Name) : CoreM String := do
     #[lc, mkApp toL (mkConst seed), mkApp toL ofL, mkConst L, cg,
       mkApp (mkConst ``String.toList_ofList) (mkConst L)]
   addThm (L.appendAfter "_toList") ty2 pf
-  return s
+  return (s, sufs.reverse)
+
+meta def addChars (L seed : Name) : CoreM String := do
+  let R := seedRoot seed
+  if (← getEnv).contains (R ++ `L_toList) then
+    let lc := mkApp (mkConst ``List [0]) (mkConst ``Char)
+    let strT := mkConst ``String
+    addDef L lc (mkConst (R ++ `L))
+    addThm (L.appendAfter "_eq") (mkApp3 (mkConst ``Eq [1]) strT (mkConst seed)
+      (mkApp (mkConst ``String.ofList) (mkConst L))) (mkConst (R ++ `L_eq))
+    addThm (L.appendAfter "_toList") (mkApp3 (mkConst ``Eq [1]) lc
+      (mkApp (mkConst ``String.toList) (mkConst seed)) (mkConst L)) (mkConst (R ++ `L_toList))
+    return (← literalOf seed)
+  return (← addCharsCut L seed 0).1
+
+meta def addDecOK (name : Name) (c : LayV) (lay V : Expr) (v : Nat) (LA : Name) : CoreM Unit := do
+  let b := mkApp3 (mkConst ``CFSG.KC.LQT.decOK) lay V (mkConst LA)
+  let env ← getEnv
+  let shared? : Option Name := match env.find? LA with
+    | some (.defnInfo d) => match d.value with
+      | .const X _ =>
+        if X.isStr && X.getString! == "L" then
+          let R := X.getPrefix ++ Name.mkSimple s!"p{c.p}d{c.d}"
+          match env.find? (R ++ `M), env.find? (R ++ `lay) with
+          | some (.defnInfo m), some (.defnInfo l) =>
+            if m.value == lit v && l.value == c.expr && env.contains (R ++ `ok) then some R
+            else none
+          | _, _ => none
+        else none
+      | _ => none
+    | _ => none
+  match shared? with
+  | some R => addThm name (eqTrue b) (mkConst (R ++ `ok))
+  | none => addTrue name b
 
 elab "#lqt_chars " L:ident seed:ident : command =>
   withSync do discard <| addChars L.getId seed.getId
 
 meta def addProgram (pre : Name) (p d : Nat) (seedA seedB : Name) (nregs : Nat)
     (prog : List CFSG.SectionRank.Native.Op)
-    (extra : LayV → Array Nat → Array Nat → Array Nat := fun _ _ _ => #[]) :
+    (extra : LayV → Array Nat → Array Nat → Array Nat := fun _ _ _ => #[]) (f3 : Bool := false) :
     CoreM (LayV × Array Nat × Array Nat) := do
   let c := layOf p d
   let lay := mkConst (pre ++ `lay)
@@ -247,18 +342,40 @@ meta def addProgram (pre : Name) (p d : Nat) (seedA seedB : Name) (nregs : Nat)
   addSel (pre ++ `P) (fun k => if k < 3 then lit 0 else mkConst (pre ++ Name.mkSimple s!"P{k}")) ops.size
   let V := mkConst (pre ++ `V)
   let P := mkConst (pre ++ `P)
-  addTrue (pre ++ `decA) (mkApp3 (mkConst ``CFSG.KC.LQT.decOK) lay (mkApp V (lit 0)) (mkConst (pre ++ `LA)))
-  addTrue (pre ++ `decB) (mkApp3 (mkConst ``CFSG.KC.LQT.decOK) lay (mkApp V (lit 1)) (mkConst (pre ++ `LB)))
+  addDecOK (pre ++ `decA) c lay (mkApp V (lit 0)) A (pre ++ `LA)
+  addDecOK (pre ++ `decB) c lay (mkApp V (lit 1)) B (pre ++ `LB)
   let oneTy := mkApp3 (mkConst ``Eq [1]) natE (mkApp V (lit 2)) (mkApp (mkConst ``CFSG.KC.LQT.Lay.ONE) lay)
   addThm (pre ++ `one) oneTy (mkApp2 (mkConst ``Eq.refl [1]) natE (mkApp V (lit 2)))
   let f := mkApp3 (mkConst ``CFSG.KC.LQT.stepOK) lay V P
-  let mut pf := mkApp (mkConst ``CFSG.KC.LQT.steps_three) f
-  for k in [3:ops.size] do
-    let tn := pre ++ Name.mkSimple s!"s{k}"
-    addTrue tn (mkApp f (lit k))
-    pf := mkAppN (mkConst ``CFSG.KC.LQT.steps_succ) #[f, lit k, pf, mkConst tn]
   let stTy := mkApp2 (mkConst ``CFSG.KC.LQT.StepsTo) f (lit ops.size)
-  addThm (pre ++ `steps) stTy pf
+  if f3 && c.p == 3 then
+    let K := Nat.log2 (c.d * c.d - 1) + 1
+    let fld (f : Name) := mkApp (mkConst (``CFSG.KC.LQT.Lay ++ f)) lay
+    let dS := mkAppN (mkConst ``HMul.hMul [0, 0, 0]) #[natE, natE, natE,
+      mkApp2 (mkConst ``instHMul [0]) natE (mkConst ``instMulNat), fld `d, fld `S]
+    let valid (k : Nat) := mkAppN (mkConst `CFSG.KC.Ord.validM)
+      #[fld `p, dS, fld `L, fld `H, mkApp V (lit k)]
+    addTrue (pre ++ `vA) (valid 0)
+    addTrue (pre ++ `vB) (valid 1)
+    let g := mkAppN (mkConst `CFSG.KC.LQT.stepF3)
+      #[lay, lit K, mkApp2 (mkConst `CFSG.KS.F3L.spreadE) (fld `d) (fld `d), V, P]
+    let mut pg := mkApp (mkConst ``CFSG.KC.LQT.steps_three) g
+    for k in [3:ops.size] do
+      let tn := pre ++ Name.mkSimple s!"s{k}"
+      addTrue tn (mkApp g (lit k))
+      pg := mkAppN (mkConst ``CFSG.KC.LQT.steps_succ) #[g, lit k, pg, mkConst tn]
+    addThm (pre ++ `steps3) (mkApp2 (mkConst ``CFSG.KC.LQT.StepsTo) g (lit ops.size)) pg
+    addThm (pre ++ `steps) stTy (mkAppN (mkConst `CFSG.KC.LQT.F3S.steps_of_F3V)
+      #[lay, mkConst (pre ++ `lay_ok), reflBoolTrue, lit K, reflBoolTrue, reflBoolTrue, V, P,
+        lit ops.size, mkConst (pre ++ `vA), mkConst (pre ++ `vB), mkConst (pre ++ `one),
+        mkConst (pre ++ `steps3)])
+  else
+    let mut pf := mkApp (mkConst ``CFSG.KC.LQT.steps_three) f
+    for k in [3:ops.size] do
+      let tn := pre ++ Name.mkSimple s!"s{k}"
+      addTrue tn (mkApp f (lit k))
+      pf := mkAppN (mkConst ``CFSG.KC.LQT.steps_succ) #[f, lit k, pf, mkConst tn]
+    addThm (pre ++ `steps) stTy pf
   return (c, vals, regs)
 
 open CFSG.SectionRank.Native in
@@ -294,20 +411,149 @@ meta def sortOrder (c : LayV) (b : Nat) (X : Array Nat) (t : Nat) : List Nat :=
   let vs := (List.range N).map fun n => (c.digApp b X n (c.unit t), n)
   (vs.mergeSort (fun a b => a.1 ≤ b.1)).map (·.2)
 
+theorem sqMulEq {c : Lay} {A B A' B' M : Nat} (hA : A = A') (hB : B = B')
+    (h : Nat.beq (c.mul A' B') M = true) : c.mul A B = M := by
+  subst hA hB
+  exact Nat.eq_of_beq_eq_true h
+
+theorem sqPowEq {c : Lay} {X e A M : Nat} (h : c.pow X e = A)
+    (hm : Nat.beq (c.mul A X) M = true) : c.pow X (Nat.succ e) = M := by
+  change c.mul (c.pow X e) X = M
+  rw [h]
+  exact Nat.eq_of_beq_eq_true hm
+
+theorem sqPow0 (c : Lay) (X : Nat) : c.pow X 0 = c.ONE := rfl
+
+open CFSG.KC.Ord in
+theorem sqOKParts {c : Lay} {V : Nat → Nat} {N ix iy ih r oh a b cc dd t : Nat} {σ : List Nat}
+    {PX PY PH XY YX HX WX HY WY : Nat}
+    (hpx : c.pow (V ix) r = PX) (hpy : c.pow (V iy) r = PY) (hph : c.pow (V ih) oh = PH)
+    (hxy : c.mul (V ix) (V iy) = XY) (hyx : c.mul (V iy) (V ix) = YX)
+    (hhx : c.mul (V ih) (V ix) = HX)
+    (hwx : c.mul (c.mul (c.pow (V ix) a) (c.pow (V iy) cc)) (V ih) = WX)
+    (hhy : c.mul (V ih) (V iy) = HY)
+    (hwy : c.mul (c.mul (c.pow (V ix) b) (c.pow (V iy) dd)) (V ih) = WY)
+    (hb : andB (Nat.blt ix N) (andB (Nat.blt iy N) (andB (Nat.blt ih N)
+      (andB (Nat.blt (nat_lit 0) r) (andB (Nat.blt (nat_lit 0) oh)
+      (andB (Nat.beq PX c.ONE) (andB (Nat.beq PY c.ONE) (andB (Nat.beq PH c.ONE)
+      (andB (Nat.beq XY YX) (andB (Nat.beq HX WX) (andB (Nat.beq HY WY)
+        (normalOK c r (sel3 (V ix) (V iy) (V iy)) (nat_lit 2) t σ))))))))))) = true) :
+    sqOK c V N ix iy ih r oh a b cc dd t σ = true := by
+  unfold sqOK conjOK
+  rw [hpx, hpy, hph, hxy, hyx, hhx, hwx, hhy, hwy]
+  exact hb
+
+meta def addSq (pre : Name) (c : LayV) (vals : Array Nat) (ix iy ih r oh a b cc dd t : Nat) :
+    CoreM Unit := do
+  let lay := mkConst (pre ++ `lay)
+  let Vc := mkConst (pre ++ `V)
+  let one := mkApp (mkConst ``CFSG.KC.LQT.Lay.ONE) lay
+  let f3 := c.p == 3
+  let K := Nat.log2 (c.d * c.d - 1) + 1
+  let fld (f : Name) := mkApp (mkConst (``CFSG.KC.LQT.Lay ++ f)) lay
+  let dS := mkAppN (mkConst ``HMul.hMul [0, 0, 0]) #[natE, natE, natE,
+    mkApp2 (mkConst ``instHMul [0]) natE (mkConst ``instMulNat), fld `d, fld `S]
+  let vmemo ← IO.mkRef (∅ : Std.HashMap Expr Expr)
+  let validT : Expr → CoreM Expr := fun e => do
+    if let some h := (← vmemo.get)[e]? then return h
+    let j := (← vmemo.get).size
+    let n := pre ++ Name.mkSimple s!"qv{j}"
+    addTrue n (mkAppN (mkConst `CFSG.KC.Ord.validM) #[fld `p, dS, fld `L, fld `H, e])
+    vmemo.modify (·.insert e (mkConst n))
+    return mkConst n
+  let gath (e : Expr) := mkApp3 (mkConst `CFSG.KC.LQT.gath3) (fld `w) (lit K) e
+  let M : Type := Nat × Array CFSG.F3.Native.V
+  let canon ← IO.mkRef ((∅ : Std.HashMap Nat Expr).insert c.ONE one)
+  let memo ← IO.mkRef (∅ : Std.HashMap (Expr × Expr) (M × Expr × Expr))
+  let cnt ← IO.mkRef 0
+  let mulE : M × Expr → M × Expr → CoreM (M × Expr × Expr) := fun (va, ea) (vb, eb) => do
+    if let some res := (← memo.get)[(ea, eb)]? then return res
+    let vr := c.mulRows va vb
+    let v := vr.1
+    let k ← cnt.modifyGet fun k => (k, k + 1)
+    let em ← match (← canon.get)[v]? with
+      | some e => pure e
+      | none => do
+        addDef (pre ++ Name.mkSimple s!"Q{k}") natE (lit v)
+        let e := mkConst (pre ++ Name.mkSimple s!"Q{k}")
+        canon.modify (·.insert v e)
+        pure e
+    let tn := pre ++ Name.mkSimple s!"q{k}"
+    let qTy := mkApp2 (mkConst ``Nat.beq) (mkApp3 (mkConst ``CFSG.KC.LQT.Lay.mul) lay ea eb) em
+    if f3 then
+      let wa ← validT ea
+      let wb ← validT eb
+      let wm ← validT em
+      let fn := pre ++ Name.mkSimple s!"qf{k}"
+      addTrue fn (mkApp2 (mkConst `CFSG.KC.LQT.eqV) (gath em)
+        (mkApp4 (mkConst `CFSG.KS.F3L.mulLane) (fld `d)
+          (mkApp2 (mkConst `CFSG.KS.F3L.spreadE) (fld `d) (fld `d)) (gath ea) (gath eb)))
+      addThm tn (eqTrue qTy) (mkAppN (mkConst `CFSG.KC.LQT.F3S.mul_of_F3V)
+        #[lay, mkConst (pre ++ `lay_ok), reflBoolTrue, lit K, reflBoolTrue, reflBoolTrue, ea, eb, em,
+          wa, wb, wm, mkConst fn])
+    else
+      addTrue tn qTy
+    let res := (vr, em, mkConst tn)
+    memo.modify (·.insert (ea, eb) res)
+    return res
+  let atom : Nat → CoreM (M × Expr × Expr × Expr) := fun i => do
+    let v := vals[i]!
+    let e := mkApp Vc (lit i)
+    canon.modify fun m => if m.contains v then m else m.insert v e
+    return (c.rowsOf v, e, e, mkApp2 (mkConst ``Eq.refl [1]) natE e)
+  let powE : M × Expr × Expr × Expr → Nat → CoreM (M × Expr × Expr × Expr) :=
+    fun (vx, ex, _, _) n => do
+      let mut cur : M × Expr := ((c.ONE, #[]), one)
+      let mut pf := mkApp2 (mkConst ``sqPow0) lay ex
+      let mut eE := lit 0
+      for _ in [0:n] do
+        let (vm, em, hm) ← mulE cur (vx, ex)
+        pf := mkAppN (mkConst ``sqPowEq) #[lay, ex, eE, cur.2, em, pf, hm]
+        eE := mkApp (mkConst ``Nat.succ) eE
+        cur := (vm, em)
+      return (cur.1, cur.2, mkApp3 (mkConst ``CFSG.KC.LQT.Lay.pow) lay ex (lit n), pf)
+  let mulT : M × Expr × Expr × Expr → M × Expr × Expr × Expr →
+      CoreM (M × Expr × Expr × Expr) := fun (v1, e1, o1, p1) (v2, e2, o2, p2) => do
+    let (vm, em, hm) ← mulE (v1, e1) (v2, e2)
+    return (vm, em, mkApp3 (mkConst ``CFSG.KC.LQT.Lay.mul) lay o1 o2,
+      mkAppN (mkConst ``sqMulEq) #[lay, o1, o2, e1, e2, em, p1, p2, hm])
+  let X ← atom ix
+  let Y ← atom iy
+  let H ← atom ih
+  let px ← powE X r
+  let py ← powE Y r
+  let ph ← powE H oh
+  let xy ← mulT X Y
+  let yx ← mulT Y X
+  let hx ← mulT H X
+  let wx ← mulT (← mulT (← powE X a) (← powE Y cc)) H
+  let hy ← mulT H Y
+  let wy ← mulT (← mulT (← powE X b) (← powE Y dd)) H
+  let parts := #[px, py, ph, xy, yx, hx, wx, hy, wy]
+  let base := #[lay, Vc, lit vals.size, lit ix, lit iy, lit ih, lit r, lit oh, lit a, lit b,
+    lit cc, lit dd, lit t, mkConst (pre ++ `sigma)]
+  let args := base ++ parts.map (·.2.1) ++ parts.map (·.2.2.2)
+  let ty := args.foldl (fun T x => match T with
+    | .forallE _ _ body _ => body.instantiate1 x
+    | T => T) (← getConstInfo ``sqOKParts).type
+  let .forallE _ hbTy _ _ := ty | throwError "addSq: unexpected type of sqOKParts"
+  CFSG.KC.addThmDecl { name := pre ++ `sqR, levelParams := [], type := hbTy, value := reflBoolTrue }
+  addThm (pre ++ `sq) (eqTrue (mkAppN (mkConst ``CFSG.KC.LQT.sqOK) base))
+    (mkAppN (mkConst ``sqOKParts) (args.push (mkConst (pre ++ `sqR))))
+
 elab "#lqt_sr_sq " pre:ident dat:ident p:num d:num sA:ident sB:ident : command => do
   let pre := pre.getId
   let D ← liftCoreM <| unsafe evalSq dat.getId
   withSync do
     let (c, vals, regs) ← addProgram pre p.getNat d.getNat sA.getId sB.getId D.nregs D.prog
+      (f3 := true)
     let ix := regs[D.rx]!
     let iy := regs[D.ry]!
     let ih := regs[D.rh]!
     for (nm, v) in [(`ix, ix), (`iy, iy), (`ih, ih)] do addDef (pre ++ nm) natE (lit v)
     let σ := sortOrder c D.r #[vals[ix]!, vals[iy]!] D.t
     addDef (pre ++ `sigma) (mkApp (mkConst ``List [0]) natE) (natList σ)
-    addTrue (pre ++ `sq) (mkAppN (mkConst ``CFSG.KC.LQT.sqOK)
-      #[mkConst (pre ++ `lay), mkConst (pre ++ `V), lit vals.size, lit ix, lit iy, lit ih, lit D.r,
-        lit D.oh, lit D.a, lit D.b, lit D.c, lit D.d, lit D.t, mkConst (pre ++ `sigma)])
+    addSq pre c vals ix iy ih D.r D.oh D.a D.b D.c D.d D.t
 
 elab "#lqt_sr_cub " pre:ident dat:ident p:num d:num sA:ident sB:ident : command => do
   let pre := pre.getId

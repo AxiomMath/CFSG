@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.IlinykhFrame
 public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.IlinykhGL
+import Mathlib.Combinatorics.Colex
 
 public section
 
@@ -31,12 +32,106 @@ instance (S : Finset (Fin 7)) : DecidablePred (inUnion S) := fun n =>
 
 @[expose] def unionWit (S : Finset (Fin 7)) : ℕ := unionWitList.getD (unionIdx S) 0
 
+@[expose] def unUcL : List ℕ := [1, 2, 3, 5, 6, 7, 8]
+
+@[expose] def unFcLit : ℕ := nat_lit 107109794754846324165059692150470894474261185342868109361264540719004538315633100707496257673810173798532203934505142028063604957718629154201771559033915501625985234183994781242359936302191231710622014559734843261491978010474843439637849340485323846172900676876658036784102800307899285197830820565985051877648
+
+@[expose] def unFcK (n : ℕ) : ℕ := (unFcLit >>> (4 * n)) % 16
+
+@[expose] def unClsB (m c : ℕ) : Bool :=
+  c == 9 || (List.range 7).any fun k => m.testBit k && c == unUcL.getD k 0
+
+@[expose] def unCtB (m : ℕ) : ℕ :=
+  (List.range 10).foldl (fun acc c => cond (unClsB m c) (acc ||| 2 ^ c) acc) 0
+
+@[expose] def unInB (m n : ℕ) : Bool := (unCtB m).testBit (unFcK n)
+
+@[expose] def unionFB (S : Finset (Fin 7)) (x : ℕ) : ℕ :=
+  ((range 256).filter fun a => unInB (unionIdx S) a = true ∧ unInB (unionIdx S) (a ^^^ x) = true).card
+
 set_option maxRecDepth 100000 in
+theorem unFc_tab : ∀ n < 256, frameClass n = unFcK n := by decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem unCt_ok : ∀ m < 128, ∀ c < 10, (unCtB m).testBit c = unClsB m c := by decide +kernel
+
+theorem unUc_eq (k : Fin 7) : unionClass k = unUcL.getD k 0 := by
+  fin_cases k <;> rfl
+
+theorem unionIdx_mem (S : Finset (Fin 7)) (k : Fin 7) : k ∈ S ↔ (unionIdx S).testBit k = true := by
+  have h := Finset.toFinset_bitIndices_sum_two_pow (S.map Fin.valEmbedding)
+  rw [Finset.sum_map] at h
+  have hu : unionIdx S = ∑ x ∈ S, 2 ^ (Fin.valEmbedding x) := rfl
+  rw [hu, ← Nat.mem_bitIndices, ← List.mem_toFinset, h, Finset.mem_map]
+  constructor
+  · intro hk
+    exact ⟨k, hk, rfl⟩
+  · rintro ⟨j, hj, hjk⟩
+    rwa [Fin.ext hjk] at hj
+
+theorem unionIdx_lt (S : Finset (Fin 7)) : unionIdx S < 128 := by
+  have h : unionIdx S ≤ ∑ k : Fin 7, 2 ^ (k : ℕ) :=
+    Finset.sum_le_sum_of_subset (Finset.subset_univ S)
+  have h127 : ∑ k : Fin 7, 2 ^ (k : ℕ) = 127 := by decide
+  omega
+
+theorem inUnion_iff_clsB (S : Finset (Fin 7)) (n : ℕ) :
+    inUnion S n ↔ unClsB (unionIdx S) (frameClass n) = true := by
+  unfold inUnion unClsB
+  simp only [Bool.or_eq_true, beq_iff_eq, List.any_eq_true, List.mem_range, Bool.and_eq_true]
+  refine or_congr Iff.rfl ⟨?_, ?_⟩
+  · rintro ⟨k, hk, he⟩
+    exact ⟨k, k.2, (unionIdx_mem S k).1 hk, he.trans (unUc_eq k)⟩
+  · rintro ⟨k, hk, hb, he⟩
+    exact ⟨⟨k, hk⟩, (unionIdx_mem S ⟨k, hk⟩).2 hb, he.trans (unUc_eq ⟨k, hk⟩).symm⟩
+
+theorem inUnion_iff_inB (S : Finset (Fin 7)) {n : ℕ} (hn : n < 256) :
+    inUnion S n ↔ unInB (unionIdx S) n = true := by
+  have hb : unFcK n < 10 := by
+    rw [← unFc_tab n hn]
+    have := frameClass_le n hn
+    omega
+  unfold unInB
+  rw [unCt_ok _ (unionIdx_lt S) _ hb, ← unFc_tab n hn]
+  exact inUnion_iff_clsB S n
+
+theorem unXor_lt {a x : ℕ} (ha : a < 256) (hx : x < 256) : a ^^^ x < 256 := by
+  have h8 : (256 : ℕ) = 2 ^ 8 := by norm_num
+  rw [h8] at ha hx ⊢
+  exact Nat.xor_lt_two_pow ha hx
+
+theorem unionF_eq (S : Finset (Fin 7)) {x : ℕ} (hx : x < 256) : unionF S x = unionFB S x := by
+  unfold unionF unionFB
+  refine congrArg Finset.card (Finset.filter_congr fun a ha => ?_)
+  have ha' := Finset.mem_range.1 ha
+  exact and_congr (inUnion_iff_inB S ha') (inUnion_iff_inB S (unXor_lt ha' hx))
+
+set_option maxRecDepth 100000 in
+theorem union_table_inB : ∀ S : Finset (Fin 7), S = ∅ ∨ S = {0} ∨ S = {6} ∨ S = {0, 1, 6} ∨
+    (unionWit S < 256 ∧ unInB (unionIdx S) (unionWit S) = true ∧
+      unionFB S (unionWit S) ≠ unionFB S 255) ∨
+    ¬ ((range 256).filter fun n => unInB (unionIdx S) n = true).card ∣
+      2 ^ 28 * 3 ^ 5 * 5 ^ 2 * 7 ^ 2 * 17 * 31 * 127 := by
+  decide +kernel
+
 theorem union_table : ∀ S : Finset (Fin 7), S = ∅ ∨ S = {0} ∨ S = {6} ∨ S = {0, 1, 6} ∨
     (unionWit S < 256 ∧ inUnion S (unionWit S) ∧ unionF S (unionWit S) ≠ unionF S 255) ∨
     ¬ ((range 256).filter (inUnion S)).card ∣
       2 ^ 28 * 3 ^ 5 * 5 ^ 2 * 7 ^ 2 * 17 * 31 * 127 := by
-  decide +kernel
+  intro S
+  have hc : ((range 256).filter (inUnion S)).card =
+      ((range 256).filter fun n => unInB (unionIdx S) n = true).card :=
+    congrArg Finset.card (Finset.filter_congr fun a ha =>
+      inUnion_iff_inB S (Finset.mem_range.1 ha))
+  rcases union_table_inB S with h | h | h | h | ⟨hw, hin, hne⟩ | h
+  · exact Or.inl h
+  · exact Or.inr (Or.inl h)
+  · exact Or.inr (Or.inr (Or.inl h))
+  · exact Or.inr (Or.inr (Or.inr (Or.inl h)))
+  · refine Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨hw, (inUnion_iff_inB S hw).2 hin, ?_⟩))))
+    rwa [unionF_eq S hw, unionF_eq S (by norm_num)]
+  · refine Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ?_))))
+    rwa [hc]
 
 theorem exists_unionClass : ∀ c ≤ 9, c ≠ 0 → c ≠ 4 → c ≠ 9 → ∃ k, unionClass k = c := by
   decide

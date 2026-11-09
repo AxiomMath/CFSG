@@ -13,6 +13,8 @@ public import CFSG.Monster.B.Mathieu.SylowSound
 public import CFSG.Sporadic.Co2Rank3.CheckInputsT
 public import CFSG.Sporadic.Co2Rank3.GraphBase
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Fi22Snd.RowsP
+import CFSG.Certificates.Kernel.Fi22Snd.RowsM
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Certificates.NativeRefine
 public import CFSG.Sporadic.Co2Rank3.Wales
@@ -43,13 +45,11 @@ theorem of_blocks {f : Nat → Bool}
   rw [e, hb] at h2
   exact h2
 
-theorem rows : ∀ x < 2300, rowOK 2300 891 R M S x = true := of_blocks Row.all
-
-theorem imgs : ∀ k < 2, ∀ x < 2300, imgOK 2300 891 (PK k) R M x = true := by
-  intro k hk
-  interval_cases k
-  · exact of_blocks Img0.all
-  · exact of_blocks Img1.all
+theorem rows : ∀ x < 2300, rowOK 2300 891 R M S x = true := fun x hx =>
+  CFSG.KC.Fi22Snd.rowOK_of_W (by norm_num) (by norm_num) CertificateChecks.KernelSpor.N3153.dilK_ok
+    (CFSG.KC.Fi22Snd.rowOKW_of_P CertificateChecks.KernelSpor.N3153.dilK_ok
+      (of_blocks (f := fun x => rowOKP 2300 891 R M S CertificateChecks.KernelSpor.N3153.dilK x)
+        Row.all x hx))
 
 theorem pk_strong : ∀ j < 11, PK j = Co2A.S j := by
   intro j hj
@@ -73,6 +73,16 @@ theorem hw : szOK 2300 12 = true := by decide +kernel
 
 theorem permS : ∀ h < 11, CFSG.KC.Misc.ArrEnum.permB 2300 12 (PK h) = true :=
   fun h hh => CFSG.KC.Pack.allN_spec perms h hh
+
+theorem imgs : ∀ k < 2, ∀ x < 2300, imgOK 2300 891 (PK k) R M x = true := by
+  intro k hk
+  interval_cases k
+  · exact fun x hx => CFSG.KC.Fi22Snd.imgOK_of_M rows
+      (CFSG.KC.Misc.ArrEnum.pp_of_permB hw (permS 0 (by norm_num))).2 hx
+      (of_blocks (f := fun x => imgOKM 2300 891 (PK 0) R M x) Img0.all x hx)
+  · exact fun x hx => CFSG.KC.Fi22Snd.imgOK_of_M rows
+      (CFSG.KC.Misc.ArrEnum.pp_of_permB hw (permS 1 (by norm_num))).2 hx
+      (of_blocks (f := fun x => imgOKM 2300 891 (PK 1) R M x) Img1.all x hx)
 
 theorem inv_eq {h : Nat} (hh : h < 11) :
     (rawInvs 2300 co2StrongArrs)[h]! = unpack 2300 12 (CFSG.KS.pinvS 2300 12 (CFSG.KS.mask 12) (PK h)) := by

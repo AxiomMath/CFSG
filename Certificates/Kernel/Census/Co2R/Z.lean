@@ -66,7 +66,29 @@ theorem kX : rootXR 12 L base (pxs.getD 0 0) r = true := by quickRfl
 
 theorem kCls : clsF 32 r = true := by quickRfl
 
-theorem kLeaf : rootLeafR 12 11 L base pxs 0 r = true := by quickRfl
+@[expose] noncomputable def witW (t : Nat × Nat × List (Nat × List Nat × List Nat) × Nat) : Bool :=
+  inPair r t.1 t.2.1 &&
+    t.2.2.1.all (fun f => inPair r t.1 f.1 && f.2.1.all (fun k => Nat.blt k (2 * 11)) &&
+      f.2.2.all (fun k => Nat.blt k (2 * 11))) &&
+    witB 12 11 L base r.xw t.2.1 t.2.2.1 t.2.2.2
+
+theorem all_split3 {α : Type} (l : List α) (f : α → Bool) (n : Nat)
+    (h0 : (l.take n).all f = true) (h1 : ((l.drop n).take n).all f = true)
+    (h2 : ((l.drop n).drop n).all f = true) : l.all f = true := by
+  rw [← List.take_append_drop n l, List.all_append, h0, Bool.true_and,
+    ← List.take_append_drop n (l.drop n), List.all_append, h1, h2]
+  rfl
+
+theorem kLeafW0 : (r.wits.take 26).all witW = true := by quickRfl
+
+theorem kLeafW1 : ((r.wits.drop 26).take 26).all witW = true := by quickRfl
+
+theorem kLeafW2 : ((r.wits.drop 26).drop 26).all witW = true := by quickRfl
+
+theorem kLeaf : rootLeafR 12 11 L base pxs 0 r = true := by
+  unfold rootLeafR
+  simp only [Bool.and_eq_true]
+  refine ⟨⟨⟨⟨?_, all_split3 _ _ 26 kLeafW0 kLeafW1 kLeafW2⟩, ?_⟩, ?_⟩, ?_⟩ <;> quickRfl
 
 end CertificateChecks.KernelCensus.Co2R.Z
 

@@ -38,13 +38,37 @@ open Native Max3
 @[expose] noncomputable def fQ :
     Fin 4 → J := ![q 1 * q 3 * q 4, q 3, q 3 * q 6, q 3 * q 4]
 
+theorem oddCase_vec4_0 {α : Type*} (a b c d : α) : ![a, b, c, d] 0 = a := rfl
+
+theorem oddCase_vec4_1 {α : Type*} (a b c d : α) : ![a, b, c, d] 1 = b := rfl
+
+theorem oddCase_vec4_2 {α : Type*} (a b c d : α) : ![a, b, c, d] 2 = c := rfl
+
+theorem oddCase_vec4_3 {α : Type*} (a b c d : α) : ![a, b, c, d] 3 = d := rfl
+
+theorem isRows_eQ0 : IsRows (rowsEQ 0) (eQ 0) := by
+  rw [rowsEQ, eQ, oddCase_vec4_0, oddCase_vec4_0]
+  exact isRows_q 0
+
+theorem isRows_eQ1 : IsRows (rowsEQ 1) (eQ 1) := by
+  rw [rowsEQ, eQ, oddCase_vec4_1, oddCase_vec4_1]
+  exact (isRows_q 1).mul (isRows_q 2)
+
+theorem isRows_eQ2 : IsRows (rowsEQ 2) (eQ 2) := by
+  rw [rowsEQ, eQ, oddCase_vec4_2, oddCase_vec4_2]
+  exact (isRows_q 1).mul (isRows_q 5)
+
+theorem isRows_eQ3 : IsRows (rowsEQ 3) (eQ 3) := by
+  rw [rowsEQ, eQ, oddCase_vec4_3, oddCase_vec4_3]
+  exact isRows_q 7
+
 theorem isRows_eQ
     (i : Fin 4) : IsRows (rowsEQ i) (eQ i) := by
   fin_cases i
-  · exact isRows_q 0
-  · exact (isRows_q 1).mul (isRows_q 2)
-  · exact (isRows_q 1).mul (isRows_q 5)
-  · exact isRows_q 7
+  · exact isRows_eQ0
+  · exact isRows_eQ1
+  · exact isRows_eQ2
+  · exact isRows_eQ3
 
 theorem isRows_fQ
     (i : Fin 4) : IsRows (rowsFQ i) (fQ i) := by

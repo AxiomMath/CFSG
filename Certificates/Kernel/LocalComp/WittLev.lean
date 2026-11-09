@@ -14,6 +14,13 @@ open CFSG.KC.WCnt CertificateChecks.KernelSpor.M22Syl
   [(fun x => C0 (pt x 0), L0), (fun x => C1 (pt x 0) (pt x 1), L1),
     (fun x => C2 (pt x 0) (pt x 1) (pt x 2), L2), (fun _ => true, L3), (fun _ => true, L4)]
 
+@[expose] noncomputable def lev4 (C0 : Nat → Bool) (C1 : Nat → Nat → Bool)
+    (C2 : Nat → Nat → Nat → Bool) (C3 : Nat → Nat → Nat → Nat → Bool) :
+    List ((Nat → Bool) × List Nat) :=
+  [(fun x => C0 (pt x 0), L0), (fun x => C1 (pt x 0) (pt x 1), L1),
+    (fun x => C2 (pt x 0) (pt x 1) (pt x 2), L2),
+    (fun x => C3 (pt x 0) (pt x 1) (pt x 2) (pt x 3), L3), (fun _ => true, L4)]
+
 @[expose] noncomputable def wc (Q : (Fin 22 → Fin 22) → Prop) [DecidablePred Q] (D : Nat)
     (C0 : Nat → Bool) (C1 : Nat → Nat → Bool) (C2 : Nat → Nat → Nat → Bool) : Nat :=
   ccnt 22 5 31 (ind Q D) (lev C0 C1 C2) I 0
@@ -21,6 +28,11 @@ open CFSG.KC.WCnt CertificateChecks.KernelSpor.M22Syl
 @[expose] noncomputable def wcB (b : Nat → Bool) (D : Nat) (C0 : Nat → Bool)
     (C1 : Nat → Nat → Bool) (C2 : Nat → Nat → Nat → Bool) : Nat :=
   ccnt 22 5 31 (indB b D) (lev C0 C1 C2) I 0
+
+@[expose] noncomputable def wcB4 (b : Nat → Bool) (D : Nat) (C0 : Nat → Bool)
+    (C1 : Nat → Nat → Bool) (C2 : Nat → Nat → Nat → Bool)
+    (C3 : Nat → Nat → Nat → Nat → Bool) : Nat :=
+  ccnt 22 5 31 (indB b D) (lev4 C0 C1 C2 C3) I 0
 
 end CertificateChecks.KernelLC.Witt
 

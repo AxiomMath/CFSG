@@ -8,7 +8,7 @@ public import Certificates.Data.Kernel.SporCov.F2Kit
 public import Certificates.Data.Kernel.SporCov.PCl
 public import Certificates.Kernel.VecCert.HS
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovF2.HS.F "Certificates/Kernel/SporCovF2/data/hs3.json.gz" 788
+#kc_repo #kc_json CFSG.KD.SporCovF2.HS.F "Certificates/Kernel/SporCovF2/data/hs3.json" 788
   136201982769585312
   (T : List Nat) (Y1 : List Nat) (Y2 : List Nat) (G1 : List Nat) (G2 : List Nat)
   (M : List (List Nat)) (C : List (List Nat)) (R : List (List Nat))

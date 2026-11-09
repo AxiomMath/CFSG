@@ -16,7 +16,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CFSG.KD.BrLy "Certificates/Kernel/Sporadic/LyBr/data/seed.json.gz" 1134
+#kc_repo #kc_json CFSG.KD.BrLy "Certificates/Kernel/Sporadic/LyBr/data/seed.json" 1134
   17086380611077481029 (DA1 : List Nat) (DA2 : List Nat)
 
 #ks_chars CFSG.KD.BrLy.LySeedA CFSG.Blueprint.NativeSporadic.LySeed1

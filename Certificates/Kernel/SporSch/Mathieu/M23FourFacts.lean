@@ -7,6 +7,8 @@ public import Certificates.Kernel.Sporadic.OddCore.PEnumGlue
 public import Certificates.Data.GH74.BTFinCkM23
 public import CFSG.Certificates.Kernel.SporSch.CodesImg
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PcompFacts
+import CFSG.Certificates.Kernel.Spor.PackFld
 public import CFSG.LocalAnalysis.ComponentClassification.J2CoverAutCheckBase
 public import CFSG.Sporadic.SmallOddCore.ClassSimple
 
@@ -77,6 +79,80 @@ theorem closure : mulClosureH 23 gensT 3000 = hRec 23 5 M23F.cnt M23F.T M23F.PL 
 
 theorem canonT {i : Nat} (hi : i < M23F.cnt) : canonK 23 5 (mask 5) (23 * 5) (M23F.T i) = true :=
   penumPt_canon (pe_all i hi)
+
+theorem comm_beq {n w p q : Nat} (hp : canonK n w (mask w) (n * w) p = true)
+    (hq : canonK n w (mask w) (n * w) q = true) :
+    Nat.beq (pcomp n w (mask w) p q) (pcomp n w (mask w) q p) = eq22 n w (mask w) p q q p := by
+  have hn : n < 2 ^ 32 := lt_trans (CFSG.KS.PF.canon_facts hp).1 (by norm_num)
+  have hpq := canonK_pcomp hp hq
+  have hqp := canonK_pcomp hq hp
+  cases h : eq22 n w (mask w) p q q p
+  · cases e : Nat.beq (pcomp n w (mask w) p q) (pcomp n w (mask w) q p)
+    · rfl
+    · have e' := Nat.eq_of_beq_eq_true e
+      have ht : eq22 n w (mask w) p q q p = true :=
+        CFSG.KS.PackFld.allN_of_forall fun i hi => by
+          show Nat.beq (pg w (mask w) p (pg w (mask w) q i)) (pg w (mask w) q (pg w (mask w) p i)) =
+            true
+          rw [← CFSG.KS.PF.pg_pcomp hn hi, ← CFSG.KS.PF.pg_pcomp hn hi, e']
+          exact Nat.beq_refl _
+      rw [h] at ht
+      exact absurd ht (by decide)
+  · have hf := CFSG.KS.PF.canon_facts hpq
+    have hg := CFSG.KS.PF.canon_facts hqp
+    have e : pcomp n w (mask w) p q = pcomp n w (mask w) q p :=
+      CFSG.KS.PF.eq_of_fields (CFSG.KS.PF.w_pos hf.2.1) hf.2.2.1 hg.2.2.1 fun i hi => by
+        rw [CFSG.KS.PF.pg_pcomp hn hi, CFSG.KS.PF.pg_pcomp hn hi]
+        exact Nat.eq_of_beq_eq_true (allN_spec h i hi)
+    rw [e]
+    exact Nat.beq_refl _
+
+theorem fourAt_eqF {j : Nat} (hj : j < M23F.cnt) :
+    fourAt 23 5 M23F.cnt M23F.T (M23CK.getD 0 clsD0).R (2 ^ 30 * 3 ^ 30) j =
+      fourAtF 23 5 M23F.cnt M23F.T (M23CK.getD 0 clsD0).R (2 ^ 30 * 3 ^ 30) j := by
+  have hc : commCntK 23 5 M23F.cnt M23F.T (M23F.T j) =
+      commCntF 23 5 M23F.cnt M23F.T (M23F.T j) := by
+    unfold commCntK commCntF
+    apply List.countP_congr
+    intro k hk
+    rw [comm_beq (canonT (List.mem_range.1 hk)) (canonT hj)]
+  unfold fourAt fourAtF
+  rw [strictB_id, strictB_id, hc]
+
+theorem allBlk_congr {f g : Nat → Bool} (lo : Nat) :
+    ∀ len, (∀ l < len, f (Nat.add lo l) = g (Nat.add lo l)) → allBlk lo f len = allBlk lo g len
+  | 0, _ => rfl
+  | len + 1, h => by
+    change bAnd(f (Nat.add lo len), allBlk lo f len) = bAnd(g (Nat.add lo len), allBlk lo g len)
+    rw [h len (by omega), allBlk_congr lo len fun l hl => h l (by omega)]
+
+theorem blk_eqF {lo : Nat} (hlo : lo + 448 ≤ M23F.cnt) : blk lo = blkF lo := by
+  unfold blk blkF
+  exact allBlk_congr lo 448 fun l hl => fourAt_eqF (by simp only [Nat.add_eq]; omega)
+
+theorem b0 : blk 0 = true := by
+  rw [blk_eqF (lo := 0) (by rw [hcnt]; try omega)]
+  exact f0
+
+theorem b1 : blk 448 = true := by
+  rw [blk_eqF (lo := 448) (by rw [hcnt]; try omega)]
+  exact f1
+
+theorem b2 : blk 896 = true := by
+  rw [blk_eqF (lo := 896) (by rw [hcnt]; try omega)]
+  exact f2
+
+theorem b3 : blk 1344 = true := by
+  rw [blk_eqF (lo := 1344) (by rw [hcnt]; try omega)]
+  exact f3
+
+theorem b4 : blk 1792 = true := by
+  rw [blk_eqF (lo := 1792) (by rw [hcnt]; try omega)]
+  exact f4
+
+theorem b5 : blk 2240 = true := by
+  rw [blk_eqF (lo := 2240) (by rw [hcnt]; try omega)]
+  exact f5
 
 theorem four_all : ∀ j < M23F.cnt,
     fourAt 23 5 M23F.cnt M23F.T (M23CK.getD 0 clsD0).R (2 ^ 30 * 3 ^ 30) j = true := by

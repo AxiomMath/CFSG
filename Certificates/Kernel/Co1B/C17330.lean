@@ -89,7 +89,7 @@ open CFSG.KC.Co1BBoundN CFSG.KC.Co1BBound CFSG.KC.Co1BSpin CFSG.KC.Co1B CFSG.KC.
   CFSG.Sporadic.Co1Schreier.Native CFSG.Sporadic.Co1Block CFSG.Sporadic.Co1.TwoBNative
 open CertificateChecks.KernelCo1B.Bound17591 (XB mem_eq typN_eq filter_length cntTab_blocks
   foldl_filter sum_getL andB_eq')
-open CFSG.KS.SporSch.M24 (gtBFS_of_K bfsMemK_sound contains_bfsTree bfsTree gensArr
+open CFSG.KS.SporSch.M24 (gtBFS_of_bfsK bfsMemK_sound contains_bfsTree bfsTree gensArr
   unpackR_eq_unpack)
 
 section Bound
@@ -371,7 +371,8 @@ theorem c_ab : (mul (nd (kDag ext) 88) (nd (kDag ext) 89) !=
   rw [a_eq, b_eq, mul_unpackW', mul_unpackW', bne, beq_unpack]
   exact not_of_notB kCom'.2.2.2.2.2
 
-theorem kZT' : CFSG.KS.SporSch.M24.gtPinK ZM 2 20 ZT.N ZT.P ZT.PAR ZT.LAB ZT.W ZT.S = true ∧
+theorem kZT' : CFSG.KS.SporSch.M24.bfsK (CFSG.KS.SporSch.M24.gtStepK ZM) ZT.P ZT.PAR ZT.LAB ZT.W
+    ZT.S 2 20 ZT.N CFSG.KS.SporSch.M24.idM = true ∧
     ZT.N = 9 := by
   have h := kZT
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
@@ -387,12 +388,12 @@ theorem ZG_eq : [nd (kDag ext) 90, nd (kDag ext) 91].toArray = gensArr 2 ZM := b
 theorem gt_eq : gtBFS [nd (kDag ext) 90, nd (kDag ext) 91].toArray 20 =
     bfsTree ZT.N ZT.P ZT.PAR ZT.LAB := by
   rw [ZG_eq]
-  exact (gtBFS_of_K kZT'.1).1
+  exact (gtBFS_of_bfsK kZT'.1 (by rw [kZT'.2]; decide)).1
 
 theorem c_gt : gtOK [nd (kDag ext) 90, nd (kDag ext) 91].toArray
     (gtBFS [nd (kDag ext) 90, nd (kDag ext) 91].toArray 20) = true := by
   rw [gt_eq, ZG_eq]
-  exact (gtBFS_of_K kZT'.1).2
+  exact (gtBFS_of_bfsK kZT'.1 (by rw [kZT'.2]; decide)).2
 
 theorem c_size : decide ((gtBFS [nd (kDag ext) 90, nd (kDag ext) 91].toArray 20).pts.size = 9) =
     true := by

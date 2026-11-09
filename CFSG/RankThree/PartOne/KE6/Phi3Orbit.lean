@@ -133,9 +133,51 @@ theorem weylMatrix_simple (i : Fin 6) :
 theorem e6T3MList_mem_orbit : CFSG.RankThree.Lattice.e6T3MList ∈ e6T3Orbit := by
   decide +kernel
 
-theorem e6T3Orbit_closed : ∀ L ∈ e6T3Orbit, ∀ i : Fin 6,
+theorem e6T3Orbit_closed_0 : ∀ L ∈ e6T3Orbit0, ∀ i : Fin 6,
     lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
   decide +kernel
+
+theorem e6T3Orbit_closed_1 : ∀ L ∈ e6T3Orbit1, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed_2 : ∀ L ∈ e6T3Orbit2, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed_3 : ∀ L ∈ e6T3Orbit3, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed_4 : ∀ L ∈ e6T3Orbit4, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed_5 : ∀ L ∈ e6T3Orbit5, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed_6 : ∀ L ∈ e6T3Orbit6, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed_7 : ∀ L ∈ e6T3Orbit7, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  decide +kernel
+
+theorem e6T3Orbit_closed : ∀ L ∈ e6T3Orbit, ∀ i : Fin 6,
+    lmul Tag.E6.rank (lmul Tag.E6.rank (e6SimpleList i) L) (e6SimpleList i) ∈ e6T3Orbit := by
+  intro L hL
+  simp only [e6T3Orbit, List.mem_append] at hL
+  rcases hL with ((((((h | h) | h) | h) | h) | h) | h) | h
+  · exact e6T3Orbit_closed_0 L h
+  · exact e6T3Orbit_closed_1 L h
+  · exact e6T3Orbit_closed_2 L h
+  · exact e6T3Orbit_closed_3 L h
+  · exact e6T3Orbit_closed_4 L h
+  · exact e6T3Orbit_closed_5 L h
+  · exact e6T3Orbit_closed_6 L h
+  · exact e6T3Orbit_closed_7 L h
 
 theorem weylMatrix_conj_e6T3W_mem_orbit (w : WeylGroup Tag.E6) :
     ∃ L ∈ e6T3Orbit, weylMatrix (w * e6T3W * w⁻¹) = toMat Tag.E6.rank L := by

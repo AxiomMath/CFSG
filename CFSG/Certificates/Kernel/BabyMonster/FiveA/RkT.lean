@@ -2,8 +2,15 @@ module
 
 import CFSG.Certificates.Kernel.BabyMonster.Load
 public import CFSG.Certificates.Kernel.BabyMonster.F2
-public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Rank
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data14
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data15
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data0
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data4
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data11
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data12
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data13
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data24
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Rank
 
 #bm_bool CFSG.KC.BM.FiveA rkT_0 (Nat.beq (Nat.xor (CFSG.KC.BM.mulS CFSG.KC.BM.Five.f86_sq2 PrkT.s0) PrkT.s0) RrkT.s0)
 #bm_bool CFSG.KC.BM.FiveA rkT_1 (Nat.beq (Nat.xor (CFSG.KC.BM.mulS CFSG.KC.BM.Five.f86_sq2 PrkT.s1) PrkT.s1) RrkT.s1)

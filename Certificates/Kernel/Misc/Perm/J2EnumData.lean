@@ -7,7 +7,7 @@ public import CFSG.RankThree.PartTwo.Sec4.Sporadic.J2Check45Inputs
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.J2En "Certificates/Kernel/Misc/Perm/data/j2enum.json.gz" 1198012 12638514722076861662
+#kc_repo #kc_json CertificateChecks.KernelMisc.J2En "Certificates/Kernel/Misc/Perm/data/j2enum.json" 1198012 12638514722076861662
   (CaP : List Nat) (CaE : List Nat) (CaR : List Nat) (CaL : List Nat)
   (NaP : List Nat) (NaE : List Nat) (NaR : List Nat) (NaL : List Nat)
   (CvP : List Nat) (CvE : List Nat) (CvR : List Nat) (CvL : List Nat)

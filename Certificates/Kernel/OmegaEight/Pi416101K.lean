@@ -5,6 +5,7 @@ public import Certificates.Kernel.OmegaEight.Pi416101Chain
 public import Certificates.Data.Kernel.J2Cover
 public import Certificates.Data.O8PiQ8
 import CFSG.Certificates.Kernel.Common.Harness
+import Mathlib.Data.List.Dedup
 
 public section
 
@@ -59,6 +60,16 @@ open CFSG.KC.Enum CFSG.KC.O8 CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.EvenSmallLie.
     B.all fun x => B.all fun y => pairBK piTests x y
 
 @[expose] noncomputable def q8Part (i : Nat) : Bool := q8Chunk (keysK.filter fun k => k % 8 == i)
+
+theorem all_congr_mem {l₁ l₂ : List ℕ} (F : ℕ → Bool) (h : ∀ x, x ∈ l₁ ↔ x ∈ l₂) :
+    l₁.all F = l₂.all F := by
+  rw [Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
+  exact forall_congr' fun x => imp_congr_left (h x)
+
+theorem q8Part_eq (i : ℕ) :
+    q8Part i = q8Chunk (((piSq.map kNat).filter fun k => k % 8 == i).dedup) := by
+  unfold q8Part q8Chunk keysK
+  exact all_congr_mem _ fun x => by simp only [List.mem_filter, List.mem_dedup]
 
 theorem kGenPI : allN 4 (fun j => Nat.beq (PI.S j) (AP.S (piIdx.getD j 0))) = true := by quickRfl
 

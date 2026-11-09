@@ -872,10 +872,102 @@ structure NormEntry where
 @[expose] def normIdx (u : U) : Fin 8 :=
   (normEntry u).map (fun e => e.idx) |>.getD 0
 
+private def decEqUFast : DecidableEq U := fun u v =>
+  decidable_of_iff (((List.finRange 6).all fun i => decide (u i = v i)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+private def codeU (u : U) : ℕ :=
+  (u 0).val * 243 + (u 1).val * 81 + (u 2).val * 27 + (u 3).val * 9 + (u 4).val * 3 + (u 5).val
+
+private def decU (n : ℕ) : U := fun i => ((n / 3 ^ (5 - i.val) % 3 : ℕ) : K)
+
+attribute [local instance high] decEqUFast in
+private theorem decU_codeU : ∀ u : U, decU (codeU u) = u := by
+  decide +kernel
+
+private theorem codeU_injective {u v : U} (h : codeU u = codeU v) : u = v := by
+  rw [← decU_codeU u, ← decU_codeU v, h]
+
+private theorem codeU_lt (u : U) : codeU u < 729 := by
+  have h0 := ZMod.val_lt (u 0)
+  have h1 := ZMod.val_lt (u 1)
+  have h2 := ZMod.val_lt (u 2)
+  have h3 := ZMod.val_lt (u 3)
+  have h4 := ZMod.val_lt (u 4)
+  have h5 := ZMod.val_lt (u 5)
+  unfold codeU
+  omega
+
+private def codesOK : List NormEntry → ℕ → Bool
+  | [], _ => true
+  | e :: es, n => codeU e.u == n && codesOK es (n + 1)
+
+private theorem codesOK_getElem : ∀ (l : List NormEntry) (n : ℕ), codesOK l n = true →
+    ∀ (i : ℕ) (hi : i < l.length), codeU (l[i]'hi).u = n + i
+  | [], _, _, i, hi => absurd hi (Nat.not_lt_zero _)
+  | e :: es, n, h, i, hi => by
+      rw [codesOK, Bool.and_eq_true, beq_iff_eq] at h
+      obtain ⟨h1, h2⟩ := h
+      cases i with
+      | zero =>
+          rw [List.getElem_cons_zero]
+          omega
+      | succ i =>
+          have h' := codesOK_getElem es (n + 1) h2 i (Nat.lt_of_succ_lt_succ hi)
+          rw [List.getElem_cons_succ]
+          omega
+
+private theorem normEntries_codes : codesOK normEntries 0 = true := by
+  decide +kernel
+
+private theorem normEntries_length : normEntries.length = 729 := by
+  decide +kernel
+
+private theorem normEntries_code (j : ℕ) (hj : j < normEntries.length) :
+    codeU (normEntries[j]'hj).u = j := by
+  rw [codesOK_getElem normEntries 0 normEntries_codes j hj, Nat.zero_add]
+
+private theorem normEntry_eq (u : U) (hu : codeU u < normEntries.length) :
+    normEntry u = some normEntries[codeU u] := by
+  have hself : normEntries[codeU u].u = u := codeU_injective (normEntries_code _ hu)
+  unfold normEntry
+  rw [List.find?_eq_some_iff_getElem]
+  refine ⟨decide_eq_true hself, codeU u, hu, rfl, fun j hj => ?_⟩
+  have hj' : j < normEntries.length := by omega
+  have hne : normEntries[j].u ≠ u := fun h => by
+    have := normEntries_code j hj'
+    rw [h] at this
+    omega
+  show (!decide (normEntries[j].u = u)) = true
+  rw [decide_eq_false hne]
+  rfl
+
+private theorem of_decide_inst {p : Prop} {i : Decidable p} (h : @decide p i = true) : p :=
+  @of_decide_eq_true p i h
+
+attribute [local instance high] decEqUFast in
+private theorem normEntries_ok : normEntries.all (fun e =>
+    (e.word.all fun i => decide (i.val < 6)) && decide (applyUWord e.word e.u = reps e.idx)) =
+      true := by
+  decide +kernel
+
 theorem normWord_spec : ∀ u : U,
     (normWord u).all (fun i => decide (i.val < 6)) = true ∧
       applyUWord (normWord u) u = reps (normIdx u) := by
-  decide +kernel
+  intro u
+  have hu : codeU u < normEntries.length := by
+    rw [normEntries_length]
+    exact codeU_lt u
+  have hself : normEntries[codeU u].u = u := codeU_injective (normEntries_code _ hu)
+  have hok := List.all_eq_true.mp normEntries_ok _ (List.getElem_mem hu)
+  simp only [Bool.and_eq_true] at hok
+  unfold normWord normIdx
+  rw [normEntry_eq u hu, Option.map_some, Option.getD_some, Option.map_some, Option.getD_some]
+  refine ⟨hok.1, ?_⟩
+  have h2 := of_decide_inst hok.2
+  rw [hself] at h2
+  exact h2
 
 structure CRow where
   word : List (Fin 6)

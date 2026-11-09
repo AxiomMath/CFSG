@@ -78,8 +78,7 @@ theorem cover (S : Finset (Fin 22)) (hS : 7 ≤ S.card) :
     ∃ p ∈ trW, ∀ i ∈ p.1, ∀ h : i < 22, (⟨i, h⟩ : Fin 22) ∈ S := by
   have h3 : ∀ k : Fin 3, k = 0 ∨ k = 1 ∨ k = 2 := by decide
   have key : ∃ k : Fin 3, 3 ≤ (S.filter fun x => blk x = k).card := by
-    by_contra hne
-    push_neg at hne
+    by_contra! hne
     have hsub : S ⊆ (S.filter fun x => blk x = 0) ∪ (S.filter fun x => blk x = 1) ∪
         (S.filter fun x => blk x = 2) := by
       intro x hx
@@ -205,26 +204,41 @@ theorem count_lines :
   exacts [c0.1.trans k8165a0, c1.1.trans k8165a1, c2.1.trans k8165a2, c3.1.trans k8165a3,
     c0.2.trans k8165b0, c1.2.trans k8165b1, c2.2.trans k8165b2, c3.2.trans k8165b3]
 
+theorem count_pres4 (S : Finset (Fin 22)) (X : Nat) (l : List Nat)
+    (hl : ∀ x : Fin 22, x ∈ S ↔ x.val ∈ l) (hlt : ∀ i ∈ l, i < 22)
+    (hX : ∀ x : Fin 22, inM X x.val = true ↔ x ∈ S) (w : List Bool) (D : Nat)
+    (hD : pkw 5 (wordPerm w) = D) (e₀ e₁ e₂ e₃ : Fin 22) (h₀ : pt D e₀.val = 0)
+    (h₁ : pt D e₁.val = 1) (h₂ : pt D e₂.val = 2) (h₃ : pt D e₃.val = 3) (m₀ : e₀ ∈ S)
+    (m₁ : e₁ ∈ S) (m₂ : e₂ ∈ S) (m₃ : e₃ ∈ S) :
+    m22Count (fun f => ∀ x ∈ S, f x ∈ S) =
+      wcB4 (presT X l) D (inM X) (fun _ => inM X) (fun _ _ => inM X) (fun _ _ _ => inM X) := by
+  refine m22Count_eq_wcB4 (fun f => ∀ x ∈ S, f x ∈ S) (presT X l)
+    (fun τ => (presT_pkw τ S l X hl hlt hX).trans (decide_eq_decide.2 Iff.rfl)) (wordPerm w)
+    (wordPerm_mem _) D hD _ _ _ _ fun σ h => ?_
+  rw [← mul_apply_of_pk hD σ (e := e₀) (i := 0) h₀, ← mul_apply_of_pk hD σ (e := e₁) (i := 1) h₁,
+    ← mul_apply_of_pk hD σ (e := e₂) (i := 2) h₂, ← mul_apply_of_pk hD σ (e := e₃) (i := 3) h₃]
+  exact ⟨(hX _).2 (h _ m₀), (hX _).2 (h _ m₁), (hX _).2 (h _ m₂), (hX _).2 (h _ m₃)⟩
+
 theorem count_hep :
     ∀ k : Fin 4, m22Count (fun f => ∀ p ∈ hep k, f p ∈ hep k) = 2520 := by
   intro k
   fin_cases k
-  · exact (count_pres (hep 0) 1626117 [0, 2, 12, 14, 15, 19, 20] (by decide +kernel)
-      (by decide) (by decide +kernel) wL2 _ (pkw_wordPerm _) 0 2 12 (by decide +kernel)
+  · exact (count_pres4 (hep 0) 1626117 [0, 2, 12, 14, 15, 19, 20] (by decide +kernel)
+      (by decide) (by decide +kernel) wL2 _ (pkw_wordPerm _) 0 2 12 14 (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
-      (by decide +kernel)).trans k8165d0
-  · exact (count_pres (hep 1) 1361953 [0, 5, 11, 14, 15, 18, 20] (by decide +kernel)
-      (by decide) (by decide +kernel) wL3 _ (pkw_wordPerm _) 0 5 11 (by decide +kernel)
+      (by decide +kernel) (by decide +kernel) (by decide +kernel)).trans k8165d0
+  · exact (count_pres4 (hep 1) 1361953 [0, 5, 11, 14, 15, 18, 20] (by decide +kernel)
+      (by decide) (by decide +kernel) wH1 _ (pkw_wordPerm _) 14 15 18 20 (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
-      (by decide +kernel)).trans k8165d1
-  · exact (count_pres (hep 2) 2626821 [0, 2, 8, 10, 12, 19, 21] (by decide +kernel)
-      (by decide) (by decide +kernel) wH2 _ (pkw_wordPerm _) 0 2 8 (by decide +kernel)
+      (by decide +kernel) (by decide +kernel) (by decide +kernel)).trans k8165d1
+  · exact (count_pres4 (hep 2) 2626821 [0, 2, 8, 10, 12, 19, 21] (by decide +kernel)
+      (by decide) (by decide +kernel) wH2 _ (pkw_wordPerm _) 2 12 21 10 (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
-      (by decide +kernel)).trans k8165d2
-  · exact (count_pres (hep 3) 2362657 [0, 5, 8, 10, 11, 18, 21] (by decide +kernel)
-      (by decide) (by decide +kernel) wH3 _ (pkw_wordPerm _) 0 5 8 (by decide +kernel)
+      (by decide +kernel) (by decide +kernel) (by decide +kernel)).trans k8165d2
+  · exact (count_pres4 (hep 3) 2362657 [0, 5, 8, 10, 11, 18, 21] (by decide +kernel)
+      (by decide) (by decide +kernel) wH3 _ (pkw_wordPerm _) 10 0 18 21 (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
-      (by decide +kernel)).trans k8165d3
+      (by decide +kernel) (by decide +kernel) (by decide +kernel)).trans k8165d3
 
 theorem count_tri :
     ∀ i : Fin 4, m22Count (fun f => ∀ p ∈ tri i, f p ∈ tri i) = 288 := by

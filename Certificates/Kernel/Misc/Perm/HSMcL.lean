@@ -4,7 +4,7 @@ public import CFSG.RankThree.Native.HSMcLAuxData
 public import CFSG.Sporadic.Schreier.PairHSCert
 public import Certificates.Data.CFSGNative.Schreier.Check
 public import CFSG.RankThree.Native.HSMcLSmallCheckInputs
-public import Certificates.Kernel.Sporadic.RawGen
+public import Certificates.Kernel.Sporadic.RawGenSchOJ
 public import CFSG.Certificates.Kernel.Spor.PrimSound
 public import CFSG.Certificates.Kernel.Misc.HexFlatSound
 public import CFSG.Certificates.Kernel.Misc.PairCountSound
@@ -51,12 +51,55 @@ end
 #kmisc_sortpair CertificateChecks.KernelMisc.HSMcL.SG CFSG.RankThree.Native.hs100Kappa1
   CFSG.RankThree.Native.hs100Kappa2 100 3850
 
-#ks_rawchain CertificateChecks.KernelMisc.HSMcL.C1 100 7 100 CFSG.RankThree.Native.hs100StrongArrs
-  CFSG.RankThree.Native.hs100BaseArr 2 CertificateChecks.KernelMisc.HSMcL.d1
-#ks_rawchain CertificateChecks.KernelMisc.HSMcL.C2 100 7 100 CFSG.RankThree.Native.hs100RArrs
-  CFSG.RankThree.Native.hs100RBaseArr 3 CertificateChecks.KernelMisc.HSMcL.d2
-#ks_rawchain CertificateChecks.KernelMisc.HSMcL.C3 275 9 55 CFSG.RankThree.Native.mcl275RArrs
-  CFSG.RankThree.Native.mcl275RBaseArr 3 CertificateChecks.KernelMisc.HSMcL.d3
+#ks_rawchain_sl2_data CertificateChecks.KernelMisc.HSMcL.C1 100 7 100 100
+  CFSG.RankThree.Native.hs100StrongArrs CFSG.RankThree.Native.hs100BaseArr 2
+  CertificateChecks.KernelMisc.HSMcL.d1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C1 0 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C1 1 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C1 2 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C1 3 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C1 4 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C1 1 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C1 2 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C1 3 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C1 4 0 1
+#ks_rawchain_sl2_osub CertificateChecks.KernelMisc.HSMcL.C1
+#ks_rawchain_sl2_scho CertificateChecks.KernelMisc.HSMcL.C1 0 1
+#ks_rawchain_sl2_joino CertificateChecks.KernelMisc.HSMcL.C1
+
+#ks_rawchain_sl2_data CertificateChecks.KernelMisc.HSMcL.C2 100 7 100 100
+  CFSG.RankThree.Native.hs100RArrs CFSG.RankThree.Native.hs100RBaseArr 3
+  CertificateChecks.KernelMisc.HSMcL.d2
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C2 0 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C2 1 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C2 2 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C2 3 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C2 4 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C2 5 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C2 1 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C2 2 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C2 3 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C2 4 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C2 5 0 1
+#ks_rawchain_sl2_osub CertificateChecks.KernelMisc.HSMcL.C2
+#ks_rawchain_sl2_scho CertificateChecks.KernelMisc.HSMcL.C2 0 1
+#ks_rawchain_sl2_joino CertificateChecks.KernelMisc.HSMcL.C2
+
+#ks_rawchain_sl2_data CertificateChecks.KernelMisc.HSMcL.C3 275 9 55 275
+  CFSG.RankThree.Native.mcl275RArrs CFSG.RankThree.Native.mcl275RBaseArr 3
+  CertificateChecks.KernelMisc.HSMcL.d3
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C3 0 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C3 1 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C3 2 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C3 3 0 1
+#ks_rawchain_sl2_lv CertificateChecks.KernelMisc.HSMcL.C3 4 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C3 1 0 3
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C3 2 0 2
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C3 3 0 1
+#ks_rawchain_sl2_sch CertificateChecks.KernelMisc.HSMcL.C3 4 0 1
+#ks_rawchain_sl2_osub CertificateChecks.KernelMisc.HSMcL.C3
+#ks_rawchain_sl2_scho CertificateChecks.KernelMisc.HSMcL.C3 0 5
+#ks_rawchain_sl2_joino CertificateChecks.KernelMisc.HSMcL.C3
 
 public section
 

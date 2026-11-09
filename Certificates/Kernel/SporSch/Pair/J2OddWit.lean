@@ -10,8 +10,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSporSch.J2OW260410
-  "Certificates/Kernel/SporSch/Pair/data/j2odd260410.json.gz" 138081 4739855335608371106
+#kc_repo #kc_json CertificateChecks.KernelSporSch.J2OW260410
+  "Certificates/Kernel/SporSch/Pair/data/j2odd260410.json" 138081 4739855335608371106
   (ws : List (List Nat)) (ps : List Nat) (powL : List (Nat × Nat × Nat))
   (conjL : List (Nat × Nat × Nat)) (commL : List (Nat × Nat)) (ordL : List (Nat × Nat))
   (s3L : List Nat) (s5L : List Nat) (s5VL : List Nat) (k4L : List Nat) (repL : List Nat)

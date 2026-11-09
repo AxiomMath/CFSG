@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Misc.Perm.HS100.OChecks
 public import Certificates.Kernel.Misc.Perm.HS100.TGlue
+public import Certificates.Kernel.Misc.Perm.HS100.CliqueGlue
 
 set_option maxRecDepth 400000
 
@@ -238,8 +239,7 @@ theorem s5fOK_true : s5fOK = true := by
     exact hw.1
   have h9 : eqA 100 (s5fEval s5fWB) (hs100Arr 1) = true := by
     rw [evalK_eq _ hB, hs100Arr_eq 1 (by norm_num), eqA_F (evalK_canon _ hB)
-      (CertificateChecks.KernelMisc.HS100.Clique.canonG (k := 1) (by norm_num) |>
-        fun h => by rwa [CertificateChecks.KernelMisc.HS100.Clique.nums'.2.2.2.1] at h)]
+      CertificateChecks.KernelMisc.HS100.Clique.cB]
     exact hw.2
   have hAl : (s5fWA.all fun l => decide (l < 24)) = true := by decide
   have hBl : (s5fWB.all fun l => decide (l < 24)) = true := by decide

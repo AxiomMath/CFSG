@@ -49,8 +49,16 @@ elab "#ks_conjtree " pre:ident nn:num ww:num rr:num ch:num gId:ident s0Id:ident 
   let m := T.size
   let NS1 := (N + CH - 1) / CH
   let NS2 := (m + CH - 1) / CH
+  let TP := T.map (pack w)
+  let SG := (Array.range m).qsort (fun a b => TP[a]! < TP[b]!)
+  let mut RK : Array Nat := Array.replicate m 0
+  for k in [0:m] do
+    RK := RK.set! SG[k]! k
+  let ws := Nat.log2 (max m 2) + 1
   liftCoreM <| withOptions (Elab.async.set · false) do
-    addTree (P ++ `T) (T.map (pack w))
+    addTree (P ++ `T) TP
+    addDef (P ++ `SG) natT (lit (pack ws SG))
+    addDef (P ++ `RK) natT (lit (pack ws RK))
     let nE := lit n
     let wE := lit w
     let rE := lit r
@@ -60,10 +68,10 @@ elab "#ks_conjtree " pre:ident nn:num ww:num rr:num ch:num gId:ident s0Id:ident 
       #[nE, wE, rE, mkConst gsN, mkConst gsiN, c `T, mkConst tfN, lit wt, lit N,
         mulE (mkBVar 0) (lit CH), lit CH]))
     let acP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KS.ConjTree.actSl)
-      #[nE, wE, rE, mkConst gsN, mkConst gsiN, c `T, mkConst paN, lit wp, lit m,
+      #[nE, wE, rE, mkConst gsN, mkConst gsiN, c `T, mkConst paN, mkConst tfN, lit wt, lit N, lit wp, lit m,
         mulE (mkBVar 0) (lit CH), lit CH]))
-    let diP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KS.ConjTree.distSl)
-      #[c `T, lit m, mulE (mkBVar 0) (lit CH), lit CH]))
+    let diP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KS.ConjTree.ctOrdSl)
+      #[c `T, lit ws, c `SG, c `RK, lit m, mulE (mkBVar 0) (lit CH), lit CH]))
     for s in [0:NS1] do
       addThm (P ++ Name.mkSimple s!"st{s}") (mkApp stP (lit s)).headBeta
     for s in [0:NS2] do

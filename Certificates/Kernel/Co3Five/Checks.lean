@@ -2,13 +2,12 @@ module
 
 public import Certificates.Kernel.Co3Five.Data
 public import Certificates.Kernel.Sporadic.Co3.C
-public import Certificates.Data.Kernel.Misc.ChainTail
+public import Certificates.Data.Kernel.Misc.ChainTailQ
 public import Certificates.Data.Kernel.Misc.PermWit
 public import Certificates.Data.Kernel.Misc.ArrEnum
 public import Certificates.Data.Kernel.BfsPinBase
 public import Certificates.Data.Kernel.B3S3K
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.EachUnfold
 
 set_option maxRecDepth 400000
 
@@ -41,22 +40,30 @@ open CFSG.KC.LQT.P (anyN)
 @[expose] noncomputable def sk0 : List ℕ := (List.range 300).map K0
 @[expose] noncomputable def skD : List ℕ := (List.range 60).map KD
 
-@[expose] noncomputable def br (k : ℕ) : Bool :=
-  ptailBranchK 276 9 CertificateChecks.KernelSpor.Co3C.LR CertificateChecks.KernelSpor.Co3C.TR
-    CertificateChecks.KernelSpor.Co3C.BP (FC.F 1) (pw 276 9 (FC.F 1))
-    CFSG.RankThree.Native.co3FiveRels S25.N S25.T 7 k
+@[expose] noncomputable def brC (k : ℕ) : Bool :=
+  !(anyN 3 fun i => Nat.beq (rpt 9 (mask 9) (CertificateChecks.KernelSpor.Co3C.LR 1) k)
+      (CFSG.RankThree.Native.co3FiveC25Rep i)) ||
+    ptailK 276 9 CertificateChecks.KernelSpor.Co3C.LR CertificateChecks.KernelSpor.Co3C.TR
+      CertificateChecks.KernelSpor.Co3C.BP (FC.F 1) (pw 276 9 (FC.F 1))
+      CFSG.RankThree.Native.co3FiveRels S25.N S25.T 5 2
+      (CertificateChecks.KernelSpor.Co3C.TR
+        (Nat.add (roff 276 (Nat.mul 276 9) (CertificateChecks.KernelSpor.Co3C.LR 1)) k))
 
 @[expose] noncomputable def fixZ (i : ℕ) : ℕ :=
   cntK 276 (fun q => Nat.beq (pg 9 (mask 9) (ZZ 0) q) q &&
     Nat.blt (rpos 9 (mask 9) (276 * 9) (CertificateChecks.KernelSpor.Co3C.LR i) q)
       (rcnt (CertificateChecks.KernelSpor.Co3C.LR i)))
 
+@[expose] noncomputable def cmP16 (p q : ℕ) : Bool :=
+  allN 16 (fun i => Nat.beq (pg 9 (mask 9) p (pg 9 (mask 9) q i))
+    (pg 9 (mask 9) q (pg 9 (mask 9) p i))) && cmK p q
+
 @[expose] noncomputable def c25Pt (k : ℕ) : Bool :=
-  !(cmK (S25.T k) (FC.F 2) && cmK (S25.T k) (FC.F 3)) ||
+  !(cmP16 (S25.T k) (FC.F 2) && cmP16 (S25.T k) (FC.F 3)) ||
     anyN 5 fun e => Nat.beq (S25.T k) (pw 276 9 (FC.F 1) e)
 
 @[expose] noncomputable def c0Pt (k : ℕ) : Bool :=
-  !(cmK (S0.T k) (DG 0) && cmK (S0.T k) (DG 1)) ||
+  !(cmP16 (S0.T k) (DG 0) && cmP16 (S0.T k) (DG 1)) ||
     anyN 5 fun e => Nat.beq (S0.T k) (pw 276 9 (FC.F 0) e)
 
 theorem kW : szOK 276 9 = true := by quickRfl
@@ -91,18 +98,14 @@ theorem kKQ : keysSK 276 9 CFSG.RankThree.Native.co3FiveKeyPts SQ.N SQ.T skQ = t
 theorem kK0 : keysSK 276 9 CFSG.RankThree.Native.co3FiveKeyPts S0.N S0.T sk0 = true := by quickRfl
 theorem kKD : keysSK 276 9 CFSG.RankThree.Native.co3FiveKeyPts SD.N SD.T skD = true := by quickRfl
 
-theorem kTperm : (allN 1500 (fun i => permB 276 9 (S25.T i)) &&
-    allN 125 (fun i => permB 276 9 (SQ.T i)) && allN 300 (fun i => permB 276 9 (S0.T i)) &&
-    allN 60 (fun i => permB 276 9 (SD.T i))) = true := by quickRfl
-
 theorem kZ : allN 4 (fun i => Nat.beq (pg 9 (mask 9) (ZZ 0) i) i) = true := by quickRfl
 
 theorem kFix : (Nat.beq (fixZ 0) 6 && Nat.beq (fixZ 1) 5 && Nat.beq (fixZ 2) 2 &&
     Nat.beq (fixZ 3) 1) = true := by quickRfl
 
-theorem kTail : ptailK 276 9 CertificateChecks.KernelSpor.Co3C.LR
-    CertificateChecks.KernelSpor.Co3C.TR CertificateChecks.KernelSpor.Co3C.BP (ZZ 0)
-    (pw 276 9 (ZZ 0)) [] 5 (pw 276 9 (ZZ 0)) 3 4 I = true := by quickRfl
+theorem kTail : ptailQ 276 9 CertificateChecks.KernelSpor.Co3C.LR
+    CertificateChecks.KernelSpor.Co3C.TR (ZZ 0) 100 200 5 (pw 276 9 (ZZ 0)) 2 4 I = true := by
+  quickRfl
 
 theorem kRels : CFSG.KC.B3S3K.relsK 276 9 5 CertificateChecks.KernelSpor.Co3C.BP (FC.F 1) 7
     CFSG.RankThree.Native.co3FiveRels = true := by quickRfl
@@ -110,28 +113,14 @@ theorem kRels : CFSG.KC.B3S3K.relsK 276 9 5 CertificateChecks.KernelSpor.Co3C.BP
 theorem kRc : Nat.beq (rcnt (CertificateChecks.KernelSpor.Co3C.LR 0)) 276 = true ∧
     Nat.beq (rcnt (CertificateChecks.KernelSpor.Co3C.LR 1)) 275 = true := ⟨by quickRfl, by quickRfl⟩
 
-theorem kBr : allN 275 (fun k => br (k + 1)) = true := by quickRfl
+theorem kFixX : (Nat.beq (pg 9 (mask 9) (FC.F 1) 0) 0 &&
+    allN 275 (fun p => !Nat.beq (pg 9 (mask 9) (FC.F 1) (p + 1)) (p + 1))) = true := by quickRfl
 
-@[expose] noncomputable def acc0 : ℕ :=
-  CertificateChecks.KernelSpor.Co3C.TR
-    (Nat.add (roff 276 (Nat.mul 276 9) (CertificateChecks.KernelSpor.Co3C.LR 0)) 0)
+theorem kBrC : allN 275 (fun k => brC k) = true := by quickRfl
 
-@[expose] noncomputable def sub1 (k : ℕ) : Bool :=
-  !(relOKK 9 (mask 9) CertificateChecks.KernelSpor.Co3C.BP (pw 276 9 (FC.F 1))
-      CFSG.RankThree.Native.co3FiveRels 1 acc0
-      (rpt 9 (mask 9) (CertificateChecks.KernelSpor.Co3C.LR 1) k)) ||
-    ptailK 276 9 CertificateChecks.KernelSpor.Co3C.LR CertificateChecks.KernelSpor.Co3C.TR
-      CertificateChecks.KernelSpor.Co3C.BP (FC.F 1) (pw 276 9 (FC.F 1))
-      CFSG.RankThree.Native.co3FiveRels S25.N S25.T 5 2
-      (pcomp 276 9 (mask 9) acc0 (CertificateChecks.KernelSpor.Co3C.TR
-        (Nat.add (roff 276 (Nat.mul 276 9) (CertificateChecks.KernelSpor.Co3C.LR 1)) k)))
-
-@[expose] noncomputable def kSF (j : Nat) : Bool := allN 11 (fun k => sub1 (j * 11 + k))
-
-#kc_each_unfold kSF 0 10 as CertificateChecks.KernelCo3Five.kS0
-#kc_each_unfold kSF 10 25 as CertificateChecks.KernelCo3Five.kS
-
-theorem kQ5 : allN 125 (fun k => Nat.beq (pw 276 9 (SQ.T k) 5) I) = true := by quickRfl
+theorem kWC : allN 275 (fun q => Nat.blt (WC q / 3) 1500 &&
+    Nat.beq (pg 9 (mask 9) (S25.T (WC q / 3)) (CFSG.RankThree.Native.co3FiveC25Rep (WC q % 3)))
+      (q + 1)) = true := by quickRfl
 
 theorem kQW : allN 125 (fun k => Nat.beq (SQ.T k) I || (Nat.blt (WQ k / 5) 31 &&
     Nat.beq (SQ.T k) (pw 276 9 (LN (WQ k / 5)) (WQ k % 5)))) = true := by quickRfl
@@ -147,12 +136,7 @@ theorem kC25a : (allN 4 (fun k => cmK (FC.F (k + 2)) (FC.F 1)) && memK S25.N S25
     allN 4 (fun k => allN 2 fun l => memK SQ.N SQ.T (cj (FC.F (k + 2)) (FC.F (l + 2))))) = true := by
   quickRfl
 
-theorem kC25b0 : allN 250 (fun k => c25Pt k) = true := by quickRfl
-theorem kC25b1 : allN 250 (fun k => c25Pt (250 + k)) = true := by quickRfl
-theorem kC25b2 : allN 250 (fun k => c25Pt (500 + k)) = true := by quickRfl
-theorem kC25b3 : allN 250 (fun k => c25Pt (750 + k)) = true := by quickRfl
-theorem kC25b4 : allN 250 (fun k => c25Pt (1000 + k)) = true := by quickRfl
-theorem kC25b5 : allN 250 (fun k => c25Pt (1250 + k)) = true := by quickRfl
+theorem kC25b : allN 1500 (fun k => c25Pt k) = true := by quickRfl
 
 theorem kC0a : (cmK (FC.F 0) (FC.F 0) && cmK (FC.F 6) (FC.F 0) && cmK (FC.F 7) (FC.F 0) &&
     memK S0.N S0.T (FC.F 8) && memK S0.N S0.T (FC.F 9) &&
@@ -163,8 +147,13 @@ theorem kC0a : (cmK (FC.F 0) (FC.F 0) && cmK (FC.F 6) (FC.F 0) && cmK (FC.F 7) (
 
 theorem kC0b : allN 300 (fun k => c0Pt k) = true := by quickRfl
 
-theorem kTree : allN 60 (fun k => Nat.beq (SD.T k) I ||
-    allN 60 (ctreePt 276 9 60 k SD.T (WT k))) = true := by quickRfl
+theorem kTree : allN 60 (fun r => !Nat.beq (WR r % 64) r ||
+    allN 60 (ctreePt 276 9 60 r SD.T (WT r))) = true := by quickRfl
+
+theorem kCls : allN 60 (fun k => Nat.beq (SD.T k) I || (Nat.blt (WR k / 64) 60 &&
+    Nat.blt (WR k % 64) 60 && Nat.beq (WR (WR k % 64) % 64) (WR k % 64) &&
+    Nat.beq (SD.T k) (CFSG.KC.ConjOrb.pconj 276 9 (mask 9) (SD.T (WR k / 64))
+      (pinvS 276 9 (mask 9) (SD.T (WR k / 64))) (SD.T (WR k % 64))))) = true := by quickRfl
 
 theorem kD0 : Nat.beq (SD.T 0) I = true := by quickRfl
 

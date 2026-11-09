@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.StandardType.FS81.E7RowE3
+import CFSG.Mathlib.Decide.FinFun
 
 public section
 
@@ -277,11 +278,56 @@ theorem e8RootLine_iff (δ : ZMod 3) (e : Coords 8) : E8RootLine δ e ↔ E8e δ
   rw [E8RootLine, E8e, wt_eq_wtE, prod_eq_prodF]
   exact Iff.rfl
 
+section PhiPredPieces
+
+attribute [local instance high] CFSG.Decide.FinFun.decForallZ3
+
 set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 100000 in
+theorem phiPred_iff_e8e_p0 : ∀ w : Fin 7 → ZMod 3, (Fin.cons 0 w : Coords 8) ≠ 0 →
+    (PhiPred (1) (Fin.cons 0 w) ↔ E8e (1) (Fin.cons 0 w)) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem phiPred_iff_e8e_p1 : ∀ w : Fin 7 → ZMod 3, (Fin.cons 1 w : Coords 8) ≠ 0 →
+    (PhiPred (1) (Fin.cons 1 w) ↔ E8e (1) (Fin.cons 1 w)) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem phiPred_iff_e8e_p2 : ∀ w : Fin 7 → ZMod 3, (Fin.cons 2 w : Coords 8) ≠ 0 →
+    (PhiPred (1) (Fin.cons 2 w) ↔ E8e (1) (Fin.cons 2 w)) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem phiPred_iff_e8e_m0 : ∀ w : Fin 7 → ZMod 3, (Fin.cons 0 w : Coords 8) ≠ 0 →
+    (PhiPred (-1) (Fin.cons 0 w) ↔ E8e (-1) (Fin.cons 0 w)) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem phiPred_iff_e8e_m1 : ∀ w : Fin 7 → ZMod 3, (Fin.cons 1 w : Coords 8) ≠ 0 →
+    (PhiPred (-1) (Fin.cons 1 w) ↔ E8e (-1) (Fin.cons 1 w)) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem phiPred_iff_e8e_m2 : ∀ w : Fin 7 → ZMod 3, (Fin.cons 2 w : Coords 8) ≠ 0 →
+    (PhiPred (-1) (Fin.cons 2 w) ↔ E8e (-1) (Fin.cons 2 w)) := by
+  decide +kernel
+
+end PhiPredPieces
+
 theorem phiPred_iff_e8e (hδ : δ = 1 ∨ δ = -1) :
     ∀ v : Coords 8, v ≠ 0 → (PhiPred δ v ↔ E8e δ v) := by
-  rcases hδ with rfl | rfl <;> decide +kernel
+  rcases hδ with rfl | rfl
+  · exact CFSG.Decide.FinFun.forall_of_forall_cons (P := fun v : Coords 8 => v ≠ 0 → (PhiPred 1 v ↔ E8e 1 v))
+      (CFSG.Decide.FinFun.zmod3_cases phiPred_iff_e8e_p0 phiPred_iff_e8e_p1 phiPred_iff_e8e_p2)
+  · exact CFSG.Decide.FinFun.forall_of_forall_cons
+      (P := fun v : Coords 8 => v ≠ 0 → (PhiPred (-1) v ↔ E8e (-1) v))
+      (CFSG.Decide.FinFun.zmod3_cases phiPred_iff_e8e_m0 phiPred_iff_e8e_m1 phiPred_iff_e8e_m2)
 
 theorem phiPred_iff_e8 (hδ : δ = 1 ∨ δ = -1) {v : Coords 8} (hv : v ≠ 0) :
     PhiPred δ v ↔ E8RootLine δ v := by

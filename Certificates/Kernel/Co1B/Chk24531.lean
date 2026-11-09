@@ -5,6 +5,7 @@ public import Certificates.Kernel.Co1Cover.EData
 public import Certificates.Data.Kernel.Co1BFix
 public import Certificates.Data.Kernel.Co1F2
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Co1BFixPSound
 
 public section
 
@@ -14,8 +15,12 @@ namespace CertificateChecks.KernelCo1B.C24531
 
 open CFSG.KC.Co1F2 CFSG.KC.Co1B CertificateChecks.KernelCo1Cover.ECore
 
-theorem xA : Nat.beq (fixTabK (trK 24 EAP) CV.F 117) 2280 = true := by quickRfl
-theorem xC : Nat.beq (fixTabK (trK 24 ECP) CV.F 117) 264 = true := by quickRfl
+theorem xA : Nat.beq (fixTabK (trK 24 EAP) CV.F 117) 2280 = true := by
+  rw [← fixTabP_eq]
+  quickRfl
+theorem xC : Nat.beq (fixTabK (trK 24 ECP) CV.F 117) 264 = true := by
+  rw [← fixTabP_eq]
+  quickRfl
 
 end CertificateChecks.KernelCo1B.C24531
 

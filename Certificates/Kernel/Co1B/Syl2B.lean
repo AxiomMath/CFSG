@@ -19,16 +19,16 @@ open CFSG.KS.SporSch.M24 CFSG.KS.Raw CFSG.Sporadic.Co1Schreier.Native CFSG.Spora
 
 theorem dag₁_eq : brayRows aR twoBD1 = ((List.range 43).map fun i => unpack 24 24 (Cent2045.D1.M i),
     (List.range 43).map fun i => unpack 24 24 (Cent2045.D1.MI i), true) :=
-  dagIK_sound Cent2045.base_eq Cent2045.kD1
+  dagIWK_sound Cent2045.base_eq Cent2045.kD1
 
 theorem bray_eq : brayElts (brayRows aR twoBD1) twoBBray =
     (List.range twoBBray.length).map fun i => unpack 24 24 (S2.M i) :=
-  brayElts_of_K Cent2045.base_eq Cent2045.kD1 Cent2045.kI kBindS
+  brayElts_of_W Cent2045.base_eq Cent2045.kD1 Cent2045.kI kBindS
 
 theorem dagS_eq : dag (brayElts (brayRows aR twoBD1) twoBBray) sylD2B =
     ((List.range S2.N).map fun i => unpack 24 24 (S2.M i),
       (List.range S2.N).map fun i => unpack 24 24 (S2.MI i), true) :=
-  dagIK_sound bray_eq kS2
+  dagIWK_sound bray_eq kS2
 
 theorem hN : ST.N = 32768 ∧ ∀ j ∈ sylIdxB, j < S2.N := by
   have h := kN
@@ -50,7 +50,7 @@ theorem sg_eq : (sylIdxB.map fun j => ((List.range S2.N).map fun i => unpack 24 
 
 theorem gt_eq : gtBFS (gensArr 4 SM) 32769 = bfsTree ST.N ST.P ST.PAR ST.LAB ∧
     gtOK (gensArr 4 SM) (bfsTree ST.N ST.P ST.PAR ST.LAB) = true :=
-  gtBFS_of_K kQ
+  gtBFS_of_bfsK kQ (by rw [hN.1]; decide)
 
 theorem bray_ok : ((List.range twoBBray.length).map fun i => unpack 24 24 (S2.M i)).all
     (fun g => mul g aR == mul aR g && mul g (inv g) == one) = true := by

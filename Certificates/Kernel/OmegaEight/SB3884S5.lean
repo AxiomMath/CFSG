@@ -10,8 +10,8 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelO8.SB3884
 
-#kc_repo #kc_json_gz CertificateChecks.KernelO8.SB3884
-  "Certificates/Kernel/OmegaEight/data/SB3884S5.json.gz" 491515 9459723647789878360
+#kc_repo #kc_json CertificateChecks.KernelO8.SB3884
+  "Certificates/Kernel/OmegaEight/data/SB3884S5.json" 491515 9459723647789878360
   (cent5_0 : Nat × List Nat × Nat × Nat) (cent5_1 : Nat × List Nat × Nat × Nat)
   (cent5_2 : Nat × List Nat × Nat × Nat) (cent5_3 : Nat × List Nat × Nat × Nat)
   (cent5_4 : Nat × List Nat × Nat × Nat) (cent5_5 : Nat × List Nat × Nat × Nat)

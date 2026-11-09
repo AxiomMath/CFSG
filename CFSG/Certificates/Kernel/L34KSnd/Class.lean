@@ -158,8 +158,8 @@ theorem bodyA_eq (m : Nat) (cj : Nat → Nat → Nat) (k a : Nat)
   unfold bodyA
   dsimp only
   by_cases h : cj a k < m ∧ s.2.contains (cj a k) = false
-  · rw [if_pos h, if_pos (condA.2 h)]
-  · rw [if_neg h, if_neg (mt condA.1 h)]
+  · rw [ite_eq_left h, ite_eq_left (condA.2 h)]
+  · rw [ite_eq_right h, ite_eq_right (mt condA.1 h)]
 
 theorem bodyL_eq (used : Array Bool) (target : Array Nat) (sz i l : Nat) :
     bodyL used target sz i l = pure (ForInStep.yield
@@ -167,8 +167,8 @@ theorem bodyL_eq (used : Array Bool) (target : Array Nat) (sz i l : Nat) :
   unfold bodyL
   dsimp only
   by_cases h : l = target.size ∧ used[i]! = false ∧ target[i]! = sz
-  · rw [if_pos h, if_pos (condL.2 h)]
-  · rw [if_neg h, if_neg (mt condL.1 h)]
+  · rw [ite_eq_left h, ite_eq_left (condL.2 h)]
+  · rw [ite_eq_right h, ite_eq_right (mt condL.1 h)]
 
 theorem bodyS_eq (l : Nat) (x : Nat × Nat) (s : Array Nat × Array Nat) :
     bodyS l x s = pure (ForInStep.yield (s.1.set! x.1 l, s.2.set! x.1 x.2)) := rfl
@@ -189,7 +189,7 @@ theorem clsOf_spec (m : Nat) (cj : Nat → Nat → Nat) (k : Nat) :
   · obtain ⟨hnd, hmem, hiff⟩ := hP
     refine ⟨_, by rw [Nat.zero_add, bodyA_eq], ?_⟩
     by_cases hc : cj j k < m ∧ s.2.contains (cj j k) = false
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       obtain ⟨hlt, hns⟩ := hc
       have hnot : cj j k ∉ s.1.toList.map Prod.fst := fun h => by
         rw [← (hiff _).2] at h
@@ -224,7 +224,7 @@ theorem clsOf_spec (m : Nat) (cj : Nat → Nat → Nat) (k : Nat) :
         rw [(hiff p).2]
         exact ⟨fun h => h.elim (fun e => Or.inr e.symm) Or.inl,
           fun h => h.elim Or.inr fun e => Or.inl e.symm⟩
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       refine ⟨hnd, fun x hx => ⟨(hmem x hx).1, by have := (hmem x hx).2.1; omega,
         (hmem x hx).2.2⟩, fun p => ⟨?_, (hiff p).2⟩⟩
       constructor
@@ -259,12 +259,12 @@ theorem labOf_spec (used : Array Bool) (target : Array Nat) (sz : Nat) :
     · exact Or.inr h
   · refine ⟨_, by rw [Nat.zero_add, bodyL_eq], ?_⟩
     rcases hP with ⟨hl, h1, h2, h3⟩ | ⟨hl, h1⟩
-    · rw [if_neg (fun h => by omega)]
+    · rw [ite_eq_right (fun h => by omega)]
       exact Or.inl ⟨by omega, h1, h2, h3⟩
     · by_cases hg : used[j]! = false ∧ target[j]! = sz
-      · rw [if_pos ⟨hl, hg⟩]
+      · rw [ite_eq_left ⟨hl, hg⟩]
         exact Or.inl ⟨by omega, hg.1, hg.2, h1⟩
-      · rw [if_neg (fun h => hg h.2)]
+      · rw [ite_eq_right (fun h => hg h.2)]
         refine Or.inr ⟨hl, fun i hi => ?_⟩
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact h1 i hi
@@ -458,7 +458,7 @@ theorem oInv_step (H : ClassHyp m target cj c) {j : Nat} (hj : j < m) {σ : Nat 
       rw [I.labv j hj hv]
       have := (I.sig _ hv).1
       omega
-    rw [if_neg (by rwa [beq_iff_eq])]
+    rw [ite_eq_right (by rwa [beq_iff_eq])]
     refine ⟨_, rfl, σ, ?_⟩
     have hV : ∀ l, Vis c (j + 1) l ↔ Vis c j l := fun l => by
       rw [vis_succ]
@@ -468,7 +468,7 @@ theorem oInv_step (H : ClassHyp m target cj c) {j : Nat} (hj : j < m) {σ : Nat 
       omega
     exact I.mono hV fun _ => hj0
   · have hlab : s.1[j]! = m := I.labn j hj hv
-    rw [if_pos (by rw [beq_iff_eq]; exact hlab)]
+    rw [ite_eq_left (by rw [beq_iff_eq]; exact hlab)]
     have hsz := H.size_clsOf hj
     have hmem := (clsOf_spec m cj j).2.1
     obtain ⟨i0, hi0, hu0, ht0⟩ := I.exists_unused H hj hv
@@ -481,7 +481,7 @@ theorem oInv_step (H : ClassHyp m target cj c) {j : Nat} (hj : j < m) {σ : Nat 
       rcases labOf_spec s.2.2.2 target (clsOf m cj j).size with h | h
       · exact h
       · exact absurd ⟨hu0, ht0.trans hsz.symm⟩ (h.2 i0 hi0)
-    rw [if_pos hlt]
+    rw [ite_eq_left hlt]
     refine ⟨_, rfl, ?_⟩
     generalize hl : labOf s.2.2.2 target (clsOf m cj j).size = l at hlt hlu hlt' hlmin
     obtain ⟨hR1, hR2, hR3⟩ := setOf_spec (clsOf m cj j) l s.1 s.2.1 (I.szl.trans I.szw.symm)
@@ -498,10 +498,10 @@ theorem oInv_step (H : ClassHyp m target cj c) {j : Nat} (hj : j < m) {σ : Nat 
     · exact (Array.size_set! _ _ _).trans I.szu
     · intro p hp hvp
       by_cases hcp : c p = c j
-      · rw [if_pos hcp]
+      · rw [ite_eq_left hcp]
         exact ((hR3 p).1 ((H.mem_clsOf hj p).2 ⟨hp, hcp⟩) (by rw [I.szl]; exact hp)).1
       · have hvp' : Vis c j (c p) := (vis_succ.1 hvp).resolve_right fun e => hcp e.symm
-        rw [if_neg hcp, ((hR3 p).2 fun h => hcp ((H.mem_clsOf hj p).1 h).2).1]
+        rw [ite_eq_right hcp, ((hR3 p).2 fun h => hcp ((H.mem_clsOf hj p).1 h).2).1]
         exact I.labv p hp hvp'
     · intro p hp hvp
       rw [vis_succ, not_or] at hvp
@@ -509,54 +509,54 @@ theorem oInv_step (H : ClassHyp m target cj c) {j : Nat} (hj : j < m) {σ : Nat 
       exact I.labn p hp hvp.1
     · intro l1 hv1
       by_cases h1 : l1 = c j
-      · rw [if_pos h1, Array.getElem!_set!_self _ _ _ (by rw [I.szr]; exact hlt)]
+      · rw [ite_eq_left h1, Array.getElem!_set!_self _ _ _ (by rw [I.szr]; exact hlt)]
         exact ⟨hlt, by rw [hlt', hsz, h1], hj, h1.symm⟩
       · have hv1' : Vis c j l1 := (vis_succ.1 hv1).resolve_right fun e => h1 e.symm
-        rw [if_neg h1, Array.getElem!_set!_ne _ _ _ _ (Ne.symm (hne l1 hv1'))]
+        rw [ite_eq_right h1, Array.getElem!_set!_ne _ _ _ _ (Ne.symm (hne l1 hv1'))]
         exact I.sig l1 hv1'
     · intro p hp hvp
       by_cases hcp : c p = c j
       · obtain ⟨e1, e2⟩ := (hR3 p).1 ((H.mem_clsOf hj p).2 ⟨hp, hcp⟩) (by rw [I.szl]; exact hp)
         have hw := hmem _ e2
-        rw [if_pos hcp, Array.getElem!_set!_self _ _ _ (by rw [I.szr]; exact hlt)]
+        rw [ite_eq_left hcp, Array.getElem!_set!_self _ _ _ (by rw [I.szr]; exact hlt)]
         exact ⟨hw.2.1, hw.2.2⟩
       · have hvp' : Vis c j (c p) := (vis_succ.1 hvp).resolve_right fun e => hcp e.symm
-        rw [if_neg hcp, ((hR3 p).2 fun h => hcp ((H.mem_clsOf hj p).1 h).2).2,
+        rw [ite_eq_right hcp, ((hR3 p).2 fun h => hcp ((H.mem_clsOf hj p).1 h).2).2,
           Array.getElem!_set!_ne _ _ _ _ (Ne.symm (hne _ hvp'))]
         exact I.wit p hp hvp'
     · intro l1 l2 hv1 hv2 e
       by_cases h1 : l1 = c j <;> by_cases h2 : l2 = c j
       · rw [h1, h2]
       · have hv2' : Vis c j l2 := (vis_succ.1 hv2).resolve_right fun e => h2 e.symm
-        rw [if_pos h1, if_neg h2] at e
+        rw [ite_eq_left h1, ite_eq_right h2] at e
         exact absurd e.symm (hne l2 hv2')
       · have hv1' : Vis c j l1 := (vis_succ.1 hv1).resolve_right fun e => h1 e.symm
-        rw [if_neg h1, if_pos h2] at e
+        rw [ite_eq_right h1, ite_eq_left h2] at e
         exact absurd e (hne l1 hv1')
       · have hv1' : Vis c j l1 := (vis_succ.1 hv1).resolve_right fun e => h1 e.symm
         have hv2' : Vis c j l2 := (vis_succ.1 hv2).resolve_right fun e => h2 e.symm
-        rw [if_neg h1, if_neg h2] at e
+        rw [ite_eq_right h1, ite_eq_right h2] at e
         exact I.inj l1 l2 hv1' hv2' e
     · intro i hi
       by_cases hil : i = l
       · subst hil
         rw [Array.getElem!_set!_self _ _ _ (by rw [I.szu]; exact hlt)]
-        exact ⟨fun _ => ⟨c j, vis_succ.2 (Or.inr rfl), if_pos rfl⟩, fun _ => rfl⟩
+        exact ⟨fun _ => ⟨c j, vis_succ.2 (Or.inr rfl), ite_eq_left rfl⟩, fun _ => rfl⟩
       · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm hil), I.used i hi]
         constructor
         · rintro ⟨l1, hv1, e⟩
-          exact ⟨l1, vis_succ.2 (Or.inl hv1), by rw [if_neg (hvj l1 hv1)]; exact e⟩
+          exact ⟨l1, vis_succ.2 (Or.inl hv1), by rw [ite_eq_right (hvj l1 hv1)]; exact e⟩
         · rintro ⟨l1, hv1, e⟩
           by_cases h1 : l1 = c j
-          · rw [if_pos h1] at e
+          · rw [ite_eq_left h1] at e
             exact absurd e.symm hil
           · exact ⟨l1, (vis_succ.1 hv1).resolve_right fun e' => h1 e'.symm,
-              by rw [if_neg h1] at e; exact e⟩
+              by rw [ite_eq_right h1] at e; exact e⟩
     · intro _
       by_cases hj0 : j = 0
       · subst hj0
         have hc0 : c 0 = 0 := H.zero
-        rw [if_pos hc0.symm]
+        rw [ite_eq_left hc0.symm]
         by_contra hl0
         refine hlmin 0 (by omega) ⟨?_, ?_⟩
         · have h0 := I.used 0 (by have := H.lt 0 H.pos; omega)
@@ -567,7 +567,7 @@ theorem oInv_step (H : ClassHyp m target cj c) {j : Nat} (hj : j < m) {σ : Nat 
             exact absurd hk (Nat.not_lt_zero k)
         · rw [hsz, hc0]
       · have hv0 : Vis c j 0 := ⟨0, by omega, H.zero⟩
-        rw [if_neg (fun e : 0 = c j => hv (e ▸ hv0))]
+        rw [ite_eq_right (fun e : 0 = c j => hv (e ▸ hv0))]
         exact I.zero (by omega)
 
 theorem classLoopN_spec (H : ClassHyp m target cj c) :
@@ -637,11 +637,14 @@ private theorem length_filter_range_card (m : Nat) (f : Nat → Bool) :
   rw [← Multiset.coe_range, Multiset.filter_coe, Multiset.coe_card]
   simp only [Bool.decide_eq_true]
 
-private theorem groupK_facts {m : Nat} {CT CI Q : Nat → Nat} (hg : groupK n w m CT CI Q = true) :
+abbrev GroupFacts (n w m : Nat) (CT CI Q : Nat → Nat) : Prop :=
     (∀ a < m, canonK n w (mask w) (n * w) (CT a) = true ∧
       canonK n w (mask w) (n * w) (CI a) = true ∧ pcomp n w (mask w) (CI a) (CT a) = pidn n w) ∧
     ∀ a < m, ∀ b < m, (a = b ∨ CT a ≠ CT b) ∧ fget (Q a) b 8 < m ∧
-      CT (fget (Q a) b 8) = pcomp n w (mask w) (CT a) (CT b) := by
+      CT (fget (Q a) b 8) = pcomp n w (mask w) (CT a) (CT b)
+
+private theorem groupK_facts {m : Nat} {CT CI Q : Nat → Nat} (hg : groupK n w m CT CI Q = true) :
+    GroupFacts n w m CT CI Q := by
   unfold groupK at hg
   rw [strictB_app] at hg
   obtain ⟨h1, h2⟩ := andB_iff.1 hg
@@ -659,6 +662,91 @@ private theorem groupK_facts {m : Nat} {CT CI Q : Nat → Nat} (hg : groupK n w 
     rcases orB_iff.1 h5 with h9 | h9
     · exact Or.inl (Nat.eq_of_beq_eq_true h9)
     · exact Or.inr (Nat.ne_of_beq_eq_false (notB_iff.1 h9))
+
+theorem groupGK_facts {m ng gs par lt dep : Nat} {CT CI Q : Nat → Nat}
+    (hg : groupGK n w m CT CI Q ng gs par lt dep = true) : GroupFacts n w m CT CI Q := by
+  unfold groupGK at hg
+  rw [strictB_app] at hg
+  obtain ⟨h1, h⟩ := andB_iff.1 hg
+  obtain ⟨h0, h⟩ := andB_iff.1 h
+  obtain ⟨hG, hB⟩ := andB_iff.1 h
+  have hcan : ∀ a < m, canonK n w (mask w) (n * w) (CT a) = true ∧
+      canonK n w (mask w) (n * w) (CI a) = true ∧ pcomp n w (mask w) (CI a) (CT a) = pidn n w :=
+    fun a ha => by
+      obtain ⟨h3, h4⟩ := andB_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 h1 a ha)
+      obtain ⟨h5, h6⟩ := andB_iff.1 h4
+      exact ⟨h3, h5, Nat.eq_of_beq_eq_true h6⟩
+  obtain ⟨h0, hd0⟩ := andB_iff.1 h0
+  have hCT0 : CT 0 = pidn n w := Nat.eq_of_beq_eq_true h0
+  have hdep0 : fget dep 0 8 = 0 := Nat.eq_of_beq_eq_true hd0
+  have hgen : ∀ l < ng, fget gs l 8 < m ∧ ∀ a < m, fget (Q a) (fget gs l 8) 8 < m ∧
+      CT (fget (Q a) (fget gs l 8) 8) = pcomp n w (mask w) (CT a) (CT (fget gs l 8)) := by
+    intro l hl
+    have h3 := CFSG.KS.Raw.Orb.allN_iff.1 hG l hl
+    rw [strictB_app] at h3
+    obtain ⟨h4, h5⟩ := andB_iff.1 h3
+    rw [strictB_app] at h5
+    refine ⟨Nat.blt_eq.mp h4, fun a ha => ?_⟩
+    have h6 := CFSG.KS.Raw.Orb.allN_iff.1 h5 a ha
+    rw [strictB_app] at h6
+    obtain ⟨h7, h8⟩ := andB_iff.1 h6
+    exact ⟨Nat.blt_eq.mp h7, Nat.eq_of_beq_eq_true h8⟩
+  have hb : ∀ b < m, ∀ a < m, (a = b ∨ CT a ≠ CT b) ∧
+      (b = 0 → fget (Q a) b 8 = a) ∧
+      (b ≠ 0 → fget par b 8 < m ∧ fget dep (fget par b 8) 8 < fget dep b 8 ∧ fget lt b 8 < ng ∧
+        fget (Q (fget par b 8)) (fget gs (fget lt b 8) 8) 8 = b ∧ fget (Q a) b 8 < m ∧
+        fget (Q a) b 8 = fget (Q (fget (Q a) (fget par b 8) 8)) (fget gs (fget lt b 8) 8) 8) := by
+    intro b hbm a ha
+    have h3 := CFSG.KS.Raw.Orb.allN_iff.1 hB b hbm
+    rw [strictB_app] at h3
+    have hne : ∀ {a : Nat},
+        CFSG.KLie.CT.orB (Nat.beq a b) (CFSG.KLie.CT.notB (Nat.beq (CT a) (CT b))) = true →
+          a = b ∨ CT a ≠ CT b := fun h => by
+      rcases orB_iff.1 h with h9 | h9
+      · exact Or.inl (Nat.eq_of_beq_eq_true h9)
+      · exact Or.inr (Nat.ne_of_beq_eq_false (notB_iff.1 h9))
+    rcases orB_iff.1 h3 with h4 | h4
+    · obtain ⟨h5, h6⟩ := andB_iff.1 h4
+      have hb0 : b = 0 := Nat.eq_of_beq_eq_true h5
+      have h7 := CFSG.KS.Raw.Orb.allN_iff.1 h6 a ha
+      rw [strictB_app] at h7
+      obtain ⟨h8, h9⟩ := andB_iff.1 h7
+      exact ⟨hne h8, fun _ => Nat.eq_of_beq_eq_true h9, fun h => absurd hb0 h⟩
+    · rw [strictB_app, strictB_app, strictB_app] at h4
+      obtain ⟨h5, h⟩ := andB_iff.1 h4
+      obtain ⟨h6, h⟩ := andB_iff.1 h
+      obtain ⟨h7, h⟩ := andB_iff.1 h
+      obtain ⟨h8, h9⟩ := andB_iff.1 h
+      have h10 := CFSG.KS.Raw.Orb.allN_iff.1 h9 a ha
+      rw [strictB_app, strictB_app] at h10
+      obtain ⟨h11, h12⟩ := andB_iff.1 h10
+      obtain ⟨h13, h14⟩ := andB_iff.1 h12
+      have hp := Nat.blt_eq.mp h5
+      refine ⟨hne h11, fun hb0 => ?_, fun _ => ⟨hp, Nat.blt_eq.mp h6, Nat.blt_eq.mp h7,
+        Nat.eq_of_beq_eq_true h8, Nat.blt_eq.mp h13, Nat.eq_of_beq_eq_true h14⟩⟩
+      subst hb0
+      have h15 := Nat.blt_eq.mp h6
+      rw [hdep0] at h15
+      exact absurd h15 (Nat.not_lt_zero _)
+  have hprod : ∀ k, ∀ b < m, fget dep b 8 < k → ∀ a < m, fget (Q a) b 8 < m ∧
+      CT (fget (Q a) b 8) = pcomp n w (mask w) (CT a) (CT b) := by
+    intro k
+    induction k with
+    | zero => exact fun _ _ h => absurd h (Nat.not_lt_zero _)
+    | succ k ih =>
+      intro b hbm hdk a ha
+      by_cases hb0 : b = 0
+      · have e := (hb b hbm a ha).2.1 hb0
+        rw [e, hb0, hCT0, pcomp_pidn_r' (hcan a ha).1]
+        exact ⟨ha, rfl⟩
+      obtain ⟨hp, hdp, hl, hpg, hq, e⟩ := (hb b hbm a ha).2.2 hb0
+      obtain ⟨hgm, hgQ⟩ := hgen _ hl
+      have hx := ih _ hp (by omega) a ha
+      refine ⟨hq, ?_⟩
+      rw [e, (hgQ _ hx.1).2, hx.2, pcomp_assoc' (hcan a ha).1 (hcan _ hp).1 (hcan _ hgm).1,
+        ← (hgQ _ hp).2, hpg]
+  exact ⟨hcan, fun a ha b hbm => ⟨(hb b hbm a ha).1,
+    hprod _ b hbm (Nat.lt_succ_self _) a ha⟩⟩
 
 private theorem classK_facts {m ns lab rep wit SZ : Nat} {CT CI P : Nat → Nat}
     (h : classK n w m CT CI P lab rep wit SZ ns = true) :
@@ -699,14 +787,70 @@ private theorem classK_facts {m ns lab rep wit SZ : Nat} {CT CI P : Nat → Nat}
     obtain ⟨h11, h12⟩ := andB_iff.1 h10
     exact ⟨Nat.blt_eq.mp h9, Nat.blt_eq.mp h11, Nat.eq_of_beq_eq_true h12⟩
 
+private theorem classQK_facts {m ns lab rep wit SZ : Nat} {CT CI Q P : Nat → Nat}
+    (hgf : GroupFacts n w m CT CI Q) (h : classQK n w m CT CI Q P lab rep wit SZ ns = true) :
+    (∀ k < m, ∀ a < m, fget (P k) a 8 < m ∧
+      CT (fget (P k) a 8) = pcomp n w (mask w) (CT a) (pcomp n w (mask w) (CT k) (CI a)) ∧
+      fget lab (fget (P k) a 8) 8 = fget lab k 8) ∧
+    (∀ l < ns, fget rep l 8 < m ∧ fget lab (fget rep l 8) 8 = l) ∧
+    (∀ k < m, fget lab k 8 < ns ∧ fget wit k 8 < m ∧
+      pcomp n w (mask w) (CT (fget wit k 8))
+        (pcomp n w (mask w) (CT (fget rep (fget lab k 8) 8)) (CI (fget wit k 8))) = CT k) ∧
+    (∀ l < ns, CFSG.KC.HeAutK.cntR (fun k => Nat.beq (fget lab k 8) l) 0 m = fget SZ l 8) ∧
+    0 < m ∧ CT 0 = pidn n w ∧ fget lab 0 8 = 0 := by
+  obtain ⟨hcan, hQ⟩ := hgf
+  unfold classQK at h
+  rw [strictB_app] at h
+  obtain ⟨h1, h⟩ := andB_iff.1 h
+  obtain ⟨h2, h⟩ := andB_iff.1 h
+  obtain ⟨h3, h⟩ := andB_iff.1 h
+  obtain ⟨h4, h⟩ := andB_iff.1 h
+  obtain ⟨h5, h⟩ := andB_iff.1 h
+  obtain ⟨h6, h7⟩ := andB_iff.1 h
+  refine ⟨fun k hk a ha => ?_, fun l hl => ?_, fun k hk => ?_,
+    fun l hl => Nat.eq_of_beq_eq_true (CFSG.KS.Raw.Orb.allN_iff.1 h4 l hl), Nat.blt_eq.mp h5,
+    Nat.eq_of_beq_eq_true h6, Nat.eq_of_beq_eq_true h7⟩
+  · have h8 := CFSG.KS.Raw.Orb.allN_iff.1 h1 k hk
+    rw [strictB_app, strictB_app] at h8
+    have h9 := CFSG.KS.Raw.Orb.allN_iff.1 h8 a ha
+    rw [strictB_app] at h9
+    obtain ⟨h10, h11⟩ := andB_iff.1 h9
+    obtain ⟨h12, h13⟩ := andB_iff.1 h11
+    have hp := Nat.blt_eq.mp h10
+    refine ⟨hp, ?_, Nat.eq_of_beq_eq_true h13⟩
+    have e := congrArg CT (Nat.eq_of_beq_eq_true h12)
+    rw [(hQ _ hp a ha).2.2, (hQ a ha k hk).2.2] at e
+    have hri : pcomp n w (mask w) (CT a) (CI a) = pidn n w :=
+      pcomp_inv_of_pcomp (hcan a ha).2.1 (hcan a ha).1 (hcan a ha).2.2
+    rw [← pcomp_assoc' (hcan a ha).1 (hcan k hk).1 (hcan a ha).2.1, ← e,
+      pcomp_assoc' (hcan _ hp).1 (hcan a ha).1 (hcan a ha).2.1, hri, pcomp_pidn_r' (hcan _ hp).1]
+  · have h8 := CFSG.KS.Raw.Orb.allN_iff.1 h2 l hl
+    rw [strictB_app] at h8
+    obtain ⟨h9, h10⟩ := andB_iff.1 h8
+    exact ⟨Nat.blt_eq.mp h9, Nat.eq_of_beq_eq_true h10⟩
+  · have h8 := CFSG.KS.Raw.Orb.allN_iff.1 h3 k hk
+    rw [strictB_app, strictB_app] at h8
+    obtain ⟨h9, h10⟩ := andB_iff.1 h8
+    obtain ⟨h11, h12⟩ := andB_iff.1 h10
+    exact ⟨Nat.blt_eq.mp h9, Nat.blt_eq.mp h11, Nat.eq_of_beq_eq_true h12⟩
+
 private theorem classOK_of_tabs {m ns lab rep wit SZ : Nat} {CT CI Q P : Nat → Nat}
     {sizes : Array Nat} {T : Array Tab} (hTs : T.size = m)
     (hTg : ∀ i < m, T[i]! = unpack n w (CT i))
     (hz : sizes.size = ns ∧ ∀ l < ns, sizes[l]! = fget SZ l 8)
-    (hg : groupK n w m CT CI Q = true) (h : classK n w m CT CI P lab rep wit SZ ns = true) :
+    (hgf : GroupFacts n w m CT CI Q)
+    (hf : (∀ k < m, ∀ a < m, fget (P k) a 8 < m ∧
+      CT (fget (P k) a 8) = pcomp n w (mask w) (CT a) (pcomp n w (mask w) (CT k) (CI a)) ∧
+      fget lab (fget (P k) a 8) 8 = fget lab k 8) ∧
+    (∀ l < ns, fget rep l 8 < m ∧ fget lab (fget rep l 8) 8 = l) ∧
+    (∀ k < m, fget lab k 8 < ns ∧ fget wit k 8 < m ∧
+      pcomp n w (mask w) (CT (fget wit k 8))
+        (pcomp n w (mask w) (CT (fget rep (fget lab k 8) 8)) (CI (fget wit k 8))) = CT k) ∧
+    (∀ l < ns, CFSG.KC.HeAutK.cntR (fun k => Nat.beq (fget lab k 8) l) 0 m = fget SZ l 8) ∧
+    0 < m ∧ CT 0 = pidn n w ∧ fget lab 0 8 = 0) :
     classOK n T (T.map (invTab n)) (classData n T sizes) sizes = true := by
-  obtain ⟨hcan, hQ⟩ := groupK_facts hg
-  obtain ⟨hP, hrep, hwit, hcnt, hm, h0, hlab0⟩ := classK_facts h
+  obtain ⟨hcan, hQ⟩ := hgf
+  obtain ⟨hP, hrep, hwit, hcnt, hm, h0, hlab0⟩ := hf
   have hCT : ∀ a < m, canonK n w (mask w) (n * w) (CT a) = true := fun a ha => (hcan a ha).1
   have hCI : ∀ a < m, canonK n w (mask w) (n * w) (CI a) = true := fun a ha => (hcan a ha).2.1
   have hli : ∀ a < m, pcomp n w (mask w) (CI a) (CT a) = pidn n w := fun a ha => (hcan a ha).2.2
@@ -875,7 +1019,26 @@ theorem classOK_of_checks {n w m ns lab rep wit SZ : Nat} {CT CI Q P : Nat → N
     classOK n (Array.ofFn (n := m) fun i => unpack n w (CT i.val))
       ((Array.ofFn (n := m) fun i => unpack n w (CT i.val)).map (invTab n))
       (classData n (Array.ofFn (n := m) fun i => unpack n w (CT i.val)) sizes) sizes = true :=
-  classOK_of_tabs Array.size_ofFn (fun _ hi => pts_get hi) hz hg h
+  classOK_of_tabs Array.size_ofFn (fun _ hi => pts_get hi) hz (groupK_facts hg) (classK_facts h)
+
+theorem classOK_of_checksQ {n w m ns lab rep wit SZ : Nat} {CT CI Q P : Nat → Nat}
+    {sizes : Array Nat} (hz : sizes.size = ns ∧ ∀ l < ns, sizes[l]! = fget SZ l 8)
+    (hg : groupK n w m CT CI Q = true) (h : classQK n w m CT CI Q P lab rep wit SZ ns = true) :
+    classOK n (Array.ofFn (n := m) fun i => unpack n w (CT i.val))
+      ((Array.ofFn (n := m) fun i => unpack n w (CT i.val)).map (invTab n))
+      (classData n (Array.ofFn (n := m) fun i => unpack n w (CT i.val)) sizes) sizes = true :=
+  classOK_of_tabs Array.size_ofFn (fun _ hi => pts_get hi) hz (groupK_facts hg)
+    (classQK_facts (groupK_facts hg) h)
+
+theorem classOK_of_checksG {n w m ns lab rep wit SZ ng gs par lt dep : Nat} {CT CI Q P : Nat → Nat}
+    {sizes : Array Nat} (hz : sizes.size = ns ∧ ∀ l < ns, sizes[l]! = fget SZ l 8)
+    (hg : groupGK n w m CT CI Q ng gs par lt dep = true)
+    (h : classQK n w m CT CI Q P lab rep wit SZ ns = true) :
+    classOK n (Array.ofFn (n := m) fun i => unpack n w (CT i.val))
+      ((Array.ofFn (n := m) fun i => unpack n w (CT i.val)).map (invTab n))
+      (classData n (Array.ofFn (n := m) fun i => unpack n w (CT i.val)) sizes) sizes = true :=
+  classOK_of_tabs Array.size_ofFn (fun _ hi => pts_get hi) hz (groupGK_facts hg)
+    (classQK_facts (groupGK_facts hg) h)
 
 end Checks
 

@@ -1,7 +1,7 @@
 module
 
 public import CFSG.CGT.PushingUpLit.SolKNA.QuatLieLift
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.CGT.PushingUpLit.SolK.Inputs
 public import CFSG.CGT.PushingUpLit.SolKNA.QuatLieRanges
 public import CFSG.CGT.PushingUpLit.SolKNA.QuatLieTable3
@@ -42,7 +42,7 @@ public import CFSG.Foundations
 public import CFSG.LocalAnalysis.ComponentClassification.AschbacherTheorem3WeakClosure
 public import CFSG.RankThree.PartOne.S10.Defs
 public import CFSG.RankThree.PartTwo.KFacts.K72OmegaL2
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

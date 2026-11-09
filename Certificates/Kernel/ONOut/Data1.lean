@@ -9,7 +9,7 @@ public import Certificates.Data.Kernel.Spor.WordProg
 public section
 
 #kc_repo #kc_ktree CFSG.KD.ONOut MT1 "Certificates/Kernel/ONOut/data/mats1.bin" 5929 4 112651 7229590398262676269
-#kc_repo #kc_json_family_gz CFSG.KD.ONOut "Certificates/Kernel/ONOut/data/lists1.json.gz" 6229 2918490483332359432
+#kc_repo #kc_json_family CFSG.KD.ONOut "Certificates/Kernel/ONOut/data/lists1.json" 6229 2918490483332359432
   (PS : List Nat) (WC : List Nat)
 
 namespace CFSG.KD.ONOut

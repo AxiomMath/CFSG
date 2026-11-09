@@ -92,7 +92,7 @@ theorem checkA_spec : inJ aPt = true ∧ inCX aPt = false ∧ sqPt aPt = onePt :
 
 theorem checkCa_spec : cntC aPt = 1024 := by
   have h := (Certificates.certificate15117).2.1
-  rw [checkCa, beq_iff_eq] at h
+  rw [checkCa_def, beq_iff_eq] at h
   exact h
 
 theorem checkCx_spec : ∀ x ∈ jPts, inCX x = false → sqPt x = onePt →

@@ -66,8 +66,8 @@ theorem keyV_lt (hn : 0 < n) (k : Nat) (g : VP n) : keyV k g < n ^ k :=
   fold_lt (fun i => if _ : i < n then fd (wd n) g.1.1 i else 0)
     (fun i => by
       by_cases h : i < n
-      · rw [dif_pos h]; exact (g.2 i h).1
-      · rw [dif_neg h]; exact hn) k
+      · rw [dite_eq_left h]; exact (g.2 i h).1
+      · rw [dite_eq_right h]; exact hn) k
 
 @[expose] def Marks (N : Nat) (seen : Array Bool) (S : Nat) : Prop :=
   seen.size = N ∧ ∀ i < N, seen[i]! = S.testBit i
@@ -96,6 +96,51 @@ theorem Marks.init (N i : Nat) (hi : i < N) :
   have := h0.set hi
   rwa [Nat.zero_or] at this
 
+@[expose] def pairWitV (Q C : List (VP n)) : Bool :=
+  Q.all fun u => Q.all fun v =>
+    !dihBV u v || C.all fun c => (dihInvsV u v).any fun t => commBV c t
+
+theorem pairWit_sound {Q C : List (Equiv.Perm (Fin n))}
+    (h : pairWitV (Q.map codeV) (C.map codeV) = true) {u v : Equiv.Perm (Fin n)} (hu : u ∈ Q)
+    (hv : v ∈ Q) (huv : IsDihPair u v) : ∀ c ∈ C, ∃ t ∈ dihInvs u v, c * t = t * c := by
+  intro c hc
+  have h1 := List.all_eq_true.1 (List.all_eq_true.1 h _ (List.mem_map_of_mem hu)) _
+    (List.mem_map_of_mem hv)
+  have hd : dihBV (codeV u) (codeV v) = true := by
+    rw [← dihB_pkp, pkp_codeV, pkp_codeV]
+    exact (dihB_iff u v).2 huv
+  rw [hd, Bool.not_true, Bool.false_or] at h1
+  obtain ⟨t, ht, hct⟩ := List.any_eq_true.1 (List.all_eq_true.1 h1 _ (List.mem_map_of_mem hc))
+  refine ⟨pkp t, ?_, ?_⟩
+  · rw [← pkp_codeV u, ← pkp_codeV v, dihInvs_pkp]
+    exact List.mem_map_of_mem ht
+  · rw [← commB_pkp, tab_eq, pkp_codeV, commB_iff] at hct
+    exact hct
+
+@[expose] def pairWitsV (Q : List (VP n)) (W : List (List (VP n))) : Bool :=
+  Q.all fun u => Q.all fun v =>
+    !dihBV u v || W.any fun C => C.all fun c => (dihInvsV u v).any fun t => commBV c t
+
+theorem pairWits_sound {Q : List (Equiv.Perm (Fin n))} {W : List (List (Equiv.Perm (Fin n)))}
+    (h : pairWitsV (Q.map codeV) (W.map (List.map codeV)) = true) {u v : Equiv.Perm (Fin n)}
+    (hu : u ∈ Q) (hv : v ∈ Q) (huv : IsDihPair u v) :
+    ∃ C ∈ W, ∀ c ∈ C, ∃ t ∈ dihInvs u v, c * t = t * c := by
+  have h1 := List.all_eq_true.1 (List.all_eq_true.1 h _ (List.mem_map_of_mem hu)) _
+    (List.mem_map_of_mem hv)
+  have hd : dihBV (codeV u) (codeV v) = true := by
+    rw [← dihB_pkp, pkp_codeV, pkp_codeV]
+    exact (dihB_iff u v).2 huv
+  rw [hd, Bool.not_true, Bool.false_or] at h1
+  obtain ⟨C', hC', hall⟩ := List.any_eq_true.1 h1
+  obtain ⟨C, hC, rfl⟩ := List.mem_map.1 hC'
+  refine ⟨C, hC, fun c hc => ?_⟩
+  obtain ⟨t, ht, hct⟩ := List.any_eq_true.1 (List.all_eq_true.1 hall _ (List.mem_map_of_mem hc))
+  refine ⟨pkp t, ?_, ?_⟩
+  · rw [← pkp_codeV u, ← pkp_codeV v, dihInvs_pkp]
+    exact List.mem_map_of_mem ht
+  · rw [← commB_pkp, tab_eq, pkp_codeV, commB_iff] at hct
+    exact hct
+
 variable (hn : 0 < n) {k : Nat}
 include hn
 
@@ -113,9 +158,9 @@ theorem visit_eq (C : List (VP n)) (x : VP n) :
     simp only [visit, visitV, List.map_cons, List.foldl_cons] at ih ⊢
     rw [hk, h.get hlt]
     by_cases hb : S.testBit (keyV k (mulV x c)) = true
-    · simp only [hb, if_true]
+    · simp only [hb, ite_true]
       exact ih seen S F h
-    · simp only [hb, Bool.false_eq_true, if_false]
+    · simp only [hb, Bool.false_eq_true, ite_false]
       have e : tab (pkp x * pkp c) :: F.map pkp = (mulV x c :: F).map pkp := by
         rw [tab_eq, List.map_cons, pkp_mulV]
       rw [e]
@@ -196,7 +241,7 @@ theorem pairCheck_eq (m : Nat) (Q LP T : List (VP n)) :
     congr 1
     funext c
     exact commB_pkp c t
-  simp only [Function.comp, e, spread_map]
+  simp only [e, spread_map]
   rw [← List.map_flatMap, genCheck_eq hn]
 
 theorem pairCheck_of (m : Nat) (Q T : List (Equiv.Perm (Fin n))) (LP : List (VP n))
@@ -206,6 +251,17 @@ theorem pairCheck_of (m : Nat) (Q T : List (Equiv.Perm (Fin n))) (LP : List (VP 
     simp [List.map_map, Function.comp_def, pkp_codeV]
   rw [← e Q, ← e T, pairCheck_eq hn]
   exact h
+
+theorem search_init_eq (fuel : Nat) (C : List (VP n)) :
+    search k (C.map pkp) fuel
+        ((Array.replicate (n ^ k) false).set! (key k (1 : Equiv.Perm (Fin n))) true) [1] [1] =
+      (searchV k C fuel (1 <<< keyV k (oneV n)) [oneV n] [oneV n]).map pkp := by
+  have hm := Marks.init (n ^ k) (keyV k (oneV n)) (keyV_lt hn k (oneV n))
+  have e1 : key k (1 : Equiv.Perm (Fin n)) = keyV k (oneV n) := by rw [← pkp_oneV, key_pkp]
+  have e2 : ([1] : List (Equiv.Perm (Fin n))) = [oneV n].map pkp := by
+    rw [List.map_cons, List.map_nil, pkp_oneV]
+  rw [e1, e2]
+  exact search_eq hn C fuel _ _ _ _ hm
 
 end CFSG.Certificates.Kernel.FootePk
 

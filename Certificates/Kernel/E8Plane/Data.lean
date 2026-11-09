@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.E8Plane "Certificates/Kernel/E8Plane/data/e8plane.json.gz" 88848
+#kc_repo #kc_json CFSG.KD.E8Plane "Certificates/Kernel/E8Plane/data/e8plane.json" 88848
   7474084542991111611 (RC : List Nat) (TB : List Nat) (SC : List Nat) (SI : List Nat)
   (QW : List (List Nat)) (RW : List (List Nat)) (CJ : List (Nat × Nat × List Nat))
   (WS1 : List (List Nat)) (FM1 : Nat) (WS4 : List (List Nat)) (FM4 : Nat)

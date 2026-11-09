@@ -42,6 +42,11 @@ private theorem memSearch_get {i : ℕ} (hi : i < 5) : ((Array.range 5).map memS
   rw [getElem!_pos _ i (by simpa using hi)]
   simp
 
+private theorem map_fst_get {β γ : Type} [Inhabited β] (f : ℕ → β × γ) {i n : ℕ} (hi : i < n) :
+    (((Array.range n).map f).map (·.1))[i]! = (f i).1 := by
+  rw [getElem!_pos _ i (by simpa using hi)]
+  simp
+
 private theorem membersOK_parts {T : Array ℕ}
     (h : membersOK T ((Array.range 5).map memSearch) = true) :
     (∀ i < 5, memberOK T (((Array.range 5).map memSearch).map (·.1)) i (memSearch i) = true) ∧
@@ -52,13 +57,11 @@ private theorem membersOK_parts {T : Array ℕ}
   refine ⟨fun i hi => ?_, ?_, ?_⟩
   · have := hall i hi
     rwa [memSearch_get hi] at this
-  · have e : (((Array.range 5).map memSearch).map (·.1))[3]! = (memSearch 3).1 := by
-      rw [getElem!_pos _ 3 (by simp)]
-      simp
+  · have e : (((Array.range 5).map memSearch).map (·.1))[3]! = (memSearch 3).1 :=
+      map_fst_get memSearch (by norm_num)
     rwa [e] at h3
-  · have e : (((Array.range 5).map memSearch).map (·.1))[4]! = (memSearch 4).1 := by
-      rw [getElem!_pos _ 4 (by simp)]
-      simp
+  · have e : (((Array.range 5).map memSearch).map (·.1))[4]! = (memSearch 4).1 :=
+      map_fst_get memSearch (by norm_num)
     rwa [e] at h4
 
 private theorem memberOK_parts {T : Array ℕ} {Ls : Array (Array ℕ)} {i : ℕ}

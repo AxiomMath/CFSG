@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.TNS708601 "Certificates/Kernel/TwoNodeSmall/data/bk.json.gz"
-  12588410 8863199037434296174
+#kc_repo #kc_json CFSG.KD.TNS708601 "Certificates/Kernel/TwoNodeSmall/data/bk.json"
+  21303383 3928978857595551196
   (rk : List (List CFSG.TwoNodeSmall.ExclK.Rec)) (os : List (List CFSG.TwoNodeSmall.PosBK.ORec))
 
 namespace CFSG.KD.TNS708601

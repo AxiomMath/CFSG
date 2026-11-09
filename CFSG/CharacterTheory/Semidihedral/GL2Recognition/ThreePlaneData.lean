@@ -97,7 +97,47 @@ theorem planeMeet_steps : IsPlaneMeet 4 0 1 2 3 ∧ IsPlaneMeet 5 0 2 1 3 ∧ Is
     IsPlaneMeet 7 0 1 5 6 ∧ IsPlaneMeet 8 0 2 4 6 ∧ IsPlaneMeet 9 1 2 4 5 ∧
     IsPlaneMeet 10 2 3 5 6 ∧ IsPlaneMeet 11 1 3 4 6 ∧ IsPlaneMeet 12 0 3 4 5 := by decide
 
-theorem card_planeFrame : Fintype.card {q // IsPlaneFrame q} = 5616 := by decide +kernel
+@[expose] def planeFrameCount (a : Fin 13) : ℕ :=
+  ∑ r : Fin 13 × Fin 13 × Fin 13, if IsPlaneFrame (a, r) then 1 else 0
+
+theorem planeFrameCount_0 : planeFrameCount 0 = 432 := by decide +kernel
+
+theorem planeFrameCount_1 : planeFrameCount 1 = 432 := by decide +kernel
+
+theorem planeFrameCount_2 : planeFrameCount 2 = 432 := by decide +kernel
+
+theorem planeFrameCount_3 : planeFrameCount 3 = 432 := by decide +kernel
+
+theorem planeFrameCount_4 : planeFrameCount 4 = 432 := by decide +kernel
+
+theorem planeFrameCount_5 : planeFrameCount 5 = 432 := by decide +kernel
+
+theorem planeFrameCount_6 : planeFrameCount 6 = 432 := by decide +kernel
+
+theorem planeFrameCount_7 : planeFrameCount 7 = 432 := by decide +kernel
+
+theorem planeFrameCount_8 : planeFrameCount 8 = 432 := by decide +kernel
+
+theorem planeFrameCount_9 : planeFrameCount 9 = 432 := by decide +kernel
+
+theorem planeFrameCount_10 : planeFrameCount 10 = 432 := by decide +kernel
+
+theorem planeFrameCount_11 : planeFrameCount 11 = 432 := by decide +kernel
+
+theorem planeFrameCount_12 : planeFrameCount 12 = 432 := by decide +kernel
+
+theorem planeFrameCount_eq (a : Fin 13) : planeFrameCount a = 432 := by
+  fin_cases a
+  exacts [planeFrameCount_0, planeFrameCount_1, planeFrameCount_2, planeFrameCount_3,
+    planeFrameCount_4, planeFrameCount_5, planeFrameCount_6, planeFrameCount_7,
+    planeFrameCount_8, planeFrameCount_9, planeFrameCount_10, planeFrameCount_11,
+    planeFrameCount_12]
+
+theorem card_planeFrame : Fintype.card {q // IsPlaneFrame q} = 5616 := by
+  rw [Fintype.card_subtype, Finset.card_filter, Fintype.sum_prod_type]
+  change ∑ a, planeFrameCount a = 5616
+  simp only [planeFrameCount_eq, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
+    smul_eq_mul]
 
 theorem isPlaneFrame_standard : IsPlaneFrame (0, 1, 2, 3) := by decide
 

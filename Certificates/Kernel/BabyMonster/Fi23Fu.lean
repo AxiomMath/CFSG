@@ -433,10 +433,27 @@ theorem good_K : Good φB Fu.Kc ∧ Good φB Fu.Kd := by
   have Wy := good_mul t6 (.cons t9 (.cons t6 (.cons Vi (.cons tU (.cons t9 (.cons t3
     (.cons t0 (.cons Vi (.cons t5 (.cons t0 .nil))))))))))
     (by bm_strips2_4 CFSG.KC.BM.Fu.cWy 69) Fu.wf_Wy
-  have w := good_mul q0 (.cons m5 (.cons m4 (.cons q2 (.cons q1 (.cons q2 (.cons q6 (.cons q14
-    (.cons m5 (.cons q2 (.cons q4 (.cons q3 (.cons q4 (.cons q2 (.cons q2 (.cons q5 (.cons q1
-    (.cons q1 (.cons q14 (.cons q15 (.cons q5 (.cons q15 .nil)))))))))))))))))))))
-    (by bm_strips2_4 CFSG.KC.BM.Fu.cw 69) Fu.wf_w
+  have w2 := good_mul q0 (.cons m5 (.cons m4 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cw 69) Fu.wf_fws2
+  have w4 := good_mul w2 (.cons q2 (.cons q1 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws4 69) Fu.wf_fws4
+  have w6 := good_mul w4 (.cons q2 (.cons q6 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws6 69) Fu.wf_fws6
+  have w8 := good_mul w6 (.cons q14 (.cons m5 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws8 69) Fu.wf_fws8
+  have w10 := good_mul w8 (.cons q2 (.cons q4 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws10 69) Fu.wf_fws10
+  have w12 := good_mul w10 (.cons q3 (.cons q4 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws12 69) Fu.wf_fws12
+  have w14 := good_mul w12 (.cons q2 (.cons q2 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws14 69) Fu.wf_fws14
+  have w16 := good_mul w14 (.cons q5 (.cons q1 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws16 69) Fu.wf_fws16
+  have w18 := good_mul w16 (.cons q1 (.cons q14 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws18 69) Fu.wf_fws18
+  have w20 := good_mul w18 (.cons q15 (.cons q5 .nil))
+    (by bm_strips2_4 CFSG.KC.BM.Fu.cfws20 69) Fu.wf_fws20
+  have w := good_mul w20 (.cons q15 .nil) (by bm_strips2_4 CFSG.KC.BM.Fu.cfws21 69) Fu.wf_w
   have e12 := good_mul1 t1 t2 (by bm_strips2 CFSG.KC.BM.Fi23R.ce12 69) Fi23R.wf_e12
   have e34 := good_mul1 t3 t4 (by bm_strips2 CFSG.KC.BM.Fi23R.ce34 69) Fi23R.wf_e34
   have e78 := good_mul1 t7 t8 (by bm_strips2 CFSG.KC.BM.Fi23R.ce78 69) Fi23R.wf_e78

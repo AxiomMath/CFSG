@@ -217,6 +217,19 @@ theorem inv_of_mul {x : Γ} {M : Matrix (Fin 133) (Fin 133) (ZMod 5)} (h : ρ x 
   calc ρ x⁻¹ = ρ x⁻¹ * (ρ x * M) := by rw [h, mul_one]
     _ = M := by rw [← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
 
+theorem regOK_init {A B Bi : Nat} (cA : Canon 5 133 13 A) (cB : Canon 5 133 13 B)
+    (cBi : Canon 5 133 13 Bi) {a b : Γ} (ea : ρ a = OM A) (eb : ρ b = OM B)
+    (ia : ρ a⁻¹ = OM A) (ib : ρ b⁻¹ = OM Bi) : RegOK ρ (initM ONE A B Bi) (initRegs a b) := by
+  obtain ⟨c1, e1⟩ := one_sound hc
+  refine ⟨rfl, fun r hr => ?_⟩
+  have one_ok : Canon 5 133 13 ONE ∧ Canon 5 133 13 ONE ∧ OM ONE = ρ 1 ∧ OM ONE = ρ 1⁻¹ :=
+    ⟨c1, c1, by rw [map_one]; exact e1, by rw [inv_one, map_one]; exact e1⟩
+  interval_cases r
+  · exact one_ok
+  · exact ⟨cA, cA, ea.symm, ia.symm⟩
+  · exact ⟨cB, cBi, eb.symm, ib.symm⟩
+  all_goals exact one_ok
+
 theorem progK_sound {A B : Nat} (cA : Canon 5 133 13 A) (cB : Canon 5 133 13 B) {a b : Γ}
     (ea : ρ a = OM A) (eb : ρ b = OM B) {prog : List Instr} {regs : List Nat}
     (hlt : prog.all (Instr.lt 14) = true) (hp : prog.all (fun ins => !isPwr ins) = true)
@@ -230,7 +243,7 @@ theorem progK_sound {A B : Nat} (cA : Canon 5 133 13 A) (cB : Canon 5 133 13 B) 
   obtain ⟨hBB, h⟩ := andB_true h
   obtain ⟨c1, e1⟩ := one_sound hc
   obtain ⟨cBi, eBi⟩ := mul_sound hc cB cB
-  set Bi := mulR 5 13 1729 133 9 L H CM RM B B with hBi
+  generalize mulR 5 13 1729 133 9 L H CM RM B B = Bi at cBi eBi hBB h
   have eA2 : OM A * OM A = 1 := by
     rw [← (mul_sound hc cA cA).2, Nat.eq_of_beq_eq_true hAA]
     exact e1
@@ -239,15 +252,7 @@ theorem progK_sound {A B : Nat} (cA : Canon 5 133 13 A) (cB : Canon 5 133 13 B) 
     exact e1
   have ia : ρ a⁻¹ = OM A := inv_of_mul ρ (by rw [ea, eA2])
   have ib : ρ b⁻¹ = OM Bi := inv_of_mul ρ (by rw [eb, eB3])
-  have h0 : RegOK ρ (initM ONE A B Bi) (initRegs a b) := by
-    refine ⟨rfl, fun r hr => ?_⟩
-    have one_ok : Canon 5 133 13 ONE ∧ Canon 5 133 13 ONE ∧ OM ONE = ρ 1 ∧ OM ONE = ρ 1⁻¹ :=
-      ⟨c1, c1, by rw [map_one]; exact e1, by rw [inv_one, map_one]; exact e1⟩
-    interval_cases r
-    · exact one_ok
-    · exact ⟨cA, cA, ea.symm, ia.symm⟩
-    · exact ⟨cB, cBi, eb.symm, ib.symm⟩
-    all_goals exact one_ok
+  have h0 := regOK_init hc ρ cA cB cBi ea eb ia ib
   obtain ⟨R, ⟨-, hR⟩, hk⟩ := runM_sound hc ρ prog _ _ _ hlt hp h0 h
   obtain ⟨h22, hk⟩ := andB_true hk
   obtain ⟨h23, hk⟩ := andB_true hk

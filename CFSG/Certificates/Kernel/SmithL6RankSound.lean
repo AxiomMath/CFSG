@@ -68,9 +68,129 @@ theorem countP_range_getElem! {α : Type} [Inhabited α] (l : List α) (g : α �
   rw [List.countP_map]
   rfl
 
+@[expose] def countMN (M N : Nat) : Nat :=
+  tvList.toList.countP fun p => M.testBit p.1 && N.testBit p.2
+
+theorem par_xorP (x y : Nat) : par (x ^^^ y) = (par x ^^ par y) := by
+  simp only [par, List.range_succ, List.range_zero, List.nil_append, List.foldl_cons,
+    List.foldl_nil, List.foldl_append, Nat.testBit_xor, Bool.false_xor]
+  simp only [Bool.xor_assoc, Bool.xor_left_comm]
+
+theorem form_xor (φ x y : Nat) : form φ (x ^^^ y) = (form φ x ^^ form φ y) := by
+  unfold form
+  rw [Nat.and_xor_distrib_left, par_xorP]
+
+theorem form_zeroP (φ : Nat) : form φ 0 = false := by
+  unfold form
+  rw [Nat.and_zero]
+  rfl
+
+theorem testBit_foldl_orP (g : Nat → Nat) (n : Nat) :
+    ∀ (l : List Nat) (acc : Nat), (l.foldl (fun acc d => acc ||| 2 ^ g d) acc).testBit n =
+      (acc.testBit n || l.any fun d => g d == n)
+  | [], acc => by simp
+  | d :: l, acc => by
+    rw [List.foldl_cons, testBit_foldl_orP g n l, Nat.testBit_or, Nat.testBit_two_pow,
+      List.any_cons, Bool.or_assoc]
+    congr 2
+
+theorem testBit_foldl_if (P : Nat → Bool) (n : Nat) :
+    ∀ (l : List Nat) (acc : Nat),
+      (l.foldl (fun acc φ => if P φ then acc ||| 2 ^ φ else acc) acc).testBit n =
+        (acc.testBit n || l.any fun φ => P φ && φ == n)
+  | [], acc => by simp
+  | d :: l, acc => by
+    rw [List.foldl_cons, testBit_foldl_if P n l, List.any_cons]
+    cases hP : P d
+    · simp
+    · simp only [↓reduceIte]
+      rw [Nat.testBit_or, Nat.testBit_two_pow, Bool.or_assoc, Bool.true_and]
+      congr 2
+
+theorem form_of_mem (i v φ : Nat) (hv : (wMask i).testBit v = true)
+    (hφ : (annK i).testBit φ = true) : form φ v = false := by
+  unfold wMask annK at *
+  generalize wB i = W at hv hφ
+  obtain ⟨a, b, c⟩ := W
+  simp only [spanMask] at hv
+  simp only [annMaskOf] at hφ
+  rw [testBit_foldl_orP, Nat.zero_testBit, Bool.false_or, List.any_eq_true] at hv
+  rw [testBit_foldl_if, Nat.zero_testBit, Bool.false_or, List.any_eq_true] at hφ
+  obtain ⟨d, -, hd⟩ := hv
+  obtain ⟨ψ, -, hψ⟩ := hφ
+  simp only [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq] at hψ
+  obtain ⟨⟨⟨ha, hb⟩, hc⟩, rfl⟩ := hψ
+  rw [← beq_iff_eq.mp hd, form_xor, form_xor]
+  cases d.testBit 0 <;> cases d.testBit 1 <;> cases d.testBit 2 <;>
+    simp [ha, hb, hc, form_zeroP]
+
+theorem countP_range_mul (f g : Nat → Bool) : ∀ a : Nat,
+    (List.range (a * 64)).countP (fun n => f (n / 64) && g (n % 64)) =
+      (List.range a).countP f * (List.range 64).countP g
+  | 0 => by simp
+  | a + 1 => by
+    rw [Nat.succ_mul, List.range_add, List.countP_append, countP_range_mul f g a, List.countP_map,
+      List.range_succ (n := a), List.countP_append]
+    have e : (List.range 64).countP ((fun n => f (n / 64) && g (n % 64)) ∘ (a * 64 + ·)) =
+        (List.range 64).countP (fun k => f a && g k) := by
+      refine List.countP_congr fun k hk => ?_
+      have hk := List.mem_range.mp hk
+      have e1 : (a * 64 + k) / 64 = a := by omega
+      have e2 : (a * 64 + k) % 64 = k := by omega
+      simp only [Function.comp_apply, e1, e2]
+    rw [e]
+    cases h : f a <;> simp [h, Nat.add_mul]
+
+theorem popKP_eq : ∀ (k m : Nat), popKP k m = (List.range k).countP fun v => m.testBit v
+  | 0, _ => rfl
+  | k + 1, m => by
+    rw [popKP, popKP_eq k (m / 2), List.range_succ_eq_map, List.countP_cons, List.countP_map]
+    have e : ((fun v => m.testBit v) ∘ Nat.succ) = fun v => (m / 2).testBit v :=
+      funext fun v => Nat.testBit_succ m v
+    rw [e, Nat.testBit_zero]
+    rcases Nat.mod_two_eq_zero_or_one m with h | h <;> simp [h] <;> omega
+
+theorem cnt64_eq (M : Nat) :
+    cnt64 M = (List.range 64).countP fun v => v != 0 && M.testBit v := by
+  rw [cnt64, popKP_eq, List.range_succ_eq_map (n := 63), List.countP_cons, List.countP_map]
+  have e : ((fun v => v != 0 && M.testBit v) ∘ Nat.succ) = fun v => (M / 2).testBit v :=
+    funext fun v => by simp [Nat.testBit_succ]
+  rw [e]
+  rfl
+
+theorem countMNP_eq {i M N : Nat} (hM : ∀ v, M.testBit v = true → (wMask i).testBit v = true)
+    (hN : ∀ φ, N.testBit φ = true → (annK i).testBit φ = true) :
+    countMN M N = cnt64 M * cnt64 N := by
+  rw [cnt64_eq, cnt64_eq]
+  unfold countMN
+  have h4 : (4096 : Nat) = 64 * 64 := rfl
+  rw [tvList, List.toList_toArray, List.countP_filterMap, h4, ← countP_range_mul]
+  refine List.countP_congr fun n _ => ?_
+  dsimp only
+  by_cases hv : n / 64 = 0
+  · simp [hv]
+  by_cases hφ : n % 64 = 0
+  · simp [hφ]
+  cases hMv : M.testBit (n / 64) <;> cases hNφ : N.testBit (n % 64)
+  · cases form (n % 64) (n / 64) <;> simp [hv, hφ, hMv, hNφ]
+  · cases form (n % 64) (n / 64) <;> simp [hv, hφ, hMv, hNφ]
+  · cases form (n % 64) (n / 64) <;> simp [hv, hφ, hMv, hNφ]
+  · have hf := form_of_mem i _ _ (hM _ hMv) (hN _ hNφ)
+    simp [hv, hφ, hMv, hNφ, hf]
+
+theorem meetCardK_eq (i j : Nat) :
+    meetCardK i j = countMN (wMask i &&& wMask j) (annK i &&& annK j) := by
+  unfold meetCardK
+  refine (countMNP_eq (i := i) (fun v hv => ?_) (fun φ hφ => ?_)).symm
+  · rw [Nat.testBit_and, Bool.and_eq_true] at hv
+    exact hv.1
+  · rw [Nat.testBit_and, Bool.and_eq_true] at hφ
+    exact hφ.1
+
 theorem meetCard_eq {i j : Nat} (hi : i < 1395) (hj : j < 1395) :
     meetCard i j = meetCardK i j := by
-  unfold meetCard meetCardK countMN
+  rw [meetCardK_eq]
+  unfold meetCard countMN
   rw [planePtsArr_get hi]
   unfold planePts
   rw [← Array.countP_toList, List.toList_toArray, List.countP_filter]

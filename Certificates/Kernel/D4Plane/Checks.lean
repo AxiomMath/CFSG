@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.D4Plane "Certificates/Kernel/D4Plane/data/d4plane.json.gz" 14146
+#kc_repo #kc_json CFSG.KD.D4Plane "Certificates/Kernel/D4Plane/data/d4plane.json" 14146
   4444949420986295314 (ls : List Nat) (es : List Nat) (om : List Nat) (ps : List (List Nat))
 
 namespace CFSG.KD.D4Plane

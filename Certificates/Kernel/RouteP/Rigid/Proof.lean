@@ -14,6 +14,195 @@ open CFSG.KC.RouteP CFSG.KD.RouteP CFSG.KS.RouteP CFSG.KS.PK CFSG.Sporadic.Th.Na
   CFSG.Perm.Native CFSG.EvenSporadicStandard.TwoFi22.DS81.RouteP.Model.Native
   CFSG.EvenSporadicStandard.TwoFi22.DS81.RouteP.Rigid.Native
 
+theorem bit_test (m q : Nat) : Nat.blt 0 (Nat.land m (Nat.shiftLeft 1 q)) = m.testBit q := by
+  rw [Nat.land_eq, Nat.shiftLeft_eq', Nat.shiftLeft_eq, Nat.one_mul, Nat.and_two_pow]
+  cases m.testBit q
+  · simp only [Bool.toNat_false, Nat.zero_mul]
+    rfl
+  · simp only [Bool.toNat_true, Nat.one_mul]
+    exact Nat.blt_eq.mpr (Nat.two_pow_pos q)
+
+theorem testBit_lor_bit (m x q : Nat) :
+    (Nat.lor m (Nat.shiftLeft 1 x)).testBit q = (m.testBit q || decide (q = x)) := by
+  rw [Nat.lor_eq, Nat.testBit_or, Nat.shiftLeft_eq', Nat.shiftLeft_eq, Nat.one_mul,
+    Nat.testBit_two_pow]
+  cases m.testBit q <;> simp [eq_comm]
+
+theorem rgSnoc_eq (x : Nat) : ∀ l : List Nat, rgSnoc l x = l ++ [x]
+  | [] => rfl
+  | a :: l => congrArg (a :: ·) (rgSnoc_eq x l)
+
+theorem rgLen_eq : ∀ l : List Nat, rgLen l = l.length
+  | [] => rfl
+  | _ :: l => congrArg Nat.succ (rgLen_eq l)
+
+theorem rgFold_eq {β : Type} (f : β → Nat → β) : ∀ (l : List Nat) (b : β), rgFold f l b = l.foldl f b
+  | [], _ => rfl
+  | x :: l, b => rgFold_eq f l (f b x)
+
+theorem getK_eq : ∀ (l : List Nat) (k : Nat), getK l k = l.getD k 0
+  | [], _ => rfl
+  | _ :: _, 0 => rfl
+  | _ :: xs, k + 1 => by
+    change getK xs k = _
+    rw [getK_eq xs k]
+    rfl
+
+def MaskOK (st : BS × Nat) : Prop := ∀ q, st.2.testBit q = decide (q ∈ st.1.pts)
+
+theorem letterM_ok (F : Nat → Nat → Nat) (h p l : Nat) {st : BS × Nat} (hs : MaskOK st) :
+    MaskOK (letterM F h p st l) ∧ (letterM F h p st l).1 = BS.letter F h p st.1 l := by
+  unfold letterM BS.letter
+  simp only [rgSnoc_eq]
+  rw [bit_test, hs]
+  by_cases hm : F l p ∈ st.1.pts
+  · rw [decide_eq_true hm, if_pos hm]
+    exact ⟨hs, rfl⟩
+  · rw [decide_eq_false hm, if_neg hm]
+    refine ⟨fun q => ?_, rfl⟩
+    change (Nat.lor st.2 (Nat.shiftLeft 1 (F l p))).testBit q = decide (q ∈ st.1.pts ++ [F l p])
+    rw [testBit_lor_bit, hs]
+    by_cases hq : q = F l p
+    · subst hq
+      simp
+    · simp [hq, List.mem_append]
+
+theorem foldl_letterM_ok (F : Nat → Nat → Nat) (h p : Nat) :
+    ∀ (lv : List Nat) (st : BS × Nat), MaskOK st →
+      MaskOK (lv.foldl (letterM F h p) st) ∧
+        (lv.foldl (letterM F h p) st).1 = lv.foldl (BS.letter F h p) st.1
+  | [], _, hs => ⟨hs, rfl⟩
+  | l :: lv, st, hs => by
+    obtain ⟨h1, h2⟩ := letterM_ok F h p l hs
+    obtain ⟨h3, h4⟩ := foldl_letterM_ok F h p lv _ h1
+    exact ⟨h3, by rw [List.foldl_cons, List.foldl_cons, h4, h2]⟩
+
+theorem stepM_ok (F : Nat → Nat → Nat) (lv : List Nat) (h : Nat) {st : BS × Nat}
+    (hs : MaskOK st) : MaskOK (stepM F lv st h) ∧ (stepM F lv st h).1 = BS.step F lv st.1 h := by
+  unfold stepM BS.step
+  rw [rgFold_eq, getK_eq, rgLen_eq]
+  by_cases hh : h < st.1.pts.length
+  · rw [(Nat.blt_eq.mpr hh : Nat.blt h st.1.pts.length = true), if_pos hh]
+    exact foldl_letterM_ok F h _ lv st hs
+  · rw [(Bool.eq_false_iff.mpr fun e => hh (Nat.blt_eq.mp e) :
+      Nat.blt h st.1.pts.length = false), if_neg hh]
+    exact ⟨hs, rfl⟩
+
+theorem foldl_stepM_ok (F : Nat → Nat → Nat) (lv : List Nat) :
+    ∀ (hs : List Nat) (st : BS × Nat), MaskOK st →
+      MaskOK (hs.foldl (stepM F lv) st) ∧
+        (hs.foldl (stepM F lv) st).1 = hs.foldl (BS.step F lv) st.1
+  | [], _, hs => ⟨hs, rfl⟩
+  | h :: hs, st, hst => by
+    obtain ⟨h1, h2⟩ := stepM_ok F lv h hst
+    obtain ⟨h3, h4⟩ := foldl_stepM_ok F lv hs _ h1
+    exact ⟨h3, by rw [List.foldl_cons, List.foldl_cons, h4, h2]⟩
+
+theorem runM_ok (F : Nat → Nat → Nat) (lv : List Nat) (n r : Nat) :
+    MaskOK (runM F lv n r) ∧ (runM F lv n r).1 = BS.run F lv n r := by
+  have h0 : MaskOK ((⟨[r], [0], [0]⟩ : BS), Nat.shiftLeft 1 r) := by
+    intro q
+    change (Nat.shiftLeft 1 r).testBit q = decide (q ∈ [r])
+    rw [Nat.shiftLeft_eq', Nat.shiftLeft_eq, Nat.one_mul, Nat.testBit_two_pow]
+    simp [eq_comm]
+  unfold runM
+  rw [rgFold_eq]
+  exact foldl_stepM_ok F lv (List.range n) _ h0
+
+theorem runM_fst (F : Nat → Nat → Nat) (lv : List Nat) (n r : Nat) :
+    (runM F lv n r).1 = BS.run F lv n r := (runM_ok F lv n r).2
+
+theorem rgRunK_eq (r : Nat) : rgRunK r = rgRun r := by
+  rw [rgRunK, rgRun]
+  exact runM_fst PGF (List.range 13) 891 r
+
+theorem cover_of_mask {a b c d n v : Nat}
+    (h : Nat.beq (Nat.lor (Nat.lor a b) (Nat.lor c d)) (Nat.sub (Nat.shiftLeft 1 n) 1) = true)
+    (hv : v < n) : ((a.testBit v || b.testBit v) || (c.testBit v || d.testBit v)) = true := by
+  have hb := congrArg (fun x => Nat.testBit x v) (Nat.eq_of_beq_eq_true h)
+  simp only [Nat.lor_eq, Nat.testBit_or, Nat.shiftLeft_eq', Nat.shiftLeft_eq, Nat.one_mul,
+    Nat.sub_eq, Nat.testBit_two_pow_sub_one, hv, decide_true] at hb
+  exact hb
+
+theorem rgRunsK_eq : rgRunsK = rgRuns := by
+  simp only [rgRunsK, rgRuns, rgRunK_eq]
+
+theorem idxK_eq (y : Nat) : ∀ (l : List Nat), idxK y l = l.idxOf y
+  | [] => rfl
+  | x :: xs => by
+    change Bool.rec (motive := fun _ => Nat) (Nat.succ (idxK y xs)) 0 (Nat.beq x y) = _
+    rw [List.idxOf_cons, idxK_eq y xs]
+    by_cases h : x = y
+    · subst h
+      simp
+    · have hb : Nat.beq x y = false := by
+        cases e : Nat.beq x y
+        · rfl
+        · exact absurd (Nat.eq_of_beq_eq_true e) h
+      rw [hb]
+      simp [h]
+
+theorem propLFK_eq (F : Nat → Nat → Nat) (s : BS) (c : Nat) :
+    ∀ f k, propLFK F s c f k = propLF F s c f k
+  | 0, _ => rfl
+  | f + 1, k => by
+    change Bool.rec (motive := fun _ => Nat) c (F (getK s.lab k) (propLFK F s c f (getK s.par k)))
+      (Bool.and (Nat.blt 0 k) (Nat.blt (getK s.par k) k)) = _
+    rw [propLF, getK_eq, getK_eq, propLFK_eq F s c f]
+    by_cases h : 0 < k ∧ s.par.getD k 0 < k
+    · rw [if_pos h, (Nat.blt_eq.mpr h.1 : Nat.blt 0 k = true),
+        (Nat.blt_eq.mpr h.2 : Nat.blt (s.par.getD k 0) k = true)]
+      rfl
+    · rw [if_neg h]
+      have hb : Bool.and (Nat.blt 0 k) (Nat.blt (s.par.getD k 0) k) = false := by
+        cases h1 : Nat.blt 0 k <;> cases h2 : Nat.blt (s.par.getD k 0) k
+        · rfl
+        · rfl
+        · rfl
+        · exact absurd ⟨Nat.blt_eq.mp h1, Nat.blt_eq.mp h2⟩ h
+      rw [hb]
+
+theorem candTwK_eq (F : Nat → Nat → Nat) (m : Nat) (s : BS) : candTwK F m s = candTw F m s := by
+  funext c
+  simp only [candTwK, candTw, propL, getK_eq, idxK_eq, propLFK_eq]
+
+theorem rgMask_bit (r q : Nat) : (rgMask r).testBit q = decide (q ∈ (rgRun r).pts) := by
+  rw [rgMask, (runM_ok _ _ _ _).1 q, runM_fst]
+  rfl
+
+def ObOK (st' : Nat × List BS) (st : List Nat × List BS) : Prop :=
+  (∀ q, st'.1.testBit q = decide (q ∈ st.1)) ∧ st'.2 = st.2
+
+theorem foldl_obStep_ok (F : Nat → Nat → Nat) (m n : Nat) :
+    ∀ (rs : List Nat) (st' : Nat × List BS) (st : List Nat × List BS), ObOK st' st →
+      ObOK (rs.foldl (obStep F m n) st') (rs.foldl (fun st r => if st.1.contains r then st else
+        (st.1 ++ (BS.run F (List.range m) n r).pts, st.2 ++ [BS.run F (List.range m) n r])) st)
+  | [], _, _, h => h
+  | r :: rs, st', st, h => by
+    rw [List.foldl_cons, List.foldl_cons]
+    apply foldl_obStep_ok F m n rs
+    unfold obStep
+    rw [bit_test, h.1 r]
+    by_cases hr : r ∈ st.1
+    · have hc : st.1.contains r = true := List.contains_iff_mem.mpr hr
+      simp only [hr, decide_true, hc, if_true]
+      exact h
+    · have hc : st.1.contains r = false := by
+        cases e : st.1.contains r
+        · rfl
+        · exact absurd (List.contains_iff_mem.mp e) hr
+      simp only [hr, decide_false, hc]
+      obtain ⟨hm, hp⟩ := runM_ok F (List.range m) n r
+      refine ⟨fun q => ?_, ?_⟩
+      · rw [Nat.lor_eq, Nat.testBit_or, h.1 q, hm q, hp]
+        simp [List.mem_append]
+      · rw [h.2, hp]
+        rfl
+
+theorem orbitBSM_eq (F : Nat → Nat → Nat) (m n : Nat) : orbitBSM F m n = orbitBS F m n := by
+  unfold orbitBSM orbitBS
+  exact (foldl_obStep_ok F m n (List.range n) _ _ ⟨fun q => by simp, rfl⟩).2
+
 theorem rg_parts :
     (orbitBS PGF 13 891).map (fun s => s.pts.headD 0) = [0, 1, 12, 159] ∧
     rgRuns.map (fun s => s.pts.length) = [1, 336, 512, 42] ∧
@@ -24,14 +213,31 @@ theorem rg_parts :
     (rgRun 159).pts.tail.filter (candTw PGF 13 (rgRun 159)) = [590] ∧
     interK (combinedTw PGF rgRuns [0, 1, 12, 590] 1) (combinedTw PGF rgRuns [0, 1, 12, 590] 588) ≠
       interK 1 588 ∧
-    ∀ s < 13, nodupB ((List.range 891).map (PGE s)) = true := by
-  have h := rgAll_true
-  unfold rgAll at h
-  simp only [Bool.and_eq_true, beq_iff_eq, bne_iff_ne, ne_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩ := h
-  refine ⟨h1, h2, fun v hv => ?_, h4, h5, h6, h7, h8, fun s hs => ball_range h9 s hs⟩
-  obtain ⟨s, hs, hc⟩ := List.any_eq_true.1 (ball_range h3 v hv)
-  exact ⟨s, hs, by simpa using hc⟩
+    ∀ s < 13, nodupM ((List.range 891).map (PGE s)) 0 = true := by
+  have h1 := rg_roots
+  have h2 := rg_sizes
+  have h3 := rg_cover
+  have h4 := rg_root0
+  have h5 := rg_cand1
+  have h6 := rg_cand12
+  have h7 := rg_cand159
+  have h8 := rg_sep
+  rw [orbitBSM_eq] at h1
+  rw [rgRunsK_eq] at h2 h8
+  rw [candTwK_eq] at h5 h6 h7
+  rw [rgRunK_eq] at h4 h5 h6 h7
+  refine ⟨beq_iff_eq.1 h1, beq_iff_eq.1 h2, fun v hv => ?_, beq_iff_eq.1 h4,
+    beq_iff_eq.1 h5, beq_iff_eq.1 h6, beq_iff_eq.1 h7, bne_iff_ne.1 h8,
+    fun s hs => ball_range rg_nodup s hs⟩
+  have hb := cover_of_mask h3 hv
+  simp only [rgMask_bit, Bool.or_eq_true, decide_eq_true_eq] at hb
+  unfold rgRuns
+  rcases hb with (hb | hb) | (hb | hb)
+  · exact ⟨_, List.mem_cons_self, hb⟩
+  · exact ⟨_, List.mem_cons_of_mem _ List.mem_cons_self, hb⟩
+  · exact ⟨_, List.mem_cons_of_mem _ (List.mem_cons_of_mem _ List.mem_cons_self), hb⟩
+  · exact ⟨_, List.mem_cons_of_mem _ (List.mem_cons_of_mem _ (List.mem_cons_of_mem _
+      List.mem_cons_self)), hb⟩
 
 theorem planeDTabs_get : (planeDTabs ()).size = 13 ∧ ∀ s < 13, ((planeDTabs ())[s]!).size = 891 ∧
     ∀ i < 891, ((planeDTabs ())[s]!)[i]! = PGE s i := by
@@ -143,19 +349,37 @@ theorem mem_rgRuns {s : BS} (hs : s ∈ rgRuns) : ∃ r, r < 891 ∧ s = rgRun r
   · exact ⟨12, by decide, h⟩
   · exact ⟨159, by decide, h⟩
 
-theorem nodupB_nodup : ∀ {l : List Nat}, nodupB l = true → l.Nodup
-  | [], _ => List.nodup_nil
-  | x :: xs, h => by
-    unfold nodupB at h
-    rw [Bool.and_eq_true, Bool.not_eq_true'] at h
-    refine List.nodup_cons.2 ⟨fun hx => ?_, nodupB_nodup h.2⟩
-    have hc : xs.contains x = true := List.contains_iff_mem.mpr hx
-    rw [h.1] at hc
-    exact Bool.false_ne_true hc
+theorem nodupM_spec : ∀ (l : List Nat) (m : Nat), nodupM l m = true →
+    l.Nodup ∧ ∀ x ∈ l, m.testBit x = false
+  | [], _, _ => ⟨List.nodup_nil, fun _ hx => absurd hx List.not_mem_nil⟩
+  | x :: xs, m, h => by
+    have h' : Bool.rec false (nodupM xs (Nat.lor m (Nat.shiftLeft 1 x)))
+        (Nat.beq (Nat.land (Nat.shiftRight m x) 1) 0) = true := h
+    cases hb : Nat.beq (Nat.land (Nat.shiftRight m x) 1) 0
+    · rw [hb] at h'
+      exact absurd h' Bool.false_ne_true
+    · rw [hb] at h'
+      obtain ⟨hnd, hm⟩ := nodupM_spec xs _ h'
+      have bit : ∀ y, (Nat.lor m (Nat.shiftLeft 1 x)).testBit y = (m.testBit y || decide (y = x)) :=
+        fun y => testBit_lor_bit m x y
+      have hx : m.testBit x = false := by
+        have e := Nat.eq_of_beq_eq_true hb
+        rw [Nat.land_eq, Nat.shiftRight_eq', Nat.shiftRight_eq_div_pow, Nat.and_one_is_mod] at e
+        rw [Nat.testBit_eq_decide_div_mod_eq, e]
+        decide
+      refine ⟨List.nodup_cons.2 ⟨fun hmem => ?_, hnd⟩, fun y hy => ?_⟩
+      · have := hm x hmem
+        rw [bit] at this
+        simp at this
+      · rcases List.mem_cons.1 hy with rfl | hy
+        · exact hx
+        · have := hm y hy
+          rw [bit, Bool.or_eq_false_iff] at this
+          exact this.1
 
 theorem pge_inj {s : Nat} (hs : s < 13) {i j : Nat} (hi : i < 891) (hj : j < 891)
     (e : PGE s i = PGE s j) : i = j := by
-  have hnd := nodupB_nodup (rg_parts.2.2.2.2.2.2.2.2 s hs)
+  have hnd := (nodupM_spec _ 0 (rg_parts.2.2.2.2.2.2.2.2 s hs)).1
   exact List.inj_on_of_nodup_map hnd (List.mem_range.2 hi) (List.mem_range.2 hj) e
 
 theorem tables_toNat {l : Nat} (hl : l < 13) {j : Nat} (hj : j < 891) :

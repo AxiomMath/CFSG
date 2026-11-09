@@ -168,6 +168,62 @@ private theorem ptK_succ (x : Nat) {m : Nat} (h1 : 1 ≤ m) (h2 : m ≤ 4124) :
   simp only [ptK, show m' + 1 ≠ 0 by omega, ↓reduceIte, CFSG.KS.PF.strictN_eqP]
   rw [ptK_fuel x (par (m' + 1)) (by omega) m' (par (m' + 1)) (by omega) le_rfl]
 
+private theorem setC_succ {m : Nat} (h1 : 1 ≤ m) (h2 : m ≤ 4124) :
+    setC m = (setC (par m)).map (imgK (HX (gen m))) := by
+  rw [setC, setC, List.map_map]
+  exact List.map_congr_left fun x _ => ptK_succ x h1 h2
+
+private theorem s9Eq_spec {X b c : Nat} (h : s9Eq X b c = true) :
+    s9Dec b = (s9Dec c).map (imgK X) := by
+  simp only [s9Eq, Bool.and_eq_true, beq_iff_eq, and_assoc] at h
+  simp only [s9Dec, List.map_cons, List.map_nil, List.cons.injEq, and_true]
+  exact h
+
+private theorem s9Lt_spec (b : Nat) : s9Lt b = (s9Dec b).all (· < 3850) := by
+  simp only [s9Lt, s9Dec, List.all_cons, List.all_nil, Bool.and_true, Bool.and_assoc]
+
+private theorem s9MaskN_eq (b : Nat) : s9MaskN b = s9Mask (s9Dec b) := rfl
+
+private theorem s9Step_one {m : Nat} (h1 : 1 ≤ m) (h2 : m ≤ 4124) : s9Step m = 1 := by
+  have key : ∀ s n, ((List.range' s n).all fun k => s9Step k == 1) = true → s ≤ m →
+      m < s + n → s9Step m = 1 := fun s n h hs hm => by
+    have := List.all_eq_true.1 h m (List.mem_range'_1.2 ⟨hs, hm⟩)
+    simpa using this
+  by_cases a : m < 689
+  · exact key 1 688 kSets0 h1 (by omega)
+  by_cases b : m < 1377
+  · exact key 689 688 kSets1 (by omega) (by omega)
+  by_cases c : m < 2065
+  · exact key 1377 688 kSets2 (by omega) (by omega)
+  by_cases d : m < 2753
+  · exact key 2065 688 kSets3 (by omega) (by omega)
+  by_cases e : m < 3441
+  · exact key 2753 688 kSets4 (by omega) (by omega)
+  exact key 3441 684 kSets5 (by omega) (by omega)
+
+private theorem s9Set_step {m : Nat} (h1 : 1 ≤ m) (h2 : m ≤ 4124) :
+    s9Set m = (s9Set (par m)).map (imgK (HX (gen m))) := by
+  have hs := s9Step_one h1 h2
+  simp only [s9Step, CFSG.KS.PF.strictN_eqP] at hs
+  have he : s9Eq (HX (gen m)) (s9Blk m) (s9Blk (par m)) = true := by
+    by_contra hne
+    simp [hne] at hs
+  exact s9Eq_spec he
+
+private theorem s9Set_eq : ∀ k, k ≤ 4124 → s9Set k = setC k := by
+  intro k
+  induction k using Nat.strong_induction_on with
+  | _ k ih =>
+    intro hk
+    rcases Nat.eq_zero_or_pos k with h0 | h0
+    · subst h0
+      have h := kSigma
+      rw [beq_iff_eq] at h
+      have e : ptK 0 0 = id := rfl
+      rw [h, setC, e, List.map_id]
+    · have hp := par_lt h0 hk
+      rw [s9Set_step h0 hk, setC_succ h0 hk, ih (par k) hp (by omega)]
+
 private noncomputable def arrM (m : Nat) : Array (List Nat) := ((List.range m).map setC).toArray
 
 private theorem arrM_size (m : Nat) : (arrM m).size = m := by
@@ -239,78 +295,203 @@ private theorem sets_eq : orbitSets = some (arrM 4125) := by
     rw [show 1 + i = i + 1 by omega]
     exact ⟨a, by omega, c⟩, hl]
 
-private theorem dedupS_spec : ∀ l : List Nat, l.Pairwise (· ≤ ·) →
-    (dedupS l).Pairwise (· < ·) ∧ ∀ x, x ∈ dedupS l ↔ x ∈ l
-  | [], _ => ⟨List.Pairwise.nil, fun _ => Iff.rfl⟩
-  | [a], _ => ⟨List.pairwise_singleton _ _, fun _ => Iff.rfl⟩
-  | a :: b :: l, h => by
-    obtain ⟨ih1, ih2⟩ := dedupS_spec (b :: l) (List.Pairwise.of_cons h)
-    have hab : ∀ y ∈ b :: l, a ≤ y := fun y hy => (List.pairwise_cons.1 h).1 y hy
-    unfold dedupS
-    by_cases e : a = b
-    · rw [if_pos e]
-      refine ⟨ih1, fun x => ?_⟩
-      rw [ih2, List.mem_cons (a := x) (b := a)]
-      constructor
-      · exact Or.inr
-      · rintro (rfl | hx)
-        · rw [e]
-          exact List.mem_cons_self
-        · exact hx
-    · rw [if_neg e]
-      refine ⟨List.Pairwise.cons (fun y hy => ?_) ih1, fun x => ?_⟩
-      · have hy' := (ih2 y).1 hy
-        have h1 := hab y hy'
-        rcases List.mem_cons.1 hy' with rfl | hy''
-        · omega
-        · have h2 := (List.pairwise_cons.1 (List.Pairwise.of_cons h)).1 y hy''
-          have h3 := hab b List.mem_cons_self
-          omega
-      · rw [List.mem_cons, ih2, List.mem_cons (b := a)]
+private theorem mergeK_perm : ∀ (f : Nat) (a b : List Nat), (mergeK f a b).Perm (a ++ b)
+  | 0, a, b => by simp [mergeK]
+  | f + 1, [], b => by simp [mergeK]
+  | f + 1, x :: a, [] => by simp [mergeK]
+  | f + 1, x :: a, y :: b => by
+    simp only [mergeK]
+    split
+    · exact (mergeK_perm f a (y :: b)).cons x
+    · exact ((mergeK_perm f (x :: a) b).cons y).trans List.perm_middle.symm
 
-private theorem canon_eq (l : List Nat) (hl : ∀ x ∈ l, x < 3850) :
-    canonList l = dedupS (CFSG.KC.EvenSporDS81.isortN l) := by
-  have hs : (CFSG.KC.EvenSporDS81.isortN l).Pairwise (· ≤ ·) := by
-    rw [CFSG.KC.EvenSporDS81.isortN_eq]
-    exact List.pairwise_insertionSort _ _
-  obtain ⟨h1, h2⟩ := dedupS_spec _ hs
-  have hp : (CFSG.KC.EvenSporDS81.isortN l).Perm l := by
-    rw [CFSG.KC.EvenSporDS81.isortN_eq]
-    exact List.perm_insertionSort _ _
-  have h0 : (canonList l).Pairwise (· < ·) := by
-    unfold canonList
-    exact List.Pairwise.filter _ List.pairwise_lt_range
-  have hmem : ∀ x, x ∈ canonList l ↔ x ∈ dedupS (CFSG.KC.EvenSporDS81.isortN l) := by
-    intro x
-    rw [h2, hp.mem_iff]
+private theorem mergePairsK_perm : ∀ L : List (List Nat), (mergePairsK L).flatten.Perm L.flatten
+  | a :: b :: L => by
+    simp only [mergePairsK, List.flatten_cons]
+    rw [← List.append_assoc]
+    exact (mergeK_perm 8192 a b).append (mergePairsK_perm L)
+  | [] => by simp [mergePairsK]
+  | [a] => by simp [mergePairsK]
+
+private theorem flatten_singletons : ∀ l : List Nat, (l.map fun x => [x]).flatten = l
+  | [] => rfl
+  | x :: l => by rw [List.map_cons, List.flatten_cons, flatten_singletons l, List.singleton_append]
+
+private theorem msortK_perm (l : List Nat) : (msortK l).Perm l := by
+  have key : ∀ n, (Nat.rec (motive := fun _ => List (List Nat)) (l.map fun x => [x])
+      (fun _ L => mergePairsK L) n : List (List Nat)).flatten.Perm l := by
+    intro n
+    induction n with
+    | zero =>
+      change (l.map fun x => [x]).flatten.Perm l
+      rw [flatten_singletons]
+    | succ n ih => exact (mergePairsK_perm _).trans ih
+  exact key 13
+
+private theorem strict_head : ∀ (a : Nat) (l : List Nat), strictlyIncreasing (a :: l) = true →
+    ∀ x ∈ l, a < x
+  | _, [], _, x, hx => absurd hx List.not_mem_nil
+  | a, b :: l, h, x, hx => by
+    simp only [strictlyIncreasing, Bool.and_eq_true, decide_eq_true_eq] at h
+    rcases List.mem_cons.1 hx with rfl | hx
+    · exact h.1
+    · exact Nat.lt_trans h.1 (strict_head b l h.2 x hx)
+
+private theorem strict_tail : ∀ (a : Nat) (l : List Nat), strictlyIncreasing (a :: l) = true →
+    strictlyIncreasing l = true
+  | _, [], _ => rfl
+  | a, b :: l, h => by
+    simp only [strictlyIncreasing, Bool.and_eq_true] at h
+    exact h.2
+
+private theorem strict_pairwise : ∀ l : List Nat, strictlyIncreasing l = true → l.Pairwise (· < ·)
+  | [], _ => List.Pairwise.nil
+  | a :: l, h => List.Pairwise.cons (strict_head a l h) (strict_pairwise l (strict_tail a l h))
+
+private theorem pairwise_strict : ∀ l : List Nat, l.Pairwise (· < ·) →
+    strictlyIncreasing l = true
+  | [], _ => rfl
+  | [_], _ => rfl
+  | a :: b :: l, h => by
+    simp only [strictlyIncreasing, Bool.and_eq_true, decide_eq_true_eq]
+    exact ⟨List.rel_of_pairwise_cons h List.mem_cons_self, pairwise_strict (b :: l) h.of_cons⟩
+
+private theorem testBit_s9Mask (p : Nat) : ∀ l : List Nat, (s9Mask l).testBit p = true ↔ p ∈ l
+  | [] => by simp [s9Mask]
+  | a :: l => by
+    have ih := testBit_s9Mask p l
+    simp only [s9Mask, List.foldr_cons] at ih ⊢
+    rw [Nat.testBit_or, Bool.or_eq_true, ih, Nat.testBit_two_pow, decide_eq_true_eq,
+      List.mem_cons]
+    constructor
+    · rintro (h | h)
+      · exact Or.inr h
+      · exact Or.inl h.symm
+    · rintro (h | h)
+      · exact Or.inr h.symm
+      · exact Or.inl h
+
+private theorem s9Mask_congr {l l' : List Nat} (h : ∀ p, p ∈ l ↔ p ∈ l') :
+    s9Mask l = s9Mask l' :=
+  Nat.eq_of_testBit_eq fun p => by
+    rw [Bool.eq_iff_iff, testBit_s9Mask, testBit_s9Mask]
+    exact h p
+
+private theorem keyDigits_inj (l : List Nat) : ∀ l' : List Nat, l.Pairwise (· < ·) →
+    l'.Pairwise (· < ·) → (∀ x ∈ l, x < 4096) → (∀ x ∈ l', x < 4096) → l ≠ [] → l' ≠ [] →
+    l.foldr (fun p acc => p + 4096 * acc) 0 = l'.foldr (fun p acc => p + 4096 * acc) 0 →
+    l = l' := by
+  induction l with
+  | nil => intro l' _ _ _ _ h; exact absurd rfl h
+  | cons a r ih =>
+    intro l' h1 h2 h3 h4 _ h6 he
+    rcases l' with _ | ⟨b, r'⟩
+    · exact absurd rfl h6
+    simp only [List.foldr_cons] at he
+    have ha := h3 a List.mem_cons_self
+    have hb := h4 b List.mem_cons_self
+    have hab : a = b := by omega
+    have hr : r.foldr (fun p acc => p + 4096 * acc) 0 =
+        r'.foldr (fun p acc => p + 4096 * acc) 0 := by omega
+    subst hab
+    rcases r with _ | ⟨c, s⟩ <;> rcases r' with _ | ⟨c', s'⟩
+    · rfl
+    · have hc := List.rel_of_pairwise_cons h2 List.mem_cons_self
+      simp only [List.foldr_cons, List.foldr_nil] at hr
+      omega
+    · have hc := List.rel_of_pairwise_cons h1 List.mem_cons_self
+      simp only [List.foldr_cons, List.foldr_nil] at hr
+      omega
+    · rw [ih (c' :: s') h1.of_cons h2.of_cons (fun x hx => h3 x (List.mem_cons_of_mem _ hx))
+        (fun x hx => h4 x (List.mem_cons_of_mem _ hx)) (List.cons_ne_nil _ _)
+        (List.cons_ne_nil _ _) hr]
+
+private theorem mask_of_key {l l' : List Nat} (hl : ∀ x ∈ l, x < 3850)
+    (hl' : ∀ x ∈ l', x < 3850) (h0 : l ≠ []) (h0' : l' ≠ []) (h : setKey l = setKey l') :
+    s9Mask l = s9Mask l' := by
+  have hmem : ∀ m : List Nat, (∀ x ∈ m, x < 3850) → ∀ x, x ∈ canonList m ↔ x ∈ m := by
+    intro m hm x
     unfold canonList
     rw [List.mem_filter, List.mem_range, List.contains_iff_mem]
-    exact ⟨fun h => h.2, fun h => ⟨hl x h, h⟩⟩
-  have hperm : (canonList l).Perm (dedupS (CFSG.KC.EvenSporDS81.isortN l)) :=
-    (List.perm_ext_iff_of_nodup h0.nodup h1.nodup).2 hmem
-  exact List.Perm.eq_of_pairwise' (r := (· ≤ ·)) (h0.imp le_of_lt) (h1.imp le_of_lt) hperm
-
-private theorem setKey_eq (l : List Nat) (hl : ∀ x ∈ l, x < 3850) : setKey l = setKeyC l := by
-  unfold setKey setKeyC
-  rw [canon_eq l hl]
+    exact ⟨fun h => h.2, fun h => ⟨hm x h, h⟩⟩
+  have hpw : ∀ m : List Nat, (canonList m).Pairwise (· < ·) := fun m =>
+    List.Pairwise.filter _ List.pairwise_lt_range
+  have hlt : ∀ m : List Nat, ∀ x ∈ canonList m, x < 4096 := by
+    intro m x hx
+    unfold canonList at hx
+    rw [List.mem_filter, List.mem_range] at hx
+    have := hx.1
+    omega
+  have hne : ∀ m : List Nat, (∀ x ∈ m, x < 3850) → m ≠ [] → canonList m ≠ [] := by
+    intro m hm h0m
+    obtain ⟨x, hx⟩ := List.exists_mem_of_ne_nil m h0m
+    exact List.ne_nil_of_mem ((hmem m hm x).2 hx)
+  have hc := keyDigits_inj _ _ (hpw l) (hpw l') (hlt l) (hlt l') (hne l hl h0) (hne l' hl' h0') h
+  exact s9Mask_congr fun p => by rw [← hmem l hl, ← hmem l' hl', hc]
 
 theorem orbitOK_true : CFSG.EvenSporadicStandard.TwoHS.orbitOK = true := by
   unfold CFSG.EvenSporadicStandard.TwoHS.orbitOK
   rw [sets_eq]
-  have hK := kKeys
+  have hD : ∀ k ∈ List.range 4125, s9Set k = setC k := fun k hk =>
+    s9Set_eq k (by rw [List.mem_range] at hk; omega)
+  have e1 : ((List.range 4125).all fun k => (s9Set k).all (· < 3850)) =
+      (List.range 4125).all fun k => (setC k).all (· < 3850) := by
+    rw [Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
+    constructor
+    · intro h k hk
+      rw [← hD k hk]
+      exact h k hk
+    · intro h k hk
+      rw [hD k hk]
+      exact h k hk
+  have hOk : ((List.range 4125).all fun k => s9Ok k == 1) =
+      (List.range 4125).all fun k => (s9Set k).all (· < 3850) := by
+    congr 1
+    funext k
+    simp only [s9Ok, s9Set, CFSG.KS.PF.strictN_eqP, s9Lt_spec]
+    split <;> simp_all
+  have hKey : (List.range 4125).map s9Key = (List.range 4125).map fun k => s9Mask (setC k) := by
+    refine List.map_congr_left fun k hk => ?_
+    rw [← hD k hk]
+    simp only [s9Key, s9Set, CFSG.KS.PF.strictN_eqP, s9MaskN_eq]
+  have h : ((List.range 4125).all fun k => (setC k).all (· < 3850)) = true ∧
+      strictlyIncreasing (msortK ((List.range 4125).map fun k => s9Mask (setC k))) = true := by
+    have h1 := kOk
+    have h2 := kKeys
+    rw [hOk, e1] at h1
+    rw [hKey] at h2
+    exact ⟨h1, h2⟩
   have hA : ∀ k ∈ List.range 4125, ∀ x ∈ setC k, x < 3850 := by
-    have hK' := hK
-    rw [Bool.and_eq_true] at hK'
     intro k hk x hx
-    have h1 := List.all_eq_true.1 hK'.1 k hk
+    have h1 := List.all_eq_true.1 h.1 k hk
     simpa using List.all_eq_true.1 h1 x hx
-  have hmap : ((List.range 4125).map fun k => setKey (setC k)) =
-      (List.range 4125).map fun k => setKeyC (setC k) :=
-    List.map_congr_left fun k hk => setKey_eq _ (hA k hk)
+  have hne : ∀ k ∈ List.range 4125, setC k ≠ [] := by
+    intro k hk
+    rw [← hD k hk]
+    apply List.ne_nil_of_length_pos
+    simp [s9Set, s9Dec]
+  have hmN : ((List.range 4125).map fun k => s9Mask (setC k)).Nodup :=
+    (msortK_perm _).nodup_iff.1 (strict_pairwise _ h.2).nodup
+  have hkN : ((List.range 4125).map fun k => setKey (setC k)).Nodup := by
+    refine List.Nodup.map_on (fun x hx y hy hxy => ?_) List.nodup_range
+    exact List.inj_on_of_nodup_map hmN hx hy
+      (mask_of_key (hA x hx) (hA y hy) (hne x hx) (hne y hy) hxy)
+  have hS : strictlyIncreasing (((List.range 4125).map fun k => setKey (setC k)).mergeSort
+      (fun a b => decide (a ≤ b))) = true := by
+    apply pairwise_strict
+    have hs := List.pairwise_mergeSort (le := fun a b : Nat => decide (a ≤ b))
+      (fun a b c hab hbc => by simp only [decide_eq_true_eq] at hab hbc ⊢; omega)
+      (fun a b => by simp only [Bool.or_eq_true, decide_eq_true_eq]; omega)
+      ((List.range 4125).map fun k => setKey (setC k))
+    have hn := (List.mergeSort_perm _ (fun a b : Nat => decide (a ≤ b))).nodup_iff.2 hkN
+    exact (hs.and hn).imp fun hab => by
+      obtain ⟨h1, h2⟩ := hab
+      simp only [decide_eq_true_eq] at h1
+      omega
   dsimp only
   rw [arrM, List.all_toArray, List.toList_toArray, List.size_toArray, List.length_map,
-    List.length_range, List.all_map, List.map_map, Function.comp_def, Function.comp_def, hmap,
-    CFSG.KC.EvenSporDS81.mergeSort_eq_isortN, beq_self_eq_true, Bool.true_and]
-  exact hK
+    List.length_range, List.all_map, List.map_map, Function.comp_def, Function.comp_def,
+    beq_self_eq_true, Bool.true_and, Bool.and_eq_true]
+  exact ⟨h.1, hS⟩
 
 end CFSG.KD.HS3850.S9

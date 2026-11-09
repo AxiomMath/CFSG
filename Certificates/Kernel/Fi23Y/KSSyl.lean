@@ -144,9 +144,10 @@ theorem card_TY_le :
   obtain ⟨h2, hinv, -⟩ := CFSG.Perm.chainOK_parts hc
   have hrep := CFSG.Perm.rep_pairG rep_gsY h2 hinv
   have hcard : Nat.card (CFSG.Perm.levelGroup SL sylBase (CFSG.Perm.pairG gsY) 0) = 262144 := by
-    rw [hF.2.2 0 (Nat.zero_le _), sylBase_size,
-      show Finset.Ico 0 2 = {0, 1} by decide, Finset.prod_insert (by decide),
-      Finset.prod_singleton, trees_size (l := 0) (by norm_num), trees_size (l := 1) (by norm_num)]
+    have hpr : ∏ l ∈ Finset.Ico 0 2, (chainTrees 31671 SL sylBase)[l]!.pts.size =
+        ∏ _l ∈ Finset.Ico 0 2, 512 :=
+      Finset.prod_congr rfl fun l hl => trees_size (Finset.mem_Ico.1 hl).2
+    rw [hF.2.2 0 (Nat.zero_le _), sylBase_size, hpr, Finset.prod_const, Nat.card_Ico]
     norm_num
   have hle : TY ≤ (CFSG.Perm.levelGroup SL sylBase (CFSG.Perm.pairG gsY) 0).map Xc.subtype := by
     rw [Subgroup.closure_le]

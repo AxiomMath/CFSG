@@ -263,20 +263,24 @@ theorem hjT1Tab_eq : hjT1Tab () =
   rw [hjT1Tab, hjT1Invs_eq, List.map_map]
   exact List.map_congr_left fun x _ => by rw [Function.comp_apply, fixCodes_length]
 
-theorem lookup_eq (L : List ℕ) (hL : ∀ q ∈ L, q < 2 ^ 144) {r : ℕ} (hr : r < 2 ^ 144) :
-    hjLookup (L.map fun x => (unpackA x, fixCnt x)) (unpackA r) =
-      if L.contains r then fixCnt r else 0 := by
+theorem lookup_eq_of (U : ℕ → Array ℕ) (F : ℕ → ℕ) (L : List ℕ) {r : ℕ}
+    (hU : ∀ x ∈ L, (U x == U r) = (x == r)) :
+    hjLookup (L.map fun x => (U x, F x)) (U r) = if L.contains r then F r else 0 := by
   induction L with
   | nil => rfl
   | cons x L ih =>
-    have hx := hL x List.mem_cons_self
-    have ih' := ih fun q hq => hL q (List.mem_cons_of_mem x hq)
+    have ih' := ih fun q hq => hU q (List.mem_cons_of_mem x hq)
     unfold hjLookup at ih' ⊢
-    rw [List.map_cons, List.find?_cons, beq_unpackA hx hr, List.contains_cons, beq_symm r x]
+    rw [List.map_cons, List.find?_cons, hU x List.mem_cons_self, List.contains_cons, beq_symm r x]
     cases e : (x == r)
     · exact ih'
     · obtain rfl := beq_iff_eq.1 e
       rfl
+
+theorem lookup_eq (L : List ℕ) (hL : ∀ q ∈ L, q < 2 ^ 144) {r : ℕ} (hr : r < 2 ^ 144) :
+    hjLookup (L.map fun x => (unpackA x, fixCnt x)) (unpackA r) =
+      if L.contains r then fixCnt r else 0 :=
+  lookup_eq_of unpackA fixCnt L fun x hx => beq_unpackA (hL x hx) hr
 
 theorem lookup_mem {L : List ℕ} (hL : ∀ q ∈ L, q < 2 ^ 144) {r : ℕ} (hr : r ∈ L) :
     hjLookup (L.map fun x => (unpackA x, fixCnt x)) (unpackA r) = fixCnt r := by

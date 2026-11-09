@@ -11,6 +11,7 @@ public import Certificates.Kernel.Sporadic.Tits.LocJ
 public import Certificates.Kernel.Sporadic.Tits.LocK
 meta import CFSG.Sporadic.Schreier.TitsCentralCheckInputs
 public import CFSG.Certificates.Kernel.Spor.SiftRSound
+import CFSG.Certificates.Kernel.SporSch.TitsCntBase
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 public import Std.Tactic.BVDecide.Normalize.Bool
@@ -83,30 +84,93 @@ theorem comm5_eq {A : Array (Array Nat)} {PS : Nat → Nat} {kS nb BP k t0 t1 t2
   rw [ext_get (by omega) hi]
   exact hb.2.2.2.2.1 i (by omega)
 
-@[expose] noncomputable def PS (t0 t1 t2 t3 t4 : Nat) : Bool :=
-  bIf(commAllPts 1755 11 (mask 11) TitsS.S 3 t0 t1 t2 t3 t4,
+end CertificateChecks.KernelSporSch.TitsCentral
+
+end
+
+set_option maxRecDepth 400000
+
+namespace CertificateChecks.KernelSporSch.TitsCentral
+
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.SporSch CFSG.KC.BfsPin
+open CFSG.Sporadic.Schreier.Tits CFSG.Monster.B.Co2.Native CFSG.Certificates.Native
+open CFSG.Monster.B.Co2
+open CertificateChecks.KernelSpor CertificateChecks.KernelSpor.Tits2268
+open CertificateChecks.KernelSporSch CertificateChecks.KernelSporSch.TitsCommon
+open CertificateChecks.KernelSporSch.TitsHelp
+
+theorem commBase_eq {A : Array (Array Nat)} {PS : Nat → Nat} {kS nb BP k x : Nat} {base : Array Nat}
+    {f : Nat → Bool} (hb : Binds 1755 11 PS kS nb BP A base) (hk : k ≤ kS)
+    (hf : ∀ j < k, f j = eqA 1755 (compA 1755 (unpack 1755 11 x) (unpack 1755 11 (PS j)))
+      (compA 1755 (unpack 1755 11 (PS j)) (unpack 1755 11 x))) :
+    commutesAll 1755 (unpack 1755 11 x) (A.extract 0 k) = allN k f := by
+  have hs : A.size = kS := hb.2.2.2.1
+  unfold commutesAll
+  rw [ext_size (by omega)]
+  refine allLt_eq_allN fun i hi => ?_
+  rw [ext_get (by omega) hi, hb.2.2.2.2.1 i (by omega), hf i hi]
+
+theorem canTr5 {kS BP : Nat} {PS PSI LR TR TRI : Nat → Nat} {S : Array (Array Nat)}
+    {base : Array Nat} (hb : Binds 1755 11 PS kS 5 BP S base)
+    (hp : allN kS (fun j => permOK 1755 11 (mask 11) (1755 * 11) (PS j) (PSI j)) = true)
+    (hl : LevelsOK 1755 11 PS PSI LR TR TRI kS 5 BP) {t0 t1 t2 t3 t4 : Nat}
+    (h : IsTr5 LR TR t0 t1 t2 t3 t4) : C t0 ∧ C t1 ∧ C t2 ∧ C t3 ∧ C t4 := by
+  obtain ⟨⟨a0, h0, rfl⟩, ⟨a1, h1, rfl⟩, ⟨a2, h2, rfl⟩, ⟨a3, h3, rfl⟩, ⟨a4, h4, rfl⟩⟩ := h
+  exact ⟨((lev_trAt hb hp hl (i := 0) (by omega)).2 a0 h0).1,
+    ((lev_trAt hb hp hl (i := 1) (by omega)).2 a1 h1).1,
+    ((lev_trAt hb hp hl (i := 2) (by omega)).2 a2 h2).1,
+    ((lev_trAt hb hp hl (i := 3) (by omega)).2 a3 h3).1,
+    ((lev_trAt hb hp hl (i := 4) (by omega)).2 a4 h4).1⟩
+
+theorem bIf_or3 (a b c : Bool) : bIf(a, bIf(b, true, c), true) = (!a || b || c) := by
+  cases a <;> cases b <;> rfl
+
+theorem ndSc : (baseArr 1755 titsSBase).toList.Nodup := by decide
+theorem ndHc : (baseArr 1755 titsHBase).toList.Nodup := by decide
+theorem ndNc : (baseArr 1755 titsNBase).toList.Nodup := by decide
+
+theorem siftSS : allN 3 (fun j => siftK 1755 11 (mask 11) (1755 * 11) (pidn 1755 11) TitsS.LR
+    TitsS.TRI TitsS.BP 5 0 (TitsS.S j)) = true := by quickRfl
+theorem siftJH : allN 4 (fun j => siftK 1755 11 (mask 11) (1755 * 11) (pidn 1755 11) TitsH.LR
+    TitsH.TRI TitsH.BP 5 0 (TitsJ.S j)) = true := by quickRfl
+theorem siftKN : allN 2 (fun j => siftK 1755 11 (mask 11) (1755 * 11) (pidn 1755 11) TitsN.LR
+    TitsN.TRI TitsN.BP 5 0 (TitsK.S j)) = true := by quickRfl
+
+theorem memSS {j : Nat} (hj : j < 3) : siftA 1755 (rawLevels 1755 titsSArrs (baseArr 1755 titsSBase))
+    (baseArr 1755 titsSBase) 0 (unpack 1755 11 (TitsS.S j)) = true :=
+  siftK_soundR bindsS permS TitsS.hl rfl (hi_of (allN_spec canS j (by omega)))
+    (range_of_canonK (allN_spec canS j (by omega))) (allN_spec siftSS j hj)
+theorem memJH {j : Nat} (hj : j < 4) : siftA 1755 (rawLevels 1755 titsHArrs (baseArr 1755 titsHBase))
+    (baseArr 1755 titsHBase) 0 (unpack 1755 11 (TitsJ.S j)) = true :=
+  siftK_soundR bindsH permH TitsH.hl rfl (hi_of (allN_spec canJ j (by omega)))
+    (range_of_canonK (allN_spec canJ j (by omega))) (allN_spec siftJH j hj)
+theorem memKN {j : Nat} (hj : j < 2) : siftA 1755 (rawLevels 1755 titsNArrs (baseArr 1755 titsNBase))
+    (baseArr 1755 titsNBase) 0 (unpack 1755 11 (TitsK.S j)) = true :=
+  siftK_soundR bindsN permN TitsN.hl rfl (hi_of (allN_spec canK j (by omega)))
+    (range_of_canonK (allN_spec canK j (by omega))) (allN_spec siftKN j hj)
+
+noncomputable def PS (t0 t1 t2 t3 t4 : Nat) : Bool :=
+  bIf(allN 3 (fun j => baseComm TitsS.BP 5 (gptR t0 t1 t2 t3 t4) (pgR (TitsS.S j))),
     bIf(eqPts 1755 11 (mask 11) (pidn 1755 11) t0 t1 t2 t3 t4, true,
       eqPts 1755 11 (mask 11) TitsZ t0 t1 t2 t3 t4), true)
 
-@[expose] noncomputable def QS : Nat → Nat → Nat → Nat → Nat → Nat → Bool := fun _ => PS
+noncomputable def QS: Nat → Nat → Nat → Nat → Nat → Nat → Bool := fun _ => PS
 
 #kst_all5 CertificateChecks.KernelSporSch.TitsSE 1755 11 8 2 TitsS.LR TitsS.TR QS
 
-theorem centerS : all5 1755 titsSLevels (fun a => !(commutesAll 1755 a (titsSArrs.extract 0 3)) ||
-    eqA 1755 a (idA 1755) || eqA 1755 a titsZArr) = true := by
-  refine all5K_sound bindsS permS TitsS.hl (fun t0 t1 t2 t3 t4 c0 c1 c2 c3 c4 _ h => ?_) TitsSE.all
-  rw [comm5_eq bindsS (by norm_num) canS c0 c1 c2 c3 c4, id_eq, z_eq,
-    ← eqPts_sound c0 c1 c2 c3 c4 canId, ← eqPts_sound c0 c1 c2 c3 c4 canonZ]
-  cases hc : commAllPts 1755 11 (mask 11) TitsS.S 3 t0 t1 t2 t3 t4
-  · rfl
-  · rw [hc] at h
-    cases h1 : eqPts 1755 11 (mask 11) (pidn 1755 11) t0 t1 t2 t3 t4
-    · rw [h1] at h
-      simp [h]
-    · simp
+theorem agrCS : Agrees TitsS.LR TitsS.TR PS (fun a => !(commutesAll 1755 a (titsSArrs.extract 0 3)) ||
+    eqA 1755 a (idA 1755) || eqA 1755 a titsZArr) := fun t0 t1 t2 t3 t4 h => by
+  obtain ⟨c0, c1, c2, c3, c4⟩ := canTr5 bindsS permS TitsS.hl h
+  dsimp only
+  rw [commBase_eq bindsS (by norm_num) fun j hj => baseCommGE_eq bindsS TitsS.head TitsS.hl (NS := 220)
+      (CH := 8) (by norm_num) TitsS.hs ndSc h (allN_spec canS j (by omega)) (memSS hj),
+    id_eq, z_eq, ← eqPts_sound c0 c1 c2 c3 c4 canId, ← eqPts_sound c0 c1 c2 c3 c4 canonZ]
+  exact bIf_or3 _ _ _
 
-@[expose] noncomputable def QH : Nat → Nat → Nat → Nat → Nat → Nat → Bool :=
-  survQ (commAllPts 1755 11 (mask 11) TitsJ.S 4) TitsCHJ.M
+noncomputable def centPH (t0 t1 t2 t3 t4 : Nat) : Bool :=
+  allN 4 (fun j => baseComm TitsH.BP 5 (gptR t0 t1 t2 t3 t4) (pgR (TitsJ.S j)))
+
+noncomputable def QH: Nat → Nat → Nat → Nat → Nat → Nat → Bool := survQ centPH TitsCHJ.M
 
 #kst_all5 CertificateChecks.KernelSporSch.TitsHE 1755 11 10 8 TitsH.LR TitsH.TR QH
 
@@ -115,13 +179,15 @@ theorem aH : ascK (tot5 TitsH.LR) TitsCHJ.C 0 = true := by quickRfl
 theorem zH : zipK (fun c l => Nat.beq (prodCode 1755 11 (mask 11) (1755 * 11) TitsH.LR TitsH.TR c) l)
     TitsCHJ.C TitsCHJ.L = true := by quickRfl
 
-theorem chj_eq : titsCHJ = TitsCHJ.L.map (unpack 1755 11) :=
-  surv5K_sound bindsH permH TitsH.hl (fun _ _ _ _ _ c0 c1 c2 c3 c4 =>
-    (comm5_eq bindsJ (by norm_num) canJ c0 c1 c2 c3 c4).symm)
-    mH aH zH TitsHE.all
+theorem agrCH : Agrees TitsH.LR TitsH.TR centPH (fun a => commutesAll 1755 a (titsJArrs.extract 0 4)) :=
+  fun _ _ _ _ _ h => (commBase_eq bindsJ (by norm_num) fun j hj => baseCommGE_eq bindsH TitsH.head
+    TitsH.hl (NS := 220) (CH := 8) (by norm_num) TitsH.hs ndHc h (allN_spec canJ j (by omega))
+    (memJH hj)).symm
 
-@[expose] noncomputable def QN : Nat → Nat → Nat → Nat → Nat → Nat → Bool :=
-  survQ (commAllPts 1755 11 (mask 11) TitsK.S 2) TitsCNK.M
+noncomputable def centPN (t0 t1 t2 t3 t4 : Nat) : Bool :=
+  allN 2 (fun j => baseComm TitsN.BP 5 (gptR t0 t1 t2 t3 t4) (pgR (TitsK.S j)))
+
+noncomputable def QN: Nat → Nat → Nat → Nat → Nat → Nat → Bool := survQ centPN TitsCNK.M
 
 #kst_all5 CertificateChecks.KernelSporSch.TitsNE 1755 11 24 2 TitsN.LR TitsN.TR QN
 
@@ -130,10 +196,39 @@ theorem aN : ascK (tot5 TitsN.LR) TitsCNK.C 0 = true := by quickRfl
 theorem zN : zipK (fun c l => Nat.beq (prodCode 1755 11 (mask 11) (1755 * 11) TitsN.LR TitsN.TR c) l)
     TitsCNK.C TitsCNK.L = true := by quickRfl
 
-theorem cnk_eq : titsCNK = TitsCNK.L.map (unpack 1755 11) :=
-  surv5K_sound bindsN permN TitsN.hl (fun _ _ _ _ _ c0 c1 c2 c3 c4 =>
-    (comm5_eq bindsK (by norm_num) canK c0 c1 c2 c3 c4).symm)
-    mN aN zN TitsNE.all
+theorem agrCN : Agrees TitsN.LR TitsN.TR centPN (fun a => commutesAll 1755 a (titsKArrs.extract 0 2)) :=
+  fun _ _ _ _ _ h => (commBase_eq bindsK (by norm_num) fun j hj => baseCommGE_eq bindsN TitsN.head
+    TitsN.hl (NS := 220) (CH := 8) (by norm_num) TitsN.hs ndNc h (allN_spec canK j (by omega))
+    (memKN hj)).symm
+
+end CertificateChecks.KernelSporSch.TitsCentral
+
+public section
+
+set_option maxRecDepth 400000
+
+namespace CertificateChecks.KernelSporSch.TitsCentral
+
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.SporSch CFSG.KC.BfsPin
+open CFSG.Sporadic.Schreier.Tits CFSG.Monster.B.Co2.Native CFSG.Certificates.Native
+open CFSG.Monster.B.Co2
+open CertificateChecks.KernelSpor CertificateChecks.KernelSpor.Tits2268
+open CertificateChecks.KernelSporSch CertificateChecks.KernelSporSch.TitsCommon
+open CertificateChecks.KernelSporSch.TitsHelp
+
+theorem centerS : all5 1755 titsSLevels (fun a => !(commutesAll 1755 a (titsSArrs.extract 0 3)) ||
+    eqA 1755 a (idA 1755) || eqA 1755 a titsZArr) = true :=
+  all5K_soundA bindsS permS TitsS.hl agrCS TitsSE.all
+
+theorem chj_eq : titsCHJ = TitsCHJ.L.map (unpack 1755 11) := by
+  refine (surv5K_soundCT bindsH permH TitsH.hl agrCH mH aH TitsHE.all).trans ?_
+  rw [zipK_beq_map zH, List.map_map]
+  rfl
+
+theorem cnk_eq : titsCNK = TitsCNK.L.map (unpack 1755 11) := by
+  refine (surv5K_soundCT bindsN permN TitsN.hl agrCN mN aN TitsNE.all).trans ?_
+  rw [zipK_beq_map zN, List.map_map]
+  rfl
 
 @[expose] noncomputable def okHJ (c : Nat) : Bool :=
   bAnd(canonK 1755 11 (mask 11) (1755 * 11) c,
@@ -210,6 +305,72 @@ theorem zSq : sqIdK 1755 11 (mask 11) (1755 * 11) (pidn 1755 11) TitsZ = true :=
 theorem zCS : commK TitsS.S 3 TitsZ = true := by quickRfl
 theorem zCH : commK TitsH.S 3 TitsZ = true := by quickRfl
 
+theorem fBases : titsSBase.length = 5 ∧ titsHBase.length = 5 ∧ titsNBase.length = 5 :=
+  ⟨by decide, by decide, by decide⟩
+
+theorem fSurvH : all5 1755 titsHLevels (fun a => !(commutesAll 1755 a (titsJArrs.extract 0 4)) ||
+    anyEq titsCHJ a) = true := all5_surv _ _
+
+theorem fSurvN : all5 1755 titsNLevels (fun a => !(commutesAll 1755 a (titsKArrs.extract 0 2)) ||
+    anyEq titsCNK a) = true := all5_surv _ _
+
+theorem fLenHJ : titsCHJ.length = 2 := by
+  rw [chj_eq, List.length_map]
+  rfl
+
+theorem fLenNK : titsCNK.length = 4 := by
+  rw [cnk_eq, List.length_map]
+  rfl
+
+theorem fAllHJ : titsCHJ.all (fun c => isInvA 1755 c (invCand 1755 c) &&
+      commutesAll 1755 c (titsJArrs.extract 0 4) &&
+      siftA 1755 titsHLevels (baseArr 1755 titsHBase) 0 c &&
+      siftA 1755 titsJLevels (baseArr 1755 titsJBase) 0 c) = true := by
+  rw [chj_eq, List.all_eq_true]
+  intro c hc
+  obtain ⟨c', hc', rfl⟩ := List.mem_map.1 hc
+  exact okHJ_spec hc'
+
+theorem fAllNK : titsCNK.all (fun c => isInvA 1755 c (invCand 1755 c) &&
+      commutesAll 1755 c (titsKArrs.extract 0 2) &&
+      siftA 1755 titsNLevels (baseArr 1755 titsNBase) 0 c &&
+      siftA 1755 titsKLevels (baseArr 1755 titsKBase) 0 c) = true := by
+  rw [cnk_eq, List.all_eq_true]
+  intro c hc
+  obtain ⟨c', hc', rfl⟩ := List.mem_map.1 hc
+  exact okNK_spec hc'
+
+theorem fPairHJ : titsCHJ.Pairwise (fun a b => eqA 1755 a b = false) := by
+  rw [chj_eq]
+  exact pair_of pHJ fun c hc => canon_of_HJ hc
+
+theorem fPairNK : titsCNK.Pairwise (fun a b => eqA 1755 a b = false) := by
+  rw [cnk_eq]
+  exact pair_of pNK fun c hc => canon_of_NK hc
+
+theorem fZInv : isInvA 1755 titsZArr (invCand 1755 titsZArr) = true := by
+  rw [z_eq]
+  exact isInv_of zPerm
+
+theorem fZSift : siftA 1755 titsSLevels (baseArr 1755 titsSBase) 0 titsZArr = true :=
+  siftK_soundR bindsS permS TitsS.hl z_eq (hi_of canonZ) (range_of_canonK canonZ) zS
+
+theorem fZNe : eqA 1755 titsZArr (idA 1755) = false := by
+  rw [z_eq]
+  exact neIdK_sound zNe
+
+theorem fZSq : eqA 1755 (compA 1755 titsZArr titsZArr) (idA 1755) = true := by
+  rw [z_eq]
+  exact sqIdK_sound zSq
+
+theorem fZCS : commutesAll 1755 titsZArr (titsSArrs.extract 0 3) = true := by
+  rw [z_eq, comm_eq bindsS (by norm_num) canS canonZ]
+  exact zCS
+
+theorem fZCH : commutesAll 1755 titsZArr (titsHArrs.extract 0 3) = true := by
+  rw [z_eq, comm_eq bindsH (by norm_num) canH canonZ]
+  exact zCH
+
 theorem facts : titsSBase.length = 5 ∧ titsHBase.length = 5 ∧ titsNBase.length = 5 ∧
     all5 1755 titsSLevels (fun a => !(commutesAll 1755 a (titsSArrs.extract 0 3)) ||
       eqA 1755 a (idA 1755) || eqA 1755 a titsZArr) = true ∧
@@ -233,32 +394,9 @@ theorem facts : titsSBase.length = 5 ∧ titsHBase.length = 5 ∧ titsNBase.leng
     eqA 1755 titsZArr (idA 1755) = false ∧
     eqA 1755 (compA 1755 titsZArr titsZArr) (idA 1755) = true ∧
     commutesAll 1755 titsZArr (titsSArrs.extract 0 3) = true ∧
-    commutesAll 1755 titsZArr (titsHArrs.extract 0 3) = true := by
-  refine ⟨by decide, by decide, by decide, centerS, all5_surv _ _, all5_surv _ _, ?_, ?_, ?_, ?_,
-    ?_, ?_, ?_, siftK_soundR bindsS permS TitsS.hl z_eq (hi_of canonZ) (range_of_canonK canonZ) zS,
-    ?_, ?_, ?_, ?_⟩
-  · rw [chj_eq, List.length_map]
-    rfl
-  · rw [cnk_eq, List.length_map]
-    rfl
-  · rw [chj_eq, List.all_map, List.all_eq_true]
-    exact fun c hc => okHJ_spec hc
-  · rw [cnk_eq, List.all_map, List.all_eq_true]
-    exact fun c hc => okNK_spec hc
-  · rw [chj_eq]
-    exact pair_of pHJ fun c hc => canon_of_HJ hc
-  · rw [cnk_eq]
-    exact pair_of pNK fun c hc => canon_of_NK hc
-  · rw [z_eq]
-    exact isInv_of zPerm
-  · rw [z_eq]
-    exact neIdK_sound zNe
-  · rw [z_eq]
-    exact sqIdK_sound zSq
-  · rw [z_eq, comm_eq bindsS (by norm_num) canS canonZ]
-    exact zCS
-  · rw [z_eq, comm_eq bindsH (by norm_num) canH canonZ]
-    exact zCH
+    commutesAll 1755 titsZArr (titsHArrs.extract 0 3) = true :=
+  ⟨fBases.1, fBases.2.1, fBases.2.2, centerS, fSurvH, fSurvN, fLenHJ, fLenNK, fAllHJ, fAllNK,
+    fPairHJ, fPairNK, fZInv, fZSift, fZNe, fZSq, fZCS, fZCH⟩
 
 end CertificateChecks.KernelSporSch.TitsCentral
 

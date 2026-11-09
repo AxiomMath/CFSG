@@ -10,13 +10,36 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelIvk8J3
 
-open CFSG.KC.Ivk8N CFSG.KC.YoshQ CertificateChecks.KernelSpor
+open CFSG.KC.Ivk8N CFSG.KC.YoshQ CertificateChecks.KernelSpor Certificates.Ivk8Two CFSG.KC.Enum
 
 @[expose] noncomputable def gs : List Nat :=
   [J3CentP 1, J3CentP 2, J3CentP 3, J3CentP 4, J3CentP 5, J3CentP 6, J3CentP 7, J3CentP 8]
 
-theorem j3TwoN_ok : twoOKN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8] = true := by
+theorem j3TwoN_gs : gs.all (invOKN 6156 13) = true := by quickRfl
+
+theorem j3TwoN_ts : (twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8]).all (invOKN 6156 13) = true := by
   quickRfl
+
+theorem j3TwoN_rels : dataRels.all (fun r =>
+      eqN 6156 13 (evalN 6156 13 (twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8])
+          ((twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8]).map (invN 6156 13)) r.1)
+        (evalN 6156 13 (twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8])
+          ((twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8]).map (invN 6156 13)) r.2)) = true := by
+  quickRfl
+
+theorem j3TwoN_ne : (!eqN 6156 13 ((twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8]).headD (pidn 6156 13))
+    (pidn 6156 13)) = true := by quickRfl
+
+theorem j3TwoN_len : ((twoProdsN 6156 13 (twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8])).length == 128) = true := by
+  quickRfl
+
+theorem j3TwoN_dist : allDistinctN 6156 13 (twoProdsN 6156 13 (twoTablesN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8])) = true := by
+  quickRfl
+
+theorem j3TwoN_ok : twoOKN 6156 13 gs [1] [2] [1, 6, 8] [6, 3, 8] [4] [-8, -8] = true := by
+  unfold twoOKN
+  rw [j3TwoN_gs, j3TwoN_ts, j3TwoN_rels, j3TwoN_ne, j3TwoN_len, j3TwoN_dist]
+  all_goals rfl
 
 theorem j3CenN_ok : centralOKN 6156 13 gs [1] = true := by
   quickRfl

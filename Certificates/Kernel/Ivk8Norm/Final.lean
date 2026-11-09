@@ -2,6 +2,8 @@ module
 
 public import CFSG.GH74.GLS.Stage2.Signalizer.Ivk8S12Norm
 public import CFSG.Certificates.Kernel.Ivk8NormSound
+public import CFSG.Certificates.Kernel.Spor.PK.CertMem
+public import CFSG.Certificates.SchreierChainCard
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HypOne.M22
 public import Certificates.Kernel.Ivk8Norm.M12
 public import Certificates.Kernel.Ivk8Norm.M22
@@ -200,15 +202,6 @@ theorem l34_kStrong : cent.strong.toList = kStrong.map pkp := by
   rw [e1]
   exact certificate_strong_eq _ _ _ _ _ _ (eq_of_vals ch5247_kStrong)
 
-theorem l34_cent_valid : ValidSchreier cent := by
-  have e1 : cent = certificate (by decide) ((centGens.map (evV gens)).map pkp) centWords
-      #v[13, 11, 5] (by decide) := by
-    rw [← map_evalCodes, l34_gens]
-    rfl
-  have h := l34_kStrong
-  rw [e1] at h ⊢
-  exact check_of_schV _ _ _ _ _ kStrong h ch5247_kSch
-
 theorem l34_r : pkp r = r₁ := by
   have h : r = evV gens wr := Subtype.ext (beq_iff_eq.1 ch5247_r).symm
   rw [h, pkp_evV, l34_gens]
@@ -224,11 +217,6 @@ theorem l34_conjClass : 315 ≤ (conjClass R r₁).ncard := by
   have h1 := Set.ncard_le_ncard hsub (conjClass_finite R r₁)
   rw [Set.ncard_image_of_injective _ Subtype.val_injective, ← Nat.card_coe_set_eq, h] at h1
   exact h1
-
-theorem l34_cent_card : Nat.card cent.originalSubgroup = 768 := by
-  rw [← cent.orderCertificate_eq_card l34_cent_valid, orderCertificate_eq_ordV cent kStrong
-    l34_kStrong]
-  exact beq_iff_eq.1 ch5247_kOrd
 
 theorem l34_cent_le : cent.originalSubgroup ≤ centralizerIn R r₁ := by
   have hcomm := commOK_spec ch5247_kComm
@@ -247,6 +235,35 @@ theorem l34_cent_le : cent.originalSubgroup ≤ centralizerIn R r₁ := by
     obtain ⟨s, hs, rfl⟩ := List.mem_map.1 hgs
     exact hcomm s hs
 
+theorem l34_cent_valid : ValidSchreier cent := by
+  have hc : Nat.card (cent.levelSubgroup 0) ≤ cent.orderCertificate := by
+    rw [orderCertificate_eq_ordV cent kStrong l34_kStrong]
+    change _ ≤ ordV kStrong #v[13, 11, 5]
+    rw [beq_iff_eq.1 ch5247_kOrd]
+    have hle : cent.levelSubgroup 0 ≤ centralizerIn R r₁ := by
+      refine le_trans ?_ l34_cent_le
+      rw [RawSchreierDatum.levelSubgroup, RawSchreierDatum.levelGenerators_zero,
+        Subgroup.closure_le]
+      intro g hg
+      obtain ⟨j, rfl⟩ := (schreier_vector_mem_toList_iff_get _ g).1 hg
+      exact certificate_strong_mem (by decide) (centGens.map (evalCodes [g₁, g₂, g₃, g₄, g₅, g₆]))
+        centWords #v[13, 11, 5] (by decide) j
+    have hos := ncard_conjClass_mul_card R r₁
+    rw [card_R] at hos
+    have h1 := Subgroup.card_le_of_le hle
+    have h2 := l34_conjClass
+    nlinarith
+  rw [ValidSchreier, RawSchreierDatum.check_eq_true_iff]
+  refine ⟨?_, ?_, (RawSchreierDatum.schTests_of_card hc).1,
+    (RawSchreierDatum.schTests_of_card hc).2⟩
+  · exact certificate_initial _ _ _ _ _
+  · exact certificate_words _ _ _ _ _
+
+theorem l34_cent_card : Nat.card cent.originalSubgroup = 768 := by
+  rw [← cent.orderCertificate_eq_card l34_cent_valid, orderCertificate_eq_ordV cent kStrong
+    l34_kStrong]
+  exact beq_iff_eq.1 ch5247_kOrd
+
 theorem l34_cent_eq : centralizerIn R r₁ = cent.originalSubgroup :=
   centralizerIn_eq_of_le R r₁ l34_cent_le l34_conjClass (by rw [l34_cent_card, card_R])
 
@@ -261,7 +278,28 @@ theorem l34_facts :
       rfl
     have h := l34_rStrong
     rw [e1] at h ⊢
-    exact check_of_schV _ _ _ _ _ rStrong h ch5247_rSch
+    have hc : Nat.card ((certificate (by decide) (gens.map pkp) rWords #v[0, 1, 6, 3, 5, 2]
+        (by decide)).levelSubgroup 0) ≤
+          (certificate (by decide) (gens.map pkp) rWords #v[0, 1, 6, 3, 5, 2]
+            (by decide)).orderCertificate := by
+      rw [orderCertificate_eq_ordV _ rStrong h]
+      change _ ≤ ordV rStrong #v[0, 1, 6, 3, 5, 2]
+      rw [beq_iff_eq.1 ch5247_rOrd, ← card_R]
+      apply Subgroup.card_le_of_le
+      rw [RawSchreierDatum.levelSubgroup, RawSchreierDatum.levelGenerators_zero,
+        Subgroup.closure_le]
+      intro g hg
+      obtain ⟨j, rfl⟩ := (schreier_vector_mem_toList_iff_get _ g).1 hg
+      have hm := certificate_strong_mem (by decide) (gens.map pkp) rWords #v[0, 1, 6, 3, 5, 2]
+        (by decide) j
+      rw [certificate_originalSubgroup] at hm
+      refine (Subgroup.closure_le R).2 (fun g hg => ?_) hm
+      have hg' : g ∈ gens.map pkp := hg
+      rw [l34_gens] at hg'
+      exact l34_gens_mem g hg'
+    rw [ValidSchreier, RawSchreierDatum.check_eq_true_iff]
+    exact ⟨certificate_initial _ _ _ _ _, certificate_words _ _ _ _ _,
+      (RawSchreierDatum.schTests_of_card hc).1, (RawSchreierDatum.schTests_of_card hc).2⟩
   · have hb : rChain.base = #v[0, 1, 6, 3, 5, 2] := rfl
     rw [orderCertificate_eq_ordV rChain rStrong l34_rStrong, hb]
     exact beq_iff_eq.1 ch5247_rOrd

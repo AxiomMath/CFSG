@@ -19,24 +19,35 @@ open CFSG.EvenSmallLie.UnitarySix.YamadaSec3 (gA)
 @[expose] noncomputable def gEnt (k : ℕ) : Bool :=
   (List.range 693).all fun i => Nat.beq (gA k)[i]! (pg 10 (mask 10) (sec3G k) i)
 
-theorem gEnt_0 : gEnt 0 = true := by decide +kernel
-theorem gEnt_1 : gEnt 1 = true := by decide +kernel
-theorem gEnt_2 : gEnt 2 = true := by decide +kernel
-theorem gEnt_3 : gEnt 3 = true := by decide +kernel
-theorem gEnt_4 : gEnt 4 = true := by decide +kernel
-theorem gEnt_5 : gEnt 5 = true := by decide +kernel
-theorem gEnt_6 : gEnt 6 = true := by decide +kernel
-theorem gEnt_7 : gEnt 7 = true := by decide +kernel
-theorem gEnt_8 : gEnt 8 = true := by decide +kernel
-theorem gEnt_9 : gEnt 9 = true := by decide +kernel
-theorem gEnt_10 : gEnt 10 = true := by decide +kernel
-theorem gEnt_11 : gEnt 11 = true := by decide +kernel
-theorem gEnt_12 : gEnt 12 = true := by decide +kernel
-theorem gEnt_13 : gEnt 13 = true := by decide +kernel
-theorem gEnt_14 : gEnt 14 = true := by decide +kernel
-theorem gEnt_15 : gEnt 15 = true := by decide +kernel
-theorem gEnt_16 : gEnt 16 = true := by decide +kernel
-theorem gEnt_17 : gEnt 17 = true := by decide +kernel
+theorem gEnt_of_entAll (k : ℕ) (hs : (gA k).size = 693)
+    (h : CFSG.KC.U6F2.entAllK (fun i a => Nat.beq a (pg 10 (mask 10) (sec3G k) i)) (gA k).toList 0
+      = true) : gEnt k = true := by
+  unfold gEnt
+  refine List.all_eq_true.mpr fun i hi => ?_
+  have hi : i < 693 := List.mem_range.mp hi
+  have hl : i < (gA k).toList.length := by simpa [hs] using hi
+  have e := CFSG.KC.U6F2.entAllK_spec _ _ 0 h i hl
+  rw [Nat.zero_add, Array.getElem_toList] at e
+  rwa [getElem!_pos (gA k) i (by omega)]
+
+theorem gEnt_0 : gEnt 0 = true := gEnt_of_entAll 0 (by decide +kernel) (by decide +kernel)
+theorem gEnt_1 : gEnt 1 = true := gEnt_of_entAll 1 (by decide +kernel) (by decide +kernel)
+theorem gEnt_2 : gEnt 2 = true := gEnt_of_entAll 2 (by decide +kernel) (by decide +kernel)
+theorem gEnt_3 : gEnt 3 = true := gEnt_of_entAll 3 (by decide +kernel) (by decide +kernel)
+theorem gEnt_4 : gEnt 4 = true := gEnt_of_entAll 4 (by decide +kernel) (by decide +kernel)
+theorem gEnt_5 : gEnt 5 = true := gEnt_of_entAll 5 (by decide +kernel) (by decide +kernel)
+theorem gEnt_6 : gEnt 6 = true := gEnt_of_entAll 6 (by decide +kernel) (by decide +kernel)
+theorem gEnt_7 : gEnt 7 = true := gEnt_of_entAll 7 (by decide +kernel) (by decide +kernel)
+theorem gEnt_8 : gEnt 8 = true := gEnt_of_entAll 8 (by decide +kernel) (by decide +kernel)
+theorem gEnt_9 : gEnt 9 = true := gEnt_of_entAll 9 (by decide +kernel) (by decide +kernel)
+theorem gEnt_10 : gEnt 10 = true := gEnt_of_entAll 10 (by decide +kernel) (by decide +kernel)
+theorem gEnt_11 : gEnt 11 = true := gEnt_of_entAll 11 (by decide +kernel) (by decide +kernel)
+theorem gEnt_12 : gEnt 12 = true := gEnt_of_entAll 12 (by decide +kernel) (by decide +kernel)
+theorem gEnt_13 : gEnt 13 = true := gEnt_of_entAll 13 (by decide +kernel) (by decide +kernel)
+theorem gEnt_14 : gEnt 14 = true := gEnt_of_entAll 14 (by decide +kernel) (by decide +kernel)
+theorem gEnt_15 : gEnt 15 = true := gEnt_of_entAll 15 (by decide +kernel) (by decide +kernel)
+theorem gEnt_16 : gEnt 16 = true := gEnt_of_entAll 16 (by decide +kernel) (by decide +kernel)
+theorem gEnt_17 : gEnt 17 = true := gEnt_of_entAll 17 (by decide +kernel) (by decide +kernel)
 
 theorem hc : ∀ k < 18, canonK 693 10 (mask 10) (693 * 10) (sec3G k) = true := by decide +kernel
 

@@ -7,6 +7,7 @@ public import CFSG.Certificates.Kernel.D4Sound
 public import CFSG.Certificates.Kernel.Misc.HexFlatSound
 public import CFSG.Certificates.Kernel.Misc.PairCountSound
 public import Certificates.Kernel.Sporadic.OddCore.ChainCheckGlue
+import CFSG.Certificates.Kernel.Misc.ChainTailOrbSound
 
 public section
 
@@ -164,12 +165,13 @@ theorem rcnt0 : rcnt (U38C1.LR 0) = 513 ∧ rcnt (U38C2.LR 0) = 513 := by
 theorem cent1 : centOKP 19 513 strong1 base1 (unpack 513 10 (PF 25)) rels1 gens1 ps1 cert1 57 =
     true := by
   obtain ⟨he1, he2, he3⟩ := enum1
-  have h := centOKP_of (p := 19) kW binds1 perm1 U38C1.hl (pPF (k := 25) (by norm_num)
-    (by norm_num)) rels1K bindG1 comm1 (fun k hk => by
+  have h := centOKP_of_orbS (p := 19) kW binds1 perm1 U38C1.hl (k := 9) (by decide)
+    (by decide) (by norm_num) chain1 (pPF (k := 25) (by norm_num) (by norm_num)) rels1K bindG1
+    comm1 (fun k hk => by
       rw [hN1.2.1] at hk
       interval_cases k
-      exact sift1_of s1.2.2.2) he1 he2 he3 (allN_spec U38E1.perm) (by norm_num)
-    (by rw [rcnt0.1]; exact tail1)
+      exact sift1_of s1.2.2.2) (mem_base_lt binds1 U38C1.hl) he1 he2 he3
+    (allN_spec U38E1.perm) (by norm_num) (allN_spec rep1) (by rw [rcnt0.1]; exact allN_spec orb1K)
   rw [hN1.1] at h
   exact h
 

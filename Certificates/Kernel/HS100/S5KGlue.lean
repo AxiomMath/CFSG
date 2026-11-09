@@ -110,19 +110,23 @@ theorem inP_pt {i : ℕ} (hi : i < 1024) :
 
 theorem iN {i : ℕ} (hi : i < 1024) : i < CS.N := by rw [nums'.2.1]; exact hi
 
-theorem osAll : (s5SCert.pts.toList.all fun x =>
-    !s5InP x || eqA 100 (compA 100 s5Z x) (compA 100 x s5Z)) = true := by
-  rw [cs_pts, pts_toList (N := CS.N) fun e => unpack 100 7 (CS.T e), List.all_map,
-    List.all_eq_true]
-  intro i hi
-  have hi' : i < 1024 := by rw [← nums'.2.1]; exact List.mem_range.1 hi
+theorem osAll_pt {i : ℕ} (hi' : i < 1024) :
+    (!s5InP (unpack 100 7 (CS.T i)) ||
+      eqA 100 (compA 100 s5Z (unpack 100 7 (CS.T i))) (compA 100 (unpack 100 7 (CS.T i)) s5Z)) =
+      true := by
   have h := allN_spec os i hi'
   unfold osOne at h
   rw [Bool.and_eq_true] at h
-  simp only [Function.comp_apply]
   rw [inP_pt hi', z_eq, eqA_keyCK hw psLt cs_enumOK permZ (permCS (iN hi')) (permCS (iN hi'))
     permZ memZ (memCS (iN hi')) (memCS (iN hi')) memZ, Bool.or_comm]
   exact h.2
+
+theorem osAll : (s5SCert.pts.toList.all fun x =>
+    !s5InP x || eqA 100 (compA 100 s5Z x) (compA 100 x s5Z)) = true := by
+  rw [cs_pts, pts_toList (N := CS.N) fun e => unpack 100 7 (CS.T e), List.all_eq_true]
+  intro x hx
+  obtain ⟨i, hi, rfl⟩ := List.mem_map.1 hx
+  exact osAll_pt (by rw [← nums'.2.1]; exact List.mem_range.1 hi)
 
 theorem out1_eq {i : ℕ} (hi : i < 1024) : s5Out1 (unpack 100 7 (CS.T i)) = out1 i := by
   unfold s5Out1 out1

@@ -28,7 +28,24 @@ meta def zw1M : List Nat := heSevenC1Cert.pts.toList.map fun c =>
   | none => ((List.range 7).find? (fun e =>
       eqA 8330 c (CFSG.Monster.B.Mathieu.powArr 8330 heSevenLines[1]! e))).getD 0 + 100
 
-meta def dIdx : Std.HashMap Nat Nat :=
+meta def zwp1M : Array (Array Nat) := #[zw1M.toArray]
+
+meta def ckv1M : Array (Array Nat) := #[heSevenC1Cert.pts.map (keyA 8330 heSevenKeys)]
+
+meta def ep1M : List Nat :=
+  let b := (heSevenCase1Base.map Fin.val).getD 0 0
+  ((List.range 8330).filter fun q => (heSevenLines[1]!)[q]! == q).map fun q =>
+    ((List.range 1176).find? fun j => (heSevenC1Cert.pts[j]!)[b]! == q).getD 0
+
+meta def eq1M : List Nat :=
+  let b0 := (heSevenCase1Base.map Fin.val).getD 0 0
+  let b1 := (heSevenCase1Base.map Fin.val).getD 1 0
+  let hs := (List.range 1176).filter fun j => (heSevenC1Cert.pts[j]!)[b0]! == b0
+  (hs.foldl (fun (acc : List Nat × List Nat) j =>
+    let q := (heSevenC1Cert.pts[j]!)[b1]!
+    if acc.1.contains q then acc else (q :: acc.1, j :: acc.2)) ([], [])).2.reverse
+
+meta def dIdx: Std.HashMap Nat Nat :=
   (List.range heSevenDCert1.pts.size).foldl (fun m i =>
     m.insert (keyA 8330 heSevenKeys heSevenDCert1.pts[i]!) i) {}
 
@@ -72,9 +89,12 @@ end CertificateChecks.KernelHeLoc.Seven
   CFSG.RankThree.PartOne.heSevenKeys
 #knatlist CertificateChecks.KernelHeLoc.Seven.FR1 CertificateChecks.KernelHeLoc.Seven.fr1M
 #knatlist CertificateChecks.KernelHeLoc.Seven.CD1 CertificateChecks.KernelHeLoc.Seven.cd1M
+#knatlist CertificateChecks.KernelHeLoc.Seven.EP1 CertificateChecks.KernelHeLoc.Seven.ep1M
+#knatlist CertificateChecks.KernelHeLoc.Seven.EQ1 CertificateChecks.KernelHeLoc.Seven.eq1M
 #knatlist CertificateChecks.KernelHeLoc.Seven.DK1 CertificateChecks.KernelHeLoc.Seven.dk1M
 #knatlist CertificateChecks.KernelHeLoc.Seven.DC1 CertificateChecks.KernelHeLoc.Seven.dc1M
-#knatlist CertificateChecks.KernelHeLoc.Seven.ZW1 CertificateChecks.KernelHeLoc.Seven.zw1M
+#kmisc_packarrs CertificateChecks.KernelHeLoc.Seven.ZWP1 CertificateChecks.KernelHeLoc.Seven.zwp1M 8
+#kmisc_packarrs CertificateChecks.KernelHeLoc.Seven.CKV1 CertificateChecks.KernelHeLoc.Seven.ckv1M 184
 #kmisc_packarrs CertificateChecks.KernelHeLoc.Seven.MT1 CertificateChecks.KernelHeLoc.Seven.mt1M 8
 #kmisc_packarrs CertificateChecks.KernelHeLoc.Seven.IV1 CertificateChecks.KernelHeLoc.Seven.iv1M 8
 #knatlist CertificateChecks.KernelHeLoc.Seven.RP1 CertificateChecks.KernelHeLoc.Seven.rp1M

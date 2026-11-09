@@ -8,7 +8,7 @@ public import Certificates.Data.Kernel.SporCov.PCl
 public import Certificates.Data.Kernel.SporCov.BaseKit
 public import Certificates.Data.Kernel.SporCov.Census
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovPerm.M23.F "Certificates/Kernel/SporCovPerm/data/m23.json.gz" 5448
+#kc_repo #kc_json CFSG.KD.SporCovPerm.M23.F "Certificates/Kernel/SporCovPerm/data/m23.json" 5448
   2686878785432551490
   (G1 : List Nat) (G2 : List Nat) (T : List Nat) (M : List (List Nat)) (Y : List (List Nat))
   (H : List (List Nat)) (Yc : List (List Nat)) (K : List Nat) (C : List (List Nat))

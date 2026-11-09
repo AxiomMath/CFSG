@@ -303,7 +303,7 @@ abbrev Elt : Type := Array Nat × Array Nat
 
 @[expose] def chainOK : Bool :=
   xStrongArrs.size == 9 &&
-    rawChainOK 1782 gens xStrongArrs xBase.toArray xWords 4 &&
+    rawChainOK 1782 gens xStrongArrs xBase.toArray xWords 0 &&
     rawOrbitSizes 1782 xStrongArrs xBase.toArray == [162, 105, 64, 3, 3]
 
 @[expose] def basicOK : Bool :=

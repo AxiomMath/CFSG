@@ -11,11 +11,105 @@ namespace CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542
 
 open Equiv Subgroup CFSG.QuasithinUnique.Setup.X3E
 
+set_option maxHeartbeats 4000000 in
+@[expose] def ord3Wit : List (Perm (Fin 6) × Perm (Fin 6)) := [
+    (Equiv.swap 3 4 * Equiv.swap 4 5, Equiv.swap 0 3 * Equiv.swap 1 5 * Equiv.swap 2 4 * Equiv.swap 4 5),
+    (Equiv.swap 3 5 * Equiv.swap 4 5, Equiv.swap 0 3 * Equiv.swap 1 4 * Equiv.swap 2 5 * Equiv.swap 4 5),
+    (Equiv.swap 2 3 * Equiv.swap 3 4, Equiv.swap 0 3 * Equiv.swap 1 4),
+    (Equiv.swap 2 3 * Equiv.swap 3 5, Equiv.swap 0 3 * Equiv.swap 1 5),
+    (Equiv.swap 2 4 * Equiv.swap 3 4, Equiv.swap 0 4 * Equiv.swap 1 3),
+    (Equiv.swap 2 4 * Equiv.swap 4 5, Equiv.swap 0 4 * Equiv.swap 1 5),
+    (Equiv.swap 2 5 * Equiv.swap 3 5, Equiv.swap 0 5 * Equiv.swap 1 3),
+    (Equiv.swap 2 5 * Equiv.swap 4 5, Equiv.swap 0 5 * Equiv.swap 1 4),
+    (Equiv.swap 1 2 * Equiv.swap 2 3, Equiv.swap 0 3 * Equiv.swap 4 5),
+    (Equiv.swap 1 2 * Equiv.swap 2 4, Equiv.swap 0 3 * Equiv.swap 3 4),
+    (Equiv.swap 1 2 * Equiv.swap 2 5, Equiv.swap 0 3 * Equiv.swap 3 5),
+    (Equiv.swap 1 3 * Equiv.swap 2 3, Equiv.swap 0 3 * Equiv.swap 1 3),
+    (Equiv.swap 1 3 * Equiv.swap 3 4, Equiv.swap 0 4 * Equiv.swap 2 3),
+    (Equiv.swap 1 3 * Equiv.swap 3 5, Equiv.swap 0 5 * Equiv.swap 2 3),
+    (Equiv.swap 1 4 * Equiv.swap 2 4, Equiv.swap 0 4 * Equiv.swap 1 4),
+    (Equiv.swap 1 4 * Equiv.swap 3 4, Equiv.swap 0 3 * Equiv.swap 2 4),
+    (Equiv.swap 1 4 * Equiv.swap 4 5, Equiv.swap 0 5 * Equiv.swap 2 4),
+    (Equiv.swap 1 5 * Equiv.swap 2 5, Equiv.swap 0 5 * Equiv.swap 1 5),
+    (Equiv.swap 1 5 * Equiv.swap 3 5, Equiv.swap 0 3 * Equiv.swap 2 5),
+    (Equiv.swap 1 5 * Equiv.swap 4 5, Equiv.swap 0 4 * Equiv.swap 2 5),
+    (Equiv.swap 0 1 * Equiv.swap 1 2, 1),
+    (Equiv.swap 0 1 * Equiv.swap 1 2 * Equiv.swap 3 4 * Equiv.swap 4 5, 1),
+    (Equiv.swap 0 1 * Equiv.swap 1 2 * Equiv.swap 3 5 * Equiv.swap 4 5, Equiv.swap 0 3 * Equiv.swap 1 4 * Equiv.swap 2 5 * Equiv.swap 4 5),
+    (Equiv.swap 0 1 * Equiv.swap 1 3, Equiv.swap 2 3 * Equiv.swap 4 5),
+    (Equiv.swap 0 1 * Equiv.swap 1 3 * Equiv.swap 2 4 * Equiv.swap 4 5, Equiv.swap 0 4 * Equiv.swap 1 5),
+    (Equiv.swap 0 1 * Equiv.swap 1 3 * Equiv.swap 2 5 * Equiv.swap 4 5, Equiv.swap 2 3 * Equiv.swap 4 5),
+    (Equiv.swap 0 1 * Equiv.swap 1 4, Equiv.swap 2 3 * Equiv.swap 3 4),
+    (Equiv.swap 0 1 * Equiv.swap 1 4 * Equiv.swap 2 3 * Equiv.swap 3 5, Equiv.swap 2 3 * Equiv.swap 3 4),
+    (Equiv.swap 0 1 * Equiv.swap 1 4 * Equiv.swap 2 5 * Equiv.swap 3 5, Equiv.swap 0 5 * Equiv.swap 1 3),
+    (Equiv.swap 0 1 * Equiv.swap 1 5, Equiv.swap 2 3 * Equiv.swap 3 5),
+    (Equiv.swap 0 1 * Equiv.swap 1 5 * Equiv.swap 2 3 * Equiv.swap 3 4, Equiv.swap 0 3 * Equiv.swap 1 4),
+    (Equiv.swap 0 1 * Equiv.swap 1 5 * Equiv.swap 2 4 * Equiv.swap 3 4, Equiv.swap 2 3 * Equiv.swap 3 5),
+    (Equiv.swap 0 2 * Equiv.swap 1 2, Equiv.swap 1 2 * Equiv.swap 4 5),
+    (Equiv.swap 0 2 * Equiv.swap 1 2 * Equiv.swap 3 4 * Equiv.swap 4 5, Equiv.swap 0 3 * Equiv.swap 1 5 * Equiv.swap 2 4 * Equiv.swap 4 5),
+    (Equiv.swap 0 2 * Equiv.swap 1 2 * Equiv.swap 3 5 * Equiv.swap 4 5, Equiv.swap 1 2 * Equiv.swap 4 5),
+    (Equiv.swap 0 2 * Equiv.swap 2 3, Equiv.swap 1 3 * Equiv.swap 2 3),
+    (Equiv.swap 0 2 * Equiv.swap 2 4, Equiv.swap 1 4 * Equiv.swap 2 4),
+    (Equiv.swap 0 2 * Equiv.swap 2 5, Equiv.swap 1 5 * Equiv.swap 2 5),
+    (Equiv.swap 0 2 * Equiv.swap 1 3 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 0 5 * Equiv.swap 2 3),
+    (Equiv.swap 0 2 * Equiv.swap 1 3 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 1 5 * Equiv.swap 2 5),
+    (Equiv.swap 0 2 * Equiv.swap 1 4 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 1 3 * Equiv.swap 2 3),
+    (Equiv.swap 0 2 * Equiv.swap 1 4 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 0 3 * Equiv.swap 2 4),
+    (Equiv.swap 0 2 * Equiv.swap 1 5 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 0 4 * Equiv.swap 2 5),
+    (Equiv.swap 0 2 * Equiv.swap 1 5 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 1 4 * Equiv.swap 2 4),
+    (Equiv.swap 0 3 * Equiv.swap 1 3, Equiv.swap 1 2 * Equiv.swap 2 3),
+    (Equiv.swap 0 3 * Equiv.swap 1 3 * Equiv.swap 2 4 * Equiv.swap 4 5, Equiv.swap 1 2 * Equiv.swap 2 3),
+    (Equiv.swap 0 3 * Equiv.swap 1 3 * Equiv.swap 2 5 * Equiv.swap 4 5, Equiv.swap 0 5 * Equiv.swap 1 4),
+    (Equiv.swap 0 3 * Equiv.swap 2 3, Equiv.swap 1 3 * Equiv.swap 4 5),
+    (Equiv.swap 0 3 * Equiv.swap 3 4, Equiv.swap 1 3 * Equiv.swap 2 4),
+    (Equiv.swap 0 3 * Equiv.swap 3 5, Equiv.swap 1 3 * Equiv.swap 2 5),
+    (Equiv.swap 0 3 * Equiv.swap 1 2 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 0 3 * Equiv.swap 3 4),
+    (Equiv.swap 0 3 * Equiv.swap 1 2 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 1 3 * Equiv.swap 2 4),
+    (Equiv.swap 0 3 * Equiv.swap 1 4 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 0 5 * Equiv.swap 2 4),
+    (Equiv.swap 0 3 * Equiv.swap 1 4 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 1 3 * Equiv.swap 2 5),
+    (Equiv.swap 0 3 * Equiv.swap 1 5 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 1 3 * Equiv.swap 4 5),
+    (Equiv.swap 0 3 * Equiv.swap 1 5 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 0 5 * Equiv.swap 1 5),
+    (Equiv.swap 0 4 * Equiv.swap 1 4, Equiv.swap 1 2 * Equiv.swap 2 4),
+    (Equiv.swap 0 4 * Equiv.swap 1 4 * Equiv.swap 2 3 * Equiv.swap 3 5, Equiv.swap 0 3 * Equiv.swap 1 5),
+    (Equiv.swap 0 4 * Equiv.swap 1 4 * Equiv.swap 2 5 * Equiv.swap 3 5, Equiv.swap 1 2 * Equiv.swap 2 4),
+    (Equiv.swap 0 4 * Equiv.swap 2 4, Equiv.swap 1 3 * Equiv.swap 3 4),
+    (Equiv.swap 0 4 * Equiv.swap 3 4, Equiv.swap 1 4 * Equiv.swap 2 3),
+    (Equiv.swap 0 4 * Equiv.swap 4 5, Equiv.swap 1 4 * Equiv.swap 2 5),
+    (Equiv.swap 0 4 * Equiv.swap 1 2 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 1 4 * Equiv.swap 2 5),
+    (Equiv.swap 0 4 * Equiv.swap 1 2 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 0 3 * Equiv.swap 3 5),
+    (Equiv.swap 0 4 * Equiv.swap 1 3 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 1 3 * Equiv.swap 3 4),
+    (Equiv.swap 0 4 * Equiv.swap 1 3 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 0 3 * Equiv.swap 1 3),
+    (Equiv.swap 0 4 * Equiv.swap 1 5 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 0 3 * Equiv.swap 2 5),
+    (Equiv.swap 0 4 * Equiv.swap 1 5 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 1 4 * Equiv.swap 2 3),
+    (Equiv.swap 0 5 * Equiv.swap 1 5, Equiv.swap 1 2 * Equiv.swap 2 5),
+    (Equiv.swap 0 5 * Equiv.swap 1 5 * Equiv.swap 2 3 * Equiv.swap 3 4, Equiv.swap 1 2 * Equiv.swap 2 5),
+    (Equiv.swap 0 5 * Equiv.swap 1 5 * Equiv.swap 2 4 * Equiv.swap 3 4, Equiv.swap 0 4 * Equiv.swap 1 3),
+    (Equiv.swap 0 5 * Equiv.swap 2 5, Equiv.swap 1 3 * Equiv.swap 3 5),
+    (Equiv.swap 0 5 * Equiv.swap 3 5, Equiv.swap 1 5 * Equiv.swap 2 3),
+    (Equiv.swap 0 5 * Equiv.swap 4 5, Equiv.swap 1 5 * Equiv.swap 2 4),
+    (Equiv.swap 0 5 * Equiv.swap 1 2 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 0 3 * Equiv.swap 4 5),
+    (Equiv.swap 0 5 * Equiv.swap 1 2 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 1 5 * Equiv.swap 2 3),
+    (Equiv.swap 0 5 * Equiv.swap 1 3 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 0 4 * Equiv.swap 2 3),
+    (Equiv.swap 0 5 * Equiv.swap 1 3 * Equiv.swap 2 3 * Equiv.swap 4 5, Equiv.swap 1 5 * Equiv.swap 2 4),
+    (Equiv.swap 0 5 * Equiv.swap 1 4 * Equiv.swap 2 5 * Equiv.swap 3 4, Equiv.swap 1 3 * Equiv.swap 3 5),
+    (Equiv.swap 0 5 * Equiv.swap 1 4 * Equiv.swap 2 4 * Equiv.swap 3 5, Equiv.swap 0 4 * Equiv.swap 1 4)
+]
+
+theorem order_three_wit :
+    ∀ u : Perm (Fin 6), u ^ 3 = 1 → u ≠ 1 → ∃ p ∈ ord3Wit, p.1 = u ∧
+      ((Perm.sign p.2 = 1 ∧ p.2 * u * p.2⁻¹ = c[0, 1, 2]) ∨
+        (Perm.sign p.2 = 1 ∧ p.2 * u * p.2⁻¹ = c[0, 1, 2] * c[3, 4, 5])) := by
+  decide +kernel
+
 theorem order_three_cases :
     ∀ u : Perm (Fin 6), u ^ 3 = 1 → u ≠ 1 →
       (∃ g : Perm (Fin 6), Perm.sign g = 1 ∧ g * u * g⁻¹ = c[0, 1, 2]) ∨
       (∃ g : Perm (Fin 6), Perm.sign g = 1 ∧ g * u * g⁻¹ = c[0, 1, 2] * c[3, 4, 5]) := by
-  decide +kernel
+  intro u h3 h1
+  obtain ⟨p, -, -, h⟩ := order_three_wit u h3 h1
+  rcases h with h | h
+  · exact Or.inl ⟨p.2, h⟩
+  · exact Or.inr ⟨p.2, h⟩
 
 theorem image_y_cases :
     ∀ v : Perm (Fin 6), v ^ 5 = 1 → v ≠ 1 →

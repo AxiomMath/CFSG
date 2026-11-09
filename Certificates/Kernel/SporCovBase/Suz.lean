@@ -9,7 +9,7 @@ public import Certificates.Data.Kernel.SporCov.BaseKit
 public import Certificates.Data.Kernel.Spor.PEnum
 public import Certificates.Kernel.Sporadic.SuzK.Data
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.Suz.F "Certificates/Kernel/SporCovBase/data/suz5.json.gz" 2307
+#kc_repo #kc_json CFSG.KD.SporCovBase.Suz.F "Certificates/Kernel/SporCovBase/data/suz5.json" 2307
   4803519142163316727
   (T : List Nat) (Y1 : List Nat) (Y2 : List Nat) (G1 : List Nat) (G2 : List Nat)
   (M : List (List Nat)) (C : List (List Nat)) (R : List (List Nat))

@@ -8,7 +8,7 @@ namespace CertificateChecks.KernelThDemp
 
 open CFSG.KC.ThDemp
 
-theorem res0_ok : resChk dempData 0 = true := by decide +kernel
+theorem res0_ok : resChkR dempData 0 0 2 = true := by decide +kernel
 
 end CertificateChecks.KernelThDemp
 

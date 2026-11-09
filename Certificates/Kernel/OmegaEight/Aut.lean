@@ -78,6 +78,40 @@ theorem gPairs_bind : OmegaEightMinus.gPairs.length = 10 ∧
 theorem bposP : ∀ j < 6, bpos .plus j = fget 5665569 j 4 := by decide +kernel
 theorem bposM : ∀ j < 6, bpos .minus j = fget 4552225 j 4 := by decide +kernel
 
+theorem fromW_lt (ε : Eps) (y : ℕ) : fromW ε y < 256 :=
+  match ε with
+  | .plus => fromWG_ltP bposP y
+  | .minus => fromWG_ltM bposM y
+
+theorem leviMap_lt (ε : Eps) (A : Array ℕ) {x : ℕ} (hx : x < 256) : leviMap ε A x < 256 := by
+  unfold leviMap
+  exact Nat.xor_lt_two_pow (n := 8) (Nat.xor_lt_two_pow hx (fromW_lt _ _)) (fromW_lt _ _)
+
+private theorem unpack_toList' (n w P : Nat) :
+    (unpack n w P).toList = (List.range n).map fun i => fget P i w := by
+  apply List.ext_getElem
+  · simp [unpack]
+  · intro i h1 h2
+    simp [unpack, PA.fget_eq_pg]
+
+theorem psiArrP_unpack (y : Nat) :
+    psiArr .plus y = unpack 120 9 (psiK false NSP NIP 120 9 5665569 y) :=
+  Array.ext' (by rw [psiArrP_eq, psiP_sound formP kNsP bposP y, unpack_toList'])
+
+theorem psiArrM_unpack (y : Nat) :
+    psiArr .minus y = unpack 136 8 (psiK true NSM NIM 136 8 4552225 y) :=
+  Array.ext' (by rw [psiArrM_eq, psiM_sound formM kNsM bposM y, unpack_toList'])
+
+theorem leviArrP_unpack (A : Array ℕ) {P : ℕ}
+    (hP : ∀ i < 120, fget P i 9 = nsMap NSP NIP (leviMap .plus A) i) :
+    permArr .plus (leviMap .plus A) = unpack 120 9 P :=
+  permG_sound formP kNsP (fun _ hx => leviMap_lt .plus A hx) hP
+
+theorem leviArrM_unpack (A : Array ℕ) {P : ℕ}
+    (hP : ∀ i < 136, fget P i 8 = nsMap NSM NIM (leviMap .minus A) i) :
+    permArr .minus (leviMap .minus A) = unpack 136 8 P :=
+  permG_sound formM kNsM (fun _ hx => leviMap_lt .minus A hx) hP
+
 theorem genAP :
     OmegaEight.genArrs.size = 10 ∧ ∀ j < 10, OmegaEight.genArrs[j]! = unpack 360 9 (AP.S j) := by
   obtain ⟨hs, he⟩ := genP_sound formP kNsP rootPairs_bind

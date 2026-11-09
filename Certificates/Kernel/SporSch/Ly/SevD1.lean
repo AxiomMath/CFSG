@@ -27,7 +27,61 @@ open CFSG.Sporadic.Th.Native (allIn)
 @[expose] noncomputable def lvV (i : Nat) : Array (Array Nat) :=
   ((hLevelGens.getD i []).map fun k => LySv.VALS.getD k (id7 ())).toArray
 
-@[expose] noncomputable def VP (k : Nat) : Nat := pk49 (LySv.VALS[k]!)
+@[expose] noncomputable def pk3L (l : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) 0 (fun x _ ih => Nat.lor x (Nat.shiftLeft ih 3)) l
+
+@[expose] noncomputable def lt8L (l : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) true (fun x _ ih => bAnd(Nat.blt x 8, ih)) l
+
+theorem lt8L_spec : ∀ {l : List Nat}, lt8L l = true → ∀ x ∈ l, x < 8 := by
+  intro l
+  induction l with
+  | nil => intro _ x hx; simp at hx
+  | cons y l ih =>
+    intro h x hx
+    obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 h
+    rcases List.mem_cons.1 hx with rfl | hx
+    · rwa [Nat.blt_eq] at h1
+    · exact ih h2 x hx
+
+theorem pk3L_cons (x : Nat) (l : List Nat) (hx : x < 8) : pk3L (x :: l) = x + 8 * pk3L l := by
+  change x ||| pk3L l <<< 3 = _
+  have h := Nat.shiftLeft_add_eq_or_of_lt (i := 3) (by omega : x < 2 ^ 3) (pk3L l)
+  rw [Nat.or_comm, ← h, Nat.shiftLeft_eq]
+  omega
+
+theorem d3_pk3L : ∀ (l : List Nat), (∀ x ∈ l, x < 8) → ∀ t (ht : t < l.length),
+    d3 (pk3L l) t = l[t] := by
+  intro l
+  induction l with
+  | nil => intro _ t ht; simp at ht
+  | cons x l ih =>
+    intro h t ht
+    have hx : x < 8 := h x (by simp)
+    have e7 : ∀ y : ℕ, y &&& 7 = y % 8 := fun y => Nat.and_two_pow_sub_one_eq_mod y 3
+    unfold d3
+    rw [pk3L_cons x l hx]
+    change (x + 8 * pk3L l) >>> (3 * t) &&& 7 = _
+    rcases t with _ | t
+    · rw [e7, Nat.mul_zero, Nat.shiftRight_zero, List.getElem_cons_zero]
+      omega
+    · have e : (x + 8 * pk3L l) >>> (3 * (t + 1)) = pk3L l >>> (3 * t) := by
+        rw [show 3 * (t + 1) = 3 + 3 * t by ring, Nat.shiftRight_add]
+        congr 1
+        rw [Nat.shiftRight_eq_div_pow]
+        omega
+      rw [e, List.getElem_cons_succ]
+      exact ih (fun y hy => h y (by simp [hy])) t (by simp at ht; omega)
+
+theorem dec49_pk3L {a : Array Nat} (hl : a.toList.length = 49) (h8 : lt8L a.toList = true) :
+    a = dec49 (pk3L a.toList) := by
+  have hs : a.size = 49 := by rw [← Array.length_toList, hl]
+  apply Array.ext (by rw [hs]; simp [dec49])
+  intro t ht _
+  simp only [dec49, Array.getElem_ofFn]
+  rw [d3_pk3L _ (lt8L_spec h8) t (by rw [hl]; omega), Array.getElem_toList]
+
+@[expose] noncomputable def VP (k : Nat) : Nat := pk3L (LySv.VALS[k]!).toList
 
 @[expose] noncomputable def RAP (j : Nat) : Nat := pk49 (LySv.RA[j]!)
 
@@ -65,7 +119,8 @@ theorem idOK : is49 (id7 ()) id7K = true := by quickRfl
 
 theorem id7_eq : id7 () = dec49 id7K := dec49_of idOK
 
-theorem vpOK : allN 92 (fun k => bAnd(is49 (LySv.VALS[k]!) (VP k), red49 (VP k))) = true := by
+theorem vpOK : allN 92 (fun k => bAnd(bAnd(Nat.beq (LySv.VALS[k]!).toList.length 49,
+    lt8L (LySv.VALS[k]!).toList), red49 (VP k))) = true := by
   quickRfl
 
 theorem raOK : allN 5 (fun j => bAnd(is49 (LySv.RA[j]!) (RAP j), red49 (RAP j))) = true := by
@@ -73,8 +128,9 @@ theorem raOK : allN 5 (fun j => bAnd(is49 (LySv.RA[j]!) (RAP j), red49 (RAP j)))
 
 theorem dagK : allN 92 dagStep = true := by quickRfl
 
-theorem vals_get {k : Nat} (hk : k < 92) : LySv.VALS[k]! = dec49 (VP k) :=
-  dec49_of ((CFSG.KS.bAnd_iff _ _).1 (allN_spec vpOK k hk)).1
+theorem vals_get {k : Nat} (hk : k < 92) : LySv.VALS[k]! = dec49 (VP k) := by
+  obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 ((CFSG.KS.bAnd_iff _ _).1 (allN_spec vpOK k hk)).1
+  exact dec49_pk3L (Nat.eq_of_beq_eq_true h1) h2
 
 theorem red_vp {k : Nat} (hk : k < 92) : red49 (VP k) = true :=
   ((CFSG.KS.bAnd_iff _ _).1 (allN_spec vpOK k hk)).2

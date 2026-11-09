@@ -21,7 +21,7 @@ theorem kFacts_of_K
     (hrep : ∀ j < 43, repAt GV RV (u62RWords.map (List.map fun z => z.natAbs - 1)) j = true)
     (htree : ∀ i < 32768, treeAt GV LV PT LB i = true)
     (hsort : ∀ i < 32768, sortAt LV SO 32768 i = true)
-    (hphi : ∀ i < 32768, phiAt LV UP XP NXP i = true)
+    (hphi : ∀ q < NO, phiAt LV UP XP NXP (f16 T.EI q) = true)
     (hnorm : ∀ k < 13, normAt GV LV NI 32768 k = true)
     (hfix : ∀ q < 693, fixAt GV UP q = true)
     (hscan : ∀ i < 32768, scanAt LV PO T.EI NO i = true)
@@ -36,7 +36,7 @@ theorem kFacts_of_K
   obtain ⟨gen, hg⟩ := Snd.genRep hTV hgen
   have hl := Snd.lstRep hg htree
   have henum := Snd.sbEnum hcard hl hsort
-  have hΦ := Snd.phi_not_mem hUP henum hphi
+  have hΦ := Snd.phi_not_mem_scan hUP henum hscan hphi
   exact ⟨Snd.fixed_point_iff hUP hg hfix, hΦ, Snd.norm_mem hg hl hnorm,
     Snd.monoW_of_checks (Snd.repRep hg hrep) henum hΦ hscan hLV hRV hpool hrec hent⟩
 

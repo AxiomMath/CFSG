@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.HN1408.RecGen
 public import Certificates.Kernel.Sporadic.OddCore.MulHCmd
 public import Certificates.Kernel.Misc.Perm.HexCmd
+public import Certificates.Kernel.Misc.Perm.CharsLits
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HNRecog.TwoHSData.ShapeIIData
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HNRecog.TwoHSData.FixData
 meta import Certificates.Kernel.HN1408.RecGen
@@ -58,6 +59,18 @@ meta def gY5I : Array (Array Nat) := gY5.map invM
 meta def iY5 : Array (Array Nat) := idsOf gY5
 meta def rY5 : Array (Array Nat) := recOf gY5
 meta def cY5 : Array (Array Nat) := clOf gY5
+
+meta def hkM (t : Array Nat) : Nat :=
+  t.foldl (fun h x => Nat.xor h x * 1099511628211 % 18446744073709551616) 14695981039346656037
+meta def hsOf (r : Array (Array Nat)) : Array (Array Nat) := r.map fun t => #[hkM t]
+meta def hN5 : Array (Array Nat) := hsOf rN5
+meta def hS5 : Array (Array Nat) := hsOf rS5
+meta def hB5 : Array (Array Nat) := hsOf rB5
+meta def hY5 : Array (Array Nat) := hsOf rY5
+meta def hY3 : Array (Array Nat) := hsOf rY3
+meta def hN3 : Array (Array Nat) := hsOf rN3
+meta def hV3 : Array (Array Nat) := hsOf rV3
+meta def hA3 : Array (Array Nat) := hsOf rA3
 
 meta def pY3 : Array (Array Nat) := gN3
 meta def pN3 : Array (Array Nat) := gV3 ++ gA3
@@ -122,6 +135,15 @@ set_option maxRecDepth 400000
 #kfind CFSG.KD.HN1408.ShIIY5Cl CFSG.KD.HN1408.ShIIGen.rY5 CFSG.KD.HN1408.ShIIGen.cY5
 #kmisc_packarrs CFSG.KD.HN1408.ShIIY5I CFSG.KD.HN1408.ShIIGen.gY5I 11
 
+#kmisc_packarrs CFSG.KD.HN1408.ShIIN5H CFSG.KD.HN1408.ShIIGen.hN5 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIS5H CFSG.KD.HN1408.ShIIGen.hS5 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIB5H CFSG.KD.HN1408.ShIIGen.hB5 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIY5H CFSG.KD.HN1408.ShIIGen.hY5 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIY3H CFSG.KD.HN1408.ShIIGen.hY3 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIN3H CFSG.KD.HN1408.ShIIGen.hN3 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIV3H CFSG.KD.HN1408.ShIIGen.hV3 64
+#kmisc_packarrs CFSG.KD.HN1408.ShIIA3H CFSG.KD.HN1408.ShIIGen.hA3 64
+
 #kfind CFSG.KD.HN1408.ShIIPY3 CFSG.KD.HN1408.ShIIGen.rY3 CFSG.KD.HN1408.ShIIGen.pY3
 #kfind CFSG.KD.HN1408.ShIIPN3 CFSG.KD.HN1408.ShIIGen.rN3 CFSG.KD.HN1408.ShIIGen.pN3
 #kfind CFSG.KD.HN1408.ShIIPN5 CFSG.KD.HN1408.ShIIGen.rN5 CFSG.KD.HN1408.ShIIGen.pN5
@@ -129,8 +151,8 @@ set_option maxRecDepth 400000
 #kmisc_packarrs CFSG.KD.HN1408.ShIIC5I CFSG.KD.HN1408.ShIIGen.gC5I 11
 #kmisc_packarrs CFSG.KD.HN1408.ShIIUVI CFSG.KD.HN1408.ShIIGen.gUVI 11
 
-#ks_chars CFSG.KD.HN1408.ShIIBA CFSG.EvenSporadicStandard.HNRecog.blkStrA3
-#ks_chars CFSG.KD.HN1408.ShIIBY CFSG.EvenSporadicStandard.HNRecog.blkStrY5
+#ks_chars_lits CFSG.KD.HN1408.ShIIBA CFSG.EvenSporadicStandard.HNRecog.blkStrA3
+#ks_chars_lits CFSG.KD.HN1408.ShIIBY CFSG.EvenSporadicStandard.HNRecog.blkStrY5
 #kmisc_packarrs CFSG.KD.HN1408.ShIIB CFSG.KD.HN1408.ShIIGen.blkM 4
 
 #kmulh CFSG.KD.HN1408.ShIILA 5 4 CFSG.KD.HN1408.ShIIGen.ids5 CFSG.KD.HN1408.ShIIGen.lA

@@ -113,7 +113,7 @@ end CertificateChecks.KernelSpor.SuzEnd
 #kss_perms CertificateChecks.KernelSpor.SuzEnd.SG 11 CertificateChecks.KernelSpor.SuzEnd.sgM
 #kss_perms CertificateChecks.KernelSpor.SuzEnd.SGI 11 CertificateChecks.KernelSpor.SuzEnd.sgiM
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSpor.SuzEL 1782 11 16 64
+#ks_rawchain_sl2_data CertificateChecks.KernelSpor.SuzEL 1782 11 0 64
   CertificateChecks.KernelSpor.SuzEnd.lM CertificateChecks.KernelSpor.SuzEnd.baseL 4
   CertificateChecks.KernelSpor.SuzEnd.noDerivs
 

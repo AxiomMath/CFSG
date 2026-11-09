@@ -4,6 +4,7 @@ public import CFSG.Quasithin.H13.A7KLocal
 public import CFSG.Quasithin.H13.A7SharedCubicSylow
 public import CFSG.GroupTheory.ABGLocalTools.OddOrderLocal
 public import CFSG.Quasithin.H13.A7EscapeInputs
+public import CFSG.Quasithin.H13.A7SignCountK
 
 public section
 
@@ -40,9 +41,15 @@ theorem nat_card_sylow_three_of_card {X : Type*} [Group X] [Finite X] {a : ℕ}
       intro h
       exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h) (by norm_num)), add_zero]
 
+theorem vcode_vecFour : CFSG.Permutation.FinPack.vcode vecFour = 1118464 := by
+  decide +kernel
+
 theorem card_filter_stab_vecFour : (Finset.univ.filter fun σ : Perm (Fin 7) =>
     sign σ = 1 ∧ permAct7 σ vecFour = vecFour).card = 72 := by
-  decide +kernel
+  rw [← A7SignCountK.card_sign_stabV4 vecFour vcode_vecFour]
+  refine congrArg Finset.card (Finset.filter_congr fun σ _ => and_congr_right' ?_)
+  exact ⟨fun h => funext fun i => by rw [← permAct7_apply σ vecFour i, h],
+    fun h => funext fun i => by rw [permAct7_apply]; exact congrFun h i⟩
 
 @[expose] def stabVecFour : Subgroup (alternatingGroup (Fin 7)) where
   carrier := {σ | permAct7 (σ : Perm (Fin 7)) vecFour = vecFour}

@@ -25,6 +25,9 @@ theorem fix_levels : ((L1 ++ L2 ++ L3 ++ L4).all fun t => Nat.beq (pt t 0) 0) = 
     ((L3 ++ L4).all fun t => Nat.beq (pt t 2) 2) = true := by
   decide +kernel
 
+theorem fix_level3 : (L4.all fun t => Nat.beq (pt t 3) 3) = true := by
+  decide +kernel
+
 private theorem fix_of_packed {T : List (Perm (Fin 22))} {L : List Nat} (hT : T.map (pkw 5) = L)
     {i : Fin 22} (h : (L.all fun t => Nat.beq (pt t i.val) i.val) = true) :
     ∀ t ∈ T, t i = i := by
@@ -39,14 +42,16 @@ private theorem mul_fix {Ts : List (List (Perm (Fin 22)))} {b : Fin 22}
     (hg : g ∈ products Ts) : (u * g) b = u b := by
   rw [Perm.mul_apply, products_fix h g hg]
 
-theorem m22Count_eq_ccnt (Q : (Fin 22 → Fin 22) → Prop)
+theorem m22Count_eq_ccnt4 (Q : (Fin 22 → Fin 22) → Prop)
     [DecidablePred Q] (d : Perm (Fin 22)) (hd : d ∈ M22) (F : Nat → Nat)
     (hFd : ∀ σ : Perm (Fin 22), F (pkw 5 σ) = if Q ⇑(σ * d) then 1 else 0)
     (C0 : Nat → Bool) (C1 : Nat → Nat → Bool) (C2 : Nat → Nat → Nat → Bool)
+    (C3 : Nat → Nat → Nat → Nat → Bool)
     (hcov : ∀ σ : Perm (Fin 22), Q ⇑(σ * d) →
       C0 (σ 0).val = true ∧ C1 (σ 0).val (σ 1).val = true ∧
-        C2 (σ 0).val (σ 1).val (σ 2).val = true) :
-    m22Count Q = ccnt 22 5 31 F (lev C0 C1 C2) I 0 := by
+        C2 (σ 0).val (σ 1).val (σ 2).val = true ∧
+          C3 (σ 0).val (σ 1).val (σ 2).val (σ 3).val = true) :
+    m22Count Q = ccnt 22 5 31 F (lev4 C0 C1 C2 C3) I 0 := by
   have hQ : ValidSchreier m22Certificate := m22Certificate_check
   have e1 : m22Count Q = Nat.card {x : M22 // Q ⇑((x : Perm (Fin 22)) * d)} := by
     rw [← card_m22_subtype]
@@ -84,20 +89,26 @@ theorem m22Count_eq_ccnt (Q : (Fin 22 → Fin 22) → Prop)
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hT
     rcases hT with rfl | rfl
     exacts [fix_of_packed h3 f2.1, fix_of_packed h4 f2.2]
+  have hf3 : ∀ T ∈ [T4], ∀ t ∈ T, t 3 = 3 := by
+    intro T hT
+    rw [List.mem_singleton] at hT
+    rw [hT]
+    exact fix_of_packed h4 fix_level3
   have hF : ∀ σ : Perm (Fin 22), F (pkw 5 σ) ≠ 0 →
       C0 (σ 0).val = true ∧ C1 (σ 0).val (σ 1).val = true ∧
-        C2 (σ 0).val (σ 1).val (σ 2).val = true := by
+        C2 (σ 0).val (σ 1).val (σ 2).val = true ∧
+          C3 (σ 0).val (σ 1).val (σ 2).val (σ 3).val = true := by
     intro σ hσ
     rw [hFd] at hσ
     by_cases hq : Q ⇑(σ * d)
     · exact hcov σ hq
-    · rw [if_neg hq] at hσ
-      exact absurd rfl hσ
+    · exact absurd (ite_eq_right hq) hσ
   have hPr : Pruned 5 F [(fun x => C0 (pt x 0), T0), (fun x => C1 (pt x 0) (pt x 1), T1),
-      (fun x => C2 (pt x 0) (pt x 1) (pt x 2), T2), (fun _ => true, T3), (fun _ => true, T4)] 1 := by
+      (fun x => C2 (pt x 0) (pt x 1) (pt x 2), T2),
+      (fun x => C3 (pt x 0) (pt x 1) (pt x 2) (pt x 3), T3), (fun _ => true, T4)] 1 := by
     intro t0 _
     refine ⟨fun hc h hh => ?_, fun t1 _ => ⟨fun hc h hh => ?_, fun t2 _ => ⟨fun hc h hh => ?_,
-      fun t3 _ => ⟨fun hc => by simp at hc, fun t4 _ => ⟨fun hc => by simp at hc, trivial⟩⟩⟩⟩⟩
+      fun t3 _ => ⟨fun hc h hh => ?_, fun t4 _ => ⟨fun hc => by simp at hc, trivial⟩⟩⟩⟩⟩
     · by_contra hne
       have hc0 := (hF _ hne).1
       have e0 : pt (pkw 5 (1 * t0)) 0 = (1 * t0 * h) 0 := by
@@ -118,7 +129,7 @@ theorem m22Count_eq_ccnt (Q : (Fin 22 → Fin 22) → Prop)
       rw [e0, e1', hc1] at hc
       exact absurd hc (by decide)
     · by_contra hne
-      have hc2 := (hF _ hne).2.2
+      have hc2 := (hF _ hne).2.2.1
       have hsub0 : ∀ T ∈ [T3, T4], ∀ t ∈ T, t 0 = 0 := fun T hT =>
         hf0 T (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ hT))
       have hsub1 : ∀ T ∈ [T3, T4], ∀ t ∈ T, t 1 = 1 := fun T hT =>
@@ -136,12 +147,47 @@ theorem m22Count_eq_ccnt (Q : (Fin 22 → Fin 22) → Prop)
         (pt (pkw 5 (1 * t0 * t1 * t2)) 2) = false at hc
       rw [e0, e1', e2', hc2] at hc
       exact absurd hc (by decide)
+    · by_contra hne
+      have hc3 := (hF _ hne).2.2.2
+      have hsub0 : ∀ T ∈ [T4], ∀ t ∈ T, t 0 = 0 := fun T hT =>
+        hf0 T (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ hT)))
+      have hsub1 : ∀ T ∈ [T4], ∀ t ∈ T, t 1 = 1 := fun T hT =>
+        hf1 T (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ hT))
+      have hsub2 : ∀ T ∈ [T4], ∀ t ∈ T, t 2 = 2 := fun T hT =>
+        hf2 T (List.mem_cons_of_mem _ hT)
+      have e0 : pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 0 = (1 * t0 * t1 * t2 * t3 * h) 0 := by
+        rw [mul_fix hsub0 _ hh]
+        exact pt_pkw _ 0
+      have e1' : pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 1 = (1 * t0 * t1 * t2 * t3 * h) 1 := by
+        rw [mul_fix hsub1 _ hh]
+        exact pt_pkw _ 1
+      have e2' : pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 2 = (1 * t0 * t1 * t2 * t3 * h) 2 := by
+        rw [mul_fix hsub2 _ hh]
+        exact pt_pkw _ 2
+      have e3' : pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 3 = (1 * t0 * t1 * t2 * t3 * h) 3 := by
+        rw [mul_fix hf3 _ hh]
+        exact pt_pkw _ 3
+      change C3 (pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 0) (pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 1)
+        (pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 2) (pt (pkw 5 (1 * t0 * t1 * t2 * t3)) 3) = false at hc
+      rw [e0, e1', e2', e3', hc3] at hc
+      exact absurd hc (by decide)
   have hc := ccnt_pkw (n := 22) (w := 5) (by norm_num) (by norm_num) F _ 1 0 hPr
   simp only [List.map_cons, List.map_nil, h0, h1, h2, h3, h4, KernelSpor.M22Syl.pk_one,
     mask_five, one_mul, Nat.zero_add] at hc
-  rw [lev, hc, hE]
+  rw [lev4, hc, hE]
   refine congrArg List.sum (List.map_congr_left fun g _ => ?_)
   rw [hFd]
+
+theorem m22Count_eq_ccnt (Q : (Fin 22 → Fin 22) → Prop)
+    [DecidablePred Q] (d : Perm (Fin 22)) (hd : d ∈ M22) (F : Nat → Nat)
+    (hFd : ∀ σ : Perm (Fin 22), F (pkw 5 σ) = if Q ⇑(σ * d) then 1 else 0)
+    (C0 : Nat → Bool) (C1 : Nat → Nat → Bool) (C2 : Nat → Nat → Nat → Bool)
+    (hcov : ∀ σ : Perm (Fin 22), Q ⇑(σ * d) →
+      C0 (σ 0).val = true ∧ C1 (σ 0).val (σ 1).val = true ∧
+        C2 (σ 0).val (σ 1).val (σ 2).val = true) :
+    m22Count Q = ccnt 22 5 31 F (lev C0 C1 C2) I 0 :=
+  m22Count_eq_ccnt4 Q d hd F hFd C0 C1 C2 (fun _ _ _ _ => true) fun σ h =>
+    ⟨(hcov σ h).1, (hcov σ h).2.1, (hcov σ h).2.2, rfl⟩
 
 theorem m22Count_eq_wc (Q : (Fin 22 → Fin 22) → Prop)
     [DecidablePred Q] (d : Perm (Fin 22)) (hd : d ∈ M22) (D : Nat) (hD : pkw 5 d = D)
@@ -161,6 +207,18 @@ theorem m22Count_eq_wcB (Q : (Fin 22 → Fin 22) → Prop)
         C2 (σ 0).val (σ 1).val (σ 2).val = true) :
     m22Count Q = wcB b D C0 C1 C2 :=
   m22Count_eq_ccnt Q d hd (indB b D) (fun σ => by rw [← hD, indB_pkw b Q hb]) C0 C1 C2 hcov
+
+theorem m22Count_eq_wcB4 (Q : (Fin 22 → Fin 22) → Prop)
+    [DecidablePred Q] (b : Nat → Bool) (hb : ∀ τ : Perm (Fin 22), b (pkw 5 τ) = decide (Q ⇑τ))
+    (d : Perm (Fin 22)) (hd : d ∈ M22) (D : Nat) (hD : pkw 5 d = D)
+    (C0 : Nat → Bool) (C1 : Nat → Nat → Bool) (C2 : Nat → Nat → Nat → Bool)
+    (C3 : Nat → Nat → Nat → Nat → Bool)
+    (hcov : ∀ σ : Perm (Fin 22), Q ⇑(σ * d) →
+      C0 (σ 0).val = true ∧ C1 (σ 0).val (σ 1).val = true ∧
+        C2 (σ 0).val (σ 1).val (σ 2).val = true ∧
+          C3 (σ 0).val (σ 1).val (σ 2).val (σ 3).val = true) :
+    m22Count Q = wcB4 b D C0 C1 C2 C3 :=
+  m22Count_eq_ccnt4 Q d hd (indB b D) (fun σ => by rw [← hD, indB_pkw b Q hb]) C0 C1 C2 C3 hcov
 
 end CertificateChecks.KernelLC.Witt
 

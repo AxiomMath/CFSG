@@ -54,7 +54,8 @@ theorem Z_facts :
 
 theorem C_facts : ((elems ()).filter fun x => x * t0 == t0 * x).length = 96 := by
   have h := checkC_eq
-  rw [checkC] at h
+  rw [checkC_fun] at h
+  dsimp only at h
   exact beq_iff_eq.1 h
 
 theorem E1_facts : ∀ g ∈ elems (), g ^ 3 = 1 → g ≠ 1 → g * t0 = t0 * g →

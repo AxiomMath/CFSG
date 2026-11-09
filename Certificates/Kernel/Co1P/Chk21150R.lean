@@ -6,6 +6,7 @@ public import Certificates.Data.Kernel.Co1PText
 public import Certificates.Kernel.Co1P.Defs21150
 public import Certificates.Kernel.Co1P.Defs21151
 public import Certificates.Kernel.Co1P.Defs21154
+public import Certificates.Kernel.Co1P.RecsZ
 
 public section
 
@@ -15,7 +16,9 @@ namespace CertificateChecks.KernelCo1P
 
 open CFSG.KC.Co1B CFSG.KC.Co1P CFSG.KD.Co1P CFSG.KLie.CT CFSG.Sporadic.Co1Patterson.Native
 
-theorem recs4W_pin : recsEqK r4W (recsT orb4cMasks) 0 = true := by quickRfl
+theorem recs4W_pin : recsEqK r4W (recsT orb4cMasks) 0 = true := by
+  rw [recsT_eq_recsZ]
+  quickRfl
 
 end CertificateChecks.KernelCo1P
 

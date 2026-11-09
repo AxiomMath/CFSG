@@ -241,6 +241,50 @@ theorem testBit_stepW {NV : Nat → Nat → Nat} {S q : Nat} : ∀ {ws : List (L
       · exact Or.inl h'
       · exact Or.inr ⟨w', List.mem_cons_of_mem w hw', h'⟩
 
+theorem orB_trueP {a b : Bool} (h : orB a b = true) : a = true ∨ b = true := by
+  cases a
+  · exact Or.inr h
+  · exact Or.inl rfl
+
+theorem wAtP_cases : ∀ (ws : List (List Int)) (i : Nat), wAtP ws i ∈ ws ∨ wAtP ws i = []
+  | [], _ => Or.inr rfl
+  | _ :: _, 0 => Or.inl List.mem_cons_self
+  | w :: ws, i + 1 => (wAtP_cases ws i).imp (List.mem_cons_of_mem w) id
+
+theorem good_oneP {H : Subgroup J} {y : Nat} (hy : y < 306936) : Good H y (Nat.shiftLeft 1 y) := by
+  intro q _ hq
+  change (1 <<< y).testBit q = true at hq
+  rw [Nat.one_shiftLeft, Nat.testBit_two_pow] at hq
+  have e : y = q := of_decide_eq_true hq
+  subst e
+  exact ⟨hy, 1, H.one_mem, idx_one y⟩
+
+theorem orb_le_goodP {H : Subgroup J} {y c P : Nat} (hy : y < 306936) (hG : Good H y P)
+    (h : Nat.beq (popcount P 524288) c = true) :
+    c ≤ (MulAction.orbit H (⟨y, hy⟩ : Fin 306936)).ncard := by
+  classical
+  have hc : c = ((Finset.range 524288).filter (fun x => P.testBit x = true)).card := by
+    rw [← CFSG.KS.Fi24FixP.sum_bits, ← CFSG.KS.Fi24FixP.popcount_19]
+    exact (Nat.eq_of_beq_eq_true h).symm
+  set T : Set (Fin 306936) := {x | P.testBit x.val = true} with hT
+  have himg : (↑((Finset.range 524288).filter (fun x => P.testBit x = true)) : Set ℕ) =
+      Fin.val '' T := by
+    ext x
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq, Set.mem_image, hT]
+    constructor
+    · rintro ⟨hx, hb⟩
+      exact ⟨⟨x, (hG x hx hb).1⟩, hb, rfl⟩
+    · rintro ⟨x, hb, rfl⟩
+      exact ⟨by omega, hb⟩
+  have hsub : T ⊆ MulAction.orbit H (⟨y, hy⟩ : Fin 306936) := by
+    intro x hx
+    obtain ⟨-, g, hg, e⟩ := hG x.val (by omega) hx
+    refine ⟨⟨g, hg⟩, Fin.ext ?_⟩
+    change ((⟨g, hg⟩ : H) • (⟨y, hy⟩ : Fin 306936)).val = x.val
+    rw [Subgroup.smul_def, ← e, idx_of_lt g hy]
+  rw [hc, ← Set.ncard_coe_finset, himg, Set.ncard_image_of_injective _ Fin.val_injective]
+  exact Set.ncard_le_ncard hsub (Set.toFinite _)
+
 section Orbit
 
 variable {L : ℤ → J} {NV : Nat → Nat → Nat} {net : Nat → Bool}
@@ -272,39 +316,47 @@ theorem good_iterW {ws : List (List Int)} (hws : ∀ w ∈ ws, dirOK net w = tru
 theorem orbW_le {ws : List (List Int)} (hws : ∀ w ∈ ws, dirOK net w = true) (H : Subgroup J)
     (hH : ∀ w ∈ ws, wEl L w ∈ H) {d y c : Nat} (hy : y < 306936) (h : orbW NV ws d y c = true) :
     c ≤ (MulAction.orbit H (⟨y, hy⟩ : Fin 306936)).ncard := by
-  classical
   unfold orbW at h
   rw [letB_eq', andB_eq, Bool.and_eq_true] at h
-  set P := iterW NV ws d (Nat.shiftLeft 1 y) with hP
-  have h1y : Good H y (Nat.shiftLeft 1 y) := by
-    intro q _ hq
-    change (1 <<< y).testBit q = true at hq
-    rw [Nat.one_shiftLeft, Nat.testBit_two_pow] at hq
-    have e : y = q := of_decide_eq_true hq
-    subst e
-    exact ⟨hy, 1, H.one_mem, idx_one y⟩
-  have hG : Good H y P := good_iterW hN hV h0 h1 hws hH h1y d
-  have hc : c = ((Finset.range 524288).filter (fun x => P.testBit x = true)).card := by
-    rw [← CFSG.KS.Fi24FixP.sum_bits, ← CFSG.KS.Fi24FixP.popcount_19]
-    exact (Nat.eq_of_beq_eq_true h.2).symm
-  set T : Set (Fin 306936) := {x | P.testBit x.val = true} with hT
-  have himg : (↑((Finset.range 524288).filter (fun x => P.testBit x = true)) : Set ℕ) =
-      Fin.val '' T := by
-    ext x
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq, Set.mem_image, hT]
-    constructor
-    · rintro ⟨hx, hb⟩
-      exact ⟨⟨x, (hG x hx hb).1⟩, hb, rfl⟩
-    · rintro ⟨x, hb, rfl⟩
-      exact ⟨by omega, hb⟩
-  have hsub : T ⊆ MulAction.orbit H (⟨y, hy⟩ : Fin 306936) := by
-    intro x hx
-    obtain ⟨-, g, hg, e⟩ := hG x.val (by omega) hx
-    refine ⟨⟨g, hg⟩, Fin.ext ?_⟩
-    change ((⟨g, hg⟩ : H) • (⟨y, hy⟩ : Fin 306936)).val = x.val
-    rw [Subgroup.smul_def, ← e, idx_of_lt g hy]
-  rw [hc, ← Set.ncard_coe_finset, himg, Set.ncard_image_of_injective _ Fin.val_injective]
-  exact Set.ncard_le_ncard hsub (Set.toFinite _)
+  exact orb_le_goodP hy (good_iterW hN hV h0 h1 hws hH (good_oneP hy) d) h.2
+
+theorem good_schWP {ws : List (List Int)} (hws : ∀ w ∈ ws, dirOK net w = true) {H : Subgroup J}
+    (hH : ∀ w ∈ ws, wEl L w ∈ H) {y S : Nat} (hS : Good H y S) :
+    ∀ sch, Good H y (schWP NV ws sch S)
+  | [] => hS
+  | i :: sch => by
+    have e : schWP NV ws (i :: sch) S =
+        Nat.lor (walkW NV (wAtP ws i) (schWP NV ws sch S)) (schWP NV ws sch S) :=
+      Fi24NetPt.strictN_eq (schWP NV ws sch S) (fun T => Nat.lor (walkW NV (wAtP ws i) T) T)
+    rw [e]
+    have hT := good_schWP hws hH hS sch
+    rcases wAtP_cases ws i with hm | he
+    · have hs := good_stepW hN hV h0 h1 (ws := [wAtP ws i])
+        (fun w hw => by rw [List.mem_singleton.1 hw]; exact hws _ hm)
+        (fun w hw => by rw [List.mem_singleton.1 hw]; exact hH _ hm) hT
+      exact hs
+    · rw [he]
+      intro q hq h
+      change (Nat.lor (schWP NV ws sch S) (schWP NV ws sch S)).testBit q = true at h
+      rw [nlor, Nat.testBit_or, Bool.or_self] at h
+      exact hT q hq h
+
+theorem orbSP_le {ws : List (List Int)} (hws : ∀ w ∈ ws, dirOK net w = true) (H : Subgroup J)
+    (hH : ∀ w ∈ ws, wEl L w ∈ H) {sch : List Nat} {y c : Nat} (hy : y < 306936)
+    (h : orbSP NV ws sch y c = true) :
+    c ≤ (MulAction.orbit H (⟨y, hy⟩ : Fin 306936)).ncard :=
+  orb_le_goodP hy (good_schWP hN hV h0 h1 hws hH (good_oneP hy) sch) h
+
+theorem orbMP_le {ws : List (List Int)} (hws : ∀ w ∈ ws, dirOK net w = true) (H : Subgroup J)
+    (hH : ∀ w ∈ ws, wEl L w ∈ H) {schA schB : List Nat} {M y c : Nat} (hy : y < 306936)
+    (h : orbMP NV ws schA schB M y c = true) :
+    c ≤ (MulAction.orbit H (⟨y, hy⟩ : Fin 306936)).ncard := by
+  unfold orbMP at h
+  rw [andB_eq, Bool.and_eq_true] at h
+  have hM : Good H y M := by
+    rw [← Nat.eq_of_beq_eq_true h.1]
+    exact good_schWP hN hV h0 h1 hws hH (good_oneP hy) schA
+  exact orb_le_goodP hy (good_schWP hN hV h0 h1 hws hH hM schB) h.2
 
 end Orbit
 

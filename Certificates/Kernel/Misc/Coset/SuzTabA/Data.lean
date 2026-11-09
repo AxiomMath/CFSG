@@ -11,8 +11,8 @@ public section
 
 namespace CFSG.KAct.SuzTab
 
-#kc_repo #kc_json_gz CFSG.KAct.SuzTab
-  "Certificates/Kernel/Misc/Coset/SuzTabA/data/Data.json.gz" 5219 17158752284783105716
+#kc_repo #kc_json CFSG.KAct.SuzTab
+  "Certificates/Kernel/Misc/Coset/SuzTabA/data/Data.json" 5219 17158752284783105716
   (rels : List (List Nat))
 
 end CFSG.KAct.SuzTab

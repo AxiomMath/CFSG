@@ -36,14 +36,102 @@ private def Tset : Set (Fin (Tag.rank .E8) → ℤ) :=
 
 section E7Model
 
+private abbrev e7eL8 : List (Fin (Tag.rank .E8) → ℤ) := ((List.range Tag.E8.rootCertificate.roots.length).map Tag.E8.rootCertificate.root)
+
+private abbrev e7eL7 : List (Fin (Tag.rank .E7) → ℤ) := ((List.range Tag.E7.rootCertificate.roots.length).map Tag.E7.rootCertificate.root)
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 2000000 in
 open scoped CFSG.Decide.Bounded in
+private theorem e7Embed_add_not_root_a :
+    ∀ μ ∈ e7eL8, μ 0 = 0 ∨ μ 1 = 0 → μ (highNode .E8) = 1 →
+      μ - E8Pilot.e7Embed (highRoot .E7) ∈ e7eL8 →
+      ∀ β ∈ e7eL7,
+        0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
+        μ + E8Pilot.e7Embed β ∉ e7eL8 := by
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 2000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem e7Embed_add_not_root_b :
+    ∀ μ ∈ e7eL8, μ 0 ≠ 0 → μ 1 ≠ 0 → μ 2 = 1 → μ (highNode .E8) = 1 →
+      μ - E8Pilot.e7Embed (highRoot .E7) ∈ e7eL8 →
+      ∀ β ∈ e7eL7,
+        0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
+        μ + E8Pilot.e7Embed β ∉ e7eL8 := by
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 2000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem e7Embed_add_not_root_c :
+    ∀ μ ∈ e7eL8, μ 0 ≠ 0 → μ 1 ≠ 0 → μ 2 = 2 → μ 3 = 3 → μ (highNode .E8) = 1 →
+      μ - E8Pilot.e7Embed (highRoot .E7) ∈ e7eL8 →
+      ∀ β ∈ e7eL7,
+        0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
+        μ + E8Pilot.e7Embed β ∉ e7eL8 := by
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 2000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem e7Embed_add_not_root_d :
+    ∀ μ ∈ e7eL8, μ 0 ≠ 0 → μ 1 ≠ 0 → μ 2 = 2 → μ 3 ≠ 3 → μ (highNode .E8) = 1 →
+      μ - E8Pilot.e7Embed (highRoot .E7) ∈ e7eL8 →
+      ∀ β ∈ e7eL7,
+        0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
+        μ + E8Pilot.e7Embed β ∉ e7eL8 := by
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 2000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem e7Embed_add_not_root_e :
+    ∀ μ ∈ e7eL8, μ 0 ≠ 0 → μ 1 ≠ 0 → μ 2 = 3 → μ (highNode .E8) = 1 →
+      μ - E8Pilot.e7Embed (highRoot .E7) ∈ e7eL8 →
+      ∀ β ∈ e7eL7,
+        0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
+        μ + E8Pilot.e7Embed β ∉ e7eL8 := by
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 2000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem e7Embed_add_not_root_f :
+    ∀ μ ∈ e7eL8, μ 0 ≠ 0 → μ 1 ≠ 0 → μ 2 ≠ 1 → μ 2 ≠ 2 → μ 2 ≠ 3 → μ (highNode .E8) = 1 →
+      μ - E8Pilot.e7Embed (highRoot .E7) ∈ e7eL8 →
+      ∀ β ∈ e7eL7,
+        0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
+        μ + E8Pilot.e7Embed β ∉ e7eL8 := by
+  decide +kernel
+
 private theorem e7Embed_add_not_root :
     ∀ μ ∈ rootFinset .E8, μ (highNode .E8) = 1 →
       μ - E8Pilot.e7Embed (highRoot .E7) ∈ rootFinset .E8 →
       ∀ β ∈ rootFinset .E7,
         0 < CFSG.LieType.Steinberg.Adjoint.iform β (highRoot .E7) →
         μ + E8Pilot.e7Embed β ∉ rootFinset .E8 := by
-  decide +kernel
+  have m8 : ∀ ν, ν ∈ rootFinset .E8 ↔ ν ∈ e7eL8 := fun ν => by
+    simp only [rootFinset, List.mem_toFinset]
+  have m7 : ∀ ν, ν ∈ rootFinset .E7 ↔ ν ∈ e7eL7 := fun ν => by
+    simp only [rootFinset, List.mem_toFinset]
+  intro μ hμ hh hθ β hβ hpos
+  rw [m8] at hμ hθ ⊢
+  rw [m7] at hβ
+  by_cases h01 : μ 0 = 0 ∨ μ 1 = 0
+  · exact e7Embed_add_not_root_a μ hμ h01 hh hθ β hβ hpos
+  have h0 : μ 0 ≠ 0 := fun h => h01 (Or.inl h)
+  have h1 : μ 1 ≠ 0 := fun h => h01 (Or.inr h)
+  by_cases h21 : μ 2 = 1
+  · exact e7Embed_add_not_root_b μ hμ h0 h1 h21 hh hθ β hβ hpos
+  by_cases h22 : μ 2 = 2
+  · by_cases h33 : μ 3 = 3
+    · exact e7Embed_add_not_root_c μ hμ h0 h1 h22 h33 hh hθ β hβ hpos
+    · exact e7Embed_add_not_root_d μ hμ h0 h1 h22 h33 hh hθ β hβ hpos
+  by_cases h23 : μ 2 = 3
+  · exact e7Embed_add_not_root_e μ hμ h0 h1 h23 hh hθ β hβ hpos
+  · exact e7Embed_add_not_root_f μ hμ h0 h1 h21 h22 h23 hh hθ β hβ hpos
 
 private noncomputable abbrev QθM : Subgroup E8M :=
   CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.Heis.Qθ Tag.E8 (GaloisField 2 1)

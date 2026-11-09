@@ -32,8 +32,7 @@ theorem hF9 : ∀ k, 4 ≤ k → k ≤ 6 → PR (McLCT.F k) (g9 k) := by
   have h := rep_tp (MNd.permF (k := k) (by omega)) i.val i.2
   have h2 : ap (mclCentTbl k) i.val = (CFSG.KS.Raw.unpack 275 9 (MNd.F k))[i.val]! := by
     rw [MNd.tabF (by omega), CFSG.KS.MulH.ap_tabT _ (CFSG.KS.MulH.unpack_lt (MNd.Fc (by omega)))]
-  rw [← h2, h, idx_of_lt _ i.2]
-  rfl
+  rw [← h2, h, idx_of_lt _ i.2, Equiv.Perm.smul_def, Fin.eta, g9]
 
 theorem letters_u : ∀ w ∈ mclIndexNineUWords, Letters w := by
   simp only [Letters]

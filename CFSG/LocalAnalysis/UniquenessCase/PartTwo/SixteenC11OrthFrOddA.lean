@@ -71,9 +71,23 @@ theorem s16c11_fr_nat_ofNat {m : ℕ} (hm : m = 3 ∨ m = 4) :
     ∀ n < 2 ^ (2 * m), s16c11_fr_nat m (s16c11_fr_ofNat m n) = n := by
   rcases hm with rfl | rfl <;> decide +kernel
 
+private theorem s16c11_fr_ofNat_xor (m a b : ℕ) :
+    s16c11_fr_ofNat m (a ^^^ b) = s16c11_fr_ofNat m a + s16c11_fr_ofNat m b := by
+  funext c
+  simp only [s16c11_fr_ofNat, Pi.add_apply]
+  rw [Nat.testBit_xor]
+  cases a.testBit (s16c11_fr_bit m c) <;> cases b.testBit (s16c11_fr_bit m c) <;> decide
+
 theorem s16c11_fr_nat_add {m : ℕ} (hm : m = 3 ∨ m = 4) (u v : S16C11FrVec m) :
     s16c11_fr_nat m (u + v) = s16c11_fr_nat m u ^^^ s16c11_fr_nat m v := by
-  rcases hm with rfl | rfl <;> revert u v <;> decide +kernel
+  have hu := s16c11_fr_ofNat_nat hm u
+  have hv := s16c11_fr_ofNat_nat hm v
+  calc s16c11_fr_nat m (u + v)
+      = s16c11_fr_nat m (s16c11_fr_ofNat m (s16c11_fr_nat m u ^^^ s16c11_fr_nat m v)) := by
+        rw [s16c11_fr_ofNat_xor, hu, hv]
+    _ = s16c11_fr_nat m u ^^^ s16c11_fr_nat m v :=
+        s16c11_fr_nat_ofNat hm _
+          (Nat.xor_lt_two_pow (s16c11_fr_nat_lt hm u) (s16c11_fr_nat_lt hm v))
 
 theorem s16c11_fr_Q_E {m : ℕ} (hm : m = 3 ∨ m = 4) (i : Fin 2) :
     S16C11FrQ m (s16c11FrE m i.1) = 0 := by

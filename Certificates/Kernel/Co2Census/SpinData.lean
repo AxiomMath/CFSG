@@ -6,8 +6,8 @@ public import Certificates.Data.Kernel.Co2Census.Spin
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCo2Census.SpJ
-  "Certificates/Kernel/Co2Census/data/spin.json.gz" 59601 9084159440546502203
+#kc_repo #kc_json CertificateChecks.KernelCo2Census.SpJ
+  "Certificates/Kernel/Co2Census/data/spin.json" 59601 9084159440546502203
   (LSP : List (List (List Nat))) (ASP : List (List Nat)) (BSP : List (List Nat))
   (GSP : List (List (List Nat))) (GOFF : List Nat) (TSP : List (List (List Nat)))
 

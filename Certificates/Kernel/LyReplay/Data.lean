@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLyReplay "Certificates/Kernel/LyReplay/data/replay.json.gz" 107289 12815633941351351443
+#kc_repo #kc_json CertificateChecks.KernelLyReplay "Certificates/Kernel/LyReplay/data/replay.json" 107289 12815633941351351443
   (starts : List (List Nat)) (steps : List (List (Nat × Nat × List Nat × List Nat)))
   (kR : List (List Nat × List Nat)) (eR : List (List Nat × List Nat))
   (tR : List (List Nat × List Nat))

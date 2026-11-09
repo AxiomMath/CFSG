@@ -10,8 +10,25 @@ namespace Certificates.Kernel.CertF8.C9641
 
 open CFSG.KC.CertF8 CFSG.KC.CertF8.D48 CFSG.AGLEmbedding.ChevOuterD48
 
-theorem ch9641Let : ∀ k : Fin 24, codeA (letterArr k.val) = letK.getD k.val oneK := by
+theorem ch9641Let0 : ∀ j < 8, codeA (letterArr j) = letK.getD j oneK := by
   decide +kernel
+
+theorem ch9641Let1 : ∀ j < 8, codeA (letterArr (8 + j)) = letK.getD (8 + j) oneK := by
+  decide +kernel
+
+theorem ch9641Let2 : ∀ j < 8, codeA (letterArr (16 + j)) = letK.getD (16 + j) oneK := by
+  decide +kernel
+
+theorem ch9641Let : ∀ k : Fin 24, codeA (letterArr k.val) = letK.getD k.val oneK := by
+  intro ⟨k, hk⟩
+  show codeA (letterArr k) = letK.getD k oneK
+  by_cases h0 : k < 8
+  · exact ch9641Let0 k h0
+  by_cases h1 : k < 16
+  · have h := ch9641Let1 (k - 8) (by omega)
+    rwa [show 8 + (k - 8) = k by omega] at h
+  · have h := ch9641Let2 (k - 16) (by omega)
+    rwa [show 16 + (k - 16) = k by omega] at h
 
 theorem ch9641One : codeA oneArr = oneK := by
   decide +kernel

@@ -18,8 +18,8 @@ public import CFSG.Sporadic.He
 public import CFSG.Sporadic.Th.F2Spec
 public import Certificates.Certificate113
 
-#kc_repo #kc_json_gz CFSG.QuasithinUnique.Ch1.SporLat.He.HeK
-  "CFSG/LocalAnalysis/QuasithinUnique/Ch1/data/heLatK.json.gz" 403056 8911501554168263455
+#kc_repo #kc_json CFSG.QuasithinUnique.Ch1.SporLat.He.HeK
+  "CFSG/LocalAnalysis/QuasithinUnique/Ch1/data/heLatK.json" 403056 8911501554168263455
   (Om : List (List (List Nat) × List (List Nat) × List Nat × List Nat))
   (Ot : List (List (List (List Nat)) × List (List Nat) × List Nat × List Nat))
 

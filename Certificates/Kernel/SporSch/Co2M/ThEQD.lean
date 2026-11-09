@@ -23,7 +23,7 @@ meta def thQB : Array Nat := #[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 end CertificateChecks.KernelSporSch.Co2M
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2EQ 1024 11 16 128
+#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2EQ 1024 11 0 128
   CertificateChecks.KernelSporSch.Co2M.thQS CertificateChecks.KernelSporSch.Co2M.thQB 15
   CFSG.Sporadic.Co2Schreier.quDerivs
 

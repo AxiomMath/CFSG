@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.SporSch.Co1CtStar
 public import CFSG.Certificates.Kernel.SporSch.Co1BfsSound
 public import CFSG.Certificates.Kernel.SporSch.Co1StabSound
+public import CFSG.Certificates.Kernel.SporSch.Co1StabWSound
 public import CFSG.Certificates.Kernel.SporSch.Co1MatSound
 public import CFSG.Certificates.Kernel.Co1BSound
 public import CFSG.LocalAnalysis.EvenSporadicStandard.TwoCo1.HypOneInputs
@@ -175,3 +176,30 @@ theorem perfectCheckOf_of_K {B : List Rows} {nb NP NU NF NQ : Nat}
   simp only []
   rw [hFp, hQp, hcAll, eF, eQ, eU, eP]
   simp
+
+theorem perfectCheckOf_of_W {B : List Rows} {nb NP NU NF NQ : Nat}
+    {BM PM PMI UM UMI FM FMI QM QMI : Nat → Nat}
+    {dP dU dF dQ : List (List Int)} {pIdx fIdx qIdx : List Nat} {cIdx : List (Nat × Nat)}
+    {Qr : List Rows}
+    (hB : B = (List.range nb).map fun i => unpack 24 24 (BM i))
+    (hPb' : ∀ i < nb, PM i = BM i)
+    (hP : dagIWK PM PMI nb NP dP = true)
+    (hpi : pIdx.all (fun j => decide (j < NP)) = true)
+    (hUb' : ∀ l < pIdx.length, UM l = PM (pIdx.getD l 0))
+    (hU : dagIWK UM UMI pIdx.length NU dU = true)
+    (hci : cIdx.all (fun ij => decide (ij.1 < NU) && decide (ij.2 < NU)) = true)
+    (hFb' : ∀ j < cIdx.length, FM j =
+      CFSG.KC.Co1B.mulWK (CFSG.KC.Co1B.mulWK (UMI (cIdx.getD j (0, 0)).1) (UMI (cIdx.getD j (0, 0)).2))
+        (CFSG.KC.Co1B.mulWK (UM (cIdx.getD j (0, 0)).1) (UM (cIdx.getD j (0, 0)).2)))
+    (hF : dagIWK FM FMI cIdx.length NF dF = true)
+    (hfi : fIdx.all (fun j => decide (j < NF)) = true)
+    (hfl : fIdx.length = pIdx.length)
+    (hf' : ∀ l < pIdx.length, FM (fIdx.getD l 0) = PM (pIdx.getD l 0))
+    (hQb' : ∀ l < pIdx.length, QM l = PM (pIdx.getD l 0))
+    (hQ : dagIWK QM QMI pIdx.length NQ dQ = true)
+    (hqi : qIdx.all (fun j => decide (j < NQ)) = true)
+    (hql : Qr.length = qIdx.length)
+    (hq' : ∀ l < qIdx.length, Qr[l]?.getD #[] = unpack 24 24 (QM (qIdx.getD l 0))) :
+    perfectCheckOf B dP pIdx dU cIdx dF fIdx dQ qIdx Qr = true :=
+  perfectCheckOf_of_K hB hPb' (dagIWK_eq_dagIK ▸ hP) hpi hUb' (dagIWK_eq_dagIK ▸ hU) hci hFb'
+    (dagIWK_eq_dagIK ▸ hF) hfi hfl hf' hQb' (dagIWK_eq_dagIK ▸ hQ) hqi hql hq'

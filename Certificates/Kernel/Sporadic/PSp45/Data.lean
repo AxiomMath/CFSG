@@ -33,10 +33,6 @@ meta def baseA : Array Nat := #[0, 1, 3, 9]
 
 meta def repsM : Array (Array Nat) := (invRepWords.map (evalW 45 #[tXM, tYM])).toArray
 
-meta def rep0M : Array Nat := repsM[0]!
-
-meta def rep1M : Array Nat := repsM[1]!
-
 meta def oneM : Array Nat := idA 45
 
 end CertificateChecks.KernelSpor.PSp45
@@ -65,19 +61,5 @@ namespace CertificateChecks.KernelSpor.PSp45
 @[expose] noncomputable def R1 : Nat := (P45CL.getD 1 (0, 0, 0, [], [], [], [])).2.2.1
 
 end CertificateChecks.KernelSpor.PSp45
-
-#kss_cntord CertificateChecks.KernelSpor.P45X CertificateChecks.KernelSpor.P45Q 45 6
-  CertificateChecks.KernelSpor.PSp45.SP CertificateChecks.KernelSpor.PSp45.baseP
-  CertificateChecks.KernelSpor.PSp45.One CertificateChecks.KernelSpor.PSp45.oneM 2
-
-#kss_cntword CertificateChecks.KernelSpor.P45Y0 CertificateChecks.KernelSpor.P45Q 45 6
-  CertificateChecks.KernelSpor.PSp45.SP CertificateChecks.KernelSpor.PSp45.baseP 2 5
-  CertificateChecks.KernelSpor.PSp45.ws45N CertificateChecks.KernelSpor.PSp45.R0
-  CertificateChecks.KernelSpor.PSp45.rep0M
-
-#kss_cntword CertificateChecks.KernelSpor.P45Y1 CertificateChecks.KernelSpor.P45Q 45 6
-  CertificateChecks.KernelSpor.PSp45.SP CertificateChecks.KernelSpor.PSp45.baseP 2 5
-  CertificateChecks.KernelSpor.PSp45.ws45N CertificateChecks.KernelSpor.PSp45.R1
-  CertificateChecks.KernelSpor.PSp45.rep1M
 
 end

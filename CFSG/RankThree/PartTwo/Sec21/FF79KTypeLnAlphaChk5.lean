@@ -58,9 +58,50 @@ theorem bd_5a : ∀ x0 x1 y2 y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
     Bd 5 (code5a x0 x1 y2 y3 y4 z2 z3 z4 v2 v3 v4) := by
   decide +kernel
 
+theorem chk_5a_000 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 0 0 0 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_001 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 0 0 1 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_010 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 0 1 0 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_011 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 0 1 1 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_100 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 1 0 0 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_101 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 1 0 1 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_110 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 1 1 0 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
+theorem chk_5a_111 : ∀ y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
+    chk 5 bits5 W5a (code5a 1 1 1 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
+  decide +kernel
+
 theorem chk_5a : ∀ x0 x1 y2 y3 y4 z2 z3 z4 v2 v3 v4 : ZMod 2,
     chk 5 bits5 W5a (code5a x0 x1 y2 y3 y4 z2 z3 z4 v2 v3 v4) = true := by
-  decide +kernel
+  intro x0 x1 y2
+  fin_cases x0 <;> fin_cases x1 <;> fin_cases y2
+  · exact chk_5a_000
+  · exact chk_5a_001
+  · exact chk_5a_010
+  · exact chk_5a_011
+  · exact chk_5a_100
+  · exact chk_5a_101
+  · exact chk_5a_110
+  · exact chk_5a_111
 
 theorem W_ok_5a : ∀ p ∈ W5a, Bd 5 p.1 ∧ Bd 5 p.2 ∧ toM 5 p.1 * toM 5 p.2 = 1 ∧
     toM 5 p.1 * A5 = A5 * toM 5 p.1 := by

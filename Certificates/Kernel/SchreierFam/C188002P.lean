@@ -17,16 +17,6 @@ namespace CertificateChecks.KernelSchreierFam.U38
 
 open CFSG.RankThree.PartTwo.Sec4.Item434U38 CFSG.Certificates.Kernel.U38 GF64
 
-theorem ptsOKc :
-    ∀ i : Fin 513, NormalizedV (ptsVc i.val) ∧ Iso3 (ptsVc i.val 0) (ptsVc i.val 1) (ptsVc i.val 2) := by
-  decide +kernel
-
-theorem ptsOK : ∀ i : Fin 513, NormalizedV (ptsV i) ∧ Iso3 (ptsV i 0) (ptsV i 1) (ptsV i 2) := by
-  intro i
-  have e : ptsV i = ptsVc i.val := ptsVn_eq i.2
-  rw [e]
-  exact ptsOKc i
-
 theorem c8OK : ∀ a : GF64, a.conj8 = c8 a := by decide +kernel
 
 @[expose] noncomputable def allK (n : Nat) (f : Nat → Bool) : Bool :=
@@ -154,12 +144,30 @@ theorem codesOK : codesL.Nodup ∧ codesL.all (· < 262144) = true := by
   rw [codesL_eq]
   exact codesLitOK
 
-theorem memOK : allK 128 (fun h => allK 64 fun l =>
-    bIf(memB (Nat.add (Nat.mul 64 h) l), codesLit.contains (Nat.add (Nat.mul 64 h) l), true)) =
-      true := by
-  quickRfl
+@[expose] noncomputable def bitsK (l : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) 0 (fun a _ ih => Nat.lor (Nat.shiftLeft 1 a) ih) l
 
-theorem cbHi : Nat.beq (CB >>> 8192) 0 = true := by quickRfl
+theorem cbOK : Nat.beq CB (bitsK codesLit) = true := by quickRfl
+
+theorem bitsK_mem : ∀ {l : List Nat} {c : Nat}, (bitsK l).testBit c = true → c ∈ l
+  | [], c, h => by
+    have e : bitsK [] = 0 := rfl
+    rw [e, Nat.zero_testBit] at h
+    exact absurd h Bool.false_ne_true
+  | a :: t, c, h => by
+    have e : bitsK (a :: t) = (1 <<< a) ||| bitsK t := rfl
+    rw [e, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft, Nat.testBit_two_pow] at h
+    rcases h with h | h
+    · exact List.mem_cons.2 (Or.inl (of_decide_eq_true h).symm)
+    · exact List.mem_cons_of_mem a (bitsK_mem h)
+
+theorem bit_of {n c : Nat} (h : Nat.beq (Nat.land (Nat.shiftRight n c) 1) 1 = true) :
+    n.testBit c = true := by
+  have h1 : (n >>> c) % 2 = 1 := by
+    rw [← Nat.and_one_is_mod]
+    exact Nat.eq_of_beq_eq_true h
+  rw [Nat.testBit_eq_decide_div_mod_eq, ← Nat.shiftRight_eq_div_pow, h1]
+  rfl
 
 theorem fld_lt (n : Nat) : Nat.land n 63 < 64 := Nat.lt_succ_of_le Nat.and_le_right
 
@@ -218,23 +226,67 @@ theorem isoB_eq {x y z : Nat} (hx : x < 64) (hy : y < 64) (hz : z < 64) :
     tn_zero, isoK, Bool.eq_iff_iff, beq_iff_eq, Nat.beq_eq]
   exact Iff.rfl
 
-theorem memB_lt {c : Nat} (h : memB c = true) : c < 8192 := by
-  refine Nat.lt_of_not_le fun hge => ?_
-  have e : c = 8192 + (c - 8192) := by omega
-  have h0 : CB >>> c = 0 := by
-    rw [e, Nat.shiftRight_add, Nat.eq_of_beq_eq_true cbHi, Nat.zero_shiftRight]
-  have h1 : memB c = Nat.beq ((CB >>> c) &&& 1) 1 := rfl
-  rw [h1, h0] at h
-  exact absurd h (by decide)
-
 theorem memB_sound {c : Nat} (h : memB c = true) : codesL.contains c = true := by
-  have hc := memB_lt h
-  have hm := allK_sound (allK_sound memOK (c / 64) (by omega)) (c % 64) (Nat.mod_lt _ (by decide))
-  have e : Nat.add (Nat.mul 64 (c / 64)) (c % 64) = c := Nat.div_add_mod c 64
-  beta_reduce at hm
-  rw [e, h] at hm
-  rw [codesL_eq]
-  exact hm
+  have h1 := bit_of (n := CB) h
+  rw [Nat.eq_of_beq_eq_true cbOK] at h1
+  rw [codesL_eq, List.contains_iff_mem]
+  exact bitsK_mem h1
+
+@[expose] noncomputable def normK (x y z : Nat) : Bool :=
+  bIf(Nat.beq x 1, true, bAnd(Nat.beq x 0, bIf(Nat.beq y 1, true, bAnd(Nat.beq y 0, Nat.beq z 1))))
+
+@[expose] noncomputable def pK (j t : Nat) : Nat := fld(PC, Nat.add (Nat.mul 18 j) (Nat.mul 6 t), 63)
+
+theorem ptsOKK : allK 513 (fun j => bAnd(normK (pK j 0) (pK j 1) (pK j 2),
+    isoK (pK j 0) (pK j 1) (pK j 2))) = true := by
+  quickRfl
+
+theorem bAnd_sound {a b : Bool} (h : Bool.rec (motive := fun _ => Bool) false b a = true) :
+    a = true ∧ b = true := by
+  cases a
+  · exact absurd h Bool.false_ne_true
+  · exact ⟨rfl, h⟩
+
+theorem norm_sound {x y z : Nat} (h : normK x y z = true) :
+    NormalizedV ![ofNat' x, ofNat' y, ofNat' z] := by
+  unfold NormalizedV
+  cases e1 : Nat.beq x 1
+  · cases e2 : Nat.beq x 0
+    · rw [normK, e1, e2] at h
+      exact absurd h Bool.false_ne_true
+    · cases e3 : Nat.beq y 1
+      · cases e4 : Nat.beq y 0
+        · rw [normK, e1, e2, e3, e4] at h
+          exact absurd h Bool.false_ne_true
+        · rw [normK, e1, e2, e3, e4] at h
+          rw [Nat.eq_of_beq_eq_true e2, Nat.eq_of_beq_eq_true e4, Nat.eq_of_beq_eq_true h]
+          exact Or.inr (Or.inr ⟨rfl, rfl, rfl⟩)
+      · rw [Nat.eq_of_beq_eq_true e2, Nat.eq_of_beq_eq_true e3]
+        exact Or.inr (Or.inl ⟨rfl, rfl⟩)
+  · rw [Nat.eq_of_beq_eq_true e1]
+    exact Or.inl rfl
+
+theorem ptsOKc :
+    ∀ i : Fin 513, NormalizedV (ptsVc i.val) ∧ Iso3 (ptsVc i.val 0) (ptsVc i.val 1) (ptsVc i.val 2) := by
+  intro i
+  have h := bAnd_sound (allK_sound ptsOKK i.val i.2)
+  have ev : ptsVc i.val = ![ofNat' (pK i.val 0), ofNat' (pK i.val 1), ofNat' (pK i.val 2)] := by
+    funext t
+    fin_cases t <;> rfl
+  rw [ev]
+  refine ⟨norm_sound h.1, ?_⟩
+  have hi := h.2
+  rw [← isoB_eq (x := pK i.val 0) (y := pK i.val 1) (z := pK i.val 2) (fld_lt _) (fld_lt _)
+    (fld_lt _)] at hi
+  unfold Iso3
+  rw [c8OK, c8OK, c8OK]
+  exact beq_iff_eq.1 hi
+
+theorem ptsOK : ∀ i : Fin 513, NormalizedV (ptsV i) ∧ Iso3 (ptsV i 0) (ptsV i 1) (ptsV i 2) := by
+  intro i
+  have e : ptsV i = ptsVc i.val := ptsVn_eq i.2
+  rw [e]
+  exact ptsOKc i
 
 theorem code_eq {x y z : Nat} (hx : x < 64) (hy : y < 64) (hz : z < 64) :
     vcode (normV3 (ofNat' x) (ofNat' y) (ofNat' z)) = codeK x y z := by
@@ -245,15 +297,15 @@ theorem code_eq {x y z : Nat} (hx : x < 64) (hy : y < 64) (hz : z < 64) :
     have h0 : ofNat' 0 = 0 := rfl
     by_cases hy0 : y = 0
     · subst hy0
-      rw [normV3, if_neg (by simp [h0]), if_neg (by simp [h0])]
+      rw [normV3, ite_eq_right (by simp [h0]), ite_eq_right (by simp [h0])]
       rfl
     · have hne : ofNat' y ≠ 0 := fun e => hy0 ((ofNat'_eq_zero hy).1 e)
-      rw [normV3, if_neg (by simp [h0]), if_pos hne, codeK, Nat.beq_refl, beq_false hy0]
+      rw [normV3, ite_eq_right (by simp [h0]), ite_eq_left hne, codeK, Nat.beq_refl, beq_false hy0]
       simp only [vcode, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
         Matrix.head_cons, Matrix.tail_cons, tn_zero, tn_one, tn_mul, tn_inv, hb, hc]
   · have ha : (ofNat' x).toNat = x := Nat.mod_eq_of_lt hx
     have hne : ofNat' x ≠ 0 := fun e => hx0 ((ofNat'_eq_zero hx).1 e)
-    rw [normV3, if_pos hne, codeK, beq_false hx0]
+    rw [normV3, ite_eq_left hne, codeK, beq_false hx0]
     simp only [vcode, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.head_cons, Matrix.tail_cons, tn_one, tn_mul, tn_inv, ha, hb, hc]
 

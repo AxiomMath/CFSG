@@ -27,7 +27,7 @@ variable (C : DcCtx) (D : DcData)
       ((D.K.getD j []).all (fun k => isS C k && Nat.beq (wordF C.L k (D.obase.getD j 0))
         (D.obase.getD j 0)) &&
       sortedLt ((D.K.getD j []).map fun k => D.sep.map (wordF C.L k)) &&
-      Nat.beq (Nat.mul (D.K.getD j []).length (D.osz.getD j 0)) (2 ^ C.k))) &&
+      Nat.beq (Nat.mul (D.K.getD j []).length (D.osz.getD j 0)) (2 ^ C.k) && stabGenG C D j)) &&
     orbPts C D P j
 
 @[expose] def oszOK : Bool :=

@@ -7,7 +7,7 @@ public import Certificates.Kernel.SporSch.Ly.FiveLanesData
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.LyFivePc "Certificates/Kernel/LyFivePc/data/classes.json.gz" 10207 3186925382534784011
+#kc_repo #kc_json CFSG.KD.LyFivePc "Certificates/Kernel/LyFivePc/data/classes.json" 10207 3186925382534784011
     (prgX : List (Nat × Nat)) (rxX : Nat) (sgX : List Nat) (entX : List (List Nat))
     (lpX : List (Nat × Nat)) (abX : List Nat)
     (prgY : List (Nat × Nat)) (rxY : Nat) (sgY : List Nat) (entY : List (List Nat))

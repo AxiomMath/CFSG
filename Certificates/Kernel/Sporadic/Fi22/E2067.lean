@@ -15,6 +15,7 @@ import Mathlib.Tactic.IntervalCases
 public section
 
 set_option maxRecDepth 400000
+set_option Elab.async false
 
 namespace CertificateChecks.KernelSpor.Fi22E2067
 

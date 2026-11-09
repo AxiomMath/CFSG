@@ -8,7 +8,7 @@ public import Certificates.Kernel.Sporadic.Fi24K.K2077
 public import Certificates.Data.Kernel.Spor.Fi24F4J
 import CFSG.Certificates.Kernel.Common.Harness
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24F4.S "Certificates/Kernel/Sporadic/Fi24F4/data/f4s.json.gz" 1915
+#kc_repo #kc_json CFSG.KD.Fi24F4.S "Certificates/Kernel/Sporadic/Fi24F4/data/f4s.json" 1915
   17055141734951770022
   (sig : List Nat)
 

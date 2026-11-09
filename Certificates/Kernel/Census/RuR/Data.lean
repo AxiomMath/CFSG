@@ -10,8 +10,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 1000000
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.RuR
-  "Certificates/Kernel/Census/RuR/data/ruconj.json.gz" 881011 7850599607203245048
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.RuR
+  "Certificates/Kernel/Census/RuR/data/ruconj.json" 881011 7850599607203245048
   (xs : List Nat) (rs : List Nat) (cjs : List (List Nat)) (bs : List (Nat × Nat)) (us : Array Nat)
   (im : List Nat) (wt : List Nat) (cm : List Nat) (cs : Array Nat) (ci : Array Nat)
   (roots : List (Nat × Nat)) (nodes : Array NodeP) (ents : Array (List (Nat × Nat × Nat)))

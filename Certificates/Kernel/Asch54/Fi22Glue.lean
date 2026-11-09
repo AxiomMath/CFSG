@@ -2,7 +2,7 @@ module
 
 public import Certificates.Kernel.Asch54.Fi22Checks
 public import Certificates.Kernel.Sporadic.Fi22.C2066
-public import Certificates.Kernel.Sporadic.Fi22.E2065Eq
+public import Certificates.Kernel.Sporadic.Fi22.E2065
 public import CFSG.Certificates.Kernel.Spor.RawTreeSound
 public import CFSG.Certificates.Kernel.Spor.RawOrbHead
 public import CFSG.Certificates.Kernel.Spor.RawAgree
@@ -317,9 +317,7 @@ theorem facts75338 :
 theorem prep_gR {j : ℕ} (hj : j < 26) : PRep 3510 12 (R j) (gR j) ∧ PRep 3510 12 (RI j) (gR j)⁻¹ :=
   prep_perm ((bAnd_iff _ _).1 (allN_spec slpPerm j hj)).2
 
-theorem line_eq {L : ℕ} (hL : L < 306) : fi22CentArr L = unpack 3510 12 (Fi22CentT.L L) := by
-  rw [fi22CentArr, fi22CentBytes, Fi22CentB.text_eq]
-  exact Fi22E2065.cent_eq hL
+theorem line_eq {L : ℕ} : fi22CentArr L = unpack 3510 12 (Fi22CentT.L L) := Fi22E2065.cent_eq
 
 theorem gR_mem : ∀ j < 26, gR j ∈ A0 ⊔ fi22H 1 := by
   obtain ⟨hb0, hb1⟩ := bAnd_iff (allN 2 (fun k => Nat.beq (R k) (A54F22X.F k)))
@@ -343,7 +341,7 @@ theorem gR_mem : ∀ j < 26, gR j ∈ A0 ⊔ fi22H 1 := by
       have hL : 19 + (j - 2) < 306 := by omega
       have hc : PRep 3510 12 (Fi22CentT.L (19 + (j - 2))) (fi22CentPerm (19 + (j - 2))) := by
         have hr := rep_fi22CentPerm hL
-        rw [line_eq hL] at hr
+        rw [line_eq] at hr
         exact prep_of_rep hr
       rw [prep_eq (prep_gR hj).1 hc h]
       refine Subgroup.mem_sup_right ?_

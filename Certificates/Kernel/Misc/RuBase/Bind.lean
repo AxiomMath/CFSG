@@ -29,8 +29,24 @@ theorem line39 : lineK 3 4060 12 LD.n0 (RuSqT.chars.drop (39 * (3 * 4060 + 1))) 
 theorem line40 : lineK 3 4060 12 LD.n1 (RuSqT.chars.drop (40 * (3 * 4060 + 1))) = true := by
   quickRfl
 
-theorem line41 : lineK 3 4060 12 LD.n2 (RuSqT.chars.drop (41 * (3 * 4060 + 1))) = true := by
+@[expose] noncomputable def dropRu {α : Type} (n : Nat) (l : List α) : List α :=
+  List.rec (motive := fun _ => Nat → List α) (fun _ => [])
+    (fun a t ih n => Nat.rec (motive := fun _ => List α) (a :: t) (fun n' _ => ih n') n) l n
+
+theorem drop_eq_dropRu {α : Type} : ∀ (n : Nat) (l : List α), l.drop n = dropRu n l
+  | 0, [] => rfl
+  | 0, _ :: _ => rfl
+  | _ + 1, [] => rfl
+  | n + 1, a :: l => by
+    rw [List.drop_succ_cons, drop_eq_dropRu n l]
+    rfl
+
+theorem line41K : lineK 3 4060 12 LD.n2 (dropRu (41 * (3 * 4060 + 1)) RuSqT.chars) = true := by
   quickRfl
+
+theorem line41 : lineK 3 4060 12 LD.n2 (RuSqT.chars.drop (41 * (3 * 4060 + 1))) = true := by
+  rw [drop_eq_dropRu]
+  exact line41K
 
 theorem row_eq {j P : Nat} (hj : j < 42)
     (hk : lineK 3 4060 12 P (RuSqT.chars.drop (j * (3 * 4060 + 1))) = true) :

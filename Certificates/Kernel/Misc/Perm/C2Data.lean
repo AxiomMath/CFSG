@@ -20,50 +20,50 @@ open CFSG.Monster.B.Co2.Native
       o := o + r
     return out
 
-#kc_repo #kc_text_gz MStHex "Certificates/Kernel/Misc/Perm/data/c2/MStHex.txt.gz" 2662 1169676050588173031
+#kc_repo #kc_text MStHex "Certificates/Kernel/Misc/Perm/data/c2/MStHex.txt" 2662 1169676050588173031
 
 @[expose] def MStArr : Array (Array Nat) := decodeHex MStHex (List.replicate 22 1) 121
 
-#kc_repo #kc_text_gz AMtHex "Certificates/Kernel/Misc/Perm/data/c2/AMtHex.txt.gz" 9196 15698376441497928284
+#kc_repo #kc_text AMtHex "Certificates/Kernel/Misc/Perm/data/c2/AMtHex.txt" 9196 15698376441497928284
 
 @[expose] def AMtArr : Array (Array Nat) := decodeHex AMtHex (List.replicate 76 1) 121
 
-#kc_repo #kc_text_gz TMtHex "Certificates/Kernel/Misc/Perm/data/c2/TMtHex.txt.gz" 1089242 5238543299227820831
+#kc_repo #kc_text TMtHex "Certificates/Kernel/Misc/Perm/data/c2/TMtHex.txt" 1089242 5238543299227820831
 
 @[expose] def TMtArr : Array (Array Nat) := decodeHex TMtHex (List.replicate 9002 1) 121
 
-#kc_repo #kc_text_gz LVtHex "Certificates/Kernel/Misc/Perm/data/c2/LVtHex.txt.gz" 354213 1829563869946387573
+#kc_repo #kc_text LVtHex "Certificates/Kernel/Misc/Perm/data/c2/LVtHex.txt" 354213 1829563869946387573
 
 @[expose] def LVtArr : Array (Array Nat) := decodeHex LVtHex [2300, 2300, 2300, 2300, 50600,
   1408, 2300, 1408, 1408, 28160, 567, 2300, 567, 567, 9072, 192, 2300, 192, 192, 2688, 30, 2300,
   30, 30, 240, 4, 2300, 4, 4, 8] 3
 
-#kc_repo #kc_text_gz SVtHex "Certificates/Kernel/Misc/Perm/data/c2/SVtHex.txt.gz" 13800 1455065586815639752
+#kc_repo #kc_text SVtHex "Certificates/Kernel/Misc/Perm/data/c2/SVtHex.txt" 13800 1455065586815639752
 
 @[expose] def SVtArr : Array (Array Nat) := decodeHex SVtHex [2300] 6
 
-#kc_repo #kc_text_gz SPtHex "Certificates/Kernel/Misc/Perm/data/c2/SPtHex.txt.gz" 6900 11953594627714128365
+#kc_repo #kc_text SPtHex "Certificates/Kernel/Misc/Perm/data/c2/SPtHex.txt" 6900 11953594627714128365
 
 @[expose] def SPtArr : Array (Array Nat) := decodeHex SPtHex [2300] 3
 
-#kc_repo #kc_text_gz CStHex "Certificates/Kernel/Misc/Perm/data/c2/CStHex.txt.gz" 22710 13970035373536560825
+#kc_repo #kc_text CStHex "Certificates/Kernel/Misc/Perm/data/c2/CStHex.txt" 22710 13970035373536560825
 
 @[expose] def CStArr : Array (Array Nat) :=
   decodeHex CStHex [125, 125, 3000, 3000, 600, 600, 60, 60] 3
 
-#kc_repo #kc_text_gz DItHex "Certificates/Kernel/Misc/Perm/data/c2/DItHex.txt.gz" 7260 16610178282835101200
+#kc_repo #kc_text DItHex "Certificates/Kernel/Misc/Perm/data/c2/DItHex.txt" 7260 16610178282835101200
 
 @[expose] def DItArr : Array (Array Nat) := decodeHex DItHex (List.replicate 60 1) 121
 
-#kc_repo #kc_text_gz SEtHex "Certificates/Kernel/Misc/Perm/data/c2/SEtHex.txt.gz" 363000 11281758932551521564
+#kc_repo #kc_text SEtHex "Certificates/Kernel/Misc/Perm/data/c2/SEtHex.txt" 363000 11281758932551521564
 
 @[expose] def SEtArr : Array (Array Nat) := decodeHex SEtHex (List.replicate 3000 1) 121
 
-#kc_repo #kc_text_gz SEPtHex "Certificates/Kernel/Misc/Perm/data/c2/SEPtHex.txt.gz" 9000 3724780286763464797
+#kc_repo #kc_text SEPtHex "Certificates/Kernel/Misc/Perm/data/c2/SEPtHex.txt" 9000 3724780286763464797
 
 @[expose] def SEPtArr : Array (Array Nat) := decodeHex SEPtHex [3000] 3
 
-#kc_repo #kc_text_gz WTtHex "Certificates/Kernel/Misc/Perm/data/c2/WTtHex.txt.gz" 531 2712126649148963233
+#kc_repo #kc_text WTtHex "Certificates/Kernel/Misc/Perm/data/c2/WTtHex.txt" 531 2712126649148963233
 
 @[expose] def WTtArr : Array (Array Nat) := decodeHex WTtHex [125, 31, 2, 4, 6, 9] 3
 

@@ -230,7 +230,7 @@ theorem m_eq_card {r : Rep} (hr : repOK P.C P.D r) :
   have hsz : (imgs P.C P.D (Rep.lab r) (Rep.j r)).length * P.D.osz.getD (Rep.j r) 0 =
       cntO P.D (Rep.lab r) (Rep.j r) * Rep.m r := by
     unfold sizeKey at hsize
-    rw [Bool.and_eq_true] at hsize
+    rw [Bool.and_eq_true, imgsG_eq P hj' hK0 (rep_lab_lt P hr0) hpaths] at hsize
     have := hsize.1
     rwa [Nat.beq_eq] at this
   have h1 := card_mul P (rep_lab_valid P hr0) (rep_lab_nodup P hr0) hj' hK0 hpaths

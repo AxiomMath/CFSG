@@ -60,26 +60,7 @@ open CFSG.SectionRank.Native CFSG.Sporadic.SmallF2.Native
   let R := rrefImages d fun i => colFixT d T (1 <<< i)
   fixCertOK d T (rref d R.2) R.1.toArray k
 
-@[expose] def powTable (M : Array Nat) : List (Array Nat) := (List.range 11).map (powRows 112 M)
-
-@[expose] def j4FixNoncentralOK : Bool :=
-  let XP := powTable j4X
-  let YP := powTable j4Y
-  let ZP := powTable j4Z
-  (List.range 11).all fun i => (List.range 11).all fun j =>
-    (i == 0 && j == 0) ||
-      (let W := mulRows 112 (XP.getD i #[]) (YP.getD j #[])
-       (List.range 11).all fun k => fixDimOK 112 (mulRows 112 W (ZP.getD k #[])) 12)
-
-@[expose] def j4FixCentralOK : Bool :=
-  let ZP := powTable j4Z
-  (List.range 11).all fun k => k == 0 || fixDimOK 112 (ZP.getD k #[]) 2
-
-@[expose] def j4PowXYOK : Bool :=
-  let XP := powTable j4X
-  let YP := powTable j4Y
-  (List.range 11).all fun i => (List.range 11).all fun j =>
-    (ops2 112).eq ((ops2 112).pow (mulRows 112 (XP.getD i #[]) (YP.getD j #[])) 11)
-      (ops2 112).one
+@[expose] def j4FixRepsOK : Bool :=
+  fixDimOK 112 (j4Word 0 1 0) 12 && (List.range 11).all fun b => fixDimOK 112 (j4Word 1 b 0) 12
 
 end CFSG.Quasithin.H13.NQCat.Native

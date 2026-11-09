@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.Sporadic.Fi24P7.Pt
 import Certificates.Kernel.Sporadic.Fi24P7.Spec
 import Certificates.Kernel.Sporadic.Fi24P7.MC
+import Certificates.Kernel.Sporadic.Fi24P7.MSG
 import Certificates.Kernel.Sporadic.Fi24P7.S02
 import Certificates.Kernel.Sporadic.Fi24P7.S1
 import Certificates.Kernel.Sporadic.Fi24P7.S3

@@ -54,7 +54,7 @@ end CertificateChecks.KernelTitsN12
 #kst_surv CertificateChecks.KernelTitsN12.SN 11 CFSG.Sporadic.Schreier.Tits.titsNLevels
   CertificateChecks.KernelTitsN12.lN
 
-#kc_repo #kc_json_gz CertificateChecks.KernelTitsN12.D "Certificates/Kernel/TitsN12/data/n12.json.gz"
+#kc_repo #kc_json CertificateChecks.KernelTitsN12.D "Certificates/Kernel/TitsN12/data/n12.json"
   1051 13072867592665378660 (U : List Nat) (R1 : List Nat) (E1 : List (Nat × Nat × Nat)) (R2 : List Nat)
   (E2 : List (Nat × Nat × Nat)) (R4 : List Nat) (E4 : List (Nat × Nat × Nat)) (R8 : List Nat)
   (E8 : List (Nat × Nat × Nat))

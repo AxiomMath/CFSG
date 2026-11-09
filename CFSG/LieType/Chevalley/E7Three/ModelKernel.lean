@@ -170,9 +170,63 @@ inductive ModelCert where
   modelCerts.getD (27 * a + 9 * b + 3 * c + d) (.nine 0)
 
 set_option maxRecDepth 100000 in
+theorem modelCert_check_00 : ∀ c d : Fin 3,
+    (modelCert 0 0 c d).check (modelWord 0 0 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_01 : ∀ c d : Fin 3,
+    (modelCert 0 1 c d).check (modelWord 0 1 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_02 : ∀ c d : Fin 3,
+    (modelCert 0 2 c d).check (modelWord 0 2 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_10 : ∀ c d : Fin 3,
+    (modelCert 1 0 c d).check (modelWord 1 0 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_11 : ∀ c d : Fin 3,
+    (modelCert 1 1 c d).check (modelWord 1 1 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_12 : ∀ c d : Fin 3,
+    (modelCert 1 2 c d).check (modelWord 1 2 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_20 : ∀ c d : Fin 3,
+    (modelCert 2 0 c d).check (modelWord 2 0 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_21 : ∀ c d : Fin 3,
+    (modelCert 2 1 c d).check (modelWord 2 1 c d) = true := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem modelCert_check_22 : ∀ c d : Fin 3,
+    (modelCert 2 2 c d).check (modelWord 2 2 c d) = true := by
+  decide +kernel
+
 theorem modelCert_check : ∀ a b c d : Fin 3,
     (modelCert a b c d).check (modelWord a b c d) = true := by
-  decide +kernel
+  intro a b
+  fin_cases a <;> fin_cases b
+  · exact modelCert_check_00
+  · exact modelCert_check_01
+  · exact modelCert_check_02
+  · exact modelCert_check_10
+  · exact modelCert_check_11
+  · exact modelCert_check_12
+  · exact modelCert_check_20
+  · exact modelCert_check_21
+  · exact modelCert_check_22
 
 theorem triPairing_sub (e : Fin Tag.E7.rank → ZMod 3) (u v : Fin Tag.E7.rank → ℤ) :
     triPairing e (u - v) = triPairing e u - triPairing e v := by

@@ -388,6 +388,15 @@ theorem msize {j : ℕ} (hj : j < 5) :
   rw [mt_get hj, mwJ h]
   simp [ruLatK, sTabs_len]
 
+theorem getD_app_map {α β : Type} (A : List β) (B : List α) (F : α → β) (d : β) (da : α) {i : ℕ}
+    (hi : i < B.length) :
+    (A ++ B.map F).toArray.getD (A.length + i) d = F (B.getD i da) := by
+  simp [Array.getD_eq_getD_getElem?, hi, List.getD_eq_getElem?_getD]
+
+theorem getD_app_left {β : Type} (A C : List β) (d : β) {l : ℕ} (hl : l < A.length) :
+    (A ++ C).toArray.getD l d = A.toArray.getD l d := by
+  simp [Array.getD_eq_getD_getElem?, List.getElem?_append_left hl]
+
 include h in
 theorem good_m {j : ℕ} (hj : j < 5) :
     ∀ l < (ruLatK.sTabs ++ ruLatK.mt[j]!).toArray.size,
@@ -398,9 +407,8 @@ theorem good_m {j : ℕ} (hj : j < 5) :
   simp only [List.size_toArray, List.length_append, List.length_map, sTabs_len] at hl
   by_cases h3 : l < 3
   · have e : (ruSTabsL ++ (ruMw[j]!).map (wordTabA #[ruTaL, ruTbL] ruData.n)).toArray.getD l #[] =
-        ruSTabsL.toArray.getD l #[] := by
-      simp [Array.getD_eq_getD_getElem?, List.getElem?_append_left (show l < ruSTabsL.length by
-        rw [sTabs_len]; exact h3), sTabs_len, h3]
+        ruSTabsL.toArray.getD l #[] :=
+      getD_app_left _ _ _ (show l < ruSTabsL.length by rw [sTabs_len]; exact h3)
     rw [e]
     have e2 : Lm j l = L (Nat.add 2 l) := by
       have hb : Nat.blt l 3 = true := by simpa using h3
@@ -413,8 +421,9 @@ theorem good_m {j : ℕ} (hj : j < 5) :
     have hi : i < (ruMw[j]!).length := by omega
     have e : (ruSTabsL ++ (ruMw[j]!).map (wordTabA #[ruTaL, ruTbL] ruData.n)).toArray.getD
         (3 + i) #[] = wordTabA #[ruTaL, ruTbL] ruData.n ((ruMw[j]!).getD i []) := by
-      simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, sTabs_len, hi,
-        List.getD_eq_getElem?_getD]
+      have e0 := getD_app_map ruSTabsL (ruMw[j]!) (wordTabA #[ruTaL, ruTbL] ruData.n) #[] [] hi
+      rw [sTabs_len] at e0
+      exact e0
     rw [e]
     have e2 : Lm j (3 + i) = wordF L ((ruMw[j]!).getD i []) := by
       have hb : Nat.blt (3 + i) 3 = false := by

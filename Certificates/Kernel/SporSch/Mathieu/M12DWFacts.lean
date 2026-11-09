@@ -2,6 +2,8 @@ module
 
 public import Certificates.Kernel.SporSch.Mathieu.M12DWChecks
 public import Certificates.Kernel.SporSch.Mathieu.M12MFacts
+public import Certificates.Kernel.SporSch.Mathieu.M12DBT
+public import CFSG.Certificates.Kernel.SporSch.MathieuBTSound
 public import CFSG.Certificates.Kernel.SporSch.MathieuOddGlue
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
@@ -20,7 +22,7 @@ namespace CertificateChecks.KernelSporSch.M12DW
 open CFSG CFSG.Sporadic CFSG.Sporadic.Schreier CFSG.Certificates CFSG.Sporadic.Mathieu
 open CFSG.Sporadic.Schreier.Native CFSG.Monster.B.Mathieu CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Raw.Orb CFSG.KS.M11 CFSG.KS.SporSch.MOC
-open CFSG.KS.SporSch.OddWit CFSG.KS.SporSch
+open CFSG.KS.SporSch.OddWit CFSG.KS.SporSch CFSG.KS.SporSch.MBT
 open CertificateChecks.KernelSporSch CertificateChecks.KernelSporSch.M12MOC
 open CFSG.GH74.GLS.Stage2.Signalizer.Odd87 Certificates.Odd87F3
 
@@ -152,11 +154,15 @@ theorem hRI : Certificates.Odd87F3.M12.innerReps.length = M12ICL.length ∧ ∀ 
     rw [e1, e2]
     exact imageList_of_prep (prep_word bRep.2)
 
-theorem imgOne : imageList (1 : Equiv.Perm (Fin 24)) = (unpack 24 5 One).toList := by
-  decide
+theorem tot2 : Nat.beq (sumOrdK 24 5 (mask 5) (ordK M12DQ.LR 5) M12DB.XL M12DB.CL 2
+    M12DB.XL.length) 891 = true := by quickRfl
 
-theorem cosetIX : (cosetOrderTables m12D 1 2).length = (M12IX.CS.map List.sum).sum :=
-  chainK_cosetCount2 (by decide) (by decide) chainQ imgOne cOne (by norm_num) (by norm_num) M12IX.hc
+theorem classEq : ClassEqK 24 5 M12DQ.LR M12DQ.TR M12DQ.TRI M12DQ.BP 5 M12DB.XL M12DB.CL :=
+  ⟨rfl, M12DB.hr, M12DB.hd, M12DB.hs⟩
+
+theorem cosetIX : (cosetOrderTables m12D 1 2).length = 891 :=
+  (classEq_sound (by decide) (by decide) chainQ classEq (mo := 2) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true tot2)
 
 theorem coverI : repsOK 24 (pairTables m12A1 m12B1) (pairTables m12A1⁻¹ m12B1⁻¹)
       (cosetOrderTables m12D 1 2) (Certificates.Odd87F3.M12.innerReps.map toTable) 1000 = true ∧

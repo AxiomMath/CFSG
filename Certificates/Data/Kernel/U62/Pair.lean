@@ -39,14 +39,16 @@ open CFSG.KLie.CT CFSG.KC.Loop CFSG.KC.F4M
 
 @[expose] noncomputable def barV (v : Nat) : Nat := barB LOV v
 
+@[expose] noncomputable def MSK12 : Nat := nat_lit 1153203048319815681
+
 @[expose] noncomputable def mulK (A B : Nat) : Nat :=
   strictN A fun A => strictN B fun B => strictN (omK B) fun W =>
-    orN (nat_lit 6) fun i => Nat.shiftLeft (xorN (nat_lit 6) fun k =>
-      Nat.xor (nIf(bit A (Nat.add (Nat.mul (nat_lit 12) i) (Nat.mul (nat_lit 2) k)),
-          fld(B, Nat.mul (nat_lit 12) k, nat_lit 4095), nat_lit 0))
-        (nIf(bit A (Nat.succ (Nat.add (Nat.mul (nat_lit 12) i) (Nat.mul (nat_lit 2) k))),
-          fld(W, Nat.mul (nat_lit 12) k, nat_lit 4095), nat_lit 0)))
-      (Nat.mul (nat_lit 12) i)
+    xorN (nat_lit 6) fun k => Nat.xor
+      (Nat.land (Nat.mul (Nat.land (Nat.shiftRight A (Nat.mul (nat_lit 2) k)) MSK12) (nat_lit 4095))
+        (Nat.mul (fld(B, Nat.mul (nat_lit 12) k, nat_lit 4095)) MSK12))
+      (Nat.land (Nat.mul (Nat.land (Nat.shiftRight A (Nat.succ (Nat.mul (nat_lit 2) k)))
+          MSK12) (nat_lit 4095))
+        (Nat.mul (fld(W, Nat.mul (nat_lit 12) k, nat_lit 4095)) MSK12))
 
 @[expose] noncomputable def mvK (M x : Nat) : Nat :=
   strictN M fun M => strictN x fun x =>
@@ -129,16 +131,60 @@ open CFSG.KLie.CT CFSG.KC.Loop CFSG.KC.F4M
       (fun b => notB b) (fun b => b) (Nat.beq q (nat_lit 0))
       (allN (nat_lit 13) fun k => eqV (mvK (f72 GV k) v) v)
 
+@[expose] noncomputable def trnEqD (L M s : Nat) : Bool :=
+  Nat.beq (Nat.shiftLeft (Nat.land L M) s) (Nat.land L (Nat.shiftLeft M s))
+
+@[expose] noncomputable def trnEqM (L : Nat) : Bool :=
+  bAnd(trnEqD L (nat_lit 864743908234690572) (nat_lit 10),
+    bAnd(trnEqD L (nat_lit 211119118221360) (nat_lit 20),
+      bAnd(trnEqD L (nat_lit 51542753472) (nat_lit 30),
+        bAnd(trnEqD L (nat_lit 12583680) (nat_lit 40), trnEqD L (nat_lit 3072) (nat_lit 50)))))
+
 @[expose] noncomputable def scanAt (LV PO EI NO : Nat) (i : Nat) : Bool :=
   strictB (f72 LV i) fun L =>
-    bIf(isScal (mulK L (barK L)),
+    bIf(trnEqM L,
+      strictB (f16 PO i) fun q => bAnd(Nat.blt q NO, Nat.beq (f16 EI q) i), true)
+
+@[expose] noncomputable def treeFU(GV : Nat) (F : Nat → Nat) (PT LB : Nat) (i : Nat) : Bool :=
+  bIf(Nat.beq i (nat_lit 0), Nat.beq (F (nat_lit 0)) ONE,
+    strictB (f16 PT i) fun p => strictB (f8 LB i) fun l =>
+      bAnd(Nat.blt p i, bAnd(Nat.blt l (nat_lit 13),
+        Nat.beq (mulK (F p) (f72 GV l)) (F i))))
+
+@[expose] noncomputable def sortFU(F : Nat → Nat) (SO n : Nat) (i : Nat) : Bool :=
+  strictB (f16 SO i) fun a => bAnd(Nat.blt a n,
+    bIf(Nat.blt (Nat.succ i) n,
+      strictB (f16 SO (Nat.succ i)) fun b => bAnd(Nat.blt b n,
+        Nat.blt (keyK (F a)) (keyK (F b))),
+      true))
+
+@[expose] noncomputable def scanFU(F : Nat → Nat) (PO EI NO : Nat) (i : Nat) : Bool :=
+  strictB (F i) fun L =>
+    bIf(trnEqM L,
       strictB (f16 PO i) fun q => bAnd(Nat.blt q NO, Nat.beq (f16 EI q) i), true)
 
 @[expose] noncomputable def poolAt (PV : Nat) (p : Nat) : Bool :=
   strictB (f72 PV p) fun P =>
     bAnd(Nat.beq (mulK (trn P) (barK P)) ONE, Nat.beq (det P) (nat_lit 1))
 
-@[expose] noncomputable def recAt (PV NP G1 G2 GG : Nat) (g : Nat) : Bool :=
+@[expose] noncomputable def UMSK6 : Nat := nat_lit 864955078908252156
+
+@[expose] noncomputable def LMSK6 : Nat := nat_lit 1179510479661444378624
+
+@[expose] noncomputable def dgN (L U : Nat) (n : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (nat_lit 1)
+    (fun i ih => fm (fm (ent L i i) (ent U i i)) ih) n
+
+@[expose] noncomputable def detLU (P R L U : Nat) : Bool :=
+  bAnd(Nat.beq (Nat.land L UMSK6) (nat_lit 0), bAnd(Nat.beq (Nat.land U LMSK6) (nat_lit 0),
+    bAnd(Nat.beq (mulK P R) (mulK L U), Nat.beq (dgN L U (nat_lit 6)) (nat_lit 1))))
+
+@[expose] noncomputable def poolL (PV LW UW RI RT NR : Nat) (p : Nat) : Bool :=
+  strictB (f72 PV p) fun P => strictB (f8 RI p) fun r =>
+    bAnd(Nat.beq (mulK (trn P) (barK P)) ONE,
+      bAnd(Nat.blt r NR, detLU P (f72 RT r) (f72 LW p) (f72 UW p)))
+
+@[expose] noncomputable def recAt(PV NP G1 G2 GG : Nat) (g : Nat) : Bool :=
   strictB (f16 G1 g) fun a => strictB (f16 G2 g) fun b =>
     bAnd(Nat.blt a NP, bAnd(Nat.blt b NP, Nat.beq (f72 GG g) (commK (f72 PV a) (f72 PV b))))
 

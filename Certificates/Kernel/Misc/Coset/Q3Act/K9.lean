@@ -9,6 +9,6 @@ set_option maxRecDepth 100000
 
 namespace CFSG.KAct.Q3
 
-#kc_each CFSG.KAct.Q3.blk 1827 2030
+#kc_each CFSG.KAct.Q3.blk 261 290
 
 end CFSG.KAct.Q3

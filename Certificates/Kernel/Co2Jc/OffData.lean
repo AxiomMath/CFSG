@@ -57,6 +57,9 @@ meta def offStep : Array (Array Nat) :=
     if l.contains s || s == 0 || mm s s != 0 || !(l.all fun i => mm s i == mm i s) then 1023
     else subIdx ((List.range 256).filter fun i => l.contains i || (l.map (mm s)).contains i)
 
+meta def offMask : Array (Array Nat) :=
+  subsA.map fun l => #[l.foldl (fun acc i => acc ||| (1 <<< i)) 0]
+
 end CertificateChecks.KernelCo2Jc
 
 #kmisc_packarrs CertificateChecks.KernelCo2Jc.OP CertificateChecks.KernelCo2Jc.offTabs 100
@@ -64,3 +67,4 @@ end CertificateChecks.KernelCo2Jc
 #kmisc_packarrs CertificateChecks.KernelCo2Jc.OI CertificateChecks.KernelCo2Jc.offIdx 10
 #kmisc_packarrs CertificateChecks.KernelCo2Jc.OF CertificateChecks.KernelCo2Jc.offFix 1024
 #kmisc_packarrs CertificateChecks.KernelCo2Jc.OS CertificateChecks.KernelCo2Jc.offStep 10
+#kmisc_packarrs CertificateChecks.KernelCo2Jc.OSM CertificateChecks.KernelCo2Jc.offMask 256

@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.LocalComp.BfsGen
+public import Certificates.Kernel.LocalComp.BfsGenSl
 meta import CFSG.HardMathSupport.Solomon.Coordinator.I24_7FiInputs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#lc_bfs CertificateChecks.KernelFi22Cover.E5B CertificateChecks.KernelFi22Cover.GensM.e5 3510 12
+#lc_bfs_sl CertificateChecks.KernelFi22Cover.E5B CertificateChecks.KernelFi22Cover.GensM.e5 3510 12 27
 
 #lc_bfs CertificateChecks.KernelFi22Cover.Q4B CertificateChecks.KernelFi22Cover.GensM.q4 3510 12
 

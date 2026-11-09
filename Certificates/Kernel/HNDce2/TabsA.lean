@@ -11,6 +11,6 @@ public import Certificates.Kernel.HNDce2.TabsK7
 
 public section
 
-#kb_family_close "data/HNChain.json.gz" 39758 4793011991244847965
+#kb_family_close "data/HNChain.json" 39758 4793011991244847965
 
 end

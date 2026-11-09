@@ -9,47 +9,6 @@ namespace CFSG.Sporadic.ONOddCore
 
 open CFSG.ONSchreier CFSG.ONSchreier.Native
 
-@[expose] def pairEmbOf (n : ℕ) :
-    Equiv.Perm (Fin n) × Equiv.Perm (Fin n) →* Equiv.Perm (Fin (n + n)) :=
-  (finSumFinEquiv.permCongrHom).toMonoidHom.comp (Equiv.Perm.sumCongrHom (Fin n) (Fin n))
-
-theorem pairEmbOf_injective (n : ℕ) : Function.Injective (pairEmbOf n) :=
-  (finSumFinEquiv.permCongrHom).injective.comp Equiv.Perm.sumCongrHom_injective
-
-theorem pairEmbOf_apply {n : ℕ} (g : Equiv.Perm (Fin n) × Equiv.Perm (Fin n)) (x : Fin (n + n)) :
-    pairEmbOf n g x = finSumFinEquiv (Sum.map g.1 g.2 (finSumFinEquiv.symm x)) := rfl
-
-theorem prep_dbl_of {n : ℕ} {A B : Array ℕ} {a b : Equiv.Perm (Fin n)} (hA : PRep n A a)
-    (hB : PRep n B b) (hs : A.size = n) (hs' : B.size = n) :
-    PRep (n + n) (dbl n A B) (pairEmbOf n (a, b)) := by
-  intro x
-  rw [pairEmbOf_apply]
-  rcases Nat.lt_or_ge x.val n with h | h
-  · have e : (finSumFinEquiv (m := n) (n := n)).symm x = Sum.inl ⟨x.val, h⟩ := by
-      rw [Equiv.symm_apply_eq]
-      ext
-      simp only [finSumFinEquiv_apply_left, Fin.val_castAdd]
-    rw [e]
-    simp only [Sum.map_inl, finSumFinEquiv_apply_left, Fin.val_castAdd]
-    unfold dbl
-    rw [getElem!_pos _ x.val (by simp only [Array.size_append, Array.size_map, hs, hs']; omega),
-      Array.getElem_append_left (by omega), ← getElem!_pos A x.val (by omega)]
-    exact hA ⟨x.val, h⟩
-  · have hx : x.val - n < n := by omega
-    have e : (finSumFinEquiv (m := n) (n := n)).symm x = Sum.inr ⟨x.val - n, hx⟩ := by
-      rw [Equiv.symm_apply_eq]
-      ext
-      simp only [finSumFinEquiv_apply_right, Fin.val_natAdd]
-      omega
-    rw [e]
-    simp only [Sum.map_inr, finSumFinEquiv_apply_right, Fin.val_natAdd]
-    unfold dbl
-    rw [getElem!_pos _ x.val (by simp only [Array.size_append, Array.size_map, hs, hs']; omega),
-      Array.getElem_append_right (by omega)]
-    simp only [Array.getElem_map, hs]
-    rw [← getElem!_pos B (x.val - n) (by omega), hB ⟨x.val - n, hx⟩]
-    omega
-
 section Res
 
 

@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Kernel.Om1K.EnumS0
 public import Certificates.Kernel.Om1K.EnumSa
 public import Certificates.Kernel.Om1K.Defs

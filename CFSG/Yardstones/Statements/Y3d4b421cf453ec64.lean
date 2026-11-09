@@ -1,7 +1,7 @@
 module
 
 public import CFSG.HardMathSupport.Cooperstein.AlternatingGeometry.ClCaseI
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.CGT.PushingUpLit.BHS.NaturalDefs
 public import CFSG.CGT.PushingUpLit.BHS.SymNatDefs
 public import CFSG.Certificates.Kernel.LocalCompTits.Span
@@ -56,7 +56,7 @@ public import Certificates.Data.CFSGNative.MonsterB.Rep4371Model
 public import Certificates.Kernel.J4Count.FixCE
 public import Certificates.Kernel.J4Count.FixCPairBase1
 public import Certificates.Kernel.J4Count.KFactsBase
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

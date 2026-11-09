@@ -88,19 +88,14 @@ theorem sortTabs_eq (L : List Tab) : sortTabs L = isortK L := by
   rw [isortK_eq]
   exact h
 
-theorem elemStep_eq (I : List Tab) (lv : List (List Tab)) : elemStep I lv = elemStepK I lv := by
-  simp only [elemStep, elemStepK, sortTabs_eq]
-
-theorem elemLevel_eq (T : List Tab) : ∀ k, elemLevel T k = elemLevelK T k
-  | 0 => rfl
-  | k + 1 => by
-    simp only [elemLevel, elemLevelK, elemStep_eq, elemLevel_eq T k]
+theorem stepOK_iff (T : List Tab) (k : Nat) : StepOK T k ↔ StepOKK T k := by
+  simp only [StepOK, StepOKK, sortTabs_eq]
 
 theorem jTabs_eqK : jTabs = jTabsK := by
-  rw [jTabs_eq, jTabsK, elemLevel_eq]
+  rw [jTabs_eq, jTabsK]
 
 theorem checkProp_iff : CheckProp ↔ CheckPropK := by
-  simp only [CheckProp, CheckPropK, jTabs_eqK, elemLevel_eq]
+  simp only [CheckProp, CheckPropK, CheckRest, CheckRestK, jTabs_eqK, stepOK_iff]
 
 theorem xProp_iff : xProp ↔ xPropK := by
   simp only [xProp, xPropK, jTabs_eqK]

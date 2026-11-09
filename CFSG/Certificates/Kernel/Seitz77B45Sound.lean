@@ -78,6 +78,123 @@ theorem mtArr_get : mtArr.size = 65536 ∧ ∀ i j, i < 256 → j < 256 →
   simp only [mtArr_toList]
   exact e
 
+theorem lenF_eq (mt : Nat → Nat → Nat) (lab : Nat → Nat) (m a b : Nat) :
+    lenF mt lab m a b = (cenList mt lab m a b).length := by
+  unfold lenF cenList cenBase cenSwap
+  simp only [List.length_append, List.length_flatMap, List.length_map]
+
+theorem inv2_eq (mt : Nat → Nat → Nat) (w : WEl) : inv2 mt w = (wOrd mt w == 2) := by
+  unfold inv2 wOrd
+  by_cases e1 : w = wone
+  · subst e1
+    simp
+  · by_cases e2 : wmul mt w w = wone
+    · simp [e1, e2]
+    · simp [e1, e2] <;> split_ifs <;> simp [e2]
+
+theorem o2F_eq (mt : Nat → Nat → Nat) (lab : Nat → Nat) (m a b : Nat) :
+    o2F mt lab m a b = (ordStats mt (cenList mt lab m a b)).getD 0 0 := by
+  unfold o2F ordStats cenList cenBase cenSwap
+  simp only [inv2_eq, List.map_cons, List.getD_cons_zero, List.filter_map, List.length_map,
+    List.filter_append, List.filter_flatMap, List.length_append, List.length_flatMap,
+    Function.comp_def]
+
+theorem mem_getD_blocks {f : Nat → List Nat} {p d : Nat}
+    (h : d ∈ ((List.range 4).map f).getD p []) : ∃ q, d ∈ f q := by
+  rw [List.getD_eq_getElem?_getD, List.getElem?_map] at h
+  cases e : (List.range 4)[p]? with
+  | none => rw [e] at h; simp at h
+  | some q => rw [e] at h; exact ⟨q, h⟩
+
+theorem cenQ_all {mt : Nat → Nat → Nat} {lab : Nat → Nat} {m a b : Nat} {w : WEl}
+    (h : cenQ mt lab m a b w = true) :
+    (cenList mt lab m a b).all (fun v => wmul mt w v == wmul mt v w) = true := by
+  obtain ⟨x, y, s⟩ := w
+  unfold cenQ at h
+  simp only [Bool.and_eq_true, Bool.not_eq_true', List.all_eq_true, List.mem_filter,
+    List.mem_range, beq_iff_eq] at h
+  obtain ⟨⟨⟨⟨hs, h1⟩, h2⟩, h3⟩, h4⟩ := h
+  subst hs
+  rw [List.all_eq_true]
+  intro v hv
+  unfold cenList cenBase cenSwap at hv
+  rw [List.mem_append, List.mem_flatMap, List.mem_flatMap] at hv
+  rcases hv with ⟨c, hc, hv⟩ | ⟨c, hc, hv⟩
+  · obtain ⟨d, hd, rfl⟩ := List.mem_map.1 hv
+    obtain ⟨q, hq⟩ := mem_getD_blocks hd
+    unfold byLabel at hq
+    have hd' := (List.mem_filter.1 (List.mem_filter.1 hq).1)
+    have hc' := List.mem_filter.1 hc
+    simp only [List.mem_range, beq_iff_eq] at hd' hc'
+    unfold wmul
+    simp [h1 c hc', h2 d hd']
+  · obtain ⟨d, hd, rfl⟩ := List.mem_map.1 hv
+    obtain ⟨q, hq⟩ := mem_getD_blocks hd
+    unfold byLabel at hq
+    have hd' := (List.mem_filter.1 (List.mem_filter.1 hq).1)
+    have hc' := List.mem_filter.1 hc
+    simp only [List.mem_range, beq_iff_eq] at hd' hc'
+    unfold wmul
+    simp [h3 c hc', h4 d hd']
+
+theorem zOf_ne_of_zW {mt : Nat → Nat → Nat} {L : List WEl} {cq : WEl → Bool} {zt : Nat}
+    {I : List Nat} (hq : ∀ w, cq w = true → (L.all fun v => wmul mt w v == wmul mt v w) = true)
+    (h : zW mt L cq zt I = true) : zOf mt L ≠ zt := by
+  unfold zW at h
+  simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at h
+  obtain ⟨⟨⟨hlt, hI⟩, hnd⟩, hc⟩ := h
+  have hsub : (I.map fun i => L.getD i wone) ⊆
+      L.filter fun w => L.all fun v => wmul mt w v == wmul mt v w := by
+    intro w hw
+    rw [List.mem_filter]
+    refine ⟨?_, ?_⟩
+    swap
+    · rcases Bool.or_eq_true _ _ ▸ hc w hw with h' | h'
+      · exact hq w h'
+      · exact h'
+    obtain ⟨i, hi, rfl⟩ := List.mem_map.1 hw
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (hI i hi), Option.getD_some]
+    exact List.getElem_mem _
+  have hle := hnd.length_le_of_subset hsub
+  rw [List.length_map] at hle
+  unfold zOf
+  omega
+
+theorem condF_of_L {mt : Nat → Nat → Nat} {lab : Nat → Nat} {m len : Nat} {os : List Nat}
+    {zt : Nat} {ZW : List (List Nat)} {a b : Nat} (h : condL mt lab m len os zt ZW a b = true) :
+    condF mt lab m len os zt a b = true := by
+  unfold condL at h
+  unfold condF
+  rw [lenF_eq, o2F_eq] at h
+  have hZ : zW mt (cenList mt lab m a b) (cenQ mt lab m a b) zt (zwL ZW a b) = true →
+      differs mt (cenList mt lab m a b) len os zt = true := by
+    intro hz
+    have hne := zOf_ne_of_zW (fun _ => cenQ_all) hz
+    unfold differs
+    simp [hne]
+  have hC : (cenList mt lab m a b).length ≠ len →
+      differs mt (cenList mt lab m a b) len os zt = true := by
+    intro hne
+    unfold differs
+    simp [hne]
+  have hD : (ordStats mt (cenList mt lab m a b)).getD 0 0 ≠ os.getD 0 0 →
+      differs mt (cenList mt lab m a b) len os zt = true := by
+    intro hne
+    have hne' : ordStats mt (cenList mt lab m a b) ≠ os := fun e => hne (by rw [e])
+    unfold differs
+    simp [hne']
+  simp only [Bool.or_eq_true, bne_iff_ne, ne_eq] at h ⊢
+  tauto
+
+theorem sliceF_of_L {mt : Nat → Nat → Nat} {lab : Nat → Nat} {m len : Nat} {os : List Nat}
+    {zt : Nat} {ZW : List (List Nat)} {alo ahi blo bhi : Nat}
+    (h : sliceL mt lab m len os zt ZW alo ahi blo bhi = true) :
+    sliceF mt lab m len os zt alo ahi blo bhi = true := by
+  unfold sliceL at h
+  unfold sliceF
+  simp only [List.all_eq_true, Bool.or_eq_true] at h ⊢
+  exact fun a ha => (h a ha).imp id fun h' b hb => (h' b hb).imp id condF_of_L
+
 theorem fb6_of {mt : Nat → Nat → Nat} {lab : Nat → Nat} {ladd : Nat → Nat → Nat}
     {MS : List Nat} {ST SL : List (List Nat)} (hMS : MS.length = 15)
     (hadm : ∀ c < 16, admOK ladd MS (4096 * c) 4096 = true)

@@ -4,6 +4,9 @@ module
 public import CFSG.GH74.GLS.C3.Layer2.L5C5bInputs
 import CFSG.Certificates.Kernel.L5.Fast
 import CFSG.Certificates.Kernel.L5.Tables
+import CFSG.Certificates.Kernel.L5.Sh0TSound
+import CFSG.Certificates.Kernel.L5.HFCIdx
+import Certificates.Kernel.L5.Sh0Checks
 
 @[expose] public section
 
@@ -34,8 +37,15 @@ private theorem sh0_length : Sh0L.length = 128 := by
   decide +kernel
 
 private theorem sh0_mul : mulClosedChkP Sh0L = true := by
-  rw [← PkCV.map_cOf_ev Sh0L, PkCV.mulClosedChkP_map_ev, Sh0L_eq]
-  decide +kernel
+  rw [L5S.sh0L_eq, PkCV.mulClosedChkP_map_ev]
+  refine L5H.mulClosed_of_tab (n := 128) (mul := L5S.mF) ?_ ?_
+  · have h := L5S.sh0L_length
+    rwa [L5S.sh0L_eq, List.length_map] at h
+  · intro a ha b hb
+    obtain ⟨h1, h2⟩ := L5S.mF_spec L5S.sh0Chk_true L5S.sh0C_codes ha hb
+    refine ⟨h1, PkCV.ev_injective ?_⟩
+    rw [PkCV.ev_mul, ← L5S.sh0L_getD, ← L5S.sh0L_getD, ← L5S.sh0L_getD]
+    exact h2
 
 private theorem sh0_inv : invClosedChkP Sh0L = true := by
   rw [← PkCV.map_cOf_ev Sh0L, PkCV.invClosedChkP_map_ev, Sh0L_eq]

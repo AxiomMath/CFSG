@@ -5,6 +5,8 @@ public import CFSG.Quasithin.H13.L32NS7Inputs
 
 public section
 
+noncomputable section
+
 namespace CFSG.Quasithin.H13.S7Conj
 
 open Mat8Cert

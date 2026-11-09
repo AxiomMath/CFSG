@@ -131,8 +131,9 @@ theorem kfix' : ∀ i < 2, (∀ q < 100, K i q < 100) ∧ K i 0 = 0 ∧ K i 1 = 
 open CFSG.KD.HS589207.Final in
 theorem cent_ok : centOK = true := by
   unfold centOK
-  rw [mElems_toList, List.all_map, List.all_eq_true]
-  intro m hm
+  rw [mElems_toList, List.all_eq_true]
+  intro x hx
+  obtain ⟨m, hm, rfl⟩ := List.mem_map.1 hx
   have hm' := List.mem_range.1 hm
   have e := CFSG.KS.allN_spec (Scans.slices KChk.c0 KChk.c1 KChk.c2 KChk.c3) m hm'
   have g : (!(commT (tab m) (kTabs.getD 0 #[]) && commT (tab m) (kTabs.getD 1 #[])) ||
@@ -145,8 +146,9 @@ theorem cent_ok : centOK = true := by
 open CFSG.KD.HS589207.Final in
 theorem cent_w_ok : centWOK = true := by
   unfold centWOK
-  rw [mElems_toList, List.all_map, List.all_eq_true]
-  intro m hm
+  rw [mElems_toList, List.all_eq_true]
+  intro x hx
+  obtain ⟨m, hm, rfl⟩ := List.mem_map.1 hx
   have hm' := List.mem_range.1 hm
   have e := CFSG.KS.allN_spec (Scans.slices KChk.w0 KChk.w1 KChk.w2 KChk.w3) m hm'
   have hw := good_compT good_wTab (good_mElems m hm')

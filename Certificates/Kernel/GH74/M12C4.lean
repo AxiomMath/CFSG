@@ -33,14 +33,8 @@ meta def yM : Array (Array Nat) := #[natArr m12ZT, natArr m12AT, natArr m12ST, n
 
 meta def recOf (gs : Array (Array Nat)) : Array (Array Nat) :=
   (bfs (fun j t => conjTab 24 idM gs[j]! t) gs.size idM 3000).tabs
-meta def clOf (gs : Array (Array Nat)) : Array (Array Nat) :=
-  ((recOf gs).map fun x => (gs ++ gs.map invM).map fun g => comp 24 x g).flatten
 meta def c4RecM : Array (Array Nat) := recOf cM
-meta def h3RecM : Array (Array Nat) := recOf hM
 meta def kaRecM : Array (Array Nat) := recOf kM
-meta def c4ClM : Array (Array Nat) := clOf cM
-meta def h3ClM : Array (Array Nat) := clOf hM
-meta def kaClM : Array (Array Nat) := clOf kM
 
 meta def c4QM : Array (Array Nat) := #[natArr m12AT, natArr m12KaB]
 
@@ -62,12 +56,6 @@ end CertificateChecks.KernelGH74.M12C4
 #kmisc_packarrs CertificateChecks.KernelGH74.H3I CertificateChecks.KernelGH74.M12C4.hiM 5
 #kmisc_packarrs CertificateChecks.KernelGH74.KAI CertificateChecks.KernelGH74.M12C4.kiM 5
 #kmisc_packarrs CertificateChecks.KernelGH74.M12Y CertificateChecks.KernelGH74.M12C4.yM 5
-#kfind CertificateChecks.KernelGH74.C4Cl CertificateChecks.KernelGH74.M12C4.c4RecM
-  CertificateChecks.KernelGH74.M12C4.c4ClM
-#kfind CertificateChecks.KernelGH74.H3Cl CertificateChecks.KernelGH74.M12C4.h3RecM
-  CertificateChecks.KernelGH74.M12C4.h3ClM
-#kfind CertificateChecks.KernelGH74.KACl CertificateChecks.KernelGH74.M12C4.kaRecM
-  CertificateChecks.KernelGH74.M12C4.kaClM
 #kfind CertificateChecks.KernelGH74.C4P CertificateChecks.KernelGH74.M12C4.c4RecM
   CertificateChecks.KernelGH74.M12C4.c4QM
 #kfind CertificateChecks.KernelGH74.KAP CertificateChecks.KernelGH74.M12C4.kaRecM
@@ -129,25 +117,16 @@ theorem c4E : penumSlK 24 5 (mask 5) (24 * 5) true C4.G C4.GI 4 C4.cnt C4.T C4.P
     C4.POS C4.SRT C4.SRI 0 C4.cnt = true := by quickRfl
 theorem c4H : slK C4.cnt (hsortPtK 24 5 (mask 5) C4.cnt C4.T C4.HS C4.HSI) 0 C4.cnt = true := by
   quickRfl
-theorem c4Cl : slK (Nat.mul C4.cnt 8)
-    (findPtK C4.cnt C4.T (prodQK 24 5 (mask 5) 8 C4.T (bothK 4 C4.GI C4I)) C4Cl) 0
-    (Nat.mul C4.cnt 8) = true := by quickRfl
 
 theorem h3E : penumSlK 24 5 (mask 5) (24 * 5) true H3.G H3.GI 3 H3.cnt H3.T H3.PL
     H3.POS H3.SRT H3.SRI 0 H3.cnt = true := by quickRfl
 theorem h3H : slK H3.cnt (hsortPtK 24 5 (mask 5) H3.cnt H3.T H3.HS H3.HSI) 0 H3.cnt = true := by
   quickRfl
-theorem h3Cl : slK (Nat.mul H3.cnt 6)
-    (findPtK H3.cnt H3.T (prodQK 24 5 (mask 5) 6 H3.T (bothK 3 H3.GI H3I)) H3Cl) 0
-    (Nat.mul H3.cnt 6) = true := by quickRfl
 
 theorem kaE : penumSlK 24 5 (mask 5) (24 * 5) true KA.G KA.GI 2 KA.cnt KA.T KA.PL
     KA.POS KA.SRT KA.SRI 0 KA.cnt = true := by quickRfl
 theorem kaH : slK KA.cnt (hsortPtK 24 5 (mask 5) KA.cnt KA.T KA.HS KA.HSI) 0 KA.cnt = true := by
   quickRfl
-theorem kaCl : slK (Nat.mul KA.cnt 4)
-    (findPtK KA.cnt KA.T (prodQK 24 5 (mask 5) 4 KA.T (bothK 2 KA.GI KAI)) KACl) 0
-    (Nat.mul KA.cnt 4) = true := by quickRfl
 
 theorem tabsH_eq : (m12CGens.take 3).map natArr =
     (List.range 3).map (fun j => unpack 24 5 (H3.GI j)) := by

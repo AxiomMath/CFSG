@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4PlanesE6 "Certificates/Kernel/F4Planes/data/e6pins.json.gz"
+#kc_repo #kc_json CFSG.KD.F4PlanesE6 "Certificates/Kernel/F4Planes/data/e6pins.json"
   72990 12935241627660094178 (LP : Nat) (iw : List Nat) (il : List Nat) (IP : Nat) (IPi : Nat)
   (pS6 : List Nat)
 

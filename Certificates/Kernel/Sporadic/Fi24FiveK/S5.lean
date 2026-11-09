@@ -1,13 +1,13 @@
 module
 
-public import Certificates.Kernel.Sporadic.Fi24FiveK.Data
+public import Certificates.Kernel.Sporadic.Fi24FiveK.DataT
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.SliceRange
+import Certificates.Kernel.Sporadic.Fi24FiveK.SliceEq
 
 set_option Elab.async false
 
 public section
 
-#kc_slice_range CFSG.KD.Fi24FiveK.stg CFSG.KD.Fi24FiveK.Ck.s 140 168
+#kc_slice_range_eq CFSG.KD.Fi24FiveK.stg CFSG.KD.Fi24FiveK.Ck.s CFSG.KD.Fi24FiveK.stg_eq 140 168
 
 end

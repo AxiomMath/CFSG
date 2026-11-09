@@ -31,7 +31,7 @@ open CFSG.SectionRank.Native CFSG.RankThree.Asc83Table.Native
      (87, 1), (0, 1), (109, 1), (0, 1), (114, 1), (59, 1), (114, 1), (59, 1), (100, 1), (109, 1),
      (59, 1), (114, 1), (87, 1), (100, 1), (72, 1), (114, 1), (72, 1), (100, 1)]
 
-@[expose] def fusD2Fi24N : Nat := 159
+@[expose] def fusD2Fi24N : Nat := 162
 
 @[expose] def fusD2Fi24Prog : List Op :=
     [.pow 2 1 2, .mul 2 0 3, .mul 3 1 4, .mul 1 0 5, .mul 5 1 6, .mul 6 0 7, .mul 7 1 8,
@@ -39,7 +39,8 @@ open CFSG.SectionRank.Native CFSG.RankThree.Asc83Table.Native
      .mul 14 0 15, .mul 0 1 16, .mul 16 0 17, .mul 17 1 18, .mul 18 0 19, .mul 19 2 20,
      .mul 20 0 21, .mul 21 2 22, .mul 22 0 23, .mul 23 2 24, .mul 24 0 25, .mul 25 2 26,
      .mul 15 0 27, .mul 27 26 28, .mul 4 28 29, .mul 29 0 30, .mul 30 28 31, .mul 31 4 32,
-     .mul 32 0 33, .mul 33 28 34, .pow 7 34 35, .mul 4 0 36, .mul 36 28 37, .mul 37 0 38,
+     .mul 32 0 33, .mul 33 28 34, .mul 34 34 159, .mul 159 159 160, .mul 159 160 161,
+     .mul 34 161 35, .mul 4 0 36, .mul 36 28 37, .mul 37 0 38,
      .mul 38 4 39, .mul 39 0 40, .mul 40 4 41, .mul 36 4 42, .mul 42 0 43, .mul 43 28 44,
      .mul 44 0 45, .mul 45 4 46, .mul 46 0 47, .mul 47 41 48, .mul 0 48 49, .mul 28 4 50,
      .mul 50 28 51, .mul 51 0 52, .mul 52 42 53, .mul 0 28 54, .mul 54 4 55, .mul 55 28 56,

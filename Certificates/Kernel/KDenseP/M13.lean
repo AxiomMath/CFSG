@@ -81,7 +81,7 @@ macro "kd_m13% " pre:ident eqs:term:max nes:term:max : term => do
 theorem c16958 : agreeAll e16958 = true :=
   (tp3B_sound CertificateChecks.KernelKDenseP.M13.data_ok e16958 [] (by quickRfl)
       (S := rlS CFSG.KD.M13.c16958.rn CFSG.KD.M13.c16958.CH CFSG.KD.M13.c16958.PRf
-        CFSG.KD.M13.c16958.S0 27)
+        CFSG.KD.M13.c16958.S0 174)
       (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
       (CH := CFSG.KD.M13.c16958.CH) (nch := kd_count% CFSG.KD.M13.c16958 CH)
       (IT := CFSG.KD.M13.c16958.IT)
@@ -89,7 +89,7 @@ theorem c16958 : agreeAll e16958 = true :=
         (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
         (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
         (CH := CFSG.KD.M13.c16958.CH) (PR := CFSG.KD.M13.c16958.PRf) (GK := CFSG.KD.M13.c16958.GKf)
-        (G := CFSG.KD.M13.c16958.Gf) (S0 := CFSG.KD.M13.c16958.S0) (w := 27)
+        (G := CFSG.KD.M13.c16958.Gf) (S0 := CFSG.KD.M13.c16958.S0) (w := 174)
         (ng := kd_count% CFSG.KD.M13.c16958 u) (by kd_allE CFSG.KD.M13.c16958 u) (by quickRfl))
       (by quickRfl) (by quickRfl)).1
 
@@ -98,7 +98,7 @@ theorem c16959 : agreeAll e16959 = true ∧ ∀ e ∈ n16959, (∀ g ∈ e.1, g.
     EdgeNoncomm.moveCheckAux (Native.evalWord e.1 (aV ())) (Native.evalWord e.2 (aV ())) = true :=
   tp3B_sound CertificateChecks.KernelKDenseP.M13.data_ok e16959 n16959 (by quickRfl)
       (S := rlS CFSG.KD.M13.c16959.rn CFSG.KD.M13.c16959.CH CFSG.KD.M13.c16959.PRf
-        CFSG.KD.M13.c16959.S0 9)
+        CFSG.KD.M13.c16959.S0 69)
       (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
       (CH := CFSG.KD.M13.c16959.CH) (nch := kd_count% CFSG.KD.M13.c16959 CH)
       (IT := CFSG.KD.M13.c16959.IT)
@@ -106,7 +106,7 @@ theorem c16959 : agreeAll e16959 = true ∧ ∀ e ∈ n16959, (∀ g ∈ e.1, g.
         (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
         (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
         (CH := CFSG.KD.M13.c16959.CH) (PR := CFSG.KD.M13.c16959.PRf) (GK := CFSG.KD.M13.c16959.GKf)
-        (G := CFSG.KD.M13.c16959.Gf) (S0 := CFSG.KD.M13.c16959.S0) (w := 9)
+        (G := CFSG.KD.M13.c16959.Gf) (S0 := CFSG.KD.M13.c16959.S0) (w := 69)
         (ng := kd_count% CFSG.KD.M13.c16959 u) (by kd_allE CFSG.KD.M13.c16959 u) (by quickRfl))
       (by quickRfl) (by quickRfl)
 
@@ -313,9 +313,12 @@ theorem facts16958 :
       gw wvW13 * gw wvW13 ≠ 1 ∧ gw wtW13 * gw wtW13 ≠ 1 ∧ gw wvtW13 * gw wvtW13 ≠ 1 := by
   obtain ⟨hx13, -, hz13, -, -, hyx, hz1, -⟩ := d13_gw_facts
   have hp := agreeAll_sound c16958
-  simp only [e16958, List.forall_mem_cons, List.forall_mem_nil, gw_append, gw_nil, gw_powL_m13,
-    and_true] at hp
-  obtain ⟨p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, -⟩ := hp
+  simp only [e16958, List.forall_mem_cons, gw_append, gw_nil, gw_powL_m13] at hp
+  obtain ⟨p0, p1, p2, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, -⟩ := hp
+  have p3 : gw b3W13 * gw tW13 = gw tW13 * gw b3W13 := by
+    rw [← p8, ← mul_assoc, p9, mul_assoc, p9, ← mul_assoc]
+  have p4 : gw bp3W13 * gw vtW13 = gw vtW13 * gw bp3W13 := by
+    rw [← p11, ← mul_assoc, p12, mul_assoc, p12, ← mul_assoc]
   have hvi : (gw vW13)⁻¹ = gw vW13 := inv_eq_of_mul_eq_one_right p5
   have hvz : gw vW13 * gw genD13W1 = gw genD13W1 * gw vW13 := by
     have h := acts_v.az
@@ -379,23 +382,30 @@ theorem facts16958 :
     exact ev_ne_one (by decide +kernel)
 
 
-theorem g_s0 (h8 : gw censusGW * gw s0sqW13 = gw thirteenX * (gw thirteenX * gw censusGW)) :
+theorem g_s0 (h8 : gw gX1W13 * gw genD13W0 = gw thirteenX * (gw thirteenX * gw gX1W13)) :
     gw censusGW * ev (gw genD13W0) (gw genD13W2) (gw genD13W1) s0 * (gw censusGW)⁻¹ =
       gw thirteenX := by
   obtain ⟨hxE, -⟩ := thirteen_gw_facts
-  have h2 : gw censusGW * gw s0sqW13 * (gw censusGW)⁻¹ = gw thirteenX ^ 2 :=
-    mul_inv_eq_of_eq_mul (by rw [h8, pow_two, mul_assoc])
-  have hs2 : gw s0sqW13 = ev (gw genD13W0) (gw genD13W2) (gw genD13W1) (pw s0 2) := by
-    rw [s0sqW13, gw_append, gw_append, gw_powL_m13, gw_powL_m13, gw_powL_m13]
-    m13_nf
-  have hs0 : ev (gw genD13W0) (gw genD13W2) (gw genD13W1) s0 = gw s0sqW13 ^ 7 := by
+  have hC : gw gX1W13 = gw censusGW * gw genD13W3 ^ 3 := by
+    rw [gX1W13, gw_append, gw_powL_m13]
+  have h2 : gw censusGW * (gw genD13W3 ^ 3 * gw genD13W0 * (gw genD13W3 ^ 3)⁻¹) *
+      (gw censusGW)⁻¹ = gw thirteenX ^ 2 := by
+    have h : gw gX1W13 * gw genD13W0 * (gw gX1W13)⁻¹ = gw thirteenX ^ 2 :=
+      mul_inv_eq_of_eq_mul (by rw [h8, pow_two, mul_assoc])
+    rw [← h, hC]
+    group
+  have hs2 : gw genD13W3 ^ 3 * gw genD13W0 * (gw genD13W3 ^ 3)⁻¹ =
+      ev (gw genD13W0) (gw genD13W2) (gw genD13W1) (pw s0 2) :=
+    (acts_x1.pow heis13 3).ax.trans (congrArg _ (by decide +kernel))
+  have hs0 : ev (gw genD13W0) (gw genD13W2) (gw genD13W1) s0 =
+      (gw genD13W3 ^ 3 * gw genD13W0 * (gw genD13W3 ^ 3)⁻¹) ^ 7 := by
     rw [hs2]
     m13_nf
   have e : 2 * 7 = 13 + 1 := rfl
   rw [hs0, ← conj_pow, h2, ← pow_mul, e, pow_add, hxE, one_mul, pow_one]
 
 theorem census_lines
-    (h8 : gw censusGW * gw s0sqW13 = gw thirteenX * (gw thirteenX * gw censusGW)) :
+    (h8 : gw gX1W13 * gw genD13W0 = gw thirteenX * (gw thirteenX * gw gX1W13)) :
     ∀ e ∈ censusLines, gw (lineConjW e) * gw (lineRepW e) =
       gw (lineTargetW e) ^ e.lam * gw (lineConjW e) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hy2y, -⟩ := d13_gw_facts
@@ -415,12 +425,12 @@ theorem census_lines
   rw [lineConjW, gw_append, gw_append, hs, lineTargetW]
   unfold lineOK at hok
   cases hC : e.toC
-  · simp only [hC, cond_false, decide_eq_true_eq] at hok
-    simp only [hC, Bool.false_eq_true, ↓reduceIte]
+  · simp only [hC, Bool.cond_false, decide_eq_true_eq] at hok
+    simp only [Bool.false_eq_true, ↓reduceIte]
     refine conj_line e.lam (hc.trans (congrArg _ hok)) ?_
     rw [← heis13.ev_pw, ← conj_pow, hs0]
-  · simp only [hC, cond_true, decide_eq_true_eq] at hok
-    simp only [hC, ↓reduceIte]
+  · simp only [hC, Bool.cond_true, decide_eq_true_eq] at hok
+    simp only [↓reduceIte]
     refine conj_line e.lam (hc.trans (congrArg _ hok)) ?_
     rw [heis13.ev_y, ← conj_pow, hy2]
 
@@ -439,9 +449,9 @@ theorem facts16959 :
       (thirteenX ++ j1W, j1W ++ thirteenX), (thirteenX ++ j2W, j2W ++ thirteenX),
       (j1W ++ tj1W, tj1W ++ tStarW), (j2W ++ tj2W, tj2W ++ tStarW),
       (j1W ++ j2W ++ tj12W, tj12W ++ tStarW),
-      (s0sqW13 ++ censusGW, censusGW ++ thirteenX ++ thirteenX)] := rfl
+      (genD13W0 ++ gX1W13, gX1W13 ++ thirteenX ++ thirteenX)] := rfl
   rw [e] at hp
-  simp only [List.forall_mem_cons, List.forall_mem_nil, gw_append, gw_nil, and_true] at hp
+  simp only [List.forall_mem_cons, gw_append, gw_nil] at hp
   obtain ⟨p0, p1, p2, p3, p4, p5, p6, p7, p8, -⟩ := hp
   have n1 := gw_ne_one_of_tauSep (hn _ List.mem_cons_self)
   have n2 := gw_ne_one_of_tauSep (hn _ (List.mem_cons_of_mem _ List.mem_cons_self))

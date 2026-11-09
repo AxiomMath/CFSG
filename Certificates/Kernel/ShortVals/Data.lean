@@ -14,8 +14,8 @@ namespace CFSG.KD.ShortVals
 
 @[expose] def PPText : String := include_str "pp.hex"
 
-#kc_repo #kc_json_gz CFSG.KD.ShortVals
-  "Certificates/Kernel/ShortVals/data/Data.json.gz" 35991 5741302139902819597
+#kc_repo #kc_json CFSG.KD.ShortVals
+  "Certificates/Kernel/ShortVals/data/Data.json" 35991 5741302139902819597
   (AP : Nat) (WT : Nat) (OWT : Nat) (OC : Nat) (ET : Nat) (PT : Nat)
 
 @[expose] noncomputable def VP : Nat := by

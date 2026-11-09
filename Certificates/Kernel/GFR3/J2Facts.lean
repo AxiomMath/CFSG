@@ -104,7 +104,7 @@ theorem cls : ∀ i < 1080, gfr3AtK 315 9 1080 E.T 1080 3 1 i = true := by
     omega
   have h := clsAll (i / 60) hb
   unfold clsBlock at h
-  rw [e]
+  rw [e, ← gfr3AtPK_eq (n := 315) (w := 9) (by norm_num) (by norm_num)]
   exact allN_spec h _ hr
 
 theorem j2_ok : j2ThreeCheck () = true := by

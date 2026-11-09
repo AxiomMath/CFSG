@@ -481,8 +481,9 @@ private theorem faithful_core (b : ↥QA45.originalSubgroup) (hab : uvA * b = b 
   let S : Finset (ℕ × ↥QA45.originalSubgroup) := codes.toFinset ×ˢ Kset
   let f : ℕ × ↥QA45.originalSubgroup → ↥QA45.originalSubgroup := fun p => H p.1 * p.2
   have hf_inj : Set.InjOn f (S : Set (ℕ × ↥QA45.originalSubgroup)) := by
-    rintro ⟨c, k⟩ hp ⟨c', k'⟩ hp' hfp
-    simp only [S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset] at hp hp'
+    simp only [Set.InjOn, S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset,
+      Prod.forall]
+    intro c k hp c' k' hp' hfp
     have hfp' : H c * k = H c' * k' := hfp
     have hcc : c = c' := by
       refine hHtab c hp.1 c' hp'.1 fun m hm => ?_
@@ -494,8 +495,9 @@ private theorem faithful_core (b : ↥QA45.originalSubgroup) (hab : uvA * b = b 
     rw [mul_left_cancel hfp']
   have hsub : ∀ p ∈ (S : Set (ℕ × ↥QA45.originalSubgroup)),
       f p ∈ (C : Set ↥QA45.originalSubgroup) := by
-    rintro ⟨c, k⟩ hp
-    simp only [S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset] at hp
+    simp only [S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset,
+      Prod.forall]
+    intro c k hp
     exact C.mul_mem (hHmem c) (hKmem k hp.2)
   have hScard : S.card = 361 * 4 := by
     have hcn : codes.toFinset.card = 361 := by

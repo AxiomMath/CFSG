@@ -5,6 +5,7 @@ public import Certificates.Kernel.K426.McLOrb
 public import CFSG.Certificates.Kernel.Misc.ChainTailOrbSound
 public import CFSG.Certificates.Kernel.K426KSound
 public import Certificates.Kernel.Census.McLN
+public import CFSG.Sporadic.Schreier.PairMcLOrder
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
 
 public section
@@ -88,9 +89,22 @@ theorem pGA : ∀ k < EA.ng, permB 275 9 (EA.G k) = true := fun k hk => by
   rw [Nat.eq_of_beq_eq_true (Orb.allN_iff.1 gens.2.1 k hk)]
   exact pF (by omega)
 
-theorem enumA : EnumFacts mcl3CAGens mcl3CACert EA.N EA.T := enum_of (ps := mcl3Keys) (fuel := 29300)
-  (bindE bindCA nums.2.2.2.1 gens.2.1) pGA EA.ok hps EA.keys
-  (by rw [Nat.eq_of_beq_eq_true nums.2.2.1]; omega)
+theorem pGAM : ∀ k < EA.ng,
+    CFSG.Monster.B.Co2.permOfArr 275 (unpack 275 9 (EA.G k)) ∈ mclChain.originalSubgroup := fun k hk => by
+  rw [Nat.eq_of_beq_eq_true nums.2.2.2.1] at hk
+  rw [Nat.eq_of_beq_eq_true (Orb.allN_iff.1 gens.2.1 k hk)]
+  exact (CFSG.Certificates.siftA_iff_mem_originalSubgroup mclChainArrays (by norm_num)
+    PairMcL.chain_check.1 (rep_of_validA (CFSG.KC.BfsPin.validA_unpack (pF (by omega))))).1
+    (siftP (Orb.allN_iff.1 siftCAM k hk))
+
+theorem enumAP : EnumFacts mcl3CAGens mcl3CACert EA.N EA.T ∧
+    ∀ i < EA.N, permB 275 9 (EA.T i) = true :=
+  CFSG.KC.BfsPin.enum_of_runFB (ps := mcl3Keys) (fuel := 29300) szOK'
+    (bindE bindCA nums.2.2.2.1 gens.2.1).1 (bindE bindCA nums.2.2.2.1 gens.2.1).2 pGA pGAM
+    mcl_baseFaithful hps (Nat.eq_of_beq_eq_true EA.h0) EA.keys EA.ok
+    (by rw [Nat.eq_of_beq_eq_true nums.2.2.1]; omega)
+
+theorem enumA : EnumFacts mcl3CAGens mcl3CACert EA.N EA.T := enumAP.1
 
 theorem enumO : EnumFacts mcl3OGens mcl3OCert EO.N EO.T := enum_of (ps := mcl3Keys) (fuel := 300)
   (bindE bindO nums.2.2.2.2.2.1 gens.2.2.1) (fun k hk => by
@@ -104,8 +118,7 @@ theorem enumB : EnumFacts mcl3CBGens mcl3CBCert EB.N EB.T := enum_of (ps := mcl3
     rw [Nat.eq_of_beq_eq_true (Orb.allN_iff.1 gens.2.2.2 k hk)]
     exact pF (by omega)) EB.ok hps EB.keys (by rw [Nat.eq_of_beq_eq_true nums.2.2.2.2.2.2.1]; omega)
 
-theorem permEA : ∀ i < EA.N, permB 275 9 (EA.T i) = true := fun i hi =>
-  permB_of_pp (CFSG.KC.BfsPin.PP_pts EA.ok pGA i hi)
+theorem permEA : ∀ i < EA.N, permB 275 9 (EA.T i) = true := enumAP.2
 
 theorem lines_ok : linesOK3 3 729 148 275 mcl3QGens mcl3Keys mcl3QCert mcl3Lines = true := by
   obtain ⟨h1, h2, h3⟩ := enumQ

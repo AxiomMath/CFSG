@@ -49,7 +49,7 @@ deriving Inhabited
 @[expose] def CpSpec.wf (D : CpSpec) : Bool :=
   decide (2 ≤ D.p) &&
   D.pts.all (fun b => b.w.all fun a => a.1 == D.m.b0 || a.1 == D.m.b1 || a.1 == D.m.b2) &&
-  (nonzeroTriples D.p).all (fun v => D.m.indep.any fun q =>
+  (projTriples D.p).all (fun v => D.m.indep.any fun q =>
     q.1 == v.1 && q.2.1 == v.2.1 && q.2.2.1 == v.2.2) &&
   derWf D.actRegs D.der &&
   (D.wA ++ D.wB).all (fun q => (D.actRegs ++ D.der.map (·.reg)).contains q.1)

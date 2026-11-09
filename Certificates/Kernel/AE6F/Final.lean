@@ -127,7 +127,7 @@ theorem wGens_img : ∀ j < (w0Gens ()).length,
 
 theorem chainW : ChainK 360 9 (w0Gens ()) wDerive (#v[0] : Vector (Fin 360) 1)
     W.S W.SI W.LR W.TR W.TRI 5 W.BP W.NS 24 :=
-  ⟨by norm_num, by norm_num, by norm_num, wGens_img, by decide, W.head, W.hl, by decide, W.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, wGens_img, by decide, W.head, W.hl, by decide, .inl W.hs⟩
 
 theorem ppTL : ∀ L ∈ trPL 360 9 W.LR W.TR 1, ∀ t ∈ L, PP 360 9 t := fun L hL t ht =>
   PP_of_permOK hsz (List.all_eq_true.1 (List.all_eq_true.1 kTRW L hL) t ht)

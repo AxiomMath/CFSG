@@ -7,8 +7,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz_eval CertificateChecks.KernelT8074E
-  "Certificates/Kernel/Tits8074/data/c8074s.json.gz" 92160 14630952304977141771
+#kc_repo #kc_json_eval CertificateChecks.KernelT8074E
+  "Certificates/Kernel/Tits8074/data/c8074s.json" 92160 14630952304977141771
   (sg : Array (Array Nat)) (hw : List (List Nat)) (tg : List (List Nat)) (ps : List Nat)
 
 namespace CertificateChecks.KernelT8074E

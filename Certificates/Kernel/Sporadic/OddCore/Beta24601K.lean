@@ -113,8 +113,33 @@ theorem sCl : slK (Nat.mul B24601R.cnt 4)
 @[expose] noncomputable def cayK : Bool :=
   (List.range 1080).all cayAt && decide (labT 0 = idT 6) && piGens.toList.all pK
 
-theorem cay_ok : cayK = true := by
+theorem all_range'_split {f : Nat → Bool} {s m n : Nat} (h1 : (List.range' s m).all f = true)
+    (h2 : (List.range' (s + m) n).all f = true) : (List.range' s (m + n)).all f = true := by
+  rw [← List.range'_append_1, List.all_append, h1, h2]
+  rfl
+
+theorem cay0 : (List.range' 0 270).all cayAt = true := by
   decide +kernel
+
+theorem cay1 : (List.range' 270 270).all cayAt = true := by
+  decide +kernel
+
+theorem cay2 : (List.range' 540 270).all cayAt = true := by
+  decide +kernel
+
+theorem cay3 : (List.range' 810 270).all cayAt = true := by
+  decide +kernel
+
+theorem cay_rest : (decide (labT 0 = idT 6) && piGens.toList.all pK) = true := by
+  decide +kernel
+
+theorem cay_ok : cayK = true := by
+  have h : (List.range 1080).all cayAt = true := by
+    rw [List.range_eq_range']
+    exact all_range'_split (all_range'_split (all_range'_split cay0 cay1) cay2) cay3
+  unfold cayK
+  rw [h, Bool.true_and]
+  exact cay_rest
 
 theorem cay_neg : ((List.range 1080).all fun k => (List.range 2).all fun l =>
     eq6 (labT (r32 B24601Cl (4 * k + l))) (compT 6 (labT k) piGens[1 - l]!)) = false := by

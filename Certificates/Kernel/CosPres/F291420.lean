@@ -10,7 +10,7 @@ open CFSG.CosetTable
 
 public section
 
-#kb_family "data/F291420.json.gz" 1606 10338853943579749565 (r0 := l37Rels)
+#kb_family "data/F291420.json" 1606 10338853943579749565 (r0 := l37Rels)
   (r1 := restrictWords (subsetOf 4 [0, 1, 2]) l37Rels)
 
 end

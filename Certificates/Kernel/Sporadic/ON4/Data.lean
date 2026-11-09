@@ -112,8 +112,32 @@ meta def jSteps (idx : Array Nat) : Array (Array Nat) :=
 meta def jt0 : Array Nat × Array Nat × Array Nat :=
   treeM 0 (jSteps #[0, 1, 2, 3, 4, 5, 6, 7, 8]) #[0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14]
 
+meta def treeT (root : Nat) (st : Array (Array Nat)) (tiers : Array (Array Nat)) :
+    Array Nat × Array Nat × Array Nat := Id.run do
+  let n := 245520
+  let mut pos : Array Nat := (Array.replicate n n).set! root 0
+  let mut pts : Array Nat := #[root]
+  let mut par : Array Nat := #[0]
+  let mut lab : Array Nat := #[0]
+  let mut cur : Array Nat := Array.replicate tiers.size 0
+  for _ in [0:tiers.size * n + 2] do
+    match (List.range tiers.size).find? (fun t => cur[t]! < pts.size) with
+    | none => pure ()
+    | some t =>
+      let h := cur[t]!
+      let x := pts[h]!
+      for l in tiers[t]! do
+        let y := st[l]![x]!
+        if pos[y]! == n then
+          pos := pos.set! y pts.size
+          pts := pts.push y
+          par := par.push h
+          lab := lab.push l
+      cur := cur.set! t (h + 1)
+  return (pts, par, lab)
+
 meta def jt1 : Array Nat × Array Nat × Array Nat :=
-  treeM 227759 (jSteps #[0, 1, 6, 7, 8]) #[0, 1, 2, 5, 6, 7]
+  treeT 227759 (jSteps #[0, 1, 6, 7, 8]) #[#[0, 1], #[2], #[6], #[7], #[3, 8], #[4, 9]]
 
 meta def jt2 : Array Nat × Array Nat × Array Nat := treeM 100817 (jSteps #[7, 8]) #[]
 

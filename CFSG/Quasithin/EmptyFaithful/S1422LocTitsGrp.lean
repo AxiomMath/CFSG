@@ -1,6 +1,7 @@
 module
 
 public import CFSG.GroupTheory.CyclicSylowNormalOddComplement
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -18,7 +19,38 @@ theorem perm5_pow15 : ∀ w : Equiv.Perm (Fin 5), w ^ 15 = 1 → w ^ 3 = 1 ∨ w
 theorem perm5_words : ∀ σ τ : Equiv.Perm (Fin 5), σ ^ 5 = 1 → σ ≠ 1 → τ ^ 3 = 1 → τ ≠ 1 →
     ((σ * τ) ^ 3 ≠ 1 ∧ (σ * τ) ^ 5 ≠ 1) ∨ ((σ * τ⁻¹) ^ 3 ≠ 1 ∧ (σ * τ⁻¹) ^ 5 ≠ 1) ∨
     ((σ ^ 2 * τ) ^ 3 ≠ 1 ∧ (σ ^ 2 * τ) ^ 5 ≠ 1) ∨ ((σ ^ 2 * τ⁻¹) ^ 3 ≠ 1 ∧ (σ ^ 2 * τ⁻¹) ^ 5 ≠ 1) := by
-  decide +kernel
+  open CFSG.Permutation.FinPack in
+  have hw : walkK 5 (fun s => !Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5))) s 5)
+      (enc (1 : Equiv.Perm (Fin 5))) || Nat.beq s (enc (1 : Equiv.Perm (Fin 5))) ||
+    walkK 5 (fun t => !Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5))) t 3)
+      (enc (1 : Equiv.Perm (Fin 5))) || Nat.beq t (enc (1 : Equiv.Perm (Fin 5))) ||
+      (!Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5))) (mulK 5 s t) 3) (enc (1 : Equiv.Perm (Fin 5))) &&
+        !Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5))) (mulK 5 s t) 5) (enc (1 : Equiv.Perm (Fin 5)))) ||
+      (!Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5))) (mulK 5 s (invCK 5 t)) 3)
+          (enc (1 : Equiv.Perm (Fin 5))) &&
+        !Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5))) (mulK 5 s (invCK 5 t)) 5)
+          (enc (1 : Equiv.Perm (Fin 5)))) ||
+      (!Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5)))
+          (mulK 5 (powK 5 (enc (1 : Equiv.Perm (Fin 5))) s 2) t) 3) (enc (1 : Equiv.Perm (Fin 5))) &&
+        !Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5)))
+          (mulK 5 (powK 5 (enc (1 : Equiv.Perm (Fin 5))) s 2) t) 5) (enc (1 : Equiv.Perm (Fin 5)))) ||
+      (!Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5)))
+          (mulK 5 (powK 5 (enc (1 : Equiv.Perm (Fin 5))) s 2) (invCK 5 t)) 3)
+          (enc (1 : Equiv.Perm (Fin 5))) &&
+        !Nat.beq (powK 5 (enc (1 : Equiv.Perm (Fin 5)))
+          (mulK 5 (powK 5 (enc (1 : Equiv.Perm (Fin 5))) s 2) (invCK 5 t)) 5)
+          (enc (1 : Equiv.Perm (Fin 5))))) 5 0 0 0) 5 0 0 0 = true := by
+    decide +kernel
+  have hn : 5 ≤ 16 := by norm_num
+  intro σ τ h5 h1 h3 h1'
+  have h := walkK_sound hw σ
+  simp only [beq_enc_eq_decide hn, powK_enc hn, h5, h1, decide_true, decide_false, Bool.not_true,
+    Bool.false_or] at h
+  have h' := walkK_sound h τ
+  simp only [beq_enc_eq_decide hn, powK_enc hn, mulK_enc hn, invCK_enc hn, h3, h1', decide_true,
+    decide_false, Bool.not_true, Bool.false_or, Bool.or_eq_true, Bool.and_eq_true, Bool.not_eq_true',
+    decide_eq_false_iff_not] at h'
+  simpa only [or_assoc, ne_eq] using h'
 
 theorem card_eq_five_of_odd_transitive_fin (N' : Subgroup (Equiv.Perm (Fin 5)))
     (hodd : Odd (Nat.card N')) (htrans : ∀ i j : Fin 5, ∃ g ∈ N', g i = j) : Nat.card N' = 5 := by

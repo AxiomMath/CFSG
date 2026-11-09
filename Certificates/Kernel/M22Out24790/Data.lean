@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KD.M22Out24790 "Certificates/Kernel/M22Out24790/data/run.json.gz" 1326655
+#kc_repo #kc_json CFSG.KD.M22Out24790 "Certificates/Kernel/M22Out24790/data/run.json" 1326655
   18168326105626029072
   (T : List (List Nat)) (W : List (List Nat)) (U : List (List Nat)) (KK : List (List Nat))
   (cs : List Nat) (SG : List Nat) (IT : List (List Nat)) (IX : List Nat)

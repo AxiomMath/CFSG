@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.Co1End
+public import Certificates.Data.Kernel.Co1BW
 
 public section
 
@@ -27,6 +28,27 @@ open CFSG.KS.SporSch.M24 CFSG.KC.Co1End
     eqK (mulK (M (ih - 1)) (M (iz - 1)))
       (mulK (mulK (mulK (M (iz - 1)) (M (iz - 1))) (M (iz - 1))) (M (ih - 1))) &&
     S.all (fun s => commK s R) && decK M MI N (mulK (M (iz - 1)) (M (iz - 1))) S dec
+
+open CFSG.KC.Co1B (mulWK)
+
+@[expose] noncomputable def conjPWK (M MI : Nat → Nat) (z : Nat) (ps : List Nat) : Nat :=
+  ps.foldl (fun acc k => mulWK acc (mulWK (mulWK (M (k - 1)) z) (MI (k - 1)))) idM
+
+@[expose] noncomputable def decWK (M MI : Nat → Nat) (N z : Nat) :
+    List Nat → List (List Nat) → Bool
+  | [], [] => true
+  | s :: S, ps :: dec => (ps.all fun k => okK N k && eqK (mulWK (M (k - 1)) (MI (k - 1))) idM) &&
+      eqK (conjPWK M MI z ps) s && decWK M MI N z S dec
+  | _, _ => false
+
+@[expose] noncomputable def pwCoreWK (M MI : Nat → Nat) (N : Nat) (S : List Nat) (iz ih : Nat)
+    (dec : List (List Nat)) (R : Nat) : Bool :=
+  okK N iz && okK N ih &&
+    eqK (mulWK (mulWK (M (iz - 1)) (M (iz - 1))) (mulWK (M (iz - 1)) (M (iz - 1)))) idM &&
+    eqK (mulWK (M (ih - 1)) (M (iz - 1)))
+      (mulWK (mulWK (mulWK (M (iz - 1)) (M (iz - 1))) (M (iz - 1))) (M (ih - 1))) &&
+    S.all (fun s => eqK (mulWK s R) (mulWK R s)) &&
+    decWK M MI N (mulWK (M (iz - 1)) (M (iz - 1))) S dec
 
 end CFSG.KC.Co1PW
 

@@ -71,8 +71,44 @@ theorem kAux : (j3Aux.toList.all fun p => canon1 6156 13 p.1 && canon1 6156 13 p
 
 theorem kXE : j3XE.toList.all (canon1 6156 13) = true := by quickRfl
 
-theorem kUsV : (j3Us.toList.all fun u => canon1 6156 13 u && pvalid 6156 13 u) = true := by
+theorem all_of_take_drop {α : Type} {p : α → Bool} (l : List α) (n : Nat)
+    (h1 : (l.take n).all p = true) (h2 : (l.drop n).all p = true) : l.all p = true := by
+  rw [← List.take_append_drop n l, List.all_append, h1, h2]
+  rfl
+
+theorem kUsV0 :
+    ((j3Us.toList.take 10).all fun u =>
+      canon1 6156 13 u && pvalid 6156 13 u) = true := by
   quickRfl
+
+theorem kUsV1 :
+    (((j3Us.toList.drop 10).take 10).all fun u =>
+      canon1 6156 13 u && pvalid 6156 13 u) = true := by
+  quickRfl
+
+theorem kUsV2 :
+    ((((j3Us.toList.drop 10).drop 10).take 10).all fun u =>
+      canon1 6156 13 u && pvalid 6156 13 u) = true := by
+  quickRfl
+
+theorem kUsV3 :
+    (((((j3Us.toList.drop 10).drop 10).drop 10).take 10).all fun u =>
+      canon1 6156 13 u && pvalid 6156 13 u) = true := by
+  quickRfl
+
+theorem kUsV4 :
+    ((((((j3Us.toList.drop 10).drop 10).drop 10).drop 10).take 10).all fun u =>
+      canon1 6156 13 u && pvalid 6156 13 u) = true := by
+  quickRfl
+
+theorem kUsV5 :
+    ((((((j3Us.toList.drop 10).drop 10).drop 10).drop 10).drop 10).all fun u =>
+      canon1 6156 13 u && pvalid 6156 13 u) = true := by
+  quickRfl
+
+theorem kUsV : (j3Us.toList.all fun u => canon1 6156 13 u && pvalid 6156 13 u) = true :=
+  all_of_take_drop _ 10 kUsV0 <| all_of_take_drop _ 10 kUsV1 <| all_of_take_drop _ 10 kUsV2 <|
+    all_of_take_drop _ 10 kUsV3 <| all_of_take_drop _ 10 kUsV4 kUsV5
 
 end CertificateChecks.KernelCensus.J3
 

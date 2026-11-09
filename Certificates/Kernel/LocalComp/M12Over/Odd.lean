@@ -3,7 +3,7 @@ module
 public import Certificates.Kernel.LocalComp.M12Over.S4
 public import Certificates.Kernel.LocalComp.M12Over.S5
 public import Certificates.Kernel.SporSch.Mathieu.M12MFacts
-public import CFSG.Certificates.Kernel.SporSch.ChainKOddConj
+public import CFSG.Certificates.Kernel.SporSch.ChainKOddFix
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM12OverOdd
 import all Init.Data.Nat.Fold
 import all Init.Data.Range.Basic
@@ -17,7 +17,7 @@ open CFSG.Certificates CFSG.ComponentClassification.RankTwoSporadic.M12 Certific
 open CFSG.RankThree.Native
 
 theorem counts : ∀ k₀ < rcnt (M12DQ.LR 0), ∀ k₁ < rcnt (M12DQ.LR 1),
-    cntOddBad2K 24 5 (mask 5) (24 * 5) (pidn 24 5) M12DQ.LR M12DQ.TR 5 eb wsP k₀ k₁ = 0 := by
+    cntOddFixK 24 5 (mask 5) (24 * 5) (pidn 24 5) M12DQ.LR M12DQ.TR 5 1485 wsP k₀ k₁ = 0 := by
   rw [kCnt.1, kCnt.2]
   intro k₀ hk₀ k₁ hk₁
   refine Nat.eq_of_beq_eq_true (?_ : cK k₀ k₁ = true)
@@ -50,9 +50,8 @@ theorem prep_T0 : PRep 24 5 T0 (permOfArr 24 (m12T0 m12E0)) := by
 theorem odd : m12OverOdd := by
   intro y hy hy1 hy15
   have hQ := M12MOC.chainQ
-  obtain ⟨p, hp, hne⟩ := chainK_oddConj hQ (by decide) (by decide) (by decide) permOK_wsP counts
-    hy hy1 (by rw [bval_eb]; exact hy15)
-  rw [bval_eb] at hne
+  obtain ⟨p, hp, hne⟩ := chainK_oddConjF hQ (by decide) (by decide) (by decide) permOK_wsP counts
+    hy hy1 hy15
   have hw := allPairsK_spec kWit p hp
   simp only [witOK, Bool.and_eq_true] at hw
   obtain ⟨⟨⟨hpo, hcan⟩, hsift⟩, hcomm⟩ := hw

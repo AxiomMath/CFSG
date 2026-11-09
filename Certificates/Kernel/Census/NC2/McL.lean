@@ -14,11 +14,11 @@ set_option maxRecDepth 400000
   CFSG.Blueprint.NativeSporadic.McLSeed1 CFSG.Blueprint.NativeSporadic.McLSeed2
 
 #kc_repo #lay_snaps_live CertificateChecks.KernelNC2.McL.P 3 21 CertificateChecks.KernelNC2.McL.L.A
-  CertificateChecks.KernelNC2.McL.L.B "Certificates/Kernel/Census/NC2/data/mcl.json.gz" 31675
+  CertificateChecks.KernelNC2.McL.L.B "Certificates/Kernel/Census/NC2/data/mcl.json" 31675
   15221677160061111283
 
-#kc_repo #kc_json_gz CertificateChecks.KernelNC2.McL.D
-  "Certificates/Kernel/Census/NC2/data/mcl.json.gz" 31675 15221677160061111283
+#kc_repo #kc_json CertificateChecks.KernelNC2.McL.D
+  "Certificates/Kernel/Census/NC2/data/mcl.json" 31675 15221677160061111283
   (a : Nat) (tests : List Nat) (oddExp : Nat) (extra : List Nat) (sq : List Nat)
   (cj : List (List Nat)) (sig : List Nat) (sigma : List Nat) (tau : List Nat)
   (pairs : List (Nat × Nat))

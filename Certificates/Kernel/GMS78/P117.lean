@@ -108,6 +108,47 @@ theorem jMem_gen : jMem = Gen.jMemG gamArr dPartArr dCodeTab xPts := by
   · rw [ite_eq_right_of_eq_false _ _ (eq_false h), ite_eq_right_of_eq_false _ _ (eq_false h)]
     rfl
 
+private theorem pMul_gen : pMul = Gen.pMulG gamArr dPartArr dCodeTab := by
+  funext p q
+  rfl
+
+private theorem sqPt_gen : sqPt = Gen.sqPtG gamArr dPartArr dCodeTab := by
+  funext p
+  rw [sqPt, Gen.sqPtG, pMul_gen]
+
+private theorem inJ_gen : inJ = Gen.inJG gamArr dPartArr dCodeTab xPts := by
+  funext p
+  rw [inJ, Gen.inJG, pMul_gen]
+
+private theorem inCX_gen : inCX = Gen.inCXG gamArr dPartArr dCodeTab xPts := by
+  funext p
+  rw [inCX, Gen.inCXG, pMul_gen]
+
+private theorem cmt_gen : cmt = Gen.cmtG gamArr dPartArr dCodeTab := by
+  funext q p
+  rw [cmt, Gen.cmtG, pMul_gen]
+
+private theorem jPts_gen : jPts = Gen.jPtsG gamArr dPartArr dCodeTab xPts := by
+  rw [jPts, Gen.jPtsG, inJ_gen]
+
+private theorem checkA_gen : checkA = Gen.checkAG gamArr dPartArr dCodeTab xPts := by
+  rw [checkA, Gen.checkAG, inJ_gen, inCX_gen, sqPt_gen]
+
+private theorem checkCa_gen : checkCa = Gen.checkCaG gamArr dPartArr dCodeTab := by
+  rw [checkCa_def, cntC, Gen.checkCaG, cmt_gen]
+
+private theorem checkCx_gen : checkCx = Gen.checkCxG gamArr dPartArr dCodeTab xPts := by
+  rw [checkCx, Gen.checkCxG, jPts_gen, inCX_gen, sqPt_gen, cmt_gen]
+
+private theorem checkF1_gen : checkF1 = Gen.checkF1G gamArr dPartArr dCodeTab xPts := by
+  rw [checkF1, Gen.checkF1G, jMem_gen, cmt_gen, sqPt_gen, jPts_gen, pMul_gen]
+
+private theorem checkF3_gen : checkF3 = Gen.checkF3G gamArr dPartArr dCodeTab xPts := by
+  rw [checkF3, Gen.checkF3G, jMem_gen, inJ_gen, inCX_gen, jPts_gen, cmt_gen, sqPt_gen, pMul_gen]
+
+private theorem checkJd_gen : checkJd = Gen.checkJdG gamArr dPartArr dCodeTab xPts := by
+  rw [checkJd, Gen.checkJdG, jPts_gen]
+
 theorem checks15117 : checkA = true ∧ checkCa = true ∧ checkCx = true ∧ checkF1 = true ∧
     checkF3 = true ∧ checkJd = true := by
   have h := check15117_sound gamArr dPartArr dCodeTab xPts GT DPR LIN DM DO1 JM XS CXL F1L KL
@@ -125,13 +166,7 @@ theorem checks15117 : checkA = true ∧ checkCa = true ∧ checkCx = true ∧ ch
       rw [len_KL] at hi
       have := CFSG.KC.Co3Bfs.cover_of_blocks (by norm_num) (by norm_num) f3B.all i hi
       rwa [f3F, neGet_eq] at this)
-  have eF1 : checkF1 = Gen.checkF1G gamArr dPartArr dCodeTab xPts := by
-    rw [checkF1, jMem_gen]
-    rfl
-  have eF3 : checkF3 = Gen.checkF3G gamArr dPartArr dCodeTab xPts := by
-    rw [checkF3, jMem_gen]
-    rfl
-  rw [eF1, eF3]
+  rw [checkA_gen, checkCa_gen, checkCx_gen, checkF1_gen, checkF3_gen, checkJd_gen]
   exact h
 
 end CertificateChecks.KernelGMS78.SD

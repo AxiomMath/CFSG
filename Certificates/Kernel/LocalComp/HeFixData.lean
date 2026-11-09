@@ -1,19 +1,19 @@
 module
 
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CertificateChecks.KernelLC.HeFix
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelLC.HeFix
-  "Certificates/Kernel/LocalComp/data/HeFixData.items.gz" 131406 4674645406482070778
+#kc_repo #kc_nat_items CertificateChecks.KernelLC.HeFix
+  "Certificates/Kernel/LocalComp/data/HeFixData.items" 131406 4674645406482070778
   PC1_[9] Q[6]
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLC.HeFix
-  "Certificates/Kernel/LocalComp/data/HeFixData.json.gz" 245789 7098172062745226998
+#kc_repo #kc_json CertificateChecks.KernelLC.HeFix
+  "Certificates/Kernel/LocalComp/data/HeFixData.json" 245789 7098172062745226998
   (PT1 : Nat) (PU : Nat) (PX : Nat) (G0I : Nat) (G1I : Nat) (T1I : Nat) (UI : Nat)
 
 @[expose] noncomputable def PC1 (j : Nat) : Nat :=

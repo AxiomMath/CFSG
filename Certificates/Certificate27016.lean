@@ -253,13 +253,20 @@ theorem cOK_a {k : Nat} (hk : k < tot5 TitsN.LR) (cc : C (PN k)) :
     (keyA hk cc cU3 z3 cU2 kS1 cAU3 kS8) (keyA hk cc cQ1 q1 cQ1 kS3 cAQ1 kS9)
     (keyA hk cc cQ2 q2 cQ2 kS4 cAQ2 kS10) (keyA hk cc cQ3 q3 cQ3 kS5 cAQ3 kS11)
 
+private theorem all_map_congr {α : Type} {l : List Nat} {g : Nat → α} {f : α → Bool}
+    {h : Nat → Bool} (H : ∀ k ∈ l, f (g k) = h k) : (l.map g).all f = l.all h := by
+  induction l with
+  | nil => rfl
+  | cons a t ih =>
+    rw [List.map_cons, List.all_cons, List.all_cons, H a List.mem_cons_self,
+      ih fun k hk => H k (List.mem_cons_of_mem _ hk)]
+
 theorem tits_sec_four_check_1 : enumCheck = true := by
   unfold enumCheck
-  rw [cnt_eq, List.all_map, CertificateChecks.KernelEvenBN.aux_eq, ← all_chunks]
-  refine all_congr_mem fun k hk => ?_
+  rw [cnt_eq, CertificateChecks.KernelEvenBN.aux_eq, ← all_chunks]
+  refine all_map_congr fun k hk => ?_
   have cc := cnt_canon k hk
   have hkt := ascK_lt aCNt k hk
-  simp only [Function.comp_apply]
   unfold cKc
   rw [cmpU cAux cc, cOK_c hkt cc, cOK_a hkt cc]
 

@@ -2,6 +2,7 @@ module
 
 public import CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterSevenChecks
 public import CFSG.Certificates.Kernel.KDenseP.MonSeven.InvData
+public import CFSG.Certificates.Kernel.KDenseP.MonSeven.PowData
 
 public section
 
@@ -31,29 +32,52 @@ abbrev Prs := List (List Native.Gen × List Native.Gen)
 
 @[expose] noncomputable def invW (k : Nat) : List Native.Gen := (invC k).map decL
 
-@[expose] def WrhoBOf (iw : Nat → List Native.Gen) (v : Array Nat) : List Native.Gen :=
-  (List.range 6).reverse.flatMap fun k =>
-    if v[k]! ≤ 3 then powL v[k]! wq[k]! else powL (7 - v[k]!) (iw k)
+@[expose] def pieceW (iw : Nat → List Native.Gen) (k e : Nat) : List Native.Gen :=
+  if e ≤ 3 then powL e wq[k]! else powL (7 - e) (iw k)
+
+@[expose] noncomputable def pieceR (iw : Nat → List Native.Gen) : Nat → Nat → List Native.Gen
+  | 1, 2 => CFSG.KD.M7Q.P1_2.map decL
+  | 1, 5 => CFSG.KD.M7Q.P1_5.map decL
+  | 3, 4 => CFSG.KD.M7Q.P3_4.map decL
+  | 4, 2 => CFSG.KD.M7Q.P4_2.map decL
+  | 4, 4 => CFSG.KD.M7Q.P4_4.map decL
+  | k, e => pieceW iw k e
+
+@[expose] noncomputable def powPrs (iw : Nat → List Native.Gen) : Prs :=
+  [(1, 2), (1, 5), (3, 4), (4, 2), (4, 4)].map fun p => (pieceR iw p.1 p.2, pieceW iw p.1 p.2)
+
+@[expose] def WrhoBOf (pw : Nat → Nat → List Native.Gen) (v : Array Nat) : List Native.Gen :=
+  (List.range 6).reverse.flatMap fun k => pw k v[k]!
 
 @[expose] def pcOf (iw : Nat → List Native.Gen) : Prs :=
-  (List.range 6).map (fun i => (powL 7 wq[i]!, ([] : List Native.Gen))) ++
+  [0, 1, 5].map (fun i => (powL 7 wq[i]!, ([] : List Native.Gen))) ++
     ((List.range 6).flatMap fun i => (List.range 6).filterMap fun j =>
-      if i < j then some (wq[j]! ++ wq[i]!, wq[i]! ++ WrhoBOf iw cw7[i * 6 + j]!) else none) ++
+      if i < j ∧ (j < 5 ∨ i = 2 ∨ i = 3) then
+        some (wq[j]! ++ wq[i]!, wq[i]! ++ WrhoBOf (pieceW iw) cw7[i * 6 + j]!) else none) ++
     (List.range 6).map (fun i => (wq[i]! ++ iw i, ([] : List Native.Gen)))
 
-@[expose] def autOf (iw : Nat → List Native.Gen) : Prs :=
-  (List.range 2).flatMap fun a => (List.range 6).map fun i =>
-    (wq[i]! ++ autW[a]!, autW[a]! ++ WrhoBOf iw (alphaVecs[a]!)[i]!)
+@[expose] def autGOf (pw : Nat → Nat → List Native.Gen) : Prs :=
+  (List.range 2).flatMap fun a => (List.range 2).map fun i =>
+    (wq[i]! ++ autW[a]!, autW[a]! ++ WrhoBOf pw (alphaVecs[a]!)[i]!)
 
-@[expose] def orbOf (iw : Nat → List Native.Gen) (lo hi : Nat) : Prs :=
+@[expose] def orbOf (pw : Nat → Nat → List Native.Gen) (lo hi : Nat) : Prs :=
   (List.range' lo (hi - lo)).map fun k =>
-    (WrhoBOf iw orbVec[k]! ++ orbT[k]!, orbT[k]! ++ targetW orbKind[k]!)
+    (WrhoBOf pw orbVec[k]! ++ orbT[k]!, orbT[k]! ++ targetW orbKind[k]!)
+
+@[expose] def orbSplitPr (pw : Nat → Nat → List Native.Gen) (k s : Nat) :
+    List Native.Gen × List Native.Gen :=
+  ((List.range s).reverse.flatMap (fun j => pw j (orbVec[k]!)[j]!) ++ orbT[k]!,
+    (List.range' s (6 - s)).flatMap (fun j => pw j (7 - (orbVec[k]!)[j]!)) ++ orbT[k]! ++
+      targetW orbKind[k]!)
 
 @[expose] noncomputable def e13695pc : Prs := pcOf invW
-@[expose] noncomputable def e13695aut : Prs := autOf invW
+@[expose] noncomputable def e13695autG : Prs := autGOf (pieceR invW)
 @[expose] def e13695rat : Prs := ratPairs
-@[expose] noncomputable def e136300 : Prs := orbOf invW 0 11
-@[expose] noncomputable def e136301 : Prs := orbOf invW 11 22
+@[expose] noncomputable def e136300 : Prs :=
+  (List.range 11).map fun k => orbSplitPr (pieceR invW) k #[6, 6, 6, 4, 4, 4, 6, 4, 4, 6, 4][k]!
+@[expose] noncomputable def e136301 : Prs :=
+  (([11, 12, 13, 14, 15, 16, 17].map fun k => orbSplitPr (pieceR invW) k 4) ++
+    [18, 19, 20, 21].map fun k => orbSplitPr (pieceR invW) k 1) ++ powPrs invW
 
 end CFSG.KC.KDenseP.MonSeven
 

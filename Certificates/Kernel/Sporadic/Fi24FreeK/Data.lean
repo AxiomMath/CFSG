@@ -1,13 +1,13 @@
 module
 
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.JsonGz
 public import Certificates.Kernel.Sporadic.Fi24ThreeO.Data
 public import Certificates.Data.Kernel.Spor.Fi24FreeK
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24FreeK "Certificates/Kernel/Sporadic/Fi24FreeK/data/freek.json.gz" 858 1451454312685555988 (rl : List (List Nat)) (gh : List Nat) (wq : List Nat) (lw : List (List Nat × List Nat)) (mv : Nat)
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24FreeK PPT "Certificates/Kernel/Sporadic/Fi24FreeK/data/pp.bin.gz" 65536 1 65536 264977953379080611
+#kc_repo #kc_json CFSG.KD.Fi24FreeK "Certificates/Kernel/Sporadic/Fi24FreeK/data/freek.json" 858 1451454312685555988 (rl : List (List Nat)) (gh : List Nat) (wq : List Nat) (lw : List (List Nat × List Nat)) (mv : Nat)
+#kc_repo #kc_ktree CFSG.KD.Fi24FreeK PPT "Certificates/Kernel/Sporadic/Fi24FreeK/data/pp.bin" 65536 1 65536 264977953379080611
 
 public section
 

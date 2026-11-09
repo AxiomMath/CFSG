@@ -401,8 +401,7 @@ theorem meetCardK_formula {i j : Nat} (hi : wData[i]! < 262144) (hj : wData[j]! 
   rw [← hWj] at xj nj
   rw [← hAi] at ni
   rw [← hAj] at nj
-  unfold meetCardK
-  rw [countMN_eq, setM_and, setM_and, ← ni, ← nj, card_annInter xi xj hci hcj, Nat.pow_two]
+  rw [meetCardK_eq, countMN_eq, setM_and, setM_and, ← ni, ← nj, card_annInter xi xj hci hcj, Nat.pow_two]
   · intro v hv φ hφ hmv hnφ
     rw [Nat.testBit_and, Bool.and_eq_true] at hmv hnφ
     have hv' : v ∈ setM (wMask i) := mem_setM.mpr ⟨hv, hmv.1⟩

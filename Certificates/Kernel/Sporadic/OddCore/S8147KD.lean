@@ -24,7 +24,7 @@ theorem kQ : keysSK 1782 11 [0, 1, 2, 3, 4, 8, 5, 6] 25 SFQ.T (listUp SFQ.SKT 25
   quickRfl
 theorem pQ : allN 2 (fun k => permOK 1782 11 (mask 11) (1782 * 11) (SFQ.G k)
     (pinvS 1782 11 (mask 11) (SFQ.G k))) = true := by quickRfl
-theorem sQ : bAnd(canonSl 1782 11 SFQ.T 25 0, runSl 1782 11 2 SFQ.G SFQ.T SFQ.E 25 SFQ.C 0) = true := by
+theorem sQ : runSl 1782 11 2 SFQ.G SFQ.T SFQ.E 25 SFQ.C 0 = true := by
   quickRfl
 
 theorem hD0 : (szOK 1782 11 && allN 2 (fun k => canonK 1782 11 (mask 11) (Nat.mul 1782 11)
@@ -82,17 +82,17 @@ theorem pD5 : allN 2 (fun k => permOK 1782 11 (mask 11) (1782 * 11) (SFD5.G k)
     (pinvS 1782 11 (mask 11) (SFD5.G k))) = true := by quickRfl
 
 @[expose] noncomputable def d0s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFD0.T 40 s, runSl 1782 11 2 SFD0.G SFD0.T SFD0.E 40 SFD0.C s)
+  runSl 1782 11 2 SFD0.G SFD0.T SFD0.E 40 SFD0.C s
 @[expose] noncomputable def d1s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFD1.T 20 s, runSl 1782 11 2 SFD1.G SFD1.T SFD1.E 20 SFD1.C s)
+  runSl 1782 11 2 SFD1.G SFD1.T SFD1.E 20 SFD1.C s
 @[expose] noncomputable def d2s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFD2.T 20 s, runSl 1782 11 2 SFD2.G SFD2.T SFD2.E 20 SFD2.C s)
+  runSl 1782 11 2 SFD2.G SFD2.T SFD2.E 20 SFD2.C s
 @[expose] noncomputable def d3s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFD3.T 40 s, runSl 1782 11 4 SFD3.G SFD3.T SFD3.E 40 SFD3.C s)
+  runSl 1782 11 4 SFD3.G SFD3.T SFD3.E 40 SFD3.C s
 @[expose] noncomputable def d4s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFD4.T 40 s, runSl 1782 11 2 SFD4.G SFD4.T SFD4.E 40 SFD4.C s)
+  runSl 1782 11 2 SFD4.G SFD4.T SFD4.E 40 SFD4.C s
 @[expose] noncomputable def d5s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFD5.T 20 s, runSl 1782 11 2 SFD5.G SFD5.T SFD5.E 20 SFD5.C s)
+  runSl 1782 11 2 SFD5.G SFD5.T SFD5.E 20 SFD5.C s
 
 theorem hO0 : (szOK 6 3 && allN 2 (fun k => canonK 6 3 (mask 3) (Nat.mul 6 3) (SFO0.G k)) &&
     Nat.beq (SFO0.T 0) (pidn 6 3) && Nat.beq (SFO0.C 0) 1 && Nat.beq (SFO0.C 9) 360) = true := by

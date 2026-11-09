@@ -46,9 +46,9 @@ theorem kP : lenIs (pairK 24 (invK 24 RL)) 12546 = true := by quickRfl
 theorem k1 : g1okPK 24 PL RL m24G1 11 = true := by quickRfl
 theorem k1c : g1covK 24 RL m24G1 h1 = true := by quickRfl
 theorem k11 : g2okPK 24 PL RL m24G2_11 11 = true := by quickRfl
-theorem k11c : atMost (badK 24 RL m24G2_11 (unpackK 12546 c11)) 0 = true := by quickRfl
+theorem k11c : atMost (badSK 24 RL m24G2_11 (unpackK 12546 c11)) 0 = true := by quickRfl
 theorem k23 : g2okPK 24 PL RL m24G2_23 23 = true := by quickRfl
-theorem k23c : atMost (badK 24 RL m24G2_23 (unpackK 12546 c23)) 888 = true := by quickRfl
+theorem k23c : atMost (badSK 24 RL m24G2_23 (unpackK 12546 c23)) 888 = true := by quickRfl
 
 end CFSG.KD.LQT.C4059
 

@@ -21,10 +21,16 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.SporSch CFSG.KC.Misc.
 
 @[expose] noncomputable def pc (p q : Nat) : Nat := pcomp 4060 12 (mask 12) p q
 
-@[expose] noncomputable def x12 (j : Nat) : Bool :=
-  allN 35 (fun j' => strictB (pc (XA j) (XA j')) (fun p =>
+@[expose] noncomputable def xKp (j : Nat) : Bool :=
+  bIf(Nat.blt j 7, true, bIf(Nat.beq (Nat.mod j 7) 0, false, true))
+
+@[expose] noncomputable def xPC (a b : Nat) : Bool :=
+  strictB (pc a b) (fun p =>
     bAnd(bIf(Nat.beq p (pidn 4060 12), true, anyK 35 (fun j'' => Nat.beq p (XA j''))),
-      Nat.beq p (pc (XA j') (XA j)))))
+      Nat.beq p (pc b a)))
+
+@[expose] noncomputable def x12 (j : Nat) : Bool :=
+  allN 35 (fun j' => bIf(bAnd(xKp j, bAnd(xKp j', Nat.blt j j')), xPC (XA j) (XA j'), true))
 
 @[expose] noncomputable def x5 (j : Nat) : Bool :=
   allN 2 (fun g => strictB (pc (pc (gen2 C0 C1 g) (XA j)) (gen2 C0I C1I g)) (fun c =>
@@ -124,6 +130,59 @@ theorem g5_eq : g5A = unpack 4060 12 g5P := by
 
 theorem sb_eq (y : Nat) (k : Nat → Bool) : strictB y k = k y := by cases y <;> rfl
 
+theorem xPC_sym {a b : Nat} (h : xPC a b = true) : xPC b a = true := by
+  rw [xPC, sb_eq] at h ⊢
+  obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
+  rw [← Nat.eq_of_beq_eq_true h2]
+  exact (bAnd_iff _ _).2 ⟨h1, Nat.beq_refl _⟩
+
+theorem xPC_diag {a : Nat} (h : Nat.beq (pc a a) (pidn 4060 12) = true) : xPC a a = true := by
+  rw [xPC, sb_eq, h]
+  exact (bAnd_iff _ _).2 ⟨rfl, Nat.beq_refl _⟩
+
+theorem xKp_false {j : Nat} (hj : j < 35) (h : xKp j = false) : XA j = XA 0 := by
+  unfold xKp at h
+  cases e : Nat.blt j 7
+  · rw [e] at h
+    cases e2 : Nat.beq (Nat.mod j 7) 0
+    · rw [e2] at h
+      exact absurd h.symm Bool.false_ne_true
+    · have hm : j % 7 = 0 := Nat.eq_of_beq_eq_true e2
+      have hge : 7 ≤ j := by
+        by_contra h7
+        rw [Nat.blt_eq.mpr (by omega)] at e
+        exact Bool.noConfusion e
+      have h1 := Nat.eq_of_beq_eq_true (allN_spec x8 (j / 7) (by omega))
+      have h0 : XA 0 = Z := Nat.eq_of_beq_eq_true (allN_spec x8 0 (by omega))
+      have hj7 : Nat.mul 7 (j / 7) = j := by
+        change 7 * (j / 7) = j
+        omega
+      rw [hj7] at h1
+      rw [h1, h0]
+  · rw [e] at h
+    exact absurd h.symm Bool.false_ne_true
+
+theorem xRep_ex {j : Nat} (hj : j < 35) : ∃ r < 35, xKp r = true ∧ XA j = XA r := by
+  cases e : xKp j
+  · exact ⟨0, by omega, rfl, xKp_false hj e⟩
+  · exact ⟨j, hj, e, rfl⟩
+
+theorem xPC_lt {a b : Nat} (ha : a < 35) (hb : b < 35) (hka : xKp a = true) (hkb : xKp b = true)
+    (hab : a < b) : xPC (XA a) (XA b) = true := by
+  have h : bIf(bAnd(xKp a, bAnd(xKp b, Nat.blt a b)), xPC (XA a) (XA b), true) = true :=
+    allN_spec (X12.all a ha) b hb
+  rw [hka, hkb, Nat.blt_eq.mpr hab] at h
+  exact h
+
+theorem xPC_all {j j' : Nat} (hj : j < 35) (hj' : j' < 35) : xPC (XA j) (XA j') = true := by
+  obtain ⟨a, ha, hka, ea⟩ := xRep_ex hj
+  obtain ⟨b, hb, hkb, eb⟩ := xRep_ex hj'
+  rw [ea, eb]
+  rcases Nat.lt_trichotomy a b with h | rfl | h
+  · exact xPC_lt ha hb hka hkb h
+  · exact xPC_diag (allN_spec x3 a ha)
+  · exact xPC_sym (xPC_lt hb ha hkb hka h)
+
 theorem bindsS4 : Binds 4060 12 RuS4.S 6 2 RuS4.BP (ruField4060 4)
     (ruBaseArr 4060 ruS4060ChainBase) := by
   refine ⟨by norm_num, by norm_num, by norm_num, ?_, fun j hj => ?_, by simp [ruBaseArr,
@@ -155,8 +214,8 @@ theorem xCheck : ruB1XCheck = true := by
   refine ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨fun j hj j' hj' => ?_, fun j hj j' hj' => ?_⟩, fun j hj => ?_⟩, fun j hj => ?_⟩,
     fun j hj g hg => ?_⟩, fun j hj j' hj' => ?_⟩, fun j hj => ?_⟩, fun k hk => ?_⟩, ?_⟩, ?_⟩,
     fun j hj => ?_⟩
-  · have h := allN_spec (X12.all j hj) j' hj'
-    rw [sb_eq] at h
+  · have h := xPC_all hj hj'
+    rw [xPC, sb_eq] at h
     obtain ⟨h1, -⟩ := (bAnd_iff _ _).1 h
     rw [prod_eq hj hj', idA_eq, eqA_canon (cpc hj hj') cId]
     cases e : Nat.beq (pc (XA j) (XA j')) (pidn 4060 12)
@@ -166,8 +225,8 @@ theorem xCheck : ruB1XCheck = true := by
       refine nat_any_of hj'' ?_
       rw [xl_eq hj'', eqA_canon (cpc hj hj') (cX' hj''), h3]
     · rfl
-  · have h := allN_spec (X12.all j hj) j' hj'
-    rw [sb_eq] at h
+  · have h := xPC_all hj hj'
+    rw [xPC, sb_eq] at h
     obtain ⟨-, h2⟩ := (bAnd_iff _ _).1 h
     rw [prod_eq hj hj', prod_eq hj' hj, eqA_canon (cpc hj hj') (cpc hj' hj), h2]
   · rw [prod_eq hj hj, idA_eq, eqA_canon (cpc hj hj) cId]

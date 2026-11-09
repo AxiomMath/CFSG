@@ -142,12 +142,16 @@ theorem spW_iffK {w : List (Array ℕ)} {g : Equiv.Perm (Fin 820)} (hw : RepW 82
     hany _ _ rep_u1, hany _ _ rep_v1, hall, SpCoreK]
   simp only [and_assoc]
 
+theorem all_range_map_beq {f : ℕ → ℕ} (h : ∀ k < 8, f k = 0) :
+    ((List.range 8).map f).all (fun c => c == 0) = true := by
+  simp only [List.all_map, List.all_eq_true, List.mem_range, Function.comp_apply, beq_iff_eq]
+  exact h
+
 theorem spCountCheck_true :
     spCountCheck () = true := by
   classical
-  simp only [spCountCheck, spCounts, List.all_map, List.all_eq_true, List.mem_range,
-    Function.comp_apply, beq_iff_eq]
-  intro k hk
+  rw [spCountCheck, spCounts]
+  refine all_range_map_beq fun k hk => ?_
   rw [← card_eq_countW_P (Pr := fun g => SpCoreK (g * tP k))
     (fun w g hw _ => spW_iffK hw (rep_tArr k))]
   have : IsEmpty {x : P // SpCoreK ((x : Equiv.Perm (Fin 820)) * tP k)} :=

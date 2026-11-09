@@ -13,7 +13,7 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelFusLay.Fi24P5 "Certificates/Kernel/FusLay/data/fi24p5.json.gz" 2643 2324860897212928783
+#kc_repo #kc_json CertificateChecks.KernelFusLay.Fi24P5 "Certificates/Kernel/FusLay/data/fi24p5.json" 8509 5757472221160463453
   (cs : List CFSG.KC.OpsLayK.RChunk)
 
 #lay_snaps_chunks_f CertificateChecks.KernelFusLay.Fi24P5 3 781 CertificateChecks.KernelFusLay.Fi24.A
@@ -27,8 +27,8 @@ meta def wB : List (Nat × Nat) := CFSG.RankThree.PartOne.CTP.Fus.fusD2Fi24.wB
 
 end CertificateChecks.KernelFusLay.Fi24P5
 
-#lay_wsegs_f CertificateChecks.KernelFusLay.Fi24P5.W 3 781 CertificateChecks.KernelFusLay.Fi24P5.S20
-  CertificateChecks.KernelFusLay.Fi24P5.outs CertificateChecks.KernelFusLay.Fi24P5.wB 8
+#lay_wsegs_f CertificateChecks.KernelFusLay.Fi24P5.W 3 781 CertificateChecks.KernelFusLay.Fi24P5.S160
+  CertificateChecks.KernelFusLay.Fi24P5.outs CertificateChecks.KernelFusLay.Fi24P5.wB 1
 
 namespace CertificateChecks.KernelFusLay.Fi24P5
 
@@ -39,13 +39,13 @@ open CFSG.KC.OpsLayK CFSG.RankThree.PartOne.CTP.Fus CertificateChecks.KernelFusL
 
 @[expose] noncomputable def ch9586 (k : Nat) : Bool := ch k
 
-@[expose] noncomputable def F : List Nat := fillR lay fusD2Fi24N outs (SL.getD 20 [])
+@[expose] noncomputable def F : List Nat := fillR lay fusD2Fi24N outs (SL.getD 160 [])
 
 @[expose] noncomputable def fa (j : Nat) : Bool :=
   factL lay F fusD2Fi24N (fusD2Fi24.facts.getD j default)
 
 @[expose] noncomputable def seg (i : Nat) : Bool :=
-  wsegL lay F fusD2Fi24.wB 8 i (W.WL.getD i lay.ONE) (W.WL.getD (i + 1) lay.ONE)
+  wsegL lay F fusD2Fi24.wB 1 i (W.WL.getD i lay.ONE) (W.WL.getD (i + 1) lay.ONE)
 
 end CertificateChecks.KernelFusLay.Fi24P5
 

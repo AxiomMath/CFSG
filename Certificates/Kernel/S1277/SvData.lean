@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.S1277Sv "Certificates/Kernel/S1277/data/surv.json.gz" 281884 3074757418982109861
+#kc_repo #kc_json CFSG.KD.S1277Sv "Certificates/Kernel/S1277/data/surv.json" 281884 3074757418982109861
   (sg : List Nat) (sl : List Nat) (sp : List Nat) (sj : List Nat) (sd : List Nat)
   (pl : List Nat) (pi : List Nat) (vg : List Nat) (vt : Nat) (vw : List (List Nat))
   (k1 : Nat) (k2 : Nat)

@@ -20,15 +20,15 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.WordPts CFSG.KC.OrbPa
   CertificateChecks.KernelSchreierFam.He725
 
 theorem nsW_eq : nsW.getD 6 [] = gw 0 ∧ nsW.getD 11 [] = gw 1 := by
-  rw [NSS.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
+  rw [NSS.eq, decodeWs_splitK (by decide)]
   decide +kernel
 
 theorem n7W_eq : n7W.getD 3 [] = gw 2 ∧ n7W.getD 9 [] = gw 3 := by
-  rw [N7S.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
+  rw [N7S.eq, decodeWs_splitK (by decide)]
   decide +kernel
 
 theorem njW_eq : njW = [gw 4, gw 5] := by
-  rw [NJS.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
+  rw [NJS.eq, decodeWs_splitK (by decide)]
   decide +kernel
 
 theorem y5W_eq : y5W = gw 6 := by

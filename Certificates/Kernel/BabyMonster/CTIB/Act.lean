@@ -17,8 +17,84 @@ local notation "MatB" => Matrix (Fin 4370) (Fin 4370) (ZMod 2)
 
 set_option maxRecDepth 100000
 
-theorem img6 : (autWord gArr genImgs liftWord6).toList = liftImgs6 :=
-  eq_of_beq (by quickRfl)
+@[expose] def actHi (g j : ℕ) : ℕ := (g >>> (j + 1)) <<< (j + 1)
+
+theorem actHi_testBit (g j n : ℕ) : (actHi g j).testBit n = (decide (j < n) && g.testBit n) := by
+  rw [actHi, Nat.testBit_shiftLeft, Nat.testBit_shiftRight]
+  by_cases h : j < n
+  · have h1 : j + 1 ≤ n := h
+    have e : j + 1 + (n - (j + 1)) = n := by omega
+    simp only [ge_iff_le, h1, h, decide_true, Bool.true_and, e]
+  · have h1 : ¬ j + 1 ≤ n := h
+    simp only [ge_iff_le, h1, h, decide_false, Bool.false_and]
+
+@[expose] def actPar (x : ℕ) : ℕ → Bool
+  | 0 => false
+  | n + 1 => actPar x n ^^ x.testBit n
+
+theorem actPar_zero : ∀ n, actPar 0 n = false
+  | 0 => rfl
+  | n + 1 => by
+    rw [actPar, actPar_zero n, Nat.zero_testBit]
+    rfl
+
+theorem actPar_and_xor (a x y : ℕ) :
+    ∀ n, actPar (a &&& (x ^^^ y)) n = (actPar (a &&& x) n ^^ actPar (a &&& y) n)
+  | 0 => rfl
+  | n + 1 => by
+    rw [actPar, actPar, actPar, actPar_and_xor a x y n, Nat.testBit_and, Nat.testBit_and,
+      Nat.testBit_and, Nat.testBit_xor]
+    cases actPar (a &&& x) n <;> cases actPar (a &&& y) n <;> cases a.testBit n <;>
+      cases x.testBit n <;> cases y.testBit n <;> rfl
+
+theorem cAtN_eq_actPar (g u j : ℕ) : ∀ n, cAtN g u j n = actPar (u &&& actHi g j) n
+  | 0 => rfl
+  | n + 1 => by
+    rw [cAtN, actPar, cAtN_eq_actPar g u j n, Nat.testBit_and, actHi_testBit]
+    cases decide (j < n) <;> cases u.testBit n <;> cases g.testBit n <;> rfl
+
+@[expose] def actWv (G : Array ℕ) (b : ℕ) : ℕ → ℕ
+  | 0 => 0
+  | m + 1 => if b.testBit m then actWv G b m ^^^ actHi (G.getD m 0) m else actWv G b m
+
+theorem corrN_eq_actPar (G : Array ℕ) (a b : ℕ) :
+    ∀ m, corrN G a b m = actPar (a &&& actWv G b m) 22
+  | 0 => by
+    rw [corrN, actWv, Nat.and_zero, actPar_zero]
+  | m + 1 => by
+    rw [corrN, actWv, corrN_eq_actPar G a b m]
+    by_cases h : b.testBit m
+    · simp only [h, ↓reduceIte]
+      rw [actPar_and_xor, cAt, cAtN_eq_actPar]
+    · simp only [h, ↓reduceIte, Bool.false_eq_true]
+
+@[expose] def actQmul (G : Array ℕ) (a b : ℕ) : ℕ :=
+  (a ^^^ b) % 2 ^ 22 |||
+    (if (a.testBit 22 ^^ b.testBit 22) ^^ actPar (a &&& actWv G b 22) 22 then 2 ^ 22 else 0)
+
+theorem qmul_eq_actQmul (G : Array ℕ) (a b : ℕ) : qmul G a b = actQmul G a b := by
+  rw [qmul, actQmul, corr, corrN_eq_actPar]
+
+@[expose] def actApplyN (G A : Array ℕ) (n : ℕ) : ℕ → ℕ
+  | 0 => if n.testBit 22 then 2 ^ 22 else 0
+  | m + 1 => if n.testBit m then actQmul G (actApplyN G A n m) (A.getD m 0) else actApplyN G A n m
+
+theorem autApplyN_eq_act (G A : Array ℕ) (n : ℕ) : ∀ m, autApplyN G A n m = actApplyN G A n m
+  | 0 => by rw [autApplyN, actApplyN]
+  | m + 1 => by rw [autApplyN, actApplyN, autApplyN_eq_act G A n m, qmul_eq_actQmul]
+
+theorem autApply_eq_act (G B : Array ℕ) : autApply G B = fun n => actApplyN G B n 22 := by
+  funext n
+  rw [autApply, autApplyN_eq_act]
+
+theorem autWord_eq_act (w : List ℕ) : autWord gArr genImgs w =
+    w.foldl (fun A l => A.map fun n => actApplyN gArr (genImgs l) n 22) (id23 ()) := by
+  unfold autWord autComp
+  simp only [autApply_eq_act]
+
+theorem img6 : (autWord gArr genImgs liftWord6).toList = liftImgs6 := by
+  rw [autWord_eq_act]
+  exact eq_of_beq (by quickRfl)
 
 theorem img8 : (autWord gArr genImgs liftWord8).toList = liftImgs8 :=
   eq_of_beq (by quickRfl)

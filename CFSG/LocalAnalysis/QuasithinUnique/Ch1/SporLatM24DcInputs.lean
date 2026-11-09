@@ -40,6 +40,7 @@ abbrev M24DcFacts : Prop :=
     (List.range 13).all CFSG.KD.M24Dc.otOK = true ∧
     CFSG.KD.M24Dc.fixOK = true ∧ CFSG.KD.M24Dc.moveOK = true ∧ CFSG.KD.M24Dc.topOK = true ∧
     m24LatK.Om.map (fun o => o.lbl.size) = #[1, 315, 63, 135, 21, 9, 21, 3, 3, 3, 9, 3, 9] ∧
-    m24OtK.map (fun o => o.lbl.size) = #[1, 64, 16, 16, 8, 4, 8, 2, 2, 2, 4, 2, 4]
+    m24OtK.map (fun o => o.lbl.size) = #[1, 64, 16, 16, 8, 4, 8, 2, 2, 2, 4, 2, 4] ∧
+    CFSG.KD.M24Dc.l0pOK = true
 
 end CFSG.QuasithinUnique.Ch1.SporLat.M24

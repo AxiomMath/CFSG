@@ -55,7 +55,7 @@ theorem allS_cover {S ns n : Nat} {f : Nat → Bool}
 
 theorem vecK_sound (D : VecData) (c : Nat) {csA csB : List Char}
     {MA MB NA NB NAi NBi BI BM kL : Nat} {P AT BT FO S IP SP : Nat → Nat} {R V LM : List Nat}
-    {LT Ot IX Op Ol : Nat → Nat → Nat} {STs SPs SLs : List (Nat → Nat)} {LB PS : Nat → Nat}
+    {LT Ot IX Op Ol : Nat → Nat → Nat} {STs SPs SLs : List (Nat → Nat)} {LB PS : Nat → Nat} {Jk Jt : Nat}
     (hA : D.seedA = String.ofList csA) (hB : D.seedB = String.ofList csB)
     (hseed : seedK csA csB D.d MA MB NA NB D.expA D.expB = true)
     (hAi : Nat.beq (mulF D.d NA NAi) (idF D.d) = true) (hBi : Nat.beq (mulF D.d NB NBi) (idF D.d) = true)
@@ -85,8 +85,11 @@ theorem vecK_sound (D : VecData) (c : Nat) {csA csB : List Char}
       (andB (Nat.blt (nat_lit 0) D.subReps.size) (andB (Nat.beq (getL (nat_lit 0) D.subReps.toList 0) 0)
       (andB (Nat.beq D.subSizes.length D.subReps.size)
         (allL (fun s => Nat.blt (nat_lit 0) s) D.subSizes))))) = true)
+    (hJt : orB (Nat.ble D.subReps.size Jt) (andB (Nat.blt (nat_lit 1) D.base.size)
+      (andB (Nat.beq (getL (nat_lit 0) D.subReps.toList Jt) (getL (nat_lit 0) D.base.toList (nat_lit 1)))
+        (Nat.beq (getL (nat_lit 0) D.subSizes Jt) (getL (nat_lit 0) D.orbSizes (nat_lit 1))))) = true)
     (hsub : ∀ j < D.subReps.size, ∀ t < getL (nat_lit 0) D.subSizes j,
-      subAt D.n kL (getL (nat_lit 0) D.subSizes j) j (getL (nat_lit 0) D.subReps.toList j) LT
+      subAt D.n kL (getL (nat_lit 0) D.subSizes j) j Jk Jt (getL (nat_lit 0) D.subReps.toList j) LT
         (getL (nat_lit 0) D.base.toList) (getF STs j) LB PS (getF SPs j) (getF SLs j) t = true)
     (hlab : ∀ p < D.n, labAt D.subReps.size D.subSizes STs LB PS p = true)
     (hord : andB (ordK D.d (wordN D.d NA NAi NB NBi D.w0) D.basis.size P (getL (nat_lit 0) D.basis.toList)
@@ -100,7 +103,33 @@ theorem vecK_sound (D : VecData) (c : Nat) {csA csB : List Char}
     (hcard : Nat.card (J D) ≤ D.orbSizes.prod) :
     vecCert D c = true :=
   vecCert_of_kernel D c hA hB hseed hAi hBi hn hP0 horb hbfs hsort hregs hslp hkL hkL32 hlet hLT hchain
-    htree hsub0 hsub hlab hord hbasis hcard
+    htree hsub0 hJt hsub hlab hord hbasis hcard
+
+theorem letAt_of_inv {d n NA NB N X : Nat} {P AT BT T U : Nat → Nat}
+    (horb : ∀ h < n, orbAt d n NA NB P AT BT h = true)
+    (hNX : Nat.beq (mulF d N X) (idF d) = true)
+    (hT : ∀ h < n, letAt d n N P T h = true) (hU : ∀ h < n, letInvAt n T U h = true) :
+    ∀ h < n, letAt d n X P U h = true := by
+  have sB : ∀ (y : Nat) (k : Nat → Bool), strictB y k = k y := fun y k => by cases y <;> rfl
+  have aB : ∀ a b : Bool, andB a b = (a && b) := fun a b => by cases a <;> rfl
+  have hp2 : ∀ w, pw2 w = 2 ^ w := fun w => by
+    change 1 <<< w = 2 ^ w
+    rw [Nat.one_shiftLeft]
+  have hlt : ∀ h < n, lk P (nat_lit 32) h < 2 ^ d := fun h hh => by
+    have := horb h hh
+    simp only [orbAt, sB, aB, Bool.and_eq_true, Nat.blt_eq, hp2] at this
+    exact this.1
+  intro h hh
+  have hu := hU h hh
+  simp only [letInvAt, sB, aB, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hu
+  obtain ⟨hq, hTq⟩ := hu
+  have ht := hT _ hq
+  simp only [letAt, sB, aB, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at ht
+  simp only [letAt, sB, aB, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq]
+  refine ⟨hq, ?_⟩
+  have e : lk P (nat_lit 32) h = vmF d N (lk P (nat_lit 32) (lk U (nat_lit 32) h)) := by
+    rw [← ht.2, hTq]
+  rw [e, vmF_inv hNX (hlt _ hq)]
 
 end CFSG.KC.VecK
 

@@ -150,6 +150,37 @@ structure CT where
     (fun l _ ih f v => letNN (Nat.xor f (Nat.pow 2 (edgeT TB v l))) fun f' =>
       letNN (stepT TG TB v l) fun v' => ih f' v') w 0 v
 
+@[expose] noncomputable def packRT (R : List (List Nat)) : List Nat :=
+  List.map (fun r => List.rec (motive := fun _ => Nat) 0
+    (fun x _ ih => Nat.add x (Nat.mul 4096 ih)) r) R
+
+@[expose] noncomputable def pkGT (PR : List Nat) (i : Nat) : Nat :=
+  Nat.land (Nat.shiftRight (getK PR (Nat.div i 64) 0) (Nat.mul 12 (Nat.mod i 64))) 4095
+
+@[expose] noncomputable def okRT (R : List (List Nat)) : Bool :=
+  List.rec (motive := fun _ => Bool) true
+    (fun r _ ih => andB (CFSG.KC.LQT.P.allL r fun x => Nat.blt x 4096) ih) R
+
+@[expose] noncomputable def stepPT (TG TB : List Nat) (v : Nat) (l : Nat × Bool) : Nat :=
+  Bool.rec (motive := fun _ => Nat) (pkGT TB (Nat.add (Nat.mul 2 v) l.1))
+    (pkGT TG (Nat.add (Nat.mul 2 v) l.1)) l.2
+
+@[expose] noncomputable def edgePT (TB : List Nat) (v : Nat) (l : Nat × Bool) : Nat :=
+  Bool.rec (motive := fun _ => Nat)
+    (Nat.add (Nat.mul 2 (pkGT TB (Nat.add (Nat.mul 2 v) l.1))) l.1)
+    (Nat.add (Nat.mul 2 v) l.1) l.2
+
+@[expose] noncomputable def walkPT (TG TB : List Nat) (v : Nat) (w : List (Nat × Bool)) :
+    Nat × Nat :=
+  List.rec (motive := fun _ => Nat → Nat → Nat × Nat) (fun f v => (f, v))
+    (fun l _ ih f v => letNN (Nat.xor f (Nat.pow 2 (edgePT TB v l))) fun f' =>
+      letNN (stepPT TG TB v l) fun v' => ih f' v') w 0 v
+
+@[expose] noncomputable def walkGT (TG TB : List (List Nat)) (v : Nat) (w : List (Nat × Bool)) :
+    Nat × Nat :=
+  Bool.rec (motive := fun _ => Nat × Nat) (walkT TG TB v w) (walkPT (packRT TG) (packRT TB) v w)
+    (andB (okRT TG) (okRT TB))
+
 @[expose] noncomputable def substT (WR : List (List (List Nat))) (vs : List Nat)
     (ρ : List (Nat × Bool)) : List (Nat × Bool) :=
   List.flatten (List.map (fun p => Bool.rec (motive := fun _ => List (Nat × Bool))
@@ -169,16 +200,16 @@ structure CT where
       letI w := List.append (List.append (posK (getRG WR p.1 [])) [(p.2, true)])
         (invWK (getRG WR (getRG TG (Nat.add (Nat.mul 2 p.1) p.2) 0) []))
       List.map (fun j =>
-        letI r0 := walkT TG TB 0 w
-        letI r1 := walkT TG TB (getRG TG j 0) w
+        letI r0 := walkGT TG TB 0 w
+        letI r1 := walkGT TG TB (getRG TG j 0) w
         (allBs [Nat.blt (getRG TG j 0) d.nV, Nat.beq r0.2 0, Nat.beq r1.2 (getRG TG j 0)],
           Nat.xor r0.1 r1.1)) [0, 1])
       (List.filter (fun p => notB (isT p)) edges))))
     (List.flatten (List.map (fun b =>
       List.map (fun ρ =>
         letI bl := getK d.blocks b ([], [], [], [])
-        letI ra := walkT TG TB 0 (substT WR bl.2.1 ρ)
-        letI rb := walkT TG TB 0 (substT WR bl.2.2.1 ρ)
+        letI ra := walkGT TG TB 0 (substT WR bl.2.1 ρ)
+        letI rb := walkGT TG TB 0 (substT WR bl.2.2.1 ρ)
         (allBs [Nat.blt b (lenK d.blocks), allL (List.map (fun p => p.1) ρ)
             (fun j => Nat.blt j (lenK bl.2.1)), Nat.beq ra.2 0, Nat.beq rb.2 0],
           Nat.xor (Nat.xor ra.1 rb.1)
@@ -193,29 +224,81 @@ structure CT where
     (fun h _ ih e => strictB e fun e =>
       andB (Nat.beq (Nat.shiftRight (xorR FR h) e) 1) (ih (Nat.succ e))) H 0
 
-@[expose] noncomputable def covTA (n w kS : Nat) (S SI : Nat → Nat) (cs : List Char) (P : List Nat)
-    (nV0 : Nat) : Bool :=
-  Option.rec (motive := fun _ => Bool) false (fun d =>
-    letI WR := rowsG d.words
-    letI X := List.map (CFSG.KS.Raw.wordK n w (mask w) (pidn n w) S SI) d.xw
-    allBs [CFSG.KS.Raw.szOK n w, Nat.beq (lenK d.xw) 2, Nat.beq d.nV nV0,
-      allLtK kS (fun j => permOK n w (mask w) (Nat.mul n w) (S j) (SI j)),
-      allT d.xw (CFSG.KS.Raw.lettersK kS), parOK WR d.nV P,
-      buildE n w X WR P fun E =>
-        letI ER := rowsG E
-        allBs [goodT d WR (rowsG d.tgt) (rowsG d.back) (rowsG P) n w X ER, distinctS E,
-          allT d.blocks (blkT n w kS S SI d ER)]])
-    (parseT cs)
+@[expose] noncomputable def forceLT (l : List Nat) (k : List Nat → Bool) : Bool :=
+  List.rec (motive := fun _ => List Nat → Bool) (fun acc => k (List.reverse acc))
+    (fun x _ ih acc => strictB x fun x => ih (List.cons x acc)) l []
 
-@[expose] noncomputable def covTB (cs : List Char) (H : List (List Nat)) : Bool :=
-  Option.rec (motive := fun _ => Bool) false (fun d =>
-    letI Q := eqnsT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back)
-    letI F := List.map (fun q => q.2) Q
-    allBs [Nat.beq (lenK H) (Nat.mul 2 d.nV), triT (rowsG F) H,
-      List.rec (motive := fun _ => Bool) true (fun q _ ih => andB q.1 ih) Q,
-      allL F (fun f =>
-        Nat.blt f (Nat.pow 2 (Nat.add (Nat.mul 2 d.nV) (Nat.mul 32 (lenK d.blocks)))))])
-    (parseT cs)
+@[expose] noncomputable def ptIT (w m : Nat) (L IL : List Nat) (wd : List Int) (p : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun p => p)
+    (fun z _ ih p => strictN (CFSG.KS.Mathieu.icode z) fun c =>
+      strictN (pg w m (Bool.rec (motive := fun _ => Nat)
+        (getK L (Nat.sub (Nat.shiftRight c 1) 1) 0) (getK IL (Nat.sub (Nat.shiftRight c 1) 1) 0)
+        (Nat.beq (Nat.land c 1) 0)) p) ih) wd p
+
+@[expose] noncomputable def ptVT (w m : Nat) (L IL : List Nat) (XW : List (List Int)) (u : List Nat)
+    (p : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun p => p)
+    (fun i _ ih p => strictN (ptIT w m L IL (getK XW i []) p) ih) u p
+
+@[expose] noncomputable def mapFT (w m nb : Nat) (f : Nat → Nat) (c : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0
+    (fun j ih => Nat.lor ih (Nat.shiftLeft (f (pg w m c j)) (Nat.mul w j))) nb
+
+@[expose] noncomputable def baseTits (w : Nat) : Nat := CFSG.KS.Raw.packB w [0, 1, 5, 6, 24, 12]
+
+@[expose] noncomputable def parTG (nV : Nat) (TG : List (List Nat)) (WR : List (List (List Nat)))
+    (P : List Nat) : Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun p _ ih c => strictB c fun c =>
+      andB (Nat.beq (getRG TG (Nat.add (Nat.mul 2 p) (Nat.mod (lastK (getRG WR c [])) 2)) nV) c)
+        (ih (Nat.succ c))) P 1
+
+@[expose] noncomputable def goodTB (d : CT) (TG TB : List (List Nat)) (w m : Nat) (L IL : List Nat)
+    (FR : List (List Nat)) : Bool :=
+  allBs [Nat.blt 0 d.nV, Nat.beq (lenK (getK d.words 0 [1])) 0,
+    allLtK d.nV (fun v => allLtK 2 fun i =>
+      strictB (getRG TG (Nat.add (Nat.mul 2 v) i) d.nV) fun t =>
+      allBs [Nat.blt t d.nV,
+        Nat.blt (getRG TB (Nat.add (Nat.mul 2 v) i) d.nV) d.nV,
+        Nat.beq (getRG FR t 0) (mapFT w m 6 (ptIT w m L IL (getK d.xw i [])) (getRG FR v 0)),
+        Nat.beq (getRG TG (Nat.add (Nat.mul 2 (getRG TB (Nat.add (Nat.mul 2 v) i) 0)) i) 0) v])]
+
+@[expose] noncomputable def blkTB (w m kS : Nat) (L IL : List Nat) (d : CT)
+    (WR : List (List (List Nat))) (FR : List (List Nat))
+    (bl : List Int × List Nat × List Nat × List (List (Nat × Bool))) : Bool :=
+  allBs [CFSG.KS.Raw.lettersK kS bl.1,
+    Nat.beq (lenK bl.2.1) (lenK bl.2.2.1), Nat.ble (lenK bl.2.1) 32,
+    allLtK (lenK bl.2.1) fun j => allBs [Nat.blt (getK bl.2.1 j d.nV) d.nV,
+      Nat.blt (getK bl.2.2.1 j d.nV) d.nV,
+      Nat.beq (mapFT w m 6 (ptIT w m L IL bl.1) (getRG FR (getK bl.2.2.1 j 0) 0))
+        (mapFT w m 6 (fun p => ptVT w m L IL d.xw (getRG WR (getK bl.2.1 j 0) [])
+          (ptIT w m L IL bl.1 p)) (baseTits w))]]
+
+@[expose] noncomputable def covTA (n w kS : Nat) (S SI : Nat → Nat) (d : CT) (P FL : List Nat)
+    (nV0 : Nat) : Bool :=
+  let WR := rowsG d.words
+  let TG := rowsG d.tgt
+  allBs [CFSG.KS.Raw.szOK n w, Nat.beq (lenK d.xw) 2, Nat.beq d.nV nV0,
+    allT d.xw (CFSG.KS.Raw.lettersK kS), parOK WR d.nV P, parTG d.nV TG WR P,
+    Nat.beq (lenK FL) d.nV, Nat.beq (getK FL 0 0) (baseTits w),
+    forceLT (List.map S (List.range kS)) fun L =>
+    forceLT (List.map SI (List.range kS)) fun IL =>
+    allBs [allLtK kS (fun j => permOK n w (mask w) (Nat.mul n w) (getK L j 0) (getK IL j 0)),
+      let FR := rowsG FL
+      allBs [goodTB d TG (rowsG d.back) w (mask w) L IL FR, distinctS FL,
+        allT d.blocks (blkTB w (mask w) kS L IL d WR FR)]]]
+
+@[expose] noncomputable def covTB (d : CT) (H : List (List Nat)) : Bool :=
+  letI Q := eqnsT d (rowsG d.words) (rowsG d.tgt) (rowsG d.back)
+  letI F := List.map (fun q => q.2) Q
+  allBs [Nat.beq (lenK H) (Nat.mul 2 d.nV), triT (rowsG F) H,
+    List.rec (motive := fun _ => Bool) true (fun q _ ih => andB q.1 ih) Q,
+    allL F (fun f =>
+      Nat.blt f (Nat.pow 2 (Nat.add (Nat.mul 2 d.nV) (Nat.mul 32 (lenK d.blocks)))))]
+
+@[expose] noncomputable def zOfK (m : Nat) : Int :=
+  Bool.rec (motive := fun _ => Int) (Int.ofNat (Nat.div m 2)) (Int.neg (Int.ofNat (Nat.div m 2)))
+    (Nat.beq (Nat.mod m 2) 1)
 
 end CFSG.KC.LQT.Cov
 

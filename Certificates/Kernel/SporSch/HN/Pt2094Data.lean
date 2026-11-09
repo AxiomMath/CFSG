@@ -105,12 +105,19 @@ import CFSG.Certificates.Kernel.Common.Repo
 #kc_repo #kc_natBin CFSG.KD.HNPt2094 SP6_10 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/SP6_10.bin" 15400 761339019781698717
 #kc_repo #kc_natBin CFSG.KD.HNPt2094 SP6_11 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/SP6_11.bin" 15400 4208708898678606297
 #kc_repo #kc_natBin CFSG.KD.HNPt2094 PL2 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/PL2.bin" 23100 4336132049648423740
-#kc_repo #kc_natBin CFSG.KD.HNPt2094 IM0 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/IM0.bin" 23100 7476874458844292203
-#kc_repo #kc_natBin CFSG.KD.HNPt2094 IM1 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/IM1.bin" 23100 11052142251746542238
-#kc_repo #kc_natBin CFSG.KD.HNPt2094 IM2 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/IM2.bin" 23100 4042107023368646639
-#kc_repo #kc_natBin CFSG.KD.HNPt2094 IM3 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/IM3.bin" 23100 12385253362095272752
-#kc_repo #kc_natBin CFSG.KD.HNPt2094 IM4 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/IM4.bin" 23100 2593363382231275529
-#kc_repo #kc_natBin CFSG.KD.HNPt2094 IM5 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/IM5.bin" 23100 12768136606027318903
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 F2_0 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/F2_0.bin" 22940 16191555921698480411
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 Q2_0 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/Q2_0.bin" 22940 13871764946447960654
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 F2_1 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/F2_1.bin" 137 7470107944199801752
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 Q2_1 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/Q2_1.bin" 137 13694138174261697841
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 F2_2 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/F2_2.bin" 14 10018909767644424662
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 Q2_2 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/Q2_2.bin" 13 17870239696610471528
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 F2_3 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/F2_3.bin" 6 16030026631525952122
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 Q2_3 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/Q2_3.bin" 5 11136438600846954724
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 F2_4 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/F2_4.bin" 3 18111783306296562464
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 Q2_4 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/Q2_4.bin" 3 7840240122080730242
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 WJ "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/WJ.bin" 4333 13442475550973421709
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 WI "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/WI.bin" 15399 2152987917664748117
+#kc_repo #kc_natBin CFSG.KD.HNPt2094 NN2 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094/NN2.bin" 8 7110402921449382106
 #kc_repo #kc_decls CFSG.KD.HNPt2094 "Certificates/Kernel/SporSch/HN/data/hnx_pt2094.txt" 69718 347101845811371034
 #kc_select CFSG.KD.HNPt2094 EL EL 41
 #kc_select CFSG.KD.HNPt2094 TT TT 41
@@ -118,4 +125,5 @@ import CFSG.Certificates.Kernel.Common.Repo
 #kc_select CFSG.KD.HNPt2094 SP1 SP1_ 9
 #kc_select CFSG.KD.HNPt2094 SP4 SP4_ 11
 #kc_select CFSG.KD.HNPt2094 SP6 SP6_ 12
-#kc_select CFSG.KD.HNPt2094 IM IM 6
+#kc_select CFSG.KD.HNPt2094 FL2 F2_ 5
+#kc_select CFSG.KD.HNPt2094 QL2 Q2_ 5

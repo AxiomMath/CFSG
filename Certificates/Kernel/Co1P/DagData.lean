@@ -12,8 +12,8 @@ set_option maxHeartbeats 2000000
 
 namespace CFSG.KD.Co1P
 
-#kc_repo #kc_json_gz CFSG.KD.Co1P
-  "Certificates/Kernel/Co1P/data/DagData.json.gz" 104695 3874604992610171793
+#kc_repo #kc_json CFSG.KD.Co1P
+  "Certificates/Kernel/Co1P/data/DagData.json" 104695 3874604992610171793
   (BRS59 : List Nat) (BRIS59 : List Nat) (GDS : List Nat) (GDIS : List Nat) (GWN : List (List Nat))
 
 @[expose] noncomputable def GWL : List (List Int) := GWN.map CFSG.Sporadic.Co1Schreier.Native.decWord

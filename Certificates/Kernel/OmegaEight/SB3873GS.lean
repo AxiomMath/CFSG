@@ -2,6 +2,7 @@
 module
 
 public import Certificates.Kernel.OmegaEight.SB3873GH
+public import Certificates.Kernel.OmegaEight.SB3873GW
 public import CFSG.Certificates.Kernel.O8.SBClsSound
 
 public section
@@ -31,28 +32,6 @@ theorem all_clsAt_of_T {k m z : ℕ} {L : List (ℕ × ℕ)} (h : L.all (clsAtT 
   rw [← clsAtF_eq]
   rw [List.all_eq_true] at h ⊢
   exact fun r hr => clsAtF_of_T (h r hr)
-
-macro "t1cenS " Q:term ", " B:term : tactic => `(tactic| (
-  refine t1KillC_of_cen (Q := $Q) (B := $B) ?_ ?_ ?_ ?_
-  · refine ⟨conjOK_of_hom (by decide +kernel) (by decide), by decide +kernel, by decide +kernel, ?_,
-      ?_, by decide, ?_⟩
-    · simp only [chiWOK, chiS_get]
-      decide +kernel
-    · simp only [chiLOK, chiS_get]
-      decide +kernel
-    · rw [chiS_get]
-      decide +kernel
-  · refine ⟨fun s hs => ?_, by decide +kernel, by decide +kernel, by decide +kernel,
-      by decide +kernel, by decide +kernel, by decide +kernel⟩
-    refine all_clsAt_of_T ?_
-    interval_cases s <;> decide +kernel
-  · refine CenB_of_F (CenBF_of_L (CenBL_of_U (by decide) ⟨fun s hs => ?_, fun t ht => ?_⟩))
-    · interval_cases s <;> decide +kernel
-    · interval_cases t <;> decide +kernel
-  · refine CenK_of_F ?_
-    unfold CenKF
-    simp only [sMarked, List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp, forall_eq]
-    exact ⟨⟨by decide +kernel, by decide +kernel⟩, ⟨by decide +kernel, by decide +kernel⟩⟩))
 
 end CertificateChecks.KernelO8.SB3873
 

@@ -15,6 +15,6 @@ public section
 set_option maxRecDepth 400000
 
 #kss_vorb CertificateChecks.KernelSporSch.Co1Orbs.O2 CertificateChecks.KernelSporSch.Co1Stab.PH0
-  CertificateChecks.KernelSporSch.Co1Stab.PH1 769771 47104 2048
+  CertificateChecks.KernelSporSch.Co1Stab.PH1 769771 47104 256
 
 end

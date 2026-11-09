@@ -20,28 +20,34 @@ theorem c6091 :
       wordLin (wordMonoA ++ wordMonoA ++ wordMonoA) = 1 ∧
       wordLin (wordThreeC ++ wordKC) = wordLin (wordKC ++ wordMonoC) ∧
       wordLin (wordMonoC ++ wordMonoC ++ wordMonoC) = 1 := by
-  have h := (kd_tp3% CFSG.KD.TP.c6091).1
+  have h := (kd_tp3% CFSG.KD.TP.c6091 9).1
   simp only [List.forall_mem_cons, List.not_mem_nil, IsEmpty.forall_iff, implies_true, and_true, wordLin_nil] at h
   exact h
 
 theorem c6091v : Native.permValid permMonoA = true ∧ Native.permValid permMonoC = true := by
-  have h := kd_tp3v% CFSG.KD.TP.c6091
+  have h := tp3_valid data_okT _ _ CFSG.KD.TP.c6091.weq (WL := CFSG.KD.TP.c6091.WL) (fun _ => rfl)
+    (S := rlS CFSG.KD.TP.c6091.rn CFSG.KD.TP.c6091.CH CFSG.KD.TP.c6091.PRf CFSG.KD.TP.c6091.S0 9)
+    (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
+    (CH := CFSG.KD.TP.c6091.CH) (IXf := CFSG.KD.TP.c6091.IXf) (CHI := CFSG.KD.TP.c6091.CHI)
+    (fun _ => rfl) (nch := kd_count% CFSG.KD.TP.c6091 CH) (nIX := kd_count% CFSG.KD.TP.c6091 IX)
+    (IT := CFSG.KD.TP.c6091.IT) (kd_tpR% CFSG.KD.TP.c6091 CFSG.KD.TP.c6091.S0 9) (by decide +kernel)
+    (by quickRfl) (by decide +kernel) (by quickRfl)
   exact ⟨(h _ (List.mem_cons_of_mem _ List.mem_cons_self)).1 (.perm permMonoA) (by simp [wordMonoA]),
     (h _ (List.mem_cons_of_mem _ (List.mem_cons_of_mem _ (List.mem_cons_of_mem _
       List.mem_cons_self)))).1 (.perm permMonoC) (by simp [wordMonoC])⟩
 
 theorem c6094 : wordLin (y433RelW y433F213R) = 1 := by
-  have h := (kd_tp3% CFSG.KD.TP.c6094).1
+  have h := (kd_tp3% CFSG.KD.TP.c6094 33).1
   simp only [List.forall_mem_cons, List.not_mem_nil, IsEmpty.forall_iff, implies_true, and_true, wordLin_nil] at h
   exact h
 
 theorem c6095 : wordLin (y433RelW y433F312R) = wordLin fiWBeta := by
-  have h := (kd_tp3% CFSG.KD.TP.c6095).1
+  have h := (kd_tp3% CFSG.KD.TP.c6095 39).1
   simp only [List.forall_mem_cons, List.not_mem_nil, IsEmpty.forall_iff, implies_true, and_true] at h
   exact h
 
 theorem c6096 : wordLin (y433RelW y433SpiderR) = 1 := by
-  have h := (kd_tp3% CFSG.KD.TP.c6096).1
+  have h := (kd_tp3% CFSG.KD.TP.c6096 45).1
   simp only [List.forall_mem_cons, List.not_mem_nil, IsEmpty.forall_iff, implies_true, and_true, wordLin_nil] at h
   exact h
 

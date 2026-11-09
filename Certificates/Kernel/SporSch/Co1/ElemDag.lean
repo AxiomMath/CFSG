@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.SporSch.Co1.Packed
 public import CFSG.Certificates.Kernel.SporSch.Co1ElemSound
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 public import CFSG.Sporadic.Schreier.Co1ElemThreeCheckInputs
 public meta import Certificates.Kernel.SporSch.Co1.GenDag
 public meta import CFSG.Sporadic.Schreier.Co1ElemThreeCheckInputs
@@ -31,7 +32,7 @@ theorem b0 : bindListK 24 24 (E.M 0) Y.toList = true := by quickRfl
 theorem b1 : bindListK 24 24 (E.M 1) T.toList = true := by quickRfl
 theorem b2 : bindListK 24 24 (E.M 2) ZZ.toList = true := by quickRfl
 
-theorem kD : dagK E.M E.MI 3 E.N Data.dagWords = true := by quickRfl
+theorem kD : dagWK E.M E.MI 3 E.N Data.dagWords = true := by quickRfl
 theorem kN : Nat.blt 56 E.N = true := by quickRfl
 
 theorem arr {A : Rows} {P : Nat} (h : bindListK 24 24 P A.toList = true) : A = unpack 24 24 P := by
@@ -46,7 +47,7 @@ theorem zR_eq : zR = unpack 24 24 (E.M 2) := by
 theorem dag_eq : elemDag = ((List.range E.N).map fun i => unpack 24 24 (E.M i),
     (List.range E.N).map fun i => unpack 24 24 (E.MI i), true) := by
   unfold elemDag
-  refine dagK_sound ?_ kD
+  refine dagWK_sound ?_ kD
   rw [yR_eq, tR_eq, zR_eq, arr b0, arr b1]
   rfl
 

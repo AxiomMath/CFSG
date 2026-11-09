@@ -166,7 +166,9 @@ end M1
 
 section Cert810201
 
-theorem D0_fix01 : D0 0 = 0 ∧ D0 1 = 1 := Certificates.certificate810201.1
+theorem D0_eq : D0 = permOfArr 513 U38Three.d0 := rfl
+
+theorem D0_fix01 : D0 0 = 0 ∧ D0 1 = 1 := D0_eq ▸ Certificates.certificate810201.1
 
 theorem D0_cube : D0 ^ 3 = 1 := Certificates.certificate810201.2.1
 

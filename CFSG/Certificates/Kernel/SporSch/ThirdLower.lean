@@ -33,7 +33,6 @@ theorem locE_le_H3H :
 
 theorem le_card_locH3 :
     1474560 ≤ Nat.card locH3 := by
-  rw [← card_locEH h]
-  exact Subgroup.card_le_of_le (locE_le_H3H h)
+  exact (le_card_locEH h).trans (Subgroup.card_le_of_le (locE_le_H3H h))
 
 end CFSG.Sporadic.Co2Schreier

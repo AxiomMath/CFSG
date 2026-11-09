@@ -87,9 +87,33 @@ structure IdxFacts : Prop where
 abbrev τ₀ : StrothTypeIndex := .t200 1
 abbrev τ₁ : StrothTypeIndex := .t201 1
 
+theorem lin_of_vals (pa pb v : Torus τ.k) {a b c : ℕ} (ha : (v 0).val = a) (hb : (v 1).val = b)
+    (hc : (v 2).val = c) : lin τ pa pb v = a • gen τ.k 0 + b • pa + c • pb := by
+  rw [lin, ha, hb, hc]
+
+@[expose] def LinVals : Prop :=
+  ((gen τ.k 0 0).val = 1 ∧ (gen τ.k 0 1).val = 0 ∧ (gen τ.k 0 2).val = 0) ∧
+  ((gen τ.k 1 0).val = 0 ∧ (gen τ.k 1 1).val = 1 ∧ (gen τ.k 1 2).val = 0) ∧
+  ((gen τ.k 2 0).val = 0 ∧ (gen τ.k 2 1).val = 0 ∧ (gen τ.k 2 2).val = 1) ∧
+  (((2 • gen τ.k 1) 0).val = 0 ∧ ((2 • gen τ.k 1) 1).val = 2 ∧ ((2 • gen τ.k 1) 2).val = 0) ∧
+  (((2 • gen τ.k 2) 0).val = 0 ∧ ((2 • gen τ.k 2) 1).val = 0 ∧ ((2 • gen τ.k 2) 2).val = 2)
+
+instance : Decidable (LinVals τ) := by unfold LinVals; infer_instance
+
+theorem linFact_of_vals (h : LinVals τ) : LinFact τ := by
+  obtain ⟨h0, h1, h2, h3, h4⟩ := h
+  intro pa pb
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · rw [lin_of_vals τ pa pb _ h0.1 h0.2.1 h0.2.2]; simp
+  · rw [lin_of_vals τ pa pb _ h1.1 h1.2.1 h1.2.2]; simp
+  · rw [lin_of_vals τ pa pb _ h2.1 h2.2.1 h2.2.2]; simp
+  · rw [lin_of_vals τ pa pb _ h3.1 h3.2.1 h3.2.2]; simp
+  · rw [lin_of_vals τ pa pb _ h4.1 h4.2.1 h4.2.2]; simp
+
 theorem decompFact_t200 : DecompFact τ₀ := by decide +kernel
 theorem orderFact_t200 : OrderFact τ₀ := by decide +kernel
-theorem linFact_t200 : LinFact τ₀ := by decide +kernel
+theorem linVals_t200 : LinVals τ₀ := by decide +kernel
+theorem linFact_t200 : LinFact τ₀ := linFact_of_vals τ₀ linVals_t200
 theorem auxFact_t200 : AuxFact τ₀ := by decide +kernel
 theorem om2DecompFact_t200 : Om2DecompFact τ₀ := by decide +kernel
 theorem mainFact_t200 : MainFact τ₀ := by decide +kernel
@@ -99,7 +123,8 @@ theorem centFact_t200 : CentFact τ₀ := by decide +kernel
 
 theorem decompFact_t201 : DecompFact τ₁ := by decide +kernel
 theorem orderFact_t201 : OrderFact τ₁ := by decide +kernel
-theorem linFact_t201 : LinFact τ₁ := by decide +kernel
+theorem linVals_t201 : LinVals τ₁ := by decide +kernel
+theorem linFact_t201 : LinFact τ₁ := linFact_of_vals τ₁ linVals_t201
 theorem auxFact_t201 : AuxFact τ₁ := by decide +kernel
 theorem om2DecompFact_t201 : Om2DecompFact τ₁ := by decide +kernel
 theorem mainFact_t201 : MainFact τ₁ := by decide +kernel

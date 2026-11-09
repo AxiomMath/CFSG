@@ -130,6 +130,35 @@ theorem YZ_sq : ∀ i : Fin 4, YZ i * YZ i = 0 := by decide +kernel
 
 theorem phiRootZ_not_root {β : Fin 4 → ℤ} (hβ : β ∉ d4Roots) : phiRootZ β = 0 := if_neg hβ
 
+private theorem tableX_123 :
+    (∀ i j : Fin 4, XZ i * HZ j + HZ j * (XZ i)ᵀ = ((cartanD4 j i).natAbs : ℤ) • phiRootZ (e i) ∧
+      XZ i * HZ j * (XZ i)ᵀ = 0) ∧
+    (∀ i : Fin 4, XZ i * phiRootZ (e i) + phiRootZ (e i) * (XZ i)ᵀ = 0 ∧
+      XZ i * phiRootZ (e i) * (XZ i)ᵀ = 0) ∧
+    (∀ i : Fin 4, XZ i * phiRootZ (-e i) + phiRootZ (-e i) * (XZ i)ᵀ = HZ i ∧
+      XZ i * phiRootZ (-e i) * (XZ i)ᵀ = phiRootZ (e i)) := by
+  decide +kernel
+
+private theorem tableX_4_0 : ∀ α ∈ d4Roots, α ≠ e 0 → α ≠ -e 0 →
+      XZ 0 * phiRootZ α + phiRootZ α * (XZ 0)ᵀ = phiRootZ (α + e 0) ∧
+      XZ 0 * phiRootZ α * (XZ 0)ᵀ = 0 := by
+  decide +kernel
+
+private theorem tableX_4_1 : ∀ α ∈ d4Roots, α ≠ e 1 → α ≠ -e 1 →
+      XZ 1 * phiRootZ α + phiRootZ α * (XZ 1)ᵀ = phiRootZ (α + e 1) ∧
+      XZ 1 * phiRootZ α * (XZ 1)ᵀ = 0 := by
+  decide +kernel
+
+private theorem tableX_4_2 : ∀ α ∈ d4Roots, α ≠ e 2 → α ≠ -e 2 →
+      XZ 2 * phiRootZ α + phiRootZ α * (XZ 2)ᵀ = phiRootZ (α + e 2) ∧
+      XZ 2 * phiRootZ α * (XZ 2)ᵀ = 0 := by
+  decide +kernel
+
+private theorem tableX_4_3 : ∀ α ∈ d4Roots, α ≠ e 3 → α ≠ -e 3 →
+      XZ 3 * phiRootZ α + phiRootZ α * (XZ 3)ᵀ = phiRootZ (α + e 3) ∧
+      XZ 3 * phiRootZ α * (XZ 3)ᵀ = 0 := by
+  decide +kernel
+
 theorem tableX :
     (∀ i j : Fin 4, XZ i * HZ j + HZ j * (XZ i)ᵀ = ((cartanD4 j i).natAbs : ℤ) • phiRootZ (e i) ∧
       XZ i * HZ j * (XZ i)ᵀ = 0) ∧
@@ -139,7 +168,38 @@ theorem tableX :
       XZ i * phiRootZ (-e i) * (XZ i)ᵀ = phiRootZ (e i)) ∧
     (∀ i : Fin 4, ∀ α ∈ d4Roots, α ≠ e i → α ≠ -e i →
       XZ i * phiRootZ α + phiRootZ α * (XZ i)ᵀ = phiRootZ (α + e i) ∧
-      XZ i * phiRootZ α * (XZ i)ᵀ = 0) := by
+      XZ i * phiRootZ α * (XZ i)ᵀ = 0) :=
+  ⟨tableX_123.1, tableX_123.2.1, tableX_123.2.2, fun i => by
+    fin_cases i
+    exacts [tableX_4_0, tableX_4_1, tableX_4_2, tableX_4_3]⟩
+
+private theorem tableY_123 :
+    (∀ i j : Fin 4, YZ i * HZ j + HZ j * (YZ i)ᵀ = ((cartanD4 j i).natAbs : ℤ) • phiRootZ (-e i) ∧
+      YZ i * HZ j * (YZ i)ᵀ = 0) ∧
+    (∀ i : Fin 4, YZ i * phiRootZ (-e i) + phiRootZ (-e i) * (YZ i)ᵀ = 0 ∧
+      YZ i * phiRootZ (-e i) * (YZ i)ᵀ = 0) ∧
+    (∀ i : Fin 4, YZ i * phiRootZ (e i) + phiRootZ (e i) * (YZ i)ᵀ = HZ i ∧
+      YZ i * phiRootZ (e i) * (YZ i)ᵀ = phiRootZ (-e i)) := by
+  decide +kernel
+
+private theorem tableY_4_0 : ∀ α ∈ d4Roots, α ≠ e 0 → α ≠ -e 0 →
+      YZ 0 * phiRootZ α + phiRootZ α * (YZ 0)ᵀ = phiRootZ (α - e 0) ∧
+      YZ 0 * phiRootZ α * (YZ 0)ᵀ = 0 := by
+  decide +kernel
+
+private theorem tableY_4_1 : ∀ α ∈ d4Roots, α ≠ e 1 → α ≠ -e 1 →
+      YZ 1 * phiRootZ α + phiRootZ α * (YZ 1)ᵀ = phiRootZ (α - e 1) ∧
+      YZ 1 * phiRootZ α * (YZ 1)ᵀ = 0 := by
+  decide +kernel
+
+private theorem tableY_4_2 : ∀ α ∈ d4Roots, α ≠ e 2 → α ≠ -e 2 →
+      YZ 2 * phiRootZ α + phiRootZ α * (YZ 2)ᵀ = phiRootZ (α - e 2) ∧
+      YZ 2 * phiRootZ α * (YZ 2)ᵀ = 0 := by
+  decide +kernel
+
+private theorem tableY_4_3 : ∀ α ∈ d4Roots, α ≠ e 3 → α ≠ -e 3 →
+      YZ 3 * phiRootZ α + phiRootZ α * (YZ 3)ᵀ = phiRootZ (α - e 3) ∧
+      YZ 3 * phiRootZ α * (YZ 3)ᵀ = 0 := by
   decide +kernel
 
 theorem tableY :
@@ -151,8 +211,10 @@ theorem tableY :
       YZ i * phiRootZ (e i) * (YZ i)ᵀ = phiRootZ (-e i)) ∧
     (∀ i : Fin 4, ∀ α ∈ d4Roots, α ≠ e i → α ≠ -e i →
       YZ i * phiRootZ α + phiRootZ α * (YZ i)ᵀ = phiRootZ (α - e i) ∧
-      YZ i * phiRootZ α * (YZ i)ᵀ = 0) := by
-  decide +kernel
+      YZ i * phiRootZ α * (YZ i)ᵀ = 0) :=
+  ⟨tableY_123.1, tableY_123.2.1, tableY_123.2.2, fun i => by
+    fin_cases i
+    exacts [tableY_4_0, tableY_4_1, tableY_4_2, tableY_4_3]⟩
 
 theorem tableB : ∀ i : Fin 4, ((XZ i)ᵀ * BZ + BZ * XZ i = 0 ∧ (XZ i)ᵀ * BZ * XZ i = 0) ∧
     ((YZ i)ᵀ * BZ + BZ * YZ i = 0 ∧ (YZ i)ᵀ * BZ * YZ i = 0) := by

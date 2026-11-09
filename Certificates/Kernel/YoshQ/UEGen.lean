@@ -31,6 +31,25 @@ public meta def ueData (α k : Nat) :
   return (P, M, tbl.toArray, LE.map fun x => pk (invT 16 x), Y.map pk,
     Y.map fun y => pk (invT 16 y), MK)
 
+public meta def ueWords (α k : Nat) : List Nat × List (List Nat) := Id.run do
+  let gE := wgens α k eWords
+  let LE := (mulClosureS 16 16 gE 4000).1.toList
+  let pk := packT 16 5
+  let idT : Table := Array.ofFn (n := 16) fun i => UInt32.ofNat i.val
+  let mut seen : Std.HashMap Nat (List Nat) := ({} : Std.HashMap Nat (List Nat)).insert (pk idT) []
+  let mut front : List (Table × List Nat) := [(idT, [])]
+  for _ in List.range LE.length do
+    let mut nxt : List (Table × List Nat) := []
+    for (t, w) in front do
+      for j in List.range gE.size do
+        let g := gE[j]!
+        let u : Table := t.map fun v => g[v.toNat]!
+        if !seen.contains (pk u) then
+          seen := seen.insert (pk u) (j :: w)
+          nxt := (u, j :: w) :: nxt
+    front := nxt
+  return (gE.toList.map pk, LE.map fun e => seen.getD (pk e) [])
+
 open CFSG.KC.Eval in
 public meta def ueStep : Step := fun args => do
   let (α, k) ← match args with
@@ -38,8 +57,9 @@ public meta def ueStep : Step := fun args => do
     | _ => throw "ueStep: expected α k"
   let (P, M, _, LI, YL, YI, MK) := ueData α k
   let natsV := fun (l : List Nat) => Val.list (l.toArray.map .nat)
+  let (G, W) := ueWords α k
   return #[(`P, .nat P), (`M, .nat M), (`LI, natsV LI), (`YL, natsV YL), (`YI, natsV YI),
-    (`MK, natsV MK)]
+    (`MK, natsV MK), (`G, natsV G), (`W, Val.list (W.toArray.map natsV))]
 
 public meta def ueTab (α k : Nat) : Array Nat := (ueData α k).2.2.1
 

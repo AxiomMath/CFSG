@@ -40,11 +40,320 @@ set_option maxRecDepth 100000 in
 @[expose] def orbitWordsBig (tbl : List ℕ) : List (List (Fin Tag.E8.rank)) :=
   (orbitWordsRev tbl).reverse
 
+@[expose] def e8DecodeL : ℕ → ℕ → List ℤ
+  | 0, _ => []
+  | k + 1, x => (((x % 128 : ℕ) : ℤ) - 64) :: e8DecodeL k (x / 128)
+
+@[expose] def e8ImgCode (v : List ℤ) (w : List (Fin Tag.E8.rank)) : ℕ := codeL (w.foldr reflectL v)
+
+@[expose] def e8PackL : List ℕ → ℕ
+  | [] => 0
+  | x :: t => x + 2 ^ 64 * e8PackL t
+
+theorem e8PackL_getD (l : List ℕ) (hl : ∀ x ∈ l, x < 2 ^ 64) (i : ℕ) :
+    e8PackL l / 2 ^ (64 * i) % 2 ^ 64 = l.getD i 0 := by
+  induction l generalizing i with
+  | nil => simp [e8PackL]
+  | cons x t ih =>
+    have hx := hl x List.mem_cons_self
+    cases i with
+    | zero =>
+      rw [Nat.mul_zero, pow_zero, Nat.div_one, e8PackL, Nat.add_mul_mod_self_left,
+        Nat.mod_eq_of_lt hx]
+      rfl
+    | succ i =>
+      rw [Nat.mul_succ, pow_add, Nat.mul_comm (2 ^ (64 * i)) (2 ^ 64), ← Nat.div_div_eq_div_mul,
+        e8PackL, Nat.add_mul_div_left _ _ (by positivity), Nat.div_eq_of_lt hx, Nat.zero_add,
+        ih (fun y hy => hl y (List.mem_cons_of_mem _ hy))]
+      rfl
+
+theorem e8PackL_append (l : List ℕ) (x : ℕ) :
+    e8PackL (l ++ [x]) = e8PackL l + 2 ^ (64 * l.length) * x := by
+  induction l with
+  | nil => simp [e8PackL]
+  | cons y t ih =>
+    rw [List.cons_append, e8PackL, e8PackL, ih, List.length_cons, Nat.mul_succ, pow_add]
+    ring
+
+theorem e8_codeL_decode (k x : ℕ) : codeL (e8DecodeL k x) = x % 128 ^ k := by
+  induction k generalizing x with
+  | zero => simp [e8DecodeL, codeL, Nat.mod_one]
+  | succ k ih =>
+    have h := ih (x / 128)
+    rw [codeL] at h ⊢
+    rw [e8DecodeL, List.foldr_cons, h, pow_succ', Nat.mod_mul]
+    congr 1
+    omega
+
+@[expose] def e8Dg (x k : ℕ) : ℕ := x / 128 ^ k % 128
+
+@[expose] def e8Nb (g x : ℕ) : ℕ :=
+  match g with
+  | 0 => e8Dg x 2
+  | 1 => e8Dg x 3
+  | 2 => e8Dg x 0 + e8Dg x 3
+  | 3 => e8Dg x 1 + e8Dg x 2 + e8Dg x 4
+  | 4 => e8Dg x 3 + e8Dg x 5
+  | 5 => e8Dg x 4 + e8Dg x 6
+  | 6 => e8Dg x 5 + e8Dg x 7
+  | _ => e8Dg x 6
+
+@[expose] def e8Deg (g : ℕ) : ℕ :=
+  match g with
+  | 0 => 1
+  | 1 => 1
+  | 2 => 2
+  | 3 => 3
+  | 4 => 2
+  | 5 => 2
+  | 6 => 2
+  | _ => 1
+
+@[expose] def e8Fast (g x : ℕ) : ℕ :=
+  x - e8Dg x g * 128 ^ g + (128 + e8Nb g x - (e8Dg x g + 64 * e8Deg g)) * 128 ^ g
+
+@[expose] def e8FastOk (g x : ℕ) : Bool :=
+  decide (e8Dg x g + 64 * e8Deg g ≤ 128 + e8Nb g x) &&
+    decide (128 + e8Nb g x - (e8Dg x g + 64 * e8Deg g) < 128)
+
+def e8H (d0 d1 d2 d3 d4 d5 d6 d7 : ℕ) : ℕ :=
+  d0 + 128 * (d1 + 128 * (d2 + 128 * (d3 + 128 * (d4 + 128 * (d5 + 128 * (d6 + 128 * d7))))))
+
+theorem e8Dg_zero (x : ℕ) : e8Dg x 0 = x % 128 := by simp [e8Dg]
+
+theorem e8Dg_succ (x k : ℕ) : e8Dg x (k + 1) = e8Dg (x / 128) k := by
+  rw [e8Dg, e8Dg, pow_succ', Nat.div_div_eq_div_mul]
+
+theorem e8_div_mk (a r : ℕ) (ha : a < 128) : (a + 128 * r) / 128 = r := by omega
+
+theorem e8_mod_mk (a r : ℕ) (ha : a < 128) : (a + 128 * r) % 128 = a := by omega
+
+theorem e8H_digits (x : ℕ) (hx : x < 2 ^ 56) :
+    x = e8H (e8Dg x 0) (e8Dg x 1) (e8Dg x 2) (e8Dg x 3) (e8Dg x 4) (e8Dg x 5) (e8Dg x 6)
+      (e8Dg x 7) := by
+  simp only [e8H, e8Dg_succ, e8Dg_zero]
+  omega
+
+theorem e8_reflectL_eq (i : Fin Tag.E8.rank) (l : List ℤ) :
+    reflectL i l = List.ofFn (n := 8) fun j : Fin 8 =>
+      l.getD j 0 - if j.val = i.val then
+        ∑ k : Fin 8, Tag.cartanE 8 ⟨i.val, i.isLt⟩ k * l.getD k 0 else 0 := by
+  unfold reflectL
+  rw [Fin.sum_univ_def]
+  refine congrArg List.ofFn (funext fun j => ?_)
+  by_cases h : j.val = i.val
+  · rw [ite_eq_left_of_eq_true _ _ (eq_true h), ite_eq_left_of_eq_true _ _ (eq_true (Fin.ext h))]
+    rfl
+  · rw [ite_eq_right_of_eq_false _ _ (eq_false h),
+      ite_eq_right_of_eq_false _ _ (eq_false fun e => h (congrArg Fin.val e))]
+
+theorem e8DecodeL_H (d0 d1 d2 d3 d4 d5 d6 d7 : ℕ) (h0 : d0 < 128) (h1 : d1 < 128)
+    (h2 : d2 < 128) (h3 : d3 < 128) (h4 : d4 < 128) (h5 : d5 < 128) (h6 : d6 < 128)
+    (h7 : d7 < 128) :
+    e8DecodeL 8 (e8H d0 d1 d2 d3 d4 d5 d6 d7) =
+      [(d0 : ℤ) - 64, (d1 : ℤ) - 64, (d2 : ℤ) - 64, (d3 : ℤ) - 64, (d4 : ℤ) - 64, (d5 : ℤ) - 64,
+        (d6 : ℤ) - 64, (d7 : ℤ) - 64] := by
+  simp only [e8H, e8DecodeL, e8_div_mk _ _ h0, e8_mod_mk _ _ h0, e8_div_mk _ _ h1,
+    e8_mod_mk _ _ h1, e8_div_mk _ _ h2, e8_mod_mk _ _ h2, e8_div_mk _ _ h3, e8_mod_mk _ _ h3,
+    e8_div_mk _ _ h4, e8_mod_mk _ _ h4, e8_div_mk _ _ h5, e8_mod_mk _ _ h5, e8_div_mk _ _ h6,
+    e8_mod_mk _ _ h6, Nat.mod_eq_of_lt h7]
+
+theorem e8DecodeL_digits (x : ℕ) (hx : x < 2 ^ 56) :
+    e8DecodeL 8 x =
+      [(e8Dg x 0 : ℤ) - 64, (e8Dg x 1 : ℤ) - 64, (e8Dg x 2 : ℤ) - 64, (e8Dg x 3 : ℤ) - 64,
+        (e8Dg x 4 : ℤ) - 64, (e8Dg x 5 : ℤ) - 64, (e8Dg x 6 : ℤ) - 64, (e8Dg x 7 : ℤ) - 64] := by
+  conv_lhs => rw [e8H_digits x hx]
+  exact e8DecodeL_H _ _ _ _ _ _ _ _ (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide))
+    (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide))
+    (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide))
+
+def e8FastD (g x k : ℕ) : ℕ :=
+  if k = g then 128 + e8Nb g x - (e8Dg x g + 64 * e8Deg g) else e8Dg x k
+
+theorem e8Fast_H (g : Fin Tag.E8.rank) (x : ℕ) (hx : x < 2 ^ 56)
+    (hA : e8Dg x g.val + 64 * e8Deg g.val ≤ 128 + e8Nb g.val x) :
+    e8Fast g.val x = e8H (e8FastD g.val x 0) (e8FastD g.val x 1) (e8FastD g.val x 2)
+      (e8FastD g.val x 3) (e8FastD g.val x 4) (e8FastD g.val x 5) (e8FastD g.val x 6)
+      (e8FastD g.val x 7) := by
+  have hHx := e8H_digits x hx
+  rw [e8H] at hHx
+  fin_cases g <;>
+  · simp only [e8Fast, e8FastD, e8Nb, e8Deg, e8H, Nat.reducePow, Nat.reduceMul] at hA ⊢
+    simp only [Nat.reduceEqDiff, ite_true, ite_false]
+    omega
+
+theorem e8Fast_spec (g : Fin Tag.E8.rank) (x : ℕ) (hx : x < 2 ^ 56)
+    (h : e8FastOk g.val x = true) :
+    e8DecodeL 8 (e8Fast g.val x) = reflectL g (e8DecodeL 8 x) ∧ e8Fast g.val x < 2 ^ 56 := by
+  simp only [e8FastOk, Bool.and_eq_true, decide_eq_true_eq] at h
+  obtain ⟨hA, hB⟩ := h
+  have hb : ∀ k, e8FastD g.val x k < 128 := fun k => by
+    unfold e8FastD
+    split
+    · subst k
+      exact hB
+    · exact Nat.mod_lt _ (by decide)
+  rw [e8Fast_H g x hx hA]
+  refine ⟨?_, ?_⟩
+  · rw [e8DecodeL_H _ _ _ _ _ _ _ _ (hb 0) (hb 1) (hb 2) (hb 3) (hb 4) (hb 5) (hb 6) (hb 7),
+      e8DecodeL_digits _ hx, e8_reflectL_eq]
+    rcases g with ⟨g, hg⟩
+    change g < 8 at hg
+    interval_cases g <;>
+    · simp only [e8FastD, e8Nb, e8Deg, Nat.reduceEqDiff, ite_true, ite_false] at hA ⊢
+      simp only [List.ofFn_succ, List.ofFn_zero, Fin.sum_univ_eight, Fin.isValue, Fin.val_zero,
+        Fin.val_succ, Nat.reduceEqDiff, ite_true, ite_false, List.getD_cons_zero,
+        List.getD_cons_succ, Fin.val_one, Fin.val_two, sub_zero]
+      simp only [Tag.cartanE, Fin.ext_iff, Fin.coe_ofNat_eq_mod, Nat.reduceMod]
+      simp (config := {decide := true}) only [List.getD_cons_succ, List.getD_cons_zero,
+        ite_true, ite_false, zero_mul, add_zero, zero_add, List.cons.injEq, and_true, true_and]
+      omega
+  · have := hb 0
+    have := hb 1
+    have := hb 2
+    have := hb 3
+    have := hb 4
+    have := hb 5
+    have := hb 6
+    have := hb 7
+    rw [e8H]
+    omega
+
+@[expose] def e8CodeStep (acc : ℕ × ℕ × List ℕ × Bool) (c : ℕ) : ℕ × ℕ × List ℕ × Bool :=
+  let x := acc.2.1 / 2 ^ (64 * (c / 8)) % 2 ^ 64
+  (acc.1 + 1, acc.2.1 + 2 ^ (64 * acc.1) * e8Fast (c % 8) x, e8Fast (c % 8) x :: acc.2.2.1,
+    acc.2.2.2 && (decide (c / 8 < acc.1) && e8FastOk (c % 8) x))
+
+theorem foldl_e8CodeStep_false (tbl : List ℕ) (st : ℕ × ℕ × List ℕ × Bool)
+    (h : st.2.2.2 = false) : (tbl.foldl e8CodeStep st).2.2.2 = false := by
+  induction tbl generalizing st with
+  | nil => exact h
+  | cons c t ih => exact ih _ (by simp [e8CodeStep, h])
+
+theorem foldl_e8CodeStep (v : List ℤ) (tbl : List ℕ)
+    (accW : List (List (Fin Tag.E8.rank))) (b : Bool)
+    (hW : ∀ w ∈ accW, e8DecodeL 8 (e8ImgCode v w) = w.foldr reflectL v ∧ e8ImgCode v w < 2 ^ 56)
+    (h : (tbl.foldl e8CodeStep (accW.length, e8PackL (accW.map (e8ImgCode v)).reverse,
+      accW.map (e8ImgCode v), b)).2.2.2 = true) :
+    tbl.foldl e8CodeStep (accW.length, e8PackL (accW.map (e8ImgCode v)).reverse,
+        accW.map (e8ImgCode v), b) =
+      ((tbl.foldl (fun acc c => (⟨c % 8, Nat.mod_lt _ (by decide)⟩ ::
+          acc.getD (acc.length - 1 - c / 8) []) :: acc) accW).length,
+        e8PackL ((tbl.foldl (fun acc c => (⟨c % 8, Nat.mod_lt _ (by decide)⟩ ::
+          acc.getD (acc.length - 1 - c / 8) []) :: acc) accW).map (e8ImgCode v)).reverse,
+        (tbl.foldl (fun acc c => (⟨c % 8, Nat.mod_lt _ (by decide)⟩ ::
+          acc.getD (acc.length - 1 - c / 8) []) :: acc) accW).map (e8ImgCode v), true) := by
+  induction tbl generalizing accW b with
+  | nil =>
+    simp only [List.foldl_nil] at h ⊢
+    rw [h]
+  | cons c t ih =>
+    simp only [List.foldl_cons] at h ⊢
+    have hb : (e8CodeStep (accW.length, e8PackL (accW.map (e8ImgCode v)).reverse,
+        accW.map (e8ImgCode v), b) c).2.2.2 = true := by
+      by_contra hf
+      rw [Bool.not_eq_true] at hf
+      rw [foldl_e8CodeStep_false t _ hf] at h
+      exact Bool.false_ne_true h
+    simp only [e8CodeStep, Bool.and_eq_true, decide_eq_true_eq] at hb
+    obtain ⟨hb0, hp, hok⟩ := hb
+    set wp := accW.getD (accW.length - 1 - c / 8) []
+    have hi : accW.length - 1 - c / 8 < accW.length := by omega
+    have hwp : wp = accW[accW.length - 1 - c / 8] := List.getD_eq_getElem _ _ hi
+    have hbound : ∀ y ∈ (accW.map (e8ImgCode v)).reverse, y < 2 ^ 64 := by
+      intro y hy
+      obtain ⟨w, hw, rfl⟩ := List.mem_map.1 (List.mem_reverse.1 hy)
+      exact lt_trans (hW w hw).2 (by norm_num)
+    have hx : e8PackL (accW.map (e8ImgCode v)).reverse / 2 ^ (64 * (c / 8)) % 2 ^ 64 =
+        e8ImgCode v wp := by
+      rw [e8PackL_getD _ hbound, ← List.map_reverse,
+        List.getD_eq_getElem _ _ (by simpa using hp), List.getElem_map, List.getElem_reverse, hwp]
+    have hD : e8DecodeL 8 (e8ImgCode v wp) = wp.foldr reflectL v := by
+      rw [hwp]
+      exact (hW _ (List.getElem_mem hi)).1
+    have h56 : e8ImgCode v wp < 2 ^ 56 := by
+      rw [hwp]
+      exact (hW _ (List.getElem_mem hi)).2
+    rw [hx] at hok
+    have hS := e8Fast_spec ⟨c % 8, Nat.mod_lt _ (by decide)⟩ (e8ImgCode v wp) h56 hok
+    have himg : e8ImgCode v (⟨c % 8, Nat.mod_lt _ (by decide)⟩ :: wp) =
+        e8Fast (c % 8) (e8ImgCode v wp) := by
+      rw [e8ImgCode, List.foldr_cons, ← hD, ← hS.1, e8_codeL_decode,
+        Nat.mod_eq_of_lt (lt_of_lt_of_eq hS.2 (by norm_num))]
+    have hs : e8CodeStep (accW.length, e8PackL (accW.map (e8ImgCode v)).reverse,
+        accW.map (e8ImgCode v), b) c =
+        (((⟨c % 8, Nat.mod_lt _ (by decide)⟩ :: wp) :: accW).length,
+          e8PackL ((((⟨c % 8, Nat.mod_lt _ (by decide)⟩ :: wp) :: accW)).map (e8ImgCode v)).reverse,
+          ((⟨c % 8, Nat.mod_lt _ (by decide)⟩ :: wp) :: accW).map (e8ImgCode v), true) := by
+      simp only [e8CodeStep, hx, hb0, hp, hok, ← himg, decide_true, Bool.and_true,
+        List.length_cons, List.map_cons, List.reverse_cons, e8PackL_append, List.length_reverse,
+        List.length_map]
+      try rfl
+    rw [hs] at h ⊢
+    refine ih _ true ?_ h
+    intro w hw
+    rcases List.mem_cons.1 hw with rfl | hw
+    · refine ⟨?_, ?_⟩
+      · rw [himg, hS.1, hD]
+        rfl
+      · rw [himg]
+        exact hS.2
+    · exact hW w hw
+
+@[expose] def e8OrbitCodesOk (s : Fin 7) : Prop :=
+  e8DecodeL 8 (codeL (List.ofFn (e8Omega (node7 s)))) = List.ofFn (e8Omega (node7 s)) ∧
+    codeL (List.ofFn (e8Omega (node7 s))) < 2 ^ 56 ∧
+    ((orbitTablesBig.getD s []).foldl e8CodeStep
+      (1, e8PackL [codeL (List.ofFn (e8Omega (node7 s)))],
+        [codeL (List.ofFn (e8Omega (node7 s)))], true)).2.2.2 = true ∧
+    ((orbitTablesBig.getD s []).foldl e8CodeStep
+      (1, e8PackL [codeL (List.ofFn (e8Omega (node7 s)))],
+        [codeL (List.ofFn (e8Omega (node7 s)))], true)).1 = 1985 ∧
+    strictB (msortBig ((orbitTablesBig.getD s []).foldl e8CodeStep
+      (1, e8PackL [codeL (List.ofFn (e8Omega (node7 s)))],
+        [codeL (List.ofFn (e8Omega (node7 s)))], true)).2.2.1.reverse) = true
+
+theorem e8OrbitCodesOk_0 : e8OrbitCodesOk ⟨0, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+theorem e8OrbitCodesOk_1 : e8OrbitCodesOk ⟨1, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+theorem e8OrbitCodesOk_2 : e8OrbitCodesOk ⟨2, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+theorem e8OrbitCodesOk_3 : e8OrbitCodesOk ⟨3, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+theorem e8OrbitCodesOk_4 : e8OrbitCodesOk ⟨4, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+theorem e8OrbitCodesOk_5 : e8OrbitCodesOk ⟨5, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+theorem e8OrbitCodesOk_6 : e8OrbitCodesOk ⟨6, by decide⟩ := by unfold e8OrbitCodesOk; decide +kernel
+
+theorem e8OrbitCodesOk_all : ∀ s : Fin 7, e8OrbitCodesOk s
+  | ⟨0, _⟩ => e8OrbitCodesOk_0
+  | ⟨1, _⟩ => e8OrbitCodesOk_1
+  | ⟨2, _⟩ => e8OrbitCodesOk_2
+  | ⟨3, _⟩ => e8OrbitCodesOk_3
+  | ⟨4, _⟩ => e8OrbitCodesOk_4
+  | ⟨5, _⟩ => e8OrbitCodesOk_5
+  | ⟨6, _⟩ => e8OrbitCodesOk_6
+
 theorem orbitWordsBig_check : ∀ s : Fin 7,
     (orbitWordsBig (orbitTablesBig.getD s [])).length = 1985 ∧
       strictB (msortBig ((orbitWordsBig (orbitTablesBig.getD s [])).map fun l =>
         codeL (l.foldr reflectL (List.ofFn (e8Omega (node7 s)))))) = true := by
-  decide +kernel
+  intro s
+  obtain ⟨hv, hv2, hok, hn, hs⟩ := e8OrbitCodesOk_all s
+  have e : (orbitTablesBig.getD s []).foldl e8CodeStep
+      (1, e8PackL [codeL (List.ofFn (e8Omega (node7 s)))],
+        [codeL (List.ofFn (e8Omega (node7 s)))], true) =
+      ((orbitWordsRev (orbitTablesBig.getD s [])).length,
+        e8PackL ((orbitWordsRev (orbitTablesBig.getD s [])).map
+          (e8ImgCode (List.ofFn (e8Omega (node7 s))))).reverse,
+        (orbitWordsRev (orbitTablesBig.getD s [])).map
+          (e8ImgCode (List.ofFn (e8Omega (node7 s)))), true) :=
+    foldl_e8CodeStep (List.ofFn (e8Omega (node7 s))) (orbitTablesBig.getD s []) [[]] true
+      (fun w hw => by
+        rw [List.mem_singleton.1 hw]
+        exact ⟨hv, hv2⟩) hok
+  rw [e] at hn hs
+  refine ⟨?_, ?_⟩
+  · rw [orbitWordsBig, List.length_reverse]
+    exact hn
+  · rw [orbitWordsBig, List.map_reverse]
+    exact hs
 
 theorem exists_orbit_e8Omega_big
     (s : Fin Tag.E8.rank) (hs : s.val ≠ 7) :

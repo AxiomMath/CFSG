@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GH74Tab "Certificates/Kernel/GH74Tab/data/tab.json.gz"
+#kc_repo #kc_json CFSG.KD.GH74Tab "Certificates/Kernel/GH74Tab/data/tab.json"
   46845 17013055011236119549
   (T : Nat) (I : Nat) (one : Nat) (x0 : Nat) (Q : Nat) (C : Nat) (Tr : List (List Nat))
   (rel : List Nat) (L : List (List Nat)) (NM : List (List Nat)) (NL : List (List (List Nat)))

@@ -18,6 +18,6 @@ theorem certificate2246 : (ordB bs (patW wA wB [false, true, true]) 12 = true �
       ordB bs (patW wA wB [false, true, false, true, true]) 14 = true ∧
       ordB bs (patW wA wB pat10) 10 = true
     )
-    ∧ ((cl.map fun c => c.2.1.size * countPair bs 5 c.1 conds2 blocks).sum = 1796256000) := KernelSporSch.McLSylK.facts2246
+    ∧ countPair bs 5 wA conds2 blocks = 80640 := KernelSporSch.McLSylK.facts2246
 
 end Certificates

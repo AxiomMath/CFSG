@@ -34,11 +34,11 @@ theorem letterAB_eq (l : Fin 2 × Bool) : letterAB l = evalCodes [m22gA, m22gB] 
   cases b
   · have h1 : ¬ (0 < zOf (i, false)) := Int.not_lt.2 (Int.negSucc_lt_zero _).le
     have h2 : (-zOf (i, false)).toNat - 1 = i.val := rfl
-    rw [if_neg h1, h2, getD_AB]
+    rw [ite_eq_right h1, h2, getD_AB]
     by_cases h : i = 0 <;> simp only [letterAB, h, Bool.false_eq_true, ↓reduceIte]
   · have h1 : 0 < zOf (i, true) := Int.ofNat_succ_pos _
     have h2 : (zOf (i, true)).toNat - 1 = i.val := rfl
-    rw [if_pos h1, h2, getD_AB]
+    rw [ite_eq_left h1, h2, getD_AB]
     by_cases h : i = 0 <;> simp only [letterAB, h, ↓reduceIte]
 
 theorem letterAB_not (l : Fin 2 × Bool) : letterAB (l.1, !l.2) = (letterAB l)⁻¹ := by
@@ -97,7 +97,7 @@ theorem img_e8Gen : ∀ j < e8Gen.length, imageList (e8Gen.getD j 1) = (unpack 2
 theorem chainE8 : ChainK 22 5 e8Gen e8ChainW (#v[0, 1, 2] : Vector (Fin 22) 3)
     CE8.S CE8.SI CE8.LR CE8.TR CE8.TRI 5 CE8.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, img_e8Gen, by decide, CE8.head, CE8.hl, by norm_num,
-    CE8.hs⟩
+    .inl CE8.hs⟩
 
 theorem card8 : Nat.card (Subgroup.closure {g : Equiv.Perm (Fin 22) | g ∈ e8Gen}) = 1344 := by
   obtain ⟨hc, ho⟩ := chainK_check (by decide) (by decide) chainE8

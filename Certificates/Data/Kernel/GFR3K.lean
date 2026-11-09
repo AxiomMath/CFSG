@@ -19,6 +19,22 @@ open CFSG.KC.Enum CFSG.KS CFSG.KC.B3S3K CFSG.KC.FiveLocK
     (!(Nat.beq (pw n w (T i) 5) (pidn n w)) || Nat.beq (T i) (pidn n w) ||
       decide (gfr3CntK n w N T (T i) * (2 ^ e * 5 ^ f) < Nc))
 
+@[expose] noncomputable def commAtK (w p q t : Nat) : Bool :=
+  Nat.beq (pg w (mask w) p (pg w (mask w) q t)) (pg w (mask w) q (pg w (mask w) p t))
+
+@[expose] noncomputable def commPK (n w p q : Nat) : Bool :=
+  commAtK w p q 0 && commAtK w p q 1 && commK n w p q
+
+@[expose] noncomputable def gfr3CntPK (n w N : Nat) (T : Nat → Nat) (x : Nat) : Nat :=
+  CFSG.KLie.CT.sumN N fun j => Bool.rec (motive := fun _ => Nat) (nat_lit 0) (nat_lit 1)
+    (commPK n w (T j) x)
+
+@[expose] noncomputable def gfr3AtPK (n w N : Nat) (T : Nat → Nat) (Nc e f i : Nat) : Bool :=
+  (!(Nat.beq (pw n w (T i) 2) (pidn n w)) || Nat.beq (T i) (pidn n w) ||
+      decide (gfr3CntPK n w N T (T i) * 2 ^ e < Nc)) &&
+    (!(Nat.beq (pw n w (T i) 5) (pidn n w)) || Nat.beq (T i) (pidn n w) ||
+      decide (gfr3CntPK n w N T (T i) * (2 ^ e * 5 ^ f) < Nc))
+
 end CFSG.KC.GFR3K
 
 end

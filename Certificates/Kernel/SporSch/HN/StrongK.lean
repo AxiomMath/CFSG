@@ -55,6 +55,24 @@ meta def build : List (Array (Array Nat)) × List (Nat × Nat × Nat) := Id.run 
     sp := sp.set! (base + 34 + j) (0, base + j, base + 17 + j)
   return (M.toList, sp.toList)
 
+meta def strongPair : Array (Array (Array Nat)) × Array (Array (Array Nat)) := Id.run do
+  let m := mulM 5 133
+  let mut M : Array (Array (Array Nat)) := #[rowsA, rowsB, idM 133]
+  let mut reg : Array Nat := #[2, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2]
+  for (a, b, c) in Data.subgroupProgram do
+    M := M.push (m M[reg[a]!]! M[reg[b]!]!)
+    reg := reg.set! c (M.size - 1)
+  let mut S : Array (Array (Array Nat)) := #[rowsA, M[reg[2]!]!]
+  let mut Si : Array (Array (Array Nat)) := #[invM 5 133 rowsA, invM 5 133 M[reg[2]!]!]
+  for j in [2:17] do
+    let w := LocalData.strongWords[j]!.reverse
+    let mut cur := if 0 < w[0]! then S[w[0]!.toNat - 1]! else Si[(-w[0]!).toNat - 1]!
+    for l in w.drop 1 do
+      cur := m (if 0 < l then S[l.toNat - 1]! else Si[(-l).toNat - 1]!) cur
+    S := S.push cur
+    Si := Si.push (invM 5 133 cur)
+  return (S, Si)
+
 meta def mats : List (Array (Array Nat)) := build.1
 
 meta def spec : List (Nat × Nat × Nat) := build.2

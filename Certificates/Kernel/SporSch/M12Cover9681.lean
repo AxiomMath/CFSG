@@ -11,7 +11,7 @@ public import CFSG.Sporadic.Schreier.M12Data
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSporSch.M12Cover9681 "Certificates/Kernel/SporSch/data/m12cover9681.json.gz" 104469 7063124725130788003
+#kc_repo #kc_json CertificateChecks.KernelSporSch.M12Cover9681 "Certificates/Kernel/SporSch/data/m12cover9681.json" 104469 7063124725130788003
   (NT : Nat) (NIT : Nat) (RT : Nat) (E5 : List (Nat × Nat)) (E11 : List (Nat × Nat)) (R5 : Nat)
   (R11 : Nat) (X5 : List (List Nat × Nat)) (X11 : List (List Nat × Nat)) (WN : List (List Nat))
   (WR : List (List Nat))

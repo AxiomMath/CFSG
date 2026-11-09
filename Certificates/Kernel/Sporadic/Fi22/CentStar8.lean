@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Sporadic.Fi22.CentStar
 public import Certificates.Kernel.Sporadic.Fi22.FiveK
+public import Certificates.Kernel.Sporadic.Fi22.WordVals
 meta import Certificates.Kernel.Sporadic.Fi22.CentData
 meta import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.Fi22FiveData
 import CFSG.Certificates.Kernel.Common.Harness
@@ -67,7 +68,9 @@ open CFSG.AGLEmbedding.KFactProofs.Fi22Five (signedWord hw uw)
       strictB (Fi22X.c Y Y3) fun Y4 => strictB (Fi22X.c Y Y4) fun Y5 =>
         allN 600 (fun t => starB (tab6 (pidn 3510 12) Y1 Y2 Y3 Y4 Y5) (EK t))
 
-theorem starAll : starAllK = true := by quickRfl
+theorem starAll : starAllK = true := by
+  rw [starAllK, Fi22WV.Y_v]
+  quickRfl
 
 @[expose] noncomputable def gensK : Bool :=
   strictB (Fi22W.W (signedWord wx)) fun X => strictB (Fi22W.W hw) fun H =>
@@ -76,10 +79,13 @@ theorem starAll : starAllK = true := by quickRfl
         Nat.beq (Fi22X.c H X) (Fi22X.c X H) && Nat.beq (Fi22X.c U X) (Fi22X.c X U) &&
         !(Fi22X.siftP U)
 
-theorem gens : gensK = true := by quickRfl
+theorem gens : gensK = true := by
+  rw [gensK, Fi22WV.X_v, Fi22WV.H_v, Fi22WV.U_v]
+  quickRfl
 
 theorem neg : (Fi22X.siftP (Fi22W.W uw) &&
     !(starB (fun _ => pidn 3510 12) (EK (pg 10 (mask 10) (NEG8 0) 0)))) = true := by
+  rw [Fi22WV.U_v]
   quickRfl
 
 end CertificateChecks.KernelSpor.Fi22CentT

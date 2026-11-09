@@ -9,6 +9,9 @@ public import CFSG.Quasithin.Recognition.RuRank3TitsClsInputs
 public meta import CFSG.Quasithin.Recognition.RuRank3TitsClsInputs
 public meta import Certificates.Kernel.Sporadic.RawGen
 import Certificates.Kernel.Misc.Perm.HexCmd
+import CFSG.Certificates.Kernel.Common.Each
+import CFSG.Certificates.Kernel.Common.ForallChunks
+import CFSG.Certificates.Kernel.Spor.PackFld
 import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 400000
@@ -80,11 +83,32 @@ open CertificateChecks.KernelSpor.Tits2264 CertificateChecks.KernelSporSch Certi
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
     (fun k _ ih j => bAnd(cls2 k (W j), ih (Nat.succ j)))
 
-theorem perms : bAnd(permC Aux, bAnd(permC Y, bAnd(permC X, permC TitsT))) = true := by quickRfl
+theorem permAuxC : permC Aux = true := by quickRfl
 
-theorem permR : allN 30 (fun i => permC (R i)) = true := by quickRfl
+theorem permYC : permC Y = true := by quickRfl
 
-theorem permK : allN 5 (fun j => permC (TK.F j)) = true := by quickRfl
+theorem permXC : permC X = true := by quickRfl
+
+theorem permTC : permC TitsT = true := by quickRfl
+
+theorem perms : bAnd(permC Aux, bAnd(permC Y, bAnd(permC X, permC TitsT))) = true := by
+  rw [permAuxC, permYC, permXC, permTC]
+
+@[expose] noncomputable def permRi (i : Nat) : Bool := permC (R i)
+
+#kc_each permRi 0 30
+#kc_forall_chunks permR_all (fun k => permRi k = true) 30 CertificateChecks.KernelMisc.Tits7050.permRi 1
+
+theorem permR : allN 30 (fun i => permC (R i)) = true :=
+  CFSG.KS.PackFld.allN_of_forall permR_all
+
+@[expose] noncomputable def permKi (j : Nat) : Bool := permC (TK.F j)
+
+#kc_each permKi 0 5
+#kc_forall_chunks permK_all (fun k => permKi k = true) 5 CertificateChecks.KernelMisc.Tits7050.permKi 1
+
+theorem permK : allN 5 (fun j => permC (TK.F j)) = true :=
+  CFSG.KS.PackFld.allN_of_forall permK_all
 
 theorem auxA : bAnd(siftD (pc Aux (GI 1)), permC (pc Aux (GI 1))) = true := by quickRfl
 
@@ -98,9 +122,17 @@ theorem yT : Nat.beq (pc Y TitsT) (pc TitsT Y) = true := by quickRfl
 
 theorem yX : Nat.beq (pc Y X) (pc (pw X 11) Y) = true := by quickRfl
 
+@[expose] noncomputable def yPi (k : Nat) : Bool := bAnd(Nat.beq (CFSG.KS.Mathieu.nget YL k) (pw Y k),
+    bAnd(Nat.beq (CFSG.KS.Mathieu.nget YIL k) (pinvS 1755 11 (mask 11) (CFSG.KS.Mathieu.nget YL k)),
+      permC (CFSG.KS.Mathieu.nget YL k)))
+
+#kc_each yPi 0 12
+#kc_forall_chunks yPow_all (fun k => yPi k = true) 12 CertificateChecks.KernelMisc.Tits7050.yPi 1
+
 theorem yPow : allN 12 (fun k => bAnd(Nat.beq (CFSG.KS.Mathieu.nget YL k) (pw Y k),
     bAnd(Nat.beq (CFSG.KS.Mathieu.nget YIL k) (pinvS 1755 11 (mask 11) (CFSG.KS.Mathieu.nget YL k)),
-      permC (CFSG.KS.Mathieu.nget YL k)))) = true := by quickRfl
+      permC (CFSG.KS.Mathieu.nget YL k)))) = true :=
+  CFSG.KS.PackFld.allN_of_forall yPow_all
 
 theorem tX : Nat.beq (pc (pc (pc TitsT X) TitsT) X) (pidn 1755 11) = true := by quickRfl
 

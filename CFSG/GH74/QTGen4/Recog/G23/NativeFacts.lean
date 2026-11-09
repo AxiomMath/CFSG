@@ -23,9 +23,38 @@ theorem wordCode_eWord : ∀ i, wordCode (eWord i) = eCode i := Certificates.cer
 
 end CodeWordCheck
 
+theorem gX_pow_three (n : Fin 2) : gX n ^ 3 = 1 := by
+  have h : xUnit .G2 (ZMod 3) (ix n) 1 * (xUnit .G2 (ZMod 3) (ix n) 1 *
+      xUnit .G2 (ZMod 3) (ix n) 1) = 1 := by
+    apply Units.ext
+    simp only [Units.val_mul, Units.val_one, coe_xUnit]
+    rw [xOp_mul_xOp (upTransport .G2), xOp_mul_xOp (upTransport .G2)]
+    have h3 : (1 + (1 + 1) : ZMod 3) = 0 := by decide
+    rw [h3, xOp_zero]
+  rw [gX, ← map_pow, pow_three, h, map_one]
+
+theorem gY_pow_three (n : Fin 2) : gY n ^ 3 = 1 := by
+  have h : yUnit .G2 (ZMod 3) (ix n) 1 * (yUnit .G2 (ZMod 3) (ix n) 1 *
+      yUnit .G2 (ZMod 3) (ix n) 1) = 1 := by
+    apply Units.ext
+    simp only [Units.val_mul, Units.val_one, coe_yUnit]
+    rw [yOp_mul_yOp (downTransport .G2), yOp_mul_yOp (downTransport .G2)]
+    have h3 : (1 + (1 + 1) : ZMod 3) = 0 := by decide
+    rw [h3, yOp_zero]
+  rw [gY, ← map_pow, pow_three, h, map_one]
+
 theorem rootCubes : RootCubes := by
-  unfold RootCubes
-  decide +kernel
+  intro l hl
+  obtain ⟨g, hg, h3⟩ : ∃ g : GL (Fin 14) (ZMod 3),
+      (g : Matrix (Fin 14) (Fin 14) (ZMod 3)) = dec14 (rootCode l) ∧ g ^ 3 = 1 := by
+    interval_cases l
+    · exact ⟨gX 0, coe_gX0, gX_pow_three 0⟩
+    · exact ⟨gX 1, coe_gX1, gX_pow_three 1⟩
+    · exact ⟨gY 0, coe_gY0, gY_pow_three 0⟩
+    · exact ⟨gY 1, coe_gY1, gY_pow_three 1⟩
+  refine dec14_injective (canon14_mul14 _ _) canon14_one14 ?_
+  rw [cube14, dec14_mul14, sq14, dec14_mul14, ← hg, dec14_one14, ← Units.val_mul,
+    ← Units.val_mul, ← pow_three, h3, Units.val_one]
 
 noncomputable def eEl (i : Fin 6) : GL (Fin 14) (ZMod 3) := wordElem (eWord i)
 

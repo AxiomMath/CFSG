@@ -127,7 +127,7 @@ theorem chainQ : ChainK 23 5 [m23PermA, m23PermB] m23Words
     (#v[0, 1, 2, 3, 4, 5] : Vector (Fin 23) 6)
     M23Q.S M23Q.SI M23Q.LR M23Q.TR M23Q.TRI 14 M23Q.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M23Q.head, M23Q.hl,
-    by norm_num, M23Q.hs⟩
+    by norm_num, .inl M23Q.hs⟩
   have hj2 : j < 2 := hj
   interval_cases j
   · exact imgA
@@ -138,7 +138,7 @@ theorem chainC1 : ChainK 23 5 (m23CentWords1.map (evalCodes [m23PermA, m23PermB]
     (#v[2, 0, 5, 4] : Vector (Fin 23) 4) M23C1.S M23C1.SI M23C1.LR M23C1.TR M23C1.TRI 9 M23C1.BP 2
     16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M23C1.head, M23C1.hl,
-    by norm_num, M23C1.hs⟩
+    by norm_num, .inl M23C1.hs⟩
   have hj3 : j < 4 := by simpa [m23CentWords1] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensC1a j hj3) (allN_spec gensC1b j hj3)

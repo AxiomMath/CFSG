@@ -52,13 +52,65 @@ macro "kd_m3b% " pre:ident eqs:term:max nes:term:max : term => do
       (by quickRfl) (by quickRfl))
 
 theorem c136220 : agreeAll ((m3bEqs.drop 0).take 8) = true :=
-  (kd_m3b% CFSG.KD.M3B.c136220 e136220 []).1
+  (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok e136220 [] (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c136220.rn CFSG.KD.M3B.c136220.CH CFSG.KD.M3B.c136220.PRf
+      CFSG.KD.M3B.c136220.S0 186)
+    (fun x hx => by rw [rlS_lt (by omega : x < 186)]; exact CFSG.KD.M3B.c136220.S0_lt hx)
+    (CH := CFSG.KD.M3B.c136220.CH) (nch := kd_count% CFSG.KD.M3B.c136220 CH)
+    (IT := CFSG.KD.M3B.c136220.IT)
+    (replay_sound (run := CFSG.KD.M3B.c136220.rn) (chk := CFSG.KD.M3B.chkP (tri e136220 []))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c136220.CH) (PR := CFSG.KD.M3B.c136220.PRf) (GK := CFSG.KD.M3B.c136220.GKf)
+      (G := CFSG.KD.M3B.c136220.Gf) (S0 := CFSG.KD.M3B.c136220.S0) (w := 186)
+      (ng := kd_count% CFSG.KD.M3B.c136220 u)
+      (by kd_allE CFSG.KD.M3B.c136220 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
 theorem c136221 : agreeAll ((m3bEqs.drop 8).take 18) = true :=
-  (kd_m3b% CFSG.KD.M3B.c136221 e136221 []).1
+  (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok e136221 [] (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c136221.rn CFSG.KD.M3B.c136221.CH CFSG.KD.M3B.c136221.PRf
+      CFSG.KD.M3B.c136221.S0 210)
+    (fun x hx => by rw [rlS_lt (by omega : x < 210)]; exact CFSG.KD.M3B.c136221.S0_lt hx)
+    (CH := CFSG.KD.M3B.c136221.CH) (nch := kd_count% CFSG.KD.M3B.c136221 CH)
+    (IT := CFSG.KD.M3B.c136221.IT)
+    (replay_sound (run := CFSG.KD.M3B.c136221.rn) (chk := CFSG.KD.M3B.chkP (tri e136221 []))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c136221.CH) (PR := CFSG.KD.M3B.c136221.PRf) (GK := CFSG.KD.M3B.c136221.GKf)
+      (G := CFSG.KD.M3B.c136221.Gf) (S0 := CFSG.KD.M3B.c136221.S0) (w := 210)
+      (ng := kd_count% CFSG.KD.M3B.c136221 u)
+      (by kd_allE CFSG.KD.M3B.c136221 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
 theorem c136222 : agreeAll ((m3bEqs.drop 26).take 17) = true :=
-  (kd_m3b% CFSG.KD.M3B.c136222 e136222 []).1
+  (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok e136222 [] (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c136222.rn CFSG.KD.M3B.c136222.CH CFSG.KD.M3B.c136222.PRf
+      CFSG.KD.M3B.c136222.S0 186)
+    (fun x hx => by rw [rlS_lt (by omega : x < 186)]; exact CFSG.KD.M3B.c136222.S0_lt hx)
+    (CH := CFSG.KD.M3B.c136222.CH) (nch := kd_count% CFSG.KD.M3B.c136222 CH)
+    (IT := CFSG.KD.M3B.c136222.IT)
+    (replay_sound (run := CFSG.KD.M3B.c136222.rn) (chk := CFSG.KD.M3B.chkP (tri e136222 []))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c136222.CH) (PR := CFSG.KD.M3B.c136222.PRf) (GK := CFSG.KD.M3B.c136222.GKf)
+      (G := CFSG.KD.M3B.c136222.Gf) (S0 := CFSG.KD.M3B.c136222.S0) (w := 186)
+      (ng := kd_count% CFSG.KD.M3B.c136222 u)
+      (by kd_allE CFSG.KD.M3B.c136222 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
 theorem c136223 : agreeAll (m3bEqs.drop 43) = true :=
-  (kd_m3b% CFSG.KD.M3B.c136223 e136223 []).1
+  (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok e136223 [] (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c136223.rn CFSG.KD.M3B.c136223.CH CFSG.KD.M3B.c136223.PRf
+      CFSG.KD.M3B.c136223.S0 174)
+    (fun x hx => by rw [rlS_lt (by omega : x < 174)]; exact CFSG.KD.M3B.c136223.S0_lt hx)
+    (CH := CFSG.KD.M3B.c136223.CH) (nch := kd_count% CFSG.KD.M3B.c136223 CH)
+    (IT := CFSG.KD.M3B.c136223.IT)
+    (replay_sound (run := CFSG.KD.M3B.c136223.rn) (chk := CFSG.KD.M3B.chkP (tri e136223 []))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c136223.CH) (PR := CFSG.KD.M3B.c136223.PRf) (GK := CFSG.KD.M3B.c136223.GKf)
+      (G := CFSG.KD.M3B.c136223.Gf) (S0 := CFSG.KD.M3B.c136223.S0) (w := 174)
+      (ng := kd_count% CFSG.KD.M3B.c136223 u)
+      (by kd_allE CFSG.KD.M3B.c136223 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
 
 theorem moveCheck_of_sep {w : List Native.Gen}
     (h : (∀ g ∈ w, g.validB = true) ∧ (∀ g ∈ ([] : List Native.Gen), g.validB = true) ∧
@@ -69,18 +121,59 @@ theorem moveCheck_of_sep {w : List Native.Gen}
   exact ⟨List.all_eq_true.2 h.1, h.2.2⟩
 
 theorem c136224 : m3bMoves.all (fun w => EdgeNoncomm.moveCheck w (aV ())) = true := by
-  have h := (kd_m3b% CFSG.KD.M3B.c136224 [] n136224).2
+  have h := (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok [] n136224 (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c136224.rn CFSG.KD.M3B.c136224.CH CFSG.KD.M3B.c136224.PRf
+      CFSG.KD.M3B.c136224.S0 9)
+    (fun x hx => by rw [rlS_lt (by omega : x < 9)]; exact CFSG.KD.M3B.c136224.S0_lt hx)
+    (CH := CFSG.KD.M3B.c136224.CH) (nch := kd_count% CFSG.KD.M3B.c136224 CH)
+    (IT := CFSG.KD.M3B.c136224.IT)
+    (replay_sound (run := CFSG.KD.M3B.c136224.rn) (chk := CFSG.KD.M3B.chkP (tri [] n136224))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c136224.CH) (PR := CFSG.KD.M3B.c136224.PRf) (GK := CFSG.KD.M3B.c136224.GKf)
+      (G := CFSG.KD.M3B.c136224.Gf) (S0 := CFSG.KD.M3B.c136224.S0) (w := 9)
+      (ng := kd_count% CFSG.KD.M3B.c136224 u)
+      (by kd_allE CFSG.KD.M3B.c136224 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).2
   refine List.all_eq_true.2 fun w hw => moveCheck_of_sep (h (w, []) ?_)
   exact List.mem_map.2 ⟨w, hw, rfl⟩
 
 theorem c13638 : agreeAll m7APairs = true ∧ EdgeNoncomm.moveCheck m7rbW (aV ()) = true ∧
     EdgeNoncomm.moveCheck m7rtbW (aV ()) = true := by
-  obtain ⟨he, hn⟩ := kd_m3b% CFSG.KD.M3B.c13638 m7APairs n13638
+  obtain ⟨he, hn⟩ := (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok m7APairs n13638
+    (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c13638.rn CFSG.KD.M3B.c13638.CH CFSG.KD.M3B.c13638.PRf
+      CFSG.KD.M3B.c13638.S0 118)
+    (fun x hx => by rw [rlS_lt (by omega : x < 118)]; exact CFSG.KD.M3B.c13638.S0_lt hx)
+    (CH := CFSG.KD.M3B.c13638.CH) (nch := kd_count% CFSG.KD.M3B.c13638 CH)
+    (IT := CFSG.KD.M3B.c13638.IT)
+    (replay_sound (run := CFSG.KD.M3B.c13638.rn) (chk := CFSG.KD.M3B.chkP (tri m7APairs n13638))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c13638.CH) (PR := CFSG.KD.M3B.c13638.PRf) (GK := CFSG.KD.M3B.c13638.GKf)
+      (G := CFSG.KD.M3B.c13638.Gf) (S0 := CFSG.KD.M3B.c13638.S0) (w := 118)
+      (ng := kd_count% CFSG.KD.M3B.c13638 u)
+      (by kd_allE CFSG.KD.M3B.c13638 u) (by quickRfl))
+    (by quickRfl) (by quickRfl))
   exact ⟨he, moveCheck_of_sep (hn (m7rbW, []) (by simp [n13638])),
     moveCheck_of_sep (hn (m7rtbW, []) (by simp [n13638]))⟩
 
 theorem c13639 : agreeAll m7BPairs = true ∧ m7SepCheck = true := by
-  obtain ⟨he, hn⟩ := kd_m3b% CFSG.KD.M3B.c13639 m7BPairs n13639
+  obtain ⟨he, hn⟩ := (tp3B_sound CertificateChecks.KernelKDenseP.MonThreeB.data_ok m7BPairs n13639
+    (by quickRfl)
+    (S := rlS CFSG.KD.M3B.c13639.rn CFSG.KD.M3B.c13639.CH CFSG.KD.M3B.c13639.PRf
+      CFSG.KD.M3B.c13639.S0 136)
+    (fun x hx => by rw [rlS_lt (by omega : x < 136)]; exact CFSG.KD.M3B.c13639.S0_lt hx)
+    (CH := CFSG.KD.M3B.c13639.CH) (nch := kd_count% CFSG.KD.M3B.c13639 CH)
+    (IT := CFSG.KD.M3B.c13639.IT)
+    (replay_sound (run := CFSG.KD.M3B.c13639.rn) (chk := CFSG.KD.M3B.chkP (tri m7BPairs n13639))
+      (fun S S' c h3 h4 => CFSG.KC.KDenseP.chunkOKN_loc S S' c h3 h4)
+      (fun S c h => CFSG.KC.KDenseP.chunkOKN_prod S c h)
+      (CH := CFSG.KD.M3B.c13639.CH) (PR := CFSG.KD.M3B.c13639.PRf) (GK := CFSG.KD.M3B.c13639.GKf)
+      (G := CFSG.KD.M3B.c13639.Gf) (S0 := CFSG.KD.M3B.c13639.S0) (w := 136)
+      (ng := kd_count% CFSG.KD.M3B.c13639 u)
+      (by kd_allE CFSG.KD.M3B.c13639 u) (by quickRfl))
+    (by quickRfl) (by quickRfl))
   obtain ⟨v1, v2, hm⟩ := hn _ (List.mem_singleton.2 rfl)
   refine ⟨he, ?_⟩
   unfold m7SepCheck sepCheck

@@ -1,28 +1,27 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.BProg.Data0
-import CFSG.Certificates.Kernel.BabyMonster.BProg.Data1
-import CFSG.Certificates.Kernel.BabyMonster.BProg.Data2
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.BProg b33q2 CFSG.KC.BM.Twin.prod 4370 2412240 17443119392495382017 b33q1 b33q1
-#kc_eval CFSG.KC.BM.BProg b33 CFSG.KC.BM.Twin.prod 4370 2412240 16842233981129685539 b32 b33q2
-#kc_eval CFSG.KC.BM.BProg b34 CFSG.KC.BM.Twin.prod 4370 2412240 7100907330419122360 b16q2 b33
-#kc_eval CFSG.KC.BM.BProg t1 CFSG.KC.BM.Twin.prod 4370 2412240 13403769603710115658 b34 b23q2
-#kc_eval CFSG.KC.BM.BProg b37q1 CFSG.KC.BM.Twin.prod 4370 2412240 9657861372020139856 b14 b14
-#kc_eval CFSG.KC.BM.BProg b38 CFSG.KC.BM.Twin.prod 4370 2412240 12549757441934801117 b37q1 b15
-#kc_eval CFSG.KC.BM.BProg b39 CFSG.KC.BM.Twin.prod 4370 2412240 13928497216224607117 b5 b38
-#kc_eval CFSG.KC.BM.BProg b40q1 CFSG.KC.BM.Twin.prod 4370 2412240 7742969578177800590 b39 b39
-#kc_eval CFSG.KC.BM.BProg b41 CFSG.KC.BM.Twin.prod 4370 2412240 13134032848571379093 b15 b16q1
-#kc_eval CFSG.KC.BM.BProg b42q3 CFSG.KC.BM.Twin.prod 4370 2412240 12889342280832235814 b16q2 b16q2
-#kc_eval CFSG.KC.BM.BProg b43 CFSG.KC.BM.Twin.prod 4370 2412240 16642373517112342902 b5 b42q3
-#kc_eval CFSG.KC.BM.BProg b44 CFSG.KC.BM.Twin.prod 4370 2412240 14920899267858787267 b41 b43
-#kc_eval CFSG.KC.BM.BProg b45 CFSG.KC.BM.Twin.prod 4370 2412240 12549757441934801117 b22 b30q1
-#kc_eval CFSG.KC.BM.BProg b46 CFSG.KC.BM.Twin.prod 4370 2412240 496737180943582773 b45 b5
-#kc_eval CFSG.KC.BM.BProg b47q1 CFSG.KC.BM.Twin.prod 4370 2412240 5478411586786869454 b46 b46
-#kc_eval CFSG.KC.BM.BProg b48 CFSG.KC.BM.Twin.prod 4370 2412240 17622175759598168471 b44 b47q1
-#kc_eval CFSG.KC.BM.BProg b49 CFSG.KC.BM.Twin.prod 4370 2412240 4781294772225593208 b40q1 b48
-#kc_eval CFSG.KC.BM.BProg b50 CFSG.KC.BM.Twin.prod 4370 2412240 6789941742270352444 t1 b49
-#kc_eval CFSG.KC.BM.BProg b51 CFSG.KC.BM.Twin.prod 4370 2412240 6746288879381032118 b50 t1
-#kc_eval CFSG.KC.BM.BProg b52q3 CFSG.KC.BM.Twin.prod 4370 2412240 14856186669212100401 b23q2 b23q2
+#kc_repo #bm_mat CFSG.KC.BM.BProg b26
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b26.bin" 2412240 13181737279968891463
+#kc_repo #bm_mat CFSG.KC.BM.BProg b27q1
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b27q1.bin" 2412240 5740102995841964392
+#kc_repo #bm_mat CFSG.KC.BM.BProg b28
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b28.bin" 2412240 13143862421114418241
+#kc_repo #bm_mat CFSG.KC.BM.BProg b29
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b29.bin" 2412240 7338061622908720173
+#kc_repo #bm_mat CFSG.KC.BM.BProg b31
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b31.bin" 2412240 10635507435238236173
+#kc_repo #bm_mat CFSG.KC.BM.BProg b32
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b32.bin" 2412240 13402048732559286303
+#kc_repo #bm_mat CFSG.KC.BM.BProg b33q1
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b33q1.bin" 2412240 1892137378977694542
+#kc_repo #bm_mat CFSG.KC.BM.BProg b33q2
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b33q2.bin" 2412240 17443119392495382017
+#kc_repo #bm_mat CFSG.KC.BM.BProg b33
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b33.bin" 2412240 16842233981129685539
+#kc_repo #bm_mat CFSG.KC.BM.BProg b34
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/b34.bin" 2412240 7100907330419122360
+#kc_repo #bm_mat CFSG.KC.BM.BProg t1
+  "CFSG/Certificates/Kernel/BabyMonster/BProg/data/t1.bin" 2412240 13403769603710115658

@@ -8,7 +8,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSporSch.HSD "Certificates/Kernel/SporSch/PairHS/data/hs2272.json.gz" 170011 14072147195037171034
+#kc_repo #kc_json CertificateChecks.KernelSporSch.HSD "Certificates/Kernel/SporSch/PairHS/data/hs2272.json" 170011 14072147195037171034
   (bnd : List (Nat × Nat × Bool)) (ua : List Nat) (z0 : Nat) (fx : List Nat)
   (cf : List (List (List Nat)))
   (ch : List (List (Nat × List (List Nat) × List (Nat × Nat × Nat))))

@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.H13.A6Setting134
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -243,9 +244,59 @@ abbrev gc : Perm (Fin 6) := swap 0 1 * swap 4 5
     swap 1 2 * swap 2 4 * swap 3 5 * swap 4 5, swap 1 4 * swap 2 4 * swap 3 5 * swap 4 5,
     swap 1 4 * swap 3 5]
 
+section DcCert
+
+open CFSG.Permutation.FinPack
+
+noncomputable def inP1K (c : ℕ) : Bool := Nat.beq (rd c 4 / 2) 2 && Nat.beq (rd c 5 / 2) 2
+
+noncomputable def inP2K (c : ℕ) : Bool :=
+  allLtK (fun i => allLtK (fun j => !Nat.beq (i / 2) (j / 2) || Nat.beq (rd c i / 2) (rd c j / 2)) 6) 6
+
+theorem inP1K_enc (σ : Perm (Fin 6)) : inP1K (enc σ) = decide (InP1 σ) := by
+  have h4 : rd (enc σ) 4 = σ 4 := rd_enc (by norm_num) σ 4
+  have h5 : rd (enc σ) 5 = σ 5 := rd_enc (by norm_num) σ 5
+  rw [Bool.eq_iff_iff, inP1K, Bool.and_eq_true, Nat.beq_eq, Nat.beq_eq, h4, h5, decide_eq_true_iff]
+  rfl
+
+theorem inP2K_enc (σ : Perm (Fin 6)) : inP2K (enc σ) = decide (InP2 σ) := by
+  rw [Bool.eq_iff_iff, inP2K, decide_eq_true_iff, InP2, allLtK_iff]
+  constructor
+  · intro h a b hab
+    have h1 := allLtK_iff.1 (h a a.2) b b.2
+    rw [rd_enc (by norm_num) σ a, rd_enc (by norm_num) σ b, hab, Nat.beq_refl, Bool.not_true,
+      Bool.false_or] at h1
+    exact Nat.eq_of_beq_eq_true h1
+  · intro h i hi
+    refine allLtK_iff.2 fun j hj => ?_
+    have e1 : rd (enc σ) i = σ ⟨i, hi⟩ := rd_enc (by norm_num) σ ⟨i, hi⟩
+    have e2 : rd (enc σ) j = σ ⟨j, hj⟩ := rd_enc (by norm_num) σ ⟨j, hj⟩
+    rw [e1, e2]
+    by_cases e : i / 2 = j / 2
+    · rw [h ⟨i, hi⟩ ⟨j, hj⟩ e, Nat.beq_refl, Bool.or_true]
+    · have hf : Nat.beq (i / 2) (j / 2) = false := by
+        cases hb : Nat.beq (i / 2) (j / 2)
+        · rfl
+        · exact absurd (Nat.eq_of_beq_eq_true hb) e
+      rw [hf, Bool.not_false, Bool.true_or]
+
 theorem dc_cert : ∀ y : Perm (Fin 6), Equiv.Perm.sign y = 1 → ¬ InP1 y → ¬ InP2 y →
     ∃ q₁ ∈ QA6list, ∃ q₂ ∈ QA6list, q₁ * y * q₂ ∈ WA6list := by
-  decide +kernel
+  have hw : walkK 6 (fun c => !evenK 6 c || inP1K c || inP2K c ||
+      anyK (fun a => anyK (fun b => memK (mulK 6 (mulK 6 a c) b) (WA6list.map enc))
+        (QA6list.map enc)) (QA6list.map enc)) 6 0 0 0 = true := by
+    decide +kernel
+  have hn : 6 ≤ 16 := by norm_num
+  intro y hs h1 h2
+  have h := walkK_sound hw y
+  simp only [evenK_enc_eq_decide hn, inP1K_enc, inP2K_enc, hs, h1, h2, decide_true, decide_false,
+    Bool.not_true, Bool.false_or, anyK_iff, List.mem_map] at h
+  obtain ⟨_, ⟨q₁, hq₁, rfl⟩, h⟩ := h
+  obtain ⟨_, ⟨q₂, hq₂, rfl⟩, h⟩ := h
+  rw [mulK_enc hn, mulK_enc hn] at h
+  exact ⟨q₁, hq₁, q₂, hq₂, mem_of_memKL hn (beq_self_eq_true _) h⟩
+
+end DcCert
 
 theorem three_cycle_words :
     swap (3 : Fin 6) 4 * swap 4 5 = swap 3 5 * swap 3 4 ∧

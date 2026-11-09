@@ -5,6 +5,7 @@ public import Certificates.Kernel.Sporadic.OddCore.CentGlue
 public import Certificates.Kernel.Sporadic.OddCore.PEnumGlue3
 public import CFSG.Certificates.Kernel.J2CoverSound
 public import CFSG.Certificates.Kernel.Spor.MulHFSound
+import CFSG.Certificates.Kernel.Spor.PEnumRSound
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 public import CFSG.LocalAnalysis.ComponentClassification.J2CoverAutCheckBase
@@ -263,10 +264,6 @@ theorem r2_hs : ∀ i < MN.R2.cnt, hsortPtK 275 9 (mask 9) MN.R2.cnt MN.R2.T MN.
   hsF_join (by norm_num) (by norm_num [sizes.2.1])
     (blk (blk (blk R2HF0.all R2HF1.all) R2HF2.all) R2HF3.all)
 
-theorem k1_pe : ∀ i < MN.K1.cnt, penumPtK 275 9 (mask 9) (275 * 9) true MN.K1.G MN.K1.GI 2
-    MN.K1.cnt MN.K1.T MN.K1.PL MN.K1.POS MN.K1.SRT MN.K1.SRI i = true :=
-  pe_join (by norm_num) (by norm_num [sizes.2.2.2.1]) (blk (blk (blk K1E0.all K1E1.all) K1E2.all) K1E3.all)
-
 theorem k1_hs : ∀ i < MN.K1.cnt, hsortPtK 275 9 (mask 9) MN.K1.cnt MN.K1.T MN.K1.HS MN.K1.HSI i =
     true :=
   hsF_join (by norm_num) (by norm_num [sizes.2.2.2.1]) K1HF.all
@@ -401,6 +398,16 @@ theorem bindM : allN 3 (fun j => bAnd(Nat.beq (MN.SY.G j) idK, Nat.beq (MN.SY.GI
     allN 4 (fun j => bAnd(Nat.beq (MN.K2.G j) idK, Nat.beq (MN.K2.GI j) (F (Nat.add 18 j)))) = true
         := by
   simpa only [bAnd_iff] using k_bindM
+
+theorem k1_pe : ∀ i < MN.K1.cnt, penumPtK 275 9 (mask 9) (275 * 9) true MN.K1.G MN.K1.GI 2
+    MN.K1.cnt MN.K1.T MN.K1.PL MN.K1.POS MN.K1.SRT MN.K1.SRI i = true :=
+  CFSG.KS.PEnumR.penumPtK_of_R (cap := 120000) hn
+    (fun j hj => by
+      rw [(pair_of bindM.2.1).2 j hj]
+      exact Fc (by change 5 + j < 30; omega))
+    (pair_of bindM.2.1).1 heads.2.2.2.1
+    (sl_join (L := 420) (N := 96) (by norm_num) (by norm_num [sizes.2.2.2.1])
+      (blk (blk (blk K1E0.all K1E1.all) K1E2.all) K1E3.all))
 
 theorem bindQ : qbK 5 2 7 MN.Q1a.G MN.Q1a.GI MN.Q1a.R = true ∧ qbK 5 2 9 MN.Q1b.G MN.Q1b.GI
     MN.Q1b.R = true ∧

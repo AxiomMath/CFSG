@@ -8,8 +8,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelL52I.D
-  "Certificates/Kernel/L52Insp443/data/lin.json.gz" 25708 14121791092416360054
+#kc_repo #kc_json CertificateChecks.KernelL52I.D
+  "Certificates/Kernel/L52Insp443/data/lin.json" 25708 14121791092416360054
   (zB : List (List Nat)) (zS : List (List Nat)) (a0B : List (List Nat)) (a1B : List (List Nat))
   (wS : List (List Nat)) (aB : List (List (List Nat))) (aS : List (List (List Nat)))
   (k1B : List (List Nat)) (k1zw : List (Nat × Nat)) (k1K : List (List Nat))

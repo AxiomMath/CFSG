@@ -115,11 +115,15 @@ theorem s14_pvOf_aut (M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n < 32768)
   rw [s14_ocOf_aut M hn hT hlab hord hcz γ m1 m1' e1, s14_ocOf_aut M hn hT hlab hord hcz γ m3 m3' e3,
     s14_ocOf_aut M hn hT hlab hord hcz γ m5 m5' e5, s14_ocOf_aut M hn hT hlab hord hcz γ m6 m6' e6]
 
-theorem s14_hParts {t HL : Nat} (h : hOK16 n mul t HL = true) :
+theorem hcOK16_of_hOK16 {t HL : Nat} (h : hOK16 n mul t HL = true) : hcOK16 n mul t HL = true := by
+  rw [hOK16, Bool.and_eq_true, Bool.and_eq_true] at h
+  exact h.1.1
+
+theorem s14_hParts {t HL : Nat} (h : hcOK16 n mul t HL = true) :
     t < n ∧ ∀ j < 256, l16 HL j < n ∧ mul (l16 HL j) t = mul t (l16 HL j) := by
-  simp only [hOK16, Bool.and_eq_true, allB_eq_true] at h
-  exact ⟨Nat.le_of_ble_eq_true h.1.1.1, fun j hj =>
-    ⟨Nat.le_of_ble_eq_true (h.1.1.2 j hj).1, Nat.eq_of_beq_eq_true (h.1.1.2 j hj).2⟩⟩
+  simp only [hcOK16, Bool.and_eq_true, allB_eq_true] at h
+  exact ⟨Nat.le_of_ble_eq_true h.1, fun j hj =>
+    ⟨Nat.le_of_ble_eq_true (h.2 j hj).1, Nat.eq_of_beq_eq_true (h.2 j hj).2⟩⟩
 
 theorem s14_kyParts {KY PV : Nat} (h : kyOK mul OT LB CZ GS KY PV = true) :
     kyL KY 0 = ivOf mul OT LB CZ (l16 GS 0) (l16 GS 1) ∧
@@ -229,7 +233,7 @@ theorem s14_sp_false (M : IsModel (⊤ : Subgroup X) n mul dec) (hT : treeB n 4 
 theorem s14_lvl12 (M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n < 32768) {t HL KY PV CL1 CL2 RK1 RK2 R1 W1 R2 : Nat}
     {W2 : Nat → Nat} {c1 c2 n1 n2 : Nat} (hT : treeB n 4 mul GS PT = true)
     (hord : ordOK n mul OT = true) (hlab : labOK16 n 4 mul GS GI LB RP nl = true)
-    (hcz : czOK16 n LB CZ = true) (hH : hOK16 n mul t HL = true)
+    (hcz : czOK16 n LB CZ = true) (hH : hcOK16 n mul t HL = true)
     (hky : kyOK mul OT LB CZ GS KY PV = true)
     (hc1 : cmOK16 n mul t OT LB CZ (kyL KY 0) CL1 RK1 c1 = true)
     (hc2 : cmOK16 n mul t OT LB CZ (kyL KY 1) CL2 RK2 c2 = true)
@@ -313,7 +317,7 @@ theorem e14_empty {n : Nat} (hn : n = 16384) (M : IsModel (⊤ : Subgroup X) n m
     {OT LB RP CZ HL GI KY PV CL1 CL2 RK1 RK2 R1 W1 R2 : Nat} {W2 SP : Nat → Nat}
     {nl c1 c2 n1 n2 f : Nat}
     (hord : ordOK n mul OT = true) (hlab : labOK16 n 4 mul GS GI LB RP nl = true)
-    (hcz : czOK16 n LB CZ = true) (hH : hOK16 n mul t HL = true)
+    (hcz : czOK16 n LB CZ = true) (hH : hcOK16 n mul t HL = true)
     (hky : kyOK mul OT LB CZ GS KY PV = true)
     (hc1 : cmOK16 n mul t OT LB CZ (kyL KY 0) CL1 RK1 c1 = true)
     (hc2 : cmOK16 n mul t OT LB CZ (kyL KY 1) CL2 RK2 c2 = true)

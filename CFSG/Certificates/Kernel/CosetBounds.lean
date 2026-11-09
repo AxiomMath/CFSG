@@ -376,6 +376,108 @@ theorem tableOk_sound_alpha {G : Type*} [Group G] (gen : ℕ → G) {rels : List
       (letterVal_xor gen hLe hc).2⟩) hcl
   exact ⟨hHA, h0, hle'⟩
 
+theorem facts_sound {G : Type*} [Group G] (gen : ℕ → G) {rels : List (List (ℕ × Bool))}
+    (hrels : ∀ r ∈ rels, sword gen r = 1)
+    {inv L eps nLab nT RW RM nR nS nW nF : ℕ} {F D Wd Wd2 R S : ℕ → ℕ} {amap : ℕ}
+    {words : List (List (ℕ × Bool))} {walk : List ℕ}
+    (hL128 : Nat.ble (Nat.succ L) 128 = true) (hlab : Nat.beq nLab (Nat.succ nT) = true)
+    (hlabbad : Nat.ble (Nat.succ nLab) bad = true) (hFbad : Nat.ble (Nat.succ nF) bad = true)
+    (hnRb : Nat.ble (Nat.succ nR) bad = true) (hnSb : Nat.ble (Nat.succ nS) bad = true)
+    (hlr : lensLt rels 256 = true) (hlw : lensLt words 256 = true)
+    (hhdr : hdrOk inv L eps amap = true) (hrel : relsOk R nR amap rels = true)
+    (hsub : subsOk S nS amap words = true) (hwords : wordsOkB Wd R S inv eps nR nS nW = true)
+    (hw2 : words2Ok Wd Wd2 inv nW = true) (htree : treeRange F D L nLab 0 nT = true)
+    (hwalk : wWalkList F Wd2 RW RM nLab nW walk nT = nF) :
+    (∀ f < nF, Sound.Holds (wordSub gen words) (letterVal gen amap L)
+      (rep (letterVal gen amap L) F D nT) (F f)) ∧
+    (∀ c < L, letterVal gen amap L (Nat.xor c 1) = (letterVal gen amap L c)⁻¹) ∧
+    (∀ g, inAlpha amap g → sCode amap (g, true) < L ∧
+      letterVal gen amap L (sCode amap (g, true)) = gen g) := by
+  have hlr := (lensLt_iff _ _).mp hlr
+  have hlw := (lensLt_iff _ _).mp hlw
+  have hL128' : L + 1 ≤ 128 := Nat.le_of_ble_eq_true hL128
+  have hlab' : nLab = nT + 1 := Nat.eq_of_beq_eq_true hlab
+  have hlabbad' : nLab + 1 ≤ bad := Nat.le_of_ble_eq_true hlabbad
+  have hFbad' : nF + 1 ≤ bad := Nat.le_of_ble_eq_true hFbad
+  have hnRb' : nR + 1 ≤ bad := Nat.le_of_ble_eq_true hnRb
+  have hnSb' : nS + 1 ≤ bad := Nat.le_of_ble_eq_true hnSb
+  obtain ⟨heps, hinvOk, halpha⟩ := hdrOk_spec hhdr
+  obtain ⟨cnt, hL, hcard, hsurj⟩ := alphaOk_spec halpha
+  obtain ⟨hle, hinj⟩ := alpha_struct hcard hsurj
+  have hA : AlphaStruct amap cnt := ⟨hle, hinj, hsurj⟩
+  obtain ⟨hinvL, hinvc⟩ := invOk_spec hinvOk
+  have hLe : L % 2 = 0 := by omega
+  have hxor : ∀ c < L, letterVal gen amap L (Nat.xor c 1) = (letterVal gen amap L c)⁻¹ :=
+    fun c hc => (letterVal_xor gen hLe hc).2
+  have hvL : letterVal gen amap L L = 1 := by
+    unfold letterVal
+    rw [ite_eq_right_of_eq_false _ _ (eq_false (Nat.lt_irrefl L))]
+  have hinvv : ∀ c ≤ L, letterVal gen amap L (byte inv c) = (letterVal gen amap L c)⁻¹ := by
+    intro c hc
+    rcases Nat.lt_or_eq_of_le hc with hc | rfl
+    · rw [hinvc c hc]
+      exact hxor c hc
+    · rw [hinvL, hvL, inv_one]
+  have hR : ∀ i < nR, wLetters (R i) = pkb 256 (wbytes (R i)) ∧
+      lv (letterVal gen amap L) (wbytes (R i)) = 1 := by
+    unfold relsOk at hrel
+    have hfold := Nat.eq_of_beq_eq_true hrel
+    have hg := (relsOk_run R amap rels 0).good (by rw [hfold]; omega)
+    rw [hfold] at hg
+    intro i hi
+    obtain ⟨r, hr, hok, hRi⟩ := hg i (Nat.zero_le _) hi
+    have hrlen := hlr r hr
+    obtain ⟨hs1, hs2⟩ := sEnc_spec amap r (by omega)
+    have hin : ∀ x ∈ r, inAlpha amap x.1 := fun x hx => sCode_lt (hs1.1 hok x hx)
+    have hcodes : ∀ d ∈ r.map (sCode amap), d < 256 := by
+      intro d hd
+      obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hd
+      exact hs1.1 hok x hx
+    have hwb : wbytes (r.length + 2 ^ 24 * pkb 256 (r.map (sCode amap))) = r.map (sCode amap) := by
+      rw [wbytes, entry_wN _ _ hrlen, entry_wLetters _ _ (by omega)]
+      have := bytes_pkb _ hcodes
+      rwa [List.length_map] at this
+    rw [hRi, hs2 hok, hwb, entry_wLetters _ _ (by omega), lv_codes gen hA hL r hin]
+    exact ⟨rfl, hrels r hr⟩
+  obtain ⟨hnS, hS⟩ := subsOk_spec hsub (by omega)
+  have hwords_in : ∀ w ∈ words, ∀ x ∈ w, inAlpha amap x.1 := by
+    intro w hw x hx
+    obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.1 hw
+    have hwlen := hlw _ hw
+    exact sCode_lt ((sEnc_spec amap _ (by omega)).1.1 (hS i hi).1 x hx)
+  have hSv : ∀ i < nS, lv (letterVal gen amap L) (wbytes (S i)) ∈ wordSub gen words := by
+    intro i hi
+    rw [hnS] at hi
+    obtain ⟨hok, hSi⟩ := hS i hi
+    have hwmem : words[i] ∈ words := List.getElem_mem hi
+    have hwlen := hlw _ hwmem
+    obtain ⟨hs1, hs2⟩ := sEnc_spec amap words[i] (by omega)
+    have hcodes : ∀ d ∈ words[i].map (sCode amap), d < 256 := by
+      intro d hd
+      obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hd
+      exact hs1.1 hok x hx
+    have hwb : wbytes ((words[i].length + 256) + 2 ^ 24 * pkb 256 (words[i].map (sCode amap))) =
+        words[i].map (sCode amap) := by
+      rw [wbytes, entry_wN_lor _ _ hwlen, entry_wLetters _ _ (by omega)]
+      have := bytes_pkb _ hcodes
+      rwa [List.length_map] at this
+    rw [hSi, hs2 hok, entry_lor _ _ hwlen, hwb, lv_codes gen hA hL _ (hwords_in _ hwmem)]
+    exact Subgroup.subset_closure ⟨_, hwmem, rfl⟩
+  have hW : ∀ j < nW, (∀ q < wN (Wd j), letter (Wd j) q ≤ L) ∧
+      (wKind (Wd j) = 0 → lv (letterVal gen amap L) (wbytes (Wd j)) = 1) ∧
+      (wKind (Wd j) = 1 → lv (letterVal gen amap L) (wbytes (Wd j)) ∈ wordSub gen words) := by
+    intro j hj
+    unfold wordsOkB at hwords
+    obtain ⟨h1, h2⟩ := natrec_all2 (fun i => wordOkB R S inv eps nR nS (Wd i))
+      (fun i => lettersLe eps (Wd i)) nW hwords j hj
+    have := word_sem (wordSub gen words) (letterVal gen amap L) (by omega : eps < 128)
+      (by rw [heps]; exact hvL) (fun c hc => hinvv c (by omega)) hR hSv h1 h2
+    rwa [heps] at this
+  refine ⟨fun f hf => (facts_hold (wordSub gen words) (letterVal gen amap L) hlab' hlabbad' hFbad'
+    hinvv hW hw2 htree hwalk f hf).1, hxor, fun g hg => ?_⟩
+  have := sCode_val gen hA hL true hg
+  simpa using this
+
 theorem tableOk_sound {G : Type*} [Group G] (gen : ℕ → G) {rels : List (List (ℕ × Bool))}
     (hrels : ∀ r ∈ rels, sword gen r = 1)
     {inv L eps nLab nT N RW RM nR nS nW nF : ℕ} {F D Wd Wd2 R S : ℕ → ℕ} {amap : ℕ}

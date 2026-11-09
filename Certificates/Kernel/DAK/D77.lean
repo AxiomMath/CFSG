@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 public section
 
 open Certificates.DepASmall Certificates.TWDK in
-#kc_repo #kc_json_gz CFSG.KD.DAK77 "Certificates/Kernel/DAK/data/d77.json.gz" 4125
+#kc_repo #kc_json CFSG.KD.DAK77 "Certificates/Kernel/DAK/data/d77.json" 4125
   9609975988769878740 (F : List GGDepANPair) (S : List KSingleE)
 
 end

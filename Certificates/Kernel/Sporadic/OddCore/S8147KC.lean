@@ -44,13 +44,13 @@ theorem pC5 : allN 2 (fun k => permOK 1782 11 (mask 11) (1782 * 11) (SFC5.G k)
     (pinvS 1782 11 (mask 11) (SFC5.G k))) = true := by quickRfl
 
 @[expose] noncomputable def c1s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFC1.T 40 s, runSl 1782 11 2 SFC1.G SFC1.T SFC1.E 40 SFC1.C s)
+  runSl 1782 11 2 SFC1.G SFC1.T SFC1.E 40 SFC1.C s
 
 @[expose] noncomputable def c2s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFC2.T 40 s, runSl 1782 11 2 SFC2.G SFC2.T SFC2.E 40 SFC2.C s)
+  runSl 1782 11 2 SFC2.G SFC2.T SFC2.E 40 SFC2.C s
 
 @[expose] noncomputable def c5s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFC5.T 40 s, runSl 1782 11 2 SFC5.G SFC5.T SFC5.E 40 SFC5.C s)
+  runSl 1782 11 2 SFC5.G SFC5.T SFC5.E 40 SFC5.C s
 
 end CertificateChecks.KernelSpor.S8147
 

@@ -197,8 +197,8 @@ theorem oneI_eq : oneI = 0 := by
   rw [h]
   exact Nat.eq_of_beq_eq_true kOne
 
-theorem invP_eq (a : Nat) : invP a = invK a := by
-  unfold invP invI invK
+theorem invP_eq (a : Nat) : CFSG.Sporadic.SuzRecog.B0Gluing.invP a = invK a := by
+  unfold CFSG.Sporadic.SuzRecog.B0Gluing.invP invI invK
   by_cases ha : a < 64
   · rw [ofFn_get' _ ha, blt_t ha]
     simp only [mulP_eq, oneI_eq]

@@ -14,7 +14,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {n : ℕ} [MulAction Γ (Fin n)]
 
 variable (P : DcSoundCtx Γ n)
 
-private theorem labF_eq_lab_of {x : List ℕ} (hx : ∀ p ∈ x, p < n) {w : List ℕ}
+theorem labF_eq_lab_of {x : List ℕ} (hx : ∀ p ∈ x, p < n) {w : List ℕ}
     (hw : ∀ l ∈ w, l < 2 + P.C.ns) :
     labF (wordF P.C.L w) x = lab n ptLab x (evalElt P.els w) := by
   have h1 : lab n ptLab x (evalElt P.els w) =

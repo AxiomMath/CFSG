@@ -67,49 +67,49 @@ structure CH where
     (natK (getK (linesK cs) 3 [])))
     (manyK (linesK cs) natsK 0 3)
 
-@[expose] noncomputable def wPK (n w A B : Nat) (wd : List Nat) : Nat :=
-  List.rec (motive := fun _ => Nat → Nat) (fun acc => acc)
-    (fun l _ ih acc => strictN (pcomp n w (mask w) acc
-      (Bool.rec (motive := fun _ => Nat) B A (Nat.beq l 0))) ih) wd (pidn n w)
+@[expose] noncomputable def covPtI (w m Ai Bi : Nat) (wd : List Nat) (p : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun p => p)
+    (fun l _ ih p => strictN (pg w m (Bool.rec (motive := fun _ => Nat) Bi Ai (Nat.beq l 0)) p) ih)
+    wd p
 
-@[expose] noncomputable def buildEH (n w : Nat) (X : List Nat) (WR : List (List (List Nat)))
-    (P : List Nat) (k : List Nat → Bool) : Bool :=
-  List.rec (motive := fun _ => Nat → List Nat → Bool)
-    (fun _ acc => List.rec (motive := fun _ => List Nat → Bool) (fun r => k r)
-      (fun x _ ih r => ih (List.cons x r)) acc [])
-    (fun p _ ih c acc => strictB c fun c =>
-      strictB (pcomp n w (mask w) (getK acc (Nat.sub (Nat.sub c 1) p) 0)
-        (getK X (Nat.mod (lastK (getRG WR c [])) 3) 0)) fun e =>
-      ih (Nat.succ c) (List.cons e acc))
-    P 1 [pidn n w]
+@[expose] noncomputable def covPtX (w m Ai Bi : Nat) (XW : List (List Nat)) (u : List Nat)
+    (p : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun p => p)
+    (fun i _ ih p => strictN (covPtI w m Ai Bi (getK XW i []) p) ih) u p
 
-@[expose] noncomputable def goodH (d : CH) (WR : List (List (List Nat))) (TG TB PR : List (List Nat))
-    (n w : Nat) (X : List Nat) (ER : List (List Nat)) : Bool :=
+@[expose] noncomputable def covBase : List Nat := [0, 1, 2, 3]
+
+@[expose] noncomputable def covImg (w m Ai Bi : Nat) (XW : List (List Nat)) (u : List Nat) :
+    List Nat :=
+  List.map (covPtX w m Ai Bi XW u) covBase
+
+@[expose] noncomputable def covCode (l : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) 0 (fun a _ ih => Nat.add a (Nat.mul 4096 ih)) l
+
+@[expose] noncomputable def goodH (d : CH) (TG TB : List (List Nat)) (w m Ai Bi : Nat)
+    (FR : List (List (List Nat))) : Bool :=
   allBs [Nat.blt 0 d.nV, Nat.beq (lenK (getK d.words 0 [1])) 0,
     allLtK d.nV (fun v => allLtK 3 fun i =>
       strictB (getRG TG (Nat.add (Nat.mul 3 v) i) d.nV) fun t =>
       allBs [Nat.blt t d.nV,
         Nat.blt (getRG TB (Nat.add (Nat.mul 3 v) i) d.nV) d.nV,
-        Bool.rec (motive := fun _ => Bool)
-          (Nat.beq (getRG ER t 0) (pcomp n w (mask w) (getRG ER v 0) (getK X i 0))) true
-          (andB (notB (Nat.beq t 0)) (andB (Nat.beq (getRG PR (Nat.sub t 1) 0) v)
-            (Nat.beq (Nat.mod (lastK (getRG WR t [])) 3) i))),
+        eqL (getRG FR t []) (List.map (covPtI w m Ai Bi (getK d.xw i [])) (getRG FR v [])),
         Nat.beq (getRG TG (Nat.add (Nat.mul 3 (getRG TB (Nat.add (Nat.mul 3 v) i) 0)) i) 0) v])]
 
-@[expose] noncomputable def pairH (n w A B : Nat) (d : CH) (ER : List (List Nat))
-    (r : List Nat × Nat × Nat) : Bool :=
-  strictB (wPK n w A B r.1) fun Ga =>
-  strictB (pinvS n w (mask w) Ga) fun Gi =>
-  allBs [permOK n w (mask w) (Nat.mul n w) Ga Gi, Nat.blt r.2.1 d.nV, Nat.blt r.2.2 d.nV,
-    Nat.beq (pcomp n w (mask w) (pcomp n w (mask w) Gi (getRG ER r.2.1 0)) Ga)
-      (getRG ER r.2.2 0)]
+@[expose] noncomputable def pairH (w m Ai Bi : Nat) (d : CH) (WR : List (List (List Nat)))
+    (FR : List (List (List Nat))) (r : List Nat × Nat × Nat) : Bool :=
+  allBs [Nat.blt r.2.1 d.nV, Nat.blt r.2.2 d.nV,
+    eqL (List.map (covPtI w m Ai Bi r.1) (getRG FR r.2.1 []))
+      (List.map (fun p => covPtX w m Ai Bi d.xw (getRG WR r.2.2 []) (covPtI w m Ai Bi r.1 p))
+        covBase)]
 
-@[expose] noncomputable def anchorH (n w A B C : Nat) (d : CH) (ER : List (List Nat))
+@[expose] noncomputable def anchorH (w m Ai Bi : Nat) (d : CH) (WR : List (List (List Nat)))
     (r : List Nat × Nat) : Bool :=
-  strictB (wPK n w A B r.1) fun Ga =>
-  strictB (pinvS n w (mask w) Ga) fun Gi =>
-  allBs [permOK n w (mask w) (Nat.mul n w) Ga Gi, Nat.blt r.2 d.nV,
-    Nat.beq (pcomp n w (mask w) (pcomp n w (mask w) Gi C) Ga) (getRG ER r.2 0)]
+  allBs [Nat.blt r.2 d.nV,
+    eqL (List.map (fun p => covPtI w m Ai Bi r.1
+        (covPtI w m Ai Bi [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1] p)) covBase)
+      (List.map (fun p => covPtX w m Ai Bi d.xw (getRG WR r.2 []) (covPtI w m Ai Bi r.1 p))
+        covBase)]
 
 @[expose] noncomputable def stepH (TG TB : List (List Nat)) (v : Nat) (l : Nat × Bool) : Nat :=
   Bool.rec (motive := fun _ => Nat) (getRG TB (Nat.add (Nat.mul 3 v) l.1) 0)
@@ -161,17 +161,16 @@ structure CH where
 @[expose] noncomputable def covHA (n w A B : Nat) (cs : List Char) (P : List Nat) (nV0 : Nat) :
     Bool :=
   Option.rec (motive := fun _ => Bool) false (fun d =>
-    letI WR := rowsG d.words
-    letI X := List.map (wPK n w A B) d.xw
+    let WR := rowsG d.words
+    strictB (pinvS n w (mask w) A) fun Ai =>
+    strictB (pinvS n w (mask w) B) fun Bi =>
+    let F := List.map (fun v => covImg w (mask w) Ai Bi d.xw (getRG WR v [])) (List.range d.nV)
+    let FR := rowsG F
     allBs [CFSG.KS.Raw.szOK n w, Nat.beq (lenK d.xw) 3, Nat.beq d.nV nV0,
-      permOK n w (mask w) (Nat.mul n w) A (pinvS n w (mask w) A),
-      permOK n w (mask w) (Nat.mul n w) B (pinvS n w (mask w) B),
-      parOK WR d.nV P,
-      strictB (wPK n w A B [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1]) fun C =>
-      buildEH n w X WR P fun E =>
-        letI ER := rowsG E
-        allBs [goodH d WR (rowsG d.tgt) (rowsG d.back) (rowsG P) n w X ER, distinctS E,
-          allT d.pairs (pairH n w A B d ER), allT d.anchors (anchorH n w A B C d ER)]])
+      permOK n w (mask w) (Nat.mul n w) A Ai, permOK n w (mask w) (Nat.mul n w) B Bi,
+      parOK WR d.nV P, goodH d (rowsG d.tgt) (rowsG d.back) w (mask w) Ai Bi FR,
+      distinctS (List.map covCode F), allT d.pairs (pairH w (mask w) Ai Bi d WR FR),
+      allT d.anchors (anchorH w (mask w) Ai Bi d WR)])
     (parseH cs)
 
 @[expose] noncomputable def covHB (cs : List Char) (H : List (List Nat)) : Bool :=

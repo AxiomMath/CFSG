@@ -10,10 +10,7 @@ public import Certificates.Kernel.Co2Smith.ChainG0S05
 public import Certificates.Kernel.Co2Smith.ChainG0S06
 public import Certificates.Kernel.Co2Smith.ChainG0S07
 public import Certificates.Kernel.Co2Smith.ChainG0S08
-public import Certificates.Kernel.Co2Smith.ChainG0S10
-public import Certificates.Kernel.Co2Smith.ChainG0S11
-public import Certificates.Kernel.Co2Smith.ChainG0S12
-public import Certificates.Kernel.Co2Smith.ChainG0S13
+public import Certificates.Kernel.Co2Smith.ChainG0Q
 public import Certificates.Kernel.Sporadic.RawGenSchOJ
 
 public section

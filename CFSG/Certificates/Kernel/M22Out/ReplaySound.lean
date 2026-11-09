@@ -27,6 +27,178 @@ private theorem getD_mem {α : Type} {l : List α} {d : α} {i : Nat} (h : i < l
 theorem strictK_eq {β : Sort _} (y : Nat) (k : Nat → β) : strictK y k = k y := by
   cases y <;> rfl
 
+theorem getK_eq : ∀ (l : List Nat) (i : Nat), getK l i = l.getD i 0
+  | [], _ => List.getD_nil.symm
+  | _ :: _, 0 => List.getD_cons_zero.symm
+  | _ :: l, i + 1 => by
+    rw [List.getD_cons_succ, ← getK_eq l i]
+    rfl
+
+theorem getLK_eq {α : Type} (d : α) : ∀ (l : List α) (i : Nat), getLK l d i = l.getD i d
+  | [], _ => List.getD_nil.symm
+  | _ :: _, 0 => List.getD_cons_zero.symm
+  | _ :: l, i + 1 => by
+    rw [List.getD_cons_succ, ← getLK_eq d l i]
+    rfl
+
+theorem tmulK_eq (s : Tab) : ∀ t : Tab, tmulK s t = tmul s t
+  | [] => rfl
+  | j :: t => by
+    have h := tmulK_eq s t
+    unfold tmul at h ⊢
+    rw [List.map_cons, ← h, ← getK_eq]
+    rfl
+
+theorem eqK_eq : ∀ a b : List Nat, eqK a b = decide (a = b)
+  | [], [] => rfl
+  | [], _ :: _ => rfl
+  | _ :: _, [] => rfl
+  | x :: a, y :: b => by
+    change Bool.rec (motive := fun _ => Bool) false (eqK a b) (Nat.beq x y) = _
+    cases h : Nat.beq x y
+    · change false = _
+      simp [Nat.ne_of_beq_eq_false h]
+    · change eqK a b = _
+      rw [eqK_eq a b]
+      simp [Nat.eq_of_beq_eq_true h]
+
+theorem commGoK_eq (s t : Tab) : ∀ a b : Tab, commGoK s t a b = commGo s t a b
+  | [], [] => rfl
+  | [], _ :: _ => rfl
+  | _ :: _, [] => rfl
+  | x :: a, y :: b => by
+    change Bool.rec (motive := fun _ => Bool) false (commGoK s t a b)
+      (Nat.beq (getK s x) (getK t y)) = _
+    rw [getK_eq, getK_eq, commGoK_eq s t a b]
+    simp only [commGo]
+    cases h : Nat.beq (s.getD x 0) (t.getD y 0)
+    · have h' : (s.getD x 0 == t.getD y 0) = false := by
+        simpa using Nat.ne_of_beq_eq_false h
+      rw [h']
+      rfl
+    · have h' : (s.getD x 0 == t.getD y 0) = true := by
+        simpa using Nat.eq_of_beq_eq_true h
+      rw [h']
+      rfl
+
+theorem countK_eq (p : Tab → Bool) : ∀ (l : List Tab) (acc : Nat), countK p l acc = acc + l.countP p
+  | [], acc => by
+    change acc = _
+    simp
+  | a :: l, acc => by
+    change strictK (Bool.rec (motive := fun _ => Nat) acc (Nat.succ acc) (p a)) (countK p l) = _
+    rw [strictK_eq, countK_eq p l, List.countP_cons]
+    cases h : p a
+    · simp
+    · simp only [ite_true]
+      omega
+
+theorem allK_eq {α : Type} (p : α → Bool) : ∀ l : List α, allK p l = l.all p
+  | [] => rfl
+  | a :: l => by
+    change Bool.rec (motive := fun _ => Bool) false (allK p l) (p a) = _
+    rw [allK_eq p l, List.all_cons]
+    cases p a <;> rfl
+
+theorem validGo_iff : ∀ (t : Tab) (n : Nat), validGo t n = true ↔ n + t.length = 22 ∧ ∀ a ∈ t, a < 22
+  | [], n => by
+    change Nat.beq n 22 = true ↔ _
+    simp [Nat.beq_eq]
+  | a :: t, n => by
+    change Bool.rec (motive := fun _ => Bool) false (validGo t (Nat.succ n)) (Nat.blt a 22) = true ↔ _
+    rw [List.length_cons, List.forall_mem_cons]
+    cases h : Nat.blt a 22
+    · have ha : ¬ a < 22 := fun ha => by
+        have h2 : Nat.blt a 22 = true := by
+          rw [Nat.blt_eq]
+          exact ha
+        rw [h2] at h
+        cases h
+      exact ⟨fun hf => absurd hf Bool.false_ne_true, fun hh => absurd hh.2.1 ha⟩
+    · have ha : a < 22 := by
+        rw [← Nat.blt_eq]
+        exact h
+      change validGo t (Nat.succ n) = true ↔ _
+      rw [validGo_iff t]
+      constructor
+      · rintro ⟨h1, h2⟩
+        exact ⟨by omega, ha, h2⟩
+      · rintro ⟨h1, -, h2⟩
+        exact ⟨by omega, h2⟩
+
+theorem validK_iff (t : Tab) : validK t = true ↔ ValidT t := by
+  unfold validK ValidT
+  rw [validGo_iff, Nat.zero_add]
+
+theorem isInvK_eq (t : Tab) : isInvK t = isInv t := by
+  unfold isInvK isInv
+  rw [eqK_eq, eqK_eq, tmulK_eq]
+  by_cases h : t = idTab
+  · rw [decide_eq_true h]
+    change false = _
+    simp [h]
+  · rw [decide_eq_false h]
+    change decide (tmul t t = idTab) = _
+    simp [h]
+
+theorem memK_eq (t : Tab) : ∀ L : List Tab, memK t L = decide (t ∈ L)
+  | [] => by
+    change false = _
+    simp
+  | a :: L => by
+    change Bool.rec (motive := fun _ => Bool) (memK t L) true (eqK t a) = _
+    rw [eqK_eq, memK_eq t L]
+    by_cases h : t = a
+    · rw [decide_eq_true h]
+      change true = _
+      simp [h]
+    · rw [decide_eq_false h]
+      change decide (t ∈ L) = _
+      simp [h]
+
+theorem keyGo_eq : ∀ (t : Tab) (acc : Nat), keyGo t acc = t.foldl (fun a x => a * 22 + x) acc
+  | [], _ => rfl
+  | x :: t, acc => by
+    change keyGo t (Nat.add (Nat.mul acc 22) x) = _
+    rw [keyGo_eq t, List.foldl_cons]
+    rfl
+
+theorem keyK_eq (t : Tab) : keyK t = keyOf t := keyGo_eq t 0
+
+theorem filtEqK_spec (p : Tab → Bool) : ∀ (L Is : List Tab), filtEqK p L Is = true → L.filter p = Is
+  | [], [], _ => rfl
+  | [], _ :: _, h => absurd h Bool.false_ne_true
+  | t :: L, Is, h => by
+    change Bool.rec (motive := fun _ => Bool) (filtEqK p L Is)
+      (List.rec (motive := fun _ => Bool) false
+        (fun u us _ => Bool.rec (motive := fun _ => Bool) false (filtEqK p L us) (eqK t u)) Is)
+      (p t) = true at h
+    cases hp : p t
+    · rw [hp] at h
+      rw [List.filter_cons_of_neg (by simp [hp])]
+      exact filtEqK_spec p L Is h
+    · rw [hp] at h
+      cases Is with
+      | nil => exact absurd h Bool.false_ne_true
+      | cons u us =>
+        change Bool.rec (motive := fun _ => Bool) false (filtEqK p L us) (eqK t u) = true at h
+        cases he : eqK t u
+        · rw [he] at h
+          exact absurd h Bool.false_ne_true
+        · rw [he] at h
+          rw [eqK_eq, decide_eq_true_iff] at he
+          rw [List.filter_cons_of_pos hp, he, filtEqK_spec p L us h]
+
+theorem centK_eq (L₁ L₂ : List Tab) (t : Tab) : centK L₁ L₂ t = centN (L₁ ++ L₂) t := by
+  unfold centK centN commF
+  rw [countK_eq, countK_eq, List.countP_append, Nat.zero_add]
+  simp only [commGoK_eq]
+
+theorem fixK_eq (t : Tab) : fixK f1Tabs t = fixF t := by
+  unfold fixK fixF commF
+  rw [countK_eq, Nat.zero_add]
+  simp only [commGoK_eq]
+
 private theorem packL32_lt : ∀ l : List Nat, (∀ a ∈ l, a < 32) → packL 32 l < 32 ^ l.length
   | [], _ => by
     change 0 < 1
@@ -160,6 +332,7 @@ private theorem stepK_eq (TP WP : Nat) (g t : Tab) (i e k q c : Nat) :
           else if k < c then c else 0)
       else 0 := by
   unfold stepK
+  rw [tmulK_eq]
   have hw2 : Nat.add i (Nat.mul (nat_lit 2) e) = i + 2 * e := rfl
   rw [hw2]
   simp only [blt_dec, beq_dec]
@@ -170,7 +343,7 @@ private theorem stepK_eq (TP WP : Nat) (g t : Tab) (i e k q c : Nat) :
 
 private theorem stepK_zero (TP WP : Nat) (g t : Tab) (i e k q : Nat) :
     stepK TP WP g t i e k q 0 = 0 := by
-  rw [stepK_eq, if_neg (fun h => Nat.not_lt_zero q h.1)]
+  rw [stepK_eq, ite_eq_right (fun h => Nat.not_lt_zero q h.1)]
 
 private theorem stepK_mono {TP WP : Nat} {g t : Tab} {i e k q c : Nat}
     (h : stepK TP WP g t i e k q c ≠ 0) : c ≤ stepK TP WP g t i e k q c := by
@@ -231,9 +404,9 @@ private theorem stepK_mem {T : List Tab} (hv : ∀ t ∈ T, ValidT t) {WP : Nat}
   rw [stepK_eq] at h hle
   by_cases hcond : q < c ∧ packT (tmul g t) = tabAt (packTs T) k
   swap
-  · rw [if_neg hcond] at h
+  · rw [ite_eq_right hcond] at h
     exact absurd rfl h
-  rw [if_pos hcond] at h hle
+  rw [ite_eq_left hcond] at h hle
   have hk : k < T.length := by
     split_ifs at h hle <;> omega
   rw [packT_inj hp (hv _ (List.getElem_mem hk)) (by rw [hcond.2, tabAt_packTs hv hk])]
@@ -375,16 +548,16 @@ private theorem inner_step (hs : Setup gens T W) {b c d q i : Nat} (hi : i < 2) 
   rw [hG]
   by_cases hcond : q < c ∧ packT (tmul (gens.getD i idTab) (T.getD q [])) = tabAt (packTs T) k
   swap
-  · rw [if_neg hcond] at hne
+  · rw [ite_eq_right hcond] at hne
     exact absurd rfl hne
-  rw [if_pos hcond] at hne hle ⊢
+  rw [ite_eq_left hcond] at hne hle ⊢
   by_cases hkc : k = c
-  · rw [if_pos hkc] at hne hle ⊢
+  · rw [ite_eq_left hkc] at hne hle ⊢
     by_cases hw : wordAt (packW W) c = i + 2 * encW (W.getD q [])
     swap
-    · rw [if_neg hw] at hne
+    · rw [ite_eq_right hw] at hne
       exact absurd rfl hne
-    rw [if_pos hw] at hle ⊢
+    rw [ite_eq_left hw] at hle ⊢
     have hcN' : c < T.length := hle
     have hcW : c < W.length := by rw [hs.wl]; exact hcN'
     have hpk : packT (tmul (gens.getD i idTab) (T.getD q [])) = tabAt (packTs T) c := by
@@ -409,7 +582,7 @@ private theorem inner_step (hs : Setup gens T W) {b c d q i : Nat} (hi : i < 2) 
       · obtain ⟨j, hj, ej⟩ := (hm.seen _).1 e
         have := (hs.nd.getD_inj (fallback := []) (Nat.lt_trans hj hcN') hcN').1 ej
         omega
-    rw [ht, hnot, if_neg Bool.false_ne_true]
+    rw [ht, hnot, ite_eq_right Bool.false_ne_true]
     refine ⟨fun y => ?_, ?_, fun j hj1 hj2 => ?_, fun j hj => ?_⟩
     · dsimp only
       rw [Std.HashSet.contains_insert, Bool.or_eq_true, beq_iff_eq, hm.seen]
@@ -437,17 +610,17 @@ private theorem inner_step (hs : Setup gens T W) {b c d q i : Nat} (hi : i < 2) 
       · rw [hj, hwk]
         change tmul (gens.getD i idTab) (wordTab gens (W.getD q [])) = _
         rw [hm.wt q hq, ht]
-  · rw [if_neg hkc] at hne hle ⊢
+  · rw [ite_eq_right hkc] at hne hle ⊢
     by_cases hkl : k < c
     swap
-    · rw [if_neg hkl] at hne
+    · rw [ite_eq_right hkl] at hne
       exact absurd rfl hne
-    rw [if_pos hkl]
+    rw [ite_eq_left hkl]
     have hkN : k < T.length := Nat.lt_of_lt_of_le hkl hcN
     have ht : tmul (gens.getD i idTab) (T.getD q []) = T.getD k [] := by
       apply packT_inj hpv (hs.tv _ (getD_mem hkN))
       rw [hcond.2, tabAt_packTs hs.tv hkN, getD_of_lt hkN]
-    rw [ht, if_pos ((hm.seen _).2 ⟨k, hkl, rfl⟩)]
+    rw [ht, ite_eq_left ((hm.seen _).2 ⟨k, hkl, rfl⟩)]
     exact hm
 
 private theorem pair_step (hs : Setup gens T W) {b c d q : Nat} (hq : q < c) (hbc : b ≤ c)
@@ -517,7 +690,7 @@ private theorem empty_end (hs : Setup gens T W) (hN : 0 < T.length) {b : Nat}
   rcases Nat.lt_or_ge b T.length with h | h
   · have h0 : stepK (packTs T) (packW W) (gens.getD 0 idTab) (T.getD b []) 0
         (encW (W.getD b [])) (kAt KK b 0) b b = 0 := by
-      rw [stepK_eq, if_neg (fun h' => Nat.lt_irrefl b h'.1)]
+      rw [stepK_eq, ite_eq_right (fun h' => Nat.lt_irrefl b h'.1)]
     rw [RR_succ hs h, h0, stepK_zero, RR_zero] at hr
     omega
   · omega
@@ -564,7 +737,7 @@ private theorem aux (hs : Setup gens T W) (hN : 0 < T.length) :
     intro a b d seen F acc hd hab h1 hseen hF hlen hwt hacc hr
     rw [bfsAux]
     by_cases he : F.isEmpty = true
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       have hF0 : F.toList = [] := by
         rw [Array.isEmpty_iff] at he
         rw [he]
@@ -577,7 +750,7 @@ private theorem aux (hs : Setup gens T W) (hN : 0 < T.length) :
       have hb := empty_end hs hN hr
       rw [← hb]
       exact ⟨hacc, hwt⟩
-    · rw [if_neg he]
+    · rw [ite_eq_right he]
       have hm0 : BfsMatch gens T W b b d (seen, #[]) :=
         ⟨hseen, by simp, fun j h1 h2 => absurd h2 (by omega), hwt⟩
       obtain ⟨c', hbc', hm', hr'⟩ := layer (KK := KK) hs hN (b - a) a b (seen, #[]) (by omega)

@@ -28,15 +28,25 @@ open CFSG.EvenSporadicStandard.HNRecog
     (bothK 2 MR1.GI MR1I)) MR1Cl) (Nat.mul 1980 s) 1980
 
 
-@[expose] noncomputable def ordK (X e : Nat) : Bool :=
-  strictB (pc X X) fun x2 => strictB (pc x2 x2) fun x4 =>
-    bIf(Nat.beq e 8, Nat.beq (pc x4 x4) idK,
-    bIf(Nat.beq e 6, strictB (pc X x2) fun x3 => Nat.beq (pc x3 x3) idK,
-    bIf(Nat.beq e 5, Nat.beq (pc X x4) idK,
-    bIf(Nat.beq e 11, Nat.beq (pc X (pc (pc x4 x4) x2)) idK, false))))
+@[expose] def m11B : List Nat := [0, 5]
+
+@[expose] noncomputable def fixB (X e : Nat) (B : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) true
+    (fun b _ r => bAnd(Nat.beq (iterN (pt X) e b) b, r)) B
+
+@[expose] noncomputable def movB (X : Nat) (B : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) false (fun b _ r => bIf(Nat.beq (pt X b) b, r, true)) B
+
+@[expose] noncomputable def ordB (X e : Nat) : Bool :=
+  bAnd(bIf(Nat.beq e 8, true, bIf(Nat.beq e 6, true, bIf(Nat.beq e 5, true, Nat.beq e 11))),
+    fixB X e m11B)
 
 @[expose] noncomputable def oA (s : Nat) : Bool :=
-  slK MR1.cnt (fun i => strictB (MR1.T i) fun x => ordK x (MO i)) (Nat.mul 990 s) 990
+  slK MR1.cnt (fun i => strictB (MR1.T i) fun x => ordB x (MO i)) (Nat.mul 990 s) 990
+
+@[expose] noncomputable def m11BaseA (s : Nat) : Bool :=
+  slK MR1.cnt (fun i => strictB (MR1.T i) fun x => bIf(Nat.beq x idK, true, movB x m11B))
+    (Nat.mul 7920 s) 7920
 
 @[expose] noncomputable def f16 (W i : Nat) : Nat := Nat.land (Nat.shiftRight W (Nat.mul 16 i)) 65535
 

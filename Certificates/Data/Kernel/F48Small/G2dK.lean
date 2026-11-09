@@ -16,14 +16,17 @@ open CFSG.KC.Ord CFSG.KC.LQT.L
         (fun p _ => Nat.rec (motive := fun _ => List (Nat × Nat × Nat)) (ih 2 x (d ch))
           (fun _ _ => (x, y, d ch) :: ih 0 0 0) p) ph) l
 
-@[expose] noncomputable def candAt (TV TiV AV BV VV : List Nat) (U Y : Nat)
+@[expose] noncomputable def getKL (l : List (List Nat)) (i : Nat) : List Nat :=
+  List.rec (motive := fun _ => Nat → List Nat) (fun _ => [])
+    (fun x _ ih j => Bool.rec (motive := fun _ => List Nat) (ih (Nat.sub j 1)) x (Nat.beq j 0))
+    l i
+
+@[expose] noncomputable def candAt (CA CB VR : List (List Nat)) (YR : List Nat) (U : Nat)
     (a b c j t r : Nat) : Bool :=
   andB (Nat.blt j 4) (andB (Nat.blt t 32) (andB (Nat.blt r 32)
-    (andB (Nat.beq (pcomp (pcomp (getK TV t) 28 (getK AV a)) 28 (getK TiV t)) U)
-    (andB (Nat.beq (pcomp (pcomp (pcomp (getK TV t) 28 (getK BV b)) 28 (getK TiV t)) 28
-        (getK TV r)) Y)
-      (Nat.beq (pcomp (pcomp (getK TiV r) 28 (pcomp (pcomp (getK TV t) 28 (getK AV c)) 28
-        (getK TiV t))) 28 (getK TV r)) (getK VV j))))))
+    (andB (Nat.beq (getK (getKL CA t) a) U)
+    (andB (Nat.beq (getK (getKL CB t) b) (getK YR r))
+      (Nat.beq (getK (getKL CA t) c) (getK (getKL VR r) j))))))
 
 @[expose] noncomputable def walkC (P : Nat → Nat → Nat → Nat → Nat → Nat → Bool) (a₀ : Nat)
     (l : List (Nat × Nat × Nat)) : Nat → Bool :=

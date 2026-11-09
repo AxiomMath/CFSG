@@ -9,7 +9,7 @@ public import CFSG.Certificates.Kernel.Enum.Defs
 public import Certificates.Kernel.Sporadic.ON2.Data
 public import CFSG.Certificates.Kernel.Bounds.Core3
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Kernel.Sporadic.ONC.TauGlue

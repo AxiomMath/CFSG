@@ -43,7 +43,7 @@ theorem tmatPay_eq (i : Nat) : tmatPay i = String.ofList (tmatC i) := by
   rw [← String.toList_inj, String.toList_ofList, tmatPay]
   change ("T\n" ++ ((tmatBits.drop (576 * i)).take 576).copy).toList = _
   rw [String.toList_append, String.Slice.toList_copy_take, String.toList_copy_drop, TB.eq]
-  simp only [String.toList_ofList, tmatC, List.cons_append, List.nil_append]
+  simp only [String.toList_ofList, tmatC]
   rfl
 
 theorem trows_eq {i : Nat} (hi : i < 8) : trows i = unpackR 24 (GD.T.getD i 0) := by
@@ -88,31 +88,8 @@ theorem xRows_eq : xRows = GD.X.map (unpackR 24) := by
   rw [xRows, prX_eq, prX_eq, prX_eq]
   rfl
 
-theorem el_all : ∀ r < 1728, eqMaskK (GD.X.getD (r / 576) 0) (r % 576 / 24) (r % 24) = GD.E.getD r 0 := by
-  intro r hr
-  have step : ∀ (o : Nat), (∀ s < 216, elK (o + s) = GD.E.getD (o + s) 0) → o ≤ r → r < o + 216 →
-      elK r = GD.E.getD r 0 := by
-    intro o ho h1 h2
-    have e := ho (r - o) (by omega)
-    rwa [Nat.add_sub_cancel' h1] at e
-  by_cases h0 : r < 216
-  · exact el0 r h0
-  by_cases h1 : r < 432
-  · exact step 216 el1 (by omega) (by omega)
-  by_cases h2 : r < 648
-  · exact step 432 el2 (by omega) (by omega)
-  by_cases h3 : r < 864
-  · exact step 648 el3 (by omega) (by omega)
-  by_cases h4 : r < 1080
-  · exact step 864 el4 (by omega) (by omega)
-  by_cases h5 : r < 1296
-  · exact step 1080 el5 (by omega) (by omega)
-  by_cases h6 : r < 1512
-  · exact step 1296 el6 (by omega) (by omega)
-  exact step 1512 el7 (by omega) (by omega)
-
 theorem spanCheck_true : spanCheckWith (eqsOf xRows) (fmaskOf freePos) certTab = true := by
-  rw [xRows_eq, eqsOf_map_unpackR (by decide) el_len el_all, spanCheckWith_toArray]
+  rw [xRows_eq, eqsOf_map_unpackR (by decide) el_len elW_all, spanCheckWith_toArray]
   exact span_ok
 
 theorem freePos_surj : ∀ a ∈ freePos, ∃ j : Fin 8, freePos.getD j.val 0 = a := by decide

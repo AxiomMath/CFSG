@@ -15,13 +15,13 @@ namespace CertificateChecks.KernelCatFacts
 open CFSG.ComponentClassification.GSThmB.A8 CFSG.ComponentClassification.CatFactsSmall.A8
   CFSG.Certificates.Kernel.PkEnum
 
-theorem tau2019K : tauCheck (elemsV QA8) t15 = true := by
+theorem tau2019K : tauSwapCheck t15 = true := by
   decide +kernel
 
 theorem n3_2019K : n3Check (elemsV QL8) QL8 n3Data = true := by
   decide +kernel
 
-theorem n4_2019K : n4Check (elemsV QS8) (elemsV QA8) t15 = true := by
+theorem n4_2019K : n4Check (elemsV QL8) t15 QA8 = true := by
   decide +kernel
 
 end CertificateChecks.KernelCatFacts

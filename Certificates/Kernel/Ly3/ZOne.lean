@@ -5,7 +5,7 @@ public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.ComponentPrimary.Co
 public import Certificates.Data.CFSGNative.ComponentPrimary.Cover3Ly
 public import Certificates.Kernel.Bounds.Family
 public import Certificates.Kernel.Bounds.AssembleZ
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.Misc.Coset.TableZSound
 public import CFSG.Certificates.CosetTableShort

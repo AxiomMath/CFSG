@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Certificates.Kernel.Spor.RawSound
+public import CFSG.Certificates.Kernel.Spor.RawLevelsK
 public import CFSG.Sporadic.Co2Schreier.ChainCheckInputs
 
 public section
@@ -47,7 +48,16 @@ theorem recordOK_of {n w kS kO nb BP NS CH : Nat} {PS PSI LR TR TRI : Nat → Na
   rw [origArrs_eq hg, wordArrs_eq hgl hd]
   exact rawChainK_sound hb hh hl hNS hs
 
-theorem recordOrbits_of {n w kS nb BP : Nat} {PS PSI LR TR TRI : Nat → Nat} {c : ChainRecord}
+theorem recordOK0_of {n w kS kO nb BP : Nat} {PS PSI : Nat → Nat} {c : ChainRecord}
+    (hg : c.generators = c.strongGenerators.take kO) (hgl : c.generators.length = kO)
+    (hd : c.derivations.length + kO = kS) (hb : Binds n w PS kS nb BP c.strongArrs c.baseArr)
+    (hh : headK n w (mask w) (n * w) (pidn n w) PS PSI kS kO c.derivations nb BP = true) :
+    recordOK n c 0 = true := by
+  unfold recordOK
+  rw [origArrs_eq hg, wordArrs_eq hgl hd]
+  exact Orb.rawChainOK0_of_K hb hh
+
+theorem recordOrbits_of{n w kS nb BP : Nat} {PS PSI LR TR TRI : Nat → Nat} {c : ChainRecord}
     (hb : Binds n w PS kS nb BP c.strongArrs c.baseArr)
     (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
     (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) :

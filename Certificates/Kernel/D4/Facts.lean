@@ -7,9 +7,11 @@ public import Certificates.Kernel.D4.ChecksB
 public import Certificates.Kernel.D4.OrbA
 public import CFSG.Certificates.Kernel.D4Sound
 public import CFSG.Certificates.Kernel.Misc.HexFlatSound
+public import CFSG.Certificates.Kernel.Misc.HexFlatRows
 public import CFSG.Quasithin.Recognition.CertChain
 public import CFSG.Certificates.Kernel.B3S3KSound
 public import CFSG.Certificates.Kernel.Misc.ChainTailOrbSound
+public import CFSG.Certificates.Kernel.Misc.ChainTailQLSound
 public import CFSG.Certificates.NativeSchreierArrays
 
 public section
@@ -27,7 +29,7 @@ open CFSG.Monster.B.Co2 (allLt_iff permOfArr)
 theorem arr_eq : ∀ k < 91, d4Arr k = unpack 2457 12 (HX.F k) := by
   intro k hk
   rw [d4Arr, HX.eq]
-  exact CFSG.KC.Misc.HexFlat.hexTable_sound HX.all k hk
+  exact CFSG.KC.Misc.HexFlat.hexTable_sound_rowsD (by decide) (by decide) HX.rows k hk
 
 theorem fget {m o : ℕ} (hm : o + m ≤ 91) {j : ℕ} (hj : j < m) :
     (Array.ofFn fun i : Fin m => d4Arr (o + i.val))[j]! = unpack 2457 12 (HX.F (o + j)) := by
@@ -52,7 +54,7 @@ theorem bindH : BindA 2457 12 d4Trans 31 HT :=
 theorem pLX : ∀ j < 31, permB 2457 12 (LX j) = true := fun j hj => by
   have := Orb.allN_iff.1 pL j hj
   rw [Bool.and_eq_true] at this
-  exact this.1
+  exact permB_of_permImgK szOK' this.1
 
 theorem bindsA : Binds 2457 12 CA.S 8 7 CA.BP d4ChainAArrs d4ChainABaseArr := by
   refine ⟨by norm_num, by norm_num, by norm_num, by simp [d4ChainAArrs], fun j hj => ?_,
@@ -112,7 +114,8 @@ theorem lines_ok : linesOK3 3 81 31 2457 d4QGens d4Keys d4QCert d4Lines = true :
     rw [← hN]
     exact permB_pts okQ pQG
   have hl : linesK 2457 12 3 81 31 EQ.T LX = true :=
-    linesK_of (forall_of_slices (L := 9) (K := 9) (by norm_num) LS.all) pL
+    linesK_of (fun k hk => lineAt_of_lineCubeK szOK' (hTp k hk) pLX
+      (forall_of_slices (L := 9) (K := 9) (by norm_num) LS.all k hk)) (pw3_all szOK' pL)
   exact linesOK3_of szOK' h1 h2 h3 hTp bindL hl
 
 theorem siftQ_ok :
@@ -130,7 +133,8 @@ theorem trans_ok :
     transOK2 31 2457 d4Trans d4Lines d4Lines d4Rec d4LevelsA d4ChainABaseArr = true :=
   transOK2_of szOK' bindH bindL pLX bindL pLX (by decide) (fun j hj => by
       rw [bindH.2 j hj]
-      exact siftA_ofOK (Orb.allN_iff.1 siftH j hj)) trans
+      exact siftA_ofOK (Orb.allN_iff.1 siftH j hj))
+    (transK_of_transE szOK' pLX pLX (by decide) trans)
 
 theorem rec_ok : allLt 31 (fun j => decide (d4Rec.getD j 0 < 2)) = true := by
   rw [allLt_iff]
@@ -177,6 +181,8 @@ theorem caseA_ok : centOKP 3 2457 d4ChainAArrs d4ChainABaseArr d4Lines[0]! d4Rel
       exact siftA_ofOK (Orb.allN_iff.1 siftG k hk)) hps h1 h2 h3 hTp (by norm_num) (NR := 1)
     (RB := RA) (RI := RIA) (EK := EKA) (fun j hj => by
       obtain rfl : j = 0 := by omega
+      rw [← repBranchQK_K (f := 5) (z1 := 0) (z2 := 1) (PP_of_permOK szOK' x0) (by norm_num)
+        (by norm_num)]
       exact tbA0) (by rw [Nat.eq_of_beq_eq_true rc0A]; exact Orb.allN_iff.1 kOrbA)
   rw [Nat.eq_of_beq_eq_true bG.2.2] at h
   rw [lineX0]
@@ -232,7 +238,7 @@ theorem rawB : rawChainOK 2457 (d4ChainBArrs.extract 0 2) d4ChainBArrs d4ChainBB
       {g | ∃ k < (#[d4GenA, d4GenB] : Array (Array ℕ)).size,
         permOfArr 2457 (#[d4GenA, d4GenB] : Array (Array ℕ))[k]! = g} := by
     ext g
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨⟨j, hj⟩, rfl⟩
       refine ⟨j, by simpa using hj, ?_⟩

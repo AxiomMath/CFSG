@@ -10,6 +10,7 @@ public import Certificates.Data.Kernel.MaxD2.Check
 public import Certificates.Data.Kernel.TitsOver.Check
 public import CFSG.LocalAnalysis.StandardType.TitsFiveOvergroupData
 import CFSG.Certificates.Kernel.Common.Harness
+import Certificates.Kernel.TitsOver.Five.DEq
 
 public section
 
@@ -23,14 +24,18 @@ open CertificateChecks.KernelMaxD2
 open CertificateChecks.KernelMaxD2.TitsD (PT)
 
 theorem k_lg : allN 4 (fun j => bAnd(wordEqK 1755 11 (mask 11) (pidn 1755 11) Dk DIk 2
-    (lWords[j]!) (LE.G j), canonK 1755 11 (mask 11) (1755 * 11) (LE.G j))) = true := by quickRfl
+    (lWords[j]!) (LE.G j), canonK 1755 11 (mask 11) (1755 * 11) (LE.G j))) = true := by
+  rw [dk_eq, dik_eq]
+  quickRfl
 theorem k_lgi : allN 4 (fun j => permOK 1755 11 (mask 11) (1755 * 11) (LE.G j) (LGI j)) = true := by
   quickRfl
 theorem k_lh : penumHdK (pidn 1755 11) LE.cnt 7800 LE.T LE.PL = true := by quickRfl
 
 theorem k_r0 : Nat.beq (REP 0) (pidn 1755 11) = true := by quickRfl
 theorem k_rw : allN 24 (fun i => wordEqK 1755 11 (mask 11) (pidn 1755 11) Dk DIk 2
-    (repWords[i]!) (REP (Nat.succ i))) = true := by quickRfl
+    (repWords[i]!) (REP (Nat.succ i))) = true := by
+  rw [dk_eq, dik_eq]
+  quickRfl
 theorem k_ri : allN 25 (fun i => permOK 1755 11 (mask 11) (1755 * 11) (REP i) (REPI i)) = true := by
   quickRfl
 theorem k_cnt : allN 24 (fun i => Nat.beq (posCnt TitsD.NE.cnt H (Nat.succ i)) (r32 CN (Nat.succ i))) =
@@ -49,7 +54,9 @@ theorem k_gen : allN 24 (fun i => bIf(Nat.beq (pairData.kind[i]!) 0,
     bAnd(Nat.beq (genWords[i]!).length 2, allN 2 (fun j =>
       wordBK 4 6 (r32 PT) (pairLf 11 (mask 11) (TitsD.RE.G 0) (TitsD.RE.G 1) (REP (Nat.succ i)) (REPI (Nat.succ i)))
         (pairLf 11 (mask 11) (PGI 0) (PGI 1) (REP (Nat.succ i)) (REPI (Nat.succ i)))
-        ((genWords[i]!)[j]!) (pg 11 (mask 11) (Dk j)))), true)) = true := by quickRfl
+        ((genWords[i]!)[j]!) (pg 11 (mask 11) (Dk j)))), true)) = true := by
+  rw [dk_eq]
+  quickRfl
 theorem k_sm1 : Nat.blt (r32 LSM 0) LE.cnt = true := by quickRfl
 theorem k_sm2 : Nat.beq (LE.T (r32 LSM 0)) (REP 24) = true := by quickRfl
 theorem k_sg : allN 4 (fun j => wordBK 4 6 (r32 PT) (pairLf 11 (mask 11) (TitsD.RE.G 0) (TitsD.RE.G 1) (REP 24)
@@ -58,7 +65,9 @@ theorem k_sg : allN 4 (fun j => wordBK 4 6 (r32 PT) (pairLf 11 (mask 11) (TitsD.
 
 theorem k_lr0 : Nat.beq (LREP 0) (pidn 1755 11) = true := by quickRfl
 theorem k_lrw : allN 6 (fun i => wordEqK 1755 11 (mask 11) (pidn 1755 11) Dk DIk 2
-    (lMaxData.repW[i]!) (LREP (Nat.succ i))) = true := by quickRfl
+    (lMaxData.repW[i]!) (LREP (Nat.succ i))) = true := by
+  rw [dk_eq, dik_eq]
+  quickRfl
 theorem k_lri : allN 7 (fun i => permOK 1755 11 (mask 11) (1755 * 11) (LREP i) (LREPI i)) = true := by
   quickRfl
 theorem k_lpts : allN 3 (fun t => bAnd(Nat.beq (lMaxData.fpPts[t]!) (r32 LPT t),
@@ -73,7 +82,9 @@ theorem k_lgen : allN 6 (fun i => bAnd(Nat.beq (lMaxData.genW[i]!).length 2,
     allN 2 (fun j => wordEqK 1755 11 (mask 11) (pidn 1755 11)
       (fun l => nIf(Nat.blt l 4, LE.G l, LREP (Nat.succ i)))
       (fun l => nIf(Nat.blt l 4, LGI l, LREPI (Nat.succ i))) 5
-      ((lMaxData.genW[i]!)[j]!) (Dk j)))) = true := by quickRfl
+      ((lMaxData.genW[i]!)[j]!) (Dk j)))) = true := by
+  rw [dk_eq]
+  quickRfl
 
 end CertificateChecks.KernelTitsOver.Five
 

@@ -107,10 +107,11 @@ theorem factorK_pk52 (hL : F42LiftRel LF LI L) (hr : rootsK RL RC = true)
   by_cases hc : c = true ∧ isRootBG R w = true
   · have hlt' : rootIdxG R w < 48 := hlt.2 hc.2
     obtain ⟨hX, -, hF, -⟩ := liftRel_get hL hlt'
-    rw [if_pos hc, if_pos ⟨hc.1, hlt'⟩]
+    rw [ite_eq_left_of_eq_true _ _ (eq_true hc), ite_eq_left_of_eq_true _ _ (eq_true ⟨hc.1, hlt'⟩)]
     exact ⟨hX, hF⟩
   · have hc' : ¬ (c = true ∧ rootIdxG R w < 48) := fun h => hc ⟨h.1, hlt.1 h.2⟩
-    rw [if_neg hc, if_neg hc', idS_eq]
+    rw [ite_eq_right_of_eq_false _ _ (eq_false hc), ite_eq_right_of_eq_false _ _ (eq_false hc'),
+      idS_eq]
     exact ⟨can52_idM, rfl⟩
 
 private theorem chkFactorsK_pk52 (hL : F42LiftRel LF LI L) (hr : rootsK RL RC = true)
@@ -242,6 +243,142 @@ theorem negK_sound (hL : F42LiftRel LF LI L) (hr : rootsK RL RC = true)
     bne_iff_ne, ne_eq, and_assoc]
   exact ⟨hi', hj', hne, hopp'', h⟩
 
+@[expose] noncomputable def pairSwapK (LF RC : List ℕ) (i j : ℕ) : Bool :=
+  letB (mulS (nthV LF i) (nthV LF j)) fun M => letB (mulS (nthV LF j) (nthV LF i)) fun N =>
+  andB (factorsK LF RC i j fun f11 f12 f21 => andB (letB (mulI (mulI f11 f12) f21) fun P =>
+        orB (Nat.beq M (mulI P N)) (Nat.beq M (mulS (negS P) N)))
+      (andB (commS f11 f12) (andB (commS f11 f21) (commS f12 f21))))
+    (factorsK LF RC j i fun f11 f12 f21 => andB (letB (mulI (mulI f11 f12) f21) fun P =>
+        orB (Nat.beq N (mulI P M)) (Nat.beq N (mulS (negS P) M)))
+      (andB (commS f11 f12) (andB (commS f11 f21) (commS f12 f21))))
+
+@[expose] noncomputable def pairsSwapChunk (LF RC : List ℕ) (i : ℕ) : Bool :=
+  allN 48 fun j => orB (Nat.ble j i) (orB (oppK RC i j) (pairSwapK LF RC i j))
+
+private theorem chkEqM_true {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) (h : X = Y) :
+    eqM 52 X Y = true := by
+  subst h
+  rw [← beq_pk52 hX hY]
+  exact Nat.beq_refl _
+
+private theorem chkEq_of_eqM {X Y : Array V} (hX : Can52 X) (hY : Can52 Y)
+    (h : eqM 52 X Y = true) : X = Y :=
+  eq_of_canonM hX hY (toMat_eq_of_eqM h)
+
+private theorem chkLiftInv {k : ℕ} (hX : Can52 (matOf L k)) (hY : Can52 (invOf L k))
+    (h : liftOK L k = true) : toMat 52 (matOf L k) * toMat 52 (invOf L k) = 1 := by
+  unfold liftOK at h
+  simp only [Bool.and_eq_true] at h
+  rw [← toMat52_mul hX hY, toMat_eq_of_eqM h.1.1.2, toMat_idM]
+
+theorem commArr_of_swapEq {Xi Xj Yi Yj P : Array V} (hXi : Can52 Xi) (hXj : Can52 Xj)
+    (hYi : Can52 Yi) (hYj : Can52 Yj) (hP : Can52 P)
+    (hi : toMat 52 Xi * toMat 52 Yi = 1) (hj : toMat 52 Xj * toMat 52 Yj = 1)
+    (h : mul 52 Xi Xj = mul 52 P (mul 52 Xj Xi)) :
+    mul 52 (mul 52 (mul 52 Xi Xj) Yi) Yj = P := by
+  have cPN := can52_mul hP (can52_mul hXj hXi)
+  rw [h]
+  refine eq_of_canonM (can52_mul (can52_mul cPN hYi) hYj) hP ?_
+  rw [toMat52_mul (can52_mul cPN hYi) hYj, toMat52_mul cPN hYi,
+    toMat52_mul hP (can52_mul hXj hXi), toMat52_mul hXj hXi]
+  calc toMat 52 P * (toMat 52 Xj * toMat 52 Xi) * toMat 52 Yi * toMat 52 Yj
+      = toMat 52 P * (toMat 52 Xj * (toMat 52 Xi * toMat 52 Yi) * toMat 52 Yj) := by
+        simp only [Matrix.mul_assoc]
+    _ = toMat 52 P := by rw [hi, Matrix.mul_one, hj, Matrix.mul_one]
+
+private theorem chkSwapPM {Xi Xj Yi Yj P : Array V} (hXi : Can52 Xi) (hXj : Can52 Xj)
+    (hYi : Can52 Yi) (hYj : Can52 Yj) (hP : Can52 P)
+    (hi : toMat 52 Xi * toMat 52 Yi = 1) (hj : toMat 52 Xj * toMat 52 Yj = 1)
+    (h : eqM 52 (mul 52 Xi Xj) (mul 52 P (mul 52 Xj Xi)) = true ∨
+      eqM 52 (mul 52 Xi Xj) (mul 52 (negM P) (mul 52 Xj Xi)) = true) :
+    eqPM (mul 52 (mul 52 (mul 52 Xi Xj) Yi) Yj) P = true := by
+  have cM := can52_mul hXi hXj
+  have cN := can52_mul hXj hXi
+  unfold eqPM
+  rw [Bool.or_eq_true]
+  rcases h with h | h
+  · left
+    rw [commArr_of_swapEq hXi hXj hYi hYj hP hi hj (chkEq_of_eqM cM (can52_mul hP cN) h)]
+    exact chkEqM_true hP hP rfl
+  · right
+    have cnP := can52_negM hP
+    rw [commArr_of_swapEq hXi hXj hYi hYj cnP hi hj (chkEq_of_eqM cM (can52_mul cnP cN) h)]
+    exact chkEqM_true cnP cnP rfl
+
+private theorem chkSwap_half (hL : F42LiftRel LF LI L) (hr : rootsK RL RC = true)
+    (hR : R = RL.map (List.map fun n : ℕ => (n : ℤ) - 32)) {i j : ℕ} (hi : i < 48) (hj : j < 48)
+    (hli : liftOK L i = true) (hlj : liftOK L j = true)
+    (h : (factorsK LF RC i j fun f11 f12 f21 =>
+      andB (orB (Nat.beq (pk52 (mul 52 (matOf L i) (matOf L j)))
+              (mulI (mulI (mulI f11 f12) f21) (pk52 (mul 52 (matOf L j) (matOf L i)))))
+            (Nat.beq (pk52 (mul 52 (matOf L i) (matOf L j)))
+              (mulS (negS (mulI (mulI f11 f12) f21)) (pk52 (mul 52 (matOf L j) (matOf L i))))))
+        (andB (commS f11 f12) (andB (commS f11 f21) (commS f12 f21)))) = true) :
+    pairOKG R L i j = true := by
+  obtain ⟨c11, c12, c21, hf⟩ := chkFactorsK_pk52 hL hr hR hi hj
+  obtain ⟨hXi, hYi, -, -⟩ := liftRel_get hL hi
+  obtain ⟨hXj, hYj, -, -⟩ := liftRel_get hL hj
+  rw [hf] at h
+  simp only [andB_eq, Bool.and_eq_true] at h
+  obtain ⟨h1, h2, h3, h4⟩ := h
+  have cP := can52_mul (can52_mul c11 c12) c21
+  have cM := can52_mul hXi hXj
+  have cN := can52_mul hXj hXi
+  rw [mulI_pk52 c11 c12, mulI_pk52 (can52_mul c11 c12) c21, mulI_pk52 cP cN, negS_pk52 cP,
+    mulS_pk52 (can52_negM cP) cN, beq_pk52 cM (can52_mul cP cN),
+    beq_pk52 cM (can52_mul (can52_negM cP) cN), orB_eq, Bool.or_eq_true] at h1
+  rw [commS_pk52 c11 c12] at h2
+  rw [commS_pk52 c11 c21] at h3
+  rw [commS_pk52 c12 c21] at h4
+  have h1' : eqPM (commArr L i j) _ := chkSwapPM hXi hXj hYi hYj cP
+    (chkLiftInv hXi hYi hli) (chkLiftInv hXj hYj hlj) h1
+  unfold pairOKG prodArrG
+  simp only [Bool.and_eq_true]
+  exact ⟨⟨⟨h1', h2⟩, h3⟩, h4⟩
+
+theorem pairSwapK_sound (hL : F42LiftRel LF LI L) (hr : rootsK RL RC = true)
+    (hR : R = RL.map (List.map fun n : ℕ => (n : ℤ) - 32)) {i j : ℕ} (hi : i < 48) (hj : j < 48)
+    (hli : liftOK L i = true) (hlj : liftOK L j = true) (h : pairSwapK LF RC i j = true) :
+    pairOKG R L i j = true ∧ pairOKG R L j i = true := by
+  obtain ⟨hXi, -, hFi, -⟩ := liftRel_get hL hi
+  obtain ⟨hXj, -, hFj, -⟩ := liftRel_get hL hj
+  unfold pairSwapK at h
+  simp only [letB_eq] at h
+  rw [andB_eq, Bool.and_eq_true, hFi, hFj, mulS_pk52 hXi hXj, mulS_pk52 hXj hXi] at h
+  exact ⟨chkSwap_half hL hr hR hi hj hli hlj h.1, chkSwap_half hL hr hR hj hi hlj hli h.2⟩
+
+theorem pairsOKG_swap_sound (hL : F42LiftRel LF LI L) (hr : rootsK RL RC = true)
+    (hR : R = RL.map (List.map fun n : ℕ => (n : ℤ) - 32))
+    (hlk : ∀ k < 48, liftK LF LI k = true)
+    (hp : ∀ i < 48, pairsSwapChunk LF RC i = true) : pairsOKG R L = true := by
+  have hlo : ∀ k < 48, liftOK L k = true := fun k hk => liftK_sound hL hk (hlk k hk)
+  have step : ∀ i < 48, ∀ j < 48, i < j → rootAtG R i + rootAtG R j = 0 ∨
+      (pairOKG R L i j = true ∧ pairOKG R L j i = true) := by
+    intro i hi j hj hij
+    have h := (allN_lqt_iff.1 (hp i hi)) j hj
+    simp only [orB_eq, Bool.or_eq_true] at h
+    rcases h with h | h | h
+    · rw [Nat.ble_eq] at h
+      omega
+    · exact Or.inl ((oppK_iff hr hR hi hj).1 h)
+    · exact Or.inr (pairSwapK_sound hL hr hR hi hj (hlo i hi) (hlo j hj) h)
+  unfold pairsOKG
+  rw [List.all_eq_true]
+  intro i hi
+  rw [List.mem_range] at hi
+  rw [List.all_eq_true]
+  intro j hj
+  rw [List.mem_range] at hj
+  simp only [Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq]
+  rcases Nat.lt_trichotomy i j with hij | hij | hij
+  · rcases step i hi j hj hij with h | h
+    · exact Or.inl (Or.inr h)
+    · exact Or.inr h.1
+  · exact Or.inl (Or.inl hij)
+  · rcases step j hj i hi hij with h | h
+    · exact Or.inl (Or.inr (by rw [add_comm]; exact h))
+    · exact Or.inr h.2
+
 end Checks
 
 theorem f42_sound_wf {pA pB slp : String} {refs : List ℤ} {R : List (List ℤ)} {CP : List (ℕ × ℕ)}
@@ -250,11 +387,11 @@ theorem f42_sound_wf {pA pB slp : String} {refs : List ℤ} {R : List (List ℤ)
     (hrefs : refs = LR.map refOfCode) (hR : R = RL.map (List.map fun n : ℕ => (n : ℤ) - 32))
     (hfmt : fmtK cS = true) (hints : eqLN (intsK cS) Rc = true)
     (hst : startK cA cB F I = true)
-    (hnI : nI = lenN Rc / 2) (hF : Nat.beq (lenN F) (nI + 2) = true)
+    (hnI : nI = lenN Rc / 2) (_hF : Nat.beq (lenN F) (nI + 2) = true)
     (hins : ∀ c < nP, insChunk F I Rc nI (16 * c) 16 = true) (hnP : nI ≤ 16 * nP)
     (hl : liftsK F I LR LF LI (nI + 2) = true) (hr : rootsK RL RC = true)
     (hlk : ∀ k < 48, liftK LF LI k = true)
-    (hp : ∀ c < 48, pairsChunk LF LI RC c 1 = true)
+    (hp : ∀ i < 48, pairsSwapChunk LF RC i = true)
     (hw : ∀ k < 48, wordK LF LI RC k (CP.getD k (0, 0)).1 (CP.getD k (0, 0)).2 = true)
     (hn : negK LF LI RC 0 35 = true)
     (hwI : ∀ k < nI + 2, wfS (nthV I k) = true) :
@@ -268,7 +405,7 @@ theorem f42_sound_wf {pA pB slp : String} {refs : List ℤ} {R : List (List ℤ)
   have hN := slpVals_nodeRel hA hB hS hfmt hints hst hnI (ins_all hins hnP) hwI'
   subst hrefs
   have hL := liftRel_of_liftsK hN hl
-  refine ⟨?_, pairsOKG_sound hL hr hR hp, ?_, negK_sound hL hr hR hn⟩
+  refine ⟨?_, pairsOKG_swap_sound hL hr hR hlk hp, ?_, negK_sound hL hr hR hn⟩
   · rw [List.all_eq_true]
     intro k hk
     rw [List.mem_range] at hk

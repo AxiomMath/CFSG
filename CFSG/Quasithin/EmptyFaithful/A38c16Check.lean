@@ -471,13 +471,128 @@ theorem ea6_nontrivial (E : Finset P6B) (hE : IsEA6 E) (h8 : 8 ≤ E.card) :
 
 @[expose] def invA : Finset P3B := Finset.univ.filter (fun a => a ≠ one3 ∧ p3mulB a a = one3)
 
+theorem toM3_decB_xor (n m : ℕ) : toM3 (decB (n ^^^ m)) = toM3 (decB n) + toM3 (decB m) := by
+  simp only [toM3, decB, Nat.testBit_xor, boolZ_xor]
+  ext i k
+  fin_cases i <;> fin_cases k <;> rfl
+
+theorem toM3_actB (t : Bool × Bool) (g : P6B) (X : B3) :
+    toM3 (actB t g X) = toM3 (twB t.1 g.1) * toM3 X * (toM3 (twB t.2 g.2))ᵀ := by
+  rw [actB, toM3_mulB, toM3_mulB, toM3_trB]
+
+theorem fix_xor {t : Bool × Bool} {g : P6B} {n m : ℕ}
+    (hn : eqB (actB t g (decB n)) (decB n) = true) (hm : eqB (actB t g (decB m)) (decB m) = true) :
+    eqB (actB t g (decB (n ^^^ m))) (decB (n ^^^ m)) = true := by
+  rw [eqB_iff] at hn hm ⊢
+  apply toM3_inj
+  rw [toM3_actB, toM3_decB_xor, Matrix.mul_add, Matrix.add_mul, ← toM3_actB, ← toM3_actB, hn, hm]
+
+theorem testBit_clear (n Q i : ℕ) : (n ^^^ (n &&& Q)).testBit i = (n.testBit i && !Q.testBit i) := by
+  rw [Nat.testBit_xor, Nat.testBit_and]
+  cases n.testBit i <;> cases Q.testBit i <;> rfl
+
+theorem card_filter_le_of_mask (P : ℕ → Prop) {inst : DecidablePred P}
+    (hlin : ∀ n m, P n → P m → P (n ^^^ m)) (Q : ℕ)
+    (hQ : ∀ m < 512, m ≠ 0 → m &&& Q = m → ¬ P m) :
+    ((Finset.range 512).filter P).card ≤ ((Finset.range 512).filter fun r => r &&& Q = 0).card := by
+  have h512 : (512 : ℕ) = 2 ^ 9 := by norm_num
+  refine Finset.card_le_card_of_injOn (fun n => n ^^^ (n &&& Q)) ?_ ?_
+  · intro n hn
+    simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_range] at hn ⊢
+    refine ⟨?_, ?_⟩
+    · rw [h512] at hn ⊢
+      refine Nat.lt_pow_two_of_testBit _ fun i hi => ?_
+      rw [testBit_clear, Nat.testBit_lt_two_pow (lt_of_lt_of_le hn.1 (Nat.pow_le_pow_right
+        (by norm_num) hi)), Bool.false_and]
+    · apply Nat.eq_of_testBit_eq
+      intro i
+      rw [Nat.testBit_and, testBit_clear, Nat.zero_testBit]
+      cases n.testBit i <;> cases Q.testBit i <;> rfl
+  · intro n hn m hm h
+    simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_range] at hn hm
+    by_contra hne
+    have hx : (n ^^^ m) &&& Q = n ^^^ m := by
+      apply Nat.eq_of_testBit_eq
+      intro i
+      have hi := congrArg (fun x => x.testBit i) h
+      simp only [testBit_clear] at hi
+      rw [Nat.testBit_and, Nat.testBit_xor]
+      cases hq : Q.testBit i
+      · rw [hq, Bool.not_false, Bool.and_true, Bool.and_true] at hi
+        rw [hi, Bool.xor_self, Bool.false_and]
+      · rw [Bool.and_true]
+    have hlt : n ^^^ m < 512 := by
+      rw [h512] at hn hm ⊢
+      exact Nat.xor_lt_two_pow hn.1 hm.1
+    have hne0 : n ^^^ m ≠ 0 := fun e => hne (Nat.eq_of_testBit_eq fun i => by
+      have h1 := congrArg (fun x => x.testBit i) e
+      simp only [Nat.testBit_xor, Nat.zero_testBit] at h1
+      revert h1
+      cases n.testBit i <;> cases m.testBit i <;> decide)
+    exact hQ _ hlt hne0 hx (hlin n m hn.2 hm.2)
+
+@[expose] def SubOK (Q : ℕ) (L : List ℕ) (bound : ℕ) : Prop :=
+  (∀ m < 512, m ≠ 0 → m &&& Q = m → m ∈ L) ∧
+    ((Finset.range 512).filter fun r => r &&& Q = 0).card ≤ bound
+
+instance (Q : ℕ) (L : List ℕ) (bound : ℕ) : Decidable (SubOK Q L bound) := by
+  unfold SubOK
+  infer_instance
+
+@[expose] def FixFree (u : Bool × Bool) (E : Finset P6B) (L : List ℕ) : Prop :=
+  ∀ m ∈ L, ¬ (∀ g ∈ E, eqB (actB u g (decB m)) (decB m) = true)
+
+instance (u : Bool × Bool) (E : Finset P6B) (L : List ℕ) : Decidable (FixFree u E L) := by
+  unfold FixFree
+  infer_instance
+
+theorem fixCntB_le_of {u : Bool × Bool} {E : Finset P6B} {Q bound : ℕ} {L : List ℕ}
+    (hS : SubOK Q L bound) (hF : FixFree u E L) : fixCntB u E ≤ bound :=
+  (card_filter_le_of_mask _ (fun n m hn hm g hg => fix_xor (hn g hg) (hm g hg)) Q
+    (fun m hm h0 hq => hF m (hS.1 m hm h0 hq))).trans hS.2
+
+@[expose] def qsSingle : List (ℕ × List ℕ) :=
+  [(7, [1,2,3,4,5,6,7]),
+    (448, [64,128,192,256,320,384,448]),
+    (56, [8,16,24,32,40,48,56]),
+    (73, [1,8,9,64,65,72,73]),
+    (292, [4,32,36,256,260,288,292]),
+    (146, [2,16,18,128,130,144,146])]
+
+@[expose] def qsPair : List (ℕ × List ℕ) :=
+  [(79, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79]),
+    (295, [1,2,3,4,5,6,7,32,33,34,35,36,37,38,39,256,257,258,259,260,261,262,263,288,289,290,291,292,293,294,295]),
+    (457, [1,8,9,64,65,72,73,128,129,136,137,192,193,200,201,256,257,264,265,320,321,328,329,384,385,392,393,448,449,456,457]),
+    (484, [4,32,36,64,68,96,100,128,132,160,164,192,196,224,228,256,260,288,292,320,324,352,356,384,388,416,420,448,452,480,484]),
+    (186, [2,8,10,16,18,24,26,32,34,40,42,48,50,56,58,128,130,136,138,144,146,152,154,160,162,168,170,176,178,184,186]),
+    (151, [1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,128,129,130,131,132,133,134,135,144,145,146,147,148,149,150,151]),
+    (121, [1,8,9,16,17,24,25,32,33,40,41,48,49,56,57,64,65,72,73,80,81,88,89,96,97,104,105,112,113,120,121]),
+    (466, [2,16,18,64,66,80,82,128,130,144,146,192,194,208,210,256,258,272,274,320,322,336,338,384,386,400,402,448,450,464,466]),
+    (316, [4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,256,260,264,268,272,276,280,284,288,292,296,300,304,308,312,316])]
+
+theorem qsSingle_ok : ∀ QL ∈ qsSingle, SubOK QL.1 QL.2 64 := by
+  decide +kernel
+
+theorem qsPair_ok : ∀ QL ∈ qsPair, SubOK QL.1 QL.2 16 := by
+  decide +kernel
+
 set_option maxRecDepth 100000 in
-theorem count_single : ∀ g ∈ involsNT, ∀ u : Bool × Bool, fixCntB u {g} ≤ 64 := by decide +kernel
+theorem count_single : ∀ g ∈ involsNT, ∀ u : Bool × Bool, fixCntB u {g} ≤ 64 := by
+  have hw : ∀ g ∈ involsNT, ∀ u : Bool × Bool, ∃ QL ∈ qsSingle, FixFree u {g} QL.2 := by
+    decide +kernel
+  intro g hg u
+  obtain ⟨QL, hQL, h⟩ := hw g hg u
+  exact fixCntB_le_of (qsSingle_ok QL hQL) h
 
 set_option maxRecDepth 100000 in
 theorem count_pair :
     ∀ a ∈ invA, ∀ b ∈ invA, ∀ u : Bool × Bool, fixCntB u {(a, one3), (one3, b)} ≤ 16 := by
-  decide +kernel
+  have hw : ∀ a ∈ invA, ∀ b ∈ invA, ∀ u : Bool × Bool,
+      ∃ QL ∈ qsPair, FixFree u {(a, one3), (one3, b)} QL.2 := by
+    decide +kernel
+  intro a ha b hb u
+  obtain ⟨QL, hQL, h⟩ := hw a ha b hb u
+  exact fixCntB_le_of (qsPair_ok QL hQL) h
 
 theorem fixCntB_mono {u : Bool × Bool} {S E : Finset P6B} (h : S ⊆ E) :
     fixCntB u E ≤ fixCntB u S := by

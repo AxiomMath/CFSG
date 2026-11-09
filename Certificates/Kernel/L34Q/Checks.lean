@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KD.L34Q "Certificates/Kernel/L34Q/l34q.json.gz" 39181 6712423935691415463
+#kc_repo #kc_json CFSG.KD.L34Q "Certificates/Kernel/L34Q/l34q.json" 39181 6712423935691415463
   (D : List (Nat × (Nat × Nat))) (R : List Nat) (R2 : List Nat)
 
 public section

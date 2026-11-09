@@ -589,8 +589,70 @@ theorem a8b_certOK :
     certOK a8bGens (xLast 7) a8bSets a8bPats a8bReps a8bS2 = true := by
   decide +kernel
 
+private def a8bRow (m : ℕ) (pats : List ((Vn (m + 1) × Vn (m + 1)) × PatV (m + 1))) (a : ℕ) :
+    Bool :=
+  (List.range (m + 1 - a)).all fun b => triples.all fun f =>
+    [0, 1, 2].all fun g => [0, 1, 2].all fun d =>
+      !prefCondB f (prefVec m a b g) (prefFun f (prefVec m a b g) d) ||
+        decide ((prefVec m a b g, prefFun f (prefVec m a b g) d) ∈ pats.map Prod.fst)
+
+private theorem a8b_prefCovB_eq (m : ℕ) (pats : List ((Vn (m + 1) × Vn (m + 1)) × PatV (m + 1))) :
+    prefCovB m pats = (List.range (m + 1)).all (a8bRow m pats) := rfl
+
+private def decEqVn8Fast : DecidableEq (Vn 8) := fun u v =>
+  decidable_of_iff (((List.finRange 8).all fun i => decide (u i = v i)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+attribute [local instance high] decEqVn8Fast in
+private def a8bRowF (a : ℕ) : Bool :=
+  (List.range (7 + 1 - a)).all fun b => triples.all fun f =>
+    [0, 1, 2].all fun g => [0, 1, 2].all fun d =>
+      !prefCondB f (prefVec 7 a b g) (prefFun f (prefVec 7 a b g) d) ||
+        decide ((prefVec 7 a b g, prefFun f (prefVec 7 a b g) d) ∈ a8bPats.map Prod.fst)
+
+private theorem of_decide_inst {p : Prop} {i : Decidable p} (h : @decide p i = true) : p :=
+  @of_decide_eq_true p i h
+
+private theorem a8bRow_of_F (a : ℕ) (h : a8bRowF a = true) : a8bRow 7 a8bPats a = true :=
+  List.all_eq_true.mpr fun b hb => List.all_eq_true.mpr fun f hf =>
+    List.all_eq_true.mpr fun g hg => List.all_eq_true.mpr fun d hd => by
+      have h' := List.all_eq_true.mp (List.all_eq_true.mp (List.all_eq_true.mp
+        (List.all_eq_true.mp h b hb) f hf) g hg) d hd
+      simp only [Bool.or_eq_true] at h' ⊢
+      exact h'.imp id fun h2 => decide_eq_true (of_decide_inst h2)
+
+private theorem a8b_cov_0 : a8bRow 7 a8bPats 0 = true :=
+  a8bRow_of_F 0 (by decide +kernel)
+
+private theorem a8b_cov_1 : a8bRow 7 a8bPats 1 = true :=
+  a8bRow_of_F 1 (by decide +kernel)
+
+private theorem a8b_cov_2 : a8bRow 7 a8bPats 2 = true :=
+  a8bRow_of_F 2 (by decide +kernel)
+
+private theorem a8b_cov_3 : a8bRow 7 a8bPats 3 = true :=
+  a8bRow_of_F 3 (by decide +kernel)
+
+private theorem a8b_cov_4 : a8bRow 7 a8bPats 4 = true :=
+  a8bRow_of_F 4 (by decide +kernel)
+
+private theorem a8b_cov_5 : a8bRow 7 a8bPats 5 = true :=
+  a8bRow_of_F 5 (by decide +kernel)
+
+private theorem a8b_cov_6 : a8bRow 7 a8bPats 6 = true :=
+  a8bRow_of_F 6 (by decide +kernel)
+
+private theorem a8b_cov_7 : a8bRow 7 a8bPats 7 = true :=
+  a8bRow_of_F 7 (by decide +kernel)
+
 theorem a8b_cov : prefCovB 7 a8bPats = true := by
-  decide +kernel
+  rw [a8b_prefCovB_eq]
+  refine List.all_eq_true.mpr fun a ha => ?_
+  have ha' : a < 8 := List.mem_range.mp ha
+  rcases (by omega : a = 0 ∨ a = 1 ∨ a = 2 ∨ a = 3 ∨ a = 4 ∨ a = 5 ∨ a = 6 ∨ a = 7) with
+    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  exacts [a8b_cov_0, a8b_cov_1, a8b_cov_2, a8b_cov_3, a8b_cov_4, a8b_cov_5, a8b_cov_6, a8b_cov_7]
 
 theorem a8b_adj : ∀ i : Fin 6, letAt a8bGens i =
     (Pi.single i.castSucc.castSucc 1 - Pi.single i.succ.castSucc 1,

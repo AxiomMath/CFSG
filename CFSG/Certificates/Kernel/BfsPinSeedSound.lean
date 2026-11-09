@@ -18,7 +18,7 @@ open CFSG.RankThree.Native CFSG.Monster.B.Fischer CFSG.KC.Bfs
 open CFSG.KLie.CT (fget)
 
 theorem pcomp_assocS {n w p q r : Nat} (hp : canonK n w (mask w) (n * w) p = true)
-    (hq : canonK n w (mask w) (n * w) q = true) (hr : canonK n w (mask w) (n * w) r = true) :
+    (_hq : canonK n w (mask w) (n * w) q = true) (hr : canonK n w (mask w) (n * w) r = true) :
     pcomp n w (mask w) (pcomp n w (mask w) p q) r =
       pcomp n w (mask w) p (pcomp n w (mask w) q r) := by
   obtain ⟨hn, hw, -, -⟩ := PF.canon_facts hp
@@ -234,7 +234,133 @@ theorem derivK_spec {w : Nat} {G : Nat → Nat} {Q : Nat → Prop}
     · rw [← e']
       exact hQ _ _ (hM _ h1) (hM _ h2)
 
-theorem enumOK_of_seed {n w ng N fuel : Nat} {G T E : Nat → Nat} {SK S D : List Nat}
+theorem conj_of_seed {n w : Nat} {G : Nat → Nat} {S D : List Nat}
+    (hcG : ∀ k < n, canonK n w (mask w) (n * w) (G k) = true) (hS : ∀ s ∈ S, s < n)
+    (hseed : ∀ s ∈ S, ∀ j < n,
+      G (pg w (mask w) (G s) j) = pcomp n w (mask w) (G s) (pcomp n w (mask w) (G j) (G s)))
+    (hder : ∀ k < n, (derivK w G D (seedMask S)).testBit k = true) :
+    ∀ i < n, ∀ j < n, pg w (mask w) (G i) j < n ∧
+      G (pg w (mask w) (G i) j) = pcomp n w (mask w) (G i) (pcomp n w (mask w) (G j) (G i)) := by
+  have hlt : ∀ i < n, ∀ j < n, pg w (mask w) (G i) j < n := fun i hi j hj =>
+    (PF.canon_facts (hcG i hi)).2.2.2 j hj
+  let Q : Nat → Prop := fun i => i < n ∧ ∀ j < n,
+    G (pg w (mask w) (G i) j) = pcomp n w (mask w) (G i) (pcomp n w (mask w) (G j) (G i))
+  have hQ : ∀ i j, Q i → Q j → Q (pg w (mask w) (G i) j) := by
+    rintro i j ⟨hi, hci⟩ ⟨hj, hcj⟩
+    refine ⟨hlt i hi j hj, fun x hx => ?_⟩
+    have hn32 : n < 2 ^ 32 := by
+      have := (PF.canon_facts (hcG i hi)).1
+      omega
+    have ha := hlt i hi x hx
+    have hb := hlt j hj _ ha
+    have e1 : pg w (mask w) (G (pg w (mask w) (G i) j)) x =
+        pg w (mask w) (G i) (pg w (mask w) (G j) (pg w (mask w) (G i) x)) := by
+      rw [hci j hj, PF.pg_pcomp hn32 hx, PF.pg_pcomp hn32 hx]
+    have hGi := hcG i hi
+    have hGj := hcG j hj
+    have hGx := hcG x hx
+    rw [e1, hci _ hb, hcj _ ha, hci _ hx, hci j hj]
+    simp (maxDischargeDepth := 8) only [pcomp_assocS, canonK_pcomp, hGi, hGj, hGx]
+  have h0 : ∀ k, (seedMask S).testBit k = true → Q k := fun k hk =>
+    ⟨hS k (seedMask_spec hk), hseed k (seedMask_spec hk)⟩
+  intro i hi j hj
+  exact ⟨hlt i hi j hj, (derivK_spec hQ D _ h0 i (hder i hi)).2 j hj⟩
+
+theorem mulK_of_gens {n w nK nC : Nat} {K cK : Nat → Nat} {kk : Nat → Nat → Nat}
+    (hcK : ∀ b < nK, canonK n w (mask w) (n * w) (K b) = true)
+    (hC : ∀ c < nC, cK c < nK ∧
+      ∀ b < nK, kk c b < nK ∧ pcomp n w (mask w) (K (cK c)) (K b) = K (kk c b))
+    (hP : ∀ b < nK, (∃ c < nC, cK c = b) ∨ ∃ c < nC, ∃ p < b, kk c p = b) :
+    ∀ b' < nK, ∀ b < nK, ∃ b'' < nK, pcomp n w (mask w) (K b') (K b) = K b'' := by
+  intro b'
+  induction b' using Nat.strong_induction_on with
+  | _ b' ih =>
+    intro hb' b hb
+    rcases hP b' hb' with ⟨c, hc, rfl⟩ | ⟨c, hc, p, hp, rfl⟩
+    · exact ⟨_, ((hC c hc).2 b hb).1, ((hC c hc).2 b hb).2⟩
+    · obtain ⟨hcc, h⟩ := hC c hc
+      have hpK : p < nK := by omega
+      obtain ⟨b1, hb1, e1⟩ := ih p hp hpK b hb
+      rw [← (h p hpK).2, pcomp_assocS (hcK _ hcc) (hcK p hpK) (hcK b hb), e1]
+      exact ⟨_, (h b1 hb1).1, (h b1 hb1).2⟩
+
+theorem cl_of_factor {n w ng N nR nK : Nat} {G T E R K : Nat → Nat} {SK S D ps : List Nat}
+    (hcG : ∀ k < ng, canonK n w (mask w) (n * w) (G k) = true)
+    (hcR : ∀ a < nR, canonK n w (mask w) (n * w) (R a) = true)
+    (hcK : ∀ b < nK, canonK n w (mask w) (n * w) (K b) = true)
+    (hKm : ∀ b' < nK, ∀ b < nK, ∃ b'' < nK, pcomp n w (mask w) (K b') (K b) = K b'')
+    (hRK : ∀ s ∈ S, ∀ a < nR, ∃ a' < nR, ∃ b' < nK,
+      pcomp n w (mask w) (G s) (R a) = pcomp n w (mask w) (R a') (K b'))
+    (hT0 : ∃ a < nR, ∃ b < nK, T 0 = pcomp n w (mask w) (R a) (K b))
+    (hK : keysSK n w ps N T SK = true) (hR : runFB n w (mask w) ng ps G T E N 0 1 = N)
+    (hcard : nR * nK ≤ N) (hS : ∀ s ∈ S, s < ng)
+    (hconj : ∀ i < ng, ∀ j < ng, pg w (mask w) (G i) j < ng ∧
+      G (pg w (mask w) (G i) j) = pcomp n w (mask w) (G i) (pcomp n w (mask w) (G j) (G i)))
+    (hder : ∀ k < ng, (derivK w G D (seedMask S)).testBit k = true) :
+    ∀ k < ng, ∀ i < N, ∃ j < N, pcomp n w (mask w) (G k) (T i) = T j := by
+  have hN : N ≠ 0 := by
+    intro e
+    subst e
+    have e1 : runFB n w (mask w) ng ps G T E 0 0 1 = 1 := rfl
+    omega
+  let F : Nat → Prop := fun x => ∃ a < nR, ∃ b < nK, x = pcomp n w (mask w) (R a) (K b)
+  have hFc : ∀ x, F x → canonK n w (mask w) (n * w) x = true := by
+    rintro x ⟨a, ha, b, hb, rfl⟩
+    exact canonK_pcomp (hcR a ha) (hcK b hb)
+  let Cl : Nat → Prop := fun k => k < ng ∧ ∀ x, F x → F (pcomp n w (mask w) (G k) x)
+  have hQ : ∀ i j, Cl i → Cl j → Cl (pg w (mask w) (G i) j) := by
+    rintro i j ⟨hi, hci⟩ ⟨hj, hcj⟩
+    obtain ⟨ht, eG⟩ := hconj i hi j hj
+    refine ⟨ht, fun x hx => ?_⟩
+    rw [eG, pcomp_assocS (hcG i hi) (canonK_pcomp (hcG j hj) (hcG i hi)) (hFc x hx),
+      pcomp_assocS (hcG j hj) (hcG i hi) (hFc x hx)]
+    exact hci _ (hcj _ (hci x hx))
+  have h0 : ∀ k, (seedMask S).testBit k = true → Cl k := by
+    intro k hk
+    have hkS := seedMask_spec hk
+    have hk' := hS k hkS
+    refine ⟨hk', ?_⟩
+    rintro x ⟨a, ha, b, hb, rfl⟩
+    obtain ⟨a', ha', b', hb', e⟩ := hRK k hkS a ha
+    obtain ⟨b'', hb'', e2⟩ := hKm b' hb' b hb
+    refine ⟨a', ha', b'', hb'', ?_⟩
+    rw [← pcomp_assocS (hcG k hk') (hcR a ha) (hcK b hb), e,
+      pcomp_assocS (hcR a' ha') (hcK b' hb') (hcK b hb), e2]
+  have hall : ∀ k < ng, ∀ x, F x → F (pcomp n w (mask w) (G k) x) :=
+    fun k hk => (derivK_spec hQ D _ h0 k (hder k hk)).2
+  have hTF : ∀ j < N, F (T j) := runFB_points (P := fun j => F (T j)) hT0
+    (fun i c k _ hk hPi hT => by
+      rw [hT]
+      exact hall k hk _ hPi) hR hN
+  let A : Finset Nat := (Finset.range N).image T
+  let B : Finset Nat := ((Finset.range nR) ×ˢ (Finset.range nK)).image
+    (fun p => pcomp n w (mask w) (R p.1) (K p.2))
+  have hmemB : ∀ x, F x → x ∈ B := by
+    rintro x ⟨a, ha, b, hb, rfl⟩
+    simp only [B, Finset.mem_image, Finset.mem_product, Finset.mem_range, Prod.exists]
+    exact ⟨a, b, ⟨ha, hb⟩, rfl⟩
+  have hAB : A ⊆ B := by
+    intro x hx
+    simp only [A, Finset.mem_image, Finset.mem_range] at hx
+    obtain ⟨j, hj, rfl⟩ := hx
+    exact hmemB _ (hTF j hj)
+  have hcA : A.card = N := by
+    rw [Finset.card_image_of_injOn, Finset.card_range]
+    intro i hi j hj e
+    exact keysSK_spec hK i (Finset.mem_range.1 hi) j (Finset.mem_range.1 hj) (by rw [e])
+  have hcB : B.card ≤ N := Finset.card_image_le.trans (by
+    rw [Finset.card_product, Finset.card_range, Finset.card_range]
+    exact hcard)
+  have hEq : A = B := Finset.eq_of_subset_of_card_le hAB (by omega)
+  intro k hk i hi
+  have hx : pcomp n w (mask w) (G k) (T i) ∈ A := by
+    rw [hEq]
+    exact hmemB _ (hall k hk _ (hTF i hi))
+  simp only [A, Finset.mem_image, Finset.mem_range] at hx
+  obtain ⟨j, hj, e⟩ := hx
+  exact ⟨j, hj, e.symm⟩
+
+theorem enumOK_of_cl {n w ng N fuel : Nat} {G T E : Nat → Nat} {SK : List Nat}
     {gs : Array (Array Nat)} {ps : List Nat} (hs : gs.size = ng)
     (hg : ∀ k < ng, gs[k]! = unpack n w (G k)) (hsz : szOK n w = true)
     (hp : ∀ k < ng, permOK n w (mask w) (n * w) (G k) (pinvS n w (mask w) (G k)) = true)
@@ -242,10 +368,7 @@ theorem enumOK_of_seed {n w ng N fuel : Nat} {G T E : Nat → Nat} {SK S D : Lis
     (hcT : ∀ i < N, canonK n w (mask w) (n * w) (T i) = true) (hT0 : T 0 = pidn n w)
     (hps : ∀ p ∈ ps, p < n) (hK : keysSK n w ps N T SK = true)
     (hR : runFB n w (mask w) ng ps G T E N 0 1 = N) (hf : N ≤ fuel)
-    (hS : ∀ s ∈ S, s < ng) (hseed : ∀ i < N, seedPt n w N G T E i S = true)
-    (hconj : ∀ i < ng, ∀ j < ng, pg w (mask w) (G i) j < ng ∧
-      G (pg w (mask w) (G i) j) = pcomp n w (mask w) (G i) (pcomp n w (mask w) (G j) (G i)))
-    (hder : ∀ k < ng, (derivK w G D (seedMask S)).testBit k = true) :
+    (hcl : ∀ k < ng, ∀ i < N, ∃ j < N, pcomp n w (mask w) (G k) (T i) = T j) :
     enumOK n gs ps (enumBfs n gs ps fuel) = true := by
   have hN : N ≠ 0 := by
     intro e
@@ -258,26 +381,6 @@ theorem enumOK_of_seed {n w ng N fuel : Nat} {G T E : Nat → Nat} {SK S D : Lis
     intro i hi k hk1
     unfold leftA
     rw [hg k hk1, compA_unpack (hcG k hk1) (hcT i hi)]
-  have hcl : ∀ k < ng, ∀ i < N, ∃ j < N, pcomp n w (mask w) (G k) (T i) = T j := by
-    let Cl : Nat → Prop := fun k =>
-      k < ng ∧ ∀ i < N, ∃ j < N, pcomp n w (mask w) (G k) (T i) = T j
-    have hQ : ∀ i j, Cl i → Cl j → Cl (pg w (mask w) (G i) j) := by
-      rintro i j ⟨hi, hci⟩ ⟨hj, hcj⟩
-      obtain ⟨ht, eG⟩ := hconj i hi j hj
-      refine ⟨ht, fun a ha => ?_⟩
-      obtain ⟨b, hb, eb⟩ := hci a ha
-      obtain ⟨c, hc, ec⟩ := hcj b hb
-      obtain ⟨d, hd, ed⟩ := hci c hc
-      refine ⟨d, hd, ?_⟩
-      rw [eG, pcomp_assocS (hcG i hi) (canonK_pcomp (hcG j hj) (hcG i hi)) (hcT a ha),
-        pcomp_assocS (hcG j hj) (hcG i hi) (hcT a ha), eb, ec, ed]
-    have h0 : ∀ k, (seedMask S).testBit k = true → Cl k := by
-      intro k hk
-      have hkS := seedMask_spec hk
-      refine ⟨hS k hkS, fun i hi => ?_⟩
-      obtain ⟨hlt, e⟩ := seedPt_spec (hseed i hi) k hkS
-      exact ⟨_, hlt, e⟩
-    exact fun k hk => (derivK_spec hQ D _ h0 k (hder k hk)).2
   have hreach0 := runFB_points
     (P := fun j => j < N → Reach (leftA n gs) gs.size (idA n) (unpack n w (T j)))
     (fun _ => by

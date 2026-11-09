@@ -40,8 +40,7 @@ theorem e_mul7_sound (h : eMulCheck7 = true) :
 theorem e_inj7_sound (h : eInjCheck7 = true) :
     ∀ c d : V3, n7 (vExp7 (eW7 c)) = n7 (vExp7 (eW7 d)) → c = d :=
   fun c d hcd => by
-    unfold eInjCheck7 at h
-    exact of_decide_eq_true h c d (tabEq7_of_eq hcd)
+    exact allV3V3Inj_spec h c d (tabEq7_of_eq hcd)
 
 theorem e_tors7_sound (h : eTorsCheck7 = true) :
     ∃ c : V3, c ≠ 0 ∧ n7 (vExp7 (eW7 c)) = n7 [(2, true), (5, true)] := by
@@ -53,9 +52,8 @@ theorem act_v7_sound (h : actVCheck7 = true) :
       n7 (vExp7 (eW7 (glAct mV17 c)))) ∧
     (∀ c : V3, n7 (vGen7 1) * n7 (vExp7 (eW7 c)) * (n7 (vGen7 1))⁻¹ =
       n7 (vExp7 (eW7 (glAct mV27 c)))) := by
-  unfold actVCheck7 at h
-  exact ⟨fun c => conj7_sound (of_decide_eq_true h c).1,
-    fun c => conj7_sound (of_decide_eq_true h c).2⟩
+  exact ⟨fun c => conj7_sound (allV3Both_spec h c).1,
+    fun c => conj7_sound (allV3Both_spec h c).2⟩
 
 theorem act_g7_sound (h : actGCheck7 = true) :
     ∀ (k : Fin 2) (c : V3), n7 (dExp7 (dW7 c)) = n7 (vExp7 (eW7 c)) ∧

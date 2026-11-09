@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.CatLeafProofQ81P2A7
+import CFSG.Certificates.Kernel.PermCent.FastDecide
 import Mathlib.GroupTheory.Perm.Cycle.Type
 
 public section
@@ -30,6 +31,8 @@ def cubes3 : List (Perm (Fin 7)) :=
   [1, c3 0 2 4 * c3 1 3 5, c3 0 2 5 * c3 1 3 4, c3 0 3 4 * c3 1 2 5, c3 0 3 5 * c3 1 2 4,
     c3 0 4 2 * c3 1 5 3, c3 0 5 2 * c3 1 4 3, c3 0 4 3 * c3 1 5 2, c3 0 5 3 * c3 1 4 2]
 
+open scoped CFSG.Certificates.Kernel.PkCV.FastDecide
+
 def PairL (S : List (Perm (Fin 7))) : Prop :=
   ∀ g ∈ S, ∀ h ∈ S, g ≠ 1 → g * h = h * g → h = 1 ∨ h = g ∨ h = g * g
 
@@ -53,6 +56,7 @@ theorem cubes_sub : ∀ g : Perm (Fin 7), SubOK g := by
 
 set_option maxRecDepth 100000 in
 theorem pairOK_lists : PairL cubes1 ∧ PairL cubes2 ∧ PairL cubes3 := by
+  unfold PairL
   decide +kernel
 
 theorem mem_cubeCent {π g : Perm (Fin 7)} : g ∈ cubeCent π ↔ g ^ 3 = 1 ∧ g * π = π * g := by

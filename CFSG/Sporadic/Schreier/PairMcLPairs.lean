@@ -11,6 +11,8 @@ public import CFSG.Sporadic.Schreier.PairSimple
 public import CFSG.Sporadic.McL.Simple
 public import CFSG.Sporadic.Mathieu.Simple
 public import CFSG.GroupTheory.OrderBelowSixtySolvable
+public import CFSG.Sporadic.Schreier.PairOuterPat
+public import CFSG.Sporadic.Schreier.PairOneClass
 
 public noncomputable section
 
@@ -58,19 +60,46 @@ theorem mcl_card_order
   exact card_eq_countW mclChainArrays (by norm_num) PairMcL.chain_check.1 mcl_groups
     (Pr := fun g => orderOf g = m) fun w g hw hg => ordB_iff mcl_baseFaithful mcl_bs_lt hw hg hm
 
+theorem mcl_card_pairsW {conds : List (List Bool × ℕ)} (hconds : ∀ c ∈ conds, 0 < c.2) :
+    Nat.card {p : mclChain.originalSubgroup × mclChain.originalSubgroup // orderOf p.1 = 2 ∧
+      orderOf p.2 = 5 ∧ PatRel conds p.1 p.2} =
+      22275 * countPair PairMcL.bs 5 PairMcL.wA conds PairMcL.blocks := by
+  set H := mclChain.originalSubgroup
+  have hm0 := mclGen_mem 0 (by norm_num)
+  set x₀ : H := ⟨mclGen 0, hm0⟩
+  have hx₀ : orderOf x₀ = 2 := by
+    rw [← Subgroup.orderOf_coe]
+    exact mcl_word_orders.1
+  have hR : ∀ c x y : H, (orderOf (c * y * c⁻¹) = 5 ∧ PatRel conds (c * x * c⁻¹) (c * y * c⁻¹)) ↔
+      (orderOf y = 5 ∧ PatRel conds x y) := fun c x y => by
+    rw [patRel_conj, ← MulAut.conj_apply, MulEquiv.orderOf_eq]
+  have h2 : Nat.card {x : H // orderOf x = 2} = 22275 := by
+    rw [mcl_card_order 2 (by norm_num), PairMcL.count_two]
+  have hcl : Nat.card {x : H // IsConj x₀ x} = 22275 := by
+    have key : ∀ (K : Subgroup (Equiv.Perm (Fin 275))), K = mclP → ∀ hm : mclGen 0 ∈ K,
+        Nat.card {x : K // IsConj (⟨mclGen 0, hm⟩ : K) x} = 22275 := by
+      rintro K rfl hm
+      exact PairMcL.card_class
+    exact key H mclP_eq_original.symm hm0
+  have hpart : Nat.card {y : H // orderOf y = 5 ∧ PatRel conds x₀ y} =
+      countPair PairMcL.bs 5 PairMcL.wA conds PairMcL.blocks := by
+    have e : ∀ y : H, (orderOf y = 5 ∧ PatRel conds x₀ y) ↔
+        (orderOf (y : Equiv.Perm (Fin 275)) = 5 ∧ PatRel conds (mclGen 0) y) := fun y => by
+      rw [Subgroup.orderOf_coe, ← patRel_coe]
+    rw [Nat.card_congr (Equiv.subtypeEquivRight e)]
+    refine card_eq_countW mclChainArrays (by norm_num) PairMcL.chain_check.1 mcl_groups
+      (Pr := fun g => orderOf g = 5 ∧ PatRel conds (mclGen 0) g) fun w g hw hg => ?_
+    change (ordB PairMcL.bs w 5 && condsOK PairMcL.bs PairMcL.wA w conds) = true ↔ _
+    rw [Bool.and_eq_true, ordB_iff mcl_baseFaithful mcl_bs_lt hw hg (by norm_num),
+      condsOK_iff mcl_baseFaithful mcl_bs_lt repW_mclwA hw hm0 hg hconds]
+    rfl
+  rw [card_pairs_of_oneClass x₀ hx₀ (fun x y => orderOf y = 5 ∧ PatRel conds x y) hR
+    (by rw [h2, hcl]), h2, hpart]
+
 theorem mcl_card_pairs :
     Nat.card {p : mclChain.originalSubgroup × mclChain.originalSubgroup // orderOf p.1 = 2 ∧
       orderOf p.2 = 5 ∧ PatRel PairMcL.conds p.1 p.2} = 48498912000 := by
-  obtain ⟨h1', h2, h3, h4⟩ := PairMcL.classes
-  have h4' : (PairMcL.cl.map fun c => c.2.1.size).sum =
-      countW (fun w => ordB PairMcL.bs w 2) (blocksOf 275 (rawLevels 275 mclStrongArrs
-        PairMcL.baseArr) PairMcL.groups) [] := by
-    rw [h4, ← PairMcL.count_two, countOrd_eq]
-    rfl
-  rw [card_pairs_eq_classTotalNF mclChainArrays (by norm_num) PairMcL.chain_check.1 mcl_bs_eq
-    mcl_groups (by norm_num) (by norm_num) (by decide) mcl_gens PairMcL.cl mcl_reps h1' h2 h3 h4',
-    ← PairMcL.total]
-  congr 1
+  rw [mcl_card_pairsW (by decide), PairMcL.total]
 
 theorem AT_McL_image_pair_count :
     orderOf (mclGen 0) = 2 ∧ orderOf (mclGen 1) = 5 ∧ orderOf (mclGen 0 * mclGen 1) = 11 ∧

@@ -12,7 +12,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.BrHN "Certificates/Kernel/Sporadic/HNBr/data/hs.json.gz" 286
+#kc_repo #kc_json CFSG.KD.BrHN "Certificates/Kernel/Sporadic/HNBr/data/hs.json" 286
   8892547538306036476 (HS : List Nat)
 
 public noncomputable section

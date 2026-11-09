@@ -6,7 +6,7 @@ public import Certificates.Data.CFSGNative.J4.Data
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.J4Cov3 "Certificates/Kernel/J4Cov3/data/covtab.json.gz" 3747 11727996718121256989
+#kc_repo #kc_json CFSG.KD.J4Cov3 "Certificates/Kernel/J4Cov3/data/covtab.json" 3747 11727996718121256989
     (prg : List (Nat × Nat)) (rp : List Nat) (cj : List (List Nat)) (cw : List (List Nat))
     (fu : List Nat) (prg2 : List (Nat × Nat)) (xr : List Nat)
 

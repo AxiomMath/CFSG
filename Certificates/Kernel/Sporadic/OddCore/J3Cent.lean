@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Sporadic.RawGen
 public import Certificates.Kernel.Misc.Perm.HexCmd
+public import Certificates.Kernel.Misc.Perm.HexSplitCmd
 public import CFSG.Certificates.Kernel.Spor.JoinSound
 public import CFSG.Certificates.Kernel.Spor.PrimSound
 public import CFSG.Certificates.Kernel.Spor.Loops
@@ -15,8 +16,8 @@ set_option maxRecDepth 400000
 
 #ks_chars CertificateChecks.KernelSpor.J3CentT CFSG.Sporadic.SmallOddCore.j3CentHex
 
-#kmisc_hexflat CertificateChecks.KernelSpor.J3CentT CFSG.Sporadic.SmallOddCore.j3CentHex
-  4 513 13 372
+#kmisc_hexflat_split CertificateChecks.KernelSpor.J3CentT CFSG.Sporadic.SmallOddCore.j3CentHex
+  4 513 13 372 100000
 
 namespace CertificateChecks.KernelSpor.OddCore
 

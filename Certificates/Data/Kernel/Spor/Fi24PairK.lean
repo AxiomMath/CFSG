@@ -51,6 +51,24 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24NetPt
   letB (iterW NW ws d (Nat.shiftLeft (nat_lit 1) y)) (fun P =>
     andB (Nat.beq (stepW NW ws P) P) (Nat.beq (popcount P (nat_lit 524288)) c))
 
+@[expose] noncomputable def wAtP (ws : List (List Int)) (i : Nat) : List Int :=
+  List.rec (motive := fun _ => Nat → List Int) (fun _ => List.nil)
+    (fun w _ ih i => Nat.rec (motive := fun _ => List Int) w (fun k _ => ih k) i) ws i
+
+@[expose] noncomputable def schWP (NW : Nat → Nat → Nat) (ws : List (List Int)) (sch : List Nat)
+    (S : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) S
+    (fun i _ ih => strictN ih (fun T => Nat.lor (walkW NW (wAtP ws i) T) T)) sch
+
+@[expose] noncomputable def orbSP (NW : Nat → Nat → Nat) (ws : List (List Int)) (sch : List Nat)
+    (y c : Nat) : Bool :=
+  Nat.beq (popcount (schWP NW ws sch (Nat.shiftLeft (nat_lit 1) y)) (nat_lit 524288)) c
+
+@[expose] noncomputable def orbMP (NW : Nat → Nat → Nat) (ws : List (List Int)) (schA schB : List Nat)
+    (M y c : Nat) : Bool :=
+  andB (Nat.beq (schWP NW ws schA (Nat.shiftLeft (nat_lit 1) y)) M)
+    (Nat.beq (popcount (schWP NW ws schB M) (nat_lit 524288)) c)
+
 end CFSG.KC.Fi24PairK
 
 end

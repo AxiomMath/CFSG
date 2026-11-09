@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Oct.Data
 public import Certificates.Data.Kernel.Spor.Fi24E
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24E "Certificates/Kernel/Sporadic/Fi24E/data/e.json.gz" 776
+#kc_repo #kc_json CFSG.KD.Fi24E "Certificates/Kernel/Sporadic/Fi24E/data/e.json" 776
   8032691338564015806 (p1 : Nat) (p2 : Nat) (sig1 : Nat) (tv : List Nat) (pass : List Nat)
   (pv : List Nat) (cov : Nat) (fI : List Nat) (z : Nat)
 

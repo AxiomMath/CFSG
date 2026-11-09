@@ -14,11 +14,11 @@ set_option maxRecDepth 400000
   CFSG.Blueprint.NativeSporadic.LySeed1 CFSG.Blueprint.NativeSporadic.LySeed2
 
 #kc_repo #lay_snaps_live CertificateChecks.KernelNC2.Ly.P 5 111 CertificateChecks.KernelNC2.Ly.L.A
-  CertificateChecks.KernelNC2.Ly.L.B "Certificates/Kernel/Census/NC2/data/ly.json.gz" 98478
+  CertificateChecks.KernelNC2.Ly.L.B "Certificates/Kernel/Census/NC2/data/ly.json" 98478
   5305194283822023324
 
-#kc_repo #kc_json_gz CertificateChecks.KernelNC2.Ly.D
-  "Certificates/Kernel/Census/NC2/data/ly.json.gz" 98478 5305194283822023324
+#kc_repo #kc_json CertificateChecks.KernelNC2.Ly.D
+  "Certificates/Kernel/Census/NC2/data/ly.json" 98478 5305194283822023324
   (a : Nat) (tests : List Nat) (oddExp : Nat) (extra : List Nat) (sq : List Nat)
   (cj : List (List Nat)) (sig : List Nat) (sigma : List Nat) (tau : List Nat)
   (pairs : List (Nat × Nat))

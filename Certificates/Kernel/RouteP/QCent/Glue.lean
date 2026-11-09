@@ -35,6 +35,10 @@ theorem card_range_filter_eq {m N : Nat} (g : Nat → Nat) (q R : Nat → Bool)
     obtain ⟨k, hk, hq, rfl⟩ := hsurj y hy.1 hy.2
     exact ⟨k, by simp only [Finset.mem_filter, Finset.mem_range]; exact ⟨hk, hq⟩, rfl⟩
 
+theorem qcentCount_zero (p : ℕ → Bool) (n : ℕ) :
+    qcentCount p n 0 = ((Finset.range n).filter fun k => p k = true).card := by
+  rw [qcentCount_eq, Nat.zero_add]
+
 theorem pos_pts_of_treeOK {n r : Nat} {T : Tree} {letters : Array Table} {lv : Array Nat}
     (h : treeOK n r T letters lv = true) {j : Nat} (hj : j < T.pts.size) : ap T.pos (ap T.pts j) = j := by
   simp only [CFSG.Perm.Native.treeOK, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h
@@ -129,7 +133,7 @@ theorem qcentOKAt_true : qcentOKAt (objRun ()).1 (genTabs ()) = true := by
   simp only [Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true']
   refine ⟨⟨⟨⟨⟨⟨?_, ?_⟩, qcentGens_size⟩, hTs⟩, hTok⟩, ?_⟩, ?_⟩
   ·
-    rw [qcentCount_eq, Nat.zero_add, ← hc1]
+    rw [qcentCount_zero, ← hc1]
     refine card_range_filter_eq (fun k => ap T0.pts k) _ _
       (fun a ha b hb hab => pts_inj_of_treeOK hok ha hb hab) (fun k hk hq => ?_) (fun y hy hR => ?_)
     · refine ⟨hlt k hk, ?_⟩
@@ -141,7 +145,7 @@ theorem qcentOKAt_true : qcentOKAt (objRun ()).1 (genTabs ()) = true := by
       rw [hfix _ hy]
       exact hR.1
   ·
-    rw [qcentCount_eq, Nat.zero_add, ← hc2]
+    rw [qcentCount_zero, ← hc2]
     refine card_range_filter_eq (fun k => ap (objRun ()).1[tauReg]! (ap T0.pts k)) _ _
       (fun a ha b hb hab => ?_) (fun k hk hq => ?_) (fun y hy hR => ?_)
     · rw [htau _ (hlt a ha), htau _ (hlt b hb)] at hab

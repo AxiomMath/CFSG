@@ -23,6 +23,9 @@ meta def iD5 : Array (Array Nat) := idsOf gD5
 meta def rD5 : Array (Array Nat) := recOf gD5
 meta def cD5 : Array (Array Nat) := clOf gD5
 meta def cI : Array (Array Nat) := (gensM (c0Word :: ckWords)).map invM
+meta def hkM (t : Array Nat) : Nat :=
+  t.foldl (fun h x => Nat.xor h x * 1099511628211 % 18446744073709551616) 14695981039346656037
+meta def hD5 : Array (Array Nat) := rD5.map fun t => #[hkM t]
 
 end CFSG.KD.HN1408.ShVGen
 
@@ -35,3 +38,4 @@ set_option maxRecDepth 400000
 #kfind CFSG.KD.HN1408.ShVD5Cl CFSG.KD.HN1408.ShVGen.rD5 CFSG.KD.HN1408.ShVGen.cD5
 #kmisc_packarrs CFSG.KD.HN1408.ShVD5I CFSG.KD.HN1408.ShVGen.gD5I 11
 #kmisc_packarrs CFSG.KD.HN1408.ShVCI CFSG.KD.HN1408.ShVGen.cI 11
+#kmisc_packarrs CFSG.KD.HN1408.ShVD5H CFSG.KD.HN1408.ShVGen.hD5 64

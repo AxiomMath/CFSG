@@ -5,6 +5,7 @@ public import Certificates.Data.Kernel.Ivk8TwoN
 public import Certificates.Kernel.Sporadic.OddCore.J3Cent
 public import Certificates.Kernel.Census.J3.Text
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.NatVal
 
 public section
 
@@ -106,6 +107,41 @@ theorem ch5253_j3_sorted : sortedOK 13 j3O 80 6156 = true := by quickRfl
 theorem ch5253_j3_res : (List.range 5).all (fun k =>
     resOK 13 j3O 80 (g1.getD k 0) (j3Sig.getD k (oneV 80))) = true := by quickRfl
 
+#kc_natval j3VA := evA j3Cw
+#kc_natval j3VAi := evA j3Ciw
+#kc_natval j3VQ := evG j3Qw
+#kc_natval j3VQi := evG j3Qiw
+#kc_natval j3VX0 := evG (j3Xw.getD 0 [])
+#kc_natval j3VX1 := evG (j3Xw.getD 1 [])
+#kc_natval j3VX2 := evG (j3Xw.getD 2 [])
+
+theorem j3VA_eq : evA j3Cw = j3VA := Nat.eq_of_beq_eq_true (by quickRfl)
+theorem j3VAi_eq : evA j3Ciw = j3VAi := Nat.eq_of_beq_eq_true (by quickRfl)
+theorem j3VQ_eq : evG j3Qw = j3VQ := Nat.eq_of_beq_eq_true (by quickRfl)
+theorem j3VQi_eq : evG j3Qiw = j3VQi := Nat.eq_of_beq_eq_true (by quickRfl)
+theorem j3VX0_eq : evG (j3Xw.getD 0 []) = j3VX0 := Nat.eq_of_beq_eq_true (by quickRfl)
+theorem j3VX1_eq : evG (j3Xw.getD 1 []) = j3VX1 := Nat.eq_of_beq_eq_true (by quickRfl)
+theorem j3VX2_eq : evG (j3Xw.getD 2 []) = j3VX2 := Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem j3conj_c1 : eqN 6156 13 (pmN 6156 13 j3VAi j3VA) (pidn 6156 13) = true := by quickRfl
+theorem j3conj_c2 : eqN 6156 13 (pmN 6156 13 j3VA (J3CentP 9)) (pmN 6156 13 j3VX1 j3VA) = true := by
+  quickRfl
+theorem j3conj_c3 : eqN 6156 13 (pmN 6156 13 j3VQ j3VX1)
+    (pmN 6156 13 (pmN 6156 13 (J3CentP 9) j3VX1) j3VQ) = true := by quickRfl
+theorem j3conj_c4 : eqN 6156 13 (pmN 6156 13 j3VQi j3VQ) (pidn 6156 13) = true := by quickRfl
+theorem j3conj_r0 : (resOK 13 j3O 80 (pmN 6156 13 j3VAi (pmN 6156 13 j3VX0 j3VA))
+      (j3Fr1.getD 0 (oneV 80)) &&
+    resOK 13 j3O 80 (pmN 6156 13 j3VAi (pmN 6156 13 (pmN 6156 13 j3VQi (pmN 6156 13 j3VX0 j3VQ)) j3VA))
+      (j3Fr2.getD 0 (oneV 80))) = true := by quickRfl
+theorem j3conj_r1 : (resOK 13 j3O 80 (pmN 6156 13 j3VAi (pmN 6156 13 j3VX1 j3VA))
+      (j3Fr1.getD 1 (oneV 80)) &&
+    resOK 13 j3O 80 (pmN 6156 13 j3VAi (pmN 6156 13 (pmN 6156 13 j3VQi (pmN 6156 13 j3VX1 j3VQ)) j3VA))
+      (j3Fr2.getD 1 (oneV 80))) = true := by quickRfl
+theorem j3conj_r2 : (resOK 13 j3O 80 (pmN 6156 13 j3VAi (pmN 6156 13 j3VX2 j3VA))
+      (j3Fr1.getD 2 (oneV 80)) &&
+    resOK 13 j3O 80 (pmN 6156 13 j3VAi (pmN 6156 13 (pmN 6156 13 j3VQi (pmN 6156 13 j3VX2 j3VQ)) j3VA))
+      (j3Fr2.getD 2 (oneV 80))) = true := by quickRfl
+
 theorem ch5253_j3_conj :
     (eqN 6156 13 (pmN 6156 13 (evA j3Ciw) (evA j3Cw)) (pidn 6156 13) &&
       eqN 6156 13 (pmN 6156 13 (evA j3Cw) (J3CentP 9))
@@ -116,7 +152,23 @@ theorem ch5253_j3_conj :
       (List.range 3).all (fun j =>
         resOK 13 j3O 80 (frN (evG (j3Xw.getD j []))) (j3Fr1.getD j (oneV 80)) &&
           resOK 13 j3O 80 (frN (qN (evG (j3Xw.getD j [])))) (j3Fr2.getD j (oneV 80)))) = true := by
-  quickRfl
+  have e5 : (List.range 3).all (fun j =>
+        resOK 13 j3O 80 (frN (evG (j3Xw.getD j []))) (j3Fr1.getD j (oneV 80)) &&
+          resOK 13 j3O 80 (frN (qN (evG (j3Xw.getD j [])))) (j3Fr2.getD j (oneV 80))) = true := by
+    rw [List.all_eq_true]
+    intro j hj
+    rw [List.mem_range] at hj
+    unfold frN qN
+    rw [j3VA_eq, j3VAi_eq, j3VQ_eq, j3VQi_eq]
+    interval_cases j
+    · rw [j3VX0_eq]
+      exact j3conj_r0
+    · rw [j3VX1_eq]
+      exact j3conj_r1
+    · rw [j3VX2_eq]
+      exact j3conj_r2
+  rw [e5, j3VA_eq, j3VAi_eq, j3VX1_eq, j3VQ_eq, j3VQi_eq, j3conj_c1, j3conj_c2, j3conj_c3, j3conj_c4]
+  all_goals rfl
 
 theorem ch5253_j3_sch : schV j3Strong #v[0, 2] = true := by quickRfl
 

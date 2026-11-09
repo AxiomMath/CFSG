@@ -26,16 +26,21 @@ open CFSG.Sporadic.Th.Native (Table)
 @[expose] def isOrd3 (a : Array ℕ) : Bool :=
   !eqA 80 a (idA 80) && eqA 80 (compA 80 a (compA 80 a a)) (idA 80)
 
+@[expose] def res40 (a : Array ℕ) : Array ℕ := Array.ofFn (n := 40) fun i => a[i.val]!
+
+@[expose] def gs40 : Array (Array ℕ) := gsP.map res40
+
 @[expose] def survCheck (r : Row) (ec : ArrCert) (x0 : Array ℕ) (cc : ArrCert) : Bool :=
-  enumOKL 80 (cgArr r) keys43 ec && allLt gsP.size (fun k => validA 80 gsP[k]!) && isOrd3 x0 &&
-    arrCertOKL (fun k a => conjA 80 gsP[k]! a) gsP.size (validA 80) (keyA 80 keys43) x0 cc &&
-    cc.pts.size == 74880 && ec.pts.toList.all fun a => !isOrd3 a || cc.pts.toList.any (eqA 80 a)
+  enumOKL 80 (cgArr r) keys43 ec &&
+    arrCertOKL (fun k a => conjA 40 gs40[k]! a) gs40.size (validA 40) (keyA 40 keys43) x0 cc &&
+    cc.pts.size == 74880 &&
+    ec.pts.toList.all fun a => !isOrd3 a || cc.pts.toList.any (eqA 40 (res40 a))
 
 @[expose] def survOK43 (r : Row) : Bool :=
   let ec := enumBfs 80 (cgArr r) keys43 800
-  let x0 := (ec.pts.toList.filter isOrd3).headD (idA 80)
+  let x0 := res40 ((ec.pts.toList.filter isOrd3).headD (idA 80))
   survCheck r ec x0
-    (arrBfs (fun k a => conjA 80 gsP[k]! a) gsP.size (keyA 80 keys43) x0 80000)
+    (arrBfs (fun k a => conjA 40 gs40[k]! a) gs40.size (keyA 40 keys43) x0 80000)
 
 @[expose] def derComms (r : Row) (pairs : List (List ℤ × List ℤ)) : Array (Array ℕ) :=
   (pairs.map fun p => commutatorA 80 (wordA 80 (cgArr r) (rawInvs 80 (cgArr r)) p.1)

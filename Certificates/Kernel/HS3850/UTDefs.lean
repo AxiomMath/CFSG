@@ -36,12 +36,6 @@ open CFSG.Quasithin.B45Exc.HS
   (hsGenWits.any fun w => w.basis.all S.contains) &&
     hsDimWits.any fun w => [w.d, w.c, w.e, w.e'].all S.contains
 
-@[expose] noncomputable def ckP (s : Nat) : Bool :=
-  allN 8 fun d => strictB (Nat.add (Nat.mul s 8) d) fun i => bIf(Nat.blt i 191,
-    allN 191 (fun j => bIf(Nat.ble i j, bIf(Nat.testBit (CM i) j,
-      strictB (xE (fget (PR i) j 8)) fun E =>
-        bAnd(Nat.beq (pc (X i) (X j)) E, Nat.beq (pc (X j) (X i)) E), true), true)), true)
-
 end CertificateChecks.KernelHS3850.UT
 
 end

@@ -11,8 +11,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelS6I.IR
-  "Certificates/Kernel/Sp6Insp443/data/irr.json.gz" 4219 11979823240951389576
+#kc_repo #kc_json CertificateChecks.KernelS6I.IR
+  "Certificates/Kernel/Sp6Insp443/data/irr.json" 4219 11979823240951389576
   (R : List (List (List Nat)))
 
 namespace CertificateChecks.KernelS6I

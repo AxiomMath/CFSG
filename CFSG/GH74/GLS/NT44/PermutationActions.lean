@@ -347,12 +347,10 @@ private theorem selected_words
     (D.ag[k.val]! = (selectedLiftIndex k).val) ∧
     (D.nw[k.val]!.liftIndex = (selectedLiftIndex k).val) ∧
     (ksWord (D.nw[k.val]!.left[j.val]!) : Equiv.Perm (Fin 2688)) =
-      liftPerm (selectedLiftIndex k) * ksPerm j * (liftPerm (selectedLiftIndex k))⁻¹ ∧
-    (ksWord (D.nw[k.val]!.inverse[j.val]!) : Equiv.Perm (Fin 2688)) =
-      (liftPerm (selectedLiftIndex k))⁻¹ * ksPerm j * liftPerm (selectedLiftIndex k) := by
+      liftPerm (selectedLiftIndex k) * ksPerm j * (liftPerm (selectedLiftIndex k))⁻¹ := by
   obtain ⟨-, -, hnorm, -, -⟩ := bridge_checks hcheck
   obtain ⟨-, -, -, -, -, -, -, -, hnwAll, -, -, -, -⟩ := shape_facts hcheck
-  refine ⟨selected_ag hcheck k, ?_, ?_, ?_⟩
+  refine ⟨selected_ag hcheck k, ?_, ?_⟩
   · have hnw := hnwAll k.val k.isLt
     rw [hnw.1, selected_ag hcheck k]
   · have hnw := hnwAll k.val k.isLt
@@ -364,25 +362,9 @@ private theorem selected_words
     have hnorm' := hnorm
     unfold normalizerCheck at hnorm'
     have hkj := allLt_spec (allLt_spec hnorm' k.isLt) j.isLt
-    simp only [Bool.and_eq_true] at hkj
     have hL := rep_word_ks hcheck (D.nw[k.val]!.left[j.val]!) hletters
     have hR := rep_compA (rep_compA (rep_B hcheck k) (rep_ks hcheck j).1) (rep_BI hcheck k)
-    have heq := eq_of_eqA hL hR hkj.1
-    rw [ksWord_coe]
-    exact heq
-  · have hnw := hnwAll k.val k.isLt
-    have hletters : lettersOK 2 (D.nw[k.val]!.inverse[j.val]!) = true := by
-      have hall : allLt (D.nw[k.val]!.inverse).size
-          (fun i => lettersOK 2 (D.nw[k.val]!.inverse[i]!)) = true := by
-        simpa [wordsLettersOK] using hnw.2.2.2.2
-      exact allLt_spec hall (by rw [hnw.2.2.1]; exact j.isLt)
-    have hnorm' := hnorm
-    unfold normalizerCheck at hnorm'
-    have hkj := allLt_spec (allLt_spec hnorm' k.isLt) j.isLt
-    simp only [Bool.and_eq_true] at hkj
-    have hL := rep_word_ks hcheck (D.nw[k.val]!.inverse[j.val]!) hletters
-    have hR := rep_compA (rep_compA (rep_BI hcheck k) (rep_ks hcheck j).1) (rep_B hcheck k)
-    have heq := eq_of_eqA hL hR hkj.2
+    have heq := eq_of_eqA hL hR hkj
     rw [ksWord_coe]
     exact heq
 
@@ -397,31 +379,26 @@ private theorem selected_mem_normalizer
       Subgroup.normalizer (Khat : Set (Equiv.Perm (Fin 2688))) := by
   let b := liftPerm (selectedLiftIndex k)
   have hleft (j : Fin 2) : b * ksPerm j * b⁻¹ ∈ Khat := by
-    have h := (selected_words hcheck k j).2.2.1
+    have h := (selected_words hcheck k j).2.2
     rw [← h]
     exact (ksWord (D.nw[k.val]!.left[j.val]!)).2
-  have hright (j : Fin 2) : b⁻¹ * ksPerm j * b ∈ Khat := by
-    have h := (selected_words hcheck k j).2.2.2
-    rw [← h]
-    exact (ksWord (D.nw[k.val]!.inverse[j.val]!)).2
   have hmap : Khat.map (MulAut.conj b).toMonoidHom ≤ Khat := by
     rw [Khat, MonoidHom.map_closure]
     refine (Subgroup.closure_le _).2 ?_
     rintro _ ⟨x, hx, rfl⟩
     obtain ⟨j, rfl⟩ := hx
     simpa [MulAut.conj_apply, Khat] using hleft j
-  have hmapInv : Khat.map (MulAut.conj b⁻¹).toMonoidHom ≤ Khat := by
-    rw [Khat, MonoidHom.map_closure]
-    refine (Subgroup.closure_le _).2 ?_
-    rintro _ ⟨x, hx, rfl⟩
-    obtain ⟨j, rfl⟩ := hx
-    simpa [MulAut.conj_apply, Khat] using hright j
+  have hmapEq : Khat.map (MulAut.conj b).toMonoidHom = Khat :=
+    Subgroup.eq_of_le_of_card_ge hmap
+      (Subgroup.card_map_of_injective (f := (MulAut.conj b).toMonoidHom)
+        (fun _ _ h => (MulAut.conj b).injective h)).ge
   have hconj (x : Equiv.Perm (Fin 2688)) (hx : x ∈ Khat) : b * x * b⁻¹ ∈ Khat := by
     have hmem := hmap (Subgroup.mem_map_of_mem (MulAut.conj b).toMonoidHom hx)
     simpa [MulAut.conj_apply] using hmem
   have hconjInv (x : Equiv.Perm (Fin 2688)) (hx : x ∈ Khat) : b⁻¹ * x * b ∈ Khat := by
-    have hmem := hmapInv (Subgroup.mem_map_of_mem (MulAut.conj b⁻¹).toMonoidHom hx)
-    simpa [MulAut.conj_apply] using hmem
+    rw [← hmapEq] at hx
+    obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
+    simpa [MulAut.conj_apply, mul_assoc] using hy
   change b ∈ Subgroup.normalizer (Khat : Set (Equiv.Perm (Fin 2688)))
   refine (Subgroup.mem_normalizer_iff'').mpr ?_
   intro x

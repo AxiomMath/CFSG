@@ -29,7 +29,7 @@ theorem e14_complete {n : Nat} (hn : n = 16384) (M : IsModel (⊤ : Subgroup X) 
     {OT LB RP CZ HL GI KY PV CL1 CL2 CL3 RK1 RK2 RK3 R1 W1 R2 : Nat} {W2 SP TG : Nat → Nat}
     {nl c1 c2 c3 n1 n2 f nq : Nat}
     (hord : ordOK n mul OT = true) (hlab : labOK16 n 4 mul GS GI LB RP nl = true)
-    (hcz : czOK16 n LB CZ = true) (hH : hOK16 n mul t HL = true)
+    (hcz : czOK16 n LB CZ = true) (hH : hcOK16 n mul t HL = true)
     (hky : kyOK mul OT LB CZ GS KY PV = true)
     (hc1 : cmOK16 n mul t OT LB CZ (kyL KY 0) CL1 RK1 c1 = true)
     (hc2 : cmOK16 n mul t OT LB CZ (kyL KY 1) CL2 RK2 c2 = true)

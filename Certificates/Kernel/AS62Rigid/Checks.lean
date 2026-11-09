@@ -34,13 +34,22 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KC.AS62 CFSG.LargeExtraspecial.AS62
 @[expose] noncomputable def BHI (f : Nat) : Nat :=
   nIf(Nat.blt f 192, BKI f, pc FH (BKI (Nat.sub f 192)))
 
-@[expose] noncomputable def rB (E EI : Nat → Nat) (k : Nat) : Bool := relK E EI (relsB.getD k [])
+@[expose] noncomputable def ptW62 {k : Nat} (E EI : Nat → Nat) (w : List (Fin k × Bool)) (x : Nat) :
+    Nat :=
+  List.rec (motive := fun _ => Nat) x (fun l _ ih =>
+    pg 6 (mask 6) (Bool.rec (motive := fun _ => Nat) (EI l.1.val) (E l.1.val) l.2) ih) w
+
+@[expose] noncomputable def relP62 {k : Nat} (E EI : Nat → Nat) (w : List (Fin k × Bool)) : Bool :=
+  bAnd(Nat.beq (ptW62 E EI w 0) 0, bAnd(Nat.beq (ptW62 E EI w 17) 17,
+    bAnd(Nat.beq (ptW62 E EI w 34) 34, relK E EI w)))
+
+@[expose] noncomputable def rB (E EI : Nat → Nat) (k : Nat) : Bool := relP62 E EI (relsB.getD k [])
 
 @[expose] noncomputable def r1E (E EI : Nat → Nat) (k : Nat) : Bool :=
-  relK E EI (rels1Extra.getD k [])
+  relP62 E EI (rels1Extra.getD k [])
 
 @[expose] noncomputable def r2E (E EI : Nat → Nat) (k : Nat) : Bool :=
-  relK E EI (rels2Extra.getD k [])
+  relP62 E EI (rels2Extra.getD k [])
 
 @[expose] noncomputable def u0K (a : Nat) : Bool :=
   bAnd(rB (tup5 (BK a) PID PID PID PID) (tup5 (BKI a) PID PID PID PID) 0,
@@ -110,9 +119,14 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KC.AS62 CFSG.LargeExtraspecial.AS62
   (List.finRange 192).all fun k => bAnd(Nat.beq (codeW GK GKI (fun i => i.val) (bWord k)) (BK k.val),
     Nat.beq (codeW GK GKI (fun i => i.val) (invWord (bWord k))) (BKI k.val))
 
-@[expose] noncomputable def ckP2WB : Bool :=
-  (List.finRange 960).all fun k => bAnd(Nat.beq (codeW GK GKI code2 (h2Word k)) (P2K k.val),
-    Nat.beq (codeW GK GKI code2 (invWord (h2Word k))) (P2KI k.val))
+@[expose] noncomputable def chkW62 (w : List (Fin 5 × Bool)) (i : Nat) : Bool :=
+  bAnd(Nat.beq (codeW GK GKI code2 w) (P2K i), Nat.beq (codeW GK GKI code2 (invWord w)) (P2KI i))
+
+@[expose] noncomputable def walkW62 (L : List Nat) : Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun c _ ih j => bAnd(chkW62 (wordOfCode letter2 c) j, ih (Nat.succ j))) L
+
+@[expose] noncomputable def ckP2WB : Bool := walkW62 h2Codes 0
 
 @[expose] noncomputable def cn (p : Nat) : Bool := canonK 45 6 (mask 6) (45 * 6) p
 

@@ -6,7 +6,7 @@ public section
 
 namespace CertificateChecks.KernelH13
 
-open CFSG.Quasithin.H13.M22Cert
+open CFSG.Quasithin.H13.MatNCert CFSG.Quasithin.H13.M22Cert
 
 set_option maxRecDepth 100000
 

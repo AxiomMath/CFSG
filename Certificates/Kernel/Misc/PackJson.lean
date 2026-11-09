@@ -2,8 +2,8 @@ module
 
 public meta import Lean
 public meta import Certificates.Kernel.Sporadic.RawGen
-public import CFSG.Certificates.Kernel.Common.HarnessGz
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
+meta import all CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Kernel.Sporadic.RawGen
 
 open Lean Elab Command
@@ -26,10 +26,10 @@ meta def entries (j : Json) (x : String) (w : Nat) : Except String (Array Nat) :
 
 end CFSG.KC.PackJson
 
-open CFSG.KC.Gz CFSG.KC.PackJson in
+open CFSG.KC.PackJson in
 elab "#kmisc_json_pack " pre:ident path:str size:num hash:num
     fs:("(" ident ident num ")")* : command => do
-  let b ← readPinnedGz path.getString size.getNat hash.getNat
+  let b ← CFSG.KC.Load.readPinned path.getString size.getNat hash.getNat
   let some s := String.fromUTF8? b | throwError "#kmisc_json_pack: {path.getString} is not UTF-8"
   let j ← match Json.parse s with
     | .ok j => pure j

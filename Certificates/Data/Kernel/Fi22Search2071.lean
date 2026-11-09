@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.Fi22Nbr3153
+public import Certificates.Data.Kernel.Fi22ColChunk
 public import Certificates.Data.CFSGNative.FischerOddCore.Checks
 
 public section
@@ -69,8 +70,8 @@ open CFSG.KC.Enum CFSG.KC.N3153 CFSG.Sporadic.FischerOddCore.Native
         Nat.beq (fld(s, Nat.add w (nat_lit 1), nat_lit 1)) (nat_lit 1), true)))))))
 
 @[expose] noncomputable def leafK (n : Nat) (S : Nat → Nat) (T : Nat) (AC : Nat → Nat) (na : Nat)
-    (base : List Nat) (k D : Nat) (N : SNode) : Bool :=
-  strictB (colourK n S T N.pre k) fun C => strictB (colourK n S T base k) fun Cs =>
+    (Cs k D : Nat) (N : SNode) : Bool :=
+  strictB (colourK n S T N.pre k) fun C =>
     bIf(Nat.beq N.out (nat_lit 1),
       bAnd(Nat.blt N.acc na, strictB (AC N.acc) fun A => allN n (fun v =>
         strictB (pg (nat_lit 12) (nat_lit 4095) A v) fun a =>
@@ -80,15 +81,61 @@ open CFSG.KC.Enum CFSG.KC.N3153 CFSG.Sporadic.FischerOddCore.Native
           allN n (fun w => Bool.not (Nat.beq (cget C w) sv)))))
 
 @[expose] noncomputable def nodeK (n : Nat) (S : Nat → Nat) (T : Nat) (PL : Nat → Nat) (np : Nat)
-    (AC : Nat → Nat) (na : Nat) (nodes : Array SNode) (base SC : List Nat) (k : Nat)
+    (AC : Nat → Nat) (na : Nat) (nodes : Array SNode) (base SC : List Nat) (CB k : Nat)
     (DT : Nat → Nat) (i : Nat) : Bool :=
   bIf(Nat.blt (lenL (nodes[i]!).pre) (lenL base),
     branchK n S T PL np nodes k (getL SC (lenL (nodes[i]!).pre)) (DT i) (nodes[i]!),
-    leafK n S T AC na base k (DT i) (nodes[i]!))
+    leafK n S T AC na CB k (DT i) (nodes[i]!))
 
 @[expose] noncomputable def srcColK (n : Nat) (S : Nat → Nat) (T : Nat) (base : List Nat)
     (k d sc : Nat) : Bool :=
   Nat.beq (cget (colourK n S T (base.take d) k) (base.getD d (nat_lit 0))) sc
+
+@[expose] noncomputable def preCorrK (n : Nat) (pre : List Nat) : Nat → List Nat → Nat :=
+  List.rec (motive := fun _ => Nat → List Nat → Nat) (fun _ _ => nat_lit 0)
+    (fun a _ ih off E => Nat.add
+      (nIf(bAnd(Nat.blt a n, Bool.not (memL E a)),
+        Nat.shiftLeft (Nat.mul (nat_lit 2) (Nat.add off (nat_lit 1)))
+          (Nat.add (nat_lit 64) (Nat.mul (nat_lit 32) a)), nat_lit 0))
+      (ih (Nat.add off (nat_lit 1)) (a :: E))) pre
+
+@[expose] noncomputable def colourKr (n : Nat) (S : Nat → Nat) (T F : Nat) (pre : List Nat)
+    (k : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (Nat.add F (preCorrK n pre (nat_lit 0) []))
+    (fun _ C => strictN C fun C => stepKc n S T C) k
+
+@[expose] noncomputable def branchKc (n : Nat) (S : Nat → Nat) (T F : Nat) (PL : Nat → Nat)
+    (np : Nat) (nodes : Array SNode) (k col D : Nat) (N : SNode) : Bool :=
+  bAnd(Nat.beq N.out (nat_lit 0),
+  bAnd(allL N.pool (fun j => Nat.blt j np),
+  bAnd(allL N.pool (fun j => allL N.pre (fun x => Nat.beq (pg (nat_lit 12) (nat_lit 4095) (PL j) x) x)),
+  bAnd(kidsOK nodes N,
+  strictB (recMask n PL N D) fun s => bAnd(Nat.beq (Nat.land s (nat_lit 1)) (nat_lit 1),
+    strictB (colourKr n S T F N.pre k) fun C =>
+      allN n (fun w => bIf(Nat.beq (cget C w) col,
+        Nat.beq (fld(s, Nat.add w (nat_lit 1), nat_lit 1)) (nat_lit 1), true)))))))
+
+@[expose] noncomputable def leafKc (n : Nat) (S : Nat → Nat) (T F : Nat) (AC : Nat → Nat) (na : Nat)
+    (Cs k D : Nat) (N : SNode) : Bool :=
+  strictB (colourKr n S T F N.pre k) fun C =>
+    bIf(Nat.beq N.out (nat_lit 1),
+      bAnd(Nat.blt N.acc na, strictB (AC N.acc) fun A => allN n (fun v =>
+        strictB (pg (nat_lit 12) (nat_lit 4095) A v) fun a =>
+          bAnd(Nat.blt a n, Nat.beq (cget C a) (cget Cs v)))),
+      bAnd(Nat.beq N.out (nat_lit 2), strictB (wd D (nat_lit 1)) fun v =>
+        bAnd(Nat.blt v n, strictB (cget Cs v) fun sv =>
+          allN n (fun w => Bool.not (Nat.beq (cget C w) sv)))))
+
+@[expose] noncomputable def nodeKc (n : Nat) (S : Nat → Nat) (T F : Nat) (PL : Nat → Nat) (np : Nat)
+    (AC : Nat → Nat) (na : Nat) (nodes : Array SNode) (base SC : List Nat) (CB k : Nat)
+    (DT : Nat → Nat) (i : Nat) : Bool :=
+  bIf(Nat.blt (lenL (nodes[i]!).pre) (lenL base),
+    branchKc n S T F PL np nodes k (getL SC (lenL (nodes[i]!).pre)) (DT i) (nodes[i]!),
+    leafKc n S T F AC na CB k (DT i) (nodes[i]!))
+
+@[expose] noncomputable def srcColKc (n : Nat) (S : Nat → Nat) (T F : Nat) (base : List Nat)
+    (k d sc : Nat) : Bool :=
+  Nat.beq (cget (colourKr n S T F (base.take d) k) (base.getD d (nat_lit 0))) sc
 
 end CFSG.KC.S2071
 

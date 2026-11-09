@@ -24,18 +24,14 @@ theorem strictB_app (y : Nat) (k : Nat → Bool) : strictB y k = k y := by
 theorem cn {k : Nat} (hk : k < 16384) : canonK 1782 11 (mask 11) (1782 * 11) (SSE.T k) = true :=
   (T_PP k hk).1
 
-theorem hsz : szOK 1782 11 = true := canon_sz (cn (k := 0) (by norm_num))
-
-theorem invTab_eq {k : Nat} (hk : k < 16384) : isInvTab (unpack 1782 11 (SSE.T k)) = invK (SSE.T k) := by
-  unfold isInvTab invK
-  have e1 : (comp 1782 (unpack 1782 11 (SSE.T k)) (unpack 1782 11 (SSE.T k)) == idTab 1782) =
-      invPt 1782 11 (SSE.T k) := by
-    rw [Bool.eq_iff_iff, beq_iff_eq, invPt_iff (cn hk)]
-  rw [e1, idTab_unpack' hsz, beq_unpack (cn hk) (canon_pidn hsz)]
-  cases invPt 1782 11 (SSE.T k) <;> cases Nat.beq (SSE.T k) (pidn 1782 11) <;> rfl
+theorem invTab_eq {k : Nat} (hk : k < 16384) : isInvTab (ET k) = sqInv k := by
+  have e : S2307.bp = [0, 1] := rfl
+  rw [isInv_ET hk, e]
+  unfold sqInv
+  cases CFSG.KS.BaseEq.sqFixK 11 (mask 11) [0, 1] (SSE.T k) <;> cases Nat.beq k 0 <;> rfl
 
 theorem idx_parts {j : Nat} (hj : j < 911) : ix j < 16384 ∧ (j + 1 < 911 → ix j < ix (j + 1)) ∧
-    invK (SSE.T (ix j)) = true := by
+    sqInv (ix j) = true := by
   have h := CFSG.KS.Raw.Orb.allN_iff.1 kIdx j hj
   rw [strictB_app] at h
   obtain ⟨h1, h2⟩ := andB_iff.1 h
@@ -45,14 +41,15 @@ theorem idx_parts {j : Nat} (hj : j < 911) : ix j < 16384 ∧ (j + 1 < 911 → i
   · exact absurd (Nat.eq_of_beq_eq_true h5) (by change ¬ j + 1 = 911; omega)
   · exact Nat.blt_eq.mp h5
 
-theorem filter_eq : (List.range 16384).filter (fun k => invK (SSE.T k)) =
-    (List.range 911).map ix := by
-  refine filter_range_eq_map (p := fun k => invK (SSE.T k)) (fun j hj => idx_parts hj) ?_
-  have h0 := kCnt
-  unfold cntOK at h0
-  have h := Nat.eq_of_beq_eq_true h0
-  rw [CFSG.KC.HeAutK.cntR_eq] at h
-  exact h
+theorem len_of_cntB (f : Nat → Bool) (N m : Nat) (h : cntBeq f N m = true) :
+    ((List.range N).filter f).length = m := by
+  rw [← CFSG.KC.HeAutK.cntR_eq]
+  unfold cntBeq at h
+  exact Nat.eq_of_beq_eq_true h
+
+theorem filter_eq : (List.range 16384).filter sqInv = (List.range 911).map ix := by
+  refine filter_range_eq_map (p := sqInv) (fun j hj => idx_parts hj) ?_
+  exact len_of_cntB sqInv 16384 911 kCnt
 
 theorem tabs_eq : sylowEnum.tabs = EA := by
   rw [sylowEnum_eq.1]
@@ -74,14 +71,8 @@ theorem filter_map' {α β : Type} (p : β → Bool) (f : α → β) : ∀ l : L
     cases p (f x) <;> rfl
 
 theorem filter_ET_gen : ∀ l : List Nat, (∀ k ∈ l, k < 16384) →
-    (l.filter fun k => isInvTab (ET k)) = l.filter (fun k => invK (SSE.T k))
-  | [], _ => rfl
-  | k :: l, h => by
-    have e : isInvTab (ET k) = invK (SSE.T k) := by
-      unfold ET
-      exact invTab_eq (h k List.mem_cons_self)
-    rw [List.filter_cons, List.filter_cons, e,
-      filter_ET_gen l (fun x hx => h x (List.mem_cons_of_mem k hx))]
+    (l.filter fun k => isInvTab (ET k)) = l.filter sqInv :=
+  fun _ h => List.filter_congr fun k hk => invTab_eq (h k hk)
 
 theorem invTabs_eq : (suzInvTabs ()).toList = (List.range 911).map fun j => ET (ix j) := by
   rw [invTabs_def, tabs_eq, Array.toList_filter, EA_toList, filter_map',

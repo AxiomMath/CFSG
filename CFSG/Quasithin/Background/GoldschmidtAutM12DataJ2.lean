@@ -1576,7 +1576,59 @@ set_option maxRecDepth 100000 in
 
 @[expose] def xl : List (List (List ℕ)) := [mA, mB]
 
-theorem ok : data.Ok mulL idL := by decide +kernel
+@[expose] def j2MapR {α β : Type} (f : α → β) (l : List α) : List β :=
+  List.rec (motive := fun _ => List β) [] (fun a _ ih => f a :: ih) l
+
+theorem j2MapR_eq {α β : Type} (f : α → β) : ∀ l : List α, j2MapR f l = l.map f
+  | [] => rfl
+  | a :: l => by
+    change f a :: j2MapR f l = _
+    rw [j2MapR_eq f l, List.map_cons]
+
+@[expose] def j2DotR (r : List ℕ) : List ℕ → ℕ :=
+  List.rec (motive := fun _ => List ℕ → ℕ) (fun _ => 0)
+    (fun a _ ih c => List.rec (motive := fun _ => ℕ) 0 (fun b c' _ => Nat.add (Nat.mul a b) (ih c'))
+      c) r
+
+theorem j2DotR_eq : ∀ r c : List ℕ, j2DotR r c = dotL r c
+  | [], _ => rfl
+  | _ :: _, [] => rfl
+  | a :: r, b :: c => by
+    change Nat.add (Nat.mul a b) (j2DotR r c) = dotL (a :: r) (b :: c)
+    rw [j2DotR_eq r c]
+    rfl
+
+@[expose] def j2GetR (r : List ℕ) : ℕ → ℕ :=
+  List.rec (motive := fun _ => ℕ → ℕ) (fun _ => 0)
+    (fun a _ ih j => Nat.rec (motive := fun _ => ℕ) a (fun j' _ => ih j') j) r
+
+theorem j2GetR_eq : ∀ (r : List ℕ) (j : ℕ), j2GetR r j = r.getD j 0
+  | [], _ => rfl
+  | a :: _, 0 => rfl
+  | _ :: r, j + 1 => by
+    change j2GetR r j = _
+    rw [j2GetR_eq r j]
+    simp
+
+@[expose] def j2Range14 : List ℕ := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+theorem j2Range14_eq : List.range 14 = j2Range14 := by decide
+
+@[expose] def j2MulR (X Y : List (List ℕ)) : List (List ℕ) :=
+  j2MapR (fun r => j2MapR (fun c => Nat.mod (j2DotR r c) 5)
+    (j2MapR (fun j => j2MapR (fun r => j2GetR r j) Y) j2Range14)) X
+
+theorem mulL_eq_j2MulR : mulL = j2MulR := by
+  funext X Y
+  unfold mulL colsL j2MulR
+  rw [j2Range14_eq]
+  simp only [j2MapR_eq, j2GetR_eq, j2DotR_eq]
+
+set_option maxHeartbeats 2000000 in
+theorem ok : data.Ok mulL idL := by
+  rw [mulL_eq_j2MulR]
+  unfold E16Data.Ok
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> decide +kernel
 
 theorem hx : ∀ i, i < xl.length → (matSubRep seedGroup).rel (ag i) (xl.getD i idL) := by
   intro i hi
@@ -1590,6 +1642,7 @@ theorem hx : ∀ i, i < xl.length → (matSubRep seedGroup).rel (ag i) (xl.getD 
 theorem hw : ∀ a, a < 6 → ∀ i ∈ words.getD a [], i < xl.length := by decide +kernel
 
 theorem hwords : ∀ a, a < 6 → lwordD mulL idL xl (words.getD a []) = data.gd.getD a idL := by
+  rw [mulL_eq_j2MulR]
   decide +kernel
 
 theorem hgd : ∀ a, a < 6 → (matSubRep seedGroup).rel (gens a) (data.gd.getD a idL) := by

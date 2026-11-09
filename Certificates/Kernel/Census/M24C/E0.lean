@@ -4,6 +4,7 @@ public import Certificates.Kernel.Census.M24C.Data
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM24Tests
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCheckW3
 public import CFSG.Certificates.Kernel.Census.ToMain
+public import Certificates.Kernel.Census.M24C.Mono
 import all Certificates.Kernel.Census.M24C.Data
 import all CFSG.Certificates.Kernel.Census.ToMain
 import all CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicM22Tests
@@ -38,10 +39,16 @@ theorem kE0e : enumOKK 24 (e0.map (unpackP 24 5)) m22PS (maskCert 24 (e0.map (un
     true := by
   decide +kernel
 
-theorem kE0w : witOKW3 24 m22PS (inXL 24 (Xs.map (unpackP 24 5))) allA false false true
-    (e0.map (unpackP 24 5)) (maskCert 24 (e0.map (unpackP 24 5))) #[] default clE
+theorem kE0wY : witOKW3 24 m22PS
+    (inXL 24 (([740, 741, 742, 743, 744].map fun k => unpackP 24 5 Xs[k]!).toArray)) allA false
+    false true (e0.map (unpackP 24 5)) (maskCert 24 (e0.map (unpackP 24 5))) #[] default clE
     (e0wit.toMain 24 5) = true := by
   decide +kernel
+
+theorem kE0w : witOKW3 24 m22PS (inXL 24 (Xs.map (unpackP 24 5))) allA false false true
+    (e0.map (unpackP 24 5)) (maskCert 24 (e0.map (unpackP 24 5))) #[] default clE
+    (e0wit.toMain 24 5) = true :=
+  witOKW3_closing_mono (inXL_sub_map [740, 741, 742, 743, 744] (by decide)) rfl kE0wY
 
 end CertificateChecks.KernelCensus.M24C
 

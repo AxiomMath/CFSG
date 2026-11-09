@@ -17,19 +17,22 @@ theorem rootV_wf' : rootV.wf = true := by decide
 
 @[expose] noncomputable def xPV : List Nat := (List.range 6720).map fun k => getN 0 XPTS (ch64 XQL k)
 
+private theorem map_v2N_tab {tab : Array V2 → Array V2} {v : V2} {E : Array V2 → Nat}
+    (l : List (Array V2)) (h : ∀ M ∈ l, v2N (frApply (tab M) v) = E M) :
+    (l.map fun M => frApply (tab M) v).map v2N = l.map E := by
+  rw [List.map_map]
+  exact List.map_congr_left fun M hM => h M hM
+
 theorem pts_map : x0Pts.map v2N = xPV := by
   obtain ⟨-, hmap, hwf⟩ := x0Orb_ok
   unfold x0Pts xPV
-  rw [List.map_map]
-  have h1 : ∀ X ∈ x0Orb.mats.toList, (v2N ∘ fun M => frApply (frTable M) rootV) X =
-      (fun m => vecJ rm (v2N rootV) m) (encR X) := by
-    intro X hX
-    exact v2N_frApply hK (hwf X hX) rootV_wf'
-  have h2 : x0Orb.mats.toList.map (fun a => (fun m => vecJ rm (v2N rootV) m) (encR a)) =
+  rw [map_v2N_tab (tab := frTable) (E := fun M => vecJ rm (v2N rootV) (encR M)) _
+    fun M hM => v2N_frApply hK (hwf M hM) rootV_wf']
+  have h2 : x0Orb.mats.toList.map (fun M => vecJ rm (v2N rootV) (encR M)) =
       (x0Orb.mats.toList.map encR).map (fun m => vecJ rm (v2N rootV) m) := by
     rw [List.map_map]
     rfl
-  rw [List.map_congr_left h1, h2, hmap, List.map_map]
+  rw [h2, hmap, List.map_map]
   apply List.map_congr_left
   intro k hk
   have h := xDer_spec (List.mem_range.1 hk)

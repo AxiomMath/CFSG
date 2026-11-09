@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.LocalComp.Fi24.Parts
 public import CFSG.Certificates.Kernel.LocalCompElemPartsSound
 public import CFSG.Certificates.Kernel.LocalCompOps3Sound
+import Certificates.Kernel.Sporadic.Fi24Br.SeedM
 import all CFSG.Blueprint.NativeSporadic
 
 public section
@@ -38,11 +39,15 @@ theorem elem : elemOK lay V N TO (fun _ => 0) 4 = true := by
     | 7, _ => exact kKer7
 
 theorem check : (ops3 781).check fi24primeData = true :=
-  ops3_check_of_K CFSG.KD.LC.F24.lay_ok rfl rfl
+  ops3_check_of_KS CFSG.KD.LC.F24.lay_ok rfl rfl
     ((rfl : fi24primeData.seedA = CFSG.Blueprint.NativeSporadic.Fi24primeSeed1).trans
       CFSG.KD.LC.F24.LA_eq)
     ((rfl : fi24primeData.seedB = CFSG.Blueprint.NativeSporadic.Fi24primeSeed2).trans
       CFSG.KD.LC.F24.LB_eq)
-    CFSG.KD.LC.F24.decA CFSG.KD.LC.F24.decB CFSG.KD.LC.F24.one CFSG.KD.LC.F24.steps kReplay elem
+    (CertificateChecks.KernelSpor.Fi24Rels.seedM_A CFSG.KD.LC.F24.lay_ok rfl rfl
+      CFSG.KD.LC.F24.LA_eq CFSG.KD.LC.F24.vA (by decide +kernel))
+    (CertificateChecks.KernelSpor.Fi24Rels.seedM_B CFSG.KD.LC.F24.lay_ok rfl rfl
+      CFSG.KD.LC.F24.LB_eq CFSG.KD.LC.F24.vB (by decide +kernel))
+    CFSG.KD.LC.F24.one CFSG.KD.LC.F24.steps kReplay elem
 
 end CertificateChecks.KernelLC.F24

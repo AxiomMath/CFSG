@@ -35,8 +35,8 @@ theorem pm_inv {P : Nat} (hP : PP 1782 11 P) : pm (pinvS 1782 11 (mask 11) P) = 
   exact eq_inv_of_mul_eq_one_left (rep_idA.unique h).symm
 
 theorem pm_get {P : Nat} (hP : PP 1782 11 P) (x : Fin 1782) :
-    (pm P x : Nat) = pg 11 (mask 11) P x := by
-  rw [← (rep_pm hP).apply x.2, upk_get x.2]
+    (pm P x : Nat) = pg 11 (mask 11) P x :=
+  (rep_pm hP x).symm.trans (upk_get x.2)
 
 theorem pm_ext {P Q : Nat} (hP : PP 1782 11 P) (hQ : PP 1782 11 Q) (h : pm P = pm Q) : P = Q := by
   obtain ⟨-, hw, hp1, -⟩ := CFSG.KS.PF.canon_facts hP.1
@@ -77,8 +77,14 @@ theorem sep_enum {gs : Array (Array Nat)} {c : ArrCert} {N : Nat} {T : Nat → N
   obtain ⟨hmem, hcard, -⟩ := enumOK_spec keys_lt he
   have hεm : ∀ k < N, pm (T k) ∈ Subgroup.closure (permsA 1782 gs) := fun k hk' =>
     (hmem _).2 ⟨k, by rw [hs]; exact hk', by rw [hT k hk']; rfl⟩
-  refine pm_ext hP hQ (CFSG.KS.CardSep.eq_of_base (hcard.trans hs) (ε := fun k => pm (T k)) hεm
-    (B := keysF) (fun i hi j hj hij => keysSK_spec hk i hi j hj (keyK_congr fun p hp => ?_))
+  have e : ∀ g : Nat → Equiv.Perm (Fin 1782),
+      (∀ k < N, g (T k) ∈ Subgroup.closure (permsA 1782 gs)) →
+      (∀ i < N, ∀ j < N, (∀ b ∈ keysF, g (T i) b = g (T j) b) → i = j) →
+      ∀ {x y}, x ∈ Subgroup.closure (permsA 1782 gs) → y ∈ Subgroup.closure (permsA 1782 gs) →
+      (∀ b ∈ keysF, x b = y b) → x = y := fun g hg hkey =>
+    CFSG.KS.CardSep.eq_of_base (hcard.trans hs) (ε := fun k => g (T k)) hg hkey
+  refine pm_ext hP hQ (e pm hεm
+    (fun i hi j hj hij => keysSK_spec hk i hi j hj (keyK_congr fun p hp => ?_))
     hPm hQm fun b hb => Fin.ext ?_)
   · obtain ⟨b, hb, rfl⟩ := keys_memF p hp
     rw [← pm_get (hTP i hi), ← pm_get (hTP j hj), hij b hb]

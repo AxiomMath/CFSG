@@ -1,10 +1,10 @@
 module
 
 public import Certificates.Data.Kernel.Misc.RuFourth
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelMisc.RuFourth "Certificates/Kernel/Misc/RuFourth/data/rho.items.gz" 227392 12847041072043873752
+#kc_repo #kc_nat_items CertificateChecks.KernelMisc.RuFourth "Certificates/Kernel/Misc/RuFourth/data/rho.items" 227392 12847041072043873752
   C1 X2 RK0 RIK0 RK1 RIK1 RK2 RIK2
 
 public section

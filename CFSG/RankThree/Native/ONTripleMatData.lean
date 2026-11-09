@@ -3,8 +3,8 @@ module
 public import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.RankThree.Native.ONTriple
-  "CFSG/RankThree/Native/data/ONTripleMat.json.gz" 840887 2657957031868258234
+#kc_repo #kc_json CFSG.RankThree.Native.ONTriple
+  "CFSG/RankThree/Native/data/ONTripleMat.json" 840887 2657957031868258234
   (genC : List Nat) (genIC : List Nat) (regC : List Nat) (regIC : List Nat) (ptsC : List Nat)
   (pivF : List Nat) (blkRegs : List Nat) (blkF : List Nat) (autC : List Nat) (autIC : List Nat)
 

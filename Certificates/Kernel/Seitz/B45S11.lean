@@ -7,6 +7,6 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_each CertificateChecks.KernelSeitz.sliceK 80 88
+#kc_each CertificateChecks.KernelSeitz.sliceK 13 14
 
 end

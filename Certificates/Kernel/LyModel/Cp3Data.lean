@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLyModel "Certificates/Kernel/LyModel/data/cp3.json.gz" 2247 15874446132204507115
+#kc_repo #kc_json CertificateChecks.KernelLyModel "Certificates/Kernel/LyModel/data/cp3.json" 2247 15874446132204507115
   (yC : List Nat) (gC : List Nat) (uC : List (List Nat)) (l0 : Nat) (ents : List (Nat × Nat × Nat))
 
 namespace CertificateChecks.KernelLyModel

@@ -5,6 +5,7 @@ public import Certificates.Kernel.HN1408.CayleyDefs
 public import Certificates.Kernel.HN1408.M11Lem
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HNRecog.TwoHSData.FixData
 import CFSG.Certificates.Kernel.Common.Harness
+public import Certificates.Kernel.HN1408.CyRecH
 
 public section
 
@@ -40,9 +41,13 @@ open CFSG.EvenSporadicStandard.HNRecog
 theorem shvkHd : cyHd d5Words 120 capS ShVD5.G ShVD5.GI ShVD5I ShVD5.T ShVD5.PL ShVD5.cnt = true := by
   quickRfl
 
-theorem shvkRec : cyRec d5Words.length ShVD5.G ShVD5.GI ShVD5I ShVD5.T ShVD5.PL ShVD5.POS ShVD5.SRT
-    ShVD5.SRI ShVD5.HS ShVD5.HSI ShVD5Cl ShVD5.cnt = true := by
+theorem shvkRecH : cyRecC d5Words.length ShVD5.G ShVD5.GI ShVD5I ShVD5.T ShVD5.PL ShVD5.POS
+    ShVD5.SRT ShVD5.SRI ShVD5.HS ShVD5.HSI ShVD5H ShVD5Cl ShVD5.cnt = true := by
   quickRfl
+
+theorem shvkRec : cyRec d5Words.length ShVD5.G ShVD5.GI ShVD5I ShVD5.T ShVD5.PL ShVD5.POS ShVD5.SRT
+    ShVD5.SRI ShVD5.HS ShVD5.HSI ShVD5Cl ShVD5.cnt = true :=
+  cyRec_of_cyRecH (cyRecH_of_cyRecC shvkRecH)
 
 theorem shvkCay : cayK sl25Mul 126 [541, 537] d5Words.length ShVD5.cnt ShVD5.PL ShVD5Cl
     (cayCodes sl25Mul 126 [541, 537] ShVD5.PL ShVD5.cnt) = true := by

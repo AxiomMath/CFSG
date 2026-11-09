@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.A312M23 "Certificates/Kernel/A312M23/data/m23k.json.gz" 12636
+#kc_repo #kc_json CFSG.KD.A312M23 "Certificates/Kernel/A312M23/data/m23k.json" 12636
   13245364489129644705
   (y1T : List (List Nat)) (y1Bl : List (List Nat)) (y1Bi : List (List Nat)) (y1WA : List Nat)
   (y1WB : List Nat) (y1GA : List Nat) (y1GB : List Nat)

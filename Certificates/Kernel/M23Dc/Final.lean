@@ -4,7 +4,7 @@ public import Certificates.Kernel.M23Dc.Bridge
 public import Certificates.Kernel.M23Dc.Lit
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.SporLatOfFacts
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.SporLatCode
-public import CFSG.Certificates.Kernel.SporLatDcSortSound
+public import CFSG.Certificates.Kernel.SporLatDcTSound
 import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 100000
@@ -64,7 +64,7 @@ theorem m23K_membersOK :
   have hj' : j < 16 := hj
   refine ⟨by rw [mw_get]; exact mw_lt2, mt_get hj', ?_⟩
   rw [mLet_eq hj', delta_eq, Om_get hj']
-  exact omCodeC_sound (M.all j hj')
+  exact omCodeT_sound (M.all j hj')
 
 theorem m23_delta_valid : CodeSetValid 23 m23Delta := by
   have h : ∀ l ∈ m23Sets, PtValid 23 l := by decide

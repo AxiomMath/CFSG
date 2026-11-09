@@ -44,13 +44,13 @@ end CertificateChecks.KernelSpor.Fi22P0
 
 #kmisc_packarrs CertificateChecks.KernelSpor.Fi22P0bL CertificateChecks.KernelSpor.Fi22P0.lettersBM 12
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Fi22P0aD
-  "Certificates/Kernel/Sporadic/Fi22/data/hypp0a.json.gz" 38731 15670637720685634736
+#kc_repo #kc_json CertificateChecks.KernelSpor.Fi22P0aD
+  "Certificates/Kernel/Sporadic/Fi22/data/hypp0a.json" 38731 15670637720685634736
   (S : List (List Nat × Nat)) (B : List CFSG.KC.CommBase.BaseRec)
   (B3 : List CFSG.KC.CommBase.Fix3Rec) (PF : Nat) (ZF : Nat) (DF : Nat)
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Fi22P0bD
-  "Certificates/Kernel/Sporadic/Fi22/data/hypp0b.json.gz" 38578 17898163965825824733
+#kc_repo #kc_json CertificateChecks.KernelSpor.Fi22P0bD
+  "Certificates/Kernel/Sporadic/Fi22/data/hypp0b.json" 38578 17898163965825824733
   (S : List (List Nat × Nat)) (B : List CFSG.KC.CommBase.BaseRec)
   (B3 : List CFSG.KC.CommBase.Fix3Rec) (PF : Nat) (ZF : Nat) (DF : Nat)
 

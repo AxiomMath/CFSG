@@ -2,6 +2,8 @@ module
 
 public import Certificates.Kernel.HSStd.U43Z4Data
 public import Certificates.Data.Kernel.Spor.MulHQ
+public import Certificates.Data.Kernel.Spor.MulHF
+public import Certificates.Data.Kernel.Spor.PEnumRC
 import CFSG.Certificates.Kernel.Common.Each
 
 public section
@@ -14,11 +16,11 @@ namespace CertificateChecks.KernelHSStd.U43Z4
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.PEnum CFSG.KS.MulH CertificateChecks.KernelHSStd
 
 @[expose] noncomputable def peT (s : Nat) : Bool :=
-  penumSlK 820 10 (mask 10) (820 * 10) true Z4KT.G Z4KT.GI 3 Z4KT.cnt Z4KT.T Z4KT.PL Z4KT.POS
-    Z4KT.SRT Z4KT.SRI (Nat.mul 126 s) 126
+  slK Z4KT.cnt (CFSG.KS.PEnumRC.recPtK 820 10 (mask 10) Z4KT.G Z4KT.GI 3 Z4KT.T Z4KT.PL)
+    (Nat.mul 126 s) 126
 
 @[expose] noncomputable def hsT (s : Nat) : Bool :=
-  slK Z4KT.cnt (hsortPtK 820 10 (mask 10) Z4KT.cnt Z4KT.T Z4KT.HS Z4KT.HSI) (Nat.mul 567 s) 567
+  slK Z4KT.cnt (hsortPtKF 820 10 (mask 10) Z4KT.cnt Z4KT.T Z4KT.HS Z4KT.HSI) (Nat.mul 567 s) 567
 
 end CertificateChecks.KernelHSStd.U43Z4
 

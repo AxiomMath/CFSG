@@ -39,6 +39,9 @@ theorem j2OmG_eq {l : ℕ} (hl : l < 5) : j2OmG l = J2CentT.F (j2OmI l) := by
 theorem j2Gs_lt {l : ℕ} (hl : l < 4) : j2Gs l = tp 315 (j2CentTbl (32 + l)) := by
   rw [j2Gs, j2OmI, if_pos hl]
 
+theorem j2Gs_four : j2Gs 4 = tp 315 (j2CentTbl 31) := by
+  rw [j2Gs, j2OmI, if_neg (by norm_num)]
+
 theorem j2_permOK {k : ℕ} (hk : k < 42) : permOK 315 (j2CentTbl k) = true :=
   List.all_eq_true.1 j2_permOK_all k (List.mem_range.2 hk)
 
@@ -86,7 +89,7 @@ theorem j2Og_eq : tp 32 '' {x | x ∈ j2Og} = j2Rs '' {l | l < 4} := by
 theorem j2Om_hg : ∀ l < 5, ∀ i : Fin 315,
     ((j2Gs l i : Fin 315) : ℕ) = pg 9 (mask 9) (j2OmG l) i := by
   intro l hl i
-  rw [j2OmG_eq hl]
+  rw [j2OmG_eq hl, j2Gs]
   exact tp_unpack (j2_permOK (j2OmI_lt hl)) (j2CentTbl_eq (j2OmI_lt hl)) i
 
 theorem j2_omega : ∃ Ω : Fin 32 → Fin 315, Function.Injective Ω ∧
@@ -125,7 +128,9 @@ theorem j2_eLabelling_t0 :
   obtain ⟨ht0, hcg, hcard⟩ := j2_data
   obtain ⟨Ω, hΩ, hc5⟩ := j2_omega
   have hc : ∀ l < 4, ∀ j, j2Gs l (Ω j) = Ω (j2Rs l j) := fun l hl => hc5 l (by omega)
-  have htO : ∀ j, tp 315 (j2CentTbl 31) (Ω j) = Ω (j2Rs 4 j) := hc5 4 (by norm_num)
+  have htO : ∀ j, tp 315 (j2CentTbl 31) (Ω j) = Ω (j2Rs 4 j) := fun j => by
+    rw [← j2Gs_four]
+    exact hc5 4 (by norm_num) j
   refine ⟨ht0, eLabelling_of_restrict ht0 hΩ hc hcg hcard htO fun hO => ?_⟩
   have hcgY := closure_eq_inf_centralizer ht0 hΩ hc hcg hcard htO
   exact j2Om_recs.eLabelling (X := closure (j2Rs '' {l | l < 4})) hO
@@ -137,7 +142,9 @@ theorem j2_rootFactsFor_t0 :
   obtain ⟨ht0, hcg, hcard⟩ := j2_data
   obtain ⟨Ω, hΩ, hc5⟩ := j2_omega
   have hc : ∀ l < 4, ∀ j, j2Gs l (Ω j) = Ω (j2Rs l j) := fun l hl => hc5 l (by omega)
-  have htO : ∀ j, tp 315 (j2CentTbl 31) (Ω j) = Ω (j2Rs 4 j) := hc5 4 (by norm_num)
+  have htO : ∀ j, tp 315 (j2CentTbl 31) (Ω j) = Ω (j2Rs 4 j) := fun j => by
+    rw [← j2Gs_four]
+    exact hc5 4 (by norm_num) j
   refine ⟨ht0, rootFactsFor_of_restrict ht0 hΩ hc hcg hcard htO fun hO => ?_⟩
   have hcgY := closure_eq_inf_centralizer ht0 hΩ hc hcg hcard htO
   exact rootFactsFor_of_wCheck (X := closure (j2Rs '' {l | l < 4})) (by norm_num) hO

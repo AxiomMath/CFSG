@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz_eval CFSG.KD.L5.Sh1R "Certificates/Data/Kernel/L5/data/sh1eng.json.gz" 6185
+#kc_repo #kc_json_eval CFSG.KD.L5.Sh1R "Certificates/Data/Kernel/L5/data/sh1eng.json" 6185
   5574037560382927535
   (C : Nat) (K : Nat) (I : Nat) (ciP : Nat) (cszP : Nat) (maxSubsP : List Nat) (reps : List Nat)
   (x : Nat) (mgens : List Nat) (ctx : List (List Nat)) (tags : List (List Nat))

@@ -70,6 +70,40 @@ open CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.LQT.S CFSG.KC.LQT.W CFSG.KC.LQT.T2
         (ih qs)) h)
     (pairK n (invK n RL)) hs 0
 
+@[expose] noncomputable def ptEqS (n a b c d : Nat) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun i acc => andB (Nat.beq (img a (img b i)) (img c (img d i))) acc) n
+
+@[expose] noncomputable def pairSK (n : Nat) (I : List Nat) : List (Nat × Nat) :=
+  List.flatten (List.map (fun x => List.rec (motive := fun _ => List (Nat × Nat)) []
+    (fun y _ ih => Bool.rec (motive := fun _ => List (Nat × Nat)) ih (List.cons (x, y) ih)
+      (andB (notB (Nat.beq x y)) (ptEqS n x y y x))) I) I)
+
+@[expose] noncomputable def blk32 {α : Type} (f : Nat) (L : List α) : List (List α) :=
+  Nat.rec (motive := fun _ => List α → List (List α)) (fun _ => [])
+    (fun _ ih L => List.cons (List.take 32 L) (ih (List.drop 32 L))) f L
+
+@[expose] noncomputable def badOneS (n : Nat) (RL : List Nat) (RP : List (Nat × Nat)) (m : Nat)
+    (x q : Nat × Nat) : Nat :=
+  Bool.rec (motive := fun _ => Nat) 1
+    (Bool.rec (motive := fun _ => Nat) 1099511627776 0
+      (andB (Nat.blt q.2 (lenL RL))
+        (letB (getK RL q.2 (one n)) fun r =>
+          letB (getK (getK (blk32 m RP) (Nat.div q.1 32) []) (Nat.mod q.1 32) (0, 0)).1 fun e1 =>
+          letB (getK (getK (blk32 m RP) (Nat.div q.1 32) []) (Nat.mod q.1 32) (0, 0)).2 fun e2 =>
+            andB (ptEqS n r x.1 e1 r) (ptEqS n r x.2 e2 r))))
+    (Nat.blt q.1 m)
+
+@[expose] noncomputable def badSK (n : Nat) (RL : List Nat)
+    (G2 : List (Nat × Nat × List (List Int) × List Nat)) (hs : List (Nat × Nat)) : Nat :=
+  List.rec (motive := fun _ => List (Nat × Nat) → Nat → Nat)
+    (fun h acc => List.rec (motive := fun _ => Nat) acc (fun _ _ _ => Nat.add acc 1099511627776) h)
+    (fun x _ ih h acc => List.rec (motive := fun _ => Nat) (Nat.add acc 1099511627776)
+      (fun q qs _ => letN (Nat.add acc (badOneS n RL
+        (List.map (fun e => (getK RL e.1 (one n), getK RL e.2.1 (one n))) G2) (lenK G2) x q))
+        (ih qs)) h)
+    (pairSK n (invK n RL)) hs 0
+
 end CFSG.KC.LQT.Syl
 
 end

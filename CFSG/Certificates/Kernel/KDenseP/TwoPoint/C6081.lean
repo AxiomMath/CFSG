@@ -7,6 +7,8 @@ public import CFSG.Certificates.Kernel.KDense.Data.Fix
 public import CFSG.Certificates.Kernel.KDenseP.TwoPoint.Run
 public import Certificates.Data.Kernel.KDenseP.Replay
 public import CFSG.Certificates.Kernel.Common.Plan
+import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.KDense.Y443.Pairs
 public import CFSG.Monster.AxisCount.CoverLetters
 public import CFSG.Monster.B.TwoA.Base.Flags
@@ -41,13 +43,15 @@ public section
 set_option maxRecDepth 100000
 
 #kc_plan CFSG.KD.TP.c6081 "c6081.plan.txt" 15445 1338878214934787690
-#kc_plan CFSG.KD.TP.c6081 "c6081.grp.txt" 1167 11857902555598848860
+#kc_plan CFSG.KD.TP.c6081 "c6081.grp.txt" 1261 17823384623944830716
+#kc_repo #kc_ktree CFSG.KD.TP.c6081 RT "CFSG/Certificates/Kernel/KDenseP/TwoPoint/c6081.rec.bin" 129721 4
+  2983583 13311894692533525043
 #kc_select CFSG.KD.TP.c6081 CH CH 71
 #kc_select CFSG.KD.TP.c6081 IXf IX 72
 #kc_select CFSG.KD.TP.c6081 PRf PR 26
 #kc_select CFSG.KD.TP.c6081 GKf GK 71
 #kc_listDispatch CFSG.KD.TP.c6081 WD wd 48
-#kc_listDispatch CFSG.KD.TP.c6081 Gf G 4
+#kc_listDispatch CFSG.KD.TP.c6081 Gf G 18
 
 namespace CFSG.KD.TP.c6081
 
@@ -55,6 +59,18 @@ open CFSG.KC.KDense
 
 @[expose] noncomputable def WL (σ : Nat) : List CFSG.Monster.AxisCount.Native.Gen :=
   CFSG.KC.KDenseP.decW (WD σ)
+
+@[expose] noncomputable def RXf (j : Nat) : Nat :=
+  Nat.land (RT j) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 509656)) (nat_lit 1))
+
+@[expose] noncomputable def RAf (j : Nat) : Nat :=
+  Nat.land (Nat.shiftRight (RT j) (nat_lit 509656)) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 3832)) (nat_lit 1))
+
+@[expose] noncomputable def RWf (j : Nat) : Nat := Nat.shiftRight (RT j) (nat_lit 513488)
+
+@[expose] noncomputable def S0 (k : Nat) : St :=
+  Bool.rec (motive := fun _ => St) ((fun j => mkSt (RXf j) (RAf j) (RWf j)) (Nat.sub k 3))
+    (CFSG.KD.KDF.I k) (Nat.blt k 3)
 
 @[expose] noncomputable def rn (c : Nat) (s : St) : St := CFSG.KD.TP.run (WD (f20 c (nat_lit 0))) c s
 

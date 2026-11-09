@@ -47,17 +47,38 @@ open CFSG.Sporadic.SuzOddCore CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG
   nIf(Nat.beq i 2, nIf(Nat.blt k 20, SuzInvT2.F k, SuzInvO (Nat.add 37 (Nat.sub k 20))),
     nIf(Nat.blt k 36, SuzInvT3.F k, SuzInvO (Nat.add 57 (Nat.sub k 36))))))
 
-theorem odd0 : hexAtK SuzInvT0.chars (Nat.mul 5346 82) 3 1782 11 10 (offF SuzInvO 0) = true := by
+@[expose] noncomputable def oddChunk (ob j : Nat) : Nat :=
+  Nat.land (Nat.shiftRight (SuzInvO (Nat.add ob (Nat.div j 33))) (Nat.mul 594 (Nat.mod j 33)))
+    (mask 594)
+
+theorem odd0 : hexAtK SuzInvT0.chars (Nat.mul 5346 82) 3 54 11 330 (oddChunk 0) = true := by
   quickRfl
 
-theorem odd1 : hexAtK SuzInvT1.chars (Nat.mul 5346 44) 3 1782 11 27 (offF SuzInvO 10) = true := by
+theorem odd1 : hexAtK SuzInvT1.chars (Nat.mul 5346 44) 3 54 11 891 (oddChunk 10) = true := by
   quickRfl
 
-theorem odd2 : hexAtK SuzInvT2.chars (Nat.mul 5346 20) 3 1782 11 20 (offF SuzInvO 37) = true := by
+theorem odd2 : hexAtK SuzInvT2.chars (Nat.mul 5346 20) 3 54 11 660 (oddChunk 37) = true := by
   quickRfl
 
-theorem odd3 : hexAtK SuzInvT3.chars (Nat.mul 5346 36) 3 1782 11 26 (offF SuzInvO 57) = true := by
+theorem odd3 : hexAtK SuzInvT3.chars (Nat.mul 5346 36) 3 54 11 858 (oddChunk 57) = true := by
   quickRfl
+
+theorem oddChunk_pg (ob j i : Nat) (hi : i < 54) :
+    pg 11 (mask 11) (oddChunk ob j) i =
+      pg 11 (mask 11) (SuzInvO (Nat.add ob (Nat.div j 33))) (54 * Nat.mod j 33 + i) := by
+  unfold oddChunk pg mask
+  generalize SuzInvO (Nat.add ob (Nat.div j 33)) = p
+  generalize Nat.mod j 33 = t
+  change ((p >>> (594 * t)) &&& (1 <<< 594 - 1)) >>> (11 * i) &&& (1 <<< 11 - 1) =
+    p >>> (11 * (54 * t + i)) &&& (1 <<< 11 - 1)
+  apply Nat.eq_of_testBit_eq
+  intro b
+  simp only [Nat.testBit_and, Nat.testBit_shiftRight, Nat.one_shiftLeft, Nat.testBit_two_pow_sub_one]
+  by_cases hb : b < 11
+  · have e1 : 594 * t + (11 * i + b) = 11 * (54 * t + i) + b := by omega
+    have e2 : 11 * i + b < 594 := by omega
+    simp [hb, e1, e2]
+  · simp [hb]
 
 theorem perms0 : allN 92 (fun k =>
     invEqK 1782 11 (mask 11) (1782 * 11) (runP 0 k) (SuzInvI k)) = true := by
@@ -76,10 +97,29 @@ theorem perms3 : allN 62 (fun k =>
   quickRfl
 
 theorem odd_run {i os cnt ob k : Nat} {cs : List Char} (hs : invText i = String.ofList cs)
-    (h : hexAtK cs (Nat.mul 5346 os) 3 1782 11 cnt (offF SuzInvO ob) = true)
+    (h : hexAtK cs (Nat.mul 5346 os) 3 54 11 (33 * cnt) (oddChunk ob) = true)
     (hk1 : os ≤ k) (hk2 : k < os + cnt) :
     invRun i k = unpack 1782 11 (SuzInvO (Nat.add ob (Nat.sub k os))) := by
-  have e := hexAt_unpack h (j := k - os) (by omega)
+  have e : Array.ofFn (n := 1782) (fun x => CFSG.Monster.B.Co2.Native.hexAt
+      (String.ofList cs).toUTF8 (Nat.mul 5346 os + 3 * (1782 * (k - os) + x.val)) 3) =
+      unpack 1782 11 (SuzInvO (Nat.add ob (Nat.sub k os))) := by
+    apply Array.ext
+    · simp [unpack]
+    · intro x h1 _
+      have hx : x < 1782 := by simpa using h1
+      simp only [Array.getElem_ofFn, unpack]
+      have hj := hexAtK_sound h (33 * (k - os) + x / 54) (by omega) (x % 54)
+        (Nat.mod_lt x (by norm_num))
+      have ex : 54 * (33 * (k - os) + x / 54) + x % 54 = 1782 * (k - os) + x := by omega
+      have ed : Nat.div (33 * (k - os) + x / 54) 33 = k - os := by
+        change (33 * (k - os) + x / 54) / 33 = k - os
+        omega
+      have em : 54 * Nat.mod (33 * (k - os) + x / 54) 33 + x % 54 = x := by
+        change 54 * ((33 * (k - os) + x / 54) % 33) + x % 54 = x
+        omega
+      rw [ex] at hj
+      rw [hj, oddChunk_pg _ _ _ (Nat.mod_lt x (by norm_num)), ed, em]
+      rfl
   refine Eq.trans ?_ e
   unfold invRun
   rw [hs]

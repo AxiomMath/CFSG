@@ -10,8 +10,8 @@ namespace CFSG.KD.Co1K105
 
 open CFSG.KC.Loop CFSG.KC.Co1F2 CFSG.KC.Co1B CFSG.KC.M1F2 CFSG.KLie.CT
 
-#kc_repo #kc_json_gz CFSG.KD.Co1K105
-  "Certificates/Data/Kernel/Co1K105/data/LettersK.json.gz" 92050 8435935923150853778
+#kc_repo #kc_json CFSG.KD.Co1K105
+  "Certificates/Data/Kernel/Co1K105/data/LettersK.json" 92050 8435935923150853778
   (lkAI : Nat) (lkCI : Nat) (lkWI : List Nat) (lkQG : List Nat) (lkQL : List Nat)
   (lkCodes : List (Nat × Nat))
 

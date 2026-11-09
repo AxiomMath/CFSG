@@ -102,18 +102,19 @@ abbrev deg : ℕ := 66825
   decodeWord
     "DDCDDCDCDDCDCDDCDDCDCDD"
 
-@[expose] def hexVal (b : UInt8) : ℕ := if 97 ≤ b.toNat then b.toNat - 87 else b.toNat - 48
-
-@[expose] def tabOfHex (s : String) : Table :=
-  let b := s.toUTF8
+@[expose] def tabOfBlks (B : Array ℕ) : Table :=
   Array.ofFn (n := deg) fun i =>
-    let j := 5 * i.val
-    UInt32.ofNat ((((hexVal b[j]! * 16 + hexVal b[j + 1]!) * 16 + hexVal b[j + 2]!) * 16 +
-      hexVal b[j + 3]!) * 16 + hexVal b[j + 4]!)
+    UInt32.ofNat (Nat.land (Nat.shiftRight B[i.val / 4455]! (17 * (i.val % 4455))) 131071)
 
-@[expose] def cT : Table := tabOfHex cTabHex
+@[expose] def cBlks : Array ℕ :=
+  #[cB0, cB1, cB2, cB3, cB4, cB5, cB6, cB7, cB8, cB9, cB10, cB11, cB12, cB13, cB14]
 
-@[expose] def dT : Table := tabOfHex dTabHex
+@[expose] def dBlks : Array ℕ :=
+  #[dB0, dB1, dB2, dB3, dB4, dB5, dB6, dB7, dB8, dB9, dB10, dB11, dB12, dB13, dB14]
+
+@[expose] def cT : Table := tabOfBlks cBlks
+
+@[expose] def dT : Table := tabOfBlks dBlks
 
 @[expose] def letterOf (tabs invs : Array Table) (l : ℤ) : Table :=
   if 0 < l then tabs[(l - 1).toNat]! else invs[(-l - 1).toNat]!

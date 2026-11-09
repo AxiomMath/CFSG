@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Seitz.B45T
 public import CFSG.Certificates.Kernel.Seitz77B45Sound
+public import CFSG.Certificates.Kernel.Seitz77B45Orb
 public import CFSG.LocalAnalysis.ComponentClassification.PSL3FourEnumSpec
 import CFSG.Certificates.Kernel.LocalQTRestrSound
 import CFSG.Certificates.Kernel.L34KSnd.Tab
@@ -250,6 +251,61 @@ theorem tables_true : tablesOK = true := by
   · intro i hi j hj
     rw [labF_eq, labF_eq, labF_eq, mtF_eq, laddF_eq]
     exact h15 i hi j hj
+
+theorem tle_inj {x y : Nat} (hx : x < 256) (hy : y < 256) (e : TLE.T x = TLE.T y) : x = y := by
+  have h1 : etl.tabs[x]! = etl.tabs[y]! := by rw [etl_get hx, etl_get hy, e]
+  have hs := etl_size
+  rw [getElem!_pos etl.tabs x (by omega), getElem!_pos etl.tabs y (by omega)] at h1
+  have := List.Nodup.getElem_inj_iff etl_nodup (i := x) (j := y) (hi := by simp; omega)
+    (hj := by simp; omega)
+  simp only [Array.getElem_toList] at this
+  exact this.1 h1
+
+theorem mtT_assoc {i j k : Nat} (hi : i < 256) (hj : j < 256) (hk : k < 256) :
+    mtT (mtT i j) k = mtT i (mtT j k) := by
+  obtain ⟨hij, eij⟩ := mul_parts hi hj
+  obtain ⟨hjk, ejk⟩ := mul_parts hj hk
+  obtain ⟨h1, e1⟩ := mul_parts hij hk
+  obtain ⟨h2, e2⟩ := mul_parts hi hjk
+  refine tle_inj h1 h2 ?_
+  rw [← e1, ← e2, ← eij, ← ejk]
+  exact pcomp_assoc' (t_parts.2.2.2 _ hi) (t_parts.2.2.2 _ hj) (t_parts.2.2.2 _ hk)
+
+theorem grp_facts : (∀ x < 256, mtT 0 x = x ∧ mtT x 0 = x ∧ invT x < 256 ∧ mtT x (invT x) = 0 ∧
+    mtT (invT x) x = 0) ∧ ∀ p < 4, laddT 0 p = p ∧ laddT p 0 = p := by
+  have h := k_grp
+  unfold grpOK at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, beq_iff_eq,
+    decide_eq_true_eq] at h
+  exact ⟨fun x hx => by
+    obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := h.1 x hx
+    exact ⟨a, b, c, d, e⟩, h.2⟩
+
+theorem lab_facts : (∀ i < 256, labT i < 4) ∧ labT 0 = 0 ∧
+    ∀ i < 256, ∀ j < 256, labT (mtT i j) = laddT (labT i) (labT j) := by
+  have ht := k_tab
+  unfold tabK at ht
+  simp only [Bool.and_eq_true, beq_iff_eq, allBelow_eq_true, decide_eq_true_eq, and_assoc] at ht
+  obtain ⟨-, h11, -, h13, -, h15⟩ := ht
+  exact ⟨h11, h13, h15⟩
+
+theorem gT : GT mtT invT :=
+  ⟨fun _ _ hi hj => (mul_parts hi hj).1, fun _ _ _ hi hj hk => mtT_assoc hi hj hk,
+    fun x hx => (grp_facts.1 x hx).1, fun x hx => (grp_facts.1 x hx).2.1,
+    fun x hx => (grp_facts.1 x hx).2.2.1, fun x hx => (grp_facts.1 x hx).2.2.2.1,
+    fun x hx => (grp_facts.1 x hx).2.2.2.2⟩
+
+theorem labT_inv {g : Nat} (hg : g < 256) (h0 : labT g = 0) : labT (invT g) = 0 := by
+  have hi := (grp_facts.1 g hg).2.2.1
+  have e := lab_facts.2.2 g hg (invT g) hi
+  rw [(grp_facts.1 g hg).2.2.2.1, lab_facts.2.1, h0, (grp_facts.2 _ (lab_facts.1 _ hi)).1] at e
+  exact e.symm
+
+theorem labT_cj {g h c : Nat} (hg : g < 256) (hh : h < 256) (hc : c < 256) (hg0 : labT g = 0)
+    (hh0 : labT h = 0) : labT (mtT (mtT g c) (invT h)) = labT c := by
+  rw [lab_facts.2.2 _ ((mul_parts hg hc).1) _ ((grp_facts.1 h hh).2.2.1), lab_facts.2.2 g hg c hc,
+    hg0, labT_inv hh hh0, (grp_facts.2 _ (lab_facts.1 c hc)).1,
+    (grp_facts.2 _ (lab_facts.1 c hc)).2]
 
 end CertificateChecks.KernelSeitz
 

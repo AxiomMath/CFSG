@@ -25,7 +25,7 @@ theorem m22_ov3_true : m22ov3 = true := by
 
 set_option maxHeartbeats 0 in
 theorem m22_ov5_true : m22ov5 = true := by
-  unfold m22ov5
+  unfold m22ov5 CFSG.Quasithin.H13.M22Cert.mCosP
   m22_tac
 
 end CertificateChecks.KernelH13

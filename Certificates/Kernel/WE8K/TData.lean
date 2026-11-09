@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.WE8K "Certificates/Kernel/WE8K/data/we8t.json.gz" 18744
+#kc_repo #kc_json CFSG.KD.WE8K "Certificates/Kernel/WE8K/data/we8t.json" 18744
   12784357839307889482
   (rT : Nat) (zW : List (List Nat))
 

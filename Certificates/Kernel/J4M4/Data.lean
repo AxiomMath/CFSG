@@ -8,8 +8,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ4M4
-  "Certificates/Kernel/J4M4/data/j4m4.json.gz" 5103765 17246252552881078014
+#kc_repo #kc_json CertificateChecks.KernelJ4M4
+  "Certificates/Kernel/J4M4/data/j4m4.json" 5103765 17246252552881078014
   (KG : List Nat) (KGI : List Nat) (GC : Nat) (GCI : Nat)
   (KL : List Nat) (KY : List (List (Nat × Nat × Nat)))
   (FL : List Nat) (FY : List (List (Nat × Nat × Nat)))

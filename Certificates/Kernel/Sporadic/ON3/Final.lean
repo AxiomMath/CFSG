@@ -202,53 +202,61 @@ theorem cqc_pt (k : Nat) {j : Nat} (hj : j < 4) {x : Nat} (hx : x < 245520) :
   rw [pcomp_get' hx, pcomp_get' hx, d1, (cqc_get k d2).1, c1, (d_get hj _ c2).1]
   exact ⟨rfl, rfl⟩
 
-theorem count_2 : countBelowN 4 (fun k => allBelowN 4 fun j =>
-    peq nPts (pcomp nPts (cqcArr k) (wordArrs Data.intersectionWords)[j]!)
-      (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr k))) = 2 := by
-  have h0 : (allBelowN 4 fun j =>
-      peq nPts (pcomp nPts (cqcArr 0) (wordArrs Data.intersectionWords)[j]!)
-        (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 0))) = true := by
-    refine allBelowN_iff.2 fun j hj => peq_of' fun x hx => ?_
-    obtain ⟨e1, e2⟩ := cqc_pt 0 hj hx
+private theorem count_2_h0 : (allBelowN 4 fun j =>
+    peq nPts (pcomp nPts (cqcArr 0) (wordArrs Data.intersectionWords)[j]!)
+      (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 0))) = true := by
+  refine allBelowN_iff.2 fun j hj => peq_of' fun x hx => ?_
+  obtain ⟨e1, e2⟩ := cqc_pt 0 hj hx
+  rw [e1, e2]
+  simp only [Function.iterate_zero, id]
+  rw [(c_CI (d_get hj x hx).2).1, (c_CI hx).1]
+
+private theorem count_2_h2 : (allBelowN 4 fun j =>
+    peq nPts (pcomp nPts (cqcArr 2) (wordArrs Data.intersectionWords)[j]!)
+      (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 2))) = true := by
+  refine allBelowN_iff.2 fun j hj => peq_of' fun x hx => ?_
+  obtain ⟨e1, e2⟩ := cqc_pt 2 hj hx
+  rw [e1, e2]
+  simp only [Function.iterate_succ, Function.iterate_zero, Function.comp_apply, id]
+  have hd := (d_get hj x hx).2
+  rw [← (tab_facts hd).2.2.2.2.2.2.2.2.2.2.2.2.1, ← (tab_facts hx).2.2.2.2.2.2.2.2.2.2.2.2.1]
+  exact (tab_facts hx).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 j hj
+
+private theorem count_2_h1 : (allBelowN 4 fun j =>
+    peq nPts (pcomp nPts (cqcArr 1) (wordArrs Data.intersectionWords)[j]!)
+      (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 1))) = false := by
+  rw [Bool.eq_false_iff]
+  intro h
+  have h' := allBelowN_iff.1 h 1 (by norm_num)
+  rw [peq_false_of' (i := 0) (by norm_num)] at h'
+  · exact absurd h' (by decide)
+  · obtain ⟨e1, e2⟩ := cqc_pt 1 (j := 1) (by norm_num) (x := 0) (by norm_num)
     rw [e1, e2]
-    simp only [Function.iterate_zero, id]
-    rw [(c_CI (d_get hj x hx).2).1, (c_CI hx).1]
-  have h2 : (allBelowN 4 fun j =>
-      peq nPts (pcomp nPts (cqcArr 2) (wordArrs Data.intersectionWords)[j]!)
-        (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 2))) = true := by
-    refine allBelowN_iff.2 fun j hj => peq_of' fun x hx => ?_
-    obtain ⟨e1, e2⟩ := cqc_pt 2 hj hx
+    decide +kernel
+
+private theorem count_2_h3 : (allBelowN 4 fun j =>
+    peq nPts (pcomp nPts (cqcArr 3) (wordArrs Data.intersectionWords)[j]!)
+      (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 3))) = false := by
+  rw [Bool.eq_false_iff]
+  intro h
+  have h' := allBelowN_iff.1 h 1 (by norm_num)
+  rw [peq_false_of' (i := 0) (by norm_num)] at h'
+  · exact absurd h' (by decide)
+  · obtain ⟨e1, e2⟩ := cqc_pt 3 (j := 1) (by norm_num) (x := 0) (by norm_num)
     rw [e1, e2]
-    simp only [Function.iterate_succ, Function.iterate_zero, Function.comp_apply, id]
-    have hd := (d_get hj x hx).2
-    rw [← (tab_facts hd).2.2.2.2.2.2.2.2.2.2.2.2.1, ← (tab_facts hx).2.2.2.2.2.2.2.2.2.2.2.2.1]
-    exact (tab_facts hx).2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 j hj
-  have h1 : (allBelowN 4 fun j =>
-      peq nPts (pcomp nPts (cqcArr 1) (wordArrs Data.intersectionWords)[j]!)
-        (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 1))) = false := by
-    rw [Bool.eq_false_iff]
-    intro h
-    have h' := allBelowN_iff.1 h 1 (by norm_num)
-    rw [peq_false_of' (i := 0) (by norm_num)] at h'
-    · exact absurd h' (by decide)
-    · obtain ⟨e1, e2⟩ := cqc_pt 1 (j := 1) (by norm_num) (x := 0) (by norm_num)
-      rw [e1, e2]
-      decide +kernel
-  have h3 : (allBelowN 4 fun j =>
-      peq nPts (pcomp nPts (cqcArr 3) (wordArrs Data.intersectionWords)[j]!)
-        (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr 3))) = false := by
-    rw [Bool.eq_false_iff]
-    intro h
-    have h' := allBelowN_iff.1 h 1 (by norm_num)
-    rw [peq_false_of' (i := 0) (by norm_num)] at h'
-    · exact absurd h' (by decide)
-    · obtain ⟨e1, e2⟩ := cqc_pt 3 (j := 1) (by norm_num) (x := 0) (by norm_num)
-      rw [e1, e2]
-      decide +kernel
+    decide +kernel
+
+private theorem countBelow4_eq_two (f : Nat → Bool) (h0 : f 0 = true) (h1 : f 1 = false)
+    (h2 : f 2 = true) (h3 : f 3 = false) : countBelowN 4 f = 2 := by
   unfold countBelowN
   have e4 : List.range 4 = [0, 1, 2, 3] := rfl
   rw [e4]
   simp only [List.filter, h0, h1, h2, h3, List.length]
+
+theorem count_2 : countBelowN 4 (fun k => allBelowN 4 fun j =>
+    peq nPts (pcomp nPts (cqcArr k) (wordArrs Data.intersectionWords)[j]!)
+      (pcomp nPts (wordArrs Data.intersectionWords)[j]! (cqcArr k))) = 2 := by
+  exact countBelow4_eq_two _ count_2_h0 count_2_h1 count_2_h2 count_2_h3
 
 theorem d0_part : allBelowN 4 (fun j => memIn MStrong Data.MChain.base
       (wordArrs Data.intersectionWords)[j]!) = true ∧

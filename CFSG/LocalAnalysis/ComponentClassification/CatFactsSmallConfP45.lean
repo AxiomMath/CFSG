@@ -134,11 +134,93 @@ theorem cfZ_R : (center cfQR.originalSubgroup).map cfQR.originalSubgroup.subtype
 
 theorem cfCard_ok : ((elemsT QQ45).filter fun x => QL45.sift x 0).length = 8 ∧
     ((elemsT QL45).filter fun x => decide (x * cfTau = cfTau * x)).length = 24 ∧
-    ((elemsT QA45).filter fun x => decide (x * (cfTau * cfZ) = cfTau * cfZ * x)).length =
-      2 ^ 7 * 9 ∧
+    OrbCertL [x45, y45, f45] (cfTau * cfZ) cfOrbTZ ∧
     ((elemsT cfQR).filter fun x => decide (x * cfZ = cfZ * x)).length = 64 ∧
-    ((elemsT QA45).filter fun x => decide (x * cfZ = cfZ * x)).length = 2 ^ 6 * 3 :=
+    OrbCertL [x45, y45, f45] cfZ cfOrbZ :=
   Certificates.certificate2009.2.2.2.2.2.2.2.1
+
+theorem natCard_conjOrbit_mul {G : Type*} [Group G] [Finite G] (H : Subgroup G) (w : G) :
+    Nat.card (Cat8.conjOrbit H w) * Nat.card ↥(H ⊓ centralizer ({w} : Set G)) = Nat.card H := by
+  let _ : MulAction ↥H G := MulAction.compHom _ (MulAut.conj.comp H.subtype)
+  have hset : (MulAction.orbit (↥H) w : Set G) = Cat8.conjOrbit H w := by
+    ext y
+    simp only [MulAction.mem_orbit_iff]
+    constructor
+    · rintro ⟨m, rfl⟩
+      refine ⟨(m : G)⁻¹, inv_mem m.2, ?_⟩
+      change _ = (m : G) * w * (m : G)⁻¹
+      group
+    · rintro ⟨n, hn, rfl⟩
+      refine ⟨⟨n, hn⟩⁻¹, ?_⟩
+      change n⁻¹ * w * n⁻¹⁻¹ = _
+      group
+  have hstab : MulAction.stabilizer (↥H) w = (H ⊓ centralizer ({w} : Set G)).subgroupOf H := by
+    ext x
+    rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
+      mem_centralizer_singleton_iff]
+    change (x : G) * w * (x : G)⁻¹ = w ↔ _
+    constructor
+    · intro h
+      exact ⟨x.2, mul_inv_eq_iff_eq_mul.1 h⟩
+    · rintro ⟨-, h⟩
+      rw [h]
+      group
+  have h2 := (MulAction.stabilizer (↥H) w).card_mul_index
+  rw [MulAction.index_stabilizer, hstab,
+    Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv,
+    ← Nat.card_coe_set_eq, hset] at h2
+  rw [mul_comm]
+  exact h2
+
+theorem mem_conjOrbit_iff_of_cert {G : Type*} [Group G] [Finite G] {S : List G} {x : G}
+    {O : List G} (h : OrbCertL S x O) (y : G) :
+    y ∈ Cat8.conjOrbit (closure {g | g ∈ S}) x ↔ y ∈ O := by
+  obtain ⟨-, hlen, h0, hcl, htr⟩ := h
+  have hmem : ∀ y, y ∈ Cat8.conjOrbit (closure {g | g ∈ S}) x ↔
+      ∃ n ∈ closure {g | g ∈ S}, n⁻¹ * x * n = y := fun y => Iff.rfl
+  have hgetD : ∀ i < O.length, O.getD i 1 ∈ O := fun i hi => by
+    rw [List.getD_eq_getElem _ _ hi]
+    exact List.getElem_mem hi
+  rw [hmem]
+  constructor
+  · rintro ⟨n, hn, rfl⟩
+    have hsub : (closure {g | g ∈ S}).toSubmonoid = Submonoid.closure {g | g ∈ S} :=
+      Subgroup.closure_toSubmonoid_of_finite
+    have hn' : n ∈ Submonoid.closure {g | g ∈ S} := by
+      rw [← hsub]
+      exact hn
+    have key := Submonoid.closure_induction_right
+      (motive := fun m _ => ∀ o ∈ O, m⁻¹ * o * m ∈ O) (fun o ho => by rwa [inv_one, one_mul,
+        mul_one]) (fun m _ g hg ih o ho => by
+          have e : (m * g)⁻¹ * o * (m * g) = g⁻¹ * (m⁻¹ * o * m) * g := by group
+          rw [e]
+          exact hcl _ (ih o ho) g hg) hn'
+    exact key x (h0 ▸ hgetD 0 hlen)
+  · intro hy
+    obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hy
+    clear hy
+    rw [← List.getD_eq_getElem _ 1 hi]
+    induction i using Nat.strong_induction_on with
+    | _ i ih =>
+      rcases Nat.eq_zero_or_pos i with rfl | hpos
+      · exact ⟨1, one_mem _, by rw [h0]; group⟩
+      · obtain ⟨p, hp, g, hg, he⟩ := htr i hi hpos
+        obtain ⟨n, hn, hne⟩ := ih p hp (hp.trans hi)
+        refine ⟨n * g, mul_mem hn (subset_closure hg), ?_⟩
+        rw [he, ← hne]
+        group
+
+theorem natCard_conjOrbit_of_cert {G : Type*} [Group G] [Finite G] {S : List G} {x : G}
+    {O : List G} (h : OrbCertL S x O) :
+    Nat.card (Cat8.conjOrbit (closure {g | g ∈ S}) x) = O.length :=
+  natCard_eq_length h.1 (mem_conjOrbit_iff_of_cert h)
+
+theorem QA45_closure_list : QA45.originalSubgroup = closure {g | g ∈ [x45, y45, f45]} := by
+  rw [QA45_closure]
+  congr 1
+  ext g
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
+    Set.mem_singleton_iff, Set.mem_setOf_eq]
 
 theorem cfCard_D : Nat.card ↥(QQ45.originalSubgroup ⊓ QL45.originalSubgroup) = 8 := by
   rw [card_inf_eq_length QQ45 QQ45_ok QL45.originalSubgroup (fun x => QL45.sift x 0)
@@ -152,8 +234,12 @@ theorem cfFix_tau :
 
 theorem cfCard_Ctz : Nat.card ↥(QA45.originalSubgroup ⊓
     centralizer ({cfTau * cfZ} : Set PX)) = 2 ^ 7 * 9 := by
-  rw [card_inf_centralizer QA45 QA45_ok]
-  exact cfCard_ok.2.2.1
+  have ho : Nat.card (Cat8.conjOrbit QA45.originalSubgroup (cfTau * cfZ)) = 45 := by
+    rw [QA45_closure_list, natCard_conjOrbit_of_cert cfCard_ok.2.2.1, cfOrbTZ, List.length_map]
+    rfl
+  have h := natCard_conjOrbit_mul QA45.originalSubgroup (cfTau * cfZ)
+  rw [ho, card_group QA45 QA45_ok, QA45_valid.2] at h
+  exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 45) (h.trans (by norm_num))
 
 theorem cfCard_R0 : Nat.card ↥(cfQR.originalSubgroup ⊓ centralizer ({cfZ} : Set PX)) = 64 := by
   rw [card_inf_centralizer cfQR cfQR_ok]
@@ -161,8 +247,12 @@ theorem cfCard_R0 : Nat.card ↥(cfQR.originalSubgroup ⊓ centralizer ({cfZ} : 
 
 theorem cfCard_Cz :
     Nat.card ↥(QA45.originalSubgroup ⊓ centralizer ({cfZ} : Set PX)) = 2 ^ 6 * 3 := by
-  rw [card_inf_centralizer QA45 QA45_ok]
-  exact cfCard_ok.2.2.2.2
+  have ho : Nat.card (Cat8.conjOrbit QA45.originalSubgroup cfZ) = 270 := by
+    rw [QA45_closure_list, natCard_conjOrbit_of_cert cfCard_ok.2.2.2.2, cfOrbZ, List.length_map]
+    decide +kernel
+  have h := natCard_conjOrbit_mul QA45.originalSubgroup cfZ
+  rw [ho, card_group QA45 QA45_ok, QA45_valid.2] at h
+  exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 270) (h.trans (by norm_num))
 
 theorem cfQeq_ok : (q0gens.all fun q => QL45.sift q 0 || QL45.sift (q * cfTau⁻¹) 0 ||
     QL45.sift (q * s045⁻¹) 0 || QL45.sift (q * s045⁻¹ * cfTau⁻¹) 0) = true ∧
@@ -482,11 +572,11 @@ theorem cfOrb_ok : (cfOz.all fun p => decide (p.2⁻¹ * cfZ * p.2 = p.1) && QA4
     (cfOz.all fun p => cfQE.sift p.1 0) = true ∧ (cfOzt.all fun p => cfQE.sift p.1 0) = true :=
   Certificates.certificate2009.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
 
-theorem cfOrb_ok2 : (elemsT QA45).all (fun x => !(cfEgens.all fun e =>
-      cfQE.sift (x * e * x⁻¹) 0) || (decide (x⁻¹ * cfZ * x ∈ cfOz.map Prod.fst) &&
-      decide (x⁻¹ * (cfZ * cfTau) * x ∈ cfOzt.map Prod.fst))) = true ∧
-    ((elemsT QA45).filter fun x => cfEgens.all fun e => cfQE.sift (x * e * x⁻¹) 0).length =
-      1920 :=
+theorem cfOrb_ok2 : ((cfOz.all fun p => decide (p.1.support.card = 40)) = true ∧
+      (cfOzt.all fun p => decide (p.1.support.card = 32)) = true ∧ cfZ.support.card = 40 ∧
+      (cfZ * cfTau).support.card = 32) ∧
+    (cfFgens.all fun x => cfEgens.all fun e => cfQE.sift (x * e * x⁻¹) 0) = true ∧
+    cfOzKd * cfOztKe * cfZ = cfZ * (cfOzKd * cfOztKe) ∧ orderIs (cfOzKd * cfOztKe) 3 = true :=
   Certificates.certificate2009.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
 
 theorem cfOrb_iff (L : List (PX × PX)) (w₀ : PX)
@@ -505,28 +595,93 @@ theorem cfOrb_iff (L : List (PX × PX)) (w₀ : PX)
     simp only [Bool.and_eq_true, decide_eq_true_eq] at h
     exact ⟨p.2, ⟨(mem_iff_sift QA45 QA45_ok _).2 h.1.2, (cfN_iff p.2).2 h.2⟩, h.1.1⟩
 
+theorem cfE_split (w : PX) (hw : w ∈ cfQE.originalSubgroup) :
+    w = 1 ∨ w ∈ cfOz.map Prod.fst ∨ w ∈ cfOzt.map Prod.fst := by
+  have h := List.all_eq_true.1 cfOrb_ok.2.2.2.2.1 w ((mem_elemsT cfQE cfQE_ok w).2 hw)
+  simp only [Bool.or_eq_true, decide_eq_true_eq] at h
+  rcases h with (h | h) | h
+  · exact Or.inl h
+  · exact Or.inr (Or.inl h)
+  · exact Or.inr (Or.inr h)
+
+theorem cfOrb_hall (L L' : List (PX × PX)) (w₀ : PX) (c c' : Nat) (hc : c ≠ c') (hc0 : c ≠ 0)
+    (hw : w₀ ∈ cfQE.originalSubgroup) (hwc : w₀.support.card = c)
+    (hL' : (L'.all fun p => decide (p.1.support.card = c')) = true)
+    (hE : ∀ w ∈ cfQE.originalSubgroup, w = 1 ∨ w ∈ L.map Prod.fst ∨ w ∈ L'.map Prod.fst) :
+    ∀ x ∈ QA45.originalSubgroup ⊓ normalizer (cfQE.originalSubgroup : Set PX),
+      x⁻¹ * w₀ * x ∈ L.map Prod.fst := by
+  intro x hx
+  have hm := (mem_normalizer_iff.1 (inv_mem hx.2) w₀).1 hw
+  have hs := Equiv.Perm.card_support_conj (σ := x⁻¹) (τ := w₀)
+  rw [inv_inv] at hm hs
+  rcases hE _ hm with h | h | h
+  · rw [h, Equiv.Perm.support_one, Finset.card_empty] at hs
+    exact absurd (hs.trans hwc).symm hc0
+  · exact h
+  · obtain ⟨p, hp, hpe⟩ := List.mem_map.1 h
+    have h' := of_decide_eq_true (List.all_eq_true.1 hL' p hp)
+    rw [hpe, hs, hwc] at h'
+    exact absurd h' hc
+
 theorem cfOz_iff (y : PX) :
     y ∈ Cat8.conjOrbit (QA45.originalSubgroup ⊓ normalizer (cfQE.originalSubgroup : Set PX))
       cfZ ↔ y ∈ cfOz.map Prod.fst :=
-  cfOrb_iff cfOz cfZ cfOrb_ok.1 (fun x hx => by
-    have h := List.all_eq_true.1 cfOrb_ok2.1 x ((mem_elemsT _ QA45_ok x).2 hx.1)
-    rw [(cfN_iff x).1 hx.2, Bool.not_true, Bool.false_or, Bool.and_eq_true] at h
-    exact of_decide_eq_true h.1) y
+  cfOrb_iff cfOz cfZ cfOrb_ok.1 (cfOrb_hall cfOz cfOzt cfZ 40 32 (by decide) (by decide)
+    ((mem_iff_sift cfQE cfQE_ok _).2 cfE_ok.2.2.1) cfOrb_ok2.1.2.2.1 cfOrb_ok2.1.2.1
+    cfE_split) y
 
 theorem cfOzt_iff (y : PX) :
     y ∈ Cat8.conjOrbit (QA45.originalSubgroup ⊓ normalizer (cfQE.originalSubgroup : Set PX))
       (cfZ * cfTau) ↔ y ∈ cfOzt.map Prod.fst :=
-  cfOrb_iff cfOzt (cfZ * cfTau) cfOrb_ok.2.1 (fun x hx => by
-    have h := List.all_eq_true.1 cfOrb_ok2.1 x ((mem_elemsT _ QA45_ok x).2 hx.1)
-    rw [(cfN_iff x).1 hx.2, Bool.not_true, Bool.false_or, Bool.and_eq_true] at h
-    exact of_decide_eq_true h.2) y
+  cfOrb_iff cfOzt (cfZ * cfTau) cfOrb_ok.2.1 (cfOrb_hall cfOzt cfOz (cfZ * cfTau) 32 40
+    (by decide) (by decide) (mul_mem ((mem_iff_sift cfQE cfQE_ok _).2 cfE_ok.2.2.1)
+      ((mem_iff_sift cfQE cfQE_ok _).2 cfE_ok.2.2.2)) cfOrb_ok2.1.2.2.2 cfOrb_ok2.1.1
+    fun w hw => by
+      rcases cfE_split w hw with h | h | h
+      · exact Or.inl h
+      · exact Or.inr (Or.inr h)
+      · exact Or.inr (Or.inl h)) y
+
+theorem card_normalizer_of_orbit {G : Type*} [Group G] [Finite G] (A : Subgroup G) (E : Set G)
+    (z g : G) (Q : Subgroup G) (hCz : Nat.card ↥(A ⊓ centralizer ({z} : Set G)) = 192)
+    (hQ : Q ≤ A ⊓ normalizer E ⊓ centralizer ({z} : Set G)) (hQc : Nat.card Q = 64)
+    (hg : g ∈ A ⊓ normalizer E ⊓ centralizer ({z} : Set G)) (hg3 : orderOf g = 3) :
+    Nat.card ↥(A ⊓ normalizer E) =
+      Nat.card (Cat8.conjOrbit (A ⊓ normalizer E) z) * 192 := by
+  rw [← natCard_conjOrbit_mul]
+  congr 1
+  have hle : A ⊓ normalizer E ⊓ centralizer ({z} : Set G) ≤ A ⊓ centralizer ({z} : Set G) :=
+    inf_le_inf_right _ inf_le_left
+  have h64 : 64 ∣ Nat.card ↥(A ⊓ normalizer E ⊓ centralizer ({z} : Set G)) :=
+    hQc ▸ Subgroup.card_dvd_of_le hQ
+  have h3 : 3 ∣ Nat.card ↥(A ⊓ normalizer E ⊓ centralizer ({z} : Set G)) :=
+    hg3 ▸ Subgroup.orderOf_dvd_natCard _ hg
+  have h192 := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h64 h3
+  have hle' := hCz ▸ Subgroup.card_le_of_le hle
+  exact le_antisymm hle' (Nat.le_of_dvd Nat.card_pos h192)
 
 theorem cfN_card :
     Nat.card ↥(QA45.originalSubgroup ⊓ normalizer (cfQE.originalSubgroup : Set PX)) =
       1920 := by
-  rw [card_inf_eq_length QA45 QA45_ok _ (fun x => cfEgens.all fun e =>
-    cfQE.sift (x * e * x⁻¹) 0) (fun x _ => cfN_iff x)]
-  exact cfOrb_ok2.2
+  obtain ⟨hF, hgz, hg3⟩ := cfOrb_ok2.2
+  have hd := List.all_eq_true.1 cfOrb_ok.1 _ (List.getElem_mem (by decide : 3 < cfOz.length))
+  have he := List.all_eq_true.1 cfOrb_ok.2.1 _ (List.getElem_mem (by decide : 4 < cfOzt.length))
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at hd he
+  have hg : cfOzKd * cfOztKe ∈ QA45.originalSubgroup ⊓
+      normalizer (cfQE.originalSubgroup : Set PX) ⊓ centralizer ({cfZ} : Set PX) :=
+    ⟨⟨mul_mem ((mem_iff_sift QA45 QA45_ok _).2 hd.1.2) ((mem_iff_sift QA45 QA45_ok _).2 he.1.2),
+      mul_mem ((cfN_iff _).2 hd.2) ((cfN_iff _).2 he.2)⟩, mem_centralizer_singleton_iff.2 hgz⟩
+  have hQ : cfQRz.originalSubgroup ≤ QA45.originalSubgroup ⊓
+      normalizer (cfQE.originalSubgroup : Set PX) ⊓ centralizer ({cfZ} : Set PX) := by
+    intro x hx
+    have hx' : x ∈ cfQR.originalSubgroup ⊓ centralizer ({cfZ} : Set PX) := cfRz_eq ▸ hx
+    refine ⟨⟨cfR_leA hx'.1, ?_⟩, hx'.2⟩
+    rw [cfQRz_eq] at hx
+    exact (closure_le _).2 (fun f hf => (cfN_iff f).2 (List.all_eq_true.1 hF f hf)) hx
+  rw [card_normalizer_of_orbit _ _ cfZ _ _ cfCard_Cz hQ
+    (by rw [card_group cfQRz cfQF_valid.2.2.2.2.2.2.1, cfQF_valid.2.2.2.2.2.2.2]) hg
+    ((orderIs_iff _ (by norm_num)).1 hg3), natCard_eq_length cfOrb_ok.2.2.1 cfOz_iff]
+  rfl
 
 theorem cfEsub_ok : (cfEgens.all fun x => decide (x ∈ cfOzt.map Prod.fst)) = true :=
   Certificates.certificate2009.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
@@ -613,8 +768,9 @@ theorem cfMisc_ok : (elemsT cfQE).all (fun e => decide (e * s045 * e⁻¹ * s045
 
 theorem cfOuter_ok : (elemsT QA45).all (fun y => !decide (y * y = 1) || QP45.sift y 0 ||
     decide (y ∈ cfCls1C) || decide (y ∈ cfCls2C)) = true ∧
-    (elemsT QP45).all (fun y => !decide (y * y = 1) || decide (y = 1) ||
-      decide (y ∈ cfICls1C) || decide (y ∈ cfICls2C)) = true :=
+    ((elemsT cfQR).filter fun x => QP45.sift x 0).length = 64 ∧
+    ((elemsT cfQR).filter fun x => QP45.sift x 0).all (fun y => !decide (y * y = 1) ||
+      decide (y = 1) || decide (y ∈ cfICls1C) || decide (y ∈ cfICls2C)) = true :=
   Certificates.certificate2009.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
 
 theorem cfE32_ok : (elemsT cfQR).all (fun x => !decide (x * x = 1) || decide (x = 1) ||
@@ -717,18 +873,71 @@ theorem cfOuter : ∀ y ∈ QA45.originalSubgroup, y * y = 1 → y ∉ QP45.orig
   · obtain ⟨k, hk, hky⟩ := cfCls_conj rfl h
     exact Or.inr ⟨k, cfCls_mem k (List.mem_append_right _ hk), hky⟩
 
+theorem conj_mem_of_two_sylow {G : Type*} [Group G] [Finite G] {P S : Subgroup G} (hSP : S ≤ P)
+    (hS : Nat.card S = 2 ^ (Nat.card P).factorization 2) {y : G} (hy : y ∈ P)
+    (hy2 : y * y = 1) : ∃ g ∈ P, g⁻¹ * y * g ∈ S := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let S' : Sylow 2 P := Sylow.ofCard (S.subgroupOf P)
+    (by rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSP).toEquiv, hS])
+  have hp : IsPGroup 2 (zpowers (⟨y, hy⟩ : P)) := by
+    rintro ⟨g, hg⟩
+    obtain ⟨n, rfl⟩ := mem_zpowers_iff.1 hg
+    refine ⟨1, Subtype.ext (Subtype.ext ?_)⟩
+    simp only [pow_one, SubmonoidClass.mk_pow, OneMemClass.coe_one]
+    rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
+    simp only [Nat.cast_ofNat, zpow_ofNat, pow_two]
+    have hyy : (⟨y, hy⟩ : P) * ⟨y, hy⟩ = 1 := Subtype.ext hy2
+    rw [hyy, one_zpow]
+    rfl
+  obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
+  obtain ⟨g, hg⟩ := MulAction.exists_smul_eq P S' Q
+  have hyQ : (⟨y, hy⟩ : P) ∈ (Q : Subgroup P) := hQ (mem_zpowers _)
+  rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hyQ
+  refine ⟨g, g.2, ?_⟩
+  have h := Subgroup.mem_subgroupOf.1 hyQ
+  simpa [MulAut.inv_def, MulAut.smul_def, MulAut.conj_symm_apply] using h
+
+theorem cfSylP_card : Nat.card ↥(cfQR.originalSubgroup ⊓ QP45.originalSubgroup) =
+    2 ^ (Nat.card QP45.originalSubgroup).factorization 2 := by
+  have h405 : (25920 : ℕ) = 2 ^ 6 * 405 := by norm_num
+  have h6 : (25920 : ℕ).factorization 2 = 6 := by
+    rw [h405, Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
+      Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 2 ∣ 405), Nat.factorization_pow,
+      Finsupp.smul_apply, Nat.prime_two.factorization_self]
+    rfl
+  rw [card_group QP45 QP45_ok, QP45_valid.2, h6]
+  refine (CFSG.ComponentClassification.CatFactsSmall.natCard_eq_length
+    ((nodup_elemsT cfQR cfQR_ok).filter _) fun x => ?_).trans cfOuter_ok.2.1
+  rw [List.mem_filter, mem_elemsT cfQR cfQR_ok, ← mem_iff_sift QP45 QP45_ok]
+  exact Iff.rfl
+
+theorem cfConj_back {k g y w : PX} (h : k⁻¹ * w * k = g⁻¹ * y * g) :
+    (k * g⁻¹)⁻¹ * w * (k * g⁻¹) = y := by
+  calc (k * g⁻¹)⁻¹ * w * (k * g⁻¹) = g * (k⁻¹ * w * k) * g⁻¹ := by group
+    _ = y := by rw [h]; group
+
 theorem cfInner : ∀ y ∈ QP45.originalSubgroup, y * y = 1 → y ≠ 1 →
     (∃ k ∈ QP45.originalSubgroup, k⁻¹ * cfZ * k = y) ∨
       ∃ k ∈ QP45.originalSubgroup, k⁻¹ * (cfZ * cfTau) * k = y := by
   intro y hy hy2 hy1
-  have h := List.all_eq_true.1 cfOuter_ok.2 y ((mem_elemsT _ QP45_ok y).2 hy)
-  simp only [hy2, hy1, decide_true, decide_false, Bool.not_true, Bool.false_or, Bool.or_eq_true,
+  obtain ⟨g, hg, hgS⟩ := conj_mem_of_two_sylow inf_le_right cfSylP_card hy hy2
+  have h := List.all_eq_true.1 cfOuter_ok.2.2 (g⁻¹ * y * g) (List.mem_filter.2
+    ⟨(mem_elemsT _ cfQR_ok _).2 hgS.1, (mem_iff_sift QP45 QP45_ok _).1 hgS.2⟩)
+  have h2 : g⁻¹ * y * g * (g⁻¹ * y * g) = 1 := by
+    calc g⁻¹ * y * g * (g⁻¹ * y * g) = g⁻¹ * (y * y) * g := by group
+      _ = 1 := by rw [hy2]; group
+  have h1 : g⁻¹ * y * g ≠ 1 := fun he => hy1 (by
+    calc y = g * (g⁻¹ * y * g) * g⁻¹ := by group
+      _ = 1 := by rw [he]; group)
+  simp only [h2, h1, decide_true, decide_false, Bool.not_true, Bool.false_or, Bool.or_eq_true,
     decide_eq_true_eq] at h
   rcases h with h | h
   · obtain ⟨k, hk, hky⟩ := cfCls_conj rfl h
-    exact Or.inl ⟨k, cfICls_mem k (List.mem_append_left _ hk), hky⟩
+    exact Or.inl ⟨k * g⁻¹, mul_mem (cfICls_mem k (List.mem_append_left _ hk)) (inv_mem hg),
+      cfConj_back hky⟩
   · obtain ⟨k, hk, hky⟩ := cfCls_conj rfl h
-    exact Or.inr ⟨k, cfICls_mem k (List.mem_append_right _ hk), hky⟩
+    exact Or.inr ⟨k * g⁻¹, mul_mem (cfICls_mem k (List.mem_append_right _ hk)) (inv_mem hg),
+      cfConj_back hky⟩
 
 noncomputable def cfConfData {K₀ : Type} [Group K₀] (e : K₀ ≃* QP45.originalSubgroup) :
     Q3ConfData K₀ PX := by

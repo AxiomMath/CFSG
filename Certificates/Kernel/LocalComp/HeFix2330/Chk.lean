@@ -35,17 +35,23 @@ open CertificateChecks.KernelSpor
   pc' (pc' (pc' (X (hfCommWords.getD (2 * i) [])) (X (hfCommWords.getD (2 * i + 1) [])))
     (pi' (X (hfCommWords.getD (2 * i) [])))) (pi' (X (hfCommWords.getD (2 * i + 1) [])))
 
-theorem kQ : (allN 2 (fun i => permOK 8330 14 (mask 14) (8330 * 14) (H (hfQWords.getD i []))
-      (QI i)) && allN 9 (fun j => cn (CertificateChecks.KernelSporSch.HeB14.C1I j)) &&
-    Nat.beq (pc (pc (pc (H (hfQWords.getD 0 [])) (H (hfQWords.getD 1 [])))
-      (QI 0)) (QI 1)) PT1) = true := by
+@[expose] noncomputable def ptP (A k x : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) x (fun _ acc => pg 14 (mask 14) A acc) k
+
+@[expose] noncomputable def ordK (w : List Nat) (k : Nat) : Bool :=
+  allN 8330 (fun x => Nat.beq (ptP (H w) k x) x) && !Nat.beq (H w) (pidn 8330 14)
+
+theorem kQ : allN 8330 (fun x => Nat.beq
+    (pg 14 (mask 14) (H (hfQWords.getD 0 [])) (pg 14 (mask 14) (H (hfQWords.getD 1 [])) x))
+    (pg 14 (mask 14) PT1 (pg 14 (mask 14) (H (hfQWords.getD 1 []))
+      (pg 14 (mask 14) (H (hfQWords.getD 0 [])) x)))) = true := by
   quickRfl
 
-theorem kO : (allN 2 (fun i => Nat.beq (H (hfRep 7 (hfOrd7Words.getD i []))) (pidn 8330 14) &&
-      !Nat.beq (H (hfOrd7Words.getD i [])) (pidn 8330 14)) &&
-    allN 3 (fun i => Nat.beq (H (hfRep 3 (hfOrd3Words.getD i []))) (pidn 8330 14) &&
-      !Nat.beq (H (hfOrd3Words.getD i [])) (pidn 8330 14))) = true := by
-  quickRfl
+theorem kO70 : ordK (hfOrd7Words.getD 0 []) 7 = true := by quickRfl
+theorem kO71 : ordK (hfOrd7Words.getD 1 []) 7 = true := by quickRfl
+theorem kO30 : ordK (hfOrd3Words.getD 0 []) 3 = true := by quickRfl
+theorem kO31 : ordK (hfOrd3Words.getD 1 []) 3 = true := by quickRfl
+theorem kO32 : ordK (hfOrd3Words.getD 2 []) 3 = true := by quickRfl
 
 theorem kC : allN 6 (fun i => permOK 42 6 (mask 6) (42 * 6) (X (hfCommWords.getD i []))
       (pi' (X (hfCommWords.getD i []))) &&

@@ -24,11 +24,29 @@ meta def bs0M : List Nat := CFSG.RankThree.PartOne.heFiveCase0Base.map Fin.val
 meta def cl0M : List (List (Array Nat) × Array (Array Nat) × Array Nat × Array Nat) :=
   [([], #[(Array.range 9).map fun _ => 0], #[0], #[0])]
 
+meta def ep5M : Array (Array Nat) := Id.run do
+  let L := levels0M[0]!
+  let x := CFSG.RankThree.PartOne.heFiveLines[0]!
+  let mut tab : Array Nat := Array.replicate L.pts.size 0
+  let mut done : Array Bool := Array.replicate L.pts.size false
+  let mut reps : Array Nat := #[]
+  for k in [0:L.pts.size] do
+    if !done[k]! && x[L.pts[k]!]! == L.pts[k]! then
+      let r := reps.size
+      reps := reps.push k
+      for j in [0:CFSG.RankThree.PartOne.heFiveC0Cert.pts.size] do
+        let q := L.pos[(CFSG.RankThree.PartOne.heFiveC0Cert.pts[j]!)[L.pts[k]!]!]!
+        if !done[q]! then
+          done := done.set! q true
+          tab := tab.set! q (1024 * r + j)
+  return #[tab, reps, #[reps.size]]
+
 end CertificateChecks.KernelHeLoc.FiveL
 
 #kss_cltdata CertificateChecks.KernelHeLoc.T50 8330 14 9 CFSG.RankThree.PartOne.heFiveCase0Arrs
   CertificateChecks.KernelHeLoc.FiveL.base0M CertificateChecks.KernelHeLoc.FiveL.levels0M
   CertificateChecks.KernelHeLoc.FiveL.bs0M CertificateChecks.KernelHeLoc.FiveL.cl0M 32 8 64
+#kmisc_packarrs CertificateChecks.KernelHeLoc.FiveL.EP5 CertificateChecks.KernelHeLoc.FiveL.ep5M 32
 
 namespace CertificateChecks.KernelHeLoc.FiveL
 

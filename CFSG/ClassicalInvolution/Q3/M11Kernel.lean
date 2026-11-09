@@ -2,6 +2,7 @@ module
 
 public import CFSG.ClassicalInvolution.Q3.Closing
 public import CFSG.Sporadic.Mathieu.M11
+import Certificates.Certificate3120
 import all Init.Data.Array.Basic
 import all Init.Data.Nat.Fold
 import all Init.Data.Range.Basic
@@ -12,7 +13,7 @@ namespace CFSG.ClassicalInvolution.Q3
 
 open CFSG.Blueprint CFSG.Sporadic.Mathieu CFSG.Sporadic.Mathieu.Native
 
-theorem m11_check_kernel : check 11 m11Data = true := by decide +kernel
+theorem m11_check_kernel : check 11 m11Data = true := Certificates.certificate3120
 
 theorem m11_hyp_kernel : Hyp NativeSporadic.M11 m11Data m11a m11b :=
   ⟨by norm_num, closure_pair_eq_top m11_eq _ _, rep_m11a, rep_m11b, m11_check_kernel⟩

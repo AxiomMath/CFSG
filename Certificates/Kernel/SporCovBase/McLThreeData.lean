@@ -2,15 +2,15 @@ module
 
 public import Init
 public import Certificates.Data.Kernel.Spor.PEnum
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CFSG.KD.SporCovBase.McLThree TBF "Certificates/Kernel/SporCovBase/data/mcl3tb.bin.gz" 64 4 6912 12786205976975829661
+#kc_repo #kc_ktree CFSG.KD.SporCovBase.McLThree TBF "Certificates/Kernel/SporCovBase/data/mcl3tb.bin" 64 4 6912 12786205976975829661
 
-#kc_repo #kc_ktree_gz CFSG.KD.SporCovBase.McLThree LGF "Certificates/Kernel/SporCovBase/data/mcl3lg.bin.gz" 64 4 576 18047988875229182708
+#kc_repo #kc_ktree CFSG.KD.SporCovBase.McLThree LGF "Certificates/Kernel/SporCovBase/data/mcl3lg.bin" 64 4 576 18047988875229182708
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.McLThree.F "Certificates/Kernel/SporCovBase/data/mcl3.json.gz"
+#kc_repo #kc_json CFSG.KD.SporCovBase.McLThree.F "Certificates/Kernel/SporCovBase/data/mcl3.json"
   17151 13817315718504054776
   (bs : List Nat) (gw : List Nat) (Rg : List (List Nat)) (H : List (List Nat)) (R : List (List Nat))
   (P : List Nat) (T : List (List Nat)) (Rp : List (List Nat)) (Gs : List (List Nat))

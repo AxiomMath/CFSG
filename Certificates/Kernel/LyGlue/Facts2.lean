@@ -4,6 +4,7 @@ public import Certificates.Kernel.LyGlue.KPt
 public import Certificates.Kernel.LyGlue.KBlk
 public import Certificates.Kernel.LyGlue.Bind
 public import Certificates.Kernel.LyGlue.Facts1
+public import Certificates.Kernel.LyBase.Facts
 public import CFSG.Certificates.Kernel.LyGlue.WordPtSound
 public import CFSG.Certificates.Kernel.LyGlue.BlkSound
 public import CFSG.Certificates.Kernel.LyGlue.BlockHom
@@ -22,18 +23,11 @@ section
 variable (h : Ly0.tabCheck = true)
 include h
 
-theorem c2 : Ly0.cG * Ly0.cG = 1 := by
-  ext a
-  have e := Nat.eq_of_beq_eq_true (allN_spec k_c2 a a.2)
-  rw [Perm.mul_apply, Perm.one_apply, ← cL_eq h, ← cL_eq h]
-  exact e
+theorem c2 : Ly0.cG * Ly0.cG = 1 :=
+  KernelLyBase.cG_mul_cG (cL_eq h) (dL_eq h)
 
-theorem d3 : Ly0.dG ^ 3 = 1 := by
-  ext a
-  have e := Nat.eq_of_beq_eq_true (allN_spec k_d3 a a.2)
-  rw [pow_three, Perm.mul_apply, Perm.mul_apply, Perm.one_apply, ← dL_eq h, ← dL_eq h,
-    ← dL_eq h]
-  exact e
+theorem d3 : Ly0.dG ^ 3 = 1 :=
+  KernelLyBase.dG_pow_three (cL_eq h) (dL_eq h)
 
 theorem cdPt_eq (ws : List Int) (hws : ∀ l ∈ ws, l ≠ 0 ∧ l.natAbs ≤ 2) (a : Fin Ly0.deg) :
     cdPt ws.length (encW ws) a = (Ly0.wG Ly0.gens0 ws a : Nat) :=

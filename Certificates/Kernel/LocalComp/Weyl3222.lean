@@ -130,7 +130,7 @@ theorem stab_code {x g : ℕ} (hx : okC x = true) (hg : okC g = true) (hgg : spM
   have h3 := okC_mul hx okNeg
   have hc := rep_mul h1 hg (rep_mul hg hx ha ht) (rep_inv_inv hg hgg ha)
   rw [eqA_code h2 hx hc ht, eqA_code h2 h3 hc (rep_mul hx okNeg ht rep_negArr'), stabB,
-    strictB_eq', rec_true_left]
+    strictB_eq', strictB_eq', rec_true_left]
 
 theorem s0_stab_code {x : ℕ} (hx : okC x = true) {t : Array ℕ}
     (ht : Rep 240 t (Φ x)) :
@@ -141,7 +141,7 @@ theorem s0_stab_code {x : ℕ} (hx : okC x = true) {t : Array ℕ}
   have h3 := okC_mul hx okNeg
   have hc := rep_mul h1 okS0 (rep_mul okS0 hx rep_s0Arr' ht) rep_s0Arr'
   rw [eqA_code h2 hx hc ht, eqA_code h2 h3 hc (rep_mul hx okNeg ht rep_negArr'), stabB,
-    strictB_eq', rec_true_left]
+    strictB_eq', strictB_eq', rec_true_left]
 
 theorem unique_ok : uniqueCheck = true := by
   rw [uniqueCheck, allLt_iff]
@@ -222,7 +222,9 @@ theorem centerC_ok : centerCCheck = true := by
     rw [cGens_all_eq] at cC
     have h := allN_spec cC k hk
     rwa [comm_eq hok (okCG hk) hrep (rep_cg hk)] at h
-  rw [c15, cE', cC'] at hC
+  have c3 : commB x (e32 GC (nat_lit 3)) = true := allN_spec cE' 3 (by omega)
+  have c9 : commB x (e32 CGC (nat_lit 2)) = true := allN_spec cC' 2 (by omega)
+  rw [c15, c3, c9, cE', cC'] at hC
   simp only [rec_true_left] at hC
   have e1 : isId t = Nat.beq x spId := eqA_code hok okId hrep rep_id'
   rw [e1, eqA_code hok ok15 hrep rep_s15,
@@ -254,6 +256,7 @@ theorem cf_eq {x xi d : ℕ} (hx : okC x = true) (hd : okC d = true) (hxi : okC 
   have h2 := okC_mul h1 hxi
   have h3 := okC_mul h2 hd
   rw [cfB]
+  simp only [strictB_eq']
   exact memE1_code h3 (rep_mul h2 hd (rep_mul h1 hxi (rep_mul hx hd ht ha) hti) ha)
 
 theorem centerMod_ok : centerModCheck = true := by
@@ -270,9 +273,6 @@ theorem centerMod_ok : centerModCheck = true := by
   generalize tInv tPlusCert i b = ti at hti
   unfold centerModAt at hM
   simp only [strictB_eq'] at hM
-  obtain ⟨hxi, hM⟩ := (bAnd_iff _ _).1 hM
-  obtain ⟨hinv, hM⟩ := (bAnd_iff _ _).1 hM
-  rw [spInvK_spec hok hxi hinv] at hti
   have ok15 := okSign 15 (by simp)
   have ok5 := okSign 5 (by simp)
   have ok80 := okSign 80 (by simp)
@@ -284,15 +284,19 @@ theorem centerMod_ok : centerModCheck = true := by
   rw [commModGens, Bool.and_eq_true, Bool.and_eq_true, List.all_eq_true] at hcomm
   obtain ⟨⟨c15, cE⟩, cC⟩ := hcomm
   rw [comm_eq hok ok15 hrep rep_s15] at c15
-  have cE' : allN 7 (fun k => cfB x (spInvK x) (e32 GC k)) = true := allN_of_forall fun k hk => by
-    have h := cE _ (even_gc hk).1
-    rw [(even_gc hk).2, Bool.false_or] at h
-    rwa [cf_eq hok (gens_facts.1 k (by omega)).1 hxi hrep hti (rep_sign_gc hk)] at h
-  have cC' : allN 6 (fun k => cfB x (spInvK x) (e32 CGC k)) = true := allN_of_forall fun k hk => by
+  rw [c15] at hM
+  obtain ⟨hxi, hM⟩ := (bAnd_iff _ _).1 hM
+  obtain ⟨hinv, hM⟩ := (bAnd_iff _ _).1 hM
+  rw [spInvK_spec hok hxi hinv] at hti
+  have cE' : cfB x (spInvK x) (e32 GC (nat_lit 3)) = true := by
+    have h := cE _ (even_gc (k := 3) (by omega)).1
+    rw [(even_gc (k := 3) (by omega)).2, Bool.false_or] at h
+    rwa [cf_eq hok (gens_facts.1 3 (by omega)).1 hxi hrep hti (rep_sign_gc (by omega))] at h
+  have cC' : cfB x (spInvK x) (e32 CGC (nat_lit 2)) = true := by
     rw [cGens_all_eq] at cC
-    have h := allN_spec cC k hk
-    rwa [cf_eq hok (okCG hk) hxi hrep hti (rep_cg hk)] at h
-  rw [c15, cE', cC'] at hM
+    have h := allN_spec cC 2 (by omega)
+    rwa [cf_eq hok (okCG (by omega)) hxi hrep hti (rep_cg (by omega))] at h
+  rw [cE', cC'] at hM
   simp only [rec_true_left] at hM
   have r5 := rep_mul hok ok5 hrep (rep_sign' (by simp))
   have r80 := rep_mul hok ok80 hrep (rep_sign' (by simp))

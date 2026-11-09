@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Data.Kernel.Spor.HKeyB
+public import Certificates.Data.Kernel.Spor.HKeyU
 
 public section
 
@@ -29,7 +29,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
   Nat.rec (motive := fun _ => Nat → List Nat → List Nat → (List Nat → List Nat → Bool) → Bool)
     (fun _ cs ck kont => kont cs ck)
     (fun _ ih l cs ck kont => strictB (cjK n w m G GI l c) (fun y =>
-      strictB (hkeyB n w m y) (fun hy =>
+      strictB (hkeyU n w m y) (fun hy =>
         ih (Nat.succ l) (appK cs (List.cons y List.nil)) (appK ck (List.cons hy List.nil)) kont)))
     r
 
@@ -52,7 +52,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
     f
 
 @[expose] noncomputable def fiveTopK (n w m : Nat) (G GI : Nat → Nat) (k f S : Nat) : Bool :=
-  strictB (hkeyB n w m S) (fun hs => extK n w m G GI S k (nat_lit 0) List.nil List.nil
+  strictB (hkeyU n w m S) (fun hs => extK n w m G GI S k (nat_lit 0) List.nil List.nil
     (fun cs ck => fiveK n w m G GI k f (List.cons hs List.nil) cs ck))
 
 end CFSG.KS.MulH

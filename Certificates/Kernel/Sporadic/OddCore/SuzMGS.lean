@@ -2,7 +2,6 @@ module
 
 public import Certificates.Kernel.Sporadic.OddCore.SuzMGSD
 public import Certificates.Kernel.Sporadic.RawGenSplitP
-public import Certificates.Kernel.Sporadic.RawGenSchOJ
 public import Certificates.Kernel.Sporadic.OddCore.SuzMGCG
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
@@ -11,22 +10,21 @@ public section
 
 set_option maxRecDepth 400000
 
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGS 0 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGS 1 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGS 2 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGS 3 0 7
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGS 1 0 45
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGS 2 0 7
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGS 3 0 1
-#ks_rawchain_sl2_osub CertificateChecks.KernelSpor.SuzMGS
-#ks_rawchain_sl2_scho CertificateChecks.KernelSpor.SuzMGS 0 21
-#ks_rawchain_sl2_joino CertificateChecks.KernelSpor.SuzMGS
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGS 0 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGS 1 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGS 2 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGS 3 0 7
+#ks_rawchain_sl2_join CertificateChecks.KernelSpor.SuzMGS
+
+end
 
 namespace CertificateChecks.KernelSpor.SuzMGSC
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.Monster.B.Co2.Native
 open CFSG.Sporadic.SuzRecog.ModelGroupsCheck CFSG.Sporadic.SuzRecog.ModelGroupsData
 open CertificateChecks.KernelSpor CertificateChecks.KernelSpor.SuzTwCF
+
+set_option maxRecDepth 400000
 
 local notation "cn" => canonK 1782 11 (mask 11) (1782 * 11)
 
@@ -57,13 +55,13 @@ theorem pJ {j : Nat} (hj : j < 9) (hc : cn (SuzMGSH.F j) = true) :
     P (csplitStrong j) (SuzMGSH.F j) :=
   ⟨SuzMGF.hexJ_eq SuzMGSH.eq SuzMGSH.all hj, hc⟩
 
-theorem csplit15099 : csplitOK = true := by
+public theorem csplit15099 : csplitOK = true := by
   have hg := kGen
   simp only [Bool.and_eq_true] at hg
-  have hch : chainOK csplitStrongArrs 4 csplitBase csplitWords [162, 360, 56, 3] = true :=
-    SuzMGCG.chainOK_of (NS := 223) (CH := 8) binds (by simp [csplitWords])
-      (fun j hj => by interval_cases j <;> rfl) (by simp only [SuzMGSD.deriv, Array.toArray_toList]) SuzMGS.head SuzMGS.hl
-      (by norm_num) SuzMGS.hs kPerm kOrb (by norm_num)
+  have hch : chainLowOK csplitStrongArrs 4 csplitBase csplitWords [162, 360, 56, 3] = true :=
+    SuzMGCG.chainLowOK_of binds (by simp [csplitWords])
+      (fun j hj => by interval_cases j <;> rfl) (by simp only [SuzMGSD.deriv, Array.toArray_toList])
+      SuzMGS.head SuzMGS.hl kPerm kOrb (by norm_num)
   unfold csplitOK zA
   rw [hch, eqA_P (pJ (by norm_num) hg.1.1.1.1.1.1.1) pT1,
     eqA_P (pJ (by norm_num) hg.1.1.1.1.1.1.2) SuzC1BF.pz,
@@ -74,5 +72,3 @@ theorem csplit15099 : csplitOK = true := by
   simp [csplitStrongArrs]
 
 end CertificateChecks.KernelSpor.SuzMGSC
-
-end

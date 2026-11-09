@@ -635,6 +635,114 @@ theorem srchAAt_card {b0 b1 b2 : Nat} {bs : List Nat} (hA : ChainArrays Q O S ba
     rw [f0 _ hk, hP] at h1'
     exact levPts_inj hA hF (by omega) (Finset.mem_range.1 ha') ha0 (Fin.ext h1')
 
+theorem cnt234_card {b0 b1 : Nat} {bs : List Nat} (hA : ChainArrays Q O S base W)
+    (hc : rawChainOK n O S base W chunks = true) (hch : 0 < chunks)
+    (hT : TabChain n w kS 5 BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base (b0 :: b1 :: bs))
+    (hb0 : b0 < n) (hb1 : b1 < n) {t : Nat → Bool} {Pr : Equiv.Perm (Fin n) → Prop}
+    [DecidablePred Pr]
+    (ht : ∀ F, nfValidK 5 LR F = true → F % 65536 = 0 →
+      (t F = true ↔ Pr (nfElt n S base (nfArr 5 F)))) {a : Nat} (ha : a < rcnt (LR 1)) :
+    cnt234 LR t 0 a =
+      Nat.card {g : Q.originalSubgroup // (g : Equiv.Perm (Fin n)) ⟨b0, hb0⟩ = ⟨b0, hb0⟩ ∧
+        (((g : Equiv.Perm (Fin n)) ⟨b1, hb1⟩ : Fin n) : Nat) = rpt w (mask w) (LR 1) a ∧
+          Pr g} := by
+  obtain ⟨hb, hp, ho, hN, htab, hbs⟩ := hT
+  have hF := chainCheckFacts hc
+  have hQ := (validSchreier_of_chainOK hA hch hc).1
+  have h5 : Q.baseCount = 5 := by rw [← hA.base_size]; exact hb.2.2.2.2.2.1
+  have hm : ∀ i < 5, (lev n S base i).pts.size = rcnt (LR i) := fun i hi =>
+    (cnt_eq hb hp ho hN hi).symm
+  have ha1 : a < (lev n S base 1).pts.size := (hm 1 (by norm_num)) ▸ ha
+  have hβ : Q.base.get ⟨0, by omega⟩ = ⟨b0, hb0⟩ := Fin.ext ((hA.base_val ⟨0, by omega⟩).trans
+    (getD_base hbs (by simp)))
+  have hβ1 : Q.base.get ⟨1, by omega⟩ = ⟨b1, hb1⟩ := Fin.ext ((hA.base_val ⟨1, by omega⟩).trans
+    (getD_base hbs (by simp)))
+  have hfix : ∀ k ∈ box5 n S base, E5 n S base k ⟨b0, hb0⟩ = levPts Q S base 0 k.1 := by
+    intro k hk
+    simp only [box5, Finset.mem_product, Finset.mem_range] at hk
+    rw [← hβ]
+    unfold E5
+    simp only [Equiv.Perm.mul_apply]
+    rw [levT_fix hA hF (i := 4) (by omega) (by omega) hk.2.2.2.2,
+      levT_fix hA hF (i := 3) (by omega) (by omega) hk.2.2.2.1,
+      levT_fix hA hF (i := 2) (by omega) (by omega) hk.2.2.1,
+      levT_fix hA hF (i := 1) (by omega) (by omega) hk.2.1,
+      (levT_spec hA hF (by omega) hk.1).2]
+  have f1 : ∀ k ∈ box5 n S base, k.1 = 0 →
+      E5 n S base k ⟨b1, hb1⟩ = levPts Q S base 1 k.2.1 := by
+    intro k hk h0
+    simp only [box5, Finset.mem_product, Finset.mem_range] at hk
+    rw [← hβ1]
+    unfold E5
+    simp only [Equiv.Perm.mul_apply]
+    rw [levT_fix hA hF (i := 4) (by omega) (by omega) hk.2.2.2.2,
+      levT_fix hA hF (i := 3) (by omega) (by omega) hk.2.2.2.1,
+      levT_fix hA hF (i := 2) (by omega) (by omega) hk.2.2.1,
+      (levT_spec hA hF (by omega) hk.2.1).2, h0, hA.levT_zero hF (by omega),
+      Equiv.Perm.one_apply]
+  have hroot : levPts Q S base 0 0 = ⟨b0, hb0⟩ := by
+    have := (levT_spec hA hF (i := 0) (k := 0) (by omega) (hA.levelFacts hF (by omega)).pos).2
+    rw [hA.levT_zero hF (by omega), Equiv.Perm.one_apply, hβ] at this
+    exact this.symm
+  have hpt : rpt w (mask w) (LR 1) a = (levPts Q S base 1 a : Nat) := by
+    rw [(agree hb hp ho hN (by norm_num : 1 < 5)).2.pt a ha1, hA.levPts_val hF (by omega) ha1]
+  rw [card5 hA hF hQ h5 (fun g => g ⟨b0, hb0⟩ = ⟨b0, hb0⟩ ∧
+    ((g ⟨b1, hb1⟩ : Fin n) : Nat) = rpt w (mask w) (LR 1) a ∧ Pr g)]
+  have e2 : rcnt (LR (nat_lit 2)) = (lev n S base 2).pts.size := (hm 2 (by norm_num)).symm
+  have e3 : rcnt (LR (nat_lit 3)) = (lev n S base 3).pts.size := (hm 3 (by norm_num)).symm
+  have e4 : rcnt (LR (nat_lit 4)) = (lev n S base 4).pts.size := (hm 4 (by norm_num)).symm
+  unfold box5
+  simp only [Finset.sum_product]
+  rw [Finset.sum_eq_single_of_mem 0 (Finset.mem_range.2 (hA.levelFacts hF (by omega)).pos)
+    (fun a' ha' hne => Finset.sum_eq_zero fun b hb => Finset.sum_eq_zero fun c hc =>
+      Finset.sum_eq_zero fun d hd => Finset.sum_eq_zero fun e he => ?_)]
+  · rw [Finset.sum_eq_single_of_mem a (Finset.mem_range.2 ha1)
+      (fun b hb hne => Finset.sum_eq_zero fun c hc =>
+        Finset.sum_eq_zero fun d hd => Finset.sum_eq_zero fun e he => ?_)]
+    · unfold cnt234
+      rw [e2, e3, e4]
+      rw [foldUp_add _ (fun c _ s => foldUp_add _ (fun d _ s => foldUp_add _
+        (fun e _ s => by rw [strictN_eq, nIf_succ]) s) s), Nat.zero_add]
+      refine Finset.sum_congr rfl fun c hc => Finset.sum_congr rfl fun d hd =>
+        Finset.sum_congr rfl fun e he => ?_
+      rw [Finset.mem_range] at hc hd he
+      have hk : ((0 : Nat), a, c, d, e) ∈ box5 n S base := by
+        simp only [box5, Finset.mem_product, Finset.mem_range]
+        exact ⟨(hA.levelFacts hF (by omega)).pos, ha1, hc, hd, he⟩
+      have h65 : ∀ i < 5, (lev n S base i).pts.size < 65536 := fun i hi =>
+        (hm i hi) ▸ rcnt_lt _
+      have h00 : 0 < rcnt (LR 0) := by
+        rw [← hm 0 (by norm_num)]
+        exact (hA.levelFacts hF (by omega)).pos
+      have hv := nfValid_nf5 (LR := LR) (k0 := 0) h00 ha
+        (hm 2 (by norm_num) ▸ hc) (hm 3 (by norm_num) ▸ hd) (hm 4 (by norm_num) ▸ he)
+      have hz : nf5 0 a c d e % 65536 = 0 := by
+        have := nf5_fld (k0 := 0) (by norm_num) (lt_trans ha1 (h65 1 (by norm_num)))
+          (lt_trans hc (h65 2 (by norm_num))) (lt_trans hd (h65 3 (by norm_num)))
+          (lt_trans he (h65 4 (by norm_num))) (i := 0) (by norm_num)
+        simpa using this
+      have hiff := ht _ hv hz
+      rw [nfArr_nf5 (k0 := 0) (by norm_num) (lt_trans ha1 (h65 1 (by norm_num)))
+        (lt_trans hc (h65 2 (by norm_num))) (lt_trans hd (h65 3 (by norm_num)))
+        (lt_trans he (h65 4 (by norm_num))), nfElt5] at hiff
+      rw [hfix _ hk, hroot, f1 _ hk rfl, hpt]
+      simp only [true_and, hiff]
+    · have hk : ((0 : Nat), b, c, d, e) ∈ box5 n S base := by
+        simp only [box5, Finset.mem_product]
+        exact ⟨Finset.mem_range.2 (hA.levelFacts hF (by omega)).pos, hb, hc, hd, he⟩
+      refine ite_eq_right_iff.2 fun h => absurd h ?_
+      rintro ⟨-, h1, -⟩
+      rw [f1 _ hk rfl, hpt] at h1
+      exact hne (levPts_inj hA hF (by omega) (Finset.mem_range.1 hb) ha1 (Fin.ext h1))
+  · have hk : (a', b, c, d, e) ∈ box5 n S base := by
+      simp only [box5, Finset.mem_product]
+      exact ⟨ha', hb, hc, hd, he⟩
+    refine ite_eq_right_iff.2 fun h => absurd h ?_
+    rintro ⟨h1, -⟩
+    rw [hfix _ hk, ← hroot] at h1
+    exact hne (levPts_inj hA hF (by omega) (Finset.mem_range.1 ha')
+      (hA.levelFacts hF (by omega)).pos h1)
+
 end Counts
 
 end CFSG.KS.SporSch.Tab

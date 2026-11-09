@@ -14,7 +14,7 @@ namespace CertificateChecks.KernelSeitz
 
 open CFSG.KC.SeitzB45
 
-theorem k_cover : coverOKF mtT 15 P6.SL = true := by decide +kernel
+theorem k_cover : coverO mtT crT 15 P6.SL = true := by decide +kernel
 
 end CertificateChecks.KernelSeitz
 

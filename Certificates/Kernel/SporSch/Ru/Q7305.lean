@@ -37,6 +37,7 @@ theorem elab_get {y : Nat} (hy : y < 4060) : ruELab[y]! = ELf y := by
     change (ruEGArr k)[x]! = _
     rw [eg_eq hk, CFSG.KC.BfsPin.unpack_get' hx]
     rfl
+  rw [ruELab, orbLab_eq]
   exact (orbLabels_of_K hs hg kOrbE).2 y hy
 
 theorem elab_lt {y : Nat} (hy : y < 4060) : ELf y < 9 := by

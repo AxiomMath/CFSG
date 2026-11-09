@@ -141,6 +141,58 @@ theorem normalizes_of_normOK {k : Fin 2} {E : Subgroup (Carrier .M22)}
     rw [hxy, hE]
     exact Or.inr hy
 
+theorem exists_sub_of_subOK (hS : sylowOK gensTab = true) {k : Fin 2}
+    (h : subOK (span gensTab) (elemTabs k) = true) :
+    ∃ E : Subgroup (Carrier .M22), E ≤ sylowS ∧ ElemAb E ∧ Nat.card E = 16 ∧
+      ∀ x, x ∈ E ↔ x = 1 ∨ x ∈ invs16 k := by
+  simp only [subOK, Bool.and_eq_true, List.all_eq_true, Bool.or_eq_true, beq_iff_eq,
+    decide_eq_true_eq] at h
+  obtain ⟨hL, hmul⟩ := h
+  obtain ⟨hlen, hnd, hinv⟩ := invs16_spec k
+  have hmem : ∀ x ∈ invs16 k, tab x ∈ elemTabs k := fun x hx => by
+    rw [← tab_invs16]
+    exact List.mem_map_of_mem hx
+  have hmul' : ∀ x ∈ invs16 k, ∀ y ∈ invs16 k, x * y = 1 ∨ x * y ∈ invs16 k := by
+    intro x hx y hy
+    rcases hmul _ (hmem x hx) _ (hmem y hy) with h1 | h1
+    · exact Or.inl (tab_injective (by rw [tab_mul, tab_one]; exact h1))
+    · rw [← tab_invs16] at h1
+      obtain ⟨z, hz, hzt⟩ := List.mem_map.1 h1
+      rw [← tab_mul] at hzt
+      rw [← tab_injective hzt]
+      exact Or.inr hz
+  have hinv' : ∀ x ∈ invs16 k, x⁻¹ = x := fun x hx => inv_eq_of_mul_eq_one_right (hinv x hx).2
+  let E : Subgroup (Carrier .M22) :=
+    { carrier := {x | x = 1 ∨ x ∈ invs16 k}
+      mul_mem' := by
+        rintro x y (rfl | hx) (rfl | hy)
+        · exact Or.inl (one_mul 1)
+        · rw [one_mul]
+          exact Or.inr hy
+        · rw [mul_one]
+          exact Or.inr hx
+        · exact hmul' x hx y hy
+      one_mem' := Or.inl rfl
+      inv_mem' := by
+        rintro x (rfl | hx)
+        · exact Or.inl inv_one
+        · rw [Set.mem_setOf_eq, hinv' x hx]
+          exact Or.inr hx }
+  have hE : ∀ x, x ∈ E ↔ x = 1 ∨ x ∈ invs16 k := fun x => Iff.rfl
+  have hsq : ∀ x ∈ E, x * x = 1 := by
+    rintro x (rfl | hx)
+    · exact one_mul 1
+    · exact (hinv x hx).2
+  have hnd1 : (1 :: invs16 k).Nodup := List.nodup_cons.2 ⟨fun h1 => (hinv 1 h1).1 rfl, hnd⟩
+  have hc : Nat.card E = Nat.card {x // x ∈ (1 :: invs16 k)} :=
+    Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [hE, List.mem_cons])
+  refine ⟨E, ?_, ⟨fun x hx y hy => mul_comm_of_sq hsq hx hy, hsq⟩, ?_, hE⟩
+  · rintro x (rfl | hx)
+    · exact Subgroup.one_mem _
+    · rw [mem_sylowS_iff hS, ← mem_spanE_iff, tab_sylowGens]
+      exact hL _ (hmem x hx)
+  · rw [hc, natCard_subtype_mem _ hnd1, List.length_cons, hlen]
+
 theorem exists_pair (h2E : TwoEAt sylowS) :
     ∃ F1 F2 : Subgroup (Carrier .M22), F1 ≤ sylowS ∧ F2 ≤ sylowS ∧ F1 ≠ F2 ∧ ElemAb F1 ∧
       ElemAb F2 ∧ Nat.card F1 = 16 ∧ Nat.card F2 = 16 ∧
@@ -149,26 +201,30 @@ theorem exists_pair (h2E : TwoEAt sylowS) :
       (∀ x, (∀ e ∈ F1, x * e = e * x) → x ∈ F1) ∧
       (∀ x, x ∈ F1 ↔ x = 1 ∨ x ∈ invs16 1) ∧ (∀ x, x ∈ F2 ↔ x = 1 ∨ x ∈ invs16 0) := by
   have hS := (Certificates.certificate24781).1
-  have hE := (Certificates.certificate24781).2
+  obtain ⟨E0, hE0S, hE0e, hE0c, hE0⟩ := exists_sub_of_subOK hS (Certificates.certificate24781).2.1
+  obtain ⟨E1, hE1S, hE1e, hE1c, hE1⟩ := exists_sub_of_subOK hS (Certificates.certificate24781).2.2
   obtain ⟨Ea, Eb, ga, gb, hEaS, hEbS, hne, hea, heb, hca, hcb, hcl, hcena, hcenb, -, -⟩ := h2E
-  obtain ⟨ka, hka⟩ := exists_k_of_le hS hE hea.2 (by rw [hca]; norm_num) hEaS
-  obtain ⟨kb, hkb⟩ := exists_k_of_le hS hE heb.2 (by rw [hcb]; norm_num) hEbS
-  have hmema := mem_iff_of_contains hca ka hka
-  have hmemb := mem_iff_of_contains hcb kb hkb
-  have hk : ka ≠ kb := by
+  have h10 : E1 ≠ E0 := by
     intro h
-    apply hne
-    ext x
-    rw [hmema, hmemb, h]
-  have hdis : ∀ a b : Fin 2, a ≠ b → (a = 1 ∧ b = 0) ∨ (a = 0 ∧ b = 1) := by decide
-  rcases hdis ka kb hk with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · rw [h1] at hmema
-    rw [h2] at hmemb
-    exact ⟨Ea, Eb, hEaS, hEbS, hne, hea, heb, hca, hcb, hcl, hcena, hmema, hmemb⟩
-  · rw [h1] at hmema
-    rw [h2] at hmemb
-    exact ⟨Eb, Ea, hEbS, hEaS, hne.symm, heb, hea, hcb, hca,
-      fun F hF hFe hFc => (hcl F hF hFe hFc).symm, hcenb, hmemb, hmema⟩
+    have ht : ∃ t ∈ elemTabs 1, t ∉ elemTabs 0 := by decide +kernel
+    obtain ⟨t, ht1, ht0⟩ := ht
+    rw [← tab_invs16] at ht1
+    obtain ⟨x, hx, rfl⟩ := List.mem_map.1 ht1
+    have hx1 : x ∈ E1 := (hE1 x).2 (Or.inr hx)
+    rw [h] at hx1
+    rcases (hE0 x).1 hx1 with rfl | hx0
+    · exact ((invs16_spec 1).2.2 1 hx).1 rfl
+    · exact ht0 (by rw [← tab_invs16]; exact List.mem_map_of_mem hx0)
+  have hkey : (E1 = Ea ∧ E0 = Eb) ∨ (E1 = Eb ∧ E0 = Ea) := by
+    rcases hcl E1 hE1S hE1e hE1c with h1 | h1 <;> rcases hcl E0 hE0S hE0e hE0c with h0 | h0
+    · exact absurd (h1.trans h0.symm) h10
+    · exact Or.inl ⟨h1, h0⟩
+    · exact Or.inr ⟨h1, h0⟩
+    · exact absurd (h1.trans h0.symm) h10
+  rcases hkey with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
+  · exact ⟨_, _, hE1S, hE0S, h10, hE1e, hE0e, hE1c, hE0c, hcl, hcena, hE1, hE0⟩
+  · exact ⟨_, _, hE1S, hE0S, h10, hE1e, hE0e, hE1c, hE0c,
+      fun F hF hFe hFc => (hcl F hF hFe hFc).symm, hcenb, hE1, hE0⟩
 
 theorem closure_involutions :
     Subgroup.closure {a : Carrier .M22 | a ∈ sylowS ∧ a * a = 1} = sylowS := by

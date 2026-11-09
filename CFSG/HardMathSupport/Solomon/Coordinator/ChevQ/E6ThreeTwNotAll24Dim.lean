@@ -163,6 +163,7 @@ local instance e6NeZeroRankKS : NeZero Tag.E6.rank := ⟨by decide⟩
 theorem e6KerCount_mem_of_ne_zero :
     ∀ a b c d e f : ZMod 3, e6ConjVec a b c d e f ≠ 0 →
       e6KerCount (e6ConjVec a b c d e f) ∈ ({18, 22, 24, 30, 40} : Finset ℕ) := by
+  simp only [e6KerCount_eq]
   decide +kernel
 
 theorem finrank_ker_rootDiag_mem {L : Type} [Field L] [IsAlgClosed L] (h3 : ((3 : ℕ) : L) ≠ 0)

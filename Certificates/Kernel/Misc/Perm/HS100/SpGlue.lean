@@ -271,13 +271,11 @@ theorem zasSpecialOK_true : zasSpecialOK = true := by
     rcases ht with ht | ht
     · exact Or.inl ht
     · right
-      rw [Bool.and_eq_true, Nat.blt_eq] at ht
+      simp only [Bool.and_eq_true, Nat.blt_eq] at ht
       rw [nList, List.any_map, List.any_eq_true]
-      refine ⟨NW i, List.mem_range.2 ht.1, ?_⟩
+      refine ⟨NW i, List.mem_range.2 ht.1.1, ?_⟩
       simp only [Function.comp_apply]
-      have hc := cNN (NW i) (by rw [N.nums'.2.1]; exact ht.1)
-      have hpp : PP 100 7 (N.NN.T (NW i)) :=
-        pp_of_permB sz (allN_spec N.npPerm (NW i) (by rw [N.nums'.2.1]; exact ht.1))
+      have hpp : PP 100 7 (N.NN.T (NW i)) := pp_of_permB sz ht.1.2
       rw [z_eq, zasConj_unpack hpp cZ, eqA_F (pZ_canon hpp cZ) (hE i hi')]
       exact ht.2
   have h13 : allLt 2 (fun k => validA 100 (hs100Arr k)) = true := by

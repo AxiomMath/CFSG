@@ -82,18 +82,22 @@ theorem abuL_ok : ∀ l, 1 ≤ l → l ≤ [tt 3, tt 4, tt 5].length →
   intro l h1 h2
   simp only [List.length_cons, List.length_nil] at h2
   interval_cases l
-  · exact ⟨rfl, (inv_spec (k := 3) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 4) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 5) (by norm_num)).1⟩
+  all_goals refine ⟨by simp only [Nat.reduceSub, List.getD_cons_zero, List.getD_cons_succ]; rfl,
+    ?_⟩
+  · exact (inv_spec (k := 3) (by norm_num)).1
+  · exact (inv_spec (k := 4) (by norm_num)).1
+  · exact (inv_spec (k := 5) (by norm_num)).1
 
 theorem sylL_ok : ∀ l, 1 ≤ l → l ≤ [tt 0, tt 1, tt 2].length →
     [tt 0, tt 1, tt 2].getD (l - 1) (idT 315) = tabT (unpack 315 9 (sylL l)) ∧ Cn (sylL l) := by
   intro l h1 h2
   simp only [List.length_cons, List.length_nil] at h2
   interval_cases l
-  · exact ⟨rfl, (inv_spec (k := 0) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 1) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 2) (by norm_num)).1⟩
+  all_goals refine ⟨by simp only [Nat.reduceSub, List.getD_cons_zero, List.getD_cons_succ]; rfl,
+    ?_⟩
+  · exact (inv_spec (k := 0) (by norm_num)).1
+  · exact (inv_spec (k := 1) (by norm_num)).1
+  · exact (inv_spec (k := 2) (by norm_num)).1
 
 theorem q2L_ok : ∀ l, 1 ≤ l → l ≤ [tt 8, tt 9, tt 10, tt 11].length →
     [tt 8, tt 9, tt 10, tt 11].getD (l - 1) (idT 315) = tabT (unpack 315 9 (q2L l)) ∧
@@ -101,10 +105,12 @@ theorem q2L_ok : ∀ l, 1 ≤ l → l ≤ [tt 8, tt 9, tt 10, tt 11].length →
   intro l h1 h2
   simp only [List.length_cons, List.length_nil] at h2
   interval_cases l
-  · exact ⟨rfl, (inv_spec (k := 8) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 9) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 10) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 11) (by norm_num)).1⟩
+  all_goals refine ⟨by simp only [Nat.reduceSub, List.getD_cons_zero, List.getD_cons_succ]; rfl,
+    ?_⟩
+  · exact (inv_spec (k := 8) (by norm_num)).1
+  · exact (inv_spec (k := 9) (by norm_num)).1
+  · exact (inv_spec (k := 10) (by norm_num)).1
+  · exact (inv_spec (k := 11) (by norm_num)).1
 
 theorem s1L_ok : ∀ l, 1 ≤ l → l ≤ [tt 0, tt 1, tt 2, tt 7].length →
     [tt 0, tt 1, tt 2, tt 7].getD (l - 1) (idT 315) = tabT (unpack 315 9 (s1L l)) ∧
@@ -112,10 +118,12 @@ theorem s1L_ok : ∀ l, 1 ≤ l → l ≤ [tt 0, tt 1, tt 2, tt 7].length →
   intro l h1 h2
   simp only [List.length_cons, List.length_nil] at h2
   interval_cases l
-  · exact ⟨rfl, (inv_spec (k := 0) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 1) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 2) (by norm_num)).1⟩
-  · exact ⟨rfl, (inv_spec (k := 7) (by norm_num)).1⟩
+  all_goals refine ⟨by simp only [Nat.reduceSub, List.getD_cons_zero, List.getD_cons_succ]; rfl,
+    ?_⟩
+  · exact (inv_spec (k := 0) (by norm_num)).1
+  · exact (inv_spec (k := 1) (by norm_num)).1
+  · exact (inv_spec (k := 2) (by norm_num)).1
+  · exact (inv_spec (k := 7) (by norm_num)).1
 
 theorem abuW {wd : List Nat} (hw : ∀ l ∈ wd, 1 ≤ l ∧ l ≤ 3) :
     wordTbl 315 abuT wd = tabT (unpack 315 9 (wK abuL wd)) := by

@@ -65,15 +65,16 @@ elab "#left_orb " pre:ident gId:ident nn:num ww:num psId:ident ll:num : command 
   let closF := mkAppN (mkConst ``CFSG.KC.LeftOrb.closPtL) #[nE, wE, c `ng, c `N, c `G, c `T, c `E]
   let allRE := fun (f : Expr) (s : Nat) =>
     isTrue (mkAppN (mkConst ``CFSG.KC.Misc.Clos.allR) #[mulE (lit L) (lit s), lit L, f])
-  let joined := fun (nm : Name) (f : Expr) (slice : Nat → Name) => do
+  let chunked := fun (f : Expr) (slice : Nat → Name) =>
     let Pf := mkLambda `s .default natT
       (isTrue (mkAppN (mkConst ``CFSG.KC.Misc.Clos.allR) #[mulE (lit L) (mkBVar 0), lit L, f]))
     let hP := forallChain Pf K fun s => mkConst (P ++ slice s)
+    mkAppN (mkConst ``CFSG.KC.Misc.Clos.forall_of_chunks) #[lit L, lit K, f, hP]
+  let joined := fun (nm : Name) (f : Expr) (slice : Nat → Name) => do
     let ty := mkForall `i .default natT (mkForall `h .default
       (mkAppN (mkConst ``LT.lt [0]) #[natT, mkConst ``instLTNat, mkBVar 0, mulE (lit L) (lit K)])
       (isTrue (mkApp f (mkBVar 1))))
-    let pf := mkAppN (mkConst ``CFSG.KC.Misc.Clos.forall_of_chunks) #[lit L, lit K, f, hP]
-    CFSG.KC.addThmDecl <| { name := P ++ nm, levelParams := [], type := ty, value := pf }
+    CFSG.KC.addThmDecl <| { name := P ++ nm, levelParams := [], type := ty, value := chunked f slice }
   liftCoreM <| withOptions (Elab.async.set · false) do
     addTree (P ++ `G) (gs.map (pack w))
     addTree (P ++ `GI) (gs.map fun g => pack w (inv n g))
@@ -90,7 +91,13 @@ elab "#left_orb " pre:ident gId:ident nn:num ww:num psId:ident ll:num : command 
     thm `h (isTrue (mkAppN (mkConst ``CFSG.KC.ConjOrb.headK) #[nE, wE, c `ng, c `G, c `GI]))
     let keyF := mkLambda `i .default natT (mkAppN (mkConst ``CFSG.KC.BfsPin.pkeyK)
       #[nE, wE, mkConst psN, mkApp (c `T) (mkBVar 0)])
-    thm `k (isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.distinctK) #[c `N, keyF, c `S]))
+    let sortF := mkAppN (mkConst ``CFSG.KC.Misc.Clos.sortAt) #[c `N, keyF, c `S]
+    for s in [0:K] do
+      thm (Name.mkSimple s!"ks{s}") (allRE sortF s)
+    let kTy := isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.distinctK) #[c `N, keyF, c `S])
+    let kPf := mkAppN (mkConst ``CFSG.KC.BfsPin.distinctK_of_sortAt)
+      #[c `N, keyF, c `S, chunked sortF (fun s => Name.mkSimple s!"ks{s}"), reflBoolTrue]
+    CFSG.KC.addThmDecl <| { name := P ++ `k, levelParams := [], type := kTy, value := kPf }
     for s in [0:K] do
       thm (Name.mkSimple s!"c{s}") (allRE closF s)
     joined `cl closF fun s => Name.mkSimple s!"c{s}"

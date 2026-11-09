@@ -104,7 +104,7 @@ theorem fold_mat {gs : Array (Array ℕ)} {G : ℕ → ℕ} {m : ℕ}
     ∀ (w : List ℕ) (A : ℕ), (∀ l ∈ w, l < m) →
       w.foldl (fun acc l => compA 2300 acc gs[l]!) (permOfMat 22 co2FiveV A) =
         permOfMat 22 co2FiveV (w.foldl (fun acc l => mmK (G l) acc) A)
-  | [], _, _ => rfl
+  | [], _, _ => by rw [List.foldl_nil, List.foldl_nil]
   | l :: w, A, h => by
     have hl := h l List.mem_cons_self
     rw [List.foldl_cons, List.foldl_cons, hg l hl, compA_good (hG l hl)]
@@ -228,6 +228,35 @@ theorem pair_get {g i : ℕ} (hg : g + 1 < 6) (hi : i < 2) :
   rw [getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn]
   exact (nF (by omega)).2.1
 
+theorem and4_true {a b c d : Bool} (ha : a = true) (hb : b = true) (hc : c = true)
+    (hd : d = true) : (a && b && c && d) = true := by
+  subst ha hb hc hd
+  rfl
+
+theorem treeOK_intro {n : ℕ} {gs : Array (Array ℕ)} {ps : List ℕ}
+    {pts L edges : Array (Array ℕ)} {par lab : Array ℕ} (hp : pts = L)
+    (h1 : ∀ k < gs.size, validA n gs[k]! = true) (h2 : 0 < L.size) (h3 : L[0]! = idA n)
+    (h4 : ∀ j, 0 < j → j < L.size → par[j]! < j ∧ lab[j]! < gs.size ∧
+      L[j]! = leftA n gs lab[j]! L[par[j]!]!)
+    (h5 : (L.toList.map (keyA n ps)).Nodup) :
+    treeOK n gs ps ⟨pts, edges, par, lab⟩ = true := by
+  subst hp
+  unfold treeOK
+  simp only [Bool.and_eq_true, allLt_iff, decide_eq_true_eq, beq_iff_eq]
+  refine ⟨⟨⟨⟨h1, h2⟩, h3⟩, fun i hi => ?_⟩, CFSG.KC.Bfs.pairwise_lt_mergeSort h5⟩
+  rw [Bool.or_eq_true, beq_iff_eq]
+  rcases Nat.eq_zero_or_pos i with h | h
+  · exact Or.inl h
+  · obtain ⟨e1, e2, e3⟩ := h4 i h hi
+    refine Or.inr ?_
+    simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
+    exact ⟨⟨e1, e2⟩, e3⟩
+
+theorem size_intro {pts L edges : Array (Array ℕ)} {par lab : Array ℕ} (hp : pts = L)
+    (h : 1080 < L.size) : decide (1080 < (ArrCert.mk pts edges par lab).pts.size) = true := by
+  subst hp
+  exact decide_eq_true h
+
 theorem pair_of {C g M : ℕ} {P I : ℕ → ℕ} (hC : C < 81) (hg : g + 1 < 6) (hM : 1100 ≤ M)
     (hpg : allN 2 (fun i => pairG C (Nat.add g i)) = true) (h0 : Nat.beq (P 0) I22 = true)
     (hed : allN 1100 (edgeK P I g M) = true) (htr : allN M (treeK P I g) = true)
@@ -287,15 +316,11 @@ theorem pair_of {C g M : ℕ} {P I : ℕ → ℕ} (hC : C < 81) (hg : g + 1 < 6)
   have hgv : ∀ k < 2, validA 2300 gs[k]! = true := fun k hk => by
     rw [hgs, pair_get hg hk]
     exact validA_inv (nF (by omega)).1
-  unfold pairCheck treeOK
-  dsimp only
-  rw [CFSG.KC.Bfs.arrBfs_eq]
-  dsimp only
-  rw [hpts]
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, allLt_iff, hsz]
-  and_intros
-  · trivial
-  · intro i hi
+  unfold pairCheck
+  refine and4_true (beq_iff_eq.2 hsz) ?_ ?_ ?_
+  · rw [allLt_iff]
+    intro i hi
+    simp only [Bool.and_eq_true]
     have h := allN_spec hpg i hi
     unfold pairG at h
     simp only [Bool.and_eq_true] at h
@@ -305,23 +330,11 @@ theorem pair_of {C g M : ℕ} {P I : ℕ → ℕ} (hC : C < 81) (hg : g + 1 < 6)
       commA_good hgi (eG hC).2, pow_good hgi, idA_eq, eqA_good (good_pw hgi 5) good_I22,
       eqA_good hgi good_I22]
     exact ⟨⟨⟨⟨rfl, rfl⟩, hc⟩, h5⟩, h1⟩
-  · exact hgv
-  · rw [hLs]
-    omega
-  · exact h00
-  · intro i hi
-    rw [hLs] at hi
-    rw [Bool.or_eq_true, beq_iff_eq]
-    rcases Nat.eq_zero_or_pos i with h | h
-    · exact Or.inl h
-    · obtain ⟨h1, h2, h3⟩ := htree i h (by rw [hLs]; exact hi)
-      refine Or.inr ?_
-      rw [hsz] at h2
-      simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
-      exact ⟨⟨h1, h2⟩, h3⟩
-  · exact CFSG.KC.Bfs.pairwise_lt_mergeSort (CFSG.KC.Bfs.nodup_map_of_inj _ hinj)
-  · rw [hLs]
-    omega
+  · rw [CFSG.KC.Bfs.arrBfs_eq]
+    exact treeOK_intro hpts (fun k hk => hgv k (by rwa [hsz] at hk)) (by rw [hLs]; omega) h00
+      htree (CFSG.KC.Bfs.nodup_map_of_inj _ hinj)
+  · rw [CFSG.KC.Bfs.arrBfs_eq]
+    exact size_intro hpts (by rw [hLs]; omega)
 
 theorem pairA_ok : pairACheck () = true :=
   pair_of (C := 3) (g := 2) (by norm_num) (by norm_num) (by norm_num) pgA rootA edgeA treeA ordA

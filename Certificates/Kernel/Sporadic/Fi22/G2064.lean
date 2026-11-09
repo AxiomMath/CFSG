@@ -64,52 +64,49 @@ theorem cid_size : ctiCids.size = 1024 := by rw [ctiCids, Fi22CtiT.cid_eq, unpac
 
 theorem zi_size : ctiZi.size = 1024 := by rw [ctiZi, Fi22CtiT.zi_eq, unpack_size]
 
-theorem EE_elt_size (htext : fi22Cent3510Text = Fi22E2065.textP) {i : ℕ} (hi : i < 1024) :
+theorem EE_elt_size {i : ℕ} (hi : i < 1024) :
     EE[i]!.size = 3510 := by
-  rw [E_eq htext, getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn, Array.size_ofFn]
+  rw [E_eq, getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn, Array.size_ofFn]
 
-theorem EE_eq_mulTree (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem EE_eq_mulTree :
     EE = mulTree 3510 ctiQArr ctiPar ctiLab := by
-  rw [E_eq htext]
-  exact (CFSG.KS.MulTree.mulTree_eq (gs := 10) (fun _ hk => ctiQArr_get htext hk)
+  rw [E_eq]
+  exact (CFSG.KS.MulTree.mulTree_eq (gs := 10) (fun _ hk => ctiQArr_get hk)
     (fun _ hk x hx => pq_lt (by omega) hx) par_size (by norm_num)
     (fun i hi h0 => ⟨par_get hi, rows_PA i hi h0⟩)
     (fun i hi h0 => ⟨lab_get hi, rows_LA i hi h0⟩)).symm
 
-theorem EE_inj (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem EE_inj :
     ∀ i < EE.size, ∀ j < EE.size, EE[i]! = EE[j]! → i = j :=
-  inj_of_keysOK (keys_ok htext)
+  inj_of_keysOK keys_ok
 
-theorem search_eq
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem search_eq :
     closureSearch 3510 ctiQArr 1100 = (EE, ctiPar, ctiLab, ctiNxt) := by
-  have hs := E_size htext
-  refine closureSearch_eq_of (fn := NX) (fp := PA) (fl := LA) (closure_ok htext)
-    (fun i hi => EE_elt_size htext (by omega)) (EE_inj htext) (by omega)
+  have hs := E_size
+  refine closureSearch_eq_of (fn := NX) (fp := PA) (fl := LA) closure_ok
+    (fun i hi => EE_elt_size (by omega)) EE_inj (by omega)
     (by rw [par_size, hs]) (by rw [lab_size, hs]) (by rw [nxt_size, hs, ctiQArr_size])
     (fun i hi => par_get (by omega)) (fun i hi => lab_get (by omega))
     (fun t ht => nxt_get (by rw [hs, ctiQArr_size] at ht; omega)) ?_
   rw [ctiQArr_size, hs]
   exact Fi22CtiB.bfs
 
-theorem ZI_lt
-    (htext : fi22Cent3510Text = Fi22E2065.textP) {i : ℕ} (hi : i < 1024) : ZI i < 1024 := by
+theorem ZI_lt {i : ℕ} (hi : i < 1024) : ZI i < 1024 := by
   rw [← zi_get hi]
-  exact (coset_ok htext hi).2.1
+  exact (coset_ok hi).2.1
 
-theorem cosets_eq
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem cosets_eq :
     ctiCosets EE ctiZ = (ctiCids, ctiReps, ctiZi) := by
-  have hs := E_size htext
-  refine ctiCosets_eq (M := 1024) (R := 512) hs (by rw [← hs]; exact EE_inj htext) zi_size
+  have hs := E_size
+  refine ctiCosets_eq (M := 1024) (R := 512) hs (by rw [← hs]; exact EE_inj) zi_size
     (fun i hi => ?_) (fun i hi => ?_) cid_size reps_size (fun c hc => ?_) (fun c hc => ?_)
-    (fun i hi => ?_) (fun i hi => (coset_ok htext hi).2.2.2.1)
-  · obtain ⟨-, hz, he, -, -⟩ := coset_ok htext hi
-    exact ⟨hz, arr_eq_of_eqA (EE_elt_size htext hz) (compA_size _ _ _) he⟩
+    (fun i hi => ?_) (fun i hi => (coset_ok hi).2.2.2.1)
+  · obtain ⟨-, hz, he, -, -⟩ := coset_ok hi
+    exact ⟨hz, arr_eq_of_eqA (EE_elt_size hz) (compA_size _ _ _) he⟩
   · have h := allN_spec Fi22CtiB.ziRows i hi
     unfold Fi22CtiB.ziRow at h
     obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
-    have hzl := ZI_lt htext hi
+    have hzl := ZI_lt hi
     rw [zi_get hi, zi_get hzl]
     refine ⟨Nat.eq_of_beq_eq_true h1, fun e => ?_⟩
     rw [e, Nat.beq_refl] at h2
@@ -123,7 +120,7 @@ theorem cosets_eq
   · have h := allN_spec Fi22CtiB.incRows c (by omega)
     rw [reps_get (by omega), reps_get hc]
     exact Nat.blt_eq ▸ h
-  · obtain ⟨hc, -⟩ := coset_ok htext hi
+  · obtain ⟨hc, -⟩ := coset_ok hi
     refine ⟨hc, ?_⟩
     have h := allN_spec Fi22CtiB.cidRows i hi
     rw [cid_get hi] at hc ⊢
@@ -134,26 +131,25 @@ theorem cosets_eq
 
 theorem conj_size (g gi a : Array ℕ) : (conjArr 3510 g gi a).size = 3510 := compA_size _ _ _
 
-theorem pis_eq
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem pis_eq :
     ((List.range 9).toArray.map fun k => ctiPi EE ctiCids ctiReps (ctiG k) (ctiGi k)) =
       ctiS5.extract 0 9 := by
-  have hs := E_size htext
+  have hs := E_size
   refine Array.ext (by rw [Array.size_map, pis_count]; simp) fun k h1 h2 => ?_
   have hk : k < 9 := by simpa using h1
   simp only [Array.getElem_map, List.getElem_toArray, List.getElem_range]
   rw [← getElem!_pos (ctiS5.extract 0 9) k h2]
-  refine ctiPi_eq (EE_inj htext) (by rw [pis_size hk, reps_size]) fun c hc => ?_
+  refine ctiPi_eq EE_inj (by rw [pis_size hk, reps_size]) fun c hc => ?_
   have hc' : c < 512 := by rw [reps_size] at hc; exact hc
-  obtain ⟨hlt, hin⟩ := pi_ok htext hk hc'
+  obtain ⟨hlt, hin⟩ := pi_ok hk hc'
   obtain ⟨hr, hrc⟩ := reps_ok _ hlt
   unfold ctiInCoset at hin
   rcases Bool.or_eq_true_iff.1 hin with h | h
   · exact ⟨_, by rw [hs]; exact hr,
-      (arr_eq_of_eqA (conj_size _ _ _) (EE_elt_size htext hr) h).symm, hrc⟩
-  · obtain ⟨-, hz, he, hcz, -⟩ := coset_ok htext hr
+      (arr_eq_of_eqA (conj_size _ _ _) (EE_elt_size hr) h).symm, hrc⟩
+  · obtain ⟨-, hz, he, hcz, -⟩ := coset_ok hr
     refine ⟨_, by rw [hs]; exact hz, ?_, by rw [hcz, hrc]⟩
-    rw [arr_eq_of_eqA (EE_elt_size htext hz) (compA_size _ _ _) he]
+    rw [arr_eq_of_eqA (EE_elt_size hz) (compA_size _ _ _) he]
     exact (arr_eq_of_eqA (conj_size _ _ _) (compA_size _ _ _) h).symm
 
 @[expose] def B5 : List (Fin 512) := [18, 32, 2]
@@ -250,25 +246,18 @@ theorem image_eq : ctiImageOK (ctiS5.extract 0 9) (closureSearch 512 (ctiS5.extr
   rw [hXY] at hXr
   exact Fin.ext (hinj i hi j hj (arr_eq_of_rep (hsz i hi) (hsz j hj) hXr hYr))
 
-theorem checks_of
-    (htext : fi22Cent3510Text = Fi22E2065.textP) : ctiChecks = true := by
-  have h1 := search_eq htext
-  have h2 := cosets_eq htext
-  have h3 := pis_eq htext
+theorem checks : ctiChecks = true := by
+  have h1 := search_eq
+  have h2 := cosets_eq
+  have h3 := pis_eq
   unfold ctiChecks
   simp only [h1]
   simp only [h2]
   simp only [h3]
   rw [Bool.and_eq_true]
-  have hq := qok htext
-  rw [← EE_eq_mulTree htext] at hq
+  have hq := qok
+  rw [← EE_eq_mulTree] at hq
   exact ⟨hq, image_eq⟩
-
-open CFSG CFSG.Sporadic CFSG.Sporadic.FischerOddCore CFSG.Monster.B.Co2.Native in
-open CFSG.Certificates.Native CFSG.Monster.B.Fischer CFSG.Sporadic.FischerOddCore.Native in
-theorem certificate2064_of
-    (htext : fi22Cent3510Text = Fi22E2065.textP) : ctiChecks = true :=
-  checks_of htext
 
 end CertificateChecks.KernelSpor.Fi22CtiG
 

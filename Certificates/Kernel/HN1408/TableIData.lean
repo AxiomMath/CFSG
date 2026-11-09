@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.HN1408.RecGen
 public import Certificates.Kernel.Sporadic.OddCore.MulHCmd
 public import Certificates.Kernel.Misc.Perm.HexCmd
+public import Certificates.Kernel.Misc.Perm.CharsLits
 public import Certificates.Kernel.HN1408.S2Data
 meta import Certificates.Kernel.HN1408.RecGen
 meta import Certificates.Kernel.HN1408.S2Data
@@ -103,9 +104,9 @@ set_option maxRecDepth 400000
 #kfind CFSG.KD.HN1408.TLSCl CFSG.KD.HN1408.TIGen.rlS CFSG.KD.HN1408.TIGen.clS
 #kmisc_packarrs CFSG.KD.HN1408.TLSJ CFSG.KD.HN1408.TIGen.lSJ 4
 
-#ks_chars CFSG.KD.HN1408.TB1 CFSG.EvenSporadicStandard.HNRecog.blkStr1
-#ks_chars CFSG.KD.HN1408.TB2 CFSG.EvenSporadicStandard.HNRecog.blkStr2
-#ks_chars CFSG.KD.HN1408.TB3 CFSG.EvenSporadicStandard.HNRecog.blkStr3
+#ks_chars_lits CFSG.KD.HN1408.TB1 CFSG.EvenSporadicStandard.HNRecog.blkStr1
+#ks_chars_lits CFSG.KD.HN1408.TB2 CFSG.EvenSporadicStandard.HNRecog.blkStr2
+#ks_chars_lits CFSG.KD.HN1408.TB3 CFSG.EvenSporadicStandard.HNRecog.blkStr3
 #kmisc_packarrs CFSG.KD.HN1408.TB.F CFSG.KD.HN1408.TIGen.blkM 4
 
 #kmisc_packarrs CFSG.KD.HN1408.TW1 CFSG.KD.HN1408.TIGen.w1 32

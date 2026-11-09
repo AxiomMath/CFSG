@@ -12,8 +12,8 @@ public section
 
 namespace CFSG.KAct.SuzRho0
 
-#kc_repo #kc_json_gz CFSG.KAct.SuzRho0
-  "Certificates/Kernel/Misc/Coset/SuzRho0A/data/Data.json.gz" 1156 8268641448724670701
+#kc_repo #kc_json CFSG.KAct.SuzRho0
+  "Certificates/Kernel/Misc/Coset/SuzRho0A/data/Data.json" 1156 8268641448724670701
   (R : List (List Nat)) (W : List (List Nat)) (M : List (List Nat))
 
 end CFSG.KAct.SuzRho0

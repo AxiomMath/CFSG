@@ -11,7 +11,7 @@ set_option maxRecDepth 100000
 
 public section
 
-#kb_family "data/F550871.json.gz" 1654 3241220513028223012 (r0 := e64MemberRels ())
+#kb_family "data/F550871.json" 1654 3241220513028223012 (r0 := e64MemberRels ())
   (r1 := restrictWords (subsetOf 28 [0, 1]) (e64MemberRels ()))
 
 end

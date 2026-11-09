@@ -206,14 +206,16 @@ theorem facts :
     have b := (okI_spec oJ0).1
     rw [k0_eq, j0_eq, cu a b, cu b a]
     exact neK_sound n00
-  · rw [chj_eq, List.all_map, List.all_eq_true]
-    intro c hc
+  · rw [chj_eq, List.all_eq_true]
+    intro c' hc'
+    obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hc'
     have h := canon_of_HJ hc
     change (eqA 1755 (unpack 1755 11 c) (idA 1755) || eqA 1755 (unpack 1755 11 c) aJc) = true
     rw [TitsCentral.id_eq, jc_eq, eqA_unpack h canId, eqA_unpack h cJc]
     exact or2 (allL_spec sHJ c hc)
-  · rw [cnk_eq, List.all_map, List.all_eq_true]
-    intro c hc
+  · rw [cnk_eq, List.all_eq_true]
+    intro c' hc'
+    obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hc'
     have h := canon_of_NK hc
     change (eqA 1755 (unpack 1755 11 c) (idA 1755) || eqA 1755 (unpack 1755 11 c) aKc1 ||
       eqA 1755 (unpack 1755 11 c) aKc2 || eqA 1755 (unpack 1755 11 c) aKc3) = true

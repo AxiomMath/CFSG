@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.Sporadic.RawGenSl
+public import Certificates.Kernel.Sporadic.RawGenSplitP
 public import Certificates.Data.Kernel.Misc.RuSq
 public import CFSG.Certificates.Kernel.Spor.RawSound
 public import CFSG.LocalAnalysis.EvenSporadicStandard.TwoRu.SquaresInputs
@@ -19,8 +19,11 @@ meta def baseM : Array Nat := #[1, 0]
 
 end CertificateChecks.KernelMisc.RuSq
 
-#ks_rawchain_sl CertificateChecks.KernelMisc.RuSqS 4060 12 0 64 0
+#ks_rawchain_sl2_data CertificateChecks.KernelMisc.RuSqS 4060 12 0 64
   CertificateChecks.KernelMisc.RuSq.strongM CertificateChecks.KernelMisc.RuSq.baseM 4
   CFSG.Sporadic.RuSchreier.ruS4060ChainDerivations
+#ks_rawchain_sl2_lvp CertificateChecks.KernelMisc.RuSqS 0 0 64
+#ks_rawchain_sl2_lvp CertificateChecks.KernelMisc.RuSqS 1 0 64
+#ks_rawchain_sl2_join CertificateChecks.KernelMisc.RuSqS
 
 end

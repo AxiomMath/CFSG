@@ -22,9 +22,10 @@ open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier CFSG.Sporad
 open CFSG.Quasithin.KGC31 CFSG.Quasithin.KGC31.Native CFSG.Quasithin.KGC31.HS
 open CFSG.KS.SporSch.MOC CFSG.Monster.B.Mathieu CFSG.Certificates CertificateChecks.KernelHS100
 
-#kc_forall_chunks invAll (fun k => invBlk k = true) 22 CertificateChecks.KernelKGC31HS.invBlk 1
+#kc_forall_chunks invAll (fun k => invBlkF k = true) 22 CertificateChecks.KernelKGC31HS.invBlkF 1
 
-theorem invOK_all : ∀ j < RH.N, invOne j = true := of_blocks fun k hk => invAll k hk
+theorem invOK_all : ∀ j < RH.N, invOne j = true := fun j hj =>
+  invOne_of_F (of_blocks (f := invOneF) (fun k hk => invAll k hk) j hj)
 
 theorem inv_facts {j : Nat} (hj : j < RH.N) :
     PP 100 7 (RH.E j) ∧ porbOne 100 7 5 (FV.F 2) C5 (RH.E j) = true ∧

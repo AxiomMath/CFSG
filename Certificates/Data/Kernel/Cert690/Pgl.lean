@@ -63,9 +63,11 @@ open CFSG.GF2Type.Smith1979W3.Cert690 CFSG.LargeExtraspecial.O62
         else m)
       0
 
-@[expose] noncomputable def powGoF (a : Nat) : Nat → Nat → Nat
+@[expose] noncomputable def powGo (m : Nat → Nat → Nat) (a : Nat) : Nat → Nat → Nat
   | 0, acc => acc
-  | f + 1, acc => powGoF a f (mulF acc a)
+  | f + 1, acc => powGo m a f (m acc a)
+
+@[expose] noncomputable def powGoF (a f acc : Nat) : Nat := powGo mulF a f acc
 
 @[expose] noncomputable def pow2F (a : Nat) : Bool := powGoF a 16 oneF == oneF
 

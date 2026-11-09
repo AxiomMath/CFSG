@@ -15,11 +15,48 @@ private def twist (g : G8) (i : Bool) (x : G8) : G8 :=
   if i then frobF (g * x * g⁻¹) else frobF (frobF (g * x * g⁻¹))
 
 set_option synthInstance.maxSize 1024 in
+private theorem twist_check_false_false : ∀ g : G8, decide ((g : T8).1.toNat < 4) = false →
+    twist g false (twist g false (twist g false ga)) = ga →
+    twist g false (twist g false (twist g false gb)) = gb →
+    ∀ t : G8, t ≠ 1 → t * t * t = 1 → twist g false t = t →
+      ∃ s : G8, s * s = 1 ∧ twist g false s = s ∧ s * t * s⁻¹ = t⁻¹ := by
+  decide +kernel
+
+set_option synthInstance.maxSize 1024 in
+private theorem twist_check_false_true : ∀ g : G8, decide ((g : T8).1.toNat < 4) = true →
+    twist g false (twist g false (twist g false ga)) = ga →
+    twist g false (twist g false (twist g false gb)) = gb →
+    ∀ t : G8, t ≠ 1 → t * t * t = 1 → twist g false t = t →
+      ∃ s : G8, s * s = 1 ∧ twist g false s = s ∧ s * t * s⁻¹ = t⁻¹ := by
+  decide +kernel
+
+set_option synthInstance.maxSize 1024 in
+private theorem twist_check_true_false : ∀ g : G8, decide ((g : T8).1.toNat < 4) = false →
+    twist g true (twist g true (twist g true ga)) = ga →
+    twist g true (twist g true (twist g true gb)) = gb →
+    ∀ t : G8, t ≠ 1 → t * t * t = 1 → twist g true t = t →
+      ∃ s : G8, s * s = 1 ∧ twist g true s = s ∧ s * t * s⁻¹ = t⁻¹ := by
+  decide +kernel
+
+set_option synthInstance.maxSize 1024 in
+private theorem twist_check_true_true : ∀ g : G8, decide ((g : T8).1.toNat < 4) = true →
+    twist g true (twist g true (twist g true ga)) = ga →
+    twist g true (twist g true (twist g true gb)) = gb →
+    ∀ t : G8, t ≠ 1 → t * t * t = 1 → twist g true t = t →
+      ∃ s : G8, s * s = 1 ∧ twist g true s = s ∧ s * t * s⁻¹ = t⁻¹ := by
+  decide +kernel
+
+set_option synthInstance.maxSize 1024 in
 private theorem twist_check : ∀ g : G8, ∀ i : Bool,
     twist g i (twist g i (twist g i ga)) = ga → twist g i (twist g i (twist g i gb)) = gb →
     ∀ t : G8, t ≠ 1 → t * t * t = 1 → twist g i t = t →
       ∃ s : G8, s * s = 1 ∧ twist g i s = s ∧ s * t * s⁻¹ = t⁻¹ := by
-  decide +kernel
+  intro g i
+  cases i <;> cases h : decide ((g : T8).1.toNat < 4)
+  · exact twist_check_false_false g h
+  · exact twist_check_false_true g h
+  · exact twist_check_true_false g h
+  · exact twist_check_true_true g h
 
 private theorem frob_pow_three : frob ^ 3 = 1 := by
   refine MulEquiv.ext fun x => ?_

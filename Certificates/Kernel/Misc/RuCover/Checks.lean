@@ -16,8 +16,8 @@ set_option Elab.async false
 
 namespace CertificateChecks.KernelMisc.RuCover
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.RuCover
-  "Certificates/Kernel/Misc/RuCover/data/Data.json.gz" 1047 10309285999917947214
+#kc_repo #kc_json CertificateChecks.KernelMisc.RuCover
+  "Certificates/Kernel/Misc/RuCover/data/Data.json" 1047 10309285999917947214
   (Q0 : List Nat) (Q0I : List Nat) (Q1 : List Nat) (Q1I : List Nat)
 
 open CFSG.KC.MiscCoset.Act CFSG.KC.Misc.RuCover CertificateChecks.KernelSporSch

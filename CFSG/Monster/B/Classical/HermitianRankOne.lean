@@ -78,13 +78,97 @@ theorem sum_ne_zero_four : ∀ x₀ x₁ : Fin 21, x₀ < x₁ → ∀ x₂ : Fi
     ∀ x₃ : Fin 21, x₂ < x₃ → RTbl x₀ + RTbl x₁ + RTbl x₂ + RTbl x₃ ≠ 0 := by
   decide +kernel
 
-set_option maxHeartbeats 8000000 in
+@[expose] def f4b (a b : Bool) : F4 := ⟨Fin.ofNat 4 ((if a then 1 else 0) + (if b then 2 else 0))⟩
+
+theorem f4b_xor : ∀ a b a' b' : Bool, f4b (a ^^ a') (b ^^ b') = f4b a b + f4b a' b' := by
+  decide
+
+@[expose] def decM (n : ℕ) : Matrix (Fin 3) (Fin 3) F4 :=
+  Matrix.of fun r c => f4b (n.testBit (2 * (3 * r.1 + c.1))) (n.testBit (2 * (3 * r.1 + c.1) + 1))
+
+theorem decM_xor (a b : ℕ) : decM (a ^^^ b) = decM a + decM b := by
+  ext r c
+  simp only [decM, Matrix.of_apply, Matrix.add_apply, Nat.testBit_xor, f4b_xor]
+
+@[expose] def rCode (i : Fin 21) : ℕ :=
+  ([65536, 256, 83200, 101632, 116992, 1, 69649, 73777, 77857, 325, 87381, 109941, 129381, 397, 121245, 91581, 114093, 457, 105945, 125433, 95721] : List ℕ).getD i.1 0
+
+theorem RTbl_eq : ∀ i : Fin 21, RTbl i = decM (rCode i) := by decide +kernel
+
+@[expose] def FiveC (x₀ : Fin 21) : Prop :=
+  ∀ x₁ : Fin 21, x₀ < x₁ → ∀ x₂ : Fin 21, x₁ < x₂ →
+    ∀ x₃ : Fin 21, x₂ < x₃ → ∀ x₄ : Fin 21, x₃ < x₄ →
+      (decM (rCode x₀ ^^^ rCode x₁ ^^^ rCode x₂ ^^^ rCode x₃ ^^^ rCode x₄) = 0 ↔
+        ∃ a : Fin 21, 2 ^ (x₀ : ℕ) + 2 ^ (x₁ : ℕ) + 2 ^ (x₂ : ℕ) + 2 ^ (x₃ : ℕ) + 2 ^ (x₄ : ℕ) =
+          lineMask a)
+
+instance (x₀ : Fin 21) : Decidable (FiveC x₀) := by unfold FiveC; infer_instance
+
+@[expose] def FiveAt (x₀ : Fin 21) : Prop :=
+  ∀ x₁ : Fin 21, x₀ < x₁ → ∀ x₂ : Fin 21, x₁ < x₂ →
+    ∀ x₃ : Fin 21, x₂ < x₃ → ∀ x₄ : Fin 21, x₃ < x₄ →
+      (RTbl x₀ + RTbl x₁ + RTbl x₂ + RTbl x₃ + RTbl x₄ = 0 ↔
+        ∃ a : Fin 21, 2 ^ (x₀ : ℕ) + 2 ^ (x₁ : ℕ) + 2 ^ (x₂ : ℕ) + 2 ^ (x₃ : ℕ) + 2 ^ (x₄ : ℕ) =
+          lineMask a)
+
+theorem fiveC_0 : FiveC 0 := by decide +kernel
+
+theorem fiveC_1 : FiveC 1 := by decide +kernel
+
+theorem fiveC_2 : FiveC 2 := by decide +kernel
+
+theorem fiveC_3 : FiveC 3 := by decide +kernel
+
+theorem fiveC_4 : FiveC 4 := by decide +kernel
+
+theorem fiveC_5 : FiveC 5 := by decide +kernel
+
+theorem fiveC_6 : FiveC 6 := by decide +kernel
+
+theorem fiveC_7 : FiveC 7 := by decide +kernel
+
+theorem fiveC_8 : FiveC 8 := by decide +kernel
+
+theorem fiveC_9 : FiveC 9 := by decide +kernel
+
+theorem fiveC_10 : FiveC 10 := by decide +kernel
+
+theorem fiveC_11 : FiveC 11 := by decide +kernel
+
+theorem fiveC_12 : FiveC 12 := by decide +kernel
+
+theorem fiveC_13 : FiveC 13 := by decide +kernel
+
+theorem fiveC_14 : FiveC 14 := by decide +kernel
+
+theorem fiveC_15 : FiveC 15 := by decide +kernel
+
+theorem fiveC_16 : FiveC 16 := by decide +kernel
+
+theorem fiveC_17 : FiveC 17 := by decide +kernel
+
+theorem fiveC_18 : FiveC 18 := by decide +kernel
+
+theorem fiveC_19 : FiveC 19 := by decide +kernel
+
+theorem fiveC_20 : FiveC 20 := by decide +kernel
+
+theorem fiveAt_of_C {x₀ : Fin 21} (h : FiveC x₀) : FiveAt x₀ := by
+  unfold FiveAt
+  unfold FiveC at h
+  simpa only [RTbl_eq, ← decM_xor] using h
+
+theorem fiveC_all : ∀ x₀ : Fin 21, FiveC x₀ := by
+  intro x₀
+  fin_cases x₀
+  exacts [fiveC_0, fiveC_1, fiveC_2, fiveC_3, fiveC_4, fiveC_5, fiveC_6, fiveC_7, fiveC_8, fiveC_9, fiveC_10, fiveC_11, fiveC_12, fiveC_13, fiveC_14, fiveC_15, fiveC_16, fiveC_17, fiveC_18, fiveC_19, fiveC_20]
+
 theorem sum_eq_zero_five_iff : ∀ x₀ x₁ : Fin 21, x₀ < x₁ → ∀ x₂ : Fin 21, x₁ < x₂ →
     ∀ x₃ : Fin 21, x₂ < x₃ → ∀ x₄ : Fin 21, x₃ < x₄ →
       (RTbl x₀ + RTbl x₁ + RTbl x₂ + RTbl x₃ + RTbl x₄ = 0 ↔
         ∃ a : Fin 21, 2 ^ (x₀ : ℕ) + 2 ^ (x₁ : ℕ) + 2 ^ (x₂ : ℕ) + 2 ^ (x₃ : ℕ) + 2 ^ (x₄ : ℕ) =
-          lineMask a) := by
-  decide +kernel
+          lineMask a) :=
+  fun x₀ => fiveAt_of_C (fiveC_all x₀)
 
 theorem sum_orderEmbOfFin {β : Type*} [AddCommMonoid β] (T : Finset (Fin 21)) {k : ℕ}
     (hk : T.card = k) (f : Fin 21 → β) :
@@ -129,9 +213,72 @@ theorem linearIndependent_Ω_pair : ∀ p q : Fin 21, p ≠ q → ∀ s t : F4,
     s • Ω p + t • Ω q = 0 → s = 0 ∧ t = 0 := by
   decide +kernel
 
+theorem span_swap (p q i : Fin 21) :
+    (∃ s t : F4, s • Ω p + t • Ω q = Ω i) ↔ (∃ s t : F4, s • Ω q + t • Ω p = Ω i) :=
+  ⟨fun ⟨s, t, h⟩ => ⟨t, s, by rw [add_comm]; exact h⟩,
+    fun ⟨s, t, h⟩ => ⟨t, s, by rw [add_comm]; exact h⟩⟩
+
+theorem join_symm21 : ∀ p q : Fin 21, join p q = join q p := by decide +kernel
+
+@[expose] def SpanP (p : Fin 21) : Prop :=
+  ∀ q i : Fin 21, p < q → ((∃ s t : F4, s • Ω p + t • Ω q = Ω i) ↔ IsOn (join p q) i)
+
+instance (p : Fin 21) : Decidable (SpanP p) := by unfold SpanP; infer_instance
+
+theorem spanP_0 : SpanP 0 := by decide +kernel
+
+theorem spanP_1 : SpanP 1 := by decide +kernel
+
+theorem spanP_2 : SpanP 2 := by decide +kernel
+
+theorem spanP_3 : SpanP 3 := by decide +kernel
+
+theorem spanP_4 : SpanP 4 := by decide +kernel
+
+theorem spanP_5 : SpanP 5 := by decide +kernel
+
+theorem spanP_6 : SpanP 6 := by decide +kernel
+
+theorem spanP_7 : SpanP 7 := by decide +kernel
+
+theorem spanP_8 : SpanP 8 := by decide +kernel
+
+theorem spanP_9 : SpanP 9 := by decide +kernel
+
+theorem spanP_10 : SpanP 10 := by decide +kernel
+
+theorem spanP_11 : SpanP 11 := by decide +kernel
+
+theorem spanP_12 : SpanP 12 := by decide +kernel
+
+theorem spanP_13 : SpanP 13 := by decide +kernel
+
+theorem spanP_14 : SpanP 14 := by decide +kernel
+
+theorem spanP_15 : SpanP 15 := by decide +kernel
+
+theorem spanP_16 : SpanP 16 := by decide +kernel
+
+theorem spanP_17 : SpanP 17 := by decide +kernel
+
+theorem spanP_18 : SpanP 18 := by decide +kernel
+
+theorem spanP_19 : SpanP 19 := by decide +kernel
+
+theorem spanP_20 : SpanP 20 := by decide +kernel
+
+theorem spanP_all : ∀ p : Fin 21, SpanP p := by
+  intro p
+  fin_cases p
+  exacts [spanP_0, spanP_1, spanP_2, spanP_3, spanP_4, spanP_5, spanP_6, spanP_7, spanP_8, spanP_9, spanP_10, spanP_11, spanP_12, spanP_13, spanP_14, spanP_15, spanP_16, spanP_17, spanP_18, spanP_19, spanP_20]
+
 theorem mem_span_pair_Ω_iff : ∀ p q i : Fin 21, p ≠ q →
     ((∃ s t : F4, s • Ω p + t • Ω q = Ω i) ↔ IsOn (join p q) i) := by
-  decide +kernel
+  intro p q i hpq
+  rcases lt_or_gt_of_ne hpq with h | h
+  · exact spanP_all p q i h
+  · rw [span_swap p q i, join_symm21 p q]
+    exact spanP_all q p i h
 
 theorem exists_two_isOn : ∀ a : Fin 21, ∃ p q : Fin 21, p ≠ q ∧ IsOn a p ∧ IsOn a q := by
   decide +kernel

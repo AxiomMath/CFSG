@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HypOne.J3Inputs
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.FstR
 
 public section
 
@@ -11,7 +12,10 @@ open CFSG.Sporadic.SmallOddCore CFSG.EvenSporadicStandard.HypOne.J3
 
 @[expose] def sylXGens : Array Table := j3SylowGenTbls.toArray
 
-@[expose] def sylXList : Array Table := (mulClosureH 6156 sylXGens 256).1
+@[expose] def sylXList : Array Table := fstR (mulClosureH 6156 sylXGens 256)
+
+theorem sylXList_fst : sylXList = (mulClosureH 6156 sylXGens 256).1 :=
+  (rfl : sylXList = fstR (mulClosureH 6156 sylXGens 256)).trans (fstR_eq _)
 
 @[expose] def j3OuterCheck : Bool :=
   sylXList.any (fun x => tblEq 6156 x t0) &&

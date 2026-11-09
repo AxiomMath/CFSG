@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.U62K.D "Certificates/Kernel/U62K/data/u62.json.gz" 216219 10072230031785334209
+#kc_repo #kc_json CFSG.KD.U62K.D "Certificates/Kernel/U62K/data/u62.json" 216219 10072230031785334209
   (S : List (List (List Nat))) (B : List Nat) (K : List Nat) (P : List Nat)
   (C : List (List Nat)) (O : List Nat)
 

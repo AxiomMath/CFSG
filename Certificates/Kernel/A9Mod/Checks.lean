@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KD.A9Mod "Certificates/Kernel/A9Mod/a9mod.json.gz" 59496 4810992274790683796
+#kc_repo #kc_json CFSG.KD.A9Mod "Certificates/Kernel/A9Mod/a9mod.json" 59496 4810992274790683796
   (spin1a : CFSG.KC.A9Mod.SpinRec) (recs1a : List CFSG.KC.A9Mod.S1Rec)
   (node1a : CFSG.KC.A9Mod.NodeRec) (spin1b : CFSG.KC.A9Mod.SpinRec)
   (recs1b : List CFSG.KC.A9Mod.S1Rec) (node2a : CFSG.KC.A9Mod.NodeRec)

@@ -6,16 +6,17 @@ public import Certificates.Kernel.SuzPump.Pair
 public import Certificates.Kernel.Sporadic.Suz.Chain2306
 public import Certificates.Data.Kernel.Spor.RebuildK
 public import Certificates.Data.Kernel.B3S3K
-public import Certificates.Kernel.B3S3.Gen
+public import Certificates.Kernel.B3S3.GenSl
 public meta import Certificates.Kernel.SuzPump.PumpSrc
 public meta import Certificates.Kernel.SuzPump.Src
-public meta import Certificates.Kernel.B3S3.Gen
+public meta import Certificates.Kernel.B3S3.GenSl
+import CFSG.Certificates.Kernel.BfsPinRunSl
 import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 400000
 
-#kb3_enum CertificateChecks.KernelSuzPump.YE CertificateChecks.KernelSuzPump.yGs
-  CertificateChecks.KernelSuzPump.keys 1782 11
+#kb3_enum_sl CertificateChecks.KernelSuzPump.YE CertificateChecks.KernelSuzPump.yGs
+  CertificateChecks.KernelSuzPump.keys 1782 11 24
 
 public section
 

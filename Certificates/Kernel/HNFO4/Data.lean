@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KD.HNFO4 "Certificates/Kernel/HNFO4/data/o4.json.gz" 1208726 10292299440775741951
+#kc_repo #kc_json CFSG.KD.HNFO4 "Certificates/Kernel/HNFO4/data/o4.json" 1245640 9957610554459918774
     (u : Nat) (codes : List (List (Nat × Nat × Nat))) (ord : List Nat)
 
 public section
@@ -22,7 +22,7 @@ open CFSG.KD.HNF26729
   CFSG.KC.HNFDfs.chunk mul vec vldV (CFSG.KD.FamHNSeed.RW 1) (CFSG.KD.FamHNSeed.RW 2) Bi
     CFSG.KD.FamHNSeed.ONE w1 w2 w4 us u (CFSG.KC.HNFDfs.getC codes i)
 
-@[expose] noncomputable def distW : Bool := CFSG.KC.HNFDfs.distK codes 69 ord 35200
+@[expose] noncomputable def distW : Bool := CFSG.KC.HNFDfs.distK codes 486 ord 35200
 
 end CFSG.KD.HNFO4
 

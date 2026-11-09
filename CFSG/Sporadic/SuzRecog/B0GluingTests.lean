@@ -2,6 +2,7 @@ module
 
 public import CFSG.Sporadic.SuzRecog.C1ModelTests
 public import Certificates.Data.B0GluingData
+import CFSG.Certificates.Kernel.Common.RawProj
 
 public section
 
@@ -17,7 +18,7 @@ open CFSG.ComponentClassification.AS81.SuzB0 CFSG.Monster.B.Co2.Native CFSG.PSL3
     m := m.set! (T[k]!)[0]! k
   return m
 
-@[expose] def ttabs : Array Tab := t0Enum.tabs
+abbrev ttabs : Array Tab := rawProj% t0Enum.tabs
 
 @[expose] def tFp : Array Nat := fpIndex ttabs
 

@@ -21,10 +21,17 @@ meta def isTrue (b : Expr) : Expr :=
   mkApp3 (mkConst ``Eq [1]) (mkConst ``Bool) b (mkConst ``Bool.true)
 
 meta def pack (w : Nat) (a : Array Nat) : Nat := Id.run do
-  let mut acc := 0
-  for i in [0:a.size] do
-    acc := (acc <<< w) ||| a[a.size - 1 - i]!
-  return acc
+  let mut cur := a
+  let mut s := w
+  while 1 < cur.size do
+    let mut nxt : Array Nat := Array.mkEmpty ((cur.size + 1) / 2)
+    for i in [0:cur.size / 2] do
+      nxt := nxt.push (cur[2 * i]! ||| (cur[2 * i + 1]! <<< s))
+    if cur.size % 2 = 1 then
+      nxt := nxt.push cur[cur.size - 1]!
+    cur := nxt
+    s := 2 * s
+  return cur[0]?.getD 0
 
 meta def inv (n : Nat) (t : Array Nat) : Array Nat := Id.run do
   let mut r := Array.replicate n 0
@@ -52,7 +59,7 @@ meta def forallChain (P : Expr) (k : Nat) (thm : Nat → Expr) : Expr := Id.run 
 
 meta def addThm (nm : Name) (ty val : Expr) : CoreM Unit := do
   let val := if (← getOptions).getBool `debug.proofAsSorry && (← getEnv).contains ``sorryAx then
-    mkApp2 (mkConst ``sorryAx [levelZero]) ty (mkConst ``Bool.false) else val
+    mkApp2 (mkConst ``sorryAx [Level.zero]) ty (mkConst ``Bool.false) else val
   addDecl <| .thmDecl { name := nm, levelParams := [], type := ty, value := val }
 
 end CFSG.KS.RawGen

@@ -57,6 +57,18 @@ theorem prep_b : PRep (getN g0 1) (CFSG.Monster.B.Co2.permOfArr 315 autStrong[1]
   have := prep_of_arr h
   rwa [← hb] at this
 
+theorem σ0_zero : σ0 0 = CFSG.Monster.B.Co2.permOfArr 315 autStrong[0]! := by
+  unfold σ0
+  exact List.getD_cons_zero
+
+theorem σ0_one : σ0 1 = CFSG.Monster.B.Co2.permOfArr 315 autStrong[1]! := by
+  unfold σ0
+  exact List.getD_cons_succ.trans List.getD_cons_zero
+
+theorem σ0_two : σ0 2 = (CFSG.Monster.B.Co2.permOfArr 315 autStrong[1]!)⁻¹ := by
+  unfold σ0
+  exact List.getD_cons_succ.trans (List.getD_cons_succ.trans List.getD_cons_zero)
+
 theorem hG0 : ∀ i < g0.length, PRep (getN g0 i) (σ0 i) := by
   have h := base_ok
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, Nat.beq_eq, lenN_eq] at h
@@ -65,9 +77,12 @@ theorem hG0 : ∀ i < g0.length, PRep (getN g0 i) (σ0 i) := by
   rw [hl] at hi
   have pb := prep_b
   interval_cases i
-  · exact prep_a
-  · exact pb
-  · have h1 := (prep_eq (prep_pm pb (prep_pm pb pb)) prep_one).1 e3
+  · rw [σ0_zero]
+    exact prep_a
+  · rw [σ0_one]
+    exact pb
+  · rw [σ0_two]
+    have h1 := (prep_eq (prep_pm pb (prep_pm pb pb)) prep_one).1 e3
     have h2 : CFSG.Monster.B.Co2.permOfArr 315 autStrong[1]! *
         CFSG.Monster.B.Co2.permOfArr 315 autStrong[1]! =
         (CFSG.Monster.B.Co2.permOfArr 315 autStrong[1]!)⁻¹ :=
@@ -85,9 +100,12 @@ theorem σ0_mem : ∀ i < g0.length, σ0 i ∈ genGroup 315 autStrong[0]! autStr
   intro i hi
   rw [g0_len] at hi
   interval_cases i
-  · exact subset_closure (Set.mem_insert _ _)
-  · exact subset_closure (Set.mem_insert_of_mem _ rfl)
-  · exact inv_mem (subset_closure (Set.mem_insert_of_mem _ rfl))
+  · rw [σ0_zero]
+    exact subset_closure (Set.mem_insert _ _)
+  · rw [σ0_one]
+    exact subset_closure (Set.mem_insert_of_mem _ rfl)
+  · rw [σ0_two]
+    exact inv_mem (subset_closure (Set.mem_insert_of_mem _ rfl))
 
 theorem vals {E : List ℕ} {Ws : List (List ℕ)} (h : valsOK g0 E Ws = true) :
     E.length = Ws.length ∧ ∀ i < E.length, PRep (getN E i) (wordP σ0 (Ws.getD i [])) ∧

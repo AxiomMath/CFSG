@@ -17,8 +17,10 @@ private instance instDecMemA5 :
 
 abbrev A := alternatingGroup (Fin 5)
 
+set_option synthInstance.maxSize 2048 in
+set_option synthInstance.maxHeartbeats 400000 in
 set_option maxHeartbeats 0 in
-theorem ct_fact : ∀ m : A, (m ^ 3 = 1 ∧ m ≠ 1) → ∀ u : A,
+private theorem ct_fact_rep : ∃ m : A, (m ^ 3 = 1 ∧ m ≠ 1) ∧ ∀ u : A,
     (u ^ 2 = 1 ∧ u ≠ 1 ∧ u * m * u⁻¹ = m⁻¹) → ∀ v : A,
     (v ^ 2 = 1 ∧ v ≠ 1 ∧ v ≠ m⁻¹ * v * m ∧
       v * (m⁻¹ * v * m) = m⁻¹ * (m⁻¹ * v * m) * m) →
@@ -30,13 +32,52 @@ theorem ct_fact : ∀ m : A, (m ^ 3 = 1 ∧ m ≠ 1) → ∀ u : A,
       m * (u * m ^ (k : ℕ)) * (m⁻¹ * (m⁻¹ * v * m) * m) ≠ 1 := by
   decide +kernel
 
+theorem ct_fact : ∀ m : A, (m ^ 3 = 1 ∧ m ≠ 1) → ∀ u : A,
+    (u ^ 2 = 1 ∧ u ≠ 1 ∧ u * m * u⁻¹ = m⁻¹) → ∀ v : A,
+    (v ^ 2 = 1 ∧ v ≠ 1 ∧ v ≠ m⁻¹ * v * m ∧
+      v * (m⁻¹ * v * m) = m⁻¹ * (m⁻¹ * v * m) * m) →
+    ∃ k : Fin 3, (u * m ^ (k : ℕ) * v) ^ 5 = 1 ∧ u * m ^ (k : ℕ) * v ≠ 1 ∧
+      (u * m ^ (k : ℕ) * (m⁻¹ * v * m)) ^ 3 = 1 ∧ u * m ^ (k : ℕ) * (m⁻¹ * v * m) ≠ 1 ∧
+      (u * m ^ (k : ℕ) * (m⁻¹ * (m⁻¹ * v * m) * m)) ^ 5 = 1 ∧
+      u * m ^ (k : ℕ) * (m⁻¹ * (m⁻¹ * v * m) * m) ≠ 1 ∧
+      (m * (u * m ^ (k : ℕ)) * (m⁻¹ * (m⁻¹ * v * m) * m)) ^ 3 = 1 ∧
+      m * (u * m ^ (k : ℕ)) * (m⁻¹ * (m⁻¹ * v * m) * m) ≠ 1 := by
+  intro m hm u hu v hv
+  obtain ⟨m₀, hm₀, h₀⟩ := ct_fact_rep
+  obtain ⟨g, rfl⟩ := CFSG.Walter.J1.A5.conj_three m₀ m ⟨hm₀.1, hm₀.2, hm⟩
+  obtain ⟨u, rfl⟩ := (MulAut.conj g).surjective u
+  obtain ⟨v, rfl⟩ := (MulAut.conj g).surjective v
+  rw [← MulAut.conj_apply g m₀] at hu hv ⊢
+  simp only [← map_pow, ← map_mul, ← map_inv, map_eq_one_iff _ (MulAut.conj g).injective,
+    ne_eq, EmbeddingLike.apply_eq_iff_eq] at hu hv ⊢
+  exact h₀ u hu v hv
+
+set_option synthInstance.maxSize 2048 in
+set_option synthInstance.maxHeartbeats 400000 in
 set_option maxHeartbeats 0 in
-theorem split_fact : ∀ x : A, (x ^ 2 = 1 ∧ x ≠ 1) → ∀ a : A,
+private theorem split_fact_rep : ∃ x : A, (x ^ 2 = 1 ∧ x ≠ 1) ∧
+    (∀ y : A, (y ^ 2 = 1 ∧ y ≠ 1) → ∃ g : A, g * x * g⁻¹ = y) ∧ ∀ a : A,
     (a ^ 2 = 1 ∧ a ≠ 1 ∧ (a * x) ^ 3 = 1 ∧ a * x ≠ 1) → ∀ w : A,
     (w ^ 2 = 1 ∧ w ≠ 1 ∧ w * x = x * w ∧ w ≠ x) → ∀ q : A,
     (q ^ 3 = 1 ∧ q ≠ 1 ∧ x * q * x⁻¹ = q⁻¹) →
     (a * x = q ∨ a * x = q ^ 2 ∨ w * (a * x) * w⁻¹ = q ∨ w * (a * x) * w⁻¹ = q ^ 2) := by
   decide +kernel
+
+theorem split_fact : ∀ x : A, (x ^ 2 = 1 ∧ x ≠ 1) → ∀ a : A,
+    (a ^ 2 = 1 ∧ a ≠ 1 ∧ (a * x) ^ 3 = 1 ∧ a * x ≠ 1) → ∀ w : A,
+    (w ^ 2 = 1 ∧ w ≠ 1 ∧ w * x = x * w ∧ w ≠ x) → ∀ q : A,
+    (q ^ 3 = 1 ∧ q ≠ 1 ∧ x * q * x⁻¹ = q⁻¹) →
+    (a * x = q ∨ a * x = q ^ 2 ∨ w * (a * x) * w⁻¹ = q ∨ w * (a * x) * w⁻¹ = q ^ 2) := by
+  intro x hx a ha w hw q hq
+  obtain ⟨x₀, -, hconj, h₀⟩ := split_fact_rep
+  obtain ⟨g, rfl⟩ := hconj x hx
+  obtain ⟨a, rfl⟩ := (MulAut.conj g).surjective a
+  obtain ⟨w, rfl⟩ := (MulAut.conj g).surjective w
+  obtain ⟨q, rfl⟩ := (MulAut.conj g).surjective q
+  rw [← MulAut.conj_apply g x₀] at ha hw hq ⊢
+  simp only [← map_pow, ← map_mul, ← map_inv, map_eq_one_iff _ (MulAut.conj g).injective,
+    ne_eq, EmbeddingLike.apply_eq_iff_eq] at ha hw hq ⊢
+  exact h₀ a ha w hw q hq
 
 end A5F
 

@@ -6,6 +6,7 @@ public import Certificates.Kernel.Misc.Coset.XC3V
 public import Certificates.Kernel.Misc.Coset.XC3V1
 public import Certificates.Kernel.Misc.Coset.XC3V2
 public import Certificates.Kernel.Misc.Coset.XC3Vw
+import CFSG.Certificates.Kernel.Misc.Coset.TableFactE
 
 public section
 
@@ -22,7 +23,7 @@ theorem v0 : (genSub {r | r ∈ relsV.map FreeGroup.mk} (subsetOf 7 [0, 1, 2, 4,
     (genSub {r | r ∈ relsV.map FreeGroup.mk} (subsetOf 7 [0, 1, 2, 4, 5, 6])).index ≤ 170775 := by
   have h1 := XC3V.t1
   unfold CFSG.KBRoute.XC3V.T1.ok at h1
-  exact genSub_index_le_of_tableOk relsV relsV_eq h1 (by norm_num) CFSG.KBRoute.XC3V.top _
+  exact genSub_index_le_of_tableOkE relsV relsV_eq h1 (by norm_num) CFSG.KBRoute.XC3V.top _
     (by decide +kernel)
 
 theorem v1 : (genSub {r | r ∈ relsV1.map FreeGroup.mk} (subsetOf _ [0, 2, 3, 4, 5])).FiniteIndex ∧

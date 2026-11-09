@@ -1,12 +1,11 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Data.Kernel.Spor.Fi24Orb
 public import Certificates.Data.CFSGNative.Fi24.Enum
 
-#kc_repo #kc_ktree_gz CFSG.Sporadic.Fi24.OrbL OT "Certificates/Kernel/Sporadic/Fi24Orb/data/orbl.bin.gz" 4096 4 2455488 3999311635137771502
+#kc_repo #kc_ktree CFSG.Sporadic.Fi24.OrbL OT "Certificates/Kernel/Sporadic/Fi24Orb/data/orbl.bin" 4096 4 2455488 3999311635137771502
 
 public section
 

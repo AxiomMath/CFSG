@@ -189,14 +189,17 @@ theorem quot_parts (hP : Nat.card ↥P1408 = 177408000) :
   have f3 : elC (cdOf DR (nm 23)) = uK 0 * uK 0 :=
     eq_of_eqB hP (elC_mem hP (cd_lt_D hb1)) (mul_mem u0 u0)
       (fun _ hx => ev_elC (cd_lt_D hb1) hx)
-      (fun x hx => by rw [repC_pt r0 hx, repC_pt r0 (Fin.isLt _)]; rfl) s1
+      (fun x hx => by
+        rw [repC_pt r0 hx, repC_pt r0 (Fin.isLt _), Fin.eta, Equiv.Perm.mul_apply]) s1
   have f4 : elC (cdOf DR (nm 24)) = uK 1 * uK 1 :=
     eq_of_eqB hP (elC_mem hP (cd_lt_D hb2)) (mul_mem u1 u1)
       (fun _ hx => ev_elC (cd_lt_D hb2) hx)
-      (fun x hx => by rw [repC_pt r1 hx, repC_pt r1 (Fin.isLt _)]; rfl) s2
+      (fun x hx => by
+        rw [repC_pt r1 hx, repC_pt r1 (Fin.isLt _), Fin.eta, Equiv.Perm.mul_apply]) s2
   have f5 : elC (nm 25) * uK 1 = uK 0 :=
     eq_of_eqB hP (mul_mem (elC_mem hP h3) u1) u0
-      (fun x hx => by rw [repC_pt r1 hx, ev_elC h3 (Fin.isLt _)]; rfl)
+      (fun x hx => by
+        rw [repC_pt r1 hx, ev_elC h3 (Fin.isLt _), Fin.eta, Equiv.Perm.mul_apply])
       (fun _ hx => repC_pt r0 hx) v1
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · rw [← f3]

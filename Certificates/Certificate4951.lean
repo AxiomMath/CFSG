@@ -1,6 +1,7 @@
 module
 
 public import CFSG.RankThree.PartOne.KF.UnitaryTorus
+import CFSG.Certificates.Kernel.PermCent.FastDecide
 
 public section
 
@@ -26,6 +27,7 @@ private theorem cert4951_perm_five_conj_three : ∀ a b c d e f : Fin 5,
         π * swap 2 3 * π⁻¹ = swap e f := by
   decide +kernel
 
+open scoped CFSG.Certificates.Kernel.PkCV.FastDecide in
 private theorem cert4951_perm_five_conj_four : ∀ (π : Perm (Fin 5)) (g h : Fin 5),
     (g ≠ h ∧ (π * swap 2 3 * π⁻¹ * swap g h) ^ 3 = 1 ∧ π * swap 2 3 * π⁻¹ * swap g h ≠ 1 ∧
     (π * swap 0 1 * π⁻¹ * swap g h) ^ 2 = 1 ∧ π * swap 0 1 * π⁻¹ * swap g h ≠ 1 ∧

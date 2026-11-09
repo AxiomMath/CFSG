@@ -624,6 +624,25 @@ theorem psiM_sound {q : ℕ → Bool} {b : ℕ → ℕ → Bool} {bp : ℕ → �
       (List.range 136).map fun i => fget (psiK true NS NI 136 8 4552225 y) i 8 :=
   psi_sound hf hns (by decide) y (fromW_M hbp y)
 
+theorem permG_sound {e : Bool} {q : ℕ → Bool} {b : ℕ → ℕ → Bool} {N w P NS NI : ℕ}
+    (hf : FormBind e q b) (hns : nsOK e N NS NI = true) {f : ℕ → ℕ}
+    (hfl : ∀ x < 256, f x < 256) (hP : ∀ i < N, fget P i w = nsMap NS NI f i) :
+    (Array.ofFn (n := N) fun i => (nsIdxG q)[f (nsArrG q)[i.val]!]!) = unpack N w P := by
+  apply arr_ext (n := N) (by simp) (unpack_size _ _ _)
+  intro i hi
+  rw [ofFn_get _ hi, Orb.unpack_get hi, ← nsMap_eq hf hns hfl hi, ← hP i hi, fget_eq', pg_eq',
+    Nat.mul_comm]
+
+theorem fromWG_ltP {bp : ℕ → ℕ} (hbp : ∀ j < 6, bp j = fget 5665569 j 4) (y : ℕ) :
+    fromWG bp y < 256 := by
+  rw [(fromW_P hbp y).1]
+  exact (fromW_P hbp y).2
+
+theorem fromWG_ltM {bp : ℕ → ℕ} (hbp : ∀ j < 6, bp j = fget 4552225 j 4) (y : ℕ) :
+    fromWG bp y < 256 := by
+  rw [(fromW_M hbp y).1]
+  exact (fromW_M hbp y).2
+
 private theorem lenW_eq' : ∀ D : List (List Int), CFSG.KS.Mathieu.lenW D = D.length
   | [] => rfl
   | _ :: D => congrArg Nat.succ (lenW_eq' D)
@@ -739,7 +758,7 @@ theorem wordsOf_eq (k : Nat) (D : List (List Int)) :
       have hd : i - k < D.length := by
         simp [OmegaEight.wordsOf] at h1
         omega
-      simp only [hi, if_false, List.length_replicate, List.getD_eq_getElem?_getD,
+      simp only [hi, ite_false, List.length_replicate, List.getD_eq_getElem?_getD,
         List.getElem?_eq_getElem hd, Option.getD_some]
 
 end CFSG.KC.O8

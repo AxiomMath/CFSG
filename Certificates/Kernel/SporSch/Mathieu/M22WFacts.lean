@@ -298,7 +298,7 @@ abbrev hGens : List (Equiv.Perm (Fin 22)) := MathieuC3.m22Words.map (evalCodes [
 theorem chainH : ChainK 22 5 hGens MathieuC3.m22ChainWords (#v[2, 1] : Vector (Fin 22) 2)
     M22CH.S M22CH.SI M22CH.LR M22CH.TR M22CH.TRI 4 M22CH.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M22CH.head, M22CH.hl,
-    by norm_num, M22CH.hs⟩
+    by norm_num, .inl M22CH.hs⟩
   have hj3 : j < 3 := by simpa [hGens, MathieuC3.m22Words] using hj
   rw [getD_map_eval]
   have h := allN_spec bH j hj3

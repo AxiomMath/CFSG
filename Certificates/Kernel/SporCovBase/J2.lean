@@ -9,13 +9,13 @@ public import Certificates.Data.Kernel.SporCov.BaseKit
 public import Certificates.Data.Kernel.Spor.PEnum
 public import Certificates.Kernel.Sporadic.J2K.Data
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.J2.F3 "Certificates/Kernel/SporCovBase/data/j23.json.gz" 4587
+#kc_repo #kc_json CFSG.KD.SporCovBase.J2.F3 "Certificates/Kernel/SporCovBase/data/j23.json" 4587
   2139876891572128306
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))
   (K : List Nat) (C : List (List Nat)) (R : List (List Nat)) (A : List Nat) (W : List (List Nat))
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovBase.J2.F5 "Certificates/Kernel/SporCovBase/data/j25.json.gz" 3257
+#kc_repo #kc_json CFSG.KD.SporCovBase.J2.F5 "Certificates/Kernel/SporCovBase/data/j25.json" 3257
   10842308748833330836
   (T : List Nat) (Y1 : List Nat) (Y2 : List Nat) (G1 : List Nat) (G2 : List Nat)
   (M : List (List Nat)) (C : List (List Nat)) (R : List (List Nat))

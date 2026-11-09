@@ -62,19 +62,43 @@ meta def matsL : List Nat :=
     packM CFSG.Sporadic.ThSchreier.rowsV, packM CFSG.Sporadic.ThSchreier.rowsVInv,
     packM CFSG.Sporadic.ThSchreier.rowsT]
 
-meta def orbVals : Array Nat := CFSG.Sporadic.ThSchreier.orbTable.map packM
+meta def thCcN : Nat := (2 ^ 63488 - 1) / (2 ^ 256 - 1)
 
-meta def orbSo : Array Nat := (Array.range orbVals.size).qsort fun a b => orbVals[a]! < orbVals[b]!
+meta def thBcL (M : Nat) : List Nat :=
+  (List.range 248).map fun k => ((M >>> k) &&& thCcN) * (2 ^ 248 - 1)
 
-meta def sortedL : List Nat := (orbSo.map fun i => orbVals[i]!).toList
+meta def thBcR (M : Nat) : List Nat :=
+  (List.range 248).map fun k => ((M >>> (256 * k)) &&& (2 ^ 248 - 1)) * thCcN
 
-meta def sgL : List Nat := Id.run do
-  let mut r := Array.replicate orbSo.size 0
-  for k in [0:orbSo.size] do
-    r := r.set! orbSo[k]! k
-  return r.toList
+meta def thMulB (left : Bool) (C R : Array Nat) (A B : Nat) : Nat := Id.run do
+  let cc := thCcN
+  let rm := 2 ^ 248 - 1
+  let mut acc := 0
+  for k in [0:248] do
+    acc := acc ^^^ (if left then C[k]! &&& (((B >>> (256 * k)) &&& rm) * cc)
+      else (((A >>> k) &&& cc) * rm) &&& R[k]!)
+  return acc
 
-meta def soL : List Nat := orbSo.toList
+meta def orbVals : Array Nat := Id.run do
+  let M := matsL.toArray
+  let xc := (thBcL M[3]!).toArray
+  let xr := (thBcR M[3]!).toArray
+  let yc := (thBcL M[4]!).toArray
+  let yyr := (thBcR M[5]!).toArray
+  let mut out : Array Nat := #[M[8]!]
+  for i in [1:819] do
+    let m := out[orbPar i]!
+    out := out.push (if orbLab i == 1 then thMulB false #[] xr (thMulB true xc #[] 0 m) 0
+      else thMulB false #[] yyr (thMulB true yc #[] 0 m) 0)
+  return out
+
+meta def thOrbL : List Nat := Id.run do
+  let vals := orbVals
+  let so := (Array.range vals.size).qsort fun a b => vals[a]! < vals[b]!
+  let mut sg := Array.replicate so.size 0
+  for k in [0:so.size] do
+    sg := sg.set! so[k]! k
+  return (so.map fun i => vals[i]!).toList ++ sg.toList ++ so.toList
 
 end CFSG.KS.SporSchGen
 

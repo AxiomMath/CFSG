@@ -14,6 +14,7 @@ public import CFSG.LieType.Chevalley.GraphFixedF4GroupRestriction
 public import CFSG.LocalAnalysis.StandardType.GGTriD4KnownInputs
 public import CFSG.LocalAnalysis.StandardType.GGRecipeFieldExcLangCore
 public import CFSG.HardMathSupport.Timmesfeld.LangTorus.BigAnyQuad
+public import CFSG.LocalAnalysis.StandardType.GGLangTorusInnerDiagE6
 
 public section
 

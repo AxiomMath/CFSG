@@ -61,7 +61,9 @@ theorem certElt_facts {o c : ℕ} {r : Cz} {R : ℕ} (hr : repK (r : K) R) {d : 
       ∀ N : Subgroup Cz, d ∈ N → (∀ x : Cz, x * r = r * x → ∀ n ∈ N, x * n * x⁻¹ ∈ N) →
         certEltL o c d l ∈ N := by
   induction l with
-  | nil => exact ⟨repK_one', fun N _ _ => N.one_mem⟩
+  | nil =>
+    rw [show certEltL o c d [] = 1 from rfl, List.foldr_nil]
+    exact ⟨repK_one', fun N _ _ => N.one_mem⟩
   | cons m l ih =>
     obtain ⟨ih1, ih2⟩ := ih fun m' hm' => hl m' (List.mem_cons_of_mem _ hm')
     obtain ⟨h1, h2, h3, h4⟩ := hl m List.mem_cons_self
@@ -70,8 +72,9 @@ theorem certElt_facts {o c : ℕ} {r : Cz} {R : ℕ} (hr : repK (r : K) R) {d : 
     have hinv : certXIE o c m = (certXE o c m)⁻¹ := by
       refine (eq_inv_of_mul_eq_one_right ?_)
       exact (cz_eq_iff (repK_czmul hx hxi) repK_one').2 h4
+    rw [show certEltL o c d (m :: l) = certXE o c m * d * certXIE o c m * certEltL o c d l from rfl,
+      List.foldr_cons]
     refine ⟨repK_czmul (repK_czmul (repK_czmul hx hd) hxi) ih1, fun N hdN hN => ?_⟩
-    show certXE o c m * d * certXIE o c m * certEltL o c d l ∈ N
     refine N.mul_mem ?_ (ih2 N hdN hN)
     rw [hinv]
     refine hN _ ?_ d hdN

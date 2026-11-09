@@ -169,7 +169,7 @@ theorem plGens_length : (plGens ()).length = 8 := by
 theorem chainPL : ChainK 360 9 (plGens ()) plDerive (#v[0, 2, 4, 8] : Vector (Fin 360) 4)
     PL.S PL.SI PL.LR PL.TR PL.TRI 12 PL.BP PL.NS 24 :=
   ⟨by norm_num, by norm_num, by norm_num, plGens_img, by decide,
-    by rw [plGens_length]; exact PL.head, PL.hl, by decide, PL.hs⟩
+    by rw [plGens_length]; exact PL.head, PL.hl, by decide, .inl PL.hs⟩
 
 theorem ordPL : ordK PL.LR 4 = 512 := by decide +kernel
 

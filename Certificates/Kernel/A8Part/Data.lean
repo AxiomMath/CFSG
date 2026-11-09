@@ -2,82 +2,82 @@ module
 
 public import Certificates.Data.Kernel.A8Part.Defs
 public import Certificates.Data.Kernel.Misc.PermClos
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part EL
-  "Certificates/Kernel/A8Part/data/el.bin.gz" 4 4 36 11663454555532659966
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part RC
-  "Certificates/Kernel/A8Part/data/rc.bin.gz" 4 4 96 5154773332268490699
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part RS
-  "Certificates/Kernel/A8Part/data/rs.bin.gz" 4 4 48 8942105352787366083
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part RI
-  "Certificates/Kernel/A8Part/data/ri.bin.gz" 4 4 48 10356663443719685659
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part KC
-  "Certificates/Kernel/A8Part/data/kc.bin.gz" 4 4 96 15335509585575846831
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part KX
-  "Certificates/Kernel/A8Part/data/kx.bin.gz" 4 4 288 3402157421552989743
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part TG
-  "Certificates/Kernel/A8Part/data/tg.bin.gz" 4 4 112 16675121832051439899
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part HG
-  "Certificates/Kernel/A8Part/data/hg.bin.gz" 4 4 16 11609881415592194663
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part XG
-  "Certificates/Kernel/A8Part/data/xg.bin.gz" 4 4 192 8462762811911988448
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part LN
-  "Certificates/Kernel/A8Part/data/ln.bin.gz" 4 4 32 4792516714561582483
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part SK
-  "Certificates/Kernel/A8Part/data/sk.bin.gz" 4 4 52 695731498142742362
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part JR
-  "Certificates/Kernel/A8Part/data/jr.bin.gz" 4 4 192 16516624144987769691
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part TE
-  "Certificates/Kernel/A8Part/data/te.bin.gz" 4 4 256 8180194937872494757
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part TP
-  "Certificates/Kernel/A8Part/data/tp.bin.gz" 4 4 256 3243148416320413755
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part TS
-  "Certificates/Kernel/A8Part/data/ts.bin.gz" 4 4 256 10733192695690816587
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part TC
-  "Certificates/Kernel/A8Part/data/tc.bin.gz" 4 4 768 13996639942977243482
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part UE
-  "Certificates/Kernel/A8Part/data/ue.bin.gz" 4 4 1260 15730913616614482754
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part UR
-  "Certificates/Kernel/A8Part/data/ur.bin.gz" 4 4 1260 16473554266961273121
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part CR
-  "Certificates/Kernel/A8Part/data/cr.bin.gz" 8 4 17040 582880937854216976
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part MJ
-  "Certificates/Kernel/A8Part/data/mj.bin.gz" 4 4 240 10748714307439864429
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part SE
-  "Certificates/Kernel/A8Part/data/se.bin.gz" 4 4 236 437851783636017432
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part SP
-  "Certificates/Kernel/A8Part/data/sp.bin.gz" 4 4 236 16063800059063100594
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part SS
-  "Certificates/Kernel/A8Part/data/ss.bin.gz" 4 4 236 6933417953565494534
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part SC
-  "Certificates/Kernel/A8Part/data/sc.bin.gz" 4 4 308 3344169463479432488
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part HE
-  "Certificates/Kernel/A8Part/data/he.bin.gz" 4 4 288 7556836434192282149
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part HP
-  "Certificates/Kernel/A8Part/data/hp.bin.gz" 4 4 288 7667426510216198159
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part SY
-  "Certificates/Kernel/A8Part/data/sy.bin.gz" 4 4 1260 5216048044108942637
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part PE
-  "Certificates/Kernel/A8Part/data/pe.bin.gz" 4 4 896 9500803934153465268
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part PP
-  "Certificates/Kernel/A8Part/data/pp.bin.gz" 4 4 896 9016563604330706616
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part CS
-  "Certificates/Kernel/A8Part/data/cs.bin.gz" 4 4 1792 12642260353374794470
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part JE
-  "Certificates/Kernel/A8Part/data/je.bin.gz" 4 4 10368 8133435501781872081
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part JP
-  "Certificates/Kernel/A8Part/data/jp.bin.gz" 4 4 10368 1823569794238581962
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part JU
-  "Certificates/Kernel/A8Part/data/ju.bin.gz" 4 4 1260 2688840565304046305
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part JX
-  "Certificates/Kernel/A8Part/data/jx.bin.gz" 8 4 2520 14290097793019104553
-#kc_repo #kc_ktree_gz CertificateChecks.KernelA8Part JC
-  "Certificates/Kernel/A8Part/data/jc.bin.gz" 8 4 15120 18369940367666871637
-#kc_repo #kc_json_gz CertificateChecks.KernelA8Part
-  "Certificates/Kernel/A8Part/data/w7154.json.gz" 25102 14607239049425449423
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part EL
+  "Certificates/Kernel/A8Part/data/el.bin" 4 4 36 11663454555532659966
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part RC
+  "Certificates/Kernel/A8Part/data/rc.bin" 4 4 96 5154773332268490699
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part RS
+  "Certificates/Kernel/A8Part/data/rs.bin" 4 4 48 8942105352787366083
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part RI
+  "Certificates/Kernel/A8Part/data/ri.bin" 4 4 48 10356663443719685659
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part KC
+  "Certificates/Kernel/A8Part/data/kc.bin" 4 4 96 15335509585575846831
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part KX
+  "Certificates/Kernel/A8Part/data/kx.bin" 4 4 288 3402157421552989743
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part TG
+  "Certificates/Kernel/A8Part/data/tg.bin" 4 4 112 16675121832051439899
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part HG
+  "Certificates/Kernel/A8Part/data/hg.bin" 4 4 16 11609881415592194663
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part XG
+  "Certificates/Kernel/A8Part/data/xg.bin" 4 4 192 8462762811911988448
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part LN
+  "Certificates/Kernel/A8Part/data/ln.bin" 4 4 32 4792516714561582483
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part SK
+  "Certificates/Kernel/A8Part/data/sk.bin" 4 4 52 695731498142742362
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part JR
+  "Certificates/Kernel/A8Part/data/jr.bin" 4 4 192 16516624144987769691
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part TE
+  "Certificates/Kernel/A8Part/data/te.bin" 4 4 256 8180194937872494757
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part TP
+  "Certificates/Kernel/A8Part/data/tp.bin" 4 4 256 3243148416320413755
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part TS
+  "Certificates/Kernel/A8Part/data/ts.bin" 4 4 256 10733192695690816587
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part TC
+  "Certificates/Kernel/A8Part/data/tc.bin" 4 4 768 13996639942977243482
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part UE
+  "Certificates/Kernel/A8Part/data/ue.bin" 4 4 1260 15730913616614482754
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part UR
+  "Certificates/Kernel/A8Part/data/ur.bin" 4 4 1260 16473554266961273121
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part CR
+  "Certificates/Kernel/A8Part/data/cr.bin" 8 4 17040 582880937854216976
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part MJ
+  "Certificates/Kernel/A8Part/data/mj.bin" 4 4 240 10748714307439864429
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part SE
+  "Certificates/Kernel/A8Part/data/se.bin" 4 4 236 437851783636017432
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part SP
+  "Certificates/Kernel/A8Part/data/sp.bin" 4 4 236 16063800059063100594
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part SS
+  "Certificates/Kernel/A8Part/data/ss.bin" 4 4 236 6933417953565494534
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part SC
+  "Certificates/Kernel/A8Part/data/sc.bin" 4 4 308 3344169463479432488
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part HE
+  "Certificates/Kernel/A8Part/data/he.bin" 4 4 288 7556836434192282149
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part HP
+  "Certificates/Kernel/A8Part/data/hp.bin" 4 4 288 7667426510216198159
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part SY
+  "Certificates/Kernel/A8Part/data/sy.bin" 4 4 1260 5216048044108942637
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part PE
+  "Certificates/Kernel/A8Part/data/pe.bin" 4 4 896 9500803934153465268
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part PP
+  "Certificates/Kernel/A8Part/data/pp.bin" 4 4 896 9016563604330706616
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part CS
+  "Certificates/Kernel/A8Part/data/cs.bin" 4 4 1792 12642260353374794470
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part JE
+  "Certificates/Kernel/A8Part/data/je.bin" 4 4 10368 8133435501781872081
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part JP
+  "Certificates/Kernel/A8Part/data/jp.bin" 4 4 10368 1823569794238581962
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part JU
+  "Certificates/Kernel/A8Part/data/ju.bin" 4 4 1260 2688840565304046305
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part JX
+  "Certificates/Kernel/A8Part/data/jx.bin" 8 4 2520 14290097793019104553
+#kc_repo #kc_ktree CertificateChecks.KernelA8Part JC
+  "Certificates/Kernel/A8Part/data/jc.bin" 8 4 15120 18369940367666871637
+#kc_repo #kc_json CertificateChecks.KernelA8Part
+  "Certificates/Kernel/A8Part/data/w7154.json" 25102 14607239049425449423
   (subW : List (List Nat)) (repM : List (List Nat)) (repW : List (List (List Nat)))
   (joinW : List (List (List Nat))) (mInL : List (List Nat)) (lInM : List (List Nat))
   (rsM : List (List Nat)) (riM : List (List Nat)) (hgM : List (List Nat)) (jrM : List (List Nat))

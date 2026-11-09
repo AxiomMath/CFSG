@@ -98,24 +98,24 @@ theorem dgs : ∀ l < 2, Rep 4060 ruFiveDGens[l]! (gpD l) := by
   intro l hl
   rw [ruFiveDGens]
   interval_cases l
-  · rw [lit2_0, gpD, if_pos rfl]
+  · rw [lit2_0, gpD, ite_eq_left rfl]
     have h1 := c1gs 1 (by norm_num)
     have h2 := c1gs 2 (by norm_num)
     have h := rep_commutatorA (F2.validA_of_rep h1) (F2.validA_of_rep h2)
     rwa [CFSG.RankThree.Native.permOfArr_eq_of_rep h1,
       CFSG.RankThree.Native.permOfArr_eq_of_rep h2] at h
-  · rw [lit2_1, gpD, if_neg (by norm_num)]
+  · rw [lit2_1, gpD, ite_eq_right (by norm_num)]
     exact c1gs 2 (by norm_num)
 
 theorem dg : ∀ l < 2, RepF 4060 (gD l) (gpD l) := by
   intro l hl
   interval_cases l
-  · rw [gpD, if_pos rfl, commutatorElement_def]
+  · rw [gpD, ite_eq_left rfl, commutatorElement_def]
     have h := (repF_pa 68 (by norm_num)).comp ((repF_pa 69 (by norm_num)).comp
       ((repF_pi 68 (by norm_num)).comp (repF_pi 69 (by norm_num))))
     rw [← mul_assoc, ← mul_assoc] at h
     exact h
-  · rw [gpD, if_neg (by norm_num)]
+  · rw [gpD, ite_eq_right (by norm_num)]
     exact repF_pa 69 (by norm_num)
 
 theorem comm_mem {a b : Equiv.Perm (Fin 4060)} (ha : a ∈ ruP) (hb : b ∈ ruP) : ⁅a, b⁆ ∈ ruP := by
@@ -125,9 +125,9 @@ theorem comm_mem {a b : Equiv.Perm (Fin 4060)} (ha : a ∈ ruP) (hb : b ∈ ruP)
 theorem dg_mem : ∀ l < 2, gpD l ∈ ruP := by
   intro l hl
   interval_cases l
-  · rw [gpD, if_pos rfl]
+  · rw [gpD, ite_eq_left rfl]
     exact comm_mem (gp_mem 68 (by norm_num)) (gp_mem 69 (by norm_num))
-  · rw [gpD, if_neg (by norm_num)]
+  · rw [gpD, ite_eq_right (by norm_num)]
     exact gp_mem 69 (by norm_num)
 
 theorem dtree : TreeOK 2 60 D0.P D0.L := treeOK_of fun i hi h0 => by
@@ -178,12 +178,36 @@ theorem d_psize {k : Nat} (hk : k < 60) : ruFiveDCert.pts[k]!.size = 4060 := by
   rw [d_get hk]
   exact size_treeArr k
 
+theorem dT_edge {c k : Nat} (hc : c < 60) (hk : k < 2) :
+    DE c k < 60 ∧ dT (DE c k) = gpD k * dT c := by
+  obtain ⟨h1, h2⟩ := dedges c hc k hk
+  refine ⟨h1, Equiv.ext fun x => Fin.ext ?_⟩
+  have r1 := rep_treeArr dtree dgs (DE c k) h1 x
+  have r2 := rep_compA (dgs k hk) (rep_treeArr dtree dgs c hc) x
+  rw [h2] at r1
+  exact r1.symm.trans r2
+
 theorem mt_spec {a b : Nat} (ha : a < 60) (hb : b < 60) :
     mt a b < 60 ∧ dT (mt a b) = dT a * dT b := by
-  have h' := Orb.allN_iff.1 (Orb.allN_iff.1 kMT a ha) b hb
-  rw [bAnd_iff, Nat.blt_eq] at h'
-  exact ⟨h'.1, eq_of_R (d_repF h'.1) ((d_repF ha).comp (d_repF hb)) (d_mem h'.1)
-    (ruP.mul_mem (d_mem ha) (d_mem hb)) h'.2⟩
+  revert ha
+  induction a using Nat.strong_induction_on with
+  | _ a ih =>
+    intro ha
+    have h := Orb.allN_iff.1 (Orb.allN_iff.1 kMT a ha) b hb
+    rw [bAnd_iff, Nat.blt_eq] at h
+    obtain ⟨hlt, h⟩ := h
+    refine ⟨hlt, ?_⟩
+    rcases Nat.eq_zero_or_pos a with rfl | h0
+    · have e : Nat.beq (mt 0 b) b = true := h
+      have d0 : dT 0 = 1 := treePerm_zero
+      rw [Nat.eq_of_beq_eq_true e, d0, one_mul]
+    · rw [beq_zero_false h0] at h
+      have e : Nat.beq (mt a b) (DE (mt (D0.P a) b) (D0.L a)) = true := h
+      obtain ⟨hp, hl⟩ := dtree a ha h0
+      obtain ⟨h1, h2⟩ := ih (D0.P a) hp (by omega)
+      have h4 := (dT_edge h1 hl).2
+      have dTa : dT a = gpD (D0.L a) * dT (D0.P a) := treePerm_pos ⟨h0, hp⟩
+      rw [Nat.eq_of_beq_eq_true e, h4, h2, dTa, mul_assoc]
 
 theorem iv_spec {a : Nat} (ha : a < 60) : iv a < 60 ∧ dT (iv a) = (dT a)⁻¹ := by
   have h := Orb.allN_iff.1 kIV a ha

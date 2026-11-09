@@ -61,6 +61,22 @@ theorem srchAAt_sound {w kS BP NS CH NR NL NT BT NQ BQ : Nat} {PS PSI LR Ts LT P
         trPtT w NR NL LT PT (nat_lit 0) a b0 ∧ (g : Equiv.Perm (Fin n)) * x = y * g} :=
   Tab.srchAAt_card hA hc hch hT hX hY hxy h0 h1 hb0 ha
 
+theorem cnt234_sound {w kS BP NS CH NR NL NT BT NQ BQ : Nat} {PS PSI LR Ts LT PT QT : Nat → Nat}
+    {S : Array (Array Nat)} {base : Array Nat} {b0 b1 : Nat} {bs : List Nat}
+    {Q : RawSchreierDatum n} {O : Array (Array Nat)} {W : Array (List Int)} {chunks : Nat}
+    (hA : ChainArrays Q O S base W) (hc : rawChainOK n O S base W chunks = true)
+    (hch : 0 < chunks)
+    (hT : TabChain n w kS 5 BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base (b0 :: b1 :: bs))
+    (hb0 : b0 < n) (hb1 : b1 < n) {t : Nat → Bool} {Pr : Equiv.Perm (Fin n) → Prop}
+    [DecidablePred Pr]
+    (ht : ∀ F, nfValidK 5 LR F = true → F % 65536 = 0 →
+      (t F = true ↔ Pr (nfElt n S base (nfArr 5 F)))) {a : Nat} (ha : a < rcnt (LR 1)) :
+    cnt234 LR t 0 a =
+      Nat.card {g : Q.originalSubgroup // (g : Equiv.Perm (Fin n)) ⟨b0, hb0⟩ = ⟨b0, hb0⟩ ∧
+        (((g : Equiv.Perm (Fin n)) ⟨b1, hb1⟩ : Fin n) : Nat) = rpt w (mask w) (LR 1) a ∧
+          Pr g} :=
+  Tab.cnt234_card hA hc hch hT hb0 hb1 ht ha
+
 variable {H : Subgroup (Equiv.Perm (Fin n))} {bs : List Nat}
 
 theorem comm_mem_of_hxy {x y z : Equiv.Perm (Fin n)}
@@ -112,6 +128,54 @@ theorem fib_card_mul {x y z : Equiv.Perm (Fin n)} (hz : z ∈ H) (hzy : z * y = 
       rw [Equiv.Perm.mul_apply, e]
     · change z * ((g : H) : Equiv.Perm (Fin n)) * x = y * (z * (g : H))
       rw [mul_assoc, hg, ← mul_assoc, hzy, mul_assoc]
+
+theorem fib_card_tw {u z : Equiv.Perm (Fin n)} (hz : z ∈ H) (hn : u⁻¹ * z * u ∈ H) {b0 b1 : Fin n}
+    (hz0 : z b0 = b0) (hz1 : z b1 = b1) (hu0 : u b0 = b0) (p : Fin n) :
+    Nat.card {g : H // (g : Equiv.Perm (Fin n)) b0 = b0 ∧
+        (((g : Equiv.Perm (Fin n)) b1 : Fin n) : Nat) = ((u⁻¹ * z * u) p : Nat) ∧
+          (u * g) ^ 2 = 1} =
+      Nat.card {g : H // (g : Equiv.Perm (Fin n)) b0 = b0 ∧
+        (((g : Equiv.Perm (Fin n)) b1 : Fin n) : Nat) = (p : Nat) ∧ (u * g) ^ 2 = 1} := by
+  have hw0 : (u⁻¹ * z * u) b0 = b0 := by
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hu0, hz0, Equiv.Perm.inv_eq_iff_eq, hu0]
+  have hzi0 : z⁻¹ b0 = b0 := by rw [Equiv.Perm.inv_eq_iff_eq, hz0]
+  have hzi1 : z⁻¹ b1 = b1 := by rw [Equiv.Perm.inv_eq_iff_eq, hz1]
+  have hwi0 : (u⁻¹ * z * u)⁻¹ b0 = b0 := by rw [Equiv.Perm.inv_eq_iff_eq, hw0]
+  have hsq1 : ∀ g : Equiv.Perm (Fin n),
+      (u * ((u⁻¹ * z * u)⁻¹ * g * z)) ^ 2 = z⁻¹ * (u * g) ^ 2 * z := fun g => by
+    rw [sq, sq]
+    group
+  have hsq2 : ∀ g : Equiv.Perm (Fin n),
+      (u * ((u⁻¹ * z * u) * g * z⁻¹)) ^ 2 = z * (u * g) ^ 2 * z⁻¹ := fun g => by
+    rw [sq, sq]
+    group
+  refine Nat.card_congr
+    { toFun := fun g => ⟨⟨(u⁻¹ * z * u)⁻¹ * g * z, H.mul_mem (H.mul_mem (H.inv_mem hn) g.1.2) hz⟩,
+        ?_⟩
+      invFun := fun g => ⟨⟨(u⁻¹ * z * u) * g * z⁻¹, H.mul_mem (H.mul_mem hn g.1.2) (H.inv_mem hz)⟩,
+        ?_⟩
+      left_inv := fun g => Subtype.ext (Subtype.ext (by group))
+      right_inv := fun g => Subtype.ext (Subtype.ext (by group)) }
+  · obtain ⟨h0, h1, h2⟩ := g.2
+    have h1' : ((g : H) : Equiv.Perm (Fin n)) b1 = (u⁻¹ * z * u) p := Fin.ext h1
+    refine ⟨?_, ?_, ?_⟩
+    · change ((u⁻¹ * z * u)⁻¹ * ((g : H) : Equiv.Perm (Fin n)) * z) b0 = b0
+      rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hz0, h0, hwi0]
+    · change ((((u⁻¹ * z * u)⁻¹ * ((g : H) : Equiv.Perm (Fin n)) * z) b1 : Fin n) : Nat) = p
+      rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hz1, h1', ← Equiv.Perm.mul_apply,
+        inv_mul_cancel, Equiv.Perm.one_apply]
+    · change (u * ((u⁻¹ * z * u)⁻¹ * ((g : H) : Equiv.Perm (Fin n)) * z)) ^ 2 = 1
+      rw [hsq1, h2, mul_one, inv_mul_cancel]
+  · obtain ⟨h0, h1, h2⟩ := g.2
+    have h1' : ((g : H) : Equiv.Perm (Fin n)) b1 = p := Fin.ext h1
+    refine ⟨?_, ?_, ?_⟩
+    · change ((u⁻¹ * z * u) * ((g : H) : Equiv.Perm (Fin n)) * z⁻¹) b0 = b0
+      rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hzi0, h0, hw0]
+    · change ((((u⁻¹ * z * u) * ((g : H) : Equiv.Perm (Fin n)) * z⁻¹) b1 : Fin n) : Nat) =
+        ((u⁻¹ * z * u) p : Nat)
+      rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hzi1, h1']
+    · change (u * ((u⁻¹ * z * u) * ((g : H) : Equiv.Perm (Fin n)) * z⁻¹)) ^ 2 = 1
+      rw [hsq2, h2, mul_one, mul_inv_cancel]
 
 theorem twK_iff (hH : BaseFaithful H bs) (hbs : ∀ b ∈ bs, b < n) {w NR NL : Nat}
     {LT PT : Nat → Nat} {F : Nat} {g u : Equiv.Perm (Fin n)}

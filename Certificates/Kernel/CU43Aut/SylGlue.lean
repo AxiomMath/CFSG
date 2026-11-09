@@ -5,6 +5,7 @@ public import Certificates.Kernel.CU43Aut.CentGlue
 public import Certificates.Kernel.CU43Aut.Syl
 public import CFSG.Certificates.Kernel.Spor.BaseMaskGlue
 public import CFSG.Certificates.Kernel.Spor.RecGroup
+public import CFSG.Certificates.Kernel.Spor.PEnumRSound
 public import CFSG.Certificates.Kernel.Spor.PK.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.PFAppendixIII.Basic
 
@@ -115,11 +116,12 @@ theorem slT_all : ∀ s < 8, slT s = true := by
 
 theorem pe : ∀ i < TS.cnt, penumPtK 820 10 (mask 10) (820 * 10) true TS.G TS.GI 7 TS.cnt TS.T TS.PL
     TS.POS TS.SRT TS.SRI i = true := by
-  intro i hi
+  refine CFSG.KS.PEnumR.penumPtK_of_R base_facts.1 (fun j hj => (gen_facts hj).1)
+    (fun j hj => (gen_facts hj).2) base_facts.2.2.2.2.2 fun i hi => ?_
   have hi' : i < 1024 := by rw [← hcnt]; exact hi
   have h := slT_all (i / 128) (by omega)
   unfold slT at h
-  exact CFSG.KS.BaseMask.penumSl_spec h (by change 128 * (i / 128) ≤ i; omega)
+  exact slK_spec h i (by change 128 * (i / 128) ≤ i; omega)
     (by change i < 128 * (i / 128) + 128; omega) hi
 
 theorem pr_step {j t : Nat} {σ : Equiv.Perm (Fin 820)} (hj : j < 7) (ht : PR t σ) :
@@ -151,7 +153,7 @@ theorem rec_exists : ∀ i < 1024, ∃ σ : Equiv.Perm (Fin 820), PR (TS.T i) σ
 
 theorem pr_xT {i : Nat} (hi : i < 1024) : PR (TS.T i) (xT i) := by
   unfold xT
-  rw [dif_pos hi]
+  simp only [hi, ↓reduceDIte]
   exact (rec_exists i hi).choose_spec
 
 theorem canon_T {i : Nat} (hi : i < 1024) : cK (TS.T i) = true :=
@@ -245,7 +247,7 @@ theorem pow_coset {a u : Equiv.Perm (Fin 820)} (ha : a * u⁻¹ ∈ P)
     rw [e]
     exact mul_mem ih h2
 
-theorem coset_rep {k : Nat} (hk : k < 8) : ∃ s ∈ Tg, s * (tP k)⁻¹ ∈ P := by
+theorem coset_rep {k : Nat} (_hk : k < 8) : ∃ s ∈ Tg, s * (tP k)⁻¹ ∈ P := by
   have h5 := (tau_spec (j := 5) (by norm_num)).2.2.1 rfl
   have h6 := (tau_spec (j := 6) (by norm_num)).2.2.2 rfl
   have t5 : tau 5 ∈ Tg := subset_closure ⟨5, by norm_num, rfl⟩
@@ -282,7 +284,10 @@ theorem nInvT_eq : ∀ (l : List Nat) (s : Nat),
   | [], s => by simp
   | a :: l, s => by
     rw [List.foldl_cons, nInvT_eq l, List.countP_cons]
-    cases involT a <;> simp <;> omega
+    cases involT a
+    · simp
+    · simp
+      omega
 
 theorem card_involT : ((Finset.range 1024).filter fun i => involT i = true).card = 191 := by
   have h := Nat.eq_of_beq_eq_true tIvN

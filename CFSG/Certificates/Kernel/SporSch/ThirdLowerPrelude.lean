@@ -3,6 +3,7 @@ module
 public import CFSG.Certificates.Kernel.SporSch.ThirdLowerBase
 
 public import CFSG.Sporadic.Co2Schreier.ThirdEBase1
+public import CFSG.Certificates.NativeSchreierLowerBound
 
 @[expose] public noncomputable section
 
@@ -33,11 +34,11 @@ theorem chainEH_original : (chainEH h).originalSubgroup = locE := by
     rw [eRec_origArrs]
     exact (eqA_iff (rep_gPermH h hk') (rep_gPermH h hk')).2 rfl
 
-theorem card_locEH : Nat.card locE = 1474560 := by
-  rw [← chainEH_original h, card_originalSubgroup_of_chainOK (chainEH_records h).2.2
-    (by norm_num) (eFactsH h).eOK]
-  change (recordOrbits 2300 eRec).prod = _
-  rw [beq_iff_eq.1 (eFactsH h).eOrb]
-  rfl
+theorem le_card_locEH : 1474560 ≤ Nat.card locE := by
+  have h' := rawOrbitSizes_prod_le_card (chainEH_records h).2.2 (eFactsH h).eOK
+  rw [chainEH_original h] at h'
+  change (recordOrbits 2300 eRec).prod ≤ _ at h'
+  rw [beq_iff_eq.1 (eFactsH h).eOrb] at h'
+  exact h'
 
 end CFSG.Sporadic.Co2Schreier

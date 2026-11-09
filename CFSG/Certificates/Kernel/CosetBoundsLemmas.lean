@@ -878,19 +878,17 @@ theorem shiftLeft_four (q : ℕ) : q <<< 4 = 16 * q := by
   rw [Nat.shiftLeft_eq]
   ring
 
-theorem cover_closed {G : Type*} [Group G] (H : Subgroup G) (val : ℕ → G)
-    {inv L nLab nT N RW RM nW nF : ℕ} {F D Wd Wd2 : ℕ → ℕ} {walk cov : List ℕ}
-    (hNl : N ≤ nLab) (hlab : nLab = nT + 1) (hlabbad : nLab + 1 ≤ bad) (hFbad : nF + 1 ≤ bad)
-    (hxor : ∀ c < L, val (Nat.xor c 1) = (val c)⁻¹)
+theorem facts_hold {G : Type*} [Group G] (H : Subgroup G) (val : ℕ → G)
+    {inv L nLab nT RW RM nW nF : ℕ} {F D Wd Wd2 : ℕ → ℕ} {walk : List ℕ}
+    (hlab : nLab = nT + 1) (hlabbad : nLab + 1 ≤ bad) (hFbad : nF + 1 ≤ bad)
     (hinvv : ∀ c ≤ L, val (byte inv c) = (val c)⁻¹)
     (hW : ∀ j < nW, (∀ q < wN (Wd j), letter (Wd j) q ≤ L) ∧
       (wKind (Wd j) = 0 → lv val (wbytes (Wd j)) = 1) ∧
       (wKind (Wd j) = 1 → lv val (wbytes (Wd j)) ∈ H))
     (h2 : words2Ok Wd Wd2 inv nW = true)
     (htree : treeRange F D L nLab (nat_lit 0) nT = true)
-    (hwalk : wWalkList F Wd2 RW RM nLab nW walk nT = nF)
-    (hcov : wCovList F RW RM N L nF cov (nat_lit 0) = N) :
-    ∀ x < N, ∀ c < L, ∃ y < N, rel H (rep val F D nT x * val c) (rep val F D nT y) := by
+    (hwalk : wWalkList F Wd2 RW RM nLab nW walk nT = nF) :
+    ∀ f < nF, Holds H val (rep val F D nT) (F f) ∧ rY (F f) ≠ bad := by
   have hbad : bad = 4611686018427387904 := rfl
   have hpairs : ∀ j < nW, Wd2 j = pairs inv (Wd j) := by
     intro j hj
@@ -987,6 +985,23 @@ theorem cover_closed {G : Type*} [Group G] (H : Subgroup G) (val : ℕ → G)
       exact walk_sound H val (rep val F D nT) F RW RM f (F f) t (Wd2 j) refs s
         (Nat.land (Wd2 j) (nat_lit 255)) (letter (Wd j)) (fun q => byte inv (letter (Wd j) q))
         ha hai hinv (fun g hg => ih g hg (by omega)) hword (by omega) ht hend
+  exact hfacts
+
+theorem cover_closed {G : Type*} [Group G] (H : Subgroup G) (val : ℕ → G)
+    {inv L nLab nT N RW RM nW nF : ℕ} {F D Wd Wd2 : ℕ → ℕ} {walk cov : List ℕ}
+    (hNl : N ≤ nLab) (hlab : nLab = nT + 1) (hlabbad : nLab + 1 ≤ bad) (hFbad : nF + 1 ≤ bad)
+    (hxor : ∀ c < L, val (Nat.xor c 1) = (val c)⁻¹)
+    (hinvv : ∀ c ≤ L, val (byte inv c) = (val c)⁻¹)
+    (hW : ∀ j < nW, (∀ q < wN (Wd j), letter (Wd j) q ≤ L) ∧
+      (wKind (Wd j) = 0 → lv val (wbytes (Wd j)) = 1) ∧
+      (wKind (Wd j) = 1 → lv val (wbytes (Wd j)) ∈ H))
+    (h2 : words2Ok Wd Wd2 inv nW = true)
+    (htree : treeRange F D L nLab (nat_lit 0) nT = true)
+    (hwalk : wWalkList F Wd2 RW RM nLab nW walk nT = nF)
+    (hcov : wCovList F RW RM N L nF cov (nat_lit 0) = N) :
+    ∀ x < N, ∀ c < L, ∃ y < N, rel H (rep val F D nT x * val c) (rep val F D nT y) := by
+  have hbad : bad = 4611686018427387904 := rfl
+  have hfacts := facts_hold H val hlab hlabbad hFbad hinvv hW h2 htree hwalk
   have hgood := (wCovList_run F RW RM N L nF cov 0).good (by rw [hcov]; omega)
   rw [hcov] at hgood
   intro x hx c hc
@@ -1002,6 +1017,29 @@ theorem cover_closed {G : Type*} [Group G] (H : Subgroup G) (val : ℕ → G)
     rwa [inv_mul_cancel_right] at this
   · refine ⟨_, h3, ?_⟩
     rwa [h1, h2] at hH
+
+theorem rel_of_fwd {G : Type*} [Group G] {H : Subgroup G} {val rep : ℕ → G} {e x c y : ℕ}
+    (h : Holds H val rep e) (hx : rX e = x) (hc : rC e = c) (hy : rY e = y) :
+    rel H (rep x * val c) (rep y) := by
+  unfold Holds at h
+  rwa [hx, hc, hy] at h
+
+theorem rel_of_bwd {G : Type*} [Group G] {H : Subgroup G} {val rep : ℕ → G} {e x c y : ℕ}
+    (h : Holds H val rep e) (hx : rX e = y) (hc : val (rC e) = (val c)⁻¹) (hy : rY e = x) :
+    rel H (rep x * val c) (rep y) := by
+  unfold Holds at h
+  rw [hx, hc, hy] at h
+  have := rel_mul_right (val c) (rel_symm h)
+  rwa [inv_mul_cancel_right] at this
+
+theorem pow_three_mem {G : Type*} [Group G] {H : Subgroup G} {rep : ℕ → G} {v : G} {a b : ℕ}
+    (h0 : rep 0 = 1) (h1 : rel H (rep 0 * v) (rep a)) (h2 : rel H (rep a * v) (rep b))
+    (h3 : rel H (rep b * v) (rep 0)) : v ^ 3 ∈ H := by
+  rw [h0, one_mul] at h1
+  have h12 := rel_trans (rel_mul_right v h1) h2
+  have h123 := rel_trans (rel_mul_right v h12) h3
+  unfold rel at h123
+  rwa [h0, inv_one, mul_one, ← pow_two, ← pow_succ] at h123
 
 theorem index_le {G : Type*} [Group G] {H A : Subgroup G} (val rp : ℕ → G) {L N : ℕ}
     (hA : A ≤ Subgroup.closure (val '' {c | c < L})) (hrpA : ∀ x, rp x ∈ A)

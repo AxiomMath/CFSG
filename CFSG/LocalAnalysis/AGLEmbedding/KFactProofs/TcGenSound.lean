@@ -37,7 +37,7 @@ theorem tc_sub [Finite (certMonoid c d sA sB)ˣ] (hp : p.Prime) (pcs : List Pc) 
     (hgw : ∀ u ∈ s.gens, u.w.all (fun a => pcs.any (·.reg == a.1)) = true)
     (hv0 : s.genWord s.v0 = true) (hv1 : s.genWord s.v1 = true)
     (hv2 : s.v2.all (fun a => pcs.any (·.reg == a.1)) = true)
-    (hindep : ∀ v ∈ nonzeroTriples p, ∃ q ∈ s.indep,
+    (hindep : ∀ v ∈ projTriples p, ∃ q ∈ s.indep,
       q.1 = v.1 ∧ q.2.1 = v.2.1 ∧ q.2.2.1 = v.2.2)
     (hacts : ∀ g ∈ s.acts, (∀ c ∈ g.imgs, s.gens.any (·.reg == c.1) = true ∧
         s.genWord c.2 = true) ∧ ∀ u ∈ s.gens, g.imgs.any (·.1 == u.reg) = true) :
@@ -143,38 +143,33 @@ theorem tc_sub [Finite (certMonoid c d sA sB)ˣ] (hp : p.Prime) (pcs : List Pc) 
     have := Subgroup.mem_centralizer_iff.1 (hle hx) (regUnit Sp hC s.c2) rfl
     exact this.symm
   have hbOrd : ∀ w : Word, (∀ q ∈ w, q.1 = s.c0 ∨ q.1 = s.c1 ∨ q.1 = s.c2) → HasOrd C w := hOrdC
-  have hindep3 : ∀ cc : Fin 3 → ZMod p,
-      ((List.finRange 3).map fun k => ![regUnit Sp hC s.c0, regUnit Sp hC s.c1,
-        regUnit Sp hC s.c2] k ^ (cc k).val).prod = 1 → cc = 0 := by
-    intro cc hcc
-    by_contra hne
-    have hv : ((cc 0).val, (cc 1).val, (cc 2).val) ∈ nonzeroTriples p := by
-      rw [mem_nonzeroTriples]
-      refine ⟨ZMod.val_lt _, ZMod.val_lt _, ZMod.val_lt _, ?_⟩
-      rintro ⟨h0, h1, h2⟩
-      apply hne
-      ext k
-      fin_cases k
-      · exact (ZMod.val_eq_zero _).1 h0
-      · exact (ZMod.val_eq_zero _).1 h1
-      · exact (ZMod.val_eq_zero _).1 h2
-    obtain ⟨q, hq, hq0, hq1, hq2⟩ := hindep _ hv
-    have hfne : MFact.ne [(s.c0, q.1), (s.c1, q.2.1), (s.c2, q.2.2.1)] [] q.2.2.2 ∈ C.facts :=
-      hf _ (by
-        simp only [TSub.facts, List.mem_append, List.mem_map]
-        exact Or.inl (Or.inr ⟨q, hq, rfl⟩))
-    have := regUnit_ne Sp hC hfne (hOrdC _ (by simp)) (hasOrd_nil C)
-    apply this
-    rw [wordUnit_nil, hq0, hq1, hq2]
-    simp only [wordUnit, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
-    simp only [List.finRange_succ, List.map_cons, List.prod_cons, List.finRange_zero, List.map_nil,
-      List.prod_nil, mul_one] at hcc
-    simpa [mul_assoc] using hcc
   have c01 := regUnit_eq Sp hC f01 (hOrdC _ (by simp)) (hOrdC _ (by simp))
   have c02 := regUnit_eq Sp hC f02 (hOrdC _ (by simp)) (hOrdC _ (by simp))
   have c12 := regUnit_eq Sp hC f12 (hOrdC _ (by simp)) (hOrdC _ (by simp))
   simp only [wordUnit, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
     pow_one] at c01 c02 c12
+  have hproj : ∀ v ∈ projTriples p, regUnit Sp hC s.c0 ^ v.1 *
+      (regUnit Sp hC s.c1 ^ v.2.1 * regUnit Sp hC s.c2 ^ v.2.2) ≠ 1 := by
+    intro v hv he
+    obtain ⟨q, hq, hq0, hq1, hq2⟩ := hindep _ hv
+    have hfne : MFact.ne [(s.c0, q.1), (s.c1, q.2.1), (s.c2, q.2.2.1)] [] q.2.2.2 ∈ C.facts :=
+      hf _ (by
+        simp only [TSub.facts, List.mem_append, List.mem_map]
+        exact Or.inl (Or.inr ⟨q, hq, rfl⟩))
+    apply regUnit_ne Sp hC hfne (hOrdC _ (by simp)) (hasOrd_nil C)
+    rw [wordUnit_nil, hq0, hq1, hq2]
+    simp only [wordUnit, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
+    simpa [mul_assoc] using he
+  have hindep3 : ∀ cc : Fin 3 → ZMod p,
+      ((List.finRange 3).map fun k => ![regUnit Sp hC s.c0, regUnit Sp hC s.c1,
+        regUnit Sp hC s.c2] k ^ (cc k).val).prod = 1 → cc = 0 := by
+    intro cc hcc
+    by_contra hne
+    apply indep3_of_proj c01 c02 c12 (regUnit_pow Sp hC hc0) (regUnit_pow Sp hC hc1)
+      (regUnit_pow Sp hC hc2) hproj cc hne
+    simp only [List.finRange_succ, List.map_cons, List.prod_cons, List.finRange_zero, List.map_nil,
+      List.prod_nil, mul_one] at hcc
+    simpa [mul_assoc] using hcc
   have hcomm3 : ∀ i j : Fin 3, ![regUnit Sp hC s.c0, regUnit Sp hC s.c1, regUnit Sp hC s.c2] i *
       ![regUnit Sp hC s.c0, regUnit Sp hC s.c1, regUnit Sp hC s.c2] j =
       ![regUnit Sp hC s.c0, regUnit Sp hC s.c1, regUnit Sp hC s.c2] j *

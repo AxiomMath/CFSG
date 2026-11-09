@@ -36,7 +36,7 @@ end CertificateChecks.KernelSporSch.TitsPrim
   CFSG.Sporadic.Schreier.Tits.titsMergesText 0 1753 4 CFSG.Sporadic.Schreier.Tits.titsStabReps 0 32
 #kst_merge CertificateChecks.KernelSporSch.TitsMS 2925 12 CertificateChecks.KernelSporSch.TitsSS.T
   CFSG.Sporadic.Schreier.Tits.titsMergesText 7012 2923 5 CFSG.Sporadic.Schreier.Tits.titsOtherReps 1
-  32
+  128
 
 namespace CertificateChecks.KernelSporSch.TitsPrim
 
@@ -133,6 +133,45 @@ theorem mergeCKG_of {n w kG b x Lc S NS TP PP : Nat} {GS RI RU RV A : Nat → Na
   obtain ⟨e4, e5⟩ := (bAnd_iff _ _).1 r3
   unfold mergeCKG
   rw [e1, e2, e3, e4, e5, hA, hs, hT, hc, hf]
+
+@[expose] noncomputable def segCM (n w kG : Nat) (GS : Nat → Nat) (Lc S TP PP : Nat)
+    (A M RI RU RV : Nat → Nat) (s : Nat) : Bool :=
+  strictB (Nat.mul S s) (fun k0 => strictB (Nat.min (Nat.add k0 S) Lc) (fun ke =>
+  bAnd(allN (Nat.sub ke k0) (fun t => stepCG n w kG GS S TP PP A s (Nat.add k0 t)
+    (RI (Nat.add k0 t)) (RU (Nat.add k0 t)) (RV (Nat.add k0 t))),
+  bAnd(allN n (fun l => bIf(Nat.blt (pgW 12 TP l) k0, true,
+    Nat.beq (pgW w (M s) l) (findK n w TP PP ke (Nat.succ S) l))),
+  allN n (fun y => strictB (pgW w (A s) y) (fun a => Nat.beq (pgW w (A (Nat.succ s)) y)
+    (nIf(Nat.blt (pgW 12 TP a) k0, findK n w TP PP ke (Nat.succ S) a,
+      nIf(Nat.blt a n, pgW w (M s) a, findK n w TP PP ke (Nat.succ S) a)))))))))
+
+theorem segCG_of_segCM {n w kG Lc S TP PP s : Nat} {GS A M RI RU RV : Nat → Nat}
+    (h : segCM n w kG GS Lc S TP PP A M RI RU RV s = true) :
+    segCG n w kG GS Lc S TP PP A RI RU RV s = true := by
+  unfold segCM at h
+  unfold segCG
+  simp only [strictB_eqM] at h ⊢
+  obtain ⟨h1, h⟩ := (bAnd_iff _ _).1 h
+  obtain ⟨h2, h3⟩ := (bAnd_iff _ _).1 h
+  rw [h1, allN_of_forall fun y hy => ?_]
+  rw [Nat.eq_of_beq_eq_true (allN_spec h3 y hy)]
+  generalize pgW w (A s) y = a
+  cases hb : Nat.blt (pgW 12 TP a) (Nat.mul S s)
+  · cases hn : Nat.blt a n
+    · exact Nat.beq_refl _
+    · have h6 := allN_spec h2 a (Nat.blt_eq.mp hn)
+      rw [hb] at h6
+      have e2 : pgW w (M s) a = findK n w TP PP (Nat.min (Nat.add (Nat.mul S s) S) Lc)
+          (Nat.succ S) a := Nat.eq_of_beq_eq_true h6
+      change Nat.beq (pgW w (M s) a) _ = true
+      rw [e2]
+      exact Nat.beq_refl _
+  · exact Nat.beq_refl _
+
+theorem allN_segCG_of_segCM {n w kG Lc S TP PP NS : Nat} {GS A M RI RU RV : Nat → Nat}
+    (h : allN NS (segCM n w kG GS Lc S TP PP A M RI RU RV) = true) :
+    allN NS (segCG n w kG GS Lc S TP PP A RI RU RV) = true :=
+  allN_of_forall fun s hs => segCG_of_segCM (allN_spec h s hs)
 
 theorem sCan : allN 2 (fun i => canonK 2925 12 (mask 12) (2925 * 12) (TitsSS.T i)) = true := by
   quickRfl

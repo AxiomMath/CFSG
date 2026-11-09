@@ -89,8 +89,6 @@ open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Certificates.Native
 
 @[expose] def uOrbit : ArrCert := classOrbit u0 40000
 
-@[expose] def yOrbit : ArrCert := classOrbit y0 400000
-
 @[expose] def kCert : ArrCert := enumBfs 100 xGens keys 400
 
 @[expose] def cyCert : ArrCert := enumBfs 100 cyGens keys 800
@@ -123,8 +121,8 @@ open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Certificates.Native
     validA 100 pEl && s5InP pEl
 
 @[noinline, expose] def classesOK : Bool :=
-  classOK z0 zOrbit 5775 && classOK u0 uOrbit 15400 && classOK y0 yOrbit 123200 &&
-    fixCnt z0 == 20 && fixCnt u0 == 0
+  classOK z0 zOrbit 5775 && classOK u0 uOrbit 15400 && eqA 100 (pw y0 3) (idA 100) &&
+    !eqA 100 y0 (idA 100) && fixCnt z0 == 20 && fixCnt u0 == 0
 
 @[expose] def eCommCount : ℕ :=
   (Finset.univ.filter fun i : Fin zasE0Cert.pts.size =>

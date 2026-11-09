@@ -31,6 +31,21 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.MonsterConv.Perm CFSG.KC.Fi24Net
   allL (fun x => allL (fun y => orB (meetP x y) (notB (Nat.beq x.2.2 y.2.2))) (pv NW NT s we))
     (pv NW NT s we)
 
+@[expose] noncomputable def pvR (NW : Nat → Nat → Nat) (NT : Nat → Nat) :
+    List (List Nat × Nat × Nat) → List (Nat × Nat × Nat) :=
+  List.rec (motive := fun _ => List (Nat × Nat × Nat)) List.nil
+    (fun a t ih => List.rec (motive := fun _ => List (Nat × Nat × Nat)) ih
+      (fun b _ jh => (a.2.1, b.2.1, ptC NW NT (dW a.1) b.2.2) :: jh) t)
+
+@[expose] noncomputable def svOK (NW : Nat → Nat → Nat) (NT : Nat → Nat) (s : Nat)
+    (wv : List (List Nat × Nat × Nat)) : Bool :=
+  allL (fun e => Nat.beq (ptC NW NT (dW e.1) s) e.2.2) wv
+
+@[expose] noncomputable def pairsR (NW : Nat → Nat → Nat) (NT : Nat → Nat)
+    (wv : List (List Nat × Nat × Nat)) : Bool :=
+  allL (fun x => allL (fun y => orB (meetP x y) (notB (Nat.beq x.2.2 y.2.2))) (pvR NW NT wv))
+    (pvR NW NT wv)
+
 @[expose] noncomputable def normOK (NW : Nat → Nat → Nat) (NT : Nat → Nat) (N : List Nat)
     (pq : List (Nat × Nat)) : Bool :=
   allL (fun e => Nat.beq (ptC NW NT N e.1) e.2) pq

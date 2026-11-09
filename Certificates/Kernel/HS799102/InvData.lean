@@ -12,8 +12,8 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelHS799102
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHS799102
-  "Certificates/Kernel/HS799102/data/inv.json.gz" 333115 18440860589895312762
+#kc_repo #kc_json CertificateChecks.KernelHS799102
+  "Certificates/Kernel/HS799102/data/inv.json" 333115 18440860589895312762
   (RG : List Nat) (P0 : List (Nat × Nat × Nat × Nat)) (HW : List (List Nat)) (HG : List Nat)
   (SM : Nat) (SR : List (Nat × Nat × Nat × Nat)) (NW : List (List Nat)) (NG : List Nat)
   (NL : List (Nat × Nat × Nat × Nat))

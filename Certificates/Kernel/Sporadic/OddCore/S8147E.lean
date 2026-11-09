@@ -7,6 +7,7 @@ public import Certificates.Kernel.Sporadic.OddCore.S8147KC
 public import Certificates.Kernel.Sporadic.OddCore.S8147KD
 public import Certificates.Kernel.Sporadic.OddCore.S8147C
 public import CFSG.Certificates.Kernel.BfsPinAlg
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import CFSG.Certificates.Kernel.BfsPinSliceSound
 public import CFSG.Certificates.Kernel.BfsPinBaseSound
 public import CFSG.Certificates.Kernel.BfsPinSetSound
@@ -120,7 +121,7 @@ theorem enumF {ng N L K fuel : Nat} {gs : Array (Array Nat)} {G T E S C SKT : Na
     (hk : keysSK 1782 11 [0, 1, 2, 3, 4, 8, 5, 6] N T (CFSG.KS.HNA.listUp SKT N) = true)
     (hp : allN ng (fun k => permOK 1782 11 (mask 11) (1782 * 11) (G k)
       (pinvS 1782 11 (mask 11) (G k))) = true)
-    (hsl : ∀ s < K, bAnd(canonSl 1782 11 T L s, runSl 1782 11 ng G T E L C s) = true)
+    (hsl : ∀ s < K, runSl 1782 11 ng G T E L C s = true)
     (hf : N ≤ fuel) :
     enumOK 1782 gs suzFiveKeys (enumBfs 1782 gs suzFiveKeys fuel) = true ∧
       (enumBfs 1782 gs suzFiveKeys fuel).pts.size = N ∧
@@ -128,16 +129,8 @@ theorem enumF {ng N L K fuel : Nat} {gs : Array (Array Nat)} {G T E S C SKT : Na
       ∀ i < N, PP 1782 11 (T i) := by
   simp only [Bool.and_eq_true] at hh
   obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := hh
-  have hcs : ∀ s < K, canonSl 1782 11 T L s = true := fun s hs => by
-    have := hsl s hs
-    rw [bAnd_eq, Bool.and_eq_true] at this
-    exact this.1
-  have hrs : ∀ s < K, runSl 1782 11 ng G T E L C s = true := fun s hs => by
-    have := hsl s hs
-    rw [bAnd_eq, Bool.and_eq_true] at this
-    exact this.2
   have hb : bfsK 1782 11 ng G N T E S = true :=
-    bfsK_of_slices hNL hL h1 h2 hcs h3 hd (Nat.eq_of_beq_eq_true h4) (Nat.eq_of_beq_eq_true h5) hrs
+    bfsK_of_runSl hNL hL h1 h2 h3 hd (Nat.eq_of_beq_eq_true h4) (Nat.eq_of_beq_eq_true h5) hsl
   have hpp : ∀ k < ng, permOK 1782 11 (mask 11) (1782 * 11) (G k)
       (pinvS 1782 11 (mask 11) (G k)) = true := fun k hk => allN_spec hp k hk
   obtain ⟨e1, e2, e3⟩ := CFSG.KC.B3S3K.enum_of (n := 1782) (w := 11) ⟨hs, hg⟩ hpp hb keys_lt hk hf

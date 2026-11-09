@@ -11,7 +11,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.BrFi24 "Certificates/Kernel/Sporadic/Fi24Br/data/seed.json.gz" 6828
+#kc_repo #kc_json CFSG.KD.BrFi24 "Certificates/Kernel/Sporadic/Fi24Br/data/seed.json" 6828
   7694364780480428996 (DA1 : List Nat) (DA2 : List Nat)
 
 public noncomputable section

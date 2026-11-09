@@ -4,7 +4,7 @@ public import Certificates.Data.Kernel.Q7Bits.Defs
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.Q7Bits "Certificates/Kernel/Q7Bits/data/q7lv.json.gz" 174615
+#kc_repo #kc_json CFSG.KD.Q7Bits "Certificates/Kernel/Q7Bits/data/q7lv.json" 174615
   9629211764008888248 (rt : List Nat) (lv : List (List (List Nat)))
 
 public section

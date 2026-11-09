@@ -2,7 +2,7 @@ module
 
 public import Certificates.Kernel.SporSch.Co1.GenK
 public import Certificates.Kernel.SporSch.Co1.Split
-public import CFSG.Certificates.Kernel.SporSch.Co1StabSound
+public import CFSG.Certificates.Kernel.SporSch.Co1StabWSound
 public import CFSG.Certificates.Kernel.SporSch.Co1GenBSound
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
@@ -32,7 +32,7 @@ theorem ext_eq : extInitRows = (List.range 10).map fun i => unpack 24 24 (ED.M i
 theorem dag_eq : extDag = ((List.range ED.N).map fun i => unpack 24 24 (ED.M i),
     (List.range ED.N).map fun i => unpack 24 24 (ED.MI i), true) := by
   unfold extDag
-  exact dagIK_sound ext_eq kD
+  exact dagIWK_sound ext_eq kD
 
 theorem cols_eq : extColsT =
     Array.ofFn (n := 93) fun j => transposeRows 24 (unpack 24 24 (ED.M j.val)) := by
@@ -52,19 +52,19 @@ theorem check : genCheck = true := by
   · simp
   · intro i hi
     interval_cases i
-    · exact ⟨_, _, _, _, _, 512, TW.hd0, TW.hc0, TW.hn0, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl0,
+    · exact ⟨_, _, _, _, _, 64, TW.hd0, TW.hc0, TW.hn0, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl0,
         TW.hp0, fq0, by decide, by decide⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd1, TW.hc1, TW.hn1, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl1,
+    · exact ⟨_, _, _, _, _, 64, TW.hd1, TW.hc1, TW.hn1, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl1,
         TW.hp1, fq1, by decide, by decide⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd2, TW.hc2, TW.hn2, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl2,
+    · exact ⟨_, _, _, _, _, 64, TW.hd2, TW.hc2, TW.hn2, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl2,
         TW.hp2, fq2, by decide, by decide⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd3, TW.hc3, TW.hn3, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl3,
+    · exact ⟨_, _, _, _, _, 64, TW.hd3, TW.hc3, TW.hn3, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl3,
         TW.hp3, fq3, by decide, by decide⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd4, TW.hc4, TW.hn4, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl4,
+    · exact ⟨_, _, _, _, _, 64, TW.hd4, TW.hc4, TW.hn4, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl4,
         TW.hp4, fq4, by decide, by decide⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd5, TW.hc5, TW.hn5, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl5,
+    · exact ⟨_, _, _, _, _, 64, TW.hd5, TW.hc5, TW.hn5, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl5,
         TW.hp5, fq5, by decide, by decide⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd6, TW.hc6, TW.hn6, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl6,
+    · exact ⟨_, _, _, _, _, 64, TW.hd6, TW.hc6, TW.hn6, by decide, by decide, by decide, hl_of_tab TW.tb TW.hl6,
         TW.hp6, fq6, by decide, by decide⟩
 
 end CertificateChecks.KernelSporSch.Co1Gen

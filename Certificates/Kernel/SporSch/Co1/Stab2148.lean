@@ -40,8 +40,8 @@ open CertificateChecks.KernelSporSch.Co1Orbs
 @[expose] noncomputable def BF (A B v n : Nat) : VOrbit :=
   vOrbitBFS 24 (transposeRows 24 (unpack 24 24 A)) (transposeRows 24 (unpack 24 24 B)) v n
 
-theorem k0 : invOKK PH0 (HI 0) = true := by quickRfl
-theorem k1 : invOKK PH1 (HI 1) = true := by quickRfl
+theorem k0 : invOKW PH0 (HI 0) = true := by quickRfl
+theorem k1 : invOKW PH1 (HI 1) = true := by quickRfl
 theorem kW : witK HM HI Data.fixWords Data.stabVecs = true := by quickRfl
 theorem kF : fixK HM HI Data.fixWords Data.fixFree Data.fixSteps Data.stabVecs = true := by quickRfl
 
@@ -83,11 +83,11 @@ theorem h1u : hRows1 = unpack 24 24 PH1 := h1_eq.trans (rows_of b1)
 
 theorem i0 : inv hRows0 = unpack 24 24 (HI 0) := by
   rw [h0u]
-  exact (invOKK_sound k0).2
+  exact (invOKW_sound k0).2
 
 theorem i1 : inv hRows1 = unpack 24 24 (HI 1) := by
   rw [h1u]
-  exact (invOKK_sound k1).2
+  exact (invOKW_sound k1).2
 
 theorem e0 : enumOK (transposeRows 24 (unpack 24 24 PH0)) (transposeRows 24 (unpack 24 24 PH1))
     16663704 1 (BF PH0 PH1 16663704 1) = true :=
@@ -146,7 +146,7 @@ theorem full2 : fullOrb 2 = BF PA PB 2 98280 := by
 
 theorem orb : stabOrbCheck = true := by
   unfold stabOrbCheck
-  rw [i0, i1, h0u, h1u, (invOKK_sound k0).1, (invOKK_sound k1).1, wf_unpack, wf_unpack]
+  rw [i0, i1, h0u, h1u, (invOKW_sound k0).1, (invOKW_sound k1).1, wf_unpack, wf_unpack]
   simp only [beq_self_eq_true, Bool.true_and, List.all_eq_true, List.mem_range]
   intro k hk
   rw [so]

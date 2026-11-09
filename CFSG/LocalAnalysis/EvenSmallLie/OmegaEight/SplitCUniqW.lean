@@ -14,7 +14,8 @@ theorem uniqCheckW_of_parts {N : ℕ} {commB : ℕ → ℕ → Bool} {conjB : �
     {invB : ℕ → Bool} {W : UniqWit} (h₁ : (List.range W.J).all (clsPartW N commB conjB W) = true)
     (h₂ : ∀ j < W.J, ∀ i < N, dRowW commB W j i = true)
     (h₄ : ∀ j < W.J, ∀ t < 128, dPairW commB W j t = true)
-    (h₃ : ((List.range N).filter fun i => invB i && decide (2 ≤ W.kind (W.cl i))).length < 63) :
+    (h₃ : ((List.range N).filter fun i => invB i && decide (2 ≤ W.kind (W.cl i))).length < 63)
+    (hsym : ∀ a b, commB a b = commB b a) (hrefl : ∀ a, commB a a = true) :
     uniqCheckW N commB conjB invB W = true := by
   simp only [uniqCheckW, Bool.and_eq_true, List.all_eq_true, List.mem_range, decide_eq_true_eq]
   refine ⟨fun j hj => ?_, h₃⟩
@@ -25,15 +26,42 @@ theorem uniqCheckW_of_parts {N : ℕ} {commB : ℕ → ℕ → Bool} {conjB : �
   · simpa only [ite_eq_left h0] using hp.2
   by_cases h1 : W.kind j = 1
   · simp only [ite_eq_right h0, ite_eq_left h1, Bool.and_eq_true, decide_eq_true_eq] at hp ⊢
-    obtain ⟨⟨⟨hN, hlen⟩, hsort⟩, hc0⟩ := hp.2
+    obtain ⟨⟨⟨⟨hN, hlen⟩, hsort⟩, hc0⟩, hsub⟩ := hp.2
     refine ⟨⟨⟨⟨List.all_eq_true.2 fun i hi => ?_, hN⟩, List.all_eq_true.2 fun a ha => ?_⟩,
       hsort⟩, hc0⟩
     · have hr := h₂ j hj i (List.mem_range.1 hi)
-      simpa [dRowW, h1] using hr
-    · obtain ⟨t, ht, rfl⟩ := List.getElem_of_mem ha
-      have hr := h₄ j hj t (by omega)
-      simp only [dPairW, h1, decide_true, Bool.not_true, Bool.false_or, ht] at hr
-      rwa [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem ht, Option.getD_some] at hr
+      simp only [dRowW, h1, decide_true, Bool.not_true, Bool.false_or] at hr
+      cases hc : ((W.conj j).all fun p => commB i p.2)
+      · cases hd : (W.dl j).contains i
+        · rfl
+        · exfalso
+          have hs := List.all_eq_true.1 hsub i (List.contains_iff_mem.1 hd)
+          simp [hc] at hs
+      · rw [hc] at hr
+        simp only [Bool.not_true, Bool.false_or] at hr
+        simp [List.contains_iff_mem.1 hr]
+    · have key : ∀ u v (hu : u < (W.dl j).length) (hv : v < (W.dl j).length), u < v →
+          commB (W.dl j)[u] (W.dl j)[v] = true := by
+        intro u v hu hv huv
+        have hr := h₄ j hj u (by omega)
+        simp only [dPairW, h1, decide_true, Bool.not_true, Bool.false_or, hu] at hr
+        rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hu, Option.getD_some] at hr
+        obtain ⟨w, rfl⟩ : ∃ w, v = u + 1 + w := ⟨v - (u + 1), by omega⟩
+        have hlt : w < ((W.dl j).drop (u + 1)).length := by
+          rw [List.length_drop]
+          omega
+        have hm := List.getElem_mem hlt
+        rw [List.getElem_drop] at hm
+        exact List.all_eq_true.1 hr _ hm
+      obtain ⟨t, ht, rfl⟩ := List.getElem_of_mem ha
+      refine List.all_eq_true.2 fun b hb => ?_
+      obtain ⟨s, hs, rfl⟩ := List.getElem_of_mem hb
+      rcases lt_trichotomy t s with h | h | h
+      · exact key t s ht hs h
+      · subst h
+        exact hrefl _
+      · rw [hsym]
+        exact key s t hs ht h
   · simp only [ite_eq_right h0, ite_eq_right h1] at hp ⊢
 
 variable {G : Type*} [Group G] {S : Subgroup G} {N : ℕ} {e : ℕ → G}

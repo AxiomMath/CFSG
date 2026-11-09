@@ -1,15 +1,15 @@
 module
 
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Data.Kernel.Spor.WordProg
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi23Kt RS "Certificates/Kernel/Fi23Kt/data/mats.bin.gz" 16003 4
+#kc_repo #kc_ktree CFSG.KD.Fi23Kt RS "Certificates/Kernel/Fi23Kt/data/mats.bin" 16003 4
   240045 9984671587133669909
-#kc_repo #kc_json_family_gz CFSG.KD.Fi23Kt "Certificates/Kernel/Fi23Kt/data/lists.json.gz"
+#kc_repo #kc_json_family CFSG.KD.Fi23Kt "Certificates/Kernel/Fi23Kt/data/lists.json"
   57968 3482138779258662995 (PS : List Nat) (WC : List Nat) (PE : List Nat) (PF : List Nat)
 
 #kc_listDispatch CFSG.KD.Fi23Kt PS PS 15

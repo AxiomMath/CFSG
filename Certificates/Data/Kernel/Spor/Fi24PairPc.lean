@@ -85,6 +85,74 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.Fi24PairK
   andB (andB (net l) (inR (nat_lit 0) n r))
     (eqZ NV [Int.ofNat (Nat.add l (nat_lit 3))] (pcW xs r))
 
+@[expose] noncomputable def ckN (M : Nat) : Nat → Nat → Nat :=
+  Nat.rec (motive := fun _ => Nat → Nat) (fun _ => M)
+    (fun t ih i => strictN (Nat.shiftRight i (nat_lit 1)) (fun h =>
+      nIf(Nat.beq (Nat.land i (nat_lit 1)) (nat_lit 0),
+        Nat.land (ih h)
+          (Nat.sub (Nat.shiftLeft (nat_lit 1) (Nat.shiftLeft (nat_lit 1) (Nat.sub (nat_lit 18) t)))
+            (nat_lit 1)),
+        Nat.shiftRight (ih h) (Nat.shiftLeft (nat_lit 1) (Nat.sub (nat_lit 18) t)))))
+
+@[expose] noncomputable def bitC (m q : Nat) : Nat :=
+  nIf(Nat.blt q (nat_lit 524288),
+    strictN (Nat.shiftRight q (nat_lit 14)) (fun i =>
+      Nat.land (Nat.shiftRight (ckN m (nat_lit 5) i) (Nat.land q (nat_lit 16383))) (nat_lit 1)),
+    Nat.land (Nat.shiftRight m q) (nat_lit 1))
+
+@[expose] noncomputable def swpC (d m q : Nat) : Nat :=
+  nIf(Nat.beq (bitC m q) (nat_lit 1), Nat.add q d,
+    nIf(Nat.ble d q,
+      nIf(Nat.beq (bitC m (Nat.sub q d)) (nat_lit 1), Nat.sub q d, q),
+      q))
+
+@[expose] noncomputable def ptFC (M : Nat → Nat) (q : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) q
+    (fun j ih => strictN ih (fun y => swpC (CFSG.KC.Fi24Net.ldist (Nat.sub (nat_lit 36) j))
+      (M (Nat.sub (nat_lit 36) j)) y)) (nat_lit 37)
+
+@[expose] noncomputable def ptRC (M : Nat → Nat) (q : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) q
+    (fun j ih => strictN ih (fun y => swpC (CFSG.KC.Fi24Net.ldist j) (M j) y)) (nat_lit 37)
+
+@[expose] noncomputable def ptZC (NW : Nat → Nat → Nat) (z : Int) (x : Nat) : Nat :=
+  Int.rec (motive := fun _ => Nat)
+    (fun m => nIf(Nat.beq m (nat_lit 0), ptRC (NW (CFSG.KC.Fi24Net.lidx m)) x,
+      ptFC (NW (CFSG.KC.Fi24Net.lidx m)) x))
+    (fun n => nIf(Nat.beq n (nat_lit 0), ptFC (NW (nat_lit 0)) x,
+      ptRC (NW (CFSG.KC.Fi24Net.lidx (Nat.succ n))) x)) z
+
+@[expose] noncomputable def apZC (NW : Nat → Nat → Nat) (w : List Int) (x : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun x => x)
+    (fun z _ ih x => strictN (ih x) (fun y => ptZC NW z y)) w x
+
+@[expose] noncomputable def eqZC (NV : Nat → Nat → Nat) (u v : List Int) : Bool :=
+  List.rec (motive := fun _ => Bool) true
+    (fun b _ ih => bAnd(Nat.beq (apZC NV u b) (apZC NV v b), ih)) cbZ
+
+@[expose] noncomputable def cjOneC (NV : Nat → Nat → Nat) (xs : List (List Nat)) (n j k : Nat)
+    (c : List Nat) : Bool :=
+  andB (inR (Nat.succ j) n c) (eqZC NV (invW (xW xs j) ++ (xW xs k ++ xW xs j)) (pcW xs c))
+
+@[expose] noncomputable def relHdC (NV : Nat → Nat → Nat) (net : Nat → Bool) (xs : List (List Nat))
+    (ps : List Nat) (pw : List (List Nat)) (cj : List (List (List Nat))) (n j : Nat) : Bool :=
+  andB (andB (dirOK net (xW xs j)) (Nat.blt (nat_lit 0) (nthN ps j)))
+    (andB (andB (inR (Nat.succ j) n (nthLL pw j))
+        (eqZC NV (pcW xs (rep j (nthN ps j))) (pcW xs (nthLL pw j))))
+      (Nat.beq (lenA (nthL3 cj j)) (Nat.sub n (Nat.succ j))))
+
+@[expose] noncomputable def pcCkC (NV : Nat → Nat → Nat) (net : Nat → Bool) (xs : List (List Nat))
+    (ps : List Nat) (pw : List (List Nat)) (cj : List (List (List Nat))) (n g : Nat) : Bool :=
+  (fun j k => Bool.rec (motive := fun _ => Bool)
+      (Bool.rec (motive := fun _ => Bool) true (relHdC NV net xs ps pw cj n j) (Nat.beq j k))
+      (cjOneC NV xs n j k (nthLL (nthL3 cj j) (Nat.sub k (Nat.succ j)))) (Nat.blt j k))
+    (Nat.div g n) (Nat.mod g n)
+
+@[expose] noncomputable def genOKC (NV : Nat → Nat → Nat) (net : Nat → Bool) (xs : List (List Nat))
+    (n l : Nat) (r : List Nat) : Bool :=
+  andB (andB (net l) (inR (nat_lit 0) n r))
+    (eqZC NV [Int.ofNat (Nat.add l (nat_lit 3))] (pcW xs r))
+
 end CFSG.KC.Fi24PairPc
 
 end

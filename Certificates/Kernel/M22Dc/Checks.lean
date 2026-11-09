@@ -32,6 +32,10 @@ theorem tabsOK : (J.tabs.length == 8 && J.tabs.all fun t => t.length == 22 && t.
     true := by
   quickRfl
 
+theorem ptTabs : (List.range 8).all (fun l => (List.range 22).all fun p =>
+    L0 l p == tabF (J.tabs.getD l []) p) = true := by
+  quickRfl
+
 theorem invs : (List.range 3).all (fun i => (List.range 22).all fun p =>
     L0 (Nat.add 5 i) (L0 (Nat.add 2 i) p) == p) = true := by
   quickRfl

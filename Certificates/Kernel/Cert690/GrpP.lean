@@ -32,7 +32,7 @@ theorem bfsOm : bfsOK (fun y => (idxT Sm).find y Om.length)
   decide +kernel
 
 set_option maxHeartbeats 0 in
-theorem invO : invK (idxT S) O.length O inv = true := by decide +kernel
+theorem invO : invK (idxT S) O.length O invC inv = true := by decide +kernel
 
 end CertificateChecks.KernelC690.GrpP
 

@@ -80,7 +80,7 @@ theorem qGens_eq : (qGens rs).toArray = gensArr 3 QM := by
 
 theorem qTree_eq : qTree rs = bfsTree QT.N QT.P QT.PAR QT.LAB ∧
     CFSG.Sporadic.Co1.TwoBNative.gtOK (qGens rs).toArray (qTree rs) = true := by
-  obtain ⟨hT, hok⟩ := gtBFS_of_K kQ
+  obtain ⟨hT, hok⟩ := gtBFS_of_bfsK kQ (by rw [Nat.eq_of_beq_eq_true kQN]; decide)
   have e : qTree rs = bfsTree QT.N QT.P QT.PAR QT.LAB := by
     unfold qTree
     rewrite [qGens_eq]

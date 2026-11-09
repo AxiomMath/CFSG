@@ -48,7 +48,7 @@ private theorem srcs_get {n K e : Nat} {nbr : Array (List Nat)} {t : Array Nat}
   rw [getElem!_pos _ _ (by simpa using he)]
   simp
 
-theorem search_sound' {n d np na k chunks T P : Nat} {nbr : Array (List Nat)} {t : Array Nat}
+theorem search_sound' {n d np na k chunks T P CB : Nat} {nbr : Array (List Nat)} {t : Array Nat}
     {base SC : List Nat} {pool acc : Array (Array Nat)} {nodes : Array SNode}
     {R M S PL AC DT : Nat → Nat} (hn : n < 4096) (hnbr : nbr = rowsArr n d R)
     (hrow : ∀ x < n, rowOK n d R M S x = true) (hsym : ∀ x < n, ∀ y ∈ nbr[x]!, x ∈ nbr[y]!)
@@ -57,11 +57,12 @@ theorem search_sound' {n d np na k chunks T P : Nat} {nbr : Array (List Nat)} {t
     (hpreN : ∀ i < nodes.size, ∀ x ∈ (nodes[i]!).pre, x < n)
     (hpool : pool.size = np) (hPL : ∀ j < np, pool[j]! = unpack n 12 (PL j))
     (hacc : acc.size = na) (hAC : ∀ i < na, acc[i]! = unpack n 12 (AC i))
-    (hinj : injK n S T base k P = true)
+    (hinj : injK n S T base k P = true) (hcb : colourK n S T base k = CB)
     (hsc : ∀ e < base.length, srcColK n S T base k e (SC.getD e 0) = true)
     (h0 : 0 < nodes.size) (hroot : (nodes[0]!).pre = [])
-    (hnode : ∀ i < nodes.size, nodeK n S T PL np AC na nodes base SC k DT i = true) :
+    (hnode : ∀ i < nodes.size, nodeK n S T PL np AC na nodes base SC CB k DT i = true) :
     searchOK n nbr t base pool nodes acc k chunks = true := by
+  subst hcb
   have hcol : ∀ pre : List Nat, pre.length < 65536 → ∀ u,
       cget (colourK n S T pre k) u = (colourT n nbr t pre k)[u]! :=
     fun pre hp => cget_colourK hn hnbr hrow hsym ht hp

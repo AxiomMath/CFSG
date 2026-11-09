@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.EmptyFaithful.Stellmacher.S35Fin3
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -122,11 +123,165 @@ theorem elemAb_cases {A : Subgroup (Perm (Fin 5))} (hA : IsElemAb A) :
     · exact hxA
     · exact hyA
 
+namespace QuadK
+
+open CFSG.Permutation.FinPack
+
+@[expose] def e5 : ℕ := 274960
+
+theorem e5_enc : enc (1 : Perm (Fin 5)) = e5 := by
+  unfold e5
+  decide +kernel
+
+theorem hn5 : 5 ≤ 16 := by norm_num
+
+@[expose] def crd (w : orth.W) (i : Fin 5) : ZMod 2 :=
+  Multiplicative.toAdd (w : ↥(G6.coreMod 5)).1 i
+
+theorem crd_act (σ : Perm (Fin 5)) (w : orth.W) (i : Fin 5) :
+    crd (orth.act σ w) i = crd w (σ⁻¹ i) := rfl
+
+theorem crd_mul (v w : orth.W) (i : Fin 5) : crd (v * w) i = crd v i + crd w i := rfl
+
+theorem crd_inv (w : orth.W) (i : Fin 5) : crd w⁻¹ i = -crd w i := rfl
+
+@[expose] def epv (j m t : Fin 5) : ZMod 2 := (if t = j then 1 else 0) + (if t = m then 1 else 0)
+
+theorem crd_ep (j m t : Fin 5) : crd (ep j m) t = epv j m t := rfl
+
+theorem crd_ext {v w : orth.W} (h : ∀ i, crd v i = crd w i) : v = w := by
+  apply Subtype.ext
+  apply Multiplicative.toAdd.injective
+  funext i
+  exact h i
+
+abbrev pairUp (p q r s : Fin 5) : Prop := (p = q ∧ r = s) ∨ (p = r ∧ q = s) ∨ (p = s ∧ q = r)
+
+theorem oddW : ∀ p q r s : Fin 5, ¬ pairUp p q r s →
+    ∃ j m : Fin 5, epv j m p + -epv j m q ≠ epv j m r + -epv j m s := by
+  decide +kernel
+
+theorem zmod2_swap : ∀ x y : ZMod 2, x + -y = y + -x := by decide
+
+theorem zmod2_cancel : ∀ x y : ZMod 2, x + -x = y + -y := by decide
+
+theorem gens_iff_pairUp (a b : Perm (Fin 5)) :
+    (∀ u : orth.W, orth.act a (orth.act b u * u⁻¹) = orth.act b u * u⁻¹) ↔
+      ∀ i : Fin 5, pairUp (b⁻¹ (a⁻¹ i)) (a⁻¹ i) (b⁻¹ i) i := by
+  constructor
+  · intro h i
+    by_contra hp
+    obtain ⟨j, m, hne⟩ := oddW _ _ _ _ hp
+    have h1 := congrArg (fun w => crd w i) (h (ep j m))
+    simp only [crd_act, crd_mul, crd_inv, crd_ep] at h1
+    exact hne h1
+  · intro h u
+    refine crd_ext fun i => ?_
+    simp only [crd_act, crd_mul, crd_inv]
+    rcases h i with ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩
+    · rw [h1, h2]
+      exact zmod2_cancel _ _
+    · rw [h1, h2]
+    · rw [h1, h2]
+      exact zmod2_swap _ _
+
 set_option synthInstance.maxSize 2000 in
+theorem quad_iff_pairs (K : Finset (Perm (Fin 5))) :
+    (∀ a ∈ K, ∀ w ∈ spanF (commGensF orth K Finset.univ), orth.act a w = w) ↔
+      ∀ a ∈ K, ∀ b ∈ K, ∀ i : Fin 5, pairUp (b⁻¹ (a⁻¹ i)) (a⁻¹ i) (b⁻¹ i) i := by
+  constructor
+  · intro h a ha b hb
+    refine (gens_iff_pairUp a b).1 fun u => h a ha _ (subset_spanF _ _ ?_)
+    exact Finset.mem_image.2 ⟨(b, u), Finset.mem_product.2 ⟨hb, Finset.mem_univ _⟩, rfl⟩
+  · intro h a ha w hw
+    rw [← closure_eq_spanF orth.sq] at hw
+    induction hw using Subgroup.closure_induction with
+    | mem z hz =>
+      obtain ⟨⟨b, u⟩, hbu, rfl⟩ := Finset.mem_image.1 (Finset.mem_coe.1 hz)
+      exact (gens_iff_pairUp a b).2 (h a ha b (Finset.mem_product.1 hbu).1) u
+    | one => exact map_one _
+    | mul v w _ _ hv hw => rw [map_mul, hv, hw]
+    | inv v _ hv => rw [map_inv, hv]
+
+@[expose] noncomputable def pairK (p q r s : ℕ) : Bool :=
+  (Nat.beq p q && Nat.beq r s) || (Nat.beq p r && Nat.beq q s) || (Nat.beq p s && Nat.beq q r)
+
+@[expose] noncomputable def pK (a b : ℕ) : Bool :=
+  allLtK (fun i => pairK (rd (invCK 5 b) (rd (invCK 5 a) i)) (rd (invCK 5 a) i) (rd (invCK 5 b) i)
+    i) 5
+
+@[expose] noncomputable def klK (c d : ℕ) : List ℕ := [e5, c, d, mulK 5 c d]
+
+@[expose] noncomputable def allP (c d : ℕ) : Bool :=
+  allK (fun a => allK (fun b => pK a b) (klK c d)) (klK c d)
+
+@[expose] def invL : List ℕ :=
+  [213520, 271120, 144400, 274720, 213280, 266800, 136240, 78400, 74560, 274945, 213505, 271105,
+    144385, 274450, 213010, 266290, 77890, 262675, 132115, 262435, 66115, 12820, 8980, 12580, 4660]
+
+theorem inv_walk : walkK 5 (fun c => Nat.beq c e5 || !Nat.beq (mulK 5 c c) e5 || memK c invL) 5
+    0 0 0 = true := by
+  decide +kernel
+
+theorem quad_walk : walkK 5 (fun c => Nat.beq c e5 || !Nat.beq (mulK 5 c c) e5 ||
+    allK (fun d => Nat.beq c d || !Nat.beq (mulK 5 c d) (mulK 5 d c) ||
+      (allP c d == (!evenK 5 c || !evenK 5 d))) invL) 5 0 0 0 = true := by
+  decide +kernel
+
+theorem pairK_iff (p q r s : Fin 5) : pairK p q r s = true ↔ pairUp p q r s := by
+  simp only [pairK, pairUp, Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq, Fin.val_inj, or_assoc]
+
+theorem pK_iff (a b : Perm (Fin 5)) :
+    pK (enc a) (enc b) = true ↔ ∀ i : Fin 5, pairUp (b⁻¹ (a⁻¹ i)) (a⁻¹ i) (b⁻¹ i) i := by
+  rw [pK, allLtK_iff, invCK_enc hn5, invCK_enc hn5]
+  refine Iff.trans ⟨fun h (i : Fin 5) => h i i.2, fun h i hi => h ⟨i, hi⟩⟩ ?_
+  simp only [rd_enc hn5, pairK_iff]
+
+theorem allP_iff (x y : Perm (Fin 5)) : allP (enc x) (enc y) = true ↔
+    ∀ a ∈ kl x y, ∀ b ∈ kl x y, ∀ i : Fin 5, pairUp (b⁻¹ (a⁻¹ i)) (a⁻¹ i) (b⁻¹ i) i := by
+  have hk : klK (enc x) (enc y) = [1, x, y, x * y].map enc := by
+    rw [klK, List.map_cons, List.map_cons, List.map_cons, List.map_cons, List.map_nil, e5_enc,
+      enc_mul hn5]
+  have hm : ∀ a, a ∈ kl x y ↔ a ∈ [1, x, y, x * y] := fun a => by simp [kl]
+  simp only [allP, hk, allK_iff, List.forall_mem_map, pK_iff, hm]
+
+theorem mem_invL (y : Perm (Fin 5)) (hy : y ∈ invF) : memK (enc y) invL = true := by
+  obtain ⟨hy1, hyy⟩ := mem_invF.1 hy
+  have h := walkK_sound inv_walk y
+  have h1 : Nat.beq (enc y) e5 = false := by
+    rw [← e5_enc, beq_enc_eq_decide hn5]
+    exact decide_eq_false hy1
+  have h2 : Nat.beq (mulK 5 (enc y) (enc y)) e5 = true := by
+    rw [← e5_enc, mulK_enc hn5, hyy, Nat.beq_refl]
+  rw [h1, h2, Bool.not_true, Bool.false_or, Bool.false_or] at h
+  exact h
+
+end QuadK
+
+set_option synthInstance.maxSize 2000 in
+open CFSG.Permutation.FinPack QuadK in
 theorem quadKl_iff : ∀ x ∈ invF, ∀ y ∈ invF, x ≠ y → x * y = y * x →
     ((∀ a ∈ kl x y, ∀ w ∈ spanF (commGensF orth (kl x y) Finset.univ), orth.act a w = w) ↔
       (Perm.sign x ≠ 1 ∨ Perm.sign y ≠ 1)) := by
-  unfold kl invF; decide +kernel
+  intro x hx y hy hxy hc
+  rw [quad_iff_pairs, ← allP_iff]
+  obtain ⟨hx1, hxx⟩ := mem_invF.1 hx
+  have h := walkK_sound quad_walk x
+  have h1 : Nat.beq (enc x) e5 = false := by
+    rw [← e5_enc, beq_enc_eq_decide hn5]
+    exact decide_eq_false hx1
+  have h2 : Nat.beq (mulK 5 (enc x) (enc x)) e5 = true := by
+    rw [← e5_enc, mulK_enc hn5, hxx, Nat.beq_refl]
+  rw [h1, h2, Bool.not_true, Bool.false_or, Bool.false_or] at h
+  have h3 := allK_iff.1 h _ (memK_iff.1 (mem_invL y hy))
+  have h4 : Nat.beq (enc x) (enc y) = false := by
+    rw [beq_enc_eq_decide hn5]
+    exact decide_eq_false hxy
+  have h5 : Nat.beq (mulK 5 (enc x) (enc y)) (mulK 5 (enc y) (enc x)) = true := by
+    rw [mulK_enc hn5, mulK_enc hn5, hc, Nat.beq_refl]
+  rw [h4, h5, Bool.not_true, Bool.false_or, Bool.false_or, beq_iff_eq] at h3
+  rw [h3, Bool.or_eq_true, Bool.not_eq_true', Bool.not_eq_true', evenK_enc_eq_decide hn5,
+    evenK_enc_eq_decide hn5, decide_eq_false_iff_not, decide_eq_false_iff_not]
 
 theorem isQuad_closure_pair_iff {x y : Perm (Fin 5)} (hx1 : x ≠ 1) (hy1 : y ≠ 1) (hxy : x ≠ y)
     (hxx : x * x = 1) (hyy : y * y = 1) (hc : x * y = y * x) :

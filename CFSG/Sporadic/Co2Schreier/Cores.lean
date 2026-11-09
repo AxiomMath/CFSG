@@ -15,6 +15,7 @@ public meta import CFSG.Sporadic.Co2Schreier.Text
 public import CFSG.Sporadic.Co2Cert.CheckInputs
 public import CFSG.Sporadic.Co2Schreier.Chains
 public import CFSG.Sporadic.Co2Schreier.CoreCheck
+public import CFSG.Certificates.NativeSchreierLowerBound
 
 public noncomputable section
 
@@ -48,33 +49,19 @@ instance locR_normal :
   normal_of_conj_mem fun _ hc _ hx => enumR_facts.conj_mem repTuple_r repTuple_d wordFacts.invD
     (coreOK_spec coreR_check.1).2.1 hc hx
 
-theorem card_chainQAction :
-    Nat.card chainQAction.originalSubgroup = 371589120 := by
-  rw [card_originalSubgroup_of_chainOK chainQAction_arrays (by norm_num) chainQAction_check.1]
-  change (recordOrbits 512 localRec.chains.qAction).prod = _
-  rw [chainQAction_check.2]
-  rfl
+theorem le_card_chainQAction :
+    371589120 ≤ Nat.card chainQAction.originalSubgroup := by
+  have h := rawOrbitSizes_prod_le_card chainQAction_arrays chainQAction_check.1
+  change (recordOrbits 512 localRec.chains.qAction).prod ≤ _ at h
+  rw [chainQAction_check.2] at h
+  exact h
 
-theorem card_chainRAction :
-    Nat.card chainRAction.originalSubgroup = 1290240 := by
-  rw [card_originalSubgroup_of_chainOK chainRAction_arrays (by norm_num) chainRAction_check.1]
-  change (recordOrbits 2048 localRec.chains.rAction).prod = _
-  rw [chainRAction_check.2]
-  rfl
-
-theorem card_conjNormal_Q :
-    Nat.card (MulAut.conjNormal (H := locQ.subgroupOf locC)).range = 371589120 := by
-  rw [← card_chainQAction, chainQAction_original]
-  exact card_range_conjNormal enumQ_facts repTuple_q locQ_le_C (hN := locQ_normal) repTuple_c
-    wordFacts.invC (coreOK_spec coreQ_check.1).2.1 fun i hi =>
-      localShape.chainQ.orig_inv (by rwa [cTuple_length] at hi)
-
-theorem card_conjNormal_R :
-    Nat.card (MulAut.conjNormal (H := locR.subgroupOf locD)).range = 1290240 := by
-  rw [← card_chainRAction, chainRAction_original]
-  exact card_range_conjNormal enumR_facts repTuple_r locR_le_D (hN := locR_normal) repTuple_d
-    wordFacts.invD (coreOK_spec coreR_check.1).2.1 fun i hi =>
-      localShape.chainR.orig_inv (by rwa [dTuple_length] at hi)
+theorem le_card_chainRAction :
+    1290240 ≤ Nat.card chainRAction.originalSubgroup := by
+  have h := rawOrbitSizes_prod_le_card chainRAction_arrays chainRAction_check.1
+  change (recordOrbits 2048 localRec.chains.rAction).prod ≤ _ at h
+  rw [chainRAction_check.2] at h
+  exact h
 
 theorem card_centerIn_Q :
     Nat.card (CFSG.centerIn locQ) = 2 := by
@@ -87,6 +74,50 @@ theorem card_centerIn_R :
   have h := enumR_facts.card_centerIn repTuple_r
   rw [(coreOK_spec coreR_check.1).2.2] at h
   exact h
+
+theorem card_conjNormal_Q :
+    Nat.card (MulAut.conjNormal (H := locQ.subgroupOf locC)).range = 371589120 := by
+  have e : Nat.card (MulAut.conjNormal (H := locQ.subgroupOf locC)).range =
+      Nat.card chainQAction.originalSubgroup := by
+    rw [chainQAction_original]
+    exact card_range_conjNormal enumQ_facts repTuple_q locQ_le_C (hN := locQ_normal) repTuple_c
+      wordFacts.invC (coreOK_spec coreQ_check.1).2.1 fun i hi =>
+        localShape.chainQ.orig_inv (by rwa [cTuple_length] at hi)
+  have hlo : 371589120 ≤ Nat.card (MulAut.conjNormal (H := locQ.subgroupOf locC)).range := by
+    rw [e]
+    exact le_card_chainQAction
+  have h := card_inf_centralizer_mul locQ_le_C (hN := locQ_normal)
+  change Nat.card ↥(locC ⊓ Subgroup.centralizer (locQ : Set (Equiv.Perm (Fin 2300)))) *
+    Nat.card (MulAut.conjNormal (H := locQ.subgroupOf locC)).range = Nat.card locC at h
+  rw [card_locC] at h
+  have hc : 2 ≤ Nat.card ↥(locC ⊓ Subgroup.centralizer (locQ : Set (Equiv.Perm (Fin 2300)))) := by
+    rw [← card_centerIn_Q]
+    exact Subgroup.card_le_of_le (centerIn_le_inf locQ_le_C)
+  have hm :=
+    Nat.mul_le_mul_right (Nat.card (MulAut.conjNormal (H := locQ.subgroupOf locC)).range) hc
+  exact le_antisymm (by linarith) hlo
+
+theorem card_conjNormal_R :
+    Nat.card (MulAut.conjNormal (H := locR.subgroupOf locD)).range = 1290240 := by
+  have e : Nat.card (MulAut.conjNormal (H := locR.subgroupOf locD)).range =
+      Nat.card chainRAction.originalSubgroup := by
+    rw [chainRAction_original]
+    exact card_range_conjNormal enumR_facts repTuple_r locR_le_D (hN := locR_normal) repTuple_d
+      wordFacts.invD (coreOK_spec coreR_check.1).2.1 fun i hi =>
+        localShape.chainR.orig_inv (by rwa [dTuple_length] at hi)
+  have hlo : 1290240 ≤ Nat.card (MulAut.conjNormal (H := locR.subgroupOf locD)).range := by
+    rw [e]
+    exact le_card_chainRAction
+  have h := card_inf_centralizer_mul locR_le_D (hN := locR_normal)
+  change Nat.card ↥(locD ⊓ Subgroup.centralizer (locR : Set (Equiv.Perm (Fin 2300)))) *
+    Nat.card (MulAut.conjNormal (H := locR.subgroupOf locD)).range = Nat.card locD at h
+  rw [card_locD] at h
+  have hc : 32 ≤ Nat.card ↥(locD ⊓ Subgroup.centralizer (locR : Set (Equiv.Perm (Fin 2300)))) := by
+    rw [← card_centerIn_R]
+    exact Subgroup.card_le_of_le (centerIn_le_inf locR_le_D)
+  have hm :=
+    Nat.mul_le_mul_right (Nat.card (MulAut.conjNormal (H := locR.subgroupOf locD)).range) hc
+  exact le_antisymm (by linarith) hlo
 
 theorem eltE_Q_z :
     eltE enumQ 23 = locZ :=

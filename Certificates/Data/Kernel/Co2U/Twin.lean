@@ -24,6 +24,10 @@ open CFSG.KC.Loop CFSG.KC.Co2InvS CFSG.KC.Co2Smith CFSG.KC.F2TriSep CFSG.KC.M1F2
     (fun q _ ih => (w12UIdxOk q.1 && w12UIdxOk q.2 && eqK (evK P q.1 IDP) (evK P q.2 IDP)) && ih)
     eqs
 
+@[expose] noncomputable def powCheckK (P : List Nat) (ps : List (List (Nat × Nat) × Nat)) : Bool :=
+  List.rec (motive := fun _ => Bool) true
+    (fun q _ ih => (w12UIdxOk q.1 && eqK (powK (evK P q.1 IDP) q.2) IDP) && ih) ps
+
 @[expose] noncomputable def wordsK (A B : Nat) (cs : List (List Char)) : List Nat → Bool :=
   List.rec (motive := fun _ => List Nat → Bool)
     (fun P => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) P)

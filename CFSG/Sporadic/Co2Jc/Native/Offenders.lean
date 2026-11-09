@@ -57,7 +57,10 @@ def fixedB (l : List Nat) (m : Fin 1024) : Bool :=
   ((Finset.univ : Finset (Fin 1024)).filter fun m => fixedB l m).card
 
 @[expose]
-def lenOK : Bool := tabs.length == 256
+def lenOKg (l : List (List Nat)) : Bool := l.length == 256
+
+@[expose]
+def lenOK : Bool := lenOKg tabs
 
 @[expose]
 def nodupOK : Bool :=

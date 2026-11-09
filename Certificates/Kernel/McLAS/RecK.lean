@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.Sporadic.OddCore.MulHCmd
 public import Certificates.Data.Kernel.McLAS.Slices
 public import Certificates.Data.Kernel.McLAS.Pair
+public import Certificates.Data.Kernel.McLAS.RecKF
 meta import Certificates.Kernel.McLAS.Meta
 import Certificates.Kernel.McLAS.Meta
 
@@ -28,9 +29,13 @@ open CFSG.KS.McLAS in
 @[expose] noncomputable def selK (q : Nat) : Bool :=
   CFSG.KC.Enum.strictB (RK.T q) fun x => bIf(pairSelK (RK.GI 0) x, atK PO.cnt PO.T KinPO q x, true)
 
+open CFSG.KS.McLAS in
+@[expose] noncomputable def selKF (q : Nat) : Bool :=
+  CFSG.KC.Enum.strictB (RK.T q) fun x => bIf(pairSelKF (RK.GI 0) x, atK PO.cnt PO.T KinPO q x, true)
+
 @[expose] noncomputable def cK (i : Nat) : Bool :=
-  bAnd(CFSG.KS.McLAS.recSlK true RK.G RK.GI 3 RK.cnt RK.T RK.PL RK.POS RK.SRT RK.SRI RK.HS RK.HSI
-    (Nat.mul i 200) 200, CFSG.KS.MulH.slK RK.cnt selK (Nat.mul i 200) 200)
+  bAnd(CFSG.KS.McLAS.recSlRF RK.GI 3 RK.cnt RK.T RK.PL RK.POS RK.SRT RK.SRI RK.HS RK.HSI
+    (Nat.mul i 200) 200, CFSG.KS.MulH.slK RK.cnt selKF (Nat.mul i 200) 200)
 
 end CertificateChecks.KernelMcLAS
 

@@ -19,8 +19,181 @@ theorem e8Four_classCheck :
 @[expose] def e8EightCert : List (ℕ × ℕ × ℕ) :=
   [(136, 4, 6), (142, 4, 7), (147, 4, 8), (155, 4, 13), (164, 4, 14), (174, 4, 17), (177, 4, 20), (184, 4, 22), (197, 4, 33), (207, 4, 43), (214, 4, 52), (224, 4, 70), (229, 4, 87), (234, 4, 109), (0, 4, 110), (3, 4, 113), (236, 4, 126), (239, 4, 129), (5, 4, 130), (10, 4, 152), (15, 4, 169), (25, 4, 187), (32, 4, 196), (42, 4, 206), (55, 4, 217), (62, 4, 219), (65, 4, 222), (75, 4, 225), (84, 4, 226), (92, 4, 231), (97, 4, 232), (103, 4, 233), (144, 6, 11), (146, 6, 13), (162, 6, 14), (172, 6, 24), (178, 6, 30), (205, 6, 57), (212, 6, 64), (2, 6, 101), (237, 6, 138), (27, 6, 175), (34, 6, 182), (61, 6, 209), (67, 6, 215), (77, 6, 225), (93, 6, 226), (95, 6, 228), (66, 6, 214), (135, 6, 234), (104, 6, 5), (173, 6, 25), (139, 7, 12), (165, 7, 17), (167, 7, 19), (192, 7, 44), (198, 7, 50), (201, 7, 53), (1, 7, 94), (238, 7, 145), (38, 7, 186), (41, 7, 189), (47, 7, 195), (72, 7, 220), (74, 7, 222), (100, 7, 227), (49, 7, 197), (190, 7, 42), (132, 8, 11), (183, 8, 45), (56, 8, 194), (107, 8, 228), (108, 8, 229), (131, 8, 10), (40, 8, 178), (90, 8, 2), (149, 8, 237), (199, 8, 61), (127, 9, 11), (128, 9, 12), (111, 9, 227), (112, 9, 228), (51, 9, 183), (188, 9, 56), (123, 11, 229), (116, 11, 10), (120, 12, 13), (204, 12, 71), (35, 12, 168), (119, 12, 226), (78, 12, 0), (82, 12, 3), (157, 12, 236), (161, 12, 239), (81, 13, 3), (158, 13, 236)]
 
+private theorem certStep_append (n : ℕ) (C R : List (List ℤ)) :
+    ∀ (A B : List (ℕ × ℕ × ℕ)) (kn : List ℕ),
+    certStep n C R (A ++ B) kn = (certStep n C R A kn).bind (certStep n C R B)
+  | [], _, _ => rfl
+  | (g, a, c) :: A, B, kn => by
+    rw [List.cons_append, certStep, certStep]
+    split
+    next h => exact certStep_append n C R A B (g :: kn)
+    next h => rfl
+
+private theorem certStep_drop (n : ℕ) (C R : List (List ℤ)) (L : List (ℕ × ℕ × ℕ))
+    (k s k' : ℕ) (hk : k + s = k') (kn kn' : List ℕ)
+    (h : certStep n C R ((L.drop k).take s) kn = some kn') :
+    certStep n C R (L.drop k) kn = certStep n C R (L.drop k') kn' := by
+  subst hk
+  rw [← List.take_append_drop s (L.drop k), certStep_append, h, Option.bind_some, List.drop_drop]
+
+private def e8EightGood : List ℕ :=
+  [4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20,
+    21, 22, 23, 24, 26, 28, 29, 30, 31, 33, 36, 37, 39, 43,
+    44, 45, 46, 48, 50, 52, 53, 54, 57, 58, 59, 60, 63, 64,
+    68, 69, 70, 71, 73, 76, 79, 80, 83, 85, 86, 87, 88, 89,
+    91, 94, 96, 98, 99, 101, 102, 105, 106, 109, 110, 113, 114, 115,
+    117, 118, 121, 122, 124, 125, 126, 129, 130, 133, 134, 137, 138, 140,
+    141, 143, 145, 148, 150, 151, 152, 153, 154, 156, 159, 160, 163, 166,
+    168, 169, 170, 171, 175, 176, 179, 180, 181, 182, 185, 186, 187, 189,
+    191, 193, 194, 195, 196, 200, 202, 203, 206, 208, 209, 210, 211, 213,
+    215, 216, 217, 218, 219, 220, 221, 222, 223, 225, 226, 227, 228, 230,
+    231, 232, 233, 235]
+
+private def e8EightKn1 : List ℕ :=
+  [42, 32, 25, 15, 10, 5, 239, 236, 3, 0, 234, 229, 224, 214,
+    207, 197, 184, 177, 174, 164, 155, 147, 142, 136, 4, 6, 7, 8,
+    9, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+    26, 28, 29, 30, 31, 33, 36, 37, 39, 43, 44, 45, 46, 48,
+    50, 52, 53, 54, 57, 58, 59, 60, 63, 64, 68, 69, 70, 71,
+    73, 76, 79, 80, 83, 85, 86, 87, 88, 89, 91, 94, 96, 98,
+    99, 101, 102, 105, 106, 109, 110, 113, 114, 115, 117, 118, 121, 122,
+    124, 125, 126, 129, 130, 133, 134, 137, 138, 140, 141, 143, 145, 148,
+    150, 151, 152, 153, 154, 156, 159, 160, 163, 166, 168, 169, 170, 171,
+    175, 176, 179, 180, 181, 182, 185, 186, 187, 189, 191, 193, 194, 195,
+    196, 200, 202, 203, 206, 208, 209, 210, 211, 213, 215, 216, 217, 218,
+    219, 220, 221, 222, 223, 225, 226, 227, 228, 230, 231, 232, 233, 235]
+
+private def e8EightKn2 : List ℕ :=
+  [95, 93, 77, 67, 61, 34, 27, 237, 2, 212, 205, 178, 172, 162,
+    146, 144, 103, 97, 92, 84, 75, 65, 62, 55, 42, 32, 25, 15,
+    10, 5, 239, 236, 3, 0, 234, 229, 224, 214, 207, 197, 184, 177,
+    174, 164, 155, 147, 142, 136, 4, 6, 7, 8, 9, 11, 12, 13,
+    14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 28, 29, 30,
+    31, 33, 36, 37, 39, 43, 44, 45, 46, 48, 50, 52, 53, 54,
+    57, 58, 59, 60, 63, 64, 68, 69, 70, 71, 73, 76, 79, 80,
+    83, 85, 86, 87, 88, 89, 91, 94, 96, 98, 99, 101, 102, 105,
+    106, 109, 110, 113, 114, 115, 117, 118, 121, 122, 124, 125, 126, 129,
+    130, 133, 134, 137, 138, 140, 141, 143, 145, 148, 150, 151, 152, 153,
+    154, 156, 159, 160, 163, 166, 168, 169, 170, 171, 175, 176, 179, 180,
+    181, 182, 185, 186, 187, 189, 191, 193, 194, 195, 196, 200, 202, 203,
+    206, 208, 209, 210, 211, 213, 215, 216, 217, 218, 219, 220, 221, 222,
+    223, 225, 226, 227, 228, 230, 231, 232, 233, 235]
+
+private def e8EightKn3 : List ℕ :=
+  [107, 56, 183, 132, 190, 49, 100, 74, 72, 47, 41, 38, 238, 1,
+    201, 198, 192, 167, 165, 139, 173, 104, 135, 66, 95, 93, 77, 67,
+    61, 34, 27, 237, 2, 212, 205, 178, 172, 162, 146, 144, 103, 97,
+    92, 84, 75, 65, 62, 55, 42, 32, 25, 15, 10, 5, 239, 236,
+    3, 0, 234, 229, 224, 214, 207, 197, 184, 177, 174, 164, 155, 147,
+    142, 136, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18,
+    19, 20, 21, 22, 23, 24, 26, 28, 29, 30, 31, 33, 36, 37,
+    39, 43, 44, 45, 46, 48, 50, 52, 53, 54, 57, 58, 59, 60,
+    63, 64, 68, 69, 70, 71, 73, 76, 79, 80, 83, 85, 86, 87,
+    88, 89, 91, 94, 96, 98, 99, 101, 102, 105, 106, 109, 110, 113,
+    114, 115, 117, 118, 121, 122, 124, 125, 126, 129, 130, 133, 134, 137,
+    138, 140, 141, 143, 145, 148, 150, 151, 152, 153, 154, 156, 159, 160,
+    163, 166, 168, 169, 170, 171, 175, 176, 179, 180, 181, 182, 185, 186,
+    187, 189, 191, 193, 194, 195, 196, 200, 202, 203, 206, 208, 209, 210,
+    211, 213, 215, 216, 217, 218, 219, 220, 221, 222, 223, 225, 226, 227,
+    228, 230, 231, 232, 233, 235]
+
+private def e8EightKn4 : List ℕ :=
+  [158, 81, 161, 157, 82, 78, 119, 35, 204, 120, 116, 123, 188, 51,
+    112, 111, 128, 127, 199, 149, 90, 40, 131, 108, 107, 56, 183, 132,
+    190, 49, 100, 74, 72, 47, 41, 38, 238, 1, 201, 198, 192, 167,
+    165, 139, 173, 104, 135, 66, 95, 93, 77, 67, 61, 34, 27, 237,
+    2, 212, 205, 178, 172, 162, 146, 144, 103, 97, 92, 84, 75, 65,
+    62, 55, 42, 32, 25, 15, 10, 5, 239, 236, 3, 0, 234, 229,
+    224, 214, 207, 197, 184, 177, 174, 164, 155, 147, 142, 136, 4, 6,
+    7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22,
+    23, 24, 26, 28, 29, 30, 31, 33, 36, 37, 39, 43, 44, 45,
+    46, 48, 50, 52, 53, 54, 57, 58, 59, 60, 63, 64, 68, 69,
+    70, 71, 73, 76, 79, 80, 83, 85, 86, 87, 88, 89, 91, 94,
+    96, 98, 99, 101, 102, 105, 106, 109, 110, 113, 114, 115, 117, 118,
+    121, 122, 124, 125, 126, 129, 130, 133, 134, 137, 138, 140, 141, 143,
+    145, 148, 150, 151, 152, 153, 154, 156, 159, 160, 163, 166, 168, 169,
+    170, 171, 175, 176, 179, 180, 181, 182, 185, 186, 187, 189, 191, 193,
+    194, 195, 196, 200, 202, 203, 206, 208, 209, 210, 211, 213, 215, 216,
+    217, 218, 219, 220, 221, 222, 223, 225, 226, 227, 228, 230, 231, 232,
+    233, 235]
+
+private theorem e8EightGood_0 : (List.range' 0 60).filter
+    (fun i => (goodM Tag.E8.rank (cartanList Tag.E8) e8EightMat Tag.E8.artifactRoots
+      (Tag.E8.artifactRoots.getD i []) 8).isSome) =
+    [4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20,
+      21, 22, 23, 24, 26, 28, 29, 30, 31, 33, 36, 37, 39, 43,
+      44, 45, 46, 48, 50, 52, 53, 54, 57, 58, 59] := by
+  decide +kernel
+
+private theorem e8EightGood_1 : (List.range' 60 60).filter
+    (fun i => (goodM Tag.E8.rank (cartanList Tag.E8) e8EightMat Tag.E8.artifactRoots
+      (Tag.E8.artifactRoots.getD i []) 8).isSome) =
+    [60, 63, 64, 68, 69, 70, 71, 73, 76, 79, 80, 83, 85, 86,
+      87, 88, 89, 91, 94, 96, 98, 99, 101, 102, 105, 106, 109, 110,
+      113, 114, 115, 117, 118] := by
+  decide +kernel
+
+private theorem e8EightGood_2 : (List.range' 120 60).filter
+    (fun i => (goodM Tag.E8.rank (cartanList Tag.E8) e8EightMat Tag.E8.artifactRoots
+      (Tag.E8.artifactRoots.getD i []) 8).isSome) =
+    [121, 122, 124, 125, 126, 129, 130, 133, 134, 137, 138, 140, 141, 143,
+      145, 148, 150, 151, 152, 153, 154, 156, 159, 160, 163, 166, 168, 169,
+      170, 171, 175, 176, 179] := by
+  decide +kernel
+
+private theorem e8EightGood_3 : (List.range' 180 60).filter
+    (fun i => (goodM Tag.E8.rank (cartanList Tag.E8) e8EightMat Tag.E8.artifactRoots
+      (Tag.E8.artifactRoots.getD i []) 8).isSome) =
+    [180, 181, 182, 185, 186, 187, 189, 191, 193, 194, 195, 196, 200, 202,
+      203, 206, 208, 209, 210, 211, 213, 215, 216, 217, 218, 219, 220, 221,
+      222, 223, 225, 226, 227, 228, 230, 231, 232, 233, 235] := by
+  decide +kernel
+
+private theorem e8EightGood_eq :
+    (List.range Tag.E8.artifactRoots.length).filter
+    (fun i => (goodM Tag.E8.rank (cartanList Tag.E8) e8EightMat Tag.E8.artifactRoots
+      (Tag.E8.artifactRoots.getD i []) 8).isSome) = e8EightGood := by
+  rw [show Tag.E8.artifactRoots.length = 240 from by decide +kernel,
+    show List.range 240 = List.range' 0 60 ++ List.range' 60 60 ++ List.range' 120 60 ++
+      List.range' 180 60 from by decide +kernel,
+    List.filter_append, List.filter_append, List.filter_append, e8EightGood_0, e8EightGood_1,
+    e8EightGood_2, e8EightGood_3]
+  decide +kernel
+
+private theorem e8EightStep_0 : certStep Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots
+    ((e8EightCert.drop 0).take 24) e8EightGood = some e8EightKn1 := by
+  decide +kernel
+
+private theorem e8EightStep_1 : certStep Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots
+    ((e8EightCert.drop 24).take 24) e8EightKn1 = some e8EightKn2 := by
+  decide +kernel
+
+private theorem e8EightStep_2 : certStep Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots
+    ((e8EightCert.drop 48).take 24) e8EightKn2 = some e8EightKn3 := by
+  decide +kernel
+
+private theorem e8EightStep_3 : certStep Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots
+    ((e8EightCert.drop 72).take 24) e8EightKn3 = some e8EightKn4 := by
+  decide +kernel
+
+private theorem e8EightStep :
+    certStep Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots e8EightCert e8EightGood =
+      some e8EightKn4 := by
+  have h0 := certStep_drop Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots e8EightCert 0 24 24
+    rfl _ _ e8EightStep_0
+  have h1 := certStep_drop Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots e8EightCert 24 24 48
+    rfl _ _ e8EightStep_1
+  have h2 := certStep_drop Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots e8EightCert 48 24 72
+    rfl _ _ e8EightStep_2
+  have h3 := certStep_drop Tag.E8.rank (cartanList Tag.E8) Tag.E8.artifactRoots e8EightCert 72 24 96
+    rfl _ _ e8EightStep_3
+  rw [List.drop_zero] at h0
+  rw [h0, h1, h2, h3, List.drop_eq_nil_of_le (by decide +kernel)]
+  rfl
+
 theorem e8Eight_classCheck :
     classCheck Tag.E8.rank (cartanList Tag.E8) e8EightMat Tag.E8.artifactRoots 8 e8EightCert = true := by
+  rw [classCheck, e8EightGood_eq, e8EightStep]
   decide +kernel
 
 theorem e7Two_classCheck :

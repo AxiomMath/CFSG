@@ -69,6 +69,8 @@ set_option maxRecDepth 400000
 
 #kss_strof CertificateChecks.KernelSchreierFam.He725.DS CFSG.SectionRank.QTK.Insp443.He.l7Der
 #kss_strof CertificateChecks.KernelSchreierFam.He725.QS CFSG.Quasithin.KGC31.He.qW
+#kss_strof CertificateChecks.KernelSchreierFam.He725.XS CFSG.SectionRank.QTK.Insp443.He.x7W
+#kss_strof CertificateChecks.KernelSchreierFam.He725.CS CFSG.SectionRank.QTK.Insp443.He.c7W
 
 namespace CertificateChecks.KernelSchreierFam.He725
 
@@ -92,7 +94,7 @@ theorem decodeWs_ofList {cs : List Char} (hne : cs ≠ []) (hc : ∀ c ∈ cs, c
     rw [List.mem_singleton] at hc
     subst hc
     decide
-  rw [if_neg h1, show (" " : String) = String.ofList [' '] from rfl,
+  rw [ite_eq_right h1, show (" " : String) = String.ofList [' '] from rfl,
     CFSG.KS.RouteP.splitOn_ofList_sep hc hs (by decide), List.map_map]
   refine List.map_congr_left fun p _ => ?_
   simp [decodeW]
@@ -102,12 +104,18 @@ theorem ascii_of_all {cs : List Char} (h : cs.all (fun c => decide (c.toNat < 12
   have := List.all_eq_true.1 h c hc
   simpa using this
 
-theorem gen_eq : l7GenW = gL := by decide +kernel
+theorem x7_gL : x7W = gL.getD 0 [] := by
+  rw [XS.eq, decodeW, String.toList_ofList]
+  decide +kernel
 
 theorem c_eq : c7W = cL.getD 0 [] := by
-  have h : [c7W] = cL := by decide +kernel
-  rw [← h]
-  rfl
+  rw [CS.eq, decodeW, String.toList_ofList]
+  decide +kernel
+
+theorem gen_eq : l7GenW = gL := by
+  unfold l7GenW
+  rw [x7_gL, c_eq]
+  decide +kernel
 
 theorem der_eq : l7Der = dL := by
   rw [DS.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
@@ -147,19 +155,16 @@ theorem word_val {j : Nat} (hj : j < 6) : wA (WJ j) = U (FJ j) := by
 theorem facts_cn : (∀ j < 4, cn (S j) = true ∧ cn (SI j) = true) ∧ cn (CC 0) = true ∧
     cn (CC 1) = true ∧ ∀ i < 4, cn (QQ i) = true := by
   have h := kCn
-  simp only [bAnd_iff] at h
-  obtain ⟨h1, h2, h3, h4⟩ := h
-  refine ⟨fun j hj => ?_, h2, h3, fun i hi => allN_spec h4 i hi⟩
-  have := allN_spec h1 j hj
-  simpa only [bAnd_iff] using this
+  rw [bAnd_iff, bAnd_iff] at h
+  obtain ⟨h2, h3, h4⟩ := h
+  exact ⟨fun j hj => ⟨allN_spec kCnS j hj, allN_spec kCnSI j hj⟩, h2, h3,
+    fun i hi => allN_spec h4 i hi⟩
 
-theorem gL0 : gL.getD 0 [] = x7W := by
-  rw [← gen_eq]
-  rfl
+theorem gL0 : gL.getD 0 [] = x7W := x7_gL.symm
 
 theorem gL1 : gL.getD 1 [] = c7W ++ x7W ++ invW c7W := by
-  rw [← gen_eq]
-  rfl
+  rw [x7_gL, c_eq]
+  decide +kernel
 
 theorem x7_eq : wA x7W = U (S 0) := by
   have h := word_val (j := 0) (by norm_num)
@@ -207,7 +212,7 @@ theorem foldPush_eq {n w kS kO nb BP : Nat} {PS PSI : Nat → Nat} {T : Array (A
       (CFSG.Sporadic.Schreier.Co3.Native.wordsArr kO kS D)[kO + m]! = D[m]! := by
     intro m hm
     rw [CFSG.Sporadic.Schreier.Co3.Native.wordsArr, getElem!_pos _ _ (by simp; omega),
-      Array.getElem_ofFn, if_neg (by simp), List.getD_eq_getElem _ _ (by simp; omega),
+      Array.getElem_ofFn, ite_eq_right (by simp), List.getD_eq_getElem _ _ (by simp; omega),
       getElem!_pos D m hm]
     simp
   have key : ∀ m ≤ D.length, (D.take m).foldl
@@ -218,7 +223,7 @@ theorem foldPush_eq {n w kS kO nb BP : Nat} {PS PSI : Nat → Nat} {T : Array (A
     | zero => intro _; simp
     | succ m ih =>
       intro hm
-      rw [List.take_succ, List.getElem?_eq_getElem (by omega), Option.toList_some,
+      rw [List.take_add_one,List.getElem?_eq_getElem (by omega), Option.toList_some,
         List.foldl_append, ih (by omega), List.foldl_cons, List.foldl_nil,
         show kO + (m + 1) = kO + m + 1 by omega, ← extract_push (by omega)]
       congr 1
@@ -248,7 +253,7 @@ theorem SA_get : ∀ j < 4, SA[j]! = U (S j) := by
   rw [getElem!_pos SA j (by rw [SA_size]; exact hj), Array.getElem_ofFn]
 
 theorem SA_init : SA.extract 0 2 = #[U (S 0), U (S 1)] := by
-  apply Array.ext (by simp [SA_size])
+  apply Array.ext (by simp)
   intro i h1 h2
   have hi : i < 2 := by simpa using h2
   rw [Array.getElem_extract]
@@ -268,11 +273,11 @@ theorem bindsX : Binds 8330 14 He725X.S 4 5 He725X.BP SA #[0, 1, 2, 3, 4] := by
       rw [SA_get j hj, Nat.eq_of_beq_eq_true (allN_spec kSX j hj)], rfl,
     fun t ht => Nat.eq_of_beq_eq_true (allN_spec h.2 t ht)⟩
 
-theorem lx : lettersOK 3 x7W = true := by decide +kernel
-theorem lc : lettersOK 3 c7W = true := by decide +kernel
-theorem lci : lettersOK 3 (invW c7W) = true := by decide +kernel
-theorem lcx : lettersOK 3 (c7W ++ x7W) = true := by decide +kernel
-theorem lw : lettersOK 3 (c7W ++ x7W ++ invW c7W) = true := by decide +kernel
+theorem lx : lettersOK 3 x7W = true := by rw [x7_gL]; decide +kernel
+theorem lc : lettersOK 3 c7W = true := by rw [c_eq]; decide +kernel
+theorem lci : lettersOK 3 (invW c7W) = true := by rw [c_eq]; decide +kernel
+theorem lcx : lettersOK 3 (c7W ++ x7W) = true := by rw [x7_gL, c_eq]; decide +kernel
+theorem lw : lettersOK 3 (c7W ++ x7W ++ invW c7W) = true := by rw [x7_gL, c_eq]; decide +kernel
 
 theorem w1_elt : elt (c7W ++ x7W ++ invW c7W) = elt c7W * elt x7W * (elt c7W)⁻¹ := by
   rw [elt_append lcx lci, elt_append lc lx, elt_invW lc]
@@ -346,7 +351,7 @@ theorem perm_SA_mem :
       rw [Rep.unique (hrep j hj) hr]
       exact elt_mem_heP hw
     · have h1 := allLt_spec hwd (i := j) (by simpa using hj)
-      have hext : (SA.extract 0 2).size = 2 := by simp [SA_size]
+      have hext : (SA.extract 0 2).size = 2 := by simp
       rw [hext] at h1
       simp only [Bool.or_eq_true, decide_eq_true_eq, Bool.and_eq_true] at h1
       rcases h1 with h1 | ⟨hl, he⟩
@@ -412,7 +417,9 @@ theorem sepS :
 
 theorem part1 : ([x7W, c7W].all (lettersOK 2) && fixB bs [wA x7W] 7 && !(fixB bs [wA x7W] 1) &&
     normsW bs qA (wA x7W) (wAi x7W) && normsW bs qA (wA c7W) (wAi c7W)) = true := by
-  have hl : [x7W, c7W].all (lettersOK 2) = true := by decide +kernel
+  have hl : [x7W, c7W].all (lettersOK 2) = true := by
+    rw [x7_gL, c_eq]
+    decide +kernel
   have hf := kFix
   have hn := kNorm
   simp only [bAnd_iff] at hf hn

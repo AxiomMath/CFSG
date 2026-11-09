@@ -17,11 +17,11 @@ open CFSG.KC.Enum CFSG.KS CFSG.KC.WordPts CFSG.Quasithin.KGC31 CFSG.Quasithin.KG
   CertificateChecks.KernelSchreierFam.He725
 
 theorem w5W_eq : w5W = eW.take 4 := by
-  rw [W5S.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel)), eW_eq]
+  rw [W5S.eq, decodeWs_splitK (by decide), eW_eq]
   decide +kernel
 
 theorem w7W_eq : w7W = qW.take 3 := by
-  rw [W7S.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel)), qW_eq]
+  rw [W7S.eq, decodeWs_splitK (by decide), qW_eq]
   decide +kernel
 
 theorem ok_of_letters {w : List ℤ} (h : lettersOK 2 w = true) :

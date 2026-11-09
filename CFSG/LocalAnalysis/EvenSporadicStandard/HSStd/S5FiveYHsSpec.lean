@@ -11,43 +11,16 @@ namespace CFSG.EvenSporadicStandard.HSStd.FiveY
 open Subgroup CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer
   CFSG.RankThree.Native CFSG.Blueprint CFSG.Blueprint.NativeSporadic
 
-theorem hsKeys_lt : ∀ p ∈ hsKeys, p < 100 := by
-  intro p hp
-  simp only [hsKeys, List.mem_cons, List.not_mem_nil, or_false] at hp
-  omega
-
-theorem permsA_hs : permsA 100 hsGens = {hs100A, hs100B, hs100U} := by
-  ext g
-  simp only [permsA, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
-    Set.mem_singleton_iff]
-  constructor
-  · rintro ⟨k, hk, rfl⟩
-    have : k < 3 := by simpa [hsGens] using hk
-    interval_cases k
-    · exact Or.inl rfl
-    · exact Or.inr (Or.inl rfl)
-    · exact Or.inr (Or.inr rfl)
-  · rintro (rfl | rfl | rfl)
-    · exact ⟨0, by simp [hsGens], rfl⟩
-    · exact ⟨1, by simp [hsGens], rfl⟩
-    · exact ⟨2, by simp [hsGens], rfl⟩
-
-theorem closure_permsA_hs : Subgroup.closure (permsA 100 hsGens) = hs100R := by
-  rw [permsA_hs]
-  rfl
-
 structure X3Facts : Prop where
   «gens» : allLt hsGens.size (fun k => validA 100 hsGens[k]!) = true
   valid : validA 100 x3 = true
   cube : eqA 100 (compA 100 x3 (compA 100 x3 x3)) (idA 100) = true
   ne : (!eqA 100 x3 (idA 100)) = true
-  cert : arrCertOKL hsAct hsGens.size (validA 100) (keyA 100 hsKeys) x3 x3Cert = true
-  size : x3Cert.pts.size = 123200
 
 theorem x3Facts_of_check (h : x3OK = true) : X3Facts := by
-  simp only [x3OK, Bool.and_eq_true, beq_iff_eq, and_assoc] at h
-  obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
-  exact ⟨h1, h2, h3, h4, h5, h6⟩
+  simp only [x3OK, Bool.and_eq_true, and_assoc] at h
+  obtain ⟨h1, h2, h3, h4⟩ := h
+  exact ⟨h1, h2, h3, h4⟩
 
 noncomputable abbrev X3 : Equiv.Perm (Fin 100) := permOfArr 100 x3
 
@@ -83,14 +56,21 @@ theorem X3Facts.order (f : X3Facts) : orderOf X3 = 3 := by
 
 theorem X3Facts.card (f : X3Facts) :
     Nat.card ↥(hs100R ⊓ centralizer ({X3} : Set (Equiv.Perm (Fin 100)))) = 720 := by
-  have hc : arrCertOK (fun k a => conjA 100 hsGens[k]! a) hsGens.size (validA 100)
-      (keyA 100 hsKeys) x3 x3Cert = true := arrCertOK_of_arrCertOKL f.cert
-  have h : 88704000 = 123200 * Nat.card ↥(hs100R ⊓
-      centralizer ({X3} : Set (Equiv.Perm (Fin 100)))) := by
-    have := (CFSG.RankThree.PartOne.card_closure_eq_card_mul_card_centralizer hsKeys_lt
-      f.gens_valid hc).2
-    rwa [closure_permsA_hs, card_hs100R, f.size] at this
-  omega
+  have ra : Rep 100 (hs100Arr 0) hs100A := rep_of_validA (f.gens_valid 0 (by decide))
+  have ru : Rep 100 (hs100Arr 15) hs100U := rep_of_validA (f.gens_valid 2 (by decide))
+  have hx : Rep 100 x3 ((hs100A * hs100U) * (hs100A * hs100U)) :=
+    rep_compA (rep_compA ra ru) (rep_compA ra ru)
+  rw [X3, permOfArr_eq_of_rep hx]
+  exact Certificates.card_centralizer_X3
+
+theorem X3Facts.card_P360 (f : X3Facts) :
+    Nat.card ↥(hs100P ⊓ centralizer ({X3} : Set (Equiv.Perm (Fin 100)))) = 360 := by
+  have ra : Rep 100 (hs100Arr 0) hs100A := rep_of_validA (f.gens_valid 0 (by decide))
+  have ru : Rep 100 (hs100Arr 15) hs100U := rep_of_validA (f.gens_valid 2 (by decide))
+  have hx : Rep 100 x3 ((hs100A * hs100U) * (hs100A * hs100U)) :=
+    rep_compA (rep_compA ra ru) (rep_compA ra ru)
+  rw [X3, permOfArr_eq_of_rep hx]
+  exact Certificates.card_centralizer_X3P
 
 section Conj
 
@@ -134,6 +114,18 @@ theorem card_centralizer_hs100R_three {x : ↥hs100R}
   obtain ⟨c, hc⟩ := exists_conj_hs100R_three hx₀ord hx
   rw [← hc, card_centralizer_conj, card_centralizer_subtype]
   exact f.card
+
+theorem card_centralizer_hs100P_three {x : Equiv.Perm (Fin 100)} (hxP : x ∈ hs100P)
+    (hx : orderOf x = 3) : Nat.card ↥(hs100P ⊓ centralizer ({x} : Set (Equiv.Perm (Fin 100)))) =
+      360 := by
+  have f := x3Facts_of_check Certificates.certificate27261
+  have hL : IsSporadic ↥hs100P .HS := ⟨hs100Equiv.symm⟩
+  have hXP := mem_hs100P_of_order_three f.mem f.order
+  obtain ⟨l, hl, hlx⟩ := Zassenhaus.hs_three_conj hL hXP hxP f.order hx
+  have hc : (⟨l, hl⟩ : ↥hs100P) * ⟨X3, hXP⟩ * (⟨l, hl⟩ : ↥hs100P)⁻¹ = ⟨x, hxP⟩ := Subtype.ext hlx
+  rw [← card_centralizer_subtype hs100P ⟨x, hxP⟩, ← hc, card_centralizer_conj,
+    card_centralizer_subtype]
+  exact f.card_P360
 
 end Conj
 

@@ -3,6 +3,7 @@ module
 public import Mathlib.GroupTheory.Perm.Cycle.Type
 public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 public import Mathlib.Logic.Equiv.Fin.Rotate
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -14,8 +15,19 @@ theorem alternating_six_pow_six : ∀ σ : Equiv.Perm (Fin 6), Equiv.Perm.sign �
     σ ^ 6 = 1 → σ ^ 2 = 1 ∨ σ ^ 3 = 1 := by
   decide +kernel
 
+open CFSG.Permutation.FinPack in
 theorem perm_six_pow_twelve : ∀ σ : Equiv.Perm (Fin 6), σ ^ 12 = 1 → σ ^ 4 = 1 ∨ σ ^ 6 = 1 := by
-  decide +kernel
+  have hw : walkK 6 (fun c => !Nat.beq (powK 6 (enc (1 : Equiv.Perm (Fin 6))) c 12)
+      (enc (1 : Equiv.Perm (Fin 6))) ||
+      Nat.beq (powK 6 (enc (1 : Equiv.Perm (Fin 6))) c 4) (enc (1 : Equiv.Perm (Fin 6))) ||
+      Nat.beq (powK 6 (enc (1 : Equiv.Perm (Fin 6))) c 6) (enc (1 : Equiv.Perm (Fin 6))))
+      6 0 0 0 = true := by
+    decide +kernel
+  have hn : 6 ≤ 16 := by norm_num
+  intro σ h12
+  have h := walkK_sound hw σ
+  simp only [powK_enc hn, beq_enc_eq_decide hn] at h
+  simpa [h12] using h
 
 theorem eq_twelve_of_dvd {k : ℕ} (h : k ∣ 12) (h4 : ¬ k ∣ 4) (h6 : ¬ k ∣ 6) : k = 12 := by
   have hk : k ≤ 12 := Nat.le_of_dvd (by norm_num) h

@@ -45,17 +45,24 @@ theorem tr10 : Nat.beq (trK 24 G10) CTP = true := by quickRfl
 theorem tr15 : Nat.beq (trK 24 G15) S1TP = true := by quickRfl
 theorem tr20 : Nat.beq (trK 24 G20) S2TP = true := by quickRfl
 
-theorem fix3 : fixK 24 ATP QtP FA YA 16 65536 30720 = true := by quickRfl
-theorem fix10 : fixK 24 CTP QtP FC YC 12 4096 2048 = true := by quickRfl
+theorem fix3 : fixKQ 24 ATP QtP FA YA 16 65536 30720 = true := by quickRfl
+theorem fix10 : fixKQ 24 CTP QtP FC YC 12 4096 2048 = true := by quickRfl
 
 @[expose] noncomputable def cl (j s : Nat) : Nat :=
   Nat.land (Nat.shiftRight (getL (nat_lit 0) CL s) (Nat.mul (nat_lit 20) j)) (nat_lit 1048575)
 
+theorem tabA : tabOK TB 0 ATP = true := by quickRfl
+theorem tabS : tabOK TB 768 STP = true := by quickRfl
+theorem tabC : tabOK TB 1536 CTP = true := by quickRfl
+theorem tabS1 : tabOK TB 2304 S1TP = true := by quickRfl
+theorem tabS2 : tabOK TB 3072 S2TP = true := by quickRfl
+
 @[expose] noncomputable def sl (s : Nat) : Bool :=
-  andB (Nat.beq (fixScanK F2.T [ATP] (Nat.mul s 2520) 2520 (cl 0 s)) (cl 0 (Nat.succ s)))
-    (andB (Nat.beq (fixScanK F2.T [ATP, STP] (Nat.mul s 2520) 2520 (cl 1 s)) (cl 1 (Nat.succ s)))
-    (andB (Nat.beq (fixScanK F2.T [CTP] (Nat.mul s 2520) 2520 (cl 2 s)) (cl 2 (Nat.succ s)))
-      (Nat.beq (fixScanK F2.T [CTP, S1TP, S2TP] (Nat.mul s 2520) 2520 (cl 3 s)) (cl 3 (Nat.succ s)))))
+  andB (Nat.beq (fixScanT F2.T TB [0] (Nat.mul s 2520) 2520 (cl 0 s)) (cl 0 (Nat.succ s)))
+    (andB (Nat.beq (fixScanT F2.T TB [0, 768] (Nat.mul s 2520) 2520 (cl 1 s)) (cl 1 (Nat.succ s)))
+    (andB (Nat.beq (fixScanT F2.T TB [1536] (Nat.mul s 2520) 2520 (cl 2 s)) (cl 2 (Nat.succ s)))
+      (Nat.beq (fixScanT F2.T TB [1536, 2304, 3072] (Nat.mul s 2520) 2520 (cl 3 s))
+        (cl 3 (Nat.succ s)))))
 
 end CertificateChecks.KernelCo1Odd
 

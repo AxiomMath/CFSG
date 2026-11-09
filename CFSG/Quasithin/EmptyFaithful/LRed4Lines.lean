@@ -39,6 +39,7 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Topology.Sheaves.Init
 public import Std.Tactic.BVDecide.Normalize.Prop
+public import CFSG.Permutation.FinPackWalk
 
 public section
 
@@ -211,6 +212,277 @@ theorem mem_stepK {K : Finset V8} {p : V8} :
     · exact Or.inl h
     · exact Or.inr ⟨p₁, p₂, ⟨⟨h1, h2⟩, h3, h4⟩, rfl⟩
 
+section Masks
+
+open CFSG.Permutation.FinPack
+
+@[expose] def bitsOf (f : ℕ → Bool) (m : ℕ) : ℕ :=
+  Nat.rec (motive := fun _ => ℕ) 0 (fun i acc => acc ||| (bif f i then 1 <<< i else 0)) m
+
+theorem testBit_bitsOf (f : ℕ → Bool) : ∀ (m j : ℕ),
+    (bitsOf f m).testBit j = (decide (j < m) && f j)
+  | 0, j => by simp [bitsOf]
+  | m + 1, j => by
+    change (bitsOf f m ||| (bif f m then 1 <<< m else 0)).testBit j = _
+    rw [Nat.testBit_or, testBit_bitsOf f m j]
+    by_cases hj : j = m
+    · subst hj
+      cases f j <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow]
+    · have e : (bif f m then 1 <<< m else 0).testBit j = false := by
+        cases f m <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow, Ne.symm hj]
+      rw [e, Bool.or_false]
+      by_cases h : j < m
+      · simp [h, show j < m + 1 by omega]
+      · simp [h, show ¬ j < m + 1 by omega]
+
+@[expose] def encV (x : V8) : ℕ := bitsOf (fun i => if h : i < 8 then decide (x ⟨i, h⟩ = 1) else false) 8
+
+@[expose] def decV (c : ℕ) : V8 := fun i => if c.testBit i then 1 else 0
+
+theorem zmod2_cases (a : ZMod 2) : a = 0 ∨ a = 1 := by revert a; decide
+
+theorem testBit_encV (x : V8) (j : ℕ) :
+    (encV x).testBit j = if h : j < 8 then decide (x ⟨j, h⟩ = 1) else false := by
+  rw [encV, testBit_bitsOf]
+  by_cases h : j < 8 <;> simp [h]
+
+theorem decV_encV (x : V8) : decV (encV x) = x := by
+  funext i
+  rw [decV, testBit_encV, dif_pos i.isLt]
+  rcases zmod2_cases (x i) with h | h <;> simp [h]
+
+theorem encV_decV {c : ℕ} (hc : c < 256) : encV (decV c) = c := by
+  apply Nat.eq_of_testBit_eq
+  intro j
+  rw [testBit_encV]
+  by_cases h : j < 8
+  · rw [dif_pos h, decV]
+    cases c.testBit j <;> simp
+  · rw [dif_neg h, Nat.testBit_lt_two_pow]
+    exact lt_of_lt_of_le hc (by
+      calc (256 : ℕ) = 2 ^ 8 := by norm_num
+        _ ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega))
+
+theorem encV_lt (x : V8) : encV x < 256 := by
+  rw [← decV_encV x] at *
+  have : encV x < 2 ^ 8 := by
+    refine Nat.lt_pow_two_of_testBit _ fun j hj => ?_
+    rw [testBit_encV, dif_neg (by omega)]
+  rw [decV_encV]
+  simpa using this
+
+theorem encV_injective : Function.Injective encV := fun x y h => by
+  rw [← decV_encV x, ← decV_encV y, h]
+
+theorem encV_add (x y : V8) : encV (x + y) = encV x ^^^ encV y := by
+  apply Nat.eq_of_testBit_eq
+  intro j
+  rw [Nat.testBit_xor, testBit_encV, testBit_encV, testBit_encV]
+  by_cases h : j < 8
+  · simp only [dif_pos h, Pi.add_apply]
+    rcases zmod2_cases (x ⟨j, h⟩) with hx | hx <;> rcases zmod2_cases (y ⟨j, h⟩) with hy | hy <;>
+      simp [hx, hy] <;> decide
+  · simp [dif_neg h]
+
+@[expose] def nrmK (c : ℕ) : ℕ := bif c.testBit 0 then c ^^^ 255 else c
+
+theorem encV_nrm (x : V8) : encV (nrm x) = nrmK (encV x) := by
+  apply Nat.eq_of_testBit_eq
+  intro j
+  have h0 : (encV x).testBit 0 = decide (x 0 = 1) := by rw [testBit_encV, dif_pos (by norm_num)]; rfl
+  rw [nrmK, h0, testBit_encV]
+  by_cases h : j < 8
+  · rw [dif_pos h]
+    have h255 : (255 : ℕ).testBit j = true := by
+      have : (255 : ℕ) = 2 ^ 8 - 1 := by norm_num
+      rw [this, Nat.testBit_two_pow_sub_one]; simpa using h
+    simp only [nrm]
+    rcases zmod2_cases (x 0) with hx0 | hx0 <;> rcases zmod2_cases (x ⟨j, h⟩) with hx | hx <;>
+      simp [hx0, hx, Nat.testBit_xor, h255, testBit_encV, h] <;> decide
+  · rw [dif_neg h]
+    rcases zmod2_cases (x 0) with hx0 | hx0 <;>
+      simp [hx0, Nat.testBit_xor, testBit_encV, h, Nat.testBit_lt_two_pow
+        (show (255 : ℕ) < 2 ^ j from lt_of_lt_of_le (by norm_num : (255 : ℕ) < 2 ^ 8)
+          (Nat.pow_le_pow_right (by norm_num) (by omega)))]
+
+@[expose] def swapK (a b c : ℕ) : ℕ :=
+  bitsOf (fun i => c.testBit (if i = a then b else if i = b then a else i)) 8
+
+theorem encV_pvSwap (a b : Fin 8) (x : V8) : encV (pvSwap a b x) = swapK a b (encV x) := by
+  apply Nat.eq_of_testBit_eq
+  intro j
+  rw [swapK, testBit_bitsOf, testBit_encV]
+  by_cases h : j < 8
+  · rw [dif_pos h, decide_eq_true h, Bool.true_and, testBit_encV]
+    simp only [pvSwap]
+    by_cases ha : j = a
+    · have : (⟨j, h⟩ : Fin 8) = a := Fin.ext ha
+      simp [ha, this, b.isLt]
+    · by_cases hb : j = b
+      · have e1 : (⟨j, h⟩ : Fin 8) = b := Fin.ext hb
+        have e2 : (⟨j, h⟩ : Fin 8) ≠ a := fun e => ha (congrArg Fin.val e)
+        have hba : b ≠ a := e1 ▸ e2
+        have hba' : (b : ℕ) ≠ a := fun e => hba (Fin.ext e)
+        simp [ha, hb, e1, e2, hba, hba', a.isLt]
+      · have h1 : (⟨j, h⟩ : Fin 8) ≠ a := fun e => ha (congrArg Fin.val e)
+        have h2 : (⟨j, h⟩ : Fin 8) ≠ b := fun e => hb (congrArg Fin.val e)
+        simp [ha, hb, h1, h2, h]
+  · rw [dif_neg h, decide_eq_false h, Bool.false_and]
+
+@[expose] def pvWK : Wd → ℕ → ℕ
+  | [], c => c
+  | p :: w, c => swapK p.1 p.2 (pvWK w c)
+
+theorem encV_pvW (w : Wd) (x : V8) : encV (pvW w x) = pvWK w (encV x) := by
+  induction w with
+  | nil => rfl
+  | cons p w ih => rw [pvW, pvWK, encV_pvSwap, ih]
+
+@[expose] def imgK (f : ℕ → ℕ) (M : ℕ) (n : ℕ) : ℕ :=
+  Nat.rec (motive := fun _ => ℕ) 0 (fun c acc => bif M.testBit c then acc ||| (1 <<< f c) else acc) n
+
+theorem testBit_imgK (f : ℕ → ℕ) (M : ℕ) : ∀ (n j : ℕ),
+    (imgK f M n).testBit j = true → ∃ c < n, M.testBit c = true ∧ f c = j
+  | 0, j, h => by simp [imgK] at h
+  | n + 1, j, h => by
+    change (bif M.testBit n then imgK f M n ||| (1 <<< f n) else imgK f M n).testBit j = true at h
+    cases hm : M.testBit n <;> rw [hm] at h
+    · obtain ⟨c, hc, h1, h2⟩ := testBit_imgK f M n j h
+      exact ⟨c, by omega, h1, h2⟩
+    · simp only [cond_true, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft,
+        Nat.testBit_two_pow, decide_eq_true_iff] at h
+      rcases h with h | h
+      · obtain ⟨c, hc, h1, h2⟩ := testBit_imgK f M n j h
+        exact ⟨c, by omega, h1, h2⟩
+      · exact ⟨n, by omega, hm, h⟩
+
+@[expose] def stepLK (gs : List Wd) (M : ℕ) : ℕ :=
+  gs.foldr (fun g acc => acc ||| imgK (fun c => nrmK (pvWK g c)) M 256) M
+
+theorem testBit_stepLK (gs : List Wd) (M j : ℕ) (h : (stepLK gs M).testBit j = true) :
+    M.testBit j = true ∨ ∃ g ∈ gs, ∃ c < 256, M.testBit c = true ∧ nrmK (pvWK g c) = j := by
+  induction gs with
+  | nil => exact Or.inl h
+  | cons g gs ih =>
+    change (stepLK gs M ||| imgK (fun c => nrmK (pvWK g c)) M 256).testBit j = true at h
+    rw [Nat.testBit_or, Bool.or_eq_true] at h
+    rcases h with h | h
+    · rcases ih h with h | ⟨g', hg', c, hc, h1, h2⟩
+      · exact Or.inl h
+      · exact Or.inr ⟨g', List.mem_cons_of_mem _ hg', c, hc, h1, h2⟩
+    · obtain ⟨c, hc, h1, h2⟩ := testBit_imgK _ M 256 j h
+      exact Or.inr ⟨g, List.mem_cons_self, c, hc, h1, h2⟩
+
+@[expose] def bfsLK (gs : List Wd) (c0 : ℕ) : ℕ → ℕ
+  | 0 => 1 <<< c0
+  | k + 1 => stepLK gs (bfsLK gs c0 k)
+
+theorem bfsLK_sound (gs : List Wd) (x0 : V8) : ∀ (k : ℕ) (p : V8),
+    (bfsLK gs (encV x0) k).testBit (encV p) = true → p ∈ bfsL gs x0 k
+  | 0, p, h => by
+    rw [bfsLK, Nat.one_shiftLeft, Nat.testBit_two_pow, decide_eq_true_iff] at h
+    rw [bfsL, Finset.mem_singleton]
+    exact encV_injective h.symm
+  | k + 1, p, h => by
+    rw [bfsL, mem_stepL]
+    rcases testBit_stepLK gs _ _ h with h | ⟨g, hg, c, hc, h1, h2⟩
+    · exact Or.inl (bfsLK_sound gs x0 k p h)
+    · have hx := encV_decV hc
+      rw [← hx] at h1
+      refine Or.inr ⟨g, hg, decV c, bfsLK_sound gs x0 k _ h1, encV_injective ?_⟩
+      rw [encV_nrm, encV_pvW, hx, h2]
+
+@[expose] def pairsIn (S M c : ℕ) (n : ℕ) : ℕ :=
+  Nat.rec (motive := fun _ => ℕ) 0 (fun d acc2 =>
+    bif M.testBit d && !(Nat.beq c d) && S.testBit (c ^^^ d) then acc2 ||| (1 <<< (c ^^^ d))
+    else acc2) n
+
+@[expose] def pairsOut (S M : ℕ) (n : ℕ) : ℕ :=
+  Nat.rec (motive := fun _ => ℕ) 0 (fun c acc => bif M.testBit c then acc ||| pairsIn S M c 256
+    else acc) n
+
+theorem testBit_pairsIn (S M c : ℕ) : ∀ (n j : ℕ), (pairsIn S M c n).testBit j = true →
+    ∃ d < n, M.testBit d = true ∧ c ≠ d ∧ S.testBit (c ^^^ d) = true ∧ c ^^^ d = j
+  | 0, j, h => by simp [pairsIn] at h
+  | n + 1, j, h => by
+    change (bif M.testBit n && !(Nat.beq c n) && S.testBit (c ^^^ n) then
+      pairsIn S M c n ||| (1 <<< (c ^^^ n)) else pairsIn S M c n).testBit j = true at h
+    cases hb : (M.testBit n && !(Nat.beq c n) && S.testBit (c ^^^ n)) <;> rw [hb] at h
+    · obtain ⟨d, hd, h1⟩ := testBit_pairsIn S M c n j h
+      exact ⟨d, by omega, h1⟩
+    · simp only [cond_true, Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft,
+        Nat.testBit_two_pow, decide_eq_true_iff] at h
+      rcases h with h | h
+      · obtain ⟨d, hd, h1⟩ := testBit_pairsIn S M c n j h
+        exact ⟨d, by omega, h1⟩
+      · simp only [Bool.and_eq_true, Bool.not_eq_true'] at hb
+        refine ⟨n, by omega, hb.1.1, fun e => ?_, hb.2, h⟩
+        rw [e, Nat.beq_refl] at hb
+        exact Bool.false_ne_true hb.1.2.symm
+
+theorem testBit_pairsOut (S M : ℕ) : ∀ (n j : ℕ), (pairsOut S M n).testBit j = true →
+    ∃ c < n, M.testBit c = true ∧ ∃ d < 256, M.testBit d = true ∧ c ≠ d ∧
+      S.testBit (c ^^^ d) = true ∧ c ^^^ d = j
+  | 0, j, h => by simp [pairsOut] at h
+  | n + 1, j, h => by
+    change (bif M.testBit n then pairsOut S M n ||| pairsIn S M n 256 else pairsOut S M n).testBit j
+      = true at h
+    cases hm : M.testBit n <;> rw [hm] at h
+    · obtain ⟨c, hc, h1⟩ := testBit_pairsOut S M n j h
+      exact ⟨c, by omega, h1⟩
+    · simp only [cond_true, Nat.testBit_or, Bool.or_eq_true] at h
+      rcases h with h | h
+      · obtain ⟨c, hc, h1⟩ := testBit_pairsOut S M n j h
+        exact ⟨c, by omega, h1⟩
+      · exact ⟨n, by omega, hm, testBit_pairsIn S M n 256 j h⟩
+
+@[expose] def stepKK (S M : ℕ) : ℕ := M ||| pairsOut S M 256
+
+theorem stepKK_sound {S M : ℕ} {K : Finset V8} (hM : ∀ q, M.testBit (encV q) = true → q ∈ K)
+    (hS : ∀ q, S.testBit (encV q) = true → q ∈ Sing) :
+    ∀ p, (stepKK S M).testBit (encV p) = true → p ∈ stepK K := by
+  intro p h
+  rw [mem_stepK]
+  rw [stepKK, Nat.testBit_or, Bool.or_eq_true] at h
+  rcases h with h | h
+  · exact Or.inl (hM p h)
+  · obtain ⟨c, hc, h1, d, hd, h2, hne, h3, h4⟩ := testBit_pairsOut S M 256 _ h
+    have ec := encV_decV hc
+    have ed := encV_decV hd
+    refine Or.inr ⟨decV c, hM _ (by rwa [ec]), decV d, hM _ (by rwa [ed]), fun e => hne ?_,
+      hS _ (by rwa [encV_add, ec, ed]), encV_injective (by rw [encV_add, ec, ed, h4])⟩
+    rw [← ec, ← ed, e]
+
+@[expose] def maskL (L : List ℕ) : ℕ := L.foldr (fun c acc => acc ||| (1 <<< c)) 0
+
+theorem testBit_maskL : ∀ (L : List ℕ) (j : ℕ), (maskL L).testBit j = true → j ∈ L
+  | [], j, h => by simp [maskL] at h
+  | c :: L, j, h => by
+    change (maskL L ||| (1 <<< c)).testBit j = true at h
+    simp only [Nat.testBit_or, Bool.or_eq_true, Nat.one_shiftLeft, Nat.testBit_two_pow,
+      decide_eq_true_iff] at h
+    rcases h with h | h
+    · exact List.mem_cons_of_mem _ (testBit_maskL L j h)
+    · rw [h]; exact List.mem_cons_self
+
+@[expose] def singK (c : ℕ) : Bool := decide (isNE (decV c) ∧ decV c ≠ 0 ∧ qP8 (decV c) = 0)
+
+@[expose] def nsK (c : ℕ) : Bool := decide (isNE (decV c) ∧ qP8 (decV c) = 1)
+
+theorem singMask_sound (q : V8) (h : (bitsOf singK 256).testBit (encV q) = true) : q ∈ Sing := by
+  rw [testBit_bitsOf, Bool.and_eq_true] at h
+  have h2 := h.2
+  rw [singK, decV_encV, decide_eq_true_iff] at h2
+  exact mem_Sing.2 h2
+
+theorem basisMask_sound (q : V8)
+    (h : (maskL ((List.finRange 6).map fun i => encV (basis6 i))).testBit (encV q) = true) :
+    q ∈ Finset.univ.image basis6 := by
+  obtain ⟨i, -, hi⟩ := List.mem_map.1 (testBit_maskL _ _ h)
+  exact Finset.mem_image.2 ⟨i, Finset.mem_univ _, encV_injective hi⟩
+
+end Masks
+
 theorem card_NS : NS.card = 28 := by decide +kernel
 
 theorem sing_bfs : ∀ p ∈ Sing, p ∈ bfsL gensAll a0 9 := by decide +kernel
@@ -219,11 +491,34 @@ theorem stab_fix : ∀ g ∈ gensStab, nrm (pvW g a0) = a0 := by decide +kernel
 
 theorem nbr_bfs : ∀ q ∈ Sing, q ≠ a0 → a0 + q ∈ Sing → q ∈ bfsL gensStab b0 6 := by decide +kernel
 
-theorem known_all : ∀ p ∈ Sing, p ∈ stepK (stepK (stepK (Finset.univ.image basis6))) := by decide +kernel
+open CFSG.Permutation.FinPack in
+theorem known_all : ∀ p ∈ Sing, p ∈ stepK (stepK (stepK (Finset.univ.image basis6))) := by
+  have hw : allLtK (fun c => !singK c || (stepKK (bitsOf singK 256) (stepKK (bitsOf singK 256)
+      (stepKK (bitsOf singK 256) (maskL ((List.finRange 6).map fun i => encV (basis6 i)))))).testBit c)
+      256 = true := by
+    decide +kernel
+  intro p hp
+  have h := allLtK_iff.1 hw (encV p) (encV_lt p)
+  have hs : singK (encV p) = true := by
+    rw [singK, decV_encV]
+    exact decide_eq_true (mem_Sing.1 hp)
+  rw [hs, Bool.not_true, Bool.false_or] at h
+  exact stepKK_sound (stepKK_sound (stepKK_sound (basisMask_sound) singMask_sound) singMask_sound)
+    singMask_sound p h
 
 theorem basis_span : ∀ x : V8, isNE x → ∃ ε : Fin 6 → ZMod 2, x = ∑ i, ε i • basis6 i := by decide +kernel
 
-theorem ns_bfs : ∀ x ∈ NS, x ∈ bfsL gensAll nsRoot 13 := by decide +kernel
+open CFSG.Permutation.FinPack in
+theorem ns_bfs : ∀ x ∈ NS, x ∈ bfsL gensAll nsRoot 13 := by
+  have hw : allLtK (fun c => !nsK c || (bfsLK gensAll (encV nsRoot) 13).testBit c) 256 = true := by
+    decide +kernel
+  intro x hx
+  have h := allLtK_iff.1 hw (encV x) (encV_lt x)
+  have hs : nsK (encV x) = true := by
+    rw [nsK, decV_encV]
+    exact decide_eq_true (mem_NS.1 hx)
+  rw [hs, Bool.not_true, Bool.false_or] at h
+  exact bfsLK_sound gensAll nsRoot 13 x h
 
 theorem basis_mem_Sing : ∀ i, basis6 i ∈ Sing := by decide +kernel
 

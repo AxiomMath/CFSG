@@ -52,6 +52,28 @@ open CFSG.KLie.CT CFSG.KC.Loop CFSG.KC.M1F2
 @[expose] noncomputable def idRowsK (n : Nat) (F E B Q : List Nat) : Bool :=
   idRowsAux n B Q F E (nat_lit 0)
 
+@[expose] noncomputable def entAllK (p : Nat → Nat → Bool) (L : List Nat) : Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun a _ ih i => Bool.rec (motive := fun _ => Bool) false (ih (Nat.succ i)) (p i a)) L
+
+theorem entAllK_spec (p : Nat → Nat → Bool) : ∀ (L : List Nat) (i₀ : Nat), entAllK p L i₀ = true →
+    ∀ i (hi : i < L.length), p (i₀ + i) L[i] = true
+  | [], _, _, i, hi => absurd hi (Nat.not_lt_zero _)
+  | a :: t, i₀, h, i, hi => by
+    have h' : Bool.rec (motive := fun _ => Bool) false (entAllK p t (Nat.succ i₀)) (p i₀ a) = true :=
+      h
+    cases hb : p i₀ a
+    · rw [hb] at h'
+      exact absurd h' Bool.false_ne_true
+    · rw [hb] at h'
+      cases i with
+      | zero => exact hb
+      | succ i =>
+        have e := entAllK_spec p t (Nat.succ i₀) h' i (by simpa using hi)
+        have e2 : i₀ + (i + 1) = Nat.succ i₀ + i := by omega
+        rw [List.getElem_cons_succ, e2]
+        exact e
+
 end CFSG.KC.U6F2
 
 end

@@ -42,12 +42,85 @@ theorem cidn : CK idn := (PP.id (n := 3850) (w := 12) (by decide)).1
 
 theorem hidA : idA 3850 = unpack 3850 12 idn := idA_eq (w := 12) (by decide)
 
-theorem cE {k : Nat} (hk : k < 1024) : CK (SY.E k) := allN_spec ecanon k hk
+theorem headSV_gen {n w N ng : Nat} {G GI : List Nat} (hh : headSV n w N ng G GI = true) :
+    ∀ l < ng, canonK n w (mask w) (n * w) (CFSG.KC.LQT.TC.getTc 0 G l) = true := by
+  unfold headSV at hh
+  obtain ⟨-, hh⟩ := (bAnd_iff _ _).1 hh
+  obtain ⟨hgt, hh⟩ := (bAnd_iff _ _).1 hh
+  obtain ⟨hng, -⟩ := (bAnd_iff _ _).1 hh
+  have hlen : ∀ M : List Nat, CFSG.KC.LQT.TC.lenTc M = M.length := by
+    intro M
+    induction M with
+    | nil => rfl
+    | cons _ _ ih => exact congrArg Nat.succ ih
+  have hgc : ∀ (G GI : List Nat), CFSG.KC.LQT.TC.gensTc n w G GI = true → ∀ l < G.length,
+      canonK n w (mask w) (n * w) (CFSG.KC.LQT.TC.getTc 0 G l) = true := by
+    intro G
+    induction G with
+    | nil => exact fun _ _ l hl => absurd hl (by simp)
+    | cons g G ih =>
+      intro GI h l hl
+      cases GI with
+      | nil => exact absurd h (by simp [CFSG.KC.LQT.TC.gensTc])
+      | cons gi GI =>
+        change bAnd(canonK n w (mask w) (n * w) g, bAnd(permOK n w (mask w) (n * w) g gi,
+          CFSG.KC.LQT.TC.gensTc n w G GI)) = true at h
+        obtain ⟨hc, h⟩ := (bAnd_iff _ _).1 h
+        obtain ⟨-, h⟩ := (bAnd_iff _ _).1 h
+        cases l with
+        | zero => exact hc
+        | succ l => exact ih GI h l (by simpa using hl)
+  intro l hl
+  refine hgc G GI hgt l ?_
+  rw [← hlen G, Nat.eq_of_beq_eq_true hng]
+  exact hl
 
-theorem pg_lt {p q : Nat} (hp : CK p) (hq : q < 3850) : pg 12 (mask 12) p q < 3850 := by
-  unfold CK canonK at hp
-  rw [bAnd_iff, bAnd_iff] at hp
-  exact Nat.blt_eq.mp (allN_spec hp.2.2 q hq)
+theorem sylE_canon {n w N ng K L : Nat} {G GI : List Nat} {E PT LT TB : Nat → Nat}
+    (hh : headSV n w N ng G GI = true) (hid : canonK n w (mask w) (n * w) (pidn n w) = true)
+    (hKL : N ≤ K * L) (hc : ∀ s < K, chunkSV n w N ng G E PT LT TB (Nat.mul s L) L = true) :
+    ∀ k < N, canonK n w (mask w) (n * w) (E k) = true := by
+  intro k
+  induction k using Nat.strong_induction_on with
+  | _ k ih =>
+    intro hk
+    have hL0 : 0 < L := by
+      rcases Nat.eq_zero_or_pos L with h0 | h0
+      · subst h0
+        rw [Nat.mul_zero] at hKL
+        omega
+      · exact h0
+    have hs' : k / L < K := by
+      rw [Nat.div_lt_iff_lt_mul hL0]
+      omega
+    have h := hc (k / L) hs'
+    unfold chunkSV at h
+    have h1 := allBlk_spec h (k % L) (Nat.mod_lt _ hL0)
+    beta_reduce at h1
+    rw [show Nat.add (Nat.mul (k / L) L) (k % L) = k from Nat.div_add_mod' k L] at h1
+    have h2 := (bIf_true h1).1 (by rw [Nat.blt_eq]; exact hk)
+    unfold eltSV at h2
+    obtain ⟨h3, -⟩ := (bAnd_iff _ _).1 h2
+    rcases Nat.eq_zero_or_pos k with rfl | hk0
+    · have h3' : Nat.beq (E 0) (pidn n w) = true := h3
+      have e : E 0 = pidn n w := Nat.eq_of_beq_eq_true h3'
+      rw [e]
+      exact hid
+    · have h4 := (bIf_true h3).2 (by
+        rw [Bool.eq_false_iff]
+        exact fun h' => Nat.ne_of_gt hk0 (Nat.eq_of_beq_eq_true h'))
+      simp only [CFSG.KC.LQT.SV.strictB_eq] at h4
+      obtain ⟨h5, h4⟩ := (bAnd_iff _ _).1 h4
+      obtain ⟨h6, h7⟩ := (bAnd_iff _ _).1 h4
+      rw [Nat.blt_eq] at h5 h6
+      rw [Nat.eq_of_beq_eq_true h7]
+      exact canonK_pcomp (ih _ h5 (by omega)) (headSV_gen hh _ h6)
+
+theorem cE {k : Nat} (hk : k < 1024) : CK (SY.E k) :=
+  sylE_canon (K := 128) (L := 8) (E := SY.E) (PT := SY.PT) (LT := SY.LT) (TB := SY.TB) hSY cidn
+    (by norm_num) Y.all k hk
+
+theorem pg_lt {p q : Nat} (hp : CK p) (hq : q < 3850) : pg 12 (mask 12) p q < 3850 :=
+  (CFSG.KS.PF.canon_facts hp).2.2.2 q hq
 
 theorem syl_get : ∀ k < 1024, hsSylAl[k]! = unpack 3850 12 (SY.E k) := by
   have eP : parseNats hsSylParStr = SY.ParL := by
@@ -63,8 +136,197 @@ theorem syl_get : ∀ k < 1024, hsSylAl[k]! = unpack 3850 12 (SY.E k) := by
   rw [eP, eL]
   exact h k hk
 
+theorem ptw_pc {p q e : Nat} (h : pc p q = e) :
+    ∀ y < 3850, pg 12 (mask 12) p (pg 12 (mask 12) q y) = pg 12 (mask 12) e y := fun y hy => by
+  rw [← h]
+  unfold pc
+  rw [CFSG.KS.PackFld.pg_pcomp (by norm_num) hy]
+
+theorem pc_ptw {p q e : Nat} (cp : CK p) (cq : CK q) (ce : CK e)
+    (h : ∀ y < 3850, pg 12 (mask 12) p (pg 12 (mask 12) q y) = pg 12 (mask 12) e y) : pc p q = e := by
+  have cpq : CK (pc p q) := canonK_pcomp cp cq
+  apply Nat.eq_of_beq_eq_true
+  rw [← eqA_unpack cpq ce]
+  unfold eqA
+  rw [allLt_iff]
+  intro x hx
+  simp only [CFSG.KC.BfsPin.unpack_getElem!, if_pos hx, beq_iff_eq]
+  unfold pc
+  rw [CFSG.KS.PackFld.pg_pcomp (by norm_num) hx]
+  exact h x hx
+
+theorem sort_injSV {N : Nat} {E IS SR : Nat → Nat} (hs : sortAllSV N E IS SR = true) :
+    ∀ i < N, ∀ j < N, E i = E j → i = j := by
+  unfold sortAllSV at hs
+  have h := allBlk_spec hs
+  have hS : ∀ i < N, SR i < N ∧ IS (SR i) = i ∧ (i + 1 < N → E (IS i) < E (IS (i + 1))) := by
+    intro i hi
+    have := h i hi
+    rw [show Nat.add 0 i = i from Nat.zero_add i] at this
+    unfold sortSV at this
+    rw [CFSG.KC.LQT.SV.strictB_eq] at this
+    obtain ⟨h1, h23⟩ := (bAnd_iff _ _).1 this
+    obtain ⟨h2, h3⟩ := (bAnd_iff _ _).1 h23
+    exact ⟨Nat.blt_eq.mp h1, Nat.eq_of_beq_eq_true h2,
+      fun hi1 => Nat.blt_eq.mp ((bIf_true h3).1 (by rw [Nat.blt_eq]; exact hi1))⟩
+  have mono : ∀ a b, a < b → b < N → E (IS a) < E (IS b) := by
+    intro a b hab hb
+    induction b with
+    | zero => omega
+    | succ b ih =>
+      rcases Nat.lt_succ_iff_lt_or_eq.1 hab with h' | rfl
+      · exact lt_trans (ih h' (by omega)) ((hS b (by omega)).2.2 hb)
+      · exact (hS a (by omega)).2.2 hb
+  intro i hi j hj he
+  obtain ⟨hri, hii, -⟩ := hS i hi
+  obtain ⟨hrj, hjj, -⟩ := hS j hj
+  rcases lt_trichotomy (SR i) (SR j) with h' | h' | h'
+  · have := mono _ _ h' hrj
+    rw [hii, hjj] at this
+    omega
+  · rw [← hii, ← hjj, h']
+  · have := mono _ _ h' hri
+    rw [hii, hjj] at this
+    omega
+
+theorem eltY {k : Nat} (hk : k < 1024) :
+    eltSV 3850 12 1024 4 SY.G SY.E SY.PT SY.LT SY.TB k = true := by
+  have h : chunkSV 3850 12 1024 4 SY.G SY.E SY.PT SY.LT SY.TB (Nat.mul (k / 8) 8) 8 = true :=
+    Y.all (k / 8) (lt_of_lt_of_le (Nat.div_lt_of_lt_mul (show k < 8 * 128 by omega)) (le_of_eq rfl))
+  unfold chunkSV at h
+  have h1 := allBlk_spec h (k % 8) (Nat.mod_lt _ (by norm_num))
+  beta_reduce at h1
+  rw [show Nat.add (Nat.mul (k / 8) 8) (k % 8) = k from Nat.div_add_mod' k 8] at h1
+  exact (bIf_true h1).1 (by rw [Nat.blt_eq]; exact hk)
+
+theorem cGY {l : Nat} (hl : l < 4) : CK (CFSG.KC.LQT.TC.getTc 0 SY.G l) := headSV_gen hSY l hl
+
+theorem e0Y : SY.E 0 = idn := by
+  have key : ∀ k < 1024, k = 0 → SY.E k = idn := by
+    intro k hk hk0
+    have h := eltY hk
+    unfold eltSV at h
+    obtain ⟨h3, -⟩ := (bAnd_iff _ _).1 h
+    have e := Nat.eq_of_beq_eq_true ((bIf_true h3).1 (by rw [hk0]; rfl))
+    rw [hk0]
+    exact e
+  exact key 0 (by norm_num) rfl
+
+theorem parY {k : Nat} (hk : k < 1024) (h0 : k ≠ 0) : SY.PT k < k ∧ SY.LT k < 4 ∧
+    SY.E k = pc (SY.E (SY.PT k)) (CFSG.KC.LQT.TC.getTc 0 SY.G (SY.LT k)) := by
+  have h := eltY hk
+  unfold eltSV at h
+  obtain ⟨h3, -⟩ := (bAnd_iff _ _).1 h
+  have h4 := (bIf_true h3).2 (by
+    rw [Bool.eq_false_iff]
+    exact fun h' => h0 (Nat.eq_of_beq_eq_true h'))
+  simp only [CFSG.KC.LQT.SV.strictB_eq] at h4
+  obtain ⟨h5, h4⟩ := (bAnd_iff _ _).1 h4
+  obtain ⟨h6, h7⟩ := (bAnd_iff _ _).1 h4
+  exact ⟨Nat.blt_eq.mp h5, Nat.blt_eq.mp h6, Nat.eq_of_beq_eq_true h7⟩
+
+theorem gstep {k l : Nat} (hk : k < 1024) (hl : l < 4) :
+    ∃ t < 1024, pc (SY.E k) (CFSG.KC.LQT.TC.getTc 0 SY.G l) = SY.E t := by
+  have h := eltY hk
+  unfold eltSV at h
+  obtain ⟨-, h⟩ := (bAnd_iff _ _).1 h
+  have h1 := allBlk_spec h l hl
+  beta_reduce at h1
+  rw [show Nat.add 0 l = l from Nat.zero_add l, CFSG.KC.LQT.SV.strictB_eq] at h1
+  generalize SY.TB (Nat.add (Nat.mul k 4) l) = t at h1
+  obtain ⟨ht, h2⟩ := (bAnd_iff _ _).1 h1
+  have ht := Nat.blt_eq.mp ht
+  refine ⟨t, ht, ?_⟩
+  rcases (bIf_true h2) with ⟨-, hf⟩
+  cases hc : bAnd(bIf(Nat.beq t (nat_lit 0), false, true),
+      bAnd(Nat.beq (SY.PT t) k, Nat.beq (SY.LT t) l))
+  · exact Nat.eq_of_beq_eq_true (hf hc)
+  · rw [CFSG.KS.Raw.Orb.bAnd_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, Bool.and_eq_true] at hc
+    obtain ⟨h0, hp, hl'⟩ := hc
+    have ht0 : t ≠ 0 := by
+      rintro rfl
+      exact absurd h0 (by decide)
+    obtain ⟨-, -, e⟩ := parY ht ht0
+    rw [e, Nat.eq_of_beq_eq_true hp, Nat.eq_of_beq_eq_true hl']
+
+theorem closY : ∀ b < 1024, ∀ a < 1024, ∃ t < 1024, pc (SY.E a) (SY.E b) = SY.E t := by
+  intro b
+  induction b using Nat.strong_induction_on with
+  | _ b ih =>
+    intro hb a ha
+    rcases Nat.eq_zero_or_pos b with rfl | hb0
+    · refine ⟨a, ha, pc_ptw (cE ha) (cE hb) (cE ha) fun y hy => ?_⟩
+      rw [e0Y]
+      unfold idn
+      rw [CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hy]
+    · obtain ⟨hp, hl, he⟩ := parY hb (by omega)
+      obtain ⟨s, hs, es⟩ := ih _ hp (by omega) a ha
+      obtain ⟨t, ht, et⟩ := gstep hs hl
+      refine ⟨t, ht, pc_ptw (cE ha) (cE hb) (cE ht) fun y hy => ?_⟩
+      rw [he, ← et]
+      unfold pc
+      rw [CFSG.KS.PackFld.pg_pcomp (by norm_num) hy, CFSG.KS.PackFld.pg_pcomp (by norm_num) hy]
+      exact ptw_pc es _ (pg_lt (cGY hl) hy)
+
+theorem kk_pc (p q : Nat) : kk (pc p q) =
+    Nat.add (Nat.mul (img p (img q 0)) 4096) (img p (img q 5)) := by
+  unfold kk img pc
+  rw [CFSG.KS.PackFld.pg_pcomp (by norm_num) (by norm_num : (0 : Nat) < 3850),
+    CFSG.KS.PackFld.pg_pcomp (by norm_num) (by norm_num : (5 : Nat) < 3850)]
+
+theorem img_idn {y : Nat} (hy : y < 3850) : img idn y = y := by
+  unfold img idn
+  exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hy
+
+theorem img_pc (p q y : Nat) (hy : y < 3850) : img p (img q y) = img (pc p q) y := by
+  unfold img pc
+  rw [CFSG.KS.PackFld.pg_pcomp (by norm_num) hy]
+
+theorem sq_key {k : Nat} (hk : k < 1024) : Nat.beq (pc (SY.E k) (SY.E k)) idn =
+    (Nat.beq (img (SY.E k) (img (SY.E k) 0)) 0 && Nat.beq (img (SY.E k) (img (SY.E k) 5)) 5) := by
+  rw [img_pc _ _ 0 (by norm_num), img_pc _ _ 5 (by norm_num)]
+  obtain ⟨t, ht, et⟩ := closY k hk k hk
+  rw [et]
+  apply Bool.eq_iff_iff.2
+  rw [Bool.and_eq_true, Nat.beq_eq, Nat.beq_eq, Nat.beq_eq]
+  constructor
+  · intro e
+    rw [e, img_idn (by norm_num), img_idn (by norm_num)]
+    exact ⟨rfl, rfl⟩
+  · rintro ⟨h0, h5⟩
+    have e : (fun k => kk (SY.E k)) t = (fun k => kk (SY.E k)) 0 := by
+      change kk (SY.E t) = kk (SY.E 0)
+      unfold kk
+      rw [h0, h5, e0Y, img_idn (by norm_num), img_idn (by norm_num)]
+    rw [sort_injSV ksort t ht 0 (by norm_num) e, e0Y]
+
+theorem key_S {a b t : Nat} (ha : a < 1024) (hb : b < 1024) (ht : t < 1024)
+    (h0 : img (SY.E a) (img (SY.E b) 0) = img (SY.E t) 0)
+    (h5 : img (SY.E a) (img (SY.E b) 5) = img (SY.E t) 5) : pc (SY.E a) (SY.E b) = SY.E t := by
+  rw [img_pc _ _ 0 (by norm_num)] at h0
+  rw [img_pc _ _ 5 (by norm_num)] at h5
+  obtain ⟨s, hs, es⟩ := closY b hb a ha
+  rw [es] at h0 h5 ⊢
+  have e : (fun k => kk (SY.E k)) s = (fun k => kk (SY.E k)) t := by
+    change kk (SY.E s) = kk (SY.E t)
+    unfold kk
+    rw [h0, h5]
+  rw [sort_injSV ksort s hs t ht e]
+
+theorem key_one {a b : Nat} (ha : a < 1024) (hb : b < 1024)
+    (h0 : img (SY.E a) (img (SY.E b) 0) = 0) (h5 : img (SY.E a) (img (SY.E b) 5) = 5) :
+    pc (SY.E a) (SY.E b) = idn := by
+  rw [← e0Y]
+  refine key_S ha hb (by norm_num) ?_ ?_
+  · rw [h0, e0Y, img_idn (by norm_num)]
+  · rw [h5, e0Y, img_idn (by norm_num)]
+
 theorem invs_eq : (List.range 1024).filter (fun i => !(Nat.beq (SY.E i) idn) &&
-    Nat.beq (pc (SY.E i) (SY.E i)) idn) = (List.range 191).map INV := beq_iff_eq.1 invs
+    Nat.beq (pc (SY.E i) (SY.E i)) idn) = (List.range 191).map INV := by
+  rw [← beq_iff_eq.1 invs]
+  apply List.filter_congr
+  intro i hi
+  rw [sq_key (List.mem_range.1 hi)]
 
 theorem inv_filter : sylInv 3850 1024 hsSylAl = (List.range 191).map INV := by
   rw [← invs_eq]
@@ -93,11 +355,15 @@ theorem cxE (k : Nat) : CK (xE k) := by
   · exact cidn
   · exact cX (Nat.blt_eq.mp h)
 
+theorem mapMapCongr {α : Type} {f : Nat → Nat} {g h : Nat → α} {l : List Nat}
+    (hp : ∀ i ∈ l, g (f i) = h i) : (l.map f).map g = l.map h := by
+  rw [List.map_map]
+  exact List.map_congr_left hp
+
 theorem uinv_eq : hsUInv = ((List.range 191).map fun i => unpack 3850 12 (X i)).toArray := by
   unfold hsUInv
-  rw [inv_filter, List.map_map]
-  refine congrArg List.toArray (List.map_congr_left fun i hi => ?_)
-  exact syl_get _ (inv_mem (List.mem_range.1 hi)).1
+  exact congrArg List.toArray ((congrArg (List.map fun i => hsSylAl[i]!) inv_filter).trans
+    (mapMapCongr fun i hi => syl_get _ (inv_mem (List.mem_range.1 hi)).1))
 
 theorem uinv_size : hsUInv.size = 191 := by
   rw [uinv_eq]
@@ -256,22 +522,72 @@ theorem prodAt_eq (i j : Nat) : hsUTab.prodAt i j = pK i j := by
       rw [if_pos hi, if_pos hi, if_neg hj, if_neg hj]
     · rw [if_neg hi, if_neg hi]
 
+theorem pg_swap {f g e : Nat → Nat} {n : Nat} (hg : ∀ x < n, g x < n) (he : ∀ x < n, e x < n)
+    (ff : ∀ x < n, f (f x) = x) (gg : ∀ x < n, g (g x) = x) (ee : ∀ x < n, e (e x) = x)
+    (fg : ∀ x < n, f (g x) = e x) : ∀ x < n, g (f x) = e x := by
+  intro x hx
+  have h1 : f (g (e x)) = x := by rw [fg _ (he x hx), ee x hx]
+  have h2 := ff _ (hg _ (he x hx))
+  rw [h1] at h2
+  rw [h2, gg _ (he x hx)]
+
+theorem uX_invol {i : Nat} (hi : i < 191) :
+    ∀ y < 3850, pg 12 (mask 12) (X i) (pg 12 (mask 12) (X i) y) = y := by
+  intro y hy
+  have h := (and_of (inv_mem hi).2).2
+  have e : pc (X i) (X i) = idn := Nat.eq_of_beq_eq_true h
+  have c : pg 12 (mask 12) (pc (X i) (X i)) y = pg 12 (mask 12) idn y := by rw [e]
+  unfold pc idn at c
+  rwa [CFSG.KS.PackFld.pg_pcomp (by norm_num) hy, CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hy]
+    at c
+
+theorem xE_invol (k : Nat) :
+    ∀ y < 3850, pg 12 (mask 12) (xE k) (pg 12 (mask 12) (xE k) y) = y := by
+  intro y hy
+  unfold xE
+  cases h : Nat.blt k 191
+  · have e : ∀ z < 3850, pg 12 (mask 12) idn z = z := fun z hz => by
+      unfold idn
+      exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hz
+    simp only [cond_false]
+    rw [e y hy, e y hy]
+  · exact uX_invol (Nat.blt_eq.mp h) y hy
+
+theorem xE_lt {k : Nat} (hk : k < 191) : xE k = X k := by
+  unfold xE
+  rw [Nat.blt_eq.mpr hk]
+  rfl
+
+theorem xE_mem {k : Nat} (hk : k ≤ 191) : ∃ m < 1024, xE k = SY.E m := by
+  rcases Nat.lt_or_ge k 191 with h | h
+  · exact ⟨INV k, (inv_mem h).1, xE_lt h⟩
+  · refine ⟨0, by norm_num, ?_⟩
+    rw [e0Y, show k = 191 by omega]
+    rfl
+
+theorem prod_kl {i j : Nat} (hij : i ≤ j) (hj : j < 191) (hc : Nat.testBit (CM i) j = true) :
+    pc (X i) (X j) = xE (fget (PR i) j 8) := by
+  have hi : i < 191 := by omega
+  have hpk := allN_spec (allN_spec prodk i hi) j hj
+  rw [hc] at hpk
+  simp only [CFSG.KS.Raw.Orb.bIf_eq, ↓reduceIte, Bool.and_eq_true, Nat.ble_eq] at hpk
+  obtain ⟨hle, hkey⟩ := hpk
+  obtain ⟨t, ht, et⟩ := closY _ (inv_mem hj).1 _ (inv_mem hi).1
+  obtain ⟨m, hm, em⟩ := xE_mem hle
+  have e : (fun k => kk (SY.E k)) t = (fun k => kk (SY.E k)) m := by
+    change kk (SY.E t) = kk (SY.E m)
+    rw [← et, ← em, kk_pc]
+    exact Nat.eq_of_beq_eq_true hkey
+  have htm := sort_injSV ksort t ht m hm e
+  change pc (SY.E (INV i)) (SY.E (INV j)) = _
+  rw [et, em, htm]
+
 theorem prod_spec {i j : Nat} (hij : i ≤ j) (hj : j < 191) (hc : Nat.testBit (CM i) j = true) :
     pc (X i) (X j) = xE (fget (PR i) j 8) ∧ pc (X j) (X i) = xE (fget (PR i) j 8) := by
   have hi : i < 191 := by omega
-  have h := P.all (i / 8) (show i / 8 < 24 by omega)
-  unfold ckP at h
-  have h1 := allN_spec h (i % 8) (show i % 8 < 8 by omega)
-  have e : Nat.add (Nat.mul (i / 8) 8) (i % 8) = i := by
-    simp only [Nat.add_eq, Nat.mul_eq]
-    omega
-  rw [CFSG.KS.Raw.Orb.strictB_eq, e, Nat.blt_eq.mpr hi] at h1
-  simp only [CFSG.KS.Raw.Orb.bAnd_eq] at h1
-  simp only [CFSG.KS.Raw.Orb.bIf_eq, ↓reduceIte] at h1
-  have h2 := allN_spec h1 j hj
-  rw [Nat.ble_eq.mpr hij, hc, CFSG.KS.Raw.Orb.strictB_eq] at h2
-  simp only [↓reduceIte, Bool.and_eq_true] at h2
-  exact ⟨Nat.eq_of_beq_eq_true h2.1, Nat.eq_of_beq_eq_true h2.2⟩
+  have p1 := prod_kl hij hj hc
+  exact ⟨p1, pc_ptw (cX hj) (cX hi) (cxE _) (pg_swap (fun y hy => pg_lt (cX hj) hy)
+    (fun y hy => pg_lt (cxE _) hy) (uX_invol hi) (uX_invol hj) (xE_invol _) (ptw_pc p1))⟩
 
 theorem check_true : hsUTab.check 4 = true := by
   unfold InvTab.check
@@ -283,7 +599,13 @@ theorem check_true : hsUTab.check 4 = true := by
       unfold hsUTab
       rw [build_xs, uinv_get hi]
     rw [hx]
-    obtain ⟨-, h2⟩ := invEqK_sound (allN_spec xperm i hi)
+    have h2 : isInvA 3850 (unpack 3850 12 (X i)) (unpack 3850 12 (X i)) = true := by
+      unfold isInvA
+      rw [allLt_iff]
+      intro p hp
+      have h1 := pg_lt (cX hi) hp
+      rw [unpack_get' hp, unpack_get' h1, uX_invol hi p hp]
+      simp [h1]
     rw [Bool.and_eq_true]
     refine ⟨h2, ?_⟩
     have hn := and_of (inv_mem hi).2
@@ -352,6 +674,70 @@ theorem check_true : hsUTab.check 4 = true := by
         rw [getElem!_pos _ p (by simpa using hp), Array.getElem_ofFn] at c1 c2
         exact ⟨c1, c2⟩
 
+theorem countP_conj {n : Nat} {a b g h : Nat → Nat} (hb : ∀ y < n, b y < n)
+    (hg : ∀ y < n, g y < n) (hh : ∀ y < n, h y < n) (gh : ∀ y < n, g (h y) = y)
+    (hg' : ∀ y < n, h (g y) = y) (c : ∀ y < n, a (g y) = g (b y)) :
+    (List.range n).countP (fun y => a y == y) = (List.range n).countP (fun y => b y == y) := by
+  have e : ∀ f : Nat → Nat,
+      (List.range n).countP (fun y => f y == y) = Nat.count (fun m => f m = m) n := by
+    intro f
+    unfold Nat.count
+    exact List.countP_congr fun i _ => by simp
+  rw [e, e, Nat.count_eq_card_filter_range, Nat.count_eq_card_filter_range]
+  refine Finset.card_nbij' h g (fun y hy => ?_) (fun y hy => ?_) (fun y hy => ?_) (fun y hy => ?_)
+  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hy ⊢
+    refine ⟨hh y hy.1, ?_⟩
+    have h1 := c (h y) (hh y hy.1)
+    rw [gh y hy.1, hy.2] at h1
+    have h2 := congrArg h h1
+    rw [hg' _ (hb _ (hh y hy.1))] at h2
+    exact h2.symm
+  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hy ⊢
+    refine ⟨hg y hy.1, ?_⟩
+    rw [c y hy.1, hy.2]
+  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hy
+    exact gh y hy.1
+  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hy
+    exact hg' y hy.1
+
+theorem nfix_X {s : Nat} (hs : s < 191) : CFSG.KC.PkPow.nfix 3850 12 (X s) = FX s := by
+  have rep : ∀ r < 191, UCR r = r → CFSG.KC.PkPow.nfix 3850 12 (X r) = FX r := by
+    intro r hr e
+    have h := allN_spec fix r hr
+    rw [e, Nat.beq_refl] at h
+    simp only at h
+    exact Nat.eq_of_beq_eq_true h
+  by_cases e : UCR s = s
+  · exact rep s hs e
+  have h := allN_spec fix s hs
+  have hb : Nat.beq (UCR s) s = false := Bool.eq_false_iff.2 fun h' => e (Nat.eq_of_beq_eq_true h')
+  rw [hb] at h
+  simp only at h
+  unfold ucjK at h
+  simp only [Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq, and_assoc] at h
+  obtain ⟨hr, hrr, hfx, hj, hi, c0, c5, g0, g5, h0, h5⟩ := h
+  have eGH := key_one hj hi g0 g5
+  have eHG := key_one hi hj h0 h5
+  obtain ⟨t, ht, et⟩ := closY _ hj _ (inv_mem hs).1
+  have e2 : pc (SY.E (UCJ s)) (SY.E (INV (UCR s))) = SY.E t := by
+    refine key_S hj (inv_mem hr).1 ht ?_ ?_
+    · exact c0.symm.trans ((img_pc (X s) (SY.E (UCJ s)) 0 (by norm_num)).trans
+        (congrArg (fun p => img p 0) et))
+    · exact c5.symm.trans ((img_pc (X s) (SY.E (UCJ s)) 5 (by norm_num)).trans
+        (congrArg (fun p => img p 5) et))
+  have hc : pc (X s) (SY.E (UCJ s)) = pc (SY.E (UCJ s)) (X (UCR s)) := et.trans e2.symm
+  have hcount := countP_conj (n := 3850) (a := img (X s)) (b := img (X (UCR s)))
+    (g := img (SY.E (UCJ s))) (h := img (SY.E (UCI s)))
+    (fun y hy => pg_lt (cX hr) hy) (fun y hy => pg_lt (cE hj) hy) (fun y hy => pg_lt (cE hi) hy)
+    (fun y hy => by rw [img_pc _ _ y hy, eGH, img_idn hy])
+    (fun y hy => by rw [img_pc _ _ y hy, eHG, img_idn hy])
+    (fun y hy => by rw [img_pc _ _ y hy, img_pc _ _ y hy, hc])
+  have u : ∀ p : Nat, (List.range 3850).countP (fun x => (unpack 3850 12 p)[x]! == x) =
+      (List.range 3850).countP (fun x => img p x == x) := fun p =>
+    List.countP_congr fun x hx => by simp only [unpack_get' (List.mem_range.1 hx), img]
+  rw [← hfx, ← rep _ hr hrr, ← CFSG.KD.HS3850.countP_nfix, ← CFSG.KD.HS3850.countP_nfix, u, u]
+  exact hcount
+
 theorem fix_get {s : Nat} (hs : s < 191) : hsUFix[s]! = FX s := by
   have hsz : s < hsUInv.size := by rw [uinv_size]; exact hs
   unfold hsUFix
@@ -359,7 +745,7 @@ theorem fix_get {s : Nat} (hs : s < 191) : hsUFix[s]! = FX s := by
     uinv_get hs]
   unfold fixCountA
   rw [CFSG.KD.HS3850.countP_nfix]
-  exact Nat.eq_of_beq_eq_true (allN_spec fix s hs)
+  exact nfix_X hs
 
 theorem search_eq (pred : List Nat → Bool) (k : Nat) :
     hsUTab.forallGreedyI pred k [] = forallGreedyF 191 cK pK pred k [] := by
@@ -512,6 +898,8 @@ theorem gen_of {w : GenWit} (h : genK w = true) :
     rw [eqA_unpack (pWord_unpack hreg cR cRI cidn hidA q.1).2.1 cq]
     exact e
 
+theorem pcPcomp (p q : Nat) : pc p q = pcomp 3850 12 (mask 12) p q := rfl
+
 theorem pPow_fst {x : PArr} {Y : Nat} (hx : x.1 = unpack 3850 12 Y) (cY : CK Y) :
     ∀ k, (pPow 3850 x k).1 = unpack 3850 12 (pwK k Y) ∧ CK (pwK k Y)
   | 0 => by
@@ -521,9 +909,10 @@ theorem pPow_fst {x : PArr} {Y : Nat} (hx : x.1 = unpack 3850 12 Y) (cY : CK Y) 
   | k + 1 => by
     obtain ⟨h1, h2⟩ := pPow_fst hx cY k
     refine ⟨?_, canonK_pcomp cY h2⟩
-    change compA 3850 x.1 (pPow 3850 x k).1 = unpack 3850 12 (pc Y (pwK k Y))
-    rw [hx, h1, compA_unpack cY h2]
-    rfl
+    have e1 : pwK (k + 1) Y = pc Y (pwK k Y) := by
+      unfold pwK
+      rfl
+    rw [pPow.eq_2, pMul, e1, hx, h1, compA_unpack cY h2, ← pcPcomp]
 
 theorem dim_of {w : DimWit} (h : dimK w = true) : dimWitOK w = true := by
   obtain ⟨hG, cG, cGI⟩ := word_eq w.g

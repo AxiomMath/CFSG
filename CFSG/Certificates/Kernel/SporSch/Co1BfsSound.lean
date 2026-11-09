@@ -198,6 +198,65 @@ private theorem co1Bfs_bfsRunK_mono (cap : Nat) :
           (Nat.lt_succ_of_le (ih _ _ hne)))
     · rw [if_neg ‹_›]
 
+private theorem co1Bfs_row_clos (h : Nat) :
+    ∀ k l c, bfsRowK F P PAR LAB W ng h k l c ≠ 0 → ∀ j, l ≤ j → j < l + k →
+      W (h * ng + j) < bfsRowK F P PAR LAB W ng h k l c ∧ P (W (h * ng + j)) = F (P h) j := by
+  intro k
+  induction k with
+  | zero => intro l c _ j h1 h2; omega
+  | succ k ih =>
+    intro l c hne j hlj hj
+    have hmono := co1Bfs_bfsRowK_mono (F := F) (P := P) (PAR := PAR) (LAB := LAB) (W := W)
+      (ng := ng) h (k + 1) l c hne
+    rw [co1Bfs_bfsRowK_succ] at hne hmono ⊢
+    by_cases hw : W (h * ng + l) < c
+    · rw [if_pos hw] at hne hmono ⊢
+      by_cases hp : P (W (h * ng + l)) = F (P h) l
+      · rw [if_pos hp] at hne hmono ⊢
+        rcases Nat.eq_or_lt_of_le hlj with rfl | hlt
+        · exact ⟨Nat.lt_of_lt_of_le hw hmono, hp⟩
+        · exact ih (l + 1) c hne j hlt (by omega)
+      · rw [if_neg hp] at hne
+        exact absurd rfl hne
+    · rw [if_neg hw] at hne hmono ⊢
+      by_cases hn : W (h * ng + l) = c ∧ P c = F (P h) l ∧ PAR c = h ∧ LAB c = l
+      · rw [if_pos hn] at hne hmono ⊢
+        rcases Nat.eq_or_lt_of_le hlj with rfl | hlt
+        · refine ⟨?_, by rw [hn.1]; exact hn.2.1⟩
+          rw [hn.1]
+          exact Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
+            (co1Bfs_bfsRowK_mono h k _ (c + 1) hne)
+        · exact ih (l + 1) (c + 1) hne j hlt (by omega)
+      · rw [if_neg hn] at hne
+        exact absurd rfl hne
+
+private theorem co1Bfs_run_clos {cap N : Nat} (hN : 0 < N) (hcap : N < cap) :
+    ∀ fuel h c, bfsRunK F P PAR LAB W ng cap fuel h c = N → h ≤ c →
+      (∀ i < h, ∀ l < ng, W (i * ng + l) < c ∧ P (W (i * ng + l)) = F (P i) l) →
+      ∀ i < N, ∀ l < ng, W (i * ng + l) < N ∧ P (W (i * ng + l)) = F (P i) l := by
+  intro fuel
+  induction fuel with
+  | zero => intro h c hr; rw [co1Bfs_bfsRunK_zero] at hr; omega
+  | succ fuel ih =>
+    intro h c hr hhc hinv
+    rw [co1Bfs_bfsRunK_succ] at hr
+    by_cases hc : h < c ∧ c < cap
+    · rw [if_pos hc] at hr
+      by_cases h0 : bfsRowK F P PAR LAB W ng h ng 0 c = 0
+      · rw [if_pos h0] at hr; omega
+      · rw [if_neg h0] at hr
+        have hm := co1Bfs_bfsRowK_mono (F := F) (P := P) (PAR := PAR) (LAB := LAB) (W := W) h ng 0 c h0
+        refine ih (h + 1) _ hr (by omega) fun i hi l hl => ?_
+        rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
+        · obtain ⟨h1, h2⟩ := hinv i hi l hl
+          exact ⟨Nat.lt_of_lt_of_le h1 hm, h2⟩
+        · exact co1Bfs_row_clos i ng 0 c h0 l (Nat.zero_le _) (by omega)
+    · rw [if_neg hc] at hr
+      subst hr
+      have : h = c := by omega
+      subst this
+      exact hinv
+
 end Kernel
 
 section Replay
@@ -593,16 +652,13 @@ private theorem co1Bfs_seenSet_ins {P : Nat → Nat} (t : Std.HashSet (Array Nat
 private theorem co1Bfs_gensArr_size (ng : Nat) (GM : Nat → Nat) : (gensArr ng GM).size = ng := by
   simp [gensArr]
 
-theorem gtBFS_of_K {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → Nat}
-    (h : gtPinK GM ng cap N P PAR LAB W S = true) :
+private theorem co1Bfs_gtBFS_core {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → Nat}
+    (hb : bfsK (gtStepK GM) P PAR LAB W S ng cap N idM = true)
+    (hcl' : ∀ i < N, ∀ l < ng, W (i * ng + l) < N ∧ P (W (i * ng + l)) = gtStepK GM (P i) l) :
     gtBFS (gensArr ng GM) cap = bfsTree N P PAR LAB ∧
       gtOK (gensArr ng GM) (bfsTree N P PAR LAB) = true := by
-  unfold gtPinK at h
-  rw [MatL.bAnd_eq, Bool.and_eq_true] at h
-  obtain ⟨hb, hcl⟩ := h
   obtain ⟨hN, hP0, hpar0, hlab0, hd, hr⟩ := co1Bfs_bfsK_sound hb
   obtain ⟨hP, hinj⟩ := co1Bfs_bfsDistK_sound hd
-  have hcl' := co1Bfs_gtClosK_sound hcl
   have hroot : idRows 24 = unpack 24 24 (P 0) := by rw [hP0, MatL.unpack_idM]; rfl
   have hσ0 : co1BfsSeenSet P ((∅ : Std.HashSet (Array Nat)).insert (unpack 24 24 (P 0))) 1 := by
     have h0 : co1BfsSeenSet P (∅ : Std.HashSet (Array Nat)) 0 := fun y => by
@@ -652,6 +708,22 @@ theorem gtBFS_of_K {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → 
     obtain ⟨hw, hpw⟩ := hcl' i hi l hl
     rw [Std.HashSet.contains_ofList, Array.contains_toList, co1Bfs_bfsTree_pts hi, hstp _ _ hl]
     exact contains_bfsTree hw (by rw [hpw])
+
+theorem gtBFS_of_K {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → Nat}
+    (h : gtPinK GM ng cap N P PAR LAB W S = true) :
+    gtBFS (gensArr ng GM) cap = bfsTree N P PAR LAB ∧
+      gtOK (gensArr ng GM) (bfsTree N P PAR LAB) = true := by
+  unfold gtPinK at h
+  rw [MatL.bAnd_eq, Bool.and_eq_true] at h
+  exact co1Bfs_gtBFS_core h.1 (co1Bfs_gtClosK_sound h.2)
+
+theorem gtBFS_of_bfsK {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → Nat}
+    (h : bfsK (gtStepK GM) P PAR LAB W S ng cap N idM = true) (hcap : N < cap) :
+    gtBFS (gensArr ng GM) cap = bfsTree N P PAR LAB ∧
+      gtOK (gensArr ng GM) (bfsTree N P PAR LAB) = true := by
+  obtain ⟨hN, -, -, -, -, hr⟩ := co1Bfs_bfsK_sound h
+  exact co1Bfs_gtBFS_core h
+    (co1Bfs_run_clos hN hcap _ 0 1 hr (Nat.zero_le _) fun i hi => absurd hi (Nat.not_lt_zero i))
 
 private def co1BfsSeenMap (P : Nat → Nat) (t : Std.HashMap Nat Nat) (c : Nat) : Prop :=
   ∀ k, t.contains k = true ↔ ∃ i < c, P i = k

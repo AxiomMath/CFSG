@@ -18,9 +18,76 @@ open Subgroup CFSG.Quasithin.B3
 @[expose] def covL : List Tab :=
   H1l ++ H2l.filter (fun t => !H1l.contains t) ++ dcReps.flatMap fun w => (dcl w).dedup
 
+def nodupMaskK : List ℕ → ℕ → Bool :=
+  List.rec (motive := fun _ => ℕ → Bool) (fun _ => true)
+    (fun x _ r m => !(m.testBit x) && r (m ||| (1 <<< x)))
+
+theorem nodupMaskK_spec : ∀ (L : List ℕ) (m : ℕ), nodupMaskK L m = true →
+    L.Nodup ∧ ∀ x ∈ L, m.testBit x = false
+  | [], _, _ => ⟨List.nodup_nil, fun _ h => absurd h List.not_mem_nil⟩
+  | x :: L, m, h => by
+    change (!(m.testBit x) && nodupMaskK L (m ||| (1 <<< x))) = true at h
+    rw [Bool.and_eq_true, Bool.not_eq_true'] at h
+    obtain ⟨ih1, ih2⟩ := nodupMaskK_spec L _ h.2
+    refine ⟨List.nodup_cons.2 ⟨fun hx => ?_, ih1⟩, fun y hy => ?_⟩
+    · have := ih2 x hx
+      simp [Nat.testBit_or, Nat.one_shiftLeft] at this
+    · rcases List.mem_cons.1 hy with rfl | hy
+      · exact h.1
+      · have := ih2 y hy
+        simp only [Nat.testBit_or, Bool.or_eq_false_iff] at this
+        exact this.1
+
+def covC : List ℕ :=
+  H1l.map Encodable.encode ++
+    (H2l.map Encodable.encode).filter (fun c => !(H1l.map Encodable.encode).contains c) ++
+    dcReps.flatMap fun w => ((dcl w).map Encodable.encode).dedup
+
+theorem contains_map_encode (L : List Tab) (t : Tab) :
+    (L.map Encodable.encode).contains (Encodable.encode t) = L.contains t := by
+  rw [Bool.eq_iff_iff, List.contains_iff_mem, List.contains_iff_mem, List.mem_map]
+  constructor
+  · rintro ⟨a, ha, he⟩
+    rwa [Encodable.encode_injective he] at ha
+  · exact fun h => ⟨t, h, rfl⟩
+
+theorem map_encode_recipe (A B R : List Tab) (D : Tab → List Tab) :
+    (A ++ B.filter (fun t => !A.contains t) ++ R.flatMap fun w => (D w).dedup).map Encodable.encode =
+      A.map Encodable.encode ++
+        (B.map Encodable.encode).filter (fun c => !(A.map Encodable.encode).contains c) ++
+        R.flatMap fun w => ((D w).map Encodable.encode).dedup := by
+  rw [List.map_append, List.map_append, List.map_flatMap, List.filter_map]
+  congr 2
+  · congr 2
+    funext t
+    simp only [Function.comp, contains_map_encode]
+  · funext w
+    rw [List.dedup_map_of_injective Encodable.encode_injective]
+
+theorem covL_map : covL.map Encodable.encode = covC :=
+  map_encode_recipe H1l H2l dcReps dcl
+
 set_option maxRecDepth 100000 in
 theorem covL_ok : covL.length = 720 ∧ covL.Nodup ∧ ∀ t ∈ covL, isTab 6 t = true := by
-  decide +kernel
+  have hc : (covC.length == 720 && nodupMaskK (covC.map (· % 30113)) 0) = true := by
+    decide +kernel
+  have hall : (H1l.all (isTab 6) && H2l.all (isTab 6) &&
+      dcReps.all fun w => (dcl w).all (isTab 6)) = true := by
+    decide +kernel
+  rw [Bool.and_eq_true, beq_iff_eq] at hc
+  refine ⟨?_, ?_, ?_⟩
+  · rw [← List.length_map (f := Encodable.encode), covL_map]
+    exact hc.1
+  · have h2 : covC.Nodup := ((nodupMaskK_spec _ 0 hc.2).1).of_map _
+    rw [← covL_map] at h2
+    exact h2.of_map _
+  · intro t ht
+    simp only [Bool.and_eq_true, List.all_eq_true] at hall
+    simp only [covL, List.mem_append, List.mem_filter, List.mem_flatMap, List.mem_dedup] at ht
+    rcases ht with (h | ⟨h, -⟩) | ⟨w, hw, h⟩
+    · exact hall.1.1 t h
+    · exact hall.1.2 t h
+    · exact hall.2 w hw t h
 
 theorem mem_covL (g : Gp 6) : tab g ∈ covL := by
   classical

@@ -133,18 +133,13 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [
 local notation "𝐀[" i "]" => pull φ (rootA K i)
 local notation "𝐔[" i "]" => pull φ (rootU K i)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => btD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => btE φ t i
 set_option quotPrecheck false in
 local notation "𝐄₀" => (𝐄[Axis.one] ⊓ 𝐄[Axis.two] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => btF φ t
 local notation "𝐰[" i "]" => ((φ.symm (weylElt K i) : L) : G)
 set_option quotPrecheck false in
 local notation "𝐗[" i "]" => (𝐅 ⊔ 𝐅.map (MulAut.conj 𝐰[i]⁻¹).toMonoidHom : Subgroup G)

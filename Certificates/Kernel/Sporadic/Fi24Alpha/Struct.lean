@@ -3,6 +3,7 @@ module
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AlphaFi24Data
 public import Certificates.Kernel.Sporadic.Fi24Alpha.Data
 public import Certificates.Data.Kernel.Ssa3Free
+public import Certificates.Data.Kernel.Ssa3Fast
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AlphaWordDefs
 
 set_option maxRecDepth 100000
@@ -14,11 +15,13 @@ namespace CFSG.KD.Fi24Alpha
 
 open CFSG.AGLEmbedding.R3 CFSG.AGLEmbedding.R3.AlphaFi24 CFSG.KC.Ssa3
 
-theorem ssa_ok : ssaOK SD fi24Prog fi24Nregs = true := by decide +kernel
+theorem ssa_ok : ssaOK SD fi24Prog fi24Nregs = true :=
+  (CFSG.KC.Ssa3F.ssaOK_eq SD fi24Prog fi24Nregs).trans (by decide +kernel)
 
 theorem struct_ok : structS SD = true := by decide +kernel
 
-theorem cmps_ok : cmpsS SD fi24Nregs (fi24Mod.modFactsW 3 fi24Tops) = true := by decide +kernel
+theorem cmps_ok : cmpsS SD fi24Nregs (fi24Mod.modFactsW 3 fi24Tops) = true :=
+  (CFSG.KC.Ssa3F.cmpsS_eq SD fi24Nregs (fi24Mod.modFactsW 3 fi24Tops)).trans (by decide +kernel)
 
 theorem cover_ok : coverS SD fi24Nregs 2000 (fi24Mod.modFactsW 3 fi24Tops) = true := by
   decide +kernel

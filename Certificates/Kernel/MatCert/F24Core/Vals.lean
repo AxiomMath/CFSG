@@ -1,5 +1,6 @@
 module
 
+public import Certificates.Kernel.LocalQT.Seeds.Fi24
 public import Certificates.Data.Kernel.LocalQT.Sec
 public import CFSG.Certificates.Kernel.LocalQT.Steps
 import Certificates.Kernel.LocalQT.CmdF

@@ -4,6 +4,7 @@ public import Certificates.Data.Kernel.L5.EngRec
 public import Certificates.Data.Kernel.L5.Sh2EngD
 public import Certificates.Data.Kernel.L5.GrpOf
 public import CFSG.Certificates.Kernel.Common.DecideFV
+public import Certificates.Kernel.L5.MgFast
 
 public section
 
@@ -19,6 +20,7 @@ theorem csz2 : @cszChk 256 (grpOf G (mulI 2) hm (invI 2) hi oneI ho) (engA 2).cs
 
 theorem mg2 : @mgChk 256 (grpOf G (mulI 2) hm (invI 2) hi oneI ho) mgensR (engA 2).maxSubs =
     true := by
+  rw [@mgChk_eq_M 256 (grpOf G (mulI 2) hm (invI 2) hi oneI ho)]
   kc_decide_fv
 
 theorem ctxR2 : @ctxChk 256 (grpOf G (mulI 2) hm (invI 2) hi oneI ho) (engA 2).reps ctxA =

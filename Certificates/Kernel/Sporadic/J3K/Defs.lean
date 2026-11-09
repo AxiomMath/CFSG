@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.Sporadic.J3K.Data
 public import CFSG.Certificates.Kernel.Spor.J3Sound
 public import CFSG.Certificates.Kernel.Bounds.J3Alt.Rels
+public import Certificates.Kernel.Sporadic.J3K.Lin
 
 public section
 
@@ -81,11 +82,16 @@ open CFSG.Sporadic.J3.Native CFSG.Sporadic.Th.Native
 
 @[expose] noncomputable def REPJ (l : Nat) : Nat := ((j3Data ()).subReps)[l]!
 
+@[expose] noncomputable def j3VecK (R : List Nat) : Nat → Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun _ => nat_lit 0)
+    (fun r _ ih v => Nat.xor (Bool.rec (nat_lit 0) r (Nat.beq (Nat.land v (nat_lit 1)) (nat_lit 1)))
+      (ih (Nat.shiftRight v (nat_lit 1)))) R
+
 @[expose] noncomputable def ptSl (s : Nat) : Bool :=
   allN (nat_lit 500) fun d => strictB (Nat.add (Nat.mul s (nat_lit 500)) d) fun i =>
     bIf(Nat.blt i (nat_lit 20520),
       decide (PJ i < 2 ^ 80) && decide (r32 TA i < 20520) && decide (r32 TB i < 20520) &&
-        vecMulN 80 CAJ (PJ i) == PJ (r32 TA i) && vecMulN 80 CBJ (PJ i) == PJ (r32 TB i) &&
+        j3VecK CAL (PJ i) == PJ (r32 TA i) && j3VecK CBL (PJ i) == PJ (r32 TB i) &&
         (decide (20520 ≤ i + 1) || decide (PJ i < PJ (i + 1))), true)
 
 @[expose] noncomputable def invAB : Bool :=
@@ -99,19 +105,29 @@ open CFSG.Sporadic.J3.Native CFSG.Sporadic.Th.Native
       (k == 0 || (decide (r32 BO k < 20520) && decide (r32 BQ k < k) &&
         (r32 BO k == r32 TA (r32 BO (r32 BQ k)) || r32 BO k == r32 TB (r32 BO (r32 BQ k)))))
 
+@[expose] noncomputable def MWJ (j : Nat) : List Nat := Bool.rec MW3L MW2L (Nat.beq j (nat_lit 2))
+
+@[expose] noncomputable def FWK (z : Int) (v : Nat) : Nat :=
+  Int.rec (motive := fun _ => Nat)
+    (fun k => nIf(Nat.beq k (nat_lit 3), j3VecK CAL v, j3VecK CBL v))
+    (fun k => nIf(Nat.beq k (nat_lit 2), j3VecK CAL v, j3VecK CBL (j3VecK CBL v))) z
+
 @[expose] noncomputable def wordsSl (s : Nat) : Bool :=
   strictB (Nat.div s (nat_lit 10)) fun j => strictB (Nat.mul (Nat.mod s (nat_lit 10)) (nat_lit 2052))
     fun lo => allN (nat_lit 2052) fun d => strictB (Nat.add lo d) fun x =>
-      bIf(Nat.blt x (nat_lit 20520),
-        Nat.beq (LJ (Nat.mul (nat_lit 2) j) x) (List.foldr slpGK x ((j3Data ()).words)[j]!), true)
+      bIf(Nat.blt x (nat_lit 20520), bIf(Nat.blt j (nat_lit 2),
+        Nat.beq (LJ (Nat.mul (nat_lit 2) j) x) (List.foldr slpGK x ((j3Data ()).words)[j]!),
+        Nat.beq (PJ (LJ (Nat.mul (nat_lit 2) j) x)) (j3VecK (MWJ j) (PJ x))), true)
+
+@[expose] noncomputable def colChk (j : Nat) : Bool :=
+  allN (nat_lit 80) fun k => Nat.beq (List.foldr FWK (Nat.shiftLeft (nat_lit 1) k)
+    ((j3Data ()).words)[j]!) (List.getD (MWJ j) k (nat_lit 0))
 
 @[expose] noncomputable def invL : Bool := invK LJ (nat_lit 20520) (nat_lit 8)
 
-@[expose] noncomputable def relSl (s : Nat) : Bool :=
-  strictB (Nat.div s (nat_lit 10)) fun r => strictB (Nat.mul (Nat.mod s (nat_lit 10)) (nat_lit 2052))
-    fun lo => allN (nat_lit 2052) fun d => strictB (Nat.add lo d) fun x =>
-      bIf(Nat.blt x (nat_lit 20520),
-        Nat.beq (List.foldr letK x (CFSG.KC.J3A.rels.getD r [])) x, true)
+@[expose] noncomputable def relSl (r : Nat) : Bool :=
+  allN (nat_lit 80) fun j => strictB ((j3Data ()).basis[j]!) fun b =>
+    Nat.beq (List.foldr letK b (CFSG.KC.J3A.rels.getD r [])) b
 
 @[expose] noncomputable def tree0Sl (s : Nat) : Bool :=
   bAnd(tbfsHdK (nat_lit 20520) (nat_lit 0) CT0.cnt CT0.PTS CT0.POS CT0.PAR CT0.LAB,
@@ -124,8 +140,24 @@ open CFSG.Sporadic.J3.Native CFSG.Sporadic.Th.Native
     allN CT1.cnt (tbfsPtK (nat_lit 20520) CT1.cnt (lvK LJ BJ (nat_lit 8) (nat_lit 1)).length LJ
       (lvAt LJ BJ (nat_lit 8) (nat_lit 1)) CT1.PTS CT1.POS CT1.PAR CT1.LAB CT1.TI))
 
+@[expose] noncomputable def vW (w : Nat) : Nat :=
+  nIf(Nat.blt w (nat_lit 641), Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 1024)) (nat_lit 1),
+    Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 256)) (nat_lit 1))
+
+@[expose] noncomputable def defW (F : Nat → Nat) (w : Nat) : Nat :=
+  Nat.land (Nat.xor (F w) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 1024)) (nat_lit 1))) (vW w)
+
+@[expose] noncomputable def posWSl (s : Nat) : Bool :=
+  allN (nat_lit 107) fun d => strictB (Nat.add (Nat.mul s (nat_lit 107)) d) fun w =>
+    bitDisjK (fun l => defW (SPOSJ l) w) (defW CPOS w) (nat_lit 22) (nat_lit 0) (nat_lit 0)
+
+@[expose] noncomputable def subHd (l : Nat) : Bool :=
+  bAnd(Nat.blt (nat_lit 0) (SCNTJ l), bAnd(Nat.ble (SCNTJ l) (nat_lit 20520),
+  bAnd(Nat.beq (r32 (SPTSJ l) (nat_lit 0)) (REPJ l), bAnd(Nat.beq (r32 (SPARJ l) (nat_lit 0)) (nat_lit 0),
+    Nat.beq (r32 (SLABJ l) (nat_lit 0)) (nat_lit 0)))))
+
 @[expose] noncomputable def subTree (l : Nat) : Bool :=
-  bAnd(tbfsHdK (nat_lit 20520) (REPJ l) (SCNTJ l) (SPTSJ l) (SPOSJ l) (SPARJ l) (SLABJ l),
+  bAnd(subHd l,
     allN (SCNTJ l) (tbfsPtK (nat_lit 20520) (SCNTJ l) (lvK LJ BJ (nat_lit 8) (nat_lit 1)).length LJ
       (lvAt LJ BJ (nat_lit 8) (nat_lit 1)) (SPTSJ l) (SPOSJ l) (SPARJ l) (SLABJ l) (STIJ l)))
 
@@ -133,7 +165,7 @@ open CFSG.Sporadic.J3.Native CFSG.Sporadic.Th.Native
   allN (nat_lit 2052) fun d => strictB (Nat.add (Nat.mul s (nat_lit 2052)) d) fun z =>
     bIf(Nat.blt z (nat_lit 20520),
       strictB (r32 LBL z) fun l => decide (l < 22) && decide (r32 (SPOSJ l) z < SCNTJ l) &&
-        r32 (SPTSJ l) (r32 (SPOSJ l) z) == z, true)
+        r32 (SPTSJ l) (r32 (SPOSJ l) z) == z && r32 CPOS z == r32 (SPOSJ l) z, true)
 
 @[expose] noncomputable def labOK : Bool :=
   allN (nat_lit 22) fun l => decide (r32 CT0.POS (REPJ l) < CT0.cnt) &&

@@ -135,6 +135,38 @@ theorem normC_tvC_eq_iff {c v : ℕ} (hc : c < 4096) (hv : v < 4096) (hc0 : c �
     rw [h, scaleC_zero]
     simpa using hn
 
+private theorem lead_smul (s : F4) (hs : s ≠ 0) (w : Fin 6 → F4) : lead (s • w) = s * lead w := by
+  unfold lead
+  simp only [Pi.smul_apply, smul_eq_mul, ne_eq, mul_eq_zero, hs, false_or]
+  split_ifs <;> rfl
+
+private theorem normV_smul (s : F4) (hs : s ≠ 0) (w : Fin 6 → F4) : normV (s • w) = normV w := by
+  unfold normV
+  rw [lead_smul s hs, smul_smul]
+  congr 1
+  calc s * lead w * (s * lead w) * s = s * s * s * (lead w * lead w) := by ring
+    _ = lead w * lead w := by rw [cube_one s hs, one_mul]
+
+private theorem normC_xor_scaleC_comm (a : F4) (ha : a ≠ 0) {c d : ℕ} (hc : c < 4096)
+    (hd : d < 4096) :
+    normC (d ^^^ scaleC a.code.val c) = normC (c ^^^ scaleC (a * a).code.val d) := by
+  rw [← codeOf_vecOfCode' hc, ← codeOf_vecOfCode' hd, scaleC_codeOf, scaleC_codeOf, ← codeOf_add,
+    ← codeOf_add, normC_codeOf, normC_codeOf,
+    ← normV_smul a ha (vecOfCode c + (a * a) • vecOfCode d)]
+  congr 2
+  rw [smul_add, smul_smul, ← mul_assoc, cube_one a ha, one_smul, add_comm]
+
+theorem normC_xor_scaleC_swap {c d : ℕ} (hc : c < 4096) (hd : d < 4096) :
+    normC (d ^^^ scaleC 2 c) = normC (c ^^^ scaleC 3 d) ∧
+      normC (d ^^^ scaleC 3 c) = normC (c ^^^ scaleC 2 d) := by
+  obtain ⟨a, ha, h2, h3, h4⟩ : ∃ a : F4, a ≠ 0 ∧ a.code.val = 2 ∧ (a * a).code.val = 3 ∧
+      (a * a * (a * a)).code.val = 2 := by decide
+  have e2 := normC_xor_scaleC_comm a ha hc hd
+  have e3 := normC_xor_scaleC_comm (a * a) (mul_ne_zero ha ha) hc hd
+  rw [h2, h3] at e2
+  rw [h3, h4] at e3
+  exact ⟨e2, e3⟩
+
 end CFSG.KC.Misc.Lines
 
 end

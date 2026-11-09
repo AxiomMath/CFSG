@@ -4,6 +4,8 @@ public import Certificates.Kernel.HSMcLFive.McLChecks
 public import Certificates.Kernel.Census.McLN
 public import CFSG.Certificates.Kernel.FiveLocKSound
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
+import CFSG.Certificates.Kernel.BfsPinAlg
+import CFSG.Certificates.Kernel.Misc.ArrEnumUnpack
 
 public section
 
@@ -96,19 +98,20 @@ theorem mbinds1 : Binds 275 9 M1.S 16 8 M1.BP mcl275Case1Arrs mcl275Case1BaseArr
   rw [mcl275Case1Arrs, getElem!_pos _ j (by simpa using hj), Array.getElem_ofFn, h,
     ← Nat.eq_of_beq_eq_true (Orb.allN_iff.1 mchains.2 j hj)]
 
-theorem mcaseChain_of {kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+theorem mcaseChain_of {kS nb BP NS CH : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
     {base : Array ℕ} {W : Array (List ℤ)} {D : List (List ℤ)} (hb : Binds 275 9 PS kS nb BP S base)
     (hp : allN kS (fun j => permOK 275 9 (mask 9) (275 * 9) (PS j) (PSI j)) = true)
     (hh : headK 275 9 (mask 9) (275 * 9) (pidn 275 9) PS PSI kS 3 D nb BP = true)
     (hl : LevelsOK 275 9 PS PSI LR TR TRI kS nb BP)
-    (hs : ∀ i < nb, ∀ s < 5, schK 275 9 (mask 9) (275 * 9) (pidn 275 9) PS PSI LR TR TRI kS BP nb i
-      (stepsAt 275 9 PS kS BP i) (s * 55) 55 = true)
+    (hNS : 275 ≤ NS * CH)
+    (hs : ∀ i < nb, ∀ s < NS, schK 275 9 (mask 9) (275 * 9) (pidn 275 9) PS PSI LR TR TRI kS BP nb i
+      (stepsAt 275 9 PS kS BP i) (s * CH) CH = true)
     (hW : CFSG.Sporadic.Schreier.Co3.Native.wordsArr 3 kS D = W) (hk : 3 ≤ kS)
     (h : (Nat.beq (PS 0) (McLS.F 0) && Nat.beq (PS 1) (McLS.F 1) &&
       Nat.beq (PS 2) (KernelMisc.HSMcL.MC.F 0)) = true) :
     caseChainOK 275 S base W mclStrongArrs[0]! mclStrongArrs[1]!
       (CFSG.Sporadic.SmallOddCore.Native.natArr CFSG.Sporadic.SmallOddCore.mclOuterTbl) = true := by
-  have hc := rawChainK_sound (chunks := 1) hb hh hl (by norm_num) hs
+  have hc := rawChainK_sound (chunks := 1) hb hh hl hNS hs
   rw [hW] at hc
   have hP : ∀ j < kS, permB 275 9 (PS j) = true := fun j hj =>
     permB_of_pp (pp_of_permOK msz (Orb.allN_iff.1 hp j hj))
@@ -125,12 +128,12 @@ theorem mcaseChain_of {kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Arr
 theorem mchain0 : caseChainOK 275 mcl275Case0Arrs mcl275Case0BaseArr mcl275Case0Words
     mclStrongArrs[0]! mclStrongArrs[1]!
     (CFSG.Sporadic.SmallOddCore.Native.natArr CFSG.Sporadic.SmallOddCore.mclOuterTbl) = true :=
-  mcaseChain_of mbinds0 mperm0 M0.head M0.hl M0.hs (by decide +kernel) (by norm_num) mheads.1
+  mcaseChain_of mbinds0 mperm0 M0.head M0.hl (by norm_num) M0.hs (by decide +kernel) (by norm_num) mheads.1
 
 theorem mchain1 : caseChainOK 275 mcl275Case1Arrs mcl275Case1BaseArr mcl275Case1Words
     mclStrongArrs[0]! mclStrongArrs[1]!
     (CFSG.Sporadic.SmallOddCore.Native.natArr CFSG.Sporadic.SmallOddCore.mclOuterTbl) = true :=
-  mcaseChain_of mbinds1 mperm1 M1.head M1.hl M1.hs (by decide +kernel) (by norm_num) mheads.2
+  mcaseChain_of mbinds1 mperm1 M1.head M1.hl (by norm_num) M1.hs (by decide +kernel) (by norm_num) mheads.2
 
 theorem msiftPF {T : ℕ} (h : siftOK 275 9 5 McLC.LR McLC.TRI McLC.BP T = true) :
     siftA 275 mcl275PLevels CFSG.Sporadic.Schreier.PairMcL.baseArr 0 (unpack 275 9 T) = true :=
@@ -171,20 +174,37 @@ theorem menumA1 : MEnumFacts mcl275FiveA1Gens mcl275FiveA1Cert 125 NA1.T := by
   rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.2.2.2.2.1] at h
   exact h
 
+theorem mpBfs {ng m N : ℕ} {Gk T E S : ℕ → ℕ} (hng : Nat.beq ng m = true)
+    (hk : bfsK 275 9 ng Gk N T E S = true) (hp : ∀ k < m, permB 275 9 (Gk k) = true) :
+    ∀ i < N, permB 275 9 (T i) = true := fun i hi =>
+  permB_of_pp (PP_pts hk (fun k hk1 => hp k (Nat.eq_of_beq_eq_true hng ▸ hk1)) i hi)
+
+theorem mpGen {m c : ℕ} {Gk : ℕ → ℕ} (hc : c + m ≤ 76)
+    (hG : allN m (fun j => Nat.beq (Gk j) (G (c + j))) = true) :
+    ∀ k < m, permB 275 9 (Gk k) = true := fun k hk => by
+  rw [Nat.eq_of_beq_eq_true (Orb.allN_iff.1 hG k hk)]
+  exact pG (by omega)
+
 theorem mpQ : ∀ i < 125, permB 275 9 (NQ.T i) = true := fun i hi =>
-  Orb.allN_iff.1 NQ.perm i (by rw [Nat.eq_of_beq_eq_true mnums.1]; exact hi)
+  mpBfs mnums.2.1 NQ.ok (fun k hk => by
+    rw [Nat.eq_of_beq_eq_true (Orb.allN_iff.1 mgens.1 k hk)]
+    exact pG (by omega)) i (by rw [Nat.eq_of_beq_eq_true mnums.1]; exact hi)
 
 theorem mpC0 : ∀ i < 50, permB 275 9 (NC0.T i) = true := fun i hi =>
-  Orb.allN_iff.1 NC0.perm i (by rw [Nat.eq_of_beq_eq_true mnums.2.2.1]; exact hi)
+  mpBfs mnums.2.2.2.1 NC0.ok (mpGen (by norm_num) mgens.2.1) i
+    (by rw [Nat.eq_of_beq_eq_true mnums.2.2.1]; exact hi)
 
 theorem mpC1 : ∀ i < 1500, permB 275 9 (NC1.T i) = true := fun i hi =>
-  Orb.allN_iff.1 NC1.perm i (by rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.1]; exact hi)
+  mpBfs mnums.2.2.2.2.2.1 NC1.ok (mpGen (by norm_num) mgens.2.2.1) i
+    (by rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.1]; exact hi)
 
 theorem mpA0 : ∀ i < 25, permB 275 9 (NA0.T i) = true := fun i hi =>
-  Orb.allN_iff.1 NA0.perm i (by rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.2.2.1]; exact hi)
+  mpBfs mnums.2.2.2.2.2.2.2.1 NA0.ok (mpGen (by norm_num) mgens.2.2.2.1) i
+    (by rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.2.2.1]; exact hi)
 
 theorem mpA1 : ∀ i < 125, permB 275 9 (NA1.T i) = true := fun i hi =>
-  Orb.allN_iff.1 NA1.perm i (by rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.2.2.2.2.1]; exact hi)
+  mpBfs mnums.2.2.2.2.2.2.2.2.2 NA1.ok (mpGen (by norm_num) mgens.2.2.2.2) i
+    (by rw [Nat.eq_of_beq_eq_true mnums.2.2.2.2.2.2.2.2.1]; exact hi)
 
 theorem mqfacts : linesOK 275 mcl275FiveQGens mcl275FiveKeys mcl275FiveQCert mcl275FiveLines = true ∧
     allLt mcl275FiveQGens.size (fun l => siftA 275 mcl275PLevels

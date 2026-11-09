@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.RX708604 "Certificates/Kernel/ReflExt/data/rx.json.gz"
+#kc_repo #kc_json CFSG.KD.RX708604 "Certificates/Kernel/ReflExt/data/rx.json"
   1520113 4261724799404072707 (e6 : List CFSG.ReflExt.RXK.FD) (a5 : List CFSG.ReflExt.RXK.FD)
 
 namespace CFSG.KD.RX708604

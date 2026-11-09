@@ -56,6 +56,13 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjo
       χ (Multiplicative.ofAdd γ') = (χ (Multiplicative.ofAdd γ))⁻¹ →
         ∃ β ∈ Ψ, iform γ' β ≠ iform γ β
 
+theorem exc3core_wCheck_join {τ : Tag} {cap : ℕ} {u w : ℕ → Bool} {L : List (List ℕ)} {a b c : ℕ}
+    (h₁ : exc3core_wCheck τ cap u w ((L.drop a).take b) = true)
+    (h₂ : exc3core_wCheck τ cap u w ((L.drop (a + b)).take c) = true) :
+    exc3core_wCheck τ cap u w ((L.drop a).take (b + c)) = true := by
+  unfold exc3core_wCheck at *
+  rw [List.take_add, List.all_append, h₁, List.drop_drop, h₂, Bool.and_self]
+
 @[expose] def exc3core_dngE6 (s : ℕ) : Bool := s == 20 || s == 40
 
 @[expose] def exc3core_dngE7 (s : ℕ) : Bool := s == 40 || s == 42 || s == 72

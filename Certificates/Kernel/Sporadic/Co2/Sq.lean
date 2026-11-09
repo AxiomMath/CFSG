@@ -11,8 +11,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Co2SQ
-  "Certificates/Kernel/Sporadic/Co2/data/sq24960.json.gz" 49899 11705142753478609362
+#kc_repo #kc_json CertificateChecks.KernelSpor.Co2SQ
+  "Certificates/Kernel/Sporadic/Co2/data/sq24960.json" 49899 11705142753478609362
   (W0 : Nat) (I0 : Nat) (W1 : Nat) (I1 : Nat) (W2 : Nat) (I2 : Nat)
 
 namespace CertificateChecks.KernelSpor.Co2SQ

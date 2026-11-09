@@ -143,9 +143,31 @@ private def type22CommutingList : Finset (Perm (Fin 9)) :=
       p * p = 1 ∧ p.support.card = 4 ∧ p * altRep2 = altRep2 * p)).image
     (fun t => swap t.1 t.2.1 * swap t.2.2.1 t.2.2.2)
 
-private theorem type22CommutingList_card : type22CommutingList.card = 38 := by
+private def type22CommutingListC : Finset (Perm (Fin 9)) :=
+  ((Finset.univ : Finset (Fin 9 × Fin 9 × Fin 9 × Fin 9)).filter (fun t =>
+      let p := swap t.1 t.2.1 * swap t.2.2.1 t.2.2.2
+      p * altRep2 = altRep2 * p ∧ p * p = 1 ∧ p.support.card = 4)).image
+    (fun t => swap t.1 t.2.1 * swap t.2.2.1 t.2.2.2)
+
+private theorem type22CommutingList_eq : type22CommutingList = type22CommutingListC := by
+  have hfil : ((Finset.univ : Finset (Fin 9 × Fin 9 × Fin 9 × Fin 9)).filter (fun t =>
+      let p := swap t.1 t.2.1 * swap t.2.2.1 t.2.2.2
+      p * p = 1 ∧ p.support.card = 4 ∧ p * altRep2 = altRep2 * p)) =
+      (Finset.univ : Finset (Fin 9 × Fin 9 × Fin 9 × Fin 9)).filter (fun t =>
+      let p := swap t.1 t.2.1 * swap t.2.2.1 t.2.2.2
+      p * altRep2 = altRep2 * p ∧ p * p = 1 ∧ p.support.card = 4) :=
+    Finset.filter_congr fun _ _ =>
+      ⟨fun h => ⟨h.2.2, h.1, h.2.1⟩, fun h => ⟨h.2.1, h.2.2, h.1⟩⟩
+  unfold type22CommutingList type22CommutingListC
+  rw [hfil]
+
+private theorem type22CommutingListC_card : type22CommutingListC.card = 38 := by
   set_option maxRecDepth 100000 in
   decide +kernel
+
+private theorem type22CommutingList_card : type22CommutingList.card = 38 := by
+  rw [type22CommutingList_eq]
+  exact type22CommutingListC_card
 
 private theorem mem_type22CommutingList {c : Perm (Fin 9)}
     (hc : c.cycleType = ({2,2} : Multiset ℕ)) (hcomm : c * altRep2 = altRep2 * c) :

@@ -4,8 +4,8 @@ public import Certificates.Data.Kernel.Stroth77.SplitK
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSplit778711
-  "Certificates/Kernel/Stroth77/data/split-778711.json.gz" 1915 16874564117993772143
+#kc_repo #kc_json CertificateChecks.KernelSplit778711
+  "Certificates/Kernel/Stroth77/data/split-778711.json" 1915 16874564117993772143
   (MT : Nat) (AT : Nat) (IT : Nat) (AM : Nat) (W4M : Nat) (REPM : Nat) (WIT : Nat) (EF : Nat)
   (PF : Nat)
 

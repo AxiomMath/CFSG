@@ -163,20 +163,7 @@ theorem cntOrdK_one_eq {G₀ e : Nat}
     cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
       ((tailP n w LR TR k).map (trP n w LR TR 0 k₀ * ·)).countP
         (fun x => decide (orderOf x = e)) := by
-  have hn32 := chainK_h32 hQ
-  have hw := PF.w_pos hQ.2.1
-  have hsz := chainK_szOK hQ
-  obtain ⟨h1, -⟩ := tr_facts hQ hk hk₀
-  have e1 : cntOrdK n w (mask w) (n * w) (pidn n w) LR TR k G₀ e k₀ =
-      enumFrom n w (mask w) (n * w) LR TR (fun g => ordIs n w (mask w) (pidn n w) g (e - 1))
-        (k - 1) 1 (pcomp n w (mask w) G₀ (TR (roff n (n * w) (LR 0) + k₀))) 0 := by
-    unfold cntOrdK
-    rw [Orb.strictN_eq]
-    rfl
-  rw [e1, enumFrom_spec hQ (q := fun x => decide (orderOf x = e))
-    (fun P x hP sP => ordIs_eq hsz hP sP he) (k - 1) 1 (by omega) _ _ 0
-    (prep_pcomp hn32 (prep_of_imageList hg₀) h1) (PF.pcomp_shr _ _ hn32 hw), Nat.zero_add,
-    one_mul]
+  rw [cntOrdK_eq hQ (prep_of_imageList hg₀) he hk hk₀, one_mul]
   rfl
 
 theorem countP_point_conj (hk : 0 < k) {u : Equiv.Perm (Fin n)}

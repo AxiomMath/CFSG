@@ -203,12 +203,12 @@ theorem row_inj (hO : OrbOK) (h : LHChecks D) {k x y : Nat} (hk : k < 3510) (hx 
 
 theorem Z_testBit (h : LHChecks D) {k : Nat} (hk : k < 3510) (x : Nat) :
     (D.Z k).testBit x = (decide (x < 3510) && decide (ent (D.R k) x = x)) := by
-  have hs := h.fix (k / 585) (by omega)
+  have hs := h.fix (k / 130) (by omega)
   unfold fixSl at hs
-  have := allN_iff.1 hs (k % 585) (Nat.mod_lt _ (by decide))
+  have := allN_iff.1 hs (k % 130) (Nat.mod_lt _ (by decide))
   rw [strictB_eq] at this
-  have e : Nat.add (Nat.mul (nat_lit 585) (k / 585)) (k % 585) = k := by
-    change 585 * (k / 585) + k % 585 = k
+  have e : Nat.add (Nat.mul (nat_lit 130) (k / 130)) (k % 130) = k := by
+    change 130 * (k / 130) + k % 130 = k
     omega
   rw [e, strictB_eq] at this
   rw [Nat.eq_of_beq_eq_true this, testBit_bsP_zero (by decide), beq_dec]

@@ -8,7 +8,7 @@ public import Certificates.Data.Kernel.SporCov.PClM
 public import Certificates.Data.Kernel.SporCov.CenL
 public import Certificates.Kernel.VecCert.Co3
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovF2.Co3Three.F "Certificates/Kernel/SporCovF2/data/co33.json.gz"
+#kc_repo #kc_json CFSG.KD.SporCovF2.Co3Three.F "Certificates/Kernel/SporCovF2/data/co33.json"
   178381 11545974179171738793
   (Rg : List (List Nat)) (Ms : List Nat) (H : List (List Nat)) (R : List (List Nat))
   (P : List Nat) (T : List (List Nat)) (Rp : List (List Nat)) (Gs : List (List Nat))

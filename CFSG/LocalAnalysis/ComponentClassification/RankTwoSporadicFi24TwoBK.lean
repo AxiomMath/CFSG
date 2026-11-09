@@ -4,6 +4,7 @@ public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicFi24TwoB
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicSLP
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicMovedPerfect
 public import CFSG.Sporadic.Th.TableSpec
+public import CFSG.Certificates.Kernel.Spor.RawOrbGrp
 
 public section
 
@@ -14,6 +15,7 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer
 open CFSG.RankThree.Native (validA enumOK enumBfs keyA commutatorA rep_of_validA rep_of_eqA
   permsA)
 open CFSG.ComponentClassification.RankTwoSporadic.Cert (regIndex inRegs powA mem_of_inRegs rep_powA)
+open CFSG.KS.Raw (rawHeadOK)
 open scoped commutatorElement
 
 @[expose] def fi24KLetterA (z : ℤ) : Array ℕ :=
@@ -35,8 +37,8 @@ open scoped commutatorElement
     rawChainOK 504 (fi24KdStrong.extract 0 (min 5 fi24KdStrong.size)) fi24KdStrong
       fi24KdBase.toArray fi24KdWords 4 &&
     (rawOrbitSizes 504 fi24KdStrong fi24KdBase.toArray).prod == 40131624960 &&
-    rawChainOK 504 (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size)) fi24KddStrong
-      fi24KddBase.toArray fi24KddWords 4 &&
+    rawHeadOK 504 (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size)) fi24KddStrong
+      fi24KddBase.toArray fi24KddWords &&
     (rawOrbitSizes 504 fi24KddStrong fi24KddBase.toArray).prod == 40131624960 &&
     allLt 5 (fun k => eqA 504 fi24KdStrong[k]! (fi24KWordA fi24KdGenWords[k]!)) &&
     allLt 10 (fun m => eqA 504 fi24KddStrong[m]!
@@ -126,8 +128,8 @@ theorem fi24KdChainsOK_facts (h : fi24KdChainsOK = true) :
     rawChainOK 504 (fi24KdStrong.extract 0 (min 5 fi24KdStrong.size)) fi24KdStrong
       fi24KdBase.toArray fi24KdWords 4 = true ∧
     (rawOrbitSizes 504 fi24KdStrong fi24KdBase.toArray).prod = 40131624960 ∧
-    rawChainOK 504 (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size)) fi24KddStrong
-      fi24KddBase.toArray fi24KddWords 4 = true ∧
+    rawHeadOK 504 (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size)) fi24KddStrong
+      fi24KddBase.toArray fi24KddWords = true ∧
     (rawOrbitSizes 504 fi24KddStrong fi24KddBase.toArray).prod = 40131624960 ∧
     (∀ k < 5, eqA 504 fi24KdStrong[k]! (fi24KWordA fi24KdGenWords[k]!) = true) ∧
     ∀ m < 10, eqA 504 fi24KddStrong[m]! (commutatorA 504 fi24KdStrong[(fi24KdPairs[m]!).1]!
@@ -295,51 +297,35 @@ theorem fi24Kd_eq (h : fi24KdChainsOK = true) :
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv, card_fi24Kd h, card_fi24K] at h1
   omega
 
-@[expose] noncomputable def fi24KddChain : RawSchreierDatum 504 :=
-  RawSchreierDatum.ofArrays 504 (by decide) fi24KddStrong (min 10 fi24KddStrong.size)
-    (Nat.min_le_right _ _) (fi22FinList 504 (by decide) [0, 1, 2, 3, 4, 6, 7]) (by decide)
-    fi24KddWords
-
-theorem fi24KddChain_arrays (h : fi24KdChainsOK = true) : ChainArrays fi24KddChain
-    (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size)) fi24KddStrong fi24KddBase.toArray
-      fi24KddWords := by
-  have hA := chainArrays_ofArrays (n := 504) (hn := by decide) (k := min 10 fi24KddStrong.size)
-    (hk := Nat.min_le_right _ _) (base := fi22FinList 504 (by decide) [0, 1, 2, 3, 4, 6, 7])
-    (hb := by decide) (W := fi24KddWords)
-    (chainCheckFacts (fi24KdChainsOK_facts h).2.2.2.2.1).strong_inv
-  have hb : ((fi22FinList 504 (by decide) [0, 1, 2, 3, 4, 6, 7]).map Fin.val).toArray =
-      fi24KddBase.toArray := rfl
-  rw [hb] at hA
-  exact hA
-
 theorem fi24KdPairs_lt : ∀ m < 10, (fi24KdPairs[m]!).1 < 5 ∧ (fi24KdPairs[m]!).2 < 5 := by
   decide
 
 theorem commutator_fi24Kd (h : fi24KdChainsOK = true) : ⁅fi24Kd, fi24Kd⁆ = fi24Kd := by
   have hf := fi24KdChainsOK_facts h
-  have hcard : Nat.card fi24KddChain.originalSubgroup = 40131624960 := by
-    rw [card_originalSubgroup_of_chainOK (fi24KddChain_arrays h) (by norm_num) hf.2.2.2.2.1,
-      hf.2.2.2.2.2.1]
-  have hle : fi24KddChain.originalSubgroup ≤ ⁅fi24Kd, fi24Kd⁆ := by
-    rw [RawSchreierDatum.originalSubgroup, Subgroup.closure_le]
-    intro g hg
-    change g ∈ fi24KddChain.original.toList at hg
-    rw [fi24KddChain, RawSchreierDatum.mem_ofArrays_original, Nat.min_eq_left hf.2.1] at hg
-    obtain ⟨m, hm, rfl⟩ := hg
+  have hd := CFSG.KS.Raw.Orb.hd_of_head (Nat.min_le_right _ _) hf.2.2.2.2.1
+  have hcard : 40131624960 ≤
+      Nat.card (CFSG.KS.Raw.Orb.Gen 504 fi24KddStrong (min 10 fi24KddStrong.size)) :=
+    hf.2.2.2.2.2.1 ▸ CFSG.KS.Raw.Orb.prod_le_card_Gen hd
+  have hle : CFSG.KS.Raw.Orb.Gen 504 fi24KddStrong (min 10 fi24KddStrong.size) ≤
+      ⁅fi24Kd, fi24Kd⁆ := by
+    rw [CFSG.KS.Raw.Orb.Gen, Subgroup.closure_le]
+    rintro _ ⟨⟨m, hm⟩, rfl⟩
+    rw [Nat.min_eq_left hf.2.1] at hm
     obtain ⟨hi, hj⟩ := fi24KdPairs_lt m hm
     have hvi := fi24KdStrong_valid h (lt_of_lt_of_le hi hf.1)
     have hvj := fi24KdStrong_valid h (lt_of_lt_of_le hj hf.1)
     have hm' : m < fi24KddStrong.size := lt_of_lt_of_le hm hf.2.1
     have hvm : validA 504 fi24KddStrong[m]! = true := by
-      have := (chainCheckFacts hf.2.2.2.2.1).strong_inv m hm'
+      have := hd.inv m hm'
       rwa [rawInvs, map_getElem! hm'] at this
+    change permOfArr 504 fi24KddStrong[m]! ∈ _
     rw [eq_of_eqA (rep_of_validA hvm) (RankThree.Native.rep_commutatorA hvi hvj)
       (hf.2.2.2.2.2.2.2 m hm)]
     exact Subgroup.commutator_mem_commutator (permOfArr_mem_fi24Kd h hi)
       (permOfArr_mem_fi24Kd h hj)
-  have heq : fi24KddChain.originalSubgroup = fi24Kd :=
+  have heq : CFSG.KS.Raw.Orb.Gen 504 fi24KddStrong (min 10 fi24KddStrong.size) = fi24Kd :=
     Subgroup.eq_of_le_of_card_ge (hle.trans (Subgroup.commutator_le_self _))
-      (by rw [hcard, card_fi24Kd h])
+      (by rw [card_fi24Kd h]; exact hcard)
   exact le_antisymm (Subgroup.commutator_le_self _) (heq ▸ hle)
 
 theorem fi24NOK_facts (h : fi24NOK = true) :

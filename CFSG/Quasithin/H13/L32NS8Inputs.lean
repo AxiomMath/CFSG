@@ -1,6 +1,8 @@
 module
 
 public import CFSG.Quasithin.H13.L32NMat8Inputs
+public import Certificates.Data.Kernel.Mat8P
+public import Certificates.Kernel.H13.Data
 
 public section
 
@@ -12,33 +14,34 @@ open Mat8Cert
   [[1, 3, 4, 8, 48, 32, 64, 128], [1, 2, 6, 8, 16, 96, 64, 128], [1, 2, 4, 12, 16, 32, 192, 128],
     [9, 2, 4, 8, 16, 32, 64, 144], [16, 32, 64, 128, 1, 2, 4, 8]]
 
-@[expose] def s8E : List (List ℕ) := elemsOf s8G
+@[expose, irreducible] noncomputable def s8E : List (List ℕ) :=
+  CertificateChecks.KernelH13.D.s8L.map CFSG.KC.Mat8P.unpackM
 
-@[expose] def s8BasicB : Bool := subB s8G s8E && s8E.length == 40320
+@[expose] noncomputable def s8BasicB : Bool := subB s8G s8E && s8E.length == 40320
 
 @[expose] def inII (v : ℕ) : Bool := v < 16 || v % 16 == 0
 
 @[expose] def iiList : List ℕ := (List.range 256).filter fun v => v != 0 && inII v
 
-@[expose] def stabIB : Bool :=
+@[expose] noncomputable def stabIB : Bool :=
   s8E.all fun y => iiList.all fun v => !(mv8 y v == v) || (y.take 4).all (· < 16)
 
 @[expose] def vR : ℕ := 18
 
-@[expose] def orbB : Bool :=
+@[expose] noncomputable def orbB : Bool :=
   let hs : Std.HashSet ℕ := Std.HashSet.ofList (s8E.map fun y => mv8 y vR)
   (List.range 256).all fun v => v == 0 || inII v || q4N v || hs.contains v
 
-@[expose] def stE : List (List ℕ) := s8E.filter fun x => mv8 x vR == vR
+@[expose] noncomputable def stE : List (List ℕ) := s8E.filter fun x => mv8 x vR == vR
 
-@[expose] def invSt (n : List ℕ) : List ℕ :=
+@[expose] noncomputable def invSt (n : List ℕ) : List ℕ :=
   (stE.find? fun m => mul8 m n == one8).getD one8
 
 @[expose] def z8G : List (List ℕ) :=
   [[13, 2, 6, 10, 16, 224, 80, 144], [160, 16, 128, 80, 2, 5, 10, 4],
     [3, 2, 4, 8, 16, 48, 64, 128], [9, 2, 6, 8, 16, 96, 64, 144]]
 
-@[expose] def zB : Bool :=
+@[expose] noncomputable def zB : Bool :=
   let hs : Std.HashSet (List ℕ) := Std.HashSet.ofList (elemsOf z8G)
   let h8 : Std.HashSet (List ℕ) := Std.HashSet.ofList s8E
   (elemsOf z8G).length == 16 && subB z8G (elemsOf z8G) && z8G.all h8.contains &&
@@ -51,7 +54,7 @@ open Mat8Cert
 @[expose] def n8G : List (List ℕ) :=
   [[3, 2, 4, 8, 16, 48, 64, 128], [5, 2, 4, 10, 16, 160, 80, 128], [9, 2, 6, 8, 16, 96, 64, 144]]
 
-@[expose] def nB : Bool :=
+@[expose] noncomputable def nB : Bool :=
   let hZ : Std.HashSet (List ℕ) := Std.HashSet.ofList (elemsOf z8G)
   let hN : Std.HashSet (List ℕ) := Std.HashSet.ofList (elemsOf n8G)
   (elemsOf n8G).length == 8 && subB n8G (elemsOf n8G) && n8G.all hZ.contains &&
@@ -82,6 +85,6 @@ open Mat8Cert
   !(dotN cF vR) && (elemsOf n8G).all fun x =>
     eSpan8.any fun w => mv8 x w != (w ^^^ (if dotN cF w then vR else 0))
 
-@[expose] def s8Check : Bool := s8BasicB && stabIB && orbB && zB && nB && wB && fB
+@[expose] noncomputable def s8Check : Bool := s8BasicB && stabIB && orbB && zB && nB && wB && fB
 
 end CFSG.Quasithin.H13.S8Cert

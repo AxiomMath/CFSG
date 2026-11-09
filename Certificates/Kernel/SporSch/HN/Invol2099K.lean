@@ -9,6 +9,7 @@ public import Certificates.Data.Kernel.SporSch.HNF5KronT
 public import Certificates.Kernel.SporSch.HN.GenF5T
 public import CFSG.Sporadic.HNSchreier.InvolCheckInputs
 meta import CFSG.Sporadic.HNSchreier.InvolCheckInputs
+public meta import Certificates.Data.Kernel.SporSch.HNStrongData
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -24,13 +25,13 @@ meta def rowsMat (vs : Array (Array Nat)) : Array (Array Nat) :=
 
 meta def build : List (Array (Array Nat)) × List (Nat × Nat × Nat) := Id.run do
   let m := mulM 5 133
-  let st := HNStrong.mats.toArray
+  let st := CFSG.KS.SporSch.hnStrongRows.extract 0 17
   let A := rowsA
   let B := rowsB
   let mut M : Array (Array (Array Nat)) := #[A, B, colsMat 133 A, colsMat 133 B]
   let mut sp : Array (Nat × Nat × Nat) := #[(2, 0, 0), (2, 0, 0), (3, 0, 0), (3, 1, 0)]
   for j in [0:17] do
-    M := M.push (st.getD (13 + j) #[])
+    M := M.push (st.getD j #[])
     sp := sp.push (2, 0, 0)
   M := M.push (colsMat 133 (M.getD 4 #[]))
   sp := sp.push (3, 4, 0)
@@ -90,17 +91,33 @@ meta def build : List (Array (Array Nat)) × List (Nat × Nat × Nat) := Id.run 
     ys := ys.push (mulVec 5 133 (seedSel A B l) (ys.getD t #[]))
   M := M.push (rowsMat ys)
   sp := sp.push (2, 0, 0)
-  let regs := progRegsM (initRegsM A B) Data.subgroupProgram
-  let hs := extendStrongM #[regs.getD 1 #[], regs.getD 2 #[]] LocalData.strongWords
-  let xs := xVecs hs.1 (ys.getD rw.length #[]) LocalData.parents
+  let xs := xVecs st (ys.getD rw.length #[]) LocalData.parents
   for c in [0:4] do
     M := M.push (rowsMat (xs.extract (133 * c) (133 * c + 133)))
     sp := sp.push (2, 0, 0)
   return (M.toList, sp.toList)
 
+meta def specOnly : List (Nat × Nat × Nat) := Id.run do
+  let mut sp : Array (Nat × Nat × Nat) := #[(2, 0, 0), (2, 0, 0), (3, 0, 0), (3, 1, 0)]
+  for _ in [0:17] do
+    sp := sp.push (2, 0, 0)
+  sp := sp ++ #[(3, 4, 0), (3, 5, 0)]
+  let wi := LocalData.innerWord.reverse.map Int.toNat
+  sp := sp.push (1, 3 + wi.headD 0, 0)
+  for l in wi.drop 1 do
+    sp := sp.push (0, 3 + l, sp.size - 1)
+  sp := sp ++ #[(2, 0, 0), (2, 0, 0), (2, 0, 0), (0, 33, 34), (0, 37, 35), (0, 36, 36), (3, 36, 0),
+    (0, 35, 0), (0, 0, 35), (0, 1, 1), (0, 0, 43), (1, 44, 0)]
+  for _ in [0:7] do
+    sp := sp.push (0, sp.size - 1, 44)
+  sp := sp ++ #[(0, 35, 1), (0, 52, 53), (0, 52, 35), (0, 1, 55)]
+  for _ in [0:5] do
+    sp := sp.push (2, 0, 0)
+  return sp.toList
+
 meta def mats : List (Array (Array Nat)) := build.1
 
-meta def spec : List (Nat × Nat × Nat) := build.2
+meta def spec : List (Nat × Nat × Nat) := specOnly
 
 end CertificateChecks.KernelSporSch.HNInvol
 
@@ -141,8 +158,27 @@ theorem ne36 : anyN 133 (fun i => Bool.not (Nat.beq (sx 36 i) (idRow5 i))) = tru
 theorem fixv : Nat.beq (vm5 (sx 40) (sx 57 0)) (sx 57 0) = true := by quickRfl
 theorem rchain : vecChain5 HNI.MT 57 ltT LocalData.rootWord = true := by quickRfl
 theorem x0 : Nat.beq (sx 58 0) (sx 57 40) = true := by quickRfl
-theorem xrec0 : allBlk 1 (recRow5 HNI.MT 58 21 22 LocalData.parents) 230 = true := by quickRfl
-theorem xrec1 : allBlk 231 (recRow5 HNI.MT 58 21 22 LocalData.parents) 231 = true := by quickRfl
+
+@[expose] noncomputable def recKr5 (S M F Q cA cB : Nat) (X : Nat → Nat) (i j l : Nat) : Bool :=
+  bAnd(Nat.blt j i, bAnd(bIf(Nat.beq l (nat_lit 1), true, Nat.beq l (nat_lit 2)),
+    krRow S M F Q (nIf(Nat.beq l (nat_lit 1), cA, cB)) (X j) (X i)))
+
+@[expose] noncomputable def recWalk5 (S M F Q cA cB : Nat) (X : Nat → Nat)
+    (recs : List (Nat × Nat)) : Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun p _ ih i => bAnd(recKr5 S M F Q cA cB X i p.1 p.2, strictB (Nat.succ i) ih)) recs
+
+@[expose] noncomputable def recK5 (MT : Nat → Nat) (kV kA kB : Nat) (recs : List (Nat × Nat)) :
+    Bool :=
+  strictB (krConst (nat_lit 1) (nat_lit 264)) fun S =>
+  strictB (krConst (nat_lit 65535) (nat_lit 265)) fun M =>
+  strictB (krConst (nat_lit 5) (nat_lit 265)) fun F =>
+  strictB (krConst (nat_lit 4095) (nat_lit 265)) fun Q =>
+  strictB (krCol S M (slice5 MT kA)) fun cA =>
+  strictB (krCol S M (slice5 MT kB)) fun cB =>
+    recWalk5 S M F Q cA cB (slice5 MT kV) recs.tail 1
+
+theorem xrecK : recK5 HNI.MT 58 21 22 LocalData.parents = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.HNInvol
 

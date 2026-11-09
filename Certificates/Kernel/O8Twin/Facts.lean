@@ -12,6 +12,7 @@ public import CFSG.Certificates.Kernel.AE6CoreParse
 public import CFSG.Certificates.Kernel.HeGlueKGlue
 public import CFSG.Certificates.Kernel.Common.ForallChunks
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.KGC31PPow
 public import CFSG.Certificates.Kernel.BfsPinSound
 public import CFSG.Certificates.Kernel.HeModelKSound
 public import CFSG.Certificates.Kernel.HexaKSound
@@ -130,16 +131,16 @@ theorem prep_gen {j : Nat} (hj : j < 8) :
   rw [e]
   intro x
   unfold permOfInv
-  rw [dif_pos hinv]
+  rw [dite_eq_left hinv]
   change _ = (genArr j)[x.val]!
   rw [genArr_eq hj, Orb.unpack_get x.isLt]
 
 theorem imgG : ∀ j < (gens1c ()).length,
-    imageList ((gens1c ()).getD j 1) = (unpack 120 7 (GPf j)).toList := fun j hj =>
+    imageList ((gens1c ()).getD j 1) = (unpack 120 7 (GPf j)).toList := fun _ hj =>
   CFSG.KC.KGC31P.imageList_of_prep (prep_gen (gens1c_length ▸ hj))
 
 theorem pG : ∀ j < (gens1c ()).length, permOK 120 7 (mask 7) (120 * 7) (GPf j) (GPf j) = true :=
-  fun j hj => pGP (gens1c_length ▸ hj)
+  fun _ hj => pGP (gens1c_length ▸ hj)
 
 theorem perm_head {n w kS kO nb BP : Nat} {PS PSI : Nat → Nat} {D : List (List Int)}
     (h : headK n w (mask w) (n * w) (pidn n w) PS PSI kS kO D nb BP = true) :
@@ -175,7 +176,7 @@ theorem cS {j : Nat} (hj : j < 4) : canonK 120 7 (mask 7) (120 * 7) (ST.S j) = t
 
 theorem chainS : ChainK 120 7 (sylWords.map (evalCodes (gens1c ()))) sylDerive
     (#v[0, 2, 4, 24, 8] : Vector (Fin 120) 5) ST.S ST.SI ST.LR ST.TR ST.TRI 7 ST.BP 5 24 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgS, by decide, ST.head, ST.hl, by norm_num, ST.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgS, by decide, ST.head, ST.hl, by norm_num, .inl ST.hs⟩
 
 theorem sylow : o8TwinSylow () = true := by
   obtain ⟨h1, h2⟩ := chainK_check (by decide) (by decide) chainS
@@ -187,20 +188,187 @@ theorem imgR : ∀ i < fourWords.length,
       (unpack 120 7 (RS.E (lget RS.OFF i))).toList :=
   words_img (gs := sylWords.map (evalCodes (gens1c ()))) (k := 4) hl4 kSz imgS pS one120 kW
 
-theorem reps : o8TwinReps () = true := by
-  have hcnt : (cosetOrderTables (certificate (by decide) (sylWords.map (evalCodes (gens1c ())))
-      sylDerive (#v[0, 2, 4, 24, 8] : Vector (Fin 120) 5) (by decide)) 1 4).length = RS.N :=
-    (chainK_cosetCount (by decide) (by decide) chainS one120 kOne (by norm_num) (by norm_num)
-      (by decide +kernel) NS.hc).trans (Nat.eq_of_beq_eq_true kT)
-  have hlen : fourWords.length = RS.CS.length := by decide +kernel
-  obtain ⟨h1, -⟩ := repsOK_of_img (g := 4) hl4 (fun j hj => imgS j (by rw [hl4]; exact hj))
-    (fun j hj => pS j (by rw [hl4]; exact hj)) (fun j hj => cS hj)
-    (by simpa using hlen) (fun i hi => imgR i (by omega)) kOff kPos hcnt
-    (fun j hj => allN_spec kR j hj) (cap := 4000)
-    (reps := fourWords.map (evalCodes (sylWords.map (evalCodes (gens1c ())))))
+theorem repLK_facts {n w g N j : Nat} {GP GIP CI E P L S SI : Nat → Nat} {CS OFF : List Nat}
+    (h : repLK n w GP GIP g CS OFF CI E P L S SI N j = true) :
+    CI j < CS.length ∧ lget OFF (CI j) ≤ j ∧ canonK n w (mask w) (n * w) (E j) = true ∧
+    (j - lget OFF (CI j) ≠ 0 → P j < j - lget OFF (CI j) ∧ L j < g ∧
+      cj n w GP GIP (L j) (E (lget OFF (CI j) + P j)) = E j) ∧
+    S j < N ∧ SI j < N ∧ S (SI j) = j ∧ (j + 1 < N → E (S j) < E (S (j + 1))) := by
+  unfold repLK at h
+  have e1 : ∀ a b : Nat, Nat.add a b = a + b := fun _ _ => rfl
+  have e2 : ∀ a b : Nat, Nat.mul a b = a * b := fun _ _ => rfl
+  have e3 : ∀ a b : Nat, Nat.sub a b = a - b := fun _ _ => rfl
+  simp only [PF.strictB_eqP, bAnd_iff, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq, e1, e2, e3,
+    Nat.succ_eq_add_one] at h
+  obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := h
+  refine ⟨h1, h2, h3, fun hk => ?_, h5, h6, h7, fun hj => ?_⟩
+  · have hk0 : Nat.beq (j - lget OFF (CI j)) 0 = false := by
+      cases e : Nat.beq (j - lget OFF (CI j)) 0
+      · rfl
+      · exact absurd (Nat.eq_of_beq_eq_true e) hk
+    simp only [hk0, bAnd_iff, Nat.blt_eq, Nat.beq_eq] at h4
+    exact h4
+  · have e' : Nat.blt (j + 1) N = true := Nat.blt_eq.mpr hj
+    simp only [e', Nat.blt_eq] at h8
+    exact h8
+
+theorem E_injL {n w g N : Nat} {GP GIP CI E P L S SI : Nat → Nat} {CS OFF : List Nat}
+    (h : ∀ j < N, repLK n w GP GIP g CS OFF CI E P L S SI N j = true) {a b : Nat}
+    (ha : a < N) (hb : b < N) (e : E a = E b) : a = b := by
+  have F := fun j (hj : j < N) => repLK_facts (h j hj)
+  have mono : ∀ x y, x < y → y < N → E (S x) < E (S y) := by
+    intro x y hxy hy
+    induction y with
+    | zero => omega
+    | succ y ih =>
+      have := (F y (by omega)).2.2.2.2.2.2.2 hy
+      rcases Nat.lt_or_ge x y with h1 | h1
+      · exact Nat.lt_trans (ih h1 (by omega)) this
+      · have : x = y := by omega
+        subst this
+        exact this
+  have ea := (F a ha).2.2.2.2.2.2.1
+  have eb := (F b hb).2.2.2.2.2.2.1
+  rcases Nat.lt_trichotomy (SI a) (SI b) with h1 | h1 | h1
+  · have := mono _ _ h1 (F b hb).2.2.2.2.2.1
+    rw [ea, eb, e] at this
+    omega
+  · rw [← ea, ← eb, h1]
+  · have := mono _ _ h1 (F a ha).2.2.2.2.2.1
+    rw [ea, eb, e] at this
+    omega
+
+theorem kRL : ∀ j < RS.N, repLK 120 7 ST.S ST.SI 4 RS.CS RS.OFF RS.CI RS.E RS.P RS.L RS.S RS.SI
+    RS.N j = true := fun j hj => allN_spec kR j hj
+
+theorem fourWords_len : fourWords.length = RS.CS.length := by decide +kernel
+
+theorem fourReps_eq :
+    fourReps () = fourWords.map (evalCodes (sylWords.map (evalCodes (gens1c ())))) := by
+  rw [fourReps, sylGens_eq]
+
+theorem sylGen_mem {l : Nat} (hl : l < 4) :
+    (sylWords.map (evalCodes (gens1c ()))).getD l 1 ∈ (sylQ ()).originalSubgroup := by
+  rw [sylQ_eq, certificate_originalSubgroup]
+  apply Subgroup.subset_closure
+  rw [List.getD_eq_getElem _ _ (by rw [hl4]; exact hl)]
+  exact List.getElem_mem _
+
+theorem sylGens_memQ : ∀ g ∈ sylWords.map (evalCodes (gens1c ())), g ∈ (sylQ ()).originalSubgroup := by
+  intro g hg
+  obtain ⟨l, hl, rfl⟩ := List.getElem_of_mem hg
+  have e := sylGen_mem (l := l) (by rw [hl4] at hl; exact hl)
+  rwa [List.getD_eq_getElem _ _ hl] at e
+
+theorem rec_conj : ∀ j < RS.N, ∃ x : Equiv.Perm (Fin 120),
+    imageList x = (unpack 120 7 (RS.E j)).toList ∧
+      ∃ r ∈ fourReps (), ∃ s ∈ (sylQ ()).originalSubgroup, x = s * r * s⁻¹ := by
+  intro j
+  induction j using Nat.strong_induction_on with
+  | _ j ih =>
+  intro hj
+  obtain ⟨hi, ho, -, htree, -⟩ := repLK_facts (kRL j hj)
+  by_cases hk : j - lget RS.OFF (RS.CI j) = 0
+  · have hi' : RS.CI j < fourWords.length := by rw [fourWords_len]; exact hi
+    have e : lget RS.OFF (RS.CI j) = j := by omega
+    refine ⟨(fourReps ()).getD (RS.CI j) 1, ?_, (fourReps ()).getD (RS.CI j) 1, ?_, 1,
+      Subgroup.one_mem _, by group⟩
+    · have h := imgR _ hi'
+      rw [e] at h
+      rw [fourReps_eq]
+      exact h
+    · rw [List.getD_eq_getElem _ _ (by rw [fourReps_eq, List.length_map]; exact hi')]
+      exact List.getElem_mem _
+  · obtain ⟨hP, hL, hc⟩ := htree hk
+    obtain ⟨x, hx, r, hr, s, hs, rfl⟩ := ih (lget RS.OFF (RS.CI j) + RS.P j) (by omega) (by omega)
+    have hG := imgS (RS.L j) (by rw [hl4]; exact hL)
+    have hGi := invK_rep hG (pS _ (by rw [hl4]; exact hL))
+    set G := (sylWords.map (evalCodes (gens1c ()))).getD (RS.L j) 1
+    refine ⟨G * (s * r * s⁻¹) * G⁻¹, ?_, r, hr, G * s,
+      Subgroup.mul_mem _ (sylGen_mem hL) hs, by group⟩
+    rw [mulK_rep kSz (mulK_rep kSz hG hx) hGi, ← hc]
+    rfl
+
+theorem o8Reps_ord : ∀ r ∈ fourReps (), orderOf r = 4 := by
   have hordT := ord_all kSz (e := 4) (List.length_map _) imgR kO (by norm_num)
-  simp only [o8TwinReps, fourReps, sylGens_eq, sylQ_eq, Bool.and_eq_true]
-  exact ⟨h1, hordT⟩
+  intro r hr
+  rw [← fourReps_eq] at hordT
+  exact (ordTest_iff perm_faithful (rep_toTable (by norm_num) r) (by norm_num)).1
+    (List.all_eq_true.1 hordT _ (List.mem_map_of_mem hr))
+
+theorem o8Reps_mem : ∀ r ∈ fourReps (), r ∈ (sylQ ()).originalSubgroup := by
+  intro r hr
+  rw [fourReps_eq] at hr
+  obtain ⟨w, -, rfl⟩ := List.mem_map.1 hr
+  exact evalCodes_mem _ sylGens_memQ w
+
+theorem rec_cover : ∀ u ∈ (sylQ ()).originalSubgroup, orderOf u = 4 → ∃ j < RS.N,
+    imageList u = (unpack 120 7 (RS.E j)).toList ∧
+      ∃ r ∈ fourReps (), ∃ s ∈ (sylQ ()).originalSubgroup, u = s * r * s⁻¹ := by
+  have hn : (120 : Nat) < 2 ^ 32 := by norm_num
+  set H := (sylQ ()).originalSubgroup
+  have hQ : ValidSchreier (sylQ ()) := by
+    have h := sylow
+    simp only [o8TwinSylow, Bool.and_eq_true] at h
+    exact h.1
+  have hord := o8Reps_ord
+  have hrS := o8Reps_mem
+  have hcnt : (cosetOrderTables (sylQ ()) 1 4).length = RS.N := by
+    rw [sylQ_eq]
+    exact (chainK_cosetCount (by decide) (by decide) chainS one120 kOne (by norm_num)
+      (by norm_num) (by decide +kernel) NS.hc).trans (Nat.eq_of_beq_eq_true kT)
+  set U := (List.range RS.N).map fun j => tablePerm 120 (tabP 120 7 (RS.E j))
+  have hUj : ∀ j < RS.N, imageList (tablePerm 120 (tabP 120 7 (RS.E j))) =
+      (unpack 120 7 (RS.E j)).toList ∧ ∃ r ∈ fourReps (), ∃ s ∈ H,
+        tablePerm 120 (tabP 120 7 (RS.E j)) = s * r * s⁻¹ := by
+    intro j hj
+    obtain ⟨x, hx, hc⟩ := rec_conj j hj
+    have e : tablePerm 120 (tabP 120 7 (RS.E j)) = x := by
+      apply tablePerm_eq
+      rw [tabP, ← toTable_eq_arrTable_of_img hx]
+      exact rep_toTable hn x
+    rw [e]
+    exact ⟨hx, hc⟩
+  have hnodup : U.Nodup := by
+    refine List.Nodup.map_on (fun a ha b hb e => ?_) List.nodup_range
+    have ha' := List.mem_range.1 ha
+    have hb' := List.mem_range.1 hb
+    have hi := (hUj a ha').1
+    rw [e, (hUj b hb').1] at hi
+    have hu : unpack 120 7 (RS.E b) = unpack 120 7 (RS.E a) := Array.toList_inj.1 hi
+    exact E_injL kRL ha' hb' (eq_of_key_tabP (repLK_facts (kRL a ha')).2.2.1
+      (repLK_facts (kRL b hb')).2.2.1 (by rw [tabP, tabP, hu]))
+  set XG := ((enumeration (sylQ ())).map (1 * ·)).filter fun h => decide (orderOf h = 4)
+  have hX := forall₂_cosetOrderTables hn (sylQ ()) 1 (m := 4) (by norm_num)
+  have hXG : ∀ u, u ∈ XG ↔ u ∈ H ∧ orderOf u = 4 := by
+    intro u
+    simp only [XG, List.mem_filter, List.mem_map, mem_enumeration_iff _ hQ, decide_eq_true_eq,
+      one_mul, exists_eq_right]
+    exact Iff.rfl
+  have hsub : U ⊆ XG := by
+    intro y hy
+    obtain ⟨j, hj, rfl⟩ := List.mem_map.1 hy
+    obtain ⟨-, r, hr, s, hs, e⟩ := hUj j (List.mem_range.1 hj)
+    rw [e, hXG]
+    exact ⟨H.mul_mem (H.mul_mem hs (hrS r hr)) (H.inv_mem hs),
+      (MulEquiv.orderOf_eq (MulAut.conj s) r).trans (hord r hr)⟩
+  have hlen : XG.length ≤ U.length := by
+    rw [List.length_map, List.length_range, ← hcnt, hX.length_eq, List.length_reverse]
+  have hperm := (hnodup.subperm hsub).perm_of_length_le hlen
+  intro u hu ho
+  obtain ⟨j, hj, rfl⟩ := List.mem_map.1 (hperm.symm.subset ((hXG u).2 ⟨hu, ho⟩))
+  exact ⟨j, List.mem_range.1 hj, hUj j (List.mem_range.1 hj)⟩
+
+theorem cover4 : ∀ u ∈ (sylQ ()).originalSubgroup, orderOf u = 4 →
+    ∃ r ∈ fourReps (), ∃ s ∈ (sylQ ()).originalSubgroup, u = s * r * s⁻¹ := fun u hu ho =>
+  let ⟨_, _, _, h⟩ := rec_cover u hu ho
+  h
+
+theorem reps : o8TwinReps () = true := by
+  have hordT := ord_all kSz (e := 4) (List.length_map _) imgR kO (by norm_num)
+  rw [← fourReps_eq] at hordT
+  simp only [o8TwinReps, Bool.and_eq_true, decide_eq_true_eq]
+  exact ⟨cover4, hordT⟩
 
 theorem imgX0 : imageList (x0 ()) = (unpack 120 7 X0).toList := by
   rw [x0, sylGens_eq]
@@ -224,70 +392,242 @@ theorem k0 : o8TwinK0 () = true := by
     q8RelT_tabP tX0.1 tX0.1.pinv tY0.1 tY0.1.pinv]
   exact kK0
 
-#kc_forall_chunks badKA (fun k => badK k = true) 64 CertificateChecks.KernelO8Twin.badK 1
+#kc_forall_chunks recKA (fun k => recK k = true) 64 CertificateChecks.KernelO8Twin.recK 1
 
-theorem strictB_eq' (y : Nat) (k : Nat → Bool) : strictB y k = k y := by cases y <;> rfl
+theorem inv_of_four {Y : Nat} (hP : PP 120 7 Y) (h4 : sg 120 7 Y ^ 4 = 1) :
+    pc 120 7 (pc 120 7 Y Y) Y = pinv 120 7 Y := by
+  have hYY := hP.pc hP
+  rw [PP_eq_iff (hYY.pc hP) hP.pinv, sg_pc hYY hP, sg_pc hP hP, sg_pinv' hP]
+  apply eq_inv_of_mul_eq_one_left
+  rw [← h4, pow_succ, pow_succ, pow_succ, pow_one]
 
-theorem enumFrom_add {n w m nw : Nat} {LR TR : Nat → Nat} {p : Nat → Bool} :
-    ∀ d i G s, enumFrom n w m nw LR TR p d i G s = s + enumFrom n w m nw LR TR p d i G 0
-  | 0, i, G, s => by
-    rw [enumFrom_zero, enumFrom_zero]
-    split <;> omega
-  | d + 1, i, G, s => by
-    rw [enumFrom_succ, enumFrom_succ,
-      foldl_eq_add (X := fun k => enumFrom n w m nw LR TR p d (i + 1)
-        (pcomp n w m G (TR (roff n nw (LR i) + k))) 0) _ (fun k _ s => enumFrom_add d _ _ s) s,
-      foldl_eq_add (X := fun k => enumFrom n w m nw LR TR p d (i + 1)
-        (pcomp n w m G (TR (roff n nw (LR i) + k))) 0) _ (fun k _ s => enumFrom_add d _ _ s) 0,
-      Nat.zero_add]
+theorem sg_of_prep {P : Nat} {g : Equiv.Perm (Fin 120)} (hP : PP 120 7 P)
+    (hR : CFSG.KS.Raw.Orb.PRep 120 7 P g) : sg 120 7 P = g := by
+  refine Equiv.ext fun x => Fin.ext ?_
+  have e := rep_sg hP x
+  rw [CFSG.KS.Raw.Orb.unpack_get x.isLt, hR x] at e
+  exact e.symm
 
-theorem enum_zero :
-    enumFrom 120 7 (mask 7) (120 * 7) ST.LR ST.TR badY 5 0 One120 0 = 0 := by
-  rw [enumFrom_succ,
-    foldl_eq_add (X := fun k => enumFrom 120 7 (mask 7) (120 * 7) ST.LR ST.TR badY 4 (0 + 1)
-      (pcomp 120 7 (mask 7) One120 (ST.TR (roff 120 (120 * 7) (ST.LR 0) + k))) 0) _
-      (fun k _ s => enumFrom_add 4 _ _ s) 0, Nat.zero_add]
-  have hc := Nat.ble_eq.mp ch517202o
-  refine List.sum_eq_zero fun x hx => ?_
-  obtain ⟨k, hk, rfl⟩ := List.mem_map.1 hx
-  have hk' := List.mem_range.1 hk
-  have h := badKA k (Nat.lt_of_lt_of_le hk' hc)
-  rw [badK, strictB_eq', Nat.blt_eq.mpr hk'] at h
-  exact Nat.eq_of_beq_eq_true h
+theorem rec_pairs {j : Nat} (hj : j < RS.N) (hP : PP 120 7 (RS.E j))
+    (h4 : sg 120 7 (RS.E j) ^ 4 = 1) : pairsO8C (RS.E j) = true := by
+  suffices h : pairsZ (RS.E j) = true from pairsZ_spec h (inv_of_four hP h4)
+  have hk : j / 53 < 64 := by
+    have := Nat.ble_eq.mp ch517202r
+    change RS.N ≤ 64 * 53 at this
+    omega
+  have h2 := allN_spec (recKA (j / 53) hk) (j % 53) (Nat.mod_lt _ (by norm_num))
+  beta_reduce at h2
+  have e : Nat.add (Nat.mul (j / 53) 53) (j % 53) = j := by
+    change j / 53 * 53 + j % 53 = j
+    omega
+  rw [e, Nat.blt_eq.mpr hj] at h2
+  exact h2
 
-@[expose] noncomputable def qY (x : Equiv.Perm (Fin 120)) : Bool :=
-  decide (orderOf x = 4) && !pairsY 120 7 sp0K repsK candsK (packL 7 (imageList x))
+theorem q8_partner {G : Type*} [Group G] {r y : G} (h1 : r * r = y * y) (h2 : r * y = y * r⁻¹)
+    (h4 : y ^ 4 = 1) {y' : G} (hy : y' = y⁻¹ ∨ y' = r * y ∨ y' = y * r) :
+    r * r = y' * y' ∧ r * y' = y' * r⁻¹ ∧ y' * y' = y * y ∧
+      ∀ g, g ∈ [1, r * r, r, r⁻¹, y, y⁻¹, r * y, y * r] ↔
+        g ∈ [1, r * r, r, r⁻¹, y', y'⁻¹, r * y', y' * r] := by
+  have e4 : y * (y * (y * y)) = 1 := by
+    rw [← h4]
+    simp only [pow_succ, pow_zero, one_mul, mul_assoc]
+  have hR4 : ∀ z, r * (r * (r * (r * z))) = z := fun z => by
+    have e : r * (r * (r * (r * z))) = (r * r) * (r * r) * z := by group
+    rw [e, h1]
+    calc y * y * (y * y) * z = y * (y * (y * y)) * z := by group
+      _ = z := by rw [e4, one_mul]
+  have hr4 : r * (r * (r * r)) = 1 := by simpa using hR4 1
+  have hri : r⁻¹ = r * (r * r) := inv_eq_of_mul_eq_one_right hr4
+  have hyr : y * r = r * (r * (r * y)) := by
+    have hc : y⁻¹ * r * y = r⁻¹ := by
+      rw [mul_assoc, h2]
+      group
+    calc y * r = (y * y) * (y⁻¹ * r * y) * (y * y)⁻¹ * y := by group
+      _ = r * (r * (r * y)) := by
+        rw [hc, ← h1, hri]
+        group
+        simp only [zpow_ofNat, pow_three, mul_assoc]
+  have hYR : ∀ z, y * (r * z) = r * (r * (r * (y * z))) := fun z => by
+    rw [← mul_assoc, hyr]
+    group
+  have hyy : y * y = r * r := h1.symm
+  have hyi : y⁻¹ = r * (r * y) :=
+    inv_eq_of_mul_eq_one_right (by simp only [hYR, hyy, hR4, hr4])
+  rcases hy with rfl | rfl | rfl <;> refine ⟨?_, ?_, ?_, fun g => ?_⟩ <;>
+    simp only [mul_assoc, hri, hyi, mul_inv_rev, hYR, hyr, hyy, hR4, hr4, mul_one,
+      List.mem_cons, List.not_mem_nil, or_false] <;>
+    tauto
 
-theorem hpq : ∀ P x, CFSG.KS.Raw.Orb.PRep 120 7 P x → P >>> (120 * 7) = 0 → badY P = qY x := by
-  intro P x hP sP
-  obtain ⟨hL, sL⟩ := prep_packL (w := 7) (g := x) (by norm_num)
-  have e : P = packL 7 (imageList x) :=
-    PF.eq_of_fields (by norm_num) sP sL fun i hi => by rw [hP ⟨i, hi⟩, hL ⟨i, hi⟩]
-  unfold badY qY
-  rw [ordIs_eq kSz hP sP (by norm_num), ← e]
-  cases decide (orderOf x = 4) <;> rfl
+theorem ppairWit_congr (n w : Nat) (sp0 : List Nat) {sp sp' : List Nat} (h : ∀ x, x ∈ sp ↔ x ∈ sp')
+    (R C Ci : Nat) : ppairWit n w sp0 sp R C Ci = ppairWit n w sp0 sp' R C Ci := by
+  have ha : ∀ f : Nat → Bool, sp.any f = sp'.any f := fun f =>
+    Bool.eq_iff_iff.2 (by simp only [List.any_eq_true, h])
+  have hl : ∀ f : Nat → Bool, sp.all f = sp'.all f := fun f =>
+    Bool.eq_iff_iff.2 (by simp only [List.all_eq_true, h])
+  unfold ppairWit pmem
+  simp only [List.all_map, List.any_map, ha, hl]
+
+theorem mem_iff_sg {L L' : List Nat} (hL : ∀ a ∈ L, PP 120 7 a) (hL' : ∀ a ∈ L', PP 120 7 a)
+    (h : ∀ g, g ∈ L.map (sg 120 7) ↔ g ∈ L'.map (sg 120 7)) : ∀ x, x ∈ L ↔ x ∈ L' := by
+  have k : ∀ {A B : List Nat}, (∀ a ∈ A, PP 120 7 a) → (∀ a ∈ B, PP 120 7 a) →
+      (∀ g, g ∈ A.map (sg 120 7) → g ∈ B.map (sg 120 7)) → ∀ x ∈ A, x ∈ B := by
+    intro A B hA hB hAB x hx
+    obtain ⟨b, hb, e⟩ := List.mem_map.1 (hAB _ (List.mem_map_of_mem hx))
+    rwa [(PP_eq_iff (hB b hb) (hA x hx)).2 e] at hb
+  exact fun x => ⟨k hL hL' (fun g => (h g).1) x, k hL' hL (fun g => (h g).2) x⟩
+
+theorem pspan_PP {R Y : Nat} (hR : PP 120 7 R) (hY : PP 120 7 Y) :
+    ∀ a ∈ pspan 120 7 R (pinv 120 7 R) Y (pinv 120 7 Y), PP 120 7 a := by
+  intro a ha
+  simp only [CFSG.KC.S7TwinK.pspan, List.mem_cons, List.not_mem_nil, or_false] at ha
+  rcases ha with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  exacts [PP.id kSz, hR.pc hR, hR, hR.pinv, hY, hY.pinv, hR.pc hY, hY.pc hR]
+
+theorem pspan_sg {R Y : Nat} (hR : PP 120 7 R) (hY : PP 120 7 Y) :
+    (pspan 120 7 R (pinv 120 7 R) Y (pinv 120 7 Y)).map (sg 120 7) =
+      [1, sg 120 7 R * sg 120 7 R, sg 120 7 R, (sg 120 7 R)⁻¹, sg 120 7 Y, (sg 120 7 Y)⁻¹,
+        sg 120 7 R * sg 120 7 Y, sg 120 7 Y * sg 120 7 R] := by
+  simp only [CFSG.KC.S7TwinK.pspan, List.map_cons, List.map_nil, sg_id kSz, sg_pc hR hR, sg_pc hR hY,
+    sg_pc hY hR, sg_pinv' hR, sg_pinv' hY]
+
+theorem o8Rec_facts {j : Nat} (hj : j < RS.N) : PP 120 7 (RS.E j) ∧
+    sg 120 7 (RS.E j) ∈ (sylQ ()).originalSubgroup ∧ orderOf (sg 120 7 (RS.E j)) = 4 := by
+  obtain ⟨x, hx, r, hr, s, hs, e⟩ := rec_conj j hj
+  have hc := (repLK_facts (kRL j hj)).2.2.1
+  have hP := prep_of_imageList hx
+  have hPP := PP_of_prep hP (PF.canon_facts hc).2.2.1
+  rw [sg_of_prep hPP hP, e]
+  set H := (sylQ ()).originalSubgroup
+  exact ⟨hPP, H.mul_mem (H.mul_mem hs (o8Reps_mem r hr)) (H.inv_mem hs),
+    (MulEquiv.orderOf_eq (MulAut.conj s) r).trans (o8Reps_ord r hr)⟩
+
+theorem o8Rep_facts {R : Nat} (hR : R ∈ repsK) : PP 120 7 R ∧
+    sg 120 7 R ∈ (sylQ ()).originalSubgroup ∧ orderOf (sg 120 7 R) = 4 := by
+  obtain ⟨i, hi, rfl⟩ := List.mem_map.1 hR
+  have hi' := List.mem_range.1 hi
+  have himg := imgR i hi'
+  have hPP := (tab_of_img himg (and_of_bAnd (allN_spec kO i hi')).1).1
+  have hm : (fourWords.map (evalCodes (sylWords.map (evalCodes (gens1c ()))))).getD i 1 ∈
+      fourReps () := by
+    rw [fourReps_eq, List.getD_eq_getElem _ _ (by simpa using hi')]
+    exact List.getElem_mem _
+  rw [sg_of_prep hPP (prep_of_imageList himg)]
+  exact ⟨hPP, o8Reps_mem _ hm, o8Reps_ord _ hm⟩
+
+theorem pq8_iff {R Y : Nat} (hR : PP 120 7 R) (hY : PP 120 7 Y) :
+    pq8Pair 120 7 R (pinv 120 7 R) Y = true ↔ sg 120 7 R * sg 120 7 R = sg 120 7 Y * sg 120 7 Y ∧
+      sg 120 7 R * sg 120 7 Y = sg 120 7 Y * (sg 120 7 R)⁻¹ := by
+  simp only [pq8Pair, Bool.and_eq_true, Nat.beq_eq, PP_eq_iff (hR.pc hR) (hY.pc hY),
+    PP_eq_iff (hR.pc hY) (hY.pc hR.pinv), sg_pc hR hR, sg_pc hY hY, sg_pc hR hY,
+    sg_pc hY hR.pinv, sg_pinv' hR]
+
+theorem o8_order_four {G : Type*} [Group G] {y y' : G} (hy : orderOf y = 4) (e : y' * y' = y * y) :
+    orderOf y' = 4 := by
+  have h2 : ∀ x : G, x ^ 2 = x * x := fun x => by simp only [pow_succ, pow_zero, one_mul]
+  have h4 : ∀ x : G, x ^ 4 = x * x * (x * x) := fun x => by
+    simp only [pow_succ, pow_zero, one_mul, mul_assoc]
+  have e4 : (4 : ℕ) = 2 ^ (1 + 1) := by norm_num
+  rw [e4]
+  refine orderOf_eq_prime_pow ?_ ?_
+  · intro h
+    rw [Nat.pow_one, h2, e, ← h2] at h
+    have := orderOf_dvd_of_pow_eq_one h
+    rw [hy] at this
+    omega
+  · rw [← e4, h4, e, ← h4, ← hy, pow_orderOf_eq_one]
+
+theorem prep_all : ∀ k j, j < RS.N → pg 7 (mask 7) (RS.E j) 0 = k →
+    ∀ p ∈ repsK.zip candsK, prepY 120 7 sp0K p.1 p.2 (RS.E j) = true := by
+  intro k
+  induction k using Nat.strong_induction_on with
+  | _ k ih =>
+  intro j hj hk p hp
+  obtain ⟨hYP, hyH, hy4⟩ := o8Rec_facts hj
+  obtain ⟨hRP, hrH, -⟩ := o8Rep_facts (List.of_mem_zip hp).1
+  have hc := List.all_eq_true.1 (rec_pairs hj hYP (by rw [← hy4]; exact pow_orderOf_eq_one _)) p hp
+  cases hcq : canonQ 7 p.1 (RS.E j) (pinv 120 7 (RS.E j))
+  case true =>
+    rw [hcq, Bool.not_true, Bool.false_or] at hc
+    exact hc
+  unfold prepY
+  cases hq : pq8Pair 120 7 p.1 (pinv 120 7 p.1) (RS.E j)
+  case false => rfl
+  obtain ⟨h1, h2⟩ := (pq8_iff hRP hYP).1 hq
+  have h4 : sg 120 7 (RS.E j) ^ 4 = 1 := by
+    rw [← hy4]
+    exact pow_orderOf_eq_one _
+  have hsp0 : ∀ a ∈ sp0K, PP 120 7 a := by
+    have hX := tX0.1
+    have hY := tY0.1
+    exact pspan_PP hX hY
+  have step : ∀ Y', PP 120 7 Y' → (sg 120 7 Y' = (sg 120 7 (RS.E j))⁻¹ ∨
+      sg 120 7 Y' = sg 120 7 p.1 * sg 120 7 (RS.E j) ∨
+      sg 120 7 Y' = sg 120 7 (RS.E j) * sg 120 7 p.1) → pg 7 (mask 7) Y' 0 < k →
+      (p.2.any fun c =>
+        ppairWit 120 7 sp0K (pspan 120 7 p.1 (pinv 120 7 p.1) (RS.E j) (pinv 120 7 (RS.E j)))
+          p.1 c.1 c.2) = true := by
+    intro Y' hP' hy' hlt
+    obtain ⟨g1, g2, g3, gm⟩ := q8_partner h1 h2 h4 hy'
+    have hH : sg 120 7 Y' ∈ (sylQ ()).originalSubgroup := by
+      rcases hy' with e | e | e <;> rw [e]
+      exacts [Subgroup.inv_mem _ hyH, Subgroup.mul_mem _ hrH hyH, Subgroup.mul_mem _ hyH hrH]
+    obtain ⟨j', hj', himg', -⟩ := rec_cover _ hH (o8_order_four hy4 g3)
+    have hPj := (o8Rec_facts hj').1
+    have eY : RS.E j' = Y' :=
+      (PP_eq_iff hPj hP').2 (sg_of_prep hPj (prep_of_imageList himg'))
+    have hI := ih _ (by rw [eY]; exact hlt) j' hj' rfl p hp
+    rw [eY] at hI
+    unfold prepY at hI
+    rw [(pq8_iff hRP hP').2 ⟨g1, g2⟩, Bool.not_true, Bool.false_or] at hI
+    have hm := mem_iff_sg (pspan_PP hRP hYP) (pspan_PP hRP hP') (by
+      rw [pspan_sg hRP hYP, pspan_sg hRP hP']
+      exact gm)
+    rw [← hI]
+    simp only [ppairWit_congr 120 7 sp0K hm]
+  have hne : pg 7 (mask 7) (pinv 120 7 (RS.E j)) 0 < k ∨
+      pg 7 (mask 7) (pc 120 7 p.1 (RS.E j)) 0 < k ∨ pg 7 (mask 7) (pc 120 7 (RS.E j) p.1) 0 < k := by
+    rw [pg_pc0, pg_pc0, ← hk]
+    by_contra hn
+    simp only [not_or, Nat.not_lt] at hn
+    have hct : canonQ 7 p.1 (RS.E j) (pinv 120 7 (RS.E j)) = true := by
+      unfold canonQ
+      simp only [bAnd_iff, Nat.ble_eq]
+      exact ⟨hn.1, hn.2.1, hn.2.2⟩
+    rw [hcq] at hct
+    exact Bool.noConfusion hct
+  rw [Bool.not_true, Bool.false_or]
+  rcases hne with hl | hl | hl
+  · exact step _ hYP.pinv (.inl (sg_pinv' hYP)) hl
+  · exact step _ (hRP.pc hYP) (.inr (.inl (sg_pc hRP hYP))) hl
+  · exact step _ (hYP.pc hRP) (.inr (.inr (sg_pc hYP hRP))) hl
 
 theorem cover : ∀ T ∈ cosetOrderTables (sylQ ()) 1 4,
     ∃ Y, PP 120 7 Y ∧ T = tabP 120 7 Y ∧ pairsY 120 7 sp0K repsK candsK Y = true := by
   intro T hT
-  rw [sylQ_eq] at hT
+  have hQ : ValidSchreier (sylQ ()) := by
+    have h := sylow
+    simp only [o8TwinSylow, Bool.and_eq_true] at h
+    exact h.1
   have hs : T.size = 120 := by
-    unfold cosetOrderTables at hT
-    exact filterProducts_size _ _ [] (by simp [toTable]) (fun _ h => absurd h List.not_mem_nil) T hT
+    have hT' := hT
+    rw [sylQ_eq] at hT'
+    unfold cosetOrderTables at hT'
+    exact filterProducts_size _ _ [] (by simp [toTable]) (fun _ h => absurd h List.not_mem_nil) T
+      hT'
   obtain ⟨h, hh, hTh⟩ := exists_of_forall₂
     (forall₂_cosetOrderTables (by norm_num : (120 : ℕ) < 2 ^ 32) _ 1 (by norm_num : 0 < 4)) T hT
   rw [List.mem_reverse, List.mem_filter, decide_eq_true_eq] at hh
   obtain ⟨hmem, ho⟩ := hh
-  have hc := enumFrom_spec chainS (q := qY) hpq 5 0 (by norm_num) One120 1 0
-    (prep_of_imageList one120) (by unfold One120; exact PF.pidn_shr (by norm_num) (by norm_num))
-  rw [enum_zero, Nat.zero_add] at hc
-  rw [enumeration_trL chainS (by decide) (by decide)] at hmem
-  simp only [Nat.zero_add] at hc
-  have hq := List.countP_eq_zero.1 hc.symm h hmem
-  simp only [qY, ho, decide_true, Bool.true_and, Bool.not_eq_true', Bool.not_eq_false'] at hq
-  obtain ⟨hP, sP⟩ := prep_packL (w := 7) (g := h) (by norm_num)
-  exact ⟨_, PP_of_prep hP sP, eq_tabP_of_rep (by norm_num) hs hTh
-    (CFSG.KC.KGC31P.imageList_of_prep hP), by simpa using hq⟩
+  have hH : h ∈ (sylQ ()).originalSubgroup := by
+    obtain ⟨g, hg, rfl⟩ := List.mem_map.1 hmem
+    rw [one_mul]
+    exact (mem_enumeration_iff _ hQ g).1 hg
+  obtain ⟨j, hj, himg, -⟩ := rec_cover h hH ho
+  have hc := (repLK_facts (kRL j hj)).2.2.1
+  have hP := prep_of_imageList himg
+  have hPP := PP_of_prep hP (PF.canon_facts hc).2.2.1
+  exact ⟨RS.E j, hPP, eq_tabP_of_rep (by norm_num) hs hTh (CFSG.KC.KGC31P.imageList_of_prep hP),
+    List.all_eq_true.2 (prep_all _ j hj rfl)⟩
 where
   exists_of_forall₂ {α β : Type} {R : α → β → Prop} :
       ∀ {l₁ : List α} {l₂ : List β}, List.Forall₂ R l₁ l₂ → ∀ a ∈ l₁, ∃ b ∈ l₂, R a b

@@ -29,7 +29,8 @@ open CFSG.KC.Enum
     Nat.add p (Nat.shiftLeft (spImgMask p (spMask c)) (nat_lit 24))
 
 @[expose] noncomputable def stabB (x g : Nat) : Bool :=
-  strictB (spMul (spMul g x) g) fun c => bIf(Nat.beq c x, true, Nat.beq c (spMul x negC))
+  strictB (spMul g x) fun a => strictB (spMul a g) fun c =>
+    bIf(Nat.beq c x, true, Nat.beq c (spMul x negC))
 
 @[expose] noncomputable def uniqueAt (GC x : Nat) : Bool :=
   bIf(bAnd(Nat.beq (spMul x x) spId, bAnd(notB' (Nat.beq x spId), bAnd(notB' (Nat.beq x negC),
@@ -39,22 +40,23 @@ open CFSG.KC.Enum
 @[expose] noncomputable def commB (x g : Nat) : Bool := Nat.beq (spMul x g) (spMul g x)
 
 @[expose] noncomputable def centerCAt (GC CG x : Nat) : Bool :=
-  bIf(bAnd(commB x (signC (nat_lit 15)), bAnd(allN (nat_lit 7) (fun k => commB x (e32 GC k)),
-      allN (nat_lit 6) (fun k => commB x (e32 CG k)))),
+  bIf(bAnd(commB x (signC (nat_lit 15)), bAnd(commB x (e32 GC (nat_lit 3)),
+      bAnd(commB x (e32 CG (nat_lit 2)), bAnd(allN (nat_lit 7) (fun k => commB x (e32 GC k)),
+      allN (nat_lit 6) (fun k => commB x (e32 CG k)))))),
     bIf(Nat.beq x spId, true, bIf(Nat.beq x (signC (nat_lit 15)), true,
       bIf(Nat.beq x (signC (nat_lit 240)), true, Nat.beq x negC))), true)
 
-@[expose] noncomputable def cfB (x xi d : Nat) : Bool := frameK' (spMul (spMul (spMul x d) xi) d)
+@[expose] noncomputable def cfB (x xi d : Nat) : Bool :=
+  strictB (spMul x d) fun a => strictB (spMul a xi) fun b => strictB (spMul b d) fun c => frameK' c
 
 @[expose] noncomputable def centerModAt (GC CG x : Nat) : Bool :=
-  strictB (spInvK x) fun xi =>
-  bAnd(okC xi, bAnd(Nat.beq (spMul x xi) spId,
-    bIf(bAnd(commB x (signC (nat_lit 15)),
-        bAnd(allN (nat_lit 7) (fun k => cfB x xi (e32 GC k)),
-          allN (nat_lit 6) (fun k => cfB x xi (e32 CG k)))),
-      strictB (spMul x (signC (nat_lit 5))) fun a =>
-      bIf(frameK' x, true, bIf(frameK' a, true, bIf(frameK' (spMul x (signC (nat_lit 80))), true,
-        frameK' (spMul a (signC (nat_lit 80)))))), true)))
+  bIf(commB x (signC (nat_lit 15)),
+    strictB (spInvK x) fun xi =>
+    bAnd(okC xi, bAnd(Nat.beq (spMul x xi) spId,
+      bIf(bAnd(cfB x xi (e32 GC (nat_lit 3)), cfB x xi (e32 CG (nat_lit 2))),
+        strictB (spMul x (signC (nat_lit 5))) fun a =>
+        bIf(frameK' x, true, bIf(frameK' a, true, bIf(frameK' (spMul x (signC (nat_lit 80))), true,
+          frameK' (spMul a (signC (nat_lit 80)))))), true))), true)
 
 @[expose] noncomputable def uAt (PP GC CG i : Nat) : Bool :=
   strictB (tcK PP i) fun t => strictB (spMul t s0C) fun ts =>

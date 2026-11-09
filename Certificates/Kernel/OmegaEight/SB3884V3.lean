@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.OmegaEight.SB3884
+public import Certificates.Kernel.OmegaEight.SB3884VL
 public import Certificates.Kernel.OmegaEight.SB3884S3
 public import Certificates.Kernel.OmegaEight.SB3873D3
 
@@ -23,26 +23,28 @@ theorem hl : lOK 0 = true := by decide +kernel
 
 theorem hio : iotaOK (MK 0 31 0) 3 = true := by decide +kernel
 
+theorem hlo : (invRows30.take 8).flatten = sInvListLit := by decide +kernel
+
 theorem hI : kInv (MK 0 31 0) 131072 = invRows30.flatten :=
-  kInv_of_partB ⟨by decide, fun s hs => by interval_cases s <;> decide +kernel⟩
+  kInv_of_hiR (by decide) hlo (by decide) (by decide) mulK_zero fun s hs => by interval_cases s <;> decide +kernel
 
-theorem c0 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_0 = true := by
-  decide +kernel
+theorem c0 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_0 = true :=
+  centOK3_of_lo rfl vLo0 (by decide +kernel)
 
-theorem c1 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_1 = true := by
-  decide +kernel
+theorem c1 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_1 = true :=
+  centOK3_of_split (n := 8192) rfl (by decide +kernel) vLo1 (by decide +kernel)
 
-theorem c2 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_2 = true := by
-  decide +kernel
+theorem c2 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_2 = true :=
+  centOK3_of_lo rfl vLo2 (by decide +kernel)
 
-theorem c3 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_3 = true := by
-  decide +kernel
+theorem c3 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_3 = true :=
+  centOK3_of_split (n := 8192) rfl (by decide +kernel) vLo3 (by decide +kernel)
 
-theorem c4 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_4 = true := by
-  decide +kernel
+theorem c4 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_4 = true :=
+  centOK3_of_lo rfl vLo4 (by decide +kernel)
 
-theorem c5 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_5 = true := by
-  decide +kernel
+theorem c5 : centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32 cent3_5 = true :=
+  centOK3_of_lo rfl vLo5 (by decide +kernel)
 
 theorem hc : (cents3.all (centOK3 (MK 0 31 0) (IK 0 31 0) t1Gens 131072 32)) = true := by
   simp only [cents3, List.all_cons, List.all_nil, Bool.and_true, c0, c1, c2, c3, c4, c5]
@@ -51,8 +53,11 @@ theorem h8l : (kRepsC (t1Cls 0 31 0) 8).length ≤ 4 * 4 := by decide +kernel
 
 theorem h8 : ∀ s < 4, ((chunks 4 4 (kRepsC (t1Cls 0 31 0) 8)).getD s []).all
     (fun r => l2Like.contains r || kCount (MK 0 31 0) invRows30.flatten r != 1439) = true := by
-  intro s hs
-  interval_cases s <;> decide +kernel
+  have hv : ∀ s < 4, ((chunks 4 4 (kRepsC (t1Cls 0 31 0) 8)).getD s []).all
+      (fun r => l2Like.contains r || vCnt8 0 31 0 (invRows30.drop 8).flatten r) = true := by
+    intro s hs
+    interval_cases s <;> decide +kernel
+  exact fun s hs => all_or_vCnt8 hlo (hv s hs)
 
 theorem hR : l2SurvR cents3 = true := by decide +kernel
 
@@ -64,8 +69,8 @@ theorem h16 : ∀ s < 6, ((chunks 4 6 (kRepsC (t1Cls 0 31 0) 16)).getD s []).all
   intro s hs
   interval_cases s <;> decide +kernel
 
-theorem hF : ∀ e ∈ s2Canon.getD 3 [], wAOK e.1 e.2.1 = true ∧ lOK e.1 = true := by
-  decide +kernel
+theorem hF : ∀ e ∈ s2Canon.getD 3 [], wAOK e.1 e.2.1 = true ∧ lOK e.1 = true :=
+  hF_of_wAP (by decide +kernel)
 
 theorem hA : ((s2Canon.getD 3 []).all fun e =>
     l2ActK (MK 0 31 0) (IoK (MK 0 31 0) 3) (FAK e.1 e.2.1) e.2.2.1 e.2.2.2 recs3 &&

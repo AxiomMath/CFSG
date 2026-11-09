@@ -106,7 +106,7 @@ theorem probe_fold {Y J : Nat} (hY : Cn Y) (hJ : Cn J) :
       p.foldl (fun T e => compT 1408 T (compT 1408 (powsT (tabT (unpack 1408 11 Y)))[e]!
         (tabT (unpack 1408 11 J)))) (tabT (unpack 1408 11 acc)) =
         tabT (unpack 1408 11 (p.foldl (fun a e => pc a (pc (ppK Y e) J)) acc))
-  | [], _, _, _ => rfl
+  | [], _, _, _ => by rw [List.foldl_nil, List.foldl_nil]
   | e :: p, hp, acc, hacc => by
     have he := hp e List.mem_cons_self
     rw [List.foldl_cons, List.foldl_cons, powsT_get he, powT_eq hY, compT_unpack (cn_ppK hY e) hJ,
@@ -222,7 +222,7 @@ theorem relFold {A B AI BI : Nat} (hA : Cn A) (hB : Cn B) (hAI : Cn AI) (hBI : C
           else tabT (unpack 1408 11 idK))) (tabT (unpack 1408 11 acc)) =
         tabT (unpack 1408 11 (w.foldl (fun a l => pc a (selK A B AI BI l)) acc)) ∧
       Cn (w.foldl (fun a l => pc a (selK A B AI BI l)) acc)
-  | [], _, h => ⟨rfl, h⟩
+  | [], _, h => ⟨by rw [List.foldl_nil, List.foldl_nil], by rw [List.foldl_nil]; exact h⟩
   | l :: w, acc, hacc => by
     obtain ⟨e, hs⟩ := sel_eq hA hB hAI hBI l
     rw [List.foldl_cons, List.foldl_cons, e, compT_unpack hacc hs]

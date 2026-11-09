@@ -45,7 +45,8 @@ theorem kSmall : (eqK (powWK ZK 5) oneK && notB (eqK ZK oneK) && eqK ZK KC.Z0 &&
     eqK (mulWK ZK S1K) (mulWK S1K ZK) && eqK (mulWK ZK S2K) (mulWK S2K ZK) &&
     eqK ZK (mulWK (mulWK T1K T2K) (mulWK (DC.MI 88) (DC.MI 89)))) = true := by quickRfl
 
-theorem kTT : (gtPinK TM 2 200 TT.N TT.P TT.PAR TT.LAB TT.W TT.S && Nat.beq TT.N 125) = true := by
+theorem kTT : (bfsK (gtStepK TM) TT.P TT.PAR TT.LAB TT.W TT.S 2 200 TT.N idM && Nat.beq TT.N 125) =
+    true := by
   quickRfl
 
 theorem kNorm : (bfsMemK TT.P TT.S TT.N (mulWK (mulWK S1K T1K) (DC.MI 90)) &&

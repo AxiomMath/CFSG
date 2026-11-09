@@ -1,24 +1,39 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Fi23.Data1
-import CFSG.Certificates.Kernel.BabyMonster.Fi23.Data2
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.Fi23 g0 CFSG.KC.BM.Twin.prod 4370 2412240 3348012874947083899 V U
-#kc_eval CFSG.KC.BM.Fi23 g1 CFSG.KC.BM.Twin.prod 4370 2412240 16007013913174980996 g0 V
-#kc_eval CFSG.KC.BM.Fi23 g2 CFSG.KC.BM.Twin.prod 4370 2412240 15763180287870292008 g0 g0
-#kc_eval CFSG.KC.BM.Fi23 g3 CFSG.KC.BM.Twin.prod 4370 2412240 8084506792489864743 g1 g1
-#kc_eval CFSG.KC.BM.Fi23 g4 CFSG.KC.BM.Twin.prod 4370 2412240 18304414739940462782 g2 g0
-#kc_eval CFSG.KC.BM.Fi23 g5 CFSG.KC.BM.Twin.prod 4370 2412240 4712708762781796637 g3 g4
-#kc_eval CFSG.KC.BM.Fi23 g6 CFSG.KC.BM.Twin.prod 4370 2412240 13771113931055354708 g1 g2
-#kc_eval CFSG.KC.BM.Fi23 g7 CFSG.KC.BM.Twin.prod 4370 2412240 12528327506625704574 g3 g0
-#kc_eval CFSG.KC.BM.Fi23 g8 CFSG.KC.BM.Twin.prod 4370 2412240 17507347435589454464 g5 g5
-#kc_eval CFSG.KC.BM.Fi23 g9 CFSG.KC.BM.Twin.prod 4370 2412240 14279979058810936197 g1 g0
-#kc_eval CFSG.KC.BM.Fi23 g10 CFSG.KC.BM.Twin.prod 4370 2412240 9097932025660159311 g3 g2
-#kc_eval CFSG.KC.BM.Fi23 g11 CFSG.KC.BM.Twin.prod 4370 2412240 13264964338484909935 g6 g2
-#kc_eval CFSG.KC.BM.Fi23 g12 CFSG.KC.BM.Twin.prod 4370 2412240 11079758035132026818 g3 g6
-#kc_eval CFSG.KC.BM.Fi23 g13 CFSG.KC.BM.Twin.prod 4370 2412240 17598374057632272880 g10 g5
-#kc_eval CFSG.KC.BM.Fi23 g14 CFSG.KC.BM.Twin.prod 4370 2412240 9917987581872523083 g2 g2
-#kc_eval CFSG.KC.BM.Fi23 g15 CFSG.KC.BM.Twin.prod 4370 2412240 5531103340036653098 g6 g1
-#kc_eval CFSG.KC.BM.Fi23 g16 CFSG.KC.BM.Twin.prod 4370 2412240 3927634842765371076 U V
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g0
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g0.bin" 2412240 3348012874947083899
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g1
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g1.bin" 2412240 16007013913174980996
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g2
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g2.bin" 2412240 15763180287870292008
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g3
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g3.bin" 2412240 8084506792489864743
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g4
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g4.bin" 2412240 18304414739940462782
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g5
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g5.bin" 2412240 4712708762781796637
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g6
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g6.bin" 2412240 13771113931055354708
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g7
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g7.bin" 2412240 12528327506625704574
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g8
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g8.bin" 2412240 17507347435589454464
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g9
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g9.bin" 2412240 14279979058810936197
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g10
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g10.bin" 2412240 9097932025660159311
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g11
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g11.bin" 2412240 13264964338484909935
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g12
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g12.bin" 2412240 11079758035132026818
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g13
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g13.bin" 2412240 17598374057632272880
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g14
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g14.bin" 2412240 9917987581872523083
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g15
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g15.bin" 2412240 5531103340036653098
+#kc_repo #bm_mat CFSG.KC.BM.Fi23 g16
+  "CFSG/Certificates/Kernel/BabyMonster/Fi23/data/g16.bin" 2412240 3927634842765371076

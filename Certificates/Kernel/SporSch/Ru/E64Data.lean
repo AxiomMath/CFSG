@@ -47,6 +47,11 @@ meta def wM : Array (Array Nat) :=
 
 meta def cdM : Array (Array Nat) := #[codes]
 
+meta def yM : Array (Array Nat) :=
+  (List.range 4).toArray.map fun r =>
+    let s := g2SW (g2ConjWords.getD r [])
+    (List.range 2).toArray.map fun x => ((List.range 4060).find? fun i => s[i]! == x).getD 0
+
 end CertificateChecks.KernelSporSch.RuE64D
 
 #kmisc_packarrs CertificateChecks.KernelSporSch.RuE64D.CD CertificateChecks.KernelSporSch.RuE64D.cdM 14
@@ -55,5 +60,6 @@ end CertificateChecks.KernelSporSch.RuE64D
 #kmisc_packarrs CertificateChecks.KernelSporSch.RuE64D.D CertificateChecks.KernelSporSch.RuE64D.degM 10
 #kmisc_packarrs CertificateChecks.KernelSporSch.RuE64D.W CertificateChecks.KernelSporSch.RuE64D.wM 1
 #kmisc_packarrs CertificateChecks.KernelSporSch.RuE64D.UB CertificateChecks.KernelSporSch.RuE64D.ubM 12
+#kmisc_packarrs CertificateChecks.KernelSporSch.RuE64D.YB CertificateChecks.KernelSporSch.RuE64D.yM 12
 
 end

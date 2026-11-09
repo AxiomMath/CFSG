@@ -12,27 +12,6 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim
 open CFSG.Certificates.Native CFSG.Monster.B.Co2.Native CFSG.Sporadic.Schreier.Tits
 open CFSG.Monster.B.Co2 (Rep eqA_iff rep_compA rep_idA)
 
-theorem all5K_soundA {kS BP : Nat} {PS PSI LR TR TRI : Nat → Nat} {S : Array (Array Nat)}
-    {base : Array Nat} {p : Array Nat → Bool} {P : Nat → Nat → Nat → Nat → Nat → Bool}
-    (hb : Binds 1755 11 PS kS 5 BP S base)
-    (hp : allN kS (fun j => permOK 1755 11 (mask 11) (1755 * 11) (PS j) (PSI j)) = true)
-    (hl : LevelsOK 1755 11 PS PSI LR TR TRI kS 5 BP) (hP : Agrees LR TR P p)
-    (h : all5K 1755 (1755 * 11) LR TR (fun _ => P) = true) :
-    all5 1755 (rawLevels 1755 S base) p = true := by
-  have c0 := (lev_trAt hb hp hl (i := 0) (by omega)).1
-  have c1 := (lev_trAt hb hp hl (i := 1) (by omega)).1
-  have c2 := (lev_trAt hb hp hl (i := 2) (by omega)).1
-  have c3 := (lev_trAt hb hp hl (i := 3) (by omega)).1
-  have c4 := (lev_trAt hb hp hl (i := 4) (by omega)).1
-  unfold all5
-  rw [c0, c1, c2, c3, c4]
-  refine CFSG.Monster.B.Co2.allLt_iff.2 fun a ha => CFSG.Monster.B.Co2.allLt_iff.2 fun b hb' =>
-    CFSG.Monster.B.Co2.allLt_iff.2 fun c hc => CFSG.Monster.B.Co2.allLt_iff.2 fun d hd =>
-    CFSG.Monster.B.Co2.allLt_iff.2 fun e he => ?_
-  obtain ⟨-, eg, -⟩ := prod5_facts hb hp hl ha hb' hc hd he
-  rw [eg, ← hP _ _ _ _ _ ⟨⟨a, ha, rfl⟩, ⟨b, hb', rfl⟩, ⟨c, hc, rfl⟩, ⟨d, hd, rfl⟩, ⟨e, he, rfl⟩⟩]
-  exact all5K_at h ha hb' hc hd he
-
 theorem baseEqF_eq {BP : Nat} {base : Array Nat} {G : Subgroup (Equiv.Perm (Fin 1755))}
     (hsep : ∀ γ ∈ G, (∀ t < 5, ∀ h : base[t]! < 1755, γ ⟨base[t]!, h⟩ = ⟨base[t]!, h⟩) → γ = 1)
     (hbl : ∀ t < 5, base[t]! < 1755) (hBP : ∀ t < 5, base[t]! = pg 11 (mask 11) BP t)

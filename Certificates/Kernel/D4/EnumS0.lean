@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Data.TriD4TwoRow
 public import Certificates.Kernel.B3S3.GenSl
 public meta import Certificates.Data.TriD4TwoRow

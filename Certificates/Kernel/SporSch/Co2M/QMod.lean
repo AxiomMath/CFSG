@@ -3,7 +3,6 @@ module
 public import Certificates.Kernel.SporSch.Co2M.Local
 public import CFSG.Certificates.Kernel.SporSch.SpanKSound
 public import CFSG.Monster.B.Co2.PermArr
-public meta import CFSG.Sporadic.Co2Schreier.QCheckInputs
 meta import Certificates.Kernel.SporSch.HN.GenNTree
 import Certificates.Kernel.SporSch.Co2M.Six
 import CFSG.Certificates.Kernel.Common.Harness
@@ -19,10 +18,8 @@ set_option exponentiation.threshold 600
 
 namespace CertificateChecks.KernelSporSch.Co2M
 
-open CFSG.Sporadic.Co2Schreier CFSG.Sporadic.SmallF2.Native
-
-meta def spanTabs : List Nat := [0, 1].map fun i =>
-  (List.range 256).foldl (fun acc a => acc ||| (vecMulN 8 (qActCols witRec i) a <<< (8 * a))) 0
+meta def spanTabs : List Nat :=
+  (String.splitOn (include_str "QMod.0.txt") ",").map String.toNat!
 
 end CertificateChecks.KernelSporSch.Co2M
 

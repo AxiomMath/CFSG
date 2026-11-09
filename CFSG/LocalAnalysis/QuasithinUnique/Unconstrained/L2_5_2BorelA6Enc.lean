@@ -195,9 +195,41 @@ theorem closed_ok : closedB (d0Gens.map R6.enc) d0L = true ∧
     closedB (vaGens.map R6.enc) vaL = true ∧ closedB (vbGens.map R6.enc) vbL = true := by
   decide +kernel
 
-theorem cover_ok : ∀ x : P6, Perm.sign x = 1 →
+private theorem cover_ok_0 : ∀ x : P6, x 0 = 0 → Perm.sign x = 1 →
     ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
   decide +kernel
+
+private theorem cover_ok_1 : ∀ x : P6, x 0 = 1 → Perm.sign x = 1 →
+    ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
+  decide +kernel
+
+private theorem cover_ok_2 : ∀ x : P6, x 0 = 2 → Perm.sign x = 1 →
+    ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
+  decide +kernel
+
+private theorem cover_ok_3 : ∀ x : P6, x 0 = 3 → Perm.sign x = 1 →
+    ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
+  decide +kernel
+
+private theorem cover_ok_4 : ∀ x : P6, x 0 = 4 → Perm.sign x = 1 →
+    ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
+  decide +kernel
+
+private theorem cover_ok_5 : ∀ x : P6, x 0 = 5 → Perm.sign x = 1 →
+    ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
+  decide +kernel
+
+theorem cover_ok : ∀ x : P6, Perm.sign x = 1 →
+    ∃ i : Fin 9, ∃ d ∈ d0L, ∃ e ∈ d0L, R6.enc x = d * R6.enc (rep i) * e := by
+  intro x hx
+  have key : ∀ y : Fin 6, y = 0 ∨ y = 1 ∨ y = 2 ∨ y = 3 ∨ y = 4 ∨ y = 5 := by decide
+  rcases key (x 0) with h | h | h | h | h | h
+  · exact cover_ok_0 x h hx
+  · exact cover_ok_1 x h hx
+  · exact cover_ok_2 x h hx
+  · exact cover_ok_3 x h hx
+  · exact cover_ok_4 x h hx
+  · exact cover_ok_5 x h hx
 
 theorem tab_ok : ∀ t ∈ tabE, R6.enc t.w ∈ d0L ∧ R6.enc t.d ∈ d0L ∧ R6.enc t.e ∈ d0L ∧
     R6.enc (rep t.i) * R6.enc t.w * R6.enc (rep t.j) = R6.enc t.d * R6.enc (rep t.k) * R6.enc t.e := by

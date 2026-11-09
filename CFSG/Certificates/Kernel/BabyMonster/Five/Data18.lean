@@ -1,19 +1,21 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Five.Data11
-import CFSG.Certificates.Kernel.BabyMonster.Five.Data17
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.Five Zp3 CFSG.KC.BM.Twin.prod 4370 2412240 5244711190165119936 Zp2 Z
-#kc_eval CFSG.KC.BM.Five f72_sq2 CFSG.KC.BM.Twin.prod 4370 2412240 5815978747764867515 f72_sq1 f72_sq1
-#kc_eval CFSG.KC.BM.Five f76 CFSG.KC.BM.Twin.prod 4370 2412240 11020676813368490489 f71 f72_sq2
-#kc_eval CFSG.KC.BM.Five f74 CFSG.KC.BM.Twin.inv 4370 2412240 15022386878594274793 f72_sq2
-#kc_eval CFSG.KC.BM.Five f75 CFSG.KC.BM.Twin.prod 4370 2412240 17572807392351984266 f71 f74
-#kc_eval CFSG.KC.BM.Five f77 CFSG.KC.BM.Twin.prod 4370 2412240 584372997371593910 f75 f76
-#kc_eval CFSG.KC.BM.Five f78 CFSG.KC.BM.Twin.prod 4370 2412240 9637748761745075036 f77 f77
-#kc_eval CFSG.KC.BM.Five f79 CFSG.KC.BM.Twin.prod 4370 2412240 15660567556971439649 f72_sq2 f78
-#kc_eval CFSG.KC.BM.Five f82 CFSG.KC.BM.Twin.prod 4370 2412240 15921512672389023112 f71 f79
-#kc_eval CFSG.KC.BM.Five f80 CFSG.KC.BM.Twin.inv 4370 2412240 653996408739559719 f79
-#kc_eval CFSG.KC.BM.Five f81 CFSG.KC.BM.Twin.prod 4370 2412240 6855170935365281417 f71 f80
-#kc_eval CFSG.KC.BM.Five f83 CFSG.KC.BM.Twin.prod 4370 2412240 14450500268429803396 f81 f82
+#kc_repo #bm_mat CFSG.KC.BM.Five f83
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/f83.bin" 2412240 14450500268429803396
+#kc_repo #bm_mat CFSG.KC.BM.Five f84
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/f84.bin" 2412240 6932032929713250342
+#kc_repo #bm_mat CFSG.KC.BM.Five f85
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/f85.bin" 2412240 3179044564044551236
+#kc_repo #bm_mat CFSG.KC.BM.Five f85_sq1
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/f85_sq1.bin" 2412240 2457438766504834736
+#kc_repo #bm_mat CFSG.KC.BM.Five W
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/W.bin" 2412240 10111193005018974725
+#kc_repo #bm_mat CFSG.KC.BM.Five f85_sq2
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/f85_sq2.bin" 2412240 8298315934634751787
+#kc_repo #bm_mat CFSG.KC.BM.Five W_sq1
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/W_sq1.bin" 2412240 10129400665818828960
+#kc_repo #bm_mat CFSG.KC.BM.Five ow_pp0
+  "CFSG/Certificates/Kernel/BabyMonster/Five/data/ow_pp0.bin" 2412240 2019840695232499596

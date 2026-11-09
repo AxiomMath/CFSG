@@ -50,6 +50,11 @@ local notation "P8" => Equiv.Perm (Fin 8)
   LA.all fun γ => !(decide (s8 * (γ⁻¹ * s8 * γ) * (s8 * (γ⁻¹ * s8 * γ)) = 1)) ||
     decide (s8 * (γ⁻¹ * s8 * γ) = 1) || T.any fun u => decide (u = s8 * (γ⁻¹ * s8 * γ))
 
+@[expose, noinline] def tauSwapCheck (T : List P8) : Bool :=
+  (List.finRange 8).all fun a => (List.finRange 8).all fun b => decide (a = b) ||
+    !(decide (s8 * Equiv.swap a b * (s8 * Equiv.swap a b) = 1)) ||
+    decide (s8 * Equiv.swap a b = 1) || T.any fun u => decide (u = s8 * Equiv.swap a b)
+
 @[expose] def four (e₁ e₂ : P8) : List P8 := [1, e₁, e₂, e₁ * e₂]
 
 @[expose, noinline] def n3Check (LL : List P8) (QL : RawSchreierDatum 8)
@@ -68,10 +73,24 @@ local notation "P8" => Equiv.Perm (Fin 8)
       ((four x.2.2.1 x.2.2.2).any fun u => decide (c * x.2.2.1 * c⁻¹ = u)) &&
         ((four x.2.2.1 x.2.2.2).any fun u => decide (c * x.2.2.2 * c⁻¹ = u))
 
-@[expose, noinline] def n4Check (LS LA T : List P8) : Bool :=
-  (LS.filter fun p => (T.any fun t => decide (p * p = t)) && decide (s8 * p * s8 = p⁻¹)).all
-    fun p => ((LS.filter fun θ => decide (θ * s8 = s8 * θ) && !decide (θ = 1) &&
-        decide (θ ^ 315 = 1)).all fun θ => !decide (θ * p = p * θ)) ||
-      LA.any fun π => decide (π * (p * p) * π⁻¹ = p * s8)
+@[expose] def sqRootOk (t : P8) (l : List (Fin 8)) : Bool :=
+  decide l.Nodup && (List.finRange 8).all fun i => !decide (i.val < l.length) ||
+    ((!decide ((l.getD i 0).val < l.length) || decide (l.getD (l.getD i 0) 0 = t i)) &&
+      (!decide ((t i).val < l.length) || decide (l.getD (t i) 0 = t (l.getD i 0))))
+
+@[expose] def sqRootVecs (t : P8) : Nat → List (List (Fin 8))
+  | 0 => [[]]
+  | k + 1 => (sqRootVecs t k).flatMap fun l =>
+    ((List.finRange 8).map fun x => l ++ [x]).filter (sqRootOk t)
+
+@[expose, noinline] def n4Check (LL T : List P8) (QA : RawSchreierDatum 8) : Bool :=
+  T.all fun t => let LT := LL.filter fun θ =>
+      ((List.finRange 8).all fun i => decide (θ (t i) = t (θ i))) &&
+        !((List.finRange 8).all fun i => decide (θ (θ (θ (θ i))) = i))
+    (sqRootVecs t 8).all fun l =>
+    (LT.all fun θ => !((List.finRange 8).all fun i => decide (θ (l.getD i 0) = l.getD (θ i) 0))) ||
+      QA.sift (Equiv.swap 1 (l.getD 1 0) * s8) 0 && (List.finRange 8).all fun i =>
+        decide ((Equiv.swap 1 (l.getD 1 0) * s8 * t * (Equiv.swap 1 (l.getD 1 0) * s8)⁻¹) i =
+          l.getD (s8 i) 0)
 
 end CFSG.ComponentClassification.GSThmB.A8

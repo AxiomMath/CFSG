@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.IF4S "Certificates/Kernel/IdxFour/data/sachain.json.gz" 56139
+#kc_repo #kc_json CFSG.KD.IF4S "Certificates/Kernel/IdxFour/data/sachain.json" 56139
   4785188013438877605 (B : List Nat) (O : List Nat) (SP : Nat) (SI : Nat) (WD : List (List Nat))
   (TL : List (List Nat)) (T : List Nat) (PS : List Nat) (TR : List (List (List Nat)))
 

@@ -4,6 +4,7 @@ public import CFSG.Quasithin.H13.L32AC48a
 public import CFSG.Quasithin.H13.Sp62Over
 public import CFSG.Quasithin.EmptyFaithful.S146F3
 public import CFSG.Quasithin.H13.L32AC47f
+public import CFSG.Quasithin.Background.L3CodeK
 
 public section
 
@@ -17,9 +18,27 @@ section SL3
 
 open Matrix
 
+theorem P0listC_map : CFSG.Quasithin.L3.CodeK.uniC.map CFSG.F2NatMat.SL3c.toSL = A6.SL3.P0list := by
+  decide +kernel
+
+theorem sl3_comm_fact_c : ∀ g : CFSG.F2NatMat.SL3c, g ≠ 1 → g ^ 21 = 1 →
+    ∃ s ∈ CFSG.Quasithin.L3.CodeK.uniC, (g⁻¹ * s * g * s⁻¹) ^ 4 ≠ 1 := by
+  decide +kernel
+
 theorem sl3_comm_fact : ∀ g : A6.SL3.S, g ≠ 1 → g ^ 21 = 1 →
     ∃ s ∈ A6.SL3.P0list, (g⁻¹ * s * g * s⁻¹) ^ 4 ≠ 1 := by
-  decide +kernel
+  intro g h1 h2
+  obtain ⟨g, rfl⟩ := CFSG.F2NatMat.SL3c.toSL_surjective g
+  simp only [← CFSG.F2NatMat.SL3c.toSL_one, ← CFSG.F2NatMat.SL3c.toSL_npow,
+    CFSG.F2NatMat.SL3c.toSL_injective.eq_iff, Ne] at h1 h2
+  obtain ⟨s, hs, h⟩ := sl3_comm_fact_c g h1 h2
+  rw [← P0listC_map]
+  refine ⟨_, List.mem_map_of_mem hs, ?_⟩
+  rw [← CFSG.F2NatMat.SL3c.toSL_inv, ← CFSG.F2NatMat.SL3c.toSL_inv,
+    ← CFSG.F2NatMat.SL3c.toSL_mul, ← CFSG.F2NatMat.SL3c.toSL_mul,
+    ← CFSG.F2NatMat.SL3c.toSL_mul, ← CFSG.F2NatMat.SL3c.toSL_npow,
+    ← CFSG.F2NatMat.SL3c.toSL_one, Ne, CFSG.F2NatMat.SL3c.toSL_injective.eq_iff]
+  exact h
 
 theorem sl3_two_elt : ∀ g : A6.SL3.S, g ^ 8 = 1 → g ^ 4 = 1 := by
   decide +kernel

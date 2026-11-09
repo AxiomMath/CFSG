@@ -7,6 +7,7 @@ public import Certificates.Data.Kernel.B3S3K
 public import Certificates.Kernel.B3S3.GenSl
 public meta import Certificates.Kernel.SuzPump.Src
 public meta import Certificates.Kernel.B3S3.GenSl
+import CFSG.Certificates.Kernel.BfsPinRunSl
 import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 400000

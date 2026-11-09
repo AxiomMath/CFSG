@@ -8,14 +8,14 @@ public import CFSG.YGroups.Y443.Native.EdgeNoncomm
 
 public section
 
-#kc_chain CFSG.KD.M7L "look.plan.txt" 42600 8639487697920514786
+#kc_chain CFSG.KD.M7L "look.plan.txt" 45404 1597765480735804247
 
 namespace CFSG.KD.M7L
 
 open CFSG.KC.KDense CFSG.KC.KDenseP
 
 @[expose] noncomputable def look (l : List Nat) : Bool × Nat :=
-  lookT CT SC PI (nat_lit 638) CFSG.KD.M7M.MT.keys l
+  lookT CT SC PI (nat_lit 680) CFSG.KD.M7M.MT.keys l
 
 @[expose] noncomputable def chkPL (P : CFSG.KC.KDenseP.MonSeven.Prs) (S : Nat → St) (c : Nat) :
     Bool :=

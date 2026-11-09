@@ -1,6 +1,7 @@
 module
 
 public import CFSG.HardMathSupport.Timmesfeld.LangTorus.InnerSmallF4Const
+public import CFSG.LieType.Chevalley.RootCodeLookup
 
 public section
 
@@ -112,9 +113,53 @@ private theorem splitOK_E7 :
     ∀ n : Fin Tag.E7.rootCertificate.roots.length, SplitOK .E7 n.1 := by
   decide +kernel
 
-private theorem splitOK_E8 :
-    ∀ n : Fin Tag.E8.rootCertificate.roots.length, SplitOK .E8 n.1 := by
+private def isRootC (τ : Tag) (v : Fin τ.rank → ℤ) : Bool :=
+  RootCode.inRange v && RootCode.memB τ.rootCertificate.roots (RootCode.code v)
+
+private theorem isRootB_eq_isRootC (hL : RootCode.CodesFit τ.rootCertificate = true)
+    (v : Fin τ.rank → ℤ) : RootOps.isRootB τ v = isRootC τ v := by
+  unfold RootOps.isRootB isRootC
+  rw [RootCode.memB_eq]
+  apply Bool.eq_iff_iff.2
+  rw [← RootCode.exists_root_iff _ hL v]
+  simp only [List.any_eq_true, List.mem_range, CFSG.LieType.Ree.vecBEq_iff]
+
+private def SplitOKC (τ : Tag) (n : ℕ) : Prop :=
+  let k := rootSplitFst τ n
+  let l := rootSplitSnd τ n
+  k < τ.rootCertificate.roots.length ∧
+  l < τ.rootCertificate.roots.length ∧
+  τ.rootCertificate.root n = τ.rootCertificate.root k + τ.rootCertificate.root l ∧
+  isRootC τ (τ.rootCertificate.root k) = true ∧
+  isRootC τ (τ.rootCertificate.root l) = true ∧
+  τ.rootCertificate.root k ≠ τ.rootCertificate.root n ∧
+  τ.rootCertificate.root k ≠ -τ.rootCertificate.root n ∧
+  τ.rootCertificate.root l ≠ τ.rootCertificate.root n ∧
+  τ.rootCertificate.root l ≠ -τ.rootCertificate.root n ∧
+  τ.rootCertificate.root k ≠ τ.rootCertificate.root l ∧
+  τ.rootCertificate.root k ≠ -τ.rootCertificate.root l ∧
+  commCandidates.filter (fun p => isRootC τ (RootOps.combAt τ k l p)) = [(1, 1)] ∧
+  (τ = .F4 →
+    isRootC τ (τ.rootCertificate.root l - τ.rootCertificate.root k) = false)
+
+private instance splitOKCDecidable (τ : Tag) (n : ℕ) : Decidable (SplitOKC τ n) := by
+  unfold SplitOKC
+  infer_instance
+
+private theorem splitOK_of_C (hL : RootCode.CodesFit τ.rootCertificate = true) {n : ℕ}
+    (h : SplitOKC τ n) : SplitOK τ n := by
+  simpa only [SplitOK, SplitOKC, isRootB_eq_isRootC hL, RootOps.commPairsAt] using h
+
+private theorem splitE8_codesFit : RootCode.CodesFit Tag.E8.rootCertificate = true := by
   decide +kernel
+
+private theorem splitOKC_E8 :
+    ∀ n : Fin Tag.E8.rootCertificate.roots.length, SplitOKC .E8 n.1 := by
+  decide +kernel
+
+private theorem splitOK_E8 :
+    ∀ n : Fin Tag.E8.rootCertificate.roots.length, SplitOK .E8 n.1 :=
+  fun n => splitOK_of_C splitE8_codesFit (splitOKC_E8 n)
 
 private theorem splitOK_F4 :
     ∀ n : Fin Tag.F4.rootCertificate.roots.length, SplitOK .F4 n.1 := by

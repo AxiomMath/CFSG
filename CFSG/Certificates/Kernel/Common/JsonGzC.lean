@@ -1,9 +1,8 @@
 module
 
 public meta import Lean
-public import CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
 meta import all CFSG.Certificates.Kernel.Common.Harness
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
 
 open Lean Elab Command Meta
 
@@ -41,10 +40,10 @@ meta partial def ofJson (ty : Expr) (j : Json) : MetaM Expr := do
     let r := if xs.size == 2 then xs[1]! else .arr (xs.extract 1 xs.size)
     return mkApp4 (mkConst ``Prod.mk [u, v]) α β (← ofJson α xs[0]!) (← ofJson β r)
   | _ =>
-    let .const I us := ty.getAppFn | throwError "#kc_jsonc_gz: unsupported type {ty}"
-    let .inductInfo ii ← getConstInfo I | throwError "#kc_jsonc_gz: unsupported type {ty}"
+    let .const I us := ty.getAppFn | throwError "#kc_jsonc: unsupported type {ty}"
+    let .inductInfo ii ← getConstInfo I | throwError "#kc_jsonc: unsupported type {ty}"
     unless ii.numIndices == 0 && ty.getAppNumArgs == ii.numParams do
-      throwError "#kc_jsonc_gz: unsupported type {ty}"
+      throwError "#kc_jsonc: unsupported type {ty}"
     let .arr xs := j | throwError "expected an array, got {j}"
     let (k, fs) ← if isStructure (← getEnv) I then pure ((0 : Nat), xs) else
       match xs[0]? with
@@ -52,15 +51,15 @@ meta partial def ofJson (ty : Expr) (j : Json) : MetaM Expr := do
         unless c.exponent == 0 && c.mantissa ≥ 0 do throwError "expected a constructor index, got {j}"
         pure (c.mantissa.toNat, xs.extract 1 xs.size)
       | _ => throwError "expected a constructor index, got {j}"
-    let some c := ii.ctors[k]? | throwError "#kc_jsonc_gz: no constructor {k} of {I}"
+    let some c := ii.ctors[k]? | throwError "#kc_jsonc: no constructor {k} of {I}"
     let ci ← getConstInfoCtor c
     unless fs.size == ci.numFields do
-      throwError "#kc_jsonc_gz: {c} takes {ci.numFields} fields, got {j}"
+      throwError "#kc_jsonc: {c} takes {ci.numFields} fields, got {j}"
     let params := ty.getAppArgs
     let mut e := mkAppN (mkConst c us) params
     let mut cty ← instantiateForall (ci.type.instantiateLevelParams ci.levelParams us) params
     for f in fs do
-      let .forallE _ d b _ ← whnf cty | throwError "#kc_jsonc_gz: bad constructor type {cty}"
+      let .forallE _ d b _ ← whnf cty | throwError "#kc_jsonc: bad constructor type {cty}"
       let v ← ofJson d f
       e := mkApp e v
       cty := b.instantiate1 v
@@ -68,21 +67,21 @@ meta partial def ofJson (ty : Expr) (j : Json) : MetaM Expr := do
 
 end CFSG.KC.JsonGzC
 
-open CFSG.KC.Load CFSG.KC.Gz CFSG.KC.JsonGzC in
-elab "#kc_jsonc_gz " pre:ident path:str size:num hash:num fs:("(" ident " : " term ")")* :
+open CFSG.KC.Load CFSG.KC.JsonGzC in
+elab "#kc_jsonc " pre:ident path:str size:num hash:num fs:("(" ident " : " term ")")* :
     command => do
-  let b ← readPinnedGz path.getString size.getNat hash.getNat
-  let some s := String.fromUTF8? b | throwError "#kc_jsonc_gz: {path.getString} is not UTF-8"
+  let b ← readPinned path.getString size.getNat hash.getNat
+  let some s := String.fromUTF8? b | throwError "#kc_jsonc: {path.getString} is not UTF-8"
   let j ← match Json.parse s with
     | .ok j => pure j
-    | .error e => throwError "#kc_jsonc_gz: {path.getString}: {e}"
+    | .error e => throwError "#kc_jsonc: {path.getString}: {e}"
   let fields := fs.map fun f => ((⟨f.raw[1]⟩ : Ident), (⟨f.raw[3]⟩ : Term))
   let defs ← liftTermElabM do
     fields.mapM fun (x, t) => do
       let ty ← instantiateMVars (← Term.elabType t)
       let v ← match j.getObjVal? x.getId.toString with
         | .ok v => pure v
-        | .error e => throwError "#kc_jsonc_gz: {e}"
+        | .error e => throwError "#kc_jsonc: {e}"
       return (pre.getId ++ x.getId, ty, ← ofJson ty v)
   withSync do
     for (n, ty, v) in defs do

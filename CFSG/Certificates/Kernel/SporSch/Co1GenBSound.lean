@@ -80,9 +80,9 @@ theorem actS_eq {M B : Nat → Nat} (h : allN 93 (fun g => tabOK (M g) (B g)) = 
   unfold actS
   rw [MatL.nIf_eq]
   by_cases hg : g < 93
-  · rw [if_pos (by simpa [Nat.blt_eq] using hg)]
+  · rw [ite_eq_left (by simpa [Nat.blt_eq] using hg)]
     exact actN_eq ((MatL.allN_iff.1 h) g hg) v
-  · rw [if_neg (by simpa [Nat.blt_eq] using hg)]
+  · rw [ite_eq_right (by simpa [Nat.blt_eq] using hg)]
 
 theorem levelSlQ_eq_A (M : Nat → Nat) (q : Nat) (gens : List Nat) (n : Nat) (T E : Nat → Nat)
     (lo len c₀ c₁ : Nat) :
@@ -96,6 +96,65 @@ theorem hl_of_tab {M B : Nat → Nat} (htb : allN 93 (fun g => tabOK (M g) (B g)
   intro s hs
   rw [levelSlQ_eq_A, ← actS_eq htb]
   exact h s hs
+
+theorem canonK_zero (v : Nat) : canonK 0 v = v := by
+  have e : Nat.xor v 0 = v := Nat.xor_zero v
+  unfold canonK
+  rw [MatL.strictN_eq, e]
+  cases Nat.ble v v <;> rfl
+
+theorem lvlGensA_tab {M B T E : Nat → Nat} {G h v : Nat} : ∀ (gs : List Nat),
+    (∀ g ∈ gs, tabOK (M g) (B g) = true) → ∀ p c,
+      lvlGensA (fun g v => actN (B g) v) T E 0 G h v gs p c = lvlGens M T E G h v gs p c
+  | [], _, _, _ => rfl
+  | g :: gs, hg, p, c => by
+    have ih := lvlGensA_tab (M := M) (B := B) (T := T) (E := E) (G := G) (h := h) (v := v) gs
+      (fun g' h' => hg g' (List.mem_cons_of_mem g h'))
+    have e1 : canonK 0 (actN (B g) v) = actK (M g) v := by
+      rw [canonK_zero, actN_eq (hg g List.mem_cons_self)]
+    change nIf(Nat.blt c failC,
+      strictN (eK17 E (Nat.add (Nat.mul h G) p)) (fun e =>
+      strictN (canonK 0 (actN (B g) v)) (fun w =>
+        nIf(bAnd(Nat.ble e c, Nat.beq (ptK T e) w),
+          nIf(Nat.beq e c,
+            nIf(bAnd(Nat.beq (VOrb.parK T e) h, Nat.beq (genK T e) g),
+              lvlGensA (fun g v => actN (B g) v) T E 0 G h v gs (Nat.succ p) (Nat.succ c), failC),
+            lvlGensA (fun g v => actN (B g) v) T E 0 G h v gs (Nat.succ p) c),
+          failC))), failC) = nIf(Nat.blt c failC,
+      strictN (eK17 E (Nat.add (Nat.mul h G) p)) (fun e =>
+      strictN (actK (M g) v) (fun w =>
+        nIf(bAnd(Nat.ble e c, Nat.beq (ptK T e) w),
+          nIf(Nat.beq e c,
+            nIf(bAnd(Nat.beq (VOrb.parK T e) h, Nat.beq (genK T e) g),
+              lvlGens M T E G h v gs (Nat.succ p) (Nat.succ c), failC),
+            lvlGens M T E G h v gs (Nat.succ p) c),
+          failC))), failC)
+    simp only [e1, ih]
+
+open CFSG.KS.Mathieu in
+theorem levelSl_of_tab {M B T E : Nat → Nat} {gens : List Nat} {n lo len c₀ c₁ : Nat}
+    (htb : gens.all (fun g => tabOK (M g) (B g)) = true)
+    (h : levelSlA (fun g v => actN (B g) v) 0 gens n T E lo len c₀ c₁ = true) :
+    levelSl M gens n T E lo len c₀ c₁ = true := by
+  have hg : ∀ g ∈ gens, tabOK (M g) (B g) = true := fun g hm => List.all_eq_true.1 htb g hm
+  change strictB (lenN gens) (fun G =>
+    Nat.beq (foldUp len (fun d c => strictN (Nat.add lo d) (fun h =>
+      nIf(Nat.blt c failC, nIf(Nat.blt h n, nIf(Nat.blt h c,
+        strictN (ptK T h) (fun v => nIf(Nat.beq (canonK 0 v) v,
+          lvlGensA (fun g v => actN (B g) v) T E 0 G h v gens (nat_lit 0) c, failC)), failC), c),
+          failC)))
+      c₀) c₁) = true at h
+  simp only [canonK_zero, Nat.beq_refl, lvlGensA_tab gens hg] at h
+  exact h
+
+theorem bfsSl_of_tab {A B BA BB : Nat} {T : Nat → Nat} {n lo len c₀ c₁ : Nat}
+    (ha : tabOK A BA = true) (hb : tabOK B BB = true)
+    (h : bfsSlA (actN BA) (actN BB) T n lo len c₀ c₁ = true) :
+    bfsSl A B T n lo len c₀ c₁ = true := by
+  have ea : actN BA = actK A := funext (actN_eq ha)
+  have eb : actN BB = actK B := funext (actN_eq hb)
+  rw [ea, eb] at h
+  exact h
 
 end CFSG.KS.SporSch.VOrb
 

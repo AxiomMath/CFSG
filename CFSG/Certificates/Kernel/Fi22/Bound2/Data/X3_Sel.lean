@@ -1,7 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Tab
 public import CFSG.Certificates.Kernel.Fi22.Bound2.Data.X3_0
@@ -9,7 +9,7 @@ public import CFSG.Certificates.Kernel.Common.LceS
 public import CFSG.Certificates.Kernel.Common.Bind
 public import CFSG.Certificates.Kernel.Fi22.Bound2.Data.M
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Fi22KX3 "CFSG/Certificates/Kernel/Fi22/Bound2/Data/X3/lces_const.items.gz" 4054 7572705567185271916
+#kc_repo #kc_nat_items CFSG.KD.Fi22KX3 "CFSG/Certificates/Kernel/Fi22/Bound2/Data/X3/lces_const.items" 4054 7572705567185271916
   WT[241] RT[23] ST[5] HS
 #kc_selectT CFSG.KD.Fi22KX3 blk B 220
 #kc_selectT CFSG.KD.Fi22KX3 selWT WT 241

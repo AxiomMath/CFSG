@@ -55,9 +55,10 @@ elab "#text_pieces_d " pre:ident sId:ident path:str size:num hash:num f:num k:nu
   unless k.getNat > 0 do throwError "piece size 0"
   let strE := mkConst ``String
   liftCoreM <| withOptions (Elab.async.set · false) do
-    addDecl (forceExpose := true) <| .defnDecl
-      { name := P ++ `CH, levelParams := [], type := mkApp (mkConst ``List [0]) pairT,
-        value := piecesE b f.getNat k.getNat, hints := .regular 0, safety := .safe }
+    addDeclDeep stackMB.getNat <| withOptions (maxRecDepth.set · depth.getNat) <|
+      addDecl (forceExpose := true) <| .defnDecl
+        { name := P ++ `CH, levelParams := [], type := mkApp (mkConst ``List [0]) pairT,
+          value := piecesE b f.getNat k.getNat, hints := .regular 0, safety := .safe }
     let rhs := mkApp (mkConst ``String.ofList)
       (mkApp (mkConst ``CFSG.KC.YModel.charsOf) (mkConst (P ++ `CH)))
     let tyEq := mkApp3 (mkConst ``Eq [1]) strE (mkConst sN) rhs

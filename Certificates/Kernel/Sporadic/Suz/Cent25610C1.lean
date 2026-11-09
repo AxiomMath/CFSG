@@ -19,8 +19,8 @@ end CertificateChecks.KernelSpor.SuzCI1
 
 #kmisc_packarrs CertificateChecks.KernelSpor.SuzCI1L CertificateChecks.KernelSpor.SuzCI1.lettersM 11
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.SuzCI1D
-  "Certificates/Kernel/Sporadic/Suz/data/cent25610_1.json.gz" 23750 5039512780752680603
+#kc_repo #kc_json CertificateChecks.KernelSpor.SuzCI1D
+  "Certificates/Kernel/Sporadic/Suz/data/cent25610_1.json" 23750 5039512780752680603
   (B : List CFSG.KC.CommBase.BaseRec) (PF : Nat) (ZF : Nat) (DF : Nat) (RF : Nat)
 
 namespace CertificateChecks.KernelSpor.SuzCI1

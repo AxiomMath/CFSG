@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.JsonGzC
 import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.Suz
-  "Certificates/Kernel/Census/Suz/data/suz.json.gz" 13734730 11955670585171265272
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.Suz
+  "Certificates/Kernel/Census/Suz/data/suz.json" 13734730 11955670585171265272
   (suzXs : List Nat) (suzRs : List Nat) (suzCjs : List (List Nat)) (suzBs : List (Nat × Nat))
   (suzIm : List Nat) (suzWt0 : List Nat) (suzWt1 : List Nat) (suzWt2 : List Nat)
   (suzWt3 : List Nat) (suzRoots : List (Nat × Nat))

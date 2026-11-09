@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.SpinOrb "Certificates/Kernel/SpinOrb/data/spin.json.gz" 605054 370394475934809030
+#kc_repo #kc_json CFSG.KD.SpinOrb "Certificates/Kernel/SpinOrb/data/spin.json" 605054 370394475934809030
   (gam8 : List Nat) (gam9 : List Nat) (gam10 : List Nat) (gam11 : List Nat)
   (pairsS8 : List (List (Nat × Nat × Nat × Nat) × List (Nat × Nat × Nat × Nat)))
   (pairsS10 : List (List (Nat × Nat × Nat × Nat) × List (Nat × Nat × Nat × Nat)))

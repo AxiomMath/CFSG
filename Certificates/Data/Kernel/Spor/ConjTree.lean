@@ -19,15 +19,23 @@ open CFSG.KC.Enum CFSG.KS
         Nat.beq (T (Nat.succ i)) (pconj n w (GS (Nat.mod t r)) (T (Nat.div t r))
           (GSI (Nat.mod t r))))), true)))
 
-@[expose] noncomputable def actSl (n w r : Nat) (GS GSI T PA : Nat → Nat) (wp m lo len : Nat) :
-    Bool :=
+@[expose] noncomputable def ctEdgeB (r : Nat) (TF wt N j i j' : Nat) : Bool :=
+  bAnd(Nat.blt (nat_lit 0) j', bAnd(Nat.ble j' N,
+    Nat.beq (pg wt (mask wt) TF (Nat.pred j')) (Nat.add (Nat.mul j r) i)))
+
+@[expose] noncomputable def actSl (n w r : Nat) (GS GSI T PA : Nat → Nat)
+    (TF wt N wp m lo len : Nat) : Bool :=
   allN len (fun d => strictB (Nat.add lo d) (fun j => bIf(Nat.blt j m,
     allN r (fun i => strictB (pg wp (mask wp) (PA i) j) (fun j' =>
-      bAnd(Nat.blt j' m, Nat.beq (pconj n w (GS i) (T j) (GSI i)) (T j')))), true)))
+      bAnd(Nat.blt j' m, bIf(ctEdgeB r TF wt N j i j', true,
+        Nat.beq (pconj n w (GS i) (T j) (GSI i)) (T j'))))), true)))
 
-@[expose] noncomputable def distSl (T : Nat → Nat) (m lo len : Nat) : Bool :=
+@[expose] noncomputable def ctOrdSl (T : Nat → Nat) (ws SG RK m lo len : Nat) : Bool :=
   allN len (fun d => strictB (Nat.add lo d) (fun j => bIf(Nat.blt j m,
-    strictB (T j) (fun x => allN j (fun k => Bool.not (Nat.beq x (T k)))), true)))
+    bAnd(strictB (pg ws (mask ws) RK j) (fun k =>
+      bAnd(Nat.blt k m, Nat.beq (pg ws (mask ws) SG k) j)),
+    bIf(Nat.blt (Nat.succ j) m,
+      Nat.blt (T (pg ws (mask ws) SG j)) (T (pg ws (mask ws) SG (Nat.succ j))), true)), true)))
 
 end CFSG.KS.ConjTree
 

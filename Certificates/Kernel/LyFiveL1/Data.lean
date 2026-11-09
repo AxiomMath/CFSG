@@ -6,7 +6,7 @@ public import Certificates.Kernel.Ly3085.Omega.Base
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.LyFive "Certificates/Kernel/LyFiveL1/data/five.json.gz" 1517155 13929500547944207317
+#kc_repo #kc_json CFSG.KD.LyFive "Certificates/Kernel/LyFiveL1/data/five.json" 1517155 13929500547944207317
   (LT : List Nat) (AB : List Nat) (TB : List Nat) (PB : List Nat) (NT : Nat) (CJ : List Nat)
   (BW : List (List Nat)) (BT : List Nat) (RT : List Nat) (GX : List Nat) (GY : List Nat)
   (TG : List (List Nat))

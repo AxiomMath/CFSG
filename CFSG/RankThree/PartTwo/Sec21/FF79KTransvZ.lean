@@ -2,6 +2,7 @@ module
 
 public import CFSG.RankThree.PartTwo.Sec21.FF79KTransvL5
 public import CFSG.RankThree.PartTwo.Sec21.FF79KFactsZ
+import CFSG.LinearAlgebra.F2Mat3Cent
 
 public section
 
@@ -84,13 +85,11 @@ theorem mul_inv3 {A : Matrix (Fin 3) (Fin 3) (ZMod 2)} (h : A.det = 1) : A * inv
 theorem inv3_mul {A : Matrix (Fin 3) (Fin 3) (ZMod 2)} (h : A.det = 1) : inv3 A * A = 1 :=
   mul_eq_one_comm.1 (mul_inv3 h)
 
-set_option synthInstance.maxSize 4000 in
-set_option synthInstance.maxHeartbeats 400000 in
 theorem l3Cent : ∀ W U : Fin 3 → Fin 3 → ZMod 2,
     Matrix.of W * Matrix.of W * Matrix.of W = 1 → Matrix.of W ≠ 1 → (Matrix.of U).det = 1 →
     Matrix.of W * Matrix.of U = Matrix.of U * Matrix.of W →
-    Matrix.of U = 1 ∨ Matrix.of U = Matrix.of W ∨ Matrix.of U = Matrix.of W * Matrix.of W := by
-  decide +kernel
+    Matrix.of U = 1 ∨ Matrix.of U = Matrix.of W ∨ Matrix.of U = Matrix.of W * Matrix.of W :=
+  fun W U h3 h1 hd hc => CFSG.F2NatMat.cent3 (Matrix.of W) (Matrix.of U) h3 h1 hd hc
 
 set_option synthInstance.maxSize 4000 in
 set_option synthInstance.maxHeartbeats 400000 in

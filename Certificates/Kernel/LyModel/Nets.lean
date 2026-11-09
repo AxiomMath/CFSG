@@ -15,4 +15,10 @@ open CFSG.KC CFSG.KC.MonsterConv.Perm CFSG.KC.LyBenes CFSG.Sporadic.Recognition.
         netsApply 17 131072 (repU 131072 17) (genNets T (mclGenWord (j - 3))) (idP 17))))
 #kc_select CertificateChecks.KernelLyModel MS M 8
 
+@[expose] def CertificateChecks.KernelLyModel.wordU : List ℤ :=
+  [1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2]
+
+#kc_benes CertificateChecks.KernelLyModel NU 0 1 17 fun _ _ =>
+  netsApply 17 131072 (repU 131072 17) (genNets NS CertificateChecks.KernelLyModel.wordU) (idP 17)
+
 end

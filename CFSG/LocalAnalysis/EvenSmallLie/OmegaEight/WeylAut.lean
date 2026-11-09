@@ -153,9 +153,23 @@ theorem omegaT_le_autImage : omegaT.subgroupOf autT ≤ autImage := by
   rw [autEquiv_apply, MulAut.conj_apply]
   rfl
 
-theorem gen8_pow_three : gen 8 ^ 3 = 1 := Equiv.ext fun q => Fin.ext (by
-  simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, gen8_val, Equiv.Perm.one_apply]
-  omega)
+theorem gen8_pow_three : gen 8 ^ 3 = 1 := by
+  have h8 := rep_gen (i := 8) (by norm_num)
+  have e : ∀ p < 360, (genArrs[8]!)[p]! = (p + 120) % 360 := structure_ok.2
+  have hI : CFSG.Monster.B.Co2.Rep 360
+      (CFSG.Monster.B.Co2.Native.compA 360
+        (CFSG.Monster.B.Co2.Native.compA 360 genArrs[8]! genArrs[8]!) genArrs[8]!) 1 :=
+      fun x => by
+    have hx := CFSG.Monster.B.Co2.rep_idA (n := 360) x
+    rw [CFSG.Monster.B.Co2.idA_get x.2] at hx
+    have h1 : ((x : ℕ) + 120) % 360 < 360 := Nat.mod_lt _ (by norm_num)
+    have h2 : (((x : ℕ) + 120) % 360 + 120) % 360 < 360 := Nat.mod_lt _ (by norm_num)
+    rw [← hx, CFSG.Monster.B.Co2.compA_get x.2, e x x.2, CFSG.Monster.B.Co2.compA_get h1,
+      e _ h1, e _ h2]
+    omega
+  rw [pow_three']
+  exact CFSG.Monster.B.Co2.Rep.unique
+      (CFSG.Monster.B.Co2.rep_compA (CFSG.Monster.B.Co2.rep_compA h8 h8) h8) hI
 
 theorem rhoA_pow_three : rhoA ^ 3 = 1 := Subtype.ext (by
   rw [Subgroup.coe_pow]

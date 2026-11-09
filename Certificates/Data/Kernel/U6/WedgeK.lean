@@ -42,6 +42,32 @@ open CFSG.KLie.CT CFSG.KC.Loop
     Nat.beq (rowMulZ (getLD 0 Q l) RB) (fget (pw2 l) c (nat_lit 64)))
     (R.map fun r => fget r c (nat_lit 64))
 
+@[expose] noncomputable def wgDropK (k : Nat → List Nat → Bool) : Nat → List Nat → Bool :=
+  Nat.rec (motive := fun _ => List Nat → Bool)
+    (fun B => List.rec (motive := fun _ => Bool) false (fun b B' _ => k b B') B)
+    (fun _ ih B => List.rec (motive := fun _ => Bool) false (fun _ B' _ => ih B') B)
+
+@[expose] noncomputable def wgStrictB (y : Nat) (k : Nat → Bool) : Bool :=
+  Nat.rec (motive := fun _ => Bool) (k 0) (fun n _ => k (Nat.succ n)) y
+
+@[expose] noncomputable def wgRowK : List Nat → Nat → List Nat → Nat → Nat → Bool :=
+  List.rec (motive := fun _ => Nat → List Nat → Nat → Nat → Bool)
+    (fun s _ acc tgt => andB (Nat.beq s 0) (Nat.beq acc tgt))
+    (fun e _ ih s B acc tgt =>
+      andB (Nat.beq (Nat.land s (maskN (Nat.succ e))) (pw2 e))
+        (wgDropK (fun b B' => wgStrictB (Nat.shiftRight s (Nat.succ e)) fun s' =>
+          wgStrictB (Nat.xor acc b) fun acc' => ih s' B' acc' tgt) e B))
+
+@[expose] noncomputable def wgAllK (B : List Nat) : List Nat → List (List Nat) → Nat → Bool :=
+  List.rec (motive := fun _ => List (List Nat) → Nat → Bool)
+    (fun G _ => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) G)
+    (fun q _ ih G l => List.rec (motive := fun _ => Bool) true
+      (fun g G' _ => andB (wgRowK g q B 0 (pw2 l)) (ih G' (Nat.succ l))) G)
+
+@[expose] noncomputable def wgDropL : Nat → List Nat → List Nat :=
+  Nat.rec (motive := fun _ => List Nat → List Nat) (fun B => B)
+    (fun _ ih B => List.rec (motive := fun _ => List Nat) [] (fun _ B' _ => ih B') B)
+
 end CFSG.KC.U6F2
 
 end

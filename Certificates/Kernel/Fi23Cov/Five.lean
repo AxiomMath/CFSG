@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Fi23Cov.Base
 public import Certificates.Data.Kernel.Fi23Cov.Defs
 
-#kc_repo #kc_json_gz CFSG.KD.Fi23Cov.F "Certificates/Kernel/Fi23Cov/data/five.json.gz" 16251
+#kc_repo #kc_json CFSG.KD.Fi23Cov.F "Certificates/Kernel/Fi23Cov/data/five.json" 16251
   11388357530733759919
   (U1 : List Nat) (U2 : List Nat) (H : List Nat) (M : List (List Nat)) (Ca : List (List Nat))
   (Ra : List (List Nat)) (Cb : List (List Nat)) (Rb : List (List Nat))

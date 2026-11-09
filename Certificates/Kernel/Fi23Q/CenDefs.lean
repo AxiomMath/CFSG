@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Fi23Q "Certificates/Kernel/Fi23Q/data/census.json.gz"
+#kc_repo #kc_json CFSG.KD.Fi23Q "Certificates/Kernel/Fi23Q/data/census.json"
   2620 2954395278917701193 (RV : Nat) (CR : Nat)
 
 namespace CFSG.KD.Fi23Q

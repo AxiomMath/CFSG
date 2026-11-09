@@ -122,12 +122,23 @@ theorem chain_ge {D : ChainData} {m o : ℕ} (hm : 0 < m) (ho : o + m ≤ 18)
     unfold CFSG.KD.Fi24PairK.och at hc
     rw [hch i hi, hlv i hi] at hc
     have hc' : andB ((lvW D i).all (dirOK net))
-        (orbW NV (lvW D i) (CFSG.KD.Fi24PairK.nthN CFSG.KD.Fi24PairK.rd (o + i)) D.base[i]!
-          (D.sizes.getD i 0)) = true := hc
+        (orB (orbSP NV (lvW D i) (CFSG.KD.Fi24PairK.nthLP CFSG.KD.Fi24PairK.schLP (o + i))
+            D.base[i]! (D.sizes.getD i 0))
+          (orB (orbMP NV (lvW D i) (CFSG.KD.Fi24PairK.nthLP CFSG.KD.Fi24PairK.schLA (o + i))
+              (CFSG.KD.Fi24PairK.nthLP CFSG.KD.Fi24PairK.schLP (o + i))
+              (CFSG.KD.Fi24PairK.nthN CFSG.KD.Fi24PairK.midL (o + i)) D.base[i]! (D.sizes.getD i 0))
+            (orbW NV (lvW D i) (CFSG.KD.Fi24PairK.nthN CFSG.KD.Fi24PairK.rd (o + i)) D.base[i]!
+              (D.sizes.getD i 0)))) = true := hc
     rw [andB_eq, Bool.and_eq_true] at hc'
     rw [hb i hi]
-    exact orbW_le ptHyp netOK_all net0 net1 (fun w hw => List.all_eq_true.1 hc'.1 w hw) (clvl D i)
-      (fun w hw => wEl_fl_mem hw) (hbase i hi) hc'.2
+    rcases orB_trueP hc'.2 with h | h
+    · exact orbSP_le ptHyp netOK_all net0 net1 (fun w hw => List.all_eq_true.1 hc'.1 w hw)
+        (clvl D i) (fun w hw => wEl_fl_mem hw) (hbase i hi) h
+    rcases orB_trueP h with h | h
+    · exact orbMP_le ptHyp netOK_all net0 net1 (fun w hw => List.all_eq_true.1 hc'.1 w hw)
+        (clvl D i) (fun w hw => wEl_fl_mem hw) (hbase i hi) h
+    · exact orbW_le ptHyp netOK_all net0 net1 (fun w hw => List.all_eq_true.1 hc'.1 w hw)
+        (clvl D i) (fun w hw => wEl_fl_mem hw) (hbase i hi) h
 
 theorem nestT : NestP chainT := nestP_of (by decide +kernel)
 

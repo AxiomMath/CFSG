@@ -29,7 +29,7 @@ theorem qMat_eq : qMat = unpack 24 24 (QP 0) := by
 theorem qInv_eq : qInv = unpack 24 24 (QP 1) := by
   unfold qInv
   rw [qMat_eq]
-  exact (invOKK_sound kQI).2
+  exact (invOKW_sound kQI).2
 
 theorem ngetPL_eq : ∀ (l : List (List Nat × List Nat)) (i : Nat), ngetPL l i = l.getD i ([], [])
   | [], _ => rfl

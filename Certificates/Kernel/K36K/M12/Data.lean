@@ -63,8 +63,8 @@ public section
 #kpenum CertificateChecks.KernelK36K.M12.RN1 12 4 false CertificateChecks.KernelK36K.M12.c1M
   CertificateChecks.KernelK36K.M12.ci1M CertificateChecks.KernelK36K.M12.idT 432
 
-#kc_repo #kc_json_gz CertificateChecks.KernelK36K.M12.W
-  "Certificates/Kernel/K36K/M12/data/fix.json.gz" 365 7545025512333229701
+#kc_repo #kc_json CertificateChecks.KernelK36K.M12.W
+  "Certificates/Kernel/K36K/M12/data/fix.json" 365 7545025512333229701
   (x0k0 : Nat) (x0o0 : Nat) (x0HW : List (List Nat)) (x0OL : List Nat) (x0OW : List (List Nat))
   (x1k0 : Nat) (x1o0 : Nat) (x1HW : List (List Nat)) (x1OL : List Nat) (x1OW : List (List Nat))
 

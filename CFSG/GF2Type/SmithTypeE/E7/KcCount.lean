@@ -376,10 +376,10 @@ theorem card_fin_filter (n : ℕ) (p : ℕ → Bool) :
 theorem card_planes_through :
     Nat.card {i : Fin 75735 // Lin01 ≤ planeSub i.val} = 135 := by
   have h := kcThroughCheck_holds
-  unfold chkKcThrough at h
+  rw [chkKcThrough_def] at h
   have h135 : ((List.range 75735).filter fun i =>
-      memR pbArr[i]! ppArr[i]! 64 && memR pbArr[i]! ppArr[i]! 128).length = 135 := by
-    simpa using h
+      memR pbArr[i]! ppArr[i]! 64 && memR pbArr[i]! ppArr[i]! 128).length = 135 :=
+    beq_iff_eq.mp h
   rw [← h135, ← card_fin_filter]
   exact Nat.card_congr (Equiv.subtypeEquivRight fun i => Lin01_le_planeSub_iff)
 

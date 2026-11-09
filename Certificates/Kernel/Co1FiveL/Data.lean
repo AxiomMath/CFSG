@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Co1FiveL "Certificates/Kernel/Co1FiveL/data/leaf.json.gz" 179553 14916120015236668525
+#kc_repo #kc_json CFSG.KD.Co1FiveL "Certificates/Kernel/Co1FiveL/data/leaf.json" 179553 14916120015236668525
   (BT0 : List Nat) (E0 : List (List Nat)) (M0 : List Nat) (U0 : List Nat)
   (T0 : List (List (List Nat))) (IMS0 : List (List (List Nat))) (CL0 : List (List (List Nat)))
   (SL0 : List Nat) (UIT0 : Nat)

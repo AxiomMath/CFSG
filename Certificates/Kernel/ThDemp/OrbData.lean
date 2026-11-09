@@ -5,8 +5,8 @@ public import Certificates.Kernel.ThDemp.Data
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.ThDempO "Certificates/Kernel/ThDemp/data/orb.json.gz" 6338015
-  2327803327457774673
+#kc_repo #kc_json CFSG.KD.ThDempO "Certificates/Kernel/ThDemp/data/orb.json" 6334034
+  16364636257470454802
   (Ti : List (List Nat)) (words : List (List Nat)) (sb : List Nat)
   (grp : List (List (List (List Nat)))) (ky : List Nat) (par : List Nat) (edges : List Nat)
   (ord : List Nat) (fx5 : List Nat) (x5 : Nat) (x31 : Nat) (yb : Nat) (dm : Nat) (f5 : Nat)

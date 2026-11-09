@@ -23,6 +23,10 @@ open CFSG.KC.Enum CFSG.KC.SB CFSG.EvenSmallLie.OmegaEight.SpBranch CertificateCh
   O3 := recMB (t1Mul (s2F 5) (s2Z 5)) (t1Inv (s2F 5) (s2Z 5)) t1Gens 32 3
   LW := lw5
 
+private theorem all_range_65536 {P : ℕ → Bool}
+    (h : ∀ s < 8, (List.range' (8192 * s) 8192).all P = true) : (List.range 65536).all P = true :=
+  all_range_chunks 8192 8 h
+
 namespace C5
 
 theorem hmul : t1Mul (s2F 5) (s2Z 5) = MK 1 21 24 := by
@@ -41,8 +45,15 @@ theorem iota : l2eIotaOK 5 (t1Vec vSArr) = true := by
   unfold l2eIotaOK l2eIL l2eIW
   dsimp only
   rw [hmul, hinv]
-  simp only [iotaTab_get _ V5.hio, s2InSp, vec_get, cb_eq, a9K_co, a9K_lin, sMul_eqK]
-  decide +kernel
+  simp only [iotaTab_get _ V5.hio, s2InSp, vec_get, cb_eq, a9K_co, a9K_lin, sMul_eqK,
+    Bool.and_eq_true]
+  refine ⟨⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  · decide +kernel
+  · decide +kernel
+  · refine all_range_65536 fun s hs => ?_
+    rcases s with _ | _ | _ | _ | _ | _ | _ | _ | s
+    all_goals first | omega | decide +kernel
+  all_goals decide +kernel
 
 theorem enum : l2eEnumOK 5 (t1Vec vSArr) rs5 cent5_4.2.1
     (recMB (t1Mul (s2F 5) (s2Z 5)) (t1Inv (s2F 5) (s2Z 5)) t1Gens 32 3) lw5 = true := by

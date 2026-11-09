@@ -10,7 +10,9 @@ public import CFSG.RankThree.PartTwo.Sec4.Sporadic.J2Check3Inputs
 public import Certificates.Kernel.Misc.Perm.J2Mult5
 public import CFSG.Certificates.Kernel.Misc.SetCodesSound
 import Certificates.Kernel.Misc.Perm.HexCmd
+public import Certificates.Kernel.Misc.Perm.HexSplitCmd
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Misc.ArrEnumOps
 meta import CFSG.RankThree.PartTwo.Sec4.Sporadic.J2Check3Inputs
 
 set_option maxRecDepth 400000
@@ -42,8 +44,8 @@ set_option maxRecDepth 400000
 #kmisc_hexflat CertificateChecks.KernelMisc.J2C3.P3L CFSG.RankThree.PartTwo.Sec4.Sporadic.J2.cP3LHex
   3 27 12 1
 #ks_chars CertificateChecks.KernelMisc.J2C3.CzP CFSG.RankThree.PartTwo.Sec4.Sporadic.J2.cCzPHex
-#kmisc_hexflat CertificateChecks.KernelMisc.J2C3.CzP CFSG.RankThree.PartTwo.Sec4.Sporadic.J2.cCzPHex
-  3 315 9 1080
+#kmisc_hexflat_split CertificateChecks.KernelMisc.J2C3.CzP CFSG.RankThree.PartTwo.Sec4.Sporadic.J2.cCzPHex
+  3 315 9 1080 100000
 #ks_chars CertificateChecks.KernelMisc.J2C3.CzE CFSG.RankThree.PartTwo.Sec4.Sporadic.J2.cCzEHex
 #kmisc_hexflat CertificateChecks.KernelMisc.J2C3.CzE CFSG.RankThree.PartTwo.Sec4.Sporadic.J2.cCzEHex
   3 2 12 1080
@@ -153,7 +155,6 @@ theorem perms_of {N : ℕ} {F : ℕ → ℕ}
   (allN_iff _ _).1 h
 
 theorem p3p : ∀ i < 27, permB 315 9 (P3P.F i) = true := perms_of (by quickRfl)
-theorem czp : ∀ i < 1080, permB 315 9 (CzP.F i) = true := perms_of (by quickRfl)
 theorem npp : ∀ i < 216, permB 315 9 (NPP.F i) = true := perms_of (by quickRfl)
 
 theorem hx : xArr = unpack 315 9 X := arrBind_sound (by quickRfl)
@@ -178,6 +179,32 @@ theorem pZ : permB 315 9 Z = true := by quickRfl
 theorem pG0 : permB 315 9 G0 = true := by quickRfl
 theorem pH8 : permB 315 9 H8 = true := by quickRfl
 theorem pI : permB 315 9 I = true := by quickRfl
+
+@[expose] noncomputable def czTK (i : ℕ) : Bool :=
+  i == 0 || (Nat.blt (pg 12 (mask 12) (CzR.F 0) i) i && Nat.blt (pg 12 (mask 12) (CzL.F 0) i) 2 &&
+    Nat.beq (CzP.F i) (pcomp 315 9 (mask 9) (GC (pg 12 (mask 12) (CzL.F 0) i))
+      (CzP.F (pg 12 (mask 12) (CzR.F 0) i))))
+
+theorem czP0 : CzP.F 0 = I := Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem cz_tree : CFSG.KC.LQT.P.allN 1080 czTK = true := by quickRfl
+
+theorem pGC (k : ℕ) (hk : k < 2) : permB 315 9 (GC k) = true := by
+  interval_cases k <;> quickRfl
+
+theorem czp : ∀ i < 1080, permB 315 9 (CzP.F i) = true := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    have h := (allN_iff _ _).1 cz_tree i hi
+    simp only [czTK, Bool.or_eq_true, beq_iff_eq, Bool.and_eq_true, Nat.blt_eq,
+      Nat.beq_eq] at h
+    rcases h with rfl | ⟨⟨h1, h2⟩, h3⟩
+    · rw [czP0]
+      exact pI
+    · rw [h3]
+      exact CFSG.KC.Misc.ArrEnum.permB_pcomp hw (pGC _ h2) (ih _ h1 (by omega))
 
 @[expose] noncomputable def cm (p q : ℕ) : ℕ := pcomp 315 9 (mask 9) p q
 

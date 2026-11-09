@@ -172,8 +172,11 @@ theorem c16953 :
     Nat.card ↥(rhoQ.subgroupOf Gmat ⊓ Subgroup.centralizer ({gw gen11W0} : Set Gmat)) ≤ 32 := by
   classical
   set x := gw gen11W0
-  set F := (Finset.range (2 ^ 24)).filter fun v => xorB col v 24 = v
-  have hF : F.card ≤ 16 := card_fix_le rank_ok
+  obtain ⟨F, hFd⟩ : ∃ F : Finset ℕ, F = (Finset.range (2 ^ 24)).filter fun v => xorB col v 24 = v :=
+    ⟨_, rfl⟩
+  have hF : F.card ≤ 16 := by
+    rw [hFd]
+    exact card_fix_le rank_ok
   let g : ↥(rhoQ.subgroupOf Gmat ⊓ Subgroup.centralizer {x}) → Bool × F := fun e =>
     let t := Classical.choose (exists_rhoG_eq ⟨e.1, (Subgroup.mem_inf.1 e.2).1⟩)
     (t.1, ⟨t.2.1 + 4096 * t.2.2, by
@@ -184,7 +187,8 @@ theorem c16953 :
       have h1 := t.2.1.2
       have h2 := t.2.2.2
       have h24 : (2 : ℕ) ^ 24 = 16777216 := by norm_num
-      refine Finset.mem_filter.2 ⟨Finset.mem_range.2 (by omega), fix_code h1 h2 hc⟩⟩)
+      rw [hFd]
+      exact Finset.mem_filter.2 ⟨Finset.mem_range.2 (by omega), fix_code h1 h2 hc⟩⟩)
   have hginj : Function.Injective g := by
     intro e e' hee
     simp only [g, Prod.mk.injEq, Subtype.mk.injEq] at hee

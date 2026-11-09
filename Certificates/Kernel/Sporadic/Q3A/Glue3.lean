@@ -86,6 +86,7 @@ theorem nbrsOf_eq {i : Nat} (hi : i < 22880) :
   apply Array.ext'
   rw [Array.toList_map, List.toList_toArray, List.toList_toArray, List.map_map]
   refine List.map_congr_left fun t ht => ?_
+  rw [Function.comp_apply]
   exact actIdx_eq hv (p_cArr hi) (n0_parts.2.2 t (List.mem_range.1 ht)).1
 
 theorem rootDist_10 : rootDist 10 = 1 := by

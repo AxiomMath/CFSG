@@ -14,31 +14,37 @@ open CFSG.EvenSporadicStandard.M22Std.TabCheck CFSG.EvenSporadicStandard.M22Std.
 
 theorem checkProp : CheckProp := of_decide_eq_true Certificates.certificate25930
 
-theorem elemLevel_five_length : (elemLevel s0Tabs 5).length = 1 := checkProp.1
+theorem stepOK : ∀ k < 5, StepOK s0Tabs k := checkProp.1
 
-theorem elemLevel_six : elemLevel s0Tabs 6 = [] := checkProp.2.1
+theorem elemLevel_four_length : (elemLevel s0Tabs 4).length = 1 := checkProp.2.1
+
+theorem elemLevel_five : elemLevel s0Tabs 5 = [] := elemLevel_eq_nil le_rfl
 
 theorem jTabs_length : jTabs.length = 32 := checkProp.2.2.1
 
 theorem jTabs_nodup : jTabs.Nodup := checkProp.2.2.2.1
 
-theorem idTab_mem_jTabs : idTab ∈ jTabs := checkProp.2.2.2.2.1
+theorem jTabs_sorted : jTabs.Pairwise (fun a b => tabLE a b = true) := checkProp.2.2.2.2.1
+
+theorem idTab_mem_jTabs : idTab ∈ jTabs := checkProp.2.2.2.2.2.1
+
+theorem tTab_mem_jTabs : FusionCheck.tTab ∈ jTabs := checkProp.2.2.2.2.2.2.1
 
 theorem jTabs_prop : ∀ a ∈ jTabs, a ∈ s0Tabs ∧ tmul a a = idTab ∧
-    ∀ b ∈ jTabs, tmul a b ∈ jTabs ∧ comm a b = true := checkProp.2.2.2.2.2.1
+    ∀ b ∈ jTabs, tmul a b ∈ jTabs ∧ comm a b = true := checkProp.2.2.2.2.2.2.2.1
 
-theorem eq_jTabs_of_mem {L : List Tab} (hL : L ∈ elemLevel s0Tabs 5) : L = jTabs := by
-  obtain ⟨a, ha⟩ := List.length_eq_one_iff.1 elemLevel_five_length
+theorem eq_jTabs_of_mem {L : List Tab} (hL : L ∈ elemLevel s0Tabs 4) : L = jTabs := by
+  obtain ⟨a, ha⟩ := List.length_eq_one_iff.1 elemLevel_four_length
   rw [ha, List.mem_singleton] at hL
   rw [jTabs_eq, ha, hL]
   rfl
 
 theorem exists_jTabs_not_f1 : ∃ l ∈ s0Inner, l ∈ jTabs ∧ l ∉ f1Tabs :=
-  checkProp.2.2.2.2.2.2.1
+  checkProp.2.2.2.2.2.2.2.2.1
 
-theorem level4_prop : ∀ L ∈ elemLevel s0Tabs 4, L.Nodup ∧
+theorem level3_prop : ∀ L ∈ elemLevel s0Tabs 3, L.Nodup ∧
     (normB L = true → 4 < (L.filter fun l => decide (l ∈ jTabs)).length ∨ ∀ l ∈ L, l ∈ f1Tabs) :=
-  checkProp.2.2.2.2.2.2.2
+  checkProp.2.2.2.2.2.2.2.2.2
 
 end CFSG.EvenSporadicStandard.M22Std.E32Check
 
@@ -113,8 +119,83 @@ theorem card_jSub : Nat.card jSub = 32 := by
   rw [← h1]
   exact Nat.card_coe_set_eq {a : MulAut (Carrier .M22) | autTab a ∈ jTabs}
 
-theorem jSub_unique (E : Subgroup (MulAut (Carrier .M22))) (hE : E ≤ s0)
-    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1)
+noncomputable abbrev tAut : MulAut (Carrier .M22) := MulAut.conj tEl
+
+theorem autTab_tAut : autTab tAut = FusionCheck.tTab := autTab_conj_tEl
+
+theorem tAut_sq : tAut * tAut = 1 := by
+  rw [tAut, ← map_mul, tEl_involution.1, map_one]
+
+theorem tAut_mem : tAut ∈ s0 := by
+  rw [mem_s0_iff, autTab_tAut]
+  exact (jTabs_prop _ tTab_mem_jTabs).1
+
+theorem tAut_comm {α : MulAut (Carrier .M22)} (hα : α ∈ s0) : α * tAut = tAut * α :=
+  (s0_center tAut tAut_mem).2 (Or.inr rfl) α hα
+
+noncomputable def withT (E : Subgroup (MulAut (Carrier .M22))) : Subgroup (MulAut (Carrier .M22)) :=
+  Subgroup.closure ((E : Set (MulAut (Carrier .M22))) ∪ {tAut})
+
+theorem le_withT (E : Subgroup (MulAut (Carrier .M22))) : E ≤ withT E :=
+  fun _ hx => Subgroup.subset_closure (Set.mem_union_left _ hx)
+
+theorem tAut_mem_withT (E : Subgroup (MulAut (Carrier .M22))) : tAut ∈ withT E :=
+  Subgroup.subset_closure (Set.mem_union_right _ rfl)
+
+theorem withT_le {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0) : withT E ≤ s0 := by
+  rw [withT, Subgroup.closure_le]
+  rintro x (hx | hx)
+  · exact hE hx
+  · rw [Set.mem_singleton_iff.1 hx]
+    exact tAut_mem
+
+theorem withT_comm {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
+    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) :
+    ∀ α ∈ withT E, ∀ β ∈ withT E, α * β = β * α := by
+  have hk : ∀ x ∈ ((E : Set (MulAut (Carrier .M22))) ∪ {tAut}),
+      ∀ y ∈ ((E : Set (MulAut (Carrier .M22))) ∪ {tAut}), x * y = y * x := by
+    rintro x (hx | hx) y (hy | hy)
+    · exact hc x hx y hy
+    · rw [Set.mem_singleton_iff.1 hy]
+      exact tAut_comm (hE hx)
+    · rw [Set.mem_singleton_iff.1 hx]
+      exact (tAut_comm (hE hy)).symm
+    · rw [Set.mem_singleton_iff.1 hx, Set.mem_singleton_iff.1 hy]
+  have h1 : withT E ≤ Subgroup.centralizer ((E : Set (MulAut (Carrier .M22))) ∪ {tAut}) := by
+    rw [withT, Subgroup.closure_le]
+    intro x hx
+    rw [SetLike.mem_coe, Subgroup.mem_centralizer_iff]
+    exact fun y hy => hk y hy x hx
+  intro α hα β hβ
+  have h2 : withT E ≤ Subgroup.centralizer {α} := by
+    rw [withT, Subgroup.closure_le]
+    intro x hx
+    rw [SetLike.mem_coe, Subgroup.mem_centralizer_iff]
+    intro y hy
+    rw [Set.mem_singleton_iff.1 hy]
+    exact ((Subgroup.mem_centralizer_iff.1 (h1 hα)) x hx).symm
+  exact Subgroup.mem_centralizer_iff.1 (h2 hβ) α rfl
+
+theorem withT_sq {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
+    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1) :
+    ∀ α ∈ withT E, α * α = 1 := by
+  have hcomm := withT_comm hE hc
+  intro α hα
+  replace hα : α ∈ Subgroup.closure ((E : Set (MulAut (Carrier .M22))) ∪ {tAut}) := hα
+  induction hα using Subgroup.closure_induction with
+  | mem x hx =>
+    rcases hx with hx | hx
+    · exact hsq x hx
+    · rw [Set.mem_singleton_iff.1 hx]
+      exact tAut_sq
+  | one => exact mul_one 1
+  | mul x y hx hy ihx ihy =>
+    rw [mul_assoc, ← mul_assoc y x y, ← hcomm x hx y hy, mul_assoc x y y, ← mul_assoc, ihx, ihy,
+      one_mul]
+  | inv x hx ihx => rw [← mul_inv_rev, ihx, inv_one]
+
+theorem jSub_unique_t (E : Subgroup (MulAut (Carrier .M22))) (hE : E ≤ s0)
+    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1) (ht : tAut ∈ E)
     (h32 : 32 ≤ Nat.card E) : E = jSub := by
   have hdvd : Nat.card E ∣ 256 := by
     have := Subgroup.card_dvd_of_le hE
@@ -126,14 +207,24 @@ theorem jSub_unique (E : Subgroup (MulAut (Carrier .M22))) (hE : E ≤ s0)
       rw [not_le] at hlt
       generalize Nat.card E = n at h32 hdvd hne hlt
       interval_cases n <;> omega
-    obtain ⟨L, hL, -⟩ := elemLevel_cover hE hc hsq 6 h64
-    rw [elemLevel_six] at hL
+    obtain ⟨L, hL, -⟩ := elemLevel_cover stepOK hE hc hsq ht autTab_tAut 5 h64
+    rw [elemLevel_five] at hL
     exact List.not_mem_nil hL
-  obtain ⟨L, hL, hLE⟩ := elemLevel_cover hE hc hsq 5 (by rw [hcard]; norm_num)
+  obtain ⟨L, hL, hLE⟩ := elemLevel_cover stepOK hE hc hsq ht autTab_tAut 4 (by rw [hcard]; norm_num)
   obtain rfl := eq_jTabs_of_mem hL
   ext a
   rw [mem_iff_autTab_mem jTabs_nodup (by rw [jTabs_length, hcard]) hLE a]
   exact mem_jSub.symm
+
+theorem jSub_unique (E : Subgroup (MulAut (Carrier .M22))) (hE : E ≤ s0)
+    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1)
+    (h32 : 32 ≤ Nat.card E) : E = jSub := by
+  have hT := jSub_unique_t (withT E) (withT_le hE) (withT_comm hE hc) (withT_sq hE hc hsq)
+    (tAut_mem_withT E) (h32.trans (Subgroup.card_le_of_le (le_withT E)))
+  have hle : E ≤ jSub := by
+    rw [← hT]
+    exact le_withT E
+  exact Subgroup.eq_of_le_of_card_ge hle (by rw [card_jSub]; exact h32)
 
 theorem jSub_normal_E16 {F1 : Subgroup (Carrier .M22)}
     (hmem1 : ∀ x, x ∈ F1 ↔ x = 1 ∨ x ∈ invs16 1) (hF16 : Nat.card F1 = 16)
@@ -142,10 +233,37 @@ theorem jSub_normal_E16 {F1 : Subgroup (Carrier .M22)}
     (hVc : ∀ α ∈ V, ∀ β ∈ V, α * β = β * α) (hVsq : ∀ α ∈ V, α * α = 1)
     (hV16 : Nat.card V = 16) (hVJ : Nat.card ↥(V ⊓ jSub) ≤ 4) :
     V = innerImage (Carrier .M22) F1 := by
-  obtain ⟨L, hL, hLV⟩ := elemLevel_cover hVS hVc hVsq 4 (by rw [hV16]; norm_num)
-  obtain ⟨hnd, hnorm⟩ := level4_prop L hL
+  by_cases ht : tAut ∈ V
+  swap
+  · exfalso
+    have hW := withT_le hVS
+    have hdvd : Nat.card (withT V) ∣ 256 := by
+      have := Subgroup.card_dvd_of_le hW
+      rwa [card_s0] at this
+    have h16 : 16 ≤ Nat.card (withT V) := by
+      rw [← hV16]
+      exact Subgroup.card_le_of_le (le_withT V)
+    have hne : Nat.card (withT V) ≠ 16 := by
+      intro h
+      have hEq : V = withT V := Subgroup.eq_of_le_of_card_ge (le_withT V)
+        (le_of_eq (by rw [h, hV16]))
+      apply ht
+      rw [hEq]
+      exact tAut_mem_withT V
+    have h32 : 32 ≤ Nat.card (withT V) := by
+      by_contra hlt
+      rw [not_le] at hlt
+      generalize Nat.card (withT V) = n at hdvd h16 hne hlt
+      interval_cases n <;> omega
+    have hJ := jSub_unique (withT V) hW (withT_comm hVS hVc) (withT_sq hVS hVc hVsq) h32
+    have hVJ' : V ⊓ jSub = V := inf_eq_left.2 (by rw [← hJ]; exact le_withT V)
+    rw [hVJ', hV16] at hVJ
+    omega
+  obtain ⟨L, hL, hLV⟩ :=
+    elemLevel_cover stepOK hVS hVc hVsq ht autTab_tAut 3 (by rw [hV16]; norm_num)
+  obtain ⟨hnd, hnorm⟩ := level3_prop L hL
   have hlen : L.length = Nat.card V := by
-    rw [length_of_mem_elemLevel s0Tabs 4 L hL, hV16]
+    rw [length_of_mem_elemLevel stepOK 3 L hL, hV16]
     norm_num
   have hmem := mem_iff_autTab_mem hnd hlen hLV
   have hnB : normB L = true := by

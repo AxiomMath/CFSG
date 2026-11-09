@@ -5,10 +5,14 @@ public import Certificates.Kernel.HNF26729.Data
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.HNFSub.S7 "Certificates/Kernel/HNFSub/data/sub7.json.gz" 9388571 9468747812569078895
+#kc_repo #kc_json CFSG.KD.HNFSub.S7 "Certificates/Kernel/HNFSub/data/sub7.json" 9388571 9468747812569078895
     (r0 : List Nat) (cols : List (List Nat)) (segs : List (List (List Nat))) (xm : Nat) (ym : Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.HNFSub.F7 "Certificates/Kernel/HNFSub/data/fib7.json.gz" 721 1313185370496110079
+#kc_repo #kc_json CFSG.KD.HNFSub.O7 "Certificates/Kernel/HNFSub/data/ord7.json" 488291 531961478448859854
+    (cs : List Nat) (o0 : List (List Nat)) (o1 : List (List Nat)) (o2 : List (List Nat))
+    (o3 : List (List Nat))
+
+#kc_repo #kc_json CFSG.KD.HNFSub.F7 "Certificates/Kernel/HNFSub/data/fib7.json" 721 1313185370496110079
     (us : List (List Nat)) (ts : List (List Nat)) (u : Nat) (tree : List (Nat × Nat)) (ord : List Nat)
 
 public section

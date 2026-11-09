@@ -210,11 +210,12 @@ meta def proofOf (T P R : Name) (c : Counts) : Array (String × Expr × Expr) ×
         #[d "F", d "Wd2", lit c.RW, lit c.RM, lit c.nLab, lit c.nW, l1, l2, lit x, lit y, lit z,
           p1, p2]) 0 nWE
   let nCE := c.cx.size - 1
+  let covLE := if c.fwd then mkApp2 (mkConst ``Nat.shiftRight) (lit c.L) (lit 1) else lit c.L
   let (covL, cov) :=
     if nCE = 0 then (nilE, reflBoolTrue)
     else listTree D "cv" c.cx (fun j => chk s!"cov{j}")
-      (fun l1 l2 x y z p1 p2 => mkAppN (mkConst (kbc "cov_step"))
-        #[d "F", lit c.RW, lit c.RM, lit c.N, lit c.L, lit c.nF, l1, l2, lit x, lit y, lit z,
+      (fun l1 l2 x y z p1 p2 => mkAppN (mkConst (kbc (if c.fwd then "covE_step" else "cov_step")))
+        #[d "F", lit c.RW, lit c.RM, lit c.N, covLE, lit c.nF, l1, l2, lit x, lit y, lit z,
           p1, p2]) 0 nCE
   let wordsT := isTrue (mkAppN (mkConst (kbc "wordsOkB"))
     #[sh (d "Wd") 0, d "R", d "S", lit c.inv, lit c.eps, lit c.nR, lit c.nS, lit c.nW])
@@ -224,11 +225,12 @@ meta def proofOf (T P R : Name) (c : Counts) : Array (String × Expr × Expr) ×
     #[d "F", d "D", lit c.L, lit c.nLab, lit 0, lit c.nT])
   let walkT := isTrue (mkApp2 (mkConst ``Nat.beq) (mkAppN (mkConst (kbc "wWalkList"))
     #[d "F", d "Wd2", lit c.RW, lit c.RM, lit c.nLab, lit c.nW, walkL, lit c.nT]) (lit c.nF))
-  let covT := isTrue (mkApp2 (mkConst ``Nat.beq) (mkAppN (mkConst (kbc "wCovList"))
-    #[d "F", lit c.RW, lit c.RM, lit c.N, lit c.L, lit c.nF, covL, lit 0]) (lit c.N))
+  let covT := isTrue (mkApp2 (mkConst ``Nat.beq) (mkAppN
+    (mkConst (kbc (if c.fwd then "wCovListE" else "wCovList")))
+    #[d "F", lit c.RW, lit c.RM, lit c.N, covLE, lit c.nF, covL, lit 0]) (lit c.N))
   let parts := #[("words", wordsT, words), ("pairs", pairsT, pairs), ("tree", treeT, tree),
     ("walk", walkT, walk), ("cov", covT, cov)]
-  (parts, fun part => mkAppN (mkConst (kbc "tableOk_intro"))
+  (parts, fun part => mkAppN (mkConst (kbc (if c.fwd then "tableOkE_intro" else "tableOk_intro")))
     #[lit c.inv, lit c.L, lit c.eps, lit c.nLab, lit c.nT, lit c.N, lit c.RW, lit c.RM, lit c.nR,
       lit c.nS, lit c.nW, lit c.nF, d "F", d "D", d "Wd", d "Wd2", d "R", d "S",
       mkConst (T ++ `amap), mkConst R, mkConst (T ++ `words), walkL, covL,
@@ -265,7 +267,8 @@ elab "kb_assemble " p:ident : tactic =>
     let some (.defnInfo d) := (← getEnv).find? okN
       | throwError "kb_assemble: {okN} is not a definition"
     let a := d.value.getAppArgs
-    unless d.value.isAppOf (kb "tableOk").constName! && a.size == 23 do
+    let fwd := d.value.isAppOf (kb "tableOkE").constName!
+    unless (d.value.isAppOf (kb "tableOk").constName! || fwd) && a.size == 23 do
       throwError "kb_assemble: {okN} is not a `tableOk` application"
     let v ← (a.extract 0 12).mapIdxM fun i e => litVal s!"argument {i} of tableOk" e
     let .const R _ := a[19]! | throwError "kb_assemble: the relators of {okN} are not a constant"
@@ -273,7 +276,7 @@ elab "kb_assemble " p:ident : tactic =>
     let c : Counts :=
       { inv := v[0]!, L := v[1]!, eps := v[2]!, nLab := v[3]!, nT := v[4]!, N := v[5]!,
         RW := v[6]!, RM := v[7]!, nR := v[8]!, nS := v[9]!, nW := v[10]!, nF := v[11]!,
-        wf := ← elemPoints P "walk" v[4]!, cx := ← elemPoints P "cov" 0 }
+        wf := ← elemPoints P "walk" v[4]!, cx := ← elemPoints P "cov" 0, fwd }
     let (parts, pf) := proofOf okN.getPrefix P R c
     g.assign (pf fun s => (parts.find? (·.1 == s)).get!.2.2)
 

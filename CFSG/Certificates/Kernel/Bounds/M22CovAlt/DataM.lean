@@ -1,12 +1,12 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 public import Certificates.Data.Kernel.Multipliers.Mono
 
-#kc_repo #kc_nat_items_gz CFSG.KD.M22M "CFSG/Certificates/Kernel/Bounds/M22CovAlt/data/M.items.gz" 42243 2976230268761826742
+#kc_repo #kc_nat_items CFSG.KD.M22M "CFSG/Certificates/Kernel/Bounds/M22CovAlt/data/M.items" 42243 2976230268761826742
   TBL
 
 public section

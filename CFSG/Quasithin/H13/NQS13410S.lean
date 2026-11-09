@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.H13.NQS13410L
+public import CFSG.Quasithin.Background.L3CodeK
 
 public section
 
@@ -73,9 +74,35 @@ theorem l3Stab_card' : ∀ p : L3.Vec, p ≠ 0 →
 
 theorem l3P2_card' : (Finset.univ.filter fun g : L3.Γ => InL3P2 g).card = 24 := by decide +kernel
 
+theorem l3BlistC_map : L3.CodeK.uniC.map CFSG.F2NatMat.SL3c.toSL = l3Blist := by decide +kernel
+
+@[expose] def InL3P2c (g : CFSG.F2NatMat.SL3c) : Prop :=
+  L3.CodeK.actc g l3e1 2 = 0 ∧ L3.CodeK.actc g l3e2 2 = 0
+
+instance : DecidablePred InL3P2c := fun g => by unfold InL3P2c; infer_instance
+
+theorem l3_word_c : ∀ g : CFSG.F2NatMat.SL3c, L3.CodeK.actc g l3e1 ≠ l3e1 → ¬ InL3P2c g →
+    ∃ b ∈ L3.CodeK.uniC, ∃ b' ∈ L3.CodeK.uniC, InL3P2c (g * b * g⁻¹ * b' * (g * b * g⁻¹)) ∧
+      g * b * g⁻¹ * b' * (g * b * g⁻¹) ∉ L3.CodeK.uniC := by
+  decide +kernel
+
 theorem l3_word : ∀ g : L3.Γ, L3.act g l3e1 ≠ l3e1 → ¬ InL3P2 g → ∃ b ∈ l3Blist, ∃ b' ∈ l3Blist,
     InL3P2 (g * b * g⁻¹ * b' * (g * b * g⁻¹)) ∧ g * b * g⁻¹ * b' * (g * b * g⁻¹) ∉ l3Blist := by
-  decide +kernel
+  intro g h1 h2
+  obtain ⟨g, rfl⟩ := CFSG.F2NatMat.SL3c.toSL_surjective g
+  rw [L3.CodeK.act_toSL] at h1
+  obtain ⟨b, hb, b', hb', h3, h4⟩ := l3_word_c g h1 h2
+  rw [← l3BlistC_map]
+  refine ⟨_, List.mem_map_of_mem hb, _, List.mem_map_of_mem hb', ?_, ?_⟩
+  · rw [← CFSG.F2NatMat.SL3c.toSL_inv, ← CFSG.F2NatMat.SL3c.toSL_mul,
+      ← CFSG.F2NatMat.SL3c.toSL_mul, ← CFSG.F2NatMat.SL3c.toSL_mul,
+      ← CFSG.F2NatMat.SL3c.toSL_mul]
+    exact h3
+  · rw [← CFSG.F2NatMat.SL3c.toSL_inv, ← CFSG.F2NatMat.SL3c.toSL_mul,
+      ← CFSG.F2NatMat.SL3c.toSL_mul, ← CFSG.F2NatMat.SL3c.toSL_mul,
+      ← CFSG.F2NatMat.SL3c.toSL_mul, List.mem_map]
+    rintro ⟨c, hc, e⟩
+    exact h4 (CFSG.F2NatMat.SL3c.toSL_injective e ▸ hc)
 
 theorem card_l3B : Nat.card ↥l3B = 8 := by
   classical

@@ -188,11 +188,15 @@ theorem rep_reg {RF oi oj A B : ℕ → ℕ} (hA : ∀ x < 3510, A x = idx 3510 
     (hops : ∀ k, 3 ≤ k → k < 570 → (ops[k - 3]!).1 = oi k ∧ (ops[k - 3]!).2 = oj k) :
     ∀ k < 570, RepE (RF k) (regJ k) := by
   unfold baseC at hbase
+  generalize e0 : agB (ent (RF (nat_lit 0))) A (nat_lit 3510) (nat_lit 55) = X0 at hbase
+  generalize e1 : agB (ent (RF (nat_lit 1))) B (nat_lit 3510) (nat_lit 55) = X1 at hbase
+  generalize e2 : invB (ent (RF (nat_lit 1))) (ent (RF (nat_lit 2))) (nat_lit 3510) (nat_lit 55) =
+    X2 at hbase
   simp only [bRec_and, Bool.and_eq_true] at hbase
-  obtain ⟨h0, h1, h2⟩ := hbase
-  have r0 := agB_spec h0 (by norm_num)
-  have r1 := agB_spec h1 (by norm_num)
-  have r2 := invB_spec h2 (by norm_num)
+  obtain ⟨rfl, rfl, rfl⟩ := hbase
+  have r0 := agB_spec e0 (by norm_num)
+  have r1 := agB_spec e1 (by norm_num)
+  have r2 := invB_spec e2 (by norm_num)
   have r1' : ∀ x < 3510, ent (RF 1) x = idx 3510 b x := fun x hx => (r1 x hx).trans (hB x hx)
   have r2' := inv_of_left r1' r2
   intro k
@@ -205,9 +209,13 @@ theorem rep_reg {RF oi oj A B : ℕ → ℕ} (hA : ∀ x < 3510, A x = idx 3510 
       · rw [regJ_one]; exact r1' x hx
       · rw [regJ_two]; exact r2' x hx
     · have hr := hreg k (by omega) hk
-      unfold regC compOK at hr
-      simp only [sB_eq, bRec_and, Bool.and_eq_true, blt_iff] at hr
-      obtain ⟨hi, hj, hc⟩ := hr
+      unfold regC at hr
+      simp only [sB_eq] at hr
+      generalize ec : compOK (RF k) (RF (oi k)) (RF (oj k)) = C at hr
+      simp only [bRec_and, Bool.and_eq_true, blt_iff] at hr
+      obtain ⟨hi, hj, rfl⟩ := hr
+      have hc : allBelow (nat_lit 3510) (nat_lit 55)
+          (fun x => Nat.beq (ent (RF k) x) (ent (RF (oi k)) (ent (RF (oj k)) x))) = true := ec
       have hc' := beq_iff _ _ |>.1 (allBelow_specF hc (by norm_num) x hx)
       obtain ⟨e1, e2⟩ := hops k (by omega) hk
       rw [regJ_succ ⟨by omega, by rw [e1]; exact hi, by rw [e2]; exact hj⟩, e1, e2, idx_mul, hc',

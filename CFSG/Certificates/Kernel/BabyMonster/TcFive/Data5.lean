@@ -2,8 +2,9 @@ module
 
 import CFSG.Certificates.Kernel.BabyMonster.Family
 meta import CFSG.Certificates.Kernel.BabyMonster.Twin
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data12
 import CFSG.Certificates.Kernel.BabyMonster.Five.Data14
-import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 import CFSG.Certificates.Kernel.BabyMonster.TcFive.Data0
 import CFSG.Certificates.Kernel.BabyMonster.TcFive.Data4
 

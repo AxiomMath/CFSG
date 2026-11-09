@@ -27,8 +27,10 @@ open CFSG.KLie.CT (bit)
 
 @[expose] noncomputable def ub (r q : Nat) : Nat := pg 12 (mask 12) (UB r) q
 
-@[expose] noncomputable def U (r e : Nat) : Nat :=
-  conjK (wK CertificateChecks.KernelSporSch.RuG.SG (g2ConjWords.getD r [])) (WPk e)
+@[expose] noncomputable def sigK (r : Nat) : Nat :=
+  wK CertificateChecks.KernelSporSch.RuG.SG (g2ConjWords.getD r [])
+
+@[expose] noncomputable def yK (r x : Nat) : Nat := pg 12 (mask 12) (YB r) x
 
 @[expose] noncomputable def rowC (i : Nat) : Bool :=
   allN 687 fun j => eqB (bit (R i) j) (comK LR TR (cd i) (cd j))
@@ -40,7 +42,10 @@ open CFSG.KLie.CT (bit)
   allN 687 fun i => eqB (bit (W r) i) (inWK LR TR (ub r) (cd i))
 
 @[expose] noncomputable def ubC (r : Nat) : Bool :=
-  allN 64 fun e => bAnd(Nat.beq (ub r (2 * e)) (ap (U r e) 1), Nat.beq (ub r (2 * e + 1)) (ap (U r e) 0))
+  bAnd(Nat.blt (yK r 1) 4060, bAnd(Nat.blt (yK r 0) 4060,
+  bAnd(Nat.beq (ap (sigK r) (yK r 1)) 1, bAnd(Nat.beq (ap (sigK r) (yK r 0)) 0,
+  allN 64 fun e => bAnd(Nat.beq (ub r (2 * e)) (ap (sigK r) (ap (WT e) (yK r 1))),
+    Nat.beq (ub r (2 * e + 1)) (ap (sigK r) (ap (WT e) (yK r 0))))))))
 
 end CertificateChecks.KernelSporSch.RuE64
 

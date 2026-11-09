@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.SLDc
 
-#kc_repo #kc_json_gz CFSG.KD.M22Dc.J "Certificates/Kernel/M22Dc/data/m22.json.gz" 15838
+#kc_repo #kc_json CFSG.KD.M22Dc.J "Certificates/Kernel/M22Dc/data/m22.json" 15838
   1298150034202519019
   (w : Nat) (oidC : Nat) (tlC : Nat) (dpC : Nat) (obase : List Nat) (osz : List Nat)
   (K : List (List (List Nat))) (sep : List Nat) (mw : List (List (List Nat)))

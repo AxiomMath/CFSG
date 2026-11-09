@@ -9,8 +9,8 @@ public section
 
 namespace CFSG.KD.Co1M
 
-#kc_repo #kc_json_gz CFSG.KD.Co1M
-  "Certificates/Kernel/Co1M/data/D10066.json.gz" 2462 3218610519062346644
+#kc_repo #kc_json CFSG.KD.Co1M
+  "Certificates/Kernel/Co1M/data/D10066.json" 2462 3218610519062346644
   (R0v66 : Nat) (R1v66 : Nat) (W3a66 : List Nat) (W3b66 : List Nat) (W4a66 : List Nat)
   (W4b66 : List Nat) (G366 : List Nat) (GT366 : List Nat) (G466 : List Nat) (GT466 : List Nat)
   (Rt366 : List Nat) (Sz366 : List Nat) (Rt466 : List Nat) (Sz466 : List Nat)

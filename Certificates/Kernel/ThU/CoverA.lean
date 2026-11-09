@@ -7,6 +7,6 @@ public import Certificates.Kernel.ThU.CoverK3
 
 public section
 
-#kb_family_close "data/ThUC.json.gz" 1010 7305825809881474239
+#kb_family_close "data/ThUC.json" 1010 7305825809881474239
 
 end

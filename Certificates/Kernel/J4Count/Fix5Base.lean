@@ -46,10 +46,15 @@ theorem pV_wf {i : ℕ} (hi : i < 14) : (pV i).wf = true := d4pts_wf _ (pV_mem h
 
 theorem XPTS_length : XPTS.length = 14 := rfl
 
+theorem getD_map_of_eq {α β : Type} {f : α → β} {l : List α} {L : List β} (h : l.map f = L)
+    {i : ℕ} (hi : i < l.length) (d : α) (d' : β) : f (l.getD i d) = L.getD i d' := by
+  subst h
+  rw [List.getD_eq_getElem _ _ hi, List.getD_eq_getElem _ _ (by rw [List.length_map]; exact hi),
+    List.getElem_map]
+
 theorem v2N_pV {i : ℕ} (hi : i < 14) : v2N (pV i) = getN 0 XPTS i := by
-  have hl : i < (d4Pts.map v2N).length := by rw [List.length_map, d4Pts_length]; exact hi
-  rw [getN_getD, List.getD_eq_getElem _ _ (by rw [XPTS_length]; exact hi)]
-  simp only [← d4pts_map, List.getElem_map, pV_eq hi]
+  rw [getN_getD]
+  exact getD_map_of_eq d4pts_map (by rw [d4Pts_length]; exact hi) _ _
 
 theorem ptsV_inj {i j : ℕ} (hi : i < 14) (hj : j < 14) (h : ptsV i = ptsV j) : i = j := by
   have h1 : pV i = pV j := (V2.toVec_inj (pV_wf hi) (pV_wf hj)).1 (congrArg ofRow h)

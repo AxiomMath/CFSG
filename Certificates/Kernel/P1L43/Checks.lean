@@ -56,6 +56,98 @@ open CFSG.ComponentClassification.HarrisLit.P1 CFSG.ComponentClassification.Harr
 @[expose] noncomputable def US : Nat := pk (natArr uS)
 @[expose] noncomputable def UDS : Nat := pk (natArr uDS)
 
+theorem binds_0 : bindT uD UD = true := by decide +kernel
+
+theorem binds_1 : bindT uS US = true := by decide +kernel
+
+theorem binds_2 : bindT uDS UDS = true := by decide +kernel
+
+theorem binds_3 : bindT (tm codeA) (K2106.G 0) = true := by decide +kernel
+
+theorem binds_4 : bindT (tm codeB) (K2106.G 1) = true := by decide +kernel
+
+theorem binds_5 :
+    (List.all [K5265.G 0, K1080.G 0, K10530.G 0, K117a.G 0, K117b.G 0, K8424.G 0] (Nat.beq ·
+    (K2106.G 0))) = true := by
+  decide +kernel
+
+theorem binds_6 :
+    (List.all [K5265.G 1, K1080.G 1, K10530.G 1, K117a.G 1, K117b.G 1, K8424.G 1] (Nat.beq ·
+    (K2106.G 1))) = true := by
+  decide +kernel
+
+theorem binds_7 : bindT (tm 11821474) (K2106.T K2106.r0) = true := by decide +kernel
+
+theorem binds_8 : bindT (tm 40942156) (K2106.T K2106.r1) = true := by decide +kernel
+
+theorem binds_9 : bindT (tm 12703935) (K2106.T K2106.r2) = true := by decide +kernel
+
+theorem binds_10 : bindT (tm 38855539) (K5265.T K5265.r0) = true := by decide +kernel
+
+theorem binds_11 : bindT (tm 28874841) (K5265.T K5265.r1) = true := by decide +kernel
+
+theorem binds_12 : bindT (tm 28777033) (K5265.T K5265.r2) = true := by decide +kernel
+
+theorem binds_13 : bindT (tm 14650228) (K1080.T K1080.r0) = true := by decide +kernel
+
+theorem binds_14 : bindT (ts 6629227) (K10530.T K10530.r0) = true := by decide +kernel
+
+theorem binds_15 : bindT (ts 12439050) (K117a.T K117a.r0) = true := by decide +kernel
+
+theorem binds_16 : bindT (ts 12940497) (K117b.T K117b.r0) = true := by decide +kernel
+
+theorem binds_17 : bindT (ts 7174611) (K8424.T K8424.r0) = true := by decide +kernel
+
+theorem binds_18 : bindT (tm 10394616) (CD0.G 0) = true := by decide +kernel
+
+theorem binds_19 : bindT (tm 17819842) (CD0.G 1) = true := by decide +kernel
+
+theorem binds_20 : bindT (tm 15481057) (CD1.G 0) = true := by decide +kernel
+
+theorem binds_21 : bindT (tm 42492655) (CD1.G 1) = true := by decide +kernel
+
+theorem binds_22 : bindT (tm 34288414) (CD2.G 0) = true := by decide +kernel
+
+theorem binds_23 : bindT (tm 37099471) (CD2.G 1) = true := by decide +kernel
+
+theorem binds_24 : bindT (tm 6388611) (CS0.G 0) = true := by decide +kernel
+
+theorem binds_25 : bindT (tm 11307727) (CS0.G 1) = true := by decide +kernel
+
+theorem binds_26 : bindT (tm 16162266) (CS1.G 0) = true := by decide +kernel
+
+theorem binds_27 : bindT (tm 37212132) (CS1.G 1) = true := by decide +kernel
+
+theorem binds_28 : bindT (tm 23277730) (CS2.G 0) = true := by decide +kernel
+
+theorem binds_29 : bindT (tm 40696764) (CS2.G 1) = true := by decide +kernel
+
+theorem binds_30 : bindT (tm 39850015) (CS3.G 0) = true := by decide +kernel
+
+theorem binds_31 : bindT (tm 22163176) (CS3.G 1) = true := by decide +kernel
+
+theorem binds_32 : bindT (tm 15086220) (CS4.G 0) = true := by decide +kernel
+
+theorem binds_33 : bindT (tm 39271333) (CS4.G 1) = true := by decide +kernel
+
+theorem binds_34 : bindT (tm 8629557) (CDS0.G 0) = true := by decide +kernel
+
+theorem binds_35 : bindT (tm 8883729) (CDS0.G 1) = true := by decide +kernel
+
+theorem binds_36 : bindT (tm 19240684) (CDS1.G 0) = true := by decide +kernel
+
+theorem binds_37 : bindT (tm 32466360) (CDS1.G 1) = true := by decide +kernel
+
+theorem binds_38 : bindT (tm 1288381) (CDS2.G 0) = true := by decide +kernel
+
+theorem binds_39 : bindT (tm 660594) (CDS2.G 1) = true := by decide +kernel
+
+theorem binds_40 :
+    [UD, US, UDS, K2106.T K2106.r0, K2106.T K2106.r1, K2106.T K2106.r2, K5265.T K5265.r0, K5265.T
+    K5265.r1, K5265.T K5265.r2, K1080.T K1080.r0, K10530.T K10530.r0, K117a.T K117a.r0, K117b.T
+    K117b.r0, K8424.T K8424.r0].all selfInv = true := by
+  decide +kernel
+
 theorem binds :
     bindT uD UD = true ∧ bindT uS US = true ∧ bindT uDS UDS = true ∧
     bindT (tm codeA) (K2106.G 0) = true ∧ bindT (tm codeB) (K2106.G 1) = true ∧
@@ -82,8 +174,12 @@ theorem binds :
     bindT (tm 1288381) (CDS2.G 0) = true ∧ bindT (tm 660594) (CDS2.G 1) = true ∧
     [UD, US, UDS, K2106.T K2106.r0, K2106.T K2106.r1, K2106.T K2106.r2, K5265.T K5265.r0,
       K5265.T K5265.r1, K5265.T K5265.r2, K1080.T K1080.r0, K10530.T K10530.r0, K117a.T K117a.r0,
-      K117b.T K117b.r0, K8424.T K8424.r0].all selfInv = true := by
-  decide +kernel
+      K117b.T K117b.r0, K8424.T K8424.r0].all selfInv = true :=
+  ⟨binds_0, binds_1, binds_2, binds_3, binds_4, binds_5, binds_6, binds_7, binds_8, binds_9,
+    binds_10, binds_11, binds_12, binds_13, binds_14, binds_15, binds_16, binds_17, binds_18,
+    binds_19, binds_20, binds_21, binds_22, binds_23, binds_24, binds_25, binds_26, binds_27,
+    binds_28, binds_29, binds_30, binds_31, binds_32, binds_33, binds_34, binds_35, binds_36,
+    binds_37, binds_38, binds_39, binds_40⟩
 
 @[expose] noncomputable def runK (U : Nat) (G : Nat → Nat) (ng : Nat) : Bool :=
   bAnd(isIdK 80 7 (pc U U), bAnd(sP (pc U (pc (K2106.G 0) U)),

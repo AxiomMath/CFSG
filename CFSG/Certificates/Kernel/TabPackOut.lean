@@ -22,6 +22,17 @@ open CFSG.EvenSporadicStandard.M22Std.TabCheck CFSG.EvenSporadicStandard.M22Std.
     allR (fun x => memN x F) (classN TP a))
   (filterR (fun x => Nat.beq (List.length (classN TP x)) 8) (filterR (isInvN 22) T))
 
+@[expose] noncomputable def uniqA (T : List Nat) (TP : List (Nat × Nat)) (F : List Nat) (a : Nat) : Bool :=
+  !(Nat.beq (List.length (classN TP a)) 8) ||
+    (!(allR (fun x => allR (fun y => commN 22 x y) (classN TP a)) (classN TP a)) ||
+    !(Nat.beq (List.length (filterR (fun l => allR (fun x => commN 22 l x) (classN TP a)) T)) 16) ||
+    allR (fun x => memN x F) (classN TP a))
+
+@[expose] noncomputable def uniqRepN (T : List Nat) (TP : List (Nat × Nat)) (F R : List Nat) : Bool :=
+  allR (fun r => memN r T) R &&
+    allR (fun a => anyR (fun r => memN a (classN TP r)) R) (filterR (isInvN 22) T) &&
+    allR (uniqA T TP F) R
+
 theorem dedupN_enc {n : Nat} : ∀ {l : List (List Nat)}, (∀ x ∈ l, W n x) → l.dedup.map enc = dedupN (l.map enc)
   | [], _ => by simp [dedupN]
   | x :: l, h => by
@@ -100,6 +111,59 @@ theorem uniqOK_eq {T F : List (List Nat)} (hT : ∀ x ∈ T, W 22 x) (hF : ∀ x
       allR (fun x => memN x (F.map enc)) ((classTabs T a).map enc) :=
     all_enc (g := fun x' => memN x' (F.map enc)) hC fun x hx => decide_mem_enc (hC x hx) hF
   rw [p1, p2, p3]
+
+theorem any_enc {I : List Tab} {f : Tab → Bool} {g : Nat → Bool}
+    (h : ∀ x ∈ I, f x = g (enc x)) : I.any f = anyR g (I.map enc) := by
+  induction I with
+  | nil => rfl
+  | cons x l ih =>
+    change (f x || l.any f) = (g (enc x) || anyR g (l.map enc))
+    rw [h x (List.mem_cons_self ..), ih fun y hy => h y (List.mem_cons_of_mem _ hy)]
+
+theorem uniqAt_eq {T F : List (List Nat)} (hT : ∀ x ∈ T, W 22 x) (hF : ∀ x ∈ F, W 22 x)
+    {a : List Nat} (ha : W 22 a) :
+    uniqAt T F a = uniqA (T.map enc) (T.map fun a => (enc a, enc (tinv a))) (F.map enc) (enc a) := by
+  have hC := class_W hT ha
+  simp only [uniqAt, uniqA, comm_eq]
+  rw [← class_enc hT ha]
+  have p0 : ((classTabs T a).length == 8) = Nat.beq ((classTabs T a).map enc).length 8 := by
+    rw [List.length_map, beq_nat]
+  have p1 : ((classTabs T a).all fun x => (classTabs T a).all fun y => commT x y) =
+      allR (fun x => allR (fun y => commN 22 x y) ((classTabs T a).map enc))
+        ((classTabs T a).map enc) :=
+    all_enc (g := fun x' => allR (fun y => commN 22 x' y) ((classTabs T a).map enc)) hC
+      fun x hx => all_enc (g := fun y => commN 22 (enc x) y) hC
+        fun y hy => comm_enc (hC x hx) (hC y hy)
+  have p2 : ((T.filter fun l => (classTabs T a).all fun x => commT l x).length == 16) =
+      Nat.beq (filterR (fun l => allR (fun x => commN 22 l x) ((classTabs T a).map enc))
+        (T.map enc)).length 16 := by
+    rw [← filter_enc (g := fun l' => allR (fun x => commN 22 l' x) ((classTabs T a).map enc))
+      (fun l hl => all_enc (g := fun x => commN 22 (enc l) x) hC
+      fun x hx => comm_enc (hT l hl) (hC x hx)), List.length_map, beq_nat]
+  have p3 : ((classTabs T a).all fun x => decide (x ∈ F)) =
+      allR (fun x => memN x (F.map enc)) ((classTabs T a).map enc) :=
+    all_enc (g := fun x' => memN x' (F.map enc)) hC fun x hx => decide_mem_enc (hC x hx) hF
+  rw [p0, p1, p2, p3]
+
+theorem uniqRepOK_eq {T F R : List (List Nat)} (hT : ∀ x ∈ T, W 22 x) (hF : ∀ x ∈ F, W 22 x)
+    (hR : ∀ x ∈ R, W 22 x) :
+    uniqRepOK T F R =
+      uniqRepN (T.map enc) (T.map fun a => (enc a, enc (tinv a))) (F.map enc) (R.map enc) := by
+  have hI := filter_W (f := isInvT 22) hT
+  simp only [uniqRepOK, uniqRepN, isInv_eq]
+  rw [← filter_enc (fun x hx => isInv_enc (by decide) (hT x hx)),
+    all_enc (g := fun r' => memN r' (T.map enc)) hR fun r hr => decide_mem_enc (hR r hr) hT,
+    all_enc (g := fun a' => anyR (fun r => memN a' (classN (T.map fun a => (enc a, enc (tinv a))) r))
+      (R.map enc)) hI fun a ha =>
+      any_enc (g := fun r' => memN (enc a) (classN (T.map fun a => (enc a, enc (tinv a))) r'))
+        fun r hr => by
+          rw [← class_enc hT (hR r hr)]
+          exact decide_mem_enc (hI a ha) (class_W hT (hR r hr)),
+    all_enc (g := uniqA (T.map enc) (T.map fun a => (enc a, enc (tinv a))) (F.map enc)) hR
+      fun r hr => uniqAt_eq hT hF (hR r hr)]
+
+theorem reps_W : ∀ x ∈ s0Reps, W 22 x := by
+  unfold W; decide +kernel
 
 theorem s0_W : ∀ x ∈ s0Tabs, W 22 x := by
   rw [s0Tabs, M22.span_eq]

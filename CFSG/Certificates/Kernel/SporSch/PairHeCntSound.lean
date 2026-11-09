@@ -64,6 +64,25 @@ theorem nIf_and4 (a b c d : Bool) :
       a) = if a = true ∧ b = true ∧ c = true ∧ d = true then 1 else 0 := by
   cases a <;> cases b <;> cases c <;> cases d <;> rfl
 
+theorem preP_true {f Z ZI : Nat → Nat} {x z : Equiv.Perm (Fin n)} (hf : RepF n f x)
+    (hZ : RepF n Z z) (hZI : RepF n ZI z⁻¹) (hx : x * x = 1) (h7 : (x * z) ^ 7 = 1) {p a1 a0 : Nat}
+    (hp : p < n) (ha1 : a1 = f (Z p)) (ha0 : a0 = f p) : preP f Z ZI a1 a0 = true := by
+  have hxi : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx
+  have h43 : (x * z) ^ 4 * (x * z) ^ 3 = 1 := by
+    rw [← pow_add]
+    exact h7
+  have e : (x * z) ^ 4 = z⁻¹ * (x⁻¹ * (z⁻¹ * (x⁻¹ * (z⁻¹ * x⁻¹)))) := by
+    rw [eq_inv_of_mul_eq_one_left h43]
+    simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
+  have hL : RepF n (fun q => f (Z (f (Z (f (Z (f (Z q)))))))) ((x * z) ^ 4) :=
+    (hf.comp (hZ.comp (hf.comp (hZ.comp (hf.comp (hZ.comp (hf.comp hZ))))))).congr (by
+      simp only [pow_succ, pow_zero, one_mul, mul_assoc])
+  have hR : RepF n (fun q => ZI (f (ZI (f (ZI (f q)))))) ((x * z) ^ 4) :=
+    (hZI.comp (hf.comp (hZI.comp (hf.comp (hZI.comp hf))))).congr (by rw [e, hxi])
+  unfold preP
+  rw [ha1, ha0, Nat.beq_eq]
+  exact (hL p hp).trans (hR p hp).symm
+
 section Checks
 
 variable {w kS BP NS CH NR NL NT BT NQ BQ : Nat} {PS PSI LR Ts LT PT QT : Nat → Nat}
@@ -118,6 +137,39 @@ theorem scanHeAt_eq (hH : BaseFaithful H bs) (hbs : ∀ b ∈ bs, b < n) {X Z ZI
     simp only [hA, hB, hC, hD, hi, true_and]
   · rw [blt_false hi]
     simp only [hi, false_and, ite_false]
+
+theorem scanHeP_eq (hH : BaseFaithful H bs) (hbs : ∀ b ∈ bs, b < n) {X K Z ZI : Nat → Nat}
+    {z : Equiv.Perm (Fin n)} (hZ : RepF n Z z) (hZI : RepF n ZI z⁻¹) (hz : z ∈ H)
+    {c i D1 D0 p : Nat} (hp : p < n)
+    (hV : i < c → nfValidK 5 LR (nfX 5 (X i)) = true)
+    (hE : i < c → elt5 S base (nfX 5 (X i)) ∈ H)
+    (hI : i < c → elt5 S base (nfX 5 (X i)) * elt5 S base (nfX 5 (X i)) =
+      (1 : Equiv.Perm (Fin n)))
+    (h1 : i < c → Nat.mod (Nat.div (K i) D1) n = nfPtT w NR NL LT PT 5 (nfX 5 (X i)) (Z p))
+    (h0 : i < c → Nat.mod (Nat.div (K i) D0) n = nfPtT w NR NL LT PT 5 (nfX 5 (X i)) p) :
+    scanHeP w NR NL LT PT bs c X K Z ZI n D1 D0 i = scanHeAt w NR NL LT PT bs c X Z ZI i := by
+  have hA := scanHeAt_eq hT hH hbs hZ hZI hz hV hE (i := i)
+  unfold scanHeP
+  by_cases hi : i < c
+  · rw [blt_true hi]
+    change strictN (nfX 5 (X i)) _ = _
+    rw [strictN_val]
+    change strictN (K i) _ = _
+    rw [strictN_val]
+    cases hpre : preP (nfPtT w NR NL LT PT (nat_lit 5) (nfX (nat_lit 5) (X i))) Z ZI
+      (Nat.mod (Nat.div (K i) D1) n) (Nat.mod (Nat.div (K i) D0) n)
+    · change 0 = _
+      rw [hA, if_neg]
+      rintro ⟨-, h7, -⟩
+      have h7' : (elt5 S base (nfX 5 (X i)) * z) ^ 7 = 1 := by
+        rw [← h7]
+        exact pow_orderOf_eq_one _
+      have hP := preP_true (f := nfPtT w NR NL LT PT (nat_lit 5) (nfX (nat_lit 5) (X i)))
+        (nfPtT5 hT (hV hi)).2 hZ hZI (hI hi) h7' hp (h1 hi) (h0 hi)
+      exact Bool.false_ne_true (hpre.symm.trans hP)
+    · rfl
+  · rw [blt_false hi, hA, if_neg fun h => hi h.1]
+    all_goals rfl
 
 theorem bind5_spec {F P : Nat} (hF : nfValidK 5 LR F = true)
     (h : ∀ x < n, bind5At n w NR NL LT PT F P x = true) :

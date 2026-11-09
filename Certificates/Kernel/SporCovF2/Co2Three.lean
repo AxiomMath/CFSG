@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Data.Kernel.SporCov.F2Reg
 public import Certificates.Kernel.VecCert.Co2
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovF2.Co2Three.F "Certificates/Kernel/SporCovF2/data/co23.json.gz"
+#kc_repo #kc_json CFSG.KD.SporCovF2.Co2Three.F "Certificates/Kernel/SporCovF2/data/co23.json"
   49932 12759412832705006750
   (Rg : List (List Nat)) (Ms : List Nat) (H : List (List Nat)) (R : List (List Nat))
   (P : List Nat) (T : List (List Nat)) (Rp : List (List Nat)) (Gs : List (List Nat))

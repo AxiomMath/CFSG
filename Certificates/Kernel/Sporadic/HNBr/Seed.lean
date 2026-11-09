@@ -15,7 +15,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CFSG.KD.BrHN "Certificates/Kernel/Sporadic/HNBr/data/seed.json.gz" 1031
+#kc_repo #kc_json CFSG.KD.BrHN "Certificates/Kernel/Sporadic/HNBr/data/seed.json" 1031
   798231070148044350 (DA1 : List Nat) (DA2 : List Nat)
 
 #ks_chars CFSG.KD.BrHN.HNSeedA CFSG.Sporadic.HN.Native.seedA

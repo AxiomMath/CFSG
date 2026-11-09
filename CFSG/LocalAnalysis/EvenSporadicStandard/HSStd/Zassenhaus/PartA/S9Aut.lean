@@ -4,6 +4,7 @@ public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.AutA6Type
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.AutA6Invol
 public import CFSG.Fischer.Classification.Recognition.PSU6
 public import CFSG.LocalAnalysis.ComponentClassification.ClassicalModelStatedBridge
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.AutA6FiveK
 
 public section
 
@@ -15,9 +16,31 @@ open CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts CFSG.QuasithinUnique.Setu
 
 namespace AutA6Types
 
+theorem cent40K : CFSG.Permutation.FinPack.allK (fun a => AutA6FiveK.fixes3K a ||
+    Nat.ble (AutA6K.cntL (CFSG.Permutation.FinPack.commLaneK 10 a) AutA6K.autK) 40)
+    AutA6K.invK = true := by
+  decide +kernel
+
 theorem centralizer_check40 : AutA6Invol.invCodes.all (fun a => fixes3 a ||
     decide ((Core.autL.filter fun c => Core.cmul a c == Core.cmul c a).length ≤ 40)) = true := by
-  decide +kernel
+  rw [List.all_eq_true]
+  intro a ha
+  unfold AutA6Invol.invCodes at ha
+  rw [List.mem_filter] at ha
+  obtain ⟨hmem, hinv⟩ := ha
+  obtain ⟨x, rfl⟩ := exists_of_mem_autL hmem
+  rw [AutA6FiveK.fixes3_eq,
+    AutA6K.length_filter_autL (fun c => Core.cmul (cd x) c == Core.cmul c (cd x))
+    (CFSG.Permutation.FinPack.commLaneK 10 (CFSG.Permutation.FinPack.enc (x : P10)))
+    (fun y => AutA6K.comm_eq x y)]
+  have hx : AutA6K.invTK (CFSG.Permutation.FinPack.enc (x : P10)) = true := by
+    rw [AutA6K.invTK_eq]
+    exact hinv
+  have h := CFSG.Permutation.FinPack.allK_iff.1 cent40K _ (AutA6K.enc_mem_invK hx)
+  have e : ∀ m n : ℕ, Nat.ble m n = decide (m ≤ n) := fun m n => by
+    rw [Bool.eq_iff_iff, Nat.ble_eq, decide_eq_true_iff]
+  rw [e] at h
+  exact h
 
 theorem invNoFix_ne_nil : invNoFix ≠ [] := by
   have : invNoFix.isEmpty = false := by decide +kernel

@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.OmegaEight.SB3884
+public import Certificates.Kernel.OmegaEight.SB3884KC
 public import Certificates.Kernel.OmegaEight.SB3884KD
 
 public section
@@ -18,7 +18,7 @@ theorem kOK0 : l2KOK 0 kGs0 kL0 = true := by
   have hl : lOK 0 = true := by decide +kernel
   have hio : iotaOK (MK 0 16 0) 0 = true := by decide +kernel
   exact l2KOK_of (k := 0) (m := 16) (z := 0) rfl rfl rfl hw hl hio
-    (kDataF_of (by decide) (by decide +kernel) fun s hs => by interval_cases s <;> decide +kernel)
+    (kDataF_ofR6 (by decide) (by decide +kernel) fun s hs => by interval_cases s <;> decide +kernel)
 
 set_option maxHeartbeats 0 in
 theorem kOK1 : l2KOK 1 kGs1 kL1 = true := by
@@ -26,7 +26,7 @@ theorem kOK1 : l2KOK 1 kGs1 kL1 = true := by
   have hl : lOK 0 = true := by decide +kernel
   have hio : iotaOK (MK 0 21 0) 1 = true := by decide +kernel
   exact l2KOK_of (k := 0) (m := 21) (z := 0) rfl rfl rfl hw hl hio
-    (kDataF_of (by decide) (by decide +kernel) fun s hs => by interval_cases s <;> decide +kernel)
+    (kDataF_ofR6 (by decide) (by decide +kernel) fun s hs => by interval_cases s <;> decide +kernel)
 
 
 end CertificateChecks.KernelO8.SB3884

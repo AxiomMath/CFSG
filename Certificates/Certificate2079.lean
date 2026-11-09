@@ -5,7 +5,6 @@ public meta import CFSG.Sporadic.FischerOddCore.FischerOuterFi22Data
 public meta import CFSG.Sporadic.FischerOddCore.Fi24R2KCheck
 public meta import CFSG.Sporadic.FischerOddCore.Fi22Cent
 import Certificates.Kernel.Sporadic.Fi22.C2079
-import Certificates.Kernel.Sporadic.Fi22.E2065Eq
 import Certificates.Certificate2065
 import Certificates.Certificate2066
 import Certificates.Certificate2067
@@ -42,6 +41,6 @@ theorem certificate2079 : (fo22ChainOK 3510 fo22N3Strong #[9, 0, 1, 2] fo22N3Wor
     ∧ (fo22H2OK (fi22CentStrong 2) ((fi22CentStrong 2).extract 0 3) fo22S02 fo22Tree2
       fo22P2Strong = true
     ) :=
-  KernelSpor.Fo22C.certificate2079_of KernelSpor.Fi22CentB.text_eq
+  KernelSpor.Fo22C.facts2079
 
 end Certificates

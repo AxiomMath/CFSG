@@ -22,6 +22,23 @@ meta def strongF3 : Array (Array Nat) := CFSG.Sporadic.SuzOddCore.invFullStrongA
 
 end CertificateChecks.KernelSpor.SuzInv
 
+namespace CertificateChecks.KernelSpor.SuzInvF3
+
+meta def subJ : Array Nat := #[4, 8]
+
+@[expose] def subW : List (List Nat) :=
+  [[0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0], [0],
+    [0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0],
+    [0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1], [1, 1, 1, 1], [1],
+    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+    [0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0]]
+
+end CertificateChecks.KernelSpor.SuzInvF3
+
 #ks_rawchain_sl4 CertificateChecks.KernelSpor.SuzInvF3 1782 11 8 64 0
   CertificateChecks.KernelSpor.SuzInv.strongF3 CertificateChecks.KernelSpor.SuzInv.baseF3 6
   CertificateChecks.KernelSpor.SuzInv.derivF3

@@ -48,7 +48,7 @@ theorem round_eq {i k : Nat}
     (hi : i < 6) (h : rnd (SFL12 i) k = true) :
     refineStepT (suzFiveLineArr i) (col (k - 1)) = col k := by
   obtain ⟨htab, hord, hr⟩ := rnd_facts h
-  have hs := round_sound (by norm_num) S2301.rows S2301.symm' S2301.masks htab hord (tlt hi) hr
+  have hs := round_sound (by norm_num) (by norm_num) S2301.rows S2301.symm' S2301.masks htab hord (tlt hi) hr
   refine S2301.arr_ext (S2301.refineStepT_size _ _) (col_size _) fun v hv => ?_
   rw [S2301.refineStepT_get _ _ hv, S2301.nbr_eq, line12_eq hi]
   exact hs v hv

@@ -5,6 +5,7 @@ public import Certificates.Data.Kernel.ONSevenR
 public import CFSG.Certificates.Kernel.Common.Each
 public import CFSG.Certificates.Kernel.Common.ForallChunks
 import CFSG.Certificates.Kernel.Common.Harness
+import Certificates.Kernel.ONSeven.RFK
 
 public section
 
@@ -23,8 +24,8 @@ open CFSG.KC.ONR CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.Misc.ArrEnum
 theorem c0_orb : orbK C0.N 12 4 C0.T C0.G C0.D C0.S = true := by quickRfl
 
 set_option maxHeartbeats 0 in
-theorem c0_f : fK 2746 1372 343 12 4 2 EC0.T EF0.T C0.G (fun l => C0.G (Nat.add 5 l)) X0 = true := by
-  quickRfl
+theorem c0_f : fK 2746 1372 343 12 4 2 EC0.T EF0.T C0.G (fun l => C0.G (Nat.add 5 l)) X0 = true :=
+  fK_of_fKpt (by decide) (by quickRfl)
 
 theorem c0_N : Nat.beq C0.N 2746 = true := by quickRfl
 theorem c0_EN : Nat.beq EC0.N 1372 = true := by quickRfl

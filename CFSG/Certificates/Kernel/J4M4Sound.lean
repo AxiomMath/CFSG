@@ -106,10 +106,10 @@ theorem mem_of_cert {α : Type} {gs : List α} {step : α → Code → Code} {d 
     {act : ℕ → ℕ → ℕ}
     (hstep : ∀ s < gs.length, ∀ y k, RC y k → RC (step (gs.getD s d) y) (act s k))
     {x₀ : Code} {r : ℕ} (hr : RC x₀ r) {L : List ℕ}
-    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : closeOK act gs.length L = true) (y : Code) :
+    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : ∀ s < gs.length, ∀ k ∈ L, act s k ∈ L) (y : Code) :
     y ∈ bfsFrom gs step x₀ 64 ↔ ∃ k ∈ L, RC y k := by
   obtain ⟨hroot, hreach, -⟩ := hT
-  have hcl := closeOK_sound hC
+  have hcl := hC
   refine bfsFrom_mem_iff gs step x₀ (fun y => ∃ k ∈ L, RC y k) ⟨r, hroot, hr⟩ ?_ ?_ y
   · rintro y ⟨k, hk, hy⟩ g hg
     obtain ⟨s, hs, rfl⟩ := List.mem_iff_getElem.mp hg
@@ -123,7 +123,7 @@ theorem contains_of_cert {α : Type} {gs : List α} {step : α → Code → Code
     {act : ℕ → ℕ → ℕ}
     (hstep : ∀ s < gs.length, ∀ y k, RC y k → RC (step (gs.getD s d) y) (act s k))
     {x₀ : Code} {r : ℕ} (hr : RC x₀ r) {L : List ℕ}
-    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : closeOK act gs.length L = true) {y : Code}
+    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : ∀ s < gs.length, ∀ k ∈ L, act s k ∈ L) {y : Code}
     {k : ℕ} (hy : RC y k) (hk : k ∈ L) : (bfsFrom gs step x₀ 64).contains y = true :=
   Std.HashSet.contains_iff_mem.mpr ((mem_of_cert hstep hr hT hC y).mpr ⟨k, hk, hy⟩)
 
@@ -131,7 +131,7 @@ theorem not_contains_of_cert {α : Type} {gs : List α} {step : α → Code → 
     {act : ℕ → ℕ → ℕ}
     (hstep : ∀ s < gs.length, ∀ y k, RC y k → RC (step (gs.getD s d) y) (act s k))
     {x₀ : Code} {r : ℕ} (hr : RC x₀ r) {L : List ℕ}
-    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : closeOK act gs.length L = true) {y : Code}
+    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : ∀ s < gs.length, ∀ k ∈ L, act s k ∈ L) {y : Code}
     {k : ℕ} (hy : RC y k) (hk : L.all (fun k' => !eqC k' k) = true) :
     (bfsFrom gs step x₀ 64).contains y = false := by
   rw [Bool.eq_false_iff]
@@ -145,7 +145,7 @@ theorem closed_of_cert {α : Type} {gs : List α} {step : α → Code → Code} 
     {act : ℕ → ℕ → ℕ}
     (hstep : ∀ s < gs.length, ∀ y k, RC y k → RC (step (gs.getD s d) y) (act s k))
     {x₀ : Code} {r : ℕ} (hr : RC x₀ r) {L : List ℕ}
-    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : closeOK act gs.length L = true) :
+    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : ∀ s < gs.length, ∀ k ∈ L, act s k ∈ L) :
     (bfsFrom gs step x₀ 64).contains x₀ = true ∧
       closedUnder gs step (bfsFrom gs step x₀ 64) = true := by
   have hm := mem_of_cert hstep hr hT hC
@@ -153,7 +153,7 @@ theorem closed_of_cert {α : Type} {gs : List α} {step : α → Code → Code} 
     closedUnder_of_mem_iff gs step _ hm ?_⟩
   rintro y ⟨k, hk, hy⟩ g hg
   obtain ⟨s, hs, rfl⟩ := List.mem_iff_getElem.mp hg
-  refine ⟨act s k, closeOK_sound hC s hs k hk, ?_⟩
+  refine ⟨act s k, hC s hs k hk, ?_⟩
   have := hstep s hs y k hy
   rwa [List.getD_eq_getElem _ _ hs] at this
 
@@ -161,7 +161,7 @@ theorem size_of_cert {α : Type} {gs : List α} {step : α → Code → Code} {d
     {act : ℕ → ℕ → ℕ}
     (hstep : ∀ s < gs.length, ∀ y k, RC y k → RC (step (gs.getD s d) y) (act s k))
     {x₀ : Code} {r : ℕ} (hr : RC x₀ r) {L : List ℕ}
-    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : closeOK act gs.length L = true)
+    (hT : r ∈ L ∧ (∀ k ∈ L, ReachN act gs.length r 64 k) ∧ L.Nodup) (hC : ∀ s < gs.length, ∀ k ∈ L, act s k ∈ L)
     (hb : L.all (fun k => Nat.blt k (2 ^ 144)) = true) :
     (bfsFrom gs step x₀ 64).size = L.length := by
   have hb' : ∀ k ∈ L, k < 2 ^ 144 := fun k hk => Nat.blt_eq.mp (List.all_eq_true.mp hb k hk)

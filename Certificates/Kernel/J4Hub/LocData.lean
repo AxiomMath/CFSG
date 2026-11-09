@@ -1,19 +1,19 @@
 module
 
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CertificateChecks.KernelJ4Hub
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelJ4Hub
-  "Certificates/Kernel/J4Hub/data/LocData.items.gz" 75287 15337747970071606245
+#kc_repo #kc_nat_items CertificateChecks.KernelJ4Hub
+  "Certificates/Kernel/J4Hub/data/LocData.items" 75287 15337747970071606245
   (LG 1 7)
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ4Hub
-  "Certificates/Kernel/J4Hub/data/LocData.json.gz" 6659 17969106154432458445
+#kc_repo #kc_json CertificateChecks.KernelJ4Hub
+  "Certificates/Kernel/J4Hub/data/LocData.json" 6659 17969106154432458445
   (lw0 : List (Nat × Bool)) (lw1 : List (Nat × Bool)) (lw2 : List (Nat × Bool))
   (xW : List (Nat × Bool)) (yW : List (Nat × Bool)) (zW : List (Nat × Bool))
 

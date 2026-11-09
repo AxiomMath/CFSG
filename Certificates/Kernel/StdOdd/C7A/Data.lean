@@ -4,6 +4,8 @@ public import Certificates.Kernel.StdOdd.CentRef
 public import CFSG.Monster.Existence.StdOdd.Cert.RepsInputs
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Eval
+meta import Certificates.Kernel.StdOdd.CandGen
 public import Certificates.Kernel.StdOdd.C7A.Slp
 
 public section
@@ -13,10 +15,10 @@ namespace CFSG.KD.StdOdd.Cent
 open CFSG.KC.StdOdd.Orbit CFSG.Monster.Existence.StdOdd.Cert
 
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A CP "Certificates/Kernel/StdOdd/data/c7A/cp.bin" 382200 6453178864751263050
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A HW "Certificates/Kernel/StdOdd/data/c7A/hw.bin" 294000 1296373145810182690
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A HW "Certificates/Kernel/StdOdd/data/c7A/hw.bin" 588000 12263127214492723883
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A R0 "Certificates/Kernel/StdOdd/data/c7A/r0.bin" 82 17554045608405702331
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A CK "Certificates/Kernel/StdOdd/data/c7A/ck.bin" 312 8004406940964794072
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A CC "Certificates/Kernel/StdOdd/data/c7A/cc.bin" 764400 8584135123406719552
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A CC "Certificates/Kernel/StdOdd/data/c7A/cc.bin" 764400 11510492858261034561
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A RK "Certificates/Kernel/StdOdd/data/c7A/rk.bin" 2808 4097371518243571377
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fp1 "Certificates/Kernel/StdOdd/data/c7A/fp1.bin" 864864 256359016295231435
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fp2 "Certificates/Kernel/StdOdd/data/c7A/fp2.bin" 168480 9561477602662504527
@@ -24,16 +26,16 @@ open CFSG.KC.StdOdd.Orbit CFSG.Monster.Existence.StdOdd.Cert
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fp4 "Certificates/Kernel/StdOdd/data/c7A/fp4.bin" 4992 15309363064111277878
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fp5 "Certificates/Kernel/StdOdd/data/c7A/fp5.bin" 468 260444357656284622
 #kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fp6 "Certificates/Kernel/StdOdd/data/c7A/fp6.bin" 156 5288937724319935570
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw1 "Certificates/Kernel/StdOdd/data/c7A/fw1.bin" 199584 8831267133774714860
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw2 "Certificates/Kernel/StdOdd/data/c7A/fw2.bin" 34560 7567820013674748784
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw3 "Certificates/Kernel/StdOdd/data/c7A/fw3.bin" 3584 7339514821423679102
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw4 "Certificates/Kernel/StdOdd/data/c7A/fw4.bin" 768 12098306252167251194
-#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw5 "Certificates/Kernel/StdOdd/data/c7A/fw5.bin" 45 10065575785846964604
-#kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A lev "Certificates/Kernel/StdOdd/data/c7A/lev.txt" 40 4518912062835900180
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw1 "Certificates/Kernel/StdOdd/data/c7A/fw1.bin" 288288 14838645269166310006
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw2 "Certificates/Kernel/StdOdd/data/c7A/fw2.bin" 49680 13074871356752205489
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw3 "Certificates/Kernel/StdOdd/data/c7A/fw3.bin" 4864 18024738959299549133
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw4 "Certificates/Kernel/StdOdd/data/c7A/fw4.bin" 1152 7159612722066126560
+#kc_repo #kc_natBin CFSG.KD.StdOdd.Cent.C7A fw5 "Certificates/Kernel/StdOdd/data/c7A/fw5.bin" 63 17179257125984464464
+#kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A lev "Certificates/Kernel/StdOdd/data/c7A/lev.txt" 41 1827542152242321854
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A ri "Certificates/Kernel/StdOdd/data/c7A/ri.txt" 52 14225812785839686916
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A lv "Certificates/Kernel/StdOdd/data/c7A/lv.txt" 32 417156074188728967
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A hl "Certificates/Kernel/StdOdd/data/c7A/hl.txt" 328 1895737946723692045
-#kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A cm "Certificates/Kernel/StdOdd/data/c7A/cm.txt" 22 1223171070141728615
+#kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A cm "Certificates/Kernel/StdOdd/data/c7A/cm.txt" 22 453792395966836468
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A cnt "Certificates/Kernel/StdOdd/data/c7A/cnt.txt" 79 10640431287453733109
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A vec "Certificates/Kernel/StdOdd/data/c7A/vec.txt" 375 11297603935683977035
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A reps "Certificates/Kernel/StdOdd/data/c7A/reps.txt" 83 6978493333021799903
@@ -44,6 +46,8 @@ open CFSG.KC.StdOdd.Orbit CFSG.Monster.Existence.StdOdd.Cert
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A orb "Certificates/Kernel/StdOdd/data/c7A/orb.txt" 321 5489092211429925106
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A rs "Certificates/Kernel/StdOdd/data/c7A/rs.txt" 15 13985999981520297626
 #kc_repo #kc_natList CFSG.KD.StdOdd.Cent.C7A nl "Certificates/Kernel/StdOdd/data/c7A/nl.txt" 14 1528644429987868746
+
+#kc_eval CFSG.KD.StdOdd.Cent C7A CFSG.KD.StdOdd.Cent.levStep C7A.P.V C7A.fp1 C7A.fw1 C7A.ri C7A.lev 1 4
 
 @[expose] noncomputable def D7A : CentData where
   p := 7

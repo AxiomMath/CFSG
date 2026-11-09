@@ -36,9 +36,10 @@ theorem u00t : ueT U00.P U00.M U00.T E00.RL = true := by quickRfl
 theorem u00i : ueI E00.RL U00.LI U00.YL U00.YI = true := by quickRfl
 theorem u00y : ueY U00.P U00.M U00.T (nTN N00.GS (swN cWord)) S00.RL U00.YL = true := by quickRfl
 theorem u002 : ue2 U00.P U00.M U00.T E00.GS S00.RL = true := by quickRfl
-theorem u005 : ue5 (nTN N00.GS (swN cWord)) E00.RL U00.LI = true := by quickRfl
-theorem u00v : ueV (nTN N00.GS (swN cWord)) E00.RL U00.LI U00.YL U00.YI U00.MK = true := by
-  quickRfl
+theorem u005 : ue5 (nTN N00.GS (swN cWord)) E00.RL U00.LI = true :=
+  ue5_of_G (G := U00.G) (W := U00.W) (by quickRfl)
+theorem u00v : ueV (nTN N00.GS (swN cWord)) E00.RL U00.LI U00.YL U00.YI U00.MK = true :=
+  ueV_of_P (by quickRfl)
 theorem u008 : ue8 U00.P U00.M U00.T U00.YL U00.YI U00.MK = true := by quickRfl
 theorem u00r : ueR E00.GS S00.GS (nTN N00.GS (swN cWord)) E00.RL S00.RL = true := by quickRfl
 
@@ -46,9 +47,10 @@ theorem u01t : ueT U01.P U01.M U01.T E01.RL = true := by quickRfl
 theorem u01i : ueI E01.RL U01.LI U01.YL U01.YI = true := by quickRfl
 theorem u01y : ueY U01.P U01.M U01.T (nTN N01.GS (swN cWord)) S01.RL U01.YL = true := by quickRfl
 theorem u012 : ue2 U01.P U01.M U01.T E01.GS S01.RL = true := by quickRfl
-theorem u015 : ue5 (nTN N01.GS (swN cWord)) E01.RL U01.LI = true := by quickRfl
-theorem u01v : ueV (nTN N01.GS (swN cWord)) E01.RL U01.LI U01.YL U01.YI U01.MK = true := by
-  quickRfl
+theorem u015 : ue5 (nTN N01.GS (swN cWord)) E01.RL U01.LI = true :=
+  ue5_of_G (G := U01.G) (W := U01.W) (by quickRfl)
+theorem u01v : ueV (nTN N01.GS (swN cWord)) E01.RL U01.LI U01.YL U01.YI U01.MK = true :=
+  ueV_of_P (by quickRfl)
 theorem u018 : ue8 U01.P U01.M U01.T U01.YL U01.YI U01.MK = true := by quickRfl
 theorem u01r : ueR E01.GS S01.GS (nTN N01.GS (swN cWord)) E01.RL S01.RL = true := by quickRfl
 
@@ -56,9 +58,10 @@ theorem u10t : ueT U10.P U10.M U10.T E10.RL = true := by quickRfl
 theorem u10i : ueI E10.RL U10.LI U10.YL U10.YI = true := by quickRfl
 theorem u10y : ueY U10.P U10.M U10.T (nTN N10.GS (swN cWord)) S10.RL U10.YL = true := by quickRfl
 theorem u102 : ue2 U10.P U10.M U10.T E10.GS S10.RL = true := by quickRfl
-theorem u105 : ue5 (nTN N10.GS (swN cWord)) E10.RL U10.LI = true := by quickRfl
-theorem u10v : ueV (nTN N10.GS (swN cWord)) E10.RL U10.LI U10.YL U10.YI U10.MK = true := by
-  quickRfl
+theorem u105 : ue5 (nTN N10.GS (swN cWord)) E10.RL U10.LI = true :=
+  ue5_of_G (G := U10.G) (W := U10.W) (by quickRfl)
+theorem u10v : ueV (nTN N10.GS (swN cWord)) E10.RL U10.LI U10.YL U10.YI U10.MK = true :=
+  ueV_of_P (by quickRfl)
 theorem u108 : ue8 U10.P U10.M U10.T U10.YL U10.YI U10.MK = true := by quickRfl
 theorem u10r : ueR E10.GS S10.GS (nTN N10.GS (swN cWord)) E10.RL S10.RL = true := by quickRfl
 
@@ -66,9 +69,10 @@ theorem u11t : ueT U11.P U11.M U11.T E11.RL = true := by quickRfl
 theorem u11i : ueI E11.RL U11.LI U11.YL U11.YI = true := by quickRfl
 theorem u11y : ueY U11.P U11.M U11.T (nTN N11.GS (swN cWord)) S11.RL U11.YL = true := by quickRfl
 theorem u112 : ue2 U11.P U11.M U11.T E11.GS S11.RL = true := by quickRfl
-theorem u115 : ue5 (nTN N11.GS (swN cWord)) E11.RL U11.LI = true := by quickRfl
-theorem u11v : ueV (nTN N11.GS (swN cWord)) E11.RL U11.LI U11.YL U11.YI U11.MK = true := by
-  quickRfl
+theorem u115 : ue5 (nTN N11.GS (swN cWord)) E11.RL U11.LI = true :=
+  ue5_of_G (G := U11.G) (W := U11.W) (by quickRfl)
+theorem u11v : ueV (nTN N11.GS (swN cWord)) E11.RL U11.LI U11.YL U11.YI U11.MK = true :=
+  ueV_of_P (by quickRfl)
 theorem u118 : ue8 U11.P U11.M U11.T U11.YL U11.YI U11.MK = true := by quickRfl
 theorem u11r : ueR E11.GS S11.GS (nTN N11.GS (swN cWord)) E11.RL S11.RL = true := by quickRfl
 

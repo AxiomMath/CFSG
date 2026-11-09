@@ -1,16 +1,16 @@
 module
 
 public import Certificates.Data.Kernel.Misc.Coset.Act
-public import CFSG.Certificates.Kernel.Bounds.LoadGz
+public import CFSG.Certificates.Kernel.Bounds.LoadRoot
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.JsonGz
 
 public section
 
-#kc_repo #kc_blocked_gz CFSG.KAct.PhanB3CT.A "Certificates/Kernel/PhanB3/data/B3CT.a.gz"
+#kc_repo #kc_blocked_root CFSG.KAct.PhanB3CT.A "Certificates/Kernel/PhanB3/data/B3CT.a"
   8 4 65535 62720 5592078678960482652
 
-#kc_repo #kc_json_gz CFSG.KAct.PhanB3CT "Certificates/Kernel/PhanB3/data/B3CTW.json.gz" 6862
+#kc_repo #kc_json CFSG.KAct.PhanB3CT "Certificates/Kernel/PhanB3/data/B3CTW.json" 6862
   5990131563927022073 (RD : List (List Nat)) (RC : List (List Nat))
 
 namespace CFSG.KAct.PhanB3CT

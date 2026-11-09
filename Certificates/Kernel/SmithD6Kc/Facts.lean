@@ -109,8 +109,7 @@ theorem chkKcThrough_of_pinned (hpb : ∀ i < 75735, pbArr[i]! = J.pbC.flatten.g
   rw [kcThrAll, kcThrC_eq J.pbC J.ppC (by rw [hl.1, hl.2]) fun c hc =>
     ((pbC_chunk_length (by rw [hl.1] at hc; exact hc)).2).symm,
     zipWith_eq_map_range hlpb hlpp] at hsum
-  unfold chkKcThrough
-  rw [beq_iff_eq, length_filter_eq_sum, ← hsum]
+  rw [chkKcThrough_def, beq_iff_eq, length_filter_eq_sum, ← hsum]
   refine congrArg List.sum (List.map_congr_left ?_)
   intro i hi
   have hi' := List.mem_range.1 hi

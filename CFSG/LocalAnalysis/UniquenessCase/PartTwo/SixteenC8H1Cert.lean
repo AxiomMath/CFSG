@@ -130,9 +130,177 @@ open Matrix CFSG.Quasithin.JonesParshall
 theorem relsP_spec : ∀ r, wordEvalM matsP (relsP r) = 1 := by
   decide +kernel
 
+@[expose] def foxTabP : Fin 10 → Fin 8 → Fin 8 → ℕ :=
+  ![![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![64, 0, 0, 128, 4, 2, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![1, 14, 14, 14, 112, 112, 112, 128]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![1, 0, 0, 0, 0, 0, 0, 128],
+      ![1, 0, 0, 0, 0, 0, 0, 128]],
+    ![![11, 2, 4, 8, 144, 32, 192, 128],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![8, 0, 0, 2, 64, 0, 128, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![8, 0, 0, 2, 192, 0, 128, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![81, 130, 4, 136, 20, 42, 68, 128],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![84, 128, 0, 130, 68, 138, 4, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![65, 2, 4, 136, 20, 34, 64, 128],
+      ![16, 128, 0, 130, 68, 8, 4, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![32, 0, 128, 2, 72, 0, 2, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![32, 0, 128, 2, 74, 0, 2, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0]],
+    ![![3, 2, 4, 8, 144, 32, 64, 128],
+      ![1, 4, 8, 2, 32, 64, 16, 128],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![13, 14, 14, 14, 112, 112, 112, 128]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![5, 2, 4, 8, 16, 160, 64, 128],
+      ![1, 4, 8, 2, 32, 64, 16, 128],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![11, 14, 14, 14, 112, 112, 112, 128]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![17, 130, 4, 8, 16, 40, 68, 128],
+      ![1, 4, 8, 2, 32, 64, 16, 128],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![97, 14, 14, 14, 112, 118, 122, 128]],
+    ![![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![33, 2, 132, 8, 24, 32, 66, 128],
+      ![1, 4, 8, 2, 32, 64, 16, 128],
+      ![0, 0, 0, 0, 0, 0, 0, 0],
+      ![81, 14, 14, 14, 118, 112, 124, 128]]]
+
+private theorem foxP_eq_0 : ∀ l : Fin 8, foxCoefM matsP (relsP 0) l = bitMat (foxTabP 0 l) := by
+  decide +kernel
+
+private theorem foxP_eq_1 : ∀ l : Fin 8, foxCoefM matsP (relsP 1) l = bitMat (foxTabP 1 l) := by
+  decide +kernel
+
+private theorem foxP_eq_2 : ∀ l : Fin 8, foxCoefM matsP (relsP 2) l = bitMat (foxTabP 2 l) := by
+  decide +kernel
+
+private theorem foxP_eq_3 : ∀ l : Fin 8, foxCoefM matsP (relsP 3) l = bitMat (foxTabP 3 l) := by
+  decide +kernel
+
+private theorem foxP_eq_4 : ∀ l : Fin 8, foxCoefM matsP (relsP 4) l = bitMat (foxTabP 4 l) := by
+  decide +kernel
+
+private theorem foxP_eq_5 : ∀ l : Fin 8, foxCoefM matsP (relsP 5) l = bitMat (foxTabP 5 l) := by
+  decide +kernel
+
+private theorem foxP_eq_6 : ∀ l : Fin 8, foxCoefM matsP (relsP 6) l = bitMat (foxTabP 6 l) := by
+  decide +kernel
+
+private theorem foxP_eq_7 : ∀ l : Fin 8, foxCoefM matsP (relsP 7) l = bitMat (foxTabP 7 l) := by
+  decide +kernel
+
+private theorem foxP_eq_8 : ∀ l : Fin 8, foxCoefM matsP (relsP 8) l = bitMat (foxTabP 8 l) := by
+  decide +kernel
+
+private theorem foxP_eq_9 : ∀ l : Fin 8, foxCoefM matsP (relsP 9) l = bitMat (foxTabP 9 l) := by
+  decide +kernel
+
+theorem foxP_eq : ∀ r l, foxCoefM matsP (relsP r) l = bitMat (foxTabP r l) := by
+  intro r
+  fin_cases r
+  exacts [foxP_eq_0, foxP_eq_1, foxP_eq_2, foxP_eq_3, foxP_eq_4, foxP_eq_5, foxP_eq_6, foxP_eq_7,
+    foxP_eq_8, foxP_eq_9]
+
+private theorem certP_spec_0 : ∀ l : Fin 8,
+    (if (0 : Fin 8) = l then 1 else 0) - (matsP 0 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 0 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_1 : ∀ l : Fin 8,
+    (if (1 : Fin 8) = l then 1 else 0) - (matsP 1 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 1 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_2 : ∀ l : Fin 8,
+    (if (2 : Fin 8) = l then 1 else 0) - (matsP 2 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 2 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_3 : ∀ l : Fin 8,
+    (if (3 : Fin 8) = l then 1 else 0) - (matsP 3 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 3 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_4 : ∀ l : Fin 8,
+    (if (4 : Fin 8) = l then 1 else 0) - (matsP 4 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 4 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_5 : ∀ l : Fin 8,
+    (if (5 : Fin 8) = l then 1 else 0) - (matsP 5 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 5 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_6 : ∀ l : Fin 8,
+    (if (6 : Fin 8) = l then 1 else 0) - (matsP 6 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 6 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
+private theorem certP_spec_7 : ∀ l : Fin 8,
+    (if (7 : Fin 8) = l then 1 else 0) - (matsP 7 - 1) * bitMat (certPRows l) =
+      ∑ r, bitMat (certCRows 7 r) * bitMat (foxTabP r l) := by
+  decide +kernel
+
 theorem certP_spec : ∀ j l : Fin 8,
     (if j = l then 1 else 0) - (matsP j - 1) * bitMat (certPRows l) =
       ∑ r, bitMat (certCRows j r) * foxCoefM matsP (relsP r) l := by
-  decide +kernel
+  intro j
+  simp only [foxP_eq]
+  fin_cases j
+  · exact certP_spec_0
+  · exact certP_spec_1
+  · exact certP_spec_2
+  · exact certP_spec_3
+  · exact certP_spec_4
+  · exact certP_spec_5
+  · exact certP_spec_6
+  · exact certP_spec_7
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

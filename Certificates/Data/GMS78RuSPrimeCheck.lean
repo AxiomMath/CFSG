@@ -51,7 +51,13 @@ abbrev Pt : Type := Nat × Fin 8 × Fin 8
 
 @[expose] def checkA : Bool := inJ aPt && !inCX aPt && sqPt aPt == onePt
 
-@[expose] def checkCa : Bool := cntC aPt == 1024
+opaque checkCaSeal : {x : Bool // x = (cntC aPt == 1024)} := ⟨cntC aPt == 1024, rfl⟩
+
+@[expose] def checkCa : Bool := checkCaSeal.1
+
+theorem checkCa_def : checkCa = (cntC aPt == 1024) := checkCaSeal.2
+
+attribute [irreducible] checkCa
 
 @[expose] def checkCx : Bool :=
   jPts.all fun x => inCX x || sqPt x != onePt || decide (jPts.countP (cmt x) ≤ 128)

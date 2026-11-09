@@ -7,31 +7,31 @@ public section
 
 namespace CFSG.EvenSporadicStandard.M22Std.E32Check
 
-open CFSG.EvenSporadicStandard.M22Std.TabCheck
+open CFSG.EvenSporadicStandard.M22Std.TabCheck CFSG.EvenSporadicStandard.M22Std.OutCheck
 
 theorem mem_extCands {I L : List Tab} {x : Tab} :
     x ∈ extCands I L ↔ x ∈ I ∧ x ∉ L ∧ ∀ z ∈ L, comm x z = true := by
   simp only [extCands, List.mem_filter, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true]
 
-theorem mem_elemStep {I : List Tab} {lv : List (List Tab)} {L' : List Tab} :
-    L' ∈ elemStep I lv ↔ ∃ L ∈ lv, ∃ x ∈ extCands I L, sortTabs (ext L x) = L' := by
-  simp only [elemStep, List.mem_dedup, List.mem_flatMap, List.mem_map]
+theorem lvIdx_getD_of {k : Nat} (hk : 4 ≤ k) : lvIdx.getD k [] = [] := by
+  have h : lvIdx.length = 4 := rfl
+  exact List.getD_eq_default _ _ (by omega)
 
-theorem length_of_mem_elemLevel (T : List Tab) :
-    ∀ k, ∀ L ∈ elemLevel T k, L.length = 2 ^ k := by
-  intro k
-  induction k with
-  | zero =>
-    intro L hL
+theorem elemLevel_eq_nil {T : List Tab} {k : Nat} (hk : 5 ≤ k) : elemLevel T k = [] := by
+  obtain ⟨j, rfl⟩ : ∃ j, k = j + 1 := ⟨k - 1, by omega⟩
+  rw [elemLevel, lvIdx_getD_of (by omega), List.map_nil]
+
+theorem length_of_mem_elemLevel (hstep : ∀ k < 5, StepOK s0Tabs k) :
+    ∀ k, ∀ L ∈ elemLevel s0Tabs k, L.length = 2 ^ (k + 1)
+  | 0, L, hL => by
     rw [elemLevel, List.mem_singleton] at hL
     rw [hL]
     rfl
-  | succ k ih =>
-    intro L hL
-    obtain ⟨L0, hL0, x, -, rfl⟩ := mem_elemStep.1 hL
-    rw [sortTabs, List.length_mergeSort, ext, List.length_append, List.length_map, ih L0 hL0,
-      pow_succ]
-    omega
+  | k + 1, L, hL => by
+    rcases Nat.lt_or_ge k 5 with hk | hk
+    · exact (hstep k hk).2 L hL
+    · rw [elemLevel, lvIdx_getD_of (by omega)] at hL
+      simp at hL
 
 end CFSG.EvenSporadicStandard.M22Std.E32Check
 
@@ -78,9 +78,8 @@ theorem mem_iff_autTab_mem {E : Subgroup (MulAut (Carrier .M22))} {L : List Tab}
 
 theorem elemStep_cover {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
     (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1)
-    {lv : List (List Tab)} {L : List Tab} (hL : L ∈ lv) (hLE : TabsIn E L)
-    (hlt : L.length < Nat.card E) :
-    ∃ L' ∈ elemStep (invTabs s0Tabs) lv, TabsIn E L' := by
+    {L : List Tab} (hLE : TabsIn E L) (hlt : L.length < Nat.card E) :
+    ∃ x ∈ extCands (invTabs s0Tabs) L, TabsIn E (sortTabs (TabCheck.ext L x)) := by
   obtain ⟨e, he, hne⟩ := exists_not_mem_tabs E L hlt
   have hx : autTab e ∈ extCands (invTabs s0Tabs) L := by
     rw [mem_extCands, invTabs, List.mem_filter]
@@ -90,7 +89,7 @@ theorem elemStep_cover {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
     · obtain ⟨f, hf, rfl⟩ := hLE z hz
       simp only [TabCheck.comm, decide_eq_true_eq]
       rw [← autTab_mul, ← autTab_mul, hc e he f hf]
-  refine ⟨sortTabs (TabCheck.ext L (autTab e)), mem_elemStep.2 ⟨L, hL, autTab e, hx, rfl⟩, ?_⟩
+  refine ⟨autTab e, hx, ?_⟩
   intro l hl
   rw [sortTabs, List.mem_mergeSort, TabCheck.ext, List.mem_append, List.mem_map] at hl
   rcases hl with hl | ⟨z, hz, rfl⟩
@@ -98,20 +97,31 @@ theorem elemStep_cover {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
   · obtain ⟨f, hf, rfl⟩ := hLE z hz
     exact ⟨e * f, E.mul_mem he hf, autTab_mul e f⟩
 
-theorem elemLevel_cover {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
-    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1) :
-    ∀ k, 2 ^ k ≤ Nat.card E → ∃ L ∈ elemLevel s0Tabs k, TabsIn E L := by
+theorem elemLevel_cover (hstep : ∀ k < 5, StepOK s0Tabs k)
+    {E : Subgroup (MulAut (Carrier .M22))} (hE : E ≤ s0)
+    (hc : ∀ α ∈ E, ∀ β ∈ E, α * β = β * α) (hsq : ∀ α ∈ E, α * α = 1)
+    {τ : MulAut (Carrier .M22)} (hτ : τ ∈ E) (hτt : autTab τ = FusionCheck.tTab) :
+    ∀ k, 2 ^ (k + 1) ≤ Nat.card E → ∃ L ∈ elemLevel s0Tabs k, TabsIn E L := by
   intro k
   induction k with
   | zero =>
     intro _
-    refine ⟨[idTab], List.mem_singleton_self _, fun l hl => ⟨1, E.one_mem, ?_⟩⟩
-    rw [List.mem_singleton.1 hl, autTab_one]
+    refine ⟨[idTab, FusionCheck.tTab], List.mem_singleton_self _, fun l hl => ?_⟩
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hl
+    rcases hl with rfl | rfl
+    · exact ⟨1, E.one_mem, autTab_one⟩
+    · exact ⟨τ, hτ, hτt⟩
   | succ k ih =>
     intro hk
-    obtain ⟨L, hL, hLE⟩ := ih (le_trans (Nat.pow_le_pow_right (by norm_num) (Nat.le_succ k)) hk)
-    refine elemStep_cover hE hc hsq hL hLE ?_
-    rw [length_of_mem_elemLevel s0Tabs k L hL]
-    exact lt_of_lt_of_le (Nat.pow_lt_pow_right (by norm_num) (Nat.lt_succ_self k)) hk
+    obtain ⟨L, hL, hLE⟩ :=
+      ih (le_trans (Nat.pow_le_pow_right (by norm_num) (Nat.le_succ (k + 1))) hk)
+    have hlt : L.length < Nat.card E := by
+      rw [length_of_mem_elemLevel hstep k L hL]
+      exact lt_of_lt_of_le (Nat.pow_lt_pow_right (by norm_num) (Nat.lt_succ_self (k + 1))) hk
+    obtain ⟨x, hx, hxE⟩ := elemStep_cover hE hc hsq hLE hlt
+    rcases Nat.lt_or_ge k 5 with hk5 | hk5
+    · exact ⟨_, (hstep k hk5).1 L hL x hx, hxE⟩
+    · rw [elemLevel_eq_nil hk5] at hL
+      exact absurd hL (List.not_mem_nil)
 
 end CFSG.EvenSporadicStandard.M22Std

@@ -48,7 +48,7 @@ theorem amb_eq : hAmbRows = (List.range 2).map fun i => unpack 24 24 (SG.M i) :=
 theorem dag_eq : strongDag = ((List.range SG.N).map fun i => unpack 24 24 (SG.M i),
     (List.range SG.N).map fun i => unpack 24 24 (SG.MI i), true) := by
   unfold strongDag
-  exact dagK_sound amb_eq kSD
+  exact dagWK_sound amb_eq kSD
 
 theorem gRows_eq : gRows = fun i => unpack 24 24 (GF i) := by
   funext i
@@ -82,24 +82,75 @@ theorem gRows_eq : gRows = fun i => unpack 24 24 (GF i) := by
       omega
     rw [hb]
 
-theorem split : splitCheck = true := by
-  have h : splitCheck = splitCheckP aR bR strongDag.2.2 gRows aRows zR Data.f4vecs Data.liftRows := by
-    unfold splitCheck splitGens msOK splitCheckP msOKP zq zqT msSearch zqP zqTP qNat f4Hi
-      qNatP f4HiP zPow zPowP
-    rfl
-  rw [h, aR_u, bR_u, dag_eq, gRows_eq, aRows_eq, zR_eq]
+theorem f4Hi_eq : f4Hi = f4HiP zR := rfl
+
+theorem zPow_eq : zPow = zPowP zR := rfl
+
+theorem qNat_eq : qNat = qNatP zR Data.f4vecs := by
+  funext j
+  unfold qNat qNatP
+  rw [f4Hi_eq]
+
+theorem zqT_eq : zqT = zqTP zR Data.f4vecs := by
+  unfold zqT zqTP
+  rw [zPow_eq, qNat_eq]
+
+theorem zq_eq : zq = zqP zR Data.f4vecs := by
+  funext e k
+  unfold zq zqP
+  rw [zqT_eq]
+
+theorem msSearchB_match_eq : @msSearchB.match_1 = @msSearchP.match_1 := rfl
+
+theorem msSearchB_P (Z : Rows) (fv : List (List Nat)) (X : Rows) (j : Nat) :
+    msSearchB (zqP Z fv) (zqTP Z fv) X j = msSearchP Z fv X j := by
+  unfold msSearchB msSearchP
+  rw [msSearchB_match_eq]
+
+theorem msSearch_eq : msSearch = msSearchP zR Data.f4vecs := by
+  funext X j
+  rw [msSearch, zq_eq, zqT_eq]
+  exact msSearchB_P zR Data.f4vecs X j
+
+theorem msSgn_eq : msSgn = msSgnP zR Data.f4vecs := by
+  funext X j
+  unfold msSgn msSgnP
+  rw [msSearch_eq]
+
+theorem msOK_eq : msOK = msOKP zR Data.f4vecs := by
+  funext X
+  unfold msOK msOKP
+  rw [msSearch_eq, zq_eq]
+
+theorem split_h : splitCheck = splitCheckP aR bR strongDag.2.2 gRows aRows zR Data.f4vecs
+    Data.liftRows := by
+  unfold splitCheck splitGens splitCheckP
+  rw [msOK_eq]
+
+theorem split_r : splitCheckP aR bR strongDag.2.2 gRows aRows zR Data.f4vecs Data.liftRows =
+    true := by
+  rw [aR_u, bR_u, dag_eq, gRows_eq, aRows_eq, zR_eq]
   refine splitK_sound (AI := ABI 0) (BI := ABI 1) kab kZ (fun i hi => ?_) kGens
   interval_cases i
   exacts [kLR0, kLR1, kLR2]
 
-theorem data : splitDataCheck = true := by
-  have h : splitDataCheck = splitDataCheckP gRows aRows zR Data.f4vecs Data.liftPerms
-      Data.liftSigns := by
-    unfold splitDataCheck msSgn msSearch zq zqT qNat f4Hi zPow splitDataCheckP msSgnP msSearchP
-      zqP zqTP qNatP f4HiP zPowP
-    rfl
-  rw [h, gRows_eq, aRows_eq, zR_eq]
+theorem split : splitCheck = true := by
+  rw [split_h]
+  exact split_r
+
+theorem data_h : splitDataCheck = splitDataCheckP gRows aRows zR Data.f4vecs Data.liftPerms
+    Data.liftSigns := by
+  unfold splitDataCheck splitDataCheckP
+  rw [msSearch_eq, msSgn_eq]
+
+theorem data_r : splitDataCheckP gRows aRows zR Data.f4vecs Data.liftPerms Data.liftSigns =
+    true := by
+  rw [gRows_eq, aRows_eq, zR_eq]
   exact splitDataK_sound kZ kData
+
+theorem data : splitDataCheck = true := by
+  rw [data_h]
+  exact data_r
 
 theorem conj : splitConjCheck = true := by
   have h : splitConjCheck = splitConjCheckP gRows aRows Data.conjExps Data.corrExps := by

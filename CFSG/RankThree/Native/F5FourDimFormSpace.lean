@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.ArrBfsCert
 import CFSG.Certificates.Kernel.U43Pk.Sound
 import CFSG.Certificates.Kernel.PackSetSound
 import CFSG.Certificates.Kernel.SporSch.LyLoop
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Each
 import CFSG.Certificates.Kernel.Common.Harness

@@ -15,9 +15,8 @@ open CFSG.Sporadic.FischerOddCore
 
 open CFSG CFSG.Sporadic CFSG.Sporadic.FischerOddCore CFSG.Monster.B.Co2.Native in
 open CFSG.Certificates.Native in
-theorem certificate2079_of
-    (htext : fi22Cent3510Text = CertificateChecks.KernelSpor.Fi22E2065.textP) :
- (fo22ChainOK 3510 fo22N3Strong #[9, 0, 1, 2] fo22N3Words 2 7 174182400 = true)
+theorem facts2079 :
+    (fo22ChainOK 3510 fo22N3Strong #[9, 0, 1, 2] fo22N3Words 2 7 174182400 = true)
     ∧ (fo22ChainOK 1575 fo22P3Strong #[0, 1, 2, 4, 3] fo22P3Words 2 11 174182400 = true)
     ∧ (fo22ChainOK 3510 fo22N4Strong #[0, 1, 2] fo22N4Words 2 7 1451520 = true)
     ∧ (fo22ChainOK 63 fo22P4Strong #[0, 1, 2, 4, 3, 5] fo22P4Words 2 11 1451520 = true)
@@ -39,8 +38,8 @@ theorem certificate2079_of
     ∧ (fo22H2OK (fi22CentStrong 2) ((fi22CentStrong 2).extract 0 3) fo22S02 fo22Tree2
       fo22P2Strong = true
     ) :=
-  ⟨chains.1, chains.2.1, chains.2.2.1, chains.2.2.2.1, chains.2.2.2.2, inNormal3 htext,
-    inNormal4 htext, class3, orbit4, tree3, tree4, sub3, sub4, order3, order4, h2 htext⟩
+  ⟨chains.1, chains.2.1, chains.2.2.1, chains.2.2.2.1, chains.2.2.2.2, inNormal3,
+    inNormal4, class3, orbit4, tree3, tree4, sub3, sub4, order3, order4, h2⟩
 
 end CertificateChecks.KernelSpor.Fo22C
 

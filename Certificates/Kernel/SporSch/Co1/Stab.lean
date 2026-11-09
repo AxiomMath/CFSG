@@ -4,6 +4,7 @@ module
 public import Certificates.Kernel.SporSch.Co1.Packed
 public import CFSG.Sporadic.Schreier.Co1StabCheckInputs
 public import CFSG.Sporadic.Schreier.Co1QuotData
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -21,18 +22,18 @@ open CertificateChecks.KernelSporSch.Co1Packed
 @[expose] def PH1 : Nat :=
   204015709521279255658856852960877788325435225079138605254574853718776266918459600320638142556223065995085203512093514651307490346883232707148022015834703987339151471097052026
 
-theorem k0 : wordEqK PA PB Data.stabWord0 PH0 = true := by quickRfl
-theorem k1 : wordEqK PA PB Data.stabWord1 PH1 = true := by quickRfl
+theorem k0 : wordEqWK PA PB Data.stabWord0 PH0 = true := by quickRfl
+theorem k1 : wordEqWK PA PB Data.stabWord1 PH1 = true := by quickRfl
 theorem b0 : CFSG.KS.Raw.bindListK 24 24 PH0 Data.subRows0 = true := by quickRfl
 theorem b1 : CFSG.KS.Raw.bindListK 24 24 PH1 Data.subRows1 = true := by quickRfl
 
 theorem h0_eq : hRows0 = Data.subRows0.toArray := by
   unfold hRows0
-  rw [aR_u, bR_u, wordEqK_sound k0, rows_of b0]
+  rw [aR_u, bR_u, wordEqWK_sound k0, rows_of b0]
 
 theorem h1_eq : hRows1 = Data.subRows1.toArray := by
   unfold hRows1
-  rw [aR_u, bR_u, wordEqK_sound k1, rows_of b1]
+  rw [aR_u, bR_u, wordEqWK_sound k1, rows_of b1]
 
 end CertificateChecks.KernelSporSch.Co1Stab
 

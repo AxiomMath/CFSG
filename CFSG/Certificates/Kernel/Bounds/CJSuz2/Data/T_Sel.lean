@@ -75,17 +75,17 @@ public import CFSG.Certificates.Kernel.Bounds.CJSuz2.Data.T_70
 public import CFSG.Certificates.Kernel.Bounds.CJSuz2.Data.T_71
 public import CFSG.Certificates.Kernel.Common.LabF
 public import CFSG.Certificates.Kernel.Bounds.CJSuz2.Rels
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.CJSuz2T "CFSG/Certificates/Kernel/Bounds/CJSuz2/T/data/lces_const.items.gz" 42155 11711146809580863298
+#kc_repo #kc_nat_items CFSG.KD.CJSuz2T "CFSG/Certificates/Kernel/Bounds/CJSuz2/T/data/lces_const.items" 42155 11711146809580863298
     (WT 0 1341) (RT 0 90) ST0 HS nLive
 #kc_select CFSG.KD.CJSuz2T blk B 4569
 #kc_select CFSG.KD.CJSuz2T selWT WT 1341
 #kc_select CFSG.KD.CJSuz2T LVs LV 72
 #kc_select CFSG.KD.CJSuz2T litRT RT 90
 #kc_select CFSG.KD.CJSuz2T litST ST 1
-#kc_repo #kc_nat_items_gz CFSG.KD.CJSuz2T "CFSG/Certificates/Kernel/Bounds/CJSuz2/T/data/lab_pack.items.gz" 370455 5720132126809974829
+#kc_repo #kc_nat_items CFSG.KD.CJSuz2T "CFSG/Certificates/Kernel/Bounds/CJSuz2/T/data/lab_pack.items" 370455 5720132126809974829
     (PV 0 32) (LC 0 286)
 #kc_select CFSG.KD.CJSuz2T LCs LC 286
 #kc_select CFSG.KD.CJSuz2T PVs PV 32

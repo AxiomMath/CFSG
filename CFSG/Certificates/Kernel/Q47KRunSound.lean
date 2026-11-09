@@ -31,7 +31,7 @@ theorem memK_eq (L : List Nat) (x : Nat) : memK L x = decide (x ∈ L) := by
 
 theorem strictL_eq' (y : Nat) (k : Nat → List Nat) : strictL y k = k y := by cases y <;> rfl
 
-def addN (L : List Nat) (y : Nat) : List Nat := if y ∈ L then L else L ++ [y]
+@[expose] def addN (L : List Nat) (y : Nat) : List Nat := if y ∈ L then L else L ++ [y]
 
 theorem runStep_rec (x : Nat) (pts : List Nat) : ∀ m,
     Nat.rec (motive := fun _ => List Nat) pts (fun k acc => strictL (HexaK.mul n w (G k) x) fun y =>
@@ -55,7 +55,7 @@ theorem runStep_eq (x : Nat) (pts : List Nat) :
     runStep n w ng G x pts = (List.range ng).foldl (fun acc k => addN acc (HexaK.mul n w (G k) x)) pts :=
   runStep_rec x pts ng
 
-noncomputable def rkF (n w ng : Nat) (G : Nat → Nat) (st : List Nat × Nat) : List Nat × Nat :=
+@[expose] noncomputable def rkF (n w ng : Nat) (G : Nat → Nat) (st : List Nat × Nat) : List Nat × Nat :=
   if st.2 < st.1.length then (runStep n w ng G (st.1.getD st.2 0) st.1, st.2 + 1) else st
 
 theorem runK_iter (fuel : Nat) :

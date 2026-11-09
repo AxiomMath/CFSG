@@ -60,8 +60,8 @@ theorem testBit_bsum {s : Nat} {c : Nat → Nat} (hs : 0 < s) (hc : ∀ q, c q <
     refine ⟨fun p => ?_, ?_⟩
     · rw [e, Nat.testBit_two_pow_mul_add _ ih2]
       by_cases h1 : p < Q * s
-      · rw [if_pos h1, ih1, decide_eq_true h1, decide_eq_true (by rw [Nat.succ_mul]; omega)]
-      · rw [if_neg h1]
+      · rw [ite_eq_left h1, ih1, decide_eq_true h1, decide_eq_true (by rw [Nat.succ_mul]; omega)]
+      · rw [ite_eq_right h1]
         by_cases h2 : p < (Q + 1) * s
         · obtain ⟨d1, d2⟩ := split_blk hs (by omega) h2
           rw [decide_eq_true h2, Bool.true_and, d1, d2]
@@ -157,7 +157,6 @@ theorem step_eq {k X b a : Nat} (hb : b < k)
     have e3 := (ds q r).1
     have e4 := (ds q r).2
     rw [Nat.testBit_and, hmsk, hA]
-    beta_reduce
     rw [e1, e2, testBit_eq_parity (p := q * (2 * s) + r) (b := b), ← hs, e3]
     by_cases hp : q * (2 * s) + r < 2 ^ k
     · have hp' : q * (2 * s) + r < 2 ^ (k - b) * s := by rw [hW0, ← hW1]; exact hp
@@ -183,7 +182,6 @@ theorem step_eq {k X b a : Nat} (hb : b < k)
     have e2 := (dv q r hr).2
     have e3 := (ds q r).1
     rw [Nat.testBit_and, hmsk, hB]
-    beta_reduce
     rw [e1, e2, testBit_eq_parity (p := q * (2 * s) + r) (b := b), ← hs, e3, Nat.testBit_shiftRight]
     by_cases hp : q * (2 * s) + r < 2 ^ k
     · have hp'' : q * (2 * s) + r < Q * (2 * s) := by rw [← hW1]; exact hp
@@ -518,7 +516,69 @@ theorem level_of {t : Nat} {off : Nat → Nat} {j : Nat} (a : Nat) : ∀ b, a �
         omega) (by omega) h3 (by omega)
       exact ⟨i, hi1, by omega, hi3, hi4⟩
 
-theorem card_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
+@[expose] def RecSem (k n w : Nat) (U TT : Nat → Nat) (Z hi top a j : Nat) : Prop :=
+  ∃ y < Z, ∃ P L, codesIn w hi top P L = true ∧
+    (cpermL k n U (codesL w (ptP (TT y)) (ptL (TT y))))⁻¹ * netPerm k n (U j) *
+      cpermL k n U (codesL w (ptP (TT a)) (ptL (TT a))) = cpermL k n U (codesL w P L)
+
+theorem recSem_tree {k n w Z hi top a j y : Nat} {U TT : Nat → Nat} (hy : y < Z)
+    (hj3 : 2 * (j + 1) < 2 ^ w)
+    (e1 : ptP (TT y) = catW w (2 * (j + 1)) 1 (ptP (TT a))) (e2 : ptL (TT y) = ptL (TT a) + 1) :
+    RecSem k n w U TT Z hi top a j := by
+  refine ⟨y, hy, 0, 0, rfl, ?_⟩
+  have : cpermL k n U (codesL w (ptP (TT y)) (ptL (TT y))) =
+      netPerm k n (U j) * cpermL k n U (codesL w (ptP (TT a)) (ptL (TT a))) := by
+    rw [e1, e2, show ptL (TT a) + 1 = 1 + ptL (TT a) from Nat.add_comm _ _,
+      codesL_catW (by rwa [Nat.mul_one]), cpermL_append, cpermL_gen hj3]
+  rw [this, show cpermL k n U (codesL w 0 0) = 1 from rfl]
+  group
+
+theorem recOK_sem {k n w Z hi top a j rec : Nat} {U TT : Nat → Nat} (hn : n ≤ 2 ^ k) (hw0 : 0 < w)
+    (hgt : ∀ j' < top, Good k n (U j'))
+    (hpt : ∀ y < Z, CodesGood k n U (codesL w (ptP (TT y)) (ptL (TT y))))
+    (ha : a < Z) (hj : j < top) (hj3 : 2 * (j + 1) < 2 ^ w)
+    (h : recOK k w U TT Z hi top a j rec = true) : RecSem k n w U TT Z hi top a j := by
+  obtain ⟨hy, hr⟩ := recOK_spec h
+  rcases hr with ⟨e1, e2⟩ | ⟨hc, hs⟩
+  · exact recSem_tree hy hj3 e1 e2
+  · refine ⟨ptX rec, hy, ptP rec, ptL rec, hc, ?_⟩
+    have hga := hpt a ha
+    have hgy := hpt (ptX rec) hy
+    have hjg := hgt j hj
+    set Py := ptP (TT (ptX rec))
+    set Ly := ptL (TT (ptX rec))
+    obtain ⟨hinv, hinvlt⟩ := codesL_invW (w := w) (P := Py) (len := Ly) hw0
+    have hin : catW w (invW w Py Ly) Ly (2 * (j + 1)) < 2 ^ (w * (Ly + 1)) :=
+      catW_lt hinvlt hj3
+    have hcodes : codesL w (catW w (catW w (invW w Py Ly) Ly (2 * (j + 1))) (Ly + 1)
+        (ptP (TT a))) (Ly + 1 + ptL (TT a)) =
+        ((codesL w Py Ly).reverse.map (· ^^^ 1) ++ [2 * (j + 1)]) ++
+          codesL w (ptP (TT a)) (ptL (TT a)) := by
+      rw [codesL_catW hin, codesL_catW hinvlt, hinv, codesL_one hj3]
+    have hcg : CodesGood k n U (codesL w (catW w (catW w (invW w Py Ly) Ly (2 * (j + 1))) (Ly + 1)
+        (ptP (TT a))) (Ly + 1 + ptL (TT a))) := by
+      rw [hcodes]
+      intro x hx
+      rcases List.mem_append.mp hx with hx | hx
+      · rcases List.mem_append.mp hx with hx | hx
+        · obtain ⟨x', hx', rfl⟩ := List.mem_map.mp hx
+          rw [xor1_shr]
+          exact hgy x' (List.mem_reverse.mp hx')
+        · rw [List.mem_singleton.mp hx, shr1_eq,
+            show 2 * (j + 1) / 2 - 1 = j by omega]
+          exact hjg
+      · exact hga x hx
+    have hcr : CodesGood k n U (codesL w (ptP rec) (ptL rec)) := fun x hx => hgt _ (by
+      have := codes_idx hc x hx
+      omega)
+    have e := sweqK_spec hn hcg hcr hs
+    have hsg : cpermL k n U [2 * (j + 1)] = netPerm k n (U j) := by
+      rw [← codesL_one hj3]
+      exact cpermL_gen hj3
+    rw [hcodes, cpermL_append, cpermL_append, cpermL_inv, hsg] at e
+    exact e
+
+theorem card_schR {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
     {off bp Z LP LL : Nat → Nat} {TT : Nat → Nat → Nat} {O : Array (Array Nat)}
     (hk : k ≤ 32) (hw : 2 * m < 2 ^ w) (hm : 0 < m)
     (hOs : O.size = m) (hO : ∀ c < m, ∀ i < n, (O[c]!)[i]! = fieldAt 32 (F c) i)
@@ -530,8 +590,10 @@ theorem card_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
     (hbp : ∀ i < t, bp i < n) (hb0 : ∀ i < t, ptX (TT i 0) = bp i ∧ 0 < Z i)
     (hpts : ∀ i < t, pointsOK k (TT i) (Z i) = true)
     (htr : ∀ i < t, ∀ a < Z i, transOK k w U (TT i) (bp i) (off i) (off (i + 1)) a 1 = true)
-    (hrec : ∀ i < t, ∀ a < Z i, ∀ j, off i ≤ j → j < off (i + 1) →
-      ∃ rec, recOK k w U (TT i) (Z i) (off (i + 1)) (off t) a j rec = true)
+    (hrec : ∀ i < t, ∀ a < Z i, ∀ j, off i ≤ j → j < off (i + 1) → n ≤ 2 ^ k → 0 < w →
+      (∀ j' < off t, Good k n (U j')) →
+      (∀ y < Z i, CodesGood k n U (codesL w (ptP (TT i y)) (ptL (TT i y)))) →
+      2 * (j + 1) < 2 ^ w → RecSem k n w U (TT i) (Z i) (off (i + 1)) (off t) a j)
     (hlet : ∀ c < m, sweqK k w U (2 * (c + 1)) 1 (LP c) (LL c) = true ∧
       codesIn w m (off t) (LP c) (LL c) = true) :
     Nat.card (CFSG.YGroups.arrClosure n O) = ∏ i ∈ Finset.range t, Z i := by
@@ -581,8 +643,8 @@ theorem card_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
     {g | ∃ j, off i ≤ j ∧ j < off (i + 1) ∧ 2 * (j + 1) < 2 ^ w ∧ netPerm k n (U j) = g}
   let C : Nat → Subgroup (Equiv.Perm (Fin n)) := fun i =>
     if i < t then Subgroup.closure (Sg i) else ⊥
-  have hCi : ∀ i < t, C i = Subgroup.closure (Sg i) := fun i hi => if_pos hi
-  have hCt : C t = ⊥ := if_neg (lt_irrefl t)
+  have hCi : ∀ i < t, C i = Subgroup.closure (Sg i) := fun i hi => ite_eq_left hi
+  have hCt : C t = ⊥ := ite_eq_right (lt_irrefl t)
   have hCmono : ∀ i < t, C (i + 1) ≤ C i := by
     intro i hi
     by_cases hi1 : i + 1 < t
@@ -662,62 +724,16 @@ theorem card_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
   have hsch : ∀ i (hi : i < t), ∀ s ∈ Sg i, ∀ a < Z i, ∃ y < Z i, (τ i y)⁻¹ * s * τ i a ∈ C (i + 1) := by
     intro i hi s hs a ha
     obtain ⟨j, hj1, hj2, hj3, rfl⟩ := hs
-    have hjg : Good k n (U j) := hgt j (by have := hofft (i + 1) (by omega); omega)
-    obtain ⟨rec, hr⟩ := hrec i hi a ha j hj1 hj2
-    obtain ⟨hy, hr⟩ := recOK_spec hr
-    refine ⟨ptX rec, hy, ?_⟩
-    obtain ⟨hga, -, -⟩ := hτ i hi a ha
-    obtain ⟨hgy, -, -⟩ := hτ i hi (ptX rec) hy
-    rcases hr with ⟨e1, e2⟩ | ⟨hc, hs⟩
-    ·
-      have : τ i (ptX rec) = netPerm k n (U j) * τ i a := by
-        change cpermL k n U (codesL w (ptP (TT i (ptX rec))) (ptL (TT i (ptX rec)))) = _
-        rw [e1, e2, show ptL (TT i a) + 1 = 1 + ptL (TT i a) from Nat.add_comm _ _,
-          codesL_catW (by rwa [Nat.mul_one]), cpermL_append, cpermL_gen hj3]
-      rw [this]
-      have : (netPerm k n (U j) * τ i a)⁻¹ * netPerm k n (U j) * τ i a = 1 := by group
-      rw [this]
-      exact (C (i + 1)).one_mem
-    ·
-      set Py := ptP (TT i (ptX rec))
-      set Ly := ptL (TT i (ptX rec))
-      obtain ⟨hinv, hinvlt⟩ := codesL_invW (w := w) (P := Py) (len := Ly) hw0
-      have hin : catW w (invW w Py Ly) Ly (2 * (j + 1)) < 2 ^ (w * (Ly + 1)) :=
-        catW_lt hinvlt hj3
-      have hcodes : codesL w (catW w (catW w (invW w Py Ly) Ly (2 * (j + 1))) (Ly + 1)
-          (ptP (TT i a))) (Ly + 1 + ptL (TT i a)) =
-          ((codesL w Py Ly).reverse.map (· ^^^ 1) ++ [2 * (j + 1)]) ++
-            codesL w (ptP (TT i a)) (ptL (TT i a)) := by
-        rw [codesL_catW hin, codesL_catW hinvlt, hinv, codesL_one hj3]
-      have hcg : CodesGood k n U (codesL w (catW w (catW w (invW w Py Ly) Ly (2 * (j + 1))) (Ly + 1)
-          (ptP (TT i a))) (Ly + 1 + ptL (TT i a))) := by
-        rw [hcodes]
-        intro x hx
-        rcases List.mem_append.mp hx with hx | hx
-        · rcases List.mem_append.mp hx with hx | hx
-          · obtain ⟨x', hx', rfl⟩ := List.mem_map.mp hx
-            rw [xor1_shr]
-            exact hgy x' (List.mem_reverse.mp hx')
-          · rw [List.mem_singleton.mp hx, shr1_eq,
-              show 2 * (j + 1) / 2 - 1 = j by omega]
-            exact hjg
-        · exact hga x hx
-      have c1 := hc
-      have c2 := hs
-      have hcr : CodesGood k n U (codesL w (ptP rec) (ptL rec)) := fun x hx => hgt _ (by
-        have := codes_idx c1 x hx
-        omega)
-      have e := sweqK_spec hn hcg hcr c2
-      have hsg : cpermL k n U [2 * (j + 1)] = netPerm k n (U j) := by
-        rw [← codesL_one hj3]
-        exact cpermL_gen hj3
-      rw [hcodes, cpermL_append, cpermL_append, cpermL_inv, hsg] at e
-      change (cpermL k n U (codesL w Py Ly))⁻¹ * netPerm k n (U j) * τ i a ∈ C (i + 1)
-      rw [e]
-      apply cpermL_mem
-      intro x hx
-      obtain ⟨d1, d2, d3⟩ := codes_idx c1 x hx
-      exact hgenC (i + 1) (by omega) _ d1 d2 d3
+    obtain ⟨y, hy, P, L, hc, e⟩ := hrec i hi a ha j hj1 hj2 hn hw0 hgt
+      (fun y hy => (hτ i hi y hy).1) hj3
+    refine ⟨y, hy, ?_⟩
+    change (cpermL k n U (codesL w (ptP (TT i y)) (ptL (TT i y))))⁻¹ * netPerm k n (U j) *
+      cpermL k n U (codesL w (ptP (TT i a)) (ptL (TT i a))) ∈ C (i + 1)
+    rw [e]
+    apply cpermL_mem
+    intro x hx
+    obtain ⟨d1, d2, d3⟩ := codes_idx hc x hx
+    exact hgenC (i + 1) (by omega) _ d1 d2 d3
   have hcard : ∀ i < t, Nat.card (C i) = Z i * Nat.card (C (i + 1)) := by
     intro i hi
     rw [hCi i hi]
@@ -774,10 +790,34 @@ theorem card_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
         have hxc := codes_idx hc x hx
         rw [(hL _ (by omega)).2]
         exact Subgroup.subset_closure ⟨_, by rw [hOs]; omega, rfl⟩
-      · have : C 0 = ⊥ := if_neg ht
+      · have : C 0 = ⊥ := ite_eq_right ht
         rw [this]
         exact bot_le
   rw [harr, show (0 : Nat) = t - t by omega, hprod t le_rfl, Nat.sub_self, Finset.range_eq_Ico]
+
+theorem card_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
+    {off bp Z LP LL : Nat → Nat} {TT : Nat → Nat → Nat} {O : Array (Array Nat)}
+    (hk : k ≤ 32) (hw : 2 * m < 2 ^ w) (hm : 0 < m)
+    (hOs : O.size = m) (hO : ∀ c < m, ∀ i < n, (O[c]!)[i]! = fieldAt 32 (F c) i)
+    (h : ∀ c < m, letOK k n (F c) (Nf c) = true) (hU : ∀ c < m, U c = Nf c)
+    (hoff : off 0 = m) (hmono : ∀ i < t, off i ≤ off (i + 1))
+    (hgen0 : ∀ j, off 0 ≤ j → j < off 1 → genOK k w U WP WL 0 m j 0 false = true)
+    (hgen : ∀ i, 0 < i → i < t → ∀ j, off i ≤ j → j < off (i + 1) →
+      genOK k w U WP WL (off (i - 1)) (off i) j (bp (i - 1)) true = true)
+    (hbp : ∀ i < t, bp i < n) (hb0 : ∀ i < t, ptX (TT i 0) = bp i ∧ 0 < Z i)
+    (hpts : ∀ i < t, pointsOK k (TT i) (Z i) = true)
+    (htr : ∀ i < t, ∀ a < Z i, transOK k w U (TT i) (bp i) (off i) (off (i + 1)) a 1 = true)
+    (hrec : ∀ i < t, ∀ a < Z i, ∀ j, off i ≤ j → j < off (i + 1) →
+      ∃ rec, recOK k w U (TT i) (Z i) (off (i + 1)) (off t) a j rec = true)
+    (hlet : ∀ c < m, sweqK k w U (2 * (c + 1)) 1 (LP c) (LL c) = true ∧
+      codesIn w m (off t) (LP c) (LL c) = true) :
+    Nat.card (CFSG.YGroups.arrClosure n O) = ∏ i ∈ Finset.range t, Z i :=
+  card_schR hk hw hm hOs hO h hU hoff hmono hgen0 hgen hbp hb0 hpts htr
+    (fun i hi a ha j hj1 hj2 hn hw0 hgt hpt hj3 => by
+      obtain ⟨rec, hr⟩ := hrec i hi a ha j hj1 hj2
+      exact recOK_sem hn hw0 hgt hpt ha
+        (lt_of_lt_of_le hj2 (off_le hmono (i + 1) t (by omega) le_rfl)) hj3 hr)
+    hlet
 
 end CFSG.KC.YModel.Sch
 

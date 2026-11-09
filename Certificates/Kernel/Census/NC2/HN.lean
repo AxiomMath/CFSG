@@ -14,11 +14,11 @@ set_option maxRecDepth 400000
   CFSG.Blueprint.NativeSporadic.HNSeed1 CFSG.Blueprint.NativeSporadic.HNSeed2
 
 #kc_repo #lay_snaps_live CertificateChecks.KernelNC2.HN.P 5 133 CertificateChecks.KernelNC2.HN.L.A
-  CertificateChecks.KernelNC2.HN.L.B "Certificates/Kernel/Census/NC2/data/hn.json.gz" 54795
+  CertificateChecks.KernelNC2.HN.L.B "Certificates/Kernel/Census/NC2/data/hn.json" 54795
   13119377526932242976
 
-#kc_repo #kc_json_gz CertificateChecks.KernelNC2.HN.D
-  "Certificates/Kernel/Census/NC2/data/hn.json.gz" 54795 13119377526932242976
+#kc_repo #kc_json CertificateChecks.KernelNC2.HN.D
+  "Certificates/Kernel/Census/NC2/data/hn.json" 54795 13119377526932242976
   (a : Nat) (tests : List Nat) (oddExp : Nat) (extra : List Nat) (sq : List Nat)
   (cj : List (List Nat)) (sig : List Nat) (sigma : List Nat) (tau : List Nat)
   (pairs : List (Nat × Nat))

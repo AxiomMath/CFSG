@@ -9,8 +9,8 @@ public section
 
 namespace CFSG.KD.Co1M
 
-#kc_repo #kc_json_gz CFSG.KD.Co1M
-  "Certificates/Kernel/Co1M/data/D10078.json.gz" 27134 13015549671765650476
+#kc_repo #kc_json CFSG.KD.Co1M
+  "Certificates/Kernel/Co1M/data/D10078.json" 27134 13015549671765650476
   (R78 : List Nat) (RT78 : List Nat) (X78 : List Nat) (F1178 : List Nat) (Y1178 : List Nat)
   (W1178 : List Nat) (F778 : List Nat) (Y778 : List Nat) (W778 : List Nat) (F578 : List Nat)
   (Y578 : List Nat) (W578 : List Nat)

@@ -163,8 +163,8 @@ abbrev St : Type := Bool × Nat × Nat × Nat
   (fun L Xp Xq =>
     (fun d2 U =>
       (Nat.lor (negM SX F.sgWLo (Nat.land W L))
-        (Nat.lor (rotk SX (nat_lit 1) (negM SX F.doct (net4 SX (nat_lit 17) F.pi6
-            (wht6 (Nat.land X (rep4 SX regOct))))))
+        (Nat.lor (Nat.land (rotk SX (nat_lit 1) (negM SX F.doct (net4 SX (nat_lit 17) F.pi6
+            (wht6 X)))) (rep4 SX regOct))
           (Nat.lor (expand (nat_lit 114688) (Nat.land (add15 SA A d2) (rep4 SA upA)))
             (expand (nat_lit 115712) (Nat.land (add15 SA (negM SA upA A) d2) (rep4 SA upA))))),
        Nat.lor (Nat.land A (rep4 SA diagA)) (Nat.lor U (transp U)),

@@ -2,8 +2,8 @@ module
 
 public meta import Lean
 public meta import CFSG.Certificates.Kernel.Common.AddThm
-public import CFSG.Certificates.Kernel.Common.HarnessGz
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
+meta import all CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.Common.EachTrue
 
 public section
@@ -49,10 +49,10 @@ meta partial def exProof (T : Expr) (as : List Nat) (thm : Expr) : MetaM Expr :=
 
 end CFSG.KC.RowsForall
 
-open CFSG.KC.Gz CFSG.KC.Each CFSG.KC.RowsForall in
+open CFSG.KC.Load CFSG.KC.Each CFSG.KC.RowsForall in
 elab "#kc_rows_forall " nm:ident f:term:max path:str size:num hash:num lo:num hi:num pre:ident :
     command => do
-  let b ← readPinnedGz path.getString size.getNat hash.getNat
+  let b ← readPinned path.getString size.getNat hash.getNat
   let lo := lo.getNat
   let hi := hi.getNat
   let rs := (rowsOf b).filter fun r => lo ≤ r[0]! && r[0]! < hi

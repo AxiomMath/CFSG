@@ -57,6 +57,7 @@ meta structure Counts where
   nF : Nat
   wf : Array Nat
   cx : Array Nat
+  fwd : Bool := false
 
 meta def counts (h : Header) : Counts :=
   let RW := h.get "RW"
@@ -64,7 +65,7 @@ meta def counts (h : Header) : Counts :=
     N := h.get "N", RW, RM := (1 <<< RW) - 1, nR := h.get "R", nS := h.get "K",
     nW := h.get "nWords", nF := h.get "nT" + h.get "nWalk",
     wf := scan (h.get "nT") (h.fields.getD "walkElems" #[]),
-    cx := scan 0 (h.fields.getD "covElems" #[]) }
+    cx := scan 0 (h.fields.getD "covElems" #[]), fwd := h.get "covFwd" == 1 }
 
 meta def listNatT (_ : Unit := ()) : Expr := mkApp (mkConst ``List [Level.zero]) natT
 
@@ -81,7 +82,7 @@ meta partial def appendTree (D : Name) (pre : String) (lo hi : Nat) : Expr :=
 
 meta def okE (D T R : Name) (c : Counts) : Expr :=
   let d := fun (s : String) => mkConst (D ++ s.toName)
-  mkAppN (kb "tableOk")
+  mkAppN (kb (if c.fwd then "tableOkE" else "tableOk"))
     #[lit c.inv, lit c.L, lit c.eps, lit c.nLab, lit c.nT, lit c.N, lit c.RW, lit c.RM, lit c.nR,
       lit c.nS, lit c.nW, lit c.nF, d "F", d "D", d "Wd", d "Wd2", d "R", d "S",
       mkConst (T ++ `amap), mkConst R, mkConst (T ++ `words), mkConst (T ++ `walk),

@@ -12,7 +12,7 @@ open MatNCert L1442M CFSG.Quasithin
 @[expose] def OS (i : ℕ) : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 (oddOf (mE i))
 
 theorem oB_spec :
-    ∀ i ∈ [0, 1], subB 12 (oddOf (mE i)) (oE i) = true ∧ (twoOf (oE i)).Nodup ∧
+    ∀ i ∈ [0, 1], subB 12 (oG i) (oE i) = true ∧ (twoOf (oE i)).Nodup ∧
       (oE i).length = 3 * (twoOf (oE i)).length ∧
       (∀ a ∈ twoOf (oE i), ∀ b ∈ twoOf (oE i), mulN a b ∈ twoOf (oE i)) ∧
       (∀ o ∈ oE i, sqN o 8 = one12 → sqN o 2 = one12) ∧
@@ -20,14 +20,15 @@ theorem oB_spec :
         (oWs.getD i (0, 0)).1 ^^^ (oWs.getD i (0, 0)).2]) ∧
       (∃ y ∈ oE i, mvN y v0 ^^^ v0 = (oWs.getD i (0, 0)).1) ∧
       (∃ y ∈ oE i, mvN y v0 ^^^ v0 = (oWs.getD i (0, 0)).2) ∧
-      ∃ y ∈ oE i, ∃ v ∈ List.range 4096,
-        polN 12 q12c (mvN y v ^^^ v) (oWs.getD i (0, 0)).1 = true := by
+      (∃ y ∈ oE i, ∃ v ∈ List.range 4096,
+        polN 12 q12c (mvN y v ^^^ v) (oWs.getD i (0, 0)).1 = true) ∧
+      (∀ g ∈ oG i, powN 12 g 3 = one12) ∧ ∀ x ∈ oddOf (mE i), x ∈ oE i := by
   have h := m22Check_parts.2.2.2.2.2.2.2.2.1
   simp only [oB, Bool.and_eq_true, List.all_eq_true, beq_iff_eq] at h
   intro i hi
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩, f⟩, g⟩, k⟩, l⟩ := h i hi
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨a, a2⟩, a3⟩, b⟩, c⟩, d⟩, e⟩, f⟩, g⟩, k⟩, l⟩ := h i hi
   refine ⟨a, nodup_of_nodupB b, c, fun x hx y hy => ?_, fun o ho h8 => ?_, fun y hy => ?_, ?_, ?_,
-    ?_⟩
+    ?_, a2, fun x hx => ?_⟩
   · simpa [Std.HashSet.contains_ofList, List.contains_iff_mem] using d x hx y hy
   · have := e o ho
     simp only [Bool.or_eq_true, Bool.not_eq_true', beq_eq_false_iff_ne, beq_iff_eq] at this
@@ -35,7 +36,9 @@ theorem oB_spec :
   · simpa [List.contains_iff_mem] using f y hy
   · simpa [List.any_eq_true] using g
   · simpa [List.any_eq_true] using k
-  · simpa [List.any_eq_true] using l
+  · obtain ⟨y, hy, h1⟩ := List.any_eq_true.mp l
+    exact ⟨y, hy, 1, List.mem_range.mpr (by norm_num), h1⟩
+  · simpa [Std.HashSet.contains_ofList, List.contains_iff_mem] using a3 x hx
 
 theorem mem_zero_one {i : ℕ} (hi : i < 2) : i ∈ [0, 1] := by
   interval_cases i <;> simp
@@ -46,22 +49,45 @@ theorem oddOf_sub {M : List (List ℕ)} : ∀ x ∈ oddOf M, x ∈ M := fun _ hx
 theorem OS_gens_unit {i : ℕ} (hi : i < 2) :
     ∀ g ∈ oddOf (mE i), ∃ u ∈ Mi i, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 g := by
   intro g hg
-  exact exists_mem_of_elemsOf (mE_spec hi).1
-    (fun g hg => let ⟨u, _, hu⟩ := Mi_gens_unit hi g hg; ⟨u, hu⟩) (oddOf_sub g hg)
+  exact exists_mem_Mi hi (oddOf_sub g hg)
 
 theorem OS_le_Mi {i : ℕ} (hi : i < 2) : OS i ≤ Mi i := by
   refine (Subgroup.closure_le _).mpr fun u hu => ?_
   exact (mem_Mi_iff hi u).mpr (oddOf_sub _ hu)
 
+theorem oG_unit {i : ℕ} (hi : i < 2) :
+    ∀ g ∈ oG i, ∃ u ∈ Mi i, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 g := by
+  intro g hg
+  have hg' : g ∈ (oW.getD i []).map (evalW 12 (pG ++ [mRep.getD i one12])) := hg
+  obtain ⟨w, -, rfl⟩ := List.mem_map.mp hg'
+  exact exists_evalW _ (Mi_gens_valid hi) (Mi_gens_unit' hi) w
+
+theorem oG_unit' {i : ℕ} (hi : i < 2) :
+    ∀ g ∈ oG i, ∃ u : GL (Fin 12) (ZMod 2), (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 g :=
+  fun g hg => let ⟨u, _, hu⟩ := oG_unit hi g hg; ⟨u, hu⟩
+
+theorem OS_eq {i : ℕ} (hi : i < 2) : OS i = genSubN 12 (oG i) := by
+  have h := oB_spec i (mem_zero_one hi)
+  apply le_antisymm
+  · refine (Subgroup.closure_le _).mpr fun u hu => ?_
+    exact (mem_genSubN_iff_of h.1 (oG_unit' hi) u).mpr (h.2.2.2.2.2.2.2.2.2.2 _ hu)
+  · refine (Subgroup.closure_le _).mpr fun u hu => ?_
+    have hu' : colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) ∈ oG i := hu
+    obtain ⟨u', hu'M, hu'v⟩ := oG_unit hi _ hu'
+    have he : u = u' := Units.ext (by rw [hu'v, decN_colsN])
+    refine Subgroup.subset_closure (List.mem_filter.mpr ⟨(mem_Mi_iff hi u).mp (he ▸ hu'M), ?_⟩)
+    rw [beq_iff_eq]
+    exact h.2.2.2.2.2.2.2.2.2.1 _ hu'
+
 theorem mem_OS_iff {i : ℕ} (hi : i < 2) (u : GL (Fin 12) (ZMod 2)) :
-    u ∈ OS i ↔ colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) ∈ oE i :=
-  mem_genSubN_iff_of (oB_spec i (mem_zero_one hi)).1
-    (fun g hg => let ⟨u, _, hu⟩ := OS_gens_unit hi g hg; ⟨u, hu⟩) u
+    u ∈ OS i ↔ colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) ∈ oE i := by
+  rw [OS_eq hi]
+  exact mem_genSubN_iff_of (oB_spec i (mem_zero_one hi)).1 (oG_unit' hi) u
 
 theorem exists_OS_of {i : ℕ} (hi : i < 2) {c : List ℕ}
-    (hc : c ∈ oE i) : ∃ u ∈ OS i, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 c :=
-  exists_mem_of_elemsOf (oB_spec i (mem_zero_one hi)).1
-    (fun g hg => let ⟨u, _, hu⟩ := OS_gens_unit hi g hg; ⟨u, hu⟩) hc
+    (hc : c ∈ oE i) : ∃ u ∈ OS i, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 c := by
+  rw [OS_eq hi]
+  exact exists_mem_of_elemsOf (oB_spec i (mem_zero_one hi)).1 (oG_unit' hi) hc
 
 theorem oTwoUpper_Mi {i : ℕ} (hi : i < 2) :
     oTwoUpper (Mi i) = OS i := by
@@ -121,7 +147,7 @@ theorem OS_pol {i : ℕ} (hi : i < 2) :
     ∃ y ∈ OS i, ∃ v : ℕ, polV q12 ((y : Matrix (Fin 12) (Fin 12) (ZMod 2)).mulVec (vecN 12 v) +
       vecN 12 v) (vecN 12 (oWs.getD i (0, 0)).1) = 1 := by
   have h := oB_spec i (mem_zero_one hi)
-  obtain ⟨c, hc, v, -, hv⟩ := h.2.2.2.2.2.2.2.2
+  obtain ⟨c, hc, v, -, hv⟩ := h.2.2.2.2.2.2.2.2.1
   obtain ⟨u, hu, hu'⟩ := exists_OS_of hi hc
   refine ⟨u, hu, v, ?_⟩
   rw [hu', decN_mulVec ((subB_spec h.1).1 c hc).1, ← vecN_xor, ← polN_q12, hv]
@@ -173,8 +199,9 @@ theorem card_OS_eq {i : ℕ} (hi : i < 2) :
     Nat.card (OS i) = 3 * Nat.card (RS i hi) := by
   have h := oB_spec i (mem_zero_one hi)
   have hsub := subB_spec h.1
-  have hO : Nat.card (OS i) = (oE i).length :=
-    card_genSubN_of h.1 (fun g hg => let ⟨u, _, hu⟩ := OS_gens_unit hi g hg; ⟨u, hu⟩)
+  have hO : Nat.card (OS i) = (oE i).length := by
+    rw [OS_eq hi]
+    exact card_genSubN_of h.1 (oG_unit' hi)
   have hR : Nat.card (RS i hi) = (twoOf (oE i)).length := by
     refine card_of_cols (fun u => Iff.rfl) h.2.1
       (fun x hx => hsub.1 x (List.mem_filter.mp hx).1) fun x hx => ?_
@@ -254,25 +281,35 @@ theorem OS_sup_PM {i : ℕ} (hi : i < 2) : OS i ⊔ PM = Mi i := by
 @[expose] def M12 : Subgroup (GL (Fin 12) (ZMod 2)) := genSubN 12 m12G
 
 theorem m12B_spec :
-    subB 12 m12G m12E = true ∧ m12E.length = 2304 ∧
-    (∀ x ∈ m12E, blkInvB blkA x = true ∧ blkInvB blkB x = true ∧
+    (∀ c ∈ m12Cos, ValidN 12 c.2 ∧ mulN c.1 c.2 = one12) ∧
+    (∃ c ∈ m12Cos, mulN c.2 one12 ∈ pE) ∧
+    (∀ g ∈ m12G, ∀ c ∈ m12Cos, ∃ c' ∈ m12Cos, mulN c'.2 (mulN g c.1) ∈ pE) ∧
+    (∀ c ∈ m12Cos, blkInvB blkA c.1 = true ∧ blkInvB blkB c.1 = true ∧
+      blkPerm blkA c.1 ∈ S7Cert.perm3L ∧ blkPerm blkB c.1 ∈ S7Cert.perm3L) ∧
+    (∀ x ∈ pE, blkInvB blkA x = true ∧ blkInvB blkB x = true ∧
       blkPerm blkA x ∈ S7Cert.perm3L ∧ blkPerm blkB x ∈ S7Cert.perm3L) ∧
-    (∀ l ∈ S7Cert.perm3L, ∀ l' ∈ S7Cert.perm3L, ∃ x ∈ m12E,
-      blkPerm blkA x = l ∧ blkPerm blkB x = l') ∧
-    ∀ x ∈ m12E, blkPerm blkA x = [0, 1, 2] → blkPerm blkB x = [0, 1, 2] → sqN x 2 = one12 := by
+    (∀ l ∈ S7Cert.perm3L, ∀ l' ∈ S7Cert.perm3L, ∃ t ∈ m12SurW, t.1 = l ∧ t.2.1 = l') ∧
+    (∀ t ∈ m12SurW, blkPerm blkA (evalW 12 m12G t.2.2) = t.1 ∧
+      blkPerm blkB (evalW 12 m12G t.2.2) = t.2.1) ∧
+    ∀ c ∈ m12Cos, ∀ p ∈ pE, S7Cert.compL (blkPerm blkA c.1) (blkPerm blkA p) = [0, 1, 2] →
+      S7Cert.compL (blkPerm blkB c.1) (blkPerm blkB p) = [0, 1, 2] →
+      sqN (mulN c.1 p) 2 = one12 := by
   have h := m22Check_parts.2.2.2.2.2.2.2.2.2
-  simp only [m12B, Bool.and_eq_true, List.all_eq_true, beq_iff_eq] at h
-  obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := h
-  refine ⟨a, b, fun x hx => ?_, fun l hl l' hl' => ?_, fun x hx h1 h2 => ?_⟩
-  · obtain ⟨⟨⟨c1, c2⟩, c3⟩, c4⟩ := c x hx
-    exact ⟨c1, c2, List.contains_iff_mem.mp c3, List.contains_iff_mem.mp c4⟩
-  · simpa [List.any_eq_true] using d l hl l' hl'
-  · have := e x hx
+  simp only [m12B, Bool.and_eq_true, List.all_eq_true, List.any_eq_true, beq_iff_eq,
+    Std.HashSet.contains_ofList, List.contains_iff_mem] at h
+  obtain ⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩ := h
+  refine ⟨fun c hc => ⟨validB_iff.mp (h1 c hc).1, (h1 c hc).2⟩, h2, h3, fun c hc => ?_,
+    fun x hx => ?_, h6, h7, fun c hc p hp e1 e2 => ?_⟩
+  · obtain ⟨⟨⟨a, b⟩, c'⟩, d⟩ := h4 c hc
+    exact ⟨a, b, c', d⟩
+  · obtain ⟨⟨⟨a, b⟩, c'⟩, d⟩ := h5 x hx
+    exact ⟨a, b, c', d⟩
+  · have := h8 c hc p hp
     simp only [Bool.or_eq_true, Bool.not_eq_true', Bool.and_eq_false_iff, beq_eq_false_iff_ne,
       beq_iff_eq] at this
     rcases this with (h | h) | h
-    · exact absurd h1 h
-    · exact absurd h2 h
+    · exact absurd e1 h
+    · exact absurd e2 h
     · exact h
 
 theorem mem_mRep {g : List ℕ} :
@@ -298,9 +335,146 @@ theorem M12_gens_unit :
     · exact mRep_unit (by norm_num)
     · exact mRep_unit (by norm_num)
 
-theorem mem_M12_iff (u : GL (Fin 12) (ZMod 2)) :
-    u ∈ M12 ↔ colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) ∈ m12E :=
-  mem_genSubN_iff_of m12B_spec.1 (fun g hg => let ⟨u, _, hu⟩ := M12_gens_unit g hg; ⟨u, hu⟩) u
+theorem M12_gens_valid : ∀ g ∈ m12G, ValidN 12 g := by
+  intro g hg
+  rcases List.mem_append.mp hg with hg | hg
+  · exact (subB_spec pB_spec.1).2.2.2.2 g hg
+  · rcases mem_mRep.mp hg with rfl | rfl
+    · exact validN_mRep (by norm_num)
+    · exact validN_mRep (by norm_num)
+
+theorem M12_gens_unit' : ∀ g ∈ m12G, ∃ u : GL (Fin 12) (ZMod 2),
+    (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 g :=
+  fun g hg => let ⟨u, _, hu⟩ := M12_gens_unit g hg; ⟨u, hu⟩
+
+theorem exists_M12_of_evalW (w : List ℕ) :
+    ∃ u ∈ M12, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 (evalW 12 m12G w) :=
+  exists_evalW m12G M12_gens_valid M12_gens_unit' w
+
+theorem m12Cos_unit {c : List ℕ × List ℕ} (hc : c ∈ m12Cos) :
+    ValidN 12 c.1 ∧ ∃ u ∈ M12, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 c.1 ∧
+      ((u⁻¹ : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 c.2 := by
+  have hv := m12B_spec.1 c hc
+  have hz : c ∈ (m12CosW.map (evalW 12 m12G)).zip m12Inv := hc
+  obtain ⟨w, -, hw⟩ := List.mem_map.mp (List.of_mem_zip hz).1
+  obtain ⟨u, hu, hu'⟩ := exists_M12_of_evalW w
+  have hv1 : ValidN 12 c.1 := by
+    rw [← hw]
+    exact validN_evalW _ M12_gens_valid w
+  have hu1 : (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 c.1 := by
+    rw [← hw]
+    exact hu'
+  exact ⟨hv1, u, hu, hu1, inv_val_of hv1 hv.1 hu1 hv.2⟩
+
+theorem exists_m12Cos_of_mem_M12 {u : GL (Fin 12) (ZMod 2)} (hu : u ∈ M12) :
+    ∃ c ∈ m12Cos, mulN c.2 (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE := by
+  obtain ⟨hv, ho, hg, -⟩ := m12B_spec
+  have key : ∀ c ∈ m12Cos, ∀ cu : GL (Fin 12) (ZMod 2),
+      ((cu⁻¹ : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)) = decN 12 c.2 →
+      ∀ y : GL (Fin 12) (ZMod 2),
+        (cu⁻¹ * y ∈ PM ↔ mulN c.2 (colsN (y : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE) := by
+    intro c hc cu hcu y
+    rw [mem_PM_iff, Units.val_mul, colsN_mul, hcu, colsN_decN (hv c hc).1]
+  have hstep : ∀ s : GL (Fin 12) (ZMod 2),
+      colsN (s : Matrix (Fin 12) (Fin 12) (ZMod 2)) ∈ m12G → ∀ y : GL (Fin 12) (ZMod 2),
+        (∃ c ∈ m12Cos, mulN c.2 (colsN (y : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE) →
+        ∃ c ∈ m12Cos, mulN c.2
+          (colsN ((s * y : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE := by
+    rintro s hs y ⟨c, hc, hcy⟩
+    obtain ⟨c', hc', hc's⟩ := hg _ hs c hc
+    obtain ⟨hv1, cu, -, hcu1, hcu2⟩ := m12Cos_unit hc
+    obtain ⟨-, cu', -, -, hcu'2⟩ := m12Cos_unit hc'
+    refine ⟨c', hc', (key c' hc' cu' hcu'2 _).mp ?_⟩
+    have e : cu'⁻¹ * (s * y) = (cu'⁻¹ * (s * cu)) * (cu⁻¹ * y) := by group
+    rw [e]
+    refine PM.mul_mem ((key c' hc' cu' hcu'2 _).mpr ?_) ((key c hc cu hcu2 y).mpr hcy)
+    rw [Units.val_mul, colsN_mul, hcu1, colsN_decN hv1]
+    exact hc's
+  have hpow : ∀ s : GL (Fin 12) (ZMod 2),
+      colsN (s : Matrix (Fin 12) (Fin 12) (ZMod 2)) ∈ m12G → ∀ (m : ℕ) (y : GL (Fin 12) (ZMod 2)),
+      (∃ c ∈ m12Cos, mulN c.2 (colsN (y : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE) →
+      ∃ c ∈ m12Cos, mulN c.2
+        (colsN ((s ^ m * y : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE := by
+    intro s hs m
+    induction m with
+    | zero =>
+      intro y hy
+      rwa [pow_zero, one_mul]
+    | succ m ih =>
+      intro y hy
+      rw [pow_succ', mul_assoc]
+      exact hstep s hs _ (ih y hy)
+  unfold M12 genSubN at hu
+  refine Subgroup.closure_induction_left (p := fun (u : GL (Fin 12) (ZMod 2)) _ =>
+    ∃ c ∈ m12Cos, mulN c.2 (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ pE) ?_ ?_ ?_ hu
+  · rw [Units.val_one, colsN_one]
+    exact ho
+  · intro s hs y _ hy
+    exact hstep s hs y hy
+  · intro s hs y _ hy
+    have hfin : IsOfFinOrder s := isOfFinOrder_of_finite s
+    have hinv : s⁻¹ = s ^ (orderOf s - 1) := by
+      rw [eq_comm, ← mul_eq_one_iff_eq_inv, ← pow_succ,
+        Nat.sub_add_cancel (orderOf_pos_iff.mpr hfin), pow_orderOf_eq_one]
+    rw [hinv]
+    exact hpow s hs _ y hy
+
+theorem exists_m12Cos_mul {u : GL (Fin 12) (ZMod 2)} (hu : u ∈ M12) :
+    ∃ c ∈ m12Cos, ∃ q ∈ pE, colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = mulN c.1 q := by
+  obtain ⟨c, hc, hq⟩ := exists_m12Cos_of_mem_M12 hu
+  obtain ⟨hv1, cu, -, hcu1, hcu2⟩ := m12Cos_unit hc
+  refine ⟨c, hc, _, hq, ?_⟩
+  calc colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))
+      = colsN ((cu * (cu⁻¹ * u) : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)) := by
+        rw [mul_inv_cancel_left]
+    _ = _ := by
+        rw [Units.val_mul, colsN_mul, Units.val_mul, colsN_mul, hcu1, hcu2, colsN_decN hv1,
+          colsN_decN (m12B_spec.1 c hc).1]
+
+theorem blkInvB_mulN {blks : List (List ℕ)} {x y : List ℕ} (hx : blkInvB blks x = true)
+    (hy : blkInvB blks y = true) (hyp : blkPerm blks y ∈ S7Cert.perm3L) :
+    blkInvB blks (mulN x y) = true := by
+  have key : ∀ i < 3, ∀ v, blkOf blks (mvN y v) = (blkPerm blks y).getD i 0 →
+      blkOf blks (mvN (mulN x y) v) =
+        blkOf blks (mvN x ((blks.getD ((blkPerm blks y).getD i 0) []).getD 0 0)) := by
+    intro i hi v hv
+    have hj3 := getD_lt_of_perm3L hyp hi
+    rw [mvN_mulN, blkInvB_spec hx hj3 (mem_of_blkOf hv hj3)]
+  simp only [blkInvB, List.all_eq_true, beq_iff_eq]
+  intro i hi v hv
+  have hi3 : i < 3 := by
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hi
+    omega
+  rw [key i hi3 v (by rw [blkInvB_spec hy hi3 hv, getD_blkPerm blks y hi3 0]),
+    getD_blkPerm blks (mulN x y) hi3 3, key i hi3 _ (getD_blkPerm blks y hi3 0).symm]
+
+theorem perm3L_compL :
+    ∀ l ∈ S7Cert.perm3L, ∀ l' ∈ S7Cert.perm3L, S7Cert.compL l l' ∈ S7Cert.perm3L := by
+  decide
+
+theorem blk_mulN {x y : List ℕ}
+    (hx : blkInvB blkA x = true ∧ blkInvB blkB x = true ∧
+      blkPerm blkA x ∈ S7Cert.perm3L ∧ blkPerm blkB x ∈ S7Cert.perm3L)
+    (hy : blkInvB blkA y = true ∧ blkInvB blkB y = true ∧
+      blkPerm blkA y ∈ S7Cert.perm3L ∧ blkPerm blkB y ∈ S7Cert.perm3L) :
+    blkInvB blkA (mulN x y) = true ∧ blkInvB blkB (mulN x y) = true ∧
+      blkPerm blkA (mulN x y) ∈ S7Cert.perm3L ∧ blkPerm blkB (mulN x y) ∈ S7Cert.perm3L := by
+  obtain ⟨xa, xb, xa', xb'⟩ := hx
+  obtain ⟨ya, yb, ya', yb'⟩ := hy
+  refine ⟨blkInvB_mulN xa ya ya', blkInvB_mulN xb yb yb', ?_, ?_⟩
+  · rw [blkPerm_mulN xa ya']
+    exact perm3L_compL _ xa' _ ya'
+  · rw [blkPerm_mulN xb yb']
+    exact perm3L_compL _ xb' _ yb'
+
+theorem blk_of_mem_M12 {u : GL (Fin 12) (ZMod 2)} (hu : u ∈ M12) :
+    blkInvB blkA (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))) = true ∧
+      blkInvB blkB (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))) = true ∧
+      blkPerm blkA (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ S7Cert.perm3L ∧
+      blkPerm blkB (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))) ∈ S7Cert.perm3L := by
+  obtain ⟨c, hc, q, hq, he⟩ := exists_m12Cos_mul hu
+  rw [he]
+  exact blk_mulN (m12B_spec.2.2.2.1 c hc) (m12B_spec.2.2.2.2.1 q hq)
 
 theorem sup_Mi : Mi 0 ⊔ Mi 1 = M12 := by
   apply le_antisymm
@@ -333,10 +507,8 @@ theorem blkPerm_one : blkPerm blkA one12 = [0, 1, 2] ∧ blkPerm blkB one12 = [0
     simp only [OneMemClass.coe_one, Units.val_one, colsN_one, blkPerm_one.1, blkPerm_one.2]
     rfl
   map_mul' x y := by
-    have hx := (mem_M12_iff _).mp x.2
-    have hy := (mem_M12_iff _).mp y.2
-    obtain ⟨hxa, hxb, hxa', hxb'⟩ := m12B_spec.2.2.1 _ hx
-    obtain ⟨-, -, hya', hyb'⟩ := m12B_spec.2.2.1 _ hy
+    obtain ⟨hxa, hxb, hxa', hxb'⟩ := blk_of_mem_M12 x.2
+    obtain ⟨-, -, hya', hyb'⟩ := blk_of_mem_M12 y.2
     simp only [Subgroup.coe_mul, Units.val_mul, colsN_mul, blkPerm_mulN hxa hya',
       blkPerm_mulN hxb hyb', S7Cert.toPerm3_mul _ hxa' _ hya', S7Cert.toPerm3_mul _ hxb' _ hyb',
       Prod.mk_mul_mk]
@@ -345,29 +517,32 @@ theorem chi_surjective : Function.Surjective chi := by
   rintro ⟨σ, τ⟩
   obtain ⟨l, hl, rfl⟩ := S7Cert.toPerm3_surj σ
   obtain ⟨l', hl', rfl⟩ := S7Cert.toPerm3_surj τ
-  obtain ⟨c, hc, hca, hcb⟩ := m12B_spec.2.2.2.1 l hl l' hl'
-  obtain ⟨u, hu, hu'⟩ := exists_mem_of_elemsOf m12B_spec.1
-    (fun g hg => let ⟨u, _, hu⟩ := M12_gens_unit g hg; ⟨u, hu⟩) hc
-  have hcu : colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = c := by
-    rw [hu', colsN_decN ((subB_spec m12B_spec.1).1 c hc)]
+  obtain ⟨t, ht, rfl, rfl⟩ := m12B_spec.2.2.2.2.2.1 l hl l' hl'
+  obtain ⟨u, hu, hu'⟩ := exists_M12_of_evalW t.2.2
+  have hcu : colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = evalW 12 m12G t.2.2 := by
+    rw [hu', colsN_decN (validN_evalW _ M12_gens_valid _)]
   refine ⟨⟨u, hu⟩, ?_⟩
-  show (S7Cert.toPerm3 (blkPerm blkA (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)))),
+  change (S7Cert.toPerm3 (blkPerm blkA (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2)))),
     S7Cert.toPerm3 (blkPerm blkB (colsN (u : Matrix (Fin 12) (Fin 12) (ZMod 2))))) = _
-  rw [hcu, hca, hcb]
+  rw [hcu, (m12B_spec.2.2.2.2.2.2.1 t ht).1, (m12B_spec.2.2.2.2.2.2.1 t ht).2]
 
 theorem pow_four_of_chi {x : ↥M12} (h : chi x = 1) :
     (x : GL (Fin 12) (ZMod 2)) ^ 2 ^ 2 = 1 := by
-  have hx := (mem_M12_iff _).mp x.2
+  obtain ⟨c, hc, q, hq, he⟩ := exists_m12Cos_mul x.2
   have h1 := congrArg Prod.fst h
   have h2 := congrArg Prod.snd h
   change S7Cert.toPerm3 (blkPerm blkA (colsN ((x : GL (Fin 12) (ZMod 2)) :
     Matrix (Fin 12) (Fin 12) (ZMod 2)))) = 1 at h1
   change S7Cert.toPerm3 (blkPerm blkB (colsN ((x : GL (Fin 12) (ZMod 2)) :
     Matrix (Fin 12) (Fin 12) (ZMod 2)))) = 1 at h2
-  obtain ⟨-, -, ha, hb⟩ := m12B_spec.2.2.1 _ hx
-  have hsq := m12B_spec.2.2.2.2 _ hx (S7Cert.toPerm3_eq_one _ ha h1)
-    (S7Cert.toPerm3_eq_one _ hb h2)
-  rw [eq_one_iff_colsN, colsN_pow_two_pow, hsq]
+  obtain ⟨-, -, ha, hb⟩ := blk_of_mem_M12 x.2
+  have hca := m12B_spec.2.2.2.1 c hc
+  have hqa := m12B_spec.2.2.2.2.1 q hq
+  have e1 := S7Cert.toPerm3_eq_one _ ha h1
+  have e2 := S7Cert.toPerm3_eq_one _ hb h2
+  rw [he, blkPerm_mulN hca.1 hqa.2.2.1] at e1
+  rw [he, blkPerm_mulN hca.2.1 hqa.2.2.2] at e2
+  rw [eq_one_iff_colsN, colsN_pow_two_pow, he, m12B_spec.2.2.2.2.2.2.2 c hc q hq e1 e2]
 
 theorem M12_eq : M12 = OS 0 ⊔ OS 1 ⊔ PM := by
   rw [← sup_Mi, ← OS_sup_PM (i := 0) (by norm_num), ← OS_sup_PM (i := 1) (by norm_num)]

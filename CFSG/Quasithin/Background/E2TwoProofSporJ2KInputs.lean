@@ -8,8 +8,8 @@ public import Certificates.Data.Kernel.SporLatDcCode
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.Quasithin.E2P.SporB.J2Lat.J2K
-  "CFSG/Quasithin/Background/data/j2LatK.json.gz" 6872 16160519555290276566
+#kc_repo #kc_json CFSG.Quasithin.E2P.SporB.J2Lat.J2K
+  "CFSG/Quasithin/Background/data/j2LatK.json" 6872 16160519555290276566
   (mw : List (List (List Nat)))
   (Om : List (List (List Nat) × List (List Nat) × List Nat × List Nat))
   (Ot : List (List (List (List Nat)) × List (List Nat) × List Nat × List Nat))

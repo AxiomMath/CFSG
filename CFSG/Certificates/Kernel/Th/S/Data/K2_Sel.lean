@@ -4,11 +4,11 @@ import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Tab
 public import CFSG.Certificates.Kernel.Th.S.Data.K2_0
 public import CFSG.Certificates.Kernel.Th.S.TcS
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.Common.LceS
 
-#kc_repo #kc_nat_items_gz CFSG.KD.ThK2 "CFSG/Certificates/Kernel/Th/S/Data/data/K2_Sel.items.gz"
+#kc_repo #kc_nat_items CFSG.KD.ThK2 "CFSG/Certificates/Kernel/Th/S/Data/data/K2_Sel.items"
     5717 12048435663163338120
     (WT 0 280) (RT 0 20) (ST 0 5) HS nLive
 #kc_selectT CFSG.KD.ThK2 blk B 680

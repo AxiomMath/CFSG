@@ -18,7 +18,8 @@ open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.Co1Schreie
   CFSG.Sporadic.Co1.InvNative CFSG.Sporadic.Co1.TwoBNative
   CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1F Timmesfeld.Co1Five Timmesfeld.Co1FiveComp
 open CertificateChecks.KernelCo1FiveK
-open CFSG.KS.SporSch.M24 (mul_unpackW eqU_of gtBFS_of_K gensArr bfsTree word_eq_wordWK eqU wordWK)
+open CFSG.KS.SporSch.M24 (mul_unpackW eqU_of gtBFS_of_bfsK gensArr bfsTree word_eq_wordWK eqU
+  wordWK)
 open CFSG.KC.Co1B (mulWK)
 open Timmesfeld.Co1SevenPerfect (encW)
 
@@ -101,7 +102,7 @@ theorem sRows_eq : (sRows rs IS).toArray = gensArr 5 (SG D.M D.MI) := by
   exact compKAt_word (CFSG.KS.SporSch.M24.MatL.allN_iff.1 c10145kPerf i (List.mem_range.1 hi))
 
 theorem a5OK_true : a5OK rs IS = true := by
-  obtain ⟨hT, hok⟩ := gtBFS_of_K c10145kST
+  obtain ⟨hT, hok⟩ := gtBFS_of_bfsK c10145kST (by rw [Nat.eq_of_beq_eq_true c10145kSTN]; decide)
   unfold a5OK
   rw [sRows_eq, hT, Bool.and_eq_true, Bool.and_eq_true, List.all_eq_true]
   refine ⟨⟨hok, ?_⟩, fun i hi =>

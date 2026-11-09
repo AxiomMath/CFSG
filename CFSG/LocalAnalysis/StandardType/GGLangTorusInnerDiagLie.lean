@@ -1,7 +1,6 @@
 module
 
 public import CFSG.LocalAnalysis.StandardType.GGLangTorusLieAlt
-public import CFSG.LocalAnalysis.StandardType.GGLangTorusInnerDiagE6
 public import CFSG.LocalAnalysis.StandardType.GGE0ShapeAction
 
 public section

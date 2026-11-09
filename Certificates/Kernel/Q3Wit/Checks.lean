@@ -5,6 +5,7 @@ public import Certificates.Data.Kernel.Misc.ArrEnum
 public import Certificates.Kernel.J2Cover.AutChains
 public import Certificates.Kernel.Census.J2H.Chains
 public import Certificates.Kernel.SchreierFam.J3Cq
+import CFSG.Certificates.Kernel.Spor.PK.Perm.CompC
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -35,6 +36,8 @@ theorem j3Wit : witK 20520 15 (pcomp 20520 15 (mask 15) (KK 0) (KK 1))
         (pcomp 20520 15 (mask 15) (KK 1) (pcomp 20520 15 (mask 15) (KK 0)
           (pcomp 20520 15 (mask 15) (KK 1) (KK 0))))))))
     (AB 0) = true := by
+  unfold witK
+  simp only [← CFSG.KS.PK.pcompC_eq]
   quickRfl
 
 end CertificateChecks.KernelQ3Wit

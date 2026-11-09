@@ -224,14 +224,14 @@ section Tree
 
 
 theorem cen_tree2 {g1 g2 : ↥GA} {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB W S : Nat → Nat}
-    (hT : gtPinK GM ng cap N P PAR LAB W S = true) {gg : ℕ → ↥GA}
+    (hT : bfsK (gtStepK GM) P PAR LAB W S ng cap N idM = true) (hcap : N < cap) {gg : ℕ → ↥GA}
     (hrep : ∀ l < ng, MRep (U (GM l)) (gg l : GL24))
     (hc1 : ∀ l < ng, gg l * g1 = g1 * gg l) (hc2 : ∀ l < ng, gg l * g2 = g2 * gg l)
     (hle : Nat.card (Cen g1 g2) ≤ N) :
     Nat.card (Cen g1 g2) = N ∧ ∃ f : ℕ → ↥GA, (∀ i < N, MRep (U (P i)) (f i : GL24) ∧
       f i ∈ Cen g1 g2) ∧ ∀ c ∈ Cen g1 g2, ∃ i < N, c = f i := by
   have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
-  obtain ⟨-, hok⟩ := gtBFS_of_K hT
+  obtain ⟨-, hok⟩ := gtBFS_of_bfsK hT hcap
   have hsz : (bfsTree N P PAR LAB).pts.size = N := by simp [bfsTree]
   obtain ⟨f, hf, -, heq⟩ := prodTree_closure_eq μG μG_injective hok gg (hgg_pk hrep)
   have hcard := prodTree_card μG μG_injective hok gg (hgg_pk hrep)

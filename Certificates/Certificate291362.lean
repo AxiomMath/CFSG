@@ -36,8 +36,8 @@ theorem certificate291362 : (∃ x : Fin 3 → CFSG.Blueprint.NativeSporadic.Co1
     PG_congr_mem fun w => by
       rw [co1Cover, mem_cover₃Words, List.mem_append, List.mem_append, or_assoc]
   rw [← e] at hc
-  obtain ⟨x, hR, hpow, hn⟩ := CFSG.KC.Local3K.exists_local3_of_K Co1.SA.bind Co1.SB.bind Co1.SA.eq
-    Co1.SB.eq Co1.MS.eq Co1.local3_K
+  obtain ⟨x, hR, hpow, hn⟩ := CFSG.KC.Local3K.exists_local3_of_K2 Co1.SA.bind Co1.SB.bind
+    Co1.SA.eq Co1.SB.eq Co1.gens_eq Co1.local3_K
   exact ⟨⟨x, hR, hpow, hn⟩, hc⟩
 
 end Certificates

@@ -9,7 +9,7 @@ public section
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KD.G24B "Certificates/Kernel/G24B/data/z.json.gz" 2085 15149280164801978724
+#kc_repo #kc_json CFSG.KD.G24B "Certificates/Kernel/G24B/data/z.json" 2085 15149280164801978724
   (zc : List Nat)
 
 namespace CFSG.KD.G24B

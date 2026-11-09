@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.H13.A7NatLocal
+public import CFSG.Quasithin.H13.A7SignCountK
 
 public section
 
@@ -58,8 +59,8 @@ theorem altLift6_apply_last (σ : alternatingGroup (Fin 6)) :
   omega
 
 theorem card_filter_stab_six : (Finset.univ.filter fun σ : Perm (Fin 7) =>
-    sign σ = 1 ∧ σ 6 = 6).card = 360 := by
-  decide +kernel
+    sign σ = 1 ∧ σ 6 = 6).card = 360 :=
+  A7SignCountK.card_sign_fix6
 
 theorem nat_card_stabA7_vecSix : Nat.card (stabA7 vecSix) = 360 := by
   rw [← card_filter_stab_six, ← Fintype.card_subtype, ← Nat.card_eq_fintype_card]

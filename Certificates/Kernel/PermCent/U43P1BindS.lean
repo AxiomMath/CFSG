@@ -4,6 +4,7 @@ public import Certificates.Data.Kernel.PermCent.U43P1Chk
 public import Certificates.Kernel.PermCent.U43P1A6
 public import Certificates.Kernel.PermCent.U43P1Cen
 public import Certificates.Kernel.PermCent.U43P1S
+public import Certificates.Kernel.PermCent.U43P1Img
 
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
@@ -25,6 +26,7 @@ theorem bindsS :
     CgM1a.N = 720 ∧ LM1a.N = 360 ∧ CgIa.N = 720 ∧ LIa.N = 360 ∧
     SM1.ng = 4 ∧ SF.ng = 4 ∧ SI.ng = 3 ∧ CgIn.ng = 2 ∧ KIn.ng = 2 ∧ FFb.ng = 2 ∧ CgM1a.ng = 2 ∧
     LM1a.ng = 2 ∧ CgIa.ng = 2 ∧ LIa.ng = 2 := by
+  simp only [u43_gensOK]
   decide +kernel
 
 end CertificateChecks.KernelPermCent.U43P1

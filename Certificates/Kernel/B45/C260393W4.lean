@@ -6,6 +6,16 @@ set_option maxRecDepth 400000
 
 public section
 
-#kqb_range CFSG.KD.B45.C260393.W CFSG.KD.B45.C260393.ckW 5 7
+namespace CFSG.KD.B45.C260393
+
+theorem W.c5 : ckW (nat_lit 5) = true := by
+  rw [ckW_eq]
+  decide +kernel
+
+theorem W.c6 : ckW (nat_lit 6) = true := by
+  rw [ckW_eq]
+  decide +kernel
+
+end CFSG.KD.B45.C260393
 
 end

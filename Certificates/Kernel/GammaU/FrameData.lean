@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GUF "Certificates/Kernel/GammaU/data/frame.json.gz" 847
+#kc_repo #kc_json CFSG.KD.GUF "Certificates/Kernel/GammaU/data/frame.json" 847
   1279642578073916008 (SA : List Nat) (SAI : List Nat) (SJ : List Nat)
 
 namespace CFSG.KD.GUF

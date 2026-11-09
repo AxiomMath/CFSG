@@ -1,7 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Tab
 public import CFSG.Certificates.Kernel.Bounds.HSAlt.Data.C_0
@@ -10,14 +10,14 @@ public import CFSG.Certificates.Kernel.Bounds.HSAlt.Rels
 public import CFSG.Certificates.Kernel.Bounds.HSAlt.Lab
 public import CFSG.Certificates.Kernel.Bounds.HSAlt.Model
 
-#kc_repo #kc_nat_items_gz CFSG.KD.HSKC "CFSG/Certificates/Kernel/Bounds/HSAlt/Data/C/lces_const.items.gz" 48313 16093826958742460129
+#kc_repo #kc_nat_items CFSG.KD.HSKC "CFSG/Certificates/Kernel/Bounds/HSAlt/Data/C/lces_const.items" 48313 16093826958742460129
   WT[1095] RT[13] ST[30] HS
 #kc_selectT CFSG.KD.HSKC blk B 15
 #kc_selectT CFSG.KD.HSKC selWT WT 1095
 #kc_selectT CFSG.KD.HSKC LVs LV 1
 #kc_select CFSG.KD.HSKC litRT RT 13
 #kc_select CFSG.KD.HSKC litST ST 30
-#kc_repo #kc_nat_items_gz CFSG.KD.HSKC "CFSG/Certificates/Kernel/Bounds/HSAlt/Data/C/lab_const.items.gz" 473 15048948510839319614
+#kc_repo #kc_nat_items CFSG.KD.HSKC "CFSG/Certificates/Kernel/Bounds/HSAlt/Data/C/lab_const.items" 473 15048948510839319614
   LBITS
 
 public section

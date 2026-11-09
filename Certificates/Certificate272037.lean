@@ -49,8 +49,8 @@ theorem certificate272037 :
       (subsetOf 7 [0, 1, 2, 3, 4, 5]) = ⊤) ∧
     (Finite (PG 7 j2Words) ∧ Nat.card (PG 7 j2Words) ≤ 315 * 1920) ∧
     FreeGroup.lift uJ (FreeGroup.mk (wRel 4 1)) = 1 :=
-  ⟨TableFact.card_restrict j3WordsW (by norm_num) (subsetOf 7 [0, 1, 2, 3, 4, 5]) (by decide)
-      CFSG.KBFact.PL272037a CFSG.KBFact.PL272037b,
+  ⟨(TableFact.card_restrict j3WordsW (by norm_num) (subsetOf 7 [0, 1, 2, 3, 5, 6]) (by decide)
+      CFSG.KBFact.PL272037a CFSG.KBFact.PL272037b).imp_right (·.trans (by norm_num)),
     PresLetters272037.collapse,
     TableFact.card_restrict j2Words (by norm_num) (subsetOf 7 [0, 1, 2, 3, 4, 5]) (by decide)
       CFSG.KBFact.PL272037d CFSG.KBFact.PL272037e,

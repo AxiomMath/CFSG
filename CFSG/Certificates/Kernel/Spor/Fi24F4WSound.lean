@@ -10,7 +10,7 @@ namespace CFSG.KS.Fi24F4W
 
 open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24NetPt CFSG.KC.Fi24Kit
 open CFSG.KC.Fi24F4W CFSG.KS.Fi24Net CFSG.KS.Fi24Kit
-open CFSG.KC.Fi24FixP (fixS)
+open CFSG.KC.MonsterConv.Perm (ones)
 
 theorem letB_eq (v : Nat) (k : Nat → Bool) : letB v k = k v := by cases v <;> rfl
 
@@ -66,39 +66,72 @@ theorem testBit_bitsL : ∀ (l : List Nat) (x : Nat), (bitsL l).testBit x = true
     simp only [decide_eq_true_eq]
     exact or_congr ⟨fun h => h.symm, fun h => h.symm⟩ Iff.rfl
 
+theorem nthL_mem : ∀ (l : List (List Nat)) (j : Nat), nthL l j ∈ l ∨ nthL l j = []
+  | [], _ => Or.inr rfl
+  | _ :: _, 0 => Or.inl List.mem_cons_self
+  | _ :: l, j + 1 => (nthL_mem l j).imp (List.mem_cons_of_mem _) id
+
+theorem testBit_plK {F : Nat → Nat} {x : Nat} (hx : x < 524288)
+    (hF : ∀ v, (F v).testBit x = v.testBit x) (k a : Nat) :
+    (plK F k a).testBit x = a.testBit x := by
+  unfold plK
+  change (a &&& ((ones 524288) ^^^ ((F (CFSG.KC.Fi24FixP.idPl19 k)) ^^^
+    (CFSG.KC.Fi24FixP.idPl19 k)))).testBit x = _
+  rw [Nat.testBit_and, Nat.testBit_xor, Nat.testBit_xor, hF, CFSG.KS.Fi24FixP.testBit_ones,
+    decide_eq_true hx, Bool.xor_self, Bool.xor_false, Bool.and_true]
+
+section Pick
+
+variable {NW : Nat → Nat → Nat} {NT : Nat → Nat} {cs : List Nat} {t : Bool}
+  {prods : List (List Nat)} (hw : WV NW cs) (hp : ∀ c ∈ prods, WV NW c) (hT : NV NT) {x : Nat}
+  (hr : rG NW NT cs t x = x) (hc : ∀ c ∈ prods, wN NW c x = x)
+include hw hp hT hr hc
+
+theorem testBit_wordF (j v : Nat) : (wordF NW NT cs t prods j v).testBit x = v.testBit x := by
+  cases j with
+  | zero =>
+    change (rPl NW NT cs t v).testBit x = _
+    rw [testBit_rPl hw hT t v x, hr]
+  | succ j =>
+    change (walkP NW (nthL prods j) v).testBit x = _
+    rcases nthL_mem prods j with h | h
+    · rw [testBit_walkP _ (hp _ h) v x, hc _ h]
+    · rw [h]
+      rfl
+
+theorem testBit_pickM (hx : x < 524288) (P : List (List Nat)) (a : Nat) :
+    (pickM NW NT cs t prods P a).testBit x = a.testBit x := by
+  induction P with
+  | nil => rfl
+  | cons p P ih =>
+    change (strictN (pickM NW NT cs t prods P a)
+      (plK (wordF NW NT cs t prods (nthN p 0)) (nthN p 1))).testBit x = _
+    rw [CFSG.KS.Fi24FixP.strictN_eq, testBit_plK hx (testBit_wordF hw hp hT hr hc _), ih]
+
+end Pick
+
 theorem coverOK_spec {NW : Nat → Nat → Nat} {NT : Nat → Nat} {cs : List Nat} {t : Bool}
     {prods : List (List Nat)} {q₀ : Nat} {E : List Nat} (hw : WV NW cs)
     (hp : ∀ c ∈ prods, WV NW c) (hT : NV NT)
-    (h : CFSG.KC.Fi24F4W.coverOK NW NT cs t prods q₀ E = true)
+    {P₁ P₂ : List (List Nat)} {R : List Nat}
+    (h : CFSG.KC.Fi24F4W.coverOK NW NT cs t prods q₀ E P₁ P₂ R = true)
     {x : Nat} (hx : x < 306936) (hr : rG NW NT cs t x = x) (hc : ∀ c ∈ prods, wN NW c x = x) :
     x ∈ q₀ :: E := by
   unfold CFSG.KC.Fi24F4W.coverOK at h
-  rw [letB_eq] at h
-  have hA : ∀ ps : List (List Nat), (∀ c ∈ ps, WV NW c) → (∀ c ∈ ps, wN NW c x = x) →
-      (List.rec (motive := fun _ => Nat) (fixS (rPl NW NT cs t))
-        (fun c _ ih => Nat.land (fixS (walkP NW c)) ih) ps).testBit x = true := by
-    intro ps
-    induction ps with
-    | nil =>
-      intro _ _
-      change (fixS (rPl NW NT cs t)).testBit x = true
-      rw [CFSG.KS.Fi24FixP.testBit_fixS (g := rG NW NT cs t) (fun v q _ => testBit_rPl hw hT t v q)
-        (fun q hq => rG_lt hw hT t hq)]
-      exact ⟨hx, hr⟩
-    | cons c ps ih =>
-      intro hv hf
-      change (Nat.land (fixS (walkP NW c)) _).testBit x = true
-      rw [Nat.land_eq, Nat.testBit_and, Bool.and_eq_true]
-      refine ⟨?_, ih (fun c' h' => hv c' (List.mem_cons_of_mem _ h'))
-        (fun c' h' => hf c' (List.mem_cons_of_mem _ h'))⟩
-      have hc' := hv c List.mem_cons_self
-      rw [CFSG.KS.Fi24FixP.testBit_fixS (g := wN NW c) (fun v q _ => testBit_walkP c hc' v q)
-        (fun q hq => wN_lt c hc' q hq)]
-      exact ⟨hx, hf c List.mem_cons_self⟩
-  have hb := hA prods hp hc
-  have e := Nat.eq_of_beq_eq_true h
-  rw [← e, Nat.land_eq, Nat.testBit_and, Bool.and_eq_true] at hb
-  exact (testBit_bitsL _ x).1 hb.2
+  obtain ⟨h1, h2⟩ := andB_iff.1 h
+  unfold covA at h1
+  unfold covB at h2
+  rw [letB_eq] at h1 h2
+  have hP := testBit_pickM hw hp hT hr hc (by omega : x < 524288)
+  have b1 : (pickM NW NT cs t prods P₁ (ones (nat_lit 306936))).testBit x = true := by
+    rw [hP, CFSG.KS.Fi24FixP.testBit_ones]
+    exact decide_eq_true hx
+  rw [← Nat.eq_of_beq_eq_true h1, Nat.land_eq, Nat.testBit_and, Bool.and_eq_true] at b1
+  have b2 : (pickM NW NT cs t prods P₂ (bitsL R)).testBit x = true := by
+    rw [hP]
+    exact b1.2
+  rw [← Nat.eq_of_beq_eq_true h2, Nat.land_eq, Nat.testBit_and, Bool.and_eq_true] at b2
+  exact (testBit_bitsL _ x).1 b2.2
 
 theorem allLN_spec {l : List Nat} {f : Nat → Bool} (h : allLN l f = true) : ∀ x ∈ l, f x = true := by
   induction l with

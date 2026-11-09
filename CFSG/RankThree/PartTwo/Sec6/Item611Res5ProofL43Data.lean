@@ -3,6 +3,7 @@ module
 public import CFSG.Assembly.Defs
 public import CFSG.LocalAnalysis.ComponentInitial.LinearFlagElation
 public import CFSG.RankThree.PartTwo.Sec4.T444.Item434RemL43Mat
+import CFSG.LinearAlgebra.F2NatMat
 
 public section
 
@@ -173,9 +174,96 @@ open Matrix CFSG.RankThree.PartTwo.Sec4.Item434RemL43
   3, 2, 3, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0,
   0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0]
 
-set_option maxRecDepth 100000 in
-set_option synthInstance.maxHeartbeats 400000 in
-set_option synthInstance.maxSize 1000 in
+private def natM (F : ℕ → ℕ → ℕ) : Mat4 := Matrix.of fun i j => ((F i j : ℕ) : ZMod 3)
+
+private def prodN (F G : ℕ → ℕ → ℕ) (i j : ℕ) : ℕ :=
+  Nat.add (Nat.add (Nat.add (Nat.mul (F i 0) (G 0 j)) (Nat.mul (F i 1) (G 1 j)))
+    (Nat.mul (F i 2) (G 2 j))) (Nat.mul (F i 3) (G 3 j))
+
+private theorem natM_mul (F G : ℕ → ℕ → ℕ) : natM F * natM G = natM (prodN F G) := by
+  ext i j
+  show _ = ((prodN F G i j : ℕ) : ZMod 3)
+  rw [show prodN F G i j = F i 0 * G 0 j + F i 1 * G 1 j +
+    F i 2 * G 2 j + F i 3 * G 3 j from rfl]
+  simp only [natM, Matrix.mul_apply, Matrix.of_apply, Fin.sum_univ_four]
+  push_cast
+  rfl
+
+private def eqN (F G : ℕ → ℕ → ℕ) : Bool :=
+  CFSG.F2NatMat.allBelow 4 fun i => CFSG.F2NatMat.allBelow 4 fun j =>
+    Nat.beq (Nat.mod (F i j) 3) (Nat.mod (G i j) 3)
+
+private theorem natM_eq {F G : ℕ → ℕ → ℕ} (h : eqN F G = true) : natM F = natM G := by
+  ext i j
+  have := CFSG.F2NatMat.allBelow_spec (CFSG.F2NatMat.allBelow_spec h i i.2) j j.2
+  simp only [natM, Matrix.of_apply]
+  exact (ZMod.natCast_eq_natCast_iff' _ _ 3).2 (Nat.eq_of_beq_eq_true this)
+
+private def decN (n i j : ℕ) : ℕ := Nat.mod (Nat.div n (Nat.pow 3 (Nat.add (Nat.mul 4 i) j))) 3
+
+private theorem decMat_eq (n : ℕ) : decMat n = natM (decN n) := rfl
+
+private def lstN (L : List (List ℕ)) (i j : ℕ) : ℕ := (L.getD i []).getD j 0
+
+private def uuN (a b c d e f : ℕ) : ℕ → ℕ → ℕ :=
+  lstN [[1, a, b, c], [0, 1, d, e], [0, 0, 1, f], [0, 0, 0, 1]]
+
+private theorem uuMat_eq (a b c d e f : ZMod 3) :
+    uuMat a b c d e f = natM (uuN a.val b.val c.val d.val e.val f.val) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [uuMat, natM, uuN, lstN]
+
+private def oneN : ℕ → ℕ → ℕ := lstN [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+
+private theorem one_eq : (1 : Mat4) = natM oneN := by decide
+
+private def repN (k : ℕ) : ℕ → ℕ → ℕ :=
+  cond (Nat.beq k 1) (lstN [[1, 0, 0, 1], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+    (cond (Nat.beq k 2) (lstN [[1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, 0, 1]])
+      (lstN [[1, 1, 0, 0], [0, 1, 1, 0], [0, 0, 1, 0], [0, 0, 0, 1]]))
+
+private theorem repMat_eq (k : ℕ) : repMat k = natM (repN k) := by
+  rcases k with _ | _ | _ | k
+  · decide
+  · decide
+  · decide
+  · have h1 : Nat.beq (k + 3) 1 = false := rfl
+    have h2 : Nat.beq (k + 3) 2 = false := rfl
+    rw [repN, h1, h2]
+    show 1 + nZero = _
+    decide
+
+private def entryChk (n g h k : ℕ) : Bool :=
+  let a := Nat.mod n 3
+  let b := Nat.mod (Nat.div n 3) 3
+  let c := Nat.mod (Nat.div n 9) 3
+  let d := Nat.mod (Nat.div n 27) 3
+  let e := Nat.mod (Nat.div n 81) 3
+  let f := Nat.mod (Nat.div n 243) 3
+  Nat.beq n 0 || !(Nat.beq a 0 || Nat.beq d 0 || Nat.beq f 0) ||
+    ((Nat.beq k 1 || Nat.beq k 2 || Nat.beq k 3) && eqN (prodN (decN g) (decN h)) oneN &&
+      eqN (prodN (decN g) (uuN a b c d e f)) (prodN (repN k) (decN g)))
+
+private def walkChk (G : List ℕ) : ℕ → List ℕ → List ℕ → Bool :=
+  List.rec (motive := fun _ => ℕ → List ℕ → List ℕ → Bool) (fun _ _ _ => true)
+    (fun g _ ih n H K => entryChk n g (H.headD 0) (K.headD 0) && ih (n + 1) H.tail K.tail) G
+
+private theorem walkChk_spec : ∀ (G : List ℕ) (n : ℕ) (H K : List ℕ), walkChk G n H K = true →
+    ∀ m < G.length, entryChk (n + m) (G.getD m 0) (H.getD m 0) (K.getD m 0) = true
+  | [], _, _, _, _, m, hm => by simp at hm
+  | g :: G, n, H, K, h, m, hm => by
+    change (entryChk n g (H.headD 0) (K.headD 0) && walkChk G (n + 1) H.tail K.tail) = true at h
+    rw [Bool.and_eq_true] at h
+    rcases m with _ | m
+    · cases H <;> cases K <;> simpa using h.1
+    · have := walkChk_spec G (n + 1) H.tail K.tail h.2 m (by simpa using hm)
+      rw [show n + (m + 1) = n + 1 + m by omega]
+      cases H <;> cases K <;> simpa using this
+
+private theorem walk_true : walkChk gTab 0 hTab kTab = true := by decide +kernel
+
+private theorem gTab_length : gTab.length = 729 := by decide +kernel
+
 theorem table_check : ∀ a b c d e f : ZMod 3, a * d * f = 0 →
     ¬(a = 0 ∧ b = 0 ∧ c = 0 ∧ d = 0 ∧ e = 0 ∧ f = 0) →
     (kTab.getD (uIdx a b c d e f) 0 = 1 ∨ kTab.getD (uIdx a b c d e f) 0 = 2 ∨
@@ -183,6 +271,57 @@ theorem table_check : ∀ a b c d e f : ZMod 3, a * d * f = 0 →
     decMat (gTab.getD (uIdx a b c d e f) 0) * decMat (hTab.getD (uIdx a b c d e f) 0) = 1 ∧
     decMat (gTab.getD (uIdx a b c d e f) 0) * uuMat a b c d e f =
       repMat (kTab.getD (uIdx a b c d e f) 0) * decMat (gTab.getD (uIdx a b c d e f) 0) := by
-  decide +kernel
+  intro a b c d e f h3 h1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have ha := ZMod.val_lt a
+  have hb := ZMod.val_lt b
+  have hc := ZMod.val_lt c
+  have hd := ZMod.val_lt d
+  have he := ZMod.val_lt e
+  have hf := ZMod.val_lt f
+  have hn : uIdx a b c d e f < 729 := by simp only [uIdx]; omega
+  have key := walkChk_spec gTab 0 hTab kTab walk_true _ (gTab_length ▸ hn)
+  rw [Nat.zero_add] at key
+  generalize hg : gTab.getD (uIdx a b c d e f) 0 = g at key ⊢
+  generalize hh : hTab.getD (uIdx a b c d e f) 0 = h at key ⊢
+  generalize hk : kTab.getD (uIdx a b c d e f) 0 = k at key ⊢
+  have hn0 : Nat.beq (uIdx a b c d e f) 0 = false := by
+    apply Bool.eq_false_iff.2
+    intro h0
+    apply h1
+    have := Nat.eq_of_beq_eq_true h0
+    simp only [uIdx] at this
+    refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> rw [← ZMod.val_eq_zero] <;> omega
+  have hz : ∀ x : ZMod 3, Nat.beq x.val 0 = true → x = 0 := fun x hx =>
+    (ZMod.val_eq_zero x).1 (Nat.eq_of_beq_eq_true hx)
+  have hadf : (Nat.beq a.val 0 || Nat.beq d.val 0 || Nat.beq f.val 0) = true := by
+    rcases mul_eq_zero.1 h3 with h | h
+    · rcases mul_eq_zero.1 h with h | h
+      · simp [h]
+      · simp [h]
+    · simp [h]
+  have e1 : Nat.mod (uIdx a b c d e f) 3 = a.val := by simp only [uIdx]; show _ % 3 = _; omega
+  have e2 : Nat.mod (Nat.div (uIdx a b c d e f) 3) 3 = b.val := by
+    simp only [uIdx]; show _ / 3 % 3 = _; omega
+  have e3 : Nat.mod (Nat.div (uIdx a b c d e f) 9) 3 = c.val := by
+    simp only [uIdx]; show _ / 9 % 3 = _; omega
+  have e4 : Nat.mod (Nat.div (uIdx a b c d e f) 27) 3 = d.val := by
+    simp only [uIdx]; show _ / 27 % 3 = _; omega
+  have e5 : Nat.mod (Nat.div (uIdx a b c d e f) 81) 3 = e.val := by
+    simp only [uIdx]; show _ / 81 % 3 = _; omega
+  have e6 : Nat.mod (Nat.div (uIdx a b c d e f) 243) 3 = f.val := by
+    simp only [uIdx]; show _ / 243 % 3 = _; omega
+  simp only [entryChk, e1, e2, e3, e4, e5, e6, hn0, hadf, Bool.not_true, Bool.false_or,
+    Bool.and_eq_true, Bool.or_eq_true] at key
+  obtain ⟨⟨hk', hgh⟩, hconj⟩ := key
+  refine ⟨?_, ?_, ?_⟩
+  · rcases hk' with (h | h) | h
+    · exact Or.inl (Nat.eq_of_beq_eq_true h)
+    · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true h))
+    · exact Or.inr (Or.inr (Nat.eq_of_beq_eq_true h))
+  · rw [decMat_eq, decMat_eq, natM_mul, one_eq]
+    exact natM_eq hgh
+  · rw [decMat_eq, uuMat_eq, repMat_eq, natM_mul, natM_mul]
+    exact natM_eq hconj
 
 end CFSG.RankThree.PartTwo.Sec6.Res611Res5.L43

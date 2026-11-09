@@ -17,10 +17,10 @@ theorem weq : CFSG.KC.KDenseP.wordsEqB WD
 @[expose] noncomputable def u (g : Nat) : Bool :=
   CFSG.KC.KDenseP.grpL rn
     (CFSG.KC.KDenseP.chunkOKN (nat_lit 4) (nat_lit 2) (nat_lit 5) CFSG.KD.KDF.F CFSG.KD.TPM.MT WL)
-    CH PRf Gf CFSG.KD.KDF.I (nat_lit 3) g
+    CH PRf Gf S0 (nat_lit 9) g
 
 end CFSG.KD.TP.c6083
 
-#kc_each CFSG.KD.TP.c6083.u 0 1
+#kc_each CFSG.KD.TP.c6083.u 0 21
 
 end

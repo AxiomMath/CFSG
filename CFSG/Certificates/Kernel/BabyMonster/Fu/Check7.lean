@@ -1,6 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.BabyMonster.LoadFour
+import CFSG.Certificates.Kernel.BabyMonster.LoadChain
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
 import CFSG.Certificates.Kernel.BabyMonster.Load
 public import CFSG.Certificates.Kernel.BabyMonster.F2
@@ -23,7 +24,7 @@ public import CFSG.Certificates.Kernel.BabyMonster.Fu.Data12
 
 #bm_mul4 CFSG.KC.BM.Fu cgp gi [w g] gp []
 #bm_mul4 CFSG.KC.BM.Fu cgpi gp [gpi] I []
-#bm_mul4 CFSG.KC.BM.Fu cH Z [gp Z gpi Z gp] H []
+#bm_mul4c CFSG.KC.BM.Fu cH Z [gp Z gpi Z gp] H []
 #bm_mul4 CFSG.KC.BM.Fu cKc Wc [H Pa] Kc []
 #bm_mul4 CFSG.KC.BM.Fu cX2 CFSG.KC.BM.Fi23R.e45 [CFSG.KC.BM.Fi23.img2 CFSG.KC.BM.Fi23.img1] X2 []
 #bm_mul4 CFSG.KC.BM.Fu fuseC Kc [CFSG.KC.BM.Fi23R.e23] X2 [Kc]

@@ -2,6 +2,7 @@ module
 
 public import CFSG.Quasithin.H13.L32NS7Model
 public import Certificates.Certificate7175
+import Certificates.Kernel.H13.ElemsS8
 
 public section
 
@@ -63,15 +64,17 @@ theorem s8Basic_spec :
 theorem mem_s8_iff (u : GL (Fin 8) (ZMod 2)) :
     u ∈ s8 ↔ colsOf (u : Matrix (Fin 8) (Fin 8) (ZMod 2)) ∈ s8E := by
   rw [s8_eq]
-  exact mem_genSub_iff_of s8Basic_spec.1 s8G_unit u
+  obtain ⟨-, hc, -, ho, hg⟩ := subB_spec s8Basic_spec.1
+  exact mem_genSub_iff s8G _ hg s8G_unit CertificateChecks.KernelH13.s8E_words ho hc u
 
 theorem card_s8 : Nat.card s8 = 40320 := by
-  rw [s8_eq, card_genSub_of s8Basic_spec.1 s8G_unit]
+  obtain ⟨hv, hc, hn, ho, hg⟩ := subB_spec s8Basic_spec.1
+  rw [s8_eq, card_genSub s8G _ hg s8G_unit CertificateChecks.KernelH13.s8E_words hv ho hc hn]
   exact s8Basic_spec.2
 
 theorem exists_mem_s8 {c : List ℕ} (hc : c ∈ s8E) :
     ∃ u ∈ s8, (u : Matrix (Fin 8) (Fin 8) (ZMod 2)) = dec8 c := by
-  obtain ⟨w, rfl⟩ := mem_elemsOf hc
+  obtain ⟨w, rfl⟩ := CertificateChecks.KernelH13.s8E_words c hc
   rw [s8_eq]
   exact exists_evalW s8G (subB_spec s8Basic_spec.1).2.2.2.2 s8G_unit w
 

@@ -33,12 +33,16 @@ theorem ble_false {a b : Nat} (h : b < a) : Nat.ble a b = false := by
 @[expose] noncomputable def pR (M : Nat → Nat) : Nat → Nat := compF (fun l => swp (ldist (36 - l)) (M (36 - l))) 0 37
 
 theorem nv_of_masksOK {M : Nat → Nat} (h : masksOK M = true) : NV M := by
-  intro l hl
-  unfold masksOK at h
-  have h1 := recAll_right (P := fun l => dswValid (nat_lit 524288) (ldist l) (M l)) 37 h l hl
-  obtain ⟨h4, h5⟩ := andB_true h1
-  simp only [Nat.beq_eq] at h4 h5
-  exact validIn_of_dsw h4 h5
+  have key : ∀ n, Nat.rec (motive := fun _ => Bool) true
+      (fun l ih => CFSG.KC.andB ih
+        (CFSG.KC.MonsterConv.Perm.dswValid (nat_lit 524288) (ldist l) (M l))) n = true →
+      ∀ l < n, ValidIn 524288 (ldist l) (M l) := by
+    intro n hn l hl
+    obtain ⟨h4, h5⟩ := andB_true
+      (recAll_right (P := fun l => CFSG.KC.MonsterConv.Perm.dswValid (nat_lit 524288) (ldist l) (M l))
+        n hn l hl)
+    exact validIn_of_dsw (Nat.eq_of_beq_eq_true h4) (Nat.eq_of_beq_eq_true h5)
+  exact key 37 h
 
 theorem netF_eq (M : Nat → Nat) (v : Nat) :
     netF M v = iterF (fun l y => dsw (ldist l) (M l) y) 0 37 v :=

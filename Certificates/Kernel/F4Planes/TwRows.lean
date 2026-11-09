@@ -10,7 +10,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4PlanesTw "Certificates/Kernel/F4Planes/data/tw.json.gz"
+#kc_repo #kc_json CFSG.KD.F4PlanesTw "Certificates/Kernel/F4Planes/data/tw.json"
   272441 15854018672204135071 (X8 : Nat) (X9 : Nat) (ij : List (Nat × Nat))
   (gens : List (List (Nat × Nat × Nat))) (zs : List (List (List Nat)))
 

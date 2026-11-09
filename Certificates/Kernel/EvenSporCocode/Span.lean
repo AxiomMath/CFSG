@@ -1,6 +1,8 @@
 module
 
 public import Certificates.Kernel.EvenSporCocode.Data
+public import CFSG.Certificates.Kernel.F3152.SortSound
+import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
@@ -14,7 +16,7 @@ theorem lt_eq : span sylowTabs = D.LT := by decide +kernel
 
 theorem lt_len : D.LT.length = 1024 := by decide +kernel
 
-theorem kt_nodup : D.KT.Nodup := by decide +kernel
+theorem kt_nodup : D.KT.Nodup := CFSG.KS.F3152.nodup_of_sortedK (by quickRfl)
 
 theorem lt_valid : D.LT.all validB = true := by decide +kernel
 

@@ -162,6 +162,8 @@ theorem SX_eq : SX = 2 ^ 17 := rfl
 
 theorem SA_eq : SA = 2 ^ 10 := rfl
 
+theorem SH_eq : SH = 2 ^ 16 := rfl
+
 theorem idPlane_SX {b : ℕ} (hb : b < 17) (p : ℕ) :
     (idPlane SX b).testBit p = (decide (p < SX) && p.testBit b) :=
   Benes.idPlane_testBit (k := 17) hb p
@@ -209,7 +211,8 @@ theorem testBit_valA (p : ℕ) : valA.testBit p = decide (p < SA ∧ p % 32 < 24
     have hd : p / 32 < 32 := by rw [SA_eq] at hp; simp only [Nat.reducePow] at hp; omega
     simp only [h8, h9, decide_eq_true hp, Bool.true_and]
     rw [bits34 _ (Nat.mod_lt _ (by decide)), bits34 _ hd]
-    by_cases h1 : 24 ≤ p % 32 <;> by_cases h2 : 24 ≤ p / 32 <;> simp [h1, h2, hp] <;> omega
+    by_cases h1 : 24 ≤ p % 32 <;> by_cases h2 : 24 ≤ p / 32 <;> simp [h1, h2, hp]
+    omega
   · simp [hp]
 
 theorem valA_lt : valA < 2 ^ SA :=
@@ -422,7 +425,7 @@ theorem permCN_lin (p : Array ℕ) (a : ℕ) : permCN p a = combN (fun i => perm
   have e := combN_map (L := fun x => coeffN (permWordN p x)) hL h0 bmaskN a 12
   refine e.trans (combN_congr a fun i hi => ?_)
   change coeffN (permWordN p (bmaskN i)) = coeffN (permWordN p (combN bmaskN 12 (2 ^ i)))
-  rw [combN_two_pow, if_pos hi]
+  rw [combN_two_pow, ite_eq_left hi]
 
 theorem permDN_lin (p : Array ℕ) (d : ℕ) : permDN p d = combN (fun i => permDN p (2 ^ i)) 12 d := by
   have hL : ∀ x y, dualN (permWordN p (x ^^^ y)) = dualN (permWordN p x) ^^^ dualN (permWordN p y) :=
@@ -431,7 +434,7 @@ theorem permDN_lin (p : Array ℕ) (d : ℕ) : permDN p d = combN (fun i => perm
   have e := combN_map (L := fun x => dualN (permWordN p x)) hL h0 umaskN d 12
   refine e.trans (combN_congr d fun i hi => ?_)
   change dualN (permWordN p (umaskN i)) = dualN (permWordN p (combN umaskN 12 (2 ^ i)))
-  rw [combN_two_pow, if_pos hi]
+  rw [combN_two_pow, ite_eq_left hi]
 
 theorem thetaRec_bit (x k : ℕ) : ∀ N, (thetaRec N x).testBit k = xorSum (fun n => x.testBit n &&
     ((packN (betaN n) 12).testBit k ^^
@@ -470,11 +473,9 @@ theorem testBit_basisImg {f : ℕ → ℕ} (hf : ∀ i < 12, f (2 ^ i) < 2 ^ 12)
   rw [Nat.mul_comm 12 i]
   refine (testBit_planeLoop (S := 12) (n := 12) (fun i => f (Nat.shiftLeft 1 i))
     (fun i => Nat.mul 12 i) (fun k => Nat.mul_comm 12 k) (fun k hk => ?_) hi hk).trans ?_
-  · change f (Nat.shiftLeft 1 k) < _
-    rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]
+  · rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]
     exact hf k hk
-  · change (f (Nat.shiftLeft 1 i)).testBit k = _
-    rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]
+  · rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]
 
 theorem plinRow_lt (S MI X k : ℕ) : Nat.rec (motive := fun _ => ℕ) 0 (fun i acc2 => Nat.xor acc2
     (selB (bitN MI (Nat.add (Nat.mul 12 i) k)) (plane S i X))) 12 < 2 ^ S :=
@@ -569,7 +570,6 @@ theorem testBit_quadPl {S BT X p x : ℕ} (hp : p < S) (hX : Holds 12 S X p x) :
   refine xorSum_congr fun j hj => ?_
   rw [blt_toNat, bitN_eq_toNat, Benes.nland, ← Trace6091.toNat_and, testBit_selB_toNat,
     testBit_plane' hp, hX j hj]
-  change _ = (decide (i < j) && x.testBit i && x.testBit j && BT.testBit (12 * i + j))
   cases decide (i < j) <;> cases x.testBit i <;> cases x.testBit j <;> simp
 
 theorem quadPl_lt (S BT X : ℕ) : quadPl S BT X < 2 ^ S := by
@@ -692,7 +692,6 @@ theorem testBit_idP {k b p : ℕ} (hb : b < k) (hp : p < 2 ^ k) :
     (fun b => Nat.mul b (Nat.shiftLeft 1 k))
     (fun b => by rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]; rfl)
     (fun b hb => by rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]; exact idPlane_lt' hb) hb hp).trans ?_
-  change (idPlane (Nat.shiftLeft 1 k) b).testBit p = _
   rw [Nat.shiftLeft_eq', Nat.one_shiftLeft, Benes.idPlane_testBit hb, decide_eq_true hp, Bool.true_and]
 
 theorem inj_of_surj {n : ℕ} {f : ℕ → ℕ} (hf : ∀ i < n, f i < n) (hs : ∀ j < n, ∃ i < n, f i = j) :
@@ -1135,7 +1134,7 @@ theorem pg_id (S : ℕ) : PG S (fun _ X => X) id where
   inj _ _ _ _ h := h
 
 theorem repN_rep {S m : ℕ} (hm : m < 2 ^ S) (n : ℕ) : Benes.Rep S n (repN S n m) m :=
-  Benes.rep_repP (fun p hp => bit_lt hm hp) n
+  Benes.rep_repP (fun _ hp => bit_lt hm hp) n
 
 theorem rep_bit {S n M m b x : ℕ} (hR : Benes.Rep S n M m) (hb : b < n) (hx : x < S) :
     M.testBit (b * S + x) = m.testBit x := by
@@ -1233,6 +1232,30 @@ theorem pg_netRepN {S K k : ℕ} (hS : S = 2 ^ K) (hk : k ≤ K) {N : ℕ} (hN :
     fun j hj => pg_dsw (validIn_net R hk hN (by simp only [nsub, nmul]; omega))).congrF
       fun np X => rec_pre1 _ _ X⟩
 
+theorem netHiBit_lt {k i : ℕ} (hi : i < 2 * k - 1) : netHiBit k i < k := by
+  unfold netHiBit
+  by_cases hik : i < k
+  · rw [Nat.blt_eq.mpr hik]
+    simp only [nsub]
+    omega
+  · rw [Bool.eq_false_iff.mpr fun h => hik (Nat.blt_eq.mp h)]
+    simp only [nsub, nadd]
+    omega
+
+theorem pg_netHiN {S K k L : ℕ} (hS : S = 2 ^ K) (hk : L + k ≤ K) (N : ℕ) :
+    ∃ π, PG S (fun np X => netHiN S np k L N X) π := by
+  subst hS
+  exact ⟨_, (pg_preIt (2 * k - 1) (g := fun j np y =>
+      (fun i => dsw (Nat.shiftLeft 1 (Nat.add L (netHiBit k i)))
+        (repN (2 ^ K) np (Nat.land (spreadBlk (2 ^ K) (Nat.shiftLeft 1 L) k
+            (Nat.land (Nat.shiftRight N (Nat.mul i (Nat.shiftLeft 1 k))) (ones (Nat.shiftLeft 1 k))))
+          (clrN (2 ^ K) (Nat.add L (netHiBit k i))))) y) (Nat.sub (Nat.sub (Nat.mul 2 k) 2) j))
+    fun j hj => pg_dsw (validIn_landL _ (validIn_flip (by
+      have := netHiBit_lt (k := k) (i := Nat.sub (Nat.sub (Nat.mul 2 k) 2) j)
+        (by simp only [nsub, nmul]; omega)
+      simp only [nadd]
+      omega)))).congrF fun np X => rec_pre1 _ _ X⟩
+
 theorem pg_bswapN {K a b : ℕ} (hab : a < b) (hb : b < K) (R : ℕ) :
     PG (2 ^ K) (fun np X => bswapN (2 ^ K) np a b R X)
       (Benes.swp (Nat.sub (Nat.shiftLeft 1 b) (Nat.shiftLeft 1 a))
@@ -1255,64 +1278,64 @@ theorem pg_rotrN {S K lo w r : ℕ} (hS : S = 2 ^ K) (hw : lo + w ≤ K) (hr : r
     (by simp only [nsub, nadd]; omega) R
   exact ⟨_, (PG.comp (PG.comp h1 h2) h3).congrF fun _ _ => rfl⟩
 
-theorem qPl_eq (b : ℕ) : qPl b = idPlane (2 ^ 17) (10 + b) := rfl
+theorem qPl_eq (b : ℕ) : qPl b = idPlane (2 ^ 16) (10 + b) := rfl
 
-theorem qClr_eq (b : ℕ) : qClr b = clrN (2 ^ 17) (10 + b) := rfl
+theorem qClr_eq (b : ℕ) : qClr b = clrN (2 ^ 16) (10 + b) := rfl
 
 theorem pg_opJK {u v : ℕ} (hu : 1 ≤ u) (huv : u < v) (hv : v ≤ 6) (M : ℕ) :
-    ∃ π, PG SX (fun np X => opJK np u v M X) π := by
-  have e1 : qPl (Nat.sub u 1) = idPlane (2 ^ 17) (Nat.add 9 u) := by
+    ∃ π, PG SH (fun np X => opJK np u v M X) π := by
+  have e1 : qPl (Nat.sub u 1) = idPlane (2 ^ 16) (Nat.add 9 u) := by
     rw [qPl_eq]; congr 1; simp only [nadd, nsub]; omega
-  have e2 : qClr (Nat.sub v 1) = clrN (2 ^ 17) (Nat.add 9 v) := by
+  have e2 : qClr (Nat.sub v 1) = clrN (2 ^ 16) (Nat.add 9 v) := by
     rw [qClr_eq]; congr 1; simp only [nadd, nsub]; omega
-  have hv' := validIn_landL M (validIn_bx (K := 17) (a := Nat.add 9 u) (b := Nat.add 9 v)
+  have hv' := validIn_landL M (validIn_bx (K := 16) (a := Nat.add 9 u) (b := Nat.add 9 v)
     (by simp only [nadd]; omega) (by simp only [nadd]; omega))
   rw [← e1, ← e2] at hv'
   exact ⟨_, pg_dsw hv'⟩
 
 theorem pg_op0K {v : ℕ} (hv1 : 1 ≤ v) (hv : v ≤ 6) (M : ℕ) :
-    ∃ π, PG SX (fun np X => op0K np v M X) π := by
-  have e2 : qClr (Nat.sub v 1) = clrN (2 ^ 17) (Nat.add 9 v) := by
+    ∃ π, PG SH (fun np X => op0K np v M X) π := by
+  have e2 : qClr (Nat.sub v 1) = clrN (2 ^ 16) (Nat.add 9 v) := by
     rw [qClr_eq]; congr 1; simp only [nadd, nsub]; omega
-  have hv' := validIn_landL M (validIn_landR qPar (validIn_flip (K := 17) (c := Nat.add 9 v)
+  have hv' := validIn_landL M (validIn_landR qPar (validIn_flip (K := 16) (c := Nat.add 9 v)
     (by simp only [nadd]; omega)))
   rw [← e2] at hv'
   exact ⟨_, pg_dsw hv'⟩
 
-theorem pg_opJ7 {u : ℕ} (hu : 1 ≤ u) (hu6 : u ≤ 6) (M : ℕ) :
-    ∃ π, PG SX (fun np X => opJ7 np u M X) π := by
-  have hst : ∀ b < 6, ∃ τ, PG SX (fun np y => Bool.rec (motive := fun _ => ℕ)
+theorem pg_opJ7 {u : ℕ} (_hu : 1 ≤ u) (_hu6 : u ≤ 6) (M : ℕ) :
+    ∃ π, PG SH (fun np X => opJ7 np u M X) π := by
+  have hst : ∀ b < 6, ∃ τ, PG SH (fun np y => Bool.rec (motive := fun _ => ℕ)
       (CFSG.KC.Loop.strictN (dsw (Nat.shiftLeft 1 (Nat.add 10 b))
-        (repN SX np (Nat.land M (Nat.land (qClr b) (qPl (Nat.sub u 1))))) y) (fun z => z))
+        (repN SH np (Nat.land M (Nat.land (qClr b) (qPl (Nat.sub u 1))))) y) (fun z => z))
       y (Nat.beq b (Nat.sub u 1))) τ := by
     intro b hb
     cases Nat.beq b (Nat.sub u 1)
-    · exact ⟨_, pg_strict (pg_dsw (validIn_landL M (validIn_landR _ (validIn_flip (K := 17)
+    · exact ⟨_, pg_strict (pg_dsw (validIn_landL M (validIn_landR _ (validIn_flip (K := 16)
         (c := Nat.add 10 b) (by simp only [nadd]; omega)))))⟩
-    · exact ⟨_, pg_id SX⟩
+    · exact ⟨_, pg_id SH⟩
   choose τ hτ using hst
   exact ⟨_, (pg_preIt 6 (τ := fun k => if h : k < 6 then τ k h else id)
     (g := fun b np y => Bool.rec (motive := fun _ => ℕ)
       (CFSG.KC.Loop.strictN (dsw (Nat.shiftLeft 1 (Nat.add 10 b))
-        (repN SX np (Nat.land M (Nat.land (qClr b) (qPl (Nat.sub u 1))))) y) (fun z => z))
+        (repN SH np (Nat.land M (Nat.land (qClr b) (qPl (Nat.sub u 1))))) y) (fun z => z))
       y (Nat.beq b (Nat.sub u 1)))
     fun k hk => by rw [dite_eq_left hk]; exact hτ k hk).congrF fun np X => by
       rw [← rec_pre0]
       rfl⟩
 
-theorem pg_op07 (M : ℕ) : ∃ π, PG SX (fun np X => op07 np M X) π := by
-  have hst : ∀ k < 3, ∃ τ, PG SX (fun np y => (fun a b => CFSG.KC.Loop.strictN
+theorem pg_op07 (M : ℕ) : ∃ π, PG SH (fun np X => op07 np M X) π := by
+  have hst : ∀ k < 3, ∃ τ, PG SH (fun np y => (fun a b => CFSG.KC.Loop.strictN
         (dsw (Nat.sub (Nat.shiftLeft 1 (Nat.add 10 b)) (Nat.shiftLeft 1 (Nat.add 10 a)))
-          (repN SX np (Nat.land M (Nat.land qPar (Nat.land (qPl a) (qClr b)))))
+          (repN SH np (Nat.land M (Nat.land qPar (Nat.land (qPl a) (qClr b)))))
           (dsw (Nat.add (Nat.shiftLeft 1 (Nat.add 10 a)) (Nat.shiftLeft 1 (Nat.add 10 b)))
-            (repN SX np (Nat.land M (Nat.land qPar (Nat.land (qClr a) (qClr b))))) y)) (fun z => z))
+            (repN SH np (Nat.land M (Nat.land qPar (Nat.land (qClr a) (qClr b))))) y)) (fun z => z))
       (Nat.mul 2 k) (Nat.add (Nat.mul 2 k) 1)) τ := by
     intro k hk
-    have h1 := pg_dsw (validIn_landL M (validIn_landL qPar (validIn_flip2 (K := 17)
+    have h1 := pg_dsw (validIn_landL M (validIn_landL qPar (validIn_flip2 (K := 16)
       (c1 := Nat.add 10 (Nat.mul 2 k)) (c2 := Nat.add 10 (Nat.add (Nat.mul 2 k) 1))
       (by simp only [nadd, nmul]; omega) (by simp only [nadd, nmul]; omega)
       (by simp only [nadd, nmul]; omega))))
-    have h2 := pg_dsw (validIn_landL M (validIn_landL qPar (validIn_bx (K := 17)
+    have h2 := pg_dsw (validIn_landL M (validIn_landL qPar (validIn_bx (K := 16)
       (a := Nat.add 10 (Nat.mul 2 k)) (b := Nat.add 10 (Nat.add (Nat.mul 2 k) 1))
       (by simp only [nadd, nmul]; omega) (by simp only [nadd, nmul]; omega))))
     exact ⟨_, pg_strict (PG.comp h1 h2)⟩
@@ -1320,9 +1343,9 @@ theorem pg_op07 (M : ℕ) : ∃ π, PG SX (fun np X => op07 np M X) π := by
   exact ⟨_, (pg_preIt 3 (τ := fun k => if h : k < 3 then τ k h else id)
     (g := fun k np y => (fun a b => CFSG.KC.Loop.strictN
         (dsw (Nat.sub (Nat.shiftLeft 1 (Nat.add 10 b)) (Nat.shiftLeft 1 (Nat.add 10 a)))
-          (repN SX np (Nat.land M (Nat.land qPar (Nat.land (qPl a) (qClr b)))))
+          (repN SH np (Nat.land M (Nat.land qPar (Nat.land (qPl a) (qClr b)))))
           (dsw (Nat.add (Nat.shiftLeft 1 (Nat.add 10 a)) (Nat.shiftLeft 1 (Nat.add 10 b)))
-            (repN SX np (Nat.land M (Nat.land qPar (Nat.land (qClr a) (qClr b))))) y)) (fun z => z))
+            (repN SH np (Nat.land M (Nat.land qPar (Nat.land (qClr a) (qClr b))))) y)) (fun z => z))
       (Nat.mul 2 k) (Nat.add (Nat.mul 2 k) 1))
     fun k hk => by rw [dite_eq_left hk]; exact hτ k hk).congrF fun np X => by
       rw [← rec_pre0]
@@ -1334,7 +1357,7 @@ theorem beq_f {a b : ℕ} (h : a ≠ b) : Nat.beq a b = false := by
   rw [Bool.eq_false_iff, ne_eq, Nat.beq_eq]; exact h
 
 theorem pg_opT {u v : ℕ} (huv : u < v) (hv : v < 8) (M : ℕ) :
-    ∃ π, PG SX (fun np X => opT np u v M X) π := by
+    ∃ π, PG SH (fun np X => opT np u v M X) π := by
   by_cases h7 : v = 7 <;> by_cases h0 : u = 0
   · obtain ⟨π, h⟩ := pg_op07 M
     exact ⟨π, h.congrF fun np X => by unfold opT; rw [beq_t h7, beq_t h0]⟩
@@ -1347,15 +1370,15 @@ theorem pg_opT {u v : ℕ} (huv : u < v) (hv : v < 8) (M : ℕ) :
 
 theorem slotUV_ok : ∀ s < 20, Nat.div (slotUV s) 8 < Nat.mod (slotUV s) 8 := by decide +kernel
 
-theorem pg_octSlots (E : MonoE) : ∃ π, PG SX (fun np X => octSlots np E X) π := by
-  have hs : ∀ s < 20, ∃ τ, PG SX (fun np w => (fun uv => opT np (Nat.div uv 8) (Nat.mod uv 8)
+theorem pg_octSlots (E : MonoE) : ∃ π, PG SH (fun np X => octSlots np E X) π := by
+  have hs : ∀ s < 20, ∃ τ, PG SH (fun np w => (fun uv => opT np (Nat.div uv 8) (Nat.mod uv 8)
       (selRep E.sel s) w) (slotUV s)) τ := fun s hs =>
     pg_opT (slotUV_ok s hs) (Nat.mod_lt _ (by decide)) _
   choose τ hτ using hs
-  have hf : ∀ b < 6, PG SX (fun np z => CFSG.KC.Loop.strictN (dsw (Nat.shiftLeft 1 (Nat.add 10 b))
-        (repN SX np (Nat.land (selRep E.xsel b) (qClr b))) z) (fun w => w))
+  have hf : ∀ b < 6, PG SH (fun np z => CFSG.KC.Loop.strictN (dsw (Nat.shiftLeft 1 (Nat.add 10 b))
+        (repN SH np (Nat.land (selRep E.xsel b) (qClr b))) z) (fun w => w))
       (Benes.swp (Nat.shiftLeft 1 (Nat.add 10 b)) (Nat.land (selRep E.xsel b) (qClr b))) :=
-    fun b hb => pg_strict (pg_dsw (validIn_landL _ (validIn_flip (K := 17) (c := Nat.add 10 b)
+    fun b hb => pg_strict (pg_dsw (validIn_landL _ (validIn_flip (K := 16) (c := Nat.add 10 b)
       (by simp only [nadd]; omega))))
   have h1 := pg_postIt 20 (τ := fun k => if h : k < 20 then τ k h else id)
     (g := fun s np w => (fun uv => opT np (Nat.div uv 8) (Nat.mod uv 8) (selRep E.sel s) w) (slotUV s))
@@ -1415,7 +1438,7 @@ theorem gat_compactN {o : ℕ} (ho : o + SA ≤ SX) :
     have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SA) < 2 ^ SA :=
       fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
     have := testBit_chunks (F := fun b => Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SA))
-      (off := fun b => Nat.mul b SA) (c := 0) (L := SA) (W := SA) hF (fun b => by simp [nmul])
+      (off := fun b => Nat.mul b SA) (c := 0) (L := SA) (W := SA) hF (fun b => by simp)
       (by omega) hx np (b' := b)
     refine this.trans ?_
     rw [decide_eq_true hb, decide_eq_true (Nat.zero_le x), Nat.sub_zero, nland, nshr,
@@ -1427,7 +1450,7 @@ theorem gat_compactN {o : ℕ} (ho : o + SA ≤ SX) :
     have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SA) < 2 ^ SA :=
       fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
     exact chunks_lt (F := fun b => Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SA))
-      (off := fun b => Nat.mul b SA) (c := 0) hF (fun b => by simp [nmul]) (le_refl _)
+      (off := fun b => Nat.mul b SA) (c := 0) hF (fun b => by simp) (le_refl _)
       (by decide) np
 
 theorem gat_expandN {o : ℕ} (ho : o + SA ≤ SX) :
@@ -1439,7 +1462,7 @@ theorem gat_expandN {o : ℕ} (ho : o + SA ≤ SX) :
       fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
     have := testBit_chunks (F := fun b => Nat.land (Nat.shiftRight X (Nat.mul b SA)) (ones SA))
       (off := fun b => Nat.add o (Nat.mul b SX)) (c := o) (L := SA) (W := SX) hF
-      (fun b => by simp [nmul, nadd]) ho hx np (b' := b)
+      (fun b => by simp) ho hx np (b' := b)
     refine this.trans ?_
     rw [decide_eq_true hb, nland, nshr, Nat.testBit_and, Nat.testBit_shiftRight, testBit_ones]
     simp only [nmul, Bool.true_and]
@@ -1456,7 +1479,58 @@ theorem gat_expandN {o : ℕ} (ho : o + SA ≤ SX) :
     have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.mul b SA)) (ones SA) < 2 ^ SA :=
       fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
     exact chunks_lt (F := fun b => Nat.land (Nat.shiftRight X (Nat.mul b SA)) (ones SA))
-      (off := fun b => Nat.add o (Nat.mul b SX)) (c := o) hF (fun b => by simp [nmul, nadd]) ho
+      (off := fun b => Nat.add o (Nat.mul b SX)) (c := o) hF (fun b => by simp) ho
+      (by decide) np
+
+theorem gat_compactH {o : ℕ} (ho : o + SH ≤ SX) :
+    Gat SX SH (fun np X => compactH np o X) (fun x => o + x) (fun _ => false) where
+  lt x hx := by omega
+  bit np X b x hb hx := by
+    have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SH) < 2 ^ SH :=
+      fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
+    have := testBit_chunks (F := fun b => Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SH))
+      (off := fun b => Nat.mul b SH) (c := 0) (L := SH) (W := SH) hF (fun b => by simp)
+      (by omega) hx np (b' := b)
+    refine this.trans ?_
+    rw [decide_eq_true hb, decide_eq_true (Nat.zero_le x), Nat.sub_zero, nland, nshr,
+      Nat.testBit_and, Nat.testBit_shiftRight, testBit_ones, decide_eq_true hx]
+    simp only [nadd, nmul, Bool.true_and, Bool.and_true, Bool.not_false]
+    congr 1
+    ring
+  bd np X _ := by
+    have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SH) < 2 ^ SH :=
+      fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
+    exact chunks_lt (F := fun b => Nat.land (Nat.shiftRight X (Nat.add o (Nat.mul b SX))) (ones SH))
+      (off := fun b => Nat.mul b SH) (c := 0) hF (fun b => by simp) (le_refl _)
+      (by decide) np
+
+theorem gat_expandH {o : ℕ} (ho : o + SH ≤ SX) :
+    Gat SH SX (fun np X => expandH np o X) (fun x => (x - o) % SH)
+      (fun x => !(decide (o ≤ x) && decide (x < o + SH))) where
+  lt x _ := Nat.mod_lt _ (by decide)
+  bit np X b x hb hx := by
+    have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.mul b SH)) (ones SH) < 2 ^ SH :=
+      fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
+    have := testBit_chunks (F := fun b => Nat.land (Nat.shiftRight X (Nat.mul b SH)) (ones SH))
+      (off := fun b => Nat.add o (Nat.mul b SX)) (c := o) (L := SH) (W := SX) hF
+      (fun b => by simp) ho hx np (b' := b)
+    refine this.trans ?_
+    rw [decide_eq_true hb, nland, nshr, Nat.testBit_and, Nat.testBit_shiftRight, testBit_ones]
+    simp only [nmul, Bool.true_and]
+    by_cases h1 : o ≤ x
+    · by_cases h2 : x < o + SH
+      · rw [decide_eq_true h1, decide_eq_true h2, decide_eq_true (by omega : x - o < SH),
+          Nat.mod_eq_of_lt (by omega : x - o < SH)]
+        simp
+      · rw [decide_eq_true h1, decide_eq_false h2, decide_eq_false (by omega : ¬ x - o < SH)]
+        simp
+    · rw [decide_eq_false h1]
+      simp
+  bd np X _ := by
+    have hF : ∀ b, Nat.land (Nat.shiftRight X (Nat.mul b SH)) (ones SH) < 2 ^ SH :=
+      fun b => by rw [nland, Benes.ones_eq]; exact Benes.land_ones_lt _ _
+    exact chunks_lt (F := fun b => Nat.land (Nat.shiftRight X (Nat.mul b SH)) (ones SH))
+      (off := fun b => Nat.add o (Nat.mul b SX)) (c := o) hF (fun b => by simp) ho
       (by decide) np
 
 theorem testBit_pairBlocks (q : ℕ) :
@@ -1538,25 +1612,34 @@ theorem pg_amapN {E : MonoE} (hE : monoNetsOK E = true) :
 theorem pg_monoW {E : MonoE} (hE : monoNetsOK E = true) :
     ∃ π, PG SX (fun np X => monoW np E X) π := by
   obtain ⟨π1, h1⟩ := pg_netRepN SX_eq (by norm_num) (nets_ok hE).1 (ones SX)
-  obtain ⟨π2, h2⟩ := pg_rotrN (lo := 0) (w := 17) (r := 5) SX_eq (by norm_num) (by norm_num) (ones SX)
-  obtain ⟨π3, h3⟩ := pg_netRepN SX_eq (by norm_num) (nets_ok hE).2.2.2.1 (ones SX)
-  obtain ⟨π4, h4⟩ := pg_rotrN (lo := 0) (w := 17) (r := 12) SX_eq (by norm_num) (by norm_num) (ones SX)
-  exact ⟨_, (PG.comp (PG.comp (PG.comp h1 h2) h3) h4).congrF fun _ _ => rfl⟩
+  obtain ⟨π2, h2⟩ := pg_netHiN (k := 12) (L := 5) SX_eq (by norm_num) E.wn
+  exact ⟨_, (PG.comp h1 h2).congrF fun _ _ => rfl⟩
 
 theorem gat_monoOdd {E : MonoE} (hE : monoNetsOK E = true) :
     ∃ π Z, Gat SX SX (fun np X => monoOdd np E X) π Z := by
-  obtain ⟨_, h1⟩ := pg_netRepN (k := 5) SX_eq (by norm_num) (nets_ok hE).1 lo16
-  obtain ⟨_, h2⟩ := pg_rotrN (lo := 0) (w := 16) (r := 5) SX_eq (by norm_num) (by norm_num) lo16
-  obtain ⟨_, h3⟩ := pg_netRepN (k := 11) SX_eq (by norm_num) (nets_ok hE).2.1 lo16
-  obtain ⟨_, h4⟩ := pg_rotrN (lo := 0) (w := 16) (r := 11) SX_eq (by norm_num) (by norm_num) lo16
-  obtain ⟨_, h5⟩ := pg_rotrN (lo := 0) (w := 16) (r := 6) SX_eq (by norm_num) (by norm_num)
-    (idPlane SX 16)
+  obtain ⟨_, h1⟩ := pg_netRepN (k := 5) SH_eq (by norm_num) (nets_ok hE).1 (ones SH)
+  obtain ⟨_, h3⟩ := pg_netHiN (k := 11) (L := 5) SH_eq (by norm_num) E.on
+  obtain ⟨_, h5⟩ := pg_rotrN (lo := 0) (w := 16) (r := 6) SH_eq (by norm_num) (by norm_num) (ones SH)
   obtain ⟨_, h6⟩ := pg_octSlots E
-  obtain ⟨_, h7⟩ := pg_netRepN (k := 10) SX_eq (by norm_num) (nets_ok hE).2.2.1 (idPlane SX 16)
-  obtain ⟨_, h8⟩ := pg_rotrN (lo := 0) (w := 16) (r := 10) SX_eq (by norm_num) (by norm_num)
-    (idPlane SX 16)
-  have P := PG.comp (PG.comp (PG.comp (PG.comp (PG.comp (PG.comp (PG.comp h1 h2) h3) h4) h5) h6) h7) h8
-  exact ⟨_, _, (Gat.comp gat_clearPB P.g).congrF fun _ _ => rfl⟩
+  obtain ⟨_, h7⟩ := pg_netRepN (k := 10) SH_eq (by norm_num) (nets_ok hE).2.2.1 (ones SH)
+  obtain ⟨_, h8⟩ := pg_rotrN (lo := 0) (w := 16) (r := 10) SH_eq (by norm_num) (by norm_num) (ones SH)
+  have PO := PG.comp h1 h3
+  have PQ := PG.comp (PG.comp (PG.comp h5 h6) h7) h8
+  have hSX : SX = 131072 := rfl
+  have hSH : SH = 65536 := rfl
+  have GO := Gat.comp gat_clearPB (Gat.comp (gat_compactH (o := 0) (by omega))
+    (Gat.comp PO.g (gat_expandH (o := 0) (by omega))))
+  have GQ := Gat.comp gat_clearPB (Gat.comp (gat_compactH (o := 65536) (by omega))
+    (Gat.comp PQ.g (gat_expandH (o := 65536) (by omega))))
+  have U := Gat.union GO GQ fun x hx => by
+    by_cases h : x < 65536
+    · right
+      have h' : ¬ 65536 ≤ x := by omega
+      simp [h']
+    · left
+      have h' : ¬ x < SH := by rw [hSH]; omega
+      simp [h']
+  exact ⟨_, _, U.congrF fun _ _ => rfl⟩
 
 theorem upA_lt : upA < 2 ^ SA := by decide +kernel
 
@@ -1765,20 +1848,20 @@ theorem moveX_sound {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {F : Fix} (
     refine Prod.ext (eq12 (himg _ _).1 (pv_lt _ _ _) fun b hb => ?_)
       (eq12 (himg _ _).2 (pv_lt _ _ _) fun b hb => ?_)
     · have := hc x hx b (by omega)
-      rw [if_pos hb, if_pos hb, hz, Bool.not_false, Bool.true_and] at this
+      rw [ite_eq_left hb, ite_eq_left hb, hz, Bool.not_false, Bool.true_and] at this
       exact this.symm
     · have := hc x hx (b + 12) (by omega)
-      rw [if_neg (by omega), if_neg (by omega), hz, Bool.not_false, Bool.true_and,
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), hz, Bool.not_false, Bool.true_and,
         Nat.add_sub_cancel] at this
       exact this.symm
   have hz0 : ∀ x < SX, Z x = true → pv SX F.keyA x = 0 ∧ pv SX F.keyD x = 0 := by
     intro x hx hz
     refine ⟨eq12 (pv_lt _ _ _) (by decide) fun b hb => ?_, eq12 (pv_lt _ _ _) (by decide) fun b hb => ?_⟩
     · have := hc x hx b (by omega)
-      rw [if_pos hb, if_pos hb, hz, Bool.not_true, Bool.false_and] at this
+      rw [ite_eq_left hb, ite_eq_left hb, hz, Bool.not_true, Bool.false_and] at this
       rw [this, Nat.zero_testBit]
     · have := hc x hx (b + 12) (by omega)
-      rw [if_neg (by omega), if_neg (by omega), hz, Bool.not_true, Bool.false_and,
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), hz, Bool.not_true, Bool.false_and,
         Nat.add_sub_cancel] at this
       rw [this, Nat.zero_testBit]
   have hkey : ∀ q < 98280, Z (xposK q) = false ∧ ∃ c < 98280, xposK c = π (xposK q) ∧
@@ -1823,7 +1906,7 @@ theorem moveX_sound {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {F : Fix} (
     rw [e]
   refine ⟨fun q hq => ?_, fun p hp hno => ?_, G.bd n _ (eneg ▸ hO.neg_bd hsgl hX3)⟩
   · have hxq := InitAux.xposK_lt' hq
-    rw [res_gat G n _ hxq, if_neg (by rw [(hkey q hq).1]; decide), ← (hτ q hq).2.1,
+    rw [res_gat G n _ hxq, ite_eq_right (by rw [(hkey q hq).1]; decide), ← (hτ q hq).2.1,
       hneg _ (InitAux.xposK_lt' (hτlt q hq)), hX1 _ (hτlt q hq), hsg _ (hτlt q hq), resN_eq,
       resN_eq, applyGD_resX h2 _ _ _ hq, sum_scat_single hxT hσinj]
     have hex : ∃ p < 98280, (Native.mkCtx ()).find (img (keyQ p).1 (keyQ p).2).1
@@ -1914,10 +1997,10 @@ theorem MonoG.sum {g : Native.GD} {col : ℕ → ℕ} {cs : ℕ → Bool} (hg : 
     ∑ k ∈ Finset.range 24, ((g.G[k * 24 + col k0]! : ℤ) : ZMod M) * f k =
       ((sgnI (cs k0) : ℤ) : ZMod M) * f k0 := by
   rw [Finset.sum_eq_single k0]
-  · rw [hg.get k0 hk0 _ (hg.lt k0 hk0), if_pos rfl]
+  · rw [hg.get k0 hk0 _ (hg.lt k0 hk0), ite_eq_left rfl]
   · intro j hj hne
     rw [hg.get j (Finset.mem_range.1 hj) _ (hg.lt k0 hk0),
-      if_neg fun e => hne (hg.inj _ (Finset.mem_range.1 hj) _ hk0 e)]
+      ite_eq_right fun e => hne (hg.inj _ (Finset.mem_range.1 hj) _ hk0 e)]
     simp
   · intro hn
     exact absurd (Finset.mem_range.2 hk0) hn
@@ -2025,9 +2108,9 @@ theorem moveW_sound {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {E : MonoE}
   · obtain ⟨r, hr4, rfl⟩ := hrs r' hr'
     obtain ⟨c, hc, rfl⟩ := hg.surj j' hj'
     have hx : 32 * rowNew r + col c < SX := by have := hrlt r hr4; have := hg.lt c hc; omega
-    rw [res_gat hP.g n _ hx, if_neg (by decide), hπ r hr4 c hc, hneg _ (by omega), hW1 r hr4 c hc,
+    rw [res_gat hP.g n _ hx, ite_eq_right (by decide), hπ r hr4 c hc, hneg _ (by omega), hW1 r hr4 c hc,
       hsg r hr4 c hc, resN_eq, resN_eq, native_W h2 hl hr hrow hg hrn hrlt hrinj v hr4 hc, sgn_sgn]
-  · rw [res_gat hP.g n _ hp, if_neg (by decide), hneg _ (hP.g.lt p hp),
+  · rw [res_gat hP.g n _ hp, ite_eq_right (by decide), hneg _ (hP.g.lt p hp),
       hW2 _ (hP.g.lt p hp) (hpad p hp hpm)]
     simp
 
@@ -2057,9 +2140,9 @@ theorem moveA_sound {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {E : MonoE}
   · obtain ⟨i, hi, rfl⟩ := hg.surj i' hi'
     obtain ⟨j, hj, rfl⟩ := hg.surj j' hj'
     have hx : 32 * col i + col j < SA := by have := hg.lt i hi; have := hg.lt j hj; omega
-    rw [res_gat hP.g n _ hx, if_neg (by decide), hπ i hi j hj, hneg _ (by omega), hA1 i hi j hj,
+    rw [res_gat hP.g n _ hx, ite_eq_right (by decide), hπ i hi j hj, hneg _ (by omega), hA1 i hi j hj,
       hsg i hi j hj, resN_eq, resN_eq, native_A h2 hl hg v hi hj, sgn_sgn]
-  · rw [res_gat hP.g n _ hp, if_neg (by decide), hneg _ (hP.g.lt p hp),
+  · rw [res_gat hP.g n _ hp, ite_eq_right (by decide), hneg _ (hP.g.lt p hp),
       hA2 _ (hP.g.lt p hp) (hpad p hp hpm)]
     simp
 
@@ -2374,21 +2457,21 @@ theorem perm_labW {arr : Array ℕ} {P : ℕ} (hA : ArrOK arr P) :
   have hpw : valW.testBit p = true := by rw [testBit_valW, decide_eq_true ⟨hp, hm⟩]
   unfold LWP
   refine (testBit_muxLoop valW_lt _ _ hb hp).trans ?_
-  rw [hpw, if_pos rfl, testBit_32mul _ (by omega)]
+  rw [hpw, ite_eq_left rfl, testBit_32mul _ (by omega)]
   unfold selWP
   by_cases h5 : b < 5
-  · rw [ListAux.blt_t h5, if_pos h5]
+  · rw [ListAux.blt_t h5, ite_eq_left h5]
     change (plane SX b (lookP SX 0 P)).testBit p = _
     rw [testBit_plane' hp]
     refine (testBit_lookP (K := 17) (o := 0) (P := P) (p := p) (b := b) (by norm_num) hp h5).trans ?_
     rw [Nat.shiftRight_zero, decide_eq_true hm, Bool.true_and, hA.pe _ hm]
-  · rw [ListAux.blt_f (by omega : 5 ≤ b), if_neg h5, rowNewOf_eq, testBit_rowIdx, ePermT_2, ePermT_1,
+  · rw [ListAux.blt_f (by omega : 5 ≤ b), ite_eq_right h5, rowNewOf_eq, testBit_rowIdx, ePermT_2, ePermT_1,
       pi0N_rowC, pi0N_pi0N, kn_kappaT_eq]
     by_cases h16 : b < 16
-    · rw [ListAux.blt_t h16, if_pos (by omega : b - 5 < 11)]
+    · rw [ListAux.blt_t h16, ite_eq_left (by omega : b - 5 < 11)]
       change (plane SX (b - 4) (lowPP P)).testBit p = _
       rw [testBit_plane' hp, lowP_bit hA hp (by omega) (by omega), show b - 5 + 1 = b - 4 by omega]
-    · rw [ListAux.blt_f (by omega : 16 ≤ b), if_neg (by omega : ¬ b - 5 < 11),
+    · rw [ListAux.blt_f (by omega : 16 ≤ b), ite_eq_right (by omega : ¬ b - 5 < 11),
         decide_eq_true (by omega : b - 5 = 11), Bool.true_and]
       exact etaP_bit hA hp
 
@@ -2423,7 +2506,7 @@ theorem perm_W {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {arr : Array ℕ
     (fun p hp hm => hlab p hp ((hvb p).1 hm).2)
     (fun p hp hm b hb => by
       refine (testBit_muxLoop valW_lt _ _ hb hp).trans ?_
-      rw [hm, if_neg (by decide), idPlane_SX hb, decide_eq_true hp, Bool.true_and])
+      rw [hm, ite_eq_right (by decide), idPlane_SX hb, decide_eq_true hp, Bool.true_and])
     (fun p hp hm => by
       have hm' := ((hvb p).1 hm).2
       have h1 := hrlt (p / 32) (by omega)
@@ -2504,15 +2587,15 @@ theorem perm_labA {arr : Array ℕ} {P : ℕ} (hA : ArrOK arr P) :
   have hpw : valA.testBit p = true := by rw [testBit_valA, decide_eq_true ⟨hp, hm, hd⟩]
   unfold LAP
   refine (testBit_muxLoop valA_lt _ _ hb hp).trans ?_
-  rw [hpw, if_pos rfl, testBit_32mul _ (by omega)]
+  rw [hpw, ite_eq_left rfl, testBit_32mul _ (by omega)]
   unfold selAP
   by_cases h5 : b < 5
-  · rw [ListAux.blt_t h5, if_pos h5]
+  · rw [ListAux.blt_t h5, ite_eq_left h5]
     change (plane SA b (lookP SA 0 P)).testBit p = _
     rw [testBit_plane' hp]
     refine (testBit_lookP (K := 10) (o := 0) (P := P) (p := p) (b := b) (by norm_num) hp h5).trans ?_
     rw [Nat.shiftRight_zero, decide_eq_true hm, Bool.true_and, hA.pe _ hm]
-  · rw [ListAux.blt_f (by omega : 5 ≤ b), if_neg h5]
+  · rw [ListAux.blt_f (by omega : 5 ≤ b), ite_eq_right h5]
     change (plane SA (b - 5) (lookP SA 5 P)).testBit p = _
     rw [testBit_plane' hp]
     have hs : (p >>> 5) % 32 = p / 32 := by
@@ -2543,7 +2626,7 @@ theorem perm_A {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {arr : Array ℕ
     (fun p hp hm => perm_labA hA p hp ((hvb p).1 hm).2.1 ((hvb p).1 hm).2.2)
     (fun p hp hm b hb => by
       refine (testBit_muxLoop valA_lt _ _ hb hp).trans ?_
-      rw [hm, if_neg (by decide), idPlane_SA hb, decide_eq_true hp, Bool.true_and])
+      rw [hm, ite_eq_right (by decide), idPlane_SA hb, decide_eq_true hp, Bool.true_and])
     (fun p hp hm => by
       obtain ⟨-, h1, h2⟩ := (hvb p).1 hm
       have a1 := hA.lt _ h1
@@ -2555,7 +2638,6 @@ theorem perm_A {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {arr : Array ℕ
     have a2 := hA.lt _ hj
     obtain ⟨h1, h2⟩ := part1 (32 * arr[i]! + arr[j]!) (by omega) ((hvb _).2 ⟨by omega, by omega, by omega⟩)
     obtain ⟨-, h3, h4⟩ := (hvb _).1 h1
-    beta_reduce at h2
     have b1 := hA.lt _ h3
     have b2 := hA.lt _ h4
     have e1 := hA.inj _ h3 _ hj (by omega)
@@ -2566,7 +2648,6 @@ theorem perm_A {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {arr : Array ℕ
     have := part2 (fun p hp p' hp' hm1 hm2 e => by
       obtain ⟨-, a1, a2⟩ := (hvb p).1 hm1
       obtain ⟨-, a3, a4⟩ := (hvb p').1 hm2
-      beta_reduce at e
       have b1 := hA.lt _ a1
       have b2 := hA.lt _ a2
       have b3 := hA.lt _ a3
@@ -2641,7 +2722,7 @@ theorem constP_lt (S c m : ℕ) (hm : m < 2 ^ S) : constP S c m < 2 ^ (12 * S) :
 
 theorem wordN_two_pow {i : ℕ} (hi : i < 12) : wordN (2 ^ i) = bmaskN i := by
   unfold wordN
-  rw [combN_two_pow, if_pos hi]
+  rw [combN_two_pow, ite_eq_left hi]
 
 theorem acodeN_lin (a b : ℕ) : acodeN a b = combN (fun i => acodeN a (2 ^ i)) 12 b := by
   unfold acodeN
@@ -2766,7 +2847,7 @@ theorem tabT_sign (a : ℕ) {b : ℕ} (hb : b < 4096) : (Native.tabT (conjYN a))
 theorem tabD_sign (a : ℕ) {d : ℕ} (hd : d < 4096) : (Native.tabD (conjYN a))[d]! = conjDN a d := by
   unfold Native.tabD
   rw [kn_map_range_get _ hd]
-  simp [conjYN, Pauli.mul, Pauli.s, Pauli.a, Pauli.d, conjTN_zero, pairN_zero_r', pairN_zero_l']
+  simp [conjYN, Pauli.mul, Pauli.s, Pauli.a, Pauli.d, conjTN_zero, pairN_zero_r']
 
 theorem xT_sign (hG : KeysGood) {a : ℕ} (ha : a < 4096) {p : ℕ} (hp : p < 98280) :
     Native.GD.xT (Native.mkCtx ()) (Native.GD.ofGen (Native.mkCtx ()) (.sign a)) p =
@@ -2785,7 +2866,7 @@ theorem xT_sign (hG : KeysGood) {a : ℕ} (ha : a < 4096) {p : ℕ} (hp : p < 98
       acodeN a (keyQ p).1 ^^^ ((if pairN 63 (keyQ p).2 then thetaN a else 0) ^^^ (keyQ p).2) :=
     mod4096 (lt4096_xor (dualN_lt _) (lt4096_xor (by split_ifs; exact thetaN_lt _; decide) hb.2))
   simp only [imgS, sgS, h1, h2]
-  simp only [Pauli.mul, Pauli.s, Pauli.a, Pauli.d, conjTN, conjDN, daS, pairN_zero_r', pairN_zero_l',
+  simp only [Pauli.mul, Pauli.s, Pauli.a, Pauli.d, conjTN, conjDN, daS, pairN_zero_r',
     Nat.zero_xor, Bool.false_xor, Bool.xor_false]
 
 theorem mod2_toNat (x : ℕ) : x % 2 = (x.testBit 0).toNat := by
@@ -2826,7 +2907,7 @@ theorem popc_half_xor {u v : ℕ} (hu : parN 24 u = false) (hv : parN 24 v = fal
   · rcases Nat.mod_two_eq_zero_or_one (popcN 24 u / 2) with h1 | h1 <;>
       rcases Nat.mod_two_eq_zero_or_one (popcN 24 v / 2) with h2 | h2 <;>
       rcases Nat.mod_two_eq_zero_or_one (popcN 24 (u &&& v)) with h3 | h3 <;>
-      simp only [h1, h2, h3, decide_true, decide_false] <;>
+      simp only [h1, h2, h3, decide_true] <;>
       simp <;> omega
 
 theorem bmask_even : ∀ i < 12, ∀ j < 12, parN 24 (bmaskN j &&& bmaskN i) = false := by decide +kernel
@@ -2841,7 +2922,7 @@ theorem parN_combN_and (m : ℕ → ℕ) (c y : ℕ) : ∀ n,
     simp only [combN, xorSum]
     rw [parN_and_xor, parN_combN_and m c y n]
     cases c.testBit n
-    · simp only [Bool.false_eq_true, if_false, Bool.false_and, Bool.xor_false]
+    · simp only [Bool.false_eq_true, ite_false, Bool.false_and, Bool.xor_false]
       rw [parN_zero, Bool.xor_false]
     · rfl
 
@@ -2894,12 +2975,12 @@ theorem half_weight (a c : ℕ) : ∀ n ≤ 12,
           (c.testBit n && decide (popcN 24 (wordN a &&& bmaskN n) / 2 % 2 = 1))) := rfl
     rw [ec, ex, Nat.and_xor_distrib_left]
     cases hcn : c.testBit n
-    · simp only [Bool.false_eq_true, if_false, Nat.and_zero, Nat.xor_zero, Bool.false_and,
+    · simp only [Bool.false_eq_true, ite_false, Nat.and_zero, Nat.xor_zero, Bool.false_and,
         Bool.and_false, Bool.xor_false]
       refine ⟨ih1, ?_⟩
       rw [ih2]
       simp only [xorSum_false, Bool.xor_false]
-    · simp only [if_true]
+    · simp only [ite_true]
       obtain ⟨h1, h2⟩ := popc_half_xor ih1 (word_even a (i := n) (by omega))
       refine ⟨h1, ?_⟩
       rw [h2, ih2]
@@ -3021,17 +3102,17 @@ theorem rowNew_sign {a r : ℕ} (ha : a < 4096) (hr : r < 4096) :
     rowNewOf (eYN a) r = if 2048 ≤ r then r else r ^^^ (pi0N a / 2) := by
   unfold rowNewOf eYN Native.rowEta
   by_cases h : 2048 ≤ r
-  · rw [decide_eq_true h, if_pos rfl, if_pos h]
+  · rw [decide_eq_true h, ite_eq_left rfl, ite_eq_left h]
     simp only
     rw [pi0N_rowC]
     unfold Native.rowIdx
     rw [pi0N_rowC]
     unfold Native.rowC
-    simp only [if_true]
+    simp only [ite_true]
     omega
-  · rw [decide_eq_false h, if_neg (by decide), if_neg h, pi0N_rowC]
+  · rw [decide_eq_false h, ite_eq_right (by decide), ite_eq_right h, pi0N_rowC]
     unfold Native.rowIdx shiftN
-    simp only [Bool.false_eq_true, if_false, Nat.zero_add]
+    simp only [Bool.false_eq_true, ite_false, Nat.zero_add]
     rw [pi0N_pi0N, pi0N_xor_even' (rowC_even r)]
     unfold Native.rowC
     rw [div_two_xor', Nat.mod_eq_of_lt (b := 2048) (by omega : r < 2048)]
@@ -3043,9 +3124,9 @@ theorem testBit_rowNewS {a r : ℕ} (ha : a < 4096) (hr : r < 4096) (k : ℕ) :
     (rowNewOf (eYN a) r).testBit k = (r.testBit k ^^ (!decide (2048 ≤ r) && (pi0N a / 2).testBit k)) := by
   rw [rowNew_sign ha hr]
   by_cases h : 2048 ≤ r
-  · rw [if_pos h, decide_eq_true h]
+  · rw [ite_eq_left h, decide_eq_true h]
     simp
-  · rw [if_neg h, decide_eq_false h, Nat.testBit_xor]
+  · rw [ite_eq_right h, decide_eq_false h, Nat.testBit_xor]
     simp
 
 theorem tS_eq (a : ℕ) : Nat.shiftRight (Nat.xor a (selB (Nat.land a 1) 63)) 1 = pi0N a / 2 := by
@@ -3080,7 +3161,7 @@ theorem sign_labW {a : ℕ} (ha : a < 4096) :
   have hpe : p = 32 * (p / 32) + p % 32 := (Nat.div_add_mod p 32).symm
   unfold LWS
   refine (testBit_muxLoop valW_lt _ _ hb hp).trans ?_
-  rw [hpw, if_pos rfl, testBit_32mul _ (by omega)]
+  rw [hpw, ite_eq_left rfl, testBit_32mul _ (by omega)]
   unfold selWS
   have hpb : p.testBit b = if b < 5 then (p % 32).testBit b else (p / 32).testBit (b - 5) := by
     conv_lhs => rw [hpe]
@@ -3088,8 +3169,8 @@ theorem sign_labW {a : ℕ} (ha : a < 4096) :
   by_cases h5 : b < 5
   · rw [ListAux.blt_t (by omega : b < 16), ble_f h5]
     change (idPlane SX b).testBit p = _
-    rw [idPlane_SX hb, decide_eq_true hp, Bool.true_and, hpb, if_pos h5, if_pos h5]
-  · rw [if_neg h5, testBit_rowNewS ha hr]
+    rw [idPlane_SX hb, decide_eq_true hp, Bool.true_and, hpb, ite_eq_left h5, ite_eq_left h5]
+  · rw [ite_eq_right h5, testBit_rowNewS ha hr]
     have h16 : p.testBit 16 = decide (2048 ≤ p / 32) := rowEta_bit hp
     by_cases hb16 : b < 16
     · rw [ble_t (by omega : 5 ≤ b), ListAux.blt_t hb16]
@@ -3097,7 +3178,7 @@ theorem sign_labW {a : ℕ} (ha : a < 4096) :
         (Nat.sub b 5)) (Nat.xor (ones SX) (idPlane SX 16)))).testBit p = _
       rw [nxor, Nat.testBit_xor, idPlane_SX hb, decide_eq_true hp, Bool.true_and, testBit_selB_bitN,
         tS_eq, nxor, Nat.testBit_xor, testBit_ones, decide_eq_true hp, idPlane_SX (by norm_num),
-        decide_eq_true hp, Bool.true_and, h16, hpb, if_neg h5]
+        decide_eq_true hp, Bool.true_and, h16, hpb, ite_eq_right h5]
       cases decide (2048 ≤ p / 32) <;> cases (pi0N a / 2).testBit (Nat.sub b 5) <;> rfl
     · rw [ble_t (by omega : 5 ≤ b), ListAux.blt_f (by omega : 16 ≤ b)]
       change (idPlane SX b).testBit p = _
@@ -3107,7 +3188,7 @@ theorem sign_labW {a : ℕ} (ha : a < 4096) :
         have := pi0N_lt' ha
         exact bit_hi (n := 11) (by simp only [Nat.reducePow]; omega) (by norm_num)
       rw [idPlane_SX hb, decide_eq_true hp, Bool.true_and, ht, Bool.and_false, Bool.xor_false, hpb,
-        if_neg h5]
+        ite_eq_right h5]
 
 theorem testBit_colMask {K m p : ℕ} (hK : 5 ≤ K) (hm : m < 2 ^ 32) :
     (colMask (2 ^ K) m).testBit p = (decide (p < 2 ^ K) && m.testBit (p % 32)) := by
@@ -3149,10 +3230,10 @@ theorem sign_sgW {a : ℕ} {p : ℕ} (hp : p < SX) :
   unfold eYN
   rw [pi0N_rowC]
   cases Native.rowEta (p / 32)
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     rw [parSel_holds hp (holds_thetaPl hp hrc)]
     rfl
-  · simp only [if_true]
+  · simp only [ite_true]
     rw [nxor, Nat.testBit_xor, testBit_quadPl hp hrc, parSel_holds hp hrc, kN_eq]
     rw [show wordN (Native.rowC (p / 32)) = combN bmaskN 12 (Native.rowC (p / 32)) from rfl,
       (half_weight a (Native.rowC (p / 32)) 12 le_rfl).2, pairN_xs]
@@ -3210,7 +3291,7 @@ theorem sign_W {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {a : ℕ} (ha : 
     (fun p hp hm => sign_labW ha p hp ((hvb p).1 hm).2)
     (fun p hp hm b hb => by
       refine (testBit_muxLoop valW_lt _ _ hb hp).trans ?_
-      rw [hm, if_neg (by decide), idPlane_SX hb, decide_eq_true hp, Bool.true_and])
+      rw [hm, ite_eq_right (by decide), idPlane_SX hb, decide_eq_true hp, Bool.true_and])
     (fun p hp hm => by
       have hm' := ((hvb p).1 hm).2
       have h1 := hrlt (p / 32) (by omega)
@@ -3238,7 +3319,6 @@ theorem sign_W {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) {a : ℕ} (ha : 
     have := part2 (fun p hp p' hp' hm1 hm2 e => by
       have a1 := ((hvb p).1 hm1).2
       have a2 := ((hvb p').1 hm2).2
-      beta_reduce at e
       have c1 := hrlt (p / 32) (by omega)
       have c2 := hrlt (p' / 32) (by omega)
       have e2 := hrinj _ (by omega) _ (by omega) (by omega : rowNewOf (eYN a) (p / 32) =
@@ -3411,9 +3491,9 @@ theorem sign_hL {F : Fix} (hK : KeyBind F) (a : ℕ) :
       (imgS a x y).2 = (acodeN a x ^^^ ((if pairN 63 y then thetaN a else 0) ^^^ y)) % 4096 :=
     fun _ _ _ => ⟨rfl, rfl⟩
   by_cases h : b < 12
-  · rw [if_pos h, if_pos h, (e1 _ _ 0).1, hm _ _ h]
+  · rw [ite_eq_left h, ite_eq_left h, (e1 _ _ 0).1, hm _ _ h]
     exact h1 b h
-  · rw [if_neg h, if_neg h, (e1 _ _ 0).2, hm _ _ (by omega)]
+  · rw [ite_eq_right h, ite_eq_right h, (e1 _ _ 0).2, hm _ _ (by omega)]
     exact holds_xor h2 h3 (b - 12) (by omega)
 
 theorem sign_hsg {F : Fix} (hK : KeyBind F) (hG : KeysGood) {a : ℕ} {E : MonoE}

@@ -87,11 +87,12 @@ theorem plane_gens (τ : Nat) :
   rfl
 
 theorem plane_tree {τ : Nat} {N : Nat} {P PAR LAB W S : Nat → Nat}
-    (hN : Nat.beq N 25 = true) (hK : gtPinK (PG τ) 2 100000 N P PAR LAB W S = true) :
+    (hN : Nat.beq N 25 = true)
+    (hK : bfsK (gtStepK (PG τ)) P PAR LAB W S 2 100000 N idM = true) :
     (let G := [a0Row rs (repA.getD τ 0), a0Row rs (repB.getD τ 0)].toArray
      CFSG.Sporadic.Co1.TwoBNative.gtOK G (CFSG.Sporadic.Co1.TwoBNative.gtBFS G 100000) &&
        (CFSG.Sporadic.Co1.TwoBNative.gtBFS G 100000).pts.size == 25) = true := by
-  obtain ⟨hT, hok⟩ := gtBFS_of_K hK
+  obtain ⟨hT, hok⟩ := gtBFS_of_bfsK hK (by rw [Nat.eq_of_beq_eq_true hN]; decide)
   dsimp only
   rewrite [plane_gens, hT, hok, Bool.true_and, beq_iff_eq, ← Nat.eq_of_beq_eq_true hN]
   simp [bfsTree]

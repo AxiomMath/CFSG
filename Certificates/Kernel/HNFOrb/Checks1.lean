@@ -1,7 +1,6 @@
 module
 
-public import Certificates.Kernel.HNFOrb.Data
-public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.HNFConst
+public import Certificates.Kernel.HNFOrb.Lits
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.EachTrue
 
@@ -12,10 +11,10 @@ public section
 
 namespace CFSG.KD.HNFOrb
 
-open CFSG.KC.HNFOrb CFSG.EvenSporadicStandard.Solomon78
+open CFSG.KC.HNFOrb
 
 #kc_each CFSG.KD.HNFOrb c1_
-  (fun j => chunkW hnfW1 hnfW2 hnfRepWords[1]! O1.u (getL O1.mv j) (getL O1.ks j)) 0 8
+  (fun j => chunkL BT1 O1.u (getL O1.mv j) (getL O1.ks j)) 0 19
 
 theorem d1 : distOK (flat O1.ks) O1.ord 1408 = true := by quickRfl
 

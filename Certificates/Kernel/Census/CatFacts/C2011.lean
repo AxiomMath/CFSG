@@ -6,6 +6,7 @@ public meta import CFSG.GH74.KGroups.Checks3
 public meta import CFSG.LocalAnalysis.ComponentClassification.PSL3FourActionData
 import CFSG.Certificates.Kernel.Census.CatFacts.PkEnum
 import Certificates.Kernel.Census.CatFacts.C2011K
+import Certificates.Kernel.Census.CatFacts.C2011KC
 
 public section
 
@@ -24,7 +25,7 @@ theorem facts2011 : (QS.check = true ∧ QS.orderCertificate = 20160)
     ∧ (classCheck (elemsT QS) g₂ conjugators = true)
     ∧ (sqOneCheck (elemsT QE) = true)
     ∧ (indepCheck g₂ g₃ c₁ = true) :=
-  ⟨⟨check_certificate_of _ _ _ _ _ qs_2011K.1, (orderCertificate_eq_orderV _).trans qs_2011K.2⟩,
+  ⟨qs_2011K,
     ⟨check_certificate_of _ _ _ _ _ qe_2011K.1, (orderCertificate_eq_orderV _).trans qe_2011K.2⟩,
     by rw [elemsT_eq_elemsV]; exact class_2011K, by rw [elemsT_eq_elemsV]; exact sq_2011K.1,
     sq_2011K.2⟩

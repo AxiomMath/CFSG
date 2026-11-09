@@ -19,8 +19,8 @@ end CertificateChecks.KernelSpor.Fi22CI4
 
 #kmisc_packarrs CertificateChecks.KernelSpor.Fi22CI4L CertificateChecks.KernelSpor.Fi22CI4.lettersM 12
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Fi22CI4D
-  "Certificates/Kernel/Sporadic/Fi22/data/cent4.json.gz" 50834 16416027005556091494
+#kc_repo #kc_json CertificateChecks.KernelSpor.Fi22CI4D
+  "Certificates/Kernel/Sporadic/Fi22/data/cent4.json" 50834 16416027005556091494
   (B : List CFSG.KC.CommBase.BaseRec) (PF : Nat) (ZF : Nat) (DF : Nat) (RF : Nat)
 
 namespace CertificateChecks.KernelSpor.Fi22CI4

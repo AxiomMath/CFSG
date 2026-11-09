@@ -76,14 +76,21 @@ theorem hinvL : ∀ i < 4, ∀ p < 22, L0 (Nat.add 6 i) (L0 (Nat.add 2 i) p) = p
   exact beq_iff_eq.1 (List.all_eq_true.1 (List.all_eq_true.1 invs i (List.mem_range.2 hi)) p
     (List.mem_range.2 hp))
 
+theorem L0_tabF {l p : ℕ} (hl : l < 10) (hp : p < 22) : L0 l p = tabF (J.tabs.getD l []) p :=
+  beq_iff_eq.1 (List.all_eq_true.1 (List.all_eq_true.1 ptTabs l (List.mem_range.2 hl)) p
+    (List.mem_range.2 hp))
+
 theorem good0 {l : ℕ} (hl : l < 10) :
     Good 22 (tab 22 ((m22a :: m22b :: sl).getD l 1)).toArray (L0 l) := by
   rcases Nat.lt_or_ge l 6 with h6 | h6
-  · exact good_tabF (tab_letter h6) (tab_ok (by omega))
+  · have g := good_tabF (tab_letter h6) (tab_ok (by omega))
+    exact ⟨g.1, fun p hp => by rw [L0_tabF hl hp]; exact g.2 p hp⟩
   · obtain ⟨i, rfl⟩ : ∃ i, l = 6 + i := ⟨l - 6, by omega⟩
     rw [sl_getD_hi (by omega)]
-    exact good_inv (good_tabF (tab_letter (l := 2 + i) (by omega)) (tab_ok (by omega)))
-      (hinvL i (by omega))
+    have g := good_tabF (tab_letter (l := 2 + i) (by omega)) (tab_ok (by omega))
+    have g' : Good 22 _ (L0 (2 + i)) := ⟨g.1, fun p hp => by
+      rw [L0_tabF (l := 2 + i) (by omega) hp]; exact g.2 p hp⟩
+    exact good_inv g' (hinvL i (by omega))
 
 theorem hL : ∀ l < 2 + C.ns,
     Good (22 * 22) (@tab G22 _ (22 * 22) (pairAction G22 22) ((m22a :: m22b :: sl).getD l 1)).toArray

@@ -4,8 +4,8 @@ public import CFSG.Certificates.Kernel.Q47KRunSound
 import CFSG.Certificates.Kernel.HexaKGlue
 import CFSG.Certificates.Kernel.PackSetSound
 import CFSG.Certificates.Kernel.FusYKSound
-import CFSG.Certificates.Kernel.Q47KOSound
-import CFSG.Certificates.Kernel.Q47KTabSound
+public import CFSG.Certificates.Kernel.Q47KOSound
+public import CFSG.Certificates.Kernel.Q47KTabSound
 public import CFSG.Certificates.Kernel.Q47KGlue
 import CFSG.Certificates.Kernel.Q47KModelSound
 
@@ -277,12 +277,13 @@ theorem q47K_sound {d : QD} {m16 m32 : MD} {k16 k32 : ModelK}
     (hWit : witsK GY GG1 GG2 (runK 64 7 3 GU1 100) (runK 64 7 3 GU2 100) d.wit = true)
     (hTab : (tableHeadK NY TY MPY 3 (· == [1, 0, 0, 0, 1, 0, 0, 0, 1]) &&
       tableHeadK NN TN MPN 2 (fun m => m[1]! == 0 && m[2]! == 0 && m[0]! == m[3]!)) = true)
-    (hRowY : ∀ i < 168, tableRowK NY TY SY MPY 3 2 Nat.beq i = true)
-    (hRowN : ∀ i < 336, tableRowK NN TN SN MPN 2 7 projK i = true)
+    (hRowY : allN 2 (fun k => allN NY (genRowK NY GY TY EY MPY 3 2 Nat.beq k)) = true)
+    (hRowN : allN 2 (fun k => allN NN (genRowK NN GN TN EN MPN 2 7 projK k)) = true)
     (hAdd : ((List.range 6).all (fun k => allN (SZ k) fun j => addK (TR k j)) &&
       allN 2 (fun k => addK (GY k) && addK (GN k)) && allN 3 (fun k => addK (GU1 k) && addK (GU2 k)) &&
       allN 4 (fun k => addK (GG1 k) && addK (GG2 k) && addK (k16.CP k) && addK (k32.CP k))) = true)
-    (hO : ∀ s < 35, Nat.beq (oBlock SZ TR d.w1 d.w2 d.l30
+    (hO : ∀ s < 35, Nat.beq (oBlockF SZ TR (maskOf d.w1) (maskOf d.w2) d.w1 d.w2
+      ((List.range 30).map fun j => maskOf (d.l30.getD j #[]))
       [clsOf m16 k16 false, clsOf m16 k16 true, clsOf m32 k32 false, clsOf m32 k32 true] s) (BC s) =
       true)
     (hBC : bcK BC = true)
@@ -296,7 +297,7 @@ theorem q47K_sound {d : QD} {m16 m32 : MD} {k16 k32 : ModelK}
     unfold directTransG at h
     simp only [Bool.and_eq_true, beq_iff_eq] at h
     exact h.1.1
-  obtain ⟨OP, eO, pO, kO, c1, c2, c3⟩ := o_sound hl bT hSZ hSZb hO hBC
+  obtain ⟨OP, eO, pO, kO, c1, c2, c3⟩ := o_sound hl bT hSZ hSZb rfl rfl rfl hO hBC
   simp only [Bool.and_eq_true] at hAdd
   obtain ⟨⟨⟨a6, a2⟩, a3⟩, a4⟩ := hAdd
   have aT : ∀ k < 6, ∀ j < SZ k, addK (TR k j) = true := fun k hk j hj =>
@@ -348,12 +349,34 @@ theorem q47K_sound {d : QD} {m16 m32 : MD} {k16 k32 : ModelK}
     unfold tableCheckG
     simp only [Bool.and_eq_true]
     refine ⟨⟨?_, ?_⟩, m7⟩
-    · refine tab_sound pY (by decide) (by decide) (by decide) m1 m2 (beq_iff_eq.2 m3) hMP.1
-        (fun a b h => ?_) hTab.1 hRowY
-      rw [Nat.eq_of_beq_eq_true h]
-      exact beq_self_eq_true _
-    · exact tab_sound pN (by decide) (by decide) (by decide) m4 m5 (beq_iff_eq.2 m6) hMP.2
-        (fun a b h => projK_sound h) hTab.2 hRowN
+    · refine tab_sound pY (by decide) m1 m2 (beq_iff_eq.2 m3) hMP.1 hTab.1
+        (rows_of_gen (V := fun _ => True) pY (by decide) (by decide) (by decide) (by decide) hMP.1
+          (fun a b h => ?_) (fun _ _ => trivial) (fun _ _ _ _ => trivial) (fun a b _ _ h => ?_)
+          (fun a b c _ _ _ h1 h2 => ?_) (fun a b c _ _ _ h => ?_) (fun a b c _ _ _ h => ?_) hRowY)
+      · rw [Nat.eq_of_beq_eq_true h]
+        exact beq_self_eq_true _
+      · simp only [beq_iff_eq] at h ⊢
+        exact h.symm
+      · simp only [beq_iff_eq] at h1 h2 ⊢
+        rw [h2, h1]
+      · simp only [beq_iff_eq] at h ⊢
+        rw [h]
+      · simp only [beq_iff_eq] at h ⊢
+        rw [h]
+    · have hVN : ∀ i < 336, ∀ x ∈ d.nmat[i]!, x < 7 := by
+        intro i hi
+        have hm : d.nmat[i]! ∈ d.nmat := by
+          rw [getElem!_pos d.nmat i (by omega)]
+          exact List.getElem_mem _
+        have := List.all_eq_true.1 m5 _ hm
+        simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq] at this
+        exact this.2
+      exact tab_sound pN (by decide) m4 m5 (beq_iff_eq.2 m6) hMP.2 hTab.2
+        (rows_of_gen (V := fun a => ∀ x ∈ a, x < 7) pN (by decide) (by decide) (by decide)
+          (by decide) hMP.2 (fun a b h => projK_sound h) hVN
+          (fun a b _ _ => matMul_lt 2 7 (by decide) a b) (fun _ _ ha _ h => projEq7_symm ha h)
+          (fun _ _ _ _ _ _ h1 h2 => projEq7_trans h1 h2) (fun _ _ c _ _ _ h => projEq7_left c h)
+          (fun _ _ c _ _ _ h => projEq7_right c h) hRowN)
   · exact model_sound h16 hD16 bY hyl (fun c hc => (a4' c hc).2.2.1) eO pO
       fun t ht h3 => (hcls t ht h3).1
   · exact model_sound h32 hD32 bY hyl (fun c hc => (a4' c hc).2.2.2) eO pO

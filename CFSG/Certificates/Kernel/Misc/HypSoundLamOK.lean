@@ -109,7 +109,7 @@ private theorem hypLamOK_line_any {UL : List Nat} {UP PP : Nat} {PB LB : Nat →
     simpa [hz0] using h2
   have hzmem : z ∈ lineL UP PP 0 y := (lineB_testBit UP PP 0 y z).1 hlineBz
   have hzlt : z < 693 :=
-    ((mem_lineL_iff hperp hpl hl (by norm_num) hy (Nat.pos_of_ne_zero hy0) hrel z).1
+    ((mem_lineL_iff H hperp hpl hl (by norm_num) hy (Nat.pos_of_ne_zero hy0) hrel z).1
       hzmem).1
   have hpb0 : bitK (PB 0) y = true := by rw [bitK_eq_testBit]; exact hty
   have hLT : (lineTabG UL.toArray (perpTabG UL.toArray))[y]! =

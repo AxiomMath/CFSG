@@ -1,11 +1,13 @@
 module
 
+public import Certificates.Data.Kernel.WordsS
 public import Certificates.Data.Kernel.AlphaGrpK
 public import Certificates.Data.Kernel.AlphaFunK
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AlphaFi23Data
 public import CFSG.Mathlib.Decide.Nodup
 import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.LocalAnalysis.AGLEmbedding.KFactProofs.AlphaWordDefs
+import CFSG.Certificates.Kernel.WordsSSound
 
 public section
 
@@ -31,16 +33,19 @@ theorem w_wTops : fi23Tidx.all (fun i => decide (i < fi23Mod.acts.length) &&
     fi23Tops.any (·.reg == (fi23Mod.acts.getD i default).reg)) = true := by
   decide +kernel
 
-@[expose] def wKey (c : Nat) : Nat :=
-  [0, 1, 2, 3, 6, 20, 21, 22].foldr (fun d acc => c / 3 ^ d % 3 + 3 * acc) 0
+theorem w_words : CFSG.KC.WordsS.wNodupS 5 4 25 33554431 31 1082401 17043521 549790
+    (CFSG.KC.WordsS.keyS 25 [2, 3, 4, 18, 21, 22, 23, 24])
+    (fi23Tidx.map fun i => (fi23Mod.acts.getD i default).mat) = true := by
+  decide +kernel
 
 theorem w_wNodup : ((wordsL 3 fi23Mod.basis.length
     (fi23Tidx.map fun i => (fi23Mod.acts.getD i default).mat)).map (codeL 3)).Nodup :=
-  CFSG.Decide.nodup_of_bitsetNodup wKey (by decide +kernel)
+  CFSG.KS.WordsS.nodup_codes_of_wordsS w_words
 
 theorem w_wCount : decide (3 ^ 13 ≤ (wordsL 3 fi23Mod.basis.length
     (fi23Tidx.map fun i => (fi23Mod.acts.getD i default).mat)).length * 3 ^ fi23Mod.basis.length) =
     true := by
+  rw [CFSG.KS.WordsS.length_wordsL, List.length_map]
   decide +kernel
 
 theorem w_fun : funW 3 fi23Mod 5 10 250 fi23CfSp = true := by decide +kernel

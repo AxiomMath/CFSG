@@ -1,8 +1,8 @@
 module
 
 public import CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.OrthMinus
-meta import YardstoneContract
-import YardstoneContract
+meta import CFSG.YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

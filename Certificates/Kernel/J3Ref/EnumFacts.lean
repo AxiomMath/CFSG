@@ -20,7 +20,7 @@ open CFSG.SectionRank.QTK.Insp443.J3Cls CFSG.Sporadic.SmallOddCore CFSG.Sporadic
 open CFSG.Sporadic.Th.Native CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.PEnum
 open CFSG.KS.MulH CFSG.KS.PEnumB CFSG.KS.Join CertificateChecks.KernelSpor
 
-#kc_forall_chunks hvS_all (fun k => hvS k = true) 128 CertificateChecks.KernelJ3Ref.hvS 1
+#kc_forall_chunks hvS_all (fun k => hvS k = true) 8 CertificateChecks.KernelJ3Ref.hvS 1
 #kc_forall_chunks sCl_all (fun k => sCl k = true) 3 CertificateChecks.KernelJ3Ref.sCl 1
 #kc_forall_chunks cPt_all (fun k => cPt k = true) 30 CertificateChecks.KernelJ3Ref.cPt 1
 #kc_forall_chunks hvC_all (fun k => hvC k = true) 1920 CertificateChecks.KernelJ3Ref.hvC 1

@@ -338,9 +338,9 @@ private theorem ptK_sound_aux (hb : Binds n w PS kS nb BP S base)
           intro m
           unfold relImg
           rcases Nat.lt_or_ge m i with hmi | hmi
-          · rw [imgExt_lt hmi, if_pos hmi]
+          · rw [imgExt_lt hmi, ite_eq_left hmi]
             exact himg m hmi
-          · rw [imgExt_ge hmi, if_neg (not_lt.2 hmi), hqpt]
+          · rw [imgExt_ge hmi, ite_eq_right (not_lt.2 hmi), hqpt]
             exact hacc_arr q hqn
         have hvn : ∀ m, m < nb → relImg base i accArr q m < n := by
           intro m hm
@@ -402,10 +402,10 @@ private theorem ptK_sound_aux (hb : Binds n w PS kS nb BP S base)
         · exact absurd (max_eq_right hli.le) hne
         · have hl1 : relImg base i accArr q l = accArr[base[l]!]! := by
             unfold relImg
-            rw [if_pos hli]
+            rw [ite_eq_left hli]
           have hl2 : relImg base i accArr q i = accArr[q]! := by
             unfold relImg
-            rw [if_neg (lt_irrefl i)]
+            rw [ite_eq_right (lt_irrefl i)]
           have hv : accArr[base[l]!]! < n := harr.lt (hbl l (by omega))
           have hep : e < p := hrels _ hmem
           have hsz : e < (powPA p n x).size := by simpa [powPA] using hep
@@ -428,6 +428,248 @@ private theorem ptK_sound_aux (hb : Binds n w PS kS nb BP S base)
           have hlv : lvT NL w QT i q = k := by
             rw [Tab.lvT_QT ht hi hqn]
             exact hqpt ▸ (hRF.pt k hkc).2
+          rw [hY, hlv] at h1
+          have h2 := bIf_true_of (blt_true hkc) h1
+          intro hrk
+          exact bIf_true_of hrk h2
+    · have hr' : relOK base (powPA p n x) rels i accArr ((rawLevels n S base)[i]!).pts[k]! =
+          false := by simpa using hr
+      rw [hr']
+      rfl
+
+private theorem ptKF_succ (n w kS NR NL : Nat) (LT PT QT LR FR : Nat → Nat) (FM : Nat → Bool)
+    (FX : List Nat) (rels : List (Nat × Nat × Nat)) (xm : Nat → Nat) (cb ps : List Nat)
+    (KE SK : Nat → Nat) (NE f i : Nat) (acc accI img : Nat → Nat) :
+    ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE (f + 1) i acc accI img =
+      strictB (rcnt (LR i)) fun c =>
+      strictB (FR i) fun fr =>
+        bIf(FM i,
+          FX.all fun f' => strictB (accI f') fun q => strictB (lvT NL w QT i q) fun k =>
+            bIf(Nat.blt k c, strictB (acc (rpt w (mask w) (LR i) k)) fun p =>
+              bIf(relK rels xm (imgExt img i p) i,
+                ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE f (Nat.succ i)
+                  (fun y => acc (trPtT w NR NL LT PT i k y))
+                  (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
+              true),
+        bIf(Nat.beq fr 0,
+          allN c fun k => strictB (acc (rpt w (mask w) (LR i) k)) fun p =>
+            bIf(relK rels xm (imgExt img i p) i,
+              ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE f (Nat.succ i)
+                (fun y => acc (trPtT w NR NL LT PT i k y))
+                (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
+          strictB (accI (powF xm (Nat.mod (Nat.sub fr 1) 8) (img (Nat.div (Nat.sub fr 1) 8))))
+            fun q => strictB (lvT NL w QT i q) fun k =>
+            bIf(Nat.blt k c, strictB (acc (rpt w (mask w) (LR i) k)) fun p =>
+              bIf(relK rels xm (imgExt img i p) i,
+                ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE f (Nat.succ i)
+                  (fun y => acc (trPtT w NR NL LT PT i k y))
+                  (fun y => trInvPtT w kS NR NL LT PT i k (accI y)) (imgExt img i p), true),
+              true))) := rfl
+
+private theorem ptKF_sound_aux (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (ho : OrbsOK n w PS PSI LR kS nb BP NS CH) (hN : n ≤ NS * CH)
+    (ht : TabsT n w kS nb BP NR NL PS PSI LR Ts LT PT QT NT BT NQ BQ)
+    {x : Array Nat} {X : Equiv.Perm (Fin n)} (hx : Rep n x X) {xm : Nat → Nat}
+    (hxm : RepF n xm X) {p : Nat} {rels : List (Nat × Nat × Nat)}
+    (hrels : ∀ r ∈ rels, r.2.2 < p)
+    (hFR : ∀ i < nb, FR i = 0 ∨ ∃ l e, FR i = 8 * l + e + 1 ∧ l < i ∧ e < 8 ∧ (l, i, e) ∈ rels)
+    {FM : Nat → Bool} (hFM : ∀ i < nb, FM i = true → (i, i, 1) ∈ rels) {FX : List Nat}
+    (hFX : ∀ y < n, xm y = y → y ∈ FX)
+    {E : List (Array Nat)} {cb ps : List Nat} (hcb : ∀ b ∈ cb, b < n) {KE SK : Nat → Nat}
+    {NE : Nat}
+    (hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin n)), Rep n a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin kS => permOfArr n S[j.val]!) →
+      (∃ j < NE, keyA n ps a = KE (SK j)) → E.any (eqA n a) = true) :
+    ∀ f i, i + f = nb → ∀ (acc accI img : Nat → Nat) (accArr : Array Nat) (A : Equiv.Perm (Fin n)),
+      RepF n acc A → RepF n accI A⁻¹ → Rep n accArr A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin kS => permOfArr n S[j.val]!) →
+      (∀ m < i, img m = accArr[base[m]!]!) →
+      ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE f i acc accI img = true →
+      ptailOK n (rawLevels n S base) base x (powPA p n x) rels E f i accArr = true := by
+  have hbl := Tab.base_lt hb ho hN
+  intro f
+  induction f with
+  | zero =>
+    intro i hif acc accI img accArr A hacc haccI harr hAmem himg h
+    exact ptK_sound_aux (QT := QT) (NT := NT) (BT := BT) (NQ := NQ) (BQ := BQ) hb hp ho hN ht
+      hx hxm hrels hFR hcb hE 0 i hif acc accI img accArr A hacc haccI harr hAmem himg h
+  | succ f ih =>
+    intro i hif acc accI img accArr A hacc haccI harr hAmem himg h
+    have hi : i < nb := by omega
+    obtain ⟨-, hAg0⟩ := Tab.agree hb hp ho hN hi
+    have hAg : Orb.Agree n w (LR i) ((rawLevels n S base)[i]!) (Tab.trT n w LR S base i) := hAg0
+    have hRF := Tab.recFacts ho hN hi
+    have hacc_arr : ∀ y < n, acc y = accArr[y]! := fun y hy => by
+      rw [hacc y hy]
+      exact (harr ⟨y, hy⟩).symm
+    have hcnt : rcnt (LR i) = ((rawLevels n S base)[i]!).pts.size := hAg.cnt
+    have key : ∀ k (hk : k < ((rawLevels n S base)[i]!).pts.size),
+        relOK base (powPA p n x) rels i accArr ((rawLevels n S base)[i]!).pts[k]! = true →
+        (relK rels xm (imgExt img i (acc (rpt w (mask w) (LR i) k))) i = true →
+          ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE f (i + 1)
+            (fun y => acc (trPtT w NR NL LT PT i k y))
+            (fun y => trInvPtT w kS NR NL LT PT i k (accI y))
+            (imgExt img i (acc (rpt w (mask w) (LR i) k))) = true) →
+        ptailOK n (rawLevels n S base) base x (powPA p n x) rels E f (i + 1)
+          (compA n accArr ((rawLevels n S base)[i]!).tr[k]!) = true := by
+      intro k hk hrel hker
+      have hkc : k < rcnt (LR i) := hcnt ▸ hk
+      have hqpt : rpt w (mask w) (LR i) k = ((rawLevels n S base)[i]!).pts[k]! := hAg.pt k hk
+      have hqn : ((rawLevels n S base)[i]!).pts[k]! < n := hqpt ▸ (hRF.pt k hkc).1
+      have hTP : RepF n (fun y => trPtT w NR NL LT PT i k y) (Tab.trT n w LR S base i k) :=
+        fun y hy => Tab.trPtT_eq hb hp ho hN ht hi hkc ⟨y, hy⟩
+      have hTI : RepF n (fun y => trInvPtT w kS NR NL LT PT i k y)
+          (Tab.trT n w LR S base i k)⁻¹ :=
+        fun y hy => Tab.trInvPtT_eq hb hp ho hN ht hi hkc ⟨y, hy⟩
+      have hacc' : RepF n (fun y => acc (trPtT w NR NL LT PT i k y))
+          (A * Tab.trT n w LR S base i k) := hacc.comp hTP
+      have haccI' : RepF n (fun y => trInvPtT w kS NR NL LT PT i k (accI y))
+          (A * Tab.trT n w LR S base i k)⁻¹ := (hTI.comp haccI).congr (mul_inv_rev A _).symm
+      have harr' : Rep n (compA n accArr ((rawLevels n S base)[i]!).tr[k]!)
+          (A * Tab.trT n w LR S base i k) := rep_compA harr (hAg.tr k hk).1
+      have hAmem' := Subgroup.mul_mem _ hAmem (trT_facts hb hp ho hN hi hkc).1
+      have himg' : ∀ m < i + 1, imgExt img i (acc (rpt w (mask w) (LR i) k)) m =
+          (compA n accArr ((rawLevels n S base)[i]!).tr[k]!)[base[m]!]! := by
+        intro m hm
+        have hbm := hbl m (by omega)
+        rw [compA_get hbm, (hAg.tr k hk).1.apply hbm]
+        rcases Nat.lt_or_ge m i with hmi | hmi
+        · rw [imgExt_lt hmi, (trT_facts hb hp ho hN hi hkc).2 m hmi hbm]
+          exact himg m hmi
+        · obtain rfl : m = i := by omega
+          rw [imgExt_ge le_rfl, ← Tab.rpt_eq hb hp ho hN hi hkc]
+          exact hacc_arr _ (hRF.pt k hkc).1
+      have hrelK : relK rels xm (imgExt img i (acc (rpt w (mask w) (LR i) k))) i = true := by
+        set q := ((rawLevels n S base)[i]!).pts[k]! with hq
+        have hpimg : ∀ m, imgExt img i (acc (rpt w (mask w) (LR i) k)) m =
+            relImg base i accArr q m := by
+          intro m
+          unfold relImg
+          rcases Nat.lt_or_ge m i with hmi | hmi
+          · rw [imgExt_lt hmi, ite_eq_left hmi]
+            exact himg m hmi
+          · rw [imgExt_ge hmi, ite_eq_right (not_lt.2 hmi), hqpt]
+            exact hacc_arr q hqn
+        have hvn : ∀ m, m < nb → relImg base i accArr q m < n := by
+          intro m hm
+          unfold relImg
+          split_ifs
+          · exact harr.lt (hbl m hm)
+          · exact harr.lt hqn
+        refine relK_of_forall fun r hr hmax => ?_
+        have hr1 := List.all_eq_true.1 hrel r hr
+        simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_false_iff_not, beq_iff_eq] at hr1
+        rcases hr1 with hne | heq
+        · exact absurd hmax hne
+        · rw [hpimg, hpimg]
+          have hr1lt : r.1 < nb := by
+            have := le_max_left r.1 r.2.1
+            omega
+          have hv := hvn r.1 hr1lt
+          have he := hrels r hr
+          have hsz : r.2.2 < (powPA p n x).size := by simpa [powPA] using he
+          rw [heq, (rep_powPA hx r.2.2 hsz).apply hv]
+          exact ((hxm.powF r.2.2) _ hv).symm
+      exact ih (i + 1) (by omega) _ _ _ _ (A * Tab.trT n w LR S base i k) hacc' haccI' harr'
+        hAmem' himg' (hker hrelK)
+    rw [ptKF_succ] at h
+    simp only [Orb.strictB_eq] at h
+    rw [ptailOK, allLt_iff]
+    intro k hk
+    by_cases hr : relOK base (powPA p n x) rels i accArr
+        ((rawLevels n S base)[i]!).pts[k]! = true
+    · rw [hr, Bool.not_true, Bool.false_or]
+      refine key k hk hr ?_
+      have hkc : k < rcnt (LR i) := hcnt ▸ hk
+      have hqpt : rpt w (mask w) (LR i) k = ((rawLevels n S base)[i]!).pts[k]! := hAg.pt k hk
+      have hqn : ((rawLevels n S base)[i]!).pts[k]! < n := hqpt ▸ (hRF.pt k hkc).1
+      have hlv : lvT NL w QT i ((rawLevels n S base)[i]!).pts[k]! = k := by
+        rw [Tab.lvT_QT ht hi hqn]
+        exact hqpt ▸ (hRF.pt k hkc).2
+      cases hfm : FM i
+      · have h0 := bIf_false_of hfm h
+        rcases hFR i hi with hfr | ⟨l, e, hfr, hli, he8, hmem⟩
+        ·
+          have hbeq : Nat.beq (FR i) 0 = true := by rw [hfr]; rfl
+          have h1 := bIf_true_of hbeq h0
+          have h2 := Orb.allN_iff.1 h1 k hkc
+          intro hrk
+          exact bIf_true_of hrk h2
+        ·
+          have hbeq : Nat.beq (FR i) 0 = false := by rw [hfr]; rfl
+          have h1 := bIf_false_of hbeq h0
+          have e1 : Nat.mod (Nat.sub (FR i) 1) 8 = e := by
+            rw [hfr]
+            show (8 * l + e + 1 - 1) % 8 = e
+            omega
+          have e2 : Nat.div (Nat.sub (FR i) 1) 8 = l := by
+            rw [hfr]
+            show (8 * l + e + 1 - 1) / 8 = l
+            omega
+          rw [e1, e2] at h1
+          set q := ((rawLevels n S base)[i]!).pts[k]! with hq
+          have hrel1 := List.all_eq_true.1 hr (l, i, e) hmem
+          simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_false_iff_not,
+            beq_iff_eq] at hrel1
+          rcases hrel1 with hne | heq
+          · exact absurd (max_eq_right hli.le) hne
+          · have hl1 : relImg base i accArr q l = accArr[base[l]!]! := by
+              unfold relImg
+              rw [ite_eq_left hli]
+            have hl2 : relImg base i accArr q i = accArr[q]! := by
+              unfold relImg
+              rw [ite_eq_right (lt_irrefl i)]
+            have hv : accArr[base[l]!]! < n := harr.lt (hbl l (by omega))
+            have hep : e < p := hrels _ hmem
+            have hsz : e < (powPA p n x).size := by simpa [powPA] using hep
+            rw [hl1, hl2, (rep_powPA hx e hsz).apply hv] at heq
+            have hAq : (A ⟨q, hqn⟩ : Nat) = ((X ^ e) ⟨accArr[base[l]!]!, hv⟩ : Nat) := by
+              rw [← harr ⟨q, hqn⟩]
+              exact heq
+            have hpow : powF xm e (img l) = ((X ^ e) ⟨accArr[base[l]!]!, hv⟩ : Nat) := by
+              rw [himg l hli]
+              exact (hxm.powF e) _ hv
+            have hY : accI (powF xm e (img l)) = q := by
+              rw [hpow]
+              have hlt : ((X ^ e) ⟨accArr[base[l]!]!, hv⟩ : Nat) < n := ((X ^ e) _).2
+              have hz : A⁻¹ ((X ^ e) ⟨accArr[base[l]!]!, hv⟩) = ⟨q, hqn⟩ := by
+                rw [Equiv.Perm.inv_eq_iff_eq]
+                exact (Fin.ext hAq).symm
+              rw [haccI _ hlt]
+              simp only [Fin.eta]
+              rw [hz]
+            rw [hY, hlv] at h1
+            have h2 := bIf_true_of (blt_true hkc) h1
+            intro hrk
+            exact bIf_true_of hrk h2
+      ·
+        have h0 := bIf_true_of hfm h
+        have hmem := hFM i hi hfm
+        set q := ((rawLevels n S base)[i]!).pts[k]! with hq
+        have hrel1 := List.all_eq_true.1 hr (i, i, 1) hmem
+        simp only [Bool.or_eq_true, Bool.not_eq_true', decide_eq_false_iff_not,
+          beq_iff_eq] at hrel1
+        rcases hrel1 with hne | heq
+        · exact absurd (max_self i) hne
+        · have hl2 : relImg base i accArr q i = accArr[q]! := by
+            unfold relImg
+            rw [ite_eq_right (lt_irrefl i)]
+          have hv : accArr[q]! < n := harr.lt hqn
+          have hep : 1 < p := hrels _ hmem
+          have hsz : 1 < (powPA p n x).size := by simpa [powPA] using hep
+          rw [hl2, (rep_powPA hx 1 hsz).apply hv, pow_one] at heq
+          have hfix : xm accArr[q]! = accArr[q]! := by
+            rw [hxm _ hv]
+            exact heq.symm
+          have h1 := List.all_eq_true.1 h0 _ (hFX _ hv hfix)
+          have hAq : (A ⟨q, hqn⟩ : Nat) = accArr[q]! := (harr ⟨q, hqn⟩).symm
+          have hY : accI accArr[q]! = q := by
+            have hz : A⁻¹ ⟨accArr[q]!, hv⟩ = ⟨q, hqn⟩ := by
+              rw [Equiv.Perm.inv_eq_iff_eq]
+              exact (Fin.ext hAq).symm
+            rw [haccI _ hv, hz]
+          beta_reduce at h1
           rw [hY, hlv] at h1
           have h2 := bIf_true_of (blt_true hkc) h1
           intro hrk
@@ -461,6 +703,163 @@ theorem ptailOK_of_ptK_ {n w kS nb BP NS CH NR NL NT BT NQ BQ : Nat}
   exact ptK_sound_aux hb hp ho hN ht hx hxm hrels hFR hcb hE nb 0 (by omega) (fun y => y)
     (fun y => y) (fun _ => 0) (idA n) 1 RepF.one (RepF.one.congr inv_one.symm) rep_idA
     (Subgroup.one_mem _) (fun m hm => absurd hm (Nat.not_lt_zero m)) h
+
+theorem tabChain_pts {n w kS nb BP NS CH NR NL NT BT NQ BQ : Nat}
+    {PS PSI LR Ts LT PT QT : Nat → Nat} {S : Array (Array Nat)} {base : Array Nat}
+    {bs : List Nat}
+    (hT : TabChain n w kS nb BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base bs)
+    {i : Nat} (hi : i < nb) :
+    ((rawLevels n S base)[i]!).pts.size = rcnt (LR i) ∧
+      ∀ k < rcnt (LR i), ((rawLevels n S base)[i]!).pts[k]! = rpt w (mask w) (LR i) k ∧
+        rpt w (mask w) (LR i) k < n := by
+  obtain ⟨hb, hp, ho, hN, -, -⟩ := hT
+  obtain ⟨-, hAg0⟩ := Tab.agree hb hp ho hN hi
+  have hAg : Orb.Agree n w (LR i) ((rawLevels n S base)[i]!) (Tab.trT n w LR S base i) := hAg0
+  have hRF := Tab.recFacts ho hN hi
+  refine ⟨hAg.cnt.symm, fun k hk => ⟨(hAg.pt k (by rw [← hAg.cnt]; exact hk)).symm,
+    (hRF.pt k hk).1⟩⟩
+
+theorem tabChain_trPt {n w kS nb BP NS CH NR NL NT BT NQ BQ : Nat}
+    {PS PSI LR Ts LT PT QT : Nat → Nat} {S : Array (Array Nat)} {base : Array Nat}
+    {bs : List Nat}
+    (hT : TabChain n w kS nb BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base bs)
+    {i k y : Nat} (hi : i < nb) (hk : k < rcnt (LR i)) (hy : y < n) :
+    (((rawLevels n S base)[i]!).tr[k]!)[y]! = trPtT w NR NL LT PT i k y := by
+  obtain ⟨hb, hp, ho, hN, ht, -⟩ := hT
+  obtain ⟨-, hAg0⟩ := Tab.agree hb hp ho hN hi
+  have hAg : Orb.Agree n w (LR i) ((rawLevels n S base)[i]!) (Tab.trT n w LR S base i) := hAg0
+  have hk' : k < ((rawLevels n S base)[i]!).pts.size := by rw [← hAg.cnt]; exact hk
+  exact ((hAg.tr k hk').1 ⟨y, hy⟩).trans (Tab.trPtT_eq hb hp ho hN ht hi hk ⟨y, hy⟩).symm
+
+theorem ptailOK1_of_ptK {n w kS nb BP NS CH NR NL NT BT NQ BQ : Nat}
+    {PS PSI LR Ts LT PT QT FR : Nat → Nat} {S : Array (Array Nat)} {base : Array Nat}
+    {bs : List Nat}
+    (hT : TabChain n w kS nb BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base bs)
+    {x : Array Nat} {X : Equiv.Perm (Fin n)} (hx : Rep n x X) {xm : Nat → Nat}
+    (hxm : RepF n xm X) {p : Nat} {rels : List (Nat × Nat × Nat)} (hrels : ∀ r ∈ rels, r.2.2 < p)
+    (hFR : ∀ i < nb, FR i = 0 ∨ ∃ l e, FR i = 8 * l + e + 1 ∧ l < i ∧ e < 8 ∧ (l, i, e) ∈ rels)
+    {E : List (Array Nat)} {cb ps : List Nat} (hcb : ∀ b ∈ cb, b < n) {KE SK : Nat → Nat}
+    {NE : Nat}
+    (hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin n)), Rep n a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin kS => permOfArr n S[j.val]!) →
+      (∃ j < NE, keyA n ps a = KE (SK j)) → E.any (eqA n a) = true)
+    {f : Nat} (hf : 1 + f = nb) {k : Nat} (hk : k < rcnt (LR 0))
+    (h : ptK n w kS NR NL LT PT QT LR FR rels xm cb ps KE SK NE f 1
+      (fun y => trPtT w NR NL LT PT 0 k y) (fun y => trInvPtT w kS NR NL LT PT 0 k y)
+      (imgExt (fun _ => 0) 0 (rpt w (mask w) (LR 0) k)) = true) :
+    ptailOK n (rawLevels n S base) base x (powPA p n x) rels E f 1
+      (compA n (idA n) ((rawLevels n S base)[0]!).tr[k]!) = true := by
+  obtain ⟨hb, hp, ho, hN, ht, -⟩ := hT
+  have hi : 0 < nb := by omega
+  have hbl := Tab.base_lt hb ho hN
+  obtain ⟨-, hAg0⟩ := Tab.agree hb hp ho hN hi
+  have hAg : Orb.Agree n w (LR 0) ((rawLevels n S base)[0]!) (Tab.trT n w LR S base 0) := hAg0
+  have hRF := Tab.recFacts ho hN hi
+  have hk' : k < ((rawLevels n S base)[0]!).pts.size := by rw [← hAg.cnt]; exact hk
+  have harr : Rep n (compA n (idA n) ((rawLevels n S base)[0]!).tr[k]!)
+      (Tab.trT n w LR S base 0 k) := by
+    have h1 := rep_compA rep_idA (hAg.tr k hk').1
+    rwa [one_mul] at h1
+  refine ptK_sound_aux hb hp ho hN ht hx hxm hrels hFR hcb hE f 1 hf _ _ _ _ _
+    (fun y hy => Tab.trPtT_eq hb hp ho hN ht hi hk ⟨y, hy⟩)
+    (fun y hy => Tab.trInvPtT_eq hb hp ho hN ht hi hk ⟨y, hy⟩) harr
+    (trT_facts hb hp ho hN hi hk).1 (fun m hm => ?_) h
+  obtain rfl : m = 0 := by omega
+  have hbm := hbl 0 hi
+  rw [compA_get hbm, (hAg.tr k hk').1.apply hbm, imgExt_ge le_rfl, ← Tab.rpt_eq hb hp ho hN hi hk]
+  exact (idA_get (hRF.pt k hk).1).symm
+
+theorem ptailOK2_of_ptK {n w kS nb BP NS CH NR NL NT BT NQ BQ : Nat}
+    {PS PSI LR Ts LT PT QT FR : Nat → Nat} {S : Array (Array Nat)} {base : Array Nat}
+    {bs : List Nat}
+    (hT : TabChain n w kS nb BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base bs)
+    {x : Array Nat} {X : Equiv.Perm (Fin n)} (hx : Rep n x X) {xm : Nat → Nat}
+    (hxm : RepF n xm X) {p : Nat} {rels : List (Nat × Nat × Nat)} (hrels : ∀ r ∈ rels, r.2.2 < p)
+    (hFR : ∀ i < nb, FR i = 0 ∨ ∃ l e, FR i = 8 * l + e + 1 ∧ l < i ∧ e < 8 ∧ (l, i, e) ∈ rels)
+    {E : List (Array Nat)} {cb ps : List Nat} (hcb : ∀ b ∈ cb, b < n) {KE SK : Nat → Nat}
+    {NE : Nat}
+    (hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin n)), Rep n a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin kS => permOfArr n S[j.val]!) →
+      (∃ j < NE, keyA n ps a = KE (SK j)) → E.any (eqA n a) = true)
+    {f : Nat} (hf : 2 + f = nb) {k₀ k₁ : Nat} (hk₀ : k₀ < rcnt (LR 0)) (hk₁ : k₁ < rcnt (LR 1))
+    (h : ptK n w kS NR NL LT PT QT LR FR rels xm cb ps KE SK NE f 2
+      (fun y => trPtT w NR NL LT PT 0 k₀ (trPtT w NR NL LT PT 1 k₁ y))
+      (fun y => trInvPtT w kS NR NL LT PT 1 k₁ (trInvPtT w kS NR NL LT PT 0 k₀ y))
+      (imgExt (imgExt (fun _ => 0) 0 (rpt w (mask w) (LR 0) k₀)) 1
+        (trPtT w NR NL LT PT 0 k₀ (rpt w (mask w) (LR 1) k₁))) = true) :
+    ptailOK n (rawLevels n S base) base x (powPA p n x) rels E f 2
+      (compA n (compA n (idA n) ((rawLevels n S base)[0]!).tr[k₀]!)
+        ((rawLevels n S base)[1]!).tr[k₁]!) = true := by
+  obtain ⟨hb, hp, ho, hN, ht, -⟩ := hT
+  have hi0 : 0 < nb := by omega
+  have hi1 : 1 < nb := by omega
+  have hbl := Tab.base_lt hb ho hN
+  obtain ⟨-, hAg00⟩ := Tab.agree hb hp ho hN hi0
+  obtain ⟨-, hAg10⟩ := Tab.agree hb hp ho hN hi1
+  have hAg0 : Orb.Agree n w (LR 0) ((rawLevels n S base)[0]!) (Tab.trT n w LR S base 0) := hAg00
+  have hAg1 : Orb.Agree n w (LR 1) ((rawLevels n S base)[1]!) (Tab.trT n w LR S base 1) := hAg10
+  have hRF0 := Tab.recFacts ho hN hi0
+  have hRF1 := Tab.recFacts ho hN hi1
+  have hk₀' : k₀ < ((rawLevels n S base)[0]!).pts.size := by rw [← hAg0.cnt]; exact hk₀
+  have hk₁' : k₁ < ((rawLevels n S base)[1]!).pts.size := by rw [← hAg1.cnt]; exact hk₁
+  have hTP0 : RepF n (fun y => trPtT w NR NL LT PT 0 k₀ y) (Tab.trT n w LR S base 0 k₀) :=
+    fun y hy => Tab.trPtT_eq hb hp ho hN ht hi0 hk₀ ⟨y, hy⟩
+  have hTP1 : RepF n (fun y => trPtT w NR NL LT PT 1 k₁ y) (Tab.trT n w LR S base 1 k₁) :=
+    fun y hy => Tab.trPtT_eq hb hp ho hN ht hi1 hk₁ ⟨y, hy⟩
+  have hTI0 : RepF n (fun y => trInvPtT w kS NR NL LT PT 0 k₀ y)
+      (Tab.trT n w LR S base 0 k₀)⁻¹ :=
+    fun y hy => Tab.trInvPtT_eq hb hp ho hN ht hi0 hk₀ ⟨y, hy⟩
+  have hTI1 : RepF n (fun y => trInvPtT w kS NR NL LT PT 1 k₁ y)
+      (Tab.trT n w LR S base 1 k₁)⁻¹ :=
+    fun y hy => Tab.trInvPtT_eq hb hp ho hN ht hi1 hk₁ ⟨y, hy⟩
+  have harr0 : Rep n (compA n (idA n) ((rawLevels n S base)[0]!).tr[k₀]!)
+      (Tab.trT n w LR S base 0 k₀) := by
+    have h1 := rep_compA rep_idA (hAg0.tr k₀ hk₀').1
+    rwa [one_mul] at h1
+  have harr := rep_compA harr0 (hAg1.tr k₁ hk₁').1
+  have hacc := hTP0.comp hTP1
+  have haccI := (hTI1.comp hTI0).congr (mul_inv_rev _ _).symm
+  have hacc_arr : ∀ y < n, trPtT w NR NL LT PT 0 k₀ (trPtT w NR NL LT PT 1 k₁ y) =
+      (compA n (compA n (idA n) ((rawLevels n S base)[0]!).tr[k₀]!)
+        ((rawLevels n S base)[1]!).tr[k₁]!)[y]! := fun y hy =>
+    (hacc y hy).trans (harr ⟨y, hy⟩).symm
+  refine ptK_sound_aux hb hp ho hN ht hx hxm hrels hFR hcb hE f 2 (by omega) _ _ _ _ _
+    hacc haccI harr
+    (Subgroup.mul_mem _ (trT_facts hb hp ho hN hi0 hk₀).1 (trT_facts hb hp ho hN hi1 hk₁).1)
+    (fun m hm => ?_) h
+  rw [← hacc_arr _ (hbl m (by omega))]
+  rcases Nat.lt_or_ge m 1 with hm1 | hm1
+  · obtain rfl : m = 0 := by omega
+    have hbm := hbl 0 hi0
+    rw [imgExt_lt hm1, imgExt_ge le_rfl, Tab.trPtT_eq hb hp ho hN ht hi1 hk₁ ⟨_, hbm⟩,
+      (trT_facts hb hp ho hN hi1 hk₁).2 0 hm1 hbm, Tab.trPtT_eq hb hp ho hN ht hi0 hk₀ ⟨_, hbm⟩,
+      ← Tab.rpt_eq hb hp ho hN hi0 hk₀]
+  · obtain rfl : m = 1 := by omega
+    have hbm := hbl 1 hi1
+    rw [imgExt_ge le_rfl, Tab.trPtT_eq hb hp ho hN ht hi1 hk₁ ⟨_, hbm⟩,
+      ← Tab.rpt_eq hb hp ho hN hi1 hk₁]
+
+theorem ptailOK_of_ptKF {n w kS nb BP NS CH NR NL NT BT NQ BQ : Nat}
+    {PS PSI LR Ts LT PT QT FR : Nat → Nat} {S : Array (Array Nat)} {base : Array Nat}
+    {bs : List Nat}
+    (hT : TabChain n w kS nb BP NS CH NR NL NT BT NQ BQ PS PSI LR Ts LT PT QT S base bs)
+    {x : Array Nat} {X : Equiv.Perm (Fin n)} (hx : Rep n x X) {xm : Nat → Nat}
+    (hxm : RepF n xm X) {p : Nat} {rels : List (Nat × Nat × Nat)} (hrels : ∀ r ∈ rels, r.2.2 < p)
+    (hFR : ∀ i < nb, FR i = 0 ∨ ∃ l e, FR i = 8 * l + e + 1 ∧ l < i ∧ e < 8 ∧ (l, i, e) ∈ rels)
+    {FM : Nat → Bool} (hFM : ∀ i < nb, FM i = true → (i, i, 1) ∈ rels) {FX : List Nat}
+    (hFX : ∀ y < n, xm y = y → y ∈ FX)
+    {E : List (Array Nat)} {cb ps : List Nat} (hcb : ∀ b ∈ cb, b < n) {KE SK : Nat → Nat}
+    {NE : Nat}
+    (hE : ∀ (a : Array Nat) (A : Equiv.Perm (Fin n)), Rep n a A →
+      A ∈ Subgroup.closure (Set.range fun j : Fin kS => permOfArr n S[j.val]!) →
+      (∃ j < NE, keyA n ps a = KE (SK j)) → E.any (eqA n a) = true)
+    (h : ptKF n w kS NR NL LT PT QT LR FR FM FX rels xm cb ps KE SK NE nb 0 (fun y => y)
+      (fun y => y) (fun _ => 0) = true) :
+    ptailOK n (rawLevels n S base) base x (powPA p n x) rels E nb 0 (idA n) = true := by
+  obtain ⟨hb, hp, ho, hN, ht, -⟩ := hT
+  exact ptKF_sound_aux hb hp ho hN ht hx hxm hrels hFR hFM hFX hcb hE nb 0 (by omega)
+    (fun y => y) (fun y => y) (fun _ => 0) (idA n) 1 RepF.one (RepF.one.congr inv_one.symm)
+    rep_idA (Subgroup.one_mem _) (fun m hm => absurd hm (Nat.not_lt_zero m)) h
 
 end CFSG.KC.HeLoc
 

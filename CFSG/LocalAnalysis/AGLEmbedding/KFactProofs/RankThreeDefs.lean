@@ -48,6 +48,9 @@ deriving Inhabited
   ((List.range p).flatMap fun a => (List.range p).flatMap fun b =>
     (List.range p).map fun c => (a, b, c)).filter fun v => !(v.1 == 0 && v.2.1 == 0 && v.2.2 == 0)
 
+@[expose] def projTriples (p : Nat) : List (Nat × Nat × Nat) :=
+  (nonzeroTriples p).filter fun v => cond (v.1 == 0) (cond (v.2.1 == 0) v.2.2 v.2.1) v.1 == 1
+
 @[expose] def Mod.word (m : Mod) (a b c : Nat) : Word := [(m.b0, a), (m.b1, b), (m.b2, c)]
 
 @[expose] def Mod.col (m : Mod) (g : Act) (i : Nat) : Word :=

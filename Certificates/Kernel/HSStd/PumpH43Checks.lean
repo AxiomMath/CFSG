@@ -21,6 +21,11 @@ open CFSG.KS.HNA (commP)
 @[expose] noncomputable def pk (p : Nat) : Bool :=
   permOK 80 7 (mask 7) (80 * 7) p (pinvS 80 7 (mask 7) p)
 
+@[expose] noncomputable def pk40 (p : Nat) : Bool :=
+  permOK 40 7 (mask 7) (40 * 7) p (pinvS 40 7 (mask 7) p)
+
+@[expose] noncomputable def lo40 (p : Nat) : Nat := Nat.mod p (Nat.pow 2 280)
+
 @[expose] noncomputable def mul (p q : Nat) : Nat := pcomp 80 7 (mask 7) p q
 
 @[expose] noncomputable def one : Nat := pidn 80 7
@@ -45,13 +50,15 @@ open CFSG.KS.HNA (commP)
 
 theorem sz : szOK 80 7 = true := by quickRfl
 
+theorem sz40 : szOK 40 7 = true := by quickRfl
+
 theorem gD0 : derGensK CG0 (pairsOf 0) D0.ng D0.G = true := by quickRfl
 theorem gD3 : derGensK CG3 (pairsOf 1) D3.ng D3.G = true := by quickRfl
 theorem gD9 : derGensK CG9 (pairsOf 2) D9.ng D9.G = true := by quickRfl
 
 theorem permD : (allN D0.ng (fun k => pk (D0.G k)) && allN D3.ng (fun k => pk (D3.G k)) &&
     allN D9.ng (fun k => pk (D9.G k)) && allN 2 (fun k => pk (C10.G k)) &&
-    allN 2 (fun k => pk (Q.G k))) = true := by quickRfl
+    allN 2 (fun k => pk40 (Q.G k)) && pk40 (Q.T Q.r0)) = true := by quickRfl
 
 theorem nums : (Nat.beq D0.N 720 && Nat.beq D3.N 720 && Nat.beq D9.N 720 && Nat.beq C10.ng 2 &&
     Nat.beq C10.N 720 && Nat.beq Q.ng 2 && Nat.beq Q.N 74880 && Nat.blt Q.r0 Q.N &&
@@ -62,11 +69,11 @@ theorem kD3 : keysSK 80 7 keys43 D3.N D3.T ((List.range 720).map D3K) = true := 
 theorem kD9 : keysSK 80 7 keys43 D9.N D9.T ((List.range 720).map D9K) = true := by quickRfl
 theorem kC10 : keysSK 80 7 keys43 C10.N C10.T ((List.range 720).map C10K) = true := by quickRfl
 
-theorem root : (Nat.beq (C10.T (I0 0)) (Q.T Q.r0) && ord3 (C10.T (I0 0)) &&
+theorem root : (Nat.beq (lo40 (C10.T (I0 0))) (Q.T Q.r0) && ord3 (C10.T (I0 0)) &&
     allN (I0 0) (fun i => !ord3 (C10.T i))) = true := by quickRfl
 
 theorem wQ : allN C10.N (fun i => !ord3 (C10.T i) ||
-    (Nat.blt (QW i) Q.N && Nat.beq (Q.T (QW i)) (C10.T i))) = true := by quickRfl
+    (Nat.blt (QW i) Q.N && Nat.beq (Q.T (QW i)) (lo40 (C10.T i)))) = true := by quickRfl
 
 end CertificateChecks.KernelHSStd.PumpH43
 

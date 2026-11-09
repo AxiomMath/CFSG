@@ -97,13 +97,113 @@ theorem tgt_eq {p : Nat} (hp : p < 4) : heGS36Target p = unpack 8330 14 (tgt p) 
     rw [w1Tab, heT1_eq, cmp cnw1 cnW.1]
   · rw [if_pos (Nat.eq_of_beq_eq_true hb), w1Tab]
 
-theorem wK_all {p : Nat} (hp : p < 4) : wK p = true := by
-  interval_cases p
-  exacts [kW0, kW1, kW2, kW3]
+theorem g36tgt_eq (p : Nat) : g36tgt p = tgt p := by
+  unfold g36tgt tgt g36w1 w1 cI
+  simp only [g36cT_eq, g36pc_eq]
 
 theorem lt9 {p : Nat} (hp : p < 4) : (∀ j ∈ heGS36D p 0 ++ heGS36D p 1, j < 9) ∧
     (∀ j ∈ heGS36D p 2 ++ heGS36D p 3, j < 9) ∧ ∀ j ∈ heGS36Word p, j < 9 := by
   interval_cases p <;> decide
+
+theorem cnH {w : List Nat} (hw : ∀ j ∈ w, j < 9) : cn (H w) = true :=
+  canonK_wordTabK hid w fun k hk => cnC1 (hw k hk)
+
+theorem lt9X : ∀ j ∈ heGSXWord, j < 9 := by decide
+
+theorem lt9_app {u v : List Nat} (hu : ∀ j ∈ u, j < 9) (hv : ∀ j ∈ v, j < 9) :
+    ∀ j ∈ u ++ v, j < 9 := fun j hj => (List.mem_append.1 hj).elim (hu j) (hv j)
+
+theorem lt9_rep (k : Nat) : ∀ j ∈ hfRep k heGSXWord, j < 9 := fun j hj => by
+  simp only [hfRep, List.mem_flatten, List.mem_replicate] at hj
+  obtain ⟨l, ⟨-, rfl⟩, hl⟩ := hj
+  exact lt9X j hl
+
+theorem pc_idL {q : Nat} (hq : cn q = true) : pc (pidn 8330 14) q = q := by
+  unfold pc
+  exact CFSG.KC.L34KSnd.eq_of_pg (cnpc hid hq) hq fun i hi => by
+    rw [CFSG.KC.L34KSnd.pg_pcomp' hid hi,
+      CFSG.KC.L34KSnd.pg_pidn' (CFSG.KC.L34KSnd.canon_sz hid) (CFSG.KC.L34KSnd.canon_lt hq hi)]
+
+theorem H_append : ∀ u v : List Nat, (∀ j ∈ u, j < 9) → (∀ j ∈ v, j < 9) →
+    H (u ++ v) = pc (H u) (H v)
+  | [], _, _, hv => (pc_idL (cnH hv)).symm
+  | j :: u, v, hu, hv => by
+    have hu' : ∀ k ∈ u, k < 9 := fun k hk => hu k (List.mem_cons_of_mem j hk)
+    change pc (PC1 j) (H (u ++ v)) = pc (pc (PC1 j) (H u)) (H v)
+    rw [H_append u v hu' hv]
+    exact (CFSG.KC.L34KSnd.pcomp_assoc' (cnC1 (hu j List.mem_cons_self)) (cnH hu') (cnH hv)).symm
+
+theorem H_cancel {w : List Nat} (u r v : List Nat) (hr : H r = pidn 8330 14)
+    (hb : (∀ j ∈ u, j < 9) ∧ (∀ j ∈ r, j < 9) ∧ ∀ j ∈ v, j < 9) (e : w = u ++ (r ++ v)) :
+    H w = H (u ++ v) := by
+  obtain ⟨hu, hrr, hv⟩ := hb
+  have hrv : ∀ j ∈ r ++ v, j < 9 := fun j hj => (List.mem_append.1 hj).elim (hrr j) (hv j)
+  rw [e, H_append u (r ++ v) hu hrv, H_append r v hrr hv, hr, pc_idL (cnH hv),
+    ← H_append u v hu hv]
+
+theorem pairs_id {p : Nat} (hp : p < 4) : H (heGS36D p 0 ++ heGS36D p 1) = pidn 8330 14 ∧
+    H (heGS36D p 2 ++ heGS36D p 3) = pidn 8330 14 := by
+  have h := g36Rel
+  simp only [Bool.and_eq_true] at h
+  have r1 := Nat.eq_of_beq_eq_true h.1.1.1
+  have r2 := Nat.eq_of_beq_eq_true h.1.1.2
+  have r3 := Nat.eq_of_beq_eq_true h.1.2
+  have r8 := Nat.eq_of_beq_eq_true h.2
+  have hz : H ([] ++ []) = pidn 8330 14 := rfl
+  have a0 : H (heGS36D 0 0 ++ heGS36D 0 1) = pidn 8330 14 :=
+    Eq.trans (H_cancel [8, 2] [1, 1] [2, 8, 8, 8, 8, 8] r1 (by decide) (by decide)) <|
+    Eq.trans (H_cancel [8] [2, 2] [8, 8, 8, 8, 8] r2 (by decide) (by decide)) <|
+    Eq.trans (H_cancel [] [8, 8, 8, 8, 8, 8] [] r8 (by decide) (by decide)) hz
+  interval_cases p
+  · refine ⟨a0, ?_⟩
+    exact Eq.trans (H_cancel [1, 8, 3] [8, 8, 8, 8, 8, 8] [3, 8, 8, 8, 8, 8, 1] r8 (by decide)
+        (by decide)) <|
+      Eq.trans (H_cancel [1, 8] [3, 3] [8, 8, 8, 8, 8, 1] r3 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [1] [8, 8, 8, 8, 8, 8] [1] r8 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [] [1, 1] [] r1 (by decide) (by decide)) hz
+  · refine ⟨Eq.trans (H_cancel [] [8, 8, 8, 8, 8, 8] [] r8 (by decide) (by decide)) hz, ?_⟩
+    exact Eq.trans (H_cancel [3] [8, 8, 8, 8, 8, 8] [3] r8 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [] [3, 3] [] r3 (by decide) (by decide)) hz
+  · refine ⟨Eq.trans (H_cancel [8, 3] [2, 2] [3, 8, 8, 8, 8, 8] r2 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [8] [3, 3] [8, 8, 8, 8, 8] r3 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [] [8, 8, 8, 8, 8, 8] [] r8 (by decide) (by decide)) hz, ?_⟩
+    exact Eq.trans (H_cancel [8, 1] [8, 8, 8, 8, 8, 8] [8, 8, 8, 8, 8, 8, 1, 8, 8, 8, 8, 8] r8
+        (by decide) (by decide)) <|
+      Eq.trans (H_cancel [8, 1] [8, 8, 8, 8, 8, 8] [1, 8, 8, 8, 8, 8] r8 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [8] [1, 1] [8, 8, 8, 8, 8] r1 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [] [8, 8, 8, 8, 8, 8] [] r8 (by decide) (by decide)) hz
+  · refine ⟨a0, ?_⟩
+    exact Eq.trans (H_cancel [8, 1] [2, 2] [1, 8, 8, 8, 8, 8] r2 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [8] [1, 1] [8, 8, 8, 8, 8] r1 (by decide) (by decide)) <|
+      Eq.trans (H_cancel [] [8, 8, 8, 8, 8, 8] [] r8 (by decide) (by decide)) hz
+
+theorem H_rep : ∀ k : Nat, H (hfRep k heGSXWord) = powK 8330 14 (H heGSXWord) k
+  | 0 => rfl
+  | k + 1 => by
+    have e : hfRep (k + 1) heGSXWord = heGSXWord ++ hfRep k heGSXWord := by
+      simp only [hfRep, List.replicate_succ, List.flatten_cons]
+    rw [e, H_append _ _ lt9X (lt9_rep k), H_rep k]
+    rfl
+
+theorem kG_all {p : Nat} (hp : p < 4) : H (heGS36Word p) = tgt p := by
+  have h : g36F p = true := by
+    interval_cases p
+    exacts [kG0, kG1, kG2, kG3]
+  have hb : (∀ j ∈ heGS36D p 0, j < 9) ∧ (∀ j ∈ heGS36D p 1, j < 9) ∧
+      (∀ j ∈ heGS36D p 2, j < 9) ∧ ∀ j ∈ heGS36D p 3, j < 9 := by
+    interval_cases p <;> decide
+  obtain ⟨h0, h1, h2, h3⟩ := hb
+  have hR := lt9_rep (3 + p / 2)
+  unfold g36F at h
+  simp only [g36pc_eq, g36w_eq, g36pow_eq, g36tgt_eq] at h
+  rw [← Nat.eq_of_beq_eq_true h]
+  unfold heGS36Word
+  simp only [List.append_assoc]
+  rw [H_append _ _ h0 (lt9_app hR (lt9_app h1 (lt9_app h2 (lt9_app hR h3)))),
+    H_append _ _ hR (lt9_app h1 (lt9_app h2 (lt9_app hR h3))),
+    H_append _ _ h1 (lt9_app h2 (lt9_app hR h3)), H_append _ _ h2 (lt9_app hR h3),
+    H_append _ _ hR h3, H_rep]
+  rfl
 
 theorem gTab : heGSGTab = unpack 8330 14 gT := by
   have kv := kw (w := heGSVWord) (by decide)
@@ -146,12 +246,9 @@ theorem check :
   · rw [cTab, kd1.1, heT1_eq, cmp parts.2.2.1 kd1.2, cmp cnW.1 parts.2.2.1,
       Nat.eq_of_beq_eq_true cparts.1]
   · exact CertificateChecks.KernelSporSch.HePt.perm_of cTab cparts.2.1 cparts.2.2.1
-  · have h := wK_all hp
-    unfold wK at h
-    simp only [Bool.and_eq_true] at h
-    obtain ⟨l1, l2, l3⟩ := lt9 hp
-    rw [hw l1, hw l2, hw l3, tgt_eq hp, hidT, Nat.eq_of_beq_eq_true h.1.1,
-      Nat.eq_of_beq_eq_true h.1.2, Nat.eq_of_beq_eq_true h.2]
+  · obtain ⟨l1, l2, l3⟩ := lt9 hp
+    obtain ⟨e1, e2⟩ := pairs_id hp
+    rw [hw l1, hw l2, hw l3, tgt_eq hp, hidT, e1, e2, kG_all hp]
     exact ⟨rfl, rfl, rfl⟩
   · rw [i5Tab, kd1.1, cmp kd1.2 cni5, cmp cni5 kd1.2]
     intro h

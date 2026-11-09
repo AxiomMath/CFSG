@@ -18,7 +18,7 @@ theorem omGens :
     omegaGensC true = [35721076609, 35720809665, 35704292801, 35704030401, 17718853698] :=
   omegaWords_code_true
 
-theorem checks : GrpChecks true O par S Om omPar Sm inv where
+theorem checks : GrpChecks true O par S Om omPar Sm inv invC where
   lenO := lenO
   lenOm := lenOm
   ixO := ixO
@@ -28,13 +28,8 @@ theorem checks : GrpChecks true O par S Om omPar Sm inv where
   invO := invO
   head := by decide +kernel
   headm := by decide +kernel
-  parO := by rw [oGens]; exact parO
-  clO := by rw [oGens]; exact clO
   invGO := by rw [oGens]; exact invGO
-  parOm := by rw [omGens]; exact parOm
-  clOm := by rw [omGens]; exact clOm
   invGOm := by rw [omGens]; exact invGOm
-  invMul := by rw [lenO]; exact invMul
 
 theorem censusBaseM : censusBase true () = true :=
   censusBase_of checks (by rw [lenO]; exact transM) (by rw [lenO]; exact lsM)

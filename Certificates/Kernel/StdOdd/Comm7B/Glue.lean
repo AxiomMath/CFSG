@@ -105,7 +105,8 @@ theorem exists_card_inf_centralizer_rep7B_K :
   have hx : rgrpMat rep7B = toMat (Native.wordMat nativeAB.1 nativeAB.2 repWord7B) :=
     rgrpMat_repOf repWord7B
   have hzM := rgrpMat_rgrpSlp sylow7Prog sylow7Z
-  set z := (rgrpSlp sylow7Prog).getD sylow7Z 1 with hzdef
+  obtain ⟨z, hzdef⟩ : ∃ z, z = (rgrpSlp sylow7Prog).getD sylow7Z 1 := ⟨_, rfl⟩
+  rw [← hzdef] at hzM
   obtain ⟨hzo, hxz, hzx, -⟩ := sylowFusionCheck_sound (p := 7) (x := rep7B) (y := z) hx hzM
     orderOf_rep7B sylow7
   have hhM : rgrpMat (repOf b7B) = toMat (Native.wordMat nativeAB.1 nativeAB.2 b7B) :=

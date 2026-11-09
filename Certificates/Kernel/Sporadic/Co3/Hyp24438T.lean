@@ -10,8 +10,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Co3HT
-  "Certificates/Kernel/Sporadic/Co3/data/hyp24438_t.json.gz" 6950 6138644131927973994
+#kc_repo #kc_json CertificateChecks.KernelSpor.Co3HT
+  "Certificates/Kernel/Sporadic/Co3/data/hyp24438_t.json" 6950 6138644131927973994
   (LS : List Nat) (B : List CFSG.KC.CommBase.BaseRec) (PF : Nat) (ZF : Nat) (DF : Nat)
 
 namespace CertificateChecks.KernelSpor.Co3HT

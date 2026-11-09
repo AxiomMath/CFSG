@@ -24,7 +24,7 @@ import all TauCeti.GroupTheory.SpecificGroups.CFSG.Sporadic.Presentation
 import all TauCeti.GroupTheory.SpecificGroups.CFSG.Sporadic.Suzuki
 meta import CFSG.Sporadic.SuzOddCore.Text
 meta import Certificates.Data.CFSGNative.Bridge.SuzGPL
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.CosetTableCompactColumns
 public import CFSG.Certificates.Kernel.Spor.RawSound
@@ -41,7 +41,7 @@ public section
 #ks_chars CertificateChecks.KernelCosetJ.SuzTabST CFSG.Sporadic.Bridge.SuzGPL.Native.surjText
 #lc_words CertificateChecks.KernelCosetJ.SuzTabIT CFSG.Sporadic.Bridge.SuzGPL.Native.imgText
 #lc_words CertificateChecks.KernelCosetJ.SuzTabST CFSG.Sporadic.Bridge.SuzGPL.Native.surjText
-#kc_repo #kc_nat_items_gz CFSG.KD.CJSuzTab "Certificates/Kernel/CosetJ/data/consts.items.gz" 4910 18034802032098508815
+#kc_repo #kc_nat_items CFSG.KD.CJSuzTab "Certificates/Kernel/CosetJ/data/consts.items" 4910 18034802032098508815
   PB[2]
 
 namespace CertificateChecks.KernelCosetJ.SuzTab

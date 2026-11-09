@@ -72,8 +72,8 @@ end CertificateChecks.KernelSpor.Fi22R1
 
 #kmisc_packarrs CertificateChecks.KernelSpor.Fi22R1L CertificateChecks.KernelSpor.Fi22R1.lettersM 12
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Fi22R1D
-  "Certificates/Kernel/Sporadic/Fi22/data/hypr1.json.gz" 38451 10511349992612205010
+#kc_repo #kc_json CertificateChecks.KernelSpor.Fi22R1D
+  "Certificates/Kernel/Sporadic/Fi22/data/hypr1.json" 38451 10511349992612205010
   (B : List CFSG.KC.CommBase.BaseRec) (PF : Nat) (ZF : Nat) (DF : Nat)
 
 namespace CertificateChecks.KernelSpor.Fi22R1

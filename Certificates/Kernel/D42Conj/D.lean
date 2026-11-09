@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.D42Conj "Certificates/Kernel/D42Conj/data/d42cj.json.gz" 222
+#kc_repo #kc_json CFSG.KD.D42Conj "Certificates/Kernel/D42Conj/data/d42cj.json" 222
   2951769043897492164 (ix : List Nat)
 
 end

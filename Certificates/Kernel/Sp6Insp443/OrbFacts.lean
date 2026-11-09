@@ -70,14 +70,24 @@ theorem siftLL_spec : ∀ {C : List (List Nat)}, siftLL C = true →
     · exact siftL_spec h'.1
     · exact siftLL_spec h'.2 L hL
 
+theorem all_mm2 {α β : Type} {C : List (List α)} {g : α → β} {p : β → Bool}
+    (h : ∀ c ∈ C, ∀ b ∈ c, p (g b) = true) :
+    ((C.map (List.map g)).all fun c => c.all p) = true := by
+  rw [List.all_eq_true]
+  intro c' hc'
+  obtain ⟨c, hc, rfl⟩ := List.mem_map.1 hc'
+  rw [List.all_eq_true]
+  intro b' hb'
+  obtain ⟨b, hb, rfl⟩ := List.mem_map.1 hb'
+  exact h c hc b hb
+
 theorem cands_facts {C : List (List Nat)} (hC : ∀ c ∈ C, ∀ b ∈ c, PP 36 6 b)
     (hs : siftLL C = true) :
     candsOK 36 (C.map (List.map (tabP 36 6))) = true ∧
       ((C.map (List.map (tabP 36 6))).all fun c => c.all siftOK) = true := by
   unfold candsOK
-  simp only [List.all_map, List.all_eq_true, Function.comp_apply]
-  exact ⟨fun c hc b hb => tabOK_tabP (hC c hc b hb),
-    fun c hc b hb => siftOK_tabP (hC c hc b hb) (siftLL_spec hs c hc b hb)⟩
+  exact ⟨all_mm2 fun c hc b hb => tabOK_tabP (hC c hc b hb),
+    all_mm2 fun c hc b hb => siftOK_tabP (hC c hc b hb) (siftLL_spec hs c hc b hb)⟩
 
 theorem chkOrb_true :
     chkOrb () = true := by

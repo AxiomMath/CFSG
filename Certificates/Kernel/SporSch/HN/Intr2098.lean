@@ -21,14 +21,13 @@ open CFSG.Sporadic.HNSchreier.Native CFSG.ONSchreier.Native CFSG.Sporadic.He.Nat
 open CFSG.Sporadic.He CertificateChecks.KernelSporSch CertificateChecks.KernelSporSch.HNArrS
 open CFSG.KS.TW CFSG.KS Matrix
 
-theorem entK {K : ℕ} (hK : K < 137) : Canon5 (sc K) ∧
+theorem entK {K : ℕ} (hK : K < 104) : Canon5 (sc K) ∧
     (HNC.OP K = 0 → Canon5 (sc (HNC.L K)) → Canon5 (sc (HNC.R K)) →
       ∀ i < 133, vm5 (sc (HNC.R K)) (sc (HNC.L K) i) = sc K i) ∧
     (HNC.OP K = 1 → ∀ i < 133, sc (HNC.L K) i = sc K i) := by
   rcases (by omega : K < 36 ∨ (36 ≤ K ∧ K < 46) ∨ (46 ≤ K ∧ K < 56) ∨ (56 ≤ K ∧ K < 66) ∨
-      (66 ≤ K ∧ K < 76) ∨ (76 ≤ K ∧ K < 86) ∨ (86 ≤ K ∧ K < 96) ∨ (96 ≤ K ∧ K < 106) ∨
-      (106 ≤ K ∧ K < 116) ∨ (116 ≤ K ∧ K < 126) ∨ 126 ≤ K) with
-    h | h | h | h | h | h | h | h | h | h | h
+      (66 ≤ K ∧ K < 76) ∨ (76 ≤ K ∧ K < 86) ∨ (86 ≤ K ∧ K < 96) ∨ 96 ≤ K) with
+    h | h | h | h | h | h | h | h
   · exact F5Kron.krBlk_sound blk0 (by omega) (by omega)
   · exact F5Kron.krBlk_sound blk1 (by omega) (by omega)
   · exact F5Kron.krBlk_sound blk2 (by omega) (by omega)
@@ -37,20 +36,17 @@ theorem entK {K : ℕ} (hK : K < 137) : Canon5 (sc K) ∧
   · exact F5Kron.krBlk_sound blk5 (by omega) (by omega)
   · exact F5Kron.krBlk_sound blk6 (by omega) (by omega)
   · exact F5Kron.krBlk_sound blk7 (by omega) (by omega)
-  · exact F5Kron.krBlk_sound blk8 (by omega) (by omega)
-  · exact F5Kron.krBlk_sound blk9 (by omega) (by omega)
-  · exact F5Kron.krBlk_sound blk10 (by omega) (by omega)
 
-theorem canon (k : ℕ) (hk : k < 137) : Canon5 (sc k) := (entK hk).1
+theorem canon (k : ℕ) (hk : k < 104) : Canon5 (sc k) := (entK hk).1
 
-theorem mulC {K l r : ℕ} (hK : K < 137) (ho : HNC.OP K = 0) (hl : HNC.L K = l)
+theorem mulC {K l r : ℕ} (hK : K < 104) (ho : HNC.OP K = 0) (hl : HNC.L K = l)
     (hr : HNC.R K = r) : ∀ i < 133, vm5 (sc r) (sc l i) = sc K i := by
   subst hl hr
   have hs := CFSG.KC.Pack.allN_spec specLt K hK
   rw [CFSG.KC.Pack.band_iff, Nat.blt_eq, Nat.blt_eq] at hs
   exact (entK hK).2.1 ho (canon _ hs.1) (canon _ hs.2)
 
-theorem copyC {K l : ℕ} (hK : K < 137) (ho : HNC.OP K = 1) (hl : HNC.L K = l) :
+theorem copyC {K l : ℕ} (hK : K < 104) (ho : HNC.OP K = 1) (hl : HNC.L K = l) :
     ∀ i < 133, sc l i = sc K i := by
   subst hl
   exact (entK hK).2.2 ho
@@ -59,7 +55,7 @@ theorem rows_eq {X T : ℕ → ℕ} (h : allN 133 (fun i => Nat.beq (X i) (T i))
     rows5 X = rows5 T :=
   rows5_congr fun i hi => Nat.eq_of_beq_eq_true (allN_spec h i hi)
 
-theorem mul_eq {K l r : ℕ} (hl1 : l < 137) (hr1 : r < 137) (hK : K < 137) (ho : HNC.OP K = 0)
+theorem mul_eq {K l r : ℕ} (hl1 : l < 104) (hr1 : r < 104) (hK : K < 104) (ho : HNC.OP K = 0)
     (hl : HNC.L K = l) (hr : HNC.R K = r) :
     mulM 5 133 (rows5 (sc l)) (rows5 (sc r)) = rows5 (sc K) :=
   mulM5_sound (canon l hl1) (canon r hr1) (mulC hK ho hl hr)
@@ -85,35 +81,40 @@ theorem seed_sc {l : ℕ} (hl : l = 1 ∨ l = 2) :
   · rw [seedSel, ite_eq_right (by decide), ite_eq_left rfl, HNStrong.rowsB_eq, seedE,
       ite_eq_right (by decide), rows_eq eqB]
 
-@[expose] noncomputable def seedChainOK (w : List ℕ) (o : ℕ) : Bool :=
-  decide (1 ≤ w.length) && HNC.OP o == 1 && HNC.L o == seedE (w.headD 0) &&
+@[expose] noncomputable def seedChainOK (E : ℕ → ℕ) (w : List ℕ) (o : ℕ) : Bool :=
+  decide (1 ≤ w.length) && HNC.OP o == 1 && HNC.L o == E (w.headD 0) &&
     (List.range (w.length - 1)).all fun t => HNC.OP (o + t + 1) == 0 && HNC.L (o + t + 1) == o + t &&
-      HNC.R (o + t + 1) == seedE (w.getD (t + 1) 0)
+      HNC.R (o + t + 1) == E (w.getD (t + 1) 0)
 
-theorem chS_ok : chainOK HNC.OP HNC.L HNC.R letE 137 FAData.sWords[0]! chS = true := by quickRfl
-theorem chH0_ok : chainOK HNC.OP HNC.L HNC.R letE 137 IntrinsicData.wHWord[0]! (chH 0) = true := by
+theorem chS_ok : chainOK HNC.OP HNC.L HNC.R letE 104 FAData.sWords[0]! chS = true := by quickRfl
+theorem chH0_ok : chainOK HNC.OP HNC.L HNC.R letE 104 IntrinsicData.wHWord[0]! (chH 0) = true := by
   quickRfl
-theorem chH1_ok : chainOK HNC.OP HNC.L HNC.R letE 137 IntrinsicData.wHWord[1]! (chH 1) = true := by
+theorem chH1_ok : chainOK HNC.OP HNC.L HNC.R letE 104 IntrinsicData.wHWord[1]! (chH 1) = true := by
   quickRfl
-theorem chU0_ok : seedChainOK IntrinsicData.wRoot[0]! (chU 0) = true := by quickRfl
-theorem chU1_ok : seedChainOK IntrinsicData.wRoot[1]! (chU 1) = true := by quickRfl
+theorem chX_ok : seedChainOK seedE [1, 2] chXY = true := by quickRfl
+theorem chXY_ok : seedChainOK seedE [1, 2, 2] chXY = true := by quickRfl
+theorem chU0_ok : seedChainOK uSylE wRootS[0]! (chU 0) = true := by quickRfl
+theorem chU1_ok : seedChainOK uSylE wRootS[1]! (chU 1) = true := by quickRfl
 
 theorem letters_S : ∀ l ∈ FAData.sWords[0]!, l ≠ 0 ∧ l.natAbs ≤ 17 := by decide
 theorem letters_H : ∀ c < 2, ∀ l ∈ IntrinsicData.wHWord[c]!, l ≠ 0 ∧ l.natAbs ≤ 17 := by decide
 theorem letters_U : ∀ c < 2, ∀ l ∈ IntrinsicData.wRoot[c]!, l = 1 ∨ l = 2 := by decide
+theorem letters_RS : ∀ c < 2, ∀ l ∈ wRootS[c]!, l = 1 ∨ l = 2 ∨ l = 3 ∨ l = 4 := by decide
+
+theorem wRootS_eq : ∀ c < 2, wRootS[c]!.flatMap uSylW = IntrinsicData.wRoot[c]! := by decide
 
 theorem lens : FAData.sWords[0]!.length = 10 ∧ IntrinsicData.wHWord[0]!.length = 13 ∧
-    IntrinsicData.wHWord[1]!.length = 12 ∧ IntrinsicData.wRoot[0]!.length = 41 ∧
-    IntrinsicData.wRoot[1]!.length = 21 := by decide
+    IntrinsicData.wHWord[1]!.length = 12 ∧ wRootS[0]!.length = 17 ∧
+    wRootS[1]!.length = 9 := by decide
 
 theorem strong_chain {w : List ℤ} {o : ℕ} (hw : ∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 17)
-    (h : chainOK HNC.OP HNC.L HNC.R letE 137 w o = true) :
+    (h : chainOK HNC.OP HNC.L HNC.R letE 104 w o = true) :
     mword HNStrong.SA HNStrong.SIA w = rows5 (sc (o + w.length - 1)) := by
   simp only [CFSG.KS.SporSch.chainOK, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq,
     List.all_eq_true, List.mem_range] at h
   obtain ⟨⟨⟨⟨⟨h1, hlen⟩, hl⟩, ho⟩, hL⟩, hs⟩ := h
   have hlt : ∀ t < w.length, mletter HNStrong.SA HNStrong.SIA (w.getD t 0) =
-      rows5 (sc (letE (w.getD t 0))) ∧ letE (w.getD t 0) < 137 := fun t ht => by
+      rows5 (sc (letE (w.getD t 0))) ∧ letE (w.getD t 0) < 104 := fun t ht => by
     have hm : w.getD t 0 ∈ w := by
       rw [List.getD_eq_getElem _ _ ht]
       exact List.getElem_mem ht
@@ -144,16 +145,15 @@ theorem strong_chain {w : List ℤ} {o : ℕ} (hw : ∀ l ∈ w, l ≠ 0 ∧ l.n
   rwa [show w.length - 1 - (w.length - 1) = 0 by omega, List.drop_zero,
     show o + (w.length - 1) = o + w.length - 1 by omega] at this
 
-theorem seed_chain {w : List ℕ} {o : ℕ} (hw : ∀ l ∈ w, l = 1 ∨ l = 2) (hlt : o + w.length ≤ 137)
-    (h : seedChainOK w o = true) :
-    wordM (seedSel rowsA rowsB) w = rows5 (sc (o + w.length - 1)) := by
+theorem seed_chain {Ms : ℕ → Array (Array ℕ)} {E : ℕ → ℕ} {w : List ℕ} {o : ℕ}
+    (hL : ∀ l ∈ w, Ms l = rows5 (sc (E l))) (hcan : ∀ l ∈ w, E l < 104)
+    (hlt : o + w.length ≤ 104) (h : seedChainOK E w o = true) :
+    wordM Ms w = rows5 (sc (o + w.length - 1)) := by
   simp only [seedChainOK, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true,
     List.mem_range] at h
   obtain ⟨⟨⟨h1, ho⟩, hl⟩, hs⟩ := h
-  have hcan : ∀ l ∈ w, seedE l < 137 := fun l hl' => by
-    rcases hw l hl' with rfl | rfl <;> decide
-  refine wordM5_chain (LT := fun l => sc (seedE l)) (Q := fun t => sc (o + t - 1)) h1
-    (fun l hl' => seed_sc (hw l hl')) (fun l hl' => canon _ (hcan l hl'))
+  refine wordM5_chain (LT := fun l => sc (E l)) (Q := fun t => sc (o + t - 1)) h1
+    hL (fun l hl' => canon _ (hcan l hl'))
     (fun t ht1 ht => canon _ (by omega)) (fun i hi => ?_) (fun t ht1 ht i hi => ?_)
   · rw [show o + 1 - 1 = o by omega]
     exact (copyC (by omega) ho hl i hi).symm
@@ -163,11 +163,61 @@ theorem seed_chain {w : List ℕ} {o : ℕ} (hw : ∀ l ∈ w, l = 1 ∨ l = 2) 
     rw [show o + (t + 1) - 1 = o + t by omega, show o + t - 1 = o + (t - 1) by omega]
     exact mulC (by omega) a b c i hi
 
+theorem seedE_lt (l : ℕ) : seedE l < 104 := by
+  unfold seedE
+  split <;> omega
+
+theorem uSylE_lt (l : ℕ) : uSylE l < 104 := by
+  unfold uSylE
+  split_ifs <;> omega
+
+theorem seed_word {w : List ℕ} {o : ℕ} (hw : ∀ l ∈ w, l = 1 ∨ l = 2) (hlt : o + w.length ≤ 104)
+    (h : seedChainOK seedE w o = true) :
+    wordM (seedSel rowsA rowsB) w = rows5 (sc (o + w.length - 1)) :=
+  seed_chain (fun l hl => seed_sc (hw l hl)) (fun l _ => seedE_lt l) hlt h
+
+theorem uSyl_sc {l : ℕ} (hl : l = 1 ∨ l = 2 ∨ l = 3 ∨ l = 4) :
+    wordM (seedSel rowsA rowsB) (uSylW l) = rows5 (sc (uSylE l)) := by
+  rcases hl with rfl | rfl | rfl | rfl
+  · have e1 : uSylW 1 = [1] := by decide
+    have e2 : uSylE 1 = seedE 1 := by decide
+    rw [e1, e2, ← mulM5_idL (canon _ (seedE_lt 1)), ← seed_sc (Or.inl rfl)]
+    rfl
+  · have e1 : uSylW 2 = [2] := by decide
+    have e2 : uSylE 2 = seedE 2 := by decide
+    rw [e1, e2, ← mulM5_idL (canon _ (seedE_lt 2)), ← seed_sc (Or.inr rfl)]
+    rfl
+  · have e1 : uSylW 3 = [1, 2] := by decide
+    have e2 : uSylE 3 = chXY + [1, 2].length - 1 := by decide
+    rw [e1, e2, seed_word (by decide) (by decide) chX_ok]
+  · have e1 : uSylW 4 = [1, 2, 2] := by decide
+    have e2 : uSylE 4 = chXY + [1, 2, 2].length - 1 := by decide
+    rw [e1, e2, seed_word (by decide) (by decide) chXY_ok]
+
+theorem wordM_flatMap (Ms : ℕ → Array (Array ℕ)) (g : ℕ → List ℕ) (v : List ℕ) :
+    toMat 5 133 (wordM Ms (v.flatMap g)) = toMat 5 133 (wordM (fun l => wordM Ms (g l)) v) := by
+  induction v with
+  | nil => simp only [List.flatMap_nil, toMat_wordM, List.map_nil]
+  | cons l v ih =>
+    simp only [List.flatMap_cons, toMat_wordM, List.map_append, List.prod_append, List.map_cons,
+      List.prod_cons] at ih ⊢
+    rw [ih]
+
 noncomputable abbrev s1J : JH := wJ sL FAData.sWords[0]!
 
 noncomputable abbrev hcJ (c : ℕ) : JH := wJ sL IntrinsicData.wHWord[c]!
 
 noncomputable abbrev ucJ (c : ℕ) : JH := seedJ IntrinsicData.wRoot[c]!
+
+theorem root_mat {c : ℕ} (hc : c < 2) :
+    matJ (ucJ c) = toMat 5 133 (rows5 (sc (chU c + wRootS[c]!.length - 1))) := by
+  have hlt : chU c + wRootS[c]!.length ≤ 104 := by interval_cases c <;> decide
+  have hok : seedChainOK uSylE wRootS[c]! (chU c) = true := by
+    interval_cases c
+    · exact chU0_ok
+    · exact chU1_ok
+  rw [seedJ_mat _ (letters_U c hc), ← wRootS_eq c hc, wordM_flatMap,
+    seed_chain (fun l hl => uSyl_sc (letters_RS c hc l hl)) (fun l _ => uSylE_lt l) hlt hok]
 
 theorem mat_strongWord {w : List ℤ}
     (hw : ∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 17) :
@@ -182,18 +232,16 @@ theorem conj_mat {c : ℕ} (hc : c < 2) :
   obtain ⟨p0, p1, p2, p3, p4, -⟩ := pos_eq
   obtain ⟨a0, a1, a2, b0, b1, b2, c0, c1, c2, d0, d1, d2⟩ := prod_spec
   rw [matJ_mul, matJ_mul, mat_strongWord letters_S, mat_strongWord (letters_H c hc),
-    seedJ_mat _ (letters_U c hc), strong_chain letters_S chS_ok, ← toMat_mulM, ← toMat_mulM, l1, p0]
+    root_mat hc, strong_chain letters_S chS_ok, ← toMat_mulM, ← toMat_mulM, l1, p0]
   interval_cases c
-  · rw [strong_chain (letters_H 0 (by omega)) chH0_ok,
-      seed_chain (letters_U 0 (by omega)) (by rw [l4, p3]; decide) chU0_ok, l2, l4, p1, p3]
-    change toMat 5 133 (mulM 5 133 (rows5 (sc 45)) (rows5 (sc 111))) =
-      toMat 5 133 (mulM 5 133 (rows5 (sc 111)) (rows5 (sc 58)))
+  · rw [strong_chain (letters_H 0 (by omega)) chH0_ok, l2, l4, p1, p3]
+    change toMat 5 133 (mulM 5 133 (rows5 (sc 48)) (rows5 (sc 90))) =
+      toMat 5 133 (mulM 5 133 (rows5 (sc 90)) (rows5 (sc 61)))
     rw [mul_eq (by decide) (by decide) (by decide) a0 a1 a2,
       mul_eq (by decide) (by decide) (by decide) b0 b1 b2, rows_eq eqXY0]
-  · rw [strong_chain (letters_H 1 (by omega)) chH1_ok,
-      seed_chain (letters_U 1 (by omega)) (by rw [l5, p4]; decide) chU1_ok, l3, l5, p2, p4]
-    change toMat 5 133 (mulM 5 133 (rows5 (sc 45)) (rows5 (sc 132))) =
-      toMat 5 133 (mulM 5 133 (rows5 (sc 132)) (rows5 (sc 70)))
+  · rw [strong_chain (letters_H 1 (by omega)) chH1_ok, l3, l5, p2, p4]
+    change toMat 5 133 (mulM 5 133 (rows5 (sc 48)) (rows5 (sc 99))) =
+      toMat 5 133 (mulM 5 133 (rows5 (sc 99)) (rows5 (sc 73)))
     rw [mul_eq (by decide) (by decide) (by decide) c0 c1 c2,
       mul_eq (by decide) (by decide) (by decide) d0 d1 d2, rows_eq eqXY1]
 

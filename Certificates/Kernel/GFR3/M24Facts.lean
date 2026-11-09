@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.GFR3.M24
 public import CFSG.Certificates.Kernel.GFR3KSound
 public import CFSG.Certificates.Kernel.Misc.ArrBind
+public import CFSG.Certificates.Kernel.Misc.ChainTailOrbSound
 
 public section
 
@@ -65,12 +66,17 @@ theorem m24_ok : m24ThreeCheck () = true := by
   have hS1 : m24ThreeArrs[1]! = unpack 24 5 (C.S 1) := binds.2.2.2.2.1 1 (by norm_num)
   obtain ⟨he1, he2, he3⟩ := enumC
   have hTp : ∀ i < E.N, permB 24 5 (E.T i) = true := allN_spec E.perm
-  have hcent := centOKP_of (p := 3) szOK' binds perm C.hl x0.1 rels bindG comm
-    (fun j hj => siftA_of binds perm C.hl (siftG j (by rw [hng] at hj; exact hj))) he1 he2 he3 hTp
-    (by norm_num) (by rw [Nat.eq_of_beq_eq_true rc]; exact tail)
+  have hcent := centOKP_of_orbS (p := 3) szOK' binds perm C.hl (k := 2)
+    (by simp [m24ThreeArrs]) (by decide +kernel) (by norm_num) hchain x0.1 rels bindG comm
+    (fun j hj => siftA_of binds perm C.hl (siftG j (by rw [hng] at hj; exact hj)))
+    (mem_base_lt binds C.hl) he1 he2 he3 hTp (by norm_num) (NR := 1) (RB := RB) (RI := RI)
+    (EK := EK) (fun j hj => by
+      obtain rfl : j = 0 := by omega
+      exact rep0) (by rw [Nat.eq_of_beq_eq_true rc]; exact allN_spec kOrb)
   rw [hN] at hcent
   have hcls := gfr3ClassOK_of szOK' he2 he3 hTp (Nc := 1080) (e := 3) (f := 1)
-    (fun i hi => allN_spec cls i (by rw [← hN]; exact hi))
+    (fun i hi => (gfr3AtPK_eq (by norm_num) (by norm_num) _ _ _ _ _ _).symm.trans
+      (allN_spec cls i (by rw [← hN]; exact hi)))
   have horb := rawOrbitSizesK_sound binds perm C.hl
   rw [orb] at horb
   unfold m24ThreeCheck

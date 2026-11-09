@@ -126,15 +126,15 @@ theorem mg_bytes : fi22MergeBytes = (String.ofList MGC).toUTF8 := by
 
 theorem G_eq {k : Nat} (hk : k < 3510) :
     CFSG.Monster.B.Max2.Native.hexAt fi22StabOrbitsBytes (3 * k) 3 = G k := by
-  have h := hexAtK_sound bindSO 0 (by norm_num) k hk
-  rw [Nat.mul_zero, Nat.zero_add, Nat.zero_add] at h
+  have h := hexAtK_sound bindSO (k / 54) (by omega) (k % 54) (Nat.mod_lt k (by norm_num))
+  rw [Nat.zero_add, Nat.div_add_mod] at h
   rw [so_bytes, hexAt_eq, h]
   rfl
 
 theorem D_eq {i : Nat} (hi : i < 49112) :
     CFSG.Monster.B.Max2.Native.hexAt fi22MergeBytes i 1 = D i := by
-  have h := hexAtK_sound bindMG 0 (by norm_num) i hi
-  rw [Nat.mul_zero, Nat.zero_add, Nat.zero_add, Nat.one_mul] at h
+  have h := hexAtK_sound bindMG (i / 56) (by omega) (i % 56) (Nat.mod_lt i (by norm_num))
+  rw [Nat.zero_add, Nat.one_mul, Nat.div_add_mod] at h
   rw [mg_bytes, hexAt_eq, h]
   rfl
 

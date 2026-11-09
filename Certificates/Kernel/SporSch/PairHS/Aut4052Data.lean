@@ -47,7 +47,7 @@ end CertificateChecks.KernelSporSch
 
 #ks_chars CertificateChecks.KernelSporSch.PS0T CFSG.QuasithinUnique.Ch1.SporAutHS.s0Hex
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSporSch.PA4 "Certificates/Kernel/SporSch/PairHS/data/aut4052.json.gz" 188 1013053207000899405
+#kc_repo #kc_json CertificateChecks.KernelSporSch.PA4 "Certificates/Kernel/SporSch/PairHS/data/aut4052.json" 188 1013053207000899405
   (nfg : List Nat) (d : Nat) (di : List Nat) (sw : List (List Nat)) (V : List Nat)
 
 end

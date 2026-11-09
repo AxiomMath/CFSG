@@ -112,7 +112,7 @@ theorem chainO1 : ChainK 22 5 (m22OutCentWords1.map (evalCodes [m22gA, m22gB]))
     m22OutCentChainWords1 (#v[0, 1, 2] : Vector (Fin 22) 3) M22OC1.S M22OC1.SI M22OC1.LR
     M22OC1.TR M22OC1.TRI 8 M22OC1.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M22OC1.head,
-    M22OC1.hl, by norm_num, M22OC1.hs⟩
+    M22OC1.hl, by norm_num, .inl M22OC1.hs⟩
   have hj3 : j < 3 := by simpa [m22OutCentWords1] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensO1a j hj3) (allN_spec gensO1b j hj3)
@@ -121,19 +121,74 @@ theorem chainO2 : ChainK 22 5 (m22OutCentWords2.map (evalCodes [m22gA, m22gB]))
     m22OutCentChainWords2 (#v[0, 1, 2] : Vector (Fin 22) 3) M22OC2.S M22OC2.SI M22OC2.LR
     M22OC2.TR M22OC2.TRI 8 M22OC2.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M22OC2.head,
-    M22OC2.hl, by norm_num, M22OC2.hs⟩
+    M22OC2.hl, by norm_num, .inl M22OC2.hs⟩
   have hj3 : j < 3 := by simpa [m22OutCentWords2] using hj
   rw [getD_map_eval]
   exact img_word (allN_spec gensO2a j hj3) (allN_spec gensO2b j hj3)
+
+theorem dsq : m22Delta * m22Delta = 1 := by decide
+
+theorem dnorm : ∀ c ∈ m22Certificate.originalSubgroup,
+    m22Delta⁻¹ * c * m22Delta ∈ m22Certificate.originalSubgroup := by
+  have hV := chainK_valid chainQ (by decide) (by decide)
+  have hDi : m22Delta⁻¹ = m22Delta := inv_eq_of_mul_eq_one_right dsq
+  have hG : m22Certificate.originalSubgroup = Subgroup.closure {m22gA, m22gB} := by
+    rw [m22Certificate_originalSubgroup, m22_eq]
+  have h := CFSG.Sporadic.Schreier.conj_mem_of_closure hG (u := m22Delta) (fun s hs => by
+    rcases hs with rfl | rfl
+    · exact (m22Certificate.sift_eq_true_iff_mem_original hV _).1
+        (chainK_sift (by decide) (by decide) chainQ imgCA cCA siftCA)
+    · exact (m22Certificate.sift_eq_true_iff_mem_original hV _).1
+        (chainK_sift (by decide) (by decide) chainQ imgCB cCB siftCB))
+  intro c hc
+  have h' := h c hc
+  rw [hDi] at h' ⊢
+  exact h'
+
+theorem hXO : XO.length = 10 := rfl
+
+theorem oCls : (∀ mo, 0 < mo → (cosetOrderTables m22Certificate m22Delta mo).length =
+        CFSG.KS.SporSch.MBT.sumOrdK 22 5 (mask 5) (ordK M22Q.LR 5) XO CO mo XO.length) ∧
+      ((∀ i < XO.length, CO.getD i 0 < ordK M22Q.LR 5) →
+        ∀ h ∈ m22Certificate.originalSubgroup, ∃ c ∈ m22Certificate.originalSubgroup,
+          c * (m22Delta * h) ≠ m22Delta * h * c) :=
+  cosetClassEq_sound' chainQ (by decide) (by decide) (by norm_num) (by norm_num)
+  (prep_of_imageList imgD) dnorm (XL := XO) (CL := CO) rfl
+  (fun i hi => allN_spec oRep i (by rw [hXO] at hi; exact hi))
+  (fun i hi j hj => allN_spec (allN_spec oDist i (by rw [hXO] at hi; exact hi)) j hj)
+  (by rw [hXO]; exact Nat.eq_of_beq_eq_true oSum)
 
 theorem delta : m22Delta * m22Delta = 1 ∧ m22Certificate.sift (m22Delta * m22gA * m22Delta⁻¹) 0 = true ∧
       m22Certificate.sift (m22Delta * m22gB * m22Delta⁻¹) 0 = true ∧
       countProducts 22 (commAll 22 [toTable m22gA, toTable m22gB]) (levelTables m22Certificate)
         (toTable m22Delta) = 0 := by
-  refine ⟨by decide, chainK_sift (by decide) (by decide) chainQ imgCA cCA siftCA,
+  refine ⟨dsq, chainK_sift (by decide) (by decide) chainQ imgCA cCA siftCA,
     chainK_sift (by decide) (by decide) chainQ imgCB cCB siftCB, ?_⟩
-  exact (chainK_commCount (by decide) (by decide) chainQ imgD cD imgA cA imgB cB (by norm_num)
-    M22OZ.hc).trans (by decide)
+  have hout := oCls.2 (fun i hi => by
+    have h := allN_spec oLt i (by rw [hXO] at hi; exact hi)
+    simpa only [Nat.blt_eq] using h)
+  have hn32 : (22 : ℕ) < 2 ^ 32 := by norm_num
+  have hV := chainK_valid chainQ (by decide) (by decide)
+  have hspec := countProducts_spec
+    (P := fun y : Equiv.Perm (Fin 22) => y * m22gA = m22gA * y ∧ y * m22gB = m22gB * y)
+    (f := commAll 22 [toTable m22gA, toTable m22gB]) (fun T y hT => by
+      simp only [commAll, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true]
+      rw [commT_iff hT (rep_toTable hn32 m22gA), commT_iff hT (rep_toTable hn32 m22gB)])
+    (forall₂_levelTables hn32 m22Certificate) (rep_toTable hn32 m22Delta)
+  rw [hspec, List.countP_eq_zero]
+  intro y hy
+  obtain ⟨g, hg, rfl⟩ := List.mem_map.1 hy
+  simp only [decide_eq_true_eq]
+  rintro ⟨hA, hB⟩
+  obtain ⟨c, hc, hne⟩ := hout g ((mem_enumeration_iff _ hV g).1 hg)
+  apply hne
+  have hle : m22Certificate.originalSubgroup ≤
+      Subgroup.centralizer ({m22Delta * g} : Set (Equiv.Perm (Fin 22))) := by
+    rw [m22Certificate_originalSubgroup, m22_eq, Subgroup.closure_le]
+    rintro s (rfl | rfl)
+    · exact Subgroup.mem_centralizer_singleton_iff.2 hA.symm
+    · exact Subgroup.mem_centralizer_singleton_iff.2 hB.symm
+  exact Subgroup.mem_centralizer_singleton_iff.1 (hle hc)
 
 theorem hRO : m22OutReps.length = M22OCL.length ∧ ∀ j < M22OCL.length,
     imageList (m22OutReps.getD j 1) = (unpack 22 5 (M22OCL.getD j clsD0).R).toList := by
@@ -143,9 +198,9 @@ theorem hRO : m22OutReps.length = M22OCL.length ∧ ∀ j < M22OCL.length,
   · exact imgRO0
   · exact imgRO1
 
-theorem cosetOX : (cosetOrderTables m22Certificate m22Delta 2).length =
-    (M22OX.CS.map List.sum).sum :=
-  chainK_cosetCount2 (by decide) (by decide) chainQ imgD cD (by norm_num) (by norm_num) M22OX.hc
+theorem cosetOX : (cosetOrderTables m22Certificate m22Delta 2).length = 1716 := by
+  rw [oCls.1 2 (by norm_num), hXO]
+  exact Nat.eq_of_beq_eq_true oTot2
 
 theorem ocover : repsOK 22 (pairTables m22gA m22gB) (pairTables m22gA⁻¹ m22gB⁻¹)
         (cosetOrderTables m22Certificate m22Delta 2) (m22OutReps.map toTable) 2000 = true ∧

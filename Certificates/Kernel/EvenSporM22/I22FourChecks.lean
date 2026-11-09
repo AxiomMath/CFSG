@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.Kernel.EvenSporM22.I22FourDefs
+public import CFSG.Certificates.Kernel.Spor.PK.Perm.CompC
 public import Certificates.Kernel.Sporadic.RawGen
 public import Certificates.Kernel.LocalQT.Cov.C4101
 public import Certificates.Kernel.EvenSporM22.I22FourWit
@@ -16,6 +17,7 @@ meta import CFSG.GroupTheory.LocalCores.Fitting
 meta import CFSG.Open.Defs
 
 set_option maxRecDepth 400000
+set_option Elab.async false
 
 namespace CFSG.KD.I22F
 
@@ -65,6 +67,10 @@ namespace CFSG.KD.I22F
 
 open CFSG.KC.Enum CFSG.KC.DecText CFSG.KC.LQT.Syl CFSG.KC.I22F CFSG.KD.LQT.C4101
 
+theorem pg15C (P i : Nat) : pg 15 32767 P i = rdC 15 (CFSG.KS.mask 15) P i := by
+  rw [CFSG.KS.PK.rdC_eq]
+  rfl
+
 theorem kDigA : digitsOK CA.chars = true := by quickRfl
 
 theorem kDigB : digitsOK CB.chars = true := by quickRfl
@@ -73,40 +79,68 @@ theorem kTabA : chkL A (natsK CA.chars) 0 = true := by quickRfl
 
 theorem kTabB : chkL B (natsK CB.chars) 0 = true := by quickRfl
 
-theorem kPermA : permOK 32256 15 32767 483840 A AI = true := by quickRfl
+theorem kPermA : permOK 32256 15 32767 483840 A AI = true := by
+  simp only [permOK, pg15C]
+  quickRfl
 
-theorem kPermB : permOK 32256 15 32767 483840 B BI = true := by quickRfl
+theorem kPermB : permOK 32256 15 32767 483840 B BI = true := by
+  simp only [permOK, pg15C]
+  quickRfl
 
-theorem kR0 : fixW A AI B BI (getK relK 0 []) = true := by quickRfl
+theorem kR0 : fixW A AI B BI (getK relK 0 []) = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
-theorem kR1 : fixW A AI B BI (getK relK 1 []) = true := by quickRfl
+theorem kR1 : fixW A AI B BI (getK relK 1 []) = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
-theorem kR2 : tabW A AI B BI (getK relK 2 []) Z = true := by quickRfl
+theorem kR2 : tabW A AI B BI (getK relK 2 []) Z = true := by
+  simp only [tabW, wimg, pg15C]
+  quickRfl
 
-theorem kR3 : fixW A AI B BI (getK relK 3 []) = true := by quickRfl
+theorem kR3 : fixW A AI B BI (getK relK 3 []) = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
-theorem kR4 : fixW A AI B BI (getK relK 4 []) = true := by quickRfl
+theorem kR4 : fixW A AI B BI (getK relK 4 []) = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
-theorem kR5 : tabW A AI B BI (getK relK 5 []) Z = true := by quickRfl
+theorem kR5 : tabW A AI B BI (getK relK 5 []) Z = true := by
+  simp only [tabW, wimg, pg15C]
+  quickRfl
 
-theorem kZA : commW A Z = true := by quickRfl
+theorem kZA : commW A Z = true := by
+  simp only [commW, eq22, pg15C]
+  quickRfl
 
-theorem kZB : commW B Z = true := by quickRfl
+theorem kZB : commW B Z = true := by
+  simp only [commW, eq22, pg15C]
+  quickRfl
 
-theorem kCwA : fixW A AI B BI cwA = true := by quickRfl
+theorem kCwA : fixW A AI B BI cwA = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
-theorem kCwB : fixW A AI B BI cwB = true := by quickRfl
+theorem kCwB : fixW A AI B BI cwB = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
 theorem kWits : witsK A AI B BI sAK sBK CT.chars WL = true := by quickRfl
 
 theorem kCnt : cntK 228952723507329932679484465855724 81506110577382089737470578414133 CT.chars WL =
     true := by quickRfl
 
-theorem negR2 : (fixW A AI B BI (getK relK 2 [])).not = true := by quickRfl
+theorem negR2 : (fixW A AI B BI (getK relK 2 [])).not = true := by
+  simp only [fixW, wimg, pg15C]
+  quickRfl
 
 theorem negTabA : (chkL A (natsK CB.chars) 0).not = true := by quickRfl
 
-theorem negPerm : (permOK 32256 15 32767 483840 A BI).not = true := by quickRfl
+theorem negPerm : (permOK 32256 15 32767 483840 A BI).not = true := by
+  simp only [permOK, pg15C]
+  quickRfl
 
 theorem negWit : (witsK A AI B BI sAK sBK CT.chars [(2, (2, 0))]).not = true := by quickRfl
 

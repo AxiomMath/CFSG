@@ -13,12 +13,14 @@ open CFSG.KC CFSG.KC.MonsterConv.Perm CFSG.KC.Loop
 @[expose] noncomputable def thOK (TH : Nat) : Bool :=
   Nat.rec (motive := fun _ => Bool) true (fun a ih => andB (Nat.beq (f12 TH a) (thetaT a)) ih) (nat_lit 4096)
 
+@[expose] noncomputable def popc8T (a : Nat) : Bool := Nat.beq (popc24 (wordT a)) (nat_lit 8)
+
 @[expose] noncomputable def octOK (OCT : Nat) : Bool :=
   Prod.rec (motive := fun _ => Bool) (fun ok n => andB ok (Nat.beq n (nat_lit 759)))
     (Nat.rec (motive := fun _ => Bool × Nat) (true, nat_lit 0)
       (fun a ih => Prod.rec (motive := fun _ => Bool × Nat) (fun ok n =>
-        Bool.rec (motive := fun _ => Bool × Nat) (ok, n) (andB ok (Nat.beq (f12 OCT n) a), Nat.add n (nat_lit 1))
-          (Nat.beq (popc24 (wordT a)) (nat_lit 8))) ih) (nat_lit 4096))
+        cond (popc8T a) (andB ok (Nat.beq (f12 OCT n) a), Nat.add n (nat_lit 1))
+          (ok, n)) ih) (nat_lit 4096))
 
 @[expose] noncomputable def du1OK (DU1 : Nat) : Bool :=
   Nat.rec (motive := fun _ => Bool) true

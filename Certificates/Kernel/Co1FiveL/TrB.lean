@@ -15,7 +15,8 @@ namespace CertificateChecks.KernelCo1FiveL
 open CFSG.KS.SporSch.M24
 
 theorem kHT1 : bAnd(Nat.beq HT1.N (nat_lit 1500),
-    gtPinK (HG 1) 6 100000 HT1.N HT1.P HT1.PAR HT1.LAB HT1.W HT1.S) = true := by quickRfl
+    bfsK (gtStepK (HG 1)) HT1.P HT1.PAR HT1.LAB HT1.W HT1.S 6 100000 HT1.N idM) = true := by
+  quickRfl
 
 end CertificateChecks.KernelCo1FiveL
 

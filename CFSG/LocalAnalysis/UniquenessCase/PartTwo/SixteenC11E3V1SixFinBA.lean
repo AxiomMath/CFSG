@@ -21,10 +21,16 @@ theorem s1611e3_sixE6Nat_lt (x : SixE6) : s1611e3_sixE6Nat x < 64 := by
 theorem s1611e3_sixE6Nat_injective : Function.Injective s1611e3_sixE6Nat := by
   decide +kernel
 
+theorem s1611e3_sixBit_sum : ∀ (a : Fin 6 → ZMod 2) (k : Fin 6),
+    ((∑ j : Fin 6, (a j).val * 2 ^ (j : ℕ)) >>> (k : ℕ)) &&& 1 = (a k).val := by
+  decide +kernel
+
 theorem s1611e3_sixE6Nat_coreAct (σ : Perm (Fin 6)) (x : SixE6) :
     s1611e3_sixE6Nat (coreAct 6 σ x) = s1611e3_sixBitAct σ (s1611e3_sixE6Nat x) := by
-  revert σ x
-  decide +kernel
+  unfold s1611e3_sixE6Nat s1611e3_sixBitAct
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [s1611e3_sixBit_sum (Multiplicative.toAdd (x : PermMod 6)) (σ⁻¹ i)]
+  rfl
 
 theorem s1611e3_sixE6Nat_add (x y : SixE6) :
     s1611e3_sixE6Nat (x * y) = s1611e3_sixE6Nat x ^^^ s1611e3_sixE6Nat y := by

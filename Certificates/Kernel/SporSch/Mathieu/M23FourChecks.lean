@@ -40,17 +40,28 @@ theorem hs : slK M23F.cnt (hsortPtK 23 5 (mask 5) M23F.cnt M23F.T M23F.HS M23F.H
 @[expose] noncomputable def blk (lo : Nat) : Bool :=
   allBlk lo (fourAt 23 5 M23F.cnt M23F.T (M23CK.getD 0 clsD0).R (2 ^ 30 * 3 ^ 30)) 448
 
-theorem b0 : blk 0 = true := by quickRfl
+@[expose] noncomputable def commCntF (n w cnt : Nat) (T : Nat → Nat) (x : Nat) : Nat :=
+  (List.range cnt).countP fun k => eq22 n w (mask w) (T k) x x (T k)
 
-theorem b1 : blk 448 = true := by quickRfl
+@[expose] noncomputable def fourAtF (n w cnt : Nat) (T : Nat → Nat) (A bound j : Nat) : Bool :=
+  strictB (T j) fun x =>
+    !Nat.beq (pcomp n w (mask w) x x) (pidn n w) || Nat.beq x (pidn n w) || Nat.beq x A ||
+      Nat.beq (bound % commCntF n w cnt T x) 0
 
-theorem b2 : blk 896 = true := by quickRfl
+@[expose] noncomputable def blkF (lo : Nat) : Bool :=
+  allBlk lo (fourAtF 23 5 M23F.cnt M23F.T (M23CK.getD 0 clsD0).R (2 ^ 30 * 3 ^ 30)) 448
 
-theorem b3 : blk 1344 = true := by quickRfl
+theorem f0 : blkF 0 = true := by quickRfl
 
-theorem b4 : blk 1792 = true := by quickRfl
+theorem f1 : blkF 448 = true := by quickRfl
 
-theorem b5 : blk 2240 = true := by quickRfl
+theorem f2 : blkF 896 = true := by quickRfl
+
+theorem f3 : blkF 1344 = true := by quickRfl
+
+theorem f4 : blkF 1792 = true := by quickRfl
+
+theorem f5 : blkF 2240 = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.M23FourK
 

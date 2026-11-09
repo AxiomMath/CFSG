@@ -11,8 +11,8 @@ public section
 
 namespace CFSG.KAct.XCar3
 
-#kc_repo #kc_json_gz CFSG.KAct.XCar3
-  "Certificates/Kernel/Misc/Coset/XCar3A/data/Data.json.gz" 442 2560641818538432258
+#kc_repo #kc_json CFSG.KAct.XCar3
+  "Certificates/Kernel/Misc/Coset/XCar3A/data/Data.json" 442 2560641818538432258
   (rels : List (List Nat))
 
 end CFSG.KAct.XCar3

@@ -21,12 +21,27 @@ theorem eTM_mul_self : ∀ i j : Fin 5, i ≠ j → eTM i j * eTM i j = 1 := by 
 theorem coe_eT (i j : Fin 5) (h : i ≠ j) :
     ((eT i j h : G5) : Matrix (Fin 5) (Fin 5) (ZMod 2)) = eTM i j := rfl
 
-set_option maxRecDepth 100000 in
+theorem upMat_step (c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ : ZMod 2) :
+    upMat 0 0 0 0 0 0 0 0 0 c₉ = eTMc 3 4 c₉ ∧
+    upMat 0 0 0 0 0 0 0 0 0 c₉ * eTMc 2 4 c₈ = upMat 0 0 0 0 0 0 0 0 c₈ c₉ ∧
+    upMat 0 0 0 0 0 0 0 0 c₈ c₉ * eTMc 2 3 c₇ = upMat 0 0 0 0 0 0 0 c₇ c₈ c₉ ∧
+    upMat 0 0 0 0 0 0 0 c₇ c₈ c₉ * eTMc 1 4 c₆ = upMat 0 0 0 0 0 0 c₆ c₇ c₈ c₉ ∧
+    upMat 0 0 0 0 0 0 c₆ c₇ c₈ c₉ * eTMc 1 3 c₅ = upMat 0 0 0 0 0 c₅ c₆ c₇ c₈ c₉ ∧
+    upMat 0 0 0 0 0 c₅ c₆ c₇ c₈ c₉ * eTMc 1 2 c₄ = upMat 0 0 0 0 c₄ c₅ c₆ c₇ c₈ c₉ ∧
+    upMat 0 0 0 0 c₄ c₅ c₆ c₇ c₈ c₉ * eTMc 0 4 c₃ = upMat 0 0 0 c₃ c₄ c₅ c₆ c₇ c₈ c₉ ∧
+    upMat 0 0 0 c₃ c₄ c₅ c₆ c₇ c₈ c₉ * eTMc 0 3 c₂ = upMat 0 0 c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ ∧
+    upMat 0 0 c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ * eTMc 0 2 c₁ = upMat 0 c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ ∧
+    upMat 0 c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ * eTMc 0 1 c₀ = upMat c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> ext a b <;> fin_cases a <;> fin_cases b <;>
+    simp [upMat, eTMc, Matrix.mul_apply, Fin.sum_univ_five]
+
 theorem upMat_factor : ∀ c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ : ZMod 2,
     upMat c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉ =
       eTMc 3 4 c₉ * eTMc 2 4 c₈ * eTMc 2 3 c₇ * eTMc 1 4 c₆ * eTMc 1 3 c₅ * eTMc 1 2 c₄ *
         eTMc 0 4 c₃ * eTMc 0 3 c₂ * eTMc 0 2 c₁ * eTMc 0 1 c₀ := by
-  decide +kernel
+  intro c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉
+  obtain ⟨h0, h1, h2, h3, h4, h5, h6, h7, h8, h9⟩ := upMat_step c₀ c₁ c₂ c₃ c₄ c₅ c₆ c₇ c₈ c₉
+  rw [← h0, h1, h2, h3, h4, h5, h6, h7, h8, h9]
 
 theorem xE_eq_eT : ∀ s : Fin 4,
     ((xE s : G5) : Matrix (Fin 5) (Fin 5) (ZMod 2)) = eTM s.castSucc s.succ := by decide

@@ -6,6 +6,7 @@ public import Certificates.Kernel.HN1408.TableIChk
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HNRecog.TwoHSData.ShapeIICheck
 import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Kernel.HN1408.CayleyDefs
+public import Certificates.Kernel.HN1408.CyRecH
 
 public section
 
@@ -27,14 +28,27 @@ theorem shkHB5 : cyHd b5Words 100 capS ShIIB5.G ShIIB5.GI ShIIB5I ShIIB5.T ShIIB
 theorem shkHY5 : cyHd y5Words 240 capS ShIIY5.G ShIIY5.GI ShIIY5I ShIIY5.T ShIIY5.PL ShIIY5.cnt =
     true := by quickRfl
 
+theorem shkRN5H : cyRecC n5Words.length ShIIN5.G ShIIN5.GI ShIIN5I ShIIN5.T ShIIN5.PL ShIIN5.POS
+    ShIIN5.SRT ShIIN5.SRI ShIIN5.HS ShIIN5.HSI ShIIN5H ShIIN5Cl ShIIN5.cnt = true := by quickRfl
+theorem shkRS5H : cyRecC s5Words.length ShIIS5.G ShIIS5.GI ShIIS5I ShIIS5.T ShIIS5.PL ShIIS5.POS
+    ShIIS5.SRT ShIIS5.SRI ShIIS5.HS ShIIS5.HSI ShIIS5H ShIIS5Cl ShIIS5.cnt = true := by quickRfl
+theorem shkRB5H : cyRecC b5Words.length ShIIB5.G ShIIB5.GI ShIIB5I ShIIB5.T ShIIB5.PL ShIIB5.POS
+    ShIIB5.SRT ShIIB5.SRI ShIIB5.HS ShIIB5.HSI ShIIB5H ShIIB5Cl ShIIB5.cnt = true := by quickRfl
+theorem shkRY5H : cyRecC y5Words.length ShIIY5.G ShIIY5.GI ShIIY5I ShIIY5.T ShIIY5.PL ShIIY5.POS
+    ShIIY5.SRT ShIIY5.SRI ShIIY5.HS ShIIY5.HSI ShIIY5H ShIIY5Cl ShIIY5.cnt = true := by quickRfl
+
 theorem shkRN5 : cyRec n5Words.length ShIIN5.G ShIIN5.GI ShIIN5I ShIIN5.T ShIIN5.PL ShIIN5.POS
-    ShIIN5.SRT ShIIN5.SRI ShIIN5.HS ShIIN5.HSI ShIIN5Cl ShIIN5.cnt = true := by quickRfl
+    ShIIN5.SRT ShIIN5.SRI ShIIN5.HS ShIIN5.HSI ShIIN5Cl ShIIN5.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRN5H)
 theorem shkRS5 : cyRec s5Words.length ShIIS5.G ShIIS5.GI ShIIS5I ShIIS5.T ShIIS5.PL ShIIS5.POS
-    ShIIS5.SRT ShIIS5.SRI ShIIS5.HS ShIIS5.HSI ShIIS5Cl ShIIS5.cnt = true := by quickRfl
+    ShIIS5.SRT ShIIS5.SRI ShIIS5.HS ShIIS5.HSI ShIIS5Cl ShIIS5.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRS5H)
 theorem shkRB5 : cyRec b5Words.length ShIIB5.G ShIIB5.GI ShIIB5I ShIIB5.T ShIIB5.PL ShIIB5.POS
-    ShIIB5.SRT ShIIB5.SRI ShIIB5.HS ShIIB5.HSI ShIIB5Cl ShIIB5.cnt = true := by quickRfl
+    ShIIB5.SRT ShIIB5.SRI ShIIB5.HS ShIIB5.HSI ShIIB5Cl ShIIB5.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRB5H)
 theorem shkRY5 : cyRec y5Words.length ShIIY5.G ShIIY5.GI ShIIY5I ShIIY5.T ShIIY5.PL ShIIY5.POS
-    ShIIY5.SRT ShIIY5.SRI ShIIY5.HS ShIIY5.HSI ShIIY5Cl ShIIY5.cnt = true := by quickRfl
+    ShIIY5.SRT ShIIY5.SRI ShIIY5.HS ShIIY5.HSI ShIIY5Cl ShIIY5.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRY5H)
 
 theorem shkCS5 : cayK s5Mul 0 [8, 3, 5] s5Words.length ShIIS5.cnt ShIIS5.PL ShIIS5Cl
     (cayCodes s5Mul 0 [8, 3, 5] ShIIS5.PL ShIIS5.cnt) = true := by quickRfl

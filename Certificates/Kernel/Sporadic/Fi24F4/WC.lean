@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.Sporadic.Fi24F4.Data
+public import Certificates.Kernel.Sporadic.Fi24F4.WPk
 public import Certificates.Kernel.Sporadic.Fi24Kit.Data
 public import Certificates.Data.Kernel.Spor.Fi24F4W
 
@@ -19,7 +20,15 @@ open CFSG.KC.Enum (allN)
 @[expose] noncomputable def eP (i : Nat) : List Nat := (W.E.getD i []).map fun e => nthN e 0
 
 @[expose] noncomputable def cov (i : Nat) : Bool :=
-  coverOK NW NT (nthL W.cs i) (tB i) (W.prods.getD i []) (nthN W.q0 i) (eP i)
+  coverOK NW NT (nthL W.cs i) (tB i) (W.prods.getD i []) (nthN W.q0 i) (eP i) (pk1.getD i [])
+    (pk2.getD i []) (rk.getD i [])
+
+@[expose] noncomputable def cvA (i : Nat) : Bool :=
+  covA NW NT (nthL W.cs i) (tB i) (W.prods.getD i []) (pk1.getD i []) (rk.getD i [])
+
+@[expose] noncomputable def cvB (i : Nat) : Bool :=
+  covB NW NT (nthL W.cs i) (tB i) (W.prods.getD i []) (nthN W.q0 i) (eP i) (pk2.getD i [])
+    (rk.getD i [])
 
 @[expose] noncomputable def prd (i : Nat) : Bool :=
   andB (Nat.beq (W.prods.getD i []).length (nthL W.Qc i).length)

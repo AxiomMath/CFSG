@@ -1,10 +1,10 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Co1M "Certificates/Kernel/Co1M/data/d10030.items.gz" 14806 7105969765183148497
+#kc_repo #kc_nat_items CFSG.KD.Co1M "Certificates/Kernel/Co1M/data/d10030.items" 14806 7105969765183148497
   ESC EF0 ETA EXA[] EYA[] EBAa[] EBAc[] EDA EMA EPAa[] EPAc[] ETC EXC[] EYC[] EBCa[] EBCc[] EDC EMC
   EPCa[] EPCc[]
 

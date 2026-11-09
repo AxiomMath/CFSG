@@ -247,7 +247,7 @@ abbrev hGens : List (Equiv.Perm (Fin 23)) := c3Words.map (evalCodes [m23PermA, m
 theorem chainH : ChainK 23 5 hGens c3ChainWords (#v[3, 5] : Vector (Fin 23) 2)
     M23CH.S M23CH.SI M23CH.LR M23CH.TR M23CH.TRI 5 M23CH.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M23CH.head, M23CH.hl,
-    by norm_num, M23CH.hs⟩
+    by norm_num, .inl M23CH.hs⟩
   have hj3 : j < 3 := by simpa [hGens, c3Words] using hj
   rw [getD_map_eval]
   have h := allN_spec bH j hj3

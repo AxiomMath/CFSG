@@ -141,8 +141,9 @@ theorem card_Z {Z : Subgroup GL4} (hZ : SB ≤ Z) :
   choose! idx hidx using exists_fm
   set t := (Finset.range 28).filter fun k => ∃ z ∈ Z, fW z = ofCode (FM k) with ht
   have hmaps : ((Finset.univ.filter fun g : GL4 => g ∈ Z : Finset GL4) : Set GL4).MapsTo idx t := by
-    intro g hg
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hg
+    intro g
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+    intro hg
     simp only [ht, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
     exact ⟨(hidx g).1, g, hg, (hidx g).2⟩
   have hfibs : ∀ b ∈ t,

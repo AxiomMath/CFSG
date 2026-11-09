@@ -272,11 +272,6 @@ theorem dvd_contentL (d : ℕ) (l : List ℤ) (hl : ∀ x ∈ l, (d : ℤ) ∣ x
 @[expose] def betaVecs : List (List ℤ) :=
   betaWords.map fun w => w.foldr reflectL (List.ofFn (Pi.single n8 (1 : ℤ)))
 
-theorem betaVecs_check : ∀ i i' : Fin 240, i ≠ i' →
-    1 ≤ contentL (subL (betaVecs.getD i []) (betaVecs.getD i' [])) ∧
-      contentL (subL (betaVecs.getD i []) (betaVecs.getD i' [])) ≤ 2 := by
-  decide +kernel
-
 @[expose] def uWords : List (List (Fin Tag.E8.rank)) :=
   ([[],
    [6, 5, 4, 3, 2, 1, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 3, 4, 5, 6],
@@ -368,6 +363,38 @@ theorem not_dvd_of_content {x y : Fin Tag.E8.rank → ℤ}
 theorem betaWords_length : betaWords.length = 240 := by decide +kernel
 
 theorem uWords_length : uWords.length = 56 := by decide +kernel
+
+theorem subL_swap (a b : List ℤ) : subL b a = (subL a b).map Neg.neg := by
+  induction a generalizing b with
+  | nil => cases b <;> rfl
+  | cons x a ih =>
+    cases b with
+    | nil => rfl
+    | cons y b =>
+      simp only [subL, List.zipWith_cons_cons, List.map_cons] at ih ⊢
+      rw [ih b, neg_sub]
+
+theorem contentL_map_neg (l : List ℤ) : contentL (l.map Neg.neg) = contentL l := by
+  simp only [contentL, List.foldl_map, Int.natAbs_neg]
+
+theorem betaVecs_pairwise :
+    betaVecs.Pairwise (fun a b => 1 ≤ contentL (subL a b) ∧ contentL (subL a b) ≤ 2) := by
+  decide +kernel
+
+theorem betaVecs_check : ∀ i i' : Fin 240, i ≠ i' →
+    1 ≤ contentL (subL (betaVecs.getD i []) (betaVecs.getD i' [])) ∧
+      contentL (subL (betaVecs.getD i []) (betaVecs.getD i' [])) ≤ 2 := by
+  have hlen : betaVecs.length = 240 := by rw [betaVecs, List.length_map, betaWords_length]
+  have hpw := List.pairwise_iff_getElem.1 betaVecs_pairwise
+  intro i i' hii'
+  have hi : (i : ℕ) < betaVecs.length := by rw [hlen]; exact i.isLt
+  have hi' : (i' : ℕ) < betaVecs.length := by rw [hlen]; exact i'.isLt
+  rw [List.getD_eq_getElem _ _ hi, List.getD_eq_getElem _ _ hi']
+  rcases lt_or_gt_of_ne (fun h => hii' (Fin.ext h)) with h | h
+  · exact hpw _ _ hi hi' h
+  · obtain ⟨h1, h2⟩ := hpw _ _ hi' hi h
+    rw [subL_swap, contentL_map_neg]
+    exact ⟨h1, h2⟩
 
 theorem betaVecs_getD (i : Fin 240) : betaVecs.getD i [] =
     (betaWords.getD i []).foldr reflectL (List.ofFn (Pi.single n8 (1 : ℤ))) := by

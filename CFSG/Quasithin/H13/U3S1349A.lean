@@ -20,7 +20,18 @@ theorem gens_not_mem : ¬ A6.InP2 c012 ∧ ¬ A6.InP1 c2perm ∧ ¬ A6.InD6 c012
 theorem alt_transitive : ∀ τ : Perm (Fin 6),
     (∃ σ : Perm (Fin 6), Perm.sign σ = 1 ∧ G6.permAct 6 σ A6.e0123 = G6.permAct 6 τ A6.e0123) ∧
     (∃ σ : Perm (Fin 6), Perm.sign σ = 1 ∧ G6.permAct 6 σ A6.e45 = G6.permAct 6 τ A6.e45) := by
-  decide +kernel
+  have h01 : G6.permAct 6 (swap 0 1) A6.e0123 = A6.e0123 := by decide +kernel
+  have h45 : G6.permAct 6 (swap 4 5) A6.e45 = A6.e45 := by decide +kernel
+  intro τ
+  rcases Int.units_eq_one_or (Perm.sign τ) with hs | hs
+  · exact ⟨⟨τ, hs, rfl⟩, ⟨τ, hs, rfl⟩⟩
+  · refine ⟨⟨τ * swap 0 1, ?_, ?_⟩, ⟨τ * swap 4 5, ?_, ?_⟩⟩
+    · rw [Perm.sign_mul, hs, Perm.sign_swap']
+      decide
+    · rw [map_mul, MulAut.mul_apply, h01]
+    · rw [Perm.sign_mul, hs, Perm.sign_swap']
+      decide
+    · rw [map_mul, MulAut.mul_apply, h45]
 
 theorem c2_conj_not_mem : A6.InD6 (swap 0 2 * swap 1 3) ∧
     swap (0 : Fin 6) 2 * swap 1 3 ∈ alternatingGroup (Fin 6) ∧

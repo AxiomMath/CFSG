@@ -1,8 +1,7 @@
 
 module
 
-public import Certificates.Kernel.SporSch.Co2M.ThEQS0
-public import Certificates.Kernel.SporSch.Co2M.ThEQS1
+public import Certificates.Kernel.SporSch.Co2M.ThEQD
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section

@@ -41,7 +41,33 @@ open CFSG.QuasithinUnique.K1.SporadicPerm CFSG.Quasithin.E6.Spor
 theorem tab_ok : (tabOK 9 315 ta.toArray tb.toArray && ltB 315 zT) = true := by
   quickRfl
 
+@[expose] def gPF (w T p : Nat) : Nat :=
+  Nat.land (Nat.shiftRight T (Nat.mul w p)) (Nat.sub (Nat.shiftLeft 1 w) 1)
+
+theorem gPF_eq (w T p : Nat) : gPF w T p = gP w T p := by
+  show (T >>> (w * p)) &&& (1 <<< w - 1) = T / 2 ^ (w * p) % 2 ^ w
+  rw [Nat.one_shiftLeft, Nat.and_two_pow_sub_one_eq_mod, Nat.shiftRight_eq_div_pow]
+
+@[expose] def packLF (w : Nat) : List Nat → Nat
+  | [] => 0
+  | a :: l => Nat.add a (Nat.mul (Nat.shiftLeft 1 w) (packLF w l))
+
+theorem packLF_eq (w : Nat) : ∀ l, packLF w l = packL w l
+  | [] => rfl
+  | a :: l => by
+    show a + (1 <<< w) * packLF w l = a + 2 ^ w * packL w l
+    rw [Nat.one_shiftLeft, packLF_eq w l]
+
+@[expose] def actSF (w n : Nat) (Ls : List (Nat × Nat)) (l : Nat) (x : List Nat) : List Nat :=
+  [packLF w ((List.range n).map fun q =>
+    gPF w (Ls.getD l (0, 0)).1 (gPF w (x.headD 0) (gPF w (Ls.getD l (0, 0)).2 q)))]
+
+theorem actSF_eq : actSF = actS := by
+  funext w n Ls l x
+  simp only [actSF, actS, conjP, packLF_eq, gPF_eq]
+
 theorem orb_ok : orbChk (actS 9 315 [pk 9 315 ta, pk 9 315 tb]) 2 [pz 9 315 zT] 315 = true := by
+  rw [← actSF_eq]
   quickRfl
 
 theorem r_ok : rChkC 315 D L 3 AB (N 143) j2UWords j2YWord j2NWord 5 15 100 = true := by

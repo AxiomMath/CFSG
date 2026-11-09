@@ -21,7 +21,7 @@ theorem kGA : bAnd(Nat.beq (Inst7.gens instA).length (nat_lit 2), commGK GA' 2 B
   quickRfl
 
 theorem kTA : bAnd(Nat.beq CA.N (nat_lit 17640),
-    gtPinK GA' 2 100000 CA.N CA.P CA.PAR CA.LAB CA.W CA.S) = true := by quickRfl
+    bfsK (gtStepK GA') CA.P CA.PAR CA.LAB CA.W CA.S 2 100000 CA.N idM) = true := by quickRfl
 
 end CertificateChecks.KernelCo1SevenK
 

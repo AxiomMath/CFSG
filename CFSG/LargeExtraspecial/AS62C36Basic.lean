@@ -2,6 +2,7 @@ module
 
 public import CFSG.LargeExtraspecial.AS62F431b
 public import Certificates.Data.A5
+public import CFSG.LargeExtraspecial.AS62C36PackK
 
 public section
 
@@ -15,8 +16,8 @@ open Subgroup CFSG.Open CFSG.Quasithin
 namespace AS62
 
 theorem exists_comm_pow_ne : ∀ σ : Equiv.Perm (Fin 5), σ ≠ 1 →
-    ∃ a : Equiv.Perm (Fin 5), Equiv.Perm.sign a = 1 ∧ (a * σ * a⁻¹ * σ⁻¹) ^ 8 ≠ 1 := by
-  decide +kernel
+    ∃ a : Equiv.Perm (Fin 5), Equiv.Perm.sign a = 1 ∧ (a * σ * a⁻¹ * σ⁻¹) ^ 8 ≠ 1 :=
+  AS62PackK.exists_comm_pow_ne_pack
 
 theorem pow_eight_eq_one_of_pow_two_pow {c : Equiv.Perm (Fin 5)} {k : ℕ} (hc : c ^ 2 ^ k = 1) :
     c ^ 8 = 1 := by

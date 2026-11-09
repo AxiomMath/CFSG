@@ -13,22 +13,22 @@ namespace CFSG.RankThree.Native
 
 open CFSG.Monster.B.Co2.Native F2
 
-#kc_repo #kc_text_gz co2FiveVHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveVHex.txt.gz" 13800 10708471831000072871
+#kc_repo #kc_text co2FiveVHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveVHex.txt" 13800 10708471831000072871
 
 @[expose] def co2FiveV : Array Nat := hexTable 6 2300 0 co2FiveVHex
 
-#kc_repo #kc_text_gz co2FiveC0MHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC0MHex.txt.gz" 363000 1508760564903182874
+#kc_repo #kc_text co2FiveC0MHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC0MHex.txt" 363000 1508760564903182874
 
-#kc_repo #kc_text_gz co2FiveC0EHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC0EHex.txt.gz" 18000 11134058668146446733
+#kc_repo #kc_text co2FiveC0EHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC0EHex.txt" 18000 11134058668146446733
 
-#kc_repo #kc_text_gz co2FiveC0RHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC0RHex.txt.gz" 9000 2742793186097765289
+#kc_repo #kc_text co2FiveC0RHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC0RHex.txt" 9000 2742793186097765289
 
-#kc_repo #kc_text_gz co2FiveC0LHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC0LHex.txt.gz" 9000 41337750522595785
+#kc_repo #kc_text co2FiveC0LHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC0LHex.txt" 9000 41337750522595785
 
 @[expose, irreducible] def co2FiveC0Lit : CFSG.Monster.B.Fischer.ArrCert where
   pts := Array.ofFn fun i : Fin 3000 =>
@@ -38,17 +38,17 @@ open CFSG.Monster.B.Co2.Native F2
   par := CFSG.Monster.B.Fischer.hexTable3 3000 0 co2FiveC0RHex
   lab := CFSG.Monster.B.Fischer.hexTable3 3000 0 co2FiveC0LHex
 
-#kc_repo #kc_text_gz co2FiveQMHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveQMHex.txt.gz" 15125 6636753751779328560
+#kc_repo #kc_text co2FiveQMHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveQMHex.txt" 15125 6636753751779328560
 
-#kc_repo #kc_text_gz co2FiveQEHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveQEHex.txt.gz" 750 723361166562425852
+#kc_repo #kc_text co2FiveQEHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveQEHex.txt" 750 723361166562425852
 
-#kc_repo #kc_text_gz co2FiveQRHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveQRHex.txt.gz" 375 4733598116443804786
+#kc_repo #kc_text co2FiveQRHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveQRHex.txt" 375 4733598116443804786
 
-#kc_repo #kc_text_gz co2FiveQLHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveQLHex.txt.gz" 375 2421487017621845839
+#kc_repo #kc_text co2FiveQLHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveQLHex.txt" 375 2421487017621845839
 
 @[expose, irreducible] def co2FiveQLit : CFSG.Monster.B.Fischer.ArrCert where
   pts := Array.ofFn fun i : Fin 125 =>
@@ -58,17 +58,17 @@ open CFSG.Monster.B.Co2.Native F2
   par := CFSG.Monster.B.Fischer.hexTable3 125 0 co2FiveQRHex
   lab := CFSG.Monster.B.Fischer.hexTable3 125 0 co2FiveQLHex
 
-#kc_repo #kc_text_gz co2FiveC1MHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC1MHex.txt.gz" 72600 14854999272581313643
+#kc_repo #kc_text co2FiveC1MHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC1MHex.txt" 72600 14854999272581313643
 
-#kc_repo #kc_text_gz co2FiveC1EHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC1EHex.txt.gz" 5400 14643469868651596350
+#kc_repo #kc_text co2FiveC1EHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC1EHex.txt" 5400 14643469868651596350
 
-#kc_repo #kc_text_gz co2FiveC1RHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC1RHex.txt.gz" 1800 8313129400264879060
+#kc_repo #kc_text co2FiveC1RHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC1RHex.txt" 1800 8313129400264879060
 
-#kc_repo #kc_text_gz co2FiveC1LHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveC1LHex.txt.gz" 1800 16907102731859796643
+#kc_repo #kc_text co2FiveC1LHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveC1LHex.txt" 1800 16907102731859796643
 
 @[expose, irreducible] def co2FiveC1Lit : CFSG.Monster.B.Fischer.ArrCert where
   pts := Array.ofFn fun i : Fin 600 =>
@@ -78,17 +78,17 @@ open CFSG.Monster.B.Co2.Native F2
   par := CFSG.Monster.B.Fischer.hexTable3 600 0 co2FiveC1RHex
   lab := CFSG.Monster.B.Fischer.hexTable3 600 0 co2FiveC1LHex
 
-#kc_repo #kc_text_gz co2FiveDMHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveDMHex.txt.gz" 7260 10842209862083360294
+#kc_repo #kc_text co2FiveDMHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveDMHex.txt" 7260 10842209862083360294
 
-#kc_repo #kc_text_gz co2FiveDEHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveDEHex.txt.gz" 360 10358293251438243152
+#kc_repo #kc_text co2FiveDEHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveDEHex.txt" 360 10358293251438243152
 
-#kc_repo #kc_text_gz co2FiveDRHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveDRHex.txt.gz" 180 13303186211183342222
+#kc_repo #kc_text co2FiveDRHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveDRHex.txt" 180 13303186211183342222
 
-#kc_repo #kc_text_gz co2FiveDLHex
-  "CFSG/RankThree/Native/data/co2five/co2FiveDLHex.txt.gz" 180 17402449737725146947
+#kc_repo #kc_text co2FiveDLHex
+  "CFSG/RankThree/Native/data/co2five/co2FiveDLHex.txt" 180 17402449737725146947
 
 @[expose, irreducible] def co2FiveDLit : CFSG.Monster.B.Fischer.ArrCert where
   pts := Array.ofFn fun i : Fin 60 =>

@@ -80,6 +80,95 @@ open CFSG.ComponentClassification.HarrisLit.P1 CFSG.ComponentClassification.Harr
 @[expose] def tDS23 : Array (Array ℕ) :=
   #[e 17637922 false, e 20864225 false, e 8523990 false, e 35872108 true]
 
+@[expose] def l43WordArr (gs : Array (Array ℕ)) (w : List ℕ) : Array ℕ :=
+  w.foldr (fun i acc => acc.map fun y => (gs[i]!)[y]!) (Array.range 80)
+
+@[expose] def wS3s2 : List (List ℕ) :=
+  [[1, 0, 0, 0], [1, 0, 0, 1, 1, 1, 1, 1, 0], [1, 0, 1, 0, 0, 1, 1, 0, 1, 1]]
+@[expose] def wS3s3 : List (List ℕ) := [[0], [1, 0, 1, 1, 0, 0, 0, 0, 1]]
+@[expose] def wS3s5 : List (List ℕ) := [[1, 1]]
+@[expose] def wS4s2 : List (List ℕ) :=
+  [[1, 0], [1, 1, 1, 0, 1, 1, 0, 0], [0, 1, 1, 1, 0, 1, 1, 1]]
+@[expose] def wS4s3 : List (List ℕ) := [[1, 1, 1, 1, 0, 0], [1, 1, 0, 1, 0, 0, 1]]
+@[expose] def wS4s5 : List (List ℕ) := [[0]]
+
+@[expose] def hS3s2 : Array (Array ℕ) := (wS3s2.map (l43WordArr cS3)).toArray
+@[expose] def hS3s3 : Array (Array ℕ) := (wS3s3.map (l43WordArr cS3)).toArray
+@[expose] def hS3s5 : Array (Array ℕ) := (wS3s5.map (l43WordArr cS3)).toArray
+@[expose] def hS4s2 : Array (Array ℕ) := (wS4s2.map (l43WordArr cS4)).toArray
+@[expose] def hS4s3 : Array (Array ℕ) := (wS4s3.map (l43WordArr cS4)).toArray
+@[expose] def hS4s5 : Array (Array ℕ) := (wS4s5.map (l43WordArr cS4)).toArray
+
+@[expose] def wD0s2 : List (List ℕ) :=
+  [[1, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 0, 1, 1, 0, 0, 0]]
+@[expose] def wD0s3 : List (List ℕ) :=
+  [[1, 1], [0, 1, 0, 0, 0, 1, 0, 0]]
+@[expose] def wD0s5 : List (List ℕ) :=
+  [[0, 0, 0, 0]]
+@[expose] def hD0s2 : Array (Array ℕ) := (wD0s2.map (l43WordArr cD0)).toArray
+@[expose] def hD0s3 : Array (Array ℕ) := (wD0s3.map (l43WordArr cD0)).toArray
+@[expose] def hD0s5 : Array (Array ℕ) := (wD0s5.map (l43WordArr cD0)).toArray
+@[expose] def wD1s2 : List (List ℕ) :=
+  [[1, 0, 0], [1, 1, 0, 0, 1, 0, 0, 1]]
+@[expose] def wD1s3 : List (List ℕ) :=
+  [[1], [0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0]]
+@[expose] def wD1s13 : List (List ℕ) :=
+  [[0]]
+@[expose] def hD1s2 : Array (Array ℕ) := (wD1s2.map (l43WordArr cD1)).toArray
+@[expose] def hD1s3 : Array (Array ℕ) := (wD1s3.map (l43WordArr cD1)).toArray
+@[expose] def hD1s13 : Array (Array ℕ) := (wD1s13.map (l43WordArr cD1)).toArray
+@[expose] def wD2s2 : List (List ℕ) :=
+  [[1, 0], [0, 1, 0, 1], [0, 1, 1, 0, 0]]
+@[expose] def wD2s3 : List (List ℕ) :=
+  [[0, 0], [1, 1, 1, 1, 0, 1, 0, 0, 1, 0]]
+@[expose] def hD2s2 : Array (Array ℕ) := (wD2s2.map (l43WordArr cD2)).toArray
+@[expose] def hD2s3 : Array (Array ℕ) := (wD2s3.map (l43WordArr cD2)).toArray
+@[expose] def wS0s2 : List (List ℕ) :=
+  [[0], [1, 1, 0, 1, 1, 0, 1, 1], [1, 1, 0, 0, 1, 1, 0, 1, 1, 1], [1, 0, 0, 1, 1, 0, 1, 1, 1, 1]]
+@[expose] def wS0s3 : List (List ℕ) :=
+  [[1, 1], [1, 0, 0, 1, 1, 1, 0, 1, 1, 0]]
+@[expose] def wS0s5 : List (List ℕ) :=
+  [[1, 1, 1, 0, 1, 0]]
+@[expose] def hS0s2 : Array (Array ℕ) := (wS0s2.map (l43WordArr cS0)).toArray
+@[expose] def hS0s3 : Array (Array ℕ) := (wS0s3.map (l43WordArr cS0)).toArray
+@[expose] def hS0s5 : Array (Array ℕ) := (wS0s5.map (l43WordArr cS0)).toArray
+@[expose] def wS1s2 : List (List ℕ) :=
+  [[1], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0, 0], [0, 1, 1, 0, 1, 0, 0]]
+@[expose] def wS1s3 : List (List ℕ) :=
+  [[0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 1, 0]]
+@[expose] def hS1s2 : Array (Array ℕ) := (wS1s2.map (l43WordArr cS1)).toArray
+@[expose] def hS1s3 : Array (Array ℕ) := (wS1s3.map (l43WordArr cS1)).toArray
+@[expose] def wS2s2 : List (List ℕ) :=
+  [[1], [0, 1, 0, 1, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0]]
+@[expose] def wS2s3 : List (List ℕ) :=
+  [[0, 0], [1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0]]
+@[expose] def hS2s2 : Array (Array ℕ) := (wS2s2.map (l43WordArr cS2)).toArray
+@[expose] def hS2s3 : Array (Array ℕ) := (wS2s3.map (l43WordArr cS2)).toArray
+@[expose] def wDS0s2 : List (List ℕ) :=
+  [[1, 0], [0, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 0, 0, 1]]
+@[expose] def wDS0s3 : List (List ℕ) :=
+  [[0, 0], [1, 1, 1, 1, 1, 0, 0, 0, 1, 0]]
+@[expose] def hDS0s2 : Array (Array ℕ) := (wDS0s2.map (l43WordArr cDS0)).toArray
+@[expose] def hDS0s3 : Array (Array ℕ) := (wDS0s3.map (l43WordArr cDS0)).toArray
+@[expose] def wDS1s2 : List (List ℕ) :=
+  [[1], [0, 0, 0, 1, 1, 0, 0, 0], [0, 1, 1, 1, 0, 0, 1, 0], [0, 0, 1, 1, 1, 0, 1, 0, 0]]
+@[expose] def wDS1s3 : List (List ℕ) :=
+  [[0, 0], [1, 0, 1, 0, 0, 1, 0, 1, 1, 1]]
+@[expose] def wDS1s5 : List (List ℕ) :=
+  [[1, 0, 0, 1, 0, 0, 0, 0]]
+@[expose] def hDS1s2 : Array (Array ℕ) := (wDS1s2.map (l43WordArr cDS1)).toArray
+@[expose] def hDS1s3 : Array (Array ℕ) := (wDS1s3.map (l43WordArr cDS1)).toArray
+@[expose] def hDS1s5 : Array (Array ℕ) := (wDS1s5.map (l43WordArr cDS1)).toArray
+@[expose] def wDS2s2 : List (List ℕ) :=
+  [[0], [1, 1, 1, 1, 0, 1, 1, 1]]
+@[expose] def wDS2s3 : List (List ℕ) :=
+  [[1, 1, 1, 1, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0]]
+@[expose] def wDS2s5 : List (List ℕ) :=
+  [[1, 0]]
+@[expose] def hDS2s2 : Array (Array ℕ) := (wDS2s2.map (l43WordArr cDS2)).toArray
+@[expose] def hDS2s3 : Array (Array ℕ) := (wDS2s3.map (l43WordArr cDS2)).toArray
+@[expose] def hDS2s5 : Array (Array ℕ) := (wDS2s5.map (l43WordArr cDS2)).toArray
+
 end CertificateChecks.KernelP1L43
 
 end

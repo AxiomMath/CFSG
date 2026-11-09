@@ -8,6 +8,6 @@ set_option maxHeartbeats 0
 
 public section
 
-#kc_each CFSG.KD.BrFi23.rsC 30 34
+#kc_each CFSG.KD.BrFi23.rsC 72 82
 
 end

@@ -45,6 +45,15 @@ open Certificates.S7TwinO8
 @[expose] noncomputable def badY (P : Nat) : Bool :=
   bAnd(ordIs 120 7 (mask 7) (pidn 120 7) P (4 - 1), !pairsY 120 7 sp0K repsK candsK P)
 
+@[expose] noncomputable def repLK (n w : Nat) (GP GIP : Nat → Nat) (g : Nat) (CS OFF : List Nat)
+    (CI E P L S SI : Nat → Nat) (N j : Nat) : Bool :=
+  strictB (CI j) (fun i => strictB (lget OFF i) (fun o => strictB (Nat.sub j o) (fun k =>
+  bAnd(Nat.blt i CS.length, bAnd(Nat.ble o j, bAnd(canonK n w (mask w) (Nat.mul n w) (E j),
+  bAnd(bIf(Nat.beq k 0, true, bAnd(Nat.blt (P j) k, bAnd(Nat.blt (L j) g,
+    Nat.beq (cj n w GP GIP (L j) (E (Nat.add o (P j)))) (E j)))),
+  bAnd(Nat.blt (S j) N, bAnd(Nat.blt (SI j) N, bAnd(Nat.beq (S (SI j)) j,
+    bIf(Nat.blt (Nat.succ j) N, Nat.blt (E (S j)) (E (S (Nat.succ j))), true)))))))))))
+
 theorem kGP : Nat.beq GP.length 8 = true := by decide +kernel
 
 theorem kGPp : allN 8 (fun j => bAnd(permOK 120 7 (mask 7) (120 * 7) (GPf j) (GPf j),
@@ -67,12 +76,8 @@ theorem kO : allN fourWords.length (fun i => bAnd(canonK 120 7 (mask 7) (120 * 7
     true := by
   decide +kernel
 
-theorem kOff : offOK RS.CS RS.OFF RS.N = true := by decide +kernel
-
-theorem kPos : CFSG.KC.J2Cover.allL (fun c => Nat.blt 0 c) RS.CS = true := by decide +kernel
-
-theorem kR : allN RS.N (repK 120 7 ST.S ST.SI 4 RS.CS RS.OFF RS.CI RS.E RS.P RS.L RS.K
-    RS.S RS.SI RS.N 4000) = true := by
+theorem kR : allN RS.N (repLK 120 7 ST.S ST.SI 4 RS.CS RS.OFF RS.CI RS.E RS.P RS.L RS.S RS.SI
+    RS.N) = true := by
   decide +kernel
 
 theorem kXL : lettersK 4 [2, 1, 2, 3, 2, 4, 2, 1, 2, 3, 2, 4] = true := by decide +kernel

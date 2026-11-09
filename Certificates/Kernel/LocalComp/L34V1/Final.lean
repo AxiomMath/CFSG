@@ -92,7 +92,7 @@ theorem fx_fix : ∀ j < 6, ∀ q < 16, pg 6 (mask 6) (FE.T q) (FX j) = FX j := 
 theorem rejF_false {k : Nat} (hk : k < 241920)
     (hall : (allN 16 fun i => inFE (pc (pc (L34R.T k) (FE.T i))
       (pinvS 42 6 (mask 6) (L34R.T k)))) = true) : rejF (L34R.T k) = false := by
-  have hPP := CFSG.KC.L34Pre.PinE.pp pinR k hk
+  have hPP := CFSG.KC.L34Pre.PinEB.pp pinR k hk
   have hc : ∀ i < 16, ∃ q < 16, FE.T q = pcomp 42 6 (mask 6) (pcomp 42 6 (mask 6) (L34R.T k)
       (FE.T i)) (pinvS 42 6 (mask 6) (L34R.T k)) := by
     intro i hi
@@ -127,7 +127,7 @@ theorem point_facts {k : Nat} (hk : k < 241920) :
           true →
         W k < 360 ∧ ∀ i < 16, yg (W k) i < 16 ∧
           FE.T (yg (W k) i) = pc (pc (L34R.T k) (FE.T i)) (pinvS 42 6 (mask 6) (L34R.T k))) := by
-  have hPP := CFSG.KC.L34Pre.PinE.pp pinR k hk
+  have hPP := CFSG.KC.L34Pre.PinEB.pp pinR k hk
   have h := vK_all k hk
   rw [orB_eq, Bool.or_eq_true] at h
   rcases h with hr | h

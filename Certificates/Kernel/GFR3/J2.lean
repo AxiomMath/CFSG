@@ -63,7 +63,7 @@ theorem orb : ((List.range 7).map fun i => rcnt (C.LR i)) = [315, 10, 16, 4, 3, 
   decide +kernel
 
 @[expose] noncomputable def clsBlock (b : Nat) : Bool :=
-  allN 60 fun i => gfr3AtK 315 9 1080 E.T 1080 3 1 (Nat.add (Nat.mul 60 b) i)
+  allN 60 fun i => gfr3AtPK 315 9 1080 E.T 1080 3 1 (Nat.add (Nat.mul 60 b) i)
 
 theorem n0 : Nat.beq E.N 1080 = true ∧ Nat.beq E.ng 4 = true := ⟨by quickRfl, by quickRfl⟩
 

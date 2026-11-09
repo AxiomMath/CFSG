@@ -1664,6 +1664,57 @@ theorem isMulCommutative_of_map_eq_range
     _ = ⁅p, q⁆ := CFSG.GroupTheory.commutatorElement_mul_center hzcent hwcent
     _ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr (congrArg Subtype.val (hP.is_comm.comm ⟨p, hp⟩ ⟨q, hq⟩))
 
+omit [Fact (Nat.Prime 3)] in
+theorem projConj_SL3_eq_of_graphAut {K : Type} [Field K] (A : GL (Fin 3) K)
+    (φ : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin 3) K)))
+    (hgraph : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin 3) K))
+      (fun h h' => ((h' : LargeEvenSLGroup (Fin 3) K) : GL (Fin 3) K) =
+        A * (h : GL (Fin 3) K) * A⁻¹) φ) :
+    TableB.projConj (LargeEvenSLGroup (Fin 3) K)
+      ⟨A, CFSG.LocalAnalysis.GLTheoremA.T173A.lin_normalizes A⟩ = φ := by
+  ext x
+  induction x using QuotientGroup.induction_on with
+  | H h =>
+    rw [TableB.projConj_mk]
+    let h' : LargeEvenSLGroup (Fin 3) K := (LargeEvenSLGroup (Fin 3) K).normalizerMonoidHom
+      ⟨A, CFSG.LocalAnalysis.GLTheoremA.T173A.lin_normalizes A⟩ h
+    have hrel : ((h' : LargeEvenSLGroup (Fin 3) K) : GL (Fin 3) K) =
+        A * (h : GL (Fin 3) K) * A⁻¹ := by
+      dsimp [h']
+      simp [Subgroup.normalizerMonoidHom_apply_apply_coe]
+    exact (hgraph h h' hrel).symm
+
+omit [Fact (Nat.Prime 3)] in
+theorem ker_projConj_comp_subtype_le_center {K : Type} [Field K]
+    (U : Subgroup (GL (Fin 3) K)) (Dpre : Subgroup (Subgroup.normalizer (U : Set (GL (Fin 3) K))))
+    (hscal : (TableB.projConj U).ker ≤ (LargeEvenScalars (Fin 3) K).subgroupOf
+      (Subgroup.normalizer (U : Set (GL (Fin 3) K)))) :
+    ((TableB.projConj U).comp Dpre.subtype).ker ≤ Subgroup.center Dpre := by
+  intro z hz
+  rw [MonoidHom.mem_ker] at hz
+  have hzker : (z : Subgroup.normalizer (U : Set (GL (Fin 3) K))) ∈
+      (TableB.projConj U).ker := by
+    rw [MonoidHom.mem_ker]
+    simpa using hz
+  have hz_scal : (z : GL (Fin 3) K) ∈ LargeEvenScalars (Fin 3) K :=
+    Subgroup.mem_subgroupOf.mp (hscal hzker)
+  have hz_center : (z : GL (Fin 3) K) ∈ Subgroup.center (GL (Fin 3) K) :=
+    TableB.scalars_le_center hz_scal
+  rw [Subgroup.mem_center_iff]
+  intro x
+  apply Subtype.ext
+  apply Subtype.ext
+  simpa using (Subgroup.mem_center_iff.mp hz_center (x : GL (Fin 3) K))
+
+omit [Finite G] [Fact (Nat.Prime 3)] in
+theorem isElemAbelian_three_ggGamma_range (hN : Bs ≤ Subgroup.normalizer (J : Set G))
+    (hBsElem : IsElemAbelian 3 Bs) : IsElemAbelian 3 (ggGamma J hN).range := by
+  have htop : IsElemAbelian 3 (⊤ : Subgroup ↥Bs) := by
+    refine ⟨IsMulCommutative.of_comm (fun a b => ?_), fun x hx => ?_⟩
+    · exact Subtype.ext (hBsElem.1.is_comm.comm a b)
+    · exact Subtype.ext (hBsElem.2 x x.2)
+  simpa [Subgroup.map_top] using htop.map (ggGamma J hN)
+
 theorem actual_B2_core
     (hH : GGResHyp 3 B Bs x L D J y Kc)
     (hD : GGResLineJDatum 3 Bs J .B2)
@@ -2053,22 +2104,8 @@ theorem actual_B2_core
     rcases ha with ⟨i, rfl⟩
     rcases hb with ⟨j, rfl⟩
     exact hXiComm i j
-  have hker_center : ρD.ker ≤ Subgroup.center Dpre := by
-    intro z hz
-    rw [MonoidHom.mem_ker] at hz
-    have hzker : (z : Subgroup.normalizer (U : Set (GL (Fin 3) K))) ∈
-        (TableB.projConj U).ker := by
-      rw [MonoidHom.mem_ker]
-      simpa [ρD] using hz
-    have hz_scal : (z : GL (Fin 3) K) ∈ LargeEvenScalars (Fin 3) K :=
-      Subgroup.mem_subgroupOf.mp (hscal hzker)
-    have hz_center : (z : GL (Fin 3) K) ∈ Subgroup.center (GL (Fin 3) K) :=
-      TableB.scalars_le_center hz_scal
-    rw [Subgroup.mem_center_iff]
-    intro x
-    apply Subtype.ext
-    apply Subtype.ext
-    simpa using (Subgroup.mem_center_iff.mp hz_center (x : GL (Fin 3) K))
+  have hker_center : ρD.ker ≤ Subgroup.center Dpre :=
+    ker_projConj_comp_subtype_le_center U Dpre hscal
   have hScomm : IsMulCommutative Dpre :=
     isMulCommutative_of_map_eq_range ρD P hPmap hker_center hPcomm
   have hBcomm : ∀ b ∈ Dpre, ∀ c ∈ Dpre, b * c = c * b := by
@@ -2078,18 +2115,8 @@ theorem actual_B2_core
       LargeEvenGraphAut (LargeEvenProjMk U)
         (fun h h' => ((h' : U) : GL (Fin 3) K) = A * (h : GL (Fin 3) K) * A⁻¹) φ →
       TableB.projConj U
-        ⟨A, CFSG.LocalAnalysis.GLTheoremA.T173A.lin_normalizes A⟩ = φ := by
-    intro A φ hgraph
-    ext x
-    induction x using QuotientGroup.induction_on with
-    | H h =>
-      rw [TableB.projConj_mk]
-      let h' : U := U.normalizerMonoidHom
-        ⟨A, CFSG.LocalAnalysis.GLTheoremA.T173A.lin_normalizes A⟩ h
-      have hrel : ((h' : U) : GL (Fin 3) K) = A * (h : GL (Fin 3) K) * A⁻¹ := by
-        dsimp [h']
-        simp [Subgroup.normalizerMonoidHom_apply_apply_coe]
-      exact (hgraph h h' hrel).symm
+        ⟨A, CFSG.LocalAnalysis.GLTheoremA.T173A.lin_normalizes A⟩ = φ :=
+    fun A φ hgraph => projConj_SL3_eq_of_graphAut A φ hgraph
   have hAInorm : ∀ a ∈ A, ∃ M : Subgroup.normalizer (U : Set (GL (Fin 3) K)),
       ∀ l : ↥J, TableB.projConj U M (ψ l) = ψ (a l) := by
     rintro a ⟨b, rfl⟩
@@ -2100,14 +2127,7 @@ theorem actual_B2_core
     · change φ (θ (QuotientGroup.mk l)) = θ (QuotientGroup.mk (ggGamma J hN0 b l))
       simpa [ggGamma_coe] using h
     · simp [ggGamma_coe]
-  have hAe : IsElemAbelian 3 A := by
-    have hcfg : GGConfig 3 B Bs x L D J := hH.1
-    have hBsElem : IsElemAbelian 3 Bs := hcfg.2.1.2.1
-    have htop : IsElemAbelian 3 (⊤ : Subgroup ↥Bs) := by
-      refine ⟨IsMulCommutative.of_comm (fun a b => ?_), fun x hx => ?_⟩
-      · exact Subtype.ext (hBsElem.1.is_comm.comm a b)
-      · exact Subtype.ext (hBsElem.2 x x.2)
-    simpa [A, Subgroup.map_top] using htop.map (ggGamma J hN0)
+  have hAe : IsElemAbelian 3 A := isElemAbelian_three_ggGamma_range hN0 hH.1.2.1.2.1
   have hAIrange : ∀ a ∈ A, ∃ φ ∈ Set.range (TableB.projConj U),
       ∀ l : ↥J, φ (ψ l) = ψ (a l) := by
     rintro a ha
@@ -2123,7 +2143,7 @@ theorem actual_B2_core
   have hNoTr : GGNoTransvection 3 Bs := hH.2.2.2.1
   have hdvdActual : Nat.card (ggAutomizer J Bs) ∣ Nat.card
       (ggAutomizer (MulAut.conj : ↥J →* MulAut ↥J).range A) := by
-    simpa [A] using card_ggAutomizer_dvd_gamma Nat.prime_three hBs hNoTr hN0 hZ
+    exact card_ggAutomizer_dvd_gamma Nat.prime_three hBs hNoTr hN0 hZ
   have h8dvd6 : 8 ∣ 6 := by
     have h8dvd : Nat.card (ggAutomizer J Bs) ∣ Nat.factorial 3 :=
       hdvdActual.trans hdvdFactorial

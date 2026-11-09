@@ -3,8 +3,8 @@ module
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCo3Tw.SD
-  "Certificates/Kernel/Co3Tw/data/srch.json.gz" 64198 3019717654302053216
+#kc_repo #kc_json CertificateChecks.KernelCo3Tw.SD
+  "Certificates/Kernel/Co3Tw/data/srch.json" 64198 3019717654302053216
   (dp0 : Nat) (dp1 : Nat) (dp2 : Nat) (dp3 : Nat) (dp4 : Nat) (dp5 : Nat) (dp6 : Nat)
   (xp0 : Nat) (xp1 : Nat) (xp2 : Nat) (xp3 : Nat) (xp4 : Nat) (xp5 : Nat) (xp6 : Nat)
   (yp0 : Nat) (yp1 : Nat) (yp2 : Nat) (yp3 : Nat) (yp4 : Nat) (yp5 : Nat) (yp6 : Nat)

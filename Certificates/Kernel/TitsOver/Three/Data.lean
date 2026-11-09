@@ -35,6 +35,8 @@ meta def pD : Data where
 
 meta def preM : Gen.Pre := Gen.pre pD 11
 
+meta def dkM : Array (Array Nat) := pairData.gT
+meta def dikM : Array (Array Nat) := pairData.gT.map (invTab 1755)
 meta def ngiM : Array (Array Nat) := nGensI pD
 meta def pgiM : Array (Array Nat) :=
   (CFSG.StandardType.TitsOvergroup.pGens pairData).map (invTab 1755)
@@ -55,6 +57,7 @@ meta def cnM : Array Nat := Gen.counts pD 11 preM
 meta def lM : Array Nat := Gen.labels pD
 meta def mkM : Array Nat := Gen.mkeys pD 11 preM
 meta def miscM : Array Nat := #[Gen.numLabels pD]
+meta def lfM : Array (Array Nat) := #[lM]
 
 meta def nhM : Array Nat :=
   let pT := (CFSG.StandardType.TitsOvergroup.pEnum pairData).tabs
@@ -91,6 +94,9 @@ end CertificateChecks.KernelTitsOver.Three
 
 public section
 
+#kmisc_packarrs CertificateChecks.KernelTitsOver.Three.DKL CertificateChecks.KernelTitsOver.Three.dkM 11
+#kmisc_packarrs CertificateChecks.KernelTitsOver.Three.DIL
+  CertificateChecks.KernelTitsOver.Three.dikM 11
 #kmisc_packarrs CertificateChecks.KernelTitsOver.Three.NGI CertificateChecks.KernelTitsOver.Three.ngiM 11
 #kmisc_packarrs CertificateChecks.KernelTitsOver.Three.PGI CertificateChecks.KernelTitsOver.Three.pgiM 11
 #kmisc_packarrs CertificateChecks.KernelTitsOver.Three.SGI0
@@ -112,6 +118,7 @@ public section
 #krows CertificateChecks.KernelTitsOver.Three.CN CertificateChecks.KernelTitsOver.Three.cnM
 #krows CertificateChecks.KernelTitsOver.Three.L CertificateChecks.KernelTitsOver.Three.lM
 #krowsw CertificateChecks.KernelTitsOver.Three.MK 4096 CertificateChecks.KernelTitsOver.Three.mkM
+#kmisc_packarrs CertificateChecks.KernelTitsOver.Three.LF CertificateChecks.KernelTitsOver.Three.lfM 11
 #krows CertificateChecks.KernelTitsOver.Three.MISC CertificateChecks.KernelTitsOver.Three.miscM
 #krows CertificateChecks.KernelTitsOver.Three.NH CertificateChecks.KernelTitsOver.Three.nhM
 #krows CertificateChecks.KernelTitsOver.Three.SMQ CertificateChecks.KernelTitsOver.Three.smqM

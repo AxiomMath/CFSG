@@ -1,9 +1,8 @@
 module
 
 public meta import Lean
-public import CFSG.Certificates.Kernel.Common.HarnessGz
+public import CFSG.Certificates.Kernel.Common.Harness
 meta import all CFSG.Certificates.Kernel.Common.Harness
-meta import all CFSG.Certificates.Kernel.Common.HarnessGz
 
 open Lean Elab Command Meta
 
@@ -47,10 +46,10 @@ elab "#kc_each " pre:ident x:ident f:term:max lo:num hi:num : command => do
     for i in [lo.getNat:hi.getNat] do
       addCheck pre.getId x.getId fE i #[]
 
-open CFSG.KC.Load CFSG.KC.Gz CFSG.KC.Each in
+open CFSG.KC.Load CFSG.KC.Each in
 elab "#kc_each_rows " pre:ident x:ident f:term:max path:str size:num hash:num lo:num hi:num :
     command => do
-  let b ← readPinnedGz path.getString size.getNat hash.getNat
+  let b ← readPinned path.getString size.getNat hash.getNat
   let lo := lo.getNat
   let hi := hi.getNat
   let rs := (rows b).filter fun r => lo ≤ r[0]! && r[0]! < hi

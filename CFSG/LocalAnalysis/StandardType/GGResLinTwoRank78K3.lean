@@ -1,6 +1,11 @@
 module
 
-public import CFSG.LocalAnalysis.StandardType.GGResLinTwoL3GammaGap
+public import CFSG.LocalAnalysis.StandardType.GGResLinTwoGammaGap
+public import CFSG.LocalAnalysis.StandardType.GGTBJLinearMinusFrame
+public import CFSG.LocalAnalysis.StandardType.GGResLinTwoHighRankGeneral
+public import CFSG.LocalAnalysis.StandardType.GGTBTorLiftRowsHolds
+public import CFSG.LocalAnalysis.StandardType.GGRemTableBLExc11R
+public import CFSG.LocalAnalysis.StandardType.GGResKLinTwoExact3
 public import CFSG.LocalAnalysis.StandardType.GGKnownInputsPsuOrderClassical
 public import CFSG.LocalAnalysis.StandardType.GGSecFiveOrthKSLOrder
 public import CFSG.LocalAnalysis.StandardType.GGResJTwA5Sylow

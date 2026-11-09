@@ -4,6 +4,9 @@ public import CFSG.ClassicalInvolution.SmallCases.Sporadic.M12Inputs
 import Certificates.Kernel.SmallSpor.M12Checks
 import Certificates.Kernel.SporSch.Mathieu.M12Facts
 import CFSG.Certificates.Kernel.ListBridge.TreeSound
+import Certificates.Kernel.SmallSpor.M12CommData
+public import CFSG.ClassicalInvolution.SolvableCase.M12Inputs
+import CFSG.Certificates.Kernel.ListBridge.SelfCommSound
 public import CFSG.ClassicalInvolution.SmallCases.Sporadic.Basic
 public import CFSG.Sporadic.Schreier.MathieuOddCoreM12
 
@@ -108,6 +111,11 @@ public theorem check9311a :
     twoConstrainedCheck (enumerationTab m12CentQ1) (permClosureList m12UGens1 20) 5 = true :=
   twoConstrainedCheck_of_K mem_K1 (mem_permClosureList_of_K EU1.ok lenU1 prepU1 depthU1) EK1.ok
     lenK1 prepK1 EU1.ok lenU1 prepU1 u1_le powU1 normU1 selfU1
+
+public theorem check9315 :
+    commutatorCheck (enumerationTab m12CentQ1) (permClosureList m12UGens1 20) 5 = true :=
+  commutatorCheck_of_K mem_K1 (mem_permClosureList_of_K EU1.ok lenU1 prepU1 depthU1) EK1.ok
+    lenK1 prepK1 EU1.ok lenU1 prepU1 u1_le powU1 normU1 commU1
 
 public theorem check9311b :
     indexTwoCheck m12Rep2 (enumerationTab m12CentQ2) (permClosureList m12NGens2 20) = true :=

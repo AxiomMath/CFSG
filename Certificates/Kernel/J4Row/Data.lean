@@ -3,7 +3,7 @@ module
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.J4Row "Certificates/Kernel/J4Row/data/j4rows.json.gz" 31022
+#kc_repo #kc_json CFSG.KD.J4Row "Certificates/Kernel/J4Row/data/j4rows.json" 31022
   8406932145746123806
   (r31prog : List (Nat × Nat × Nat)) (r31z : Nat) (r31u : Nat) (r31gens : List Nat)
   (r31cols : List Nat) (r31bfs : List (Nat × Nat)) (r31N : Nat) (r31pi : List Nat) (r31x : Nat)

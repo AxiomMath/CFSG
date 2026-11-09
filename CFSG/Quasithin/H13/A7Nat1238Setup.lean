@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.H13.A7NatSixLocal
+public import CFSG.Quasithin.H13.A7SignCountK
 
 public section
 
@@ -78,8 +79,8 @@ theorem altLift5_mem (σ : alternatingGroup (Fin 5)) : altLift5 σ ∈ altFive :
   ⟨altLift5_apply_of_ge σ (by decide), altLift5_apply_of_ge σ (by decide)⟩
 
 theorem card_filter_alt_five : (Finset.univ.filter fun σ : Perm (Fin 7) =>
-    sign σ = 1 ∧ σ 5 = 5 ∧ σ 6 = 6).card = 60 := by
-  decide +kernel
+    sign σ = 1 ∧ σ 5 = 5 ∧ σ 6 = 6).card = 60 :=
+  A7SignCountK.card_sign_fix56
 
 theorem nat_card_altFive : Nat.card altFive = 60 := by
   rw [← card_filter_alt_five, ← Fintype.card_subtype, ← Nat.card_eq_fintype_card]

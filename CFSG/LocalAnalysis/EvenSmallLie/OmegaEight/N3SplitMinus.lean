@@ -50,13 +50,13 @@ theorem bK_lt : bK < 2 ^ 144 := by
   unfold bK
   decide
 
-theorem m2_roots : allRoots 256 (invsOf tcEnumW.keys)
+theorem m2_roots : allRootsMin 256 (invsOf tcEnumW.keys)
     ((List.range 4096).filter fun v => mulVecK phiK v == v) = true := by
-  rw [← allRootsF_eq fun v hv => List.mem_range.1 (List.mem_filter.1 hv).1]
+  rw [← allRootsMinF_eq fun v hv => List.mem_range.1 (List.mem_filter.1 hv).1]
   exact m2_check
 
-theorem off_roots : allRoots 2048 (invsOf tcEnumW.keys) (List.range 4096) = true := by
-  rw [← allRootsF_eq fun v hv => List.mem_range.1 hv]
+theorem off_roots : allRootsMin 2048 (invsOf tcEnumW.keys) (List.range 4096) = true := by
+  rw [← allRootsMinF_eq fun v hv => List.mem_range.1 hv]
   exact off_check
 
 
@@ -161,13 +161,13 @@ theorem splitFacts : SplitFacts (splitModel .minus) where
     exact exists_of_imgCheckW phi_parts.2.1 hv
   offender_m2 := by
     intro E hE hsq hne
-    refine offender_bound tc_parts.1 (fun v hv hfix => ?_) m2_roots hE hsq hne
+    refine offender_bound_min tc_parts.1 (fun v hv hfix => ?_) m2_roots hE hsq hne
     refine List.mem_filter.2 ⟨List.mem_range.2 hv, ?_⟩
     have h1 : toVec 12 (mulVecK phiK v) = toVec 12 v := by
       rw [toVec_mulVecK, rep_tbar]
       exact hfix
     rw [toVec_injOn (mulVecK_lt _ _) hv h1, beq_self_eq_true]
-  offender_TC := fun A hA hsq hne => offender_bound tc_parts.1
+  offender_TC := fun A hA hsq hne => offender_bound_min tc_parts.1
     (fun v hv _ => List.mem_range.2 hv) off_roots hA hsq hne
   card_TC := by
     show Nat.card (grpOf (splitTGens .minus)) = 2 ^ 8

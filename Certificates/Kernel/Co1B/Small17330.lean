@@ -15,14 +15,15 @@ set_option maxRecDepth 400000
 namespace CertificateChecks.KernelCo1B.Bound17330
 
 open CFSG.KC.Co1B CFSG.HardMathSupport.Dickson.I271.TabCo1ThreeB
-open CFSG.KS.SporSch.M24 (gtPinK bfsMemK)
+open CFSG.KS.SporSch.M24 (bfsK gtStepK idM bfsMemK)
 open CFSG.KLie.CT (notB)
 
 @[expose] noncomputable def ZM (l : Nat) : Nat := CertificateChecks.KernelCo1ThreeK.KZ.M (89 + l)
 
 @[expose] noncomputable def wK (w : List Int) : Nat := wordK RS4 IS4 w
 
-theorem kZT : (gtPinK ZM 2 20 ZT.N ZT.P ZT.PAR ZT.LAB ZT.W ZT.S && Nat.beq ZT.N 9) = true := by
+theorem kZT : (bfsK (gtStepK ZM) ZT.P ZT.PAR ZT.LAB ZT.W ZT.S 2 20 ZT.N idM && Nat.beq ZT.N 9) =
+    true := by
   quickRfl
 
 theorem kOrd : (eqK (powWK XK 3) oneK && eqK (powWK ZK 3) oneK && notB (eqK XK oneK) &&

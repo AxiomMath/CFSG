@@ -427,7 +427,10 @@ theorem orb_ok : orbCheck 1755 titsK0Gens = true := by
   unfold orbCheck
   obtain ⟨r1, r2⟩ := roots_eq
   exact orbitPartOK_forestKG (by norm_num) gs (fun k hk x hx => KernelMisc.E7043.g_get hk hx)
-    ⟨r1, fun t ht => by rw [r2 t ht, qr.2 t ht]⟩ qr.1 (fun x hx => KernelMisc.E7043.lab_get hx)
+    ⟨r1, fun t ht => by rw [r2 t ht, qr.2 t ht]⟩ qr.1 (fun x hx => by
+      have e := KernelMisc.E7043.lab_get hx
+      rw [titsK0Lab, orbLab_eq] at e
+      exact e)
     (fun t ht => allN_spec K07045.kF t ht) (fun e he => allN_spec K07045.kE e (by omega))
     (fun x hx => allN_spec K07045.kP x hx) (fun k hk => allN_spec K07045.kRt k hk)
 

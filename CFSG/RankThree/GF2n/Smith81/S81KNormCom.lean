@@ -50,9 +50,16 @@ theorem rel_le_lt : ∀ b c : Fin e7Data.d, tb relTab b c = true → ltB b c = t
   unfold ltB tb relTab ltTab
   decide +kernel
 
-theorem lt_trans' : ∀ b c d : Fin e7Data.d, ltB b c = true → ltB c d = true → ltB b d = true := by
+theorem ltTab_row_sub : ∀ b c : Fin e7Data.d, ltB b c = true →
+    ltTab.getD c 0 ||| ltTab.getD b 0 = ltTab.getD b 0 := by
   unfold ltB tb ltTab
   decide +kernel
+
+theorem lt_trans' : ∀ b c d : Fin e7Data.d, ltB b c = true → ltB c d = true → ltB b d = true := by
+  intro b c d hbc hcd
+  have h := ltTab_row_sub b c hbc
+  unfold ltB tb at hcd ⊢
+  rw [← h, Nat.testBit_or, hcd, Bool.true_or]
 
 theorem lt_first : ∀ b c : Fin e7Data.d, ltB b c = true →
     ∃ d : Fin e7Data.d, tb relTab b d = true ∧ (d = c ∨ ltB d c = true) := by

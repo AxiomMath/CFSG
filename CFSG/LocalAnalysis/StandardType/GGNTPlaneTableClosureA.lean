@@ -291,6 +291,18 @@ private theorem n1cA_walk_sound (clos par gi gens : List ℕ) :
     · rw [← n1cA_drop_succ_of_drop hps, ← n1cA_drop_succ_of_drop hgs] at hrest
       exact ih (j + 1) p (n1cA_drop_succ_of_drop hcs) hrest t hlt ht hpt hgt
 
+private theorem n1cA_PS_take {clos par gi gens : List ℕ} {b t : ℕ} (ht : t < b)
+    (h : n1cA_PS (clos.take b) (par.take b) (gi.take b) gens t) : n1cA_PS clos par gi gens t := by
+  have hg : ∀ (l : List ℕ) (i : ℕ), i < b → (l.take b).getD i 0 = l.getD i 0 := by
+    intro l i hi
+    rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_take, if_pos hi]
+  obtain ⟨h1, h2, h3, h4⟩ := h
+  rw [hg par t ht] at h1 h3 h4
+  rw [hg gi t ht] at h2 h3 h4
+  rw [hg clos t ht, hg clos (par.getD t 0) (by omega)] at h3
+  rw [hg clos (par.getD t 0) (by omega)] at h4
+  exact ⟨h1, h2, h3, h4⟩
+
 def n1cA_genSmall0 : List Nat := [
   1704687336274762161831378367368, 1704684575186483435716778986844, 1704687399305523038666958996385,
     1704687738625656123973803630744, 1704687785755440458440590022002
@@ -1740,10 +1752,30 @@ private abbrev n1cA_PS0 (j : ℕ) : Prop :=
       (n1cA_genSmall0.getD (n1cA_genIdx0.getD j 0) 0) ∧
   n1cA_inRange (n1cA_prod (n1cA_closure0.getD (n1cA_parent0.getD j 0) 0)
     (n1cA_genSmall0.getD (n1cA_genIdx0.getD j 0) 0)) = true
-private theorem n1cA_walk0 :
-    n1cA_walk n1cA_genSmall0 1 0 (n1cA_closure0.drop 0) (n1cA_closure0.drop 1)
-      (n1cA_parent0.drop 1) (n1cA_genIdx0.drop 1) = true := by
+private theorem n1cA_walk0_0 :
+    n1cA_walk n1cA_genSmall0 1 0 ((n1cA_closure0.take 481).drop 0)
+      ((n1cA_closure0.take 481).drop 1) ((n1cA_parent0.take 481).drop 1)
+      ((n1cA_genIdx0.take 481).drop 1) = true := by
   decide +kernel
+
+private theorem n1cA_walk0_1 :
+    n1cA_walk n1cA_genSmall0 481 0 ((n1cA_closure0.take 961).drop 0)
+      ((n1cA_closure0.take 961).drop 481) ((n1cA_parent0.take 961).drop 481)
+      ((n1cA_genIdx0.take 961).drop 481) = true := by
+  decide +kernel
+
+private theorem n1cA_walk0_2 :
+    n1cA_walk n1cA_genSmall0 961 0 ((n1cA_closure0.take 1441).drop 0)
+      ((n1cA_closure0.take 1441).drop 961) ((n1cA_parent0.take 1441).drop 961)
+      ((n1cA_genIdx0.take 1441).drop 961) = true := by
+  decide +kernel
+
+private theorem n1cA_walk0_3 :
+    n1cA_walk n1cA_genSmall0 1441 0 ((n1cA_closure0.take 1920).drop 0)
+      ((n1cA_closure0.take 1920).drop 1441) ((n1cA_parent0.take 1920).drop 1441)
+      ((n1cA_genIdx0.take 1920).drop 1441) = true := by
+  decide +kernel
+
 
 private theorem n1cA_len0 :
     n1cA_closure0.length = 1920 ∧ n1cA_parent0.length = 1920 ∧ n1cA_genIdx0.length = 1920 := by
@@ -1751,19 +1783,27 @@ private theorem n1cA_len0 :
 
 private theorem n1cA_PS0_b0 : ∀ i : Fin 480, n1cA_PS0 (i.val + 1) := fun i => by
   have := n1cA_len0
-  exact n1cA_walk_sound _ _ _ _ _ 1 0 rfl n1cA_walk0 _ (by omega) (by omega) (by omega) (by omega)
+  exact n1cA_PS_take (b := 481) (by omega) (n1cA_walk_sound _ _ _ _ _ 1 0 rfl n1cA_walk0_0 _
+    (by omega) (by rw [List.length_take]; omega) (by rw [List.length_take]; omega)
+    (by rw [List.length_take]; omega))
 
 private theorem n1cA_PS0_b1 : ∀ i : Fin 480, n1cA_PS0 (i.val + 481) := fun i => by
   have := n1cA_len0
-  exact n1cA_walk_sound _ _ _ _ _ 1 0 rfl n1cA_walk0 _ (by omega) (by omega) (by omega) (by omega)
+  exact n1cA_PS_take (b := 961) (by omega) (n1cA_walk_sound _ _ _ _ _ 481 0 rfl n1cA_walk0_1 _
+    (by omega) (by rw [List.length_take]; omega) (by rw [List.length_take]; omega)
+    (by rw [List.length_take]; omega))
 
 private theorem n1cA_PS0_b2 : ∀ i : Fin 480, n1cA_PS0 (i.val + 961) := fun i => by
   have := n1cA_len0
-  exact n1cA_walk_sound _ _ _ _ _ 1 0 rfl n1cA_walk0 _ (by omega) (by omega) (by omega) (by omega)
+  exact n1cA_PS_take (b := 1441) (by omega) (n1cA_walk_sound _ _ _ _ _ 961 0 rfl n1cA_walk0_2 _
+    (by omega) (by rw [List.length_take]; omega) (by rw [List.length_take]; omega)
+    (by rw [List.length_take]; omega))
 
 private theorem n1cA_PS0_b3 : ∀ i : Fin 479, n1cA_PS0 (i.val + 1441) := fun i => by
   have := n1cA_len0
-  exact n1cA_walk_sound _ _ _ _ _ 1 0 rfl n1cA_walk0 _ (by omega) (by omega) (by omega) (by omega)
+  exact n1cA_PS_take (b := 1920) (by omega) (n1cA_walk_sound _ _ _ _ _ 1441 0 rfl n1cA_walk0_3 _
+    (by omega) (by rw [List.length_take]; omega) (by rw [List.length_take]; omega)
+    (by rw [List.length_take]; omega))
 
 private theorem n1cA_PS0_all (i : ℕ) (h0 : 0 < i) (hi : i < 1920) : n1cA_PS0 i := by
   by_cases h1 : i < 481

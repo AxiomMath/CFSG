@@ -7,6 +7,7 @@ public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.HSInvolut
 public import CFSG.RankThree.PartOne.KS.OrbitCert
 public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.Setup.X3AutIso
 public import CFSG.RankThree.PartOne.FIS.SymBuild
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.S5FiveYHsSpec
 
 public section
 
@@ -213,10 +214,16 @@ theorem classes_spec (hb : basicOK = true) (hc : classesOK = true) :
     Nat.card ↥(hs100P ⊓ centralizer ({Up} : Set (Equiv.Perm (Fin 100)))) = 2880 ∧
     Nat.card ↥(hs100P ⊓ centralizer ({Yp} : Set (Equiv.Perm (Fin 100)))) = 360 ∧
     fixN Zp = 20 ∧ fixN Up = 0 := by
-  obtain ⟨hgs, hvz, -, -, -, hvy, -, -, -, -, -, -⟩ := basic_spec hb
+  obtain ⟨hgs, hvz, -, -, -, hvy, hYP, -, -, -, -, -⟩ := basic_spec hb
   have hvu := valid_u0 hb
-  simp only [classesOK, Bool.and_eq_true, beq_iff_eq, and_assoc] at hc
-  obtain ⟨hz, hu, hy, hfz, hfu⟩ := hc
+  simp only [classesOK, Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq, and_assoc] at hc
+  obtain ⟨hz, hu, hy3, hy1, hfz, hfu⟩ := hc
+  have hry : Rep 100 y0 Yp := rep_of_validA hvy
+  have hY1 : Yp ≠ 1 := fun h1 => by
+    have := (eqA_iff hry rep_idA).2 h1
+    rw [this] at hy1
+    exact absurd hy1 (by simp)
+  have hYo : orderOf Yp = 3 := orderOf_eq_prime ((eqA_iff (rep_pw hry 3) rep_idA).1 hy3) hY1
   have c1 : 44352000 = 5775 * Nat.card ↥(hs100P ⊓ centralizer ({Zp} :
       Set (Equiv.Perm (Fin 100)))) := by
     have := card_cent_of_classOK hgs hz
@@ -225,11 +232,7 @@ theorem classes_spec (hb : basicOK = true) (hc : classesOK = true) :
       Set (Equiv.Perm (Fin 100)))) := by
     have := card_cent_of_classOK hgs hu
     rwa [card_P] at this
-  have c3 : 44352000 = 123200 * Nat.card ↥(hs100P ⊓ centralizer ({Yp} :
-      Set (Equiv.Perm (Fin 100)))) := by
-    have := card_cent_of_classOK hgs hy
-    rwa [card_P] at this
-  refine ⟨by omega, by omega, by omega, ?_, ?_⟩
+  refine ⟨by omega, by omega, FiveY.card_centralizer_hs100P_three hYP hYo, ?_, ?_⟩
   · rw [← fixCnt_eq (rep_of_validA hvz)]; exact hfz
   · rw [← fixCnt_eq (rep_of_validA hvu)]; exact hfu
 

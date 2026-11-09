@@ -74,7 +74,7 @@ deriving Inhabited
     s.gens.all (fun u => u.w.all fun a => D.pc.any (·.reg == a.1)) &&
     s.genWord s.v0 && s.genWord s.v1 &&
     s.v2.all (fun a => D.pc.any (·.reg == a.1)) &&
-    (nonzeroTriples D.p).all (fun v => s.indep.any fun q =>
+    (projTriples D.p).all (fun v => s.indep.any fun q =>
       q.1 == v.1 && q.2.1 == v.2.1 && q.2.2.1 == v.2.2) &&
     s.acts.all (fun g =>
       g.imgs.all (fun c => s.gens.any (·.reg == c.1) && s.genWord c.2) &&

@@ -2,6 +2,8 @@ module
 
 public import CFSG.LocalAnalysis.SeitzReduction.E6PilotCentralizerZLevi
 public import CFSG.LocalAnalysis.SeitzReduction.E7PilotClassYRoots
+import CFSG.Mathlib.Decide.FinFun
+import Mathlib.Tactic.IntervalCases
 
 public section
 
@@ -243,10 +245,53 @@ end CertAux
 theorem yTableOf_rootData : ∀ p ∈ yLevelRootData, yTableOf p.root = p.table := by
   decide +kernel
 
+section QCheck
+
+attribute [local instance high] CFSG.Decide.FinFun.decForallZ2
+
+private theorem yLevelRootData_qcheck_0 : ((yLevelRootData.drop (0 * 7)).take 7).all
+    (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+      yQ (yStepFun p.table t v) = yQ v)) = true := by
+  decide +kernel
+
+private theorem yLevelRootData_qcheck_1 : ((yLevelRootData.drop (1 * 7)).take 7).all
+    (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+      yQ (yStepFun p.table t v) = yQ v)) = true := by
+  decide +kernel
+
+private theorem yLevelRootData_qcheck_2 : ((yLevelRootData.drop (2 * 7)).take 7).all
+    (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+      yQ (yStepFun p.table t v) = yQ v)) = true := by
+  decide +kernel
+
+private theorem yLevelRootData_qcheck_3 : ((yLevelRootData.drop (3 * 7)).take 7).all
+    (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+      yQ (yStepFun p.table t v) = yQ v)) = true := by
+  decide +kernel
+
+private theorem yLevelRootData_qcheck_4 : ((yLevelRootData.drop (4 * 7)).take 7).all
+    (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+      yQ (yStepFun p.table t v) = yQ v)) = true := by
+  decide +kernel
+
+private theorem yLevelRootData_qcheck_5 : ((yLevelRootData.drop (5 * 7)).take 7).all
+    (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+      yQ (yStepFun p.table t v) = yQ v)) = true := by
+  decide +kernel
+
 theorem yLevelRootData_qcheck :
     ∀ p ∈ yLevelRootData, ∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
       yQ (yStepFun p.table t v) = yQ v := by
-  decide +kernel
+  have h := CFSG.Decide.FinFun.all_of_chunks (f := (fun p : YRootTable => decide (∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,
+        yQ (yStepFun p.table t v) = yQ v))) 7 6
+    yLevelRootData (by decide +kernel) fun k hk => by
+      interval_cases k
+      exacts [yLevelRootData_qcheck_0, yLevelRootData_qcheck_1, yLevelRootData_qcheck_2,
+        yLevelRootData_qcheck_3, yLevelRootData_qcheck_4, yLevelRootData_qcheck_5]
+  intro p hp
+  exact of_decide_eq_true (List.all_eq_true.1 h p hp)
+
+end QCheck
 
 theorem yLevelZeroRoots_qcheck :
     ∀ α ∈ yLevelZeroRoots, ∀ t : ZMod 2, ∀ v : Fin 10 → ZMod 2,

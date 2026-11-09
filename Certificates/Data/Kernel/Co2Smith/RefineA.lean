@@ -47,11 +47,24 @@ open CFSG.KC.Enum CFSG.KC.N3153
   strictB (colourA n S Ts pre k) fun C =>
     allN n fun w => bIf(Nat.beq (cgA C w) (cgA C x), memA pts w, true)
 
+@[expose] noncomputable def classLA (n : Nat) (S : Nat → Nat) (Ts pre : List Nat) (k : Nat)
+    (xs : List (Nat × List Nat)) : Bool :=
+  strictB (colourA n S Ts pre k) fun C =>
+    List.rec (motive := fun _ => Bool) true (fun e _ ih =>
+      bAnd(allN n fun w => bIf(Nat.beq (cgA C w) (cgA C e.1), memA e.2 w, true), ih)) xs
+
 @[expose] noncomputable def singA (n : Nat) (S : Nat → Nat) (Ts pre : List Nat) (k lo m : Nat) :
     Bool :=
   strictB (colourA n S Ts pre k) fun C =>
     allN m fun i => strictB (cgA C (Nat.add lo i)) fun c =>
       allN n fun w => bIf(Nat.beq (cgA C w) c, Nat.beq w (Nat.add lo i), true)
+
+@[expose] noncomputable def injColA (n : Nat) (S : Nat → Nat) (Ts pre : List Nat) (k : Nat)
+    (P : Nat → Nat) : Bool :=
+  strictB (colourA n S Ts pre k) fun C =>
+    bAnd(allN n (fun i => Nat.blt (P i) n),
+      allN (Nat.sub n (nat_lit 1)) (fun i =>
+        Nat.blt (cgA C (P i)) (cgA C (P (Nat.add i (nat_lit 1))))))
 
 end CFSG.KC.Co2SmithR
 

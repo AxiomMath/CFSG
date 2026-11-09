@@ -67,14 +67,14 @@ theorem exists_moduleSpec_of_rlCheck (hp : D.p.Prime)
       simp only [RMod.facts, List.mem_append]
       exact Or.inl hf
     exact Or.inl (Or.inr ⟨m, hm, hfm⟩)
-  have hwfm : m.nm.wf D.p = true := by
+  have hwfm : m.nm.wfN D.p = true := by
     unfold RSpec.wf at hwf
     simp only [Bool.and_eq_true, decide_eq_true_eq] at hwf
     obtain ⟨⟨⟨⟨-, -⟩, hmodwf⟩, -⟩, -⟩ := hwf
     have hmw := List.all_eq_true.1 hmodwf m hm
     simp only [Bool.and_eq_true, decide_eq_true_eq] at hmw
     exact hmw.1.1.1
-  exact ⟨NMod.spec Sp hC' m.nm hf hwfm, rfl⟩
+  exact ⟨NMod.specN Sp hC' m.nm hf hwfm, rfl⟩
 
 include Sp in
 theorem three_le_pRank_of_rlCheck [Finite (NativeSporadic.seedMonoid c d 1 sA sB)ˣ]

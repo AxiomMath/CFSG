@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.GroupTheory.SpecificGroups.Alternating
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -63,10 +64,44 @@ def detOK (n : Perm (Fin 7)) : Bool :=
         - ((b.val : ℕ) : ZMod 3) * ((c.val : ℕ) : ZMod 3) = 1)
   | _, _ => false
 
+open CFSG.Permutation.FinPack in
+noncomputable def expoK (c : ℕ) : Option (Fin 3 × Fin 3) :=
+  (List.finRange 3 ×ˢ List.finRange 3).find? fun p => Nat.beq (enc (pw p.1 p.2)) c
+
+open CFSG.Permutation.FinPack in
+theorem expo_eq_expoK (g : Perm (Fin 7)) : expo g = expoK (enc g) := by
+  simp only [expo, expoK, beq_enc_eq_decide (by norm_num : 7 ≤ 16)]
+
+def detK (o1 o2 : Option (Fin 3 × Fin 3)) : Bool :=
+  o1.elim false fun p => o2.elim false fun q =>
+    decide (((p.1.val : ℕ) : ZMod 3) * ((q.2.val : ℕ) : ZMod 3)
+      - ((q.1.val : ℕ) : ZMod 3) * ((p.2.val : ℕ) : ZMod 3) = 1)
+
+theorem detOK_eq_detK (n : Perm (Fin 7)) :
+    detOK n = detK (expo (n * xP * n⁻¹)) (expo (n * yP * n⁻¹)) := by
+  unfold detOK detK
+  generalize expo (n * xP * n⁻¹) = o1
+  generalize expo (n * yP * n⁻¹) = o2
+  rcases o1 with _ | ⟨a, c⟩ <;> rcases o2 with _ | ⟨b, d⟩ <;> rfl
+
+open CFSG.Permutation.FinPack in
 set_option maxRecDepth 100000 in
 theorem detOK_of_even : ∀ n : Perm (Fin 7), Equiv.Perm.sign n = 1 → normalises n = true →
     detOK n = true := by
-  decide +kernel
+  have hw : walkK 7 (fun c => !evenK 7 c ||
+      !((expoK (mulK 7 (mulK 7 c (enc xP)) (invCK 7 c))).isSome &&
+        (expoK (mulK 7 (mulK 7 c (enc yP)) (invCK 7 c))).isSome) ||
+      detK (expoK (mulK 7 (mulK 7 c (enc xP)) (invCK 7 c)))
+        (expoK (mulK 7 (mulK 7 c (enc yP)) (invCK 7 c)))) 7 0 0 0 = true := by
+    decide +kernel
+  have hn : 7 ≤ 16 := by norm_num
+  intro n hs hN
+  rw [detOK_eq_detK, expo_eq_expoK, expo_eq_expoK]
+  rw [normalises, expo_eq_expoK, expo_eq_expoK] at hN
+  have h := walkK_sound hw n
+  simp only [evenK_enc_eq_decide hn, hs, invCK_enc hn, mulK_enc hn, hN, decide_true, Bool.not_true,
+    Bool.false_or] at h
+  exact h
 
 theorem row6_normalizer_E9_det (n : Perm (Fin 7)) (hn : n ∈ alternatingGroup (Fin 7))
     (hN : n ∈ Subgroup.normalizer E9) :

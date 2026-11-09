@@ -10,8 +10,8 @@ set_option maxRecDepth 100000
 
 namespace CertificateChecks.KernelSpor.M12Alt
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.M12Alt
-  "Certificates/Kernel/Sporadic/M12Alt/data/Data.json.gz" 33234 10931989320162976952
+#kc_repo #kc_json CertificateChecks.KernelSpor.M12Alt
+  "Certificates/Kernel/Sporadic/M12Alt/data/Data.json" 33234 10931989320162976952
   (R0 : Nat) (Ri0 : Nat) (Bl0 : List Nat) (P0 : List Nat) (Lb0 : List Nat) (S0 : List Nat)
   (R1 : Nat) (Ri1 : Nat) (Bl1 : List Nat) (P1 : List Nat) (Lb1 : List Nat) (S1 : List Nat)
   (tA : List Nat) (tB : List Nat) (CS : List Nat)

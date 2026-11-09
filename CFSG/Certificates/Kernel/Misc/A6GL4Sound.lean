@@ -249,6 +249,8 @@ theorem xAt_sound {Y : ℕ} {K : Subgroup GL4} (hE : ExactList enc4 ⊤ 20160 EA
     rw [gl4_enc.inj this]
     exact hb
 
+private noncomputable def uW (R : ℕ → ℕ) (k : ℕ) : GL4 := u4 (R (2 * k))
+
 theorem djB_sound {X Y n : ℕ} {K : Subgroup GL4} (hK : ExactList enc4 K 360 HE)
     (hs : ∀ i < 360, CFSG.KC.Misc.Clos.sortAt 360 HE HS i = true) (h : djB HE HS R X Y n = true)
     {x y : GL4} (hx : enc4 x = X) (hy : enc4 y = Y) (hxK : x ∈ K) (hyK : y ∈ K) :
@@ -257,10 +259,10 @@ theorem djB_sound {X Y n : ℕ} {K : Subgroup GL4} (hK : ExactList enc4 K 360 HE
   unfold djB at h
   obtain ⟨h1, h2⟩ := andB_iff.1 h
   have hinv := (allN_iff _ _).1 h1
-  refine ⟨fun k => u4 (R (2 * k)), fun l hl k hk => ?_⟩
-  have hck : ∀ k < n, enc4 (u4 (R (2 * k))) = R (2 * k) ∧
-      enc4 (u4 (R (2 * k)))⁻¹ = R (2 * k + 1) := by
+  refine ⟨uW R, fun l hl k hk => ?_⟩
+  have hck : ∀ k < n, enc4 (uW R k) = R (2 * k) ∧ enc4 (uW R k)⁻¹ = R (2 * k + 1) := by
     intro k hk
+    rw [uW]
     have hw := hinv k hk
     have e := enc4_u4 (exists_of_invW hw)
     refine ⟨e, ?_⟩
@@ -271,11 +273,11 @@ theorem djB_sound {X Y n : ℕ} {K : Subgroup GL4} (hK : ExactList enc4 K 360 HE
   rw [letB_eq, letB_eq] at hd
   obtain ⟨ek, eki⟩ := hck k (hk.trans hl)
   obtain ⟨el, eli⟩ := hck l hl
-  have hm : enc4 ((u4 (R (2 * l)))⁻¹ * u4 (R (2 * k))) =
+  have hm : enc4 ((uW R l)⁻¹ * uW R k) =
       mul4F (R (Nat.succ (Nat.mul 2 l))) (R (Nat.mul 2 k)) := by
     rw [← mul_enc, eli, ek]
     rfl
-  have hmi : enc4 ((u4 (R (2 * l)))⁻¹ * u4 (R (2 * k)))⁻¹ =
+  have hmi : enc4 ((uW R l)⁻¹ * uW R k)⁻¹ =
       mul4F (R (Nat.succ (Nat.mul 2 k))) (R (Nat.mul 2 l)) := by
     rw [_root_.mul_inv_rev, inv_inv, ← mul_enc, eki, el]
     rfl

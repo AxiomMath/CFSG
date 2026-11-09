@@ -351,6 +351,21 @@ theorem class_sound {n w m ns lab rep wit SZ : Nat} {CT CI Q P : Nat → Nat} {s
       (classData n (pts n w m CT) sizes) sizes = true :=
   CFSG.KC.L34KSnd.classOK_of_checks hz hg h
 
+theorem class_soundQ {n w m ns lab rep wit SZ : Nat} {CT CI Q P : Nat → Nat} {sizes : Array Nat}
+    (hz : sizes.size = ns ∧ ∀ l < ns, sizes[l]! = fget SZ l 8)
+    (hg : groupK n w m CT CI Q = true) (h : classQK n w m CT CI Q P lab rep wit SZ ns = true) :
+    classOK n (pts n w m CT) ((pts n w m CT).map (invTab n))
+      (classData n (pts n w m CT) sizes) sizes = true :=
+  CFSG.KC.L34KSnd.classOK_of_checksQ hz hg h
+
+theorem class_soundG {n w m ns lab rep wit SZ ng gs par lt dep : Nat} {CT CI Q P : Nat → Nat}
+    {sizes : Array Nat} (hz : sizes.size = ns ∧ ∀ l < ns, sizes[l]! = fget SZ l 8)
+    (hg : groupGK n w m CT CI Q ng gs par lt dep = true)
+    (h : classQK n w m CT CI Q P lab rep wit SZ ns = true) :
+    classOK n (pts n w m CT) ((pts n w m CT).map (invTab n))
+      (classData n (pts n w m CT) sizes) sizes = true :=
+  CFSG.KC.L34KSnd.classOK_of_checksG hz hg h
+
 theorem der_sound {n w m m' IW W : Nat} {TT TI D PW CW : Nat → Nat} {A : Array Tab}
     (hA : ∀ x, x ∈ A.toList ↔ x ∈ (pts n w m TT).toList)
     (h : derK n w m TT TI m' D PW CW IW W = true) :
@@ -358,7 +373,23 @@ theorem der_sound {n w m m' IW W : Nat} {TT TI D PW CW : Nat → Nat} {A : Array
         (derivedData n A (A.map (invTab n))).2 = true ∧
       (derivedData n A (A.map (invTab n))).1.size = m' ∧
       ∀ x, x ∈ (derivedData n A (A.map (invTab n))).1.toList ↔ x ∈ (pts n w m' D).toList :=
-  CFSG.KC.L34KSnd.derivedOK_of_derK hA h (CFSG.KC.L34KSnd.derivedData_nodup n A _)
+  CFSG.KC.L34KSnd.derivedOK_of_derF hA (CFSG.KC.L34KSnd.derF_of_derK h)
+    (CFSG.KC.L34KSnd.derivedData_nodup n A _)
+    (CFSG.KC.L34KSnd.derivedData_size n A _) (CFSG.KC.L34KSnd.derivedData_wit n A _)
+    (CFSG.KC.L34KSnd.derivedData_complete n A _)
+
+theorem der_soundQ {n w m m' ng gs par lt dep iv IW W : Nat} {TT TI Q D PW CW : Nat → Nat}
+    {A : Array Tab} (hA : ∀ x, x ∈ A.toList ↔ x ∈ (pts n w m TT).toList)
+    (hg : groupGK n w m TT TI Q ng gs par lt dep = true)
+    (h : derQK n w m TT TI Q iv m' D PW CW IW W = true) :
+    derivedOK n A (A.map (invTab n)) (derivedData n A (A.map (invTab n))).1
+        (derivedData n A (A.map (invTab n))).2 = true ∧
+      (derivedData n A (A.map (invTab n))).1.size = m' ∧
+      ∀ x, x ∈ (derivedData n A (A.map (invTab n))).1.toList ↔ x ∈ (pts n w m' D).toList :=
+  CFSG.KC.L34KSnd.derivedOK_of_derF hA
+    (CFSG.KC.L34KSnd.derF_of_derQK (CFSG.KC.L34KSnd.groupGK_facts hg).1
+      (CFSG.KC.L34KSnd.groupGK_facts hg).2 h)
+    (CFSG.KC.L34KSnd.derivedData_nodup n A _)
     (CFSG.KC.L34KSnd.derivedData_size n A _) (CFSG.KC.L34KSnd.derivedData_wit n A _)
     (CFSG.KC.L34KSnd.derivedData_complete n A _)
 

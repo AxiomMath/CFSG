@@ -1,9 +1,9 @@
 module
 
 public import CFSG.Certificates.Kernel.LocalQTPairsHSound
+import CFSG.Certificates.Kernel.LocalQTChainGFull
 public import Certificates.Kernel.LocalQT.Pairs.D4094
 public import Certificates.Kernel.LocalQT.Pairs.D4094k
-public import Certificates.Kernel.LocalQT.Pairs.D4094i
 public import Certificates.Kernel.LocalQT.Pairs.D4094c
 public import Certificates.Kernel.LocalQT.Pairs.D4094t
 import CFSG.Certificates.Kernel.Common.Harness
@@ -59,8 +59,16 @@ theorem ht2 : CFSG.KC.LQT.W.codeP (t2Perm.headD 1) = t2C := by decide +kernel
 theorem hQ1P : q1Perms.map CFSG.KC.LQT.W.codeP = Q1P := by decide +kernel
 theorem hA2P : a2Perms.map CFSG.KC.LQT.W.codeP = A2P := by decide +kernel
 theorem hJL : jLetters.map CFSG.KC.LQT.W.codeP = JL := by decide +kernel
-theorem hwA : evalW jLetters wordA = m24gA := by decide +kernel
-theorem hwB : evalW jLetters wordB = m24gB := by decide +kernel
+theorem hwAc : CFSG.KC.LQT.W.evalZK 24 JL wordA = CFSG.KC.LQT.W.codeP m24gA := by decide +kernel
+theorem hwBc : CFSG.KC.LQT.W.evalZK 24 JL wordB = CFSG.KC.LQT.W.codeP m24gB := by decide +kernel
+theorem hwA : evalW jLetters wordA = m24gA := by
+  apply codeP_injective
+  rw [evalW_eq_evalG, ← CFSG.KC.LQT.W.evalZK_codeP (by norm_num), hJL]
+  exact hwAc
+theorem hwB : evalW jLetters wordB = m24gB := by
+  apply codeP_injective
+  rw [evalW_eq_evalG, ← CFSG.KC.LQT.W.evalZK_codeP (by norm_num), hJL]
+  exact hwBc
 
 @[expose] noncomputable def K1G : List Nat := S0G ++ [t1C]
 @[expose] noncomputable def T0G : List Nat := S0G ++ [t3C]
@@ -88,9 +96,18 @@ theorem lK2 : chainF CK2 = 9216 := by decide +kernel
 theorem lQ1 : chainF CQ1 = 128 := by decide +kernel
 theorem lA2 : chainF CA2 = 256 := by decide +kernel
 
-theorem gS : grpC 24 CS (chainF CS) S0G WS 40 = true := by quickRfl
-theorem gQ1 : grpC 24 CQ1 (chainF CQ1) Q1P WQ1 40 = true := by quickRfl
-theorem gA2 : grpC 24 CA2 (chainF CA2) A2P WA2 40 = true := by quickRfl
+theorem pmS : CFSG.KC.LQT.P.allL S0G (CFSG.KC.LQT.P.permK 24) = true := by quickRfl
+theorem pmQ1 : CFSG.KC.LQT.P.allL Q1P (CFSG.KC.LQT.P.permK 24) = true := by quickRfl
+theorem pmA2 : CFSG.KC.LQT.P.allL A2P (CFSG.KC.LQT.P.permK 24) = true := by quickRfl
+theorem simS : grpS 24 CS (chainF CS) S0G WS 40 = true := by quickRfl
+theorem simQ1 : grpS 24 CQ1 (chainF CQ1) Q1P WQ1 40 = true := by quickRfl
+theorem simA2 : grpS 24 CA2 (chainF CA2) A2P WA2 40 = true := by quickRfl
+theorem gS : grpC 24 CS (chainF CS) S0G WS 40 = true :=
+  CFSG.KC.LQT.CM.grpC_of_grpS (by norm_num) kCS iCS pmS simS
+theorem gQ1 : grpC 24 CQ1 (chainF CQ1) Q1P WQ1 40 = true :=
+  CFSG.KC.LQT.CM.grpC_of_grpS (by norm_num) kCQ1 iCQ1 pmQ1 simQ1
+theorem gA2 : grpC 24 CA2 (chainF CA2) A2P WA2 40 = true :=
+  CFSG.KC.LQT.CM.grpC_of_grpS (by norm_num) kCA2 iCA2 pmA2 simA2
 theorem gK1 : grpS 24 CK1 (chainF CK1) K1G WK1 60 = true := by quickRfl
 theorem gT0 : grpS 24 CT0 (chainF CT0) T0G WT0 60 = true := by quickRfl
 theorem gK2 : grpS 24 CK2 (chainF CK2) K2G WK2 60 = true := by quickRfl
@@ -135,13 +152,22 @@ theorem kJ :
   quickRfl
 
 theorem kQ1K : allL Q1L (inC 24 CK1 (chainF CK1)) = true := by quickRfl
-theorem kQ1n : allL Q1L (fun q => allL K1G fun k => andB (inC 24 CQ1 (chainF CQ1) (conj 24 k q))
+theorem kQ1cl : allL Q1L (inC 24 CQ1 (chainF CQ1)) = true := by quickRfl
+theorem pmQ1L : allL Q1L (permK 24) = true := by quickRfl
+theorem kQ1nG : allL Q1P (fun q => allL K1G fun k => andB (inC 24 CQ1 (chainF CQ1) (conj 24 k q))
     (inC 24 CQ1 (chainF CQ1) (CFSG.KC.LQT.Pairs.conjI 24 k q))) = true := by quickRfl
+theorem kQ1n : allL Q1L (fun q => allL K1G fun k => andB (inC 24 CQ1 (chainF CQ1) (conj 24 k q))
+    (inC 24 CQ1 (chainF CQ1) (CFSG.KC.LQT.Pairs.conjI 24 k q))) = true :=
+  CFSG.KC.LQT.CM.nrm_of_gens (by norm_num) kCQ1 iCQ1 pmQ1 pK1 pmQ1L simQ1 kQ1cl kQ1nG
 theorem kQ1e : allL Q1L (fun q => Nat.beq (CFSG.KC.LQT.Syl.sqK 24 q 4) (one 24)) = true := by
   quickRfl
 theorem kA2K : allL A2L (inC 24 CK2 (chainF CK2)) = true := by quickRfl
-theorem kA2n : allL A2L (fun q => allL K2G fun k => andB (inC 24 CA2 (chainF CA2) (conj 24 k q))
+theorem pmA2L : allL A2L (permK 24) = true := by quickRfl
+theorem kA2nG : allL A2P (fun q => allL K2G fun k => andB (inC 24 CA2 (chainF CA2) (conj 24 k q))
     (inC 24 CA2 (chainF CA2) (CFSG.KC.LQT.Pairs.conjI 24 k q))) = true := by quickRfl
+theorem kA2n : allL A2L (fun q => allL K2G fun k => andB (inC 24 CA2 (chainF CA2) (conj 24 k q))
+    (inC 24 CA2 (chainF CA2) (CFSG.KC.LQT.Pairs.conjI 24 k q))) = true :=
+  CFSG.KC.LQT.CM.nrm_of_gens (by norm_num) kCA2 iCA2 pmA2 pK2 pmA2L simA2 kA2cl kA2nG
 theorem kA2e : allL A2L (fun q => Nat.beq (CFSG.KC.LQT.Syl.sqK 24 q 4) (one 24)) = true := by
   quickRfl
 theorem kSe : allChain 24 CS (fun q => Nat.beq (CFSG.KC.LQT.Syl.sqK 24 q 10) (one 24)) = true := by

@@ -341,6 +341,64 @@ theorem pairCond_eq {A B : Nat} (hA : canonK 4060 12 (mask 12) (4060 * 12) A = t
     cu RuF.zCanon hA, eqA_canon hB (cG RuF.zCanon hA), cu hA hB,
     cu hB hA, eqA_canon (cG hA hB) (cG hB hA)]
 
+theorem keyPL_congr {f g f' g' : Nat → Nat} :
+    ∀ l : List Nat, (∀ x ∈ l, f x = f' x) → (∀ x ∈ l, g x = g' x) → keyPL f g l = keyPL f' g' l
+  | [], _, _ => rfl
+  | x :: l, hf, hg => by
+    change Nat.lor (Nat.shiftLeft (keyPL f g l) 24) (Nat.lor (Nat.shiftLeft (f x) 12) (g x)) =
+      Nat.lor (Nat.shiftLeft (keyPL f' g' l) 24) (Nat.lor (Nat.shiftLeft (f' x) 12) (g' x))
+    rw [keyPL_congr l (fun y hy => hf y (List.mem_cons_of_mem _ hy))
+      (fun y hy => hg y (List.mem_cons_of_mem _ hy)), hf x List.mem_cons_self,
+      hg x List.mem_cons_self]
+
+theorem ptsPQ_lt : ∀ x ∈ ptsPQ, x < 4060 := by
+  unfold ptsPQ
+  decide
+
+theorem pgW_eq {i G x : Nat} (hi : i < 24) (hx : x < 4060) :
+    pg 12 (mask 12) (wconj i G) x =
+      pg 12 (mask 12) (WS i) (pg 12 (mask 12) G (pg 12 (mask 12) (WSI i) x)) := by
+  have hw : pg 12 (mask 12) (WSI i) x < 4060 :=
+    Nat.blt_eq.mp (allN_spec (range_of_canonK (allN_spec cWSI i hi)) x hx)
+  rw [wconj, CFSG.KS.PF.pg_pcomp (by norm_num) hx, CFSG.KS.PF.pg_pcomp (by norm_num) hw]
+
+theorem keyP_div {a b N : Nat} (hb : b < 2 ^ N) :
+    Nat.add (Nat.mul a (Nat.pow 2 N)) b / 2 ^ N = a := by
+  have e : Nat.add (Nat.mul a (Nat.pow 2 N)) b = b + a * 2 ^ N := Nat.add_comm _ _
+  rw [e, Nat.add_mul_div_right _ _ (Nat.two_pow_pos N), Nat.div_eq_of_lt hb, Nat.zero_add]
+
+theorem keyP_mod {a b N : Nat} (hb : b < 2 ^ N) :
+    Nat.add (Nat.mul a (Nat.pow 2 N)) b % 2 ^ N = b := by
+  have e : Nat.add (Nat.mul a (Nat.pow 2 N)) b = b + a * 2 ^ N := Nat.add_comm _ _
+  rw [e, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hb]
+
+theorem keyPQ_le {A B : Nat} (cB : canonK 4060 12 (mask 12) (4060 * 12) B = true) :
+    distNL ((List.range 24).map fun i => keyPQ i A B ptsPQ) ≤
+      distNL ((List.range 24).map fun i => keyP i A B) := by
+  have e : ((List.range 24).map fun i => keyPQ i A B ptsPQ) =
+      ((List.range 24).map fun i => keyP i A B).map (fun k =>
+        keyPL (pg 12 (mask 12) (k / 2 ^ (4060 * 12))) (pg 12 (mask 12) (k % 2 ^ (4060 * 12)))
+          ptsPQ) := by
+    rw [List.map_map]
+    refine List.map_congr_left fun i hi => ?_
+    have hi' := List.mem_range.1 hi
+    have hb := lt_pow_of_canon (cW hi' cB)
+    rw [Function.comp_apply, keyP, keyP_div hb, keyP_mod hb]
+    exact keyPL_congr ptsPQ (fun x hx => (pgW_eq hi' (ptsPQ_lt x hx)).symm)
+      (fun x hx => (pgW_eq hi' (ptsPQ_lt x hx)).symm)
+  rw [e]
+  exact distNL_map_le _ _
+
+theorem pr_of_PQ {A B : Nat} (cB : canonK 4060 12 (mask 12) (4060 * 12) B = true)
+    (h : (!pairCondK A B ||
+      Nat.ble 9 (distNL ((List.range 24).map fun i => keyPQ i A B ptsPQ)) ||
+      Nat.ble 9 (distNL ((List.range 24).map fun i => keyP i A B))) = true) :
+    (!pairCondK A B || Nat.ble 9 (distNL ((List.range 24).map fun i => keyP i A B))) = true := by
+  cases hc : Nat.ble 9 (distNL ((List.range 24).map fun i => keyPQ i A B ptsPQ))
+  · rw [hc, Bool.or_false] at h
+    exact h
+  · rw [Nat.ble_eq.mpr (Nat.le_trans (le_of_ble' hc) (keyPQ_le cB)), Bool.or_true]
+
 theorem pr_spec {k k' : Nat} (hk : k < 8) (hk' : k' < 15) :
     (!pairCondK (bigP (7 + k)) (bigP k') || Nat.ble 9 (distNL ((List.range 24).map fun i =>
       keyP i (bigP (7 + k)) (bigP k')))) = true := by
@@ -355,7 +413,7 @@ theorem pr_spec {k k' : Nat} (hk : k < 8) (hk' : k' < 15) :
     change (15 * k + k') % 15 = k'
     omega
   rw [e1, e2] at h
-  exact h
+  exact pr_of_PQ (allN_spec cBig k' (by omega)) h
 
 theorem e8pairs : (allLt 8 fun k => allLt 15 fun k' =>
     let a := bigElt ruEArr xList (7 + k)

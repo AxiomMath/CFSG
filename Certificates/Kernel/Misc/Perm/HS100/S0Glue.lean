@@ -1,7 +1,9 @@
 module
 
 public import Certificates.Kernel.Misc.Perm.HS100.S0Checks
-public import Certificates.Kernel.Misc.Perm.HS100.CliqueGlue
+public import Certificates.Kernel.Misc.Perm.HS100.FiveGlue
+public import Certificates.Data.Kernel.Misc.PermAdj
+public import Certificates.Data.Kernel.Misc.PermClos
 
 set_option maxRecDepth 400000
 
@@ -65,10 +67,10 @@ theorem binds' : (∀ k < 4, KK.G k = SX.F (Nat.add 1 k)) ∧ (∀ k < 5, CY.G k
     (∀ k < 6, CB.G (Nat.succ k) = SX.F (Nat.add 5 k)) ∧
     (∀ k < 4, JJ.G k = pcomp 100 7 (mask 7) (SX.F (Nat.add 5 k)) (SX.F (Nat.add 6 k))) ∧
     (∀ k < 4, E0.G k = EX.F k) ∧ (∀ k < 2, ZO.G k = HX.F k) ∧ (∀ k < 2, UO.G k = HX.F k) ∧
-    ZO.T ZO.r0 = Z0 ∧ UO.T UO.r0 = U0 ∧ K3.T K3.r1 = Y0 := by
+    ZO.T ZO.r0 = Z0 ∧ UO.T UO.r0 = U0 := by
   have h := binds
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩, h12⟩ := h
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩ := h
   exact ⟨fun k hk => Nat.eq_of_beq_eq_true (allN_spec h1 k hk),
     fun k hk => Nat.eq_of_beq_eq_true (allN_spec h2 k hk),
     fun k hk => Nat.eq_of_beq_eq_true (allN_spec h3 k hk), h4,
@@ -76,7 +78,7 @@ theorem binds' : (∀ k < 4, KK.G k = SX.F (Nat.add 1 k)) ∧ (∀ k < 5, CY.G k
     fun k hk => Nat.eq_of_beq_eq_true (allN_spec h6 k hk),
     fun k hk => Nat.eq_of_beq_eq_true (allN_spec h7 k hk),
     fun k hk => Nat.eq_of_beq_eq_true (allN_spec h8 k hk),
-    fun k hk => Nat.eq_of_beq_eq_true (allN_spec h9 k hk), h10, h11, h12⟩
+    fun k hk => Nat.eq_of_beq_eq_true (allN_spec h9 k hk), h10, h11⟩
 
 theorem prods' : Nat.beq (pcomp 100 7 (mask 7) Z0 Z0) (pidn 100 7) = true ∧
     Nat.beq Z0 (pidn 100 7) = false ∧ Nat.beq U0 (pidn 100 7) = false ∧
@@ -229,31 +231,40 @@ theorem uCls : classOK u0 uOrbit 15400 = true := by
     (pG_get _ binds'.2.2.2.2.2.2.2.2.1) (fun _ _ _ => rfl) UO.h
     (fun i hi => UO.cl i (by rw [hN] at hi; omega)) (fun i hi => UO.tr0 i (by rw [hN] at hi; omega))
     (by rw [hN, nums'.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2]; norm_num)
-    (by rw [binds'.2.2.2.2.2.2.2.2.2.2.1, u0_eq]) (by rw [u0_eq]; exact validS (k := 1) (by norm_num))
+    (by rw [binds'.2.2.2.2.2.2.2.2.2.2, u0_eq]) (by rw [u0_eq]; exact validS (k := 1) (by norm_num))
     keysOK UO.k (by rw [hN]; norm_num)
   rw [h1, h3, hN]
   rfl
 
-theorem yCls : classOK y0 yOrbit 123200 = true := by
-  unfold classOK yOrbit classOrbit
-  have hN := Clique.nums'.2.1
-  obtain ⟨h1, -, h3⟩ := CFSG.KC.ConjOrb.arrBfs_of_orb (ng := pGens.size) (ngc := K3.ng)
-    (fuel := 400000) (act := classAct) (root := y0) (by rw [Clique.nums'.1]; decide)
-    (pG_get _ (fun k hk => by
-      interval_cases k
-      · exact Clique.nums'.2.2.1
-      · exact Clique.nums'.2.2.2.1)) (fun _ _ _ => rfl) K3.h Clique.hcl
-    (fun i hi => K3.tr1 i (by rw [hN] at hi; omega)) (by rw [hN]; decide)
-    (by rw [binds'.2.2.2.2.2.2.2.2.2.2.2, y0_eq]) (by rw [y0_eq]; exact validS (k := 0) (by norm_num))
-    keysOK K3.k (by rw [hN]; norm_num)
-  rw [h1, h3, hN]
-  rfl
+theorem zOrbit_mem : ∀ x, x ∈ zOrbit.pts ↔ ∃ i < 5775, unpack 100 7 (ZO.T i) = x := by
+  unfold zOrbit classOrbit
+  have hN := nums'.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  rw [← hN]
+  exact (CFSG.KC.ConjOrb.arrBfs_of_orb (ng := pGens.size) (ngc := ZO.ng)
+    (fuel := 20000) (act := classAct) (root := z0) (by rw [nums'.2.2.2.2.2.2.2.2.2.2.2.2.1]; rfl)
+    (pG_get _ binds'.2.2.2.2.2.2.2.1) (fun _ _ _ => rfl) ZO.h
+    (fun i hi => ZO.cl i (by rw [hN] at hi; omega)) (fun i hi => ZO.tr0 i (by rw [hN] at hi; omega))
+    (by rw [hN, nums'.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1]; norm_num)
+    (by rw [binds'.2.2.2.2.2.2.2.2.2.1, z0_eq]) (by rw [z0_eq]; exact validA_unpack (and_of zperm).1)
+    keysOK ZO.k (by rw [hN]; norm_num)).2.1
 
-theorem classesOK_true : classesOK = true := by
-  unfold classesOK
-  rw [zCls, uCls, yCls, z0_eq, u0_eq, fixCnt_eq, fixCnt_eq, prods'.2.2.2.2.2.2.2.2.2.2.1,
-    prods'.2.2.2.2.2.2.2.2.2.2.2]
-  rfl
+theorem uOrbit_mem : ∀ x, x ∈ uOrbit.pts ↔ ∃ i < 15400, unpack 100 7 (UO.T i) = x := by
+  unfold uOrbit classOrbit
+  have hN := nums'.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  rw [← hN]
+  exact (CFSG.KC.ConjOrb.arrBfs_of_orb (ng := pGens.size) (ngc := UO.ng)
+    (fuel := 40000) (act := classAct) (root := u0) (by rw [nums'.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1]; rfl)
+    (pG_get _ binds'.2.2.2.2.2.2.2.2.1) (fun _ _ _ => rfl) UO.h
+    (fun i hi => UO.cl i (by rw [hN] at hi; omega)) (fun i hi => UO.tr0 i (by rw [hN] at hi; omega))
+    (by rw [hN, nums'.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2]; norm_num)
+    (by rw [binds'.2.2.2.2.2.2.2.2.2.2, u0_eq]) (by rw [u0_eq]; exact validS (k := 1) (by norm_num))
+    keysOK UO.k (by rw [hN]; norm_num)).2.1
+
+theorem zT_canon {i : ℕ} (hi : i < 5775) : canonK 100 7 (mask 7) (100 * 7) (ZO.T i) = true :=
+  (CFSG.KC.ConjOrb.closPt_spec (ZO.cl i (by omega))).1
+
+theorem uT_canon {i : ℕ} (hi : i < 15400) : canonK 100 7 (mask 7) (100 * 7) (UO.T i) = true :=
+  (CFSG.KC.ConjOrb.closPt_spec (UO.cl i (by omega))).1
 
 theorem pinOf {ng N fuel : ℕ} {G T E S : ℕ → ℕ} {SK : List ℕ} {gs : Array (Array ℕ)}
     (hs : gs.size = ng) (hg : ∀ k < ng, gs[k]! = unpack 100 7 (G k))
@@ -398,14 +409,24 @@ theorem getOf {c : ArrCert} {N : ℕ} {T : ℕ → ℕ}
 theorem cY : canonK 100 7 (mask 7) (100 * 7) Y0 = true := cS (k := 0) (by norm_num)
 theorem cU0 : canonK 100 7 (mask 7) (100 * 7) U0 = true := cS (k := 1) (by norm_num)
 
+theorem s0y_cube : eqA 100 (pw y0 3) (idA 100) = true := by
+  rw [y0_eq, pw_unpack cY, hidA, eqA_F (ppow_canon cY 3) pidPP.1]
+  exact prods'.2.2.2.1
+
+theorem s0y_ne : (!eqA 100 y0 (idA 100)) = true := by
+  rw [y0_eq, hidA, eqA_F cY pidPP.1, prods'.2.2.2.2.1]
+  rfl
+
+theorem classesOK_true : classesOK = true := by
+  unfold classesOK
+  rw [zCls, uCls, s0y_cube, s0y_ne, z0_eq, u0_eq, fixCnt_eq, fixCnt_eq,
+    prods'.2.2.2.2.2.2.2.2.2.2.1, prods'.2.2.2.2.2.2.2.2.2.2.2]
+  rfl
+
 theorem yOK_true : yOK = true := by
   unfold yOK
-  have y1 : eqA 100 (pw y0 3) (idA 100) = true := by
-    rw [y0_eq, pw_unpack cY, hidA, eqA_F (ppow_canon cY 3) pidPP.1]
-    exact prods'.2.2.2.1
-  have y2 : (!eqA 100 y0 (idA 100)) = true := by
-    rw [y0_eq, hidA, eqA_F cY pidPP.1, prods'.2.2.2.2.1]
-    rfl
+  have y1 := s0y_cube
+  have y2 := s0y_ne
   have y3 : commA 100 y0 z0 = true := by
     rw [y0_eq, z0_eq, cK_eq cY ppZ.1]
     exact prods'.2.2.2.2.2.1

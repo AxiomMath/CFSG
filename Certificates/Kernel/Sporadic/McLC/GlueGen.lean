@@ -188,11 +188,12 @@ theorem fixZ_eq : McLProof.fixZ = fixL := by
   rw [natArr_getElem!, ap_Ta hp', beq_nat]
 
 theorem replayK : SetReplayOK 275 9 35 2 22275 22275 McLCOZ.nS 16 McLCOZ.nB 64 64 McLCOZ.G
-    McLCOZ.GI (rowGet McLCOZ.XT 343) (rowGet McLCOZ.WT 40) (rowGet McLCOZ.ST 20)
-    (rowGet McLCOZ.SIT 20) McLCOZ.C McLProof.fixZ := by
+    McLCOZ.GI (rowGet McLCOZ.XT 343) (rowGet McLCOZ.WT 40) (rowGet McLCOZ.KT 339)
+    (rowGet McLCOZ.ST 20) (rowGet McLCOZ.SIT 20) McLCOZ.C McLProof.fixZ := by
   obtain ⟨c0, cN⟩ := by simpa only [bAnd_iff] using cntZ
   refine ⟨by norm_num, by norm_num, by norm_num, by norm_num, le_refl _, by decide, by decide,
-    by norm_num, by norm_num, fun k hk => allN_spec permZ k hk, ?_, McLCOZ.helt, McLCOZ.hsrt,
+    by norm_num, by norm_num, fun k hk => allN_spec permZ k hk, ?_, SRP.rowGet_lt rfl,
+    by norm_num, McLCOZ.hsrt,
     Nat.eq_of_beq_eq_true c0, Nat.eq_of_beq_eq_true cN, McLCOZ.hrun⟩
   rw [fixZ_eq]
   exact startZ

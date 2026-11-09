@@ -272,15 +272,15 @@ theorem schK_at {n w kS BP nb i T N CH : Nat} {S SI LR TR TRI : Nat → Nat}
   exact schK_spec (hs _ hsN) (by rw [Nat.mul_comm]; omega) (by rw [Nat.mul_comm]; omega) hh
 
 set_option maxHeartbeats 1000000 in
-theorem schK_of_sch3GL {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI U : Nat → Nat}
-    {W : List (List Int)} {WS : List (List Nat)}
+theorem schK_of_sch3GLM {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI U : Nat → Nat}
+    {W : List (List Int)}
     (hh : headK n w (mask w) (n * w) (pidn n w) S SI kS kO W (i + 3) BP = true)
     (hl : LevelsOK n w S SI LR TR TRI kS (i + 3) BP)
     (hinv : invTabK kS (stepsAt n w S kS BP i) = true)
     (h12 : lv12K w (mask w) S SI kS BP i (stepsAt n w S kS BP (i + 1))
       (stepsAt n w S kS BP (i + 1 + 1)) = true)
     (hU : utabF n w (mask w) (n * w) LR TR U i D = true)
-    (hW : wdsK n w (mask w) (pidn n w) S SI kS TJ WS 0 = true)
+    (hWm : ∀ j', 0 ≤ j' → j' < kS → pp n w (S j') ∈ Submonoid.closure (LJ n w S kS TJ))
     (hc : rcnt (LR i) ≤ NSi * CH)
     (hs : ∀ s < NSi, sch3F n w (mask w) (n * w) S SI LR TR TRI U kS BP i TJ D (s * CH) CH = true)
     (hc1 : rcnt (LR (i + 1)) ≤ N1 * CH)
@@ -384,7 +384,6 @@ theorem schK_of_sch3GL {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI 
     rw [hE, hU _ hk1 _ hk2] at hP1
     exact prep_unique hP1 (prep_pcomp hn (prep_pp (hp0 _ hk)).1
       (prep_pcomp hn (prep_pp (hp1 _ hk1)).1 (prep_pp (hp2 _ hk2)).1))
-  have hWm := wds_facts hn24 hw hp WS 0 hW
   obtain ⟨q, hq, hqf⟩ := invTab_facts hinv
   have hmem : ∀ j < stCnt (stepsAt n w S kS BP i),
       lp n w S kS (stAt (stepsAt n w S kS BP i) j) ∈ Submonoid.closure (LJ n w S kS TJ) := by
@@ -456,6 +455,31 @@ theorem schK_of_sch3GL {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI 
     have h2 : pg w (mask w) _ x = _ := hPb ⟨x, hx⟩
     rw [h1, h2, hPa, Equiv.Perm.mul_apply]
     rfl
+
+theorem schK_of_sch3GL {n w kS kO BP i D NSi N1 N2 CH TJ : Nat} {S SI LR TR TRI U : Nat → Nat}
+    {W : List (List Int)} {WS : List (List Nat)}
+    (hh : headK n w (mask w) (n * w) (pidn n w) S SI kS kO W (i + 3) BP = true)
+    (hl : LevelsOK n w S SI LR TR TRI kS (i + 3) BP)
+    (hinv : invTabK kS (stepsAt n w S kS BP i) = true)
+    (h12 : lv12K w (mask w) S SI kS BP i (stepsAt n w S kS BP (i + 1))
+      (stepsAt n w S kS BP (i + 1 + 1)) = true)
+    (hU : utabF n w (mask w) (n * w) LR TR U i D = true)
+    (hW : wdsK n w (mask w) (pidn n w) S SI kS TJ WS 0 = true)
+    (hc : rcnt (LR i) ≤ NSi * CH)
+    (hs : ∀ s < NSi, sch3F n w (mask w) (n * w) S SI LR TR TRI U kS BP i TJ D (s * CH) CH = true)
+    (hc1 : rcnt (LR (i + 1)) ≤ N1 * CH)
+    (hs1 : ∀ s < N1, schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP (i + 3) (i + 1)
+      (stepsAt n w S kS BP (i + 1)) (s * CH) CH = true)
+    (hc2 : rcnt (LR (i + 1 + 1)) ≤ N2 * CH)
+    (hs2 : ∀ s < N2, schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP (i + 3) (i + 1 + 1)
+      (stepsAt n w S kS BP (i + 1 + 1)) (s * CH) CH = true)
+    (h₀ cnt : Nat) :
+    schK n w (mask w) (n * w) (pidn n w) S SI LR TR TRI kS BP (i + 3) i
+      (stepsAt n w S kS BP i) h₀ cnt = true := by
+  obtain ⟨hp, -, -⟩ := head_facts hh
+  obtain ⟨hsz, -⟩ := levelK_facts (hl i (by omega))
+  obtain ⟨hn24, hw⟩ := szOK_facts hsz
+  exact schK_of_sch3GLM hh hl hinv h12 hU (wds_facts hn24 hw hp WS 0 hW) hc hs hc1 hs1 hc2 hs2 h₀ cnt
 
 end CFSG.KS.Raw.Orb
 

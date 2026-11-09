@@ -9,6 +9,7 @@ public import CFSG.HardMathSupport.Solomon.Coordinator.B3Spor3SylowCrit
 public import CFSG.RankThree.PartTwo.KFacts.K426Kit
 public import CFSG.Monster.B.Mathieu.Order
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.SporSch.PairClTProof
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Assembly.OrderReductions.InvertedSubgroup
 public import CFSG.Assembly.OrderReductions.OddInversion
@@ -89,9 +90,49 @@ theorem bindX : (heS3CaseX).size = 2 ∧ ∀ c < 2, heS3CaseX[c]! = unpack 8330 
   rw [← XC.eq, xcN] at h
   exact h
 
+theorem lptK_mem : ∀ l < 18, ∃ g ∈ heP, RepF 8330 (lptK 14 HeTb.NR HeTb.LT l) g := by
+  intro l hl
+  have hS : ∀ j < 9, permOfArr 8330 heStrongArrs[j]! ∈ heP := by
+    intro j hj
+    have h := RawSchreierDatum.strong_get_mem_originalSubgroup heChain heChain_valid.1 ⟨j, hj⟩
+    rw [heChain_strong_get, heStrongPerm] at h
+    rw [heP_eq_originalSubgroup, heStrongArrs, getElem!_pos _ j (by simpa using hj),
+      Array.getElem_ofFn]
+    exact h
+  have hlt : ∀ x < 8330, lptK 14 HeTb.NR HeTb.LT l x =
+      pg 14 (mask 14) (CFSG.KS.Raw.letterK HeC.S HeC.SI 9 l) x :=
+    fun x hx => CFSG.KS.SporSch.ClTP.lptK_eq HeTc.tabs (by omega) hx
+  by_cases hl9 : l < 9
+  · obtain ⟨p1, -⟩ := CFSG.KS.Raw.Orb.prep_PS He2112.binds He2112.perm hl9
+    refine ⟨_, hS l hl9, fun x hx => ?_⟩
+    rw [hlt x hx, CFSG.KS.Raw.letterK, Nat.blt_eq.mpr hl9]
+    exact p1 ⟨x, hx⟩
+  · have hj : l - 9 < 9 := by omega
+    obtain ⟨-, p2⟩ := CFSG.KS.Raw.Orb.prep_PS He2112.binds He2112.perm hj
+    refine ⟨_, inv_mem (hS _ hj), fun x hx => ?_⟩
+    rw [hlt x hx, CFSG.KS.Raw.letterK, Bool.eq_false_iff.2 (fun h => hl9 (Nat.blt_eq.mp h))]
+    exact p2 ⟨x, hx⟩
+
+theorem wHe_ev {P a : Nat} (ha : vldH a = true) (h : eqOnL bsH (wHe P) (evH a) = true) :
+    ∀ x < 8330, wHe P x = evH a x := fun x hx =>
+  (wEvK_codes baseF codes lptK_mem ha h x hx).trans ((codes a ha).1 x hx).symm
+
+theorem wb_parts : (∀ i < 2, eqOnL bsH (wHe (HWi i)) (evH (QG i)) = true) ∧
+    (∀ i < 3, eqOnL bsH (wHe (HWi (Nat.add 2 i))) (evH (CG i)) = true) ∧
+    (∀ i < 2, eqOnL bsH (wHe (HWi (Nat.add 5 i))) (evH (G i)) = true) := by
+  have h := kHWB
+  unfold hwbOK at h
+  rw [bAnd_iff, bAnd_iff] at h
+  exact ⟨fun i hi => allN_spec h.1 i hi, fun i hi => allN_spec h.2.1 i hi,
+    fun i hi => allN_spec h.2.2 i hi⟩
+
 theorem ry_all (c : Nat) (hc : c < 2) : ∀ x < 8330,
     pmR (RY c) x = pm (XC.F c) x ∧ pmR (RY c) x = HeTc.nfp (G c) x := by
   intro x hx
+  have hv : vldH (G c) = true := by
+    interval_cases c
+    · exact kG0
+    · exact kG1
   have hs : ∀ s < 49, ry c s = true := by
     intro s hs
     interval_cases c
@@ -102,7 +143,8 @@ theorem ry_all (c : Nat) (hc : c < 2) : ∀ x < 8330,
     change x / 170 * 170 + x % 170 = x
     exact Nat.div_add_mod' x 170
   rw [strictB_val, e, bAnd_iff] at h1
-  exact ⟨Nat.eq_of_beq_eq_true h1.1, Nat.eq_of_beq_eq_true h1.2⟩
+  exact ⟨Nat.eq_of_beq_eq_true h1.1,
+    (Nat.eq_of_beq_eq_true h1.2).trans (wHe_ev hv (wb_parts.2.2 c hc) x hx)⟩
 
 theorem gValid (c : Nat) (hc : c < 2) : vldH (G c) = true := by
   interval_cases c
@@ -129,41 +171,49 @@ theorem yP_rep (c : Nat) (hc : c < 2) : RepF 8330 (pmR (RY c)) (yP c) := by
   rw [(ry_all c hc x hx).2]
   exact E_rep (gValid c hc) x hx
 
-theorem rx_parts (c : Nat) (hc : c < 2) :
-    rbAll (RX c) (X c) = true ∧ pmR (RX c) 0 = 0 ∧ pmR (RX c) 1 = 2 := by
+theorem rx_parts (c : Nat) (hc : c < 2) : pmR (RX c) 0 = 0 ∧ pmR (RX c) 1 = 2 := by
   have h : rx c = true := by
     interval_cases c
     · exact kRX0
     · exact kRX1
   unfold rx at h
-  rw [bAnd_iff, bAnd_iff] at h
-  exact ⟨h.1, Nat.eq_of_beq_eq_true h.2.1, Nat.eq_of_beq_eq_true h.2.2⟩
+  rw [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2⟩
+
+theorem xw_all (c : Nat) (hc : c < 2) : ∀ x < 8330, pmR (RX c) x = wHe (HWi (Nat.add 7 c)) x := by
+  intro x hx
+  have hs : ∀ s < 49, cj c s = true := by
+    intro s hs
+    interval_cases c
+    · exact CJ0c.all s hs
+    · exact CJ1c.all s hs
+  have h1 := allN_spec (hs (x / 170) (by omega)) (x % 170) (Nat.mod_lt _ (by norm_num))
+  have e : Nat.add (Nat.mul (x / 170) 170) (x % 170) = x := by
+    change x / 170 * 170 + x % 170 = x
+    exact Nat.div_add_mod' x 170
+  rw [strictB_val, e] at h1
+  exact Nat.eq_of_beq_eq_true h1
 
 theorem card_cent_eq (c : Nat) (hc : c < 2) :
     Nat.card {g : heP // yP c * (g : Equiv.Perm (Fin 8330)) = g * yP c} = sumN 8330 (V c) := by
-  obtain ⟨hrb, hx0, hx1⟩ := rx_parts c hc
-  have hperm : permOK 8330 14 (mask 14) (8330 * 14) (X c) (XI c) = true := by
-    interval_cases c
-    · exact kXP0
-    · exact kXP1
-  have hX : RepF 8330 (pmR (RX c)) (permOfArr 8330 (unpack 8330 14 (X c))) :=
-    repF_of_rb hrb (rep_pm hperm)
+  obtain ⟨hx0, hx1⟩ := rx_parts c hc
+  obtain ⟨x, hxm, hxr⟩ := wEvK_rep (H := heP) lptK_mem 16 (HWi (Nat.add 7 c))
+  have hX : RepF 8330 (pmR (RX c)) x := fun y hy => (xw_all c hc y hy).trans (hxr y hy)
   have hY := yP_rep c hc
   have hF : nfValidK 5 HeC.LR (F c) = true := by
     interval_cases c
     · exact kF0
     · exact kF1
-  have hcj : ∀ s < 49, cjB (RX c) (RY c) (F c) s = true := by
-    intro s hs
-    interval_cases c
-    · exact CJ0c.all s hs
-    · exact CJ1c.all s hs
-  have hV : ∀ s < 49, orB (RX c) (RY c) (V c) (Rc c) (Zc c) 8330 s = true := by
+  have hcj : E (F c) * x = yP c * E (F c) :=
+    eq_of_eqOnL baseF ((codes _ hF).1.comp hxr) (hY.comp (codes _ hF).1)
+      (heP.mul_mem (codes _ hF).2 hxm) (heP.mul_mem (yP_mem c hc) (codes _ hF).2)
+      (allN_spec kXCJ c hc)
+  have hV : ∀ s < 49, orB false (RX c) (RY c) (V c) (Rc c) (Zc c) 8330 s = true := by
     intro s hs
     interval_cases c
     · exact OR0c.all s hs
     · exact OR1c.all s hs
-  exact cent_of_or hX hY hF hcj hx0 hx1 (hxy_of_mem hX hY hF hcj (yP_mem c hc)) (e := 8330)
+  exact cent_of_conj hX hY hF hcj hx0 hx1 (hxy_of_conj hF hcj (yP_mem c hc)) (e := 8330)
     (fun h => absurd h (by norm_num)) hV
 
 theorem card_cent_inf (c : Nat) (hc : c < 2) :
@@ -188,23 +238,56 @@ theorem lg_mem_eq {L : Nat → Nat} {i : Nat} (hv : vldH (L i) = true) {f : Nat 
     (h : eqOnL bsH (evH (L i)) f = true) : E (L i) = g :=
   eq_of_eqOnL baseF (codes _ hv).1 hf (codes _ hv).2 hg h
 
+theorem gparts : (vldH 0 = true ∧ E 0 = 1) ∧ (∀ i < 2, vldH (QG i) = true) ∧
+    (∀ i < 3, vldH (CG i) = true ∧ E (CG i) ∈ centralizer {yP 0} ⊓ heP) := by
+  have h := kGW
+  unfold gOK at h
+  simp only [bAnd_iff] at h
+  obtain ⟨h0, hid, hq, hc⟩ := h
+  refine ⟨⟨h0, (fixL_iff baseF bs_lt (codes _ h0).1 (codes _ h0).2).1 hid⟩, allN_spec hq,
+    fun i hi => ?_⟩
+  have hi' := allN_spec hc i hi
+  rw [bAnd_iff] at hi'
+  exact ⟨hi'.1, mem_centralizer_singleton_iff.2 (comL_sound baseF codes (yP_rep 0 (by norm_num))
+    (yP_mem 0 (by norm_num)) hi'.1 hi'.2), (codes _ hi'.1).2⟩
+
+theorem qg_zero (j : Nat) (hj : ¬ j < 2) : QG j = 0 := by
+  unfold QG
+  rw [blt_false hj]
+
+theorem qg_valid (j : Nat) : vldH (QG j) = true := by
+  by_cases hj : j < 2
+  · exact gparts.2.1 j hj
+  · rw [qg_zero j hj]
+    exact gparts.1.1
+
+theorem qL_mem : ∀ i < 27, E (QL i) ∈ closure {g | ∃ t < 2, E (QG t) = g} := by
+  intro i hi
+  rw [wordsOK_sound baseF codes qg_valid (gcOK_parts kQ).1 kQW i hi]
+  refine wElt_mem _ (fun j => ?_) 40 _
+  by_cases hj : j < 2
+  · exact subset_closure ⟨j, hj, rfl⟩
+  · rw [qg_zero j hj, gparts.1.2]
+    exact one_mem _
+
 theorem exists_conj (x : Equiv.Perm (Fin 8330)) (hx : x ∈ heP) (hxo : orderOf x = 3) :
     ∃ c < 2, ∃ k ∈ heP, ∃ e : ℕ, (e = 1 ∨ e = 2) ∧ x = k * yP c ^ e * k⁻¹ := by
   have hQ := kQ
-  have hQP : lgSub baseF bs_lt codes hQ (by norm_num) ≤ heP :=
-    lgSub_le baseF bs_lt codes hQ (by norm_num)
-  have hQc : Nat.card (lgSub baseF bs_lt codes hQ (by norm_num)) =
+  have hQP : closure {g | ∃ t < 2, E (QG t) = g} ≤ heP := gc_closure_le codes hQ
+  have hQc : Nat.card (closure {g | ∃ t < 2, E (QG t) = g}) =
       3 ^ (Nat.card heP).factorization 3 := by
-    rw [card_lgSub baseF bs_lt codes hQ (by norm_num), card_heP,
+    rw [gc_card baseF bs_lt codes hQ qL_mem, card_heP,
       show (4030387200 : ℕ) = 3 ^ 3 * 149273600 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG Nat.prime_three (by norm_num)]
     norm_num
-  obtain ⟨hv, -, -, -, -⟩ := lgOK_parts hQ
-  have hlines : ∀ g ∈ lgSub baseF bs_lt codes hQ (by norm_num), g ^ 3 = 1 →
+  obtain ⟨hv, -, ⟨-, h1⟩, -, -⟩ := gcOK_parts hQ
+  have hlines : ∀ g ∈ closure {g | ∃ t < 2, E (QG t) = g}, g ^ 3 = 1 →
       g = 1 ∨ ∃ j < 13, ∃ e < 3, g = E (LN j) ^ e := by
-    rintro _ ⟨i, hi, rfl⟩ -
+    intro g hg _
+    obtain ⟨i, hi, rfl⟩ := (gc_mem_iff baseF bs_lt codes hQ qL_mem g).1 hg
     rcases Nat.eq_zero_or_pos i with rfl | hi0
-    · exact Or.inl (lg_one baseF bs_lt codes hQ (by norm_num))
+    · exact Or.inl ((fixL_iff baseF bs_lt (codes _ (hv 0 (by norm_num))).1
+        (codes _ (hv 0 (by norm_num))).2).1 h1)
     · right
       have h := allN_spec kQL (i - 1) (by omega)
       have ei : Nat.add (i - 1) 1 = i := Nat.sub_add_cancel hi0
@@ -232,31 +315,11 @@ theorem exists_conj (x : Equiv.Perm (Fin 8330)) (hx : x ∈ heP) (hxo : orderOf 
     exact h.2.2.1
   exact ⟨RC j, hr, k, hk, e, he, rfl⟩
 
-theorem kQlg : lgOK evH vldH bsH QL QT QI 27 = true := kQ
-
 theorem sOK_lg {c p m e : Nat} (h : sOK c p m e = true) :
     lgOK evH vldH bsH (SL c p m) (ST c p m) (SI c p m) m = true := by
   unfold sOK at h
   exact ((bAnd_iff _ _).1 h).1
 
-theorem gparts : (vldH 0 = true ∧ E 0 = 1) ∧
-    (∀ i < 2, vldH (QG i) = true ∧ E (QG i) = E (QL (i + 1))) ∧
-    (∀ i < 3, vldH (CG i) = true ∧ E (CG i) ∈ centralizer {yP 0} ⊓ heP) := by
-  have h := kGW
-  unfold gOK at h
-  simp only [bAnd_iff] at h
-  obtain ⟨h0, hid, hq, hc⟩ := h
-  have hv := (lgOK_parts kQlg).1
-  refine ⟨⟨h0, (fixL_iff baseF bs_lt (codes _ h0).1 (codes _ h0).2).1 hid⟩, fun i hi => ?_,
-    fun i hi => ?_⟩
-  · have hi' := allN_spec hq i hi
-    rw [bAnd_iff] at hi'
-    exact ⟨hi'.1, lg_mem_eq hi'.1 (codes _ (hv _ (by omega))).1 (codes _ (hv _ (by omega))).2
-      hi'.2⟩
-  · have hi' := allN_spec hc i hi
-    rw [bAnd_iff] at hi'
-    exact ⟨hi'.1, mem_centralizer_singleton_iff.2 (comL_sound baseF codes (yP_rep 0 (by norm_num))
-      (yP_mem 0 (by norm_num)) hi'.1 hi'.2), (codes _ hi'.1).2⟩
 
 theorem gb_all : ∀ x < 8330, (∀ i < 2, pm (QGX.F i) x = evH (QG i) x) ∧
     (∀ i < 3, pm (CGX.F i) x = evH (CG i) x) := by
@@ -267,8 +330,10 @@ theorem gb_all : ∀ x < 8330, (∀ i < 2, pm (QGX.F i) x = evH (QG i) x) ∧
     change x / 170 * 170 + x % 170 = x
     exact Nat.div_add_mod' x 170
   rw [strictB_val, e, bAnd_iff] at h1
-  exact ⟨fun i hi => Nat.eq_of_beq_eq_true (allN_spec h1.1 i hi),
-    fun i hi => Nat.eq_of_beq_eq_true (allN_spec h1.2 i hi)⟩
+  exact ⟨fun i hi => (Nat.eq_of_beq_eq_true (allN_spec h1.1 i hi)).trans
+      (wHe_ev (gparts.2.1 i hi) (wb_parts.1 i hi) x hx),
+    fun i hi => (Nat.eq_of_beq_eq_true (allN_spec h1.2 i hi)).trans
+      (wHe_ev (gparts.2.2 i hi).1 (wb_parts.2.1 i hi) x hx)⟩
 
 theorem qgN : QGX.N = 2 := rfl
 theorem cgN : CGX.N = 3 := rfl
@@ -285,7 +350,7 @@ theorem bindC : heS3C0Gens.size = 3 ∧ ∀ i < 3, heS3C0Gens[i]! = unpack 8330 
 
 theorem qperm (i : Nat) (hi : i < 2) :
     Rep 8330 heS3QGens[i]! (E (QG i)) ∧ permOfArr 8330 heS3QGens[i]! = E (QG i) := by
-  have hv := (gparts.2.1 i hi).1
+  have hv := gparts.2.1 i hi
   have hr : Rep 8330 heS3QGens[i]! (E (QG i)) := by
     rw [bindQ.2 i hi]
     refine rep_of_repF fun x hx => ?_
@@ -304,14 +369,6 @@ theorem cperm (i : Nat) (hi : i < 3) : permOfArr 8330 heS3C0Gens[i]! = E (CG i) 
     exact E_rep hv x hx
   exact CFSG.Monster.B.Mathieu.permOfArr_eq_of_rep hr
 
-theorem qg_valid (j : Nat) : vldH (QG j) = true := by
-  by_cases hj : j < 2
-  · exact (gparts.2.1 j hj).1
-  · have : QG j = 0 := by
-      unfold QG
-      rw [blt_false hj]
-    rw [this]
-    exact gparts.1.1
 
 theorem cg_valid (j : Nat) : vldH (CG j) = true := by
   by_cases hj : j < 3
@@ -325,7 +382,7 @@ theorem cg_valid (j : Nat) : vldH (CG j) = true := by
 theorem qg_mem (j : Nat) : E (QG j) ∈ closure (CFSG.RankThree.Native.permsA 8330 heS3QGens) := by
   by_cases hj : j < 2
   · rw [← (qperm j hj).2]
-    exact subset_closure ⟨j, by rw [Set.mem_setOf_eq, bindQ.1]; exact hj, rfl⟩
+    exact subset_closure ⟨j, by rw [Set.mem_ofPred_eq, bindQ.1]; exact hj, rfl⟩
   · have : QG j = 0 := by
       unfold QG
       rw [blt_false hj]
@@ -335,7 +392,7 @@ theorem qg_mem (j : Nat) : E (QG j) ∈ closure (CFSG.RankThree.Native.permsA 83
 theorem cg_mem (j : Nat) : E (CG j) ∈ closure (CFSG.RankThree.Native.permsA 8330 heS3C0Gens) := by
   by_cases hj : j < 3
   · rw [← cperm j hj]
-    exact subset_closure ⟨j, by rw [Set.mem_setOf_eq, bindC.1]; exact hj, rfl⟩
+    exact subset_closure ⟨j, by rw [Set.mem_ofPred_eq, bindC.1]; exact hj, rfl⟩
   · have : CG j = 0 := by
       unfold CG
       rw [blt_false hj]
@@ -343,24 +400,22 @@ theorem cg_mem (j : Nat) : E (CG j) ∈ closure (CFSG.RankThree.Native.permsA 83
     exact one_mem _
 
 theorem qclos : closure (CFSG.RankThree.Native.permsA 8330 heS3QGens) =
-    lgSub baseF bs_lt codes kQlg (by norm_num) := by
-  have hv := (lgOK_parts kQlg).1
-  refine le_antisymm ((closure_le _).2 ?_) ?_
+    closure {g | ∃ t < 2, E (QG t) = g} := by
+  refine le_antisymm ((closure_le _).2 ?_) ((closure_le _).2 ?_)
   · rintro _ ⟨k, hk, rfl⟩
-    have hk' : k < 2 := by rw [Set.mem_setOf_eq, bindQ.1] at hk; exact hk
+    have hk' : k < 2 := by rw [Set.mem_ofPred_eq, bindQ.1] at hk; exact hk
     dsimp only
-    rw [(qperm k hk').2, (gparts.2.1 k hk').2]
-    exact ⟨k + 1, by omega, rfl⟩
-  · rintro _ ⟨i, hi, rfl⟩
-    rw [wordsOK_sound baseF codes qg_valid hv kQW i hi]
-    exact wElt_mem _ qg_mem 40 _
+    rw [(qperm k hk').2]
+    exact subset_closure ⟨k, hk', rfl⟩
+  · rintro _ ⟨t, -, rfl⟩
+    exact qg_mem t
 
 theorem c0clos : closure (CFSG.RankThree.Native.permsA 8330 heS3C0Gens) =
     centralizer {yP 0} ⊓ heP := by
   have hle : closure (CFSG.RankThree.Native.permsA 8330 heS3C0Gens) ≤ centralizer {yP 0} ⊓ heP := by
     refine (closure_le _).2 ?_
     rintro _ ⟨k, hk, rfl⟩
-    have hk' : k < 3 := by rw [Set.mem_setOf_eq, bindC.1] at hk; exact hk
+    have hk' : k < 3 := by rw [Set.mem_ofPred_eq, bindC.1] at hk; exact hk
     dsimp only
     rw [cperm k hk']
     exact (gparts.2.2 k hk').2
@@ -380,7 +435,34 @@ theorem c0clos : closure (CFSG.RankThree.Native.permsA 8330 heS3C0Gens) =
   have h8 := hdvd (sOK_lg kS00) (by norm_num) w2
   have h5 := hdvd (sOK_lg kS05) (by norm_num) w5
   have h7 := hdvd (sOK_lg kS07) (by norm_num) w7
-  have h27 := hdvd kS3 (by norm_num) w3
+  have h27 : 27 ∣ Nat.card ↥(closure (CFSG.RankThree.Native.permsA 8330 heS3C0Gens)) := by
+    have h := kS3
+    unfold s3OK at h
+    rw [bAnd_iff] at h
+    obtain ⟨hgc, hw⟩ := h
+    have hv := (gcOK_parts hgc).1
+    have hG0 : ∀ j, ¬ j < 2 → S3G j = 0 := fun j hj => by
+      unfold S3G
+      rw [blt_false hj]
+    have hG : ∀ j, vldH (S3G j) = true := fun j => by
+      by_cases hj : j < 2
+      · exact (gcOK_parts hgc).2.1 j hj
+      · rw [hG0 j hj]
+        exact gparts.1.1
+    have hGm : ∀ j, E (S3G j) ∈ closure {g | ∃ t < 2, E (S3G t) = g} := fun j => by
+      by_cases hj : j < 2
+      · exact subset_closure ⟨j, hj, rfl⟩
+      · rw [hG0 j hj, gparts.1.2]
+        exact one_mem _
+    have hmem : ∀ i < 27, E (S3L i) ∈ closure {g | ∃ t < 2, E (S3G t) = g} := fun i hi => by
+      rw [wordsOK_sound baseF codes hG hv hw i hi]
+      exact wElt_mem _ hGm 40 _
+    rw [← gc_card baseF bs_lt codes hgc hmem]
+    refine Subgroup.card_dvd_of_le ?_
+    intro g hg
+    obtain ⟨i, hi, rfl⟩ := (gc_mem_iff baseF bs_lt codes hgc hmem g).1 hg
+    rw [wordsOK_sound baseF codes cg_valid hv w3 i hi]
+    exact wElt_mem _ cg_mem 40 _
   have h216 := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h8 h27
   have h1080 := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h216 h5
   have h7560 := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h1080 h7
@@ -475,16 +557,16 @@ theorem core0 : CFSG.Open.GLAPPrimeCoreOf 3 (centralizer {yP 0} ⊓ heP) = ⊥ :
   rw [card_cent0] at hd ⊢
   rcases prime_dvd_7560 hp hd with rfl | rfl | rfl | rfl
   · refine ⟨h2C, ?_, h2w⟩
-    rw [if_pos rfl, h2c, show (7560 : ℕ) = 2 ^ 3 * 945 by norm_num,
+    rw [ite_eq_left rfl, h2c, show (7560 : ℕ) = 2 ^ 3 * 945 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG Nat.prime_two (by norm_num)]
     norm_num
   · exact absurd rfl h3
   · refine ⟨h5C, ?_, h5w⟩
-    rw [if_neg (by norm_num), if_pos rfl, h5c, show (7560 : ℕ) = 5 ^ 1 * 1512 by norm_num,
+    rw [ite_eq_right (by norm_num), ite_eq_left rfl, h5c, show (7560 : ℕ) = 5 ^ 1 * 1512 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG (by norm_num) (by norm_num)]
     norm_num
   · refine ⟨h7C, ?_, h7w⟩
-    rw [if_neg (by norm_num), if_neg (by norm_num), h7c, show (7560 : ℕ) = 7 ^ 1 * 1080 by norm_num,
+    rw [ite_eq_right (by norm_num), ite_eq_right (by norm_num), h7c, show (7560 : ℕ) = 7 ^ 1 * 1080 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG (by norm_num) (by norm_num)]
     norm_num
 
@@ -501,13 +583,13 @@ theorem core1 : CFSG.Open.GLAPPrimeCoreOf 3 (centralizer {yP 1} ⊓ heP) = ⊥ :
   have hd' : p ∣ 7560 := hd.trans (by norm_num)
   rcases prime_dvd_7560 hp hd' with rfl | rfl | rfl | rfl
   · refine ⟨h2C, ?_, h2w⟩
-    rw [if_pos rfl, h2c, show (504 : ℕ) = 2 ^ 3 * 63 by norm_num,
+    rw [ite_eq_left rfl, h2c, show (504 : ℕ) = 2 ^ 3 * 63 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG Nat.prime_two (by norm_num)]
     norm_num
   · exact absurd rfl h3
   · exact absurd hd (by norm_num)
   · refine ⟨h7C, ?_, h7w⟩
-    rw [if_neg (by norm_num), h7c, show (504 : ℕ) = 7 ^ 1 * 72 by norm_num,
+    rw [ite_eq_right (by norm_num), h7c, show (504 : ℕ) = 7 ^ 1 * 72 by norm_num,
       CFSG.RankThree.PartOne.factorization_pow_mulG (by norm_num) (by norm_num)]
     norm_num
 
@@ -528,9 +610,9 @@ theorem facts :
     · exact core0
     · exact core1
   · rw [qclos]
-    exact lgSub_le baseF bs_lt codes kQlg (by norm_num)
+    exact gc_closure_le codes kQ
   · rw [qclos]
-    exact card_lgSub baseF bs_lt codes kQlg (by norm_num)
+    exact gc_card baseF bs_lt codes kQ qL_mem
   · rw [(qperm i hi).2]
     exact (qperm i hi).1
 

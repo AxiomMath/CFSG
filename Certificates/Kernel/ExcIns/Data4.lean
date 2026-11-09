@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.JsonGzC
 import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.ExcInsK in
-#kc_repo #kc_jsonc_gz CFSG.ExcInsK.D4 "Certificates/Kernel/ExcIns/data/ins4.json.gz" 51939 13444639961685540651
+#kc_repo #kc_jsonc CFSG.ExcInsK.D4 "Certificates/Kernel/ExcIns/data/ins4.json" 51939 13444639961685540651
   (gm : Nat) (nr : Nat) (R : Nat) (PL : List Nat) (S : List (Nat × List Nat))
   (G0 : List (Nat × List Nat)) (G1 : List (Nat × List Nat)) (G2 : List (Nat × List Nat))
   (G3 : List (Nat × List Nat)) (G4 : List (Nat × List Nat)) (G5 : List (Nat × List Nat))

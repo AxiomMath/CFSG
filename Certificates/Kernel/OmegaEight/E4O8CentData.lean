@@ -9,8 +9,8 @@ public section
 
 namespace CertificateChecks.KernelO8.E4C
 
-#kc_repo #kc_json_gz CertificateChecks.KernelO8.E4C
-  "Certificates/Kernel/OmegaEight/data/E4O8CentData.json.gz" 1732191 17182613344777502051
+#kc_repo #kc_json CertificateChecks.KernelO8.E4C
+  "Certificates/Kernel/OmegaEight/data/E4O8CentData.json" 1732191 17182613344777502051
   (RX : List (Nat × Nat × Nat × Nat))
   (G0 : List Nat) (L0 : List (Nat × List Nat × List (List Nat) × List (Nat × Nat × Nat × Nat)))
   (RU : List (Nat × Nat × Nat × Nat))

@@ -5,7 +5,7 @@ public import Certificates.Data.Kernel.Misc.PermM22
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.SylCent "Certificates/Kernel/Misc/Perm/SylCent/data/sylcent.json.gz" 11458 1157151589773877762
+#kc_repo #kc_json CertificateChecks.KernelMisc.SylCent "Certificates/Kernel/Misc/Perm/SylCent/data/sylcent.json" 11458 1157151589773877762
   (gL : List Nat) (pL : List Nat) (pWords : List (List Nat)) (eL : List Nat) (paL : List Nat)
   (sgL : List Nat) (ctL : List Nat) (repL : List Nat) (orbits : List (List Nat)) (uL : List Nat)
   (uWords : List (List Nat)) (adjL : List Nat)

@@ -21,14 +21,11 @@ theorem neg_total : Nat.beq NS.CS.sum (RS.N + 1) = false := by decide +kernel
 
 theorem neg_k0 : pq8Rel 120 7 X0 (pinv 120 7 X0) X0 (pinv 120 7 X0) = false := by decide +kernel
 
-noncomputable def badY0 (P : Nat) : Bool :=
-  bAnd(ordIs 120 7 (mask 7) (pidn 120 7) P (4 - 1),
-    !pairsY 120 7 sp0K repsK (candsK.map fun _ => []) P)
+noncomputable def pairsZ0 (Y : Nat) : Bool :=
+  strictB (pc 120 7 Y Y) (fun Y2 =>
+    allE 120 7 SP CA CB Y Y2 (pc 120 7 Y2 Y) RA RB RC (perRepO.map fun _ => []) RE)
 
-theorem neg_pairs : Nat.beq (strictN (ST.LR 0) (fun R => enumFrom 120 7 (mask 7) (120 * 7) ST.LR
-    ST.TR badY0 4 1 (pcomp 120 7 (mask 7) One120 (ST.TR (roff 120 (120 * 7) R))) 0)) 0 =
-    false := by
-  decide +kernel
+theorem neg_pairs : allN 53 (fun i => pairsZ0 (RS.E i)) = false := by decide +kernel
 
 end CertificateChecks.KernelO8Twin
 

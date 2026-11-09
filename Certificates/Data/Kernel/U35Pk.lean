@@ -4,7 +4,7 @@ public import CFSG.Certificates.Kernel.Common.Loop
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz U35Pk "Certificates/Data/Kernel/U35Pk/u35pk.json.gz" 53592
+#kc_repo #kc_json U35Pk "Certificates/Data/Kernel/U35Pk/u35pk.json" 53592
   3991642391515542125
   (LOW : Nat) (LMd : Nat) (M0d : Nat) (M1d : Nat) (M2d : Nat) (BLKd : Nat) (DIAG : Nat) (E : Nat)
   (RE : Nat) (LA : Nat) (OA : Nat) (RA : Nat) (SA : Nat) (R2A : Nat) (SB : Nat) (repW : List Nat)

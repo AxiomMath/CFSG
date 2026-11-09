@@ -214,9 +214,9 @@ theorem all_of_chunks {α : Type*} (p : α → Bool) (s : Nat) :
     rw [← List.take_append_drop s L, List.all_append, h0, ih, Bool.and_self]
 
 theorem rb_all : RB.all (bNetOK NS) = true := by
-  refine all_of_chunks _ 8 12 _ (by decide +kernel) fun j hj => ?_
+  refine all_of_chunks _ 1 96 _ (by decide +kernel) fun j hj => ?_
   interval_cases j
-  exacts [rb0, rb1, rb2, rb3, rb4, rb5, rb6, rb7, rb8, rb9, rb10, rb11]
+  exacts [rb0, rb1, rb2, rb3, rb4, rb5, rb6, rb7, rb8, rb9, rb10, rb11, rb12, rb13, rb14, rb15, rb16, rb17, rb18, rb19, rb20, rb21, rb22, rb23, rb24, rb25, rb26, rb27, rb28, rb29, rb30, rb31, rb32, rb33, rb34, rb35, rb36, rb37, rb38, rb39, rb40, rb41, rb42, rb43, rb44, rb45, rb46, rb47, rb48, rb49, rb50, rb51, rb52, rb53, rb54, rb55, rb56, rb57, rb58, rb59, rb60, rb61, rb62, rb63, rb64, rb65, rb66, rb67, rb68, rb69, rb70, rb71, rb72, rb73, rb74, rb75, rb76, rb77, rb78, rb79, rb80, rb81, rb82, rb83, rb84, rb85, rb86, rb87, rb88, rb89, rb90, rb91, rb92, rb93, rb94, rb95]
 
 end CertificateChecks.KernelLyB
 

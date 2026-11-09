@@ -203,7 +203,7 @@ abbrev hGens : List (Equiv.Perm (Fin 11)) := MathieuC3.m11Words.map (evalCodes [
 theorem chainH : ChainK 11 4 hGens MathieuC3.m11ChainWords (#v[2, 0] : Vector (Fin 11) 2)
     M11CH.S M11CH.SI M11CH.LR M11CH.TR M11CH.TRI 4 M11CH.BP 1 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M11CH.head, M11CH.hl,
-    by norm_num, M11CH.hs⟩
+    by norm_num, .inl M11CH.hs⟩
   have hj3 : j < 3 := by simpa [hGens, MathieuC3.m11Words] using hj
   rw [getD_map_eval]
   have h := allN_spec bH j hj3

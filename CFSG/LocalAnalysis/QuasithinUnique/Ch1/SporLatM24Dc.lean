@@ -5,6 +5,8 @@ public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.SporLatOfFacts
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.SporLatCode
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.SporLatExport
 public import CFSG.Certificates.Kernel.SporLatDcPair
+public import CFSG.Certificates.Kernel.SporLatDcTWSound
+public import CFSG.Certificates.Kernel.SporLatDcTupSound
 public import CFSG.LocalAnalysis.QuasithinUnique.K1.SporadicMathieu
 
 set_option maxRecDepth 100000
@@ -136,10 +138,23 @@ theorem good0 {l : ℕ} (hl : l < 10) :
   good_tabF (tab_letter h hl) (tab_ok h hl)
 
 include h in
+theorem l0P_eq {l : ℕ} (hl : l < 10) {p : ℕ} (hp : p < 24) : L0P l p = L0 l p :=
+  Nat.eq_of_beq_eq_true (List.all_eq_true.1 (List.all_eq_true.1 h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 l
+    (List.mem_range.2 hl)) p (List.mem_range.2 hp))
+
+include h in
+theorem goodL0P {l : ℕ} (hl : l < 10) :
+    Good 24 (tab 24 ((m24a :: m24b :: sl).getD l 1)).toArray (L0P l) := by
+  have g := good0 h hl
+  refine ⟨g.1, fun p hp => ?_⟩
+  rw [l0P_eq h hl hp]
+  exact g.2 p hp
+
+include h in
 theorem hL : ∀ l < 2 + C.ns,
     Good (24 * 24) (@tab G _ (24 * 24) (pairAction G 24) ((m24a :: m24b :: sl).getD l 1)).toArray
       (C.L l) :=
-  fun l hl => good_pair (good0 h (l := l) hl)
+  fun l hl => good_pair (goodL0P h (l := l) hl)
 
 theorem act_of_good {x : G} {f : ℕ → ℕ} (hx : Good 24 (tab 24 x).toArray f) {p : ℕ}
     (hp : p < 24) : act 24 x p = f p ∧ f p < 24 := by
@@ -282,7 +297,7 @@ theorem m24K_membersOK :
   have hj' : j < 13 := by rw [mw_size h] at hj; exact hj
   refine ⟨by rw [mw_get]; exact mw_lt2 h, mt_get h hj', ?_⟩
   rw [mLet_eq h hj', delta_eq, Om_get hj']
-  exact omCode_sound (List.all_eq_true.1 h.2.2.2.2.2.2.2.2.1 j (List.mem_range.2 hj'))
+  exact omCodeTw_sound (List.all_eq_true.1 h.2.2.2.2.2.2.2.2.1 j (List.mem_range.2 hj'))
 
 theorem size_of_map {A : Array (OmegaData (List ℕ))} {s : Array ℕ}
     (e : A.map (fun o => o.lbl.size) = s) {j : ℕ} (hj : j < s.size) : A[j]!.lbl.size = s[j]! := by
@@ -306,7 +321,7 @@ include h in
 theorem ot_size (j : ℕ) (hj : j < 13) :
     (Ot j).lbl.size = #[1, 64, 16, 16, 8, 4, 8, 2, 2, 2, 4, 2, 4][j]! := by
   rw [← Ot_get hj]
-  exact size_of_mapT h.2.2.2.2.2.2.2.2.2.2.2.2.2.2 (by simpa using hj)
+  exact size_of_mapT h.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 (by simpa using hj)
 
 include h in
 theorem rows_eq : (List.range 13).map (defaultRow 10 m24LatK m24OtK) = m24Mems := by
@@ -332,12 +347,34 @@ theorem m24K_o2OK : O2OK (codeSetAct 24) m24LatK m24OtK := by
   refine ⟨hodd, ?_⟩
   have hs : m24LatK.sTabs.toArray = sT.toArray := by rw [(T_eq h).2.2]; rfl
   rw [hs]
-  exact (omOKG_sound (act := tupAct (codeSetAct 24)) (letters := sT.toArray) (fun _ => True)
-    trivial (fun l _ X _ => ⟨trivial, by
-      unfold tupAct
-      rw [codeSetAct_eq, Array.getElem!_eq_getD]
-      rfl⟩)
-    (List.all_eq_true.1 h.2.2.2.2.2.2.2.2.2.1 j (List.mem_range.2 hj'))).1
+  have ho := List.all_eq_true.1 h.2.2.2.2.2.2.2.2.2.1 j (List.mem_range.2 hj')
+  unfold otOK at ho
+  simp only [Bool.and_eq_true, Nat.beq_eq, List.all_eq_true, Nat.ble_eq, Nat.blt_eq] at ho
+  obtain ⟨⟨hlen, hrows⟩, hidx⟩ := ho
+  have hOm := omCodeTw_sound (List.all_eq_true.1 h.2.2.2.2.2.2.2.2.1 j (List.mem_range.2 hj'))
+  have hsl : ∀ l < sT.toArray.size, l < (mLet j).size ∧ (mLet j)[l]! = sT.toArray[l]! := by
+    intro l hl
+    have hl' : l < sT.length := by simpa using hl
+    have hs : l < (mLet j).size := by
+      simp only [mLet, List.size_toArray, List.length_append]
+      omega
+    refine ⟨hs, ?_⟩
+    rw [getElem!_pos _ l hs, getElem!_pos _ l hl]
+    simp only [mLet, List.getElem_toArray]
+    exact List.getElem_append_left hl'
+  have hPs : ((Rs j).map (CFSG.KC.LQT.PP.codeK 9)).length = sT.toArray.size := by
+    rw [List.length_map, hlen]
+    rfl
+  refine otIdxOK_sound hOm hsl hPs (fun l hl k hk => ?_) hidx
+  have hl4 : l < 4 := by simpa [sT] using hl
+  rw [codeK_rows (fun r hr x hx => by
+      have e := (hrows r hr).2 x hx
+      change x < 512
+      exact e) (fun r hr => (hrows r hr).1) l (by omega) k hk,
+    getElem!_eq_getD_omL, getElem!_eq_getD_omL]
+  simp only [Rs, Om, omL, List.getD_eq_getElem?_getD, List.getElem?_take_of_lt hl4,
+    List.toList_toArray, List.getElem?_map]
+  cases (J.Om[j]?.getD default).2.1[l]? <;> rfl
 
 theorem hel : ∀ l < (#[m24a, m24b] : Array G).size,
     (#[m24ta.toArray, m24tb.toArray] : Array (Array ℕ)).getD l #[] =

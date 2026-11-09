@@ -46,6 +46,17 @@ theorem xTri_chk : strictB (mulJ c rm (etaK c rm one Us (cB ^^^ aObs))
       triK (xvs.toList.map fun x => Nat.xor (vecJ rm (v2N x) G) (v2N x)) xps.toList) = true := by
   quickRfl
 
+private theorem xor_map_enc {T : Array V2} {G : Nat}
+    (hT : ∀ x : V2, x.wf = true → v2N (frApply T x) = vecJ rm (v2N x) G) (xs : List V2)
+    (hw : ∀ x ∈ xs, x.wf = true) :
+    (xs.map fun x => (frApply T x).xor x).map v2N =
+      xs.map fun x => Nat.xor (vecJ rm (v2N x) G) (v2N x) := by
+  rw [List.map_map]
+  apply List.map_congr_left
+  intro x hx
+  simp only [Function.comp_apply]
+  rw [v2N_xor, hT x (hw x hx)]
+
 theorem ximgs_tri : triOK ximgs xps = true := by
   apply triOK_of
   have h := xTri_chk
@@ -53,13 +64,9 @@ theorem ximgs_tri : triOK ximgs xps = true := by
   have hx : ximgs.toList.map v2N = xvs.toList.map fun x => Nat.xor (vecJ rm (v2N x)
       (mulJ c rm (etaK c rm one Us (cB ^^^ aObs)) (wordJ c rm one [L0, L1, L2] [L0i, L1i, L2i] wObs)))
       (v2N x) := by
-    rw [ximgs, Array.toList_map, List.map_map]
-    apply List.map_congr_left
-    intro x hx
-    have hw : x.wf = true :=
-      wf_of_lt (lt_of_blt (List.all_eq_true.1 xv_chk x hx))
-    change v2N ((frApply (frTable gRows) x).xor x) = _
-    rw [v2N_xor, v2N_frApply hK g_enc.1 hw, g_enc.2]
+    rw [ximgs, Array.toList_map]
+    exact xor_map_enc (fun x hx => by rw [v2N_frApply hK g_enc.1 hx, g_enc.2]) _
+      fun x hx => wf_of_lt (lt_of_blt (List.all_eq_true.1 xv_chk x hx))
   rw [hx]
   exact h
 

@@ -14,8 +14,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelKGC31M22.W
-  "Certificates/Kernel/KGC31M22/data/conj.json.gz" 1332 10439404847872790791
+#kc_repo #kc_json CertificateChecks.KernelKGC31M22.W
+  "Certificates/Kernel/KGC31M22/data/conj.json" 1332 10439404847872790791
   (hexR0 : List Nat) (hexRs : List (List Nat)) (duadR0 : List Nat) (duadRs : List (List Nat))
   (e8R0 : List Nat) (e8Rs : List (List Nat))
 

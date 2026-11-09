@@ -3,6 +3,7 @@ module
 public meta import Lean
 public meta import CFSG.Certificates.Kernel.Common.AddThm
 public meta import CFSG.Certificates.Kernel.Common.DataRoot
+public meta import CFSG.Certificates.Kernel.Common.NatTree
 
 open Lean Elab Command
 
@@ -31,16 +32,25 @@ meta partial def hexNat (b : ByteArray) (lo hi : Nat) : Nat :=
     let mid := (lo + hi) / 2
     (hexNat b lo mid <<< (4 * (hi - mid))) + hexNat b mid hi
 
+@[inline] meta def wordLE (b : ByteArray) (i : Nat) : Nat :=
+  (b.extract i (i + 8)).toUInt64LE!.toNat
+
 meta partial def natLE (b : ByteArray) (lo hi : Nat) : Nat :=
-  if hi ≤ lo + 8 then
+  if hi = lo + 32 then
+    wordLE b lo ||| (wordLE b (lo + 8) <<< 64) ||| (wordLE b (lo + 16) <<< 128) |||
+      (wordLE b (lo + 24) <<< 192)
+  else if hi = lo + 8 then
+    wordLE b lo
+  else if hi < lo + 8 then
     Id.run do
       let mut acc := 0
       for k in [0:hi - lo] do
         acc := acc + (b[lo + k]!.toNat <<< (8 * k))
       return acc
   else
-    let mid := lo + (hi - lo) / 2
-    natLE b lo mid + (natLE b mid hi <<< (8 * (mid - lo)))
+    let mid :=
+      if hi - lo ≤ 64 then lo + 8 * ((hi - lo + 8) / 16) else lo + 32 * ((hi - lo + 32) / 64)
+    natLE b lo mid ||| (natLE b mid hi <<< (8 * (mid - lo)))
 
 meta partial def skipWs (b : ByteArray) (i stop : Nat) : Nat :=
   if i < stop && (b[i]! == 32 || b[i]! == 9 || b[i]! == 13) then skipWs b (i + 1) stop else i
@@ -181,6 +191,8 @@ meta partial def bitDispatch (leafs : Array Expr) (p k : Nat) (off : Nat) (motiv
 
 meta def fnT (_ : Unit := ()) : Expr := mkForall `b .default natE natE
 
+meta def natBinChunk : Nat := 1024
+
 meta partial def addKTreeNodes (leafName : Nat → Name) (name : Name) (lo h fan : Nat) :
     CoreM Unit := do
   let k := min fan h
@@ -282,7 +294,17 @@ elab "#kc_ktree " pre:ident id:ident src:(str <|> ("(" str num num ")")+) lb:num
 open CFSG.KC.Load in
 elab "#kc_natBin " pre:ident id:ident path:str size:num hash:num : command => do
   let b ← readPinned path.getString size.getNat hash.getNat
-  withSync <| addDef (pre.getId ++ id.getId) natE (mkRawNatLit (natLE b 0 b.size)) true
+  let F := pre.getId ++ id.getId
+  let cb := natBinChunk
+  if b.size ≤ cb then
+    withSync <| addDef F natE (mkRawNatLit (natLE b 0 b.size)) true
+  else
+    let n := (b.size + cb - 1) / cb
+    let leaf := fun k => F ++ Name.mkSimple s!"nb{k}"
+    withSync do
+      for k in [0:n] do
+        addDef (leaf k) natE (mkRawNatLit (natLE b (k * cb) (min b.size ((k + 1) * cb)))) true
+      addDef F natE (CFSG.KC.NatTree.mkTree (mkConst ∘ leaf) (8 * cb) 0 n) true
 
 meta def CFSG.KC.Load.decimalLines (b : ByteArray) : List Nat :=
   ((String.fromUTF8! b).splitOn "\n").filter (· ≠ "") |>.map String.toNat!

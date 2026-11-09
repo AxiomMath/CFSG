@@ -120,14 +120,19 @@ theorem qon_orbit_sizes :
   simp only [CArrays.lev, Fin.val_cast]
   rw [getElem!_pos _ k (by simpa [levelsOf_qon_size, qon_baseCount] using h1)]
 
+theorem getElem_congr_eq {l l' : List ℕ} (h : l = l') {i : ℕ} (h1 : i < l.length)
+    (h2 : i < l'.length) : l[i] = l'[i] := by
+  subst h
+  rfl
+
 theorem qon_card_orbit
     (i : Fin QON.baseCount) :
     Nat.card (QON.orbitPoints i) = ([245520, 52136, 36] ++ List.replicate 26 1)[i.val]'(by
       simpa [qon_baseCount] using i.isLt) := by
   have hlen : i.val < ((List.finRange QON.baseCount).map
       fun i => Nat.card (QON.orbitPoints i)).length := by simp
-  have := List.getElem_of_eq qon_orbit_sizes hlen
-  simpa using this
+  rw [← getElem_congr_eq qon_orbit_sizes hlen, List.getElem_map, List.getElem_finRange,
+    Fin.cast_mk, Fin.eta]
 
 theorem card_Pv :
     Nat.card Pv = 460815505920 := by

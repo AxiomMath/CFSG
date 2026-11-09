@@ -1,25 +1,25 @@
 module
 
-public import CFSG.Certificates.Kernel.Bounds.LoadGz
+public import CFSG.Certificates.Kernel.Bounds.LoadRoot
 public import CFSG.Certificates.Kernel.Bounds.Core3
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_items_gz CFSG.KD.ThU.RB "Certificates/Kernel/ThU/data/regs.items.gz"
+#kc_repo #kc_items_root CFSG.KD.ThU.RB "Certificates/Kernel/ThU/data/regs.items"
   5200046 9699726443159445674
-#kc_repo #kc_list_gz CFSG.KD.ThU.slp1 "Certificates/Kernel/ThU/data/slp1.items.gz" 1000
+#kc_repo #kc_list_root CFSG.KD.ThU.slp1 "Certificates/Kernel/ThU/data/slp1.items" 1000
   1117 14407977994090521664
-#kc_repo #kc_list_gz CFSG.KD.ThU.slp2 "Certificates/Kernel/ThU/data/slp2.items.gz" 1000
+#kc_repo #kc_list_root CFSG.KD.ThU.slp2 "Certificates/Kernel/ThU/data/slp2.items" 1000
   1185 15840984221441473336
-#kc_repo #kc_items_gz CFSG.KD.ThU.PTS "Certificates/Kernel/ThU/data/pts.items.gz"
+#kc_repo #kc_items_root CFSG.KD.ThU.PTS "Certificates/Kernel/ThU/data/pts.items"
   1400 10870978053755254036
-#kc_repo #kc_items_gz CFSG.KD.ThU.TC "Certificates/Kernel/ThU/data/tcs.items.gz"
+#kc_repo #kc_items_root CFSG.KD.ThU.TC "Certificates/Kernel/ThU/data/tcs.items"
   122 5161204274327578067
-#kc_repo #kc_items_gz CFSG.KD.ThU.SC "Certificates/Kernel/ThU/data/scs.items.gz"
+#kc_repo #kc_items_root CFSG.KD.ThU.SC "Certificates/Kernel/ThU/data/scs.items"
   98 7693331501198036587
-#kc_repo #kc_nat_items_gz CFSG.KD.ThU "Certificates/Kernel/ThU/data/consts.items.gz"
+#kc_repo #kc_nat_items CFSG.KD.ThU "Certificates/Kernel/ThU/data/consts.items"
   101 2433818553685924461 PR BL GR M n1 nend
 
 namespace CFSG.KD.ThU

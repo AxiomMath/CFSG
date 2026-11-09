@@ -10,7 +10,7 @@ namespace CFSG.KC.S2071
 
 open CFSG.KC.Enum CFSG.KC.N3153 CFSG.KS.Raw CFSG.Sporadic.FischerOddCore.Native
 
-theorem search_sound {n d np na k chunks T P : Nat} {nbr : Array (List Nat)} {t : Array Nat}
+theorem search_sound {n d np na k chunks T P CB : Nat} {nbr : Array (List Nat)} {t : Array Nat}
     {base SC : List Nat} {pool acc : Array (Array Nat)} {nodes : Array SNode}
     {R M S PL AC DT : Nat → Nat} (hn0 : 0 < n) (hn : n < 4096) (hd : 0 < d) (hd' : d < 65536)
     (hnbr : nbr = rowsArr n d R) (hrow : ∀ x < n, rowOK n d R M S x = true)
@@ -19,13 +19,13 @@ theorem search_sound {n d np na k chunks T P : Nat} {nbr : Array (List Nat)} {t 
     (hpreN : ∀ i < nodes.size, ∀ x ∈ (nodes[i]!).pre, x < n)
     (hchunks : 0 < chunks) (hpool : pool.size = np) (hPL : ∀ j < np, pool[j]! = unpack n 12 (PL j))
     (hacc : acc.size = na) (hAC : ∀ i < na, acc[i]! = unpack n 12 (AC i))
-    (hinj : injK n S T base k P = true)
+    (hinj : injK n S T base k P = true) (hcb : colourK n S T base k = CB)
     (hsc : ∀ e < base.length, srcColK n S T base k e (SC.getD e 0) = true)
     (h0 : 0 < nodes.size) (hroot : (nodes[0]!).pre = [])
-    (hnode : ∀ i < nodes.size, nodeK n S T PL np AC na nodes base SC k DT i = true) :
+    (hnode : ∀ i < nodes.size, nodeK n S T PL np AC na nodes base SC CB k DT i = true) :
     searchOK n nbr t base pool nodes acc k chunks = true := by
   exact CFSG.KC.Fi22Snd.search_sound' hn hnbr hrow hsym ht hbase hpre hpreN hpool hPL hacc hAC
-    hinj hsc h0 hroot hnode
+    hinj hcb hsc h0 hroot hnode
 
 end CFSG.KC.S2071
 

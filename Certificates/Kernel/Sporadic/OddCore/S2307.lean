@@ -174,8 +174,8 @@ theorem pm_inv {P : Nat} (hP : PP 1782 11 P) : pm (pinvS 1782 11 (mask 11) P) = 
   exact eq_inv_of_mul_eq_one_left (rep_idA.unique h).symm
 
 theorem pm_get {P : Nat} (hP : PP 1782 11 P) (x : Fin 1782) :
-    (pm P x : Nat) = pg 11 (mask 11) P x := by
-  rw [← (rep_pm hP).apply x.2, upk_get x.2]
+    (pm P x : Nat) = pg 11 (mask 11) P x :=
+  (rep_pm hP x).symm.trans (upk_get x.2)
 
 theorem pm_ext {P Q : Nat} (hP : PP 1782 11 P) (hQ : PP 1782 11 Q) (h : pm P = pm Q) : P = Q := by
   obtain ⟨-, hw, hp1, -⟩ := CFSG.KS.PF.canon_facts hP.1
@@ -225,7 +225,11 @@ theorem base_of {n w nb BP : Nat} {base : List (Fin n)} (hs : (base.map Fin.val)
       ∀ t < nb, (base.map Fin.val).toArray[t]! = pg w (mask w) BP t :=
   ⟨hs, fun t ht => (Nat.eq_of_beq_eq_true (allN_spec h t ht)).symm⟩
 
-theorem ch : CFSG.Sporadic.HNOddCore.chainCheck 1782 invSylowArrs WW bpF [128, 128] = true :=
+@[expose] def bpCh : List (Fin 1782) := [0, 1, 2]
+
+theorem bpCh_nodup : bpCh.Nodup := by decide
+
+theorem ch : CFSG.Sporadic.HNOddCore.chainCheck 1782 invSylowArrs WW bpCh [128, 128, 1] = true :=
   chainCheck_of ⟨g_get.1, fun j hj => by
       rw [g_get.2 j hj, Nat.eq_of_beq_eq_true (allN_spec hpc j hj)]⟩
     (by decide +kernel) (by decide +kernel) (by decide +kernel) (by norm_num)
@@ -234,7 +238,7 @@ theorem ch : CFSG.Sporadic.HNOddCore.chainCheck 1782 invSylowArrs WW bpF [128, 1
 
 theorem H_card : Nat.card H = 16384 := by
   unfold H
-  rw [CFSG.Sporadic.HNOddCore.card_arrGen_of_chainCheck (by norm_num) bpF_nodup ch]
+  rw [CFSG.Sporadic.HNOddCore.card_arrGen_of_chainCheck (by norm_num) bpCh_nodup ch]
   rfl
 
 theorem keyK_congr {ps : List Nat} {t u : Nat}
@@ -268,9 +272,12 @@ theorem bp_memF : ∀ p ∈ bp, ∃ b ∈ bpF, (b : Nat) = p := by
 
 theorem sepP {P Q : Nat} (hP : MemP P) (hQ : MemP Q)
     (h : ∀ p ∈ bp, pg 11 (mask 11) P p = pg 11 (mask 11) Q p) : P = Q := by
-  refine pm_ext hP.1 hQ.1 (CFSG.KS.CardSep.eq_of_base H_card (ε := fun k => pm (SSE.T k))
-    (fun k hk => (mem_T k hk).2) (B := bpF) (fun i hi j hj hij => T_inj hi hj fun p hp => ?_)
-    hP.2 hQ.2 fun b hb => Fin.ext ?_)
+  have e : ∀ g : Nat → Equiv.Perm (Fin 1782), (∀ k < 16384, g (SSE.T k) ∈ H) →
+      (∀ i < 16384, ∀ j < 16384, (∀ b ∈ bpF, g (SSE.T i) b = g (SSE.T j) b) → i = j) →
+      ∀ {x y}, x ∈ H → y ∈ H → (∀ b ∈ bpF, x b = y b) → x = y := fun g hg hkey =>
+    CFSG.KS.CardSep.eq_of_base H_card (ε := fun k => g (SSE.T k)) hg hkey
+  refine pm_ext hP.1 hQ.1 (e pm (fun k hk => (mem_T k hk).2)
+    (fun i hi j hj hij => T_inj hi hj fun p hp => ?_) hP.2 hQ.2 fun b hb => Fin.ext ?_)
   · obtain ⟨b, hb, rfl⟩ := bp_memF p hp
     rw [← pm_get (mem_T i hi).1, ← pm_get (mem_T j hj).1, hij b hb]
   · rw [pm_get hP.1, pm_get hQ.1]

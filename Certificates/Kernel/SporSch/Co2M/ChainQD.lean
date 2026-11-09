@@ -20,7 +20,7 @@ meta def qaB : Array Nat := localRec.chains.qAction.baseArr
 
 end CertificateChecks.KernelSporSch.Co2M
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2QA 512 10 32 128
+#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2QA 512 10 0 128
   CertificateChecks.KernelSporSch.Co2M.qaS CertificateChecks.KernelSporSch.Co2M.qaB 2
   CertificateChecks.KernelSporSch.Co2M.qaD
 

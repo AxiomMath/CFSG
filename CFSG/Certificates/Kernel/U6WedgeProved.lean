@@ -149,6 +149,156 @@ theorem bIsId_bmul_of_blocks_proved {k P : ℕ} {Q R : Array ℕ} {RL : List ℕ
     Array.getElem?_eq_getElem hl', Option.map_some, Option.getD_some, testBit_fgetW, hj']
   simp [hq, Array.getD_eq_getD_getElem?, Array.getElem?_eq_getElem hl']
 
+private theorem pw2_eqW (w : ℕ) : pw2 w = 2 ^ w := Nat.one_shiftLeft w
+
+private theorem rzAux_cons (b : ℕ) (B : List ℕ) {a : ℕ} (acc : ℕ) (ha : a ≠ 0) :
+    rzAux (b :: B) a acc =
+      rzAux B (a >>> 1) (Bool.rec (motive := fun _ => ℕ) acc (Nat.xor acc b) (bit a 0)) := by
+  have hb : Nat.beq a 0 = false := by
+    cases e : Nat.beq a 0
+    · rfl
+    · exact absurd (Nat.eq_of_beq_eq_true e) ha
+  change Bool.rec (motive := fun _ => ℕ) (strictN _ _) acc (Nat.beq a 0) = _
+  rw [hb]
+  change strictN _ _ = _
+  rw [strictN_eq]
+  rfl
+
+private theorem rzAux_zero (B : List ℕ) (acc : ℕ) : rzAux B 0 acc = acc := by
+  cases B <;> rfl
+
+private theorem rzAux_skip (b : ℕ) (B' : List ℕ) :
+    ∀ (P : List ℕ) (s acc : ℕ), s % 2 ^ (P.length + 1) = 2 ^ P.length →
+      rzAux (P ++ b :: B') s acc = rzAux B' (s >>> (P.length + 1)) (Nat.xor acc b)
+  | [], s, acc, hs => by
+    have h1 : s % 2 = 1 := by simpa using hs
+    have hs0 : s ≠ 0 := by
+      rintro rfl
+      simp at h1
+    have hb : bit s 0 = true := by
+      rw [bit_eqW, Nat.testBit_zero]
+      simpa using h1
+    rw [List.nil_append, rzAux_cons b B' acc hs0, hb]
+    rfl
+  | x :: P, s, acc, hs => by
+    have hp : (2 : ℕ) ^ ((x :: P).length + 1) = 2 * 2 ^ (P.length + 1) := by
+      rw [List.length_cons, Nat.pow_succ, Nat.mul_comm]
+    have hq : (2 : ℕ) ^ (x :: P).length = 2 * 2 ^ P.length := by
+      rw [List.length_cons, Nat.pow_succ, Nat.mul_comm]
+    rw [hp, hq] at hs
+    have h2 : s % 2 = 0 := by
+      have := Nat.mod_mod_of_dvd s (Dvd.intro (2 ^ (P.length + 1)) rfl : 2 ∣ 2 * 2 ^ (P.length + 1))
+      rw [← this, hs]
+      simp
+    have hs0 : s ≠ 0 := by
+      rintro rfl
+      rw [Nat.zero_mod] at hs
+      exact absurd hs.symm (by positivity)
+    have hb : bit s 0 = false := by
+      rw [bit_eqW, Nat.testBit_zero]
+      simp [h2]
+    have hs' : (s >>> 1) % 2 ^ (P.length + 1) = 2 ^ P.length := by
+      rw [Nat.shiftRight_one, ← Nat.mod_mul_right_div_self, hs]
+      simp
+    rw [List.cons_append, rzAux_cons x _ acc hs0, hb]
+    change rzAux (P ++ b :: B') (s >>> 1) acc = _
+    have e3 : 1 + (P.length + 1) = (x :: P).length + 1 := by
+      rw [List.length_cons]
+      omega
+    rw [rzAux_skip b B' P (s >>> 1) acc hs', ← Nat.shiftRight_add, e3]
+
+private theorem andB_true {a b : Bool} (h : andB a b = true) : a = true ∧ b = true := by
+  cases a
+  · exact absurd h Bool.false_ne_true
+  · exact ⟨rfl, h⟩
+
+private theorem wgStrictB_eq (y : ℕ) (k : ℕ → Bool) : wgStrictB y k = k y := by
+  cases y <;> rfl
+
+private theorem wgDropK_true {k : ℕ → List ℕ → Bool} : ∀ (e : ℕ) (B : List ℕ),
+    wgDropK k e B = true → ∃ P b B', B = P ++ b :: B' ∧ P.length = e ∧ k b B' = true
+  | 0, [], h => absurd h Bool.false_ne_true
+  | 0, b :: B, h => ⟨[], b, B, rfl, rfl, h⟩
+  | _ + 1, [], h => absurd h Bool.false_ne_true
+  | e + 1, x :: B, h => by
+    obtain ⟨P, b, B', h1, h2, h3⟩ := wgDropK_true e B h
+    exact ⟨x :: P, b, B', by rw [h1, List.cons_append], by rw [List.length_cons, h2], h3⟩
+
+private theorem rzAux_of_wgRowK : ∀ (G : List ℕ) (s : ℕ) (B : List ℕ) (acc tgt : ℕ),
+    wgRowK G s B acc tgt = true → rzAux B s acc = tgt
+  | [], s, B, acc, tgt, h => by
+    obtain ⟨h1, h2⟩ := andB_true h
+    rw [Nat.eq_of_beq_eq_true h1, rzAux_zero]
+    exact Nat.eq_of_beq_eq_true h2
+  | e :: G, s, B, acc, tgt, h => by
+    obtain ⟨h1, h2⟩ := andB_true h
+    obtain ⟨P, b, B', rfl, hP, h3⟩ := wgDropK_true e B h2
+    rw [wgStrictB_eq, wgStrictB_eq] at h3
+    have hs : s % 2 ^ (P.length + 1) = 2 ^ P.length := by
+      have e1 := Nat.eq_of_beq_eq_true h1
+      rw [maskN, pw2_eqW, pw2_eqW] at e1
+      change s &&& (2 ^ (e + 1) - 1) = 2 ^ e at e1
+      rw [Nat.and_two_pow_sub_one_eq_mod] at e1
+      rw [hP]
+      exact e1
+    rw [rzAux_skip b B' P s acc hs, hP]
+    exact rzAux_of_wgRowK G _ B' _ tgt h3
+
+theorem rowMulZ_of_wgRowK {G : List ℕ} {a t : ℕ} {B : List ℕ} (h : wgRowK G a B 0 t = true) :
+    rowMulZ a B = t :=
+  rzAux_of_wgRowK G a B 0 t h
+
+theorem wgAllK_sound (B : List ℕ) : ∀ (Q : List ℕ) (G : List (List ℕ)) (l : ℕ),
+    wgAllK B Q G l = true → ∀ k < G.length, wgRowK (G.getD k []) (Q.getD k 0) B 0 (pw2 (l + k)) = true
+  | [], [], _, _, k, hk => absurd hk (Nat.not_lt_zero k)
+  | [], _ :: _, _, h, _, _ => absurd h Bool.false_ne_true
+  | _ :: _, [], _, _, k, hk => absurd hk (Nat.not_lt_zero k)
+  | q :: Q, g :: G, l, h, k, hk => by
+    obtain ⟨h1, h2⟩ := andB_true h
+    cases k with
+    | zero => exact h1
+    | succ k =>
+      have e := wgAllK_sound B Q G (Nat.succ l) h2 k (by simpa using hk)
+      rw [List.getD_cons_succ, List.getD_cons_succ]
+      have e2 : Nat.succ l + k = l + (k + 1) := by omega
+      rw [e2] at e
+      exact e
+
+theorem wgDropL_getD : ∀ (n : ℕ) (L : List ℕ) (k : ℕ), (wgDropL n L).getD k 0 = L.getD (n + k) 0
+  | 0, L, k => by rw [Nat.zero_add]; rfl
+  | _ + 1, [], k => by
+    change ([] : List ℕ).getD k 0 = _
+    simp
+  | n + 1, x :: L, k => by
+    have e : n + 1 + k = (n + k) + 1 := by omega
+    rw [e, List.getD_cons_succ]
+    exact wgDropL_getD n L k
+
+theorem rowMulZ_of_slices {Q RL : List ℕ} {S : List (List (List ℕ))} {m : ℕ}
+    (h : ∀ c < m, wgAllK RL (wgDropL (64 * c) Q) (getLD [] S c) (64 * c) = true)
+    (hl : ∀ c < m, (getLD [] S c).length = 64) : ∀ i < 64 * m, rowMulZ (Q.getD i 0) RL = pw2 i := by
+  intro i hi
+  have hc : i / 64 < m := by omega
+  have hk : i % 64 < 64 := Nat.mod_lt _ (by norm_num)
+  have e : 64 * (i / 64) + i % 64 = i := Nat.div_add_mod i 64
+  have hr := wgAllK_sound RL _ _ _ (h _ hc) (i % 64) (by rw [hl _ hc]; exact hk)
+  rw [wgDropL_getD, e] at hr
+  exact rowMulZ_of_wgRowK hr
+
+theorem bIsId_bmul_of_rows_proved {N P : ℕ} {Q R : Array ℕ} {RL : List ℕ} (hR : R.toList = RL)
+    (hP : RL.length = P) (h : ∀ i < N, rowMulZ (Q.toList.getD i 0) RL = pw2 i) :
+    bIsId N (bmul N P Q R) = true := by
+  simp only [bIsId, List.all_eq_true, List.mem_range, beq_iff_eq]
+  intro i hi j hj
+  have hbit := congrArg (fun x => x.testBit j) (h i hi)
+  have e1 : rowMulZ (Q.toList.getD i 0) RL = rzAux RL (Q.toList.getD i 0) 0 := rfl
+  rw [e1, testBit_rzAux, pw2_eqW, Nat.testBit_two_pow] at hbit
+  simp only [Nat.zero_testBit, Bool.false_xor] at hbit
+  rw [bmul_row_bitW _ _ hi, ← hP, ← hbit]
+  apply xorFold_congrW
+  intro l _
+  rw [getD_toListW Q i, ← hR, getD_toListW]
+
 open CFSG.EvenSmallLie.UnitarySix.YamadaD (wedgeEq wedgeEqP eCol eRow WRow WCol)
 open CFSG.EvenSmallLie.UnitarySix.YamadaPar (bz matBits testBit_bitsOf toMat_apply)
 
@@ -233,8 +383,6 @@ private theorem testBit_orN_anyW (f : ℕ → ℕ) (p : ℕ) : ∀ n,
 private theorem testBit_nIfW (c : Bool) (x y t : ℕ) :
     (Bool.rec (motive := fun _ => ℕ) y x c).testBit t = (if c then x.testBit t else y.testBit t) := by
   cases c <;> rfl
-
-private theorem pw2_eqW (w : ℕ) : pw2 w = 2 ^ w := Nat.one_shiftLeft w
 
 private theorem bit_packMW {n a b : ℕ} (A : Array ℕ) (ha : a < n) (hb : b < n) :
     bit (packM n A) (n * a + b) = (A.getD a 0).testBit b := by

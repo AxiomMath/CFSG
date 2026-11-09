@@ -31,13 +31,9 @@ local notation "𝐍[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootA K i) 
 local notation "𝐌[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) :
   Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -50,8 +46,7 @@ set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 local notation "𝐉" => pull φ (diagTorus K)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
@@ -63,7 +58,7 @@ set_option quotPrecheck false in
 local notation "𝐋[" i "]" => (𝐅 ⊔ 𝐀[i] : Subgroup G)
 local notation "𝐰[" i "]" => ((φ.symm (weylElt K i) : L) : G)
 set_option quotPrecheck false in
-local notation "𝐅ʷ[" i "]" => (𝐅.map (MulAut.conj 𝐰[i]⁻¹).toMonoidHom : Subgroup G)
+local notation "𝐅ʷ[" i "]" => SixG.sgFw φ t i
 set_option quotPrecheck false in
 local notation "𝐗[" i "]" => (𝐅 ⊔ 𝐅ʷ[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -78,13 +73,12 @@ local notation "𝐍𝐑[" k "]" => (normalizer (𝐑[k] : Set G) ⊓ normalizer
 set_option quotPrecheck false in
 local notation "𝐃𝐧[" i "]" => normalizer ((𝐃[i] : Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 set_option quotPrecheck false in
 local notation "𝐄𝐧[" i "]" => (normalizer ((𝐄[i] : Subgroup G) : Set G) ⊓
   normalizer ((𝐊[i] : Subgroup G) : Set G) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₂[" i "]" => (CFSG.pCore 2 𝐄𝐧[i]).map 𝐄𝐧[i].subtype
+local notation "𝐏₂[" i "]" => SixG.sgP₂ φ t i
 set_option quotPrecheck false in
 local notation "𝐓₁[" i "]" => (𝐑[i] ⊔ 𝐏₁[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -103,6 +97,21 @@ theorem mem_E0_of (k : Axis) {x : G} (h1 : x ∈ 𝐄[k]) (h2 : x ∈ 𝐄[k.swa
   cases k
   · exact mem_inf.mpr ⟨h1, h2⟩
   · exact mem_inf.mpr ⟨h2, h1⟩
+
+theorem card_ge_of_sup_mul {A B C : Subgroup G} (hN : B ≤ normalizer (A : Set G)) {a b c d : ℕ}
+    (hA : Nat.card A = a) (hB : Nat.card B = b) (hC : Nat.card C = c)
+    (hd : Nat.card (A ⊓ B : Subgroup G) = d) (hpos : 0 < d) (habcd : a * b = c * d) :
+    Nat.card C ≤ Nat.card (A ⊔ B : Subgroup G) := by
+  have h1 := card_sup_mul_card_inf A B hN
+  rw [hA, hB, hd, habcd, hC.symm] at h1
+  exact (Nat.eq_of_mul_eq_mul_right hpos h1).symm.le
+
+theorem card_inf_of_sup_mul {A B : Subgroup G} (hN : B ≤ normalizer (A : Set G)) {a b s m : ℕ}
+    (hA : Nat.card A = a) (hB : Nat.card B = b) (hS : Nat.card (A ⊔ B : Subgroup G) = s)
+    (hpos : 0 < s) (habsm : a * b = s * m) : Nat.card (A ⊓ B : Subgroup G) = m := by
+  have h1 := card_sup_mul_card_inf A B hN
+  rw [hA, hB, hS, habsm] at h1
+  exact Nat.eq_of_mul_eq_mul_left hpos h1
 
 theorem Hk_sup_Hk (h : FCHyp L K n φ t) (k : Axis) : (𝐇 ⊓ 𝐄[k]) ⊔ (𝐇 ⊓ 𝐄[k.swap]) = 𝐇 := by
   cases k
@@ -506,14 +515,10 @@ theorem R_sup_T₂ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓
   have hRN : 𝐑[i] ≤ normalizer (𝐓₂[i.swap] : Set G) := fun _ hr =>
     mem_normalizer_of_conj_le fun _ hx =>
       conj_mem_T₂ h i hne hbot (R_le_Nhat h i hne hbot i hr) hx
-  have h1 := card_sup_mul_card_inf 𝐓₂[i.swap] 𝐑[i] hRN
   have e1 : 𝐓₂[i.swap] ⊓ 𝐑[i] = 𝐇 := (inf_comm _ _).trans (R_inf_T₂ h i hne hbot)
-  rw [e1, card_T₂ h i hne hbot, card_R h i, h.H_facts.2.2] at h1
-  rw [card_Tbar h i hne hbot]
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine (Nat.eq_of_mul_eq_mul_right (mul_pos two_pos (pow_pos hq 6)) ?_).symm.le
-  rw [h1]
-  ring
+  exact card_ge_of_sup_mul hRN (card_T₂ h i hne hbot) (card_R h i) (card_Tbar h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) e1).trans h.H_facts.2.2)
+    (mul_pos two_pos (pow_pos Nat.card_pos 6)) (by ring)
 
 theorem Tbar_inf_T₀ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) : 𝐓̄[i] ⊓ 𝐓₀[i.swap] = 𝐓₂[i.swap] := by
@@ -596,14 +601,10 @@ theorem E_sup_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓
   have hTE : 𝐓₃[i] ≤ normalizer (𝐄[i] : Set G) := fun _ hx =>
     mem_normalizer_of_conj_le fun _ he =>
       conj_mem_E_of_normalizer_D h i (T₁_le_Dn h i (mem_inf.mp hx).1) he
-  have h1 := card_sup_mul_card_inf 𝐄[i] 𝐓₃[i] hTE
   have e1 : 𝐄[i] ⊓ 𝐓₃[i] = 𝐇 ⊓ 𝐄[i] := (inf_comm _ _).trans (T₃_inf_E h i hne hbot)
-  rw [e1, card_Hi h i, card_E h i, card_T₃ h i hne hbot] at h1
-  rw [card_T₁ h i hne hbot]
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine (Nat.eq_of_mul_eq_mul_right (mul_pos two_pos (pow_pos hq 5)) ?_).symm.le
-  rw [h1]
-  ring
+  exact card_ge_of_sup_mul hTE (card_E h i) (card_T₃ h i hne hbot) (card_T₁ h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) e1).trans (card_Hi h i))
+    (mul_pos two_pos (pow_pos Nat.card_pos 5)) (by ring)
 
 theorem E_swap_sup_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) : 𝐄[i.swap] ⊔ 𝐓₃[i] = 𝐓₂[i.swap] := by
@@ -611,15 +612,11 @@ theorem E_swap_sup_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], �
     (R_le_T₂ _)) inf_le_right) ?_
   have hTE : 𝐓₃[i] ≤ normalizer (𝐄[i.swap] : Set G) := fun _ hx =>
     (mem_inf.mp (T₀_le_En h _ (mem_inf.mp (mem_inf.mp hx).2).1)).1
-  have h1 := card_sup_mul_card_inf 𝐄[i.swap] 𝐓₃[i] hTE
   have e1 : 𝐄[i.swap] ⊓ 𝐓₃[i] = 𝐇 ⊓ 𝐄[i.swap] :=
     (inf_comm _ _).trans (T₃_inf_E_swap h i hne hbot)
-  rw [e1, card_Hi h _, card_E h _, card_T₃ h i hne hbot] at h1
-  rw [card_T₂ h i hne hbot]
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine (Nat.eq_of_mul_eq_mul_right (mul_pos two_pos (pow_pos hq 5)) ?_).symm.le
-  rw [h1]
-  ring
+  exact card_ge_of_sup_mul hTE (card_E h _) (card_T₃ h i hne hbot) (card_T₂ h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) e1).trans (card_Hi h _))
+    (mul_pos two_pos (pow_pos Nat.card_pos 5)) (by ring)
 
 theorem P₁_sup_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) : 𝐏₁[i] ⊔ 𝐓₃[i] = 𝐓₁[i] := by
@@ -637,13 +634,9 @@ theorem card_P₁_inf_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 
     Nat.card (𝐏₁[i] ⊓ 𝐓₃[i] : Subgroup G) = 2 * Nat.card K ^ 6 := by
   have hTP : 𝐓₃[i] ≤ normalizer (𝐏₁[i] : Set G) := fun _ hx =>
     mem_normalizer_of_conj_le fun _ hp => conj_mem_P₁ i (T₁_le_Dn h i (mem_inf.mp hx).1) hp
-  have h1 := card_sup_mul_card_inf 𝐏₁[i] 𝐓₃[i] hTP
-  rw [P₁_sup_T₃ h i hne hbot, card_T₁ h i hne hbot, card_P₁ h i hne hbot,
-    card_T₃ h i hne hbot] at h1
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine Nat.eq_of_mul_eq_mul_left (mul_pos two_pos (pow_pos hq 8)) ?_
-  rw [h1]
-  ring
+  exact card_inf_of_sup_mul hTP (card_P₁ h i hne hbot) (card_T₃ h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) (P₁_sup_T₃ h i hne hbot)).trans
+      (card_T₁ h i hne hbot)) (mul_pos two_pos (pow_pos Nat.card_pos 8)) (by ring)
 
 theorem card_P₂_inf_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) :
@@ -651,13 +644,9 @@ theorem card_P₂_inf_T₃ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 
   have hTP : 𝐓₃[i] ≤ normalizer (𝐏₂[i.swap] : Set G) := fun _ hx =>
     mem_normalizer_of_conj_le fun _ hp =>
       conj_mem_P₂ _ (T₀_le_En h _ (mem_inf.mp (mem_inf.mp hx).2).1) hp
-  have h1 := card_sup_mul_card_inf 𝐏₂[i.swap] 𝐓₃[i] hTP
-  rw [P₂_sup_T₃ h i hne hbot, card_T₀ h i hne hbot, card_P₂ h i hne hbot,
-    card_T₃ h i hne hbot] at h1
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine Nat.eq_of_mul_eq_mul_left (mul_pos two_pos (pow_pos hq 9)) ?_
-  rw [h1]
-  ring
+  exact card_inf_of_sup_mul hTP (card_P₂ h i hne hbot) (card_T₃ h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) (P₂_sup_T₃ h i hne hbot)).trans
+      (card_T₀ h i hne hbot)) (mul_pos two_pos (pow_pos Nat.card_pos 9)) (by ring)
 
 theorem P₁_inf_H (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) : 𝐏₁[i] ⊓ 𝐇 = 𝐇 ⊓ 𝐄[i] := by
@@ -674,7 +663,6 @@ theorem P₁_inf_T₃_sup_H (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i],
   refine eq_of_le_of_card_ge (sup_le (H_le_T₃ h i) inf_le_right) ?_
   have hAH : 𝐏₁[i] ⊓ 𝐓₃[i] ≤ normalizer ((𝐇 : Subgroup G) : Set G) := fun _ hx =>
     (mem_inf.mp (T₁_le_Nhat h i hne hbot (mem_inf.mp (mem_inf.mp hx).2).1)).1
-  have h1 := card_sup_mul_card_inf 𝐇 (𝐏₁[i] ⊓ 𝐓₃[i]) hAH
   have e1 : 𝐇 ⊓ (𝐏₁[i] ⊓ 𝐓₃[i]) = 𝐇 ⊓ 𝐄[i] := by
     rw [← P₁_inf_H h i hne hbot]
     ext x
@@ -684,12 +672,9 @@ theorem P₁_inf_T₃_sup_H (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i],
       exact ⟨hxP, hxH⟩
     · rintro ⟨hxP, hxH⟩
       exact ⟨hxH, hxP, H_le_T₃ h i hxH⟩
-  rw [e1, card_Hi h i, h.H_facts.2.2, card_P₁_inf_T₃ h i hne hbot] at h1
-  rw [card_T₃ h i hne hbot]
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine (Nat.eq_of_mul_eq_mul_right (mul_pos two_pos (pow_pos hq 5)) ?_).symm.le
-  rw [h1]
-  ring
+  exact card_ge_of_sup_mul hAH h.H_facts.2.2 (card_P₁_inf_T₃ h i hne hbot) (card_T₃ h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) e1).trans (card_Hi h i))
+    (mul_pos two_pos (pow_pos Nat.card_pos 5)) (by ring)
 
 theorem card_P₀ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) : Nat.card 𝐏₀[i] = 2 * Nat.card K ^ 5 := by
@@ -699,7 +684,6 @@ theorem card_P₀ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 
     refine mem_normalizer_of_conj_le fun x hx => mem_inf.mpr ⟨?_, ?_⟩
     · exact conj_mem_P₁ i (T₁_le_Dn h i (mem_inf.mp hb3).1) (mem_inf.mp hx).1
     · exact mul_mem (mul_mem hb3 (mem_inf.mp hx).2) (inv_mem hb3)
-  have h1 := card_sup_mul_card_inf (𝐏₁[i] ⊓ 𝐓₃[i]) (𝐏₂[i.swap] ⊓ 𝐓₃[i]) hBA
   have hsup : (𝐏₁[i] ⊓ 𝐓₃[i]) ⊔ (𝐏₂[i.swap] ⊓ 𝐓₃[i]) = 𝐓₃[i] := by
     refine le_antisymm (sup_le inf_le_right inf_le_right) ?_
     refine (P₁_inf_T₃_sup_H h i hne hbot).symm.le.trans (sup_le ?_ le_sup_left)
@@ -712,12 +696,10 @@ theorem card_P₀ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 
     refine le_antisymm (le_inf (inf_le_left.trans inf_le_left) (inf_le_right.trans inf_le_left))
       (le_inf (le_inf inf_le_left (P₀_le_T₃ h i hne hbot))
         (le_inf inf_le_right (P₀_le_T₃ h i hne hbot)))
-  rw [hsup, hinf, card_T₃ h i hne hbot, card_P₁_inf_T₃ h i hne hbot,
-    card_P₂_inf_T₃ h i hne hbot] at h1
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine Nat.eq_of_mul_eq_mul_left (mul_pos two_pos (pow_pos hq 7)) ?_
-  rw [h1]
-  ring
+  exact (congrArg (fun S : Subgroup G => Nat.card S) hinf).symm.trans
+    (card_inf_of_sup_mul hBA (card_P₁_inf_T₃ h i hne hbot) (card_P₂_inf_T₃ h i hne hbot)
+      ((congrArg (fun S : Subgroup G => Nat.card S) hsup).trans (card_T₃ h i hne hbot))
+      (mul_pos two_pos (pow_pos Nat.card_pos 7)) (by ring))
 
 theorem sq_P₀_mem_F (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) {x : G} (hx : x ∈ 𝐏₀[i]) : x * x ∈ 𝐅 :=
@@ -740,14 +722,10 @@ theorem E_sup_P₀ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓
   have hPE : 𝐏₀[i] ≤ normalizer (𝐄[i] : Set G) := fun _ hx =>
     mem_normalizer_of_conj_le fun _ he =>
       conj_mem_E_of_normalizer_D h i (P₁_le i (mem_inf.mp hx).1) he
-  have h1 := card_sup_mul_card_inf 𝐄[i] 𝐏₀[i] hPE
   have e1 : 𝐄[i] ⊓ 𝐏₀[i] = 𝐄₀ := (inf_comm _ _).trans (P₀_inf_E h i hne hbot)
-  rw [e1, card_E0 h, card_E h i, card_P₀ h i hne hbot] at h1
-  rw [card_P₁ h i hne hbot]
-  have hq : 0 < Nat.card K := Nat.card_pos
-  refine (Nat.eq_of_mul_eq_mul_right (mul_pos two_pos (pow_pos hq 4)) ?_).symm.le
-  rw [h1]
-  ring
+  exact card_ge_of_sup_mul hPE (card_E h i) (card_P₀ h i hne hbot) (card_P₁ h i hne hbot)
+    ((congrArg (fun S : Subgroup G => Nat.card S) e1).trans (card_E0 h))
+    (mul_pos two_pos (pow_pos Nat.card_pos 4)) (by ring)
 
 end Normality
 

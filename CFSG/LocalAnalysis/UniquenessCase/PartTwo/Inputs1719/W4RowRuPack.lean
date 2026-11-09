@@ -11,17 +11,6 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Row
 open CFSG.QuasithinUnique.Setup.X1 CFSG.QuasithinUnique.Bridge.RuExcl CFSG.Sporadic.RuSchreier
   CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
 
-private def invPackLineCheck (n p m : ℕ) (y w h : PArr) (a b : ℕ) : Bool :=
-  allLt m fun k =>
-    k == 0 ||
-      allLt p fun j =>
-        !eqA n
-          (compA n
-            (compA n (powA n h.1 k)
-              (compA n (powA n y.1 a) (powA n w.1 b)))
-            (powA n h.2 k))
-          (powA n (compA n (powA n y.1 a) (powA n w.1 b)) j)
-
 private theorem ne_of_eqA_eq_false {n : ℕ} {t u : Array ℕ} {g h : Equiv.Perm (Fin n)}
     (ht : Rep n t g) (hu : Rep n u h) (he : eqA n t u = false) : g ≠ h := by
   intro hgh
@@ -45,53 +34,74 @@ private theorem not_mem_zpowers_of_forall_ne_pow {G : Type*} [Group G] {x y : G}
       _ = x ^ (i % (p : ℤ)).toNat := zpow_natCast x _
   exact h _ hlt' (hi.symm.trans hpow)
 
-private theorem invPack_lines_of_check {n p m : ℕ} {y w h : PArr}
-    {gy gw gh : Equiv.Perm (Fin n)} (hy : PRep n y gy) (hw : PRep n w gw) (hh : PRep n h gh)
-    {a b : ℕ} (hne : gy ^ a * gw ^ b ≠ 1)
-    (hc : ((a == 0 && b == 0) || invPackLineCheck n p m y w h a b) = true)
-    {k j : ℕ} (hk0 : 0 < k) (hkm : k < m) (hj : j < p) :
-    gh ^ k * (gy ^ a * gw ^ b) * (gh ^ k)⁻¹ ≠ (gy ^ a * gw ^ b) ^ j := by
-  have h0 : (a == 0 && b == 0) = false := by
-    cases hval : (a == 0 && b == 0) with
-    | false => rfl
-    | true =>
-      simp only [beq_iff_eq, Bool.and_eq_true] at hval
-      obtain ⟨rfl, rfl⟩ := hval
-      exact absurd (by simp) hne
-  have h1 : invPackLineCheck n p m y w h a b = true := by
-    rw [Bool.or_eq_true] at hc
-    rcases hc with h | h
-    · rw [h0] at h
-      exact (Bool.false_ne_true h).elim
-    · exact h
-  simp only [invPackLineCheck] at h1
-  have hk := allLt_iff.1 h1 k hkm
-  have hk0' : (k == 0) = false := by
-    cases hval : (k == 0) with
-    | false => rfl
-    | true =>
-      have : k = 0 := by simpa using hval
-      omega
-  have he : eqA n
-      (compA n (compA n (powA n h.1 k)
-        (compA n (powA n y.1 a) (powA n w.1 b))) (powA n h.2 k))
-      (powA n (compA n (powA n y.1 a) (powA n w.1 b)) j) = false := by
-    rw [Bool.or_eq_true] at hk
-    rcases hk with h | h
-    · rw [hk0'] at h
-      exact (Bool.false_ne_true h).elim
-    · simpa only [Bool.not_eq_true'] using allLt_iff.1 h j hj
-  have hpr : Rep n (compA n (powA n y.1 a) (powA n w.1 b)) (gy ^ a * gw ^ b) :=
-    rep_compA (rep_powA hy.1 a) (rep_powA hw.1 b)
-  have hleft : Rep n
-      (compA n (compA n (powA n h.1 k)
-        (compA n (powA n y.1 a) (powA n w.1 b))) (powA n h.2 k))
-      (gh ^ k * (gy ^ a * gw ^ b) * (gh ^ k)⁻¹) := by
-    have := rep_compA (rep_compA (rep_powA hh.1 k) hpr) (rep_powA hh.2 k)
-    simpa [mul_assoc, inv_pow] using this
-  exact ne_of_eqA_eq_false hleft (rep_powA hpr j) he
+private theorem e25_pair_inj {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) {y w : G}
+    (hy : y ^ p = 1) (hw : w ^ p = 1) (hne : y ≠ 1) (hnm : w ∉ Subgroup.zpowers y)
+    {a b a' b' : ℕ} (ha : a < p) (hb : b < p) (ha' : a' < p) (hb' : b' < p)
+    (h : y ^ a * w ^ b = y ^ a' * w ^ b') : a = a' ∧ b = b' := by
+  have hbb : b = b' := by
+    by_contra hbb
+    wlog hlt : b' < b generalizing a b a' b'
+    · exact this ha' hb' ha hb h.symm (Ne.symm hbb) (by omega)
+    have hd : w ^ (b - b') ∈ Subgroup.zpowers y := by
+      have e : w ^ (b - b') = (y ^ a)⁻¹ * y ^ a' := by
+        have h2 : y ^ a * (w ^ (b - b') * w ^ b') = y ^ a' * w ^ b' := by
+          rw [← pow_add, Nat.sub_add_cancel hlt.le, h]
+        rw [← mul_assoc] at h2
+        rw [eq_inv_mul_iff_mul_eq]
+        exact mul_right_cancel h2
+      rw [e]
+      exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (Subgroup.npow_mem_zpowers y a))
+        (Subgroup.npow_mem_zpowers y a')
+    have hcop : Nat.Coprime (b - b') p :=
+      (Nat.coprime_of_lt_prime (by omega) (by omega) hp).symm
+    obtain ⟨u, -, hu⟩ := Nat.exists_mul_mod_eq_one_of_coprime hcop hp.one_lt
+    apply hnm
+    have e : w = (w ^ (b - b')) ^ u := by
+      rw [← pow_mul, pow_eq_pow_mod _ hw, hu, pow_one]
+    rw [e]
+    exact Subgroup.pow_mem _ hd u
+  subst hbb
+  refine ⟨?_, rfl⟩
+  have h1 : y ^ a = y ^ a' := mul_right_cancel h
+  have hfact : Fact p.Prime := ⟨hp⟩
+  have ho : orderOf y = p := orderOf_eq_prime hy hne
+  rw [pow_inj_mod, ho, Nat.mod_eq_of_lt ha, Nat.mod_eq_of_lt ha'] at h1
+  exact h1
 
-theorem invPack_of_check {n p m : ℕ} (hp : 0 < p) {τ y w h : PArr} {cs : List (ℕ × ℕ)}
+private theorem e25_conj_step {G : Type*} [Group G] {p : ℕ} {y w h : G} {cs : List (ℕ × ℕ)}
+    (hy : y ^ p = 1) (hw : w ^ p = 1) (hc : Commute y w)
+    (h0 : h * y * h⁻¹ = y ^ (cs.getD 0 (0, 0)).1 * w ^ (cs.getD 0 (0, 0)).2)
+    (h1 : h * w * h⁻¹ = y ^ (cs.getD 1 (0, 0)).1 * w ^ (cs.getD 1 (0, 0)).2) (v : ℕ × ℕ) :
+    h * (y ^ v.1 * w ^ v.2) * h⁻¹ = y ^ (e25Step p cs v).1 * w ^ (e25Step p cs v).2 := by
+  obtain ⟨a, b⟩ := v
+  simp only [e25Step]
+  generalize cs.getD 0 (0, 0) = q0 at h0 ⊢
+  generalize cs.getD 1 (0, 0) = q1 at h1 ⊢
+  obtain ⟨c0, d0⟩ := q0
+  obtain ⟨c1, d1⟩ := q1
+  dsimp only at h0 h1 ⊢
+  have e : h * (y ^ a * w ^ b) * h⁻¹ = (h * y * h⁻¹) ^ a * (h * w * h⁻¹) ^ b := by
+    rw [conj_pow, conj_pow]
+    simp only [mul_assoc, inv_mul_cancel_left]
+  have hc' : Commute ((w ^ d0) ^ a) ((y ^ c1) ^ b) := ((hc.pow_pow c1 d0).pow_pow b a).symm
+  rw [← pow_eq_pow_mod _ hy, ← pow_eq_pow_mod _ hw, pow_add, pow_add, pow_mul', pow_mul',
+    pow_mul', pow_mul', e, h0, h1, (hc.pow_pow c0 d0).mul_pow, (hc.pow_pow c1 d1).mul_pow]
+  simp only [mul_assoc]
+  rw [hc'.left_comm]
+
+private theorem e25_conj_iter {G : Type*} [Group G] {p : ℕ} {y w h : G} {cs : List (ℕ × ℕ)}
+    (hy : y ^ p = 1) (hw : w ^ p = 1) (hc : Commute y w)
+    (h0 : h * y * h⁻¹ = y ^ (cs.getD 0 (0, 0)).1 * w ^ (cs.getD 0 (0, 0)).2)
+    (h1 : h * w * h⁻¹ = y ^ (cs.getD 1 (0, 0)).1 * w ^ (cs.getD 1 (0, 0)).2) (k : ℕ)
+    (v : ℕ × ℕ) : h ^ k * (y ^ v.1 * w ^ v.2) * (h ^ k)⁻¹ =
+      y ^ ((e25Step p cs)^[k] v).1 * w ^ ((e25Step p cs)^[k] v).2 := by
+  induction k with
+  | zero => simp
+  | succ k ih =>
+    rw [Function.iterate_succ_apply', ← e25_conj_step hy hw hc h0 h1, ← ih, pow_succ']
+    simp only [mul_inv_rev, mul_assoc]
+
+theorem invPack_of_check {n p m : ℕ} (hp : p.Prime) {τ y w h : PArr} {cs : List (ℕ × ℕ)}
     {gτ gy gw gh : Equiv.Perm (Fin n)} (hτ : PRep n τ gτ) (hy : PRep n y gy) (hw : PRep n w gw)
     (hh : PRep n h gh) (hc : invPackCheck n p m τ y w h cs = true) :
     InvPack p m gτ gy gw gh := by
@@ -103,25 +113,47 @@ theorem invPack_of_check {n p m : ℕ} (hp : 0 < p) {τ y w h : PArr} {cs : List
   have hpowr' : gw ^ p = 1 :=
     (eqA_iff (rep_powA hw.1 p) (rep_idA (n := n))).1 hpowr
   have hne' : gy ≠ 1 := ne_of_eqA_eq_false hy.1 (rep_idA (n := n)) hne
-  refine ⟨hpowl', hpowr', ?_, hne', ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · exact (eqA_iff (rep_compA hy.1 hw.1) (rep_compA hw.1 hy.1)).1 hcomm
-  · refine not_mem_zpowers_of_forall_ne_pow hp hpowl' fun k hk => ?_
+  have hcomm' : gy * gw = gw * gy :=
+    (eqA_iff (rep_compA hy.1 hw.1) (rep_compA hw.1 hy.1)).1 hcomm
+  have hnotmem' : gw ∉ Subgroup.zpowers gy := by
+    refine not_mem_zpowers_of_forall_ne_pow hp.pos hpowl' fun k hk => ?_
     exact ne_of_eqA_eq_false hw.1 (rep_powA hy.1 k)
       (by simpa only [Bool.not_eq_true'] using allLt_iff.1 hnotmem k hk)
+  have hcl' : gh * gy * gh⁻¹ = gy ^ (cs.getD 0 (0, 0)).1 * gw ^ (cs.getD 0 (0, 0)).2 :=
+    (eqA_iff (rep_compA (rep_compA hh.1 hy.1) hh.2)
+      (rep_compA (rep_powA hy.1 _) (rep_powA hw.1 _))).1 hcl
+  have hcr' : gh * gw * gh⁻¹ = gy ^ (cs.getD 1 (0, 0)).1 * gw ^ (cs.getD 1 (0, 0)).2 :=
+    (eqA_iff (rep_compA (rep_compA hh.1 hw.1) hh.2)
+      (rep_compA (rep_powA hy.1 _) (rep_powA hw.1 _))).1 hcr
+  refine ⟨hpowl', hpowr', hcomm', hne', hnotmem', ?_, ?_, ⟨_, _, hcl'⟩, ⟨_, _, hcr'⟩, ?_, ?_, ?_⟩
   · exact (eqA_iff (rep_compA (rep_compA hτ.1 hy.1) hτ.2) hy.2).1 hinvl
   · exact (eqA_iff (rep_compA (rep_compA hτ.1 hw.1) hτ.2) hw.2).1 hinvr
-  · exact ⟨_, _, (eqA_iff (rep_compA (rep_compA hh.1 hy.1) hh.2)
-      (rep_compA (rep_powA hy.1 _) (rep_powA hw.1 _))).1 hcl⟩
-  · exact ⟨_, _, (eqA_iff (rep_compA (rep_compA hh.1 hw.1) hh.2)
-      (rep_compA (rep_powA hy.1 _) (rep_powA hw.1 _))).1 hcr⟩
   · exact ⟨_, _, (eqA_iff (rep_compA (rep_compA hh.2 hy.1) hh.1)
       (rep_compA (rep_powA hy.1 _) (rep_powA hw.1 _))).1 hcil⟩
   · exact ⟨_, _, (eqA_iff (rep_compA (rep_compA hh.2 hw.1) hh.1)
       (rep_compA (rep_powA hy.1 _) (rep_powA hw.1 _))).1 hcir⟩
-  · intro a ha b hb hneab k hk0 hkm j hj
-    have hab : ((a == 0 && b == 0) || invPackLineCheck n p m y w h a b) = true := by
-      simpa only [invPackLineCheck] using allLt_iff.1 (allLt_iff.1 hlines a ha) b hb
-    exact invPack_lines_of_check hy hw hh hneab hab hk0 hkm hj
+  · intro a ha b hb hneab k hk0 hkm j hj heq
+    have hcm : Commute gy gw := hcomm'
+    unfold e25Lines at hlines
+    have hl := allLt_iff.1 (allLt_iff.1 hlines a ha) b hb
+    simp only [Bool.or_eq_true, Bool.and_eq_true, beq_iff_eq] at hl
+    rcases hl with ⟨rfl, rfl⟩ | hl
+    · exact hneab (by simp)
+    have hk := allLt_iff.1 hl k hkm
+    simp only [Bool.or_eq_true, beq_iff_eq] at hk
+    rcases hk with hk | hk
+    · omega
+    have hj' := allLt_iff.1 hk j hj
+    simp only [Bool.not_eq_true', beq_eq_false_iff_ne, ne_eq] at hj'
+    apply hj'
+    rw [e25_conj_iter hpowl' hpowr' hcm hcl' hcr' k (a, b), (hcm.pow_pow a b).mul_pow,
+      ← pow_mul', ← pow_mul', pow_eq_pow_mod (j * a) hpowl',
+      pow_eq_pow_mod (j * b) hpowr'] at heq
+    obtain ⟨k', rfl⟩ := Nat.exists_eq_succ_of_ne_zero hk0.ne'
+    rw [Function.iterate_succ_apply'] at heq ⊢
+    obtain ⟨e1, e2⟩ := e25_pair_inj hp hpowl' hpowr' hne' hnotmem'
+      (Nat.mod_lt _ hp.pos) (Nat.mod_lt _ hp.pos) (Nat.mod_lt _ hp.pos) (Nat.mod_lt _ hp.pos) heq
+    exact Prod.ext e1 e2
 
 theorem ruE25_invPack :
     ∃ y ∈ ruP, ∃ w ∈ ruP, ∃ h ∈ ruP, InvPack 5 6 (ruA1 * ruA1) y w h := by
@@ -132,3 +164,5 @@ theorem ruE25_invPack :
     invPack_of_check (by norm_num) pRep_ruZtP hy hw hh Certificates.certificate725003⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Row
+
+end

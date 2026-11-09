@@ -165,7 +165,7 @@ theorem refineStepT_get (t a : Array Nat) {v : Nat} (hv : v < 1782) :
 theorem round_eq {i k : Nat}
     (hi : i < 4) (h : rnd (GP (3 + i)) k = true) : refineStepT (tArr i) (col (k - 1)) = col k := by
   obtain ⟨htab, hord, hr⟩ := rnd_facts h
-  have hs := round_sound (by norm_num) rows symm' masks htab hord (tlt hi) hr
+  have hs := round_sound (by norm_num) (by norm_num) rows symm' masks htab hord (tlt hi) hr
   refine arr_ext (refineStepT_size _ _) (col_size _) fun v hv => ?_
   rw [refineStepT_get _ _ hv, nbr_eq, tArr_eq hi]
   exact hs v hv

@@ -13,6 +13,8 @@ import CFSG.Certificates.Kernel.Spor.RawSiftK
 import Mathlib.Tactic.IntervalCases
 public import CFSG.Certificates.Kernel.BfsPinSound
 public import CFSG.Certificates.Kernel.Misc.ArrBind
+import CFSG.Certificates.Kernel.Misc.ChainTailQSound
+import CFSG.Monster.B.Mathieu.SylowSound
 
 set_option maxRecDepth 400000
 
@@ -134,11 +136,22 @@ theorem nums : S25.ng = 4 ∧ S25.N = 1500 ∧ SQ.ng = 2 ∧ SQ.N = 125 ∧ S0.n
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   tauto
 
+theorem bfsPerm {ng N : ℕ} {G T E S : ℕ → ℕ} (hp : ∀ k < ng, permB 276 9 (G k) = true)
+    (hk : bfsK 276 9 ng G N T E S = true) : ∀ i < N, permB 276 9 (T i) = true :=
+  (bfsK_points (fun y => permB 276 9 y = true) (pk_id kW).2
+    (fun _ hy k hk' => (pk_comp kW ⟨rfl, hp k hk'⟩ ⟨rfl, hy⟩).2) hk).2.2.1
+
 theorem tperm : (∀ i < 1500, permB 276 9 (S25.T i) = true) ∧ (∀ i < 125, permB 276 9 (SQ.T i) = true) ∧
     (∀ i < 300, permB 276 9 (S0.T i) = true) ∧ (∀ i < 60, permB 276 9 (SD.T i) = true) := by
-  have h := kTperm
-  simp only [Bool.and_eq_true] at h
-  exact ⟨AI.1 h.1.1.1, AI.1 h.1.1.2, AI.1 h.1.2, AI.1 h.2⟩
+  refine ⟨fun i hi => ?_, fun i hi => ?_, fun i hi => ?_, fun i hi => ?_⟩
+  · exact bfsPerm (fun k hk => (c25g (by rw [nums.1] at hk; exact hk)).2) S25.ok i
+      (by rw [nums.2.1]; exact hi)
+  · exact bfsPerm (fun k hk => (qg (by rw [nums.2.2.1] at hk; exact hk)).2) SQ.ok i
+      (by rw [nums.2.2.2.1]; exact hi)
+  · exact bfsPerm (fun k hk => (c0g (by rw [nums.2.2.2.2.1] at hk; exact hk)).2) S0.ok i
+      (by rw [nums.2.2.2.2.2.1]; exact hi)
+  · exact bfsPerm (fun k hk => (sdg (by rw [nums.2.2.2.2.2.2.1] at hk; exact hk)).2) SD.ok i
+      (by rw [nums.2.2.2.2.2.2.2]; exact hi)
 
 theorem pinned {gs : Array (Array ℕ)} {ng N fuel : ℕ} {G T E S : ℕ → ℕ} {SK : List ℕ}
     (hs : gs.size = ng) (hg : ∀ k < ng, Pk 276 9 gs[k]! (G k))
@@ -248,7 +261,7 @@ theorem tail : tailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3FiveZA
   refine tailOK_of_ptailK CertificateChecks.KernelSpor.Co3C.binds
     CertificateChecks.KernelSpor.Co3C.perm CertificateChecks.KernelSpor.Co3C.hl kW pZ.1 pZ.2
     (pw 276 9 (ZZ 0)) hE (fun e _ => (pk_powArr kW pZ e).2) 3 4 rfl (idA 276) I (PP.id kW)
-    ?_ kTail
+    ?_ (ptailK_of_ptailQ (CFSG.KC.Misc.ArrEnum.pp_of_permB kW pZ.2) (by norm_num) (by norm_num) 2 4 I kTail)
   rw [pI.1]
   exact ag_unpack 276 9 I
 
@@ -274,57 +287,22 @@ theorem relsC : (co3FiveRels.all fun r => decide (r.2.2 < co3FiveX25PowArrs.size
     CFSG.KS.Raw.Orb.unpack_get (by rw [← hb.2.2.2.2.2.2 _ h2]; exact hbl _ h2)]
   exact Nat.eq_of_beq_eq_true h4
 
-theorem sub_all : ∀ k < 275, sub1 k = true := by
-  intro k hk
-  obtain ⟨c, hc, t, ht, rfl⟩ : ∃ c < 25, ∃ t < 11, k = c * 11 + t :=
-    ⟨k / 11, by omega, k % 11, Nat.mod_lt _ (by norm_num), by omega⟩
-  interval_cases c
-  · exact AI.1 kS00 t ht
-  · exact AI.1 kS01 t ht
-  · exact AI.1 kS02 t ht
-  · exact AI.1 kS03 t ht
-  · exact AI.1 kS04 t ht
-  · exact AI.1 kS05 t ht
-  · exact AI.1 kS06 t ht
-  · exact AI.1 kS07 t ht
-  · exact AI.1 kS08 t ht
-  · exact AI.1 kS09 t ht
-  · exact AI.1 kS10 t ht
-  · exact AI.1 kS11 t ht
-  · exact AI.1 kS12 t ht
-  · exact AI.1 kS13 t ht
-  · exact AI.1 kS14 t ht
-  · exact AI.1 kS15 t ht
-  · exact AI.1 kS16 t ht
-  · exact AI.1 kS17 t ht
-  · exact AI.1 kS18 t ht
-  · exact AI.1 kS19 t ht
-  · exact AI.1 kS20 t ht
-  · exact AI.1 kS21 t ht
-  · exact AI.1 kS22 t ht
-  · exact AI.1 kS23 t ht
-  · exact AI.1 kS24 t ht
+theorem x0s : (co3FiveX25Arr[0]! == 0) = true := by
+  rw [pX25.1, CFSG.KS.Raw.Orb.unpack_get (by norm_num), Nat.eq_of_beq_eq_true (and_of kFixX).1]
+  rfl
 
-theorem br0 : br 0 = true := by
-  have h : ptailK 276 9 CertificateChecks.KernelSpor.Co3C.LR CertificateChecks.KernelSpor.Co3C.TR
-      CertificateChecks.KernelSpor.Co3C.BP (FC.F 1) (pw 276 9 (FC.F 1))
-      CFSG.RankThree.Native.co3FiveRels S25.N S25.T 6 1 acc0 = true := by
-    change strictB (CertificateChecks.KernelSpor.Co3C.LR 1) (fun R => allN (rcnt R) fun k =>
-      !(relOKK 9 (mask 9) CertificateChecks.KernelSpor.Co3C.BP (pw 276 9 (FC.F 1))
-        CFSG.RankThree.Native.co3FiveRels 1 acc0 (rpt 9 (mask 9) R k)) ||
-      ptailK 276 9 CertificateChecks.KernelSpor.Co3C.LR CertificateChecks.KernelSpor.Co3C.TR
-        CertificateChecks.KernelSpor.Co3C.BP (FC.F 1) (pw 276 9 (FC.F 1))
-        CFSG.RankThree.Native.co3FiveRels S25.N S25.T 5 2
-        (pcomp 276 9 (mask 9) acc0 (CertificateChecks.KernelSpor.Co3C.TR
-          (Nat.add (roff 276 (Nat.mul 276 9) R) k)))) = true
-    rw [CFSG.KS.Raw.Orb.strictB_eq, Nat.eq_of_beq_eq_true kRc.2]
-    exact CFSG.KS.Raw.Orb.allN_iff.2 fun k hk => sub_all k hk
-  unfold br ptailBranchK
-  rw [Bool.or_eq_true]
-  exact Or.inr h
+theorem fixxs : allLt 275 (fun p => co3FiveX25Arr[p + 1]! != p + 1) = true := by
+  refine allLt_of_allN (and_of kFixX).2 fun p hp h => ?_
+  have hp' : p + 1 < 276 := by omega
+  rw [pX25.1, CFSG.KS.Raw.Orb.unpack_get hp']
+  exact h
 
-theorem ptail : ptailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3ChainBaseArr
-    co3FiveX25Arr co3FiveX25PowArrs co3FiveRels co3FiveC25Cert.pts.toList 7 0 (idA 276) = true := by
+theorem brs : allLt ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).pts.size (fun k =>
+    !((List.range 3).any fun i =>
+      ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).pts[k]! == co3FiveC25Rep i) ||
+    ptailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3ChainBaseArr co3FiveX25Arr
+      co3FiveX25PowArrs co3FiveRels co3FiveC25Cert.pts.toList 5 2
+      ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).tr[k]!) = true := by
   have hps : co3FiveX25PowArrs.size = 5 := by simp [co3FiveX25PowArrs]
   have hE : co3FiveC25Cert.pts.toList = (List.range S25.N).map fun e => unpack 276 9 (S25.T e) := by
     rw [c25.2]
@@ -332,19 +310,39 @@ theorem ptail : ptailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3Chai
   have hR : ∀ r ∈ co3FiveRels, r.2.2 < co3FiveX25PowArrs.size := by
     rw [hps]
     decide
-  refine ptailK_sound CertificateChecks.KernelSpor.Co3C.binds CertificateChecks.KernelSpor.Co3C.perm
-    CertificateChecks.KernelSpor.Co3C.hl pX25.1 pX25.2
-    (XP := pw 276 9 (FC.F 1)) (fun e he => ?_) hR (NE := S25.N) (EP := S25.T) hE
-    (fun e he => tperm.1 e (by rw [nums.2.1] at he; exact he)) (by norm_num) (fun k hk => ?_)
-  · rw [hps] at he
-    rw [getElem!_pos _ e (by rw [hps]; exact he)]
+  have hxs : ∀ e < co3FiveX25PowArrs.size,
+      co3FiveX25PowArrs[e]! = unpack 276 9 (pw 276 9 (FC.F 1) e) := by
+    intro e he
+    rw [getElem!_pos _ e he]
     simp only [co3FiveX25PowArrs, Array.getElem_ofFn]
     exact (pk_powArr kW pX25 _).1
-  · rw [Nat.eq_of_beq_eq_true kRc.1] at hk
-    rcases Nat.eq_zero_or_pos k with rfl | hk0
-    · exact br0
-    · have := AI.1 kBr (k - 1) (by omega)
-      rwa [Nat.sub_add_cancel hk0] at this
+  have key := ptailOK_of_ptailK CertificateChecks.KernelSpor.Co3C.binds
+    CertificateChecks.KernelSpor.Co3C.perm CertificateChecks.KernelSpor.Co3C.hl kW pX25.1 pX25.2
+    hxs hR hE (fun e he => tperm.1 e (by rw [nums.2.1] at he; exact he))
+  obtain ⟨hsz, hpt⟩ := levels_agK CertificateChecks.KernelSpor.Co3C.binds
+    CertificateChecks.KernelSpor.Co3C.perm CertificateChecks.KernelSpor.Co3C.hl 1 (by norm_num)
+  have hc := Nat.eq_of_beq_eq_true kRc.2
+  rw [hsz, hc]
+  refine allLt_of_allN kBrC fun k hk h => ?_
+  obtain ⟨hp1, -, hp3, hp4⟩ := hpt k (by rw [hc]; exact hk)
+  unfold brC at h
+  rw [hp1]
+  rw [CFSG.KC.Misc.ArrEnum.anyNP_eq] at h
+  rw [Bool.or_eq_true] at h ⊢
+  exact h.imp id fun h' => key 5 2 rfl _ _ hp3 hp4 h'
+
+theorem orbs : allLt 275 (fun q => (List.range co3FiveC25Cert.pts.size).any fun w =>
+    (List.range 3).any fun i => (co3FiveC25Cert.pts[w]!)[co3FiveC25Rep i]! == q + 1) = true := by
+  have hN : co3FiveC25Cert.pts.size = 1500 := by rw [c25.2, Array.size_ofFn, nums.2.1]
+  rw [hN]
+  refine allLt_of_allN kWC fun q hq h => ?_
+  rw [Bool.and_eq_true, Nat.blt_eq] at h
+  refine any_range_of (WC q / 3) h.1 (any_range_of (WC q % 3) (Nat.mod_lt _ (by norm_num)) ?_)
+  have hr : co3FiveC25Rep (WC q % 3) < 276 := by
+    unfold co3FiveC25Rep
+    split_ifs <;> norm_num
+  rw [c25.2, ofFn_get (by rw [nums.2.1]; exact h.1), CFSG.KS.Raw.Orb.unpack_get hr]
+  exact h.2
 
 theorem chain_ok :
     co3FiveChainCheck (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3FiveC25Cert = true := by
@@ -354,7 +352,7 @@ theorem chain_ok :
   obtain ⟨⟨⟨f0, f1⟩, f2⟩, f3⟩ := hf
   rw [sifts, fixes, fixLev 0 (by norm_num), fixLev 1 (by norm_num), fixLev 2 (by norm_num),
     fixLev 3 (by norm_num), Nat.eq_of_beq_eq_true f0, Nat.eq_of_beq_eq_true f1,
-    Nat.eq_of_beq_eq_true f2, Nat.eq_of_beq_eq_true f3, tail, relsC, ptail]
+    Nat.eq_of_beq_eq_true f2, Nat.eq_of_beq_eq_true f3, tail, relsC, x0s, fixxs, brs, orbs]
   rfl
 
 theorem qP {k : ℕ} (hk : k < 125) : Pk 276 9 co3FiveQCert.pts[k]! (SQ.T k) := by
@@ -368,9 +366,30 @@ theorem q_ok : co3FiveQCheck co3FiveQCert co3FiveLines = true := by
   rw [cq.1, hN]
   simp only [beq_self_eq_true, Bool.true_and, Bool.and_eq_true]
   refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩
-  · refine allLt_of_allN kQ5 fun k hk h => ?_
-    rw [eqA_pk kW (pk_powArr kW (qP hk) 5) pI]
-    exact h
+  · refine CFSG.Monster.B.Co2.allLt_iff.2 fun k hk => ?_
+    have hP := qP hk
+    have h := AI.1 kQW k hk
+    rw [Bool.or_eq_true] at h
+    rcases h with h | h
+    · rw [eqA_pk kW (pk_powArr kW hP 5) pI, Nat.eq_of_beq_eq_true h]
+      quickRfl
+    · rw [Bool.and_eq_true, Nat.blt_eq] at h
+      obtain ⟨hj, he⟩ := h
+      have hL := pLine hj
+      have hpow := pk_powArr kW hL (WQ k % 5)
+      rw [← Nat.eq_of_beq_eq_true he] at hpow
+      rw [hP.1.trans hpow.1.symm]
+      have hv := validA_unpack hL.2
+      rw [← hL.1] at hv
+      have hR := rep_of_validA hv
+      have h5 : (CFSG.Monster.B.Co2.permOfArr 276 (co3FiveLineArr (WQ k / 5))) ^ 5 = 1 := by
+        refine (CFSG.Monster.B.Co2.eqA_iff (CFSG.Monster.B.Mathieu.rep_powArr hR 5)
+          CFSG.Monster.B.Co2.rep_idA).1 ?_
+        rw [eqA_pk kW (pk_powArr kW hL 5) pI]
+        exact (and_of (and_of (AI.1 kQL _ hj)).1).1
+      refine (CFSG.Monster.B.Co2.eqA_iff (CFSG.Monster.B.Mathieu.rep_powArr
+        (CFSG.Monster.B.Mathieu.rep_powArr hR _) 5) CFSG.Monster.B.Co2.rep_idA).2 ?_
+      rw [← pow_mul, mul_comm, pow_mul, h5, one_pow]
   · refine allLt_of_allN kQW fun k hk h => ?_
     rw [Bool.or_eq_true] at h ⊢
     rcases h with h | h
@@ -402,17 +421,21 @@ theorem c25P {k : ℕ} (hk : k < 1500) : Pk 276 9 co3FiveC25Cert.pts[k]! (S25.T 
   rw [c25.2]
   exact ⟨ofFn_get (by rw [nums.2.1]; exact hk), tperm.1 k hk⟩
 
-theorem c25_all : ∀ k < 1500, c25Pt k = true := by
-  intro k hk
-  obtain ⟨c, hc, t, ht, rfl⟩ : ∃ c < 6, ∃ t < 250, k = c * 250 + t :=
-    ⟨k / 250, by omega, k % 250, Nat.mod_lt _ (by norm_num), by omega⟩
-  interval_cases c
-  · simpa using AI.1 kC25b0 t ht
-  · simpa [Nat.add_comm] using AI.1 kC25b1 t ht
-  · simpa [Nat.add_comm] using AI.1 kC25b2 t ht
-  · simpa [Nat.add_comm] using AI.1 kC25b3 t ht
-  · simpa [Nat.add_comm] using AI.1 kC25b4 t ht
-  · simpa [Nat.add_comm] using AI.1 kC25b5 t ht
+theorem c25_all : ∀ k < 1500, c25Pt k = true := AI.1 kC25b
+
+theorem cmP16_eq (p q : ℕ) : cmP16 p q = cmK p q := by
+  unfold cmP16
+  cases h : cmK p q
+  · exact Bool.and_false _
+  · rw [Bool.and_true]
+    refine AI.2 fun i hi => ?_
+    have e0 : cm 276 9 p q = cm 276 9 q p := Nat.eq_of_beq_eq_true h
+    have e : pg 9 (mask 9) (pcomp 276 9 (mask 9) p q) i =
+        pg 9 (mask 9) (pcomp 276 9 (mask 9) q p) i := congrArg (fun t => pg 9 (mask 9) t i) e0
+    rw [CFSG.KS.PF.pg_pcomp (by norm_num) (by omega),
+      CFSG.KS.PF.pg_pcomp (by norm_num) (by omega)] at e
+    simp only [Nat.beq_eq]
+    exact e
 
 theorem c25_ok : co3FiveC25Check co3FiveC25Cert co3FiveQCert = true := by
   have hN : co3FiveC25Cert.pts.size = 1500 := by rw [c25.2, Array.size_ofFn, nums.2.1]
@@ -441,6 +464,7 @@ theorem c25_ok : co3FiveC25Check co3FiveC25Cert co3FiveQCert = true := by
   · refine CFSG.Monster.B.Co2.allLt_iff.2 fun k hk => ?_
     have h := c25_all k hk
     unfold c25Pt at h
+    rw [cmP16_eq, cmP16_eq] at h
     rw [commA_pk (c25P hk) (ag (k := 0) (by norm_num)),
       commA_pk (c25P hk) (ag (k := 1) (by norm_num))]
     rw [Bool.or_eq_true] at h ⊢
@@ -501,15 +525,24 @@ theorem c0_ok : co3FiveC0Check co3FiveC0GenArrs co3FiveDGenArrs co3FiveC0Cert co
     exact mem_of cd.2 tperm.2.2.2 (pk_commutatorA kW (c0g hk) (c0g hl)) h'
   · rw [commA_pk (dg (k := 0) (by norm_num)) (dg (k := 1) (by norm_num)), hnd]
     rfl
-  · refine conjSimpleOK_of_ctree (WT := WT) kW keysOK cd.1 hDT
+  · refine conjSimpleOK_of_ctreeR (WT := WT) kW keysOK cd.1 hDT
       (fun i hi => tperm.2.2.2 i hi) (Nat.eq_of_beq_eq_true kD0)
       (fun i hi j hj e => keyInj (N := 60) (by rw [← nums.2.2.2.2.2.2.2]; exact kKD) i hi j hj e)
       (fun k hk => ?_)
-    have h := AI.1 kTree k hk
+    have h := AI.1 kCls k hk
     rw [Bool.or_eq_true] at h
-    exact h.imp id fun h' => AI.1 h'
+    refine h.imp id fun h' => ?_
+    simp only [Bool.and_eq_true] at h'
+    obtain ⟨⟨⟨hx, hr⟩, hrr⟩, he⟩ := h'
+    have ht : (!Nat.beq (WR (WR k % 64) % 64) (WR k % 64) ||
+        allN 60 (ctreePt 276 9 60 (WR k % 64) SD.T (WT (WR k % 64)))) = true :=
+      AI.1 kTree _ (Nat.blt_eq.mp hr)
+    rw [hrr, Bool.not_true, Bool.false_or] at ht
+    exact ⟨WR k % 64, Nat.blt_eq.mp hr, WR k / 64, Nat.blt_eq.mp hx, Nat.eq_of_beq_eq_true he,
+      AI.1 ht⟩
   · refine allLt_of_allN kC0b fun k hk h => ?_
     unfold c0Pt at h
+    rw [cmP16_eq, cmP16_eq] at h
     rw [commA_pk (c0P hk) (dg (k := 0) (by norm_num)), commA_pk (c0P hk) (dg (k := 1) (by norm_num))]
     rw [Bool.or_eq_true] at h ⊢
     refine h.imp id fun h' => ?_

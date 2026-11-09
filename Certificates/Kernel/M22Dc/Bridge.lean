@@ -95,9 +95,14 @@ theorem tab_letter {l : ℕ} (hl : l < 8) :
     rw [tab_node (by decide)]
     simp
 
+theorem L0_tabF {l p : ℕ} (hl : l < 8) (hp : p < 22) : L0 l p = tabF (J.tabs.getD l []) p :=
+  beq_iff_eq.1 (List.all_eq_true.1 (List.all_eq_true.1 ptTabs l (List.mem_range.2 hl)) p
+    (List.mem_range.2 hp))
+
 theorem good0 {l : ℕ} (hl : l < 8) :
-    Good 22 (tab 22 ((m22a :: m22b :: sl).getD l 1)).toArray (L0 l) :=
-  good_tabF (tab_letter hl) (tab_ok hl)
+    Good 22 (tab 22 ((m22a :: m22b :: sl).getD l 1)).toArray (L0 l) := by
+  have g := good_tabF (tab_letter hl) (tab_ok hl)
+  exact ⟨g.1, fun p hp => by rw [L0_tabF hl hp]; exact g.2 p hp⟩
 
 theorem hL : ∀ l < 2 + C.ns,
     Good (22 * 22) (@tab G _ (22 * 22) (pairAction G 22) ((m22a :: m22b :: sl).getD l 1)).toArray

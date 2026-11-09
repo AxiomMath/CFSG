@@ -17,6 +17,12 @@ open CFSG.KC.O8 CFSG.EvenSmallLie.OmegaEight CFSG.EvenSmallLie.OmegaEight.Stage2
         enMemK EnN3MC2.D EnN3MC2.m (mul12K (mul12K m c) (fpowAuxK 64 m 255 ID12))) ||
     N3Split.Minus.reps.any fun r => enMemK EnN3MC.D EnN3MC.m (mul12K r.2 m)
 
+@[expose] noncomputable def candPN3MSq (m s : ℕ) : Bool :=
+  !(enMemK EnN3MC2.D EnN3MC2.m s && fpowAuxK 64 m 256 ID12 == ID12 &&
+      N3Split.Minus.samples.all fun c =>
+        enMemK EnN3MC2.D EnN3MC2.m (mul12K (mul12K m c) (fpowAuxK 64 m 255 ID12))) ||
+    N3Split.Minus.reps.any fun r => enMemK EnN3MC.D EnN3MC.m (mul12K r.2 m)
+
 theorem candP_eqN3M :
     (fun m => !(candFilter wN3M.c2E N3Split.Minus.samples m) ||
       repOK wN3M.cE N3Split.Minus.reps m) = candPN3M := by

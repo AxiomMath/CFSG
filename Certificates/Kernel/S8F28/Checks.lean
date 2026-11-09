@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.S8F28 "Certificates/Kernel/S8F28/data/t.json.gz" 6060
+#kc_repo #kc_json CFSG.KD.S8F28 "Certificates/Kernel/S8F28/data/t.json" 6060
   16928309176159734382
   (CM : Nat) (MT : Nat) (FMK : Nat)
 

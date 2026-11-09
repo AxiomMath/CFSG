@@ -127,6 +127,16 @@ theorem btK_of_btR {k N C : Nat} (hN : Nat.beq (rcnt (LR 0)) N = true)
     (h : btR n w m nw BP LR TR TRI X Y k 0 N = C) : btK n w m nw BP (k + 1) LR TR TRI X Y = C := by
   rw [btK_eq_btR, Nat.eq_of_beq_eq_true hN, h]
 
+theorem repK_of {k C D : Nat}
+    (h1 : CFSG.KS.Prim.canonK n w m nw X = true)
+    (h2 : CFSG.KS.Raw.siftK n w m nw (CFSG.KC.Enum.pidn n w) LR TRI BP k (nat_lit 0) X = true)
+    (h3 : Nat.blt (nat_lit 1) (CFSG.KS.M11.ordC n w m X) = true)
+    (hb : btK n w m nw BP k LR TR TRI X X = D) (hD : Nat.beq D C = true) :
+    repK n w m nw BP k LR TR TRI X C = true := by
+  unfold repK
+  rw [h1, h2, h3, hb]
+  exact hD
+
 end CFSG.KS.SporSch.MBT
 
 end

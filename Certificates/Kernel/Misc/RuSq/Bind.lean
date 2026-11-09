@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.Misc.RuSq.Chain
+public import Certificates.Kernel.SporSch.Ru.Text4060
 public import Certificates.Kernel.Misc.TextBlocks
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.NormNum
@@ -11,7 +12,14 @@ public section
 
 set_option maxRecDepth 400000
 
-#ks_chars CertificateChecks.KernelMisc.RuSqT CFSG.Sporadic.RuSchreier.ru4060Text
+namespace CertificateChecks.KernelMisc.RuSqT
+
+@[expose] noncomputable def chars : List Char := CertificateChecks.KernelSporSch.RuT4060.chars
+
+theorem eq : CFSG.Sporadic.RuSchreier.ru4060Text = String.ofList chars :=
+  CertificateChecks.KernelSporSch.RuT4060.eq
+
+end CertificateChecks.KernelMisc.RuSqT
 
 namespace CertificateChecks.KernelMisc.RuSq
 

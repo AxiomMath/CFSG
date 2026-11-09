@@ -799,13 +799,13 @@ theorem rank_sound {i : Nat} (h : setK PE SM EL INV CM RC EX MR NS NI i = true) 
     have := Finset.card_le_card_of_injOn (s := F ×ˢ Finset.range (2 ^ rcR RC i))
       (t := Finset.range 1024) (fun q => q.1 ^^^ rcSum RC i q.2 (rcR RC i)) ?_ ?_
     · rwa [Finset.card_product, Finset.card_range, Finset.card_range] at this
-    · intro q hq
-      simp only [Finset.coe_product, Set.mem_prod, Finset.mem_coe, Finset.mem_product,
-        Finset.mem_range] at hq ⊢
+    · intro q
+      simp only [Finset.coe_product, Set.mem_prod, Finset.mem_coe, Finset.mem_range]
+      intro hq
       exact lt_of_lt_of_eq (Nat.xor_lt_two_pow (hF10 _ hq.1) (rcSum_lt RC i _ _)) (by norm_num)
-    · intro q hq q' hq' he
-      simp only [Finset.coe_product, Set.mem_prod, Finset.mem_coe, Finset.mem_product,
-        Finset.mem_range] at hq hq'
+    · intro q
+      simp only [Finset.coe_product, Set.mem_prod, Finset.mem_coe, Finset.mem_range]
+      intro hq q' hq' he
       have he' : q.1 ^^^ rcSum RC i q.2 (rcR RC i) = q'.1 ^^^ rcSum RC i q'.2 (rcR RC i) := he
       have e1 : q.1 ^^^ q'.1 = rcSum RC i (q.2 ^^^ q'.2) (rcR RC i) := by
         rw [rcSum_xor]

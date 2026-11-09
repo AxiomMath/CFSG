@@ -387,6 +387,43 @@ private abbrev a8fin_genLInf2 (a μ : ZMod 7) : M4 :=
     blk (psi (true, 0, 0, μ) * (!![2, 3, 5; 6, 5, 2; 0, 0, 1] : M3) * psiInv (true, 0, 0, μ)) *
     basInf a
 
+private abbrev a8fin_MatchAt (a : ZMod 7) : Prop := ∀ p₁ p₂ u₂ : ZMod 7,
+    (1 - a * p₂ - 2 * u₂ - u₂) ^ 2 *
+        (p₁ * (1 - a * p₂ - 2 * u₂ + 2 * u₂) - 3 * p₂ * (5 * (1 - a * p₁))) ≠ 0 →
+      (∃ β : ZMod 7, (1 - a * p₁ + 3 * (1 - a * p₂)) * β = -(p₁ + 3 * p₂) ∧
+        ∃ μ : ZMod 7, (1 - a * p₂ - 3 * u₂) * μ = 6 * (p₁ + β * (1 - a * p₁)) ∧
+          μ ≠ 0 ∧ a * β ≠ 1 ∧ a8fin_MulSwap (a8fin_genL2 a β μ) (a8fin_Psol a p₁ p₂ u₂)) ∨
+        ∃ μ : ZMod 7, (1 - a * p₂ - 3 * u₂) * μ = 6 * (1 - a * p₁) ∧ μ ≠ 0 ∧ a ≠ 0 ∧
+          a8fin_MulSwap (a8fin_genLInf2 a μ) (a8fin_Psol a p₁ p₂ u₂)
+
+private lemma a8fin_match_core_0 : a8fin_MatchAt 0 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
+private lemma a8fin_match_core_1 : a8fin_MatchAt 1 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
+private lemma a8fin_match_core_2 : a8fin_MatchAt 2 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
+private lemma a8fin_match_core_3 : a8fin_MatchAt 3 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
+private lemma a8fin_match_core_4 : a8fin_MatchAt 4 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
+private lemma a8fin_match_core_5 : a8fin_MatchAt 5 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
+private lemma a8fin_match_core_6 : a8fin_MatchAt 6 := by
+  unfold a8fin_MatchAt
+  decide +kernel
+
 private lemma a8fin_match_core : ∀ a p₁ p₂ u₂ : ZMod 7,
     (1 - a * p₂ - 2 * u₂ - u₂) ^ 2 *
         (p₁ * (1 - a * p₂ - 2 * u₂ + 2 * u₂) - 3 * p₂ * (5 * (1 - a * p₁))) ≠ 0 →
@@ -395,7 +432,11 @@ private lemma a8fin_match_core : ∀ a p₁ p₂ u₂ : ZMod 7,
           μ ≠ 0 ∧ a * β ≠ 1 ∧ a8fin_MulSwap (a8fin_genL2 a β μ) (a8fin_Psol a p₁ p₂ u₂)) ∨
         ∃ μ : ZMod 7, (1 - a * p₂ - 3 * u₂) * μ = 6 * (1 - a * p₁) ∧ μ ≠ 0 ∧ a ≠ 0 ∧
           a8fin_MulSwap (a8fin_genLInf2 a μ) (a8fin_Psol a p₁ p₂ u₂) := by
-  decide +kernel
+  intro a
+  have ha : a = 0 ∨ a = 1 ∨ a = 2 ∨ a = 3 ∨ a = 4 ∨ a = 5 ∨ a = 6 := by revert a; decide
+  rcases ha with rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  exacts [a8fin_match_core_0, a8fin_match_core_1, a8fin_match_core_2, a8fin_match_core_3,
+    a8fin_match_core_4, a8fin_match_core_5, a8fin_match_core_6]
 
 private lemma a8fin_match_gen (a : ZMod 7) :
     ∀ p₁ p₂ u₀ u₁ u₂ : ZMod 7,

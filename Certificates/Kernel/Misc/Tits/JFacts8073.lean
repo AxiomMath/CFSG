@@ -149,8 +149,7 @@ theorem conj_mem {k : ℕ} (hk : k < 4) {x : Equiv.Perm (Fin 1755)} (hx : x ∈ 
 
 theorem prod_pt {i j : ℕ} (hi : i < 512) (hj : j < 512) {p : ℕ} (hp : p < 1755) :
     (jPel[i]!)[(jPel[j]!)[p]!]! = ((el i * el j) (finPt 1755 p) : ℕ) := by
-  rw [rep_base (el_rep hj) p hp, (el_rep hi) (el j (finPt 1755 p))]
-  rfl
+  rw [Equiv.Perm.mul_apply, rep_base (el_rep hj) p hp, (el_rep hi) (el j (finPt 1755 p))]
 
 theorem gens_size : jGenArrs.size = 3 := by
   simp only [jGenArrs, List.size_toArray, List.length_map, titsHWords, List.length_cons,

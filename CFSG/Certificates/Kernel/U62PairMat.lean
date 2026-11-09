@@ -379,12 +379,6 @@ theorem fld12_lt (X o : ℕ) : Nat.land (Nat.shiftRight X o) 4095 < 2 ^ 12 :=
     (nIf(bit A (Nat.succ (Nat.add (Nat.mul (nat_lit 12) i) (Nat.mul (nat_lit 2) k))),
         fld(omK B, Nat.mul (nat_lit 12) k, nat_lit 4095), nat_lit 0))
 
-theorem mulK_eq (A B : ℕ) :
-    mulK A B = orN 6 (fun i => Nat.shiftLeft (rowK A B i) (Nat.mul 12 i)) := by
-  unfold mulK
-  rw [strictN_eq, strictN_eq, strictN_eq]
-  rfl
-
 theorem rowK_lt (A B i : ℕ) : rowK A B i < 2 ^ 12 := by
   apply xorN_lt
   intro k
@@ -396,15 +390,141 @@ theorem rowK_lt (A B i : ℕ) : rowK A B i < 2 ^ 12 := by
     · exact Nat.two_pow_pos 12
     · exact fld12_lt _ _
 
-theorem mulK_lt (A B : ℕ) : mulK A B < 2 ^ 72 := by
-  rw [mulK_eq]
-  exact orN_lt (w := 12) (c := fun i => rowK A B i) (fun i => rowK_lt A B i) 6
-
 theorem xorN_congr {n : ℕ} {f g : ℕ → ℕ} (h : ∀ i < n, f i = g i) : xorN n f = xorN n g := by
   induction n with
   | zero => rfl
   | succ n ih =>
     rw [xorN_succ, xorN_succ, h n (Nat.lt_succ_self n), ih (fun i hi => h i (Nat.lt_succ_of_lt hi))]
+
+theorem testBit_fget12 (X m : ℕ) : X.testBit m = (fget X (m / 12) 12).testBit (m % 12) := by
+  rw [testBit_fget, decide_eq_true (Nat.mod_lt m (by norm_num)), Bool.true_and]
+  congr 1
+  omega
+
+theorem eq_of_fget12 {X Y : ℕ} (h : ∀ t, fget X t 12 = fget Y t 12) : X = Y :=
+  Nat.eq_of_testBit_eq fun m => by rw [testBit_fget12 X, testBit_fget12 Y, h]
+
+theorem fget_land12 (a b t w : ℕ) : fget (Nat.land a b) t w = Nat.land (fget a t w) (fget b t w) := by
+  apply Nat.eq_of_testBit_eq
+  intro n
+  change (fget (a &&& b) t w).testBit n = ((fget a t w) &&& (fget b t w)).testBit n
+  rw [testBit_fget, Nat.testBit_and, Nat.testBit_and, testBit_fget, testBit_fget]
+  cases decide (n < w) <;> simp
+
+theorem fget_xor12 (a b t w : ℕ) : fget (Nat.xor a b) t w = Nat.xor (fget a t w) (fget b t w) := by
+  apply Nat.eq_of_testBit_eq
+  intro n
+  change (fget (a ^^^ b) t w).testBit n = ((fget a t w) ^^^ (fget b t w)).testBit n
+  rw [testBit_fget, Nat.testBit_xor, Nat.testBit_xor, testBit_fget, testBit_fget]
+  cases decide (n < w) <;> simp
+
+theorem fget12_xorN (f : ℕ → ℕ) (j : ℕ) :
+    ∀ n, fget (xorN n f) j 12 = xorN n (fun k => fget (f k) j 12)
+  | 0 => by
+    change fget 0 j 12 = 0
+    simp [fget]
+  | n + 1 => by
+    rw [xorN_succ, xorN_succ, fget_xor12, fget12_xorN f j n]
+
+theorem xorN0_eq_fn : ∀ n, xorN n (fun _ => 0) = 0
+  | 0 => rfl
+  | n + 1 => by
+    rw [xorN_succ, xorN0_eq_fn n]
+    rfl
+
+theorem orN0_eq (f : ℕ → ℕ) : orN 0 f = 0 := rfl
+
+theorem MSK12_eq : MSK12 = orN 6 (fun i => Nat.shiftLeft 1 (Nat.mul 12 i)) := by decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem mul_MSK12 : ∀ c < 4096, Nat.mul c MSK12 = orN 6 (fun i => Nat.shiftLeft c (Nat.mul 12 i)) := by
+  decide +kernel
+
+theorem fget_mulMSK {c : ℕ} (hc : c < 2 ^ 12) (t : ℕ) :
+    fget (Nat.mul c MSK12) t 12 = if t < 6 then c else 0 := by
+  rw [mul_MSK12 c hc, fget_orN (w := 12) (c := fun _ => c) (fun _ => hc) 6 t]
+
+theorem land1_fget (x t : ℕ) : Nat.land (fget x t 12) 1 = nIf(bit x (Nat.mul 12 t), 1, 0) := by
+  have h : Nat.land (fget x t 12) 1 = x / 2 ^ (Nat.mul 12 t) % 2 := by
+    change fget x t 12 &&& 1 = _
+    rw [Nat.and_one_is_mod, fget_eq, Nat.shiftRight_eq_div_pow, Nat.mod_mod_of_dvd _ (by norm_num),
+      Nat.mul_comm]
+    rfl
+  rw [h, bit_eq, Nat.testBit_eq_decide_div_mod_eq]
+  rcases Nat.mod_two_eq_zero_or_one (x / 2 ^ (Nat.mul 12 t)) with h | h <;> rw [h] <;> rfl
+
+theorem nIf_lt12 (b : Bool) {c : ℕ} (hc : c < 2 ^ 12) : nIf(b, c, 0) < 2 ^ 12 := by
+  cases b
+  · exact Nat.two_pow_pos 12
+  · exact hc
+
+theorem land_MSK12 (x : ℕ) : Nat.land x MSK12 =
+    orN 6 (fun i => Nat.shiftLeft (nIf(bit x (Nat.mul 12 i), 1, 0)) (Nat.mul 12 i)) := by
+  apply eq_of_fget12
+  intro t
+  rw [fget_land12, MSK12_eq, fget_orN (w := 12) (c := fun _ => 1) (fun _ => by norm_num) 6 t,
+    fget_orN (w := 12) (c := fun i => nIf(bit x (Nat.mul 12 i), 1, 0))
+      (fun i => nIf_lt12 _ (by norm_num)) 6 t]
+  split_ifs
+  · exact land1_fget x t
+  · exact Nat.and_zero _
+
+theorem spread6 (f : ℕ → Bool) :
+    Nat.mul (orN 6 fun i => Nat.shiftLeft (nIf(f i, 1, 0)) (Nat.mul 12 i)) 4095 =
+      orN 6 fun i => Nat.shiftLeft (nIf(f i, 4095, 0)) (Nat.mul 12 i) := by
+  rw [orN_succ, orN_succ, orN_succ, orN_succ, orN_succ, orN_succ, orN_succ, orN_succ, orN_succ,
+    orN_succ, orN_succ, orN_succ]
+  rw [orN0_eq, orN0_eq]
+  cases f 0 <;> cases f 1 <;> cases f 2 <;> cases f 3 <;> cases f 4 <;> cases f 5 <;> decide +kernel
+
+theorem land_nIf4095 (b : Bool) {c : ℕ} (hc : c < 2 ^ 12) :
+    Nat.land (nIf(b, 4095, 0)) c = nIf(b, c, 0) := by
+  cases b
+  · exact Nat.zero_and c
+  · change 4095 &&& c = c
+    rw [Nat.and_comm, show (4095 : ℕ) = 2 ^ 12 - 1 by norm_num, Nat.and_two_pow_sub_one_eq_mod,
+      Nat.mod_eq_of_lt hc]
+
+theorem bit_shiftRight (A s j : ℕ) : bit (Nat.shiftRight A s) j = bit A (s + j) := by
+  rw [bit_eq, bit_eq]
+  exact Nat.testBit_shiftRight A
+
+theorem mulK_eq (A B : ℕ) :
+    mulK A B = orN 6 (fun i => Nat.shiftLeft (rowK A B i) (Nat.mul 12 i)) := by
+  unfold mulK
+  rw [strictN_eq, strictN_eq, strictN_eq]
+  apply eq_of_fget12
+  intro t
+  rw [fget12_xorN, fget_orN (w := 12) (c := fun i => rowK A B i) (fun i => rowK_lt A B i) 6 t]
+  split_ifs with ht
+  · unfold rowK
+    apply xorN_congr
+    intro k _
+    rw [fget_xor12, fget_land12, fget_land12, land_MSK12, land_MSK12, spread6, spread6,
+      fget_orN (w := 12) (fun i => nIf_lt12 _ (by norm_num)) 6 t,
+      fget_orN (w := 12) (fun i => nIf_lt12 _ (by norm_num)) 6 t,
+      fget_mulMSK (fld12_lt _ _), fget_mulMSK (fld12_lt _ _)]
+    simp only [ht, ↓reduceIte]
+    rw [land_nIf4095 _ (fld12_lt _ _), land_nIf4095 _ (fld12_lt _ _), bit_shiftRight,
+      bit_shiftRight]
+    have e1 : Nat.mul 2 k + Nat.mul 12 t = Nat.add (Nat.mul 12 t) (Nat.mul 2 k) := by
+      simp only [Nat.mul_eq, Nat.add_eq]
+      omega
+    have e2 : Nat.succ (Nat.mul 2 k) + Nat.mul 12 t =
+        Nat.succ (Nat.add (Nat.mul 12 t) (Nat.mul 2 k)) := by
+      simp only [Nat.mul_eq, Nat.add_eq, Nat.succ_eq_add_one]
+      omega
+    rw [e1, e2]
+  · rw [xorN_congr (g := fun _ => 0), xorN0_eq_fn]
+    intro k _
+    rw [fget_xor12, fget_land12, fget_land12, fget_mulMSK (fld12_lt _ _), fget_mulMSK (fld12_lt _ _)]
+    simp only [ht, ↓reduceIte]
+    change (_ &&& 0) ^^^ (_ &&& 0) = 0
+    simp
+
+theorem mulK_lt (A B : ℕ) : mulK A B < 2 ^ 72 := by
+  rw [mulK_eq]
+  exact orN_lt (w := 12) (c := fun i => rowK A B i) (fun i => rowK_lt A B i) 6
 
 theorem fld12_eq (B k : ℕ) : Nat.land (Nat.shiftRight B (Nat.mul 12 k)) 4095 = fget B k 12 := by
   rw [fget_eq]

@@ -4,6 +4,7 @@ public import Certificates.Kernel.LocalQT.K32.D4121b
 public import Certificates.Kernel.LocalQT.K32.D4121c
 public import Certificates.Kernel.SporSch.Mathieu.M23Facts
 public import Certificates.Kernel.SporSch.Mathieu.M22Facts
+public import Certificates.Kernel.SporSch.Mathieu.M22BT
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
 
@@ -70,7 +71,7 @@ theorem chain23 : ChainK 23 5 (m23Cent3Words.map (evalCodes [m23PermA, m23PermB]
     m23Cent3ChainWords (#v[0, 2] : Vector (Fin 23) 2) M23C3.S M23C3.SI M23C3.LR M23C3.TR
     M23C3.TRI 4 M23C3.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M23C3.head, M23C3.hl,
-    by norm_num, M23C3.hs⟩
+    by norm_num, .inl M23C3.hs⟩
   have hj3 : j < 3 := by simpa [m23Cent3Words] using hj
   rw [M23OC.getD_map_eval]
   exact M23OC.img_word (allN_spec g23a j hj3) (allN_spec g23b j hj3)
@@ -81,9 +82,15 @@ theorem cent23 : m23Cent3Q.check = true ∧ m23Cent3Q.orderCertificate = 180 ∧
   obtain ⟨h1, h2⟩ := chainK_check (by decide) (by decide) chain23
   exact ⟨h1, h2.trans (by decide), M23OC.comm_of img23 chain23.2.2.2.1 (by decide) comm23⟩
 
-theorem x22 : (cosetOrderTables m22Certificate 1 3).length = (M22X3.CS.map List.sum).sum :=
-  chainK_cosetCount2 (by decide) (by decide) M22OC.chainQ M22OC.imgOne M22OC.cOne (by norm_num)
-    (by norm_num) M22X3.hc
+theorem t22 : Nat.beq (sumOrdK 22 5 (mask 5) (ordK M22Q.LR 5) M22B.XL M22B.CL 3 M22B.XL.length)
+    12320 = true := by quickRfl
+
+theorem classEq22 : ClassEqK 22 5 M22Q.LR M22Q.TR M22Q.TRI M22Q.BP 5 M22B.XL M22B.CL :=
+  ⟨rfl, M22B.hr, M22B.hd, M22B.hs⟩
+
+theorem x22 : (cosetOrderTables m22Certificate 1 3).length = 12320 :=
+  (classEq_sound (by decide) (by decide) M22OC.chainQ classEq22 (mo := 3)
+    (by norm_num) (by norm_num)).2.trans (Nat.eq_of_beq_eq_true t22)
 
 theorem r22a : abOK (m22Rep3Words.getD 0 []) = true := by quickRfl
 
@@ -129,7 +136,7 @@ theorem chain22 : ChainK 22 5 (m22Cent3Words.map (evalCodes [m22gA, m22gB]))
     m22Cent3ChainWords (#v[0, 1] : Vector (Fin 22) 2) M22C3.S M22C3.SI M22C3.LR M22C3.TR
     M22C3.TRI 5 M22C3.BP 2 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, M22C3.head, M22C3.hl,
-    by norm_num, M22C3.hs⟩
+    by norm_num, .inl M22C3.hs⟩
   have hj4 : j < 4 := by simpa [m22Cent3Words] using hj
   rw [M22OC.getD_map_eval]
   exact M22OC.img_word (allN_spec g22a j hj4) (allN_spec g22b j hj4)

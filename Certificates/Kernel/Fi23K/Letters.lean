@@ -178,7 +178,8 @@ theorem genTables_TR {z : Int} (hz : z.natAbs ≤ 2) (hz0 : z ≠ 0) :
   · exact tabOf_TR (by norm_num)
   · exact tabOf_TR (by norm_num)
   · exact tabOf_TR (by norm_num)
-  · have e : genTables orbLit (-2) = invT 31671 (tabOf 40) := rfl
+  · have e : genTables orbLit (-2) = invT 31671 (tabOf 40) := by
+      rw [genTables, if_neg (by decide), if_neg (by decide), orbLit]
     rw [e]
     exact invT_TR (by norm_num) (tabOf_TR (by norm_num)) fun i hi =>
       ⟨rng 41 (by norm_num) i hi, binv_right hi, binv_left hi⟩

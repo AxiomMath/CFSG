@@ -6,6 +6,7 @@ public import Certificates.Kernel.HN1408.TableIChk
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HNRecog.TwoHSData.ShapeIICheck
 import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Kernel.HN1408.CayleyDefs
+public import Certificates.Kernel.HN1408.CyRecH
 
 public section
 
@@ -27,14 +28,27 @@ theorem shkHV3 : cyHd v3Words 4 capS ShIIV3.G ShIIV3.GI ShIIV3I ShIIV3.T ShIIV3.
 theorem shkHA3 : cyHd a3Words 60 capS ShIIA3.G ShIIA3.GI ShIIA3I ShIIA3.T ShIIA3.PL ShIIA3.cnt =
     true := by quickRfl
 
+theorem shkRY3H : cyRecC y3Words.length ShIIY3.G ShIIY3.GI ShIIY3I ShIIY3.T ShIIY3.PL ShIIY3.POS
+    ShIIY3.SRT ShIIY3.SRI ShIIY3.HS ShIIY3.HSI ShIIY3H ShIIY3Cl ShIIY3.cnt = true := by quickRfl
+theorem shkRN3H : cyRecC n3Words.length ShIIN3.G ShIIN3.GI ShIIN3I ShIIN3.T ShIIN3.PL ShIIN3.POS
+    ShIIN3.SRT ShIIN3.SRI ShIIN3.HS ShIIN3.HSI ShIIN3H ShIIN3Cl ShIIN3.cnt = true := by quickRfl
+theorem shkRV3H : cyRecC v3Words.length ShIIV3.G ShIIV3.GI ShIIV3I ShIIV3.T ShIIV3.PL ShIIV3.POS
+    ShIIV3.SRT ShIIV3.SRI ShIIV3.HS ShIIV3.HSI ShIIV3H ShIIV3Cl ShIIV3.cnt = true := by quickRfl
+theorem shkRA3H : cyRecC a3Words.length ShIIA3.G ShIIA3.GI ShIIA3I ShIIA3.T ShIIA3.PL ShIIA3.POS
+    ShIIA3.SRT ShIIA3.SRI ShIIA3.HS ShIIA3.HSI ShIIA3H ShIIA3Cl ShIIA3.cnt = true := by quickRfl
+
 theorem shkRY3 : cyRec y3Words.length ShIIY3.G ShIIY3.GI ShIIY3I ShIIY3.T ShIIY3.PL ShIIY3.POS
-    ShIIY3.SRT ShIIY3.SRI ShIIY3.HS ShIIY3.HSI ShIIY3Cl ShIIY3.cnt = true := by quickRfl
+    ShIIY3.SRT ShIIY3.SRI ShIIY3.HS ShIIY3.HSI ShIIY3Cl ShIIY3.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRY3H)
 theorem shkRN3 : cyRec n3Words.length ShIIN3.G ShIIN3.GI ShIIN3I ShIIN3.T ShIIN3.PL ShIIN3.POS
-    ShIIN3.SRT ShIIN3.SRI ShIIN3.HS ShIIN3.HSI ShIIN3Cl ShIIN3.cnt = true := by quickRfl
+    ShIIN3.SRT ShIIN3.SRI ShIIN3.HS ShIIN3.HSI ShIIN3Cl ShIIN3.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRN3H)
 theorem shkRV3 : cyRec v3Words.length ShIIV3.G ShIIV3.GI ShIIV3I ShIIV3.T ShIIV3.PL ShIIV3.POS
-    ShIIV3.SRT ShIIV3.SRI ShIIV3.HS ShIIV3.HSI ShIIV3Cl ShIIV3.cnt = true := by quickRfl
+    ShIIV3.SRT ShIIV3.SRI ShIIV3.HS ShIIV3.HSI ShIIV3Cl ShIIV3.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRV3H)
 theorem shkRA3 : cyRec a3Words.length ShIIA3.G ShIIA3.GI ShIIA3I ShIIA3.T ShIIA3.PL ShIIA3.POS
-    ShIIA3.SRT ShIIA3.SRI ShIIA3.HS ShIIA3.HSI ShIIA3Cl ShIIA3.cnt = true := by quickRfl
+    ShIIA3.SRT ShIIA3.SRI ShIIA3.HS ShIIA3.HSI ShIIA3Cl ShIIA3.cnt = true :=
+    cyRec_of_cyRecH (cyRecH_of_cyRecC shkRA3H)
 
 theorem shk3 : sh3K (WK fix3.rep) ShIIY3.GI ShIIY3.T ShIIY3.cnt ShIIN3.GI ShIIN3.T ShIIN3.cnt
     ShIIV3.GI ShIIV3.T ShIIV3.cnt ShIIA3.GI ShIIA3.T ShIIA3.cnt ShIIPY3 ShIIPN3 = true := by

@@ -34,7 +34,8 @@ theorem cover_of {K : Subgroup (Equiv.Perm (Fin 315))} {E : Array Table}
   obtain ⟨k, hk, rfl⟩ := mem_map_tablePerm hrep hmem
   refine ⟨k, hk, ?_⟩
   have h := hrep k hk
-  rwa [getElem!_pos E k hk] at h ⊢
+  rw [getElem!_pos E k hk] at h ⊢
+  assumption
 
 theorem order_of_queue {K : Subgroup (Equiv.Perm (Fin 315))} {Q : Array Table}
     {x y : Equiv.Perm (Fin 315)} (hQ : ∀ j < Q.size, ∃ c ∈ K, Rep 315 Q[j]! (c * x * c⁻¹))
@@ -127,7 +128,7 @@ theorem dom31
         Q par lab = true) =>
     conjTreeOK_spec K (gg := fun l => tp 315 (cgL 32 4).toArray[l]!) hg (rep_tp (permF hr)) hq
   rcases hs with h1 | h1 | h1
-  · exact entry_of_queue (hQ 36 (by norm_num) recQ3a.2.1) (canonR (pe_all' q3aE)) hyk h1
+  · exact entry_of_queue (hQ 36 (by norm_num) recQ3a.2.1) (canonR q3aPK) hyk h1
   · have := order_of_queue (hQ 38 (by norm_num) recQ3b.2.1) hyk h1
     rw [h3, ord_rep (by norm_num) (by norm_num) kodd.2.2.2.2.2.2.1 (by decide) (by norm_num)] at this
     exact absurd this (by norm_num)
@@ -164,7 +165,7 @@ theorem dom17
   · have := order_of_queue (hQ 26 (by norm_num) recQ2b.2.1) hyk h1
     rw [h3, ord_rep (by norm_num) (by norm_num) kodd.2.2.2.1 (by decide) (by norm_num)] at this
     exact absurd this (by norm_num)
-  · exact entry_of_queue (hQ 29 (by norm_num) recQ2c.2.1) (canonR (pe_all' q2cE)) hyk h1
+  · exact entry_of_queue (hQ 29 (by norm_num) recQ2c.2.1) (canonR q2cPK) hyk h1
 
 @[expose] noncomputable def gl (l : Nat) : Equiv.Perm (Fin 315) :=
   if l = 0 then j2Gen 0 else if l = 1 then j2Gen 1 else if l = 2 then (j2Gen 0)⁻¹ else (j2Gen 1)⁻¹
@@ -186,20 +187,28 @@ theorem beq_ne {l m : Nat} (h : l ≠ m) : Nat.beq l m = false := by
   · rfl
   · exact absurd (Nat.eq_of_beq_eq_true e) h
 
+theorem pr_sel {a0 a1 a2 a3 : Nat} {g0 g1 g2 g3 : Equiv.Perm (Fin 315)}
+    (h0 : PR 315 9 a0 g0) (h1 : PR 315 9 a1 g1) (h2 : PR 315 9 a2 g2) (h3 : PR 315 9 a3 g3)
+    (l : Nat) :
+    PR 315 9 (nIf(Nat.beq l 0, a0, nIf(Nat.beq l 1, a1, nIf(Nat.beq l 2, a2, a3))))
+      (if l = 0 then g0 else if l = 1 then g1 else if l = 2 then g2 else g3) := by
+  by_cases e0 : l = 0
+  · subst e0
+    exact h0
+  by_cases e1 : l = 1
+  · subst e1
+    exact h1
+  by_cases e2 : l = 2
+  · subst e2
+    exact h2
+  rw [if_neg e0, if_neg e1, if_neg e2, beq_ne e0, beq_ne e1, beq_ne e2]
+  exact h3
+
 theorem pr_lt (l : Nat) :
     PR 315 9 (lt l) (gl l) := by
   unfold lt gl
-  by_cases h0 : l = 0
-  · subst h0
-    exact pr_S (by norm_num)
-  by_cases h1 : l = 1
-  · subst h1
-    exact pr_S (by norm_num)
-  by_cases h2 : l = 2
-  · subst h2
-    exact pr_SI (by norm_num)
-  rw [if_neg h0, if_neg h1, if_neg h2, beq_ne h0, beq_ne h1, beq_ne h2]
-  exact pr_SI (by norm_num)
+  exact pr_sel (pr_S (j := 0) (by norm_num)) (pr_S (j := 1) (by norm_num))
+    (pr_SI (j := 0) (by norm_num)) (pr_SI (j := 1) (by norm_num)) l
 
 theorem gl_mem (l : Nat) : gl l ∈ j2P := by
   have h0 : j2Gen 0 ∈ j2P := subset_closure (by simp)
@@ -243,7 +252,6 @@ theorem efacts :
   have h := ch5246_tE
   unfold wH at h
   rw [withH_eq] at h
-  beta_reduce at h
   generalize hb1 : conjOK 315 9 (evW 315 9 lt c1) (evW 315 9 lt c1i) (J2CentT.F 17)
     (evW 315 9 lt wC) = b1 at h
   generalize hb2 : conjOK 315 9 (evW 315 9 lt c2) (evW 315 9 lt c2i) (J2CentT.F 31)
@@ -461,7 +469,7 @@ theorem noThree_j2P :
   obtain ⟨g, hgP, hg⟩ := conj_into hS2 hS hidx hHP hH2
   set K := W.comap (MulAut.conj g⁻¹).toMonoidHom
   have memK : ∀ x, x ∈ K ↔ g⁻¹ * x * g ∈ W := fun x => by
-    simp [K, MulAut.conj_apply]
+    simp [K]
   have hKP : K ≤ j2P := by
     intro x hx
     have h1 := hW ((memK x).1 hx)
@@ -544,7 +552,7 @@ theorem noThree_j2P :
         _ = (pw c)⁻¹ * (e * x) * pw c := by rw [hxe]
         _ = _ := by group
     have hconj : (MulAut.conj (pw c)⁻¹) x = (pw c)⁻¹ * x * pw c := by
-      simp [MulAut.conj_apply]
+      simp
     have hy3 : orderOf ((pw c)⁻¹ * x * pw c) = 3 := by
       rw [← hconj, MulEquiv.orderOf_eq, hx3]
     obtain ⟨i, hi, hT⟩ := hdom _ hy hy3

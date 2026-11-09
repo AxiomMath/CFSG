@@ -180,7 +180,10 @@ theorem radIdx_scatter (X : Nat) :
 theorem radIdx_eq (X e : Nat) : (radIdxs[X]!)[e]! = radIdxK X e := by
   unfold radIdxK
   by_cases hX : X < 2
-  · have e1 : radIdxs[X]! = radIdx X := by interval_cases X <;> rfl
+  · have e1 : radIdxs[X]! = radIdx X := by
+      interval_cases X
+      · rw [radIdxs, arr2_get0]
+      · rw [radIdxs, arr2_get1]
     have hs : (rads[X]!).size = 16 := by
       rw [rads_get hX]
       exact Nat.eq_of_beq_eq_true ((bAnd_iff _ _).1 (allN_spec kRad X hX)).1
@@ -281,7 +284,7 @@ theorem rhoACheck_true : rhoACheck = true := by
   rw [Array.all_eq_true]
   intro i hi
   have hs : ct0Tabs.size = 192 := by
-    unfold ct0Tabs
+    show ct0Enum.tabs.size = 192
     rw [ct0E.1]
     simp [penumRec, SuzC1EZ.kCnt.1]
   have hi' : i < 192 := hs ▸ hi

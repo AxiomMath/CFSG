@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.Misc.OrbPath
 public import Certificates.Kernel.He7223.CentData
 public import Certificates.Kernel.He7223.Pts
+public import CFSG.Certificates.Kernel.Spor.PtCheck
 import CFSG.Certificates.Kernel.Common.Cover
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -32,14 +33,14 @@ open CFSG.KC.Enum (permOK pidn)
 
 @[expose] noncomputable def rec7 (N k : Nat) : Bool := orbRecK 8330 14 LU LUI HC HCI 16 0 T7 60 6 C7 N k
 
-theorem ch7223kH5 : wordEqK 8330 14 (mask 14) (pidn 8330 14) LU LUI 3 (gw 9) PC5 = true := by
-  quickRfl
+theorem ch7223kH5 : wordEqK 8330 14 (mask 14) (pidn 8330 14) LU LUI 3 (gw 9) PC5 = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 8330) (w := 14) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
 
-theorem ch7223kH10 : wordEqK 8330 14 (mask 14) (pidn 8330 14) LU LUI 3 (gw 10) PC10 = true := by
-  quickRfl
+theorem ch7223kH10 : wordEqK 8330 14 (mask 14) (pidn 8330 14) LU LUI 3 (gw 10) PC10 = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 8330) (w := 14) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
 
-theorem ch7223kHS : wordEqK 8330 14 (mask 14) (pidn 8330 14) LU LUI 3 (gw 7) PSG = true := by
-  quickRfl
+theorem ch7223kHS : wordEqK 8330 14 (mask 14) (pidn 8330 14) LU LUI 3 (gw 7) PSG = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 8330) (w := 14) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
 
 theorem ch7223kHI : allN 3 (fun j => permOK 8330 14 (mask 14) (8330 * 14) (HC j) (HCI j)) = true := by
   quickRfl

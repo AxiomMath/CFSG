@@ -14,8 +14,8 @@ set_option maxRecDepth 400000
 #lay_seeds CertificateChecks.KernelCensus.LiftHN.L 5 133
   CFSG.Blueprint.NativeSporadic.HNSeed1 CFSG.Blueprint.NativeSporadic.HNSeed2
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCensus.LiftHN
-  "Certificates/Kernel/Census/data/lifthn.json.gz" 19051 17683689881706239441
+#kc_repo #kc_json CertificateChecks.KernelCensus.LiftHN
+  "Certificates/Kernel/Census/data/lifthn.json" 19051 17683689881706239441
   (cs : List CFSG.KC.OpsLayK.RChunk)
 
 #lay_snaps_chunks CertificateChecks.KernelCensus.LiftHN 5 133

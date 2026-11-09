@@ -58,17 +58,15 @@ theorem prodDD : ((List.range 7).map fun i => rcnt (Fi24BKdd.LR i)).prod = 40131
 theorem sizeD : fi24KdStrong.size = 16 := by rw [dS]; simp
 theorem sizeDD : fi24KddStrong.size = 21 := by rw [ddS]; simp
 
-theorem chainD : rawChainOK 504 (fi24KdStrong.extract 0 (min 5 fi24KdStrong.size)) fi24KdStrong
-    fi24KdBase.toArray fi24KdWords 4 = true := by
+theorem fi24KdHead : rawHeadOK 504 (fi24KdStrong.extract 0 (min 5 fi24KdStrong.size))
+    fi24KdStrong fi24KdBase.toArray fi24KdWords = true := by
   rw [sizeD, dS, Fi24BW.dW]
-  exact rawChainK_sound (NS := 32) (CH := 16) bindsD Fi24BKd.head Fi24BKd.hl (by norm_num)
-    Fi24BKd.hs
+  exact (Orb.rawHeadOK_of bindsD Fi24BKd.head).2
 
-theorem chainDD : rawChainOK 504 (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size))
-    fi24KddStrong fi24KddBase.toArray fi24KddWords 4 = true := by
+theorem headDD : rawHeadOK 504 (fi24KddStrong.extract 0 (min 10 fi24KddStrong.size))
+    fi24KddStrong fi24KddBase.toArray fi24KddWords = true := by
   rw [sizeDD, ddS, Fi24BW.ddW]
-  exact rawChainK_sound (NS := 32) (CH := 16) bindsDD Fi24BKdd.head Fi24BKdd.hl (by norm_num)
-    Fi24BKdd.hs
+  exact (Orb.rawHeadOK_of bindsDD Fi24BKdd.head).2
 
 theorem sizesD : (rawOrbitSizes 504 fi24KdStrong fi24KdBase.toArray).prod = 40131624960 := by
   rw [dS, rawOrbitSizesK_sound bindsD permD Fi24BKd.hl, prodD]

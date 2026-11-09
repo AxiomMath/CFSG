@@ -23,8 +23,9 @@ open CFSG.KC.StdOdd.Orbit CFSG.KC.StdOdd.Chain
 @[expose] noncomputable def letP (c0 P : Nat) (Ms ms : List Nat) : Nat :=
   List.rec (motive := fun _ => List Nat → Nat) (fun _ => nat_lit 0)
     (fun M _ ih ms => List.rec (motive := fun _ => Nat) (nat_lit 0)
-      (fun m ms' _ => Nat.xor (Nat.land (Nat.mul (Nat.land m (full (nat_lit 156))) c0)
-        (mulP c0 M P)) (ih ms')) ms) Ms ms
+      (fun m ms' _ => Bool.rec (motive := fun _ => Nat)
+        (Nat.xor (Nat.land (Nat.mul (Nat.land m (full (nat_lit 156))) c0) (mulP c0 M P)) (ih ms'))
+        (ih ms') (Nat.beq (Nat.land m (full (nat_lit 156))) (nat_lit 0))) ms) Ms ms
 
 @[expose] noncomputable def stepP (c0 : Nat) (Ms ms : List Nat) (P : Nat) : Nat :=
   forceN (Nat.mul (Nat.land (orL ms) (full (nat_lit 156))) c0) fun oR =>

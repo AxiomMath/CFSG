@@ -1,10 +1,10 @@
 module
 
 public import Certificates.Data.Kernel.A7Rad.Checks
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.A7Rad "Certificates/Kernel/A7Rad/data/a7rad.items.gz" 16470 12421618934237353935
+#kc_repo #kc_nat_items CFSG.KD.A7Rad "Certificates/Kernel/A7Rad/data/a7rad.items" 16470 12421618934237353935
   LA WA LB WB
 
 public section

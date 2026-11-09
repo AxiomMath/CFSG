@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.FamLySeed "CFSG/Certificates/Kernel/Fam/LySeed/Data/slp.json.gz" 244
+#kc_repo #kc_json CFSG.KD.FamLySeed "CFSG/Certificates/Kernel/Fam/LySeed/Data/slp.json" 244
   16791847667101360446 (SW : List Nat)
 
 public noncomputable section

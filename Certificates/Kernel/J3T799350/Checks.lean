@@ -16,7 +16,7 @@ open CFSG.KC.J3Tk CFSG.KC.Enum CFSG.RankThree.PartTwo.Sec8.Hering611.J3T
 open CertificateChecks.KernelSporSch (PJ3.S PJ3.SI)
 
 @[expose] noncomputable def slpS (j : Nat) : Bool :=
-  chunksK RT MT PR PM 57 ((chunks.drop (Nat.mul 8 j)).take 8) (Nat.mul 8 j)
+  chunksK RT MT PR PM 0 ((chunks.drop (Nat.mul 4 j)).take 4) (Nat.mul 4 j)
 
 theorem slp0 : slpS 0 = true := by quickRfl
 theorem slp1 : slpS 1 = true := by quickRfl
@@ -37,10 +37,29 @@ theorem slp15 : slpS 15 = true := by quickRfl
 theorem slp16 : slpS 16 = true := by quickRfl
 theorem slp17 : slpS 17 = true := by quickRfl
 theorem slp18 : slpS 18 = true := by quickRfl
+theorem slp19 : slpS 19 = true := by quickRfl
+theorem slp20 : slpS 20 = true := by quickRfl
+theorem slp21 : slpS 21 = true := by quickRfl
+theorem slp22 : slpS 22 = true := by quickRfl
+theorem slp23 : slpS 23 = true := by quickRfl
+theorem slp24 : slpS 24 = true := by quickRfl
+theorem slp25 : slpS 25 = true := by quickRfl
+theorem slp26 : slpS 26 = true := by quickRfl
+theorem slp27 : slpS 27 = true := by quickRfl
+theorem slp28 : slpS 28 = true := by quickRfl
+theorem slp29 : slpS 29 = true := by quickRfl
+theorem slp30 : slpS 30 = true := by quickRfl
+theorem slp31 : slpS 31 = true := by quickRfl
+theorem slp32 : slpS 32 = true := by quickRfl
+theorem slp33 : slpS 33 = true := by quickRfl
+theorem slp34 : slpS 34 = true := by quickRfl
+theorem slp35 : slpS 35 = true := by quickRfl
+theorem slp36 : slpS 36 = true := by quickRfl
+theorem slp37 : slpS 37 = true := by quickRfl
 
 theorem cover : coverK PR (ends chunks) = true := by quickRfl
 
-theorem coverMid : coverM PM 57 (ends chunks) = true := by quickRfl
+theorem coverMid : coverM PM 0 (ends chunks) = true := by quickRfl
 
 @[expose] noncomputable def enumS (e j : Nat) : Bool :=
   enumPartK RT ET j3TData e (Nat.mul 512 j) 512
@@ -82,7 +101,8 @@ theorem facts : factsK RT ET PJ3.S PJ3.SI j3TData j3TData.facts words = true := 
 
 theorem l0 : loopS 0 = true := by quickRfl
 theorem l1 : loopS 1 = true := by quickRfl
-theorem l2 : loopS 2 = true := by quickRfl
+theorem l2 : loopNK RT ET j3TData 3 (j3TData.loops.getD 2 (TLoop.exE 0 (Cond.memSelf 0))) = true := by
+  quickRfl
 theorem l3 : loopS 3 = true := by quickRfl
 theorem l4 : loopS 4 = true := by quickRfl
 theorem l5 : loopS 5 = true := by quickRfl

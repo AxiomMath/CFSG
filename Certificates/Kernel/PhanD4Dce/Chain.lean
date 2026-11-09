@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.JsonGz
 
 set_option maxRecDepth 100000
 
-#kc_repo #kc_json_gz CFSG.KAct.PhanD4Chain "Certificates/Kernel/PhanD4Dce/data/D4Chain.json.gz"
+#kc_repo #kc_json CFSG.KAct.PhanD4Chain "Certificates/Kernel/PhanD4Dce/data/D4Chain.json"
   12635 10213036681829461284 (LV : List (Nat × List Nat × List Nat))
 
 public section

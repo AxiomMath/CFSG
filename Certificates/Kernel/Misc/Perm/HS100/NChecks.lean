@@ -28,8 +28,13 @@ open CFSG.EvenSporadicStandard.HSStd.Zassenhaus
     (pcomp 100 7 (mask 7) (selK (S0.EX.F 2) (v 2)) (pcomp 100 7 (mask 7) (selK (S0.EX.F 3) (v 3))
       (pidn 100 7))))
 
-@[expose] noncomputable def centPt (t : Nat) : Bool :=
-  !(allN 4 fun i => cK (NN.T t) (S0.EX.F i)) || memK S0.E0.N S0.E0.T (NN.T t)
+@[expose] noncomputable def actKN (a : Nat) : Nat :=
+  Nat.add (pZ a (S0.EX.F 0)) (Nat.shiftLeft (Nat.add (pZ a (S0.EX.F 1)) (Nat.shiftLeft
+    (Nat.add (pZ a (S0.EX.F 2)) (Nat.shiftLeft (pZ a (S0.EX.F 3)) 700)) 700)) 700)
+
+@[expose] noncomputable def repsChainN : List Nat → Nat → Bool :=
+  List.rec (fun _ => true) fun t _ ih p =>
+    Nat.blt t 11520 && Nat.blt p (actKN (NN.T t)) && ih (actKN (NN.T t))
 
 theorem perms : (allN 2 (fun k => permB 100 7 (NX.F k)) && allN 2 (fun k => permB 100 7 (RX k))) =
     true := by quickRfl
@@ -56,9 +61,7 @@ theorem mems : (memK S0.E0.N S0.E0.T (pcomp 100 7 (mask 7) (RX 0) (RX 0)) &&
       (pcomp 100 7 (mask 7) (RX 0) (RX 1))) &&
     memK NN.N NN.T (RX 0) && memK NN.N NN.T (RX 1)) = true := by quickRfl
 
-theorem npPerm : allN NN.N (fun t => permB 100 7 (NN.T t)) = true := by quickRfl
-
-theorem cent : allN NN.N centPt = true := by quickRfl
+theorem repsOKN : repsChainN I2.i2Reps 0 = true := by quickRfl
 
 end CertificateChecks.KernelMisc.HS100.N
 

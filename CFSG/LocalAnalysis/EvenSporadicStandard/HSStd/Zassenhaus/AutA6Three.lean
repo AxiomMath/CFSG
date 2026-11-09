@@ -21,9 +21,71 @@ theorem conj_check : ord3P.all (fun a => Core.autL.any fun g =>
     Core.cmul g a == Core.cmul rCode g) = true := by
   decide +kernel
 
-theorem aut_centralizer_check : ord3P.all (fun a =>
-    ((Core.autL.filter fun c => Core.cmul a c == Core.cmul c a).dedup.length == 18)) = true := by
+private theorem all_of_chunks {α : Type*} (l : List α) (d : α) (f : α → Bool) (m K : ℕ)
+    (hm : 0 < m) (hlen : l.length ≤ m * K)
+    (h : ∀ k < K, (List.range' (m * k) m).all (fun i => f (l.getD i d)) = true) :
+    l.all f = true := by
+  rw [List.all_eq_true]
+  intro x hx
+  obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.1 hx
+  have hk : i / m < K := Nat.div_lt_of_lt_mul (lt_of_lt_of_le hi hlen)
+  have hmem : i ∈ List.range' (m * (i / m)) m := by
+    rw [List.mem_range'_1]
+    have h1 := Nat.div_add_mod i m
+    have h2 := Nat.mod_lt i hm
+    generalize m * (i / m) = q at h1 ⊢
+    generalize i % m = r at h1 h2
+    omega
+  have := List.all_eq_true.1 (h (i / m) hk) i hmem
+  rwa [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi, Option.getD_some] at this
+
+private theorem ord3P_length_le : ord3P.length ≤ 10 * 8 := by
   decide +kernel
+
+private theorem aut_centralizer_chunk_0 :
+    (List.range' (10 * 0) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_1 :
+    (List.range' (10 * 1) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_2 :
+    (List.range' (10 * 2) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_3 :
+    (List.range' (10 * 3) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_4 :
+    (List.range' (10 * 4) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_5 :
+    (List.range' (10 * 5) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_6 :
+    (List.range' (10 * 6) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+private theorem aut_centralizer_chunk_7 :
+    (List.range' (10 * 7) 10).all (fun i => ((Core.autL.filter fun c => Core.cmul (ord3P.getD i Core.cid) c == Core.cmul c (ord3P.getD i Core.cid)).dedup.length == 18)) = true := by
+  decide +kernel
+
+theorem aut_centralizer_check : ord3P.all (fun a =>
+    ((Core.autL.filter fun c => Core.cmul a c == Core.cmul c a).dedup.length == 18)) = true :=
+  all_of_chunks ord3P Core.cid _ 10 8 (by decide) ord3P_length_le (fun k hk => match k, hk with
+    | 0, _ => aut_centralizer_chunk_0
+    | 1, _ => aut_centralizer_chunk_1
+    | 2, _ => aut_centralizer_chunk_2
+    | 3, _ => aut_centralizer_chunk_3
+    | 4, _ => aut_centralizer_chunk_4
+    | 5, _ => aut_centralizer_chunk_5
+    | 6, _ => aut_centralizer_chunk_6
+    | 7, _ => aut_centralizer_chunk_7
+    | _ + 8, h => absurd h (by omega))
 
 theorem psl_centralizer_check : ord3P.all (fun a => (Core.cpslList a).length == 9) = true := by
   decide +kernel

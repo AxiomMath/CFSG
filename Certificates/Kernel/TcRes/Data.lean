@@ -2,15 +2,15 @@ module
 
 public import Certificates.Data.Kernel.TcRes.Defs
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.TcRes.E6 "Certificates/Kernel/TcRes/data/e6.bin.gz"
+#kc_repo #kc_nat_items CFSG.KD.TcRes.E6 "Certificates/Kernel/TcRes/data/e6.bin"
   9937 8041291004203825057 YC[6] V X Y NEG PAR SRT ADJ RT
 
-#kc_repo #kc_nat_items_gz CFSG.KD.TcRes.E8 "Certificates/Kernel/TcRes/data/e8.bin.gz"
+#kc_repo #kc_nat_items CFSG.KD.TcRes.E8 "Certificates/Kernel/TcRes/data/e8.bin"
   86163 3739864336902232551 YC[8] V X Y NEG PAR SRT ADJ RT[240]
 
 #kc_select CFSG.KD.TcRes.E6 yc YC 6

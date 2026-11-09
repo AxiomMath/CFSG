@@ -25,7 +25,7 @@ theorem unpack_get {n w P i : Nat} (hi : i < n) : (unpack n w P)[i]! = pg w (mas
 
 theorem ap_line {j : Nat} (hj : j < 306) (y : Fin 3510) :
     ap (Fi22CentT.L j) y = (fi22CentPerm j y : ℕ) := by
-  rw [← rep_fi22CentPerm hj y, N2070.cent_eq hj, unpack_get y.2]
+  rw [← rep_fi22CentPerm hj y, N2070.cent_eq, unpack_get y.2]
   rfl
 
 theorem injK_line {j : Nat} (hj : j < 306) :
@@ -42,15 +42,22 @@ theorem injK_line {j : Nat} (hj : j < 306) :
     rw [ea, eb] at e
     exact congrArg Fin.val ((fi22CentPerm j).injective (Fin.ext e))
 
-theorem ap_pinv {j : Nat} (hj : j < 306) (y : Fin 3510) :
-    ap (pinvS 3510 12 (mask 12) (Fi22CentT.L j)) y = ((fi22CentPerm j)⁻¹ y : ℕ) := by
-  have h := CFSG.KS.PinvS.pg_pinvS (by norm_num) (injK_line hj) ((fi22CentPerm j)⁻¹ y).2
-  have e := ap_line hj ((fi22CentPerm j)⁻¹ y)
-  change pg 12 (mask 12) _ _ = _ at e
-  have key : ∀ σ : Equiv.Perm (Fin 3510), σ (σ⁻¹ y) = y := fun σ => σ.apply_symm_apply y
-  have e2 := key (fi22CentPerm j)
-  rw [e, e2] at h
+theorem ap_pg (q y : Nat) : ap q y = pg 12 (mask 12) q y := rfl
+
+theorem ap_pinv_gen {p : Nat} {σ : Equiv.Perm (Fin 3510)} (hinj : CFSG.KS.PinvS.InjK 3510 12 p)
+    (hap : ∀ x : Fin 3510, ap p x = (σ x : ℕ)) (y : Fin 3510) :
+    ap (pinvS 3510 12 (mask 12) p) y = (σ⁻¹ y : ℕ) := by
+  have h := CFSG.KS.PinvS.pg_pinvS (by norm_num) hinj (σ⁻¹ y).2
+  have e := hap (σ⁻¹ y)
+  rw [ap_pg] at e
+  have key : σ (σ⁻¹ y) = y := σ.apply_symm_apply y
+  rw [e, key] at h
+  rw [ap_pg]
   exact h
+
+theorem ap_pinv {j : Nat} (hj : j < 306) (y : Fin 3510) :
+    ap (pinvS 3510 12 (mask 12) (Fi22CentT.L j)) y = ((fi22CentPerm j)⁻¹ y : ℕ) :=
+  ap_pinv_gen (injK_line hj) (ap_line hj) y
 
 theorem mem_of_memK
     {c kS kO BP lo k : Nat} {S SI LR ST : Nat → Nat} {D : List (List Int)} (hc : c < 5)
@@ -67,7 +74,7 @@ theorem mem_of_memK
   have hperm := Fi22E2065.perm (L := lo + j) (by omega)
   have hrep := (Fo22C.rep_of_perm hperm).1
   have e : fi22CentPerm (lo + j) = permOfArr 3510 (unpack 3510 12 (Fi22CentT.L (lo + j))) := by
-    rw [fi22CentPerm, N2070.cent_eq (by omega)]
+    rw [fi22CentPerm, N2070.cent_eq]
   rw [e]
   exact Fo22C.mem_H hc hb hh ht hst hrep (Fo22C.mem_P hcn hsp hperm) hbk
 
@@ -87,11 +94,9 @@ theorem inR_lt {c j : Nat} (h : inR c j = true) : j < 306 := by
   | _ + 5 => simp [inR] at h
 
 theorem bH0 : Binds 3510 12 Fi22H0.S 19 6 Fi22H0.BP (fi22CentStrong 0) #[0, 1, 2, 3, 6, 4] :=
-  Fo22C.bindsH Fi22CentB.text_eq (st := 0) (by norm_num) rfl rfl (by norm_num) Fi22C2066.b0
-    Fi22C2066.p0
+  Fo22C.bindsH (st := 0) (by norm_num) rfl rfl Fi22C2066.b0 Fi22C2066.p0
 theorem bH1 : Binds 3510 12 Fi22H1.S 16 6 Fi22H1.BP (fi22CentStrong 1) #[0, 1, 2, 3, 6, 4] :=
-  Fo22C.bindsH Fi22CentB.text_eq (st := 19) (by norm_num) rfl rfl (by norm_num) Fi22C2066.b1
-    Fi22C2066.p1
+  Fo22C.bindsH (st := 19) (by norm_num) rfl rfl Fi22C2066.b1 Fi22C2066.p1
 
 theorem memLine
     {c j : Nat} (hc : c < 5) (h : inR c j = true) : fi22CentPerm j ∈ fi22H c := by
@@ -127,34 +132,34 @@ theorem memLine
   · rcases h with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · refine key 88 h1 fun d => ?_
       by_cases hd : d < 6
-      · exact .inl (mem_of_memK (by norm_num) (Fo22C.bindsH2 Fi22CentB.text_eq) Fi22H2.head
+      · exact .inl (mem_of_memK (by norm_num) Fo22C.bindsH2 Fi22H2.head
           Fi22H2.tl Fi22H2.hst mc2s (by norm_num) hd)
       · exact .inr (by omega)
     · refine key 148 h1 fun d => ?_
       by_cases hd : d < 14
-      · exact .inl (mem_of_memK (by norm_num) (Fo22C.bindsH2 Fi22CentB.text_eq) Fi22H2.head
+      · exact .inl (mem_of_memK (by norm_num) Fo22C.bindsH2 Fi22H2.head
           Fi22H2.tl Fi22H2.hst mc2w (by norm_num) hd)
       · exact .inr (by omega)
   · rcases h with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · refine key 94 h1 fun d => ?_
       by_cases hd : d < 9
-      · exact .inl (mem_of_memK (by norm_num) (Fo22C.bindsH3 Fi22CentB.text_eq) Fi22H3.head
+      · exact .inl (mem_of_memK (by norm_num) Fo22C.bindsH3 Fi22H3.head
           Fi22H3.tl Fi22H3.hst mc3s (by norm_num) hd)
       · exact .inr (by omega)
     · refine key 162 h1 fun d => ?_
       by_cases hd : d < 62
-      · exact .inl (mem_of_memK (by norm_num) (Fo22C.bindsH3 Fi22CentB.text_eq) Fi22H3.head
+      · exact .inl (mem_of_memK (by norm_num) Fo22C.bindsH3 Fi22H3.head
           Fi22H3.tl Fi22H3.hst mc3w (by norm_num) hd)
       · exact .inr (by omega)
   · rcases h with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · refine key 103 h1 fun d => ?_
       by_cases hd : d < 5
-      · exact .inl (mem_of_memK (by norm_num) (Fo22C.bindsH4 Fi22CentB.text_eq) Fi22H4.head
+      · exact .inl (mem_of_memK (by norm_num) Fo22C.bindsH4 Fi22H4.head
           Fi22H4.tl Fi22H4.hst mc4s (by norm_num) hd)
       · exact .inr (by omega)
     · refine key 224 h1 fun d => ?_
       by_cases hd : d < 16
-      · exact .inl (mem_of_memK (by norm_num) (Fo22C.bindsH4 Fi22CentB.text_eq) Fi22H4.head
+      · exact .inl (mem_of_memK (by norm_num) Fo22C.bindsH4 Fi22H4.head
           Fi22H4.tl Fi22H4.hst mc4w (by norm_num) hd)
       · exact .inr (by omega)
 

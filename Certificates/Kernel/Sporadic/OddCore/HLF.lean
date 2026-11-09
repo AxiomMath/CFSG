@@ -18,6 +18,8 @@ public import Certificates.Kernel.Sporadic.OddCore.HLK6
 public import Certificates.Kernel.Sporadic.OddCore.HLO0
 public import Certificates.Kernel.Sporadic.OddCore.HLO1
 public import Certificates.Kernel.Sporadic.OddCore.HLO2
+public import Certificates.Kernel.Sporadic.OddCore.HLB
+public import CFSG.Certificates.Kernel.Spor.PEnumBCSound
 
 public section
 
@@ -27,7 +29,7 @@ namespace CertificateChecks.KernelSpor.HeL
 
 open CFSG.PSL3Four.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.HeldB CFSG.KC.Enum CFSG.KS
 open CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.PEnum CFSG.KC.BfsPin CFSG.Monster.B.Co2.Native
-open CFSG.KS.Mathieu CFSG.KC.Misc.HexAt CFSG.Sporadic.SuzOddCore
+open CFSG.KS.Mathieu CFSG.KC.Misc.HexAt CFSG.Sporadic.SuzOddCore CFSG.KS.PEnumB
 
 theorem base : szOK 105 7 = true ∧ canonK 105 7 (mask 7) (105 * 7) (pidn 105 7) = true ∧
     CFSG.KS.Prim.idK 105 7 (mask 7) = true ∧
@@ -388,137 +390,137 @@ theorem dpt_all {i : Nat} (hi : i < HDE.cnt) : penumPtK 105 7 (mask 7) (105 * 7)
   have e : HDE.cnt = 20160 := rfl
   exact key i (by omega) hi
 
-theorem orb_pt {l i : Nat} (hl : l < 10) (hi : i < HOF.C l) :
-    penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI HOF.k (HOF.C l) (offF HOF.T (HOF.TO l))
+theorem orb_ptBC {l i : Nat} (hl : l < 10) (hi : i < HOF.C l) :
+    penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI HOF.k (HOF.C l) (offF HOF.T (HOF.TO l))
       (offF HOF.PL (HOF.PLO l)) (offF HOF.POS (HOF.POSO l)) (offF HOF.SRT (HOF.SRTO l))
       (offF HOF.SRI (HOF.SRIO l)) i = true := by
   interval_cases l
-  · have key : ∀ i < 450 * 1, i < HOF.C 0 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 1, i < HOF.C 0 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 0)
           (offF HOF.T (HOF.TO 0)) (offF HOF.PL (HOF.PLO 0)) (offF HOF.POS (HOF.POSO 0))
           (offF HOF.SRT (HOF.SRTO 0)) (offF HOF.SRI (HOF.SRIO 0)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE0_0 i h1 h2 hc
+      · exact penumSlBC_spec oE0_0 i h1 h2 hc
     have e : HOF.C 0 = 1 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 1, i < HOF.C 1 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 1, i < HOF.C 1 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 1)
           (offF HOF.T (HOF.TO 1)) (offF HOF.PL (HOF.PLO 1)) (offF HOF.POS (HOF.POSO 1))
           (offF HOF.SRT (HOF.SRTO 1)) (offF HOF.SRI (HOF.SRIO 1)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE1_0 i h1 h2 hc
+      · exact penumSlBC_spec oE1_0 i h1 h2 hc
     have e : HOF.C 1 = 315 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 3, i < HOF.C 2 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 3, i < HOF.C 2 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 2)
           (offF HOF.T (HOF.TO 2)) (offF HOF.PL (HOF.PLO 2)) (offF HOF.POS (HOF.POSO 2))
           (offF HOF.SRT (HOF.SRTO 2)) (offF HOF.SRI (HOF.SRIO 2)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE2_0 i h1 h2 hc
-      · exact penumSl_spec oE2_1 i h1 h2 hc
-      · exact penumSl_spec oE2_2 i h1 h2 hc
+      · exact penumSlBC_spec oE2_0 i h1 h2 hc
+      · exact penumSlBC_spec oE2_1 i h1 h2 hc
+      · exact penumSlBC_spec oE2_2 i h1 h2 hc
     have e : HOF.C 2 = 1260 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 3, i < HOF.C 3 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 3, i < HOF.C 3 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 3)
           (offF HOF.T (HOF.TO 3)) (offF HOF.PL (HOF.PLO 3)) (offF HOF.POS (HOF.POSO 3))
           (offF HOF.SRT (HOF.SRTO 3)) (offF HOF.SRI (HOF.SRIO 3)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE3_0 i h1 h2 hc
-      · exact penumSl_spec oE3_1 i h1 h2 hc
-      · exact penumSl_spec oE3_2 i h1 h2 hc
+      · exact penumSlBC_spec oE3_0 i h1 h2 hc
+      · exact penumSlBC_spec oE3_1 i h1 h2 hc
+      · exact penumSlBC_spec oE3_2 i h1 h2 hc
     have e : HOF.C 3 = 1260 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 3, i < HOF.C 4 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 3, i < HOF.C 4 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 4)
           (offF HOF.T (HOF.TO 4)) (offF HOF.PL (HOF.PLO 4)) (offF HOF.POS (HOF.POSO 4))
           (offF HOF.SRT (HOF.SRTO 4)) (offF HOF.SRI (HOF.SRIO 4)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE4_0 i h1 h2 hc
-      · exact penumSl_spec oE4_1 i h1 h2 hc
-      · exact penumSl_spec oE4_2 i h1 h2 hc
+      · exact penumSlBC_spec oE4_0 i h1 h2 hc
+      · exact penumSlBC_spec oE4_1 i h1 h2 hc
+      · exact penumSlBC_spec oE4_2 i h1 h2 hc
     have e : HOF.C 4 = 1260 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 5, i < HOF.C 5 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 5, i < HOF.C 5 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 5)
           (offF HOF.T (HOF.TO 5)) (offF HOF.PL (HOF.PLO 5)) (offF HOF.POS (HOF.POSO 5))
           (offF HOF.SRT (HOF.SRTO 5)) (offF HOF.SRI (HOF.SRIO 5)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE5_0 i h1 h2 hc
-      · exact penumSl_spec oE5_1 i h1 h2 hc
-      · exact penumSl_spec oE5_2 i h1 h2 hc
-      · exact penumSl_spec oE5_3 i h1 h2 hc
-      · exact penumSl_spec oE5_4 i h1 h2 hc
+      · exact penumSlBC_spec oE5_0 i h1 h2 hc
+      · exact penumSlBC_spec oE5_1 i h1 h2 hc
+      · exact penumSlBC_spec oE5_2 i h1 h2 hc
+      · exact penumSlBC_spec oE5_3 i h1 h2 hc
+      · exact penumSlBC_spec oE5_4 i h1 h2 hc
     have e : HOF.C 5 = 2240 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 7, i < HOF.C 6 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 7, i < HOF.C 6 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 6)
           (offF HOF.T (HOF.TO 6)) (offF HOF.PL (HOF.PLO 6)) (offF HOF.POS (HOF.POSO 6))
           (offF HOF.SRT (HOF.SRTO 6)) (offF HOF.SRI (HOF.SRIO 6)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE6_0 i h1 h2 hc
-      · exact penumSl_spec oE6_1 i h1 h2 hc
-      · exact penumSl_spec oE6_2 i h1 h2 hc
-      · exact penumSl_spec oE6_3 i h1 h2 hc
-      · exact penumSl_spec oE6_4 i h1 h2 hc
-      · exact penumSl_spec oE6_5 i h1 h2 hc
-      · exact penumSl_spec oE6_6 i h1 h2 hc
+      · exact penumSlBC_spec oE6_0 i h1 h2 hc
+      · exact penumSlBC_spec oE6_1 i h1 h2 hc
+      · exact penumSlBC_spec oE6_2 i h1 h2 hc
+      · exact penumSlBC_spec oE6_3 i h1 h2 hc
+      · exact penumSlBC_spec oE6_4 i h1 h2 hc
+      · exact penumSlBC_spec oE6_5 i h1 h2 hc
+      · exact penumSlBC_spec oE6_6 i h1 h2 hc
     have e : HOF.C 6 = 2880 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 7, i < HOF.C 7 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 7, i < HOF.C 7 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 7)
           (offF HOF.T (HOF.TO 7)) (offF HOF.PL (HOF.PLO 7)) (offF HOF.POS (HOF.POSO 7))
           (offF HOF.SRT (HOF.SRTO 7)) (offF HOF.SRI (HOF.SRIO 7)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE7_0 i h1 h2 hc
-      · exact penumSl_spec oE7_1 i h1 h2 hc
-      · exact penumSl_spec oE7_2 i h1 h2 hc
-      · exact penumSl_spec oE7_3 i h1 h2 hc
-      · exact penumSl_spec oE7_4 i h1 h2 hc
-      · exact penumSl_spec oE7_5 i h1 h2 hc
-      · exact penumSl_spec oE7_6 i h1 h2 hc
+      · exact penumSlBC_spec oE7_0 i h1 h2 hc
+      · exact penumSlBC_spec oE7_1 i h1 h2 hc
+      · exact penumSlBC_spec oE7_2 i h1 h2 hc
+      · exact penumSlBC_spec oE7_3 i h1 h2 hc
+      · exact penumSlBC_spec oE7_4 i h1 h2 hc
+      · exact penumSlBC_spec oE7_5 i h1 h2 hc
+      · exact penumSlBC_spec oE7_6 i h1 h2 hc
     have e : HOF.C 7 = 2880 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 9, i < HOF.C 8 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 9, i < HOF.C 8 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 8)
           (offF HOF.T (HOF.TO 8)) (offF HOF.PL (HOF.PLO 8)) (offF HOF.POS (HOF.POSO 8))
           (offF HOF.SRT (HOF.SRTO 8)) (offF HOF.SRI (HOF.SRIO 8)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE8_0 i h1 h2 hc
-      · exact penumSl_spec oE8_1 i h1 h2 hc
-      · exact penumSl_spec oE8_2 i h1 h2 hc
-      · exact penumSl_spec oE8_3 i h1 h2 hc
-      · exact penumSl_spec oE8_4 i h1 h2 hc
-      · exact penumSl_spec oE8_5 i h1 h2 hc
-      · exact penumSl_spec oE8_6 i h1 h2 hc
-      · exact penumSl_spec oE8_7 i h1 h2 hc
-      · exact penumSl_spec oE8_8 i h1 h2 hc
+      · exact penumSlBC_spec oE8_0 i h1 h2 hc
+      · exact penumSlBC_spec oE8_1 i h1 h2 hc
+      · exact penumSlBC_spec oE8_2 i h1 h2 hc
+      · exact penumSlBC_spec oE8_3 i h1 h2 hc
+      · exact penumSlBC_spec oE8_4 i h1 h2 hc
+      · exact penumSlBC_spec oE8_5 i h1 h2 hc
+      · exact penumSlBC_spec oE8_6 i h1 h2 hc
+      · exact penumSlBC_spec oE8_7 i h1 h2 hc
+      · exact penumSlBC_spec oE8_8 i h1 h2 hc
     have e : HOF.C 8 = 4032 := rfl
     exact key i (by omega) hi
-  · have key : ∀ i < 450 * 9, i < HOF.C 9 → penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI
+  · have key : ∀ i < 450 * 9, i < HOF.C 9 → penumPtBC 105 7 (mask 7) [0, 1, 2] HOF.G HOF.GI
       HOF.k (HOF.C 9)
           (offF HOF.T (HOF.TO 9)) (offF HOF.PL (HOF.PLO 9)) (offF HOF.POS (HOF.POSO 9))
           (offF HOF.SRT (HOF.SRTO 9)) (offF HOF.SRI (HOF.SRIO 9)) i = true := by
       refine cover' (by norm_num) fun s hs i h1 h2 hc => ?_
       interval_cases s
-      · exact penumSl_spec oE9_0 i h1 h2 hc
-      · exact penumSl_spec oE9_1 i h1 h2 hc
-      · exact penumSl_spec oE9_2 i h1 h2 hc
-      · exact penumSl_spec oE9_3 i h1 h2 hc
-      · exact penumSl_spec oE9_4 i h1 h2 hc
-      · exact penumSl_spec oE9_5 i h1 h2 hc
-      · exact penumSl_spec oE9_6 i h1 h2 hc
-      · exact penumSl_spec oE9_7 i h1 h2 hc
-      · exact penumSl_spec oE9_8 i h1 h2 hc
+      · exact penumSlBC_spec oE9_0 i h1 h2 hc
+      · exact penumSlBC_spec oE9_1 i h1 h2 hc
+      · exact penumSlBC_spec oE9_2 i h1 h2 hc
+      · exact penumSlBC_spec oE9_3 i h1 h2 hc
+      · exact penumSlBC_spec oE9_4 i h1 h2 hc
+      · exact penumSlBC_spec oE9_5 i h1 h2 hc
+      · exact penumSlBC_spec oE9_6 i h1 h2 hc
+      · exact penumSlBC_spec oE9_7 i h1 h2 hc
+      · exact penumSlBC_spec oE9_8 i h1 h2 hc
     have e : HOF.C 9 = 4032 := rfl
     exact key i (by omega) hi
 
@@ -634,6 +636,36 @@ theorem invsD : invsOK 105 heDGens heDInvs = true := by
   rw [dinvs_get hk5, dgens_get hk5]
   refine ⟨unpack_size _ _ _, ?_⟩
   rw [comp105 hci hc, idTab_eq, Nat.eq_of_beq_eq_true hpi]
+
+theorem d_faith : BaseFaith 105 7 [0, 1, 2] (fun X => ∃ a < HDE.cnt, X = HDE.T a) :=
+  baseFaith_left (by norm_num) (by decide) (fun j hj => (dg_facts (by exact hj)).2.1) heads'.2
+    (fun _ hi => dpt_all hi) (fun i hi => allN_spec dsort_ok i (by exact hi))
+
+theorem d_gen_mem {j : Nat} (hj : j < HOF.k) : ∃ a < HDE.cnt, HOF.G j = HDE.T a := by
+  have hj5 : j < 5 := hj
+  rw [Nat.eq_of_beq_eq_true ((bAnd_iff _ _).1 (allN_spec fam_g j hj5)).1]
+  exact left_gen_mem (dg_facts hj5).2.1 (by exact hj5) heads'.2 (fun _ hi => dpt_all hi)
+
+theorem d_inv_mem {j : Nat} (hj : j < HOF.k) : ∃ a < HDE.cnt, HOF.GI j = HDE.T a := by
+  have hj5 : j < 5 := hj
+  have h := allN_spec dinv_ok j hj5
+  rw [strictB_app'] at h
+  obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
+  rw [Nat.eq_of_beq_eq_true ((bAnd_iff _ _).1 (allN_spec fam_g j hj5)).2]
+  exact ⟨_, Eq.mp Nat.blt_eq h1, (Nat.eq_of_beq_eq_true h2).symm⟩
+
+theorem d_rep_mem {l : Nat} (hl : l < 10) : ∃ a < HDE.cnt, HOF.R l = HDE.T a := by
+  have h := allN_spec drep_ok l hl
+  rw [strictB_app'] at h
+  obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
+  exact ⟨_, Eq.mp Nat.blt_eq h1, (Nat.eq_of_beq_eq_true h2).symm⟩
+
+theorem orb_pt {l i : Nat} (hl : l < 10) (hi : i < HOF.C l) :
+    penumPtK 105 7 (mask 7) (105 * 7) true HOF.G HOF.GI HOF.k (HOF.C l) (offF HOF.T (HOF.TO l))
+      (offF HOF.PL (HOF.PLO l)) (offF HOF.POS (HOF.POSO l)) (offF HOF.SRT (HOF.SRTO l))
+      (offF HOF.SRI (HOF.SRIO l)) i = true := by
+  exact penumPtK_of_BC d_faith (fun _ hj => d_gen_mem hj) (fun _ hj => d_inv_mem hj)
+    (d_rep_mem hl) (allN_spec orb_hds l hl) (fun _ hq => orb_ptBC hl hq) i hi
 
 theorem cover_all {k : Nat} (hk : k < 20160) : coverK k = true := by
   rcases Nat.lt_or_ge k 10080 with h0 | h0

@@ -56,10 +56,12 @@ theorem conj_wG {i : Fin 2} {h : J dHN} :
   refine ⟨?_, isConj_iff.2 ⟨h, rfl⟩⟩
   rw [conj_pow]
   have : wG (12 + i.val) ^ 2 = 1 := by
-    rcases i with ⟨_ | _ | _, hi⟩
-    · exact t2_sq
-    · exact t4_sq
-    · omega
+    have hi := i.isLt
+    obtain h0 | h1 : i.val = 0 ∨ i.val = 1 := by omega
+    · rw [h0, Nat.add_zero]
+      exact t2_sq
+    · rw [h1, show (12 : ℕ) + 1 = 13 from rfl]
+      exact t4_sq
   rw [this, mul_one, mul_inv_cancel]
 
 noncomputable def Pgrp : Subgroup (J dHN) :=

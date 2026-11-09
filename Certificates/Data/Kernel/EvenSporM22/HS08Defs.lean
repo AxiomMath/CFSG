@@ -16,7 +16,7 @@ open CFSG.EvenSporadicStandard.M22Std.TabCheck CFSG.EvenSporadicStandard.M22Std.
 @[expose] def jLit : List Tab := isortK (span (jGensW.map (wordTab s0Gens)))
 
 @[expose] def JOK (L : List Tab) : Prop :=
-  L.length = 32 ∧ L.Nodup ∧ idTab ∈ L ∧
+  L.length = 32 ∧ L.Nodup ∧ idTab ∈ L ∧ CFSG.EvenSporadicStandard.M22Std.FusionCheck.tTab ∈ L ∧
     ∀ a ∈ L, a ∈ s0Tabs ∧ tmul a a = idTab ∧ ∀ b ∈ L, tmul a b ∈ L ∧ comm a b = true
 
 instance (L : List Tab) : Decidable (JOK L) := by

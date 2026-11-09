@@ -177,6 +177,110 @@ theorem memRowD (v : ℕ) (hv : memD v = true) (s : Equiv.Perm (Fin 80)) (hs : P
     have e' : s = g * tp 80 (tm 14650228) * g⁻¹ := by rw [tpR b1 (si (by simp))]; exact e
     exact ⟨_, .tail _ (.head _), g, hg, e'⟩
 
+theorem l43dvd2 {a b m c : ℕ} (hm : m = a * b) (hab : Nat.Coprime a b) (ha : a ∣ c) (hb : b ∣ c) :
+    m ∣ c :=
+  hm ▸ hab.mul_dvd_of_dvd_of_dvd ha hb
+
+theorem l43dvd3 {a b e m c : ℕ} (hm : m = a * b * e) (hab : Nat.Coprime a b)
+    (habe : Nat.Coprime (a * b) e) (ha : a ∣ c) (hb : b ∣ c) (he : e ∣ c) : m ∣ c :=
+  hm ▸ habe.mul_dvd_of_dvd_of_dvd (hab.mul_dvd_of_dvd_of_dvd ha hb) he
+
+theorem cdvdD0 : 2880 ∣ Nat.card (closure ((fun k => pp (CD0.G k)) '' {k | k < 2})) :=
+  l43dvd3 (by norm_num) (by norm_num) (by norm_num)
+    (dvd_of_words (N := 64) CD0.h HD0s2.h (fun i hi => HD0s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD0s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD0s2.k (W := wD0s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CD0.h HD0s3.h (fun i hi => HD0s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD0s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD0s3.k (W := wD0s3) (by decide +kernel))
+    (dvd_of_words (N := 5) CD0.h HD0s5.h (fun i hi => HD0s5.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD0s5.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD0s5.k (W := wD0s5) (by decide +kernel))
+
+theorem cdvdD1 : 5616 ∣ Nat.card (closure ((fun k => pp (CD1.G k)) '' {k | k < 2})) :=
+  l43dvd3 (by norm_num) (by norm_num) (by norm_num)
+    (dvd_of_words (N := 16) CD1.h HD1s2.h (fun i hi => HD1s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD1s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD1s2.k (W := wD1s2) (by decide +kernel))
+    (dvd_of_words (N := 27) CD1.h HD1s3.h (fun i hi => HD1s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD1s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD1s3.k (W := wD1s3) (by decide +kernel))
+    (dvd_of_words (N := 13) CD1.h HD1s13.h (fun i hi => HD1s13.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD1s13.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD1s13.k (W := wD1s13) (by decide +kernel))
+
+theorem cdvdD2 : 1152 ∣ Nat.card (closure ((fun k => pp (CD2.G k)) '' {k | k < 2})) :=
+  l43dvd2 (by norm_num) (by norm_num)
+    (dvd_of_words (N := 128) CD2.h HD2s2.h (fun i hi => HD2s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD2s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD2s2.k (W := wD2s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CD2.h HD2s3.h (fun i hi => HD2s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HD2s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HD2s3.k (W := wD2s3) (by decide +kernel))
+
+theorem cdvdS0 : 2880 ∣ Nat.card (closure ((fun k => pp (CS0.G k)) '' {k | k < 2})) :=
+  l43dvd3 (by norm_num) (by norm_num) (by norm_num)
+    (dvd_of_words (N := 64) CS0.h HS0s2.h (fun i hi => HS0s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS0s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS0s2.k (W := wS0s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CS0.h HS0s3.h (fun i hi => HS0s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS0s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS0s3.k (W := wS0s3) (by decide +kernel))
+    (dvd_of_words (N := 5) CS0.h HS0s5.h (fun i hi => HS0s5.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS0s5.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS0s5.k (W := wS0s5) (by decide +kernel))
+
+theorem cdvdS1 : 576 ∣ Nat.card (closure ((fun k => pp (CS1.G k)) '' {k | k < 2})) :=
+  l43dvd2 (by norm_num) (by norm_num)
+    (dvd_of_words (N := 64) CS1.h HS1s2.h (fun i hi => HS1s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS1s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS1s2.k (W := wS1s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CS1.h HS1s3.h (fun i hi => HS1s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS1s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS1s3.k (W := wS1s3) (by decide +kernel))
+
+theorem cdvdS2 : 1152 ∣ Nat.card (closure ((fun k => pp (CS2.G k)) '' {k | k < 2})) :=
+  l43dvd2 (by norm_num) (by norm_num)
+    (dvd_of_words (N := 128) CS2.h HS2s2.h (fun i hi => HS2s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS2s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS2s2.k (W := wS2s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CS2.h HS2s3.h (fun i hi => HS2s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS2s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS2s3.k (W := wS2s3) (by decide +kernel))
+
+theorem cdvdDS0 : 1152 ∣ Nat.card (closure ((fun k => pp (CDS0.G k)) '' {k | k < 2})) :=
+  l43dvd2 (by norm_num) (by norm_num)
+    (dvd_of_words (N := 128) CDS0.h HDS0s2.h (fun i hi => HDS0s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS0s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS0s2.k (W := wDS0s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CDS0.h HDS0s3.h (fun i hi => HDS0s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS0s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS0s3.k (W := wDS0s3) (by decide +kernel))
+
+theorem cdvdDS1 : 2880 ∣ Nat.card (closure ((fun k => pp (CDS1.G k)) '' {k | k < 2})) :=
+  l43dvd3 (by norm_num) (by norm_num) (by norm_num)
+    (dvd_of_words (N := 64) CDS1.h HDS1s2.h (fun i hi => HDS1s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS1s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS1s2.k (W := wDS1s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CDS1.h HDS1s3.h (fun i hi => HDS1s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS1s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS1s3.k (W := wDS1s3) (by decide +kernel))
+    (dvd_of_words (N := 5) CDS1.h HDS1s5.h (fun i hi => HDS1s5.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS1s5.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS1s5.k (W := wDS1s5) (by decide +kernel))
+
+theorem cdvdDS2 : 720 ∣ Nat.card (closure ((fun k => pp (CDS2.G k)) '' {k | k < 2})) :=
+  l43dvd3 (by norm_num) (by norm_num) (by norm_num)
+    (dvd_of_words (N := 16) CDS2.h HDS2s2.h (fun i hi => HDS2s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS2s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS2s2.k (W := wDS2s2) (by decide +kernel))
+    (dvd_of_words (N := 9) CDS2.h HDS2s3.h (fun i hi => HDS2s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS2s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS2s3.k (W := wDS2s3) (by decide +kernel))
+    (dvd_of_words (N := 5) CDS2.h HDS2s5.h (fun i hi => HDS2s5.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HDS2s5.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HDS2s5.k (W := wDS2s5) (by decide +kernel))
+
 theorem runFactsD : RunFacts pi.range runuD := by
   obtain ⟨bU, -, -, bA, bB, -, -, b0, -, -, b2, -, -, b1, -, -, -, -, g00, g01, g10, g11, g20,
     g21, -⟩ := binds
@@ -192,17 +296,11 @@ theorem runFactsD : RunFacts pi.range runuD := by
     obtain ⟨r0, r1, r2, -⟩ := rows
     simp only [runuD, List.mem_cons, List.not_mem_nil, or_false] at hr
     rcases hr with rfl | rfl | rfl
-    · exact row_of_check (si (by simp)) b0 r0 (by simp) (by rfl) (by rfl) g00 g01 CD0.h
-        (fun i hi => CD0.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CD0.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CD0.k
+    · exact row_of_cdvd (si (by simp)) b0 r0 (by simp) (by rfl) (by rfl) g00 g01 CD0.h cdvdD0
         ⟨c2106_0.1, c2106_0.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b1 r1 hUo (by rfl) (by rfl) g10 g11 CD1.h
-        (fun i hi => CD1.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CD1.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CD1.k
+    · exact row_of_cdvd (si (by simp)) b1 r1 hUo (by rfl) (by rfl) g10 g11 CD1.h cdvdD1
         ⟨c1080.1, c1080.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b2 r2 (by simp) (by rfl) (by rfl) g20 g21 CD2.h
-        (fun i hi => CD2.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CD2.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CD2.k
+    · exact row_of_cdvd (si (by simp)) b2 r2 (by simp) (by rfl) (by rfl) g20 g21 CD2.h cdvdD2
         ⟨c5265_0.1, c5265_0.2.1⟩ (by rfl)
   · exact test_of_cover coverD SD.h (fun i hi => SD.cl i (lt_of_lt_of_le hi (by decide)))
       (fun i hi => SD.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel) SD.k
@@ -236,6 +334,30 @@ theorem memRowS (v : ℕ) (hv : memS v = true) (s : Equiv.Perm (Fin 80)) (hs : P
     have e' : s = g * tp 80 (ts 12940497) * g⁻¹ := by rw [tpR b4 (si (by simp))]; exact e
     exact ⟨_, .tail _ (.tail _ (.tail _ (.tail _ (.head _)))), g, hg, e'⟩
 
+theorem cdvdS3 : 51840 ∣ Nat.card (closure ((fun k => pp (CS3.G k)) '' {k | k < 2})) :=
+  dvd_51840 rfl
+    (dvd_of_words (N := 128) CS3.h HS3s2.h (fun i hi => HS3s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS3s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS3s2.k (W := wS3s2) (by decide +kernel))
+    (dvd_of_words (N := 81) CS3.h HS3s3.h (fun i hi => HS3s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS3s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS3s3.k (W := wS3s3) (by decide +kernel))
+    (dvd_of_words (N := 5) CS3.h HS3s5.h (fun i hi => HS3s5.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS3s5.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS3s5.k (W := wS3s5) (by decide +kernel))
+
+theorem cdvdS4 : 51840 ∣ Nat.card (closure ((fun k => pp (CS4.G k)) '' {k | k < 2})) :=
+  dvd_51840 rfl
+    (dvd_of_words (N := 128) CS4.h HS4s2.h (fun i hi => HS4s2.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS4s2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS4s2.k (W := wS4s2) (by decide +kernel))
+    (dvd_of_words (N := 81) CS4.h HS4s3.h (fun i hi => HS4s3.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS4s3.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS4s3.k (W := wS4s3) (by decide +kernel))
+    (dvd_of_words (N := 5) CS4.h HS4s5.h (fun i hi => HS4s5.cl i (lt_of_lt_of_le hi (by decide)))
+      (fun i hi => HS4s5.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
+      HS4s5.k (W := wS4s5) (by decide +kernel))
+
 theorem runFactsS : RunFacts pi.range runuS := by
   obtain ⟨-, bU, -, bA, bB, -, -, -, b0, -, -, b2, -, -, b1, b3, b4, -, -, -, -, -, -, -, g00,
     g01, g10, g11, g20, g21, g30, g31, g40, g41, -⟩ := binds
@@ -251,25 +373,15 @@ theorem runFactsS : RunFacts pi.range runuS := by
     obtain ⟨-, -, -, r0, r1, r2, r3, r4, -⟩ := rows
     simp only [runuS, List.mem_cons, List.not_mem_nil, or_false] at hr
     rcases hr with rfl | rfl | rfl | rfl | rfl
-    · exact row_of_check (si (by simp)) b0 r0 (by simp) (by rfl) (by rfl) g00 g01 CS0.h
-        (fun i hi => CS0.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CS0.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CS0.k
+    · exact row_of_cdvd (si (by simp)) b0 r0 (by simp) (by rfl) (by rfl) g00 g01 CS0.h cdvdS0
         ⟨c2106_1.1, c2106_1.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b1 r1 hUo (by rfl) (by rfl) g10 g11 CS1.h
-        (fun i hi => CS1.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CS1.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CS1.k
+    · exact row_of_cdvd (si (by simp)) b1 r1 hUo (by rfl) (by rfl) g10 g11 CS1.h cdvdS1
         ⟨c10530.1, c10530.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b2 r2 (by simp) (by rfl) (by rfl) g20 g21 CS2.h
-        (fun i hi => CS2.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CS2.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CS2.k
+    · exact row_of_cdvd (si (by simp)) b2 r2 (by simp) (by rfl) (by rfl) g20 g21 CS2.h cdvdS2
         ⟨c5265_1.1, c5265_1.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b3 r3 hUo (by rfl) (by rfl) g30 g31 CS3.h
-        (fun i hi => CS3.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CS3.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CS3.k
+    · exact row_of_cdvd (si (by simp)) b3 r3 hUo (by rfl) (by rfl) g30 g31 CS3.h cdvdS3
         ⟨c117a.1, c117a.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b4 r4 hUo (by rfl) (by rfl) g40 g41 CS4.h
-        (fun i hi => CS4.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CS4.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CS4.k
+    · exact row_of_cdvd (si (by simp)) b4 r4 hUo (by rfl) (by rfl) g40 g41 CS4.h cdvdS4
         ⟨c117b.1, c117b.2.1⟩ (by rfl)
   · exact test_of_cover coverS SS.h (fun i hi => SS.cl i (lt_of_lt_of_le hi (by decide)))
       (fun i hi => SS.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel) SS.k
@@ -314,17 +426,11 @@ theorem runFactsDS : RunFacts pi.range runuDS := by
     obtain ⟨-, -, -, -, -, -, -, -, r0, r1, r2⟩ := rows
     simp only [runuDS, List.mem_cons, List.not_mem_nil, or_false] at hr
     rcases hr with rfl | rfl | rfl
-    · exact row_of_check (si (by simp)) b0 r0 (by simp) (by rfl) (by rfl) g00 g01 CDS0.h
-        (fun i hi => CDS0.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CDS0.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CDS0.k
+    · exact row_of_cdvd (si (by simp)) b0 r0 (by simp) (by rfl) (by rfl) g00 g01 CDS0.h cdvdDS0
         ⟨c5265_2.1, c5265_2.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b1 r1 (by simp) (by rfl) (by rfl) g10 g11 CDS1.h
-        (fun i hi => CDS1.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CDS1.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CDS1.k
+    · exact row_of_cdvd (si (by simp)) b1 r1 (by simp) (by rfl) (by rfl) g10 g11 CDS1.h cdvdDS1
         ⟨c2106_2.1, c2106_2.2.1⟩ (by rfl)
-    · exact row_of_check (si (by simp)) b2 r2 hUo (by rfl) (by rfl) g20 g21 CDS2.h
-        (fun i hi => CDS2.cl i (lt_of_lt_of_le hi (by decide)))
-        (fun i hi => CDS2.tr i (lt_of_lt_of_le hi (by decide))) (by decide +kernel) CDS2.k
+    · exact row_of_cdvd (si (by simp)) b2 r2 hUo (by rfl) (by rfl) g20 g21 CDS2.h cdvdDS2
         ⟨c8424.1, c8424.2.1⟩ (by rfl)
   · exact test_of_cover coverDS SDS.h (fun i hi => SDS.cl i (lt_of_lt_of_le hi (by decide)))
       (fun i hi => SDS.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel) SDS.k

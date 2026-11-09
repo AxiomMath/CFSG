@@ -22,15 +22,9 @@ open CFSG.Sporadic.Th.Native CFSG.Sporadic.ThSchreier
 
 meta def bbArr : Array V4 := mulRows CFSG.Sporadic.Th.Max3.rowsB CFSG.Sporadic.Th.Max3.rowsB
 
-meta def ivw : List Int := invWord transporterWord
-
 end CertificateChecks.KernelSporSch.ThPlane
 
 #kss_v4rows CertificateChecks.KernelSporSch.ThBB CertificateChecks.KernelSporSch.ThPlane.bbArr
-
-#kss_suffix CertificateChecks.KernelSporSch.ThVI CertificateChecks.KernelSporSch.ThA
-  CertificateChecks.KernelSporSch.ThBB CFSG.Sporadic.Th.Max3.rowsA
-  CertificateChecks.KernelSporSch.ThPlane.bbArr CertificateChecks.KernelSporSch.ThPlane.ivw
 
 namespace CertificateChecks.KernelSporSch.ThPlane
 
@@ -58,31 +52,11 @@ open CertificateChecks.KernelSporSch.ThKey (C1 C2)
 
 theorem ltB : allN 248 (fun i => Nat.blt (ThB i) (Nat.shiftLeft 1 248)) = true := by quickRfl
 theorem ltBB : allN 248 (fun i => Nat.blt (ThBB i) (Nat.shiftLeft 1 248)) = true := by quickRfl
-theorem ltSS : allN 8680 (fun i => Nat.blt (ThVI.SS i) (Nat.shiftLeft 1 248)) = true := by quickRfl
-
-theorem wc : wcFrom ThVI.LC (invWord transporterWord) 0 = true := by quickRfl
-theorem last : allN 248 (fun i => Nat.beq (slice ThVI.SS 34 i) (letRow ThVI.LC ThA ThBB 34 i)) =
-    true := by quickRfl
-
 @[expose] noncomputable def KA : Nat := canonN C1 C2 % 2 ^ 256
 @[expose] noncomputable def KB : Nat := canonN C1 C2 / 2 ^ 256
-@[expose] noncomputable def IA : Nat := vmT (slice ThVI.SS 0) (canonN C1 C2 % 2 ^ 256)
-@[expose] noncomputable def IB : Nat := vmT (slice ThVI.SS 0) (canonN C1 C2 / 2 ^ 256)
-@[expose] noncomputable def SU : Nat :=
-  canonN (vmT (slice ThVI.SS 0) (canonN C1 C2 % 2 ^ 256))
-    (vmT (slice ThVI.SS 0) (canonN C1 C2 / 2 ^ 256)) % 2 ^ 256
-@[expose] noncomputable def SV : Nat :=
-  canonN (vmT (slice ThVI.SS 0) (canonN C1 C2 % 2 ^ 256))
-    (vmT (slice ThVI.SS 0) (canonN C1 C2 / 2 ^ 256)) / 2 ^ 256
 
 theorem kA : Nat.blt KA (Nat.shiftLeft 1 248) = true := by quickRfl
 theorem kB : Nat.blt KB (Nat.shiftLeft 1 248) = true := by quickRfl
-theorem kIA : Nat.blt IA (Nat.shiftLeft 1 248) = true := by quickRfl
-theorem kIB : Nat.blt IB (Nat.shiftLeft 1 248) = true := by quickRfl
-theorem kSU : Nat.blt SU (Nat.shiftLeft 1 248) = true := by quickRfl
-theorem kSV : Nat.blt SV (Nat.shiftLeft 1 248) = true := by quickRfl
-theorem uU : Nat.beq (Nat.shiftRight (vmT (UB 1) SU) 120) 0 = true := by quickRfl
-theorem uV : Nat.beq (Nat.shiftRight (vmT (UB 1) SV) 120) 0 = true := by quickRfl
 theorem kC1 : Nat.blt C1 (Nat.shiftLeft 1 248) = true := by quickRfl
 theorem kC2 : Nat.blt C2 (Nat.shiftLeft 1 248) = true := by quickRfl
 

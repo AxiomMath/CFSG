@@ -43,11 +43,21 @@ theorem certificate7195 :
         eqA 1755 a titsZArr) = true)
     ∧ (all5 1755 titsHLevels (fun a =>
         !(CFSG.Monster.B.Co2.Native.allLt 3 fun i => CFSG.Sporadic.Schreier.Tits.inS (CFSG.Sporadic.Schreier.Tits.conjArr a titsSArrs[i]!)) || CFSG.Sporadic.Schreier.Tits.inS a) = true)
-    ∧ (all5 1755 titsSLevels (fun a =>
-        !(CFSG.Sporadic.Schreier.Tits.inS (compA 1755 (compA 1755 (invCand 1755 CFSG.Quasithin.H13.Tits614.pArr) a) CFSG.Quasithin.H13.Tits614.pArr)) || inJ a) = true)
-    ∧ (all5 1755 titsSLevels (fun a =>
-        !(CFSG.Monster.B.Co2.Native.allLt 3 fun i => inE (commArr 1755 (outerArr a) titsHArrs[i]!)) ||
-        ((CFSG.Monster.B.Co2.Native.allLt 2 fun j => CFSG.Sporadic.Schreier.Tits.inK (CFSG.Sporadic.Schreier.Tits.conjArr (outerArr a) titsKArrs[j]!)) &&
-          (CFSG.Monster.B.Co2.Native.allLt 4 fun j => CFSG.Sporadic.Schreier.Tits.inK (commArr 1755 (outerArr a) titsNArrs[j]!)))) = true) := KernelSporSch.T614.batch7195
+    ∧ ((CFSG.Monster.B.Co2.Native.allLt 4 fun j => CFSG.Sporadic.Schreier.Tits.inS (compA 1755 (compA 1755 (invCand 1755 CFSG.Quasithin.H13.Tits614.pArr) titsJArrs[j]!) CFSG.Quasithin.H13.Tits614.pArr)) = true ∧
+      (CFSG.Monster.B.Co2.Native.allLt 3 fun k => !(inJ ((compA 1755 titsSArrs[0]!)^[k + 1] (idA 1755))) &&
+        !(CFSG.Sporadic.Schreier.Tits.inS (compA 1755 (compA 1755 (invCand 1755 CFSG.Quasithin.H13.Tits614.pArr) ((compA 1755 titsSArrs[0]!)^[k + 1] (idA 1755))) CFSG.Quasithin.H13.Tits614.pArr))) = true)
+    ∧ ((CFSG.Monster.B.Co2.Native.allLt 5 fun i => inE (compA 1755 (compA 1755 (invCand 1755 titsGenArrs[1]!) (eGenArr i)) titsGenArrs[1]!)) = true ∧
+      (CFSG.Monster.B.Co2.Native.allLt 3 fun j => CFSG.Monster.B.Co2.Native.allLt 5 fun i =>
+        inE (compA 1755 (compA 1755 (invCand 1755 titsHArrs[j]!) (eGenArr i)) titsHArrs[j]!)) = true ∧
+      (CFSG.Monster.B.Co2.Native.allLt 4 fun j => CFSG.Monster.B.Co2.Native.allLt 5 fun i =>
+        CFSG.Sporadic.Schreier.Tits.inK (compA 1755 (compA 1755 (invCand 1755 titsNArrs[j]!) (eGenArr i)) titsNArrs[j]!)) = true ∧
+      (CFSG.Monster.B.Co2.Native.allLt 3 fun g => CFSG.Monster.B.Co2.Native.allLt 64 fun k =>
+        decide ((ouCov g k).1 < 64) && decide ((ouCov g k).2 < 32) &&
+        eqA 1755 (compA 1755 titsSArrs[g]! (ouRepArr k))
+          (compA 1755 (ouRepArr (ouCov g k).1) (eProdArr (ouCov g k).2))) = true ∧
+      (CFSG.Monster.B.Co2.Native.allLt 64 fun k =>
+        !(CFSG.Monster.B.Co2.Native.allLt 3 fun i => inE (commArr 1755 (outerArr (ouRepArr k)) titsHArrs[i]!)) ||
+        ((CFSG.Monster.B.Co2.Native.allLt 2 fun j => CFSG.Sporadic.Schreier.Tits.inK (CFSG.Sporadic.Schreier.Tits.conjArr (outerArr (ouRepArr k)) titsKArrs[j]!)) &&
+          (CFSG.Monster.B.Co2.Native.allLt 4 fun j => CFSG.Sporadic.Schreier.Tits.inK (commArr 1755 (outerArr (ouRepArr k)) titsNArrs[j]!)))) = true) := KernelSporSch.T614.batch7195
 
 end Certificates

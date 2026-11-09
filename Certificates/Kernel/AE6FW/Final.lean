@@ -37,15 +37,13 @@ theorem sGens_img : ∀ j < (sGens ()).length,
   have e : (sGens ()).getD j 1 = (curtisPerms ()).getD (2 * j) 1 := by
     rw [List.getD_eq_getElem _ _ hj]
     unfold sGens
-    simp only [List.getElem_map]
-    congr 1
     interval_cases j <;> rfl
   rw [e, sc_gen j hj4]
   exact imageList_of_tabN (toTable_eq_tabN (prep_curtis (by omega)))
 
 theorem chainS : ChainK 360 9 (sGens ()) sDerive (#v[0, 2, 4, 24, 8] : Vector (Fin 360) 5)
     SC.S SC.SI SC.LR SC.TR SC.TRI 7 SC.BP SC.NS 24 :=
-  ⟨by norm_num, by norm_num, by norm_num, sGens_img, by decide, SC.head, SC.hl, by decide, SC.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, sGens_img, by decide, SC.head, SC.hl, by decide, .inl SC.hs⟩
 
 theorem ppTLS : ∀ L ∈ trPL 360 9 SC.LR SC.TR 5, ∀ t ∈ L, PP 360 9 t := fun L hL t ht =>
   PP_of_permOK hsz (List.all_eq_true.1 (List.all_eq_true.1 kTRS L hL) t ht)

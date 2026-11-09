@@ -115,10 +115,16 @@ theorem pLam {i : Nat} (hi : i < 4) : P (lambdaTab i) (lamK i) := by
 
 theorem pL4 : P (lambdaTab 3) L4 := pLam (i := 3) (by norm_num)
 
+theorem arr2_get0 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[0]! = a := rfl
+
+theorem arr2_get1 {α : Type} [Inhabited α] (a b : α) : (#[a, b] : Array α)[1]! = b := rfl
+
 theorem pO {j : Nat} (hj : j < 2) : P orbGens[j]! (SuzInvT1.F (Nat.add 20 (Nat.mul 2 j))) := by
   interval_cases j
-  · exact pC (k := 2) (by norm_num)
-  · exact pC (k := 4) (by norm_num)
+  · rw [orbGens, arr2_get0]
+    exact pC (k := 2) (by norm_num)
+  · rw [orbGens, arr2_get1]
+    exact pC (k := 4) (by norm_num)
 
 theorem pS {j : Nat} (hj : j < 4) : P s1Gens[j]! (sK j) := by
   have e : s1Gens[j]! = sylowGenTab (s1Idx.getD j 0) :=

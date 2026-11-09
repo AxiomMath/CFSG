@@ -23,6 +23,6 @@ end
 
 #kss_natlist CertificateChecks.KernelD4.FX CertificateChecks.KernelD4.lcFX
 
-#kc_repo #kc_json_gz CFSG.KD.D4F "Certificates/Kernel/D4/data/field.json.gz" 9692 8585180994262485624
+#kc_repo #kc_json CFSG.KD.D4F "Certificates/Kernel/D4/data/field.json" 9692 8585180994262485624
   (NJ : List Nat) (ZO : List Nat) (ZL : List (List Nat)) (ZC : List (List Nat)) (ZP : List (List (Nat × Nat))) (CD : List (List Nat))
   (CR : List (Nat × Nat)) (CN : List (List Nat)) (CW : List (List (Nat × (List Nat × Nat))))

@@ -1,13 +1,12 @@
 module
 
-public import Certificates.Kernel.B433Alt.OmOK
-import CFSG.Certificates.Kernel.BabyMonster.LoadRange
+public import Certificates.Kernel.B433Alt.OmFast
 public import Mathlib
 
 set_option maxRecDepth 100000
 
 public section
 
-#bm_range CFSG.KD.B4AN sg 0 476 segK
+#b4an_seg_range 0 476
 
 end

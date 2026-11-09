@@ -237,9 +237,8 @@ theorem facts4191 :
       intro x hx hl
       have h1 : π nH ⟨x, hx⟩ = n ⟨x, hx⟩ := hN n hnH ⟨x, hx⟩ (by rw [near_iff hx]; exact hl)
       have h2 : n (n ⟨x, hx⟩) = ⟨x, hx⟩ := by
-        have := congrArg (fun g : Pm => g ⟨x, hx⟩) hnn
-        simpa only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply] using this
-      simp [ev, hx, hσ, Equiv.Perm.mul_apply, h1, h2]
+        rw [← Equiv.Perm.mul_apply, hnn, Equiv.Perm.one_apply]
+      rw [ev, dif_pos hx, hσ, Equiv.Perm.mul_apply, h1, h2]
     have hc : ∀ j < 6, σ * fE j = fE j * σ := by
       intro j hj
       have hcH : n * (fE j * n) ∈ titsH :=

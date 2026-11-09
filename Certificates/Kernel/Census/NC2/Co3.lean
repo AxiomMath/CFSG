@@ -14,11 +14,11 @@ set_option maxRecDepth 400000
   CFSG.Blueprint.NativeSporadic.Co3Seed1 CFSG.Blueprint.NativeSporadic.Co3Seed2
 
 #kc_repo #lay_snaps_live CertificateChecks.KernelNC2.Co3.P 2 22 CertificateChecks.KernelNC2.Co3.L.A
-  CertificateChecks.KernelNC2.Co3.L.B "Certificates/Kernel/Census/NC2/data/co3.json.gz" 20487
+  CertificateChecks.KernelNC2.Co3.L.B "Certificates/Kernel/Census/NC2/data/co3.json" 20487
   15780729301521132011
 
-#kc_repo #kc_json_gz CertificateChecks.KernelNC2.Co3.D
-  "Certificates/Kernel/Census/NC2/data/co3.json.gz" 20487 15780729301521132011
+#kc_repo #kc_json CertificateChecks.KernelNC2.Co3.D
+  "Certificates/Kernel/Census/NC2/data/co3.json" 20487 15780729301521132011
   (a : Nat) (tests : List Nat) (oddExp : Nat) (extra : List Nat) (sq : List Nat)
   (cj : List (List Nat)) (sig : List Nat) (sigma : List Nat) (tau : List Nat)
   (pairs : List (Nat × Nat))

@@ -178,7 +178,7 @@ theorem hF : ∀ x ∈ ruP, ∀ y ∈ ruP, (x ∈ ruP ↔ y ∈ ruP) →
   exact (inv_mul_eq_one.1 h1).symm
 
 theorem hmul : ∀ a ∈ ruP, ∀ b ∈ ruP, (a * b ∈ ruP ↔ (a ∈ ruP ↔ b ∈ ruP)) :=
-  fun a ha b hb => iff_of_true (ruP.mul_mem ha hb) (iff_of_true ha hb)
+  fun _ ha _ hb => iff_of_true (ruP.mul_mem ha hb) (iff_of_true ha hb)
 
 theorem word_k {k : Nat} (hk : k < 3) :
     wordEqK 4060 12 (mask 12) (pidn 4060 12) S3R.S S3R.SI 11 (cWords.getD k []) (CG k) = true ∧
@@ -369,11 +369,23 @@ theorem fr_ok : ∀ i < 7, fr i = 0 ∨ ∃ l e, fr i = 8 * l + e + 1 ∧ l < i 
 theorem tail : ptailOK 4060 (rawLevels 4060 ruThreeArrs ruThreeBaseArr) ruThreeBaseArr
     ruThreeLines[0]! (powPA 3 4060 ruThreeLines[0]!) ruThreeRels ruThreeC0Cert.pts.toList 7 0
     (idA 4060) = true := by
-  refine ptailOK_of_ptK_ tc x0_rep x0_repF (fun r hr => ?_) fr_ok keys_lt ?_ (by norm_num) kTail
+  refine ptailOK_of_ptKF tc x0_rep x0_repF (fun r hr => ?_) fr_ok ?_ ?_ (fun _ hb => absurd hb
+    List.not_mem_nil) ?_ kTail
   · have h := List.all_eq_true.1 kRels r hr
     unfold relAt at h
     rw [bAnd_iff, Nat.blt_eq] at h
     exact h.1
+  · intro i hi h
+    rw [Nat.blt_eq] at h
+    interval_cases i <;> decide
+  · intro y hy e
+    have h := Orb.allN_iff.1 kFX y hy
+    have hb : Nat.beq (x0 y) y = true := by rw [e]; exact Nat.beq_refl y
+    rw [hb] at h
+    have h2 : List.any FX (Nat.beq y) = true := h
+    obtain ⟨z, hz, hzy⟩ := List.any_eq_true.1 h2
+    rw [Nat.eq_of_beq_eq_true hzy]
+    exact hz
   · intro a A ha hA ⟨j, hj, e⟩
     have hR : A ∈ ruP := by
       refine (Subgroup.closure_le _).2 ?_ hA

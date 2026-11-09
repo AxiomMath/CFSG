@@ -327,7 +327,7 @@ theorem nsOK : 4060 ≤ RuES.NS * 4 := Nat.le_of_ble_eq_true (by quickRfl)
 theorem chainS : ChainK 4060 12 gensS noDerivs (#v[0] : Vector (Fin 4060) 1) RuES.S RuES.SI RuES.LR
     RuES.TR RuES.TRI 5 RuES.BP RuES.NS 4 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, RuES.head, RuES.hl,
-    nsOK, RuES.hs⟩
+    nsOK, .inl RuES.hs⟩
   have hj5 : j < 5 := by simpa [gensS] using hj
   rw [List.getD_eq_getElem _ _ hj]
   simp only [gensS, List.getElem_map, List.getElem_range]

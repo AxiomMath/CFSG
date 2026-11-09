@@ -40,10 +40,10 @@ theorem wordValue_eq_evalCodes (S : List (Equiv.Perm (Fin n))) :
     rw [wordValue_cons, evalCodes, wordValue_eq_evalCodes S wd, letterValue_def]
     congr 1
     by_cases h : 0 < z
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       congr 2
       omega
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       congr 3
       omega
 
@@ -80,10 +80,10 @@ theorem prep_conjK {a b x : Equiv.Perm (Fin n)} {A Ai B Bi R : Nat} (hsz : szOK 
 
 theorem baseVec_map [NeZero n] {B : List Nat} (h : ∀ x ∈ B, x < n) :
     (baseVec n B).toList.map Fin.val = B := by
-  simp only [baseVec, Vector.toList_mk, List.toList_toArray, List.map_map]
+  simp only [baseVec, Vector.toList_mk, List.map_map]
   conv_rhs => rw [← List.map_id B]
   refine List.map_congr_left fun x hx => ?_
-  simp [Fin.val_ofNat, Nat.mod_eq_of_lt (h x hx)]
+  simp [Nat.mod_eq_of_lt (h x hx)]
 
 theorem baseVec_nodup [NeZero n] {B : List Nat} (h : ∀ x ∈ B, x < n) (hnd : B.Nodup) :
     (baseVec n B).toList.Nodup := by
@@ -99,7 +99,7 @@ theorem chainK_of [NeZero n] {gens : List (Equiv.Perm (Fin n))} {D : List (List 
     (hK : RawK n w PS PSI LR TR TRI kS gens.length D B.length BP NS CH) :
     ChainK n w gens D (baseVec n B) PS PSI LR TR TRI kS BP NS CH := by
   refine ⟨Nat.pos_of_ne_zero (NeZero.ne n), h1, h2, hgens, ?_, hK.1, hK.2.1, hK.2.2.1,
-    hK.2.2.2⟩
+    .inl hK.2.2.2⟩
   rw [baseVec_map h]
   apply List.ext_getElem (by simp)
   intro j h1 h2
@@ -242,7 +242,7 @@ theorem ng_facts {a b : Equiv.Perm (Fin n)} {N A Ai B Bi : Nat} (hn : 1 ≤ n) (
     have hjs : j < c.strongGenerators.length := by omega
     have eg : c.generators[j] = c.strongGenerators[j] := by
       have := congrArg (fun l => l[j]?) htake
-      simp only [List.getElem?_take, if_pos hj, List.getElem?_eq_getElem hj,
+      simp only [List.getElem?_take, ite_eq_left hj, List.getElem?_eq_getElem hj,
         List.getElem?_eq_getElem hjs] at this
       exact (Option.some.inj this).symm
     rw [eg]
@@ -490,7 +490,7 @@ theorem root_of_K {a b : Equiv.Perm (Fin n)} {BP NS CH : Nat} {PS PSI LR TR TRI 
     intro j hj
     have := congrArg (fun l => l[j]!) hgen
     rw [← this, List.getElem!_eq_getElem?_getD, List.getElem!_eq_getElem?_getD,
-      List.getElem?_take, if_pos (by omega)]
+      List.getElem?_take, ite_eq_left (by omega)]
   have himg : ∀ j < 2, r.chain.generators[j]! = (unpack n w (PS j)).toList := by
     intro j hj
     have hbj := bindsL_spec hS j (by omega)

@@ -5,6 +5,7 @@ public import CFSG.Sporadic.Schreier.Co1GenCheckInputs
 public meta import Certificates.Kernel.SporSch.Co1.GenDag
 public meta import Certificates.Kernel.SporSch.Co1.GenQTowerB
 public import Certificates.Data.Kernel.SporSch.Co1GenB
+public import Certificates.Data.Kernel.SporSch.Co1StabW
 public meta import Certificates.Kernel.SporSch.GenPerms
 public meta import CFSG.Sporadic.Schreier.Co1GenCheckInputs
 import CFSG.Certificates.Kernel.Common.Harness
@@ -44,7 +45,7 @@ end CertificateChecks.KernelSporSch.Co1Gen
 #kss_co1qtowerB CertificateChecks.KernelSporSch.Co1Gen.TW CertificateChecks.KernelSporSch.Co1Gen.TTA
   CertificateChecks.KernelSporSch.Co1Gen.EAA CFSG.Sporadic.Co1Schreier.Data.towerQuot
   CFSG.Sporadic.Co1Schreier.Data.towerGens CertificateChecks.KernelSporSch.Co1Gen.BTA
-  CertificateChecks.KernelSporSch.Co1Gen.ED.M 93 512
+  CertificateChecks.KernelSporSch.Co1Gen.ED.M 93 64
 
 namespace CertificateChecks.KernelSporSch.Co1Gen
 
@@ -57,7 +58,7 @@ open CertificateChecks.KernelSporSch.Co1Split CertificateChecks.KernelSporSch.Co
     nIf(Nat.beq i 8, GF 2, XP 0))))
 
 theorem kEI : allN 10 (fun i => Nat.beq (ED.M i) (EI i)) = true := by quickRfl
-theorem kD : dagIK ED.M ED.MI 10 ED.N Data.genDerivs = true := by quickRfl
+theorem kD : dagIWK ED.M ED.MI 10 ED.N Data.genDerivs = true := by quickRfl
 theorem kN : Nat.beq ED.N 93 = true := by quickRfl
 
 theorem tbNeg : bIf(tabOK (ED.M 0) (Nat.xor (TW.B 0) 1), false, true) = true := by quickRfl

@@ -96,11 +96,32 @@ theorem canon_smul : ∀ c : ZMod 5, c ≠ 0 → ∀ v : V3, canon (c • v) = c
 
 @[expose] def actD (τ : Perm (Fin 5)) (u : V3) : V3 := fun k => u ⬝ᵥ (act τ⁻¹ (Pi.single k 1))
 
-theorem lines_ge_six : ∀ v : V3, v ≠ 0 → 6 ≤ (words.image (fun w => canon (act w v))).card := by
+private def wordsT : Finset (Fin 5 × Fin 5 × Fin 5) :=
+  {(0, 0, 0), (0, 0, 1), (0, 0, 2), (0, 0, 3), (0, 0, 4), (0, 1, 0), (0, 2, 0), (0, 3, 0),
+    (0, 4, 0), (1, 3, 1)}
+
+private def words10 : Finset (Perm (Fin 5)) :=
+  wordsT.image (fun p => sg ^ (p.1 : ℕ) * sg' ^ (p.2.1 : ℕ) * sg ^ (p.2.2 : ℕ))
+
+private lemma words10_sub : words10 ⊆ words := by
+  unfold words10 words
+  exact Finset.image_subset_image (Finset.subset_univ _)
+
+private lemma lines_ge_six_aux : ∀ v : V3, v ≠ 0 →
+    6 ≤ (words10.image (fun w => canon (act w v))).card := by
   decide +kernel
 
-theorem planes_ge_six : ∀ u : V3, u ≠ 0 →
-    6 ≤ (words.image (fun w => canon (actD w u))).card := by
+private lemma planes_ge_six_aux : ∀ u : V3, u ≠ 0 →
+    6 ≤ (words10.image (fun w => canon (actD w u))).card := by
   decide +kernel
+
+theorem lines_ge_six : ∀ v : V3, v ≠ 0 → 6 ≤ (words.image (fun w => canon (act w v))).card :=
+  fun v hv => (lines_ge_six_aux v hv).trans
+    (Finset.card_le_card (Finset.image_subset_image words10_sub))
+
+theorem planes_ge_six : ∀ u : V3, u ≠ 0 →
+    6 ≤ (words.image (fun w => canon (actD w u))).card :=
+  fun u hu => (planes_ge_six_aux u hu).trans
+    (Finset.card_le_card (Finset.image_subset_image words10_sub))
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD309L

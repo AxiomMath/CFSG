@@ -5,6 +5,7 @@ public import CFSG.Monster.GMS.S365CosetInputs
 public import CFSG.Certificates.Kernel.Co1BMulSound
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar
+import Mathlib.Data.List.GetD
 
 public section
 

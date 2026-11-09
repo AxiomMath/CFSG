@@ -484,9 +484,9 @@ theorem card_vf_four_five :
 theorem card_vf_four : (Finset.univ.filter fun p : Fin nPts => vf p = 4).card = 52136 := by
   classical
   have h := Finset.card_filter_add_card_filter_not (s := Finset.univ.filter
-    fun p : Fin nPts => cl p = 3) (fun p => In20 p)
+    fun p : Fin nPts => cl p = 3) In20
   rw [card_cl] at h
-  have e4 : (Finset.univ.filter fun p : Fin nPts => cl p = 3).filter (fun p => In20 p) =
+  have e4 : (Finset.univ.filter fun p : Fin nPts => cl p = 3).filter In20 =
       Finset.univ.filter fun p : Fin nPts => vf p = 4 := by
     ext p
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, vf_four_iff]

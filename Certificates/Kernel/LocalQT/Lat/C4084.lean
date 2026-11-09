@@ -1,6 +1,8 @@
 module
 
 public import CFSG.Certificates.Kernel.LocalQTLatMSound
+import CFSG.Certificates.Kernel.LocalQTChainGFull
+public import CFSG.Certificates.Kernel.LocalQTSimsSound
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.A312ListM11Inputs
 import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.LocalQTListLemmas
@@ -80,92 +82,55 @@ theorem p0 : memsOK (cert.tGens.map code) (cert.lat.map (List.map code)) ms = tr
 theorem p1a : chainOK 11 C = true := by quickRfl
 theorem p1bg : CFSG.KC.LQT.P.allL (cert.mGens.map code) (inC 11 C (chainF C)) = true := by quickRfl
 theorem p1bw : wordsC 11 C (cert.mGens.map code) MW cert.depth = true := by quickRfl
-theorem p1bc0 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 0 = true := by quickRfl
-theorem p1bc1 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 1 = true := by quickRfl
-theorem p1bc2 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 2 = true := by quickRfl
-theorem p1bc3 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 3 = true := by quickRfl
-theorem p1bc4 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 4 = true := by quickRfl
-theorem p1bc5 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 5 = true := by quickRfl
-theorem p1bc6 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 6 = true := by quickRfl
-theorem p1bc7 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 7 = true := by quickRfl
-theorem p1bc8 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 8 = true := by quickRfl
-theorem p1bc9 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 9 = true := by quickRfl
-theorem p1bc10 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 10 = true := by quickRfl
+theorem inj : chainInj 11 C = true := by quickRfl
+theorem p1bS : CFSG.KC.LQT.PH.grpS 11 C (chainF C) (cert.mGens.map code) MW cert.depth = true := by
+  quickRfl
+theorem p1bG : ∀ σ, CFSG.KC.LQT.CM.InC 11 C σ ↔ σ ∈ Subgroup.closure {g | g ∈ cert.mGens} :=
+  (CFSG.KC.LQT.CM.grpS_sound (by norm_num) p1a inj cert.mGens p1bS).1
 theorem p1b : grpC 11 C (chainF C) (cert.mGens.map code) MW cert.depth = true :=
-  grpC_intro (lv := C.head!) (C := C.tail) p1bg p1bw fun j hj => match j, hj with
-    | 0, _ => p1bc0
-    | 1, _ => p1bc1
-    | 2, _ => p1bc2
-    | 3, _ => p1bc3
-    | 4, _ => p1bc4
-    | 5, _ => p1bc5
-    | 6, _ => p1bc6
-    | 7, _ => p1bc7
-    | 8, _ => p1bc8
-    | 9, _ => p1bc9
-    | 10, _ => p1bc10
-    | _k + 11, h => absurd h (Nat.not_lt.2 (Nat.le_add_left _ _))
+  CFSG.KC.LQT.CM.grpC_of_closure (by norm_num) p1a inj cert.mGens cert.mGens p1bG p1bg p1bw
 theorem p1bM : grpM 11 C (chainF C) cert.depth (cert.mGens.map code) MW = true :=
   grpM_of_grpC p1b
+theorem memChecks : (closedX 11 C (chainF C) cert.depth mem0
+      (mkX 11 C (chainF C) cert.depth mem0) &&
+    (closedX 11 C (chainF C) cert.depth mem1 (mkX 11 C (chainF C) cert.depth mem1) &&
+    (closedX 11 C (chainF C) cert.depth mem2 (mkX 11 C (chainF C) cert.depth mem2) &&
+    (closedX 11 C (chainF C) cert.depth mem4 (mkX 11 C (chainF C) cert.depth mem4) &&
+    (repsC 11 C (chainF C) (cert.tGens.map code) (membersX 11 C (chainF C) cert.depth ms)
+      (repsCode cert) &&
+    (joinsC 11 C (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.joins &&
+    (sizesC (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.sizes cert.msize &&
+    containsC 11 C 64 (cert.tGens.map code) (cert.lat.map (List.map code)) ms cert.sizes
+      (aGens.map code) 5 720))))))) = true := by
+  quickRfl
 theorem q0 : closedX 11 C (chainF C) cert.depth mem0
-    (mkX 11 C (chainF C) cert.depth mem0) = true := by quickRfl
+    (mkX 11 C (chainF C) cert.depth mem0) = true :=
+  (Bool.and_eq_true_iff.mp memChecks).1
 theorem q1 : closedX 11 C (chainF C) cert.depth mem1
-    (mkX 11 C (chainF C) cert.depth mem1) = true := by quickRfl
+    (mkX 11 C (chainF C) cert.depth mem1) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks).2).1
 theorem q2 : closedX 11 C (chainF C) cert.depth mem2
-    (mkX 11 C (chainF C) cert.depth mem2) = true := by quickRfl
+    (mkX 11 C (chainF C) cert.depth mem2) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks).2).2).1
+theorem memChecks4 : (closedX 11 C (chainF C) cert.depth mem4
+      (mkX 11 C (chainF C) cert.depth mem4) &&
+    (repsC 11 C (chainF C) (cert.tGens.map code) (membersX 11 C (chainF C) cert.depth ms)
+      (repsCode cert) &&
+    (joinsC 11 C (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.joins &&
+    (sizesC (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.sizes cert.msize &&
+    containsC 11 C 64 (cert.tGens.map code) (cert.lat.map (List.map code)) ms cert.sizes
+      (aGens.map code) 5 720)))) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks).2).2).2
 theorem m3g : CFSG.KC.LQT.P.allL mem3.1 (inC 11 C (chainF C)) = true := by quickRfl
 theorem m3w : wordsC 11 C mem3.1 mem3.2.2 cert.depth = true := by quickRfl
-theorem m3c0 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 0 = true := by quickRfl
-theorem m3c1 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 1 = true := by quickRfl
-theorem m3c2 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 2 = true := by quickRfl
-theorem m3c3 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 3 = true := by quickRfl
-theorem m3c4 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 4 = true := by quickRfl
-theorem m3c5 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 5 = true := by quickRfl
-theorem m3c6 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 6 = true := by quickRfl
-theorem m3c7 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 7 = true := by quickRfl
-theorem m3c8 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 8 = true := by quickRfl
-theorem m3c9 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 9 = true := by quickRfl
-theorem m3c10 : chainChunk 11 C
-    (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 11 C (chainF C) (CFSG.KC.LQT.P.mul 11 s g)) 10 = true := by quickRfl
 theorem m3 : grpC 11 C (chainF C) mem3.1 mem3.2.2 cert.depth = true :=
-  grpC_intro (lv := C.head!) (C := C.tail) m3g m3w fun j hj => match j, hj with
-    | 0, _ => m3c0
-    | 1, _ => m3c1
-    | 2, _ => m3c2
-    | 3, _ => m3c3
-    | 4, _ => m3c4
-    | 5, _ => m3c5
-    | 6, _ => m3c6
-    | 7, _ => m3c7
-    | 8, _ => m3c8
-    | 9, _ => m3c9
-    | 10, _ => m3c10
-    | _k + 11, h => absurd h (Nat.not_lt.2 (Nat.le_add_left _ _))
+  CFSG.KC.LQT.CM.grpC_of_closure (by norm_num) p1a inj cert.mGens
+    ((cert.tGens :: cert.lat).getD 3 []) p1bG m3g m3w
 theorem q3 : closedX 11 C (chainF C) cert.depth mem3
     (mkX 11 C (chainF C) cert.depth mem3) = true := m3
 theorem q4 : closedX 11 C (chainF C) cert.depth mem4
-    (mkX 11 C (chainF C) cert.depth mem4) = true := by quickRfl
+    (mkX 11 C (chainF C) cert.depth mem4) = true :=
+  (Bool.and_eq_true_iff.mp memChecks4).1
 theorem p1c : allA (membersX 11 C (chainF C) cert.depth ms) (fun p =>
     closedX 11 C (chainF C) cert.depth p.1 p.2) = true :=
   allA_cons q0 (allA_cons q1 (allA_cons q2 (allA_cons q3 (allA_cons q4 rfl))))
@@ -175,19 +140,23 @@ theorem p1 : closedOKC 11 C (chainF C) cert.depth (cert.mGens.map code) MW ms = 
 theorem p2 : coverC 11 C (chainF C) (bfsM 11 C (chainF C) (cert.tGens.map code) cert.depth)
     (repsCode cert) = true := by quickRfl
 theorem p3 : repsC 11 C (chainF C) (cert.tGens.map code) (membersX 11 C (chainF C) cert.depth ms)
-    (repsCode cert) = true := by quickRfl
-theorem p4 : joinsC 11 C (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.joins = true := by
-  quickRfl
+    (repsCode cert) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks4).2).1
+theorem p4 : joinsC 11 C (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.joins = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks4).2).2).1
 theorem p5 : sizesC (chainF C) (membersX 11 C (chainF C) cert.depth ms) cert.sizes cert.msize =
-    true := by quickRfl
+    true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp
+    (Bool.and_eq_true_iff.mp memChecks4).2).2).2).1
 theorem p6 : tleC 11 C (chainF C) (cert.tGens.map code) = true := by quickRfl
 theorem hl : latC 11 C cert.depth (cert.mGens.map code) MW (cert.tGens.map code)
     (cert.lat.map (List.map code)) ms (repsCode cert) cert.joins cert.sizes cert.msize = true :=
   latC_intro p0 p1 p2 p3 p4 p5 p6
 theorem hd : diagK 11 6 64 (aGens.map code) (a6Gens.map code) 360 = true := by quickRfl
 theorem hc : containsC 11 C 64 (cert.tGens.map code) (cert.lat.map (List.map code)) ms cert.sizes
-    (aGens.map code) 5 720 = true := by quickRfl
-theorem inj : chainInj 11 C = true := by quickRfl
+    (aGens.map code) 5 720 = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp
+    (Bool.and_eq_true_iff.mp memChecks4).2).2).2).2
 
 end CFSG.KD.LQT.C4084
 

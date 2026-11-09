@@ -12,8 +12,8 @@ public section
 
 namespace CFSG.KAct.XU42H
 
-#kc_repo #kc_json_gz CFSG.KAct.XU42H
-  "Certificates/Kernel/Misc/Coset/XU42HA/data/Data.json.gz" 359 14090030730136653308
+#kc_repo #kc_json CFSG.KAct.XU42H
+  "Certificates/Kernel/Misc/Coset/XU42HA/data/Data.json" 359 14090030730136653308
   (R : List (List Nat)) (W : List (List Nat)) (M : List (List Nat)) (C0 : List Nat)
 
 end CFSG.KAct.XU42H

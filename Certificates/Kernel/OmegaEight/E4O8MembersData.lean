@@ -14,8 +14,8 @@ namespace CertificateChecks.KernelO8
 #ks_chars_of CertificateChecks.KernelO8.e4MS
   (CFSG.ClassicalInvolution.Q3.TL4.E4O8Data.memberWordsStr ())
 
-#kc_repo #kc_json_gz CertificateChecks.KernelO8
-  "Certificates/Kernel/OmegaEight/data/E4O8Members.json.gz" 197591 16335964188315069006
+#kc_repo #kc_json CertificateChecks.KernelO8
+  "Certificates/Kernel/OmegaEight/data/E4O8Members.json" 197591 16335964188315069006
   (e4MR : List (List Nat × (Nat × Nat)))
 
 end CertificateChecks.KernelO8

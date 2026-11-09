@@ -28,13 +28,6 @@ theorem chain_check :
 theorem word_orders :
     ordB bs wA 2 = true ∧ ordB bs wB 5 = true ∧ ordB bs (patW wA wB [false, true]) 11 = true ∧
       ordB bs (patW wA wB commPat) 5 = true :=
-  Certificates.certificate2241.2.1
-
-theorem classes :
-    (∀ c ∈ cl, ordB bs c.1 2 = true) ∧
-      (∀ c ∈ cl, closureOK levels bs gens gensInv c.1 c.2.1 c.2.2.1 c.2.2.2 = true) ∧
-      keysDistinctNF 275 levels bs (cl.map fun c => c.2.1) = true ∧
-      (cl.map fun c => c.2.1.size).sum = 22275 :=
-  Certificates.certificate2241.2.2
+  Certificates.certificate2241.2
 
 end CFSG.Sporadic.Schreier.PairMcL

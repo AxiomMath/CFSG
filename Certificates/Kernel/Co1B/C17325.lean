@@ -27,8 +27,8 @@ open CFSG.KC.Co1BBoundN CFSG.KC.Co1BBound CFSG.KC.Co1BSpin CFSG.KC.Co1B CFSG.KC.
   CFSG.Sporadic.Co1Schreier.Native CFSG.Sporadic.Co1Block CFSG.Sporadic.Co1.TwoBNative
 open CertificateChecks.KernelCo1B.Bound17591 (XB)
 open CertificateChecks.KernelCo1B.Bound17330 (boundOK_of_sel wf_unpackR not_of_notB mul_unpackW')
-open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_K bfsTree gensArr gtPinK
-  gtPinK_of_seg invOKW invOKW_sound)
+open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_K gtBFS_of_bfsK bfsTree gensArr gtPinK
+  bfsK gtStepK idM gtPinK_of_seg invOKW invOKW_sound)
 
 theorem DB_base : [aR, bR] = (List.range 2).map fun i => CFSG.KS.Raw.unpack 24 24 (DB.M i) := by
   have h := kDBB
@@ -153,7 +153,8 @@ theorem c_yy : (mul (nd (kDag ext) 90) (mul (mul (nd (kDag ext) 91) (nd (kDag ex
   rw [y2_eq, y1_eq, mul_unpackW', mul_unpackW', beq_unpack]
   exact kSmall'.2.2.2.2.2.2.2.2.2.2
 
-theorem kLT' : gtPinK LM 2 200 LT.N LT.P LT.PAR LT.LAB LT.W LT.S = true ∧ LT.N = 60 := by
+theorem kLT' : bfsK (gtStepK LM) LT.P LT.PAR LT.LAB LT.W LT.S 2 200 LT.N idM = true ∧
+    LT.N = 60 := by
   have h := kLT
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
@@ -180,7 +181,7 @@ theorem EG_eq : [nd (kDag ext) 88, nd (kDag ext) 89, nd (kDag ext) 90, nd (kDag 
 theorem gtL_eq : gtBFS [nd (kDag ext) 89, nd (kDag ext) 90].toArray 200 =
     bfsTree LT.N LT.P LT.PAR LT.LAB := by
   rw [LG_eq]
-  exact (gtBFS_of_K kLT'.1).1
+  exact (gtBFS_of_bfsK kLT'.1 (by rw [kLT'.2]; decide)).1
 
 theorem gtE_eq : gtBFS [nd (kDag ext) 88, nd (kDag ext) 89, nd (kDag ext) 90,
     nd (kDag ext) 91].toArray 40000 = bfsTree ET.N ET.P ET.PAR ET.LAB := by
@@ -190,7 +191,7 @@ theorem gtE_eq : gtBFS [nd (kDag ext) 88, nd (kDag ext) 89, nd (kDag ext) 90,
 theorem c_gtL : gtOK [nd (kDag ext) 89, nd (kDag ext) 90].toArray
     (gtBFS [nd (kDag ext) 89, nd (kDag ext) 90].toArray 200) = true := by
   rw [gtL_eq, LG_eq]
-  exact (gtBFS_of_K kLT'.1).2
+  exact (gtBFS_of_bfsK kLT'.1 (by rw [kLT'.2]; decide)).2
 
 theorem c_gtE : gtOK [nd (kDag ext) 88, nd (kDag ext) 89, nd (kDag ext) 90, nd (kDag ext) 91].toArray
     (gtBFS [nd (kDag ext) 88, nd (kDag ext) 89, nd (kDag ext) 90, nd (kDag ext) 91].toArray 40000) =

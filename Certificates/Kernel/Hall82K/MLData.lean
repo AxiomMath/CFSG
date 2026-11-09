@@ -1,10 +1,10 @@
 module
 
 public import Certificates.Data.Kernel.Hall82K.ML
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Hall82L "Certificates/Kernel/Hall82K/data/hall82ml.items.gz" 23447 3556894721903570406
+#kc_repo #kc_nat_items CFSG.KD.Hall82L "Certificates/Kernel/Hall82K/data/hall82ml.items" 23447 3556894721903570406
   MRT MZI MCW MNV MCT YC TC MYI YTE YTPA YTSG YTCT MF8
 
 public section

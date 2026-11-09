@@ -5,6 +5,8 @@ public import Certificates.Kernel.SuzThree13637.BindSrc
 public import Certificates.Kernel.Sporadic.Suz.Chain2306
 public import Certificates.Data.Kernel.Spor.HypK
 public import Certificates.Data.Kernel.PGrp
+public import Certificates.Kernel.SporE81.SuzQWords
+public import CFSG.Certificates.Kernel.Spor.PosWordSplit
 public meta import Certificates.Kernel.SuzThree13637.BindSrc
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -38,9 +40,15 @@ theorem bind_letters : (suzE81.qW.toList.all fun w => w.all fun l => decide (l <
   simp only [suzE81, Array.toList_map, Array.size_map]
   decide +kernel
 
+#kc_posword_split bind_q0 75 : posWordK 1782 11 bG CertificateChecks.KernelE81.SuzQW.W0 = Q0
+
+#kc_posword_split bind_q1 75 : posWordK 1782 11 bG CertificateChecks.KernelE81.SuzQW.W1 = Q1
+
+#kc_posword_split bind_q2 75 : posWordK 1782 11 bG CertificateChecks.KernelE81.SuzQW.W2 = Q2
+
 theorem bind_q : suzE81.qW.toList.map (posWordK 1782 11 bG) = [Q0, Q1, Q2] := by
-  simp only [suzE81, Array.toList_map]
-  decide +kernel
+  rw [CertificateChecks.KernelE81.SuzQW.qW_toList, List.map_cons, List.map_cons, List.map_cons,
+    List.map_nil, bind_q0, bind_q1, bind_q2]
 
 theorem bind_d : (suzE81.dW[0]!).toList.map (posWordK 1782 11 qG) = F.D := by
   simp only [suzE81, Array.toList_map]

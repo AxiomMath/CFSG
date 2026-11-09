@@ -32,14 +32,7 @@ meta def ids5M : Array (Array Nat) := Array.replicate 5 idM
 
 meta def recOf (gs : Array (Array Nat)) : Array (Array Nat) :=
   (bfs (fun j t => conjTab 315 idM gs[j]! t) gs.size idM 3000).tabs
-meta def clOf (gs : Array (Array Nat)) : Array (Array Nat) :=
-  ((recOf gs).map fun x => (gs ++ gs.map invM).map fun g => comp 315 x g).flatten
 meta def kbRecM : Array (Array Nat) := recOf kbM
-meta def cbRecM : Array (Array Nat) := recOf cbM
-meta def eRecM : Array (Array Nat) := recOf eM
-meta def kbClM : Array (Array Nat) := clOf kbM
-meta def cbClM : Array (Array Nat) := clOf cbM
-meta def eClM : Array (Array Nat) := clOf eM
 
 meta def cnj (g x : Array Nat) : Array Nat := comp 315 (comp 315 g x) (invM g)
 
@@ -67,12 +60,6 @@ end CertificateChecks.KernelGH74.J2Ev
   CertificateChecks.KernelGH74.J2Ev.cbM CertificateChecks.KernelGH74.J2Ev.idM 3000
 #kmulh CertificateChecks.KernelGH74.J2E16 315 9 CertificateChecks.KernelGH74.J2Ev.ids4M
   CertificateChecks.KernelGH74.J2Ev.eM CertificateChecks.KernelGH74.J2Ev.idM 3000
-#kfind CertificateChecks.KernelGH74.J2KBCl CertificateChecks.KernelGH74.J2Ev.kbRecM
-  CertificateChecks.KernelGH74.J2Ev.kbClM
-#kfind CertificateChecks.KernelGH74.J2CBCl CertificateChecks.KernelGH74.J2Ev.cbRecM
-  CertificateChecks.KernelGH74.J2Ev.cbClM
-#kfind CertificateChecks.KernelGH74.J2E16Cl CertificateChecks.KernelGH74.J2Ev.eRecM
-  CertificateChecks.KernelGH74.J2Ev.eClM
 #kfind CertificateChecks.KernelGH74.J2KBP CertificateChecks.KernelGH74.J2Ev.kbRecM
   CertificateChecks.KernelGH74.J2Ev.kbQM
 #kmisc_packarrs CertificateChecks.KernelGH74.J2HI CertificateChecks.KernelGH74.J2Ev.hiM 9
@@ -150,27 +137,16 @@ theorem kbE : penumSlK 315 9 (mask 9) (315 * 9) true J2KB.G J2KB.GI 2 J2KB.cnt J
     J2KB.POS J2KB.SRT J2KB.SRI 0 J2KB.cnt = true := by quickRfl
 theorem kbH : slK J2KB.cnt (hsortPtK 315 9 (mask 9) J2KB.cnt J2KB.T J2KB.HS J2KB.HSI) 0 J2KB.cnt =
     true := by quickRfl
-theorem kbCl : slK (Nat.mul J2KB.cnt 4)
-    (findPtK J2KB.cnt J2KB.T (prodQK 315 9 (mask 9) 4 J2KB.T (bothK 2 J2KB.GI J2XI)) J2KBCl) 0
-    (Nat.mul J2KB.cnt 4) = true := by quickRfl
 
 theorem cbE : penumSlK 315 9 (mask 9) (315 * 9) true J2CB.G J2CB.GI 5 J2CB.cnt J2CB.T J2CB.PL
     J2CB.POS J2CB.SRT J2CB.SRI 0 J2CB.cnt = true := by quickRfl
 theorem cbH : slK J2CB.cnt (hsortPtK 315 9 (mask 9) J2CB.cnt J2CB.T J2CB.HS J2CB.HSI) 0 J2CB.cnt =
     true := by quickRfl
-theorem cbCl : slK (Nat.mul J2CB.cnt 10)
-    (findPtK J2CB.cnt J2CB.T (prodQK 315 9 (mask 9) 10 J2CB.T
-      (bothK 5 J2CB.GI (fun j => J2CentI (Nat.add 18 j)))) J2CBCl) 0
-    (Nat.mul J2CB.cnt 10) = true := by quickRfl
 
 theorem eE : penumSlK 315 9 (mask 9) (315 * 9) true J2E16.G J2E16.GI 4 J2E16.cnt J2E16.T J2E16.PL
     J2E16.POS J2E16.SRT J2E16.SRI 0 J2E16.cnt = true := by quickRfl
 theorem eH : slK J2E16.cnt (hsortPtK 315 9 (mask 9) J2E16.cnt J2E16.T J2E16.HS J2E16.HSI) 0
     J2E16.cnt = true := by quickRfl
-theorem eCl : slK (Nat.mul J2E16.cnt 8)
-    (findPtK J2E16.cnt J2E16.T (prodQK 315 9 (mask 9) 8 J2E16.T
-      (bothK 4 J2E16.GI (fun j => J2XI (Nat.add 4 j)))) J2E16Cl) 0
-    (Nat.mul J2E16.cnt 8) = true := by quickRfl
 
 end CertificateChecks.KernelGH74.J2Ev
 

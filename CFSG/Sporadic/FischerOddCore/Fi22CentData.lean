@@ -1,11 +1,10 @@
 module
 
+public import CFSG.Sporadic.FischerOddCore.Fi22CentLines
+
 public section
 
 namespace CFSG.Sporadic.FischerOddCore
-
-@[expose] def fi22Cent3510Text : String :=
-  include_str "../../../Certificates/Data/CFSGNative/FischerOddCore/fi22-cent-3510.txt"
 
 @[expose] def fi22CentLineCount : Nat := 306
 

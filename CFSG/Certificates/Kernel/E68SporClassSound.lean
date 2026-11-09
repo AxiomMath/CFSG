@@ -3,6 +3,7 @@ module
 public import CFSG.Certificates.Kernel.SporLatOmRun
 public import CFSG.Certificates.Kernel.SporLatOrbSound
 public import Certificates.Data.Kernel.SporLatOrbP
+public import CFSG.Certificates.Kernel.SporLatOrbNSound
 import CFSG.Quasithin.EmptyFaithful.GoldschmidtThreeDLocKer
 import Mathlib.Data.List.Sort
 
@@ -209,14 +210,16 @@ theorem grAct_labP {n w : Nat} (hw : n ≤ 2 ^ w) {t ti T : Nat} {tA : Array Nat
   rw [e2]
   exact (hperm.map _).symm
 
-theorem classChk_of_orbP {n w : Nat} {ta tb zT : Array Nat} {t0 ti0 t1 ti1 z s : Nat}
+theorem classChk_of_orbF {n w : Nat} {ta tb zT : Array Nat} {t0 ti0 t1 ti1 z s : Nat}
     (hw : n ≤ 2 ^ w) (ha : Good n ta (gP w t0)) (hb : Good n tb (gP w t1))
     (hia : invB n w t0 ti0 = true) (hib : invB n w t1 ti1 = true)
     (hz : z = packL w ((List.range n).map fun p => zT.getD p 0)) (hzn : ltB n zT = true)
-    (h : orbChk (actS w n [(t0, ti0), (t1, ti1)]) 2 [z] s = true) :
+    (hO : ∃ O : List (List Nat), O.Nodup ∧ O.length = s ∧ [z] ∈ O ∧
+      (∀ x ∈ O, ∀ l < 2, actS w n [(t0, ti0), (t1, ti1)] l x ∈ O) ∧
+      ∀ x ∈ O, Reach (actS w n [(t0, ti0), (t1, ti1)]) 2 [z] x) :
     classChk n ta tb zT s = true := by
   have hzn' := lt_of_ltB hzn
-  obtain ⟨Oc, hnd, hlen, hΔ, hcl, hreach⟩ := orbChk_sound (actS w n [(t0, ti0), (t1, ti1)]) 2 [z] h
+  obtain ⟨Oc, hnd, hlen, hΔ, hcl, hreach⟩ := hO
   have hzPV : PV n w z := ⟨_, by simp, fun e he => by
     obtain ⟨p, hp, rfl⟩ := List.mem_map.1 he
     exact hzn' p (List.mem_range.1 hp), hz⟩
@@ -274,6 +277,48 @@ theorem classChk_of_orbP {n w : Nat} {ta tb zT : Array Nat} {t0 ti0 t1 ti1 z s :
     obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hy
     obtain ⟨T, rfl, hT, hr⟩ := hform x (hreach x hx)
     exact hr
+
+theorem classChk_of_orbP {n w : Nat} {ta tb zT : Array Nat} {t0 ti0 t1 ti1 z s : Nat}
+    (hw : n ≤ 2 ^ w) (ha : Good n ta (gP w t0)) (hb : Good n tb (gP w t1))
+    (hia : invB n w t0 ti0 = true) (hib : invB n w t1 ti1 = true)
+    (hz : z = packL w ((List.range n).map fun p => zT.getD p 0)) (hzn : ltB n zT = true)
+    (h : orbChk (actS w n [(t0, ti0), (t1, ti1)]) 2 [z] s = true) :
+    classChk n ta tb zT s = true :=
+  classChk_of_orbF hw ha hb hia hib hz hzn (orbChk_sound _ 2 [z] h)
+
+theorem orbF_of_orbRec {Ls : List (Nat × Nat)} {w n z s iz : Nat} {actF : Nat → Nat → Nat}
+    {R : Nat → Nat} (hact : ∀ l T, actS w n Ls l [T] = [actF l T])
+    (h : orbRec actF R s z iz = true) :
+    ∃ O : List (List Nat), O.Nodup ∧ O.length = s ∧ [z] ∈ O ∧
+      (∀ x ∈ O, ∀ l < 2, actS w n Ls l x ∈ O) ∧ ∀ x ∈ O, Reach (actS w n Ls) 2 [z] x := by
+  obtain ⟨O, hnd, hlen, hΔ, hcl, hreach⟩ := orbRec_sound actF z h
+  have hr : ∀ T, ReachN actF 2 z T → Reach (actS w n Ls) 2 [z] [T] := by
+    intro T hT
+    induction hT with
+    | base => exact Reach.base
+    | step _ hl ih =>
+      have := Reach.step ih hl
+      rwa [hact] at this
+  refine ⟨O.map fun T => [T], hnd.map fun a b e => by simpa using e, by simpa using hlen,
+    List.mem_map_of_mem hΔ, ?_, ?_⟩
+  · intro x hx l hl
+    obtain ⟨T, hT, rfl⟩ := List.mem_map.1 hx
+    rw [hact]
+    exact List.mem_map_of_mem (hcl T hT l hl)
+  · intro x hx
+    obtain ⟨T, hT, rfl⟩ := List.mem_map.1 hx
+    exact hr T (hreach T hT)
+
+theorem classChk_of_tabR {w n : Nat} {ta tb zT : Array Nat} {s iz : Nat} {actF : Nat → Nat → Nat}
+    {R : Nat → Nat} (hn : n ≤ 2 ^ w) (ht : tabOK w n ta tb = true) (hz : ltB n zT = true)
+    (hact : ∀ l T, actS w n [pk w n ta.toList, pk w n tb.toList] l [T] = [actF l T])
+    (h : orbRec actF R s (pz w n zT) iz = true) :
+    classChk n ta tb zT s = true := by
+  unfold tabOK at ht
+  simp only [Bool.and_eq_true] at ht
+  obtain ⟨⟨⟨ha, hb⟩, hia⟩, hib⟩ := ht
+  exact classChk_of_orbF hn (good_of_goodB ha) (good_of_goodB hb) hia hib rfl hz
+    (orbF_of_orbRec hact h)
 
 theorem classChk_of_tab {w n : Nat} {ta tb zT : Array Nat} {s : Nat} (hn : n ≤ 2 ^ w)
     (ht : tabOK w n ta tb = true) (hz : ltB n zT = true)

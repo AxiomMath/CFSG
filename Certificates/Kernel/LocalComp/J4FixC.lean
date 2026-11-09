@@ -12,10 +12,7 @@ namespace CertificateChecks.KernelLC.J4Fix
 open CFSG.KC.J4Fix CertificateChecks.KernelLC.J4R
 
 set_option maxHeartbeats 0 in
-theorem central_K : fixCentralK 112 (zK JA.M JB.M) = true := by decide +kernel
-
-set_option maxHeartbeats 0 in
-theorem powXY_K : powXYK 112 (xK JA.M JB.M) (yK JA.M JB.M) = true := by decide +kernel
+theorem central_K : fixDimFK 112 (zK JA.M JB.M) 2 = true := by decide +kernel
 
 theorem h40_K : Nat.beq (CFSG.KC.OpsF2K.powK 112 (hK JA.M JB.M) 40) (CFSG.KC.M1F2.idF 112) =
     true := by

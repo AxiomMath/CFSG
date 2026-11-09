@@ -5,8 +5,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.RootOrbit
-  "Certificates/Kernel/RootOrbit/data/roots.json.gz" 15934 15942875260253310548
+#kc_repo #kc_json CFSG.KD.RootOrbit
+  "Certificates/Kernel/RootOrbit/data/roots.json" 15934 15942875260253310548
   (rA2 : List (List Nat)) (pA2 : List (List Nat)) (wA2 : List (Nat × Nat × Nat))
   (rA3 : List (List Nat)) (pA3 : List (List Nat)) (wA3 : List (Nat × Nat × Nat))
   (rA4 : List (List Nat)) (pA4 : List (List Nat)) (wA4 : List (Nat × Nat × Nat))

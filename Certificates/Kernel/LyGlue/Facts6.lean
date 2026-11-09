@@ -33,20 +33,6 @@ section
 variable (h : Ly0.tabCheck = true)
 include h
 
-theorem tl_eq {j : Nat} (hj : j < 15) {g : Perm (Fin Ly0.deg)}
-    (hg : prodP baseP (expect.getD j []) = g) (a : Fin Ly0.deg) : tl (tIdx j) a = (g a : Nat) := by
-  rw [tl_target h hj, hg]
-
-theorem tl_y (a : Fin Ly0.deg) : tl (tIdx 3) a = (Yu a : Nat) :=
-  tl_eq h (j := 3) (by norm_num) (by
-    change prodP baseP (uE yU) = _
-    exact prodP_uE h yU yU_range) a
-
-theorem tl_x (a : Fin Ly0.deg) : tl (tIdx 4) a = (Xu a : Nat) :=
-  tl_eq h (j := 4) (by norm_num) (by
-    change prodP baseP (uE xU) = _
-    exact prodP_uE h xU xU_range) a
-
 theorem prodP_wE : prodP baseP wE = Wu := by
   unfold wE Wu
   rw [prodP_append, prodP_append, prodP_append, prodP_cdE h _ conj_range,
@@ -54,48 +40,50 @@ theorem prodP_wE : prodP baseP wE = Wu := by
     Ly0.wG_invW Ly0.gens0 (fun l hl => (conj_range l hl).1), ← Ly0.gcG_def]
   rfl
 
-theorem tl_w (a : Fin Ly0.deg) : tl (tIdx 8) a = (Wu a : Nat) :=
-  tl_eq h (j := 8) (by norm_num) (by
-    change prodP baseP wE = _
-    exact prodP_wE h) a
+theorem prodP_y : prodP baseP (expect.getD 3 []) = Yu := prodP_uE h yU yU_range
 
-theorem tl_x2 (a : Fin Ly0.deg) : tl (tIdx 9) a = ((Xu * Xu) a : Nat) :=
-  tl_eq h (j := 9) (by norm_num) (by
-    change prodP baseP (uE xU ++ uE xU) = _
-    rw [prodP_append, prodP_uE h xU xU_range]; rfl) a
+theorem prodP_w : prodP baseP (expect.getD 8 []) = Wu := prodP_wE h
 
-theorem tl_y2 (a : Fin Ly0.deg) : tl (tIdx 7) a = ((Yu * Yu) a : Nat) :=
-  tl_eq h (j := 7) (by norm_num) (by
-    change prodP baseP (uE yU ++ uE yU) = _
-    rw [prodP_append, prodP_uE h yU yU_range]; rfl) a
+theorem prodP_y2 : prodP baseP (expect.getD 7 []) = Yu * Yu := by
+  change prodP baseP (uE yU ++ uE yU) = _
+  rw [prodP_append, prodP_uE h yU yU_range]
+  rfl
 
-theorem tl_w2 (a : Fin Ly0.deg) : tl (tIdx 10) a = ((Wu * Wu) a : Nat) :=
-  tl_eq h (j := 10) (by norm_num) (by
-    change prodP baseP (wE ++ wE) = _
-    rw [prodP_append, prodP_wE h]) a
+theorem prodP_w2 : prodP baseP (expect.getD 10 []) = Wu * Wu := by
+  change prodP baseP (wE ++ wE) = _
+  rw [prodP_append, prodP_wE h]
 
-theorem tl_p {k : Nat} (hk : k < 4) (a : Fin Ly0.deg) :
-    tl (tIdx (11 + k)) a = (Glue.txG k a : Nat) := by
-  refine tl_eq h (by omega) ?_ a
+theorem prodP_tx {k : Nat} (hk : k < 4) : prodP baseP (expect.getD (11 + k) []) = Glue.txG k := by
   have e : expect.getD (11 + k) [] = cdE (Glue.txWords.getD k []) := by
     interval_cases k <;> rfl
   rw [e, prodP_cdE h _ (Glue.txWords_getD_range hk)]
   rfl
 
-theorem conj_perm {j : Nat} (hj : j < 13) {A B C D : Perm (Fin Ly0.deg)}
-    (hA : ∀ a : Fin Ly0.deg, tl (tIdx (conjList.getD j (0, 0, 0, 0)).1) a = (A a : Nat))
-    (hB : ∀ a : Fin Ly0.deg, tl (tIdx (conjList.getD j (0, 0, 0, 0)).2.1) a = (B a : Nat))
-    (hC : ∀ a : Fin Ly0.deg, tl (tIdx (conjList.getD j (0, 0, 0, 0)).2.2.1) a = (C a : Nat))
-    (hD : ∀ a : Fin Ly0.deg, tl (tIdx (conjList.getD j (0, 0, 0, 0)).2.2.2) a = (D a : Nat)) :
-    A * B = C * D := by
-  have hc := cj_all j hj
-  unfold conjK at hc
-  ext a
-  have e := Nat.eq_of_beq_eq_true (allN_spec hc a a.2)
-  rw [hB a, hD a, hA (B a), hC (D a)] at e
-  simpa [Perm.mul_apply] using e
-
 end
+
+theorem prodP_wShort (hM : Ly0.ModelChecks) : prodP baseP wShort = Wu :=
+  (lyProdP_eq_base hM (M := wE) (by decide +kernel) (by decide +kernel)
+    (by decide +kernel)).trans (prodP_wE hM.tab)
+
+theorem yShort_base (hM : Ly0.ModelChecks) : prodP baseP yShort = prodP baseP (cdE Ly0.wordY) := by
+  have h : (Nat.beq (lyPtE yShort 0) (lyPtE (cdE Ly0.wordY) 0) &&
+      Nat.beq (lyPtE yShort 3) (lyPtE (cdE Ly0.wordY) 3) &&
+      Nat.beq (lyPtE yShort 1) (lyPtE (cdE Ly0.wordY) 1)) = true := by decide +kernel
+  simp only [Bool.and_eq_true] at h
+  exact lyProdP_eq_base hM h.1.1 h.1.2 h.2
+
+theorem prodP_yShort (hM : Ly0.ModelChecks) : prodP baseP yShort = Ly0.y0G := by
+  rw [yShort_base hM, prodP_cdE hM.tab Ly0.wordY (fun l hl => Ly0.decodeWord_mem _ l hl),
+    Ly0.y0G_def]
+
+theorem conj_perm (hM : Ly0.ModelChecks) {j : Nat} (hj : j < 9) {A B C D : Perm (Fin Ly0.deg)}
+    (hA : prodP baseP (expect.getD (conjList.getD j (0, 0, 0, 0)).1 []) = A)
+    (hB : prodP baseP (expect.getD (conjList.getD j (0, 0, 0, 0)).2.1 []) = B)
+    (hC : prodP baseP (expect.getD (conjList.getD j (0, 0, 0, 0)).2.2.1 []) = C)
+    (hD : prodP baseP (expect.getD (conjList.getD j (0, 0, 0, 0)).2.2.2 []) = D) :
+    A * B = C * D := by
+  rw [← hA, ← hB, ← hC, ← hD]
+  exact lyConj_base hM hj
 
 end CertificateChecks.KernelLy
 

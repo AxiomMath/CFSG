@@ -42,15 +42,15 @@ structure UniqWit where
     else if W.kind j = 1 then
       ((W.dl j).all fun a => decide (a < N)) && decide ((W.dl j).length ≤ 128) &&
         decide ((W.dl j).Pairwise (· < ·)) &&
-        ((W.dl j).length != 64 || W.dl j == W.c0)
+        ((W.dl j).length != 64 || W.dl j == W.c0) &&
+        ((W.dl j).all fun a => (W.conj j).all fun p => commB a p.2)
     else true)
 
 @[expose] def dRowW (commB : ℕ → ℕ → Bool) (W : UniqWit) (j i : ℕ) : Bool :=
-  !(decide (W.kind j = 1)) ||
-    (((W.conj j).all fun p => commB i p.2) == (W.dl j).contains i)
+  !(decide (W.kind j = 1)) || !((W.conj j).all fun p => commB i p.2) || (W.dl j).contains i
 
 @[expose] def dPairW (commB : ℕ → ℕ → Bool) (W : UniqWit) (j t : ℕ) : Bool :=
   !(decide (W.kind j = 1)) || !(decide (t < (W.dl j).length)) ||
-    (W.dl j).all (commB ((W.dl j).getD t 0))
+    ((W.dl j).drop (t + 1)).all (commB ((W.dl j).getD t 0))
 
 end CFSG.EvenSmallLie.OmegaEight.SplitC

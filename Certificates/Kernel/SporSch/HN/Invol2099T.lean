@@ -4,7 +4,6 @@ module
 public import Certificates.Kernel.SporSch.HN.Invol2099K
 public import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Data.Kernel.SporSch.HNF5Dig
-meta import CFSG.Sporadic.HNSchreier.InvolCheckInputs
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -17,11 +16,11 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelSporSch.HNInvol
 
-open CFSG.Sporadic.HNSchreier.Native
+meta def labs : List Nat :=
+  (String.splitOn (include_str "Invol2099T.0.txt") ",").map String.toNat!
 
-meta def labs : List Nat := labMasks.toList
-
-meta def taus : List Nat := tauIdx.toList
+meta def taus : List Nat :=
+  (String.splitOn (include_str "Invol2099T.1.txt") ",").map String.toNat!
 
 end CertificateChecks.KernelSporSch.HNInvol
 

@@ -2,16 +2,16 @@ module
 
 public import Certificates.Data.Kernel.TcRes.Plane
 public import Certificates.Kernel.TcRes.ForestData
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.TcRes.C1P "Certificates/Kernel/TcRes/data/c1plane.bin.gz"
+#kc_repo #kc_nat_items CFSG.KD.TcRes.C1P "Certificates/Kernel/TcRes/data/c1plane.bin"
   13019 10844681761422634765 START PW U[6] RC[6] L[6] M[6]
 
-#kc_repo #kc_ktree_gz CFSG.KD.TcRes.C1P LF "Certificates/Kernel/TcRes/data/c1planes.bin.gz"
+#kc_repo #kc_ktree CFSG.KD.TcRes.C1P LF "Certificates/Kernel/TcRes/data/c1planes.bin"
   1094 4 127998 2932202142854823132
 
 #kc_select CFSG.KD.TcRes.C1P uS U 6

@@ -11,8 +11,8 @@ public section
 
 namespace CFSG.KAct.XTitsP
 
-#kc_repo #kc_json_gz CFSG.KAct.XTitsP
-  "Certificates/Kernel/Misc/Coset/XTitsPA/data/Data.json.gz" 1060 7893061697015589199
+#kc_repo #kc_json CFSG.KAct.XTitsP
+  "Certificates/Kernel/Misc/Coset/XTitsPA/data/Data.json" 1060 7893061697015589199
   (rels : List (List Nat))
 
 end CFSG.KAct.XTitsP

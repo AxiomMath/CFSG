@@ -97,8 +97,8 @@ theorem S0_bind : S0.size = 2 ∧ ∀ j < 2, S0[j]! = unpack 3510 12 (CG j) := b
   refine ⟨by simp [S0], fun j hj => ?_⟩
   rw [S0, get_ofFn _ hj]
   interval_cases j
-  · exact N2070.cent_eq (by simp [cLine])
-  · exact N2070.cent_eq (by simp [cLine])
+  · exact N2070.cent_eq
+  · exact N2070.cent_eq
 
 theorem perf_parts : allN 2 (fun j => bAnd(permOK 3510 12 (mask 12) (3510 * 12) (CG j) (CGI j),
       Fi22X.cn (CG j))) = true ∧

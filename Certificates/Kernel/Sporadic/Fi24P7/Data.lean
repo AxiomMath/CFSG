@@ -1,7 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Fix.DataK
 public import Certificates.Kernel.Sporadic.Fi24G2e.Data
@@ -9,15 +9,15 @@ public import Certificates.Data.Kernel.Spor.Fi24P7
 public import Certificates.Data.Kernel.Spor.Fi24G2d
 public import Certificates.Data.Kernel.Spor.Fi24Kn
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24P7.J "Certificates/Kernel/Sporadic/Fi24P7/data/p7.json.gz" 3554
+#kc_repo #kc_json CFSG.KD.Fi24P7.J "Certificates/Kernel/Sporadic/Fi24P7/data/p7.json" 3554
   14721811698819982941
   (A0 : List Nat) (A2 : List Nat) (A4 : List Nat) (B0 : List Nat) (B4 : List Nat)
   (BASE : List Nat) (CA2 : List (List Nat)) (CA4 : List (List Nat)) (CB4 : List (List Nat))
   (CS4 : List (List Nat)) (K0 : List Nat) (K1 : List Nat) (K2 : List Nat) (K3 : List Nat)
   (K4 : List Nat) (MBASE : List Nat) (R0 : Nat) (R2 : Nat) (R4 : Nat) (S0 : List Nat)
   (S1 : List Nat) (S2 : List Nat) (S3 : List Nat) (S4 : List Nat) (T2 : List Nat)
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24P7 TB "Certificates/Kernel/Sporadic/Fi24P7/data/p7tab.bin.gz" 2560 4 706560 5316288289543475481
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24P7 MX "Certificates/Kernel/Sporadic/Fi24P7/data/p7mat.bin.gz" 152491 4 5642167 8290514419923597283
+#kc_repo #kc_ktree CFSG.KD.Fi24P7 TB "Certificates/Kernel/Sporadic/Fi24P7/data/p7tab.bin" 2560 4 706560 5316288289543475481
+#kc_repo #kc_ktree CFSG.KD.Fi24P7 MX "Certificates/Kernel/Sporadic/Fi24P7/data/p7mat.bin" 152491 4 5642167 8290514419923597283
 
 public section
 

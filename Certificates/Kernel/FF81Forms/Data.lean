@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 200000
 
-#kc_repo #kc_json_gz CFSG.KD.FF81F "Certificates/Kernel/FF81Forms/data/ff81forms.json.gz" 100233
+#kc_repo #kc_json CFSG.KD.FF81F "Certificates/Kernel/FF81Forms/data/ff81forms.json" 100233
   987421386139020275
   (PK : List (Nat × Nat × Nat × Nat × List Nat))
   (t0 : List Nat) (t1 : List Nat) (t2 : List Nat) (t3 : List Nat) (t4 : List Nat) (t5 : List Nat)

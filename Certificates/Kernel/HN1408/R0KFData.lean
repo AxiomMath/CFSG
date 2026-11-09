@@ -21,6 +21,9 @@ meta def gFI : Array (Array Nat) := gF.map invM
 meta def iF : Array (Array Nat) := idsOf gF
 meta def rF : Array (Array Nat) := recOf gF
 meta def cF : Array (Array Nat) := clOf gF
+meta def hkM (t : Array Nat) : Nat :=
+  t.foldl (fun h x => Nat.xor h x * 1099511628211 % 18446744073709551616) 14695981039346656037
+meta def hF : Array (Array Nat) := rF.map fun t => #[hkM t]
 
 end CFSG.KD.HN1408.R0KFGen
 
@@ -32,3 +35,4 @@ set_option maxRecDepth 400000
   CFSG.KD.HN1408.RecGen.idM 100000
 #kfind CFSG.KD.HN1408.R0KFCl CFSG.KD.HN1408.R0KFGen.rF CFSG.KD.HN1408.R0KFGen.cF
 #kmisc_packarrs CFSG.KD.HN1408.R0KFI CFSG.KD.HN1408.R0KFGen.gFI 11
+#kmisc_packarrs CFSG.KD.HN1408.R0KFH CFSG.KD.HN1408.R0KFGen.hF 64

@@ -12,9 +12,16 @@ public section
 namespace CFSG.KC.LaySnapsChunks
 
 meta def natOfE (e : Expr) : CoreM Nat := do
-  match e.consumeMData with
-  | .lit (.natVal x) => return x
-  | e => throwError "#lay_snaps_chunks: not a Nat literal: {e}"
+  match natOfLit? e, e.consumeMData with
+  | some x, _ => return x
+  | none, .const n _ =>
+    match (← getEnv).find? n with
+    | some (.defnInfo v) =>
+      match natOfLit? v.value with
+      | some x => return x
+      | none => throwError "#lay_snaps_chunks: {n} is not a Nat literal: {v.value}"
+    | _ => throwError "#lay_snaps_chunks: {n} is not a definition"
+  | none, e => throwError "#lay_snaps_chunks: not a Nat literal: {e}"
 
 meta partial def listOfE (e : Expr) : CoreM (List Expr) := do
   let e := e.consumeMData

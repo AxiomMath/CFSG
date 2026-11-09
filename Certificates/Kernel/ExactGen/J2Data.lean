@@ -23,9 +23,17 @@ public meta def btOf (j : Nat) : Array (Array Nat) :=
   bfsAux 315 fcM.ctx.chP.S (CFSG.Certificates.Native.rawInvs 315 fcM.ctx.chP.S) r.par
     #[r.nuA 315 fcM.ctx]
 
-public meta def bt0 : Array (Array Nat) := btOf 0
+public meta def ftOf (j : Nat) : Array (Array Nat) :=
+  let r := fcM.reps[j]!
+  let S := fcM.ctx.chP.S
+  let Si := CFSG.Certificates.Native.rawInvs 315 S
+  let nu := r.nuA 315 fcM.ctx
+  let f0 := ((List.range 315).filter fun i => nu[i]! == i).toArray
+  r.par.foldl (fun L e => L.push (L[e.1]!.map fun x => (CFSG.Monster.B.Co2.Native.letterA S Si e.2)[x]!)) #[f0]
+
+public meta def bt0 : Array (Array Nat) := ftOf 0
 public meta def bt1 : Array (Array Nat) := btOf 1
-public meta def bt2 : Array (Array Nat) := btOf 2
+public meta def bt2 : Array (Array Nat) := ftOf 2
 
 public meta def dP : Array (List Int) := dOf fcM.ctx.chP
 public meta def dN : Array (List Int) := dOf fcM.ctx.chN

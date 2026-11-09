@@ -6,6 +6,10 @@ import CFSG.Certificates.Kernel.Common.Harness
 public import Certificates.Data.Kernel.HeLoc.PTail
 public import Certificates.Data.Kernel.MonsterB.BfsReplay
 public import Certificates.Kernel.RuFive.Tab
+public import Certificates.Kernel.RuFive.SLPData
+public import Certificates.Data.Kernel.PermSLP
+import CFSG.Certificates.Kernel.PermSLPSound
+import CFSG.Certificates.Kernel.Spor.PK.Basic
 
 public section
 
@@ -48,18 +52,118 @@ theorem kOrb1 : allN 5 (fun i => Nat.beq (rcnt (S51.LR i)) ([4060, 1755, 1024, 2
 theorem kPermF : allN 75 (fun k => permOK 4060 12 (mask 12) (4060 * 12) (F k) (AI k)) = true := by
   quickRfl
 
-@[expose] noncomputable def wordB (c : Nat) : Bool :=
-  allN 20 fun i => bIf(Nat.blt (Nat.add (Nat.mul 20 c) i) 75,
-    wordEqK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI 8 (wd (Nat.add (Nat.mul 20 c) i))
-      (F (Nat.add (Nat.mul 20 c) i)), true)
+@[expose] noncomputable def SL (j : Nat) : Nat := S50.S (Nat.land j 7)
+
+@[expose] noncomputable def SLI (j : Nat) : Nat := S50.SI (Nat.land j 7)
+
+@[expose] noncomputable def ruleB (c : Nat) : Bool :=
+  allN 8 fun i => bIf(Nat.blt (Nat.add (Nat.mul 8 c) i) 381,
+    CFSG.KC.PermSLP.ruleK 4060 12 16 SL SLI PRV PRG (Nat.add (Nat.mul 8 c) i), true)
+
+@[expose] noncomputable def topV (k : Nat) : Bool :=
+  bAnd(CFSG.KC.PermSLP.topK 16 381 397 PRG (PRT k) (wd k),
+    Nat.beq (CFSG.KC.PermSLP.symV 16 SL SLI PRV (PRT k)) (F k))
 
 end CertificateChecks.KernelRuFive
 
-#kss_each CertificateChecks.KernelRuFive.WB CertificateChecks.KernelRuFive.wordB 4
+#kss_each CertificateChecks.KernelRuFive.RB CertificateChecks.KernelRuFive.ruleB 48
 
 namespace CertificateChecks.KernelRuFive
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.SporSch CFSG.KC.HeLoc CFSG.KS.Prim
+
+theorem kSz : szOK 4060 12 = true := by quickRfl
+
+theorem kCnS : allN 8 (fun j => bAnd(canonK 4060 12 (mask 12) (4060 * 12) (S50.S j),
+    canonK 4060 12 (mask 12) (4060 * 12) (S50.SI j))) = true := by quickRfl
+
+theorem kCnId : canonK 4060 12 (mask 12) (4060 * 12) (pidn 4060 12) = true := by quickRfl
+
+theorem kLet : allN 16 (fun s => CFSG.KC.PermSLP.letK 4060 12 16 SL SLI PRV s) = true := by
+  quickRfl
+
+theorem kLW : allN 75 (fun k => lettersK 8 (wd k)) = true := by quickRfl
+
+theorem kTopA : allN 33 topV = true := by quickRfl
+
+theorem kTopB : allN 40 (fun k => topV (Nat.add 35 k)) = true := by quickRfl
+
+theorem kW33 : wordEqK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI 8 (wd 33) (F 33) = true := by
+  quickRfl
+
+theorem kW34 : wordEqK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI 8 (wd 34) (F 34) = true := by
+  quickRfl
+
+theorem sl_canon (j : Nat) : canonK 4060 12 (mask 12) (4060 * 12) (SL j) = true ∧
+    canonK 4060 12 (mask 12) (4060 * 12) (SLI j) = true := by
+  have hj : Nat.land j 7 < 8 := Nat.lt_succ_of_le Nat.and_le_right
+  have h := CFSG.KS.PK.allN_iff.1 kCnS _ hj
+  rw [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true] at h
+  exact h
+
+theorem rule_k (k : Nat) (hk : k < 381) :
+    CFSG.KC.PermSLP.ruleK 4060 12 16 SL SLI PRV PRG k = true := by
+  have hc : k / 8 < 48 := by omega
+  have h : ruleB (k / 8) = true := RB.all _ hc
+  unfold ruleB at h
+  have h2 := CFSG.KS.PK.allN_iff.1 h (k % 8) (Nat.mod_lt _ (by decide))
+  have e : Nat.add (Nat.mul 8 (k / 8)) (k % 8) = k := Nat.div_add_mod k 8
+  simp only [e] at h2
+  rw [Nat.blt_eq.mpr hk] at h2
+  exact h2
+
+theorem wordK_SL : ∀ u : List Int, lettersK 8 u = true →
+    wordK 4060 12 (mask 12) (pidn 4060 12) SL SLI u =
+      wordK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI u
+  | [], _ => rfl
+  | z :: u, h => by
+    have h' : strictB (CFSG.KS.Mathieu.icode z) (fun c => bAnd(Nat.blt (nat_lit 0) c,
+        bAnd(Nat.ble (Nat.shiftRight c (nat_lit 1)) 8, lettersK 8 u))) = true := h
+    rw [CFSG.KS.PK.strictB_eq, CFSG.KS.PK.bAnd_eq, CFSG.KS.PK.bAnd_eq, Bool.and_eq_true,
+      Bool.and_eq_true] at h'
+    obtain ⟨-, h2, h3⟩ := h'
+    rw [CFSG.KC.PermTool.wordK_cons, CFSG.KC.PermTool.wordK_cons]
+    simp only [CFSG.KS.PK.strictN_eq]
+    rw [wordK_SL u h3]
+    have hs := Nat.ble_eq.mp h2
+    unfold SL SLI
+    generalize Nat.shiftRight (CFSG.KS.Mathieu.icode z) (nat_lit 1) = s at hs ⊢
+    have hq : s - 1 < 8 := by omega
+    have hi : Nat.land (Nat.sub s (nat_lit 1)) 7 = Nat.sub s (nat_lit 1) := by
+      change (s - 1) &&& (2 ^ 3 - 1) = s - 1
+      rw [Nat.and_two_pow_sub_one_eq_mod]
+      exact Nat.mod_eq_of_lt hq
+    rw [hi]
+
+theorem kWord (k : Nat) (hk : k < 75) :
+    wordEqK 4060 12 (mask 12) (pidn 4060 12) S50.S S50.SI 8 (wd k) (F k) = true := by
+  by_cases h33 : k = 33
+  · subst h33
+    exact kW33
+  by_cases h34 : k = 34
+  · subst h34
+    exact kW34
+  have ht : topV k = true := by
+    rcases Nat.lt_or_ge k 33 with h | h
+    · exact CFSG.KS.PK.allN_iff.1 kTopA k h
+    · have h' := CFSG.KS.PK.allN_iff.1 kTopB (k - 35) (by omega)
+      have e : Nat.add 35 (k - 35) = k := by
+        change 35 + (k - 35) = k
+        omega
+      rw [e] at h'
+      exact h'
+  unfold topV at ht
+  rw [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true] at ht
+  obtain ⟨htop, hval⟩ := ht
+  have hl := CFSG.KS.PK.allN_iff.1 kLW k hk
+  have hw := CFSG.KC.PermSLP.slp_word (n := 4060) (w := 12) (S := SL) (SI := SLI)
+    (nL := 16) (R := 381) (f := 397) (t := PRT k) (V := PRV) (G := PRG) (wd := wd k)
+    (fun j => (sl_canon j).1) (fun j => (sl_canon j).2) kCnId
+    (CFSG.KS.PK.allN_iff.1 kLet) rule_k (by decide) htop
+  rw [wordK_SL _ hl] at hw
+  unfold wordEqK
+  rw [CFSG.KS.PK.bAnd_eq, CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, hw]
+  exact ⟨kSz, hl, hval⟩
 
 theorem kQN : Nat.beq Q.N 125 = true := by quickRfl
 

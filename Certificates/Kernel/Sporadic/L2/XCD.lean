@@ -24,7 +24,7 @@ meta def base : Array Nat := CFSG.Sporadic.SuzRecog.LevelTwoData.xBase.toArray
 
 end CertificateChecks.KernelSpor.L2XCD
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSpor.L2XC 1782 11 8 256
+#ks_rawchain_sl2_data CertificateChecks.KernelSpor.L2XC 1782 11 0 256
   CertificateChecks.KernelSpor.L2XCD.strong CertificateChecks.KernelSpor.L2XCD.base 2
   CertificateChecks.KernelSpor.L2XCD.deriv
 

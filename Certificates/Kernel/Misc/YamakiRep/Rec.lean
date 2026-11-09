@@ -1,8 +1,5 @@
 module
 
-public meta import Lean
-meta import Certificates.Data.Sp62RecCR1CE
-meta import Certificates.Kernel.Misc.YamakiRep.Gen
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
 import Certificates.Kernel.Misc.YamakiRep.Gen
@@ -10,17 +7,20 @@ import Mathlib.Tactic.NormNum.Ineq
 
 namespace CFSG.KD.YamakiRep.Gen
 
-open CFSG.ClassicalInvolution.Solomon73.Yamaki CFSG.ClassicalInvolution.Sp62Rec
+meta def recX : List Nat :=
+  (String.splitOn (include_str "Rec.0.txt") ",").map String.toNat!
 
-meta def recX : List Nat := recsW gWords 1536
+meta def recN : List Nat :=
+  (String.splitOn (include_str "Rec.1.txt") ",").map String.toNat!
 
-meta def recN : List Nat := recsW nWords 10752
+meta def recH : List Nat :=
+  (String.splitOn (include_str "Rec.2.txt") ",").map String.toNat!
 
-meta def recH : List Nat := recsW hWords 23040
+meta def recE : List Nat :=
+  (String.splitOn (include_str "Rec.3.txt") ",").map String.toNat!
 
-meta def recE : List Nat := recsW e0Words 11520
-
-meta def recV : List Nat := recsI v0Idx 32
+meta def recV : List Nat :=
+  (String.splitOn (include_str "Rec.4.txt") ",").map String.toNat!
 
 end CFSG.KD.YamakiRep.Gen
 

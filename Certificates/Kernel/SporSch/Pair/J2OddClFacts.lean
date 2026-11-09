@@ -23,6 +23,10 @@ theorem gperm :
     allN 2 (fun l => permOK 315 9 (mask 9) (315 * 9) (PJ2C260410.G l) (PJ2C260410.GI l)) = true := by
   quickRfl
 
+private theorem get0_pair {α : Type} [Inhabited α] (a b : α) : #[a, b][0]! = a := rfl
+
+private theorem get1_pair {α : Type} [Inhabited α] (a b : α) : #[a, b][1]! = b := rfl
+
 theorem gens_eq (l : Nat) (hl : l < 2) :
     gens[l]! = unpack 315 9 (PJ2C260410.G l) ∧ gensInv[l]! = unpack 315 9 (PJ2C260410.GI l) := by
   obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 (allN_spec gbind l hl)
@@ -31,17 +35,20 @@ theorem gens_eq (l : Nat) (hl : l < 2) :
   have hI := (invEqK_sound (allN_spec PJ2.perm l (by omega))).1
   have hsz : (j2StrongArrs ()).size = 7 := by simp [j2StrongArrs]
   refine ⟨?_, ?_⟩
-  · rcases (by omega : l = 0 ∨ l = 1) with rfl | rfl
-    · exact hS
-    · exact hS
+  · rw [gens]
+    rcases (by omega : l = 0 ∨ l = 1) with rfl | rfl
+    · rw [get0_pair]
+      exact hS
+    · rw [get1_pair]
+      exact hS
   · rw [← hI, ← hS]
     have hm : (rawInvs 315 (j2StrongArrs ()))[l]! = invCand 315 (j2StrongArrs ())[l]! := by
       rw [rawInvs, getElem!_pos ((j2StrongArrs ()).map (invCand 315)) l (by simp [hsz]; omega),
         getElem!_pos (j2StrongArrs ()) l (by omega), Array.getElem_map]
-    rw [← hm]
+    rw [← hm, gensInv]
     rcases (by omega : l = 0 ∨ l = 1) with rfl | rfl
-    · rfl
-    · rfl
+    · exact get0_pair _ _
+    · exact get1_pair _ _
 
 theorem hg : gens.size = 2 ∧ gensInv.size = 2 ∧
     ∀ l < 2, gens[l]! = unpack 315 9 (PJ2C260410.G l) ∧ gensInv[l]! = unpack 315 9 (PJ2C260410.GI l) :=

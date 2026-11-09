@@ -19,7 +19,7 @@ theorem lb0 : ∀ j < 351, ent D.lb0 j = ((lhData ())[0]!)[j]! := h.2.2.2.2.1
 theorem lb1 : ∀ j < 351, ent D.lb1 j = ((lhData ())[1]!)[j]! := h.2.2.2.2.2.1
 theorem pd : ∀ i < 693, fld(D.pd, 10 * i, 1023) = phiData[i]! := h.2.2.2.2.2.2.1
 theorem tall : ∀ s < 26, tallSl D.R D.al D.be D.bi D.op D.ol s = true := h.2.2.2.2.2.2.2.1
-theorem fix : ∀ s < 6, fixSl D.R D.Z s = true := h.2.2.2.2.2.2.2.2.1
+theorem fix : ∀ s < 27, fixSl D.R D.Z s = true := h.2.2.2.2.2.2.2.2.1
 theorem bi : biK D.be D.bi = true := h.2.2.2.2.2.2.2.2.2.1
 theorem setA : ∀ s < 20, setSl D.QA D.al D.be s = true := h.2.2.2.2.2.2.2.2.2.2.1
 theorem setB : ∀ s < 20, setSl D.QB D.al D.be s = true := h.2.2.2.2.2.2.2.2.2.2.2.1

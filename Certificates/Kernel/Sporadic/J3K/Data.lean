@@ -56,11 +56,22 @@ meta def cbM : List Nat := (transposeRows 80 DM.rowsB).toList
 meta def raM : List Nat := DM.rowsA.toList
 meta def rbM : List Nat := DM.rowsB.toList
 
+meta def mwM (j : Nat) : List Nat := (List.range 80).map fun k =>
+  (DM.words[j]!).foldr (fun (z : Int) (v : Nat) => if z.natAbs == 3 then vecMulN 80 caM.toArray v
+    else if z == 4 then vecMulN 80 cbM.toArray v
+    else vecMulN 80 cbM.toArray (vecMulN 80 cbM.toArray v)) (1 <<< k)
+meta def mw2M : List Nat := mwM 2
+meta def mw3M : List Nat := mwM 3
+
 meta def lettersM : Array Table := DM.letters
 meta def ltM : Array Nat := (lettersM.map fun t => t.map (·.toNat)).flatten
 meta def lv0M : Array Nat := levelLetters lettersM DM.base 0
 meta def lv1M : Array Nat := DM.lv
 meta def lblM : Array Nat := DM.labs
+
+meta def cposM : Array Nat :=
+  let ts := DM.subReps.map fun r => treeBFS 20520 r lettersM lv1M
+  (List.range 20520).toArray.map fun z => (ts[lblM[z]!]!.pos[z]!).toNat
 
 meta def dsM : Array Nat := (DM.derivs.map fun l => (l.map fun s => s.1 * 65536 + s.2).toArray).flatten
 
@@ -75,6 +86,8 @@ end CertificateChecks.KernelSpor.J3K
 #knatlist CertificateChecks.KernelSpor.J3K.CBL CertificateChecks.KernelSpor.J3K.cbM
 #knatlist CertificateChecks.KernelSpor.J3K.RAL CertificateChecks.KernelSpor.J3K.raM
 #knatlist CertificateChecks.KernelSpor.J3K.RBL CertificateChecks.KernelSpor.J3K.rbM
+#knatlist CertificateChecks.KernelSpor.J3K.MW2L CertificateChecks.KernelSpor.J3K.mw2M
+#knatlist CertificateChecks.KernelSpor.J3K.MW3L CertificateChecks.KernelSpor.J3K.mw3M
 #krowsw CertificateChecks.KernelSpor.J3K.PT 80 CertificateChecks.KernelSpor.J3K.ptsM
 #krows CertificateChecks.KernelSpor.J3K.TA CertificateChecks.KernelSpor.J3K.taM
 #krows CertificateChecks.KernelSpor.J3K.TB CertificateChecks.KernelSpor.J3K.tbM
@@ -85,6 +98,7 @@ end CertificateChecks.KernelSpor.J3K
 #krows CertificateChecks.KernelSpor.J3K.BQ CertificateChecks.KernelSpor.J3K.bqM
 #krows CertificateChecks.KernelSpor.J3K.LT CertificateChecks.KernelSpor.J3K.ltM
 #krows CertificateChecks.KernelSpor.J3K.LBL CertificateChecks.KernelSpor.J3K.lblM
+#krows CertificateChecks.KernelSpor.J3K.CPOS CertificateChecks.KernelSpor.J3K.cposM
 #krows CertificateChecks.KernelSpor.J3K.DS CertificateChecks.KernelSpor.J3K.dsM
 #krows CertificateChecks.KernelSpor.J3K.DOFF CertificateChecks.KernelSpor.J3K.doffM
 #krows CertificateChecks.KernelSpor.J3K.DLEN CertificateChecks.KernelSpor.J3K.dlenM

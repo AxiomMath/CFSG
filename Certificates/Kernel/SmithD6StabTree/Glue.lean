@@ -28,7 +28,9 @@ theorem st_recs : ∀ i < 365211,
     split_ifs at hlen with h <;> omega
   have h := stTreeChunks_ok (i / 2048) hc179
   rw [stTreeOK, nthC_eq] at h
-  have h2 := stTreeGo_sound _ _ h (i % 2048) (by rw [getD_eq hc]; exact hj)
+  have h2 := stTreeGo_sound _ _ _ h (i % 2048) (by rw [getD_eq hc]; exact hj)
+  rw [stPkSlice_eq _ _ _ (Nat.mod_lt i (by decide)),
+    stPkSlice_eq _ _ _ (Nat.mod_lt i (by decide))] at h2
   have hfi := hf (i % 2048) hj
   have hi' : 2048 * (i / 2048) + i % 2048 = i := Nat.div_add_mod i 2048
   rw [hi'] at hfi
@@ -36,7 +38,7 @@ theorem st_recs : ∀ i < 365211,
   have key : J.lineKeysC.flatten[i]! = (J.lineKeysC.getD (i / 2048) []).getD (i % 2048) 0 := by
     rw [getElem!_pos _ i hv, hx, getD_eq hc]
     exact (getD_eq hj).symm
-  rw [Nat.mul_eq, hi'] at h2
+  rw [hi'] at h2
   rw [key]
   exact h2
 

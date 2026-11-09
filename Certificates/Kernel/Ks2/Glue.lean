@@ -100,8 +100,7 @@ theorem centKs_of_wit {r : Array Nat} {ρ w2 w5 : Equiv.Perm (Fin 820)} (hr : Re
     exact one_mem _
   have c2 : Commute w2 ρ := hc2
   have c5 : Commute w5 ρ := hc5
-  simp only [centKs, vIxL, List.foldl_cons, List.foldl_nil, zero_add]
-  rw [count_coset hr, count_coset hr, count_coset hr, count_coset hr,
+  rw [centKs_eq_sum, count_coset hr, count_coset hr, count_coset hr, count_coset hr,
     card_coset_cent hw0 (Commute.one_left _), card_coset_cent hw2 c2,
     card_coset_cent hw5 c5, card_coset_cent hw7 (c2.mul_left c5)]
   ring
@@ -678,8 +677,8 @@ theorem centKs2_eq {v ξ : Array ℕ} {V X : Equiv.Perm (Fin 820)} (hv : Rep 820
     have hH : RepW 820 (tArr k :: w) (g * tP k) := RepW.cons (rep_tArr k) hw
     simp only [commW, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true]
     exact and_congr (allLt_comm_iff hH hv) (allLt_comm_iff hH hξ)
-  rw [h 0 (by norm_num), h 2 (by norm_num), h 5 (by norm_num), h 7 (by norm_num)]
-  simp [centKs2, vIxL]
+  rw [h 0 (by norm_num), h 2 (by norm_num), h 5 (by norm_num), h 7 (by norm_num), centKs2,
+    foldl_vIxL]
 
 theorem cent_pair {i : Nat} (hi : i < 3) : centKs2 ks8Reps[5 + i]! xiArrs[i]! = pairCent[i]! := by
   have hv := rep_ks (j := 5 + i) (by omega)

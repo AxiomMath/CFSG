@@ -30,23 +30,31 @@ theorem ch517503nr : Nat.beq nrZ 240 = true := by decide +kernel
 
 theorem ch517503nq : bAnd(Nat.beq ZR.ntw 4, Nat.beq ZR.nq 1120) = true := by decide +kernel
 
-@[expose] noncomputable def pairB (b : Nat) : Bool := allBlk b (pairQK 360 9 (mask 9) (360 * 9)
-    SC.BP 5 SC.LR SC.TR rlZ ZR.CT ZR.PQ ZR.QJ nrZ ZR.nq) 60
+@[expose] noncomputable def rootB (b : Nat) : Bool := allBlk b (rootTK 360 9 (mask 9) (360 * 9)
+    SC.BP 5 SC.LR SC.TR rlZ ZR.RT ZR.CT ZR.IV) 120
 
-theorem ch517503p0 : pairB 0 = true := by decide +kernel
+theorem ch517503r0 : rootB 0 = true := by decide +kernel
 
-theorem ch517503p1 : pairB 60 = true := by decide +kernel
+theorem ch517503r1 : rootB 120 = true := by decide +kernel
 
-theorem ch517503p2 : pairB 120 = true := by decide +kernel
+@[expose] noncomputable def pairB (b len : Nat) : Bool := allBlk b (pairRK 9 (mask 9) 17 (mask 17)
+    SC.BP 5 rlZ ZR.RT ZR.CT ZR.PR ZR.QJ nrZ ZR.nq) len
 
-theorem ch517503p3 : pairB 180 = true := by decide +kernel
+theorem ch517503p0 : pairB 0 32 = true := by decide +kernel
+
+theorem ch517503p1 : pairB 32 38 = true := by decide +kernel
+
+theorem ch517503p2 : pairB 70 50 = true := by decide +kernel
+
+theorem ch517503p3 : pairB 120 120 = true := by decide +kernel
 
 theorem ch517503tw : allN ZR.ntw (twinQK 360 9 (mask 9) (360 * 9) 5 SK.N SC.LR SC.TR PL.S
     ZR.QJ) = true := by
   decide +kernel
 
-@[expose] noncomputable def subB (b : Nat) : Bool := allBlk b (subAK 360 9 (mask 9) (360 * 9)
-    SC.BP 5 SK.N ZR.nx (SK.E (SR.RP SR.zc)) SC.LR SC.TR ZR.X ZR.XI ZR.QJ ZR.QA ZR.QW ZR.QP) 279
+@[expose] noncomputable def subB (b : Nat) : Bool := allBlk b (subRK 360 9 (mask 9) (360 * 9)
+    SC.BP 5 SK.N nrZ ZR.nx (SK.E (SR.RP SR.zc)) SC.LR SC.TR rlZ ZR.RT ZR.CT ZR.X ZR.XI ZR.QJ ZR.QR
+    ZR.QA ZR.QW ZR.QP) 279
 
 theorem ch517503s0 : subB 4 = true := by decide +kernel
 

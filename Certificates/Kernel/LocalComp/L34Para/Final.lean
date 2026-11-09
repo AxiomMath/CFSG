@@ -45,42 +45,87 @@ theorem memK_spec {N x : Nat} {T : Nat → Nat} (h : memK N T x = true) : ∃ q 
     exact absurd h' (by decide)
   · rfl
 
-theorem rec_of {k cnt : Nat} {gens : Array Tab} {G GI T PL POS SRT SRI : Nat → Nat}
-    (hg : gensK gens 42 6 k G = true) (hd : penumHdK (pidn 42 6) cnt cnt T PL = true)
+theorem yGen_facts : szOK 42 6 = true ∧ canonK 42 6 (mask 6) (42 * 6) (pidn 42 6) = true ∧
+    ∀ l < 3, genT l = unpack 42 6 (L34PR.Y (Nat.succ l)) ∧
+      canonK 42 6 (mask 6) (42 * 6) (L34PR.Y (Nat.succ l)) = true := by
+  have h := kYGen
+  simp only [bAnd_iff] at h
+  refine ⟨h.1, h.2.1, fun l hl => ?_⟩
+  obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 (allN' h.2.2 l hl)
+  exact ⟨unpack_eq_of_bindArrK h1, h2⟩
+
+theorem foldl_genT (ls : List Nat) (hls : ∀ l ∈ ls, l < 3) {a : Nat}
+    (ha : canonK 42 6 (mask 6) (42 * 6) a = true) :
+    ls.foldl (fun t j => comp 42 t (genT j)) (unpack 42 6 a) = unpack 42 6 (yFold a ls) ∧
+      canonK 42 6 (mask 6) (42 * 6) (yFold a ls) = true := by
+  induction ls generalizing a with
+  | nil => exact ⟨rfl, ha⟩
+  | cons l ls ih =>
+    have hl := yGen_facts.2.2 l (hls l (List.mem_cons_self ..))
+    have e : yFold a (l :: ls) = yFold (pcomp 42 6 (mask 6) a (L34PR.Y (Nat.succ l))) ls := by
+      unfold yFold
+      rw [List.foldl_cons]
+      cases a <;> rfl
+    rw [List.foldl_cons, hl.1, comp_unpack' ha hl.2, e]
+    exact ih (fun j hj => hls j (List.mem_cons_of_mem _ hj)) (canonK_pcomp ha hl.2)
+
+theorem gensOK_of_wordsPK {ws : List (List Nat)} {k : Nat} {G : Nat → Nat}
+    (h : wordsPK ws k G = true) : GensOK 42 6 k G (wordTabs ws) := by
+  unfold wordsPK at h
+  obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
+  have hk : ws.length = k := Nat.eq_of_beq_eq_true h1
+  refine ⟨by rw [size_wordTabs, hk], fun j hj => ?_⟩
+  obtain ⟨hl, hv⟩ := (bAnd_iff _ _).1 (allN' h2 j hj)
+  have hj' : j < ws.length := by rw [hk]; exact hj
+  rw [List.getD_eq_getElem _ _ hj'] at hl hv
+  rw [List.all_eq_true] at hl
+  have hf := foldl_genT ws[j] (fun l hl' => lt_of_blt (hl l hl')) yGen_facts.2.1
+  rw [wordTabs_getElem! ws hj', Nat.eq_of_beq_eq_true hv, wordTab, idTab_unpack' yGen_facts.1]
+  exact hf
+
+theorem recG_of {k cnt : Nat} {gens : Array Tab} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hg : GensOK 42 6 k G gens) (hd : penumHdK (pidn 42 6) cnt cnt T PL = true)
     (hs : penumSlK 42 6 (mask 6) (42 * 6) false G GI k cnt T PL POS SRT SRI 0 cnt = true) :
     (enumBFS 42 gens cnt).tabs = pts 42 6 cnt T ∧ enumOK 42 gens (enumBFS 42 gens cnt) = true ∧
       (∀ i < cnt, canonK 42 6 (mask 6) (42 * 6) (T i) = true) ∧ GensOK 42 6 k G gens := by
   have hp : ∀ i < cnt, penumPtK 42 6 (mask 6) (42 * 6) false G GI k cnt T PL POS SRT SRI i =
       true := fun i hi => penumSl_spec hs i (Nat.zero_le _) (by omega) hi
-  have h := penumK_left_sound hsz42 (gensOK_of hg) hd hp
+  have h := penumK_left_sound hsz42 hg hd hp
   rw [h.1]
-  exact ⟨rfl, h.2, fun i hi => penumPt_canon (hp i hi), gensOK_of hg⟩
+  exact ⟨rfl, h.2, fun i hi => penumPt_canon (hp i hi), hg⟩
+
+theorem rec_of {k cnt : Nat} {gens : Array Tab} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hg : gensK gens 42 6 k G = true) (hd : penumHdK (pidn 42 6) cnt cnt T PL = true)
+    (hs : penumSlK 42 6 (mask 6) (42 * 6) false G GI k cnt T PL POS SRT SRI 0 cnt = true) :
+    (enumBFS 42 gens cnt).tabs = pts 42 6 cnt T ∧ enumOK 42 gens (enumBFS 42 gens cnt) = true ∧
+      (∀ i < cnt, canonK 42 6 (mask 6) (42 * 6) (T i) = true) ∧ GensOK 42 6 k G gens :=
+  recG_of (gensOK_of hg) hd hs
 
 theorem rT : (enumBFS 42 (wordTabs wT₀) 64).tabs = pts 42 6 64 L34PT.T ∧
     enumOK 42 (wordTabs wT₀) (enumBFS 42 (wordTabs wT₀) 64) = true ∧
     (∀ i < 64, canonK 42 6 (mask 6) (42 * 6) (L34PT.T i) = true) ∧
     GensOK 42 6 4 L34PT.G (wordTabs wT₀) :=
-  rec_of kT_gens kT_hd kT_sl
+  recG_of (gensOK_of_wordsPK kT_gens) kT_hd kT_sl
 
 theorem rB : (enumBFS 42 (wordTabs wB₀) 192).tabs = pts 42 6 192 L34PB.T ∧
     enumOK 42 (wordTabs wB₀) (enumBFS 42 (wordTabs wB₀) 192) = true ∧
     (∀ i < 192, canonK 42 6 (mask 6) (42 * 6) (L34PB.T i) = true) ∧
     GensOK 42 6 3 L34PB.G (wordTabs wB₀) :=
-  rec_of kB_gens kB_hd kB_sl
+  recG_of (gensOK_of_wordsPK kB_gens) kB_hd kB_sl
 
 theorem r1 : (enumBFS 42 (wordTabs wP₁) 960).tabs = pts 42 6 960 L34P1.T ∧
     enumOK 42 (wordTabs wP₁) (enumBFS 42 (wordTabs wP₁) 960) = true ∧
     (∀ i < 960, canonK 42 6 (mask 6) (42 * 6) (L34P1.T i) = true) ∧
     GensOK 42 6 3 L34P1.G (wordTabs wP₁) :=
-  rec_of kP1_gens kP1_hd kP1_sl
+  recG_of (gensOK_of_wordsPK kP1_gens) kP1_hd kP1_sl
 
 theorem r2 : (enumBFS 42 (wordTabs wP₂) 960).tabs = pts 42 6 960 L34P2.T ∧
     enumOK 42 (wordTabs wP₂) (enumBFS 42 (wordTabs wP₂) 960) = true ∧
     (∀ i < 960, canonK 42 6 (mask 6) (42 * 6) (L34P2.T i) = true) ∧
     GensOK 42 6 3 L34P2.G (wordTabs wP₂) :=
-  rec_of kP2_gens kP2_hd kP2_sl
+  recG_of (gensOK_of_wordsPK kP2_gens) kP2_hd kP2_sl
 
-theorem gY : GensOK 42 6 105 L34PR.Y (wordTabs wReps) := gensOK_of kY
+theorem gY : GensOK 42 6 105 L34PR.Y (wordTabs wReps) := gensOK_of_wordsPK kY
 
 theorem canonY {k : Nat} (hk : k < 105) : canonK 42 6 (mask 6) (42 * 6) (L34PR.Y k) = true :=
   (gY.2 k hk).2

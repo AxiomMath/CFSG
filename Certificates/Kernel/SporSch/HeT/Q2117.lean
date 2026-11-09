@@ -103,7 +103,7 @@ theorem eps_img {i : Nat} (hi : i < 2) :
 theorem chainQC : ChainK 98 7 [permOrId 98 heSigma1, permOrId 98 heSigma2] heQCWords
     (#v[0, 1, 6, 3] : Vector (Fin 98) 4) QC.S QC.SI QC.LR QC.TR QC.TRI 7 QC.BP 7 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, QC.head, QC.hl,
-    by norm_num, QC.hs⟩
+    by norm_num, .inl QC.hs⟩
   have hj' : j < 2 := by simpa using hj
   interval_cases j
   · exact imageList_bind (atQC (j := 0) (by norm_num))
@@ -112,7 +112,7 @@ theorem chainQC : ChainK 98 7 [permOrId 98 heSigma1, permOrId 98 heSigma2] heQCW
 theorem chainQD : ChainK 98 7 heTauGens heQDWords (#v[0, 1, 3, 6] : Vector (Fin 98) 4) QD.S QD.SI
     QD.LR QD.TR QD.TRI 7 QD.BP 7 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, QD.head, QD.hl,
-    by norm_num, QD.hs⟩
+    by norm_num, .inl QD.hs⟩
   have hj' : j < 3 := by simpa [heTauGens] using hj
   interval_cases j
   · exact tau_img (j := 0) (by norm_num)
@@ -122,7 +122,7 @@ theorem chainQD : ChainK 98 7 heTauGens heQDWords (#v[0, 1, 3, 6] : Vector (Fin 
 theorem chainQE : ChainK 98 7 [permOrId 98 (heEpsArr 0), permOrId 98 (heEpsArr 1)] heQEWords
     (#v[0, 1, 3, 6] : Vector (Fin 98) 4) QE.S QE.SI QE.LR QE.TR QE.TRI 7 QE.BP 7 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, QE.head, QE.hl,
-    by norm_num, QE.hs⟩
+    by norm_num, .inl QE.hs⟩
   have hj' : j < 2 := by simpa using hj
   interval_cases j
   · exact eps_img (i := 0) (by norm_num)
@@ -131,7 +131,7 @@ theorem chainQE : ChainK 98 7 [permOrId 98 (heEpsArr 0), permOrId 98 (heEpsArr 1
 theorem chainQY : ChainK 35 6 heUpsGens heQYWords (#v[0, 1, 3, 2] : Vector (Fin 35) 4) QY.S
     QY.SI QY.LR QY.TR QY.TRI 8 QY.BP 3 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, QY.head, QY.hl,
-    by norm_num, QY.hs⟩
+    by norm_num, .inl QY.hs⟩
   have hj' : j < heUpsilon.length := by simpa [heUpsGens] using hj
   rw [heUpsGens, getD_map_lt _ #[] _ hj']
   exact imageList_bind (atQY (by simpa [heUpsilon] using hj'))

@@ -51,16 +51,16 @@ theorem threeCentral_zJ :
 theorem exists_conj_zJ_eq :
     ∃ g : Sec4.Sporadic.J2.GJ, g * Sec4.Sporadic.J2.zJ * g⁻¹ =
       MulEquiv.subgroupCongr CFSG.ComponentClassification.J2Cover.Models.P_eq_autP C4725.x0P := by
-  set g : Sec4.Sporadic.J2.GJ := MulEquiv.subgroupCongr
-    CFSG.ComponentClassification.J2Cover.Models.P_eq_autP (C4725.wordP C4725.gWord)
   have h := CFSG.Monster.B.Co2.eq_of_eqA
     (CFSG.Monster.B.Co2.rep_compA (CFSG.ComponentClassification.J2Cover.Models.rep_wordArr
       C4725.gWord) Sec4.Sporadic.J2.rep_z)
     (CFSG.Monster.B.Co2.rep_compA (CFSG.ComponentClassification.J2Cover.Models.rep_wordArr
       C4725.x0Word) (CFSG.ComponentClassification.J2Cover.Models.rep_wordArr C4725.gWord))
     C4725.conjCheck_spec.1
-  refine ⟨g, mul_inv_eq_of_eq_mul (Subtype.ext ?_)⟩
-  simp only [g, Subgroup.coe_mul, MulEquiv.subgroupCongr_apply, C4725.x0P, C4725.coe_wordP]
+  refine ⟨MulEquiv.subgroupCongr CFSG.ComponentClassification.J2Cover.Models.P_eq_autP
+    (C4725.wordP C4725.gWord), mul_inv_eq_of_eq_mul (Subtype.ext ?_)⟩
+  rw [Subgroup.coe_mul, Subgroup.coe_mul, MulEquiv.subgroupCongr_apply,
+    MulEquiv.subgroupCongr_apply, C4725.x0P, C4725.coe_wordP, C4725.coe_wordP]
   exact h
 
 theorem x0J_ne_one :
@@ -81,6 +81,7 @@ theorem threeCentral_x0J :
   obtain ⟨g, hg⟩ := exists_conj_zJ_eq
   have h1 := threeCentral_map (MulAut.conj g) threeCentral_zJ
   rw [MulAut.conj_apply, hg] at h1
+  rw [x0J, eJP, MulEquiv.trans_apply]
   exact threeCentral_map CFSG.ComponentClassification.J2Cover.nativeEquivP.symm h1
 
 @[expose] noncomputable def mulAutToEnd (A : Type*) [CommGroup A] [Module (ZMod 2) (Additive A)] :

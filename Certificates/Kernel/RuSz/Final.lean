@@ -71,8 +71,10 @@ theorem tr_letter (l : Nat × Bool) :
   by_cases hi : i = 0
   · subst hi
     cases b
-    · exact ⟨trSI, bS.2.1⟩
-    · exact ⟨trS.1, trS.2⟩
+    · rw [if_pos rfl, if_neg Bool.false_ne_true]
+      exact ⟨trSI, bS.2.1⟩
+    · rw [if_pos rfl, if_pos rfl]
+      exact ⟨trS.1, trS.2⟩
   · have e : Nat.beq i 0 = false := by
       rw [Bool.eq_false_iff]
       intro h
@@ -80,8 +82,10 @@ theorem tr_letter (l : Nat × Bool) :
     simp only [hi, ↓reduceIte]
     rw [e]
     cases b
-    · exact ⟨trTI, bT.2.1⟩
-    · exact ⟨trT.1, trT.2⟩
+    · rw [if_neg Bool.false_ne_true]
+      exact ⟨trTI, bT.2.1⟩
+    · rw [if_pos rfl]
+      exact ⟨trT.1, trT.2⟩
 
 theorem tr_wordST : ∀ v : List (Nat × Bool),
     TR 4060 (CFSG.Sporadic.Bridge.TwoGen.Native.wordTab 4060 sTab sInv tTab tInv v)

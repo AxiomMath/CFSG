@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.PSp43Sylow
+public import Certificates.Data.OmegaT0Words
 
 public section
 
@@ -67,18 +68,60 @@ local notation "P45" => Equiv.Perm (Fin 45)
 @[expose] def cntCent (L : List P45) (r : P45) : ℕ :=
   (L.filter fun g => decide (g * r = r * g)).length
 
+@[expose] def wordW {M : Type*} [Monoid M] (gs : List M) (w : List ℕ) : M :=
+  w.foldr (fun i g => gs.getD i 1 * g) 1
+
+@[expose] def coverW {M : Type*} [Group M] [DecidableEq M] (gs reps : List M) :
+    List M → List (List ℕ) → Bool
+  | [], _ => true
+  | t :: L, ws =>
+    if decide (t * t = 1 ∧ t ≠ 1) then
+      match ws with
+      | [] => false
+      | w :: ws =>
+        (reps.any fun r => decide (wordW gs w * t * (wordW gs w)⁻¹ = r)) && coverW gs reps L ws
+    else coverW gs reps L ws
+
+@[expose] def treeL {M : Type*} [One M] (f : M → M → M) (a : M) (gs : List M)
+    (ps : List (ℕ × ℕ)) : List M :=
+  ps.foldl (fun L kp => L ++ [f (gs.getD kp.1 1) (L.getD kp.2 a)]) [a]
+
+@[expose] def mulTab {M : Type*} [Monoid M] [DecidableEq M] (gs L : List M) (ts : List (List ℕ))
+    (k : ℕ) : Bool :=
+  decide (L.length = k) && decide (ts.length = gs.length) &&
+    (gs.zip ts).all fun st => (List.range k).all fun i =>
+      decide (st.2.getD i 0 < k) && decide (st.1 * L.getD i 1 = L.getD (st.2.getD i 0) 1)
+
+@[expose] def nodupB : List ℕ → ℕ → Bool
+  | [], _ => true
+  | c :: cs, m => !m.testBit c && nodupB cs (m ||| 2 ^ c)
+
+@[expose] def pcode {n : ℕ} (ps : List (Fin n)) (σ : Equiv.Perm (Fin n)) : ℕ :=
+  ps.foldr (fun p a => (σ p).val + n * a) 0
+
+@[expose] def orbTr {M : Type*} [Group M] [DecidableEq M] (cd : M → ℕ) (gs : List M) (r : M)
+    (ps : List (ℕ × ℕ)) (ts : List (List ℕ)) (k : ℕ) : Bool :=
+  let O := treeL (fun s o => s * o * s⁻¹) r gs ps
+  decide (O.length = k) && nodupB (O.map cd) 0 && decide (ts.length = gs.length) &&
+    (gs.zip ts).all fun st => decide (st.2.length = k) && (O.zip st.2).all fun oj =>
+      decide (oj.2 < k) && decide (st.1 * oj.1 * st.1⁻¹ = O.getD oj.2 r)
+
+@[expose] def t0L (_ : Unit := ()) : List P45 :=
+  treeL (· * ·) 1 (sylW.map (wordW [x45, y45])) t0P
+
 @[expose] def n7Chk (_ : Unit := ()) : Bool :=
-  let L0 := elemsT QP45
-  let T := elemsT QT0
+  let S := [x45, y45]
+  let T := t0L ()
   let z := z0 ()
   let y := yB ()
   let a := za ()
   let b := zb ()
   let c := ya ()
   let d := yb ()
-  coverOK [z, y] L0 && decide (z ∈ T) && decide (y ∈ T) &&
-    decide (cntCent L0 z = 576) && decide (cntCent T z = 64) &&
-    decide (cntCent L0 y = 96) && decide (cntCent T y = 32) &&
+  mulTab (sylW.map (wordW S)) T t0T 64 && coverW S [z, y] T covW && decide (z ∈ T) &&
+    decide (y ∈ T) &&
+    orbTr (pcode [0, 1, 3]) S z orbZP orbZT 45 && decide (cntCent T z = 64) &&
+    orbTr (pcode [0, 1, 3]) S y orbYP orbYT 270 && decide (cntCent T y = 32) &&
     decide (a ∈ T) && decide (b ∈ T) && decide (a * z = z * a) && decide (b * z = z * b) &&
     decide (a * b * a⁻¹ * b⁻¹ = z) &&
     decide (c ∈ T) && decide (d ∈ T) && decide (c * y = y * c) && decide (d * y = y * d) &&

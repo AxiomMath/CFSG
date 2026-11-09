@@ -18,8 +18,8 @@ namespace CertificateChecks.KernelLC.HeR
 
 end CertificateChecks.KernelLC.HeR
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLC.HeRW
-  "Certificates/Kernel/LocalComp/data/herw.json.gz" 241 7302964811756470322
+#kc_repo #kc_json CertificateChecks.KernelLC.HeRW
+  "Certificates/Kernel/LocalComp/data/herw.json" 241 7302964811756470322
   (W : List (List Nat))
 
 set_option Elab.async false

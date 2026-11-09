@@ -2,10 +2,10 @@ module
 
 import CFSG.Certificates.Kernel.Common.Harness
 public import Init
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.U43M12 "CFSG/Certificates/Kernel/Bounds/U43Alt/Data/data/M12/tbl.items.gz" 8643 10998050910827758624
+#kc_repo #kc_nat_items CFSG.KD.U43M12 "CFSG/Certificates/Kernel/Bounds/U43Alt/Data/data/M12/tbl.items" 8643 10998050910827758624
   TBL
 
 public section

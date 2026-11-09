@@ -96,9 +96,11 @@ theorem letterPerm_lab {a : Nat} (ha : a < 2) : letterPerm mQ 2 (Int.ofNat a + 1
   congr 1
   omega
 
-theorem loop_word : ∀ (l : List Nat) (w : List Int) (k : Nat), k < mTree.pts.size →
-    k ≤ l.length → wordG (letterPerm mQ 2) (forIn l (w, k) (twStep mTree)).1 =
-      wordG (letterPerm mQ 2) w * CFSG.Perm.treeG mTree mQ k
+theorem loop_word_of (T : Tree)
+    (hpar : ∀ k < T.pts.size, 0 < k → ap T.par k < k ∧ ap T.lab k ∈ (#[0, 1] : Array Nat)) :
+    ∀ (l : List Nat) (w : List Int) (k : Nat), k < T.pts.size →
+    k ≤ l.length → wordG (letterPerm mQ 2) (forIn l (w, k) (twStep T)).1 =
+      wordG (letterPerm mQ 2) w * CFSG.Perm.treeG T mQ k
   | [], w, k, _, hl => by
     have : k = 0 := by simpa using hl
     subst this
@@ -107,13 +109,13 @@ theorem loop_word : ∀ (l : List Nat) (w : List Int) (k : Nat), k < mTree.pts.s
   | a :: l, w, k, hk, hl => by
     rw [List.forIn_cons]
     by_cases h0 : 0 < k
-    · obtain ⟨hp, hlab⟩ := mTree_facts.par k hk h0
-      have hl2 : ap mTree.lab k < 2 := hmLv _ hlab
+    · obtain ⟨hp, hlab⟩ := hpar k hk h0
+      have hl2 : ap T.lab k < 2 := hmLv _ hlab
       have hl' : k ≤ l.length + 1 := by simpa using hl
-      have ih := loop_word l (w ++ [Int.ofNat (ap mTree.lab k) + 1]) (ap mTree.par k) (by omega)
+      have ih := loop_word_of T hpar l (w ++ [Int.ofNat (ap T.lab k) + 1]) (ap T.par k) (by omega)
         (by omega)
-      have e : twStep mTree a (w, k) =
-          ForInStep.yield (w ++ [Int.ofNat (ap mTree.lab k) + 1], ap mTree.par k) := by
+      have e : twStep T a (w, k) =
+          ForInStep.yield (w ++ [Int.ofNat (ap T.lab k) + 1], ap T.par k) := by
         unfold twStep
         rw [if_pos h0]
       rw [e]
@@ -126,24 +128,35 @@ theorem loop_word : ∀ (l : List Nat) (w : List Int) (k : Nat), k < mTree.pts.s
         rw [letterPerm_lab hl2]
     · have : k = 0 := by omega
       subst this
-      have e : twStep mTree a (w, 0) = ForInStep.done (w, 0) := by
+      have e : twStep T a (w, 0) = ForInStep.done (w, 0) := by
         unfold twStep
         rw [if_neg h0]
       rw [e, CFSG.Perm.treeG_zero, mul_one]
       try rfl
 
-theorem wordG_treeWord {p : Nat} (hp : ap mTree.pos p < mTree.pts.size) :
-    wordG (letterPerm mQ 2) (treeWord mTree p) = CFSG.Perm.treeG mTree mQ (ap mTree.pos p) := by
+theorem wordG_treeWord_of (T : Tree)
+    (hpar : ∀ k < T.pts.size, 0 < k → ap T.par k < k ∧ ap T.lab k ∈ (#[0, 1] : Array Nat))
+    (hsz : T.pts.size = 920808) {p : Nat} (hp : ap T.pos p < T.pts.size) :
+    wordG (letterPerm mQ 2) (treeWord T p) = CFSG.Perm.treeG T mQ (ap T.pos p) := by
   unfold treeWord
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size]
-  have hlen : ap mTree.pos p ≤ (List.range' 0 ((degree - 0 + 1 - 1) / 1)).length := by
-    rw [mTree_size] at hp
+  have hlen : ap T.pos p ≤ (List.range' 0 ((degree - 0 + 1 - 1) / 1)).length := by
+    rw [hsz] at hp
     simp only [List.length_range', degree]
     omega
-  have h := loop_word (List.range' 0 ((degree - 0 + 1 - 1) / 1)) [] (ap mTree.pos p) hp hlen
+  have h := loop_word_of T hpar (List.range' 0 ((degree - 0 + 1 - 1) / 1)) [] (ap T.pos p) hp hlen
   have e : wordG (letterPerm mQ 2) ([] : List Int) = 1 := by simp [wordG]
   rw [e, one_mul] at h
   exact h
+
+theorem loop_word : ∀ (l : List Nat) (w : List Int) (k : Nat), k < mTree.pts.size →
+    k ≤ l.length → wordG (letterPerm mQ 2) (forIn l (w, k) (twStep mTree)).1 =
+      wordG (letterPerm mQ 2) w * CFSG.Perm.treeG mTree mQ k :=
+  loop_word_of mTree mTree_facts.par
+
+theorem wordG_treeWord {p : Nat} (hp : ap mTree.pos p < mTree.pts.size) :
+    wordG (letterPerm mQ 2) (treeWord mTree p) = CFSG.Perm.treeG mTree mQ (ap mTree.pos p) :=
+  wordG_treeWord_of mTree mTree_facts.par mTree_size hp
 
 theorem geomWords_get {i : Nat} (hi : i < 7) :
     (geomWords (mTabs ()))[i]! = treeWord mTree (gRoot i) := by

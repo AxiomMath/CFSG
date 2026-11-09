@@ -17,14 +17,14 @@ open scoped Classical
 
 set_option maxRecDepth 100000
 
-theorem centralizer_fiveElt_eq (_hF : J4Facts) :
+theorem centralizer_fiveElt_eq :
     Subgroup.centralizer ({fiveElt} : Set J) = X0Sub :=
   centralizer_fiveElt_eq_X0Sub
 
 theorem card_centralizer_fiveElt
     (hF : J4Facts) :
     Nat.card ↥(Subgroup.centralizer ({fiveElt} : Set J)) = 6720 := by
-  rw [centralizer_fiveElt_eq hF]
+  rw [centralizer_fiveElt_eq]
   exact card_X0Sub hF.mat
 
 end CFSG.Sporadic.J4.QT2

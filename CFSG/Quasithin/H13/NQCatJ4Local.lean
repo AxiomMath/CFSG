@@ -4,6 +4,7 @@ public import CFSG.Quasithin.H13.NQCatJ4Check
 public import CFSG.Quasithin.H13.NQCatJ4Rank
 public import CFSG.LocalAnalysis.SectionRank.Sporadic.J4Local
 public import CFSG.Sporadic.J4
+import CFSG.Quasithin.H13.NQCatJ4Transport
 import all CFSG.Blueprint.NativeSporadic
 import all CFSG.Sporadic.J4.Group
 
@@ -25,6 +26,46 @@ theorem jmat_injective : Function.Injective jmat := fun _ _ e => Subtype.ext (Un
 
 @[expose] noncomputable def fixDim (g : Sporadic.J4.J) : ℕ :=
   Module.finrank (ZMod 2) (LinearMap.ker (Matrix.mulVecLin (jmat g - 1)))
+
+theorem fixDim_conj (h g : Sporadic.J4.J) : fixDim (h * g * h⁻¹) = fixDim g := by
+  have hu : jmat h * jmat h⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
+  have e : jmat (h * g * h⁻¹) - 1 = jmat h * (jmat g - 1) * jmat h⁻¹ := by
+    rw [map_mul, map_mul, mul_sub, sub_mul, mul_one, hu]
+  have hP : IsUnit (jmat h).det :=
+    (Matrix.isUnit_iff_isUnit_det _).1 ((Group.isUnit h).map jmat)
+  have hQ : IsUnit (jmat h⁻¹).det :=
+    (Matrix.isUnit_iff_isUnit_det _).1 ((Group.isUnit h⁻¹).map jmat)
+  have hr : (jmat (h * g * h⁻¹) - 1).rank = (jmat g - 1).rank := by
+    rw [e, Matrix.rank_mul_eq_left_of_isUnit_det _ _ hQ,
+      Matrix.rank_mul_eq_right_of_isUnit_det _ _ hP]
+  have key : ∀ B : Matrix (Fin 112) (Fin 112) (ZMod 2),
+      Module.finrank (ZMod 2) (LinearMap.ker B.mulVecLin) = 112 - B.rank := by
+    intro B
+    have h := LinearMap.finrank_range_add_finrank_ker B.mulVecLin
+    rw [Module.finrank_fin_fun] at h
+    unfold Matrix.rank
+    omega
+  unfold fixDim
+  rw [key, key, hr]
+
+theorem fixDim_pow_eq (g : Sporadic.J4.J) (m m' : ℕ) (h : (g ^ m) ^ m' = g) :
+    fixDim (g ^ m) = fixDim g := by
+  have hle : ∀ (u : Sporadic.J4.J) (n : ℕ), LinearMap.ker (Matrix.mulVecLin (jmat u - 1)) ≤
+      LinearMap.ker (Matrix.mulVecLin (jmat (u ^ n) - 1)) := by
+    intro u n v hv
+    rw [LinearMap.mem_ker, Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec,
+      sub_eq_zero] at hv ⊢
+    rw [map_pow]
+    induction n with
+    | zero => rw [pow_zero, Matrix.one_mulVec]
+    | succ n ih => rw [pow_succ, ← Matrix.mulVec_mulVec, hv, ih]
+  have heq : LinearMap.ker (Matrix.mulVecLin (jmat (g ^ m) - 1)) =
+      LinearMap.ker (Matrix.mulVecLin (jmat g - 1)) := by
+    refine le_antisymm ?_ (hle g m)
+    have h' := hle (g ^ m) m'
+    rwa [h] at h'
+  unfold fixDim
+  rw [heq]
 
 noncomputable abbrev j4S : Submonoid (Matrix (Fin 112) (Fin 112) (ZMod 2)) :=
   NativeSporadic.seedMonoid 2 112 1 j4Sylow11Data.seedA j4Sylow11Data.seedB
@@ -154,42 +195,19 @@ theorem jmat_word (i j k : ℕ) :
     rowsMatrix_mulRows, rowsMatrix_mulRows, rowsMatrix_powRows, rowsMatrix_powRows,
     rowsMatrix_powRows]
 
-theorem powTable_getD (M : Array ℕ) {i : ℕ} (hi : i < 11) :
-    (powTable M).getD i #[] = powRows 112 M i := by
-  rw [powTable, List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_map,
-    List.getElem_range]
+theorem fixDimOK_reps :
+    fixDimOK 112 (j4Word 0 1 0) 12 = true ∧ ∀ b < 11, fixDimOK 112 (j4Word 1 b 0) 12 = true := by
+  have h := j4_fix_reps
+  unfold j4FixRepsOK at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range] at h
+  exact h
 
-theorem fixDimOK_noncentral
-    {i j k : ℕ} (hi : i < 11) (hj : j < 11) (hk : k < 11)
-    (hij : ¬ (i = 0 ∧ j = 0)) : fixDimOK 112 (j4Word i j k) 12 = true := by
-  have h := j4_fix_noncentral
-  unfold j4FixNoncentralOK at h
-  simp only [List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.and_eq_true,
-    beq_iff_eq] at h
-  rcases h i hi j hj with h1 | h1
-  · exact absurd h1 hij
-  · have h2 := h1 k hk
-    rwa [powTable_getD _ hi, powTable_getD _ hj, powTable_getD _ hk] at h2
-
-theorem fixDimOK_central {k : ℕ} (hk : k < 11) (hk0 : k ≠ 0) :
-    fixDimOK 112 (powRows 112 j4Z k) 2 = true := by
-  have h := j4_fix_central
-  unfold j4FixCentralOK at h
-  simp only [List.all_eq_true, List.mem_range, Bool.or_eq_true, beq_iff_eq] at h
-  rcases h k hk with h1 | h1
-  · exact absurd h1 hk0
-  · rwa [powTable_getD _ hk] at h1
+theorem j4z_pow : j4z ^ 11 = 1 := by
+  rw [commutator_pow_eq j4z_comm_x, j4x_pow, commutatorElement_one_left]
 
 theorem j4xy_pow
-    {i j : ℕ} (hi : i < 11) (hj : j < 11) : (j4x ^ i * j4y ^ j) ^ 11 = 1 := by
-  have h := j4_pow_xy
-  unfold j4PowXYOK at h
-  simp only [List.all_eq_true, List.mem_range] at h
-  have h1 := rowsMatrix_pow_eq_one_of_check (h i hi j hj)
-  rw [powTable_getD _ hi, powTable_getD _ hj, rowsMatrix_mulRows, rowsMatrix_powRows,
-    rowsMatrix_powRows] at h1
-  refine jmat_injective ?_
-  rw [map_pow, map_mul, map_pow, map_pow, jmat_j4x, jmat_j4y, h1, map_one]
+    {i j : ℕ} (hi : i < 11) (hj : j < 11) : (j4x ^ i * j4y ^ j) ^ 11 = 1 :=
+  Transport.pow_x_pow_y_pow_eleven j4z_comm_x j4z_comm_y j4z_pow j4x_pow j4y_pow i j
 
 theorem fixDim_word
     {i j k : ℕ} {d : ℕ} (h : fixDimOK 112 (j4Word i j k) d = true) :
@@ -199,8 +217,9 @@ theorem fixDim_word
 
 theorem fixDim_z_pow
     {k : ℕ} (hk : k < 11) (hk0 : k ≠ 0) : fixDim (j4z ^ k) = 2 := by
-  rw [fixDim, map_pow, jmat_j4z, ← rowsMatrix_powRows]
-  exact finrank_ker_of_fixDimOK (fixDimOK_central hk hk0)
+  obtain ⟨m', hm'⟩ := Transport.pow_pow_inv_eq j4z_pow hk hk0
+  rw [fixDim_pow_eq _ k m' hm', fixDim, jmat_j4z]
+  exact finrank_ker_of_fixDimOK j4_fix_central
 
 theorem rowsMatrix_conj_of_check {X Y W : Array ℕ} (h : (ops2 112).conjOK X Y W = true) :
     rowsMatrix 112 X * rowsMatrix 112 Y = rowsMatrix 112 W * rowsMatrix 112 X :=

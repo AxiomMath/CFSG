@@ -12,10 +12,10 @@ open CFSG.Monster.AxisCount CFSG.AGLEmbedding.Norton.MON5_7 CFSG.AGLEmbedding.No
   CFSG.AGLEmbedding.Norton.MON11_13 CFSG.YGroups.Y443 CFSG.KC.KDenseP.MonThreeB
   CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterThirteen
 
-@[expose] def s0sqW13 : List Native.Gen := powL 11 genD13W1 ++ powL 5 genD13W2 ++ powL 3 genD13W0
+@[expose] def gX1W13 : List Native.Gen := powL 3 genD13W3 ++ censusGW
 
 @[expose] def e16959 : Prs :=
-  thirteenAPairs.take 8 ++ [(s0sqW13 ++ censusGW, censusGW ++ thirteenX ++ thirteenX)]
+  thirteenAPairs.take 8 ++ [(genD13W0 ++ gX1W13, gX1W13 ++ thirteenX ++ thirteenX)]
 
 @[expose] def n16959 : Prs :=
   [(.tau :: j1W, [.tau]), (.tau :: j2W, [.tau]), (.tau :: (j1W ++ j2W), [.tau])]

@@ -4,6 +4,7 @@ public import CFSG.Sporadic.SuzRecog.LocalRFusionTests
 public import Certificates.Data.SuzLevelTwoBase
 public import Certificates.Data.C1ModelData
 public import Certificates.Data.CFSGNative.PSL3Four.L34Aut
+import CFSG.Certificates.Kernel.Common.RawProj
 
 public section
 
@@ -110,7 +111,7 @@ open CFSG.ComponentClassification.AS81.SuzB0 CFSG.Monster.B.Co2.Native CFSG.PSL3
 @[expose] def commT0 (x : Tab) : Bool :=
   allBelow 4 fun i => comp 1782 x t0Tabs[i]! == comp 1782 t0Tabs[i]! x
 
-@[expose] def ct0Tabs : Array Tab := ct0Enum.tabs
+abbrev ct0Tabs : Array Tab := rawProj% ct0Enum.tabs
 
 @[expose] def c0Tabs : Array Tab := v0Enum.tabs.filter commT0
 

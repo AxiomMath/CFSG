@@ -1,11 +1,12 @@
 module
 
-public import Certificates.Kernel.Sporadic.ONVec.Data
+public import Certificates.Kernel.Sporadic.ONVec.SigW
+public import Certificates.Kernel.Sporadic.ON.GenF
 
 public section
 
 set_option maxRecDepth 400000
 
-#kon_slices CertificateChecks.KernelSpor.ONVec.sigS 0 128
+#konf_slices CertificateChecks.KernelSpor.ONVec.sigS CertificateChecks.KernelSpor.ONVec.sigS_of_W 0 128
 
 end

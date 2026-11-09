@@ -8,6 +8,6 @@ open CFSG.CosetTable CFSG.StandardType.QTwo.SixPoint
 
 public section
 
-#kb_family "data/F725008.json.gz" 918 7519560339160667810 (r0 := relsP6 ())
+#kb_family "data/F725008.json" 918 7519560339160667810 (r0 := relsP6 ())
 
 end

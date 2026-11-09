@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.OmegaEight.PlusW
+public import CFSG.Certificates.Kernel.O8PhiImgSound
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -55,14 +56,18 @@ theorem p3_okP : p3Check wP = true := by
     quickRfl
 
 theorem phi_okP : phiCheck wP = true := by
-  simp only [phiCheck, Bool.and_eq_true, decide_eq_true_eq]
-  refine ⟨⟨⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
-  · rw [fixCount_eq]
-    decide +kernel
-  · simp only [imgCheckW, mulVecK_eq, wP]
+  have hi : imgCheckW phiK wP.imgX = true := by
+    simp only [imgCheckW, mulVecK_eq, wP]
     quickRfl
+  have hinv : invPair phiK phiK = true := by
+    simp only [invPair, mulK_eq, idK_eq]
+    quickRfl
+  simp only [phiCheck, Bool.and_eq_true, decide_eq_true_eq]
+  refine ⟨⟨⟨⟨⟨⟨⟨⟨?_, hi⟩, hinv⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  · rw [fixCount_eq_of_imgCheckW hinv hi]
+    decide
   all_goals
-    try simp only [invPair, commGens, mulK_eq, idK_eq, ← Array.all_toList]
+    try simp only [commGens, mulK_eq, idK_eq, ← Array.all_toList]
     quickRfl
 
 end CertificateChecks.KernelO8

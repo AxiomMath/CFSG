@@ -7,6 +7,6 @@ open CFSG.ClassicalInvolution.Q3.Q3Z
 
 public section
 
-#kb_family "data/F17352.json.gz" 842 5906478319372368669 (r0 := a2Words)
+#kb_family "data/F17352.json" 842 5906478319372368669 (r0 := a2Words)
 
 end

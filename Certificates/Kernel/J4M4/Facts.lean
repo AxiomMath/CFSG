@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Certificates.Kernel.J4M4Sound
+public import CFSG.Certificates.Kernel.Misc.F2BfsRec2Sound
 public import Certificates.Kernel.J4M4.Misc
 public import Certificates.Kernel.J4M4.Small
 public import Certificates.Kernel.J4M4.KTree
@@ -43,14 +44,14 @@ section Sets
 
 variable {L : List (ℕ × ℕ)} {SL : List ℕ}
   (hT : oneK ∈ SL ∧ (∀ k ∈ SL, ReachN (actR (L.map ccK)) L.length oneK 64 k) ∧ SL.Nodup)
-  (hC : closeOK (actR (L.map ccK)) L.length SL = true)
+  (hC : ∀ s < L.length, ∀ k ∈ SL, actR (L.map ccK) s k ∈ SL)
 include hT hC
 
 theorem hT' : oneK ∈ SL ∧ (∀ k ∈ SL, ReachN (actR (L.map ccK)) (L.map cc).length oneK 64 k) ∧
     SL.Nodup := by
   rwa [List.length_map]
 
-theorem hC' : closeOK (actR (L.map ccK)) (L.map cc).length SL = true := by
+theorem hC' : ∀ s < (L.map cc).length, ∀ k ∈ SL, actR (L.map ccK) s k ∈ SL := by
   rwa [List.length_map]
 
 theorem set_mem (y : Code) : y ∈ closureOf (L.map cc) ↔ ∃ k ∈ SL, RC y k := by
@@ -122,13 +123,77 @@ theorem K_T : oneK ∈ KL ∧ (∀ k ∈ KL, ReachN (actR (kGens.map ccK)) kGens
   rw [e]
   exact layK_all (d - 1) hd
 
-theorem K_C : closeOK (actR (kGens.map ccK)) kGens.length KL = true := by
-  rw [← bound_parts.2.2, len_k.2, closeOK, List.all_eq_true]
-  intro s hs
-  have hs' := List.mem_range.mp hs
-  interval_cases s
-  exacts [closeKS0, closeKS1, closeKS2, closeKS3, closeKS4, closeKS5, closeKS6, closeKS7, closeKS8,
-    closeKS9]
+theorem mulW_assoc12 (a b c : ℕ) : mulW 12 (mulW 12 a b) c = mulW 12 a (mulW 12 b c) := by
+  simp only [mulW_eq]
+  exact CFSG.KC.F2Mat.matOfF_inj (CFSG.KC.F2BfsRec.mulF_lt _ _ _) (CFSG.KC.F2BfsRec.mulF_lt _ _ _)
+    (by simp only [CFSG.KC.F2Mat.matOfF_mulF, mul_assoc])
+
+theorem mem_runs_iff {α : Type} (c m : ℕ) (L : List α) (h : L.length = c * m) (x : α) :
+    x ∈ L ↔ ∃ i < c, x ∈ (L.drop (m * i)).take m := by
+  induction c generalizing L with
+  | zero =>
+    simp only [Nat.zero_mul, List.length_eq_zero_iff] at h
+    subst h
+    simp
+  | succ c ih =>
+    have hd : (L.drop m).length = c * m := by
+      rw [List.length_drop, h, Nat.succ_mul, Nat.add_sub_cancel]
+    have e : x ∈ L ↔ x ∈ L.take m ∨ x ∈ L.drop m := by
+      conv_lhs => rw [← List.take_append_drop m L]
+      exact List.mem_append
+    rw [e, ih _ hd]
+    constructor
+    · rintro (hx | ⟨i, hi, hx⟩)
+      · exact ⟨0, by omega, by simpa using hx⟩
+      · refine ⟨i + 1, by omega, ?_⟩
+        rw [List.drop_drop] at hx
+        rwa [Nat.mul_add_one, Nat.add_comm]
+    · rintro ⟨i, hi, hx⟩
+      cases i with
+      | zero => exact Or.inl (by simpa using hx)
+      | succ i =>
+        refine Or.inr ⟨i, by omega, ?_⟩
+        rw [List.drop_drop]
+        rwa [Nat.mul_add_one, Nat.add_comm] at hx
+
+theorem mem_TN {x : ℕ} : x ∈ KL ↔ ∃ t ∈ TL, ∃ n ∈ NL, mulW 12 t n = x := by
+  have hT := tLen_k
+  rw [mem_runs_iff 16 1024 KL bound_parts.2.1 x]
+  constructor
+  · rintro ⟨i, hi, hx⟩
+    rw [← (eqL_iff _ _).mp (tn_k i hi), (msort_perm _).mem_iff, List.mem_flatMap] at hx
+    obtain ⟨t, ht, hx⟩ := hx
+    obtain ⟨n, hn, rfl⟩ := List.mem_map.mp hx
+    exact ⟨t, (mem_runs_iff 16 16 TL hT t).mpr ⟨i, hi, ht⟩, n, hn, rfl⟩
+  · rintro ⟨t, ht, n, hn, rfl⟩
+    obtain ⟨i, hi, ht⟩ := (mem_runs_iff 16 16 TL hT t).mp ht
+    refine ⟨i, hi, ?_⟩
+    rw [← (eqL_iff _ _).mp (tn_k i hi), (msort_perm _).mem_iff, List.mem_flatMap]
+    exact ⟨t, ht, List.mem_map_of_mem hn⟩
+
+theorem K_close : ∀ s < 10, ∀ k ∈ KL, mulW 12 k (KG.getD s 0) ∈ KL := by
+  intro s hs k hk
+  obtain ⟨t, ht, n, hn, rfl⟩ := mem_TN.mp hk
+  have hN := (eqL_iff _ _).mp (List.all_eq_true.mp nnorm_k s (List.mem_range.mpr hs))
+  have h1 : mulW 12 n (KG.getD s 0) ∈ msort (NL.map (mulW 12 (KG.getD s 0))) := by
+    rw [← hN, (msort_perm _).mem_iff]
+    exact List.mem_map_of_mem hn
+  rw [(msort_perm _).mem_iff, List.mem_map] at h1
+  obtain ⟨c, hc, hce⟩ := h1
+  have h2 : mulW 12 t (KG.getD s 0) ∈ KL := by
+    refine subF_sound _ _ _ tgen_k _ ?_
+    rw [(msort_perm _).mem_iff, List.mem_flatMap]
+    exact ⟨t, ht, List.mem_map.mpr ⟨s, List.mem_range.mpr hs, rfl⟩⟩
+  obtain ⟨t', ht', n', hn', he⟩ := mem_TN.mp h2
+  have h3 : mulW 12 n' c ∈ NL := by
+    rw [← (eqL_iff _ _).mp (List.all_eq_true.mp ncl_k n' hn'), (msort_perm _).mem_iff]
+    exact List.mem_map_of_mem hc
+  refine mem_TN.mpr ⟨t', ht', _, h3, ?_⟩
+  rw [mulW_assoc12 t, ← hce, ← mulW_assoc12 t (KG.getD s 0) c, ← he, mulW_assoc12 t' n' c]
+
+theorem K_C : ∀ s < kGens.length, ∀ k ∈ KL, actR (kGens.map ccK) s k ∈ KL := by
+  rw [← bound_parts.2.2, len_k.2]
+  exact K_close
 
 theorem gp_len : (pairsOf (kGens.map cc)).length = 10 := by
   rw [pairsOf, List.length_map, List.length_map]
@@ -205,6 +270,7 @@ theorem orbit_of_rec {x : Code} {r : ℕ × ℕ × List (List (ℕ × ℕ × ℕ
   have hC : closeOK (actC KG KGI) (pairsOf (kGens.map cc)).length (CL.getD r.2.1 []) = true := by
     rw [gp_len]; exact hc.1
   replace hT := certOK_sound hT
+  replace hC := closeOK_sound hC
   obtain ⟨h1, h2⟩ := closed_of_cert (d := (1, 1)) (conj_step gp_rc) hx hT hC
   refine ⟨?_, ?_, fun h4 => ?_⟩
   · unfold orbOK

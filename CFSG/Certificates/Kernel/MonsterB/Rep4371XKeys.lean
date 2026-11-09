@@ -220,7 +220,7 @@ theorem conjPermN_lt (p : Array Nat) (a d : Nat) : (Model.conjPermN p (false, a,
 include hTH hP hBT hK in
 theorem actPerm_eq (κ : Nat) : Model.keyActPerm p (kd κ) = (actPermT TH P BT K κ).map td := by
   have hP' : ∀ i < 24, pe P i = p[i]! := fun i _ => hP i
-  unfold actPermT
+  unfold actPermT lIf
   rw [kt_eq, kx_eq, ky_eq]
   unfold kd
   have hx : κ / 4 % 4096 < 4096 := Nat.mod_lt _ (by decide)

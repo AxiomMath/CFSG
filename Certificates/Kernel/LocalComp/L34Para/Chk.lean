@@ -13,31 +13,43 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.PEnum CFSG.KC.BfsPin 
 open CFSG.ComponentClassification.GrSLit.L34Facts
 open CFSG.KLie.CT (andB orB notB)
 
-theorem kT_gens : gensK (wordTabs wT₀) 42 6 4 L34PT.G = true := by quickRfl
+@[expose] noncomputable def yFold (a : Nat) (ls : List Nat) : Nat :=
+  ls.foldl (fun b l => strictN b fun c => pcomp 42 6 (mask 6) c (L34PR.Y (Nat.succ l))) a
+
+@[expose] noncomputable def wordsPK (ws : List (List Nat)) (k : Nat) (G : Nat → Nat) : Bool :=
+  bAnd(Nat.beq ws.length k, allN k fun j => bAnd((ws.getD j []).all (fun l => Nat.blt l 3),
+    Nat.beq (G j) (yFold (pidn 42 6) (ws.getD j []))))
+
+theorem kYGen :bAnd(szOK 42 6, bAnd(canonK 42 6 (mask 6) (42 * 6) (pidn 42 6), allN 3 fun l =>
+    bAnd(bindArrK (genT l) 42 6 (L34PR.Y (Nat.succ l)),
+      canonK 42 6 (mask 6) (42 * 6) (L34PR.Y (Nat.succ l))))) = true := by
+  quickRfl
+
+theorem kT_gens : wordsPK wT₀ 4 L34PT.G = true := by quickRfl
 theorem kT_hd : penumHdK (pidn 42 6) 64 64 L34PT.T L34PT.PL = true := by quickRfl
 theorem kT_sl : penumSlK 42 6 (mask 6) (42 * 6) false L34PT.G L34PT.GI 4 64 L34PT.T L34PT.PL
     L34PT.POS L34PT.SRT L34PT.SRI 0 64 = true := by
   quickRfl
 
-theorem kB_gens : gensK (wordTabs wB₀) 42 6 3 L34PB.G = true := by quickRfl
+theorem kB_gens : wordsPK wB₀ 3 L34PB.G = true := by quickRfl
 theorem kB_hd : penumHdK (pidn 42 6) 192 192 L34PB.T L34PB.PL = true := by quickRfl
 theorem kB_sl : penumSlK 42 6 (mask 6) (42 * 6) false L34PB.G L34PB.GI 3 192 L34PB.T L34PB.PL
     L34PB.POS L34PB.SRT L34PB.SRI 0 192 = true := by
   quickRfl
 
-theorem kP1_gens : gensK (wordTabs wP₁) 42 6 3 L34P1.G = true := by quickRfl
+theorem kP1_gens : wordsPK wP₁ 3 L34P1.G = true := by quickRfl
 theorem kP1_hd : penumHdK (pidn 42 6) 960 960 L34P1.T L34P1.PL = true := by quickRfl
 theorem kP1_sl : penumSlK 42 6 (mask 6) (42 * 6) false L34P1.G L34P1.GI 3 960 L34P1.T L34P1.PL
     L34P1.POS L34P1.SRT L34P1.SRI 0 960 = true := by
   quickRfl
 
-theorem kP2_gens : gensK (wordTabs wP₂) 42 6 3 L34P2.G = true := by quickRfl
+theorem kP2_gens : wordsPK wP₂ 3 L34P2.G = true := by quickRfl
 theorem kP2_hd : penumHdK (pidn 42 6) 960 960 L34P2.T L34P2.PL = true := by quickRfl
 theorem kP2_sl : penumSlK 42 6 (mask 6) (42 * 6) false L34P2.G L34P2.GI 3 960 L34P2.T L34P2.PL
     L34P2.POS L34P2.SRT L34P2.SRI 0 960 = true := by
   quickRfl
 
-theorem kY : gensK (wordTabs wReps) 42 6 105 L34PR.Y = true := by quickRfl
+theorem kY : wordsPK wReps 105 L34PR.Y = true := by quickRfl
 
 @[expose] noncomputable def bInv (j : Nat) : Nat := pinvS 42 6 (mask 6) (L34PB.G j)
 

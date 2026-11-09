@@ -17,13 +17,73 @@ theorem hexadList_checks' : hexadList.length = 77 ∧ hexadList.Nodup ∧ hexad0
       hexadMasks.contains (mask (B.map m22gB.toEmbedding))) = true := by
   decide +kernel
 
+@[expose] def hexadMaskLits : List ℕ :=
+  [655879, 1065035, 270387, 2163075, 39939, 12429, 3147797, 33125, 345093, 132377, 68137, 2916361,
+    594001, 49809, 1574049, 2248737, 395457, 2106945, 1315585, 551169, 1286145, 2098222, 20758,
+    75846, 1343622, 526490, 41738, 462858, 2261074, 1115666, 4834, 1181986, 639010, 787778, 156802,
+    2378242, 3682306, 262748, 1638668, 182284, 196788, 566292, 1073700, 792612, 2638020, 1184836,
+    3972, 2498820, 2200068, 1085496, 2187288, 663656, 278952, 99528, 2103624, 3277448, 546312,
+    1321992, 19568, 2622256, 1057232, 2364560, 362768, 145936, 1982480, 3473504, 2140320, 79136,
+    427552, 213824, 1608256, 323648, 692608, 860800, 1136768, 3196160, 2821120]
+
+theorem hexadMasks_eq_lits : hexadMasks = hexadMaskLits := by
+  decide +kernel
+
+@[expose] def tripleCount (L : List ℕ) (a b c : ℕ) : ℕ :=
+  (L.filter fun m => m.testBit a && m.testBit b && m.testBit c).length
+
+@[expose] def triplesB (L : List ℕ) : Bool :=
+  (List.range 22).all fun c => (List.range c).all fun b => (List.range b).all fun a =>
+    tripleCount L a b c == 1
+
+theorem triplesB_lits : triplesB hexadMaskLits = true := by
+  decide +kernel
+
+theorem tripleCount_swap12 (L : List ℕ) (a b c : ℕ) :
+    tripleCount L a b c = tripleCount L b a c := by
+  unfold tripleCount
+  congr 2
+  funext m
+  cases m.testBit a <;> cases m.testBit b <;> rfl
+
+theorem tripleCount_swap23 (L : List ℕ) (a b c : ℕ) :
+    tripleCount L a b c = tripleCount L a c b := by
+  unfold tripleCount
+  congr 2
+  funext m
+  cases m.testBit a <;> cases m.testBit b <;> cases m.testBit c <;> rfl
+
+theorem tripleCount_of_triplesB {L : List ℕ} (h : triplesB L = true) {a b c : ℕ} (hab : a ≠ b)
+    (hac : a ≠ c) (hbc : b ≠ c) (ha : a < 22) (hb : b < 22) (hc : c < 22) :
+    tripleCount L a b c = 1 := by
+  have key : ∀ a b c, a < b → b < c → c < 22 → tripleCount L a b c = 1 := by
+    intro a b c h1 h2 h3
+    simp only [triplesB, List.all_eq_true, List.mem_range, beq_iff_eq] at h
+    exact h c h3 b h2 a h1
+  rcases Nat.lt_or_gt_of_ne hab with h1 | h1 <;> rcases Nat.lt_or_gt_of_ne hac with h2 | h2 <;>
+    rcases Nat.lt_or_gt_of_ne hbc with h3 | h3 <;>
+    first
+    | exact key _ _ _ (by omega) (by omega) (by omega)
+    | (rw [tripleCount_swap12]; exact key _ _ _ (by omega) (by omega) (by omega))
+    | (rw [tripleCount_swap23]; exact key _ _ _ (by omega) (by omega) (by omega))
+    | (rw [tripleCount_swap12, tripleCount_swap23]
+       exact key _ _ _ (by omega) (by omega) (by omega))
+    | (rw [tripleCount_swap23, tripleCount_swap12]
+       exact key _ _ _ (by omega) (by omega) (by omega))
+    | (rw [tripleCount_swap12, tripleCount_swap23, tripleCount_swap12]
+       exact key _ _ _ (by omega) (by omega) (by omega))
+
 theorem hexadMasks_triples' : ∀ x y z : Fin 22, x ≠ y → x ≠ z → y ≠ z →
     (hexadMasks.filter fun m => m.testBit x && m.testBit y && m.testBit z).length = 1 := by
-  decide +kernel
+  intro x y z hxy hxz hyz
+  rw [hexadMasks_eq_lits]
+  exact tripleCount_of_triplesB triplesB_lits (Fin.val_ne_of_ne hxy) (Fin.val_ne_of_ne hxz)
+    (Fin.val_ne_of_ne hyz) x.2 y.2 z.2
 
 theorem hexadMasks_intersections' : ∀ m ∈ hexadMasks,
     (hexadMasks.filter fun m' => interBits m m' == 0).length = 16 ∧
       (hexadMasks.filter fun m' => interBits m m' == 2).length = 60 := by
+  rw [hexadMasks_eq_lits]
   decide +kernel
 
 @[expose] def wordPerm (w : List Bool) : Perm (Fin 22) :=

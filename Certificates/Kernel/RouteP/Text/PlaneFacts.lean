@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.RouteP.Text.PlanesX
 public import Certificates.Kernel.RouteP.Text.Layout
 public import Mathlib.Tactic.ReduceModChar
+import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
@@ -96,8 +97,51 @@ theorem pxRowsK_true : pxRowsK = true := by decide +kernel
 
 theorem pxBaseK_true : pxBaseK = true := by decide +kernel
 
-set_option maxHeartbeats 0 in
-theorem pxDistinctK_true : pxDistinctK = true := by decide +kernel
+@[expose] noncomputable def pxAllK (n : Nat) (f : Nat → Bool) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun k ih => Bool.rec (motive := fun _ => Bool) false ih (f k)) n
+
+theorem pxAllK_spec {f : Nat → Bool} : ∀ {n : Nat}, pxAllK n f = true → ∀ i < n, f i = true
+  | 0, _, i, hi => absurd hi (Nat.not_lt_zero i)
+  | n + 1, h, i, hi => by
+    change Bool.rec (motive := fun _ => Bool) false (pxAllK n f) (f n) = true at h
+    cases hf : f n
+    · rw [hf] at h; exact Bool.noConfusion h
+    · rw [hf] at h
+      rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
+      · exact pxAllK_spec h i hi
+      · exact hf
+
+@[expose] noncomputable def pxBeqK (x y : List Nat) : Bool :=
+  List.rec (motive := fun _ => List Nat → Bool)
+    (fun y => List.rec (motive := fun _ => Bool) true (fun _ _ _ => false) y)
+    (fun a _ ih y => List.rec (motive := fun _ => Bool) false
+      (fun b bs _ => Bool.rec (motive := fun _ => Bool) false (ih bs) (Nat.beq a b)) y) x y
+
+theorem pxBeqK_self : ∀ x : List Nat, pxBeqK x x = true
+  | [] => rfl
+  | a :: x => by
+    show Bool.rec (motive := fun _ => Bool) false (pxBeqK x x) (Nat.beq a a) = true
+    rw [Nat.beq_refl]
+    exact pxBeqK_self x
+
+@[expose] noncomputable def pxDistinctK2 : Bool :=
+  pxAllK 891 fun i => pxAllK i fun j => !(pxBeqK (pxRow i) (pxRow j))
+
+theorem pxDistinctK2_true : pxDistinctK2 = true := by quickRfl
+
+theorem pxDistinctK_true : pxDistinctK = true := by
+  unfold pxDistinctK
+  rw [List.all_eq_true]
+  intro i hi
+  rw [List.all_eq_true]
+  intro j hj
+  have h' := pxAllK_spec (pxAllK_spec pxDistinctK2_true i (List.mem_range.1 hi)) j
+    (List.mem_range.1 hj)
+  rw [bne_iff_ne]
+  intro e
+  rw [e, pxBeqK_self] at h'
+  exact Bool.noConfusion h'
 
 theorem pxSepK_true : pxSepK = true := by decide +kernel
 

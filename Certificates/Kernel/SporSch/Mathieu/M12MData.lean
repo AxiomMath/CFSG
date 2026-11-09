@@ -11,6 +11,7 @@ public meta import CFSG.Sporadic.Schreier.MathieuOddCoreModel
 public import CFSG.Sporadic.Schreier.MathieuOddCoreModel
 public import CFSG.Sporadic.Schreier.MathieuOddCoreOuter
 public meta import CFSG.Sporadic.Schreier.MathieuOddCoreOuter
+public import CFSG.Certificates.Kernel.SporSch.ChainKCosetClassEq
 
 public section
 
@@ -70,14 +71,36 @@ end CertificateChecks.KernelSporSch.M12MOC
 #kss_odd CertificateChecks.KernelSporSch.M12SO CertificateChecks.KernelSporSch.M12SC 24 5
   CertificateChecks.KernelSporSch.M12MOC.SC CertificateChecks.KernelSporSch.M12MOC.baseC 15
 
-#kss_cntord2 CertificateChecks.KernelSporSch.M12SX CertificateChecks.KernelSporSch.M12DQ 24 5
-  CertificateChecks.KernelSporSch.M12MOC.SM CertificateChecks.KernelSporSch.M12MOC.baseM
-  CertificateChecks.KernelSporSch.M12S CertificateChecks.KernelSporSch.M12MOC.tSM 2
+namespace CertificateChecks.KernelSporSch.M12MOC
 
-#kss_cntcomm CertificateChecks.KernelSporSch.M12SZ CertificateChecks.KernelSporSch.M12DQ 24 5
-  CertificateChecks.KernelSporSch.M12MOC.SM CertificateChecks.KernelSporSch.M12MOC.baseM
-  CertificateChecks.KernelSporSch.M12S CertificateChecks.KernelSporSch.M12MOC.tSM
-  CertificateChecks.KernelSporSch.M12MOC.A0 CertificateChecks.KernelSporSch.M12MOC.tAM
-  CertificateChecks.KernelSporSch.M12MOC.B0 CertificateChecks.KernelSporSch.M12MOC.tBM
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.M11 CFSG.KS.MEnum CFSG.KS.SporSch.MOC
+open CFSG.KS.SporSch.MBT
+
+@[expose] noncomputable def XS : List Nat :=
+  [M12S, 387153341893186120554281892352508462,
+    262344533101702297390406748030457324, 345745483202643351704816408176806380,
+    426136160660737035371432092000466380, 259817947195383774292938983637201330,
+    345376767898781270660426056587558316, 469989423826469572283540002200766892,
+    11893190894496210190204629591541164]
+
+@[expose] noncomputable def CS : List Nat := [120, 24, 12, 6, 10, 10, 6, 6, 6]
+
+theorem sRep0 : cosetRepC 24 5 (mask 5) (24 * 5) M12DQ.BP 5 M12DQ.LR M12DQ.TRI M12S
+    (XS.getD 0 0) = true := by quickRfl
+
+theorem sRepT : allN 8 (fun i => cosetRepK 24 5 (mask 5) (24 * 5) M12DQ.BP 5 M12DQ.LR M12DQ.TR
+    M12DQ.TRI M12S (XS.getD (i + 1) 0) (CS.getD (i + 1) 0)) = true := by quickRfl
+
+theorem sDist : allN 9 (fun i => allN i (fun j => distK 24 5 (mask 5) (24 * 5) M12DQ.BP 5
+    M12DQ.LR M12DQ.TR M12DQ.TRI (XS.getD j 0) (XS.getD i 0))) = true := by quickRfl
+
+theorem sSum : Nat.beq (sumAllK (ordK M12DQ.LR 5) CS 9) (ordK M12DQ.LR 5) = true := by quickRfl
+
+theorem sLt : allN 9 (fun i => Nat.blt (CS.getD i 0) (ordK M12DQ.LR 5)) = true := by quickRfl
+
+theorem sTot2 : Nat.beq (sumOrdK 24 5 (mask 5) (ordK M12DQ.LR 5) XS CS 2 9) 792 = true := by
+  quickRfl
+
+end CertificateChecks.KernelSporSch.M12MOC
 
 end

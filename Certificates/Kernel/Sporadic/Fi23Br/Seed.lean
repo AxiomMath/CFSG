@@ -15,7 +15,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CFSG.KD.BrFi23 "Certificates/Kernel/Sporadic/Fi23Br/data/seed.json.gz" 12459
+#kc_repo #kc_json CFSG.KD.BrFi23 "Certificates/Kernel/Sporadic/Fi23Br/data/seed.json" 12459
   9034109315379265453 (DA1 : List Nat) (DA2 : List Nat)
 
 #ks_chars CFSG.KD.BrFi23.Fi23SeedA CFSG.Sporadic.Fi23.Native.seedA

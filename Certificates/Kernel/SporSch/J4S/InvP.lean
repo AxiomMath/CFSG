@@ -243,6 +243,102 @@ theorem fold_inv : ∀ m ≤ 19967,
           · exact absurd (congrArg key h.symm) e
         exact hn j hjm
 
+@[expose] noncomputable def fxR (P a k : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (nat_lit 0)
+    (fun j acc => strictN acc (fun s => nIf(Nat.beq (Nat.land (Nat.shiftRight a j) (nat_lit 1))
+      (nat_lit 1), Nat.xor s (colK P j), s))) k
+
+theorem fxR_succ (P a k : Nat) : fxR P a (k + 1) =
+    if a.testBit k then fxR P a k ^^^ colK P k else fxR P a k := by
+  have e : Nat.land (Nat.shiftRight a k) 1 = a / 2 ^ k % 2 := by
+    change (a >>> k) &&& 1 = _
+    rw [Nat.and_one_is_mod, Nat.shiftRight_eq_div_pow]
+  have hb : Nat.beq (Nat.land (Nat.shiftRight a k) (nat_lit 1)) (nat_lit 1) = a.testBit k := by
+    rw [e, Nat.testBit_eq_decide_div_mod_eq]
+    exact Bool.eq_iff_iff.mpr (by rw [Nat.beq_eq, decide_eq_true_iff])
+  have hs : ∀ (y : Nat) (q : Nat → Nat), strictN y q = q y := fun y q => by cases y <;> rfl
+  change strictN (fxR P a k) (fun s => nIf(Nat.beq (Nat.land (Nat.shiftRight a k) (nat_lit 1))
+    (nat_lit 1), Nat.xor s (colK P k), s)) = _
+  rw [hs]
+  change Bool.rec (motive := fun _ => Nat) _ _
+    (Nat.beq (Nat.land (Nat.shiftRight a k) (nat_lit 1)) (nat_lit 1)) = _
+  rw [hb]
+  cases a.testBit k <;> rfl
+
+theorem fx_xor (P a b : Nat) : appK P (a ^^^ b) = appK P a ^^^ appK P b := by
+  suffices h : ∀ k, fxR P (a ^^^ b) k = fxR P a k ^^^ fxR P b k from h 11
+  intro k
+  induction k with
+  | zero =>
+    change (0 : Nat) = 0 ^^^ 0
+    rw [Nat.xor_self]
+  | succ k ih =>
+    rw [fxR_succ, fxR_succ, fxR_succ, ih, Nat.testBit_xor]
+    cases a.testBit k <;> cases b.testBit k <;> simp only [Bool.true_xor, Bool.false_xor,
+      Bool.not_true, Bool.not_false, Bool.false_eq_true, ↓reduceIte] <;>
+      apply Nat.eq_of_testBit_eq <;> intro i <;> simp only [Nat.testBit_xor] <;>
+      cases (fxR P a k).testBit i <;> cases (fxR P b k).testBit i <;>
+      cases (colK P k).testBit i <;> rfl
+
+theorem fx_zero (P : Nat) : appK P 0 = 0 := by
+  have h := fx_xor P 0 0
+  rwa [Nat.xor_self, Nat.xor_self] at h
+
+theorem fx_lt {G d a : Nat} (h : ∀ j < 11, colK G j < 2 ^ d) : appK G a < 2 ^ d := by
+  suffices h' : ∀ k ≤ 11, fxR G a k < 2 ^ d from h' 11 (Nat.le_refl 11)
+  intro k
+  induction k with
+  | zero =>
+    intro _
+    exact Nat.two_pow_pos d
+  | succ k ih =>
+    intro hk
+    rw [fxR_succ]
+    split
+    · exact Nat.xor_lt_two_pow (ih (by omega)) (h k (by omega))
+    · exact ih (by omega)
+
+theorem fx_split (n k : Nat) :
+    n % 2 ^ (k + 1) = n % 2 ^ k ^^^ (if n.testBit k then 2 ^ k else 0) := by
+  apply Nat.eq_of_testBit_eq
+  intro i
+  rw [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
+  split
+  · rw [Nat.testBit_two_pow]
+    rcases Nat.lt_trichotomy i k with hi | hi | hi
+    · simp [hi, Nat.ne_of_gt hi, show i < k + 1 by omega]
+    · subst hi
+      simp_all
+    · simp [show ¬ i < k by omega, show ¬ i < k + 1 by omega, Nat.ne_of_lt hi]
+  · rw [Nat.zero_testBit, Bool.xor_false]
+    rcases Nat.lt_trichotomy i k with hi | hi | hi
+    · simp [hi, show i < k + 1 by omega]
+    · subst hi
+      simp_all
+    · simp [show ¬ i < k by omega, show ¬ i < k + 1 by omega]
+
+theorem fx_ext {f g : Nat → Nat} (hf : ∀ a b, f (a ^^^ b) = f a ^^^ f b)
+    (hg : ∀ a b, g (a ^^^ b) = g a ^^^ g b) (hu : ∀ i < 11, f (2 ^ i) = g (2 ^ i)) :
+    ∀ n < 2048, f n = g n := by
+  have h0 : ∀ φ : Nat → Nat, (∀ a b, φ (a ^^^ b) = φ a ^^^ φ b) → φ 0 = 0 := fun φ hφ => by
+    have h := hφ 0 0
+    rwa [Nat.xor_self, Nat.xor_self] at h
+  suffices h : ∀ k ≤ 11, ∀ n, f (n % 2 ^ k) = g (n % 2 ^ k) by
+    intro n hn
+    have h' := h 11 (Nat.le_refl 11) n
+    rwa [Nat.mod_eq_of_lt (by omega)] at h'
+  intro k
+  induction k with
+  | zero =>
+    intro _ n
+    rw [Nat.pow_zero, Nat.mod_one, h0 f hf, h0 g hg]
+  | succ k ih =>
+    intro hk n
+    rw [fx_split, hf, hg, ih (by omega)]
+    split
+    · rw [hu k (by omega)]
+    · rw [h0 f hf, h0 g hg]
+
 theorem idx_ok {e n : Nat} (he : e < 1024) (hn : n < 2048)
     (h : squares[e]! = 0 ∧ app11 elementColumns[e]! n = n ∧ ¬ (n = 0 ∧ e = 0)) :
     forestIdx[n + 2048 * e]! - 1 < 19967 ∧ fN (forestIdx[n + 2048 * e]! - 1) = n ∧
@@ -253,9 +349,41 @@ theorem idx_ok {e n : Nat} (he : e < 1024) (hn : n < 2048)
   have hsq : Nat.beq (J4SQ.T e) 0 = true := by
     rw [beq_iff, ← SQ_get he]
     exact h.1
-  rw [bIf_t ((bAnd_iff _ _).2 ⟨blt_iff.2 he, hsq⟩)] at hx
-  have hw := allN_spec hx n hn
-  rw [bIf_t hfix] at hw
+  have hsl : ∀ d : Nat, Nat.shiftLeft 1 d = 2 ^ d := fun d => Nat.one_shiftLeft d
+  rw [bIf_t ((bAnd_iff _ _).2 ⟨blt_iff.2 he, hsq⟩), strictB_eq, strictB_eq] at hx
+  generalize J4FX e = X at hx
+  obtain ⟨hc, hall⟩ := (bAnd_iff _ _).1 hx
+  unfold fxK at hc
+  obtain ⟨hG, hU⟩ := (bAnd_iff _ _).1 hc
+  have hG' : ∀ j < 11, colK (ent 121 X 1) j < 2 ^ ent 121 X 3 := fun j hj => by
+    have hj' := allN_spec hG j hj
+    rw [hsl] at hj'
+    exact blt_iff.1 hj'
+  have hPn : appK (J4E.T e) n = n := by
+    have h2 := h.2.1
+    rwa [J4Five.E_eq he, app_eq] at h2
+  have hlin := fx_ext (f := fun m => m ^^^ appK (ent 121 X 0) (appK (ent 121 X 1) m))
+    (g := fun m => appK (ent 121 X 2) (appK (J4E.T e) m ^^^ m))
+    (fun a b => by
+      simp only [fx_xor]
+      ac_rfl)
+    (fun a b => by
+      simp only [fx_xor]
+      ac_rfl)
+    (fun i hi => by
+      have hi' := beq_iff.1 (allN_spec hU i hi)
+      rw [hsl] at hi'
+      exact hi') n hn
+  simp only [hPn, Nat.xor_self, fx_zero] at hlin
+  have hn' := congrArg (· ^^^ appK (ent 121 X 0) (appK (ent 121 X 1) n)) hlin
+  simp only [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero, Nat.zero_xor] at hn'
+  have hw := allN_spec hall (appK (ent 121 X 1) n) (by
+    rw [hsl]
+    exact fx_lt hG')
+  rw [strictB_eq, ← hn'] at hw
+  unfold idxRK at hw
+  have hfix' : idxFixK (J4E.T e) n e = true := ((bAnd_iff _ _).1 hfix).2
+  rw [bIf_t hfix'] at hw
   obtain ⟨w1, hw⟩ := (bAnd_iff _ _).1 hw
   obtain ⟨w2, w3⟩ := (bAnd_iff _ _).1 hw
   have hj := blt_iff.1 w1
@@ -316,45 +444,142 @@ theorem word_ok {w : List Int} {T : List Nat} {N : Nat} (hseg : ∀ s < N, allBl
 theorem lettersW {w : List Int} (hw : w ∈ J4FW.ws) : ∀ l ∈ w, l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2 :=
   letters w hw
 
+private theorem pairOK_congr {P : Pair} {a b a' b' : Nat} (h : PairOK P a b) (ha : a = a')
+    (hb : b = b') : PairOK P a' b' := by
+  rw [← ha, ← hb]
+  exact h
+
+private theorem getN_list8 (d a0 a1 a2 a3 a4 a5 a6 a7 : Nat) :
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 0 = a0 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 1 = a1 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 2 = a2 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 3 = a3 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 4 = a4 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 5 = a5 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 6 = a6 ∧
+    getN d [a0, a1, a2, a3, a4, a5, a6, a7] 7 = a7 :=
+  ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
+
+private theorem KL_eq : KL = [getN one J4K0 0, getN one J4K1 0, getN one J4K2 0, getN one J4K3 0,
+    getN one J4K0 170, getN one J4K1 59, getN one J4K2 3, getN one J4K3 4] := by
+  rw [KL]
+
+private theorem ws_get0 : J4FW.ws.toArray[0]! = J4FW.w0 := rfl
+
+private theorem ws_get1 : J4FW.ws.toArray[1]! = J4FW.w1 := rfl
+
+private theorem ws_get2 : J4FW.ws.toArray[2]! = J4FW.w2 := rfl
+
+private theorem ws_get3 : J4FW.ws.toArray[3]! = J4FW.w3 := rfl
+
+private theorem arr4_get {α : Type} [Inhabited α] (a b c d : α) :
+    #[a, b, c, d][0]! = a ∧ #[a, b, c, d][1]! = b ∧ #[a, b, c, d][2]! = c ∧
+      #[a, b, c, d][3]! = d :=
+  ⟨rfl, rfl, rfl, rfl⟩
+
+private theorem kpair0 : KPairs[0]! = wordP Xn Yn J4FW.w0 := by
+  rw [KPairs, (arr4_get _ _ _ _).1, J4Five.fw_eq, ws_get0]
+
+private theorem mem0 : J4FW.w0 ∈ J4FW.ws := by simp [J4FW.ws]
+
+private theorem hseg0 : ∀ s < 169,
+    allBlk (Nat.mul 1 s) (fun k => segN J4FW.w0 J4K0 169 k) 1 = true :=
+  J4KS0.all
+
+private theorem hb0 : bAnd(Nat.beq (getN one J4K0 169) one,
+    Nat.beq (getN one J4K0 (169 + 1 + 169)) one) = true :=
+  b0
+
+private theorem word0 :
+    PairOK (wordP Xn Yn J4FW.w0) (getN one J4K0 0) (getN one J4K0 (169 + 1)) :=
+  word_ok hseg0 hb0 len0 (lettersW mem0)
+
 private theorem kp0_ok :
     PairOK KPairs[0]! (getN one KL 0) (getN one KL (Nat.add 4 0)) := by
-  have e : KPairs[0]! = wordP Xn Yn J4FW.w0 := by
-    rw [KPairs, getElem!_pos _ 0 (by simp)]
-    simp only [List.getElem_toArray, List.getElem_cons_zero]
-    rw [J4Five.fw_eq]
-    rfl
-  rw [e]
-  exact word_ok (T := J4K0) (N := 169) J4KS0.all b0 len0 (lettersW (by simp [J4FW.ws]))
+  rw [kpair0]
+  refine pairOK_congr word0 ?_ ?_
+  · rw [KL_eq]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).1.symm
+  · rw [KL_eq, show Nat.add 4 0 = 4 from rfl, show (169 : Nat) + 1 = 170 from rfl]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.2.2.2.1.symm
+
+private theorem kpair1 : KPairs[1]! = wordP Xn Yn J4FW.w1 := by
+  rw [KPairs, (arr4_get _ _ _ _).2.1, J4Five.fw_eq, ws_get1]
+
+private theorem mem1 : J4FW.w1 ∈ J4FW.ws := by simp [J4FW.ws]
+
+private theorem hseg1 : ∀ s < 58,
+    allBlk (Nat.mul 1 s) (fun k => segN J4FW.w1 J4K1 58 k) 1 = true :=
+  J4KS1.all
+
+private theorem hb1 : bAnd(Nat.beq (getN one J4K1 58) one,
+    Nat.beq (getN one J4K1 (58 + 1 + 58)) one) = true :=
+  b1
+
+private theorem word1 :
+    PairOK (wordP Xn Yn J4FW.w1) (getN one J4K1 0) (getN one J4K1 (58 + 1)) :=
+  word_ok hseg1 hb1 len1 (lettersW mem1)
 
 private theorem kp1_ok :
     PairOK KPairs[1]! (getN one KL 1) (getN one KL (Nat.add 4 1)) := by
-  have e : KPairs[1]! = wordP Xn Yn J4FW.w1 := by
-    rw [KPairs, getElem!_pos _ 1 (by simp)]
-    simp only [List.getElem_toArray, List.getElem_cons_succ, List.getElem_cons_zero]
-    rw [J4Five.fw_eq]
-    rfl
-  rw [e]
-  exact word_ok (T := J4K1) (N := 58) J4KS1.all b1 len1 (lettersW (by simp [J4FW.ws]))
+  rw [kpair1]
+  refine pairOK_congr word1 ?_ ?_
+  · rw [KL_eq]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.1.symm
+  · rw [KL_eq, show Nat.add 4 1 = 5 from rfl, show (58 : Nat) + 1 = 59 from rfl]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.2.2.2.2.1.symm
+
+private theorem kpair2 : KPairs[2]! = wordP Xn Yn J4FW.w2 := by
+  rw [KPairs, (arr4_get _ _ _ _).2.2.1, J4Five.fw_eq, ws_get2]
+
+private theorem mem2 : J4FW.w2 ∈ J4FW.ws := by simp [J4FW.ws]
+
+private theorem hseg2 : ∀ s < 2,
+    allBlk (Nat.mul 1 s) (fun k => segN J4FW.w2 J4K2 2 k) 1 = true :=
+  J4KS2.all
+
+private theorem hb2 : bAnd(Nat.beq (getN one J4K2 2) one,
+    Nat.beq (getN one J4K2 (2 + 1 + 2)) one) = true :=
+  b2
+
+private theorem word2 :
+    PairOK (wordP Xn Yn J4FW.w2) (getN one J4K2 0) (getN one J4K2 (2 + 1)) :=
+  word_ok hseg2 hb2 len2 (lettersW mem2)
 
 private theorem kp2_ok :
     PairOK KPairs[2]! (getN one KL 2) (getN one KL (Nat.add 4 2)) := by
-  have e : KPairs[2]! = wordP Xn Yn J4FW.w2 := by
-    rw [KPairs, getElem!_pos _ 2 (by simp)]
-    simp only [List.getElem_toArray, List.getElem_cons_succ, List.getElem_cons_zero]
-    rw [J4Five.fw_eq]
-    rfl
-  rw [e]
-  exact word_ok (T := J4K2) (N := 2) J4KS2.all b2 len2 (lettersW (by simp [J4FW.ws]))
+  rw [kpair2]
+  refine pairOK_congr word2 ?_ ?_
+  · rw [KL_eq]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.2.1.symm
+  · rw [KL_eq, show Nat.add 4 2 = 6 from rfl, show (2 : Nat) + 1 = 3 from rfl]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.2.2.2.2.2.1.symm
+
+private theorem kpair3 : KPairs[3]! = wordP Xn Yn J4FW.w3 := by
+  rw [KPairs, (arr4_get _ _ _ _).2.2.2, J4Five.fw_eq, ws_get3]
+
+private theorem mem3 : J4FW.w3 ∈ J4FW.ws := by simp [J4FW.ws]
+
+private theorem hseg3 : ∀ s < 3,
+    allBlk (Nat.mul 1 s) (fun k => segN J4FW.w3 J4K3 3 k) 1 = true :=
+  J4KS3.all
+
+private theorem hb3 : bAnd(Nat.beq (getN one J4K3 3) one,
+    Nat.beq (getN one J4K3 (3 + 1 + 3)) one) = true :=
+  b3
+
+private theorem word3 :
+    PairOK (wordP Xn Yn J4FW.w3) (getN one J4K3 0) (getN one J4K3 (3 + 1)) :=
+  word_ok hseg3 hb3 len3 (lettersW mem3)
 
 private theorem kp3_ok :
     PairOK KPairs[3]! (getN one KL 3) (getN one KL (Nat.add 4 3)) := by
-  have e : KPairs[3]! = wordP Xn Yn J4FW.w3 := by
-    rw [KPairs, getElem!_pos _ 3 (by simp)]
-    simp only [List.getElem_toArray, List.getElem_cons_succ, List.getElem_cons_zero]
-    rw [J4Five.fw_eq]
-    rfl
-  rw [e]
-  exact word_ok (T := J4K3) (N := 3) J4KS3.all b3 len3 (lettersW (by simp [J4FW.ws]))
+  rw [kpair3]
+  refine pairOK_congr word3 ?_ ?_
+  · rw [KL_eq]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.2.2.1.symm
+  · rw [KL_eq, show Nat.add 4 3 = 7 from rfl, show (3 : Nat) + 1 = 4 from rfl]
+    exact (getN_list8 one _ _ _ _ _ _ _ _).2.2.2.2.2.2.2.symm
 
 theorem kp_ok {g : Nat} (hg : g < 4) :
     PairOK KPairs[g]! (getN one KL g) (getN one KL (Nat.add 4 g)) := by

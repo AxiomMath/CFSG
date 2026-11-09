@@ -5,8 +5,6 @@ public import Certificates.Kernel.SporSch.Co2S.ItChain
 public import Certificates.Data.Kernel.Spor.Prim
 public import Certificates.Data.Kernel.SporSch.FixK
 public import CFSG.Sporadic.Co2Schreier.Arrays
-meta import CFSG.Sporadic.Co2Schreier.Arrays
-meta import Certificates.Kernel.Sporadic.RawGen
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -15,13 +13,14 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelSporSch.Co2tGen
 
-open CFSG.KS.RawGen CFSG.Sporadic.Co2Schreier
+meta def dP : List Nat :=
+  (String.splitOn (include_str "ItT.0.txt") ",").map String.toNat!
 
-meta def dP : List Nat := dArrs.toList.map (pack 12)
+meta def dIP : List Nat :=
+  (String.splitOn (include_str "ItT.1.txt") ",").map String.toNat!
 
-meta def dIP : List Nat := dArrs.toList.map fun a => pack 12 (inv 2300 a)
-
-meta def tP : List Nat := [pack 12 tArr]
+meta def tP : List Nat :=
+  (String.splitOn (include_str "ItT.2.txt") ",").map String.toNat!
 
 end CertificateChecks.KernelSporSch.Co2tGen
 

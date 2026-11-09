@@ -140,7 +140,120 @@ theorem ggCartCheck_E8 : ggCartCheck .E8 = true := by decide +kernel
 theorem ggBasisCheck_F4 : ggBasisCheck .F4 = true := by decide +kernel
 theorem ggBasisCheck_E6 : ggBasisCheck .E6 = true := by decide +kernel
 theorem ggBasisCheck_E7 : ggBasisCheck .E7 = true := by decide +kernel
-theorem ggBasisCheck_E8 : ggBasisCheck .E8 = true := by decide +kernel
+private def ggBasisCheckAt (τ : Tag) (j : Fin τ.rank) : Bool :=
+    ggConnCheck τ (Pi.single j 1) (ggCertA0 τ j) &&
+    decide (ggCertA0 τ j ∈ ggRootList τ) &&
+    decide (7 ≤ (ggPerpFinset τ (Pi.single j 1)).card) &&
+    ((List.finRange τ.rank).all fun k =>
+      decide (k = j) || (decide (ggCertMat τ j k ∈ ggRootList τ) &&
+        decide (ggGram τ (Pi.single j 1) (ggCertMat τ j k) = 0))) &&
+    decide (ggCertDet τ j = 1 ∨ ggCertDet τ j = -1 ∨ ggCertDet τ j = 2 ∨ ggCertDet τ j = -2)
+
+private theorem ggBasisCheck_eq (τ : Tag) :
+    ggBasisCheck τ = (List.finRange τ.rank).all (ggBasisCheckAt τ) := rfl
+
+private def ggPerpWitE8 : List (List (List ℤ)) :=
+  [
+    [[0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0],
+     [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1],
+     [0, -1, 0, 0, 0, 0, 0, 0]],
+    [[1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0],
+     [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1],
+     [-1, 0, 0, 0, 0, 0, 0, 0]],
+    [[0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0],
+     [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, -1, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, -1, 0, 0, 0]],
+    [[1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0],
+     [0, 0, 0, 0, 0, 0, 0, 1], [-1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, -1, 0, 0],
+     [0, 0, 0, 0, 0, 1, 1, 0]],
+    [[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1], [-1, 0, 0, 0, 0, 0, 0, 0],
+     [1, 0, 1, 0, 0, 0, 0, 0]],
+    [[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0],
+     [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [-1, 0, 0, 0, 0, 0, 0, 0],
+     [1, 0, 1, 0, 0, 0, 0, 0]],
+    [[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0],
+     [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [-1, 0, 0, 0, 0, 0, 0, 0],
+     [1, 0, 1, 0, 0, 0, 0, 0]],
+    [[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0],
+     [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0],
+     [-1, 0, 0, 0, 0, 0, 0, 0]]]
+
+private def decEqE8Fast : DecidableEq (Fin Tag.E8.rank → ℤ) := fun u v =>
+  decidable_of_iff (((List.finRange Tag.E8.rank).all fun i => decide (u i = v i)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+attribute [local instance high] decEqE8Fast in
+private theorem ggPerpWitE8_ok : ∀ j : Fin Tag.E8.rank,
+    (((ggPerpWitE8.getD j.val []).map (ggVec (n := Tag.E8.rank))).all fun w =>
+      decide (w ∈ ggRootList .E8) && ggGram .E8 (Pi.single j 1) w == 0) = true ∧
+    ((ggPerpWitE8.getD j.val []).map (ggVec (n := Tag.E8.rank))).Nodup ∧
+    (ggPerpWitE8.getD j.val []).length = 7 := by
+  decide +kernel
+
+private theorem ggPerp_card_E8 (j : Fin Tag.E8.rank) :
+    7 ≤ (ggPerpFinset .E8 (Pi.single j 1)).card := by
+  obtain ⟨h1, h2, h3⟩ := ggPerpWitE8_ok j
+  have hlen : ((ggPerpWitE8.getD j.val []).map (ggVec (n := Tag.E8.rank))).length = 7 := by
+    rw [List.length_map, h3]
+  calc 7 = ((ggPerpWitE8.getD j.val []).map (ggVec (n := Tag.E8.rank))).toFinset.card := by
+        rw [List.toFinset_card_of_nodup h2, hlen]
+    _ ≤ _ := Finset.card_le_card fun w hw => by
+        have hw' := List.mem_toFinset.mp hw
+        have := List.all_eq_true.mp h1 w hw'
+        simp only [Bool.and_eq_true, decide_eq_true_eq] at this
+        exact Finset.mem_filter.mpr ⟨List.mem_toFinset.mpr this.1, this.2⟩
+
+private theorem ggBasisCheck_E8_0 : ggBasisCheckAt .E8 ⟨0, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨0, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_1 : ggBasisCheckAt .E8 ⟨1, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨1, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_2 : ggBasisCheckAt .E8 ⟨2, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨2, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_3 : ggBasisCheckAt .E8 ⟨3, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨3, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_4 : ggBasisCheckAt .E8 ⟨4, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨4, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_5 : ggBasisCheckAt .E8 ⟨5, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨5, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_6 : ggBasisCheckAt .E8 ⟨6, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨6, by decide⟩)]
+  decide +kernel
+
+private theorem ggBasisCheck_E8_7 : ggBasisCheckAt .E8 ⟨7, by decide⟩ = true := by
+  unfold ggBasisCheckAt
+  rw [decide_eq_true (ggPerp_card_E8 ⟨7, by decide⟩)]
+  decide +kernel
+
+theorem ggBasisCheck_E8 : ggBasisCheck .E8 = true := by
+  rw [ggBasisCheck_eq]
+  refine List.all_eq_true.mpr fun j _ => ?_
+  obtain ⟨k, hk⟩ := j
+  have hk' : k < 8 := hk
+  rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5 ∨ k = 6 ∨ k = 7) with
+    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  exacts [ggBasisCheck_E8_0, ggBasisCheck_E8_1, ggBasisCheck_E8_2, ggBasisCheck_E8_3,
+    ggBasisCheck_E8_4, ggBasisCheck_E8_5, ggBasisCheck_E8_6, ggBasisCheck_E8_7]
 
 theorem ggCertMat_laplace (τ : Tag) (j : Fin τ.rank) :
     laplaceDet τ.rank (ggCertMat τ j) = ggCertDet τ j := by

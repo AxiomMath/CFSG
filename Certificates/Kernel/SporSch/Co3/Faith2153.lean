@@ -40,8 +40,10 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch
 
 @[expose] noncomputable def IDXP : Nat := packL 9 co3DiffIdx
 
-@[expose] noncomputable def DRK (j : Nat) : Nat :=
-  Nat.xor (diagK (FW (pg 9 (mask 9) IDXP j))) (diagK (FW 0))
+@[expose] noncomputable def DRKg (L : Nat → Nat) (P j : Nat) : Nat :=
+  Nat.xor (diagK (pg 253 (mask 253) (L (pg 9 (mask 9) P j)) 0)) (diagK (pg 253 (mask 253) (L 0) 0))
+
+@[expose] noncomputable def DRK : Nat → Nat := DRKg Co3Forms.L IDXP
 
 theorem ra : Nat.beq (payRun 22 Co3SeedA.chars 0 0 0) RAP = true := by quickRfl
 theorem rb : Nat.beq (payRun 22 Co3SeedB.chars 0 0 0) RBP = true := by quickRfl
@@ -111,17 +113,28 @@ theorem idx_get (j : Nat) (h : j < co3DiffIdx.length) :
   have := bindFromK_spec idx_from j h
   rwa [Nat.zero_add] at this
 
-theorem diff_eq : co3DiffRows = unpack 22 22 (packR 22 DRK) := by
-  rw [unpack_packR_proved fun i hi => Nat.blt_eq.mp (allN_spec drk_lt i hi)]
+theorem diff_gen (W : Nat → Nat) (IDX : List Nat) (L : Nat → Nat) (P : Nat)
+    (hlen : IDX.length = 22)
+    (hidx : ∀ j (h : j < IDX.length), IDX[j] = pg 9 (mask 9) P j)
+    (hi : ∀ j < 22, pg 9 (mask 9) P j < 276)
+    (hw : ∀ r < 276, W r = pg 253 (mask 253) (L r) 0)
+    (hlt : ∀ i < 22, DRKg L P i < 2 ^ 22) :
+    (IDX.map fun r => diagVec (W r) ^^^ diagVec (W 0)).toArray =
+      unpack 22 22 (packR 22 (DRKg L P)) := by
+  rw [unpack_packR_proved hlt]
   apply Array.ext
-  · simp [co3DiffRows, co3DiffIdx]
+  · simp [hlen]
   · intro j h1 h2
     have hj : j < 22 := by simpa using h2
-    simp only [co3DiffRows, List.getElem_toArray, List.getElem_map, Array.getElem_ofFn]
-    have hl : j < co3DiffIdx.length := by simpa [co3DiffRows] using h1
-    rw [idx_get j hl, Co3Forms.word_eq (Nat.blt_eq.mp (allN_spec idx_lt j hj)),
-      Co3Forms.word_eq (by omega), ← diagK_eq_proved, ← diagK_eq_proved]
+    have hl : j < IDX.length := by simpa using h1
+    simp only [List.getElem_toArray, List.getElem_map, Array.getElem_ofFn]
+    rw [hidx j hl, hw _ (hi j hj), hw 0 (by omega), ← diagK_eq_proved, ← diagK_eq_proved]
     rfl
+
+theorem diff_eq : co3DiffRows = unpack 22 22 (packR 22 DRK) :=
+  diff_gen co3FormWord co3DiffIdx Co3Forms.L IDXP (by simp [co3DiffIdx]) idx_get
+    (fun j hj => Nat.blt_eq.mp (allN_spec idx_lt j hj)) (fun _ hr => Co3Forms.word_eq hr)
+    (fun i hi => Nat.blt_eq.mp (allN_spec drk_lt i hi))
 
 theorem pull_of {R G : Nat} {g : Array Nat} {A : Array Nat} (hg : g = unpack 276 9 G)
     (hA : A = unpack 22 22 R) (h : ∀ r < 276, pullAt R G r = true) (r : Nat) (hr : r < 276) :

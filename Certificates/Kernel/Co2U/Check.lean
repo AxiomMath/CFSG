@@ -22,6 +22,10 @@ theorem ch38957e_ : eqK (EltP.P.getD 0 0) IDP = false := by decide +kernel
 
 theorem ch38958a_ : eqCheckK EltP.P (w12UDecEqs ()) = true := by decide +kernel
 
+theorem ch38959a_ : eqCheckK EltP.P (w12UGlueEqs ()) = true := by decide +kernel
+
+theorem ch38959b_ : powCheckK EltP.P (w12UTauPows ()) = true := by decide +kernel
+
 end CertificateChecks.KernelCo2U
 
 end

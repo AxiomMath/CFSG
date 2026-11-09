@@ -14,7 +14,12 @@ public meta def minBytes (x : Nat) : ByteArray := Id.run do
   let n := (x.log2 + 8) / 8
   let ws := natWords x ((n + 7) / 8)
   let mut b : ByteArray := ByteArray.emptyWithCapacity n
-  for i in [0:n] do
+  for k in [0:n / 8] do
+    let w := ws[k]!
+    b := b.push w.toUInt8 |>.push (w >>> 8).toUInt8 |>.push (w >>> 16).toUInt8
+      |>.push (w >>> 24).toUInt8 |>.push (w >>> 32).toUInt8 |>.push (w >>> 40).toUInt8
+      |>.push (w >>> 48).toUInt8 |>.push (w >>> 56).toUInt8
+  for i in [8 * (n / 8):n] do
     b := b.push (ws[i / 8]! >>> (8 * (i % 8)).toUInt64).toUInt8
   return b
 
@@ -134,9 +139,90 @@ public meta def basisOf (t : ByteArray) : Except String (Array Nat) := do
     R := R.push (natOfWords ws 0 ws.size)
   return R
 
+public meta def blockMask (p d len : Nat) : Nat := Id.run do
+  let mut x := (1 <<< d) - 1
+  let mut w := p
+  while w < len do
+    x := x ||| (x <<< w)
+    w := 2 * w
+  return x
+
+public meta def maskStep (x m a b : Nat) : Nat := (x &&& m) ||| (((x >>> a) &&& m) <<< b)
+
+public meta def b64Nat (x L : Nat) : Option Nat := Id.run do
+  let all := (1 <<< (8 * L)) - 1
+  let one := blockMask 8 1 (8 * L) &&& all
+  let H := one <<< 7
+  if x &&& H != 0 then return none
+  let xh := x ||| H
+  let ge (k : Nat) : Nat := (xh - k * one) &&& H
+  let U := ge 65 ^^^ ge 91
+  let Lo := ge 97 ^^^ ge 123
+  let D := ge 48 ^^^ ge 58
+  let P := ge 43 ^^^ ge 44
+  let S := ge 47 ^^^ ge 48
+  unless U ||| Lo ||| D ||| P ||| S == H do return none
+  let v := x + 4 * (D >>> 7) + 19 * (P >>> 7) + 16 * (S >>> 7) - 65 * (U >>> 7) - 71 * (Lo >>> 7)
+  let G := (L + 3) / 4
+  let len := 32 * G
+  let m (d o : Nat) : Nat := blockMask 32 d len <<< o
+  let mut y := ((v &&& m 6 0) <<< 2) ||| ((v &&& m 2 12) >>> 12) ||| ((v &&& m 4 8) <<< 4) |||
+    ((v &&& m 4 18) >>> 10) ||| ((v &&& m 2 16) <<< 6) ||| ((v &&& m 6 24) >>> 8)
+  let mut u := 32
+  let mut d := 24
+  while u < len do
+    y := maskStep y (blockMask (2 * u) d len) u d
+    u := 2 * u
+    d := 2 * d
+  return some (y &&& ((1 <<< (8 * (6 * L / 8))) - 1))
+
+public meta partial def latPieces (cnt off : Array Nat) (x lo hi : Nat) (acc : Array Nat) :
+    Array Nat :=
+  if hi ≤ lo + 1 then acc.push (x &&& ((1 <<< (7 * cnt[lo]!)) - 1))
+  else
+    let mid := (lo + hi) / 2
+    let b := off[mid]! - off[lo]!
+    latPieces cnt off (x >>> b) mid hi (latPieces cnt off (x &&& ((1 <<< b) - 1)) lo mid acc)
+
+public meta def basisOfNat (t : Nat) : Option (Array Nat) := Id.run do
+  let n := 4371
+  if t == 0 then return none
+  let nb := (t.log2 + 8) / 8
+  if nb < n + 1 then return none
+  let head := minBytes (t &&& ((1 <<< (8 * (n + 1))) - 1))
+  unless head.size == n + 1 && head[n]! == 10 do return none
+  let mut ks : Array Nat := Array.mkEmpty n
+  for i in [0:n] do
+    if head[i]! == 10 then return none
+    ks := ks.push (head[i]! - 48).toNat
+  let rest := t >>> (8 * (n + 1))
+  let L := if t >>> (8 * (nb - 1)) == 10 then nb - n - 2 else nb - n - 1
+  let some raw := b64Nat (rest &&& ((1 <<< (8 * L)) - 1)) L | return none
+  let cnt := (Array.range n).map fun r => n - 1 - r
+  let off := cnt.foldl (fun a c => a.push (a.back! + 7 * c)) #[0]
+  let rows := latPieces cnt off raw 0 n #[]
+  let lvls := 13
+  let masks := (Array.range lvls).map fun t => blockMask (32 <<< t) (7 <<< t) (16 <<< lvls)
+  let mut R : Array Nat := Array.mkEmpty n
+  for r in [0:n] do
+    let mut c := rows[r]!
+    let mut t := lvls
+    while t > 0 do
+      t := t - 1
+      if cnt[r]! > 1 <<< t then
+        c := maskStep c masks[t]! (7 <<< t) (16 <<< t)
+    R := R.push (((1 : UInt64) <<< ks[r]!.toUInt64).toNat ||| (c <<< 16))
+  return R
+
 public meta def latBasis (args : Array Val) : Except String (Array (Lean.Name × Val)) := do
   let #[Val.nat size, Val.nat hash, Val.nat t] := args | throw "latBasis: arguments"
-  outNats .anonymous size hash (← basisOf (minBytes t))
+  let R ← match basisOfNat t with
+    | some R => pure R
+    | none => basisOf (minBytes t)
+  let chunk : Val → Val
+    | .list xs => .list (xs.map fun | .nat n => .chunks n | x => x)
+    | x => x
+  return (← outNats .anonymous size hash R).map fun (n, v) => (n, chunk v)
 
 public meta def lineInts (t : ByteArray) (lo hi : Nat) : Array Int := Id.run do
   let mut out : Array Int := #[]

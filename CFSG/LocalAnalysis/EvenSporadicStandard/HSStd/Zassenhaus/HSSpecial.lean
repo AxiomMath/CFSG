@@ -32,18 +32,26 @@ theorem map_conj_subtype (F : Subgroup ↥hs100P) (t : ↥hs100P) :
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
 
-theorem zas_std_Q_explicit :
-    ∃ (T₀ : Subgroup ↥hs100P) (hz : zasZ0 ∈ hs100P), HSStdQ T₀ ⟨zasZ0, hz⟩ := by
+theorem zas_std_Q_of (T : Subgroup (Equiv.Perm (Fin 100))) (z : Equiv.Perm (Fin 100))
+    (hTP : T ≤ hs100P) (hTcard : Nat.card T = 512) (hzT : z ∈ T) (hz2 : z * z = 1) (hz1 : z ≠ 1)
+    (hcomm : ∀ x ∈ T, z * x = x * z) (hspec : ∃ E : Subgroup (Equiv.Perm (Fin 100)),
+      IsSpecialIn hs100P z E)
+    (huniq : ∀ F₁ F₂ : Subgroup (Equiv.Perm (Fin 100)), F₁ ≤ T → F₂ ≤ T →
+      IsElemAbelian 2 F₁ → IsElemAbelian 2 F₂ → Nat.card F₁ = 16 → Nat.card F₂ = 16 →
+      z ∈ F₁ → z ∈ F₂ →
+      (∀ e ∈ F₁, e ≠ 1 → ∃ a : Equiv.Perm (Fin 100), a * z * a⁻¹ = e) →
+      (∀ e ∈ F₂, e ≠ 1 → ∃ a : Equiv.Perm (Fin 100), a * z * a⁻¹ = e) →
+      ∃ t ∈ T, F₁.map (MulAut.conj t).toMonoidHom = F₂) :
+    ∃ (T₀ : Subgroup ↥hs100P) (hz : z ∈ hs100P), HSStdQ T₀ ⟨z, hz⟩ := by
   classical
-  obtain ⟨hTP, hTcard, hzT, hz2, hz1, hcomm⟩ := zas_sylow_spec
-  obtain ⟨E, hE⟩ := zas_special_spec
-  have hzP : zasZ0 ∈ hs100P := hTP hzT
+  obtain ⟨E, hE⟩ := hspec
+  have hzP : z ∈ hs100P := hTP hzT
   have hcardP := card_hs100P
-  refine ⟨zasT0.subgroupOf hs100P, hzP, ?_⟩
-  have hcardT : Nat.card (zasT0.subgroupOf hs100P) = 512 := by
+  refine ⟨T.subgroupOf hs100P, hzP, ?_⟩
+  have hcardT : Nat.card (T.subgroupOf hs100P) = 512 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTP).toEquiv, hTcard]
-  have hidx : (zasT0.subgroupOf hs100P).index = 86625 := by
-    have h := Subgroup.index_mul_card (zasT0.subgroupOf hs100P)
+  have hidx : (T.subgroupOf hs100P).index = 86625 := by
+    have h := Subgroup.index_mul_card (T.subgroupOf hs100P)
     rw [hcardT, hcardP] at h
     exact Nat.eq_of_mul_eq_mul_right (by norm_num : 0 < 512) (h.trans (by norm_num))
   refine ⟨IsPGroup.of_card (n := 9) (by rw [hcardT]; norm_num), ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -58,15 +66,15 @@ theorem zas_std_Q_explicit :
   · refine ⟨E.subgroupOf hs100P, ?_⟩
     exact (isSpecialIn_iff hzP hE.1).1 hE
   · intro F₁ F₂ hF₁ hF₂ hab₁ hab₂ hc₁ hc₂ hz₁ hz₂ hcj₁ hcj₂
-    have key : ∀ F : Subgroup ↥hs100P, F ≤ zasT0.subgroupOf hs100P → IsElemAbelian 2 F →
-        Nat.card F = 16 → (⟨zasZ0, hzP⟩ : ↥hs100P) ∈ F →
-        (∀ e ∈ F, e ≠ 1 → ∃ a : ↥hs100P, a * ⟨zasZ0, hzP⟩ * a⁻¹ = e) →
-        F.map hs100P.subtype ≤ zasT0 ∧ IsElemAbelian 2 (F.map hs100P.subtype) ∧
-          Nat.card (F.map hs100P.subtype) = 16 ∧ zasZ0 ∈ F.map hs100P.subtype ∧
+    have key : ∀ F : Subgroup ↥hs100P, F ≤ T.subgroupOf hs100P → IsElemAbelian 2 F →
+        Nat.card F = 16 → (⟨z, hzP⟩ : ↥hs100P) ∈ F →
+        (∀ e ∈ F, e ≠ 1 → ∃ a : ↥hs100P, a * ⟨z, hzP⟩ * a⁻¹ = e) →
+        F.map hs100P.subtype ≤ T ∧ IsElemAbelian 2 (F.map hs100P.subtype) ∧
+          Nat.card (F.map hs100P.subtype) = 16 ∧ z ∈ F.map hs100P.subtype ∧
           (∀ e ∈ F.map hs100P.subtype, e ≠ 1 →
-            ∃ a : Equiv.Perm (Fin 100), a * zasZ0 * a⁻¹ = e) := by
+            ∃ a : Equiv.Perm (Fin 100), a * z * a⁻¹ = e) := by
       intro F hF hab hc hz hcj
-      refine ⟨?_, isElemAbelian_map _ hs100P.subtype_injective hab, ?_, ⟨⟨zasZ0, hzP⟩, hz, rfl⟩, ?_⟩
+      refine ⟨?_, isElemAbelian_map _ hs100P.subtype_injective hab, ?_, ⟨⟨z, hzP⟩, hz, rfl⟩, ?_⟩
       · rintro _ ⟨x, hx, rfl⟩
         exact hF hx
       · rw [Subgroup.card_map_of_injective hs100P.subtype_injective, hc]
@@ -75,12 +83,17 @@ theorem zas_std_Q_explicit :
         exact ⟨(a : Equiv.Perm (Fin 100)), congrArg Subtype.val ha⟩
     obtain ⟨h1, h2, h3, h4, h5⟩ := key F₁ hF₁ hab₁ hc₁ hz₁ hcj₁
     obtain ⟨h1', h2', h3', h4', h5'⟩ := key F₂ hF₂ hab₂ hc₂ hz₂ hcj₂
-    obtain ⟨t, ht, hteq⟩ := zas_uniq_spec _ _ h1 h1' h2 h2' h3 h3' h4 h4' h5 h5'
+    obtain ⟨t, ht, hteq⟩ := huniq _ _ h1 h1' h2 h2' h3 h3' h4 h4' h5 h5'
     have htP : t ∈ hs100P := hTP ht
     refine ⟨⟨t, htP⟩, ht, ?_⟩
     apply Subgroup.map_injective hs100P.subtype_injective
     rw [map_conj_subtype]
     exact hteq
+
+theorem zas_std_Q_explicit :
+    ∃ (T₀ : Subgroup ↥hs100P) (hz : zasZ0 ∈ hs100P), HSStdQ T₀ ⟨zasZ0, hz⟩ := by
+  obtain ⟨hTP, hTcard, hzT, hz2, hz1, hcomm⟩ := zas_sylow_spec
+  exact zas_std_Q_of zasT0 zasZ0 hTP hTcard hzT hz2 hz1 hcomm zas_special_spec zas_uniq_spec
 
 theorem zas_std_Q :
     ∃ (T₀ : Subgroup ↥hs100P) (z₀ : ↥hs100P), HSStdQ T₀ z₀ := by

@@ -405,7 +405,7 @@ theorem exists_mem_E0 {c : List ℕ} (hc : c ∈ M22Cert.e0E) :
     ∃ u ∈ M22Cert.E0, (u : Matrix (Fin 12) (Fin 12) (ZMod 2)) = MatNCert.decN 12 c := by
   obtain ⟨w, rfl⟩ := MatNCert.mem_elemsOf hc
   exact MatNCert.exists_evalW _ (MatNCert.subB_spec M22Cert.e0B_spec.1).2.2.2.2
-    (M22Cert.unit_of_s0E M22Cert.e0G_mem) w
+    (M22Cert.unit_of_pE M22Cert.e0G_mem) w
 
 theorem mem_conj_of_word {w e t : List ℕ} (he : e ∈ M22Cert.e0E)
     (hinv : MatNCert.mulN (MatNCert.evalW 12 M22Cert.gG w)

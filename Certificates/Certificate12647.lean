@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.A7Sig148
+import CFSG.Certificates.Kernel.PermCent.FastDecide
 
 public section
 
@@ -20,8 +21,11 @@ theorem E0l_eq : E0l = E0l' := by
 
 def R4 : List (Perm (Fin 7)) := [c2, c1, c1 * c2, c1 * (c2 * c2)]
 
+open scoped CFSG.Certificates.Kernel.PkCV.FastDecide
+
 theorem e0_ok : MulClosed E0l' ∧ InvClosed E0l' ∧ E0l'.Nodup ∧ A7Sig148.Even E0l' ∧
     (∀ a ∈ E0l', a * a * a = 1) := by
+  unfold MulClosed InvClosed A7Sig148.Even
   decide +kernel
 
 theorem r4_ok : (∀ x ∈ E0l', x ≠ 1 → ∃ r ∈ R4, x = r ∨ x = r * r) ∧

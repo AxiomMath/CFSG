@@ -2,6 +2,7 @@ module
 
 import CFSG.Certificates.Kernel.BabyMonster.Load
 import CFSG.Certificates.Kernel.BabyMonster.LoadFour
+import CFSG.Certificates.Kernel.BabyMonster.LoadChain
 public import CFSG.Certificates.Kernel.BabyMonster.F2
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
 public import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
@@ -16,7 +17,7 @@ public import CFSG.Certificates.Kernel.BabyMonster.B31.Data0
 #bm_mul4 CFSG.KC.BM.B31 c_n3 CFSG.KC.BM.Max5.m0 [CFSG.KC.BM.Max5.m20] n3 []
 #bm_mul4 CFSG.KC.BM.B31 c_n4 n3 [n3] n4 []
 #bm_mul4 CFSG.KC.BM.B31 c_n5 n2 [n1 n2] n5 []
-#bm_mul4 CFSG.KC.BM.B31 c_n6 n3 [n4 n5 CFSG.KC.BM.Max5.m20] n6 []
+#bm_mul4c CFSG.KC.BM.B31 c_n6 n3 [n4 n5 CFSG.KC.BM.Max5.m20] n6 []
 #bm_mul4 CFSG.KC.BM.B31 c_n7 CFSG.KC.BM.Max5.m13 [CFSG.KC.BM.Seeds.A2 CFSG.KC.BM.Max5.m12] n7 []
 #bm_mul4 CFSG.KC.BM.B31 c_n8 n6 [n7] n8 []
 #bm_mul4 CFSG.KC.BM.B31 c_n9 n7 [n8] n9 []

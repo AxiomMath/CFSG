@@ -36,8 +36,6 @@ meta def repM : Array (Array Nat) := Ly243.repTabs.map natArr
 meta def repIM : Array (Array Nat) := repM.map (invM 243)
 meta def rec243M : Array (Array Nat) :=
   (bfs (fun j t => conjTab 243 id243M g243M[j]! t) 5 id243M 5000).tabs
-meta def cl243M : Array (Array Nat) :=
-  (rec243M.map fun x => (g243M ++ gi243M).map fun g => comp 243 x g).flatten
 
 meta def genBothM : Array (Array Nat) :=
   (Ly243.genTabs.map natArr) ++ genIM
@@ -79,8 +77,6 @@ end CertificateChecks.KernelLyTr
 #kmisc_packarrs CertificateChecks.KernelLyTr.LHI CertificateChecks.KernelLyTr.lineIM 8
 #kmisc_packarrs CertificateChecks.KernelLyTr.RP CertificateChecks.KernelLyTr.repM 8
 #kmisc_packarrs CertificateChecks.KernelLyTr.RPI CertificateChecks.KernelLyTr.repIM 8
-#kfind CertificateChecks.KernelLyTr.R2Cl CertificateChecks.KernelLyTr.rec243M
-  CertificateChecks.KernelLyTr.cl243M
 #kfind CertificateChecks.KernelLyTr.CP CertificateChecks.KernelLyTr.rec243M
   CertificateChecks.KernelLyTr.cpQM
 #kmisc_packarrs CertificateChecks.KernelLyTr.CJ CertificateChecks.KernelLyTr.cjRowM 3

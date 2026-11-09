@@ -20,7 +20,13 @@ theorem codesEQ : codes eqWords = CFSG.KAct.J3Gamma.EQ := by decide +kernel
 theorem codesMV : codes moveWords = CFSG.KAct.J3Gamma.MV := by decide +kernel
 
 theorem hpt : ∀ x < 5832, Act.pointOK CFSG.KAct.J3Gamma.A 6 5832 CFSG.KAct.J3Gamma.R x = true :=
-  fun x hx => Act.allR_spec CFSG.KAct.J3Gamma.all x (Nat.zero_le _) (by omega)
+  Act.pointOK_of_left (fun x hx => Act.allR_spec CFSG.KAct.J3Gamma.all x (Nat.zero_le _) (by omega))
+    (fun r hr c hc => by
+      rw [← codesR] at hr
+      obtain ⟨u, -, rfl⟩ := List.mem_map.1 hr
+      have := Act.codes_lt u c hc
+      omega)
+    CFSG.KAct.J3Gamma.rel0
 
 theorem hdown : ∀ x, 0 < x → x < 5832 →
     Act.downAt CFSG.KAct.J3Gamma.A (Nat.add 6 6) (Nat.add 6 6) x = true :=

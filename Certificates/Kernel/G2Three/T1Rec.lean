@@ -1,19 +1,19 @@
 module
 
-public meta import Lean
-meta import CFSG.LocalAnalysis.OddStandard.HigherRank.G2Three.Sec1Proof.T1Data
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
 import CFSG.Assembly.LowTwoRankDefs
-meta import CFSG.LocalAnalysis.OddStandard.HigherRank.G2Three.FactsL
 
 namespace CFSG.KD.G2Three.T1W.Gen
 
-open CFSG.OddStandard.HigherRank.G2Three.Sec1Proof.Tab
+meta def rtV : List Nat :=
+  (String.splitOn (include_str "T1Rec.0.txt") ",").map String.toNat!
 
-meta def rtV : List Nat := ((t1G ()).rt.toList.map Array.toList).flatten
-meta def paV : List Nat := (t1G ()).par.toList.map (·.1)
-meta def pbV : List Nat := (t1G ()).par.toList.map (·.2)
+meta def paV : List Nat :=
+  (String.splitOn (include_str "T1Rec.1.txt") ",").map String.toNat!
+
+meta def pbV : List Nat :=
+  (String.splitOn (include_str "T1Rec.2.txt") ",").map String.toNat!
 
 end CFSG.KD.G2Three.T1W.Gen
 

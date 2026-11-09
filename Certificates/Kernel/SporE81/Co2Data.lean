@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.LocalComp.BfsGen
+public import Certificates.Kernel.LocalComp.BfsGenSl
 public import Certificates.Kernel.SporSch.Th.GenV4
 public import Certificates.Data.Kernel.BfsPinBase
 public import CFSG.RankThree.PartTwo.Sec4.T444.Item434SporCo2E81Data
@@ -71,7 +71,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#lc_bfs CertificateChecks.KernelE81.C2Q CertificateChecks.KernelE81.Co2E.gQ 2300 12
+#lc_bfs_sl CertificateChecks.KernelE81.C2Q CertificateChecks.KernelE81.Co2E.gQ 2300 12 81
 #lc_bfs CertificateChecks.KernelE81.C2D CertificateChecks.KernelE81.Co2E.gD 2300 12
 #kss_natlist CertificateChecks.KernelE81.C2Q.SKT CertificateChecks.KernelE81.Co2E.kQ
 #kss_natlist CertificateChecks.KernelE81.C2D.SKT CertificateChecks.KernelE81.Co2E.kD

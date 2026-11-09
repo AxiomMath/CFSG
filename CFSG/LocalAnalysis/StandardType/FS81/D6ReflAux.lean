@@ -2,6 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.StandardType.FS81.D6Inner
 public import CFSG.Mathlib.Decide.Bounded
+import CFSG.Mathlib.Decide.FinFun
 
 public section
 
@@ -98,12 +99,60 @@ abbrev d6MapX {G : Type} [Group G] (B : Basis3 G 7) : d6XType B → Coords 7 :=
   fun A => d6Map A.1
 
 open scoped CFSG.Decide.Bounded in
+private theorem d6Form_check_p1 :
+    ∀ u ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)), u 0 = 0 → u 1 = 0 → u 2 = 0 →
+      ∀ v ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
+        d6Form u v =
+          if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 := by
+  decide +kernel
+
+open scoped CFSG.Decide.Bounded in
+private theorem d6Form_check_p2 :
+    ∀ u ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)), u 0 = 0 → u 1 = 0 → u 2 ≠ 0 →
+      ∀ v ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
+        d6Form u v =
+          if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 := by
+  decide +kernel
+
+open scoped CFSG.Decide.Bounded in
+private theorem d6Form_check_p3 :
+    ∀ u ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)), u 0 = 0 → u 1 ≠ 0 →
+      ∀ v ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
+        d6Form u v =
+          if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 := by
+  decide +kernel
+
+open scoped CFSG.Decide.Bounded in
+private theorem d6Form_check_p4 :
+    ∀ u ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)), u 0 = 1 →
+      ∀ v ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
+        d6Form u v =
+          if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 := by
+  decide +kernel
+
+open scoped CFSG.Decide.Bounded in
+private theorem d6Form_check_p5 :
+    ∀ u ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)), u 0 = 2 →
+      ∀ v ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
+        d6Form u v =
+          if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 := by
+  decide +kernel
+
 private theorem d6Form_check :
     ∀ u ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
       ∀ v ∈ (Finset.univ.filter IsD6Root : Finset (Coords 7)),
         d6Form u v =
           if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 := by
-  decide +kernel
+  intro u hu
+  by_cases h0 : u 0 = 0
+  · by_cases h1 : u 1 = 0
+    · by_cases h2 : u 2 = 0
+      · exact d6Form_check_p1 u hu h0 h1 h2
+      · exact d6Form_check_p2 u hu h0 h1 h2
+    · exact d6Form_check_p3 u hu h0 h1
+  · by_cases h1 : u 0 = 1
+    · exact d6Form_check_p4 u hu h1
+    · exact d6Form_check_p5 u hu (CFSG.Decide.FinFun.zmod3_eq_two h0 h1)
 
 theorem d6Form_eq_of_isD6Root {u v : Coords 7} (hu : IsD6Root u) (hv : IsD6Root v) :
     d6Form u v = if IsD6Root (u + v) then -1 else if IsD6Root (u - v) then 1 else 0 :=

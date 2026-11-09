@@ -18,6 +18,8 @@ open CFSG.Monster.B.Co2 Item434SporE81
 
 namespace Item434SporCo2
 
+set_option maxRecDepth 100000
+
 theorem pg_get0 : co2E81.pg[0]! = co2OrigArrs[0]! := by simp [co2E81]
 
 theorem pg_get1 : co2E81.pg[1]! = co2OrigArrs[1]! := by simp [co2E81]

@@ -77,15 +77,31 @@ theorem rL2 : ∀ l < ruQuotL2.length, Rep 4060 12 (Lc l) ruQuotL2[l]! := by
   · exact rTF (by norm_num)
   · exact rM
 
+theorem Ls_len : Ls.length = 4 := by
+  simp only [Ls, List.length_cons, List.length_nil]
+
+theorem Ls_getD {j : Nat} (hj : j < 4) : Ls.getD j 0 = Lc j := by
+  rw [Ls]
+  interval_cases j
+  · rw [List.getD_cons_zero]
+  · rw [List.getD_cons_succ, List.getD_cons_zero]
+  · rw [List.getD_cons_succ, List.getD_cons_succ, List.getD_cons_zero]
+  · rw [List.getD_cons_succ, List.getD_cons_succ, List.getD_cons_succ, List.getD_cons_zero]
+
 theorem rL2s : RepL 4060 12 Ls ruQuotL2.toArray.toList := by
   rw [List.toList_toArray]
-  refine RepL.of_get (by rw [len2]; rfl) fun j hj => ?_
+  refine RepL.of_get (by rw [len2, Ls_len]) fun j hj => ?_
   have hj4 : j < 4 := by rwa [len2] at hj
-  interval_cases j
-  · exact rL2 0 hj
-  · exact rL2 1 hj
-  · exact rL2 2 hj
-  · exact rL2 3 hj
+  rw [Ls_getD hj4]
+  exact rL2 j hj
+
+theorem repL_map {n w : Nat} {α : Type} (W : List α) (F : α → Nat) (G : α → Array Nat)
+    (h : ∀ v ∈ W, Rep n w (F v) (G v)) : RepL n w (W.map F) (W.map G) := by
+  refine ⟨by simp, fun j hj => ?_⟩
+  have hj' : j < W.length := by simpa using hj
+  simp only [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_eq_getElem hj',
+    Option.map_some, Option.getD_some]
+  exact h _ (List.getElem_mem _)
 
 theorem rV : RepL 4060 12 Vs ruVTabs.toList := by
   have e : ruVTabs.toList = ruVWords.map (wordTabA ruQuotL2.toArray 4060) := rfl
@@ -95,12 +111,7 @@ theorem rV : RepL 4060 12 Vs ruVTabs.toList := by
     rw [wordTabA_foldr]
     exact rep_word hn hw hid v (rep_letters rL2 (hl v hv))
   rw [e]
-  refine ⟨by simp [Vs], fun j hj => ?_⟩
-  have hj' : j < ruVWords.length := by simpa [Vs] using hj
-  unfold Vs
-  rw [List.getD_eq_getElem _ _ (by simpa using hj'), List.getD_eq_getElem _ _ (by simpa using hj'),
-    List.getElem_map, List.getElem_map]
-  exact key _ (List.getElem_mem _)
+  exact repL_map ruVWords (fun v => wordPB 4060 12 4095 Lc v I) (wordTabA ruQuotL2.toArray 4060) key
 
 theorem e8Check_ru : CFSG.Quasithin.A312S.e8Check ruData.n ruVTabs ruQuotL2.toArray ruVMats = true :=
   e8_sound hn hw hid rV rfl rL2s e8

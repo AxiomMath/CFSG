@@ -21,10 +21,16 @@ theorem hn : szOK 11200 14 = true := by decide
 
 theorem cId : Cn idK := (CFSG.KC.BfsPin.PP.id hn).1
 
+theorem allN_canon_inv {k n w nw : Nat} {F : Nat → Nat}
+    (h : allN k (fun j => bAnd(CFSG.KS.Prim.canonK n w (CFSG.KS.mask w) nw (F j),
+      CFSG.KS.Prim.invEqK n w (CFSG.KS.mask w) nw (F j) (F j))) = true) {j : Nat} (hj : j < k) :
+    CFSG.KS.Prim.canonK n w (CFSG.KS.mask w) nw (F j) = true ∧
+      CFSG.KS.Prim.invEqK n w (CFSG.KS.mask w) nw (F j) (F j) = true :=
+  (bAnd_iff _ _).1 (allN_spec h j hj)
+
 theorem hy {j : Nat} (hj : j < 6) :
-    Cn (HY.F j) ∧ invEqK 11200 14 (mask 14) (11200 * 14) (HY.F j) (HY.F j) = true := by
-  have h := allN_spec hy_ok j hj
-  exact (bAnd_iff _ _).1 h
+    Cn (HY.F j) ∧ invEqK 11200 14 (mask 14) (11200 * 14) (HY.F j) (HY.F j) = true :=
+  allN_canon_inv (n := 11200) (w := 14) (nw := 11200 * 14) (F := HY.F) hy_ok hj
 
 theorem harY_eq (i : Fin 6) : harY i = tabT (unpack 11200 14 (HY.F i.val)) := by
   have h := CFSG.KC.Misc.HexFlat.hexT_sound HY.all (by norm_num) i.val i.isLt

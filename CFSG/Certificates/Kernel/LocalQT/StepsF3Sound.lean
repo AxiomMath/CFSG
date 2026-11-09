@@ -5,6 +5,7 @@ public import CFSG.Certificates.Kernel.LocalQT.Steps
 import all CFSG.Certificates.Kernel.LocalQT.Steps
 public import CFSG.Certificates.Kernel.LocalCompOps3Snd.Bridge
 public import CFSG.Certificates.Kernel.Spor.F3LaneSound
+public import CFSG.Certificates.Kernel.Spor.Mat3Sound
 import CFSG.Certificates.Kernel.SporSch.LyMatLemmas
 
 public section
@@ -236,6 +237,34 @@ theorem toMat_gath {d w K : Nat} (hw : 2 ≤ w) (hK : d * d ≤ 2 ^ K) {X : Nat}
   congr 3
   ring
 
+theorem mat3_of_gath {d w K N : Nat} (hw : 2 ≤ w) (hK : d * d ≤ 2 ^ K) (hN : d * d = N)
+    {X M : Nat} (hX : Canon 3 d w X)
+    (h : Nat.beq (Nat.lor (gath3 w K X).p (Nat.shiftLeft (gath3 w K X).m N)) M = true) :
+    CFSG.KS.Mat3.mat3 d N M = ordMat 3 d w (d * w) X := by
+  have hM := Nat.eq_of_beq_eq_true h
+  subst hM hN
+  ext i j
+  have ht : d * i.val + j.val < d * d := by nlinarith [i.isLt, j.isLt]
+  have hlt : d * i.val + j.val < 2 ^ K := Nat.lt_of_lt_of_le ht hK
+  have hz : X.testBit (w * (d * d + (d * i.val + j.val))) = false :=
+    Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hX.1 (Nat.pow_le_pow_right (by norm_num)
+      (Nat.mul_le_mul_left w (Nat.le_add_right _ _))))
+  change bitVal _ _ = _
+  rw [gath3_p, gath3_m, ordMat_apply]
+  change bitVal ((gathN w K X ||| gathN w K (X >>> 1) <<< (d * d)).testBit (d * i.val + j.val))
+    ((gathN w K X ||| gathN w K (X >>> 1) <<< (d * d)).testBit (d * d + (d * i.val + j.val))) = _
+  rw [Nat.testBit_or, Nat.testBit_or, Nat.testBit_shiftLeft, Nat.testBit_shiftLeft]
+  simp only [ge_iff_le, show ¬ d * d ≤ d * i.val + j.val by omega,
+    show d * d ≤ d * d + (d * i.val + j.val) by omega, decide_false, decide_true,
+    Bool.false_and, Bool.or_false, Bool.true_and, Nat.add_sub_cancel_left]
+  rw [gathN_testBit hw K X (d * d + _), hz, Bool.false_and, Bool.false_or, gathN_testBit hw,
+    gathN_testBit hw, Nat.testBit_shiftRight]
+  simp only [decide_eq_true hlt, Bool.and_true]
+  rw [(bit_lane hw X _).1, (bit_lane hw X _).2, bitVal_lane (hX.2 _ ht)]
+  unfold lane
+  congr 3
+  ring
+
 theorem gath_wf {d w K : Nat} (hw : 2 ≤ w) {X : Nat} (hX : Canon 3 d w X) :
     (gath3 w K X).wf = true := by
   apply V.wf_of_bits
@@ -323,6 +352,46 @@ theorem steps_of_F3 {c : Lay} (hc : c.ok = true) (hp : c.p = 3) {K : Nat}
       · exact (stepOK_of_F3 hc hp hK hd (fun j hj => ih j hj (by omega)) (hs k h3 hk)).2
   intro n h3 hn
   exact (stepOK_of_F3 hc hp hK hd (fun j hj => hV j (by omega)) (hs n h3 hn)).1
+
+theorem steps_of_F3V {c : Lay} (hc : c.ok = true) (hp : Nat.beq c.p 3 = true) {K : Nat}
+    (hK : Nat.ble (c.d * c.d) (2 ^ K) = true) (hd : Nat.blt 0 c.d = true) {V P : Nat → Nat} {N : Nat}
+    (hA : validM c.p (c.d * c.S) c.L c.H (V 0) = true)
+    (hB : validM c.p (c.d * c.S) c.L c.H (V 1) = true) (h2 : V 2 = c.ONE)
+    (hs : StepsTo (stepF3 c K (spreadE c.d c.d) V P) N) : StepsTo (stepOK c V P) N := by
+  have hp' : c.p = 3 := Nat.eq_of_beq_eq_true hp
+  refine steps_of_F3 hc hp' (Nat.le_of_ble_eq_true hK) (Nat.le_of_ble_eq_true hd)
+    (CFSG.KS.Ord.validM_canon hc hA) (CFSG.KS.Ord.validM_canon hc hB) ?_ hs
+  rw [h2]
+  exact (CFSG.KC.LocalComp.Ops3Snd.mat3_one c hc hp').1
+
+theorem mul_of_F3V {c : Lay} (hc : c.ok = true) (hp : Nat.beq c.p 3 = true) {K : Nat}
+    (hK : Nat.ble (c.d * c.d) (2 ^ K) = true) (hd : Nat.blt 0 c.d = true) {A B Q : Nat}
+    (hA : validM c.p (c.d * c.S) c.L c.H A = true) (hB : validM c.p (c.d * c.S) c.L c.H B = true)
+    (hQ : validM c.p (c.d * c.S) c.L c.H Q = true)
+    (h : eqV (gath3 c.w K Q) (mulLane c.d (spreadE c.d c.d) (gath3 c.w K A) (gath3 c.w K B)) = true) :
+    Nat.beq (c.mul A B) Q = true := by
+  have hp' : c.p = 3 := Nat.eq_of_beq_eq_true hp
+  let V : Nat → Nat := fun k => if k = 0 then A else if k = 1 then B else Q
+  let P : Nat → Nat := fun _ => 1048576
+  have e1 : Nat.land 1048576 1048575 = 0 := rfl
+  have e2 : Nat.shiftRight 1048576 20 = 1 := rfl
+  have e3 : Nat.mul c.d c.S = c.d * c.S := rfl
+  have hs : stepF3 c K (spreadE c.d c.d) V P 2 = true := by
+    unfold stepF3
+    simp only [strictB_eq, P, e1, e2, e3, V, ↓reduceIte, Nat.succ_ne_zero, OfNat.ofNat_ne_zero,
+      OfNat.ofNat_ne_one, hQ, h]
+    rfl
+  have hV : ∀ k < 2, Canon c.p c.d c.w (V k) := by
+    intro k hk
+    interval_cases k
+    · exact CFSG.KS.Ord.validM_canon hc hA
+    · exact CFSG.KS.Ord.validM_canon hc hB
+  have h1 := (stepOK_of_F3 hc hp' (Nat.le_of_ble_eq_true hK) (Nat.le_of_ble_eq_true hd) hV hs).1
+  unfold stepOK at h1
+  simp only [strictB_eq, P, e1, e2, V, ↓reduceIte, Nat.succ_ne_zero, OfNat.ofNat_ne_zero,
+    OfNat.ofNat_ne_one] at h1
+  have e : Q = c.mul A B := Nat.eq_of_beq_eq_true (andB_true' (andB_true' h1).2).2
+  rw [← e, Nat.beq_refl]
 
 end CFSG.KC.LQT.F3S
 

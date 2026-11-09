@@ -52,9 +52,9 @@ open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.SuzRecog.L
 @[expose] def a4Idx (x : Array Nat) : Nat :=
   ((List.range 12).find? fun j => eqA 1782 x (a4A j)).getD 12
 
-@[expose] def chainOK (S : Array (Array Nat)) (k : Nat) (base : List Nat) (W : Array (List Int))
-    (orbits : List Nat) : Bool :=
-  rawChainOK 1782 (S.extract 0 k) S base.toArray W 4 &&
+@[expose] def chainLowOK (S : Array (Array Nat)) (k : Nat) (base : List Nat)
+    (W : Array (List Int)) (orbits : List Nat) : Bool :=
+  rawChainOK 1782 (S.extract 0 k) S base.toArray W 0 &&
     rawOrbitSizes 1782 S base.toArray == orbits
 
 @[expose] def permsOK : Bool :=
@@ -92,21 +92,21 @@ open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.SuzRecog.L
       !eqA 1782 (conjA (e8A i) rhoArr) (conjA (e8A j) rhoArr)
 
 @[expose] def nr0OK : Bool :=
-  nr0StrongArrs.size == 9 && chainOK nr0StrongArrs 5 nr0Base nr0Words [42, 960, 12] &&
+  nr0StrongArrs.size == 9 && chainLowOK nr0StrongArrs 5 nr0Base nr0Words [42, 960, 12] &&
     eqA 1782 (nr0Strong 0) t1A && eqA 1782 (nr0Strong 1) zA && eqA 1782 (nr0Strong 2) w0Arr &&
     eqA 1782 (nr0Strong 3) rhoArr && eqA 1782 (nr0Strong 4) tauA
 
 @[expose] def csplitOK : Bool :=
   csplitStrongArrs.size == 9 &&
-    chainOK csplitStrongArrs 4 csplitBase csplitWords [162, 360, 56, 3] &&
+    chainLowOK csplitStrongArrs 4 csplitBase csplitWords [162, 360, 56, 3] &&
     eqA 1782 (csplitStrong 0) t1A && eqA 1782 (csplitStrong 1) zA &&
     eqA 1782 (csplitStrong 2) rhoArr && eqA 1782 (csplitStrong 3) aA
 
 @[expose] def c1OK : Bool :=
-  c1StrongArrs.size == 11 && chainOK c1StrongArrs 2 c1Base c1Words [54, 20, 16, 12, 4, 2, 2]
+  c1StrongArrs.size == 11 && chainLowOK c1StrongArrs 2 c1Base c1Words [54, 20, 16, 12, 4, 2, 2]
 
 @[expose] def j0rhoOK : Bool :=
-  j0rhoStrongArrs.size == 7 && chainOK j0rhoStrongArrs 3 j0rhoBase j0rhoWords [120, 126, 4] &&
+  j0rhoStrongArrs.size == 7 && chainLowOK j0rhoStrongArrs 3 j0rhoBase j0rhoWords [120, 126, 4] &&
     eqA 1782 (j0rhoStrong 0) t1A && eqA 1782 (j0rhoStrong 1) zA &&
     eqA 1782 (j0rhoStrong 2) rhoArr
 

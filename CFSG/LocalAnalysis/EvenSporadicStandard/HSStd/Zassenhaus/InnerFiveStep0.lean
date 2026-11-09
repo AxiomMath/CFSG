@@ -1,5 +1,6 @@
 module
 
+public import CFSG.Permutation.FinPackDec
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.InnerYCentralizer
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.InnerPsi
 import CFSG.Mathlib.GroupTheory.PermCommute
@@ -186,13 +187,97 @@ abbrev InV5 (v₁ v₂ x : alternatingGroup (Fin 5)) : Prop :=
 abbrev Nm5 (v₁ v₂ x : alternatingGroup (Fin 5)) : Prop :=
   InV5 v₁ v₂ (x * v₁ * x⁻¹) ∧ InV5 v₁ v₂ (x * v₂ * x⁻¹)
 
+section A5Codes
+
+open CFSG.Permutation.FinPack Equiv
+
+@[expose] def a5Ord3Codes : List ℕ :=
+  [148240, 205840, 267040, 78880, 270640, 82480, 143680, 201280, 274465, 262705, 12865, 274690,
+    262930, 13330, 266755, 270355, 16915, 78340, 143380, 197140]
+
+@[expose] noncomputable def a5InVK (v₁ v₂ x : ℕ) : Bool :=
+  Nat.beq x (enc (1 : Perm (Fin 5))) || Nat.beq x v₁ || Nat.beq x v₂ || Nat.beq x (mulK 5 v₁ v₂)
+
+@[expose] noncomputable def a5NmK (v₁ v₂ x : ℕ) : Bool :=
+  a5InVK v₁ v₂ (mulK 5 (mulK 5 x v₁) (invCK 5 x)) && a5InVK v₁ v₂ (mulK 5 (mulK 5 x v₂) (invCK 5 x))
+
+@[expose] noncomputable def a5CandK (v₁ v₂ g b : ℕ) : Bool :=
+  a5NmK v₁ v₂ b && a5NmK v₁ v₂ (mulK 5 (mulK 5 (invCK 5 g) b) g) && evenK 5 b &&
+    !Nat.beq b (enc (1 : Perm (Fin 5))) && Nat.beq (mulK 5 (mulK 5 b b) b) (enc (1 : Perm (Fin 5)))
+      && permValidK 5 b
+
+theorem a5_fact_walk : walkK 5 (fun v₁ => !evenK 5 v₁ || Nat.beq v₁ (enc (1 : Perm (Fin 5))) ||
+    !Nat.beq (mulK 5 v₁ v₁) (enc (1 : Perm (Fin 5))) ||
+    walkK 5 (fun v₂ => !evenK 5 v₂ || Nat.beq v₂ (enc (1 : Perm (Fin 5))) || Nat.beq v₁ v₂ ||
+      !Nat.beq (mulK 5 v₂ v₂) (enc (1 : Perm (Fin 5))) || !Nat.beq (mulK 5 v₁ v₂) (mulK 5 v₂ v₁) ||
+      walkK 5 (fun g => !evenK 5 g || a5NmK v₁ v₂ g ||
+        anyK (a5CandK v₁ v₂ g) a5Ord3Codes) 5 0 0 0) 5 0 0 0) 5 0 0 0 = true := by
+  decide +kernel
+
+private theorem a5InVK_enc (v₁ v₂ x : alternatingGroup (Fin 5)) :
+    a5InVK (enc (v₁ : Perm (Fin 5))) (enc (v₂ : Perm (Fin 5))) (enc (x : Perm (Fin 5))) = true ↔
+      InV5 v₁ v₂ x := by
+  have hn : 5 ≤ 16 := by norm_num
+  simp only [a5InVK, mulK_enc hn, beq_enc_eq_decide hn, Bool.or_eq_true, decide_eq_true_eq,
+    InV5, Subtype.ext_iff, Subgroup.coe_mul, OneMemClass.coe_one, or_assoc]
+
+private theorem a5NmK_enc (v₁ v₂ x : alternatingGroup (Fin 5)) :
+    a5NmK (enc (v₁ : Perm (Fin 5))) (enc (v₂ : Perm (Fin 5))) (enc (x : Perm (Fin 5))) = true ↔
+      Nm5 v₁ v₂ x := by
+  have hn : 5 ≤ 16 := by norm_num
+  have h1 := a5InVK_enc v₁ v₂ (x * v₁ * x⁻¹)
+  have h2 := a5InVK_enc v₁ v₂ (x * v₂ * x⁻¹)
+  simp only [Subgroup.coe_mul, InvMemClass.coe_inv] at h1 h2
+  simp only [a5NmK, mulK_enc hn, invCK_enc hn, Bool.and_eq_true, h1, h2, Nm5]
+
+end A5Codes
+
 set_option synthInstance.maxSize 1000 in
 set_option synthInstance.maxHeartbeats 200000 in
+open CFSG.Permutation.FinPack Equiv in
 theorem a5_fact : ∀ v₁ v₂ : alternatingGroup (Fin 5), v₁ ≠ 1 → v₂ ≠ 1 → v₁ ≠ v₂ →
     v₁ * v₁ = 1 → v₂ * v₂ = 1 → v₁ * v₂ = v₂ * v₁ → ∀ g : alternatingGroup (Fin 5),
     ¬ Nm5 v₁ v₂ g → ∃ b : alternatingGroup (Fin 5), b ≠ 1 ∧ b * b * b = 1 ∧ Nm5 v₁ v₂ b ∧
       Nm5 v₁ v₂ (g⁻¹ * b * g) := by
-  decide +kernel
+  have hn : 5 ≤ 16 := by norm_num
+  intro v₁ v₂ h1 h2 h12 hs1 hs2 hc g hg
+  have e1 : (v₁ : Perm (Fin 5)) ≠ 1 := fun h => h1 (Subtype.ext h)
+  have e2 : (v₂ : Perm (Fin 5)) ≠ 1 := fun h => h2 (Subtype.ext h)
+  have e12 : (v₁ : Perm (Fin 5)) ≠ v₂ := fun h => h12 (Subtype.ext h)
+  have es1 : (v₁ : Perm (Fin 5)) * v₁ = 1 := congrArg Subtype.val hs1
+  have es2 : (v₂ : Perm (Fin 5)) * v₂ = 1 := congrArg Subtype.val hs2
+  have ec : (v₁ : Perm (Fin 5)) * v₂ = v₂ * v₁ := congrArg Subtype.val hc
+  have sg1 : Perm.sign (v₁ : Perm (Fin 5)) = 1 := Perm.mem_alternatingGroup.1 v₁.2
+  have sg2 : Perm.sign (v₂ : Perm (Fin 5)) = 1 := Perm.mem_alternatingGroup.1 v₂.2
+  have sgg : Perm.sign (g : Perm (Fin 5)) = 1 := Perm.mem_alternatingGroup.1 g.2
+  have hw := walkK_sound a5_fact_walk (v₁ : Perm (Fin 5))
+  simp only [evenK_enc_eq_decide hn, mulK_enc hn, beq_enc_eq_decide hn, sg1, e1, es1,
+    decide_true, decide_false, Bool.not_true, Bool.false_or] at hw
+  have hw2 := walkK_sound hw (v₂ : Perm (Fin 5))
+  simp only [evenK_enc_eq_decide hn, mulK_enc hn, beq_enc_eq_decide hn, sg2, e2, e12, es2, ec,
+    decide_true, decide_false, Bool.not_true, Bool.false_or] at hw2
+  have hw3 := walkK_sound hw2 (g : Perm (Fin 5))
+  have hgK : a5NmK (enc (v₁ : Perm (Fin 5))) (enc (v₂ : Perm (Fin 5))) (enc (g : Perm (Fin 5))) =
+      false := by
+    rw [Bool.eq_false_iff]; exact fun h => hg ((a5NmK_enc v₁ v₂ g).1 h)
+  simp only [evenK_enc_eq_decide hn, sgg, hgK, decide_true, Bool.not_true, Bool.false_or] at hw3
+  obtain ⟨d, -, hd⟩ := anyK_iff.1 hw3
+  simp only [a5CandK, Bool.and_eq_true, Bool.not_eq_true'] at hd
+  obtain ⟨⟨⟨⟨⟨hb1, hb2⟩, hbe⟩, hb1'⟩, hb3⟩, hv⟩ := hd
+  obtain ⟨σ, rfl⟩ := exists_enc_of_permValidK hv
+  rw [evenK_enc_eq_decide hn, decide_eq_true_eq] at hbe
+  let b : alternatingGroup (Fin 5) := ⟨σ, Perm.mem_alternatingGroup.2 hbe⟩
+  have hbσ : (b : Perm (Fin 5)) = σ := rfl
+  refine ⟨b, ?_, ?_, ?_, ?_⟩
+  · intro h
+    rw [beq_enc_eq_decide hn, ← hbσ, h] at hb1'
+    simp at hb1'
+  · apply Subtype.ext
+    rw [mulK_enc hn, mulK_enc hn, beq_enc_eq_decide hn, decide_eq_true_eq] at hb3
+    simpa [hbσ] using hb3
+  · exact (a5NmK_enc v₁ v₂ b).1 hb1
+  · refine (a5NmK_enc v₁ v₂ (g⁻¹ * b * g)).1 ?_
+    simpa only [Subgroup.coe_mul, InvMemClass.coe_inv, mulK_enc hn, invCK_enc hn] using hb2
 
 theorem exists_order_three_normalizing [Finite G] {A V : Subgroup G}
     (eA : ↥A ≃* alternatingGroup (Fin 5)) (hVA : V ≤ A) (hV : Nat.card V = 4) {u : G} (hu : u ∈ V)

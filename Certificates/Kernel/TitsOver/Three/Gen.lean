@@ -7,6 +7,7 @@ public import Certificates.Kernel.Sporadic.Tits.Words2264
 public import Certificates.Data.Kernel.TitsOver.Check
 public import CFSG.LocalAnalysis.StandardType.TitsThreeOvergroupData
 import CFSG.Certificates.Kernel.Common.Harness
+import Certificates.Kernel.TitsOver.Three.DEq
 
 public section
 
@@ -25,10 +26,30 @@ open CertificateChecks.KernelMaxD2
         (pairLf 11 (mask 11) (PGI 0) (PGI 1) (REP (Nat.succ i)) (REPI (Nat.succ i)))
         ((genWords[i]!)[j]!) (pg 11 (mask 11) (Dk j)))), true)
 
-theorem k_gen0 : allN 114 (fun d => genK (Nat.add 0 d)) = true := by quickRfl
-theorem k_gen1 : allN 114 (fun d => genK (Nat.add 114 d)) = true := by quickRfl
-theorem k_gen2 : allN 114 (fun d => genK (Nat.add 228 d)) = true := by quickRfl
-theorem k_gen3 : allN 114 (fun d => genK (Nat.add 342 d)) = true := by quickRfl
+@[expose] noncomputable def genKL (i : Nat) : Bool :=
+  bIf(Nat.beq (pairData.kind[i]!) 0,
+    bAnd(Nat.beq (genWords[i]!).length 2, allN 2 (fun j =>
+      wordBK 4 6 (r32 TitsD.PT) (pairLf 11 (mask 11) (PE.G 0) (PE.G 1) (REP (Nat.succ i)) (REPI (Nat.succ i)))
+        (pairLf 11 (mask 11) (PGI 0) (PGI 1) (REP (Nat.succ i)) (REPI (Nat.succ i)))
+        ((genWords[i]!)[j]!) (pg 11 (mask 11) (nIf(Nat.beq j 0, DKL 0, DKL 1))))), true)
+
+theorem genK_lit : genK = genKL := by
+  funext i
+  unfold genK genKL
+  rw [dk_eq]
+
+theorem k_gen0 : allN 114 (fun d => genK (Nat.add 0 d)) = true := by
+  rw [genK_lit]
+  quickRfl
+theorem k_gen1 : allN 114 (fun d => genK (Nat.add 114 d)) = true := by
+  rw [genK_lit]
+  quickRfl
+theorem k_gen2 : allN 114 (fun d => genK (Nat.add 228 d)) = true := by
+  rw [genK_lit]
+  quickRfl
+theorem k_gen3 : allN 114 (fun d => genK (Nat.add 342 d)) = true := by
+  rw [genK_lit]
+  quickRfl
 
 end CertificateChecks.KernelTitsOver.Three
 

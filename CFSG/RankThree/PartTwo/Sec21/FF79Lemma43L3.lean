@@ -2,6 +2,7 @@ module
 
 public import CFSG.RankThree.PartTwo.Sec21.FF79Lemma43KFacts
 public import CFSG.LieType.SteinbergBRAutGL32
+import CFSG.LinearAlgebra.F2Mat3Cent
 
 public section
 
@@ -58,7 +59,23 @@ private theorem fact_trivial : ∀ k : M3, det3 k = 1 → k ≠ 1 → pow8 k = 1
 
 private theorem fact_inner : ∀ A β : M3, det3 A = 1 → mul3 A A = 1 → det3 β = 1 → β ≠ 1 →
     mul3 β (mul3 β β) = 1 → mul3 A β = mul3 β A → A = 1 := by
-  decide +kernel
+  intro A β hA hAA _ hβ1 hβ3 hc
+  rw [mul3_eq] at hAA
+  rw [mul3_eq, mul3_eq] at hβ3
+  rw [mul3_eq, mul3_eq] at hc
+  rw [det3_eq] at hA
+  have h3 : β * β * β = 1 := by rw [mul_assoc]; exact hβ3
+  rcases CFSG.F2NatMat.cent3 β A h3 hβ1 hA hc.symm with h | h | h
+  · exact h
+  · exfalso
+    rw [h] at hAA
+    rw [hAA, one_mul] at h3
+    exact hβ1 h3
+  · exfalso
+    rw [h] at hAA
+    have e : β * β * (β * β) = β := by rw [← mul_assoc, h3, one_mul]
+    rw [e] at hAA
+    exact hβ1 hAA
 
 private theorem fact_outer : ∀ A : M3, det3 A = 1 → mul3 A (adj3 A)ᵀ = 1 →
     ∀ k : M3, det3 k = 1 → fix3 A k → k ≠ 1 → pow8 k = 1 →

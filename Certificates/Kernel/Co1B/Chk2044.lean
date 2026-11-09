@@ -6,6 +6,7 @@ public import Certificates.Kernel.Co1B.IotaData
 public import Certificates.Data.Kernel.SporSch.Co1Cent
 public import Certificates.Data.Kernel.SporSch.Co1Bfs
 public import Certificates.Data.Kernel.SporSch.Co1Stab
+public import Certificates.Data.Kernel.SporSch.Co1StabW
 public import Certificates.Data.CFSGNative.Co1.Involutions
 public import Certificates.Data.Kernel.Co1F2
 public import Certificates.Data.Kernel.Co1B
@@ -13,6 +14,7 @@ public import Certificates.Data.Kernel.Co1BW
 public import Certificates.Kernel.Co1B.Data2041
 public import CFSG.Sporadic.Co1Block.TwoAData
 import CFSG.Certificates.Kernel.Common.Harness
+public import CFSG.Certificates.Kernel.Co1QGram
 
 public section
 
@@ -37,10 +39,10 @@ open CFSG.KC.Co1B (mulWK)
 
 theorem kb : (Nat.beq (D1.M 0) SA && Nat.beq (D1.M 1) SB && Nat.beq (D1.M 2) IA) = true := by
   quickRfl
-theorem kD1 : dagIK D1.M D1.MI 3 D1.N twoAD1 = true := by quickRfl
+theorem kD1 : dagIWK D1.M D1.MI 3 D1.N twoAD1 = true := by quickRfl
 theorem kI : twoABray.all (fun j => decide (3 < j) && decide (j ≤ D1.N)) = true := by quickRfl
 theorem kBind : bindK D1.M D2.M twoABray = true := by quickRfl
-theorem kD2 : dagIK D2.M D2.MI twoABray.length D2.N twoAD2 = true := by quickRfl
+theorem kD2 : dagIWK D2.M D2.MI twoABray.length D2.N twoAD2 = true := by quickRfl
 theorem kC : commK D1.M IA twoABray = true := by quickRfl
 theorem kN : (Nat.beq D2.N 35 && Nat.beq QT.N 512) = true := by quickRfl
 
@@ -82,10 +84,24 @@ theorem kB : allN 8 (fun i => bAnd(invOKK (D2.M i) (D2.MI i), allN 8 fun l =>
 
 @[expose] def YA : List Nat := [1, 3, 5, 8, 29, 37, 100, 16403]
 
+theorem kM_rows : CFSG.KC.Co1QGram.rowsOK 0 FA [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [false, false, false, false, false, false, false, false, false, false, false, false, false,
+      false, false, false] = true := by
+  quickRfl
+
+theorem kM_l : CFSG.KC.Co1QGram.rowOK 0 0 FA 0 = true := by quickRfl
+
+theorem kM_walk :
+    Nat.beq (CFSG.KC.Co1QGram.gcK FA [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      [false, false, false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false] (CFSG.KC.Co1QGram.qf 0 0) 0) 0 = true := by
+  quickRfl
+
 theorem kM : (bfsMemK QT.P QT.S QT.N IA &&
     allN 8 (fun l => Nat.beq (mulWK (QM l) IA) (mulWK IA (QM l))) &&
     fixK 24 TA 0 FA YA 16 65536 0 && Nat.beq (mulWK IA IA) idM &&
     (unpack 24 24 IA != unpack 24 24 idM)) = true := by
+  rw [CFSG.KC.Co1QGram.fixK_eq_fixKq, CFSG.KC.Co1QGram.qCount_of_gram kM_rows kM_l kM_walk]
   quickRfl
 
 end CertificateChecks.KernelCo1B.C2044

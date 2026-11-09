@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.B3S3.Gen
 public import Certificates.Kernel.LocalComp.BfsGenSl
+public import CFSG.Certificates.Kernel.BfsPinKeyCl
 public meta import Certificates.Kernel.B3S3.Gen
 public meta import Certificates.Kernel.LocalComp.BfsGen
 public meta import Certificates.Kernel.Sporadic.RawGen
@@ -40,11 +41,9 @@ elab "#kenum_sl " pre:ident gId:ident bId:ident nn:num ww:num ll:num : command =
   let nE := lit n
   let wE := lit w
   let mE := mkApp (mkConst ``CFSG.KS.mask) wE
-  let nwE := mkApp2 (mkConst ``Nat.mul) nE wE
-  let csP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.canonSl)
-    #[nE, wE, c `T, lit L, mkBVar 0]))
-  let rsP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.runSl)
-    #[nE, wE, c `ng, c `G, c `T, c `E, lit L, c `C, mkBVar 0]))
+  let psE := mkApp2 (mkConst ``Array.toList [0]) natT (mkConst bN)
+  let rsP := mkLambda `s .default natE (isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.runSlB)
+    #[nE, wE, c `ng, psE, c `G, c `T, c `E, lit L, c `C, mkBVar 0]))
   let thm := fun (nm : Name) (ty v : Expr) =>
     CFSG.KC.addThmDecl <| { name := P ++ nm, levelParams := [], type := ty, value := v }
   liftCoreM <| withOptions (Elab.async.set · false) do
@@ -59,30 +58,19 @@ elab "#kenum_sl " pre:ident gId:ident bId:ident nn:num ww:num ll:num : command =
     addTree (P ++ `C) counts
     addDef (P ++ `SK) listT (listE korder)
     for s in [0:K] do
-      thm (Name.mkSimple s!"cs{s}") (mkApp csP (lit s)).headBeta reflBoolTrue
       thm (Name.mkSimple s!"rs{s}") (mkApp rsP (lit s)).headBeta reflBoolTrue
-    thm `hsz (isTrue (mkApp2 (mkConst ``CFSG.KS.Raw.szOK) nE wE)) reflBoolTrue
-    let canG := mkLambda `k .default natE (mkAppN (mkConst ``CFSG.KS.Prim.canonK)
-      #[nE, wE, mE, nwE, mkApp (c `G) (mkBVar 0)])
-    thm `hG (isTrue (mkApp2 (mkConst ``CFSG.KC.Enum.allN) (c `ng) canG)) reflBoolTrue
     thm `h0 (isTrue (mkApp2 (mkConst ``Nat.beq) (mkApp (c `T) (lit 0))
       (mkApp2 (mkConst ``CFSG.KC.Enum.pidn) nE wE))) reflBoolTrue
-    thm `hD (isTrue (mkApp3 (mkConst ``CFSG.KC.BfsPin.distinctK) (c `N) (c `T) (c `S)))
-      reflBoolTrue
     let beqPf := fun (a b : Expr) => mkApp3 (mkConst ``Nat.eq_of_beq_eq_true) a b reflBoolTrue
     let hN := mkApp2 (mkConst ``Eq.refl [1]) natE (c `N)
-    let hL := mkApp3 (mkConst ``Nat.le_of_ble_eq_true) (lit 1) (lit L) reflBoolTrue
     let hC0 := beqPf (mkApp (c `C) (lit 0)) (lit 1)
     let hCK := beqPf (mkApp (c `C) (lit K)) (c `N)
-    let hc := forallChain csP K fun s => c (Name.mkSimple s!"cs{s}")
     let hr := forallChain rsP K fun s => c (Name.mkSimple s!"rs{s}")
-    let okT := isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.bfsK)
-      #[nE, wE, c `ng, c `G, c `N, c `T, c `E, c `S])
-    let okV := mkAppN (mkConst ``CFSG.KC.BfsPin.bfsK_of_slices)
-      #[nE, wE, c `ng, c `N, lit L, lit K, c `G, c `T, c `E, c `S, c `C, hN, hL, c `hsz, c `hG,
-        hc, c `h0, c `hD, hC0, hCK, hr]
+    let okT := mkApp3 (mkConst ``Eq [1]) natE (mkAppN (mkConst ``CFSG.KC.BfsPin.runFB)
+      #[nE, wE, mE, c `ng, psE, c `G, c `T, c `E, c `N, lit 0, lit 1]) (c `N)
+    let okV := mkAppN (mkConst ``CFSG.KC.BfsPin.runFB_of_runSlB)
+      #[nE, wE, c `ng, psE, c `N, lit L, lit K, c `G, c `T, c `E, c `C, hN, hC0, hCK, hr]
     thm `ok okT okV
-    let psE := mkApp2 (mkConst ``Array.toList [0]) natT (mkConst bN)
     let keysT := isTrue (mkAppN (mkConst ``CFSG.KC.BfsPin.keysSK)
       #[nE, wE, psE, c `N, c `T, c `SK])
     thm `keys keysT reflBoolTrue

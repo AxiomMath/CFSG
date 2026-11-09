@@ -54,6 +54,13 @@ theorem comm_of {A B P : List Nat} (hA : wfMat A = true) (hB : wfMat B = true)
     (h1 : AllStrips [B] A P) (h2 : AllStrips [A] B P) : stripMat A * stripMat B = stripMat B * stripMat A :=
   (mul1 hA hB h1).trans (mul1 hB hA h2).symm
 
+theorem ne_of_strip0 {Ws Ds : List (List Nat)} {A C : List Nat} {a c : Nat} (ha : A.getD 0 0 = a)
+    (hc : C.getD 0 0 = c) (hW : ∀ W ∈ Ws, wfMat W = true) (hD : ∀ D ∈ Ds, wfMat D = true)
+    (hA : wfMat A = true) (hC : wfMat C = true)
+    (h : notB (Nat.beq (mulW Ws a) (mulW Ds c)) = true) :
+    (Ws.map stripMat).foldl (· * ·) (stripMat A) ≠ (Ds.map stripMat).foldl (· * ·) (stripMat C) :=
+  stripMat_mul_ne_of_strip hW hD hA hC (j := 0) (by norm_num) (by rw [ha, hc]; exact h)
+
 theorem fact17150 : Fact17150 (stripMat X) (stripMat S) (stripMat T2) (stripMat T4) (stripMat T5)
     (stripMat G) := by
   have eX : stripMat X = stripMat v79 ^ 2 := by
@@ -168,23 +175,23 @@ theorem fact17150 : Fact17150 (stripMat X) (stripMat S) (stripMat T2) (stripMat 
     ⟨h55, ne_one_of_rank hr5 (by norm_num), hr5, cT5X.eq⟩,
     h15, fun h => ne15 h.symm, h12c, by rw [h12]; exact ne1 wf_C3 CFSG.KC.BM.BThirteen.neC3,
     hGX, cGS.eq, cGT2.eq, cGT5.eq, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · exact stripMat_mul_ne_of_strip (Ws := [T2, S, T4]) (Ds := [T2])
-      (by simp [wf_T2, wf_S, wf_T4]) (by simp [wf_T2]) wf_T4 wf_S (j := 0) (by norm_num)
+  · exact ne_of_strip0 (Ws := [T2, S, T4]) (Ds := [T2]) (a := T4.s0) (c := S.s0) rfl rfl
+      (by simp [wf_T2, wf_S, wf_T4]) (by simp [wf_T2]) wf_T4 wf_S
       CFSG.KC.BM.BThirteen.w12
-  · exact stripMat_mul_ne_of_strip (Ws := [T4, S, T2]) (Ds := [T4])
-      (by simp [wf_T2, wf_S, wf_T4]) (by simp [wf_T4]) wf_T2 wf_S (j := 0) (by norm_num)
+  · exact ne_of_strip0 (Ws := [T4, S, T2]) (Ds := [T4]) (a := T2.s0) (c := S.s0) rfl rfl
+      (by simp [wf_T2, wf_S, wf_T4]) (by simp [wf_T4]) wf_T2 wf_S
       CFSG.KC.BM.BThirteen.w14
-  · exact stripMat_mul_ne_of_strip (Ws := [T5, S, T2]) (Ds := [T5])
-      (by simp [wf_T2, wf_S, wf_T5]) (by simp [wf_T5]) wf_T2 wf_S (j := 0) (by norm_num)
+  · exact ne_of_strip0 (Ws := [T5, S, T2]) (Ds := [T5]) (a := T2.s0) (c := S.s0) rfl rfl
+      (by simp [wf_T2, wf_S, wf_T5]) (by simp [wf_T5]) wf_T2 wf_S
       CFSG.KC.BM.BThirteen.w15
-  · exact stripMat_mul_ne_of_strip (Ws := [T4, T2, S]) (Ds := [T4])
-      (by simp [wf_T2, wf_S, wf_T4]) (by simp [wf_T4]) wf_S wf_T2 (j := 0) (by norm_num)
+  · exact ne_of_strip0 (Ws := [T4, T2, S]) (Ds := [T4]) (a := S.s0) (c := T2.s0) rfl rfl
+      (by simp [wf_T2, wf_S, wf_T4]) (by simp [wf_T4]) wf_S wf_T2
       CFSG.KC.BM.BThirteen.w24
-  · exact stripMat_mul_ne_of_strip (Ws := [T5, T2, S]) (Ds := [T5])
-      (by simp [wf_T2, wf_S, wf_T5]) (by simp [wf_T5]) wf_S wf_T2 (j := 0) (by norm_num)
+  · exact ne_of_strip0 (Ws := [T5, T2, S]) (Ds := [T5]) (a := S.s0) (c := T2.s0) rfl rfl
+      (by simp [wf_T2, wf_S, wf_T5]) (by simp [wf_T5]) wf_S wf_T2
       CFSG.KC.BM.BThirteen.w25
-  · exact stripMat_mul_ne_of_strip (Ws := [T5, T4, S]) (Ds := [T5])
-      (by simp [wf_T4, wf_S, wf_T5]) (by simp [wf_T5]) wf_S wf_T4 (j := 0) (by norm_num)
+  · exact ne_of_strip0 (Ws := [T5, T4, S]) (Ds := [T5]) (a := S.s0) (c := T4.s0) rfl rfl
+      (by simp [wf_T4, wf_S, wf_T5]) (by simp [wf_T5]) wf_S wf_T4
       CFSG.KC.BM.BThirteen.w45
 
 end CertificateChecks.KernelBM.BThirteen

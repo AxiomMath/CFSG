@@ -46,31 +46,37 @@ theorem gens_eq {G : Nat → Nat} (h : allN 2 (fun k => Nat.beq (G k) (Fi22PC.S 
     Nat.eq_of_beq_eq_true (allN_spec h k hk)]
 
 theorem replay0 : SetReplayOK 3510 12 54 2 3511 3511 7 8 7 8 64 Fi22F3148O0.G Fi22F3148O0.GI
-    (rowGet Fi22F3148O0.XT 676) (rowGet Fi22F3148O0.WT 40) (rowGet Fi22F3148O0.ST 20)
-    (rowGet Fi22F3148O0.SIT 20) Fi22F3148O0.C (fixedList 3510 (fi22OuterStrong3510 6)[0]!) := by
+    (rowGet Fi22F3148O0.XT 676) (rowGet Fi22F3148O0.WT 40) (rowGet Fi22F3148O0.KT 3574)
+    (rowGet Fi22F3148O0.ST 20) (rowGet Fi22F3148O0.SIT 20) Fi22F3148O0.C
+    (fixedList 3510 (fi22OuterStrong3510 6)[0]!) := by
   obtain ⟨c0, cN⟩ := by simpa only [bAnd_iff] using cnt0
   refine ⟨by norm_num, by norm_num, by norm_num, by norm_num, le_refl _, by norm_num, by norm_num,
-    by norm_num, by norm_num, fun k hk => allN_spec perm0 k hk, ?_, Fi22F3148O0.helt,
+    by norm_num, by norm_num, fun k hk => allN_spec perm0 k hk, ?_, SRP.rowGet_lt rfl,
+    by norm_num,
     Fi22F3148O0.hsrt, Nat.eq_of_beq_eq_true c0, Nat.eq_of_beq_eq_true cN, Fi22F3148O0.hrun⟩
   rw [Fi22LabA.out6_eq (by norm_num), fixedList_unpack]
   exact start0
 
 theorem replay1 : SetReplayOK 3510 12 182 2 3511 3511 28 2 14 4 64 Fi22F3148O1.G Fi22F3148O1.GI
-    (rowGet Fi22F3148O1.XT 2212) (rowGet Fi22F3148O1.WT 40) (rowGet Fi22F3148O1.ST 20)
-    (rowGet Fi22F3148O1.SIT 20) Fi22F3148O1.C (fixedList 3510 (fi22OuterStrong3510 6)[1]!) := by
+    (rowGet Fi22F3148O1.XT 2212) (rowGet Fi22F3148O1.WT 40) (rowGet Fi22F3148O1.KT 3574)
+    (rowGet Fi22F3148O1.ST 20) (rowGet Fi22F3148O1.SIT 20) Fi22F3148O1.C
+    (fixedList 3510 (fi22OuterStrong3510 6)[1]!) := by
   obtain ⟨c0, cN⟩ := by simpa only [bAnd_iff] using cnt1
   refine ⟨by norm_num, by norm_num, by norm_num, by norm_num, le_refl _, by norm_num, by norm_num,
-    by norm_num, by norm_num, fun k hk => allN_spec perm1 k hk, ?_, Fi22F3148O1.helt,
+    by norm_num, by norm_num, fun k hk => allN_spec perm1 k hk, ?_, SRP.rowGet_lt rfl,
+    by norm_num,
     Fi22F3148O1.hsrt, Nat.eq_of_beq_eq_true c0, Nat.eq_of_beq_eq_true cN, Fi22F3148O1.hrun⟩
   rw [Fi22LabA.out6_eq (by norm_num), fixedList_unpack]
   exact start1
 
 theorem replayZ : SetReplayOK 3510 12 694 2 3510 3510 55 1 28 2 64 Fi22F3148OZ.G Fi22F3148OZ.GI
-    (rowGet Fi22F3148OZ.XT 8356) (rowGet Fi22F3148OZ.WT 40) (rowGet Fi22F3148OZ.ST 20)
-    (rowGet Fi22F3148OZ.SIT 20) Fi22F3148OZ.C (fixedList 3510 (fi22OuterStrong3510 1)[0]!) := by
+    (rowGet Fi22F3148OZ.XT 8356) (rowGet Fi22F3148OZ.WT 40) (rowGet Fi22F3148OZ.KT 3574)
+    (rowGet Fi22F3148OZ.ST 20) (rowGet Fi22F3148OZ.SIT 20) Fi22F3148OZ.C
+    (fixedList 3510 (fi22OuterStrong3510 1)[0]!) := by
   obtain ⟨c0, cN⟩ := by simpa only [bAnd_iff] using cntZ
   refine ⟨by norm_num, by norm_num, by norm_num, by norm_num, le_refl _, by norm_num, by norm_num,
-    by norm_num, by norm_num, fun k hk => allN_spec permZ k hk, ?_, Fi22F3148OZ.helt,
+    by norm_num, by norm_num, fun k hk => allN_spec permZ k hk, ?_, SRP.rowGet_lt rfl,
+    by norm_num,
     Fi22F3148OZ.hsrt, Nat.eq_of_beq_eq_true c0, Nat.eq_of_beq_eq_true cN, Fi22F3148OZ.hrun⟩
   rw [Fi22E2073.outE, fixedList_unpack]
   exact startZ

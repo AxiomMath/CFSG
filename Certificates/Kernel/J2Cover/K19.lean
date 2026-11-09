@@ -223,7 +223,7 @@ theorem totalC : classTotal 315 #[tblA, tblB] #[tblAInv, tblBInv] (orderTablesOf
   have c1 : lget RC.CS 1 = 315 := rfl
   have hr : List.range 2 = [0, 1] := rfl
   rw [hl, hr]
-  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
+  rw [List.map_cons, List.map_cons, List.map_nil, List.sum_cons, List.sum_cons, List.sum_nil]
   have h2 := cnt2
   have h3 := cnt3
   unfold orderTablesOf autTables at h2 h3

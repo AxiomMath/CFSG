@@ -44,6 +44,28 @@ theorem memStmt_default {Ot : Array (OmegaData (List Lab))} (hO2 : O2OK C.A.act 
   · rw [defaultRow]
     exact (quot_le_order _ N).trans (by rw [C.Y_card hj])
 
+theorem memStmt_sub {Ot : Array (OmegaData (List Lab))} {j : ℕ} (hj : j < C.J)
+    (hodd : C.D.Om[j]!.lbl.size % 2 = 1) {B : List Lab} (hB : ∀ x ∈ B, x ∈ C.Λ j)
+    (hΔB : C.Δ ∈ B) (hOt : OmegaSpec (tupAct C.A.act) C.D.sTabs.toArray B Ot[j]!)
+    (hsz : Ot[j]!.lbl.size = 2 ^ C.k) : MemStmt (C.Y j) (defaultRow C.k C.D Ot j) := by
+  have hpos : 0 < Ot[j]!.lbl.size := hOt.2.1
+  refine ⟨C.Y_card hj, ?_, fun N _ _ => ?_⟩
+  · have h1 := C.core_card_sub hj hodd hB hΔB Ot[j]! hOt hsz
+    exact (Nat.eq_div_of_mul_eq_left hpos.ne' h1)
+  · rw [defaultRow]
+    exact (quot_le_order _ N).trans (by rw [C.Y_card hj])
+
+theorem memStmt_full {Ot : Array (OmegaData (List Lab))} {j : ℕ} (hj : j < C.J)
+    (hodd : C.D.Om[j]!.lbl.size % 2 = 1)
+    (hOt : OmegaSpec (tupAct C.A.act) C.D.sTabs.toArray C.D.Om[j]!.lbl.toList Ot[j]!) :
+    MemStmt (C.Y j) (defaultRow C.k C.D Ot j) := by
+  have hpos : 0 < Ot[j]!.lbl.size := hOt.2.1
+  refine ⟨C.Y_card hj, ?_, fun N _ _ => ?_⟩
+  · have h1 := C.core_card hj hodd Ot[j]! hOt
+    exact (Nat.eq_div_of_mul_eq_left hpos.ne' h1)
+  · rw [defaultRow]
+    exact (quot_le_order _ N).trans (by rw [C.Y_card hj])
+
 theorem rows_of_default {Ot : Array (OmegaData (List Lab))} (hO2 : O2OK C.A.act C.D Ot)
     (mems : List Mem) (hm : (List.range C.J).map (defaultRow C.k C.D Ot) = mems) :
     ∀ j < C.J, ∃ m ∈ mems, MemStmt (C.Y j) m := by

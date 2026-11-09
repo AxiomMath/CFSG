@@ -128,16 +128,22 @@ open DempData
       (Nat.beq (vecB D.rm (D.bvL l) (D.S g)) (D.bvL l)) (Nat.ble (D.frL (Nat.succ l)) g)))))))))))
   (D.oszL l)
 
+@[expose] noncomputable def resEnt (D : DempData) (l i g : Nat) : Bool :=
+  (fun e => (fun z => andB (Nat.blt z (D.oszL l))
+      (andB (allBelow (Nat.sub (Nat.sub D.L l) (nat_lit 1)) (nat_lit 1) (fun q =>
+          Nat.blt (bitsN e (Nat.mul (nat_lit 8) (Nat.succ q)) (nat_lit 8))
+            (D.oszL (Nat.add (Nat.add l (nat_lit 1)) q))))
+        (Nat.beq (D.mul (D.T l i) (D.S g)) (D.sift l e (D.T l z)))))
+      (Nat.land e (nat_lit 255)))
+    (lget (lgetL D.res l) (Nat.add (Nat.mul i (Nat.sub D.npr (D.frL l))) (Nat.sub g (D.frL l))))
+
+@[expose] noncomputable def resChkR (D : DempData) (l g0 m : Nat) : Bool :=
+  allBelow (Nat.mul (D.oszL l) m)
+    (Nat.add (Nat.shiftRight (Nat.mul (D.oszL l) m) (nat_lit 6)) (nat_lit 1))
+    (fun p => resEnt D l (Nat.div p m) (Nat.add g0 (Nat.mod p m)))
+
 @[expose] noncomputable def resChk (D : DempData) (l : Nat) : Bool :=
-  (fun n m => allBelow (Nat.mul n m) (Nat.add (Nat.shiftRight (Nat.mul n m) (nat_lit 6)) (nat_lit 1))
-    (fun p => (fun i g e => (fun z => andB (Nat.blt z n)
-        (andB (allBelow (Nat.sub (Nat.sub D.L l) (nat_lit 1)) (nat_lit 1) (fun q =>
-            Nat.blt (bitsN e (Nat.mul (nat_lit 8) (Nat.succ q)) (nat_lit 8))
-              (D.oszL (Nat.add (Nat.add l (nat_lit 1)) q))))
-          (Nat.beq (D.mul (D.T l i) (D.S g)) (D.sift l e (D.T l z)))))
-        (Nat.land e (nat_lit 255)))
-      (Nat.div p m) (Nat.add (D.frL l) (Nat.mod p m)) (lget (lgetL D.res l) p)))
-  (D.oszL l) (Nat.sub D.npr (D.frL l))
+  resChkR D l (D.frL l) (Nat.sub D.npr (D.frL l))
 
 @[expose] noncomputable def shapeChk (D : DempData) : Bool :=
   andB (markChk D) (andB (frChk D) (andB (Nat.beq D.L (nat_lit 6))
@@ -151,7 +157,7 @@ open DempData
 
 @[expose] noncomputable def dempChk (D : DempData) : Bool :=
   andB (slpChk D) (andB (shapeChk D) (andB (levelsChk D)
-  (andB (resChk D 0) (andB (resChk D 1) (andB (resChk D 2) (andB (resChk D 3)
+  (andB (resChkR D 0 (nat_lit 0) (nat_lit 2)) (andB (resChk D 1) (andB (resChk D 2) (andB (resChk D 3)
     (andB (resChk D 4) (resChk D 5))))))))
 
 end CFSG.KC.ThDemp

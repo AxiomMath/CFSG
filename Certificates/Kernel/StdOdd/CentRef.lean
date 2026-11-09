@@ -35,7 +35,7 @@ theorem refs_of_checks (D : CentData) {A B : ℕ} (hA : Rep A (toMat nativeAB.1)
     (hB : Rep B (toMat nativeAB.2)) (hv0 : Nat.beq (nthV D.V 0) A = true)
     (hv1 : Nat.beq (nthV D.V 1) B = true) (hp : ∀ t < lenLL D.prog, slpLine D.V D.prog 2 t = true)
     (hn : Nat.beq (lenN D.V) (Nat.add 2 (lenLL D.prog)) = true)
-    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.levOK (j + 1) = true)
+    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.LevFact (j + 1))
     (heL : D.eL.length = D.p) (helt : ∀ i < D.p, D.e i < D.p) (he0 : D.e 0 = 0)
     {R : ℕ} {O : ℕ → List ℕ} {Sr : ℕ → List (List (List ℕ))} {fl sidx : ℕ → ℕ}
     (hchk : ∀ ri < R, D.refF A B (O ri) (Sr ri) (fl ri) (sidx ri) = true)
@@ -59,10 +59,7 @@ theorem refs_of_checks (D : CentData) {A B : ℕ} (hA : Rep A (toMat nativeAB.1)
     intro j h1 h2 r hr
     have h := hlev (j - 1) (by omega)
     rw [Nat.sub_add_cancel h1] at h
-    simp only [CentData.levOK, andB_eq, Bool.and_eq_true] at h
-    have := allL_true h.1 r hr
-    rw [Bool.and_eq_true] at this
-    exact Nat.blt_eq.mp this.1
+    exact (h.1 r hr).1
   intro r hr hs
   have hc := allN_true hcov r hr
   rw [Bool.or_eq_true, Bool.not_eq_true', hs] at hc

@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelM24L2
-  "Certificates/Kernel/M24L2/data/m24l2.json.gz" 384092 11498774037047062070
+#kc_repo #kc_json CertificateChecks.KernelM24L2
+  "Certificates/Kernel/M24L2/data/m24l2.json" 384092 11498774037047062070
   (glMask : Nat)
   (glE0 : List (Nat × Nat × Nat)) (glE1 : List (Nat × Nat × Nat)) (glE2 : List (Nat × Nat × Nat))
   (glE3 : List (Nat × Nat × Nat)) (glE4 : List (Nat × Nat × Nat)) (glE5 : List (Nat × Nat × Nat))

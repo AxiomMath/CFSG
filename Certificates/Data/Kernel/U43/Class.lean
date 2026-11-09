@@ -35,6 +35,14 @@ open CFSG.KC.Loop CFSG.RankThree.PartTwo.Sec4.Item434RemU43
     stepF X GA GB PP n h 0 (wC w) (wP w 0) x fun c1 =>
       stepF X GA GB PP n h 1 c1 (wP w 1) x fun c2 => Nat.beq (wC (WH (Nat.succ h))) c2
 
+@[expose] noncomputable def oparF (X GA GB : Nat → Nat) (N : Nat) (W : List Nat) : Nat → Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun w _ ih h => bAnd(allBelow 64 1 fun l => letB (Nat.add (Nat.mul 64 h) l) fun c =>
+      bIf(Nat.blt c N, letB (Nat.land (Nat.shiftRight w (Nat.mul 17 l)) 131071) fun v =>
+        Nat.ble (Nat.div v 2) c &&
+          Nat.beq (X (Nat.succ c)) (conjF GA GB (Nat.mod v 2) (X (Nat.div v 2))), true),
+      ih (Nat.succ h))) W
+
 @[expose] noncomputable def powF (c k : Nat) : Nat :=
   nIf(Nat.beq k 0, ONEF, nIf(Nat.beq k 1, c, MF c c))
 

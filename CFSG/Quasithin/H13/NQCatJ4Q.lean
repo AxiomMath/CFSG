@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.H13.NQCatJ4Local
+public import CFSG.Quasithin.H13.NQCatJ4Transport
 public import CFSG.RankThree.PartTwo.ExponentPrimeSmallRank
 
 public section
@@ -183,6 +184,21 @@ theorem j4Data :
 noncomputable abbrev j4Q
     : Subgroup Sporadic.J4.J := Subgroup.closure {j4x, j4y}
 
+theorem fixDim_y : fixDim j4y = 12 := by
+  have h := fixDim_word fixDimOK_reps.1
+  rwa [pow_zero, pow_zero, one_mul, mul_one, pow_one] at h
+
+theorem fixDim_xy {b : ℕ} (hb : b < 11) : fixDim (j4x * j4y ^ b) = 12 := by
+  have h := fixDim_word (fixDimOK_reps.2 b hb)
+  rwa [pow_one, pow_zero, mul_one] at h
+
+theorem fixDim_noncentral {i j : ℕ} (hi : i < 11) (hj : j < 11) (hij : ¬ (i = 0 ∧ j = 0))
+    (k : ℕ) : fixDim (j4x ^ i * j4y ^ j * j4z ^ k) = 12 :=
+  Transport.eq_of_reps j4z_comm_x j4z_comm_y j4Data.z_pow fixDim (fun g h => fixDim_conj h g) fixDim_pow_eq
+    j4y_pow (fun b hb => by
+      have h := j4xy_pow (i := 1) (by norm_num) hb
+      rwa [pow_one] at h) fixDim_y (fun b hb => fixDim_xy hb) hi hj hij k
+
 theorem fixDim_of_mem_j4Q
     {u : Sporadic.J4.J} (hu : u ∈ j4Q) (hu1 : u ≠ 1) :
     (u ∈ Subgroup.zpowers j4z → fixDim u = 2) ∧ (u ∉ Subgroup.zpowers j4z → fixDim u = 12) := by
@@ -196,7 +212,6 @@ theorem fixDim_of_mem_j4Q
       exact hu1 (pow_zero _)
     exact fixDim_z_pow hk hk0
   · intro hz
-    exact fixDim_word (fixDimOK_noncentral hi hj hk (fun h => hz
-      ((j4Data.mem_zpowers_iff hi hj hk).2 h)))
+    exact fixDim_noncentral hi hj (fun h => hz ((j4Data.mem_zpowers_iff hi hj hk).2 h)) k
 
 end CFSG.Quasithin.H13.NQCat

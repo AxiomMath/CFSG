@@ -1,18 +1,23 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Three.Data5
-import CFSG.Certificates.Kernel.BabyMonster.Three.Data8
-import CFSG.Certificates.Kernel.BabyMonster.Three.Data9
-import CFSG.Certificates.Kernel.BabyMonster.Three.Data10
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.Three t47 CFSG.KC.BM.Twin.prod 4370 2412240 5944953619772284626 t46_sq1 t46_sq3
-#kc_eval CFSG.KC.BM.Three t66 CFSG.KC.BM.Twin.prod 4370 2412240 5944953619772284626 t47
-#kc_eval CFSG.KC.BM.Three Z CFSG.KC.BM.Twin.prod 4370 2412240 5944953619772284626 t47
-#kc_eval CFSG.KC.BM.Three t49 CFSG.KC.BM.Twin.prod 4370 2412240 6688503736129600556 t38 t47
-#kc_eval CFSG.KC.BM.Three t55 CFSG.KC.BM.Twin.prod 4370 2412240 722560265730556482 t45 t47
-#kc_eval CFSG.KC.BM.Three oz_p CFSG.KC.BM.Twin.prod 4370 2412240 7395322165144287118 Z Z
-#kc_eval CFSG.KC.BM.Three t52 CFSG.KC.BM.Twin.prod 4370 2412240 7371306518906379057 t49 t48
-#kc_eval CFSG.KC.BM.Three t57 CFSG.KC.BM.Twin.prod 4370 2412240 2862262545278356155 t55 t54
-#kc_eval CFSG.KC.BM.Three Zp2 CFSG.KC.BM.Twin.prod 4370 2412240 7395322165144287118 oz_p
+#kc_repo #bm_mat CFSG.KC.BM.Three t47
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/t47.bin" 2412240 5944953619772284626
+#kc_repo #bm_mat CFSG.KC.BM.Three t66
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/t66.bin" 2412240 5944953619772284626
+#kc_repo #bm_mat CFSG.KC.BM.Three Z
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/Z.bin" 2412240 5944953619772284626
+#kc_repo #bm_mat CFSG.KC.BM.Three t49
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/t49.bin" 2412240 6688503736129600556
+#kc_repo #bm_mat CFSG.KC.BM.Three t55
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/t55.bin" 2412240 722560265730556482
+#kc_repo #bm_mat CFSG.KC.BM.Three oz_p
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/oz_p.bin" 2412240 7395322165144287118
+#kc_repo #bm_mat CFSG.KC.BM.Three t52
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/t52.bin" 2412240 7371306518906379057
+#kc_repo #bm_mat CFSG.KC.BM.Three t57
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/t57.bin" 2412240 2862262545278356155
+#kc_repo #bm_mat CFSG.KC.BM.Three Zp2
+  "CFSG/Certificates/Kernel/BabyMonster/Three/data/Zp2.bin" 2412240 7395322165144287118

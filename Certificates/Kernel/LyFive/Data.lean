@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLyFive.D
-  "Certificates/Kernel/LyFive/data/g2.json.gz" 2000270 16797109171979549577
+#kc_repo #kc_json CertificateChecks.KernelLyFive.D
+  "Certificates/Kernel/LyFive/data/g2.json" 2000270 16797109171979549577
   (CC : List (List Nat)) (TT : List Nat) (RX : List Nat) (RY3 : List Nat) (RY1 : List Nat)
   (a0_fixed : List Nat) (a0_b : Nat) (a0_ins : List (Nat × Nat × Nat × List Nat)) (a0_cnt : List Nat)
   (a1_fixed : List Nat) (a1_b : Nat) (a1_ins : List (Nat × Nat × Nat × List Nat)) (a1_cnt : List Nat)

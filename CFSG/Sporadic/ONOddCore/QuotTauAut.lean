@@ -3,6 +3,8 @@ module
 public import CFSG.Sporadic.ONOddCore.QuotTau
 import all CFSG.LocalAnalysis.ComponentClassification.PSL3FourActionData
 public import CFSG.Sporadic.ONOddCore.GraphEnum
+public import CFSG.Monster.B.Co2.PermArr
+import CFSG.Quasithin.Recognition.CertChain
 
 public noncomputable section
 
@@ -42,55 +44,94 @@ theorem recK_bounds
 @[expose] def pairPerm (r : QuotRecord) (j : ℕ) : Equiv.Perm (Fin 120) × Equiv.Perm (Fin 120) :=
   (qGenPerm j, qImgPerm r j)
 
-theorem pairGens_size (r : QuotRecord) : (pairGens r).size = 2 := rfl
+@[expose] def pairEmbOf (n : ℕ) :
+    Equiv.Perm (Fin n) × Equiv.Perm (Fin n) →* Equiv.Perm (Fin (n + n)) :=
+  (finSumFinEquiv.permCongrHom).toMonoidHom.comp (Equiv.Perm.sumCongrHom (Fin n) (Fin n))
 
-theorem pairGens_get (r : QuotRecord) {j : ℕ} (hj : j < 2) :
-    (pairGens r)[j]! = dbl 120 (qgArr j) (qiArr r j) := by
-  interval_cases j <;> rfl
+theorem pairEmbOf_injective (n : ℕ) : Function.Injective (pairEmbOf n) :=
+  (finSumFinEquiv.permCongrHom).injective.comp Equiv.Perm.sumCongrHom_injective
 
-theorem finRange_length : (List.finRange 120).length = 120 := List.length_finRange
+theorem pairEmbOf_apply {n : ℕ} (g : Equiv.Perm (Fin n) × Equiv.Perm (Fin n)) (x : Fin (n + n)) :
+    pairEmbOf n g x = finSumFinEquiv (Sum.map g.1 g.2 (finSumFinEquiv.symm x)) := rfl
 
-theorem pairRel_full_inj
-    {t : Tab} {g g' : Equiv.Perm (Fin 120) × Equiv.Perm (Fin 120)}
-    (h : pairRel 120 (List.finRange 120) t g) (h' : pairRel 120 (List.finRange 120) t g') :
-    g = g' := by
-  obtain ⟨-, hk⟩ := h
-  obtain ⟨-, hk'⟩ := h'
-  have key : ∀ x : Fin 120, g.1 x = g'.1 x ∧ g.2 x = g'.2 x := by
-    intro x
-    have hx : x.val < (List.finRange 120).length := by rw [finRange_length]; exact x.2
-    have e : (List.finRange 120)[x.val] = x := List.getElem_finRange _
-    obtain ⟨a1, a2⟩ := hk x.val hx
-    obtain ⟨b1, b2⟩ := hk' x.val hx
-    rw [e] at a1 a2 b1 b2
-    exact ⟨Fin.ext (a1.symm.trans b1), Fin.ext (by omega)⟩
-  exact Prod.ext (Equiv.ext fun x => (key x).1) (Equiv.ext fun x => (key x).2)
+theorem prep_dbl_of {n : ℕ} {A B : Array ℕ} {a b : Equiv.Perm (Fin n)} (hA : PRep n A a)
+    (hB : PRep n B b) (hs : A.size = n) (hs' : B.size = n) :
+    PRep (n + n) (dbl n A B) (pairEmbOf n (a, b)) := by
+  intro x
+  rw [pairEmbOf_apply]
+  rcases Nat.lt_or_ge x.val n with h | h
+  · have e : (finSumFinEquiv (m := n) (n := n)).symm x = Sum.inl ⟨x.val, h⟩ := by
+      rw [Equiv.symm_apply_eq]
+      ext
+      simp only [finSumFinEquiv_apply_left, Fin.val_castAdd]
+    rw [e]
+    simp only [Sum.map_inl, finSumFinEquiv_apply_left, Fin.val_castAdd]
+    unfold dbl
+    rw [getElem!_pos _ x.val (by simp only [Array.size_append, Array.size_map, hs, hs']; omega),
+      Array.getElem_append_left (by omega), ← getElem!_pos A x.val (by omega)]
+    exact hA ⟨x.val, h⟩
+  · have hx : x.val - n < n := by omega
+    have e : (finSumFinEquiv (m := n) (n := n)).symm x = Sum.inr ⟨x.val - n, hx⟩ := by
+      rw [Equiv.symm_apply_eq]
+      ext
+      simp only [finSumFinEquiv_apply_right, Fin.val_natAdd]
+      omega
+    rw [e]
+    simp only [Sum.map_inr, finSumFinEquiv_apply_right, Fin.val_natAdd]
+    unfold dbl
+    rw [getElem!_pos _ x.val (by simp only [Array.size_append, Array.size_map, hs, hs']; omega),
+      Array.getElem_append_right (by omega)]
+    simp only [Array.getElem_map, hs]
+    rw [← getElem!_pos B (x.val - n) (by omega), hB ⟨x.val - n, hx⟩]
+    omega
 
-theorem pairRoot_rel : pairRel 120 (List.finRange 120) pairRoot 1 := by
-  have h := pairRel_root (n := 120) (List.finRange 120)
-  have e : ((List.finRange 120).map Fin.val).toArray = Array.range 120 :=
-    Array.ext (by simp) fun i h1 h2 => by simp
-  rwa [e] at h
+theorem permOfArr_pairGens
+    {r : QuotRecord} (hr : r ∈ localCert.records) {k : ℕ} (hk : k < 2) :
+    CFSG.Monster.B.Co2.permOfArr 240 (pairGens r)[k]! = pairEmbOf 120 (pairPerm r k) := by
+  have hp := prep_dbl_of (prep_qgArr hk).1 (prep_qiArr hr hk).1 (prep_qgArr hk).2
+    (prep_qiArr hr hk).2
+  rw [pairGens_get r hk]
+  have hv : ∀ i (hi : i < 240), (dbl 120 (qgArr k) (qiArr r k))[i]! =
+      ((pairEmbOf 120 (pairPerm r k)) ⟨i, hi⟩ : ℕ) := fun i hi => hp ⟨i, hi⟩
+  have hc : (∀ i < 240, (dbl 120 (qgArr k) (qiArr r k))[i]! < 240) ∧ ∀ i < 240, ∀ j < 240,
+      (dbl 120 (qgArr k) (qiArr r k))[i]! = (dbl 120 (qgArr k) (qiArr r k))[j]! → i = j :=
+    ⟨fun i hi => by
+      rw [hv i hi]
+      exact Fin.isLt _, fun i hi j hj hij => by
+      rw [hv i hi, hv j hj] at hij
+      exact Fin.mk.inj ((pairEmbOf 120 (pairPerm r k)).injective (Fin.ext hij))⟩
+  ext x
+  rw [CFSG.Monster.B.Co2.permOfArr, dite_eq_left hc]
+  exact hp x
 
-theorem pair_step
+theorem card_closure_pairGens
     {r : QuotRecord} (hr : r ∈ localCert.records) :
-    ∀ j < (pairGens r).size, ∀ t g, pairRel 120 (List.finRange 120) t g →
-      pairRel 120 (List.finRange 120) (leftStep 240 (pairGens r) j t) (pairPerm r j * g) := by
-  intro j hj t g ht
-  rw [pairGens_size] at hj
-  have h := pairRel_step (prep_qgArr hj).1 (prep_qiArr hr hj).1 (prep_qgArr hj).2
-    (prep_qiArr hr hj).2 ht
-  rw [finRange_length] at h
-  rw [leftStep, pairGens_get r hj]
+    Nat.card (Subgroup.closure {g | ∃ k < (pairGens r).size,
+      CFSG.Monster.B.Co2.permOfArr 240 (pairGens r)[k]! = g} :
+        Subgroup (Equiv.Perm (Fin 240))) =
+      Nat.card (Subgroup.closure (pairPerm r '' {j | j < 2})) := by
+  have he : {g | ∃ k < (pairGens r).size, CFSG.Monster.B.Co2.permOfArr 240 (pairGens r)[k]! = g} =
+      ⇑(pairEmbOf 120) '' (pairPerm r '' {j | j < 2}) := by
+    ext g
+    constructor
+    · rintro ⟨k, hk, rfl⟩
+      rw [pairGens_size] at hk
+      exact ⟨pairPerm r k, ⟨k, hk, rfl⟩, (permOfArr_pairGens hr hk).symm⟩
+    · rintro ⟨_, ⟨k, hk, rfl⟩, rfl⟩
+      exact ⟨k, by rw [pairGens_size]; exact hk, permOfArr_pairGens hr hk⟩
+  have h := Subgroup.card_map_of_injective (K := Subgroup.closure (pairPerm r '' {j | j < 2}))
+    (pairEmbOf_injective 120)
+  rw [MonoidHom.map_closure] at h
+  rw [he]
   exact h
 
 theorem card_pair_closure
     {r : QuotRecord} (hr : r ∈ localCert.records) :
     Nat.card (Subgroup.closure (pairPerm r '' {j | j < 2})) = 40320 := by
-  have h := rel_card (record_facts hr).2.1 (pair_step hr) pairRoot_rel
-    (fun _ _ _ h h' => pairRel_full_inj h h') (fun _ _ _ h h' => pairRel_fun h h')
-  rw [pairGens_size, (record_facts hr).2.2.1] at h
-  exact h
+  rw [← card_closure_pairGens hr, ← (record_facts hr).2.2.1]
+  exact CFSG.Quasithin.card_closure_permOfArr_of_rawChainOK (O := pairGens r)
+    (base := pairChainBaseL) (by norm_num) (by decide) Nat.one_pos
+    (by rw [pairGens_size, pairStrongs_size]; norm_num) (pairStrongs_get r) (record_facts hr).2.1
 
 theorem fst_pairPerm_image (r : QuotRecord) :
     Prod.fst '' (pairPerm r '' {j | j < 2}) = {g | g ∈ [qGenPerm 0, qGenPerm 1]} := by

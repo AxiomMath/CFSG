@@ -37,6 +37,32 @@ theorem l2_all (x : Nat) (hx : x < 13824) : l2K x = true :=
   cover_of_blocks (B := 96) (nb := 144) (by omega) (Nat.le_of_eq rfl) B2.all x hx
 theorem l3_all (x : Nat) (hx : x < 36864) : l3K x = true :=
   cover_of_blocks (B := 96) (nb := 384) (by omega) (Nat.le_of_eq rfl) B3.all x hx
+theorem testK_two_head (a b : Nat) (h : testK P0 P4 EAP [a, b] E3.WS2 = true) :
+    testK P0 P4 EAP [b] E3.WS1 = true := by
+  have e : E3.WS2 = ([1], (E3.WS1.getD 0 ([], [])).2) :: E3.WS2.tail := rfl
+  have e2 : E3.WS1 = [([0], (E3.WS1.getD 0 ([], [])).2)] := rfl
+  have e3 : prodP [a, b] [1] = prodP [b] [0] := rfl
+  rw [e] at h
+  unfold testK at h ⊢
+  rw [List.all_cons, Bool.and_eq_true] at h
+  rw [e2, List.all_cons, List.all_nil, Bool.and_true]
+  rw [← e3]
+  exact h.1
+
+theorem l3h_all (j : Nat) (hj : j < 4608) : l3hK j = true :=
+  cover_of_blocks (B := 96) (nb := 48) (by omega) (Nat.le_of_eq rfl) B3h.all j hj
+
+theorem testK_three_head (a b c : Nat) (h : testK P0 P4 EAP [a, b, c] E3.WS3 = true) :
+    testK P0 P4 EAP [c] E3.WS3h = true := by
+  have e : E3.WS3 = ([2], (E3.WS3h.getD 0 ([], [])).2) :: E3.WS3.tail := rfl
+  have e2 : E3.WS3h = [([0], (E3.WS3h.getD 0 ([], [])).2)] := rfl
+  have e3 : prodP [a, b, c] [2] = prodP [c] [0] := rfl
+  rw [e] at h
+  unfold testK at h ⊢
+  rw [List.all_cons, Bool.and_eq_true] at h
+  rw [e2, List.all_cons, List.all_nil, Bool.and_true]
+  rw [← e3]
+  exact h.1
 
 theorem hIdx_E (k : Nat) (hk : k < 4608) : hIdx (unpack 276 9 (HR.E k)) = k := by
   have h := bfsR_pos g_eq (fun i hi => allN_spec kGc i hi) (by rw [hc]; omega) (by rw [hc])
@@ -103,6 +129,47 @@ theorem ws_letters {k L : Nat} : ∀ p ∈ withProf (testWords k L), ∀ i ∈ p
   obtain ⟨w, hw, rfl⟩ := List.mem_map.1 hp
   exact mem_testWords hw i hi
 
+theorem wsL1 : ∀ p ∈ E3.WS1, ∀ i ∈ p.1, i < 1 := by
+  rw [← ws1]
+  unfold wsE1
+  exact ws_letters
+
+theorem wsL2 : ∀ p ∈ E3.WS2, ∀ i ∈ p.1, i < 2 := by
+  rw [← ws2]
+  unfold wsE2
+  exact ws_letters
+
+theorem wsL3 : ∀ p ∈ E3.WS3, ∀ i ∈ p.1, i < 3 := by
+  rw [← ws3]
+  unfold wsE3
+  exact ws_letters
+
+theorem wsL3h : ∀ p ∈ E3.WS3h, ∀ i ∈ p.1, i < 1 := by
+  have e2 : E3.WS3h = [([0], (E3.WS3h.getD 0 ([], [])).2)] := rfl
+  rw [e2]
+  intro p hp i hi
+  rw [List.mem_singleton] at hp
+  subst hp
+  simp only [List.mem_singleton] at hi
+  omega
+
+theorem cY1 {a : Nat} (ha : a < 4608) : ∀ i < 1, Cn (lget [HR.E a] i) := fun i hi => by
+  interval_cases i
+  exact cHR a ha
+
+theorem cY2 {a b : Nat} (ha : a < 4608) (hb : b < 4608) : ∀ i < 2, Cn (lget [HR.E a, HR.E b] i) :=
+  fun i hi => by
+    interval_cases i
+    · exact cHR a ha
+    · exact cHR b hb
+
+theorem cY3 {a b c : Nat} (ha : a < 4608) (hb : b < 4608) (hc : c < 4608) :
+    ∀ i < 3, Cn (lget [HR.E a, HR.E b, HR.E c] i) := fun i hi => by
+  interval_cases i
+  · exact cHR a ha
+  · exact cHR b hb
+  · exact cHR c hc
+
 theorem tests1 (j : Nat) (hj : j < 4608) :
     testsOK #[hList[j]!] wsE1 = testK P0 P4 EAP [HR.E j] E3.WS1 := by
   rw [testsOK_unpack (k := 1) (Ys := [HR.E j]) (fun i hi => by
@@ -133,11 +200,24 @@ theorem tests3 (r j₂ j₃ : Nat) (hr : r < 4608) (h2 : j₂ < 4608) (h3 : j₃
       · exact cHR j₂ h2
       · exact cHR j₃ h3) (ws := wsE3) (by unfold wsE3; exact ws_letters), ws3]
 
+theorem testK1_of {j : Nat} (hj : j < 4608) (h : profK P0 P4 EAP (HR.E j) (pidn 276 9) PR8 = true) :
+    testK P0 P4 EAP [HR.E j] E3.WS1 = true := by
+  have e : E3.WS1 = [([0], PR8 ++ (PR8 ++ PR8))] := rfl
+  have e3 : prodP [HR.E j] [0] = HR.E j := pc_idR (cHR j hj)
+  have hl : PR8.getLast? = some 0 := rfl
+  rw [e]
+  unfold testK
+  rw [List.all_cons, List.all_nil, Bool.and_true]
+  dsimp only
+  rw [e3]
+  exact profK_app _ (profK_app _ h PR8 _ h hl) PR8 _ h hl
+
 theorem tst_eq (j : Nat) (hj : j < 4608) :
     testsOK #[hList[j]!] wsE1 = (E3.TB j == 1) := by
   rw [tests1 j hj]
   have h := l1_all j hj
   unfold l1K at h
+  rw [failK1_eq (cY1 hj) wsL1] at h
   cases hb : Nat.beq (E3.TB j) 1
   · rw [hb] at h
     rw [testK_false h]
@@ -149,11 +229,16 @@ theorem tst_eq (j : Nat) (hj : j < 4608) :
       exact Bool.noConfusion hb
     rw [this]
   · rw [hb] at h
-    rw [((bAnd_iff _ _).1 h).1]
+    rw [testK1_of hj ((bAnd_iff _ _).1 h).1]
     have : (E3.TB j == 1) = true := by
       rw [beq_iff_eq]
       exact Nat.eq_of_beq_eq_true hb
     rw [this]
+
+theorem tb_pos {j : Nat} (hj : j < 4608) (ht : testK P0 P4 EAP [HR.E j] E3.WS1 = true)
+    (h0 : Nat.beq (E3.TB j) 0 = true) : False := by
+  rw [← tests1 j hj, tst_eq j hj, Nat.eq_of_beq_eq_true h0] at ht
+  exact absurd ht (by decide)
 
 theorem kOff : offOK E3.CS E3.OFF E3.N = true := by quickRfl
 
@@ -481,6 +566,11 @@ theorem l2_pass (k j₂ : Nat) (hk : k < 3) (hj : j₂ < 4608)
   have e1 : (4608 * k + j₂) / 4608 = k := by omega
   have e2 : (4608 * k + j₂) % 4608 = j₂ := by omega
   rw [e1, e2] at h
+  simp only [failK1_eq (cY2 (R_lt k hk) hj) wsL2] at h
+  cases hf : Nat.beq (E3.TB j₂) 0
+  case true => exact (tb_pos hj (testK_two_head _ _ ht) hf).elim
+  rw [hf] at h
+  dsimp only at h
   cases hw : Nat.beq (E3.W2 (4608 * k + j₂)) 1000000
   · rw [hw] at h
     dsimp only at h
@@ -490,7 +580,7 @@ theorem l2_pass (k j₂ : Nat) (hk : k < 3) (hj : j₂ < 4608)
     dsimp only at h
     exact h
 
-theorem l3_pass (t k j₂ j₃ : Nat) (ht8 : t < 8) (hj2 : j₂ < 4608) (hj : j₃ < 4608)
+theorem l3_pass (t k j₂ j₃ : Nat) (ht8 : t < 8) (hk : k < 3) (hj2 : j₂ < 4608) (hj : j₃ < 4608)
     (hx : lget E3.P2 t = 4608 * k + j₂)
     (ht : testK P0 P4 EAP [HR.E (lget E3.R k), HR.E j₂, HR.E j₃] E3.WS3 = true) :
     E3.P3.contains (4608 * t + j₃) = true := by
@@ -502,6 +592,18 @@ theorem l3_pass (t k j₂ j₃ : Nat) (ht8 : t < 8) (hj2 : j₂ < 4608) (hj : j�
   have e3 : (4608 * k + j₂) / 4608 = k := by omega
   have e4 : (4608 * k + j₂) % 4608 = j₂ := by omega
   rw [e1, e2, hx, e3, e4] at h
+  simp only [failK1_eq (cY3 (R_lt k hk) hj2 hj) wsL3] at h
+  cases hf : Nat.blt (E3.FJ3 j₃) 1000000
+  case true =>
+    have h3 := l3h_all j₃ hj
+    unfold l3hK at h3
+    rw [failK1_eq (cY1 hj) wsL3h, hf] at h3
+    dsimp only at h3
+    have h4 := testK_three_head _ _ _ ht
+    rw [testK_false h3] at h4
+    exact Bool.noConfusion h4
+  rw [hf] at h
+  dsimp only at h
   cases hw : Nat.beq (E3.W3 (4608 * t + j₃)) 1000000
   · rw [hw] at h
     dsimp only at h
@@ -563,7 +665,7 @@ theorem part3 (k j₂ j₃ : Nat) (hk : k < 3) (hj₂ : j₂ < 4608) (hj₃ : j�
   obtain ⟨htl, htx⟩ := lget_idxOf hx
   generalize E3.P2.idxOf (4608 * k + j₂) = t at htl htx
   have ht8 : t < 8 := by rw [kIdx.2.2.1] at htl; exact htl
-  have hy := l3_pass t k j₂ j₃ ht8 hj₂ hj₃ htx ht3
+  have hy := l3_pass t k j₂ j₃ ht8 hk hj₂ hj₃ htx ht3
   obtain ⟨hll, hly⟩ := lget_idxOf hy
   generalize E3.P3.idxOf (4608 * t + j₃) = ℓ at hll hly
   have hl16 : ℓ < 16 := by rw [kIdx.2.2.2.1] at hll; exact hll

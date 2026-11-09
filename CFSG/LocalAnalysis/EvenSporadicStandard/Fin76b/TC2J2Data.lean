@@ -145,7 +145,8 @@ theorem outerEData_autP :
     OuterEData ↥J2Cover.P := by
   have := J2Cover.finite_mulAut_P
   obtain ⟨hfacts, hfix⟩ := Certificates.certificate25880
-  have ht : (tP : Perm315) = (elt 4 : Perm315) := rfl
+  have ht : (tP : Perm315) = (elt 4 : Perm315) :=
+    congrArg Subtype.val (show tP = ⟨(elt 4 : Perm315), S_le_autP (elt 4).2⟩ from rfl)
   suffices hconj : ∀ a ∈ TableX.eListX 256 innX mulX 4, mulX a a = 0 → a ≠ 0 →
       ∃ c : J2Cover.P, eltA a = MulAut.conj (c * tP * c⁻¹) by
     obtain ⟨K, E, hf⟩ := hfacts eltA tP (mul_self_eq_one_of_coe ht) (ne_one_of_coe ht)

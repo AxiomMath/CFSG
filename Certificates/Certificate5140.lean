@@ -7,6 +7,7 @@ import all Certificates.Certificate5140Base
 public import CFSG.GH74.KGroups.L34TablesBase
 public import CFSG.GH74.Uniqueness.SU.KI1r4L34ModelInputs
 import CFSG.Certificates.Kernel.PermCent.CVSound
+import CFSG.GH74.KGroups.L34
 import Certificates.Kernel.PermCent.K5140
 import Certificates.Kernel.PermCent.K5140Side
 
@@ -121,7 +122,7 @@ theorem certificate5140 : (s0list.length = 64)
   · rw [← List.nodup_map_iff cOf_injective, s0_map]
     exact hNd
   · rw [hM]
-    exact kScan
+    exact kScan QP_ok
   · have h := congrArg ev (of_decide_eq_true ((powOneC_eq _ _).symm.trans hy3))
     rwa [← ev_pow', ev_cOf, ev_one] at h
   · simp only [List.all_eq_true, decide_eq_true_eq]

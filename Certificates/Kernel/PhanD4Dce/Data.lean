@@ -1,10 +1,10 @@
 module
 
 public import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.PhanD4Dce "Certificates/Kernel/PhanD4Dce/data/dce.items.gz" 1341840 16316937517287615189
+#kc_repo #kc_nat_items CFSG.KD.PhanD4Dce "Certificates/Kernel/PhanD4Dce/data/dce.items" 1341840 16316937517287615189
   RD[16625] RW[16625] RA[16625] RJ[16625] L[12] WD[28] INVM BS NB PB NT PSF PSB
 
 #kc_select CFSG.KD.PhanD4Dce RD RD 16625

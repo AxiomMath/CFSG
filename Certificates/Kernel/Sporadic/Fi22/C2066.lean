@@ -38,8 +38,7 @@ theorem fi22InP_of {PS : Nat → Nat} {j : Nat} {g : Array Nat} (hg : g = unpack
     (range_of_canonK hc)]
   exact hs
 
-theorem order_ok
-    (htext : fi22Cent3510Text = Fi22E2065.textP) {c st kS kO cs BP : Nat}
+theorem order_ok {c st kS kO cs BP : Nat}
     {PS PSI LR ST : Nat → Nat} (hc : c < 5) (hst : fi22CentStrongStart.getD c 0 = st)
     (hcnt : fi22CentStrongCount.getD c 0 = kS) (hk : fi22CentGenCount.getD c 0 = kO)
     (hcs : fi22CentCase c = cs) (hkk : kO ≤ kS) (hline : st + kS ≤ 306) (hcs6 : cs < 6)
@@ -60,8 +59,8 @@ theorem order_ok
     rw [fi22CentStrong, Array.size_ofFn, hcnt]
   have hS : ∀ j < kS, (fi22CentStrong c)[j]! = unpack 3510 12 (PS j) := by
     intro j hj
-    rw [fi22CentStrong_get hc (by rw [hcnt]; exact hj), fi22CentArr, fi22CentBytes, htext, hst,
-      Fi22E2065.cent_eq (by omega), Nat.eq_of_beq_eq_true (allN_spec hbind j hj)]
+    rw [fi22CentStrong_get hc (by rw [hcnt]; exact hj), hst, Fi22E2065.cent_eq,
+      Nat.eq_of_beq_eq_true (allN_spec hbind j hj)]
     rfl
   have hb : Binds 3510 12 PS kS 6 BP (fi22CentStrong c) B :=
     ⟨by norm_num, by norm_num, by norm_num, hsize, hS, rfl,
@@ -112,8 +111,7 @@ theorem order_ok
   simp only [Bool.and_eq_true, beq_iff_eq]
   exact ⟨⟨h1, h2⟩, allLt_iff.2 fun j hj => by simpa using h3 j hj⟩
 
-theorem order_ok'
-    (htext : fi22Cent3510Text = Fi22E2065.textP) {c st kS kO cs BP : Nat}
+theorem order_ok' {c st kS kO cs BP : Nat}
     {PS PSI LR ST : Nat → Nat} (hc : c < 5) (hst : fi22CentStrongStart.getD c 0 = st)
     (hcnt : fi22CentStrongCount.getD c 0 = kS) (hk : fi22CentGenCount.getD c 0 = kO)
     (hcs : fi22CentCase c = cs) (hkk : kO ≤ kS) (hline : st + kS ≤ 306) (hcs6 : cs < 6)
@@ -127,38 +125,27 @@ theorem order_ok'
     fi22CentOrderOK c = true := by
   obtain ⟨hcn, hsift⟩ := (bAnd_iff _ _).1 hp
   obtain ⟨hct, hcomm⟩ := (bAnd_iff _ _).1 hm
-  exact order_ok htext hc hst hcnt hk hcs hkk hline hcs6 hbind hbase hhead htl hstp hs hcn hsift
+  exact order_ok hc hst hcnt hk hcs hkk hline hcs6 hbind hbase hhead htl hstp hs hcn hsift
     hct hcomm hord
 
-theorem facts2066
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem facts2066 :
     fi22CentOrderOK 0 = true ∧ fi22CentOrderOK 1 = true ∧ fi22CentOrderOK 2 = true ∧
       fi22CentOrderOK 3 = true ∧ fi22CentOrderOK 4 = true :=
-  ⟨order_ok' htext (st := 0) (kS := 19) (kO := 12) (cs := 0) (by norm_num) rfl rfl rfl rfl
+  ⟨order_ok' (st := 0) (kS := 19) (kO := 12) (cs := 0) (by norm_num) rfl rfl rfl rfl
       (by norm_num) (by norm_num) (by norm_num) b0 p0 Fi22H0.head Fi22H0.tl Fi22H0.hst Fi22H0.hs
       s0 m0 o0,
-    order_ok' htext (st := 19) (kS := 16) (kO := 9) (cs := 1) (by norm_num) rfl rfl rfl rfl
+    order_ok' (st := 19) (kS := 16) (kO := 9) (cs := 1) (by norm_num) rfl rfl rfl rfl
       (by norm_num) (by norm_num) (by norm_num) b1 p1 Fi22H1.head Fi22H1.tl Fi22H1.hst Fi22H1.hs
       s1 m1 o1,
-    order_ok' htext (st := 35) (kS := 9) (kO := 3) (cs := 3) (by norm_num) rfl rfl rfl rfl
+    order_ok' (st := 35) (kS := 9) (kO := 3) (cs := 3) (by norm_num) rfl rfl rfl rfl
       (by norm_num) (by norm_num) (by norm_num) b2 p2 Fi22H2.head Fi22H2.tl Fi22H2.hst Fi22H2.hs
       s2 m2 o2,
-    order_ok' htext (st := 44) (kS := 19) (kO := 9) (cs := 4) (by norm_num) rfl rfl rfl rfl
+    order_ok' (st := 44) (kS := 19) (kO := 9) (cs := 4) (by norm_num) rfl rfl rfl rfl
       (by norm_num) (by norm_num) (by norm_num) b3 p3 Fi22H3.head Fi22H3.tl Fi22H3.hst Fi22H3.hs
       s3 m3 o3,
-    order_ok' htext (st := 63) (kS := 16) (kO := 9) (cs := 5) (by norm_num) rfl rfl rfl rfl
+    order_ok' (st := 63) (kS := 16) (kO := 9) (cs := 5) (by norm_num) rfl rfl rfl rfl
       (by norm_num) (by norm_num) (by norm_num) b4 p4 Fi22H4.head Fi22H4.tl Fi22H4.hst Fi22H4.hs
       s4 m4 o4⟩
-
-open CFSG CFSG.Sporadic CFSG.Sporadic.FischerOddCore CFSG.Monster.B.Co2.Native in
-open CFSG.Certificates.Native CFSG.Monster.B.Fischer in
-theorem certificate2066_of
-    (htext : fi22Cent3510Text = Fi22E2065.textP) : (fi22CentOrderOK 0 = true)
-    ∧ (fi22CentOrderOK 1 = true)
-    ∧ (fi22CentOrderOK 2 = true)
-    ∧ (fi22CentOrderOK 3 = true)
-    ∧ (fi22CentOrderOK 4 = true) :=
-  facts2066 htext
 
 end CertificateChecks.KernelSpor.Fi22C2066
 

@@ -3,6 +3,7 @@ module
 public import CFSG.Quasithin.Vol2.Asc94.HeJ1
 public import CFSG.Quasithin.Vol2.Asc94.HeM2
 public import CFSG.Quasithin.Vol2.Asc94.TSModel1
+public import CFSG.Quasithin.Vol2.Asc94.He42SE4K
 
 public section
 
@@ -13,19 +14,15 @@ open CFSG.Quasithin.A94 CFSG.Quasithin.A94.L52
 theorem gl2_order3_entry : ∀ g : HeJ.GL2, g ^ 3 = 1 → g ≠ 1 → g.val 1 0 = 1 := by
   decide +kernel
 
-set_option synthInstance.maxSize 1000 in
-set_option synthInstance.maxHeartbeats 200000 in
 private theorem he42s4_gl3_order3_no_involution :
     ∀ A B : Matrix (Fin 3) (Fin 3) (ZMod 2), A * A * A = 1 → A ≠ 1 → B * B = 1 → B ≠ 1 →
-      A * B ≠ B * A := by
-  decide +kernel
+      A * B ≠ B * A :=
+  He42SEK.order3_no_involution
 
-set_option synthInstance.maxSize 1000 in
-set_option synthInstance.maxHeartbeats 200000 in
 private theorem he42s4_gl3_order7_no_involution :
     ∀ A B : Matrix (Fin 3) (Fin 3) (ZMod 2), A * A * A * A * A * A * A = 1 → A ≠ 1 →
-      B * B = 1 → B ≠ 1 → A * B ≠ B * A := by
-  decide +kernel
+      B * B = 1 → B ≠ 1 → A * B ≠ B * A :=
+  He42SEK.order7_no_involution
 
 theorem piHom_ne_one_of_zC {x : L52.Hc} (h : L52.zC x 1 0 = 1) : L52.piHom x ≠ 1 := by
   intro hx

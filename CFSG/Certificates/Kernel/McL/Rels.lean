@@ -2,19 +2,19 @@ module
 
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CFSG.KC.McL.Rels
 
-#kc_repo #kc_nat_items_gz CFSG.KC.McL.Rels
-  "CFSG/Certificates/Kernel/McL/Data/Rels.items.gz" 3082 2223534432091229750
+#kc_repo #kc_nat_items CFSG.KC.McL.Rels
+  "CFSG/Certificates/Kernel/McL/Data/Rels.items" 3082 2223534432091229750
   X[8] Q[78] G[34] M[6] S[3] U[3] H[3]
 
-#kc_repo #kc_json_gz CFSG.KC.McL.Rels
-  "CFSG/Certificates/Kernel/McL/Data/Rels.json.gz" 99 15174115536156676103
+#kc_repo #kc_json CFSG.KC.McL.Rels
+  "CFSG/Certificates/Kernel/McL/Data/Rels.json" 99 15174115536156676103
   (K1W : Nat) (SQ : Nat) (P5 : Nat)
 
 end CFSG.KC.McL.Rels

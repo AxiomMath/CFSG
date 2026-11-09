@@ -12,11 +12,26 @@ open CFSG.ClassicalInvolution.Q3.AE CFSG.ClassicalInvolution.Q3.AE.Wr CFSG.Class
 open CFSG.ClassicalInvolution.Q3.TC.Thin
 open scoped Matrix
 
+theorem permDec_row_of_modPi (S : Finset (Fin 8)) (k : Fin 3)
+    (hS : ∀ v : Fin 3 → ZMod 2, ind S (binIdx v) = if v k = 0 then 1 else 0)
+    (key : ∀ (r : Fin 3 → ZMod 2) (c : ZMod 2),
+      ModPi (fun i => if (∑ j, r j * bin i j) + c = 0 then (1 : ZMod 2) else 0) (ind S) →
+        r = Pi.single k 1)
+    (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (b : Fin 3 → ZMod 2)
+    (h : ModPi (fun i => ind S (binIdx (A *ᵥ bin i + b))) (ind S)) : A k = Pi.single k 1 := by
+  simp only [hS, Pi.add_apply, Matrix.mulVec, dotProduct] at h
+  exact key (A k) (b k) h
+
 theorem perm_decide : ∀ (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (b : Fin 3 → ZMod 2),
     ModPi (fun i => ind {0, 2, 4, 6} (binIdx (A *ᵥ bin i + b))) (ind {0, 2, 4, 6}) →
     ModPi (fun i => ind {0, 1, 4, 5} (binIdx (A *ᵥ bin i + b))) (ind {0, 1, 4, 5}) →
     ModPi (fun i => ind {0, 1, 2, 3} (binIdx (A *ᵥ bin i + b))) (ind {0, 1, 2, 3}) → A = 1 := by
-  decide +kernel
+  intro A b h0 h1 h2
+  have r0 := permDec_row_of_modPi _ 0 (by decide) (by unfold ModPi; decide) A b h0
+  have r1 := permDec_row_of_modPi _ 1 (by decide) (by unfold ModPi; decide) A b h1
+  have r2 := permDec_row_of_modPi _ 2 (by decide) (by unfold ModPi; decide) A b h2
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [r0, r1, r2, Matrix.one_apply]
 
 theorem modPi_comp {f g : Fin 8 → ZMod 2} (h : ModPi f g) (e : Equiv.Perm (Fin 8)) :
     ModPi (fun i => f (e i)) (fun i => g (e i)) := by

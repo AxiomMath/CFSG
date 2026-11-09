@@ -40,27 +40,67 @@ theorem steps_of {n w r N wt NS CH TF : Nat} {GS GSI T : Nat → Nat} (hN : N �
   obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
   exact ⟨Nat.blt_eq ▸ h1, Nat.eq_of_beq_eq_true h2⟩
 
-theorem acts_of {n w r wp m NS CH : Nat} {GS GSI T PA : Nat → Nat} (hN : m ≤ NS * CH)
-    (hs : ∀ s < NS, actSl n w r GS GSI T PA wp m (s * CH) CH = true) :
+theorem acts_of {n w r wt N wp m NS CH TF : Nat} {GS GSI T PA : Nat → Nat} (hN : m ≤ NS * CH)
+    (hS : ∀ i < N, pg wt (mask wt) TF i / r < i + 1 ∧
+      T (i + 1) = pconj n w (GS (pg wt (mask wt) TF i % r)) (T (pg wt (mask wt) TF i / r))
+        (GSI (pg wt (mask wt) TF i % r)))
+    (hs : ∀ s < NS, actSl n w r GS GSI T PA TF wt N wp m (s * CH) CH = true) :
     ∀ j < m, ∀ i < r, pg wp (mask wp) (PA i) j < m ∧
       pconj n w (GS i) (T j) (GSI i) = T (pg wp (mask wp) (PA i) j) := by
   intro j hj i hi
   have h := ct_of_sl (f := fun j => allN r (fun i => strictB (pg wp (mask wp) (PA i) j)
-    (fun j' => bAnd(Nat.blt j' m, Nat.beq (pconj n w (GS i) (T j) (GSI i)) (T j'))))) hN hs j hj
+    (fun j' => bAnd(Nat.blt j' m, bIf(ctEdgeB r TF wt N j i j', true,
+      Nat.beq (pconj n w (GS i) (T j) (GSI i)) (T j')))))) hN hs j hj
   have h' := allN_spec h i hi
   rw [strictB_eq] at h'
   obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h'
-  exact ⟨Nat.blt_eq ▸ h1, Nat.eq_of_beq_eq_true h2⟩
+  refine ⟨Nat.blt_eq ▸ h1, ?_⟩
+  cases he : ctEdgeB r TF wt N j i (pg wp (mask wp) (PA i) j)
+  · rw [he] at h2
+    exact Nat.eq_of_beq_eq_true h2
+  · rw [ctEdgeB] at he
+    obtain ⟨e1, e23⟩ := (bAnd_iff _ _).1 he
+    obtain ⟨e2, e3⟩ := (bAnd_iff _ _).1 e23
+    have q1 : 0 < pg wp (mask wp) (PA i) j := Nat.blt_eq ▸ e1
+    have q2 : pg wp (mask wp) (PA i) j ≤ N := Nat.ble_eq ▸ e2
+    have q3 := Nat.eq_of_beq_eq_true e3
+    rw [Nat.pred_eq_sub_one] at q3
+    obtain ⟨-, hst⟩ := hS (pg wp (mask wp) (PA i) j - 1) (by omega)
+    have hr : 0 < r := by omega
+    have ed : (j * r + i) / r = j := by
+      rw [Nat.add_comm, Nat.add_mul_div_right _ _ hr, Nat.div_eq_of_lt hi, Nat.zero_add]
+    have em : (j * r + i) % r = i := by
+      rw [Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hi]
+    have e1' : pg wp (mask wp) (PA i) j - 1 + 1 = pg wp (mask wp) (PA i) j := by omega
+    rw [e1', q3, Nat.add_eq, Nat.mul_eq, ed, em] at hst
+    exact hst.symm
 
-theorem dists_of {m NS CH : Nat} {T : Nat → Nat} (hN : m ≤ NS * CH)
-    (hs : ∀ s < NS, distSl T m (s * CH) CH = true) :
+theorem nat_beq_symm {a b : Nat} (h : Nat.beq a b = true) : Nat.beq b a = true := by
+  rw [Nat.eq_of_beq_eq_true h]
+  exact Nat.beq_refl _
+
+theorem dists_of {m NS CH ws SG RK : Nat} {T : Nat → Nat} (hN : m ≤ NS * CH)
+    (hs : ∀ s < NS, ctOrdSl T ws SG RK m (s * CH) CH = true) :
     ∀ j < m, ∀ k < j, Nat.beq (T j) (T k) = false := by
+  have h := ct_of_sl (f := fun j => bAnd(strictB (pg ws (mask ws) RK j) (fun k =>
+      bAnd(Nat.blt k m, Nat.beq (pg ws (mask ws) SG k) j)),
+    bIf(Nat.blt (Nat.succ j) m,
+      Nat.blt (T (pg ws (mask ws) SG j)) (T (pg ws (mask ws) SG (Nat.succ j))), true))) hN hs
+  have hne := ne_of_rank_sorted (T := T) (SG := pg ws (mask ws) SG) (RK := pg ws (mask ws) RK)
+    (m := m) (fun j hj => by
+      obtain ⟨a, -⟩ := (bAnd_iff _ _).1 (h j hj)
+      rw [strictB_eq] at a
+      obtain ⟨a1, a2⟩ := (bAnd_iff _ _).1 a
+      exact ⟨Nat.blt_eq ▸ a1, Nat.eq_of_beq_eq_true a2⟩)
+    (fun j hj hj1 => by
+      obtain ⟨-, b⟩ := (bAnd_iff _ _).1 (h j hj)
+      have hc : Nat.blt (Nat.succ j) m = true := Nat.blt_eq ▸ hj1
+      have b' := bIf_of_true hc b
+      exact Nat.blt_eq ▸ b')
   intro j hj k hk
-  have h := ct_of_sl (f := fun j => strictB (T j) (fun x => allN j (fun k =>
-    Bool.not (Nat.beq x (T k))))) hN hs j hj
-  rw [strictB_eq] at h
-  have h' := allN_spec h k hk
-  simpa using h'
+  cases e : Nat.beq (T j) (T k)
+  · rfl
+  · exact absurd (Nat.eq_of_beq_eq_true e) (hne j hj k hk)
 
 theorem gens2_of {n w : Nat} {S : Array (Array Nat)} {GS : Nat → Nat}
     (h : ∀ k < 2, S[k]! = unpack n w (GS k)) :
@@ -90,7 +130,7 @@ theorem tree3_facts :
   refine treeConjN_eq (by norm_num) gens3 (fun k hk => (cnN3' k (by omega)).1)
     (fun k hk => (cnN3' k (by omega)).2.1) (fun k hk => (cnN3' k (by omega)).2.2) (by rw [e0])
     (by rw [e0]; exact Fo22M.cnS03) ⟨_, by rw [e0]; exact (rep_of_perm pS03).1⟩ rfl
-    (steps_of (n := 3510) (w := 12) (r := 2) (N := 1574) (wt := 12) (NS := 25) (CH := 64)
+    (steps_of (n := 3510) (w := 12) (r := 2) (N := 1574) (wt := 12) (NS := 33) (CH := 48)
       (by norm_num) Fo22T3.hS)
 
 theorem classOK_of {S : Array (Array Nat)} {s₀ tree : Array Nat} {P : Array (Array Nat)} {m : Nat}
@@ -111,9 +151,10 @@ theorem classOK_of {S : Array (Array Nat)} {s₀ tree : Array Nat} {P : Array (A
 theorem class3 : fo22ClassOK fo22N3Strong fo22S03 fo22Tree3 fo22P3Strong 1575 = true := by
   rw [n3S, p3S, Fo22T.s03_eq, Fo22T.tree3_eq]
   obtain ⟨hT, hcn, hrep⟩ := tree3_facts
-  have hA := acts_of (n := 3510) (w := 12) (r := 2) (wp := 11) (m := 1575) (NS := 25) (CH := 64)
-    (by norm_num) Fo22T3.hA
-  have hD := dists_of (m := 1575) (NS := 25) (CH := 64) (by norm_num) Fo22T3.hD
+  have hA := acts_of (n := 3510) (w := 12) (r := 2) (wp := 11) (m := 1575) (NS := 33) (CH := 48)
+    (by norm_num) (steps_of (n := 3510) (w := 12) (r := 2) (N := 1574) (wt := 12) (NS := 33)
+      (CH := 48) (by norm_num) Fo22T3.hS) Fo22T3.hA
+  have hD := dists_of (m := 1575) (NS := 33) (CH := 48) (by norm_num) Fo22T3.hD
   refine classOK_of hT (by simp) (fun j hj => ?_) (fun j hj k hk => ?_)
   · rw [ofFn1_get hj]
     obtain ⟨X, hX⟩ := hrep j hj
@@ -147,30 +188,29 @@ theorem getElem_extract3 {a : Array (Array Nat)} {j : Nat} (hj : j < 3) (ha : 3 
   rw [getElem!_pos _ j (by simp; omega), getElem!_pos a j (by omega), Array.getElem_extract]
   simp
 
-theorem gens2 (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem gens2 :
     ∀ k < 3, ((fi22CentStrong 2).extract 0 3)[k]! = unpack 3510 12 (Fi22H2.S k) := by
   intro k hk
-  have hb := bindsH2 htext
+  have hb := bindsH2
   rw [getElem_extract3 hk (by rw [hb.2.2.2.1]; norm_num), hb.2.2.2.2.1 k (by omega)]
 
-theorem tree2_facts (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem tree2_facts :
     treeConjN 3510 3 ((fi22CentStrong 2).extract 0 3) (unpack 3510 12 Fo22T.S02.F)
         (unpack 26 7 Fo22T.Tree2.F) =
       (Array.ofFn (n := 26 + 1) fun i => unpack 3510 12 (Fo22T2.T i.val)) ∧
       (∀ i < 26 + 1, Cn 3510 12 (Fo22T2.T i)) ∧
       ∀ i < 26 + 1, ∃ X, Rep 3510 (unpack 3510 12 (Fo22T2.T i)) X := by
   have e0 := Nat.eq_of_beq_eq_true Fo22M.s0T2
-  refine treeConjN_eq (by norm_num) (gens2 htext) (fun k hk => (cnH2' k hk).1)
+  refine treeConjN_eq (by norm_num) gens2 (fun k hk => (cnH2' k hk).1)
     (fun k hk => (cnH2' k hk).2.1) (fun k hk => (cnH2' k hk).2.2) (by rw [e0])
     (by rw [e0]; exact Fo22M.cnS02) ⟨_, by rw [e0]; exact (rep_of_perm pS02).1⟩ rfl
     (steps_of (n := 3510) (w := 12) (r := 3) (N := 26) (wt := 7) (NS := 1) (CH := 27)
       (by norm_num) Fo22T2.hS)
 
-theorem mem_T2
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem mem_T2 :
     ∀ i < 27, ∀ X, Rep 3510 (unpack 3510 12 (Fo22T2.T i)) X → X ∈ fi22H 2 := by
-  have hb := bindsH2 htext
-  obtain ⟨-, hcn, hrep⟩ := tree2_facts htext
+  have hb := bindsH2
+  obtain ⟨-, hcn, hrep⟩ := tree2_facts
   have hS := steps_of (n := 3510) (w := 12) (r := 3) (N := 26) (wt := 7) (NS := 1) (CH := 27)
     (by norm_num) Fo22T2.hS
   have e0 := Nat.eq_of_beq_eq_true Fo22M.s0T2
@@ -223,16 +263,16 @@ theorem h2OK_of {Sh hgens : Array (Array Nat)} {s₀ tree : Array Nat} {P : Arra
   · simp only [Bool.or_eq_true, beq_iff_eq, Bool.not_eq_true']
     exact h2 j hj k hk
 
-theorem h2
-    (htext : fi22Cent3510Text = Fi22E2065.textP) :
+theorem h2 :
     fo22H2OK (fi22CentStrong 2) ((fi22CentStrong 2).extract 0 3) fo22S02 fo22Tree2
       fo22P2Strong = true := by
   rw [p2S, Fo22T.s02_eq, Fo22T.tree2_eq]
-  obtain ⟨hT, hcn, hrep⟩ := tree2_facts htext
+  obtain ⟨hT, hcn, hrep⟩ := tree2_facts
   have hA := acts_of (n := 3510) (w := 12) (r := 3) (wp := 5) (m := 27) (NS := 1) (CH := 27)
-    (by norm_num) Fo22T2.hA
+    (by norm_num) (steps_of (n := 3510) (w := 12) (r := 3) (N := 26) (wt := 7) (NS := 1)
+      (CH := 27) (by norm_num) Fo22T2.hS) Fo22T2.hA
   have hD := dists_of (m := 27) (NS := 1) (CH := 27) (by norm_num) Fo22T2.hD
-  have hM := mem_T2 htext
+  have hM := mem_T2
   have hcomm := Fo22T2.comm2
   refine h2OK_of hT (by simp) (fun j hj => ?_) (fun j hj k hk => ?_) (fun j hj k hk => ?_)
   · rw [ofFn1_get hj]
@@ -247,7 +287,7 @@ theorem h2
     obtain ⟨h1, h2⟩ := hA j hj i hi
     obtain ⟨c1, c2, c3⟩ := cnH2' i hi
     have hi11 : i < 11 := by omega
-    rw [ofFn_get (kS := 11) (PS := Fo22P2.S) hi11, unpack_get' hj, ofFn1_get h1, gens2 htext i hi,
+    rw [ofFn_get (kS := 11) (PS := Fo22P2.S) hi11, unpack_get' hj, ofFn1_get h1, gens2 i hi,
       conj_unpack c1 (hcn j hj) c2 c3, eqA_unpack (cn_pconj c1 (hcn j hj) c2) (hcn _ h1), h2]
     exact ⟨h1, Nat.beq_refl _⟩
   · rw [ofFn1_get hj, ofFn1_get hk, eqA_unpack (hcn j hj) (hcn k hk)]
@@ -265,7 +305,11 @@ theorem h2
   · rw [ofFn1_get hj, ofFn1_get hk, compA_unpack (hcn j hj) (hcn k hk),
       compA_unpack (hcn k hk) (hcn j hj),
       eqA_unpack (canonK_pcomp (hcn j hj) (hcn k hk)) (canonK_pcomp (hcn k hk) (hcn j hj))]
-    exact allN_spec (allN_spec hcomm j hj) k hk
+    rcases lt_trichotomy j k with h | h | h
+    · exact nat_beq_symm (allN_spec (allN_spec hcomm k hk) j h)
+    · rw [h]
+      exact Nat.beq_refl _
+    · exact allN_spec (allN_spec hcomm j hj) k h
 
 end CertificateChecks.KernelSpor.Fo22C
 

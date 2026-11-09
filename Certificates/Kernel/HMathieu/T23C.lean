@@ -9,8 +9,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.T23C
-  "Certificates/Kernel/HMathieu/data/T23C.json.gz" 22048 10950994843788063328
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.T23C
+  "Certificates/Kernel/HMathieu/data/T23C.json" 22048 10950994843788063328
   (Mc : List (List Nat)) (F23c : List (List Nat)) (J23c : List (List Nat))
 
 namespace CertificateChecks.KernelHMathieu.T23C

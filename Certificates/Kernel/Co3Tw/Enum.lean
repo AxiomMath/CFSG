@@ -1,5 +1,6 @@
 module
 
+import CFSG.Certificates.Kernel.BfsPinRunSl
 public import Certificates.Kernel.Co3Tw.Src
 public import CFSG.Sporadic.Schreier.Co3OrderCheckInputs
 public import Certificates.Kernel.B3S3.GenSl

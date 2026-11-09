@@ -80,35 +80,35 @@ theorem hS_of {ks : List Nat} {S : Nat → Nat}
 theorem chS : ChainK 315 9 (gensOf [0, 1, 2]) wS (#v[1, 3] : Vector (Fin 315) 2)
     AJS.S AJS.SI AJS.LR AJS.TR AJS.TRI 5 AJS.BP 1 315 :=
   ⟨by norm_num, by norm_num, by norm_num, img_gens (ks := [0, 1, 2]) (by decide) (hS_of kGS),
-    by decide, AJS.head, AJS.hl, by norm_num, AJS.hs⟩
+    by decide, AJS.head, AJS.hl, by norm_num, .inl AJS.hs⟩
 
 theorem chW : ChainK 315 9 (gensOf [0, 1, 2, 6]) wW (#v[1, 2, 3] : Vector (Fin 315) 3)
     AJW.S AJW.SI AJW.LR AJW.TR AJW.TRI 7 AJW.BP 1 315 :=
   ⟨by norm_num, by norm_num, by norm_num, img_gens (ks := [0, 1, 2, 6]) (by decide) (hS_of kGW),
-    by decide, AJW.head, AJW.hl, by norm_num, AJW.hs⟩
+    by decide, AJW.head, AJW.hl, by norm_num, .inl AJW.hs⟩
 
 theorem chX1 : ChainK 315 9 (gensOf [0, 1, 2, 7]) wX1 (#v[0, 1, 3] : Vector (Fin 315) 3)
     AJX1.S AJX1.SI AJX1.LR AJX1.TR AJX1.TRI 7 AJX1.BP 1 315 :=
   ⟨by norm_num, by norm_num, by norm_num, img_gens (ks := [0, 1, 2, 7]) (by decide) (hS_of kGX1),
-    by decide, AJX1.head, AJX1.hl, by norm_num, AJX1.hs⟩
+    by decide, AJX1.head, AJX1.hl, by norm_num, .inl AJX1.hs⟩
 
 theorem chQ2 : ChainK 315 9 (gensOf [8, 9, 10, 11]) wQ2 (#v[1] : Vector (Fin 315) 1)
     AJQ2.S AJQ2.SI AJQ2.LR AJQ2.TR AJQ2.TRI 4 AJQ2.BP 1 315 :=
   ⟨by norm_num, by norm_num, by norm_num,
     img_gens (ks := [8, 9, 10, 11]) (by decide) (hS_of kGQ2), by decide, AJQ2.head, AJQ2.hl,
-    by norm_num, AJQ2.hs⟩
+    by norm_num, .inl AJQ2.hs⟩
 
 theorem chA : ChainK 315 9 (gensOf [21, 20, 18, 19]) wA (#v[0, 1] : Vector (Fin 315) 2)
     AJA.S AJA.SI AJA.LR AJA.TR AJA.TRI 5 AJA.BP 1 315 :=
   ⟨by norm_num, by norm_num, by norm_num,
     img_gens (ks := [21, 20, 18, 19]) (by decide) (hS_of kGA), by decide, AJA.head, AJA.hl,
-    by norm_num, AJA.hs⟩
+    by norm_num, .inl AJA.hs⟩
 
 theorem chQ1 : ChainK 315 9 (gensOf [14, 15, 16, 17]) wQ1 (#v[1, 3] : Vector (Fin 315) 2)
     AJQ1.S AJQ1.SI AJQ1.LR AJQ1.TR AJQ1.TRI 6 AJQ1.BP 1 315 :=
   ⟨by norm_num, by norm_num, by norm_num,
     img_gens (ks := [14, 15, 16, 17]) (by decide) (hS_of kGQ1), by decide, AJQ1.head, AJQ1.hl,
-    by norm_num, AJQ1.hs⟩
+    by norm_num, .inl AJQ1.hs⟩
 
 theorem card_S : Nat.card (genOf 315 ([0, 1, 2].map tt)) = 256 := card_of_chain (by decide) chS kNS
 

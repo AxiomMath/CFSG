@@ -9,7 +9,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8 CFSG.KC.GRing
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.E89E "Certificates/Kernel/Eight89K/data/B1491e.json.gz"
+#kc_repo #kc_json CFSG.KD.E89E "Certificates/Kernel/Eight89K/data/B1491e.json"
   298170 5998386920986529567 (ws : List (List Nat)) (S : Nat) (terms : List (List Nat × Nat))
   (vt : List (List Nat × (Nat × Bool))) (V : Nat) (gm : List (List Nat × (Nat × Bool)))
 

@@ -64,14 +64,17 @@ theorem kD_parts : (∀ i < 4, pwK (CertificateChecks.KernelCo2Pump.DD i) 3 = I2
   · exact Or.inl (Nat.eq_of_beq_eq_true e)
   · exact Or.inr fun e' => by rw [e', Nat.beq_refl] at e; exact absurd e (by decide)
 
+theorem mpowW_three (mm : ℕ → ℕ → ℕ) (I A : ℕ) : mpowW mm I A 3 = mm (mm (mm I A) A) A := rfl
+
+theorem pwK_three (A : ℕ) : pwK A 3 = mmK (mmK (mmK I22 A) A) A := mpowW_three mmK I22 A
+
 theorem kD_inv {i : ℕ} (hi : i < 4) : Inv 22 co2FiveV (CertificateChecks.KernelCo2Pump.DD i)
     (mmK (CertificateChecks.KernelCo2Pump.DD i) (CertificateChecks.KernelCo2Pump.DD i)) := by
-  set A := CertificateChecks.KernelCo2Pump.DD i
-  have hg : Good A := (CertificateChecks.KernelCo2Pump.dG hi).2
-  have e3 : pwK A 3 = mmK (mmK (mmK I22 A) A) A := rfl
+  have hg := (CertificateChecks.KernelCo2Pump.dG hi).2
+  have h := kD_parts.1 i hi
+  generalize CertificateChecks.KernelCo2Pump.DD i = A at hg h ⊢
   have h2 : mmK (mmK A A) A = I22 := by
-    have h := kD_parts.1 i hi
-    rw [e3, mm_I22 hg] at h
+    rw [pwK_three, mm_I22 hg] at h
     exact h
   refine inv_of_good hg ?_ h2
   rw [← h2]

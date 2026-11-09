@@ -13,8 +13,12 @@ namespace CFSG.Sporadic.Schreier.PairMcL
 
 open CFSG.Sporadic.Schreier.PairNative CFSG.Certificates.Native CFSG.Monster.B.Co2.Native
 
-theorem total :
-    (cl.map fun c => c.2.1.size * countPair bs 5 c.1 conds blocks).sum = 48498912000 :=
-  Certificates.certificate2245
+theorem card_class :
+    Nat.card {x : mclP // IsConj (⟨mclGen 0, Subgroup.subset_closure (by simp)⟩ : mclP) x} =
+      22275 :=
+  Certificates.certificate2245.1
+
+theorem total : countPair bs 5 wA conds blocks = 2177280 :=
+  Certificates.certificate2245.2
 
 end CFSG.Sporadic.Schreier.PairMcL

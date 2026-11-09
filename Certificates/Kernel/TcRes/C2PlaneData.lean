@@ -2,16 +2,16 @@ module
 
 public import Certificates.Data.Kernel.TcRes.C2Plane
 public import Certificates.Kernel.TcRes.TransData
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.TcRes.C2P "Certificates/Kernel/TcRes/data/c2plane.bin.gz"
+#kc_repo #kc_nat_items CFSG.KD.TcRes.C2P "Certificates/Kernel/TcRes/data/c2plane.bin"
   7448 14361977687976289916 PW B0 PV0 MW0 B1 PV1 MW1 U[4] RC[8] L[4] M[4]
 
-#kc_repo #kc_ktree_gz CFSG.KD.TcRes.C2P LF "Certificates/Kernel/TcRes/data/c2planes.bin.gz"
+#kc_repo #kc_ktree CFSG.KD.TcRes.C2P LF "Certificates/Kernel/TcRes/data/c2planes.bin"
   896 4 90496 6329575052299725584
 
 #kc_select CFSG.KD.TcRes.C2P uS U 4

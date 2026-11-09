@@ -1,6 +1,6 @@
 module
 
-import CFSG.Certificates.Kernel.Common.HarnessGz
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
@@ -33,6 +33,6 @@ import CFSG.Certificates.Kernel.Common.Repo
 #kc_repo #kc_natBin CFSG.KD.HNPt2085 ED5 "Certificates/Kernel/SporSch/HN/data/hnx_pt2085/ED5.bin" 2696 8321183558095647294
 #kc_repo #kc_decls CFSG.KD.HNPt2085 "Certificates/Kernel/SporSch/HN/data/hnx_pt2085.txt" 36165 6367980956007334544
 
-#kc_repo #kc_json_gz CFSG.KD.HNPt2085 "Certificates/Kernel/SporSch/HN/data/hnx_pt2085.json.gz"
+#kc_repo #kc_json CFSG.KD.HNPt2085 "Certificates/Kernel/SporSch/HN/data/hnx_pt2085.json"
   49500 11452493462718078737 (TW : List (List Nat)) (IS : List (List Nat)) (ES6 : List (List Nat))
   (IDS : List (List Nat)) (CH : List Nat) (EN : List Nat) (ST : List (List Nat))

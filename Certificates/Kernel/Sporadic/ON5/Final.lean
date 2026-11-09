@@ -9,13 +9,14 @@ public import CFSG.Certificates.Kernel.Spor.PK.Basic
 public import CFSG.Sporadic.Schreier.ONCheckSmallAuxInputs
 import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.Spor.ChainKSound
+public import CFSG.Certificates.Kernel.Spor.PcompFacts
 
 public section
 
 set_option maxRecDepth 400000
 
 #kon_join CertificateChecks.KernelSpor.ON5K.mSlAll CertificateChecks.KernelSpor.ON5K.mSl 20
-#kon_join CertificateChecks.KernelSpor.ON5K.dSelAll CertificateChecks.KernelSpor.ON5K.dSelS 20
+#kon_join CertificateChecks.KernelSpor.ON5K.dSelWAll CertificateChecks.KernelSpor.ON5K.dSelW 20
 
 namespace CertificateChecks.KernelSpor.ON5K
 
@@ -23,6 +24,45 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.ON CFSG.KS.CB CFSG.KS.CH CFSG.KS.Raw CFSG.KS.P
 open CFSG.KC.BfsPin CFSG.ONSchreier CFSG.ONSchreier.Native CFSG.PSL3Four.Native
 open CertificateChecks.KernelSpor.ON3 (allBelowN_iff)
 open CertificateChecks.KernelSpor.ON2129 (t32Enum_eq szOK32 t32_hd t32_gens t32_pt idTab_eq)
+
+theorem qDw_eq (i : Nat) : qDw i = qD i := by
+  unfold qDw
+  rw [strictB_app']
+  beta_reduce
+  generalize tab ON5T.DW i = c
+  cases h0 : Nat.blt 0 c
+  · rfl
+  cases h1 : Nat.blt c 481
+  · rfl
+  cases hw : wNC (ON5M.T i) c
+  · change false = qD i
+    have hc : c - 1 < 480 := by
+      simp only [Nat.blt_eq] at h0 h1
+      omega
+    have hj : (c - 1) / 120 < 4 := by omega
+    have hx : (c - 1) % 120 < 120 := Nat.mod_lt _ (by decide)
+    symm
+    rw [Bool.eq_false_iff]
+    intro hq
+    unfold qD at hq
+    rw [strictB_app'] at hq
+    have h := allN_spec hq _ hj
+    simp only [Nat.beq_eq] at h
+    have e : pg 7 (mask 7) (pcomp 120 7 (mask 7) (ON5M.T i) (dG ((c - 1) / 120))) ((c - 1) % 120) =
+        pg 7 (mask 7) (pcomp 120 7 (mask 7) (dG ((c - 1) / 120)) (ON5M.T i)) ((c - 1) % 120) := by
+      rw [h]
+    rw [CFSG.KS.PF.pg_pcomp (by norm_num) hx, CFSG.KS.PF.pg_pcomp (by norm_num) hx] at e
+    change Nat.beq (pg 7 (mask 7) (ON5M.T i) (pg 7 (mask 7) (dG ((c - 1) / 120)) ((c - 1) % 120)))
+      (pg 7 (mask 7) (dG ((c - 1) / 120)) (pg 7 (mask 7) (ON5M.T i) ((c - 1) % 120))) = false at hw
+    simp [e] at hw
+  · rfl
+
+theorem dSelAll (s : Nat) (hs : s < 20) : dSelS s = true := by
+  have h := dSelWAll s hs
+  unfold dSelW at h
+  have e : qDw = qD := funext qDw_eq
+  rw [e] at h
+  exact h
 
 theorem allBelowN_eq (n : Nat) (p : Nat → Bool) : allBelowN n p = allN n p := by
   rw [Bool.eq_iff_iff, allBelowN_iff, CFSG.KS.PK.allN_iff]
@@ -147,12 +187,116 @@ theorem t32_part : Data.T32Chain.generators.all (fun g => g.size == 32) = true �
 
 theorem szOK120 : szOK 120 7 = true := by quickRfl
 
-theorem m_pt {i : Nat} (hi : i < ON5M.cnt) : penumPtK 120 7 (mask 7) (120 * 7) false ON5M.G
+theorem penumPtKP_parts {n w m k cnt i : Nat} {conj : Bool} {G GI T PL POS SRT SRI : Nat → Nat}
+    (h : penumPtKP n w m conj G GI k cnt T PL POS SRT SRI i = true) :
+    bIf(Nat.beq i (nat_lit 0), true,
+      bAnd(Nat.blt (parOf PL i) i, bAnd(Nat.blt (labOf PL i) k,
+        bAnd(Nat.beq (r32 POS (Nat.add (Nat.mul (parOf PL i) k) (labOf PL i))) i,
+        bIf(Nat.blt (Nat.succ i) cnt,
+          lexLtK (parOf PL i) (labOf PL i) (parOf PL (Nat.succ i)) (labOf PL (Nat.succ i)),
+          true))))) = true ∧
+    (∀ j < k, bAnd(Nat.blt (r32 POS (Nat.add (Nat.mul i k) j)) cnt,
+      bAnd(Nat.beq (T (r32 POS (Nat.add (Nat.mul i k) j))) (stepK n w m conj G GI j (T i)),
+      bIf(Nat.beq (r32 POS (Nat.add (Nat.mul i k) j)) (nat_lit 0), true,
+        bIf(lexLtK i j (parOf PL (r32 POS (Nat.add (Nat.mul i k) j)))
+          (labOf PL (r32 POS (Nat.add (Nat.mul i k) j))), false, true)))) = true) ∧
+    bAnd(Nat.blt (r32 SRT i) cnt, bAnd(Nat.beq (r32 SRI (r32 SRT i)) i,
+      bIf(Nat.blt (Nat.succ i) cnt, Nat.blt (T (r32 SRT i)) (T (r32 SRT (Nat.succ i))), true))) =
+      true := by
+  unfold penumPtKP at h
+  simp only [strictB_app'] at h
+  obtain ⟨h3, h4⟩ := (bAnd_iff _ _).1 h
+  obtain ⟨h5, h6⟩ := (bAnd_iff _ _).1 h4
+  exact ⟨h3, fun j hj => allN_spec h5 j hj, h6⟩
+
+theorem penumPtKP_parent {n w m k cnt i : Nat} {conj : Bool} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hP : ∀ i < cnt, penumPtKP n w m conj G GI k cnt T PL POS SRT SRI i = true) (hi : i < cnt)
+    (h0 : Nat.beq i (nat_lit 0) = false) :
+    Nat.blt (parOf PL i) i = true ∧ Nat.blt (labOf PL i) k = true ∧
+    Nat.beq (T i) (stepK n w m conj G GI (labOf PL i) (T (parOf PL i))) = true ∧
+    bIf(Nat.blt (Nat.succ i) cnt,
+      lexLtK (parOf PL i) (labOf PL i) (parOf PL (Nat.succ i)) (labOf PL (Nat.succ i)), true) =
+      true := by
+  obtain ⟨hpar, -, -⟩ := penumPtKP_parts (hP i hi)
+  rw [h0] at hpar
+  change bAnd(_, _) = true at hpar
+  obtain ⟨a1, r1⟩ := (bAnd_iff _ _).1 hpar
+  obtain ⟨a2, r2⟩ := (bAnd_iff _ _).1 r1
+  obtain ⟨a3, a4⟩ := (bAnd_iff _ _).1 r2
+  have hp : parOf PL i < i := Nat.le_of_ble_eq_true a1
+  have hl : labOf PL i < k := Nat.le_of_ble_eq_true a2
+  obtain ⟨-, hposp, -⟩ := penumPtKP_parts (hP (parOf PL i) (by omega))
+  have hq := hposp (labOf PL i) hl
+  rw [Nat.eq_of_beq_eq_true a3] at hq
+  obtain ⟨-, hq2⟩ := (bAnd_iff _ _).1 hq
+  obtain ⟨hT, -⟩ := (bAnd_iff _ _).1 hq2
+  exact ⟨a1, a2, hT, a4⟩
+
+theorem penumPtKP_canon {n w k cnt : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hG : ∀ j < k, canonK n w (mask w) (n * w) (G j) = true)
+    (hT0 : canonK n w (mask w) (n * w) (T 0) = true)
+    (hP : ∀ i < cnt, penumPtKP n w (mask w) false G GI k cnt T PL POS SRT SRI i = true) :
+    ∀ i < cnt, canonK n w (mask w) (n * w) (T i) = true := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    cases h0 : Nat.beq i (nat_lit 0)
+    · obtain ⟨a1, a2, hT, -⟩ := penumPtKP_parent hP hi h0
+      have hp : parOf PL i < i := Nat.le_of_ble_eq_true a1
+      have hl : labOf PL i < k := Nat.le_of_ble_eq_true a2
+      have e : T i = pcomp n w (mask w) (G (labOf PL i)) (T (parOf PL i)) :=
+        Nat.eq_of_beq_eq_true hT
+      rw [e]
+      exact canonK_pcomp (hG _ hl) (ih _ hp (by omega))
+    · rw [Nat.eq_of_beq_eq_true h0]
+      exact hT0
+
+theorem penumPtK_of_P {n w k cnt : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hG : ∀ j < k, canonK n w (mask w) (n * w) (G j) = true)
+    (hT0 : canonK n w (mask w) (n * w) (T 0) = true)
+    (hP : ∀ i < cnt, penumPtKP n w (mask w) false G GI k cnt T PL POS SRT SRI i = true) :
+    ∀ i < cnt, penumPtK n w (mask w) (n * w) false G GI k cnt T PL POS SRT SRI i = true := by
+  intro i hi
+  obtain ⟨-, hpos, hsrt⟩ := penumPtKP_parts (hP i hi)
+  unfold penumPtK
+  simp only [strictB_app']
+  refine (bAnd_iff _ _).2 ⟨penumPtKP_canon hG hT0 hP i hi,
+    (bAnd_iff _ _).2 ⟨?_, (bAnd_iff _ _).2 ⟨?_, hsrt⟩⟩⟩
+  · cases h0 : Nat.beq i (nat_lit 0)
+    · obtain ⟨a1, a2, hT, a4⟩ := penumPtKP_parent hP hi h0
+      exact (bAnd_iff _ _).2 ⟨a1, (bAnd_iff _ _).2 ⟨a2, (bAnd_iff _ _).2 ⟨hT, a4⟩⟩⟩
+    · rfl
+  · exact allN_of_forall fun j hj => hpos j hj
+
+theorem penumSlKP_spec {n w m k cnt lo len : Nat} {conj : Bool}
+    {G GI T PL POS SRT SRI : Nat → Nat}
+    (h : penumSlKP n w m conj G GI k cnt T PL POS SRT SRI lo len = true) :
+    ∀ i, lo ≤ i → i < lo + len → i < cnt →
+      penumPtKP n w m conj G GI k cnt T PL POS SRT SRI i = true := by
+  intro i h1 h2 h3
+  have h' := allN_spec h (i - lo) (by omega)
+  rw [strictB_app'] at h'
+  have e : Nat.add lo (i - lo) = i := by
+    change lo + (i - lo) = i
+    omega
+  rw [e] at h'
+  have hb : Nat.blt i cnt = true := Eq.mpr Nat.blt_eq h3
+  rw [hb] at h'
+  exact h'
+
+theorem m_T0_canon : canonK 120 7 (mask 7) (120 * 7) (ON5M.T 0) = true := by quickRfl
+
+theorem m_ptP {i : Nat} (hi : i < ON5M.cnt) : penumPtKP 120 7 (mask 7) false ON5M.G
     ON5M.GI ON5M.k ON5M.cnt ON5M.T ON5M.PL ON5M.POS ON5M.SRT ON5M.SRI i = true := by
   have e : ON5M.cnt = 40320 := rfl
   have hs : i / 2016 < 20 := by omega
-  exact penumSl_spec (mSlAll (i / 2016) hs) i (by simp only [Nat.mul_eq]; omega)
+  exact penumSlKP_spec (mSlAll (i / 2016) hs) i (by simp only [Nat.mul_eq]; omega)
     (by simp only [Nat.mul_eq]; omega) hi
+
+theorem m_pt {i : Nat} (hi : i < ON5M.cnt) : penumPtK 120 7 (mask 7) (120 * 7) false ON5M.G
+    ON5M.GI ON5M.k ON5M.cnt ON5M.T ON5M.PL ON5M.POS ON5M.SRT ON5M.SRI i = true :=
+  penumPtK_of_P (fun j hj => ((gensOK_of m_gens).2 j hj).2) m_T0_canon (fun _ h => m_ptP h) i hi
 
 theorem m120_sound : enumBFS 120 Data.M120Chain.generators 50000 =
       penumRec 120 7 ON5M.cnt ON5M.T ON5M.PL ∧

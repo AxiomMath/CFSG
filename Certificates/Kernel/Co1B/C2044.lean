@@ -47,19 +47,19 @@ theorem base_eq : [aR, bR, iotaARows] = (List.range 3).map fun i => unpack 24 24
 
 theorem twoA_cent_check : centCheckOf iotaARows twoAD1 twoABray twoAD2 twoAVBase twoAVGens
     twoAVSizes = true := by
-  refine centCheckOf_of_K (P := IA) iotaA_u base_eq kD1 kI kBind kD2 kC ?_ ?_
+  refine centCheckOf_of_W (P := IA) iotaA_u base_eq kD1 kI kBind kD2 kC ?_ ?_
   · intro i hi
     have : i < 6 := by simpa [twoAVBase] using hi
     interval_cases i <;> decide
   · intro i hi
     have : i < 6 := by simpa [twoAVBase] using hi
     interval_cases i
-    · exact ⟨_, _, _, _, _, 512, TW.hd0, TW.hc0, TW.hn0, by decide, TW.hl0, TW.hp0, f0⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd1, TW.hc1, TW.hn1, by decide, TW.hl1, TW.hp1, f1⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd2, TW.hc2, TW.hn2, by decide, TW.hl2, TW.hp2, f2⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd3, TW.hc3, TW.hn3, by decide, TW.hl3, TW.hp3, f3⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd4, TW.hc4, TW.hn4, by decide, TW.hl4, TW.hp4, f4⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd5, TW.hc5, TW.hn5, by decide, TW.hl5, TW.hp5, f5⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd0, TW.hc0, TW.hn0, by decide, TW.hl0, TW.hp0, f0⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd1, TW.hc1, TW.hn1, by decide, TW.hl1, TW.hp1, f1⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd2, TW.hc2, TW.hn2, by decide, TW.hl2, TW.hp2, f2⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd3, TW.hc3, TW.hn3, by decide, TW.hl3, TW.hp3, f3⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd4, TW.hc4, TW.hn4, by decide, TW.hl4, TW.hp4, f4⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd5, TW.hc5, TW.hn5, by decide, TW.hl5, TW.hp5, f5⟩
 
 theorem hN : D2.N = 35 ∧ QT.N = 512 := by
   have h := kN
@@ -68,12 +68,12 @@ theorem hN : D2.N = 35 ∧ QT.N = 512 := by
 
 theorem bray_eq : brayElts (brayRows iotaARows twoAD1) twoABray =
     (List.range twoABray.length).map fun i => unpack 24 24 (D2.M i) :=
-  brayElts_of_K base_eq kD1 kI kBind
+  brayElts_of_W base_eq kD1 kI kBind
 
 theorem dag₂_eq : dag (brayElts (brayRows iotaARows twoAD1) twoABray) twoAD2 =
     ((List.range D2.N).map fun i => unpack 24 24 (D2.M i),
       (List.range D2.N).map fun i => unpack 24 24 (D2.MI i), true) :=
-  dagIK_sound bray_eq kD2
+  dagIWK_sound bray_eq kD2
 
 theorem qRows_get {l : Nat} (hl : l < 8) : twoAQRows[l]?.getD #[] = unpack 24 24 (QM l) := by
   rw [CertificateChecks.KernelCo1B.twoAQ_eq, IQK, List.map_map, List.getElem?_map,

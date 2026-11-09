@@ -13,9 +13,14 @@ open CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT
   [[], [1], [2], [1, 2], [2, 2], [2, 1, 2, 2, 2],
     [1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2]]
 
-@[expose] def pathVecFrom : List Nat → V2 → V2
-  | [], v => v
-  | l :: ls, v => pathVecFrom ls (frApply (frTable (baseMats[l - 1]?.getD idRows)) v)
+@[expose] def pathVecFrom (path : List Nat) (v : V2) : V2 :=
+  path.foldl (fun v l => frApply (frTable (baseMats[l - 1]?.getD idRows)) v) v
+
+theorem pathVecFrom_nil (v : V2) : pathVecFrom [] v = v := rfl
+
+theorem pathVecFrom_cons (l : Nat) (ls : List Nat) (v : V2) :
+    pathVecFrom (l :: ls) v = pathVecFrom ls (frApply (frTable (baseMats[l - 1]?.getD idRows)) v) :=
+  List.foldl_cons ..
 
 @[expose] def pathVec (path : List Nat) : V2 := pathVecFrom path rootV
 

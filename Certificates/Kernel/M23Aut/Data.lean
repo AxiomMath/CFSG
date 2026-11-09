@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.M23Aut "Certificates/Kernel/M23Aut/data/m23aut.json.gz" 142223
+#kc_repo #kc_json CFSG.KD.M23Aut "Certificates/Kernel/M23Aut/data/m23aut.json" 142223
   269572951493503689
   (e : Nat) (ta : Nat) (tb : Nat) (ks : List Nat) (hA : Nat) (hB : Nat) (fA : Nat) (fB : Nat)
   (fC : Nat) (lW : Nat) (lX : Nat) (hN : Nat) (iN : Nat) (lN : Nat) (i2 : List Nat) (oC : Nat)

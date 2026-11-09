@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Data.CFSGNative.Th.Tables
+public meta import CFSG.Certificates.Kernel.Common.IncludeStrChunks
 
 public section
 
@@ -10,7 +11,7 @@ open CFSG.Sporadic.Th.Native
 
 set_option compiler.extract_closed false
 
-@[expose, irreducible] def coverGensText : String := include_str "CoverGens.txt"
+@[expose, irreducible] def coverGensText : String := include_str_chunks "CoverGens.txt" 140000
 
 @[expose, irreducible] def presText : String := include_str "CoverPresentation.txt"
 

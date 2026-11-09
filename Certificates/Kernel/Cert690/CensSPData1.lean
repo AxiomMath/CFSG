@@ -10,8 +10,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelC690.CensSP1
-  "Certificates/Kernel/Cert690/data/CensSP1.json.gz" 2787962 5513443075337343056
+#kc_repo #kc_json CertificateChecks.KernelC690.CensSP1
+  "Certificates/Kernel/Cert690/data/CensSP1.json" 2787962 5513443075337343056
   (lo : Nat) (ginv : List (List Nat)) (wg : List (List (List Nat)))
   (cpar : List (List (Nat × Nat))) (T : List (List (Nat × Nat)))
   (orb : List (List (Nat × Nat × Nat))) (reps : List (List Nat)) (ranks : List (List (List Nat)))

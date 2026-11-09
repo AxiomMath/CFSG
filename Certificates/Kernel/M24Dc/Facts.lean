@@ -42,7 +42,8 @@ open CFSG.Quasithin.S151S9T (m24Incl m24Wit Idx3Wit idx3Model_of_lat_incl m24_ce
 theorem m24_spec : M24LatSpec :=
   ⟨M24K.m24K_membersOK CFSG.KD.M24Dc.facts, M24K.m24K_stab CFSG.KD.M24Dc.facts,
     M24K.m24K_comp CFSG.KD.M24Dc.facts, M24K.m24K_o2OK CFSG.KD.M24Dc.facts,
-    CFSG.KD.M24Dc.facts.2.2.2.2.2.2.2.2.2.2.2.2.2.1, CFSG.KD.M24Dc.facts.2.2.2.2.2.2.2.2.2.2.2.2.2.2⟩
+    CFSG.KD.M24Dc.facts.2.2.2.2.2.2.2.2.2.2.2.2.2.1,
+    CFSG.KD.M24Dc.facts.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1⟩
 
 section Lat
 

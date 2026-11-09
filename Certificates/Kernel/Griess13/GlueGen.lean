@@ -11,6 +11,13 @@ namespace CertificateChecks.KernelG13
 
 open CFSG.KC.Eval CFSG.Monster.GMS.Griess13.Co1Data
 
+public meta def packs4 : List Nat → List Nat
+  | e0 :: e1 :: e2 :: e3 :: E =>
+    let c (s : Nat) : Nat := (if s.testBit 0 then e0 else 0) ^^^ (if s.testBit 1 then e1 else 0) ^^^
+      (if s.testBit 2 then e2 else 0) ^^^ (if s.testBit 3 then e3 else 0)
+    (List.range 16).foldl (fun P s => P ||| (c s <<< (576 * s))) 0 :: packs4 E
+  | _ => []
+
 public meta def stepGlue (_ : Array Val) : Except String (Array (Lean.Name × Val)) :=
   let p2 := parseSLP slpMax2
   let pab := parseSLP slpWordsAB
@@ -24,7 +31,8 @@ public meta def stepGlue (_ : Array Val) : Except String (Array (Lean.Name × Va
     (`Y, natL ((List.finRange 3).map fun k => packPR (prY k))),
     (`AB, natL (prAB.map packPR)),
     (`T, natL ((List.range 8).map fun i => packRows (trows i))),
-    (`E, natL (eqsOf xRows).toList)]
+    (`E, natL (eqsOf xRows).toList),
+    (`P, natL (packs4 (eqsOf xRows).toList))]
 
 end CertificateChecks.KernelG13
 

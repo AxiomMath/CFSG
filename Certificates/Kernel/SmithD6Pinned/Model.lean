@@ -87,13 +87,18 @@ theorem gensArr_eq : gensArr = (gensV.map fun p => lineOf p.1 p.2).toArray := by
     List.map_nil, List.range_succ, List.range_zero, List.nil_append, List.flatMap_append,
     List.flatMap_cons, List.flatMap_nil, List.cons_append, List.append_nil, List.singleton_append]
 
+theorem map_toArray_getElem! (f : ℕ → ℕ → ℕ) (L : List (ℕ × ℕ)) {g : ℕ} (hl : g < L.length) :
+    (L.map fun p => f p.1 p.2).toArray[g]! = f (L.getD g (0, 0)).1 (L.getD g (0, 0)).2 := by
+  rw [mk_getElem!, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_map]
+  simp [List.getElem?_eq_getElem hl]
+
+theorem gensV_length : gensV.length = 13 := rfl
+
 theorem gensArr_get : ∀ g < 13,
     gensArr[g]! = lineOf (gensV.getD g (0, 0)).1 (gensV.getD g (0, 0)).2 := by
   intro g hg
-  rw [gensArr_eq, mk_getElem!, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD,
-    List.getElem?_map]
-  have hl : g < gensV.length := hg
-  simp [List.getElem?_eq_getElem hl]
+  rw [gensArr_eq]
+  exact map_toArray_getElem! lineOf gensV (gensV_length ▸ hg)
 
 end CertificateChecks.SmithD6Pinned
 

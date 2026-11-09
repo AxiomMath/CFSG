@@ -95,8 +95,7 @@ theorem cls3 :
     ∀ g ∈ j2P, ∃ i < J2R3.cnt, PRep 315 9 (J2R3.T i) (g * cT 31 * g⁻¹) := by
   intro g hg
   rw [j2P_eq] at hg
-  refine penum_conj_closed hsz (gR J2Cn.bindO.1.2.2) J2Cn.heads.2.2.1 (J2Cn.pe_all' J2Cn.o3E) ?_
-    g hg
+  refine penum_conj_closed hsz (gR J2Cn.bindO.1.2.2) J2Cn.heads.2.2.1 J2Cn.r3_pe ?_ g hg
   rw [Nat.eq_of_beq_eq_true J2Cn.bindO.2.2.2]
   exact pC (by norm_num)
 

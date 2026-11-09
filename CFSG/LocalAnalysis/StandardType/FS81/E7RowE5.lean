@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.StandardType.FS81.E7RowE4
+import CFSG.Mathlib.Decide.FinFun
 
 public section
 
@@ -35,11 +36,57 @@ theorem qE8_eq_qE8e (e : Coords 8) : qE8 e = qE8e e := by
     ![0, 1, 1, 1, 1, 1, 1, 0], ![1, 0, 1, 1, 1, 1, 1, 0], ![0, 1, 1, 1, 0, 0, 0, 0],
     ![0, 0, 1, 1, 1, 1, 0, 0]]
 
+section QE8Pieces
+
+attribute [local instance high] CFSG.Decide.FinFun.decForallZ3
+
 set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 100000 in
+theorem qE8_classes_p0 : ∀ w : Fin 7 → ZMod 3, qE8e (Fin.cons 0 w) = 1 →
+    nf (Fin.cons 0 w) ∈ qReps (1) ∨ nf (-(Fin.cons 0 w : Coords 8)) ∈ qReps (1) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem qE8_classes_p1 : ∀ w : Fin 7 → ZMod 3, qE8e (Fin.cons 1 w) = 1 →
+    nf (Fin.cons 1 w) ∈ qReps (1) ∨ nf (-(Fin.cons 1 w : Coords 8)) ∈ qReps (1) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem qE8_classes_p2 : ∀ w : Fin 7 → ZMod 3, qE8e (Fin.cons 2 w) = 1 →
+    nf (Fin.cons 2 w) ∈ qReps (1) ∨ nf (-(Fin.cons 2 w : Coords 8)) ∈ qReps (1) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem qE8_classes_m0 : ∀ w : Fin 7 → ZMod 3, qE8e (Fin.cons 0 w) = 1 →
+    nf (Fin.cons 0 w) ∈ qReps (-1) ∨ nf (-(Fin.cons 0 w : Coords 8)) ∈ qReps (-1) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem qE8_classes_m1 : ∀ w : Fin 7 → ZMod 3, qE8e (Fin.cons 1 w) = 1 →
+    nf (Fin.cons 1 w) ∈ qReps (-1) ∨ nf (-(Fin.cons 1 w : Coords 8)) ∈ qReps (-1) := by
+  decide +kernel
+
+set_option maxHeartbeats 4000000 in
+set_option maxRecDepth 100000 in
+theorem qE8_classes_m2 : ∀ w : Fin 7 → ZMod 3, qE8e (Fin.cons 2 w) = 1 →
+    nf (Fin.cons 2 w) ∈ qReps (-1) ∨ nf (-(Fin.cons 2 w : Coords 8)) ∈ qReps (-1) := by
+  decide +kernel
+
+end QE8Pieces
+
 theorem qE8_classes (hδ : δ = 1 ∨ δ = -1) :
     ∀ e : Coords 8, qE8e e = 1 → nf e ∈ qReps δ ∨ nf (-e) ∈ qReps δ := by
-  rcases hδ with rfl | rfl <;> decide +kernel
+  rcases hδ with rfl | rfl
+  · exact CFSG.Decide.FinFun.forall_of_forall_cons
+      (P := fun e : Coords 8 => qE8e e = 1 → nf e ∈ qReps 1 ∨ nf (-e) ∈ qReps 1)
+      (CFSG.Decide.FinFun.zmod3_cases qE8_classes_p0 qE8_classes_p1 qE8_classes_p2)
+  · exact CFSG.Decide.FinFun.forall_of_forall_cons
+      (P := fun e : Coords 8 => qE8e e = 1 → nf e ∈ qReps (-1) ∨ nf (-e) ∈ qReps (-1))
+      (CFSG.Decide.FinFun.zmod3_cases qE8_classes_m0 qE8_classes_m1 qE8_classes_m2)
 
 set_option maxRecDepth 100000 in
 theorem chain_facts (hδ : δ = 1 ∨ δ = -1) :

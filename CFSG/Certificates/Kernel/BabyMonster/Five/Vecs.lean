@@ -2,9 +2,10 @@ module
 
 import CFSG.Certificates.Kernel.Common.Eval
 meta import CFSG.Certificates.Kernel.BabyMonster.TwinVec
-import CFSG.Certificates.Kernel.BabyMonster.Five.Data11
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data10
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data12
 import CFSG.Certificates.Kernel.BabyMonster.Five.Data14
-import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
+import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 
 #kc_eval CFSG.KC.BM.Five Vox CFSG.KC.BM.Twin.vorbit 4370 34960 8444309558124036933 f85 5
 #kc_eval CFSG.KC.BM.Five Voh CFSG.KC.BM.Twin.vorbit 4370 34960 517813425330095781 f86 8

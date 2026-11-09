@@ -43,7 +43,7 @@ theorem eNorm : allN 2 (fun k => allN 16 fun i =>
       memK S0.E0.N S0.E0.T (pZI (N.NX.F k) (S0.E0.T i))) = true := by quickRfl
 
 theorem trans : allN 16 (fun i => Nat.beq (S0.E0.T i) (pidn 100 7) ||
-    (Nat.blt (NW i) 11520 && Nat.beq (pZ (N.NN.T (NW i)) Z0) (S0.E0.T i))) = true := by quickRfl
+    (Nat.blt (NW i) 11520 && permB 100 7 (N.NN.T (NW i)) && Nat.beq (pZ (N.NN.T (NW i)) Z0) (S0.E0.T i))) = true := by quickRfl
 
 theorem orbRoot : allN 100 rootPt = true := by quickRfl
 

@@ -1,7 +1,9 @@
 module
 
 public import Certificates.Kernel.Sporadic.Co2R3.Data
-public import Certificates.Data.Kernel.Fi22Nbr3153
+public import Certificates.Data.Kernel.Fi22Nbr3153S
+public import Certificates.Data.Kernel.Fi22Nbr3153M
+public import Certificates.Kernel.Sporadic.Fi22.N3153Dil
 import Certificates.Kernel.Co1B.GenTri2045
 import CFSG.Certificates.Kernel.Common.Harness
 
@@ -15,11 +17,12 @@ open CFSG.KC.Enum CFSG.KC.N3153 CFSG.KD.Co2R3
 
 @[expose] noncomputable def rowB (s : Nat) : Bool :=
   allBlk (Nat.mul (nat_lit 64) s) (fun x => bIf(Nat.blt x (nat_lit 2300),
-    rowOK (nat_lit 2300) (nat_lit 891) R M S x, true)) (nat_lit 64)
+    rowOKP (nat_lit 2300) (nat_lit 891) R M S CertificateChecks.KernelSpor.N3153.dilK x, true))
+    (nat_lit 64)
 
 @[expose] noncomputable def imgB (k s : Nat) : Bool :=
   allBlk (Nat.mul (nat_lit 64) s) (fun x => bIf(Nat.blt x (nat_lit 2300),
-    imgOK (nat_lit 2300) (nat_lit 891) (PK k) R M x, true)) (nat_lit 64)
+    imgOKM (nat_lit 2300) (nat_lit 891) (PK k) R M x, true)) (nat_lit 64)
 
 @[expose] noncomputable def img0B (s : Nat) : Bool := imgB (nat_lit 0) s
 

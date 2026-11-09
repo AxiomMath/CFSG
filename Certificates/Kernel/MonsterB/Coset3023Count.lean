@@ -31,16 +31,6 @@ theorem sum_blocks (f : ℕ → ℕ) (n : ℕ) : ∀ m,
   | m + 1 => by
     rw [Nat.mul_succ, Finset.sum_range_add, sum_blocks f n m, Finset.sum_range_succ]
 
-theorem mono_of_succ {K : ℕ → ℕ} {N : ℕ} (h : ∀ j, j + 1 < N → K j ≤ K (j + 1)) :
-    ∀ i j, i ≤ j → j < N → K i ≤ K j := by
-  intro i j hij hj
-  induction j with
-  | zero => rw [Nat.le_zero.1 hij]
-  | succ j ih =>
-    rcases Nat.lt_succ_iff_lt_or_eq.1 (Nat.lt_succ_of_le hij) with h' | h'
-    · exact le_trans (ih (by omega) (by omega)) (h j hj)
-    · rw [h']
-
 theorem block_sum {TT : ℕ → ℕ} {w : Model.Pauli} {J : ℕ → ℕ} (hs : sortOK TT J = true) {a : ℕ}
     (hb : blockOK TT w J a = true) :
     ∑ d ∈ Finset.range 4096, (if kA TT w a = kD TT d then hW TT w a d else 0) =
@@ -164,14 +154,14 @@ theorem countSq_eq_keys {TT : ℕ → ℕ} {tA tB : Array Model.Pauli} (hT : Tab
   rw [e 0 (by norm_num), e 1 (by norm_num)]
   unfold hW
   by_cases hk : kA TT w a = kD TT d
-  · rw [if_pos hk, hk, Nat.beq_refl]
-    simp only [decide_eq_true_eq]
+  · rw [ite_eq_left hk, hk, Nat.beq_refl]
+    simp only
     cases oneW (prodW TT w false a d) <;> cases oneW (prodW TT w true a d) <;> rfl
   · have hf : Nat.beq (kA TT w a) (kD TT d) = false := by
       cases h : Nat.beq (kA TT w a) (kD TT d)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) hk
-    rw [if_neg hk, hf]
+    rw [ite_eq_right hk, hf]
     rfl
 
 end CertificateChecks.Coset3023

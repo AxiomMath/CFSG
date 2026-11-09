@@ -3,6 +3,8 @@ module
 public import Certificates.Kernel.TcGen.HN
 public import CFSG.Certificates.Kernel.OpsMcertNSound
 public import CFSG.Certificates.Kernel.OpsFpKSound
+public import CFSG.Certificates.Kernel.OpsLayMcertSound
+public import CFSG.Certificates.Kernel.OpsLayTabSound
 public import CFSG.Blueprint.NativeSporadic
 import all CFSG.Blueprint.NativeSporadic
 
@@ -47,6 +49,59 @@ theorem cpP_of {p w S d T L H CM RM ONE LV HV A B : Nat}
 
 namespace HN
 
+theorem tab : ∀ v, 2 < v → v < C5.N →
+    CFSG.KC.OpsLayTab.entT O5 C5.VT (CFSG.KC.OpsLayTab.keyAt C5.KT v) v = true := by
+  refine CFSG.KC.OpsLayTab.tab_of_chunks O5 (m := 64) (k := 32) (by decide) fun i hi => ?_
+  interval_cases i
+  exacts [tabC0, tabC1, tabC2, tabC3, tabC4, tabC5, tabC6, tabC7, tabC8, tabC9, tabC10, tabC11,
+    tabC12, tabC13, tabC14, tabC15, tabC16, tabC17, tabC18, tabC19, tabC20, tabC21, tabC22, tabC23,
+    tabC24, tabC25, tabC26, tabC27, tabC28, tabC29, tabC30, tabC31, tabC32, tabC33, tabC34, tabC35,
+    tabC36, tabC37, tabC38, tabC39, tabC40, tabC41, tabC42, tabC43, tabC44, tabC45, tabC46, tabC47,
+    tabC48, tabC49, tabC50, tabC51, tabC52, tabC53, tabC54, tabC55, tabC56, tabC57, tabC58, tabC59,
+    tabC60, tabC61, tabC62, tabC63]
+
+theorem fold_of_symP {prog : List Op} {VS S : List Nat} {I0 IF n : Nat}
+    (h : symP prog VS I0 IF S n = true) : prog.foldl (stepL O5) (initN O5 A B n) = S := by
+  unfold symP at h
+  simp only [Bool.and_eq_true] at h
+  rw [← CFSG.KC.OpsLayK.eq_of_eqL h.1.2, CFSG.KC.OpsLayTab.fold_symT O5 tab _ _ _ _ h.1.1,
+    CFSG.KC.OpsLayK.eq_of_eqL h.2]
+
+theorem regsF_of {n : Nat} {prog : List Op} {fs : List MFact} {rA rB : Nat} {S : List Nat}
+    {kf mf : Nat} (hrun : prog.foldl (stepL O5) (initN O5 A B n) = S) (hn : 2 ≤ n)
+    (hp : prog.all (Op.lt n) = true) (hmf : fs.length ≤ mf * kf)
+    (hf : ∀ i < mf, factsP S n fs kf i = true) (he : seedRegsP S rA rB = true) :
+    regsN O5 A B n prog (fun R => certN O5 R ⟨n, prog, fs⟩ && O5.eq (getN R rA) A &&
+      O5.eq (getN R rB) B) = true := by
+  rw [regsN_eq, hrun]
+  unfold certN seedRegsP at *
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at he ⊢
+  exact ⟨⟨⟨⟨hn, hp⟩, CFSG.KC.OpsLayK.all_of_chunks hmf hf⟩, he.1⟩, he.2⟩
+
+theorem tc3Fa_all : ∀ i < 14, tc3Fa i = true := by
+  intro i hi
+  interval_cases i
+  exacts [tc3Fa0, tc3Fa1, tc3Fa2, tc3Fa3, tc3Fa4, tc3Fa5, tc3Fa6, tc3Fa7, tc3Fa8, tc3Fa9, tc3Fa10,
+    tc3Fa11, tc3Fa12, tc3Fa13]
+
+theorem cp3Fa_all : ∀ i < 6, cp3Fa i = true := by
+  intro i hi
+  interval_cases i
+  exacts [cp3Fa0, cp3Fa1, cp3Fa2, cp3Fa3, cp3Fa4, cp3Fa5]
+
+theorem tc5Fa_all : ∀ i < 31, tc5Fa i = true := by
+  intro i hi
+  interval_cases i
+  exacts [tc5Fa0, tc5Fa1, tc5Fa2, tc5Fa3, tc5Fa4, tc5Fa5, tc5Fa6, tc5Fa7, tc5Fa8, tc5Fa9, tc5Fa10,
+    tc5Fa11, tc5Fa12, tc5Fa13, tc5Fa14, tc5Fa15, tc5Fa16, tc5Fa17, tc5Fa18, tc5Fa19, tc5Fa20,
+    tc5Fa21, tc5Fa22, tc5Fa23, tc5Fa24, tc5Fa25, tc5Fa26, tc5Fa27, tc5Fa28, tc5Fa29, tc5Fa30]
+
+theorem cp5Fa_all : ∀ i < 14, cp5Fa i = true := by
+  intro i hi
+  interval_cases i
+  exacts [cp5Fa0, cp5Fa1, cp5Fa2, cp5Fa3, cp5Fa4, cp5Fa5, cp5Fa6, cp5Fa7, cp5Fa8, cp5Fa9, cp5Fa10,
+    cp5Fa11, cp5Fa12, cp5Fa13]
+
 theorem consts : constsOK lay.p lay.w lay.S lay.d lay.T lay.L lay.H lay.CM lay.RM lay.ONE lay.LV
     lay.HV = true := lay_ok
 
@@ -77,9 +132,13 @@ theorem cert9505 :
     (cpCheck (opsP 5 133) NativeSporadic.HNSeed1 NativeSporadic.HNSeed2 HNFive.cpNregs
       HNFive.cpProg HNFive.cpSpec = true) ∧ (HNFive.cpSpec.noFun = true) :=
   ⟨tcP_of HN.consts (by decide) HN.rowsA HN.rowsB HN.pay.2.2.1 HN.pay.2.2.2 (by decide +kernel)
-      (by decide +kernel) (by decide +kernel) HN.tc5_K,
+      (by decide +kernel) (by decide +kernel)
+      (HN.regsF_of (kf := 12) (HN.fold_of_symP HN.tc5Sym) (by decide) (by decide +kernel)
+        (by decide +kernel) HN.tc5Fa_all HN.tc5Seeds),
     cpP_of HN.consts (by decide) HN.rowsA HN.rowsB HN.pay.2.2.1 HN.pay.2.2.2 (by decide +kernel)
-      (by decide +kernel) (by decide +kernel) HN.cp5_K,
+      (by decide +kernel) (by decide +kernel)
+      (HN.regsF_of (kf := 12) (HN.fold_of_symP HN.cp5Sym) (by decide) (by decide +kernel)
+        (by decide +kernel) HN.cp5Fa_all HN.cp5Seeds),
     by decide +kernel⟩
 
 theorem cert9506 :
@@ -88,9 +147,13 @@ theorem cert9506 :
     (cpCheck (opsP 5 133) NativeSporadic.HNSeed1 NativeSporadic.HNSeed2 HNThree.cpNregs
       HNThree.cpProg HNThree.cpSpec = true) ∧ (HNThree.cpSpec.noFun = true) :=
   ⟨tcP_of HN.consts (by decide) HN.rowsA HN.rowsB HN.pay.2.2.1 HN.pay.2.2.2 (by decide +kernel)
-      (by decide +kernel) (by decide +kernel) HN.tc3_K,
+      (by decide +kernel) (by decide +kernel)
+      (HN.regsF_of (kf := 12) (HN.fold_of_symP HN.tc3Sym) (by decide) (by decide +kernel)
+        (by decide +kernel) HN.tc3Fa_all HN.tc3Seeds),
     cpP_of HN.consts (by decide) HN.rowsA HN.rowsB HN.pay.2.2.1 HN.pay.2.2.2 (by decide +kernel)
-      (by decide +kernel) (by decide +kernel) HN.cp3_K,
+      (by decide +kernel) (by decide +kernel)
+      (HN.regsF_of (kf := 12) (HN.fold_of_symP HN.cp3Sym) (by decide) (by decide +kernel)
+        (by decide +kernel) HN.cp3Fa_all HN.cp3Seeds),
     by decide +kernel⟩
 
 end CertificateChecks.KernelTc

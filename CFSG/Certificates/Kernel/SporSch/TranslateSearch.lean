@@ -214,9 +214,9 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.SporSch CFSG.KS.SporSch.KeySearch
 open CFSG.Certificates.Native
 
 theorem translateReplay_proved {n w s kg c bound nS H nB B R : Nat}
-    {G GI X W SO SOI C : Nat → Nat} {start : List Nat} {gens : Array (Array Nat)}
+    {G GI X W KT SO SOI C : Nat → Nat} {start : List Nat} {gens : Array (Array Nat)}
     (hg : gens.size = kg ∧ ∀ k < kg, gens[k]! = unpack n w (G k))
-    (h : SetReplayOK n w s kg c bound nS H nB B R G GI X W SO SOI C start) :
+    (h : SetReplayOK n w s kg c bound nS H nB B R G GI X W KT SO SOI C start) :
     translatesOK gens start (translateSearch gens start bound).1
         (translateSearch gens start bound).2.1 (translateSearch gens start bound).2.2 = true ∧
       (translateSearch gens start bound).1.toList.Nodup ∧

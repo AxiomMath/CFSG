@@ -25,12 +25,11 @@ theorem e6Data_excl2 : ∀ π' : Equiv.Perm (Fin (Tag.rank .E6)),
 theorem e7Data_head : ∀ i, e7Data.wt 0 i ≠ -1 := by
   decide +kernel
 
-set_option maxRecDepth 100000 in
 theorem e7Data_excl2 : ∀ π' : Equiv.Perm (Fin (Tag.rank .E7)),
     (∀ ij : Fin (Tag.rank .E7) × Fin (Tag.rank .E7),
       Tag.cartan .E7 (π' ij.1) (π' ij.2) = Tag.cartan .E7 ij.1 ij.2) →
-      (∀ j, e7Data.wt 0 j = 1 ↔ e7Data.wt 0 (π' j) = 1) → π' = 1 := by
-  decide +kernel
+      (∀ j, e7Data.wt 0 j = 1 ↔ e7Data.wt 0 (π' j) = 1) → π' = 1 :=
+  fun π' h _ => CFSG.TauCetiBridge.e7_cartan_rigid π' h
 
 theorem untwistedBridgeEven_E6
     : UntwistedBridgeEven .E6 LieTypeIndex.E6 := by

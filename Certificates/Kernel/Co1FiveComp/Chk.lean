@@ -31,7 +31,8 @@ theorem c10145kCen : cenK AT (QM 1) = true := by quickRfl
 
 theorem c10145kSTN : Nat.beq ST.N 60 = true := by quickRfl
 
-theorem c10145kST : gtPinK (SG D.M D.MI) 5 100000 ST.N ST.P ST.PAR ST.LAB ST.W ST.S = true := by
+theorem c10145kST :
+    bfsK (gtStepK (SG D.M D.MI)) ST.P ST.PAR ST.LAB ST.W ST.S 5 100000 ST.N idM = true := by
   quickRfl
 
 theorem c10145kPerf : allN 5 (compKAt D.M D.MI B1 B2) = true := by quickRfl

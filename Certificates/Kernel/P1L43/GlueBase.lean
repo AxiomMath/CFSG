@@ -231,6 +231,110 @@ theorem rowFacts_of {r : ClassRow} {t : Equiv.Perm (Fin 80)} {G : ℕ → ℕ} {
 
 theorem prep_si {P : ℕ} (h : selfInv P = true) : PRep 80 7 P (pp P) := prep_pp h
 
+noncomputable def l43Word(G : ℕ → ℕ) (w : List ℕ) : ℕ :=
+  w.foldr (fun i acc => pc (G i) acc) (pidn 80 7)
+
+noncomputable def l43WordK(G H : ℕ → ℕ) (ng : ℕ) (W : List (List ℕ)) : Bool :=
+  allN ng fun k => bAnd(Nat.beq (H k) (l43Word G (W.getD k [])),
+    (W.getD k []).all fun i => Nat.blt i 2)
+
+theorem prep_l43Word {G : ℕ → ℕ} (hG : ∀ k < 2, PRep 80 7 (G k) (pp (G k))) :
+    ∀ w : List ℕ, (∀ i ∈ w, i < 2) →
+      ∃ g ∈ closure ((fun k => pp (G k)) '' {k | k < 2}), PRep 80 7 (l43Word G w) g
+  | [], _ => ⟨1, one_mem _, prep_pidn (by norm_num) (by norm_num)⟩
+  | i :: w, hw => by
+    obtain ⟨g, hg, hP⟩ := prep_l43Word hG w fun j hj => hw j (List.mem_cons_of_mem _ hj)
+    have hi : i < 2 := hw i List.mem_cons_self
+    exact ⟨pp (G i) * g, mul_mem (subset_closure ⟨i, hi, rfl⟩) hg,
+      prep_pcomp hn80 (hG i hi) hP⟩
+
+theorem dvd_of_words {N ng : ℕ} {G GI H HI T E D S : ℕ → ℕ} {W : List (List ℕ)}
+    (hG : headK 80 7 2 G GI = true) (hh : headK 80 7 ng H HI = true)
+    (hcl : ∀ i < N, closPtL 80 7 ng N H T E i = true)
+    (htr : ∀ i < N, treePt ng N 0 E D i = true) (hN : 0 < N) (h0 : T 0 = pidn 80 7)
+    (hK : distinctK N (fun i => pkeyK 80 7 ps (T i)) S = true) (hw : l43WordK G H ng W = true) :
+    N ∣ Nat.card (closure ((fun k => pp (G k)) '' {k | k < 2})) := by
+  have hGp : ∀ k < 2, PRep 80 7 (G k) (pp (G k)) :=
+    fun k hk => prep_pp ((headK_spec hG).2 k hk).2.2
+  rw [← (group_facts hh hcl htr hN h0 hK).1]
+  apply card_dvd_of_le
+  rw [closure_le]
+  rintro _ ⟨k, hk, rfl⟩
+  unfold l43WordK at hw
+  have h := CFSG.KS.Raw.Orb.allN_iff.1 hw k hk
+  rw [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, List.all_eq_true] at h
+  obtain ⟨g, hg, hP⟩ := prep_l43Word hGp _ fun i hi => by simpa using h.2 i hi
+  have hH := prep_pp ((headK_spec hh).2 k hk).2.2
+  have hP' : PRep 80 7 (H k) g := by
+    rw [Nat.eq_of_beq_eq_true h.1]
+    exact hP
+  change pp (H k) ∈ _
+  rw [prep_eq hH hP']
+  exact hg
+
+theorem dvd_51840 {m c : ℕ} (hm : m = 51840) (h2 : 128 ∣ c) (h3 : 81 ∣ c) (h5 : 5 ∣ c) :
+    m ∣ c := by
+  subst hm
+  have h23 : 128 * 81 ∣ c := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num) h2 h3
+  have h := Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num : Nat.Coprime (128 * 81) 5) h23 h5
+  norm_num at h
+  exact h
+
+theorem row_of_cdvd {r : ClassRow} {P : ℕ} {Uo : Option ℕ} {G GI : ℕ → ℕ}
+    {T0 T1 : Table} (hsi : selfInv P = true) (hb : bindT r.rep P = true)
+    (hrow : rowK P Uo G 2 = true)
+    (hUo : ∀ u, Uo = some u → ∃ σ, PRep 80 7 u σ ∧ σ ∉ pi.range)
+    (houter : r.outer = Uo.isSome)
+    (hgens : r.centGens = [T0, T1]) (hb0 : bindT T0 (G 0) = true) (hb1 : bindT T1 (G 1) = true)
+    (hh : headK 80 7 2 G GI = true)
+    (hdvd : r.centOrder ∣ Nat.card (closure ((fun k => pp (G k)) '' {k | k < 2})))
+    (hcf : (conjClass pi.range (pp P)).ncard = r.classSize ∧ r.classSize *
+      Nat.card ↥(pi.range ⊓ centralizer ({pp P} : Set (Equiv.Perm (Fin 80)))) = 6065280)
+    (hprod : r.classSize * r.centOrder = 6065280) : RowFacts pi.range r := by
+  have hP := prep_si hsi
+  obtain ⟨htp, hrep⟩ := tp_of_bind hb hP
+  unfold rowK at hrow
+  simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at hrow
+  obtain ⟨hinv, hmem, hgen⟩ := hrow
+  rw [CFSG.KS.Raw.Orb.allN_iff] at hgen
+  have hG : ∀ k < 2, PRep 80 7 (G k) (pp (G k)) :=
+    fun k hk => prep_pp ((headK_spec hh).2 k hk).2.2
+  have hle : ∀ k < 2, pp (G k) ∈ pi.range ⊓ centralizer ({pp P} : Set (Equiv.Perm (Fin 80))) := by
+    intro k hk
+    have h2 := hgen k hk
+    rw [Bool.and_eq_true] at h2
+    exact mem_inf.2 ⟨mem_of_sP (hG k hk) h2.1,
+      mem_centralizer_singleton_iff.2 (comm_of_cm (hG k hk) hP h2.2)⟩
+  have hcs : 0 < r.classSize := by
+    rcases Nat.eq_zero_or_pos r.classSize with h | h
+    · rw [h] at hprod
+      omega
+    · exact h
+  have hC := Nat.eq_of_mul_eq_mul_left hcs (hcf.2.trans hprod.symm)
+  have hsub : closure ((fun k => pp (G k)) '' {k | k < 2}) ≤
+      pi.range ⊓ centralizer ({pp P} : Set (Equiv.Perm (Fin 80))) := by
+    rw [closure_le]
+    rintro _ ⟨k, hk, rfl⟩
+    exact hle k hk
+  have hcard : Nat.card (closure ((fun k => pp (G k)) '' {k | k < 2})) = r.centOrder :=
+    le_antisymm (hC ▸ card_le_of_le hsub) (Nat.le_of_dvd Nat.card_pos hdvd)
+  refine rowFacts_of hrep htp ((isInvK_iff hn80 hP).1 hinv) ?_ hgens
+    (tp_of_bind hb0 (hG 0 (by norm_num))).1 (tp_of_bind hb1 (hG 1 (by norm_num))).1 hle
+    hcard hcf.1 hcf.2 hprod
+  rw [houter]
+  cases Uo with
+  | none =>
+    have hin := mem_of_sP hP hmem
+    exact ⟨fun h => absurd h Bool.false_ne_true, fun h => absurd hin h⟩
+  | some u =>
+    obtain ⟨σ, hσ, hσA⟩ := hUo u rfl
+    change sP (pc P u) = true at hmem
+    have hin := mem_of_sP (prep_pcomp hn80 hP hσ) hmem
+    refine ⟨fun _ hPA => hσA ?_, fun _ => rfl⟩
+    have e : σ = (pp P)⁻¹ * (pp P * σ) := by group
+    rw [e]
+    exact mul_mem (inv_mem hPA) hin
+
 theorem row_of_check {r : ClassRow} {P : ℕ} {Uo : Option ℕ} {G GI TT E D S : ℕ → ℕ}
     {T0 T1 : Table} (hsi : selfInv P = true) (hb : bindT r.rep P = true)
     (hrow : rowK P Uo G 2 = true)
@@ -244,40 +348,13 @@ theorem row_of_check {r : ClassRow} {P : ℕ} {Uo : Option ℕ} {G GI TT E D S :
     (hcf : (conjClass pi.range (pp P)).ncard = r.classSize ∧ r.classSize *
       Nat.card ↥(pi.range ⊓ centralizer ({pp P} : Set (Equiv.Perm (Fin 80)))) = 6065280)
     (hprod : r.classSize * r.centOrder = 6065280) : RowFacts pi.range r := by
-  have hP := prep_si hsi
-  obtain ⟨htp, hrep⟩ := tp_of_bind hb hP
-  unfold rowK at hrow
-  simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at hrow
-  obtain ⟨hinv, hmem, hgen⟩ := hrow
-  rw [CFSG.KS.Raw.Orb.allN_iff] at hgen
-  have hG : ∀ k < 2, PRep 80 7 (G k) (pp (G k)) :=
-    fun k hk => prep_pp ((headK_spec hh).2 k hk).2.2
   have hpos : 0 < r.centOrder := by
     rcases Nat.eq_zero_or_pos r.centOrder with h | h
     · rw [h] at hprod
       omega
     · exact h
-  refine rowFacts_of hrep htp ((isInvK_iff hn80 hP).1 hinv) ?_ hgens
-    (tp_of_bind hb0 (hG 0 (by norm_num))).1 (tp_of_bind hb1 (hG 1 (by norm_num))).1 ?_
-    (group_facts hh hcl htr hpos h0 hK).1 hcf.1 hcf.2 hprod
-  · rw [houter]
-    cases Uo with
-    | none =>
-      have hin := mem_of_sP hP hmem
-      exact ⟨fun h => absurd h Bool.false_ne_true, fun h => absurd hin h⟩
-    | some u =>
-      obtain ⟨σ, hσ, hσA⟩ := hUo u rfl
-      change sP (pc P u) = true at hmem
-      have hin := mem_of_sP (prep_pcomp hn80 hP hσ) hmem
-      refine ⟨fun _ hPA => hσA ?_, fun _ => rfl⟩
-      have e : σ = (pp P)⁻¹ * (pp P * σ) := by group
-      rw [e]
-      exact mul_mem (inv_mem hPA) hin
-  · intro k hk
-    have h2 := hgen k hk
-    rw [Bool.and_eq_true] at h2
-    exact mem_inf.2 ⟨mem_of_sP (hG k hk) h2.1,
-      mem_centralizer_singleton_iff.2 (comm_of_cm (hG k hk) hP h2.2)⟩
+  refine row_of_cdvd hsi hb hrow hUo houter hgens hb0 hb1 hh ?_ hcf hprod
+  rw [(group_facts hh hcl htr hpos h0 hK).1]
 
 theorem fac_two : (2 * 6065280 : ℕ).factorization 2 = 8 := by
   rw [show (2 * 6065280 : ℕ) = 2 ^ 8 * 47385 by norm_num,

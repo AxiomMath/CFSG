@@ -10,6 +10,6 @@ set_option maxHeartbeats 0
 
 namespace CFSG.Certificates.Kernel.CatFacts
 
-#kc_each CFSG.Certificates.Kernel.CatFacts.chunkA 0 2
+#kc_each CFSG.Certificates.Kernel.CatFacts.chunkA 0 23
 
 end CFSG.Certificates.Kernel.CatFacts

@@ -18,7 +18,7 @@ meta def g3M : Array (Array Nat) :=
 
 end CertificateChecks.KernelSpor.Fo22R
 
-#ks_conjtree CertificateChecks.KernelSpor.Fo22T3 3510 12 2 64 CertificateChecks.KernelSpor.Fo22R.g3M
+#ks_conjtree CertificateChecks.KernelSpor.Fo22T3 3510 12 2 48CertificateChecks.KernelSpor.Fo22R.g3M
   CFSG.Sporadic.FischerOddCore.fo22S03 CFSG.Sporadic.FischerOddCore.fo22Tree3
   CertificateChecks.KernelSpor.Fo22N3.S CertificateChecks.KernelSpor.Fo22N3.SI
   CertificateChecks.KernelSpor.Fo22T.Tree3.F 12 CertificateChecks.KernelSpor.Fo22P3.S 11

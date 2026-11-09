@@ -11,8 +11,8 @@ set_option maxRecDepth 400000
 public section
 
 open CFSG.KC.FixBoundK in
-#kc_repo #kc_json_gz CertificateChecks.KernelFixBoundK.FamData7
-  "Certificates/Kernel/FixBoundK/data/Fam7.json.gz" 112137 4946531287629917655
+#kc_repo #kc_json CertificateChecks.KernelFixBoundK.FamData7
+  "Certificates/Kernel/FixBoundK/data/Fam7.json" 112137 4946531287629917655
   (fc : List (List FamC))
 
 end

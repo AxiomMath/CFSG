@@ -70,30 +70,6 @@ meta def oxL : List Nat := oxA.toList
 meta def osrtL : List Nat := (sortM oxA).1
 meta def osriL : List Nat := (sortM oxA).2
 
-meta def stepM : List Nat × List Nat := Id.run do
-  let n := oA.size
-  let idx : Std.HashMap (List Nat) Nat :=
-    (List.range n).foldl (fun m t => m.insert oA[t]! t) {}
-  let mut c := 1
-  let mut wh : Array Nat := #[]
-  let mut pp : Array Nat := Array.replicate (n - 1) 0
-  for h in [0:n] do
-    let x := oA[h]!
-    let p0 := idx.getD (conjStep (orbGens.getD 0 []) x) n
-    let p1 := idx.getD (conjStep (orbGens.getD 1 []) x) n
-    wh := wh.push (c ||| (p0 <<< 16) ||| (p1 <<< 32))
-    if p0 == c then
-      pp := pp.set! (c - 1) (2 * h)
-      c := c + 1
-    if p1 == c then
-      pp := pp.set! (c - 1) (2 * h + 1)
-      c := c + 1
-  wh := wh.push c
-  return (wh.toList, pp.toList)
-
-meta def owL : List Nat := stepM.1
-meta def oppL : List Nat := stepM.2
-
 meta def rtpL : List Nat := (List.range 81).map fun e => posOf (rtProd e)
 meta def rtiL : List Nat :=
   ((List.range 81).foldl (fun acc e => acc.set! (rtpL.getD e 0) e) (Array.replicate 729 0)).toList
@@ -108,8 +84,6 @@ end CFSG.KD.U43C.Gen
 #kss_ntree CFSG.KD.U43C.OGA CFSG.KD.U43C.Gen.gaL
 #kss_ntree CFSG.KD.U43C.OGB CFSG.KD.U43C.Gen.gbL
 #kss_ntree CFSG.KD.U43C.OX CFSG.KD.U43C.Gen.oxL
-#kss_ntree CFSG.KD.U43C.OW CFSG.KD.U43C.Gen.owL
-#kss_ntree CFSG.KD.U43C.OPP CFSG.KD.U43C.Gen.oppL
 #kss_ntree CFSG.KD.U43C.OSRT CFSG.KD.U43C.Gen.osrtL
 #kss_ntree CFSG.KD.U43C.OSRI CFSG.KD.U43C.Gen.osriL
 #kss_ntree CFSG.KD.U43C.RTP CFSG.KD.U43C.Gen.rtpL

@@ -26,8 +26,7 @@ noncomputable abbrev sev (j : ℕ) : J :=
 
 local notation "SL" => CFSG.KD.Fi24SevB.sl
 
-theorem sl_split : SL = CFSG.KD.Fi24SevB.slQ 0 ++ (CFSG.KD.Fi24SevB.slQ 1 ++
-    (CFSG.KD.Fi24SevB.slQ 2 ++ CFSG.KD.Fi24SevB.slQ 3)) := by decide +kernel
+theorem sl_split : SL = (List.range 79).flatMap CFSG.KD.Fi24SevB.slQ := by decide +kernel
 
 theorem sl_codes : ∀ e ∈ SL, ∀ l ∈ e.2.2, l < 26 := by decide +kernel
 
@@ -37,13 +36,12 @@ theorem sl_spec : ∀ e ∈ SL,
     (∀ z ∈ e.2.1, 2 ≤ z ∧ (z ≤ 5 ∨ (z / 2 - 3 < e.1 ∧ ∃ e' ∈ SL, e'.1 = z / 2 - 3))) ∧
       ∀ b ∈ cb, cP NW NT (expU SL e.2.1) b = cP NW NT e.2.2 b := by
   intro e he
-  rw [sl_split] at he
-  simp only [List.mem_append] at he
-  rcases he with h | h | h | h
-  · exact slIn_spec CFSG.KD.Fi24SevB.Ck.slc0 e h
-  · exact slIn_spec CFSG.KD.Fi24SevB.Ck.slc1 e h
-  · exact slIn_spec CFSG.KD.Fi24SevB.Ck.slc2 e h
-  · exact slIn_spec CFSG.KD.Fi24SevB.Ck.slc3 e h
+  rw [sl_split, List.mem_flatMap] at he
+  obtain ⟨i, hi, h⟩ := he
+  have hc := CFSG.KD.Fi24SevB.Ck.slcAll i (List.mem_range.1 hi)
+  unfold CFSG.KD.Fi24SevB.slc at hc
+  rw [slInB_eq, brec_same] at hc
+  exact slIn_spec hc e h
 
 theorem words_eq (hB : Bridge) : ∀ e ∈ SL, wordElt e.2.2 = sev e.1 :=
   wordElt_eq_slpG hB sl_spec sl_codes sl_words
@@ -190,14 +188,7 @@ theorem conj_facts (hB : Bridge) {t : ℕ} (ht : t ∈ [3, 21, 49, 56, 63, 70, 7
     M7 t * cube7 t = (if (fi24SevenData.conj[t]!).1 == 0 then sev 66 else sev 67) * M7 t := by
   rw [← cj_ts, List.mem_map] at ht
   obtain ⟨c, hc, rfl⟩ := ht
-  have hok : cjOK NW NT SL c = true := by
-    have hc' := hc
-    rw [cj_split] at hc'
-    simp only [List.mem_append] at hc'
-    rcases hc' with h | h | h
-    · exact allL_spec CFSG.KD.Fi24SevB.Ck.cjc0 c h
-    · exact allL_spec CFSG.KD.Fi24SevB.Ck.cjc1 c h
-    · exact allL_spec CFSG.KD.Fi24SevB.Ck.cjc2 c h
+  have hok : cjOK NW NT SL c = true := CFSG.KD.Fi24SevB.cj_ok c hc
   obtain ⟨h1, h2, h3⟩ := cjOK_spec hok
   obtain ⟨hlt, hC7, hm⟩ := cj_data c hc
   have hconj : fi24SevenData.conj[c.1]! = (c.2.1, c.2.2.1) := by

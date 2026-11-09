@@ -1,10 +1,10 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.McL.A4 "CFSG/Certificates/Kernel/McL/Data/data/McL_A4_data.items.gz" 16499 18289276371958262391
+#kc_repo #kc_nat_items CFSG.KD.McL.A4 "CFSG/Certificates/Kernel/McL/Data/data/McL_A4_data.items" 16499 18289276371958262391
   FB[7] WT[16] ST0 SL0 TW[13] TL[13] INV INV8 nF nC nW K nT d JF[2] JT[13]
 
 #kc_select CFSG.KD.McL.A4 FB FB 7

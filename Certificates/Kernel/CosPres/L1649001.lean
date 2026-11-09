@@ -4,13 +4,13 @@ public import Certificates.Data.Kernel.ActLB
 public import CFSG.LocalAnalysis.StandardType.GGQTwoSixPointInputs
 public import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Benes
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Each
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.L1649001 "Certificates/Kernel/CosPres/data/L1649001.items.gz" 1161288 3147297085542868047
+#kc_repo #kc_nat_items CFSG.KD.L1649001 "Certificates/Kernel/CosPres/data/L1649001.items" 1161288 3147297085542868047
   F[36]
 
 namespace CFSG.KD.L1649001

@@ -8,8 +8,8 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCentGenK.HS
-  "Certificates/Kernel/CentGenK/data/hs.json.gz" 1750 15719852030503072024
+#kc_repo #kc_json CertificateChecks.KernelCentGenK.HS
+  "Certificates/Kernel/CentGenK/data/hs.json" 1750 15719852030503072024
   (prog1 : List Nat) (prog2 : List Nat)
 
 namespace CertificateChecks.KernelCentGenK.HS

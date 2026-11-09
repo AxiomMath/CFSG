@@ -10,7 +10,7 @@ open CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation
 
 public section
 
-#kb_family "data/F134001.json.gz" 41961 16478068081402879829
+#kb_family "data/F134001.json" 41961 16478068081402879829
   (r0 := fun a => ((starTree.collapses starRels).getD a []).map FreeGroup.toWord)
 
 end

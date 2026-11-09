@@ -5,6 +5,7 @@ public meta import Certificates.Kernel.LocalComp.ReplayCmd
 public import Certificates.Data.Kernel.LocalComp.CubParts
 public meta import Certificates.Data.Kernel.LocalComp.CubParts
 public import Certificates.Kernel.LocalComp.ReplayCmd
+public import CFSG.Certificates.Kernel.LocalQT.MulF3Sound
 
 public section
 
@@ -53,9 +54,9 @@ meta def ssaOps (nregs : Nat) (prog : List Op) : Array (Nat × Nat) := Id.run do
 
 meta def natLitOf (n : Name) : CoreM Nat := do
   let some (.defnInfo v) := (← getEnv).find? n | throwError "{n} is not a definition"
-  match v.value with
-  | .lit (.natVal k) => return k
-  | _ => throwError "{n} is not a natural-number literal"
+  match natOfLit? v.value with
+  | some k => return k
+  | none => throwError "{n} is not a natural-number literal"
 
 meta def vName (pre : Name) (k : Nat) : Name := pre ++ Name.mkSimple s!"V{k}"
 
@@ -74,8 +75,8 @@ meta def joinProgram (pre : Name) (p d : Nat) (nregs : Nat) (prog : List Op) :
     ops.size
   let V := mkConst (pre ++ `V)
   let P := mkConst (pre ++ `P)
-  addTrue (pre ++ `decA) (mkApp3 (mkConst ``CFSG.KC.LQT.decOK) lay (mkApp V (lit 0)) (mkConst (pre ++ `LA)))
-  addTrue (pre ++ `decB) (mkApp3 (mkConst ``CFSG.KC.LQT.decOK) lay (mkApp V (lit 1)) (mkConst (pre ++ `LB)))
+  addDecOK (pre ++ `decA) c lay (mkApp V (lit 0)) vals[0]! (pre ++ `LA)
+  addDecOK (pre ++ `decB) c lay (mkApp V (lit 1)) vals[1]! (pre ++ `LB)
   let oneTy := mkApp3 (mkConst ``Eq [1]) natE (mkApp V (lit 2)) (mkApp (mkConst ``CFSG.KC.LQT.Lay.ONE) lay)
   addThm (pre ++ `one) oneTy (mkApp2 (mkConst ``Eq.refl [1]) natE (mkApp V (lit 2)))
   let f := mkApp3 (mkConst ``CFSG.KC.LQT.stepOK) lay V P
@@ -138,6 +139,15 @@ meta def addVTab (pre : Name) (c : LayV) (b : Nat) (X : Array Nat) (Xe : Expr) (
 
 end CFSG.KC.LQT.Cmd
 
+namespace CFSG.KC.LQT.Cmd
+
+meta def bitsFor (n : Nat) : Nat := Id.run do
+  let mut K := 0
+  while (1 <<< K) < n do K := K + 1
+  return K
+
+end CFSG.KC.LQT.Cmd
+
 elab "#lqt_prog_part " pre:ident dat:ident p:num d:num sA:ident sB:ident i:num K:num :
     command => do
   let pre := pre.getId
@@ -159,6 +169,7 @@ elab "#lqt_prog_part " pre:ident dat:ident p:num d:num sA:ident sB:ident i:num K
       addDef (vName pre 0) natE (lit (c.decode s1))
       addDef (vName pre 1) natE (lit (c.decode s2))
       addDef (vName pre 2) natE (lit c.ONE)
+    let KB := bitsFor (c.d * c.d)
     let mut loc : Std.HashMap Nat Nat := {}
     for k in [lo:hi] do
       let (a, b) := ops[k]!
@@ -171,8 +182,14 @@ elab "#lqt_prog_part " pre:ident dat:ident p:num d:num sA:ident sB:ident i:num K
       let v := c.mul x y
       loc := loc.insert k v
       addDef (vName pre k) natE (lit v)
-      addTrue (pre ++ Name.mkSimple s!"m{k}") (mkApp2 (mkConst ``Nat.beq) (mkConst (vName pre k))
+      let ty := eqTrue (mkApp2 (mkConst ``Nat.beq) (mkConst (vName pre k))
         (mkApp3 (mkConst ``CFSG.KC.LQT.Lay.mul) lay (mkConst (vName pre a)) (mkConst (vName pre b))))
+      let pf := if c.p == 3 then
+          mkAppN (mkConst ``CFSG.KC.LQT.F3S.beq_of_mulF3)
+            #[lay, mkConst (pre ++ `lay_ok), lit KB, mkConst (vName pre k), mkConst (vName pre a),
+              mkConst (vName pre b), reflBoolTrue]
+        else reflBoolTrue
+      addThm (pre ++ Name.mkSimple s!"m{k}") ty pf
 
 elab "#lqt_sr_cubx " pre:ident dat:ident dr:ident p:num d:num sA:ident sB:ident : command => do
   let pre := pre.getId

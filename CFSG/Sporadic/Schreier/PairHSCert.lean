@@ -65,9 +65,21 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
 @[expose] def hsH0 : Subgroup (Equiv.Perm (Fin 3850)) :=
   Subgroup.closure {g | ∃ j ∈ hsStabIdx, hsStrongPerm j = g}
 
-irreducible_def hsStabOrbits : List (List ℕ) := hsStabData.1
+opaque hsStabOrbitsSeal : {x : List (List ℕ) // x = hsStabData.1} := ⟨hsStabData.1, rfl⟩
 
-irreducible_def hsMerges : List (ℕ × List (ℕ × ℕ × ℕ)) := hsStabData.2
+@[expose] def hsStabOrbits : List (List ℕ) := hsStabOrbitsSeal.1
+
+theorem hsStabOrbits_def : hsStabOrbits = hsStabData.1 := hsStabOrbitsSeal.2
+
+attribute [irreducible] hsStabOrbits
+
+opaque hsMergesSeal : {x : List (ℕ × List (ℕ × ℕ × ℕ)) // x = hsStabData.2} := ⟨hsStabData.2, rfl⟩
+
+@[expose] def hsMerges : List (ℕ × List (ℕ × ℕ × ℕ)) := hsMergesSeal.1
+
+theorem hsMerges_def : hsMerges = hsStabData.2 := hsMergesSeal.2
+
+attribute [irreducible] hsMerges
 
 theorem hsCertOK_eq : hsCertOK = true :=
   Certificates.certificate2218

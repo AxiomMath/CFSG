@@ -442,7 +442,28 @@ theorem three_cycle_add : ∀ (x : Fin 8 → ZMod 2) (i j k : Fin 8), i ≠ j �
     x i = 1 → x k = 1 → x j = 0 → ∀ m : Fin 8,
     x m + x ((Equiv.swap i j * Equiv.swap j k)⁻¹ m) =
       ((Pi.single j 1 + Pi.single k 1 : Fin 8 → ZMod 2)) m := by
-  decide +kernel
+  intro x i j k hij hjk hik hi hk hj m
+  rw [mul_inv_rev, Equiv.swap_inv, Equiv.swap_inv, Equiv.Perm.mul_apply, Pi.add_apply,
+    Pi.single_apply, Pi.single_apply]
+  by_cases hmi : m = i
+  · subst hmi
+    rw [Equiv.swap_apply_left, Equiv.swap_apply_left, hi, hk, if_neg hij, if_neg hik]
+    decide
+  by_cases hmj : m = j
+  · subst hmj
+    rw [Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne hij hik, hj, hi, if_pos rfl,
+      if_neg hjk]
+    decide
+  by_cases hmk : m = k
+  · subst hmk
+    rw [Equiv.swap_apply_of_ne_of_ne (Ne.symm hik) (Ne.symm hjk), Equiv.swap_apply_right, hk, hj,
+      if_neg (Ne.symm hjk), if_pos rfl]
+    decide
+  · rw [Equiv.swap_apply_of_ne_of_ne hmi hmj, Equiv.swap_apply_of_ne_of_ne hmj hmk, if_neg hmj,
+      if_neg hmk]
+    generalize x m = a
+    revert a
+    decide
 
 theorem exists_three : ∀ x : Fin 8 → ZMod 2, ∑ i, x i = 0 → ¬ (∀ i j, x i = x j) →
     ∃ i j k : Fin 8, i ≠ j ∧ j ≠ k ∧ i ≠ k ∧ x i = 1 ∧ x k = 1 ∧ x j = 0 := by

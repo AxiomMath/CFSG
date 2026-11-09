@@ -53,8 +53,6 @@ theorem compL_cols (A B : Nat) : compL (colsOf A) (colsOf B) = colsOf (mulF 10 B
   rw [colsOf_getD B hi', colAct_cols, CFSG.KC.F2W.mulF_eq_orN,
     CFSG.KC.F2W.rowF_orN 10 (fun i _ => CFSG.KC.F2W.vmF_lt 10 A (rowF 10 B i)) hi']
 
-theorem tabs_eq : tabs = tabsL := beq_iff_eq.1 tabs_k
-
 theorem tabsL_length : tabsL.length = 256 := by simp [tabsL]
 
 theorem tabsL_getD {i : Nat} (hi : i < 256) : tabsL.getD i [] = colsOf (PT i) := by
@@ -79,10 +77,6 @@ theorem enc_get {j : Nat} (hj : j < 256) :
   simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (show j < tabsL.length by
     rw [tabsL_length]; exact hj)]
 
-theorem mulIdxC_eq {s i : Nat} (hs : s < 256) (hi : i < 256) : mulIdxC s i = mulL s i := by
-  unfold mulIdxC tabKeys
-  rw [tabs_eq, compL_get hs hi, enc_get (mul_facts hs hi).1, keys_nodup.idxOf_getElem]
-
 theorem tabsL_inj {i j : Nat} (hi : i < 256) (hj : j < 256)
     (e : tabsL.getD i [] = tabsL.getD j []) : i = j := by
   have := congrArg enc e
@@ -94,6 +88,128 @@ theorem gens_facts : gens.length = 4 ∧ ∀ k < 4, gI k < 256 ∧ gens.getD k [
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
     decide_eq_true_eq] at h
   exact ⟨h.1, fun k hk => ⟨(h.2 k hk).1, (h.2 k hk).2⟩⟩
+
+theorem tabs_of_bfsSim (hlen : tabsL.length = 256)
+    (hmul : ∀ {s i : Nat}, s < 256 → i < 256 → mulL s i < 256 ∧
+      compL (tabsL.getD s []) (tabsL.getD i []) = tabsL.getD (mulL s i) [])
+    (hinj : ∀ {i j : Nat}, i < 256 → j < 256 → tabsL.getD i [] = tabsL.getD j [] → i = j)
+    (hg : gens.length = 4 ∧ ∀ k < 4, gI k < 256 ∧ gens.getD k [] = tabsL.getD (gI k) [])
+    (h0 : tabsL.getD 0 [] = idTab) (hb : bfsSim 512 1 0 = true) : tabs = tabsL := by
+  have hget : ∀ {j : Nat} (hj : j < 256),
+      tabsL.getD j [] = tabsL[j]'(by rw [hlen]; exact hj) := by
+    intro j hj
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega), Option.getD_some]
+  have hcont : ∀ {n j : Nat}, n ≤ 256 → j < 256 →
+      (tabsL.take n).contains (tabsL.getD j []) = decide (j < n) := by
+    intro n j hn hj
+    rw [Bool.eq_iff_iff, List.contains_iff_mem, decide_eq_true_iff]
+    constructor
+    · intro h
+      obtain ⟨m, hm, e⟩ := List.getElem_of_mem h
+      rw [List.length_take] at hm
+      rw [List.getElem_take] at e
+      have hm' : m < 256 := by omega
+      have := hinj hm' hj (by rw [hget hm', e])
+      omega
+    · intro h
+      rw [hget hj]
+      exact List.mem_iff_getElem.2 ⟨j, by rw [List.length_take]; omega, List.getElem_take⟩
+  have happ : ∀ {n : Nat}, n < 256 → tabsL.take n ++ [tabsL.getD n []] = tabsL.take (n + 1) := by
+    intro n hn
+    rw [List.take_add_one, List.getElem?_eq_getElem (by omega), hget hn]
+    rfl
+  have hnone : ∀ (ks : List Nat) {i : Nat}, ks.foldl (bfsStepN i) none = none := by
+    intro ks i
+    induction ks with
+    | nil => rfl
+    | cons k ks ih =>
+      rw [List.foldl_cons]
+      exact ih
+  have hstep : ∀ (ks : List Nat), (∀ k ∈ ks, k < 4) → ∀ {i n n' : Nat}, i < 256 → n ≤ 256 →
+      ks.foldl (bfsStepN i) (some n) = some n' →
+      n' ≤ 256 ∧ ks.foldl (fun acc k =>
+        let u := compL (gens.getD k []) (tabsL.getD i [])
+        if acc.contains u then acc else acc ++ [u]) (tabsL.take n) = tabsL.take n' := by
+    intro ks
+    induction ks with
+    | nil =>
+      intro _ i n n' _ hn h
+      simp only [List.foldl_nil, Option.some.injEq] at h
+      subst h
+      exact ⟨hn, rfl⟩
+    | cons k ks ih =>
+      intro hks i n n' hi hn h
+      have hk : k < 4 := hks k List.mem_cons_self
+      obtain ⟨hgk, hge⟩ := hg.2 k hk
+      obtain ⟨hjl, hje⟩ := hmul hgk hi
+      rw [List.foldl_cons] at h ⊢
+      rw [hge, hje]
+      dsimp only
+      rw [hcont hn hjl]
+      rw [bfsStepN.eq_1 i (some n) k, Option.bind_some] at h
+      have hks' : ∀ k ∈ ks, k < 4 := fun k hk => hks k (List.mem_cons_of_mem _ hk)
+      by_cases h1 : mulL (gI k) i < n
+      · simp only [h1, ↓reduceIte] at h
+        simp only [decide_eq_true h1, ↓reduceIte]
+        exact ih hks' hi hn h
+      · by_cases h2 : mulL (gI k) i = n
+        · simp only [h2, ↓reduceIte, lt_irrefl] at h
+          simp only [decide_eq_false h1, Bool.false_eq_true, ↓reduceIte]
+          rw [h2, happ (by omega)]
+          exact ih hks' hi (by omega) h
+        · simp only [h1, h2, ↓reduceIte, hnone] at h
+          exact absurd h (by simp)
+  have hmain : ∀ fuel n i, n ≤ 256 → bfsSim fuel n i = true →
+      bfsAux gens fuel (tabsL.take n) i = tabsL := by
+    intro fuel
+    induction fuel with
+    | zero =>
+      intro n i _ h
+      rw [bfsSim, beq_iff_eq] at h
+      subst h
+      rw [bfsAux, List.take_of_length_le (by omega)]
+    | succ fuel ih =>
+      intro n i hn h
+      rw [bfsSim] at h
+      by_cases hi : i < n
+      · simp only [hi, ↓reduceIte] at h
+        have hg' : (tabsL.take n)[i]? = some (tabsL.getD i []) := by
+          rw [List.getElem?_take, hget (by omega), List.getElem?_eq_getElem (by omega)]
+          simp only [hi, ↓reduceIte]
+        split at h
+        · exact absurd h (by simp)
+        · rename_i n' hn'
+          obtain ⟨hn'', he⟩ :=
+            hstep (List.range 4) (fun k hk => List.mem_range.1 hk) (by omega) hn hn'
+          rw [bfsAux, hg']
+          simp only
+          rw [hg.1, he]
+          exact ih n' (i + 1) hn'' h
+      · simp only [hi, ↓reduceIte, beq_iff_eq] at h
+        subst h
+        have hg' : (tabsL.take 256)[i]? = none := by
+          rw [List.getElem?_take]
+          simp only [hi, ↓reduceIte]
+        rw [bfsAux, hg']
+        simp only
+        rw [List.take_of_length_le (by omega)]
+  have h1 : [idTab] = tabsL.take 1 := by
+    rw [List.take_add_one, List.take_zero, List.getElem?_eq_getElem (by omega),
+      ← hget (by omega), h0]
+    rfl
+  unfold tabs
+  rw [h1]
+  exact hmain 512 1 0 (by omega) hb
+
+theorem tabs_eq : tabs = tabsL := by
+  have ht := tab_k
+  simp only [Bool.and_eq_true] at ht
+  exact tabs_of_bfsSim tabsL_length (fun hs hi => ⟨(mul_facts hs hi).1, compL_get hs hi⟩)
+    tabsL_inj gens_facts (beq_iff_eq.1 ht.1) bfs_k
+
+theorem mulIdxC_eq {s i : Nat} (hs : s < 256) (hi : i < 256) : mulIdxC s i = mulL s i := by
+  unfold mulIdxC tabKeys
+  rw [tabs_eq, compL_get hs hi, enc_get (mul_facts hs hi).1, keys_nodup.idxOf_getElem]
 
 theorem getD_mem {j : Nat} (hj : j < 256) : tabsL.getD j [] ∈ tabsL := by
   rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by rw [tabsL_length]; exact hj),
@@ -117,9 +233,8 @@ theorem card_filter_range (n : Nat) (p : Nat → Bool) :
     by_cases hp : p n = true <;> simp [hp]
 
 theorem len_ok : lenOK = true := by
-  unfold lenOK
-  rw [tabs_eq, tabsL_length]
-  rfl
+  rw [lenOK, lenOKg, tabs_eq, tabsL_length]
+  all_goals rfl
 
 theorem nodup_ok : nodupOK = true := by
   unfold nodupOK
@@ -201,6 +316,68 @@ theorem subs_getD_mem {j : Nat} (hj : j < 715) : subs.getD j [] ∈ subs := by
   rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj', Option.getD_some]
   exact List.getElem_mem _
 
+theorem offMaskL_testBit (l : List Nat) (i : Nat) : (offMaskL l).testBit i = l.contains i := by
+  have : ∀ a, (l.foldl (fun acc j => Nat.lor acc (Nat.shiftLeft 1 j)) a).testBit i =
+      (a.testBit i || l.contains i) := by
+    induction l with
+    | nil => intro a; simp
+    | cons x l ih =>
+      intro a
+      rw [List.foldl_cons, ih]
+      change ((a ||| 1 <<< x).testBit i || _) = _
+      rw [Nat.one_shiftLeft, Nat.testBit_or, Nat.testBit_two_pow, List.contains_cons]
+      rw [Bool.eq_iff_iff]
+      simp only [Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq]
+      grind
+  unfold offMaskL
+  rw [this 0]
+  simp
+
+theorem stepMask_testBit (l : List Nat) (s i : Nat) :
+    (stepMask l s).testBit i = (l.contains i || (l.map (mulL s)).contains i) := by
+  have : ∀ a, (l.foldl (fun acc j => Nat.lor (Nat.lor acc (Nat.shiftLeft 1 j))
+      (Nat.shiftLeft 1 (mulL s j))) a).testBit i =
+      (a.testBit i || l.contains i || (l.map (mulL s)).contains i) := by
+    induction l with
+    | nil => intro a; simp
+    | cons x l ih =>
+      intro a
+      rw [List.foldl_cons, ih]
+      change (((a ||| 1 <<< x) ||| 1 <<< mulL s x).testBit i || _ || _) = _
+      rw [Nat.one_shiftLeft, Nat.one_shiftLeft, Nat.testBit_or, Nat.testBit_or,
+        Nat.testBit_two_pow, Nat.testBit_two_pow, List.map_cons, List.contains_cons,
+        List.contains_cons]
+      rw [Bool.eq_iff_iff]
+      simp only [Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq]
+      grind
+  unfold stepMask
+  rw [this 0]
+  simp
+
+theorem offSM_facts {k : Nat} (hk : k < 715) :
+    offSM k = offMaskL (subs.getD k []) ∧ (subs.getD k []).Pairwise (· < ·) := by
+  have hk2 : k < subs.length := by rw [subs_facts.1]; exact hk
+  have hk' : k < subs.zipIdx.length := by simpa using hk2
+  have h0 := offSM_k
+  unfold offSMOK at h0
+  have h := List.all_eq_true.1 h0 _ (List.getElem_mem hk')
+  simp only [List.getElem_zipIdx, Bool.and_eq_true, decide_eq_true_eq, Nat.zero_add] at h
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk2, Option.getD_some]
+  exact ⟨Nat.eq_of_beq_eq_true h.1, h.2⟩
+
+theorem subs_getD_eq_stepLK {k s : Nat} {l : List Nat} (hk : k < 715)
+    (h : offSM k = stepMask l s) : subs.getD k [] = stepLK l s := by
+  obtain ⟨hm, hp⟩ := offSM_facts hk
+  have hb : ∀ i, (subs.getD k []).contains i = (l.contains i || (l.map (mulL s)).contains i) :=
+    fun i => by rw [← offMaskL_testBit, ← hm, h, stepMask_testBit]
+  apply hp.eq_of_mem_iff (List.pairwise_lt_range.filter _)
+  intro a
+  rw [List.mem_filter, List.mem_range, ← hb a, List.contains_iff_mem]
+  constructor
+  · intro ha
+    exact ⟨subs_facts.2 _ (subs_getD_mem hk) a ha, ha⟩
+  · exact fun h => h.2
+
 theorem invol_ok : involOK = true := by
   have h := invol_k
   unfold involOK
@@ -277,9 +454,9 @@ theorem step_ok : stepOK = true := by
       (Nat.ne_of_beq_eq_false h3)))))
   · exact Or.inl (Or.inr h4)
   · right
-    rw [List.contains_iff_mem]
-    unfold stepLK at h6
-    rw [← beq_iff_eq.1 h6]
+    have e := subs_getD_eq_stepLK h5 (Nat.eq_of_beq_eq_true h6)
+    unfold stepLK at e
+    rw [List.contains_iff_mem, ← e]
     exact subs_getD_mem h5
 
 theorem nat_beq (a b : Nat) : (a == b) = Nat.beq a b := by

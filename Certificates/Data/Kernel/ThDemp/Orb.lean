@@ -160,27 +160,58 @@ variable (D : DempData) (O : OrbData)
     (fun l ih => andB (allBelow (D.oszL l) (nat_lit 1) (fun i =>
       Nat.beq (D.mul (D.T l i) (O.TI l i)) D.ONE)) ih) (nat_lit 3)
 
+@[expose] noncomputable def mulCol (c rm A B : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (nat_lit 0)
+    (fun k acc => Nat.xor acc (Nat.mul (Nat.land (Nat.shiftRight A k) c)
+      (Nat.land (Nat.shiftRight B (Nat.mul k (nat_lit 256))) rm))) (nat_lit 248)
+
 @[expose] noncomputable def xS4 (P : Nat) : Nat :=
-  strictN (stackN (nat_lit 1280) (nat_lit 32) (fun y5 => mulB (cR (nat_lit 5)) D.rm P (D.T 5 y5))) fun S5 =>
-    stackN (nat_lit 40960) (nat_lit 16) (fun y4 => mulB (cR (nat_lit 160)) D.rm S5 (D.T 4 y4))
+  strictN (stackN (nat_lit 1280) (nat_lit 32) (fun y5 => mulCol (cR (nat_lit 5)) D.rm P (D.T 5 y5))) fun S5 =>
+    stackN (nat_lit 40960) (nat_lit 16) (fun y4 => mulCol (cR (nat_lit 160)) D.rm S5 (D.T 4 y4))
 
 @[expose] noncomputable def xBat (P : Nat) : List Nat :=
   strictL (cR (nat_lit 2560)) fun c2560 => strictL (xS4 D P) fun S4 =>
-    (List.range (nat_lit 24)).map (fun y3 => mulB c2560 D.rm S4 (D.T 3 y3))
+    (List.range (nat_lit 24)).map (fun y3 => mulCol c2560 D.rm S4 (D.T 3 y3))
 
 @[expose] noncomputable def yBat (P : Nat) : List Nat :=
   strictL (cR (nat_lit 5)) fun c5 => strictL (cR (nat_lit 155)) fun c155 =>
   strictL (cR (nat_lit 4650)) fun c4650 =>
-    strictL (stackN (nat_lit 1280) (nat_lit 31) (fun y0 => mulB c5 D.rm P (O.TI 0 y0))) fun S0 =>
-    strictL (stackN (nat_lit 39680) (nat_lit 30) (fun y1 => mulB c155 D.rm S0 (O.TI 1 y1))) fun S1 =>
-    (List.range (nat_lit 28)).map (fun y2 => mulB c4650 D.rm S1 (O.TI 2 y2))
+    strictL (stackN (nat_lit 1280) (nat_lit 31) (fun y0 => mulCol c5 D.rm P (O.TI 0 y0))) fun S0 =>
+    strictL (stackN (nat_lit 39680) (nat_lit 30) (fun y1 => mulCol c155 D.rm S0 (O.TI 1 y1))) fun S1 =>
+    (List.range (nat_lit 28)).map (fun y2 => mulCol c4650 D.rm S1 (O.TI 2 y2))
 
-@[expose] noncomputable def yKeys (W : List Nat) : Nat :=
-  strictN (repN D.rm (nat_lit 1280) (nat_lit 10) (nat_lit 930)) fun L248 =>
-  strictN (repN m63 (nat_lit 1280) (nat_lit 10) (nat_lit 930)) fun L63 =>
-  stackN (nat_lit 59520) (nat_lit 28) (fun y2 => packD (nat_lit 10) (keyB L248 L63 (lget W y2)))
+@[expose] noncomputable def yS1 (P : Nat) : Nat :=
+  strictN (stackN (nat_lit 1280) (nat_lit 31) (fun y0 => mulCol (cR (nat_lit 5)) D.rm P (O.TI 0 y0))) fun Q =>
+  strictN (stackN (nat_lit 256) (nat_lit 155) (fun j =>
+    Nat.land (Nat.shiftRight Q (Nat.add (Nat.mul (nat_lit 1280) (Nat.mod j (nat_lit 31)))
+      (Nat.mul (nat_lit 256) (Nat.div j (nat_lit 31))))) D.rm)) fun S0 =>
+  stackN (nat_lit 39680) (nat_lit 30) (fun y1 => mulCol (cR (nat_lit 155)) D.rm S0 (O.TI 1 y1))
 
-@[expose] noncomputable def kyChk (i : Nat) : Bool := Nat.beq (yKeys D (yBat D O (pt D O i))) (lget O.ky i)
+@[expose] noncomputable def yRowK (P k : Nat) : Nat :=
+  strictN (yS1 D O P) fun S =>
+  strictN (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 7936)) (nat_lit 1)) fun M =>
+  stackN (nat_lit 7936) (nat_lit 30) (fun y1 =>
+    Nat.land (Nat.shiftRight S (Nat.add (Nat.mul (nat_lit 39680) y1) (Nat.mul (nat_lit 7936) k))) M)
+
+@[expose] noncomputable def packE (d : Nat) : Nat → Nat :=
+  Nat.rec (motive := fun _ => Nat → Nat) (fun Z => Nat.land Z m64)
+    (fun k ih Z => (fun h => Nat.lor (ih (Nat.land Z (Nat.sub (Nat.shiftLeft (nat_lit 1) (Nat.mul (nat_lit 256) h)) (nat_lit 1))))
+      (Nat.shiftLeft (ih (Nat.shiftRight Z (Nat.mul (nat_lit 256) h))) (Nat.mul (nat_lit 64) h)))
+      (Nat.shiftLeft (nat_lit 1) k)) d
+
+@[expose] noncomputable def yKeysD (P : Nat) : Nat :=
+  strictN (cR (nat_lit 930)) fun c930 =>
+  strictN (repN m63 (nat_lit 256) (nat_lit 10) (nat_lit 930)) fun L63 =>
+  strictN (yRowK D O P (nat_lit 0)) fun R0 => strictN (yRowK D O P (nat_lit 1)) fun R1 =>
+  strictN (yRowK D O P (nat_lit 2)) fun R2 => strictN (yRowK D O P (nat_lit 3)) fun R3 =>
+  strictN (yRowK D O P (nat_lit 4)) fun R4 =>
+  stackN (nat_lit 59520) (nat_lit 28) (fun y2 => strictN (O.TI 2 y2) fun T =>
+    strictN (mulCol c930 D.rm R0 T) fun b0 => strictN (mulCol c930 D.rm R1 T) fun b1 =>
+    strictN (mulCol c930 D.rm R2 T) fun b2 => strictN (mulCol c930 D.rm R3 T) fun b3 =>
+    strictN (mulCol c930 D.rm R4 T) fun b4 =>
+    packE (nat_lit 10) (fold64 L63 (subX [b0, b1, b2, b3, b4] (nat_lit 0))))
+
+@[expose] noncomputable def kyChk (i : Nat) : Bool := Nat.beq (yKeysD D O (pt D O i)) (lget O.ky i)
 
 @[expose] noncomputable def xKeys (P y3 : Nat) : Nat :=
   packD (nat_lit 9) (keyB (repN D.rm (nat_lit 1280) (nat_lit 9) (nat_lit 512)) (repN m63 (nat_lit 1280) (nat_lit 9) (nat_lit 512))
@@ -218,23 +249,47 @@ variable (D : DempData) (O : OrbData)
 @[expose] noncomputable def yPt (W : List Nat) (y : Nat) : Nat :=
   ptAt (lget W (Nat.div y (nat_lit 930))) (Nat.mod y (nat_lit 930))
 
-@[expose] noncomputable def pairOK (Z W : List Nat) (x e : Nat) : Bool :=
+@[expose] noncomputable def mul5L (A B : Nat) : Nat := strictN B fun B' => mulCol (cR (nat_lit 5)) D.rm A B'
+
+@[expose] noncomputable def xD1 (P a : Nat) : Nat := mul5L D P (D.T 5 a)
+
+@[expose] noncomputable def xD2 (P a b : Nat) : Nat := strictN (xD1 D P a) fun Q => mul5L D Q (D.T 4 b)
+
+@[expose] noncomputable def xD3 (P a b c : Nat) : Nat := strictN (xD2 D P a b) fun Q => mul5L D Q (D.T 3 c)
+
+@[expose] noncomputable def xD (P x : Nat) : Nat :=
+  strictN (Nat.mod (Nat.mod x (nat_lit 512)) (nat_lit 32)) fun a =>
+  strictN (Nat.div (Nat.mod x (nat_lit 512)) (nat_lit 32)) fun b =>
+  strictN (Nat.div x (nat_lit 512)) fun c => xD3 D P a b c
+
+@[expose] noncomputable def yD1 (P a : Nat) : Nat := mul5L D P (O.TI 0 a)
+
+@[expose] noncomputable def yD2 (P a b : Nat) : Nat := strictN (yD1 D O P a) fun Q => mul5L D Q (O.TI 1 b)
+
+@[expose] noncomputable def yD3 (P a b c : Nat) : Nat := strictN (yD2 D O P a b) fun Q => mul5L D Q (O.TI 2 c)
+
+@[expose] noncomputable def yD (P y : Nat) : Nat :=
+  strictN (Nat.mod (Nat.mod y (nat_lit 930)) (nat_lit 31)) fun a =>
+  strictN (Nat.div (Nat.mod y (nat_lit 930)) (nat_lit 31)) fun b =>
+  strictN (Nat.div y (nat_lit 930)) fun c => yD3 D O P a b c
+
+@[expose] noncomputable def pairOK (Z W : Nat → Nat) (x e : Nat) : Bool :=
   (fun y G => andB (Nat.blt x (nat_lit 12288)) (andB (Nat.blt y (nat_lit 26040))
-      (combChk D.rm (xPt Z x) (yPt W y) G)))
+      (combChk D.rm (Z x) (W y) G)))
     (Nat.shiftRight e (nat_lit 25)) (bitsN e (nat_lit 0) (nat_lit 25))
 
-@[expose] noncomputable def groupRun (Z W : List Nat) (x : Nat) (es : List Nat) : Nat → Nat :=
+@[expose] noncomputable def groupRun (Z W : Nat → Nat) (x : Nat) (es : List Nat) : Nat → Nat :=
   List.rec (motive := fun _ => Nat → Nat) (fun prev => prev)
     (fun e _ ih prev => (fun c => Bool.rec (motive := fun _ => Nat) (nat_lit 0) (ih c)
       (andB (Nat.blt prev c) (pairOK D Z W x e)))
       (Nat.succ (Nat.add (Nat.shiftRight e (nat_lit 25)) (Nat.mul (nat_lit 32768) x)))) es
 
-@[expose] noncomputable def groupsRun (Z W : List Nat) (gs : List (List Nat)) : Nat → Nat :=
+@[expose] noncomputable def groupsRun (Z W : Nat → Nat) (gs : List (List Nat)) : Nat → Nat :=
   List.rec (motive := fun _ => Nat → Nat) (fun prev => prev)
     (fun g _ ih prev => (fun r => Bool.rec (motive := fun _ => Nat) (nat_lit 0) (ih r) (Nat.blt (nat_lit 0) r))
       (groupRun D Z W (lget g 0) g.tail prev)) gs
 
-@[expose] noncomputable def batchesRun (Z W : List Nat) (bs : List (List (List Nat))) : Nat → Nat :=
+@[expose] noncomputable def batchesRun (Z W : Nat → Nat) (bs : List (List (List Nat))) : Nat → Nat :=
   List.rec (motive := fun _ => Nat → Nat) (fun prev => prev)
     (fun gs _ ih prev => (fun r => Bool.rec (motive := fun _ => Nat) (nat_lit 0) (ih r) (Nat.blt (nat_lit 0) r))
       (groupsRun D Z W gs prev)) bs
@@ -246,7 +301,10 @@ variable (D : DempData) (O : OrbData)
 
 @[expose] noncomputable def lowChk (i : Nat) : Bool :=
   (fun bs => andB (Nat.beq (pairsLen bs) (lget O.sb i))
-    (strictB (pt D O i) fun P => Nat.blt (nat_lit 0) (batchesRun D (xBat D P) (yBat D O P) bs (nat_lit 0))))
+    (strictB (pt D O i) fun P => Nat.blt (nat_lit 0) (Bool.rec (motive := fun _ => Nat)
+      (batchesRun D (xD D P) (yD D O P) bs (nat_lit 0))
+      (batchesRun D (xPt (xBat D P)) (yD D O P) bs (nat_lit 0))
+      (Nat.blt (nat_lit 1000) (lget O.sb i)))))
   (lgetL3 O.grp i)
 
 @[expose] noncomputable def gen (g : Nat) : Nat := D.RB (regAt D.rd g)

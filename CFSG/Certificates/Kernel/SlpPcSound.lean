@@ -30,7 +30,7 @@ abbrev M9 := Matrix (Fin 9) (Fin 9) (ZMod 5)
 @[expose] def psi (u : Fin 133 → ZMod 5) : Fin 9 → ZMod 5 := fun l => u (Fin.castLE (by norm_num) l)
 
 structure JFacts (MA MB : M133) (wr : List ℕ) (fus : List (List ℕ)) (ce : List (List (List ℕ)))
-    (R : ℕ → M133) (hs : Fin 6 → M133) (BW : Matrix (Fin 9) (Fin 133) (ZMod 5))
+    (lp : List (List (ℕ × ℕ))) (R : ℕ → M133) (hs : Fin 6 → M133) (BW : Matrix (Fin 9) (Fin 133) (ZMod 5))
     (HM : Fin 6 → M9) : Prop where
   reg : ∀ r, R r ∈ Submonoid.closure ({MA, MB} : Set M133)
   gen : ∀ i, hs i ∈ Submonoid.closure ({MA, MB} : Set M133)
@@ -43,20 +43,22 @@ structure JFacts (MA MB : M133) (wr : List ℕ) (fus : List (List ℕ)) (ce : Li
   ident : ∀ k l : Fin 9, BW k (Fin.castLE (by norm_num) l) = if k = l then 1 else 0
   fus : ∀ f ∈ fus, f.getD 7 0 < 5 ∧
     nfP hs (ex f) * R (f.getD 6 0) = R (f.getD 6 0) * R (wr.getD (f.getD 7 0) 0)
-  ent : ∀ k < 5, ∀ e ∈ ce.getD k [],
+  ent : ∀ k < 5, lp.getD k [] ≠ [] → ∀ e ∈ ce.getD k [],
     R (wr.getD k 0) * R (e.getD 6 0) = R (e.getD 6 0) * nfP hs (ex e) ∧
       ∀ z ∈ e.drop 7, R z * nfP hs (ex e) = nfP hs (ex e) * R z
-  seeds : ∀ k < 5,
+  seeds : ∀ k < 5, lp.getD k [] ≠ [] →
     MA ∈ Submonoid.closure (Set.range hs ∪ {X | ∃ z ∈ (ce.getD k []).flatMap (·.drop 7), X = R z}) ∧
     MB ∈ Submonoid.closure (Set.range hs ∪ {X | ∃ z ∈ (ce.getD k []).flatMap (·.drop 7), X = R z})
 
 structure WFacts (HM : Fin 6 → M9) (v0 : Fin 9 → ZMod 5) (D : (Fin 9 → ZMod 5) → ℕ)
-    (fus oth : List (List ℕ)) : Prop where
+    (fus oth pe : List (List ℕ)) : Prop where
   inj : ∀ a b : Fin 6 → ℕ, (∀ t, a t < 5) → (∀ t, b t < 5) →
     v0 ᵥ* nfP HM a = v0 ᵥ* nfP HM b → a = b
   othK : ∀ o ∈ oth, v0 ᵥ* nfP HM (ex o) ^ 5 ≠ v0
+  pow : ∀ p ∈ pe, v0 ᵥ* (nfP HM (ex (p.drop 8)) * nfP HM (ex p)) =
+    v0 ᵥ* (nfP HM (ex (fus.getD (p.getD 6 0) [])) ^ p.getD 7 0 * nfP HM (ex (p.drop 8)))
   tree : ∀ a : Fin 6 → ℕ, (∀ t, a t < 5) →
-    (D (v0 ᵥ* nfP HM a) = 0 → a = 0 ∨ ∃ c ∈ fus ++ oth, a = ex c) ∧
+    (D (v0 ᵥ* nfP HM a) = 0 → a = 0 ∨ ∃ c ∈ fus ++ oth ++ pe, a = ex c) ∧
     (D (v0 ᵥ* nfP HM a) ≠ 0 → ∃ j : Fin 6, j.val < 2 ∧
       D (v0 ᵥ* (HM j ^ 4 * nfP HM a * HM j)) + 1 = D (v0 ᵥ* nfP HM a))
 
@@ -196,7 +198,7 @@ theorem slw_kV {keyc : List ℕ} {x : ℕ} (hx : VCanon 5 9 13 x) :
     kV keyc (vOf 9 x) = key keyc x := by
   have h : ∃ y, VCanon 5 9 13 y ∧ vOf 9 y = vOf 9 x := ⟨x, hx, rfl⟩
   unfold kV
-  rw [dif_pos h, vec_inj (by norm_num) h.choose_spec.1 hx h.choose_spec.2]
+  rw [dite_eq_left h, vec_inj (by norm_num) h.choose_spec.1 hx h.choose_spec.2]
 
 abbrev VecOK (vec : ℕ → ℕ → ℕ) : Prop :=
   ∀ v M, VCanon 5 9 13 v → Canon 5 9 13 M →
@@ -272,6 +274,39 @@ theorem slw_othOK {vec : ℕ → ℕ → ℕ} (hvec : VecOK vec) {Ms : List ℕ}
       rw [h3, Nat.beq_refl] at h4
       exact Bool.noConfusion h4
     · exact slw_othOK hvec hc0 hMs oth h.2 o' ho'
+
+theorem slj_dropN : ∀ (n : ℕ) (l : List ℕ), dropN n l = l.drop n
+  | 0, _ => rfl
+  | n + 1, l => by
+    have e : dropN (n + 1) l = tl (dropN n l) := rfl
+    rw [e, slj_dropN n l, List.drop_add_one_eq_tail_drop]
+    cases l.drop n <;> rfl
+
+theorem slw_peOK {vec : ℕ → ℕ → ℕ} (hvec : VecOK vec) {Ms : List ℕ} {c0 : ℕ}
+    (hc0 : VCanon 5 9 13 c0) (hMs : ∀ M ∈ Ms, Canon 5 9 13 M) (fus : List (List ℕ)) :
+    ∀ pe : List (List ℕ), peOK vec Ms c0 fus pe = true → ∀ p ∈ pe,
+      (∀ t < 6, p.getD t 0 < 5) ∧ vOf 9 c0 ᵥ* (prodW Ms (p.drop 8) * prodW Ms p) =
+        vOf 9 c0 ᵥ* (prodW Ms (fus.getD (p.getD 6 0) []) ^ p.getD 7 0 * prodW Ms (p.drop 8))
+  | [], _, _, hp => absurd hp List.not_mem_nil
+  | p :: pe, h, p', hp' => by
+    have e : peOK vec Ms c0 fus (p :: pe) = andB (andB (ltUpTo p 5 6)
+        (Nat.beq (actW vec Ms p (actW vec Ms (dropN 8 p) c0))
+          (actW vec Ms (dropN 8 p) (itA vec Ms (nthD List.nil fus (nthD 0 p 6)) c0 (nthD 0 p 7)))))
+        (peOK vec Ms c0 fus pe) := rfl
+    rw [e, slw_and, slw_and] at h
+    rcases List.mem_cons.1 hp' with heq | hp'
+    · rw [heq]
+      refine ⟨slw_ltUpTo 6 h.1.1, ?_⟩
+      have h1 := Nat.eq_of_beq_eq_true h.1.2
+      obtain ⟨b1, b2⟩ := slw_actW hvec Ms (dropN 8 p) c0 hMs hc0
+      obtain ⟨l1, l2⟩ := slw_actW hvec Ms p _ hMs b1
+      obtain ⟨i1, i2⟩ := slw_itA hvec hMs hc0 (a := nthD List.nil fus (nthD 0 p 6)) (nthD 0 p 7)
+      obtain ⟨r1, r2⟩ := slw_actW hvec Ms (dropN 8 p) _ hMs i1
+      have h2 := congrArg (vOf 9) h1
+      rw [l2, b2, r2, i2] at h2
+      simp only [slw_nthD, slj_dropN, Matrix.vecMul_vecMul] at h2
+      exact h2
+    · exact slw_peOK hvec hc0 hMs fus pe h.2 p' hp'
 
 theorem slw_fus : ∀ fus : List (List ℕ), List.rec (motive := fun _ => Bool) true
     (fun f _ ih => andB (ltUpTo f 5 6) ih) fus = true → ∀ f ∈ fus, ∀ t < 6, f.getD t 0 < 5
@@ -599,13 +634,6 @@ theorem slj_lenN : ∀ l : List ℕ, lenN l = l.length
     rw [List.length_cons, ← slj_lenN l]
     rfl
 
-theorem slj_dropN : ∀ (n : ℕ) (l : List ℕ), dropN n l = l.drop n
-  | 0, _ => rfl
-  | n + 1, l => by
-    have e : dropN (n + 1) l = tl (dropN n l) := rfl
-    rw [e, slj_dropN n l, List.drop_add_one_eq_tail_drop]
-    cases l.drop n <;> rfl
-
 theorem slj_zsOf : ∀ es : List (List ℕ), zsOf es = es.flatMap (·.drop 7)
   | [] => rfl
   | e :: es => by
@@ -905,8 +933,9 @@ theorem slj_fusOK {mul : ℕ → ℕ → ℕ} {ONE : ℕ} {R : ℕ → ℕ} {pw 
 theorem slj_clsOK {mul : ℕ → ℕ → ℕ} {ONE A B : ℕ} {R : ℕ → ℕ} {pw : List (List ℕ)}
     {hs wr : List ℕ} {lp : List (List (ℕ × ℕ))} {lab : List (List ℕ)} :
     ∀ (ce : List (List (List ℕ))) (k : ℕ), clsOK mul ONE A B R pw hs wr lp lab ce k = true →
-      ce.length + k = 5 ∧ ∀ m < ce.length, clK mul ONE A B R pw hs (R (wr.getD (k + m) 0))
-        (ce.getD m []) (lp.getD (k + m) []) (lab.getD (k + m) []) = true
+      ce.length + k = 5 ∧ ∀ m < ce.length, lp.getD (k + m) [] ≠ [] →
+        clK mul ONE A B R pw hs (R (wr.getD (k + m) 0))
+          (ce.getD m []) (lp.getD (k + m) []) (lab.getD (k + m) []) = true
   | [], k, h => by
     have e : clsOK mul ONE A B R pw hs wr lp lab [] k = Nat.beq k 5 := rfl
     rw [e] at h
@@ -915,7 +944,8 @@ theorem slj_clsOK {mul : ℕ → ℕ → ℕ} {ONE A B : ℕ} {R : ℕ → ℕ} 
     exact Nat.eq_of_beq_eq_true h
   | es :: ce, k, h => by
     have e : clsOK mul ONE A B R pw hs wr lp lab (es :: ce) k = andB (sB (R (nthD 0 wr k))
-        fun X => clK mul ONE A B R pw hs X es (nthD [] lp k) (nthD [] lab k))
+        fun X => List.rec (motive := fun _ => Bool) true
+          (fun _ _ _ => clK mul ONE A B R pw hs X es (nthD [] lp k) (nthD [] lab k)) (nthD [] lp k))
         (clsOK mul ONE A B R pw hs wr lp lab ce (Nat.succ k)) := rfl
     rw [e] at h
     simp only [slw_and, slw_sB, slw_nthD] at h
@@ -924,7 +954,11 @@ theorem slj_clsOK {mul : ℕ → ℕ → ℕ} {ONE A B : ℕ} {R : ℕ → ℕ} 
     cases m with
     | zero =>
       simp only [Nat.add_zero, List.getD_cons_zero]
-      exact h.1
+      have h0 := h.1
+      generalize lp.getD k [] = L at h0 ⊢
+      cases L with
+      | nil => exact fun hne => absurd rfl hne
+      | cons x l => exact fun _ => h0
     | succ m =>
       have h3 := h2 m (by simpa using hm)
       have e2 : k + (m + 1) = k + 1 + m := by omega
@@ -1131,7 +1165,7 @@ theorem chkJCl_sound {L H CM RM ONE LV HV L9 H9 CM9 RM9 ONE9 LV9 HV9 A B : Nat}
     (hr0 : rel.getD 0 [] = [0, 0, 0, 0, 0, 0, 0, 0]) (hr6 : rel.getD 6 [] = [1, 1, 0, 0, 0, 0, 0, 0])
     (h : chkJCl (mulR 5 13 1729 133 9 L H CM RM) (vecR 5 13 1729 133 9 LV HV RM) A B ONE L LV HV RM
       L9 H9 prg px wg wr hw rel fus bw hwm ce lp lab = true) :
-    ∃ R hs BW, JFacts (ordMat 5 133 13 1729 A) (ordMat 5 133 13 1729 B) wr fus ce R hs BW
+    ∃ R hs BW, JFacts (ordMat 5 133 13 1729 A) (ordMat 5 133 13 1729 B) wr fus ce lp R hs BW
       (fun i => ordMat 5 9 13 117 (hwm.getD i.val 0)) := by
   set M := mulR 5 13 1729 133 9 L H CM RM with hM
   set OM := ordMat 5 133 13 1729 with hOM
@@ -1257,8 +1291,9 @@ theorem chkJCl_sound {L H CM RM ONE LV HV L9 H9 CM9 RM9 ONE9 LV9 HV9 A B : Nat}
     ⟨lane 13 bw, pk_lane (w := 13) (n := 133 * 9) (by norm_num) hbw1, hbw2⟩
   rw [hbeq] at hbw hinv
   obtain ⟨hcl5, hcl⟩ := slj_clsOK ce 0 hcls
-  have hclass : ∀ k < 5, clK M ONE A B (lk ONE bl cur n) (hsL.map (sljPw M ONE)) hsL
-      (lk ONE bl cur n (wr.getD k 0)) (ce.getD k []) (lp.getD k []) (lab.getD k []) = true := by
+  have hclass : ∀ k < 5, lp.getD k [] ≠ [] → clK M ONE A B (lk ONE bl cur n)
+      (hsL.map (sljPw M ONE)) hsL (lk ONE bl cur n (wr.getD k 0)) (ce.getD k []) (lp.getD k [])
+        (lab.getD k []) = true := by
     intro k hk
     have h' := hcl k (by omega)
     rwa [Nat.zero_add] at h'
@@ -1278,7 +1313,6 @@ theorem chkJCl_sound {L H CM RM ONE LV HV L9 H9 CM9 RM9 ONE9 LV9 HV9 A B : Nat}
     obtain ⟨he5, he0, -, hconj⟩ := slj_relOK hr
     refine ⟨ex (tl (tl r)), fun t ht => he0 t.val (by have := Fin.le_def.1 ht; omega), ?_⟩
     have e := hconj (by omega)
-    beta_reduce
     rw [← (hnf _ he5).2, ← (hmulC _ _ (hsPi j).1 (hsPi i).1).2,
       ← (hmulC _ _ (hsPi i).1 (hnf _ he5).1.1).2, e]
   ·
@@ -1350,24 +1384,22 @@ theorem chkJCl_sound {L H CM RM ONE LV HV L9 H9 CM9 RM9 ONE9 LV9 HV9 A B : Nat}
     obtain ⟨hf5, hf7, hfe⟩ := slj_fusOK fus hfus f hf
     refine ⟨hf7, ?_⟩
     have hy := hnf f hf5
-    beta_reduce
     rw [← hy.2, ← (hmulC _ _ hy.1.1 (hPl _).1).2, hfe, (hmulC _ _ (hPl _).1 (hPl _).1).2]
   ·
-    intro k hk e he
-    have h' := hclass k hk
+    intro k hk hne e he
+    have h' := hclass k hk hne
     unfold clK at h'
     rw [slw_and] at h'
     obtain ⟨he5, h1, h2⟩ := slj_entOK (slj_ents _ h'.1 e he)
     have hy := hnf e he5
-    beta_reduce
     rw [← hy.2]
     refine ⟨?_, fun z hz' => ?_⟩
     · rw [← (hmulC _ _ (hPl _).1 (hPl _).1).2, ← (hmulC _ _ (hPl _).1 hy.1.1).2, h1]
     · rw [← (hmulC _ _ (hPl _).1 hy.1.1).2, ← (hmulC _ _ hy.1.1 (hPl _).1).2,
         slj_commOK _ h2 z hz']
   ·
-    intro k hk
-    have h' := hclass k hk
+    intro k hk hne
+    have h' := hclass k hk hne
     unfold clK at h'
     simp only [slw_and, slj_mapS, slj_revOnto, slj_zsOf, slj_lenN] at h'
     obtain ⟨-, hlp⟩ := h'
@@ -1399,13 +1431,13 @@ theorem chkJCl_sound {L H CM RM ONE LV HV L9 H9 CM9 RM9 ONE9 LV9 HV9 A B : Nat}
     exact ⟨hA2, hB2⟩
 
 theorem chkW_sound {L9 H9 CM9 RM9 ONE9 LV9 HV9 : Nat} {hwm : List Nat} {c0 : Nat}
-    {keyc : List Nat} {dep jb : Nat} {fus oth : List (List Nat)}
-    (h : chkW (vecR 5 13 117 9 9 LV9 HV9 RM9) L9 H9 CM9 RM9 ONE9 LV9 HV9 hwm c0 keyc dep jb fus oth =
-      true) :
-    ∃ D, WFacts (fun i => ordMat 5 9 13 117 (hwm.getD i.val 0)) (vOf 9 c0) D fus oth := by
+    {keyc : List Nat} {dep jb : Nat} {fus oth pe : List (List Nat)}
+    (h : chkW (vecR 5 13 117 9 9 LV9 HV9 RM9) L9 H9 CM9 RM9 ONE9 LV9 HV9 hwm c0 keyc dep jb fus oth
+      pe = true) :
+    ∃ D, WFacts (fun i => ordMat 5 9 13 117 (hwm.getD i.val 0)) (vOf 9 c0) D fus oth pe := by
   unfold chkW at h
   simp only [slw_and, slw_sB] at h
-  obtain ⟨hc9, hW, hc0, hfus, hoth, hnest⟩ := h
+  obtain ⟨hc9, hW, hc0, hfus, hoth, hpe, hnest⟩ := h
   have hvec : VecOK (vecR 5 13 117 9 9 LV9 HV9 RM9) := fun v M hv hM =>
     CFSG.KC.LQT.SecS.vecR_sound hc9 hv hM
   unfold hwmOK at hW
@@ -1414,6 +1446,7 @@ theorem chkW_sound {L9 H9 CM9 RM9 ONE9 LV9 HV9 : Nat} {hwm : List Nat} {c0 : Nat
   have hc0' : CFSG.KC.LQT.SecS.VCanon 5 9 13 c0 := CFSG.KS.J4Hub.validV_canon hc9 hc0
   have hfus' := slw_fus fus hfus
   have hoth' := slw_othOK hvec hc0' hCan oth hoth
+  have hpe' := slw_peOK hvec hc0' hCan fus pe hpe
   have hlen : hwm.length = 6 := Nat.eq_of_beq_eq_true hW.1
   obtain ⟨h0, h1, h2, h3, h4, h5, rfl⟩ :
       ∃ h0 h1 h2 h3 h4 h5 : ℕ, hwm = [h0, h1, h2, h3, h4, h5] := by
@@ -1442,7 +1475,7 @@ theorem chkW_sound {L9 H9 CM9 RM9 ONE9 LV9 HV9 : Nat} {hwm : List Nat} {c0 : Nat
     ⟨hc0', hc1.1, hc2.1, (Matrix.vecMul_one _).symm, (Matrix.vecMul_one _).symm,
       (Matrix.vecMul_one _).symm⟩
   obtain ⟨hLf, -⟩ := slw_nest hvec (slw_leaf hvec hMs (keyc := keyc) (dep := dep) (jb := jb)
-    (msk := maskOf oth (maskOf fus 0)) (b0 := vOf 9 c0) (b1 := vOf 9 c1) (b2 := vOf 9 c2)
+    (msk := maskOf pe (maskOf oth (maskOf fus 0))) (b0 := vOf 9 c0) (b1 := vOf 9 c1) (b2 := vOf 9 c2)
     (Ok := wTall [h0, h1, h2, h3, h4, h5]) (fun _ _ _ h h' => slw_tall_fun h h'))
     [h0, h1, h2, h3, h4, h5] hCan c0 c1 c2 0 0 _ 1 hR
     (fun X i hT => by
@@ -1450,14 +1483,14 @@ theorem chkW_sound {L9 H9 CM9 RM9 ONE9 LV9 HV9 : Nat} {hwm : List Nat} {c0 : Nat
       exact slw_tall6 hT)
     (fun X i _ hi => absurd hi (Nat.not_lt_zero _)) hnest
   have hA : ∀ a : Fin 6 → ℕ, (∀ t, a t < 5) →
-      wLf [h0, h1, h2, h3, h4, h5] keyc dep jb (maskOf oth (maskOf fus 0)) (vOf 9 c0)
+      wLf [h0, h1, h2, h3, h4, h5] keyc dep jb (maskOf pe (maskOf oth (maskOf fus 0))) (vOf 9 c0)
         (vOf 9 c1) (vOf 9 c2) (wTall [h0, h1, h2, h3, h4, h5])
         (nfP (fun t => ordMat 5 9 13 117 ([h0, h1, h2, h3, h4, h5].getD t.val 0)) a)
         (cd5 a) := by
     intro a ha
     have h' := hLf _ _ (slw_nT6 h0 h1 h2 h3 h4 h5 a ha)
     rwa [one_mul, Nat.zero_add] at h'
-  refine ⟨fun v => bitsN dep (Nat.mul 4 (kV keyc v)) 4, ⟨?_, ?_, ?_⟩⟩
+  refine ⟨fun v => bitsN dep (Nat.mul 4 (kV keyc v)) 4, ⟨?_, ?_, ?_, ?_⟩⟩
   ·
     intro a b ha hb hab
     by_contra hne
@@ -1478,19 +1511,28 @@ theorem chkW_sound {L9 H9 CM9 RM9 ONE9 LV9 HV9 : Nat} {hwm : List Nat} {c0 : Nat
     have hne := (hoth' o ho).2
     rwa [slw_prodW6] at hne
   ·
+    intro p hp
+    have hv := (hpe' p hp).2
+    simp only [slw_prodW6] at hv
+    exact hv
+  ·
     intro a ha
     obtain ⟨mask, -, -, hz, hnz⟩ := hA a ha
     refine ⟨fun hd0 => ?_, fun hd0 => ?_⟩
     · rcases hz hd0 with hm | hm
       · exact Or.inl (slw_cd5_zero hm)
       · right
-        rcases slw_maskOf oth _ _ hm with hm' | ⟨c, hc, hce⟩
-        · rcases slw_maskOf fus 0 _ hm' with hm'' | ⟨c, hc, hce⟩
-          · exfalso
-            rw [slw_bitsN, Nat.zero_div, Nat.zero_mod] at hm''
-            exact absurd hm'' (by norm_num)
-          · exact ⟨c, List.mem_append_left _ hc, slw_ex_of_code ha (hfus' c hc) hce⟩
-        · exact ⟨c, List.mem_append_right _ hc, slw_ex_of_code ha (hoth' c hc).1 hce⟩
+        rcases slw_maskOf pe _ _ hm with hm0 | ⟨c, hc, hce⟩
+        · rcases slw_maskOf oth _ _ hm0 with hm' | ⟨c, hc, hce⟩
+          · rcases slw_maskOf fus 0 _ hm' with hm'' | ⟨c, hc, hce⟩
+            · exfalso
+              rw [slw_bitsN, Nat.zero_div, Nat.zero_mod] at hm''
+              exact absurd hm'' (by norm_num)
+            · exact ⟨c, List.mem_append_left _ (List.mem_append_left _ hc),
+                slw_ex_of_code ha (hfus' c hc) hce⟩
+          · exact ⟨c, List.mem_append_left _ (List.mem_append_right _ hc),
+              slw_ex_of_code ha (hoth' c hc).1 hce⟩
+        · exact ⟨c, List.mem_append_right _ hc, slw_ex_of_code ha (hpe' c hc).1 hce⟩
     · rcases hnz hd0 with ⟨-, hd⟩ | ⟨-, hd⟩
       · refine ⟨0, by decide, ?_⟩
         have heq : vOf 9 c1 ᵥ*
@@ -1548,7 +1590,7 @@ theorem psi_vecMul (hid : ∀ k l : Fin 9, BW k (Fin.castLE (by norm_num) l) = i
     (u : Fin 9 → ZMod 5) : psi (u ᵥ* BW) = u := by
   funext l
   simp only [psi, Matrix.vecMul, dotProduct, hid, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem psi_inter (hid : ∀ k l : Fin 9, BW k (Fin.castLE (by norm_num) l) = if k = l then 1 else 0)
     {X : M133} {X' : M9} (hX : BW * X = X' * BW) (v0 : Fin 9 → ZMod 5) :
@@ -1658,16 +1700,45 @@ theorem pc_card [Finite G]
 
 end Group
 
+theorem peLink_sound {fus pe : List (List ℕ)} {lp : List (List (ℕ × ℕ))}
+    (h : peLinkOK fus pe lp = true) :
+    (∀ p ∈ pe, p.getD 6 0 < fus.length ∧ p.getD 14 0 < pe.length ∧ p.getD 15 0 < fus.length ∧
+      ex (pe.getD (p.getD 14 0) []) = ex (fus.getD (p.getD 15 0) []) ∧
+      (fus.getD ((pe.getD (p.getD 14 0) []).getD 6 0) []).getD 7 0 =
+        (fus.getD (p.getD 6 0) []).getD 7 0 ∧
+      (pe.getD (p.getD 14 0) []).getD 7 0 = p.getD 7 0) ∧
+    ∀ k < 5, lp.getD k [] = [] → ∃ p ∈ pe, (fus.getD (p.getD 15 0) []).getD 7 0 = k ∧
+      (fus.getD (p.getD 6 0) []).getD 7 0 < 5 ∧ lp.getD ((fus.getD (p.getD 6 0) []).getD 7 0) [] ≠ []
+    := by
+  have hne : ∀ l : List (ℕ × ℕ), (!l.isEmpty) = true ↔ l ≠ [] := fun l => by
+    cases l <;> simp
+  have hb : ∀ x y : ℕ, Nat.beq x y = true ↔ x = y := fun x y =>
+    ⟨Nat.eq_of_beq_eq_true, by rintro rfl; exact Nat.beq_refl x⟩
+  unfold peLinkOK fusT at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true, Nat.blt_eq, hb,
+    Bool.or_eq_true, hne, List.mem_range] at h
+  refine ⟨fun p hp => ?_, fun k hk hl => ?_⟩
+  · obtain ⟨⟨⟨⟨⟨h6, h14⟩, h15⟩, hex⟩, ht⟩, hk⟩ := h.1 p hp
+    refine ⟨h6, h14, h15, ?_, ht, hk⟩
+    funext t
+    exact hex t.val t.isLt
+  · rcases h.2 k hk with h1 | h1
+    · exact absurd hl h1
+    · obtain ⟨p, hp, ⟨h3, h0⟩, h4⟩ := h1
+      exact ⟨p, hp, h3, h0, h4⟩
+
 section Classes
 
 variable {G : Type} [Group G] [Finite G] (ρ : G →* M133) (hρ : Function.Injective ρ)
 include hρ
 
 theorem classes_of_facts (a b : G) {m : ℕ} (hG : Nat.card G = 5 ^ 6 * m) (hm : ¬ 5 ∣ m)
-    {wr : List ℕ} {fus oth : List (List ℕ)} {ce : List (List (List ℕ))} {R : ℕ → M133}
+    {wr : List ℕ} {fus oth pe : List (List ℕ)} {ce : List (List (List ℕ))}
+    {lp : List (List (ℕ × ℕ))} {R : ℕ → M133}
     {hs : Fin 6 → M133} {BW : Matrix (Fin 9) (Fin 133) (ZMod 5)} {HM : Fin 6 → M9}
     {v0 : Fin 9 → ZMod 5} {D : (Fin 9 → ZMod 5) → ℕ}
-    (hJ : JFacts (ρ a) (ρ b) wr fus ce R hs BW HM) (hW : WFacts HM v0 D fus oth) :
+    (hJ : JFacts (ρ a) (ρ b) wr fus ce lp R hs BW HM) (hW : WFacts HM v0 D fus oth pe)
+    (hl : peLinkOK fus pe lp = true) :
     ∃ (S₀ : Subgroup G) (X : ℕ → G), IsPGroup 5 S₀ ∧
       (∀ s : G, orderOf s = 5 → ∃ k < 5, IsConj (X k) s) ∧
       ∀ k < 5, ∃ Z : Set G, (∀ z ∈ Z, ∃ h y : G, y ∈ S₀ ∧ h⁻¹ * X k * h = y ∧ z * y = y * z) ∧
@@ -1722,7 +1793,7 @@ theorem classes_of_facts (a b : G) {m : ℕ} (hG : Nat.card G = 5 ^ 6 * m) (hm :
     rcases hj' with rfl | rfl
     · exact hJ.pow0
     · exact hJ.pow1
-  let Good : G → Prop := fun x => x = 1 ∨ ∃ c ∈ fus ++ oth, IsConj (nfP g (ex c)) x
+  let Good : G → Prop := fun x => x = 1 ∨ ∃ c ∈ fus ++ oth ++ pe, IsConj (nfP g (ex c)) x
   have tree : ∀ n, ∀ e : Fin 6 → ℕ, (∀ t, e t < 5) → D (v0 ᵥ* nfP HM e) = n → Good (nfP g e) := by
     intro n
     induction n using Nat.strong_induction_on with
@@ -1757,6 +1828,61 @@ theorem classes_of_facts (a b : G) {m : ℕ} (hG : Nat.card G = 5 ^ 6 * m) (hm :
           exact isConj_one_left.mp hxc
         · exact Or.inr ⟨c, hc, hcc.trans hxc.symm⟩
   let X : ℕ → G := fun k => rr (wr.getD k 0)
+  have hfusC : ∀ f ∈ fus, f.getD 7 0 < 5 ∧ IsConj (X (f.getD 7 0)) (nfP g (ex f)) := by
+    intro f hf
+    obtain ⟨ht, hfe⟩ := hJ.fus f hf
+    refine ⟨ht, ?_⟩
+    rw [isConj_iff]
+    refine ⟨rr (f.getD 6 0), ?_⟩
+    have hgm : nfP g (ex f) * rr (f.getD 6 0) = rr (f.getD 6 0) * X (f.getD 7 0) :=
+      hρ (by rw [map_mul, map_mul, nfρ, hrr, hrr, hfe])
+    rw [← hgm, mul_inv_cancel_right]
+  have hpeC : ∀ p ∈ pe, p.getD 6 0 < fus.length →
+      IsConj (X ((fus.getD (p.getD 6 0) []).getD 7 0) ^ p.getD 7 0) (nfP g (ex p)) := by
+    intro p hp hr
+    have hfr : fus.getD (p.getD 6 0) [] ∈ fus := by
+      rw [List.getD_eq_getElem _ _ hr]
+      exact List.getElem_mem _
+    obtain ⟨-, hC⟩ := hfusC _ hfr
+    have hBA : nfP g (ex (p.drop 8)) * nfP g (ex p) =
+        nfP g (ex (fus.getD (p.getD 6 0) [])) ^ p.getD 7 0 * nfP g (ex (p.drop 8)) := by
+      obtain ⟨e1, he1, h1⟩ := hsurj (nfP g (ex (p.drop 8)) * nfP g (ex p))
+        (P.mul_mem (nfP_mem g _) (nfP_mem g _))
+      obtain ⟨e2, he2, h2⟩ := hsurj
+        (nfP g (ex (fus.getD (p.getD 6 0) [])) ^ p.getD 7 0 * nfP g (ex (p.drop 8)))
+        (P.mul_mem (P.pow_mem (nfP_mem g _) _) (nfP_mem g _))
+      have hv1 : v0 ᵥ* nfP HM e1 = v0 ᵥ* (nfP HM (ex (p.drop 8)) * nfP HM (ex p)) := by
+        rw [← hvec e1, ← h1, map_mul, nfρ, nfρ]
+        exact psi_inter hJ.ident (inter_mul (inter_nfP hJ.inter _) (inter_nfP hJ.inter _)) v0
+      have hv2 : v0 ᵥ* nfP HM e2 = v0 ᵥ* (nfP HM (ex (fus.getD (p.getD 6 0) [])) ^ p.getD 7 0 *
+          nfP HM (ex (p.drop 8))) := by
+        rw [← hvec e2, ← h2, map_mul, map_pow, nfρ, nfρ]
+        exact psi_inter hJ.ident (inter_mul (inter_pow (inter_nfP hJ.inter _) _)
+          (inter_nfP hJ.inter _)) v0
+      rw [h1, h2, hW.inj e1 e2 he1 he2 (by rw [hv1, hv2]; exact hW.pow p hp)]
+    have hA : IsConj (nfP g (ex (fus.getD (p.getD 6 0) [])) ^ p.getD 7 0) (nfP g (ex p)) := by
+      rw [isConj_iff]
+      exact ⟨(nfP g (ex (p.drop 8)))⁻¹, by
+        rw [inv_inv, mul_assoc, ← hBA, ← mul_assoc, inv_mul_cancel, one_mul]⟩
+    obtain ⟨d, hd⟩ := isConj_iff.mp hC
+    refine IsConj.trans ?_ hA
+    rw [isConj_iff]
+    exact ⟨d, by rw [← hd, conj_pow]⟩
+  have hB : ∀ p ∈ pe, (fus.getD (p.getD 15 0) []).getD 7 0 < 5 ∧
+      IsConj (X ((fus.getD (p.getD 15 0) []).getD 7 0))
+        (X ((fus.getD (p.getD 6 0) []).getD 7 0) ^ p.getD 7 0) := by
+    intro p hp
+    obtain ⟨-, hw, hj, hex, ht, hk⟩ := (peLink_sound hl).1 p hp
+    have hq : pe.getD (p.getD 14 0) [] ∈ pe := by
+      rw [List.getD_eq_getElem _ _ hw]
+      exact List.getElem_mem _
+    have hfj : fus.getD (p.getD 15 0) [] ∈ fus := by
+      rw [List.getD_eq_getElem _ _ hj]
+      exact List.getElem_mem _
+    have h1 := hpeC _ hq ((peLink_sound hl).1 _ hq).1
+    rw [ht, hk, hex] at h1
+    obtain ⟨h5, hC⟩ := hfusC _ hfj
+    exact ⟨h5, hC.trans h1.symm⟩
   refine ⟨P, X, hpg, ?_, ?_⟩
   · intro s hs
     obtain ⟨c, hc⟩ := exists_conj_into_range Nat.prime_five P.subtype P.subtype_injective hcardP hG
@@ -1774,13 +1900,11 @@ theorem classes_of_facts (a b : G) {m : ℕ} (hG : Nat.card G = 5 ^ 6 * m) (hm :
       omega
     · have hfs := hfc.trans hxs
       rcases List.mem_append.mp hf with hf | hf
-      · obtain ⟨ht, hfe⟩ := hJ.fus f hf
-        refine ⟨f.getD 7 0, ht, IsConj.trans ?_ hfs⟩
-        rw [isConj_iff]
-        refine ⟨rr (f.getD 6 0), ?_⟩
-        have hgm : nfP g (ex f) * rr (f.getD 6 0) = rr (f.getD 6 0) * X (f.getD 7 0) :=
-          hρ (by rw [map_mul, map_mul, nfρ, hrr, hrr, hfe])
-        rw [← hgm, mul_inv_cancel_right]
+      rcases List.mem_append.mp hf with hf | hf
+      · exact ⟨f.getD 7 0, (hfusC f hf).1, (hfusC f hf).2.trans hfs⟩
+      swap
+      · obtain ⟨h5, hT⟩ := hB f hf
+        exact ⟨_, h5, (hT.trans (hpeC f hf ((peLink_sound hl).1 f hf).1)).trans hfs⟩
       · exfalso
         obtain ⟨d, hd⟩ := isConj_iff.mp hfs
         have h5 : nfP g (ex f) ^ 5 = 1 := by
@@ -1792,23 +1916,41 @@ theorem classes_of_facts (a b : G) {m : ℕ} (hG : Nat.card G = 5 ^ 6 * m) (hm :
         rw [← psi_inter hJ.ident (inter_pow (inter_nfP hJ.inter (ex f)) 5) v0, ← nfρ, ← map_pow,
           h5, map_one, Matrix.vecMul_one, psi_vecMul hJ.ident]
   · intro k hk
-    let Zs : List ℕ := (ce.getD k []).flatMap (·.drop 7)
+    obtain ⟨j, hj, hne, c, n, hc⟩ : ∃ j < 5, lp.getD j [] ≠ [] ∧
+        ∃ (c : G) (n : ℕ), X j ^ n * c = c * X k := by
+      by_cases hk' : lp.getD k [] = []
+      · obtain ⟨p, hp, h3, h0, hne⟩ := (peLink_sound hl).2 k hk hk'
+        obtain ⟨c, hc⟩ := isConj_iff.mp (hB p hp).2
+        refine ⟨_, h0, hne, c, p.getD 7 0, ?_⟩
+        rw [← h3, ← hc, inv_mul_cancel_right]
+      · exact ⟨k, hk, hk', 1, 1, by rw [pow_one, mul_one, one_mul]⟩
+    have hXk : X k = c⁻¹ * X j ^ n * c := by
+      rw [mul_assoc, hc, ← mul_assoc, inv_mul_cancel, one_mul]
+    let Zs : List ℕ := (ce.getD j []).flatMap (·.drop 7)
     refine ⟨{u | ∃ z ∈ Zs, u = rr z}, ?_, ?_⟩
     · rintro u ⟨z, hz, rfl⟩
       obtain ⟨e, he, hze⟩ := List.mem_flatMap.mp hz
-      obtain ⟨h1, h2⟩ := hJ.ent k hk e he
-      refine ⟨rr (e.getD 6 0), nfP g (ex e), nfP_mem g _, ?_, ?_⟩
-      · have hgm : X k * rr (e.getD 6 0) = rr (e.getD 6 0) * nfP g (ex e) :=
-          hρ (by rw [map_mul, map_mul, nfρ, hrr, hrr, h1])
+      obtain ⟨h1, h2⟩ := hJ.ent j hj hne e he
+      have hz' : rr z * nfP g (ex e) = nfP g (ex e) * rr z :=
+        hρ (by rw [map_mul, map_mul, nfρ, hrr, h2 z hze])
+      refine ⟨c⁻¹ * rr (e.getD 6 0), nfP g (ex e) ^ n, P.pow_mem (nfP_mem g _) n, ?_,
+        (Commute.pow_right hz' n).eq⟩
+      have hgm : X j * rr (e.getD 6 0) = rr (e.getD 6 0) * nfP g (ex e) :=
+        hρ (by rw [map_mul, map_mul, nfρ, hrr, hrr, h1])
+      have hy : (rr (e.getD 6 0))⁻¹ * X j * rr (e.getD 6 0) = nfP g (ex e) := by
         rw [mul_assoc, hgm, ← mul_assoc, inv_mul_cancel, one_mul]
-      · exact hρ (by rw [map_mul, map_mul, nfρ, hrr, h2 z hze])
+      have hpw : ((rr (e.getD 6 0))⁻¹ * X j * rr (e.getD 6 0)) ^ n =
+          (rr (e.getD 6 0))⁻¹ * X j ^ n * rr (e.getD 6 0) := by
+        simpa using conj_pow (a := (rr (e.getD 6 0))⁻¹) (b := X j) (i := n)
+      rw [← hy, hpw, hXk]
+      group
     · have hS : ∀ Y ∈ Set.range hs ∪ {X | ∃ z ∈ Zs, X = R z},
           ∃ t ∈ Subgroup.closure ((P : Set G) ∪ {u | ∃ z ∈ Zs, u = rr z}), ρ t = Y := by
         rintro Y (⟨i, rfl⟩ | ⟨z, hz, rfl⟩)
         · exact ⟨g i, Subgroup.subset_closure (Or.inl (gen_mem g i)), hg i⟩
         · exact ⟨rr z, Subgroup.subset_closure (Or.inr ⟨z, hz, rfl⟩), hrr z⟩
-      exact ⟨mem_of_mclosure ρ hρ _ hS (hJ.seeds k hk).1,
-        mem_of_mclosure ρ hρ _ hS (hJ.seeds k hk).2⟩
+      exact ⟨mem_of_mclosure ρ hρ _ hS (hJ.seeds j hj hne).1,
+        mem_of_mclosure ρ hρ _ hS (hJ.seeds j hj hne).2⟩
 
 end Classes
 

@@ -173,7 +173,7 @@ private theorem kOrb_facts :
 private theorem kComm_len : (kOrb.mats.toList.filter fun M =>
     eqRows (mulRows M (x0GenRows[0]!)) (mulRows (x0GenRows[0]!) M)).length = 40 := by
   have h := chkKComm_true
-  unfold chkKComm at h
+  rw [chkKComm_def] at h
   simpa using h
 
 end CFSG.Sporadic.J4.QT2

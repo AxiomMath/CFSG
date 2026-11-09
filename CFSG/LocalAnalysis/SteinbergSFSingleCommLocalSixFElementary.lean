@@ -27,13 +27,9 @@ local notation "𝐍[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootA K i) 
 local notation "𝐌[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) :
   Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -46,8 +42,7 @@ set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 local notation "𝐉" => pull φ (diagTorus K)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
@@ -57,24 +52,22 @@ set_option quotPrecheck false in
 local notation "𝐋[" i "]" => (𝐅 ⊔ 𝐀[i] : Subgroup G)
 local notation "𝐰[" i "]" => ((φ.symm (weylElt K i) : L) : G)
 set_option quotPrecheck false in
-local notation "𝐅ʷ[" i "]" => (𝐅.map (MulAut.conj 𝐰[i]⁻¹).toMonoidHom : Subgroup G)
+local notation "𝐅ʷ[" i "]" => SixG.sgFw φ t i
 set_option quotPrecheck false in
 local notation "𝐗[" i "]" => (𝐅 ⊔ 𝐅ʷ[i] : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐃𝐧[" i "]" => normalizer ((𝐃[i] : Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 set_option quotPrecheck false in
 local notation "𝐄𝐧[" i "]" => (normalizer ((𝐄[i] : Subgroup G) : Set G) ⊓
   normalizer ((𝐊[i] : Subgroup G) : Set G) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₂[" i "]" => (CFSG.pCore 2 𝐄𝐧[i]).map 𝐄𝐧[i].subtype
+local notation "𝐏₂[" i "]" => SixG.sgP₂ φ t i
 set_option quotPrecheck false in
 local notation "𝐏₀[" i "]" => (𝐏₁[i] ⊓ 𝐏₂[Axis.swap i] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐌₀[" i "]" => closure {x : G | ∃ p ∈ 𝐏₀[i], ∃ j ∈ pull φ (diagTorus K),
-  x = p⁻¹ * (j⁻¹ * p * j)}
+local notation "𝐌₀[" i "]" => SixG.sgM₀ φ t i
 set_option quotPrecheck false in
 local notation "𝐕[" i "," k "]" => (𝐌₀[i] ⊓ centralizer (𝐉[k] : Set G) : Subgroup G)
 set_option quotPrecheck false in
@@ -244,19 +237,12 @@ theorem P₂_le_normalizer_E (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i]
 theorem Mhat_mul_E_swap (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) :
     ((𝐌₀[i] ⊔ 𝐌ʷ[i, i.swap] : Subgroup G) : Set G) * ((𝐄[i.swap] : Subgroup G) : Set G) =
-      ((𝐏₂[i.swap] : Subgroup G) : Set G) := by
-  have hle := (Mhat_le_P₂ h i).trans (P₂_le_normalizer_E h i hne hbot)
-  rw [← coe_mul_of_left_le_normalizer_right _ _ hle]
-  have h1 := CFSG.RankThree.PartOne.K1214.card_sup_mul_card_inf_of_le_normalizer
-    (A := 𝐄[i.swap]) (B := 𝐌₀[i] ⊔ 𝐌ʷ[i, i.swap]) hle
-  rw [sup_comm 𝐄[i.swap] (𝐌₀[i] ⊔ 𝐌ʷ[i, i.swap]), inf_comm 𝐄[i.swap] (𝐌₀[i] ⊔ 𝐌ʷ[i, i.swap]),
-    Mhat_inf_E_swap h i hne hbot, card_E h i.swap, card_Mhat_swap h i hne hbot,
-    card_X h i.swap] at h1
-  have h2 : Nat.card (𝐌₀[i] ⊔ 𝐌ʷ[i, i.swap] ⊔ 𝐄[i.swap] : Subgroup G) = 2 * Nat.card K ^ 8 := by
-    have hq : 0 < Nat.card K ^ 6 := pow_pos Nat.card_pos 6
-    exact Nat.eq_of_mul_eq_mul_right hq (by rw [h1]; ring)
-  rw [eq_of_le_of_card_ge (sup_le (Mhat_le_P₂ h i) (E_le_P₂ h i hne hbot))
-    (by rw [h2, card_P₂ h i hne hbot])]
+      ((𝐏₂[i.swap] : Subgroup G) : Set G) :=
+  coe_mul_eq_of_card_le ((Mhat_le_P₂ h i).trans (P₂_le_normalizer_E h i hne hbot))
+    (Mhat_le_P₂ h i) (E_le_P₂ h i hne hbot) (by
+      rw [Mhat_inf_E_swap h i hne hbot, card_P₂ h i hne hbot, card_X h i.swap,
+        card_Mhat_swap h i hne hbot, card_E h i.swap]
+      exact le_of_eq (by ring))
 
 omit [Finite G] [Finite K] in
 theorem conj_mem_Mw (i k : Axis) {g : G} (hg : 𝐰[k] * g * 𝐰[k]⁻¹ ∈ normalizer (𝐌₀[i] : Set G))
@@ -284,19 +270,21 @@ theorem J_le_normalizer_Mhat_swap (h : FCHyp L K n φ t) (i : Axis)
     (fun _ hy => conj_mem_Mw i i.swap
       (J_le_normalizer_M h i hne hbot (conj_w_mem_J i.swap hj)) hy) hy
 
+omit [Finite G] in
+theorem conj_mem_sup_swap {H₁ H₂ : Subgroup G} {g : G} (h₁ : ∀ x ∈ H₁, g * x * g⁻¹ ∈ H₂)
+    (h₂ : ∀ x ∈ H₂, g * x * g⁻¹ ∈ H₁) {x : G} (hx : x ∈ H₁ ⊔ H₂) : g * x * g⁻¹ ∈ H₁ ⊔ H₂ := by
+  have hle : H₁ ⊔ H₂ ≤ (H₁ ⊔ H₂).comap (MulAut.conj g).toMonoidHom :=
+    sup_le (fun y hy => mem_sup_right (h₁ y hy)) fun y hy => mem_sup_left (h₂ y hy)
+  exact hle hx
+
 omit [Finite K] in
 theorem w_mem_normalizer_Mhat' (i k : Axis) :
     𝐰[k] ∈ normalizer ((𝐌₀[i] ⊔ 𝐌ʷ[i, k] : Subgroup G) : Set G) := by
-  refine mem_normalizer_of_conj_le fun y hy => ?_
-  have hle : 𝐌₀[i] ⊔ 𝐌ʷ[i, k] ≤
-      (𝐌₀[i] ⊔ 𝐌ʷ[i, k]).comap (MulAut.conj 𝐰[k]).toMonoidHom := by
-    refine sup_le (fun m hm => mem_comap.mpr (mem_sup_right ?_))
-      (fun m hm => mem_comap.mpr (mem_sup_left (mem_map_conj_inv.mp hm)))
-    change 𝐰[k] * m * 𝐰[k]⁻¹ ∈ 𝐌ʷ[i, k]
-    rw [mem_map_conj_inv, w_inv]
-    rwa [show 𝐰[k] * (𝐰[k] * m * 𝐰[k]) * 𝐰[k] = (𝐰[k] * 𝐰[k]) * m * (𝐰[k] * 𝐰[k]) by group,
-      w_mul_self, one_mul, mul_one]
-  exact hle hy
+  refine mem_normalizer_of_conj_le fun _ hy => conj_mem_sup_swap (fun m hm => ?_)
+    (fun _ hm => mem_map_conj_inv.mp hm) hy
+  rw [mem_map_conj_inv, w_inv]
+  rwa [show 𝐰[k] * (𝐰[k] * m * 𝐰[k]) * 𝐰[k] = (𝐰[k] * 𝐰[k]) * m * (𝐰[k] * 𝐰[k]) by
+    simp only [mul_assoc], w_mul_self, one_mul, mul_one]
 
 theorem Mhat_sup_t_swap (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) :

@@ -15,6 +15,14 @@ open CFSG.KC.Enum CFSG.KS
   List.rec (motive := fun _ => Nat → Nat) (fun acc => acc)
     (fun c _ ih acc => strictN (CFSG.KC.Co1B.mulWK acc (letterK M MI c)) ih) w idM
 
+@[expose] noncomputable def wordPWK (A B : Nat) (w : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun acc => acc)
+    (fun j _ ih acc => strictN (CFSG.KC.Co1B.mulWK acc (nIf(Nat.beq j (nat_lit 1), A, B))) ih)
+    w idM
+
+@[expose] noncomputable def wordEqWK (A B : Nat) (w : List Nat) (R : Nat) : Bool :=
+  bAnd(posK w, Nat.beq (wordPWK A B w) R)
+
 @[expose] noncomputable def dagWK (M MI : Nat → Nat) (nb N : Nat) (ws : List (List Nat)) : Bool :=
   bAnd(Nat.beq (Nat.add nb (lenLL ws)) N,
   bAnd(allN N (fun k => invOKW (M k) (MI k)),

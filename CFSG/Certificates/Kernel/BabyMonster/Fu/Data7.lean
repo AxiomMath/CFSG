@@ -1,8 +1,7 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Fu.Data3
-import CFSG.Certificates.Kernel.BabyMonster.Fu.Data6
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.Fu g CFSG.KC.BM.Twin.prod 4370 2412240 16676328887372361291 ri sD2
+#kc_repo #bm_mat CFSG.KC.BM.Fu g
+  "CFSG/Certificates/Kernel/BabyMonster/Fu/data/g.bin" 2412240 16676328887372361291

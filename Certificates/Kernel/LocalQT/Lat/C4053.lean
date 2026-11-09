@@ -50,15 +50,28 @@ theorem p0 : memsOKG (cert.tGens.map code) (cert.lat.map (List.map code)) ms = t
   quickRfl
 theorem p1 : chainOK 22 C = true := by quickRfl
 theorem p2 : grpT 22 C (chainF C) (cert.mGens.map code) MW 2 TW 38 cert.depth = true := by
+  have hf : (fun D => tabOK 22 D (cert.mGens.map CFSG.KC.LQT.P.code) TW 38) =
+      fun D => tabV 22 D TW (IX.map (evalBL 22 BV)) 38 :=
+    funext fun _ => tabOK_blk (by norm_num) cert.mGens (BT := BT) rfl (by quickRfl)
+  rw [code_eq_P, grpT, wordsT_eq_F, hf]
   quickRfl
 theorem p3 : allA ms (closedMG 22 cert.depth) = true := by quickRfl
-theorem p4a : coverA 22 C (chainF C) mem0 3 labT (repsCode cert) = true := by quickRfl
-theorem p4d : coverD 22 mem0 3 labT (repsCode cert) = true := by quickRfl
-theorem p4n : coverN 22 (chainF C) mem0 (repsCode cert) = true := by quickRfl
+theorem hReps : repsCode cert = repsWith repsC cert.reps := repsCode_eq_with cert repsC (by quickRfl)
+theorem p4a : coverA 22 C (chainF C) mem0 3 labT (repsCode cert) = true := by
+  rw [hReps]
+  quickRfl
+theorem p4d : coverD 22 mem0 3 labT (repsCode cert) = true := by
+  rw [hReps]
+  exact coverDL_sound (TE := mem0E) (by quickRfl)
+theorem p4n : coverN 22 (chainF C) mem0 (repsCode cert) = true := by
+  rw [← coverNP_eq, hReps]
+  quickRfl
 theorem p4 : Option.rec (motive := fun _ => Bool) false
     (fun Tm => coverG 22 C (chainF C) Tm 3 labT (repsCode cert)) (getO ms 0) = true :=
   coverG_intro p4a p4d p4n
-theorem p5 : repsG 22 (cert.tGens.map code) ms (repsCode cert) = true := by quickRfl
+theorem p5 : repsG 22 (cert.tGens.map code) ms (repsCode cert) = true := by
+  rw [hReps]
+  quickRfl
 theorem p6 : joinsG 22 ms cert.joins = true := by quickRfl
 theorem p7 : sizesG (chainF C) ms cert.sizes cert.msize = true := by quickRfl
 theorem p8 : tleC 22 C (chainF C) (cert.tGens.map code) = true := by quickRfl

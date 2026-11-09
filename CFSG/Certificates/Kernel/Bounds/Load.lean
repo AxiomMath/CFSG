@@ -11,16 +11,25 @@ public section
 
 namespace CFSG.Certificates.KB.Load
 
+@[inline] meta def wordLE (b : ByteArray) (i : Nat) : Nat :=
+  (b.extract i (i + 8)).toUInt64LE!.toNat
+
 meta partial def natLE (b : ByteArray) (lo hi : Nat) : Nat :=
-  if hi ≤ lo + 8 then
+  if hi = lo + 32 then
+    wordLE b lo ||| (wordLE b (lo + 8) <<< 64) ||| (wordLE b (lo + 16) <<< 128) |||
+      (wordLE b (lo + 24) <<< 192)
+  else if hi = lo + 8 then
+    wordLE b lo
+  else if hi < lo + 8 then
     Id.run do
       let mut acc := 0
       for k in [0:hi - lo] do
         acc := acc + (b[lo + k]!.toNat <<< (8 * k))
       return acc
   else
-    let mid := lo + (hi - lo) / 2
-    natLE b lo mid + (natLE b mid hi <<< (8 * (mid - lo)))
+    let mid :=
+      if hi - lo ≤ 64 then lo + 8 * ((hi - lo + 8) / 16) else lo + 32 * ((hi - lo + 32) / 64)
+    natLE b lo mid ||| (natLE b mid hi <<< (8 * (mid - lo)))
 
 meta def u32 (b : ByteArray) (i : Nat) : Nat :=
   b[i]!.toNat + (b[i+1]!.toNat <<< 8) + (b[i+2]!.toNat <<< 16) + (b[i+3]!.toNat <<< 24)

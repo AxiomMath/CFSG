@@ -386,7 +386,7 @@ theorem rep_conj_fi22CentArr
     {L : ℕ} (hL : L < 306) {x : Array ℕ} {X : Equiv.Perm (Fin 3510)}
     (hx : Rep 3510 x X) :
     Rep 3510 (conjA 3510 (fi22CentArr L) x) (fi22CentPerm L * X * (fi22CentPerm L)⁻¹) :=
-  rep_conjA (rep_fi22CentPerm hL) (fi22Cent_check.2.1 L hL) hx
+  rep_conjA (rep_fi22CentPerm hL) (fi22Cent_check.1 L hL) hx
 
 theorem conj_mem_of_closure_two {G : Type*} [Group G] {N : Subgroup G} {a b t : G}
     (hN : N = Subgroup.closure {a, b}) (ha : t * a * t⁻¹ ∈ N) (hb : t * b * t⁻¹ ∈ N) :

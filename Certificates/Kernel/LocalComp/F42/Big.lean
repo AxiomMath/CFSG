@@ -44,63 +44,93 @@ theorem preSq_step {k A nA B nB : ℕ} (h : Pc.preSq cmF 25 k = arrOf A nA)
 
 theorem preSq_zero : Pc.preSq cmF 25 0 = arrOf L0 nL0 := by decide +kernel
 
-theorem preSq_eq : Pc.preSq cmF 25 22 = arrOf L22 nL22 := by
+theorem r0_ok : Nat.beq (mulR (fldW L0 22 0) (fldW L0 22 0)) (fldW R0 25 0) = true := by
+  quickRfl
+
+theorem r0 : ∀ a < nL0, mulR (fldW L0 22 a) (fldW L0 22 a) = fldW R0 25 a * 2 ^ 0 := by
+  intro a ha
+  obtain rfl : a = 0 := by
+    change a < 1 at ha
+    omega
+  rw [pow_zero, mul_one]
+  exact Nat.eq_of_beq_eq_true r0_ok
+
+theorem levels : Pc.preSq cmF 25 22 = arrOf L22 nL22 ∧
+    ∀ a < nL22, mulR (fldW L22 22 a) (fldW L22 22 a) = fldW S 3 a * 2 ^ 22 := by
   have e0 := preSq_zero
-  have e1 := preSq_step e0
-    (level_sound (nA := nL0) (nC := 2) rfl q0_0 qn_0 Lev0).1
-  have e2 := preSq_step e1
-    (level_sound (nA := nL1) (nC := 4) rfl q0_1 qn_1 Lev1).1
-  have e3 := preSq_step e2
-    (level_sound (nA := nL2) (nC := 8) rfl q0_2 qn_2 Lev2).1
-  have e4 := preSq_step e3
-    (level_sound (nA := nL3) (nC := 16) rfl q0_3 qn_3 Lev3).1
-  have e5 := preSq_step e4
-    (level_sound (nA := nL4) (nC := 32) rfl q0_4 qn_4 Lev4).1
-  have e6 := preSq_step e5
-    (level_sound (nA := nL5) (nC := 48) rfl q0_5 qn_5 Lev5).1
-  have e7 := preSq_step e6
-    (level_sound (nA := nL6) (nC := 80) rfl q0_6 qn_6 Lev6).1
-  have e8 := preSq_step e7
-    (level_sound (nA := nL7) (nC := 128) rfl q0_7 qn_7 Lev7).1
-  have e9 := preSq_step e8
-    (level_sound (nA := nL8) (nC := 192) rfl q0_8 qn_8 Lev8).1
-  have e10 := preSq_step e9
-    (level_sound (nA := nL9) (nC := 384) rfl q0_9 qn_9 Lev9).1
-  have e11 := preSq_step e10
-    (level_sound (nA := nL10) (nC := 576) rfl q0_10 qn_10 Lev10).1
-  have e12 := preSq_step e11
-    (level_sound (nA := nL11) (nC := 768) rfl q0_11 qn_11 Lev11).1
-  have e13 := preSq_step e12
-    (level_sound (nA := nL12) (nC := 1152) rfl q0_12 qn_12 Lev12).1
-  have e14 := preSq_step e13
-    (level_sound (nA := nL13) (nC := 2048) rfl q0_13 qn_13 Lev13).1
-  have e15 := preSq_step e14
-    (level_sound (nA := nL14) (nC := 4096) rfl q0_14 qn_14 Lev14).1
-  have e16 := preSq_step e15
-    (level_sound (nA := nL15) (nC := 6144) rfl q0_15 qn_15 Lev15).1
-  have e17 := preSq_step e16
-    (level_sound (nA := nL16) (nC := 9216) rfl q0_16 qn_16 Lev16).1
-  have e18 := preSq_step e17
-    (level_sound (nA := nL17) (nC := 16896) rfl q0_17 qn_17 Lev17).1
-  have e19 := preSq_step e18
-    (level_sound (nA := nL18) (nC := 22016) rfl q0_18 qn_18 Lev18).1
-  have e20 := preSq_step e19
-    (level_sound (nA := nL19) (nC := 36352) rfl q0_19 qn_19 Lev19).1
-  have e21 := preSq_step e20
-    (level_sound (nA := nL20) (nC := 43520) rfl q0_20 qn_20 Lev20).1
-  have e22 := preSq_step e21
-    (level_sound (nA := nL21) (nC := 66048) rfl q0_21 qn_21 Lev21).1
-  exact e22
+  have s1 := level_sound (k := 0) (nA := nL0) (nC := 2) rfl r0 q0_0 qn_0
+    Lev0
+  have e1 := preSq_step e0 s1.1
+  have s2 := level_sound (k := 1) (nA := nL1) (nC := 4) rfl s1.2 q0_1 qn_1
+    Lev1
+  have e2 := preSq_step e1 s2.1
+  have s3 := level_sound (k := 2) (nA := nL2) (nC := 8) rfl s2.2 q0_2 qn_2
+    Lev2
+  have e3 := preSq_step e2 s3.1
+  have s4 := level_sound (k := 3) (nA := nL3) (nC := 16) rfl s3.2 q0_3 qn_3
+    Lev3
+  have e4 := preSq_step e3 s4.1
+  have s5 := level_sound (k := 4) (nA := nL4) (nC := 32) rfl s4.2 q0_4 qn_4
+    Lev4
+  have e5 := preSq_step e4 s5.1
+  have s6 := level_sound (k := 5) (nA := nL5) (nC := 48) rfl s5.2 q0_5 qn_5
+    Lev5
+  have e6 := preSq_step e5 s6.1
+  have s7 := level_sound (k := 6) (nA := nL6) (nC := 80) rfl s6.2 q0_6 qn_6
+    Lev6
+  have e7 := preSq_step e6 s7.1
+  have s8 := level_sound (k := 7) (nA := nL7) (nC := 128) rfl s7.2 q0_7 qn_7
+    Lev7
+  have e8 := preSq_step e7 s8.1
+  have s9 := level_sound (k := 8) (nA := nL8) (nC := 192) rfl s8.2 q0_8 qn_8
+    Lev8
+  have e9 := preSq_step e8 s9.1
+  have s10 := level_sound (k := 9) (nA := nL9) (nC := 384) rfl s9.2 q0_9 qn_9
+    Lev9
+  have e10 := preSq_step e9 s10.1
+  have s11 := level_sound (k := 10) (nA := nL10) (nC := 576) rfl s10.2 q0_10 qn_10
+    Lev10
+  have e11 := preSq_step e10 s11.1
+  have s12 := level_sound (k := 11) (nA := nL11) (nC := 768) rfl s11.2 q0_11 qn_11
+    Lev11
+  have e12 := preSq_step e11 s12.1
+  have s13 := level_sound (k := 12) (nA := nL12) (nC := 1152) rfl s12.2 q0_12 qn_12
+    Lev12
+  have e13 := preSq_step e12 s13.1
+  have s14 := level_sound (k := 13) (nA := nL13) (nC := 2048) rfl s13.2 q0_13 qn_13
+    Lev13
+  have e14 := preSq_step e13 s14.1
+  have s15 := level_sound (k := 14) (nA := nL14) (nC := 4096) rfl s14.2 q0_14 qn_14
+    Lev14
+  have e15 := preSq_step e14 s15.1
+  have s16 := level_sound (k := 15) (nA := nL15) (nC := 6144) rfl s15.2 q0_15 qn_15
+    Lev15
+  have e16 := preSq_step e15 s16.1
+  have s17 := level_sound (k := 16) (nA := nL16) (nC := 9216) rfl s16.2 q0_16 qn_16
+    Lev16
+  have e17 := preSq_step e16 s17.1
+  have s18 := level_sound (k := 17) (nA := nL17) (nC := 16896) rfl s17.2 q0_17 qn_17
+    Lev17
+  have e18 := preSq_step e17 s18.1
+  have s19 := level_sound (k := 18) (nA := nL18) (nC := 22016) rfl s18.2 q0_18 qn_18
+    Lev18
+  have e19 := preSq_step e18 s19.1
+  have s20 := level_sound (k := 19) (nA := nL19) (nC := 36352) rfl s19.2 q0_19 qn_19
+    Lev19
+  have e20 := preSq_step e19 s20.1
+  have s21 := level_sound (k := 20) (nA := nL20) (nC := 43520) rfl s20.2 q0_20 qn_20
+    Lev20
+  have e21 := preSq_step e20 s21.1
+  have s22 := level_sound (k := 21) (nA := nL21) (nC := 66048) rfl s21.2 q0_21 qn_21
+    Lev21
+  have e22 := preSq_step e21 s22.1
+  exact ⟨e22, s22.2⟩
+
+theorem preSq_eq : Pc.preSq cmF 25 22 = arrOf L22 nL22 := levels.1
 
 theorem sq_last (a : ℕ) (ha : a < nL22) :
-    mulR (fldW L22 22 a) (fldW L22 22 a) = fldW S 3 a * 2 ^ 22 := by
-  obtain ⟨h1, h2⟩ :=
-    (level_sound (nA := nL21) (nC := 66048) rfl q0_21 qn_21 Lev21).2 a ha
-  have h3 := h2 rfl
-  rw [Nat.shiftRight_eq_div_pow] at h3
-  have := Nat.div_add_mod (mulR (fldW L22 22 a) (fldW L22 22 a)) (2 ^ 22)
-  rw [h3, h1] at this
-  omega
+    mulR (fldW L22 22 a) (fldW L22 22 a) = fldW S 3 a * 2 ^ 22 :=
+  levels.2 a ha
 
 theorem cnt0 : Nat.beq (cntL S nL22 0) (sqCounts.getD 0 0) = true := by
   quickRfl

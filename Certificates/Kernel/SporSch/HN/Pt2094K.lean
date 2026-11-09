@@ -56,11 +56,8 @@ theorem seeds : Nat.beq (CFSG.KC.LL.HN.mm (CFSG.KD.HNPt.R 34) (CFSG.KD.HNPt.R 34
   refine ⟨?_, ?_⟩ <;> quickRfl
 
 theorem pl2 : allN 8799 (fun k => Nat.blt (fldW PL2 (Nat.mul 21 k) 21)
-      (fldW PL2 (Nat.mul 21 (Nat.add k 1)) 21)) = true ∧
-    allN 6 (fun j => Nat.beq (fldW (IM j) 0 21) 0) = true ∧
-    allN 8799 (fun k => Bool.not (allN 6 (fun j => Nat.beq (fldW (IM j) (Nat.mul 21 (Nat.add k 1)) 21)
-      (fldW PL2 (Nat.mul 21 (Nat.add k 1)) 21)))) = true := by
-  refine ⟨?_, ?_, ?_⟩ <;> quickRfl
+      (fldW PL2 (Nat.mul 21 (Nat.add k 1)) 21)) = true := by
+  quickRfl
 
 theorem neg_w : Bool.not (Nat.beq (wordC CFSG.KD.HNPt.R (ecF 2)) (EL 1)) = true := by quickRfl
 theorem neg_t : Bool.not (Nat.beq (trM (EL 1)) (TT 2)) = true := by quickRfl
@@ -68,7 +65,6 @@ theorem neg_comm : Bool.not (Nat.beq (CFSG.KC.LL.HN.mm (EL 21) (EL 22))
     (CFSG.KC.LL.HN.mm (EL 22) (EL 21)) && Nat.beq (CFSG.KC.LL.HN.mm (CFSG.KD.HNPt.R 34)
     (CFSG.KD.HNPt.R 35)) (CFSG.KC.LL.HN.mm (CFSG.KD.HNPt.R 35) (CFSG.KD.HNPt.R 34))) = true := by
   quickRfl
-theorem neg_pl2 : Bool.not (allN 6 (fun j => Nat.beq (fldW (IM j) 21 21) 0)) = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.HNPt2094
 

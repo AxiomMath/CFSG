@@ -52,12 +52,52 @@ theorem fold_ok : foldRange PB F INVM BS NB NT PSF PSB RD RW RA WD RJ 0 4625 1 =
   (coverWords onRels onCommWord ++ squareWords onRels).map (·.map topCode)
 
 set_option maxRecDepth 100000 in
-theorem wd_ok : ∀ i < 4096, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
+theorem wd_ok0 : ∀ i < 1024, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
     ((wList (WD i)).filter (· != 14) = [] ∨ (wList (WD i)).filter (· != 14) = [12, 13] ∨
       (wList (WD i)).filter (· != 14) = [13, 12] ∨
       ∃ r ∈ onTopCodes, r.length = ((wList (WD i)).filter (· != 14)).length ∧
         (wList (WD i)).filter (· != 14) ∈ rotations r) := by
   decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem wd_ok1 : ∀ i < 1024, CFSG.KC.TwDce.wLen (WD (i + 1024)) < 2 ^ 12 ∧ (∀ c ∈ wList (WD (i + 1024)), c < 15) ∧
+    ((wList (WD (i + 1024))).filter (· != 14) = [] ∨ (wList (WD (i + 1024))).filter (· != 14) = [12, 13] ∨
+      (wList (WD (i + 1024))).filter (· != 14) = [13, 12] ∨
+      ∃ r ∈ onTopCodes, r.length = ((wList (WD (i + 1024))).filter (· != 14)).length ∧
+        (wList (WD (i + 1024))).filter (· != 14) ∈ rotations r) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem wd_ok2 : ∀ i < 1024, CFSG.KC.TwDce.wLen (WD (i + 2048)) < 2 ^ 12 ∧ (∀ c ∈ wList (WD (i + 2048)), c < 15) ∧
+    ((wList (WD (i + 2048))).filter (· != 14) = [] ∨ (wList (WD (i + 2048))).filter (· != 14) = [12, 13] ∨
+      (wList (WD (i + 2048))).filter (· != 14) = [13, 12] ∨
+      ∃ r ∈ onTopCodes, r.length = ((wList (WD (i + 2048))).filter (· != 14)).length ∧
+        (wList (WD (i + 2048))).filter (· != 14) ∈ rotations r) := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem wd_ok3 : ∀ i < 1024, CFSG.KC.TwDce.wLen (WD (i + 3072)) < 2 ^ 12 ∧ (∀ c ∈ wList (WD (i + 3072)), c < 15) ∧
+    ((wList (WD (i + 3072))).filter (· != 14) = [] ∨ (wList (WD (i + 3072))).filter (· != 14) = [12, 13] ∨
+      (wList (WD (i + 3072))).filter (· != 14) = [13, 12] ∨
+      ∃ r ∈ onTopCodes, r.length = ((wList (WD (i + 3072))).filter (· != 14)).length ∧
+        (wList (WD (i + 3072))).filter (· != 14) ∈ rotations r) := by
+  decide +kernel
+
+theorem wd_ok : ∀ i < 4096, CFSG.KC.TwDce.wLen (WD i) < 2 ^ 12 ∧ (∀ c ∈ wList (WD i), c < 15) ∧
+    ((wList (WD i)).filter (· != 14) = [] ∨ (wList (WD i)).filter (· != 14) = [12, 13] ∨
+      (wList (WD i)).filter (· != 14) = [13, 12] ∨
+      ∃ r ∈ onTopCodes, r.length = ((wList (WD i)).filter (· != 14)).length ∧
+        (wList (WD i)).filter (· != 14) ∈ rotations r) := by
+  intro i hi
+  rcases (by omega : i < 1024 ∨ (1024 ≤ i ∧ i < 2048) ∨ (2048 ≤ i ∧ i < 3072) ∨
+      (3072 ≤ i ∧ i < 4096)) with h | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩
+  · exact wd_ok0 i h
+  · obtain ⟨j, rfl⟩ : ∃ j, i = j + 1024 := ⟨i - 1024, by omega⟩
+    exact wd_ok1 j (by omega)
+  · obtain ⟨j, rfl⟩ : ∃ j, i = j + 2048 := ⟨i - 2048, by omega⟩
+    exact wd_ok2 j (by omega)
+  · obtain ⟨j, rfl⟩ : ∃ j, i = j + 3072 := ⟨i - 3072, by omega⟩
+    exact wd_ok3 j (by omega)
 
 abbrev onPC : Type := PG 4 onCover
 

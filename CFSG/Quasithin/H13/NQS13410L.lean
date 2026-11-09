@@ -3,6 +3,7 @@ module
 public import CFSG.Quasithin.H13.NQS13410K
 public import CFSG.Quasithin.H13.U3S1344A
 public import CFSG.Quasithin.H13.NQS13410E
+public import CFSG.Quasithin.Background.L3CodeK
 
 public section
 
@@ -13,7 +14,8 @@ open scoped IsMulCommutative
 
 theorem l3_stab_two : ∀ p : L3.Vec, p ≠ 0 → ∀ x : L3.Γ, L3.act x p = p → x ^ 8 = 1 →
     ∀ g : L3.Γ, g ^ 3 = 1 → g ≠ 1 → L3.act g p = p → (x * (g * x * g⁻¹)) ^ 8 = 1 →
-      (x * (g⁻¹ * x * g)) ^ 8 = 1 → x ∈ L3.AS {0, p} := by decide +kernel
+      (x * (g⁻¹ * x * g)) ^ 8 = 1 → x ∈ L3.AS {0, p} :=
+  L3.CodeK.l3_stab_two_k
 
 theorem l3_AS_comm : ∀ p : L3.Vec, p ≠ 0 → ∀ g : L3.Γ, g ^ 3 = 1 → g ≠ 1 → L3.act g p = p →
     ∀ σ ∈ L3.AS {0, p}, σ * g = g * σ → σ = 1 := by decide +kernel

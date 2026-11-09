@@ -2,15 +2,28 @@ module
 
 import CFSG.Certificates.Kernel.BabyMonster.LoadFour
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data3
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data4
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data9
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data10
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data11
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data12
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data13
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data16
+public import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data0
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data1
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data2
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data8
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data10
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data12
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data13
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data14
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data15
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data16
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data17
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data18
-public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data8
 public import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
 
 #bm_mul4 CFSG.KC.BM.FiveA cv102 p6 [CFSG.KC.BM.Seeds.A1 p6] v102 []

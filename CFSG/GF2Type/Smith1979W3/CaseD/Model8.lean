@@ -15,8 +15,18 @@ open CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.SmallOmegaSix Matrix F
 theorem Tm_ne_zero : ∀ a : Fin 8 → ZMod 2, ∑ k, a k = 0 → a ≠ 0 → a ≠ one8 →
     Tm *ᵥ a ≠ 0 := by decide +kernel
 
+theorem polar_Tm_aux : ∀ b : Fin 8 → ZMod 2, ∑ k, b k = 0 →
+    (Jm *ᵥ (Tm *ᵥ b)) ᵥ* Tm = b + b 7 • one8 := by decide +kernel
+
 theorem polar_Tm : ∀ a b : Fin 8 → ZMod 2, ∑ k, a k = 0 → ∑ k, b k = 0 →
-    polar6 (Tm *ᵥ a) (Tm *ᵥ b) = ∑ k, a k * b k := by decide +kernel
+    polar6 (Tm *ᵥ a) (Tm *ᵥ b) = ∑ k, a k * b k := by
+  intro a b ha hb
+  have h1 : one8 ⬝ᵥ a = 0 := by
+    rw [← ha]
+    simp [one8, dotProduct]
+  rw [polar6, dotProduct_comm, dotProduct_mulVec, polar_Tm_aux b hb, add_dotProduct,
+    smul_dotProduct, h1, smul_zero, add_zero, dotProduct_comm]
+  rfl
 
 theorem exists_vS_of_singular_decide : ∀ x : ι6 → ZMod 2, x ≠ 0 → Q6 x = 0 →
     ∃ T : Finset (Fin 8), T.card = 4 ∧ x = vS T := by decide +kernel

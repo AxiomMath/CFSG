@@ -18,7 +18,7 @@ set_option Elab.async false
 #ks_chars CFSG.KD.TwoHS.RT CFSG.EvenSporadicStandard.TwoHS.harRHex
 #kmisc_hexflat CFSG.KD.TwoHS.RT CFSG.EvenSporadicStandard.TwoHS.harRHex 3 3850 12 14
 
-#kc_repo #kc_json_gz CFSG.KD.TwoHS "Certificates/Kernel/TwoHS/data/rtw.json.gz" 411
+#kc_repo #kc_json CFSG.KD.TwoHS "Certificates/Kernel/TwoHS/data/rtw.json" 411
   7263853080282896874 (rtW : List (List Nat))
 
 namespace CFSG.KD.TwoHS

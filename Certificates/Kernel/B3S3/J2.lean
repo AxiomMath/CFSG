@@ -3,6 +3,7 @@ module
 public import Certificates.Data.B3Spor3.J2
 public import Certificates.Data.Kernel.B3S3K
 public import Certificates.Data.Kernel.Misc.ChainTail
+public import Certificates.Data.Kernel.Misc.ChainTailLv
 public import Certificates.Kernel.B3S3.Gen
 public import Certificates.Kernel.GFR3.J2
 public import Certificates.Kernel.Sporadic.RawGen
@@ -10,6 +11,11 @@ public import Certificates.Kernel.Misc.Perm.HexCmd
 public import Certificates.Kernel.SporSch.Th.GenV4
 public meta import Certificates.Data.B3Spor3.J2
 public meta import Certificates.Kernel.B3S3.Gen
+public meta import Certificates.Data.CFSGNative.Schreier.Check
+public meta import Certificates.Data.CFSGNative.MonsterB.Co2Chain
+public meta import CFSG.RankThree.Native.PermEnumeration
+public meta import CFSG.RankThree.Native.ChainCentralizer
+public meta import CFSG.RankThree.PartOne.KS.PKit
 import CFSG.Certificates.Kernel.Common.Harness
 
 set_option maxRecDepth 400000
@@ -31,6 +37,38 @@ meta def w0 : List Nat × List Nat := CFSG.KC.B3S3Gen.convWit 315 pts0 [2, 5] [1
 meta def wj0 : List Nat := w0.1
 
 meta def wr0 : List Nat := w0.2
+
+open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.RankThree.Native
+  CFSG.RankThree.PartOne in
+meta def ob1 : List Nat × List Nat × List Nat := Id.run do
+  let p := ((rawLevels 315 j2S3C1S j2S3C1Base)[0]!).pts
+  let c := (enumBfs 315 j2S3C1Gens j2S3C1Base.toList 37).pts
+  let xs := powPA 3 315 xc[1]!
+  let mut idx := Array.replicate 315 0
+  for k in [0:p.size] do
+    idx := idx.set! (p[k]!) k
+  let mut ri := Array.replicate p.size p.size
+  let mut ek := Array.replicate p.size 0
+  let mut reps : Array Nat := #[]
+  for k in [0:p.size] do
+    if ri[k]! == p.size && relOK j2S3C1Base xs j2S3C1Rels 0 (idA 315) p[k]! then
+      let j := reps.size
+      reps := reps.push k
+      let q := p[k]!
+      for e in [0:c.size] do
+        let t := idx.getD ((c.getD e #[]).getD q 0) 0
+        if ri[t]! == p.size then
+          ri := ri.set! t j
+          ek := ek.set! t e
+  return (reps.toList, (ri.map fun i => if i == p.size then 0 else i).toList, ek.toList)
+
+meta def rb1 : List Nat := ob1.1
+
+meta def ri1 : List Nat := ob1.2.1
+
+meta def ek1 : List Nat := ob1.2.2
+
+meta def nr1 : List Nat := [ob1.1.length]
 
 end CertificateChecks.KernelB3S3.J2
 
@@ -54,6 +92,10 @@ end
   CFSG.HardMathSupport.Solomon.Coordinator.B3S3.j2S3C1Base 315 9
 #kss_natlist CertificateChecks.KernelB3S3.J2.WJ0 CertificateChecks.KernelB3S3.J2.wj0
 #kss_natlist CertificateChecks.KernelB3S3.J2.WR0 CertificateChecks.KernelB3S3.J2.wr0
+#kss_natlist CertificateChecks.KernelB3S3.J2.RB1 CertificateChecks.KernelB3S3.J2.rb1
+#kss_natlist CertificateChecks.KernelB3S3.J2.RI1 CertificateChecks.KernelB3S3.J2.ri1
+#kss_natlist CertificateChecks.KernelB3S3.J2.EK1 CertificateChecks.KernelB3S3.J2.ek1
+#kss_natlist CertificateChecks.KernelB3S3.J2.NR1 CertificateChecks.KernelB3S3.J2.nr1
 
 public section
 
@@ -130,8 +172,18 @@ theorem x1 : permB 315 9 (XC 1) = true ∧ Nat.beq (pw 315 9 (XC 1) 3) (pidn 315
 
 theorem rc1 : Nat.beq (rcnt (C1.LR 0)) 315 = true := by quickRfl
 
-theorem tail1 : allN 315 (ptailBranchK 315 9 C1.LR C1.TR C1.BP (XC 1) (pw 315 9 (XC 1))
-    j2S3C1Rels E1.N E1.T 5) = true := by quickRfl
+@[expose] def RLT1 : List (List (Nat × Nat × Nat)) :=
+  [[(0, 0, 0)],
+    [(0, 1, 1), (1, 1, 0), (1, 0, 2)],
+    [(0, 2, 2), (1, 2, 1), (2, 2, 0), (2, 0, 1), (2, 1, 2)],
+    [(3, 3, 0)],
+    [(4, 4, 0)]]
+
+theorem rep1 : allN (NR1 0) (fun j => repBranchLK 315 9 C1.LR C1.TR C1.BP (XC 1)
+    (pw 315 9 (XC 1)) (fun i => RLT1.getD i []) E1.N E1.T 5 (RB1 j)) = true := by quickRfl
+
+theorem kOrb1 : allN 315 (orbRelK 315 9 C1.LR C1.BP (pw 315 9 (XC 1)) j2S3C1Rels E1.N E1.T
+    (NR1 0) RB1 RI1 EK1) = true := by quickRfl
 
 theorem conv0 : allN KernelGFR3.J2.E.N (convAt 315 9 KernelGFR3.J2.E.N KernelGFR3.J2.E.T [2, 5]
     [1, 2, 5] WJ0 WR0) = true := by

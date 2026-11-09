@@ -31,6 +31,45 @@ theorem mem_nonzeroTriples {p : ℕ} {v : ℕ × ℕ × ℕ} :
     simp only [Bool.not_eq_true', Bool.and_eq_false_iff, beq_eq_false_iff_ne, ne_eq]
     tauto
 
+theorem mem_nonzeroTriples_of_proj {p : ℕ} {v : ℕ × ℕ × ℕ} (h : v ∈ projTriples p) :
+    v ∈ nonzeroTriples p :=
+  List.mem_of_mem_filter h
+
+theorem exists_mem_projTriples {p : ℕ} [Fact p.Prime] (cc : Fin 3 → ZMod p) (hcc : cc ≠ 0) :
+    ∃ l : ZMod p, ((l * cc 0).val, (l * cc 1).val, (l * cc 2).val) ∈ projTriples p := by
+  have hv1 : (1 : ZMod p).val = 1 := ZMod.val_one p
+  have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
+  have hp0 : 0 < p := (Fact.out : p.Prime).pos
+  by_cases h0 : cc 0 = 0
+  · by_cases h1 : cc 1 = 0
+    · have h2 : cc 2 ≠ 0 := fun h2 => hcc (by ext k; fin_cases k <;> simp [h0, h1, h2])
+      refine ⟨(cc 2)⁻¹, ?_⟩
+      simp [projTriples, mem_nonzeroTriples, h0, h1, inv_mul_cancel₀ h2, hv1, hp0, hp1, ZMod.val_lt]
+    · refine ⟨(cc 1)⁻¹, ?_⟩
+      simp [projTriples, mem_nonzeroTriples, h0, inv_mul_cancel₀ h1, hv1, hp0, hp1, ZMod.val_lt]
+  · refine ⟨(cc 0)⁻¹, ?_⟩
+    simp [projTriples, mem_nonzeroTriples, inv_mul_cancel₀ h0, hv1, hp0, hp1, ZMod.val_lt]
+
+theorem pow_val_mul_of_pow {G : Type*} [Monoid G] {p : ℕ} {x : G} (hx : x ^ p = 1) (l c : ZMod p) :
+    x ^ (l * c).val = (x ^ c.val) ^ l.val := by
+  rw [ZMod.val_mul, ← pow_mul, mul_comm c.val l.val]
+  conv_rhs => rw [← Nat.mod_add_div (l.val * c.val) p, pow_add, pow_mul, hx, one_pow, mul_one]
+
+theorem indep3_of_proj {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {a b c : G}
+    (hab : Commute a b) (hac : Commute a c) (hbc : Commute b c)
+    (ha : a ^ p = 1) (hb : b ^ p = 1) (hc : c ^ p = 1)
+    (h : ∀ v ∈ projTriples p, a ^ v.1 * (b ^ v.2.1 * c ^ v.2.2) ≠ 1)
+    (cc : Fin 3 → ZMod p) (hcc : cc ≠ 0) :
+    a ^ (cc 0).val * (b ^ (cc 1).val * c ^ (cc 2).val) ≠ 1 := by
+  intro he
+  obtain ⟨l, hl⟩ := exists_mem_projTriples cc hcc
+  apply h _ hl
+  change a ^ (l * cc 0).val * (b ^ (l * cc 1).val * c ^ (l * cc 2).val) = 1
+  have hyz : Commute (b ^ (cc 1).val) (c ^ (cc 2).val) := hbc.pow_pow _ _
+  have hxyz : Commute (a ^ (cc 0).val) (b ^ (cc 1).val * c ^ (cc 2).val) :=
+    (hab.pow_pow _ _).mul_right (hac.pow_pow _ _)
+  rw [pow_val_mul_of_pow ha, pow_val_mul_of_pow hb, pow_val_mul_of_pow hc,← hyz.mul_pow, ← hxyz.mul_pow, he, one_pow]
+
 theorem fixes_of_invariant {p : ℕ} [Fact p.Prime] (g : Act) (u : Fin 3 → ZMod p)
     (h : (actMat p g).transpose * alt3 u * actMat p g = alt3 u) :
     g.fixes p (u 0).val (u 1).val (u 2).val = true := by
@@ -195,7 +234,7 @@ theorem basis_ord (m : Mod) (hf : ∀ f ∈ m.facts p, f ∈ C.facts) (i : Fin 3
 include Sp hC in
 theorem exists_moduleSpec_core [Fact p.Prime] (m : Mod)
     (hf : ∀ f ∈ m.facts p, f ∈ C.facts)
-    (hindep : ∀ v ∈ nonzeroTriples p, ∃ q ∈ m.indep, q.1 = v.1 ∧ q.2.1 = v.2.1 ∧ q.2.2.1 = v.2.2) :
+    (hindep : ∀ v ∈ projTriples p, ∃ q ∈ m.indep, q.1 = v.1 ∧ q.2.1 = v.2.1 ∧ q.2.2.1 = v.2.2) :
     ∃ DS : ModuleSpec (certMonoid c d sA sB)ˣ p, DS.n = 3 ∧
       (∀ g ∈ m.acts, ∃ j : Fin DS.m, DS.g j = regUnit Sp hC g.reg ∧
         ∀ k i : Fin DS.n, DS.M j k i = ((g.mat.getD (3 * k.val + i.val) 0 : ℕ) : ZMod p)) ∧
@@ -250,25 +289,19 @@ theorem exists_moduleSpec_core [Fact p.Prime] (m : Mod)
         exact c12.symm
   · intro cc hcc
     by_contra hne
-    have hv : ((cc 0).val, (cc 1).val, (cc 2).val) ∈ nonzeroTriples p := by
-      rw [mem_nonzeroTriples]
-      refine ⟨ZMod.val_lt _, ZMod.val_lt _, ZMod.val_lt _, ?_⟩
-      rintro ⟨h0, h1, h2⟩
-      apply hne
-      ext k
-      fin_cases k
-      · exact (ZMod.val_eq_zero _).1 h0
-      · exact (ZMod.val_eq_zero _).1 h1
-      · exact (ZMod.val_eq_zero _).1 h2
-    obtain ⟨q, hq, hq0, hq1, hq2⟩ := hindep _ hv
-    have hfne : MFact.ne (m.word q.1 q.2.1 q.2.2.1) [] q.2.2.2 ∈ C.facts :=
-      hf _ (by
-        simp only [Mod.facts, List.mem_append, List.mem_map]
-        exact Or.inl (Or.inr ⟨q, hq, rfl⟩))
-    have := regUnit_ne Sp hC hfne (hBasisOrd _ (by simp [Mod.word])) (hasOrd_nil C)
-    apply this
-    rw [wordUnit_nil, Mod.word, hq0, hq1, hq2]
-    simp only [wordUnit, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
+    have hproj : ∀ v ∈ projTriples p, regUnit Sp hC m.b0 ^ v.1 *
+        (regUnit Sp hC m.b1 ^ v.2.1 * regUnit Sp hC m.b2 ^ v.2.2) ≠ 1 := by
+      intro v hv he
+      obtain ⟨q, hq, hq0, hq1, hq2⟩ := hindep _ hv
+      have hfne : MFact.ne (m.word q.1 q.2.1 q.2.2.1) [] q.2.2.2 ∈ C.facts :=
+        hf _ (by
+          simp only [Mod.facts, List.mem_append, List.mem_map]
+          exact Or.inl (Or.inr ⟨q, hq, rfl⟩))
+      apply regUnit_ne Sp hC hfne (hBasisOrd _ (by simp [Mod.word])) (hasOrd_nil C)
+      rw [wordUnit_nil, Mod.word, hq0, hq1, hq2]
+      simp only [wordUnit, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
+      simpa [mul_assoc] using he
+    apply indep3_of_proj c01 c02 c12 (hpowb 0) (hpowb 1) (hpowb 2) hproj cc hne
     simp only [List.finRange_succ, List.map_cons, List.prod_cons, List.finRange_zero, List.map_nil,
       List.prod_nil, mul_one] at hcc
     simpa [Mod.basis, mul_assoc] using hcc
@@ -313,7 +346,8 @@ theorem exists_moduleSpec [Fact p.Prime] (hp2 : p ≠ 2) (m : Mod)
     ∃ DS : ModuleSpec (certMonoid c d sA sB)ˣ p, 3 ≤ DS.n ∧ DS.NoAlt ∧
       DS.span = Subgroup.closure (Set.range fun i : Fin 3 => regUnit Sp hC (m.basis i)) ∧
       (∀ g ∈ m.acts, regUnit Sp hC g.reg ∈ Set.range DS.g) := by
-  obtain ⟨DS, h3, hact, hspan⟩ := exists_moduleSpec_core Sp hC m hf hindep
+  obtain ⟨DS, h3, hact, hspan⟩ := exists_moduleSpec_core Sp hC m hf
+    fun v hv => hindep v (mem_nonzeroTriples_of_proj hv)
   refine ⟨DS, h3.ge, noAlt_of_entries hp2 h3 DS.M m.acts (fun g hg => ?_) hNA, hspan,
     fun g hg => ?_⟩
   · obtain ⟨j, -, hj⟩ := hact g hg

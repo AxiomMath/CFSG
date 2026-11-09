@@ -66,8 +66,31 @@ theorem isolatedByC1_Yv1 : IsolatedByC1 Yv1 := by decide +kernel
 set_option maxRecDepth 100000 in
 theorem isolatedByC1_Yv12 : IsolatedByC1 Yv12 := by decide +kernel
 
-set_option maxRecDepth 100000 in
-theorem isolatedByC2_X48 : IsolatedByC2 X48 := by decide +kernel
+private lemma mem_X48_iff (v : V6) : v ∈ X48 ↔ ((lam v = 0 ∧ qm v = 1) ∨ lam v = 1) := by
+  unfold X48
+  rw [Finset.mem_filter]
+  exact ⟨fun h => h.2, fun h => ⟨Finset.mem_univ v, h⟩⟩
+
+private def c1X48 (x : V6) : ℕ :=
+  (X48.filter fun y => (lam (x + y) = 0 ∧ qm (x + y) = 1) ∨ lam (x + y) = 1).card
+
+private def c2X48 (x : V6) : ℕ :=
+  ∑ y ∈ X48.filter (fun y => (lam (x + y) = 0 ∧ qm (x + y) = 1) ∨ lam (x + y) = 1), c1X48 y
+
+private lemma c1_X48 (x : V6) : c1 X48 x = c1X48 x := by
+  unfold c1 c1X48
+  simp only [mem_X48_iff]
+
+private lemma c2_X48 (x : V6) : c2 X48 x = c2X48 x := by
+  unfold c2 c2X48
+  simp only [mem_X48_iff, c1_X48]
+
+private lemma isolatedByC2_X48_aux : tv ∈ X48 ∧ ∀ x ∈ X48, c2X48 x = c2X48 tv → x = tv := by
+  decide +kernel
+
+theorem isolatedByC2_X48 : IsolatedByC2 X48 :=
+  ⟨isolatedByC2_X48_aux.1, fun x hx hc =>
+    isolatedByC2_X48_aux.2 x hx (by rwa [c2_X48, c2_X48] at hc)⟩
 
 theorem rigid_Yv2 (g : Equiv.Perm V6) (hg : IsAddPerm g) (hX : ∀ x, g x ∈ Yv2 ↔ x ∈ Yv2) :
     g tv = tv :=

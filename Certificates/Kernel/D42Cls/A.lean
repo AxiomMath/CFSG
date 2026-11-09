@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.EachTrue
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.D42A "Certificates/Kernel/D42Cls/data/a.json.gz" 375451
+#kc_repo #kc_json CFSG.KD.D42A "Certificates/Kernel/D42Cls/data/a.json" 375451
   3669998975996202135 (N : Nat) (n : Nat) (T : List Nat) (TW : List Nat) (DP : Nat) (Vm : Nat)
   (sW : List (List Nat)) (kW : List Nat) (rows : List (List (Nat × Nat × Nat × List Nat)))
   (CR : List (List (Nat × Nat × Nat))) (W1 : List (Nat × Nat × Nat)) (W2 : List (Nat × Nat × Nat))

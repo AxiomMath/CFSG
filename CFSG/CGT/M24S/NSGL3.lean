@@ -182,9 +182,14 @@ theorem commute_of_inU3 : ∀ B : Matrix (Fin 3) (Fin 3) (ZMod 2), InU3 B →
   decide
 
 set_option maxRecDepth 10000 in
-theorem commute_or_of_inU3 : ∀ B B' : Matrix (Fin 3) (Fin 3) (ZMod 2), InU3 B → InU3 B' →
-    B * B' = B' * B ∨ B * B' = ℓ₀ * (B' * B) := by
+theorem commute_or_of_inU3_aux : ∀ B : Matrix (Fin 3) (Fin 3) (ZMod 2), InU3 B →
+    ∀ B' : Matrix (Fin 3) (Fin 3) (ZMod 2), InU3 B' →
+      B * B' = B' * B ∨ B * B' = ℓ₀ * (B' * B) := by
   decide +kernel
+
+theorem commute_or_of_inU3 : ∀ B B' : Matrix (Fin 3) (Fin 3) (ZMod 2), InU3 B → InU3 B' →
+    B * B' = B' * B ∨ B * B' = ℓ₀ * (B' * B) :=
+  fun B B' hB hB' => commute_or_of_inU3_aux B hB B' hB'
 
 set_option maxRecDepth 10000 in
 theorem card_inU3 : Fintype.card {B : Matrix (Fin 3) (Fin 3) (ZMod 2) // InU3 B} = 8 := by

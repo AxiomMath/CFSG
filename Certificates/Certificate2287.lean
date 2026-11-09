@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Sporadic.SmallOddCore.McLLocalCheckInputs
+public import CFSG.Sporadic.SmallOddCore.SylowSimple
 public meta import CFSG.Sporadic.SmallOddCore.McLData
 public meta import CFSG.Sporadic.SmallOddCore.ClassSimple
 public meta import CFSG.Sporadic.SuzOddCore.RestrictDefs
@@ -20,16 +21,13 @@ theorem certificate2287 : (mclFix.length = 35 ∧ mclXGens.size = 2 ∧ invsOK 3
       ∀ k < 2, permOK 275 (mclCentTbl (k + 5)) = true
     )
     ∧ (CFSG.PSL3Four.Native.enumOK 35 mclXGens mclXEnum = true ∧ mclXEnum.tabs.size = 20160)
-    ∧ ((∀ l < 14, orbitOK 35 mclXGens mclXInvs (wordTabS 35 mclXGens (mclXWords.getD l []))
-        mclXOrbits[l]! = true ∧ mclXOrbits[l]!.tabs.size = mclXSizes.getD l 0) ∧
-      (∀ l < 14, ∀ l' < 14, l ≠ l' →
-        notInOK mclXOrbits[l]!.tabs (wordTabS 35 mclXGens (mclXWords.getD l' [])) = true) ∧
-      (∀ l < 14, ∀ j ∈ mclXWords.getD l [], j < mclXGens.size) ∧
-      wordTabS 35 mclXGens (mclXWords.getD 0 []) = idTab 35
-    )
-    ∧ (coverAllOK mclXEnum.tabs mclXOrbits = true)
-    ∧ (∀ U : Finset (Fin 14), 0 ∈ U → (∑ l ∈ U, mclXSizes.getD l 0) ∣ 20160 →
-      U = {0} ∨ U = Finset.univ
+    ∧ (∀ i < 4, (∀ w ∈ mclSylWords.getD i [], ∀ j ∈ w, j < mclXGens.size) ∧
+      CFSG.PSL3Four.Native.enumOK 35 (mclSylGens i) (mclSylEnum i) = true ∧
+      (mclSylEnum i).tabs.size = mclSylSizes.getD i 0 ∧
+      ∀ q < (mclSylEnum i).tabs.size, (mclSylEnum i).tabs[q]! = idTab 35 ∨
+        wordTabS 35 #[(mclSylEnum i).tabs[q]!] (List.replicate (mclSylPrimes.getD i 0) 0) ≠
+          idTab 35 ∨
+        ∃ cs W, nclWordsOK 35 mclXGens mclXInvs (mclSylEnum i).tabs[q]! cs W = true
     ) := KernelSpor.McL2287.facts2287
 
 end Certificates

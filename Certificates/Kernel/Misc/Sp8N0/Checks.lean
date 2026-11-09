@@ -10,8 +10,17 @@ public section
 
 namespace CFSG.KD.Sp8N0
 
+@[expose] noncomputable def RECs (j : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (REC (nat_lit 0)) (fun n _ => REC (Nat.succ n)) j
+
+theorem RECs_eq : RECs = REC := funext fun j => by cases j <;> rfl
+
 set_option maxRecDepth 100000 in
-theorem n04_tab_ok : n0TabK REC 31104 = true := by quickRfl
+theorem n04_tabS_ok : n0TabK RECs 31104 = true := by quickRfl
+
+theorem n04_tab_ok : n0TabK REC 31104 = true := by
+  rw [← RECs_eq]
+  exact n04_tabS_ok
 
 theorem n04_mem_ok : n0MemK REC = true := by quickRfl
 

@@ -912,11 +912,9 @@ theorem classData_rec {L G : Array (Array ℕ)} {idx : Array ℕ → ℕ} {tst :
           obtain ⟨-, h⟩ := (bAnd_iff _ _).1 h
           obtain ⟨-, h⟩ := (bAnd_iff _ _).1 h
           obtain ⟨-, h⟩ := (bAnd_iff _ _).1 h
-          obtain ⟨s5, h⟩ := (bAnd_iff _ _).1 h
-          obtain ⟨s6, s7⟩ := (bAnd_iff _ _).1 h
+          obtain ⟨s5, s6⟩ := (bAnd_iff _ _).1 h
           dsimp only
-          rw [a5, (invEqK_sound (n := 276) (w := 9) s5).1, ← Nat.eq_of_beq_eq_true s7,
-            hidx _ (Nat.blt_eq.mp s6)]
+          rw [a5, (invEqK_sound (n := 276) (w := 9) s5).1, hidx _ (Nat.blt_eq.mp s6)]
         have hd0 : ∀ i < lget CS C,
             s.2.2.2[(M (lget OFF C + i), unpack 276 9 (CC (lget OFF C + i))).1]! = false := by
           intro i hi

@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GUC1 "Certificates/Kernel/GammaU/data/cen1.json.gz" 398068
+#kc_repo #kc_json CFSG.KD.GUC1 "Certificates/Kernel/GammaU/data/cen1.json" 398068
   16685595675979074475 (S0 : Nat) (TH : Nat) (CS : Nat) (CSI : Nat) (NC : Nat)
   (CN : List (List Nat)) (FT : Nat) (FTi : Nat) (FC : Nat) (CG : Nat) (CGI : Nat)
   (ED : List (List Nat)) (LB : Nat) (DP : Nat) (OR : List Nat) (OG : List Nat) (OV : List Nat)

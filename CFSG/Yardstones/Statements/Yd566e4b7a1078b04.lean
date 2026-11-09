@@ -1,7 +1,7 @@
 module
 
 public import CFSG.Yardstones.M19b85589cdfc.Definitions
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.CGT.PushingUpLit.BHS6.Basic
 public import CFSG.CGT.PushingUpLit.SolK.Inputs
 public import CFSG.CGT.PushingUpLit.SolKNA.Quaternion
@@ -221,7 +221,7 @@ public import Certificates.Certificate9124
 public import Certificates.Kernel.J4Count.FixCE
 public import Certificates.Kernel.J4Count.FixCPairBase1
 public import Certificates.Kernel.J4Count.KFactsBase
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

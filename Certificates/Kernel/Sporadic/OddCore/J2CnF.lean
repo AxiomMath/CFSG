@@ -14,6 +14,11 @@ import CFSG.Certificates.Kernel.Spor.RawOrbEval
 import Mathlib.Tactic.IntervalCases
 public import CFSG.LocalAnalysis.ComponentClassification.J2CoverAutCheckBase
 import CFSG.Certificates.Kernel.Spor.RawSlSound
+import CFSG.Certificates.Kernel.Spor.PEnumLCSound
+import Certificates.Kernel.Sporadic.OddCore.MulHPos
+import CFSG.Certificates.Kernel.Spor.PEnumRSound
+import CFSG.Certificates.Kernel.Spor.PEnumBSound
+import CFSG.Certificates.Kernel.Spor.HKeyUSound
 
 public section
 
@@ -23,7 +28,7 @@ namespace CertificateChecks.KernelSpor.J2Cn
 
 open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SmallOddCore.Native CFSG.Sporadic.Th.Native
 open CFSG.Sporadic.Schreier.Native CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.PEnum
-open CFSG.KS.MulH CFSG.KC.BfsPin CFSG.Monster.B.Co2.Native
+open CFSG.KS.MulH CFSG.KC.BfsPin CFSG.Monster.B.Co2.Native CFSG.KS.PEnumLC
 
 theorem base : szOK 315 9 = true ∧ canonK 315 9 (mask 9) (315 * 9) idK = true ∧
     CFSG.KS.Prim.idK 315 9 (mask 9) = true ∧
@@ -177,6 +182,22 @@ theorem sl_all' {cnt : Nat} {P : Nat → Bool} (h : slK cnt P 0 cnt = true) :
     ∀ c < cnt, P c = true :=
   fun c hc => slK_spec h c (Nat.zero_le _) (by omega) hc
 
+theorem hsV_ofP {cnt : Nat} {T HV HS HSI : Nat → Nat}
+    (hv : ∀ i < cnt, Nat.beq (hkeyU 315 9 (mask 9) (T i)) (HV i) = true)
+    (h : slK cnt (CFSG.KS.PEnumB.hsortVK cnt HV HS HSI) 0 cnt = true) :
+    ∀ i < cnt, hsortPtK 315 9 (mask 9) cnt T HS HSI i = true := by
+  refine CFSG.KS.PEnumB.hsortPtK_of_V (HV := HV) (fun i hi => ?_)
+    (fun i hi => slK_spec h i (Nat.zero_le _) (by omega) hi)
+  unfold CFSG.KS.PEnumB.hvK
+  rw [← hkeyU_eq]
+  exact hv i hi
+
+theorem hsV_ofU {cnt : Nat} {T HV HS HSI : Nat → Nat}
+    (hv : slK cnt (fun i => Nat.beq (hkeyU 315 9 (mask 9) (T i)) (HV i)) 0 cnt = true)
+    (h : slK cnt (CFSG.KS.PEnumB.hsortVK cnt HV HS HSI) 0 cnt = true) :
+    ∀ i < cnt, hsortPtK 315 9 (mask 9) cnt T HS HSI i = true :=
+  hsV_ofP (fun i hi => slK_spec hv i (Nat.zero_le _) (by omega) hi) h
+
 theorem heads : penumHdK J2R1.R J2R1.cnt 3000 J2R1.T J2R1.PL = true ∧
     penumHdK J2R2.R J2R2.cnt 3000 J2R2.T J2R2.PL = true ∧
     penumHdK J2R3.R J2R3.cnt 3000 J2R3.T J2R3.PL = true ∧
@@ -212,20 +233,37 @@ theorem sizes : J2R1.cnt = 1800 ∧ J2R2.cnt = 2520 ∧ J2R3.cnt = 315 ∧ J2SY.
   simp only [bAnd_iff, Nat.beq_eq] at h
   exact h
 
+theorem hd_zero {R cnt : Nat} {T PL : Nat → Nat} (hh : penumHdK R cnt 3000 T PL = true) :
+    T 0 = R := by
+  unfold penumHdK at hh
+  simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at hh
+  exact Nat.eq_of_beq_eq_true hh.2.2.1
+
+theorem pe_lc {cnt R : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hp : allN 2 (fun j => bAnd(Nat.beq (G j) (J2P.S j), Nat.beq (GI j) (J2P.SI j))) = true)
+    (hh : penumHdK R cnt 3000 T PL = true) (hR : canonK 315 9 (mask 9) (315 * 9) R = true)
+    (h : ∀ i < cnt, penumPtLC 315 9 (mask 9) true G GI 2 cnt T PL POS SRT SRI i = true) :
+    ∀ i < cnt, penumPtK 315 9 (mask 9) (315 * 9) true G GI 2 cnt T PL POS SRT SRI i = true :=
+  penumPtK_of_LC (fun j hj => by rw [(pair_of hp).1 j hj]; exact Sc hj)
+    (fun j hj => by rw [(pair_of hp).2 j hj]; exact SIc hj) (by rw [hd_zero hh]; exact hR) h
+
 theorem r1_pe : ∀ i < J2R1.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2R1.G J2R1.GI 2 J2R1.cnt
     J2R1.T J2R1.PL J2R1.POS J2R1.SRT J2R1.SRI i = true := by
+  refine pe_lc bindO.1.1 heads.1
+    (by rw [Nat.eq_of_beq_eq_true bindO.2.1]; exact Fc (by norm_num)) ?_
   have hc : J2R1.cnt = 450 * 4 := by rw [sizes.1]
   rw [hc]
   refine cover (by norm_num) fun s hs i h1 h2 => ?_
   have hi : i < J2R1.cnt := by rw [hc]; omega
   interval_cases s
-  · exact penumSl_spec o1E0 i h1 h2 hi
-  · exact penumSl_spec o1E1 i h1 h2 hi
-  · exact penumSl_spec o1E2 i h1 h2 hi
-  · exact penumSl_spec o1E3 i h1 h2 hi
+  · exact penumSlLC_spec o1E0 i h1 h2 hi
+  · exact penumSlLC_spec o1E1 i h1 h2 hi
+  · exact penumSlLC_spec o1E2 i h1 h2 hi
+  · exact penumSlLC_spec o1E3 i h1 h2 hi
 
 theorem r1_hs : ∀ i < J2R1.cnt, hsortPtK 315 9 (mask 9) J2R1.cnt J2R1.T J2R1.HS J2R1.HSI i = true
     := by
+  refine hsV_ofP ?_ o1Hs
   have hc : J2R1.cnt = 900 * 2 := by rw [sizes.1]
   rw [hc]
   refine cover (by norm_num) fun s hs i h1 h2 => ?_
@@ -236,20 +274,29 @@ theorem r1_hs : ∀ i < J2R1.cnt, hsortPtK 315 9 (mask 9) J2R1.cnt J2R1.T J2R1.H
 
 theorem r2_pe : ∀ i < J2R2.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2R2.G J2R2.GI 2 J2R2.cnt
     J2R2.T J2R2.PL J2R2.POS J2R2.SRT J2R2.SRI i = true := by
+  refine pe_lc bindO.1.2.1 heads.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindO.2.2.1]; exact Fc (by norm_num)) ?_
   have hc : J2R2.cnt = 420 * 6 := by rw [sizes.2.1]
   rw [hc]
   refine cover (by norm_num) fun s hs i h1 h2 => ?_
   have hi : i < J2R2.cnt := by rw [hc]; omega
   interval_cases s
-  · exact penumSl_spec o2E0 i h1 h2 hi
-  · exact penumSl_spec o2E1 i h1 h2 hi
-  · exact penumSl_spec o2E2 i h1 h2 hi
-  · exact penumSl_spec o2E3 i h1 h2 hi
-  · exact penumSl_spec o2E4 i h1 h2 hi
-  · exact penumSl_spec o2E5 i h1 h2 hi
+  · exact penumSlLC_spec o2E0 i h1 h2 hi
+  · exact penumSlLC_spec o2E1 i h1 h2 hi
+  · exact penumSlLC_spec o2E2 i h1 h2 hi
+  · exact penumSlLC_spec o2E3 i h1 h2 hi
+  · exact penumSlLC_spec o2E4 i h1 h2 hi
+  · exact penumSlLC_spec o2E5 i h1 h2 hi
+
+theorem r3_pe : ∀ i < J2R3.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2R3.G J2R3.GI 2 J2R3.cnt
+    J2R3.T J2R3.PL J2R3.POS J2R3.SRT J2R3.SRI i = true :=
+  pe_lc bindO.1.2.2 heads.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindO.2.2.2]; exact Fc (by norm_num))
+    fun i hi => penumSlLC_spec o3E i (Nat.zero_le _) (by rw [sizes.2.2.1] at hi; omega) hi
 
 theorem r2_hs : ∀ i < J2R2.cnt, hsortPtK 315 9 (mask 9) J2R2.cnt J2R2.T J2R2.HS J2R2.HSI i = true
     := by
+  refine hsV_ofP ?_ o2Hs
   have hc : J2R2.cnt = 840 * 3 := by rw [sizes.2.1]
   rw [hc]
   refine cover (by norm_num) fun s hs i h1 h2 => ?_
@@ -288,7 +335,37 @@ theorem bindM : (allN 8 (fun j => bAnd(Nat.beq (J2SY.G j) idK, Nat.beq (J2SY.GI 
   obtain ⟨a1, a2, a3, a4⟩ := h
   exact ⟨⟨a1, a2⟩, a3, a4⟩
 
-theorem recSY : mulClosureH 315 (cgL 1 8).toArray 3000 = hRec 315 9 J2SY.cnt J2SY.T J2SY.PL ∧
+theorem pe_R {k cnt : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hGI : ∀ j < k, canonK 315 9 (mask 9) (315 * 9) (GI j) = true) (hG : ∀ j < k, G j = idK)
+    (hh : penumHdK idK cnt 3000 T PL = true)
+    (h : slK cnt (CFSG.KS.PEnumR.penumPtR 315 9 (mask 9) GI k cnt T PL POS SRT SRI) 0 cnt = true) :
+    ∀ i < cnt, penumPtK 315 9 (mask 9) (315 * 9) true G GI k cnt T PL POS SRT SRI i = true :=
+  CFSG.KS.PEnumR.penumPtK_of_R hn hGI hG hh fun i hi => slK_spec h i (Nat.zero_le _) (by omega) hi
+
+theorem syPK : ∀ i < J2SY.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2SY.G J2SY.GI 8 J2SY.cnt
+    J2SY.T J2SY.PL J2SY.POS J2SY.SRT J2SY.SRI i = true := by
+  obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.succ j))) bindM.1.1
+  exact pe_R (fun j hj => by rw [hGI j hj]; exact Fc (by omega)) hG heads.2.2.2.1 syE
+
+theorem k1PK : ∀ i < J2K1.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2K1.G J2K1.GI 3 J2K1.cnt
+    J2K1.T J2K1.PL J2K1.POS J2K1.SRT J2K1.SRI i = true := by
+  obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.add 10 j))) bindM.1.2
+  exact pe_R (fun j hj => by rw [hGI j hj]; exact Fc (by change 10 + j < 42; omega)) hG
+    heads.2.2.2.2.1 k1E
+
+theorem e2aPK : ∀ i < J2E2a.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2E2a.G J2E2a.GI 2 J2E2a.cnt
+    J2E2a.T J2E2a.PL J2E2a.POS J2E2a.SRT J2E2a.SRI i = true := by
+  obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.add 24 j))) bindM.2.1
+  exact pe_R (fun j hj => by rw [hGI j hj]; exact Fc (by change 24 + j < 42; omega)) hG
+    heads.2.2.2.2.2.2.2.2.2.2.2.2.2.1 e2aE
+
+theorem e2bPK : ∀ i < J2E2b.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2E2b.G J2E2b.GI 2 J2E2b.cnt
+    J2E2b.T J2E2b.PL J2E2b.POS J2E2b.SRT J2E2b.SRI i = true := by
+  obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.add 27 j))) bindM.2.2
+  exact pe_R (fun j hj => by rw [hGI j hj]; exact Fc (by change 27 + j < 42; omega)) hG
+    heads.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 e2bE
+
+theorem recSY : mulClosureH 315 (cgL 1 8).toArray 3000 =hRec 315 9 J2SY.cnt J2SY.T J2SY.PL ∧
     mulTreeOK 315 (cgL 1 8).toArray (hRec 315 9 J2SY.cnt J2SY.T J2SY.PL).1
       (hRec 315 9 J2SY.cnt J2SY.T J2SY.PL).2.1 (hRec 315 9 J2SY.cnt J2SY.T J2SY.PL).2.2 = true ∧
     hkeysDistinct 315 (hRec 315 9 J2SY.cnt J2SY.T J2SY.PL).1.toList = true := by
@@ -298,17 +375,16 @@ theorem recSY : mulClosureH 315 (cgL 1 8).toArray 3000 = hRec 315 9 J2SY.cnt J2S
     congr 1
     change j + 1 = 1 + j
     omega
-  exact mulH_sound hn hG (TabsOK_congr hGI' (cg_tabs 1 8 (by norm_num))) heads.2.2.2.1 (pe_all' syE)
-    (sl_all' syH)
+  exact mulH_sound hn hG (TabsOK_congr hGI' (cg_tabs 1 8 (by norm_num))) heads.2.2.2.1 syPK
+    (hsV_ofU syH syHs)
 
 theorem recK1 : mulClosureH 315 (cgL 10 3).toArray 3000 = hRec 315 9 J2K1.cnt J2K1.T J2K1.PL ∧
     mulTreeOK 315 (cgL 10 3).toArray (hRec 315 9 J2K1.cnt J2K1.T J2K1.PL).1
       (hRec 315 9 J2K1.cnt J2K1.T J2K1.PL).2.1 (hRec 315 9 J2K1.cnt J2K1.T J2K1.PL).2.2 = true ∧
     hkeysDistinct 315 (hRec 315 9 J2K1.cnt J2K1.T J2K1.PL).1.toList = true := by
   obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.add 10 j))) bindM.1.2
-  exact mulH_sound hn hG (TabsOK_congr hGI (cg_tabs 10 3 (by norm_num))) heads.2.2.2.2.1 (pe_all'
-      k1E)
-    (sl_all' k1H)
+  exact mulH_sound hn hG (TabsOK_congr hGI (cg_tabs 10 3 (by norm_num))) heads.2.2.2.2.1 k1PK
+    (hsV_ofU k1H k1Hs)
 
 theorem recE2a : mulClosureH 315 (cgL 24 2).toArray 3000 = hRec 315 9 J2E2a.cnt J2E2a.T J2E2a.PL ∧
     mulTreeOK 315 (cgL 24 2).toArray (hRec 315 9 J2E2a.cnt J2E2a.T J2E2a.PL).1
@@ -317,8 +393,8 @@ theorem recE2a : mulClosureH 315 (cgL 24 2).toArray 3000 = hRec 315 9 J2E2a.cnt 
     hkeysDistinct 315 (hRec 315 9 J2E2a.cnt J2E2a.T J2E2a.PL).1.toList = true := by
   obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.add 24 j))) bindM.2.1
   exact mulH_sound hn hG (TabsOK_congr hGI (cg_tabs 24 2 (by norm_num)))
-      heads.2.2.2.2.2.2.2.2.2.2.2.2.2.1 (pe_all' e2aE)
-    (sl_all' e2aH)
+      heads.2.2.2.2.2.2.2.2.2.2.2.2.2.1 e2aPK
+    (hsV_ofU e2aH e2aHs)
 
 theorem recE2b : mulClosureH 315 (cgL 27 2).toArray 3000 = hRec 315 9 J2E2b.cnt J2E2b.T J2E2b.PL ∧
     mulTreeOK 315 (cgL 27 2).toArray (hRec 315 9 J2E2b.cnt J2E2b.T J2E2b.PL).1
@@ -327,8 +403,8 @@ theorem recE2b : mulClosureH 315 (cgL 27 2).toArray 3000 = hRec 315 9 J2E2b.cnt 
     hkeysDistinct 315 (hRec 315 9 J2E2b.cnt J2E2b.T J2E2b.PL).1.toList = true := by
   obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.add 27 j))) bindM.2.2
   exact mulH_sound hn hG (TabsOK_congr hGI (cg_tabs 27 2 (by norm_num)))
-      heads.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 (pe_all' e2bE)
-    (sl_all' e2bH)
+      heads.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 e2bPK
+    (hsV_ofU e2bH e2bHs)
 
 theorem recC1 : mulClosureH 315 (cgL 18 5).toArray 3000 = hRec 315 9 J2C1.cnt J2C1.T J2C1.PL ∧
     mulTreeOK 315 (cgL 18 5).toArray (hRec 315 9 J2C1.cnt J2C1.T J2C1.PL).1
@@ -385,8 +461,8 @@ theorem recR3 : conjClosureH 315 j2PGTbls j2PGInvTbls (j2CentTbl 31) 3000 = hRec
       (hRec 315 9 J2R3.cnt J2R3.T J2R3.PL).2.1 (hRec 315 9 J2R3.cnt J2R3.T J2R3.PL).2.2 = true ∧
     hkeysDistinct 315 (hRec 315 9 J2R3.cnt J2R3.T J2R3.PL).1.toList = true :=
   conjH_sound hn (rbind bindO.1.2.2).1 (rbind bindO.1.2.2).2
-    (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindO.2.2.2]) heads.2.2.1 (pe_all' o3E)
-        (sl_all' o3H)
+    (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindO.2.2.2]) heads.2.2.1 r3_pe
+        (hsV_ofU o3H o3Hs)
 
 theorem bindQ : (allN 3 (fun j => bAnd(Nat.beq (J2Q1a.G j) (F (Nat.add 10 j)),
       bAnd(Nat.beq (J2Q1a.GI j) (I (Nat.add 10 j)), bAnd(Nat.beq (J2Q1b.G j) (F (Nat.add 10 j)),
@@ -410,6 +486,79 @@ theorem bindQ : (allN 3 (fun j => bAnd(Nat.beq (J2Q1a.G j) (F (Nat.add 10 j)),
 theorem qeq {k : Nat} {f : Nat → Bool} (h : allN k f = true) : ∀ j < k, f j = true :=
   fun j hj => allN_spec h j hj
 
+theorem pe_q {k cnt R a : Nat} {G GI T PL POS SRT SRI : Nat → Nat}
+    (hb : ∀ j < k, G j = F (Nat.add a j) ∧ GI j = I (Nat.add a j)) (hk : a + k ≤ 42)
+    (hh : penumHdK R cnt 3000 T PL = true) (hR : canonK 315 9 (mask 9) (315 * 9) R = true)
+    (h : penumSlLC 315 9 (mask 9) true G GI k cnt T PL POS SRT SRI 0 cnt = true) :
+    ∀ i < cnt, penumPtK 315 9 (mask 9) (315 * 9) true G GI k cnt T PL POS SRT SRI i = true :=
+  penumPtK_of_LC (fun j hj => by rw [(hb j hj).1]; exact Fc (by change a + j < 42; omega))
+    (fun j hj => by rw [(hb j hj).2]; exact Ic (by change a + j < 42; omega))
+    (by rw [hd_zero hh]; exact hR) fun i hi => penumSlLC_spec h i (Nat.zero_le _) (by omega) hi
+
+theorem q1aPK : ∀ i < J2Q1a.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q1a.G J2Q1a.GI 3
+    J2Q1a.cnt J2Q1a.T J2Q1a.PL J2Q1a.POS J2Q1a.SRT J2Q1a.SRI i = true := by
+  refine pe_q (a := 10) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.1]; exact Fc (by norm_num)) q1aE
+  have h := qeq bindQ.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2.1⟩
+
+theorem q1bPK : ∀ i < J2Q1b.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q1b.G J2Q1b.GI 3
+    J2Q1b.cnt J2Q1b.T J2Q1b.PL J2Q1b.POS J2Q1b.SRT J2Q1b.SRI i = true := by
+  refine pe_q (a := 10) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.1]; exact Fc (by norm_num)) q1bE
+  have h := qeq bindQ.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.2.2.1, Nat.eq_of_beq_eq_true h.2.2.2⟩
+
+theorem q2aPK : ∀ i < J2Q2a.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q2a.G J2Q2a.GI 5
+    J2Q2a.cnt J2Q2a.T J2Q2a.PL J2Q2a.POS J2Q2a.SRT J2Q2a.SRI i = true := by
+  refine pe_q (a := 18) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.1]; exact Fc (by norm_num)) q2aE
+  have h := qeq bindQ.2.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2.1⟩
+
+theorem q2bPK : ∀ i < J2Q2b.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q2b.G J2Q2b.GI 5
+    J2Q2b.cnt J2Q2b.T J2Q2b.PL J2Q2b.POS J2Q2b.SRT J2Q2b.SRI i = true := by
+  refine pe_q (a := 18) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.1]; exact Fc (by norm_num)) q2bE
+  have h := qeq bindQ.2.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.2.2.1, Nat.eq_of_beq_eq_true h.2.2.2.1⟩
+
+theorem q2cPK : ∀ i < J2Q2c.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q2c.G J2Q2c.GI 5
+    J2Q2c.cnt J2Q2c.T J2Q2c.PL J2Q2c.POS J2Q2c.SRT J2Q2c.SRI i = true := by
+  refine pe_q (a := 18) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.1]; exact Fc (by norm_num)) q2cE
+  have h := qeq bindQ.2.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.2.2.2.2.1, Nat.eq_of_beq_eq_true h.2.2.2.2.2⟩
+
+theorem q3aPK : ∀ i < J2Q3a.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q3a.G J2Q3a.GI 4
+    J2Q3a.cnt J2Q3a.T J2Q3a.PL J2Q3a.POS J2Q3a.SRT J2Q3a.SRI i = true := by
+  refine pe_q (a := 32) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.2.1]; exact Fc (by norm_num)) q3aE
+  have h := qeq bindQ.2.2.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2.1⟩
+
+theorem q3bPK : ∀ i < J2Q3b.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q3b.G J2Q3b.GI 4
+    J2Q3b.cnt J2Q3b.T J2Q3b.PL J2Q3b.POS J2Q3b.SRT J2Q3b.SRI i = true := by
+  refine pe_q (a := 32) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.2.2.1]; exact Fc (by norm_num)) q3bE
+  have h := qeq bindQ.2.2.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.2.2.1, Nat.eq_of_beq_eq_true h.2.2.2.1⟩
+
+theorem q3cPK : ∀ i < J2Q3c.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2Q3c.G J2Q3c.GI 4
+    J2Q3c.cnt J2Q3c.T J2Q3c.PL J2Q3c.POS J2Q3c.SRT J2Q3c.SRI i = true := by
+  refine pe_q (a := 32) (fun j hj => ?_) (by norm_num) heads.2.2.2.2.2.2.2.2.2.2.2.2.1
+    (by rw [Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.2.2.2]; exact Fc (by norm_num)) q3cE
+  have h := qeq bindQ.2.2.1 j hj
+  simp only [bAnd_iff] at h
+  exact ⟨Nat.eq_of_beq_eq_true h.2.2.2.2.1, Nat.eq_of_beq_eq_true h.2.2.2.2.2⟩
+
 theorem recQ1a : conjClosureH 315 (cgL 10 3).toArray ((cgL 10 3).toArray.map (invT 315))
       (j2CentTbl 13) 3000 = hRec 315 9 J2Q1a.cnt J2Q1a.T J2Q1a.PL ∧
     conjTreeOK 315 (cgL 10 3).toArray ((cgL 10 3).toArray.map (invT 315)) (j2CentTbl 13)
@@ -424,9 +573,8 @@ theorem recQ1a : conjClosureH 315 (cgL 10 3).toArray ((cgL 10 3).toArray.map (in
       Nat.eq_of_beq_eq_true h.2.1⟩
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 10 3 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 10 3 (by norm_num)))
-    (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.1]) heads.2.2.2.2.2.1 (pe_all'
-        q1aE)
-    (sl_all' q1aH)
+    (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.1]) heads.2.2.2.2.2.1 q1aPK
+    (hsV_ofU q1aH q1aHs)
 
 theorem recQ1b : conjClosureH 315 (cgL 10 3).toArray ((cgL 10 3).toArray.map (invT 315))
       (j2CentTbl 15) 3000 = hRec 315 9 J2Q1b.cnt J2Q1b.T J2Q1b.PL ∧
@@ -443,8 +591,8 @@ theorem recQ1b : conjClosureH 315 (cgL 10 3).toArray ((cgL 10 3).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 10 3 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 10 3 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.1]) heads.2.2.2.2.2.2.1
-        (pe_all' q1bE)
-    (sl_all' q1bH)
+        q1bPK
+    (hsV_ofU q1bH q1bHs)
 
 theorem recQ2a : conjClosureH 315 (cgL 18 5).toArray ((cgL 18 5).toArray.map (invT 315))
       (j2CentTbl 23) 3000 = hRec 315 9 J2Q2a.cnt J2Q2a.T J2Q2a.PL ∧
@@ -461,7 +609,7 @@ theorem recQ2a : conjClosureH 315 (cgL 18 5).toArray ((cgL 18 5).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 18 5 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 18 5 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.1]) heads.2.2.2.2.2.2.2.1
-        (pe_all' q2aE)
+        q2aPK
     (sl_all' q2aH)
 
 theorem recQ2b : conjClosureH 315 (cgL 18 5).toArray ((cgL 18 5).toArray.map (invT 315))
@@ -479,7 +627,7 @@ theorem recQ2b : conjClosureH 315 (cgL 18 5).toArray ((cgL 18 5).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 18 5 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 18 5 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.1]) heads.2.2.2.2.2.2.2.2.1
-        (pe_all' q2bE)
+        q2bPK
     (sl_all' q2bH)
 
 theorem recQ2c : conjClosureH 315 (cgL 18 5).toArray ((cgL 18 5).toArray.map (invT 315))
@@ -497,7 +645,7 @@ theorem recQ2c : conjClosureH 315 (cgL 18 5).toArray ((cgL 18 5).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 18 5 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 18 5 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.1])
-        heads.2.2.2.2.2.2.2.2.2.1 (pe_all' q2cE)
+        heads.2.2.2.2.2.2.2.2.2.1 q2cPK
     (sl_all' q2cH)
 
 theorem recQ3a : conjClosureH 315 (cgL 32 4).toArray ((cgL 32 4).toArray.map (invT 315))
@@ -515,8 +663,8 @@ theorem recQ3a : conjClosureH 315 (cgL 32 4).toArray ((cgL 32 4).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 32 4 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 32 4 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.2.1])
-        heads.2.2.2.2.2.2.2.2.2.2.1 (pe_all' q3aE)
-    (sl_all' q3aH)
+        heads.2.2.2.2.2.2.2.2.2.2.1 q3aPK
+    (hsV_ofU q3aH q3aHs)
 
 theorem recQ3b : conjClosureH 315 (cgL 32 4).toArray ((cgL 32 4).toArray.map (invT 315))
       (j2CentTbl 38) 3000 = hRec 315 9 J2Q3b.cnt J2Q3b.T J2Q3b.PL ∧
@@ -533,8 +681,8 @@ theorem recQ3b : conjClosureH 315 (cgL 32 4).toArray ((cgL 32 4).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 32 4 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 32 4 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.2.2.1])
-        heads.2.2.2.2.2.2.2.2.2.2.2.1 (pe_all' q3bE)
-    (sl_all' q3bH)
+        heads.2.2.2.2.2.2.2.2.2.2.2.1 q3bPK
+    (hsV_ofU q3bH q3bHs)
 
 theorem recQ3c : conjClosureH 315 (cgL 32 4).toArray ((cgL 32 4).toArray.map (invT 315))
       (j2CentTbl 40) 3000 = hRec 315 9 J2Q3c.cnt J2Q3c.T J2Q3c.PL ∧
@@ -551,8 +699,8 @@ theorem recQ3c : conjClosureH 315 (cgL 32 4).toArray ((cgL 32 4).toArray.map (in
   exact conjH_sound hn (TabsOK_congr (fun j hj => (hb j hj).1) (cg_tabs 32 4 (by norm_num)))
     (TabsOK_congr (fun j hj => (hb j hj).2) (cgi_tabs 32 4 (by norm_num)))
     (by rw [tabF (by norm_num), Nat.eq_of_beq_eq_true bindQ.2.2.2.2.2.2.2.2.2.2])
-        heads.2.2.2.2.2.2.2.2.2.2.2.2.1 (pe_all' q3cE)
-    (sl_all' q3cH)
+        heads.2.2.2.2.2.2.2.2.2.2.2.2.1 q3cPK
+    (hsV_ofU q3cH q3cHs)
 
 theorem u_tab : j2OuterTbl = tabT (unpack 315 9 (F 0)) := tabF (by norm_num)
 
@@ -582,19 +730,34 @@ theorem sy_invs : ∀ j < 8, invEqK 315 9 (mask 9) (315 * 9) (F (Nat.succ j)) (I
     canonK 315 9 (mask 9) (315 * 9) (I (Nat.succ j)) = true :=
   fun j hj => ⟨Finv (by omega), Ic (by omega)⟩
 
-theorem sy_cl : ∀ c < J2SY.cnt * (8 + 8), findPtK J2SY.cnt J2SY.T
-    (prodQK 315 9 (mask 9) (8 + 8) J2SY.T (bothK 8 (fun j => F (Nat.succ j))
-      (fun j => I (Nat.succ j)))) J2SYCl c = true := by
-  have hc : J2SY.cnt * (8 + 8) = 2048 * 2 := by rw [sizes.2.2.2.1]
-  rw [hc]
-  refine cover (by norm_num) fun s hs i h1 h2 => ?_
-  have hi : i < Nat.mul J2SY.cnt 16 := by
-    change i < J2SY.cnt * 16
-    rw [sizes.2.2.2.1]
-    omega
-  interval_cases s
-  · exact slK_spec syCl0 i h1 h2 hi
-  · exact slK_spec syCl1 i h1 h2 hi
+theorem sy_fw : ∀ j < 8, ∀ i < J2SY.cnt, r32 J2SY.POS (i * 8 + j) < J2SY.cnt ∧
+    J2SY.T (r32 J2SY.POS (i * 8 + j)) = pcomp 315 9 (mask 9) (J2SY.T i) (F (Nat.succ j)) := by
+  obtain ⟨hG, hGI⟩ := pair_of (S := fun _ => idK) (SI := (fun j => F (Nat.succ j))) bindM.1.1
+  intro j hj i hi
+  have hp := syPK i hi
+  obtain ⟨h1, h2, -⟩ := (penumPt_specH hp).2.2.1 j hj
+  refine ⟨h1, ?_⟩
+  rw [h2]
+  change pcomp 315 9 (mask 9) (pcomp 315 9 (mask 9) (J2SY.G j) (J2SY.T i)) (J2SY.GI j) = _
+  rw [hG j hj, hGI j hj]
+  unfold idK
+  rw [pidn_pcomp_canon (penumPt_canon hp)]
+
+theorem sy_cl : ∀ i < J2SY.cnt, ∀ j < 8 + 8, ∃ q < J2SY.cnt,
+    J2SY.T q = pcomp 315 9 (mask 9) (J2SY.T i) (bothK 8 (fun j => F (Nat.succ j))
+      (fun j => I (Nat.succ j)) j) := by
+  have hT : ∀ i < J2SY.cnt, canonK 315 9 (mask 9) (315 * 9) (J2SY.T i) = true :=
+    fun i hi => penumPt_canon (syPK i hi)
+  have hdist : ∀ a < J2SY.cnt, ∀ b < J2SY.cnt, J2SY.T a = J2SY.T b → a = b :=
+    inj_of_sortH fun i hi => (penumPt_specH (syPK i hi)).2.2.2
+  intro i hi j hj
+  by_cases h : j < 8
+  · rw [bothK_lt h]
+    exact ⟨_, (sy_fw j h i hi).1, (sy_fw j h i hi).2⟩
+  · have hjk : j - 8 < 8 := by omega
+    rw [bothK_ge (by omega)]
+    exact exists_pcomp_invEqK (P := fun i => r32 J2SY.POS (i * 8 + (j - 8))) hT hdist
+      (sy_invs _ hjk).2 (sy_invs _ hjk).1 (sy_fw _ hjk) i hi
 
 theorem syl_ok : CFSG.Sporadic.SmallOddCore.sylowOK 315 3000 j2PGTbls j2PGInvTbls j2Sift j2OuterTbl
     j2SylowGenTbls
@@ -640,7 +803,7 @@ theorem syl_ok : CFSG.Sporadic.SmallOddCore.sylowOK 315 3000 j2PGTbls j2PGInvTbl
       ?_⟩
     rw [compT_unpack hc (Fc (by norm_num)), sift_eq hc, sift_eq (compF hc (Fc (by norm_num)))]
     exact orB (allN_spec k_syl j hj')
-  · exact closedOK_of (fun i hi => penumPt_canon (pe_all' syE i hi))
+  · exact closedOK_of_ex (fun i hi => penumPt_canon (syPK i hi))
       (TabsOK_both sy_tabs' sy_invs) sy_cl
   · rw [hRec_size, sizes.2.2.2.1]
     rfl
@@ -838,8 +1001,8 @@ theorem sel1 : (hRec 315 9 J2K1.cnt J2K1.T J2K1.PL).1.all (fun y => !selOK 315 [
   rw [Array.all_eq_true]
   intro i hi
   have hi' := rec_lt hi
-  have hc := canonR (pe_all' k1E) i hi'
-  rw [sel_tab (canonR (pe_all' k1E)) hi, rec_get hi]
+  have hc := canonR k1PK i hi'
+  rw [sel_tab (canonR k1PK) hi, rec_get hi]
   have h := allN_spec k_sel1 i hi'
   unfold sel1K at h
   rw [strictB_eq''] at h
@@ -848,8 +1011,8 @@ theorem sel1 : (hRec 315 9 J2K1.cnt J2K1.T J2K1.PL).1.all (fun y => !selOK 315 [
   · rw [hs] at h
     simp only [Bool.not_true, Bool.false_or, Bool.or_eq_true]
     rcases bIf_or' h with h1 | h1
-    · exact Or.inl (mem_at (canonR (pe_all' q1aE)) hc h1)
-    · exact Or.inr (mem_at (canonR (pe_all' q1bE)) hc h1)
+    · exact Or.inl (mem_at (canonR q1aPK) hc h1)
+    · exact Or.inr (mem_at (canonR q1bPK) hc h1)
 
 theorem sel2 : (hRec 315 9 J2C1.cnt J2C1.T J2C1.PL).1.all (fun y => !selOK 315 [3, 5] y ||
     (memT 315 (hRec 315 9 J2Q2a.cnt J2Q2a.T J2Q2a.PL).1 y ||
@@ -868,10 +1031,41 @@ theorem sel2 : (hRec 315 9 J2C1.cnt J2C1.T J2C1.PL).1.all (fun y => !selOK 315 [
   · rw [hs] at h
     simp only [Bool.not_true, Bool.false_or, Bool.or_eq_true]
     rcases bIf_or' h with h1 | h1
-    · exact Or.inl (mem_at (canonR (pe_all' q2aE)) hc h1)
+    · exact Or.inl (mem_at (canonR q2aPK) hc h1)
     rcases bIf_or' h1 with h2 | h2
-    · exact Or.inr (Or.inl (mem_at (canonR (pe_all' q2bE)) hc h2))
-    · exact Or.inr (Or.inr (mem_at (canonR (pe_all' q2cE)) hc h2))
+    · exact Or.inr (Or.inl (mem_at (canonR q2bPK) hc h2))
+    · exact Or.inr (Or.inr (mem_at (canonR q2cPK) hc h2))
+
+theorem pw_powFix (y : Nat) {i : Nat} (hi : i < 315) :
+    ∀ e, pg 9 (mask 9) (pw e y) i = powFixK e y i
+  | 0 => by
+    have h0 : pw 0 y = pidn 315 9 := (pows y).1
+    rw [h0]
+    exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hi
+  | e + 1 => by
+    have h1 : pw (e + 1) y = pcomp 315 9 (mask 9) y (pw e y) := (pows y).2 e
+    rw [h1, CFSG.KS.PF.pg_pcomp (by norm_num) hi, pw_powFix y hi e]
+    rfl
+
+theorem ptPowId_of {e y : Nat} (h : Nat.beq (pw e y) idK = true) : ptPowId e y = true := by
+  refine allN_of_forall fun i hi => ?_
+  rw [← pw_powFix y hi e, Nat.eq_of_beq_eq_true h]
+  unfold idK
+  rw [CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hi]
+  exact Nat.beq_refl i
+
+theorem sel35_of {y : Nat} (h : selK 3 5 y = true) : sel35K y = true := by
+  have key : ∀ b0 b3 b5 : Bool, bAnd(bIf(b0, false, true), bIf(b3, true, b5)) = true →
+      b0 = false ∧ (b3 = true ∨ b5 = true) := by decide
+  have key2 : ∀ b0 b3 b5 : Bool, b0 = false → (b3 = true ∨ b5 = true) →
+      bAnd(bIf(b0, false, true), bIf(b3, true, b5)) = true := by decide
+  unfold selK at h
+  unfold sel35K
+  obtain ⟨h0, h35⟩ := key _ _ _ h
+  refine key2 _ _ _ h0 ?_
+  rcases h35 with h3 | h5
+  · exact Or.inl (ptPowId_of h3)
+  · exact Or.inr (ptPowId_of h5)
 
 theorem sel3_all : ∀ i < J2C2.cnt, sel3K i = true := by
   have hc : J2C2.cnt = 320 * 6 := rfl
@@ -900,13 +1094,13 @@ theorem sel3 : (hRec 315 9 J2C2.cnt J2C2.T J2C2.PL).1.all (fun y => !selOK 315 [
   rw [strictB_eq''] at h
   cases hs : selK 3 5 (J2C2.T i)
   · rfl
-  · rw [hs] at h
+  · rw [sel35_of hs] at h
     simp only [Bool.not_true, Bool.false_or, Bool.or_eq_true]
     rcases bIf_or' h with h1 | h1
-    · exact Or.inl (mem_at (canonR (pe_all' q3aE)) hc h1)
+    · exact Or.inl (mem_at (canonR q3aPK) hc h1)
     rcases bIf_or' h1 with h2 | h2
-    · exact Or.inr (Or.inl (mem_at (canonR (pe_all' q3bE)) hc h2))
-    · exact Or.inr (Or.inr (mem_at (canonR (pe_all' q3cE)) hc h2))
+    · exact Or.inr (Or.inl (mem_at (canonR q3bPK) hc h2))
+    · exact Or.inr (Or.inr (mem_at (canonR q3cPK) hc h2))
 
 theorem row1 : CFSG.Sporadic.SmallOddCore.classOK 315 604800 3000 j2PGTbls j2PGInvTbls j2Sift
     j2OuterTbl
@@ -962,13 +1156,13 @@ theorem row2 : CFSG.Sporadic.SmallOddCore.classOK 315 604800 3000 j2PGTbls j2PGI
   have o1 := odd_norm (r := 23) (p := 5) (t := 17) (a := 24) (b := 25) (cs := 12)
     (cg := (cgL 18 5).toArray) (cgInv := (cgL 18 5).toArray.map (invT 315)) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) kodd.2.2.1 (by decide) recQ2a.1 recQ2a.2.1
-    (canonR (pe_all' q2aE)) knorm.1 knorm.2.1 rfl recE2a.1 recE2a.2.1 (canonR (pe_all' e2aE))
+    (canonR q2aPK) knorm.1 knorm.2.1 rfl recE2a.1 recE2a.2.1 (canonR e2aPK)
     (Nat.le_of_ble_eq_true knorm.2.2.2.2.1) knorm.2.2.2.2.2.1
   have o2 := odd_norm (r := 26) (p := 5) (t := 17) (a := 27) (b := 28) (cs := 12)
     (cg := (cgL 18 5).toArray) (cgInv := (cgL 18 5).toArray.map (invT 315)) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) kodd.2.2.2.1 (by decide) recQ2b.1 recQ2b.2.1
-    (canonR (pe_all' q2bE)) knorm.2.2.1 knorm.2.2.2.1 rfl recE2b.1 recE2b.2.1
-    (canonR (pe_all' e2bE)) (Nat.le_of_ble_eq_true knorm.2.2.2.2.2.2.1) knorm.2.2.2.2.2.2.2
+    (canonR q2bPK) knorm.2.2.1 knorm.2.2.2.1 rfl recE2b.1 recE2b.2.1
+    (canonR e2bPK) (Nat.le_of_ble_eq_true knorm.2.2.2.2.2.2.1) knorm.2.2.2.2.2.2.2
   have o3 := odd_conj (r := 29) (p := 3) (h := 30) (t := 17) (ord := 2) (cs := 20)
     (cg := (cgL 18 5).toArray) (cgInv := (cgL 18 5).toArray.map (invT 315)) (by norm_num)
     (by norm_num) (by norm_num) kodd.2.2.2.2.1 (by decide) kconj.2.2.1 (ord2 kord.2.2.1)
@@ -1035,7 +1229,7 @@ theorem scov_all : (hRec 315 9 J2SY.cnt J2SY.T J2SY.PL).1.all (fun s => !involOK
   rw [Array.all_eq_true]
   intro i hi
   have hi' := rec_lt hi
-  have hc := canonR (pe_all' syE) i hi'
+  have hc := canonR syPK i hi'
   rw [rec_get hi, involF hc]
   have h := allN_spec k_scov i hi'
   unfold scovK at h
@@ -1048,7 +1242,7 @@ theorem scov_all : (hRec 315 9 J2SY.cnt J2SY.T J2SY.PL).1.all (fun s => !involOK
     · exact Or.inl (mem_at (canonR r1_pe) hc h1)
     rcases bIf_or' h1 with h2 | h2
     · exact Or.inr (Or.inl (mem_at (canonR r2_pe) hc h2))
-    · exact Or.inr (Or.inr (mem_at (canonR (pe_all' o3E)) hc h2))
+    · exact Or.inr (Or.inr (mem_at (canonR r3_pe) hc h2))
 
 theorem kucov : ucovK 0 9 = true ∧ ucovK 1 17 = true ∧ ucovK 2 31 = true := by
   simpa only [bAnd_iff] using k_ucov
@@ -1071,7 +1265,7 @@ theorem ucov_of {i t : Nat} (ht : t < 42) (h : ucovK i t = true) :
   · exact Or.inl (mem_at (canonR r1_pe) hy h1)
   rcases bIf_or' h1 with h2 | h2
   · exact Or.inr (Or.inl (mem_at (canonR r2_pe) hy h2))
-  · exact Or.inr (Or.inr (mem_at (canonR (pe_all' o3E)) hy h2))
+  · exact Or.inr (Or.inr (mem_at (canonR r3_pe) hy h2))
 
 @[expose] noncomputable def noneK (k : Nat) (f : Nat → Bool) : Bool :=
   allN k (fun j => bIf(f j, false, true))

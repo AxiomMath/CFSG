@@ -116,6 +116,16 @@ theorem tr7M1_rec_of_pinned {a : ℕ} (ha : a < 5) :
     unfold tr7ForestOK at hF
     exact tr7Forest_mem hM (by omega) hR hF m (by rw [← hdim]; exact hm) hm0 hn
 
+theorem tr7M1_of_J {a j : ℕ} (ha : a < 5) (hj : tr7J a = j) :
+    (∀ k ∈ tr7Gens j, k < 365211 ∧ tr7RepImg j k = k) ∧ wtIdx (tr7Target j) < 75735 ∧
+    (∀ v ∈ tr7Cols32 j, tr7Red (tr7Ech (tr7Cols32 j)) v = 0) ∧
+    ∀ m < 2 ^ (tr7Bs32 j).length, tr7XorSel (tr7Bs32 j) m = 0 ∨
+      ∀ U : Submodule (ZMod 2) V, (∀ k ∈ tr7Gens j, ∀ c, decode32 c ∈ U →
+        decode32 (applyCols (tvCols k) c) ∈ U) →
+        decode32 (tr7XorSel (tr7Bs32 j) m) ∈ U → decode32 (tr7Target j) ∈ U := by
+  subst hj
+  exact tr7M1_rec_of_pinned hL hW ha
+
 theorem tr7M1_of_pinned {j : ℕ} (hj : j = 0 ∨ j = 1 ∨ j = 3 ∨ j = 4 ∨ j = 5) :
     (∀ k ∈ tr7Gens j, k < 365211 ∧ tr7RepImg j k = k) ∧ wtIdx (tr7Target j) < 75735 ∧
     (∀ v ∈ tr7Cols32 j, tr7Red (tr7Ech (tr7Cols32 j)) v = 0) ∧
@@ -124,11 +134,11 @@ theorem tr7M1_of_pinned {j : ℕ} (hj : j = 0 ∨ j = 1 ∨ j = 3 ∨ j = 4 ∨ 
         decode32 (applyCols (tvCols k) c) ∈ U) →
         decode32 (tr7XorSel (tr7Bs32 j) m) ∈ U → decode32 (tr7Target j) ∈ U := by
   rcases hj with rfl | rfl | rfl | rfl | rfl
-  · exact tr7M1_rec_of_pinned hL hW (a := 0) (by norm_num)
-  · exact tr7M1_rec_of_pinned hL hW (a := 1) (by norm_num)
-  · exact tr7M1_rec_of_pinned hL hW (a := 2) (by norm_num)
-  · exact tr7M1_rec_of_pinned hL hW (a := 3) (by norm_num)
-  · exact tr7M1_rec_of_pinned hL hW (a := 4) (by norm_num)
+  · exact tr7M1_of_J hL hW (a := 0) (by norm_num) rfl
+  · exact tr7M1_of_J hL hW (a := 1) (by norm_num) rfl
+  · exact tr7M1_of_J hL hW (a := 2) (by norm_num) rfl
+  · exact tr7M1_of_J hL hW (a := 3) (by norm_num) rfl
+  · exact tr7M1_of_J hL hW (a := 4) (by norm_num) rfl
 
 end Model
 

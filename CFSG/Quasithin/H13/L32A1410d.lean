@@ -14,14 +14,14 @@ theorem kA_spec :
     subB kAG kAE = true ∧ kAE.length = 60 ∧ (∀ p ∈ kAP, mul8 p.1 p.2 = one8 ∧ Valid8 p.2) ∧
       (∀ b : Bool, (∀ g ∈ kAG, g ∈ gEA b) ∧
         ∀ g ∈ gGA b, ∀ k ∈ kAE, mul8 g k ∈ kAE.map fun k => mul8 k g) ∧
-      (∀ x ∈ kAE, x = one8 ∨
-        (subB (conjA x) (elemsOf (conjA x)) = true ∧ (elemsOf (conjA x)).length = 60)) ∧
+      (∀ x ∈ kAE, x = one8 ∨ ∃ p ∈ kAP, ∃ r ∈ kAReps, mul8 (mul8 p.1 x) p.2 = r ∧
+        subB (conjA r) (elemsOf (conjA r)) = true ∧ (elemsOf (conjA r)).length = 60) ∧
       (∃ k ∈ kAE, mv8 k vA ≠ vA) ∧
       ∀ b : Bool, ∀ p ∈ kAP, (∀ q ∈ kAE, q ∈ pEA b →
           mul8 (mul8 p.1 q) p.2 ∈ kAE ∧ mul8 (mul8 p.1 q) p.2 ∈ pEA b) → p.1 ∈ mEA b 1 := by
   have h := g5aCheck_parts.2.2.2.2
   simp only [kAB, Bool.and_eq_true] at h
-  obtain ⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩ := h
+  obtain ⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h5'⟩, h6⟩, h7⟩ := h
   refine ⟨h1, by simpa using h2, fun p hp => ?_, fun b => ?_, fun x hx => ?_, ?_,
     fun b p hp hn => ?_⟩
   · simp only [List.all_eq_true, Bool.and_eq_true, beq_iff_eq] at h3
@@ -31,8 +31,11 @@ theorem kA_spec :
       List.contains_iff_mem] at h4
     obtain ⟨h4a, h4b⟩ := h4 b (mem_tf b)
     exact ⟨h4a, fun g hg k hk => h4b g hg k hk⟩
-  · simp only [List.all_eq_true, Bool.or_eq_true, beq_iff_eq, Bool.and_eq_true] at h5
-    exact h5 x hx
+  · simp only [List.all_eq_true, Bool.or_eq_true, beq_iff_eq, Bool.and_eq_true, List.any_eq_true,
+      List.contains_iff_mem] at h5 h5'
+    rcases h5 x hx with h | ⟨p, hp, hr⟩
+    · exact Or.inl h
+    · exact Or.inr ⟨p, hp, _, hr, rfl, h5' _ hr⟩
   · simp only [List.any_eq_true, bne_iff_ne, ne_eq] at h6
     exact h6
   · simp only [List.all_eq_true] at h7
@@ -94,6 +97,20 @@ theorem kAP_inv {u : GL (Fin 8) (ZMod 2)} {c : List ℕ}
           rw [Units.val_mul, mul_assoc, h3, mul_one]
   rw [← h4, colsOf_dec8 h2]
 
+theorem exists_conj_of_kAP {p : List ℕ × List ℕ} (hp : p ∈ kAP) (x : GL (Fin 8) (ZMod 2)) :
+    ∃ v ∈ KA5, colsOf ((v * x * v⁻¹ : GL (Fin 8) (ZMod 2)) : Matrix (Fin 8) (Fin 8) (ZMod 2)) =
+      mul8 (mul8 p.1 (colsOf (x : Matrix (Fin 8) (Fin 8) (ZMod 2)))) p.2 := by
+  obtain ⟨k, hk, rfl⟩ := List.mem_map.mp hp
+  obtain ⟨v, hv, hv'⟩ := exists_KA5_of hk
+  have hkv : k = colsOf (v : Matrix (Fin 8) (Fin 8) (ZMod 2)) := by
+    rw [hv', colsOf_dec8 (valid8_of_kAE hk)]
+  have hp' : (colsOf (v : Matrix (Fin 8) (Fin 8) (ZMod 2)),
+      (kAE.find? fun y => mul8 k y == one8).getD one8) ∈ kAP := by
+    rw [← hkv]; exact hp
+  refine ⟨v, hv, ?_⟩
+  change _ = mul8 (mul8 k _) ((kAE.find? fun y => mul8 k y == one8).getD one8)
+  rw [kAP_inv hp', hkv, Units.val_mul, Units.val_mul, colsOf_mul, colsOf_mul]
+
 theorem KA5_normal (b : Bool) :
     g5 b false ≤ Subgroup.normalizer (KA5 : Set (GL (Fin 8) (ZMod 2))) := by
   rw [gA5_eq]
@@ -148,30 +165,26 @@ theorem isSimpleGroup_KA5 : IsSimpleGroup ↥KA5 := by
   obtain ⟨⟨x, hxN⟩, hx1'⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hbot
   have hx1 : x ≠ 1 := fun h => hx1' (Subtype.ext h)
   have hxc := (mem_KA5_iff (x : GL (Fin 8) (ZMod 2))).mp x.2
-  rcases kA_spec.2.2.2.2.1 _ hxc with h | ⟨hsub, hlen⟩
+  rcases kA_spec.2.2.2.2.1 _ hxc with h | ⟨p0, hp0, r, -, hr, hsub, hlen⟩
   · exfalso
     apply hx1
     exact Subtype.ext (eq_of_colsOf_eq (by rw [h]; simp [colsOf_one]))
-  have hconj : ∀ g ∈ conjA
-      (colsOf ((x : GL (Fin 8) (ZMod 2)) : Matrix (Fin 8) (Fin 8) (ZMod 2))),
+  obtain ⟨w, hw, hwx⟩ := exists_conj_of_kAP hp0 (x : GL (Fin 8) (ZMod 2))
+  obtain ⟨y, hyN, hyc⟩ : ∃ y : ↥KA5, y ∈ N ∧
+      colsOf ((y : GL (Fin 8) (ZMod 2)) : Matrix (Fin 8) (Fin 8) (ZMod 2)) = r :=
+    ⟨⟨w * x * w⁻¹, KA5.mul_mem (KA5.mul_mem hw x.2) (KA5.inv_mem hw)⟩,
+      hN.conj_mem x hxN ⟨w, hw⟩, hwx.trans hr⟩
+  have hconj : ∀ g ∈ conjA r,
       ∃ u : GL (Fin 8) (ZMod 2), ∃ hu : u ∈ KA5, (⟨u, hu⟩ : ↥KA5) ∈ N ∧
         (u : Matrix (Fin 8) (Fin 8) (ZMod 2)) = dec8 g := by
     intro g hg
     obtain ⟨p, hp, rfl⟩ := List.mem_map.mp hg
-    obtain ⟨k, hk, rfl⟩ := List.mem_map.mp hp
-    obtain ⟨v, hv, hv'⟩ := exists_KA5_of hk
-    have hkv : k = colsOf (v : Matrix (Fin 8) (Fin 8) (ZMod 2)) := by
-      rw [hv', colsOf_dec8 (valid8_of_kAE hk)]
-    have hp' : (colsOf (v : Matrix (Fin 8) (Fin 8) (ZMod 2)),
-        (kAE.find? fun y => mul8 k y == one8).getD one8) ∈ kAP := by
-      rw [← hkv]; exact hp
-    have hci := kAP_inv hp'
-    refine ⟨v * x * v⁻¹, KA5.mul_mem (KA5.mul_mem hv x.2) (KA5.inv_mem hv), ?_, ?_⟩
-    · have := hN.conj_mem x hxN ⟨v, hv⟩
-      exact this
-    · show _ = dec8 (mul8 (mul8 k _) _)
-      rw [hci, hkv, ← colsOf_mul, ← colsOf_mul, dec8_colsOf, Units.val_mul, Units.val_mul]
-  set gs := conjA (colsOf ((x : GL (Fin 8) (ZMod 2)) : Matrix (Fin 8) (Fin 8) (ZMod 2))) with hgs
+    obtain ⟨v, hv, hvy⟩ := exists_conj_of_kAP (List.mem_of_mem_filter hp) (y : GL (Fin 8) (ZMod 2))
+    refine ⟨v * y * v⁻¹, KA5.mul_mem (KA5.mul_mem hv y.2) (KA5.inv_mem hv),
+      hN.conj_mem y hyN ⟨v, hv⟩, ?_⟩
+    change _ = dec8 (mul8 (mul8 p.1 r) p.2)
+    rw [← hyc, ← hvy, dec8_colsOf]
+  set gs := conjA r with hgs
   have hunit : ∀ g ∈ gs, ∃ u : GL (Fin 8) (ZMod 2),
       (u : Matrix (Fin 8) (Fin 8) (ZMod 2)) = dec8 g :=
     fun g hg => let ⟨u, _, _, hu⟩ := hconj g hg; ⟨u, hu⟩

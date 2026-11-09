@@ -57,9 +57,41 @@ instance (a₀ : ℕ) : Decidable (s16c1G44_L1 a₀) := by
   unfold s16c1G44_L1
   infer_instance
 
+private theorem s16c1G44_F1_dom :
+    ∀ a₀ < 64, s16c1G44_cond 17 a₀ 0 0 0 0 → a₀ ∈ [0, 1, 4, 5, 8, 9, 28, 29] := by
+  decide +kernel
+
+private theorem s16c1G44_L1_0 : s16c1G44_L1 0 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_1 : s16c1G44_L1 1 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_4 : s16c1G44_L1 4 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_5 : s16c1G44_L1 5 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_8 : s16c1G44_L1 8 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_9 : s16c1G44_L1 9 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_28 : s16c1G44_L1 28 := by
+  decide +kernel
+
+private theorem s16c1G44_L1_29 : s16c1G44_L1 29 := by
+  decide +kernel
+
 theorem s16c1G44_F1 :
     ∀ a₀ < 64, s16c1G44_cond 17 a₀ 0 0 0 0 → s16c1G44_L1 a₀ := by
-  decide +kernel
+  intro a₀ ha hc
+  have hm := s16c1G44_F1_dom a₀ ha hc
+  simp only [List.mem_cons, List.mem_nil_iff, or_false] at hm
+  rcases hm with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  exacts [s16c1G44_L1_0, s16c1G44_L1_1, s16c1G44_L1_4, s16c1G44_L1_5, s16c1G44_L1_8, s16c1G44_L1_9, s16c1G44_L1_28, s16c1G44_L1_29]
 
 theorem s16c1G44_F2 : ∀ x ∈ s16c1G44_goodList, ∀ y ∈ s16c1G44_goodList, mul x y = mul y x →
     mul x y ∈ s16c1G44_goodList →

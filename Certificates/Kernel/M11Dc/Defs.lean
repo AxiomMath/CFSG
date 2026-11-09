@@ -9,7 +9,10 @@ namespace CFSG.KD.M11Dc
 
 open CFSG.KC.SLDc CFSG.QuasithinUnique.Ch1.SporLat
 
-@[expose] def L0 (l : Nat) : Nat → Nat := tabF (J.tabs.getD l [])
+@[expose] def m11PT : Nat := 690262009863673901607066123836858354119310888163122954480615744054953085650577335435664397762365728
+
+@[expose] def L0 (l : Nat) : Nat → Nat := fun p =>
+  Nat.mod (Nat.shiftRight m11PT (Nat.mul 5 (Nat.add (Nat.mul 11 l) p))) 32
 
 @[expose] def L (l : Nat) : Nat → Nat := pairF 11 (L0 l)
 

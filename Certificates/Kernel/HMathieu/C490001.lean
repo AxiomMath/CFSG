@@ -9,8 +9,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.C490001
-  "Certificates/Kernel/HMathieu/data/C1.json.gz" 372 17301024585504269729 (mS : Nat) (mT : Nat) (mF : List Nat)
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.C490001
+  "Certificates/Kernel/HMathieu/data/C1.json" 372 17301024585504269729 (mS : Nat) (mT : Nat) (mF : List Nat)
 
 namespace CertificateChecks.KernelHMathieu.C490001
 

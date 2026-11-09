@@ -7,6 +7,6 @@ open CFSG.HardMathSupport.Dickson.BMRows.M13L33
 
 public section
 
-#kb_family "data/F17633.json.gz" 829 17357808018379844722 (r0 := l33Rels)
+#kb_family "data/F17633.json" 829 17357808018379844722 (r0 := l33Rels)
 
 end

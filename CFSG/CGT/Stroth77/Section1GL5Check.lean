@@ -207,16 +207,11 @@ theorem gl12_sound (h : glCheck () = true) {c : Nat} (hc : c < N) (hns : nonsing
     · rw [hD] at h'; exact absurd h' (by decide)
     · exact h'
 
-theorem gl3_sound (h : glCheck () = true) {c : Nat} (hc : c < N) (hns : nonsing c = true)
-    (hst : stabW4 c = false) : ∃ ω : Wd, good (ω.evalC c) = true := by
-  unfold glCheck at h
-  set D := buildData () with hD
-  unfold glCheckWith at h
-  simp only [Bool.and_eq_true, Nat.allLTTR_eq_true, beq_iff_eq] at h
-  obtain ⟨hX, hall⟩ := h
-  have hc' := hall c hc
-  rw [hns, Bool.not_true, Bool.false_or, Bool.and_eq_true] at hc'
-  have h3 := hc'.2
+private theorem gl3_sound_core (D : Data) (hX : D.X = x0Codes ()) {c : Nat}
+    (hst : stabW4 c = false)
+    (h3 : checkG3 D ((Array.range D.sc.reps.size).map
+      (okRep D.X D.sc.reps D.certs)) c = true) :
+    ∃ ω : Wd, good (ω.evalC c) = true := by
   unfold checkG3 at h3
   rw [hst, Bool.false_or] at h3
   dsimp only at h3
@@ -240,5 +235,16 @@ theorem gl3_sound (h : glCheck () = true) {c : Nat} (hc : c < N) (hns : nonsing 
     rw [this]
     exact hω
   · exact absurd h3 (by decide)
+
+theorem gl3_sound (h : glCheck () = true) {c : Nat} (hc : c < N) (hns : nonsing c = true)
+    (hst : stabW4 c = false) : ∃ ω : Wd, good (ω.evalC c) = true := by
+  unfold glCheck at h
+  set D := buildData () with hD
+  unfold glCheckWith at h
+  simp only [Bool.and_eq_true, Nat.allLTTR_eq_true, beq_iff_eq] at h
+  obtain ⟨hX, hall⟩ := h
+  have hc' := hall c hc
+  rw [hns, Bool.not_true, Bool.false_or, Bool.and_eq_true] at hc'
+  exact gl3_sound_core D hX hst hc'.2
 
 end CFSG.CGT.Stroth77.GL5

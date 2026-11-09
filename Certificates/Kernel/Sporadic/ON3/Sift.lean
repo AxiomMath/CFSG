@@ -12,14 +12,14 @@ public section
 set_option maxRecDepth 400000
 
 #kon_join CertificateChecks.KernelSpor.ON3.posAll CertificateChecks.KernelSpor.ON3.posS 72
-#kon_join CertificateChecks.KernelSpor.ON3.ptT0All CertificateChecks.KernelSpor.ON3.ptT0 8
-#kon_join CertificateChecks.KernelSpor.ON3.ptT1All CertificateChecks.KernelSpor.ON3.ptT1 1
+#kon_join CertificateChecks.KernelSpor.ON3.ptT0FAll CertificateChecks.KernelSpor.ON3.ptT0F 8
+#kon_join CertificateChecks.KernelSpor.ON3.ptT1FAll CertificateChecks.KernelSpor.ON3.ptT1F 1
 #kon_join CertificateChecks.KernelSpor.ON3.ptT2All CertificateChecks.KernelSpor.ON3.ptT2 1
-#kon_join CertificateChecks.KernelSpor.ON3.ptM0All CertificateChecks.KernelSpor.ON3.ptM0 15
-#kon_join CertificateChecks.KernelSpor.ON3.ptM1All CertificateChecks.KernelSpor.ON3.ptM1 42
+#kon_join CertificateChecks.KernelSpor.ON3.ptM0FAll CertificateChecks.KernelSpor.ON3.ptM0F 15
+#kon_join CertificateChecks.KernelSpor.ON3.ptM1FAll CertificateChecks.KernelSpor.ON3.ptM1F 42
 #kon_join CertificateChecks.KernelSpor.ON3.ptM2All CertificateChecks.KernelSpor.ON3.ptM2 1
-#kon_join CertificateChecks.KernelSpor.ON3.ptL0All CertificateChecks.KernelSpor.ON3.ptL0 15
-#kon_join CertificateChecks.KernelSpor.ON3.ptL1All CertificateChecks.KernelSpor.ON3.ptL1 21
+#kon_join CertificateChecks.KernelSpor.ON3.ptL0FAll CertificateChecks.KernelSpor.ON3.ptL0F 15
+#kon_join CertificateChecks.KernelSpor.ON3.ptL1FAll CertificateChecks.KernelSpor.ON3.ptL1F 21
 #kon_join CertificateChecks.KernelSpor.ON3.ptL2All CertificateChecks.KernelSpor.ON3.ptL2 1
 
 namespace CertificateChecks.KernelSpor.ON3
@@ -103,24 +103,54 @@ theorem ptT_all {i : Nat} (hi : i < 3) : ∀ k < tMr i, cbPt 245520 (tMr i) (Nat
     (stepX tF tFI (tIDX i) (tLEN i)) (tPTS i) (tPOS i) (tPAR i) (tLAB i) k = true := by
   obtain ⟨s0, s1, s2, -⟩ := sizes
   interval_cases i
-  · exact pt_of ptT0All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s0) (by decide))
-  · exact pt_of ptT1All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s1) (by decide))
+  · have hL : tLEN 0 = 8 := rfl
+    refine cbPt_of_fwd (Nat.le_trans (Nat.le_of_eq s0) (by decide)) ?_ (posT_all (by norm_num))
+      (cbPtF_of_range ptT0FAll (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s0) (by decide)))
+    refine stepX_inv fun t ht x hx => (tF_pair _ ?_ x hx).2.2.1
+    rw [hL] at ht
+    interval_cases t <;> decide
+  · have hL : tLEN 1 = 2 := rfl
+    refine cbPt_of_fwd (Nat.le_trans (Nat.le_of_eq s1) (by decide)) ?_ (posT_all (by norm_num))
+      (cbPtF_of_range ptT1FAll (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s1) (by decide)))
+    refine stepX_inv fun t ht x hx => (tF_pair _ ?_ x hx).2.2.1
+    rw [hL] at ht
+    interval_cases t <;> decide
   · exact pt_of ptT2All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s2) (by decide))
 
 theorem ptM_all {i : Nat} (hi : i < 3) : ∀ k < mMr i, cbPt 245520 (mMr i) (Nat.mul 2 (mLEN i))
     (stepX mF mFI (mIDX i) (mLEN i)) (mPTS i) (mPOS i) (mPAR i) (mLAB i) k = true := by
   obtain ⟨-, -, -, s0, s1, s2, -⟩ := sizes
   interval_cases i
-  · exact pt_of ptM0All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s0) (by decide))
-  · exact pt_of ptM1All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s1) (by decide))
+  · have hL : mLEN 0 = 5 := rfl
+    refine cbPt_of_fwd (Nat.le_trans (Nat.le_of_eq s0) (by decide)) ?_ (posM_all (by norm_num))
+      (cbPtF_of_range ptM0FAll (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s0) (by decide)))
+    refine stepX_inv fun t ht x hx => (mF_pair _ ?_ x hx).2.2.1
+    rw [hL] at ht
+    interval_cases t <;> decide
+  · have hL : mLEN 1 = 4 := rfl
+    refine cbPt_of_fwd (Nat.le_trans (Nat.le_of_eq s1) (by decide)) ?_ (posM_all (by norm_num))
+      (cbPtF_of_range ptM1FAll (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s1) (by decide)))
+    refine stepX_inv fun t ht x hx => (mF_pair _ ?_ x hx).2.2.1
+    rw [hL] at ht
+    interval_cases t <;> decide
   · exact pt_of ptM2All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s2) (by decide))
 
 theorem ptL_all {i : Nat} (hi : i < 3) : ∀ k < lMr i, cbPt 245520 (lMr i) (Nat.mul 2 (lLEN i))
     (stepX lF lFI (lIDX i) (lLEN i)) (lPTS i) (lPOS i) (lPAR i) (lLAB i) k = true := by
   obtain ⟨-, -, -, -, -, -, s0, s1, s2⟩ := sizes
   interval_cases i
-  · exact pt_of ptL0All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s0) (by decide))
-  · exact pt_of ptL1All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s1) (by decide))
+  · have hL : lLEN 0 = 4 := rfl
+    refine cbPt_of_fwd (Nat.le_trans (Nat.le_of_eq s0) (by decide)) ?_ (posL_all (by norm_num))
+      (cbPtF_of_range ptL0FAll (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s0) (by decide)))
+    refine stepX_inv fun t ht x hx => (lF_pair _ ?_ x hx).2.2.1
+    rw [hL] at ht
+    interval_cases t <;> decide
+  · have hL : lLEN 1 = 2 := rfl
+    refine cbPt_of_fwd (Nat.le_trans (Nat.le_of_eq s1) (by decide)) ?_ (posL_all (by norm_num))
+      (cbPtF_of_range ptL1FAll (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s1) (by decide)))
+    refine stepX_inv fun t ht x hx => (lF_pair _ ?_ x hx).2.2.1
+    rw [hL] at ht
+    interval_cases t <;> decide
   · exact pt_of ptL2All (fun _ => rfl) (Nat.le_trans (Nat.le_of_eq s2) (by decide))
 
 theorem heads {i : Nat} (hi : i < 3) : idxOK tF 8 bB i (tIDX i) (tLEN i) = true ∧

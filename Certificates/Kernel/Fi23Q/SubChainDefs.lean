@@ -2,10 +2,10 @@ module
 
 public import Certificates.Data.Kernel.Fi23Q.SubChain
 public import Certificates.Kernel.Fi23Q.SubDefs
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.Fi23Q "Certificates/Kernel/Fi23Q/data/sub_chain.items.gz" 1080 18124004727270743388
+#kc_repo #kc_nat_items CFSG.KD.Fi23Q "Certificates/Kernel/Fi23Q/data/sub_chain.items" 1080 18124004727270743388
   sp[3] sV0[] sV1[] sV2[]
 
 public section

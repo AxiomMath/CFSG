@@ -35,6 +35,8 @@ meta def pD : Data where
 
 meta def preM : Gen.Pre := Gen.pre pD 11
 
+meta def dkM : Array (Array Nat) := pairData.gT
+meta def dikM : Array (Array Nat) := pairData.gT.map (CFSG.PSL3Four.Native.invTab 1755)
 meta def repM : Array (Array Nat) := preM.rep
 meta def repiM : Array (Array Nat) := preM.repi
 meta def rbM : Array Nat := Gen.repImgs pD preM
@@ -47,6 +49,8 @@ end CertificateChecks.KernelTitsOver.Five
 
 public section
 
+#kmisc_packarrs CertificateChecks.KernelTitsOver.Five.DKL CertificateChecks.KernelTitsOver.Five.dkM 11
+#kmisc_packarrs CertificateChecks.KernelTitsOver.Five.DIL CertificateChecks.KernelTitsOver.Five.dikM 11
 #kmisc_packarrs CertificateChecks.KernelTitsOver.Five.REP CertificateChecks.KernelTitsOver.Five.repM 11
 #kmisc_packarrs CertificateChecks.KernelTitsOver.Five.REPI
   CertificateChecks.KernelTitsOver.Five.repiM 11

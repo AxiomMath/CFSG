@@ -10,7 +10,7 @@ set_option maxRecDepth 100000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelLyDce "Certificates/Kernel/LyDce/data/cover.json.gz" 1813523 4021400089761234105
+#kc_repo #kc_json CertificateChecks.KernelLyDce "Certificates/Kernel/LyDce/data/cover.json" 1813523 4021400089761234105
   (o0 : List Nat) (root : Nat) (pk : Nat) (kp : Nat) (tc : Nat) (td : Nat) (ta : Nat) (tb : Nat)
   (te : Nat) (dfs : List (List (Nat × Nat × Nat))) (frs : List (List (Nat × Nat × Nat)))
 

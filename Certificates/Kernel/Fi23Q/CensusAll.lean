@@ -12,11 +12,11 @@ import CFSG.Certificates.Kernel.Common.Repo
 public section
 
 #kc_repo #kc_rows_forall CFSG.KD.Fi23Q.cos_all (fun i D => CFSG.KD.Fi23Q.cosK i D)
-  "Certificates/Kernel/Fi23Q/data/cos.txt.gz" 126623 9225437296699062111 0 103 CFSG.KD.Fi23Q.cos
+  "Certificates/Kernel/Fi23Q/data/cos.txt" 126623 9225437296699062111 0 103 CFSG.KD.Fi23Q.cos
 
 #kc_repo #kc_rows_forall CFSG.KD.Fi23Q.rep_all
   (fun ρ MV ncl CV WD XD => CFSG.KD.Fi23Q.repK ρ MV ncl CV WD XD)
-  "Certificates/Kernel/Fi23Q/data/rep.txt.gz" 273730 9573150669597688594 0 145 CFSG.KD.Fi23Q.rep
+  "Certificates/Kernel/Fi23Q/data/rep.txt" 273730 9573150669597688594 0 145 CFSG.KD.Fi23Q.rep
 
 namespace CFSG.KD.Fi23Q
 

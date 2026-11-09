@@ -126,10 +126,93 @@ private lemma s5cand_mem (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (hR : M.mulVec s5
   refine ⟨(fun i => M i 3), s5vec_mem _, ?_⟩
   exact s5mk_cols M hR
 
+private def decEqVec4Fast : DecidableEq (Fin 4 → ZMod 2) := fun u v =>
+  decidable_of_iff (((List.finRange 4).all fun i => decide (u i = v i)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact funext_iff.symm)
+
+private def decEqMat4Fast : DecidableEq (Matrix (Fin 4) (Fin 4) (ZMod 2)) := fun A B =>
+  decidable_of_iff (((List.finRange 4).all fun i => (List.finRange 4).all fun j =>
+      decide (A i j = B i j)) = true) (by
+    simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
+    exact ⟨fun h => Matrix.ext h, fun h i j => h ▸ rfl⟩)
+
+private theorem of_decide_inst {p : Prop} {i : Decidable p} (h : @decide p i = true) : p :=
+  @of_decide_eq_true p i h
+
+private def s5mulVecF (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (v : Fin 4 → ZMod 2) : Fin 4 → ZMod 2 :=
+  fun i => M i 0 * v 0 + M i 1 * v 1 + M i 2 * v 2 + M i 3 * v 3
+
+private lemma s5mulVec_eq (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (v : Fin 4 → ZMod 2) :
+    M.mulVec v = s5mulVecF M v := by
+  funext i
+  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, s5mulVecF]
+
+private abbrev s5isomL (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) : Prop :=
+  (∀ v ∈ s5vec, s5q (s5mulVecF M v) = s5q v) ∧ s5mulVecF M s5R = s5R
+
+private lemma s5isomL_iff (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) : s5isomL M ↔ s5isom M := by
+  simp only [s5isomL, s5isom, ← s5mulVec_eq]
+  exact ⟨fun ⟨h1, h2⟩ => ⟨fun v => h1 v (s5vec_mem v), h2⟩, fun ⟨h1, h2⟩ => ⟨fun v _ => h1 v, h2⟩⟩
+
+private theorem s5_all_of_chunks {α : Type} (f : α → Bool) (n : ℕ) :
+    ∀ (K : ℕ) (l : List α), l.length ≤ n * K →
+      (∀ k < K, ((l.drop (n * k)).take n).all f = true) → l.all f = true
+  | 0, l, hl, _ => by
+      have : l = [] := List.eq_nil_of_length_eq_zero (by omega)
+      subst this
+      rfl
+  | K + 1, l, hl, h => by
+      rw [← List.take_append_drop n l, List.all_append, Bool.and_eq_true]
+      refine ⟨by simpa using h 0 (Nat.succ_pos K), ?_⟩
+      refine s5_all_of_chunks f n K (l.drop n) (by
+        rw [List.length_drop]
+        rw [Nat.mul_add_one] at hl
+        omega) ?_
+      intro k hk
+      have h' := h (k + 1) (by omega)
+      rwa [show n * (k + 1) = n + n * k by rw [Nat.mul_add_one, Nat.add_comm],
+        ← List.drop_drop] at h'
+
+attribute [local instance high] decEqVec4Fast decEqMat4Fast in
+private lemma s5_cand_slice_0 : ((s5vec.drop (4 * 0)).take 4).all (fun c0 =>
+    (s5vec.flatMap fun c2 => s5vec.map fun c3 => s5mk c0 c2 c3).all fun N => decide (s5isomL N →
+      ∃ i : Fin 12, N = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)))) = true := by
+  decide +kernel
+
+attribute [local instance high] decEqVec4Fast decEqMat4Fast in
+private lemma s5_cand_slice_1 : ((s5vec.drop (4 * 1)).take 4).all (fun c0 =>
+    (s5vec.flatMap fun c2 => s5vec.map fun c3 => s5mk c0 c2 c3).all fun N => decide (s5isomL N →
+      ∃ i : Fin 12, N = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)))) = true := by
+  decide +kernel
+
+attribute [local instance high] decEqVec4Fast decEqMat4Fast in
+private lemma s5_cand_slice_2 : ((s5vec.drop (4 * 2)).take 4).all (fun c0 =>
+    (s5vec.flatMap fun c2 => s5vec.map fun c3 => s5mk c0 c2 c3).all fun N => decide (s5isomL N →
+      ∃ i : Fin 12, N = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)))) = true := by
+  decide +kernel
+
+attribute [local instance high] decEqVec4Fast decEqMat4Fast in
+private lemma s5_cand_slice_3 : ((s5vec.drop (4 * 3)).take 4).all (fun c0 =>
+    (s5vec.flatMap fun c2 => s5vec.map fun c3 => s5mk c0 c2 c3).all fun N => decide (s5isomL N →
+      ∃ i : Fin 12, N = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)))) = true := by
+  decide +kernel
+
+attribute [local instance high] decEqVec4Fast decEqMat4Fast in
+private lemma s5_cand_check_fast :
+    s5cand.all (fun N => decide (s5isomL N →
+      ∃ i : Fin 12, N = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)))) = true := by
+  rw [s5cand, List.all_flatMap]
+  refine s5_all_of_chunks _ 4 4 _ (by decide) fun k hk => ?_
+  rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3) with rfl | rfl | rfl | rfl
+  exacts [s5_cand_slice_0, s5_cand_slice_1, s5_cand_slice_2, s5_cand_slice_3]
+
 private lemma s5_cand_check :
     s5cand.all (fun N => decide (s5isom N →
       ∃ i : Fin 12, N = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)))) = true := by
-  decide +kernel
+  have h := s5_cand_check_fast
+  exact List.all_eq_true.mpr fun N hN => decide_eq_true fun h1 =>
+    (of_decide_inst (List.all_eq_true.mp h N hN)) ((s5isomL_iff N).mpr h1)
 
 private lemma s5_mat_enum (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (hM : s5isom M) :
     ∃ i : Fin 12, M = (s5G i : Matrix (Fin 4) (Fin 4) (ZMod 2)) :=

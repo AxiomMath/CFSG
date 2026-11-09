@@ -14,8 +14,8 @@ set_option maxRecDepth 400000
 #lay_seeds CertificateChecks.KernelCensus.LiftLy.L 5 111
   CFSG.Blueprint.NativeSporadic.LySeed1 CFSG.Blueprint.NativeSporadic.LySeed2
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCensus.LiftLy
-  "Certificates/Kernel/Census/data/liftly.json.gz" 12517 14247238191966524620
+#kc_repo #kc_json CertificateChecks.KernelCensus.LiftLy
+  "Certificates/Kernel/Census/data/liftly.json" 12517 14247238191966524620
   (cs : List CFSG.KC.OpsLayK.RChunk)
 
 #lay_snaps_chunks CertificateChecks.KernelCensus.LiftLy 5 111

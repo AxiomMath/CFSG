@@ -1,6 +1,7 @@
 module
 
-public import CFSG.Monster.Existence.StdOdd.P5Inputs
+public import Certificates.Kernel.MonsterExist.P5.OrbitCore
+public import Certificates.Kernel.MonsterExist.P5.Roots
 
 public section
 
@@ -8,7 +9,31 @@ namespace CertificateChecks.MonsterExist.P5
 
 open CFSG.Monster.Existence.StdOdd.P5
 
-theorem orbitFin_norm : orbitFin 12 vNorm = (rkFibre 24).image encV := by decide +kernel
+@[expose] def eNorm : List Ent := [
+  (90, 0, 0, 0), (91, 1, 0, 0), (99, 1, 0, 2), (144, 1, 0, 3), (171, 1, 0, 4), (163, 1, 0, 5),
+  (82, 2, 1, 2), (145, 2, 1, 3), (172, 2, 1, 4), (164, 2, 1, 5), (101, 2, 2, 0), (180, 2, 2, 4),
+  (150, 2, 3, 1), (217, 2, 3, 5), (83, 3, 6, 0), (109, 3, 6, 3), (182, 3, 6, 5), (151, 3, 7, 1),
+  (154, 3, 7, 2), (218, 3, 7, 5), (207, 3, 11, 3), (223, 3, 12, 5), (55, 3, 13, 4), (110, 4, 14, 3),
+  (112, 4, 15, 1), (127, 4, 15, 2), (28, 4, 15, 4), (209, 4, 15, 5), (160, 4, 17, 2), (224, 4, 17, 5),
+  (227, 4, 18, 5), (56, 4, 19, 4), (210, 4, 20, 1), (61, 4, 21, 4), (113, 5, 23, 1), (29, 5, 23, 4),
+  (130, 5, 24, 2), (31, 5, 24, 4), (212, 5, 24, 5), (46, 5, 25, 4), (200, 5, 25, 5), (106, 5, 28, 3),
+  (233, 5, 28, 5), (62, 5, 29, 4), (65, 5, 30, 4), (7, 5, 33, 3), (32, 6, 34, 4), (103, 6, 36, 3),
+  (49, 6, 36, 4), (203, 6, 36, 5), (4, 6, 37, 3), (187, 6, 41, 4), (179, 6, 41, 5), (71, 6, 42, 4),
+  (8, 6, 43, 3), (16, 6, 45, 2), (5, 7, 46, 3), (184, 7, 47, 4), (176, 7, 47, 5), (76, 7, 48, 3),
+  (13, 7, 50, 2), (87, 7, 51, 5), (98, 7, 52, 4), (44, 7, 53, 3), (26, 7, 54, 2), (15, 7, 55, 0),
+  (23, 8, 56, 2), (238, 8, 57, 3), (84, 8, 57, 5), (95, 8, 58, 4), (67, 8, 59, 2), (12, 8, 60, 0),
+  (168, 8, 61, 4), (125, 8, 62, 3), (53, 8, 63, 2), (24, 8, 64, 0), (21, 9, 66, 0), (229, 9, 67, 2),
+  (138, 9, 67, 5), (165, 9, 68, 4), (66, 9, 70, 0), (195, 9, 72, 3), (134, 9, 73, 2), (51, 9, 74, 0),
+  (228, 10, 77, 0), (156, 10, 77, 5), (204, 10, 81, 2), (132, 10, 82, 0), (158, 11, 84, 5), (205, 11, 86, 0)]
+
+theorem kE_norm : chkE (encV vNorm) eNorm = true := by decide +kernel
+
+theorem kNd_norm : (eNorm.map Prod.fst).Nodup := by decide +kernel
+
+theorem orbitFin_norm : orbitFin 12 vNorm = (rkFibre 24).image encV :=
+  orbit_eq vNorm 24 eNorm (by decide +kernel) rk_vNorm kE_norm
+    (by rw [card_rkFibre_24]; decide +kernel)
+    kNd_norm
 
 end CertificateChecks.MonsterExist.P5
 

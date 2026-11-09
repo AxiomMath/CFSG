@@ -6,6 +6,40 @@ public section
 
 namespace CFSG.LocalAnalysis.SymplecticFourStandard
 
+namespace SixG
+
+open Subgroup GomiFusion RootAxisTwoCore FullCenter FullCenterRadical FullCenterParabolic
+  FullCenterTorus FullCenterWeyl SingleComm
+open CFSG.ComponentClassification.UnbalancedCatalog.SpChain CFSG.QuasithinUnique.Setup.X7b
+  CFSG.RankThree.PartOne.KCRootAxis
+
+section Defs
+
+variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
+
+abbrev sgFw (φ : L ≃* antiSp K) (t : G) (i : Axis) : Subgroup G :=
+  (sgF φ t).map (MulAut.conj ((φ.symm (weylElt K i) : L) : G)⁻¹).toMonoidHom
+
+abbrev sgP₁ (φ : L ≃* antiSp K) (t : G) (i : Axis) : Subgroup G :=
+  (CFSG.pCore 2 (normalizer ((sgD φ t i : Subgroup G) : Set G))).map
+    (normalizer ((sgD φ t i : Subgroup G) : Set G)).subtype
+
+abbrev sgP₂ (φ : L ≃* antiSp K) (t : G) (i : Axis) : Subgroup G :=
+  (CFSG.pCore 2 (normalizer ((sgE φ t i : Subgroup G) : Set G) ⊓
+    normalizer (((pull φ (rootA K i) ⊔ (sgF φ t ⊓ sgD φ t i) : Subgroup G) : Subgroup G) :
+      Set G) : Subgroup G)).map
+  (normalizer ((sgE φ t i : Subgroup G) : Set G) ⊓
+    normalizer (((pull φ (rootA K i) ⊔ (sgF φ t ⊓ sgD φ t i) : Subgroup G) : Subgroup G) :
+      Set G) : Subgroup G).subtype
+
+abbrev sgM₀ (φ : L ≃* antiSp K) (t : G) (i : Axis) : Subgroup G :=
+  closure {x : G | ∃ p ∈ (sgP₁ φ t i ⊓ sgP₂ φ t (Axis.swap i) : Subgroup G),
+    ∃ j ∈ pull φ (diagTorus K), x = p⁻¹ * (j⁻¹ * p * j)}
+
+end Defs
+
+end SixG
+
 namespace NextCores
 
 open Subgroup GomiFusion RootAxisTwoCore FullCenter FullCenterRadical FullCenterParabolic
@@ -77,13 +111,9 @@ local notation "𝐍[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootA K i) 
 local notation "𝐌[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) :
   Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -96,8 +126,7 @@ set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 local notation "𝐉" => pull φ (diagTorus K)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
@@ -113,8 +142,7 @@ local notation "𝐍ₕ[" i "]" => (normalizer ((𝐇 : Subgroup G) : Set G) ⊓
 set_option quotPrecheck false in
 local notation "𝐃𝐧[" i "]" => normalizer ((𝐃[i] : Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 
 variable (φ t) in
 @[expose] noncomputable def psiK (i : Axis) (x : G) : K :=
@@ -159,8 +187,8 @@ theorem conj_mem_A_of_normalizer_D (h : FCHyp L K n φ t) (i : Axis) {g : G}
 
 theorem conj_t_mem_K (h : FCHyp L K n φ t) (i : Axis) {g : G} (hg : g ∈ 𝐃𝐧[i]) :
     t⁻¹ * (g * t * g⁻¹) ∈ 𝐊[i] := by
-  have hgt : g * t * g⁻¹ ∈ 𝐃[i] := (mem_normalizer_iff.mp hg t).mp (t_mem_D h i)
-  rw [← (K_sup_t h i).2] at hgt
+  have hgt : g * t * g⁻¹ ∈ 𝐊[i] ⊔ zpowers t :=
+    (K_sup_t h i).2.ge ((mem_normalizer_iff.mp hg t).mp (t_mem_D h i))
   have htD : t ∈ 𝐃𝐧[i] := le_normalizer (t_mem_D h i)
   have htK : t ∈ normalizer (𝐊[i] : Set G) :=
     mem_normalizer_of_conj_le fun x hx => conj_mem_K_of_normalizer_D h i htD hx

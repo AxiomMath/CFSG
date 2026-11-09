@@ -46,7 +46,7 @@ open CFSG.KC.Misc.ArrEnum (permB)
         (CD.getD (P.getD wc.2 (0, 0)).1 []).any (Nat.beq x) ||
           !eqPt (fun y => ap (T x) (ap (T wc.1) y)) (fun y => ap (T wc.1) (ap (T x) y))) &&
     (P.all fun ma => Nat.blt ma.1 10 && (CD.getD ma.1 []).any (Nat.beq ma.2) &&
-      eqPt (zAt T F i c) (fun x => ap (T ma.2) (zAt T F (rep (CR.getD ma.1 (0, 0)) c) c x)))
+      eqPt (ap (T i)) (fun y => ap (T ma.2) (ap (T (rep (CR.getD ma.1 (0, 0)) c)) y)))
 
 @[expose] noncomputable def cOK (T W : Nat → Nat) (F : Nat) (D : List Nat) (r : Nat × Nat)
     (N : List Nat) (WL : List (Nat × (List Nat × Nat))) : Bool :=

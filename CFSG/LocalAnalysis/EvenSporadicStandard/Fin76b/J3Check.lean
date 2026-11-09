@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HypOne.J3Inputs
+public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.FstR
 
 public section
 
@@ -9,7 +10,10 @@ namespace CFSG.EvenSporadicStandard.Fin76b.J3
 open CFSG.Sporadic.Th.Native CFSG.Sporadic.SmallOddCore.Native CFSG.Sporadic.Schreier.Native
 open CFSG.Sporadic.SmallOddCore CFSG.EvenSporadicStandard.HypOne.J3
 
-@[expose] def sylList : Array Table := (mulClosureH 6156 sgP0 128).1
+@[expose] def sylList : Array Table := fstR (mulClosureH 6156 sgP0 128)
+
+theorem sylList_fst : sylList = (mulClosureH 6156 sgP0 128).1 :=
+  (rfl : sylList = fstR (mulClosureH 6156 sgP0 128)).trans (fstR_eq _)
 
 @[expose] def j3CenterCheck : Bool :=
   sylList.any (fun x => tblEq 6156 x t0) &&

@@ -5,10 +5,10 @@ public import CFSG.Certificates.Kernel.Fam.HNSeed.Data.Sel
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.HN1023016 "Certificates/Kernel/HN1023016/data/checks.json.gz" 141041 15584882839294882372
+#kc_repo #kc_json CFSG.KD.HN1023016 "Certificates/Kernel/HN1023016/data/checks.json" 128672 6979095422913678635
     (prg : List (Nat × Nat)) (wg : List Nat) (wr : List Nat) (hw : List (List Nat))
     (rel : List (List Nat)) (fus : List (List Nat)) (oth : List (List Nat)) (bw : Nat)
-    (hwm : List Nat) (c0 : Nat) (keyc : List Nat) (dep : Nat) (jb : Nat)
+    (hwm : List Nat) (c0 : Nat) (keyc : List Nat) (dep : Nat) (jb : Nat) (pe : List (List Nat))
 
 public section
 
@@ -40,8 +40,8 @@ noncomputable abbrev vec9 : Nat → Nat → Nat := vecR 5 13 117 9 9 LV9 HV9 RM9
     CFSG.KD.FamHNSeed.RM L9 H9 prg wg wr hw rel fus bw hwm
 
 @[expose] noncomputable def chkWW (hwm : List Nat) (c0 : Nat) (keyc : List Nat) (dep jb : Nat)
-    (fus oth : List (List Nat)) : Bool :=
-  CFSG.KC.SlpPc.chkW vec9 L9 H9 CM9 RM9 ONE9 LV9 HV9 hwm c0 keyc dep jb fus oth
+    (fus oth pe : List (List Nat)) : Bool :=
+  CFSG.KC.SlpPc.chkW vec9 L9 H9 CM9 RM9 ONE9 LV9 HV9 hwm c0 keyc dep jb fus oth pe
 
 end CFSG.KD.HN1023016
 

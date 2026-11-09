@@ -33,15 +33,19 @@ theorem bi_eq (c t e : Bool) : bIf(c, t, e) = if c = true then t else e := by ca
 noncomputable abbrev PG (j : ℕ) : JH :=
   if j < 5 then ((FAData.pLift[j]!).map fun l => C3J (l - 1)).prod else wJ sL FAData.pKernel
 
+theorem ofFn7_get (F : ℕ → Array ℕ) {i : ℕ} (hi : i < 7) :
+    (Array.ofFn (n := 7) fun j => F j.val)[i]! = F i := by
+  rw [getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn]
+
 theorem foldl_arrJ (c3 : ℕ → JH) : ∀ (w : List ℕ) (g : JH),
     w.foldl (fun acc l => pcomp nPts acc (Array.ofFn (n := 7) fun j => arrJ (c3 j.val))[l - 1]!)
       (arrJ g) = arrJ (g * (w.map fun l => c3 (l - 1)).prod) ∨ ∃ l ∈ w, ¬ (1 ≤ l ∧ l ≤ 7)
-  | [], g => Or.inl (by simp)
+  | [], g => Or.inl (by rw [List.foldl_nil, List.map_nil, List.prod_nil, mul_one])
   | l :: w, g => by
     by_cases hl : 1 ≤ l ∧ l ≤ 7
     · rcases foldl_arrJ c3 w (g * c3 (l - 1)) with h | ⟨l', hl', h'⟩
       · left
-        rw [List.foldl_cons, getElem!_pos _ (l - 1) (by simp; omega), Array.getElem_ofFn,
+        rw [List.foldl_cons, ofFn7_get (fun k => arrJ (c3 k)) (by omega : l - 1 < 7),
           pcomp_arrJ, h, List.map_cons, List.prod_cons, mul_assoc]
       · exact Or.inr ⟨l', List.mem_cons_of_mem _ hl', h'⟩
     · exact Or.inr ⟨l, List.mem_cons_self, hl⟩

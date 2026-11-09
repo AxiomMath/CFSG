@@ -73,17 +73,27 @@ elab "#kb3_enum_sl " pre:ident gId:ident bId:ident nn:num ww:num ll:num : comman
     let csF := fun (sE : Expr) => mkAppN (mkConst ``CFSG.KC.BfsPin.canonSl) #[nE, wE, c `T, lit L, sE]
     let rsF := fun (sE : Expr) => mkAppN (mkConst ``CFSG.KC.BfsPin.runSl)
       #[nE, wE, c `ng, c `G, c `T, c `E, lit L, c `C, sE]
+    let derive := `CFSG.KC.BfsPin.canonSl_of_runSl
+    let viaRun := (← getEnv).contains derive
     for s in [0:K] do
-      refl (Name.mkSimple s!"cs{s}") (csF (lit s))
+      unless viaRun do refl (Name.mkSimple s!"cs{s}") (csF (lit s))
       refl (Name.mkSimple s!"rs{s}") (rsF (lit s))
+    let allTy : (Expr → Expr) → Expr := fun F => mkForall `s .default natT (mkForall `h .default
+      (mkAppN (mkConst ``LT.lt [0]) #[natT, mkConst ``instLTNat, mkBVar 0, lit K])
+      (isTrue (F (mkBVar 1))))
     let join : Name → String → (Expr → Expr) → CoreM Unit := fun nm pre F => do
       let body := mkLambda `s .default natT (isTrue (F (mkBVar 0)))
-      let ty := mkForall `s .default natT (mkForall `h .default
-        (mkAppN (mkConst ``LT.lt [0]) #[natT, mkConst ``instLTNat, mkBVar 0, lit K])
-        (isTrue (F (mkBVar 1))))
       let v := forallChain body K fun s => mkConst (P ++ Name.mkSimple s!"{pre}{s}")
-      CFSG.KC.addThmDecl <| { name := P ++ nm, levelParams := [], type := ty, value := v }
-    join `csAll "cs" csF
+      CFSG.KC.addThmDecl <| { name := P ++ nm, levelParams := [], type := allTy F, value := v }
     join `rsAll "rs" rsF
+    if viaRun then
+      let beqEq := fun (a b h : Expr) => mkAppN (mkConst ``Nat.eq_of_beq_eq_true) #[a, b, h]
+      let v := mkAppN (mkConst derive) #[nE, wE, c `ng, c `N, lit L, lit K, c `G, c `T, c `E, c `C,
+        mkApp2 (mkConst ``Eq.refl [1]) natT (c `N), reflBoolTrue, c `g, c `t0,
+        beqEq (mkApp (c `C) (lit 0)) (lit 1) (c `c0), beqEq (mkApp (c `C) (lit K)) (c `N) (c `cK),
+        c `rsAll]
+      CFSG.KC.addThmDecl <| { name := P ++ `csAll, levelParams := [], type := allTy csF, value := v }
+    else
+      join `csAll "cs" csF
     addDef (P ++ `K) natT (lit K)
     addDef (P ++ `L) natT (lit L)

@@ -26,14 +26,12 @@ theorem e_mul_sound (h : eMulCheck = true) :
     ∀ c d : V3, val6 (vExp (eW c)) * val6 (vExp (eW d)) = val6 (vExp (eW (c + d))) := by
   intro c d
   rw [← val6_append]
-  unfold eMulCheck at h
-  exact tabEq_sound (of_decide_eq_true h c d)
+  exact tabEq_sound (allVV_spec h c d)
 
 theorem e_inj_sound (h : eInjCheck = true) :
     ∀ c d : V3, val6 (vExp (eW c)) = val6 (vExp (eW d)) → c = d :=
   fun c d hcd => by
-    unfold eInjCheck at h
-    exact of_decide_eq_true h c d (tabEq_of_eq hcd)
+    exact allVVInj_spec h c d (tabEq_of_eq hcd)
 
 theorem e_tors_sound (h : eTorsCheck = true) :
     ∃ c : V3, c ≠ 0 ∧ val6 (vExp (eW c)) = val6 [(2, true), (3, true), (4, true)] := by
@@ -46,16 +44,14 @@ theorem act_v_sound (h : actVCheck = true) :
     (∀ c : V3, val6 (vGen 1) * val6 (vExp (eW c)) * (val6 (vGen 1))⁻¹ =
       val6 (vExp (eW (glAct mV2 c)))) :=
   by
-    unfold actVCheck at h
-    exact ⟨fun c => conj_sound (of_decide_eq_true h c).1,
-      fun c => conj_sound (of_decide_eq_true h c).2⟩
+    exact ⟨fun c => conj_sound (allVBoth_spec h c).1,
+      fun c => conj_sound (allVBoth_spec h c).2⟩
 
 theorem act_g_sound (h : actGCheck = true) :
     ∀ c : V3, val6 (dExp (dW c)) = val6 (vExp (eW c)) ∧
       val6 (thExp (dW c)) = val6 (vExp (eW (glAct mG c))) :=
   by
-    unfold actGCheck at h
-    exact fun c => ⟨tabEq_sound (of_decide_eq_true h c).1, tabEq_sound (of_decide_eq_true h c).2⟩
+    exact fun c => ⟨tabEq_sound (allVBoth_spec h c).1, tabEq_sound (allVBoth_spec h c).2⟩
 
 theorem theta_sound (h : thetaCheck = true) :
     val6 (dExp uW) = val6 (vExp wA) ∧ val6 (thExp uW) = val6 (vExp wB) := by

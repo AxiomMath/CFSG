@@ -13,13 +13,13 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kmisc_json_pack CFSG.KD.TS8J "Certificates/Kernel/TS8J/data/jt.json.gz" 1062959
+#kc_repo #kmisc_json_pack CFSG.KD.TS8J "Certificates/Kernel/TS8J/data/jt.json" 1062959
   16771013148907347095 (el E 10) (gn G 10) (mt M 8) (rp RP 8) (pa PA 8) (la LA 8) (so SO 8)
   (si SI 8) (iv IV 8)
 
 end
 
-#kc_repo #kc_json_gz CFSG.KD.TS8J "Certificates/Kernel/TS8J/data/js.json.gz" 2915
+#kc_repo #kc_json CFSG.KD.TS8J "Certificates/Kernel/TS8J/data/js.json" 2915
   9815829865046942859 (RT : List (Nat × List Nat)) (ZA : List (Nat × List Nat))
   (ZC : List (Nat × Nat)) (AC : List (List (Nat × Nat))) (GW : List (List Nat)) (CW : List Nat)
   (zc : Nat) (ac : Nat)

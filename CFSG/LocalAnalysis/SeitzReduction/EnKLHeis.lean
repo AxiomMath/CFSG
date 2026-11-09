@@ -1,5 +1,6 @@
 module
 
+public import CFSG.Blueprint.RootFinsetFast
 public import CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.Detect.Heis.CoordProd
 public import CFSG.LocalAnalysis.SeitzReduction.HypothesisOneOddDerivation
 import CFSG.LocalAnalysis.StandardType.GGLieKnownR2Coord
@@ -16,12 +17,18 @@ variable {τ : Tag} {K : Type} [Field K]
 theorem exists_add_single_mem_rootFinset_of_deg_one (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) :
     ∀ μ ∈ rootFinset τ, μ (iθ τ) = 1 → μ ≠ highRoot τ - Pi.single (iθ τ) 1 →
       ∃ j : Fin τ.rank, j ≠ iθ τ ∧ μ + Pi.single j 1 ∈ rootFinset τ := by
-  rcases hτ with rfl | rfl | rfl <;> decide +kernel
+  rcases hτ with rfl | rfl | rfl
+  · rw [forall_mem_rootFinset_iff]; simp only [← rootMemK_iff rootsCanon_E6]; decide +kernel
+  · rw [forall_mem_rootFinset_iff]; simp only [← rootMemK_iff rootsCanon_E7]; decide +kernel
+  · rw [forall_mem_rootFinset_iff]; simp only [← rootMemK_iff rootsCanon_E8]; decide +kernel
 
 theorem exists_sub_single_mem_rootFinset_of_deg_one (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) :
     ∀ μ ∈ rootFinset τ, μ (iθ τ) = 1 → μ ≠ Pi.single (iθ τ) 1 →
       ∃ j : Fin τ.rank, j ≠ iθ τ ∧ μ - Pi.single j 1 ∈ rootFinset τ := by
-  rcases hτ with rfl | rfl | rfl <;> decide +kernel
+  rcases hτ with rfl | rfl | rfl
+  · rw [forall_mem_rootFinset_iff]; simp only [← rootMemK_iff rootsCanon_E6]; decide +kernel
+  · rw [forall_mem_rootFinset_iff]; simp only [← rootMemK_iff rootsCanon_E7]; decide +kernel
+  · rw [forall_mem_rootFinset_iff]; simp only [← rootMemK_iff rootsCanon_E8]; decide +kernel
 
 
 theorem heisCoord_conj_pinnedX_of_deg_zero [CharP K 2] (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)

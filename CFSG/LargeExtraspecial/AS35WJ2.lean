@@ -74,8 +74,10 @@ theorem j2C_mem : j2C ∈ P := by
   refine P.list_prod_mem fun g hg => ?_
   obtain ⟨b, -, rfl⟩ := List.mem_map.1 hg
   cases b
-  · exact permA_mem
-  · exact permB_mem
+  · rw [if_neg Bool.false_ne_true]
+    exact permA_mem
+  · rw [if_pos rfl]
+    exact permB_mem
 
 @[expose] noncomputable def j2X : Equiv.Perm (Fin 315) := permOfArr 315 uStrong[0]!
 
@@ -136,7 +138,7 @@ theorem j2W2Input :
     have hU : ∀ u ∈ uChain.originalSubgroup, u ∈ P := fun u hu =>
       (cent2A_facts.1 (hUK hu)).1
     refine hz''.false_of_conj_mem (P := uChain.originalSubgroup.comap P.subtype)
-      (x := ⟨j2X, hU _ j2X_mem_U⟩) ?_ ?_ ?_ j2X_mem_U ?_ ?_
+      (x := ⟨j2X, hU _ j2X_mem_U⟩) ?_ ?_ ?_ (Subgroup.mem_comap.2 j2X_mem_U) ?_ ?_
     · intro u hu
       rw [mem_centralizer_singleton_iff]
       have h1 := (cent2A_facts.1 (hUK hu)).2

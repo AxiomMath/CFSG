@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.TwD5RAll "Certificates/Kernel/TwD5ReflK/data/all.json.gz" 959100 9734117232116191476
+#kc_repo #kc_json CFSG.KD.TwD5RAll "Certificates/Kernel/TwD5ReflK/data/all.json" 959100 9734117232116191476
   (reps : List Nat) (nrep : Nat) (repTab : Nat)
   (repsH : List Nat) (repsB : List (Nat × List Nat)) (k12 : List (List Nat))
   (LH : List (Nat × Nat)) (LG0 : List (Nat × Nat)) (LG1 : List (Nat × Nat))

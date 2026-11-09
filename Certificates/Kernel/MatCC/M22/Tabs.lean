@@ -12,7 +12,7 @@ open CFSG.CosetTable CFSG.Sporadic.Recognition.M22Multiplier
 
 public section
 
-#kb_family "data/M22.json.gz" 1569 5554640704730688663 (m22 := m22Rels)
+#kb_family "data/M22.json" 1569 5554640704730688663 (m22 := m22Rels)
   (m22b := restrictWords (subsetOf 2 [1]) m22Rels)
 
 end

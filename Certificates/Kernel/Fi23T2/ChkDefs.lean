@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Fi23T2.D "Certificates/Kernel/Fi23T2/data/t2.json.gz" 209268 14074518919093463083
+#kc_repo #kc_json CFSG.KD.Fi23T2.D "Certificates/Kernel/Fi23T2/data/t2.json" 209268 14074518919093463083
   (S : List (List (List Nat))) (B : List Nat) (C : List (List Nat))
 
 namespace CFSG.KD.Fi23T2

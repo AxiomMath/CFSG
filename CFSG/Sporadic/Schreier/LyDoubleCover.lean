@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Sporadic.Schreier.LyCover
+public import CFSG.Sporadic.Schreier.LyCoverPresM
 public import CFSG.Sporadic.Ly.Primitive
 
 public noncomputable section
@@ -12,12 +13,8 @@ open CFSG.Sporadic.He.Native
 open CFSG.Sporadic.SchreierLemmas
 
 theorem lyz_mem_lyC : lyz ∈ lyC := by
-  have h := (repW_relResidue 0 1 0).2
-  change RepM (relResidue csArr tTab 0 1 0).2 _ at h
-  rw [cover_parts.2.2.2.2.2.2.2.2] at h
-  have := repM_matA.unique h
-  rw [lyz, this]
-  exact (FreeGroup.lift cC _).2
+  rw [← (car_rels cover_parts.2.2.2.2.2.2).2.2.2]
+  exact SetLike.coe_mem _
 
 @[expose] def zC :
     lyC := ⟨lyz, lyz_mem_lyC⟩
@@ -82,35 +79,6 @@ theorem mem_zGroup
     · exact Subgroup.one_mem _
     · exact Subgroup.mem_zpowers _
 
-theorem chain_hsift
-    (i : Fin lyChain.baseCount) (x : Fin 11) (hx : x ∈ lyChain.orbit i)
-    (j : Fin lyChain.strongCount) (hj : j ∈ lyChain.levelSet pGen i) :
-    FreeGroup.lift pGen (lyChain.residue pGen i (lyChain.schreierElement pGen i x j)) = 1 := by
-  have h := (repW_relResidue i x j).1
-  obtain ⟨h1, -⟩ := rel_parts i x hx j (mem_levelSet.1 hj)
-  rw [h1] at h
-  exact h.eq repP_id11
-
-theorem chain_hsiftZ
-    (i : Fin lyChain.baseCount) (x : Fin 11) (hx : x ∈ lyChain.orbit i)
-    (j : Fin lyChain.strongCount) (hj : j ∈ lyChain.levelSet pGen i) :
-    FreeGroup.lift cC (lyChain.residue pGen i (lyChain.schreierElement pGen i x j)) ∈
-      zGroup := by
-  have h := (repW_relResidue i x j).2
-  obtain ⟨-, h2⟩ := rel_parts i x hx j (mem_levelSet.1 hj)
-  rw [mem_zGroup]
-  rcases h2 with h2 | h2
-  · rw [h2] at h
-    left
-    exact Subtype.ext (repM_id.unique h).symm
-  · rw [h2] at h
-    right
-    exact Subtype.ext (repM_matA.unique h).symm
-
-theorem isSimpleGroup_closure_pGen : IsSimpleGroup (Subgroup.closure (Set.range pGen)) :=
-  (MulEquiv.subgroupCongr closure_pGen_eq).isSimpleGroup_congr.2
-    (alternatingGroup.isSimpleGroup (by simp))
-
 theorem cC_zero_not_mem :
     cC 0 ∉ zGroup := by
   have hc : RepM (pairAt csArr 0).1 (cSeed 0) := by
@@ -126,28 +94,61 @@ theorem cC_zero_not_mem :
     rw [hc, toMat_matA, ← mat_a]
     exact congrArg mat (congrArg Subtype.val h)
 
-theorem schreier_lift :
-    ∃ f : Subgroup.closure (Set.range pGen) →* lyC ⧸ zGroup,
-    Function.Surjective f ∧
-      (∀ i, f ⟨pGen i, Subgroup.subset_closure ⟨i, rfl⟩⟩ = ((cC i : lyC) : lyC ⧸ zGroup)) ∧
-      (IsSimpleGroup (Subgroup.closure (Set.range pGen)) → (∃ i, cC i ∉ zGroup) →
-        Function.Bijective f) :=
-  central_Schreier_lift pGen cC closure_cC zGroup zGroup_le_center lyChain chain_hbase
-    chain_horbit transversal_mem transversal_base chain_hsift chain_hsiftZ (chain_htermZ cC _)
+theorem mk_carC_eq {g : lyC} (h : (g : J) = 1 ∨ (g : J) = lyz) :
+    (g : lyC ⧸ zGroup) = 1 := by
+  rw [QuotientGroup.eq_one_iff, mem_zGroup]
+  rcases h with h | h
+  · exact Or.inl (Subtype.ext h)
+  · exact Or.inr (Subtype.ext h)
+
+theorem exists_quotient_equiv_of_carPresOK (hP : carPresOK csArr = true) :
+    ∃ e : lyC ⧸ zGroup ≃* alternatingGroup (Fin 11),
+    ∀ i : Fin 2, (e (cC i : lyC ⧸ zGroup) : Equiv.Perm (Fin 11)) = pGen i := by
+  obtain ⟨h3, h2, hu, -⟩ := car_rels hP
+  have hlt : ∀ i j, i < j → ((carC i : lyC ⧸ zGroup) * (carC j : lyC ⧸ zGroup)) ^ 2 = 1 := by
+    intro i j h
+    rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_pow]
+    exact mk_carC_eq (h2 i j h)
+  have huc : ∀ k : Fin 2,
+      FreeGroup.lift (fun i => ((FreeGroup.lift cC (carT i) : lyC) : lyC ⧸ zGroup)) (carU k) =
+        (cC k : lyC ⧸ zGroup) := by
+    intro k
+    have hm := map_list_prod (QuotientGroup.mk' zGroup) ((carGenWords k).map carC)
+    rw [List.map_map] at hm
+    rw [lift_carU]
+    refine Eq.trans hm.symm ?_
+    change ((((carGenWords k).map carC).prod : lyC) : lyC ⧸ zGroup) = _
+    have hc : (cStar k : J) = (cC k : J) := cSeed_eq_cStar k
+    have hp : ((((carGenWords k).map carC).prod : lyC) : J) =
+        ((carGenWords k).map fun n => (carC n : J)).prod := by
+      rw [← Subgroup.coe_subtype, map_list_prod, List.map_map]
+      rfl
+    rw [eq_comm, QuotientGroup.eq, mem_zGroup]
+    rcases hu k with e | e
+    · left
+      apply Subtype.ext
+      rw [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one, inv_mul_eq_one, hp]
+      exact (e.trans hc).symm
+    · right
+      apply Subtype.ext
+      rw [Subgroup.coe_mul, Subgroup.coe_inv, inv_mul_eq_iff_eq_mul, hp]
+      exact e.trans (by rw [hc]; rfl)
+  obtain ⟨e, he⟩ := exists_quotient_equiv_of_carmichael cC closure_cC zGroup
+    (fun k => FreeGroup.lift CFSG.LocalAnalysis.ComponentInitial.altThreeCycle (carU k)) carT carU
+    (fun i => by
+      rw [← QuotientGroup.mk_pow]
+      exact mk_carC_eq (h3 i))
+    (fun i j hij => by
+      rcases lt_or_gt_of_ne hij with h | h
+      · exact hlt i j h
+      · exact CFSG.LocalAnalysis.ComponentInitial.sq_mul_comm_eq_one (hlt j i h))
+    (fun _ => rfl) huc cC_zero_not_mem
+  exact ⟨e, fun k => by rw [he k, coe_lift_carU]⟩
 
 theorem exists_quotient_equiv :
     ∃ e : lyC ⧸ zGroup ≃* alternatingGroup (Fin 11),
-    ∀ i : Fin 2, (e (cC i : lyC ⧸ zGroup) : Equiv.Perm (Fin 11)) = pGen i := by
-  obtain ⟨f, -, hfp, hbij⟩ := schreier_lift
-  have hb := hbij isSimpleGroup_closure_pGen ⟨0, cC_zero_not_mem⟩
-  refine ⟨(MulEquiv.ofBijective f hb).symm.trans (MulEquiv.subgroupCongr closure_pGen_eq),
-    fun i => ?_⟩
-  have : (MulEquiv.ofBijective f hb).symm (cC i : lyC ⧸ zGroup) =
-      ⟨pGen i, Subgroup.subset_closure ⟨i, rfl⟩⟩ := by
-    rw [MulEquiv.symm_apply_eq]
-    exact (hfp i).symm
-  simp only [MulEquiv.trans_apply, this]
-  rfl
+    ∀ i : Fin 2, (e (cC i : lyC ⧸ zGroup) : Equiv.Perm (Fin 11)) = pGen i :=
+  exists_quotient_equiv_of_carPresOK cover_parts.2.2.2.2.2.2
 
 @[expose] def lyCoverEquiv :
     lyC ⧸ zGroup ≃* alternatingGroup (Fin 11) :=

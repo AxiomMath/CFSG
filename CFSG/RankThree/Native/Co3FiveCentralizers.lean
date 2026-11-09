@@ -44,15 +44,24 @@ structure Co3FiveChainFacts : Prop where
   rels : ∀ r ∈ co3FiveRels, r.2.2 < co3FiveX25PowArrs.size ∧ r.1 < co3ChainBaseArr.size ∧
     r.2.1 < co3ChainBaseArr.size ∧
       (co3FiveX25PowArrs[r.2.2]!)[co3ChainBaseArr[r.1]!]! = co3ChainBaseArr[r.2.1]!
-  ptail : ptailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3ChainBaseArr co3FiveX25Arr
-    co3FiveX25PowArrs co3FiveRels co3FiveC25Cert.pts.toList 7 0 (idA 276) = true
+  x0 : co3FiveX25Arr[0]! = 0
+  fixx : allLt 275 (fun p => co3FiveX25Arr[p + 1]! != p + 1) = true
+  br : allLt ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).pts.size (fun k =>
+    !((List.range 3).any fun i =>
+      ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).pts[k]! == co3FiveC25Rep i) ||
+    ptailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3ChainBaseArr co3FiveX25Arr
+      co3FiveX25PowArrs co3FiveRels co3FiveC25Cert.pts.toList 5 2
+      ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).tr[k]!) = true
+  orb : allLt 275 (fun q => (List.range co3FiveC25Cert.pts.size).any fun w =>
+    (List.range 3).any fun i => (co3FiveC25Cert.pts[w]!)[co3FiveC25Rep i]! == q + 1) = true
 
 theorem co3Five_chain_facts : Co3FiveChainFacts := by
   have h := co3Five_chain_check
   simp only [co3FiveChainCheck, Bool.and_eq_true, List.all_eq_true, beq_iff_eq,
     decide_eq_true_eq] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨h1, ⟨⟨⟨h20, h21⟩, h22⟩, h23⟩⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩ := h
-  refine ⟨h1, h20, h21, h22, h23, h3, h4, h5, h6, h7, fun r hr => ?_, h9⟩
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, ⟨⟨⟨h20, h21⟩, h22⟩, h23⟩⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩,
+    h11⟩, h12⟩ := h
+  refine ⟨h1, h20, h21, h22, h23, h3, h4, h5, h6, h7, fun r hr => ?_, h9, h10, h11, h12⟩
   obtain ⟨⟨⟨a, b⟩, c⟩, d⟩ := h8 r hr
   exact ⟨a, b, c, d⟩
 
@@ -330,19 +339,95 @@ theorem rep_co3FiveX25Pow {e : ℕ} (he : e < co3FiveX25PowArrs.size) :
   simp only [co3FiveX25PowArrs, Array.getElem_ofFn]
   exact rep_powArr rep_co3FiveLine_25 e
 
+theorem co3Five_fix_zero {c : Equiv.Perm (Fin 276)}
+    (hc : c ∈ Subgroup.centralizer {co3FiveLine 25}) : c 0 = 0 := by
+  have hX := rep_co3FiveLine_25
+  have hcomm : c * co3FiveLine 25 = co3FiveLine 25 * c :=
+    Subgroup.mem_centralizer_singleton_iff.1 hc
+  have h0 : co3FiveLine 25 0 = 0 := Fin.ext ((hX 0).symm.trans co3Five_chain_facts.x0)
+  have hfix : co3FiveLine 25 (c 0) = c 0 := by
+    have h := DFunLike.congr_fun hcomm 0
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, h0] at h
+    exact h.symm
+  by_contra hne
+  have hne' : ((c 0 : Fin 276) : ℕ) ≠ 0 := fun h => hne (Fin.ext h)
+  have hp : ((c 0 : Fin 276) : ℕ) - 1 < 275 := by have := (c 0).2; omega
+  have h := allLt_spec co3Five_chain_facts.fixx hp
+  rw [Nat.sub_add_cancel (Nat.one_le_iff_ne_zero.2 hne'), hX (c 0), hfix] at h
+  simp at h
+
 theorem co3FiveC25_eq : co3FiveC25 = Subgroup.centralizer {co3FiveLine 25} ⊓ co3P := by
   apply le_antisymm (le_inf co3FiveC25_le_centralizer co3FiveC25_le_P)
   intro g hg
   have F := co3Five_chain_facts
-  have htail : ptailOK 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3ChainBaseArr
-      co3FiveX25Arr co3FiveX25PowArrs co3FiveRels co3FiveC25Cert.pts.toList co3Chain.baseCount 0
-        (idA 276) = true := by
-    rw [co3Chain_baseCount]
-    exact F.ptail
-  obtain ⟨e, he, hre⟩ := centralizer_subset_of_ptailOK co3ChainArrays
-    (chainCheckFacts co3Order_check.1) co3Chain_valid.1 rep_co3FiveLine_25
-    (fun e he => rep_co3FiveX25Pow he) F.rels htail hg
-  exact enumOK_mem_of_mem co3FiveKeyPts_lt co3Five_C25_facts.enum hre he
+  have hA := co3ChainArrays
+  have hF := chainCheckFacts co3Order_check.1
+  have hQ := co3Chain_valid.1
+  obtain ⟨hgc, hgP⟩ := Subgroup.mem_inf.1 hg
+  have hg0 := co3Five_fix_zero hgc
+  have hq0 : ((g 1 : Fin 276) : ℕ) ≠ 0 := fun h => by
+    have e : g 1 = g 0 := by rw [hg0]; exact Fin.ext h
+    exact absurd (g.injective e) (by decide)
+  have hqlt : ((g 1 : Fin 276) : ℕ) - 1 < 275 := by have := (g 1).2; omega
+  have ho := allLt_spec F.orb hqlt
+  rw [Nat.sub_add_cancel (Nat.one_le_iff_ne_zero.2 hq0)] at ho
+  simp only [List.any_eq_true, List.mem_range, beq_iff_eq] at ho
+  obtain ⟨w, hw, i, hi, hwi⟩ := ho
+  obtain ⟨hmem, -, hval⟩ := enumOK_spec co3FiveKeyPts_lt co3Five_C25_facts.enum
+  have hrep : Rep 276 co3FiveC25Cert.pts[w]! (permOfArr 276 co3FiveC25Cert.pts[w]!) :=
+    rep_of_validA (hval w hw)
+  set h := permOfArr 276 co3FiveC25Cert.pts[w]! with hh
+  have hC : h ∈ co3FiveC25 := by
+    rw [co3FiveC25]
+    exact (hmem h).2 ⟨w, hw, rfl⟩
+  have hr : co3FiveC25Rep i < 276 := by
+    unfold co3FiveC25Rep
+    split_ifs <;> norm_num
+  have hhr : h ⟨co3FiveC25Rep i, hr⟩ = g 1 := Fin.ext ((hrep ⟨co3FiveC25Rep i, hr⟩).symm.trans hwi)
+  set g' := h⁻¹ * g with hg'
+  have hg'C : g' ∈ Subgroup.centralizer {co3FiveLine 25} :=
+    Subgroup.mul_mem _ (Subgroup.inv_mem _ (co3FiveC25_le_centralizer hC)) hgc
+  have hg'P : g' ∈ co3P := co3P.mul_mem (co3P.inv_mem (co3FiveC25_le_P hC)) hgP
+  have hg'0 : g' 0 = 0 := co3Five_fix_zero hg'C
+  have hg'1 : g' 1 = ⟨co3FiveC25Rep i, hr⟩ := by
+    rw [hg', Equiv.Perm.mul_apply, Equiv.Perm.inv_eq_iff_eq, hhr]
+  have h0lt : 0 < co3Chain.baseCount := by rw [co3Chain_baseCount]; norm_num
+  have h1lt : 1 < co3Chain.baseCount := by rw [co3Chain_baseCount]; norm_num
+  have hb0 : co3Chain.base.get ⟨0, h0lt⟩ = 0 :=
+    Fin.ext ((hA.base_val ⟨0, h0lt⟩).trans (co3ChainBaseArr_get (by norm_num)))
+  have hb1 : co3Chain.base.get ⟨1, h1lt⟩ = 1 :=
+    Fin.ext ((hA.base_val ⟨1, h1lt⟩).trans (co3ChainBaseArr_get (by norm_num)))
+  have hfix0 : g' (co3Chain.base.get ⟨0, h0lt⟩) = co3Chain.base.get ⟨0, h0lt⟩ := by
+    rw [hb0]
+    exact hg'0
+  have hL0 : g' ∈ co3Chain.levelSubgroup 0 := by
+    rw [co3Chain.levelSubgroup_zero_eq_original hQ]
+    exact hg'P
+  have hL1 : g' ∈ co3Chain.levelSubgroup 1 := by
+    rw [co3Chain.levelSubgroup_succ_eq_stabilizer hQ ⟨0, h0lt⟩]
+    exact Subgroup.mem_inf.2 ⟨hL0, hfix0⟩
+  obtain ⟨k, hk, hpt, hk2⟩ := exists_levT_inv_mul_mem hA hF hQ h1lt hL1
+  rw [hb1, hg'1] at hpt
+  have hbr := allLt_spec F.br hk
+  have hsel : ((List.range 3).any fun i' =>
+      ((rawLevels 276 co3ChainArrs co3ChainBaseArr)[1]!).pts[k]! == co3FiveC25Rep i') = true :=
+    List.any_eq_true.2 ⟨i, List.mem_range.2 hi, beq_iff_eq.2 hpt⟩
+  rw [hsel, Bool.not_true, Bool.false_or] at hbr
+  have hcomm : ChainArrays.levT 276 co3ChainArrs co3ChainBaseArr 1 k *
+      ((ChainArrays.levT 276 co3ChainArrs co3ChainBaseArr 1 k)⁻¹ * g') * co3FiveLine 25 =
+      co3FiveLine 25 * (ChainArrays.levT 276 co3ChainArrs co3ChainBaseArr 1 k *
+        ((ChainArrays.levT 276 co3ChainArrs co3ChainBaseArr 1 k)⁻¹ * g')) := by
+    rw [mul_inv_cancel_left]
+    exact Subgroup.mem_centralizer_singleton_iff.1 hg'C
+  obtain ⟨e, he, hre⟩ := ptailOK_spec hA hF hQ rep_co3FiveLine_25
+    (fun e he => rep_co3FiveX25Pow he) F.rels 5 2 (by rw [co3Chain_baseCount]) _ _
+    (hA.rep_levT hF h1lt hk) hbr _ hk2 hcomm
+  rw [mul_inv_cancel_left] at hre
+  have hg'C25 : g' ∈ co3FiveC25 :=
+    enumOK_mem_of_mem co3FiveKeyPts_lt co3Five_C25_facts.enum hre he
+  have e : g = h * g' := by rw [hg', mul_inv_cancel_left]
+  rw [e]
+  exact co3FiveC25.mul_mem hC hg'C25
 
 theorem co3FiveLine_25_mem_A : co3FiveLine 25 ∈ co3FiveA := by
   rw [co3FiveA_eq_Q]

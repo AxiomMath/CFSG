@@ -9,7 +9,7 @@ public import CFSG.GF2Type.Smith1979.GammaU.EnumDefs
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.IF4O "Certificates/Kernel/IdxFour/data/e0orbit.json.gz" 65605
+#kc_repo #kc_json CFSG.KD.IF4O "Certificates/Kernel/IdxFour/data/e0orbit.json" 65605
   6598323931543572269 (SP : Nat) (SI : Nat) (VT : Nat) (PS : Nat) (E : List (List Nat))
 
 namespace CFSG.KD.IF4O

@@ -28,23 +28,42 @@ private theorem orbOK_Kpart {j : ℕ} (hj : j < P.D.obase.length) :
       ((P.D.K.getD j []).all (fun k => isS P.C k &&
           Nat.beq (wordF P.C.L k (P.D.obase.getD j 0)) (P.D.obase.getD j 0)) &&
         sortedLt ((P.D.K.getD j []).map fun k => P.D.sep.map (wordF P.C.L k)) &&
-        Nat.beq (Nat.mul (P.D.K.getD j []).length (P.D.osz.getD j 0)) P.s)) = true := by
+        Nat.beq (Nat.mul (P.D.K.getD j []).length (P.D.osz.getD j 0)) P.s &&
+        stabGenG P.C P.D j)) = true := by
   have h := orbOK_of_lt P hj
   unfold orbOKS at h
   rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true] at h
   exact h.1.2
+
+private theorem orbOK_Kpart_gen {j : ℕ} (hj : j < P.D.obase.length)
+    (h0 : 0 < (P.D.K.getD j []).length) :
+    ((P.D.K.getD j []).all (fun k => isS P.C k &&
+        Nat.beq (wordF P.C.L k (P.D.obase.getD j 0)) (P.D.obase.getD j 0)) &&
+      sortedLt ((P.D.K.getD j []).map fun k => P.D.sep.map (wordF P.C.L k)) &&
+      Nat.beq (Nat.mul (P.D.K.getD j []).length (P.D.osz.getD j 0)) P.s &&
+      stabGenG P.C P.D j) = true := by
+  have h := orbOK_Kpart P hj
+  rw [Bool.or_eq_true] at h
+  rcases h with h | h
+  · rw [Nat.beq_eq] at h
+    omega
+  · exact h
 
 private theorem orbOK_Kpart' {j : ℕ} (hj : j < P.D.obase.length)
     (h0 : 0 < (P.D.K.getD j []).length) :
     ((P.D.K.getD j []).all (fun k => isS P.C k &&
         Nat.beq (wordF P.C.L k (P.D.obase.getD j 0)) (P.D.obase.getD j 0)) &&
       sortedLt ((P.D.K.getD j []).map fun k => P.D.sep.map (wordF P.C.L k)) &&
-      Nat.beq (Nat.mul (P.D.K.getD j []).length (P.D.osz.getD j 0)) P.s) = true := by
-  have h := orbOK_Kpart P hj
-  rw [Bool.or_eq_true] at h
+      Nat.beq (Nat.mul (P.D.K.getD j []).length (P.D.osz.getD j 0)) P.s) = true :=
+  ((Bool.and_eq_true _ _).mp (orbOK_Kpart_gen P hj h0)).1
+
+theorem stabGenOK_of {j : ℕ} (hj : j < P.D.obase.length) (h0 : 0 < (P.D.K.getD j []).length)
+    (hG : 0 < (P.D.G.getD j []).length) : stabGenOK P.C P.D j = true := by
+  have h := ((Bool.and_eq_true _ _).mp (orbOK_Kpart_gen P hj h0)).2
+  unfold stabGenG at h
+  rw [Bool.or_eq_true, Nat.beq_eq] at h
   rcases h with h | h
-  · rw [Nat.beq_eq] at h
-    omega
+  · omega
   · exact h
 
 theorem K_isS {j : ℕ} (hj : j < P.D.obase.length) {k : List ℕ}
@@ -64,7 +83,7 @@ theorem K_fixes_word {j : ℕ} (hj : j < P.D.obase.length) {k : List ℕ}
   rw [Bool.and_eq_true, Nat.beq_eq] at h2
   exact h2.2
 
-private theorem K_sortedLt {j : ℕ} (hj : j < P.D.obase.length)
+theorem K_sortedLt {j : ℕ} (hj : j < P.D.obase.length)
     (h0 : 0 < (P.D.K.getD j []).length) :
     sortedLt ((P.D.K.getD j []).map fun k => P.D.sep.map (wordF P.C.L k)) = true := by
   have h := orbOK_Kpart' P hj h0

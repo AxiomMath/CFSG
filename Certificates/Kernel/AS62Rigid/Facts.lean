@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.AS62Rigid.Checks
 public import CFSG.Certificates.Kernel.AS62RigidSound
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PcompFacts
 
 public section
 
@@ -140,10 +141,24 @@ theorem code2_lt (i : Fin 5) : code2 i < 6 := by
   unfold code2
   split <;> omega
 
+theorem walkW62_spec : ∀ (L : List Nat) (j : Nat), walkW62 L j = true →
+    ∀ i (hi : i < L.length), chkW62 (wordOfCode letter2 L[i]) (j + i) = true
+  | [], _, _, i, hi => absurd hi (Nat.not_lt_zero _)
+  | c :: L, j, h, i, hi => by
+    have h' := bAnd_iff2 (h : bAnd(chkW62 (wordOfCode letter2 c) j, walkW62 L (Nat.succ j)) = true)
+    cases i with
+    | zero => exact h'.1
+    | succ i =>
+      have e : j + (i + 1) = Nat.succ j + i := by omega
+      rw [e]
+      exact walkW62_spec L (Nat.succ j) h'.2 i (by simp at hi; omega)
+
 theorem p2Tab_eq : p2Tab () = Array.ofFn (n := 960) fun k => (U (P2K k.val), U (P2KI k.val)) := by
   unfold p2Tab
   refine congrArg (Array.ofFn (n := 960)) (funext fun k => ?_)
-  have h := List.all_eq_true.1 ckP2W k (List.mem_finRange k)
+  have h : chkW62 (h2Word k) (0 + k.val) = true :=
+    walkW62_spec h2Codes 0 ckP2W k.val (by rw [length_h2Codes]; exact k.isLt)
+  rw [Nat.zero_add] at h
   obtain ⟨h1, h2⟩ := bAnd_iff2 h
   unfold p2Pair
   rw [evalA_eq (code := code2) idOK45 cnPID (cnGc code2_lt) (letA_eq code2_lt),
@@ -154,11 +169,11 @@ theorem yPow_eq {j : Nat} (hj : j < 3) : yPow j = (U (YP j), U (YPI j)) := by
   have g4 := gen_eq (k := 4) (by norm_num)
   have c4 := cnG (k := 4) (by norm_num)
   interval_cases j
-  · rw [yPow, if_pos rfl, idA_eq]
+  · rw [yPow, ite_eq_left rfl, idA_eq]
     rfl
-  · rw [yPow, if_neg (by omega), if_pos rfl, g4.1, g4.2]
+  · rw [yPow, ite_eq_right (by omega), ite_eq_left rfl, g4.1, g4.2]
     rfl
-  · rw [yPow, if_neg (by omega), if_neg (by omega), g4.1, g4.2, cmpA_unpack c4.1 c4.1,
+  · rw [yPow, ite_eq_right (by omega), ite_eq_right (by omega), g4.1, g4.2, cmpA_unpack c4.1 c4.1,
       cmpA_unpack c4.2 c4.2]
     rfl
 
@@ -221,9 +236,29 @@ theorem rel5_eq {a b c d e a' b' c' d' e' : Nat} (ha : Cn a) (hb : Cn b) (hc : C
   refine relOK_eq idOK45 cnPID (cnTup ha hb hc hd he ha' hb' hc' hd' he') (fun i => ?_) w
   fin_cases i <;> rfl
 
+theorem pg_evalK62 {k : Nat} (E EI : Nat → Nat) (w : List (Fin k × Bool)) {x : Nat}
+    (hx : x < 45) : pg 6 (mask 6) (evalK E EI w) x = ptW62 E EI w x := by
+  induction w with
+  | nil => exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hx
+  | cons l w ih => exact (CFSG.KS.PF.pg_pcomp (by norm_num) hx).trans (congrArg _ ih)
+
+theorem relP62_eq {k : Nat} (E EI : Nat → Nat) (w : List (Fin k × Bool)) :
+    relP62 E EI w = relK E EI w := by
+  unfold relP62
+  cases h : relK E EI w
+  · cases Nat.beq (ptW62 E EI w 0) 0 <;> cases Nat.beq (ptW62 E EI w 17) 17 <;>
+      cases Nat.beq (ptW62 E EI w 34) 34 <;> rfl
+  · have e : evalK E EI w = PID := Nat.eq_of_beq_eq_true h
+    have pt : ∀ x < 45, ptW62 E EI w x = x := fun x hx => by
+      rw [← pg_evalK62 E EI w hx, e]
+      exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hx
+    rw [pt 0 (by norm_num), pt 17 (by norm_num), pt 34 (by norm_num)]
+    rfl
+
 theorem relK_tup {k : Nat} {w : List (Fin k × Bool)} (S : List Nat)
     (hw : ∀ l ∈ w, l.1.val ∈ S) {E EI E' EI' : Nat → Nat}
-    (h : ∀ j ∈ S, E j = E' j ∧ EI j = EI' j) : relK E EI w = relK E' EI' w := by
+    (h : ∀ j ∈ S, E j = E' j ∧ EI j = EI' j) : relP62 E EI w = relK E' EI' w := by
+  rw [relP62_eq]
   unfold relK
   rw [relK_congr w fun l hl => h _ (hw l hl)]
 
@@ -319,6 +354,7 @@ theorem rigidCheck_true : rigidCheck () = true := by
   have e5 := fun k hk => (rel5_eq ca cb cc cd cv ca' cb' cc' cd' cv' _).symm.trans (h5' k hk)
   have g0 : u0K a = true := by
     unfold u0K rB
+    rw [relP62_eq]
     have hne := h0.2
     rw [idA_eq, bne, beq_unpack ca P] at hne
     rw [h0.1]
@@ -329,7 +365,7 @@ theorem rigidCheck_true : rigidCheck () = true := by
   have g1 : u1K b = true := (relK_tup [1] (by decide) fun j hj => by
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hj
     subst hj; exact ⟨rfl, rfl⟩).trans h1.1
-  have g5 : p5K a b = true := h1.2
+  have g5 : p5K a b = true := (relP62_eq _ _ _).trans h1.2
   have g2 : u2K c = true := (relK_tup [2] (by decide) fun j hj => by
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hj
     subst hj; exact ⟨rfl, rfl⟩).trans h2.1
@@ -351,7 +387,7 @@ theorem rigidCheck_true : rigidCheck () = true := by
   have g8 : p8K b d = true := (relK_tup [1, 3] (by decide) fun j hj => by
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hj
     rcases hj with rfl | rfl <;> exact ⟨rfl, rfl⟩).trans h3.2.2.2.1
-  have g10 : r10K a b c d = true := h3.2.2.2.2
+  have g10 : r10K a b c d = true := (relP62_eq _ _ _).trans h3.2.2.2.2
   have gy : uyK u = true := (relK_tup [4] (by decide) fun j hj => by
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at hj
     subst hj; exact ⟨rfl, rfl⟩).trans (e4 0 (by norm_num))

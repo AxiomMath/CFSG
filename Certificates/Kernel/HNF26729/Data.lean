@@ -5,7 +5,7 @@ public import CFSG.Certificates.Kernel.Fam.HNSeed.Data.Sel
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.HNF26729 "Certificates/Kernel/HNF26729/data/orb.json.gz" 3043 10967316824516539018
+#kc_repo #kc_json CFSG.KD.HNF26729 "Certificates/Kernel/HNF26729/data/orb.json" 3043 10967316824516539018
     (v : Nat) (tree : List (Nat × Nat)) (ord : List Nat)
 
 public section

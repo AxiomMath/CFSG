@@ -287,11 +287,59 @@ private def GoodU (u : Nat) : Prop :=
     parent u < 6561 ∧ parent u ≠ 0) ∧
   enc (dec u) = u
 
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 1000000 in
 open scoped CFSG.Decide.Bounded in
-private theorem chk_goodU : ∀ k ∈ Finset.range 13, ∀ u ∈ Finset.range 512,
+private theorem chk_goodU_0 : ∀ k ∈ Finset.Ico 0 3, ∀ u ∈ Finset.range 512,
     k*512+u < 6561 → GoodU (k*512+u) := by
   unfold GoodU
   decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 1000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem chk_goodU_1 : ∀ k ∈ Finset.Ico 3 6, ∀ u ∈ Finset.range 512,
+    k*512+u < 6561 → GoodU (k*512+u) := by
+  unfold GoodU
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 1000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem chk_goodU_2 : ∀ k ∈ Finset.Ico 6 9, ∀ u ∈ Finset.range 512,
+    k*512+u < 6561 → GoodU (k*512+u) := by
+  unfold GoodU
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 1000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem chk_goodU_3 : ∀ k ∈ Finset.Ico 9 12, ∀ u ∈ Finset.range 512,
+    k*512+u < 6561 → GoodU (k*512+u) := by
+  unfold GoodU
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+set_option synthInstance.maxHeartbeats 1000000 in
+open scoped CFSG.Decide.Bounded in
+private theorem chk_goodU_4 : ∀ k ∈ Finset.Ico 12 13, ∀ u ∈ Finset.range 512,
+    k*512+u < 6561 → GoodU (k*512+u) := by
+  unfold GoodU
+  decide +kernel
+
+private theorem chk_goodU : ∀ k ∈ Finset.range 13, ∀ u ∈ Finset.range 512,
+    k*512+u < 6561 → GoodU (k*512+u) := by
+  intro k hk
+  have hk' := Finset.mem_range.1 hk
+  by_cases h3 : k < 3
+  · exact chk_goodU_0 k (Finset.mem_Ico.2 ⟨Nat.zero_le k, h3⟩)
+  by_cases h6 : k < 6
+  · exact chk_goodU_1 k (Finset.mem_Ico.2 ⟨by omega, h6⟩)
+  by_cases h9 : k < 9
+  · exact chk_goodU_2 k (Finset.mem_Ico.2 ⟨by omega, h9⟩)
+  by_cases h12 : k < 12
+  · exact chk_goodU_3 k (Finset.mem_Ico.2 ⟨by omega, h12⟩)
+  · exact chk_goodU_4 k (Finset.mem_Ico.2 ⟨by omega, hk'⟩)
 
 private theorem range_lt_split {P : Nat → Prop}
     (h : ∀ k ∈ Finset.range 13, ∀ u ∈ Finset.range 512,

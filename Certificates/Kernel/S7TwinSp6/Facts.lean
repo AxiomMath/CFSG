@@ -70,7 +70,7 @@ theorem pS : ∀ j < (sylWords.map (evalCodes sp6Gens)).length,
 
 theorem chainS : ChainK 36 6 (sylWords.map (evalCodes sp6Gens)) sylDerive
     (#v[4, 2, 0, 1] : Vector (Fin 36) 4) SQ.S SQ.SI SQ.LR SQ.TR SQ.TRI 7 SQ.BP 1 36 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgS, by decide, SQ.head, SQ.hl, by norm_num, SQ.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgS, by decide, SQ.head, SQ.hl, by norm_num, .inl SQ.hs⟩
 
 theorem sylow : sp6TwinSylow () = true := by
   obtain ⟨h1, h2⟩ := chainK_check (by decide) (by decide) chainS

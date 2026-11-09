@@ -79,7 +79,112 @@ theorem s16c1b_checkA_ok : s16c1b_checkA = true := by decide +kernel
 
 @[expose] def s16c1b_checkClassify : Bool := s16c1b_dfs (s16c1b_S0.filter isInv) 4 []
 
-theorem s16c1b_checkClassify_ok : s16c1b_checkClassify = true := by decide +kernel
+private def s16c1b_invsL : List ℕ := [
+  3776990419, 3793765619, 3853274583, 3911352027, 8077724887, 8094238195, 35167158338,
+  34706571653, 34764649097, 38931021957, 35243442502, 35301519946, 38930760065, 35428137838,
+  39006257537, 35243704386, 3870049783, 3928127227, 3467540284, 8152960467, 8169997559,
+  3450765084, 34891266989, 39006519429, 34706833537, 35168993606, 34632122757
+]
+
+private def s16c1b_tabL : List (ℕ × ℕ) := [
+  (3776990419, 2459678465339953425), (3793765619, 4919206811265011985),
+  (3853274583, 4909505820175403025), (3911352027, 4774405046930801025),
+  (8077724887, 1234624601045344785), (8094238195, 1244157366855943185),
+  (35167158338, 168882409085337), (34706571653, 28711104761168025),
+  (34764649097, 434044348448246025), (38931021957, 47851476190822485),
+  (35243442502, 7349875250709921945), (35301519946, 6944560561281566985),
+  (38930760065, 57421771425644595), (35428137838, 6919376247441494025),
+  (39006257537, 14356099998941235), (35243704386, 11024812547499884697),
+  (3870049783, 2469117772662212625), (3928127227, 2604232976996925825),
+  (3467540284, 2612792675017169025), (8152960467, 9809440906166944785),
+  (8169997559, 9819048438768214545), (3450765084, 4766076246352337025),
+  (34891266989, 459525530427887625), (39006519429, 23926103175987285),
+  (34706833537, 1095216660735), (35168993606, 112807316055705), (34632122757, 43066328576753817)
+]
+
+private theorem s16c1b_invs_eq : s16c1b_S0.filter isInv = s16c1b_invsL := by decide +kernel
+
+private theorem s16c1b_tab_eq : s16c1b_tab = s16c1b_tabL := by decide +kernel
+
+private def s16c1b_fixMG (tab : List (ℕ × ℕ)) (c : ℕ) : ℕ :=
+  if c == one then 2 ^ 64 - 1 else ((tab.find? fun p => p.1 == c).map Prod.snd).getD 0
+
+private def s16c1b_maskOverG (tab : List (ℕ × ℕ)) (xs : List ℕ) (p : ℕ → Bool) : ℕ :=
+  (List.range (2 ^ xs.length)).foldl
+    (fun acc I => if p I then acc &&& s16c1b_fixMG tab (s16c1b_prodSub xs I) else acc) (2 ^ 64 - 1)
+
+private def s16c1b_a2PropG (tab : List (ℕ × ℕ)) (xs : List ℕ) : Bool :=
+  (List.range (2 ^ xs.length)).all fun m => m == 0 ||
+    s16c1b_maskOverG tab xs (fun I => !s16c1b_par m I xs.length) ==
+      s16c1b_maskOverG tab xs (fun _ => true)
+
+private def s16c1b_dfsG (tab : List (ℕ × ℕ)) (invs : List ℕ) : ℕ → List ℕ → Bool
+  | 0, xs => (xs.isEmpty || !s16c1b_a2PropG tab xs || s16c1b_inA (spanC xs)) &&
+      invs.all fun x => !s16c1b_extOK xs x
+  | n + 1, xs => (xs.isEmpty || !s16c1b_a2PropG tab xs || s16c1b_inA (spanC xs)) &&
+      invs.all fun x => !s16c1b_extOK xs x || s16c1b_dfsG tab invs n (x :: xs)
+
+private theorem s16c1b_dfs_eq (invs : List ℕ) :
+    ∀ n xs, s16c1b_dfs invs n xs = s16c1b_dfsG s16c1b_tab invs n xs
+  | 0, _ => rfl
+  | n + 1, xs => by
+    simp only [s16c1b_dfs, s16c1b_dfsG, s16c1b_dfs_eq invs n] <;> rfl
+
+private def s16c1b_top (x : ℕ) : Bool :=
+  !s16c1b_extOK [] x || s16c1b_dfsG s16c1b_tabL s16c1b_invsL 3 [x]
+
+private theorem s16c1b_top_0 : [3776990419].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_1 : [3793765619].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_2 : [3853274583].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_3 : [3911352027, 8077724887, 8094238195].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_4 : [35167158338, 34706571653, 34764649097].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_5 : [38931021957, 35243442502, 35301519946].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_6 : [38930760065, 35428137838, 39006257537].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_7 : [35243704386, 3870049783, 3928127227].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_8 : [3467540284, 8152960467, 8169997559].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_9 : [3450765084, 34891266989, 39006519429].all s16c1b_top = true := by
+  decide +kernel
+
+private theorem s16c1b_top_10 : [34706833537, 35168993606, 34632122757].all s16c1b_top = true := by
+  decide +kernel
+
+theorem s16c1b_checkClassify_ok : s16c1b_checkClassify = true := by
+  unfold s16c1b_checkClassify
+  rw [s16c1b_dfs_eq, s16c1b_invs_eq, s16c1b_tab_eq, s16c1b_dfsG.eq_2]
+  have hs : s16c1b_invsL = [3776990419] ++
+      ([3793765619] ++
+      ([3853274583] ++
+      ([3911352027, 8077724887, 8094238195] ++
+      ([35167158338, 34706571653, 34764649097] ++
+      ([38931021957, 35243442502, 35301519946] ++
+      ([38930760065, 35428137838, 39006257537] ++
+      ([35243704386, 3870049783, 3928127227] ++
+      ([3467540284, 8152960467, 8169997559] ++
+      ([3450765084, 34891266989, 39006519429] ++
+      ([34706833537, 35168993606, 34632122757])))))))))) := rfl
+  have hb : (([] : List ℕ).isEmpty || !s16c1b_a2PropG s16c1b_tabL [] ||
+      s16c1b_inA (spanC [])) = true := rfl
+  rw [hb, show (s16c1b_invsL.all fun x => !s16c1b_extOK [] x ||
+      s16c1b_dfsG s16c1b_tabL s16c1b_invsL 3 [x]) = s16c1b_invsL.all s16c1b_top from rfl, hs]
+  simp only [List.all_append, s16c1b_top_0, s16c1b_top_1, s16c1b_top_2, s16c1b_top_3, s16c1b_top_4, s16c1b_top_5, s16c1b_top_6, s16c1b_top_7, s16c1b_top_8, s16c1b_top_9, s16c1b_top_10, Bool.and_self]
 
 @[expose] def s16c1b_orbSize (w : ℕ) : ℕ := ((s16c1b_S0.map fun s => act s w).eraseDups).length
 

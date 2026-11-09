@@ -188,17 +188,17 @@ theorem kGensP : (List.range 2).all (fun j => Nat.beq (CW.S j) (pw (wGenW.getD j
 theorem chainW : ChainK 23 5 wGen wChainW (#v[0, 1, 2, 3, 5] : Vector (Fin 23) 5)
     CW.S CW.SI CW.LR CW.TR CW.TRI 9 CW.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.1, by decide, CW.head, CW.hl,
-    by norm_num, CW.hs⟩
+    by norm_num, .inl CW.hs⟩
 
 theorem chainT : ChainK 23 5 tGen tChainW (#v[1, 2, 3] : Vector (Fin 23) 3)
     CT.S CT.SI CT.LR CT.TR CT.TRI 4 CT.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.1, by decide, CT.head, CT.hl,
-    by norm_num, CT.hs⟩
+    by norm_num, .inl CT.hs⟩
 
 theorem chainE : ChainK 23 5 eGen eChainW (#v[0, 1, 2] : Vector (Fin 23) 3)
     CE.S CE.SI CE.LR CE.TR CE.TRI 8 CE.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2.2, by decide, CE.head, CE.hl,
-    by norm_num, CE.hs⟩
+    by norm_num, .inl CE.hs⟩
 
 theorem kOrdCP : ordK CW.LR 5 = 40320 ∧ ordK CT.LR 3 = 960 ∧ ordK CE.LR 3 = 1344 := by
   have h := kOrdC

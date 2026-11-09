@@ -45,24 +45,24 @@ theorem base_eq : [aR, bR, iotaCRows] = (List.range 3).map fun i => unpack 24 24
 
 theorem twoC_cent_check : centCheckOf iotaCRows twoCD1 twoCBray twoCD2 twoCVBase twoCVGens
     twoCVSizes = true := by
-  refine centCheckOf_of_K (P := IC) iotaC_u base_eq kD1 kI kBind kD2 kC ?_ ?_
+  refine centCheckOf_of_W (P := IC) iotaC_u base_eq kD1 kI kBind kD2 kC ?_ ?_
   · intro i hi
     have : i < 11 := by simpa [twoCVBase] using hi
     interval_cases i <;> decide
   · intro i hi
     have : i < 11 := by simpa [twoCVBase] using hi
     interval_cases i
-    · exact ⟨_, _, _, _, _, 512, TW.hd0, TW.hc0, TW.hn0, by decide, TW.hl0, TW.hp0, f0⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd1, TW.hc1, TW.hn1, by decide, TW.hl1, TW.hp1, f1⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd2, TW.hc2, TW.hn2, by decide, TW.hl2, TW.hp2, f2⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd3, TW.hc3, TW.hn3, by decide, TW.hl3, TW.hp3, f3⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd4, TW.hc4, TW.hn4, by decide, TW.hl4, TW.hp4, f4⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd5, TW.hc5, TW.hn5, by decide, TW.hl5, TW.hp5, f5⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd6, TW.hc6, TW.hn6, by decide, TW.hl6, TW.hp6, f6⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd7, TW.hc7, TW.hn7, by decide, TW.hl7, TW.hp7, f7⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd8, TW.hc8, TW.hn8, by decide, TW.hl8, TW.hp8, f8⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd9, TW.hc9, TW.hn9, by decide, TW.hl9, TW.hp9, f9⟩
-    · exact ⟨_, _, _, _, _, 512, TW.hd10, TW.hc10, TW.hn10, by decide, TW.hl10, TW.hp10, f10⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd0, TW.hc0, TW.hn0, by decide, TW.hl0, TW.hp0, f0⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd1, TW.hc1, TW.hn1, by decide, TW.hl1, TW.hp1, f1⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd2, TW.hc2, TW.hn2, by decide, TW.hl2, TW.hp2, f2⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd3, TW.hc3, TW.hn3, by decide, TW.hl3, TW.hp3, f3⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd4, TW.hc4, TW.hn4, by decide, TW.hl4, TW.hp4, f4⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd5, TW.hc5, TW.hn5, by decide, TW.hl5, TW.hp5, f5⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd6, TW.hc6, TW.hn6, by decide, TW.hl6, TW.hp6, f6⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd7, TW.hc7, TW.hn7, by decide, TW.hl7, TW.hp7, f7⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd8, TW.hc8, TW.hn8, by decide, TW.hl8, TW.hp8, f8⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd9, TW.hc9, TW.hn9, by decide, TW.hl9, TW.hp9, f9⟩
+    · exact ⟨_, _, _, _, _, 128, TW.hd10, TW.hc10, TW.hn10, by decide, TW.hl10, TW.hp10, f10⟩
 
 theorem hN : D2.N = 42 ∧ QT.N = 2048 ∧ ∀ l (hl : l < twoCQGens.length), twoCQGens[l] < 42 := by
   have h := kN
@@ -72,12 +72,12 @@ theorem hN : D2.N = 42 ∧ QT.N = 2048 ∧ ∀ l (hl : l < twoCQGens.length), tw
 
 theorem bray_eq : brayElts (brayRows iotaCRows twoCD1) twoCBray =
     (List.range twoCBray.length).map fun i => unpack 24 24 (D2.M i) :=
-  brayElts_of_K base_eq kD1 kI kBind
+  brayElts_of_W base_eq kD1 kI kBind
 
 theorem dag₂_eq : dag (brayElts (brayRows iotaCRows twoCD1) twoCBray) twoCD2 =
     ((List.range D2.N).map fun i => unpack 24 24 (D2.M i),
       (List.range D2.N).map fun i => unpack 24 24 (D2.MI i), true) :=
-  dagIK_sound bray_eq kD2
+  dagIWK_sound bray_eq kD2
 
 @[expose] noncomputable def SL : List Rows := (List.range D2.N).map fun i => unpack 24 24 (D2.M i)
 

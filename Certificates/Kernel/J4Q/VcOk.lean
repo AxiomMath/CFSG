@@ -51,6 +51,7 @@ theorem allAny_enc' {A B : List (Array V2)} (hA : ∀ X ∈ A, WfA X) (hB : ∀ 
   rw [eqRows_of ⟨hB Y hY, rfl⟩ ⟨hA X hX, rfl⟩, eqRows_of ⟨hA X hX, rfl⟩ ⟨hB Y hY, rfl⟩, beq_comm']
 
 theorem vlCx_size : vlCx.size = 6720 := by
+  rw [vlCx_def]
   have h := congrArg List.length x0Orb_ok.2.1
   rw [List.length_map, List.length_map, List.length_range, Array.length_toList] at h
   exact h
@@ -59,11 +60,10 @@ theorem cx_enc {k : Nat} (hk : k < 6720) :
     WfA vlCx[k]! ∧ encR vlCx[k]! = CFSG.KD.X0O.MSF k := by
   obtain ⟨-, hm, hw⟩ := x0Orb_ok
   have hs : k < x0Orb.mats.toList.length := by
-    rw [Array.length_toList]
-    exact vlCx_size ▸ hk
+    rw [Array.length_toList, ← vlCx_def, vlCx_size]
+    exact hk
   have e : vlCx[k]! = x0Orb.mats.toList[k] := by
-    unfold vlCx
-    rw [getElem!_pos x0Orb.mats k (by simpa using hs), Array.getElem_toList]
+    rw [vlCx_def, getElem!_pos x0Orb.mats k (by simpa using hs), Array.getElem_toList]
   rw [e]
   refine ⟨hw _ (List.getElem_mem _), ?_⟩
   have := congrArg (fun l => l[k]?) hm

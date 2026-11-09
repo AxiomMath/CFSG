@@ -119,10 +119,52 @@ theorem phi_swap_zero_one : CFSG.Quasithin.H13.U3.S6Out.phi (swap 0 1) =
     swap 0 2 * swap 1 3 * swap 4 5 := by
   decide +kernel
 
+@[expose] def oddInvWit : List (Perm (Fin 6) × Perm (Fin 6)) := [
+    (swap 4 5, swap 0 4 * swap 1 5),
+    (swap 3 4, swap 0 3 * swap 1 4),
+    (swap 3 5, swap 0 3 * swap 1 5),
+    (swap 2 3, swap 0 2 * swap 1 3),
+    (swap 2 4, swap 0 2 * swap 1 4),
+    (swap 2 5, swap 0 2 * swap 1 5),
+    (swap 1 2, swap 0 2),
+    (swap 1 3, swap 0 3),
+    (swap 1 4, swap 0 4),
+    (swap 1 5, swap 0 5),
+    (swap 0 1, 1),
+    (swap 0 1 * swap 2 3 * swap 4 5, swap 1 2),
+    (swap 0 1 * swap 2 4 * swap 3 5, swap 1 2 * swap 3 4),
+    (swap 0 1 * swap 2 5 * swap 3 4, swap 1 2 * swap 3 5),
+    (swap 0 2, swap 1 2),
+    (swap 0 2 * swap 1 3 * swap 4 5, 1),
+    (swap 0 2 * swap 1 4 * swap 3 5, swap 3 4),
+    (swap 0 2 * swap 1 5 * swap 3 4, swap 3 5),
+    (swap 0 3, swap 1 3),
+    (swap 0 3 * swap 1 2 * swap 4 5, swap 2 3),
+    (swap 0 3 * swap 1 4 * swap 2 5, swap 2 4 * swap 3 4),
+    (swap 0 3 * swap 1 5 * swap 2 4, swap 2 5 * swap 3 5),
+    (swap 0 4, swap 1 4),
+    (swap 0 4 * swap 1 2 * swap 3 5, swap 2 3 * swap 3 4),
+    (swap 0 4 * swap 1 3 * swap 2 5, swap 2 4),
+    (swap 0 4 * swap 1 5 * swap 2 3, swap 2 4 * swap 3 5),
+    (swap 0 5, swap 1 5),
+    (swap 0 5 * swap 1 2 * swap 3 4, swap 2 3 * swap 3 5),
+    (swap 0 5 * swap 1 3 * swap 2 4, swap 2 5),
+    (swap 0 5 * swap 1 4 * swap 2 3, swap 2 5 * swap 3 4)
+]
+
+theorem odd_involution_wit : ∀ σ : Perm (Fin 6), σ * σ = 1 → sign σ = -1 →
+    ∃ p ∈ oddInvWit, p.1 = σ ∧
+      (p.2 * σ * p.2⁻¹ = swap 0 1 ∨ p.2 * σ * p.2⁻¹ = swap 0 2 * swap 1 3 * swap 4 5) := by
+  decide +kernel
+
 theorem odd_involution_conj : ∀ σ : Perm (Fin 6), σ * σ = 1 → sign σ = -1 →
     (∃ g : Perm (Fin 6), g * σ * g⁻¹ = swap 0 1) ∨
       (∃ g : Perm (Fin 6), g * σ * g⁻¹ = swap 0 2 * swap 1 3 * swap 4 5) := by
-  decide +kernel
+  intro σ h2 hs
+  obtain ⟨p, -, -, h⟩ := odd_involution_wit σ h2 hs
+  rcases h with h | h
+  · exact Or.inl ⟨p.2, h⟩
+  · exact Or.inr ⟨p.2, h⟩
 
 theorem nonempty_alt_inf_centralizer_of_odd_involution (σ : Perm (Fin 6)) (h2 : σ * σ = 1)
     (hs : sign σ = -1) :

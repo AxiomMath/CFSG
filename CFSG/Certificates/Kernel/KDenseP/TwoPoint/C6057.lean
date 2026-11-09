@@ -8,6 +8,8 @@ public import CFSG.Certificates.Kernel.KDense.Data.Fix
 public import CFSG.Certificates.Kernel.KDenseP.TwoPoint.Run
 public import Certificates.Data.Kernel.KDenseP.Replay
 public import CFSG.Certificates.Kernel.Common.Plan
+import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.KDense.Y443.Pairs
 public import CFSG.Monster.AxisCount.CoverLetters
 public import CFSG.Monster.B.TwoA.Base.Flags
@@ -42,13 +44,15 @@ public section
 set_option maxRecDepth 100000
 
 #kc_plan CFSG.KD.TP.c6057 "c6057.plan.txt" 12270 11447026646649224604
-#kc_plan CFSG.KD.TP.c6057 "c6057.grp.txt" 339 10808609775505110243
+#kc_plan CFSG.KD.TP.c6057 "c6057.grp.txt" 435 10808307569342856915
+#kc_repo #kc_ktree CFSG.KD.TP.c6057 RT "CFSG/Certificates/Kernel/KDenseP/TwoPoint/c6057.rec.bin" 129721 4
+  1816094 306409167056526869
 #kc_select CFSG.KD.TP.c6057 CH CH 16
 #kc_select CFSG.KD.TP.c6057 IXf IX 16
 #kc_select CFSG.KD.TP.c6057 PRf PR 17
 #kc_select CFSG.KD.TP.c6057 GKf GK 16
 #kc_listDispatch CFSG.KD.TP.c6057 WD wd 2
-#kc_listDispatch CFSG.KD.TP.c6057 Gf G 2
+#kc_listDispatch CFSG.KD.TP.c6057 Gf G 15
 
 namespace CFSG.KD.TP.c6057
 
@@ -56,6 +60,18 @@ open CFSG.KC.KDense
 
 @[expose] noncomputable def WL (σ : Nat) : List CFSG.Monster.AxisCount.Native.Gen :=
   CFSG.KC.KDenseP.decW (WD σ)
+
+@[expose] noncomputable def RXf (j : Nat) : Nat :=
+  Nat.land (RT j) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 509656)) (nat_lit 1))
+
+@[expose] noncomputable def RAf (j : Nat) : Nat :=
+  Nat.land (Nat.shiftRight (RT j) (nat_lit 509656)) (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 3832)) (nat_lit 1))
+
+@[expose] noncomputable def RWf (j : Nat) : Nat := Nat.shiftRight (RT j) (nat_lit 513488)
+
+@[expose] noncomputable def S0 (k : Nat) : St :=
+  Bool.rec (motive := fun _ => St) ((fun j => mkSt (RXf j) (RAf j) (RWf j)) (Nat.sub k 3))
+    (CFSG.KD.KDF.I k) (Nat.blt k 3)
 
 @[expose] noncomputable def rn (c : Nat) (s : St) : St := CFSG.KD.TP.run (WD (f20 c (nat_lit 0))) c s
 

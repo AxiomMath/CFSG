@@ -349,16 +349,16 @@ theorem card_redPairs (K : Set (Fin 6 → ZMod 3)) : Nat.card (RedPairs K) =
       refine ⟨(a, b), ?_, rfl⟩
       simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_setOf_eq]
       exact ⟨⟨ha, hb⟩, h1, h2, h3⟩
-    · rintro ⟨⟨a, b⟩, hab, he⟩
-      simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-        Set.mem_setOf_eq] at hab
+    · simp only [Set.mem_image, S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
+        Set.mem_setOf_eq, Prod.exists]
+      rintro ⟨a, b, hab, he⟩
       simp only [f, Prod.mk.injEq] at he
       obtain ⟨rfl, rfl⟩ := he
       exact ⟨hab.2.1, hab.2.2.1, hab.2.2.2⟩
   have hinj : Set.InjOn f ↑S := by
-    rintro ⟨a, b⟩ hab ⟨a', b'⟩ hab' he
-    simp only [S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-      Set.mem_setOf_eq] at hab hab'
+    simp only [Set.InjOn, S, Finset.coe_filter, Finset.mem_product, Finset.mem_range,
+      Set.mem_setOf_eq, Prod.forall]
+    intro a b hab a' b' hab' he
     simp only [f, Prod.mk.injEq] at he
     rw [v3_inj hab.1.1 hab'.1.1 he.1, v3_inj hab.1.2 hab'.1.2 he.2]
   have hS : S = (Finset.range 6).biUnion (fun j =>
@@ -380,8 +380,8 @@ theorem card_redPairs (K : Set (Fin 6 → ZMod 3)) : Nat.card (RedPairs K) =
   · exact Finset.sum_congr rfl fun j _ => Finset.card_product _ _
   · intro j hj j' hj' hne
     rw [Function.onFun, Finset.disjoint_left]
-    rintro ⟨a, b⟩ h1 h2
-    simp only [Finset.mem_product, Finset.mem_filter, Finset.mem_range] at h1 h2
+    simp only [Finset.mem_product, Finset.mem_filter, Finset.mem_range, Prod.forall]
+    intro a b h1 h2
     rw [Finset.mem_coe, Finset.mem_range] at hj hj'
     have := isLead_unique ((isLead_iff h1.2.1 ⟨j, hj⟩).1 h1.2.2.2)
       ((isLead_iff h2.2.1 ⟨j', hj'⟩).1 h2.2.2.2)

@@ -16,7 +16,24 @@ theorem a_len : pgP0Code.length = 128 := by decide +kernel
 
 theorem a_nodup : pgP0Code.Nodup := by decide +kernel
 
-theorem a_so : ∀ a ∈ pgP0Code, fmOk a ∧ IsSO5 (toM a) := by decide +kernel
+theorem all_mem_of_take_drop {α : Type} {P : α → Prop} {l : List α} (n : ℕ)
+    (h1 : ∀ a ∈ l.take n, P a) (h2 : ∀ a ∈ l.drop n, P a) : ∀ a ∈ l, P a := by
+  intro a ha
+  rw [← List.take_append_drop n l, List.mem_append] at ha
+  exact ha.elim (h1 a) (h2 a)
+
+theorem a_so0 : ∀ a ∈ pgP0Code.take 32, fmOk a ∧ IsSO5 (toM a) := by decide +kernel
+
+theorem a_so1 : ∀ a ∈ (pgP0Code.drop 32).take 32, fmOk a ∧ IsSO5 (toM a) := by decide +kernel
+
+theorem a_so2 : ∀ a ∈ ((pgP0Code.drop 32).drop 32).take 32, fmOk a ∧ IsSO5 (toM a) := by
+  decide +kernel
+
+theorem a_so3 : ∀ a ∈ ((pgP0Code.drop 32).drop 32).drop 32, fmOk a ∧ IsSO5 (toM a) := by
+  decide +kernel
+
+theorem a_so : ∀ a ∈ pgP0Code, fmOk a ∧ IsSO5 (toM a) :=
+  all_mem_of_take_drop 32 a_so0 (all_mem_of_take_drop 32 a_so1 (all_mem_of_take_drop 32 a_so2 a_so3))
 
 theorem a_one : fmOne ∈ pgP0Code := by decide +kernel
 

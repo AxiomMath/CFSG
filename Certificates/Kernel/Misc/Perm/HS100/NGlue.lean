@@ -113,19 +113,52 @@ theorem mems' : memK S0.E0.N S0.E0.T (pcomp 100 7 (mask 7) (RX 0) (RX 0)) = true
   obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := h
   exact ⟨h1, h2, h3, h4, h5⟩
 
-theorem comm_fin (x : ℕ) (hx : canonK 100 7 (mask 7) (100 * 7) x = true) :
-    decide (∀ i : Fin 4, eqA 100 (compA 100 (unpack 100 7 x) zasE0Gens[i.1]!)
-      (compA 100 zasE0Gens[i.1]! (unpack 100 7 x)) = true) = allN 4 fun i => cK x (S0.EX.F i) := by
-  apply Bool.eq_iff_iff.2
-  rw [decide_eq_true_iff]
-  constructor
-  · intro h
-    refine CFSG.KS.PackFld.allN_of_forall fun k hk => ?_
-    have := h ⟨k, hk⟩
-    rwa [e0_get k hk, ← commA, cK_eq hx (ppE hk).1] at this
-  · intro h i
-    have := allN_spec h i.1 i.2
-    rwa [e0_get i.1 i.2, ← commA, cK_eq hx (ppE i.2).1]
+theorem repsChainN_spec : ∀ (L : List ℕ) (p : ℕ), repsChainN L p = true →
+    (∀ t ∈ L, t < 11520 ∧ p < actKN (NN.T t)) ∧
+      L.Pairwise fun a b => actKN (NN.T a) < actKN (NN.T b)
+  | [], _, _ => ⟨fun _ h => by simp at h, List.Pairwise.nil⟩
+  | t :: L, p, h => by
+    change (Nat.blt t 11520 && Nat.blt p (actKN (NN.T t)) &&
+      repsChainN L (actKN (NN.T t))) = true at h
+    simp only [Bool.and_eq_true, Nat.blt_eq] at h
+    obtain ⟨⟨h1, h2⟩, h3⟩ := h
+    obtain ⟨ih1, ih2⟩ := repsChainN_spec L _ h3
+    refine ⟨fun s hs => ?_, List.Pairwise.cons (fun s hs => (ih1 s hs).2) ih2⟩
+    rcases List.mem_cons.1 hs with rfl | hs
+    · exact ⟨h1, h2⟩
+    · exact ⟨(ih1 s hs).1, h2.trans (ih1 s hs).2⟩
+
+theorem ppNN : ∀ a < NN.N, PP 100 7 (NN.T a) :=
+  PP_pts NN.ok fun k hk => by
+    have hk' : k < 2 := by rwa [nums'.1] at hk
+    have hp := pp_of_permB sz (perms'.1 k hk')
+    rw [nums'.2.2 k hk']
+    exact CFSG.KS.PinvS.permOK_pinvS hp.1 hp.2
+
+theorem conjN_pts {a : ℕ} (ha : a < 11520) {i : ℕ} (hi : i < 4) :
+    zasConj zasNCert.pts[a]! zasE0Gens[i]! = unpack 100 7 (pZ (NN.T a) (S0.EX.F i)) := by
+  have ha' : a < NN.N := by rw [nums'.2.1]; exact ha
+  rw [getOf nPin a ha', e0_get i hi]
+  exact zasConj_unpack (ppNN a ha') (ppE hi).1
+
+theorem pZpt_canon {a : ℕ} (ha : a < 11520) {i : ℕ} (hi : i < 4) :
+    canonK 100 7 (mask 7) (100 * 7) (pZ (NN.T a) (S0.EX.F i)) = true := by
+  have hp := ppNN a (by rw [nums'.2.1]; exact ha)
+  exact canonK_pcomp (canonK_pcomp hp.1 (ppE hi).1) hp.inv.1
+
+theorem repsPw : i2Reps.Pairwise fun a b => ¬ ∀ i : Fin 4,
+    eqA 100 (zasConj zasNCert.pts[a]! zasE0Gens[i.1]!)
+      (zasConj zasNCert.pts[b]! zasE0Gens[i.1]!) = true := by
+  obtain ⟨h1, h2⟩ := repsChainN_spec _ _ repsOKN
+  refine h2.imp_of_mem fun {a b} ha hb hab heq => (Nat.ne_of_lt hab) ?_
+  have hz : ∀ i < 4, pZ (NN.T a) (S0.EX.F i) = pZ (NN.T b) (S0.EX.F i) := fun i hi => by
+    have := heq ⟨i, hi⟩
+    dsimp only at this
+    rw [conjN_pts (h1 a ha).1 hi, conjN_pts (h1 b hb).1 hi,
+      eqA_F (pZpt_canon (h1 a ha).1 hi) (pZpt_canon (h1 b hb).1 hi)] at this
+    exact Nat.eq_of_beq_eq_true this
+  unfold actKN
+  rw [hz 0 (by norm_num), hz 1 (by norm_num), hz 2 (by norm_num), hz 3 (by norm_num)]
 
 theorem i2ModelOK_true : i2ModelOK = true := by
   have pN := fun (k : ℕ) (hk : k < 2) => pp_of_permB sz (perms'.1 k hk)
@@ -167,18 +200,13 @@ theorem i2ModelOK_true : i2ModelOK = true := by
     rw [r_get 0 (by norm_num), mem_n c0]; exact mems'.2.2.2.1
   have h10 : zasMem zasNCert i2R[1]! = true := by
     rw [r_get 1 (by norm_num), mem_n c1]; exact mems'.2.2.2.2
-  have h11 : (zasNCert.pts.toList.all fun x =>
-      !decide (∀ i : Fin 4, eqA 100 (compA 100 x zasE0Gens[i.1]!)
-        (compA 100 zasE0Gens[i.1]! x) = true) || zasMem zasE0Cert x) = true := by
-    rw [listOf nPin, List.all_map, List.all_eq_true]
-    intro t ht
-    have ht' := List.mem_range.1 ht
-    have h := allN_spec cent t ht'
-    unfold centPt at h
-    rw [Function.comp_apply, comm_fin _ (cNN t ht'), mem_e0 (cNN t ht')]
-    exact h
+  obtain ⟨hc, -⟩ := repsChainN_spec _ _ repsOKN
+  have hsz : zasNCert.pts.size = 11520 := by rw [nPin, Array.size_ofFn, nums'.2.1]
+  have h11 : (i2Reps.length == 720) = true := by rfl
+  have h12 : (i2Reps.all fun k => decide (k < zasNCert.pts.size)) = true :=
+    List.all_eq_true.2 fun k hk => decide_eq_true (by rw [hsz]; exact (hc k hk).1)
   unfold i2ModelOK
-  rw [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11]
+  rw [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, decide_eq_true repsPw]
   rfl
 
 end CertificateChecks.KernelMisc.HS100.N

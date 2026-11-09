@@ -12,6 +12,8 @@ public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1EndDa
 public import CFSG.Sporadic.Co1Block.Iota
 public meta import CFSG.Sporadic.Co1Block.Iota
 public import Certificates.Kernel.SporSch.Co1.GenDag
+public import Certificates.Kernel.SporSch.Co1.Stab
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 
 public section
 
@@ -47,10 +49,10 @@ theorem iotaWs_dec : iotaWs.map decWord = iotaDerivs := by
   conv_rhs => rw [← List.map_id w]
   exact List.map_congr_left fun i _ => decLetter_encI i
 
-theorem kH : (wordEqK PA PB CFSG.Sporadic.Co1Schreier.Data.stabWord0 (I.M 0) &&
-    wordEqK PA PB CFSG.Sporadic.Co1Schreier.Data.stabWord1 (I.M 1)) = true := by quickRfl
+theorem kH : (Nat.beq (I.M 0) CertificateChecks.KernelSporSch.Co1Stab.PH0 &&
+    Nat.beq (I.M 1) CertificateChecks.KernelSporSch.Co1Stab.PH1) = true := by quickRfl
 
-theorem kI : dagK I.M I.MI 2 I.N iotaWs = true := by quickRfl
+theorem kI : dagWK I.M I.MI 2 I.N iotaWs = true := by quickRfl
 
 theorem kIN : (Nat.blt 51 I.N) = true := by quickRfl
 
@@ -59,7 +61,7 @@ theorem kG0 : (Nat.beq (G.M 0) PA && Nat.beq (G.M 1) PB && Nat.beq (G.M 2) (I.M 
     Nat.beq (G.M 6) (I.M 39) && Nat.beq (G.M 7) (I.M 40) && Nat.beq (G.M 8) (I.M 41) &&
     Nat.beq (G.M 9) (I.M 42) && Nat.beq (G.M 10) (I.M 43)) = true := by quickRfl
 
-theorem kG : dagK G.M G.MI 11 G.N co1Cen2AGlobal = true := by quickRfl
+theorem kG : dagWK G.M G.MI 11 G.N co1Cen2AGlobal = true := by quickRfl
 
 theorem kS : ((co1Cen2AS1 ++ co1Cen2AS2).all (okK G.N)) = true := by quickRfl
 
@@ -69,14 +71,14 @@ theorem kP1 : (Nat.beq (P1.M 0) (G.M 163) && Nat.beq (P1.M 1) (G.M 165) &&
 theorem kP2 : (Nat.beq (P2.M 0) (G.M 169) && Nat.beq (P2.M 1) (G.M 173) &&
     Nat.beq (P2.M 2) (G.M 182) && Nat.beq (P2.M 3) (G.M 185)) = true := by quickRfl
 
-theorem kD1 : dagK P1.M P1.MI 4 P1.N co1Cen2AD1 = true := by quickRfl
+theorem kD1 : dagWK P1.M P1.MI 4 P1.N co1Cen2AD1 = true := by quickRfl
 
-theorem kD2 : dagK P2.M P2.MI 4 P2.N co1Cen2AD2 = true := by quickRfl
+theorem kD2 : dagWK P2.M P2.MI 4 P2.N co1Cen2AD2 = true := by quickRfl
 
-theorem kW1 : pwCoreK P1.M P1.MI P1.N [G.M 163, G.M 165, G.M 176, G.M 179] co1Cen2AZH1.1
+theorem kW1 : pwCoreWK P1.M P1.MI P1.N [G.M 163, G.M 165, G.M 176, G.M 179] co1Cen2AZH1.1
     co1Cen2AZH1.2 co1Cen2ADec1 (I.M 23) = true := by quickRfl
 
-theorem kW2 : pwCoreK P2.M P2.MI P2.N [G.M 169, G.M 173, G.M 182, G.M 185] co1Cen2AZH2.1
+theorem kW2 : pwCoreWK P2.M P2.MI P2.N [G.M 169, G.M 173, G.M 182, G.M 185] co1Cen2AZH2.1
     co1Cen2AZH2.2 co1Cen2ADec2 (I.M 23) = true := by quickRfl
 
 theorem kQ0 : (Nat.beq (Q.M 0) (G.M 163) && Nat.beq (Q.M 1) (G.M 165) &&
@@ -84,7 +86,7 @@ theorem kQ0 : (Nat.beq (Q.M 0) (G.M 163) && Nat.beq (Q.M 1) (G.M 165) &&
     Nat.beq (Q.M 5) (G.M 173) && Nat.beq (Q.M 6) (G.M 182) && Nat.beq (Q.M 7) (G.M 185)) =
     true := by quickRfl
 
-theorem kQ : dagK Q.M Q.MI 8 Q.N co1Cen2AQD = true := by quickRfl
+theorem kQ : dagWK Q.M Q.MI 8 Q.N co1Cen2AQD = true := by quickRfl
 
 theorem kQe : (co1Cen2AQE.all (okK Q.N) && Nat.beq (Q.M 8) (I.M 36) &&
     Nat.beq (Q.M 9) (I.M 37) && Nat.beq (Q.M 10) (I.M 38) && Nat.beq (Q.M 11) (I.M 39) &&
@@ -93,15 +95,16 @@ theorem kQe : (co1Cen2AQE.all (okK Q.N) && Nat.beq (Q.M 8) (I.M 36) &&
 
 theorem iota_eq : iotaRows = rowsOf I.M I.N := by
   have h := kH
-  simp only [Bool.and_eq_true] at h
-  have h0 := wordEqK_sound h.1 [inv aR, inv bR]
-  have h1 := wordEqK_sound h.2 [inv aR, inv bR]
-  rw [← aR_u, ← bR_u] at h0 h1
+  simp only [Bool.and_eq_true, Nat.beq_eq] at h
+  have h0 := wordEqWK_sound CertificateChecks.KernelSporSch.Co1Stab.k0 [inv aR, inv bR]
+  have h1 := wordEqWK_sound CertificateChecks.KernelSporSch.Co1Stab.k1 [inv aR, inv bR]
+  rw [← aR_u, ← bR_u, ← h.1] at h0
+  rw [← aR_u, ← bR_u, ← h.2] at h1
   have hb : [hRows0, hRows1] = (List.range 2).map fun i => unpack 24 24 (I.M i) := by
     unfold hRows0 hRows1
     rw [h0, h1]
     rfl
-  have := dagK_sound hb kI
+  have := dagWK_sound hb kI
   rw [iotaWs_dec] at this
   unfold iotaRows
   rw [this]
@@ -138,7 +141,7 @@ theorem base_eq : co1Cen2ABase = (List.range 11).map fun i => unpack 24 24 (G.M 
     iotaQ_u (by norm_num), map_range11, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10]
 
 theorem glob_eq : dag co1Cen2ABase (co1Cen2AGlobal.map decWord) =
-    (rowsOf G.M G.N, rowsOf G.MI G.N, true) := dagK_sound base_eq kG
+    (rowsOf G.M G.N, rowsOf G.MI G.N, true) := dagWK_sound base_eq kG
 
 theorem e1 : entriesR co1Cen2ABase (co1Cen2AGlobal.map decWord) co1Cen2AS1 =
     [G.M 163, G.M 165, G.M 176, G.M 179].map (unpack 24 24) := by
@@ -156,7 +159,7 @@ theorem e2 : entriesR co1Cen2ABase (co1Cen2AGlobal.map decWord) co1Cen2AS2 =
 
 theorem d1_eq : dag ([G.M 163, G.M 165, G.M 176, G.M 179].map (unpack 24 24))
     (co1Cen2AD1.map decWord) = (rowsOf P1.M P1.N, rowsOf P1.MI P1.N, true) := by
-  refine dagK_sound ?_ kD1
+  refine dagWK_sound ?_ kD1
   have h := kP1
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨⟨⟨h0, h1⟩, h2⟩, h3⟩ := h
@@ -165,7 +168,7 @@ theorem d1_eq : dag ([G.M 163, G.M 165, G.M 176, G.M 179].map (unpack 24 24))
 
 theorem d2_eq : dag ([G.M 169, G.M 173, G.M 182, G.M 185].map (unpack 24 24))
     (co1Cen2AD2.map decWord) = (rowsOf P2.M P2.N, rowsOf P2.MI P2.N, true) := by
-  refine dagK_sound ?_ kD2
+  refine dagWK_sound ?_ kD2
   have h := kP2
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨⟨⟨h0, h1⟩, h2⟩, h3⟩ := h
@@ -175,7 +178,7 @@ theorem d2_eq : dag ([G.M 169, G.M 173, G.M 182, G.M 185].map (unpack 24 24))
 theorem q_eq : dag ([G.M 163, G.M 165, G.M 176, G.M 179].map (unpack 24 24) ++
     [G.M 169, G.M 173, G.M 182, G.M 185].map (unpack 24 24)) (co1Cen2AQD.map decWord) =
     (rowsOf Q.M Q.N, rowsOf Q.MI Q.N, true) := by
-  refine dagK_sound ?_ kQ
+  refine dagWK_sound ?_ kQ
   have h := kQ0
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨h0, h1⟩, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩ := h
@@ -200,7 +203,8 @@ theorem check : co1Cen2ACheck co1Cen2AGlobal co1Cen2AS1 co1Cen2AS2 co1Cen2AD1 co
   unfold co1Cen2ACheck pwOK wordsOK
   rw [e1, e2, glob_eq, d1_eq, d2_eq, q_eq, qe_eq, iotaA_u]
   simp only [Bool.true_and, beq_self_eq_true, Bool.and_true, Bool.and_eq_true]
-  exact ⟨pwCoreOK_of kD1 kW1, pwCoreOK_of kD2 kW2⟩
+  exact ⟨pwCoreOK_of_invW (fun k hk => (invOKW_sound (dagWK_inv kD1 k hk)).2) kW1,
+    pwCoreOK_of_invW (fun k hk => (invOKW_sound (dagWK_inv kD2 k hk)).2) kW2⟩
 
 open CFSG CFSG.ComponentClassification CFSG.ComponentClassification.RankTwoSporadic
   CFSG.ComponentClassification.RankTwoSporadic.Co1 in

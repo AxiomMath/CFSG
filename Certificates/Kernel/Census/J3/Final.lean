@@ -39,6 +39,7 @@ import all CFSG.Certificates.Kernel.Enum.Defs
 import all Init.Data.Nat.Fold
 import all Init.Data.Range.Basic
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PK.Perm.CompC
 public import CFSG.Certificates.Kernel.Census.ConjFSound
 public import CFSG.Certificates.Kernel.Spor.SiftEq
 public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.NativeCheckBase
@@ -55,8 +56,8 @@ open CFSG.RankThree.Native
 
 set_option maxRecDepth 1000000
 
-#kc_forall_chunks words_c (fun k => (List.range' (30 * k) 30).all wordF = true) 10
-  CertificateChecks.KernelCensus.J3.kW 30
+#kc_forall_chunks words_c (fun k => (List.range' (5 * k) 5).all wordF = true) 60
+  CertificateChecks.KernelCensus.J3.kW 5
 
 #kc_forall_chunks eb_c (fun c => ((j3EB.drop (0 + c * 2)).take 2).all ebF = true) 31
   CertificateChecks.KernelCensus.J3.kE 2
@@ -93,14 +94,24 @@ theorem basis_valid {i : Nat} (hi : i < j3Bases.size) : ∀ k < j3Bases[i]!.size
   rw [Nat.eq_of_beq_eq_true he]
   exact us_valid hy
 
+theorem pprodC_eq (l : List Nat) : pprodC l = pprod 6156 13 l := by
+  unfold pprodC pprod
+  induction l with
+  | nil => rw [List.foldr_nil, List.foldr_nil]
+  | cons a l ih => rw [List.foldr_cons, List.foldr_cons, ih, CFSG.KS.PK.pcompC_eq, CFSG.KC.Census.pc]
+
 theorem words_ok : pxsOK 6156 13 lettersP j3XE j3XW = true := by
   have h : ∀ k < j3XE.size, wordF k = true := by
     intro k hk
     rw [Nat.eq_of_beq_eq_true kXES] at hk
-    have hk' : k / 30 < 10 := by omega
-    exact List.all_eq_true.1 (words_c (k / 30) hk') k (List.mem_range'_1.2 ⟨by omega, by omega⟩)
+    have hk' : k / 5 < 60 := by omega
+    exact List.all_eq_true.1 (words_c (k / 5) hk') k (List.mem_range'_1.2 ⟨by omega, by omega⟩)
   unfold pxsOK
-  exact List.all_eq_true.2 fun k hk => h k (List.mem_range.1 hk)
+  refine List.all_eq_true.2 fun k hk => ?_
+  have hk' := h k (List.mem_range.1 hk)
+  unfold wordF at hk'
+  rw [pprodC_eq] at hk'
+  exact hk'
 
 theorem letter_valid {i : Nat} (hi : i < lettersP.size) :
     canon1 6156 13 lettersP[i]! = true ∧ pvalid 6156 13 lettersP[i]! = true := by

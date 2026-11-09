@@ -120,8 +120,9 @@ theorem commTT_of {a b : Nat} (ha : C3 a) (hb : C3 b) (h : Nat.beq (pc a b) (pc 
 theorem harFourOK_of {c : Nat}
     (hc : c < 2) (h : fourCK c = true) : harFourOK c = true := by
   unfold fourCK at h
-  simp only [CFSG.KS.PEnum.strictB_app', bAnd_iff, Nat.add_eq, Nat.mul_eq] at h
+  simp only [CFSG.KS.PEnum.strictB_app', bAnd_iff] at h
   obtain ⟨hr, hx, hin, h1, h2, h3, h4, h5, h6, h7, h8, h9⟩ := h
+  simp only [Nat.add_eq, Nat.mul_eq] at hr hx hin h1 h2 h3 h4 h5 h6 h7 h8 h9
   have hin' : ∀ j < 6, inPK (7 * c + (j + 1)) = true := fun j hj => allN_spec hin j hj
   have i1 := hin' 0 (by norm_num)
   have i2 := hin' 1 (by norm_num)
@@ -158,11 +159,11 @@ theorem harFourOK_of {c : Nat}
   simp only [List.all_cons, List.all_nil, pr1, pr2, pz1, pz2, py1, py2, sz, sy,
     conjOK_of (hk 1 (by norm_num)) i1 c12 h1, commTT_of cx cr h2,
     conjOK_of (hk 2 (by norm_num)) i2 cr h3, commTT_of cz cr h4, commTT_of cy cr h5,
-    hlen, List.getD_cons_zero, List.getD_cons_succ,
+    hlen,
     tComm_of cz cy cz (hbp c hc 0 (by norm_num)).1 (hbp c hc 0 (by norm_num)).2 h6,
     tComm_of cz cy cy (hbp c hc 1 (by norm_num)).1 (hbp c hc 1 (by norm_num)).2 h7,
     conjOK_of (hk 5 (by norm_num)) i5 c5 h8,
-    conjOK_of (hk 6 (by norm_num)) i6 cr h9, Bool.and_true, Bool.true_and, beq_self_eq_true,
+    conjOK_of (hk 6 (by norm_num)) i6 cr h9, Bool.and_true, beq_self_eq_true,
     Nat.add_zero, CFSG.KD.HS3850.compT_pc cx cr, CFSG.KD.HS3850.compT_pc cr cz]
 
 theorem harFourOK_true :

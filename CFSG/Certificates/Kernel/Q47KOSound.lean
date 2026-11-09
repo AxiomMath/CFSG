@@ -4,6 +4,7 @@ public import CFSG.Certificates.Kernel.Q47KSound
 public import CFSG.Certificates.Kernel.BfsPinAlg
 import CFSG.Certificates.Kernel.HexaKGlue
 import CFSG.Certificates.Kernel.PackSetSound
+import CFSG.Certificates.Kernel.HeSylKSound
 
 public section
 
@@ -239,6 +240,167 @@ theorem oAll_eq (hSZ : SZ 0 = 35) :
 
 end Prods
 
+@[expose] noncomputable def subK47 (x m : Nat) : Bool := Nat.beq (Nat.lor x m) m
+
+@[expose] noncomputable def imgM47 (t : Nat) (A : Array Nat) : Nat :=
+  A.toList.foldr (fun a acc => Nat.lor acc (Nat.shiftLeft 1 (pg 7 (mask 7) t a))) 0
+
+@[expose] noncomputable def ord3F47 (t : Nat) : Bool :=
+  CFSG.KLie.CT.andB
+    (allN 64 fun x => Nat.beq (pg 7 (mask 7) t (pg 7 (mask 7) t (pg 7 (mask 7) t x))) x)
+    (CFSG.KLie.CT.notB (Nat.beq t (pidn 64 7)))
+
+@[expose] noncomputable def okF47 (LM : List Nat) (cs : List Cls) (t i1 i2 : Nat) : Bool :=
+  CFSG.KLie.CT.andB (CFSG.KLie.CT.andB (LM.any fun m => subK47 i1 m) (LM.any fun m => subK47 i2 m))
+    (CFSG.KLie.CT.orB (CFSG.KLie.CT.notB (ord3F47 t)) (cs.all fun c => clsC c t))
+
+@[expose] noncomputable def oStepF (m1 m2 : Nat) (W1 W2 : Array Nat) (LM : List Nat) (cs : List Cls)
+    (t st : Nat) : Nat :=
+  strictN t fun t => strictN (imgM47 t W1) fun i1 => strictN (imgM47 t W2) fun i2 =>
+    Nat.add st (Nat.add (bn (subK47 i1 m1)) (Nat.add (Nat.mul 65536 (bn (subK47 i2 m2)))
+      (Nat.add (Nat.mul 4294967296 (bn (CFSG.KLie.CT.orB
+          (CFSG.KLie.CT.andB (subK47 i1 m1) (subK47 i2 m2)) (CFSG.KLie.CT.andB (subK47 i1 m2) (subK47 i2 m1)))))
+        (Nat.mul 281474976710656 (bn (CFSG.KLie.CT.notB (okF47 LM cs t i1 i2)))))))
+
+@[expose] noncomputable def oBlockF (SZ : Nat → Nat) (TR : Nat → Nat → Nat) (m1 m2 : Nat)
+    (W1 W2 : Array Nat) (LM : List Nat) (cs : List Cls) (s : Nat) : Nat :=
+  oFold SZ TR (oStepF m1 m2 W1 W2 LM cs) 5 1 (TR 0 s) 0
+
+theorem subK47_iff {x m : Nat} : subK47 x m = true ↔ ∀ i, x.testBit i = true → m.testBit i = true := by
+  unfold subK47
+  rw [Nat.beq_eq]
+  constructor
+  · intro h i hi
+    rw [← h]
+    change (x ||| m).testBit i = true
+    rw [Nat.testBit_or, hi, Bool.true_or]
+  · intro h
+    apply Nat.eq_of_testBit_eq
+    intro i
+    change (x ||| m).testBit i = _
+    rw [Nat.testBit_or]
+    cases hx : x.testBit i
+    · simp
+    · simp [h i hx]
+
+theorem bitK47_iff {m b : Nat} : HeAutK.bitK m b = true ↔ m.testBit b = true := by
+  unfold HeAutK.bitK
+  rw [Nat.beq_eq]
+  change (m >>> b) &&& 1 = 1 ↔ _
+  rw [Nat.testBit, Nat.and_comm 1, Nat.and_one_is_mod]
+  have := Nat.mod_two_eq_zero_or_one (m >>> b)
+  simp only [bne_iff_ne, ne_eq]
+  omega
+
+theorem subK47_lor (x y m : Nat) : subK47 (Nat.lor x y) m = (subK47 x m && subK47 y m) := by
+  apply Bool.eq_iff_iff.2
+  rw [Bool.and_eq_true, subK47_iff, subK47_iff, subK47_iff]
+  constructor
+  · intro h
+    refine ⟨fun i hi => h i ?_, fun i hi => h i ?_⟩
+    · change (x ||| y).testBit i = true
+      rw [Nat.testBit_or, hi, Bool.true_or]
+    · change (x ||| y).testBit i = true
+      rw [Nat.testBit_or, hi, Bool.or_true]
+  · intro h i hi
+    change (x ||| y).testBit i = true at hi
+    rw [Nat.testBit_or, Bool.or_eq_true] at hi
+    rcases hi with hi | hi
+    · exact h.1 i hi
+    · exact h.2 i hi
+
+theorem subK47_one (b m : Nat) : subK47 (Nat.shiftLeft 1 b) m = HeAutK.bitK m b := by
+  apply Bool.eq_iff_iff.2
+  rw [subK47_iff, bitK47_iff]
+  have e : Nat.shiftLeft 1 b = 2 ^ b := by
+    change 1 <<< b = 2 ^ b
+    rw [Nat.shiftLeft_eq, Nat.one_mul]
+  rw [e]
+  constructor
+  · intro h
+    exact h b (by rw [Nat.testBit_two_pow_self])
+  · intro h i hi
+    rw [Nat.testBit_two_pow] at hi
+    have : b = i := of_decide_eq_true hi
+    rw [← this]
+    exact h
+
+theorem all_bitK (m : Nat) (f : Nat → Nat) : ∀ L : List Nat,
+    (L.all fun a => HeAutK.bitK m (f a)) =
+      subK47 (L.foldr (fun a acc => Nat.lor acc (Nat.shiftLeft 1 (f a))) 0) m
+  | [] => by
+    change true = Nat.beq (0 ||| m) m
+    rw [Nat.zero_or, Nat.beq_refl]
+  | a :: L => by
+    rw [List.all_cons, List.foldr_cons, subK47_lor, ← all_bitK m f L, subK47_one, Bool.and_comm]
+
+theorem mapsK_eq (t : Nat) (A : Array Nat) (m : Nat) : mapsK t A m = subK47 (imgM47 t A) m :=
+  all_bitK m _ A.toList
+
+theorem ord3F47_eq {t : Nat} (ht : PP 64 7 t) : ord3F47 t = ord3 t := by
+  unfold ord3F47 ord3
+  congr 1
+  rw [← eqA_id_PP (HeAutK.pw_PP ht 3), ← HeAutK.powN_PP ht 3, allN_eq']
+  apply Bool.eq_iff_iff.2
+  rw [List.all_eq_true, eqA, CFSG.Monster.B.Co2.allLt_iff]
+  have hu : ∀ x < 64, (unpack 64 7 t)[x]! = pg 7 (mask 7) t x ∧ pg 7 (mask 7) t x < 64 :=
+    fun x hx => ⟨by simp only [unpack_getElem!, hx, ite_true], ht.2.1 x hx⟩
+  have hp : ∀ x < 64, (ComponentClassification.AS81.HeSylow.powN 64 (unpack 64 7 t) 3)[x]! =
+      pg 7 (mask 7) t (pg 7 (mask 7) t (pg 7 (mask 7) t x)) := by
+    intro x hx
+    change (compA 64 (unpack 64 7 t) (compA 64 (unpack 64 7 t) (compA 64 (unpack 64 7 t)
+      (idA 64))))[x]! = _
+    have h1 := hu x hx
+    have h2 := hu _ h1.2
+    have h3 := hu _ h2.2
+    rw [compA_get _ _ hx, compA_get _ _ hx, compA_get _ _ hx, idA_get hx, h1.1, h2.1, h3.1]
+  constructor
+  · intro h x hx
+    rw [hp x hx, idA_get hx]
+    simpa using h x (List.mem_range.2 hx)
+  · intro h x hx
+    have hx' := List.mem_range.1 hx
+    have := h x hx'
+    rw [hp x hx', idA_get hx'] at this
+    simpa using this
+
+noncomputable def incF47 (W1 W2 : Array Nat) (LM : List Nat) (cs : List Cls) (t : Nat) : Nat :=
+  bn (mapsK t W1 (maskOf W1)) + 65536 * bn (mapsK t W2 (maskOf W2)) +
+    4294967296 * bn (swapK W1 W2 t) +
+      281474976710656 * bn (CFSG.KLie.CT.notB (okF47 LM cs t (imgM47 t W1) (imgM47 t W2)))
+
+theorem oStepF_eq {m1 m2 : Nat} {W1 W2 : Array Nat} (hm1 : maskOf W1 = m1) (hm2 : maskOf W2 = m2)
+    (LM : List Nat) (cs : List Cls) (t st : Nat) :
+    oStepF m1 m2 W1 W2 LM cs t st = st + incF47 W1 W2 LM cs t := by
+  unfold oStepF incF47 swapK
+  rw [strictN_eq', strictN_eq', strictN_eq']
+  simp only [mapsK_eq, hm1, hm2, Nat.add_eq, Nat.mul_eq]
+  omega
+
+theorem sum_incF47 (W1 W2 : Array Nat) (LM : List Nat) (cs : List Cls) : ∀ L : List Nat,
+    (L.map (incF47 W1 W2 LM cs)).sum = (L.filter fun t => mapsK t W1 (maskOf W1)).length +
+      65536 * (L.filter fun t => mapsK t W2 (maskOf W2)).length +
+      4294967296 * (L.filter (swapK W1 W2)).length +
+      281474976710656 *
+        (L.filter fun t => CFSG.KLie.CT.notB (okF47 LM cs t (imgM47 t W1) (imgM47 t W2))).length := by
+  intro L
+  rw [← sum_bn, ← sum_bn, ← sum_bn, ← sum_bn]
+  induction L with
+  | nil => rfl
+  | cons j L ih =>
+    simp only [List.map_cons, List.sum_cons, ih]
+    unfold incF47
+    omega
+
+theorem okT_of_okF47 {W1 W2 : Array Nat} {L30 : List (Array Nat)} {LM : List Nat} {cs : List Cls}
+    {t : Nat} (hLM : (List.range 30).map (fun j => maskOf (L30.getD j #[])) = LM) (ht : PP 64 7 t)
+    (h : okF47 LM cs t (imgM47 t W1) (imgM47 t W2) = true) : okT W1 W2 L30 cs t = true := by
+  rw [← hLM] at h
+  unfold okF47 at h
+  unfold okT
+  rw [ord3F47_eq ht] at h
+  simpa only [List.any_map, Function.comp_def, mapsK_eq] using h
+
 theorem fields {x A B C D : Nat} (h : x = A + 65536 * B + 4294967296 * C + 281474976710656 * D)
     (hA : A < 65536) (hB : B < 65536) (hC : C < 65536) :
     Nat.land x 65535 = A ∧ Nat.land (Nat.shiftRight x 16) 65535 = B ∧
@@ -253,7 +415,10 @@ theorem o_sound {SZ : Nat → Nat} {TR : Nat → Nat → Nat} {Ts : List (List (
     {W1 W2 : Array Nat} {L30 : List (Array Nat)} {cs : List Cls} {BC : Nat → Nat}
     (hl : Ts.length = 6) (bT : ∀ k < 6, (Ts[k]!).length = SZ k ∧ Bound 64 7 Ts[k]! (TR k))
     (hSZ : SZ 0 = 35) (hSZb : Nat.blt (SZ 1 * SZ 2 * SZ 3 * SZ 4 * SZ 5) 65536 = true)
-    (hO : ∀ s < 35, Nat.beq (oBlock SZ TR W1 W2 L30 cs s) (BC s) = true) (hBC : bcK BC = true) :
+    {m1 m2 : Nat} {LM : List Nat} (hm1 : maskOf W1 = m1) (hm2 : maskOf W2 = m2)
+    (hLM : (List.range 30).map (fun j => maskOf (L30.getD j #[])) = LM)
+    (hO : ∀ s < 35, Nat.beq (oBlockF SZ TR m1 m2 W1 W2 LM cs s) (BC s) = true)
+    (hBC : bcK BC = true) :
     ∃ OP : List Nat, oAllG Ts = OP.map (unpack 64 7) ∧ (∀ t ∈ OP, PP 64 7 t) ∧
       (∀ t ∈ OP, okT W1 W2 L30 cs t = true) ∧
       (OP.filter fun t => mapsK t W1 (maskOf W1)).length = 1344 ∧
@@ -280,11 +445,12 @@ theorem o_sound {SZ : Nat → Nat} {TR : Nat → Nat → Nat} {Ts : List (List (
   have hblk : ∀ s < 35, Nat.land (BC s) 65535 = (( blk s).filter fun t => mapsK t W1 (maskOf W1)).length ∧
       Nat.land (Nat.shiftRight (BC s) 16) 65535 = ((blk s).filter fun t => mapsK t W2 (maskOf W2)).length ∧
       Nat.land (Nat.shiftRight (BC s) 32) 65535 = ((blk s).filter (swapK W1 W2)).length ∧
-      Nat.shiftRight (BC s) 48 = ((blk s).filter fun t => CFSG.KLie.CT.notB (okT W1 W2 L30 cs t)).length := by
+      Nat.shiftRight (BC s) 48 = ((blk s).filter fun t =>
+        CFSG.KLie.CT.notB (okF47 LM cs t (imgM47 t W1) (imgM47 t W2))).length := by
     intro s hs
     have e := Nat.eq_of_beq_eq_true (hO s hs)
-    unfold oBlock at e
-    rw [oFold_sum SZ TR (incT W1 W2 L30 cs) (oStep_eq W1 W2 L30 cs), Nat.zero_add, sum_incT] at e
+    unfold oBlockF at e
+    rw [oFold_sum SZ TR (incF47 W1 W2 LM cs) (oStepF_eq hm1 hm2 LM cs), Nat.zero_add, sum_incF47] at e
     exact fields e.symm (lt_of_le_of_lt (List.length_filter_le _ _) (hlen s))
       (lt_of_le_of_lt (List.length_filter_le _ _) (hlen s))
       (lt_of_le_of_lt (List.length_filter_le _ _) (hlen s))
@@ -307,7 +473,9 @@ theorem o_sound {SZ : Nat → Nat} {TR : Nat → Nat → Nat} {Ts : List (List (
     rw [(hblk s hs').2.2.2, List.length_eq_zero_iff, List.filter_eq_nil_iff] at h0
     have := h0 t ht
     rw [notB_eq] at this
-    simpa using this
+    have hok : okF47 LM cs t (imgM47 t W1) (imgM47 t W2) = true := by simpa using this
+    exact okT_of_okF47 hLM
+      (pl_PP hT 5 1 _ (by omega) (hT 0 (by omega) s (by rw [hSZ]; exact hs')) t ht) hok
   · rw [filter_flatMap_length, ← c1]
     exact congrArg List.sum
       (List.map_congr_left fun s hs => ((hblk s (List.mem_range.1 hs)).1).symm)

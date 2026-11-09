@@ -302,11 +302,12 @@ theorem PM_eq : CFSG.KC.Fi24Fix.wordMul CFSG.KD.BrFi24.MUL CFSG.KD.BrFi24.RB PL
     eq_of_beq CFSG.KD.Fi24G2e.B1.p3
   have e4 : CFSG.KC.Fi24Fix.wordMul CFSG.KD.BrFi24.MUL CFSG.KD.BrFi24.RB PC1 (BX 17) = BX 18 :=
     eq_of_beq CFSG.KD.Fi24G2e.B1.p4
-  have e5 : CFSG.KC.Fi24Fix.wordMul CFSG.KD.BrFi24.MUL CFSG.KD.BrFi24.RB PC0 (BX 18) = PM :=
+  have e5 : CFSG.KC.Fi24Fix.wordMul CFSG.KD.BrFi24.MUL CFSG.KD.BrFi24.RB PC0 (BX 18) = BX 12 :=
     eq_of_beq CFSG.KD.Fi24G2e.B1.p5
+  have hPM : BX 12 = PM := rfl
   rw [PL_split]
   simp only [List.append_assoc, wordMul_RB_append]
-  rw [e0, e1, e2, e3, e4, e5]
+  rw [e0, e1, e2, e3, e4, e5, hPM]
 
 @[expose] noncomputable def uP : GL (Fin 781) (ZMod 3) := wordProd xs pl
 

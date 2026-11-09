@@ -49,7 +49,7 @@ theorem size_eq : j2SylEnum.size = 256 := by
   rw [enum_eq, hRec_size, cnt]
 
 theorem canonT {i : Nat} (hi : i < 256) : canonK 315 9 (mask 9) (315 * 9) (T i) = true :=
-  canonR (pe_all' syE) i (by rw [cnt]; exact hi)
+  canonR syPK i (by rw [cnt]; exact hi)
 
 theorem get_eq {i : Nat} (hi : i < 256) : j2SylEnum[i]! = tabT (unpack 315 9 (T i)) := by
   rw [enum_eq, hRec_get (by rw [cnt]; exact hi)]

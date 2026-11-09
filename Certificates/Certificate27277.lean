@@ -10,6 +10,7 @@ namespace Certificates
 open CertificateChecks
 
 open CFSG.EvenSporadicStandard.HSStd.U43 in
-theorem certificate27277 : caseCheck dVb = true := KernelHSStd.U43Vb.caseCheck_true
+theorem certificate27277 : ∃ tPar yPar : Array (ℕ × ℕ), caseCheck dVb tPar yPar = true :=
+  ⟨_, _, KernelHSStd.U43Vb.caseCheck_true⟩
 
 end Certificates

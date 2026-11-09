@@ -63,13 +63,13 @@ theorem sE_gens : ∀ k < SE.ng, PRep 275 9 (SE.G k) (sP.getD k 1) := by
   have hk3 : k < 3 := hk
   interval_cases k
   · have e : SE.G 0 = CT.F 6 := by decide +kernel
-    rw [e]
+    rw [e, sP_get0]
     exact prep_cls (k := 6) (by norm_num)
   · have e : SE.G 1 = CT.F 7 := by decide +kernel
-    rw [e]
+    rw [e, sP_get1]
     exact prep_cls (k := 7) (by norm_num)
   · have e : SE.G 2 = CT.F 8 := by decide +kernel
-    rw [e]
+    rw [e, sP_get2]
     exact prep_cls (k := 8) (by norm_num)
 
 theorem mem_S_iff (g : Equiv.Perm (Fin 275)) : g ∈ F.S ↔ ∃ i < SE.N, PRep 275 9 (SE.T i) g := by

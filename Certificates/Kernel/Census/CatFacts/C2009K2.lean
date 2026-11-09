@@ -11,7 +11,8 @@ set_option maxRecDepth 100000
 namespace CertificateChecks.KernelCatFacts
 
 open CFSG.ComponentClassification.CatFactsSmall CFSG.ComponentClassification.CatFactsSmall.PSp43
-  CFSG.Certificates.Kernel.PkEnum CFSG.GH74.KGroups CFSG.Sporadic.Schreier
+  CFSG.Certificates.Kernel.PkEnum CFSG.Certificates.Kernel.CatFacts CFSG.GH74.KGroups
+  CFSG.Sporadic.Schreier
 
 theorem d2009K : orderIs cfR1 4 = true ∧ orderIs cfR2 4 = true ∧ cfS1 * cfS1 = 1 ∧
     cfS2 * cfS2 = 1 ∧ cfS1 * cfR1 * cfS1⁻¹ = cfR1⁻¹ ∧ cfS2 * cfR2 * cfS2⁻¹ = cfR2⁻¹ ∧
@@ -52,15 +53,12 @@ theorem f2009K : (cfFgens.all fun x => siftP cfQR x 0 && decide (x * cfZ = cfZ *
 theorem qe2009K : schP cfQE = true ∧ orderV cfQE = 16 := by
   constructor <;> decide +kernel
 
-theorem e2009K : (cfEgens.all fun x => siftP cfQR x 0 && siftP QP45 x 0) = true ∧
+theorem e2009K : (cfEgens.all fun x => siftP cfQR x 0 && siftPQ x) = true ∧
     (elemsV cfQE).all (fun x => decide (x * x = 1)) = true ∧ siftP cfQE cfZ 0 = true ∧
     siftP cfQE cfTau 0 = true := by
   refine ⟨?_, ?_, ?_, ?_⟩ <;> decide +kernel
 
-theorem eUniq2009K : ((elemsV cfQR).filter fun x => siftP QP45 x 0).all (fun x =>
-    !decide (x * x = 1) || siftP cfQE x 0 || decide ((((elemsV cfQR).filter fun x =>
-      siftP QP45 x 0).filter fun y => decide (y * y = 1) && decide (y * x = x * y)).length <
-        16)) = true := by
+theorem eUniq2009K : ((elemsV cfQR).filter fun x => siftPQ x).all eT = true := by
   decide +kernel
 
 end CertificateChecks.KernelCatFacts

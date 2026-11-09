@@ -84,18 +84,23 @@ theorem kCent3 : centK 42 6 20160 L34S.T (RP 2) 60 L34C3.X L34C3.P = true := by 
 
 theorem kCent4 : centK 42 6 20160 L34S.T (RP 3) 72 L34C4.X L34C4.P = true := by quickRfl
 
-theorem kGroup2 : groupK 42 6 168 L34C2.P L34C2.I L34C2.Q = true := by quickRfl
+theorem kGroup2 : groupGK 42 6 168 L34C2.P L34C2.I L34C2.Q (L34C2.G 4) (L34C2.G 0) (L34C2.G 1)
+    (L34C2.G 2) (L34C2.G 3) = true := by quickRfl
 
-theorem kClass2 : classK 42 6 168 L34C2.P L34C2.I L34C2.CP (L34C2.L 0) (L34C2.L 1) (L34C2.L 2)
-    (L34C2.L 3) 6 = true := by quickRfl
+theorem kClass2 : classQK 42 6 168 L34C2.P L34C2.I L34C2.Q L34C2.CP (L34C2.L 0) (L34C2.L 1)
+    (L34C2.L 2) (L34C2.L 3) 6 = true := by quickRfl
 
-theorem kGroup3 : groupK 42 6 60 L34C3.P L34C3.I L34C3.Q = true := by quickRfl
+theorem kGroup3 : groupGK 42 6 60 L34C3.P L34C3.I L34C3.Q (L34C3.G 4) (L34C3.G 0) (L34C3.G 1)
+    (L34C3.G 2) (L34C3.G 3) = true := by quickRfl
 
-theorem kClass3 : classK 42 6 60 L34C3.P L34C3.I L34C3.CP (L34C3.L 0) (L34C3.L 1) (L34C3.L 2)
-    (L34C3.L 3) 5 = true := by quickRfl
+theorem kClass3 : classQK 42 6 60 L34C3.P L34C3.I L34C3.Q L34C3.CP (L34C3.L 0) (L34C3.L 1)
+    (L34C3.L 2) (L34C3.L 3) 5 = true := by quickRfl
 
-theorem kDer1 : derK 42 6 72 L34C4.P L34C4.I 18 L34D1.P L34D1.PW L34D1.CW (L34D1.M 0) (L34D1.M 1) =
-    true := by quickRfl
+theorem kGroup4 : groupGK 42 6 72 L34C4.P L34C4.I L34C4.Q (L34C4.G 4) (L34C4.G 0) (L34C4.G 1)
+    (L34C4.G 2) (L34C4.G 3) = true := by quickRfl
+
+theorem kDer1 : derQK 42 6 72 L34C4.P L34C4.I L34C4.Q (L34C4.V 0) 18 L34D1.P L34D1.PW L34D1.CW
+    (L34D1.M 0) (L34D1.M 1) = true := by quickRfl
 
 theorem kDer2 : derK 42 6 18 L34D1.P L34D1.I 9 L34D2.P L34D2.PW L34D2.CW (L34D2.M 0) (L34D2.M 1) =
     true := by quickRfl

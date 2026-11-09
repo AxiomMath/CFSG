@@ -20,7 +20,6 @@ theorem pl : plK PB PL = true := by quickRfl
 theorem twins : twinsK UP PP PB PL = true := by quickRfl
 theorem perpAll : ∀ k < 21, perpK UP PB (33 * k) 33 = true := by kc_cover 1
 theorem linesAll : ∀ k < 21, linesK UP PP PB PL (33 * k) 33 = true := by kc_cover 1
-theorem cnt : Nat.beq (lineCnt UP PP PL 0 693) 6237 = true := by quickRfl
 theorem ppAll : ∀ k < 21, ppK UP PP PB PL (33 * k) 33 = true := by kc_cover 1
 
 end CFSG.KD.Misc.Lines

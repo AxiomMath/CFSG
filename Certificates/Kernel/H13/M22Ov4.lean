@@ -10,7 +10,7 @@ set_option maxRecDepth 100000
 
 set_option maxHeartbeats 0 in
 theorem m22_ov4_true : m22ov4 = true := by
-  unfold m22ov4 m22ovU
+  unfold m22ov4 m22ovU CFSG.Quasithin.H13.M22Cert.ovFourB
   m22_tac
 
 end CertificateChecks.KernelH13

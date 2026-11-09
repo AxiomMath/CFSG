@@ -52,9 +52,37 @@ set_option maxRecDepth 100000 in
 theorem exists_ptSub_not_stabSub : ∀ (x : Vec) (S : Finset Vec), x ≠ 0 → IsPlane S →
     ∃ g : Γ, act g x = x ∧ ¬ ∀ v, v ∈ S ↔ act g v ∈ S := by decide +kernel
 
-set_option maxRecDepth 100000 in
 theorem stab_of_normalizes_filter : ∀ S : Finset Vec, IsPlane S → ∀ g : Γ,
-    (∀ k ∈ BS S, g * k * g⁻¹ ∈ BS S) → ∀ v, v ∈ S ↔ act g v ∈ S := by decide +kernel
+    (∀ k ∈ BS S, g * k * g⁻¹ ∈ BS S) → ∀ v, v ∈ S ↔ act g v ∈ S := by
+  intro S hS g hg v
+  obtain ⟨k, hk, hk1⟩ : ∃ k ∈ BS S, k ≠ 1 := by
+    by_contra h
+    push_neg at h
+    have hsub : BS S ⊆ {1} := fun k hk => Finset.mem_singleton.2 (h k hk)
+    have hc := Finset.card_le_card hsub
+    rw [BS_card S hS, Finset.card_singleton] at hc
+    omega
+  have hk' : g * k * g⁻¹ ∈ BS S := hg k hk
+  have hk'1 : g * k * g⁻¹ ≠ 1 := by
+    intro h
+    apply hk1
+    calc k = g⁻¹ * (g * k * g⁻¹) * g := by group
+      _ = 1 := by rw [h]; group
+  have e1 : fixS k = S := BS_fixS S hS k hk hk1
+  have e2 : fixS (g * k * g⁻¹) = S := BS_fixS S hS _ hk' hk'1
+  have h1 : v ∈ S ↔ act k v = v := by
+    rw [← e1]
+    simp only [fixS, Finset.mem_filter, Finset.mem_univ, true_and]
+  have h2 : act g v ∈ S ↔ act (g * k * g⁻¹) (act g v) = act g v := by
+    rw [← e2]
+    simp only [fixS, Finset.mem_filter, Finset.mem_univ, true_and]
+  rw [h1, h2, act_mul, act_mul, act_inv_act]
+  constructor
+  · intro h
+    rw [h]
+  · intro h
+    have h' := congrArg (act g⁻¹) h
+    rwa [act_inv_act, act_inv_act] at h'
 
 theorem card_stabSub {S : Finset Vec} (hS : IsPlane S) : Nat.card (stabSub S) = 24 := by
   rw [← card_stabSub_filter S hS, ← Fintype.card_coe, ← Nat.card_eq_fintype_card]

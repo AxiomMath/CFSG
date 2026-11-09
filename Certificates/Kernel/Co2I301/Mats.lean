@@ -10,8 +10,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelCo2I301.MX
-  "Certificates/Kernel/Co2I301/data/m2300.json.gz" 2984 16377854987661079765
+#kc_repo #kc_json CertificateChecks.KernelCo2I301.MX
+  "Certificates/Kernel/Co2I301/data/m2300.json" 2984 16377854987661079765
   (m : List (Nat × Nat))
 
 namespace CertificateChecks.KernelCo2I301

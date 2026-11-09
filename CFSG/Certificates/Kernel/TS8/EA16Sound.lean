@@ -3,6 +3,7 @@ module
 public import CFSG.Certificates.Kernel.TS8.TabSound
 public import CFSG.Certificates.Kernel.S63K.GeoTwinSound
 public import CFSG.Certificates.Kernel.MonsterB.Co2PermSound
+import CFSG.Certificates.Kernel.Spor.RawOrbHead
 
 public section
 
@@ -64,8 +65,30 @@ theorem sortDK_inj {P S : ℕ → ℕ} {N : ℕ} (h : sortDK P S N = true) :
 theorem isInvA_PP {p : ℕ} (hp : PP n w p) : isInvA n (unpack n w p) (invCand n (unpack n w p)) = true := by
   apply CFSG.KC.Co2Mem.isInvA_invCand (fun i hi => unpack_lt hp hi)
   intro i j hi hj e
-  rw [unpack_getElem!, if_pos hi, unpack_getElem!, if_pos hj] at e
+  rw [unpack_getElem!, ite_eq_left hi, unpack_getElem!, ite_eq_left hj] at e
   exact hp.2.2 i hi j hj e
+
+theorem PP_of_permOKq {p q : ℕ} (hsz : szOK n w = true)
+    (h : permOK n w (mask w) (n * w) p q = true) : PP n w p := by
+  obtain ⟨h1, -, h3⟩ := CFSG.KS.Raw.Orb.permOK_facts h
+  have hc : CFSG.KS.Prim.canonK n w (mask w) (n * w) p = true := by
+    unfold CFSG.KS.Prim.canonK
+    simp only [bAnd_iff]
+    exact ⟨hsz, Nat.beq_eq.mpr h1,
+      CFSG.KS.Raw.Orb.allN_iff.2 fun i hi => Nat.blt_eq.mpr (h3 i hi).1⟩
+  refine ⟨hc, ⟨fun i hi => (h3 i hi).1, fun a ha b hb e => ?_⟩⟩
+  rw [← (h3 a ha).2, ← (h3 b hb).2, e]
+
+theorem pinvS_eq_of_PP {g h : ℕ} (hg : PP n w g) (hh : PP n w h)
+    (e : pcomp n w (mask w) g h = pidn n w) : pinvS n w (mask w) g = h := by
+  obtain ⟨hn, hw⟩ := szOK_facts' hg.sz
+  obtain ⟨-, hw', hp0, -⟩ := CFSG.KS.PF.canon_facts hg.inv.1
+  obtain ⟨-, -, hq0, -⟩ := CFSG.KS.PF.canon_facts hh.1
+  refine CFSG.KS.PF.eq_of_fields (CFSG.KS.PF.w_pos hw') hp0 hq0 fun i hi => ?_
+  have e' : pg w (mask w) (pcomp n w (mask w) g h) i = pg w (mask w) (pidn n w) i := by rw [e]
+  rw [CFSG.KS.PF.pg_pcomp hg.lt32 hi, CFSG.KS.PF.pg_pidn hn hw hi] at e'
+  conv_lhs => rw [← e']
+  exact pg_pinvS (by omega) hg.2 (hh.2.1 i hi)
 
 theorem hasChain_eq {M : Array (Array ℕ)} {m : ℕ → ℕ → ℕ} (hM : ∀ a b, (M[a]!)[b]! = m a b) :
     ∀ k S C, hasChainIx M k S C = hasChainF m k S C
@@ -91,7 +114,7 @@ theorem checkEA16_of_K {PA PB PU : ℕ} {ws : List (List ℕ)} (hsz : szOK n w =
     (hact : ∀ h < 256, ∀ k < ng, W (ng * h + k) < 256 ∧
       pcomp n w (mask w) (EP h) (GW k) = EP (W (ng * h + k)))
     (hrun : orbRunK W Pa La ng 257 0 1 = 256) (hmt : mtK MT W Pa La ng = true)
-    (hit : ∀ a < 256, IT a < 256 ∧ pinvS n w (mask w) (EP a) = EP (IT a))
+    (hit : ∀ a < 256, IT a < 256 ∧ MT a (IT a) = 0)
     (hsearch : searchF (mF MT) (iF IT) = true)
     (hchain : hasChainF (mF MT) 5 [0] (invsF (mF MT)) = false) :
     checkEA16 n (unpack n w PA) (unpack n w PB) (unpack n w PU) ws = true := by
@@ -123,6 +146,9 @@ theorem checkEA16_of_K {PA PB PU : ℕ} {ws : List (List ℕ)} (hsz : szOK n w =
   obtain ⟨e1, e2, e3, e4, e5, e6, ht⟩ :=
     bfsT_of_K (W := W) hsz hgs hg hPP hGW hd h0 hp0 hl0 hact hrun
   have hMT' := hMT hsz hPP hGW h0 ht hact hmt
+  replace hit : ∀ a < 256, IT a < 256 ∧ pinvS n w (mask w) (EP a) = EP (IT a) := fun a ha =>
+    ⟨(hit a ha).1, pinvS_eq_of_PP (hPP a ha) (hPP _ (hit a ha).1)
+      (((hMT' _ (hit a ha).1 a ha).2.trans (by rw [(hit a ha).2])).trans h0)⟩
   generalize hG : gensT n (unpack n w PA) (unpack n w PB) (unpack n w PU) ws = gens at *
   generalize hE : (bfsT n gens).1 = E at *
   have hM : ∀ a b, ((mulTabT n E (idxT E))[a]!)[b]! = mF MT a b := by
@@ -130,17 +156,17 @@ theorem checkEA16_of_K {PA PB PU : ℕ} {ws : List (List ℕ)} (hsz : szOK n w =
     rw [mulTabT_get]
     unfold mF
     by_cases hab : a < 256 ∧ b < 256
-    · rw [if_pos hab, if_pos hab, e2 a hab.1, e2 b hab.2, compA_PP (hPP a hab.1) (hPP b hab.2),
+    · rw [ite_eq_left hab, ite_eq_left hab, e2 a hab.1, e2 b hab.2, compA_PP (hPP a hab.1) (hPP b hab.2),
         (hMT' b hab.2 a hab.1).2, idxT_getD e1 e2 hPP hd 0 (hMT' b hab.2 a hab.1).1]
-    · rw [if_neg hab, if_neg hab]
+    · rw [ite_eq_right hab, ite_eq_right hab]
   have hI : ∀ a, (invTabT n E (idxT E))[a]! = iF IT a := by
     intro a
     rw [invTabT_get]
     unfold iF
     by_cases ha : a < 256
-    · rw [if_pos ha, if_pos ha, e2 a ha, invCand_PP (hPP a ha), (hit a ha).2,
+    · rw [ite_eq_left ha, ite_eq_left ha, e2 a ha, invCand_PP (hPP a ha), (hit a ha).2,
         idxT_getD e1 e2 hPP hd 0 (hit a ha).1]
-    · rw [if_neg ha, if_neg ha]
+    · rw [ite_eq_right ha, ite_eq_right ha]
   unfold checkEA16 checkD8 chainFreeCheck
   simp only [hG, hE]
   simp only [Bool.and_eq_true, Bool.not_eq_true']
@@ -179,7 +205,7 @@ theorem checkEA16_of_K {PA PB PU : ℕ} {ws : List (List ℕ)} (hsz : szOK n w =
     · obtain ⟨t1, t2, t3⟩ := ht a (by omega) ha
       rw [e4 a ha, e6 a ha, hgs, e2 a ha, e2 (Pa a) (by omega), hg (La a) t2,
         compA_PP (hPP (Pa a) (by omega)) (hGW (La a) t2), t3, eqA_self]
-      simp [ha0, t1, t2]
+      simp [t1, t2]
   · unfold mulOKT
     rw [allLt_iff]
     intro a ha
@@ -187,7 +213,7 @@ theorem checkEA16_of_K {PA PB PU : ℕ} {ws : List (List ℕ)} (hsz : szOK n w =
     intro b hb
     rw [hM]
     unfold mF
-    rw [if_pos ⟨ha, hb⟩, e2 a ha, e2 b hb, compA_PP (hPP a ha) (hPP b hb),
+    rw [ite_eq_left ⟨ha, hb⟩, e2 a ha, e2 b hb, compA_PP (hPP a ha) (hPP b hb),
       (hMT' b hb a ha).2, e2 _ (hMT' b hb a ha).1, eqA_self]
     simp [(hMT' b hb a ha).1]
   · unfold invOKT
@@ -195,7 +221,7 @@ theorem checkEA16_of_K {PA PB PU : ℕ} {ws : List (List ℕ)} (hsz : szOK n w =
     intro a ha
     rw [hI]
     unfold iF
-    rw [if_pos ha, e2 a ha, invCand_PP (hPP a ha), (hit a ha).2, e2 _ (hit a ha).1, eqA_self]
+    rw [ite_eq_left ha, e2 a ha, invCand_PP (hPP a ha), (hit a ha).2, e2 _ (hit a ha).1, eqA_self]
     simp [(hit a ha).1]
   · unfold searchD8 ord4Ix involInvIx commIx mulIx invIx
     simp only [hM, hI, allLt_eq_allN]

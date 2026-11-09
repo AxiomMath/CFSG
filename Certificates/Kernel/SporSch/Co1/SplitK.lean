@@ -57,7 +57,7 @@ theorem kab : bAnd(invOKK PA (ABI 0), invOKK PB (ABI 1)) = true := by quickRfl
 theorem kNb : Nat.beq Data.ambWords.length 2 = true := by quickRfl
 theorem kAmb : allN 2 (fun i => bAnd(CFSG.KS.SporSch.M24.lettersK 2 (ngetL Data.ambWords i),
     Nat.beq (wordSK AB ABI (ngetL Data.ambWords i)) (SG.M i))) = true := by quickRfl
-theorem kSD : dagK SG.M SG.MI 2 SG.N Data.strongWords = true := by quickRfl
+theorem kSD : dagWK SG.M SG.MI 2 SG.N Data.strongWords = true := by quickRfl
 theorem kG : allN 3 (fun i => bAnd(gLettersK SG.N (Data.topWords.getD i [])
     (Data.lowerWords.getD i []), Nat.beq (GV i) (GG i))) = true := by quickRfl
 theorem kLR0 : bindListK 24 24 (GF 0) (Data.liftRows.getD 0 []) = true := by quickRfl

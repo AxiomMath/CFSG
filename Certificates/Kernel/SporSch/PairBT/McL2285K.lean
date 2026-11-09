@@ -25,13 +25,16 @@ theorem facts2285 :
   have hN : ¬11 ^ 2 ∣ ordK PMcL.LR 5 := by
     rw [ord]
     decide
-  have h := pair11_proved sz McL2285.chainS base_nodup (by decide)
+  have hc : McLZC.clsD.c = 2025 * 11 := by
+    rw [Nat.eq_of_beq_eq_true McL2285.dc0]
+  have hO := elems_of_slices (c := McLZC.clsD.c) (nb := 88)
+    (by rw [Nat.eq_of_beq_eq_true McL2285.dc0]; norm_num) McLZOrbS.all
+  have h := pair11_sem sz McL2285.chainS base_nodup (by decide)
     (allN_spec PMcLCheck.perm 0 (by decide)) (allN_spec PMcLCheck.perm 1 (by decide)) cA oA hN
     (bs := bs) (by decide) (groups := groups) (by decide) pZ pG cZ cG sZ sG oZ rel bZZ bZZi
-    (d := McLCK.getD 0 clsD0) McL2285.clsOK (Nat.eq_of_beq_eq_true McL2285.hR0)
-    (rest := McLBT.wConds.tail) (by decide)
-    (Nat.le_of_ble_eq_true McL2285.lens.1) (Nat.le_of_ble_eq_true McL2285.lens.2)
-    McLSylZ3.h0_0 McLSylZ3.h1_0
+    (d := McLZC.clsD) McLZOrb.sem (rest := McLBT.wConds.tail) (by decide) hc hO McLZOrb.hr
+    (by simp) (by simp)
+    (rows_of_slices McLSylZ3.S0.all fun _ => rfl) (rows_of_slices McLSylZ3.S1.all fun _ => rfl)
   rw [ord, Nat.eq_of_beq_eq_true McL2285.dc0, Nat.eq_of_beq_eq_true McL2285.rows] at h
   have e : CFSG.Sporadic.SmallOddCore.mclWConds = McLBT.wConds := rfl
   rw [PMcLCheck.wA_eq, e]

@@ -168,11 +168,22 @@ theorem kR0' : gtPinK R0M 7 128 R0T.N R0T.P R0T.PAR R0T.LAB R0T.W R0T.S = true â
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem r0Gens_eq : r0Gens () = CFSG.KS.SporSch.M24.gensArr 7 R0M := by
-  apply Array.ext (by simp [CFSG.KS.SporSch.M24.gensArr, r0Gens])
+theorem r0_ofFn_getL (L : List Nat) (f : Nat â†’ Array Nat) :
+    Array.ofFn (n := L.length) (fun l => f (getL 0 L l.val)) = (L.map f).toArray := by
+  apply Array.ext (by simp)
   intro i h1 h2
-  have hi : i < 7 := by simpa [r0Gens] using h1
-  interval_cases i <;> simp [CFSG.KS.SporSch.M24.gensArr, r0Gens, R0M, a_eq, r_eq, getL_eq, unpackR_eq_unpack]
+  simp only [Array.size_ofFn] at h1
+  simp [getL_eq, List.getElem?_eq_getElem h1]
+
+theorem r0Gens_eq : r0Gens () = CFSG.KS.SporSch.M24.gensArr 7 R0M := by
+  have e : (List.range 6).map rRw = [rRw 0, rRw 1, rRw 2, rRw 3, rRw 4, rRw 5] := rfl
+  have h1 : r0Gens () =
+      ([AL, RK 0, RK 1, RK 2, RK 3, RK 4, RK 5].map (CFSG.KS.Raw.unpack 24 24)).toArray := by
+    rw [r0Gens, e, a_eq, r_eq, r_eq, r_eq, r_eq, r_eq, r_eq]
+    simp only [List.map_cons, List.map_nil, unpackR_eq_unpack]
+  rw [h1, CFSG.KS.SporSch.M24.gensArr,
+    show R0M = getL 0 [AL, RK 0, RK 1, RK 2, RK 3, RK 4, RK 5] from rfl]
+  exact (r0_ofFn_getL [AL, RK 0, RK 1, RK 2, RK 3, RK 4, RK 5] (CFSG.KS.Raw.unpack 24 24)).symm
 
 theorem r0Tree_eq : r0Tree () = bfsTree R0T.N R0T.P R0T.PAR R0T.LAB := by
   rw [r0Tree, r0Gens_eq]

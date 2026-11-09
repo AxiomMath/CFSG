@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.EachTrue
 import CFSG.Certificates.Kernel.Common.RowsForall
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.TS8Wr "Certificates/Kernel/TS8Wr/data/wr.json.gz" 32590
+#kc_repo #kc_json CFSG.KD.TS8Wr "Certificates/Kernel/TS8Wr/data/wr.json" 32590
   9924191866242789355 (TB : Nat) (one : Nat) (RT : List (Nat × List Nat))
   (ZA : List (Nat × List Nat)) (ZC : List (Nat × Nat)) (AC : List (List (Nat × Nat)))
 
@@ -51,10 +51,10 @@ end
 #kc_repo #kc_each_rows CFSG.KD.TS8Wr ch27801r
   (fun i z a => CFSG.KC.TS8WrK.rowChk CFSG.KD.TS8Wr.TB CFSG.KD.TS8Wr.RT CFSG.KD.TS8Wr.one
     CFSG.KD.TS8Wr.ZA i z a)
-  "Certificates/Kernel/TS8Wr/data/rows.txt.gz" 3923 11856027218110311425 0 349
+  "Certificates/Kernel/TS8Wr/data/rows.txt" 3923 11856027218110311425 0 349
 
 #kc_repo #kc_rows_forall CFSG.KD.TS8Wr.ch27801r_all
   (fun i z a => CFSG.KC.TS8WrK.rowChk CFSG.KD.TS8Wr.TB CFSG.KD.TS8Wr.RT CFSG.KD.TS8Wr.one
     CFSG.KD.TS8Wr.ZA i z a)
-  "Certificates/Kernel/TS8Wr/data/rows.txt.gz" 3923 11856027218110311425 0 349
+  "Certificates/Kernel/TS8Wr/data/rows.txt" 3923 11856027218110311425 0 349
   CFSG.KD.TS8Wr.ch27801r

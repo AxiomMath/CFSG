@@ -5,13 +5,13 @@ public import Certificates.Kernel.HNF26729.Data
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.HNFFib.F5 "Certificates/Kernel/HNFFib/data/fib5.json.gz" 1227 15449801581667020623
+#kc_repo #kc_json CFSG.KD.HNFFib.F5 "Certificates/Kernel/HNFFib/data/fib5.json" 1227 15449801581667020623
     (c : List Nat) (us : List (List Nat)) (u : Nat) (tree : List (Nat × Nat)) (ord : List Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.HNFFib.F6 "Certificates/Kernel/HNFFib/data/fib6.json.gz" 1106 3371602499378435221
+#kc_repo #kc_json CFSG.KD.HNFFib.F6 "Certificates/Kernel/HNFFib/data/fib6.json" 1106 3371602499378435221
     (c : List Nat) (us : List (List Nat)) (u : Nat) (tree : List (Nat × Nat)) (ord : List Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.HNFFib.F8 "Certificates/Kernel/HNFFib/data/fib8.json.gz" 813 15661280397906918845
+#kc_repo #kc_json CFSG.KD.HNFFib.F8 "Certificates/Kernel/HNFFib/data/fib8.json" 813 15661280397906918845
     (c : List Nat) (us : List (List Nat)) (u : Nat) (tree : List (Nat × Nat)) (ord : List Nat)
 
 public section

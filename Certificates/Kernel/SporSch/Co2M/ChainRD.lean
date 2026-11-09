@@ -20,7 +20,7 @@ meta def raB : Array Nat := localRec.chains.rAction.baseArr
 
 end CertificateChecks.KernelSporSch.Co2M
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2RA 2048 12 32 256
+#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2RA 2048 12 0 256
   CertificateChecks.KernelSporSch.Co2M.raS CertificateChecks.KernelSporSch.Co2M.raB 2
   CertificateChecks.KernelSporSch.Co2M.raD
 

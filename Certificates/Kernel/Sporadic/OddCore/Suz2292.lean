@@ -5,6 +5,7 @@ public import Certificates.Kernel.Sporadic.OddCore.Suz2304
 public import Certificates.Kernel.Sporadic.OddCore.TBfsCmd
 public import Certificates.Kernel.Sporadic.OddCore.PEnumCmd
 public import CFSG.Sporadic.SuzOddCore.CertChainCheckInputs
+public import Certificates.Data.Kernel.Spor.TPath
 meta import CFSG.Sporadic.SuzOddCore.CertChainCheckInputs
 import CFSG.Sporadic.SuzOddCore.Arrays
 import CFSG.Certificates.Kernel.Common.Harness
@@ -75,55 +76,70 @@ theorem fix_ok : allN 60 (fun b => Nat.beq
     (nget fixBits b)) = true := by
   quickRfl
 
-theorem d2 : allN 22880 (fun x => Nat.beq (cg 4 x) (wpt (certDerivs[2]!) x)) = true := by quickRfl
-theorem d3 : allN 22880 (fun x => Nat.beq (cg 5 x) (wpt (certDerivs[3]!) x)) = true := by quickRfl
-theorem d4 : allN 22880 (fun x => Nat.beq (cg 6 x) (wpt (certDerivs[4]!) x)) = true := by quickRfl
-theorem d5 : allN 22880 (fun x => Nat.beq (cg 7 x) (wpt (certDerivs[5]!) x)) = true := by quickRfl
-theorem d6 : allN 22880 (fun x => Nat.beq (cg 8 x) (wpt (certDerivs[6]!) x)) = true := by quickRfl
-theorem d7 : allN 22880 (fun x => Nat.beq (cg 9 x) (wpt (certDerivs[7]!) x)) = true := by quickRfl
-theorem d8 : allN 22880 (fun x => Nat.beq (cg 10 x) (wpt (certDerivs[8]!) x)) = true := by quickRfl
-theorem d9 : allN 22880 (fun x => Nat.beq (cg 11 x) (wpt (certDerivs[9]!) x)) = true := by quickRfl
+theorem dwA2292 : allN 22880 (fun x => bAnd(Nat.beq (cg 4 x) (strictN (strictN (strictN x
+    (fun y => rg 15 (mask 15) SuzCertT.F 2145 y)) (fun y => rg 15 (mask 15) SuzCertT.F 1430 y))
+    (fun y => rg 15 (mask 15) SuzCertI 2145 y)), bAnd(Nat.beq (cg 5 x) (strictN (strictN (strictN
+    (strictN (strictN (strictN (strictN (strictN (strictN (strictN (strictN (strictN (strictN
+    (strictN (strictN (strictN (strictN (strictN (strictN (strictN x (fun y => rg 15 (mask 15)
+    SuzCertT.F 1430 y)) (fun y => rg 15 (mask 15) SuzCertT.F 2145 y)) (fun y => rg 15 (mask 15)
+    SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertT.F 1430 y)) (fun y => rg 15 (mask 15)
+    SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertT.F 1430 y)) (fun y => rg 15 (mask 15)
+    SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertT.F 1430 y)) (fun y => rg 15 (mask 15)
+    SuzCertI 2145 y)) (fun y => rg 15 (mask 15) SuzCertT.F 1430 y)) (fun y => rg 15 (mask 15)
+    SuzCertI 2860 y)) (fun y => rg 15 (mask 15) SuzCertI 1430 y)) (fun y => rg 15 (mask 15)
+    SuzCertI 2145 y)) (fun y => rg 15 (mask 15) SuzCertI 1430 y)) (fun y => rg 15 (mask 15)
+    SuzCertI 2860 y)) (fun y => rg 15 (mask 15) SuzCertI 2145 y)) (fun y => rg 15 (mask 15)
+    SuzCertI 1430 y)) (fun y => rg 15 (mask 15) SuzCertI 2860 y)) (fun y => rg 15 (mask 15)
+    SuzCertI 2145 y)) (fun y => rg 15 (mask 15) SuzCertI 1430 y)), Nat.beq (cg 7 x)
+    (strictN (strictN (strictN x (fun y => rg 15 (mask 15) SuzCertT.F 1430 y)) (fun y
+    => rg 15 (mask 15) SuzCertT.F 4290 y)) (fun y => rg 15 (mask 15) SuzCertI 1430 y))))) = true :=
+    by quickRfl
 
-theorem t0_hd : tbfsHdK 22880 0 CT0.cnt CT0.PTS CT0.POS CT0.PAR CT0.LAB = true := by quickRfl
-theorem t1_hd : tbfsHdK 22880 1 CT1.cnt CT1.PTS CT1.POS CT1.PAR CT1.LAB = true := by quickRfl
-theorem t2_hd : tbfsHdK 22880 2 CT2.cnt CT2.PTS CT2.POS CT2.PAR CT2.LAB = true := by quickRfl
-theorem t3_hd : tbfsHdK 22880 3 CT3.cnt CT3.PTS CT3.POS CT3.PAR CT3.LAB = true := by quickRfl
-theorem t4_hd : tbfsHdK 22880 4 CT4.cnt CT4.PTS CT4.POS CT4.PAR CT4.LAB = true := by quickRfl
-theorem t5_hd : tbfsHdK 22880 5 CT5.cnt CT5.PTS CT5.POS CT5.PAR CT5.LAB = true := by quickRfl
+theorem dwB2292 : allN 22880 (fun x => bAnd(Nat.beq (cg 6 x)
+    (strictN (strictN (strictN (strictN x (fun y => rg 15 (mask 15) SuzCertT.F 3575 y)) (fun y
+    => rg 15 (mask 15) SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertI 3575 y)) (fun y =>
+    rg 15 (mask 15) SuzCertI 2860 y)), bAnd(Nat.beq (cg 8 x) (strictN (strictN (strictN
+    (strictN (strictN (strictN (strictN (strictN x (fun y => rg 15 (mask 15) SuzCertT.F 2860 y))
+    (fun y => rg 15 (mask 15) SuzCertI 5005 y)) (fun y => rg 15 (mask 15) SuzCertI 4290 y)) (fun
+    y => rg 15 (mask 15) SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertI 5005 y)) (fun y
+    => rg 15 (mask 15) SuzCertI 2860 y)) (fun y => rg 15 (mask 15) SuzCertI 5005 y)) (fun y =>
+    rg 15 (mask 15) SuzCertI 2860 y)), bAnd(Nat.beq (cg 9 x) (strictN (strictN (strictN (strictN
+    (strictN (strictN (strictN x (fun y => rg 15 (mask 15) SuzCertT.F 2860 y)) (fun y => rg 15
+    (mask 15) SuzCertT.F 3575 y)) (fun y => rg 15 (mask 15) SuzCertI 5720 y)) (fun y => rg 15
+    (mask 15) SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertI 3575 y)) (fun y => rg 15
+    (mask 15) SuzCertI 4290 y)) (fun y => rg 15 (mask 15) SuzCertT.F 3575 y)), bAnd(Nat.beq (cg
+    10 x) (strictN (strictN (strictN (strictN (strictN (strictN (strictN x (fun y => rg 15 (mask
+    15) SuzCertT.F 2860 y)) (fun y => rg 15 (mask 15) SuzCertT.F 3575 y)) (fun y => rg 15 (mask
+    15) SuzCertI 5005 y)) (fun y => rg 15 (mask 15) SuzCertT.F 2860 y)) (fun y => rg 15 (mask
+    15) SuzCertT.F 6435 y)) (fun y => rg 15 (mask 15) SuzCertI 5720 y)) (fun y => rg 15 (mask
+    15) SuzCertI 3575 y)), Nat.beq (cg 11 x) (strictN (strictN (strictN (strictN (strictN
+    (strictN (strictN (strictN (strictN x (fun y => rg 15 (mask 15) SuzCertT.F 3575 y)) (fun y
+    => rg 15 (mask 15) SuzCertI 5720 y)) (fun y => rg 15 (mask 15) SuzCertT.F 6435 y)) (fun y =>
+    rg 15 (mask 15) SuzCertT.F 5720 y)) (fun y => rg 15 (mask 15) SuzCertI 2860 y)) (fun y => rg
+    15 (mask 15) SuzCertT.F 7150 y)) (fun y => rg 15 (mask 15) SuzCertI 3575 y)) (fun y => rg 15
+    (mask 15) SuzCertI 6435 y)) (fun y => rg 15 (mask 15) SuzCertT.F 4290 y))))))) = true :=
+    by quickRfl
 
-theorem t0_s0 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    0 2860 = true := by quickRfl
-theorem t0_s1 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    2860 2860 = true := by quickRfl
-theorem t0_s2 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    5720 2860 = true := by quickRfl
-theorem t0_s3 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    8580 2860 = true := by quickRfl
-theorem t0_s4 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    11440 2860 = true := by quickRfl
-theorem t0_s5 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    14300 2860 = true := by quickRfl
-theorem t0_s6 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    17160 2860 = true := by quickRfl
-theorem t0_s7 : tbfsSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
-    20020 2860 = true := by quickRfl
+theorem t0_hd : tpathHdK 0 CT0.cnt CT0.PTS = true := by quickRfl
+theorem t1_hd : tpathHdK 1 CT1.cnt CT1.PTS = true := by quickRfl
+theorem t2_hd : tpathHdK 2 CT2.cnt CT2.PTS = true := by quickRfl
+theorem t3_hd : tpathHdK 3 CT3.cnt CT3.PTS = true := by quickRfl
+theorem t4_hd : tpathHdK 4 CT4.cnt CT4.PTS = true := by quickRfl
+theorem t5_hd : tpathHdK 5 CT5.cnt CT5.PTS = true := by quickRfl
 
-theorem t1_s0 : tbfsSlK 22880 CT1.cnt 16 certLt (nget lvK1) CT1.PTS CT1.POS CT1.PAR CT1.LAB CT1.TI
-    0 2127 = true := by quickRfl
-theorem t1_s1 : tbfsSlK 22880 CT1.cnt 16 certLt (nget lvK1) CT1.PTS CT1.POS CT1.PAR CT1.LAB CT1.TI
-    2127 2127 = true := by quickRfl
-theorem t1_s2 : tbfsSlK 22880 CT1.cnt 16 certLt (nget lvK1) CT1.PTS CT1.POS CT1.PAR CT1.LAB CT1.TI
-    4254 2127 = true := by quickRfl
-theorem t1_s3 : tbfsSlK 22880 CT1.cnt 16 certLt (nget lvK1) CT1.PTS CT1.POS CT1.PAR CT1.LAB CT1.TI
-    6381 2127 = true := by quickRfl
-
-theorem t2_s : tbfsSlK 22880 CT2.cnt 12 certLt (nget lvK2) CT2.PTS CT2.POS CT2.PAR CT2.LAB CT2.TI
+theorem t0_pa : tpathSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
+    0 11440 = true := by quickRfl
+theorem t0_pb : tpathSlK 22880 CT0.cnt 20 certLt (nget lvK0) CT0.PTS CT0.POS CT0.PAR CT0.LAB CT0.TI
+    11440 11440 = true := by quickRfl
+theorem t1_p : tpathSlK 22880 CT1.cnt 16 certLt (nget lvK1) CT1.PTS CT1.POS CT1.PAR CT1.LAB CT1.TI
+    0 8505 = true := by quickRfl
+theorem t2_p : tpathSlK 22880 CT2.cnt 12 certLt (nget lvK2) CT2.PTS CT2.POS CT2.PAR CT2.LAB CT2.TI
     0 1152 = true := by quickRfl
-theorem t3_s : tbfsSlK 22880 CT3.cnt 2 certLt (nget lvK3) CT3.PTS CT3.POS CT3.PAR CT3.LAB CT3.TI
+theorem t3_p : tpathSlK 22880 CT3.cnt 2 certLt (nget lvK3) CT3.PTS CT3.POS CT3.PAR CT3.LAB CT3.TI
     0 2 = true := by quickRfl
-theorem t4_s : tbfsSlK 22880 CT4.cnt 0 certLt (fun _ => 0) CT4.PTS CT4.POS CT4.PAR CT4.LAB CT4.TI
+theorem t4_p : tpathSlK 22880 CT4.cnt 0 certLt (fun _ => 0) CT4.PTS CT4.POS CT4.PAR CT4.LAB CT4.TI
     0 1 = true := by quickRfl
-theorem t5_s : tbfsSlK 22880 CT5.cnt 0 certLt (fun _ => 0) CT5.PTS CT5.POS CT5.PAR CT5.LAB CT5.TI
+theorem t5_p : tpathSlK 22880 CT5.cnt 0 certLt (fun _ => 0) CT5.PTS CT5.POS CT5.PAR CT5.LAB CT5.TI
     0 1 = true := by quickRfl
 
 end CertificateChecks.KernelSpor.OddCore

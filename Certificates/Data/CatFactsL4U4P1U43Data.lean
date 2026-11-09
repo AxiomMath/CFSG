@@ -12,6 +12,13 @@ open CFSG.Sporadic.Th.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SmallOddCo
     (0, tu 404334890521881 false, tu 1352341616652227 false),
     (4, tu 1309751274598484 false, tu 1681408017212684 false)]
 
-irreducible_def u43CentTriv : List (Table × Table) := (bfsPairs 820 uPg u43Bases).toList
+opaque u43CentTrivSeal : {x : List (Table × Table) // x = (bfsPairs 820 uPg u43Bases).toList} :=
+  ⟨(bfsPairs 820 uPg u43Bases).toList, rfl⟩
+
+@[expose] def u43CentTriv : List (Table × Table) := u43CentTrivSeal.1
+
+theorem u43CentTriv_def : u43CentTriv = (bfsPairs 820 uPg u43Bases).toList := u43CentTrivSeal.2
+
+attribute [irreducible] u43CentTriv
 
 end CFSG.ComponentClassification.HarrisLit.P1.U43

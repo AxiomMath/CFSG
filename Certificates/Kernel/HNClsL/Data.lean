@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import CFSG.Certificates.Kernel.Local.LargeCore.Grp2
 
-#kc_repo #kc_json_gz CFSG.KD.HNClsL "Certificates/Kernel/HNClsL/data/hncls.json.gz" 16602 870290615336731402
+#kc_repo #kc_json CFSG.KD.HNClsL "Certificates/Kernel/HNClsL/data/hncls.json" 16602 870290615336731402
     (poolA : List (List Nat)) (gensA : List Nat) (nQA : Nat) (linesA : List (List (Nat × Nat)))
     (fuseA : List (Nat × (List (Nat × Nat) × Nat))) (wlA : List (List (Nat × Nat)))
     (witsA : List (List (List (Nat × Nat)) × Nat)) (trA : List Nat)

@@ -4,8 +4,8 @@ import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Data.Kernel.Spor.SlpMat
 
-#kc_repo #kc_json_gz CFSG.KD.F24S "Certificates/Kernel/Sporadic/Fi24Seven/data/words.json.gz" 139129 15125484225747547249 (W7 : List (List Nat)) (E7 : List (List Nat)) (EK : List (List Nat)) (C7 : List (Nat × List Nat))
-#kc_repo #kc_json_gz CFSG.KD.F24S "Certificates/Kernel/Sporadic/Fi24Seven/data/plan.json.gz" 132015 5373593695458915057 (LY : List Nat) (IN : List (List (Nat × Nat))) (ND : List (List Nat)) (OU : List (List (Nat × Nat))) (EQ : List (List (List Nat × List Nat))) (NE : List (List (List Nat × List Nat))) (PC : List Nat) (PN : List Nat)
+#kc_repo #kc_json CFSG.KD.F24S "Certificates/Kernel/Sporadic/Fi24Seven/data/words.json" 139129 15125484225747547249 (W7 : List (List Nat)) (E7 : List (List Nat)) (EK : List (List Nat)) (C7 : List (Nat × List Nat))
+#kc_repo #kc_json CFSG.KD.F24S "Certificates/Kernel/Sporadic/Fi24Seven/data/plan.json" 132015 5373593695458915057 (LY : List Nat) (IN : List (List (Nat × Nat))) (ND : List (List Nat)) (OU : List (List (Nat × Nat))) (EQ : List (List (List Nat × List Nat))) (NE : List (List (List Nat × List Nat))) (PC : List Nat) (PN : List Nat)
 
 public section
 

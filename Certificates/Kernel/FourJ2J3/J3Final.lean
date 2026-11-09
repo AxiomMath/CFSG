@@ -4,6 +4,7 @@ public import Certificates.Kernel.FourJ2J3.Glue
 public import Certificates.Kernel.FourJ2J3.J3Checks
 public import Certificates.Kernel.SporSch.PairJ3.Check2236
 public import CFSG.Certificates.Kernel.FourJoinedKSound
+public import Certificates.Kernel.FourJ2J3.J3BSound
 
 public section
 
@@ -23,10 +24,9 @@ theorem n128_j3 : J3D.N = 128 := by
 
 theorem sylowFourJoined_j3P_kernel :
     SylowFourJoined ↥j3P := by
-  obtain ⟨hKP, hK, ⟨d⟩⟩ := fjK_sound J3.gens J3.bfs (by decide) J3.keys J3.klein J3.tree J3.iso
-    J3.norm J3.gen J3.comp
+  obtain ⟨K, hKP, hK, ⟨d⟩⟩ := J3B.j3_fourJoined
   rw [subP_j3] at hKP d
-  exact sylowFourJoined_j3P_of_data hKP (by rw [hK, n128_j3]) d
+  exact sylowFourJoined_j3P_of_data hKP hK d
 
 end CertificateChecks.KernelFourJ2J3
 

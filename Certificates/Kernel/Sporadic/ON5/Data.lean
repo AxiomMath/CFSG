@@ -21,6 +21,13 @@ meta def dSelM : List Nat :=
   (List.range m120Enum.tabs.size).filter fun i =>
     Data.D120Generators.all fun g => comp 120 m120Enum.tabs[i]! g == comp 120 g m120Enum.tabs[i]!
 
+meta def dWM : Array Nat := m120Enum.tabs.map fun t => Id.run do
+  for j in [0:Data.D120Generators.size] do
+    let g := Data.D120Generators[j]!
+    for x in [0:120] do
+      if t[g[x]!]! != g[t[x]!]! then return 1 + 120 * j + x
+  return 0
+
 meta def tSelM : List Nat :=
   (List.range t32Enum.tabs.size).filter fun i =>
     Data.T32Chain.generators.all fun g => comp 32 t32Enum.tabs[i]! g == comp 32 g t32Enum.tabs[i]!
@@ -71,6 +78,7 @@ end CertificateChecks.KernelSpor.ON5
 #kon_table CertificateChecks.KernelSpor.ON5T.DI CertificateChecks.KernelSpor.ON5.dIM
 #kon_table CertificateChecks.KernelSpor.ON5T.SI CertificateChecks.KernelSpor.ON5.sIM
 #kon_table CertificateChecks.KernelSpor.ON5T.ZI CertificateChecks.KernelSpor.ON5.zIM
+#kon_table CertificateChecks.KernelSpor.ON5T.DW CertificateChecks.KernelSpor.ON5.dWM
 
 #kon_levels CertificateChecks.KernelSpor.ON5LM CertificateChecks.KernelSpor.ON5.m120S
   CertificateChecks.KernelSpor.ON5.m120B 3

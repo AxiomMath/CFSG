@@ -91,6 +91,8 @@ structure DcData where
   c0 : Nat
   pcz : Nat
   npc : Nat
+  G : List (List Nat) := []
+  Gw : List (List (Nat × Nat × Nat)) := []
 
 namespace Rep
 @[expose] def w (r : Rep) : List Nat := r.1
@@ -178,10 +180,57 @@ variable (C : DcCtx) (D : DcData)
 @[expose] def insK (ks : List (List Nat)) (y : List Nat) (U : List (List Nat)) : List (List Nat) :=
   ks.foldl (fun U k => insU (labF (wordF C.L k) y) U) U
 
+@[expose] def insKs (ks : List (List Nat)) (y : List Nat) (U : List (List Nat)) : List (List Nat) :=
+  bif anyB (fun M => M == labF (wordF C.L (headL ks)) y) U then U else insK C ks y U
+
 @[expose] def imgs (x : List Nat) (j : Nat) : List (List Nat) :=
   x.foldl (fun U q => bif Nat.beq (oid D q) j then
-      insK C (D.K.getD j []) (x.map (wordF C.L (pathW C D 64 q []))) U
+      insKs C (D.K.getD j []) (x.map (wordF C.L (pathW C D 64 q []))) U
     else U) []
+
+@[expose] def dcKGens (j : Nat) : List (List Nat) :=
+  (D.G.getD j []).map fun i => (D.K.getD j []).getD i []
+
+@[expose] def pushG (gs : List (List Nat)) (M : List Nat)
+    (TU : List (List Nat) × List (List Nat)) : List (List Nat) × List (List Nat) :=
+  gs.foldl (fun TU g => bif anyB (fun N => N == labF (wordF C.L g) M) TU.2 then TU
+    else (labF (wordF C.L g) M :: TU.1, insU (labF (wordF C.L g) M) TU.2)) TU
+
+@[expose] def closKG (gs : List (List Nat)) : Nat → List (List Nat) → List (List Nat) →
+    List (List Nat)
+  | 0, _, _ => []
+  | _ + 1, [], U => U
+  | f + 1, M :: T, U => closKG gs f (pushG C gs M (T, U)).1 (pushG C gs M (T, U)).2
+
+@[expose] def insKG (j : Nat) (y : List Nat) (U : List (List Nat)) : List (List Nat) :=
+  bif anyB (fun M => M == y) U then U
+  else closKG C (dcKGens D j) (Nat.succ (D.K.getD j []).length) [y] (insU y U)
+
+@[expose] def imgsC (x : List Nat) (j : Nat) : List (List Nat) :=
+  x.foldl (fun U q => bif Nat.beq (oid D q) j then
+      insKG C D j (insN (x.map (wordF C.L (pathW C D 64 q [])))) U
+    else U) []
+
+@[expose] def stabGenOK (j : Nat) : Bool :=
+  (D.G.getD j []).all (fun i => Nat.blt i (D.K.getD j []).length) &&
+    Nat.beq (D.Gw.getD j []).length (D.K.getD j []).length &&
+    allIdx (fun i e => bif Nat.blt e.1 (D.G.getD j []).length then
+        Nat.blt e.2.1 (D.K.getD j []).length &&
+        Nat.blt ((D.Gw.getD j []).getD e.2.1 (0, 0, 0)).2.2 e.2.2 &&
+        D.sep.map (wordF C.L ((dcKGens D j).getD e.1 [] ++ (D.K.getD j []).getD e.2.1 [])) ==
+          D.sep.map (wordF C.L ((D.K.getD j []).getD i []))
+      else D.sep.map (wordF C.L ((D.K.getD j []).getD i [])) == D.sep) 0 (D.Gw.getD j [])
+
+@[expose] def stabGenG (j : Nat) : Bool := Nat.beq (D.G.getD j []).length 0 || stabGenOK C D j
+
+@[expose] def useG (x : List Nat) (j m : Nat) : Bool :=
+  Nat.blt 0 (D.G.getD j []).length &&
+    Nat.ble (Nat.mul (Nat.mul 2 (Nat.div (Nat.mul (cntO D x j) m) (D.osz.getD j 0)))
+        (D.G.getD j []).length)
+      (costO D x j)
+
+@[expose] def imgsG (x : List Nat) (j m : Nat) : List (List Nat) :=
+  bif useG D x j m then imgsC C D x j else imgs C D x j
 
 @[expose] def pathsOK (x : List Nat) (j : Nat) : Bool :=
   x.all fun q => !Nat.beq (oid D q) j ||
@@ -192,7 +241,8 @@ variable (C : DcCtx) (D : DcData)
 
 @[expose] def orbR (r : Rep) : Bool :=
   Nat.blt r.j D.obase.length && Nat.blt 0 (cntO D r.lab r.j) && argOK D r.lab r.j &&
-    pathsOK C D r.lab r.j && Nat.blt 0 r.m && sizeKey D r.lab r.j r.m r.key (imgs C D r.lab r.j)
+    pathsOK C D r.lab r.j && Nat.blt 0 r.m &&
+    sizeKey D r.lab r.j r.m r.key (imgsG C D r.lab r.j r.m)
 
 @[expose] def atomR (r : Rep) : Bool :=
   bif Nat.blt r.cls D.mw.length then
@@ -235,7 +285,7 @@ variable (C : DcCtx) (D : DcData)
       ((D.K.getD j []).all (fun k => isS C k && Nat.beq (wordF C.L k (D.obase.getD j 0))
         (D.obase.getD j 0)) &&
       sortedLt ((D.K.getD j []).map fun k => D.sep.map (wordF C.L k)) &&
-      Nat.beq (Nat.mul (D.K.getD j []).length (D.osz.getD j 0)) (2 ^ C.k))) &&
+      Nat.beq (Nat.mul (D.K.getD j []).length (D.osz.getD j 0)) (2 ^ C.k) && stabGenG C D j)) &&
     Nat.beq (cntB (fun p => Nat.beq (oid D p) j) (List.range C.n)) (D.osz.getD j 0)
 
 @[expose] def joinOK (e : Join) : Bool :=

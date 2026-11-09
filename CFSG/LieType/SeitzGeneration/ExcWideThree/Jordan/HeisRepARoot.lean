@@ -257,8 +257,143 @@ theorem familyGroup_le_normalizer_rootSpan {C : Fin 3 → Set (Fin Tag.E6.rank �
 
 theorem iform_self_E6 : ∀ β ∈ rootFinset Tag.E6, iform β β = 2 := by decide +kernel
 
+set_option maxHeartbeats 4000000 in
+@[expose] def e6RG : List (List ℤ × List ℤ) :=
+  [([1, 0, 0, 0, 0, 0], [2, 0, -1, 0, 0, 0]),
+    ([0, 1, 0, 0, 0, 0], [0, 2, 0, -1, 0, 0]),
+    ([0, 0, 1, 0, 0, 0], [-1, 0, 2, -1, 0, 0]),
+    ([0, 0, 0, 1, 0, 0], [0, -1, -1, 2, -1, 0]),
+    ([0, 0, 0, 0, 1, 0], [0, 0, 0, -1, 2, -1]),
+    ([0, 0, 0, 0, 0, 1], [0, 0, 0, 0, -1, 2]),
+    ([-1, 0, 0, 0, 0, 0], [-2, 0, 1, 0, 0, 0]),
+    ([1, 0, 1, 0, 0, 0], [1, 0, 1, -1, 0, 0]),
+    ([0, -1, 0, 0, 0, 0], [0, -2, 0, 1, 0, 0]),
+    ([0, 1, 0, 1, 0, 0], [0, 1, -1, 1, -1, 0]),
+    ([0, 0, -1, 0, 0, 0], [1, 0, -2, 1, 0, 0]),
+    ([0, 0, 1, 1, 0, 0], [-1, -1, 1, 1, -1, 0]),
+    ([0, 0, 0, -1, 0, 0], [0, 1, 1, -2, 1, 0]),
+    ([0, 0, 0, 1, 1, 0], [0, -1, -1, 1, 1, -1]),
+    ([0, 0, 0, 0, -1, 0], [0, 0, 0, 1, -2, 1]),
+    ([0, 0, 0, 0, 1, 1], [0, 0, 0, -1, 1, 1]),
+    ([0, 0, 0, 0, 0, -1], [0, 0, 0, 0, 1, -2]),
+    ([-1, 0, -1, 0, 0, 0], [-1, 0, -1, 1, 0, 0]),
+    ([1, 0, 1, 1, 0, 0], [1, -1, 0, 1, -1, 0]),
+    ([0, -1, 0, -1, 0, 0], [0, -1, 1, -1, 1, 0]),
+    ([0, 1, 1, 1, 0, 0], [-1, 1, 1, 0, -1, 0]),
+    ([0, 1, 0, 1, 1, 0], [0, 1, -1, 0, 1, -1]),
+    ([0, 0, -1, -1, 0, 0], [1, 1, -1, -1, 1, 0]),
+    ([0, 0, 1, 1, 1, 0], [-1, -1, 1, 0, 1, -1]),
+    ([0, 0, 0, -1, -1, 0], [0, 1, 1, -1, -1, 1]),
+    ([0, 0, 0, 1, 1, 1], [0, -1, -1, 1, 0, 1]),
+    ([0, 0, 0, 0, -1, -1], [0, 0, 0, 1, -1, -1]),
+    ([-1, 0, -1, -1, 0, 0], [-1, 1, 0, -1, 1, 0]),
+    ([1, 1, 1, 1, 0, 0], [1, 1, 0, 0, -1, 0]),
+    ([1, 0, 1, 1, 1, 0], [1, -1, 0, 0, 1, -1]),
+    ([0, -1, -1, -1, 0, 0], [1, -1, -1, 0, 1, 0]),
+    ([0, -1, 0, -1, -1, 0], [0, -1, 1, 0, -1, 1]),
+    ([0, 1, 1, 1, 1, 0], [-1, 1, 1, -1, 1, -1]),
+    ([0, 1, 0, 1, 1, 1], [0, 1, -1, 0, 0, 1]),
+    ([0, 0, -1, -1, -1, 0], [1, 1, -1, 0, -1, 1]),
+    ([0, 0, 1, 1, 1, 1], [-1, -1, 1, 0, 0, 1]),
+    ([0, 0, 0, -1, -1, -1], [0, 1, 1, -1, 0, -1]),
+    ([-1, -1, -1, -1, 0, 0], [-1, -1, 0, 0, 1, 0]),
+    ([-1, 0, -1, -1, -1, 0], [-1, 1, 0, 0, -1, 1]),
+    ([1, 1, 1, 1, 1, 0], [1, 1, 0, -1, 1, -1]),
+    ([1, 0, 1, 1, 1, 1], [1, -1, 0, 0, 0, 1]),
+    ([0, -1, -1, -1, -1, 0], [1, -1, -1, 1, -1, 1]),
+    ([0, -1, 0, -1, -1, -1], [0, -1, 1, 0, 0, -1]),
+    ([0, 1, 1, 2, 1, 0], [-1, 0, 0, 1, 0, -1]),
+    ([0, 1, 1, 1, 1, 1], [-1, 1, 1, -1, 0, 1]),
+    ([0, 0, -1, -1, -1, -1], [1, 1, -1, 0, 0, -1]),
+    ([-1, -1, -1, -1, -1, 0], [-1, -1, 0, 1, -1, 1]),
+    ([-1, 0, -1, -1, -1, -1], [-1, 1, 0, 0, 0, -1]),
+    ([1, 1, 1, 2, 1, 0], [1, 0, -1, 1, 0, -1]),
+    ([1, 1, 1, 1, 1, 1], [1, 1, 0, -1, 0, 1]),
+    ([0, -1, -1, -2, -1, 0], [1, 0, 0, -1, 0, 1]),
+    ([0, -1, -1, -1, -1, -1], [1, -1, -1, 1, 0, -1]),
+    ([0, 1, 1, 2, 1, 1], [-1, 0, 0, 1, -1, 1]),
+    ([-1, -1, -1, -2, -1, 0], [-1, 0, 1, -1, 0, 1]),
+    ([-1, -1, -1, -1, -1, -1], [-1, -1, 0, 1, 0, -1]),
+    ([1, 1, 2, 2, 1, 0], [0, 0, 1, 0, 0, -1]),
+    ([1, 1, 1, 2, 1, 1], [1, 0, -1, 1, -1, 1]),
+    ([0, -1, -1, -2, -1, -1], [1, 0, 0, -1, 1, -1]),
+    ([0, 1, 1, 2, 2, 1], [-1, 0, 0, 0, 1, 0]),
+    ([-1, -1, -2, -2, -1, 0], [0, 0, -1, 0, 0, 1]),
+    ([-1, -1, -1, -2, -1, -1], [-1, 0, 1, -1, 1, -1]),
+    ([1, 1, 2, 2, 1, 1], [0, 0, 1, 0, -1, 1]),
+    ([1, 1, 1, 2, 2, 1], [1, 0, -1, 0, 1, 0]),
+    ([0, -1, -1, -2, -2, -1], [1, 0, 0, 0, -1, 0]),
+    ([-1, -1, -2, -2, -1, -1], [0, 0, -1, 0, 1, -1]),
+    ([-1, -1, -1, -2, -2, -1], [-1, 0, 1, 0, -1, 0]),
+    ([1, 1, 2, 2, 2, 1], [0, 0, 1, -1, 1, 0]),
+    ([-1, -1, -2, -2, -2, -1], [0, 0, -1, 1, -1, 0]),
+    ([1, 1, 2, 3, 2, 1], [0, -1, 0, 1, 0, 0]),
+    ([-1, -1, -2, -3, -2, -1], [0, 1, 0, -1, 0, 0]),
+    ([1, 2, 2, 3, 2, 1], [0, 1, 0, 0, 0, 0]),
+    ([-1, -2, -2, -3, -2, -1], [0, -1, 0, 0, 0, 0])]
+
+@[expose] def e6Dot (g r : List ℤ) : ℤ := ∑ m : Fin Tag.E6.rank, g.getD m.val 0 * r.getD m.val 0
+
+@[expose] def e6EqL (s r : List ℤ) : Bool :=
+  (List.finRange Tag.E6.rank).all fun m => s.getD m.val 0 == r.getD m.val 0
+
+@[expose] def e6NegL (s r : List ℤ) : Bool :=
+  (List.finRange Tag.E6.rank).all fun m => s.getD m.val 0 == -r.getD m.val 0
+
+@[expose] def e6OkL (r s g : List ℤ) : Bool :=
+  (e6Dot g r == 0) || (e6Dot g r == 1) || (e6Dot g r == -1) || e6EqL s r || e6NegL s r
+
+theorem e6AllPairs : ∀ p ∈ e6RG, ∀ q ∈ e6RG, e6OkL p.1 q.1 q.2 = true := by decide +kernel
+
+theorem e6_len : Tag.E6.rootCertificate.roots.length = 72 := by decide +kernel
+
+theorem e6RG_len : e6RG.length = 72 := by decide +kernel
+
+theorem e6_root_eq : ∀ k < 72, ∀ m : Fin Tag.E6.rank,
+    Tag.E6.rootCertificate.root k m = (e6RG.getD k ([], [])).1.getD m.val 0 := by
+  decide +kernel
+
+theorem e6_lin_eq : ∀ k < 72, ∀ m : Fin Tag.E6.rank,
+    ∑ i, (e6RG.getD k ([], [])).1.getD i.val 0 * Tag.E6.symmetrizedCartan i m =
+      (e6RG.getD k ([], [])).2.getD m.val 0 := by
+  decide +kernel
+
+theorem iform_eq_lin_E6 (x y : Fin Tag.E6.rank → ℤ) :
+    iform x y = ∑ m, (∑ i, x i * Tag.E6.symmetrizedCartan i m) * y m := by
+  unfold iform
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun m _ => ?_
+  rw [Finset.sum_mul]
+
 theorem root_pair_cases_E6 : ∀ β ∈ rootFinset Tag.E6, ∀ γ ∈ rootFinset Tag.E6,
-    iform γ β = 0 ∨ γ = β ∨ γ = -β ∨ iform γ β = 1 ∨ iform γ β = -1 := by decide +kernel
+    iform γ β = 0 ∨ γ = β ∨ γ = -β ∨ iform γ β = 1 ∨ iform γ β = -1 := by
+  intro β hβ γ hγ
+  simp only [rootFinset, List.mem_toFinset, List.mem_map, List.mem_range, e6_len] at hβ hγ
+  obtain ⟨i, hi, rfl⟩ := hβ
+  obtain ⟨j, hj, rfl⟩ := hγ
+  have hi' : i < e6RG.length := by rw [e6RG_len]; exact hi
+  have hj' : j < e6RG.length := by rw [e6RG_len]; exact hj
+  rw [show Tag.E6.rootCertificate.root i = fun m : Fin Tag.E6.rank => (e6RG.getD i ([], [])).1.getD m.val 0 from
+      funext (e6_root_eq i hi),
+    show Tag.E6.rootCertificate.root j = fun m : Fin Tag.E6.rank => (e6RG.getD j ([], [])).1.getD m.val 0 from
+      funext (e6_root_eq j hj)]
+  have key := e6AllPairs _ (List.getElem_mem hi') _ (List.getElem_mem hj')
+  rw [← List.getD_eq_getElem _ ([], []) hi', ← List.getD_eq_getElem _ ([], []) hj'] at key
+  have hif : iform (fun m : Fin Tag.E6.rank => (e6RG.getD j ([], [])).1.getD m.val 0)
+      (fun m : Fin Tag.E6.rank => (e6RG.getD i ([], [])).1.getD m.val 0) =
+      e6Dot (e6RG.getD j ([], [])).2 (e6RG.getD i ([], [])).1 := by
+    rw [iform_eq_lin_E6]
+    unfold e6Dot
+    exact Finset.sum_congr rfl fun m _ => by rw [e6_lin_eq j hj m]
+  rw [hif]
+  simp only [e6OkL, Bool.or_eq_true, beq_iff_eq, e6EqL, e6NegL, List.all_eq_true,
+    List.mem_finRange, true_implies] at key
+  rcases key with (((h | h) | h) | h) | h
+  · exact Or.inl h
+  · exact Or.inr (Or.inr (Or.inr (Or.inl h)))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr h)))
+  · exact Or.inr (Or.inl (funext h))
+  · exact Or.inr (Or.inr (Or.inl (funext fun m => by rw [h m, Pi.neg_apply])))
 
 theorem iform_neg_right_E6 (x y : Fin Tag.E6.rank → ℤ) : iform x (-y) = -iform x y := by
   have := iform_smul_right (τ := Tag.E6) (-1) x y

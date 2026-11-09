@@ -7,6 +7,8 @@ public import Certificates.Data.Kernel.Spor.Raw
 public import Certificates.Kernel.Misc.Perm.J5B
 public import Certificates.Kernel.Census.J3.Text
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Fin76b.TS8D8Words
+public import CFSG.Certificates.Kernel.Common.ForallTree
+import CFSG.Certificates.Kernel.Common.Each
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -23,6 +25,9 @@ open CFSG.KC.TS8 CFSG.KC.S63K CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
 @[expose] noncomputable def PA2 : Nat := CertificateChecks.KernelMisc.J2F.JS.F 0
 @[expose] noncomputable def PB2 : Nat := CertificateChecks.KernelMisc.J2F.JS.F 1
 @[expose] noncomputable def PU2 : Nat := CertificateChecks.KernelMisc.J2F.JU.F 0
+@[expose] noncomputable def PAi2 : Nat := J2Inv 0
+@[expose] noncomputable def PBi2 : Nat := J2Inv 1
+@[expose] noncomputable def PUi2 : Nat := J2Inv 2
 @[expose] noncomputable def GW2 (k : Nat) : Nat := J2P k
 @[expose] noncomputable def EP2 (i : Nat) : Nat := J2P (3 + i)
 @[expose] noncomputable def W2 (i : Nat) : Nat := f8 J2T 0 i
@@ -34,13 +39,18 @@ open CFSG.KC.TS8 CFSG.KC.S63K CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
 
 theorem sz2 : szOK 315 9 = true := by quickRfl
 
-theorem perm2 : bAnd(permOK 315 9 (mask 9) (315 * 9) PA2 (pinvS 315 9 (mask 9) PA2),
-    bAnd(permOK 315 9 (mask 9) (315 * 9) PB2 (pinvS 315 9 (mask 9) PB2),
-      permOK 315 9 (mask 9) (315 * 9) PU2 (pinvS 315 9 (mask 9) PU2))) = true := by
+theorem perm2 : bAnd(permOK 315 9 (mask 9) (315 * 9) PA2 PAi2,
+    bAnd(permOK 315 9 (mask 9) (315 * 9) PAi2 PA2, bAnd(permOK 315 9 (mask 9) (315 * 9) PB2 PBi2,
+      bAnd(permOK 315 9 (mask 9) (315 * 9) PBi2 PB2,
+        permOK 315 9 (mask 9) (315 * 9) PU2 PUi2)))) = true := by
+  quickRfl
+
+theorem ginv2 : bAnd(Nat.beq (pcomp 315 9 (mask 9) PA2 PAi2) (pidn 315 9),
+    Nat.beq (pcomp 315 9 (mask 9) PB2 PBi2) (pidn 315 9)) = true := by
   quickRfl
 
 theorem word2 : (allN 3 fun k =>
-    Nat.beq (wordP 315 9 PA2 PB2 PU2 (j2SylowWords.getD k [])) (GW2 k)) = true := by
+    Nat.beq (wordPI 315 9 PA2 PB2 PAi2 PBi2 PU2 (j2SylowWords.getD k [])) (GW2 k)) = true := by
   quickRfl
 
 theorem len2 : Nat.beq j2SylowWords.length 3 = true := by decide +kernel
@@ -63,8 +73,7 @@ theorem run2 : Nat.beq (orbRunK W2 Pa2 La2 3 257 0 1) 256 = true := by quickRfl
 
 theorem mt2 : mtK MT2 W2 Pa2 La2 3 = true := by quickRfl
 
-theorem it2 : (allN 256 fun a => bAnd(Nat.blt (IT2 a) 256,
-    Nat.beq (pinvS 315 9 (mask 9) (EP2 a)) (EP2 (IT2 a)))) = true := by
+theorem it2 : (allN 256 fun a => bAnd(Nat.blt (IT2 a) 256, Nat.beq (MT2 a (IT2 a)) 0)) = true := by
   quickRfl
 
 theorem search2 : searchF (mF MT2) (iF IT2) = true := by quickRfl
@@ -74,6 +83,9 @@ theorem chain2 : bIf(hasChainF (mF MT2) 5 [0] (invsF (mF MT2)), false, true) = t
 @[expose] noncomputable def PA3 : Nat := CertificateChecks.KernelCensus.J3S.F 0
 @[expose] noncomputable def PB3 : Nat := CertificateChecks.KernelCensus.J3S.F 1
 @[expose] noncomputable def PU3 : Nat := CertificateChecks.KernelCensus.J3UT.F 0
+@[expose] noncomputable def PAi3 : Nat := J3Inv 0
+@[expose] noncomputable def PBi3 : Nat := J3Inv 1
+@[expose] noncomputable def PUi3 : Nat := J3Inv 2
 @[expose] noncomputable def GW3 (k : Nat) : Nat := J3P k
 @[expose] noncomputable def EP3 (i : Nat) : Nat := J3P (4 + i)
 @[expose] noncomputable def W3 (i : Nat) : Nat := f8 J3T 0 i
@@ -85,14 +97,43 @@ theorem chain2 : bIf(hasChainF (mF MT2) 5 [0] (invsF (mF MT2)), false, true) = t
 
 theorem sz3 : szOK 6156 13 = true := by quickRfl
 
-theorem perm3 : bAnd(permOK 6156 13 (mask 13) (6156 * 13) PA3 (pinvS 6156 13 (mask 13) PA3),
-    bAnd(permOK 6156 13 (mask 13) (6156 * 13) PB3 (pinvS 6156 13 (mask 13) PB3),
-      permOK 6156 13 (mask 13) (6156 * 13) PU3 (pinvS 6156 13 (mask 13) PU3))) = true := by
+theorem perm3 : bAnd(permOK 6156 13 (mask 13) (6156 * 13) PA3 PAi3,
+    bAnd(permOK 6156 13 (mask 13) (6156 * 13) PAi3 PA3,
+      bAnd(permOK 6156 13 (mask 13) (6156 * 13) PB3 PBi3,
+        bAnd(permOK 6156 13 (mask 13) (6156 * 13) PBi3 PB3,
+          permOK 6156 13 (mask 13) (6156 * 13) PU3 PUi3)))) = true := by
   quickRfl
 
-theorem word3 : (allN 4 fun k =>
-    Nat.beq (wordP 6156 13 PA3 PB3 PU3 (j3SylowWords.getD k [])) (GW3 k)) = true := by
+theorem ginv3 : bAnd(Nat.beq (pcomp 6156 13 (mask 13) PA3 PAi3) (pidn 6156 13),
+    Nat.beq (pcomp 6156 13 (mask 13) PB3 PBi3) (pidn 6156 13)) = true := by
   quickRfl
+
+@[expose] noncomputable def off3 (k : Nat) : Nat := ((j3SylowWords.take k).map (·.length + 1)).sum
+
+@[expose] noncomputable def pre3 (k j : Nat) : Nat := J3W (off3 k + j)
+
+@[expose] noncomputable def step3 (k j : Nat) : Bool :=
+  Nat.beq (pcomp 6156 13 (mask 13) (pre3 k j)
+    (letPI PA3 PB3 PAi3 PBi3 PU3 ((j3SylowWords.getD k []).getD j 0))) (pre3 k (j + 1))
+
+theorem ends3 : (allN 4 fun k => bAnd(Nat.beq (pre3 k 0) (pidn 6156 13),
+    Nat.beq (pre3 k (j3SylowWords.getD k []).length) (GW3 k))) = true := by
+  quickRfl
+
+@[expose] noncomputable def w3s0 (j : Nat) : Bool := step3 0 j
+@[expose] noncomputable def w3s1 (j : Nat) : Bool := step3 1 j
+@[expose] noncomputable def w3s2 (j : Nat) : Bool := step3 2 j
+@[expose] noncomputable def w3s3 (j : Nat) : Bool := step3 3 j
+
+#kc_each w3s0 0 24
+#kc_each w3s1 0 46
+#kc_each w3s2 0 73
+#kc_each w3s3 0 32
+
+#kc_forall_tree w3s0_all (fun j => w3s0 j = true) 24 CertificateChecks.KernelTS8.w3s0
+#kc_forall_tree w3s1_all (fun j => w3s1 j = true) 46 CertificateChecks.KernelTS8.w3s1
+#kc_forall_tree w3s2_all (fun j => w3s2 j = true) 73 CertificateChecks.KernelTS8.w3s2
+#kc_forall_tree w3s3_all (fun j => w3s3 j = true) 32 CertificateChecks.KernelTS8.w3s3
 
 theorem len3 : Nat.beq j3SylowWords.length 4 = true := by decide +kernel
 
@@ -106,27 +147,20 @@ theorem tree3 : (allN 255 fun c => bAnd(Nat.blt (Pa3 (c + 1)) (c + 1),
     bAnd(Nat.blt (La3 (c + 1)) 4, Nat.beq (W3 (4 * Pa3 (c + 1) + La3 (c + 1))) (c + 1)))) = true := by
   quickRfl
 
-@[expose] noncomputable def act3 (b : Nat) : Bool :=
-  allN 64 fun r => allN 4 fun k => bAnd(Nat.blt (W3 (4 * (64 * b + r) + k)) 256,
-    Nat.beq (pcomp 6156 13 (mask 13) (EP3 (64 * b + r)) (GW3 k)) (EP3 (W3 (4 * (64 * b + r) + k))))
+@[expose] noncomputable def act3h (h : Nat) : Bool :=
+  allN 4 fun k => bAnd(Nat.blt (W3 (4 * h + k)) 256,
+    Nat.beq (pcomp 6156 13 (mask 13) (EP3 h) (GW3 k)) (EP3 (W3 (4 * h + k))))
 
-theorem act3_0 : act3 0 = true := by quickRfl
-theorem act3_1 : act3 1 = true := by quickRfl
-theorem act3_2 : act3 2 = true := by quickRfl
-theorem act3_3 : act3 3 = true := by quickRfl
+#kc_each act3h 0 256
+
+#kc_forall_tree act3_all (fun h => act3h h = true) 256 CertificateChecks.KernelTS8.act3h
 
 theorem run3 : Nat.beq (orbRunK W3 Pa3 La3 4 257 0 1) 256 = true := by quickRfl
 
 theorem mt3 : mtK MT3 W3 Pa3 La3 4 = true := by quickRfl
 
-@[expose] noncomputable def it3 (b : Nat) : Bool :=
-  allN 64 fun r => bAnd(Nat.blt (IT3 (64 * b + r)) 256,
-    Nat.beq (pinvS 6156 13 (mask 13) (EP3 (64 * b + r))) (EP3 (IT3 (64 * b + r))))
-
-theorem it3_0 : it3 0 = true := by quickRfl
-theorem it3_1 : it3 1 = true := by quickRfl
-theorem it3_2 : it3 2 = true := by quickRfl
-theorem it3_3 : it3 3 = true := by quickRfl
+theorem it3 : (allN 256 fun a => bAnd(Nat.blt (IT3 a) 256, Nat.beq (MT3 a (IT3 a)) 0)) = true := by
+  quickRfl
 
 theorem search3 : searchF (mF MT3) (iF IT3) = true := by quickRfl
 

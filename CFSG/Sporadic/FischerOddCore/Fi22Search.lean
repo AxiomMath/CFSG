@@ -51,7 +51,7 @@ theorem fi22K0_cover
   obtain ⟨h, hh, k, hk, heq⟩ := exists_mul_eq_acc_of_searchOK (Pool := fi22SearchPool)
     (Acc := fi22SearchAcc) (H := fi22H 0) fi22Nbr_facts.point
     (rep_fi22ExtRep (k := 0) (by norm_num))
-    fi22Cent_check.2.2.2.2.2.2.2.2.2.2.2
+    fi22Cent_check.2.2.2.2.2.2.2.2.2.2
     (fun j hj => ⟨rep_fi22SearchPool (by omega), fi22SearchPool_mem (by omega)⟩)
     (fun h hh => fi22K_admissible (fi22H0_le_K0 hh))
     (fun i hi => rep_fi22SearchAcc (by omega)) (by norm_num) fi22Search_check hadm hcomm

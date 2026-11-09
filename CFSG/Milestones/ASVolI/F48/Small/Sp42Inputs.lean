@@ -117,22 +117,37 @@ open Equiv in
       ∀ l ∈ burnsideF48s_sp42Word s, l.1 ≠ 4) ∧
   (∀ s ∈ burnsideF48s_sp42CoverB ++ burnsideF48s_sp42CandB ++ burnsideF48s_sp42RelB,
       ∀ l ∈ burnsideF48s_sp42Word s, l.1 ≠ 3) ∧
-  (∀ x : Equiv.Perm (Fin 6), x * burnsideF48s_sp42e1 = burnsideF48s_sp42e1 * x →
-    ¬ x * burnsideF48s_sp42e2 = burnsideF48s_sp42e2 * x → x * x = 1 →
-    ∀ y : Equiv.Perm (Fin 6), y * burnsideF48s_sp42e2 = burnsideF48s_sp42e2 * y →
-    ¬ y * burnsideF48s_sp42e1 = burnsideF48s_sp42e1 * y → y * y = 1 →
-    ∃ g : Equiv.Perm (Fin 6), g * burnsideF48s_sp42e1 = burnsideF48s_sp42e1 * g ∧
-      g * burnsideF48s_sp42e2 = burnsideF48s_sp42e2 * g ∧ ∃ j < 4,
-      g * x * g⁻¹ = burnsideF48s_sp42Ev (burnsideF48s_sp42CandA.getD j "") ∧
-      g * y * g⁻¹ = burnsideF48s_sp42Ev (burnsideF48s_sp42CandB.getD j "")) ∧
+  (∀ s ∈ burnsideF48s_sp42CoverA,
+    ¬ burnsideF48s_sp42Ev s * burnsideF48s_sp42e2 = burnsideF48s_sp42e2 * burnsideF48s_sp42Ev s →
+    burnsideF48s_sp42Ev s * burnsideF48s_sp42Ev s = 1 →
+    ∀ t ∈ burnsideF48s_sp42CoverB,
+    ¬ burnsideF48s_sp42Ev t * burnsideF48s_sp42e1 = burnsideF48s_sp42e1 * burnsideF48s_sp42Ev t →
+    burnsideF48s_sp42Ev t * burnsideF48s_sp42Ev t = 1 →
+    ∃ r ∈ burnsideF48s_sp42CoverA,
+      burnsideF48s_sp42Ev r * burnsideF48s_sp42e1 = burnsideF48s_sp42e1 * burnsideF48s_sp42Ev r ∧
+      burnsideF48s_sp42Ev r * burnsideF48s_sp42e2 = burnsideF48s_sp42e2 * burnsideF48s_sp42Ev r ∧
+      ∃ j < 4,
+      burnsideF48s_sp42Ev r * burnsideF48s_sp42Ev s * (burnsideF48s_sp42Ev r)⁻¹ =
+        burnsideF48s_sp42Ev (burnsideF48s_sp42CandA.getD j "") ∧
+      burnsideF48s_sp42Ev r * burnsideF48s_sp42Ev t * (burnsideF48s_sp42Ev r)⁻¹ =
+        burnsideF48s_sp42Ev (burnsideF48s_sp42CandB.getD j "")) ∧
   burnsideF48s_ev burnsideF48s_sp42L (burnsideF48s_sp42Ext 1) = 1 ∧
   (∀ s ∈ burnsideF48s_sp42RelUV, burnsideF48s_sp42EvUV burnsideF48s_sp42UV s = 1) ∧
   (∀ s ∈ burnsideF48s_sp42WG1, burnsideF48s_sp42EvUV burnsideF48s_sp42UV s * burnsideF48s_sp42e1 =
       burnsideF48s_sp42e1 * burnsideF48s_sp42EvUV burnsideF48s_sp42UV s) ∧
   (∀ s ∈ burnsideF48s_sp42WG2, burnsideF48s_sp42EvUV burnsideF48s_sp42UV s * burnsideF48s_sp42e2 =
       burnsideF48s_sp42e2 * burnsideF48s_sp42EvUV burnsideF48s_sp42UV s) ∧
-  (∀ h₁ h₂ : Equiv.Perm (Fin 6), burnsideF48s_sp42AutCond h₁ h₂ = true →
-    ∃ g : Equiv.Perm (Fin 6), g * burnsideF48s_sp42UV 0 * g⁻¹ = h₁ ∧
-      g * burnsideF48s_sp42UV 1 * g⁻¹ = h₂)
+  (∀ s ∈ burnsideF48s_sp42CoverA, ¬ burnsideF48s_sp42Ev s = 1 →
+    burnsideF48s_sp42Ev s * burnsideF48s_sp42Ev s = 1 →
+    ∀ t ∈ burnsideF48s_sp42CoverB, ¬ burnsideF48s_sp42Ev t * burnsideF48s_sp42Ev t = 1 →
+    ¬ burnsideF48s_sp42Ev t * burnsideF48s_sp42Ev t * burnsideF48s_sp42Ev t = 1 →
+    ¬ burnsideF48s_sp42Ev t * burnsideF48s_sp42Ev t * burnsideF48s_sp42Ev t *
+      burnsideF48s_sp42Ev t = 1 →
+    burnsideF48s_sp42AutCond (burnsideF48s_sp42Ev s) (burnsideF48s_sp42Ev t) = true →
+    ∃ r ∈ burnsideF48s_sp42CoverA,
+      burnsideF48s_sp42Ev r * burnsideF48s_sp42UV 0 * (burnsideF48s_sp42Ev r)⁻¹ =
+        burnsideF48s_sp42Ev s ∧
+      burnsideF48s_sp42Ev r * burnsideF48s_sp42UV 1 * (burnsideF48s_sp42Ev r)⁻¹ =
+        burnsideF48s_sp42Ev t)
 
 end CFSG.ASVolI

@@ -65,8 +65,8 @@ open CFSG.Monster.AxisCount
   (fun L Xp Xq =>
     (fun d2 U =>
       (Nat.lor (negMN SX n F.sgWLo (Nat.land W L))
-        (Nat.lor (rotN SX n (dvN n (nat_lit 3)) (negMN SX n F.doct (netN SX n (nat_lit 17) F.pi6
-            (wht6N n lg (Nat.land X (repN SX n regOct))))))
+        (Nat.lor (Nat.land (rotN SX n (dvN n (nat_lit 3)) (negMN SX n F.doct
+            (netN SX n (nat_lit 17) F.pi6 (wht6N n lg X)))) (repN SX n regOct))
           (Nat.lor (expandN n (nat_lit 114688) (Nat.land (addN SA n lg A d2) (repN SA n upA)))
             (expandN n (nat_lit 115712)
               (Nat.land (addN SA n lg (negMN SA n upA A) d2) (repN SA n upA))))),

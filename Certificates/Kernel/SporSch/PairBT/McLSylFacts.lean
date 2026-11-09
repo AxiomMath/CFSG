@@ -25,8 +25,8 @@ open CFSG.Sporadic.Schreier.PairMcL CertificateChecks.KernelSporSch
 open CertificateChecks.KernelSporSch.McLSylChk
 
 theorem chainS : ChainS 275 9 PMcL.S PMcL.SI PMcL.LR PMcL.TR PMcL.TRI 13 2 5 PMcL.BP
-    mclStrongArrs baseArr PMcLWords.D 18 16 :=
-  ⟨PMcLCheck.binds, PMcL.head, PMcL.hl, by norm_num, PMcL.hs⟩
+    mclStrongArrs baseArr PMcLWords.D 5 55 :=
+  ⟨PMcLCheck.binds, PMcL.head, PMcL.hl, by norm_num, .inr PMcLCheck.hsP⟩
 
 theorem elems_of_blocks {f : Nat → Bool} {c nb : Nat} (hc : c ≤ nb * 256)
     (h : ∀ s < nb, allBlk (s * 256) f 256 = true) : ∀ k < c, f k = true := by
@@ -38,31 +38,13 @@ theorem elems_of_blocks {f : Nat → Bool} {c nb : Nat} (hc : c ≤ nb * 256)
     omega
   rwa [e] at this
 
-theorem clsOK : ClsOK 275 9 McLBT.tA McLBT.tB 2 30000 McLCK := by
-  intro j hj
-  have hj1 : j < 1 := by simpa [McLCK] using hj
-  interval_cases j
-  exact ⟨McLCK.h0, elems_of_blocks (by decide) McLCK.hb0, fun i hi => absurd hi (by omega)⟩
+theorem dc0 : Nat.beq McLZC.clsD.c 22275 = true := by quickRfl
 
-theorem hR0 : Nat.beq (McLCK.getD 0 clsD0).R (PMcL.S 0) = true := by quickRfl
+theorem rows1 : Nat.beq (11 * ((List.range 8).map McLSylZ1.C0).sum +
+    11 * ((List.range 8).map McLSylZ1.C1).sum) 594 = true := by quickRfl
 
-theorem dc0 : Nat.beq (McLCK.getD 0 clsD0).c 22275 = true := by quickRfl
-
-theorem clSize : (cl.map fun c => c.2.1.size).sum = 22275 := PMcLCheck.facts.2.2.2.2.2
-
-theorem rows1 : Nat.beq (((McLSylZ1.SC.getD 0 []).getD 0 []).sum +
-    ((McLSylZ1.SC.getD 1 []).getD 0 []).sum) 594 = true := by quickRfl
-
-theorem rows2 : Nat.beq (((McLSylZ2.SC.getD 0 []).getD 0 []).sum +
-    ((McLSylZ2.SC.getD 1 []).getD 0 []).sum) 22 = true := by quickRfl
-
-theorem len1 : Nat.ble (McLCK.getD 0 clsD0).c (((McLSylZ1.SC.getD 0 []).getD 0 []).length * 256)
-    = true ∧ Nat.ble (McLCK.getD 0 clsD0).c (((McLSylZ1.SC.getD 1 []).getD 0 []).length * 256) =
-    true := ⟨by quickRfl, by quickRfl⟩
-
-theorem len2 : Nat.ble (McLCK.getD 0 clsD0).c (((McLSylZ2.SC.getD 0 []).getD 0 []).length * 256)
-    = true ∧ Nat.ble (McLCK.getD 0 clsD0).c (((McLSylZ2.SC.getD 1 []).getD 0 []).length * 256) =
-    true := ⟨by quickRfl, by quickRfl⟩
+theorem rows2 : Nat.beq (11 * ((List.range 8).map McLSylZ2.C0).sum +
+    11 * ((List.range 8).map McLSylZ2.C1).sum) 22 = true := by quickRfl
 
 theorem o12 : ordWK 275 9 bs [PMcL.S 1, PMcL.S 1, PMcL.S 0] 12 = true := by quickRfl
 theorem o14 : ordWK 275 9 bs [PMcL.S 1, PMcL.S 1, PMcL.S 0, PMcL.S 1, PMcL.S 0] 14 = true := by

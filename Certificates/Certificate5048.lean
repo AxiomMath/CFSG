@@ -3,6 +3,7 @@ module
 public import CFSG.GH74.GLS.C3.Layer2.L5B5
 public import CFSG.GH74.GLS.C3.Prop121.ModelFiveS
 public import CFSG.GH74.GLS.C3.Layer2.L5B12Inputs
+import CFSG.Certificates.Kernel.L5.Fast
 meta import Mathlib.GroupTheory.SpecificGroups.Alternating
 meta import CFSG.GH74.GLS.C3.Prop121.ModelFive
 meta import CFSG.GH74.GLS.C3.Prop121.ModelFiveS
@@ -36,11 +37,36 @@ open Equiv Perm Subgroup CFSG.GH74.GLS.C3.Prop121 CFSG.GH74.GLS.C3.Layer2 CFSG.G
 
 set_option maxRecDepth 100000
 
+private instance small9 : CFSG.Certificates.Kernel.PkCV.Small 9 := ⟨by decide⟩
+private instance small54 : CFSG.Certificates.Kernel.PkCV.Small (5 + 4) := ⟨by decide⟩
+
+open CFSG.Certificates.Kernel in
+private theorem X0b_ev (y : PkCV.CV 9) : X0b (PkCV.ev y) =
+    (Pml ++ Qml).any fun p => decide (p ≠ 1) && decide (PkCV.cOf (emb 5 p) = y) := by
+  unfold X0b
+  congr 1
+  funext p
+  rw [← PkCV.decide_ev_eq (PkCV.cOf (emb 5 p)) y, PkCV.ev_cOf]
+
+open CFSG.Certificates.Kernel in
+private theorem mg1_cert_chkC : ((S0l.map PkCV.cOf).all fun Y => (S0l.map PkCV.cOf).all fun E =>
+    imp (decide (Y * Y = 1) && decide (E * E = 1) && decide ((Y * E) ^ 4 = 1) &&
+      !decide ((Y * E) ^ 2 = 1) && !decide ((Y * E) ^ 2 = PkCV.cOf vS0))
+      ((Pml ++ Qml).any (fun p => !decide (p = 1) && decide (PkCV.cOf (emb 5 p) = Y)) ||
+        (Pml ++ Qml).any (fun p => !decide (p = 1) && decide (PkCV.cOf (emb 5 p) = PkCV.cOf vS0 * Y)) ||
+        (Pml ++ Qml).any (fun p => !decide (p = 1) && decide (PkCV.cOf (emb 5 p) = E)) ||
+        (Pml ++ Qml).any (fun p => !decide (p = 1) && decide (PkCV.cOf (emb 5 p) = PkCV.cOf vS0 * E)))) = true := by
+  decide +kernel
+
 private theorem mg1_cert_chk_0 : S0l.all (fun Y => S0l.all fun E =>
     imp (decide (Y * Y = 1) && decide (E * E = 1) && decide ((Y * E) ^ 4 = 1) &&
       decide ((Y * E) ^ 2 ≠ 1) && decide ((Y * E) ^ 2 ≠ vS0))
       (X0b Y || X0b (vS0 * Y) || X0b E || X0b (vS0 * E))) = true := by
-  decide +kernel
+  rw [← CFSG.Certificates.Kernel.PkCV.map_cOf_ev S0l, ← CFSG.Certificates.Kernel.PkCV.ev_cOf vS0]
+  simp only [List.all_map, Function.comp_def, CFSG.Certificates.Kernel.PkCV.ev_mul',
+    CFSG.Certificates.Kernel.PkCV.ev_pow', CFSG.Certificates.Kernel.PkCV.one_eq_ev,
+    CFSG.Certificates.Kernel.PkCV.decide_ev_eq, ne_eq, decide_not, X0b_ev]
+  exact mg1_cert_chkC
 
 private theorem exists_yE_chk_1 : allT5.all (fun t₀ =>
     imp (decide ((emb 5 t₀ * a0perm 5) * (emb 5 t₀ * a0perm 5) = 1))

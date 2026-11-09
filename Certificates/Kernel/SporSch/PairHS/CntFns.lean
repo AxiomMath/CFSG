@@ -53,22 +53,6 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.SporSch CertificateChecks.KernelSp
 @[expose] noncomputable def scAt (X : Nat → Nat) (c : Nat) (Z ZI : Nat → Nat) (q : Nat) : Nat :=
   scanHSR 12 PHST.NR PHST.NR PHST.LT PHST.PT bs c X Z ZI (Nat.mul q (nat_lit 512)) (nat_lit 512)
 
-@[expose] noncomputable def scA (g r : Nat) : Bool :=
-  Nat.beq (scAt PHSCl.XA PHST.c zP ziP (Nat.add (Nat.mul g 4) r))
-    (PHSN.SC0 (Nat.add (Nat.mul g 4) r))
-
-@[expose] noncomputable def scB (g r : Nat) : Bool :=
-  Nat.beq (scAt PHSCl.XB PHSU.c zP ziP (Nat.add (Nat.mul g 4) r))
-    (PHSN.SC1 (Nat.add (Nat.mul g 4) r))
-
-@[expose] noncomputable def scAI (g r : Nat) : Bool :=
-  Nat.beq (scAt PHSCl.XA PHST.c ziP zP (Nat.add (Nat.mul g 4) r))
-    (PHSN.SC2 (Nat.add (Nat.mul g 4) r))
-
-@[expose] noncomputable def scBI (g r : Nat) : Bool :=
-  Nat.beq (scAt PHSCl.XB PHSU.c ziP zP (Nat.add (Nat.mul g 4) r))
-    (PHSN.SC3 (Nat.add (Nat.mul g 4) r))
-
 @[expose] noncomputable def invA (g r : Nat) : Bool :=
   allBlk (Nat.mul (Nat.add (Nat.mul g 4) r) (nat_lit 512))
     (invAt 12 PHST.NR PHST.NR PHST.LT PHST.PT PHSC.LR bs PHST.c PHSCl.XA) (nat_lit 512)

@@ -14,11 +14,11 @@ open CFSG.Certificates CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Monster
 
 theorem rep_fi22CentPerm
     {L : ℕ} (hL : L < 306) : Rep 3510 (fi22CentArr L) (fi22CentPerm L) :=
-  (rep_permOfArr (fi22Cent_check.2.1 L hL)).1
+  (rep_permOfArr (fi22Cent_check.1 L hL)).1
 
 theorem rep_fi22CentPerm_inv {L : ℕ} (hL : L < 306) :
     Rep 3510 (invCand 3510 (fi22CentArr L)) (fi22CentPerm L)⁻¹ :=
-  (rep_permOfArr (fi22Cent_check.2.1 L hL)).2
+  (rep_permOfArr (fi22Cent_check.1 L hL)).2
 
 @[expose] def fi22CentCase (c : ℕ) : ℕ := fi22CentCases.getD c 0
 
@@ -41,7 +41,7 @@ abbrev fi22CentK (c : ℕ) : ℕ := min (fi22CentGenCount.getD c 0) (fi22CentStr
 theorem fi22CentK_eq
     {c : ℕ} (hc : c < 5) : fi22CentK c = fi22CentGenCount.getD c 0 := by
   rw [fi22CentK, fi22CentStrong, Array.size_ofFn]
-  obtain ⟨-, -, -, -, hs, hg, -⟩ := fi22Cent_check
+  obtain ⟨-, -, -, hs, hg, -⟩ := fi22Cent_check
   rw [hs, hg]
   interval_cases c <;> rfl
 
@@ -52,7 +52,7 @@ theorem fi22CentStrong_get {c : ℕ} (_hc : c < 5) {j : ℕ}
 
 theorem fi22CentStrong_line_lt {c : ℕ} (hc : c < 5) {j : ℕ}
     (hj : j < fi22CentStrongCount.getD c 0) : fi22CentStrongStart.getD c 0 + j < 306 := by
-  obtain ⟨-, -, -, hst, hs, -⟩ := fi22Cent_check
+  obtain ⟨-, -, hst, hs, -⟩ := fi22Cent_check
   rw [hst]
   rw [hs] at hj
   interval_cases c <;> simp at hj ⊢ <;> omega
@@ -70,14 +70,14 @@ theorem fi22H_eq_closure {c : ℕ} (hc : c < 5) :
   · rintro ⟨j, hj, rfl⟩
     refine ⟨j, hj, ?_⟩
     have hjs : j < fi22CentStrongCount.getD c 0 := by
-      obtain ⟨-, -, -, -, hs, hg, -⟩ := fi22Cent_check
+      obtain ⟨-, -, -, hs, hg, -⟩ := fi22Cent_check
       rw [hs]; rw [hg] at hj
       interval_cases c <;> simp at hj ⊢ <;> omega
     rw [fi22CentPerm, fi22CentStrong_get hc hjs]
   · rintro ⟨j, hj, rfl⟩
     refine ⟨j, hj, ?_⟩
     have hjs : j < fi22CentStrongCount.getD c 0 := by
-      obtain ⟨-, -, -, -, hs, hg, -⟩ := fi22Cent_check
+      obtain ⟨-, -, -, hs, hg, -⟩ := fi22Cent_check
       rw [hs]; rw [hg] at hj
       interval_cases c <;> simp at hj ⊢ <;> omega
     rw [fi22CentPerm, fi22CentStrong_get hc hjs]

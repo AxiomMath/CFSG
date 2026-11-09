@@ -3,6 +3,7 @@ module
 public import CFSG.RankThree.PartTwo.Sec14.Ronan1422SKFBase
 public import CFSG.RankThree.PartTwo.Sec14.Ronan1422SDefs
 public import CFSG.Sporadic.Schreier.PairJ3CertBase
+public import CFSG.RankThree.PartTwo.Sec14.Ronan1422SPackK
 
 public section
 
@@ -11,10 +12,26 @@ namespace CFSG.RankThree.PartTwo.Sec14.Ronan1422S
 open Equiv Equiv.Perm Subgroup
 open CFSG.RankThree.PartTwo.Sec4.Item434AltPerm
 
+@[expose] def vec2L : List (Fin 2 → ZMod 3) :=
+  [![0, 0], ![0, 1], ![0, 2], ![1, 0], ![1, 1], ![1, 2], ![2, 0], ![2, 1], ![2, 2]]
+
+theorem vec2L_complete : ∀ v : Fin 2 → ZMod 3, v ∈ vec2L := by decide
+
+theorem vec2L_enc :
+    (vec2L.map (vecPerm2 6)).map CFSG.Permutation.FinPack.enc = Ronan1422SPackK.VL := by
+  decide +kernel
+
 theorem pow_four_conj_vecPerm2_of_normalizes : ∀ σ : Perm (Fin 6),
     (∀ v : Fin 2 → ZMod 3, ∃ w, vecPerm2 6 w = σ * vecPerm2 6 v * σ⁻¹) →
     ∀ v : Fin 2 → ZMod 3, σ ^ 4 * vecPerm2 6 v * (σ ^ 4)⁻¹ = vecPerm2 6 v := by
-  decide +kernel
+  intro σ hσ v
+  refine Ronan1422SPackK.pow_four_centralizes vec2L_enc σ ?_ _
+    (List.mem_map_of_mem (vec2L_complete v))
+  intro x hx
+  obtain ⟨u, -, rfl⟩ := List.mem_map.1 hx
+  obtain ⟨w, hw⟩ := hσ u
+  rw [← hw]
+  exact List.mem_map_of_mem (vec2L_complete w)
 
 theorem not_isS6Type_of_pow_four_inv {K : Type*} [Group K] {α : MulAut K} {B : Subgroup K}
     (hB : Nat.card B = 9) (hB3 : ∀ b ∈ B, b ^ 3 = 1) (hαB : ∀ b ∈ B, α b ∈ B)

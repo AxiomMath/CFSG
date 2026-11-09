@@ -1,19 +1,18 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24G2d.Data
 public import Certificates.Data.Kernel.Spor.Fi24G2e
 
-#kc_repo #kc_json_family_gz CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/leaves.json.gz" 716 6379849587105100716
+#kc_repo #kc_json_family CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/leaves.json" 716 6379849587105100716
   (LW0_ : List Nat) (LE0_ : Nat) (LO0_ : Nat) (OWN : List Nat) (OWV : List Nat) (LW1_ : List Nat)
   (LE1_ : Nat) (LO1_ : Nat)
-#kc_repo #kc_json_gz CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/leaves.json.gz" 716 6379849587105100716
+#kc_repo #kc_json CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/leaves.json" 716 6379849587105100716
   (NODE : List Nat)
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24G2e LTB "Certificates/Kernel/Sporadic/Fi24G2e/data/ltab.bin.gz" 1280 4 107520 8031026484664664322
+#kc_repo #kc_ktree CFSG.KD.Fi24G2e LTB "Certificates/Kernel/Sporadic/Fi24G2e/data/ltab.bin" 1280 4 107520 8031026484664664322
 #kc_listDispatch CFSG.KD.Fi24G2e LWL0 LW0_ 6
 #kc_listDispatch CFSG.KD.Fi24G2e LWL1 LW1_ 6
 #kc_select CFSG.KD.Fi24G2e LEN0 LE0_ 6

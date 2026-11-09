@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.Sporadic.OddCore.Co3Fus
+public import Certificates.Kernel.Misc.Perm.CharsLits
 public import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Co3Check
 meta import CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Co3Check
 import CFSG.Certificates.Kernel.Common.Harness
@@ -10,7 +11,7 @@ public section
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
 
-#ks_chars CertificateChecks.KernelSpor.Co3HT
+#ks_chars_lits CertificateChecks.KernelSpor.Co3HT
   CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.co3HeisHex
 #kmisc_hexflat CertificateChecks.KernelSpor.Co3HT
   CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.co3HeisHex 3 276 9 4

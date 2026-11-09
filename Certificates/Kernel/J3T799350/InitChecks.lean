@@ -11,8 +11,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ3T799350
-  "Certificates/Kernel/J3T799350/data/init.json.gz" 534 5021248670786527339 (iwords : List (List Nat))
+#kc_repo #kc_json CertificateChecks.KernelJ3T799350
+  "Certificates/Kernel/J3T799350/data/init.json" 534 5021248670786527339 (iwords : List (List Nat))
 
 namespace CertificateChecks.KernelJ3T799350
 

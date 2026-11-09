@@ -64,7 +64,7 @@ theorem ordCB : ordK CCB.LR 4 = 21504 := by
 theorem chainCB : ChainK 24 5 cbGen cbChainW (#v[0, 1, 2, 3] : Vector (Fin 24) 4)
     CCB.S CCB.SI CCB.LR CCB.TR CCB.TRI 8 CCB.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, cgens_img rfl gensCB, by decide, CCB.head,
-    CCB.hl, by norm_num, CCB.hs⟩
+    CCB.hl, by norm_num, .inl CCB.hs⟩
 
 theorem g1 : (invOK 24 gT (invT 24 gT) && (conjAll gT tT).all (inSpan 24 etT)) = true := by
   have hg := ppw' gW

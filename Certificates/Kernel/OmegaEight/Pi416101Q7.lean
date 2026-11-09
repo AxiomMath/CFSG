@@ -1,13 +1,18 @@
 module
 
-public import Certificates.Kernel.OmegaEight.Pi416101K
-import CFSG.Certificates.Kernel.Common.Each
+public import Certificates.Kernel.OmegaEight.Pi416101S
 
 public section
 
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
 
-#kc_each CertificateChecks.KernelO8.q8Part 7 8
+namespace CertificateChecks.KernelO8
+
+theorem q8Part7 : q8Part (nat_lit 7) = true := by
+  rw [q8Part_eqS]
+  decide +kernel
+
+end CertificateChecks.KernelO8
 
 end

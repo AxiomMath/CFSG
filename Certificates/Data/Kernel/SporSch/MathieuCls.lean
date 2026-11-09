@@ -29,9 +29,8 @@ structure ClsD where
     bAnd(Nat.blt (d.IB k) d.c, bAnd(Nat.beq (conjK n w m B Bi x) (d.ST (d.IB k)),
     bIf(Nat.beq k d.r, Nat.beq (d.DP k) (nat_lit 0),
       bAnd(Nat.blt (d.PA k) d.c, bAnd(Nat.blt (d.DP (d.PA k)) (d.DP k),
-        Nat.beq x (nIf(Nat.beq (d.LB k) (nat_lit 0), conjK n w m A Ai (d.ST (d.PA k)),
-          conjK n w m B Bi (d.ST (d.PA k))
-        )))))))))))), true)
+        Nat.beq (nIf(Nat.beq (d.LB k) (nat_lit 0), d.IA (d.PA k), d.IB (d.PA k))) k
+        )))))))))), true)
 
 @[expose] noncomputable def clsHdK (n w m : Nat) (mx cap : Nat) (d : ClsD) : Bool :=
   bAnd(Nat.blt (nat_lit 0) d.c, bAnd(Nat.ble d.c cap, bAnd(Nat.blt d.r d.c,

@@ -75,33 +75,73 @@ noncomputable abbrev A2X' : List Nat := CFSG.KC.LQT.S.filtL S0E pA2
 noncomputable abbrev F1M : Nat := fixMaskW 315 9 A1E
 noncomputable abbrev F2M : Nat := fixMaskW 315 9 A2X'
 
-theorem gS1 : CFSG.KC.LQT.T2.monoK (CFSG.KC.LQT.Syl.pairUpK S0P) = true := by quickRfl
-theorem gS2 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN S0E) = true := by quickRfl
-theorem gS3 : closedE S0G S0E = true := by quickRfl
-theorem gS4 : depthOK S0G S0P 40 = true := by quickRfl
-theorem gS5 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) S0E)) = true := by
-  quickRfl
-theorem gA1 : CFSG.KC.LQT.T2.monoK (CFSG.KC.LQT.Syl.pairUpK A2P) = true := by quickRfl
-theorem gA2 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN A2E) = true := by quickRfl
-theorem gA3 : closedE A2G A2E = true := by quickRfl
-theorem gA4 : depthOK A2G A2P 40 = true := by quickRfl
-theorem gA5 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) A2E)) = true := by
-  quickRfl
-theorem gQ1 : CFSG.KC.LQT.T2.monoK (CFSG.KC.LQT.Syl.pairUpK Q1P) = true := by quickRfl
-theorem gQ2 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN Q1E) = true := by quickRfl
-theorem gQ3 : closedE Q1G Q1E = true := by quickRfl
-theorem gQ4 : depthOK Q1G Q1P 40 = true := by quickRfl
-theorem gQ5 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) Q1E)) = true := by
+theorem andB_sides {a b : Bool} (h : andB a b = true) : a = true ∧ b = true := by
+  cases a
+  · exact absurd h Bool.false_ne_true
+  · exact ⟨rfl, h⟩
+
+theorem kAll : andB (CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN S0E))
+    (andB (closedE S0G S0E)
+    (andB (CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) S0E)))
+    (andB (CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN A2E))
+    (andB (closedE A2G A2E)
+    (andB (CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) A2E)))
+    (andB (CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN Q1E))
+    (andB (closedE Q1G Q1E)
+    (andB (CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) Q1E)))
+    (andB (Nat.beq (CFSG.KC.LQT.S.lenL S0E) 128)
+    (andB (CFSG.KC.LQT.S.allBs [Nat.beq (CFSG.KC.LQT.S.lenL A1E) 2,
+      Nat.beq (CFSG.KC.LQT.S.lenL Z2E) 4, Nat.beq (CFSG.KC.LQT.S.lenL A2X') 64])
+    (andB (Nat.beq (CFSG.KC.LQT.S.lenL Q1E) 32)
+    (andB (CFSG.KC.LQT.P.allL S0E (fun x => Nat.beq (sqW 315 9 x 3) (oneW 315 9)))
+    (andB (CFSG.KC.LQT.P.allL A2G (fun a => CFSG.KC.LQT.S.memL a A2X'))
+      (CFSG.KC.LQT.P.allL A2X' (fun a => CFSG.KC.LQT.S.memL a A2E))))))))))))))) = true := by
   quickRfl
 
-theorem lS : Nat.beq (CFSG.KC.LQT.S.lenL S0E) 128 = true := by quickRfl
+theorem gS1 : CFSG.KC.LQT.T2.monoK (CFSG.KC.LQT.Syl.pairUpK S0P) = true := by quickRfl
+theorem gS2 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN S0E) = true := (andB_sides kAll).1
+theorem gS3 : closedE S0G S0E = true := (andB_sides (andB_sides kAll).2).1
+theorem gS4 : depthOK S0G S0P 40 = true := by quickRfl
+theorem gS5 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) S0E)) = true :=
+  (andB_sides (andB_sides (andB_sides kAll).2).2).1
+theorem gA1 : CFSG.KC.LQT.T2.monoK (CFSG.KC.LQT.Syl.pairUpK A2P) = true := by quickRfl
+theorem gA2 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN A2E) = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides kAll).2).2).2).1
+theorem gA3 : closedE A2G A2E = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).1
+theorem gA4 : depthOK A2G A2P 40 = true := by quickRfl
+theorem gA5 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) A2E)) = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).1
+theorem gQ1 : CFSG.KC.LQT.T2.monoK (CFSG.KC.LQT.Syl.pairUpK Q1P) = true := by quickRfl
+theorem gQ2 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN Q1E) = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    kAll).2).2).2).2).2).2).1
+theorem gQ3 : closedE Q1G Q1E = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides kAll).2).2).2).2).2).2).2).1
+theorem gQ4 : depthOK Q1G Q1P 40 = true := by quickRfl
+theorem gQ5 : CFSG.KC.LQT.T2.sincK (CFSG.KC.LQT.Syl.sortN (List.map (hkW 315 9) Q1E)) = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).1
+
+theorem lS : Nat.beq (CFSG.KC.LQT.S.lenL S0E) 128 = true := (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).2).1
 theorem lA : CFSG.KC.LQT.S.allBs [Nat.beq (CFSG.KC.LQT.S.lenL A1E) 2,
-    Nat.beq (CFSG.KC.LQT.S.lenL Z2E) 4, Nat.beq (CFSG.KC.LQT.S.lenL A2X') 64] = true := by quickRfl
-theorem lQ : Nat.beq (CFSG.KC.LQT.S.lenL Q1E) 32 = true := by quickRfl
-theorem kSe : CFSG.KC.LQT.P.allL S0E (fun x => Nat.beq (sqW 315 9 x 3) (oneW 315 9)) = true := by
-  quickRfl
-theorem kA2g : CFSG.KC.LQT.P.allL A2G (fun a => CFSG.KC.LQT.S.memL a A2X') = true := by quickRfl
-theorem kA2c : CFSG.KC.LQT.P.allL A2X' (fun a => CFSG.KC.LQT.S.memL a A2E) = true := by quickRfl
+    Nat.beq (CFSG.KC.LQT.S.lenL Z2E) 4, Nat.beq (CFSG.KC.LQT.S.lenL A2X') 64] = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).2).2).1
+theorem lQ : Nat.beq (CFSG.KC.LQT.S.lenL Q1E) 32 = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).2).2).2).1
+theorem kSe : CFSG.KC.LQT.P.allL S0E (fun x => Nat.beq (sqW 315 9 x 3) (oneW 315 9)) = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).2).2).2).2).1
+theorem kA2g : CFSG.KC.LQT.P.allL A2G (fun a => CFSG.KC.LQT.S.memL a A2X') = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).2).2).2).2).2).1
+theorem kA2c : CFSG.KC.LQT.P.allL A2X' (fun a => CFSG.KC.LQT.S.memL a A2E) = true :=
+  (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides (andB_sides
+    (andB_sides (andB_sides (andB_sides kAll).2).2).2).2).2).2).2).2).2).2).2).2).2).2
 
 noncomputable abbrev ord3 : Nat → Bool := fun x =>
   andB (notB (Nat.beq x (oneW 315 9))) (Nat.beq (mulW 315 9 (mulW 315 9 x x) x) (oneW 315 9))

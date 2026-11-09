@@ -3,17 +3,17 @@ module
 public import Certificates.Data.Kernel.Misc.PermM22
 public import Certificates.Data.Kernel.Misc.PermU33B
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.U33B "Certificates/Kernel/Misc/Perm/U33B/data/u33b.json.gz" 1945 8231367165467438952
+#kc_repo #kc_json CertificateChecks.KernelMisc.U33B "Certificates/Kernel/Misc/Perm/U33B/data/u33b.json" 1945 8231367165467438952
   (genL : List Nat) (tWords : List (List Nat)) (tL : List Nat) (kWords : List (List Nat))
   (kL : List Nat) (ixL : List Nat) (iz : Nat) (ixx : Nat) (iyy : Nat)
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.U33B E "Certificates/Kernel/Misc/Perm/U33B/data/u33b_eP.bin.gz" 18 4 3888 2397848533003110519
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.U33B PA "Certificates/Kernel/Misc/Perm/U33B/data/u33b_paP.bin.gz" 4 4 864 12528654331605002757
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.U33B SG "Certificates/Kernel/Misc/Perm/U33B/data/u33b_sgP.bin.gz" 4 4 864 6323301893803471130
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.U33B CT "Certificates/Kernel/Misc/Perm/U33B/data/u33b_ctP.bin.gz" 4 4 1728 2744026085898145681
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.U33B E "Certificates/Kernel/Misc/Perm/U33B/data/u33b_eP.bin" 18 4 3888 2397848533003110519
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.U33B PA "Certificates/Kernel/Misc/Perm/U33B/data/u33b_paP.bin" 4 4 864 12528654331605002757
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.U33B SG "Certificates/Kernel/Misc/Perm/U33B/data/u33b_sgP.bin" 4 4 864 6323301893803471130
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.U33B CT "Certificates/Kernel/Misc/Perm/U33B/data/u33b_ctP.bin" 4 4 1728 2744026085898145681
 
 public section
 

@@ -3,6 +3,7 @@ module
 public import CFSG.LocalAnalysis.GLTheoremA.CatA.I264bAlt
 public import CFSG.LocalAnalysis.GLTheoremA.CatA.I264bTools
 public import CFSG.HardMathSupport.Solomon.Proving.AutSixBalance
+public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.AltSixCentralizer
 
 public section
 
@@ -11,9 +12,34 @@ namespace CFSG.LocalAnalysis.GLTheoremA
 open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 open TauCeti
 
+open CFSG.Permutation.FinPack
+  CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.ThreeGroup in
+theorem alt6_o3_invol_walk : walkK 6 (fun t => !evenK 6 t ||
+    !Nat.beq (mulK 6 t t) (enc (1 : Equiv.Perm (Fin 6))) || Nat.beq t (enc (1 : Equiv.Perm (Fin 6))) ||
+      allK (fun c => !commLaneK 6 c t) evenOrder3Codes) 6 0 0 0 = true := by
+  decide +kernel
+
+open CFSG.Permutation.FinPack
+  CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster.ThreeGroup in
 theorem alt6_order3_not_comm_invol :
     ∀ g w : alternatingGroup (Fin 6), g ^ 3 = 1 → g ≠ 1 → w ^ 2 = 1 → w ≠ 1 → g * w ≠ w * g := by
-  decide +kernel
+  have hn : 6 ≤ 16 := by norm_num
+  intro g w hg3 hg1 hw2 hw1 hc
+  have hg3' : (g : Equiv.Perm (Fin 6)) ^ 3 = 1 := by simpa using congrArg Subtype.val hg3
+  have hg1' : (g : Equiv.Perm (Fin 6)) ≠ 1 := fun h => hg1 (Subtype.ext (by simpa using h))
+  have hgs : Equiv.Perm.sign (g : Equiv.Perm (Fin 6)) = 1 := Equiv.Perm.mem_alternatingGroup.1 g.2
+  have hws : Equiv.Perm.sign (w : Equiv.Perm (Fin 6)) = 1 := Equiv.Perm.mem_alternatingGroup.1 w.2
+  have hw2' : (w : Equiv.Perm (Fin 6)) * w = 1 := by
+    rw [← sq]; simpa using congrArg Subtype.val hw2
+  have hw1' : (w : Equiv.Perm (Fin 6)) ≠ 1 := fun h => hw1 (Subtype.ext (by simpa using h))
+  have hc' : (g : Equiv.Perm (Fin 6)) * w = w * g := by simpa using congrArg Subtype.val hc
+  have hg := evenOrder3Codes_complete _ hg3' hg1' hgs
+  have h := walkK_sound alt6_o3_invol_walk (w : Equiv.Perm (Fin 6))
+  simp only [evenK_enc_eq_decide hn, mulK_enc hn, beq_enc_eq_decide hn, hws, hw2', hw1',
+    decide_true, decide_false, Bool.not_true, Bool.false_or] at h
+  have h' := allK_iff.1 h _ (memK_iff.1 hg)
+  rw [commLaneK_enc_eq_decide hn] at h'
+  simp [hc'] at h'
 
 theorem alt6_center_trivial :
     ∀ g : alternatingGroup (Fin 6), (∀ h : alternatingGroup (Fin 6), g * h = h * g) → g = 1 := by

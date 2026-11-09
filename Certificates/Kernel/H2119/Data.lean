@@ -8,8 +8,8 @@ public section
 
 open CFSG.RankThree.PartTwo.Sec21.Hering2119S CFSG.KC.H2119
 
-#kc_repo #kc_jsonc_gz CertificateChecks.KD.H2119
-  "Certificates/Kernel/H2119/data/rows.json.gz" 176001 939454435376552955
+#kc_repo #kc_jsonc CertificateChecks.KD.H2119
+  "Certificates/Kernel/H2119/data/rows.json" 176001 939454435376552955
   (N1 : List (M4C × M4C)) (N2 : List (M4C × M4C)) (N3 : List (M4C × M4C))
   (L1 : List (M4C × M4C)) (L2 : List (M4C × M4C)) (L3 : List (M4C × M4C))
   (Rep0 : M4C × M4C) (Rep1 : M4C × M4C) (C : List ConjK)

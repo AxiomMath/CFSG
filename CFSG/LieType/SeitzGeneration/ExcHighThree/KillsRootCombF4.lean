@@ -94,7 +94,38 @@ def checkAll : Bool :=
         [false, true].all fun e13 => [false, true].all fun e23 =>
           Pcfg k ⟨l0, l1, l2, l3, e01, e02, e03, e12, e13, e23⟩
 
-theorem checkAll_eq : checkAll = true := by decide +kernel
+def checkK (k : ℕ) (l0 : Bool) : Bool :=
+  [false, true].all fun l1 =>
+    [false, true].all fun l2 => [false, true].all fun l3 => [false, true].all fun e01 =>
+      [false, true].all fun e02 => [false, true].all fun e03 => [false, true].all fun e12 =>
+        [false, true].all fun e13 => [false, true].all fun e23 =>
+          Pcfg k ⟨l0, l1, l2, l3, e01, e02, e03, e12, e13, e23⟩
+
+theorem checkK_0_f : checkK 0 false = true := by decide +kernel
+
+theorem checkK_0_t : checkK 0 true = true := by decide +kernel
+
+theorem checkK_1_f : checkK 1 false = true := by decide +kernel
+
+theorem checkK_1_t : checkK 1 true = true := by decide +kernel
+
+theorem checkK_2_f : checkK 2 false = true := by decide +kernel
+
+theorem checkK_2_t : checkK 2 true = true := by decide +kernel
+
+theorem checkK_3_f : checkK 3 false = true := by decide +kernel
+
+theorem checkK_3_t : checkK 3 true = true := by decide +kernel
+
+theorem checkK_4_f : checkK 4 false = true := by decide +kernel
+
+theorem checkK_4_t : checkK 4 true = true := by decide +kernel
+
+theorem checkAll_eq : checkAll = true := by
+  show ([0, 1, 2, 3, 4].all fun k => [false, true].all fun l0 => checkK k l0) = true
+  simp only [List.all_cons, List.all_nil, Bool.and_true, Bool.true_and, checkK_0_f, checkK_0_t,
+    checkK_1_f, checkK_1_t, checkK_2_f, checkK_2_t, checkK_3_f, checkK_3_t,
+    checkK_4_f, checkK_4_t]
 
 end F4Cfg
 

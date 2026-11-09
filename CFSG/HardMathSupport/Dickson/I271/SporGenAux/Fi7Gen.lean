@@ -55,10 +55,7 @@ section Gen
 
 @[expose] noncomputable def s7 (j : ℕ) : CFSG.Sporadic.Fi24.J := CFSG.Sporadic.Fi23.slpG genG W7 j
 
-@[expose] def LM7 : Array (Array CFSG.Sporadic.Fi24.Native.W) := mLetters W7
-
 structure Fi7Facts : Prop where
-  slp : CFSG.Sporadic.Fi23.Native.slpOK W7 = true
   size_words : fi24SevenData.words.size = 1087
   size_extra : (fi7Extra ()).size = 119
   w0 : fi24SevenData.words[0]! = [1]
@@ -74,26 +71,25 @@ structure Fi7Facts : Prop where
   rules : ∀ r < 112, ∀ z ∈ W7[1093 + r]!, 3 ≤ z.natAbs ∧
     (isGen7 (z.natAbs - 3) = true ∨ (1093 ≤ z.natAbs - 3 ∧ z.natAbs - 3 < 1093 + r))
   e118 : (fi7Extra ())[118]! = [1087, 1085, 1086, 1086]
-  wa : eqRows 781 LM7[2 * 1203]! LM7[0]! = true
-  wb : eqRows 781 LM7[2 * 1204]! LM7[2]! = true
-  comm85 : eqRows 781 (mulW LM7[2 * 1085]! LM7[2 * 67]!) (mulW LM7[2 * 67]! LM7[2 * 1085]!) = true
-  comm86 : eqRows 781 (mulW LM7[2 * 1086]! LM7[2 * 67]!) (mulW LM7[2 * 67]! LM7[2 * 1086]!) = true
-  comm82 : eqRows 781 (mulW LM7[2 * 1082]! LM7[2 * 66]!) (mulW LM7[2 * 66]! LM7[2 * 1082]!) = true
-  comm83 : eqRows 781 (mulW LM7[2 * 1083]! LM7[2 * 66]!) (mulW LM7[2 * 66]! LM7[2 * 1083]!) = true
-  comm84 : eqRows 781 (mulW LM7[2 * 1084]! LM7[2 * 66]!) (mulW LM7[2 * 66]! LM7[2 * 1084]!) = true
-  pow4 : eqRows 781 (powW 781 LM7[2 * 1205]! 4) (idW 781) = true
-  pow2 : eqRows 781 (powW 781 LM7[2 * 1205]! 2) (idW 781) = false
+  wa : s7 1203 = s7 0
+  wb : s7 1204 = s7 1
+  comm85 : s7 1085 * s7 67 = s7 67 * s7 1085
+  comm86 : s7 1086 * s7 67 = s7 67 * s7 1086
+  comm82 : s7 1082 * s7 66 = s7 66 * s7 1082
+  comm83 : s7 1083 * s7 66 = s7 66 * s7 1083
+  comm84 : s7 1084 * s7 66 = s7 66 * s7 1084
+  pow4 : s7 1205 ^ 4 = 1
+  pow2 : s7 1205 ^ 2 ≠ 1
 
 
 theorem fi7_facts : Fi7Facts := by
   have h := Certificates.certificate17391
-  unfold fi7OK at h
-  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, Bool.not_eq_true'] at h
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩, h12⟩, h13⟩,
-    h14⟩, h15⟩, h16⟩, h17⟩, h18⟩, h19⟩, h20⟩, h21⟩, h22⟩, h23⟩, h24⟩ := h
-  exact ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20,
-    h21, h22, h23, h24⟩
+  have hl : fi7Layout () = true := h.layout
+  simp only [fi7Layout, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, List.all_eq_true, List.mem_range,
+    Bool.or_eq_true] at hl
+  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩, h10⟩, h11⟩, h12⟩, h13⟩, h14⟩ := hl
+  exact ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h.wa, h.wb, h.comm85,
+    h.comm86, h.comm82, h.comm83, h.comm84, h.pow4, h.pow2⟩
 
 theorem W7_size : W7.size = 1206 := by
   have := fi7_facts
@@ -134,9 +130,6 @@ theorem letter7_neg {j k : ℕ} (hk : k < j) : letter7 j (-((k + 3 : ℕ) : ℤ)
   simp only [letter7, Int.natAbs_neg, Int.natAbs_natCast, h3, if_false, Nat.add_sub_cancel, hk,
     if_true, h0]
 
-theorem sim_s7 {j : ℕ} (hj : j < 1206) : Fi24Sim LM7[2 * j]! (s7 j) :=
-  ((sim_mLetters fi7_facts.slp).2 j (by rw [W7_size]; exact hj)).1
-
 theorem s7_eq_M7 {j t : ℕ} (hj : 1087 ≤ j) (ht : t ∈ conjTs)
     (hw : W7[j]! = (fi24SevenData.conj[t]!).2.map lt2w) : s7 j = M7 t := by
   rw [s7_eq, hw, M7]
@@ -171,25 +164,20 @@ theorem Y7_eq : Y7 = s7 66 := (s7_prefix (j := 66) (by norm_num)).symm
 
 theorem C7_eq : C7 = s7 67 := (s7_prefix (j := 67) (by norm_num)).symm
 
-theorem s7_comm {i k : ℕ} (hi : i < 1206) (hk : k < 1206)
-    (e : eqRows 781 (mulW LM7[2 * i]! LM7[2 * k]!) (mulW LM7[2 * k]! LM7[2 * i]!) = true) :
-    s7 i * s7 k = s7 k * s7 i :=
-  sim_eq (sim_mul (sim_s7 hi) (sim_s7 hk)) (sim_mul (sim_s7 hk) (sim_s7 hi)) e
-
 theorem s7_1085_comm : s7 1085 * C7 = C7 * s7 1085 := by
-  rw [C7_eq]; exact s7_comm (by norm_num) (by norm_num) fi7_facts.comm85
+  rw [C7_eq]; exact fi7_facts.comm85
 
 theorem s7_1086_comm : s7 1086 * C7 = C7 * s7 1086 := by
-  rw [C7_eq]; exact s7_comm (by norm_num) (by norm_num) fi7_facts.comm86
+  rw [C7_eq]; exact fi7_facts.comm86
 
 theorem s7_1082_comm : s7 1082 * Y7 = Y7 * s7 1082 := by
-  rw [Y7_eq]; exact s7_comm (by norm_num) (by norm_num) fi7_facts.comm82
+  rw [Y7_eq]; exact fi7_facts.comm82
 
 theorem s7_1083_comm : s7 1083 * Y7 = Y7 * s7 1083 := by
-  rw [Y7_eq]; exact s7_comm (by norm_num) (by norm_num) fi7_facts.comm83
+  rw [Y7_eq]; exact fi7_facts.comm83
 
 theorem s7_1084_comm : s7 1084 * Y7 = Y7 * s7 1084 := by
-  rw [Y7_eq]; exact s7_comm (by norm_num) (by norm_num) fi7_facts.comm84
+  rw [Y7_eq]; exact fi7_facts.comm84
 
 theorem s7_1089 : s7 1089 = (s7 1087)⁻¹ * s7 1085 * s7 1087 := by
   rw [s7_eq, show W7[1089]! = (fi7Extra ())[2]! from W7_get_right (k := 2) (by norm_num),
@@ -261,14 +249,12 @@ theorem s7_mem_closure : ∀ j, 1093 ≤ j → j < 1205 → s7 j ∈ Subgroup.cl
       · exact Subgroup.inv_mem _ hm
 
 theorem a_mem_closure : CFSG.Sporadic.Fi24.a ∈ Subgroup.closure gens7 := by
-  have h1203 : s7 1203 = s7 0 :=
-    sim_eq (sim_s7 (by norm_num)) (sim_s7 (by norm_num)) fi7_facts.wa
+  have h1203 : s7 1203 = s7 0 := fi7_facts.wa
   rw [← s7_zero, ← h1203]
   exact s7_mem_closure 1203 (by norm_num) (by norm_num)
 
 theorem b_mem_closure : CFSG.Sporadic.Fi24.b ∈ Subgroup.closure gens7 := by
-  have h1204 : s7 1204 = s7 1 :=
-    sim_eq (sim_s7 (by norm_num)) (sim_s7 (by norm_num)) fi7_facts.wb
+  have h1204 : s7 1204 = s7 1 := fi7_facts.wb
   rw [← s7_one, ← h1204]
   exact s7_mem_closure 1204 (by norm_num) (by norm_num)
 
@@ -377,10 +363,8 @@ theorem fi7_order_four : ∃ u ∈ Subgroup.centralizer ({Y7} : Set CFSG.Sporadi
     have h84 : s7 1084 ∈ Subgroup.centralizer ({Y7} : Set CFSG.Sporadic.Fi24.J) :=
       Subgroup.mem_centralizer_singleton_iff.2 s7_1084_comm
     exact Subgroup.mul_mem _ h84 (Subgroup.mul_mem _ h82 (Subgroup.mul_mem _ h83 h83))
-  · have h4 : s7 1205 ^ 4 = 1 :=
-      sim_eq (sim_pow 4 (sim_s7 (by norm_num))) sim_idW fi7_facts.pow4
-    have h2 : s7 1205 ^ 2 ≠ 1 :=
-      sim_ne (sim_pow 2 (sim_s7 (by norm_num))) sim_idW fi7_facts.pow2
+  · have h4 : s7 1205 ^ 4 = 1 := fi7_facts.pow4
+    have h2 : s7 1205 ^ 2 ≠ 1 := fi7_facts.pow2
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := s7 1205) (by simpa using h2)
       (by simpa using h4)
     simpa using this

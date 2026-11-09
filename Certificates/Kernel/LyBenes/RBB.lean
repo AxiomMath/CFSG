@@ -8,6 +8,6 @@ set_option profiler.threshold 100
 
 public section
 
-#kc_each CertificateChecks.KernelLyB rb (CertificateChecks.KernelLyB.rbChunk) 6 12
+#kc_each CertificateChecks.KernelLyB rb (CertificateChecks.KernelLyB.rbChunk) 48 96
 
 end

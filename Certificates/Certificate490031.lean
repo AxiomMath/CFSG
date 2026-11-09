@@ -5,6 +5,7 @@ public import Certificates.Kernel.HMathieu.C490031
 import CFSG.Certificates.Kernel.HMathieu.MatSearch
 import CFSG.Certificates.Kernel.HMathieu.PredSound
 import CFSG.Certificates.Kernel.HMathieu.NormalSound
+import CFSG.Certificates.Kernel.HMathieu.PredQKSound
 
 public section
 
@@ -18,7 +19,7 @@ theorem certificate490031 :
     forallGreedyAll pos24s2 inv24s2 predH165 6 [] = true := by
   refine forallGreedyAll_fix T24.gtabs (by rw [T24.len]; exact T24.lenOK.2) pos24s2_eq T24.Md 11
     predH165 (predH165K T24.E T24.P) (fun l hl hind => ?_) 6
-    (by rw [T24.len]; exact C490031.search)
+    (by rw [T24.len]; exact (gAllR_fixK _ _ _ _ _ _ _ _ _ _).trans C490031.search)
   have hci := isCommInvol_of_indepList hind
   have hn := normalChainB_eq T24.packed T24.invData T24.idOK hci hl
   have hR : inv24s2 = T24s2.invols := rfl

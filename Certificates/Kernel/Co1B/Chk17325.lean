@@ -48,7 +48,8 @@ theorem kSmall : (eqK KK KB.D1 && eqK (powWK KK 5) oneK && notB (eqK KK oneK) &&
     eqK (mulWK Y1K X2K) (mulWK X2K Y1K) && eqK (mulWK Y1K Y2K) (mulWK Y2K Y1K)) = true := by
   quickRfl
 
-theorem kLT : (gtPinK LM 2 200 LT.N LT.P LT.PAR LT.LAB LT.W LT.S && Nat.beq LT.N 60) = true := by
+theorem kLT : (bfsK (gtStepK LM) LT.P LT.PAR LT.LAB LT.W LT.S 2 200 LT.N idM && Nat.beq LT.N 60) =
+    true := by
   quickRfl
 
 theorem kInv : allN 60 (fun i => invOKW (LT.P i) (LI i)) = true := by quickRfl

@@ -131,6 +131,31 @@ theorem chkRec_spec (A : ℕ → ℕ) (q L p : ℕ) : ∀ (chk : List (List ℕ 
     · exact Nat.eq_of_beq_eq_true h'.1
     · exact chkRec_spec A q L p chk h'.2 wt' hw
 
+theorem strictN_eq (y : ℕ) (k : ℕ → ℕ) : CFSG.KC.Loop.strictN y k = k y := by cases y <;> rfl
+
+theorem strictB_eq (y : ℕ) (k : ℕ → Bool) : strictB y k = k y := by cases y <;> rfl
+
+theorem rdT_eq (A : ℕ → ℕ) (i : ℕ) : rdT A i = A i := by
+  unfold rdT
+  rw [strictN_eq]
+  exact Nat.add_zero _
+
+theorem walkT_eq (A : ℕ → ℕ) (q L : ℕ) (w : List ℕ) (s : ℕ) :
+    walkT A q L w s = walkS A q L w s := by
+  induction w generalizing s with
+  | nil => rfl
+  | cons c w ih =>
+    change CFSG.KC.Loop.strictN (stepT A q L s c) (walkT A q L w) = walkS A q L w (stepS A q L s c)
+    rw [strictN_eq, ih]
+    unfold stepT stepS
+    rw [rdT_eq]
+
+theorem cpOKT_eq (A : ℕ → ℕ) (q N mb L : ℕ) (mac : List (List ℕ)) (chk : List (List ℕ × ℕ))
+    (p : ℕ) : cpOKT A q N mb L mac chk p = cpOK A q N mb L mac chk p := by
+  unfold cpOKT cpOK
+  simp only [strictB_eq, rdT_eq, walkT_eq]
+  rfl
+
 theorem cpOK_spec {p : ℕ} (h : cpOK A q N mb L mac chk p = true) :
     (∀ c < 2 * mb, A (p * L + c) < q * N ∧
       stepS A q L (stepS A q L (q * p) c) (invCode c) = q * p) ∧

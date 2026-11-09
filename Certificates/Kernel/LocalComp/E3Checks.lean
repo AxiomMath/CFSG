@@ -18,13 +18,15 @@ open CFSG.EvenSmallLie.SympSix.Co3Ident CertificateChecks.KernelLC
 
 @[expose] noncomputable def GI (i : Nat) : Nat := pinvS 276 9 (mask 9) (HR.G i)
 
+@[expose] noncomputable def PR8 : List Nat := [4, 4, 4, 3, 4, 4, 4, 0]
+
 @[expose] noncomputable def l1K (j : Nat) : Bool :=
   bIf(Nat.beq (E3.TB j) 1,
-    bAnd(testK P0 P4 EAP [HR.E j] E3.WS1,
+    bAnd(profK P0 P4 EAP (HR.E j) (pidn 276 9) PR8,
       strictB (ckF E3.CI E3.MI E3.N j) (fun c => strictB (ciF E3.CS E3.OFF E3.CI E3.CV E3.MI E3.N j)
         (fun v => bAnd(Nat.blt c 3, bAnd(Nat.blt v 4608,
           Nat.beq (pc (HR.E v) (HR.E j)) (pc (HR.E (lget E3.R c)) (HR.E v))))))),
-    failK P0 P4 EAP [HR.E j] E3.WS1 (E3.W1 j / 32) (E3.W1 j % 32))
+    failK1 P0 P4 EAP [HR.E j] E3.WS1 (E3.W1 j / 32) (E3.W1 j % 32))
 
 @[expose] noncomputable def cdPos (p : Nat) : Bool :=
   cdPosK HR.E HR.G GI E3.TB E3.CS E3.OFF E3.CI E3.M E3.PA E3.LB E3.CC E3.CV E3.K E3.MI E3.N p
@@ -32,14 +34,19 @@ open CFSG.EvenSmallLie.SympSix.Co3Ident CertificateChecks.KernelLC
 @[expose] noncomputable def cdMem (j : Nat) : Bool := cdMemK E3.TB E3.CS E3.OFF E3.CI E3.M E3.MI E3.N j
 
 @[expose] noncomputable def l2K (x : Nat) : Bool :=
+  bIf(Nat.beq (E3.TB (x % 4608)) 0, true,
   strictB (E3.W2 x) (fun w => bIf(Nat.beq w 1000000, E3.P2.contains x,
-    failK P0 P4 EAP [HR.E (lget E3.R (x / 4608)), HR.E (x % 4608)] E3.WS2 (w / 32) (w % 32)))
+    failK1 P0 P4 EAP [HR.E (lget E3.R (x / 4608)), HR.E (x % 4608)] E3.WS2 (w / 32) (w % 32))))
+
+@[expose] noncomputable def l3hK (j : Nat) : Bool :=
+  bIf(Nat.blt (E3.FJ3 j) 1000000, failK1 P0 P4 EAP [HR.E j] E3.WS3h 0 (E3.FJ3 j), true)
 
 @[expose] noncomputable def l3K (x : Nat) : Bool :=
+  bIf(Nat.blt (E3.FJ3 (x % 4608)) 1000000, true,
   strictB (lget E3.P2 (x / 4608)) (fun pr => strictB (E3.W3 x) (fun w =>
     bIf(Nat.beq w 1000000, E3.P3.contains x,
-      failK P0 P4 EAP [HR.E (lget E3.R (pr / 4608)), HR.E (pr % 4608), HR.E (x % 4608)] E3.WS3
-        (w / 32) (w % 32))))
+      failK1 P0 P4 EAP [HR.E (lget E3.R (pr / 4608)), HR.E (pr % 4608), HR.E (x % 4608)] E3.WS3
+        (w / 32) (w % 32)))))
 
 @[expose] noncomputable def leafY (ℓ : Nat) : List Nat :=
   [HR.E (lget E3.R (lget E3.P2 (lget E3.P3 ℓ / 4608) / 4608)),

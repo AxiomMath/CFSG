@@ -7,7 +7,7 @@ public import Certificates.Kernel.LocalComp.BlockGen
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelC12643 "Certificates/Kernel/C12643/data/c12643cent.json.gz" 1937 6217788828403252904
+#kc_repo #kc_json CertificateChecks.KernelC12643 "Certificates/Kernel/C12643/data/c12643cent.json" 1937 6217788828403252904
   (CT5 : List Nat) (CT7 : List Nat)
 
 public section

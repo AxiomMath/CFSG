@@ -213,7 +213,7 @@ theorem qImg : ∀ j < qGen.length, imageList (qGen.getD j 1) = (unpack 24 5 (QQ
 
 theorem chainQ : ChainK 24 5 qGen qChainW (#v[1, 0] : Vector (Fin 24) 2)
     QQ.S QQ.SI QQ.LR QQ.TR QQ.TRI 7 QQ.BP 2 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, qImg, by decide, QQ.head, QQ.hl, by norm_num, QQ.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, qImg, by decide, QQ.head, QQ.hl, by norm_num, .inl QQ.hs⟩
 
 theorem mem_allTables_q : ∀ T ∈ allTables qChain, ∃ j < 128, T = tabP 24 5 (qE j) := by
   intro T hT
@@ -222,7 +222,7 @@ theorem mem_allTables_q : ∀ T ∈ allTables qChain, ∃ j < 128, T = tabP 24 5
   rw [List.mem_reverse, List.mem_map] at hg
   obtain ⟨j, hj, rfl⟩ := hg
   refine ⟨j, ?_, eq_tabP_of_rep (by norm_num) (allTables_size _ T hT) hRep
-    (imageList_of_prep (prep_elemK chainQ j))⟩
+    (CFSG.KC.KGC31P.imageList_of_prep (prep_elemK chainQ j))⟩
   rw [List.mem_range, Nat.eq_of_beq_eq_true kQN] at hj
   exact hj
 

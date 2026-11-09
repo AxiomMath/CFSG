@@ -18,15 +18,6 @@ open CertificateChecks.KernelSporSch.TitsAbel
 
 @[expose] noncomputable def QCJ : Nat → Nat → Nat → Nat → Nat → Nat → Bool := fun _ => PCJ
 
-@[expose] noncomputable def labEq (t0 t1 t2 t3 t4 q : Nat) : Bool :=
-  Nat.beq (labT (pg 11 (mask 11) T614PI
-    (gpt 11 (mask 11) t0 t1 t2 t3 t4 (pg 11 (mask 11) T614P q)))) (labT q)
-
-@[expose] noncomputable def PSS (t0 t1 t2 t3 t4 : Nat) : Bool :=
-  bIf(allN 2 (labEq t0 t1 t2 t3 t4), sfJ (prod5K 1755 11 (mask 11) t0 t1 t2 t3 t4), true)
-
-@[expose] noncomputable def QSS : Nat → Nat → Nat → Nat → Nat → Nat → Bool := fun _ => PSS
-
 @[expose] noncomputable def uPt (t0 t1 t2 t3 t4 x : Nat) : Nat :=
   gpt 11 (mask 11) t0 t1 t2 t3 t4 (pg 11 (mask 11) T614G1 x)
 

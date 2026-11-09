@@ -63,9 +63,56 @@ end Roots
     Finset (ZMod 3 × ZMod 3) :=
   T ∪ T.image (fI e) ∪ T.image (fJ e')
 
+private theorem orbit_check_0_0 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (0, 0) e')^[5] {x}).card ∨
+      (fI (0, 0) x = x ∧ fJ e' x = x ∧ ∀ y, fI (0, 0) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_0_1 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (0, 1) e')^[5] {x}).card ∨
+      (fI (0, 1) x = x ∧ fJ e' x = x ∧ ∀ y, fI (0, 1) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_0_2 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (0, 2) e')^[5] {x}).card ∨
+      (fI (0, 2) x = x ∧ fJ e' x = x ∧ ∀ y, fI (0, 2) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_1_0 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (1, 0) e')^[5] {x}).card ∨
+      (fI (1, 0) x = x ∧ fJ e' x = x ∧ ∀ y, fI (1, 0) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_1_1 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (1, 1) e')^[5] {x}).card ∨
+      (fI (1, 1) x = x ∧ fJ e' x = x ∧ ∀ y, fI (1, 1) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_1_2 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (1, 2) e')^[5] {x}).card ∨
+      (fI (1, 2) x = x ∧ fJ e' x = x ∧ ∀ y, fI (1, 2) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_2_0 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (2, 0) e')^[5] {x}).card ∨
+      (fI (2, 0) x = x ∧ fJ e' x = x ∧ ∀ y, fI (2, 0) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_2_1 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (2, 1) e')^[5] {x}).card ∨
+      (fI (2, 1) x = x ∧ fJ e' x = x ∧ ∀ y, fI (2, 1) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
+private theorem orbit_check_2_2 : ∀ e' x : ZMod 3 × ZMod 3,
+    8 ≤ ((closeStep (2, 2) e')^[5] {x}).card ∨
+      (fI (2, 2) x = x ∧ fJ e' x = x ∧ ∀ y, fI (2, 2) y = y → fJ e' y = y → y = x) := by
+  decide +kernel
+
 theorem orbit_check : ∀ e e' x : ZMod 3 × ZMod 3, 8 ≤ ((closeStep e e')^[5] {x}).card ∨
     (fI e x = x ∧ fJ e' x = x ∧ ∀ y, fI e y = y → fJ e' y = y → y = x) := by
-  decide +kernel
+  rintro ⟨a, b⟩
+  fin_cases a <;> fin_cases b
+  exacts [orbit_check_0_0, orbit_check_0_1, orbit_check_0_2, orbit_check_1_0, orbit_check_1_1, orbit_check_1_2, orbit_check_2_0, orbit_check_2_1, orbit_check_2_2]
 
 theorem iterate_subset {e e' : ZMod 3 × ZMod 3} {S : Finset (ZMod 3 × ZMod 3)}
     (hI : ∀ y ∈ S, fI e y ∈ S) (hJ : ∀ y ∈ S, fJ e' y ∈ S) {x : ZMod 3 × ZMod 3} (hx : x ∈ S) :

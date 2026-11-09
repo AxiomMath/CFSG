@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.TwoHSLe4.SO5D
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.PCountSound
 
 public section
 
@@ -11,7 +12,7 @@ set_option Elab.async false
 
 namespace CertificateChecks.KernelTwoHSLe4.SO5
 
-theorem k_nodup : CL.Nodup := by decide +kernel
+theorem k_nodup : CL.Nodup := CFSG.KS.PCnt.nodup_of_distB (by quickRfl)
 
 theorem k_tau : CL.all (fun x => mulK x (SG 0) == mulK (SG 0) x) = true := by quickRfl
 

@@ -148,22 +148,24 @@ noncomputable def gC (c : Nat) : Equiv.Perm (Fin 4060) :=
   ChainArrays.levT 4060 (ruField4060 4) (ruBaseArr 4060 ruS4060ChainBase) 0 (c / 8) *
     ChainArrays.levT 4060 (ruField4060 4) (ruBaseArr 4060 ruS4060ChainBase) 1 (c % 8)
 
+theorem sizes2_of {β : Type} [Inhabited β] {sz : β → ℕ} {L : Array β} {a b : ℕ}
+    (h : L.toList.map sz = [a, b]) : sz L[0]! = a ∧ sz L[1]! = b := by
+  have hs : L.size = 2 := by
+    have := congrArg List.length h
+    simpa using this
+  have e0 := List.getElem_of_eq h (i := 0) (by simp [hs])
+  have e1 := List.getElem_of_eq h (i := 1) (by simp [hs])
+  simp only [List.getElem_map, Array.getElem_toList] at e0 e1
+  rw [getElem!_pos L 0 (by omega), getElem!_pos L 1 (by omega)]
+  exact ⟨e0, e1⟩
+
 theorem lev_size : (ChainArrays.lev 4060 (ruField4060 4) (ruBaseArr 4060 ruS4060ChainBase) 0).pts.size
       = 2048 ∧
     (ChainArrays.lev 4060 (ruField4060 4) (ruBaseArr 4060 ruS4060ChainBase) 1).pts.size = 8 := by
   have h := ruInv_check.2.1
-  unfold rawOrbitSizes at h
-  have hs : (rawLevels 4060 (ruField4060 4) (ruBaseArr 4060 ruS4060ChainBase)).size = 2 := by
-    have := congrArg List.length h
-    simpa using this
-  have key : ∀ i (hi : i < 2), (ChainArrays.lev 4060 (ruField4060 4)
-      (ruBaseArr 4060 ruS4060ChainBase) i).pts.size = [2048, 8][i] := by
-    intro i hi
-    have e := List.getElem_of_eq h (i := i) (by simpa [hs] using hi)
-    simp only [List.getElem_map, Array.getElem_toList] at e
-    rw [ChainArrays.lev, getElem!_pos _ i (by omega)]
-    exact e
-  exact ⟨key 0 (by norm_num), key 1 (by norm_num)⟩
+  rw [rawOrbitSizes] at h
+  rw [ChainArrays.lev, ChainArrays.lev]
+  exact sizes2_of h
 
 theorem gC_mem {c : Nat} (hc : c < 16384) : gC c ∈ ruS := by
   have hA := ruChainS4060_arrays
@@ -246,8 +248,8 @@ theorem invol_eq {c : Nat} (hc : c < 16384) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [orderOf_eq_prime_iff, pow_two, hsq, ne_eq, hone]
   unfold invK
-  rw [ev1 hc, ev0 hc, ev_eq hc, ev_eq hc, invK_form]
-  simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply, fin_eq_iff]
+  rw [ev1 hc, ev0 hc, ev_eq hc, ev_eq hc, invK_form, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
+  simp only [Equiv.Perm.one_apply, fin_eq_iff]
   exact Iff.rfl
 
 theorem cd_lt {i : Nat} (hi : i < 687) : cd i < 16384 :=
@@ -297,28 +299,40 @@ theorem com_eq {i j : Nat} (hi : i < 687) (hj : j < 687) :
   simp only [bAnd_eq', beq_dec, Bool.and_eq_true, decide_eq_true_iff, ← fin_eq_iff]
   constructor
   · intro h
-    have h1 := congrArg (fun g : Equiv.Perm (Fin 4060) => g 1) h
-    have h0 := congrArg (fun g : Equiv.Perm (Fin 4060) => g 0) h
-    exact ⟨h1, h0⟩
+    exact ⟨by rw [← Equiv.Perm.mul_apply, h, Equiv.Perm.mul_apply],
+      by rw [← Equiv.Perm.mul_apply, h, Equiv.Perm.mul_apply]⟩
   · rintro ⟨h1, h0⟩
-    exact eq_of_base (ruS.mul_mem hmi hmj) (ruS.mul_mem hmj hmi) h1 h0
+    exact eq_of_base (ruS.mul_mem hmi hmj) (ruS.mul_mem hmj hmi)
+      (by rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]; exact h1)
+      (by rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]; exact h0)
 
-theorem wr_get {r e : Nat} (hr : r < 4) (he : e < 64) :
-    (g2WrArr[r]!)[e]! = unpack 4060 12 (U r e) := by
-  have hsz : g2WArr.size = 64 := by rw [g2WArr, Array.size_ofFn]
+theorem ap_of_rep {T : Nat} {g : Equiv.Perm (Fin 4060)} (h : Rep 4060 (unpack 4060 12 T) g)
+    {i : Nat} (hi : i < 4060) : ap T i = (g ⟨i, hi⟩ : ℕ) := by
+  have a := h.apply hi
+  rw [CFSG.KS.Raw.Orb.unpack_get hi] at a
+  exact a
+
+theorem conj_ap {s t y : Nat} {x : Fin 4060} {σ τ : Equiv.Perm (Fin 4060)}
+    (hs : Rep 4060 (unpack 4060 12 s) σ) (ht : Rep 4060 (unpack 4060 12 t) τ) (hy : y < 4060)
+    (hsy : ap s y = x) : ap s (ap t y) = ((σ * τ * σ⁻¹) x : ℕ) := by
+  have e1 : σ⁻¹ x = ⟨y, hy⟩ := by
+    rw [Equiv.Perm.inv_eq_iff_eq]
+    apply Fin.ext
+    rw [← ap_of_rep hs hy]
+    exact hsy.symm
+  rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, e1, ap_of_rep ht hy, ap_of_rep hs (τ ⟨y, hy⟩).2]
+
+theorem rep_sigK {r : Nat} (hr : r < 4) : Rep 4060 (unpack 4060 12 (sigK r)) (g2Sigma r) := by
+  have h := rep_g2Sigma hr
+  rwa [(G2Ru7164.sw_eq (w := g2ConjWords.getD r []) (by interval_cases r <;> decide)).1] at h
+
+theorem rep_WT {e : Nat} (he : e < 64) : Rep 4060 (unpack 4060 12 (G2Ru7164.WT e)) (g2WElt e) := by
+  have h := rep_g2WArr he
   have hw : g2WArr[e]! = g2WProd e := by
-    rw [getElem!_pos g2WArr e (by rw [hsz]; exact he)]
+    rw [getElem!_pos g2WArr e (by rw [g2WArr, Array.size_ofFn]; exact he)]
     unfold g2WArr
     rw [Array.getElem_ofFn]
-  rw [g2WrArr, getElem!_pos _ r (by simpa using hr), Array.getElem_ofFn,
-    getElem!_pos _ e (by rw [Array.size_map, hsz]; exact he), Array.getElem_map,
-    ← getElem!_pos g2WArr e (by rw [hsz]; exact he), hw]
-  obtain ⟨s1, s2⟩ := G2Ru7164.sw_eq (w := g2ConjWords.getD r []) (by
-    interval_cases r <;> decide)
-  obtain ⟨w1, w2⟩ := G2Ru7164.wprod_eq e
-  unfold ruConjA
-  rw [s1, w1]
-  exact (G2Ru7164.conj_eq s2 w2).1
+  rwa [hw, (G2Ru7164.wprod_eq e).1, G2Ru7164.WPk_eq he] at h
 
 theorem rep_wr {r e : Nat} (hr : r < 4) (he : e < 64) :
     Rep 4060 ((g2WrArr[r]!)[e]!) (g2Sigma r * g2WElt e * (g2Sigma r)⁻¹) := by
@@ -341,14 +355,15 @@ theorem ub_eq {r e : Nat} (hr : r < 4) (he : e < 64) :
     · exact ub1
     · exact ub2
     · exact ub3
-  have h := CFSG.KS.Raw.Orb.allN_iff.1 hc e he
-  obtain ⟨h1, h0⟩ := (bAnd_iff _ _).1 h
-  have hr' := rep_wr hr he
-  rw [wr_get hr he] at hr'
-  have a1 := hr'.apply (i := 1) (by norm_num)
-  have a0 := hr'.apply (i := 0) (by norm_num)
-  rw [CFSG.KS.Raw.Orb.unpack_get (by norm_num)] at a1 a0
-  exact ⟨(Nat.eq_of_beq_eq_true h1).trans a1, (Nat.eq_of_beq_eq_true h0).trans a0⟩
+  obtain ⟨y1, hc⟩ := (bAnd_iff _ _).1 hc
+  obtain ⟨y0, hc⟩ := (bAnd_iff _ _).1 hc
+  obtain ⟨s1, hc⟩ := (bAnd_iff _ _).1 hc
+  obtain ⟨s0, hc⟩ := (bAnd_iff _ _).1 hc
+  obtain ⟨h1, h0⟩ := (bAnd_iff _ _).1 (CFSG.KS.Raw.Orb.allN_iff.1 hc e he)
+  exact ⟨(Nat.eq_of_beq_eq_true h1).trans (conj_ap (rep_sigK hr) (rep_WT he)
+      (Nat.blt_eq.mp y1) (Nat.eq_of_beq_eq_true s1)),
+    (Nat.eq_of_beq_eq_true h0).trans (conj_ap (rep_sigK hr) (rep_WT he)
+      (Nat.blt_eq.mp y0) (Nat.eq_of_beq_eq_true s0))⟩
 
 theorem w_rows {r : Nat} (hr : r < 4) : wC r = true := by
   interval_cases r

@@ -73,18 +73,11 @@ set_option maxRecDepth 100000
 
 @[expose] def ES : List (List Int) := m22SylowExprs
 
-@[expose] noncomputable def cnt (t : Nat) : Nat :=
-  pcnt 22 5 (mask 5) (survF 22 5 (mask 5) I A Ai B ZB m22Derivs ES PT 11 6 4)
-    [[t], L1, L2, L3, L4] I 0
-
 theorem syl : sylowAutP 22 5 (mask 5) I A Ai B Bi m22Derivs ES Z Zi 150 443520 7 = true := by
   quickRfl
 
 theorem pt : (exprsV 22 5 (mask 5) I (slpP 22 5 (mask 5) I A Ai B Bi m22Derivs) ES == PT) = true := by
   quickRfl
-
-@[expose] noncomputable def chunkOK (k : Nat) : Bool :=
-  allL (fun t => Nat.beq (cnt t) 0) ((L0.drop (3 * k)).take 3)
 
 end CertificateChecks.KernelSpor.M22Syl
 

@@ -47,4 +47,22 @@ theorem flatMap_pairs_eq (F : Nat → List Nat) : ∀ (E : List (Nat × List Nat
     rw [List.map_cons, List.flatMap_cons, List.flatMap_cons, h e (by simp),
       flatMap_pairs_eq F E fun e' he' => h e' (by simp [he'])]
 
+theorem all_chunks {α : Type} (f : α → Bool) (m : Nat) : ∀ (n : Nat) (l : List α),
+    l.length ≤ m * n → (∀ s < n, ((l.drop (m * s)).take m).all f = true) → l.all f = true
+  | 0, l, hl, _ => by
+    rw [Nat.mul_zero] at hl
+    rw [List.eq_nil_of_length_eq_zero (Nat.le_zero.mp hl)]
+    rfl
+  | n + 1, l, hl, h => by
+    rw [← List.take_append_drop m l, List.all_append, Bool.and_eq_true]
+    refine ⟨by simpa using h 0 (by omega), all_chunks f m n (l.drop m) ?_ fun s hs => ?_⟩
+    · rw [List.length_drop]
+      rw [Nat.mul_add, Nat.mul_one] at hl
+      exact Nat.sub_le_iff_le_add.mpr hl
+    · have := h (s + 1) (by omega)
+      have e : m * (s + 1) = m + m * s := by rw [Nat.mul_add, Nat.mul_one, Nat.add_comm]
+      rw [List.drop_drop]
+      rw [e] at this
+      exact this
+
 end CFSG.KS.ListSlices

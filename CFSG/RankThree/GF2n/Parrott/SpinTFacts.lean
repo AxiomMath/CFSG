@@ -453,8 +453,9 @@ theorem spinZsFact : ∀ w : V, SpinFixes tA w →
   let S : Finset (List ℕ × A45) := zWords.toFinset ×ˢ Kset
   let f : List ℕ × A45 → A45 := fun q => hW q.1 * q.2
   have hf_inj : Set.InjOn f (S : Set (List ℕ × A45)) := by
-    rintro ⟨l, k⟩ hq ⟨l', k'⟩ hq' hfq
-    simp only [S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset] at hq hq'
+    simp only [Set.InjOn, S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset,
+      Prod.forall]
+    intro l k hq l' k' hq' hfq
     have hfq' : hW l * k = hW l' * k' := hfq
     have hll : l = l' := by
       refine List.inj_on_of_nodup_map hnd' hq.1 hq'.1 ?_
@@ -469,8 +470,9 @@ theorem spinZsFact : ∀ w : V, SpinFixes tA w →
     subst hll
     rw [mul_left_cancel hfq']
   have hsub : ∀ q ∈ (S : Set (List ℕ × A45)), f q ∈ (C : Set A45) := by
-    rintro ⟨l, k⟩ hq
-    simp only [S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset] at hq
+    simp only [S, Finset.coe_product, Set.mem_prod, Finset.mem_coe, List.mem_toFinset,
+      Prod.forall]
+    intro l k hq
     exact C.mul_mem (hWC l hq.1) (hKC k hq.2)
   have hScard : S.card = 289 * 4 := by
     have hcn : zWords.toFinset.card = 289 := by

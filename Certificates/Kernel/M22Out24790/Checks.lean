@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.M22Out.Replay
 public import CFSG.LocalAnalysis.EvenSporadicStandard.M22Std.OutTab47Check
 public import Certificates.Kernel.M22Out24790.Data
+public import Certificates.Kernel.M22Out24790.Packed
 
 public section
 
@@ -15,9 +16,11 @@ open CFSG.KC.M22Out CFSG.KD.M22Out24790
 open CFSG.EvenSporadicStandard.M22Std.TabCheck CFSG.EvenSporadicStandard.M22Std.FusionCheck
   CFSG.EvenSporadicStandard.M22Std.OutCheck
 
-@[expose] noncomputable def TP : Nat := packTs T
+@[expose] noncomputable def TP : Nat := P.TP
 
-@[expose] noncomputable def WP : Nat := packW W
+@[expose] noncomputable def WP : Nat := P.WP
+
+theorem ch24790tw : (Nat.beq TP (packTs T) && Nat.beq WP (packW W)) = true := by decide +kernel
 
 @[expose] noncomputable def EW : List Nat := W.map encW
 
@@ -39,19 +42,20 @@ theorem ch24790seg9 : segOK 9 = true := by decide +kernel
 theorem ch24790seg10 : segOK 10 = true := by decide +kernel
 theorem ch24790seg11 : segOK 11 = true := by decide +kernel
 
-@[expose] def validT (t : Tab) : Bool := Nat.beq t.length 22 && t.all fun a => Nat.blt a 22
+@[expose] noncomputable def validT (t : Tab) : Bool := validK t
 
 theorem ch24790head : (T.headD [] == idTab && W.headD [0] == [] && Nat.beq T.length 5760 &&
     Nat.beq W.length 5760 && Nat.beq KK.length 5760 && Nat.beq U.length 5760 &&
     Nat.beq (cs.getD 0 0) 1 && Nat.beq (cs.getD 12 0) 5760 &&
-    KK.all (fun k => Nat.beq k.length 2) &&
-    W.all (fun w => Nat.blt w.length 17 && w.all fun i => Nat.blt i 2)) = true := by
+    allK (fun k => Nat.beq k.length 2) KK &&
+    allK (fun w => Nat.blt w.length 17 && allK (fun i => Nat.blt i 2) w) W) = true := by
   decide +kernel
 
-theorem ch24790valid : (T.all validT && U.all validT && IT.all validT) = true := by decide +kernel
+theorem ch24790valid : (allK validT T && allK validT U && allK validT IT) = true := by
+  decide +kernel
 
 @[expose] noncomputable def uSegOK (s : Nat) : Bool :=
-  mapEqK (tmul betaTab) ((T.drop (960 * s)).take 960) ((U.drop (960 * s)).take 960)
+  mapEqK (tmulK betaTab) ((T.drop (960 * s)).take 960) ((U.drop (960 * s)).take 960)
 
 theorem ch24790u0 : uSegOK 0 = true := by decide +kernel
 theorem ch24790u1 : uSegOK 1 = true := by decide +kernel
@@ -64,8 +68,8 @@ theorem ch24790keys : (keysK (packKeys (T ++ U)) 11520 SG 0 && Nat.beq SG.length
   decide +kernel
 
 @[expose] noncomputable def invSegOK (s : Nat) : Bool :=
-  (((((T ++ U).drop (960 * s)).take 960).filter isInv).map packT) ==
-    (((IT.drop (IC.getD s 0)).take (IC.getD (s + 1) 0 - IC.getD s 0)).map packT)
+  filtEqK isInvK (((T ++ U).drop (960 * s)).take 960)
+    ((IT.drop (IC.getD s 0)).take (IC.getD (s + 1) 0 - IC.getD s 0))
 
 theorem ch24790i0 : invSegOK 0 = true := by decide +kernel
 theorem ch24790i1 : invSegOK 1 = true := by decide +kernel
@@ -87,14 +91,14 @@ theorem ch24790ic : (Nat.beq (IC.getD 0 0) 0 && Nat.beq (IC.getD 12 0) 375 && Na
 @[expose] def gens3 : List Tab := nGensTab ++ [betaTab]
 
 @[expose] noncomputable def classTreeOK : Bool :=
-  (PR.zip CL).all fun e => Nat.beq (CL.getD e.1.1 5) e.2
+  allK (fun e => Nat.beq (getLK CL 5 e.1.1) e.2) (PR.zip CL)
 
 theorem ch24790tree : (conjTreeK gens3 GI IT PR PR IT && Nat.beq PR.length 375 &&
     Nat.beq CL.length 375 && classTreeOK) = true := by
   decide +kernel
 
-theorem ch24790norm : (decide (tmul (tmul betaTab (nGensTab.getD 0 idTab)) betaTab ∈ T) &&
-    decide (tmul (tmul betaTab (nGensTab.getD 1 idTab)) betaTab ∈ T) &&
+theorem ch24790norm : (memK (tmulK (tmulK betaTab (nGensTab.getD 0 idTab)) betaTab) T &&
+    memK (tmulK (tmulK betaTab (nGensTab.getD 1 idTab)) betaTab) T &&
     tmul betaTab betaTab == idTab && (nGensTab.all fun g => normOK (elemTabs 1) g)) = true := by
   decide +kernel
 
@@ -106,14 +110,21 @@ theorem ch24790repIdx : ((PR.zip (List.range 375)).all fun e =>
     !(Nat.beq e.1.2.1 3) || repIdx.contains e.2) = true := by
   decide +kernel
 
-@[expose] noncomputable def repOK (j : Nat) : Bool :=
-  Nat.beq (centN (T ++ U) (IT.getD j idTab)) (centOf (CL.getD j 5))
+@[expose] noncomputable def CG : List (List Nat) := Q.CG
 
-theorem ch24790rep0 : repOK 0 = true := by decide +kernel
-theorem ch24790rep12 : repOK 12 = true := by decide +kernel
-theorem ch24790rep195 : repOK 195 = true := by decide +kernel
-theorem ch24790rep196 : repOK 196 = true := by decide +kernel
-theorem ch24790rep197 : repOK 197 = true := by decide +kernel
+@[expose] noncomputable def repOK (i j : Nat) : Bool :=
+  centWK (IT.getD j idTab) (CG.getD i []) (T ++ U) &&
+    Nat.beq (CG.getD i []).length (centOf (CL.getD j 5))
+
+theorem ch24790rep0 : repOK 0 0 = true := by decide +kernel
+theorem ch24790rep12 : repOK 1 12 = true := by decide +kernel
+theorem ch24790rep195 : repOK 2 195 = true := by decide +kernel
+theorem ch24790rep196 : repOK 3 196 = true := by decide +kernel
+theorem ch24790rep197 : repOK 4 197 = true := by decide +kernel
+
+theorem ch24790cls : ((repIdx.map fun r => CL.getD r 5).Nodup ∧
+    ∀ r ∈ repIdx, CL.countP (· == CL.getD r 5) * centOf (CL.getD r 5) = 11520) := by
+  decide +kernel
 
 @[expose] noncomputable def LP : Nat := packTs (T ++ U)
 
@@ -121,8 +132,8 @@ theorem ch24790rep197 : repOK 197 = true := by decide +kernel
   (IT.zip (IX.zip CL)).all fun e =>
     let d := invClassData.getD e.2.2 (0, 0, false, false)
     Nat.beq (packT e.1) (tabAt LP e.2.1) && Nat.blt e.2.1 11520 &&
-      Nat.blt e.2.1 5760 == d.2.2.1 && Nat.beq (fixF e.1) d.2.1 &&
-      decide (e.1 ∈ f1Tabs) == d.2.2.2
+      Nat.blt e.2.1 5760 == d.2.2.1 && Nat.beq (fixK f1Tabs e.1) d.2.1 &&
+      memK e.1 f1Tabs == d.2.2.2
 
 theorem ch24790data : dataOK = true := by decide +kernel
 

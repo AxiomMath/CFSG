@@ -449,29 +449,6 @@ theorem chk2D_ofC {c : Nat} (h : chk2D boolOps (ofC c) = true) (hns : nonsing c 
   rw [hD] at h
   simpa [boolOps, bnot] using h
 
-@[expose] noncomputable def PS (m s t : Nat) : M5 Nat :=
-  ⟨⟨plS (Nat.mul 5 0) m s t, plS (Nat.add (Nat.mul 5 0) 1) m s t,
-      plS (Nat.add (Nat.mul 5 0) 2) m s t, plS (Nat.add (Nat.mul 5 0) 3) m s t,
-      plS (Nat.add (Nat.mul 5 0) 4) m s t⟩,
-    ⟨plS (Nat.mul 5 1) m s t, plS (Nat.add (Nat.mul 5 1) 1) m s t,
-      plS (Nat.add (Nat.mul 5 1) 2) m s t, plS (Nat.add (Nat.mul 5 1) 3) m s t,
-      plS (Nat.add (Nat.mul 5 1) 4) m s t⟩,
-    ⟨plS (Nat.mul 5 2) m s t, plS (Nat.add (Nat.mul 5 2) 1) m s t,
-      plS (Nat.add (Nat.mul 5 2) 2) m s t, plS (Nat.add (Nat.mul 5 2) 3) m s t,
-      plS (Nat.add (Nat.mul 5 2) 4) m s t⟩,
-    ⟨plS (Nat.mul 5 3) m s t, plS (Nat.add (Nat.mul 5 3) 1) m s t,
-      plS (Nat.add (Nat.mul 5 3) 2) m s t, plS (Nat.add (Nat.mul 5 3) 3) m s t,
-      plS (Nat.add (Nat.mul 5 3) 4) m s t⟩,
-    ⟨plS (Nat.mul 5 4) m s t, plS (Nat.add (Nat.mul 5 4) 1) m s t,
-      plS (Nat.add (Nat.mul 5 4) 2) m s t, plS (Nat.add (Nat.mul 5 4) 3) m s t,
-      plS (Nat.add (Nat.mul 5 4) 4) m s t⟩⟩
-
-theorem slice_eq (F : Ops Nat → M5 Nat → Nat) (m s : Nat) : slice F m s =
-    Nat.beq (F (natOps (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1))
-      (PS m s (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1))) (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1) := by
-  simp only [slice, plK, rowP, F4M3B.frc_eq]
-  rfl
-
 theorem rec_all (g : Nat → Bool) : ∀ n,
     Nat.rec (motive := fun _ => Bool) true
       (fun s acc => Bool.rec (motive := fun _ => Bool) false (g s) acc) n = true →
@@ -493,79 +470,10 @@ theorem rec_all (g : Nat → Bool) : ∀ n,
       · obtain rfl : s = n := by omega
         exact h
 
-theorem allS_slice {F : Ops Nat → M5 Nat → Nat} (h : allS F = true) {s : Nat} (hs : s < 32) :
-    slice F 20 s = true := by
-  unfold allS at h
-  exact rec_all (slice F 20) 32 h s hs
-
 theorem tT_bit (m : Nat) {i : Nat} (hi : i < 2 ^ m) :
     (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1).testBit i = true := by
   rw [Nat.sub_eq, Nat.pow_eq, Nat.pow_eq, Nat.testBit_two_pow_sub_one, decide_eq_true_iff]
   exact hi
-
-theorem slice_bit (F : Ops Nat → M5 Nat → Nat) (m s : Nat) (h : slice F m s = true) :
-    ∃ T, (∀ i, i < 2 ^ m → T.testBit i = true) ∧ F (natOps T) (PS m s T) = T := by
-  rw [slice_eq] at h
-  exact ⟨_, fun i hi => tT_bit m hi, Nat.eq_of_beq_eq_true h⟩
-
-theorem plS_bit (j s : Nat) {i t : Nat} (hi : i < 2 ^ 20) (ht : t.testBit i = true) :
-    (plS j 20 s t).testBit i = (2 ^ 20 * s + i).testBit j := by
-  have hi' : i < 1048576 := hi
-  unfold plS
-  rw [Nat.testBit_two_pow_mul_add _ hi]
-  by_cases hj : j < 20
-  · have hb : Nat.blt j 20 = true := by simp [Nat.blt_eq, hj]
-    rw [hb, if_pos hj, F4M3B.pln_bit]
-    simp [hi']
-  · have hb : Nat.blt j 20 = false := by
-      rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
-      exact hj
-    rw [hb, if_neg hj, ← testBit_eq_bitB, Nat.sub_eq]
-    cases hs : s.testBit (j - 20)
-    · exact Nat.zero_testBit i
-    · exact ht
-
-theorem PS_map (s : Nat) {i t : Nat} (hi : i < 2 ^ 20) (ht : t.testBit i = true) :
-    (PS 20 s t).map (fun n => n.testBit i) = ofC (2 ^ 20 * s + i) := by
-  simp (disch := omega) only [PS, M5.map, R5.map, plS_bit _ _ hi ht, ofC, rowB, Nat.add_eq,
-    Nat.mul_eq, r0_bit, r1_bit, r2_bit, r3_bit, r4_bit]
-
-theorem bit_of_allS {F : Ops Nat → M5 Nat → Nat} {G : M5 Bool → Bool}
-    (hFG : ∀ t i, t.testBit i = true → ∀ A, (F (natOps t) A).testBit i = G (A.map (·.testBit i)))
-    (h : allS F = true) {c : Nat} (hc : c < N) : G (ofC c) = true := by
-  have hs : c / 2 ^ 20 < 32 := by unfold N at hc; omega
-  have hi : c % 2 ^ 20 < 2 ^ 20 := Nat.mod_lt _ (by decide)
-  have hcs : 2 ^ 20 * (c / 2 ^ 20) + c % 2 ^ 20 = c := Nat.div_add_mod c (2 ^ 20)
-  obtain ⟨T, hT, h1⟩ := slice_bit F 20 _ (allS_slice h hs)
-  have h2 := congrArg (fun n => n.testBit (c % 2 ^ 20)) h1
-  rw [hFG _ _ (hT _ hi), PS_map _ hi (hT _ hi), hcs, hT _ hi] at h2
-  exact h2
-
-theorem chk1_bool {c : Nat} (h : allS chk1 = true) (hc : c < N) :
-    chk1D boolOps (ofC c) = true :=
-  bit_of_allS (fun t i ht A => by
-    rw [chk1_eq _ (fun y k => F4M3B.frcN_eq y k),
-      chk1D_map (natOps t) boolOps (fun n => n.testBit i) (fun p q => Nat.testBit_and p q i)
-        (fun p q => Nat.testBit_or p q i) (fun p q => Nat.testBit_xor p q i) ht
-        (Nat.zero_testBit i)])
-    h hc
-
-theorem chk2_bool {c : Nat} (h : allS chk2 = true) (hc : c < N) :
-    chk2D boolOps (ofC c) = true :=
-  bit_of_allS (fun t i ht A => by
-    rw [chk2_eq _ (fun y k => F4M3B.frcN_eq y k),
-      chk2D_map (natOps t) boolOps (fun n => n.testBit i) (fun p q => Nat.testBit_and p q i)
-        (fun p q => Nat.testBit_or p q i) (fun p q => Nat.testBit_xor p q i) ht
-        (Nat.zero_testBit i)])
-    h hc
-
-theorem chk1_sound (h : allS chk1 = true) {c : Nat} (hc : c < N) (hns : nonsing c = true)
-    (huv : mulC c uvC = mulC uvC c) (ht : mulC c tC = mulC tC c) : powC c 64 = idC :=
-  chk1D_ofC hc (chk1_bool h hc) hns huv ht
-
-theorem chk2_sound (h : allS chk2 = true) {c : Nat} (hc : c < N) (hns : nonsing c = true)
-    (huv : mulC c uvC = mulC uvC c) (hD : normD c = true) : normV c = true :=
-  chk2D_ofC (chk2_bool h hc) hns huv hD
 
 section Cover
 
@@ -643,31 +551,31 @@ theorem tauN_bit (c op i : Nat) : (tauN c op).testBit i =
   split <;> simp_all [Nat.testBit_two_pow]
 
 theorem opOK_spec {op : Nat} (h : opOK op = true) :
-    Nat.land op 31 < 25 ∧ Nat.shiftRight op 5 < 25 ∧ Nat.land op 31 ≠ Nat.shiftRight op 5 := by
+    Nat.land op 31 < 21 ∧ Nat.shiftRight op 5 < 21 ∧ Nat.land op 31 ≠ Nat.shiftRight op 5 := by
   simp only [opOK, Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true'] at h
   refine ⟨h.1.1, h.1.2, fun he => ?_⟩
   have h2 := h.2
   rw [he, Nat.beq_refl] at h2
   exact absurd h2 (by decide)
 
-theorem tauN_lt {op : Nat} (hop : opOK op = true) {c : Nat} (hc : c < 2 ^ 25) :
-    tauN c op < 2 ^ 25 := by
+theorem tauN_lt {op : Nat} (hop : opOK op = true) {c : Nat} (hc : c < 2 ^ 21) :
+    tauN c op < 2 ^ 21 := by
   rw [tauN_eq]
   split
   · exact Nat.xor_lt_two_pow hc (Nat.pow_lt_pow_right (by omega) (opOK_spec hop).1)
   · rw [Nat.xor_zero]
     exact hc
 
-theorem ptS_lt : ∀ {ops : List Nat}, (∀ op ∈ ops, opOK op = true) → ∀ {c : Nat}, c < 2 ^ 25 →
-    ptS ops c < 2 ^ 25
+theorem ptS_lt : ∀ {ops : List Nat}, (∀ op ∈ ops, opOK op = true) → ∀ {c : Nat}, c < 2 ^ 21 →
+    ptS ops c < 2 ^ 21
   | [], _, _, hc => hc
   | op :: ops, hops, _, hc =>
     tauN_lt (hops op (List.mem_cons.mpr (Or.inl rfl)))
       (ptS_lt (fun o ho => hops o (List.mem_cons_of_mem _ ho)) hc)
 
 theorem tv_core {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
-    {j k : Nat} (hj : j < 25) (hk : k < 25) (hjk : j ≠ k) (I : Nat) {c : Nat} (hc : c < 2 ^ 25) :
+    (hMs : ∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j))
+    {j k : Nat} (hj : j < 21) (hk : k < 21) (hjk : j ≠ k) (I : Nat) {c : Nat} (hc : c < 2 ^ 21) :
     (Nat.lor (Nat.xor I (Nat.land I (nthL Ms k)))
       (Nat.lor (Nat.shiftRight (Nat.land (Nat.land I (nthL Ms k)) (nthL Ms j)) (Nat.shiftLeft 1 j))
         (Nat.shiftLeft (Nat.xor (Nat.land I (nthL Ms k)) (Nat.land (Nat.land I (nthL Ms k))
@@ -676,9 +584,9 @@ theorem tv_core {Ms : List Nat}
   simp only [cv_lor, cv_land, cv_xor, cv_shl, cv_shr, Nat.one_shiftLeft, Nat.testBit_or,
     Nat.testBit_xor, Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_shiftLeft, hMs k hk,
     hMs j hj]
-  have hpj : 2 ^ j < 2 ^ 25 := Nat.pow_lt_pow_right (by omega) hj
-  have hcd : decide (c < 2 ^ 25) = true := decide_eq_true hc
-  have hf : c ^^^ 2 ^ j < 2 ^ 25 := Nat.xor_lt_two_pow hc hpj
+  have hpj : 2 ^ j < 2 ^ 21 := Nat.pow_lt_pow_right (by omega) hj
+  have hcd : decide (c < 2 ^ 21) = true := decide_eq_true hc
+  have hf : c ^^^ 2 ^ j < 2 ^ 21 := Nat.xor_lt_two_pow hc hpj
   have hfk : (c ^^^ 2 ^ j).testBit k = c.testBit k := by
     rw [cv_flip_bit]
     simp [hjk]
@@ -688,9 +596,9 @@ theorem tv_core {Ms : List Nat}
       rw [cv_flip_bit, hcj]
       simp
     have hlow : (decide (c ≥ 2 ^ j) && ((I.testBit (c - 2 ^ j) &&
-        (decide (c - 2 ^ j < 2 ^ 25) && (c - 2 ^ j).testBit k)) ^^
-        (I.testBit (c - 2 ^ j) && (decide (c - 2 ^ j < 2 ^ 25) && (c - 2 ^ j).testBit k) &&
-          (decide (c - 2 ^ j < 2 ^ 25) && (c - 2 ^ j).testBit j)))) = false := by
+        (decide (c - 2 ^ j < 2 ^ 21) && (c - 2 ^ j).testBit k)) ^^
+        (I.testBit (c - 2 ^ j) && (decide (c - 2 ^ j < 2 ^ 21) && (c - 2 ^ j).testBit k) &&
+          (decide (c - 2 ^ j < 2 ^ 21) && (c - 2 ^ j).testBit j)))) = false := by
       by_cases hge : c ≥ 2 ^ j
       · have hdj : (c - 2 ^ j).testBit j = true := by
           cases hdj : (c - 2 ^ j).testBit j
@@ -699,7 +607,7 @@ theorem tv_core {Ms : List Nat}
             rw [e, cv_flip_bit, hdj] at hcj
             simp at hcj
           · rfl
-        have hdl : decide (c - 2 ^ j < 2 ^ 25) = true :=
+        have hdl : decide (c - 2 ^ j < 2 ^ 21) = true :=
           decide_eq_true (Nat.lt_of_le_of_lt (Nat.sub_le _ _) hc)
         rw [hdj, hdl]
         cases I.testBit (c - 2 ^ j) <;> cases (c - 2 ^ j).testBit k <;> simp
@@ -720,16 +628,16 @@ theorem tv_core {Ms : List Nat}
     cases hck : c.testBit k <;> simp
 
 theorem tvI_bit {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
-    {op : Nat} (hop : opOK op = true) (I : Nat) {c : Nat} (hc : c < 2 ^ 25) :
+    (hMs : ∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j))
+    {op : Nat} (hop : opOK op = true) (I : Nat) {c : Nat} (hc : c < 2 ^ 21) :
     (tvI Ms I op).testBit c = I.testBit (tauN c op) := by
   obtain ⟨hj, hk, hjk⟩ := opOK_spec hop
   rw [tauN_eq, ← tv_core hMs hj hk hjk I hc]
   simp only [tvI, frcN_eq]
 
 theorem imgS_bit {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j)) :
-    ∀ {ops : List Nat}, (∀ op ∈ ops, opOK op = true) → ∀ (I : Nat) {c : Nat}, c < 2 ^ 25 →
+    (hMs : ∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j)) :
+    ∀ {ops : List Nat}, (∀ op ∈ ops, opOK op = true) → ∀ (I : Nat) {c : Nat}, c < 2 ^ 21 →
       (imgS Ms I ops).testBit c = I.testBit (ptS ops c)
   | [], _, _, _, _ => rfl
   | op :: ops, hops, I, c, hc => by
@@ -745,9 +653,9 @@ theorem lin_zero {F : Nat → Nat} (hF : ∀ a b, F (a ^^^ b) = F a ^^^ F b) : F
   simp only [Nat.xor_self] at this
   exact this
 
-theorem lin_ext {F G : Nat → Nat} (hF : ∀ a b, F (a ^^^ b) = F a ^^^ F b)
-    (hG : ∀ a b, G (a ^^^ b) = G a ^^^ G b) (hb : ∀ b < 25, F (2 ^ b) = G (2 ^ b)) :
-    ∀ n ≤ 25, ∀ c < 2 ^ n, F c = G c := by
+theorem lin_ext {F G : Nat → Nat} {m : Nat} (hF : ∀ a b, F (a ^^^ b) = F a ^^^ F b)
+    (hG : ∀ a b, G (a ^^^ b) = G a ^^^ G b) (hb : ∀ b < m, F (2 ^ b) = G (2 ^ b)) :
+    ∀ n ≤ m, ∀ c < 2 ^ n, F c = G c := by
   intro n
   induction n with
   | zero =>
@@ -822,46 +730,14 @@ theorem mulC_xor_r (g a b : Nat) : mulC g (a ^^^ b) = mulC g a ^^^ mulC g b := b
   simp only [r0_xor, r1_xor, r2_xor, r3_xor, r4_xor, r0_mulC, r1_mulC, r2_mulC, r3_mulC, r4_mulC,
     vm, vm5_xor_v]
 
-theorem basisOK_spec {ops : List Nat} {f : Nat → Nat} (h : basisOK ops f = true) :
-    ∀ b < 25, ptS ops (2 ^ b) = f (2 ^ b) := by
-  have key : ∀ n, (Nat.rec (motive := fun _ => Bool) true
-      (fun b acc => Bool.rec (motive := fun _ => Bool) false acc
-        (Nat.beq (ptS ops (Nat.shiftLeft 1 b)) (f (Nat.shiftLeft 1 b)))) n : Bool) = true →
-      ∀ b < n, ptS ops (2 ^ b) = f (2 ^ b) := by
-    intro n
-    induction n with
-    | zero => intro _ b hb; omega
-    | succ n ih =>
-      intro h b hb
-      simp only [natRec_succ] at h
-      cases hn : Nat.beq (ptS ops (Nat.shiftLeft 1 n)) (f (Nat.shiftLeft 1 n)) <;> rw [hn] at h
-      · exact absurd h Bool.false_ne_true
-      · by_cases hbn : b = n
-        · subst hbn
-          have := Nat.eq_of_beq_eq_true hn
-          rwa [cv_shl, Nat.one_shiftLeft] at this
-        · exact ih h b (by omega)
-  exact key 25 h
+def CovInv (P : Nat → Prop) (U : Nat) : Prop := ∀ p < 2 ^ 21, U.testBit p = true → P p
 
-theorem basis_right {ops : List Nat} {g : Nat} (h : basisOK ops (fun c => mulC c g) = true) :
-    ∀ c < 2 ^ 25, ptS ops c = mulC c g :=
-  lin_ext (F := ptS ops) (G := fun c => mulC c g) (ptS_xor ops) (fun a b => mulC_xor_l a b g)
-    (basisOK_spec h) 25 le_rfl
+def GoodOs (P : Nat → Prop) (Os : List (List Nat)) : Prop :=
+  ∀ ops ∈ Os, (∀ op ∈ ops, opOK op = true) ∧ ∀ p < 2 ^ 21, P (ptS ops p) → P p
 
-theorem basis_left {ops : List Nat} {g : Nat} (h : basisOK ops (fun c => mulC g c) = true) :
-    ∀ c < 2 ^ 25, ptS ops c = mulC g c :=
-  lin_ext (F := ptS ops) (G := fun c => mulC g c) (ptS_xor ops) (fun a b => mulC_xor_r g a b)
-    (basisOK_spec h) 25 le_rfl
-
-def CovInv (B : List (List Nat)) (U : Nat) : Prop :=
-  ∀ c < 2 ^ 25, U.testBit c = true → ∃ τ : Wd, ∃ l ∈ B, ∃ e ∈ l, τ.evalC c = codeE e
-
-def GoodOs (Os : List (List Nat)) : Prop :=
-  ∀ ops ∈ Os, (∀ op ∈ ops, opOK op = true) ∧ ∃ w : Wd, ∀ c < 2 ^ 25, ptS ops c = w.evalC c
-
-theorem roundS_inv {B : List (List Nat)} {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
-    {U : Nat} (hU : CovInv B U) : ∀ {Os : List (List Nat)}, GoodOs Os → CovInv B (roundS Ms Os U)
+theorem roundS_inv {P : Nat → Prop} {Ms : List Nat}
+    (hMs : ∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j))
+    {U : Nat} (hU : CovInv P U) : ∀ {Os : List (List Nat)}, GoodOs P Os → CovInv P (roundS Ms Os U)
   | [], _ => hU
   | ops :: Os, hOs => by
     intro c hc h
@@ -870,16 +746,14 @@ theorem roundS_inv {B : List (List Nat)} {Ms : List Nat}
     rw [e, Nat.testBit_or, Bool.or_eq_true] at h
     rcases h with h | h
     · exact roundS_inv hMs hU (fun o ho => hOs o (List.mem_cons_of_mem _ ho)) c hc h
-    · obtain ⟨hops, w, hw⟩ := hOs ops (List.mem_cons.mpr (Or.inl rfl))
+    · obtain ⟨hops, hw⟩ := hOs ops (List.mem_cons.mpr (Or.inl rfl))
       rw [imgS_bit hMs hops U hc] at h
-      obtain ⟨τ, l, hl, e, he, hτ⟩ := hU _ (ptS_lt hops hc) h
-      refine ⟨τ.subst w, l, hl, e, he, ?_⟩
-      rw [Wd.evalC_subst, ← hw c hc, hτ]
+      exact hw c hc (hU _ (ptS_lt hops hc) h)
 
-theorem roundsS_inv {B : List (List Nat)} {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
-    {Os : List (List Nat)} (hOs : GoodOs Os) :
-    ∀ (n : Nat) {U : Nat}, CovInv B U → CovInv B (roundsS Ms Os n U)
+theorem roundsS_inv {P : Nat → Prop} {Ms : List Nat}
+    (hMs : ∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j))
+    {Os : List (List Nat)} (hOs : GoodOs P Os) :
+    ∀ (n : Nat) {U : Nat}, CovInv P U → CovInv P (roundsS Ms Os n U)
   | 0, _, hU => hU
   | n + 1, U, hU => by
     have e : roundsS Ms Os (n + 1) U = roundS Ms Os (roundsS Ms Os n U) :=
@@ -887,83 +761,57 @@ theorem roundsS_inv {B : List (List Nat)} {Ms : List Nat}
     rw [e]
     exact roundS_inv hMs (roundsS_inv hMs hOs n hU) hOs
 
-theorem gens_ok {O : List (List Nat)} {f : Nat → Wd}
-    (h : ∀ i < 4, allL opOK (nthLL O i) = true ∧ ∀ c < 2 ^ 25, ptS (nthLL O i) c = (f i).evalC c) :
-    GoodOs (gens4 O) := by
-  intro ops hops
-  have : ∃ i < 4, ops = nthLL O i := by
-    simp only [gens4, List.mem_cons, List.not_mem_nil, or_false] at hops
-    rcases hops with rfl | rfl | rfl | rfl
-    exacts [⟨0, by omega, rfl⟩, ⟨1, by omega, rfl⟩, ⟨2, by omega, rfl⟩, ⟨3, by omega, rfl⟩]
-  obtain ⟨i, hi, rfl⟩ := this
-  exact ⟨allL_mem (h i hi).1, f i, (h i hi).2⟩
-
-theorem leafB_bit : ∀ {l : List Nat} {c : Nat}, (leafB l).testBit c = true →
-    ∃ e ∈ l, Nat.land e 32767 = c
+theorem leafS_bit : ∀ {s : List Nat} {c : Nat}, (leafS s).testBit c = true →
+    ∃ d ∈ s, Nat.land d 1023 = c
   | [], c, h => by
     change Nat.testBit 0 c = true at h
     simp at h
-  | e :: l, c, h => by
-    change (Nat.lor (leafB l) (Nat.shiftLeft 1 (Nat.land e 32767))).testBit c = true at h
+  | d :: s, c, h => by
+    change (Nat.lor (leafS s) (Nat.shiftLeft 1 (Nat.land d 1023))).testBit c = true at h
     rw [cv_lor, cv_shl, Nat.one_shiftLeft, Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true,
       decide_eq_true_eq] at h
     rcases h with h | h
-    · obtain ⟨e', he', h'⟩ := leafB_bit h
-      exact ⟨e', List.mem_cons_of_mem _ he', h'⟩
-    · exact ⟨e, List.mem_cons.mpr (Or.inl rfl), h⟩
+    · obtain ⟨d', hd', h'⟩ := leafS_bit h
+      exact ⟨d', List.mem_cons_of_mem _ hd', h'⟩
+    · exact ⟨d, List.mem_cons.mpr (Or.inl rfl), h⟩
 
-theorem leafB_lt (l : List Nat) {m : Nat} (hm : 32768 ≤ m) : leafB l < 2 ^ m :=
+theorem leafS_lt (s : List Nat) {m : Nat} (hm : 1024 ≤ m) : leafS s < 2 ^ m :=
   Nat.lt_pow_two_of_testBit _ fun i hi => by
-    cases h : (leafB l).testBit i
+    cases h : (leafS s).testBit i
     · rfl
-    · obtain ⟨e, -, he⟩ := leafB_bit h
-      rw [cv_land] at he
-      have := @Nat.and_le_right e 32767
+    · obtain ⟨d, -, hd⟩ := leafS_bit h
+      rw [cv_land] at hd
+      have := @Nat.and_le_right d 1023
       omega
 
-theorem indB_bit : ∀ {B : List (List Nat)} {i0 : Nat}, bOK B i0 = true → ∀ {c : Nat},
-    (indB B).testBit c = true → ∃ l ∈ B, ∃ e ∈ l, codeE e = c + 32768 * i0
+theorem indS_bit {X : List Nat} {B : List (List Nat)} {l : Nat} :
+    ∀ {S : List (List Nat)} {j0 : Nat}, seedsOK X B l S j0 = true → ∀ {c : Nat},
+    (indS S).testBit c = true → ∃ j d, seedOK X B l (j0 + j) d = true ∧ c = 1024 * j + Nat.land d 1023
   | [], _, _, c, h => by
     change Nat.testBit 0 c = true at h
     simp at h
-  | l :: B, i0, hb, c, h => by
-    have hb' : Bool.rec (motive := fun _ => Bool) false (bOK B (i0 + 1))
-        (allL (fun e => Nat.beq (Nat.shiftRight (codeE e) 15) i0) l) = true := hb
-    cases hl : allL (fun e => Nat.beq (Nat.shiftRight (codeE e) 15) i0) l <;> rw [hl] at hb'
+  | s :: S, j0, hb, c, h => by
+    have hb' : Bool.rec (motive := fun _ => Bool) false (seedsOK X B l S (j0 + 1))
+        (allL (seedOK X B l j0) s) = true := hb
+    cases hl : allL (seedOK X B l j0) s <;> rw [hl] at hb'
     · exact absurd hb' Bool.false_ne_true
-    have ei : indB (l :: B) = Nat.lor (Nat.shiftLeft (indB B) 32768) (leafB l) :=
-      frcN_eq (indB B) (fun acc => Nat.lor (Nat.shiftLeft acc 32768) (leafB l))
+    have ei : indS (s :: S) = Nat.lor (Nat.shiftLeft (indS S) 1024) (leafS s) :=
+      frcN_eq (indS S) (fun acc => Nat.lor (Nat.shiftLeft acc 1024) (leafS s))
     rw [ei, cv_lor, cv_shl, Nat.testBit_or, Nat.testBit_shiftLeft, Bool.or_eq_true, Bool.and_eq_true,
       decide_eq_true_eq] at h
     rcases h with ⟨hc, h⟩ | h
-    · obtain ⟨l', hl', e, he, h'⟩ := indB_bit hb' h
-      exact ⟨l', List.mem_cons_of_mem _ hl', e, he, by omega⟩
-    · have hc : c < 32768 := by
-        by_contra hc
-        rw [Nat.testBit_lt_two_pow (leafB_lt l (by omega : 32768 ≤ c))] at h
-        exact absurd h Bool.false_ne_true
-      obtain ⟨e, he, h'⟩ := leafB_bit h
-      have hi := Nat.eq_of_beq_eq_true (allL_mem hl e he)
-      have h1 : codeE e = e % 33554432 := Nat.and_two_pow_sub_one_eq_mod e 25
-      have h2 : Nat.land e 32767 = e % 32768 := Nat.and_two_pow_sub_one_eq_mod e 15
-      have h3 : Nat.shiftRight (codeE e) 15 = codeE e / 32768 := Nat.shiftRight_eq_div_pow _ 15
-      refine ⟨l, List.mem_cons.mpr (Or.inl rfl), e, he, ?_⟩
-      rw [h3, h1] at hi
-      rw [h2] at h'
-      rw [h1]
-      omega
+    · obtain ⟨j, d, hd, h'⟩ := indS_bit hb' h
+      have e : j0 + (j + 1) = j0 + 1 + j := by omega
+      exact ⟨j + 1, d, by rw [e]; exact hd, by omega⟩
+    · obtain ⟨d, hd, h'⟩ := leafS_bit h
+      exact ⟨0, d, allL_mem hl d hd, by omega⟩
 
-theorem indB_inv {B : List (List Nat)} (hb : bOK B 0 = true) : CovInv B (indB B) :=
-  fun c _ h => by
-    obtain ⟨l, hl, e, he, h'⟩ := indB_bit hb h
-    exact ⟨.var, l, hl, e, he, by simp [h', Wd.evalC]⟩
-
-theorem msK_spec {k : List Nat → Bool} (h : msK k = true) :
-    ∃ Ms : List Nat, (∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
+theorem msW_spec {k : List Nat → Bool} (h : msW k = true) :
+    ∃ Ms : List Nat, (∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j))
       ∧ k Ms = true := by
-  simp only [msK, frc_eq] at h
+  simp only [msW, frc_eq] at h
   refine ⟨_, fun j hj x => ?_, h⟩
-  rw [← pln_bit j 25 x, nthL_eq]
+  rw [← pln_bit j 21 x, nthL_eq]
   interval_cases j <;> simp only [List.getD_cons_succ, List.getD_cons_zero]
 
 theorem rb0_bit (c e : Nat) : (r0 c).testBit e = (decide (e < 5) && c.testBit e) :=
@@ -979,14 +827,6 @@ theorem rb2_bit (c e : Nat) : (r2 c).testBit e = (decide (e < 5) && c.testBit (e
   rdm_bit c 10 e
 theorem rb3_bit (c e : Nat) : (r3 c).testBit e = (decide (e < 5) && c.testBit (e + 15)) :=
   rdm_bit c 15 e
-theorem matOf_map {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
-    {c : Nat} (hc : c < 2 ^ 25) : (matOf Ms).map (fun n => n.testBit c) = ofC c := by
-  have hM : ∀ j, j < 25 → (nthL Ms j).testBit c = c.testBit j := fun j hj => by
-    rw [hMs j hj, decide_eq_true hc, Bool.true_and]
-  simp (disch := omega) only [matOf, M5.map, R5.map, hM, ofC, rowB, r0_bit, r1_bit, r2_bit,
-    r3_bit, r4_bit, Nat.reduceAdd]
-
 theorem lt16 {x : Nat} (hx : x < 32) : decide (x < 16) = !x.testBit 4 := by
   interval_cases x <;> decide
 
@@ -996,21 +836,6 @@ theorem stabW4_eq (c : Nat) :
     rb1_bit, rb2_bit, rb3_bit, decide_true, Bool.true_and]
   cases c.testBit 4 <;> cases c.testBit 9 <;> cases c.testBit 14 <;> cases c.testBit 19 <;> rfl
 
-theorem tPlane_bit {Ms : List Nat}
-    (hMs : ∀ j < 25, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 25) && x.testBit j))
-    {t c : Nat} (ht : t.testBit c = true) (hc : c < 2 ^ 25) :
-    (tPlane Ms t).testBit c = (nonsing c && !stabW4 c) := by
-  have hM : ∀ j, j < 25 → (nthL Ms j).testBit c = c.testBit j := fun j hj => by
-    rw [hMs j hj, decide_eq_true hc, Bool.true_and]
-  have hns : (nsK (natOps t) (matOf Ms)).testBit c = nonsing c := by
-    rw [nsK_eq _ (natOps_bd t), nsD_map (natOps t) boolOps (fun n => n.testBit c)
-      (fun p q => Nat.testBit_and p q c) (fun p q => Nat.testBit_or p q c)
-      (fun p q => Nat.testBit_xor p q c) ht (Nat.zero_testBit c), matOf_map hMs hc,
-      Bool.eq_iff_iff, nsD_ofC, nonsing_iff]
-    exact ⟨fun h v h0 h1 => h v h0 (by omega), fun h v h0 h1 => h v h0 (by omega)⟩
-  simp (disch := omega) only [tPlane, cv_land, cv_lor, Nat.testBit_and, Nat.testBit_or, hns, hM,
-    stabW4_eq, Bool.not_not, Bool.or_assoc]
-
 theorem allOnes_bit {X c : Nat} (hc : c < X) : (Nat.sub (Nat.shiftLeft 1 X) 1).testBit c = true := by
   have e : Nat.sub (Nat.shiftLeft 1 X) 1 = 2 ^ X - 1 := by
     rw [← Nat.one_shiftLeft]
@@ -1018,45 +843,139 @@ theorem allOnes_bit {X c : Nat} (hc : c < X) : (Nat.sub (Nat.shiftLeft 1 X) 1).t
   rw [e, Nat.testBit_two_pow_sub_one]
   exact decide_eq_true hc
 
-theorem cover_sound {B RO LO : List (List Nat)} (h : coverOK B RO LO = true) {c : Nat} (hc : c < N)
-    (hns : nonsing c = true) (hst : stabW4 c = false) :
-    ∃ τ : Wd, ∃ l ∈ B, ∃ e ∈ l, τ.evalC c = codeE e := by
-  have hc' : c < 2 ^ 25 := hc
-  have hcN : c < 33554432 := hc
-  unfold coverOK at h
-  generalize hT : Nat.sub (Nat.shiftLeft 1 33554432) 1 = t at h
-  have ht : t.testBit c = true := by
-    rw [← hT]
-    exact allOnes_bit hcN
-  simp only [Bool.and_eq_true] at h
-  obtain ⟨⟨hb, hops⟩, hm⟩ := h
-  rw [frc_eq] at hm
-  obtain ⟨Ms, hMs, hm⟩ := msK_spec hm
-  simp only [frc_eq] at hm
-  have hbit := congrArg (fun x => x.testBit c) (Nat.eq_of_beq_eq_true hm)
-  simp only [cv_land, cv_xor, Nat.testBit_and, Nat.testBit_xor, Nat.zero_testBit,
-    tPlane_bit hMs ht hc', hns, hst, ht] at hbit
-  simp only [opsOK, Bool.and_eq_true] at hops
-  obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨o0, o1⟩, o2⟩, o3⟩, o4⟩, o5⟩, o6⟩, o7⟩, b0⟩, b1⟩, b2⟩, b3⟩, b4⟩, b5⟩, b6⟩,
-    b7⟩ := hops
-  have hR : GoodOs (gens4 RO) := gens_ok (f := fun i => .mul .var (.gen i)) fun i hi => by
-    interval_cases i
-    exacts [⟨o0, basis_right b0⟩, ⟨o1, basis_right b1⟩, ⟨o2, basis_right b2⟩,
-      ⟨o3, basis_right b3⟩]
-  have hL : GoodOs (gens4 LO) := gens_ok (f := fun i => .mul (.gen i) .var) fun i hi => by
-    interval_cases i
-    exacts [⟨o4, basis_left b4⟩, ⟨o5, basis_left b5⟩, ⟨o6, basis_left b6⟩,
-      ⟨o7, basis_left b7⟩]
-  exact roundsS_inv hMs hL 3 (roundsS_inv hMs hR 3 (indB_inv hb)) c hc' (by simpa using hbit)
-
 end Cover
 
+theorem mUT_bit (q : Nat) : (1082401 : Nat).testBit q = decide (q < 25 ∧ q % 5 = 0) := by
+  by_cases hq : q < 25
+  · interval_cases q <;> decide
+  · rw [Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (by decide : 1082401 < 2 ^ 25)
+      (Nat.pow_le_pow_right (by omega) (by omega)))]
+    simp [hq]
+
+theorem rUT_bit : ∀ r < 32, ∀ p < 25, (r * 1082401).testBit p = r.testBit (p % 5) := by decide
+
+theorem rUT_lt : ∀ r < 32, r * 1082401 < 2 ^ 25 := by decide
+
+theorem mtUT_lt {r : Nat} (hr : r < 32) (b j : Nat) : mtUT r b j < 2 ^ 25 :=
+  Nat.and_lt_two_pow _ (rUT_lt r hr)
+
+theorem mulUT_lt (a b : Nat) : mulUT a b < N := by
+  have h := fun i (h : i < 32) j => mtUT_lt h b j
+  unfold mulUT N
+  simp only [cv_xor]
+  exact Nat.xor_lt_two_pow (Nat.xor_lt_two_pow (Nat.xor_lt_two_pow (Nat.xor_lt_two_pow
+    (h _ (r0_lt a) 0) (h _ (r1_lt a) 1)) (h _ (r2_lt a) 2)) (h _ (r3_lt a) 3)) (h _ (r4_lt a) 4)
+
+@[expose] def spUT (y : Nat) : Nat :=
+  Nat.lor (Nat.lor (Nat.lor (Nat.lor y (Nat.shiftLeft y 1)) (Nat.shiftLeft y 2)) (Nat.shiftLeft y 3))
+    (Nat.shiftLeft y 4)
+
+@[expose] def sprUT (c : Nat) : Nat :=
+  (c &&& 1) ||| ((c >>> 1 &&& 1) <<< 5) ||| ((c >>> 2 &&& 1) <<< 10) ||| ((c >>> 3 &&& 1) <<< 15) |||
+    ((c >>> 4 &&& 1) <<< 20)
+
+@[expose] def gtUT (x : Nat) : Nat :=
+  (x &&& 1) ||| ((x >>> 5 &&& 1) <<< 1) ||| ((x >>> 10 &&& 1) <<< 2) ||| ((x >>> 15 &&& 1) <<< 3) |||
+    ((x >>> 20 &&& 1) <<< 4)
+
+theorem gtUT_lt (x : Nat) : gtUT x < 32 := by
+  have h : ∀ y s, s < 5 → (y &&& 1) <<< s < 2 ^ 5 := fun y s hs => by
+    rw [Nat.shiftLeft_eq]
+    have : y &&& 1 ≤ 1 := Nat.and_le_right
+    have : 2 ^ s ≤ 2 ^ 4 := Nat.pow_le_pow_right (by omega) (by omega)
+    have : (y &&& 1) * 2 ^ s ≤ 1 * 2 ^ 4 := Nat.mul_le_mul (by omega) this
+    simp at this ⊢
+    omega
+  have h0 : x &&& 1 < 2 ^ 5 := Nat.lt_of_le_of_lt Nat.and_le_right (by decide)
+  exact Nat.or_lt_two_pow (Nat.or_lt_two_pow (Nat.or_lt_two_pow (Nat.or_lt_two_pow h0
+    (h _ 1 (by omega))) (h _ 2 (by omega))) (h _ 3 (by omega))) (h _ 4 (by omega))
+
+theorem sprUT_lt : ∀ c < 32, sprUT c < 2 ^ 25 := by decide
+
+theorem tbUT_one (q : Nat) : Nat.testBit 1 q = decide (0 = q) := by
+  rw [show (1 : Nat) = 2 ^ 0 from rfl, Nat.testBit_two_pow]
+
+theorem andUT_eq (x : Nat) : x &&& 1082401 = sprUT (gtUT x) := by
+  refine Nat.eq_of_testBit_eq fun p => ?_
+  by_cases hp : p < 25
+  · interval_cases p <;> simp [-Nat.and_one_is_mod, sprUT, gtUT, Nat.testBit_or, Nat.testBit_and,
+      tbUT_one, Nat.testBit_shiftLeft, Nat.testBit_shiftRight, mUT_bit]
+  · have hpow : 2 ^ 25 ≤ 2 ^ p := Nat.pow_le_pow_right (by omega) (by omega)
+    rw [Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (Nat.and_lt_two_pow x
+      (by decide : 1082401 < 2 ^ 25)) hpow),
+      Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (sprUT_lt _ (gtUT_lt x)) hpow)]
+
+theorem sprUT_31 : ∀ c < 32, sprUT c * 31 = spUT (sprUT c) := by decide
+
+theorem mulUT_31 (x : Nat) : (x &&& 1082401) * 31 = spUT (x &&& 1082401) := by
+  rw [andUT_eq]
+  exact sprUT_31 _ (gtUT_lt x)
+
+theorem mtUT_bit {r : Nat} (hr : r < 32) (b j : Nat) {p : Nat} (hp : p < 25) :
+    (mtUT r b j).testBit p = ((spUT (Nat.land (Nat.shiftRight b j) 1082401)).testBit p &&
+      r.testBit (p % 5)) := by
+  rw [mtUT, cv_land, Nat.testBit_and, Nat.mul_eq, Nat.mul_eq, cv_land, mulUT_31, rUT_bit r hr p hp]
+
+theorem mulUT_eq (a b : Nat) : mulUT a b = mulC a b := by
+  refine eq_of_bits (mulUT_lt a b) (mulC_lt a b) fun p hp => ?_
+  have hr : ∀ i, i < 5 → ∀ k, k < 5 →
+      (mulC a b).testBit (5 * i + k) = (rowN (mulC a b) i).testBit k :=
+    fun i _ k hk => by rw [rowN_eq, rk_bit _ _ hk]
+  obtain ⟨i, k, hi, hk, rfl⟩ : ∃ i k, i < 5 ∧ k < 5 ∧ p = 5 * i + k :=
+    ⟨p / 5, p % 5, by omega, by omega, by omega⟩
+  rw [hr i hi k hk]
+  simp only [mulUT, cv_xor, Nat.testBit_xor, mtUT_bit (r0_lt a) b _ hp, mtUT_bit (r1_lt a) b _ hp,
+    mtUT_bit (r2_lt a) b _ hp, mtUT_bit (r3_lt a) b _ hp, mtUT_bit (r4_lt a) b _ hp]
+  interval_cases i <;> interval_cases k <;>
+    simp [-Nat.testBit_zero, spUT, Nat.testBit_or, Nat.testBit_shiftLeft, Nat.testBit_shiftRight,
+      Nat.testBit_and, mUT_bit, rowN_0, rowN_1, rowN_2, rowN_3, rowN_4, r0_mulC, r1_mulC, r2_mulC,
+      r3_mulC, r4_mulC, vm, vm5_testBit, r0_bit, r1_bit, r2_bit, r3_bit, r4_bit, Bool.and_comm]
+
+theorem powUT_eq (a b : Nat) : ∀ k, powUT (mulUT a b) k = powC (mulC a b) (k + 1)
+  | 0 => by
+    change mulUT a b = mulC (mulC a b) idC
+    rw [mulUT_eq, mulC_idC (mulC_lt a b)]
+  | k + 1 => by
+    change mulUT (mulUT a b) (powUT (mulUT a b) k) = mulC (mulC a b) (powC (mulC a b) (k + 1))
+    rw [powUT_eq a b k, mulUT_eq, mulUT_eq]
+
+theorem gathUT_lt (c : Nat) : gathUT c < 128 := by
+  have key : ∀ n, (Nat.rec (motive := fun _ => Nat) 0
+      (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.add acc (Nat.shiftLeft 1 j))
+        (bitB c (nthL pivUT j))) n : Nat) < 2 ^ n := by
+    intro n
+    induction n with
+    | zero => exact Nat.one_pos
+    | succ n ih =>
+      simp only [natRec_succ]
+      rw [Nat.pow_succ]
+      cases bitB c (nthL pivUT n)
+      · exact Nat.lt_of_lt_of_le ih (by omega)
+      · change _ + 1 <<< n < _
+        rw [Nat.one_shiftLeft]
+        omega
+  exact key 7
+
+theorem goodUT_good (hc : cenUTOK = true) {h : Nat} (hg : goodUT h = true) : good h = true := by
+  rw [goodUT, Bool.and_eq_true] at hg
+  obtain ⟨hb, hv⟩ := hg
+  have he : comboUT (gathUT h) = h := Nat.eq_of_beq_eq_true hb
+  have hp := rec_all cenUTP 128 hc (gathUT h) (gathUT_lt h)
+  rw [cenUTP, he] at hp
+  simp only [mulF_eq] at hp
+  unfold good
+  rw [hp, hv]
+  rfl
+
 theorem certsOK_mem {X : List Nat} :
-    ∀ {B : List (List Nat)}, certsOK X B = true → ∀ l ∈ B, allL (certOK X) l = true
+    ∀ {B : List (List Nat)}, List.rec (motive := fun _ => Bool) true
+      (fun l _ acc => Bool.rec (motive := fun _ => Bool) false acc (allL (certOK X) l)) B = true →
+      ∀ l ∈ B, allL (certOK X) l = true
   | [], _, l, hl => absurd hl List.not_mem_nil
   | a :: B, h, l, hl => by
-    have h' : Bool.rec (motive := fun _ => Bool) false (certsOK X B) (allL (certOK X) a) = true :=
-      h
+    have h' : Bool.rec (motive := fun _ => Bool) false (List.rec (motive := fun _ => Bool) true
+        (fun l _ acc => Bool.rec (motive := fun _ => Bool) false acc (allL (certOK X) l)) B)
+        (allL (certOK X) a) = true := h
     cases hfa : allL (certOK X) a <;> rw [hfa] at h'
     · exact absurd h' Bool.false_ne_true
     · rcases List.mem_cons.mp hl with rfl | hl
@@ -1074,7 +993,8 @@ theorem nthL_X {X : List Nat} (hX : x0OK X = true) {i : Nat} (hi : i < 24) (g : 
 theorem cert_sound {X : List Nat} {B : List (List Nat)} (h : certsOK X B = true)
     (hX : x0OK X = true) : ∀ l ∈ B, ∀ e ∈ l, ∃ ω : Wd, good (ω.evalC (codeE e)) = true := by
   intro l hl e he
-  have h1 := allL_mem (certsOK_mem h l hl) e he
+  rw [certsOK, Bool.and_eq_true] at h
+  have h1 := allL_mem (certsOK_mem h.2 l hl) e he
   unfold certOK at h1
   cases hc : (Nat.blt (Nat.shiftRight e 46) 24 && Nat.blt (Nat.land (Nat.shiftRight e 36) 31) 24 &&
       Nat.blt (Nat.land (Nat.shiftRight e 25) 31) 24) <;> rw [hc] at h1
@@ -1083,15 +1003,577 @@ theorem cert_sound {X : List Nat} {B : List (List Nat)} (h : certsOK X B = true)
     obtain ⟨⟨hz, h2⟩, h3⟩ := hc
     refine ⟨.mul (x0W (Nat.shiftRight e 46)) (.pow (.mul (x0W (Nat.land (Nat.shiftRight e 36) 31))
       (.pow (.mul (x0W (Nat.land (Nat.shiftRight e 25) 31)) .var)
-        (Nat.land (Nat.shiftRight e 30) 63))) (Nat.land (Nat.shiftRight e 41) 31)), ?_⟩
-    have h1' : goodF (mulF (nthL X (Nat.shiftRight e 46))
-        (powF (mulF (nthL X (Nat.land (Nat.shiftRight e 36) 31))
-          (powF (mulF (nthL X (Nat.land (Nat.shiftRight e 25) 31)) (codeE e))
-            (Nat.land (Nat.shiftRight e 30) 63)))
-          (Nat.land (Nat.shiftRight e 41) 31))) = true := h1
-    simp only [goodF_eq, mulF_eq, powF_eq, nthL_X hX hz (codeE e), nthL_X hX h2 (codeE e),
-      nthL_X hX h3 (codeE e)] at h1'
-    simpa only [Wd.evalC] using h1'
+        (Nat.pred (Nat.land (Nat.shiftRight e 30) 63) + 1)))
+        (Nat.pred (Nat.land (Nat.shiftRight e 41) 31) + 1)), ?_⟩
+    have h1' : goodUT (mulUT (nthL X (Nat.shiftRight e 46))
+        (powUT (mulUT (nthL X (Nat.land (Nat.shiftRight e 36) 31))
+          (powUT (mulUT (nthL X (Nat.land (Nat.shiftRight e 25) 31)) (codeE e))
+            (Nat.pred (Nat.land (Nat.shiftRight e 30) 63))))
+          (Nat.pred (Nat.land (Nat.shiftRight e 41) 31)))) = true := h1
+    have h1'' := goodUT_good h.1 h1'
+    rw [powUT_eq, powUT_eq] at h1''
+    simp only [mulUT_eq, nthL_X hX hz (codeE e), nthL_X hX h2 (codeE e),
+      nthL_X hX h3 (codeE e)] at h1''
+    simpa only [Wd.evalC] using h1''
+
+section CoverW
+
+open CFSG.KC.F4M3B (frcN_eq frc_eq)
+
+theorem rwL_bit (l p i k : Nat) : (rwL l p i).testBit k =
+    (decide (k < 4) && p.testBit (4 * i + k) || decide (k = 4) && (p.testBit 20 && l.testBit i)) := by
+  unfold rwL
+  rw [cv_lor, Nat.testBit_or, cv_land, Nat.testBit_and, cv_shr, Nat.testBit_shiftRight, Nat.mul_eq,
+    ← testBit_eq_bitB, ← testBit_eq_bitB]
+  have h15 : (15 : Nat) = 2 ^ 4 - 1 := rfl
+  have h16 : (16 : Nat) = 2 ^ 4 := rfl
+  have t16 : (16 : Nat).testBit k = decide (k = 4) := by
+    rw [h16, Nat.testBit_two_pow]
+    exact decide_eq_decide.mpr eq_comm
+  rw [h15, Nat.testBit_two_pow_sub_one]
+  cases p.testBit 20 <;> cases l.testBit i <;> simp [t16, Bool.and_comm]
+
+theorem rwL_lt (l p i : Nat) : rwL l p i < 32 := by
+  unfold rwL
+  rw [cv_lor, cv_land]
+  refine Nat.or_lt_two_pow (n := 5) (Nat.lt_of_le_of_lt Nat.and_le_right (by decide)) ?_
+  cases bitB p 20 && bitB l i <;> decide
+
+theorem expW_rows (l p : Nat) : r0 (expW l p) = rwL l p 0 ∧ r1 (expW l p) = rwL l p 1 ∧
+    r2 (expW l p) = rwL l p 2 ∧ r3 (expW l p) = rwL l p 3 ∧ r4 (expW l p) = rwL l p 4 := by
+  have h := fun i => rwL_lt l p i
+  exact ⟨r0_ofRows (h 0) (h 1) (h 2) (h 3) (h 4), r1_ofRows (h 0) (h 1) (h 2) (h 3) (h 4),
+    r2_ofRows (h 0) (h 1) (h 2) (h 3) (h 4), r3_ofRows (h 0) (h 1) (h 2) (h 3) (h 4),
+    r4_ofRows (h 0) (h 1) (h 2) (h 3) (h 4)⟩
+
+theorem expW_lt (l p : Nat) : expW l p < N :=
+  ofRows_lt (rwL_lt l p 0) (rwL_lt l p 1) (rwL_lt l p 2) (rwL_lt l p 3) (rwL_lt l p 4)
+
+theorem expW_lt' (l p : Nat) : expW l p < 2 ^ 25 := expW_lt l p
+
+theorem rwL_xor (l p q i : Nat) : rwL l (p ^^^ q) i = rwL l p i ^^^ rwL l q i :=
+  Nat.eq_of_testBit_eq fun k => by
+    rw [Nat.testBit_xor, rwL_bit, rwL_bit, rwL_bit, Nat.testBit_xor, Nat.testBit_xor]
+    rcases Nat.lt_or_ge k 4 with h1 | h1
+    · have h2 : decide (k = 4) = false := by simp; omega
+      simp [decide_eq_true h1, h2]
+    · have h1' : decide (k < 4) = false := by simp; omega
+      simp only [h1', Bool.false_and, Bool.false_or]
+      cases decide (k = 4) <;> cases p.testBit 20 <;> cases q.testBit 20 <;> cases l.testBit i <;>
+        rfl
+
+theorem expW_xor (l p q : Nat) : expW l (p ^^^ q) = expW l p ^^^ expW l q := by
+  obtain ⟨a0, a1, a2, a3, a4⟩ := expW_rows l (p ^^^ q)
+  obtain ⟨b0, b1, b2, b3, b4⟩ := expW_rows l p
+  obtain ⟨c0, c1, c2, c3, c4⟩ := expW_rows l q
+  refine code_ext (expW_lt l _) (Nat.xor_lt_two_pow (expW_lt' l p) (expW_lt' l q)) ?_ ?_ ?_ ?_ ?_
+  · rw [r0_xor, a0, b0, c0, rwL_xor]
+  · rw [r1_xor, a1, b1, c1, rwL_xor]
+  · rw [r2_xor, a2, b2, c2, rwL_xor]
+  · rw [r3_xor, a3, b3, c3, rwL_xor]
+  · rw [r4_xor, a4, b4, c4, rwL_xor]
+
+theorem basisW_spec {ops : List Nat} {l g : Nat} (h : basisW ops l g = true) :
+    ∀ b < 21, expW l (ptS ops (2 ^ b)) = mulC g (expW l (2 ^ b)) := by
+  have key : ∀ n, (Nat.rec (motive := fun _ => Bool) true
+      (fun b acc => Bool.rec (motive := fun _ => Bool) false acc
+        (Nat.beq (expW l (ptS ops (Nat.shiftLeft 1 b))) (mulC g (expW l (Nat.shiftLeft 1 b))))) n :
+        Bool) = true → ∀ b < n, expW l (ptS ops (2 ^ b)) = mulC g (expW l (2 ^ b)) := by
+    intro n
+    induction n with
+    | zero => intro _ b hb; omega
+    | succ n ih =>
+      intro h b hb
+      simp only [natRec_succ] at h
+      cases hn : Nat.beq (expW l (ptS ops (Nat.shiftLeft 1 n))) (mulC g (expW l (Nat.shiftLeft 1 n)))
+        <;> rw [hn] at h
+      · exact absurd h Bool.false_ne_true
+      · by_cases hbn : b = n
+        · subst hbn
+          have := Nat.eq_of_beq_eq_true hn
+          rwa [cv_shl, Nat.one_shiftLeft] at this
+        · exact ih h b (by omega)
+  exact key 21 h
+
+theorem basisW_all {ops : List Nat} {l g : Nat} (h : basisW ops l g = true) :
+    ∀ p < 2 ^ 21, expW l (ptS ops p) = mulC g (expW l p) :=
+  lin_ext (F := fun p => expW l (ptS ops p)) (G := fun p => mulC g (expW l p))
+    (fun a b => by simp only [ptS_xor, expW_xor]) (fun a b => by simp only [expW_xor, mulC_xor_r])
+    (basisW_spec h) 21 le_rfl
+
+def PW (B : List (List Nat)) (l p : Nat) : Prop :=
+  ∃ τ : Wd, ∃ L ∈ B, ∃ e ∈ L, τ.evalC (expW l p) = codeE e
+
+theorem good_gen {B : List (List Nat)} {ops : List Nat} {l i : Nat} (ho : allL opOK ops = true)
+    (hb : basisW ops l (genC i) = true) :
+    (∀ op ∈ ops, opOK op = true) ∧ ∀ p < 2 ^ 21, PW B l (ptS ops p) → PW B l p := by
+  refine ⟨allL_mem ho, fun p hp ⟨τ, L, hL, e, he, hτ⟩ => ⟨τ.subst (.mul (.gen i) .var), L, hL, e, he, ?_⟩⟩
+  rw [Wd.evalC_subst, ← hτ, basisW_all hb p hp]
+  rfl
+
+theorem lwOK_good {B LW : List (List Nat)} {cl l : Nat} (h : lwOK LW cl l = true) :
+    GoodOs (PW B l) (gensW LW cl) := by
+  simp only [lwOK, Bool.and_eq_true] at h
+  obtain ⟨⟨⟨⟨⟨⟨⟨o0, o1⟩, o2⟩, o3⟩, b0⟩, b1⟩, b2⟩, b3⟩ := h
+  intro ops hops
+  simp only [gensW, List.mem_cons, List.not_mem_nil, or_false] at hops
+  rcases hops with rfl | rfl | rfl | rfl
+  · exact good_gen (i := 0) o0 b0
+  · exact good_gen (i := 1) o1 b1
+  · exact good_gen (i := 2) o2 b2
+  · exact good_gen (i := 3) o3 b3
+
+theorem nthL_mem {L : List Nat} {o : Nat} (h : nthL L o ≠ 0) : nthL L o ∈ L := by
+  rw [nthL_eq] at h ⊢
+  rw [List.getD_eq_getElem?_getD] at h ⊢
+  cases hg : L[o]? with
+  | none => rw [hg] at h; exact absurd rfl h
+  | some a => exact List.mem_of_getElem? hg
+
+theorem nthLL_eq (L : List (List Nat)) (i : Nat) : nthLL L i = L.getD i [] := by
+  induction L generalizing i with
+  | nil => rfl
+  | cons a l ih =>
+    cases i with
+    | zero => rfl
+    | succ n => exact ih n
+
+theorem nthLL_mem {L : List (List Nat)} {i : Nat} (h : nthLL L i ≠ []) : nthLL L i ∈ L := by
+  rw [nthLL_eq] at h ⊢
+  rw [List.getD_eq_getElem?_getD] at h ⊢
+  cases hg : L[i]? with
+  | none => rw [hg] at h; exact absurd rfl h
+  | some a => exact List.mem_of_getElem? hg
+
+theorem codeE_lt (e : Nat) : codeE e < N := Nat.and_lt_two_pow (n := 25) e (by decide)
+
+theorem seed_PW {X : List Nat} {B : List (List Nat)} {l j d : Nat} (hX : x0OK X = true)
+    (hp : ∀ k < 24, powC (nthL X k) 24 = idC) (hl : ∃ i < 5, l.testBit i = true)
+    (h : seedOK X B l j d = true) (hq21 : 1048576 + (1024 * j + Nat.land d 1023) < 2 ^ 21) :
+    PW B l (1048576 + (1024 * j + Nat.land d 1023)) := by
+  simp only [seedOK, Bool.and_eq_true, Nat.blt_eq, Nat.add_eq, Nat.mul_eq] at h
+  obtain ⟨hk, he⟩ := h
+  have he' := Nat.eq_of_beq_eq_true he
+  rw [mulUT_eq] at he'
+  generalize hq : 1048576 + (1024 * j + Nat.land d 1023) = q at he' hq21
+  have hq20 : q.testBit 20 = true := by
+    have e20 : (2 : Nat) ^ 20 = 1048576 := rfl
+    have e21 : (2 : Nat) ^ 21 = 2097152 := rfl
+    rw [e21] at hq21
+    rw [Nat.testBit_eq_decide_div_mod_eq, e20, decide_eq_true_eq]
+    omega
+  generalize hb : nthL (nthLL B (Nat.shiftRight d 27)) (Nat.land (Nat.shiftRight d 15) 4095) = b at he'
+  generalize hk' : Nat.land (Nat.shiftRight d 10) 31 = k at he' hk
+  have hb0 : b ≠ 0 := by
+    rintro rfl
+    obtain ⟨i, hi, hli⟩ := hl
+    have h0 : codeE 0 = 0 := rfl
+    rw [h0] at he'
+    have hz : mulC 0 (nthL X k) = 0 :=
+      lin_zero (F := fun a => mulC a (nthL X k)) (fun a b => mulC_xor_l a b _)
+    rw [hz] at he'
+    obtain ⟨a0, a1, a2, a3, a4⟩ := expW_rows l q
+    have hr := rwL_bit l q i 4
+    simp only [hq20, hli] at hr
+    interval_cases i
+    · rw [← a0, he'] at hr
+      simp [r0] at hr
+    · rw [← a1, he'] at hr
+      simp [r1] at hr
+    · rw [← a2, he'] at hr
+      simp [r2] at hr
+    · rw [← a3, he'] at hr
+      simp [r3] at hr
+    · rw [← a4, he'] at hr
+      simp [r4] at hr
+  have hLne : nthLL B (Nat.shiftRight d 27) ≠ [] := by
+    intro hn
+    rw [hn] at hb
+    exact hb0 hb.symm
+  refine ⟨.mul .var (.pow (x0W k) 23), _, nthLL_mem hLne, b, by rw [← hb]; exact nthL_mem (hb ▸ hb0), ?_⟩
+  have hy := nthL_X hX hk (expW l q)
+  simp only [Wd.evalC]
+  rw [← hy, he', mulC_assoc]
+  have h24 : mulC (nthL X k) (powC (nthL X k) 23) = idC := hp k hk
+  rw [h24, mulC_idC (codeE_lt b)]
+
+theorem ofC_expW {Ms : List Nat}
+    (hMs : ∀ j < 21, ∀ x, (nthL Ms j).testBit x = (decide (x < 2 ^ 21) && x.testBit j))
+    {l p : Nat} (hp : p < 2 ^ 21) : (matW Ms l).map (fun n => n.testBit p) = ofC (expW l p) := by
+  have hM : ∀ j, j < 21 → (nthL Ms j).testBit p = p.testBit j := fun j hj => by
+    rw [hMs j hj, decide_eq_true hp, Bool.true_and]
+  have hE : ∀ i, (Bool.rec (motive := fun _ => Nat) 0 (nthL Ms 20) (bitB l i)).testBit p =
+      (p.testBit 20 && l.testBit i) := fun i => by
+    rw [← testBit_eq_bitB]
+    cases l.testBit i
+    · simp
+    · simp [hM 20 (by omega)]
+  obtain ⟨a0, a1, a2, a3, a4⟩ := expW_rows l p
+  simp (disch := omega) only [matW, rowW, M5.map, R5.map, ofC, rowB, a0, a1, a2, a3, a4, rwL_bit, hM,
+    hE, Nat.mul_eq, Nat.add_eq]
+  simp
+
+theorem covW_sound {X : List Nat} {B LW S : List (List Nat)} {cl l : Nat}
+    (h : covW X B LW cl l S = true) (hX : x0OK X = true)
+    (hp : ∀ k < 24, powC (nthL X k) 24 = idC) (hl : ∃ i < 5, l.testBit i = true) {p : Nat}
+    (hp21 : p < 2 ^ 21) (hns : nonsing (expW l p) = true) : PW B l p := by
+  unfold covW at h
+  generalize hT : Nat.sub (Nat.shiftLeft 1 2097152) 1 = t at h
+  have ht : t.testBit p = true := by
+    rw [← hT]
+    exact allOnes_bit hp21
+  simp only [Bool.and_eq_true] at h
+  obtain ⟨⟨hw, hs⟩, hm⟩ := h
+  rw [frc_eq] at hm
+  obtain ⟨Ms, hMs, hm⟩ := msW_spec hm
+  simp only [frc_eq] at hm
+  have hbit := congrArg (fun x => x.testBit p) (Nat.eq_of_beq_eq_true hm)
+  have hnsP : (nsK (natOps t) (matW Ms l)).testBit p = nonsing (expW l p) := by
+    rw [nsK_eq _ (natOps_bd t), nsD_map (natOps t) boolOps (fun n => n.testBit p)
+      (fun p q => Nat.testBit_and p q _) (fun p q => Nat.testBit_or p q _)
+      (fun p q => Nat.testBit_xor p q _) ht (Nat.zero_testBit p), ofC_expW hMs hp21,
+      Bool.eq_iff_iff, nsD_ofC, nonsing_iff]
+    exact ⟨fun h v h0 h1 => h v h0 (by omega), fun h v h0 h1 => h v h0 (by omega)⟩
+  simp only [cv_land, cv_xor, Nat.testBit_and, Nat.testBit_xor, Nat.zero_testBit, hnsP, hns, ht]
+    at hbit
+  have h0 : CovInv (PW B l) (Nat.shiftLeft (indS S) 1048576) := fun q hq hb => by
+    rw [cv_shl, Nat.testBit_shiftLeft, Bool.and_eq_true, decide_eq_true_eq] at hb
+    obtain ⟨j, d, hd, hqd⟩ := indS_bit hs hb.2
+    have e : q = 1048576 + (1024 * j + Nat.land d 1023) := by omega
+    rw [e]
+    exact seed_PW hX hp hl (by simpa using hd) (by rw [← e]; exact hq)
+  exact roundsS_inv hMs (lwOK_good hw) 3 h0 p hp21 (by simpa using hbit)
+
+theorem anyN_spec {f : Nat → Bool} : ∀ {n : Nat}, anyN f n = true → ∃ i < n, f i = true
+  | 0, h => absurd h Bool.false_ne_true
+  | n + 1, h => by
+    change Bool.rec (motive := fun _ => Bool) (f n) true (anyN f n) = true at h
+    cases ha : anyN f n
+    · rw [ha] at h
+      exact ⟨n, by omega, h⟩
+    · obtain ⟨i, hi, hf⟩ := anyN_spec ha
+      exact ⟨i, by omega, hf⟩
+
+def idxW (c : Nat) : Nat :=
+  r0 c % 16 ||| (r1 c % 16) <<< 4 ||| (r2 c % 16) <<< 8 ||| (r3 c % 16) <<< 12 |||
+    (r4 c % 16) <<< 16 ||| 1048576
+
+theorem tb16 (x j : Nat) : (x % 16).testBit j = (decide (j < 4) && x.testBit j) :=
+  Nat.testBit_mod_two_pow x 4 j
+
+theorem t20 (j : Nat) : (1048576 : Nat).testBit j = decide (j = 20) := by
+  have e : (1048576 : Nat) = 2 ^ 20 := rfl
+  rw [e, Nat.testBit_two_pow]
+  exact decide_eq_decide.mpr eq_comm
+
+theorem idxW_bit (c : Nat) {i k : Nat} (hi : i < 5) (hk : k < 4) :
+    (idxW c).testBit (4 * i + k) = (rowN c i).testBit k := by
+  interval_cases i <;> interval_cases k <;>
+    simp [idxW, Nat.testBit_or, Nat.testBit_shiftLeft, tb16, t20, rowN_0, rowN_1, rowN_2, rowN_3,
+      rowN_4]
+
+theorem idxW_20 (c : Nat) : (idxW c).testBit 20 = true := by
+  simp [idxW, Nat.testBit_or, t20]
+
+theorem idxW_lt (c : Nat) : idxW c < 2 ^ 21 :=
+  Nat.lt_pow_two_of_testBit _ fun i hi => by
+    have h1 : ¬ i < 4 := by omega
+    have h2 : ¬ i - 4 < 4 := by omega
+    have h3 : ¬ i - 8 < 4 := by omega
+    have h4 : ¬ i - 12 < 4 := by omega
+    have h5 : ¬ i - 16 < 4 := by omega
+    have h6 : ¬ i = 20 := by omega
+    simp [idxW, Nat.testBit_or, Nat.testBit_shiftLeft, tb16, t20, h1, h2, h3, h4, h5, h6]
+
+theorem rwL_idxW {c l i : Nat} (hi : i < 5) (h4 : (rowN c i).testBit 4 = l.testBit i) :
+    rwL l (idxW c) i = rowN c i := by
+  have hr : rowN c i < 32 := by rw [rowN_eq]; omega
+  refine Nat.eq_of_testBit_eq fun k => ?_
+  rw [rwL_bit]
+  by_cases hk : k < 4
+  · have hk4 : decide (k = 4) = false := by simp; omega
+    rw [decide_eq_true hk, hk4, Bool.true_and, Bool.false_and, Bool.or_false, idxW_bit c hi hk]
+  · by_cases hk' : k = 4
+    · subst hk'
+      simp [idxW_20, h4]
+    · have hk5 : rowN c i < 2 ^ k := Nat.lt_of_lt_of_le hr
+        (by have := Nat.pow_le_pow_right (n := 2) (by omega) (show 5 ≤ k by omega); simpa using this)
+      rw [Nat.testBit_lt_two_pow hk5]
+      simp [hk, hk']
+
+theorem expW_idxW {c l : Nat} (hc : c < N) (h4 : ∀ i < 5, (rowN c i).testBit 4 = l.testBit i) :
+    expW l (idxW c) = c := by
+  obtain ⟨a0, a1, a2, a3, a4⟩ := expW_rows l (idxW c)
+  refine code_ext (expW_lt _ _) hc ?_ ?_ ?_ ?_ ?_
+  · rw [a0, rwL_idxW (by omega) (h4 0 (by omega)), rowN_0]
+  · rw [a1, rwL_idxW (by omega) (h4 1 (by omega)), rowN_1]
+  · rw [a2, rwL_idxW (by omega) (h4 2 (by omega)), rowN_2]
+  · rw [a3, rwL_idxW (by omega) (h4 3 (by omega)), rowN_3]
+  · rw [a4, rwL_idxW (by omega) (h4 4 (by omega)), rowN_4]
+
+theorem col_mulC {a a' : Nat} (y : Nat) (h : ∀ j < 5, (rowN a j).testBit 4 = (rowN a' j).testBit 4)
+    {i : Nat} (hi : i < 5) : (rowN (mulC a y) i).testBit 4 = (rowN (mulC a' y) i).testBit 4 := by
+  have h0 := h 0 (by omega)
+  have h1 := h 1 (by omega)
+  have h2 := h 2 (by omega)
+  have h3 := h 3 (by omega)
+  have h4 := h 4 (by omega)
+  simp only [rowN_0, rowN_1, rowN_2, rowN_3, rowN_4] at h0 h1 h2 h3 h4
+  interval_cases i <;>
+    simp only [rowN_0, rowN_1, rowN_2, rowN_3, rowN_4, r0_mulC, r1_mulC, r2_mulC, r3_mulC,
+      r4_mulC, vm, vm5_testBit, h0, h1, h2, h3, h4]
+
+theorem nonsing_mulC {a y : Nat} (ha : nonsing a = true) (hy : nonsing y = true) :
+    nonsing (mulC a y) = true := by
+  rw [nonsing_iff] at ha hy ⊢
+  intro v h0 h1 hv
+  rw [vm_mulC] at hv
+  exact hy v h0 h1 (Nat.eq_zero_of_not_pos fun hp => ha _ hp (vm_lt v y) hv)
+
+theorem colN_row (c : Nat) {j : Nat} (hj : j < 5) : (colN c 4).testBit j = (rowN c j).testBit 4 := by
+  obtain ⟨b0, b1, b2, b3, b4⟩ := colN_bit c (m := 4) (by omega)
+  interval_cases j
+  · rw [b0, rowN_0]
+  · rw [b1, rowN_1]
+  · rw [b2, rowN_2]
+  · rw [b3, rowN_3]
+  · rw [b4, rowN_4]
+
+theorem rowN_expW (l p : Nat) {i : Nat} (hi : i < 5) : rowN (expW l p) i = rwL l p i := by
+  obtain ⟨a0, a1, a2, a3, a4⟩ := expW_rows l p
+  interval_cases i
+  · rw [rowN_0, a0]
+  · rw [rowN_1, a1]
+  · rw [rowN_2, a2]
+  · rw [rowN_3, a3]
+  · rw [rowN_4, a4]
+
+theorem nthL_memX {X : List Nat} (hX : x0OK X = true) {k : Nat} (hk : k < 24) : nthL X k ∈ X := by
+  have hX' : X = x0Words.toList.map evalList := beq_iff_eq.mp hX
+  have hl : X.length = 24 := by rw [hX', List.length_map, Array.length_toList]; rfl
+  rw [nthL_eq, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega)]
+  exact List.getElem_mem _
+
+theorem cover_sound {X : List Nat} {B LW S0 S1 S2 S3 : List (List Nat)}
+    (h0 : covW X B LW 0 1 S0 = true) (h1 : covW X B LW 1 4 S1 = true)
+    (h2 : covW X B LW 2 6 S2 = true) (h3 : covW X B LW 3 20 S3 = true) (hr : redOK X = true)
+    (hX : x0OK X = true) {c : Nat} (_hc : c < N) (hns : nonsing c = true) (hst : stabW4 c = false) :
+    ∃ τ : Wd, ∃ l ∈ B, ∃ e ∈ l, τ.evalC c = codeE e := by
+  rw [redOK, Bool.and_eq_true] at hr
+  obtain ⟨hy, hm⟩ := hr
+  have hyX : ∀ k < 24, nonsing (nthL X k) = true ∧ powC (nthL X k) 24 = idC := fun k hk => by
+    have := allL_mem hy _ (nthL_memX hX hk)
+    rw [Bool.and_eq_true, powF_eq] at this
+    exact ⟨this.1, Nat.eq_of_beq_eq_true this.2⟩
+  have hp : ∀ k < 24, powC (nthL X k) 24 = idC := fun k hk => (hyX k hk).2
+  have hmc : ∀ j < 5, (colN c 4 % 32).testBit j = (rowN c j).testBit 4 := fun j hj => by
+    have h32 : (32 : Nat) = 2 ^ 5 := rfl
+    rw [h32, Nat.testBit_mod_two_pow, decide_eq_true hj, Bool.true_and, colN_row c hj]
+  have hm' := rec_all (fun m => Nat.beq (Nat.land m 15) 0 || anyN (fun i =>
+    Nat.beq (colN (mulC (expW m 1048576) (nthL X (Nat.mod i 24))) 4) (nthL repL (Nat.div i 24))) 96)
+    32 hm (colN c 4 % 32) (Nat.mod_lt _ (by omega))
+  simp only [Bool.or_eq_true] at hm'
+  rcases hm' with hz | ha
+  · exfalso
+    have hz' := congrArg (fun x => x.testBit) (Nat.eq_of_beq_eq_true hz)
+    have hb : ∀ j < 4, (colN c 4).testBit j = false := fun j hj => by
+      have := congrFun hz' j
+      simp only [cv_land, Nat.testBit_and, Nat.zero_testBit] at this
+      have h15 : (15 : Nat).testBit j = true := by interval_cases j <;> rfl
+      rw [h15, Bool.and_true, hmc j (by omega), ← colN_row c (by omega)] at this
+      exact this
+    rw [stabW4_eq] at hst
+    have e0 := hb 0 (by omega)
+    have e1 := hb 1 (by omega)
+    have e2 := hb 2 (by omega)
+    have e3 := hb 3 (by omega)
+    rw [colN_row c (by omega), rowN_0, r0_bit c (by omega)] at e0
+    rw [colN_row c (by omega), rowN_1, r1_bit c (by omega)] at e1
+    rw [colN_row c (by omega), rowN_2, r2_bit c (by omega)] at e2
+    rw [colN_row c (by omega), rowN_3, r3_bit c (by omega)] at e3
+    simp [e0, e1, e2, e3] at hst
+  · obtain ⟨i, hi, hf⟩ := anyN_spec ha
+    have e1 : Nat.div i 24 = i / 24 := rfl
+    have e2 : Nat.mod i 24 = i % 24 := rfl
+    rw [e1, e2] at hf
+    have hk : i % 24 < 24 := Nat.mod_lt _ (by omega)
+    have hcl : i / 24 < 4 := by omega
+    generalize i % 24 = k at hk hf
+    generalize i / 24 = cl at hcl hf
+    have hl := Nat.eq_of_beq_eq_true hf
+    set y := nthL X k with hyd
+    set c' := mulC c y with hc'
+    have hrow : ∀ j < 5, (rowN c' j).testBit 4 = (nthL repL cl).testBit j := fun j hj => by
+      rw [← hl, colN_row _ hj]
+      refine col_mulC y (fun j' hj' => ?_) hj
+      rw [rowN_expW _ _ hj', rwL_bit, ← hmc j' hj']
+      simp [t20]
+    have hrec := expW_idxW (mulC_lt c y) hrow
+    have hns' := nonsing_mulC hns (hyX k hk).1
+    rw [← hrec] at hns'
+    have hP : PW B (nthL repL cl) (idxW c') := by
+      interval_cases cl
+      · exact covW_sound h0 hX hp ⟨0, by omega, rfl⟩ (idxW_lt _) hns'
+      · exact covW_sound h1 hX hp ⟨2, by omega, rfl⟩ (idxW_lt _) hns'
+      · exact covW_sound h2 hX hp ⟨1, by omega, rfl⟩ (idxW_lt _) hns'
+      · exact covW_sound h3 hX hp ⟨2, by omega, rfl⟩ (idxW_lt _) hns'
+    obtain ⟨τ, L, hL, e, he, hτ⟩ := hP
+    refine ⟨τ.subst (.mul .var (x0W k)), L, hL, e, he, ?_⟩
+    rw [Wd.evalC_subst, ← hτ, hrec]
+    simp only [Wd.evalC, hyd, nthL_X hX hk c]
+
+end CoverW
+
+section Cent
+
+open CFSG.KC.F4M3B (frc_eq pln pln_bit)
+
+theorem allR_spec {f : Nat → Bool} (h : allR f = true) {r : Nat} (hr : r < 32) : f r = true :=
+  rec_all f 32 h r hr
+
+theorem gathK_lt (c : Nat) : gathK c < 2 ^ 13 := by
+  have key : ∀ n, (Nat.rec (motive := fun _ => Nat) 0
+      (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.add acc (Nat.shiftLeft 1 j))
+        (bitB c (nthL pivK j))) n : Nat) < 2 ^ n := by
+    intro n
+    induction n with
+    | zero => exact Nat.one_pos
+    | succ n ih =>
+      simp only [natRec_succ]
+      rw [Nat.pow_succ]
+      cases bitB c (nthL pivK n)
+      · exact Nat.lt_of_lt_of_le ih (by omega)
+      · change _ + 1 <<< n < _
+        rw [Nat.one_shiftLeft]
+        omega
+  exact key 13
+
+theorem plC_bit (b : Nat) {p : Nat} (hp : p < 2 ^ 13) : (plC b).testBit p = (comboK p).testBit b := by
+  have key : ∀ n, (Nat.rec (motive := fun _ => Nat) 0
+      (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.xor acc (pln j 13))
+        (bitB (nthL kB j) b)) n : Nat).testBit p =
+      (Nat.rec (motive := fun _ => Nat) 0
+      (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.xor acc (nthL kB j))
+        (bitB p j)) n : Nat).testBit b := by
+    intro n
+    have hp' : p < 8192 := hp
+    induction n with
+    | zero => simp
+    | succ n ih =>
+      have e1 := testBit_eq_bitB (nthL kB n) b
+      have e2 := testBit_eq_bitB p n
+      have hpl : (pln n 13).testBit p = p.testBit n := by
+        rw [pln_bit]
+        simp [hp']
+      cases h1 : bitB (nthL kB n) b <;> cases h2 : bitB p n <;>
+        simp only [cv_xor, Nat.testBit_xor, ih, hpl, ← e1, ← e2, h1, h2] <;>
+        simp_all
+  exact key 13
+
+@[expose] noncomputable def PC : M5 Nat :=
+  ⟨⟨plC (Nat.mul 5 0), plC (Nat.add (Nat.mul 5 0) 1), plC (Nat.add (Nat.mul 5 0) 2),
+      plC (Nat.add (Nat.mul 5 0) 3), plC (Nat.add (Nat.mul 5 0) 4)⟩,
+    ⟨plC (Nat.mul 5 1), plC (Nat.add (Nat.mul 5 1) 1), plC (Nat.add (Nat.mul 5 1) 2),
+      plC (Nat.add (Nat.mul 5 1) 3), plC (Nat.add (Nat.mul 5 1) 4)⟩,
+    ⟨plC (Nat.mul 5 2), plC (Nat.add (Nat.mul 5 2) 1), plC (Nat.add (Nat.mul 5 2) 2),
+      plC (Nat.add (Nat.mul 5 2) 3), plC (Nat.add (Nat.mul 5 2) 4)⟩,
+    ⟨plC (Nat.mul 5 3), plC (Nat.add (Nat.mul 5 3) 1), plC (Nat.add (Nat.mul 5 3) 2),
+      plC (Nat.add (Nat.mul 5 3) 3), plC (Nat.add (Nat.mul 5 3) 4)⟩,
+    ⟨plC (Nat.mul 5 4), plC (Nat.add (Nat.mul 5 4) 1), plC (Nat.add (Nat.mul 5 4) 2),
+      plC (Nat.add (Nat.mul 5 4) 3), plC (Nat.add (Nat.mul 5 4) 4)⟩⟩
+
+theorem PC_map {p : Nat} (hp : p < 2 ^ 13) : PC.map (fun n => n.testBit p) = ofC (comboK p) := by
+  simp (disch := omega) only [PC, M5.map, R5.map, plC_bit _ hp, ofC, rowB, Nat.add_eq,
+    Nat.mul_eq, r0_bit, r1_bit, r2_bit, r3_bit, r4_bit]
+
+theorem bit_of_sliceC {F : Ops Nat → M5 Nat → Nat} {G : M5 Bool → Bool}
+    (hFG : ∀ t i, t.testBit i = true → ∀ A, (F (natOps t) A).testBit i = G (A.map (·.testBit i)))
+    (h : sliceC F = true) {p : Nat} (hp : p < 2 ^ 13) : G (ofC (comboK p)) = true := by
+  have h1 : Nat.beq (F (natOps (Nat.sub (Nat.pow 2 (Nat.pow 2 13)) 1)) PC)
+      (Nat.sub (Nat.pow 2 (Nat.pow 2 13)) 1) = true := by
+    simp only [sliceC, plKC, rowPC, frc_eq] at h
+    exact h
+  have key : ∀ m, Nat.beq (F (natOps (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1)) PC)
+      (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1) = true →
+      ∃ T, (∀ i, i < 2 ^ m → T.testBit i = true) ∧ F (natOps T) PC = T :=
+    fun m h => ⟨_, fun i hi => tT_bit m hi, Nat.eq_of_beq_eq_true h⟩
+  obtain ⟨T, hT, h3⟩ := key 13 h1
+  have h2 := congrArg (fun n => n.testBit p) h3
+  rw [hFG _ _ (hT p hp), PC_map hp, hT p hp] at h2
+  exact h2
+
+theorem vm5_t0 (a0 a1 a2 a3 a4 : Nat) : vm5 1 a0 a1 a2 a3 a4 = vm5 1 a0 0 0 0 0 := by
+  simp [vm5, Nat.testBit]
+theorem vm5_t1 (a0 a1 a2 a3 a4 : Nat) : vm5 2 a0 a1 a2 a3 a4 = vm5 2 a0 a1 0 0 0 := by
+  simp [vm5, Nat.testBit]
+theorem vm5_t2 (a0 a1 a2 a3 a4 : Nat) : vm5 6 a0 a1 a2 a3 a4 = vm5 6 a0 a1 a2 0 0 := by
+  simp [vm5, Nat.testBit]
+theorem vm5_t3 (a0 a1 a2 a3 a4 : Nat) : vm5 9 a0 a1 a2 a3 a4 = vm5 9 a0 a1 a2 a3 0 := by
+  simp [vm5, Nat.testBit]
+
+theorem cuvR_of {c : Nat} (huv : mulC c uvC = mulC uvC c) :
+    cuvR 0 (r0 c) (r0 c) 0 0 0 0 = true ∧ cuvR 1 (r1 c) (r0 c) (r1 c) 0 0 0 = true ∧
+    cuvR 2 (r2 c) (r0 c) (r1 c) (r2 c) 0 0 = true ∧
+    cuvR 3 (r3 c) (r0 c) (r1 c) (r2 c) (r3 c) 0 = true ∧
+    cuvR 4 (r4 c) (r0 c) (r1 c) (r2 c) (r3 c) (r4 c) = true := by
+  have e0 := congrArg r0 huv
+  have e1 := congrArg r1 huv
+  have e2 := congrArg r2 huv
+  have e3 := congrArg r3 huv
+  have e4 := congrArg r4 huv
+  simp only [r0_mulC, r1_mulC, r2_mulC, r3_mulC, r4_mulC, vm] at e0 e1 e2 e3 e4
+  have u0 : r0 uvC = 1 := rfl
+  have u1 : r1 uvC = 2 := rfl
+  have u2 : r2 uvC = 6 := rfl
+  have u3 : r3 uvC = 9 := rfl
+  have u4 : r4 uvC = 19 := rfl
+  simp only [u0, u1, u2, u3, u4] at e0 e1 e2 e3 e4
+  rw [vm5_t0] at e0
+  rw [vm5_t1] at e1
+  rw [vm5_t2] at e2
+  rw [vm5_t3] at e3
+  simp only [cuvR, vmF_eq, rowN_0, rowN_1, rowN_2, rowN_3, rowN_4, u0, u1, u2, u3, u4]
+  rw [e0, e1, e2, e3, e4]
+  exact ⟨Nat.beq_refl _, Nat.beq_refl _, Nat.beq_refl _, Nat.beq_refl _, Nat.beq_refl _⟩
+
+theorem cuvOK_spec (h : cuvOK = true) {c : Nat} (hc : c < N) (huv : mulC c uvC = mulC uvC c) :
+    comboK (gathK c) = c := by
+  obtain ⟨h0, h1, h2, h3, h4⟩ := cuvR_of huv
+  have k0 := allR_spec h (r0_lt c)
+  simp only [h0, Bool.not_true, Bool.false_or] at k0
+  have k1 := allR_spec k0 (r1_lt c)
+  simp only [h1, Bool.not_true, Bool.false_or] at k1
+  have k2 := allR_spec k1 (r2_lt c)
+  simp only [h2, Bool.not_true, Bool.false_or] at k2
+  have k3 := allR_spec k2 (r3_lt c)
+  simp only [h3, Bool.not_true, Bool.false_or] at k3
+  have k4 := allR_spec k3 (r4_lt c)
+  simp only [h4, Bool.not_true, Bool.false_or, ofRows_rows hc] at k4
+  exact Nat.eq_of_beq_eq_true k4
+
+theorem chk1C_sound (h : sliceC chk1 = true) (hk : cuvOK = true) {c : Nat} (hc : c < N)
+    (hns : nonsing c = true) (huv : mulC c uvC = mulC uvC c) (ht : mulC c tC = mulC tC c) :
+    powC c 64 = idC := by
+  have hb := bit_of_sliceC (G := chk1D boolOps) (fun t i ht A => by
+    rw [chk1_eq _ (fun y k => F4M3B.frcN_eq y k),
+      chk1D_map (natOps t) boolOps (fun n => n.testBit i) (fun p q => Nat.testBit_and p q i)
+        (fun p q => Nat.testBit_or p q i) (fun p q => Nat.testBit_xor p q i) ht
+        (Nat.zero_testBit i)]) h (gathK_lt c)
+  rw [cuvOK_spec hk hc huv] at hb
+  exact chk1D_ofC hc hb hns huv ht
+
+theorem chk2C_sound (h : sliceC chk2 = true) (hk : cuvOK = true) {c : Nat} (hc : c < N)
+    (hns : nonsing c = true) (huv : mulC c uvC = mulC uvC c) (hD : normD c = true) :
+    normV c = true := by
+  have hb := bit_of_sliceC (G := chk2D boolOps) (fun t i ht A => by
+    rw [chk2_eq _ (fun y k => F4M3B.frcN_eq y k),
+      chk2D_map (natOps t) boolOps (fun n => n.testBit i) (fun p q => Nat.testBit_and p q i)
+        (fun p q => Nat.testBit_or p q i) (fun p q => Nat.testBit_xor p q i) ht
+        (Nat.zero_testBit i)]) h (gathK_lt c)
+  rw [cuvOK_spec hk hc huv] at hb
+  exact chk2D_ofC hb hns huv hD
+
+end Cent
 
 end CFSG.KC.GL5B
 

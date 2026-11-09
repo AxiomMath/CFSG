@@ -34,6 +34,22 @@ open CFSG.Sporadic.Th.Native
 
 @[expose] def mclXEnum : Enum := enumBFS 35 mclXGens 20160
 
+@[expose] def mclSylWords : List (List (List Nat)) := [[[0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1,
+    1, 0, 1, 1], [1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1], [0, 1, 1, 0, 1, 1, 1, 1,
+    0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0], [0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0]], [[1, 1, 1, 0,
+    1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0], [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1,
+    0, 1, 0, 1]], [[1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1]], [[1, 1, 0, 1, 0, 1, 0, 1, 1, 1,
+    0, 1, 1, 0, 1, 0, 1, 0]]]
+
+@[expose] def mclSylPrimes : List Nat := [2, 3, 5, 7]
+
+@[expose] def mclSylSizes : List Nat := [64, 9, 5, 7]
+
+@[expose] def mclSylGens (i : Nat) : Array Tab :=
+  ((mclSylWords.getD i []).map (wordTabS 35 mclXGens)).toArray
+
+@[expose] def mclSylEnum (i : Nat) : Enum := enumBFS 35 (mclSylGens i) 64
+
 @[expose] def mclXOrbits : Array Enum :=
   Array.ofFn (n := 14) fun l => orbitBFS 35 mclXGens mclXInvs (wordTabS 35 mclXGens
     (mclXWords.getD l.val [])) 5000

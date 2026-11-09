@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 meta import CFSG.LocalAnalysis.AGLEmbeddingD2.Wilson.Coordinator.KS155.J2E4Data
 
-#kc_repo #kc_json_gz CertificateChecks.KernelC12643 "Certificates/Kernel/C12643/data/c12643enum.json.gz" 591058 9849720219205952961
+#kc_repo #kc_json CertificateChecks.KernelC12643 "Certificates/Kernel/C12643/data/c12643enum.json" 591058 9849720219205952961
   (C5aP : List Nat) (C5aE : List Nat) (C5aR : List Nat) (C5aL : List Nat)
   (C5cP : List Nat) (C5cE : List Nat) (C5cR : List Nat) (C5cL : List Nat)
   (C7P : List Nat) (C7E : List Nat) (C7R : List Nat) (C7L : List Nat)

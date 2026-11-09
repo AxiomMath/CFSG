@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Inv "Certificates/Kernel/F4Inv/data/rank.json.gz" 2182
+#kc_repo #kc_json CFSG.KD.F4Inv "Certificates/Kernel/F4Inv/data/rank.json" 2182
   159259345398260215 (u26 : Nat) (kT : List Nat) (kU : List Nat) (kTU : List Nat)
   (iV : List Nat) (kRA : List Nat) (kRB : List Nat) (iZ : List Nat) (kRAU : List Nat)
   (iRBU : List Nat)

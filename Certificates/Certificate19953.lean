@@ -10,6 +10,157 @@ namespace CertificateChecks.Batch19953
 
 open CFSG.Quasithin CFSG.CosetTable CFSG.Sporadic.Bridge
 
+private theorem getD_drop96 (L : List ℕ) (j m : ℕ) :
+    L.getD (96 * j + m) 0 = (L.drop (96 * j)).getD m 0 := by
+  rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_drop]
+
+private noncomputable def allB (f : ℕ → Bool) (n : ℕ) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun i ih => Bool.rec (motive := fun _ => Bool) false ih (f i)) n
+
+private theorem allB_sound {f : ℕ → Bool} {n : ℕ} (h : allB f n = true) :
+    ∀ i < n, f i = true := by
+  induction n with
+  | zero => intro i hi; omega
+  | succ n ih =>
+    intro i hi
+    have e : allB f (n + 1) = Bool.rec (motive := fun _ => Bool) false (allB f n) (f n) := rfl
+    cases hc : f n with
+    | false =>
+      rw [e, hc] at h
+      change false = true at h
+      cases h
+    | true =>
+      rw [e, hc] at h
+      change allB f n = true at h
+      by_cases hin : i = n
+      · subst hin
+        exact hc
+      · exact ih h i (by omega)
+
+private noncomputable def pk (l : List ℕ) : ℕ :=
+  List.rec (motive := fun _ => ℕ) 0 (fun x _ acc => Nat.add x (Nat.mul 32 acc)) l
+
+private def dg (p j : ℕ) : ℕ := Nat.mod (Nat.div p (Nat.pow 32 j)) 32
+
+private theorem dg_pk (l : List ℕ) (hl : ∀ x ∈ l, x < 32) (j : ℕ) :
+    dg (pk l) j = l.getD j 0 := by
+  induction l generalizing j with
+  | nil =>
+    change 0 / 32 ^ j % 32 = 0
+    simp
+  | cons x l ih =>
+    have hx : x < 32 := hl x (by simp)
+    have hq : (x + 32 * pk l) / 32 = pk l := by omega
+    cases j with
+    | zero =>
+      change (x + 32 * pk l) / 32 ^ 0 % 32 = x
+      omega
+    | succ j =>
+      change (x + 32 * pk l) / 32 ^ (j + 1) % 32 = l.getD j 0
+      rw [pow_succ', ← Nat.div_div_eq_div_mul, hq]
+      exact ih (fun y hy => hl y (by simp [hy])) j
+
+private theorem compL_getD {l m : List ℕ} {p : ℕ} (hp : p < m.length) :
+    (compL l m).getD p 0 = l.getD (m.getD p 0) 0 := by
+  simp only [compL, List.getD_eq_getElem?_getD]
+  simp [List.getElem?_eq_getElem hp]
+
+private theorem eq_of_getD {l m : List ℕ} {n : ℕ} (hl : l.length = n) (hm : m.length = n)
+    (h : ∀ p < n, l.getD p 0 = m.getD p 0) : l = m := by
+  refine List.ext_getElem (hl.trans hm.symm) fun p hp1 hp2 => ?_
+  have := h p (hl ▸ hp1)
+  simpa [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hp1,
+    List.getElem?_eq_getElem hp2] using this
+
+private abbrev P28 (l : List ℕ) : Prop := l.length = 28 ∧ ∀ x ∈ l, x < 28
+
+private theorem P28.getD_lt {l : List ℕ} (h : P28 l) (p : ℕ) (hp : p < 28) : l.getD p 0 < 28 := by
+  rw [List.getD_eq_getElem _ _ (by omega)]
+  exact h.2 _ (List.getElem_mem _)
+
+private noncomputable def decOK (D T : List (List ℕ)) (Gp : ℕ) (L : List ℕ) (j : ℕ) : Bool :=
+  allB (fun i =>
+    allB (fun p => Nat.beq (dg (pk (D.getD j [])) (dg (pk (T.getD i [])) (dg Gp p)))
+      (dg (pk (T.getD (L.getD (3 * i + 1) 0 % 32) []))
+        (dg (pk (D.getD (L.getD (3 * i) 0 % 14) []))
+          (dg (pk (T.getD (L.getD (3 * i + 2) 0 % 32) [])) p))))
+      28) 32
+
+private theorem decOK_sound {D T : List (List ℕ)} {G L : List ℕ} {j : ℕ} (hj : j < 14)
+    (hD : ∀ k < 14, P28 (D.getD k [])) (hT : ∀ i < 32, P28 (T.getD i [])) (hG : P28 G)
+    (h : decOK D T (pk G) L j = true) : ∀ i < 32,
+    compL (compL (D.getD j []) (T.getD i [])) G =
+      compL (compL (T.getD (L.getD (3 * i + 1) 0 % 32) []) (D.getD (L.getD (3 * i) 0 % 14) []))
+        (T.getD (L.getD (3 * i + 2) 0 % 32) []) := by
+  intro i hi
+  have h32 : ∀ {l : List ℕ}, P28 l → ∀ x ∈ l, x < 32 := fun hl x hx => by
+    have := hl.2 x hx
+    omega
+  have hd := hD j hj
+  have ht := hT i hi
+  have ha := hT _ (Nat.mod_lt (L.getD (3 * i + 1) 0) (by omega : 0 < 32))
+  have hk := hD _ (Nat.mod_lt (L.getD (3 * i) 0) (by omega : 0 < 14))
+  have hb := hT _ (Nat.mod_lt (L.getD (3 * i + 2) 0) (by omega : 0 < 32))
+  have hpt := allB_sound (allB_sound h i hi)
+  refine eq_of_getD (n := 28) (by rw [compL, List.length_map, hG.1])
+    (by rw [compL, List.length_map, hb.1]) fun p hp => ?_
+  have e := Nat.eq_of_beq_eq_true (hpt p hp)
+  simp only [dg_pk _ (h32 hG), dg_pk _ (h32 hd), dg_pk _ (h32 ht), dg_pk _ (h32 ha),
+    dg_pk _ (h32 hk), dg_pk _ (h32 hb)] at e
+  rw [compL_getD (by rw [hG.1]; exact hp), compL_getD (by rw [ht.1]; exact hG.getD_lt p hp),
+    compL_getD (by rw [hb.1]; exact hp), compL_getD (by rw [hk.1]; exact hb.getD_lt p hp)]
+  exact e
+
+private theorem u33Tab_ok :
+    (∀ k < 14, P28 (u33DTab.getD k [])) ∧ (∀ i < 32, P28 (u33TelTab.getD i [])) ∧
+      P28 (u33GenTab.getD 3 []) ∧ P28 (u33GenTab.getD 4 []) := by
+  decide +kernel
+
+private theorem u33DecX_of {j : ℕ} (hj : j < 14)
+    (h : decOK u33DTab u33TelTab (pk (u33GenTab.getD 3 [])) (u33DecX.drop (96 * j)) j = true) :
+    ∀ i < 32,
+    compL (compL (u33DTab.getD j []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
+      compL (compL (u33TelTab.getD (u33DecXa j i % 32) [])
+        (u33DTab.getD (u33DecXk j i % 14) [])) (u33TelTab.getD (u33DecXb j i % 32) []) := by
+  intro i hi
+  have ek : u33DecXk j i = (u33DecX.drop (96 * j)).getD (3 * i) 0 := by
+    rw [← getD_drop96, u33DecXk]
+    congr 1
+    omega
+  have ea : u33DecXa j i = (u33DecX.drop (96 * j)).getD (3 * i + 1) 0 := by
+    rw [← getD_drop96, u33DecXa]
+    congr 1
+    omega
+  have eb : u33DecXb j i = (u33DecX.drop (96 * j)).getD (3 * i + 2) 0 := by
+    rw [← getD_drop96, u33DecXb]
+    congr 1
+    omega
+  rw [ek, ea, eb]
+  exact decOK_sound hj u33Tab_ok.1 u33Tab_ok.2.1 u33Tab_ok.2.2.1 h i hi
+
+private theorem u33DecY_of {j : ℕ} (hj : j < 14)
+    (h : decOK u33DTab u33TelTab (pk (u33GenTab.getD 4 [])) (u33DecY.drop (96 * j)) j = true) :
+    ∀ i < 32,
+    compL (compL (u33DTab.getD j []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
+      compL (compL (u33TelTab.getD (u33DecYa j i % 32) [])
+        (u33DTab.getD (u33DecYk j i % 14) [])) (u33TelTab.getD (u33DecYb j i % 32) []) := by
+  intro i hi
+  have ek : u33DecYk j i = (u33DecY.drop (96 * j)).getD (3 * i) 0 := by
+    rw [← getD_drop96, u33DecYk]
+    congr 1
+    omega
+  have ea : u33DecYa j i = (u33DecY.drop (96 * j)).getD (3 * i + 1) 0 := by
+    rw [← getD_drop96, u33DecYa]
+    congr 1
+    omega
+  have eb : u33DecYb j i = (u33DecY.drop (96 * j)).getD (3 * i + 2) 0 := by
+    rw [← getD_drop96, u33DecYb]
+    congr 1
+    omega
+  rw [ek, ea, eb]
+  exact decOK_sound hj u33Tab_ok.1 u33Tab_ok.2.1 u33Tab_ok.2.2.2 h i hi
+
 private theorem u33_genTab_rep_0 : ∀ k < 5, RepL (u33GenTab.getD k []) (u33GenP k) := by
   decide +kernel
 
@@ -45,170 +196,170 @@ private theorem u33T_next_7 : ∀ i < 32, ∀ g < 3,
 private theorem u33T_decX_0_8 : ∀ i < 32,
     compL (compL (u33DTab.getD 0 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 0 i % 32) [])
-        (u33DTab.getD (u33DecXk 0 i % 14) [])) (u33TelTab.getD (u33DecXb 0 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 0 i % 14) [])) (u33TelTab.getD (u33DecXb 0 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_1_9 : ∀ i < 32,
     compL (compL (u33DTab.getD 1 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 1 i % 32) [])
-        (u33DTab.getD (u33DecXk 1 i % 14) [])) (u33TelTab.getD (u33DecXb 1 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 1 i % 14) [])) (u33TelTab.getD (u33DecXb 1 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_2_10 : ∀ i < 32,
     compL (compL (u33DTab.getD 2 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 2 i % 32) [])
-        (u33DTab.getD (u33DecXk 2 i % 14) [])) (u33TelTab.getD (u33DecXb 2 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 2 i % 14) [])) (u33TelTab.getD (u33DecXb 2 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_3_11 : ∀ i < 32,
     compL (compL (u33DTab.getD 3 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 3 i % 32) [])
-        (u33DTab.getD (u33DecXk 3 i % 14) [])) (u33TelTab.getD (u33DecXb 3 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 3 i % 14) [])) (u33TelTab.getD (u33DecXb 3 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_4_12 : ∀ i < 32,
     compL (compL (u33DTab.getD 4 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 4 i % 32) [])
-        (u33DTab.getD (u33DecXk 4 i % 14) [])) (u33TelTab.getD (u33DecXb 4 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 4 i % 14) [])) (u33TelTab.getD (u33DecXb 4 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_5_13 : ∀ i < 32,
     compL (compL (u33DTab.getD 5 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 5 i % 32) [])
-        (u33DTab.getD (u33DecXk 5 i % 14) [])) (u33TelTab.getD (u33DecXb 5 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 5 i % 14) [])) (u33TelTab.getD (u33DecXb 5 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_6_14 : ∀ i < 32,
     compL (compL (u33DTab.getD 6 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 6 i % 32) [])
-        (u33DTab.getD (u33DecXk 6 i % 14) [])) (u33TelTab.getD (u33DecXb 6 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 6 i % 14) [])) (u33TelTab.getD (u33DecXb 6 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_7_15 : ∀ i < 32,
     compL (compL (u33DTab.getD 7 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 7 i % 32) [])
-        (u33DTab.getD (u33DecXk 7 i % 14) [])) (u33TelTab.getD (u33DecXb 7 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 7 i % 14) [])) (u33TelTab.getD (u33DecXb 7 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_8_16 : ∀ i < 32,
     compL (compL (u33DTab.getD 8 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 8 i % 32) [])
-        (u33DTab.getD (u33DecXk 8 i % 14) [])) (u33TelTab.getD (u33DecXb 8 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 8 i % 14) [])) (u33TelTab.getD (u33DecXb 8 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_9_17 : ∀ i < 32,
     compL (compL (u33DTab.getD 9 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 9 i % 32) [])
-        (u33DTab.getD (u33DecXk 9 i % 14) [])) (u33TelTab.getD (u33DecXb 9 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 9 i % 14) [])) (u33TelTab.getD (u33DecXb 9 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_10_18 : ∀ i < 32,
     compL (compL (u33DTab.getD 10 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 10 i % 32) [])
-        (u33DTab.getD (u33DecXk 10 i % 14) [])) (u33TelTab.getD (u33DecXb 10 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 10 i % 14) [])) (u33TelTab.getD (u33DecXb 10 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_11_19 : ∀ i < 32,
     compL (compL (u33DTab.getD 11 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 11 i % 32) [])
-        (u33DTab.getD (u33DecXk 11 i % 14) [])) (u33TelTab.getD (u33DecXb 11 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 11 i % 14) [])) (u33TelTab.getD (u33DecXb 11 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_12_20 : ∀ i < 32,
     compL (compL (u33DTab.getD 12 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 12 i % 32) [])
-        (u33DTab.getD (u33DecXk 12 i % 14) [])) (u33TelTab.getD (u33DecXb 12 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 12 i % 14) [])) (u33TelTab.getD (u33DecXb 12 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decX_13_21 : ∀ i < 32,
     compL (compL (u33DTab.getD 13 []) (u33TelTab.getD i [])) (u33GenTab.getD 3 []) =
       compL (compL (u33TelTab.getD (u33DecXa 13 i % 32) [])
-        (u33DTab.getD (u33DecXk 13 i % 14) [])) (u33TelTab.getD (u33DecXb 13 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecXk 13 i % 14) [])) (u33TelTab.getD (u33DecXb 13 i % 32) []) :=
+  u33DecX_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_0_22 : ∀ i < 32,
     compL (compL (u33DTab.getD 0 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 0 i % 32) [])
-        (u33DTab.getD (u33DecYk 0 i % 14) [])) (u33TelTab.getD (u33DecYb 0 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 0 i % 14) [])) (u33TelTab.getD (u33DecYb 0 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_1_23 : ∀ i < 32,
     compL (compL (u33DTab.getD 1 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 1 i % 32) [])
-        (u33DTab.getD (u33DecYk 1 i % 14) [])) (u33TelTab.getD (u33DecYb 1 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 1 i % 14) [])) (u33TelTab.getD (u33DecYb 1 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_2_24 : ∀ i < 32,
     compL (compL (u33DTab.getD 2 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 2 i % 32) [])
-        (u33DTab.getD (u33DecYk 2 i % 14) [])) (u33TelTab.getD (u33DecYb 2 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 2 i % 14) [])) (u33TelTab.getD (u33DecYb 2 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_3_25 : ∀ i < 32,
     compL (compL (u33DTab.getD 3 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 3 i % 32) [])
-        (u33DTab.getD (u33DecYk 3 i % 14) [])) (u33TelTab.getD (u33DecYb 3 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 3 i % 14) [])) (u33TelTab.getD (u33DecYb 3 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_4_26 : ∀ i < 32,
     compL (compL (u33DTab.getD 4 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 4 i % 32) [])
-        (u33DTab.getD (u33DecYk 4 i % 14) [])) (u33TelTab.getD (u33DecYb 4 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 4 i % 14) [])) (u33TelTab.getD (u33DecYb 4 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_5_27 : ∀ i < 32,
     compL (compL (u33DTab.getD 5 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 5 i % 32) [])
-        (u33DTab.getD (u33DecYk 5 i % 14) [])) (u33TelTab.getD (u33DecYb 5 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 5 i % 14) [])) (u33TelTab.getD (u33DecYb 5 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_6_28 : ∀ i < 32,
     compL (compL (u33DTab.getD 6 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 6 i % 32) [])
-        (u33DTab.getD (u33DecYk 6 i % 14) [])) (u33TelTab.getD (u33DecYb 6 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 6 i % 14) [])) (u33TelTab.getD (u33DecYb 6 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_7_29 : ∀ i < 32,
     compL (compL (u33DTab.getD 7 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 7 i % 32) [])
-        (u33DTab.getD (u33DecYk 7 i % 14) [])) (u33TelTab.getD (u33DecYb 7 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 7 i % 14) [])) (u33TelTab.getD (u33DecYb 7 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_8_30 : ∀ i < 32,
     compL (compL (u33DTab.getD 8 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 8 i % 32) [])
-        (u33DTab.getD (u33DecYk 8 i % 14) [])) (u33TelTab.getD (u33DecYb 8 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 8 i % 14) [])) (u33TelTab.getD (u33DecYb 8 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_9_31 : ∀ i < 32,
     compL (compL (u33DTab.getD 9 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 9 i % 32) [])
-        (u33DTab.getD (u33DecYk 9 i % 14) [])) (u33TelTab.getD (u33DecYb 9 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 9 i % 14) [])) (u33TelTab.getD (u33DecYb 9 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_10_32 : ∀ i < 32,
     compL (compL (u33DTab.getD 10 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 10 i % 32) [])
-        (u33DTab.getD (u33DecYk 10 i % 14) [])) (u33TelTab.getD (u33DecYb 10 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 10 i % 14) [])) (u33TelTab.getD (u33DecYb 10 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_11_33 : ∀ i < 32,
     compL (compL (u33DTab.getD 11 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 11 i % 32) [])
-        (u33DTab.getD (u33DecYk 11 i % 14) [])) (u33TelTab.getD (u33DecYb 11 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 11 i % 14) [])) (u33TelTab.getD (u33DecYb 11 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_12_34 : ∀ i < 32,
     compL (compL (u33DTab.getD 12 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 12 i % 32) [])
-        (u33DTab.getD (u33DecYk 12 i % 14) [])) (u33TelTab.getD (u33DecYb 12 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 12 i % 14) [])) (u33TelTab.getD (u33DecYb 12 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33T_decY_13_35 : ∀ i < 32,
     compL (compL (u33DTab.getD 13 []) (u33TelTab.getD i [])) (u33GenTab.getD 4 []) =
       compL (compL (u33TelTab.getD (u33DecYa 13 i % 32) [])
-        (u33DTab.getD (u33DecYk 13 i % 14) [])) (u33TelTab.getD (u33DecYb 13 i % 32) []) := by
-  decide +kernel
+        (u33DTab.getD (u33DecYk 13 i % 14) [])) (u33TelTab.getD (u33DecYb 13 i % 32) []) :=
+  u33DecY_of (by decide) (by decide +kernel)
 
 private theorem u33P_decXA_36 :
     ∀ j < 2, ∀ i < 32, u33DecXk j i % 14 = 0 ∨ u33DecXk j i % 14 = 1 := by

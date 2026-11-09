@@ -99,10 +99,8 @@ theorem pChecks_of (hL : LetterRd L) (h : pOkK L = true) :
     unfold eW7
     rw [idx37_single2]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · unfold eMulCheck7
-    exact decide_eq_true fun c d => tabEq_mul hL (of_decide_eq_true h1 c d)
-  · unfold eInjCheck7
-    refine decide_eq_true fun c d hcd => idx37_inj c d ?_
+  · exact allV3V3_intro fun c d => tabEq_mul hL (of_decide_eq_true h1 c d)
+  · refine allV3V3Inj_intro fun c d hcd => idx37_inj c d ?_
     have e : keyL (List.range 23) (ePk L (idx37 c)) = keyL (List.range 23) (ePk L (idx37 d)) :=
       keyP_congr _ fun p hp => fd_of_tabEq hL hcd (List.mem_range.1 hp)
     exact eq_of_nodupN (f := fun i => keyL (List.range 23) (ePk L i)) h2 (idx37_lt c)
@@ -110,11 +108,9 @@ theorem pChecks_of (hL : LetterRd L) (h : pOkK L = true) :
   · unfold eTorsCheck7
     rw [Bool.and_eq_true, hE4]
     exact ⟨tabEq_of_beq hL h3, by decide⟩
-  · unfold actVCheck7
-    exact decide_eq_true fun c =>
+  · exact allV3Both_intro fun c =>
       ⟨tabEq_conj hL (of_decide_eq_true h4 c), tabEq_conj hL (of_decide_eq_true h5 c)⟩
-  · unfold actGCheck7
-    exact decide_eq_true fun k c =>
+  · exact allFin2V3_intro fun k c =>
       ⟨tabEq_of_beq hL (of_decide_eq_true h6 k c).1, tabEq_of_beq hL (of_decide_eq_true h6 k c).2⟩
   · unfold thetaCheck7
     rw [Bool.and_eq_true]

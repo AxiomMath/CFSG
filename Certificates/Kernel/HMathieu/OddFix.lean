@@ -13,8 +13,8 @@ set_option maxRecDepth 400000
 
 public section
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHMathieu.OddFix
-  "Certificates/Kernel/HMathieu/data/OddFix.json.gz" 8095 980164797073144840
+#kc_repo #kc_json CertificateChecks.KernelHMathieu.OddFix
+  "Certificates/Kernel/HMathieu/data/OddFix.json" 8095 980164797073144840
   (J : List (List (List Nat))) (R : List (List (List Nat)))
 
 namespace CertificateChecks.KernelHMathieu.OddFix

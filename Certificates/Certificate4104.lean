@@ -3,6 +3,7 @@ module
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.TitsCoverCheck
 import Certificates.Kernel.LocalQT.Cov.C4104A
 import Certificates.Kernel.LocalQT.Cov.C4104B
+import Certificates.Kernel.LocalQT.Cov.P4104
 import CFSG.Certificates.Kernel.Common.Harness
 import Certificates.Kernel.Misc.Tits.Text
 import CFSG.Certificates.Kernel.LocalQTCovTSound
@@ -34,7 +35,7 @@ open CFSG.KD.LQT.C4104 CFSG.KC.LQT.Cov CFSG.QuasithinUnique.Ch1.TitsCover
 open CFSG CFSG.QuasithinUnique CFSG.QuasithinUnique.Ch1 CFSG.QuasithinUnique.Ch1.TitsCover in
 theorem certificate4104 : (CFSG.QuasithinUnique.Ch1.TitsCover.covCheck CFSG.QuasithinUnique.Ch1.TitsCover.covData = true)
     ∧ (CFSG.QuasithinUnique.Ch1.TitsCover.covData.nV = 2048) := by
-  have h := covT_sound CT.chars P H 2048 SG SGI
+  have h := covT_sound CT.chars CTD kParse P CFL H 2048 SG SGI
     (fun j hj => KernelMisc.TitsText.titsDerivedArrs_get hj) kA kB
   rw [← CT.eq] at h
   exact h

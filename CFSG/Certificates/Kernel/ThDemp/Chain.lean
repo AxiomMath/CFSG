@@ -35,6 +35,64 @@ variable {act : α → G → α} {L n : ℕ} {fr N : ℕ → ℕ} {b : ℕ → �
 @[expose] def lev (fr : ℕ → ℕ) (n : ℕ) (s : ℕ → G) (l : ℕ) : Subgroup G :=
   Subgroup.closure {x | ∃ g, fr l ≤ g ∧ g < n ∧ x = s g}
 
+theorem decomp_closure (act_one : ∀ x, act x 1 = x)
+    (act_mul : ∀ x g h, act x (g * h) = act (act x g) h) {l : ℕ} (hpos : 0 < N l)
+    (ht0 : t l 0 = 1) (htpt : ∀ i < N l, act (b l) (t l i) = O l i)
+    (hinj : ∀ i j, i < N l → j < N l → O l i = O l j → i = j)
+    (hfix : ∀ g, fr (l + 1) ≤ g → g < n → act (b l) (s g) = b l) {X : Set G}
+    (hX : ∀ i < N l, ∀ x ∈ X, ∃ z < N l, t l i * x * (t l z)⁻¹ ∈ lev fr n s (l + 1))
+    {y : G} (hy : y ∈ Subgroup.closure X) :
+    ∃ h ∈ lev fr n s (l + 1), ∃ z < N l, y = h * t l z := by
+  have hinv : ∀ (v : α) (g : G), act (act v g) g⁻¹ = v := fun v g => by
+    rw [← act_mul, mul_inv_cancel, act_one]
+  have hfl : ∀ h ∈ lev fr n s (l + 1), act (b l) h = b l := by
+    intro h hh
+    induction hh using Subgroup.closure_induction with
+    | mem x hx =>
+      obtain ⟨g, hg1, hg2, rfl⟩ := hx
+      exact hfix g hg1 hg2
+    | one => exact act_one _
+    | mul x y _ _ hx hy => rw [act_mul, hx, hy]
+    | inv x _ hx =>
+      have e := hinv (b l) x
+      rw [hx] at e
+      exact e
+  have hht : ∀ h ∈ lev fr n s (l + 1), ∀ z < N l, act (b l) (h * t l z) = O l z := by
+    intro h hh z hz
+    rw [act_mul, hfl h hh, htpt z hz]
+  induction hy using Subgroup.closure_induction_right with
+  | one => exact ⟨1, Subgroup.one_mem _, 0, hpos, by rw [ht0, one_mul]⟩
+  | mul_right x _ y hy ih =>
+    obtain ⟨h, hh, z, hz, rfl⟩ := ih
+    obtain ⟨z', hz', hres⟩ := hX z hz y hy
+    refine ⟨h * (t l z * y * (t l z')⁻¹), Subgroup.mul_mem _ hh hres, z', hz', ?_⟩
+    group
+  | mul_inv_cancel x _ y hy ih =>
+    obtain ⟨h, hh, z, hz, rfl⟩ := ih
+    have hex : ∀ i : Fin (N l), ∃ z' : Fin (N l),
+        t l i * y * (t l z')⁻¹ ∈ lev fr n s (l + 1) := by
+      intro i
+      obtain ⟨z', hz', hr⟩ := hX i i.isLt y hy
+      exact ⟨⟨z', hz'⟩, hr⟩
+    choose f hf using hex
+    have finj : Function.Injective f := by
+      intro i j e
+      have ei := hht _ (hf i) _ (f i).isLt
+      have ej := hht _ (hf j) _ (f j).isLt
+      rw [inv_mul_cancel_right, act_mul, htpt i i.isLt] at ei
+      rw [inv_mul_cancel_right, act_mul, htpt j j.isLt] at ej
+      rw [e] at ei
+      have e2 : O l i = O l j := by
+        have := congrArg (fun v => act v y⁻¹) (ei.trans ej.symm)
+        simpa only [hinv] using this
+      exact Fin.ext (hinj i j i.isLt j.isLt e2)
+    obtain ⟨i, hi⟩ := (Finite.injective_iff_surjective.1 finj) ⟨z, hz⟩
+    have hr := hf i
+    rw [hi] at hr
+    refine ⟨h * (t l i * y * (t l z)⁻¹)⁻¹, Subgroup.mul_mem _ hh (Subgroup.inv_mem _ hr), i,
+      i.isLt, ?_⟩
+    group
+
 namespace ChainHyp
 
 variable (H : ChainHyp act L n fr N b s O t)

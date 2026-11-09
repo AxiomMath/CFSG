@@ -94,7 +94,7 @@ theorem sylowOK_K : Timmesfeld.Co1Seven.sylowOK aR bR = true := by
   have hP := kP
   rw [MatL.bAnd_eq, Bool.and_eq_true] at hP
   obtain ⟨hN, hP⟩ := hP
-  obtain ⟨hT, hok⟩ := gtBFS_of_K hP
+  obtain ⟨hT, hok⟩ := gtBFS_of_bfsK hP (by rw [Nat.eq_of_beq_eq_true hN]; decide)
   rw [gens_eq] at hT hok
   have hS := kS
   simp only [Bool.and_eq_true, bne_iff_ne, ne_eq] at hS

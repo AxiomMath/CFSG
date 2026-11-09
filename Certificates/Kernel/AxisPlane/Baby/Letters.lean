@@ -20,14 +20,15 @@ theorem bpl_eq (k : Nat) : bpl k = .perm (bplArr k) := by
   simp only [bpl, babyPermTab, bplArr, getElem!_append_ite, Array.size_append, s0, s1,
     Nat.reduceAdd]
 
-theorem l2Rows_bpl {k : Nat} {l : List Nat}
-    (h : ((Gen.perm (bplArr k)).l2Rows.toList == l) = true) : (bpl k).l2Rows = l.toArray := by
-  rw [bpl_eq]
+theorem l2Rows_bpl {k : Nat} {l : List Nat} (hv : (bpl k).isVis = true)
+    (h : ((fastRowsPB (bplArr k)).toList == l) = true) : (bpl k).l2Rows = l.toArray := by
+  rw [bpl_eq] at hv ⊢
+  rw [FastRowsL.l2Rows_perm hv, ← PopcBL.fastRowsPB_eq]
   exact rows_of_toList h
 
-theorem isVis_bpl {k : Nat} (h : (Gen.perm (bplArr k)).isVis = true) : (bpl k).isVis = true := by
+theorem isVis_bpl {k : Nat} (h : permValidF (bplArr k) = true) : (bpl k).isVis = true := by
   rw [bpl_eq]
-  exact h
+  exact ParFoldL.isVis_perm h
 
 end CertificateChecks.KernelAP.Baby
 

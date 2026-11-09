@@ -16,6 +16,6 @@ namespace CFSG.KD.TP.c6090
 
 end CFSG.KD.TP.c6090
 
-#kc_each CFSG.KD.TP.c6090.u 0 1
+#kc_each CFSG.KD.TP.c6090.u 0 18
 
 end

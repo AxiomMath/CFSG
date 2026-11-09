@@ -3,6 +3,8 @@ module
 public import CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQThreeFactsWeyl
 public import CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQFiveE8Base
 public import CFSG.LieType.SeitzGeneration.ExcTorusE8Four
+import CFSG.Mathlib.Decide.FinFun
+import Mathlib.Tactic.IntervalCases
 
 public section
 
@@ -53,9 +55,52 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThr
       let f : List ℤ := [a, b, c, d]
       if f.all (· == 0) || f.getD (pivot5 f) 0 == 1 then some f else none
 
-theorem famOK5_all : allF5.all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+private theorem famOK5_all_0 : ((allF5.drop (0 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
     ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
   decide +kernel
+
+private theorem famOK5_all_1 : ((allF5.drop (1 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_2 : ((allF5.drop (2 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_3 : ((allF5.drop (3 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_4 : ((allF5.drop (4 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_5 : ((allF5.drop (5 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_6 : ((allF5.drop (6 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_7 : ((allF5.drop (7 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_8 : ((allF5.drop (8 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+private theorem famOK5_all_9 : ((allF5.drop (9 * 16)).take 16).all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true := by
+  decide +kernel
+
+theorem famOK5_all : allF5.all (famOK5 (gramL Tag.E8) rootsN5 (simpleL Tag.E8)
+    ((simpleL Tag.E8).map fun e => formB (gramL Tag.E8) e e) e8FourMat) = true :=
+  CFSG.Decide.FinFun.all_of_chunks 16 10 _ (by decide +kernel) fun k hk => by
+    interval_cases k
+    exacts [famOK5_all_0, famOK5_all_1, famOK5_all_2, famOK5_all_3, famOK5_all_4, famOK5_all_5,
+      famOK5_all_6, famOK5_all_7, famOK5_all_8, famOK5_all_9]
 
 end CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQ5
 

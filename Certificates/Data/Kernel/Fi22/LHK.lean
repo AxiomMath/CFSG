@@ -112,7 +112,7 @@ open CFSG.KC.Enum CFSG.KS
     bIf(Nat.beq k (nat_lit 0), Nat.beq (R (nat_lit 0)) al, rowK R al be bi op ol k)
 
 @[expose] noncomputable def fixSl (R Z : Nat → Nat) (s : Nat) : Bool :=
-  allN (nat_lit 585) fun i => strictB (Nat.add (Nat.mul (nat_lit 585) s) i) fun k =>
+  allN (nat_lit 130) fun i => strictB (Nat.add (Nat.mul (nat_lit 130) s) i) fun k =>
     strictB (R k) fun r =>
       Nat.beq (Z k) (bsP (nat_lit 3510) (fun x => Nat.beq (ent r x) x) (nat_lit 12) (nat_lit 0))
 

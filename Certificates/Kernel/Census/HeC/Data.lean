@@ -5,8 +5,8 @@ import CFSG.Certificates.Kernel.Common.JsonGzC
 import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.Census CFSG.KC.HeConj in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.HeCj
-  "Certificates/Kernel/Census/HeC/data/heconj.json.gz" 113204 4580204423842970179
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.HeCj
+  "Certificates/Kernel/Census/HeC/data/heconj.json" 113204 4580204423842970179
   (xs : List Nat) (rs : List Nat) (cjs : List (List Nat)) (bs : List (Nat × Nat)) (us : Array Nat)
   (im : List Nat) (wt : List Nat) (cm : List Nat) (cs : Array Nat) (ci : Array Nat)
   (roots : List (Nat × Nat)) (nb : Array (Array Nat)) (nm : Array (List Nat))

@@ -11,7 +11,7 @@ set_option maxRecDepth 400000
 namespace CertificateChecks.KernelCoreD2K.RuCent
 
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.Open CFSG.KS.MaxD2 CFSG.KS.CoreD2K CFSG.KD.CoreD2K
-  CFSG.Sporadic.RuSchreier Certificates.CoreD2Perm
+  CFSG.Sporadic.RuSchreier Certificates.CoreD2Perm CFSG.KS.PEnum
 open CertificateChecks.KernelCoreD2K.RuFive (GP GPI)
 
 noncomputable def fE (k : Nat) : Bool :=
@@ -53,20 +53,20 @@ theorem all_fG : ∀ j < ruCentK.base.gWs.length, fG j = true := by
   | 8, _ => exact (fG.eq_1 8).trans k_g8
   | _ + 9, h => omega
 
-theorem hyps : KHypsC 4060 12 ruCentK ruCentReps ruCentSteps GP GPI GT GTI RE.G RE.GI RE.T RE.PL
-    RE.POS RE.SRT RE.SRI RE.cnt 125 125 where
+theorem hyps : KHypsCN 4060 12 ruCentK ruCentReps ruCentSteps GP GPI GT GTI RE.G eNA eNB eNC 1 0
+    where
   hn := RuFive.k_sz
   hgp := RuFive.k_gp
   hE := fun k hk => (fE.eq_1 k).symm.trans (all_fE k hk)
   hG := fun j hj => (fG.eq_1 j).symm.trans (all_fG j hj)
-  hh := k_eh
-  hsl := by
-    rw [← Nat.eq_of_beq_eq_true k_ek]
-    exact k_esl
-  hlen := by rw [Nat.eq_of_beq_eq_true k_ecnt]
-  hcnt := by
-    rw [Nat.eq_of_beq_eq_true k_ecnt]
-    rfl
+  h3 := by
+    rw [len_eW]
+    norm_num
+  hp5 := rfl
+  hrel := k_exRel
+  hgen := fun k hk => PK.allN_iff.1 k_gen k (by rw [len_eW] at hk; exact hk)
+  hp0 := by norm_num
+  hpts := k_pts
   hnab := k_nab
   hcen := k_cen
   hlines := k_lines
@@ -85,7 +85,7 @@ theorem exists_cent_gens_ruP :
     ∃ E : Subgroup ↥ruP, Nat.card E = 5 ^ 3 ∧
       ∀ A : Subgroup ↥ruP, A ≤ E → IsElemAbelian 5 A → Nat.card A = 5 ^ 2 →
         ∃ Γ : Set ↥ruP, Subgroup.closure Γ = ⊤ ∧ ∀ g ∈ Γ, ∃ y ∈ A, y ≠ 1 ∧ g * y = y * g :=
-  exists_cent_gens_of_kchecks hyps Nat.prime_five (by decide) (by decide) RuFive.tab0 RuFive.tab1
+  exists_cent_gens_of_kchecksN hyps Nat.prime_five (by decide) (by decide) RuFive.tab0 RuFive.tab1
 
 end CertificateChecks.KernelCoreD2K.RuCent
 

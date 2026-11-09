@@ -5,6 +5,7 @@ public import Certificates.Kernel.Misc.Perm.J2C3A
 import CFSG.Certificates.Kernel.Common.Each
 import CFSG.Certificates.Kernel.Common.ForallChunks
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Misc.ArrEnumOps
 
 set_option maxRecDepth 400000
 
@@ -45,11 +46,89 @@ theorem okA_of_okK {p : ℕ} (h : okK p = true) : okA (unpack 315 9 p) = true :=
   simp only [okK, Bool.and_eq_true] at h
   exact okA_of rfl h.1.1 h.1.2 h.2
 
-theorem zo_ok : CFSG.KC.LQT.P.allN 560 (fun i => okK (ZoP.F i)) = true := by quickRfl
+@[expose] noncomputable def okZK (p : ℕ) : Bool :=
+  invEqK 315 9 (mask 9) (315 * 9) p (pcomp 315 9 (mask 9) p p) &&
+    Nat.beq (Nat.shiftRight p (315 * 9)) 0 &&
+    siftK 315 9 (mask 9) (315 * 9) (pidn 315 9) CertificateChecks.KernelMisc.J2M5.C.LR
+      CertificateChecks.KernelMisc.J2M5.C.TRI CertificateChecks.KernelMisc.J2M5.C.BP 3 0 p
+
+theorem okA_of_okZK {p : ℕ} (h : okZK p = true) : okA (unpack 315 9 p) = true := by
+  simp only [okZK, Bool.and_eq_true] at h
+  unfold okA inP autLevels
+  rw [Bool.and_eq_true]
+  exact ⟨validA_unpack h.1.1, siftK_soundR CertificateChecks.KernelMisc.J2M5.c_binds
+    CertificateChecks.KernelMisc.J2M5.c_perm CertificateChecks.KernelMisc.J2M5.C.hl rfl
+    (Nat.eq_of_beq_eq_true h.1.2) (range_of_permOK h.1.1) h.2⟩
+
+theorem zo_ok : CFSG.KC.LQT.P.allN 560 (fun i => okZK (ZoP.F i)) = true := by quickRfl
+
+@[expose] noncomputable def cjZ (k p : ℕ) : ℕ :=
+  pcomp 315 9 (mask 9) (AB k)
+    (pcomp 315 9 (mask 9) p (CertificateChecks.KernelMisc.J2M5.C.SI k))
+
+theorem cjZ_eq (k : ℕ) (hk : k < 2) (p : ℕ) : conjAct 315 9 AB k p = cjZ k p := by
+  have h : pinvS 315 9 (mask 9) (AB k) = CertificateChecks.KernelMisc.J2M5.C.SI k := by
+    interval_cases k <;> exact Nat.eq_of_beq_eq_true (by quickRfl)
+  unfold conjAct cjZ
+  rw [h]
+
+theorem zoGp (k : ℕ) (hk : k < 2) : permB 315 9 (AB k) = true := by
+  interval_cases k <;> quickRfl
+
+theorem zoGIp (k : ℕ) (hk : k < 2) : permB 315 9 (CertificateChecks.KernelMisc.J2M5.C.SI k) =
+    true := by
+  interval_cases k <;> quickRfl
+
+@[expose] noncomputable def ptZoK (i : ℕ) : Bool :=
+  CFSG.KC.LQT.P.allN 2 (fun k => Nat.blt (EF' ZoE.F i k) 560 &&
+      Nat.beq (ZoP.F (EF' ZoE.F i k)) (cjZ k (ZoP.F i))) &&
+    (i == 0 || (Nat.blt (VF' ZoR.F i) i && Nat.blt (VF' ZoL.F i) 2 &&
+      Nat.beq (EF' ZoE.F (VF' ZoR.F i) (VF' ZoL.F i)) i))
+
+theorem zoP0 : ZoP.F 0 = Z := Nat.eq_of_beq_eq_true (by quickRfl)
+
+theorem zo_pts : CFSG.KC.LQT.P.allN 560 ptZoK = true := by quickRfl
+
+theorem treeZo {i : ℕ} (hp : VF' ZoR.F i < i ∧ VF' ZoL.F i < 2) (hi : i < 560)
+    (he : EF' ZoE.F (VF' ZoR.F i) (VF' ZoL.F i) = i) :
+    ZoP.F i = cjZ (VF' ZoL.F i) (ZoP.F (VF' ZoR.F i)) := by
+  have hq := (allN_iff _ _).1 zo_pts _ (by omega : VF' ZoR.F i < 560)
+  simp only [ptZoK, Bool.and_eq_true] at hq
+  have hE := (allN_iff _ _).1 hq.1 _ hp.2
+  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hE
+  rw [he] at hE
+  exact hE.2
+
+theorem permB_Zo : ∀ i < 560, permB 315 9 (ZoP.F i) = true := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    have hi' := (allN_iff _ _).1 zo_pts i hi
+    simp only [ptZoK, Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, Nat.blt_eq,
+      Nat.beq_eq] at hi'
+    rcases hi'.2 with rfl | ⟨hp, he⟩
+    · rw [zoP0]
+      exact pZ
+    · rw [treeZo hp hi he]
+      exact CFSG.KC.Misc.ArrEnum.permB_pcomp hw (zoGp _ hp.2)
+        (CFSG.KC.Misc.ArrEnum.permB_pcomp hw (ih _ hp.1 (by omega)) (zoGIp _ hp.2))
+
+theorem pointA_of_ptZoK (i : ℕ) (hi : i < 560) :
+    pointA 315 9 2 560 (conjAct 315 9 AB) ZoP.F (EF' ZoE.F) (VF' ZoR.F) (VF' ZoL.F) i = true := by
+  have hi' := (allN_iff _ _).1 zo_pts i hi
+  simp only [ptZoK, Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, Nat.blt_eq, Nat.beq_eq] at hi'
+  obtain ⟨h2, h3⟩ := hi'
+  simp only [pointA, Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, Nat.blt_eq, Nat.beq_eq]
+  refine ⟨⟨permB_Zo i hi, (allN_iff _ _).2 fun k hk => ?_⟩, h3.imp id fun hp => ⟨hp.1, ?_⟩⟩
+  · have h := (allN_iff _ _).1 h2 k hk
+    simpa only [cjZ_eq k hk] using h
+  · rw [cjZ_eq _ hp.1.2]
+    exact treeZo hp.1 hi hp.2
 
 theorem zo_points : CFSG.KC.LQT.P.allN 560 (fun i => pointA 315 9 2 560 (conjAct 315 9 AB) ZoP.F
-    (EF' ZoE.F) (VF' ZoR.F) (VF' ZoL.F) i) = true := by
-  quickRfl
+    (EF' ZoE.F) (VF' ZoR.F) (VF' ZoL.F) i) = true :=
+  (allN_iff _ _).2 pointA_of_ptZoK
 
 theorem va : validA 315 autStrong[0]! = true := by
   rw [hab 0 (by norm_num)]
@@ -62,11 +141,10 @@ theorem vb : validA 315 autStrong[1]! = true := by
 theorem zo_cert :
     CFSG.Monster.B.Fischer.arrCertOK zConj 2 okA (keyA 315 keyPts) zArr cZo = true := by
   rw [hz]
-  exact certA_sound (R := Z) (G := AB) (PT := ZoP.F) hw (by decide) hab
-    (fun k hk => by interval_cases k <;> quickRfl) zo.1 zo.2.1 zo.2.2.1
-    (fun i hi => zo.2.2.2 i hi) (by norm_num) (Nat.eq_of_beq_eq_true (by quickRfl))
-    (fun i hi => by rw [zo.2.1 i hi]; exact okA_of_okK ((allN_iff _ _).1 zo_ok i hi))
-    ((allN_iff _ _).1 zo_points) (keys_of' (by quickRfl))
+  exact certA_sound (R := Z) (G := AB) (PT := ZoP.F) hw (by decide) hab zoGp zo.1 zo.2.1 zo.2.2.1
+    (fun i hi => zo.2.2.2 i hi) (by norm_num) zoP0
+    (fun i hi => by rw [zo.2.1 i hi]; exact okA_of_okZK ((allN_iff _ _).1 zo_ok i hi))
+    pointA_of_ptZoK (keys_of' (by quickRfl))
 
 theorem cls : chkClass = true := by
   unfold chkClass

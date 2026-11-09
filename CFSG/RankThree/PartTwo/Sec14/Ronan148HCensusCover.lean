@@ -3,6 +3,7 @@ module
 public import CFSG.RankThree.PartTwo.Sec14.Ronan148HCensusTwoInv
 public import CFSG.RankThree.PartTwo.Sec14.Ronan148HCensusAlt
 public import CFSG.RankThree.PartTwo.Sec12.KS128NotHJTools
+public import CFSG.RankThree.PartTwo.Sec14.Ronan148HPackK
 
 public section
 
@@ -123,15 +124,19 @@ theorem olRow_four_A6 :
 
 end Row
 
-set_option maxRecDepth 100000 in
 theorem v1Seven_iff : ∀ σ : Perm (Fin 7), Perm.sign σ = 1 →
     (σ * (swap 0 1 * swap 1 2) = (swap 0 1 * swap 1 2) * σ ∧ σ ^ 2 = 1 ↔ σ ∈ v1Seven) := by
-  decide +kernel
+  intro σ hs
+  rw [Ronan148HPackK.v1_iff σ hs]
+  simp only [v1Seven, Finset.mem_insert, Finset.mem_singleton, List.mem_cons, List.not_mem_nil,
+    or_false]
 
-set_option maxRecDepth 100000 in
 theorem v2Seven_iff : ∀ σ : Perm (Fin 7), Perm.sign σ = 1 →
     (σ * (swap 3 4 * swap 4 5) = (swap 3 4 * swap 4 5) * σ ∧ σ ^ 2 = 1 ↔ σ ∈ v2Seven) := by
-  decide +kernel
+  intro σ hs
+  rw [Ronan148HPackK.v2_iff σ hs]
+  simp only [v2Seven, Finset.mem_insert, Finset.mem_singleton, List.mem_cons, List.not_mem_nil,
+    or_false]
 
 set_option maxRecDepth 100000 in
 theorem cyc_mem_b0Seven : swap 0 1 * swap 1 2 ∈ b0Seven ∧ swap 3 4 * swap 4 5 ∈ b0Seven := by

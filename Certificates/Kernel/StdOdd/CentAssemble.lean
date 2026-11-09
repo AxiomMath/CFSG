@@ -116,8 +116,8 @@ variable (D : CentData)
 
 @[expose] noncomputable def ccP (cc k : ℕ) : List ℕ :=
   Nat.casesOn (motive := fun _ => List ℕ) k D.CL fun j =>
-    splitPl (Nat.shiftRight cc (Nat.mul (Nat.mul 1248 (Nat.div (Nat.add D.s 7) 8)) j))
-      (Nat.div (Nat.add D.s 7) 8) D.s 156
+    splitPl (Nat.land (Nat.shiftRight cc (Nat.mul (Nat.mul 1248 (Nat.div (Nat.add D.s 7) 8)) j))
+      (full (Nat.mul 1248 (Nat.div (Nat.add D.s 7) 8)))) (Nat.div (Nat.add D.s 7) 8) D.s 156
 
 @[expose] noncomputable def csegF (A B cc g m k : ℕ) : Bool :=
   walkK (D.hLet A B) (stepsPl (Nat.shiftRight D.HW (Nat.mul (Nat.mul (Nat.mul 8
@@ -126,6 +126,21 @@ variable (D : CentData)
       (lenN (D.hLet A B))) (D.ccP cc k) fun V =>
     Bool.rec (motive := fun _ => Bool) (Nat.beq (neqMask V (D.ccP cc (Nat.succ k))) 0)
       (D.candEnd A B V) (Nat.beq (Nat.succ k) m)
+
+@[expose] noncomputable def lcP (j cc k : ℕ) : List ℕ :=
+  Nat.casesOn (motive := fun _ => List ℕ) k
+    (splitPl (D.FP j) (Nat.div (Nat.add (D.nf j) 7) 8) (D.nf j) 156) fun i =>
+    splitPl (Nat.land (Nat.shiftRight cc (Nat.mul (Nat.mul 1248 (Nat.div (Nat.add (D.nf j) 7) 8)) i))
+      (full (Nat.mul 1248 (Nat.div (Nat.add (D.nf j) 7) 8)))) (Nat.div (Nat.add (D.nf j) 7) 8)
+      (D.nf j) 156
+
+@[expose] noncomputable def lsegF (j cc g m k : ℕ) : Bool :=
+  walkK ((D.RI j).map (nthV D.V)) (stepsPl (Nat.shiftRight (D.WN j) (Nat.mul (Nat.mul (Nat.mul 8
+      (Nat.div (Nat.add (D.nf j) 7) 8)) (lenN (D.RI j))) (Nat.mul g k)))
+      (Nat.div (Nat.add (D.nf j) 7) 8) (D.nf j) (Nat.min g (Nat.sub (D.Df j) (Nat.mul g k)))
+      (lenN (D.RI j))) (D.lcP j cc k) fun V =>
+    Bool.rec (motive := fun _ => Bool) (Nat.beq (neqMask V (D.lcP j cc (Nat.succ k))) 0)
+      (Nat.beq (neqV V (nthN D.βs j) (D.nf j)) 0) (Nat.beq (Nat.succ k) m)
 
 @[expose] def e (i : ℕ) : ℕ := D.eL.getD i 0
 
@@ -216,7 +231,7 @@ theorem spreadL_eq (w : ℕ) : ∀ Sr : List (List (List ℕ)),
     List.rec (motive := fun _ => List (List (List ℕ))) List.nil
       (fun S _ ih => List.cons (spreadS S 1 w) ih) Sr = Sr.map fun S => spreadS S 1 w
   | [] => rfl
-  | S :: Sr => congrArg (List.cons _) (spreadL_eq w Sr)
+  | _ :: Sr => congrArg (List.cons _) (spreadL_eq w Sr)
 
 theorem getD_spread (w : ℕ) : ∀ (Sr : List (List (List ℕ))) (l : ℕ),
     (Sr.map fun S => spreadS S 1 w).getD l [] = spreadS (Sr.getD l []) 1 w
@@ -228,7 +243,7 @@ theorem walkElt_spread1 (Ms : List ℕ) (S : List (List ℕ)) {w i : ℕ} (hi : 
     walkElt Ms (spreadS S 1 w) i = walkElt Ms (spreadS S 1 w) 0 := by
   have h1 := walkElt_spread Ms 1 w i 0 Nat.one_pos hi S
   have h2 := walkElt_spread Ms 1 w 0 0 Nat.one_pos (by omega) S
-  simp only [Nat.mul_one, Nat.add_zero, Nat.zero_mul] at h1 h2
+  simp only [Nat.mul_one, Nat.add_zero] at h1 h2
   rw [h1, h2]
 
 theorem refFact_of_refOK (D : CentData) {A B : ℕ} (hA : Rep A (toMat nativeAB.1))
@@ -329,7 +344,7 @@ theorem refFact_of_refOK (D : CentData) {A B : ℕ} (hA : Rep A (toMat nativeAB.
     have hb : ((memMask (Tl m) (D.FL m) (D.nf m) (m + 1)) &&& (1 <<< m)).testBit m = false :=
       (congrArg (fun x => x.testBit m) (Nat.eq_of_beq_eq_true hend)).trans (Nat.zero_testBit m)
     rw [Nat.testBit_and, Nat.testBit_shiftLeft, Nat.sub_self, one_testBit] at hb
-    simp only [ge_iff_le, le_refl, decide_true, Bool.true_and, Bool.and_true] at hb
+    simp only [ge_iff_le, le_refl, decide_true, Bool.and_true] at hb
     have hFL : lenN (D.FL m) = 156 := lenN_splitPl _ _ _ _
     have hmm := (memMask_sound (hlen m) hFL (D.nf m) (m + 1) m).2
       ⟨by omega, k, Finset.mem_range.1 hk, (ptK_inj hke).symm⟩
@@ -479,21 +494,105 @@ theorem cand_of_csegs (D : CentData) {A B cc g m : ℕ} (hm : 0 < m)
   obtain ⟨S₁, h₁⟩ := hch (m - 1) (by omega) j
   exact ⟨S₁ ++ _, by rw [hpt j, h₁, Matrix.mulVec_mulVec, walkElt_append]⟩
 
-theorem centFacts_of_walks (D : CentData) {PL : List ℕ} {A B r N : ℕ}
+def CentData.LevWalk (D : CentData) (j : ℕ) : Prop :=
+  ∃ Vf, lenN Vf = 156 ∧ Nat.beq (neqV Vf (nthN D.βs j) (D.nf j)) 0 = true ∧
+    ∀ i, ∃ S, ptB Vf i = walkElt ((D.RI j).map (nthV D.V)) S i *ᵥ
+      ptB (splitPl (D.FP j) (Nat.div (Nat.add (D.nf j) 7) 8) (D.nf j) 156) i
+
+theorem lenN_lcP (D : CentData) (j cc : ℕ) : ∀ k, lenN (D.lcP j cc k) = 156
+  | 0 => by
+    change lenN (splitPl (D.FP j) (Nat.div (Nat.add (D.nf j) 7) 8) (D.nf j) 156) = 156
+    exact lenN_splitPl _ _ _ _
+  | _ + 1 => by
+    unfold CentData.lcP
+    exact lenN_splitPl _ _ _ _
+
+theorem lev_of_lsegs (D : CentData) {j cc g m : ℕ} (hm : 0 < m)
+    (h : ∀ k < m, D.lsegF j cc g m k = true) : D.LevWalk j := by
+  have hc : ∀ k, k + 1 < m → ∀ i, ∃ S, ptB (D.lcP j cc (k + 1)) i =
+      walkElt ((D.RI j).map (nthV D.V)) S i *ᵥ ptB (D.lcP j cc k) i := by
+    intro k hk i
+    have hs := h k (by omega)
+    unfold CentData.lsegF at hs
+    obtain ⟨V, hkV, hV, hpt⟩ := walkK_sound _ _ (lenN_lcP D j cc k) hs
+    rw [beq_false_of_ne' (by omega : Nat.succ k ≠ m)] at hkV
+    exact ⟨_, (ptB_of_neqMask hV (lenN_lcP D j cc _) hkV i).symm.trans (hpt i)⟩
+  have hch : ∀ k, k < m → ∀ i, ∃ S, ptB (D.lcP j cc k) i =
+      walkElt ((D.RI j).map (nthV D.V)) S i *ᵥ ptB (D.lcP j cc 0) i := by
+    intro k
+    induction k with
+    | zero => exact fun _ i => ⟨[], by rw [walkElt, Matrix.one_mulVec]⟩
+    | succ k ih =>
+      intro hk i
+      obtain ⟨S₁, h₁⟩ := ih (by omega) i
+      obtain ⟨S₂, h₂⟩ := hc k hk i
+      exact ⟨S₁ ++ S₂, by rw [h₂, h₁, Matrix.mulVec_mulVec, walkElt_append]⟩
+  have hs := h (m - 1) (by omega)
+  unfold CentData.lsegF at hs
+  obtain ⟨V, hkV, hV, hpt⟩ := walkK_sound _ _ (lenN_lcP D j cc _) hs
+  have hb : Nat.beq (Nat.succ (m - 1)) m = true := by
+    rw [Nat.succ_eq_add_one, Nat.sub_add_cancel hm]
+    exact Nat.beq_refl _
+  rw [hb] at hkV
+  refine ⟨V, hV, hkV, fun i => ?_⟩
+  obtain ⟨S₁, h₁⟩ := hch (m - 1) (by omega) i
+  exact ⟨S₁ ++ _, by rw [hpt i, h₁, Matrix.mulVec_mulVec, walkElt_append]; rfl⟩
+
+@[expose] def CentData.LevFact (D : CentData) (j : ℕ) : Prop :=
+  (∀ r ∈ D.RI j, r < lenN D.V ∧ fixesOK (nthV D.V r) D.βs j = true) ∧
+    sortOK (D.FL j) (D.nf j) = true ∧ D.LevWalk j
+
+@[expose] noncomputable def CentData.levIni (D : CentData) (j : ℕ) : Bool :=
+  andB (allL (D.RI j) fun r => andB (Nat.blt r (lenN D.V)) (fixesOK (nthV D.V r) D.βs j))
+    (sortOK (D.FL j) (D.nf j))
+
+theorem levFix_of_allL (D : CentData) {j : ℕ}
+    (h : allL (D.RI j) (fun r => andB (Nat.blt r (lenN D.V)) (fixesOK (nthV D.V r) D.βs j)) = true) :
+    ∀ r ∈ D.RI j, r < lenN D.V ∧ fixesOK (nthV D.V r) D.βs j = true := fun r hr => by
+  have := allL_true h r hr
+  rw [andB_eq, Bool.and_eq_true] at this
+  exact ⟨Nat.blt_eq.mp this.1, this.2⟩
+
+theorem levFact_of_levOK (D : CentData) {j : ℕ} (h : D.levOK j = true) : D.LevFact j := by
+  rw [CentData.levOK, andB_eq, Bool.and_eq_true] at h
+  obtain ⟨hf, h2⟩ := h
+  unfold forestOK at h2
+  rw [forceLB_eq, andB_eq, Bool.and_eq_true] at h2
+  obtain ⟨V, hk, hV, hpt⟩ := walkK_sound _ _ (lenN_splitPl _ _ _ _) h2.2
+  exact ⟨levFix_of_allL D hf, h2.1, V, hV, hk, fun i => ⟨_, hpt i⟩⟩
+
+theorem levFact_of_segs (D : CentData) {j cc g m : ℕ} (hi : D.levIni j = true) (hm : 0 < m)
+    (h : ∀ k < m, D.lsegF j cc g m k = true) : D.LevFact j := by
+  rw [CentData.levIni, andB_eq, Bool.and_eq_true] at hi
+  exact ⟨levFix_of_allL D hi.1, hi.2, lev_of_lsegs D hm h⟩
+
+theorem forest_K_walk {FPn bw n β : ℕ} {Ms : List ℕ} {Ks : List M78} (hlen : lenN Ms = Ks.length)
+    (hrep : ∀ l < lenN Ms, Rep (nthN Ms l) (Ks.getD l 0)) (hs : sortOK (splitPl FPn bw n 156) n = true)
+    {Vf : List ℕ} (hV : lenN Vf = 156) (hk : Nat.beq (neqV Vf β n) 0 = true)
+    (hpt : ∀ i, ∃ S, ptB Vf i = walkElt Ms S i *ᵥ ptB (splitPl FPn bw n 156) i) :
+    (∀ i < n, ∀ i' < n, ptK (splitPl FPn bw n 156) i = ptK (splitPl FPn bw n 156) i' → i = i') ∧
+      ∀ i < n, ∃ g ∈ monL Ks, g *ᵥ ptK (splitPl FPn bw n 156) i = vecK β := by
+  refine ⟨fun i hi i' hi' e => sort_inj (lenN_splitPl _ _ _ _) hs i hi i' hi' (ptK_inj e),
+    fun i hi => ?_⟩
+  obtain ⟨S, hS⟩ := hpt i
+  obtain ⟨g, hg, hge⟩ := walk_lift hlen hrep S i
+  exact ⟨g, hg, (ptK_walk hS hge).symm.trans (ptK_of_neqV hV hk hi)⟩
+
+theorem centFacts_of_count (D : CentData) {PL : List ℕ} {A B r N : ℕ}
     (hA : Rep A (toMat nativeAB.1)) (hB : Rep B (toMat nativeAB.2))
-    (hPL : OrbitBits PL A B 3968055 r) (hPLl : lenN PL = 156)
+    (hPL : OrbitBits PL A B 3968055 r)
     (hv0 : Nat.beq (nthV D.V 0) A = true) (hv1 : Nat.beq (nthV D.V 1) B = true)
     (hp : ∀ t < lenLL D.prog, slpLine D.V D.prog 2 t = true)
     (hn : Nat.beq (lenN D.V) (Nat.add 2 (lenLL D.prog)) = true)
     (he0 : D.e 0 = 0) (helt : ∀ i < D.p, D.e i < D.p) (hcov : ∀ j < D.p, ∃ i < D.p, D.e i = j)
-    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.levOK (j + 1) = true)
+    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.LevFact (j + 1))
     (hL : D.LOK A B = true) (hLnd : (D.LI.map (nthV D.V)).Nodup)
     (hLcop : Nat.Coprime D.LI.length D.p)
     (hprod : 3968055 * (∏ i ∈ Finset.Ico 1 D.p, D.nf i) * D.LI.length = 76532479683774853939200)
     (hts1 : ∀ q ∈ D.K1, q.2 = 0 ∨ q.2 = 3 ∨ q.2 = 4 ∨ q.2 = 5)
     (htsA : ∀ q ∈ D.Kall, q.2 = 0 ∨ q.2 = 3 ∨ q.2 = 4 ∨ q.2 = 5)
-    (hch : ∀ q < 16, D.chunkF PL A B q = true)
-    (hcnt : ∑ q ∈ Finset.range 16, nthN D.cnts q = D.s)
+    (hcount : ((Finset.range 3968055).filter fun i =>
+      ∀ k ∈ D.K1, rhoC (ptK PL i) (wM D.xw ^ k.1 *ᵥ ptK PL i) = k.2).card = D.s)
     (hH : D.HOK A B = true) (hcandI : D.candIni A B = true) (hcw : D.CandWalk A B)
     (hstart : ∀ r < lenN D.reps, ∃ g ∈ monAB, g *ᵥ vecK (nthN D.reps r) = vecK D.bv)
     (hN : N = D.m₀ * D.LI.length)
@@ -525,27 +624,16 @@ theorem centFacts_of_walks (D : CentData) {PL : List ℕ} {A B r N : ℕ}
       rfl
     have := ((prof_K hX (lenN_vecsPl _) 1 K hK 0).1 h0).2 q hq
     rwa [ptK_vecsPl [D.bv] (by simp), nthN_cons_zero, hbv] at this
-  have hlev' : ∀ j, 1 ≤ j → j < D.p → D.levOK j = true := fun j h1 h2 => by
+  have hlevs : ∀ j, 1 ≤ j → j < D.p → D.LevFact j := fun j h1 h2 => by
     have := hlev (j - 1) (by omega)
     rwa [Nat.sub_add_cancel h1] at this
-  have hlevs : ∀ j, 1 ≤ j → j < D.p →
-      (∀ r ∈ D.RI j, r < lenN D.V ∧ fixesOK (nthV D.V r) D.βs j = true) ∧
-        forestOK (D.FP j) (D.WN j) (Nat.div (Nat.add (D.nf j) 7) 8) (D.nf j) (D.Df j)
-          ((D.RI j).map (nthV D.V)) (nthN D.βs j) = true := by
-    intro j h1 h2
-    have h := hlev' j h1 h2
-    simp only [CentData.levOK, andB_eq, Bool.and_eq_true] at h
-    refine ⟨fun r hr => ?_, h.2⟩
-    have := allL_true h.1 r hr
-    rw [Bool.and_eq_true] at this
-    exact ⟨Nat.blt_eq.mp this.1, this.2⟩
   have hfor : ∀ j, 1 ≤ j → j < D.p →
       (∀ i < D.nf j, ∀ i' < D.nf j, ptK (D.FL j) i = ptK (D.FL j) i' → i = i') ∧
         ∀ i < D.nf j, ∃ g ∈ monL (D.regK j), g *ᵥ ptK (D.FL j) i = D.βK j := by
     intro j h1 h2
-    obtain ⟨hr, hf⟩ := hlevs j h1 h2
+    obtain ⟨hr, hs, Wf, hWf, hk, hpt⟩ := hlevs j h1 h2
     obtain ⟨hlen, hrep⟩ := rep_letters hV (D.RI j) fun r hr' => (hr r hr').1
-    obtain ⟨hinj, hw⟩ := forest_K hlen hrep hf
+    obtain ⟨hinj, hw⟩ := forest_K_walk hlen hrep hs hWf hk hpt
     refine ⟨hinj, fun i hi => ?_⟩
     obtain ⟨g, hg, hge⟩ := hw i hi
     exact ⟨g, hg, by rw [CentData.FL, hge, hβv j h2]⟩
@@ -626,32 +714,6 @@ theorem centFacts_of_walks (D : CentData) {PL : List ℕ} {A B r N : ℕ}
       (profAll (D.xB A B) (K.map Prod.fst) (K.map Prod.snd) C D.s Form.fmPk Form.brPk).testBit j =
         true ↔ j < D.s ∧ ∀ q ∈ K, rhoC (ptK C j) (wM D.xw ^ q.1 *ᵥ ptK C j) = q.2 :=
     fun K hK j => prof_K hX hCl D.s K hK j
-  have hchunk : ∀ q < 16, ((Finset.range (min 262144 (3968055 - q * 262144))).filter fun i =>
-      ∀ k ∈ D.K1, rhoC (ptK PL (q * 262144 + i)) (wM D.xw ^ k.1 *ᵥ ptK PL (q * 262144 + i)) = k.2).card
-        = nthN D.cnts q := by
-    intro q hq
-    have h := hch q hq
-    unfold CentData.chunkF chunkOK at h
-    rw [forceB_eq] at h
-    set w := Nat.min 262144 (Nat.sub 3968055 (Nat.mul q 262144)) with hw
-    have hw' : w = min 262144 (3968055 - q * 262144) := rfl
-    set U := chunkPl PL (Nat.mul q 262144) w with hU
-    have hUl : lenN U = 156 := by rw [hU, lenN_chunkPl, hPLl]
-    have hpr := prof_K hX hUl w D.K1 hts1
-    have hlt : profAll (D.xB A B) (D.K1.map Prod.fst) (D.K1.map Prod.snd) U w Form.fmPk Form.brPk <
-        2 ^ w := testBit_lt_of fun i hi => ((hpr i).1 hi).1
-    have hc := popK_sound _ _ w h hlt
-    rw [← hw', ← hc]
-    congr 1
-    refine Finset.filter_congr fun i hi => ?_
-    have hi' : i < w := Finset.mem_range.1 hi
-    have hpt' : ptK U i = ptK PL (q * 262144 + i) :=
-      ptB_inj (ptB_chunkPl PL (Nat.mul q 262144) w i hi')
-    rw [hpr i, hpt']
-    exact ⟨fun h => ⟨hi', h⟩, fun h => h.2⟩
-  have hcount := card_filter_chunks (fun i => ∀ k ∈ D.K1,
-    rhoC (ptK PL i) (wM D.xw ^ k.1 *ᵥ ptK PL i) = k.2) 262144 3968055 16 (by norm_num)
-  rw [Finset.sum_congr rfl fun q hq => hchunk q (Finset.mem_range.1 hq), hcnt] at hcount
   obtain ⟨hoinj, hroot, hcA, hcB, hdep⟩ := facts_ptK hA hB hPL
   refine ⟨he0, helt, hcov, D.regK, D.BlK, D.LI.map (vM D.prog), ptK PL, Hk, ptK C, ptK Vf,
     D.s, D.m₀, fun i M hM => ?_, fun i hi M hM j hj => ?_, fun i h1 h2 y hy => ?_, fun M hM => ?_,
@@ -727,6 +789,56 @@ theorem centFacts_of_walks (D : CentData) {PL : List ℕ} {A B r N : ℕ}
         by_contra hq'
         exact hc ⟨q, hq, hq'⟩⟩
 
+theorem centFacts_of_walks (D : CentData) {PL : List ℕ} {A B r N : ℕ}
+    (hA : Rep A (toMat nativeAB.1)) (hB : Rep B (toMat nativeAB.2))
+    (hPL : OrbitBits PL A B 3968055 r) (hPLl : lenN PL = 156)
+    (hv0 : Nat.beq (nthV D.V 0) A = true) (hv1 : Nat.beq (nthV D.V 1) B = true)
+    (hp : ∀ t < lenLL D.prog, slpLine D.V D.prog 2 t = true)
+    (hn : Nat.beq (lenN D.V) (Nat.add 2 (lenLL D.prog)) = true)
+    (he0 : D.e 0 = 0) (helt : ∀ i < D.p, D.e i < D.p) (hcov : ∀ j < D.p, ∃ i < D.p, D.e i = j)
+    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.LevFact (j + 1))
+    (hL : D.LOK A B = true) (hLnd : (D.LI.map (nthV D.V)).Nodup)
+    (hLcop : Nat.Coprime D.LI.length D.p)
+    (hprod : 3968055 * (∏ i ∈ Finset.Ico 1 D.p, D.nf i) * D.LI.length = 76532479683774853939200)
+    (hts1 : ∀ q ∈ D.K1, q.2 = 0 ∨ q.2 = 3 ∨ q.2 = 4 ∨ q.2 = 5)
+    (htsA : ∀ q ∈ D.Kall, q.2 = 0 ∨ q.2 = 3 ∨ q.2 = 4 ∨ q.2 = 5)
+    (hch : ∀ q < 16, D.chunkF PL A B q = true)
+    (hcnt : ∑ q ∈ Finset.range 16, nthN D.cnts q = D.s)
+    (hH : D.HOK A B = true) (hcandI : D.candIni A B = true) (hcw : D.CandWalk A B)
+    (hstart : ∀ r < lenN D.reps, ∃ g ∈ monAB, g *ᵥ vecK (nthN D.reps r) = vecK D.bv)
+    (hN : N = D.m₀ * D.LI.length)
+    (hrefs : ∀ r < lenN D.reps, nthN D.st r = 1 → D.RefFact (vecK (nthN D.reps r))) :
+    CentFacts D.p N D.xw D.d0 D.e D.K1 D.Kall := by
+  have hX : Rep (D.xB A B) (wM D.xw) := rep_wM hA hB D.xw
+  have hchunk : ∀ q < 16, ((Finset.range (min 262144 (3968055 - q * 262144))).filter fun i =>
+      ∀ k ∈ D.K1, rhoC (ptK PL (q * 262144 + i)) (wM D.xw ^ k.1 *ᵥ ptK PL (q * 262144 + i)) = k.2).card
+        = nthN D.cnts q := by
+    intro q hq
+    have h := hch q hq
+    unfold CentData.chunkF chunkOK at h
+    rw [forceB_eq] at h
+    set w := Nat.min 262144 (Nat.sub 3968055 (Nat.mul q 262144)) with hw
+    have hw' : w = min 262144 (3968055 - q * 262144) := rfl
+    set U := chunkPl PL (Nat.mul q 262144) w with hU
+    have hUl : lenN U = 156 := by rw [hU, lenN_chunkPl, hPLl]
+    have hpr := prof_K hX hUl w D.K1 hts1
+    have hlt : profAll (D.xB A B) (D.K1.map Prod.fst) (D.K1.map Prod.snd) U w Form.fmPk Form.brPk <
+        2 ^ w := testBit_lt_of fun i hi => ((hpr i).1 hi).1
+    have hc := popK_sound _ _ w h hlt
+    rw [← hw', ← hc]
+    congr 1
+    refine Finset.filter_congr fun i hi => ?_
+    have hi' : i < w := Finset.mem_range.1 hi
+    have hpt' : ptK U i = ptK PL (q * 262144 + i) :=
+      ptB_inj (ptB_chunkPl PL (Nat.mul q 262144) w i hi')
+    rw [hpr i, hpt']
+    exact ⟨fun h => ⟨hi', h⟩, fun h => h.2⟩
+  have hcount := card_filter_chunks (fun i => ∀ k ∈ D.K1,
+    rhoC (ptK PL i) (wM D.xw ^ k.1 *ᵥ ptK PL i) = k.2) 262144 3968055 16 (by norm_num)
+  rw [Finset.sum_congr rfl fun q hq => hchunk q (Finset.mem_range.1 hq), hcnt] at hcount
+  exact centFacts_of_count D hA hB hPL hv0 hv1 hp hn he0 helt hcov hbase hlev hL hLnd hLcop hprod
+    hts1 htsA hcount hH hcandI hcw hstart hN hrefs
+
 theorem centFacts_of_start (D : CentData) {PL : List ℕ} {A B r N : ℕ}
     (hA : Rep A (toMat nativeAB.1)) (hB : Rep B (toMat nativeAB.2))
     (hPL : OrbitBits PL A B 3968055 r) (hPLl : lenN PL = 156)
@@ -734,7 +846,7 @@ theorem centFacts_of_start (D : CentData) {PL : List ℕ} {A B r N : ℕ}
     (hp : ∀ t < lenLL D.prog, slpLine D.V D.prog 2 t = true)
     (hn : Nat.beq (lenN D.V) (Nat.add 2 (lenLL D.prog)) = true)
     (he0 : D.e 0 = 0) (helt : ∀ i < D.p, D.e i < D.p) (hcov : ∀ j < D.p, ∃ i < D.p, D.e i = j)
-    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.levOK (j + 1) = true)
+    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.LevFact (j + 1))
     (hL : D.LOK A B = true) (hLnd : (D.LI.map (nthV D.V)).Nodup)
     (hLcop : Nat.Coprime D.LI.length D.p)
     (hprod : 3968055 * (∏ i ∈ Finset.Ico 1 D.p, D.nf i) * D.LI.length = 76532479683774853939200)
@@ -758,7 +870,7 @@ theorem centFacts_of_checks (D : CentData) {PL : List ℕ} {A B r N : ℕ}
     (hp : ∀ t < lenLL D.prog, slpLine D.V D.prog 2 t = true)
     (hn : Nat.beq (lenN D.V) (Nat.add 2 (lenLL D.prog)) = true)
     (he0 : D.e 0 = 0) (helt : ∀ i < D.p, D.e i < D.p) (hcov : ∀ j < D.p, ∃ i < D.p, D.e i = j)
-    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.levOK (j + 1) = true)
+    (hbase : D.baseOK A B = true) (hlev : ∀ j < D.p - 1, D.LevFact (j + 1))
     (hL : D.LOK A B = true) (hLnd : (D.LI.map (nthV D.V)).Nodup)
     (hLcop : Nat.Coprime D.LI.length D.p)
     (hprod : 3968055 * (∏ i ∈ Finset.Ico 1 D.p, D.nf i) * D.LI.length = 76532479683774853939200)

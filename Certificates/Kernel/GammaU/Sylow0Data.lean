@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GUY0 "Certificates/Kernel/GammaU/data/syl0.json.gz" 56071
+#kc_repo #kc_json CFSG.KD.GUY0 "Certificates/Kernel/GammaU/data/syl0.json" 56071
   13705464340917463170 (AB : List Nat) (AO : List Nat) (ASP : Nat) (ASI : Nat)
   (AWD : List (List Nat)) (ATL : List (List Nat)) (AT : List Nat) (APS : List Nat)
   (ATR : List (List (List Nat))) (AR : List (List (List Nat))) (Y : Nat) (QS : List (List Nat))

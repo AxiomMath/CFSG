@@ -5,6 +5,7 @@ public import Certificates.Kernel.LocalComp.HeFix2329.Enum
 public import Certificates.Kernel.SporSch.HeT.B2114K
 public import Certificates.Data.Kernel.LocalComp.ConjPin
 public import Certificates.Data.HeNormWords
+public import Certificates.Kernel.LocalComp.HePtW
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -16,6 +17,7 @@ namespace CertificateChecks.KernelLC.HeNorm
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KC.PermTool CFSG.KC.LocalComp.ConjPin
 open CFSG.ComponentClassification.GrSLit.HeldFix CertificateChecks.KernelLC.HeFix
 open CertificateChecks.KernelSporSch.HeB14 (C1 C1I)
+open CertificateChecks.KernelLC.HePtW (ptW)
 
 @[expose] noncomputable def pc (p q : Nat) : Nat := pcomp 8330 14 (mask 14) p q
 
@@ -29,16 +31,18 @@ open CertificateChecks.KernelSporSch.HeB14 (C1 C1I)
 
 @[expose] noncomputable def HI (i j : Nat) : Nat := pc (WI i) (W j)
 
+@[expose] noncomputable def ptT (k x : Nat) : Nat :=
+  [pg 14 (mask 14) PT1 x, ptW PC1 (hfTauWords.getD 0 []) x, ptW PC1 (hfTauWords.getD 1 []) x,
+    ptW PC1 (hfTauWords.getD 2 []) x, ptW PC1 (hfTauWords.getD 3 []) x].getD k 0
+
+@[expose] noncomputable def ptE (i j k x : Nat) : Nat :=
+  ptW C1I (Certificates.HeNorm.words.getD j []).reverse
+    (ptW C1 (Certificates.HeNorm.words.getD i [])
+      (ptT k (ptW C1I (Certificates.HeNorm.words.getD i []).reverse
+        (ptW C1 (Certificates.HeNorm.words.getD j []) x))))
+
 @[expose] noncomputable def R (i j k : Nat) : Nat :=
-  restrictK 14 6 hfDelta32 (pc (pc (Hh i j) (T0K k)) (HI i j))
-
-theorem kW : (allN 9 (fun j => cn (C1 j) && cn (C1I j)) &&
-    allN 8 (fun i => permOK 8330 14 (mask 14) (8330 * 14) (W i) (WI i))) = true := by
-  quickRfl
-
-theorem kH : allN 8 (fun i => allN 8 fun j =>
-    permOK 8330 14 (mask 14) (8330 * 14) (Hh i j) (HI i j)) = true := by
-  quickRfl
+  CFSG.KC.BfsPin.packA 6 (hfDelta32.map fun x => hfDelta32.idxOf (ptE i j k x))
 
 @[expose] noncomputable def outK (X : Nat) : Bool :=
   !(allN 32 fun x => Nat.blt (pg 6 (mask 6) X x) 32)

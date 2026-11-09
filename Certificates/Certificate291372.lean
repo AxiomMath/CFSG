@@ -1,9 +1,8 @@
 module
 
 public import CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.Fi24ThreeCoverInputs
-import Certificates.Kernel.CosPres.F291372A
+import Certificates.Kernel.Misc.Coset.Q3Act.TzIndex
 import Certificates.Kernel.Misc.Coset.Q3Act.Facts
-import CFSG.Certificates.Kernel.Misc.Coset.TableFact
 
 public section
 
@@ -24,7 +23,6 @@ theorem certificate291372 :
       (FreeGroup.mk (zetaWord 10))) := by
   refine ⟨CFSG.KAct.Q3.sq_letters, ?_, CFSG.KAct.Q3.three_dvd_orderOf_zeta⟩
   rw [CFSG.KAct.Q3.wsQ_eq]
-  exact CFSG.KC.MiscCoset.TableFact.genSub_index (CFSG.KAct.Q3.wsQN CFSG.KD.OrdFi24p.rels)
-    (by norm_num) (subsetOf nG S0) CFSG.KBFact.F291372a
+  exact CFSG.KAct.Q3.genSub_index_tz12 CFSG.KAct.Q3.genSub_index_tz12_le
 
 end Certificates

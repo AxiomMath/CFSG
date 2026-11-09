@@ -613,13 +613,25 @@ theorem centralizer_eq_of_conj' (hC : ChevFacts)
 
 @[expose] def gEY : Fin 2 → Y := ![xY 0 1, xY 0 F4.ω]
 
+theorem vec2_mk0 {α : Type*} (a b : α) (h : 0 < 2) : (![a, b] : Fin 2 → α) ⟨0, h⟩ = a := rfl
+
+theorem vec2_mk1 {α : Type*} (a b : α) (h : 1 < 2) : (![a, b] : Fin 2 → α) ⟨1, h⟩ = b := rfl
+
+theorem nthV2_0 (a b : ℕ) : nthV [a, b] 0 = a := rfl
+
+theorem nthV2_1 (a b : ℕ) : nthV [a, b] 1 = b := rfl
+
+theorem GE_0 : nthV GE 0 = bX 1 := by rw [GE, nthV2_0]
+
+theorem GE_1 : nthV GE 1 = bX 2 := by rw [GE, nthV2_1]
+
 theorem psi_gEY (hC : ChevFacts) (j : Fin 2) : psi (gEY j) = pkMat 28 (nthV GE j.val) := by
-  fin_cases j
-  · change psi (xY 0 1) = pkMat 28 (bX 1)
-    rw [psi_xY hC, ix_val, code_one]
+  match j with
+  | ⟨0, _⟩ =>
+    rw [gEY, vec2_mk0, GE_0, psi_xY hC, ix_val, code_one]
     rfl
-  · change psi (xY 0 F4.ω) = pkMat 28 (bX 2)
-    rw [psi_xY hC, ix_val, code_omega]
+  | ⟨1, _⟩ =>
+    rw [gEY, vec2_mk1, GE_1, psi_xY hC, ix_val, code_omega]
     rfl
 
 theorem rE (hC : ChevFacts) : RecOK gEY 6 EE.CF (genR 28 12 6 2 EE.CF) 4 :=
@@ -653,9 +665,13 @@ theorem E_inf_Q2 (hC : ChevFacts) {e : Y} (heE : e ∈ Subgroup.closure (Set.ran
 
 theorem gEY_commute_k2Y (hC : ChevFacts) (j : Fin 2) : Commute (gEY j) k2Y := by
   refine (commute_of_pk hC (psi_k2 hC) (psi_gEY hC j) ?_).symm
-  fin_cases j
-  · exact eParts.1
-  · exact eParts.2.1
+  match j with
+  | ⟨0, _⟩ =>
+    rw [GE_0]
+    exact eParts.1
+  | ⟨1, _⟩ =>
+    rw [GE_1]
+    exact eParts.2.1
 
 theorem fourGroup_exists' (hC : ChevFacts) (hQ2T : Q2 ≤ T0) {y : Y} {j : ℕ} {u : Y}
     (hu : u = k2Y ∨ u = k2Y * k2Y) (heq : y * pcEltY pc2Y j = pcEltY pc2Y j * u) :

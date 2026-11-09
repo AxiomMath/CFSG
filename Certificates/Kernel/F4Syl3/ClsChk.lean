@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/cls.json.gz" 9719
+#kc_repo #kc_json CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/cls.json" 9719
   6910850899827987092 (cpar : List Nat) (clet : List Nat) (ca : List Nat) (cb : List Nat)
   (cdep : List Nat) (cw : List Nat) (cl : List Nat) (pS : List Nat)
 

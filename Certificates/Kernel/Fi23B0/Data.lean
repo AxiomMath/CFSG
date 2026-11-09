@@ -1,12 +1,12 @@
 module
 
 public import Certificates.Kernel.Fi23K.ChkDefs
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi23B0 TR "Certificates/Kernel/Fi23B0/data/tree.bin.gz" 128 4 137984 14863394903245284637
-#kc_repo #kc_json_gz CFSG.KD.Fi23B0 "Certificates/Kernel/Fi23B0/data/syl.json.gz" 1258 12705671633536009432 (sylW : List (List Nat))
+#kc_repo #kc_ktree CFSG.KD.Fi23B0 TR "Certificates/Kernel/Fi23B0/data/tree.bin" 128 4 137984 14863394903245284637
+#kc_repo #kc_json CFSG.KD.Fi23B0 "Certificates/Kernel/Fi23B0/data/syl.json" 1258 12705671633536009432 (sylW : List (List Nat))
 
 public section
 

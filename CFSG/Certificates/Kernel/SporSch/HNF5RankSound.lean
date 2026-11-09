@@ -20,18 +20,58 @@ theorem subId5_sound {T X : Nat → Nat} (hT : Canon5 T) (h : ∀ i < 133, X i =
   refine congrArg Array.ofFn (funext fun i => congrArg Array.ofFn (funext fun j => ?_))
   rw [rows5_get _ i.isLt j.isLt, h i i.isLt]
   unfold subRow5
-  rw [F5Lane.lane5_red5 _ j.isLt]
-  have e : Nat.add (T i.val) (Nat.shiftLeft (nat_lit 4) (Nat.mul (nat_lit 16) i.val)) =
-      ∑ k ∈ Finset.range 133, (lane5 (T i.val) k + if i.val = k then 4 else 0) * 2 ^ (16 * k) := by
-    change T i.val + 4 <<< (16 * i.val) = _
-    rw [Nat.shiftLeft_eq]
-    simp only [Nat.add_mul, Finset.sum_add_distrib, ite_mul, zero_mul]
-    rw [← F5Lane.row_expand (F5Lane.canon5_lt (hT i i.isLt)), Finset.sum_ite_eq,
-      ite_eq_left (Finset.mem_range.2 i.isLt)]
-  have hb : ∀ k < 133, lane5 (T i.val) k + (if i.val = k then 4 else 0) < 2 ^ 16 := fun k hk => by
-    have := F5Lane.canon5_lane (hT i i.isLt) hk
-    split_ifs <;> omega
-  rw [e, F5Lane.lane_sum5 hb j.isLt]
+  have hs : ∀ (y : Nat) (k : Nat → Nat), strictN y k = k y := fun y _ => by cases y <;> rfl
+  rw [hs, LyM.nIf_eqL]
+  have hl : ∀ k < 133, lane5 (T i.val) k < 5 := fun k hk => F5Lane.canon5_lane (hT i i.isLt) hk
+  by_cases h0 : Nat.beq (lane5 (T i.val) i.val) 0 = true
+  · rw [ite_eq_left h0]
+    have hz : lane5 (T i.val) i.val = 0 := Nat.eq_of_beq_eq_true h0
+    have e : Nat.add (T i.val) (Nat.shiftLeft (nat_lit 4) (Nat.mul (nat_lit 16) i.val)) =
+        ∑ k ∈ Finset.range 133, (lane5 (T i.val) k + if i.val = k then 4 else 0) * 2 ^ (16 * k) := by
+      change T i.val + 4 <<< (16 * i.val) = _
+      rw [Nat.shiftLeft_eq]
+      simp only [Nat.add_mul, Finset.sum_add_distrib, ite_mul, zero_mul]
+      rw [← F5Lane.row_expand (F5Lane.canon5_lt (hT i i.isLt)), Finset.sum_ite_eq,
+        ite_eq_left (Finset.mem_range.2 i.isLt)]
+    have hb : ∀ k < 133, lane5 (T i.val) k + (if i.val = k then 4 else 0) < 2 ^ 16 :=
+      fun k hk => by
+        have := hl k hk
+        split_ifs <;> omega
+    rw [e, F5Lane.lane_sum5 hb j.isLt]
+    by_cases hij : i.val = j.val
+    · rw [ite_eq_left hij, ← hij, hz]
+    · rw [ite_eq_right hij, Nat.add_zero, Nat.mod_eq_of_lt (hl j j.isLt)]
+  · rw [ite_eq_right h0]
+    have hp : 1 ≤ lane5 (T i.val) i.val := Nat.pos_of_ne_zero fun hc => h0 (Eq.mpr Nat.beq_eq hc)
+    have e2 : ∑ k ∈ Finset.range 133, (lane5 (T i.val) k - if i.val = k then 1 else 0) *
+        2 ^ (16 * k) + 2 ^ (16 * i.val) = T i.val := by
+      conv_rhs => rw [F5Lane.row_expand (F5Lane.canon5_lt (hT i i.isLt))]
+      have hk : ∀ k ∈ Finset.range 133, lane5 (T i.val) k * 2 ^ (16 * k) =
+          (lane5 (T i.val) k - if i.val = k then 1 else 0) * 2 ^ (16 * k) +
+            if i.val = k then 2 ^ (16 * k) else 0 := fun k _ => by
+        split_ifs with hik
+        · rw [← hik, ← Nat.succ_mul, Nat.succ_eq_add_one, Nat.sub_add_cancel hp]
+        · rw [Nat.sub_zero, Nat.add_zero]
+      rw [Finset.sum_congr rfl hk, Finset.sum_add_distrib, Finset.sum_ite_eq,
+        ite_eq_left (Finset.mem_range.2 i.isLt)]
+    have e : Nat.sub (T i.val) (Nat.shiftLeft (nat_lit 1) (Nat.mul (nat_lit 16) i.val)) =
+        ∑ k ∈ Finset.range 133, (lane5 (T i.val) k - if i.val = k then 1 else 0) *
+          2 ^ (16 * k) := by
+      change T i.val - 1 <<< (16 * i.val) = _
+      rw [Nat.shiftLeft_eq, Nat.one_mul]
+      omega
+    have hb : ∀ k < 133, lane5 (T i.val) k - (if i.val = k then 1 else 0) < 2 ^ 16 :=
+      fun k hk => by
+        have := hl k hk
+        split_ifs <;> omega
+    rw [e, F5Lane.lane_sum5 hb j.isLt]
+    have := hl j j.isLt
+    by_cases hij : i.val = j.val
+    · rw [ite_eq_left hij, ite_eq_left hij]
+      rw [← hij] at this ⊢
+      omega
+    · rw [ite_eq_right hij, ite_eq_right hij]
+      omega
 
 theorem diag5_sound {X : Nat → Nat} {r : Nat} (h : ∀ i < 133, X i = diagRow5 r i) :
     rows5 X = diagR r := by

@@ -12,7 +12,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ4NP7850 "Certificates/Kernel/J4NP7850/data/p7850.json.gz"
+#kc_repo #kc_json CertificateChecks.KernelJ4NP7850 "Certificates/Kernel/J4NP7850/data/p7850.json"
   19918 1651147187912352740
   (pv : List Nat) (mw : List Nat) (pr : List Nat) (k4 : Nat) (w : List (List Nat)) (P : List Nat)
   (b : List Nat) (R : List Nat) (Q : Nat) (u : List Nat) (q : List Nat)

@@ -168,7 +168,8 @@ theorem centralMaskTable_eq (C K : Array ℕ) : centralMaskTable C K = centralMa
 
 theorem codePow_go_eq (a : ℕ) : ∀ n acc, codePow.go a n acc = powGoF a n acc
   | 0, _ => rfl
-  | n + 1, acc => by rw [codePow.go, powGoF, mul_eq_mulF, codePow_go_eq a n]
+  | n + 1, acc => by
+    rw [codePow.go, mul_eq_mulF, codePow_go_eq a n, powGoF, powGoF, powGo]
 
 theorem pow2K_eq (a : ℕ) : pow2K a = pow2F a := by
   unfold pow2K pow2F codePow

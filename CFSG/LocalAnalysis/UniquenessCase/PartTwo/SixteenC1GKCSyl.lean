@@ -2,6 +2,7 @@ module
 
 public import CFSG.LargeExtraspecial.O62Sylow
 public import CFSG.LargeExtraspecial.O62Span
+import CFSG.LargeExtraspecial.O62Native
 
 public section
 
@@ -13,8 +14,8 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open Module QuadraticMap CFSG.RankThree.OrthogonalInvolutions
 open CFSG.LargeExtraspecial.O62 CFSG.LargeExtraspecial.O62.Code CFSG.LargeExtraspecial.O62.Check
 
-theorem s16c1c_checkSylow : checkSylow true = true := by
-  decide +kernel
+theorem s16c1c_checkSylow : checkSylow true = true :=
+  CFSG.LargeExtraspecial.O62.checkSylow_minus_ok
 
 theorem s16c1c_spec :
     (∀ w ∈ sylowWords true, ∀ n ∈ w, qB true n = true) ∧ [] ∈ sylowWords true ∧

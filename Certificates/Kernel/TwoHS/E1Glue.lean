@@ -24,7 +24,7 @@ theorem t_parts :
     tT = tabT (CFSG.KS.Raw.unpack 11200 14 TK) ∧ Cn TK ∧
       invT 11200 tT = tabT (CFSG.KS.Raw.unpack 11200 14 TKI) ∧ Cn TKI ∧
       permOK 11200 tT = true ∧ invOK 11200 tT (invT 11200 tT) = true :=
-  word_inv (by decide) (Bool.and_eq_true_iff.1 e1_inv).2
+  word_inv (by decide) (of_decide_eq_true (Bool.and_eq_true_iff.1 e1_inv).2)
 
 theorem pow_beta {j : Nat} (hj : j < 3) (e : Nat) :
     powT 11200 e (betaT j) = tabT (CFSG.KS.Raw.unpack 11200 14 (pw (BK j) e)) ∧
@@ -48,6 +48,42 @@ theorem e1T_eq (a b c u : Nat) :
     comp_eq (cPc (cPc h0.2 h1.2) h2.2) h3.2]
   exact ⟨rfl, cPc (cPc (cPc h0.2 h1.2) h2.2) h3.2⟩
 
+open CFSG.KC.Enum (pg)
+open CFSG.KS (mask)
+
+theorem e1pgPc {p q i : Nat} (hi : i < 11200) :
+    pg 14 (mask 14) (pc p q) i = pg 14 (mask 14) p (pg 14 (mask 14) q i) :=
+  CFSG.KS.PF.pg_pcomp (by norm_num) hi
+
+theorem e1pgLt {p i : Nat} (hp : Cn p) (hi : i < 11200) : pg 14 (mask 14) p i < 11200 :=
+  (CFSG.KS.PF.canon_facts hp).2.2.2 i hi
+
+theorem e1pgPw (p : Nat) : ∀ (e : Nat) {i : Nat}, i < 11200 →
+    pg 14 (mask 14) (pw p e) i = e1It p e i
+  | 0, i, hi => by
+    rw [(pows_pw p).1]
+    exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hi
+  | e + 1, i, hi => by
+    rw [(pows_pw p).2 e]
+    change pg 14 (mask 14) (pc p (pw p e)) i = pg 14 (mask 14) p (e1It p e i)
+    rw [e1pgPc hi, e1pgPw p e hi]
+
+theorem e1PtK_of_id {a b c u : Nat} (h : E1K a b c u = idK) : e1PtK a b c u = 1 := by
+  have h1 : (1 : Nat) < 11200 := by norm_num
+  have cT := (pow_t u).2
+  have c2 := (pow_beta (j := 2) (by norm_num) c).2
+  have c1 := (pow_beta (j := 1) (by norm_num) b).2
+  have b3 := e1pgLt cT h1
+  have b2 := e1pgLt c2 b3
+  have b1 := e1pgLt c1 b2
+  have e : pg 14 (mask 14) (E1K a b c u) 1 = e1PtK a b c u := by
+    unfold E1K e1PtK
+    rw [e1pgPc h1, e1pgPc b3, e1pgPc b2, e1pgPw _ _ b1, e1pgPw _ _ b2, e1pgPw _ _ b3,
+      e1pgPw _ _ h1]
+  rw [← e, h]
+  unfold idK
+  exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) h1
+
 theorem kapT_eq (c : List Nat) :
     kapT c = tabT (CFSG.KS.Raw.unpack 11200 14 (KP c)) ∧ Cn (KP c) := by
   have h0 := pow_beta (j := 0) (by norm_num) (c.getD 0 0)
@@ -63,9 +99,9 @@ theorem sigBeta_eq {b j : Nat} (hb : b < 2) (hj : j < 3) :
     sigBetaT b j = tabT (CFSG.KS.Raw.unpack 11200 14 (SBK b j)) ∧ Cn (SBK b j) := by
   unfold sigBetaT SBK
   rcases (by omega : b = 0 ∨ b = 1) with rfl | rfl
-  · simp only [if_true]
+  · simp only [↓reduceIte]
     exact ⟨(beta_parts hj).1, (beta_parts hj).2.1⟩
-  · simp only [one_ne_zero, if_false]
+  · simp only [one_ne_zero, ↓reduceIte]
     exact wordTbl_eq (lettersOK_sigWord (betaWords.getD j []))
 
 theorem realEq_of {lw : List Nat} {b : Nat} {d : List Nat} {j : Nat} (hb : b < 2) (hj : j < 3)
@@ -127,14 +163,14 @@ theorem e1OK_true : e1OK = true := by
         (a == 0 && b == 0 && c == 0 && u == 0) || !tblEq 11200 (e1T a b c u) (idT 11200)) =
       true := by
     simp only [hE]
-    rw [List.all_eq_true]
-    intro a ha
-    have ha' := List.mem_range.1 ha
-    rcases (by omega : a = 0 ∨ a = 1 ∨ a = 2 ∨ a = 3) with rfl | rfl | rfl | rfl
-    · exact e1_a0
-    · exact e1_a1
-    · exact e1_a2
-    · exact e1_a3
+    simp only [List.all_eq_true]
+    intro a ha b hb c hc u hu
+    have h := List.all_eq_true.1 (List.all_eq_true.1 (List.all_eq_true.1
+      (List.all_eq_true.1 e1_pt a ha) b hb) c hc) u hu
+    cases e : Nat.beq (E1K a b c u) idK
+    · simp
+    · rw [e1PtK_of_id (Nat.eq_of_beq_eq_true e)] at h
+      simpa using h
   unfold e1OK
   simp only [cA, t_parts.2.2.2.2.1, t_parts.2.2.2.2.2, cD, cE, cF, cG, cH, Bool.and_self]
 

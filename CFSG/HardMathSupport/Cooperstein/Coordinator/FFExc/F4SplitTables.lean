@@ -118,13 +118,35 @@ theorem gamK_lt : ∀ k < 72, gamK k < 72 := by decide +kernel
 
 theorem graphRoot_root : ∀ k < 72, graphRoot (e6root k) = e6root (gamK k) := by decide +kernel
 
+abbrev FFix (k : ℕ) : Prop :=
+    (graphRoot (e6root k) = e6root k →
+      Em2 k *ᵥ s3Z = 0 ∧ s3Z ᵥ* Em2 k = 0) ∧
+    (graphRoot (e6root k) ≠ e6root k →
+      (Em2 k + Em2 (gamK k)) *ᵥ s3Z = 0 ∧ Em2 k *ᵥ (Em2 (gamK k) *ᵥ s3Z) = 0 ∧
+        s3Z ᵥ* (Em2 k + Em2 (gamK k)) = 0 ∧ (s3Z ᵥ* Em2 k) ᵥ* Em2 (gamK k) = 0)
+
+theorem f_fix_checks_a : ∀ k < 24, FFix k := by decide +kernel
+
+theorem f_fix_checks_b : ∀ k < 24, FFix (k + 24) := by decide +kernel
+
+theorem f_fix_checks_c : ∀ k < 24, FFix (k + 48) := by decide +kernel
+
 theorem f_fix_checks : ∀ k < 72,
     (graphRoot (e6root k) = e6root k →
       Em2 k *ᵥ s3Z = 0 ∧ s3Z ᵥ* Em2 k = 0) ∧
     (graphRoot (e6root k) ≠ e6root k →
       (Em2 k + Em2 (gamK k)) *ᵥ s3Z = 0 ∧ Em2 k *ᵥ (Em2 (gamK k) *ᵥ s3Z) = 0 ∧
         s3Z ᵥ* (Em2 k + Em2 (gamK k)) = 0 ∧ (s3Z ᵥ* Em2 k) ᵥ* Em2 (gamK k) = 0) := by
-  decide +kernel
+  intro k hk
+  by_cases h1 : k < 24
+  · exact f_fix_checks_a k h1
+  · by_cases h2 : k < 48
+    · have e : k = (k - 24) + 24 := by omega
+      rw [e]
+      exact f_fix_checks_b (k - 24) (by omega)
+    · have e : k = (k - 48) + 48 := by omega
+      rw [e]
+      exact f_fix_checks_c (k - 48) (by omega)
 
 theorem wit_check : ∀ b : Ix, ¬ (b.val = 12 ∨ b.val = 13 ∨ b.val = 14) →
     (witTab.getD b.val (0, 0)).1 < 72 ∧

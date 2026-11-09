@@ -120,16 +120,20 @@ theorem card_centralizer_dY_le (hG : 4154781481226426191177580544000000 ≤ Nat.
         ((liveL_spec _).1 (nodeAt_mem i)).1 ((liveL_spec _).1 (nodeAt_mem i)).2).1
     refine Subgroup.eq_of_le_of_card_ge hle (Nat.le_of_mul_le_mul_left ?_ hpos)
     rw [hc1, hrel, hc2]
-  let xN : ℕ → B433 := fun n => if h : n < 46 then yB ⟨n, h⟩ else 1
-  let I : Finset ℕ := Ev.map Fin.valEmbedding
-  have hxN : ∀ i : Fin 46, xN i = yB i := fun i => dif_pos i.2
+  obtain ⟨xN, hxNdef⟩ : ∃ f : ℕ → B433, f = fun n => if h : n < 46 then yB ⟨n, h⟩ else 1 :=
+    ⟨_, rfl⟩
+  obtain ⟨I, hIdef⟩ : ∃ s : Finset ℕ, s = Ev.map Fin.valEmbedding := ⟨_, rfl⟩
+  have hxN : ∀ i : Fin 46, xN i = yB i := fun i => by rw [hxNdef]; exact dif_pos i.2
   let kOf : Fin 46 → ℕ := fun i => CFSG.KD.B4AX.NJ.idxOf (nodeAt i)
-  let XcF : Fin 46 → Finset (Fin 31671) := fun i =>
-    if i = idxOf 0 then Finset.univ else Finset.univ.filter fun ω => (Xs (kOf i)).testBit ω = true
-  let XcN : ℕ → Finset (Fin 31671) := fun n => if h : n < 46 then XcF ⟨n, h⟩ else ∅
-  let sN : ℕ → ℕ := fun n => if h : n < 46 then vN ⟨n, h⟩ else 0
-  have hXcN : ∀ i : Fin 46, XcN i = XcF i := fun i => dif_pos i.2
-  have hsN : ∀ i : Fin 46, sN i = vN i := fun i => dif_pos i.2
+  obtain ⟨XcF, hXcFdef⟩ : ∃ f : Fin 46 → Finset (Fin 31671), f = fun i =>
+    if i = idxOf 0 then Finset.univ
+    else Finset.univ.filter fun ω : Fin 31671 => (Xs (kOf i)).testBit ω = true := ⟨_, rfl⟩
+  obtain ⟨XcN, hXcNdef⟩ : ∃ f : ℕ → Finset (Fin 31671),
+      f = fun n => if h : n < 46 then XcF ⟨n, h⟩ else ∅ := ⟨_, rfl⟩
+  obtain ⟨sN, hsNdef⟩ : ∃ f : ℕ → ℕ, f = fun n => if h : n < 46 then vN ⟨n, h⟩ else 0 :=
+    ⟨_, rfl⟩
+  have hXcN : ∀ i : Fin 46, XcN i = XcF i := fun i => by rw [hXcNdef]; exact dif_pos i.2
+  have hsN : ∀ i : Fin 46, sN i = vN i := fun i => by rw [hsNdef]; exact dif_pos i.2
   have hcoverN : ∀ c : B433 ⧸ setupB.H, ∃ i ∈ I, ∃ e, c = setupB.cosetOf (xN i) e := by
     intro c
     induction c using QuotientGroup.induction_on with
@@ -146,7 +150,7 @@ theorem card_centralizer_dY_le (hG : 4154781481226426191177580544000000 ≤ Nat.
         rw [e1]
         exact (inlB : B433 →* Ghat hsw).range.mul_mem ((inlB : B433 →* Ghat hsw).range.mul_mem
           ⟨(psi ea)⁻¹, by rw [map_inv]; rfl⟩ ⟨g⁻¹, rfl⟩) ⟨(psi eb)⁻¹, by rw [map_inv]; rfl⟩
-      refine ⟨ι, Finset.mem_map_of_mem _ hιE, eb⁻¹, ?_⟩
+      refine ⟨ι, by rw [hIdef]; exact Finset.mem_map_of_mem _ hιE, eb⁻¹, ?_⟩
       have hy : yB ι = psi ea⁻¹ * g⁻¹ * psi eb⁻¹ := by
         apply hinl
         rw [hyB ι hιE, map_mul, map_mul]
@@ -160,16 +164,18 @@ theorem card_centralizer_dY_le (hG : 4154781481226426191177580544000000 ≤ Nat.
       group
   have hsI : ∀ i ∈ I, (CFSG.YGroups.DCE.B.stabSub setupB (xN i)).index ≤ sN i := by
     intro n hn
+    rw [hIdef] at hn
     obtain ⟨ι, hι, rfl⟩ := Finset.mem_map.1 hn
     simp only [Fin.valEmbedding_apply, hxN, hsN]
     exact (hSeq ι hι).2
   have hXN : ∀ i ∈ I, setupB.fixLabels (xN i) dY (0 : Fin 31671) ⊆ XcN i := by
     intro n hn
+    rw [hIdef] at hn
     obtain ⟨ι, hι, rfl⟩ := Finset.mem_map.1 hn
     simp only [Fin.valEmbedding_apply, hxN, hXcN]
     intro ω hω
     by_cases h0 : ι = idxOf 0
-    · simp [XcF, h0]
+    · simp [hXcFdef, h0]
     · obtain ⟨e, he0, hed⟩ := hω
       have hmem : psiG hsw (e⁻¹ * dY * e) ∈ (twist).S ι := by
         rw [(hSeq ι hι).1]
@@ -207,7 +213,7 @@ theorem card_centralizer_dY_le (hG : 4154781481226426191177580544000000 ≤ Nat.
         rw [hNJk, hlab, ← hsρ]
         exact ⟨s, hs, rfl⟩)
       rw [Finset.mem_coe]
-      simp only [XcF, h0, if_false, Finset.mem_filter, Finset.mem_univ, true_and]
+      simp only [hXcFdef, h0, if_false, Finset.mem_filter, Finset.mem_univ, true_and]
       exact hX
   have hJidx : 31671 ≤ J432.index := by
     have hle : J432 ≤ MulAction.stabilizer (YGroup 4 3 2) (0 : Fin 31671) := by
@@ -270,11 +276,11 @@ theorem card_centralizer_dY_le (hG : 4154781481226426191177580544000000 ≤ Nat.
       _ ≤ Nat.card (J432.map psi) := Subgroup.card_le_of_le hle
       _ ≤ 129123503308800 := hJmap
   have hsum : ∑ i ∈ I, (XcN i).card * sN i ≤ 75086567571456 := by
-    rw [Finset.sum_map]
+    rw [hIdef, Finset.sum_map]
     simp only [Fin.valEmbedding_apply, hXcN, hsN]
     rw [← Finset.add_sum_erase _ _ idx0_mem]
     have h0 : (XcF (idxOf 0)).card * vN (idxOf 0) = 31671 := by
-      rw [show XcF (idxOf 0) = Finset.univ from if_pos rfl, Finset.card_univ, Fintype.card_fin,
+      rw [show XcF (idxOf 0) = Finset.univ by rw [hXcFdef]; exact if_pos rfl, Finset.card_univ, Fintype.card_fin,
         vN_idx0]
     rw [h0]
     obtain ⟨himg, hinj, hnode⟩ := ev_data
@@ -290,7 +296,7 @@ theorem card_centralizer_dY_le (hG : 4154781481226426191177580544000000 ≤ Nat.
     have hkk : kOf (idxOf (CFSG.KD.B4AX.NJ.getD k 0)) = k := by
       change CFSG.KD.B4AX.NJ.idxOf (nodeAt _) = k
       rw [hnode k hk', idxOf_nj hk']
-    simp only [XcF, hne, if_false, hkk]
+    simp only [hXcFdef, hne, if_false, hkk]
     rw [card_X hk']
   have hmain := setupB.card_centralizer_le (d := dY) (ω₀ := (0 : Fin 31671)) xN I hcoverN sN
     hsI XcN hXN

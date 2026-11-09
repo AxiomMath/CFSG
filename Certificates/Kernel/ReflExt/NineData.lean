@@ -9,7 +9,7 @@ public section
 
 set_option maxRecDepth 200000
 
-#kc_repo #kc_json_gz CFSG.KD.NK708606 "Certificates/Kernel/ReflExt/data/nk.json.gz"
+#kc_repo #kc_json CFSG.KD.NK708606 "Certificates/Kernel/ReflExt/data/nk.json"
   12143994 14400712317496241855 (fr : List CFSG.ReflExt.NK.FDN)
 
 namespace CFSG.KD.NK708606

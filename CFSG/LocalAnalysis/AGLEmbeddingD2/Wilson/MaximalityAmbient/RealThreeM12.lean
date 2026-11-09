@@ -1,5 +1,6 @@
 module
 
+public import CFSG.Permutation.FinPackDec
 public import CFSG.Sporadic.Mathieu.M12
 public import CFSG.Sporadic.Schreier.Outer
 
@@ -66,7 +67,75 @@ theorem m12f_σy : ∀ p, m12f p * m12y = m12f (m12σy p) := by decide +kernel
 
 theorem m12f_one : ∃ p, m12f p = 1 := ⟨(0, 0, 0), by decide +kernel⟩
 
-theorem m12f_tinv : ∀ p, m12t p * m12f p * (m12t p)⁻¹ = (m12f p)⁻¹ := by decide +kernel
+section M12Codes
+
+open CFSG.Permutation.FinPack
+
+@[expose] noncomputable def m12LetK (l : ℤ) : ℕ :=
+  if l = 1 then 92532767328531 else if l = -1 then 92532767328531 else if l = 2 then 180734465348391
+    else 82837192188216
+
+@[expose] noncomputable def m12WordK (w : List ℤ) : ℕ :=
+  w.foldr (fun l acc => mulK 12 (m12LetK l) acc) (enc (1 : Equiv.Perm (Fin 12)))
+
+theorem m12gA_enc : enc m12gA = 92532767328531 := by decide +kernel
+theorem m12gAinv_enc : enc m12gA⁻¹ = 92532767328531 := by decide +kernel
+theorem m12gB_enc : enc m12gB = 180734465348391 := by decide +kernel
+theorem m12gBinv_enc : enc m12gB⁻¹ = 82837192188216 := by decide +kernel
+
+theorem m12LetK_enc (l : ℤ) :
+    enc ((letM12 l : NativeSporadic.M12) : Equiv.Perm (Fin 12)) = m12LetK l := by
+  unfold letM12 m12LetK
+  split_ifs <;> simp only [InvMemClass.coe_inv, m12gA_enc, m12gAinv_enc, m12gB_enc, m12gBinv_enc]
+
+theorem m12WordK_enc (w : List ℤ) :
+    enc ((wordM12 w : NativeSporadic.M12) : Equiv.Perm (Fin 12)) = m12WordK w := by
+  have hn : 12 ≤ 16 := by norm_num
+  induction w with
+  | nil => rfl
+  | cons l w ih =>
+    rw [m12WordK, List.foldr_cons, ← m12WordK, ← ih, ← m12LetK_enc, ← enc_mul hn, wordM12,
+      List.map_cons, List.prod_cons, Subgroup.coe_mul, ← wordM12]
+
+@[expose] noncomputable def m12fK (p : Fin 3 × Fin 3 × Fin 3) : ℕ :=
+  mulK 12 (mulK 12
+      (powK 12 (enc (1 : Equiv.Perm (Fin 12))) (m12WordK [1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2,
+        1, -2, 1, -2, 1, -2, 1, 2]) (p.1 : ℕ))
+      (powK 12 (enc (1 : Equiv.Perm (Fin 12))) (m12WordK [2, 1, 2, 1, 2, 1, -2, 1, 2, 1, -2, 1, 2,
+        1, 2, 1, -2, 1, -2, 1, 2, 1, 2, 1, 2, 1, -2, 1, -2]) (p.2.1 : ℕ)))
+    (powK 12 (enc (1 : Equiv.Perm (Fin 12)))
+      (mulK 12 (mulK 12 (mulK 12
+        (m12WordK [1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2])
+        (m12WordK [2, 1, 2, 1, 2, 1, -2, 1, 2, 1, -2, 1, 2, 1, 2, 1, -2, 1, -2, 1, 2, 1, 2, 1, 2,
+          1, -2, 1, -2]))
+        (invCK 12 (m12WordK [1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2])))
+        (invCK 12 (m12WordK [2, 1, 2, 1, 2, 1, -2, 1, 2, 1, -2, 1, 2, 1, 2, 1, -2, 1, -2, 1, 2, 1,
+          2, 1, 2, 1, -2, 1, -2]))) (p.2.2 : ℕ))
+
+theorem m12fK_enc (p : Fin 3 × Fin 3 × Fin 3) :
+    enc ((m12f p : NativeSporadic.M12) : Equiv.Perm (Fin 12)) = m12fK p := by
+  have hn : 12 ≤ 16 := by norm_num
+  simp only [m12f, m12z, Subgroup.coe_mul, SubmonoidClass.coe_pow, InvMemClass.coe_inv,
+    enc_mul hn, ← powK_enc hn, enc_inv_invCK hn, m12x, m12y, m12WordK_enc, m12fK]
+
+@[expose] noncomputable def m12tK (p : Fin 3 × Fin 3 × Fin 3) : ℕ :=
+  m12WordK (m12tws.getD (9 * (p.1 : ℕ) + 3 * (p.2.1 : ℕ) + (p.2.2 : ℕ)) [])
+
+theorem m12f_tinv_codes : ∀ p : Fin 3 × Fin 3 × Fin 3,
+    Nat.beq (mulK 12 (mulK 12 (m12tK p) (m12fK p)) (invCK 12 (m12tK p))) (invCK 12 (m12fK p)) =
+      true := by
+  decide +kernel
+
+theorem m12f_tinv : ∀ p, m12t p * m12f p * (m12t p)⁻¹ = (m12f p)⁻¹ := by
+  have hn : 12 ≤ 16 := by norm_num
+  intro p
+  have h := m12f_tinv_codes p
+  rw [m12tK, ← m12WordK_enc, ← m12t, ← m12fK_enc, invCK_enc hn, invCK_enc hn, ← enc_mul hn,
+    ← enc_mul hn, beq_enc_iff hn] at h
+  apply Subtype.ext
+  simpa only [Subgroup.coe_mul, InvMemClass.coe_inv] using h
+
+end M12Codes
 
 theorem m12f_mem : ∀ p, m12f p ∈ Subgroup.closure ({m12x, m12y} : Set NativeSporadic.M12) := by
   intro p

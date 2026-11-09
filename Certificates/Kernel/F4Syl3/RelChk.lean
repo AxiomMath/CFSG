@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/rel.json.gz" 250
+#kc_repo #kc_json CFSG.KD.F4Syl3 "Certificates/Kernel/F4Syl3/data/rel.json" 250
   15168432961141368234 (w4 : Nat) (l4 : Nat) (w5 : Nat) (l5 : Nat)
 
 namespace CFSG.KD.F4Syl3

@@ -5,12 +5,12 @@ public import CFSG.Certificates.Kernel.YModel.Texts.YM321C
 public import CFSG.Certificates.Kernel.YModel.Texts.YM321P
 public import Certificates.Data.Kernel.YModel.Model
 import CFSG.Certificates.Kernel.Common.Benes
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.YMY321 "CFSG/Certificates/Kernel/YModel/Y321/data/plan.items.gz" 105 1128519791208502620
+#kc_repo #kc_nat_items CFSG.KD.YMY321 "CFSG/Certificates/Kernel/YModel/Y321/data/plan.items" 105 1128519791208502620
   M0_[6] R0_[6] Z0_[6]
 
 namespace CFSG.KD.YMY321

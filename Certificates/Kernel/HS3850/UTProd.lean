@@ -8,5 +8,14 @@ public import Certificates.Data.Kernel.PkPow
 
 set_option maxRecDepth 400000
 
-#kqb_range CertificateChecks.KernelHS3850.UT.P CertificateChecks.KernelHS3850.UT.ckP 0 24
-#kqb_all CertificateChecks.KernelHS3850.UT.P CertificateChecks.KernelHS3850.UT.ckP 24
+public section
+
+namespace CertificateChecks.KernelHS3850.UT
+
+open CFSG.KD.LQT.C4126 CFSG.KC.LQT.SV
+
+theorem ksort : sortAllSV 1024 (fun k => kk (SY.E k)) KS KR = true := by quickRfl
+
+end CertificateChecks.KernelHS3850.UT
+
+end

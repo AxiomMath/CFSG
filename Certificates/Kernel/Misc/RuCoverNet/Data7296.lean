@@ -1,13 +1,13 @@
 module
 
 public import Certificates.Kernel.Misc.RuCoverNet.Data
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.Benes
 
 public section
 
-#kc_repo #kc_nat_items_gz CFSG.KD.RuCoverNet7296 "Certificates/Kernel/Misc/RuCoverNet/data/plan7296.items.gz" 6800 8808749326982422261
+#kc_repo #kc_nat_items CFSG.KD.RuCoverNet7296 "Certificates/Kernel/Misc/RuCoverNet/data/plan7296.items" 6800 8808749326982422261
   CP_[20] CL_[20] MC_[80] NB_[64] NX_[64] NY_[64] KI_[256] KB_[256] KX_[256] KY_[256]
 
 namespace CFSG.KD.RuCoverNet7296

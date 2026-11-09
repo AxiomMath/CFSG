@@ -5,6 +5,8 @@ public import Certificates.Kernel.He7223.Pts
 public import Certificates.Kernel.SchreierFam.He725F
 public import CFSG.Certificates.Kernel.Misc.WordPtsGroup
 public import CFSG.Certificates.Kernel.Spor.RawOrbHead
+public import Certificates.Data.Kernel.RouteP.TextSlp
+import CFSG.Certificates.Kernel.RouteP.TextSlp
 
 public section
 
@@ -28,19 +30,32 @@ theorem letRep_LU :
   have hrep : Rep 8330 (unpack 8330 14 (LU j)) (gens3.getD j 1) := by
     rw [← gA_bind.2 j hj]
     have := rep_gA j (by rw [gens3_length]; exact hj)
-    rwa [List.getD_eq_getElem _ _ (by rw [gens3_length]; exact hj)] at this ⊢
+    rw [List.getD_eq_getElem _ _ (by rw [gens3_length]; exact hj)] at this ⊢
+    exact this
   have hp : permOK 8330 14 (mask 14) (8330 * 14) (LU j) (LUI j) = true := allN_spec kPLU j hj
   obtain ⟨h1, h2⟩ := rep_permOfArr (Orb.isInvA_unpack hp)
   have e := h1.unique hrep
   rw [e] at h2
   exact ⟨Orb.prep_of_rep hrep, Orb.prep_of_rep h2⟩
 
+theorem decodeWs_splitK {cs : List Char} (hne : cs ≠ []) :
+    decodeWs (String.ofList cs) =
+      (CFSG.KC.RouteP.splitK ' ' cs).map fun p => (p.filter (· ≠ '0')).map decodeL := by
+  have h1 : String.ofList cs ≠ "" := fun h => hne (by
+    have := congrArg String.toList h
+    simpa using this)
+  simp only [decodeWs, h1, ↓reduceIte]
+  rw [CFSG.KS.RouteP.sp_eq, CFSG.KC.Str.splitOn_ofList,
+    ← CFSG.KS.RouteP.splitK_eq, List.map_map]
+  refine List.map_congr_left fun p _ => ?_
+  simp [decodeW]
+
 theorem eW_eq : eW = EB := by
-  rw [ES.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
+  rw [ES.eq, decodeWs_splitK (by decide)]
   decide +kernel
 
 theorem qW_eq : qW = QB := by
-  rw [QS.eq, decodeWs_ofList (by decide) (ascii_of_all (by decide +kernel))]
+  rw [QS.eq, decodeWs_splitK (by decide)]
   decide +kernel
 
 theorem bsL_lt : ∀ b ∈ bsL, b < 8330 := by decide

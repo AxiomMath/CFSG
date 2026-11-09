@@ -225,39 +225,51 @@ theorem hn_heisCfgJ :
     h8 h9 h10 h11 h12 h13 h14 h15 (hnReg_ne_one_of_notIdM hz),
     Fin.forall_fin_two.2 ⟨pow_five_of_word h3, pow_five_of_word h4⟩⟩
 
+@[expose] noncomputable def hnNatX : Fin 2 → NativeSporadic.HN :=
+  fun i => CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (![hnReg hnHeisX1, hnReg hnHeisX2] i)
+
+@[expose] noncomputable def hnNatY : Fin 2 → NativeSporadic.HN :=
+  fun i => CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (![hnReg hnHeisY1, hnReg hnHeisY2] i)
+
+@[expose] noncomputable def hnNatZ : NativeSporadic.HN :=
+  CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (hnReg hnHeisZ)
+
+theorem hnNatX_apply (i : Fin 2) :
+    hnNatX i = CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (![hnReg hnHeisX1, hnReg hnHeisX2] i) :=
+  rfl
+
+theorem hnNatY_apply (i : Fin 2) :
+    hnNatY i = CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (![hnReg hnHeisY1, hnReg hnHeisY2] i) :=
+  rfl
+
+theorem hnNatZ_eq : hnNatZ = CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (hnReg hnHeisZ) :=
+  rfl
+
+private theorem heisCfg_map_five_two {G H F : Type*} [Group G] [Group H] [FunLike F G H]
+    [MonoidHomClass F G H] (e : F) (he : Function.Injective e)
+    {x y : Fin 2 → G} {z : G} {x' y' : Fin 2 → H} {z' : H} (hx : ∀ i, x' i = e (x i))
+    (hy : ∀ i, y' i = e (y i)) (hz : z' = e z) (h : HeisCfg 5 2 x y z ∧ ∀ i, y i ^ 5 = 1) :
+    HeisCfg 5 2 x' y' z' ∧ ∀ i, y' i ^ 5 = 1 := by
+  obtain ⟨h, h5⟩ := h
+  refine ⟨⟨fun i => ?_, ?_, fun i => ?_, fun i => ?_, fun i => ?_, fun i j => ?_, fun i j hij => ?_,
+    fun i j hij => ?_, ?_⟩, fun i => ?_⟩
+  · rw [hx, ← map_pow, h.xp, map_one]
+  · rw [hz, ← map_pow, h.zp, map_one]
+  · rw [hx, hz, ← map_mul, ← map_mul, h.zx]
+  · rw [hy, hz, ← map_mul, ← map_mul, h.zy]
+  · rw [hx, hy, hz, ← map_inv, ← map_mul, ← map_mul, ← map_mul, h.yx]
+  · rw [hx, hx, ← map_mul, ← map_mul, h.xx]
+  · rw [hy, hy, ← map_mul, ← map_mul, h.yy i j hij]
+  · rw [hx, hy, ← map_mul, ← map_mul, h.xy i j hij]
+  · rw [hz]
+    exact fun h1 => h.z1 (he (h1.trans (map_one e).symm))
+  · rw [hy, ← map_pow, h5, map_one]
+
 theorem hn_heisCfg :
-    HeisCfg 5 2 (fun i => CFSG.Sporadic.Bridge.HN.nativeEquiv.symm
-          (![hnReg hnHeisX1, hnReg hnHeisX2] i))
-        (fun i => CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (![hnReg hnHeisY1, hnReg hnHeisY2] i))
-        (CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (hnReg hnHeisZ)) ∧
-      ∀ i, CFSG.Sporadic.Bridge.HN.nativeEquiv.symm (![hnReg hnHeisY1, hnReg hnHeisY2] i) ^ 5 =
-        1 := by
-  obtain ⟨h, hy⟩ := hn_heisCfgJ
-  set e := CFSG.Sporadic.Bridge.HN.nativeEquiv with he
-  refine ⟨?_, fun i => e.injective (by
-    rw [map_pow, MulEquiv.apply_symm_apply, map_one]; exact hy i)⟩
-  exact
-    { xp := fun i => e.injective (by
-        rw [map_pow, MulEquiv.apply_symm_apply, map_one]; exact h.xp i)
-      zp := e.injective (by rw [map_pow, MulEquiv.apply_symm_apply, map_one]; exact h.zp)
-      zx := fun i => e.injective (by
-        rw [map_mul, map_mul, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]; exact h.zx i)
-      zy := fun i => e.injective (by
-        rw [map_mul, map_mul, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]; exact h.zy i)
-      yx := fun i => e.injective (by
-        rw [map_mul, map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply,
-          MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]
-        exact h.yx i)
-      xx := fun i j => e.injective (by
-        rw [map_mul, map_mul, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]
-        exact h.xx i j)
-      yy := fun i j hij => e.injective (by
-        rw [map_mul, map_mul, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]
-        exact h.yy i j hij)
-      xy := fun i j hij => e.injective (by
-        rw [map_mul, map_mul, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]
-        exact h.xy i j hij)
-      z1 := fun h1 => h.z1 (by rw [← e.apply_symm_apply (hnReg hnHeisZ), h1, map_one]) }
+    HeisCfg 5 2 hnNatX hnNatY hnNatZ ∧ ∀ i, hnNatY i ^ 5 = 1 :=
+  heisCfg_map_five_two CFSG.Sporadic.Bridge.HN.nativeEquiv.symm
+    CFSG.Sporadic.Bridge.HN.nativeEquiv.symm.injective hnNatX_apply hnNatY_apply hnNatZ_eq
+    hn_heisCfgJ
 
 theorem hn_index_inner :
     (inner NativeSporadic.HN).index = 2 :=

@@ -87,10 +87,15 @@ private lemma glf_rowFix_pos_iff (x y : glf_Mat3) :
   · rintro ⟨w, hw⟩
     exact ⟨w, Finset.mem_filter.mpr ⟨Finset.mem_univ w, hw⟩⟩
 
+private lemma glf_exists_klein_mat_hoist :
+    ∀ x : glf_Mat3, x * x = 1 → x ≠ 1 → ∀ y : glf_Mat3, y * y = 1 → y ≠ 1 → x ≠ y →
+      x * y = y * x → 0 < glf_colFix x y ∨ 0 < glf_rowFix x y := by
+  decide +kernel
+
 private lemma glf_exists_klein_mat :
     ∀ x y : glf_Mat3, x * x = 1 → y * y = 1 → x ≠ 1 → y ≠ 1 → x ≠ y → x * y = y * x →
-      0 < glf_colFix x y ∨ 0 < glf_rowFix x y := by
-  decide +kernel
+      0 < glf_colFix x y ∨ 0 < glf_rowFix x y :=
+  fun x y hx hy hx1 hy1 hxy hc => glf_exists_klein_mat_hoist x hx hx1 y hy hy1 hxy hc
 
 theorem card_col (u : Fin 3 → ZMod 2) (hu : u ≠ 0) :
     Nat.card {M : GL (Fin 3) (ZMod 2) //

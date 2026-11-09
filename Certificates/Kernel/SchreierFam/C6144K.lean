@@ -15,7 +15,7 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelSchreierFam
 
-open CFSG.OddStandard.ONanRec.F2 CFSG.GH74.KGroups CFSG.GH74.KGroups.L34
+open CFSG.OddStandard.ONanRec.F2 CFSG.GH74.KGroups CFSG.GH74.KGroups.L34 CFSG.Certificates
   CFSG.Certificates.Kernel.PkEnum CFSG.Certificates.Kernel.FootePk CFSG.Sporadic.Schreier
   CertificateChecks.KernelSchreierFam.C6144
 
@@ -100,24 +100,112 @@ theorem pinT : (PT.map (List.map cd) == TL) = true := by decide +kernel
 
 theorem pinB : cd PB = BL := by decide +kernel
 
-theorem pinR9 : cd (rep 9) = R9 := by decide +kernel
+@[expose] def RV : List (Nat × Nat) :=
+  [(4707973897876518275756807182105570957375017328147580252423146288555550842944,
+    4707973897876518275756807182105570957375017328147580252423146288555550842944),
+  (590656738309969028664118691730985978212826709274556860605273077998535661598,
+    1731652587446811963879814038129766646160429677620676808978346529170978637790),
+  (4587354609839689814775864744614759368603804948000454242259287685683900358928,
+    3691703752649081076992960314475354388398869933050765030424709597423073264660),
+  (1019945758859500983596733668841341626990574677311081395455138126989379110312,
+    1583543193089196396148310550838485466993692458425122863025248638775572662813),
+  (1613438620555747981105572242072441340956179119949766294399690075648936011740,
+    1947370026563878074934955912171634399733921991312348889647548363078769923479),
+  (2997604664571646043249492174659664663940639020614099976140593518465393894094,
+    2645559558218819540170296250301333103401755726351942842474005549069256631047),
+  (2042892797608870162896300857257420555460087944306899877880894762431409723364,
+    251118012125364546942153442532804872430321724669502263475783235042663573721),
+  (2673971028305718120069019914060428164498233823161930462574936662121510884243,
+    4577167166945253865155390732925443577928883713022811969340761047843698693382),
+  (145160118926927137512158750332800438042182708502935791983657582928607959335,
+    2183830345740106629927866686155902050692902907287651252877211633093964061285),
+  (2753447192801241601009373068048952712194759350055569190029312834373064123009,
+    3670717711320039692316564649077320939281433080722717257750976000987654557706),
+  (2656718819132661547343193804368306575102994935624744899226964052157403517009,
+    4467621424049958788469232598046328236287066727095993210941360191051271557189),
+  (1479100017613597346591935027532021417567298342398700468249762321605804587227,
+    2047836173008512951104414547455292842480459876205790546346421149509700946339)]
 
-theorem pinR10 : cd (rep 10) = R10 := by decide +kernel
+theorem pinV : ((cosetReps.map fun σ => (codeV σ).1) == RV) = true := by decide +kernel
 
-theorem countR : ((prodR TL).filter ord4R).length = 3780 := by decide +kernel
+theorem getD_map_codeV (L : List (Equiv.Perm (Fin 42))) (n : Nat) :
+    (L.map fun σ => (codeV σ).1).getD n (codeV (1 : Equiv.Perm (Fin 42))).1 =
+      (codeV (L.getD n 1)).1 := by
+  induction L generalizing n with
+  | nil => rfl
+  | cons a L ih =>
+    cases n with
+    | zero => rfl
+    | succ n => exact ih n
 
-theorem centR : ((prodR TL).filter (commR BL)).length = 16 := by decide +kernel
+theorem codeV_rep (i : Fin 12) :
+    (codeV (rep i)).1 = RV.getD i (codeV (1 : Equiv.Perm (Fin 42))).1 := by
+  rw [← eq_of_beq pinV, getD_map_codeV, rep]
 
-theorem cosR9 : (prodR TL).all (cosR R9 BL) = true := by decide +kernel
+@[expose] def wR (i : Fin 12) : VP 42 :=
+  ⟨RV.getD i (codeV (1 : Equiv.Perm (Fin 42))).1, codeV_rep i ▸ (codeV (rep i)).2⟩
 
-theorem cosR10 : (prodR TL).all (cosR R10 BL) = true := by decide +kernel
+theorem pkp_wR (i : Fin 12) : pkp (wR i) = rep i := by
+  have h : wR i = codeV (rep i) := Subtype.ext (codeV_rep i).symm
+  rw [h, pkp_codeV]
 
-theorem cos1 : ∀ i : Fin 12, siftP QA (rep i) 0 = true := by decide +kernel
+theorem siftP_of_pkp (Q : RawSchreierDatum 42) (σ : Equiv.Perm (Fin 42)) (v : VP 42)
+    (h : pkp v = σ) : siftP Q σ 0 = siftV (levelsV (strongV Q) Q.base 0) v := by
+  have h1 := sift_map (levelsV (strongV Q) Q.base 0) v
+  have h2 := sift_map (levelsV (strongV Q) Q.base 0) (codeV σ)
+  rw [pkp_codeV] at h2
+  rw [h] at h1
+  rw [siftP, ← h2, ← h1]
 
-theorem cos2 : ∀ i j : Fin 12, i ≠ j → siftP QP ((rep i)⁻¹ * rep j) 0 = false := by decide +kernel
+theorem cd_codeV (σ : Equiv.Perm (Fin 42)) : cd σ = (codeV σ).1.1 := by
+  have hw : wd 42 = 6 := by decide +kernel
+  simp only [cd, codeV, pk]
+  rw [hw]
+
+theorem pinR9 : cd (rep 9) = R9 := by
+  rw [cd_codeV, codeV_rep]
+  rfl
+
+theorem pinR10 : cd (rep 10) = R10 := by
+  rw [cd_codeV, codeV_rep]
+  rfl
+
+theorem countR : ((prodR TL).filter ord4Q).length = 3780 := by decide +kernel
+
+theorem centR : ((prodR TL).filter (commQ BL)).length = 16 := by decide +kernel
+
+theorem cosR9 : (prodR TL).all (cosQ R9 BL) = true := by decide +kernel
+
+theorem cosR10 : (prodR TL).all (cosQ R10 BL) = true := by decide +kernel
+
+theorem cos1V : ∀ i : Fin 12, siftV (levelsV (strongV QA) QA.base 0) (wR i) = true := by
+  decide +kernel
+
+theorem cos2V : ∀ i j : Fin 12, i ≠ j →
+    siftV (levelsV (strongV QP) QP.base 0) (mulV (invV (wR i)) (wR j)) = false := by
+  decide +kernel
+
+theorem cos3V : ∀ i : Fin 12, i ≠ 9 → i ≠ 10 →
+    (siftV (levelsV (strongV QP) QP.base 0) (wR i) = true ∨
+      siftV (levelsV (strongV QP) QP.base 0) (mulV (wR i) (mulV (wR i) (wR i))) = false) := by
+  decide +kernel
+
+theorem cos1 : ∀ i : Fin 12, siftP QA (rep i) 0 = true := fun i => by
+  rw [siftP_of_pkp QA (rep i) (wR i) (pkp_wR i)]
+  exact cos1V i
+
+theorem cos2 : ∀ i j : Fin 12, i ≠ j → siftP QP ((rep i)⁻¹ * rep j) 0 = false := fun i j hij => by
+  have h : pkp (mulV (invV (wR i)) (wR j)) = (rep i)⁻¹ * rep j := by
+    rw [pkp_mulV, pkp_invV, pkp_wR, pkp_wR]
+  rw [siftP_of_pkp QP _ _ h]
+  exact cos2V i j hij
 
 theorem cos3 : ∀ i : Fin 12, i ≠ 9 → i ≠ 10 →
-    (siftP QP (rep i) 0 = true ∨ siftP QP (rep i ^ 3) 0 = false) := by decide +kernel
+    (siftP QP (rep i) 0 = true ∨ siftP QP (rep i ^ 3) 0 = false) := fun i h9 h10 => by
+  have h : pkp (mulV (wR i) (mulV (wR i) (wR i))) = rep i ^ 3 := by
+    rw [pkp_mulV, pkp_mulV, pkp_wR, pow_three]
+  rw [siftP_of_pkp QP _ _ (pkp_wR i), siftP_of_pkp QP _ _ h]
+  exact cos3V i h9 h10
 
 theorem enum_cd : ((enumV (strongV QP) QP.base).map pkp).map cd = prodR TL := by
   have h1 : (enumV (strongV QP) QP.base).map pkp = products PT := by
@@ -129,7 +217,7 @@ end C6144
 
 theorem count_6144K : ((enumV (strongV QP) QP.base).filter fun a => orderIsV a 4).length = 3780 := by
   rw [← filter_length_pkp _ (fun g => orderIs g 4) _ (fun a => orderIs_pkp a 4),
-    filter_length_cd _ _ ord4R orderIs_cd, C6144.enum_cd]
+    filter_length_cd _ _ ord4Q orderIs_cdQ, C6144.enum_cd]
   exact C6144.countR
 
 theorem cent_6144K : ((enumV (strongV QP) QP.base).filter fun a =>
@@ -137,7 +225,7 @@ theorem cent_6144K : ((enumV (strongV QP) QP.base).filter fun a =>
   rw [← filter_length_pkp _ (fun g => decide (g * PB = PB * g)) _ (fun a => by
       have h := decide_eq_eqV (mulV a (codeV PB)) (mulV (codeV PB) a)
       rwa [pkp_mulV, pkp_mulV, pkp_codeV] at h),
-    filter_length_cd _ _ (commR C6144.BL) (fun g => by rw [comm_cd, C6144.pinB]), C6144.enum_cd]
+    filter_length_cd _ _ (commQ C6144.BL) (fun g => by rw [comm_cdQ, C6144.pinB]), C6144.enum_cd]
   exact C6144.centR
 
 theorem cosets_6144K : (∀ i : Fin 12, siftP QA (rep i) 0 = true) ∧
@@ -149,13 +237,13 @@ theorem cosets_6144K : (∀ i : Fin 12, siftP QA (rep i) 0 = true) ∧
   by_cases h9 : i = 9
   · subst h9
     refine Or.inr (Or.inr ?_)
-    rw [all_cd _ _ (cosR C6144.R9 C6144.BL) (fun g => by rw [cos_cd, C6144.pinR9, C6144.pinB]),
+    rw [all_cd _ _ (cosQ C6144.R9 C6144.BL) (fun g => by rw [cos_cdQ, C6144.pinR9, C6144.pinB]),
       C6144.enum_cd]
     exact C6144.cosR9
   by_cases h10 : i = 10
   · subst h10
     refine Or.inr (Or.inr ?_)
-    rw [all_cd _ _ (cosR C6144.R10 C6144.BL) (fun g => by rw [cos_cd, C6144.pinR10, C6144.pinB]),
+    rw [all_cd _ _ (cosQ C6144.R10 C6144.BL) (fun g => by rw [cos_cdQ, C6144.pinR10, C6144.pinB]),
       C6144.enum_cd]
     exact C6144.cosR10
   rcases C6144.cos3 i h9 h10 with h | h

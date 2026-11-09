@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.JsonGz
 public import Certificates.Kernel.Sporadic.Fi24Kit.Data
 public import Certificates.Data.Kernel.Spor.Fi24Sev
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24Sev "Certificates/Kernel/Sporadic/Fi24Sev/data/f6.json.gz" 14003 1926778489746678549 (wrA : List Nat) (wsA : List (List Nat)) (omA : Nat) (cvA : Nat) (cwA : Nat) (szA : Nat) (repsA : List Nat) (rfA : List (List (Nat × Nat) × Nat × Nat × Nat)) (bpA : List (Nat × Nat)) (bposA : List Nat) (bwA : List Nat) (bsA : List Nat) (wrB : List Nat) (wsB : List (List Nat)) (omB : Nat) (cvB : Nat) (cwB : Nat) (szB : Nat) (repsB : List Nat) (rfB : List (List (Nat × Nat) × Nat × Nat × Nat)) (bpB : List (Nat × Nat)) (bposB : List Nat) (bwB : List Nat) (bsB : List Nat) (twB : List (Nat × List (List Nat))) (sl : List (Nat × List Nat × List Nat))
+#kc_repo #kc_json CFSG.KD.Fi24Sev "Certificates/Kernel/Sporadic/Fi24Sev/data/f6.json" 14003 1926778489746678549 (wrA : List Nat) (wsA : List (List Nat)) (omA : Nat) (cvA : Nat) (cwA : Nat) (szA : Nat) (repsA : List Nat) (rfA : List (List (Nat × Nat) × Nat × Nat × Nat)) (bpA : List (Nat × Nat)) (bposA : List Nat) (bwA : List Nat) (bsA : List Nat) (wrB : List Nat) (wsB : List (List Nat)) (omB : Nat) (cvB : Nat) (cwB : Nat) (szB : Nat) (repsB : List Nat) (rfB : List (List (Nat × Nat) × Nat × Nat × Nat)) (bpB : List (Nat × Nat)) (bposB : List Nat) (bwB : List Nat) (bsB : List Nat) (twB : List (Nat × List (List Nat))) (sl : List (Nat × List Nat × List Nat))
 
 public section
 
@@ -20,9 +20,9 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24NetPt CFSG.KC
 
 @[expose] noncomputable def relB : Bool := relOK NW NT wrB wsB
 
-@[expose] noncomputable def covA : Bool := covOK NW NT wsA cvA repsA cwA omA szA
+@[expose] noncomputable def covA : Bool := covOK NW NT wsA (nat_lit 4) repsA (nat_lit 4) omA szA
 
-@[expose] noncomputable def covB : Bool := covOK NW NT wsB cvB repsB cwB omB szB
+@[expose] noncomputable def covB : Bool := covOK NW NT wsB (nat_lit 7) repsB (nat_lit 7) omB szB
 
 @[expose] noncomputable def refA : Bool := refsOK NW NT OL wrA omA repsA rfA
 

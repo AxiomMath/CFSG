@@ -14,6 +14,6 @@ set_option maxRecDepth 400000
 
 #kss_co1tower CertificateChecks.KernelCo1B.C2047.TW CertificateChecks.KernelCo1B.C2047.dag₂
   CertificateChecks.KernelCo1B.C2047.D2.M CFSG.Sporadic.Co1Block.twoCVBase
-  CFSG.Sporadic.Co1Block.twoCVGens CFSG.Sporadic.Co1Block.twoCVSizes 42 512
+  CFSG.Sporadic.Co1Block.twoCVGens CFSG.Sporadic.Co1Block.twoCVSizes 42 128
 
 end

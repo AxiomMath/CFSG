@@ -28,13 +28,9 @@ local notation "𝐍[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootA K i) 
 local notation "𝐌[" i "]" => normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) :
   Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐐[" i "]" => (pull φ (antiUnipotent K) ⊔ zpowers t ⊔ 𝐃[i] : Subgroup G)
 set_option quotPrecheck false in
@@ -47,8 +43,7 @@ set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 local notation "𝐉" => pull φ (diagTorus K)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
@@ -58,24 +53,22 @@ set_option quotPrecheck false in
 local notation "𝐋[" i "]" => (𝐅 ⊔ 𝐀[i] : Subgroup G)
 local notation "𝐰[" i "]" => ((φ.symm (weylElt K i) : L) : G)
 set_option quotPrecheck false in
-local notation "𝐅ʷ[" i "]" => (𝐅.map (MulAut.conj 𝐰[i]⁻¹).toMonoidHom : Subgroup G)
+local notation "𝐅ʷ[" i "]" => SixG.sgFw φ t i
 set_option quotPrecheck false in
 local notation "𝐗[" i "]" => (𝐅 ⊔ 𝐅ʷ[i] : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐃𝐧[" i "]" => normalizer ((𝐃[i] : Subgroup G) : Set G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 set_option quotPrecheck false in
 local notation "𝐄𝐧[" i "]" => (normalizer ((𝐄[i] : Subgroup G) : Set G) ⊓
   normalizer ((𝐊[i] : Subgroup G) : Set G) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₂[" i "]" => (CFSG.pCore 2 𝐄𝐧[i]).map 𝐄𝐧[i].subtype
+local notation "𝐏₂[" i "]" => SixG.sgP₂ φ t i
 set_option quotPrecheck false in
 local notation "𝐏₀[" i "]" => (𝐏₁[i] ⊓ 𝐏₂[Axis.swap i] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐌₀[" i "]" => closure {x : G | ∃ p ∈ 𝐏₀[i], ∃ j ∈ pull φ (diagTorus K),
-  x = p⁻¹ * (j⁻¹ * p * j)}
+local notation "𝐌₀[" i "]" => SixG.sgM₀ φ t i
 set_option quotPrecheck false in
 local notation "𝐕[" i "," k "]" => (𝐌₀[i] ⊓ centralizer (𝐉[k] : Set G) : Subgroup G)
 set_option quotPrecheck false in
@@ -204,9 +197,9 @@ theorem conj_E_mem_P₁ (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], �
 
 theorem mem_X_or_of_mem_E (h : FCHyp L K n φ t) (i : Axis) {e : G} (he : e ∈ 𝐄[i]) :
     e ∈ 𝐗[i] ∨ t * e ∈ 𝐗[i] := by
-  rw [← (X_sup_t h i).2] at he
+  have he' : e ∈ 𝐗[i] ⊔ zpowers t := (X_sup_t h i).2.ge he
   exact mem_or_mul_mem (t_mul_t h)
-    (R_le_normalizer_X h i (mem_sup_left (mem_sup_right (mem_zpowers t)))) he
+    (R_le_normalizer_X h i (mem_sup_left (mem_sup_right (mem_zpowers t)))) he'
 
 theorem conj_X_mem (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) {p : G} (hp : p ∈ 𝐏₁[i]) {x : G} (hx : x ∈ 𝐗[i]) :
@@ -392,21 +385,26 @@ theorem P₁_le_normalizer_E (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i]
       have := conj_E_mem_P₁ h i hne hbot (inv_mem hp) he
       rwa [show p⁻¹ * (p * e * p⁻¹) * p⁻¹⁻¹ = e by group] at this⟩
 
+theorem coe_mul_eq_of_card_le {A B P : Subgroup G} (hle : B ≤ normalizer (A : Set G))
+    (hBP : B ≤ P) (hAP : A ≤ P)
+    (hcard : Nat.card P * Nat.card (B ⊓ A : Subgroup G) ≤ Nat.card B * Nat.card A) :
+    (B : Set G) * (A : Set G) = (P : Set G) := by
+  rw [← coe_mul_of_left_le_normalizer_right _ _ hle]
+  have h1 := CFSG.RankThree.PartOne.K1214.card_sup_mul_card_inf_of_le_normalizer hle
+  rw [sup_comm, inf_comm, mul_comm (Nat.card A)] at h1
+  have hpos : 0 < Nat.card (B ⊓ A : Subgroup G) := Nat.card_pos
+  rw [eq_of_le_of_card_ge (sup_le hBP hAP) (Nat.le_of_mul_le_mul_right (by rw [h1]; exact hcard)
+    hpos)]
+
 theorem Mhat_mul_E (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥)
     (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) :
     ((𝐌₀[i] ⊔ 𝐌ʷ[i, i] : Subgroup G) : Set G) * ((𝐄[i] : Subgroup G) : Set G) =
-      ((𝐏₁[i] : Subgroup G) : Set G) := by
-  have hle := (Mhat_le_P₁ h i hne hbot).trans (P₁_le_normalizer_E h i hne hbot)
-  rw [← coe_mul_of_left_le_normalizer_right _ _ hle]
-  have h1 := CFSG.RankThree.PartOne.K1214.card_sup_mul_card_inf_of_le_normalizer
-    (A := 𝐄[i]) (B := 𝐌₀[i] ⊔ 𝐌ʷ[i, i]) hle
-  rw [sup_comm 𝐄[i] (𝐌₀[i] ⊔ 𝐌ʷ[i, i]), inf_comm 𝐄[i] (𝐌₀[i] ⊔ 𝐌ʷ[i, i]),
-    Mhat_inf_E h i hne hbot, card_E h i, card_Mhat h i hne hbot, card_X h i] at h1
-  have h2 : Nat.card (𝐌₀[i] ⊔ 𝐌ʷ[i, i] ⊔ 𝐄[i] : Subgroup G) = 2 * Nat.card K ^ 7 := by
-    have hq : 0 < Nat.card K ^ 6 := pow_pos Nat.card_pos 6
-    exact Nat.eq_of_mul_eq_mul_right hq (by rw [h1]; ring)
-  rw [eq_of_le_of_card_ge (sup_le (Mhat_le_P₁ h i hne hbot) (E_le_P₁ h i hne hbot))
-    (by rw [h2, card_P₁ h i hne hbot])]
+      ((𝐏₁[i] : Subgroup G) : Set G) :=
+  coe_mul_eq_of_card_le ((Mhat_le_P₁ h i hne hbot).trans (P₁_le_normalizer_E h i hne hbot))
+    (Mhat_le_P₁ h i hne hbot) (E_le_P₁ h i hne hbot) (by
+      rw [Mhat_inf_E h i hne hbot, card_P₁ h i hne hbot, card_X h i, card_Mhat h i hne hbot,
+        card_E h i]
+      exact le_of_eq (by ring))
 
 theorem t_mem_normalizer_Mhat (h : FCHyp L K n φ t) (i : Axis)
     (hne : ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ ≠ ⊥) (hbot : ⁅𝐀[i.swap], 𝐅 ⊓ 𝐃[i]⁆ = ⊥) :
@@ -522,7 +520,8 @@ theorem X_inf_centralizer_le (h : FCHyp L K n φ t) (i : Axis) :
       have h1 : 𝐰[i]⁻¹ * ((a * b) * j' * (a * b)⁻¹ * j'⁻¹) * 𝐰[i] ∈ 𝐅 := by
         rw [← e1]
         refine mul_mem (inv_mem hf) ?_
-        simpa using conj_torus_mem_F h (inv_mem (axisTorus_le_J0 i hj)) hf
+        have hc : _ ∈ 𝐅 := conj_torus_mem_F h (inv_mem (axisTorus_le_J0 i hj)) hf
+        simpa using hc
       rw [w_inv] at h1 ⊢
       exact h1
     have hcW : (a * b) * j' * (a * b)⁻¹ * j'⁻¹ ∈ 𝐖[i] := (F_inf_Fw h i).le ⟨hcF, hcw⟩

@@ -5,8 +5,8 @@ import CFSG.Certificates.Kernel.Common.JsonGzC
 import CFSG.Certificates.Kernel.Common.Repo
 
 open CFSG.KC.Census in
-#kc_repo #kc_jsonc_gz CertificateChecks.KernelCensus.J1
-  "Certificates/Kernel/Census/J1/data/j1.json.gz" 6084752 1067584761690296969
+#kc_repo #kc_jsonc CertificateChecks.KernelCensus.J1
+  "Certificates/Kernel/Census/J1/data/j1.json" 6084752 1067584761690296969
   (j1GP : Array Nat) (j1Prog : List (Nat × Nat)) (j1SG : Array Nat) (j1Nodes : Array FNodeP)
   (j1CS : ArrCertP) (j1RegsP : Array Nat)
 

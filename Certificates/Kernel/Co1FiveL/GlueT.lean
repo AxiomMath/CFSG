@@ -74,14 +74,14 @@ theorem facts_of {τ ng N : ℕ} {BT : List ℕ} {Es : List (List ℕ)} {Ms Us :
       CLs SL UIT N = true)
     (hB : btK ATL (repA.getD τ 0) (repB.getD τ 0) BT = true)
     (hG : bAnd(commGK (HG τ) ng (HG τ 0), commGK (HG τ) ng (HG τ 1)) = true)
-    (hT : gtPinK (HG τ) ng 100000 N P PAR LAB W S = true)
+    (hT : bfsK (gtStepK (HG τ)) P PAR LAB W S ng 100000 N idM = true) (hcap : N < 100000)
     {x y : ↥GA} (hx : MRep (U (HG τ 0)) (x : GL24)) (hy : MRep (U (HG τ 1)) (y : GL24)) :
     Nat.card (Cen x y) = N ∧ ∃ f : ℕ → ↥GA, (∀ i < N, MRep (U (P i)) (f i : GL24) ∧
       f i ∈ Cen x y) ∧ ∀ c ∈ Cen x y, ∃ i < N, c = f i := by
   subst hng
   have hrep := rep_HG hidx hx hy
   rw [MatL.bAnd_eq, Bool.and_eq_true] at hG
-  exact cen_tree2 hT hrep (comm_of_K hG.1 hrep hx) (comm_of_K hG.2 hrep hy)
+  exact cen_tree2 hT hcap hrep (comm_of_K hG.1 hrep hx) (comm_of_K hG.2 hrep hy)
     (card_le_of_leaf hL hB hx hy)
 
 theorem planes {τ : ℕ} (hτ : τ < 3) {x y : ↥GA}
@@ -103,21 +103,21 @@ theorem planes {τ : ℕ} (hτ : τ < 3) {x y : ↥GA}
   · have hT := kHT0
     rw [MatL.bAnd_eq, Bool.and_eq_true] at hT
     obtain ⟨hcard, -⟩ := facts_of (by with_unfolding_all decide) (by with_unfolding_all decide)
-      kLeaf0 kBT0 kHG0 hT.2 hx' hy'
+      kLeaf0 kBT0 kHG0 hT.2 (by decide) hx' hy'
     refine ⟨by rw [hcard]; rfl, ?_⟩
     have hp : IsPGroup 5 ↥(Cen x y) := IsPGroup.of_card (n := 3) (by rw [hcard]; norm_num)
     exact gLAPPrimeCoreOf_eq_bot_of_isPGroup Nat.prime_five hp
   · have hT := kHT1
     rw [MatL.bAnd_eq, Bool.and_eq_true] at hT
     obtain ⟨hcard, f, hf, hall⟩ := facts_of (by with_unfolding_all decide)
-      (by with_unfolding_all decide) kLeaf1 kBT1 kHG1 hT.2 hx' hy'
+      (by with_unfolding_all decide) kLeaf1 kBT1 kHG1 hT.2 (by decide) hx' hy'
     refine ⟨by rw [hcard]; rfl, bot_tree5 hf hall ?_ kCl1⟩
     rw [hcard]
     norm_num
   · have hT := kHT2
     rw [MatL.bAnd_eq, Bool.and_eq_true] at hT
     obtain ⟨hcard, f, hf, hall⟩ := facts_of (by with_unfolding_all decide)
-      (by with_unfolding_all decide) kLeaf2 kBT2 kHG2 hT.2 hx' hy'
+      (by with_unfolding_all decide) kLeaf2 kBT2 kHG2 hT.2 (by decide) hx' hy'
     refine ⟨by rw [hcard]; rfl, bot_tree5 hf hall ?_ kCl2⟩
     rw [hcard]
     norm_num

@@ -5,8 +5,10 @@ import CFSG.Certificates.Kernel.Common.SliceRange
 
 public section
 
+#kc_slice_range CertificateChecks.KernelThDemp.lF CertificateChecks.KernelThDemp.OrbL.s 0 1
+
 #kc_slice_range CertificateChecks.KernelThDemp.kF CertificateChecks.KernelThDemp.OrbK.s 0 9
 
-#kc_slice_range CertificateChecks.KernelThDemp.lF CertificateChecks.KernelThDemp.OrbL.s 0 9
+#kc_slice_range CertificateChecks.KernelThDemp.lF CertificateChecks.KernelThDemp.OrbL.s 1 9
 
 end

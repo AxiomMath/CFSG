@@ -8,7 +8,7 @@ open CFSG CFSG.ASVolI CFSG.CosetTable
 
 public section
 
-#kb_family "data/F7771.json.gz" 19351 10529695221807921635
+#kb_family "data/F7771.json" 19351 10529695221807921635
   (burnsideF48t_u52Ws := burnsideF48t_u52Ws) (burnsideF48t_u52WsB := burnsideF48t_u52WsB)
 
 end

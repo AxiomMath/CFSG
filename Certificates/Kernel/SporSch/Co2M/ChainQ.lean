@@ -1,6 +1,6 @@
 module
 
-public import Certificates.Kernel.SporSch.Co2M.ChainQS
+public import Certificates.Kernel.SporSch.Co2M.ChainQD
 public import CFSG.Certificates.Kernel.Spor.BindList
 public import CFSG.Certificates.Kernel.SporSch.RecordSound
 import CFSG.Certificates.Kernel.Common.Harness
@@ -51,9 +51,8 @@ theorem binds : Binds 512 10 S 17 8 BP localRec.chains.qAction.strongArrs
     rw [e]
     exact toArray_eq_of_bindListK (allN_spec bindsOK j hj)
 
-theorem record_ok : recordOK 512 localRec.chains.qAction 4 = true :=
-  recordOK_of (NS := 16) (CH := 32) shapeOK.2.2.2.1 shapeOK.2.1 (by rw [shapeOK.2.2.1]) binds
-    head hl (by norm_num) hs
+theorem record_ok : recordOK 512 localRec.chains.qAction 0 = true :=
+  recordOK0_of shapeOK.2.2.2.1 shapeOK.2.1 (by rw [shapeOK.2.2.1]) binds head
 
 theorem orbits_ok : recordOrbits 512 localRec.chains.qAction = [270, 28, 64, 24, 4, 2, 2, 2] := by
   rw [recordOrbits_of binds perm hl]

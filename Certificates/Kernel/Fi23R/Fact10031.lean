@@ -3,6 +3,7 @@ module
 
 public import Certificates.Kernel.Fi23R.Group
 public import CFSG.Monster.GMS.Fi23FusionCertInputs
+import CFSG.Certificates.Kernel.Common.Harness
 import Certificates.Kernel.Fi23R.Hunt
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
 
@@ -19,16 +20,16 @@ theorem cntS_split (q : ℕ → Bool) (lo a b c d : ℕ) (hc : a + b = c) (hd : 
     cntS q lo c = cntS q lo a + cntS q d b := by
   rw [← hc, ← hd, cntS_add]
 
+theorem hcnt0 : Nat.beq (cntS (fxW G w53) 0 12500) 71 = true := by quickRfl
+
+theorem hcnt1 : Nat.beq (cntS (fxW G w53) 12500 12500) 55 = true := by quickRfl
+
+theorem hcnt2 : Nat.beq (cntS (fxW G w53) 25000 6671) 57 = true := by quickRfl
+
 theorem hunt_count : (List.range 31671).countP (fxW G w53) = 183 := by
-  have h0 := hunt0_ok
-  have h1 := hunt1_ok
-  have h2 := hunt2_ok
-  unfold hunt0 hCnt at h0
-  unfold hunt1 hCnt at h1
-  unfold hunt2 hCnt at h2
-  replace h0 := Nat.eq_of_beq_eq_true h0
-  replace h1 := Nat.eq_of_beq_eq_true h1
-  replace h2 := Nat.eq_of_beq_eq_true h2
+  have h0 := Nat.eq_of_beq_eq_true hcnt0
+  have h1 := Nat.eq_of_beq_eq_true hcnt1
+  have h2 := Nat.eq_of_beq_eq_true hcnt2
   rw [← cntS_zero, cntS_split _ 0 25000 6671 31671 25000 (by norm_num) (by norm_num),
     cntS_split _ 0 12500 12500 25000 12500 (by norm_num) (by norm_num), h0, h1, h2]
 

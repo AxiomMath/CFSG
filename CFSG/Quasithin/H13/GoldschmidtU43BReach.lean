@@ -1,6 +1,7 @@
 module
 
 public import CFSG.Quasithin.H13.A5Orth
+public import CFSG.Permutation.FinPack
 
 public section
 
@@ -103,8 +104,108 @@ instance (p q r : ℕ) : Decidable (ReachN p q r) :=
 instance (p q r : ℕ) : Decidable (GuardReach p q r) :=
   inferInstanceAs (Decidable (GuardN p q r → ReachN p q r))
 
-theorem reach_all_N : ∀ p < 16, ∀ q < 16, ∀ r < 16, GuardReach p q r := by
+open CFSG.Permutation.FinPack
+
+theorem appN_lt {c0 c1 c2 c3 : ℕ} (h0 : c0 < 16) (h1 : c1 < 16) (h2 : c2 < 16) (h3 : c3 < 16)
+    (n : ℕ) : appN c0 c1 c2 c3 n < 16 := by
+  have e : (16 : ℕ) = 2 ^ 4 := by norm_num
+  rw [e] at h0 h1 h2 h3 ⊢
+  unfold appN
+  refine Nat.xor_lt_two_pow (Nat.xor_lt_two_pow (Nat.xor_lt_two_pow ?_ ?_) ?_) ?_ <;>
+    split <;> first | assumption | exact Nat.two_pow_pos 4
+
+theorem getD_tabN (c0 c1 c2 c3 : ℕ) {n : ℕ} (hn : n < 16) :
+    (tabN c0 c1 c2 c3).getD n 0 = appN c0 c1 c2 c3 n := by
+  simp [tabN, List.getD_eq_getElem?_getD, List.getElem?_range hn]
+
+@[expose] def imgP (T : ℕ) (S : ℕ) (k : ℕ) : ℕ :=
+  Nat.rec (motive := fun _ => ℕ) 0 (fun n acc => bif S.testBit n then acc ||| (1 <<< rd T n) else acc) k
+
+@[expose] def stepP (Ts : List ℕ) (S : ℕ) : ℕ := Ts.foldl (fun acc T => acc ||| imgP T S 16) S
+
+@[expose] def reachP (Ts : List ℕ) (n : ℕ) : ℕ := (stepP Ts)^[n] 2
+
+theorem foldl_range_imgP (t : List ℕ) (T S : ℕ) (ht : ∀ n < 16, t.getD n 0 = rd T n) :
+    ∀ k ≤ 16, (List.range k).foldl (fun acc n => if S.testBit n then acc ||| (1 <<< t.getD n 0)
+      else acc) 0 = imgP T S k
+  | 0, _ => rfl
+  | k + 1, hk => by
+    rw [List.range_succ, List.foldl_append, foldl_range_imgP t T S ht k (by omega)]
+    change (if S.testBit k then imgP T S k ||| (1 <<< t.getD k 0) else imgP T S k) =
+      (bif S.testBit k then imgP T S k ||| (1 <<< rd T k) else imgP T S k)
+    rw [ht k (by omega)]
+    cases S.testBit k <;> rfl
+
+theorem imgM_tabN {c0 c1 c2 c3 : ℕ} (h0 : c0 < 16) (h1 : c1 < 16) (h2 : c2 < 16) (h3 : c3 < 16)
+    (S : ℕ) : imgM (tabN c0 c1 c2 c3) S = imgP (encF (appN c0 c1 c2 c3) 16) S 16 := by
+  unfold imgM
+  refine foldl_range_imgP _ _ S (fun n hn => ?_) 16 le_rfl
+  rw [getD_tabN _ _ _ _ hn, rd_encF (fun i _ => appN_lt h0 h1 h2 h3 i) hn]
+
+theorem reachM_tabN {a0 a1 a2 a3 b0 b1 b2 b3 d0 d1 d2 d3 : ℕ}
+    (ha0 : a0 < 16) (ha1 : a1 < 16) (ha2 : a2 < 16) (ha3 : a3 < 16)
+    (hb0 : b0 < 16) (hb1 : b1 < 16) (hb2 : b2 < 16) (hb3 : b3 < 16)
+    (hd0 : d0 < 16) (hd1 : d1 < 16) (hd2 : d2 < 16) (hd3 : d3 < 16) (k : ℕ) :
+    reachM [tabN a0 a1 a2 a3, tabN b0 b1 b2 b3, tabN d0 d1 d2 d3] k =
+      reachP [encF (appN a0 a1 a2 a3) 16, encF (appN b0 b1 b2 b3) 16,
+        encF (appN d0 d1 d2 d3) 16] k := by
+  unfold reachM reachP
+  congr 1
+  funext S
+  simp only [stepM, stepP, List.foldl_cons, List.foldl_nil, imgM_tabN ha0 ha1 ha2 ha3,
+    imgM_tabN hb0 hb1 hb2 hb3, imgM_tabN hd0 hd1 hd2 hd3]
+
+@[expose] def ReachForP (x y ε x' y' p q r : ℕ) : Prop :=
+  ∀ n < 16, n ≠ 0 → (reachP [encF (appN 2 1 (x + 2 * y + 8) 4) 16,
+    encF (appN 1 3 (ε + 4) (x' + 2 * y' + 12)) 16, encF (appN 1 p q r) 16] 7).testBit n = true
+
+noncomputable instance (x y ε x' y' p q r : ℕ) : Decidable (ReachForP x y ε x' y' p q r) :=
+  inferInstanceAs (Decidable (∀ n < 16, n ≠ 0 → (reachP [encF (appN 2 1 (x + 2 * y + 8) 4) 16,
+    encF (appN 1 3 (ε + 4) (x' + 2 * y' + 12)) 16, encF (appN 1 p q r) 16] 7).testBit n = true))
+
+@[expose] def ReachP (p q r : ℕ) : Prop :=
+  ∀ x < 2, ∀ y < 2, ∀ ε < 2, ∀ x' < 2, ∀ y' < 2, ReachForP x y ε x' y' p q r
+
+noncomputable instance (p q r : ℕ) : Decidable (ReachP p q r) :=
+  inferInstanceAs (Decidable (∀ x < 2, ∀ y < 2, ∀ ε < 2, ∀ x' < 2, ∀ y' < 2,
+    ReachForP x y ε x' y' p q r))
+
+@[expose] def GuardReachP (p q r : ℕ) : Prop := GuardN p q r → ReachP p q r
+
+noncomputable instance (p q r : ℕ) : Decidable (GuardReachP p q r) :=
+  inferInstanceAs (Decidable (GuardN p q r → ReachP p q r))
+
+theorem reach_P4 : ∀ q < 16, ∀ r < 16, GuardReachP 4 q r := by
   decide +kernel
+
+theorem reach_P5 : ∀ q < 16, ∀ r < 16, GuardReachP 5 q r := by
+  decide +kernel
+
+theorem reach_P6 : ∀ q < 16, ∀ r < 16, GuardReachP 6 q r := by
+  decide +kernel
+
+theorem reach_P7 : ∀ q < 16, ∀ r < 16, GuardReachP 7 q r := by
+  decide +kernel
+
+set_option synthInstance.maxSize 4096 in
+theorem guard_p : ∀ p < 16, ∀ q < 16, ∀ r < 16, GuardN p q r → 4 ≤ p ∧ p < 8 := by
+  decide +kernel
+
+theorem reach_all_P : ∀ p < 16, ∀ q < 16, ∀ r < 16, GuardReachP p q r := by
+  intro p hp q hq r hr hg
+  obtain ⟨h4, h8⟩ := guard_p p hp q hq r hr hg
+  obtain rfl | rfl | rfl | rfl : p = 4 ∨ p = 5 ∨ p = 6 ∨ p = 7 := by omega
+  · exact reach_P4 q hq r hr hg
+  · exact reach_P5 q hq r hr hg
+  · exact reach_P6 q hq r hr hg
+  · exact reach_P7 q hq r hr hg
+
+theorem reach_all_N : ∀ p < 16, ∀ q < 16, ∀ r < 16, GuardReach p q r := by
+  intro p hp q hq r hr hg x hx y hy ε hε x' hx' y' hy' n hn hn0
+  unfold tabW tabU tabS
+  rw [reachM_tabN (by norm_num) (by norm_num) (by omega) (by norm_num) (by norm_num) (by norm_num)
+    (by omega) (by omega) (by norm_num) hp hq hr]
+  exact reach_all_P p hp q hq r hr hg x hx y hy ε hε x' hx' y' hy' n hn hn0
 
 theorem testBit_one_shiftLeft (j k : ℕ) : ((1 : ℕ) <<< j).testBit k = true ↔ k = j := by
   rw [Nat.testBit_shiftLeft]

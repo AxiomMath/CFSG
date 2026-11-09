@@ -1,5 +1,6 @@
 module
 
+public import CFSG.Blueprint.RootFinsetFast
 public import CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6ThreeInnerLine
 public import CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQThreeFactsWeyl
 public import CFSG.LieType.Chevalley.CLSOddE7RationalEightGroup
@@ -30,6 +31,36 @@ local instance e6ConjOrbitNeZeroRank : NeZero Tag.E6.rank := ⟨by decide⟩
   ((rootFinset .E6).filter fun α => ∑ i, x i * ((α i : ℤ) : ZMod 3) = 0).card
 
 @[expose] def e6ConjVec (a b c d e f : ZMod 3) : Fin Tag.E6.rank → ZMod 3 := ![a, b, c, d, e, f]
+
+@[expose] def e6Res (c j : ℕ) : ℕ := (c / 16 ^ j % 16 + 1) % 3
+
+@[expose] def e6KerN (a b c d e f : ℕ) : ℕ :=
+  e6Certificate.roots.countP fun r => Nat.beq ((a * e6Res r 0 + b * e6Res r 1 + c * e6Res r 2 +
+    d * e6Res r 3 + e * e6Res r 4 + f * e6Res r 5) % 3) 0
+
+theorem cast_digit_e6Res : ∀ m < 16,
+    ((((m : ℕ) : ℤ) - 8 : ℤ) : ZMod 3) = (((m + 1) % 3 : ℕ) : ZMod 3) := by
+  decide +kernel
+
+theorem cast_decodeVec_e6Res (c : ℕ) (j : Fin Tag.E6.rank) :
+    ((decodeVec (τ := .E6) c j : ℤ) : ZMod 3) = ((e6Res c j : ℕ) : ZMod 3) :=
+  cast_digit_e6Res _ (Nat.mod_lt _ (by norm_num))
+
+theorem e6KerCount_eq (x : Fin Tag.E6.rank → ZMod 3) :
+    e6KerCount x = e6KerN (x 0).val (x 1).val (x 2).val (x 3).val (x 4).val (x 5).val := by
+  rw [e6KerCount, card_filter_rootFinset, e6KerN]
+  refine List.countP_congr fun r _ => ?_
+  simp only [decide_eq_true_eq, Nat.beq_eq]
+  have hs : ∑ i, x i * ((decodeVec (τ := .E6) r i : ℤ) : ZMod 3) =
+      (((x 0).val * e6Res r 0 + (x 1).val * e6Res r 1 + (x 2).val * e6Res r 2 +
+        (x 3).val * e6Res r 3 + (x 4).val * e6Res r 4 + (x 5).val * e6Res r 5 : ℕ) : ZMod 3) := by
+    simp only [cast_decodeVec_e6Res]
+    change ∑ i : Fin 6, _ = _
+    rw [Fin.sum_univ_six]
+    push_cast
+    simp only [ZMod.natCast_zmod_val]
+    rfl
+  rw [hs, ZMod.natCast_eq_zero_iff, Nat.dvd_iff_mod_eq_zero]
 
 @[expose] def e6OrbitTable : List ((Fin Tag.E6.rank → ZMod 3) × List (Fin 6)) :=
   [
@@ -98,6 +129,7 @@ theorem e6_orbit_words : ∀ p ∈ e6OrbitTable, e6Wact p.2 p.1 = e6KacVec := by
 
 theorem e6_orbit_complete : ∀ a b c d e f : ZMod 3,
     e6KerCount (e6ConjVec a b c d e f) = 18 → ∃ p ∈ e6OrbitTable, p.1 = e6ConjVec a b c d e f := by
+  simp only [e6KerCount_eq]
   decide +kernel
 
 theorem exists_word_of_kerCount (x : Fin Tag.E6.rank → ZMod 3) (hx : e6KerCount x = 18) :

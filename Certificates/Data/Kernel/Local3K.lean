@@ -102,6 +102,33 @@ open CFSG.KC.M1F2 CFSG.KC.OpsF2K CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.
   ordsK d A B D G && relsK d G (invsK d D G) D.rels &&
     orbitK d D.n G (ms.map fun c => c.toNat - 48) root
 
+@[expose] def posW {m : Nat} (r : List (Fin m × Bool)) : List (Fin m × Bool) :=
+  r.map fun c => (c.1, true)
+
+@[expose] def posOK {m : Nat} (rq : List (List (Fin m × Bool))) :
+    List (List (Fin m × Bool)) → List Nat → Bool
+  | [], [] => true
+  | r :: rs, k :: ks => decide (posW r = rq.getD k []) && posOK rq rs ks
+  | _, _ => false
+
+@[expose] noncomputable def local3K2 (d A B : Nat) {m : Nat} (D : Local3Data m) (G : List Nat)
+    (rq : List (List (Fin m × Bool))) (ix : List Nat)
+    (ms₁ ms₂ : List Char) (v₁ v₂ n₁ n₂ : Nat) (kw : List (List (Fin m × Bool))) : Bool :=
+  let K := kw.map (evalGenK d G (invsK d D G))
+  ordsK d A B D G && (List.range m).all (fun i => decide (D.ords.getD i 0 = 2)) &&
+    relsK d G (invsK d D G) rq && posOK rq D.rels ix &&
+    orbitK d n₁ G (ms₁.map fun c => c.toNat - 48) v₁ &&
+    K.all (fun X => Nat.beq (vmF d X v₁) v₁) &&
+    orbitK d n₂ K (ms₂.map fun c => c.toNat - 48) v₂ && decide (D.n ≤ n₁ * n₂)
+
+@[expose] noncomputable def local3K3 (d A B : Nat) {m : Nat} (D : Local3Data m) (G : List Nat)
+    (ms₁ ms₂ : List Char) (v₁ v₂ n₁ n₂ : Nat) (kw : List (List (Fin m × Bool))) : Bool :=
+  let K := kw.map (evalGenK d G (invsK d D G))
+  ordsK d A B D G && relsK d G (invsK d D G) D.rels &&
+    orbitK d n₁ G (ms₁.map fun c => c.toNat - 48) v₁ &&
+    K.all (fun X => Nat.beq (vmF d X v₁) v₁) &&
+    orbitK d n₂ K (ms₂.map fun c => c.toNat - 48) v₂ && decide (D.n ≤ n₁ * n₂)
+
 end CFSG.KC.Local3K
 
 end

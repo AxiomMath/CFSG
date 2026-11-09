@@ -80,6 +80,15 @@ theorem fi22OuterT_involutions :
   rw [hset, Set.ncard_image_of_injective _ fi22TProd_injective, Set.ncard_coe_finset,
     fi22Cover_check.2.2.2.1]
 
+private theorem fi22OuterT_involution_conj_pack
+    (x : Fin 1024 × Fin 32 × Fin 4) (j a b c : ℕ)
+    (hj : j < 54) (ha : a < 1024) (hb : b < 32) (hc : c < 4)
+    (hok : conjOK3 fi22TLevels 3510 (fi22OuterStrong3510 7)[j]!
+      x.1 x.2.1 x.2.2 a b c = true) :
+    ∃ j < 54, ∃ t ∈ fi22OuterT, t * fi22OuterU j * t⁻¹ = fi22TProd x := by
+  refine ⟨j, hj, fi22TProd (⟨a, ha⟩, ⟨b, hb⟩, ⟨c, hc⟩), fi22TProd_mem _, ?_⟩
+  exact conjOK3_spec (rep_fi22OuterU hj) hok
+
 theorem fi22OuterT_involution_conj :
     ∀ g ∈ fi22OuterT, orderOf g = 2 →
     ∃ j < 54, ∃ t ∈ fi22OuterT, t * fi22OuterU j * t⁻¹ = g := by
@@ -87,8 +96,7 @@ theorem fi22OuterT_involution_conj :
   obtain ⟨x, rfl⟩ := fi22TProd_surj hg
   obtain ⟨hj, ha, hb, hc, hok⟩ := fi22Cover_check.2.2.2.2.1 x ((isInv3_iff x).2 ho)
   set w := fi22CoverWit[(x.1.val * 32 + x.2.1.val) * 4 + x.2.2.val]!
-  refine ⟨w.1, hj, fi22TProd (⟨w.2.1, ha⟩, ⟨w.2.2.1, hb⟩, ⟨w.2.2.2, hc⟩), fi22TProd_mem _, ?_⟩
-  exact conjOK3_spec (rep_fi22OuterU hj) hok
+  exact fi22OuterT_involution_conj_pack x w.1 w.2.1 w.2.2.1 w.2.2.2 hj ha hb hc hok
 
 theorem fi22OuterU_spec
     {j : ℕ} (hj : j < 54) :

@@ -3,6 +3,7 @@ module
 
 public import Certificates.Kernel.Co1M.W10070
 import CFSG.Certificates.Kernel.Common.Harness
+public import CFSG.Certificates.Kernel.Co1QGram
 
 public section
 
@@ -85,8 +86,30 @@ theorem q0_code4_chk : notB (dotN code4 (vmF 24 Qt70 code4)) = true := by quickR
 theorem code4_chk : Nat.beq (vmF 24 (trK 24 (wordABFrom CertificateChecks.KernelCo1Cover.R0
     CertificateChecks.KernelCo1Cover.R1 code4Word oneK)) 1) code4 = true := by quickRfl
 
-theorem qs_chk : (OFF70.all fun o => Nat.beq (qCountK 24 Qt70 FAt70 o) 1920) = true := by
-  quickRfl
+@[expose] def qsR70 : List Nat :=
+  [84, 358, 614, 502, 68, 120, 58, 30, 8, 4, 0, 0]
+
+@[expose] def qsQ70 : List Bool :=
+  [true, true, true, false, true, true, false, false, false, true, true, false]
+
+@[expose] def qsL70 : List Nat :=
+  [0, 1119, 3239, 2296, 626, 1581, 3797, 2698, 2129, 3086, 1270, 169, 2595, 3708, 1668, 731]
+
+theorem qs_rows : CFSG.KC.Co1QGram.rowsOK Qt70 FAt70 qsR70 qsQ70 = true := by decide +kernel
+
+theorem qs_walk : ((OFF70.zip qsL70).all fun x =>
+    CFSG.KC.Co1QGram.rowOK Qt70 x.1 FAt70 x.2 &&
+      Nat.beq (CFSG.KC.Co1QGram.gcK FAt70 qsR70 qsQ70 (CFSG.KC.Co1QGram.qf Qt70 x.1) x.2) 1920) =
+    true := by
+  decide +kernel
+
+theorem qs_chk : (OFF70.all fun o => Nat.beq (qCountK 24 Qt70 FAt70 o) 1920) = true :=
+  CFSG.KC.Co1QGram.all_of_zip (P := fun o l => CFSG.KC.Co1QGram.rowOK Qt70 o FAt70 l &&
+      Nat.beq (CFSG.KC.Co1QGram.gcK FAt70 qsR70 qsQ70 (CFSG.KC.Co1QGram.qf Qt70 o) l) 1920)
+    (fun _ _ h => by
+      simp only [Bool.and_eq_true] at h
+      exact CFSG.KC.Co1QGram.qCount_of_gram qs_rows h.1 h.2)
+    OFF70 qsL70 (by decide +kernel) qs_walk
 
 theorem fixA_fix :
     (FA70.all fun f => Nat.blt f (2 ^ 24) && Nat.beq (vmF 24 (w70.regT 7) f) f) = true := by

@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.B4AT "Certificates/Kernel/B433Alt/Data/tr.json.gz" 26582 16887386420331942557
+#kc_repo #kc_json CFSG.KD.B4AT "Certificates/Kernel/B433Alt/Data/tr.json" 26582 16887386420331942557
   (K0 : List Nat) (A0 : List Nat) (J : List Nat) (K1 : List Nat) (A1 : List Nat) (TQ : List Nat)
   (PA : List Nat)
 

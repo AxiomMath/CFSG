@@ -94,6 +94,22 @@ theorem q125_list_gen {j : Nat} (hj : j < 4) {g : Equiv.Perm (Fin 360)} (hg : g 
         rw [List.getD_eq_getElem (lists.getD j []) 0 (by rw [hl']; norm_num)]
         exact List.getElem_mem _))
 
+theorem e4Q_getD_two (r i j : Nat) : (e4Q r i j).getD 2 0 = i := rfl
+
+theorem e4Q_getD_four (r i j : Nat) : (e4Q r i j).getD 4 0 = j := rfl
+
+theorem e4L_getD_two : e4L.getD 2 0 = e4U := by
+  rw [e4L]
+  exact e4Q_getD_two _ _ _
+
+theorem e4L_getD_four : e4L.getD 4 0 = om0V := by
+  rw [e4L]
+  exact e4Q_getD_four _ _ _
+
+theorem q125PL_getD_zero : q125PL.getD 0 [] = e4L := by
+  rw [q125PL]
+  rfl
+
 theorem q125_list_K0 {j : Nat} (hj : j < 4) {K' : Subgroup (Equiv.Perm (Fin 360))}
     (hK' : ∀ x, x ∈ K' ↔ x ∈ (lists.getD j []).map saElt) (hK'Ω : K' ≤ omegaT) :
     ∃ g ∈ omegaT, K' = conjSub g q125K0 := by
@@ -138,12 +154,11 @@ theorem q125_list_K0 {j : Nat} (hj : j < 4) {K' : Subgroup (Equiv.Perm (Fin 360)
       rfl
   rcases (by omega : j = 0 ∨ j = 1 ∨ j = 2 ∨ j = 3) with rfl | rfl | rfl | rfl
   · refine ⟨1, omegaT.one_mem, q125_list_gen (j := 0) (by norm_num) omegaT.one_mem
-      (fun P hP => (hL P hP).1) (fun P hP => by rw [conjSub_one]; exact (hL P hP).2) ?_ ?_ rfl
-      hK' hK'Ω⟩
-    · change toPerm 360 9 e4U = _
-      group
-    · change toPerm 360 9 om0V = _
-      group
+      (fun P hP => (hL P (q125PL_getD_zero ▸ hP)).1)
+      (fun P hP => by rw [conjSub_one]; exact (hL P (q125PL_getD_zero ▸ hP)).2) ?_ ?_
+      (by rw [q125PL_getD_zero]; rfl) hK' hK'Ω⟩
+    · rw [q125PL_getD_zero, e4L_getD_two, one_mul, inv_one, mul_one]
+    · rw [q125PL_getD_zero, e4L_getD_four, one_mul, inv_one, mul_one]
   · exact hconj (by decide +kernel) (by decide +kernel) (by decide +kernel) rfl
   · exact hconj (by decide +kernel) (by decide +kernel) (by decide +kernel) rfl
   · exact hconj (by decide +kernel) (by decide +kernel) (by decide +kernel) rfl

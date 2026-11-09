@@ -1,9 +1,6 @@
 module
 
 public import Certificates.Kernel.SporSch.Mathieu.M12OddChecks
-public import Certificates.Kernel.SporSch.Mathieu.M12OddZ3
-public import Certificates.Kernel.SporSch.Mathieu.M12OddZ5
-public import Certificates.Kernel.SporSch.Mathieu.M12OddZ11
 public import Certificates.Kernel.SporSch.Mathieu.M12Facts
 public import Certificates.Kernel.Sporadic.OddCore.PEnumGlue
 public import Certificates.Kernel.Sporadic.OddCore.MulHGlue
@@ -22,7 +19,7 @@ namespace CertificateChecks.KernelSporSch.M12Odd
 open CFSG CFSG.Sporadic CFSG.Sporadic.Schreier CFSG.Certificates CFSG.Sporadic.Mathieu
 open CFSG.Sporadic.Schreier.Native CFSG.Monster.B.Mathieu CFSG.Sporadic.Th.Native
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.M11 CFSG.KS.MEnum CFSG.KS.SporSch.MOC
-open CFSG.KS.SporSch.CodesImg CFSG.KC.Child3 CFSG.KS.PEnum CFSG.KS.MulH
+open CFSG.KS.SporSch.CodesImg CFSG.KC.Child3 CFSG.KS.PEnum CFSG.KS.MulH CFSG.KS.SporSch.MBT
 open CertificateChecks.KernelSporSch.M12OC Certificates.BTFinCk Certificates.BTFinCk.M12
 
 theorem img_wK {wd : List Int} (hw : abOK wd = true) :
@@ -152,17 +149,26 @@ theorem size_of {ws : List (List Int)} {CS : List Nat}
   unfold repSizes
   simp [List.getD_eq_getElem?_getD, hi]
 
+theorem tot3 : Nat.beq (sumOrdK 12 4 (mask 4) (ordK M12Q.LR 5) M12BC.XL M12BC.CL 3
+    M12BC.XL.length) 4400 = true := by quickRfl
+
+theorem tot5 : Nat.beq (sumOrdK 12 4 (mask 4) (ordK M12Q.LR 5) M12BC.XL M12BC.CL 5
+    M12BC.XL.length) 9504 = true := by quickRfl
+
+theorem tot11 : Nat.beq (sumOrdK 12 4 (mask 4) (ordK M12Q.LR 5) M12BC.XL M12BC.CL 11
+    M12BC.XL.length) 17280 = true := by quickRfl
+
 theorem cnt3 : (cosetOrderTables m12Certificate 1 3).length = K3.N :=
-  (chainK_cosetCount (by decide) (by decide) chainQ imgOne cOne (by norm_num) (by norm_num)
-    (by decide) Z3.hc).trans (by decide)
+  ((classEq_sound (by decide) (by decide) chainQ classEq (mo := 3) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true tot3)).trans (by decide)
 
 theorem cnt5 : (cosetOrderTables m12Certificate 1 5).length = K5.N :=
-  (chainK_cosetCount (by decide) (by decide) chainQ imgOne cOne (by norm_num) (by norm_num)
-    (by decide) Z5.hc).trans (by decide)
+  ((classEq_sound (by decide) (by decide) chainQ classEq (mo := 5) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true tot5)).trans (by decide)
 
 theorem cnt11 : (cosetOrderTables m12Certificate 1 11).length = K11.N :=
-  (chainK_cosetCount (by decide) (by decide) chainQ imgOne cOne (by norm_num) (by norm_num)
-    (by decide) Z11.hc).trans (by decide)
+  ((classEq_sound (by decide) (by decide) chainQ classEq (mo := 11) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true tot11)).trans (by decide)
 
 theorem cls3 :
     repsOK 12 gT gIT (cosetOrderTables m12Certificate 1 3) ((repsOf 3).map toTable) 20000 =

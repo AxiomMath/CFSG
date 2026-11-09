@@ -46,6 +46,6 @@ open CFSG.Monster.AxisCount CFSG.YGroups.Y443 CFSG.YGroups.Y443Native
 @[expose] def m7hPairs : List (List Native.Gen × List Native.Gen) :=
   [(wq1 ++ m7hW, m7hW ++ powL 2 wq4 ++ wq2 ++ wq1), (wq2 ++ m7hW, m7hW ++ wq3 ++ wq2),
     (wq3 ++ m7hW, m7hW ++ powL 5 wq4 ++ wq3 ++ powL 4 wq1),
-    (wq4 ++ m7hW, m7hW ++ powL 3 wq4 ++ powL 2 wq1), (wq5 ++ m7hW, m7hW ++ wq5)]
+    (wq4 ++ m7hW, m7hW ++ powL 3 wq4 ++ powL 2 wq1)]
 
 end CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterSevenFlag

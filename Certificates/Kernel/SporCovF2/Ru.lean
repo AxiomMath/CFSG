@@ -7,13 +7,13 @@ public import Certificates.Data.Kernel.SporCov.F2Kit
 public import Certificates.Data.Kernel.SporCov.PCl
 public import Certificates.Kernel.VecCert.Ru
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovF2.Ru.F3 "Certificates/Kernel/SporCovF2/data/ru3.json.gz" 1688
+#kc_repo #kc_json CFSG.KD.SporCovF2.Ru.F3 "Certificates/Kernel/SporCovF2/data/ru3.json" 1688
   12238625855226554009
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))
   (K : List Nat) (C : List (List Nat)) (R : List (List Nat)) (GZ : List Nat)
 
-#kc_repo #kc_json_gz CFSG.KD.SporCovF2.Ru.F5 "Certificates/Kernel/SporCovF2/data/ru5.json.gz" 1552
+#kc_repo #kc_json CFSG.KD.SporCovF2.Ru.F5 "Certificates/Kernel/SporCovF2/data/ru5.json" 1552
   4959379735725737710
   (G1 : List Nat) (G2 : List Nat) (Z : List Nat) (E1 : Nat) (E2 : Nat) (T : List Nat)
   (M : List (List Nat)) (Y : List (List Nat)) (H : List (List Nat)) (Yc : List (List Nat))

@@ -140,17 +140,17 @@ theorem imgKO2 : ∀ j < kGensO2.length,
 theorem chainKA : ChainK 22 5 kGensA kChainWordsA (#v[0, 1, 3, 2] : Vector (Fin 22) 4) M22KA.S
     M22KA.SI M22KA.LR M22KA.TR M22KA.TRI 6 M22KA.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, imgKA, by decide, M22KA.head, M22KA.hl, by norm_num,
-    M22KA.hs⟩
+    .inl M22KA.hs⟩
 
 theorem chainKO1 : ChainK 22 5 kGensO1 kChainWordsO1 (#v[0, 1, 2] : Vector (Fin 22) 3) M22KO1.S
     M22KO1.SI M22KO1.LR M22KO1.TR M22KO1.TRI 8 M22KO1.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, imgKO1, by decide, M22KO1.head, M22KO1.hl, by norm_num,
-    M22KO1.hs⟩
+    .inl M22KO1.hs⟩
 
 theorem chainKO2 : ChainK 22 5 kGensO2 kChainWordsO2 (#v[0, 1, 2, 3] : Vector (Fin 22) 4)
     M22KO2.S M22KO2.SI M22KO2.LR M22KO2.TR M22KO2.TRI 7 M22KO2.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, imgKO2, by decide, M22KO2.head, M22KO2.hl, by norm_num,
-    M22KO2.hs⟩
+    .inl M22KO2.hs⟩
 
 theorem one22 : imageList (1 : Equiv.Perm (Fin 22)) = (unpack 22 5 (pidn 22 5)).toList := by
   decide

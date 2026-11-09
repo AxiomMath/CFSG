@@ -2,17 +2,17 @@ module
 
 public import Certificates.Data.Kernel.Misc.PermM22
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelMisc.M22 "Certificates/Kernel/Misc/Perm/M22/data/m22.json.gz" 1693 13718293265045208003
+#kc_repo #kc_json CertificateChecks.KernelMisc.M22 "Certificates/Kernel/Misc/Perm/M22/data/m22.json" 1693 13718293265045208003
   (genL : List Nat) (tWords : List (List Nat)) (tL : List Nat) (kWords : List (List Nat))
   (kL : List Nat) (ixL : List Nat) (wL : List Nat) (xC : Nat) (yC : Nat)
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.M22 E "Certificates/Kernel/Misc/Perm/M22/data/m22_eP.bin.gz" 14 4 282240 2335193889603519183
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.M22 PA "Certificates/Kernel/Misc/Perm/M22/data/m22_paP.bin.gz" 4 4 80640 9687271123121582669
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.M22 SG "Certificates/Kernel/Misc/Perm/M22/data/m22_sgP.bin.gz" 4 4 80640 11355990155945215156
-#kc_repo #kc_ktree_gz CertificateChecks.KernelMisc.M22 CT "Certificates/Kernel/Misc/Perm/M22/data/m22_ctP.bin.gz" 4 4 161280 9802474027486990170
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.M22 E "Certificates/Kernel/Misc/Perm/M22/data/m22_eP.bin" 14 4 282240 2335193889603519183
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.M22 PA "Certificates/Kernel/Misc/Perm/M22/data/m22_paP.bin" 4 4 80640 9687271123121582669
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.M22 SG "Certificates/Kernel/Misc/Perm/M22/data/m22_sgP.bin" 4 4 80640 11355990155945215156
+#kc_repo #kc_ktree CertificateChecks.KernelMisc.M22 CT "Certificates/Kernel/Misc/Perm/M22/data/m22_ctP.bin" 4 4 161280 9802474027486990170
 
 public section
 

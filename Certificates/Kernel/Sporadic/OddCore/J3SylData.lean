@@ -220,6 +220,7 @@ theorem r0_sg : j3SylowGenTbls.toArray.all
   rw [t0_eq, j3SylowGenTbls, List.all_toArray, List.all_map, List.all_eq_true]
   intro k hk
   have hk' := List.mem_range.1 hk
+  rw [Function.comp_apply]
   exact cRow (by omega) (r0_gen hk')
 
 theorem r0_ok : sylowFourOK 6156 256 6 (memR t0) cgR0 j3SylowGenTbls.toArray 256 = true := by

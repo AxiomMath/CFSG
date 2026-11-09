@@ -144,11 +144,26 @@ theorem genB {j : Nat} (hj : j < 4) : U43KB.GI j = gB j ∧ U43KB.G j = pidn 820
   simp only [bAnd_iff] at h
   exact ⟨Nat.eq_of_beq_eq_true h.1, Nat.eq_of_beq_eq_true h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2⟩
 
+theorem arrGet4 {α : Type} [Inhabited α] (a b c d : α) :
+    #[a, b, c, d][0]! = a ∧ #[a, b, c, d][1]! = b ∧ #[a, b, c, d][2]! = c ∧
+      #[a, b, c, d][3]! = d :=
+  ⟨rfl, rfl, rfl, rfl⟩
+
+theorem arrGet5 {α : Type} [Inhabited α] (a b c d e : α) :
+    #[a, b, c, d, e][0]! = a ∧ #[a, b, c, d, e][1]! = b ∧ #[a, b, c, d, e][2]! = c ∧
+      #[a, b, c, d, e][3]! = d ∧ #[a, b, c, d, e][4]! = e :=
+  ⟨rfl, rfl, rfl, rfl, rfl⟩
+
 theorem b_tabs : TabsOK 820 10 4 U43KB.GI (kTabs yBTab kBComm kBCube) := by
   rw [kB_eq]
   refine ⟨rfl, fun j hj => ⟨?_, (genB hj).2.2.1⟩⟩
   rw [(genB hj).1]
-  interval_cases j <;> rfl
+  obtain ⟨e0, e1, e2, e3⟩ := arrGet4 (tP (gB 0)) (tP (gB 1)) (tP (gB 2)) (tP (gB 3))
+  interval_cases j
+  · rw [e0]; rfl
+  · rw [e1]; rfl
+  · rw [e2]; rfl
+  · rw [e3]; rfl
 
 theorem kRepB : kRepCheck yBTab kBComm kBCube = true := by
   have hcnt : U43KB.cnt = 324 := Nat.eq_of_beq_eq_true base.2.2.2.2.2.1
@@ -223,7 +238,14 @@ theorem c_tabs : TabsOK 820 10 5 U43KC.GI (kTabs yCTab kCComm kCCube) := by
   rw [kC_eq]
   refine ⟨rfl, fun j hj => ⟨?_, (genC hj).2.2.1⟩⟩
   rw [(genC hj).1]
-  interval_cases j <;> rfl
+  obtain ⟨e0, e1, e2, e3, e4⟩ :=
+    arrGet5 (tP (gC 0)) (tP (gC 1)) (tP (gC 2)) (tP (gC 3)) (tP (gC 4))
+  interval_cases j
+  · rw [e0]; rfl
+  · rw [e1]; rfl
+  · rw [e2]; rfl
+  · rw [e3]; rfl
+  · rw [e4]; rfl
 
 theorem kRepC : kRepCheck yCTab kCComm kCCube = true := by
   have hcnt : U43KC.cnt = 324 := Nat.eq_of_beq_eq_true base.2.2.2.2.2.2.1

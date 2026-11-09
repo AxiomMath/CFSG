@@ -310,8 +310,9 @@ theorem row_facts {p : Nat} (hp : p < 3795) :
 
 include hR in
 theorem recInc_sub : recInc TS ⊆ incid TL SL := by
+  simp only [Finset.subset_iff, recInc, incid, Finset.mem_filter, Finset.mem_product,
+    Finset.mem_range]
   intro x hx
-  simp only [recInc, incid, Finset.mem_filter, Finset.mem_product, Finset.mem_range] at hx ⊢
   exact ⟨hx.1, ((row_facts hR hx.1.1).2.2.2 _ hx.2).2⟩
 
 theorem card_filter_mem_row {r : List Nat} (hr : r.Pairwise (· < ·)) (hlt : ∀ q ∈ r, q < 1771) :

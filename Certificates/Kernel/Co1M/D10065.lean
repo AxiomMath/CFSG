@@ -9,8 +9,8 @@ public section
 
 namespace CFSG.KD.Co1M
 
-#kc_repo #kc_json_gz CFSG.KD.Co1M
-  "Certificates/Kernel/Co1M/data/D10065.json.gz" 31713 17653933558454885059
+#kc_repo #kc_json CFSG.KD.Co1M
+  "Certificates/Kernel/Co1M/data/D10065.json" 31713 17653933558454885059
   (P65 : List (List (Nat × Nat))) (R65 : List Nat) (RT65 : List Nat) (G65 : List Nat)
 
 @[expose] def ksTxt65 : String := include_str "D10065/ks.hex"

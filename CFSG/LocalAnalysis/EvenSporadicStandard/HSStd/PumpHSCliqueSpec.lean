@@ -3,6 +3,8 @@ module
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.S5FiveYHsSpec
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.S5FiveAut
 public import Certificates.Certificate27265
+public import Certificates.Certificate117041
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.Zassenhaus.PartA.S0Spec
 
 public section
 
@@ -68,24 +70,6 @@ theorem exists_idx_of_mem_closure {n : ℕ} {gs : Array (Array ℕ)} {ps : List 
   obtain ⟨i, hi, e⟩ := hmem
   exact ⟨i, hi, e⟩
 
-theorem exists_idx_three
-    {y : Equiv.Perm (Fin 100)} (hy : y ∈ hs100R)
-    (hy3 : orderOf y = 3) : ∃ i < x3Cert.pts.size, permOfArr 100 x3Cert.pts[i]! = y := by
-  have f := x3Facts_of_check Certificates.certificate27261
-  have hc : arrCertOK (fun k a => conjA 100 hsGens[k]! a) hsGens.size (validA 100)
-      (keyA 100 hsKeys) x3 x3Cert = true := arrCertOK_of_arrCertOKL f.cert
-  have hx0 : orderOf (⟨X3, f.mem⟩ : ↥hs100R) = 3 := (Subgroup.orderOf_mk _ _).trans f.order
-  have hy0 : orderOf (⟨y, hy⟩ : ↥hs100R) = 3 := (Subgroup.orderOf_mk _ _).trans hy3
-  obtain ⟨c, hc'⟩ := exists_conj_hs100R_three hx0 hy0
-  have hcl : (c : Equiv.Perm (Fin 100)) ∈ Subgroup.closure (permsA 100 hsGens) := by
-    rw [closure_permsA_hs]
-    exact c.2
-  obtain ⟨i, hi, hix⟩ := exists_idx_of_mem_closure f.gens_valid hc hcl
-  refine ⟨i, hi, ?_⟩
-  rw [hix]
-  have := congrArg Subtype.val hc'
-  simpa using this
-
 theorem adjA_of_orderOf_two {a b : Array ℕ} {g h : Equiv.Perm (Fin 100)} (ra : Rep 100 a g)
     (rb : Rep 100 b h) (ho : orderOf (g * h) = 2) : adjA a b = true := by
   have rab : Rep 100 (compA 100 a b) (g * h) := rep_compA ra rb
@@ -108,6 +92,91 @@ theorem getElem!_mem_toList (A : Array (Array ℕ)) {i : ℕ} (hi : i < A.size) 
   rw [getElem!_pos A i hi]
   exact Array.mem_toList_iff.2 (Array.getElem_mem hi)
 
+theorem mem_nbrL_of_conj {x : Array ℕ} {c : ArrCert}
+    (hc : arrCertOK (fun k a => conjA 100 Zassenhaus.PartA.S0.pGens[k]! a)
+      Zassenhaus.PartA.S0.pGens.size (validA 100) (keyA 100 Zassenhaus.PartA.S0.keys) x c = true)
+    (hsub : ∀ a ∈ c.pts.toList, a ∈ invPtsL) {y g : Equiv.Perm (Fin 100)} (hg : g ∈ hs100P)
+    (hy3 : orderOf y = 3) (hu : X3 * y = g * permOfArr 100 x * g⁻¹) :
+    ∃ b ∈ nbrL, Rep 100 b y := by
+  have f := x3Facts_of_check Certificates.certificate27261
+  have hgs := (Zassenhaus.PartA.S0.basic_spec
+    (Zassenhaus.PartA.S0.s0_parts Certificates.certificate117041).1).1
+  have hcl : g ∈ Subgroup.closure (permsA 100 Zassenhaus.PartA.S0.pGens) := by
+    rw [Zassenhaus.PartA.S0.closure_pGens]
+    exact hg
+  obtain ⟨i, hi, e⟩ := exists_idx_of_mem_closure hgs hc hcl
+  have ra : Rep 100 c.pts[i]! (X3 * y) := by
+    rw [hu, ← e]
+    exact rep_of_validA (arrCertOK_valid hc hi)
+  have rx : Rep 100 x3 X3 := rep_of_validA f.valid
+  have hx3 : X3 ^ 3 = 1 := by
+    rw [← f.order]
+    exact pow_orderOf_eq_one X3
+  have hy : y ^ 3 = 1 := by
+    rw [← hy3]
+    exact pow_orderOf_eq_one y
+  have hxy : X3 * X3 * (X3 * y) = y := by
+    calc X3 * X3 * (X3 * y) = X3 ^ 3 * y := by simp only [pow_three, mul_assoc]
+      _ = y := by rw [hx3, one_mul]
+  have rb : Rep 100 (compA 100 (compA 100 x3 x3) c.pts[i]!) y :=
+    hxy ▸ rep_compA (rep_compA rx rx) ra
+  refine ⟨_, ?_, rb⟩
+  simp only [nbrL, List.mem_filter, List.mem_map]
+  refine ⟨⟨_, hsub _ (getElem!_mem_toList _ hi), rfl⟩, ?_⟩
+  have hy' : y * (y * y) = 1 := by
+    calc y * (y * y) = y ^ 3 := (pow_three y).symm
+      _ = 1 := hy
+  exact (eqA_iff (rep_compA rb (rep_compA rb rb)) rep_idA).2 hy'
+
+theorem exists_nbrL {y : Equiv.Perm (Fin 100)} (hy : y ∈ hs100R) (hy3 : orderOf y = 3)
+    (hp : orderOf (X3 * y) = 2) : ∃ b ∈ nbrL, Rep 100 b y := by
+  have f := x3Facts_of_check Certificates.certificate27261
+  obtain ⟨hb, hc, -, hk, -⟩ := Zassenhaus.PartA.S0.s0_parts Certificates.certificate117041
+  obtain ⟨-, -, hZP, hZ2, hZ1, -, -, -, hX, -⟩ := Zassenhaus.PartA.S0.basic_spec hb
+  obtain ⟨cZ, cU, -⟩ := Zassenhaus.PartA.S0.classes_spec hb hc
+  have hc' := hc
+  simp only [Zassenhaus.PartA.S0.classesOK, Zassenhaus.PartA.S0.classOK, Bool.and_eq_true,
+    and_assoc] at hc'
+  obtain ⟨hz, -, hu, -⟩ := hc'
+  have hYP := mem_hs100P_of_order_three hy hy3
+  have hXP := mem_hs100P_of_order_three f.mem f.order
+  set u : ↥hs100P := ⟨X3 * y, mul_mem hXP hYP⟩ with hu'
+  have huo : orderOf u = 2 := (Subgroup.orderOf_mk _ _).trans hp
+  have hY : IsSporadic ↥hs100P .HS := ⟨hs100Equiv.symm⟩
+  have key : ∀ (x : Array ℕ) (c : ArrCert) (v : ↥hs100P), (v : Equiv.Perm (Fin 100)) =
+      permOfArr 100 x →
+      arrCertOK (fun k a => conjA 100 Zassenhaus.PartA.S0.pGens[k]! a)
+        Zassenhaus.PartA.S0.pGens.size (validA 100) (keyA 100 Zassenhaus.PartA.S0.keys) x c =
+        true →
+      (∀ a ∈ c.pts.toList, a ∈ invPtsL) → IsConj u v → ∃ b ∈ nbrL, Rep 100 b y := by
+    intro x c v hv hcx hsub hconj
+    obtain ⟨d, hd⟩ := isConj_iff.1 hconj
+    refine mem_nbrL_of_conj hcx hsub (d⁻¹ : ↥hs100P).2 hy3 ?_
+    have h1 : u = d⁻¹ * v * d⁻¹⁻¹ := by
+      rw [← hd]
+      group
+    have h2 := congrArg Subtype.val h1
+    rw [← hv]
+    exact h2
+  rcases Zassenhaus.card_centralizer_of_involution_hs hY u huo with h | h
+  · set Z' : ↥hs100P := ⟨Zassenhaus.PartA.S0.Zp, hZP⟩
+    have hZo : orderOf Z' = 2 :=
+      (Subgroup.orderOf_mk _ _).trans (orderOf_eq_prime (by rw [pow_two]; exact hZ2) hZ1)
+    have hcZ : Nat.card ↥(centralizer ({Z'} : Set ↥hs100P)) = 7680 := by
+      rw [Zassenhaus.PartA.S0.s0_card_cent_subtype]
+      exact cZ
+    exact key Zassenhaus.PartA.S0.z0 Zassenhaus.PartA.S0.zOrbit Z' rfl hz (fun a ha => List.mem_append_left _ ha)
+      (Zassenhaus.isConj_of_card_centralizer_eq_hs hY u Z' huo hZo (h.trans hcZ.symm))
+  · have hUP : Zassenhaus.PartA.S0.Up ∈ hs100P := (hX 0 (by norm_num)).2
+    set U' : ↥hs100P := ⟨Zassenhaus.PartA.S0.Up, hUP⟩
+    have hUo : orderOf U' = 2 :=
+      (Subgroup.orderOf_mk _ _).trans (Zassenhaus.PartA.S0.u_order hb hk)
+    have hcU : Nat.card ↥(centralizer ({U'} : Set ↥hs100P)) = 2880 := by
+      rw [Zassenhaus.PartA.S0.s0_card_cent_subtype]
+      exact cU
+    exact key Zassenhaus.PartA.S0.u0 Zassenhaus.PartA.S0.uOrbit U' rfl hu (fun a ha => List.mem_append_right _ ha)
+      (Zassenhaus.isConj_of_card_centralizer_eq_hs hY u U' huo hUo (h.trans hcU.symm))
+
 theorem fixed_of_clique
     {y1 y2 y3 : Equiv.Perm (Fin 100)}
     (h1 : y1 ∈ hs100R) (h2 : y2 ∈ hs100R) (h3 : y3 ∈ hs100R) (o1 : orderOf y1 = 3)
@@ -116,28 +185,14 @@ theorem fixed_of_clique
     (q13 : orderOf (y1 * y3) = 2) (q23 : orderOf (y2 * y3) = 2) :
     ∃ i : Fin 100, (X3 * y1) i = i := by
   have f := x3Facts_of_check Certificates.certificate27261
-  have hc : arrCertOK (fun k a => conjA 100 hsGens[k]! a) hsGens.size (validA 100)
-      (keyA 100 hsKeys) x3 x3Cert = true := arrCertOK_of_arrCertOKL f.cert
   have rx : Rep 100 x3 X3 := rep_of_validA f.valid
-  obtain ⟨i1, hi1, e1⟩ := exists_idx_three h1 o1
-  obtain ⟨i2, hi2, e2⟩ := exists_idx_three h2 o2
-  obtain ⟨i3, hi3, e3⟩ := exists_idx_three h3 o3
-  have rb : Rep 100 x3Cert.pts[i1]! y1 := e1 ▸ rep_of_validA (arrCertOK_valid hc hi1)
-  have rc : Rep 100 x3Cert.pts[i2]! y2 := e2 ▸ rep_of_validA (arrCertOK_valid hc hi2)
-  have rd : Rep 100 x3Cert.pts[i3]! y3 := e3 ▸ rep_of_validA (arrCertOK_valid hc hi3)
-  have hbn : x3Cert.pts[i1]! ∈ nbrL := by
-    simp only [nbrL, List.mem_filter]
-    exact ⟨getElem!_mem_toList _ hi1, adjA_of_orderOf_two rx rb p1⟩
-  have hcn : x3Cert.pts[i2]! ∈ nbrL := by
-    simp only [nbrL, List.mem_filter]
-    exact ⟨getElem!_mem_toList _ hi2, adjA_of_orderOf_two rx rc p2⟩
-  have hdn : x3Cert.pts[i3]! ∈ nbrL := by
-    simp only [nbrL, List.mem_filter]
-    exact ⟨getElem!_mem_toList _ hi3, adjA_of_orderOf_two rx rd p3⟩
+  obtain ⟨b1, hbn, rb⟩ := exists_nbrL h1 o1 p1
+  obtain ⟨b2, hcn, rc⟩ := exists_nbrL h2 o2 p2
+  obtain ⟨b3, hdn, rd⟩ := exists_nbrL h3 o3 p3
   rcases (cliqueOK_parts Certificates.certificate27265).2.2 _ hbn with hfix | hcl
   · simp only [fixedA, List.any_eq_true, List.mem_range, beq_iff_eq] at hfix
     obtain ⟨j, hj, hjfix⟩ := hfix
-    have rxb : Rep 100 (compA 100 x3 x3Cert.pts[i1]!) (X3 * y1) := rep_compA rx rb
+    have rxb : Rep 100 (compA 100 x3 b1) (X3 * y1) := rep_compA rx rb
     exact ⟨⟨j, hj⟩, Fin.ext (by rw [← rxb.apply hj]; exact hjfix)⟩
   · exfalso
     have h12 := adjA_of_orderOf_two rb rc q12

@@ -266,6 +266,111 @@ meta def runProg (defs : Std.HashMap Name CE) (rs : Rules) (inv : Std.HashMap Na
     for x in o do letters := letters.insert x
   return { outs, regs := R, letters }
 
+meta def regHP : Nat := 2 ^ 127 - 1
+
+abbrev RegHM := Nat × Nat × Nat × Nat
+
+meta def regHId : RegHM := (1, 0, 0, 1)
+
+meta def regHMul (x y : RegHM) : RegHM :=
+  let (a, b, c, d) := x
+  let (e, f, g, h) := y
+  ((a * e + b * g) % regHP, (a * f + b * h) % regHP, (c * e + d * g) % regHP, (c * f + d * h) % regHP)
+
+meta def regHPow (b e : Nat) : Nat := Id.run do
+  let mut r := 1
+  let mut b := b % regHP
+  let mut e := e
+  while e > 0 do
+    if e % 2 == 1 then r := r * b % regHP
+    b := b * b % regHP
+    e := e / 2
+  return r
+
+meta def regHInv (x : RegHM) : RegHM :=
+  let (a, b, c, d) := x
+  let di := regHPow ((a * d + (regHP - b * c % regHP)) % regHP) (regHP - 2)
+  (d * di % regHP, (regHP - b) * di % regHP, (regHP - c) * di % regHP, a * di % regHP)
+
+meta def regHRand (s : Nat) : Nat := (s * 6364136223846793005 + 1442695040888963407) % 2 ^ 128
+
+meta def regLettersH (defs : Std.HashMap Name CE) (rs : Rules) (inv : Std.HashMap Name Name)
+    (lits : Array Name) (prog : Array (Name × Array Nat)) (σ0 : Std.HashMap Nat (List Name))
+    (dflt : Bool) : MetaM (Std.HashSet Name) := do
+  let used ← IO.mkRef ({} : Std.HashSet (Name × Name))
+  let mut memo : Std.HashMap Name RegHM := {}
+  let mut seed : Nat := 20261104
+  let hOf (memo : Std.HashMap Name RegHM) (w : List Name) : RegHM :=
+    w.foldr (fun x acc => regHMul (memo.getD x regHId) acc) regHId
+  let partner (x : Name) : Option Name :=
+    if rs.contains (x, x) then some x
+    else match inv[x]? with
+      | some y => if defs.contains y then none else some y
+      | none => none
+  let mut stack : Array (Name × Bool) := lits.reverse.map (·, false)
+  while h : stack.size > 0 do
+    let (x, done) := stack.back
+    stack := stack.pop
+    if memo.contains x then continue
+    match defs[x]? with
+    | none =>
+      let mut rnd : Array Nat := #[]
+      for _ in [0:4] do
+        seed := regHRand seed
+        rnd := rnd.push (seed % regHP)
+      let m : RegHM := (rnd[0]!, rnd[1]!, rnd[2]!, rnd[3]!)
+      let v ← match partner x with
+        | some y =>
+          if y == x then pure (regHMul m (regHMul (1, 0, 0, regHP - 1) (regHInv m)))
+          else match memo[y]? with
+            | some my => pure (regHInv my)
+            | none => pure m
+        | none => pure m
+      memo := memo.insert x v
+    | some e =>
+      if done then
+        memo := memo.insert x (hOf memo (e.a :: e.ws.toList))
+      else
+        stack := stack.push (x, true)
+        for y in (#[e.a] ++ e.ws).reverse do
+          unless memo.contains y do stack := stack.push (y, false)
+  let mut byExp : Std.HashMap RegHM Name := {}
+  for x in lits do
+    let f := memo.getD x regHId
+    unless byExp.contains f do byExp := byExp.insert f x
+  let mut R := σ0
+  let mut letters : Std.HashSet Name := {}
+  for (fn, a) in prog do
+    let get (r : Nat) : MetaM (List Name) := do
+      match R[r]? with
+      | some w => pure w
+      | none => if dflt then pure [] else throwError "bm_reg_cert: register {r} is read unset"
+    let (o, k) ← if fn == `mu then do
+        let raw := (← get a[0]!) ++ (← get a[1]!)
+        pure (← red rs used raw, a[2]!)
+      else if fn == `pwr then do
+        let u ← get a[1]!
+        let raw := (List.replicate a[0]! u).flatten
+        let o ← match byExp[hOf memo raw]? with
+          | some x => pure [x]
+          | none => red rs used raw
+        pure (o, a[2]!)
+      else do
+        let u ← get a[0]!
+        match u with
+        | [] => pure ([], a[1]!)
+        | _ =>
+          let x ← match u with
+            | [x] => pure x
+            | _ => do
+              let some x := byExp[hOf memo u]? | throwError "bm_reg_cert: `iv` of a word of no literal at {a}"
+              pure x
+          let some y := inv[x]? | throwError "bm_reg_cert: no inverse rule for {x}"
+          pure ([y], a[1]!)
+    R := R.insert k o
+    for x in o do letters := letters.insert x
+  return letters
+
 elab "bm_reg_cert " "[" ps:ident,* "]" : tactic => withMainContext do
   let Ps := ps.getElems.map (·.getId)
   let goal ← getMainGoal
@@ -327,10 +432,9 @@ elab "bm_reg_cert " "[" ps:ident,* "]" : tactic => withMainContext do
   for (r, o) in init.reverse do
     σ0 := σ0.insert r (match o with | none => [] | some n => [n])
   let atoms0 : Std.HashSet Name := lits.foldl (fun s x => if defs.contains x then s else s.insert x) {}
-  let used0 ← IO.mkRef ({} : Std.HashSet (Name × Name))
-  let r1 ← runProg defs rs inv lits atoms0 prog σ0 dflt false used0
+  let letters1 ← regLettersH defs rs inv lits prog σ0 dflt
   let mut atoms := atoms0
-  for x in r1.letters do atoms := atoms.insert x
+  for x in letters1 do atoms := atoms.insert x
   for (_, w) in σ0 do
     for x in w do atoms := atoms.insert x
   let usedA ← IO.mkRef ({} : Std.HashSet (Name × Name))

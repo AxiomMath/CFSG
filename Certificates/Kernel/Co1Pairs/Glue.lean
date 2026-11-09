@@ -7,6 +7,7 @@ public import Certificates.Kernel.Co1Pairs.Orb3
 public import Certificates.Kernel.Co1Pairs.Three
 public import Certificates.Kernel.Co1ThreeK.GlueMoore
 public import CFSG.Certificates.Kernel.F2Set24Sound
+public import CFSG.Certificates.Kernel.F2Orb24Sound
 public import CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1Three
 public import CFSG.Sporadic.Co1.Module.InvSpec
 import all Init.Data.Nat.Fold
@@ -173,6 +174,18 @@ theorem orbit_dvd {a b : ↥GA} {Xa Xb : Nat} {ca cb : List Nat} {oa ob : List (
   rw [← card_closure_pair, ← hn]
   exact ncard_kOrbit_dvd _ _
 
+theorem orbit_dvd_s {a b : ↥GA} {Xa Xb : Nat} {ca cb : List Nat} {root n : Nat}
+    {es : List (Nat × Bool)} (ra : MRep (unpack 24 24 Xa) (a : GL24))
+    (rb : MRep (unpack 24 24 Xb) (b : GL24))
+    (hca : ca.toArray = transposeRows 24 (unpack 24 24 Xa))
+    (hcb : cb.toArray = transposeRows 24 (unpack 24 24 Xb))
+    (h : CFSG.KC.F2Orb24.sparseK ca cb root n es = true) :
+    n ∣ Nat.card (Subgroup.closure ({a, b} : Set ↥GA)) := by
+  have hP : ActsBy (a : GL24) ca.toArray := by rw [hca]; exact MRep.actsBy ra
+  have hQ : ActsBy (b : GL24) cb.toArray := by rw [hcb]; exact MRep.actsBy rb
+  rw [← card_closure_pair, ← CFSG.KS.F2Orb24.orbit_of_sparseK hP hQ h]
+  exact ncard_kOrbit_dvd _ _
+
 theorem c2_eq : c2.toArray = transposeRows 24 (unpack 24 24 K2) := by decide +kernel
 theorem c3_eq : c3.toArray = transposeRows 24 (unpack 24 24 K3) := by decide +kernel
 theorem c4_eq : c4.toArray = transposeRows 24 (unpack 24 24 K4) := by decide +kernel
@@ -244,11 +257,11 @@ theorem facts214033 :
   refine ⟨⟨order_three r0 t0, _, _, c0, c1, o0, o1,
       dvd_of_order (prod_order (by norm_num) q0 q1 ch214033p kp)⟩,
     ⟨order_three r1 t1, _, _, c2', c3', o2, o3,
-      dvd_trans (by norm_num) (orbit_dvd q2 q3 c2_eq c3_eq ch214033o1)⟩,
+      dvd_trans (by norm_num) (orbit_dvd_s q2 q3 c2_eq c3_eq ch214033s1)⟩,
     ⟨order_three r2 t2, _, _, c4', c5', o4, o5,
-      dvd_trans (by norm_num) (orbit_dvd q4 q5 c4_eq c5_eq ch214033o2)⟩,
+      dvd_trans (by norm_num) (orbit_dvd_s q4 q5 c4_eq c5_eq ch214033s2)⟩,
     ⟨order_three r3 t3, _, _, c6', c7', o6, o7,
-      dvd_trans (by norm_num) (orbit_dvd q6 q7 c6_eq c7_eq ch214033o3)⟩⟩
+      dvd_trans (by norm_num) (orbit_dvd_s q6 q7 c6_eq c7_eq ch214033s3)⟩⟩
 
 end CertificateChecks.KernelCo1Pairs
 

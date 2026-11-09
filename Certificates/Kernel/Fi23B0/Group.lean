@@ -226,12 +226,12 @@ theorem L3_eq : L3 = lvl 2 ⊓ MulAction.stabilizer J xP := by
     idx_of_lt g (by norm_num : 0 < 31671), idx_of_lt g (by norm_num : 1 < 31671), Fin.ext_iff]
 
 theorem card_lvl_two : Nat.card (lvl 2) = 36787322880 := by
-  rw [chain_facts'.2.2 2 (by rw [chainBase_size]; norm_num), chainBase_size,
-    show Finset.Ico 2 6 = {2, 3, 4, 5} by decide, Finset.prod_insert (by decide),
-    Finset.prod_insert (by decide), Finset.prod_insert (by decide), Finset.prod_singleton,
-    tree_size_of (l := 2) rfl, tree_size_of (l := 3) rfl, tree_size_of (l := 4) rfl,
-    tree_size_of (l := 5) rfl]
-  norm_num
+  rw [chain_facts'.2.2 2 (by rw [chainBase_size]; norm_num), chainBase_size]
+  have hs : ∀ l ∈ Finset.Ico 2 6, trees[l]!.pts.size =
+      [31671, 3510, 25344, 288, 1260, 4].getD l 0 := fun l hl =>
+    tree_size_of (by have := (Finset.mem_Ico.mp hl).2; interval_cases l <;> rfl)
+  rw [Finset.prod_congr rfl hs]
+  decide
 
 theorem card_L3 : Nat.card L3 = 53084160 := by
   have h := orbit_stab (lvl 2) xP

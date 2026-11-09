@@ -93,9 +93,26 @@ theorem kFR2 : allN 7 (fun i => bIf(Nat.beq (fr2 i) 0, true,
           Nat.beq r.2.2 (Nat.mod (Nat.sub (fr2 i) 1) 8))))))) = true := by
   quickRfl
 
-theorem kTail2 : ptK 8330 14 10 T72.NR T72.NR T72.LT T72.PT T72.QT S72.LR fr2
+@[expose] noncomputable def p20 (k : Nat) : Nat := rpt 14 (mask 14) (S72.LR 0) k
+
+@[expose] noncomputable def ep2 (k : Nat) : Nat := fld(EP2 0, Nat.mul 16 k, 65535)
+
+@[expose] noncomputable def rb2 (r : Nat) : Nat := fld(EP2 1, Nat.mul 16 r, 65535)
+
+@[expose] noncomputable def nr2 : Nat := fld(EP2 2, 0, 65535)
+
+theorem kRb2 : allN nr2 (fun r => Nat.blt (rb2 r) (rcnt (S72.LR 0))) = true := by quickRfl
+
+theorem kOrb2 : allN (rcnt (S72.LR 0)) (fun k => bAnd(Nat.blt (Nat.mod (ep2 k) 128) 98,
+    bAnd(Nat.blt (Nat.div (ep2 k) 128) nr2,
+      Nat.beq (cv2 (Nat.mod (ep2 k) 128) (p20 (rb2 (Nat.div (ep2 k) 128)))) (p20 k)))) = true := by
+  quickRfl
+
+theorem kTail2 : allN nr2 (fun r => ptK 8330 14 10 T72.NR T72.NR T72.LT T72.PT T72.QT S72.LR fr2
     CFSG.RankThree.PartOne.heSevenCase2Rels x2 bs CFSG.RankThree.PartOne.heSevenKeys ckey2 C2.SK
-    98 7 0 (fun y => y) (fun y => y) (fun _ => 0) = true := by
+    98 6 1 (fun y => trPtT 14 T72.NR T72.NR T72.LT T72.PT 0 (rb2 r) y)
+    (fun y => trInvPtT 14 10 T72.NR T72.NR T72.LT T72.PT 0 (rb2 r) y)
+    (imgExt (fun _ => 0) 0 (p20 (rb2 r)))) = true := by
   quickRfl
 
 end CertificateChecks.KernelHeLoc.Seven

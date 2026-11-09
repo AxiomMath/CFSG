@@ -49,14 +49,16 @@ theorem uv_comm {x : Equiv.Perm (Fin 2300)} (hx : PRep 2300 12 xB x) (i : Fin 2)
     fin_cases i
     · exact lvOk_iff.2 ⟨by norm_num, by decide⟩
     · exact lvOk_iff.2 ⟨by norm_num, by decide⟩
-  have hu : ∀ z : Fin 2300, ((uvL i) z : ℕ) = pg 12 4095 (getS SL i.val) z :=
+  rw [uvL]
+  have hu : ∀ z : Fin 2300, ((sL i.val) z : ℕ) = pg 12 4095 (getS SL i.val) z :=
     fun z => (prepL (j := i.val) (by omega) z).symm
   have hxz : ∀ z : Fin 2300, (x z : ℕ) = pg 12 4095 xB z := fun z => (hx z).symm
-  apply Equiv.ext
-  intro y
-  apply Fin.ext
-  rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hu, hxz, hxz, hu]
-  exact lvCommK_sound ch17351_lc hj y.2
+  refine Equiv.Perm.ext fun y => Fin.ext ?_
+  exact (congrArg Fin.val (Equiv.Perm.mul_apply (sL i.val) x y)).trans
+    (((hu (x y)).trans (congrArg (pg 12 4095 (getS SL i.val)) (hxz y))).trans
+    ((lvCommK_sound ch17351_lc hj y.2).trans
+    (((congrArg (pg 12 4095 xB) (hu y)).symm.trans (hxz (sL i.val y)).symm).trans
+    (congrArg Fin.val (Equiv.Perm.mul_apply x (sL i.val) y)).symm)))
 
 theorem Lg_le {x : Equiv.Perm (Fin 2300)} (hx : PRep 2300 12 xB x) : Lg ≤ centP co2P x := by
   rw [Lg, closure_le]
@@ -153,7 +155,8 @@ theorem fix_of_centL
     intro j hj
     have hjL : sL j ∈ GLc 1 := subset_closure ⟨j, hj, rfl⟩
     have hs0 : sL j (bL 0) = bL 0 := GLc_fix 1 (by norm_num) _ hjL 0 (by norm_num)
-    rw [← sL_apply (lvOk_iff.1 hj).1 _ (g (bL 0)).2, hcomm _ (GLc_le 1 hjL), hs0]
+    exact ((prepL (lvOk_iff.1 hj).1 (g (bL 0))).trans
+      (congrArg Fin.val (hcomm _ (GLc_le 1 hjL) (bL 0)))).trans (congrArg (fun z => (g z : ℕ)) hs0)
   have hlt : (g (bL 0) : ℕ) < 2 := by
     by_contra hge
     obtain ⟨j, hj, hne⟩ := lfFacts.1 _ hp (by omega)

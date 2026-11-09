@@ -10,7 +10,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#ks_rawchain_sl2_data CertificateChecks.KernelI242.Y 3510 12 2 64
+#ks_rawchain_sl2_data CertificateChecks.KernelI242.Y 3510 12 0 64
   CFSG.HardMathSupport.Solomon.Coordinator.i242S CertificateChecks.KernelI242.i242BaseA 8
   CFSG.EvenSmallLie.OmegaEight.omegaWords
 

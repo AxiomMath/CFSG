@@ -78,7 +78,7 @@ theorem rankLiftDatum_of_check (hp : D.p.Prime)
       apply hmodf m hm
       simp only [RMod.facts, List.mem_append]
       exact Or.inl hf
-    let DS := NMod.spec Sp hC' m.nm hf hwfm
+    let DS := NMod.specN Sp hC' m.nm hf hwfm
     have hDSn : DS.n = m.nm.basis.length := rfl
     refine ⟨DS, ?_, ?_, ?_⟩
     · have hNA : DS.NoAlt := fun B hB hinv => noAlt_of_altOK halt B hB hinv

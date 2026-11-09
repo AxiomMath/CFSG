@@ -8,8 +8,8 @@ public section
 
 namespace CFSG.KC.LL.Ly7
 
-#kc_repo #kc_json_gz CFSG.KC.LL.Ly7
-  "CFSG/Certificates/Kernel/Local/Ly/data/Lay7.json.gz" 552 4867022115096163093
+#kc_repo #kc_json CFSG.KC.LL.Ly7
+  "CFSG/Certificates/Kernel/Local/Ly/data/Lay7.json" 552 4867022115096163093
   (L7 : Nat) (H7 : Nat) (CM7 : Nat) (RM7 : Nat) (ONE7 : Nat) (LV7 : Nat) (HV7 : Nat)
 
 @[expose] noncomputable def mul7 (A B : Nat) : Nat := CFSG.KC.Ord.mulR (nat_lit 5) (nat_lit 8) (nat_lit 56) (nat_lit 7) (nat_lit 4) L7 H7 CM7 RM7 A B

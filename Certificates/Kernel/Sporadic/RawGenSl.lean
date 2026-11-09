@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Sporadic.RawGen
 public import CFSG.Certificates.Kernel.Spor.RawSlSound
+public import CFSG.Certificates.Kernel.Spor.RawSlPSound
 public meta import CFSG.Certificates.Kernel.Common.Tab
 public meta import Certificates.Kernel.Sporadic.RawGen
 public meta import Lean
@@ -88,6 +89,7 @@ elab "#ks_rawchain_sl " pre:ident nn:num ww:num ch:num lch:num lm:num sId:ident 
       #[nE, wE, mE, nwE, idE, c `S, c `SI, kSE, lit kO, mkConst dN, nbE, c `BP])
     if lim == 0 then
       addThm (P ++ `head) headT reflBoolTrue
+    addThm (P ++ `szok) (isTrue (mkApp2 (mkConst ``CFSG.KS.Raw.szOK) nE wE)) reflBoolTrue
     let stepsE := fun (iE : Expr) => mkAppN (mkConst ``CFSG.KS.Raw.stepsAt) #[nE, wE, c `S, kSE, c `BP, iE]
     let rootE := fun (iE : Expr) => mkAppN (mkConst ``CFSG.KC.Enum.pg) #[wE, mE, c `BP, iE]
     let lvT := fun (iE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.Raw.levelK)
@@ -105,7 +107,15 @@ elab "#ks_rawchain_sl " pre:ident nn:num ww:num ch:num lch:num lm:num sId:ident 
       let cnt := if lim == 0 then NL else min lim NL
       for s in [0:cnt] do
         let nm := P ++ Name.mkSimple s!"ls{i}_{s}"
-        addThm nm (mkApp slP (lit s)).headBeta reflBoolTrue
+        let pN := P ++ Name.mkSimple s!"lp{i}_{s}"
+        let lo := mulE (lit s) (lit LCH)
+        let sArgs := #[nE, wE, c `S, c `SI, c `TR, c `TRI, kSE, stepsE iE, mkApp (c `LR) iE, lo,
+          lit LCH]
+        addThm pN (isTrue (mkAppN (mkConst ``CFSG.KS.Raw.lvSlKP)
+          #[nE, wE, mE, nwE, c `S, c `SI, c `TR, c `TRI, kSE, stepsE iE, mkApp (c `LR) iE, lo,
+            lit LCH])) reflBoolTrue
+        addThm nm (mkApp slP (lit s)).headBeta
+          (mkAppN (mkConst ``CFSG.KS.Raw.lvSlK_of_P) (sArgs ++ #[mkConst (P ++ `szok), mkConst pN]))
       if lim == 0 then
         let hsV := forallChain slP NL fun s => mkConst (P ++ Name.mkSimple s!"ls{i}_{s}")
         let hN := mkApp2 (mkConst ``Nat.le_of_ble_eq_true) nE (mulE (lit NL) (lit LCH))

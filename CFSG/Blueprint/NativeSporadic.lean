@@ -2,6 +2,8 @@ module
 
 public import Mathlib
 public import TauCeti.GroupTheory.SpecificGroups.CFSG.Index
+public import CFSG.Blueprint.NativeSporadicData.BRows1
+public import CFSG.Blueprint.NativeSporadicData.BRows2
 
 public noncomputable section
 
@@ -120,8 +122,13 @@ def ThSeed1 : String := include_str "Data"/"ThG1-f2r248B0.m1"
 def ThSeed2 : String := include_str "Data"/"ThG1-f2r248B0.m2"
 abbrev Th : Type := (seedMonoid 2 248 1 ThSeed1 ThSeed2)ˣ
 
-def BSeed1 : String := include_str "Data"/"BG1-f2r4370B0.m1"
-def BSeed2 : String := include_str "Data"/"BG1-f2r4370B0.m2"
+@[expose] def render (d : ℕ) (rows : List ℕ) : String :=
+  " 1     2  " ++ toString d ++ "  " ++ toString d ++ "\n" ++ String.ofList (rows.flatMap fun r =>
+    (List.range d).flatMap (fun j => (if j ≠ 0 ∧ j % 80 = 0 then ['\n'] else []) ++
+      [if r.testBit j then '1' else '0']) ++ ['\n'])
+
+def BSeed1 : String := render 4370 BRows1
+def BSeed2 : String := render 4370 BRows2
 abbrev B : Type := (seedMonoid 2 4370 1 BSeed1 BSeed2)ˣ
 
 @[expose] def y443Adjacent (i j : Fin 12) : Prop :=

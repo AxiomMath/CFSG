@@ -70,12 +70,12 @@ theorem c125005 : prodCheck gen13Gens gen13Steps 278 288 = true := by
 theorem c125006 : prodCheck gen13Gens gen13Steps 288 311 = true := by
   rw [steps_eq]
   exact prodCheck_of CFSG.KD.SLP.c125006.idx
-    (kd_slpK% data_ok CFSG.KD.SLP.c125006 CFSG.KD.SLP.Gen13 12 CFSG.KD.SLP.c125006.E)
+    (kd_slpK% data_ok CFSG.KD.SLP.c125006 CFSG.KD.SLP.Gen13 288 CFSG.KD.SLP.c125006.E)
 
 theorem c125007 : prodCheck gen13Gens gen13Steps 311 322 = true := by
   rw [steps_eq]
   exact prodCheck_of CFSG.KD.SLP.c125007.idx
-    (kd_slpK% data_ok CFSG.KD.SLP.c125007 CFSG.KD.SLP.Gen13 12 CFSG.KD.SLP.c125007.E)
+    (kd_slpK% data_ok CFSG.KD.SLP.c125007 CFSG.KD.SLP.Gen13 234 CFSG.KD.SLP.c125007.E)
 
 theorem c125008 : prodTargetsCheck gen13Gens gen13Steps 322 gen13Targets = true := by
   rw [steps_eq]

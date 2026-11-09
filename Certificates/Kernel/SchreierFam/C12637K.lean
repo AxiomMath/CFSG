@@ -79,7 +79,7 @@ theorem atXB {j : Nat} (hj : j < 4) :
 theorem chainXA : ChainK 35 6 (heThreeSigmaA.map (permOrId 35)) heThreeChainWordsA
     (#v[0, 1, 2, 3] : Vector (Fin 35) 4) XAQ.S XAQ.SI XAQ.LR XAQ.TR XAQ.TRI 8 XAQ.BP 3 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, XAQ.head, XAQ.hl,
-    by norm_num, XAQ.hs⟩
+    by norm_num, .inl XAQ.hs⟩
   have hj' : j < heThreeSigmaA.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   exact imageList_bind (atXA (len_XA ▸ hj'))
@@ -87,7 +87,7 @@ theorem chainXA : ChainK 35 6 (heThreeSigmaA.map (permOrId 35)) heThreeChainWord
 theorem chainXB : ChainK 8 4 (heThreeSigmaB.map (permOrId 8)) heThreeChainWordsB
     (#v[1, 0, 2] : Vector (Fin 8) 3) XBQ.S XBQ.SI XBQ.LR XBQ.TR XBQ.TRI 6 XBQ.BP 1 8 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, XBQ.head, XBQ.hl,
-    by norm_num, XBQ.hs⟩
+    by norm_num, .inl XBQ.hs⟩
   have hj' : j < heThreeSigmaB.length := by simpa using hj
   rw [getD_map_lt _ #[] _ hj']
   exact imageList_bind (atXB (len_XB ▸ hj'))

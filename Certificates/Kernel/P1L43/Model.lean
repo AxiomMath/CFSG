@@ -139,6 +139,33 @@ theorem cent_facts {P M N ng : ℕ} {Uo : Option ℕ} {G GI : ℕ → ℕ} (hsi 
   have hG := (prep_gen hh k hk).1
   exact mem_inf.2 ⟨mem_of_sP hG h2.1, mem_centralizer_singleton_iff.2 (comm_of_cm hG hP h2.2)⟩
 
+theorem cent_facts_dvd {P M N ng : ℕ} {Uo : Option ℕ} {G GI : ℕ → ℕ} (hsi : selfInv P = true)
+    (hrow : rowK P Uo G ng = true) (hh : headK 80 7 ng G GI = true)
+    (hdvd : N ∣ Nat.card (closure ((fun k => pp (G k)) '' {k | k < ng})))
+    (hcls : M * Nat.card ↥(𝒞 (pp P)) = 6065280) (hMN : M * N = 6065280) :
+    closure ((fun k => pp (G k)) '' {k | k < ng}) = 𝒞 (pp P) ∧ Nat.card ↥(𝒞 (pp P)) = N := by
+  have hP := prep_si hsi
+  have hrow' := hrow
+  unfold rowK at hrow'
+  simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at hrow'
+  obtain ⟨-, -, hgen⟩ := hrow'
+  rw [CFSG.KS.Raw.Orb.allN_iff] at hgen
+  have hpos : 0 < M := by
+    rcases Nat.eq_zero_or_pos M with h | h
+    · rw [h] at hMN
+      omega
+    · exact h
+  have hC : Nat.card ↥(𝒞 (pp P)) = N := Nat.eq_of_mul_eq_mul_left hpos (hcls.trans hMN.symm)
+  have hsub : closure ((fun k => pp (G k)) '' {k | k < ng}) ≤ 𝒞 (pp P) := by
+    rw [closure_le]
+    rintro _ ⟨k, hk, rfl⟩
+    have h2 := hgen k hk
+    rw [Bool.and_eq_true] at h2
+    have hG := (prep_gen hh k hk).1
+    exact mem_inf.2 ⟨mem_of_sP hG h2.1, mem_centralizer_singleton_iff.2 (comm_of_cm hG hP h2.2)⟩
+  exact cent_facts hsi hrow hh
+    (le_antisymm (hC ▸ card_le_of_le hsub) (Nat.le_of_dvd Nat.card_pos hdvd)) hcls hMN
+
 theorem norm_facts {P ng N nc : ℕ} {G GI T S C CI : ℕ → ℕ} (hsi : selfInv P = true)
     (hn : normK P G ng N T S C CI nc = true) (hhG : headK 80 7 ng G GI = true)
     (hpts : ∀ i < N, ∀ y, PRep 80 7 (T i) y → y ∈ closure ((fun k => pp (G k)) '' {k | k < ng}))
@@ -481,24 +508,15 @@ theorem card_of_cls {N M : ℕ} {t : Equiv.Perm (Fin 80)}
 
 theorem centD0 : closure ((fun k => pp (CD0.G k)) '' {k | k < CD0.ng}) =
     𝒞 (pp (K2106.T K2106.r0)) ∧ Nat.card ↥(𝒞 (pp (K2106.T K2106.r0))) = CD0.N :=
-  cent_facts (si (by simp)) rows.1 CD0.h
-    (gf CD0.h (fun i hi => CD0.cl i (lt_of_lt_of_le hi (by decide)))
-      (fun i hi => CD0.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
-      CD0.k).1 c2106_0.2.1 (by decide)
+  cent_facts_dvd (si (by simp)) rows.1 CD0.h cdvdD0 c2106_0.2.1 (by decide)
 
 theorem centD2 : closure ((fun k => pp (CD2.G k)) '' {k | k < CD2.ng}) =
     𝒞 (pp (K5265.T K5265.r0)) ∧ Nat.card ↥(𝒞 (pp (K5265.T K5265.r0))) = CD2.N :=
-  cent_facts (si (by simp)) rows.2.2.1 CD2.h
-    (gf CD2.h (fun i hi => CD2.cl i (lt_of_lt_of_le hi (by decide)))
-      (fun i hi => CD2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
-      CD2.k).1 c5265_0.2.1 (by decide)
+  cent_facts_dvd (si (by simp)) rows.2.2.1 CD2.h cdvdD2 c5265_0.2.1 (by decide)
 
 theorem centDS2 : closure ((fun k => pp (CDS2.G k)) '' {k | k < CDS2.ng}) =
     𝒞 (pp (K8424.T K8424.r0)) ∧ Nat.card ↥(𝒞 (pp (K8424.T K8424.r0))) = CDS2.N :=
-  cent_facts (si (by simp)) rows.2.2.2.2.2.2.2.2.2.2 CDS2.h
-    (gf CDS2.h (fun i hi => CDS2.cl i (lt_of_lt_of_le hi (by decide)))
-      (fun i hi => CDS2.tr i (lt_of_lt_of_le hi (by decide))) (by decide) (by decide +kernel)
-      CDS2.k).1 c8424.2.1 (by decide)
+  cent_facts_dvd (si (by simp)) rows.2.2.2.2.2.2.2.2.2.2 CDS2.h cdvdDS2 c8424.2.1 (by decide)
 
 theorem fD0 : A6F (pp (K2106.T K2106.r0)) (closure ((fun k => pp (LD0.G k)) '' {k | k < LD0.ng}))
     LD0.T := by

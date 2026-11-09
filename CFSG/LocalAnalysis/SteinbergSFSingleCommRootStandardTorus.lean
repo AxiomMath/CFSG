@@ -96,39 +96,32 @@ local notation "𝐙" => pull φ (antiUnipotentCenter K)
 local notation "𝐀[" i "]" => pull φ (rootA K i)
 local notation "𝐔[" i "]" => pull φ (rootU K i)
 set_option quotPrecheck false in
-local notation "𝐃[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootU K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐃[" i "]" => SixG.sgD φ t i
 set_option quotPrecheck false in
-local notation "𝐄[" i "]" => (CFSG.pCore 2 (normalizer
-  (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G))).map
-  (normalizer (((zpowers t ⊔ pull φ (rootA K i) : Subgroup G) : Subgroup G) : Set G)).subtype
+local notation "𝐄[" i "]" => SixG.sgE φ t i
 set_option quotPrecheck false in
 local notation "𝐄₀" => (𝐄[Axis.one] ⊓ 𝐄[Axis.two] : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐂" => centralizer ({t} : Set G)
 local notation "𝐉" => pull φ (diagTorus K)
 set_option quotPrecheck false in
-local notation "𝐅" => closure {x : G | ∃ e ∈ 𝐄₀, ∃ j ∈ pull φ (diagTorus K),
-  x = e⁻¹ * (j⁻¹ * e * j)}
+local notation "𝐅" => SixG.sgF φ t
 local notation "𝐉[" i "]" => pull φ (axisTorus K i)
 set_option quotPrecheck false in
 local notation "𝐖[" i "]" => (𝐅 ⊓ centralizer (𝐉[i] : Set G) : Subgroup G)
 set_option quotPrecheck false in
 local notation "𝐊[" i "]" => (𝐀[i] ⊔ (𝐅 ⊓ 𝐃[i]) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₁[" i "]" => (CFSG.pCore 2 (normalizer ((𝐃[i] : Subgroup G) : Set G))).map
-  (normalizer ((𝐃[i] : Subgroup G) : Set G)).subtype
+local notation "𝐏₁[" i "]" => SixG.sgP₁ φ t i
 set_option quotPrecheck false in
 local notation "𝐄𝐧[" i "]" => (normalizer ((𝐄[i] : Subgroup G) : Set G) ⊓
   normalizer ((𝐊[i] : Subgroup G) : Set G) : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐏₂[" i "]" => (CFSG.pCore 2 𝐄𝐧[i]).map 𝐄𝐧[i].subtype
+local notation "𝐏₂[" i "]" => SixG.sgP₂ φ t i
 set_option quotPrecheck false in
 local notation "𝐏₀[" i "]" => (𝐏₁[i] ⊓ 𝐏₂[Axis.swap i] : Subgroup G)
 set_option quotPrecheck false in
-local notation "𝐌₀[" i "]" => closure {x : G | ∃ p ∈ 𝐏₀[i], ∃ j ∈ pull φ (diagTorus K),
-  x = p⁻¹ * (j⁻¹ * p * j)}
+local notation "𝐌₀[" i "]" => SixG.sgM₀ φ t i
 set_option quotPrecheck false in
 local notation "𝐕[" i "," k "]" => (𝐌₀[i] ⊓ centralizer (𝐉[k] : Set G) : Subgroup G)
 
@@ -325,7 +318,8 @@ theorem W_swap_le_closure (h : FCHyp L K n φ t) (i : Axis) :
   intro w hw
   have hJW : 𝐉[i] ≤ normalizer (𝐖[i.swap] : Set G) := fun b hb =>
     mem_normalizer_of_conj_le fun _ hx => by
-      simpa using conj_torus_mem_W h i.swap (inv_mem (axisTorus_le_J0 i hb)) hx
+      have hc : _ ∈ 𝐖[i.swap] := conj_torus_mem_W h i.swap (inv_mem (axisTorus_le_J0 i hb)) hx
+      simpa using hc
   obtain ⟨d, hd, c, hc, rfl⟩ := exists_mul_of_coprime Nat.prime_two hJW (isPGroup_W h i.swap)
     (not_two_dvd_card_J h i) hw
   have hc1 : c = 1 := by
@@ -343,7 +337,8 @@ theorem inv_mul_conj_mem_W_swap (h : FCHyp L K n φ t) (i : Axis) {f : G} (hf : 
     F_comm h (W_le_F _ hx) (W_le_F _ hy)).mp hfW
   have hc : b * w₁ = w₁ * b := mem_centralizer_iff.mp (mem_inf.mp hw₁).2 b hb
   have hb' : b * w₂ * b⁻¹ ∈ 𝐖[i.swap] := by
-    simpa using conj_torus_mem_W h i.swap (inv_mem (axisTorus_le_J0 i hb)) hw₂
+    have hc : _ ∈ 𝐖[i.swap] := conj_torus_mem_W h i.swap (inv_mem (axisTorus_le_J0 i hb)) hw₂
+    simpa using hc
   have e : (w₁ * w₂)⁻¹ * (b * (w₁ * w₂) * b⁻¹) = w₂⁻¹ * (b * w₂ * b⁻¹) := by
     calc (w₁ * w₂)⁻¹ * (b * (w₁ * w₂) * b⁻¹) = w₂⁻¹ * w₁⁻¹ * ((b * w₁) * w₂ * b⁻¹) := by group
       _ = w₂⁻¹ * (b * w₂ * b⁻¹) := by rw [hc]; group
@@ -530,7 +525,7 @@ theorem quotient_V (h : FCHyp L K n φ t) (i : Axis) (hne : ⁅𝐀[i], 𝐅 ⊓
           (t⁻¹ * ((x : G)⁻¹ * t * x)) * (t⁻¹ * ((x : G)⁻¹ * t * x)) := by
   have hP : ∀ x ∈ 𝐕[i, i], x ∈ 𝐏₁[i] := fun x hx =>
     (mem_inf.mp (M_le_P₀ h i (mem_inf.mp hx).1)).1
-  refine exists_quotient_equiv_of_hom (V := 𝐕[i, i]) (W := 𝐖[i]) (U := 𝐔[i])
+  refine exists_quotient_equiv_of_hom
     (fun x => (t⁻¹ * (x⁻¹ * t * x)) * (t⁻¹ * (x⁻¹ * t * x)))
     (fun x hx => sq_kappa_mem_U h i hne hbot (hP x hx))
     (fun x hx y hy => sq_kappa_mul h i hne hbot (hP x hx) (hP y hy)) (fun x hx => ?_)

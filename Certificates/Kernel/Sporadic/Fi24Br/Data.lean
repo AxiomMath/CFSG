@@ -32,9 +32,9 @@ namespace CFSG.KD.BrFi24
 end CFSG.KD.BrFi24
 
 #kc_repo #kc_ktree CFSG.KD.BrFi24 MT "Certificates/Kernel/Sporadic/Fi24Br/data/mats.bin" 152491 5 3964766 4025252237917697900
-#kc_repo #kc_json_family_gz CFSG.KD.BrFi24 "Certificates/Kernel/Sporadic/Fi24Br/data/lists.json.gz" 2898 4682609518542707417
+#kc_repo #kc_json_family CFSG.KD.BrFi24 "Certificates/Kernel/Sporadic/Fi24Br/data/lists.json" 2898 4682609518542707417
   (PS : List Nat) (WC : List Nat) (PR : List Nat)
-#kc_repo #kc_json_gz CFSG.KD.BrFi24 "Certificates/Kernel/Sporadic/Fi24Br/data/lists.json.gz" 2898 4682609518542707417
+#kc_repo #kc_json CFSG.KD.BrFi24 "Certificates/Kernel/Sporadic/Fi24Br/data/lists.json" 2898 4682609518542707417
   (CVL : List Nat)
 
 public section

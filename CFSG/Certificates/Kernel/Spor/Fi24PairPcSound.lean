@@ -354,6 +354,117 @@ theorem card_le_of (hN : PtHyp L NV net) (hinv : ∀ z, z ≠ 0 → L (-z) = (L 
 
 end Bound
 
+theorem ckN_succ (M t i : Nat) : ckN M (t + 1) i =
+    nIf(Nat.beq (Nat.land i 1) 0,
+      Nat.land (ckN M t (Nat.shiftRight i 1))
+        (Nat.sub (Nat.shiftLeft 1 (Nat.shiftLeft 1 (Nat.sub 18 t))) 1),
+      Nat.shiftRight (ckN M t (Nat.shiftRight i 1)) (Nat.shiftLeft 1 (Nat.sub 18 t))) := by
+  change strictN (Nat.shiftRight i 1) (fun h => nIf(Nat.beq (Nat.land i 1) 0,
+    Nat.land (ckN M t h) (Nat.sub (Nat.shiftLeft 1 (Nat.shiftLeft 1 (Nat.sub 18 t))) 1),
+    Nat.shiftRight (ckN M t h) (Nat.shiftLeft 1 (Nat.sub 18 t)))) = _
+  rw [strictN_eq]
+
+theorem ckN_testBit (M : Nat) : ∀ t, t ≤ 19 → ∀ i, i < 2 ^ t → ∀ r, r < 2 ^ (19 - t) →
+    (ckN M t i).testBit r = M.testBit (i * 2 ^ (19 - t) + r)
+  | 0, _, i, hi, r, _ => by
+    obtain rfl : i = 0 := by omega
+    rw [Nat.zero_mul, Nat.zero_add]
+    rfl
+  | t + 1, ht, i, hi, r, hr => by
+    have hw : 2 ^ (19 - t) = 2 * 2 ^ (18 - t) := by
+      rw [show 19 - t = (18 - t) + 1 by omega, Nat.pow_succ, Nat.mul_comm]
+    have hr' : r < 2 ^ (18 - t) := by
+      rw [show 19 - (t + 1) = 18 - t by omega] at hr
+      exact hr
+    have e1 : Nat.shiftLeft 1 (Nat.sub 18 t) = 2 ^ (18 - t) := Nat.one_shiftLeft _
+    have e2 : Nat.shiftRight i 1 = i / 2 := Nat.shiftRight_eq_div_pow i 1
+    have e3 : Nat.land i 1 = i % 2 := Nat.and_one_is_mod i
+    have hi2 : i / 2 < 2 ^ t := by rw [Nat.pow_succ] at hi; omega
+    rw [show 19 - (t + 1) = 18 - t by omega, ckN_succ, e1, e2, e3]
+    rcases Nat.mod_two_eq_zero_or_one i with h | h
+    · rw [h, show Nat.shiftLeft 1 (2 ^ (18 - t)) = 2 ^ 2 ^ (18 - t) from Nat.one_shiftLeft _]
+      change (Nat.land (ckN M t (i / 2)) (2 ^ 2 ^ (18 - t) - 1)).testBit r = _
+      have e4 : Nat.land (ckN M t (i / 2)) (2 ^ 2 ^ (18 - t) - 1) =
+          ckN M t (i / 2) &&& (2 ^ 2 ^ (18 - t) - 1) := rfl
+      rw [e4, Nat.testBit_and, Nat.testBit_two_pow_sub_one,
+        ckN_testBit M t (by omega) (i / 2) hi2 r (by omega), hw]
+      simp only [hr', decide_true, Bool.and_true]
+      rw [show i / 2 * (2 * 2 ^ (18 - t)) = i * 2 ^ (18 - t) by
+        rw [← Nat.mul_assoc, Nat.mul_comm (i / 2) 2, Nat.mul_div_cancel' (Nat.dvd_of_mod_eq_zero h)]]
+    · rw [h]
+      change (Nat.shiftRight (ckN M t (i / 2)) (2 ^ (18 - t))).testBit r = _
+      have e4 : Nat.shiftRight (ckN M t (i / 2)) (2 ^ (18 - t)) = ckN M t (i / 2) >>> 2 ^ (18 - t) :=
+        rfl
+      rw [e4, Nat.testBit_shiftRight, ckN_testBit M t (by omega) (i / 2) hi2 _ (by omega), hw]
+      have hi' : i = 2 * (i / 2) + 1 := by omega
+      rw [show i / 2 * (2 * 2 ^ (18 - t)) + (2 ^ (18 - t) + r) =
+          (2 * (i / 2) + 1) * 2 ^ (18 - t) + r by
+        rw [Nat.add_mul, Nat.one_mul, Nat.mul_assoc, Nat.mul_left_comm, Nat.add_assoc], ← hi']
+
+theorem land_one_eq {X Y a b : Nat} (h : X.testBit a = Y.testBit b) :
+    Nat.land (Nat.shiftRight X a) 1 = Nat.land (Nat.shiftRight Y b) 1 := by
+  have e (Z c : Nat) : Nat.land (Nat.shiftRight Z c) 1 = Z / 2 ^ c % 2 := by
+    change (Z >>> c) &&& 1 = _
+    rw [Nat.and_one_is_mod, Nat.shiftRight_eq_div_pow]
+  rw [e, e]
+  rw [Nat.testBit_eq_decide_div_mod_eq, Nat.testBit_eq_decide_div_mod_eq] at h
+  rcases Nat.mod_two_eq_zero_or_one (X / 2 ^ a) with h1 | h1 <;>
+    rcases Nat.mod_two_eq_zero_or_one (Y / 2 ^ b) with h2 | h2 <;> simp_all
+
+theorem bitC_eq (m q : Nat) : bitC m q = Nat.land (Nat.shiftRight m q) 1 := by
+  unfold bitC
+  cases hq : Nat.blt q 524288
+  · rfl
+  · have hq' : q < 524288 := Nat.le_of_ble_eq_true hq
+    change strictN (Nat.shiftRight q 14)
+      (fun i => Nat.land (Nat.shiftRight (ckN m 5 i) (Nat.land q 16383)) 1) = _
+    rw [strictN_eq]
+    apply land_one_eq
+    have e2 : Nat.shiftRight q 14 = q / 2 ^ 14 := Nat.shiftRight_eq_div_pow q 14
+    have e3 : Nat.land q 16383 = q % 2 ^ 14 := Nat.and_two_pow_sub_one_eq_mod q 14
+    rw [e2, e3, ckN_testBit m 5 (by omega) _ (by omega) _ (Nat.mod_lt _ (by decide))]
+    rw [show 19 - 5 = 14 from rfl, Nat.mul_comm, Nat.div_add_mod]
+
+theorem swpC_eq : swpC = CFSG.KC.Fi24NetPt.swpK := by
+  funext d m q
+  unfold swpC CFSG.KC.Fi24NetPt.swpK
+  rw [bitC_eq, bitC_eq]
+
+theorem ptFC_eq : ptFC = CFSG.KC.Fi24NetPt.ptF := by
+  funext M q
+  unfold ptFC CFSG.KC.Fi24NetPt.ptF
+  rw [swpC_eq]
+
+theorem ptRC_eq : ptRC = CFSG.KC.Fi24NetPt.ptR := by
+  funext M q
+  unfold ptRC CFSG.KC.Fi24NetPt.ptR
+  rw [swpC_eq]
+
+theorem ptZC_eq : ptZC = ptZ := by
+  funext NW z x
+  unfold ptZC ptZ
+  rw [ptFC_eq, ptRC_eq]
+
+theorem apZC_eq : apZC = apZ := by
+  funext NW w x
+  unfold apZC apZ
+  rw [ptZC_eq]
+
+theorem eqZC_eq : eqZC = eqZ := by
+  funext NV u v
+  unfold eqZC eqZ
+  rw [apZC_eq]
+
+theorem pcCkC_eq : pcCkC = pcCk := by
+  funext NV net xs ps pw cj n g
+  unfold pcCkC pcCk relHdC relHd cjOneC cjOne
+  rw [eqZC_eq]
+
+theorem genOKC_eq : genOKC = genOK := by
+  funext NV net xs n l r
+  unfold genOKC genOK
+  rw [eqZC_eq]
+
 end CFSG.KS.Fi24PairPc
 
 end

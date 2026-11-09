@@ -117,13 +117,7 @@ theorem piv_eq {A : Nat} (hA : A ∈ SI.L) :
   rw [hom, eArrs_eq.1, fArrs_eq.1, List.any_map, List.any_map]
   exact congrArg (EL.any (Nat.beq A) || ·) (any_congr_mem fun e he => hX e he)
 
-theorem pivAll : SI.L.all pivK = true := by
-  rw [← List.take_append_drop 36 SI.L, List.all_append, p0, Bool.true_and,
-    ← List.take_append_drop 36 (SI.L.drop 36), List.all_append, p1, Bool.true_and]
-  simp only [List.drop_drop]
-  rw [← List.take_append_drop 36 (SI.L.drop 72), List.all_append, p2, Bool.true_and]
-  simp only [List.drop_drop]
-  exact p3
+theorem pivAll : SI.L.all pivK = true := pivAllK27
 
 theorem partB : xkData.all (fun e => (if e.1 then nLetters e.2.2 else hLetters e.2.2) &&
     isInvA 1755 (xkConj e) (invCand 1755 (xkConj e))) = true := by

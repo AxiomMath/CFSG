@@ -762,7 +762,8 @@ theorem member_sound_bdd {RD RW EL EW : ℕ → ℕ} {bs : ℕ → ℕ → ℕ}
 theorem om_sound {MS CB : ℕ → ℕ} {R : ℕ} (hm : masksOK19 MS = true)
     (hnc : ∀ c < 10, ∀ b < 19, netColOK MS CB c b = true)
     (htag : ∀ c < 10, ∀ b < 128, CB (256 * c + b) >>> 81920 = b)
-    (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten], relOK MS w = true)
+    (hrel : ∀ w ∈ yRels 4 3 2 ++ [(List.replicate 9 [0, 5, 6, 7, 8, 9, 1]).flatten],
+      ∀ u < 19, relPlOK MS w u = true)
     (horb : omOrbitOK MS R = true) :
     ∃ ρΩ : YGroup 4 3 2 →* Equiv.Perm (Fin 412896),
       (∀ c < 10, ∀ x : Fin 412896, (ρΩ (yGen 4 3 2 c) x : ℕ) = colAt CB c x) ∧

@@ -24,10 +24,10 @@ theorem certificate2051 : (coreOK qArrs cArrs localRec.chains.qAction.origArrs 5
     ∧ (coreOK rArrs dArrs localRec.chains.rAction.origArrs 2048 centerIdxR enumR = true ∧
       eqA 2300 enumR.elems[617]! zArr = true ∧ eqA 2300 enumR.elems[434]! tArr = true
     )
-    ∧ (recordOK 512 localRec.chains.qAction 4 = true ∧
+    ∧ (recordOK 512 localRec.chains.qAction 0 = true ∧
       recordOrbits 512 localRec.chains.qAction = [270, 28, 64, 24, 4, 2, 2, 2]
     )
-    ∧ (recordOK 2048 localRec.chains.rAction 4 = true ∧
+    ∧ (recordOK 2048 localRec.chains.rAction 0 = true ∧
       recordOrbits 2048 localRec.chains.rAction = [840, 8, 6, 4, 2, 2, 2]
     ) :=
   ⟨KernelSporSch.Co2M.coreQ, KernelSporSch.Co2M.coreR,

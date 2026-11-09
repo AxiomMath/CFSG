@@ -2,6 +2,7 @@ module
 
 public import CFSG.GH74.GLS.C3.Layer2.L5C4bInputs
 import CFSG.Certificates.Kernel.L5.Fast
+import CFSG.Certificates.Kernel.L5.Sh1CertSeal
 import Std.Tactic.BVDecide.Normalize.BitVec
 
 public section
@@ -81,10 +82,10 @@ private theorem sh1_L_chk_6 : ((List.finRange 16).all (fun v => decide (tr1 v �
   have e2 : ∀ k, tau1 k = ((tau1L.map PkCV.cOf).map PkCV.ev).getD k.val 1 := fun k => by
     rw [PkCV.map_cOf_ev]
     rfl
-  have e3 : Sh1L = (closureList (sh1Gens.map PkCV.cOf) 12).map PkCV.ev := by
-    rw [← PkCV.closureList_map_ev, PkCV.map_cOf_ev]
-    rfl
-  simp only [e1, e2, e3]
+  have hP := CFSG.Certificates.Kernel.L5Seal.sh1L_perm
+  simp only [CFSG.Certificates.Kernel.L5Seal.all_perm hP, hP.mem_iff]
+  simp only [e1, e2, List.all_map, Function.comp_def, PkCV.mem_map_ev, PkCV.ev_mul',
+    PkCV.decide_ev_eq]
   decide +kernel
 
 private theorem tr1_xor_chk_7 : (List.finRange 16).all (fun u => (List.finRange 16).all fun v =>

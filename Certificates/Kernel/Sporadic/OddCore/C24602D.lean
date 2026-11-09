@@ -5,8 +5,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz_eval CertificateChecks.KernelSpor.C24602D
-  "Certificates/Kernel/Sporadic/OddCore/data/c24602k.json.gz" 318746 11121961898421497174
+#kc_repo #kc_json_eval CertificateChecks.KernelSpor.C24602D
+  "Certificates/Kernel/Sporadic/OddCore/data/c24602k.json" 318746 11121961898421497174
   (N : Nat) (root : Nat) (pl : Array Nat)
 
 public section

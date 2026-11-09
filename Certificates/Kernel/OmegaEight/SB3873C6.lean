@@ -1,7 +1,7 @@
 
 module
 
-public import Certificates.Kernel.OmegaEight.SB3873GS
+public import Certificates.Kernel.OmegaEight.SB3873GX
 public import Certificates.Kernel.OmegaEight.SB3873E6
 
 public section

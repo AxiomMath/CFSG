@@ -166,8 +166,7 @@ theorem mF_lt : ∀ k < 11520, ∀ q < 100, mF k q < 100 := by
 
 theorem mElems_eq : mElems = enumTabs mTabs
     (((List.range 11520).map EM.par).toArray, ((List.range 11520).map EM.lab).toArray) 11520 := by
-  unfold mElems
-  rw [bfsM]
+  rw [mElems_def, bfsM]
 
 theorem good_mElems : ∀ k < 11520, Good 100 (mElems.getD k #[]) (mF k) := by
   rw [mElems_eq]

@@ -9,7 +9,7 @@ public import Certificates.Data.Kernel.Spor.Fi24Kn
 public import Certificates.Data.Kernel.Spor.Fi24G2d
 public import Certificates.Data.Kernel.Spor.Fi24Fix
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24F3d.J "Certificates/Kernel/Sporadic/Fi24F3d/data/f3d.json.gz" 7317
+#kc_repo #kc_json CFSG.KD.Fi24F3d.J "Certificates/Kernel/Sporadic/Fi24F3d/data/f3d.json" 7317
   17360795821460123783
   (LE : List Nat) (AE : List Nat) (BE : List Nat) (CE : List (List Nat)) (KE : List Nat)
   (LEF : List Nat) (AEF : List Nat) (BEF : List Nat) (CEF : List (List Nat)) (KEF : List Nat)

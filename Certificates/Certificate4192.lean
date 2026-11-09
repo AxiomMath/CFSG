@@ -16,6 +16,7 @@ private theorem brute_two_check : BruteTwo := by
 set_option maxRecDepth 100000 in
 private theorem brute_thirteen_check : BruteThirteen := by
   unfold BruteThirteen det3 uM uM'
+  simp only [Matrix.mul_fin_three, one_mul, mul_one, zero_mul, mul_zero, add_zero, zero_add]
   decide +kernel
 
 open CFSG.Quasithin.E2P.Asc80 in

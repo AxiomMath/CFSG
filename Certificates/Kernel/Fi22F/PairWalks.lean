@@ -8,7 +8,7 @@ import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.FiFP "Certificates/Kernel/Fi22F/data/pairs.json.gz" 60461 14580433577841287009 (R : List Nat)
+#kc_repo #kc_json CFSG.KD.FiFP "Certificates/Kernel/Fi22F/data/pairs.json" 60461 14580433577841287009 (R : List Nat)
 
 namespace CertificateChecks.KernelFi22F
 

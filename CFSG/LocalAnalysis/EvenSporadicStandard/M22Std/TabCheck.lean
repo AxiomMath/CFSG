@@ -48,6 +48,10 @@ abbrev Tab : Type := List Nat
           else true
       else true
 
+@[expose] def subOK (L A : List Tab) : Bool :=
+  A.all (fun x => decide (x ∈ L)) && A.all fun x => A.all fun y =>
+    (tmul x y == idTab) || decide (tmul x y ∈ A)
+
 @[expose] def tabA : Tab :=
   [12, 7, 15, 11, 4, 21, 16, 1, 9, 8, 13, 3, 0, 10, 14, 2, 6, 17, 18, 19, 20, 5]
 

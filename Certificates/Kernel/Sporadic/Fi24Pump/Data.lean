@@ -7,7 +7,7 @@ public import Certificates.Data.Kernel.Spor.Fi24NetPt
 public import Certificates.Data.Kernel.Spor.Fi24Kn
 public import Certificates.Data.Kernel.Spor.Fi24PumpK
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24Pump.J "Certificates/Kernel/Sporadic/Fi24Pump/data/pump.json.gz" 587
+#kc_repo #kc_json CFSG.KD.Fi24Pump.J "Certificates/Kernel/Sporadic/Fi24Pump/data/pump.json" 587
   2593188081548988265
   (R : List (List Nat)) (V : List (List Nat)) (P : List Nat) (F : List Nat)
 

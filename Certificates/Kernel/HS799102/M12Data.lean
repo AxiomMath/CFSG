@@ -11,8 +11,8 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelHS799102
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHS799102
-  "Certificates/Kernel/HS799102/data/m12.json.gz" 4666 5018747758190876224
+#kc_repo #kc_json CertificateChecks.KernelHS799102
+  "Certificates/Kernel/HS799102/data/m12.json" 4666 5018747758190876224
   (G12 : List Nat) (A12 : List Nat) (X12 : Nat) (O12 : List (Nat × Nat × Nat × Nat))
   (N12 : List (Nat × List Nat × List (List Nat) × List (Nat × Nat × Nat × Nat)))
   (W12 : List (List Nat)) (Y12 : Nat)

@@ -56,15 +56,30 @@ theorem nhs_check :
   Certificates.certificate7195.2.2.2.2.1
 
 theorem ssp_check :
-    all5 1755 titsSLevels (fun a =>
-      !(inS (compA 1755 (compA 1755 (invCand 1755 pArr) a) pArr)) || inJ a) = true :=
+    (allLt 4 fun j => inS (compA 1755 (compA 1755 (invCand 1755 pArr) titsJArrs[j]!) pArr)) =
+      true ∧
+    (allLt 3 fun k => !(inJ ((compA 1755 titsSArrs[0]!)^[k + 1] (idA 1755))) &&
+      !(inS (compA 1755 (compA 1755 (invCand 1755 pArr)
+        ((compA 1755 titsSArrs[0]!)^[k + 1] (idA 1755))) pArr))) = true :=
   Certificates.certificate7195.2.2.2.2.2.1
 
 theorem outer_check :
-    all5 1755 titsSLevels (fun a =>
-      !(allLt 3 fun i => inE (commArr 1755 (outerArr a) titsHArrs[i]!)) ||
-      ((allLt 2 fun j => inK (conjArr (outerArr a) titsKArrs[j]!)) &&
-        (allLt 4 fun j => inK (commArr 1755 (outerArr a) titsNArrs[j]!)))) = true :=
+    (allLt 5 fun i => inE (compA 1755 (compA 1755 (invCand 1755 titsGenArrs[1]!) (eGenArr i))
+      titsGenArrs[1]!)) = true ∧
+    (allLt 3 fun j => allLt 5 fun i =>
+      inE (compA 1755 (compA 1755 (invCand 1755 titsHArrs[j]!) (eGenArr i)) titsHArrs[j]!)) =
+      true ∧
+    (allLt 4 fun j => allLt 5 fun i =>
+      inK (compA 1755 (compA 1755 (invCand 1755 titsNArrs[j]!) (eGenArr i)) titsNArrs[j]!)) =
+      true ∧
+    (allLt 3 fun g => allLt 64 fun k =>
+      decide ((ouCov g k).1 < 64) && decide ((ouCov g k).2 < 32) &&
+      eqA 1755 (compA 1755 titsSArrs[g]! (ouRepArr k))
+        (compA 1755 (ouRepArr (ouCov g k).1) (eProdArr (ouCov g k).2))) = true ∧
+    (allLt 64 fun k =>
+      !(allLt 3 fun i => inE (commArr 1755 (outerArr (ouRepArr k)) titsHArrs[i]!)) ||
+      ((allLt 2 fun j => inK (conjArr (outerArr (ouRepArr k)) titsKArrs[j]!)) &&
+        (allLt 4 fun j => inK (commArr 1755 (outerArr (ouRepArr k)) titsNArrs[j]!)))) = true :=
   Certificates.certificate7195.2.2.2.2.2.2
 
 end CFSG.Quasithin.H13.Tits614

@@ -4,6 +4,7 @@ public import CFSG.Quasithin.Recognition.St84.AutJ2VertexA
 public import CFSG.Quasithin.Recognition.St84.J2ModelY3
 public import Certificates.Certificate733002
 public import CFSG.Quasithin.Recognition.St84.HeisF4Rigid
+import Certificates.Kernel.AutJ2Vtx.Glue
 
 public section
 
@@ -37,7 +38,12 @@ private theorem tp_map_ofNat {n : ℕ} (a : Array ℕ) (ha : ∀ x ∈ a, x < 2 
 private theorem sylT_eq : sylT =
     [(sylowStrong[0]!).map UInt32.ofNat, (sylowStrong[1]!).map UInt32.ofNat,
       (sylowStrong[2]!).map UInt32.ofNat] := by
-  decide +kernel
+  have e0 : sylowStrong[0]! = sylowStrong.getD 0 #[] := rfl
+  have e1 : sylowStrong[1]! = sylowStrong.getD 1 #[] := rfl
+  have e2 : sylowStrong[2]! = sylowStrong.getD 2 #[] := rfl
+  rw [CertificateChecks.KernelAJV.sylT_eq, e0, e1, e2, CertificateChecks.KernelAJV.binds.1,
+    CertificateChecks.KernelAJV.binds.2.1, CertificateChecks.KernelAJV.binds.2.2.1]
+  rfl
 
 private theorem tp_sylT_0 :
     tp 315 ((sylowStrong[0]!).map UInt32.ofNat) = permOfArr 315 sylowStrong[0]! :=
@@ -368,9 +374,11 @@ theorem Q2R_subgroupOf :
   rw [AJ2L.card_pCoreOf_Y2, hcardQ]
   norm_num
 
-theorem autJ2Vertex_Y2 :
+private theorem autJ2Vertex_Y2_of {u v w : Equiv.Perm (Fin 315)} (hu_W : u ∈ WR)
+    (hv_Q : v ∈ Q2R) (hw_Q : w ∈ Q2R) (hu_J : ∀ hu : u ∈ R, (⟨u, hu⟩ : ↥R) ∉ J0)
+    (hu_sq : u ^ 2 = 1) (hv_sq : v ^ 2 = 1) (hvw : v * w ≠ w * v) (huv : u * v = v * u) :
     AutJ2Vertex (AJ2L.rCtx.Y 2) (J0 ⊓ AJ2L.rCtx.Y 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrel : (J0 ⊓ AJ2L.rCtx.Y 2).relIndex (AJ2L.rCtx.Y 2) = 2 := by
     rw [Subgroup.inf_relIndex_right]
     exact relIndex_J0 (AJ2L.rCtx.S_le_Y 2)
@@ -381,67 +389,93 @@ theorem autJ2Vertex_Y2 :
         (inf_le_right : J0 ⊓ AJ2L.rCtx.Y 2 ≤ AJ2L.rCtx.Y 2)).symm.trans
       (MulEquiv.subgroupCongr (Subgroup.inf_subgroupOf_right J0 (AJ2L.rCtx.Y 2)))).trans
         (e1.trans e2)⟩
-  · have h0 : autJ2VtxC0 () = true := Certificates.certificate733002.1
-    have h3 : autJ2VtxC3 () = true := Certificates.certificate733002.2.2.2.1
-    obtain ⟨hum_invo, hum_notP, hvm_invo, hvm_notcomm, huv_comm⟩ := autJ2VtxC3_spec h3
-    have hum_perm : permOK 315 umT = true :=
-      autJ2VtxC0_perm h0 (mem_autJ2Tbls_tail mem_tail_umT)
-    have hvm_perm : permOK 315 vmT = true :=
-      autJ2VtxC0_perm h0 (mem_autJ2Tbls_tail mem_tail_vmT)
-    have hum_sylT : tp 315 umT ∈ genOf 315 sylT :=
-      tp_wordTbl_mem (n := 315) (by norm_num) (permOK_sylT (h0 := h0)) (by decide) hum_perm
-    have hvm_q2T : tp 315 vmT ∈ Q2R :=
-      tp_wordTbl_mem (n := 315) (by norm_num) (permOK_q2T_list (h0 := h0)) (by decide) hvm_perm
-    have hum_W : tp 315 umT ∈ WR :=
-      genOf_mono (by intro g hg; exact List.mem_append_left _ hg) hum_sylT
-    have hvm_W : tp 315 vmT ∈ WR := Q2R_le_WR hvm_q2T
-    have hum_R : tp 315 umT ∈ R := WR_le_R hum_W
-    have hvm_R : tp 315 vmT ∈ R := WR_le_R hvm_W
-    have hum_sq : (tp 315 umT) ^ 2 = 1 := sq_eq_one_of_invoOK (rep_tp hum_perm) hum_invo
-    have hvm_sq : (tp 315 vmT) ^ 2 = 1 := sq_eq_one_of_invoOK (rep_tp hvm_perm) hvm_invo
-    have hq2_mem : q2T[0]! ∈ q2T := by
-      rw [getElem!_pos q2T 0 (by simp [q2T])]
-      exact List.getElem_mem (by simp [q2T])
-    have hq2_perm : permOK 315 q2T[0]! = true :=
-      permOK_q2T_list (h0 := h0) (g := q2T[0]!) hq2_mem
-    have hq2_R : tp 315 q2T[0]! ∈ R :=
-      Q2R_le_WR.trans WR_le_R (tp_mem_genOf hq2_mem)
-    refine ⟨⟨tp 315 umT, hum_R⟩, ?_, ?_, ?_, ⟨tp 315 vmT, hvm_R⟩, ?_, ?_, ?_, ?_⟩
+  · have hu_R : u ∈ R := WR_le_R hu_W
+    have hv_R : v ∈ R := WR_le_R (Q2R_le_WR hv_Q)
+    have hw_R : w ∈ R := WR_le_R (Q2R_le_WR hw_Q)
+    refine ⟨⟨u, hu_R⟩, ?_, ?_, ?_, ⟨v, hv_R⟩, ?_, ?_, ?_, ?_⟩
     · rw [← WR_subgroupOf, Subgroup.mem_subgroupOf]
-      exact hum_W
+      exact hu_W
     · intro hu
-      have huJ : (⟨tp 315 umT, hum_R⟩ : ↥R) ∈ J0 := (Subgroup.mem_inf.mp hu).1
-      rw [J0_eq, Subgroup.mem_subgroupOf] at huJ
-      have htrue : inP (natArr umT) = true :=
-        (mem_P_iff (t := natArr umT) (co2Rep_natArr_iff.2 (rep_tp hum_perm))).2 huJ
-      rw [hum_notP] at htrue
-      exact Bool.false_ne_true htrue
+      exact hu_J hu_R (Subgroup.mem_inf.mp hu).1
     · apply Subtype.ext
-      change (tp 315 umT) ^ 2 = (1 : Equiv.Perm (Fin 315))
-      exact hum_sq
-    · have hvQ2 : (⟨tp 315 vmT, hvm_R⟩ : ↥R) ∈ pCoreOf 2 (AJ2L.rCtx.Y 2) := by
+      change u ^ 2 = (1 : Equiv.Perm (Fin 315))
+      exact hu_sq
+    · have hvQ2 : (⟨v, hv_R⟩ : ↥R) ∈ pCoreOf 2 (AJ2L.rCtx.Y 2) := by
         rw [← Q2R_subgroupOf]
-        exact hvm_q2T
+        exact hv_Q
       exact pCoreOf_Y2_le_pCoreOf_inf hvQ2
     · apply Subtype.ext
-      change (tp 315 vmT) ^ 2 = (1 : Equiv.Perm (Fin 315))
-      exact hvm_sq
+      change v ^ 2 = (1 : Equiv.Perm (Fin 315))
+      exact hv_sq
     · intro hv
-      have hw_core : (⟨tp 315 q2T[0]!, hq2_R⟩ : ↥R) ∈ pCoreOf 2 (J0 ⊓ AJ2L.rCtx.Y 2) := by
+      have hw_core : (⟨w, hw_R⟩ : ↥R) ∈ pCoreOf 2 (J0 ⊓ AJ2L.rCtx.Y 2) := by
         refine pCoreOf_Y2_le_pCoreOf_inf ?_
         rw [← Q2R_subgroupOf]
-        exact tp_mem_genOf (by simp [q2T])
+        exact hw_Q
       have hcomm := (Subgroup.mem_centralizer_iff.mp hv) _ hw_core
-      have hnc : ¬ (tp 315 vmT * tp 315 q2T[0]! =
-          tp 315 q2T[0]! * tp 315 vmT) := by
-        intro h
-        have h' : commTT 315 vmT q2T[0]! = true :=
-          (commTT_iff (rep_tp hvm_perm) (rep_tp hq2_perm)).2 h
-        rw [hvm_notcomm] at h'
-        exact Bool.false_ne_true h'
-      exact hnc (Subtype.ext_iff.mp hcomm.symm)
+      exact hvw (Subtype.ext_iff.mp hcomm.symm)
     · apply Subtype.ext
-      exact (commTT_iff (rep_tp hum_perm) (rep_tp hvm_perm)).1 huv_comm
+      exact huv
+
+private theorem permOK_umT : permOK 315 umT = true :=
+  autJ2VtxC0_perm Certificates.certificate733002.1 (mem_autJ2Tbls_tail mem_tail_umT)
+
+private theorem permOK_vmT : permOK 315 vmT = true :=
+  autJ2VtxC0_perm Certificates.certificate733002.1 (mem_autJ2Tbls_tail mem_tail_vmT)
+
+private theorem q2T_zero_mem : q2T[0]! ∈ q2T := by
+  have hpos : 0 < q2T.length := by
+    rw [CertificateChecks.KernelAJV.q2T_eq]
+    exact Nat.zero_lt_succ _
+  rw [getElem!_pos q2T 0 hpos]
+  exact List.getElem_mem hpos
+
+private theorem permOK_q2T_zero : permOK 315 q2T[0]! = true :=
+  permOK_q2T_list (h0 := Certificates.certificate733002.1) (g := q2T[0]!) q2T_zero_mem
+
+private theorem umT_mem_WR : tp 315 umT ∈ WR :=
+  genOf_mono (by intro g hg; exact List.mem_append_left _ hg)
+    (tp_wordTbl_mem (n := 315) (by norm_num) (permOK_sylT (h0 := Certificates.certificate733002.1))
+      (by decide) permOK_umT)
+
+private theorem vmT_mem_Q2R : tp 315 vmT ∈ Q2R :=
+  tp_wordTbl_mem (n := 315) (by norm_num)
+    (permOK_q2T_list (h0 := Certificates.certificate733002.1)) (by decide) permOK_vmT
+
+private theorem q2T_zero_mem_Q2R : tp 315 q2T[0]! ∈ Q2R :=
+  tp_mem_genOf q2T_zero_mem
+
+private theorem umT_not_J0 : ∀ hu : tp 315 umT ∈ R, (⟨tp 315 umT, hu⟩ : ↥R) ∉ J0 := by
+  intro hu huJ
+  rw [J0_eq, Subgroup.mem_subgroupOf] at huJ
+  have htrue : inP (natArr umT) = true :=
+    (mem_P_iff (t := natArr umT) (co2Rep_natArr_iff.2 (rep_tp permOK_umT))).2 huJ
+  rw [(autJ2VtxC3_spec Certificates.certificate733002.2.2.2.1).2.1] at htrue
+  exact Bool.false_ne_true htrue
+
+private theorem umT_sq : tp 315 umT ^ 2 = 1 :=
+  sq_eq_one_of_invoOK (rep_tp permOK_umT) (autJ2VtxC3_spec Certificates.certificate733002.2.2.2.1).1
+
+private theorem vmT_sq : tp 315 vmT ^ 2 = 1 :=
+  sq_eq_one_of_invoOK (rep_tp permOK_vmT)
+    (autJ2VtxC3_spec Certificates.certificate733002.2.2.2.1).2.2.1
+
+private theorem vmT_q2T_zero_ne :
+    tp 315 vmT * tp 315 q2T[0]! ≠ tp 315 q2T[0]! * tp 315 vmT := by
+  intro h
+  have h' : commTT 315 vmT q2T[0]! = true :=
+    (commTT_iff (rep_tp permOK_vmT) (rep_tp permOK_q2T_zero)).2 h
+  rw [(autJ2VtxC3_spec Certificates.certificate733002.2.2.2.1).2.2.2.1] at h'
+  exact Bool.false_ne_true h'
+
+private theorem umT_vmT_comm : tp 315 umT * tp 315 vmT = tp 315 vmT * tp 315 umT :=
+  (commTT_iff (rep_tp permOK_umT) (rep_tp permOK_vmT)).1
+    (autJ2VtxC3_spec Certificates.certificate733002.2.2.2.1).2.2.2.2
+
+theorem autJ2Vertex_Y2 :
+    AutJ2Vertex (AJ2L.rCtx.Y 2) (J0 ⊓ AJ2L.rCtx.Y 2) :=
+  autJ2Vertex_Y2_of umT_mem_WR vmT_mem_Q2R q2T_zero_mem_Q2R umT_not_J0 umT_sq vmT_sq
+    vmT_q2T_zero_ne umT_vmT_comm
 
 private theorem permOK_e1RT {h0 : autJ2VtxC0 () = true} : permOK 315 e1RT = true :=
   autJ2VtxC0_perm h0 (mem_autJ2Tbls_tail mem_tail_e1RT)

@@ -93,29 +93,78 @@ theorem shiftM_testBit (C x j : Nat) :
   rw [(sumMask_spec _ 64).2 j, bit_eq]
   rfl
 
-theorem spanM_rec_testBit (a b C j : Nat) : ∀ k,
-    (Nat.rec (motive := fun _ => Nat) C (fun v acc => strictN acc fun acc =>
-      Nat.lor acc (Nat.lor (shiftM C (Nat.xor v (pgC 64 w a v)))
-        (Nat.lor (shiftM C (Nat.xor v (pgC 64 w b v)))
-          (shiftM C (Nat.xor v (pgC 64 w a (pgC 64 w b v))))))) k : Nat).testBit j =
-      (C.testBit j || (List.range k).any fun v => decide (j < 64) &&
-        (C.testBit (j ^^^ (v ^^^ pgC 64 w a v)) || C.testBit (j ^^^ (v ^^^ pgC 64 w b v)) ||
-          C.testBit (j ^^^ (v ^^^ pgC 64 w a (pgC 64 w b v)))))
+theorem difM_rec_testBit (a b x : Nat) : ∀ k,
+    (Nat.rec (motive := fun _ => Nat) 0 (fun v acc => strictN acc fun acc =>
+      Nat.lor acc (Nat.lor (pw2 (Nat.xor v (pgC 64 w a v)))
+        (Nat.lor (pw2 (Nat.xor v (pgC 64 w b v)))
+          (pw2 (Nat.xor v (pgC 64 w a (pgC 64 w b v))))))) k : Nat).testBit x =
+      (List.range k).any fun v => decide (v ^^^ pgC 64 w a v = x) ||
+        decide (v ^^^ pgC 64 w b v = x) || decide (v ^^^ pgC 64 w a (pgC 64 w b v) = x)
   | 0 => by simp
   | k + 1 => by
-    change (strictN _ fun acc => Nat.lor acc _).testBit j = _
+    change (strictN _ fun acc => Nat.lor acc _).testBit x = _
     rw [strictN_eq']
-    change Nat.testBit (_ ||| (_ ||| (_ ||| _))) j = _
-    rw [Nat.testBit_or, Nat.testBit_or, Nat.testBit_or, spanM_rec_testBit a b C j k,
-      shiftM_testBit, shiftM_testBit, shiftM_testBit, List.range_succ, List.any_append,
-      List.any_cons, List.any_nil, Bool.or_false]
-    cases decide (j < 64) <;> simp [Bool.or_assoc]
+    change Nat.testBit (_ ||| (_ ||| (_ ||| _))) x = _
+    rw [Nat.testBit_or, Nat.testBit_or, Nat.testBit_or, difM_rec_testBit a b x k, pw2_eq, pw2_eq,
+      pw2_eq, Nat.testBit_two_pow, Nat.testBit_two_pow, Nat.testBit_two_pow, List.range_succ,
+      List.any_append, List.any_cons, List.any_nil, Bool.or_false]
+    simp only [Bool.or_assoc]
+    rfl
+
+theorem spanLoop_testBit (C D j : Nat) : ∀ k,
+    (Nat.rec (motive := fun _ => Nat) C (fun x acc => strictN acc fun acc =>
+      Bool.rec (motive := fun _ => Nat) acc (Nat.lor acc (shiftM C x)) (bit D x)) k : Nat).testBit j =
+      (C.testBit j || (List.range k).any fun x => D.testBit x && (decide (j < 64) && C.testBit (j ^^^ x)))
+  | 0 => by simp
+  | k + 1 => by
+    change (strictN _ fun acc => Bool.rec (motive := fun _ => Nat) acc (Nat.lor acc (shiftM C k))
+      (bit D k)).testBit j = _
+    rw [strictN_eq', bit_eq, List.range_succ, List.any_append, List.any_cons, List.any_nil,
+      Bool.or_false, ← Bool.or_assoc, ← spanLoop_testBit C D j k]
+    cases D.testBit k
+    · simp
+    · change Nat.testBit (_ ||| shiftM C k) j = _
+      rw [Nat.testBit_or, shiftM_testBit]
+      simp
+
+theorem lt64_of_testBit {C j t : Nat} (hC : C < 2 ^ 64) (hj : j < 64)
+    (ht : C.testBit (j ^^^ t) = true) : t < 64 := by
+  have h1 : j ^^^ t < 2 ^ 6 := by
+    by_contra h
+    rw [Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hC (Nat.pow_le_pow_right (by omega)
+      (by omega)))] at ht
+    cases ht
+  have h2 : t = j ^^^ (j ^^^ t) := by rw [← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
+  rw [h2]
+  exact Nat.xor_lt_two_pow (by omega) h1
+
+theorem n48SpanM_testBit {a b C : Nat} (hC : C < 2 ^ 64) (j : Nat) :
+    (spanM w a b C).testBit j = (C.testBit j || (List.range 64).any fun v => decide (j < 64) &&
+        (C.testBit (j ^^^ (v ^^^ pgC 64 w a v)) || C.testBit (j ^^^ (v ^^^ pgC 64 w b v)) ||
+          C.testBit (j ^^^ (v ^^^ pgC 64 w a (pgC 64 w b v))))) := by
+  unfold spanM
+  rw [strictN_eq', spanLoop_testBit]
+  unfold n48DifM
+  simp only [difM_rec_testBit]
+  congr 1
+  apply Bool.eq_iff_iff.2
+  simp only [List.any_eq_true, List.mem_range, Bool.and_eq_true, Bool.or_eq_true,
+    decide_eq_true_eq]
+  constructor
+  · rintro ⟨x, -, ⟨v, hv, (h | h) | h⟩, hj, hc⟩ <;> subst h
+    · exact ⟨v, hv, hj, Or.inl (Or.inl hc)⟩
+    · exact ⟨v, hv, hj, Or.inl (Or.inr hc)⟩
+    · exact ⟨v, hv, hj, Or.inr hc⟩
+  · rintro ⟨v, hv, hj, (h | h) | h⟩
+    · exact ⟨_, lt64_of_testBit hC hj h, ⟨v, hv, Or.inl (Or.inl rfl)⟩, hj, h⟩
+    · exact ⟨_, lt64_of_testBit hC hj h, ⟨v, hv, Or.inl (Or.inr rfl)⟩, hj, h⟩
+    · exact ⟨_, lt64_of_testBit hC hj h, ⟨v, hv, Or.inr rfl⟩, hj, h⟩
 
 theorem spanTab_tabM {a b C : Nat} {t : Array Bool} (ht : TabM t C) (hC : C < 2 ^ 64) :
     TabM (spanTab (unpack 64 w a) (unpack 64 w b) t) (spanM w a b C) := by
   intro y
-  unfold spanTab spanM
-  rw [getElem!_ofFn64, spanM_rec_testBit]
+  unfold spanTab
+  rw [getElem!_ofFn64, n48SpanM_testBit hC]
   split
   · next h =>
     simp only [h, decide_true, Bool.true_and]

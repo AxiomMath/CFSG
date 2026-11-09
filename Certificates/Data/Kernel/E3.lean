@@ -21,8 +21,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.Fendel CFSG.KC.Child3
   bAnd(Nat.blt (PA p) k, bAnd(Nat.blt (LB p) 3,
   bAnd(Nat.beq (E m) (cnj GP GIP (LB p) (E (M (Nat.add o (PA p))))),
   bAnd(prodOK (GP (LB p)) (CC (Nat.add o (PA p))) (CC p),
-  bAnd(invEqK 276 9 (mask 9) (Nat.mul 276 9) (CC p) (pinvS 276 9 (mask 9) (CC p)),
-  bAnd(Nat.blt (CV p) 4608, Nat.beq (E (CV p)) (pinvS 276 9 (mask 9) (CC p))))))))
+  bAnd(invEqK 276 9 (mask 9) (Nat.mul 276 9) (CC p) (E (CV p)), Nat.blt (CV p) 4608)))))
 
 @[expose] noncomputable def cloPos (E GP GIP : Nat → Nat) (M PA LB K : Nat → Nat)
     (o s k m p i : Nat) : Bool :=

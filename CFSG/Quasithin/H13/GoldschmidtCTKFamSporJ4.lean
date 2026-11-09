@@ -53,7 +53,7 @@ theorem card_centralizer_le_j4
     e.trans (CFSG.Sporadic.J4.seedEquiv CFSG.Sporadic.J4.j4Facts.mat)
   have hx' : orderOf (e' x) = 5 := by rw [MulEquiv.orderOf_eq]; exact hx
   have h := CFSG.QuasithinUnique.A5.Dec2.card_centralizer_of_orderOf_five
-    (CFSG.Sporadic.J4.QT2.centralizer_fiveElt_eq CFSG.Sporadic.J4.j4Facts).le hx'
+    CFSG.Sporadic.J4.QT2.centralizer_fiveElt_eq.le hx'
   rw [← h]
   refine Nat.card_le_card_of_injective (fun c => ⟨e' c.1, ?_⟩) ?_
   · have := Subgroup.mem_centralizer_singleton_iff.1 c.2

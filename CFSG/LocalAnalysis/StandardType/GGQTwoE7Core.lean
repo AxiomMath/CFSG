@@ -674,15 +674,18 @@ private lemma ggQ2xE7c_set_eq (a : Fin 7) :
     {k : Fin 7 | k ≠ a} = {k : Fin 7 | (k : ℕ) ≠ (a : ℕ)} := by
   ext k; simp [Fin.ext_iff]
 
-private theorem ggQ2xE7c_sref_invol_true :
-    (List.range 7).all (fun j => (List.range (3 ^ 7)).all (fun v =>
-      ggQ2xE7c_sref j (ggQ2xE7c_sref j v) == v)) = true := by decide +kernel
+private lemma ggQ2xE7c_simple_invol (j : Fin 7) (w : Fin 7 → ZMod 3) :
+    ggESimple 7 j (ggESimple 7 j w) = w := by
+  have h2 := ggQ2xE7c_mulVec_single_self j
+  funext k
+  simp only [ggESimple, Matrix.mulVec_sub, Matrix.mulVec_smul, Pi.sub_apply, Pi.smul_apply, h2,
+    smul_eq_mul]
+  ring
 
 private lemma ggQ2xE7c_sref_invol (j : Fin 7) (v : ℕ) (hv : v < 3 ^ 7) :
     ggQ2xE7c_sref (j : ℕ) (ggQ2xE7c_sref (j : ℕ) v) = v := by
-  have h1 := List.all_eq_true.mp ggQ2xE7c_sref_invol_true j (List.mem_range.mpr j.isLt)
-  have h2 := List.all_eq_true.mp h1 v (List.mem_range.mpr hv)
-  simpa [beq_iff_eq] using h2
+  rw [← ggQ2xE7c_enc_dec v hv, ← ggQ2xE7c_enc_simple, ← ggQ2xE7c_enc_simple,
+    ggQ2xE7c_simple_invol]
 
 private lemma ggQ2xE7c_root_mem_aux : ∀ d m, ggQ2xE7c_rootDistOf m = d → m < 3 ^ 7 →
     ggQ2xE7c_rootBit m = true → ggQ2xE7c_dec m ∈ ggEClosure 7 Set.univ := by

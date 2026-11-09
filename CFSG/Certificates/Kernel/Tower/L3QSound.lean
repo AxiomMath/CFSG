@@ -90,8 +90,7 @@ theorem icB_sound (M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n = 16384) {G
   have hc := M.code_lt (mem_top x)
   have hxc := M.dec_code (mem_top x)
   have hl := ((cls16_labParts hlab).2.2 _ hc).1
-  obtain ⟨hr, hrep⟩ := cls16_rep M hlab hc
-  generalize dec (lbW LB (M.code x)) = w at hrep
+  obtain ⟨hr, w, hrep⟩ := cls16_rep M hT hlab hc
   generalize hR : l16 RP (lbL LB (M.code x)) = r at hr hrep
   have er : w⁻¹ * x * w⁻¹⁻¹ = dec r := by
     rw [← hxc, hrep]

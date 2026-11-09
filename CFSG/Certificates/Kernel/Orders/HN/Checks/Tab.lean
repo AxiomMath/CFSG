@@ -5,7 +5,7 @@ public import CFSG.Certificates.Kernel.Orders.HN.Data.Sel
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.OrdHN "CFSG/Certificates/Kernel/Orders/HN/Checks/data/tab.json.gz"
+#kc_repo #kc_json CFSG.KD.OrdHN "CFSG/Certificates/Kernel/Orders/HN/Checks/data/tab.json"
   22707 12382433098311074118
   (S2.PR : Nat) (S2.BL : Nat) (S2.PW : Nat) (S2.PC : List Nat) (S2.TC : List (List Nat))
   (S2.N : List Nat) (S2.SC : List (List Nat)) (S2.SS : List Nat)

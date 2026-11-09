@@ -114,7 +114,7 @@ theorem factorization_two_of_eq {N k r : ℕ} (hN : N = 2 ^ k * r) (hr : r % 2 =
     Nat.factorization_eq_zero_of_not_dvd (by omega), add_zero]
 
 open CFSG.Certificates CFSG.Sporadic.Schreier in
-theorem iSup_fix_eq_top_of_checks {K : Type} [Group K] [Finite K] {n k m : ℕ}
+theorem iSup_fix_eq_top_of_gen {K : Type} [Group K] [Finite K] {n : ℕ}
     (QP QA : RawSchreierDatum n) (hQP : ValidSchreier QP) (hQA : ValidSchreier QA)
     {pa pb : Equiv.Perm (Fin n)} (hP : QP.originalSubgroup = Subgroup.closure {pa, pb})
     (M : AutModel K (Equiv.Perm (Fin n))) (hMP : M.P = QP.originalSubgroup)
@@ -122,7 +122,9 @@ theorem iSup_fix_eq_top_of_checks {K : Type} [Group K] [Finite K] {n k m : ℕ}
     (hL : closedCheck L = true) (hLnd : L.Nodup)
     (hLcard : L.length = 2 ^ QA.orderCertificate.factorization 2)
     (hLA : L.all (fun g => QA.sift g 0) = true)
-    (hpair : pairCheck k m L (elemsT QP) [pa, pb] = true) {a b : Equiv.Perm (Fin n)}
+    (hgenL : ∀ u ∈ L, ∀ v ∈ L, IsDihPair u v → ∀ X : Subgroup (Equiv.Perm (Fin n)),
+      (∀ c, QP.sift c 0 = true → ∀ t ∈ dihInvs u v, c * t = t * c → c ∈ X) → pa ∈ X ∧ pb ∈ X)
+    {a b : Equiv.Perm (Fin n)}
     (haL : a ∈ L) (hbL : b ∈ L) (haP : QP.sift a 0 = true) (hbP : QP.sift b 0 = true)
     (hab : dihB a b = true) (T : Subgroup (MulAut K)) (hT : IsPGroup 2 T)
     (hTP : ∃ P : Sylow 2 K, Nonempty ((P : Subgroup K) ≃* T)) :
@@ -139,20 +141,42 @@ theorem iSup_fix_eq_top_of_checks {K : Type} [Group K] [Finite K] {n k m : ℕ}
   have hgen : ∀ u ∈ Q0, ∀ v ∈ Q0, IsDihPair u v → ∀ X : Subgroup (Equiv.Perm (Fin n)),
       (∀ c ∈ M.P, ∀ t ∈ dihInvs u v, c * t = t * c → c ∈ X) → M.P ≤ X := by
     intro u hu v hv huv X hX
-    have h := pairCheck_sound hpair M.P (fun c hc => by
-      rw [hMP, ← mem_elemsT QP hQP]; exact hc) hu hv huv X hX
+    obtain ⟨ha, hb⟩ := hgenL u hu v hv huv X fun c hc => hX c (by
+      rw [hMP, mem_iff_sift QP hQP]; exact hc)
     rw [hMP, hP, Subgroup.closure_le]
     intro g hg
     rcases hg with rfl | hg
-    · exact h _ List.mem_cons_self
+    · exact ha
     · rw [Set.mem_singleton_iff] at hg
       subst hg
-      exact h _ (List.mem_cons_of_mem _ List.mem_cons_self)
+      exact hb
   obtain ⟨P, ⟨ψ⟩⟩ := hTP
   have haP' : a ∈ M.P := by rw [hMP, mem_iff_sift QP hQP]; exact haP
   have hbP' : b ∈ M.P := by rw [hMP, mem_iff_sift QP hQP]; exact hbP
   obtain ⟨u, v, huv⟩ := exists_dihPair M.P M.e Q0 hQ0p haL hbL haP' hbP' ((dihB_iff a b).1 hab)
     P ψ
   exact iSup_fix_eq_top M Q0 hQ0A hcard hgen T hT u.2 v.2 (huv.map T.subtype Subtype.val_injective)
+
+open CFSG.Certificates CFSG.Sporadic.Schreier in
+theorem iSup_fix_eq_top_of_checks {K : Type} [Group K] [Finite K] {n k m : ℕ}
+    (QP QA : RawSchreierDatum n) (hQP : ValidSchreier QP) (hQA : ValidSchreier QA)
+    {pa pb : Equiv.Perm (Fin n)} (hP : QP.originalSubgroup = Subgroup.closure {pa, pb})
+    (M : AutModel K (Equiv.Perm (Fin n))) (hMP : M.P = QP.originalSubgroup)
+    (hMA : M.A = QA.originalSubgroup) (L : List (Equiv.Perm (Fin n)))
+    (hL : closedCheck L = true) (hLnd : L.Nodup)
+    (hLcard : L.length = 2 ^ QA.orderCertificate.factorization 2)
+    (hLA : L.all (fun g => QA.sift g 0) = true)
+    (hpair : pairCheck k m L (elemsT QP) [pa, pb] = true) {a b : Equiv.Perm (Fin n)}
+    (haL : a ∈ L) (hbL : b ∈ L) (haP : QP.sift a 0 = true) (hbP : QP.sift b 0 = true)
+    (hab : dihB a b = true) (T : Subgroup (MulAut K)) (hT : IsPGroup 2 T)
+    (hTP : ∃ P : Sylow 2 K, Nonempty ((P : Subgroup K) ≃* T)) :
+    ⨆ (τ : MulAut K) (_ : τ ∈ T) (_ : orderOf τ = 2),
+      MonoidHom.eqLocus τ.toMonoidHom (MonoidHom.id K) = ⊤ := by
+  refine iSup_fix_eq_top_of_gen QP QA hQP hQA hP M hMP hMA L hL hLnd hLcard hLA ?_ haL hbL haP
+    hbP hab T hT hTP
+  intro u hu v hv huv X hX
+  have h := pairCheck_sound hpair QP.originalSubgroup (fun c hc => (mem_elemsT QP hQP c).1 hc)
+    hu hv huv X fun c hc => hX c ((mem_iff_sift QP hQP c).1 hc)
+  exact ⟨h _ List.mem_cons_self, h _ (List.mem_cons_of_mem _ List.mem_cons_self)⟩
 
 end CFSG.ComponentClassification.FooteSmall

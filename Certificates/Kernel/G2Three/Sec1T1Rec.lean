@@ -1,10 +1,7 @@
 module
 
-public meta import Lean
-meta import CFSG.RankThree.PartTwo.Census.Carrier.G2ThreeData
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
-meta import Mathlib
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
@@ -42,401 +39,419 @@ import Mathlib.Topology.Sheaves.Init
 
 namespace CFSG.KD.G2Three.Sec1.Gen1
 
-open CFSG.RankThree.PartTwo.Census.Carrier.G2Three
+meta def uL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.0.txt") ",").map String.toNat!
 
-meta def bitsM (v : Nat) (l : List Nat) : Nat :=
-  l.foldr (fun e acc => 2 * acc + if e == v then 1 else 0) 0
+meta def relA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.1.txt") ",").map String.toNat!
 
-meta def pkM (m : List Nat) : Nat := 2 ^ 196 * bitsM 2 m + bitsM 1 m
+meta def relB : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.2.txt") ",").map String.toNat!
 
-meta def LOm : Nat := 2 ^ 196 - 1
-meta def RMm : Nat := 2 ^ 14 - 1
-meta def CIm : Nat := (List.range 14).foldl (fun a i => a ||| (1 <<< (14 * i))) 0
-meta def LPm : Nat := 2 ^ 392 - 1
+meta def relC : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.3.txt") ",").map String.toNat!
 
-meta def mulM (A B : Nat) : Nat := Id.run do
-  let A1 := A &&& LOm
-  let A2 := A >>> 196
-  let B1 := B &&& LOm
-  let B2 := B >>> 196
-  let mut x1 := 0
-  let mut x2 := 0
-  for k in [0:14] do
-    let a1 := (A1 >>> k) &&& CIm
-    let a2 := (A2 >>> k) &&& CIm
-    let b1 := (B1 >>> (14 * k)) &&& RMm
-    let b2 := (B2 >>> (14 * k)) &&& RMm
-    let q := a1 * b1 + a2 * b2
-    let m := a1 * b2 + a2 * b1
-    let t := (x1 ||| m) ^^^ (x2 ||| q)
-    let z1 := (x2 ||| m) ^^^ t
-    let z2 := (x1 ||| q) ^^^ t
-    x1 := z1
-    x2 := z2
-  return x1 + (x2 <<< 196)
+meta def relD : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.4.txt") ",").map String.toNat!
 
-meta def mp (a b : Nat) : Nat :=
-  mulM (a &&& LPm) (b &&& LPm) + (mulM (a >>> 392) (b >>> 392) <<< 392)
+meta def nrelA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.5.txt") ",").map String.toNat!
 
-meta def swp (a : Nat) : Nat := (a >>> 392) + ((a &&& LPm) <<< 392)
+meta def nrelB : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.6.txt") ",").map String.toNat!
 
-meta def pr (a b : List Nat) : Nat := pkM a + (pkM b <<< 392)
+meta def nrelC : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.7.txt") ",").map String.toNat!
 
-meta def oneP : Nat := pr one14 one14
-meta def gx0 : Nat := pr x0c x1c
-meta def gx1 : Nat := pr x1c x0c
-meta def gy0 : Nat := pr y0c y1c
-meta def gy1 : Nat := pr y1c y0c
-meta def n0 : Nat := mp (mp gx0 (mp gy0 gy0)) gx0
-meta def n1 : Nat := mp (mp gx1 (mp gy1 gy1)) gx1
-meta def n0i : Nat := mp (mp (mp gx0 gx0) gy0) (mp gx0 gx0)
-meta def n1i : Nat := mp (mp (mp gx1 gx1) gy1) (mp gx1 gx1)
-meta def u1 : Nat := mp (mp n0 gx1) n0i
-meta def b1 : Nat := mp (mp n0 n1) n0i
-meta def u2 : Nat := mp (mp n1 gx0) n1i
-meta def b2 : Nat := mp (mp n1 n0) n1i
-meta def h0 : Nat := mp n1 n1
-meta def u1i : Nat := mp (mp n0 (mp gx1 gx1)) n0i
-meta def u2i : Nat := mp (mp n1 (mp gx0 gx0)) n1i
-meta def a1 : Nat := mp (mp u1 (mp b1 (mp b1 b1))) u1i
-meta def a2 : Nat := mp (mp u2 (mp b2 (mp b2 b2))) u2i
+meta def nrelD : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.8.txt") ",").map String.toNat!
 
-meta def defs : List (Nat × Nat) :=
-  [(0, 0), (1, 2), (3, 4), (1, 1), (5, 6), (1, 3), (5, 1), (14, 6), (5, 3), (1, 6), (2, 2),
-    (8, 2), (19, 3), (0, 1), (21, 4), (22, 0), (11, 4), (5, 11), (1, 11), (6, 11), (3, 11),
-    (12, 11), (13, 11), (15, 11), (0, 2), (0, 18), (8, 18), (6, 3), (35, 5)]
+meta def swA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.9.txt") ",").map String.toNat!
 
-meta def uA : Array Nat :=
-  defs.foldl (fun acc d => acc.push (mp acc[d.1]! acc[d.2]!)) #[u1, b1, u2, b2, h0, a1, a2, oneP]
+meta def swB : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.10.txt") ",").map String.toNat!
 
-meta def U (i : Nat) : Nat := uA[i]!
+meta def gH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.11.txt") ",").map String.toNat!
 
-meta def closM (mul : Nat → Nat → Nat) (one : Nat) (gens : List Nat) :
-    Array Nat × Array (Nat × Nat) × Array Nat := Id.run do
-  let gs := gens.toArray
-  let mut es : Array Nat := #[one]
-  let mut par : Array (Nat × Nat) := #[]
-  let mut idx : Std.HashMap Nat Nat := ({} : Std.HashMap Nat Nat).insert one 0
-  let mut h := 0
-  while h < es.size do
-    for s in [0:gs.size] do
-      let y := mul es[h]! gs[s]!
-      if !idx.contains y then
-        idx := idx.insert y es.size
-        es := es.push y
-        par := par.push (h, s)
-    h := h + 1
-  let mut pos : Array Nat := #[]
-  for e in es do
-    for s in [0:gs.size] do
-      pos := pos.push ((idx.get? (mul e gs[s]!)).getD 0)
-  return (es, par, pos)
+meta def xHL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.12.txt") ",").map String.toNat!
 
-meta def sortM (xs : Array Nat) : List Nat × List Nat :=
-  let srt := (Array.range xs.size).qsort (fun a b => xs[a]! < xs[b]!)
-  let sri := (Array.range srt.size).foldl (fun acc i => acc.set! srt[i]! i)
-    (Array.replicate srt.size 0)
-  (srt.toList, sri.toList)
+meta def paH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.13.txt") ",").map String.toNat!
 
-meta def find (xs : Array Nat) (x : Nat) : Nat :=
-  ((List.range xs.size).find? fun i => xs[i]! == x).getD 0
+meta def pbH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.14.txt") ",").map String.toNat!
 
-meta def mem (xs : Array Nat) (x : Nat) : Bool := xs.contains x
+meta def posH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.15.txt") ",").map String.toNat!
 
-meta def basisM (gens : List Nat) : Array Nat :=
-  (Array.range (2 ^ gens.length)).map fun c =>
-    (List.range gens.length).foldl
-      (fun acc i => if c &&& (1 <<< i) != 0 then mp acc gens[i]! else acc) oneP
+meta def srtH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.16.txt") ",").map String.toNat!
 
-meta def invM (x : Nat) : Nat := Id.run do
-  let mut p := x
-  for _ in [0:64] do
-    let q := mp p x
-    if q == oneP then return p
-    p := q
-  return oneP
+meta def sriH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.17.txt") ",").map String.toNat!
 
-meta def cj (g y : Nat) : Nat := mp (mp g y) (invM g)
+meta def iH : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.18.txt") ",").map String.toNat!
 
-meta def gH : List Nat := [8, 9, 10]
-meta def gK1 : List Nat := [0, 1]
-meta def gK2 : List Nat := [2, 3]
-meta def gQ1 : List Nat := [5, 1]
-meta def gQ2 : List Nat := [6, 3]
-meta def gS : List Nat := [5, 1, 6, 3, 4]
-meta def gA : List Nat := [5, 1, 6, 3]
-meta def gM : List Nat := [20, 23]
-meta def gE : List Nat := [13, 15, 11]
-meta def gF : List Nat := [12, 13, 11]
-meta def gY2 : List Nat := [16, 17, 11]
-meta def gY3 : List Nat := [16, 15, 11]
+meta def iSW : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.19.txt") ",").map String.toNat!
 
-meta def cH := closM mp oneP (gH.map U)
-meta def cK1 := closM mp oneP (gK1.map U)
-meta def cK2 := closM mp oneP (gK2.map U)
-meta def cQ1 := closM mp oneP (gQ1.map U)
-meta def cQ2 := closM mp oneP (gQ2.map U)
-meta def cS := closM mp oneP (gS.map U)
-meta def cA := closM mp oneP (gA.map U)
-meta def cM := closM mp oneP (gM.map U)
-meta def bE := basisM (gE.map U)
-meta def bF := basisM (gF.map U)
-meta def bY2 := basisM (gY2.map U)
-meta def bY3 := basisM (gY3.map U)
-meta def xH := cH.1
-meta def xK1 := cK1.1
-meta def xK2 := cK2.1
-meta def xQ1 := cQ1.1
-meta def xQ2 := cQ2.1
-meta def xS := cS.1
-meta def xA := cA.1
-meta def xM := cM.1
+meta def gK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.20.txt") ",").map String.toNat!
 
-meta def dgM (c p : Nat) : Nat := (c / p) % 3
-meta def mul22M (a b : Nat) : Nat :=
-  ((dgM a 1 * dgM b 1 + dgM a 3 * dgM b 9) % 3) + 3 * ((dgM a 1 * dgM b 3 + dgM a 3 * dgM b 27) % 3) +
-    9 * ((dgM a 9 * dgM b 1 + dgM a 27 * dgM b 9) % 3) +
-    27 * ((dgM a 9 * dgM b 3 + dgM a 27 * dgM b 27) % 3)
+meta def xK1L : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.21.txt") ",").map String.toNat!
 
-meta def mul3M (p q : Nat) : Nat :=
-  ((p >>> (2 * (q &&& 3))) &&& 3) + (((p >>> (2 * ((q >>> 2) &&& 3))) &&& 3) <<< 2) +
-    (((p >>> (2 * ((q >>> 4) &&& 3))) &&& 3) <<< 4)
-meta def mul33M (x y : Nat) : Nat :=
-  mul3M (x &&& 63) (y &&& 63) + (mul3M (x >>> 6) (y >>> 6) <<< 6)
+meta def paK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.22.txt") ",").map String.toNat!
 
-meta def homM (c : Array Nat × Array (Nat × Nat) × Array Nat) (mul : Nat → Nat → Nat) (one : Nat)
-    (imgs : List Nat) : Array Nat :=
-  c.2.1.foldl (fun acc p => acc.push (mul acc[p.1]! imgs[p.2]!)) #[one]
+meta def pbK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.23.txt") ",").map String.toNat!
 
-meta def slU1 : Nat := 75
-meta def slB1 : Nat := 15
-meta def slOne : Nat := 28
-meta def kY := homM cK1 mul22M slOne [slU1, slB1]
+meta def posK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.24.txt") ",").map String.toNat!
 
-meta def pOne : Nat := 2340
-meta def pL : List Nat := [585, pOne, 1161, pOne, 1560, pOne, pOne, pOne]
-meta def pSig : Nat := 1572
-meta def pUA : Array Nat := defs.foldl (fun acc d => acc.push (mul33M acc[d.1]! acc[d.2]!)) pL.toArray
-meta def pG : List Nat := gH.map fun i => pUA[i]!
-meta def pY := homM cH mul33M pOne pG
-meta def cPI := closM mul33M pOne (pG ++ [pSig])
+meta def srtK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.25.txt") ",").map String.toNat!
 
-meta def matM (g : Nat) : Nat :=
-  (List.range 3).foldl (fun acc j => acc + (find bE (cj g bE[1 <<< j]!) <<< (3 * j))) 0
+meta def sriK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.26.txt") ",").map String.toNat!
 
-meta def mG : List Nat := [20, 23, 5, 1, 6, 3, 19]
-meta def mL : List Nat := mG.map fun i => matM (U i)
+meta def gK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.27.txt") ",").map String.toNat!
 
-meta def comA : List (Nat × Nat × Nat × Nat) :=
-  let g := [5, 1, 6, 3]
-  (List.range 4).flatMap fun i => (List.range 4).filterMap fun j =>
-    if i < j then
-      let x := g[i]!
-      let y := g[j]!
-      some (if mp (U x) (U y) == mp (U y) (U x) then (x, y, y, x) else (x, y, y, 25 + i))
-    else none
+meta def xK2L : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.28.txt") ",").map String.toNat!
 
-meta def rel : List (Nat × Nat × Nat × Nat) :=
-  ((List.range defs.length).map fun q => (defs[q]!.1, defs[q]!.2, q + 8, 7)) ++
-  [(0, 8, 7, 7), (2, 18, 7, 7), (11, 11, 7, 7), (3, 3, 11, 7), (4, 4, 7, 7),
-    (4, 0, 8, 4), (4, 2, 18, 4),
-    (0, 2, 2, 0), (0, 3, 3, 0), (1, 2, 2, 1), (1, 3, 3, 1),
-    (11, 0, 0, 11), (11, 1, 1, 11), (11, 2, 2, 11), (11, 3, 3, 11), (11, 4, 4, 11),
-    (12, 12, 7, 7), (13, 13, 7, 7), (15, 15, 7, 7), (12, 13, 13, 12),
-    (13, 15, 15, 13), (16, 16, 7, 7), (17, 17, 7, 7), (16, 17, 17, 16), (16, 15, 15, 16),
-    (19, 19, 33, 7), (19, 33, 7, 7),
-    (12, 11, 11, 12), (13, 11, 11, 13), (15, 11, 11, 15), (16, 11, 11, 16), (17, 11, 11, 17)] ++
-  comA
+meta def paK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.29.txt") ",").map String.toNat!
 
-meta def nrel : List (Nat × Nat × Nat × Nat) :=
-  [(0, 7, 7, 7), (2, 7, 7, 7), (11, 7, 7, 7), (19, 7, 7, 7)]
+meta def pbK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.30.txt") ",").map String.toNat!
 
-meta def swL : List (Nat × Nat) := [(0, 2), (2, 0), (1, 3), (3, 1), (4, 24), (11, 11), (12, 12),
-  (13, 13), (5, 6), (6, 5), (15, 36)]
+meta def posK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.31.txt") ",").map String.toNat!
 
-meta def normL (ga : List Nat) (gb : List Nat) (xs : Array Nat) : List Nat :=
-  ga.flatMap fun a => gb.map fun b => find xs (cj (U a) (U b))
+meta def srtK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.32.txt") ",").map String.toNat!
 
-meta def nH5 : List Nat := [0, 1, 2, 3, 4]
-meta def nK1 := normL nH5 gK1 xK1
-meta def nK2 := normL nH5 gK2 xK2
-meta def nQ1 := normL nH5 gQ1 xQ1
-meta def nQ2 := normL nH5 gQ2 xQ2
-meta def nA := normL nH5 gA xA
+meta def sriK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.33.txt") ",").map String.toNat!
 
-meta def iH : List Nat := (List.range 8).map fun s => find xH (U s)
-meta def iSW : List Nat := gH.map fun i => find xH (swp (U i))
+meta def gQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.34.txt") ",").map String.toNat!
 
-meta def iMU : List Nat := [19, 5, 1, 6, 3]
-meta def iM : List Nat := iMU.map fun i => find xM (U i)
+meta def xQ1L : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.35.txt") ",").map String.toNat!
 
-meta def gEF : List Nat := [12, 13, 15]
-meta def kG : List Nat := [slU1, slB1]
+meta def paQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.36.txt") ",").map String.toNat!
 
-meta def orbRec (T : Array Nat) (a : Nat) (ks : List Nat) (ws : List Nat) :
-    List Nat × List Nat × List Nat × List Nat :=
-  let rs := ws.map fun w =>
-    let k := (ks.find? fun k => cj (U k) (U a) == T[w]! || cj (U k) (U a) == mp T[w]! (U 11)).getD 7
-    let y := cj (U k) (U a)
-    (k, find T y, if y == T[w]! then 7 else 11)
-  (ws, rs.map (·.1), rs.map (·.2.1), rs.map (·.2.2))
+meta def pbQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.37.txt") ",").map String.toNat!
 
-meta def zs : List Nat := [oneP, U 11]
-meta def outZ (T : Array Nat) : List Nat :=
-  (List.range T.size).filter fun w => !(zs.contains T[w]!)
-meta def out12 : List Nat :=
-  (List.range xA.size).filter fun w => !(mem xQ1 xA[w]!) && !(mem xQ2 xA[w]!)
-meta def kX : List Nat := [7, 0, 8, 2, 18, 32, 33, 19, 34]
-meta def o1 := orbRec xQ1 5 [7, 0, 8] (outZ xQ1)
-meta def o2 := orbRec xQ2 6 [7, 2, 18] (outZ xQ2)
-meta def o3 := orbRec xA 12 kX out12
+meta def posQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.38.txt") ",").map String.toNat!
 
-meta def repsM (xs : Array Nat) (K : List Nat) : List Nat := Id.run do
-  let mut reps : List Nat := [0]
-  for i in [0:xs.size] do
-    let x := xs[i]!
-    if !(reps.any fun r => K.contains (mp (invM xs[r]!) x)) then
-      reps := reps ++ [i]
-  return reps
+meta def srtQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.39.txt") ",").map String.toNat!
 
-meta def raL : List Nat := repsM xA bE.toList
+meta def sriQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.40.txt") ",").map String.toNat!
 
-meta def actRec (tab : Array Nat) (reps : List Nat) (K : Array Nat) (tau : Nat) :
-    List Nat × List Nat × List Nat :=
-  let W := reps.map fun r => find tab (cj tau tab[r]!)
-  let T := W.map fun w =>
-    ((List.range reps.length).find? fun p => mem K (mp (invM tab[reps[p]!]!) tab[w]!)).getD 0
-  let Z := (W.zip T).map fun (w, p) => find K (mp (invM tab[reps[p]!]!) tab[w]!)
-  (W, T, Z)
+meta def gQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.41.txt") ",").map String.toNat!
 
-meta def raA := actRec xA raL bE (U 19)
+meta def xQ2L : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.42.txt") ",").map String.toNat!
 
-meta def p4I : List Nat := [0, 0, 0, 1, 1, 2]
-meta def p4J : List Nat := [1, 2, 3, 2, 3, 3]
+meta def paQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.43.txt") ",").map String.toNat!
 
-meta def eo : List Nat := [1, 2, 3, 5, 6, 7]
-meta def etU : List Nat := eo.flatMap fun u => eo.map fun _ => u
-meta def etV : List Nat := eo.flatMap fun _ => eo
-meta def etK : List Nat := eo.flatMap fun u => eo.map fun v =>
-  ((List.range xM.size).find? fun k => cj xM[k]! bE[u]! == bE[v]!).getD 0
-meta def fxK : List Nat := eo.map fun e =>
-  ((List.range xM.size).find? fun k => cj xM[k]! bE[e]! != bE[e]!).getD 0
+meta def pbQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.44.txt") ",").map String.toNat!
 
-meta def ceL : List Nat := [7, 0, 8]
-meta def edI : List Nat := [7, 7, 0]
-meta def edJ : List Nat := [0, 8, 8]
-meta def edD : List Nat := [8, 0, 8]
-meta def edW : List Nat := edD.map fun d =>
-  ((List.range 3).find? fun w => !(mem bE (cj (U d) bE[1 <<< w]!))).getD 0
+meta def posQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.45.txt") ",").map String.toNat!
 
-meta def y2W : List Nat := [1, 2, 4].map fun w => find bY2 (cj (U 0) bE[w]!)
-meta def y3W : List Nat := [1, 2, 4].map fun w => find bY3 (cj (U 0) bF[w]!)
+meta def srtQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.46.txt") ",").map String.toNat!
 
-meta def L (x : Array Nat) : List Nat := x.toList
-meta def PA (c : Array Nat × Array (Nat × Nat) × Array Nat) : List Nat := c.2.1.toList.map (·.1)
-meta def PB (c : Array Nat × Array (Nat × Nat) × Array Nat) : List Nat := c.2.1.toList.map (·.2)
-meta def POS (c : Array Nat × Array (Nat × Nat) × Array Nat) : List Nat := c.2.2.toList
-meta def SRT (x : Array Nat) : List Nat := (sortM x).1
-meta def SRI (x : Array Nat) : List Nat := (sortM x).2
+meta def sriQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.47.txt") ",").map String.toNat!
 
-meta def uL := L uA
-meta def relA := rel.map (·.1)
-meta def relB := rel.map (·.2.1)
-meta def relC := rel.map (·.2.2.1)
-meta def relD := rel.map (·.2.2.2)
-meta def nrelA := nrel.map (·.1)
-meta def nrelB := nrel.map (·.2.1)
-meta def nrelC := nrel.map (·.2.2.1)
-meta def nrelD := nrel.map (·.2.2.2)
-meta def swA := swL.map (·.1)
-meta def swB := swL.map (·.2)
-meta def xHL := L xH
-meta def paH := PA cH
-meta def pbH := PB cH
-meta def posH := POS cH
-meta def srtH := SRT xH
-meta def sriH := SRI xH
-meta def xK1L := L xK1
-meta def paK1 := PA cK1
-meta def pbK1 := PB cK1
-meta def posK1 := POS cK1
-meta def srtK1 := SRT xK1
-meta def sriK1 := SRI xK1
-meta def xK2L := L xK2
-meta def paK2 := PA cK2
-meta def pbK2 := PB cK2
-meta def posK2 := POS cK2
-meta def srtK2 := SRT xK2
-meta def sriK2 := SRI xK2
-meta def xQ1L := L xQ1
-meta def paQ1 := PA cQ1
-meta def pbQ1 := PB cQ1
-meta def posQ1 := POS cQ1
-meta def srtQ1 := SRT xQ1
-meta def sriQ1 := SRI xQ1
-meta def xQ2L := L xQ2
-meta def paQ2 := PA cQ2
-meta def pbQ2 := PB cQ2
-meta def posQ2 := POS cQ2
-meta def srtQ2 := SRT xQ2
-meta def sriQ2 := SRI xQ2
-meta def xSL := L xS
-meta def paS := PA cS
-meta def pbS := PB cS
-meta def posS := POS cS
-meta def srtS := SRT xS
-meta def sriS := SRI xS
-meta def xAL := L xA
-meta def paA := PA cA
-meta def pbA := PB cA
-meta def posA := POS cA
-meta def srtA := SRT xA
-meta def sriA := SRI xA
-meta def xML := L xM
-meta def paM := PA cM
-meta def pbM := PB cM
-meta def posM := POS cM
-meta def srtM := SRT xM
-meta def sriM := SRI xM
-meta def xEL := L bE
-meta def srtE := SRT bE
-meta def sriE := SRI bE
-meta def xFL := L bF
-meta def srtF := SRT bF
-meta def sriF := SRI bF
-meta def xY2L := L bY2
-meta def srtY2 := SRT bY2
-meta def sriY2 := SRI bY2
-meta def xY3L := L bY3
-meta def srtY3 := SRT bY3
-meta def sriY3 := SRI bY3
-meta def kYL := L kY
-meta def srtKY := SRT kY
-meta def sriKY := SRI kY
-meta def pYL := L pY
-meta def xPIL := L cPI.1
-meta def paPI := PA cPI
-meta def pbPI := PB cPI
-meta def posPI := POS cPI
-meta def srtPI := SRT cPI.1
-meta def sriPI := SRI cPI.1
-meta def pGL := pG ++ [pSig]
-meta def pUL := L pUA
-meta def o1W := o1.1
-meta def o1K := o1.2.1
-meta def o1V := o1.2.2.1
-meta def o1E := o1.2.2.2
-meta def o2W := o2.1
-meta def o2K := o2.2.1
-meta def o2V := o2.2.2.1
-meta def o2E := o2.2.2.2
-meta def o3W := o3.1
-meta def o3K := o3.2.1
-meta def o3V := o3.2.2.1
-meta def o3E := o3.2.2.2
-meta def raW := raA.1
-meta def raT := raA.2.1
-meta def raE := raA.2.2
+meta def gS : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.48.txt") ",").map String.toNat!
+
+meta def xSL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.49.txt") ",").map String.toNat!
+
+meta def paS : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.50.txt") ",").map String.toNat!
+
+meta def pbS : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.51.txt") ",").map String.toNat!
+
+meta def posS : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.52.txt") ",").map String.toNat!
+
+meta def srtS : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.53.txt") ",").map String.toNat!
+
+meta def sriS : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.54.txt") ",").map String.toNat!
+
+meta def gA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.55.txt") ",").map String.toNat!
+
+meta def xAL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.56.txt") ",").map String.toNat!
+
+meta def paA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.57.txt") ",").map String.toNat!
+
+meta def pbA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.58.txt") ",").map String.toNat!
+
+meta def posA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.59.txt") ",").map String.toNat!
+
+meta def srtA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.60.txt") ",").map String.toNat!
+
+meta def sriA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.61.txt") ",").map String.toNat!
+
+meta def gM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.62.txt") ",").map String.toNat!
+
+meta def xML : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.63.txt") ",").map String.toNat!
+
+meta def paM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.64.txt") ",").map String.toNat!
+
+meta def pbM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.65.txt") ",").map String.toNat!
+
+meta def posM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.66.txt") ",").map String.toNat!
+
+meta def srtM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.67.txt") ",").map String.toNat!
+
+meta def sriM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.68.txt") ",").map String.toNat!
+
+meta def iM : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.69.txt") ",").map String.toNat!
+
+meta def iMU : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.70.txt") ",").map String.toNat!
+
+meta def gEF : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.71.txt") ",").map String.toNat!
+
+meta def kG : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.72.txt") ",").map String.toNat!
+
+meta def gE : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.73.txt") ",").map String.toNat!
+
+meta def xEL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.74.txt") ",").map String.toNat!
+
+meta def srtE : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.75.txt") ",").map String.toNat!
+
+meta def sriE : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.76.txt") ",").map String.toNat!
+
+meta def gF : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.77.txt") ",").map String.toNat!
+
+meta def xFL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.78.txt") ",").map String.toNat!
+
+meta def srtF : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.79.txt") ",").map String.toNat!
+
+meta def sriF : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.80.txt") ",").map String.toNat!
+
+meta def gY2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.81.txt") ",").map String.toNat!
+
+meta def xY2L : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.82.txt") ",").map String.toNat!
+
+meta def srtY2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.83.txt") ",").map String.toNat!
+
+meta def sriY2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.84.txt") ",").map String.toNat!
+
+meta def gY3 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.85.txt") ",").map String.toNat!
+
+meta def xY3L : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.86.txt") ",").map String.toNat!
+
+meta def srtY3 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.87.txt") ",").map String.toNat!
+
+meta def sriY3 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.88.txt") ",").map String.toNat!
+
+meta def y2W : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.89.txt") ",").map String.toNat!
+
+meta def y3W : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.90.txt") ",").map String.toNat!
+
+meta def kYL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.91.txt") ",").map String.toNat!
+
+meta def srtKY : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.92.txt") ",").map String.toNat!
+
+meta def sriKY : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.93.txt") ",").map String.toNat!
+
+meta def pYL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.94.txt") ",").map String.toNat!
+
+meta def pGL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.95.txt") ",").map String.toNat!
+
+meta def pUL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.96.txt") ",").map String.toNat!
+
+meta def xPIL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.97.txt") ",").map String.toNat!
+
+meta def paPI : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.98.txt") ",").map String.toNat!
+
+meta def pbPI : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.99.txt") ",").map String.toNat!
+
+meta def posPI : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.100.txt") ",").map String.toNat!
+
+meta def srtPI : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.101.txt") ",").map String.toNat!
+
+meta def sriPI : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.102.txt") ",").map String.toNat!
+
+meta def mG : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.103.txt") ",").map String.toNat!
+
+meta def mL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.104.txt") ",").map String.toNat!
+
+meta def nK1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.105.txt") ",").map String.toNat!
+
+meta def nK2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.106.txt") ",").map String.toNat!
+
+meta def nQ1 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.107.txt") ",").map String.toNat!
+
+meta def nQ2 : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.108.txt") ",").map String.toNat!
+
+meta def nA : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.109.txt") ",").map String.toNat!
+
+meta def o1W : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.110.txt") ",").map String.toNat!
+
+meta def o1K : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.111.txt") ",").map String.toNat!
+
+meta def o1V : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.112.txt") ",").map String.toNat!
+
+meta def o1E : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.113.txt") ",").map String.toNat!
+
+meta def o2W : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.114.txt") ",").map String.toNat!
+
+meta def o2K : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.115.txt") ",").map String.toNat!
+
+meta def o2V : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.116.txt") ",").map String.toNat!
+
+meta def o2E : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.117.txt") ",").map String.toNat!
+
+meta def o3W : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.118.txt") ",").map String.toNat!
+
+meta def o3K : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.119.txt") ",").map String.toNat!
+
+meta def o3V : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.120.txt") ",").map String.toNat!
+
+meta def o3E : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.121.txt") ",").map String.toNat!
+
+meta def raL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.122.txt") ",").map String.toNat!
+
+meta def raW : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.123.txt") ",").map String.toNat!
+
+meta def raT : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.124.txt") ",").map String.toNat!
+
+meta def raE : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.125.txt") ",").map String.toNat!
+
+meta def p4I : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.126.txt") ",").map String.toNat!
+
+meta def p4J : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.127.txt") ",").map String.toNat!
+
+meta def eo : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.128.txt") ",").map String.toNat!
+
+meta def etU : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.129.txt") ",").map String.toNat!
+
+meta def etV : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.130.txt") ",").map String.toNat!
+
+meta def etK : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.131.txt") ",").map String.toNat!
+
+meta def fxK : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.132.txt") ",").map String.toNat!
+
+meta def ceL : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.133.txt") ",").map String.toNat!
+
+meta def edI : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.134.txt") ",").map String.toNat!
+
+meta def edJ : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.135.txt") ",").map String.toNat!
+
+meta def edD : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.136.txt") ",").map String.toNat!
+
+meta def edW : List Nat :=
+  (String.splitOn (include_str "Sec1T1Rec.137.txt") ",").map String.toNat!
 
 end CFSG.KD.G2Three.Sec1.Gen1
 

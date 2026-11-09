@@ -125,16 +125,25 @@ theorem good_lw {lwr : List (List Nat)} (hl : lwr.length = 3) {j : Nat} (hj : j 
   have h := good_posArr hA_good (lwr.getD j [])
   rwa [mwords_size] at h
 
+theorem get3_0 {α : Type} [Inhabited α] (x y z : α) : #[x, y, z][0]! = x := rfl
+theorem get3_1 {α : Type} [Inhabited α] (x y z : α) : #[x, y, z][1]! = y := rfl
+theorem get3_2 {α : Type} [Inhabited α] (x y z : α) : #[x, y, z][2]! = z := rfl
+
+theorem ex_0 (a : Nat) : ex a 0 = a / 16 := if_pos rfl
+theorem ex_1 (a : Nat) : ex a 1 = a / 4 % 4 := (if_neg (by decide)).trans (if_pos rfl)
+theorem ex_2 (a : Nat) : ex a 2 = a % 4 := (if_neg (by decide)).trans (if_neg (by decide))
+
 theorem good_cand {lwr : List (List Nat)} (hl : lwr.length = 3) (a : Nat) {j : Nat} (hj : j < 3) :
     Good (candImgs ((lwr.map (posArr nPts (wordArrs Data.MWords))).toArray) a)[j]!
       (candG lwr a j) := by
   have hc := good_pcomp (good_lw hl hj) (good_qPow (ex a j))
   have e : candG lwr a j = fun x => lwF lwr j (Nat.repeat QT (ex a j) x) := by funext x; rfl
   rw [e]
+  unfold candImgs
   interval_cases j
-  · simpa [candImgs, ex] using hc
-  · simpa [candImgs, ex] using hc
-  · simpa [candImgs, ex] using hc
+  · rw [get3_0, ex_0]; rw [ex_0] at hc; exact hc
+  · rw [get3_1, ex_1]; rw [ex_1] at hc; exact hc
+  · rw [get3_2, ex_2]; rw [ex_2] at hc; exact hc
 
 theorem cands_size (lw : Array (Array Nat)) (a : Nat) : (candImgs lw a).size = 3 := rfl
 

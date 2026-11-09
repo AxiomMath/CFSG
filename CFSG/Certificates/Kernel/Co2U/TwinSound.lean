@@ -75,6 +75,18 @@ theorem eqCheck_eq {G : Array (Array Nat)} {P : List Nat}
     · rfl
     rw [evalE_unpack hG h1, evalE_unpack hG h2, w12UEqR_unpack]
 
+theorem powCheck_eq {G : Array (Array Nat)} {P : List Nat}
+    (hG : ∀ i < 33, G[i]! = unpackR 22 (nthK P i)) :
+    ∀ ps : List (List (Nat × Nat) × Nat), w12UPowCheck G ps = powCheckK P ps
+  | [] => rfl
+  | q :: ps => by
+    have e : powCheckK P (q :: ps) =
+        ((w12UIdxOk q.1 && eqK (powK (evK P q.1 IDP) q.2) IDP) && powCheckK P ps) := rfl
+    rw [e, ← powCheck_eq hG ps, w12UPowCheck, w12UPowCheck, List.all_cons]
+    cases h1 : w12UIdxOk q.1
+    · rfl
+    rw [evalE_unpack hG h1, powRows_unpack, idRows_eq, w12UEqR_unpack]
+
 theorem wordsK_map (A B : Nat) :
     ∀ (cs : List (List Char)) (P : List Nat), wordsK A B cs P = true →
       cs.map (fun c => unpackR 22 (wordB 22 A B (c.map (· == 'a')) (idF 22))) =

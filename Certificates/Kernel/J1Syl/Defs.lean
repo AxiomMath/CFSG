@@ -39,14 +39,6 @@ open CFSG.KC.Enum CFSG.KS.PEnum CFSG.Sporadic.J1.Sylow.Native CertificateChecks.
 
 @[expose] noncomputable def keysOK : Bool := nodupB (TWL.flatMap keys2) (nat_lit 0)
 
-@[expose] noncomputable def normAt (w : List Int) (e : Nat) : Bool :=
-  allN (nat_lit 1540) fun x =>
-    Nat.beq (wp w (r32 BE (wp (invWord w) x)))
-      (nIf(Nat.beq e (nat_lit 1), r32 BE x, r32 BE (r32 BE x)))
-
-@[expose] noncomputable def normOK (i : Nat) : Bool :=
-  bIf(normAt (NWL.getD i []) (nat_lit 1), true, normAt (NWL.getD i []) (nat_lit 2))
-
 @[expose] noncomputable def vKeysOK : Bool :=
   nodupB (NWL.map fun w => keyOf (wp w (nat_lit 0)) (wp w (nat_lit 1))) (nat_lit 0)
 

@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.Co1PW
 public import CFSG.Certificates.Kernel.LocalCompCo1EndSound
 public import CFSG.Certificates.Kernel.SporSch.Co1MatSound
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 
 public section
 
@@ -21,7 +22,7 @@ theorem entryR_rows {M : Nat → Nat} {N k : Nat} (h : okK N k = true) :
     entryR (rowsOf M N) k = unpack 24 24 (M (k - 1)) := by
   rw [okK_iff] at h
   have hk : k - 1 < N := by omega
-  simp [entryR, List.getD_eq_getElem?_getD, List.getElem?_range, hk]
+  simp [entryR, List.getD_eq_getElem?_getD, hk]
 
 theorem inv_of_dagK {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
     (h : dagK M MI nb N ws = true) {k : Nat} (hk : k < N) :
@@ -30,8 +31,9 @@ theorem inv_of_dagK {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
   obtain ⟨hall, _⟩ := MatS.bAnd_split h
   exact (invOKK_sound (MatL.allN_iff.1 hall k hk)).2
 
-theorem conjProdR_eq {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
-    (hd : dagK M MI nb N ws = true) (z : Nat) {ps : List Nat} (hps : ∀ k ∈ ps, okK N k = true) :
+theorem conjProdR_eq {M MI : Nat → Nat} {N : Nat}
+    (hd : ∀ k < N, inv (unpack 24 24 (M k)) = unpack 24 24 (MI k)) (z : Nat) {ps : List Nat}
+    (hps : ∀ k ∈ ps, okK N k = true) :
     conjProdR (rowsOf M N) (unpack 24 24 z) ps = unpack 24 24 (conjPK M MI z ps) := by
   unfold conjProdR conjPK
   rw [← MatL.unpack_idM]
@@ -43,12 +45,12 @@ theorem conjProdR_eq {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
     have hk' : k - 1 < N := by
       rw [okK_iff] at hk
       omega
-    rw [List.foldl_cons, List.foldl_cons, entryR_rows hk, inv_of_dagK hd hk',
+    rw [List.foldl_cons, List.foldl_cons, entryR_rows hk, hd (k - 1) hk',
       ← MatL.unpack_mulK, ← MatL.unpack_mulK, ← MatL.unpack_mulK]
     exact ih (fun k' hk'' => hps k' (List.mem_cons_of_mem _ hk'')) _
 
-theorem decOK_eq {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
-    (hd : dagK M MI nb N ws = true) (z : Nat) :
+theorem decOK_eq {M MI : Nat → Nat} {N : Nat}
+    (hd : ∀ k < N, inv (unpack 24 24 (M k)) = unpack 24 24 (MI k)) (z : Nat) :
     ∀ (S : List Nat) (dec : List (List Nat)), decK M MI N z S dec = true →
       decOK (rowsOf M N) (unpack 24 24 z) (S.map (unpack 24 24)) dec = true := by
   intro S
@@ -74,15 +76,15 @@ theorem decOK_eq {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
         have hk' : k - 1 < N := by
           have := okK_iff.1 (hok k hk)
           omega
-        rw [entryR_rows (hok k hk), inv_of_dagK hd hk', ← MatL.unpack_mulK, ← MatL.unpack_idM,
+        rw [entryR_rows (hok k hk), hd (k - 1) hk', ← MatL.unpack_mulK, ← MatL.unpack_idM,
           beq_unpack]
         exact (hps k hk).2
       · rw [conjProdR_eq hd z hok, beq_unpack]
         exact he
 
-theorem pwCoreOK_of {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
-    (hd : dagK M MI nb N ws = true) {S : List Nat} {iz ih R : Nat} {dec : List (List Nat)}
-    (h : pwCoreK M MI N S iz ih dec R = true) :
+theorem pwCoreOK_of_inv {M MI : Nat → Nat} {N : Nat}
+    (hd : ∀ k < N, inv (unpack 24 24 (M k)) = unpack 24 24 (MI k)) {S : List Nat}
+    {iz ih R : Nat} {dec : List (List Nat)} (h : pwCoreK M MI N S iz ih dec R = true) :
     pwCoreOK (rowsOf M N) (S.map (unpack 24 24)) iz ih dec (unpack 24 24 R) = true := by
   unfold pwCoreK at h
   simp only [Bool.and_eq_true, List.all_eq_true] at h
@@ -93,7 +95,76 @@ theorem pwCoreOK_of {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
     Bool.and_eq_true, List.all_eq_true]
   exact ⟨⟨⟨h4, hc⟩, hS⟩, decOK_eq hd _ S dec hdec⟩
 
-theorem entriesR_of {M MI : Nat → Nat} {N : Nat} {base : List Rows} {ws : List (List Int)}
+theorem pwCoreOK_of {M MI : Nat → Nat} {nb N : Nat} {ws : List (List Nat)}
+    (hd : dagK M MI nb N ws = true) {S : List Nat} {iz ih R : Nat} {dec : List (List Nat)}
+    (h : pwCoreK M MI N S iz ih dec R = true) :
+    pwCoreOK (rowsOf M N) (S.map (unpack 24 24)) iz ih dec (unpack 24 24 R) = true :=
+  pwCoreOK_of_inv (fun _ hk => inv_of_dagK hd hk) h
+
+theorem conjProdR_eqW {M MI : Nat → Nat} {N : Nat}
+    (hd : ∀ k < N, inv (unpack 24 24 (M k)) = unpack 24 24 (MI k)) (z : Nat) {ps : List Nat}
+    (hps : ∀ k ∈ ps, okK N k = true) :
+    conjProdR (rowsOf M N) (unpack 24 24 z) ps = unpack 24 24 (conjPWK M MI z ps) := by
+  unfold conjProdR conjPWK
+  rw [← MatL.unpack_idM]
+  generalize idM = a
+  induction ps generalizing a with
+  | nil => rfl
+  | cons k ps ih =>
+    have hk := hps k List.mem_cons_self
+    have hk' : k - 1 < N := by
+      rw [okK_iff] at hk
+      omega
+    rw [List.foldl_cons, List.foldl_cons, entryR_rows hk, hd (k - 1) hk', mul_unpackW,
+      mul_unpackW, mul_unpackW]
+    exact ih (fun k' hk'' => hps k' (List.mem_cons_of_mem _ hk'')) _
+
+theorem decOK_eqW {M MI : Nat → Nat} {N : Nat}
+    (hd : ∀ k < N, inv (unpack 24 24 (M k)) = unpack 24 24 (MI k)) (z : Nat) :
+    ∀ (S : List Nat) (dec : List (List Nat)), decWK M MI N z S dec = true →
+      decOK (rowsOf M N) (unpack 24 24 z) (S.map (unpack 24 24)) dec = true := by
+  intro S
+  induction S with
+  | nil =>
+    intro dec h
+    cases dec with
+    | nil => rfl
+    | cons ps dec => simp [decWK] at h
+  | cons s S ih =>
+    intro dec h
+    cases dec with
+    | nil => simp [decWK] at h
+    | cons ps dec =>
+      simp only [decWK, Bool.and_eq_true, List.all_eq_true] at h
+      obtain ⟨⟨hps, he⟩, hrest⟩ := h
+      have hok : ∀ k ∈ ps, okK N k = true := fun k hk => (hps k hk).1
+      simp only [List.map_cons, decOK, Bool.and_eq_true]
+      refine ⟨⟨?_, ?_⟩, ih dec hrest⟩
+      · unfold invsOK
+        rw [List.all_eq_true]
+        intro k hk
+        have hk' : k - 1 < N := by
+          have := okK_iff.1 (hok k hk)
+          omega
+        rw [entryR_rows (hok k hk), hd (k - 1) hk', mul_unpackW, ← MatL.unpack_idM, beq_unpack]
+        exact (hps k hk).2
+      · rw [conjProdR_eqW hd z hok, beq_unpack]
+        exact he
+
+theorem pwCoreOK_of_invW {M MI : Nat → Nat} {N : Nat}
+    (hd : ∀ k < N, inv (unpack 24 24 (M k)) = unpack 24 24 (MI k)) {S : List Nat}
+    {iz ih R : Nat} {dec : List (List Nat)} (h : pwCoreWK M MI N S iz ih dec R = true) :
+    pwCoreOK (rowsOf M N) (S.map (unpack 24 24)) iz ih dec (unpack 24 24 R) = true := by
+  unfold pwCoreWK at h
+  simp only [Bool.and_eq_true, List.all_eq_true] at h
+  obtain ⟨⟨⟨⟨⟨hz, hh⟩, h4⟩, hc⟩, hS⟩, hdec⟩ := h
+  unfold pwCoreOK
+  rw [entryR_rows hz, entryR_rows hh, List.all_map]
+  simp only [mul_unpackW, ← MatL.unpack_idM, beq_unpack, Function.comp_def, commR,
+    Bool.and_eq_true, List.all_eq_true]
+  exact ⟨⟨⟨h4, hc⟩, hS⟩, decOK_eqW hd _ S dec hdec⟩
+
+theorem entriesR_of{M MI : Nat → Nat} {N : Nat} {base : List Rows} {ws : List (List Int)}
     (hdag : dag base ws = (rowsOf M N, rowsOf MI N, true)) {idx : List Nat}
     (hidx : idx.all (okK N) = true) :
     entriesR base ws idx = idx.map fun k => unpack 24 24 (M (k - 1)) := by

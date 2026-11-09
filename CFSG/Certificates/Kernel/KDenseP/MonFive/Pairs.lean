@@ -1,6 +1,7 @@
 module
 
 public import CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterFiveRepData
+public import CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterFiveRel
 
 public section
 
@@ -11,6 +12,9 @@ open CFSG.Monster.AxisCount CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Mons
 @[expose] def tri3 (eqs nes : List (List Native.Gen × List Native.Gen)) :
     List (List Native.Gen × List Native.Gen) :=
   eqs ++ eqs ++ eqs ++ nes
+
+@[expose] def normPick (j : ℕ) (l : List ℕ) : List (List Native.Gen × List Native.Gen) :=
+  l.map fun i => (fiveGens[i]! ++ fiveNW[j]!, fiveNW[j]! ++ rhsW (fiveNImg[j]!)[i]!)
 
 @[expose] def nesOf (lo n : ℕ) : List (List Native.Gen × List Native.Gen) :=
   (List.range n).filterMap fun i =>

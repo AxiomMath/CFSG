@@ -64,7 +64,8 @@ theorem coverPointDatum_of_zcheck
     obtain ⟨q, hq, hqv⟩ := List.any_eq_true.1 (List.all_eq_true.1 hind v hv)
     simp only [Bool.and_eq_true, beq_iff_eq] at hqv
     exact ⟨q, hq, hqv.1.1, hqv.1.2, hqv.2⟩
-  obtain ⟨DS, h3, hact, hspan⟩ := exists_moduleSpec_core Sp hC' D.m hmodf hindep
+  obtain ⟨DS, h3, hact, hspan⟩ := exists_moduleSpec_core Sp hC' D.m hmodf
+    fun v hv => hindep v (mem_nonzeroTriples_of_proj hv)
   have hNFDS : DS.NoFun := noFun_of_entries h3 DS.M D.m.acts
     (fun g hg => by obtain ⟨j, -, hj⟩ := hact g hg; exact ⟨j, hj⟩)
     (fun v hv => noFun_of_bool (D := ⟨D.p, D.m, D.pts, 0, 0, 0, 0, [], [], []⟩) hNF v hv)

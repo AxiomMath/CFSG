@@ -240,8 +240,8 @@ theorem F_mul_gen {F W L : ℕ → ℕ} (hF : ∀ x, F x = mulK (W (nfEK x)) (L 
   rw [← gK_mul (hFlt _) (hFlt _)] at e
   exact gK_inj (hFlt _) (mulK_lt _ _) e
 
-theorem conj_of_homK {k m z : ℕ} (h : homK k m z = true) (hz : z < 65536) {y : ℕ}
-    (hy : y < 65536) : mulK z y = mulK (FK k m (FK k m y)) z := by
+theorem homK_mul {k m z : ℕ} (h : homK k m z = true) :
+    ∀ a < 65536, ∀ c < 65536, FK k m (mulK a c) = mulK (FK k m a) (FK k m c) := by
   unfold homK at h
   simp only [cen_strictB] at h
   obtain ⟨hW0, h⟩ := band_parts h
@@ -311,8 +311,23 @@ theorem conj_of_homK {k m z : ℕ} (h : homK k m z = true) (hz : z < 65536) {y :
       (LK_lt k) hW0' hlin (fun i hi => (hρ i hi).1) (fun i hi => (hρ i hi).2) hcb hst ha hg
   have hlt : ∀ a < 65536, FK k m a < 65536 := fun a _ => mulK_lt _ _
   have hF0' : FK k m 0 = 0 := Nat.eq_of_beq_eq_true hF0
-  have hFmul : ∀ a < 65536, ∀ c < 65536, FK k m (mulK a c) = mulK (FK k m a) (FK k m c) :=
-    fun a ha c hc => mul_of_gens ΦK mulK_zero sGens_lt genK hlt hF0' hmulG ha hc
+  exact fun a ha c hc => mul_of_gens ΦK mulK_zero sGens_lt genK hlt hF0' hmulG ha hc
+
+theorem conj_of_homK {k m z : ℕ} (h : homK k m z = true) (hz : z < 65536) {y : ℕ}
+    (hy : y < 65536) : mulK z y = mulK (FK k m (FK k m y)) z := by
+  have hFmul := homK_mul h
+  unfold homK at h
+  simp only [cen_strictB] at h
+  obtain ⟨_, h⟩ := band_parts h
+  obtain ⟨hF0, h⟩ := band_parts h
+  obtain ⟨_, h⟩ := band_parts h
+  obtain ⟨_, h⟩ := band_parts h
+  obtain ⟨_, hgB⟩ := band_parts h
+  have hFN : rowFN mulK sNfRow (wLit.getD (16 * k + m - 16) 0) (lLit.getD k 0) = FK k m :=
+    funext fun x => FK_eqN k m x
+  rw [hFN] at hF0 hgB
+  have hlt : ∀ a < 65536, FK k m a < 65536 := fun a _ => mulK_lt _ _
+  have hF0' : FK k m 0 = 0 := Nat.eq_of_beq_eq_true hF0
   have hgen : ∀ g ∈ sGens, mulK z g = mulK (FK k m (FK k m g)) z := by
     intro g hg
     obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 hg

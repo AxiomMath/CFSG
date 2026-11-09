@@ -102,21 +102,12 @@ theorem kb_pe : ∀ i < J2KB.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2KB.G 
   fun i hi => penumSl_spec kbE i (Nat.zero_le _) (by omega) hi
 theorem kb_hs : ∀ i < J2KB.cnt, hsortPtK 315 9 (mask 9) J2KB.cnt J2KB.T J2KB.HS J2KB.HSI i = true :=
   fun i hi => slK_spec kbH i (Nat.zero_le _) (by omega) hi
-theorem kb_cl : ∀ c < J2KB.cnt * (2 + 2), findPtK J2KB.cnt J2KB.T
-    (prodQK 315 9 (mask 9) (2 + 2) J2KB.T (bothK 2 J2KB.GI J2XI)) J2KBCl c = true :=
-  fun c hc => slK_spec kbCl c (Nat.zero_le _) (by change c < Nat.mul J2KB.cnt 4; omega)
-    (by change c < Nat.mul J2KB.cnt 4; omega)
 
 theorem cb_pe : ∀ i < J2CB.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2CB.G J2CB.GI 5 J2CB.cnt
     J2CB.T J2CB.PL J2CB.POS J2CB.SRT J2CB.SRI i = true :=
   fun i hi => penumSl_spec cbE i (Nat.zero_le _) (by omega) hi
 theorem cb_hs : ∀ i < J2CB.cnt, hsortPtK 315 9 (mask 9) J2CB.cnt J2CB.T J2CB.HS J2CB.HSI i = true :=
   fun i hi => slK_spec cbH i (Nat.zero_le _) (by omega) hi
-theorem cb_cl : ∀ c < J2CB.cnt * (5 + 5), findPtK J2CB.cnt J2CB.T
-    (prodQK 315 9 (mask 9) (5 + 5) J2CB.T (bothK 5 J2CB.GI (fun j => J2CentI (Nat.add 18 j))))
-      J2CBCl c = true :=
-  fun c hc => slK_spec cbCl c (Nat.zero_le _) (by change c < Nat.mul J2CB.cnt 10; omega)
-    (by change c < Nat.mul J2CB.cnt 10; omega)
 
 theorem e_pe : ∀ i < J2E16.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2E16.G J2E16.GI 4
     J2E16.cnt J2E16.T J2E16.PL J2E16.POS J2E16.SRT J2E16.SRI i = true :=
@@ -124,23 +115,18 @@ theorem e_pe : ∀ i < J2E16.cnt, penumPtK 315 9 (mask 9) (315 * 9) true J2E16.G
 theorem e_hs : ∀ i < J2E16.cnt, hsortPtK 315 9 (mask 9) J2E16.cnt J2E16.T J2E16.HS J2E16.HSI i =
     true :=
   fun i hi => slK_spec eH i (Nat.zero_le _) (by omega) hi
-theorem e_cl : ∀ c < J2E16.cnt * (4 + 4), findPtK J2E16.cnt J2E16.T
-    (prodQK 315 9 (mask 9) (4 + 4) J2E16.T (bothK 4 J2E16.GI (fun j => J2XI (Nat.add 4 j))))
-      J2E16Cl c = true :=
-  fun c hc => slK_spec eCl c (Nat.zero_le _) (by change c < Nat.mul J2E16.cnt 8; omega)
-    (by change c < Nat.mul J2E16.cnt 8; omega)
 
 theorem kb_enum : enumOK 315 cap j2KbGens 60 = true :=
-  evEnum_of_rec hn (fun j hj => (base.1 j hj).2) kb_tabs kb_invs base.2.2.2.2.2.2.1 kb_pe kb_hs
-    kb_cl base.2.2.2.1
+  evEnum_of_pos hn (fun j hj => (base.1 j hj).2) kb_tabs kb_invs base.2.2.2.2.2.2.1 kb_pe kb_hs
+    base.2.2.2.1
 
 theorem cb_enum : enumOK 315 cap j2Row2B.centGens 240 = true :=
-  evEnum_of_rec hn (fun j hj => (base.2.1 j hj).2) cb_tabs cb_invs base.2.2.2.2.2.2.2.1 cb_pe cb_hs
-    cb_cl base.2.2.2.2.1
+  evEnum_of_pos hn (fun j hj => (base.2.1 j hj).2) cb_tabs cb_invs base.2.2.2.2.2.2.2.1 cb_pe cb_hs
+    base.2.2.2.2.1
 
 theorem e_enum : enumOK 315 cap j2E16Gens 16 = true :=
-  evEnum_of_rec hn (fun j hj => (base.2.2.1 j hj).2) e_tabs e_invs base.2.2.2.2.2.2.2.2 e_pe e_hs
-    e_cl base.2.2.2.2.2.1
+  evEnum_of_pos hn (fun j hj => (base.2.2.1 j hj).2) e_tabs e_invs base.2.2.2.2.2.2.2.2 e_pe e_hs
+    base.2.2.2.2.2.1
 
 theorem c2_enum' : enumOK 315 cap j2Row2A.centGens 1920 = true := by
   rw [cg2A]

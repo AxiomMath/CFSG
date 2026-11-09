@@ -29,6 +29,20 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
     (X Z ZI : Nat → Nat) (lo len : Nat) : Nat :=
   sumN len (fun j => scanHeAt w NR NL LT PT bs c X Z ZI (Nat.add lo j))
 
+@[expose] noncomputable def preP (f Z ZI : Nat → Nat) (a1 a0 : Nat) : Bool :=
+  Nat.beq (f (Z (f (Z (f (Z a1)))))) (ZI (f (ZI (f (ZI a0)))))
+
+@[expose] noncomputable def scanHeP (w NR NL : Nat) (LT PT : Nat → Nat) (bs : List Nat) (c : Nat)
+    (X K Z ZI : Nat → Nat) (n D1 D0 i : Nat) : Nat :=
+  nIf(Nat.blt i c, strictN (nfX (nat_lit 5) (X i)) (fun x => strictN (K i) (fun k =>
+    nIf(preP (nfPtT w NR NL LT PT (nat_lit 5) x) Z ZI (Nat.mod (Nat.div k D1) n)
+        (Nat.mod (Nat.div k D0) n),
+      scanHeAt w NR NL LT PT bs c X Z ZI i, nat_lit 0))), nat_lit 0)
+
+@[expose] noncomputable def scanHePR (w NR NL : Nat) (LT PT : Nat → Nat) (bs : List Nat) (c : Nat)
+    (X K Z ZI : Nat → Nat) (n D1 D0 lo len : Nat) : Nat :=
+  sumN len (fun j => scanHeP w NR NL LT PT bs c X K Z ZI n D1 D0 (Nat.add lo j))
+
 @[expose] noncomputable def nf5 (k0 k1 k2 k3 k4 : Nat) : Nat :=
   Nat.lor k0 (Nat.lor (Nat.shiftLeft k1 (nat_lit 16)) (Nat.lor (Nat.shiftLeft k2 (nat_lit 32))
     (Nat.lor (Nat.shiftLeft k3 (nat_lit 48)) (Nat.shiftLeft k4 (nat_lit 64)))))
@@ -52,6 +66,32 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw
 
 @[expose] noncomputable def bind5At (n w NR NL : Nat) (LT PT : Nat → Nat) (F P x : Nat) : Bool :=
   bIf(Nat.blt x n, Nat.beq (pg w (mask w) P x) (nfPtT w NR NL LT PT (nat_lit 5) F x), true)
+
+@[expose] noncomputable def heoPack (L w : Nat) (f : Nat → Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (nat_lit 0)
+    (fun m acc => Nat.add acc (Nat.shiftLeft (f m) (Nat.mul w m))) L
+
+@[expose] noncomputable def heoMap (L w : Nat) (Z : Nat → Nat) (V : Nat) : Nat :=
+  heoPack L w (fun m => Z fld(V, Nat.mul w m, mask w))
+
+@[expose] noncomputable def heoIx (L k c : Nat) : Nat :=
+  Nat.add (Nat.sub c (Nat.mod c L)) (Nat.mod (Nat.add (Nat.mod c L) (Nat.sub L k)) L)
+
+@[expose] noncomputable def heoRd (L w V k c : Nat) : Nat :=
+  fld(V, Nat.mul w (heoIx L k c), mask w)
+
+@[expose] noncomputable def heoLoop (n L N w mw MB : Nat) (bs : List Nat) (Z KS : Nat → Nat)
+    (j : Nat) : Nat → Nat → Nat → Bool :=
+  Nat.rec (motive := fun _ => Nat → Nat → Bool) (fun _ _ => true)
+    (fun _ ih k V => bAnd(Nat.beq (KS (Nat.add (Nat.mul j L) k))
+        (keyL n (fun b => heoRd L w V k fld(MB, Nat.mul mw b, mask mw)) bs),
+      strictB (heoMap N w Z V) (fun V' => ih (Nat.succ k) V')))
+
+@[expose] noncomputable def heoAt (w NR NL : Nat) (LT PT : Nat → Nat) (lv n L N mw MB OP : Nat)
+    (bs : List Nat) (X Z KS : Nat → Nat) (j : Nat) : Bool :=
+  strictB (nfX lv (X j)) (fun x =>
+    strictB (heoPack N w (fun m => nfPtT w NR NL LT PT lv x fld(OP, Nat.mul w m, mask w)))
+      (fun V => heoLoop n L N w mw MB bs Z KS j L (nat_lit 0) V))
 
 end CFSG.KS.SporSch
 

@@ -80,4 +80,31 @@ public meta def candStep (args : Array Val) : Except String (Array (Lean.Name ×
     U := stepT Ms ms U
   return #[(`CC, .nat CC)]
 
+public meta def levStep (args : Array Val) : Except String (Array (Lean.Name × Val)) := do
+  if args.size != 7 then throw "levStep: expected 7 arguments"
+  let V ← valNats args[0]!
+  let FP ← valNat args[1]!
+  let WN ← valNat args[2]!
+  let ri ← valNats args[3]!
+  let lev ← valNats args[4]!
+  let j ← valNat args[5]!
+  let g ← valNat args[6]!
+  let n := lev[2 * (j - 1)]!
+  let D := lev[2 * (j - 1) + 1]!
+  let Ms := ((segsT ri.toList).getD (j - 1) []).toArray.map fun r => V[r]!
+  let nh := Ms.size
+  let bw := (n + 7) / 8
+  let F := (1 <<< n) - 1
+  let mut U : Array Nat := (Array.range 156).map fun c => (FP >>> (8 * bw * c)) &&& F
+  let mut LC := 0
+  let mut k := 0
+  for t in [0:D] do
+    if g > 0 && t > 0 && t % g == 0 then
+      for c in [0:156] do
+        LC := LC ||| (U[c]! <<< (8 * bw * (156 * k + c)))
+      k := k + 1
+    let ms := (Array.range nh).map fun l => (WN >>> (8 * bw * (nh * t + l))) &&& F
+    U := stepT Ms ms U
+  return #[(Lean.Name.mkSimple s!"LC{j}", .nat LC)]
+
 end CFSG.KD.StdOdd.Cent

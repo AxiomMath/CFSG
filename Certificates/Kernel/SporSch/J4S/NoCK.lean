@@ -5,6 +5,7 @@ public import Certificates.Kernel.SporSch.J4S.InvP
 public import Certificates.Kernel.SporSch.J4S.Orbits
 public import Certificates.Kernel.SporSch.J4S.FormK
 public import CFSG.Sporadic.Schreier.J4SNoCompData
+public import Certificates.Data.Kernel.SporSch.J4SNoCK
 meta import Certificates.Kernel.SporSch.J4S.NoCData
 meta import CFSG.Sporadic.Schreier.J4SNoCompData
 import CFSG.Certificates.Kernel.Common.Harness
@@ -15,8 +16,8 @@ set_option maxRecDepth 400000
 
 #kss_pairs CertificateChecks.KernelSporSch.J4RP CertificateChecks.KernelSporSch.J4NoC.repPairs
 #kss_vec CertificateChecks.KernelSporSch.J4RV CFSG.Sporadic.J4Schreier.NoComp.repVecs
-#kss_pairs CertificateChecks.KernelSporSch.J4CJ CertificateChecks.KernelSporSch.J4NoC.conjFlat
-#kss_tree CertificateChecks.KernelSporSch.J4OW CertificateChecks.KernelSporSch.J4NoC.outW 11
+@[expose] noncomputable def CertificateChecks.KernelSporSch.J4OW (l : Nat) : Nat :=
+  CFSG.KC.J4Q.getN 0 CertificateChecks.KernelSporSch.J4OWL l
 
 namespace CertificateChecks.KernelSporSch.J4NoCK
 

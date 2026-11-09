@@ -17,7 +17,7 @@ theorem pathVecFrom_enc : ∀ (p : List Nat) (v : V2), v.wf = true →
   | l :: p, v, hv => by
     have hb := base_gens (l - 1)
     obtain ⟨h1, h2⟩ := pathVecFrom_enc p _ (wf_frApply hb.1 v)
-    rw [pathVecFrom]
+    rw [pathVecFrom_cons]
     refine ⟨h1, h2.trans ?_⟩
     change _ = strictN (vecJ rm (v2N v) (getN one [A, B] (l - 1))) (pathVK rm one [A, B] p)
     rw [strictN_eq, ← hb.2, ← v2N_frApply hK hb.1 hv]

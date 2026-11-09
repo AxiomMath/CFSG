@@ -10,8 +10,8 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.SuzH2
-  "Certificates/Kernel/Sporadic/Suz/data/hyp24432_hyp2.json.gz" 53260 5061307341951441194
+#kc_repo #kc_json CertificateChecks.KernelSpor.SuzH2
+  "Certificates/Kernel/Sporadic/Suz/data/hyp24432_hyp2.json" 53260 5061307341951441194
   (LS : List Nat) (B : List CFSG.KC.CommBase.BaseRec) (PF : Nat) (ZF : Nat) (DF : Nat)
 
 namespace CertificateChecks.KernelSpor.SuzH2

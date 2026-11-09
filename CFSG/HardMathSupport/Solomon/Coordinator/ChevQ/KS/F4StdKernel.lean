@@ -29,8 +29,22 @@ abbrev a2a2P (k0 k1 k2 k3 : ℕ) : Prop :=
    (rts.filter (fun γ => kdL k0 k1 k2 k3 γ % 3 = 0 ∧ ipL γ γ = 4)).length = 6 ∧
    (rts.filter (fun γ => kdL k0 k1 k2 k3 γ % 3 = 0 ∧ ipL γ γ = 2)).length = 6
 
+theorem forall2_guard_filter {α : Type*} {l : List α} {p : α → Prop} [DecidablePred p]
+    {Q : α → α → Prop} :
+    (∀ a ∈ l, ∀ b ∈ l, p a → p b → Q a b) ↔
+      ∀ a ∈ l.filter (fun x => decide (p x)), ∀ b ∈ l.filter (fun x => decide (p x)), Q a b := by
+  simp only [List.mem_filter, decide_eq_true_eq, and_imp]
+  exact ⟨fun h a ha hpa b hb hpb => h a ha b hb hpa hpb,
+    fun h a ha b hb hpa hpb => h a ha hpa b hb hpb⟩
+
+theorem exists_guard_filter {α : Type*} {l : List α} {p : α → Prop} [DecidablePred p]
+    {Q : α → Prop} :
+    (∃ a ∈ l, p a ∧ Q a) ↔ ∃ a ∈ l.filter (fun x => decide (p x)), Q a := by
+  simp only [List.mem_filter, decide_eq_true_eq, and_assoc]
+
 theorem classify2_all : ∀ k0 ∈ [0, 1, 2], ∀ k1 ∈ [0, 1, 2], ∀ k2 ∈ [0, 1, 2], ∀ k3 ∈ [0, 1, 2],
     (k0 ≠ 0 ∨ k1 ≠ 0 ∨ k2 ≠ 0 ∨ k3 ≠ 0) → a2a2P k0 k1 k2 k3 ∨ hubP k0 k1 k2 k3 := by
+  simp only [a2a2P, hubP, forall2_guard_filter, exists_guard_filter]
   decide +kernel
 
 structure KernelB (k : Fin Tag.F4.rank → ℕ) : Prop where

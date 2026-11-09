@@ -4,6 +4,7 @@ public meta import Certificates.Kernel.Sporadic.RawGen
 public meta import Lean
 public meta import CFSG.Certificates.Kernel.Common.AddThm
 public import Certificates.Data.Kernel.Misc.HexFlat
+public import CFSG.Certificates.Kernel.Misc.HexFlatRSound
 public import CFSG.Certificates.Kernel.Common.AddThm
 public import Certificates.Kernel.Sporadic.RawGen
 public import Lean.Exception
@@ -30,13 +31,15 @@ elab "#kmisc_hexflat " pre:ident sId:ident dd:num nn:num ww:num cn:num : command
     return acc
   liftCoreM <| withOptions (Elab.async.set · false) do
     CFSG.KS.RawGen.addTree (P ++ `F) vals
-    let ty := mkApp3 (mkConst ``Eq [1]) (mkConst ``Bool)
-      (mkAppN (mkConst ``CFSG.KC.Misc.HexFlat.hexFlat)
-        #[mkConst (P ++ `chars), lit d, lit n, lit w, lit N,
-          mkConst (P ++ `F)])
-      (mkConst ``Bool.true)
+    let args := #[mkConst (P ++ `chars), lit d, lit n, lit w, lit N, mkConst (P ++ `F)]
+    let isTrue := fun (b : Expr) => mkApp3 (mkConst ``Eq [1]) (mkConst ``Bool) b (mkConst ``Bool.true)
+    let tyR := isTrue (mkAppN (mkConst ``CFSG.KC.Misc.HexFlat.hexFlatR) args)
+    let nR := P ++ `allHR
+    CFSG.KC.addThmDecl <| { name := nR, levelParams := [], type := tyR, value := reflBoolTrue }
+    let ty := isTrue (mkAppN (mkConst ``CFSG.KC.Misc.HexFlat.hexFlat) args)
     let nAll := P ++ `all
-    CFSG.KC.addThmDecl <| { name := nAll, levelParams := [], type := ty, value := reflBoolTrue }
+    let pf := mkAppN (mkConst ``CFSG.KC.Misc.HexFlat.hexFlat_of_hexFlatR) (args.push (mkConst nR))
+    CFSG.KC.addThmDecl <| { name := nAll, levelParams := [], type := ty, value := pf }
 
 elab "#kmisc_packarrs " pre:ident sId:ident ww:num : command => do
   let w := ww.getNat

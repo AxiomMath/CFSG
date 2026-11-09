@@ -5,7 +5,7 @@ public import CFSG.Certificates.Kernel.Th.S.Data.Seed_const
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CFSG.KD.ThDemp "Certificates/Kernel/ThDemp/data/demp.json.gz" 4437334
+#kc_repo #kc_json CFSG.KD.ThDemp "Certificates/Kernel/ThDemp/data/demp.json" 4437334
   12767656790841757507
   (c : Nat) (rm : Nat) (tm0 : Nat) (tm1 : Nat) (tm2 : Nat) (tm3 : Nat) (tm4 : Nat) (tm5 : Nat)
   (tm6 : Nat) (tm7 : Nat) (up : Nat) (dg : Nat) (ONE : Nat) (regs : List Nat) (cs1 : List Nat)

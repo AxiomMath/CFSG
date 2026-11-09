@@ -113,8 +113,12 @@ meta def thm (D : Name) (h : Header) (wf cx : Array Nat) (t : Nat) : Nat × Stri
   else
     let j := t - 2 * nWC - nTC - nWE
     let el := c s!"cv{j / perPart}.c{j % perPart}"
-    (4, s!"cov{j}", beqE (mkAppN (kb "wCovList")
-      #[c "F", lit RW, lit RM, lit N, lit L, lit nF, el, lit cx[j]!]) (lit cx[j + 1]!))
+    let fwd := h.get "covFwd" == 1
+    (4, s!"cov{j}", beqE (mkAppN (kb (if fwd then "wCovListE" else "wCovList"))
+      #[c "F", lit RW, lit RM, lit N,
+        if fwd then mkApp2 (mkConst ``Nat.shiftRight) (lit L) (lit 1) else lit L, lit nF, el,
+        lit cx[j]!])
+      (lit cx[j + 1]!))
 
 meta def scan (s : Nat) (a : Array Nat) : Array Nat := Id.run do
   let mut out := Array.mkEmpty (a.size + 1)

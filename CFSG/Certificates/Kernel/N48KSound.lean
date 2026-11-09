@@ -29,6 +29,10 @@ open CFSG.KLie.CT (orB notB)
 
 theorem n48Check_eq : n48Check = n48CheckG q47NGens := rfl
 
+theorem all_orB_const {l : List Nat} {x : Bool} {f : Nat → Bool} :
+    (l.all fun c => orB x (f c)) = orB x (l.all f) := by
+  cases x <;> simp [orB, List.all_eq_true]
+
 theorem n48K_sound {w : Nat} {gs : List (Array ℕ)} {g N : Nat} {G T E S : Nat → Nat}
     (p : Pin 64 w gs g G N T E S) (hN : N = 336)
     (hr : ∀ i < (invL w N T).length, rankRowK w (invL w N T) i = true)
@@ -61,7 +65,8 @@ theorem n48K_sound {w : Nat} {gs : List (Array ℕ)} {g N : Nat} {G T E S : Nat 
             (Nat.beq c (mul 64 w a b))))))))))) (fun a ha => ?_) fun i hi => by
       have h := hr i hi
       unfold rankRowK at h
-      rwa [strictB_eq'] at h
+      rw [strictB_eq'] at h
+      simpa only [all_orB_const] using h
     have pa := pI a ha
     refine all_map_congr fun b hb => all_map_congr fun c hc => ?_
     have pb := pI b hb

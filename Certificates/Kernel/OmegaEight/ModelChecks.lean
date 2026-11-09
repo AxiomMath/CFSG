@@ -11,6 +11,7 @@ public import Certificates.Kernel.OmegaEight.S0Data
 public import Certificates.Kernel.LocalComp.Omega1Chain
 public import CFSG.LocalAnalysis.EvenSmallLie.OmegaEight.Stage1Q3Data
 import CFSG.Certificates.Kernel.Common.Harness
+import Certificates.Kernel.OmegaEight.Aut
 import Mathlib.Tactic.IntervalCases
 
 public section
@@ -24,18 +25,52 @@ open CFSG.KC.O8 CFSG.KLie.CT CFSG.KS CFSG.KS.Raw CFSG.EvenSmallLie
   CertificateChecks.KernelLC.W3185
 open CFSG.KC.Enum (pidn permOK pg)
 
-theorem pOP_0 : (pOrig .plus)[0]! = unpack 120 9 (PP.S 0) := by decide +kernel
-theorem pOP_1 : (pOrig .plus)[1]! = unpack 120 9 (PP.S 1) := by decide +kernel
-theorem pOP_2 : (pOrig .plus)[2]! = unpack 120 9 (PP.S 2) := by decide +kernel
-theorem pOP_3 : (pOrig .plus)[3]! = unpack 120 9 (PP.S 3) := by decide +kernel
-theorem pOP_4 : (pOrig .plus)[4]! = unpack 120 9 (PP.S 4) := by decide +kernel
-theorem pOP_5 : (pOrig .plus)[5]! = unpack 120 9 (PP.S 5) := by decide +kernel
-theorem pOP_6 : (pOrig .plus)[6]! = unpack 120 9 (PP.S 6) := by decide +kernel
-theorem pOP_7 : (pOrig .plus)[7]! = unpack 120 9 (PP.S 7) := by decide +kernel
-theorem pOP_8 : (pOrig .plus)[8]! = unpack 120 9 (PP.S 8) := by decide +kernel
-theorem pOP_9 : (pOrig .plus)[9]! = unpack 120 9 (PP.S 9) := by decide +kernel
-theorem pOP_10 : (pOrig .plus)[10]! = unpack 120 9 (PP.S 10) := by decide +kernel
-theorem pOP_11 : (pOrig .plus)[11]! = unpack 120 9 (PP.S 11) := by decide +kernel
+private theorem psiPP : ∀ j < 6, PP.S j = psiK false NSP NIP 120 9 5665569 (2 ^ j) := by
+  decide +kernel
+
+private theorem psiPM : ∀ j < 6, PM.S j = psiK true NSM NIM 136 8 4552225 (2 ^ j) := by
+  decide +kernel
+
+private theorem pOP_psi {j : Nat} (hj : j < 6) (h : (pOrig .plus)[j]! = psiArr .plus (2 ^ j)) :
+    (pOrig .plus)[j]! = unpack 120 9 (PP.S j) := by
+  rw [h, psiArrP_unpack, psiPP j hj]
+
+private theorem pOM_psi {j : Nat} (hj : j < 6) (h : (pOrig .minus)[j]! = psiArr .minus (2 ^ j)) :
+    (pOrig .minus)[j]! = unpack 136 8 (PM.S j) := by
+  rw [h, psiArrM_unpack, psiPM j hj]
+
+private theorem leviPP : ∀ i < 6, ∀ k < 120,
+    fget (PP.S (6 + i)) k 9 = nsMap NSP NIP (leviMap .plus (genRows .plus i)) k := by
+  decide +kernel
+
+private theorem leviPM : ∀ i < 6, ∀ k < 136,
+    fget (PM.S (6 + i)) k 8 = nsMap NSM NIM (leviMap .minus (genRows .minus i)) k := by
+  decide +kernel
+
+private theorem pOP_levi {i : Nat} (hi : i < 6) (h : (pOrig .plus)[6 + i]! = pArr .plus i) :
+    (pOrig .plus)[6 + i]! = unpack 120 9 (PP.S (6 + i)) := by
+  rw [h]
+  exact leviArrP_unpack _ (leviPP i hi)
+
+private theorem pOM_levi {i : Nat} (hi : i < 6) (h : (pOrig .minus)[6 + i]! = pArr .minus i) :
+    (pOrig .minus)[6 + i]! = unpack 136 8 (PM.S (6 + i)) := by
+  rw [h]
+  exact leviArrM_unpack _ (leviPM i hi)
+
+theorem pOP_0 : (pOrig .plus)[0]! = unpack 120 9 (PP.S 0) := pOP_psi (by decide) rfl
+theorem pOP_1 : (pOrig .plus)[1]! = unpack 120 9 (PP.S 1) := pOP_psi (by decide) rfl
+theorem pOP_2 : (pOrig .plus)[2]! = unpack 120 9 (PP.S 2) := pOP_psi (by decide) rfl
+theorem pOP_3 : (pOrig .plus)[3]! = unpack 120 9 (PP.S 3) := pOP_psi (by decide) rfl
+theorem pOP_4 : (pOrig .plus)[4]! = unpack 120 9 (PP.S 4) := pOP_psi (by decide) rfl
+theorem pOP_5 : (pOrig .plus)[5]! = unpack 120 9 (PP.S 5) := pOP_psi (by decide) rfl
+theorem pOP_6 : (pOrig .plus)[6]! = unpack 120 9 (PP.S 6) := pOP_levi (i := 0) (by decide) rfl
+theorem pOP_7 : (pOrig .plus)[7]! = unpack 120 9 (PP.S 7) := pOP_levi (i := 1) (by decide) rfl
+theorem pOP_8 : (pOrig .plus)[8]! = unpack 120 9 (PP.S 8) := pOP_levi (i := 2) (by decide) rfl
+theorem pOP_9 : (pOrig .plus)[9]! = unpack 120 9 (PP.S 9) := pOP_levi (i := 3) (by decide) rfl
+theorem pOP_10 : (pOrig .plus)[10]! = unpack 120 9 (PP.S 10) :=
+  pOP_levi (i := 4) (by decide) rfl
+theorem pOP_11 : (pOrig .plus)[11]! = unpack 120 9 (PP.S 11) :=
+  pOP_levi (i := 5) (by decide) rfl
 
 theorem pOP_bind : (pOrig .plus).size = 12 ∧
     ∀ j < 12, (pOrig .plus)[j]! = unpack 120 9 (PP.S j) := by
@@ -43,18 +78,20 @@ theorem pOP_bind : (pOrig .plus).size = 12 ∧
   interval_cases j
   exacts [pOP_0, pOP_1, pOP_2, pOP_3, pOP_4, pOP_5, pOP_6, pOP_7, pOP_8, pOP_9, pOP_10, pOP_11]
 
-theorem pOM_0 : (pOrig .minus)[0]! = unpack 136 8 (PM.S 0) := by decide +kernel
-theorem pOM_1 : (pOrig .minus)[1]! = unpack 136 8 (PM.S 1) := by decide +kernel
-theorem pOM_2 : (pOrig .minus)[2]! = unpack 136 8 (PM.S 2) := by decide +kernel
-theorem pOM_3 : (pOrig .minus)[3]! = unpack 136 8 (PM.S 3) := by decide +kernel
-theorem pOM_4 : (pOrig .minus)[4]! = unpack 136 8 (PM.S 4) := by decide +kernel
-theorem pOM_5 : (pOrig .minus)[5]! = unpack 136 8 (PM.S 5) := by decide +kernel
-theorem pOM_6 : (pOrig .minus)[6]! = unpack 136 8 (PM.S 6) := by decide +kernel
-theorem pOM_7 : (pOrig .minus)[7]! = unpack 136 8 (PM.S 7) := by decide +kernel
-theorem pOM_8 : (pOrig .minus)[8]! = unpack 136 8 (PM.S 8) := by decide +kernel
-theorem pOM_9 : (pOrig .minus)[9]! = unpack 136 8 (PM.S 9) := by decide +kernel
-theorem pOM_10 : (pOrig .minus)[10]! = unpack 136 8 (PM.S 10) := by decide +kernel
-theorem pOM_11 : (pOrig .minus)[11]! = unpack 136 8 (PM.S 11) := by decide +kernel
+theorem pOM_0 : (pOrig .minus)[0]! = unpack 136 8 (PM.S 0) := pOM_psi (by decide) rfl
+theorem pOM_1 : (pOrig .minus)[1]! = unpack 136 8 (PM.S 1) := pOM_psi (by decide) rfl
+theorem pOM_2 : (pOrig .minus)[2]! = unpack 136 8 (PM.S 2) := pOM_psi (by decide) rfl
+theorem pOM_3 : (pOrig .minus)[3]! = unpack 136 8 (PM.S 3) := pOM_psi (by decide) rfl
+theorem pOM_4 : (pOrig .minus)[4]! = unpack 136 8 (PM.S 4) := pOM_psi (by decide) rfl
+theorem pOM_5 : (pOrig .minus)[5]! = unpack 136 8 (PM.S 5) := pOM_psi (by decide) rfl
+theorem pOM_6 : (pOrig .minus)[6]! = unpack 136 8 (PM.S 6) := pOM_levi (i := 0) (by decide) rfl
+theorem pOM_7 : (pOrig .minus)[7]! = unpack 136 8 (PM.S 7) := pOM_levi (i := 1) (by decide) rfl
+theorem pOM_8 : (pOrig .minus)[8]! = unpack 136 8 (PM.S 8) := pOM_levi (i := 2) (by decide) rfl
+theorem pOM_9 : (pOrig .minus)[9]! = unpack 136 8 (PM.S 9) := pOM_levi (i := 3) (by decide) rfl
+theorem pOM_10 : (pOrig .minus)[10]! = unpack 136 8 (PM.S 10) :=
+  pOM_levi (i := 4) (by decide) rfl
+theorem pOM_11 : (pOrig .minus)[11]! = unpack 136 8 (PM.S 11) :=
+  pOM_levi (i := 5) (by decide) rfl
 
 theorem pOM_bind : (pOrig .minus).size = 12 ∧
     ∀ j < 12, (pOrig .minus)[j]! = unpack 136 8 (PM.S j) := by

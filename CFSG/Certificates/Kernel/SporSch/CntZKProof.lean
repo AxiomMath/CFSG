@@ -42,12 +42,56 @@ theorem xyWordP_coe {H : Subgroup (Equiv.Perm (Fin n))} (x y xi yi : H) (wd : Li
     rw [ih]
     split_ifs <;> rfl
 
-theorem cntZK_proved (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH)
+@[expose] def ClsSem (n w : Nat) (K : Subgroup (Equiv.Perm (Fin n))) (r : Equiv.Perm (Fin n))
+    (mx : Nat) (d : ClsD) : Prop :=
+  (∀ k < d.c, ∃ x ∈ CFSG.Sporadic.SmallOddCore.conjClass K r, PRep n w (d.ST k) x) ∧
+    (∀ x ∈ CFSG.Sporadic.SmallOddCore.conjClass K r, ∃ k < d.c, PRep n w (d.ST k) x) ∧
+    (∀ k < d.c, (k + 1 < d.c → d.ST k < d.ST (k + 1)) ∧ d.ST k >>> (n * w) = 0) ∧
+    orderOf r = mx
+
+theorem clsSem_of_clsOK (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH)
     (hA : imageList gA = (unpack n w (PS 0)).toList)
     (hB : imageList gB = (unpack n w (PS 1)).toList) (hnd : base.toList.Nodup)
-    {mx my cap : Nat} {d : ClsD}
+    {mx cap : Nat} {d : ClsD}
     (hcls : ClsOK n w (unpack n w (PS 0)).toList (unpack n w (PS 1)).toList mx cap [d])
-    (r : gen2 gA gB) (hR : imageList (r : Equiv.Perm (Fin n)) = (unpack n w d.R).toList)
+    {r : Equiv.Perm (Fin n)} (pr : PRep n w d.R r) : ClsSem n w (gen2 gA gB) r mx d := by
+  obtain ⟨bv, -, hK, -, -, -⟩ := chainK_of_chainS hQ hA hB hnd
+  have hc := datum_class hK hA.symm hB.symm hcls (j := 0) (by simp) pr
+  obtain ⟨pA, pAi, pB, pBi, h32, -⟩ := gens_prep hK hA.symm hB.symm
+  obtain ⟨hd, he, -⟩ := hcls 0 (by simp)
+  exact ⟨entry_mem_class h32 pA pAi pB pBi hd he pr, fun x hx => (hc.1 x).1 hx,
+    fun k hk => ⟨(clsElemK_facts hk (he k hk)).1, (clsElemK_facts hk (he k hk)).2.1⟩, hc.2.2.2⟩
+
+theorem entry_inj_sem {d : ClsD} (hw : 0 < w)
+    (hs : ∀ k < d.c, (k + 1 < d.c → d.ST k < d.ST (k + 1)) ∧ d.ST k >>> (n * w) = 0) {i j : Nat}
+    (hi : i < d.c) (hj : j < d.c) {z : Equiv.Perm (Fin n)} (p1 : PRep n w (d.ST i) z)
+    (p2 : PRep n w (d.ST j) z) : i = j := by
+  have eq : d.ST i = d.ST j := PF.eq_of_fields hw (hs i hi).2 (hs j hj).2 fun t ht => by
+    rw [p1 ⟨t, ht⟩, p2 ⟨t, ht⟩]
+  have hinc := lt_of_consec (c := d.c) (ST := d.ST) fun k hk => (hs k (by omega)).1 hk
+  rcases Nat.lt_trichotomy i j with h | h | h
+  · exact absurd eq (Nat.ne_of_lt (hinc i j h hj))
+  · exact h
+  · exact absurd eq (Nat.ne_of_gt (hinc j i h hi))
+
+theorem clsCard_sem (hw : 0 < w) {mx : Nat} {d : ClsD} (r : gen2 gA gB)
+    (hsem : ClsSem n w (gen2 gA gB) (r : Equiv.Perm (Fin n)) mx d) :
+    #(univ.filter fun x : gen2 gA gB => IsConj r x) = d.c := by
+  rw [card_isConj_eq_ncard]
+  refine Set.ncard_eq_of_bijective (fun k hk => Classical.choose (hsem.1 k hk)) (fun x hx => ?_)
+    (fun k hk => (Classical.choose_spec (hsem.1 k hk)).1) (fun i j hi hj e => ?_)
+  · obtain ⟨k, hk, pk⟩ := hsem.2.1 x hx
+    exact ⟨k, hk, MOC.prep_unique (Classical.choose_spec (hsem.1 k hk)).2 pk⟩
+  · have p1 := (Classical.choose_spec (hsem.1 i hi)).2
+    have p2 := (Classical.choose_spec (hsem.1 j hj)).2
+    rw [e] at p1
+    exact entry_inj_sem hw hsem.2.2.1 hi hj p1 p2
+
+theorem cntZK_sem (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH)
+    (hA : imageList gA = (unpack n w (PS 0)).toList)
+    (hB : imageList gB = (unpack n w (PS 1)).toList) (hnd : base.toList.Nodup)
+    {mx my : Nat} {d : ClsD} (r : gen2 gA gB)
+    (hsem : ClsSem n w (gen2 gA gB) (r : Equiv.Perm (Fin n)) mx d)
     (z : gen2 gA gB) {Z : Nat} (hZ : imageList (z : Equiv.Perm (Fin n)) = (unpack n w Z).toList)
     (hmx : 0 < mx) (hmy : 0 < my)
     {ws : List (List Nat × Nat)} {row : List Nat} (hL : d.c ≤ row.length * 256)
@@ -58,15 +102,12 @@ theorem cntZK_proved (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH
         orderOf (xyWordP x (x ^ (mx - 1) * z) (x ^ (mx - 1)) ((x ^ (mx - 1) * z) ^ (my - 1))
           p.1) = p.2) := by
   obtain ⟨bv, -, hK, -, -, -⟩ := chainK_of_chainS hQ hA hB hnd
-  have pr := prep_of_imageList hR
   have pZ := prep_of_imageList hZ
-  have hc := datum_class hK hA.symm hB.symm hcls (j := 0) (by simp) pr
-  obtain ⟨pA, pAi, pB, pBi, h32, hw⟩ := gens_prep hK hA.symm hB.symm
-  obtain ⟨hd, he, -⟩ := hcls 0 (by simp)
-  have hE := entry_mem_class h32 pA pAi pB pBi hd he pr
+  obtain ⟨-, -, -, -, -, hw⟩ := gens_prep hK hA.symm hB.symm
+  have hE := hsem.1
   have hro : orderOf r = mx := by
     rw [← Subgroup.orderOf_coe]
-    exact hc.2.2.2
+    exact hsem.2.2.2
   have hT : ∀ x : gen2 gA gB, IsConj r x → ∀ {X : Nat}, PRep n w X x →
       (zTest n w (mask w) (pidn n w) mx my ws Z X = true ↔
         orderOf (x ^ (mx - 1) * z) = my ∧ ∀ p ∈ ws, p.2 = 0 ∨
@@ -113,15 +154,33 @@ theorem cntZK_proved (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH
     have e' := congrArg Subtype.val e
     simp only at e'
     rw [e'] at p1
-    exact entry_inj hw he (Finset.mem_range.1 (Finset.mem_filter.1 ha).1)
+    exact entry_inj_sem hw hsem.2.2.1 (Finset.mem_range.1 (Finset.mem_filter.1 ha).1)
       (Finset.mem_range.1 (Finset.mem_filter.1 hb).1) p1 p2
   · simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
     obtain ⟨hxc, hcond⟩ := hx
-    obtain ⟨k', hk', pk⟩ := (hc.1 x).1 ((isConj_iff_mem r x).1 hxc)
+    obtain ⟨k', hk', pk⟩ := hsem.2.1 x ((isConj_iff_mem r x).1 hxc)
     have hk'' : k' ∈ (Finset.range d.c).filter fun k =>
         zTest n w (mask w) (pidn n w) mx my ws Z (d.ST k) = true :=
       Finset.mem_filter.2 ⟨Finset.mem_range.2 hk', (hT x hxc pk).2 hcond⟩
     exact ⟨k', hk'', Subtype.ext (MOC.prep_unique (Classical.choose_spec (hE k' hk')).2 pk)⟩
+
+theorem cntZK_proved (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH)
+    (hA : imageList gA = (unpack n w (PS 0)).toList)
+    (hB : imageList gB = (unpack n w (PS 1)).toList) (hnd : base.toList.Nodup)
+    {mx my cap : Nat} {d : ClsD}
+    (hcls : ClsOK n w (unpack n w (PS 0)).toList (unpack n w (PS 1)).toList mx cap [d])
+    (r : gen2 gA gB) (hR : imageList (r : Equiv.Perm (Fin n)) = (unpack n w d.R).toList)
+    (z : gen2 gA gB) {Z : Nat} (hZ : imageList (z : Equiv.Perm (Fin n)) = (unpack n w Z).toList)
+    (hmx : 0 < mx) (hmy : 0 < my)
+    {ws : List (List Nat × Nat)} {row : List Nat} (hL : d.c ≤ row.length * 256)
+    (hrow : ∀ b < row.length,
+      cntZK n w (mask w) (pidn n w) mx my ws Z d (b * 256) 256 = row.getD b 0) :
+    row.sum = #(univ.filter fun x : gen2 gA gB => IsConj r x ∧
+      orderOf (x ^ (mx - 1) * z) = my ∧ ∀ p ∈ ws, p.2 = 0 ∨
+        orderOf (xyWordP x (x ^ (mx - 1) * z) (x ^ (mx - 1)) ((x ^ (mx - 1) * z) ^ (my - 1))
+          p.1) = p.2) :=
+  cntZK_sem hQ hA hB hnd r (clsSem_of_clsOK hQ hA hB hnd hcls (prep_of_imageList hR)) z hZ hmx hmy
+    hL hrow
 
 theorem cntZK_sound (_hsz : szOK n w = true) {tA tB : List Nat} (hA : imageList gA = tA)
     (hB : imageList gB = tB) (hQ : ChainS n w PS PSI LR TR TRI kS 2 nb BP S base D NS CH)

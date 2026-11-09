@@ -36,9 +36,16 @@ open CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT CFSG.Sporadic.J4.QT2A
 
 @[expose] def chkKOrb : Bool := oOrbOK kStep 12 idRows kOrb 15360
 
-@[expose] def chkKComm : Bool :=
-  (kOrb.mats.toList.filter fun M =>
-    eqRows (mulRows M (x0GenRows[0]!)) (mulRows (x0GenRows[0]!) M)).length == 40
+opaque chkKCommSeal : {b : Bool // b = ((kOrb.mats.toList.filter fun M =>
+    eqRows (mulRows M (x0GenRows[0]!)) (mulRows (x0GenRows[0]!) M)).length == 40)} := ⟨_, rfl⟩
+
+@[expose] def chkKComm : Bool := chkKCommSeal.1
+
+theorem chkKComm_def : chkKComm = ((kOrb.mats.toList.filter fun M =>
+    eqRows (mulRows M (x0GenRows[0]!)) (mulRows (x0GenRows[0]!) M)).length == 40) :=
+  chkKCommSeal.2
+
+attribute [irreducible] chkKComm
 
 @[expose] def eFixMasks (T : Array (Array V2)) (v : V2) : List Nat :=
   (List.range 2048).filter fun c => !differs (frApply (frTable (etaRows T 11 c)) v) v

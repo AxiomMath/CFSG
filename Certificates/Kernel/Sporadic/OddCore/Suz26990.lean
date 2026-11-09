@@ -53,11 +53,43 @@ open CFSG.KLie.CT (andB orB notB)
 
 @[expose] noncomputable def CA (u v : Nat) : Nat := pc (pc (pc u v) (pinv u)) (pinv v)
 
+theorem andB_tt {a b : Bool} (h : andB a b = true) : a = true ∧ b = true := by
+  cases a <;> cases b
+  · exact absurd h (by decide)
+  · exact absurd h (by decide)
+  · exact absurd h (by decide)
+  · exact ⟨rfl, rfl⟩
+
+theorem kInvA : andB (ok PA) (ok PB) = true := by
+  quickRfl
+
+theorem kInvB : andB (ok (WK suzWordU1)) (andB (ok (WK suzWordV1)) (andB (ok (WK suzWordU2))
+    (ok (WK suzWordV2)))) = true := by
+  quickRfl
+
+theorem kInvC : andB (cn (WK suzWordE1)) (andB (cn (WK suzWordE2)) (cn (WK suzWordE3))) =
+    true := by
+  quickRfl
+
+theorem kInvD : ok (W3 suzWordC) = true := by
+  quickRfl
+
+theorem kInvE : andB (ok (W3 suzWordD)) (cn (SuzTP 0)) = true := by
+  quickRfl
+
 theorem kInv : andB (ok PA) (andB (ok PB) (andB (ok (WK suzWordU1)) (andB (ok (WK suzWordV1))
     (andB (ok (WK suzWordU2)) (andB (ok (WK suzWordV2)) (andB (ok (W3 suzWordC))
     (andB (ok (W3 suzWordD)) (andB (cn (WK suzWordE1)) (andB (cn (WK suzWordE2))
     (andB (cn (WK suzWordE3)) (cn (SuzTP 0)))))))))))) = true := by
-  quickRfl
+  obtain ⟨a1, a2⟩ := andB_tt kInvA
+  obtain ⟨b1, b⟩ := andB_tt kInvB
+  obtain ⟨b2, b⟩ := andB_tt b
+  obtain ⟨b3, b4⟩ := andB_tt b
+  obtain ⟨c1, c⟩ := andB_tt kInvC
+  obtain ⟨c2, c3⟩ := andB_tt c
+  obtain ⟨e1, e2⟩ := andB_tt kInvE
+  rw [a1, a2, b1, b2, b3, b4, kInvD, e1, c1, c2, c3, e2]
+  rfl
 
 theorem kE8 : strictB (WK suzWordE1) fun a => strictB (WK suzWordE2) fun b =>
     strictB (WK suzWordE3) fun c =>

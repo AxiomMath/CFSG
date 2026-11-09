@@ -151,9 +151,9 @@ theorem getElem!_set! {α : Type} [Inhabited α] (a : Array α) (q i : ℕ) (v :
   by_cases hqi : q = i
   · subst hqi
     by_cases hq : q < a.size
-    · simp [Array.set!_eq_setIfInBounds, getElem!_def, Array.getElem?_setIfInBounds, hq]
-    · simp [Array.set!_eq_setIfInBounds, getElem!_def, Array.getElem?_setIfInBounds, hq]
-  · simp [Array.set!_eq_setIfInBounds, getElem!_def, Array.getElem?_setIfInBounds, hqi]
+    · simp [Array.set!_eq_setIfInBounds, hq]
+    · simp [Array.set!_eq_setIfInBounds, hq]
+  · simp [Array.set!_eq_setIfInBounds, getElem!_def, hqi]
 
 theorem rel_set {s : PSt} {t : RSt} (hR : Rel n P s t) {q : ℕ} {x : Table × Table}
     (hx : Good n P q x) :
@@ -189,12 +189,12 @@ theorem inner_rel (hD : GroupData n P gens gg sift)
   · have hf : (!t.1[ap gens[l]! p]!) = true := by
       rw [hc]
       cases e : s.1[ap gens[l]! p]! <;> simp_all
-    rw [if_pos hn, if_pos hf]
+    rw [ite_eq_left hn, ite_eq_left hf]
     exact ⟨_, _, rfl, rfl, rel_set hR (good_conj hD hg hl')⟩
   · have hf : ¬(!t.1[ap gens[l]! p]!) = true := by
       rw [hc]
       cases e : s.1[ap gens[l]! p]! <;> simp_all
-    rw [if_neg hn, if_neg hf]
+    rw [ite_eq_right hn, ite_eq_right hf]
     exact ⟨_, _, rfl, rfl, hR⟩
 
 theorem outer_rel (hD : GroupData n P gens gg sift)
@@ -209,20 +209,20 @@ theorem outer_rel (hD : GroupData n P gens gg sift)
   unfold pOuter rOuter
   dsimp only
   by_cases hh : h < q.size
-  · rw [if_pos hh, if_pos hh]
+  · rw [ite_eq_left hh, ite_eq_left hh]
     have hc : t1[q[h]!]! = (s1[q[h]!]!).isSome := hR.2.2.2.1 q[h]!
     obtain ⟨o, ho⟩ : ∃ o, s1[q[h]!]! = o := ⟨_, rfl⟩
     rcases o with _ | ⟨h₁, h₂⟩
     · have hf : ¬t1[q[h]!]! = true := by rw [hc, ho]; simp
-      rw [if_neg hf]
+      rw [ite_eq_right hf]
       simp only [ho]
       exact ⟨_, _, rfl, rfl, hR⟩
     · have hf : t1[q[h]!]! = true := by rw [hc, ho]; rfl
-      rw [if_pos hf]
+      rw [ite_eq_left hf]
       simp only [ho]
       refine ⟨_, _, rfl, rfl, ?_⟩
       exact forIn_rel (Rel n P) _ _ _ (inner_rel hD hstep (hR.2.2.2.2 _ _ ho)) _ _ hR
-  · rw [if_neg hh, if_neg hh]
+  · rw [ite_eq_right hh, ite_eq_right hh]
     exact ⟨_, _, rfl, rfl, hR⟩
 
 theorem bases_rel : ∀ (bases : List (ℕ × Table × Table)), (∀ b ∈ bases, Good n P b.1 b.2) →
@@ -238,11 +238,11 @@ theorem bases_rel : ∀ (bases : List (ℕ × Table × Table)), (∀ b ∈ bases
 theorem rel_init : Rel n P ⟨Array.replicate n none, #[]⟩ ⟨Array.replicate n false, #[]⟩ := by
   refine ⟨rfl, Array.size_replicate, Array.size_replicate, ?_, ?_⟩
   · intro i
-    by_cases hi : i < n <;> simp [getElem!_def, hi] <;> rfl
+    by_cases hi : i < n <;> (simp [hi]; try rfl)
   · intro i x hx
     by_cases hi : i < n
-    · simp [getElem!_def, hi] at hx
-    · simp [getElem!_def, hi] at hx
+    · simp [hi] at hx
+    · simp [hi] at hx
 
 theorem centTrivOK_bfsPairs (hD : GroupData n P gens gg sift)
     {step : ℕ → ℕ → ℕ} (hstep : ∀ l < gens.size, ∀ p < n, step l p = ap gens[l]! p)
@@ -278,5 +278,138 @@ theorem centTrivOK_bfsPairs (hD : GroupData n P gens gg sift)
   have hc := cell_of_good hD (hg i x hx)
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range] at hc
   exact hc
+
+theorem pk10OK_getD : ∀ (l : List ℕ) (P i : ℕ), pk10OK l P = true → l.getD i 0 = P / 1024 ^ i % 1024
+  | [], P, i, h => by
+    rw [pk10OK, beq_iff_eq] at h
+    rw [h, Nat.zero_div, Nat.zero_mod, List.getD_nil]
+  | a :: l, P, 0, h => by
+    rw [pk10OK, Bool.and_eq_true, beq_iff_eq] at h
+    rw [List.getD_cons_zero, pow_zero, Nat.div_one, h.1]
+  | a :: l, P, i + 1, h => by
+    rw [pk10OK, Bool.and_eq_true] at h
+    rw [List.getD_cons_succ, pk10OK_getD l _ i h.2, Nat.div_div_eq_div_mul, pow_succ']
+
+theorem getElem!_push_le {α : Type} [Inhabited α] (a : Array α) (x : α) {h : ℕ}
+    (hh : h ≤ a.size) : (a.push x)[h]! = if h < a.size then a[h]! else x := by
+  rcases Nat.lt_or_eq_of_le hh with hh | rfl
+  · rw [ite_eq_left hh, getElem!_pos _ h (by rw [Array.size_push]; omega), getElem!_pos _ h hh,
+      Array.getElem_push_lt hh]
+  · rw [ite_eq_right (lt_irrefl _), getElem!_pos _ _ (by rw [Array.size_push]; omega),
+      Array.getElem_push_eq]
+
+theorem fieldAdd {w m h Q q : ℕ} (hQ : Q < 2 ^ (w * m)) (hq : q < 2 ^ w) (hh : h ≤ m) :
+    (Q + q * 2 ^ (w * m)) / 2 ^ (w * h) % 2 ^ w =
+      if h < m then Q / 2 ^ (w * h) % 2 ^ w else q := by
+  split_ifs with hlt
+  · obtain ⟨d, rfl⟩ : ∃ d, m = h + 1 + d := ⟨m - h - 1, by omega⟩
+    have e : 2 ^ (w * (h + 1 + d)) = 2 ^ w * 2 ^ (w * d) * 2 ^ (w * h) := by
+      rw [← pow_add, ← pow_add]
+      congr 1
+      ring
+    have e2 : q * (2 ^ w * 2 ^ (w * d)) = 2 ^ w * (q * 2 ^ (w * d)) := by ring
+    rw [e, ← mul_assoc, Nat.add_mul_div_right _ _ (by positivity), e2,
+      Nat.add_mul_mod_self_left]
+  · obtain rfl : h = m := by omega
+    rw [Nat.add_mul_div_right _ _ (by positivity), Nat.div_eq_of_lt hQ, zero_add,
+      Nat.mod_eq_of_lt hq]
+
+def RelRF (n w : ℕ) (s : RSt) (t : ℕ × ℕ × ℕ) : Prop :=
+  s.1.size = n ∧ (∀ i, s.1[i]! = (decide (i < n) && t.1.testBit i)) ∧ s.2.size = t.2.2 ∧
+    (∀ h < t.2.2, s.2[h]! = t.2.1 / 2 ^ (w * h) % 2 ^ w) ∧ t.2.1 < 2 ^ (w * t.2.2)
+
+theorem relRF_push {n w : ℕ} {s : RSt} {t : ℕ × ℕ × ℕ} (hR : RelRF n w s t) {q : ℕ}
+    (hq : q < 2 ^ w) :
+    RelRF n w ⟨s.1.set! q true, s.2.push q⟩
+      ⟨t.1 ||| 2 ^ q, t.2.1 + q * 2 ^ (w * t.2.2), t.2.2 + 1⟩ := by
+  obtain ⟨hs, hb, hl, hf, hQ⟩ := hR
+  refine ⟨by rw [Array.size_set!, hs], ?_, by rw [Array.size_push, hl], ?_, ?_⟩
+  · intro i
+    rw [getElem!_set!, hb, hs, Nat.testBit_or, Nat.testBit_two_pow]
+    by_cases hqi : q = i
+    · subst hqi
+      by_cases hqn : q < n <;> simp [hqn]
+    · simp [hqi]
+  · intro h hh
+    dsimp only at hh ⊢
+    rw [getElem!_push_le _ _ (by omega), fieldAdd hQ hq (by omega), hl]
+    split_ifs with h1
+    · exact hf h h1
+    · rfl
+  · dsimp only
+    have h1 : (q + 1) * 2 ^ (w * t.2.2) ≤ 2 ^ w * 2 ^ (w * t.2.2) := Nat.mul_le_mul_right _ hq
+    rw [mul_add, mul_one, pow_add, mul_comm (2 ^ (w * t.2.2))]
+    rw [add_mul, one_mul] at h1
+    linarith
+
+theorem inner_relF {n w : ℕ} {step : ℕ → ℕ → ℕ} (hw : ∀ l p, step l p < 2 ^ w) (k p : ℕ) :
+    ∀ l ∈ List.range' 0 k, ∀ s t, RelRF n w s t → ∃ s' t',
+      rInner step p l s = pure (ForInStep.yield s') ∧
+      rInnerF n w step p l t = pure (ForInStep.yield t') ∧ RelRF n w s' t' := by
+  intro l _ s t hR
+  have hc := hR.2.1 (step l p)
+  unfold rInner rInnerF
+  by_cases hn : (decide (step l p < n) && t.1.testBit (step l p)) = false
+  · have hf : (!s.1[step l p]!) = true := by rw [hc, hn]; rfl
+    rw [ite_eq_left hf, ite_eq_left hn]
+    exact ⟨_, _, rfl, rfl, relRF_push hR (hw l p)⟩
+  · have hf : ¬(!s.1[step l p]!) = true := by
+      rw [hc]
+      revert hn
+      cases (decide (step l p < n) && t.1.testBit (step l p)) <;> simp
+    rw [ite_eq_right hf, ite_eq_right hn]
+    exact ⟨_, _, rfl, rfl, hR⟩
+
+theorem outer_relF {n w k : ℕ} {step : ℕ → ℕ → ℕ} (hw : ∀ l p, step l p < 2 ^ w) :
+    ∀ h ∈ List.range' 0 n, ∀ s t, RelRF n w s t → ∃ s' t',
+      rOuter k step h s = pure (ForInStep.yield s') ∧
+      rOuterF n w k step h t = pure (ForInStep.yield t') ∧ RelRF n w s' t' := by
+  intro h _ s t hR
+  unfold rOuter rOuterF
+  by_cases hh : h < t.2.2
+  · have hh' : h < s.2.size := by rw [hR.2.2.1]; exact hh
+    rw [ite_eq_left hh', ite_eq_left hh, hR.2.2.2.1 h hh, hR.2.1]
+    by_cases hb : (decide (t.2.1 / 2 ^ (w * h) % 2 ^ w < n) &&
+        t.1.testBit (t.2.1 / 2 ^ (w * h) % 2 ^ w)) = true
+    · rw [ite_eq_left hb, ite_eq_left hb]
+      exact ⟨_, _, rfl, rfl, forIn_rel (RelRF n w) _ _ _ (inner_relF hw k _) _ _ hR⟩
+    · rw [ite_eq_right hb, ite_eq_right hb]
+      exact ⟨_, _, rfl, rfl, hR⟩
+  · have hh' : ¬h < s.2.size := by rw [hR.2.2.1]; exact hh
+    rw [ite_eq_right hh', ite_eq_right hh]
+    exact ⟨_, _, rfl, rfl, hR⟩
+
+theorem bases_relF {n w : ℕ} : ∀ (bases : List ℕ), (∀ b ∈ bases, b < 2 ^ w) →
+    ∀ s t, RelRF n w s t →
+      RelRF n w (bases.foldl (fun b a => (⟨b.1.set! a true, b.2.push a⟩ : RSt)) s)
+        (bases.foldl (fun b a => (b.1 ||| 2 ^ a, b.2.1 + a * 2 ^ (w * b.2.2), b.2.2 + 1)) t)
+  | [], _, _, _, h => h
+  | b :: bases, hb, s, t, h => by
+    rw [List.foldl_cons, List.foldl_cons]
+    exact bases_relF bases (fun c hc => hb c (List.mem_cons_of_mem _ hc)) _ _
+      (relRF_push h (hb b List.mem_cons_self))
+
+theorem relRF_init {n w : ℕ} : RelRF n w ⟨Array.replicate n false, #[]⟩ (0, 0, 0) := by
+  refine ⟨Array.size_replicate, ?_, rfl, fun h hh => absurd hh (Nat.not_lt_zero _), by simp⟩
+  intro i
+  by_cases hi : i < n <;> simp [hi]
+
+theorem bfsReach_of_F {n w k : ℕ} {step : ℕ → ℕ → ℕ} (hw : ∀ l p, step l p < 2 ^ w)
+    {bases : List ℕ} (hb : ∀ b ∈ bases, b < 2 ^ w)
+    (hF : bfsReachF n w k step bases = 2 ^ n - 1) :
+    (bfsReach n k step bases).toList.all id = true := by
+  have hR := forIn_rel (RelRF n w) (rOuter k step) (rOuterF n w k step) (List.range' 0 n)
+    (outer_relF hw) _ _ (bases_relF bases hb _ _ relRF_init)
+  obtain ⟨hs, hbits, -⟩ := hR
+  unfold bfsReachF at hF
+  rw [bfsReach_eq, List.all_eq_true]
+  intro x hx
+  obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hx
+  have e := hbits i
+  rw [Array.length_toList] at hi
+  rw [getElem!_pos _ i hi, hF, Nat.testBit_two_pow_sub_one] at e
+  rw [Array.getElem_toList, id, e]
+  simp only [Bool.and_self, decide_eq_true_eq]
+  exact lt_of_lt_of_eq hi hs
 
 end CFSG.KC.BfsPairs

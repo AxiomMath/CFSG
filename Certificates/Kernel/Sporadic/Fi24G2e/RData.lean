@@ -1,16 +1,15 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.JsonFamilyGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24G2e.Data
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24G2e RX "Certificates/Kernel/Sporadic/Fi24G2e/data/reps.bin.gz" 152491 4 7929532 11901051539900107191
-#kc_repo #kc_json_family_gz CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/reps_lists.json.gz" 501 14838592602686944896
+#kc_repo #kc_ktree CFSG.KD.Fi24G2e RX "Certificates/Kernel/Sporadic/Fi24G2e/data/reps.bin" 152491 4 7929532 11901051539900107191
+#kc_repo #kc_json_family CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/reps_lists.json" 501 14838592602686944896
   (CW : List Nat) (GW : List Nat) (GC : List Nat) (HW : List Nat) (CH : List Nat) (NO : Nat)
-#kc_repo #kc_json_gz CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/reps_lists.json.gz" 501 14838592602686944896
+#kc_repo #kc_json CFSG.KD.Fi24G2e "Certificates/Kernel/Sporadic/Fi24G2e/data/reps_lists.json" 501 14838592602686944896
   (WWL : List Nat) (WIL : List Nat)
 #kc_listDispatch CFSG.KD.Fi24G2e CWL CW 7
 #kc_listDispatch CFSG.KD.Fi24G2e GWL GW 7

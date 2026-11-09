@@ -6,6 +6,7 @@ public meta import CFSG.Certificates.Kernel.Common.Tab
 public meta import Certificates.Kernel.Sporadic.RawGen
 public meta import Lean
 public import CFSG.Certificates.Kernel.Spor.RawSound
+public import CFSG.Certificates.Kernel.SporSch.HeadSplitSound
 public import Mathlib.GroupTheory.Schreier
 
 open Lean Elab Command
@@ -23,6 +24,14 @@ elab "#ks_raworb " pre:ident nn:num ww:num lch:num sId:ident bId:ident ko:num dI
   let dN ← liftCoreM <| realizeGlobalConstNoOverload dId
   let S ← liftTermElabM <| unsafe evalConst (Array (Array Nat)) sN
   let base ← liftTermElabM <| unsafe evalConst (Array Nat) bN
+  let D : Option (List (List Int)) ← try
+      pure (some (← liftTermElabM <| unsafe evalConst (List (List Int)) dN))
+    catch _ => try
+      let some ci := (← getEnv).find? dN | pure none
+      let some v := ci.value? | pure none
+      pure (some (← liftTermElabM <| unsafe Meta.evalExpr (List (List Int)) ci.type v))
+    catch _ => pure none
+  let LW := 16
   let kS := S.size
   let nb := base.size
   let Sinv := S.map (inv n)
@@ -72,7 +81,46 @@ elab "#ks_raworb " pre:ident nn:num ww:num lch:num sId:ident bId:ident ko:num dI
     let nbE := lit nb
     let headT := isTrue (mkAppN (mkConst ``CFSG.KS.Raw.headK)
       #[nE, wE, mE, nwE, idE, c `S, c `SI, kSE, lit kO, mkConst dN, nbE, c `BP])
-    addThm (P ++ `head) headT reflBoolTrue
+    let hjT := fun (jE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.SporSch.headJ)
+      #[nE, wE, mE, nwE, idE, c `S, c `SI, lit kO, mkConst dN, nbE, c `BP, jE])
+    addThm (P ++ `hrest) (isTrue (mkAppN (mkConst ``CFSG.KS.SporSch.headRest)
+      #[nE, wE, mE, kSE, lit kO, mkConst dN, nbE, c `BP])) reflBoolTrue
+    for j in [0:kS] do
+      let wd : Array Int := if j < kO then #[] else ((D.getD [])[j - kO]?.getD []).toArray
+      if wd.size ≤ LW then
+        addThm (P ++ Name.mkSimple s!"hd{j}") (hjT (lit j)) reflBoolTrue
+      else
+        let mut vals : Array Nat := Array.replicate wd.size 0
+        let mut cur : Array Nat := Array.range n
+        for t in [0:wd.size] do
+          let i := wd.size - 1 - t
+          let z := wd[i]!
+          let g := if z > 0 then S[z.toNat - 1]! else Sinv[(-z).toNat - 1]!
+          cur := comp n g cur
+          if i % LW == 0 then vals := vals.set! i (pack w cur)
+        let NC := (wd.size + LW - 1) / LW
+        let VN := P ++ Name.mkSimple s!"wv{j}"
+        addTree VN vals
+        let wdE := mkAppN (mkConst ``CFSG.KS.Raw.dword) #[mkConst dN, lit kO, lit j]
+        let chT := fun (iE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.Raw.chunkK)
+          #[nE, wE, mE, idE, c `S, c `SI, wdE, lit LW, mkConst VN, iE])
+        for k in [0:NC] do
+          addThm (P ++ Name.mkSimple s!"wc{j}_{k}") (chT (mulE (lit k) (lit LW))) reflBoolTrue
+        let hcV := forallChain (mkLambda `c .default natE (chT (mulE (mkBVar 0) (lit LW)))) NC
+          fun k => mkConst (P ++ Name.mkSimple s!"wc{j}_{k}")
+        addThm (P ++ Name.mkSimple s!"hw{j}") (isTrue (mkAppN (mkConst ``CFSG.KS.SporSch.headJW)
+          #[nE, wE, mE, nwE, idE, c `S, c `SI, lit kO, mkConst dN, nbE, c `BP, lit j,
+            mkApp (mkConst VN) (lit 0)])) reflBoolTrue
+        addThm (P ++ Name.mkSimple s!"hd{j}") (hjT (lit j))
+          (mkAppN (mkConst ``CFSG.KS.SporSch.headJ_of_chunks)
+            #[nE, wE, mE, nwE, idE, c `S, c `SI, lit kO, mkConst dN, nbE, c `BP, lit j, lit LW,
+              lit NC, mkConst VN, reflBoolTrue, reflBoolTrue, hcV,
+              mkConst (P ++ Name.mkSimple s!"hw{j}")])
+    let hjV := forallChain (mkLambda `j .default natE (hjT (mkBVar 0))) kS
+      fun j => mkConst (P ++ Name.mkSimple s!"hd{j}")
+    addThm (P ++ `head) headT (mkAppN (mkConst ``CFSG.KS.SporSch.headK_of_parts)
+      #[nE, wE, mE, nwE, idE, c `S, c `SI, kSE, lit kO, mkConst dN, nbE, c `BP,
+        mkConst (P ++ `hrest), hjV])
     let stepsE := fun (iE : Expr) => mkAppN (mkConst ``CFSG.KS.Raw.stepsAt) #[nE, wE, c `S, kSE, c `BP, iE]
     let rootE := fun (iE : Expr) => mkAppN (mkConst ``CFSG.KC.Enum.pg) #[wE, mE, c `BP, iE]
     let lhT := fun (iE : Expr) => isTrue (mkAppN (mkConst ``CFSG.KS.Raw.lvOrbHdK)

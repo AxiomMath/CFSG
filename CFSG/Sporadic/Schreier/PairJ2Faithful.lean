@@ -166,6 +166,18 @@ theorem j2Fam_injective : Function.Injective j2Fam :=
 
 @[expose] def j2GenPerms : Fin 2 → Equiv.Perm (Fin 315) := ![j2Gen 0, j2Gen 1]
 
+theorem j2SeedsJ_zero : j2SeedsJ 0 = J2.a := by
+  unfold j2SeedsJ; exact Matrix.cons_val_zero _ _
+
+theorem j2SeedsJ_one : j2SeedsJ 1 = J2.b := by
+  unfold j2SeedsJ; rw [Matrix.cons_val_one]; exact Matrix.cons_val_zero _ _
+
+theorem j2GenPerms_zero : j2GenPerms 0 = j2Gen 0 := by
+  unfold j2GenPerms; exact Matrix.cons_val_zero _ _
+
+theorem j2GenPerms_one : j2GenPerms 1 = j2Gen 1 := by
+  unfold j2GenPerms; rw [Matrix.cons_val_one]; exact Matrix.cons_val_zero _ _
+
 theorem range_j2SeedsJ : Set.range j2SeedsJ = {J2.a, J2.b} := by
   ext x
   simp only [Set.mem_range, Fin.exists_fin_two, Set.mem_insert_iff, Set.mem_singleton_iff]
@@ -269,11 +281,15 @@ theorem j2SeedB_val : j2SeedB.val.val = j2A2 := by
 
 theorem j2PermEquiv_seedA : (j2PermEquiv j2SeedA : Equiv.Perm (Fin 315)) = j2Gen 0 := by
   rw [j2PermEquiv_apply, j2SeedA, MulEquiv.apply_symm_apply]
-  exact familyPerm_gen j2Fam_injective j2_smul_mem j2SeedsJ_smul 0
+  have h := familyPerm_gen j2Fam_injective j2_smul_mem j2SeedsJ_smul 0
+  rw [j2SeedsJ_zero, j2GenPerms_zero] at h
+  exact h
 
 theorem j2PermEquiv_seedB : (j2PermEquiv j2SeedB : Equiv.Perm (Fin 315)) = j2Gen 1 := by
   rw [j2PermEquiv_apply, j2SeedB, MulEquiv.apply_symm_apply]
-  exact familyPerm_gen j2Fam_injective j2_smul_mem j2SeedsJ_smul 1
+  have h := familyPerm_gen j2Fam_injective j2_smul_mem j2SeedsJ_smul 1
+  rw [j2SeedsJ_one, j2GenPerms_one] at h
+  exact h
 
 theorem FAM_J2_faithful_permutation_action :
     (∀ i < 315, j2Vec i ≠ 0) ∧

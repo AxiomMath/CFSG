@@ -113,25 +113,39 @@ theorem slices4 {G : Nat → Nat → Nat} {E : EnumK}
   · exact CFSG.KD.He589203.elems_all h2 k b (by omega)
   · exact CFSG.KD.He589203.elems_all h3 k c (by omega)
 
-theorem vg_good {ws : List (List Nat)} (hw : ∀ w ∈ ws, ∀ l ∈ w, l < 4) :
-    ∀ t < (RT8 ++ (ws.map (tabW 8330 AB8)).toArray).size,
-      Good 8330 ((RT8 ++ (ws.map (tabW 8330 AB8)).toArray).getD t #[]) (K.vg (exOf ab ws) t) := by
+theorem vg_good_gen {RT : Array (Array Nat)} {F : List Nat → Array Nat} {V rtF abF : Nat → Nat → Nat}
+    {ws : List (List Nat)}
+    (hs : RT.size = 3) (hrt : ∀ t < 3, Good 8330 (RT.getD t #[]) (rtF t))
+    (hF : ∀ w : List Nat, (∀ l ∈ w, l < 4) → Good 8330 (F w) (wordF abF w))
+    (hV1 : ∀ t < 3, V t = rtF t)
+    (hV2 : ∀ t (_ : 3 ≤ t) (hi : t - 3 < ws.length), V t = wordF abF ws[t - 3])
+    (hw : ∀ w ∈ ws, ∀ l ∈ w, l < 4) :
+    ∀ t < (RT ++ (ws.map F).toArray).size, Good 8330 ((RT ++ (ws.map F).toArray).getD t #[]) (V t) := by
   intro t ht
   rcases Nat.lt_or_ge t 3 with h3 | h3
-  · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append_left (by rw [rt_size]; exact h3),
-      ← Array.getD_eq_getD_getElem?]
-    have e : K.vg (exOf ab ws) t = rt t := by simp [DcK.vg, K, h3]
-    rw [e]
-    exact rt_good t h3
-  · simp only [Array.size_append, rt_size, List.size_toArray, List.length_map] at ht
+  · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append_left (by rw [hs]; exact h3),
+      ← Array.getD_eq_getD_getElem?, hV1 t h3]
+    exact hrt t h3
+  · simp only [Array.size_append, hs, List.size_toArray, List.length_map] at ht
     have hi : t - 3 < ws.length := by omega
-    rw [Array.getD_eq_getD_getElem?, Array.getElem?_append_right (by rw [rt_size]; exact h3)]
-    simp only [rt_size, List.getElem?_toArray, List.getElem?_map, List.getElem?_eq_getElem hi,
-      Option.map_some, Option.getD_some]
-    have e : K.vg (exOf ab ws) t = wordF ab ws[t - 3] := by
-      simp [DcK.vg, K, exOf, show ¬ (t < 3) from by omega, List.getD_eq_getElem?_getD, hi]
-    rw [e]
-    exact good_tabW fun l hl => ab_good l (hw _ (List.getElem_mem hi) l hl)
+    rw [Array.getD_eq_getD_getElem?, Array.getElem?_append_right (by rw [hs]; exact h3), hs,
+      List.getElem?_toArray, List.getElem?_map, List.getElem?_eq_getElem hi, Option.map_some,
+      Option.getD_some, hV2 t h3 hi]
+    exact hF _ (hw _ (List.getElem_mem hi))
+
+theorem vg_rt_eq {ws : List (List Nat)} : ∀ t < 3, K.vg (exOf ab ws) t = rt t := fun t h3 => by
+  simp [DcK.vg, K, h3]
+
+theorem vg_ws_eq {ws : List (List Nat)} :
+    ∀ t (_ : 3 ≤ t) (hi : t - 3 < ws.length), K.vg (exOf ab ws) t = wordF ab ws[t - 3] :=
+  fun t h3 hi => by
+    simp [DcK.vg, K, exOf, show ¬ (t < 3) from by omega, List.getD_eq_getElem?_getD, hi]
+
+theorem vg_good {ws : List (List Nat)} (hw : ∀ w ∈ ws, ∀ l ∈ w, l < 4) :
+    ∀ t < (RT8 ++ (ws.map (tabW 8330 AB8)).toArray).size,
+      Good 8330 ((RT8 ++ (ws.map (tabW 8330 AB8)).toArray).getD t #[]) (K.vg (exOf ab ws) t) :=
+  vg_good_gen (RT := RT8) (F := tabW 8330 AB8) (V := K.vg (exOf ab ws)) (rtF := rt) (abF := ab)
+    rt_size rt_good (fun _ hw' => good_tabW fun l hl => ab_good l (hw' l hl)) vg_rt_eq vg_ws_eq hw
 
 theorem vs_eq : D8.Vs = [(w0, ((List.range 7680).map EV0.par).toArray,
       ((List.range 7680).map EV0.lab).toArray, 7680),

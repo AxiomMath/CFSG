@@ -6,6 +6,7 @@ import CFSG.Certificates.Kernel.Griess13.SLPTextSound
 import CFSG.Certificates.Kernel.SporSch.LyTxtLemmas
 import CFSG.Certificates.Kernel.Spor.DecLinesRead
 import Certificates.Kernel.PermCent.K5138
+import Certificates.Kernel.PermCent.K5138Glue
 import all Init.Data.String.Slice
 import all Init.Data.String.Search
 public import Certificates.Data.Kernel.PermCent.CV

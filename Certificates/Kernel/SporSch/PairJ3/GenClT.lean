@@ -48,7 +48,7 @@ elab "#kss_cltdata " pre:ident nn:num ww:num nbb:num sId:ident bId:ident lvId:id
   let PT := (Array.range nb).foldl (fun acc i =>
     let L := levels[i]!
     acc ++ rowsOf 24 ((Array.range L.pts.size).map fun k =>
-      L.par[k]! + ((lets[i]!)[L.lab[k]!]! <<< 16))) #[]
+      L.par[k]! + ((lets[i]!).getD L.lab[k]! 0 <<< 16))) #[]
   let QT := (Array.range nb).foldl (fun acc i => acc ++ rowsOf w levels[i]!.pos) #[]
   let (_, elts, par, lab) := cl[0]!
   let c := elts.size

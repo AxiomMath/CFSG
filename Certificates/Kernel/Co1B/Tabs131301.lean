@@ -12,5 +12,7 @@ set_option maxRecDepth 400000
 #kc_nattree CertificateChecks.KernelCo1B.S0131301.EG CertificateChecks.KernelCo1B.S0131301.eltsP
 #kc_nattree CertificateChecks.KernelCo1B.S0131301.SG CertificateChecks.KernelCo1B.S0131301.sortP
 #kc_nattree CertificateChecks.KernelCo1B.S0131301.WG CertificateChecks.KernelCo1B.S0131301.witP
+#kc_nattree CertificateChecks.KernelCo1B.S0131301.CJG CertificateChecks.KernelCo1B.S0131301.cj131P
+#kc_nattree CertificateChecks.KernelCo1B.S0131301.LG131 CertificateChecks.KernelCo1B.S0131301.left131P
 
 end

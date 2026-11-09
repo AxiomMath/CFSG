@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.B4AZ "Certificates/Kernel/B433Alt/Data/fcent.json.gz" 2452 17045138658914910267
+#kc_repo #kc_json CFSG.KD.B4AZ "Certificates/Kernel/B433Alt/Data/fcent.json" 2452 17045138658914910267
   (PT : List Nat) (TW : List (List Nat)) (SK : List Nat) (SA : List Nat) (SP : List Nat)
 
 namespace CFSG.KD.B4AZ

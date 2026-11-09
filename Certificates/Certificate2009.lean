@@ -4,6 +4,7 @@ module
 public import Certificates.Certificate2009Base
 
 public import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallConfP45Inputs
+public import Certificates.Data.Kernel.Census.CatFacts.C2009Orb
 public meta import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallQ3P45
 public meta import CFSG.LocalAnalysis.ComponentClassification.CatFactsSmallConfChecks2
 import Certificates.Kernel.Census.CatFacts.C2009
@@ -47,10 +48,9 @@ theorem certificate2009 : ((elemsT QA45).all (fun x => !(q0gens.all fun q =>
     )
     ∧ (((elemsT QQ45).filter fun x => QL45.sift x 0).length = 8 ∧
       ((elemsT QL45).filter fun x => decide (x * cfTau = cfTau * x)).length = 24 ∧
-      ((elemsT QA45).filter fun x => decide (x * (cfTau * cfZ) = cfTau * cfZ * x)).length =
-        2 ^ 7 * 9 ∧
+      OrbCertL [x45, y45, f45] (cfTau * cfZ) cfOrbTZ ∧
       ((elemsT cfQR).filter fun x => decide (x * cfZ = cfZ * x)).length = 64 ∧
-      ((elemsT QA45).filter fun x => decide (x * cfZ = cfZ * x)).length = 2 ^ 6 * 3
+      OrbCertL [x45, y45, f45] cfZ cfOrbZ
     )
     ∧ ((q0gens.all fun q => QL45.sift q 0 || QL45.sift (q * cfTau⁻¹) 0 ||
       QL45.sift (q * s045⁻¹) 0 || QL45.sift (q * s045⁻¹ * cfTau⁻¹) 0) = true ∧
@@ -115,11 +115,11 @@ theorem certificate2009 : ((elemsT QA45).all (fun x => !(q0gens.all fun q =>
         decide (w ∈ cfOzt.map Prod.fst)) = true ∧
       (cfOz.all fun p => cfQE.sift p.1 0) = true ∧ (cfOzt.all fun p => cfQE.sift p.1 0) = true
     )
-    ∧ ((elemsT QA45).all (fun x => !(cfEgens.all fun e =>
-        cfQE.sift (x * e * x⁻¹) 0) || (decide (x⁻¹ * cfZ * x ∈ cfOz.map Prod.fst) &&
-        decide (x⁻¹ * (cfZ * cfTau) * x ∈ cfOzt.map Prod.fst))) = true ∧
-      ((elemsT QA45).filter fun x => cfEgens.all fun e => cfQE.sift (x * e * x⁻¹) 0).length =
-        1920
+    ∧ (((cfOz.all fun p => decide (p.1.support.card = 40)) = true ∧
+        (cfOzt.all fun p => decide (p.1.support.card = 32)) = true ∧ cfZ.support.card = 40 ∧
+        (cfZ * cfTau).support.card = 32) ∧
+      (cfFgens.all fun x => cfEgens.all fun e => cfQE.sift (x * e * x⁻¹) 0) = true ∧
+      cfOzKd * cfOztKe * cfZ = cfZ * (cfOzKd * cfOztKe) ∧ orderIs (cfOzKd * cfOztKe) 3 = true
     )
     ∧ ((cfEgens.all fun x => decide (x ∈ cfOzt.map Prod.fst)) = true)
     ∧ ((elemsT cfQR).all (fun w => !decide (w * w = 1) || QP45.sift w 0 ||
@@ -141,8 +141,9 @@ theorem certificate2009 : ((elemsT QA45).all (fun x => !(q0gens.all fun q =>
     )
     ∧ ((elemsT QA45).all (fun y => !decide (y * y = 1) || QP45.sift y 0 ||
       decide (y ∈ cfCls1C) || decide (y ∈ cfCls2C)) = true ∧
-      (elemsT QP45).all (fun y => !decide (y * y = 1) || decide (y = 1) ||
-        decide (y ∈ cfICls1C) || decide (y ∈ cfICls2C)) = true
+      ((elemsT cfQR).filter fun x => QP45.sift x 0).length = 64 ∧
+      ((elemsT cfQR).filter fun x => QP45.sift x 0).all (fun y => !decide (y * y = 1) ||
+        decide (y = 1) || decide (y ∈ cfICls1C) || decide (y ∈ cfICls2C)) = true
     )
     ∧ ((elemsT cfQR).all (fun x => !decide (x * x = 1) || decide (x = 1) ||
       decide (x ∈ cfB) || decide (((elemsT cfQR).filter fun y => decide (y * y = 1) &&

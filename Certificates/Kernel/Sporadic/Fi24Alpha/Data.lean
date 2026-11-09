@@ -1,13 +1,13 @@
 module
 
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Br.Data
 public import Certificates.Data.Kernel.Ssa3
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Alpha MT "Certificates/Kernel/Sporadic/Fi24Alpha/data/mats.bin.gz" 152491 4 47882174 12150387719975531570
-#kc_repo #kc_json_gz CFSG.KD.Fi24Alpha "Certificates/Kernel/Sporadic/Fi24Alpha/data/alpha.json.gz" 28338 16580409953967456125
+#kc_repo #kc_ktree CFSG.KD.Fi24Alpha MT "Certificates/Kernel/Sporadic/Fi24Alpha/data/mats.bin" 152491 4 47882174 12150387719975531570
+#kc_repo #kc_json CFSG.KD.Fi24Alpha "Certificates/Kernel/Sporadic/Fi24Alpha/data/alpha.json" 28338 16580409953967456125
   (NK : List Nat) (NA : List Nat) (NB : List Nat) (NS : List Nat) (OPN : List Nat) (FV : List Nat)
   (CB : List Nat) (QB : List Nat) (QK : List Nat) (QX : List Nat) (QY : List Nat) (QT : List Nat)
   (QF : List Nat)

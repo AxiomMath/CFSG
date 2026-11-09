@@ -12,8 +12,8 @@ public section
 
 namespace CFSG.KAct.XSz8H
 
-#kc_repo #kc_json_gz CFSG.KAct.XSz8H
-  "Certificates/Kernel/Misc/Coset/XSz8HA/data/Data.json.gz" 1646 16814622831710697324
+#kc_repo #kc_json CFSG.KAct.XSz8H
+  "Certificates/Kernel/Misc/Coset/XSz8HA/data/Data.json" 1646 16814622831710697324
   (R : List (List Nat)) (W : List (List Nat)) (M : List (List Nat)) (C0 : List Nat) (C1 : List Nat)
   (C2 : List Nat) (C3 : List Nat) (C4 : List Nat) (C5 : List Nat)
 

@@ -9,7 +9,7 @@ public section
 
 set_option maxRecDepth 400000
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ4M2 "Certificates/Kernel/J4M2/data/w7951.json.gz" 3570
+#kc_repo #kc_json CertificateChecks.KernelJ4M2 "Certificates/Kernel/J4M2/data/w7951.json" 3570
   16134405471508997213
   (pt77W : List (Nat × Nat × Nat × Nat))
 

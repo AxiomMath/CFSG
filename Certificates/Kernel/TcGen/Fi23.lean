@@ -1,6 +1,8 @@
 module
 
 public import Certificates.Data.Kernel.OpsLayMcert
+public import Certificates.Data.Kernel.OpsLayTab
+public import Certificates.Data.Kernel.OpsLayFill
 public import Certificates.Kernel.LocalComp.LaySeeds
 public import Certificates.Kernel.LocalComp.LaySnaps
 public import CFSG.Certificates.Kernel.Common.Each
@@ -26,32 +28,45 @@ namespace CertificateChecks.KernelTc.Fi23
 
 open CFSG.KC.OpsLayK CFSG.AGLEmbedding.R3 CFSG.AGLEmbedding.R3.Fi23Three
 
-@[expose] noncomputable def tcCh (i : Nat) : Bool :=
-  chunkL lay tcProg 200 i (T.SL.getD i []) (T.SL.getD (i + 1) [])
+@[expose] noncomputable def tabC (i : Nat) : Bool :=
+  CFSG.KC.OpsLayTab.tabF lay.mul (powK lay) C.VT C.KT C.N (3 + i * 16) 16
+
+#kc_each tabC 0 140
+
+@[expose] noncomputable def symP (prog : List CFSG.SectionRank.Native.Op) (VS : List Nat)
+    (I0 IF : Nat) (S : List Nat) (n : Nat) : Bool :=
+  CFSG.KC.OpsLayTab.symT C.KT C.N n prog VS I0 IF &&
+    eqL (CFSG.KC.OpsLayTab.regsT C.VT n I0) (initR lay A B n) &&
+    eqL (CFSG.KC.OpsLayTab.regsT C.VT n IF) S
+
+theorem tcSym : symP tcProg T.VS T.I0 T.IF (T.SL.getD 6 []) tcNregs = true := by quickRfl
+
+theorem cpSym : symP cpProg C.VS C.I0 C.IF (C.SL.getD 5 []) cpNregs = true := by quickRfl
+
+@[expose] def tcFs : List CFSG.RankThree.Asc83Table.Native.MFact :=
+  { tcSpec with der := [] }.facts ++ tcSpec.der.map fun d => .ord d.reg d.ord
+
+@[expose] def cpFs : List CFSG.RankThree.Asc83Table.Native.MFact :=
+  { cpSpec with der := [] }.facts ++ cpSpec.der.map fun d => .ord d.reg d.ord
 
 @[expose] noncomputable def tcFa (i : Nat) : Bool :=
-  factsL lay (T.SL.getD 6 []) tcNregs tcSpec.facts 25 i
-
-@[expose] noncomputable def cpCh (i : Nat) : Bool :=
-  chunkL lay cpProg 200 i (C.SL.getD i []) (C.SL.getD (i + 1) [])
+  ((tcFs.drop (i * 5)).take 5).all (factL1 lay (T.SL.getD 6 []) tcNregs)
 
 @[expose] noncomputable def cpFa (i : Nat) : Bool :=
-  factsL lay (C.SL.getD 5 []) cpNregs cpSpec.facts 25 i
+  ((cpFs.drop (i * 5)).take 5).all (factL1 lay (C.SL.getD 5 []) cpNregs)
 
-theorem tcInit : eqL (T.SL.getD 0 []) (initR lay A B tcNregs) = true := by quickRfl
-
-theorem cpInit : eqL (C.SL.getD 0 []) (initR lay A B cpNregs) = true := by quickRfl
-
-#kc_each tcCh 0 6
-#kc_each tcFa 0 10
-#kc_each cpCh 0 5
-#kc_each cpFa 0 6
+#kc_each tcFa 0 50
+#kc_each cpFa 0 30
 
 theorem tcSeeds : seedRegsL lay (T.SL.getD 6 []) A B tcSpec.rA tcSpec.rB = true := by quickRfl
 
 theorem cpSeeds : seedRegsL lay (C.SL.getD 5 []) A B cpSpec.rA cpSpec.rB = true := by quickRfl
 
-theorem ch_neg : (!chunkL lay tcProg 200 0 (T.SL.getD 0 []) (C.SL.getD 1 [])) = true := by
+theorem ch_neg : (!CFSG.KC.OpsLayTab.symT C.KT C.N cpNregs (cpProg.take 20) (C.VS.drop 1) C.I0
+    C.I0) = true := by
+  quickRfl
+
+theorem tab_neg : (!CFSG.KC.OpsLayTab.entF lay.mul (powK lay) C.VT (0, 2, 2) 0) = true := by
   quickRfl
 
 theorem seeds_neg : (!seedRegsL lay (T.SL.getD 6 []) B A tcSpec.rA tcSpec.rB) = true := by

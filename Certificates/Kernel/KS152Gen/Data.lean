@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.KS152Gen "Certificates/Kernel/KS152Gen/data/ks152gen.json.gz"
+#kc_repo #kc_json CFSG.KD.KS152Gen "Certificates/Kernel/KS152Gen/data/ks152gen.json"
   117648 5560132305586457466
   (gciw : List (List Nat)) (g0 : List Nat) (tg : List Nat) (tw : List (List Nat)) (tW : List (List Nat))
   (tC : List (List Nat)) (ti0 : Nat) (xI : List Nat) (qg : List Nat) (qgi : List Nat)

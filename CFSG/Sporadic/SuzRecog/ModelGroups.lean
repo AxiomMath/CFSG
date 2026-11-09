@@ -243,18 +243,17 @@ theorem card_NR0_le :
     refine card_le_of_le fun k hk => mem_inf.2 ⟨(mem_inf.1 hk).2, (mem_NR0.1 (mem_inf.1 hk).1).1⟩
   omega
 
-theorem card_closure_nr0 :
-    Nat.card (closure {suzInv 1, C1Model.zJ0, w0, rho1, C1Model.tau0}) = 483840 := by
+theorem le_card_closure_nr0 :
+    483840 ≤ Nat.card (closure {suzInv 1, C1Model.zJ0, w0, rho1, C1Model.tau0}) := by
   have h := nr0_check
   simp only [nr0OK, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨hsz, hc⟩, e0⟩, e1⟩, e2⟩, e3⟩, e4⟩ := h
   have hS : ∀ j (hj : j < 9), nr0StrongArrs[j]! = nr0Strong j := fun j hj =>
     getElem!_ofFn_arr (fun i : Fin 9 => nr0Strong i.val) hj
-  have := card_closure_of_chainOK (S := nr0StrongArrs) (k := 5) (by rw [hsz]; norm_num)
+  have := le_card_closure_of_chainLowOK (S := nr0StrongArrs) (k := 5) (by rw [hsz]; norm_num)
     (by decide) (by decide) hc ![suzInv 1, C1Model.zJ0, w0, rho1, C1Model.tau0] (fun i => ?_)
   · rw [range_five] at this
-    rw [this]
-    rfl
+    exact this
   · fin_cases i
     · show Rep 1782 nr0StrongArrs[0]! (suzInv 1)
       rw [hS 0 (by norm_num)]
@@ -281,6 +280,10 @@ theorem closure_nr0_le_NR0 :
   · exact w0_mem_NR0
   · exact rho1_mem_NR0
   · exact tau0_mem_NR0
+
+theorem card_closure_nr0 :
+    Nat.card (closure {suzInv 1, C1Model.zJ0, w0, rho1, C1Model.tau0}) = 483840 :=
+  le_antisymm ((card_le_of_le closure_nr0_le_NR0).trans card_NR0_le) le_card_closure_nr0
 
 theorem NR0_eq_closure :
     NR0 = closure {suzInv 1, C1Model.zJ0, w0, rho1, C1Model.tau0} :=
@@ -676,18 +679,17 @@ theorem J0_le_Crho1 :
   mem_Crho1_iff.2 ⟨mem_centralizer_singleton_iff.1 (C1Model.J0_le_centralizer_rho1 hg),
     C1Model.J0_le_suzM hg⟩
 
-theorem card_closure_j0rho :
-    Nat.card (closure {suzInv 1, C1Model.zJ0, rho1}) = 60480 := by
+theorem le_card_closure_j0rho :
+    60480 ≤ Nat.card (closure {suzInv 1, C1Model.zJ0, rho1}) := by
   have h := j0rho_check
   simp only [j0rhoOK, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨hsz, hc⟩, e0⟩, e1⟩, e2⟩ := h
   have hS : ∀ j (hj : j < 7), j0rhoStrongArrs[j]! = j0rhoStrong j := fun j hj =>
     getElem!_ofFn_arr (fun i : Fin 7 => j0rhoStrong i.val) hj
-  have := card_closure_of_chainOK (S := j0rhoStrongArrs) (k := 3) (by rw [hsz]; norm_num)
+  have := le_card_closure_of_chainLowOK (S := j0rhoStrongArrs) (k := 3) (by rw [hsz]; norm_num)
     (by decide) (by decide) hc ![suzInv 1, C1Model.zJ0, rho1] (fun i => ?_)
   · rw [range_three] at this
-    rw [this]
-    rfl
+    exact this
   · fin_cases i
     · show Rep 1782 j0rhoStrongArrs[0]! (suzInv 1)
       rw [hS 0 (by norm_num)]
@@ -698,6 +700,15 @@ theorem card_closure_j0rho :
     · show Rep 1782 j0rhoStrongArrs[2]! rho1
       rw [hS 2 (by norm_num)]
       exact rep_of_eqA e2 rep_rho1
+
+theorem card_closure_j0rho :
+    Nat.card (closure {suzInv 1, C1Model.zJ0, rho1}) = 60480 := by
+  refine le_antisymm ((card_le_of_le ?_).trans card_Crho1_inf_NR0_le) le_card_closure_j0rho
+  rw [closure_le]
+  rintro x (rfl | rfl | rfl)
+  · exact mem_inf.2 ⟨mem_Crho1_iff.2 ⟨comm_facts.1, t1_mem_suzM⟩, t1_mem_NR0⟩
+  · exact mem_inf.2 ⟨J0_le_Crho1 C1Model.zJ0_mem_J0, zJ0_mem_NR0⟩
+  · exact mem_inf.2 ⟨mem_Crho1_iff.2 ⟨rfl, rho1_mem_suzM⟩, rho1_mem_NR0⟩
 
 theorem J0_sup_rho1_eq_closure :
     C1Model.J0 ⊔ zpowers rho1 = closure {suzInv 1, C1Model.zJ0, rho1} := by
@@ -735,18 +746,17 @@ theorem s1_mem_invE :
 theorem s2_mem_invE :
     s2 ∈ invE 1 := mem_invE_one_iff.2 ⟨comm_facts.2.2.2.2.2, s2_mem_suzM⟩
 
-theorem card_closure_c1 :
-    Nat.card (closure {c1a, c1b}) = 3317760 := by
+theorem le_card_closure_c1 :
+    3317760 ≤ Nat.card (closure {c1a, c1b}) := by
   have h := c1_check
   simp only [c1OK, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨hsz, hc⟩ := h
   have hS : ∀ j (hj : j < 11), c1StrongArrs[j]! = c1Strong j := fun j hj =>
     getElem!_ofFn_arr (fun i : Fin 11 => c1Strong i.val) hj
-  have := card_closure_of_chainOK (S := c1StrongArrs) (k := 2) (by rw [hsz]; norm_num)
+  have := le_card_closure_of_chainLowOK (S := c1StrongArrs) (k := 2) (by rw [hsz]; norm_num)
     (by decide) (by decide) hc ![c1a, c1b] (fun i => ?_)
   · rw [range_two] at this
-    rw [this]
-    rfl
+    exact this
   · fin_cases i
     · show Rep 1782 c1StrongArrs[0]! c1a
       rw [hS 0 (by norm_num)]
@@ -766,22 +776,21 @@ theorem invE_eq_sup :
         pair_facts.2.1⟩)
   have hsup : (invE 1 ⊓ Crho1) ⊔ (invE 1 ⊓ pairStab) ≤ invE 1 := sup_le inf_le_left inf_le_left
   have heq : closure {c1a, c1b} = invE 1 := eq_of_le_of_card_ge (hle.trans hsup) (by
-    rw [card_closure_c1, card_invE (by norm_num : 1 < 4)]
-    rfl)
+    rw [card_invE (by norm_num : 1 < 4)]
+    exact le_card_closure_c1)
   exact le_antisymm (heq ▸ hle) hsup
 
-theorem card_closure_csplit :
-    Nat.card (closure {suzInv 1, C1Model.zJ0, rho1, c1a}) = 9797760 := by
+theorem le_card_closure_csplit :
+    9797760 ≤ Nat.card (closure {suzInv 1, C1Model.zJ0, rho1, c1a}) := by
   have h := csplit_check
   simp only [csplitOK, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨⟨hsz, hc⟩, e0⟩, e1⟩, e2⟩, e3⟩ := h
   have hS : ∀ j (hj : j < 9), csplitStrongArrs[j]! = csplitStrong j := fun j hj =>
     getElem!_ofFn_arr (fun i : Fin 9 => csplitStrong i.val) hj
-  have := card_closure_of_chainOK (S := csplitStrongArrs) (k := 4) (by rw [hsz]; norm_num)
+  have := le_card_closure_of_chainLowOK (S := csplitStrongArrs) (k := 4) (by rw [hsz]; norm_num)
     (by decide) (by decide) hc ![suzInv 1, C1Model.zJ0, rho1, c1a] (fun i => ?_)
   · rw [range_four] at this
-    rw [this]
-    rfl
+    exact this
   · fin_cases i
     · show Rep 1782 csplitStrongArrs[0]! (suzInv 1)
       rw [hS 0 (by norm_num)]
@@ -810,7 +819,7 @@ theorem Crho1_eq_sup_of_card_le
         mem_invE_one_iff.2 ⟨comm_facts.2.2.1, c1a_mem_suzM⟩⟩)
   have hsup : (Crho1 ⊓ invE 1) ⊔ (Crho1 ⊓ NR0) ≤ Crho1 := sup_le inf_le_left inf_le_left
   have heq : closure {suzInv 1, C1Model.zJ0, rho1, c1a} = Crho1 :=
-    eq_of_le_of_card_ge (hle.trans hsup) (by rw [card_closure_csplit]; exact hC)
+    eq_of_le_of_card_ge (hle.trans hsup) (hC.trans le_card_closure_csplit)
   exact le_antisymm (heq ▸ hle) hsup
 
 end C1

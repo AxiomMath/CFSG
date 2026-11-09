@@ -152,8 +152,8 @@ structure PLaw (np : ℕ) (O : POps) : Prop where
   (fun L Xp Xq =>
     (fun d2 U =>
       (Nat.lor (O.neg SX F.sgWLo (Nat.land W L))
-        (Nat.lor (O.half SX (nat_lit 3) (O.neg SX F.doct (O.net SX (nat_lit 17) F.pi6
-            (wht6G O (Nat.land X (O.rep SX regOct))))))
+        (Nat.lor (Nat.land (O.half SX (nat_lit 3) (O.neg SX F.doct (O.net SX (nat_lit 17) F.pi6
+            (wht6G O X)))) (O.rep SX regOct))
           (Nat.lor (O.expand (nat_lit 114688) (Nat.land (O.add SA A d2) (O.rep SA upA)))
             (O.expand (nat_lit 115712) (Nat.land (O.add SA (O.neg SA upA A) d2) (O.rep SA upA))))),
        Nat.lor (Nat.land A (O.rep SA diagA)) (Nat.lor U (transpG O U)),

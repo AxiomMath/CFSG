@@ -18,7 +18,7 @@ theorem wfIChk : CFSG.KC.LQT.P.allN (508 + 2) (fun k => wfS (nthV I k)) = true :
 theorem facts : (List.range 48).all (liftOK lifts) = true ∧ pairsOK lifts = true ∧
     (List.range 48).all (wordOK lifts) = true ∧ negOK lifts 0 35 = true := by
   have h := f42_sound (nP := 32) bA bB bS bRefs bRoots fmt ints start nIeq lenF insAll
-    (by norm_num) liftsChk roots liftAll pairAll wordAll neg (CFSG.KS.PK.allN_lqt_iff.1 wfIChk)
+    (by norm_num) liftsChk roots liftAll pairSwapAll wordAll neg (CFSG.KS.PK.allN_lqt_iff.1 wfIChk)
   rw [lifts_eq, pairsOK_eq, negOK_eq]
   refine ⟨h.1, h.2.1, ?_, h.2.2.2⟩
   have e : wordOK (liftsOf payloadA payloadB slpText liftRefs) =

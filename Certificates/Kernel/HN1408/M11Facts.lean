@@ -95,6 +95,70 @@ theorem enumA : enumW invCap 7920 [y0Word, vWord] = true := recA.1
 
 theorem y0_mem : elemW y0Word ∈ m11K := subset_closure ⟨y0Word, by simp, rfl⟩
 
+theorem fixB_spec {X e : Nat} : ∀ {B : List Nat}, fixB X e B = true → ∀ b ∈ B, iterN (pt X) e b = b
+  | [], _, _, hb => absurd hb List.not_mem_nil
+  | b :: B, h, c, hc => by
+    obtain ⟨h1, h2⟩ := mkA (a := Nat.beq (iterN (pt X) e b) b) (b := fixB X e B) h
+    rcases List.mem_cons.1 hc with rfl | hc
+    · exact Nat.eq_of_beq_eq_true h1
+    · exact fixB_spec h2 c hc
+
+theorem movB_spec {X : Nat} : ∀ {B : List Nat}, movB X B = true → ∃ b ∈ B, pt X b ≠ b
+  | [], h => absurd h Bool.false_ne_true
+  | b :: B, h => by
+    rcases mkIf (c := Nat.beq (pt X b) b) (a := movB X B) (b := true) h with ⟨-, h⟩ | ⟨hb, -⟩
+    · obtain ⟨c, hc, hne⟩ := movB_spec h
+      exact ⟨c, List.mem_cons_of_mem _ hc, hne⟩
+    · exact ⟨b, List.mem_cons_self, Nat.ne_of_beq_eq_false hb⟩
+
+theorem repC_MR1 {g : Equiv.Perm (Fin 1408)} (hg : g ∈ m11K) : ∃ k < MR1.cnt, RepC (MR1.T k) g := by
+  obtain ⟨k, hk, hrep⟩ := (enumW_spec enumA).2.cov g hg
+  rw [recA.2.1] at hk hrep
+  have hk' : k < MR1.cnt := by simpa [hRec] using hk
+  rw [hRec_get hk'] at hrep
+  exact ⟨k, hk', recA.2.2 k hk', hrep⟩
+
+theorem m11B_lt : ∀ b ∈ m11B, b < 1408 := by decide
+
+theorem eq_one_of_base {h : Equiv.Perm (Fin 1408)} (hh : h ∈ m11K)
+    (hfix : ∀ b ∈ m11B, ∀ hb : b < 1408, (h ⟨b, hb⟩).val = b) : h = 1 := by
+  obtain ⟨k, hk, hX⟩ := repC_MR1 hh
+  have hb := slAll (L := 7920) (K := 1) (by rw [cntA]) (fun s hs => bA_all s hs) k hk
+  simp only [strictB_app] at hb
+  rcases mkIf hb with ⟨he, -⟩ | ⟨-, hm⟩
+  · rw [Nat.eq_of_beq_eq_true he] at hX
+    exact eq_of_repC hX ⟨cId, by rw [← idT_eq]; exact Rep.idT (by norm_num)⟩
+  · obtain ⟨b, hbB, hne⟩ := movB_spec hm
+    exact absurd (by rw [repC_pt hX (m11B_lt b hbB)]; exact hfix b hbB _) hne
+
+theorem m11_ord : ∀ g ∈ m11K, TwoHSData.M11Order (orderOf g) := by
+  intro g hg
+  obtain ⟨k, hk, hX⟩ := repC_MR1 hg
+  have ho := slAll (L := 990) (K := 8) (by rw [cntA]) (fun s hs => oA_all s hs) k hk
+  simp only [strictB_app] at ho
+  unfold ordB at ho
+  obtain ⟨he, hf⟩ := mkA ho
+  have hP : RepC (ppK (MR1.T k) (MO k)) (g ^ MO k) := by
+    refine ⟨cn_ppK hX.1 _, ?_⟩
+    rw [← powT_eq hX.1]
+    exact Rep.powT (by norm_num) hX.2 _
+  have h1 : g ^ MO k = 1 := eq_one_of_base (pow_mem hg _) fun b hb hb' => by
+    rw [← repC_pt hP hb', pt_ppK hX.1 hb']
+    exact fixB_spec hf b hb
+  have hid : Rep 1408 (idT 1408) (1 : Equiv.Perm (Fin 1408)) := Rep.idT (by norm_num)
+  have hI : Nat.beq (ppK (MR1.T k) (MO k)) idK = true := by
+    rw [← tblEq_eq hP.1 cId, ← idT_eq]
+    exact (tblEq_iff_eq hP.2 hid).2 h1
+  have he' : MO k = 8 ∨ MO k = 6 ∨ MO k = 5 ∨ MO k = 11 := by
+    rcases mkIf he with ⟨h8, -⟩ | ⟨-, he⟩
+    · exact Or.inl (Nat.eq_of_beq_eq_true h8)
+    rcases mkIf he with ⟨h6, -⟩ | ⟨-, he⟩
+    · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true h6))
+    rcases mkIf he with ⟨h5, -⟩ | ⟨-, he⟩
+    · exact Or.inr (Or.inr (Or.inl (Nat.eq_of_beq_eq_true h5)))
+    · exact Or.inr (Or.inr (Or.inr (Nat.eq_of_beq_eq_true he)))
+  exact (ordInS_iff hid hX.2).1 (ordInS_of hX.1 he' hI)
+
 theorem m11_group :
     Nat.card ↥m11K = 7920 ∧ orderOf (elemW y0Word) = 11 ∧ orderOf (elemW vWord) = 11 ∧
       elemW y0Word * elemW vWord ≠ elemW vWord * elemW y0Word ∧
@@ -120,7 +184,7 @@ theorem m11_group :
     simp only [List.all_cons, List.all_nil, Bool.and_true] at h
     exact (hL0.memT_iff hri).1 h
   refine ⟨hcard, orderOf_eq_of_primeOrderOK hry' mkY, orderOf_eq_of_primeOrderOK hrv mkV,
-    fun hcon => ?_, fun w hw => ?_, (ordAllOK_iff hid hL0).1 mkOrd,
+    fun hcon => ?_, fun w hw => ?_, m11_ord,
     orderOf_eq_of_primeOrderOK hri mkI, hi0K, ?_⟩
   · have h2 := mkYV
     rw [(commTT_iff hry' hrv).2 hcon] at h2

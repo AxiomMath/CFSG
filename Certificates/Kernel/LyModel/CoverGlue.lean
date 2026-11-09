@@ -31,11 +31,26 @@ theorem nrep_word {gs : ℕ → Perm (Fin Ly0.deg)} {net : ℤ → Nat} {w : Lis
   intro a
   rw [← e a (lt_of_lt_of_le a.2 deg_le), compN_map net _ w hn a, wG_eq_prod]
 
+theorem lyWordA_rep : Ly0.wordA = (List.replicate 12 wordU).flatten := by decide +kernel
+
+theorem wordU_mem : ∀ z ∈ wordU, z ≠ 0 ∧ z.natAbs ≤ 2 := by decide
+
+theorem nrep_U : NRep 17 Ly0.deg NU0 (Ly0.wG Ly0.gens0 wordU) :=
+  nrep_word (fun z hz => nrep_z cL_eq_cG dL_eq_dG z (wordU_mem z hz))
+    (fun z hz => valid_all _ (zIdx_lt z (wordU_mem z hz)))
+    (stagesValid_of_netValid ly6110_validU) ly6110_netU
+
 theorem nrep_A : NRep 17 Ly0.deg (MS 0) Ly0.AG := by
-  rw [Ly0.AG_def]
-  exact nrep_word (fun z hz => nrep_z cL_eq_cG dL_eq_dG z (Ly0.decodeWord_mem _ z hz))
-    (fun z hz => valid_all _ (zIdx_lt z (Ly0.decodeWord_mem _ z hz))) (validM 0 (by decide))
-    ly6110_netA
+  have hv : ∀ M ∈ List.replicate 12 NU0, StagesValid 17 M := fun M hM => by
+    rw [List.eq_of_mem_replicate hM]
+    exact stagesValid_of_netValid ly6110_validU
+  have e := planesEq_sound hv (validM 0 (by decide)) ly6110_netA12
+  have hc := compN_map (fun _ : Unit => NU0) (fun _ => Ly0.wG Ly0.gens0 wordU)
+    (List.replicate 12 ()) (fun _ _ => nrep_U)
+  simp only [List.map_replicate] at hc
+  intro a
+  rw [← e a (lt_of_lt_of_le a.2 deg_le), hc a, Ly0.AG_def, lyWordA_rep, wG_eq_prod, wG_eq_prod,
+    List.map_flatten, List.prod_flatten, List.map_replicate, List.map_replicate]
 
 theorem nrep_B : NRep 17 Ly0.deg (MS 1) Ly0.BG := by
   rw [Ly0.BG_def]

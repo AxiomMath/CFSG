@@ -2,6 +2,7 @@ module
 
 public import Certificates.Data.Kernel.F42Lev.L11
 public import Certificates.Data.Kernel.F42Lev.L12
+public import Certificates.Data.Kernel.F42Lev.Sq
 public import Certificates.Kernel.LocalComp.BlockTac
 public import CFSG.Certificates.Kernel.Spor.RawSound
 import CFSG.Certificates.Kernel.Common.Harness
@@ -15,7 +16,7 @@ namespace CertificateChecks.KernelLC.F42
 open CFSG.KC.F42
 
 @[expose] noncomputable def chk11 (c : Nat) : Bool :=
-  stepOK (nat_lit 11) L11 L12 Q11 (nat_lit 0) false c
+  stepOK (nat_lit 11) L11 R11 (nat_lit 14) L12 Q11 R12 (nat_lit 13) c
 
 theorem q0_11 : Nat.beq (fldW Q11 (nat_lit 17) (nat_lit 0)) (nat_lit 0) = true := by quickRfl
 

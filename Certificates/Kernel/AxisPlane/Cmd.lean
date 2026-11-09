@@ -31,6 +31,102 @@ theorem bandR (a b : Bool) (h : Bool.rec (motive := fun _ => Bool) false b a = t
 
 end CertificateChecks.KernelAP
 
+namespace CFSG.KC.AxisPlane
+
+@[expose] noncomputable def chunkPairK (w : Nat) (cs : List Nat) : List Nat :=
+  List.rec (motive := fun _ => Nat → Bool → List Nat)
+    (fun p h => Bool.rec (motive := fun _ => List Nat) List.nil (List.cons p List.nil) h)
+    (fun c _ ih p h => Bool.rec (motive := fun _ => List Nat) (ih c true)
+      (List.cons (Nat.lor p (Nat.shiftLeft c w)) (ih (nat_lit 0) false)) h) cs (nat_lit 0) false
+
+@[expose] noncomputable def chunkStripK (cs : List Nat) : List Nat :=
+  List.rec (motive := fun _ => List Nat) List.nil
+    (fun c _ ih => List.cons (Nat.shiftRight c (nat_lit 64)) ih) cs
+
+@[expose] noncomputable def chunkJoinK (k w : Nat) (cs : List Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat → List Nat → Nat)
+    (fun _ cs => List.rec (motive := fun _ => Nat) (nat_lit 0) (fun c _ _ => c) cs)
+    (fun _ ih w cs => ih (Nat.add w w) (chunkPairK w cs)) k w cs
+
+theorem chunkPairK_getD_go (w : Nat) : ∀ (cs : List Nat) (p j : Nat),
+    (List.rec (motive := fun _ => Nat → Bool → List Nat)
+      (fun p h => Bool.rec (motive := fun _ => List Nat) List.nil (List.cons p List.nil) h)
+      (fun c _ ih p h => Bool.rec (motive := fun _ => List Nat) (ih c true)
+        (List.cons (Nat.lor p (Nat.shiftLeft c w)) (ih (nat_lit 0) false)) h) cs p false).getD j 0 =
+      (cs.getD (2 * j) 0 ||| cs.getD (2 * j + 1) 0 <<< w) ∧
+    (List.rec (motive := fun _ => Nat → Bool → List Nat)
+      (fun p h => Bool.rec (motive := fun _ => List Nat) List.nil (List.cons p List.nil) h)
+      (fun c _ ih p h => Bool.rec (motive := fun _ => List Nat) (ih c true)
+        (List.cons (Nat.lor p (Nat.shiftLeft c w)) (ih (nat_lit 0) false)) h) cs p true).getD j 0 =
+      ((p :: cs).getD (2 * j) 0 ||| (p :: cs).getD (2 * j + 1) 0 <<< w)
+  | [], p, j => by
+    refine ⟨by simp, ?_⟩
+    cases j <;> simp
+  | c :: t, p, j => by
+    refine ⟨(chunkPairK_getD_go w t c j).2, ?_⟩
+    cases j with
+    | zero => rfl
+    | succ j =>
+      have := (chunkPairK_getD_go w t 0 j).1
+      simp only [List.getD_cons_succ] at this ⊢
+      rw [Nat.mul_succ, List.getD_cons_succ, List.getD_cons_succ]
+      exact this
+
+theorem chunkPairK_getD (w : Nat) (cs : List Nat) (j : Nat) :
+    (chunkPairK w cs).getD j 0 = (cs.getD (2 * j) 0 ||| cs.getD (2 * j + 1) 0 <<< w) :=
+  (chunkPairK_getD_go w cs 0 j).1
+
+theorem chunkPairK_lt {w : Nat} {cs : List Nat} (hb : ∀ j, cs.getD j 0 < 2 ^ w) (j : Nat) :
+    (chunkPairK w cs).getD j 0 < 2 ^ (w + w) := by
+  rw [chunkPairK_getD]
+  apply Nat.lt_pow_two_of_testBit
+  intro i hi
+  rw [Nat.testBit_or, Nat.testBit_shiftLeft, Nat.testBit_lt_two_pow
+    (Nat.lt_of_lt_of_le (hb _) (Nat.pow_le_pow_right (by decide) (by omega))),
+    Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (hb _) (Nat.pow_le_pow_right (by decide) (by omega)))]
+  simp
+
+theorem testBit_chunkJoinK : ∀ (k w : Nat) (cs : List Nat), (∀ j, cs.getD j 0 < 2 ^ w) →
+    ∀ i < w * 2 ^ k, (chunkJoinK k w cs).testBit i = (cs.getD (i / w) 0).testBit (i % w)
+  | 0, w, cs, _, i, hi => by
+    have hw : i / w = 0 := Nat.div_eq_of_lt (by simpa using hi)
+    rw [hw, Nat.mod_eq_of_lt (by simpa using hi)]
+    cases cs <;> rfl
+  | k + 1, w, cs, hb, i, hi => by
+    have hw : 0 < w := Nat.pos_of_ne_zero (by rintro rfl; simp at hi)
+    have e : chunkJoinK (k + 1) w cs = chunkJoinK k (w + w) (chunkPairK w cs) := rfl
+    have hk : (w + w) * 2 ^ k = w * 2 ^ (k + 1) := by
+      rw [Nat.pow_succ, Nat.mul_comm (2 ^ k) 2, ← Nat.mul_assoc, Nat.mul_two]
+    rw [e, testBit_chunkJoinK k (w + w) _ (chunkPairK_lt hb) i (hk ▸ hi),
+      chunkPairK_getD, ← Nat.two_mul, Nat.mul_comm 2 w, ← Nat.div_div_eq_div_mul, Nat.mod_mul]
+    have hr : i % w < w := Nat.mod_lt _ hw
+    have hd := Nat.div_add_mod (i / w) 2
+    rcases Nat.mod_two_eq_zero_or_one (i / w) with h | h
+    · rw [h, Nat.mul_zero, Nat.add_zero, Nat.testBit_or, Nat.testBit_shiftLeft]
+      have : 2 * (i / w / 2) = i / w := by omega
+      rw [this]
+      have hn : ¬ w ≤ i % w := by omega
+      simp [hn]
+    · rw [h, Nat.mul_one, Nat.testBit_or, Nat.testBit_shiftLeft, Nat.testBit_lt_two_pow
+        (Nat.lt_of_lt_of_le (hb _) (Nat.pow_le_pow_right (by decide) (by omega)))]
+      have : 2 * (i / w / 2) + 1 = i / w := by omega
+      rw [this]
+      simp [Nat.add_sub_cancel]
+
+theorem chunkStripK_getD : ∀ (cs : List Nat) (j : Nat),
+    (chunkStripK cs).getD j 0 = cs.getD j 0 >>> 64
+  | [], j => by simp [chunkStripK]
+  | _ :: _, 0 => rfl
+  | _ :: t, j + 1 => chunkStripK_getD t j
+
+theorem testBit_chunkJoinK_strip (k w : Nat) (cs : List Nat) (hb : ∀ j, cs.getD j 0 >>> 64 < 2 ^ w)
+    (i : Nat) (hi : i < w * 2 ^ k) :
+    (chunkJoinK k w (chunkStripK cs)).testBit i = (cs.getD (i / w) 0).testBit (64 + i % w) := by
+  rw [testBit_chunkJoinK k w _ (fun j => chunkStripK_getD cs j ▸ hb j) i hi, chunkStripK_getD,
+    Nat.testBit_shiftRight]
+
+end CFSG.KC.AxisPlane
+
 end
 
 namespace CertificateChecks.KernelAP
@@ -93,21 +189,49 @@ where
 
 meta partial def valTy (pre : Name) (v : Val) : CoreM Expr := do
   match v with
-  | .nat _ => return natT
+  | .nat _ | .chunks _ => return natT
   | .ref m => return (← getConstInfo (pre ++ m)).type
   | .list xs =>
     let t ← if h : 0 < xs.size then valTy pre xs[0] else pure natT
     return mkApp (mkConst ``List [0]) t
 
+meta def planeChunkW : Nat := 8192
+
+meta def planeChunks (n : Nat) : Array Nat := Id.run do
+  let rec go : Nat → Nat → Array Nat → Array Nat
+    | 0, m, acc => acc.push m
+    | k + 1, m, acc => let s := planeChunkW <<< k; go k (m >>> s) (go k (m % (1 <<< s)) acc)
+  let mut cs := go (Nat.log2 (n.log2 / planeChunkW) + 1) n #[]
+  while cs.size > 1 && cs.back! == 0 do
+    cs := cs.pop
+  return cs
+
+meta partial def planeTree (ls : Array Expr) (lo hi : Nat) : Expr :=
+  if hi ≤ lo + 1 then ls[lo]! else
+    let mid := (lo + hi) / 2
+    mkApp2 (mkConst ``Nat.lor) (planeTree ls lo mid)
+      (mkApp2 (mkConst ``Nat.shiftLeft) (planeTree ls mid hi) (mkRawNatLit (planeChunkW * (mid - lo))))
+
 meta partial def valE (pre : Name) (v : Val) : CoreM Expr := do
   match v with
-  | .nat n => return mkRawNatLit n
+  | .nat n | .chunks n => return mkRawNatLit n
   | .ref m => return mkConst (pre ++ m)
   | .list xs =>
     let t ← if h : 0 < xs.size then valTy pre xs[0] else pure natT
     return listE t (← xs.mapM (valE pre))
 
 meta def addV (pre n : Name) (v : Val) : CoreM Unit := do
+  if let .nat x := v then
+    if x ≥ 1 <<< (2 * planeChunkW) then
+      let cs := planeChunks x
+      let h := (hash (pre ++ n)).toNat
+      let salt (i : Nat) : Nat := (h + (i + 1) * 11400714819323198485) % 18446744073709551616
+      let ls := (Array.range cs.size).map fun i => mkApp2 (mkConst ``Nat.shiftRight)
+        (mkRawNatLit ((cs[i]! <<< 64) ||| salt i)) (mkRawNatLit 64)
+      addDecl (forceExpose := true) <| .defnDecl
+        { name := pre ++ n, levelParams := [], type := natT, value := planeTree ls 0 ls.size,
+          hints := .regular 0, safety := .safe }
+      return
   addDecl (forceExpose := true) <| .defnDecl
     { name := pre ++ n, levelParams := [], type := ← valTy pre v, value := ← valE pre v,
       hints := .regular 0, safety := .safe }
@@ -173,7 +297,7 @@ elab "#kc_planes " pre:ident out:ident lamsI:ident sizesI:ident rowsI:ident* : c
       let cs : Array Expr :=
         ((Array.range nl).map fun b => ap `invK #[c s!"ops{g}", c s!"L{b}"]) ++
         ((Array.range 5).map fun j => ap `imgEqK #[c s!"ops{g}", c s!"Q{j}", c s!"R{g}_{j}"])
-      let chunk := 12
+      let chunk := 4
       let mut ps : Array Expr := #[]
       for k in [0:(cs.size + chunk - 1) / chunk] do
         let grp := cs.extract (k * chunk) (min cs.size ((k + 1) * chunk))

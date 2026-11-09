@@ -12,7 +12,7 @@ open CFSG.KC.Misc.Lines CFSG.KD.Misc.T46 CFSG.Fischer.Native
 
 theorem polarLines_true : polarLinesCertificate () = true := by
   rw [polarLines_eq]
-  exact lines_sound CFSG.KD.Misc.Unitary.hU pts pos perpAll pl linesAll cnt twins ppAll
+  exact lines_sound CFSG.KD.Misc.Unitary.hU pts pos perpAll pl linesAll twins ppAll
 
 end CFSG.KD.Misc.Lines
 

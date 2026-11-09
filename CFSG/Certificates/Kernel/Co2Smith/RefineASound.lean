@@ -179,7 +179,7 @@ private theorem accA_field (hn : n < 4096) (hrow : ∀ x < n, rowOK n d R M S x 
       _ < 2 ^ 128 := by omega
   rw [accA_split hrow C, pow_add, ← Nat.div_div_eq_div_mul,
     Nat.add_mul_div_left _ _ (Nat.two_pow_pos _), Nat.div_eq_of_lt hL, Nat.zero_add,
-    packSum_get n hF v, if_pos hv]
+    packSum_get n hF v, ite_eq_left hv]
 
 end Acc
 
@@ -266,7 +266,7 @@ theorem colourA_inv {n d ng k : Nat} {R M S G : Nat → Nat} {Ts pre : List Nat}
     intro v
     change cgA (initA n Ts pre) (σ v) = cgA (initA n Ts pre) v
     rw [initA_eq, cgA_packed (fun v _ => initValA_lt hsmall v),
-      cgA_packed (fun v _ => initValA_lt hsmall v), if_pos (σ v).2, if_pos v.2]
+      cgA_packed (fun v _ => initValA_lt hsmall v), ite_eq_left (σ v).2, ite_eq_left v.2]
     change 2 ^ Ts.length * idxK pre (σ v) + fixA Ts (σ v) =
       2 ^ Ts.length * idxK pre v + fixA Ts v
     rw [hidx v, fixA_congr Ts (hfix v)]
@@ -279,7 +279,7 @@ theorem colourA_inv {n d ng k : Nat} {R M S G : Nat → Nat} {Ts pre : List Nat}
     generalize colourA n S Ts pre k = C at ih ⊢
     rw [stepA_eq, cgA_packed (f := newColA Ts C (accA n S C)) (fun v _ => newColA_lt _ _ _ v),
       cgA_packed (f := newColA Ts C (accA n S C)) (fun v _ => newColA_lt _ _ _ v),
-      if_pos (σ v).2, if_pos v.2]
+      ite_eq_left (σ v).2, ite_eq_left v.2]
     refine newColA_congr (ih v) (fun T hT => ?_) ?_
     · have hz := harc T hT v ⟨pg 12 4095 T v, hTs T hT v v.2⟩ rfl
       rw [← hz]
@@ -289,6 +289,61 @@ theorem colourA_inv {n d ng k : Nat} {R M S G : Nat → Nat} {Ts pre : List Nat}
       rw [Finset.sum_range, Finset.sum_range]
       refine (Fintype.sum_equiv σ _ _ fun w => ?_).symm
       simp only [hAut w v, ih w]
+
+theorem classA_of_classLA {n k x : Nat} {S : Nat → Nat} {Ts pre pts : List Nat}
+    {xs : List (Nat × List Nat)} (h : classLA n S Ts pre k xs = true) (he : (x, pts) ∈ xs) :
+    classA n S Ts pre k x pts = true := by
+  unfold classLA at h
+  unfold classA
+  rw [CFSG.KC.Pack.strictB_eq] at h ⊢
+  generalize colourA n S Ts pre k = C at h ⊢
+  induction xs with
+  | nil => exact absurd he List.not_mem_nil
+  | cons e xs ih =>
+    obtain ⟨h1, h2⟩ := CFSG.KC.Pack.band_iff.1 h
+    rcases List.mem_cons.1 he with rfl | he
+    · exact h1
+    · exact ih he h2
+
+theorem inj_of_orderA {n : Nat} {c π : Nat → Nat} (hlt : ∀ i < n, π i < n)
+    (hinc : ∀ i < n - 1, c (π i) < c (π (i + 1))) : ∀ v < n, ∀ w < n, c v = c w → v = w := by
+  have hmono : ∀ i j, i < j → j < n → c (π i) < c (π j) := by
+    intro i j hij hj
+    induction j with
+    | zero => omega
+    | succ j ih =>
+      rcases Nat.lt_succ_iff_lt_or_eq.1 hij with h | rfl
+      · exact lt_trans (ih h (by omega)) (hinc j (by omega))
+      · exact hinc i (by omega)
+  have hinjπ : ∀ i < n, ∀ j < n, c (π i) = c (π j) → i = j := by
+    intro i hi j hj h
+    rcases Nat.lt_trichotomy i j with hij | hij | hij
+    · exact absurd h (Nat.ne_of_lt (hmono i j hij hj))
+    · exact hij
+    · exact absurd h (Nat.ne_of_gt (hmono j i hij hi))
+  have hl : ((List.range n).map π).Nodup :=
+    List.Nodup.map_on (fun i hi j hj h => hinjπ i (List.mem_range.1 hi) j (List.mem_range.1 hj)
+      (by rw [h])) List.nodup_range
+  have hperm : ((List.range n).map π).Perm (List.range n) :=
+    (hl.subperm fun y hy => by
+      obtain ⟨i, hi, rfl⟩ := List.mem_map.1 hy
+      exact List.mem_range.2 (hlt i (List.mem_range.1 hi))).perm_of_length_le (by simp)
+  have honto : ∀ w < n, ∃ i < n, π i = w := fun w hw => by
+    obtain ⟨i, hi, e⟩ := List.mem_map.1 (hperm.mem_iff.2 (List.mem_range.2 hw))
+    exact ⟨i, List.mem_range.1 hi, e⟩
+  intro v hv w hw h
+  obtain ⟨i, hi, rfl⟩ := honto v hv
+  obtain ⟨j, hj, rfl⟩ := honto w hw
+  rw [hinjπ i hi j hj h]
+
+theorem injColA_inj {n k : Nat} {S P : Nat → Nat} {Ts pre : List Nat}
+    (h : injColA n S Ts pre k P = true) : ∀ v < n, ∀ w < n,
+      cgA (colourA n S Ts pre k) v = cgA (colourA n S Ts pre k) w → v = w := by
+  unfold injColA at h
+  rw [CFSG.KC.Pack.strictB_eq] at h
+  obtain ⟨h1, h2⟩ := CFSG.KC.Pack.band_iff.1 h
+  exact inj_of_orderA (fun i hi => Nat.le_of_ble_eq_true (CFSG.KC.Pack.allN_spec h1 i hi))
+    fun i hi => Nat.le_of_ble_eq_true (CFSG.KC.Pack.allN_spec h2 i hi)
 
 end CFSG.KC.Co2SmithR
 

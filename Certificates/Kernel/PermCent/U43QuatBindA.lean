@@ -1,6 +1,7 @@
 module
 
 public import Certificates.Kernel.PermCent.U43QuatP
+public import Certificates.Kernel.PermCent.U43QuatMatN
 
 set_option maxRecDepth 400000
 set_option maxHeartbeats 0
@@ -13,6 +14,7 @@ open CFSG.ComponentClassification.HarrisLit.P1.U43.Cover CFSG.ComponentClassific
 
 theorem bindsQA : (List.range' 0 7).all (fun j =>
     matOK (quatEls.getD j (0, false)).1 (quatEls.getD j (0, false)).2 (QP j)) = true := by
+  simp only [matOK_eq]
   decide +kernel
 
 end CertificateChecks.KernelPermCent.U43Quat

@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.AE6Tri "Certificates/Kernel/AE6Tri/data/tri.json.gz" 57117
+#kc_repo #kc_json CFSG.KD.AE6Tri "Certificates/Kernel/AE6Tri/data/tri.json" 57117
   9366870501858330739
   (diag : List (List Nat)) (qw : List (List (List Nat))) (delta : List (List (List Nat)))
   (dq : List (List Nat)) (ml : List Nat) (vl : List (List Nat)) (triB : List (List Nat))

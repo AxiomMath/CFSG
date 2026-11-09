@@ -2,19 +2,19 @@ module
 
 public import Init
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CertificateChecks.KernelGMS78.W
 
-#kc_repo #kc_nat_items_gz CertificateChecks.KernelGMS78.W
-  "Certificates/Kernel/GMS78/data/WData.items.gz" 10642 15209434539921388483
+#kc_repo #kc_nat_items CertificateChecks.KernelGMS78.W
+  "Certificates/Kernel/GMS78/data/WData.items" 10642 15209434539921388483
   (G 1 19)
 
-#kc_repo #kc_json_gz CertificateChecks.KernelGMS78.W
-  "Certificates/Kernel/GMS78/data/WData.json.gz" 34441 13167091832285816563
+#kc_repo #kc_json CertificateChecks.KernelGMS78.W
+  "Certificates/Kernel/GMS78/data/WData.json" 34441 13167091832285816563
   (RI : List (List (Nat × Bool))) (RC : List (List (Nat × Bool))) (RA : List (List (Nat × Bool)))
   (RE : List (List (Nat × Bool))) (RS : List (List (Nat × Bool)))
 

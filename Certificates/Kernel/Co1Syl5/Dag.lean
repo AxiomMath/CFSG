@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Co1B.IotaData
 public import Certificates.Data.Kernel.SporSch.Co1Stab
+public import Certificates.Data.Kernel.SporSch.Co1StabW
 public import Certificates.Data.Kernel.Co1B
 public import CFSG.RankThree.PartOne.SPOR.Co1SylowData
 public meta import Certificates.Kernel.SporSch.Co1.GenDag
@@ -23,7 +24,7 @@ open CFSG.KC.Co1B (oneK)
 theorem kB : (Nat.beq (S.M 0) SA && Nat.beq (S.M 1) SB && Nat.beq (S.M 2) (getL oneK IRS 23) &&
     Nat.beq (S.M 3) (getL oneK IRS 51)) = true := by quickRfl
 
-theorem kD : dagIK S.M S.MI 4 S.N co1SylowDerivs = true := by quickRfl
+theorem kD : dagIWK S.M S.MI 4 S.N co1SylowDerivs = true := by quickRfl
 
 theorem kN : Nat.beq S.N 42 = true := by quickRfl
 

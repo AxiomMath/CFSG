@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Co1Sub "Certificates/Kernel/Co1Sub/data/co1sub.json.gz" 609201
+#kc_repo #kc_json CFSG.KD.Co1Sub "Certificates/Kernel/Co1Sub/data/co1sub.json" 609201
   8601870870976830915
   (G : List Nat) (Gi : List Nat) (aW : List (List Nat)) (aM : List Nat) (aMi : List Nat)
   (tW : List (List Nat)) (tM : List Nat) (tMi : List Nat) (gW : List (List Nat)) (gM : List Nat)

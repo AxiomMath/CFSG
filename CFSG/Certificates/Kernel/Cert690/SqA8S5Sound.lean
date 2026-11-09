@@ -218,6 +218,312 @@ theorem sOf_lt (r₁ r₂ : ℕ) (b₀ b₁ : Bool) {i : ℕ} (hi : i < 2) :
   interval_cases i <;> cases b₀ <;> cases b₁ <;>
     simp [sOf, g0, g1, qmulN_lt h1 hz, qmulN_lt h2 hz, h1, h2]
 
+theorem liftF_hom {g : ℕ} (hq : isoQ false g = true) (f : ℕ) {x y : ℕ} (hx : x < 128)
+    (hy : y < 128) : liftF g f (qmulN x y) = qmulN (liftF g f x) (liftF g f y) := by
+  rw [← liftTab_eqF g f (qmulN_lt hx hy), liftTab_mul hq f hx hy, liftTab_eqF g f hx,
+    liftTab_eqF g f hy]
+
+theorem invF_hom {g g' : ℕ} (hq : isoQ false g = true) (f : ℕ)
+    (h : ∀ u < 64, Code.act g (Code.act g' u) = u) (h' : ∀ u < 64, Code.act g' (Code.act g u) = u)
+    {x y : ℕ} (hx : x < 128) (hy : y < 128) :
+    invF g g' f (qmulN x y) = qmulN (invF g g' f x) (invF g g' f y) := by
+  have e := liftF_hom hq f (invF_lt g g' f x) (invF_lt g g' f y)
+  rw [liftF_invF f h hx, liftF_invF f h hy] at e
+  rw [← e, invF_liftF f h' (qmulN_lt (invF_lt g g' f x) (invF_lt g g' f y))]
+
+theorem qconjN_hom {E x y : ℕ} (hE : E < 128) (hx : x < 128) (hy : y < 128) :
+    qmulN (qmulN (qinvN E) (qmulN x y)) E =
+      qmulN (qmulN (qmulN (qinvN E) x) E) (qmulN (qmulN (qinvN E) y) E) := by
+  rw [← enc_dec hE, ← enc_dec hx, ← enc_dec hy]
+  simp only [qinvN_enc, qmulN_enc]
+  congr 1
+  group
+
+theorem qGens_lt {g : ℕ} (hg : g ∈ qGens) : g < 128 := by
+  simp only [qGens, List.mem_cons, List.not_mem_nil, or_false] at hg
+  rcases hg with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
+
+theorem qWord_ok : (List.range 128).all (fun x => (qWord x).foldl qmulN 0 == x &&
+    (qWord x).all fun g => qGens.contains g) = true := by decide +kernel
+
+theorem qfold_eq {φ ψ : ℕ → ℕ} (hφ : ∀ x < 128, ∀ y < 128, φ (qmulN x y) = qmulN (φ x) (φ y))
+    (hψ : ∀ x < 128, ∀ y < 128, ψ (qmulN x y) = qmulN (ψ x) (ψ y))
+    (hg : ∀ x ∈ qGens, φ x = ψ x) :
+    ∀ (l : List ℕ) (a : ℕ), a < 128 → φ a = ψ a → (∀ g ∈ l, g ∈ qGens) →
+      φ (l.foldl qmulN a) = ψ (l.foldl qmulN a)
+  | [], _, _, ha, _ => ha
+  | g :: l, a, hlt, ha, hl => by
+    have hgm := hl g List.mem_cons_self
+    rw [List.foldl_cons]
+    exact qfold_eq hφ hψ hg l _ (qmulN_lt hlt (qGens_lt hgm))
+      (by rw [hφ a hlt g (qGens_lt hgm), hψ a hlt g (qGens_lt hgm), ha, hg g hgm])
+      (fun g' hg' => hl g' (List.mem_cons_of_mem g hg'))
+
+theorem qhom_ext_gens {φ ψ : ℕ → ℕ}
+    (hφ : ∀ x < 128, ∀ y < 128, φ (qmulN x y) = qmulN (φ x) (φ y))
+    (hψ : ∀ x < 128, ∀ y < 128, ψ (qmulN x y) = qmulN (ψ x) (ψ y))
+    (hg : ∀ x ∈ qGens, φ x = ψ x) {x : ℕ} (hx : x < 128) : φ x = ψ x := by
+  have e := List.all_eq_true.1 qWord_ok x (List.mem_range.2 hx)
+  simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.contains_iff_mem] at e
+  obtain ⟨e1, e2⟩ := e
+  rw [← e1]
+  exact qfold_eq hφ hψ hg _ 0 (by norm_num) (hg 0 (by simp [qGens])) e2
+
+theorem guessF_eq_guessG {φ : ℕ → ℕ}
+    (hφ : ∀ x < 128, ∀ y < 128, φ (qmulN x y) = qmulN (φ x) (φ y)) : guessF φ = guessG φ := by
+  unfold guessF guessG
+  have hE : 2 * innWF φ < 128 := by
+    have := innWF_lt φ
+    omega
+  have hc : ((List.range 128).all fun x =>
+        qmulN (qmulN (qinvN (2 * innWF φ)) x) (2 * innWF φ) == φ x) =
+      qGens.all fun x => qmulN (qmulN (qinvN (2 * innWF φ)) x) (2 * innWF φ) == φ x := by
+    rw [Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
+    constructor
+    · intro hall x hx
+      exact hall x (List.mem_range.2 (qGens_lt hx))
+    · intro hall x hx
+      rw [beq_iff_eq]
+      exact qhom_ext_gens (φ := fun x => qmulN (qmulN (qinvN (2 * innWF φ)) x) (2 * innWF φ))
+        (ψ := φ) (fun a ha b hb => qconjN_hom hE ha hb) hφ
+        (fun g hg => beq_iff_eq.1 (hall g hg)) (List.mem_range.1 hx)
+  rw [hc]
+
+theorem candOneT_eq_A8G (hq : isoQ false Code.one = true) (f : ℕ) :
+    candOneT f = candOneA8G f := by
+  unfold candOneT candOneA8G
+  rw [guessF_eq_guessG (φ := liftF Code.one f) (fun _ hx _ hy => liftF_hom hq f hx hy)]
+
+theorem candT_eq_A8G (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) (b : Bool × Bool)
+    (hk : ∀ u < 64, Code.act w.2.2.1 (Code.act w.2.2.2 u) = u)
+    (hk' : ∀ u < 64, Code.act w.2.2.2 (Code.act w.2.2.1 u) = u)
+    (hr : ∀ u < 64, Code.act (if w.2.1 = 0 then r₁ else r₂)
+      (Code.act (if w.2.1 = 0 then r₁ else r₂) u) = u)
+    (hqg : isoQ false w.1 = true) (hqk : isoQ false w.2.2.1 = true)
+    (hqr : isoQ false (if w.2.1 = 0 then r₁ else r₂) = true) :
+    candT r₁ r₂ w f b = candA8G r₁ r₂ w f b := by
+  unfold candT candA8G
+  rw [guessF_eq_guessG (φ := fun x => liftF w.1 f (liftF w.2.2.1 0
+      (invF (if w.2.1 = 0 then r₁ else r₂) (if w.2.1 = 0 then r₁ else r₂) 0
+        (invF w.2.2.1 w.2.2.2 0 x)))) (fun x hx y hy => by
+    beta_reduce
+    rw [invF_hom hqk 0 hk hk' hx hy, invF_hom hqr 0 hr hr (invF_lt _ _ _ _) (invF_lt _ _ _ _),
+      liftF_hom hqk 0 (invF_lt _ _ _ _) (invF_lt _ _ _ _),
+      liftF_hom hqg f (liftF_lt _ _ _) (liftF_lt _ _ _)])]
+
+theorem qhom_foldl {Y : ℕ → ℕ} (hY : ∀ x < 128, ∀ y < 128, Y (qmulN x y) = qmulN (Y x) (Y y)) :
+    ∀ (l : List ℕ) (a : ℕ), a < 128 → (∀ g ∈ l, g ∈ qGens) →
+      Y (l.foldl qmulN a) = l.foldl (fun acc g => qmulN acc (Y g)) (Y a)
+  | [], _, _, _ => rfl
+  | g :: l, a, hlt, hl => by
+    have hgm := hl g List.mem_cons_self
+    rw [List.foldl_cons, List.foldl_cons, qhom_foldl hY l _ (qmulN_lt hlt (qGens_lt hgm))
+      (fun g' hg' => hl g' (List.mem_cons_of_mem g hg')), hY a hlt g (qGens_lt hgm)]
+
+theorem qWordF_eq {Y : ℕ → ℕ} (hY : ∀ x < 128, ∀ y < 128, Y (qmulN x y) = qmulN (Y x) (Y y))
+    {e : ℕ} (he : e < 128) : qWordF Y e = Y e := by
+  have e' := List.all_eq_true.1 qWord_ok e (List.mem_range.2 he)
+  simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.contains_iff_mem] at e'
+  obtain ⟨e1, e2⟩ := e'
+  unfold qWordF
+  conv_rhs => rw [← e1]
+  rw [qhom_foldl hY _ 0 (by norm_num) e2]
+
+theorem candA8G_eq_Y (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) (b : Bool × Bool)
+    (hk : ∀ u < 64, Code.act w.2.2.1 (Code.act w.2.2.2 u) = u)
+    (hk' : ∀ u < 64, Code.act w.2.2.2 (Code.act w.2.2.1 u) = u)
+    (hr : ∀ u < 64, Code.act (if w.2.1 = 0 then r₁ else r₂)
+      (Code.act (if w.2.1 = 0 then r₁ else r₂) u) = u)
+    (hqk : isoQ false w.2.2.1 = true)
+    (hqr : isoQ false (if w.2.1 = 0 then r₁ else r₂) = true) :
+    candA8G r₁ r₂ w f b = candA8Y r₁ r₂ w f b := by
+  unfold candA8G candA8Y
+  cases guessG (fun x => liftF w.1 f (liftF w.2.2.1 0 (invF (if w.2.1 = 0 then r₁ else r₂)
+      (if w.2.1 = 0 then r₁ else r₂) 0 (invF w.2.2.1 w.2.2.2 0 x)))) with
+  | none => rfl
+  | some e =>
+    dsimp only
+    split
+    · next he =>
+      rw [qWordF_eq (fun x hx y hy => by
+        beta_reduce
+        rw [invF_hom hqk 0 hk hk' hx hy,
+          liftF_hom hqr 0 (invF_lt _ _ _ _) (invF_lt _ _ _ _),
+          liftF_hom hqk 0 (liftF_lt _ _ _) (liftF_lt _ _ _)]) he]
+    · rfl
+
+theorem zFlipA8_split {a A : ℕ} (ha : a < 2) : (a + 2 * A) % 2 = a ∧ (a + 2 * A) / 2 = A := by
+  omega
+
+theorem xorA8_lt {a b : ℕ} (ha : a < 2) (hb : b < 2) : a ^^^ b < 2 := by
+  interval_cases a <;> interval_cases b <;> decide
+
+theorem zFlipA8_mod (x : ℕ) : zFlipA8 x % 2 = x % 2 ^^^ 1 ∧ zFlipA8 x / 2 = x / 2 :=
+  zFlipA8_split (xorA8_lt (Nat.mod_lt x two_pos) one_lt_two)
+
+theorem qmulN_z0A8 (x : ℕ) : qmulN x z0N = zFlipA8 x := by
+  simp [qmulN, z0N, zFlipA8, b0n]
+
+theorem zFlipA8_qmulN (x y : ℕ) : qmulN (zFlipA8 x) y = zFlipA8 (qmulN x y) := by
+  have hx := Nat.mod_lt x two_pos
+  have hy := Nat.mod_lt y two_pos
+  have hc : (if b0n (x / 2) (y / 2) then 1 else 0) < 2 := by split <;> omega
+  have hs := xorA8_lt (xorA8_lt hx hy) hc
+  unfold qmulN
+  dsimp only
+  rw [(zFlipA8_mod x).1, (zFlipA8_mod x).2]
+  unfold zFlipA8
+  rw [(zFlipA8_split hs).1, (zFlipA8_split hs).2]
+  congr 1
+  interval_cases (x % 2) <;> interval_cases (y % 2) <;> interval_cases
+    (if b0n (x / 2) (y / 2) then 1 else 0) <;> decide
+
+theorem zFlipA8_liftF (g f x : ℕ) : liftF g f (zFlipA8 x) = zFlipA8 (liftF g f x) := by
+  have hx := Nat.mod_lt x two_pos
+  have hc : (if (fB g 64 (x / 2) ^^ dotN f (x / 2)) then 1 else 0) < 2 := by split <;> omega
+  have hs := xorA8_lt hx hc
+  unfold liftF
+  rw [(zFlipA8_mod x).1, (zFlipA8_mod x).2]
+  unfold zFlipA8
+  rw [(zFlipA8_split hs).1, (zFlipA8_split hs).2]
+  congr 1
+  interval_cases (x % 2) <;> interval_cases
+    (if (fB g 64 (x / 2) ^^ dotN f (x / 2)) then 1 else 0) <;> decide
+
+theorem candA8Y_bit (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) (b : Bool × Bool) :
+    candA8Y r₁ r₂ w f b = (candA8Y r₁ r₂ w f (false, false)).map
+      fun v => if bitA8 w b then zFlipA8 v else v := by
+  unfold candA8Y
+  cases guessG (fun x => liftF w.1 f (liftF w.2.2.1 0 (invF (if w.2.1 = 0 then r₁ else r₂)
+      (if w.2.1 = 0 then r₁ else r₂) 0 (invF w.2.2.1 w.2.2.2 0 x)))) with
+  | none => rfl
+  | some e =>
+    dsimp only
+    split
+    · rw [Option.map_some]
+      congr 1
+      unfold sOf bitA8
+      dsimp only
+      by_cases hb : (if w.2.1 == 0 then b.1 else b.2) = true
+      · rw [if_pos hb, if_pos hb, qmulN_z0A8, zFlipA8_liftF, zFlipA8_qmulN, zFlipA8_qmulN]
+        simp
+      · rw [if_neg hb, if_neg hb]
+        simp
+    · rfl
+
+theorem valsA8Z_eq (r₁ r₂ : ℕ) (Ws : List (ℕ × ℕ × ℕ × ℕ)) (b : Bool × Bool) :
+    valsA8Z r₁ r₂ Ws b = valsA8Y r₁ r₂ Ws b := by
+  unfold valsA8Z valsA8Y
+  congr 1
+  congr 1
+  funext w
+  congr 1
+  funext f
+  exact (candA8Y_bit r₁ r₂ w f b).symm
+
+theorem cntA8_eq (l : List (Option ℕ)) : cntA8 l = if l.all (fun o => o.isSome) then
+    some (((l.filterMap fun o => o).filter fun x => x == a0N).length,
+      ((l.filterMap fun o => o).filter fun x => x == z0N).length) else none := by
+  induction l with
+  | nil => rfl
+  | cons o l ih =>
+    change stepA8 o (cntA8 l) = _
+    rw [ih]
+    cases o with
+    | none => simp [stepA8]
+    | some x =>
+      by_cases h : l.all (fun o => o.isSome) = true
+      · rw [if_pos h]
+        simp only [stepA8, List.all_cons, Option.isSome_some, Bool.true_and, h, if_true,
+          List.filterMap_cons, List.filter_cons]
+        split <;> split <;> simp_all
+      · rw [if_neg h]
+        simp [stepA8, h]
+
+theorem len_filterMap_A8 : ∀ (l : List (Option ℕ)), l.all (fun o => o.isSome) = true →
+    (l.filterMap fun o => o).length = l.length
+  | [], _ => rfl
+  | none :: _, h => by simp at h
+  | some x :: l, h => by
+    simp only [List.all_cons, Option.isSome_some, Bool.true_and] at h
+    simp [len_filterMap_A8 l h]
+
+theorem tailA8_eq (l : List (Option ℕ)) : tailA8 l = tailL l := by
+  unfold tailA8 tailL
+  rw [cntA8_eq]
+  by_cases h : l.all (fun o => o.isSome) = true
+  · rw [if_pos h, h, len_filterMap_A8 l h]
+    simp
+  · rw [if_neg h]
+    simp [h]
+
+theorem zFlipA8_eq (v : ℕ) : zFlipA8 v = if v % 2 = 0 then v + 1 else v - 1 := by
+  unfold zFlipA8
+  rcases Nat.mod_two_eq_zero_or_one v with h | h
+  · have e : (0 : ℕ) ^^^ 1 = 1 := rfl
+    simp only [h, e, ↓reduceIte]
+    omega
+  · have e : (1 : ℕ) ^^^ 1 = 0 := rfl
+    simp only [h, e, one_ne_zero, ↓reduceIte]
+    omega
+
+theorem zFlipA8_beq (v : ℕ) : (zFlipA8 v == 2) = (v == 3) ∧ (zFlipA8 v == 1) = (v == 0) := by
+  rw [zFlipA8_eq]
+  split <;> constructor <;> (apply Bool.eq_iff_iff.2; simp only [beq_iff_eq]; omega)
+
+@[expose] def valTA8 (b : Bool × Bool) (e : ℕ × Option ℕ) : Option ℕ :=
+  e.2.map fun v => if (if e.1 == 0 then false else if e.1 == 1 then b.1 else b.2) then zFlipA8 v
+    else v
+
+theorem valsA8Z_tag (r₁ r₂ : ℕ) (Ws : List (ℕ × ℕ × ℕ × ℕ)) (b : Bool × Bool) :
+    valsA8Z r₁ r₂ Ws b = (tagA8 r₁ r₂ Ws).map (valTA8 b) := by
+  unfold valsA8Z tagA8
+  rw [List.map_append, List.map_map, List.map_flatMap]
+  refine congrArg₂ (· ++ ·) (List.map_congr_left fun f _ => ?_)
+    (congrArg (fun F => List.flatMap F Ws) (funext fun w => ?_))
+  · simp [valTA8]
+  · rw [List.map_map]
+    apply List.map_congr_left
+    intro f _
+    cases h : w.2.1 == 0 <;> simp [valTA8, bitA8, h]
+
+theorem cnt12A8_dec (b : Bool × Bool) : ∀ T : List (ℕ × Option ℕ),
+    cntA8 (T.map (valTA8 b)) = (cnt12A8 T).map (decTA8 b)
+  | [] => by
+    obtain ⟨b1, b2⟩ := b
+    cases b1 <;> cases b2 <;> rfl
+  | e :: T => by
+    change stepA8 (valTA8 b e) (cntA8 (T.map (valTA8 b))) =
+      (step12A8 e (cnt12A8 T)).map (decTA8 b)
+    rw [cnt12A8_dec b T]
+    obtain ⟨k, o⟩ := e
+    cases o with
+    | none => cases cnt12A8 T <;> rfl
+    | some v =>
+      cases cnt12A8 T with
+      | none => rfl
+      | some s =>
+        obtain ⟨b1, b2⟩ := b
+        obtain ⟨hz2, hz1⟩ := zFlipA8_beq v
+        by_cases h0 : k = 0
+        · subst h0
+          simp only [stepA8, step12A8, valTA8, Option.map_some, decTA8, dec4A8, add4A8, a0N, z0N]
+          cases b1 <;> cases b2 <;> simp <;> split_ifs <;> omega
+        by_cases h1 : k = 1
+        · subst h1
+          simp only [stepA8, step12A8, valTA8, Option.map_some, decTA8, dec4A8, add4A8, a0N, z0N]
+          cases b1 <;> cases b2 <;> simp [hz1, hz2] <;> split_ifs <;> omega
+        · simp only [stepA8, step12A8, valTA8, Option.map_some, decTA8, dec4A8, add4A8, a0N, z0N]
+          cases b1 <;> cases b2 <;> simp [hz1, hz2, h0, h1] <;> split_ifs <;> omega
+
+theorem fuseA8_eq (r₁ r₂ : ℕ) (Ws : List (ℕ × ℕ × ℕ × ℕ)) :
+    fuseA8 r₁ r₂ Ws = certBits.all fun b => tailA8 (valsA8Z r₁ r₂ Ws b) := by
+  unfold fuseA8 tailA8
+  simp only [valsA8Z_tag, cnt12A8_dec]
+  cases cnt12A8 (tagA8 r₁ r₂ Ws) with
+  | none => rfl
+  | some s => rfl
+
 theorem flatMap_filter_eq {α : Type} {p : ℕ → Bool} {G : ℕ → List α} :
     ∀ (l : List ℕ), (∀ g ∈ l, p g = false → G g = []) → l.flatMap G = (l.filter p).flatMap G
   | [], _ => rfl
@@ -338,6 +644,31 @@ theorem root_eqF {r : ℕ} (h : (innTab (2 * innW (compTab (liftTab r 0) (liftTa
   rw [innW_eqF (φ := fun x => liftF r 0 (liftF r 0 x)) (fun x hx => by
     rw [compTab_getElem! _ _ hx, liftTab_eqF r 0 hx, liftTab_eqF r 0 (liftF_lt _ _ _)])]
 
+theorem act_mulA8 (a b v : ℕ) :
+    Code.vec (Code.act a (Code.act b v)) = Code.vec (Code.act (Code.mul a b) v) := by
+  rw [Code.vec_act, Code.vec_act, Code.vec_act, Code.mat_mul, Matrix.mulVec_mulVec]
+
+theorem vec_injA8 {u v : ℕ} (hu : u < 64) (hv : v < 64) (h : Code.vec u = Code.vec v) : u = v := by
+  apply Nat.eq_of_testBit_eq
+  intro k
+  by_cases hk : k < 6
+  · exact Code.testBit_eq_of_bitZ_eq (congrFun h ⟨k, hk⟩)
+  · have h64 : 2 ^ 6 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) (by omega)
+    rw [Nat.testBit_eq_false_of_lt (by omega), Nat.testBit_eq_false_of_lt (by omega)]
+
+theorem act_oneA8 {u : ℕ} (hu : u < 64) : Code.act Code.one u = u :=
+  vec_injA8 (Code.act_lt _ _) hu (by rw [Code.vec_act, Code.mat_one, Matrix.one_mulVec])
+
+theorem invPairM_spec {a b : ℕ} (h : invPairM a b = true) :
+    (∀ u < 64, Code.act a (Code.act b u) = u) ∧ (∀ u < 64, Code.act b (Code.act a u) = u) := by
+  unfold invPairM at h
+  simp only [Bool.and_eq_true, beq_iff_eq] at h
+  refine ⟨fun u hu => ?_, fun u hu => ?_⟩
+  · apply vec_injA8 (Code.act_lt _ _) hu
+    rw [act_mulA8, h.1, act_oneA8 hu]
+  · apply vec_injA8 (Code.act_lt _ _) hu
+    rw [act_mulA8, h.2, act_oneA8 hu]
+
 theorem invPair_spec {a b : ℕ} (h : invPair a b = true) :
     (∀ u < 64, Code.act a (Code.act b u) = u) ∧ (∀ u < 64, Code.act b (Code.act a u) = u) := by
   unfold invPair at h
@@ -439,15 +770,17 @@ theorem wit_get (hcm : ∀ w ∈ Ws, cmK T W1 W2 L.length M1 M2 w = true) {w : �
 theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws = true) :
     a8S5Of (a8Data ()) = true := by
   unfold a8T at hT
+  rw [fuseA8_eq] at hT
   simp only [Bool.and_eq_true] at hT
   obtain ⟨⟨⟨hr1, hr2⟩, hinv⟩, hcnt⟩ := hT
   rw [List.all_eq_true] at hinv hcnt hcm
+  simp only [tailA8_eq, valsA8Z_eq] at hcnt
   have hvals : ∀ (b : Bool × Bool) (F : ℕ → ℕ → Option ℕ),
-      (∀ f ∈ evensF, F Code.one f = candOneT f) →
-      (∀ w ∈ Ws, ∀ f ∈ evensF, F w.1 f = candT r1 r2 w f b) →
+      (∀ f ∈ evensF, F Code.one f = candOneA8G f) →
+      (∀ w ∈ Ws, ∀ f ∈ evensF, F w.1 f = candA8Y r1 r2 w f b) →
       ((#[Code.one] ++ (a8Data ()).involutions).toList.flatMap fun g =>
         ((List.range 64).filter fun f => (liftTab g f)[a0N]! == a0N).map (F g)) =
-        valsT r1 r2 Ws b := by
+        valsA8Y r1 r2 Ws b := by
     intro b F hone hrec
     rw [a8_involutions h.enum, Array.toList_append, List.toList_toArray, List.toList_toArray,
       List.singleton_append, List.flatMap_cons]
@@ -456,7 +789,7 @@ theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws
       flatMap_filter_eq (p := fun g => Code.act g 1 == 1) (involL L) (fun g _ hg => by
         rw [if_neg (by simpa using hg)]
         rfl), hsel]
-    unfold valsT
+    unfold valsA8Y
     rw [List.map_congr_left hone]
     congr 1
     apply flatMap_map_congr
@@ -475,7 +808,7 @@ theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws
     simp only [List.all_toArray]
     simp only [List.size_toArray, List.toList_toArray]
     exact e
-  · rw [if_pos (beq_self_eq_true _), a8_innTabs h.enum, candValOne_eq]
+  · rw [if_pos (beq_self_eq_true _), a8_innTabs h.enum, candValOne_eq, candOneT_eq_A8G h.isoOne]
   · obtain ⟨hg, _⟩ := mem_sel hsel hw
     have hne : (w.1 == Code.one) = false := by
       rw [beq_eq_false_iff_ne]
@@ -484,16 +817,27 @@ theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws
       rw [e, ← oneF_eq] at hi
       simp [isInvF] at hi
     obtain ⟨_, hi⟩ := h.cm_get_of (hcm w hw)
-    obtain ⟨hk, hk'⟩ := invPair_spec (hinv w hw)
+    obtain ⟨hk, hk'⟩ := invPairM_spec (hinv w hw)
     have hr : ∀ u < 64, Code.act (if w.2.1 = 0 then r1 else r2)
         (Code.act (if w.2.1 = 0 then r1 else r2) u) = u := by
       split
-      · exact (invPair_spec hr1).1
-      · exact (invPair_spec hr2).1
+      · exact (invPairM_spec hr1).1
+      · exact (invPairM_spec hr2).1
     rw [if_neg (by simp [hne]), h.wit_get hsel hcm hw]
     dsimp only
     rw [if_pos (beq_self_eq_true _), a8_innTabs h.enum, h.root_eq, theta_get hi]
-    exact candVal_eqT r1 r2 w f b hk hk' hr (sOf_lt r1 r2 b.1 b.2 hi)
+    have hqk : isoQ false w.2.2.1 = true := by
+      have hc := hcm w hw
+      unfold cmK at hc
+      rw [Bool.and_eq_true, Nat.blt_eq, h.ix w.2.2.1] at hc
+      exact h.iso _ (List.idxOf_lt_length_iff.1 hc.1)
+    have hqr : isoQ false (if w.2.1 = 0 then r1 else r2) = true := by
+      split
+      · exact h.iso r1 (List.mem_of_getElem? h.l1)
+      · exact h.iso r2 (List.mem_of_getElem? h.l2)
+    exact (candVal_eqT r1 r2 w f b hk hk' hr (sOf_lt r1 r2 b.1 b.2 hi)).trans
+      ((candT_eq_A8G r1 r2 w f b hk hk' hr (h.iso _ (h.mem_involL.1 hg).1) hqk hqr).trans
+        (candA8G_eq_Y r1 r2 w f b hk hk' hr hqk hqr))
 
 end A8Hyp
 

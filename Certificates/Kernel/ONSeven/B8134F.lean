@@ -113,7 +113,7 @@ theorem cfree {r : Nat} (hr : r < 5) (hb1 : (bd r).length = 1)
   have hc : cfK (WW (uw r 0)) (WW (invL (uw r 0))) (WW (cw r)) (fun k => (AL r).getD k 0)
       (stepF 1) (invF 1) (PARf 1) (LABf 1) (Mf 1) (stepF 2) (PARf 2) (LABf 2) (Mf 2) 227759 100817
       k₁ = true := by
-    rw [m1, m2]
+    rw [m1, m2, ← stepO1_eq, ← invO1_eq, ← stepO2_eq]
     exact hsl
   have ht := cosetTest_false (levels := onSevenLevels) (stepsAll := onSevenSteps) (i₁ := 1)
     (i₂ := 2) (b₀ := 0) (rec_get (by norm_num)) (rec_get (by norm_num)) (parlab (by norm_num))
@@ -154,25 +154,36 @@ theorem facts8134 : onSevenBoundCheck 0 (onSevenConjArr 0) 49 28 false = true �
     onSevenBoundCheck 2 (onSevenConjArr 2) 49 28 false = true ∧
     onSevenBoundCheck 3 (onSevenConjArr 3) 49 1 true = true ∧
     onSevenBoundCheck 4 (onSevenConjArr 4) 49 1 true = true := by
-  refine ⟨bound_count (r := 0) (by norm_num) cc0All (by decide +kernel) fx0All (by decide +kernel)
-      (by decide) fun i hi => ?_,
-    bound_count (r := 1) (by norm_num) cc1All (by decide +kernel) fx1All (by decide +kernel)
-      (by decide) fun i hi => ?_,
-    bound_count (r := 2) (by norm_num) cc2All (by decide +kernel) fx2All (by decide +kernel)
-      (by decide) fun i hi => ?_,
-    bound_scan (r := 3) (by norm_num) cc3All (by decide +kernel) fx3All (by decide +kernel)
-      (by decide) cf3All,
-    bound_scan (r := 4) (by norm_num) cc4All (by decide +kernel) fx4All (by decide +kernel)
-      (by decide) cf4All⟩
+  have f0 := fxR_of lnX_eq0 cjT_eq0 fy0All
+  have f1 := fxR_of lnX_eq1 cjT_eq1 fy1All
+  have f2 := fxR_of lnX_eq2 (cjT_eqI rfl) fy2All
+  have f3 := fxR_of lnX_eq3 (cjT_eqI rfl) fy3All
+  have f4 := fxR_of lnX_eq4 (cjT_eqI rfl) fy4All
+  refine ⟨bound_count (r := 0) (by norm_num) (ccR_of cwC_eq0 cd0All) (by decide +kernel) f0
+      (by decide +kernel) (by decide) fun i hi => ?_,
+    bound_count (r := 1) (by norm_num) (ccR_of cwC_eq1 cd1All) (by decide +kernel) f1
+      (by decide +kernel) (by decide) fun i hi => ?_,
+    bound_count (r := 2) (by norm_num) (ccR_of cwC_eq2 cd2All) (by decide +kernel) f2
+      (by decide +kernel) (by decide) fun i hi => ?_,
+    bound_scan (r := 3) (by norm_num) (ccR_of cwC_eq3 cd3All) (by decide +kernel) f3
+      (by decide +kernel) (by decide) (cfR_of ubW_eq3 ubI_eq3 cwC_eq3 cq3All),
+    bound_scan (r := 4) (by norm_num) (ccR_of cwC_eq4 cd4All) (by decide +kernel) f4
+      (by decide +kernel) (by decide) (cfR_of ubW_eq4 ubI_eq4 cwC_eq4 cq4All)⟩
   · interval_cases i
-    · exact ⟨0, 3, by decide, by decide, by decide, cb00S0, cb00S3, by decide +kernel⟩
-    · exact ⟨0, 1, by decide, by decide, by decide, cb01S0, cb01S1, by decide +kernel⟩
+    · exact ⟨0, 3, by decide, by decide, by decide, cbR_of bwC_eq00 ch00S0, cbR_of bwC_eq00 ch00S3,
+        by decide +kernel⟩
+    · exact ⟨0, 1, by decide, by decide, by decide, cbR_of bwC_eq01 ch01S0, cbR_of bwC_eq01 ch01S1,
+        by decide +kernel⟩
   · interval_cases i
-    · exact ⟨0, 3, by decide, by decide, by decide, cb10S0, cb10S3, by decide +kernel⟩
-    · exact ⟨0, 1, by decide, by decide, by decide, cb11S0, cb11S1, by decide +kernel⟩
+    · exact ⟨0, 3, by decide, by decide, by decide, cbR_of bwC_eq10 ch10S0, cbR_of bwC_eq10 ch10S3,
+        by decide +kernel⟩
+    · exact ⟨0, 1, by decide, by decide, by decide, cbR_of bwC_eq11 ch11S0, cbR_of bwC_eq11 ch11S1,
+        by decide +kernel⟩
   · interval_cases i
-    · exact ⟨0, 1, by decide, by decide, by decide, cb20S0, cb20S1, by decide +kernel⟩
-    · exact ⟨0, 3, by decide, by decide, by decide, cb21S0, cb21S3, by decide +kernel⟩
+    · exact ⟨0, 1, by decide, by decide, by decide, cbR_of bwC_eq20 ch20S0, cbR_of bwC_eq20 ch20S1,
+        by decide +kernel⟩
+    · exact ⟨0, 3, by decide, by decide, by decide, cbR_of bwC_eq21 ch21S0, cbR_of bwC_eq21 ch21S3,
+        by decide +kernel⟩
 
 end CertificateChecks.KernelSpor.ONS
 

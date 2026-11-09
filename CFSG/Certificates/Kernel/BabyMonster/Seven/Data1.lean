@@ -1,13 +1,17 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Seven.Data0
-import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.Seven al CFSG.KC.BM.Twin.prod 4370 2412240 3900788718319946577 m2 r30
-#kc_eval CFSG.KC.BM.Seven r4 CFSG.KC.BM.Twin.prod 4370 2412240 15266578042944703452 CFSG.KC.BM.Seeds.A1 al
-#kc_eval CFSG.KC.BM.Seven r31 CFSG.KC.BM.Twin.prod 4370 2412240 4601682403140629670 r4 r4
-#kc_eval CFSG.KC.BM.Seven m1 CFSG.KC.BM.Twin.prod 4370 2412240 4519713054515090899 r4 r31
-#kc_eval CFSG.KC.BM.Seven r42 CFSG.KC.BM.Twin.prod 4370 2412240 5218243538910563617 m1 m2
-#kc_eval CFSG.KC.BM.Seven r46 CFSG.KC.BM.Twin.prod 4370 2412240 17259554865869761509 r42 r26
+#kc_repo #bm_mat CFSG.KC.BM.Seven al
+  "CFSG/Certificates/Kernel/BabyMonster/Seven/data/al.bin" 2412240 3900788718319946577
+#kc_repo #bm_mat CFSG.KC.BM.Seven r4
+  "CFSG/Certificates/Kernel/BabyMonster/Seven/data/r4.bin" 2412240 15266578042944703452
+#kc_repo #bm_mat CFSG.KC.BM.Seven r31
+  "CFSG/Certificates/Kernel/BabyMonster/Seven/data/r31.bin" 2412240 4601682403140629670
+#kc_repo #bm_mat CFSG.KC.BM.Seven m1
+  "CFSG/Certificates/Kernel/BabyMonster/Seven/data/m1.bin" 2412240 4519713054515090899
+#kc_repo #bm_mat CFSG.KC.BM.Seven r42
+  "CFSG/Certificates/Kernel/BabyMonster/Seven/data/r42.bin" 2412240 5218243538910563617
+#kc_repo #bm_mat CFSG.KC.BM.Seven r46
+  "CFSG/Certificates/Kernel/BabyMonster/Seven/data/r46.bin" 2412240 17259554865869761509

@@ -21,6 +21,7 @@ public import Certificates.Kernel.HNFSub.Dist
 public import CFSG.Certificates.Kernel.HNFSubSound
 public import CFSG.LocalAnalysis.EvenSporadicStandard.Solomon78.HNFOrb
 import CFSG.Certificates.Kernel.Common.ForallTree
+import CFSG.Certificates.Kernel.HNFDfsSound
 import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Fam.HNSeed.Checks.K
 
@@ -80,9 +81,58 @@ theorem p_G1 : ∃ c ∈ hnfC0, ρJ c = MW RA RB BI (invW hnfW2) := by
   refine ⟨wordProd hnfGen [-3], mem_C0 (by decide), ?_⟩
   rw [ρ_stab [-3] (by decide), MS, List.map_singleton, List.prod_singleton, ltr3_neg_three]
 
+theorem fil_eq (f : Nat → Bool) : ∀ l, CFSG.KD.HNFSub.fil f l = l.filter f
+  | [] => rfl
+  | k :: l => by
+    show Bool.rec (motive := fun _ => List Nat) (CFSG.KD.HNFSub.fil f l) (k :: CFSG.KD.HNFSub.fil f l) (f k) = _
+    rw [List.filter_cons, fil_eq f l]
+    cases f k <;> rfl
+
+theorem nodup_of_dist {l o : List Nat} {N : Nat} (hd : CFSG.KC.HNFDfs.distL l o = true)
+    (hl : l.length = N) (ho : o.length = N) : l.Nodup := by
+  have hc := CFSG.KS.HNFDfs.distL_sound hd
+  have hle := List.toFinset_card_le l
+  rw [ho] at hc
+  rw [List.card_toFinset] at hc hle
+  have heq : l.dedup.length = l.length := by omega
+  rw [← (List.dedup_sublist l).eq_of_length heq]
+  exact List.nodup_dedup l
+
 theorem p_dist : (CFSG.KC.HNFSub.allKeys CFSG.KD.HNFSub.S7.segs).length = 88704 ∧
-    (CFSG.KC.HNFSub.allKeys CFSG.KD.HNFSub.S7.segs).Nodup :=
-  distOK_sound CFSG.KD.HNFSub.dist
+    (CFSG.KC.HNFSub.allKeys CFSG.KD.HNFSub.S7.segs).Nodup := by
+  refine ⟨CFSG.KD.HNFSub.keys_len, ?_⟩
+  have n0 := nodup_of_dist CFSG.KD.HNFSub.dist0 CFSG.KD.HNFSub.bkt_len0 CFSG.KD.HNFSub.ord_len0
+  have n1 := nodup_of_dist CFSG.KD.HNFSub.dist1 CFSG.KD.HNFSub.bkt_len1 CFSG.KD.HNFSub.ord_len1
+  have n2 := nodup_of_dist CFSG.KD.HNFSub.dist2 CFSG.KD.HNFSub.bkt_len2 CFSG.KD.HNFSub.ord_len2
+  have n3 := nodup_of_dist CFSG.KD.HNFSub.dist3 CFSG.KD.HNFSub.bkt_len3 CFSG.KD.HNFSub.ord_len3
+  rw [fil_eq] at n0 n1 n2 n3
+  rw [List.nodup_iff_count_le_one] at n0 n1 n2 n3 ⊢
+  intro a
+  by_cases h0 : a < CFSG.KD.HNFSub.cAt 0
+  · have e : CFSG.KD.HNFSub.bkt 0 a = true := by
+      show Nat.blt a (CFSG.KD.HNFSub.cAt 0) = true
+      exact Nat.blt_eq.mpr h0
+    have h := n0 a
+    rwa [List.count_filter e] at h
+  by_cases h1 : a < CFSG.KD.HNFSub.cAt 1
+  · have e : CFSG.KD.HNFSub.bkt 1 a = true := by
+      show CFSG.KC.Ord.andB (Nat.ble (CFSG.KD.HNFSub.cAt 0) a) (Nat.blt a (CFSG.KD.HNFSub.cAt 1)) = true
+      rw [Nat.ble_eq.mpr (by omega), Nat.blt_eq.mpr h1]
+      rfl
+    have h := n1 a
+    rwa [List.count_filter e] at h
+  by_cases h2 : a < CFSG.KD.HNFSub.cAt 2
+  · have e : CFSG.KD.HNFSub.bkt 2 a = true := by
+      show CFSG.KC.Ord.andB (Nat.ble (CFSG.KD.HNFSub.cAt 1) a) (Nat.blt a (CFSG.KD.HNFSub.cAt 2)) = true
+      rw [Nat.ble_eq.mpr (by omega), Nat.blt_eq.mpr h2]
+      rfl
+    have h := n2 a
+    rwa [List.count_filter e] at h
+  · have e : CFSG.KD.HNFSub.bkt 3 a = true := by
+      show Nat.ble (CFSG.KD.HNFSub.cAt 2) a = true
+      exact Nat.ble_eq.mpr (by omega)
+    have h := n3 a
+    rwa [List.count_filter e] at h
 
 theorem p_keys : ∀ Q : Set (Submodule (ZMod 5) V), spanR CFSG.KD.HNFSub.S7.r0 ∈ Q →
     (∀ W ∈ Q, W.map (Matrix.vecMulLinear (MW RA RB BI (invW hnfW1))) ∈ Q ∧

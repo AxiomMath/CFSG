@@ -33,18 +33,18 @@ open CFSG.KC.MiscCoset.Act CFSG.KC.MiscCoset.CovAct
   CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator
   CFSG.Sporadic.Recognition.Fi24PrimeMultiplier
 
-#kc_forall_tree blkAll (fun k => blk k = true) 4263 CFSG.KAct.Q3.blk
+#kc_forall_tree blkAll (fun k => blk k = true) 609 CFSG.KAct.Q3.blk
 
 theorem cpOK_all : ∀ p < 306936, cpOK A 3 306936 11 25 mac chk p = true := by
   intro p hp
-  have hlt : p / 72 < 4263 := by omega
-  have hk := blkAll (p / 72) hlt
+  have hlt : p / 504 < 609 := by omega
+  have hk := blkAll (p / 504) hlt
   unfold blk at hk
-  have h1 : Nat.mul (p / 72) 72 ≤ p := Nat.div_mul_le_self p 72
-  have h2 : p < Nat.mul (p / 72) 72 + 72 := by
-    have := Nat.lt_div_mul_add (a := p) (b := 72) (by norm_num)
+  have h1 : Nat.mul (p / 504) 504 ≤ p := Nat.div_mul_le_self p 504
+  have h2 : p < Nat.mul (p / 504) 504 + 504 := by
+    have := Nat.lt_div_mul_add (a := p) (b := 504) (by norm_num)
     exact this
-  exact allR_spec hk p h1 h2
+  exact Eq.mp (congrArg (· = true) (cpOKT_eq A 3 306936 11 25 mac chk p)) (allR_spec hk p h1 h2)
 
 theorem three_dvd_orderOf_zeta :
     3 ∣ orderOf (PresentedGroup.mk {r : FreeGroup (Fin nG) | r ∈ wsQ.map FreeGroup.mk}

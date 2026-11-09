@@ -137,13 +137,38 @@ theorem headD_filter_ofFn {α : Type} {N : ℕ} (f : Fin N → α) (p : α → B
   rw [hnil, List.nil_append, List.getElem_ofFn, List.filter_cons, hp]
   rfl
 
+theorem hps40 : ∀ p ∈ keys43, p < 40 := by decide
+
+theorem res40_unpack (p : ℕ) : res40 (unpack 80 7 p) = unpack 40 7 (lo40 p) := by
+  unfold res40 unpack
+  apply Array.ext
+  · simp
+  · intro i h1 h2
+    have hi : i < 40 := by simpa using h1
+    simp only [Array.getElem_ofFn]
+    rw [getElem!_pos (Array.ofFn _) i (by simpa using (by omega : i < 80)), Array.getElem_ofFn]
+    unfold pg lo40
+    apply Nat.eq_of_testBit_eq
+    intro j
+    have em : mask 7 = 2 ^ 7 - 1 := rfl
+    have ep : p.mod (Nat.pow 2 280) = p % 2 ^ 280 := rfl
+    rw [em, ep]
+    simp only [Nat.testBit_land, Nat.testBit_shiftRight, Nat.testBit_mod_two_pow,
+      Nat.testBit_two_pow_sub_one, Nat.mul_eq]
+    by_cases hj : j < 7
+    · have : 7 * i + j < 280 := by omega
+      simp [hj, this]
+    · have h127 : Nat.testBit 127 j = false := Nat.testBit_eq_false_of_lt
+        (lt_of_lt_of_le (by norm_num : 127 < 2 ^ 7) (Nat.pow_le_pow_right (by norm_num) (by omega)))
+      simp [h127]
+
 theorem survOK_of {r : Row} (hs : (cgArr r).size = 2)
     (hcg : ∀ k < 2, (cgArr r)[k]! = unpack 80 7 (C10.G k))
-    (hgs : ∀ k < 2, gsP[k]! = unpack 80 7 (Q.G k)) : survOK43 r = true := by
+    (hgs : ∀ k < 2, gs40[k]! = unpack 40 7 (Q.G k)) : survOK43 r = true := by
   have n := nums'
   have hpd := permD
   simp only [Bool.and_eq_true] at hpd
-  obtain ⟨⟨⟨⟨-, -⟩, -⟩, hpC⟩, hpQ⟩ := hpd
+  obtain ⟨⟨⟨⟨⟨-, -⟩, -⟩, hpC⟩, -⟩, hpr⟩ := hpd
   have hng : (cgArr r).size = C10.ng := by rw [hs, n.2.2.2.1]
   have hget : ∀ k < C10.ng, (cgArr r)[k]! = unpack 80 7 (C10.G k) := fun k hk =>
     hcg k (n.2.2.2.1 ▸ hk)
@@ -166,38 +191,32 @@ theorem survOK_of {r : Row} (hs : (cgArr r).size = 2)
       simpa using this
     · rw [isOrd3_unpack (hPT _ hI)]
       exact hr2
-  have hpx : PP 80 7 (C10.T (I0 0)) := hPT _ hI
-  have hgsz : gsP.size = 2 := by simp [gsP, CFSG.ComponentClassification.HarrisLit.P1.L43.pgTbls]
+  have hx40 : res40 (((enumBfs 80 (cgArr r) keys43 800).pts.toList.filter isOrd3).headD
+      (idA 80)) = unpack 40 7 (Q.T Q.r0) := by
+    rw [hx0, res40_unpack, hr1]
+  have hgsz : gs40.size = 2 := by
+    simp [gs40, gsP, CFSG.ComponentClassification.HarrisLit.P1.L43.pgTbls]
   have horb' := CFSG.KC.ConjOrb.arrBfs_of_orb (ng := 2) (ngc := Q.ng) (fuel := 80000)
-    (act := fun k a => conjA 80 gsP[k]! a) (root := unpack 80 7 (C10.T (I0 0))) (gs := gsP)
+    (act := fun k a => conjA 40 gs40[k]! a) (root := unpack 40 7 (Q.T Q.r0)) (gs := gs40)
     (ps := keys43) (by rw [n.2.2.2.2.2.1]) hgs (fun _ _ _ => rfl)
-    Q.h Q.cl Q.tr0 n.2.2.2.2.2.2.2.1 (by rw [hr1]) (validA_unpack (permOK_pinvS hpx.1 hpx.2))
-    hps Q.k (by norm_num)
-  have horb : arrCertOK (fun k a => conjA 80 gsP[k]! a) gsP.size (validA 80) (keyA 80 keys43)
-      (unpack 80 7 (C10.T (I0 0))) (arrBfs (fun k a => conjA 80 gsP[k]! a) gsP.size
-        (keyA 80 keys43) (unpack 80 7 (C10.T (I0 0))) 80000) = true ∧
-      (∀ x, x ∈ (arrBfs (fun k a => conjA 80 gsP[k]! a) gsP.size (keyA 80 keys43)
-        (unpack 80 7 (C10.T (I0 0))) 80000).pts ↔ ∃ i < Q.N, unpack 80 7 (Q.T i) = x) ∧
-      (arrBfs (fun k a => conjA 80 gsP[k]! a) gsP.size (keyA 80 keys43)
-        (unpack 80 7 (C10.T (I0 0))) 80000).pts.size = Q.N := by
+    Q.h Q.cl Q.tr0 n.2.2.2.2.2.2.2.1 rfl (validA_unpack hpr) hps40 Q.k (by norm_num)
+  have horb : arrCertOK (fun k a => conjA 40 gs40[k]! a) gs40.size (validA 40) (keyA 40 keys43)
+      (unpack 40 7 (Q.T Q.r0)) (arrBfs (fun k a => conjA 40 gs40[k]! a) gs40.size
+        (keyA 40 keys43) (unpack 40 7 (Q.T Q.r0)) 80000) = true ∧
+      (∀ x, x ∈ (arrBfs (fun k a => conjA 40 gs40[k]! a) gs40.size (keyA 40 keys43)
+        (unpack 40 7 (Q.T Q.r0)) 80000).pts ↔ ∃ i < Q.N, unpack 40 7 (Q.T i) = x) ∧
+      (arrBfs (fun k a => conjA 40 gs40[k]! a) gs40.size (keyA 40 keys43)
+        (unpack 40 7 (Q.T Q.r0)) 80000).pts.size = Q.N := by
     rw [hgsz]
     exact horb'
-  have h2 : allLt gsP.size (fun k => validA 80 gsP[k]!) = true := by
-    rw [allLt_iff, hgsz]
-    intro k hk
-    rw [hgs k hk]
-    exact validA_unpack (allN_spec hpQ k hk)
-  have h3 : isOrd3 (unpack 80 7 (C10.T (I0 0))) = true := by
-    rw [isOrd3_unpack hpx]
-    exact hr2
   have h4 := arrCertOKL_of horb.1
-  have h5 : ((arrBfs (fun k a => conjA 80 gsP[k]! a) gsP.size (keyA 80 keys43)
-      (unpack 80 7 (C10.T (I0 0))) 80000).pts.size == 74880) = true := by
+  have h5 : ((arrBfs (fun k a => conjA 40 gs40[k]! a) gs40.size (keyA 40 keys43)
+      (unpack 40 7 (Q.T Q.r0)) 80000).pts.size == 74880) = true := by
     rw [horb.2.2, n.2.2.2.2.2.2.1]
     rfl
   have h6 : (enumBfs 80 (cgArr r) keys43 800).pts.toList.all (fun a => !isOrd3 a ||
-      (arrBfs (fun k a => conjA 80 gsP[k]! a) gsP.size (keyA 80 keys43)
-        (unpack 80 7 (C10.T (I0 0))) 80000).pts.toList.any (eqA 80 a)) = true := by
+      (arrBfs (fun k a => conjA 40 gs40[k]! a) gs40.size (keyA 40 keys43)
+        (unpack 40 7 (Q.T Q.r0)) 80000).pts.toList.any (eqA 40 (res40 a))) = true := by
     rw [hpts, Array.toList_ofFn, List.all_eq_true]
     intro a ha
     obtain ⟨i, rfl⟩ := List.mem_ofFn.1 ha
@@ -208,13 +227,13 @@ theorem survOK_of {r : Row} (hs : (cgArr r).size = 2)
     · rw [e] at hw
       simp only [Bool.not_true, Bool.false_or, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hw
       obtain ⟨hlt, heq⟩ := hw
-      have hmem := (horb.2.1 (unpack 80 7 (Q.T (QW i)))).2 ⟨_, hlt, rfl⟩
+      have hmem := (horb.2.1 (unpack 40 7 (Q.T (QW i)))).2 ⟨_, hlt, rfl⟩
       have hc := (CFSG.KC.ConjOrb.closPt_spec (Q.cl _ hlt)).1
       simp only [Bool.not_true, Bool.false_or, List.any_eq_true, Array.mem_toList_iff]
       refine ⟨_, hmem, ?_⟩
-      rw [heq, eqA_unpack (heq ▸ hc) (heq ▸ hc), Nat.beq_refl]
+      rw [res40_unpack, ← heq, eqA_unpack hc hc, Nat.beq_refl]
   simp only [survOK43, survCheck]
-  rw [hx0, hok, h2, h3, h4, h5, h6]
+  rw [hx40, hok, h4, h5, h6]
   rfl
 
 @[expose] def rowAt (j : ℕ) : Row :=
@@ -230,8 +249,8 @@ theorem cg9_0 : (cgArr (rowAt 9))[0]! = unpack 80 7 (CG9 0) := by decide +kernel
 theorem cg9_1 : (cgArr (rowAt 9))[1]! = unpack 80 7 (CG9 1) := by decide +kernel
 theorem cg10_0 : (cgArr (rowAt 10))[0]! = unpack 80 7 (C10.G 0) := by decide +kernel
 theorem cg10_1 : (cgArr (rowAt 10))[1]! = unpack 80 7 (C10.G 1) := by decide +kernel
-theorem gs_0 : gsP[0]! = unpack 80 7 (Q.G 0) := by decide +kernel
-theorem gs_1 : gsP[1]! = unpack 80 7 (Q.G 1) := by decide +kernel
+theorem gs_0 : gs40[0]! = unpack 40 7 (Q.G 0) := by decide +kernel
+theorem gs_1 : gs40[1]! = unpack 40 7 (Q.G 1) := by decide +kernel
 
 theorem two {P : ℕ → Prop} (h0 : P 0) (h1 : P 1) : ∀ k < 2, P k := by
   intro k hk
@@ -258,7 +277,7 @@ theorem permD' : (∀ k < D0.ng, pk (D0.G k) = true) ∧ (∀ k < D3.ng, pk (D3.
     ∀ k < D9.ng, pk (D9.G k) = true := by
   have h := permD
   simp only [Bool.and_eq_true] at h
-  exact ⟨allN_spec h.1.1.1.1, allN_spec h.1.1.1.2, allN_spec h.1.1.2⟩
+  exact ⟨allN_spec h.1.1.1.1.1, allN_spec h.1.1.1.1.2, allN_spec h.1.1.1.2⟩
 
 theorem row0 : rowOK43 (rowAt 0) = true :=
   rowOK_der (by decide +kernel) find0 (derOK_of rfl (two cg0_0 cg0_1) gD0 permD'.1 D0.ok kD0

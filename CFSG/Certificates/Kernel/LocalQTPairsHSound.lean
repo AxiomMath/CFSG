@@ -391,17 +391,18 @@ private theorem lift_word (gens : List X24) (G : List (Perm (Fin 24)))
     · rw [List.prod_cons, List.prod_cons, Subgroup.coe_mul, hyg, hprod]
 
 
-theorem clH_sound (gens : List X24) {GC : List ℕ} (hG : (gens.map cX).Perm GC) (fuel d : ℕ)
-    (hd : d ≤ fuel) (C : List Lvl) (W : List (List (List ℕ))) (hC : chainOK 24 C = true)
-    (hIn : CFSG.KC.LQT.L.chainInj 24 C = true) (hg : grpC 24 C (chainF C) GC W d = true)
+theorem clHK_sound (key : X24 → ℕ) (gens : List X24) {GC : List ℕ} (hG : (gens.map cX).Perm GC)
+    (fuel d : ℕ) (hd : d ≤ fuel) (C : List Lvl) (W : List (List (List ℕ)))
+    (hC : chainOK 24 C = true) (hIn : CFSG.KC.LQT.L.chainInj 24 C = true)
+    (hg : grpC 24 C (chainF C) GC W d = true)
     (hk : ∀ x y : X24, inC 24 C (chainF C) (cX x) = true → inC 24 C (chainF C) (cX y) = true →
-      hkey x = hkey y → x = y) :
-    (closureListH tabX hkey gens fuel).Nodup ∧
-      (closureListH tabX hkey gens fuel).length = chainF C ∧
-      (∀ x, (x ∈ closureListH tabX hkey gens fuel ↔ inC 24 C (chainF C) (cX x) = true) ∧
-        (x ∈ closureListH tabX hkey gens fuel ↔ x ∈ Subgroup.closure {g | g ∈ gens})) ∧
+      key x = key y → x = y) :
+    (closureListH tabX key gens fuel).Nodup ∧
+      (closureListH tabX key gens fuel).length = chainF C ∧
+      (∀ x, (x ∈ closureListH tabX key gens fuel ↔ inC 24 C (chainF C) (cX x) = true) ∧
+        (x ∈ closureListH tabX key gens fuel ↔ x ∈ Subgroup.closure {g | g ∈ gens})) ∧
       ∀ σ : Perm (Fin 24), inC 24 C (chainF C) (codeP σ) = true →
-        ∃ x ∈ closureListH tabX hkey gens fuel, cX x = codeP σ := by
+        ∃ x ∈ closureListH tabX key gens fuel, cX x = codeP σ := by
   obtain ⟨G₀, hG₀code, hG₀gens⟩ := lift_codes (· ∈ gens) fun c hc =>
     List.mem_map.1 (hG.symm.subset hc)
   have hGcode : (G₀.map Subtype.val).map (CFSG.KC.LQT.P.code : Perm (Fin 24) → ℕ) = GC := by
@@ -447,9 +448,9 @@ theorem clH_sound (gens : List X24) {GC : List ℕ} (hG : (gens.map cX).Perm GC)
       CFSG.KC.LQT.CM.InC 24 C (x : Perm (Fin 24)) :=
     fun x hx => hclInC x (CFSG.KC.LQT.PWSnd.ball_subset_closure gens fuel hx)
   have hinj : ∀ x ∈ CFSG.KC.LQT.PWSnd.Ball gens fuel, ∀ y ∈ CFSG.KC.LQT.PWSnd.Ball gens fuel,
-      hkey x = hkey y → x = y := fun x hx y hy h =>
+      key x = key y → x = y := fun x hx y hy h =>
     hk x y ((hinC x.1).2 (hBallInC x hx)) ((hinC y.1).2 (hBallInC y hy)) h
-  obtain ⟨hnd, hmem⟩ := CFSG.KC.LQT.PWSnd.closureListH_spec tabX tabX_eq hkey gens fuel hinj
+  obtain ⟨hnd, hmem⟩ := CFSG.KC.LQT.PWSnd.closureListH_spec tabX tabX_eq key gens fuel hinj
   have hball : ∀ x : X24, x ∈ CFSG.KC.LQT.PWSnd.Ball gens fuel ↔
       CFSG.KC.LQT.CM.InC 24 C (x : Perm (Fin 24)) := by
     intro x
@@ -460,7 +461,7 @@ theorem clH_sound (gens : List X24) {GC : List ℕ} (hG : (gens.map cX).Perm GC)
     exact hx'
   refine ⟨hnd, ?_, fun x => ⟨?_, ?_⟩, ?_⟩
   · have hH : ∀ σ : Perm (Fin 24),
-        σ ∈ ((closureListH tabX hkey gens fuel).map Subtype.val).toFinset ↔
+        σ ∈ ((closureListH tabX key gens fuel).map Subtype.val).toFinset ↔
           CFSG.KC.LQT.CM.InC 24 C σ := by
       intro σ
       rw [List.mem_toFinset, List.mem_map]
@@ -482,6 +483,19 @@ theorem clH_sound (gens : List X24) {GC : List ℕ} (hG : (gens.map cX).Perm GC)
     refine ⟨x, (hmem x).2 hx, ?_⟩
     show codeP x.1 = codeP σ
     rw [hxσ]
+
+theorem clH_sound (gens : List X24) {GC : List ℕ} (hG : (gens.map cX).Perm GC) (fuel d : ℕ)
+    (hd : d ≤ fuel) (C : List Lvl) (W : List (List (List ℕ))) (hC : chainOK 24 C = true)
+    (hIn : CFSG.KC.LQT.L.chainInj 24 C = true) (hg : grpC 24 C (chainF C) GC W d = true)
+    (hk : ∀ x y : X24, inC 24 C (chainF C) (cX x) = true → inC 24 C (chainF C) (cX y) = true →
+      hkey x = hkey y → x = y) :
+    (closureListH tabX hkey gens fuel).Nodup ∧
+      (closureListH tabX hkey gens fuel).length = chainF C ∧
+      (∀ x, (x ∈ closureListH tabX hkey gens fuel ↔ inC 24 C (chainF C) (cX x) = true) ∧
+        (x ∈ closureListH tabX hkey gens fuel ↔ x ∈ Subgroup.closure {g | g ∈ gens})) ∧
+      ∀ σ : Perm (Fin 24), inC 24 C (chainF C) (codeP σ) = true →
+        ∃ x ∈ closureListH tabX hkey gens fuel, cX x = codeP σ :=
+  clHK_sound hkey gens hG fuel d hd C W hC hIn hg hk
 
 theorem grpS_imp {n : ℕ} (hn : n ≤ 32) {C : List Lvl} {G : List ℕ} {W : List (List (List ℕ))}
     {d : ℕ} (hC : chainOK n C = true) (hG : CFSG.KC.LQT.P.allL G (CFSG.KC.LQT.P.permK n) = true)

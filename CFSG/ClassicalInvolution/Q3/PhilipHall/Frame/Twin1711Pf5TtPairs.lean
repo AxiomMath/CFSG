@@ -2461,6 +2461,26 @@ theorem Iw_eq : (rowsT.filter fun r => r.getD 0 0 == 1).map rowW = Iw := by deci
 theorem pairs_exh : pairRecs.map (fun r => (r.getD 0 0, r.getD 1 0)) =
     (List.range 48).flatMap fun a => (List.range 48).map fun b => (a, b) := by decide +kernel
 
-theorem pairs_true : pairRecs.all pairOk = true := by decide +kernel
+theorem all_of_take_drop {α : Type} (f : α → Bool) (n : ℕ) (l : List α)
+    (h1 : (l.take n).all f = true) (h2 : (l.drop n).all f = true) : l.all f = true := by
+  rw [← List.take_append_drop n l, List.all_append, h1, h2]
+  rfl
+
+theorem pairs_true_0 : (pairRecs.take 384).all pairOk = true := by decide +kernel
+
+theorem pairs_true_1 : ((pairRecs.drop 384).take 384).all pairOk = true := by decide +kernel
+
+theorem pairs_true_2 : (((pairRecs.drop 384).drop 384).take 384).all pairOk = true := by decide +kernel
+
+theorem pairs_true_3 : ((((pairRecs.drop 384).drop 384).drop 384).take 384).all pairOk = true := by decide +kernel
+
+theorem pairs_true_4 : (((((pairRecs.drop 384).drop 384).drop 384).drop 384).take 384).all pairOk = true := by decide +kernel
+
+theorem pairs_true_5 : ((((((pairRecs.drop 384).drop 384).drop 384).drop 384).drop 384)).all pairOk = true := by decide +kernel
+
+theorem pairs_true : pairRecs.all pairOk = true :=
+  all_of_take_drop _ 384 _ pairs_true_0 (all_of_take_drop _ 384 _ pairs_true_1
+    (all_of_take_drop _ 384 _ pairs_true_2 (all_of_take_drop _ 384 _ pairs_true_3
+      (all_of_take_drop _ 384 _ pairs_true_4 pairs_true_5))))
 
 end CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.Twin1711.TtK

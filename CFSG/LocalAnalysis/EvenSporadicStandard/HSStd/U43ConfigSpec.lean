@@ -37,6 +37,80 @@ theorem enumOK_spec {A : Array Table} {cap size : ℕ} (h : enumOK A cap size = 
   rw [hsize] at h1 h2 h3
   exact ⟨hperm', fun k hk => (h1 k hk).1, fun k hk => (h1 k hk).2, h2, h3, hnodup, hsize⟩
 
+theorem mulRecArr_mem {H : Subgroup (Equiv.Perm (Fin 820))} {A : Array Table}
+    (hg : ∀ l < A.size, Rep 820 A[l]! (tp 820 A[l]!) ∧ tp 820 A[l]! ∈ H) {par : Array (ℕ × ℕ)}
+    (hpar : ∀ i < par.size, par[i]!.1 ≤ i ∧ par[i]!.2 < A.size) :
+    (mulRecArr A par).size = par.size + 1 ∧
+      ∀ k < (mulRecArr A par).size, ∃ c ∈ H, Rep 820 (mulRecArr A par)[k]! c := by
+  unfold mulRecArr
+  refine Array.foldl_induction (motive := fun (i : ℕ) (a : Array Table) => a.size = i + 1 ∧
+    ∀ k < a.size, ∃ c ∈ H, Rep 820 a[k]! c) ?_ ?_
+  · refine ⟨rfl, fun k hk => ?_⟩
+    have hk0 : k = 0 := by
+      simp only [List.size_toArray, List.length_singleton] at hk
+      omega
+    subst hk0
+    exact ⟨1, H.one_mem, by simpa using Rep.idT (by norm_num : 820 < 2 ^ 32)⟩
+  · rintro ⟨i, hi⟩ b ⟨hsz, hb⟩
+    change b.size = i + 1 at hsz
+    have hp := hpar i hi
+    rw [getElem!_pos par i hi] at hp
+    obtain ⟨h1, h2⟩ := hp
+    simp only [Fin.getElem_fin]
+    refine ⟨by rw [Array.size_push, hsz], fun k hk => ?_⟩
+    rw [Array.size_push] at hk
+    by_cases hki : k < b.size
+    · rw [getElem!_pos _ k (by rw [Array.size_push]; omega), Array.getElem_push_lt hki,
+        ← getElem!_pos b k hki]
+      exact hb k hki
+    · have hk' : k = b.size := by omega
+      subst hk'
+      rw [getElem!_pos _ _ (by rw [Array.size_push]; omega), Array.getElem_push_eq]
+      obtain ⟨c, hc, hrep⟩ := hb _ (by omega : par[i].1 < b.size)
+      obtain ⟨hgl, hgH⟩ := hg _ h2
+      exact ⟨c * tp 820 A[par[i].2]!, H.mul_mem hc hgH, Rep.compT hrep hgl⟩
+
+theorem enumRecOK_spec {A : Array Table} {par : Array (ℕ × ℕ)} {size : ℕ}
+    (h : enumRecOK A par size = true) :
+    (∀ x ∈ A, permOK 820 x = true ∧
+      CFSG.Sporadic.Th.Native.invOK 820 x (invT 820 x) = true) ∧
+    size ≤ Nat.card ↥(closure (tp 820 '' {x | x ∈ A})) := by
+  classical
+  simp only [enumRecOK, Bool.and_eq_true, decide_eq_true_eq, Array.all_eq_true',
+    List.all_eq_true, List.mem_range] at h
+  obtain ⟨⟨⟨hperm, hpar⟩, hdist⟩, hle⟩ := h
+  have hperm' : ∀ x ∈ A, permOK 820 x = true ∧
+      CFSG.Sporadic.Th.Native.invOK 820 x (invT 820 x) = true := fun x hx => by
+    simpa only [permInvOK, Bool.and_eq_true] using hperm x hx
+  refine ⟨hperm', ?_⟩
+  set K := closure (tp 820 '' {x | x ∈ A})
+  have hga : ∀ l < A.size, Rep 820 A[l]! (tp 820 A[l]!) ∧ tp 820 A[l]! ∈ K := fun l hl =>
+    ⟨rep_tp (hperm' _ (getElem!_mem_array hl)).1, subset_closure ⟨_, getElem!_mem_array hl, rfl⟩⟩
+  obtain ⟨hEsz, hE⟩ := mulRecArr_mem hga (par := par) fun i hi => by
+    simpa only [Bool.and_eq_true, decide_eq_true_eq] using hpar i hi
+  set E := mulRecArr A par
+  have hrep : ∀ k < E.size, Rep 820 E[k]! (tablePerm 820 E[k]!) := by
+    intro k hk
+    obtain ⟨c, -, hc⟩ := hE k hk
+    rw [tablePerm_eq hc]
+    exact hc
+  have hnodup := nodup_of_hkeysDistinct (forall₂_tablePerm hrep) hdist
+  set L := E.toList.map (tablePerm 820) with hL
+  have hsub : (L.toFinset : Set (Equiv.Perm (Fin 820))) ⊆ (K : Set (Equiv.Perm (Fin 820))) := by
+    intro x hx
+    simp only [Finset.mem_coe, List.mem_toFinset, hL, List.mem_map] at hx
+    obtain ⟨T, hT, rfl⟩ := hx
+    obtain ⟨k, hk, rfl⟩ := Array.getElem_of_mem (Array.mem_toList_iff.mp hT)
+    obtain ⟨c, hc, hcrep⟩ := hE k hk
+    rw [← getElem!_pos E k hk, tablePerm_eq hcrep]
+    exact hc
+  calc size ≤ par.size + 1 := hle
+    _ = (L.toFinset : Set (Equiv.Perm (Fin 820))).ncard := by
+        rw [Set.ncard_coe_finset, List.toFinset_card_of_nodup hnodup, hL, List.length_map,
+          Array.length_toList, hEsz]
+    _ ≤ (K : Set (Equiv.Perm (Fin 820))).ncard := Set.ncard_le_ncard hsub (Set.toFinite _)
+    _ = Nat.card ↥K := (Nat.card_coe_set_eq _).symm
+
 theorem memCos_spec
     {ks : List ℕ} {x : Table} (hx : permOK 820 x = true) (h : memCos ks x = true) :
     ∃ k ∈ ks, k < 8 ∧ tp 820 x * (tP k)⁻¹ ∈ P := by
@@ -54,17 +128,57 @@ theorem mem_G_of_memCos
   obtain ⟨k, hk, hk8, hP⟩ := memCos_spec hx h
   exact (hG _).2 ⟨tp 820 x * (tP k)⁻¹, hP, k, hk, hk8, by group⟩
 
-theorem classOK_card_le {G : Subgroup (Equiv.Perm (Fin 820))} {sizeG csz cap : ℕ}
+theorem clsRecArr_conj {G : Subgroup (Equiv.Perm (Fin 820))} {gG gGinv : Array Table}
+    (hg : ∀ l < gG.size, Rep 820 gG[l]! (tp 820 gG[l]!) ∧
+      Rep 820 gGinv[l]! (tp 820 gG[l]!)⁻¹ ∧ tp 820 gG[l]! ∈ G)
+    {x : Table} {xg : Equiv.Perm (Fin 820)} (hx : Rep 820 x xg) {par : Array (ℕ × ℕ)}
+    (hpar : ∀ i < par.size, par[i]!.1 ≤ i ∧ par[i]!.2 < gG.size) :
+    (clsRecArr gG gGinv x par).size = par.size + 1 ∧
+      ∀ k < (clsRecArr gG gGinv x par).size, ∃ c ∈ G,
+        Rep 820 (clsRecArr gG gGinv x par)[k]! (c * xg * c⁻¹) := by
+  unfold clsRecArr
+  refine Array.foldl_induction (motive := fun (i : ℕ) (a : Array Table) => a.size = i + 1 ∧
+    ∀ k < a.size, ∃ c ∈ G, Rep 820 a[k]! (c * xg * c⁻¹)) ?_ ?_
+  · refine ⟨rfl, fun k hk => ?_⟩
+    have hk0 : k = 0 := by
+      simp only [List.size_toArray, List.length_singleton] at hk
+      omega
+    subst hk0
+    exact ⟨1, G.one_mem, by simpa using hx⟩
+  · rintro ⟨i, hi⟩ b ⟨hsz, hb⟩
+    change b.size = i + 1 at hsz
+    have hp := hpar i hi
+    rw [getElem!_pos par i hi] at hp
+    obtain ⟨h1, h2⟩ := hp
+    simp only [Fin.getElem_fin]
+    refine ⟨by rw [Array.size_push, hsz], fun k hk => ?_⟩
+    rw [Array.size_push] at hk
+    by_cases hki : k < b.size
+    · rw [getElem!_pos _ k (by rw [Array.size_push]; omega), Array.getElem_push_lt hki,
+        ← getElem!_pos b k hki]
+      exact hb k hki
+    · have hk' : k = b.size := by omega
+      subst hk'
+      rw [getElem!_pos _ _ (by rw [Array.size_push]; omega), Array.getElem_push_eq]
+      obtain ⟨c, hc, hrep⟩ := hb _ (by omega : par[i].1 < b.size)
+      obtain ⟨hgl, hgil, hgH⟩ := hg _ h2
+      refine ⟨tp 820 gG[par[i].2]! * c, G.mul_mem hgH hc, ?_⟩
+      have := rep_conjT hgl hgil hrep
+      simpa only [mul_inv_rev, mul_assoc] using this
+
+theorem classRecOK_card_le {G : Subgroup (Equiv.Perm (Fin 820))} {sizeG csz : ℕ}
     (hG : Nat.card G = sizeG) {gG : Array Table} (hgG : ∀ x ∈ gG, tp 820 x ∈ G) {x : Table}
-    {xg : Equiv.Perm (Fin 820)} (hx : Rep 820 x xg) (h : classOK gG x cap sizeG csz = true) :
+    {xg : Equiv.Perm (Fin 820)} (hx : Rep 820 x xg) {par : Array (ℕ × ℕ)}
+    (h : classRecOK gG x par sizeG csz = true) :
     Nat.card ↥(G ⊓ centralizer ({xg} : Set (Equiv.Perm (Fin 820)))) ≤ csz := by
-  simp only [classOK, Bool.and_eq_true, decide_eq_true_eq, Array.all_eq_true'] at h
-  obtain ⟨⟨⟨hgp, htree⟩, hdist⟩, hle⟩ := h
+  simp only [classRecOK, Bool.and_eq_true, decide_eq_true_eq, Array.all_eq_true',
+    List.all_eq_true, List.mem_range] at h
+  obtain ⟨⟨⟨hgp, hpar⟩, hdist⟩, hle⟩ := h
   have hperm : ∀ x ∈ gG, permOK 820 x = true ∧
       CFSG.Sporadic.Th.Native.invOK 820 x (invT 820 x) = true := fun x hx => by
     simpa only [permInvOK, Bool.and_eq_true] using hgp x hx
   set gGinv := gG.map (invT 820) with hgGinv
-  set o := conjClosureH 820 gG gGinv x cap with ho
+  set o := clsRecArr gG gGinv x par with ho
   have hg : ∀ l < gG.size, Rep 820 gG[l]! (tp 820 gG[l]!) ∧
       Rep 820 gGinv[l]! (tp 820 gG[l]!)⁻¹ ∧ tp 820 gG[l]! ∈ G := by
     intro l hl
@@ -74,18 +188,15 @@ theorem classOK_card_le {G : Subgroup (Equiv.Perm (Fin 820))} {sizeG csz cap : �
     rw [hgGinv, getElem!_pos (gG.map (invT 820)) l (by simpa using hl), Array.getElem_map,
       ← getElem!_pos gG l hl]
     exact rep_invT hr (hperm _ hmem).2
-  have hpos : 0 < o.1.size := by
-    have := htree
-    simp only [conjTreeOK, Bool.and_eq_true, decide_eq_true_eq] at this
-    exact this.1.1
-  have horb := conjTreeOK_spec G hg hx htree
-  have horep : ∀ k < o.1.size, Rep 820 o.1[k]! (tablePerm 820 o.1[k]!) := by
+  obtain ⟨hosz, horb⟩ := clsRecArr_conj hg hx (par := par) fun i hi => by
+    simpa only [Bool.and_eq_true, decide_eq_true_eq] using hpar i hi
+  have horep : ∀ k < o.size, Rep 820 o[k]! (tablePerm 820 o[k]!) := by
     intro k hk
     obtain ⟨c, -, hrep⟩ := horb k hk
     rw [tablePerm_eq hrep]
     exact hrep
   have honodup := nodup_of_hkeysDistinct (forall₂_tablePerm horep) hdist
-  have hclass : o.1.size ≤ (conjClass G xg).ncard := by
+  have hclass : o.size ≤ (conjClass G xg).ncard := by
     have := length_le_ncard_of_nodup honodup (S := conjClass G xg) fun z hz => by
       obtain ⟨k, hk, rfl⟩ := mem_map_tablePerm horep hz
       obtain ⟨c, hc, hrep⟩ := horb k hk
@@ -94,14 +205,17 @@ theorem classOK_card_le {G : Subgroup (Equiv.Perm (Fin 820))} {sizeG csz cap : �
     rwa [List.length_map, Array.length_toList] at this
   have hos := ncard_conjClass_mul_card G xg
   rw [hG] at hos
-  have hnpos : 0 < (conjClass G xg).ncard := hpos.trans_le hclass
+  have hnpos : 0 < (conjClass G xg).ncard := by
+    have := hclass
+    rw [hosz] at this
+    omega
   refine Nat.le_of_mul_le_mul_left ?_ hnpos
   calc (conjClass G xg).ncard * Nat.card ↥(G ⊓ centralizer ({xg} : Set _)) = sizeG := hos
-    _ ≤ csz * o.1.size := hle
+    _ ≤ csz * o.size := by rw [hosz]; exact hle
     _ ≤ csz * (conjClass G xg).ncard := Nat.mul_le_mul_left _ hclass
     _ = (conjClass G xg).ncard * csz := Nat.mul_comm _ _
 
-theorem coverOK_spec {cg : Array Table} {y0 : Table} {cap size : ℕ}
+theorem coverOK_spec{cg : Array Table} {y0 : Table} {cap size : ℕ}
     {yg : Equiv.Perm (Fin 820)} (hy : Rep 820 y0 yg) (he : enumOK cg cap size = true)
     (h : coverOK cg y0 cap = true) :
     ∀ y ∈ closure (tp 820 '' {x | x ∈ cg}), orderOf y = 3 →

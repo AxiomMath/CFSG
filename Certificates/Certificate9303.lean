@@ -8,6 +8,7 @@ import CFSG.Certificates.Kernel.SchreierFam.CqKSound
 import CFSG.Certificates.Kernel.Misc.ArrEnumOps
 import CFSG.Certificates.Kernel.HexaStabKGlue
 import CFSG.Certificates.Kernel.Spor.WordChunkSound
+import CFSG.Certificates.Kernel.Spor.RawAgree
 
 namespace CertificateChecks.Batch9303
 
@@ -98,12 +99,8 @@ theorem kk_eq : ∀ h < 2,
     KK h = wordK 20520 15 (mask 15) (pidn 20520 15) AB ABI kWordsAB[h]! := by
   intro h hh
   interval_cases h
-  · have e := wordK_of_chunks (L := 17) (NC := 4) (V := V0) (by decide +kernel) (by norm_num)
-      k0All
-    exact e.symm
-  · have e := wordK_of_chunks (L := 17) (NC := 4) (V := V1) (by decide +kernel) (by norm_num)
-      k1All
-    exact e.symm
+  · exact k0_wordJ.symm
+  · exact k1_wordJ.symm
 
 theorem kWords_len : kWordsAB.length = 2 := rfl
 
@@ -190,7 +187,11 @@ theorem cqAllK :
   unfold all3K
   have e := Nat.eq_of_beq_eq_true rc0
   rw [e]
-  exact CFSG.KS.Raw.Orb.allN_iff.2 fun a ha => cqSAll a ha
+  have hP : ∀ k < 128, permOK 20520 15 (mask 15) (20520 * 15)
+      (trAt 20520 (20520 * 15) SY.LR SY.TR 0 k)
+      (SY.TRI (Nat.add (roff 20520 (20520 * 15) (SY.LR 0)) k)) = true := fun k hk =>
+    (CFSG.KS.Raw.Orb.levelK_facts (SY.hl 0 (by norm_num))).2.2.2.2.2 k (by rw [e]; exact hk)
+  exact CFSG.KS.Raw.Orb.allN_iff.2 fun a ha => cqSAll hP a ha
 
 theorem sylow_cqAll : all3 20520 sLevels (cqTestA 20520 abArr[0]! kWit) = true := by
   have hA : abArr[0]! = unpack 20520 15 A := ab_bind 0 (by norm_num)

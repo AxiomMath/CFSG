@@ -1,6 +1,7 @@
 module
 
-public import Certificates.Kernel.Census.Co2R.Data
+public import Certificates.Kernel.Census.Co2R.Sub
+public import CFSG.Certificates.Kernel.Common.EachTrue
 public import CFSG.Certificates.Kernel.Census.ToMainConj
 import all Certificates.Kernel.Census.Co2R.Data
 import all Certificates.Data.Kernel.Census.PackedRootR
@@ -29,6 +30,9 @@ public import CFSG.Monster.Code.Weights
 
 public section
 
+#kc_each CertificateChecks.KernelCensus.Co2R.U kq
+  (fun k => CertificateChecks.KernelCensus.Co2R.invChunk 24 CertificateChecks.KernelCensus.Co2R.U.r 4096 k) 0 8
+
 namespace CertificateChecks.KernelCensus.Co2R.U
 
 open CFSG.KC.Census CertificateChecks.KernelCensus.Co2R
@@ -39,7 +43,15 @@ theorem kCanon : canonC 24 5 r.d = true := by quickRfl
 
 theorem kPc : ppcOK 24 5 r.d.xs r.d.rs r.d.cjs r.d.bs = true := by quickRfl
 
-theorem kInv : pinvOK 24 5 r.d.xs r.d.us r.d.im r.d.wt = true := by quickRfl
+theorem kInvH : invHead 24 r = true := by quickRfl
+
+theorem kInv : pinvOK 24 5 r.d.xs r.d.us r.d.im r.d.wt = true :=
+  pinvOKQ_of_chunks (K := 8) (S := 4096) kInvH
+    (by rw [Nat.eq_of_beq_eq_true (by quickRfl : Nat.beq r.d.xs.length 15 = true)]; decide)
+    fun c hc => match c, hc with
+      | 0, _ => kq0 | 1, _ => kq1 | 2, _ => kq2 | 3, _ => kq3
+      | 4, _ => kq4 | 5, _ => kq5 | 6, _ => kq6 | 7, _ => kq7
+      | _ + 8, h => absurd h (by omega)
 
 theorem kTab : ptabOK 24 5 r.d.xs r.d.cm r.d.cs r.d.ci = true := by quickRfl
 

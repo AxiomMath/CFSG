@@ -5,6 +5,7 @@ public import Certificates.Kernel.KDenseP.SepAt
 public import Certificates.Kernel.KDenseP.Axis.Base
 public import CFSG.Certificates.Kernel.KDense.Data.Checks
 public import CFSG.Certificates.Kernel.KDenseP.ReplaySound
+public import CFSG.Certificates.Kernel.KDenseP.ReplayDup
 public import CFSG.Certificates.Kernel.KDenseP.Norton.MonoAll
 public import CFSG.Certificates.Kernel.KDenseP.Norton.C125200
 public import CFSG.Certificates.Kernel.KDenseP.Norton.C125201
@@ -206,20 +207,104 @@ theorem c125366 : agreeAll (tbChainPairs [4, 7]) = true :=
   (kd_nrtK% CFSG.KD.NRT.c125366 (tbChainPairs [4, 7]) []).1
 theorem c125367 : agreeAll (tbChainPairs [5, 6]) = true :=
   (kd_nrtK% CFSG.KD.NRT.c125367 (tbChainPairs [5, 6]) []).1
-theorem c125368 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [0, 1, 2]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125368 33 (tbActPairs tbB1 tbXRows tbC1 [0, 1, 2]) []).1
-theorem c125369 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [3, 4, 5]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125369 24 (tbActPairs tbB1 tbXRows tbC1 [3, 4, 5]) []).1
-theorem c125370 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [6, 7, 8]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125370 27 (tbActPairs tbB1 tbXRows tbC1 [6, 7, 8]) []).1
-theorem c125371 : agreeAll (tbActPairs tbB1 tbXRows tbC1 [9, 10, 11]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125371 33 (tbActPairs tbB1 tbXRows tbC1 [9, 10, 11]) []).1
-theorem c125372 : agreeAll (tbActPairs tbB2 tbYRows tbC2 [0, 1, 2, 3]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125372 15 (tbActPairs tbB2 tbYRows tbC2 [0, 1, 2, 3]) []).1
-theorem c125373 : agreeAll (tbActPairs tbB2 tbYRows tbC2 [4, 5, 6, 7]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125373 18 (tbActPairs tbB2 tbYRows tbC2 [4, 5, 6, 7]) []).1
-theorem c125374 : agreeAll (tbActPairs tbB2 tbYRows tbC2 [8, 9, 10, 11]) = true :=
-  (kd_nrtK% CFSG.KD.NRT.c125374 36 (tbActPairs tbB2 tbYRows tbC2 [8, 9, 10, 11]) []).1
+theorem c125368 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [0, 1, 2]) = true :=
+  (tp3B_sound CertificateChecks.KernelKDenseP.Norton.data_ok
+    (tbTreePairs tbB1 tbXTree tbXTreeC [0, 1, 2]) [] (by quickRfl)
+    (S := rlS CFSG.KD.NRT.c125368.rn CFSG.KD.NRT.c125368.CH CFSG.KD.NRT.c125368.PRf
+      CFSG.KD.NRT.c125368.S0 135)
+    (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
+    (CH := CFSG.KD.NRT.c125368.CH) (nch := kd_count% CFSG.KD.NRT.c125368 CH)
+    (IT := CFSG.KD.NRT.c125368.IT)
+    (replay_soundD (run := CFSG.KD.NRT.c125368.rn) (chk := CFSG.KD.NRT.chkP CFSG.KD.NRT.c125368.P)
+      (fun S S' c h3 h4 => nrt_loc _ S S' c h3 h4) (fun S c h => nrt_prod _ S c h)
+      (CH := CFSG.KD.NRT.c125368.CH) (PR := CFSG.KD.NRT.c125368.PRf) (GK := CFSG.KD.NRT.c125368.GKf)
+      (DP := CFSG.KD.NRT.c125368.DPf) (G := CFSG.KD.NRT.c125368.Gf)
+      (S0 := CFSG.KD.NRT.c125368.S0) (w := 135)
+      (ng := kd_count% CFSG.KD.NRT.c125368 u) (nch := kd_count% CFSG.KD.NRT.c125368 CH)
+      (by kd_allE CFSG.KD.NRT.c125368 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
+theorem c125369 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [3, 4, 5]) = true :=
+  (tp3B_sound CertificateChecks.KernelKDenseP.Norton.data_ok
+    (tbTreePairs tbB1 tbXTree tbXTreeC [3, 4, 5]) [] (by quickRfl)
+    (S := rlS CFSG.KD.NRT.c125369.rn CFSG.KD.NRT.c125369.CH CFSG.KD.NRT.c125369.PRf
+      CFSG.KD.NRT.c125369.S0 120)
+    (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
+    (CH := CFSG.KD.NRT.c125369.CH) (nch := kd_count% CFSG.KD.NRT.c125369 CH)
+    (IT := CFSG.KD.NRT.c125369.IT)
+    (replay_soundD (run := CFSG.KD.NRT.c125369.rn) (chk := CFSG.KD.NRT.chkP CFSG.KD.NRT.c125369.P)
+      (fun S S' c h3 h4 => nrt_loc _ S S' c h3 h4) (fun S c h => nrt_prod _ S c h)
+      (CH := CFSG.KD.NRT.c125369.CH) (PR := CFSG.KD.NRT.c125369.PRf) (GK := CFSG.KD.NRT.c125369.GKf)
+      (DP := CFSG.KD.NRT.c125369.DPf) (G := CFSG.KD.NRT.c125369.Gf)
+      (S0 := CFSG.KD.NRT.c125369.S0) (w := 120)
+      (ng := kd_count% CFSG.KD.NRT.c125369 u) (nch := kd_count% CFSG.KD.NRT.c125369 CH)
+      (by kd_allE CFSG.KD.NRT.c125369 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
+theorem c125370 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [6, 7, 8]) = true :=
+  (tp3B_sound CertificateChecks.KernelKDenseP.Norton.data_ok
+    (tbTreePairs tbB1 tbXTree tbXTreeC [6, 7, 8]) [] (by quickRfl)
+    (S := rlS CFSG.KD.NRT.c125370.rn CFSG.KD.NRT.c125370.CH CFSG.KD.NRT.c125370.PRf
+      CFSG.KD.NRT.c125370.S0 117)
+    (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
+    (CH := CFSG.KD.NRT.c125370.CH) (nch := kd_count% CFSG.KD.NRT.c125370 CH)
+    (IT := CFSG.KD.NRT.c125370.IT)
+    (replay_soundD (run := CFSG.KD.NRT.c125370.rn) (chk := CFSG.KD.NRT.chkP CFSG.KD.NRT.c125370.P)
+      (fun S S' c h3 h4 => nrt_loc _ S S' c h3 h4) (fun S c h => nrt_prod _ S c h)
+      (CH := CFSG.KD.NRT.c125370.CH) (PR := CFSG.KD.NRT.c125370.PRf) (GK := CFSG.KD.NRT.c125370.GKf)
+      (DP := CFSG.KD.NRT.c125370.DPf) (G := CFSG.KD.NRT.c125370.Gf)
+      (S0 := CFSG.KD.NRT.c125370.S0) (w := 117)
+      (ng := kd_count% CFSG.KD.NRT.c125370 u) (nch := kd_count% CFSG.KD.NRT.c125370 CH)
+      (by kd_allE CFSG.KD.NRT.c125370 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
+theorem c125371 : agreeAll (tbTreePairs tbB1 tbXTree tbXTreeC [9, 10, 11]) = true :=
+  (tp3B_sound CertificateChecks.KernelKDenseP.Norton.data_ok
+    (tbTreePairs tbB1 tbXTree tbXTreeC [9, 10, 11]) [] (by quickRfl)
+    (S := rlS CFSG.KD.NRT.c125371.rn CFSG.KD.NRT.c125371.CH CFSG.KD.NRT.c125371.PRf
+      CFSG.KD.NRT.c125371.S0 120)
+    (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
+    (CH := CFSG.KD.NRT.c125371.CH) (nch := kd_count% CFSG.KD.NRT.c125371 CH)
+    (IT := CFSG.KD.NRT.c125371.IT)
+    (replay_soundD (run := CFSG.KD.NRT.c125371.rn) (chk := CFSG.KD.NRT.chkP CFSG.KD.NRT.c125371.P)
+      (fun S S' c h3 h4 => nrt_loc _ S S' c h3 h4) (fun S c h => nrt_prod _ S c h)
+      (CH := CFSG.KD.NRT.c125371.CH) (PR := CFSG.KD.NRT.c125371.PRf) (GK := CFSG.KD.NRT.c125371.GKf)
+      (DP := CFSG.KD.NRT.c125371.DPf) (G := CFSG.KD.NRT.c125371.Gf)
+      (S0 := CFSG.KD.NRT.c125371.S0) (w := 120)
+      (ng := kd_count% CFSG.KD.NRT.c125371 u) (nch := kd_count% CFSG.KD.NRT.c125371 CH)
+      (by kd_allE CFSG.KD.NRT.c125371 u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
+theorem c1253yy : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC
+    ([0, 1, 2, 3] ++ [4, 5, 6, 7] ++ [8, 9, 10, 11])) = true :=
+  (tp3B_sound CertificateChecks.KernelKDenseP.Norton.data_ok
+    (tbTreePairs tbB2 tbYTree tbYTreeC ([0, 1, 2, 3] ++ [4, 5, 6, 7] ++ [8, 9, 10, 11])) []
+    (by quickRfl)
+    (S := rlS CFSG.KD.NRT.c1253yy.rn CFSG.KD.NRT.c1253yy.CH CFSG.KD.NRT.c1253yy.PRf
+      CFSG.KD.NRT.c1253yy.S0 321)
+    (fun x hx => (rlS_lt (Nat.lt_of_lt_of_le hx (by decide))).trans (by interval_cases x <;> rfl))
+    (CH := CFSG.KD.NRT.c1253yy.CH) (nch := kd_count% CFSG.KD.NRT.c1253yy CH)
+    (IT := CFSG.KD.NRT.c1253yy.IT)
+    (replay_soundD (run := CFSG.KD.NRT.c1253yy.rn) (chk := CFSG.KD.NRT.chkP CFSG.KD.NRT.c1253yy.P)
+      (fun S S' c h3 h4 => nrt_loc _ S S' c h3 h4) (fun S c h => nrt_prod _ S c h)
+      (CH := CFSG.KD.NRT.c1253yy.CH) (PR := CFSG.KD.NRT.c1253yy.PRf) (GK := CFSG.KD.NRT.c1253yy.GKf)
+      (DP := CFSG.KD.NRT.c1253yy.DPf) (G := CFSG.KD.NRT.c1253yy.Gf)
+      (S0 := CFSG.KD.NRT.c1253yy.S0) (w := 321)
+      (ng := kd_count% CFSG.KD.NRT.c1253yy u) (nch := kd_count% CFSG.KD.NRT.c1253yy CH)
+      (by kd_allE CFSG.KD.NRT.c1253yy u) (by quickRfl))
+    (by quickRfl) (by quickRfl)).1
+
+theorem tbTreePairs_agree3 {b : List Native.Gen} {T : List (List ℕ)} {c l₁ l₂ l₃ : List ℕ}
+    (h : agreeAll (tbTreePairs b T c (l₁ ++ l₂ ++ l₃)) = true) :
+    agreeAll (tbTreePairs b T c l₁) = true ∧ agreeAll (tbTreePairs b T c l₂) = true ∧
+      agreeAll (tbTreePairs b T c l₃) = true := by
+  simp only [tbTreePairs, List.map_append, agreeAll, List.all_append, Bool.and_eq_true] at h ⊢
+  exact ⟨h.1.1, h.1.2, h.2⟩
+
+theorem c125372 : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC [0, 1, 2, 3]) = true :=
+  (tbTreePairs_agree3 c1253yy).1
+
+theorem c125373 : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC [4, 5, 6, 7]) = true :=
+  (tbTreePairs_agree3 c1253yy).2.1
+
+theorem c125374 : agreeAll (tbTreePairs tbB2 tbYTree tbYTreeC [8, 9, 10, 11]) = true :=
+  (tbTreePairs_agree3 c1253yy).2.2
 
 theorem c125500 : thirteenOrderCheck () = true := by
   have h := (kd_nrt% CFSG.KD.NRT.c125500 e125500 []).1
@@ -277,8 +362,7 @@ theorem c125553 : d13CommCheck () = true := by
   simp only [e125553, agreeAll, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true] at h
   have ht := hn (tauS genD13W1) (List.mem_singleton.2 rfl)
   have hm := moveCheck_of_suffix (w := genD13W1) (s := [.xi, .tau]) ht.1 ht.2.1 ht.2.2
-  simp only [d13CommCheck, agreeC_eq, hm, Bool.and_true, Bool.true_and, Bool.and_eq_true,
-    and_assoc] at h ⊢
+  simp only [d13CommCheck, agreeC_eq, hm, Bool.and_true, Bool.and_eq_true, and_assoc] at h ⊢
   exact h
 
 theorem c125554 : d13X1xCheck () = true := by
@@ -304,13 +388,13 @@ theorem c125557 : d13X2yCheck () = true := by
 theorem c125558 : d13ANorm1Check () = true := by
   have h := (kd_nrt% CFSG.KD.NRT.c125558 e125558 []).1
   simp only [e125558, agreeAll, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true] at h
-  simp only [d13ANorm1Check, agreeC_eq, Bool.and_eq_true, and_assoc] at h ⊢
+  simp only [d13ANorm1Check, agreeC_eq, Bool.and_eq_true] at h ⊢
   exact h
 
 theorem c125559 : d13ANorm2Check () = true := by
   have h := (kd_nrt% CFSG.KD.NRT.c125559 e125559 []).1
   simp only [e125559, agreeAll, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true] at h
-  simp only [d13ANorm2Check, agreeC_eq, Bool.and_eq_true, and_assoc] at h ⊢
+  simp only [d13ANorm2Check, agreeC_eq, Bool.and_eq_true] at h ⊢
   exact h
 
 theorem c125560 : thirteenEligibleCheck () = true := by
@@ -322,7 +406,7 @@ theorem c125560 : thirteenEligibleCheck () = true := by
 theorem c125561 : d13ANorm4Check () = true := by
   have h := (kd_nrt% CFSG.KD.NRT.c125561 e125561 []).1
   simp only [e125561, agreeAll, List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true] at h
-  simp only [d13ANorm4Check, agreeC_eq, Bool.and_eq_true, and_assoc] at h ⊢
+  simp only [d13ANorm4Check, agreeC_eq, Bool.and_eq_true] at h ⊢
   exact h
 
 end CertificateChecks.KernelKDenseP.Norton

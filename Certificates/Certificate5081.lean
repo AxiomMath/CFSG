@@ -11,6 +11,7 @@ meta import Mathlib.Logic.Equiv.Fin.Basic
 meta import Mathlib.Logic.Equiv.Option
 meta import Mathlib.Data.List.FinRange
 meta import CFSG.GH74.GLS.C3.Prop121.Card7H2Inputs
+import Certificates.Kernel.Card7H2.Codes
 
 public section
 
@@ -37,17 +38,45 @@ open Subgroup Equiv Perm CFSG.GH74.GLS.C3.Layer2 CFSG.GH74.GLS.C3.Layer2.Model C
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-private theorem ord3Check_true_0 : ord3Check = true := by
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem hl_codes : (HL.map (CFSG.KS.PCnt.pkw 6) == hlC) = true := by
   decide +kernel
 
-private theorem centerCheck_true_1 : centerCheck = true := by
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem ord3_codes : ord3C = true := by
   decide +kernel
 
-private theorem ccL_T1_T1_2 : ccL T1 T1 = 576 := by
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem r3_codes : r3Ok = true := by
   decide +kernel
 
-private theorem B0invCheck_true_3 : B0invCheck = true := by
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem r2_codes : r2Ok = true := by
   decide +kernel
+
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem center_codes : centerC = true := by
+  decide +kernel
+
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem ccT1_codes : ccC t1C t1C = 576 := by
+  decide +kernel
+
+open CFSG.Certificates.Kernel.Card7H2 in
+private theorem b0inv_codes : b0invC = true := by
+  decide +kernel
+
+private theorem ord3Check_true_0 : ord3Check = true :=
+  CFSG.Certificates.Kernel.Card7H2.ord3Check_of (eq_of_beq hl_codes) r3_codes ord3_codes
+
+private theorem centerCheck_true_1 : centerCheck = true :=
+  CFSG.Certificates.Kernel.Card7H2.centerCheck_of (eq_of_beq hl_codes) center_codes
+
+private theorem ccL_T1_T1_2 : ccL T1 T1 = 576 :=
+  CFSG.Certificates.Kernel.Card7H2.ccL_T1_of (eq_of_beq hl_codes) ccT1_codes
+
+private theorem B0invCheck_true_3 : B0invCheck = true :=
+  CFSG.Certificates.Kernel.Card7H2.B0invCheck_of (eq_of_beq hl_codes) r2_codes b0inv_codes
 
 end CertificateChecks.Batch5081
 

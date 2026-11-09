@@ -10,20 +10,13 @@ public section
 
 set_option maxRecDepth 400000
 
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 0 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 1 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 2 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 3 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 4 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 5 0 7
-#ks_rawchain_sl2_lvpCertificateChecks.KernelSpor.SuzMGK 6 0 7
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 0 0 7
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 1 0 3
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 2 0 2
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 3 0 2
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 4 0 1
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 5 0 1
-#ks_rawchain_sl2_sch CertificateChecks.KernelSpor.SuzMGK 6 0 1
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 0 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 1 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 2 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 3 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 4 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 5 0 7
+#ks_rawchain_sl2_lvp CertificateChecks.KernelSpor.SuzMGK 6 0 7
 #ks_rawchain_sl2_join CertificateChecks.KernelSpor.SuzMGK
 
 namespace CertificateChecks.KernelSpor.SuzMGKC
@@ -52,10 +45,10 @@ theorem binds : Binds 1782 11 SuzMGK.S 11 7 SuzMGK.BP c1StrongArrs c1Base.toArra
     fun t ht => Nat.eq_of_beq_eq_true (allN_spec kBase t ht)⟩
 
 theorem c115099 : c1OK = true := by
-  have hch : chainOK c1StrongArrs 2 c1Base c1Words [54, 20, 16, 12, 4, 2, 2] = true :=
-    SuzMGCG.chainOK_of (NS := 223) (CH := 8) binds (by simp [c1Words])
-      (fun j hj => by interval_cases j <;> rfl) (by simp only [SuzMGKD.deriv, Array.toArray_toList]) SuzMGK.head SuzMGK.hl
-      (by norm_num) SuzMGK.hs kPerm kOrb (by norm_num)
+  have hch : chainLowOK c1StrongArrs 2 c1Base c1Words [54, 20, 16, 12, 4, 2, 2] = true :=
+    SuzMGCG.chainLowOK_of binds (by simp [c1Words])
+      (fun j hj => by interval_cases j <;> rfl) (by simp only [SuzMGKD.deriv, Array.toArray_toList])
+      SuzMGK.head SuzMGK.hl kPerm kOrb (by norm_num)
   unfold c1OK
   rw [hch]
   simp [c1StrongArrs]

@@ -189,23 +189,23 @@ theorem img5 : ∀ j < q5Gens.length, imageList (q5Gens.getD j 1) = (unpack 24 5
 
 theorem chain1 : ChainK 12 4 k1Gens m12CentChainWords1 (#v[0, 1, 2] : Vector (Fin 12) 3)
     C1.S C1.SI C1.LR C1.TR C1.TRI 8 C1.BP 1 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img1, by decide, C1.head, C1.hl, by norm_num, C1.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img1, by decide, C1.head, C1.hl, by norm_num, .inl C1.hs⟩
 
 theorem chain3 : ChainK 12 4 k3Gens m12CentChainWords2 (#v[0, 1, 2] : Vector (Fin 12) 3)
     C3.S C3.SI C3.LR C3.TR C3.TRI 5 C3.BP 1 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img3, by decide, C3.head, C3.hl, by norm_num, C3.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img3, by decide, C3.head, C3.hl, by norm_num, .inl C3.hs⟩
 
 theorem chain2 : ChainK 24 5 q2Gens q2Words (#v[0, 1, 2] : Vector (Fin 24) 3)
     Q2.S Q2.SI Q2.LR Q2.TR Q2.TRI 9 Q2.BP 2 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img2, by decide, Q2.head, Q2.hl, by norm_num, Q2.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img2, by decide, Q2.head, Q2.hl, by norm_num, .inl Q2.hs⟩
 
 theorem chain4 : ChainK 24 5 q4Gens q4Words (#v[0, 1, 2] : Vector (Fin 24) 3)
     Q4.S Q4.SI Q4.LR Q4.TR Q4.TRI 7 Q4.BP 2 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img4, by decide, Q4.head, Q4.hl, by norm_num, Q4.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img4, by decide, Q4.head, Q4.hl, by norm_num, .inl Q4.hs⟩
 
 theorem chain5 : ChainK 24 5 q5Gens q5Words (#v[0, 1, 2] : Vector (Fin 24) 3)
     Q5.S Q5.SI Q5.LR Q5.TR Q5.TRI 6 Q5.BP 2 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img5, by decide, Q5.head, Q5.hl, by norm_num, Q5.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img5, by decide, Q5.head, Q5.hl, by norm_num, .inl Q5.hs⟩
 
 theorem cnt1 : (cosetOrderTables m12CentQ1 1 4).length = R1.N :=
   (chainK_cosetCount (by decide) (by decide) chain1 one12 cOne12 (by norm_num) (by norm_num)

@@ -327,12 +327,131 @@ open CFSG.KD.HNPt2109 in
 
 @[expose] def rootT (t : ℕ) : ℕ := [0, 1047, 119497, 0].getD t 0
 
+@[expose] noncomputable def d1AllLt (N : Nat) (L : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) true (fun x _ ih => and (Nat.blt x N) ih) L
+
+@[expose] noncomputable def d1NotIn (x : Nat) (L : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) true (fun y _ ih => and (not (Nat.beq x y)) ih) L
+
+@[expose] noncomputable def d1Nodup (L : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) true (fun x xs ih => and (d1NotIn x xs) ih) L
+
+@[expose] noncomputable def d1AllJ (JL : Nat → List Nat) (N m : Nat) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true (fun l ih => and (d1AllLt N (JL l)) ih) m
+
+@[expose] noncomputable def d1Tree (JL : Nat → List Nat) (m : Nat) (k : Nat) : List Nat → List Nat → Nat → Bool :=
+  Nat.rec (motive := fun _ => List Nat → List Nat → Nat → Bool) (fun _ _ _ => true)
+    (fun _ ih us ls i => and (and (Nat.blt (us.headD 0) i) (Nat.blt (ls.headD 0) m))
+      (and (Nat.beq (HNX.lget (JL (ls.headD 0)) (us.headD 0)) i) (ih us.tail ls.tail (Nat.succ i)))) k
+
+@[expose] noncomputable def d1Chk (P PU PL : List Nat) (JL : Nat → List Nat) (m r : Nat) : Bool :=
+  (fun n => and (and (Nat.blt 0 n) (Nat.beq (P.headD 0) r))
+    (and (and (Nat.blt r nPts) (d1AllLt nPts P))
+      (and (and (d1Nodup P) (d1AllJ JL n m)) (d1Tree JL m (Nat.sub n 1) PU.tail PL.tail 1))))
+    P.length
+
+theorem d1AllLt_spec {N : Nat} : ∀ {L : List Nat}, d1AllLt N L = true → ∀ x ∈ L, x < N
+  | [], _, x, hx => absurd hx List.not_mem_nil
+  | y :: L, h, x, hx => by
+    have h' : (Nat.blt y N && d1AllLt N L) = true := h
+    rw [Bool.and_eq_true, Nat.blt_eq] at h'
+    rcases List.mem_cons.1 hx with rfl | hx
+    · exact h'.1
+    · exact d1AllLt_spec h'.2 x hx
+
+theorem d1NotIn_spec {x : Nat} : ∀ {L : List Nat}, d1NotIn x L = true → x ∉ L
+  | [], _ => List.not_mem_nil
+  | y :: L, h => by
+    have h' : (!Nat.beq x y && d1NotIn x L) = true := h
+    rw [Bool.and_eq_true, Bool.not_eq_true'] at h'
+    rw [List.mem_cons, not_or]
+    exact ⟨Nat.ne_of_beq_eq_false h'.1, d1NotIn_spec h'.2⟩
+
+theorem d1Nodup_spec : ∀ {L : List Nat}, d1Nodup L = true → L.Nodup
+  | [], _ => List.nodup_nil
+  | x :: L, h => by
+    have h' : (d1NotIn x L && d1Nodup L) = true := h
+    rw [Bool.and_eq_true] at h'
+    exact List.nodup_cons.2 ⟨d1NotIn_spec h'.1, d1Nodup_spec h'.2⟩
+
+theorem d1AllJ_spec {JL : Nat → List Nat} {N : Nat} : ∀ {m : Nat}, d1AllJ JL N m = true →
+    ∀ l < m, ∀ x ∈ JL l, x < N
+  | 0, _, l, hl => absurd hl (Nat.not_lt_zero l)
+  | m + 1, h, l, hl => by
+    have h' : (d1AllLt N (JL m) && d1AllJ JL N m) = true := h
+    rw [Bool.and_eq_true] at h'
+    rcases Nat.lt_succ_iff_lt_or_eq.1 hl with hl | rfl
+    · exact d1AllJ_spec h'.2 l hl
+    · exact d1AllLt_spec h'.1
+
+theorem d1lget_tail (L : List Nat) (j : Nat) : HNX.lget L.tail j = HNX.lget L (j + 1) := by
+  cases L <;> rfl
+
+theorem d1lget_zero (L : List Nat) : HNX.lget L 0 = L.headD 0 := by
+  cases L <;> rfl
+
+theorem d1Tree_spec {JL : Nat → List Nat} {m : Nat} : ∀ {k : Nat} {us ls : List Nat} {i : Nat},
+    d1Tree JL m k us ls i = true → ∀ j < k, HNX.lget us j < i + j ∧ HNX.lget ls j < m ∧
+      HNX.lget (JL (HNX.lget ls j)) (HNX.lget us j) = i + j
+  | 0, _, _, _, _, j, hj => absurd hj (Nat.not_lt_zero j)
+  | k + 1, us, ls, i, h, j, hj => by
+    have h' : ((Nat.blt (us.headD 0) i && Nat.blt (ls.headD 0) m) &&
+        (Nat.beq (HNX.lget (JL (ls.headD 0)) (us.headD 0)) i && d1Tree JL m k us.tail ls.tail (i + 1)))
+        = true := h
+    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h'
+    obtain ⟨⟨h1, h2⟩, h3, h4⟩ := h'
+    cases j with
+    | zero =>
+      rw [d1lget_zero, d1lget_zero]
+      exact ⟨h1, h2, h3⟩
+    | succ j =>
+      have := d1Tree_spec h4 j (by omega)
+      rw [d1lget_tail, d1lget_tail] at this
+      rw [← Nat.add_assoc, Nat.add_right_comm]
+      exact this
+
+theorem d1lget_of_lt {L : List Nat} {i : Nat} (h : i < L.length) : HNX.lget L i = L[i] := by
+  unfold HNX.lget
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h, Option.getD_some]
+
+theorem d1lget_mem_or {L : List Nat} (i : Nat) : HNX.lget L i ∈ L ∨ HNX.lget L i = 0 := by
+  by_cases h : i < L.length
+  · rw [d1lget_of_lt h]; exact Or.inl (List.getElem_mem h)
+  · right
+    unfold HNX.lget
+    rw [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega), Option.getD_none]
+
+theorem d1Chk_spec {P PU PL : List Nat} {JL : Nat → List Nat} {m r : Nat}
+    (h : d1Chk P PU PL JL m r = true) :
+    0 < P.length ∧ HNX.lget P 0 = r ∧ r < nPts ∧
+    (∀ i < P.length, HNX.lget P i < nPts ∧ P.idxOf (HNX.lget P i) = i) ∧
+    (∀ l < m, ∀ i < P.length, HNX.lget (JL l) i < P.length) ∧
+    (∀ i < P.length, 0 < i → HNX.lget PU i < i ∧ HNX.lget PL i < m ∧
+      HNX.lget (JL (HNX.lget PL i)) (HNX.lget PU i) = i) := by
+  have h' : ((Nat.blt 0 P.length && Nat.beq (P.headD 0) r) &&
+      ((Nat.blt r nPts && d1AllLt nPts P) &&
+      ((d1Nodup P && d1AllJ JL P.length m) && d1Tree JL m (P.length - 1) PU.tail PL.tail 1))) = true := h
+  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h'
+  obtain ⟨⟨h0, hr⟩, ⟨hrn, hall⟩, ⟨hnd, hJ⟩, ht⟩ := h'
+  have hP := d1AllLt_spec hall
+  refine ⟨h0, by rw [d1lget_zero]; exact hr, hrn, fun i hi => ?_, fun l hl i _ => ?_,
+    fun i hi hpos => ?_⟩
+  · rw [d1lget_of_lt hi]
+    exact ⟨hP _ (List.getElem_mem hi), (d1Nodup_spec hnd).idxOf_getElem i hi⟩
+  · rcases d1lget_mem_or (L := JL l) i with hm | hz
+    · exact d1AllJ_spec hJ l hl _ hm
+    · rw [hz]; exact h0
+  · have := d1Tree_spec ht (i - 1) (by omega)
+    rw [d1lget_tail, d1lget_tail, Nat.sub_add_cancel hpos, Nat.add_comm, Nat.sub_add_cancel hpos] at this
+    exact this
+
 theorem data1 : ∀ t < 3, 0 < (PT t).length ∧ HNX.lget (PT t) 0 = rootT t ∧ rootT t < nPts ∧
     (∀ i < (PT t).length, HNX.lget (PT t) i < nPts ∧ (PT t).idxOf (HNX.lget (PT t) i) = i) ∧
     (∀ l < 8, ∀ i < (PT t).length, HNX.lget (JL1 t l) i < (PT t).length) ∧
     (∀ i < (PT t).length, 0 < i → HNX.lget (PUT t) i < i ∧ HNX.lget (PLT t) i < 8 ∧
       HNX.lget (JL1 t (HNX.lget (PLT t) i)) (HNX.lget (PUT t) i) = i) := by
-  decide +kernel
+  have h : ∀ t < 3, d1Chk (PT t) (PUT t) (PLT t) (JL1 t) 8 (rootT t) = true := by decide +kernel
+  exact fun t ht => d1Chk_spec (h t ht)
 
 theorem data3 : 0 < (PT 3).length ∧ HNX.lget (PT 3) 0 = rootT 3 ∧ rootT 3 < nPts ∧
     (∀ i < (PT 3).length, HNX.lget (PT 3) i < nPts ∧ (PT 3).idxOf (HNX.lget (PT 3) i) = i) ∧

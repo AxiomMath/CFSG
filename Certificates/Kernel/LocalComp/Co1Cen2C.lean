@@ -4,6 +4,8 @@ public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicCo1Cen2C
 public import Certificates.Kernel.LocalComp.Co1Cen2CChk
 public import Certificates.Kernel.Co1B.C2047
 public import CFSG.Certificates.Kernel.LocalCompCo1PWSound
+public import CFSG.Certificates.Kernel.Co1Seven.CenSound
+public import CFSG.Certificates.Kernel.SporSch.Co1MatWSound
 
 public section
 
@@ -49,7 +51,7 @@ theorem base_eq : co1Cen2CBase = (List.range 14).map fun i => unpack 24 24 (G.M 
   simp only [map_range11, map_range14, Nat.reduceAdd]
 
 theorem glob_eq : dag co1Cen2CBase (co1Cen2CGlobal.map decWord) =
-    (rowsOf G.M G.N, rowsOf G.MI G.N, true) := dagK_sound base_eq kG
+    (rowsOf G.M G.N, rowsOf G.MI G.N, true) := dagWK_sound base_eq kG
 
 theorem e1 : entriesR co1Cen2CBase (co1Cen2CGlobal.map decWord) co1Cen2CS1 =
     [G.M 222, G.M 223, G.M 231].map (unpack 24 24) := by
@@ -74,7 +76,7 @@ theorem map_range5 {α : Type} (f : Nat → α) :
 
 theorem d1_eq : dag ([G.M 222, G.M 223, G.M 231].map (unpack 24 24)) (co1Cen2CD1.map decWord) =
     (rowsOf P1.M P1.N, rowsOf P1.MI P1.N, true) := by
-  refine dagK_sound ?_ kD1
+  refine dagWK_sound ?_ kD1
   have h := kP1
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨⟨h0, h1⟩, h2⟩ := h
@@ -82,7 +84,7 @@ theorem d1_eq : dag ([G.M 222, G.M 223, G.M 231].map (unpack 24 24)) (co1Cen2CD1
 
 theorem d2_eq : dag ([G.M 226, G.M 228].map (unpack 24 24)) (co1Cen2CD2.map decWord) =
     (rowsOf P2.M P2.N, rowsOf P2.MI P2.N, true) := by
-  refine dagK_sound ?_ kD2
+  refine dagWK_sound ?_ kD2
   have h := kP2
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨h0, h1⟩ := h
@@ -95,7 +97,7 @@ theorem SK_map : SK.map (unpack 24 24) =
 theorem r_eq : dag ([G.M 222, G.M 223, G.M 231].map (unpack 24 24) ++
     [G.M 226, G.M 228].map (unpack 24 24)) (co1Cen2CRD.map decWord) =
     (rowsOf R.M R.N, rowsOf R.MI R.N, true) := by
-  refine dagK_sound ?_ kR
+  refine dagWK_sound ?_ kR
   have e : ∀ i < 5, R.M i = SK.getD i 0 := fun i hi =>
     Nat.eq_of_beq_eq_true (MatL.allN_iff.1 kR0 i hi)
   rw [← SK_map, map_range5, e 0 (by decide), e 1 (by decide), e 2 (by decide), e 3 (by decide),
@@ -122,6 +124,29 @@ theorem re_eq : entriesR ([G.M 222, G.M 223, G.M 231].map (unpack 24 24) ++
   bfsTree CertificateChecks.KernelCo1B.C2047.QT.N CertificateChecks.KernelCo1B.C2047.QT.P
     CertificateChecks.KernelCo1B.C2047.QT.PAR CertificateChecks.KernelCo1B.C2047.QT.LAB
 
+theorem scanPt_of_K {X : Nat} (h : scanPtK X = true) : scanPt X = true := by
+  unfold scanPtK at h
+  unfold scanPt
+  simp only [Bool.or_eq_true, List.any_eq_true, Bool.not_eq_true', Nat.beq_eq] at h ⊢
+  rcases h with (h | h) | ⟨s, hs, h⟩
+  · left
+    left
+    rw [h]
+    exact beq_self_eq_true _
+  · left
+    right
+    rw [h]
+    exact beq_self_eq_true _
+  · right
+    refine ⟨s, hs, ?_⟩
+    cases e : (unpack 24 24 (mulWK X s) == unpack 24 24 (mulWK s X))
+    · rfl
+    · rw [eqU_of (eq_of_beq e)] at h
+      exact Bool.noConfusion h
+
+theorem kScan : allN 2048 (fun i => scanPt (CertificateChecks.KernelCo1B.C2047.QT.P i)) = true :=
+  MatL.allN_iff.2 fun i hi => scanPt_of_K (MatL.allN_iff.1 kScanK i hi)
+
 theorem scan_ok : co1QcScanOK QTree.pts (unpack 24 24 IC)
     ([G.M 222, G.M 223, G.M 231].map (unpack 24 24) ++ [G.M 226, G.M 228].map (unpack 24 24)) =
     true := by
@@ -146,7 +171,8 @@ theorem check : co1Cen2CCheck co1Cen2CGlobal co1Cen2CS1 co1Cen2CS2 co1Cen2CD1 co
   unfold co1Cen2CCheck pwOK CFSG.ComponentClassification.RankTwoSporadic.Co1.wordsOK
   rw [e1, e2, glob_eq, d1_eq, d2_eq, r_eq, re_eq, gt_eq, iotaC_u]
   simp only [Bool.true_and, beq_self_eq_true, Bool.and_true, Bool.and_eq_true]
-  exact ⟨⟨pwCoreOK_of kD1 kW1, pwCoreOK_of kD2 kW2⟩, scan_ok⟩
+  exact ⟨⟨pwCoreOK_of_invW (fun k hk => (invOKW_sound (dagWK_inv kD1 k hk)).2) kW1,
+    pwCoreOK_of_invW (fun k hk => (invOKW_sound (dagWK_inv kD2 k hk)).2) kW2⟩, scan_ok⟩
 
 open CFSG CFSG.ComponentClassification CFSG.ComponentClassification.RankTwoSporadic
   CFSG.ComponentClassification.RankTwoSporadic.Co1 in

@@ -34,10 +34,23 @@ theorem CVd_sq : ∀ w : AlpE, w.d = 0 → w * invE 3 = invE 3 * w → w * w = 1
 
 @[expose] def K4E : List AlpE := [1, zc, bE, zc * bE]
 
-set_option maxRecDepth 100000 in
+@[expose] def W2E : List AlpE :=
+  [⟨0, 0, 0, 0⟩, ⟨0, 2, 0, 0⟩, ⟨0, 0, 2, 0⟩, ⟨0, 2, 2, 0⟩,
+    ⟨0, 0, 0, 2⟩, ⟨0, 2, 0, 2⟩, ⟨0, 0, 2, 2⟩, ⟨0, 2, 2, 2⟩]
+
+theorem mem_W2E : ∀ v0 v1 v2 : ZMod 4, (⟨0, v0, v1, v2⟩ : AlpE) * ⟨0, v0, v1, v2⟩ = 1 →
+    (⟨0, v0, v1, v2⟩ : AlpE) ∈ W2E := by
+  decide +kernel
+
+theorem W2E_pairs : ∀ w ∈ W2E, ∀ w' ∈ W2E, w ∉ K4E → w' ∉ K4E → w * w' ∈ K4E := by
+  decide +kernel
+
 theorem W_K4_index : ∀ w w' : AlpE, w.d = 0 → w * w = 1 → w'.d = 0 → w' * w' = 1 →
     w ∉ K4E → w' ∉ K4E → w * w' ∈ K4E := by
-  decide +kernel
+  rintro ⟨d, v0, v1, v2⟩ ⟨d', u0, u1, u2⟩ hd hw hd' hw' hn hn'
+  obtain rfl : d = 0 := hd
+  obtain rfl : d' = 0 := hd'
+  exact W2E_pairs _ (mem_W2E _ _ _ hw) _ (mem_W2E _ _ _ hw') hn hn'
 
 namespace FusCtx
 

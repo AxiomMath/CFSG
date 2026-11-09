@@ -54,21 +54,38 @@ theorem relOK_eq {n w nb BP : ℕ} {base : Array ℕ} {xs : Array (Array ℕ)} {
   rw [Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
   exact forall_congr' fun r => imp_congr_right fun hr => by rw [key r hr]
 
-theorem ptailK_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+theorem levels_agK {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
     {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
     (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
-    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {x : Array ℕ} {X : ℕ}
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) :
+    ∀ i < nb, ((rawLevels n S base)[i]!).pts.size = rcnt (LR i) ∧
+      ∀ k < rcnt (LR i), ((rawLevels n S base)[i]!).pts[k]! = rpt w (mask w) (LR i) k ∧
+        rpt w (mask w) (LR i) k < n ∧ PP n w (TR (roff n (n * w) (LR i) + k)) ∧
+        Ag n w (((rawLevels n S base)[i]!).tr[k]!) (TR (roff n (n * w) (LR i) + k)) := by
+  have hbl := Orb.base_lt_of_levels hb hl
+  intro i hi
+  have hsz : szOK n w = true := (Orb.levelK_facts (hl i hi)).1
+  obtain ⟨A, P⟩ := Orb.agree_levelK hb hp hbl (R := LR) (TRI := TRI) hi (hl i hi)
+  obtain ⟨-, -, hR, -, -, hperm⟩ := Orb.levelK_facts (hl i hi)
+  refine ⟨A.cnt.symm, fun k hk => ⟨(A.pt k (by rw [← A.cnt]; exact hk)).symm, (hR.pt k hk).1,
+    pp_of_permOK hsz (hperm k hk), fun y hy => ?_⟩⟩
+  have R := (A.tr k (by rw [← A.cnt]; exact hk)).1 ⟨y, hy⟩
+  rw [(P k hk).1 ⟨y, hy⟩]
+  exact R
+
+theorem ptailOK_of_ptailK {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) (hsz : szOK n w = true) {x : Array ℕ} {X : ℕ}
     (hx : x = unpack n w X) (hX : permB n w X = true) {xs : Array (Array ℕ)} {XP : ℕ → ℕ}
     (hxs : ∀ e < xs.size, xs[e]! = unpack n w (XP e)) {rels : List (ℕ × ℕ × ℕ)}
     (hrels : ∀ r ∈ rels, r.2.2 < xs.size) {E : List (Array ℕ)} {NE : ℕ} {EP : ℕ → ℕ}
     (hE : E = (List.range NE).map fun e => unpack n w (EP e))
-    (hEp : ∀ e < NE, permB n w (EP e) = true) (hnb : 0 < nb)
-    (h : ∀ k < rcnt (LR 0), ptailBranchK n w LR TR BP X XP rels NE EP nb k = true) :
-    ptailOK n (rawLevels n S base) base x xs rels E nb 0 (idA n) = true := by
+    (hEp : ∀ e < NE, permB n w (EP e) = true) :
+    ∀ fuel i, i + fuel = nb → ∀ (acc : Array ℕ) (ACC : ℕ), PP n w ACC →
+      Ag n w acc ACC → ptailK n w LR TR BP X XP rels NE EP fuel i ACC = true →
+      ptailOK n (rawLevels n S base) base x xs rels E fuel i acc = true := by
   have hn : n < 2 ^ 32 := by have := hb.2.2.1; omega
-  have hn24 : n < 16777216 := by have := hb.2.2.1; omega
-  have hw2 : n + 1 < 2 ^ w := hb.2.1
-  have hsz : szOK n w = true := (Orb.levelK_facts (hl 0 hnb)).1
   have hbl := Orb.base_lt_of_levels hb hl
   have hbase : ∀ t < nb, base[t]! = pg w (mask w) BP t := hb.2.2.2.2.2.2
   have hbn : ∀ t < nb, pg w (mask w) BP t < n := fun t ht => by
@@ -78,23 +95,9 @@ theorem ptailK_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : 
   have hxa : Ag n w x X := by
     rw [hx]
     exact ag_unpack n w X
-  have hlev : ∀ i < nb, ((rawLevels n S base)[i]!).pts.size = rcnt (LR i) ∧
-      ∀ k < rcnt (LR i), ((rawLevels n S base)[i]!).pts[k]! = rpt w (mask w) (LR i) k ∧
-        rpt w (mask w) (LR i) k < n ∧ PP n w (TR (roff n (n * w) (LR i) + k)) ∧
-        Ag n w (((rawLevels n S base)[i]!).tr[k]!) (TR (roff n (n * w) (LR i) + k)) := by
-    intro i hi
-    obtain ⟨A, P⟩ := Orb.agree_levelK hb hp hbl (R := LR) (TRI := TRI) hi (hl i hi)
-    obtain ⟨-, -, hR, -, -, hperm⟩ := Orb.levelK_facts (hl i hi)
-    refine ⟨A.cnt.symm, fun k hk => ⟨(A.pt k (by rw [← A.cnt]; exact hk)).symm, (hR.pt k hk).1,
-      pp_of_permOK hsz (hperm k hk), fun y hy => ?_⟩⟩
-    have R := (A.tr k (by rw [← A.cnt]; exact hk)).1 ⟨y, hy⟩
-    rw [(P k hk).1 ⟨y, hy⟩]
-    exact R
-  have key : ∀ fuel i, i + fuel = nb → ∀ (acc : Array ℕ) (ACC : ℕ), PP n w ACC →
-      Ag n w acc ACC → ptailK n w LR TR BP X XP rels NE EP fuel i ACC = true →
-      ptailOK n (rawLevels n S base) base x xs rels E fuel i acc = true := by
-    intro fuel
-    induction fuel with
+  have hlev := levels_agK hb hp hl
+  intro fuel
+  induction fuel with
     | zero =>
       intro i _ acc ACC hA hacc hk
       have hc : commA n acc x =
@@ -134,6 +137,28 @@ theorem ptailK_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : 
       · rw [hr, Bool.not_true, Bool.false_or] at hk'
         rw [Bool.not_true, Bool.false_or]
         exact ih (i + 1) (by omega) _ _ (hA.mul hp3) (ag_compA hn hacc hp4 hp3.2.1) hk'
+
+theorem ptailK_sound {n w kS nb BP : ℕ} {PS PSI LR TR TRI : ℕ → ℕ} {S : Array (Array ℕ)}
+    {base : Array ℕ} (hb : Binds n w PS kS nb BP S base)
+    (hp : allN kS (fun j => permOK n w (mask w) (n * w) (PS j) (PSI j)) = true)
+    (hl : LevelsOK n w PS PSI LR TR TRI kS nb BP) {x : Array ℕ} {X : ℕ}
+    (hx : x = unpack n w X) (hX : permB n w X = true) {xs : Array (Array ℕ)} {XP : ℕ → ℕ}
+    (hxs : ∀ e < xs.size, xs[e]! = unpack n w (XP e)) {rels : List (ℕ × ℕ × ℕ)}
+    (hrels : ∀ r ∈ rels, r.2.2 < xs.size) {E : List (Array ℕ)} {NE : ℕ} {EP : ℕ → ℕ}
+    (hE : E = (List.range NE).map fun e => unpack n w (EP e))
+    (hEp : ∀ e < NE, permB n w (EP e) = true) (hnb : 0 < nb)
+    (h : ∀ k < rcnt (LR 0), ptailBranchK n w LR TR BP X XP rels NE EP nb k = true) :
+    ptailOK n (rawLevels n S base) base x xs rels E nb 0 (idA n) = true := by
+  have hn24 : n < 16777216 := by have := hb.2.2.1; omega
+  have hw2 : n + 1 < 2 ^ w := hb.2.1
+  have hsz : szOK n w = true := (Orb.levelK_facts (hl 0 hnb)).1
+  have hbl := Orb.base_lt_of_levels hb hl
+  have hbase : ∀ t < nb, base[t]! = pg w (mask w) BP t := hb.2.2.2.2.2.2
+  have hbn : ∀ t < nb, pg w (mask w) BP t < n := fun t ht => by
+    rw [← hbase t ht]
+    exact hbl t ht
+  have hlev := levels_agK hb hp hl
+  have key := ptailOK_of_ptailK hb hp hl hsz hx hX hxs hrels hE hEp
   obtain ⟨m, rfl⟩ : ∃ m, nb = m + 1 := ⟨nb - 1, by omega⟩
   obtain ⟨hsz0, hpt0⟩ := hlev 0 (by omega)
   have hI : PP n w (pidn n w) := CFSG.KC.BfsPin.PP.id hsz

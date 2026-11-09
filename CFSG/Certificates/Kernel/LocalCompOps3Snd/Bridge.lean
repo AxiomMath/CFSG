@@ -30,6 +30,9 @@ theorem mat3_one (c : Lay) (hc : c.ok = true) (hp : c.p = 3) :
   rw [hp] at h1 h2 ⊢
   exact ⟨h1, h2⟩
 
+@[expose] abbrev SeedM (c : Lay) (M : ℕ) (l : List Char) : Prop :=
+  Canon c.p c.d c.w M ∧ mat3 c M = CFSG.Blueprint.NativeSporadic.decode 3 c.d 1 (String.ofList l)
+
 theorem mat3_decode (c : Lay) (hc : c.ok = true) (hp : c.p = 3) {M : ℕ} {l : List Char}
     (h : decOK c M l = true) :
     Canon c.p c.d c.w M ∧

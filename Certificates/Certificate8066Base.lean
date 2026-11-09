@@ -2,6 +2,7 @@
 module
 
 public import CFSG.Quasithin.Background.Sp4InfA6BasicInputs
+import CFSG.Certificates.Kernel.PermCent.GHFast
 import all CFSG.Quasithin.Background.Sp4InfA6BasicInputs
 import all CFSG.Quasithin.Background.Sp4InfA6BasicBase
 
@@ -36,11 +37,21 @@ private theorem card_alt_six_3 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
   simp only [Perm.mem_alternatingGroup]
   decide +kernel
 
+open scoped CFSG.Certificates.Kernel.PkCV.FastDecide in
+private theorem fix_aux : ∀ g : Perm (Fin 6),
+    (∀ x ∈ (CFSG.Certificates.Kernel.PkCV.allPL 6).filter bs0, bs0 (g * x * g⁻¹) = true) →
+      (∀ x ∈ (CFSG.Certificates.Kernel.PkCV.allPL 6).filter bq1, bq1 (g * x * g⁻¹) = true) ∧
+        ∀ x ∈ (CFSG.Certificates.Kernel.PkCV.allPL 6).filter bq2, bq2 (g * x * g⁻¹) = true := by
+  decide +kernel
+
 private theorem fix_of_normalizes_s0_4 :
     ∀ g : Perm (Fin 6), (∀ x, bs0 x = true → bs0 (g * x * g⁻¹) = true) →
       (∀ x, bq1 x = true → bq1 (g * x * g⁻¹) = true) ∧
         ∀ x, bq2 x = true → bq2 (g * x * g⁻¹) = true := by
-  decide +kernel
+  intro g h
+  obtain ⟨h1, h2⟩ := fix_aux g (CFSG.Certificates.Kernel.PkCV.mem_filter_allPL_of_forall h)
+  exact ⟨CFSG.Certificates.Kernel.PkCV.forall_of_mem_filter_allPL h1,
+    CFSG.Certificates.Kernel.PkCV.forall_of_mem_filter_allPL h2⟩
 
 end CertificateChecks.Batch8066
 

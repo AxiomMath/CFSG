@@ -1,38 +1,58 @@
 module
 
-public import CFSG.Sporadic.Recognition.LyonsModelData
-public import Certificates.Kernel.B3S3.HexGen
-public import CFSG.Certificates.Kernel.Common.StrLitChunks
-public import Certificates.Data.Kernel.Spor.Chain
+public import CFSG.Sporadic.Recognition.LyonsModelInputs
 public import CFSG.Certificates.Kernel.Common.Harness
+public import Certificates.Data.Kernel.Spor.Chain
 import Mathlib.Tactic.IntervalCases
-public meta import CFSG.Sporadic.Recognition.LyonsModelData
 
 set_option maxRecDepth 400000
 
 public section
 
-#str_lit_chunks CertificateChecks.KernelLy.CH CFSG.Sporadic.Recognition.LyonsSims.Ly0.cTabHex
-  4000 400000 2048
-#kb3_hexarrs CertificateChecks.KernelLy.CH CFSG.Sporadic.Recognition.LyonsSims.Ly0.cTabHex 5 4455 17
+namespace CertificateChecks.KernelLy
 
-#str_lit_chunks CertificateChecks.KernelLy.DH CFSG.Sporadic.Recognition.LyonsSims.Ly0.dTabHex
-  4000 400000 2048
-#kb3_hexarrs CertificateChecks.KernelLy.DH CFSG.Sporadic.Recognition.LyonsSims.Ly0.dTabHex 5 4455 17
+open CFSG.Sporadic.Recognition.LyonsSims
 
-#kc_select CertificateChecks.KernelLy CS CH.F.L 15
-#kc_select CertificateChecks.KernelLy DS DH.F.L 15
+@[expose] noncomputable def cLf0 : Nat := Ly0.cB0
+@[expose] noncomputable def cLf1 : Nat := Ly0.cB1
+@[expose] noncomputable def cLf2 : Nat := Ly0.cB2
+@[expose] noncomputable def cLf3 : Nat := Ly0.cB3
+@[expose] noncomputable def cLf4 : Nat := Ly0.cB4
+@[expose] noncomputable def cLf5 : Nat := Ly0.cB5
+@[expose] noncomputable def cLf6 : Nat := Ly0.cB6
+@[expose] noncomputable def cLf7 : Nat := Ly0.cB7
+@[expose] noncomputable def cLf8 : Nat := Ly0.cB8
+@[expose] noncomputable def cLf9 : Nat := Ly0.cB9
+@[expose] noncomputable def cLf10 : Nat := Ly0.cB10
+@[expose] noncomputable def cLf11 : Nat := Ly0.cB11
+@[expose] noncomputable def cLf12 : Nat := Ly0.cB12
+@[expose] noncomputable def cLf13 : Nat := Ly0.cB13
+@[expose] noncomputable def cLf14 : Nat := Ly0.cB14
+
+@[expose] noncomputable def dLf0 : Nat := Ly0.dB0
+@[expose] noncomputable def dLf1 : Nat := Ly0.dB1
+@[expose] noncomputable def dLf2 : Nat := Ly0.dB2
+@[expose] noncomputable def dLf3 : Nat := Ly0.dB3
+@[expose] noncomputable def dLf4 : Nat := Ly0.dB4
+@[expose] noncomputable def dLf5 : Nat := Ly0.dB5
+@[expose] noncomputable def dLf6 : Nat := Ly0.dB6
+@[expose] noncomputable def dLf7 : Nat := Ly0.dB7
+@[expose] noncomputable def dLf8 : Nat := Ly0.dB8
+@[expose] noncomputable def dLf9 : Nat := Ly0.dB9
+@[expose] noncomputable def dLf10 : Nat := Ly0.dB10
+@[expose] noncomputable def dLf11 : Nat := Ly0.dB11
+@[expose] noncomputable def dLf12 : Nat := Ly0.dB12
+@[expose] noncomputable def dLf13 : Nat := Ly0.dB13
+@[expose] noncomputable def dLf14 : Nat := Ly0.dB14
+
+end CertificateChecks.KernelLy
+
+#kc_select CertificateChecks.KernelLy CS cLf 15
+#kc_select CertificateChecks.KernelLy DS dLf 15
 
 namespace CertificateChecks.KernelLy
 
-@[expose] noncomputable def hexCK (cs : List Char) : Bool :=
-  List.rec (motive := fun _ => Bool) true
-    (fun c _ ih => (Nat.blt (Char.toNat c) 58 && Nat.ble 48 (Char.toNat c) ||
-      Nat.blt (Char.toNat c) 103 && Nat.ble 97 (Char.toNat c)) && ih) cs
-
-theorem cHex : hexCK CH.chars = true := by decide +kernel
-
-theorem dHex : hexCK DH.chars = true := by decide +kernel
+open CFSG.Sporadic.Recognition.LyonsSims
 
 @[expose] noncomputable def cL (a : Nat) : Nat :=
   CFSG.KC.Enum.pg 17 (CFSG.KS.mask 17) (CS (Nat.div a 4455)) (Nat.mod a 4455)
@@ -40,14 +60,10 @@ theorem dHex : hexCK DH.chars = true := by decide +kernel
 @[expose] noncomputable def dL (a : Nat) : Nat :=
   CFSG.KC.Enum.pg 17 (CFSG.KS.mask 17) (DS (Nat.div a 4455)) (Nat.mod a 4455)
 
-theorem cN : CH.N = 15 := by decide +kernel
-
-theorem dN : DH.N = 15 := by decide +kernel
-
-theorem cS_eq {k : Nat} (hk : k < 15) : CS k = CH.F k := by
+theorem cS_eq {k : Nat} (hk : k < 15) : CS k = Ly0.cBlks[k]! := by
   interval_cases k <;> rfl
 
-theorem dS_eq {k : Nat} (hk : k < 15) : DS k = DH.F k := by
+theorem dS_eq {k : Nat} (hk : k < 15) : DS k = Ly0.dBlks[k]! := by
   interval_cases k <;> rfl
 
 end CertificateChecks.KernelLy

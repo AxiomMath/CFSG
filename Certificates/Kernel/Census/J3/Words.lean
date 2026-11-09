@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Census.J3.Data
 public import Certificates.Kernel.Census.J3.Text
+public import CFSG.Certificates.Kernel.Enum.DefsC
 
 public section
 
@@ -12,9 +13,12 @@ open CFSG.KC.Census CertificateChecks.KernelCensus
 @[expose] noncomputable def lettersP : Array Nat :=
   #[J3S.F 0, J3S.F 1, J3S.F 2, J3S.F 3, J3S.F 4] ++ j3Si
 
+@[expose] noncomputable def pprodC (l : List Nat) : Nat :=
+  l.foldr (CFSG.KC.Enum.pcompC 6156 13 (CFSG.KS.mask 13)) (pid 6156 13)
+
 @[expose] noncomputable def wordF (k : Nat) : Bool :=
   (j3XW.getD k []).all (fun i => Nat.blt i lettersP.size) &&
-    Nat.beq j3XE[k]! (pprod 6156 13 ((j3XW.getD k []).map fun i => lettersP[i]!))
+    Nat.beq j3XE[k]! (pprodC ((j3XW.getD k []).map fun i => lettersP[i]!))
 
 end CertificateChecks.KernelCensus.J3
 

@@ -61,7 +61,7 @@ theorem S_bind : S1.size = 10 ∧ ∀ j < 10, S1[j]! = unpack 3510 12 (CG j) := 
   rw [S1, Perf450108.get_ofFn _ hj]
   have e : cl j = cLine j := by interval_cases j <;> rfl
   rw [CG, e]
-  exact N2070.cent_eq (by interval_cases j <;> simp [cLine])
+  exact N2070.cent_eq
 
 theorem Si_eq : Si1 = rawInvs 3510 S1 := rfl
 

@@ -3,15 +3,15 @@ module
 public import Certificates.Data.Kernel.Misc.PermInvCls
 public import Certificates.Data.Kernel.LocalQT.Tc
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
+import CFSG.Certificates.Kernel.Common.Harness
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelU43T "Certificates/Kernel/U43Triple/data/u43t.json.gz"
+#kc_repo #kc_json CertificateChecks.KernelU43T "Certificates/Kernel/U43Triple/data/u43t.json"
   23182 15560416406340066678 (AL : List Nat) (DWL : List (List Nat)) (XWL : List (List Nat)) (XL : List Nat) (GWL : List (List Nat))
   (GL : List Nat) (PAL : List Nat) (SGL : List Nat) (CTL : List Nat) (RL : List Nat)
   (RWL : List (List Nat)) (CLL : List Nat)
 
-#kc_repo #kc_ktree_gz CertificateChecks.KernelU43T E "Certificates/Kernel/U43Triple/data/u43tE.bin.gz"
+#kc_repo #kc_ktree CertificateChecks.KernelU43T E "Certificates/Kernel/U43Triple/data/u43tE.bin"
   1025 4 131200 9463687761866642306
 
 public section

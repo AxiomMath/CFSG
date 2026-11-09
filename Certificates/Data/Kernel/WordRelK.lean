@@ -3,6 +3,7 @@ module
 public import CFSG.Monster.B.TwoA.Sp8.P0StructInputs
 public import CFSG.LocalAnalysis.ComponentClassification.RankTwoSporadicBTwoDFixInputs
 public import CFSG.Monster.B.TwoA.Sp8.GenActionHom
+public import Certificates.Data.Kernel.PauliPack
 
 public section
 
@@ -11,30 +12,11 @@ namespace CFSG.KC.WordRelK
 open CFSG.Monster.B CFSG.Monster.B.TwoA.Sp8 CFSG.Monster.B.TwoA.Sp8.WordRel
   CFSG.ComponentClassification.RankTwoSporadic.B.TwoDFix
 
-@[expose] def packP (y : Model.Pauli) : Nat :=
-  y.2.1 + 4096 * y.2.2 + (bif y.1 then 16777216 else 0)
-
-@[expose] def unpackP (x : Nat) : Model.Pauli :=
-  (Nat.beq (x / 16777216 % 2) 1, x % 4096, x / 4096 % 4096)
-
-@[expose] def foldX (k v : Nat) : Nat := v ^^^ (v >>> k)
-
-@[expose] def par12 (v : Nat) : Nat := foldX 1 (foldX 2 (foldX 4 (foldX 8 v))) % 2
-
-@[expose] def mulP (x y : Nat) : Nat :=
-  x ^^^ y ^^^ par12 ((y % 4096) &&& (x / 4096 % 4096)) * 16777216
-
 @[expose] def rStarP : Nat := 782336
 
 @[expose] def pcEqP (x y : Nat) : Bool := Nat.beq x y || Nat.beq x (y ^^^ rStarP)
 
-@[expose] def basisP (k : Nat) : Model.Pauli :=
-  bif Nat.blt k 12 then (false, 2 ^ k, 0) else (false, 0, 2 ^ (k - 12))
-
 @[expose] def genP (i : Nat) : Nat := packP (pauliGen i)
-
-@[expose] def allBelow (n : Nat) (f : Nat → Bool) : Bool :=
-  Nat.rec (motive := fun _ => Bool) true (fun k ih => ih && f k) n
 
 @[expose] def allL (p : XLetter → Bool) (w : List XLetter) : Bool :=
   List.rec (motive := fun _ => Bool) true (fun ℓ _ ih => p ℓ && ih) w
@@ -63,10 +45,6 @@ open CFSG.Monster.B CFSG.Monster.B.TwoA.Sp8 CFSG.Monster.B.TwoA.Sp8.WordRel
 @[expose] def letterAt (r : Nat) : XLetter :=
   bif Nat.blt r 43 then .lift r else tLetters.getD (r - 43) (.lift 0)
 
-@[expose] def rowAt (T r : Nat) : Nat := (T >>> (600 * r)) % 2 ^ 600
-
-@[expose] def entryAt (row k : Nat) : Nat := (row >>> (25 * k)) % 33554432
-
 @[expose] def tabOK (T r : Nat) : Bool :=
   (letterAt r).conjN (true, 0, 0) == (true, 0, 0) &&
     allBelow 24 fun k => unpackP (entryAt (rowAt T r) k) == (letterAt r).conjN (basisP k)
@@ -75,13 +53,6 @@ open CFSG.Monster.B CFSG.Monster.B.TwoA.Sp8 CFSG.Monster.B.TwoA.Sp8.WordRel
 
 @[expose] def tabChunk (T c : Nat) : Bool :=
   allBelow (chunkLo (c + 1) - chunkLo c) fun i => tabOK T (chunkLo c + i)
-
-@[expose] def applyRow (row y : Nat) : Nat :=
-  Nat.rec (motive := fun _ => Nat → Nat → Nat → Nat) (fun acc _ _ => acc)
-    (fun _ ih acc yb rb =>
-      ih (bif Nat.beq (yb % 2) 1 then mulP acc (rb % 33554432) else acc) (yb / 2)
-        (rb / 33554432))
-    24 (y / 16777216 * 16777216) (y % 16777216) row
 
 @[expose] def conjW (T : Nat) (w : List XLetter) (y : Nat) : Nat :=
   List.rec (motive := fun _ => Nat) y (fun ℓ _ ih => applyRow (rowAt T (rowIdx ℓ)) ih) w

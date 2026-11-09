@@ -13,8 +13,8 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelHS799102
 
-#kc_repo #kc_json_gz CertificateChecks.KernelHS799102
-  "Certificates/Kernel/HS799102/data/glue.json.gz" 14004 2759080059374875951
+#kc_repo #kc_json CertificateChecks.KernelHS799102
+  "Certificates/Kernel/HS799102/data/glue.json" 14004 2759080059374875951
   (N1 : List (Nat × List Nat × List (List Nat) × List (Nat × Nat × Nat × Nat)))
   (N2 : List (Nat × List Nat × List (List Nat) × List (Nat × Nat × Nat × Nat)))
   (N3 : List (Nat × List Nat × List (List Nat) × List (Nat × Nat × Nat × Nat)))

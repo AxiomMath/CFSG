@@ -43,8 +43,8 @@ theorem dom31_5
   · have := order_of_queue (hQ 36 (by norm_num) recQ3a.2.1) hyk h1
     rw [h5, ord_rep (by norm_num) (by norm_num) kodd.2.2.2.2.2.1 (by decide) (by norm_num)] at this
     exact absurd this (by norm_num)
-  · exact Or.inl (entry_of_queue (hQ 38 (by norm_num) recQ3b.2.1) (canonR (pe_all' q3bE)) hyk h1)
-  · exact Or.inr (entry_of_queue (hQ 40 (by norm_num) recQ3c.2.1) (canonR (pe_all' q3cE)) hyk h1)
+  · exact Or.inl (entry_of_queue (hQ 38 (by norm_num) recQ3b.2.1) (canonR q3bPK) hyk h1)
+  · exact Or.inr (entry_of_queue (hQ 40 (by norm_num) recQ3c.2.1) (canonR q3cPK) hyk h1)
 
 theorem dom17_5
     {y : Equiv.Perm (Fin 315)}
@@ -70,8 +70,8 @@ theorem dom17_5
         Q par lab = true) =>
     conjTreeOK_spec K (gg := fun l => tp 315 (cgL 18 5).toArray[l]!) hg (rep_tp (permF hr)) hq
   rcases hs with h1 | h1 | h1
-  · exact Or.inl (entry_of_queue (hQ 23 (by norm_num) recQ2a.2.1) (canonR (pe_all' q2aE)) hyk h1)
-  · exact Or.inr (entry_of_queue (hQ 26 (by norm_num) recQ2b.2.1) (canonR (pe_all' q2bE)) hyk h1)
+  · exact Or.inl (entry_of_queue (hQ 23 (by norm_num) recQ2a.2.1) (canonR q2aPK) hyk h1)
+  · exact Or.inr (entry_of_queue (hQ 26 (by norm_num) recQ2b.2.1) (canonR q2bPK) hyk h1)
   · have := order_of_queue (hQ 29 (by norm_num) recQ2c.2.1) hyk h1
     rw [h5, ord_rep (by norm_num) (by norm_num) kodd.2.2.2.2.1 (by decide) (by norm_num)] at this
     exact absurd this (by norm_num)

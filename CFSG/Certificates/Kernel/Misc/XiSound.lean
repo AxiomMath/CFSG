@@ -60,8 +60,22 @@ open CFSG.F4.Native CFSG.Sporadic.Th.Native CFSG.Fischer.Native CFSG.KC.Misc.T46
   xiChecksG U (perpTabG U)
     ((hypEnumG U xw yw 1).1 ++ (hypEnumG U xw yw 2).1 ++ (hypEnumG U xw yw 3).1)
 
-theorem xi_eq : xiCertificate () = xiG uPts [30, 33, 16, 12, 9, 39, 39] [41, 46, 21, 23, 36] :=
-  rfl
+theorem xi_eq : xiCertificate () = xiG uPts [30, 33, 16, 12, 9, 39, 39] [41, 46, 21, 23, 36] := by
+  simp only [CFSG.Fischer.Native.xiCertificate.eq_unfold, CFSG.KC.Misc.Xi.xiG.eq_unfold,
+    CFSG.Fischer.Native.xiChecks.eq_unfold, CFSG.KC.Misc.Xi.xiChecksG.eq_unfold,
+    CFSG.Fischer.Native.xiImg.eq_unfold, CFSG.KC.Misc.Xi.xiImgG.eq_unfold,
+    CFSG.Fischer.Native.xiImgOK.eq_unfold, CFSG.KC.Misc.Xi.xiImgOKG.eq_unfold,
+    CFSG.Fischer.Native.perpTab.eq_unfold, CFSG.KC.Misc.Lines.perpTabG.eq_unfold,
+    CFSG.Fischer.Native.tvTabs.eq_unfold, CFSG.KC.Misc.Lines.tvTabsG.eq_unfold,
+    CFSG.F4.Native.tvTable.eq_unfold, CFSG.KC.Misc.T46.tvTableG.eq_unfold,
+    CFSG.F4.Native.uPos.eq_unfold, CFSG.KC.Misc.T46.uPosG.eq_unfold,
+    CFSG.Fischer.Native.rootFlags.eq_unfold, CFSG.KC.Misc.Xi.rootFlagsG.eq_unfold,
+    CFSG.Fischer.Native.hypSets.eq_unfold, CFSG.Fischer.Native.hypEnum.eq_unfold,
+    CFSG.KC.Misc.Xi.hypEnumG.eq_unfold, CFSG.Fischer.Native.hypGens.eq_unfold,
+    CFSG.Fischer.Native.hypGensInv.eq_unfold, CFSG.F4.Native.t46XT.eq_unfold,
+    CFSG.F4.Native.t46YT.eq_unfold, CFSG.KC.Misc.T46.powG.eq_unfold,
+    CFSG.Sporadic.Fi22.Native.t46Gen.eq_unfold, CFSG.KC.Misc.T46.genG.eq_unfold,
+    CFSG.F4.Native.tvGens.eq_unfold, CFSG.KC.Misc.T46.tvGensG.eq_unfold]
 
 @[expose] def hypSetsA (HS : Nat → Nat) (o : Nat) : Array Flags :=
   Array.ofFn (n := 1408) fun j => fl (HS (1408 * o + j))

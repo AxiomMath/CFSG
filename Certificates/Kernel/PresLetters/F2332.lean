@@ -7,6 +7,6 @@ open CFSG.ComponentClassification.HSFLit.GHCert
 
 public section
 
-#kb_family "data/F2332.json.gz" 848 7976812840573888160 (r0 := ghWordsD)
+#kb_family "data/F2332.json" 848 7976812840573888160 (r0 := ghWordsD)
 
 end

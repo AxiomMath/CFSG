@@ -18,6 +18,9 @@ open CFSG.KC.Ord
 @[expose] noncomputable def tl (l : List Nat) : List Nat :=
   List.rec (motive := fun _ => List Nat) List.nil (fun _ xs _ => xs) l
 
+@[expose] noncomputable def dropN (n : Nat) (l : List Nat) : List Nat :=
+  Nat.rec (motive := fun _ => List Nat) l (fun _ ih => tl ih) n
+
 @[expose] noncomputable def lk (ONE : Nat) (bl : List (List Nat)) (cur : List Nat) (n r : Nat) :
     Nat :=
   Bool.rec (motive := fun _ => Nat)
@@ -163,6 +166,15 @@ open CFSG.KC.Ord
     (fun a _ ih => andB (andB (ltUpTo a 5 6) (notB (Nat.beq (Nat.rec (motive := fun _ => Nat) c0
       (fun _ u => CFSG.KC.Loop.strictN (actW vec Ms a u) id) 5) c0))) ih) oth
 
+@[expose] noncomputable def peOK (vec : Nat → Nat → Nat) (Ms : List Nat) (c0 : Nat)
+    (fus pe : List (List Nat)) : Bool :=
+  List.rec (motive := fun _ => Bool) true
+    (fun p _ ih => andB (andB (ltUpTo p 5 6)
+      (Nat.beq (actW vec Ms p (actW vec Ms (dropN 8 p) c0))
+        (actW vec Ms (dropN 8 p) (Nat.rec (motive := fun _ => Nat) c0
+          (fun _ u => CFSG.KC.Loop.strictN (actW vec Ms (nthD List.nil fus (nthD 0 p 6)) u) id)
+          (nthD 0 p 7))))) ih) pe
+
 @[expose] noncomputable def leaf (vec : Nat → Nat → Nat) (Ms : List Nat) (keyc : List Nat)
     (dep jb msk s0 s1 s2 m mask : Nat) (k : Nat → Nat → Bool) : Bool :=
   sB (key keyc s0) fun k0 =>
@@ -197,14 +209,15 @@ open CFSG.KC.Ord
   Nat.rec (motive := fun _ => Nat) u (fun _ acc => CFSG.KC.Loop.strictN (vec acc M) id) 4
 
 @[expose] noncomputable def chkW (vec : Nat → Nat → Nat) (L9 H9 CM9 RM9 ONE9 LV9 HV9 : Nat)
-    (hwm : List Nat) (c0 : Nat) (keyc : List Nat) (dep jb : Nat) (fus oth : List (List Nat)) :
+    (hwm : List Nat) (c0 : Nat) (keyc : List Nat) (dep jb : Nat) (fus oth pe : List (List Nat)) :
     Bool :=
   andB (constsOK 5 13 117 9 9 L9 H9 CM9 RM9 ONE9 LV9 HV9) (andB (hwmOK L9 H9 hwm)
   (andB (validM 5 117 LV9 HV9 c0) (andB (List.rec (motive := fun _ => Bool) true
       (fun f _ ih => andB (ltUpTo f 5 6) ih) fus) (andB (othOK vec hwm c0 oth)
-  (sB (maskOf oth (maskOf fus 0)) fun msk =>
+  (andB (peOK vec hwm c0 fus pe)
+  (sB (maskOf pe (maskOf oth (maskOf fus 0))) fun msk =>
     sB (pow4 vec (nthD 0 hwm 0) c0) fun c1 => sB (pow4 vec (nthD 0 hwm 1) c0) fun c2 =>
-      nest vec hwm keyc dep jb msk hwm c0 c1 c2 0 0 fun m _ => Nat.beq m 15625)))))
+      nest vec hwm keyc dep jb msk hwm c0 c1 c2 0 0 fun m _ => Nat.beq m 15625))))))
 
 end CFSG.KC.SlpPc
 

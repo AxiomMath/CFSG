@@ -11,7 +11,7 @@ namespace CertificateChecks.KernelCo2Jc
 
 open CFSG.Sporadic.Co2Jc.Native
 
-theorem tabs_k : (tabs == tabsL) = true := by decide +kernel
+theorem bfs_k : bfsSim 512 1 0 = true := by decide +kernel
 
 theorem keys_k : decide ((tabsL.map enc).Nodup) = true := by decide +kernel
 
@@ -40,6 +40,8 @@ theorem subs_k : ((subs.length == 715) &&
 theorem invol_k : ((List.range 256).all fun s =>
     (s == 0) || !(Nat.beq (mulL s s) 0) || subs.contains (pairOf s)) = true := by
   decide +kernel
+
+theorem offSM_k : offSMOK = true := by decide +kernel
 
 theorem off_neg : (!Nat.beq (PT 1) (CFSG.KC.M1F2.mulF 10 (PT 0) (PT 0)) &&
     !decide ((subs.getD 0 []).length *

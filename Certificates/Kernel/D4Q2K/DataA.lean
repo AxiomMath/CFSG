@@ -6,8 +6,8 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_family_gz CertificateChecks.KernelD4Q2K.DA
-  "Certificates/Kernel/D4Q2K/data/d4q2a.json.gz" 6851027 4765754319159897035 (fp : Nat)
+#kc_repo #kc_json_family CertificateChecks.KernelD4Q2K.DA
+  "Certificates/Kernel/D4Q2K/data/d4q2a.json" 6851027 4765754319159897035 (fp : Nat)
   (xc : Nat) (cx : Nat) (ap : List Nat)
 #kc_select CertificateChecks.KernelD4Q2K.DA FP fp 64
 #kc_select CertificateChecks.KernelD4Q2K.DA XC xc 4989

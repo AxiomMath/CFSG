@@ -43,7 +43,7 @@ theorem kC0 : Nat.beq (mulK (powK (mulK (mulK (mulK (GF 2) (GF 0)) (GGI 2)) (GGI
     (CRP 0) = true := by quickRfl
 theorem kC1 : Nat.beq (mulK (powK (mulK (mulK (mulK (GF 2) (GF 1)) (GGI 2)) (GGI 1)) 2) (GF 1))
     (CRP 1) = true := by quickRfl
-theorem kCI : allN 2 (fun i => invOKK (CRP i) (CRIP i)) = true := by quickRfl
+theorem kCI : allN 2 (fun i => invOKW (CRP i) (CRIP i)) = true := by quickRfl
 theorem kX : bindListK 24 24 (XP 0) X.toList = true := by quickRfl
 theorem kY : bindListK 24 24 (YP 0) Y.toList = true := by quickRfl
 
@@ -60,7 +60,7 @@ theorem c_eq (i : Nat) (hi : i < 2) : cRows i = unpack 24 24 (CRP i) := by
 
 theorem ci_eq (i : Nat) (hi : i < 2) : inv (cRows i) = unpack 24 24 (CRIP i) := by
   rw [c_eq i hi]
-  exact (invOKK_sound (allN_spec kCI i hi)).2
+  exact (invOKW_sound (allN_spec kCI i hi)).2
 
 theorem x_eq : xR = unpack 24 24 (XP 0) := by
   have h : xR = X := by

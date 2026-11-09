@@ -27,7 +27,8 @@ open CFSG.KC.Co1BBoundN CFSG.KC.Co1BBound CFSG.KC.Co1BSpin CFSG.KC.Co1B CFSG.KC.
 open CertificateChecks.KernelCo1B.Bound17591 (XB mem_eq mem_of_memK certVecs_size)
 open CertificateChecks.KernelCo1B.Bound17330 (boundOK_of_sel lvl_eqn span_okn lvlOK_of_selC
   not_of_notB mul_unpackW' wf_unpackR)
-open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_K bfsTree gensArr gtPinK)
+open CFSG.KS.SporSch.M24 (unpackR_eq_unpack dagWK_sound gtBFS_of_bfsK bfsTree gensArr bfsK
+  gtStepK idM)
 
 section Bound
 
@@ -179,7 +180,8 @@ theorem comm_unpack {A B : Nat} (h : eqK (mulWK A B) (mulWK B A) = true) :
   rw [mul_unpackW', mul_unpackW', beq_unpack]
   exact h
 
-theorem kQ' : gtPinK QM 4 300 QT.N QT.P QT.PAR QT.LAB QT.W QT.S = true ∧ QT.N = 243 := by
+theorem kQ' : bfsK (gtStepK QM) QT.P QT.PAR QT.LAB QT.W QT.S 4 300 QT.N idM = true ∧
+    QT.N = 243 := by
   have h := kQ
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
@@ -194,13 +196,13 @@ theorem QG_eq : [unpackR 24 Q1K, unpackR 24 Q2K, unpackR 24 Q3K, unpackR 24 Q4K]
 theorem gt_eq : gtBFS [unpackR 24 Q1K, unpackR 24 Q2K, unpackR 24 Q3K, unpackR 24 Q4K].toArray 300 =
     bfsTree QT.N QT.P QT.PAR QT.LAB := by
   rw [QG_eq]
-  exact (gtBFS_of_K kQ'.1).1
+  exact (gtBFS_of_bfsK kQ'.1 (by rw [kQ'.2]; decide)).1
 
 theorem c_gt : gtOK [unpackR 24 Q1K, unpackR 24 Q2K, unpackR 24 Q3K, unpackR 24 Q4K].toArray
     (gtBFS [unpackR 24 Q1K, unpackR 24 Q2K, unpackR 24 Q3K, unpackR 24 Q4K].toArray 300) =
     true := by
   rw [gt_eq, QG_eq]
-  exact (gtBFS_of_K kQ'.1).2
+  exact (gtBFS_of_bfsK kQ'.1 (by rw [kQ'.2]; decide)).2
 
 theorem c_size : decide ((gtBFS [unpackR 24 Q1K, unpackR 24 Q2K, unpackR 24 Q3K,
     unpackR 24 Q4K].toArray 300).pts.size = 243) = true := by

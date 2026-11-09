@@ -19,7 +19,7 @@ theorem a8Hyp : A8Hyp Om omPar (idxT Sm) (idxT W1) (idxT W2) M1 M2 r1 r2 where
   nd := checks.ixm.1
   ix := checks.ixm.2
   len := lenOm
-  eok := enumOK_of ixOm checks.len_le_m checks.headm parOm clOm invGOm
+  eok := enumOK_of_bfs ixOm checks.headm bfsOm invGOm
   iso := isoQ_of_enumPar checks.len_le_m om012.1 (by rw [oneF_eq]; exact isoGens.2) parOm
     isoGens.1
   gens := isoGens.1

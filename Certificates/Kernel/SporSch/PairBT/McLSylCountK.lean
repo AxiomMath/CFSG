@@ -25,11 +25,10 @@ theorem facts2243 : countOrd bs 2 blocks = 22275 := by
   have hN : ¬2 ^ (7 + 1) ∣ ordK PMcL.LR 5 := by
     rw [ord]
     decide
-  have h := count_one_proved sz McLSylFacts.chainS base_nodup
+  have h := count_one_sem sz McLSylFacts.chainS base_nodup
     (allN_spec PMcLCheck.perm 0 (by decide)) (allN_spec PMcLCheck.perm 1 (by decide)) cA
     (p := 2) (k := 7) (e := 1) rfl (by decide) oA hN (XL := McLS2.XL) rfl McLS2.inc McLS2.he
-    (d := McLCK.getD 0 clsD0) McLSylFacts.clsOK (Nat.eq_of_beq_eq_true McLSylFacts.hR0)
-    (bs := bs) (by decide) (groups := groups) (by decide)
+    (d := McLZC.clsD) McLZOrb.sem (bs := bs) (by decide) (groups := groups) (by decide)
   rw [Nat.eq_of_beq_eq_true McLSylFacts.dc0] at h
   exact h
 

@@ -199,11 +199,177 @@ theorem rrefImK_eq (d : Nat) (img : Nat → Nat) : rrefImK d img = rrefImages d 
       exact stepRK_eq d _ _
   exact key d
 
-theorem fixDimFK_eq (d X k : Nat) : fixDimFK d X k = fixDimK d X k := by
-  simp only [fixDimFK, fixDimK, transCF_eq, rrefImK_eq]
+private theorem andB_eq (a b : Bool) : CFSG.KLie.CT.andB a b = (a && b) := by cases a <;> rfl
 
-theorem fixRowFK_eq (d X Y Z i : Nat) : fixRowFK d X Y Z i = fixRowK d X Y Z i := by
-  simp only [fixRowFK, fixRowK, fixDimFK_eq]
+private theorem testBit_pw (p q : Nat) : (1 <<< p).testBit q = decide (p = q) := by
+  rw [Nat.one_shiftLeft, Nat.testBit_two_pow]
+
+private theorem land_pw (w p : Nat) : w &&& 1 <<< p = if w.testBit p then 1 <<< p else 0 := by
+  apply Nat.eq_of_testBit_eq
+  intro i
+  rw [Nat.testBit_land, testBit_pw]
+  by_cases hb : w.testBit p = true
+  · rw [if_pos hb, testBit_pw]
+    by_cases hi : p = i
+    · subst hi
+      simp [hb]
+    · simp [hi]
+  · rw [if_neg hb, Nat.zero_testBit]
+    by_cases hi : p = i
+    · subst hi
+      simp [hb]
+    · simp [hi]
+
+private theorem pos_land_pw (w p : Nat) : 0 < w &&& 1 <<< p ↔ w.testBit p = true := by
+  rw [land_pw]
+  by_cases hb : w.testBit p = true
+  · rw [if_pos hb, Nat.one_shiftLeft]
+    exact ⟨fun _ => hb, fun _ => Nat.two_pow_pos p⟩
+  · rw [if_neg hb]
+    exact ⟨fun h => absurd h (Nat.lt_irrefl 0), fun h => absurd h hb⟩
+
+private theorem land_pw_eq_zero (w p : Nat) : w &&& 1 <<< p = 0 ↔ w.testBit p = false := by
+  rw [land_pw]
+  by_cases hb : w.testBit p = true
+  · rw [if_pos hb, Nat.one_shiftLeft, hb]
+    simp
+  · rw [if_neg hb]
+    simpa using hb
+
+private theorem pivOKR_iff (d : Nat) : ∀ (A : List (Nat × Nat)) (acc : Nat),
+    pivOKR d A acc = true ↔ (∀ e ∈ A, e.1 < d ∧ e.2.testBit e.1 = true) ∧
+      (A.map Prod.fst).Nodup ∧ ∀ e ∈ A, acc.testBit e.1 = false := by
+  intro A
+  induction A with
+  | nil =>
+    intro acc
+    change true = true ↔ _
+    simp
+  | cons e A ih =>
+    intro acc
+    change CFSG.KLie.CT.andB (CFSG.KLie.CT.andB (Nat.blt e.1 d) (Nat.blt 0 (e.2 &&& 1 <<< e.1)))
+      (CFSG.KLie.CT.andB (Nat.beq (acc &&& 1 <<< e.1) 0)
+        (pivOKR d A (acc ||| 1 <<< e.1))) = true ↔ _
+    rw [andB_eq, andB_eq, andB_eq, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true,
+      Nat.blt_eq, Nat.blt_eq, Nat.beq_eq, pos_land_pw, land_pw_eq_zero, ih]
+    simp only [Nat.testBit_lor, testBit_pw, Bool.or_eq_false_iff, decide_eq_false_iff_not,
+      List.map_cons, List.nodup_cons, List.mem_map, List.mem_cons]
+    constructor
+    · rintro ⟨⟨h1, h2⟩, h3, h4, h5, h6⟩
+      refine ⟨fun x hx => ?_, ⟨?_, h5⟩, fun x hx => ?_⟩
+      · rcases hx with rfl | hx
+        · exact ⟨h1, h2⟩
+        · exact h4 x hx
+      · rintro ⟨a, ha, hae⟩
+        exact (h6 a ha).2 hae.symm
+      · rcases hx with rfl | hx
+        · exact h3
+        · exact (h6 x hx).1
+    · rintro ⟨h1, ⟨h2, h3⟩, h4⟩
+      refine ⟨h1 e (Or.inl rfl), h4 e (Or.inl rfl), fun x hx => h1 x (Or.inr hx), h3,
+        fun x hx => ⟨h4 x (Or.inr hx), fun hex => h2 ⟨x, hx, hex.symm⟩⟩⟩
+
+private theorem pivMaskR_testBit (A : List (Nat × Nat)) (q : Nat) :
+    (pivMaskR A).testBit q = true ↔ ∃ e ∈ A, e.1 = q := by
+  induction A with
+  | nil =>
+    change (0 : Nat).testBit q = true ↔ _
+    simp
+  | cons e A ih =>
+    change (1 <<< e.1 ||| pivMaskR A).testBit q = true ↔ _
+    rw [Nat.testBit_lor, Bool.or_eq_true, testBit_pw, decide_eq_true_eq, ih]
+    simp only [List.mem_cons, exists_eq_or_imp]
+
+private theorem clrOKR_iff (P : Nat) (A : List (Nat × Nat)) :
+    clrOKR P A = true ↔ ∀ e ∈ A, e.2 &&& P = 1 <<< e.1 := by
+  induction A with
+  | nil =>
+    change true = true ↔ _
+    simp
+  | cons e A ih =>
+    change CFSG.KLie.CT.andB (Nat.beq (e.2 &&& P) (1 <<< e.1)) (clrOKR P A) = true ↔ _
+    rw [andB_eq, Bool.and_eq_true, Nat.beq_eq, ih]
+    simp only [List.mem_cons, forall_eq_or_imp]
+
+private theorem rrefOKL_iff (d : Nat) (A : List (Nat × Nat)) :
+    rrefOKL d A = true ↔ (∀ e ∈ A, e.1 < d ∧ e.2.testBit e.1 = true) ∧
+      ∀ (i j : Nat) (hi : i < A.length) (hj : j < A.length), i ≠ j →
+        (A[j].2.testBit A[i].1) = false := by
+  unfold rrefOKL
+  simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq]
+  refine and_congr Iff.rfl ⟨?_, ?_⟩
+  · intro h i j hi hj hij
+    have := h (A[i], i) (List.mem_zipIdx_iff_getElem?.2 (List.getElem?_eq_getElem hi))
+      (A[j], j) (List.mem_zipIdx_iff_getElem?.2 (List.getElem?_eq_getElem hj))
+    simpa [hij] using this
+  · rintro h ⟨a, i⟩ hi ⟨b, j⟩ hj
+    rw [List.mem_zipIdx_iff_getElem?] at hi hj
+    dsimp only at hi hj ⊢
+    obtain ⟨hi', rfl⟩ := List.getElem?_eq_some_iff.1 hi
+    obtain ⟨hj', rfl⟩ := List.getElem?_eq_some_iff.1 hj
+    by_cases hij : i = j
+    · simp [hij]
+    · simp [hij, h i j hi' hj' hij]
+
+theorem rrefOKK_eq (d : Nat) (A : List (Nat × Nat)) : rrefOKK d A = rrefOKL d A := by
+  rw [Bool.eq_iff_iff]
+  change CFSG.KLie.CT.andB (pivOKR d A 0) (clrOKR (pivMaskR A) A) = true ↔ _
+  rw [andB_eq, Bool.and_eq_true, pivOKR_iff, clrOKR_iff, rrefOKL_iff]
+  simp only [Nat.zero_testBit, eq_self_iff_true, implies_true, and_true]
+  have hne : ∀ (hnd : (A.map Prod.fst).Nodup) (i j : Nat) (hi : i < A.length)
+      (hj : j < A.length), i ≠ j → A[i].1 ≠ A[j].1 := by
+    intro hnd i j hi hj hij h
+    apply hij
+    have hi' : i < (A.map Prod.fst).length := by simpa using hi
+    have hj' : j < (A.map Prod.fst).length := by simpa using hj
+    exact (hnd.getElem_inj_iff (hi := hi') (hj := hj')).1 (by simpa using h)
+  constructor
+  · rintro ⟨⟨h1, hnd⟩, hclr⟩
+    refine ⟨h1, fun i j hi hj hij => ?_⟩
+    have hc := congrArg (fun n => n.testBit A[i].1) (hclr A[j] (List.getElem_mem hj))
+    simp only [Nat.testBit_land, testBit_pw] at hc
+    have hP : (pivMaskR A).testBit A[i].1 = true :=
+      (pivMaskR_testBit A _).2 ⟨A[i], List.getElem_mem hi, rfl⟩
+    rw [hP, Bool.and_true] at hc
+    rw [hc]
+    exact decide_eq_false (hne hnd i j hi hj hij).symm
+  · rintro ⟨h1, hpair⟩
+    have hnd : (A.map Prod.fst).Nodup := by
+      rw [List.Nodup, List.pairwise_iff_getElem]
+      intro i j hi hj hij heq
+      have hi' : i < A.length := by simpa using hi
+      have hj' : j < A.length := by simpa using hj
+      have h := hpair i j hi' hj' (Nat.ne_of_lt hij)
+      simp only [List.getElem_map] at heq
+      rw [heq, (h1 _ (List.getElem_mem hj')).2] at h
+      exact absurd h (by decide)
+    refine ⟨⟨h1, hnd⟩, fun f hf => ?_⟩
+    obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hf
+    apply Nat.eq_of_testBit_eq
+    intro q
+    rw [Nat.testBit_land, testBit_pw]
+    by_cases hq : (pivMaskR A).testBit q = true
+    · obtain ⟨e, he, rfl⟩ := (pivMaskR_testBit A q).1 hq
+      obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem he
+      rw [hq, Bool.and_true]
+      by_cases hij : i = j
+      · subst hij
+        rw [(h1 _ he).2]
+        simp
+      · rw [hpair i j hi hj hij]
+        exact (decide_eq_false (hne hnd i j hi hj hij).symm).symm
+    · rw [Bool.not_eq_true] at hq
+      rw [hq, Bool.and_false]
+      refine (decide_eq_false fun h => ?_).symm
+      have := (pivMaskR_testBit A q).2 ⟨A[j], List.getElem_mem hj, h⟩
+      rw [hq] at this
+      exact absurd this (by decide)
+
+theorem fixDimFK_eq (d X k : Nat) : fixDimFK d X k = fixDimK d X k := by
+  simp only [fixDimFK, fixDimK, fixCertFK, fixCertK, transCF_eq, rrefImK_eq, rrefOKK_eq]
+
+theorem fixRepsFK_eq (d X Y Z : Nat) : fixRepsFK d X Y Z = fixRepsK d X Y Z := by
+  simp only [fixRepsFK, fixRepsK, fixDimFK_eq]
 
 private theorem toArray_getElem! {A : List (Nat × Nat)} {i : Nat} (hi : i < A.length) :
     A.toArray[i]! = A[i] := by
@@ -274,21 +440,6 @@ theorem z_eq (hA : m1Bind csA 112 A = true) (hB : m1Bind csB 112 B = true)
   rw [regs_eq hA hB hsA hsB (by decide), regs_eq hA hB hsA hsB (by decide),
     CFSG.KC.OpsF2K.unpackR_commMK (by decide)]
 
-theorem tab_eq (M : Nat) : powTable (unpackR 112 M) =
-    ((List.range 11).map (powLK 112 M)).map (unpackR 112) := by
-  unfold powTable
-  rw [List.map_map]
-  have hf : powRows 112 (unpackR 112 M) = unpackR 112 ∘ powLK 112 M :=
-    funext fun e => (powRows_unpackR 112 M e).trans (Function.comp_apply).symm
-  rw [hf]
-
-theorem getD_tab (M : Nat) {i : Nat} (hi : i < 11) :
-    (powTable (unpackR 112 M)).getD i #[] = unpackR 112 (powLK 112 M i) := by
-  have hl : i < (((List.range 11).map (powLK 112 M)).map (unpackR 112)).length := by
-    rw [List.length_map, List.length_map, List.length_range]
-    exact hi
-  rw [tab_eq, List.getD_eq_getElem _ _ hl, List.getElem_map, List.getElem_map, List.getElem_range]
-
 theorem check_of_K (hA : m1Bind csA 112 A = true) (hB : m1Bind csB 112 B = true)
     (hsA : j4Sylow11Data.seedA = String.ofList csA) (hsB : j4Sylow11Data.seedB = String.ofList csB)
     (h40 : Nat.beq (CFSG.KC.OpsF2K.powK 112 (hK A B) 40) (idF 112) = true)
@@ -297,15 +448,14 @@ theorem check_of_K (hA : m1Bind csA 112 A = true) (hB : m1Bind csB 112 B = true)
     (hcy : CFSG.KC.OpsF2K.conjK 112 (hK A B) (yK A B) (mulF 112 (mulF 112 (powLK 112 (xK A B) 6)
       (powLK 112 (yK A B) 9)) (powLK 112 (zK A B) 6)) = true)
     (hcz : CFSG.KC.OpsF2K.conjK 112 (hK A B) (zK A B) (powLK 112 (zK A B) 2) = true)
-    (hrows : ∀ i < 11, fixRowK 112 (xK A B) (yK A B) (zK A B) i = true)
-    (hc : fixCentralK 112 (zK A B) = true) (hp : powXYK 112 (xK A B) (yK A B) = true) :
+    (hreps : fixRepsK 112 (xK A B) (yK A B) (zK A B) = true)
+    (hc : fixDimFK 112 (zK A B) 2 = true) :
     ((ops2 112).eq ((ops2 112).pow j4H 40) (ops2 112).one = true)
     ∧ ((ops2 112).conjOK j4H j4X (j4Word 0 7 1) = true)
     ∧ ((ops2 112).conjOK j4H j4Y (j4Word 6 9 6) = true)
     ∧ ((ops2 112).conjOK j4H j4Z (powRows 112 j4Z 2) = true)
-    ∧ (j4FixNoncentralOK = true)
-    ∧ (j4FixCentralOK = true)
-    ∧ (j4PowXYOK = true) := by
+    ∧ (j4FixRepsOK = true)
+    ∧ (fixDimOK 112 j4Z 2 = true) := by
   have hX : j4X = unpackR 112 (xK A B) := regs_eq hA hB hsA hsB (by decide)
   have hY : j4Y = unpackR 112 (yK A B) := regs_eq hA hB hsA hsB (by decide)
   have hH : j4H = unpackR 112 (hK A B) := regs_eq hA hB hsA hsB (by decide)
@@ -315,7 +465,7 @@ theorem check_of_K (hA : m1Bind csA 112 A = true) (hB : m1Bind csB 112 B = true)
     intro a b c
     unfold j4Word
     rw [hX, hY, hZ, powRows_unpackR, powRows_unpackR, powRows_unpackR, mulRows_eq, mulRows_eq]
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [hH, ← CFSG.KC.OpsF2K.unpackR_powK (by decide), ← CFSG.KC.OpsF2K.unpackR_idF_eq_one]
     exact CFSG.KC.OpsF2K.eq_of_beq h40
   · rw [hH, hX, hW]
@@ -324,38 +474,16 @@ theorem check_of_K (hA : m1Bind csA 112 A = true) (hB : m1Bind csB 112 B = true)
     exact CFSG.KC.OpsF2K.conjOK_of_conjK hcy
   · rw [hH, hZ, powRows_unpackR]
     exact CFSG.KC.OpsF2K.conjOK_of_conjK hcz
-  · unfold j4FixNoncentralOK
-    rw [hX, hY, hZ]
-    refine List.all_eq_true.2 fun i hi => List.all_eq_true.2 fun j hj => ?_
-    have hi' := List.mem_range.1 hi
-    have hj' := List.mem_range.1 hj
-    have hr := hrows i hi'
-    unfold fixRowK at hr
-    have hr' := List.all_eq_true.1 hr j hj
-    rw [Bool.or_eq_true] at hr' ⊢
-    rcases hr' with h | h
-    · exact Or.inl h
-    · refine Or.inr ?_
-      rw [getD_tab _ hi', getD_tab _ hj', mulRows_eq]
-      refine List.all_eq_true.2 fun k hk => ?_
-      rw [getD_tab _ (List.mem_range.1 hk), mulRows_eq]
-      exact fixDimOK_of_K (List.all_eq_true.1 h k hk)
-  · unfold j4FixCentralOK
-    rw [hZ]
-    refine List.all_eq_true.2 fun k hk => ?_
-    have h := List.all_eq_true.1 hc k hk
-    rw [Bool.or_eq_true] at h ⊢
-    rcases h with h | h
-    · exact Or.inl h
-    · rw [getD_tab _ (List.mem_range.1 hk)]
-      exact Or.inr (fixDimOK_of_K h)
-  · unfold j4PowXYOK
-    rw [hX, hY]
-    refine List.all_eq_true.2 fun i hi => List.all_eq_true.2 fun j hj => ?_
-    have h := List.all_eq_true.1 (List.all_eq_true.1 hp i hi) j hj
-    rw [getD_tab _ (List.mem_range.1 hi), getD_tab _ (List.mem_range.1 hj), mulRows_eq,
-      ← CFSG.KC.OpsF2K.unpackR_powK (by decide), ← CFSG.KC.OpsF2K.unpackR_idF_eq_one]
-    exact CFSG.KC.OpsF2K.eq_of_beq h
+  · unfold j4FixRepsOK
+    unfold fixRepsK at hreps
+    rw [Bool.and_eq_true] at hreps ⊢
+    refine ⟨?_, List.all_eq_true.2 fun b hb => ?_⟩
+    · rw [hW]
+      exact fixDimOK_of_K hreps.1
+    · rw [hW]
+      exact fixDimOK_of_K (List.all_eq_true.1 hreps.2 b hb)
+  · rw [hZ]
+    exact fixDimOK_of_K ((fixDimFK_eq 112 _ 2).symm.trans hc)
 
 end CFSG.KC.J4Fix
 

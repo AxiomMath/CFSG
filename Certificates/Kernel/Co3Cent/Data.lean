@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Co3Cent "Certificates/Kernel/Co3Cent/data/co3tree.json.gz" 120380
+#kc_repo #kc_json CFSG.KD.Co3Cent "Certificates/Kernel/Co3Cent/data/co3tree.json" 120380
   18155638452723722181
   (SA : List Nat) (BA : List Nat) (KA : List Nat) (MA : List Nat) (DA : List Nat)
   (RA : List (List Nat))

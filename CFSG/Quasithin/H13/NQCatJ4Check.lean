@@ -22,13 +22,10 @@ theorem j4H_conjY :
     (ops2 112).conjOK j4H j4Y (j4Word 6 9 6) = true :=
   Certificates.certificate7020.2.2.1
 
-theorem j4_fix_noncentral : j4FixNoncentralOK = true :=
+theorem j4_fix_reps : j4FixRepsOK = true :=
   Certificates.certificate7020.2.2.2.2.1
 
-theorem j4_fix_central : j4FixCentralOK = true :=
-  Certificates.certificate7020.2.2.2.2.2.1
-
-theorem j4_pow_xy : j4PowXYOK = true :=
-  Certificates.certificate7020.2.2.2.2.2.2
+theorem j4_fix_central : fixDimOK 112 j4Z 2 = true :=
+  Certificates.certificate7020.2.2.2.2.2
 
 end CFSG.Quasithin.H13.NQCat

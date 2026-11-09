@@ -1,5 +1,7 @@
 module
 
+public import CFSG.LieType.Steinberg.Adjoint.IformFast
+public import CFSG.Blueprint.RootFinsetFast
 public import CFSG.LocalAnalysis.UniquenessCase.UC22FunSplitTwistedE6Geometry
 import CFSG.HardMathSupport.Timmesfeld.Steinberg.ThreeCentralizer
 import CFSG.HardMathSupport.Dickson.KD.CharPAux.Layer
@@ -28,6 +30,8 @@ theorem weighted_kernel_all_frameE7 : ∀ γ ∈ rootFinset .E7,
 
 theorem weighted_kernel_all_frameE8 : ∀ γ ∈ rootFinset .E8,
     (∑ j : Fin 8, (5 : ℤ) ^ j.val * iform γ (frameE8Root j)) ≠ 0 := by
+  rw [forall_mem_rootFinset_iff]
+  simp only [iform_eq_iform8]
   decide +kernel
 
 private theorem excRows_commutes_map_zpowers

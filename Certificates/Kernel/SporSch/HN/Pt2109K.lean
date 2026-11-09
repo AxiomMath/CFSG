@@ -46,13 +46,85 @@ theorem fx_1 : ptsFn TX MS CM3 M TS1 (lget FX1) (lget FX1) 645 = true := by quic
 theorem fx_2 : ptsFn TX MS CM3 M TS2 (lget FX2) (lget FX2) 60 = true := by quickRfl
 theorem fx_3 : ptsFn TX MS CM3 M TS3 (lget FX3) (lget FX3) 645 = true := by quickRfl
 
+@[expose] noncomputable def pack21 (P : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) (nat_lit 0)
+    (fun x _ ih => Nat.lor x (Nat.shiftLeft ih (nat_lit 21))) P
+
+@[expose] noncomputable def lt21 (P : List Nat) : Bool :=
+  List.rec (motive := fun _ => Bool) true
+    (fun x _ ih => Bool.rec (motive := fun _ => Bool) false ih (Nat.blt x (nat_lit 2097152))) P
+
+theorem fldW_eq21 (r o w : Nat) : CFSG.KC.LL.fldW r o w = r / 2 ^ o % 2 ^ w := by
+  unfold CFSG.KC.LL.fldW
+  show (r >>> o) &&& ((1 <<< w) - 1) = _
+  rw [Nat.shiftLeft_eq, Nat.one_mul, Nat.and_two_pow_sub_one_eq_mod, Nat.shiftRight_eq_div_pow]
+
+theorem pack21_cons (x : Nat) (P : List Nat) (hx : x < 2 ^ 21) :
+    pack21 (x :: P) = x + pack21 P * 2 ^ 21 := by
+  show Nat.lor x (Nat.shiftLeft (pack21 P) 21) = _
+  show x ||| (pack21 P <<< 21) = _
+  rw [Nat.or_comm, ← Nat.shiftLeft_add_eq_or_of_lt hx, Nat.shiftLeft_eq, Nat.add_comm]
+
+theorem getD_pack21 : ∀ (P : List Nat), lt21 P = true → ∀ k,
+    P.getD k 0 = CFSG.KC.LL.fldW (pack21 P) (Nat.mul (nat_lit 21) k) (nat_lit 21)
+  | [], _, k => by
+    rw [fldW_eq21]
+    show 0 = 0 / 2 ^ (21 * k) % 2 ^ 21
+    rw [Nat.zero_div, Nat.zero_mod]
+  | x :: P, h, k => by
+    have hx : x < 2 ^ 21 := by
+      cases e : Nat.blt x 2097152
+      · have : lt21 (x :: P) = false := by
+          show Bool.rec false (lt21 P) (Nat.blt x 2097152) = false
+          rw [e]
+        rw [this] at h
+        exact absurd h (by decide)
+      · exact Nat.le_of_ble_eq_true e
+    have hP : lt21 P = true := by
+      have e : Nat.blt x 2097152 = true := Nat.ble_eq_true_of_le hx
+      have : lt21 (x :: P) = lt21 P := by
+        show Bool.rec false (lt21 P) (Nat.blt x 2097152) = lt21 P
+        rw [e]
+      rw [this] at h
+      exact h
+    rw [fldW_eq21, pack21_cons x P hx]
+    show _ = (x + pack21 P * 2 ^ 21) / 2 ^ (21 * k) % 2 ^ 21
+    cases k with
+    | zero =>
+      show x = (x + pack21 P * 2 ^ 21) / 2 ^ 0 % 2 ^ 21
+      rw [Nat.pow_zero, Nat.div_one, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hx]
+    | succ k =>
+      rw [List.getD_cons_succ, getD_pack21 P hP k, fldW_eq21]
+      show pack21 P / 2 ^ (21 * k) % 2 ^ 21 = _
+      rw [show 21 * (k + 1) = 21 * k + 21 by omega, Nat.pow_add, Nat.mul_comm (2 ^ (21 * k)),
+        ← Nat.div_div_eq_div_mul, Nat.add_mul_div_right _ _ (Nat.two_pow_pos 21), Nat.div_eq_of_lt hx, Nat.zero_add]
+
 @[expose] noncomputable def treeImg (G : Nat) (P J : List Nat) : Bool :=
   ptsFn TX MS CM3 M G (lget P) (fun t => lget P (lget J t)) (List.length P)
+
+theorem treeImg_eq (G : Nat) {P J : List Nat} (hP : lt21 P = true) (hJ : lt21 J = true) :
+    treeImg G P J = ptsFn TX MS CM3 M G
+      (fun k => CFSG.KC.LL.fldW (pack21 P) (Nat.mul (nat_lit 21) k) (nat_lit 21))
+      (fun t => CFSG.KC.LL.fldW (pack21 P) (Nat.mul (nat_lit 21)
+        (CFSG.KC.LL.fldW (pack21 J) (Nat.mul (nat_lit 21) t) (nat_lit 21))) (nat_lit 21))
+      (List.length P) := by
+  unfold treeImg lget
+  simp only [getD_pack21 P hP, getD_pack21 J hJ]
+
+theorem lt21_P1 : lt21 P1 = true := by quickRfl
+theorem lt21_J1 : lt21 J1_0 = true ∧ lt21 J1_1 = true ∧ lt21 J1_2 = true ∧ lt21 J1_3 = true ∧
+    lt21 J1_4 = true ∧ lt21 J1_5 = true ∧ lt21 J1_6 = true ∧ lt21 J1_7 = true := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> quickRfl
 
 theorem tr_1 : treeImg TC1_0 P1 J1_0 = true ∧ treeImg TC1_1 P1 J1_1 = true ∧
     treeImg TC1_2 P1 J1_2 = true ∧ treeImg TC1_3 P1 J1_3 = true ∧ treeImg TC1_4 P1 J1_4 = true ∧
     treeImg TC1_5 P1 J1_5 = true ∧ treeImg TC1_6 P1 J1_6 = true ∧ treeImg TC1_7 P1 J1_7 = true := by
-  decide +kernel
+  obtain ⟨h0, h1, h2, h3, h4, h5, h6, h7⟩ := lt21_J1
+  rw [treeImg_eq _ lt21_P1 h0, treeImg_eq _ lt21_P1 h1, treeImg_eq _ lt21_P1 h2,
+    treeImg_eq _ lt21_P1 h3, treeImg_eq _ lt21_P1 h4, treeImg_eq _ lt21_P1 h5,
+    treeImg_eq _ lt21_P1 h6, treeImg_eq _ lt21_P1 h7]
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> quickRfl
+
 theorem tr_2 : treeImg TC1_0 P2 J2_0 = true ∧ treeImg TC1_1 P2 J2_1 = true ∧
     treeImg TC1_2 P2 J2_2 = true ∧ treeImg TC1_3 P2 J2_3 = true ∧ treeImg TC1_4 P2 J2_4 = true ∧
     treeImg TC1_5 P2 J2_5 = true ∧ treeImg TC1_6 P2 J2_6 = true ∧ treeImg TC1_7 P2 J2_7 = true := by

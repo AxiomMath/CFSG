@@ -99,8 +99,8 @@ theorem l2_facts : relCheck = true ∧ ctxCheck (mkCtx ()) = true ∧ tCheck (mk
       rw [List.all_eq_true] at h
       exact fun i => h i (List.mem_finRange i)
     have hfc : fcTreeK dL fcAllK thCodesK 3 [] = true := by
-      rw [fcAllK_eq dTwin_length]
-      exact fc_ok
+      rw [fcAllK_eq dTwin_length, fcAllK2_eq3 fcPos_ok, eq_of_fcTupK fcLit_ok]
+      exact fcTreeK_of_R _ _ _ _ 3 [] fc_ok
     exact fcCheck_of hR hL glL_contains_zero hG dL_sorted hdl
       (slices_glL (F := dLE dL) (fun E h => sliceSpec h) dLK_all) hth hfc
 

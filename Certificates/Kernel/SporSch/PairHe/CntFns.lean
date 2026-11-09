@@ -19,16 +19,10 @@ open CertificateChecks.KernelSpor
 
 @[expose] noncomputable def z3iP (x : Nat) : Nat := ziP (ziP (ziP x))
 
-@[expose] noncomputable def scAt (X : Nat → Nat) (c : Nat) (Z ZI : Nat → Nat) (q : Nat) : Nat :=
-  scanHeR 14 PHeT.NR PHeT.NR PHeT.LT PHeT.PT PHeSn.bs c X Z ZI (Nat.mul q (nat_lit 512))
-    (nat_lit 512)
-
-@[expose] noncomputable def scA (g r : Nat) : Bool :=
-  Nat.beq (scAt PHeCl.XA PHeT.c zP ziP (Nat.add (Nat.mul g 8) r)) (PHeN.SC0 (Nat.add (Nat.mul g 8) r))
-
-@[expose] noncomputable def scA3 (g r : Nat) : Bool :=
-  Nat.beq (scAt PHeCl.XA PHeT.c z3P z3iP (Nat.add (Nat.mul g 8) r))
-    (PHeN.SC1 (Nat.add (Nat.mul g 8) r))
+@[expose] noncomputable def scAt (X K : Nat → Nat) (c : Nat) (Z ZI : Nat → Nat) (D1 D0 q : Nat) :
+    Nat :=
+  scanHePR 14 PHeT.NR PHeT.NR PHeT.LT PHeT.PT PHeSn.bs c X K Z ZI (nat_lit 8330) D1 D0
+    (Nat.mul q (nat_lit 512)) (nat_lit 512)
 
 @[expose] noncomputable def repsB : Bool :=
   bAnd(nfValidK 5 HeC.LR PHeN.n0, bAnd(nfValidK 5 HeC.LR PHeN.n1, bAnd(nfValidK 5 HeC.LR PHeN.n2,

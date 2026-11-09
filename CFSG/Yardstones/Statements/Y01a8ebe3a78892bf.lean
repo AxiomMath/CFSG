@@ -1,7 +1,7 @@
 module
 
 public import CFSG.CGT.PushingUpLit.SolKNA.Quaternion
-meta import YardstoneContract
+meta import CFSG.YardstoneContract
 public import CFSG.Assembly.QuasithinDefs
 public import CFSG.CGT.PushingUpLit.SolK.Inputs
 public import CFSG.CGT.PushingUpLit.Statements
@@ -26,7 +26,7 @@ public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.External.Huppert.IV.theor
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Proposition82Orbit
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.SE.Section11Lemma115Torus
 public import Certificates.Certificate43
-import YardstoneContract
+import CFSG.YardstoneContract
 
 public section
 

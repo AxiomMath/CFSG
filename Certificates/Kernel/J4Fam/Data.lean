@@ -3,8 +3,8 @@ module
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_json_gz CertificateChecks.KernelJ4Fam
-  "Certificates/Kernel/J4Fam/data/j4fam-25121.json.gz" 4444312 17626346050704698493
+#kc_repo #kc_json CertificateChecks.KernelJ4Fam
+  "Certificates/Kernel/J4Fam/data/j4fam-25121.json" 4444312 17626346050704698493
   (INV : List (List Nat)) (CML : List Nat) (PTL : List (List Nat)) (PTP : List Nat)
   (FB : List Nat) (FLL : List (List Nat)) (PP : List Nat) (TT : List (List Nat)) (WALL : Nat)
   (PL : List Nat)

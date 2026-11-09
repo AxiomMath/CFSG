@@ -5,6 +5,7 @@ public import Certificates.Kernel.D4.ChainAD
 public import Certificates.Kernel.D4.EnumA
 public import Certificates.Data.Kernel.D4K
 public import Certificates.Data.Kernel.Misc.ChainTailOrb
+public import Certificates.Data.Kernel.Misc.ChainTailQL
 public import Certificates.Kernel.SporSch.Th.GenV4
 meta import Certificates.Data.Item434D42
 import CFSG.Certificates.Kernel.Common.Harness
@@ -55,8 +56,9 @@ namespace CertificateChecks.KernelD4
 open CFSG.RankThree.PartTwo.Sec4.Item434D42 CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.B3S3K
 open CFSG.KC.Misc.ArrEnum CFSG.KC.Misc.ChainTail CFSG.KC.D4K
 
-theorem tbA0 : repBranchK 2457 12 CA.LR CA.TR CA.BP (LX 0) (pw 2457 12 (LX 0)) d4RelsA EA.N EA.T 7
-    (RA 0) = true := by quickRfl
+theorem tbA0 : repBranchQK 2457 12 CA.LR CA.TR CA.BP (LX 0) (pw 2457 12 (LX 0)) (fun _ => d4RelsA)
+    (fun P => CFSG.KC.LQT.P.anyN EA.N fun e => Nat.beq P (EA.T e)) 0 1 7 (RA 0) = true := by
+  quickRfl
 
 theorem kOrbA : allN 2457 (orbRelK 2457 12 CA.LR CA.BP (pw 2457 12 (LX 0)) d4RelsA EA.N EA.T 1 RA
     RIA EKA) = true := by quickRfl

@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.F4T7B "Certificates/Kernel/F4T7B/data/t7b.json.gz" 48662
+#kc_repo #kc_json CFSG.KD.F4T7B "Certificates/Kernel/F4T7B/data/t7b.json" 48662
   10878697852267138895
   (C : List (List Nat)) (K : List (List Nat))
 

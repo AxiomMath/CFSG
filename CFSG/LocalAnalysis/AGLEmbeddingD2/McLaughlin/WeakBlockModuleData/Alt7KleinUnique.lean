@@ -31,9 +31,150 @@ namespace Alt7K
 
 @[expose] def g2 : Perm (Fin 7) := swap 0 3 * swap 1 2
 
+private def CALw : List (List (Fin 7 × Fin 7)) :=
+  [[], [(5, 6)], [(4, 5)], [(4, 5), (5, 6)],
+    [(4, 6), (5, 6)], [(4, 6)], [(2, 3)], [(2, 3), (5, 6)],
+    [(2, 3), (4, 5)], [(2, 3), (4, 5), (5, 6)], [(2, 3), (4, 6), (5, 6)], [(2, 3), (4, 6)],
+    [(0, 1)], [(0, 1), (5, 6)], [(0, 1), (4, 5)], [(0, 1), (4, 5), (5, 6)],
+    [(0, 1), (4, 6), (5, 6)], [(0, 1), (4, 6)], [(0, 1), (2, 3)], [(0, 1), (2, 3), (5, 6)],
+    [(0, 1), (2, 3), (4, 5)], [(0, 1), (2, 3), (4, 5), (5, 6)], [(0, 1), (2, 3), (4, 6), (5, 6)], [(0, 1), (2, 3), (4, 6)],
+    [(0, 2), (1, 3)], [(0, 2), (1, 3), (5, 6)], [(0, 2), (1, 3), (4, 5)], [(0, 2), (1, 3), (4, 5), (5, 6)],
+    [(0, 2), (1, 3), (4, 6), (5, 6)], [(0, 2), (1, 3), (4, 6)], [(0, 2), (1, 3), (2, 3)], [(0, 2), (1, 3), (2, 3), (5, 6)],
+    [(0, 2), (1, 3), (2, 3), (4, 5)], [(0, 2), (1, 3), (2, 3), (4, 5), (5, 6)], [(0, 2), (1, 3), (2, 3), (4, 6), (5, 6)], [(0, 2), (1, 3), (2, 3), (4, 6)],
+    [(0, 3), (1, 2), (2, 3)], [(0, 3), (1, 2), (2, 3), (5, 6)], [(0, 3), (1, 2), (2, 3), (4, 5)], [(0, 3), (1, 2), (2, 3), (4, 5), (5, 6)],
+    [(0, 3), (1, 2), (2, 3), (4, 6), (5, 6)], [(0, 3), (1, 2), (2, 3), (4, 6)], [(0, 3), (1, 2)], [(0, 3), (1, 2), (5, 6)],
+    [(0, 3), (1, 2), (4, 5)], [(0, 3), (1, 2), (4, 5), (5, 6)], [(0, 3), (1, 2), (4, 6), (5, 6)], [(0, 3), (1, 2), (4, 6)]]
+
+private def CAL : List (Perm (Fin 7)) :=
+  CALw.map fun w => (w.map fun p : Fin 7 × Fin 7 => swap p.1 p.2).prod
+
+private def permEqB (σ τ : Perm (Fin 7)) : Bool := (List.finRange 7).all fun i => decide (σ i = τ i)
+
+private lemma permEqB_iff {σ τ : Perm (Fin 7)} : permEqB σ τ = true ↔ σ = τ := by
+  simp only [permEqB, List.all_eq_true, List.mem_finRange, true_implies, decide_eq_true_eq]
+  exact ⟨fun h => Equiv.ext h, fun h i => h ▸ rfl⟩
+
+private lemma permNeB_iff {σ τ : Perm (Fin 7)} : (!permEqB σ τ) = true ↔ σ ≠ τ := by
+  rw [Bool.not_eq_true', Bool.eq_false_iff, Ne, permEqB_iff]
+
 set_option maxRecDepth 100000 in
-theorem bad_count : ∀ b ∈ C0, b ≠ g1 → b ≠ g2 → cnt b ≤ 23 := by
+private lemma CAL_commB : CAL.all (fun c => permEqB (c * a0) (a0 * c)) = true := by
   decide +kernel
+
+private lemma CAL_comm : ∀ c ∈ CAL, c * a0 = a0 * c := fun c hc =>
+  permEqB_iff.1 (List.all_eq_true.1 CAL_commB c hc)
+
+private def TupleP (p q r s t : Fin 7) : Prop :=
+  a0 r = r → a0 s = s → a0 t = t → [p, a0 p, q, a0 q, r, s, t].Nodup →
+    ∃ c ∈ CAL, c 0 = p ∧ c 2 = q ∧ c 4 = r ∧ c 5 = s ∧ c 6 = t
+
+private instance (p q r s t : Fin 7) : Decidable (TupleP p q r s t) := by
+  unfold TupleP
+  infer_instance
+
+set_option maxRecDepth 100000 in
+private lemma tuple_cover : ∀ p q r s t : Fin 7, TupleP p q r s t := by
+  decide +kernel
+
+private lemma comm_apply {g : Perm (Fin 7)} (h : g * a0 = a0 * g) (i : Fin 7) :
+    g (a0 i) = a0 (g i) := by
+  have := congrArg (fun p : Perm (Fin 7) => p i) h
+  simpa only [Perm.mul_apply] using this
+
+private lemma mem_CAL_of_comm {g : Perm (Fin 7)} (h : g * a0 = a0 * g) : g ∈ CAL := by
+  have e0 : a0 0 = 1 := by decide
+  have e2 : a0 2 = 3 := by decide
+  have e4 : a0 4 = 4 := by decide
+  have e5 : a0 5 = 5 := by decide
+  have e6 : a0 6 = 6 := by decide
+  have g1' : g 1 = a0 (g 0) := by rw [← comm_apply h, e0]
+  have g3' : g 3 = a0 (g 2) := by rw [← comm_apply h, e2]
+  have f4 : a0 (g 4) = g 4 := by rw [← comm_apply h, e4]
+  have f5 : a0 (g 5) = g 5 := by rw [← comm_apply h, e5]
+  have f6 : a0 (g 6) = g 6 := by rw [← comm_apply h, e6]
+  have hnd : [g 0, a0 (g 0), g 2, a0 (g 2), g 4, g 5, g 6].Nodup := by
+    rw [← g1', ← g3']
+    have hl : [g 0, g 1, g 2, g 3, g 4, g 5, g 6] =
+        ([0, 1, 2, 3, 4, 5, 6] : List (Fin 7)).map g := rfl
+    rw [hl]
+    exact (List.nodup_map_iff g.injective).2 (by decide)
+  obtain ⟨c, hc, h0, h2, h4, h5, h6⟩ := tuple_cover _ _ _ _ _ f4 f5 f6 hnd
+  have hcc := CAL_comm c hc
+  have c1 : c 1 = a0 (c 0) := by rw [← comm_apply hcc, e0]
+  have c3 : c 3 = a0 (c 2) := by rw [← comm_apply hcc, e2]
+  have hgc : g = c := by
+    ext i
+    have key : ∀ j : Fin 7, j = 0 ∨ j = 1 ∨ j = 2 ∨ j = 3 ∨ j = 4 ∨ j = 5 ∨ j = 6 := by decide
+    rcases key i with rfl | rfl | rfl | rfl | rfl | rfl | rfl
+    · rw [h0]
+    · rw [g1', c1, h0]
+    · rw [h2]
+    · rw [g3', c3, h2]
+    · rw [h4]
+    · rw [h5]
+    · rw [h6]
+  exact hgc ▸ hc
+
+private def CAe : List (Perm (Fin 7)) := CAL.filter fun g => decide (sign g = 1)
+
+private def C0e : List (Perm (Fin 7)) :=
+  CAe.filter fun b => permEqB (b * b) 1 && (!permEqB b 1 && !permEqB b a0)
+
+private lemma CA_eq : CA = CAe.toFinset := by
+  ext g
+  simp only [CA, CAe, evenP, Finset.mem_filter, Finset.mem_univ, true_and, List.mem_toFinset,
+    List.mem_filter, decide_eq_true_eq]
+  constructor
+  · rintro ⟨hs, hc⟩
+    exact ⟨mem_CAL_of_comm hc, hs⟩
+  · rintro ⟨hm, hs⟩
+    exact ⟨hs, CAL_comm g hm⟩
+
+private lemma C0_eq : C0 = C0e.toFinset := by
+  ext b
+  simp only [C0, C0e, CAe, evenP, Finset.mem_filter, Finset.mem_univ, true_and,
+    List.mem_toFinset, List.mem_filter, decide_eq_true_eq, Bool.and_eq_true, permEqB_iff,
+    permNeB_iff]
+  constructor
+  · rintro ⟨hs, hc, h2, h3, h4⟩
+    exact ⟨⟨mem_CAL_of_comm hc, hs⟩, h2, h3, h4⟩
+  · rintro ⟨⟨hm, hs⟩, h2, h3, h4⟩
+    exact ⟨hs, CAL_comm b hm, h2, h3, h4⟩
+
+private def RL (b : Perm (Fin 7)) : List (Perm (Fin 7)) := [1, a0, b, a0 * b]
+
+private def normB (b g : Perm (Fin 7)) : Bool :=
+  (RL b).all fun x => (RL b).any fun y => permEqB (g * x * g⁻¹) y
+
+private lemma mem_Rset_iff (b x : Perm (Fin 7)) : x ∈ Rset b ↔ x ∈ RL b := by
+  simp only [Rset, RL, Finset.mem_insert, Finset.mem_singleton, List.mem_cons, List.mem_nil_iff,
+    or_false]
+
+private lemma normB_iff (b g : Perm (Fin 7)) :
+    normB b g = true ↔ ∀ x ∈ Rset b, g * x * g⁻¹ ∈ Rset b := by
+  simp only [normB, List.all_eq_true, List.any_eq_true, permEqB_iff, mem_Rset_iff]
+  exact ⟨fun h x hx => by obtain ⟨y, hy, e⟩ := h x hx; exact e ▸ hy,
+    fun h x hx => ⟨_, h x hx, rfl⟩⟩
+
+set_option maxRecDepth 100000 in
+private lemma bad_count_B : C0e.all (fun b => permEqB b g1 || permEqB b g2 ||
+    decide ((CAe.filter (normB b)).length ≤ 23)) = true := by
+  decide +kernel
+
+theorem bad_count : ∀ b ∈ C0, b ≠ g1 → b ≠ g2 → cnt b ≤ 23 := by
+  rw [C0_eq]
+  intro b hb h1 h2
+  have hB := List.all_eq_true.1 bad_count_B b (List.mem_toFinset.1 hb)
+  simp only [Bool.or_eq_true, permEqB_iff, h1, h2, false_or, decide_eq_true_eq] at hB
+  unfold cnt
+  rw [CA_eq]
+  have hsub : CAe.toFinset.filter (fun g => ∀ x ∈ Rset b, g * x * g⁻¹ ∈ Rset b) ⊆
+      (CAe.filter (normB b)).toFinset := by
+    intro g hg
+    simp only [Finset.mem_filter, List.mem_toFinset] at hg
+    simp only [List.mem_toFinset, List.mem_filter]
+    exact ⟨hg.1, (normB_iff b g).2 hg.2⟩
+  exact ((Finset.card_le_card hsub).trans (List.toFinset_card_le _)).trans hB
 
 theorem Rset_g : Rset g1 = Rset g2 := by decide +kernel
 

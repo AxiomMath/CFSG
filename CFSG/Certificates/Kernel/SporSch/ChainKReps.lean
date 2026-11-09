@@ -174,8 +174,7 @@ theorem clsElemK_facts {A Ai B Bi : Nat} {d : ClsD} {k : Nat} (hk : k < d.c)
       d.IA k < d.c ∧ conjK n w (mask w) A Ai (d.ST k) = d.ST (d.IA k) ∧
       d.IB k < d.c ∧ conjK n w (mask w) B Bi (d.ST k) = d.ST (d.IB k) ∧
       (k ≠ d.r → d.PA k < d.c ∧ d.DP (d.PA k) < d.DP k ∧
-        d.ST k = if d.LB k = 0 then conjK n w (mask w) A Ai (d.ST (d.PA k))
-          else conjK n w (mask w) B Bi (d.ST (d.PA k))) := by
+        (if d.LB k = 0 then d.IA (d.PA k) else d.IB (d.PA k)) = k) := by
   unfold clsElemK at h
   simp only [bAnd_eq, Orb.strictB_eq] at h
   simp only [Orb.bIf_eq, Orb.nIf_eq, Nat.blt_eq, hk, ↓reduceIte, Bool.and_eq_true, beq_dec,
@@ -245,10 +244,14 @@ theorem entry_mem_class :
     · obtain ⟨-, -, -, -, -, -, h7⟩ := clsElemK_facts hk (he k hk)
       obtain ⟨hp, hdp, hx⟩ := h7 hkr
       obtain ⟨z, hz, pz⟩ := ih _ (hm ▸ hdp) _ hp rfl
-      rw [hx]
-      split
-      · exact ⟨gA * z * gA⁻¹, conj_mem_conjClass hAK hz, prep_conjK hn pA pAi pz⟩
-      · exact ⟨gB * z * gB⁻¹, conj_mem_conjClass hBK hz, prep_conjK hn pB pBi pz⟩
+      obtain ⟨-, -, -, h4, -, h6, -⟩ := clsElemK_facts hp (he _ hp)
+      split at hx
+      · have e : d.ST k = conjK n w (mask w) A Ai (d.ST (d.PA k)) := by rw [h4, hx]
+        rw [e]
+        exact ⟨gA * z * gA⁻¹, conj_mem_conjClass hAK hz, prep_conjK hn pA pAi pz⟩
+      · have e : d.ST k = conjK n w (mask w) B Bi (d.ST (d.PA k)) := by rw [h6, hx]
+        rw [e]
+        exact ⟨gB * z * gB⁻¹, conj_mem_conjClass hBK hz, prep_conjK hn pB pBi pz⟩
 
 theorem mem_class_iff (z : Equiv.Perm (Fin n)) :
     z ∈ CFSG.Sporadic.SmallOddCore.conjClass

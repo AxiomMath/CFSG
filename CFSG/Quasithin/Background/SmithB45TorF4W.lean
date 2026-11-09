@@ -189,11 +189,55 @@ theorem f4wH_ne_one : (coxeterSystem ReeTag.F4.tag).wordProd f4wH ≠ 1 :=
   wordProd_ne_one_of_lget (M := lword 4 (cartanList ReeTag.F4.tag) (f4wH.map Fin.val)) rfl 0 0
     (by decide +kernel)
 
+theorem lmul_eq_lofFn (n : ℕ) (A B : List (List ℤ)) :
+    lmul n A B = lofFn n (toMat n A * toMat n B) := by
+  unfold lmul
+  congr 1
+  funext i j
+  simp only [Matrix.mul_apply, List.sum_ofFn, toMat, Matrix.of_apply]
+
+theorem lmul_assoc (n : ℕ) (A B C : List (List ℤ)) :
+    lmul n (lmul n A B) C = lmul n A (lmul n B C) := by
+  rw [lmul_eq_lofFn n (lmul n A B), lmul_eq_lofFn n A (lmul n B C), toMat_lmul, toMat_lmul,
+    Matrix.mul_assoc]
+
+theorem lmul_lid_lofFn (n : ℕ) (f : Fin n → Fin n → ℤ) :
+    lmul n (lid n) (lofFn n f) = lofFn n f := by
+  rw [lmul_eq_lofFn, toMat_lid, toMat_lofFn, one_mul]
+  rfl
+
+theorem lword_shape (n : ℕ) (C : List (List ℤ)) : ∀ l : List ℕ, ∃ f, lword n C l = lofFn n f
+  | [] => ⟨_, rfl⟩
+  | _ :: _ => ⟨_, rfl⟩
+
+theorem lword_append (n : ℕ) (C : List (List ℤ)) (l₁ l₂ : List ℕ) :
+    lword n C (l₁ ++ l₂) = lmul n (lword n C l₁) (lword n C l₂) := by
+  induction l₁ with
+  | nil =>
+    obtain ⟨f, hf⟩ := lword_shape n C l₂
+    rw [List.nil_append, show lword n C [] = lid n from rfl, hf, lmul_lid_lofFn]
+  | cons i l ih =>
+    rw [List.cons_append, show lword n C (i :: (l ++ l₂)) =
+        lmul n (lrefl n C i) (lword n C (l ++ l₂)) from rfl, ih,
+      show lword n C (i :: l) = lmul n (lrefl n C i) (lword n C l) from rfl, lmul_assoc]
+
+theorem f4Lw_append (a b : List (Fin ReeTag.F4.tag.rank)) :
+    f4Lw (a ++ b) = lmul ReeTag.F4.tag.rank (f4Lw a) (f4Lw b) := by
+  unfold f4Lw
+  rw [List.map_append, lword_append]
+
+theorem flatten_replicate_six {α : Type} (X : List α) :
+    (List.replicate 6 X).flatten = X ++ (X ++ (X ++ (X ++ (X ++ (X ++ []))))) := rfl
+
 theorem f4_comm_check : ∀ x y : Fin 4,
     f4Lw (f4wC (f4wV x) (f4wV y)) = f4Lw (f4wCr x y) ∧
       f4Lw (List.replicate 6 (f4wCr x y)).flatten = f4Lw [] ∧
       f4Lw (f4wCr x y ++ f4wI ++ (f4wCr x y).reverse) =
         f4Lw ((List.replicate (f4wM x y) f4wI).flatten ++ f4wJ) := by
+  intro x y
+  rw [flatten_replicate_six]
+  simp only [f4wC, f4Lw_append]
+  revert x y
   decide +kernel
 
 theorem f4_comm (x y : Fin 4) :

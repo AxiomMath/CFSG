@@ -4,6 +4,7 @@ public import Mathlib.Data.Fintype.Perm
 public import Mathlib.Data.Nat.Totient
 public import Mathlib.Data.Sym.Sym2.Init
 public import Mathlib.Tactic.NormNum.GCD
+public import CFSG.Permutation.FinPackDec
 
 public section
 
@@ -59,11 +60,40 @@ private lemma three_pow_pow_eq_one {x : Equiv.Perm (Fin 6)}
     exact hcard
   exact orderOf_dvd_iff_pow_eq_one.mp (order_dvd_nine h1 h2)
 
+private theorem comm_exists_order_three_mem :
+    ∀ x : Equiv.Perm (Fin 6), x ≠ 1 → x ^ 16 = 1 →
+      ∃ g ∈ [Equiv.swap (4 : Fin 6) 5, Equiv.swap (1 : Fin 6) 2 * Equiv.swap 2 3, Equiv.swap (0 : Fin 6) 4,
+          Equiv.swap (0 : Fin 6) 5 * Equiv.swap 1 2 * Equiv.swap 2 3,
+          Equiv.swap (2 : Fin 6) 3 * Equiv.swap 3 4 * Equiv.swap 4 5],
+        (x * g * x⁻¹ * g⁻¹) ^ 3 = 1 ∧ x * g * x⁻¹ * g⁻¹ ≠ 1 := by
+  open CFSG.Permutation.FinPack in
+  have hw : walkK 6 (fun c => Nat.beq c (enc (1 : Equiv.Perm (Fin 6))) ||
+      !Nat.beq (powK 6 (enc (1 : Equiv.Perm (Fin 6))) c 16) (enc (1 : Equiv.Perm (Fin 6))) ||
+      anyK (fun d => Nat.beq (powK 6 (enc (1 : Equiv.Perm (Fin 6)))
+          (mulK 6 (mulK 6 (mulK 6 c d) (invCK 6 c)) (invCK 6 d)) 3) (enc (1 : Equiv.Perm (Fin 6))) &&
+        !Nat.beq (mulK 6 (mulK 6 (mulK 6 c d) (invCK 6 c)) (invCK 6 d))
+          (enc (1 : Equiv.Perm (Fin 6))))
+        ([Equiv.swap (4 : Fin 6) 5, Equiv.swap (1 : Fin 6) 2 * Equiv.swap 2 3, Equiv.swap (0 : Fin 6) 4,
+          Equiv.swap (0 : Fin 6) 5 * Equiv.swap 1 2 * Equiv.swap 2 3,
+          Equiv.swap (2 : Fin 6) 3 * Equiv.swap 3 4 * Equiv.swap 4 5].map enc)) 6 0 0 0 = true := by
+    decide +kernel
+  have hn : 6 ≤ 16 := by norm_num
+  intro x hx h16
+  have h := walkK_sound hw x
+  simp only [beq_enc_eq_decide hn, powK_enc hn, hx, h16, decide_false, decide_true, Bool.not_true,
+    Bool.false_or, anyK_iff, List.mem_map] at h
+  obtain ⟨_, ⟨g, hg, rfl⟩, h⟩ := h
+  simp only [invCK_enc hn, mulK_enc hn, powK_enc hn, beq_enc_eq_decide hn, Bool.and_eq_true,
+    Bool.not_eq_true', decide_eq_true_eq, decide_eq_false_iff_not] at h
+  exact ⟨g, hg, h⟩
+
 private theorem comm_exists_order_three :
     ∀ x : Equiv.Perm (Fin 6), x ≠ 1 → x ^ 16 = 1 →
       ∃ g : Equiv.Perm (Fin 6),
         (x * g * x⁻¹ * g⁻¹) ^ 3 = 1 ∧ x * g * x⁻¹ * g⁻¹ ≠ 1 := by
-  decide +kernel
+  intro x hx h16
+  obtain ⟨g, -, hg⟩ := comm_exists_order_three_mem x hx h16
+  exact ⟨g, hg⟩
 
 private theorem comm_exists_order_five :
     ∀ x : Equiv.Perm (Fin 6), x ≠ 1 → x ^ 9 = 1 →

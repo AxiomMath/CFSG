@@ -14,6 +14,15 @@ namespace CertificateChecks.KernelO8
 
 open CFSG.KC.O8 CFSG.EvenSmallLie.OmegaEight.SplitC
 
+theorem commSA_comm (SC a b : ℕ) : commSA SC a b = commSA SC b a := by
+  unfold commSA
+  rw [Bool.eq_iff_iff, beq_iff_eq, beq_iff_eq]
+  exact eq_comm
+
+theorem commSA_self (SC a : ℕ) : commSA SC a a = true := by
+  unfold commSA
+  exact beq_self_eq_true _
+
 section Plus
 
 open CFSG.EvenSmallLie.OmegaEight
@@ -49,13 +58,18 @@ theorem invP_eq : invP = invSA saCodes := by
 theorem uniqP : uniqCheckW 8192 commP conjP invP wUP = true := by
   rw [commP_eq, conjP_eq, invP_eq, wUP_eq]
   refine uniqCheckW_of_parts (List.all_eq_true.2 fun j hj => partsPK j (List.mem_range.1 hj))
-    (fun j hj i hi => List.all_eq_true.1 (all_range_of_blocks (m := 8192) (s := 9) (nb := 16)
-      (by norm_num) (rowsPK j hj)) i (List.mem_range.2 hi))
+    (fun j hj i hi => by
+      by_cases hk : wUPK.kind j = 1
+      · have hm := List.all_eq_true.1 kindPK j (List.mem_range.2 hj)
+        simp only [hk, bne_self_eq_false, Bool.false_or, List.contains_iff_mem] at hm
+        exact List.all_eq_true.1 (all_range_of_blocks (m := 8192) (s := 9) (nb := 16)
+          (by norm_num) (rowsPK j hm)) i (List.mem_range.2 hi)
+      · simp [dRowW, hk])
     (fun j hj t ht => List.all_eq_true.1 (all_range_of_blocks (m := 128) (s := 4) (nb := 8)
-      (by norm_num) (pairsPK j hj)) t (List.mem_range.2 ht)) ?_
+      (by norm_num) (pairsPK j hj)) t (List.mem_range.2 ht)) ?_ (commSA_comm _) (commSA_self _)
   rw [length_filter_range_blocks (s := 9) (nb := 16)
     (p := fun i => invSA saCodes i && decide (2 ≤ wUPK.kind (wUPK.cl i)))
-    (C := fun b => [0, 3, 0, 3, 8, 1, 0, 0, 3, 5, 0, 0, 0, 3, 2, 3].getD b 0) (by norm_num) countPK]
+    (C := fun b => [6, 6, 2, 3, 9, 1, 0, 1, 4, 5, 1, 0, 0, 9, 5, 3].getD b 0) (by norm_num) countPK]
   decide
 
 end Plus
@@ -95,13 +109,19 @@ theorem invM_eq : invM = invSA saCodes := by
 theorem uniqM : uniqCheckW 8192 commM conjM invM wUM = true := by
   rw [commM_eq, conjM_eq, invM_eq, wUM_eq]
   refine uniqCheckW_of_parts (List.all_eq_true.2 fun j hj => partsMK j (List.mem_range.1 hj))
-    (fun j hj i hi => List.all_eq_true.1 (all_range_of_blocks (m := 8192) (s := 9) (nb := 16)
-      (by norm_num) (rowsMK j hj)) i (List.mem_range.2 hi))
+    (fun j hj i hi => by
+      by_cases hk : wUMK.kind j = 1
+      · have hm := List.all_eq_true.1 kindMK j (List.mem_range.2 hj)
+        simp only [hk, bne_self_eq_false, Bool.false_or, List.contains_iff_mem] at hm
+        exact List.all_eq_true.1 (all_range_of_blocks (m := 8192) (s := 9) (nb := 16)
+          (by norm_num) (rowsMK j hm)) i (List.mem_range.2 hi)
+      · simp [dRowW, hk])
     (fun j hj t ht => List.all_eq_true.1 (all_range_of_blocks (m := 128) (s := 4) (nb := 8)
-      (by norm_num) (pairsMK j hj)) t (List.mem_range.2 ht)) ?_
+      (by norm_num) (pairsMK j hj)) t (List.mem_range.2 ht)) ?_ (commSA_comm _) (commSA_self _)
   rw [length_filter_range_blocks (s := 9) (nb := 16)
     (p := fun i => invSA saCodes i && decide (2 ≤ wUMK.kind (wUMK.cl i)))
-    (C := fun b => [0, 0, 6, 1, 0, 2, 4, 7, 0, 0, 0, 0, 8, 0, 0, 3].getD b 0) (by norm_num) countMK]
+    (C := fun b => [3, 1, 7, 1, 0, 2, 6, 8, 1, 0, 1, 2, 13, 2, 4, 4].getD b 0) (by norm_num)
+    countMK]
   decide
 
 end Minus

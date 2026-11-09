@@ -539,7 +539,7 @@ theorem norm_count (ws : List (List ℤ)) (hw : 0 < ws.length) (hE : EBasis (bv 
   rw [← normAll_tabP hsz (ppL ws) hpc, ← mapW, ← compT_tabP' (ppN r) hc]
   exact normAll_eq ws hE (Rep.compT (rep_pwN r) hg)
 
-theorem cosP (i : Nat) (U : List Nat) (r0 : List ℕ) (rs : List (List ℕ)) (cC cN : Nat)
+theorem cosP (_i : Nat) (U : List Nat) (r0 : List ℕ) (rs : List (List ℕ)) (cC cN : Nat)
     (h : cosAll U (pwN r0) (rs.map pwN) cC cN = true) :
     Nat.beq (pcj 22 5 (pwN r0) (pinv 22 5 (pwN r0)) M22OC.R0) (U.headD 0) = true ∧
       pcosetOK 22 5 (U.headD 0) U (rs.map pwN) = true ∧
@@ -567,7 +567,7 @@ theorem cntHex : countProducts 22 (commAll 22 hexT) (levelTables m22Certificate)
     countProducts 22 (normAll 22 hexT) (levelTables m22Certificate) (idT 22) = 5760 := by
   have h := cosBlk0
   unfold cosBlk at h
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   unfold hexP at h
   have hb := kEbP.1
   unfold hexP at hb
@@ -578,7 +578,7 @@ theorem cntDuad : countProducts 22 (commAll 22 duadT) (levelTables m22Certificat
     countProducts 22 (normAll 22 duadT) (levelTables m22Certificate) (idT 22) = 1920 := by
   have h := cosBlk1
   unfold cosBlk at h
-  rw [if_neg (by decide), if_pos rfl] at h
+  rw [ite_eq_right (by decide), ite_eq_left rfl] at h
   unfold duadP at h
   have hb := kEbP.2.1
   unfold duadP at hb
@@ -589,7 +589,7 @@ theorem cntE8 : countProducts 22 (commAll 22 e8T) (levelTables m22Certificate) (
     countProducts 22 (normAll 22 e8T) (levelTables m22Certificate) (idT 22) = 1344 := by
   have h := cosBlk2
   unfold cosBlk at h
-  rw [if_neg (by decide), if_neg (by decide)] at h
+  rw [ite_eq_right (by decide), ite_eq_right (by decide)] at h
   unfold e8P at h
   have hb := kEbP.2.2
   unfold e8P at hb
@@ -623,12 +623,12 @@ theorem kGensP : (List.range 2).all (fun j => Nat.beq (CHX.S j) (pw (hexGenW.get
 theorem chainHX : ChainK 22 5 hexGen hexChainW (#v[0, 1, 2, 3] : Vector (Fin 22) 4)
     CHX.S CHX.SI CHX.LR CHX.TR CHX.TRI 8 CHX.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.1, by decide, CHX.head, CHX.hl,
-    by norm_num, CHX.hs⟩
+    by norm_num, .inl CHX.hs⟩
 
 theorem chainDU : ChainK 22 5 duadGen duadChainW (#v[2, 3, 4] : Vector (Fin 22) 3)
     CDU.S CDU.SI CDU.LR CDU.TR CDU.TRI 6 CDU.BP 2 16 :=
   ⟨by norm_num, by norm_num, by norm_num, gens_img rfl kGensP.2, by decide, CDU.head, CDU.hl,
-    by norm_num, CDU.hs⟩
+    by norm_num, .inl CDU.hs⟩
 
 theorem kOrdCP : ordK CHX.LR 4 = 5760 ∧ ordK CDU.LR 3 = 960 := by
   have h := kOrd

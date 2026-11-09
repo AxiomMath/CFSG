@@ -14,6 +14,18 @@ namespace CertificateChecks.KernelAsc81c
 
 open CFSG.Quasithin.Asc81c.Pf.Check CFSG.Monster.B.Co2.Native CFSG.KGroups.Native
 
+@[expose] noncomputable def linVR (n : Nat) (c : List Nat) (i : Nat) : Nat :=
+  List.rec (motive := fun _ => Nat → Nat → Nat) (fun _ _ => 0)
+    (fun v _ r m j => Nat.rec (motive := fun _ => Nat) 0
+      (fun m' _ => Nat.xor (Bool.rec 0 v (Nat.beq (Nat.land j 1) 1)) (r m' (Nat.shiftRight j 1))) m)
+    c n i
+
+@[expose] noncomputable def ord3G (n : Nat) (c : List Nat) : Bool :=
+  (List.range n).all fun k => linVR n c (linVR n c (linVR n c (2 ^ k))) == 2 ^ k
+
+@[expose] noncomputable def linAG (n : Nat) (c : List Nat) : Array Nat :=
+  Array.ofFn (n := 2 ^ n) fun i => linVR n c i.val
+
 @[expose] def decW : Nat → Nat → List Bool
   | 0, _ => []
   | f + 1, v => if v ≤ 1 then [] else (v % 2 == 1) :: decW f (v / 2)
@@ -26,22 +38,15 @@ open CFSG.Quasithin.Asc81c.Pf.Check CFSG.Monster.B.Co2.Native CFSG.KGroups.Nativ
 @[expose] def genW (n : Nat) (x t : Array Nat) (w₁ w₂ w : List Bool) : Bool :=
   ord3A (2 ^ n) (evalWA (2 ^ n) x t w₁) && genW2 n x t (evalWA (2 ^ n) x t w₁) w₂ w
 
-@[expose] def pairW (n : Nat) (x : Array Nat) (c : List Nat) (r : Nat) : Bool :=
-  !ord3V n c ||
-    let t := linA n c
+@[expose] noncomputable def pairW (n : Nat) (x : Array Nat) (c : List Nat) (r : Nat) : Bool :=
+  !ord3G n c ||
+    let t := linAG n c
     !(fixCount (2 ^ n) t == 2 ^ (n - 2) && meetTriv (2 ^ n) x t) ||
       eqA (2 ^ n) (compA (2 ^ n) x t) (compA (2 ^ n) t x) ||
       (r % 4 == 1 && critA n x t (evalWA (2 ^ n) x t (decW 10 (r / 4)))) ||
       (r % 4 == 2 && genW n x t (decW 4 (r / 4 % 32)) (decW 4 (r / 128 % 32))
         (decW 4 (r / 4096 % 32))) ||
       (n == 3 && f21OK n x t)
-
-@[expose] noncomputable def chunk4 (d : Nat) : Bool :=
-  allLt 16 fun a => allLt 16 fun b => allLt 16 fun c =>
-    pairW 4 (x0 4) [a, b, c, d] (W (a + 16 * b + 256 * c + 4096 * d))
-
-@[expose] noncomputable def chunk3 (c : Nat) : Bool :=
-  allLt 8 fun a => allLt 8 fun b => pairW 3 (x0 3) [a, b, c] (W (65536 + a + 8 * b + 64 * c))
 
 end CertificateChecks.KernelAsc81c
 

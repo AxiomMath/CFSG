@@ -1,8 +1,9 @@
 module
 
-public import Certificates.Kernel.Sporadic.PSp45.Data
+public import Certificates.Kernel.Sporadic.PSp45.Z
 public import Certificates.Kernel.Sporadic.PSp45.Direct
 public import CFSG.Certificates.Kernel.SporSch.MathieuOCSound
+public import CFSG.Certificates.Kernel.SporSch.MathieuBTSound
 public import CFSG.Certificates.Kernel.Spor.BindList
 public import CFSG.Sporadic.Schreier.MathieuOddCoreWords
 public import CFSG.Sporadic.Schreier.MathieuOddCoreCentral
@@ -20,6 +21,7 @@ open CFSG CFSG.Sporadic CFSG.Sporadic.Schreier CFSG.Certificates
 open CFSG.Sporadic.Schreier.Native CFSG.Monster.B.Mathieu CFSG.ComponentClassification.CatFactsSmall.PSp43
 open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KS.M11 CFSG.KS.MEnum CFSG.KS.SporSch.MOC
 open CFSG.GH74.KGroups
+open CFSG.KS.SporSch.MBT
 
 theorem bindX : bindListK 45 6 (P45Q.S 0) tX = true := by quickRfl
 
@@ -95,25 +97,25 @@ theorem imgRep1 : imageList (invReps.getD 1 1) = (unpack 45 6 R1).toList := by
 theorem chainP : ChainK 45 6 [tab x45, tab y45] wordsP (#v[0, 1, 16, 3] : Vector (Fin 45) 4)
     P45Q.S P45Q.SI P45Q.LR P45Q.TR P45Q.TRI 8 P45Q.BP 3 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, P45Q.head, P45Q.hl,
-    by norm_num, P45Q.hs⟩
+    by norm_num, .inl P45Q.hs⟩
   have hj2 : j < 2 := hj
   interval_cases j
-  · simp only [tab_eq, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [tab_eq, List.getD_cons_zero]
     exact imgX
-  · simp only [tab_eq, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [tab_eq]
     exact imgY
 
 theorem chainA : ChainK 45 6 [tab x45, tab y45, tab f45] wordsA
     (#v[0, 1, 3, 9] : Vector (Fin 45) 4) A45Q.S A45Q.SI A45Q.LR A45Q.TR A45Q.TRI 11 A45Q.BP 3 16 := by
   refine ⟨by norm_num, by norm_num, by norm_num, fun j hj => ?_, by decide, A45Q.head, A45Q.hl,
-    by norm_num, A45Q.hs⟩
+    by norm_num, .inl A45Q.hs⟩
   have hj3 : j < 3 := hj
   interval_cases j
-  · simp only [tab_eq, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [tab_eq, List.getD_cons_zero]
     exact img_of_bind tX_eq bindAX
-  · simp only [tab_eq, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [tab_eq]
     exact img_of_bind tY_eq bindAY
-  · simp only [tab_eq, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [tab_eq]
     exact img_of_bind tF_eq bindAF
 
 theorem qp_eq : QP45 = certificate (by decide) [tab x45, tab y45] wordsP
@@ -141,10 +143,16 @@ theorem gens_mem : ∀ g ∈ [x45, y45], g ∈ QP45.originalSubgroup := by
   · simp [tab_eq]
   · simp [tab_eq]
 
-theorem cosetX : (cosetOrderTables QP45 1 2).length = P45X.CS.sum := by
+theorem classEq : ClassEqK 45 6 P45Q.LR P45Q.TR P45Q.TRI P45Q.BP 4 P45BC.XL P45BC.CL :=
+  ⟨rfl, P45BC.hr, P45BC.hd, P45BC.hs⟩
+
+theorem p45Tot2 : Nat.beq (sumOrdK 45 6 (mask 6) (ordK P45Q.LR 4) P45BC.XL P45BC.CL 2
+    P45BC.XL.length) 315 = true := by quickRfl
+
+theorem cosetX : (cosetOrderTables QP45 1 2).length = 315 := by
   rw [qp_eq]
-  exact chainK_cosetCount (by decide) (by decide) chainP imgOne cOne (by norm_num) (by norm_num)
-    (by decide) P45X.hc
+  exact (classEq_sound (by decide) (by decide) chainP classEq (mo := 2) (by norm_num)
+    (by norm_num)).2.trans (Nat.eq_of_beq_eq_true p45Tot2)
 
 theorem hR : invReps.length = P45CL.length ∧ ∀ j < P45CL.length,
     imageList (invReps.getD j 1) =
@@ -164,17 +172,96 @@ theorem cover : repsOK 45 (pairTables x45 y45) (pairTables x45⁻¹ y45⁻¹)
     (X := cosetOrderTables QP45 1 2) (by rw [cosetX]; decide) neOK (by norm_num)
   exact ⟨h1, h2.trans (by decide), h3⟩
 
+theorem blkElems {f : Nat → Bool} {c nb : Nat} (hc : c ≤ nb * 256)
+    (h : ∀ s < nb, allBlk (s * 256) f 256 = true) : ∀ k < c, f k = true := by
+  intro k hk
+  have hs : k / 256 < nb := by omega
+  have := allBlk_spec (h (k / 256) hs) (k % 256) (Nat.mod_lt _ (by norm_num))
+  have e : Nat.add (k / 256 * 256) (k % 256) = k := by
+    change k / 256 * 256 + k % 256 = k
+    omega
+  rwa [e] at this
+
+theorem clsOK2 : ClsOK 45 6 tX tY 2 1000 P45CK := by
+  intro j hj
+  have hj1 : j < 2 := by simpa [P45CK] using hj
+  interval_cases j
+  · exact ⟨P45CK.h0, blkElems (by decide) P45CK.hb0, fun i hi => absurd hi (by omega)⟩
+  · exact ⟨P45CK.h1, blkElems (by decide) P45CK.hb1, fun i hi => by
+      have hi1 : i < 1 := hi
+      interval_cases i
+      exact P45CK.n1_0⟩
+
+theorem siftR : ∀ j < P45CK.length, bAnd(canonK 45 6 (mask 6) (45 * 6) (P45CK.getD j clsD0).R,
+    siftK 45 6 (mask 6) (45 * 6) (pidn 45 6) P45Q.LR P45Q.TRI P45Q.BP 4 0
+      (P45CK.getD j clsD0).R) = true := by
+  intro j hj
+  have hj1 : j < 2 := by simpa [P45CK] using hj
+  interval_cases j
+  · quickRfl
+  · quickRfl
+
+theorem repCK0 : Nat.beq (P45CK.getD 0 clsD0).R R0 = true := by quickRfl
+
+theorem repCK1 : Nat.beq (P45CK.getD 1 clsD0).R R1 = true := by quickRfl
+
+theorem hRK : invReps.length = P45CK.length ∧ ∀ j < P45CK.length,
+    imageList (invReps.getD j 1) = (unpack 45 6 (P45CK.getD j clsD0).R).toList := by
+  refine ⟨by decide, fun j hj => ?_⟩
+  have hj1 : j < 2 := by simpa [P45CK] using hj
+  interval_cases j
+  · rw [Nat.eq_of_beq_eq_true repCK0]
+    exact imgRep0
+  · rw [Nat.eq_of_beq_eq_true repCK1]
+    exact imgRep1
+
+theorem scansZA : ZScans 45 6 2 5 9 ws45N P45BC.XL P45CK P45ZA.SC := by
+  refine ⟨rfl, fun i hi hord => ?_⟩
+  have hi' : i < 19 := hi
+  interval_cases i
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n0)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n1)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n2)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n3)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n4)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n5)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n6)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n7)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n8)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n9)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n10)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n11)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n12)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n13)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n14)
+  · refine ⟨rfl, fun j hj => ?_⟩
+    have hj' : j < 2 := hj
+    interval_cases j
+    · exact ⟨by decide, P45ZA.h15_0⟩
+    · exact ⟨by decide, P45ZA.h15_1⟩
+  · refine ⟨rfl, fun j hj => ?_⟩
+    have hj' : j < 2 := hj
+    interval_cases j
+    · exact ⟨by decide, P45ZA.h16_0⟩
+    · exact ⟨by decide, P45ZA.h16_1⟩
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n17)
+  · exact absurd hord (Nat.ne_of_beq_eq_false P45ZA.n18)
+
+theorem totA : Nat.beq (zTotK 45 6 (mask 6) (ordK P45Q.LR 4) P45BC.XL P45BC.CL P45ZA.SC 9
+    P45BC.XL.length) 51840 = true := by quickRfl
+
 theorem total : repsTotal 45 (pairTables x45 y45) (pairTables x45⁻¹ y45⁻¹)
     (invReps.map toTable) (orderTables QP45 5) 1000 (wordsTest 45 2 5 ws45N) = 51840 := by
-  have h := chainK_repsTotal (mx := 2) (my := 5) (by decide) (by decide) chainP tX_eq tY_eq
-    (by norm_num) clsOK' hR (by norm_num) (by norm_num) (CW := [P45Y0.CS, P45Y1.CS])
-    ⟨rfl, fun j hj => by
-      have hj2 : j < 2 := by simpa [P45CL] using hj
-      interval_cases j
-      · exact ⟨by decide, P45Y0.hc⟩
-      · exact ⟨by decide, P45Y1.hc⟩⟩ neOK
-  rw [qp_eq]
-  exact h.trans (by decide)
+  have hX : tX = imageList (tab x45) := by
+    rw [tab_eq]
+    exact tX_eq
+  have hY : tY = imageList (tab y45) := by
+    rw [tab_eq]
+    exact tY_eq
+  have h := zReps_sound (by decide) (by decide) chainP classEq (by norm_num) hX hY clsOK2
+    siftR hRK (by norm_num) (by norm_num) (by norm_num) (by decide) scansZA
+  rw [← qp_eq, tab_eq, tab_eq] at h
+  exact h.trans (Nat.eq_of_beq_eq_true totA)
 
 theorem pairInv_iff {M : Type*} [Group M] (a b : M) : PairInv ws45 a b ↔ WordsRel ws45N a b := by
   simp only [PairInv, WordsRel, ws45, ws45N, List.mem_cons, List.not_mem_nil, or_false,

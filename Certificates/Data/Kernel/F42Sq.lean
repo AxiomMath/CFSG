@@ -11,16 +11,27 @@ open CFSG.KC.Enum
 @[expose] noncomputable def fldW (P w i : Nat) : Nat :=
   Nat.land (Nat.shiftRight P (Nat.mul w i)) (Nat.sub (Nat.shiftLeft (nat_lit 1) w) (nat_lit 1))
 
-@[expose] noncomputable def stepOK (k A B Q S : Nat) (last : Bool) (c : Nat) : Bool :=
-  strictB (Nat.add (fldW A (nat_lit 22) (Nat.shiftRight c (nat_lit 1)))
-      (Nat.mul (Nat.land c (nat_lit 1)) (Nat.pow (nat_lit 2) k))) fun q =>
-  strictB (mulR q q) fun v =>
+@[expose] noncomputable def evenOK (B Q RB wB c x r : Nat) : Bool :=
+  strictB (fldW Q (nat_lit 17) c) fun a =>
+  strictB (fldW Q (nat_lit 17) (Nat.succ c)) fun b =>
+  bIf(Nat.beq (Nat.land r (nat_lit 1)) (nat_lit 0),
+    bAnd(Nat.beq b (Nat.succ a), bAnd(Nat.beq (fldW B (nat_lit 22) a) x,
+      Nat.beq (fldW RB wB a) (Nat.shiftRight r (nat_lit 1)))),
+    Nat.beq b a)
+
+@[expose] noncomputable def oddOK (k B Q RB wB c q v : Nat) : Bool :=
   strictB (fldW Q (nat_lit 17) c) fun a =>
   strictB (fldW Q (nat_lit 17) (Nat.succ c)) fun b =>
   bIf(Nat.beq (Nat.mod v (Nat.pow (nat_lit 2) (Nat.succ k))) (nat_lit 0),
     bAnd(Nat.beq b (Nat.succ a), bAnd(Nat.beq (fldW B (nat_lit 22) a) q,
-      bIf(last, Nat.beq (fldW S (nat_lit 3) a) (Nat.shiftRight v (nat_lit 22)), true))),
+      Nat.beq (fldW RB wB a) (Nat.shiftRight v (Nat.succ k)))),
     Nat.beq b a)
+
+@[expose] noncomputable def stepOK (k A R wR B Q RB wB c : Nat) : Bool :=
+  strictB (fldW A (nat_lit 22) (Nat.shiftRight c (nat_lit 1))) fun x =>
+  bIf(Nat.beq (Nat.land c (nat_lit 1)) (nat_lit 0),
+    evenOK B Q RB wB c x (fldW R wR (Nat.shiftRight c (nat_lit 1))),
+    strictB (Nat.add x (Nat.pow (nat_lit 2) k)) fun q => oddOK k B Q RB wB c q (mulR q q))
 
 @[expose] def wP : Nat := 2117968835592057161715145280975963866001024583741830934604653023721918720332000115025200447593133743567286840023367366699565176716701055633688704
 

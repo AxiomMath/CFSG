@@ -1,9 +1,9 @@
 module
 
 public import CFSG.Certificates.Kernel.LocalQTLatMSound
+public import CFSG.Certificates.Kernel.LocalQTGrpCOfSound
 public import CFSG.LocalAnalysis.QuasithinUnique.Constrained.A5.G3M23Cert2Inputs
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.EachUnfold
 public import CFSG.Certificates.Kernel.LocalQTListLemmas
 public import CFSG.LocalAnalysis.ComponentInitial.PGroupRankOneClassification
 public import CFSG.LocalAnalysis.QuasithinUnique.Ch1.A312ListAlt7Base
@@ -85,81 +85,51 @@ theorem p0 : memsOK (cert.tGens.map code) (cert.lat.map (List.map code)) ms = tr
 theorem p1a : chainOK 23 C = true := by quickRfl
 theorem p1bg : CFSG.KC.LQT.P.allL (cert.mGens.map code) (inC 23 C (chainF C)) = true := by quickRfl
 theorem p1bw : wordsC 23 C (cert.mGens.map code) MW cert.depth = true := by quickRfl
-@[expose] noncomputable def p1bcF (j : Nat) : Bool := chainChunk 23 C
-  (fun s => CFSG.KC.LQT.P.allL (cert.mGens.map code) fun g => inC 23 C (chainF C)
-    (CFSG.KC.LQT.P.mul 23 s g)) j
-
-#kc_each_unfold p1bcF 0 23 as CFSG.KD.LQT.C4107.p1bc
+theorem inj : chainInj 23 C = true := by quickRfl
+theorem p1bS : CFSG.KC.LQT.PH.grpS 23 C (chainF C) (cert.mGens.map code) MW cert.depth = true := by
+  quickRfl
 theorem p1b : grpC 23 C (chainF C) (cert.mGens.map code) MW cert.depth = true :=
-  grpC_intro (lv := C.head!) (C := C.tail) p1bg p1bw fun j hj => match j, hj with
-    | 0, _ => p1bc0
-    | 1, _ => p1bc1
-    | 2, _ => p1bc2
-    | 3, _ => p1bc3
-    | 4, _ => p1bc4
-    | 5, _ => p1bc5
-    | 6, _ => p1bc6
-    | 7, _ => p1bc7
-    | 8, _ => p1bc8
-    | 9, _ => p1bc9
-    | 10, _ => p1bc10
-    | 11, _ => p1bc11
-    | 12, _ => p1bc12
-    | 13, _ => p1bc13
-    | 14, _ => p1bc14
-    | 15, _ => p1bc15
-    | 16, _ => p1bc16
-    | 17, _ => p1bc17
-    | 18, _ => p1bc18
-    | 19, _ => p1bc19
-    | 20, _ => p1bc20
-    | 21, _ => p1bc21
-    | 22, _ => p1bc22
-    | _k + 23, h => absurd h (Nat.not_lt.2 (Nat.le_add_left _ _))
+  CFSG.KC.LQT.CM.grpC_of_sims (by decide) p1a inj cert.mGens p1bS
 theorem p1bM : grpM 23 C (chainF C) cert.depth (cert.mGens.map code) MW = true :=
   grpM_of_grpC p1b
+theorem memChecks : (closedX 23 C (chainF C) cert.depth mem0 (mkX 23 C (chainF C) cert.depth mem0) &&
+    (closedX 23 C (chainF C) cert.depth mem1 (mkX 23 C (chainF C) cert.depth mem1) &&
+    (closedX 23 C (chainF C) cert.depth mem2 (mkX 23 C (chainF C) cert.depth mem2) &&
+    (closedX 23 C (chainF C) cert.depth mem4 (mkX 23 C (chainF C) cert.depth mem4) &&
+    (repsC 23 C (chainF C) (cert.tGens.map code) (membersX 23 C (chainF C) cert.depth ms)
+      (repsCode cert) &&
+    (joinsC 23 C (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.joins &&
+    (sizesC (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.sizes cert.msize &&
+    latSixC 23 C cert.depth (cert.tGens.map code) (cert.lat.map (List.map code)) ms
+      cert.sizes ([aData1, aData2].map fun A => (A.gens.map code, A.perf))))))))) = true := by
+  quickRfl
 theorem q0 : closedX 23 C (chainF C) cert.depth mem0
-    (mkX 23 C (chainF C) cert.depth mem0) = true := by quickRfl
+    (mkX 23 C (chainF C) cert.depth mem0) = true :=
+  (Bool.and_eq_true_iff.mp memChecks).1
 theorem q1 : closedX 23 C (chainF C) cert.depth mem1
-    (mkX 23 C (chainF C) cert.depth mem1) = true := by quickRfl
+    (mkX 23 C (chainF C) cert.depth mem1) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks).2).1
 theorem q2 : closedX 23 C (chainF C) cert.depth mem2
-    (mkX 23 C (chainF C) cert.depth mem2) = true := by quickRfl
+    (mkX 23 C (chainF C) cert.depth mem2) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks).2).2).1
+theorem memChecks4 : (closedX 23 C (chainF C) cert.depth mem4 (mkX 23 C (chainF C) cert.depth mem4) &&
+    (repsC 23 C (chainF C) (cert.tGens.map code) (membersX 23 C (chainF C) cert.depth ms)
+      (repsCode cert) &&
+    (joinsC 23 C (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.joins &&
+    (sizesC (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.sizes cert.msize &&
+    latSixC 23 C cert.depth (cert.tGens.map code) (cert.lat.map (List.map code)) ms
+      cert.sizes ([aData1, aData2].map fun A => (A.gens.map code, A.perf)))))) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks).2).2).2
 theorem m3g : CFSG.KC.LQT.P.allL mem3.1 (inC 23 C (chainF C)) = true := by quickRfl
 theorem m3w : wordsC 23 C mem3.1 mem3.2.2 cert.depth = true := by quickRfl
-@[expose] noncomputable def m3cF (j : Nat) : Bool := chainChunk 23 C
-  (fun s => CFSG.KC.LQT.P.allL mem3.1 fun g => inC 23 C (chainF C) (CFSG.KC.LQT.P.mul 23 s g)) j
-
-#kc_each_unfold m3cF 0 23 as CFSG.KD.LQT.C4107.m3c
 theorem m3 : grpC 23 C (chainF C) mem3.1 mem3.2.2 cert.depth = true :=
-  grpC_intro (lv := C.head!) (C := C.tail) m3g m3w fun j hj => match j, hj with
-    | 0, _ => m3c0
-    | 1, _ => m3c1
-    | 2, _ => m3c2
-    | 3, _ => m3c3
-    | 4, _ => m3c4
-    | 5, _ => m3c5
-    | 6, _ => m3c6
-    | 7, _ => m3c7
-    | 8, _ => m3c8
-    | 9, _ => m3c9
-    | 10, _ => m3c10
-    | 11, _ => m3c11
-    | 12, _ => m3c12
-    | 13, _ => m3c13
-    | 14, _ => m3c14
-    | 15, _ => m3c15
-    | 16, _ => m3c16
-    | 17, _ => m3c17
-    | 18, _ => m3c18
-    | 19, _ => m3c19
-    | 20, _ => m3c20
-    | 21, _ => m3c21
-    | 22, _ => m3c22
-    | _k + 23, h => absurd h (Nat.not_lt.2 (Nat.le_add_left _ _))
+  CFSG.KC.LQT.CM.grpC_of_grpC (by decide) p1a inj cert.mGens
+    ((cert.tGens :: cert.lat).getD 3 []) p1b m3g m3w
 theorem q3 : closedX 23 C (chainF C) cert.depth mem3
     (mkX 23 C (chainF C) cert.depth mem3) = true := m3
 theorem q4 : closedX 23 C (chainF C) cert.depth mem4
-    (mkX 23 C (chainF C) cert.depth mem4) = true := by quickRfl
+    (mkX 23 C (chainF C) cert.depth mem4) = true :=
+  (Bool.and_eq_true_iff.mp memChecks4).1
 theorem p1c : allA (membersX 23 C (chainF C) cert.depth ms) (fun p =>
     closedX 23 C (chainF C) cert.depth p.1 p.2) = true :=
   allA_cons q0 (allA_cons q1 (allA_cons q2 (allA_cons q3 (allA_cons q4 rfl))))
@@ -169,11 +139,14 @@ theorem p1 : closedOKC 23 C (chainF C) cert.depth (cert.mGens.map code) MW ms = 
 theorem p2 : coverC 23 C (chainF C) (bfsM 23 C (chainF C) (cert.tGens.map code) cert.depth)
     (repsCode cert) = true := by quickRfl
 theorem p3 : repsC 23 C (chainF C) (cert.tGens.map code) (membersX 23 C (chainF C) cert.depth ms)
-    (repsCode cert) = true := by quickRfl
-theorem p4 : joinsC 23 C (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.joins = true := by
-  quickRfl
+    (repsCode cert) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks4).2).1
+theorem p4 : joinsC 23 C (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.joins = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp memChecks4).2).2).1
 theorem p5 : sizesC (chainF C) (membersX 23 C (chainF C) cert.depth ms) cert.sizes cert.msize =
-    true := by quickRfl
+    true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp
+    (Bool.and_eq_true_iff.mp memChecks4).2).2).2).1
 theorem p6 : tleC 23 C (chainF C) (cert.tGens.map code) = true := by quickRfl
 theorem hl : latC 23 C cert.depth (cert.mGens.map code) MW (cert.tGens.map code)
     (cert.lat.map (List.map code)) ms (repsCode cert) cert.joins cert.sizes cert.msize = true :=
@@ -182,8 +155,9 @@ theorem ht : tleCC 23 C cert.depth (cert.mGens.map code) MW (cert.tGens.map code
   rw [tleCC, p1a, p1bM, p6]
   rfl
 theorem hs : latSixC 23 C cert.depth (cert.tGens.map code) (cert.lat.map (List.map code)) ms
-    cert.sizes ([aData1, aData2].map fun A => (A.gens.map code, A.perf)) = true := by quickRfl
-theorem inj : chainInj 23 C = true := by quickRfl
+    cert.sizes ([aData1, aData2].map fun A => (A.gens.map code, A.perf)) = true :=
+  (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp
+    (Bool.and_eq_true_iff.mp memChecks4).2).2).2).2
 
 end CFSG.KD.LQT.C4107
 

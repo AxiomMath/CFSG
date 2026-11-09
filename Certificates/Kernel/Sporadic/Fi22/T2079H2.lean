@@ -32,7 +32,7 @@ namespace CertificateChecks.KernelSpor.Fo22T2
 
 open CFSG.KC.Enum CFSG.KS
 
-noncomputable def commRow (j : Nat) : Bool := allN 27 (fun k =>
+noncomputable def commRow (j : Nat) : Bool := allN j (fun k =>
   Nat.beq (pcomp 3510 12 (mask 12) (T j) (T k)) (pcomp 3510 12 (mask 12) (T k) (T j)))
 
 noncomputable def commSl (s : Nat) : Bool := allN 3 (fun d => commRow (Nat.add (s * 3) d))
@@ -47,7 +47,7 @@ theorem c6 : commSl 6 = true := by quickRfl
 theorem c7 : commSl 7 = true := by quickRfl
 theorem c8 : commSl 8 = true := by quickRfl
 
-theorem comm2 : allN 27 (fun j => allN 27 (fun k =>
+theorem comm2 : allN 27 (fun j => allN j (fun k =>
     Nat.beq (pcomp 3510 12 (mask 12) (T j) (T k)) (pcomp 3510 12 (mask 12) (T k) (T j)))) = true := by
   have hs : ∀ s < 9, commSl s = true := fun s h9 => by
     interval_cases s

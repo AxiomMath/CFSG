@@ -206,6 +206,41 @@ theorem core_card {j : ℕ} (hj : j < C.J) (hodd : C.D.Om[j]!.lbl.size % 2 = 1)
   rw [hcard, mul_comm]
   rfl
 
+theorem core_card_sub {j : ℕ} (hj : j < C.J) (hodd : C.D.Om[j]!.lbl.size % 2 = 1)
+    {B : List Lab} (hB : ∀ x ∈ B, x ∈ C.Λ j) (hΔB : C.Δ ∈ B) (Ot : OmegaData (List Lab))
+    (hOt : OmegaSpec (tupLab C.A).act C.D.sTabs.toArray B Ot) (hsz : Ot.lbl.size = 2 ^ C.k) :
+    Nat.card (pCoreOf 2 (C.Y j)) * Ot.lbl.size = 2 ^ C.k := by
+  rw [C.core_eq hj hodd]
+  have hBv : ∀ x ∈ B, C.valid x := fun x hx => C.Λ_valid hj x (hB x hx)
+  have hsz' : (C.sg.toArray).size = C.D.sTabs.toArray.size := by
+    rw [← C.hsg]; simp [genTabs]
+  have hel : ∀ l < C.D.sTabs.toArray.size, C.D.sTabs.toArray[l]! =
+      (tab n (C.sg.toArray.getD l 1)).toArray := by
+    intro l hl
+    rw [← C.hsg] at hl ⊢
+    exact genTabs_hel' C.sg l hl
+  have hstab : stab (tupLawful C.hlaw) hBv ≤ C.S := by
+    intro g hg
+    have h1 : B.map (C.A.act (tab n g).toArray) = B := hg
+    exact (map_eq_self_iff' _ _).mp h1 _ hΔB
+  have hcard := hOt.card_eq (tupLawful C.hlaw) hBv C.sg.toArray hsz' hel
+    (H := C.S) (by rw [toList_toArray_set]; exact C.hSeq) hstab
+  rw [C.S_card, hsz] at hcard
+  have h1 : Nat.card (stab (tupLawful C.hlaw) hBv) = 1 := by
+    have hpos : 0 < 2 ^ C.k := by positivity
+    have := Nat.eq_of_mul_eq_mul_left hpos (hcard.symm.trans (mul_one _).symm)
+    exact this
+  have hle : C.tupStab hj ≤ stab (tupLawful C.hlaw) hBv := by
+    intro g hg
+    have h2 := (C.mem_tupStab hj g).mp hg
+    change B.map (C.A.act (tab n g).toArray) = B
+    exact (map_eq_self_iff' _ _).mpr fun x hx => h2 x (hB x hx)
+  have h3 := Subgroup.card_le_of_le hle
+  have h4 : 0 < Nat.card (C.tupStab hj) := Nat.card_pos
+  rw [hsz]
+  have h5 : Nat.card (C.tupStab hj) = 1 := by omega
+  rw [h5, one_mul]
+
 end LatCtx
 
 end CFSG.QuasithinUnique.Ch1.SporLat

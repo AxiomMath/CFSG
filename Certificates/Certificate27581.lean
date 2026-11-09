@@ -90,7 +90,7 @@ theorem p1 : eOrbData.all (eOrbOK (EL.map (unpack 1755 11))) = eOrbData.all eOK 
   obtain ⟨hg, cg⟩ := E_get h1
   unfold eOrbOK eOK
   cases hl : hLetters e.2.2
-  · rfl
+  · rw [Bool.false_and, Bool.false_and]
   · obtain ⟨hh, ch⟩ := hW hl
     obtain ⟨h12, c12⟩ := vE (i := 12) (by decide)
     obtain ⟨h11, c11⟩ := vE (i := 11) (by decide)

@@ -37,7 +37,18 @@ theorem chunk_facts {T : Tabs} (hT : tabsOK T = true)
   · obtain ⟨j, rfl⟩ : ∃ j, k = 100 * c + j := ⟨k - 100 * c, by omega⟩
     exact (node_sound hT hsx (chunkNode_sound (hall j (by omega)) hk3 hkN hkt)).1
   · unfold edgeChk at hedge
-    have he := List.all_eq_true.mp hedge k (List.mem_range'_1.mpr ⟨hk1, by omega⟩)
+    have hk : treeParentTab.toList[k]? = some (treeParent k) := by
+      rw [Array.getElem?_toList]
+      cases h : treeParentTab[k]? with
+      | none =>
+        have h0 : treeParent k = (0, 0) := by simp only [treeParent, h, Option.getD_none]
+        rw [h0] at hp
+        exact absurd hp (by decide)
+      | some v => simp only [treeParent, h, Option.getD_some]
+    have hgen : ∀ (l : List (ℕ × ℕ)) (x : ℕ × ℕ) (i : ℕ), l[i]? = some x → (x, i) ∈ l.zipIdx :=
+      fun _ _ _ h => List.mem_zipIdx_iff_getElem?.mpr h
+    have he := List.all_eq_true.mp hedge _ (hgen _ _ _ hk)
+    dsimp only at he
     have e1 : (!((treeParent k).1 / 100 == c)) = false := by simp [hc]
     have e2 : ((treeParent k).1 == 0) = false := by rw [beq_eq_false_iff_ne]; omega
     rw [e1, e2] at he

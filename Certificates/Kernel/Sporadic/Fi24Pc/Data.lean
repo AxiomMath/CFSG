@@ -1,30 +1,29 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.HarnessGzTree
 import CFSG.Certificates.Kernel.Common.JsonGz
 import CFSG.Certificates.Kernel.Common.Repo
 public import Certificates.Kernel.Sporadic.Fi24Net.Data
 public import Certificates.Data.Kernel.Spor.Fi24Pc
 
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X0 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc0.bin.gz" 65536 4 2424832 3374793118785896410
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X1 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc1.bin.gz" 65536 4 2424832 6812701078681063374
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X2 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc2.bin.gz" 65536 4 2424832 16910138633129304063
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X3 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc3.bin.gz" 65536 4 2424832 9903135248916583205
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X4 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc4.bin.gz" 65536 4 2424832 6193541240755258976
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X5 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc5.bin.gz" 65536 4 2424832 1102686570193150544
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X6 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc6.bin.gz" 65536 4 2424832 5836669515680282799
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X7 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc7.bin.gz" 65536 4 2424832 17162015330233988473
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X8 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc8.bin.gz" 65536 4 2424832 10358077874869466252
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X9 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc9.bin.gz" 65536 4 2424832 7436905607040070886
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X10 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc10.bin.gz" 65536 4 2424832 14156425561659670410
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X11 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc11.bin.gz" 65536 4 2424832 17034327961551952890
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X12 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc12.bin.gz" 65536 4 2424832 7182969156639011844
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X13 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc13.bin.gz" 65536 4 2424832 3014114532745653952
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X14 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc14.bin.gz" 65536 4 2424832 18272575633460270303
-#kc_repo #kc_ktree_gz CFSG.KD.Fi24Pc X15 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc15.bin.gz" 65536 4 2424832 7607886945133666835
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X0 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc0.bin" 65536 4 2424832 3374793118785896410
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X1 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc1.bin" 65536 4 2424832 6812701078681063374
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X2 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc2.bin" 65536 4 2424832 16910138633129304063
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X3 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc3.bin" 65536 4 2424832 9903135248916583205
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X4 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc4.bin" 65536 4 2424832 6193541240755258976
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X5 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc5.bin" 65536 4 2424832 1102686570193150544
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X6 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc6.bin" 65536 4 2424832 5836669515680282799
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X7 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc7.bin" 65536 4 2424832 17162015330233988473
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X8 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc8.bin" 65536 4 2424832 10358077874869466252
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X9 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc9.bin" 65536 4 2424832 7436905607040070886
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X10 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc10.bin" 65536 4 2424832 14156425561659670410
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X11 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc11.bin" 65536 4 2424832 17034327961551952890
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X12 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc12.bin" 65536 4 2424832 7182969156639011844
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X13 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc13.bin" 65536 4 2424832 3014114532745653952
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X14 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc14.bin" 65536 4 2424832 18272575633460270303
+#kc_repo #kc_ktree CFSG.KD.Fi24Pc X15 "Certificates/Kernel/Sporadic/Fi24Pc/data/pc15.bin" 65536 4 2424832 7607886945133666835
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24Pc.J "Certificates/Kernel/Sporadic/Fi24Pc/data/pc.json.gz" 354541
+#kc_repo #kc_json CFSG.KD.Fi24Pc.J "Certificates/Kernel/Sporadic/Fi24Pc/data/pc.json" 354541
   11705157318504880490
   (words : List (List Nat)) (defs : List Nat) (PW : Nat) (CJ : Nat) (OP : Nat) (TB : Nat)
   (B : List Nat) (gens : List (List Nat)) (orb : List (List Nat)) (levels : List (List Nat))

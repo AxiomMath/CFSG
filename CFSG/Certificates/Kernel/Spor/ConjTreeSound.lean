@@ -111,6 +111,33 @@ theorem treeConjN_eq {n w r N wt : Nat} {gens : Array (Array Nat)} {s₀ tree : 
   rw [hfold, hlist]
   exact key N le_rfl
 
+theorem ne_of_rank_sorted {T SG RK : Nat → Nat} {m : Nat}
+    (h1 : ∀ j < m, RK j < m ∧ SG (RK j) = j)
+    (h2 : ∀ j < m, j + 1 < m → T (SG j) < T (SG (j + 1))) :
+    ∀ j < m, ∀ k < j, T j ≠ T k := by
+  have mono : ∀ b a, a < b → b < m → T (SG a) < T (SG b) := by
+    intro b
+    induction b with
+    | zero => intro a hab; omega
+    | succ b ih =>
+      intro a hab hb
+      rcases Nat.lt_succ_iff_lt_or_eq.1 hab with h | h
+      · exact lt_trans (ih a h (by omega)) (h2 b (by omega) hb)
+      · rw [h]
+        exact h2 b (by omega) hb
+  intro j hj k hk he
+  obtain ⟨a1, a2⟩ := h1 j hj
+  obtain ⟨b1, b2⟩ := h1 k (by omega)
+  rcases lt_trichotomy (RK j) (RK k) with h | h | h
+  · have h' := mono _ _ h b1
+    rw [a2, b2] at h'
+    omega
+  · have h' : j = k := by rw [← a2, ← b2, h]
+    omega
+  · have h' := mono _ _ h a1
+    rw [a2, b2] at h'
+    omega
+
 end CFSG.KS.ConjTree
 
 end

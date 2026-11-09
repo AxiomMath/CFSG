@@ -69,8 +69,10 @@ elab "#kss_co1qtowerB " pre:ident tId:ident eId:ident qId:ident gId:ident bId:id
       (Q.beta #[mkBVar 1]))
     let rflN := fun (v : Nat) => mkApp2 (mkConst ``Eq.refl [1]) natT (lit v)
     liftCoreM <| withOptions (Elab.async.set · false) do
-      addTree (nm "T") (leaves recs)
-      addTree (nm "E") (leaves es)
+      addTree (nm "TR") (leaves recs)
+      addTree (nm "ER") (leaves es)
+      addDef (nm "T") fnT (strictTab (nm "TR"))
+      addDef (nm "E") fnT (strictTab (nm "ER"))
       addTree (nm "S") (leaves srecs)
       addTree (nm "C") cs
       addDef (nm "NS") natT (lit NS)

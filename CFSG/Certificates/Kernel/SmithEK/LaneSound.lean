@@ -295,16 +295,16 @@ theorem rowsC_get {ONE REP ID Bpk : Nat} {Qs : List Nat} {R : Nat → Nat} :
       rw [List.getD_cons_succ, show j + (i + 1) = j + 1 + i by omega]
       exact e
 
-theorem rowsC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
+theorem rowC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
     (hc : ∀ k < 693, (C.getD k []).length = 20 ∧ ∀ m < 20, (C.getD k []).getD m 0 < 2 ^ 20)
-    (h : rowsC (pkW 400 (List.replicate 693 1) * l20) (pkW 400 (List.replicate 693 1))
-      (pkW 20 ((List.range 20).map (2 ^ ·))) (pkW 400 (C.map (pkW 20))) (qsOf C) R C
-      (C.map (pkW 20)) 0 = true) :
-    ∀ j < 693, (∀ m < 20, applyL (C.getD j []) ((C.getD j []).getD m 0) = 2 ^ m) ∧
+    {j : Nat} (hj : j < 693)
+    (hrow : rowC (pkW 400 (List.replicate 693 1) * l20) (pkW 400 (List.replicate 693 1))
+      (pkW 20 ((List.range 20).map (2 ^ ·))) (pkW 400 (C.map (pkW 20))) (qsOf C) (C.getD j [])
+      (pkW 20 (C.getD j [])) (R j) = true) :
+    (∀ m < 20, applyL (C.getD j []) ((C.getD j []).getD m 0) = 2 ^ m) ∧
       ∀ a < 693, fldR R j a < 693 ∧ ∀ m < 20,
         applyL (C.getD j []) (applyL (C.getD a []) ((C.getD j []).getD m 0)) =
           (C.getD (fldR R j a) []).getD m 0 := by
-  intro j hj
   have hmemC : ∀ c ∈ C, c.length = 20 ∧ ∀ x ∈ c, x < 2 ^ 20 := by
     intro c hcm
     obtain ⟨k, hk, rfl⟩ := List.mem_iff_getElem.mp hcm
@@ -319,8 +319,6 @@ theorem rowsC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693
     split_ifs <;> omega
   have hO1 : ∀ s < 13860, fld s (pkW 400 (List.replicate 693 1) * l20) = 1 := fun s hs => by
     rw [fld_ONE, if_pos hs]
-  have hrow := rowsC_get C _ 0 h rfl j (by omega)
-  rw [Nat.zero_add] at hrow
   have hAm : C.getD j [] ∈ C := by
     rw [List.getD_eq_getElem _ _ (by omega)]
     exact List.getElem_mem _
@@ -376,5 +374,248 @@ theorem rowsC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693
     unfold fldR at hfC ⊢
     rw [hfC, fld_pkW20 _ _ (hmemC _ (by
       rw [List.getD_eq_getElem _ _ (by omega)]; exact List.getElem_mem _)).2]
+
+theorem rowsC_lanes {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
+    (hc : ∀ k < 693, (C.getD k []).length = 20 ∧ ∀ m < 20, (C.getD k []).getD m 0 < 2 ^ 20)
+    (h : rowsC (pkW 400 (List.replicate 693 1) * l20) (pkW 400 (List.replicate 693 1))
+      (pkW 20 ((List.range 20).map (2 ^ ·))) (pkW 400 (C.map (pkW 20))) (qsOf C) R C
+      (C.map (pkW 20)) 0 = true) :
+    ∀ j < 693, (∀ m < 20, applyL (C.getD j []) ((C.getD j []).getD m 0) = 2 ^ m) ∧
+      ∀ a < 693, fldR R j a < 693 ∧ ∀ m < 20,
+        applyL (C.getD j []) (applyL (C.getD a []) ((C.getD j []).getD m 0)) =
+          (C.getD (fldR R j a) []).getD m 0 := by
+  intro j hj
+  have hrow := rowsC_get C _ 0 h rfl j (by omega)
+  rw [Nat.zero_add] at hrow
+  exact rowC_lanes hl hc hj hrow
+
+theorem applyL_nilC (d : Nat) : applyL [] d = 0 := rfl
+
+theorem applyL_consC (x : Nat) (A : List Nat) (d : Nat) :
+    applyL (x :: A) d = (if d.testBit 0 then x else 0) ^^^ applyL A (d / 2) := rfl
+
+theorem xor_shuffleC (a b c d : Nat) : (a ^^^ b) ^^^ (c ^^^ d) = (a ^^^ c) ^^^ (b ^^^ d) := by
+  apply Nat.eq_of_testBit_eq
+  intro i
+  simp only [Nat.testBit_xor]
+  cases a.testBit i <;> cases b.testBit i <;> cases c.testBit i <;> cases d.testBit i <;> rfl
+
+theorem ite_xorC (x y a : Nat) : (if (x ^^^ y).testBit 0 then a else 0) =
+    (if x.testBit 0 then a else 0) ^^^ (if y.testBit 0 then a else 0) := by
+  rw [Nat.testBit_xor]
+  cases x.testBit 0 <;> cases y.testBit 0 <;> simp
+
+theorem applyL_xorC : ∀ (A : List Nat) (x y : Nat),
+    applyL A (x ^^^ y) = applyL A x ^^^ applyL A y
+  | [], _, _ => by rw [applyL_nilC, applyL_nilC, applyL_nilC, Nat.xor_zero]
+  | a :: A, x, y => by
+    rw [applyL_consC, applyL_consC, applyL_consC, Nat.xor_div_two, applyL_xorC A, ite_xorC,
+      xor_shuffleC]
+
+theorem applyL_zeroC (A : List Nat) : applyL A 0 = 0 := by
+  have e := applyL_xorC A 0 0
+  simp only [Nat.xor_self] at e
+  exact e
+
+theorem applyL_powC : ∀ (A : List Nat) (m : Nat), m < A.length → applyL A (2 ^ m) = A.getD m 0
+  | [], m, h => absurd h (by simp)
+  | a :: A, 0, _ => by
+    rw [applyL_consC]
+    simp [applyL_zeroC]
+  | a :: A, m + 1, h => by
+    rw [applyL_consC, Nat.pow_succ, Nat.mul_div_cancel _ (by norm_num), List.getD_cons_succ,
+      applyL_powC A m (by simp at h; omega)]
+    simp [Nat.testBit_zero]
+
+theorem applyL_ltC : ∀ (A : List Nat) (y : Nat), (∀ x ∈ A, x < 2 ^ 20) → applyL A y < 2 ^ 20
+  | [], _, _ => by
+    rw [applyL_nilC]
+    positivity
+  | a :: A, y, h => by
+    rw [applyL_consC]
+    apply Nat.xor_lt_two_pow
+    · split_ifs
+      · exact h a List.mem_cons_self
+      · positivity
+    · exact applyL_ltC A _ fun x hx => h x (List.mem_cons_of_mem _ hx)
+
+theorem xor_powC {z n : Nat} (hz : z < 2 ^ n) : z ^^^ 2 ^ n = 2 ^ n + z := by
+  apply Nat.eq_of_testBit_eq
+  intro i
+  rw [Nat.testBit_xor, Nat.testBit_two_pow]
+  rcases lt_trichotomy i n with h | rfl | h
+  · rw [Nat.testBit_two_pow_add_gt h, decide_eq_false (by omega), Bool.xor_false]
+  · rw [Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hz]
+    simp
+  · have h1 : z < 2 ^ i := lt_of_lt_of_le hz (Nat.pow_le_pow_right (by norm_num) h.le)
+    have h2 : 2 ^ n + z < 2 ^ i := by
+      have : 2 ^ (n + 1) ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) h
+      rw [Nat.pow_succ] at this
+      omega
+    rw [Nat.testBit_lt_two_pow h1, Nat.testBit_lt_two_pow h2, decide_eq_false (by omega)]
+    rfl
+
+theorem linExtC (F G : Nat → Nat) (hF : ∀ x y, F (x ^^^ y) = F x ^^^ F y)
+    (hG : ∀ x y, G (x ^^^ y) = G x ^^^ G y) :
+    ∀ n, (∀ m < n, F (2 ^ m) = G (2 ^ m)) → ∀ y < 2 ^ n, F y = G y
+  | 0, _, y, hy => by
+    have hy0 : y = 0 := by simpa using hy
+    have e1 := hF 0 0
+    have e2 := hG 0 0
+    simp only [Nat.xor_self] at e1 e2
+    rw [hy0, e1, e2]
+  | n + 1, h, y, hy => by
+    by_cases hlt : y < 2 ^ n
+    · exact linExtC F G hF hG n (fun m hm => h m (by omega)) y hlt
+    · have hz : y - 2 ^ n < 2 ^ n := by rw [Nat.pow_succ] at hy; omega
+      have e : y = (y - 2 ^ n) ^^^ 2 ^ n := by rw [xor_powC hz]; omega
+      rw [e, hF, hG, linExtC F G hF hG n (fun m hm => h m (by omega)) _ hz, h n (by omega)]
+
+@[expose] def cctLane (C : List (List Nat)) (R : Nat → Nat) (j : Nat) : Prop :=
+  (∀ m < 20, applyL (C.getD j []) ((C.getD j []).getD m 0) = 2 ^ m) ∧
+    ∀ a < 693, fldR R j a < 693 ∧ ∀ m < 20,
+      applyL (C.getD j []) (applyL (C.getD a []) ((C.getD j []).getD m 0)) =
+        (C.getD (fldR R j a) []).getD m 0
+
+theorem cctStep {C : List (List Nat)} {R : Nat → Nat} (hl : C.length = 693)
+    (hc : ∀ k < 693, (C.getD k []).length = 20 ∧ ∀ m < 20, (C.getD k []).getD m 0 < 2 ^ 20)
+    {g p j : Nat} (hg : g < 693) (hp : p < 693) (hj' : j < 693) (Pg : cctLane C R g)
+    (Pp : cctLane C R p) (hj : fldR R g p = j)
+    (hR : ∀ a < 693, fldR R j a = fldR R g (fldR R p (fldR R g a))) : cctLane C R j := by
+  have hB : ∀ k, ∀ x ∈ C.getD k [], x < 2 ^ 20 := by
+    intro k x hx
+    by_cases hk : k < 693
+    · obtain ⟨m, hm, rfl⟩ := List.mem_iff_getElem.mp hx
+      have := (hc k hk).2 m (by rw [← (hc k hk).1]; exact hm)
+      rwa [List.getD_eq_getElem _ _ hm] at this
+    · rw [List.getD_eq_default _ _ (by omega)] at hx
+      simp at hx
+  have hlt : ∀ k y, applyL (C.getD k []) y < 2 ^ 20 := fun k y => applyL_ltC _ y (hB k)
+  have hcol : ∀ k < 693, ∀ m < 20, applyL (C.getD k []) (2 ^ m) = (C.getD k []).getD m 0 :=
+    fun k hk m hm => applyL_powC _ m (by rw [(hc k hk).1]; exact hm)
+  have sq : ∀ k < 693, cctLane C R k → ∀ y < 2 ^ 20,
+      applyL (C.getD k []) (applyL (C.getD k []) y) = y := fun k hk P =>
+    linExtC (fun y => applyL (C.getD k []) (applyL (C.getD k []) y)) id
+      (fun x y => by simp only [applyL_xorC]) (fun x y => rfl) 20
+      (fun m hm => by
+        simp only [id]
+        rw [hcol k hk m hm]
+        exact P.1 m hm)
+  have cj : ∀ k < 693, cctLane C R k → ∀ a < 693, ∀ y < 2 ^ 20,
+      applyL (C.getD k []) (applyL (C.getD a []) (applyL (C.getD k []) y)) =
+        applyL (C.getD (fldR R k a) []) y := fun k hk P a ha =>
+    linExtC (fun y => applyL (C.getD k []) (applyL (C.getD a []) (applyL (C.getD k []) y)))
+      (fun y => applyL (C.getD (fldR R k a) []) y)
+      (fun x y => by simp only [applyL_xorC]) (fun x y => applyL_xorC _ x y) 20
+      (fun m hm => by
+        rw [hcol k hk m hm, (P.2 a ha).2 m hm, hcol _ (P.2 a ha).1 m hm])
+  have hjM : ∀ y < 2 ^ 20, applyL (C.getD j []) y =
+      applyL (C.getD g []) (applyL (C.getD p []) (applyL (C.getD g []) y)) := fun y hy => by
+    rw [cj g hg Pg p hp y hy, hj]
+  have he : ∀ m < 20, 2 ^ m < 2 ^ 20 := fun m hm => Nat.pow_lt_pow_right (by norm_num) hm
+  refine ⟨fun m hm => ?_, fun a ha => ?_⟩
+  · rw [← hcol j hj' m hm, hjM _ (hlt _ _), hjM _ (he m hm), sq g hg Pg _ (hlt _ _),
+      sq p hp Pp _ (hlt _ _), sq g hg Pg _ (he m hm)]
+  · have hb := (Pg.2 a ha).1
+    have hc' := (Pp.2 _ hb).1
+    have hd := (Pg.2 _ hc').1
+    refine ⟨by rw [hR a ha]; exact hd, fun m hm => ?_⟩
+    rw [hR a ha, ← hcol j hj' m hm, ← hcol _ hd m hm, hjM _ (hlt _ _), hjM _ (he m hm),
+      cj g hg Pg a ha _ (hlt _ _), cj p hp Pp _ hb _ (hlt _ _), cj g hg Pg _ hc' _ (he m hm)]
+
+theorem cctCmp_get {Rg Rp : Nat} : ∀ (n X Y : Nat), cctCmp Rg Rp n X Y = true →
+    ∀ a < n, (X >>> (10 * a)) % 1024 = cctFld Rg (cctFld Rp ((Y >>> (10 * a)) % 1024))
+  | 0, _, _, _, a, ha => absurd ha (Nat.not_lt_zero a)
+  | n + 1, X, Y, h, a, ha => by
+    have h' : (Nat.beq (Nat.mod X 1024) (cctFld Rg (cctFld Rp (Nat.mod Y 1024))) &&
+        cctCmp Rg Rp n (Nat.shiftRight X 10) (Nat.shiftRight Y 10)) = true := h
+    rw [Bool.and_eq_true, Nat.beq_eq] at h'
+    rcases a with _ | a
+    · simp only [Nat.mul_zero, Nat.shiftRight_zero]
+      exact h'.1
+    · rw [show 10 * (a + 1) = 10 + 10 * a by ring, Nat.shiftRight_add, Nat.shiftRight_add]
+      exact cctCmp_get n _ _ h'.2 a (by omega)
+
+theorem cctBit_iff (K i : Nat) : cctBit K i = true ↔ K.testBit i = true := by
+  unfold cctBit
+  rw [Nat.blt_eq]
+  change 0 < K &&& 1 <<< i ↔ _
+  rw [Nat.one_shiftLeft]
+  constructor
+  · intro h
+    by_contra hb
+    have h0 : K &&& 2 ^ i = 0 := Nat.eq_of_testBit_eq fun j => by
+      rw [Nat.testBit_and, Nat.testBit_two_pow, Nat.zero_testBit]
+      by_cases hij : i = j
+      · subst hij
+        simp [hb]
+      · simp [hij]
+    omega
+  · intro h
+    apply Nat.pos_of_ne_zero
+    intro h0
+    have := congrArg (fun x => x.testBit i) h0
+    simp [Nat.testBit_and, h] at this
+
+theorem cctOr_eq (K j : Nat) : Nat.lor K (Nat.shiftLeft 1 j) = K ||| 2 ^ j := by
+  rw [Nat.shiftLeft_eq', Nat.one_shiftLeft]
+  rfl
+
+theorem cctMask_bit : ∀ (Gs : List Nat) (i : Nat), (cctMask Gs).testBit i = true → i ∈ Gs
+  | [], i, h => by
+    change (0 : Nat).testBit i = true at h
+    simp at h
+  | g :: Gs, i, h => by
+    change (Nat.lor (Nat.shiftLeft 1 g) (cctMask Gs)).testBit i = true at h
+    rw [Nat.shiftLeft_eq', Nat.one_shiftLeft] at h
+    change (2 ^ g ||| cctMask Gs).testBit i = true at h
+    rw [Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true, decide_eq_true_eq] at h
+    rcases h with rfl | h
+    · exact List.mem_cons_self
+    · exact List.mem_cons_of_mem _ (cctMask_bit Gs i h)
+
+theorem cctGen_get {ONE REP ID Bpk : Nat} {Qs : List Nat} {C : List (List Nat)} {R : Nat → Nat} :
+    ∀ (Gs : List Nat), cctGen ONE REP ID Bpk Qs C R Gs = true → ∀ g ∈ Gs, g < 693 ∧
+      rowC ONE REP ID Bpk Qs (C.getD g []) (pkW 20 (C.getD g [])) (R g) = true
+  | [], _, g, hg => by simp at hg
+  | g' :: Gs, h, g, hg => by
+    have h' : ((Nat.blt g' 693 &&
+        rowC ONE REP ID Bpk Qs (C.getD g' []) (pkW 20 (C.getD g' [])) (R g')) &&
+        cctGen ONE REP ID Bpk Qs C R Gs) = true := h
+    rw [Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq] at h'
+    rcases List.mem_cons.1 hg with rfl | hg
+    · exact ⟨h'.1.1, h'.1.2⟩
+    · exact cctGen_get Gs h'.2 g hg
+
+theorem cctTree_get {R : Nat → Nat} (Q : Nat → Prop)
+    (hstep : ∀ g p j, Q g → Q p → fldR R g p = j →
+      (∀ a < 693, fldR R j a = fldR R g (fldR R p (fldR R g a))) → Q j) :
+    ∀ (J G P : List Nat) (K : Nat), cctTree R J G P K = true →
+      (∀ i, K.testBit i = true → Q i) → ∀ i < 693, Q i
+  | [], _, _, K, h, hK, i, hi => by
+    have h' : Nat.beq K (Nat.sub (Nat.shiftLeft 1 693) 1) = true := h
+    rw [Nat.beq_eq, Nat.shiftLeft_eq', Nat.one_shiftLeft] at h'
+    apply hK
+    rw [h']
+    revert hi
+    generalize 693 = N
+    intro hN
+    change (2 ^ N - 1).testBit i = true
+    rw [Nat.testBit_two_pow_sub_one, decide_eq_true_eq]
+    exact hN
+  | j :: J, G, P, K, h, hK, i, hi => by
+    have h' : ((cctBit K (G.headD 0) && cctBit K (P.headD 0) &&
+        Nat.beq (cctFld (R (G.headD 0)) (P.headD 0)) j &&
+        cctCmp (R (G.headD 0)) (R (P.headD 0)) 693 (R j) (R (G.headD 0))) &&
+        cctTree R J G.tail P.tail (Nat.lor K (Nat.shiftLeft 1 j))) = true := h
+    rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, Nat.beq_eq,
+      cctBit_iff, cctBit_iff] at h'
+    obtain ⟨⟨⟨⟨hg, hp⟩, hj⟩, hc⟩, ht⟩ := h'
+    have hQj : Q j := hstep _ _ j (hK _ hg) (hK _ hp) hj (fun a ha => cctCmp_get 693 _ _ hc a ha)
+    refine cctTree_get Q hstep J G.tail P.tail _ ht (fun i' hi' => ?_) i hi
+    rw [cctOr_eq, Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true, decide_eq_true_eq] at hi'
+    rcases hi' with h1 | rfl
+    · exact hK _ h1
+    · exact hQj
 
 end CFSG.SmithE.K

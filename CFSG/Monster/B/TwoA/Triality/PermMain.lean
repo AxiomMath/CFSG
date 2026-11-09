@@ -14,28 +14,47 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.Lifts CFSG.Monster.Griess CFSG.Monster.Visible CFSG.Monster.ScalarKernel
   CFSG.Monster.B.Short CFSG.Monster.B Matrix
 
+theorem mul_apply_B (f g : SpaceB ≃ₗ[ℚ] SpaceB) (x : SpaceB) : (f * g) x = f (g x) :=
+  LinearEquiv.mul_apply f g x
+
+theorem ext_tbasis {f g : SpaceB ≃ₗ[ℚ] SpaceB} (h : ∀ x, f (tbasis x) = g (tbasis x)) : f = g :=
+  tbasis.ext' h
+
+theorem oct_comm_abstract {ι κ : Type*} {_ : Fintype ι} {_ : Fintype κ}
+    (A B : SpaceB ≃ₗ[ℚ] SpaceB) (σ : ι → OctIdx) (τ : κ → OctIdx)
+    (H : ι → ι → ℚ) (H' : κ → κ → ℚ) (e : ι → κ) (he : Function.Bijective e) (c : ℚ)
+    (hA : ∀ w, A (tbasis (.inr (.inr (.inr (σ w))))) = c • tbasis (.inr (.inr (.inr (τ (e w))))))
+    (hB : ∀ v, B (tbasis (.inr (.inr (.inr (σ v))))) =
+      ∑ w, H v w • tbasis (.inr (.inr (.inr (σ w)))))
+    (hB' : ∀ v, B (tbasis (.inr (.inr (.inr (τ v))))) =
+      ∑ w, H' v w • tbasis (.inr (.inr (.inr (τ w)))))
+    (hH : ∀ v w, H' (e v) (e w) = H v w) (v : ι) :
+    (A * B) (tbasis (.inr (.inr (.inr (σ v))))) = (B * A) (tbasis (.inr (.inr (.inr (σ v))))) := by
+  rw [mul_apply_B, mul_apply_B, hB, map_sum, hA, map_smul, hB', Finset.smul_sum]
+  simp only [map_smul, hA]
+  rw [← he.sum_comp]
+  refine Finset.sum_congr rfl fun w _ => ?_
+  rw [hH, smul_comm]
+
 theorem gLift_mul_tauB_oct (p : AutPerm) (d : OctadWord) (v : Octad.EvenQuot (octSupp d)) :
     (gLift p * tauB) (tbasis (.inr (.inr (.inr ⟨d, v⟩)))) =
-      (tauB * gLift p) (tbasis (.inr (.inr (.inr ⟨d, v⟩)))) := by
-  rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, tauB_oct, map_sum, gLift_oct, map_smul,
-    tauB_oct, Finset.smul_sum]
-  simp only [map_smul, gLift_oct]
-  rw [← (octQMap_bijective p d).sum_comp]
-  refine Finset.sum_congr rfl fun w _ => ?_
-  rw [octHD_octQMap, smul_comm]
+      (tauB * gLift p) (tbasis (.inr (.inr (.inr ⟨d, v⟩)))) :=
+  oct_comm_abstract (gLift p) tauB (Sigma.mk d) (Sigma.mk (octMap p d)) (octHD d)
+    (octHD (octMap p d)) (octQMap p d) (octQMap_bijective p d) (sgn (gammaP p d)) (gLift_oct p d)
+    (tauB_oct d) (tauB_oct (octMap p d)) (octHD_octQMap p d) v
 
 theorem gLift_tauB_tbasis (p : AutPerm) (x : TIdx) :
     (gLift p * tauB) (tbasis x) = (tauB * gLift p) (tbasis x) := by
   rcases x with i | ⟨P, k⟩ | ⟨c, i, k⟩ | ⟨d, v⟩
-  · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, tauB_diag, gLift_diag, tauB_diag]
-  · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, tauB_pair, gLift_pair, gLift_pair,
+  · rw [mul_apply_B, mul_apply_B, tauB_diag, gLift_diag, tauB_diag]
+  · rw [mul_apply_B, mul_apply_B, tauB_pair, gLift_pair, gLift_pair,
       tauB_pair]
-  · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, tauB_odd c i k, gLift_odd p c i (k + 1),
+  · rw [mul_apply_B, mul_apply_B, tauB_odd c i k, gLift_odd p c i (k + 1),
       gLift_odd p c i k, LinearEquiv.map_smul tauB (sgn (gammaP p c)), tauB_odd]
   · exact gLift_mul_tauB_oct p d v
 
 theorem gLift_mul_tauB (p : AutPerm) : gLift p * tauB = tauB * gLift p :=
-  tbasis.ext' (gLift_tauB_tbasis p)
+  ext_tbasis (gLift_tauB_tbasis p)
 
 theorem gLift_conj_rhoEquiv (p : AutPerm) (r : Q) :
     gLift p * rhoEquiv r * (gLift p)⁻¹ = rhoEquiv (conjQ (gPair p) r) := by

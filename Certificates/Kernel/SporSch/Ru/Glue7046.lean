@@ -70,6 +70,7 @@ theorem hgF : ∀ k < 2, ∀ x < 4060, (ruFGArrs[k]!)[x]! = F7046.gF k x := fun 
 
 theorem flab_get {y : Nat} (hy : y < 4060) : ruFLab[y]! = F7046.Lf y := by
   have hs : ruFGArrs.size = 2 := by simp [ruFGArrs]
+  rw [ruFLab, orbLab_eq]
   exact (orbLabels_of_K hs hgF F7046.kOrb).2 y hy
 
 theorem flab_lt {y : Nat} (hy : y < 4060) : F7046.Lf y < 8 := by

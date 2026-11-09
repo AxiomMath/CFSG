@@ -7,7 +7,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.GUP0 "Certificates/Kernel/GammaU/data/pair0.json.gz" 6427
+#kc_repo #kc_json CFSG.KD.GUP0 "Certificates/Kernel/GammaU/data/pair0.json" 6427
   13121232366442443093 (PM : List Nat) (PW : List (List Nat)) (PWI : List (List Nat)) (PC : Nat)
   (PCi : Nat) (RP : List Nat) (DR : List Nat) (DW : List (List (List Nat))) (TG : List Nat)
   (WP : List (List (List Nat))) (RC : List Nat) (RCI : List Nat)

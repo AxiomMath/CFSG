@@ -9,6 +9,8 @@ public import CFSG.Certificates.Kernel.LocalCompExcTextSound
 public import CFSG.Certificates.Kernel.BfsPinUnpack
 public import CFSG.Certificates.Kernel.Spor.RawOrbHead
 public import CFSG.Certificates.Kernel.Child3Reps
+public import CFSG.Certificates.Kernel.SporSch.Child3Base
+import CFSG.Sporadic.Schreier.PairChain
 import CFSG.Certificates.Kernel.Common.Harness
 public import CFSG.Certificates.Kernel.BfsPinSound
 public import CFSG.LocalAnalysis.ComponentClassification.J2CoverAutCheckBase
@@ -180,23 +182,23 @@ theorem p8 : ∀ j < s8Gens.length, permOK 240 8 (mask 8) (240 * 8) (Q8.S j) (Q8
 
 theorem chainT : ChainK 240 8 tGens tQWords (#v[0, 1, 4, 8, 12, 16, 20] : Vector (Fin 240) 7)
     TQ.S TQ.SI TQ.LR TQ.TR TQ.TRI 22 TQ.BP 15 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, imgT, by decide, TQ.head, TQ.hl, by norm_num, TQ.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, imgT, by decide, TQ.head, TQ.hl, by norm_num, .inl TQ.hs⟩
 
 theorem chain24 : ChainK 240 8 s24Gens s24QWords (#v[0, 1, 4, 8, 12, 16, 20] : Vector (Fin 240) 7)
     Q24.S Q24.SI Q24.LR Q24.TR Q24.TRI 17 Q24.BP 15 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img24, by decide, Q24.head, Q24.hl, by norm_num, Q24.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img24, by decide, Q24.head, Q24.hl, by norm_num, .inl Q24.hs⟩
 
 theorem chain60 : ChainK 240 8 s60Gens s60QWords (#v[0, 1, 4, 8, 12, 16, 20] : Vector (Fin 240) 7)
     Q60.S Q60.SI Q60.LR Q60.TR Q60.TRI 15 Q60.BP 15 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img60, by decide, Q60.head, Q60.hl, by norm_num, Q60.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img60, by decide, Q60.head, Q60.hl, by norm_num, .inl Q60.hs⟩
 
 theorem chain4 : ChainK 240 8 s4Gens s4QWords (#v[0, 1, 4, 8, 12, 16, 20] : Vector (Fin 240) 7)
     Q4.S Q4.SI Q4.LR Q4.TR Q4.TRI 14 Q4.BP 15 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img4, by decide, Q4.head, Q4.hl, by norm_num, Q4.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img4, by decide, Q4.head, Q4.hl, by norm_num, .inl Q4.hs⟩
 
 theorem chain8 : ChainK 240 8 s8Gens s8QWords (#v[0, 1, 4, 12, 20] : Vector (Fin 240) 5)
     Q8.S Q8.SI Q8.LR Q8.TR Q8.TRI 10 Q8.BP 15 16 :=
-  ⟨by norm_num, by norm_num, by norm_num, img8, by decide, Q8.head, Q8.hl, by norm_num, Q8.hs⟩
+  ⟨by norm_num, by norm_num, by norm_num, img8, by decide, Q8.head, Q8.hl, by norm_num, .inl Q8.hs⟩
 
 theorem kNT : Nat.beq (ordK TQ.LR 7) 8192 = true := by quickRfl
 theorem kN24 : Nat.beq (ordK Q24.LR 7) 4096 = true := by quickRfl
@@ -267,55 +269,55 @@ theorem chainCT : ChainK 240 8 (tGens.map fun g => sg7 * g * sg7⁻¹) tQWords
     15 16 :=
   ⟨by norm_num, by norm_num, by norm_num,
     conj_img (by norm_num) (prep_permOf kSig7).1 (prep_permOf kSig7).2 imgT kJT, by decide,
-    CQT.head, CQT.hl, by norm_num, CQT.hs⟩
+    CQT.head, CQT.hl, by norm_num, .inl CQT.hs⟩
 
 theorem chainC24 : ChainK 240 8 (s24Gens.map fun g => sg7 * g * sg7⁻¹) s24QWords
     (#v[0, 1, 2, 3, 4, 5, 6] : Vector (Fin 240) 7) CQ24.S CQ24.SI CQ24.LR CQ24.TR CQ24.TRI 17
     CQ24.BP 15 16 :=
   ⟨by norm_num, by norm_num, by norm_num,
     conj_img (by norm_num) (prep_permOf kSig7).1 (prep_permOf kSig7).2 img24 kJ24, by decide,
-    CQ24.head, CQ24.hl, by norm_num, CQ24.hs⟩
+    CQ24.head, CQ24.hl, by norm_num, .inl CQ24.hs⟩
 
 theorem chainC60 : ChainK 240 8 (s60Gens.map fun g => sg7 * g * sg7⁻¹) s60QWords
     (#v[0, 1, 2, 3, 4, 5, 6] : Vector (Fin 240) 7) CQ60.S CQ60.SI CQ60.LR CQ60.TR CQ60.TRI 15
     CQ60.BP 15 16 :=
   ⟨by norm_num, by norm_num, by norm_num,
     conj_img (by norm_num) (prep_permOf kSig7).1 (prep_permOf kSig7).2 img60 kJ60, by decide,
-    CQ60.head, CQ60.hl, by norm_num, CQ60.hs⟩
+    CQ60.head, CQ60.hl, by norm_num, .inl CQ60.hs⟩
 
 theorem chainC4 : ChainK 240 8 (s4Gens.map fun g => sg7 * g * sg7⁻¹) s4QWords
     (#v[0, 1, 2, 3, 4, 5, 6] : Vector (Fin 240) 7) CQ4.S CQ4.SI CQ4.LR CQ4.TR CQ4.TRI 14 CQ4.BP
     15 16 :=
   ⟨by norm_num, by norm_num, by norm_num,
     conj_img (by norm_num) (prep_permOf kSig7).1 (prep_permOf kSig7).2 img4 kJ4, by decide,
-    CQ4.head, CQ4.hl, by norm_num, CQ4.hs⟩
+    CQ4.head, CQ4.hl, by norm_num, .inl CQ4.hs⟩
 
 theorem chainC8 : ChainK 240 8 (s8Gens.map fun g => sg5 * g * sg5⁻¹) s8QWords
     (#v[0, 1, 2, 3, 4] : Vector (Fin 240) 5) CQ8.S CQ8.SI CQ8.LR CQ8.TR CQ8.TRI 10 CQ8.BP 15 16 :=
   ⟨by norm_num, by norm_num, by norm_num,
     conj_img (by norm_num) (prep_permOf kSig5).1 (prep_permOf kSig5).2 img8 kJ8, by decide,
-    CQ8.head, CQ8.hl, by norm_num, CQ8.hs⟩
+    CQ8.head, CQ8.hl, by norm_num, .inl CQ8.hs⟩
 
 theorem cntT : (cosetOrderTables tQ 1 2).length = RT.N :=
   (chainK_count_conj (by decide) (by decide) (by decide) chainT chainCT (by norm_num)).trans
-    ((chainK_cosetCount (by decide) (by decide) chainCT one240 cOne (by norm_num) (by norm_num)
-      (by decide) CNT.hc).trans (by decide))
+    ((chainK_invCount chainCT (by decide) (by decide) (by decide) (by norm_num) (by decide)
+      CNT.hc).trans (by decide))
 theorem cnt24 : (cosetOrderTables s24Q 1 2).length = R24.N :=
   (chainK_count_conj (by decide) (by decide) (by decide) chain24 chainC24 (by norm_num)).trans
-    ((chainK_cosetCount (by decide) (by decide) chainC24 one240 cOne (by norm_num) (by norm_num)
-      (by decide) CN24.hc).trans (by decide))
+    ((chainK_invCount chainC24 (by decide) (by decide) (by decide) (by norm_num) (by decide)
+      CN24.hc).trans (by decide))
 theorem cnt60 : (cosetOrderTables s60Q 1 2).length = R60.N :=
   (chainK_count_conj (by decide) (by decide) (by decide) chain60 chainC60 (by norm_num)).trans
-    ((chainK_cosetCount (by decide) (by decide) chainC60 one240 cOne (by norm_num) (by norm_num)
-      (by decide) CN60.hc).trans (by decide))
+    ((chainK_invCount chainC60 (by decide) (by decide) (by decide) (by norm_num) (by decide)
+      CN60.hc).trans (by decide))
 theorem cnt4 : (cosetOrderTables s4Q 1 2).length = R4.N :=
   (chainK_count_conj (by decide) (by decide) (by decide) chain4 chainC4 (by norm_num)).trans
-    ((chainK_cosetCount (by decide) (by decide) chainC4 one240 cOne (by norm_num) (by norm_num)
-      (by decide) CN4.hc).trans (by decide))
+    ((chainK_invCount chainC4 (by decide) (by decide) (by decide) (by norm_num) (by decide)
+      CN4.hc).trans (by decide))
 theorem cnt8 : (cosetOrderTables s8Q 1 2).length = R8.N :=
   (chainK_count_conj (by decide) (by decide) (by decide) chain8 chainC8 (by norm_num)).trans
-    ((chainK_cosetCount (by decide) (by decide) chainC8 one240 cOne (by norm_num) (by norm_num)
-      (by decide) CN8.hc).trans (by decide))
+    ((chainK_invCount chainC8 (by decide) (by decide) (by decide) (by norm_num) (by decide)
+      CN8.hc).trans (by decide))
 
 theorem kCT : allN 13 (fun j => bAnd(canonK 240 8 (mask 8) (240 * 8) (TQ.S j),
     canonK 240 8 (mask 8) (240 * 8) (TQ.SI j))) = true := by quickRfl
@@ -372,16 +374,37 @@ theorem kPos60 : CFSG.KC.J2Cover.allL (fun c => Nat.blt 0 c) R60.CS = true := by
 theorem kPos4 : CFSG.KC.J2Cover.allL (fun c => Nat.blt 0 c) R4.CS = true := by quickRfl
 theorem kPos8 : CFSG.KC.J2Cover.allL (fun c => Nat.blt 0 c) R8.CS = true := by quickRfl
 
-theorem kRT : allN RT.N (repK 240 8 TQ.S TQ.SI 13 RT.CS RT.OFF RT.CI RT.E RT.P RT.L RT.K RT.S
-    RT.SI RT.N 600) = true := by quickRfl
-theorem kR24 : allN R24.N (repK 240 8 Q24.S Q24.SI 9 R24.CS R24.OFF R24.CI R24.E R24.P R24.L
-    R24.K R24.S R24.SI R24.N 600) = true := by quickRfl
-theorem kR60 : allN R60.N (repK 240 8 Q60.S Q60.SI 9 R60.CS R60.OFF R60.CI R60.E R60.P R60.L
-    R60.K R60.S R60.SI R60.N 600) = true := by quickRfl
-theorem kR4 : allN R4.N (repK 240 8 Q4.S Q4.SI 8 R4.CS R4.OFF R4.CI R4.E R4.P R4.L R4.K R4.S
-    R4.SI R4.N 600) = true := by quickRfl
-theorem kR8 : allN R8.N (repK 240 8 Q8.S Q8.SI 5 R8.CS R8.OFF R8.CI R8.E R8.P R8.L R8.K R8.S
-    R8.SI R8.N 600) = true := by quickRfl
+theorem kRT : allN RT.N (repKB 240 8 TQ.S TQ.SI 13 RT.CS RT.OFF RT.CI RT.E RT.P RT.L RT.K RT.S
+    RT.SI RT.N 600 [0, 1, 4, 8, 12, 16, 20]) = true := by quickRfl
+theorem kR24 : allN R24.N (repKB 240 8 Q24.S Q24.SI 9 R24.CS R24.OFF R24.CI R24.E R24.P R24.L
+    R24.K R24.S R24.SI R24.N 600 [0, 1, 4, 8, 12, 16, 20]) = true := by quickRfl
+theorem kR60 : allN R60.N (repKB 240 8 Q60.S Q60.SI 9 R60.CS R60.OFF R60.CI R60.E R60.P R60.L
+    R60.K R60.S R60.SI R60.N 600 [0, 1, 4, 8, 12, 16, 20]) = true := by quickRfl
+theorem kR4 : allN R4.N (repKB 240 8 Q4.S Q4.SI 8 R4.CS R4.OFF R4.CI R4.E R4.P R4.L R4.K R4.S
+    R4.SI R4.N 600 [0, 1, 4, 8, 12, 16, 20]) = true := by quickRfl
+theorem kR8 : allN R8.N (repKB 240 8 Q8.S Q8.SI 5 R8.CS R8.OFF R8.CI R8.E R8.P R8.L R8.K R8.S
+    R8.SI R8.N 600 [0, 1, 4, 12, 20]) = true := by quickRfl
+
+theorem faithT : BaseFaithful (Subgroup.closure {x | x ∈ tGens}) [0, 1, 4, 8, 12, 16, 20] := by
+  have h := baseFaithful_of_valid (chainK_valid chainT (by norm_num) (by decide))
+  rw [certificate_originalSubgroup] at h
+  exact h
+theorem faith24 : BaseFaithful (Subgroup.closure {x | x ∈ s24Gens}) [0, 1, 4, 8, 12, 16, 20] := by
+  have h := baseFaithful_of_valid (chainK_valid chain24 (by norm_num) (by decide))
+  rw [certificate_originalSubgroup] at h
+  exact h
+theorem faith60 : BaseFaithful (Subgroup.closure {x | x ∈ s60Gens}) [0, 1, 4, 8, 12, 16, 20] := by
+  have h := baseFaithful_of_valid (chainK_valid chain60 (by norm_num) (by decide))
+  rw [certificate_originalSubgroup] at h
+  exact h
+theorem faith4 : BaseFaithful (Subgroup.closure {x | x ∈ s4Gens}) [0, 1, 4, 8, 12, 16, 20] := by
+  have h := baseFaithful_of_valid (chainK_valid chain4 (by norm_num) (by decide))
+  rw [certificate_originalSubgroup] at h
+  exact h
+theorem faith8 : BaseFaithful (Subgroup.closure {x | x ∈ s8Gens}) [0, 1, 4, 12, 20] := by
+  have h := baseFaithful_of_valid (chainK_valid chain8 (by norm_num) (by decide))
+  rw [certificate_originalSubgroup] at h
+  exact h
 
 theorem tReps_eq : tReps = tRepWords.map (evalCodes tGens) := by simp only [tReps, tab_eq]
 
@@ -416,35 +439,65 @@ theorem repsT : repsOK 240 (listTables tGens) (listTables (tGens.map (·⁻¹)))
   repsOK_of_img tGens_len (fun j hj => imgT j (lt_of_lt_of_eq hj tGens_len.symm))
     (fun j hj => allN_spec kPT j hj) (fun j hj => and_of_bAnd (allN_spec kCT j hj))
     (tReps_len.trans (by decide)) (fun i hi => imgRT i (lt_of_lt_of_eq hi (by decide))) kOffT
-    kPosT cntT (fun j hj => allN_spec kRT j hj)
+    kPosT cntT (repK_of_repKB sz
+      (fun l hl => ⟨imgT l (lt_of_lt_of_eq hl tGens_len.symm), getD_mem_closure tGens l⟩)
+      (fun j hj => allN_spec kPT j hj)
+      (fun i hi => ⟨imgRT i (lt_of_lt_of_eq hi (by decide)),
+        tReps_eq ▸ getD_map_evalCodes_mem tGens tRepWords i⟩)
+      (fun j hj => allN_spec kRT j hj) (fun j hj => and_of_bAnd (allN_spec kCT j hj)) kOffT
+      faithT)
 
 theorem reps24 : repsOK 240 (listTables s24Gens) (listTables (s24Gens.map (·⁻¹)))
       (cosetOrderTables s24Q 1 2) (r24Reps.map toTable) 600 = true :=
   (repsOK_of_img s24Gens_len (fun j hj => img24 j (lt_of_lt_of_eq hj s24Gens_len.symm))
     (fun j hj => allN_spec kP24 j hj) (fun j hj => and_of_bAnd (allN_spec kC24 j hj))
     (r24Reps_len.trans (by decide)) (fun i hi => imgR24 i (lt_of_lt_of_eq hi (by decide))) kOff24
-    kPos24 cnt24 (fun j hj => allN_spec kR24 j hj)).1
+    kPos24 cnt24 (repK_of_repKB sz
+      (fun l hl => ⟨img24 l (lt_of_lt_of_eq hl s24Gens_len.symm), getD_mem_closure s24Gens l⟩)
+      (fun j hj => allN_spec kP24 j hj)
+      (fun i hi => ⟨imgR24 i (lt_of_lt_of_eq hi (by decide)),
+        getD_map_evalCodes_mem s24Gens r24Words i⟩)
+      (fun j hj => allN_spec kR24 j hj) (fun j hj => and_of_bAnd (allN_spec kC24 j hj)) kOff24
+      faith24)).1
 
 theorem reps60 : repsOK 240 (listTables s60Gens) (listTables (s60Gens.map (·⁻¹)))
       (cosetOrderTables s60Q 1 2) (r60Reps.map toTable) 600 = true :=
   (repsOK_of_img s60Gens_len (fun j hj => img60 j (lt_of_lt_of_eq hj s60Gens_len.symm))
     (fun j hj => allN_spec kP60 j hj) (fun j hj => and_of_bAnd (allN_spec kC60 j hj))
     (r60Reps_len.trans (by decide)) (fun i hi => imgR60 i (lt_of_lt_of_eq hi (by decide))) kOff60
-    kPos60 cnt60 (fun j hj => allN_spec kR60 j hj)).1
+    kPos60 cnt60 (repK_of_repKB sz
+      (fun l hl => ⟨img60 l (lt_of_lt_of_eq hl s60Gens_len.symm), getD_mem_closure s60Gens l⟩)
+      (fun j hj => allN_spec kP60 j hj)
+      (fun i hi => ⟨imgR60 i (lt_of_lt_of_eq hi (by decide)),
+        getD_map_evalCodes_mem s60Gens r60Words i⟩)
+      (fun j hj => allN_spec kR60 j hj) (fun j hj => and_of_bAnd (allN_spec kC60 j hj)) kOff60
+      faith60)).1
 
 theorem reps4 : repsOK 240 (listTables s4Gens) (listTables (s4Gens.map (·⁻¹)))
       (cosetOrderTables s4Q 1 2) (r4Reps.map toTable) 600 = true :=
   (repsOK_of_img s4Gens_len (fun j hj => img4 j (lt_of_lt_of_eq hj s4Gens_len.symm))
     (fun j hj => allN_spec kP4 j hj) (fun j hj => and_of_bAnd (allN_spec kC4 j hj))
     (r4Reps_len.trans (by decide)) (fun i hi => imgR4 i (lt_of_lt_of_eq hi (by decide))) kOff4
-    kPos4 cnt4 (fun j hj => allN_spec kR4 j hj)).1
+    kPos4 cnt4 (repK_of_repKB sz
+      (fun l hl => ⟨img4 l (lt_of_lt_of_eq hl s4Gens_len.symm), getD_mem_closure s4Gens l⟩)
+      (fun j hj => allN_spec kP4 j hj)
+      (fun i hi => ⟨imgR4 i (lt_of_lt_of_eq hi (by decide)),
+        getD_map_evalCodes_mem s4Gens r4Words i⟩)
+      (fun j hj => allN_spec kR4 j hj) (fun j hj => and_of_bAnd (allN_spec kC4 j hj)) kOff4
+      faith4)).1
 
 theorem reps8 : repsOK 240 (listTables s8Gens) (listTables (s8Gens.map (·⁻¹)))
       (cosetOrderTables s8Q 1 2) (r8Reps.map toTable) 600 = true :=
   (repsOK_of_img s8Gens_len (fun j hj => img8 j (lt_of_lt_of_eq hj s8Gens_len.symm))
     (fun j hj => allN_spec kP8 j hj) (fun j hj => and_of_bAnd (allN_spec kC8 j hj))
     (r8Reps_len.trans (by decide)) (fun i hi => imgR8 i (lt_of_lt_of_eq hi (by decide))) kOff8
-    kPos8 cnt8 (fun j hj => allN_spec kR8 j hj)).1
+    kPos8 cnt8 (repK_of_repKB sz
+      (fun l hl => ⟨img8 l (lt_of_lt_of_eq hl s8Gens_len.symm), getD_mem_closure s8Gens l⟩)
+      (fun j hj => allN_spec kP8 j hj)
+      (fun i hi => ⟨imgR8 i (lt_of_lt_of_eq hi (by decide)),
+        getD_map_evalCodes_mem s8Gens r8Words i⟩)
+      (fun j hj => allN_spec kR8 j hj) (fun j hj => and_of_bAnd (allN_spec kC8 j hj)) kOff8
+      faith8)).1
 
 theorem cover_check : censusCoverCheck = true := by
   unfold censusCoverCheck
@@ -455,27 +508,17 @@ theorem cover_check : censusCoverCheck = true := by
     ord_all sz (e := 2) r8Reps_len imgR8 kO8 (by norm_num)]
   rfl
 
-theorem kAR : allN 240 (fun k => bAnd(permOK 240 8 (mask 8) (240 * 8) (E8.RT k)
-    (pinvS 240 8 (mask 8) (E8.RT k)), permOK 240 8 (mask 8) (240 * 8)
-    (pinvS 240 8 (mask 8) (E8.RT k)) (E8.RT k))) = true := by quickRfl
-
-theorem z1 : permOK 240 8 (mask 8) (240 * 8) E8.NEG (pinvS 240 8 (mask 8) E8.NEG) = true := by
-  quickRfl
-
-theorem z2 : permOK 240 8 (mask 8) (240 * 8) (pinvS 240 8 (mask 8) E8.NEG) E8.NEG = true := by
-  quickRfl
-
 theorem arr_check : censusArrCheck = true := by
   unfold censusArrCheck
   simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range]
   refine ⟨⟨fun k hk => ?_, ?_⟩, ?_⟩
-  · obtain ⟨p1, p2⟩ := and_of_bAnd (allN_spec kAR k hk)
-    rw [reflArrs_get k hk, CFSG.KC.BfsPin.invCand_unpack p1]
-    exact ⟨Orb.isInvA_unpack p1, Orb.isInvA_unpack p2⟩
-  · rw [CertificateChecks.KernelLC.E8.neg_eq, CFSG.KC.BfsPin.invCand_unpack z1]
-    exact Orb.isInvA_unpack z1
-  · rw [CertificateChecks.KernelLC.E8.neg_eq, CFSG.KC.BfsPin.invCand_unpack z1]
-    exact Orb.isInvA_unpack z2
+  · have p := allN_spec kRI k hk
+    rw [reflArrs_get k hk, (invEqK_sound p).1]
+    exact ⟨Orb.isInvA_unpack p, Orb.isInvA_unpack p⟩
+  · rw [CertificateChecks.KernelLC.E8.neg_eq, (invEqK_sound kZI).1]
+    exact Orb.isInvA_unpack kZI
+  · rw [CertificateChecks.KernelLC.E8.neg_eq, (invEqK_sound kZI).1]
+    exact Orb.isInvA_unpack kZI
 
 @[expose] noncomputable def fusOK (R : Nat) (e : ℕ × List ℤ) : Bool :=
   Prod.rec (motive := fun _ => Bool) (fun k wd =>

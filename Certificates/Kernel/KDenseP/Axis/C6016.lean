@@ -17,11 +17,19 @@ set_option maxRecDepth 100000
 theorem items6016 : ∀ x ∈ recTag HS.recShard_6, TagEq x :=
   eq_items data_okP (T := recTag HS.recShard_6) (recTag_fst _).symm CFSG.KD.AX.c6016.weq
     (WL := CFSG.KD.AX.c6016.WL) (fun _ => rfl)
-    (S := rlS CFSG.KD.AX.c6016.rn CFSG.KD.AX.c6016.CH CFSG.KD.AX.c6016.PRf CFSG.KD.AX.c6016.S0 3)
+    (S := rlS CFSG.KD.AX.c6016.rn CFSG.KD.AX.c6016.CH CFSG.KD.AX.c6016.PRf CFSG.KD.AX.c6016.S0 131)
     (CH := CFSG.KD.AX.c6016.CH) (IXf := CFSG.KD.AX.c6016.IXf) (CHI := CFSG.KD.AX.c6016.CHI)
     (fun _ => rfl) (nch := kd_count% CFSG.KD.AX.c6016 CH) (nIX := kd_count% CFSG.KD.AX.c6016 IX)
-    (IT := CFSG.KD.AX.c6016.IT) (kd_axC% CFSG.KD.AX.c6016) (by decide +kernel) (by quickRfl)
-    (rlS_init (by norm_num) (by quickRfl)) (rlS_init (by norm_num) (by quickRfl)) (rlS_wit2 rfl)
+    (IT := CFSG.KD.AX.c6016.IT)
+    (replay_sound (run := CFSG.KD.AX.c6016.rn) (chk := CFSG.KD.AX.c6016.ck)
+      (fun S S' c h3 h4 => chunkOKN_loc S S' c h3 h4) (fun S c h => chunkOKN_prod S c h)
+      (CH := CFSG.KD.AX.c6016.CH) (PR := CFSG.KD.AX.c6016.PRf) (GK := CFSG.KD.AX.c6016.GKf)
+      (G := CFSG.KD.AX.c6016.Gf) (S0 := CFSG.KD.AX.c6016.S0) (w := 131)
+      (ng := kd_count% CFSG.KD.AX.c6016 u) (nch := kd_count% CFSG.KD.AX.c6016 CH)
+      (by kd_allE CFSG.KD.AX.c6016 u) (by quickRfl))
+    (by decide +kernel) (by quickRfl)
+    (by rw [rlS_lt (by norm_num)] <;> quickRfl) (by rw [rlS_lt (by norm_num)] <;> quickRfl)
+    (by rw [rlS_lt (by norm_num), rlS_lt (by norm_num)] <;> rfl)
     (by quickRfl) (by decide +kernel)
 
 theorem c6016 :

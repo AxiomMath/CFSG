@@ -18,11 +18,8 @@ theorem rep_xi :
     Rep 3510 pinXiRaw xiPerm := (rep_permOfArr bridge_check.1).1
 
 theorem rep_xiSymm :
-    Rep 3510 (invCand 3510 pinXiRaw) xiPerm.symm := by
-  intro x
-  have h := (isInvA_spec bridge_check.1 (xiPerm.symm x).2).2
-  rw [rep_xi.apply (xiPerm.symm x).2, Fin.eta, Equiv.apply_symm_apply] at h
-  exact h
+    Rep 3510 (invCand 3510 pinXiRaw) xiPerm.symm :=
+  (rep_permOfArr bridge_check.1).2
 
 @[expose] noncomputable def ιEquiv :
     Y ≃ Fin 3510 := Equiv.ofBijective ι ι_bijective
@@ -41,14 +38,21 @@ theorem rep_candidate
   rw [Equiv.permCongr_apply, Equiv.symm_apply_apply]
   exact (ι_jGen hk y).symm
 
+private theorem perm_conj_eq {α β : Type*} (e : α ≃ β) (f : Equiv.Perm β) (g : Equiv.Perm α) :
+    (f * e.permCongr g) * f.symm = (e.trans f).permCongr g := by
+  ext x
+  rfl
+
+private theorem rep_conj_perm (k : ℕ) :
+    (xiPerm * ιEquiv.permCongr (jGen k)) * xiPerm.symm = psi.permCongr (jGen k) :=
+  perm_conj_eq ιEquiv xiPerm (jGen k)
+
 theorem rep_conj
     {k : ℕ} (hk : k < 13) :
     Rep 3510 (compA 3510 (compA 3510 pinXiRaw (indCandidate k)) (invCand 3510 pinXiRaw))
       (psi.permCongr (jGen k)) := by
-  intro x
-  rw [compA_get x.2, rep_xiSymm x, compA_get (xiPerm.symm x).2, rep_candidate hk, rep_xi,
-    Equiv.permCongr_apply, Equiv.permCongr_apply, psi, Equiv.trans_apply,
-    Equiv.symm_trans_apply]
+  rw [← rep_conj_perm k]
+  exact rep_compA (rep_compA rep_xi (rep_candidate hk)) rep_xiSymm
 
 theorem fi22StrongWord_pinWord
     {k : ℕ} (hk : k < 13) :

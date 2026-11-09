@@ -12,8 +12,8 @@ public section
 
 namespace CFSG.KAct.RuRho
 
-#kc_repo #kc_json_gz CFSG.KAct.RuRho
-  "Certificates/Kernel/Misc/Coset/RuRhoA/data/Data.json.gz" 864 13561344229732552612
+#kc_repo #kc_json CFSG.KAct.RuRho
+  "Certificates/Kernel/Misc/Coset/RuRhoA/data/Data.json" 864 13561344229732552612
   (R : List (List Nat)) (W : List (List Nat)) (M : List (List Nat))
 
 end CFSG.KAct.RuRho

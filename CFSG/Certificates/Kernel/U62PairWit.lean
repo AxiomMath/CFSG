@@ -403,6 +403,118 @@ theorem u62R_mem {j : ℕ} (hj : j < 43) : u62R j ∈ u62Sb := by
   exact u62SbG_getD_mem (by have := hlet z hz; omega)
 
 
+theorem trnEqD_of_bits {L M s d : ℕ} (hs : s = 10 * d) (hM : M < 2 ^ 72)
+    (hpos : ∀ p < 72, M.testBit p = true →
+      2 * d ≤ p ∧ (p - 2 * d) % 14 < 2 ∧ (p - 2 * d) / 14 + d < 6)
+    (H : ∀ i j b, i < 6 → j < 6 → b < 2 →
+      L.testBit (12 * i + 2 * j + b) = L.testBit (12 * j + 2 * i + b)) :
+    trnEqD L M s = true := by
+  unfold trnEqD
+  rw [Nat.beq_eq]
+  apply Nat.eq_of_testBit_eq
+  intro n
+  change ((L &&& M) <<< s).testBit n = (L &&& (M <<< s)).testBit n
+  simp only [Nat.testBit_shiftLeft, Nat.testBit_and]
+  by_cases hn : s ≤ n
+  · by_cases hb : M.testBit (n - s) = true
+    · have hp : n - s < 72 := by
+        by_contra hc
+        have hlt : M < 2 ^ (n - s) :=
+          lt_of_lt_of_le hM (Nat.pow_le_pow_right (by norm_num) (by omega))
+        rw [Nat.testBit_eq_false_of_lt hlt] at hb
+        exact Bool.noConfusion hb
+      obtain ⟨h1, h2, h3⟩ := hpos _ hp hb
+      have e := H ((n - s - 2 * d) / 14) ((n - s - 2 * d) / 14 + d) ((n - s - 2 * d) % 14)
+        (by omega) h3 h2
+      have e1 : 12 * ((n - s - 2 * d) / 14) + 2 * ((n - s - 2 * d) / 14 + d) +
+          (n - s - 2 * d) % 14 = n - s := by omega
+      have e2 : 12 * ((n - s - 2 * d) / 14 + d) + 2 * ((n - s - 2 * d) / 14) +
+          (n - s - 2 * d) % 14 = n := by omega
+      rw [e1, e2] at e
+      simp [hn, hb, e]
+    · simp [hn, hb]
+  · simp [hn]
+
+theorem bits_of_entSymm {L : ℕ} (h : ∀ i j, i < 6 → j < 6 → ent L i j = ent L j i) :
+    ∀ i j b, i < 6 → j < 6 → b < 2 →
+      L.testBit (12 * i + 2 * j + b) = L.testBit (12 * j + 2 * i + b) := by
+  intro i j b hi hj hb
+  have e : fget L (6 * i + j) 2 = fget L (6 * j + i) 2 := h i j hi hj
+  have ei : 12 * i + 2 * j = 2 * (6 * i + j) := by ring
+  have ej : 12 * j + 2 * i = 2 * (6 * j + i) := by ring
+  rw [ei, ej]
+  interval_cases b
+  · have := congrArg (fun x => x.testBit 0) e
+    simp only [testBit_fget2_zero] at this
+    simpa using this
+  · have := congrArg (fun x => x.testBit 1) e
+    simp only [testBit_fget2_one] at this
+    exact this
+
+theorem trnEqM_of_symm {L : ℕ} (h : decM L = (decM L)ᵀ) : trnEqM L = true := by
+  have hE : ∀ i j, i < 6 → j < 6 → ent L i j = ent L j i := by
+    intro i j hi hj
+    apply cF4_inj (ent_lt _ _ _) (ent_lt _ _ _)
+    have e1 := cF4_ent L ⟨i, hi⟩ ⟨j, hj⟩
+    have e2 := cF4_ent L ⟨j, hj⟩ ⟨i, hi⟩
+    rw [h, Matrix.transpose_apply] at e1
+    exact e1.trans e2.symm
+  have H := bits_of_entSymm hE
+  unfold trnEqM
+  simp only [bAnd_eq_true]
+  refine ⟨trnEqD_of_bits (d := 1) rfl (by decide) (by decide +kernel) H,
+    trnEqD_of_bits (d := 2) rfl (by decide) (by decide +kernel) H,
+    trnEqD_of_bits (d := 3) rfl (by decide) (by decide +kernel) H,
+    trnEqD_of_bits (d := 4) rfl (by decide) (by decide +kernel) H,
+    trnEqD_of_bits (d := 5) rfl (by decide) (by decide +kernel) H⟩
+
+theorem trnEqM_of_scal {L : ℕ} {ℓ : SU0} (hℓ : RepSU L ℓ)
+    (h : isScal (mulK L (barK L)) = true) : trnEqM L = true := by
+  have h1 := (isScal_iff (RepSU_mul hℓ (RepSU_barK hℓ)) (mulK_lt _ _)).1 h
+  obtain ⟨c, -, hmat⟩ := ker_scalar h1
+  rw [Subgroup.coe_mul, Units.val_mul, frSU_val] at hmat
+  have hu : ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4)ᵀ *
+      ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4).map (fun a => a ^ 2) = 1 :=
+    unitary_of_isom (isom_of_mem (SU0_le_GU0 ℓ.2))
+  have hu' : ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4).map (fun a => a ^ 2) *
+      ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4)ᵀ = 1 := by
+    first
+    | exact mul_eq_one_comm.1 hu
+    | exact Matrix.mul_eq_one_comm_of_equiv (Equiv.refl _) hu
+  have hinv : ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) *
+      (((ℓ : GL (Fin 6) F4)⁻¹ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) = 1 := Units.mul_inv _
+  unfold RepSU at hℓ
+  rw [hℓ] at hmat hu' hinv
+  have e1 : decM L = c • (decM L)ᵀ := by
+    calc decM L = decM L * ((decM L).map (fun a => a ^ 2) * (decM L)ᵀ) := by
+          rw [hu', Matrix.mul_one]
+      _ = (decM L * (decM L).map (fun a => a ^ 2)) * (decM L)ᵀ := by rw [Matrix.mul_assoc]
+      _ = c • (decM L)ᵀ := by rw [hmat, Matrix.smul_mul, Matrix.one_mul]
+  have e1t : (decM L)ᵀ = c • decM L := by
+    have := congrArg Matrix.transpose e1
+    rwa [Matrix.transpose_smul, Matrix.transpose_transpose] at this
+  have e2 : decM L = (c * c) • decM L := by
+    calc decM L = c • (decM L)ᵀ := e1
+      _ = c • (c • decM L) := by rw [e1t]
+      _ = (c * c) • decM L := by rw [smul_smul]
+  have hcc : c * c = 1 := by
+    have := congrArg (fun M => M * (((ℓ : GL (Fin 6) F4)⁻¹ : GL (Fin 6) F4) :
+      Matrix (Fin 6) (Fin 6) F4)) e2
+    simp only [Matrix.smul_mul, hinv] at this
+    have h00 := congrFun (congrFun this 0) 0
+    simpa using h00.symm
+  have hc : c = 1 := by
+    have hc0 : c ≠ 0 := by
+      rintro rfl
+      simp at hcc
+    have h3 := FiniteField.pow_card_sub_one_eq_one c hc0
+    have h3' : c ^ 3 = 1 := by simpa [F4.card] using h3
+    calc c = c * c * c := by rw [hcc, one_mul]
+      _ = c ^ 3 := by ring
+      _ = 1 := h3'
+  rw [hc, one_smul] at e1
+  exact trnEqM_of_symm e1
+
 theorem monoW_of_checks {RV LV PO NO NP : ℕ} {T : ETab}
     (hRrep : ∀ j < 43, ∃ ρ : SU0, RepSU (f72 RV j) ρ ∧ piSU ρ = u62R j ∧
       isScal (mulK (f72 RV j) (f72 RV j)) = true ∧ isScal (f72 RV j) = false)
@@ -428,7 +540,7 @@ theorem monoW_of_checks {RV LV PO NO NP : ℕ} {T : ETab}
       _ = 1 := hsq'
   have hsc := hscan i hi
   unfold scanAt at hsc
-  rw [strictB_eq, hscal] at hsc
+  rw [strictB_eq, trnEqM_of_scal hℓ hscal] at hsc
   have hsc' : (strictB (f16 PO i) fun q => bAnd(Nat.blt q NO, Nat.beq (f16 T.EI q) i)) = true :=
     hsc
   rw [strictB_eq, bAnd_eq_true, Nat.blt_eq, Nat.beq_eq] at hsc'
@@ -470,6 +582,48 @@ theorem monoW_of_checks {RV LV PO NO NP : ℕ} {T : ETab}
   obtain ⟨z, hz, h4⟩ := wit_sound hC hpool hrec hw
   rw [← hρr]
   exact Or.inl ⟨z, hz, h4⟩
+
+theorem phi_not_mem_scan {UP LV XP NXP PO EI NO : ℕ}
+    (hUP : decA UP 12 693 = uPts)
+    (henum : ∀ s ∈ u62Sb, ∃ i < 32768, ∃ ℓ : SU0, RepSU (f72 LV i) ℓ ∧ s = piSU ℓ)
+    (hscan : ∀ i < 32768, scanAt LV PO EI NO i = true)
+    (hphi : ∀ q < NO, phiAt LV UP XP NXP (f16 EI q) = true) : fieldPerm frob4 ∉ u62Sb := by
+  intro hmem
+  obtain ⟨i, hi, ℓ, hℓ, hΦ⟩ := henum _ hmem
+  have hΦ2 : fieldPerm frob4 * fieldPerm frob4 = 1 := by
+    nth_rw 2 [← fieldPerm_inv]
+    exact mul_inv_cancel _
+  have hsq' : (piSU ℓ * fieldPerm frob4) * (piSU ℓ * fieldPerm frob4) = 1 := by
+    rw [← hΦ, hΦ2, mul_one]
+  have hscal : isScal (mulK (f72 LV i) (barK (f72 LV i))) = true := by
+    apply (isScal_iff (RepSU_mul hℓ (RepSU_barK hℓ)) (mulK_lt _ _)).2
+    rw [map_mul, ← conj_frSU, fieldPerm_inv]
+    calc piSU ℓ * (fieldPerm frob4 * piSU ℓ * fieldPerm frob4)
+        = (piSU ℓ * fieldPerm frob4) * (piSU ℓ * fieldPerm frob4) := by simp only [mul_assoc]
+      _ = 1 := hsq'
+  have hsc := hscan i hi
+  unfold scanAt at hsc
+  rw [strictB_eq, trnEqM_of_scal hℓ hscal] at hsc
+  have hsc' : (strictB (f16 PO i) fun q => bAnd(Nat.blt q NO, Nat.beq (f16 EI q) i)) = true :=
+    hsc
+  rw [strictB_eq, bAnd_eq_true, Nat.blt_eq, Nat.beq_eq] at hsc'
+  obtain ⟨hq, hqi⟩ := hsc'
+  have h := hphi _ hq
+  rw [hqi] at h
+  unfold phiAt at h
+  rw [strictB_eq, anyN_eq_true] at h
+  obtain ⟨k, -, hk⟩ := h
+  rw [strictB_eq, strictB_eq, CFSG.KC.U6.Snd.andB_iff, CFSG.KC.U6.Snd.notB_iff, Nat.blt_eq] at hk
+  obtain ⟨hp, hfalse⟩ := hk
+  have hpt : piSU ℓ ⟨f16 XP k, hp⟩ = fieldPerm frob4 ⟨f16 XP k, hp⟩ := by rw [hΦ]
+  obtain ⟨c, hc, hcv⟩ := (piSU_eq_phi_iff ℓ ⟨f16 XP k, hp⟩).1 hpt
+  have htrue : eqV (mvK (f72 LV i) (fget UP (f16 XP k) 12)) (barV (fget UP (f16 XP k) 12)) = true := by
+    apply eqV_complete (mvK_lt _ _) (barV_lt _)
+    refine ⟨c, hc, ?_⟩
+    rw [vecOfCode_mvK, vecOfCode_barV_UP hUP hp, vecOfCode_UP hUP hp, ← hℓ]
+    exact hcv
+  rw [htrue] at hfalse
+  exact Bool.noConfusion hfalse
 
 end CFSG.KC.U62P.Snd
 

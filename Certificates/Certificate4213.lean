@@ -42,10 +42,10 @@ theorem certificate4213 :
     rw [CFSG.QuasithinUnique.Ch1.SporLat.M24.m24Delta, CFSG.KC.E64F.sortN_eq]
     rfl
   rw [e23, e24]
-  exact ⟨⟨classChk_of_tab (by decide) t23.1 t23.2 orb23,
+  exact ⟨⟨classChk_of_tabR (by decide) t23.1 t23.2 (actS_eqN23 _) orb23,
       rChkC_sound (fun l hl => good_of_goodB (s23 l hl)) (good_of_goodB a23) (good_of_goodB b23)
         (good_of_goodB z23) r23⟩,
-    ⟨classChk_of_tab (by decide) t24.1 t24.2 orb24,
+    ⟨classChk_of_tabR (by decide) t24.1 t24.2 (actS_eqN24 _) orb24,
       rChkC_sound (fun l hl => good_of_goodB (s24 l hl)) (good_of_goodB a24) (good_of_goodB b24)
         (good_of_goodB z24) r24⟩⟩
 

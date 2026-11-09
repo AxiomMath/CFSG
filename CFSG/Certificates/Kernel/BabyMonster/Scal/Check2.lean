@@ -1,6 +1,7 @@
 module
 
 import CFSG.Certificates.Kernel.BabyMonster.Family
+import CFSG.Certificates.Kernel.BabyMonster.LoadChain
 public import CFSG.Certificates.Kernel.BabyMonster.F2
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
 public import CFSG.Certificates.Kernel.BabyMonster.Scal.Data0
@@ -25,4 +26,7 @@ public import CFSG.Certificates.Kernel.BabyMonster.Five.Data17
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data18
 public import CFSG.Certificates.Kernel.BabyMonster.Five.Data19
 
-#bm_family CFSG.KC.BM.Scal "CFSG/Certificates/Kernel/BabyMonster/Scal/data/Check2.txt" 169 6050620700182958900
+#bm_family CFSG.KC.BM.Scal "CFSG/Certificates/Kernel/BabyMonster/Scal/data/Check2.txt" 45 8141005382279540986
+
+#bm_mul4c CFSG.KC.BM.Scal ts CFSG.KC.BM.Five.f85 [t CFSG.KC.BM.Five.W_sq3_sq2 CFSG.KC.BM.Five.Q2_sq2 CFSG.KC.BM.Five.Q3
+  CFSG.KC.BM.Five.Zp4] lts []

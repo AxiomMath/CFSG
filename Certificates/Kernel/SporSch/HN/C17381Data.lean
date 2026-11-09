@@ -1,11 +1,11 @@
 module
 
 public import CFSG.HardMathSupport.Dickson.I271.SporGenR3Aux.HNFiveCertData
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 import CFSG.Certificates.Kernel.Common.StrChars
 
-#kc_repo #kc_nat_items_gz CFSG.KD.HN17381 "Certificates/Kernel/SporSch/HN/data/hn17381.items.gz" 223287 8257363151005822617
+#kc_repo #kc_nat_items CFSG.KD.HN17381 "Certificates/Kernel/SporSch/HN/data/hn17381.items" 223287 8257363151005822617
   GI Y S C Q A LAM RR WW PHI
 
 set_option maxRecDepth 400000

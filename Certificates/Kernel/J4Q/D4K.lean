@@ -207,6 +207,13 @@ theorem stab_eq {i : Nat} (hR : RepEnc i) (hr : (d4Reps[i]!).wf = true) {k : Nat
   obtain ⟨hw, hm⟩ := us_map hr hR.hPi
   rw [all_congr_mem fun u hu => fix_eq (hw u hu) hk, all_map_v2N, hm, ← hR.hr, hR.hu, allLK_eq]
 
+private theorem map_v2N_frApply {T : Array V2} {G : Nat}
+    (hT : ∀ x : V2, x.wf = true → v2N (frApply T x) = vecJ rm (v2N x) G) (xs : List V2)
+    (hw : ∀ x ∈ xs, x.wf = true) :
+    (xs.map (frApply T)).map v2N = (xs.map v2N).map fun m => vecJ rm m G := by
+  rw [List.map_map, List.map_map]
+  exact List.map_congr_left fun x hx => hT x (hw x hx)
+
 theorem pts_eq {i : Nat} (hR : RepEnc i) {k : Nat} (hk : k < 2048) :
     (d4Pts.map (frApply (frTable (wR (invWord (d4El (d4Words.getD i []))))))).any (d4Fix k) =
       anyLK (fixK k) (d4FL i) := by
@@ -215,11 +222,8 @@ theorem pts_eq {i : Nat} (hR : RepEnc i) {k : Nat} (hk : k < 2048) :
       obtain ⟨p, -, rfl⟩ := List.mem_map.1 hu
       exact wf_frApply hR.hPi.1 p
   have hm : (d4Pts.map (frApply (frTable (wR (invWord (d4El (d4Words.getD i []))))))).map v2N = d4FL i := by
-    rw [← hR.hf, smapK_eq, ← d4pts_map, List.map_map, List.map_map]
-    apply List.map_congr_left
-    intro p hp
-    change v2N (frApply _ p) = vecJ rm (v2N p) _
-    rw [v2N_frApply hK hR.hPi.1 (d4pts_wf p hp), hR.hPi.2]
+    rw [map_v2N_frApply (fun x hx => v2N_frApply hK hR.hPi.1 hx) d4Pts d4pts_wf, hR.hPi.2,
+      d4pts_map, ← hR.hf, smapK_eq]
   rw [any_congr_mem4 fun u hu => fix_eq (hw u hu) hk, any_map_v2N, hm, anyLK_eq]
 
 theorem sub_enc {T0 T1 T2 T3 : Array V2} {t0 t1 t2 t3 : Nat} (h0 : WfA T0 ∧ encR T0 = t0)

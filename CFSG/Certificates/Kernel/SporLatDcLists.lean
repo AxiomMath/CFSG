@@ -138,7 +138,7 @@ private theorem sortedLt_cons_iff (b : List ℕ) (m : List (List ℕ)) :
   · rintro ⟨h1, h2⟩
     exact ⟨fun c hc => (lexLt_iff_lt b c).1 (h2 c hc), h1⟩
 
-private theorem sortedLt_insU (a : List ℕ) : ∀ (l : List (List ℕ)), sortedLt l = true →
+theorem sortedLt_insU (a : List ℕ) : ∀ (l : List (List ℕ)), sortedLt l = true →
     sortedLt (insU a l) = true := by
   intro l
   induction l with
@@ -173,7 +173,7 @@ private theorem sortedLt_insU (a : List ℕ) : ∀ (l : List (List ℕ)), sorted
           exact hba
         · exact hall c hc
 
-private theorem insU_toFinset (a : List ℕ) : ∀ l : List (List ℕ),
+theorem insU_toFinset (a : List ℕ) : ∀ l : List (List ℕ),
     (insU a l).toFinset = insert a l.toFinset := by
   intro l
   induction l with

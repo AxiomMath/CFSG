@@ -293,7 +293,15 @@ elab "#kvec " pre:ident dId:ident sN:num md:(str)? : command => do
       mkApp (c `LT) j]
     let mut pLet : Array Expr := #[]
     for j in [0:kL] do
-      pLet := pLet.push (← coverOf P emit s!"let{j}" (fLet (lit j)) nE n S)
+      if j % 2 == 0 then
+        pLet := pLet.push (← coverOf P emit s!"let{j}" (fLet (lit j)) nE n S)
+      else
+        let hU ← coverOf P emit s!"let{j}" (mkAppN (mkConst (K ++ `letInvAt))
+          #[nE, mkApp (c `LT) (lit (j - 1)), mkApp (c `LT) (lit j)]) nE n S
+        pLet := pLet.push (mkAppN (mkConst (K ++ `letAt_of_inv)) #[dE, nE, c `NA, c `NB,
+          getL (c `LM) (lit (j - 1)), getL (c `LM) (lit j), c `Pt, c `AT, c `BT,
+          mkApp (c `LT) (lit (j - 1)), mkApp (c `LT) (lit j), horb, reflBoolTrue,
+          pLet[j - 1]!, hU])
     let hLT := chainOf (mkLambda `j .default natT (forallLt nE (fLet (mkBVar 0)))) pLet
     let fTree := fun (i : Expr) => mkAppN (mkConst (K ++ `treeAt)) #[nE, c `kL, getL (pj `orbSizes) i, i,
       getL baseL i, c `LT, baseF baseL, mkApp (c `Ot) i,
@@ -305,7 +313,14 @@ elab "#kvec " pre:ident dId:ident sN:num md:(str)? : command => do
     let htree := chainOf (mkLambda `i .default natT (forallLt (getL (pj `orbSizes) (mkBVar 0))
       (fTree (mkBVar 0)))) pTree
     let getF := fun (L i : Expr) => mkApp2 (mkConst (K ++ `getF)) L i
-    let fSub := fun (j : Expr) => mkAppN (mkConst (K ++ `subAt)) #[nE, c `kL, getL (pj `subSizes) j, j,
+    let Jt := if 1 < D.base.size && 1 < T.size then
+        ((List.range Ss.size).find? fun j => D.subReps[j]! == D.base[1]! &&
+          Ss[j]!.pts.size == T[1]!.pts.size).getD Ss.size
+      else Ss.size
+    let Jk := (List.range Ss.size).foldl (fun b j =>
+      if j != Jt && (b == Jt || Ss[b]!.pts.size < Ss[j]!.pts.size) then j else b) 0
+    let fSub := fun (j : Expr) => mkAppN (mkConst (K ++ `subAt)) #[nE, c `kL, getL (pj `subSizes) j, j, lit Jk,
+      lit Jt,
       getL (arrL (pj `subReps)) j, c `LT, baseF baseL,
       getF (c `Sts) j, c `LB, c `PS, getF (c `Sps) j, getF (c `Sls) j]
     let mut pSub : Array Expr := #[]
@@ -319,8 +334,8 @@ elab "#kvec " pre:ident dId:ident sN:num md:(str)? : command => do
     let r := reflBoolTrue
     let args : Array Expr := #[DE, lit 3, c `csA, c `csB, c `MA, c `MB, c `NA, c `NB, c `NAi, c `NBi,
       c `BI, c `BM, c `kL, c `Pt, c `AT, c `BT, c `FO, c `S, c `IP, c `SP, c `R, c `V, c `LM, c `LT,
-      c `Ot, c `IX, c `Op, c `Ol, c `Sts, c `Sps, c `Sls, c `LB, c `PS,
-      c `hA, c `hB, r, r, r, r, r, horb, hbfs, hsort, r, r, r, r, r, hLT, r, htree, r, hsub, hlab, r, r]
+      c `Ot, c `IX, c `Op, c `Ol, c `Sts, c `Sps, c `Sls, c `LB, c `PS, lit Jk, lit Jt,
+      c `hA, c `hB, r, r, r, r, r, horb, hbfs, hsort, r, r, r, r, r, hLT, r, htree, r, r, hsub, hlab, r, r]
     if doOk then
       let app := mkAppN (mkConst (K ++ `vecK_sound)) args
       let ty ← Meta.MetaM.run' (Meta.inferType app)

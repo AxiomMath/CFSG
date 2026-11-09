@@ -6,10 +6,10 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.TwoF4Loc "Certificates/Kernel/TwoF4Loc/data/loc.json.gz" 544972
+#kc_repo #kc_json CFSG.KD.TwoF4Loc "Certificates/Kernel/TwoF4Loc/data/loc.json" 544972
   940712905835300198 (fx : List Nat) (cl : List Nat) (ch : List (List (Nat × Nat)))
 
-#kc_repo #kmisc_json_pack CFSG.KD.TwoF4Loc "Certificates/Kernel/TwoF4Loc/data/loc.json.gz"
+#kc_repo #kmisc_json_pack CFSG.KD.TwoF4Loc "Certificates/Kernel/TwoF4Loc/data/loc.json"
   544972 940712905835300198 (tT TT 11) (cT TC 11) (qT TQ 11) (zz TZ 11) (mT TM 11) (mI TMI 11) (wT TW 11)
   (wI TWI 11)
 

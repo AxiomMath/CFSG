@@ -7,6 +7,7 @@ public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.PumpTC7Emb
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.PumpTC7Odd
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.PumpTC7Skel
 public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.PumpTC7Word
+public import CFSG.LocalAnalysis.EvenSporadicStandard.HSStd.PumpTC7H43Res
 public import Certificates.Certificate27268
 public import CFSG.LocalAnalysis.ComponentClassification.CatFactsL4U4P1CheckSpecG
 public import CFSG.LocalAnalysis.ComponentClassification.CatFactsL4U4P1LModel
@@ -257,8 +258,7 @@ theorem survivor_of_survCheck {r : Row} (hrf : RowFacts pi.range r.row) {ec : Ar
     rw [hcl]
     exact Subgroup.mem_inf.2 ⟨hzP, hzc⟩
   simp only [survCheck, Bool.and_eq_true, beq_iff_eq] at h
-  obtain ⟨⟨⟨⟨⟨henum, hgsP⟩, hx0⟩, hcc⟩, hsize⟩, hall⟩ := h
-  have hgsP' : ∀ k < gsP.size, validA 80 gsP[k]! = true := fun k hk => allLt_spec hgsP hk
+  obtain ⟨⟨⟨henum, hcc⟩, hsize⟩, hall⟩ := h
   obtain ⟨hmem, -, hval⟩ := enumOK_spec keys43_lt (enumOK_of_enumOKL henum)
   obtain ⟨i, hi, hiz⟩ := (hmem z).1 hzD
   have hrepi : Rep 80 ec.pts[i]! z := by
@@ -289,18 +289,11 @@ theorem survivor_of_survCheck {r : Row} (hrf : RowFacts pi.range r.row) {ec : Ar
   have hcc' := arrCertOK_of_arrCertOKL hcc
   have hvm := arrCertOK_valid hcc' hm'
   rw [Array.getElem_toList, ← getElem!_pos cc.pts m hm'] at hea
-  have hzm : permOfArr 80 cc.pts[m]! = z :=
-    ((eqA_iff hrepi (rep_of_validA hvm)).1 hea).symm
-  obtain ⟨g, hg, hzg⟩ := (mem_class_iff hgsP' hcc' z).2 ⟨m, hm', hzm⟩
-  rw [closure_gsP] at hg
-  have hos := (CFSG.RankThree.PartOne.card_closure_eq_card_mul_card_centralizer keys43_lt hgsP'
-    hcc').2
-  rw [closure_gsP, card_range_pi, hsize] at hos
-  have hC81 : Nat.card ↥(P43 ⊓ centralizer ({permOfArr 80 x0} : Set (Equiv.Perm (Fin 80)))) =
-      81 := by
-    omega
-  have hcz : Nat.card ↥(P43 ⊓ centralizer ({z} : Set (Equiv.Perm (Fin 80)))) = 81 := by
-    rw [hzg, card_inf_centralizer_conj hg, hC81]
+  obtain ⟨hh, rfl⟩ := hzP
+  have hzm : permOfArr 40 cc.pts[m]! = pi40 hh :=
+    ((eqA_iff (rep_res40 hrepi) (rep_of_validA hvm)).1 hea).symm
+  have hcz : Nat.card ↥(P43 ⊓ centralizer ({pi hh} : Set (Equiv.Perm (Fin 80)))) = 81 :=
+    card_cent_of_class40 hcc' hsize hm' hzm
   exact not_eight_dvd_card_inf_centralizer P43_le_R43 relIndex_P43_R43 (by rw [hcz]; decide)
 
 theorem cases_row {r : Row} (hrf : RowFacts pi.range r.row) (hok : rowOK43 r = true) :

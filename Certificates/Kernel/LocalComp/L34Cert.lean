@@ -11,6 +11,10 @@ public import CFSG.Certificates.Kernel.L34KSound
 import Certificates.Kernel.Sporadic.ON.Gen
 public import CFSG.Certificates.Kernel.BfsPinSound
 public import CFSG.Certificates.Kernel.HeAutKSound
+public import CFSG.Certificates.Kernel.L34KBSound
+import Certificates.Kernel.LocalComp.L34RBase
+import CFSG.Certificates.Kernel.Spor.RawBaseEq
+import CFSG.Certificates.Kernel.Common.Harness
 
 public section
 
@@ -30,10 +34,68 @@ theorem bindR : gTabs.size = 6 ∧ ∀ k < 6, gTabs[k]! = unpack 42 6 (L34R.G k)
 theorem bindS : gensS.size = 3 ∧ ∀ k < 3, gensS[k]! = unpack 42 6 (L34R.G k) :=
   binds_of_check kBindS
 
-theorem pinR : PinE 42 6 gTabs 241920 6 241920 1344 180 18 L34R.G L34R.T L34R.E L34R.C L34R.S
-    L34R.SI :=
-  ⟨bindR.1, bindR.2, allN_spec kPermR, kHeadR, by decide, by decide, le_refl _,
-    fun s hs => L34R.prAll s hs⟩
+noncomputable def rbSA : Array (Array Nat) :=
+  Array.ofFn (n := 15) fun j => unpack 42 6 (L34RB.C.S j.val)
+
+noncomputable def rbH : Subgroup (Equiv.Perm (Fin 42)) := CFSG.KS.Raw.Orb.Gen 42 rbSA 6
+
+end CertificateChecks.KernelLC.L34Cert
+
+end
+
+namespace CertificateChecks.KernelLC.L34Cert
+
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KC.BfsPin CFSG.KC.L34K
+open CertificateChecks.KernelLC CFSG.PSL3Four.Native
+
+set_option maxRecDepth 400000
+
+theorem rbBaseK : allN 5 (fun t => Nat.beq L34RB.base[t]! (pg 6 (mask 6) L34RB.C.BP t)) = true := by
+  quickRfl
+
+theorem rbSiftK : allN 6 (fun k => siftK 42 6 (mask 6) (42 * 6) (pidn 42 6) L34RB.C.LR L34RB.C.TRI
+    L34RB.C.BP 5 0 (L34R.G k)) = true := by
+  quickRfl
+
+theorem rbBinds : Binds 42 6 L34RB.C.S 15 5 L34RB.C.BP rbSA L34RB.base :=
+  ⟨by norm_num, by norm_num, by norm_num, by simp [rbSA], fun j hj => by
+    rw [rbSA, getElem!_pos _ j (by simpa using hj), Array.getElem_ofFn], rfl,
+    fun t ht => Nat.eq_of_beq_eq_true (allN_spec rbBaseK t ht)⟩
+
+theorem rbGen {k : Nat} (hk : k < 6) :
+    ∃ γ ∈ rbH, ∀ x : Fin 42, pg 6 (mask 6) (L34R.G k) x = γ x := by
+  have h := kHeadR
+  unfold CFSG.KC.L34K.headK at h
+  exact (CFSG.KS.Raw.BaseEq.groupN (NS := 1) (CH := 42) rbBinds L34RB.C.head L34RB.C.hl
+    (by norm_num) L34RB.C.hs).2.1 _ (CFSG.KS.Raw.Orb.allN_iff.1 (andT (andT h).2).1 k hk)
+    (allN_spec rbSiftK k hk)
+
+theorem rbBase_mem {t : Nat} (ht : t < 5) : pg 6 (mask 6) L34RB.C.BP t ∈ L34R.B := by
+  rw [← Nat.eq_of_beq_eq_true (allN_spec rbBaseK t ht)]
+  interval_cases t <;> simp [L34RB.base, L34R.B]
+
+theorem rbSep : ∀ γ ∈ rbH, ∀ δ ∈ rbH, (∀ b ∈ L34R.B, ∀ hb : b < 42, γ ⟨b, hb⟩ = δ ⟨b, hb⟩) →
+    γ = δ := fun γ hγ δ hδ e =>
+  CFSG.KS.Raw.BaseEq.eq_of_baseN (NS := 1) (CH := 42) rbBinds L34RB.C.head L34RB.C.hl
+    (by norm_num) L34RB.C.hs hγ hδ fun t ht hb => e _ (rbBase_mem ht) hb
+
+end CertificateChecks.KernelLC.L34Cert
+
+public section
+
+set_option maxRecDepth 400000
+
+namespace CertificateChecks.KernelLC.L34Cert
+
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KC.BfsPin CFSG.KC.L34K CFSG.KC.PermTool
+open CertificateChecks.KernelLC CertificateChecks.KernelLC.L34X CFSG.PSL3Four.Native
+open CFSG.KLie.CT (fget)
+
+theorem pinR : PinEB 42 6 (nat_lit 63) gTabs 241920 6 241920 1344 180 18 L34R.G L34R.T L34R.E
+    L34R.C L34R.S L34R.SI L34R.B rbH :=
+  ⟨bindR.1, bindR.2, allN_spec kPermR, kHeadR, by decide, by decide, le_refl _, rfl,
+    fun k hk => rbGen hk, rbSep,
+    fun b hb => by simp [L34R.B] at hb; omega, fun s hs => L34R.prAll s hs⟩
 
 theorem pinS : PinE 42 6 gensS 20160 3 20160 1344 15 18 L34R.G L34S.T L34S.E L34S.C L34S.S
     L34S.SI :=
@@ -104,7 +166,7 @@ theorem hS : (enumBFS 42 gensS 20160).tabs = pts 42 6 20160 L34S.T ∧
     enumOK 42 gensS (enumBFS 42 gensS 20160) = true := enum_sound pinS
 
 theorem hR : (enumBFS 42 gTabs 241920).tabs = pts 42 6 241920 L34R.T ∧
-    enumOK 42 gTabs (enumBFS 42 gTabs 241920) = true := enum_sound pinR
+    enumOK 42 gTabs (enumBFS 42 gTabs 241920) = true := (enumB_sound pinR).1
 
 theorem hO0 : (orbitBFS 42 gTabs (gTabs.map (invTab 42)) (r₁T ()) 1963).tabs =
       pts 42 6 315 (L34O.T 0) ∧
@@ -163,7 +225,7 @@ theorem cent4 : centTabs 42 (pts 42 6 20160 L34S.T) (r₄T ()) = pts 42 6 72 L34
 theorem der1 : derivedOK 42 (pts 42 6 72 L34C4.P) ((pts 42 6 72 L34C4.P).map (invTab 42))
       DD1.1 DD1.2 = true ∧ DD1.1.size = 18 ∧
     ∀ x, x ∈ DD1.1.toList ↔ x ∈ (pts 42 6 18 L34D1.P).toList :=
-  der_sound (A := pts 42 6 72 L34C4.P) (fun _ => Iff.rfl) kDer1
+  der_soundQ (A := pts 42 6 72 L34C4.P) (fun _ => Iff.rfl) kGroup4 kDer1
 
 theorem der2 : derivedOK 42 DD1.1 (DD1.1.map (invTab 42)) DD2.1 DD2.2 = true ∧
     DD2.1.size = 9 ∧ ∀ x, x ∈ DD2.1.toList ↔ x ∈ (pts 42 6 9 L34D2.P).toList :=
@@ -211,9 +273,9 @@ theorem certificate_true : certificate 20160 241920 1963 = true := by
   · rw [hS.1, cent3, size_pts]
   · rw [hS.1, cent4, size_pts]
   · rw [hS.1, cent2]
-    exact class_sound ⟨rfl, by decide +kernel⟩ kGroup2 kClass2
+    exact class_soundG ⟨rfl, by decide +kernel⟩ kGroup2 kClass2
   · rw [hS.1, cent3]
-    exact class_sound ⟨rfl, by decide +kernel⟩ kGroup3 kClass3
+    exact class_soundG ⟨rfl, by decide +kernel⟩ kGroup3 kClass3
   · rw [hS.1, cent4]
     exact der1.1
   · rw [hS.1, cent4]

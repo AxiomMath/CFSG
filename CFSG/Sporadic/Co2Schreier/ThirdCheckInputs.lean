@@ -142,13 +142,13 @@ structure TLev where
         vecMulN 22 (transposeRows 22 ((oddMats W).getD i []).toArray) co2PackedVecs[k]!) &&
       siftA 2300 lvP bP 0 gA[i]! &&
       eqA 2300 (compA 2300 gA[i]! u) (compA 2300 u gA[i]!)) &&
-    chainShapeOK eR 2300 15 26 W.third.baseIndices && recordOK 2300 eR 4 &&
+    chainShapeOK eR 2300 15 26 W.third.baseIndices && recordOK 2300 eR 0 &&
     recordOrbits 2300 eR == [20, 18, 32, 8, 4, 1, 2, 1, 1, 1, 1, 1, 2] &&
     allLt 10 (fun i => isInvA 2300 qA[i]! (invCand 2300 qA[i]!) &&
       eqA 2300 (compA 2300 qA[i]! qA[i]!) (idA 2300) &&
       allLt 10 (fun j => eqA 2300 (compA 2300 qA[i]! qA[j]!) (compA 2300 qA[j]! qA[i]!))) &&
     enumOK qA 1024 E && conjOK gA pis 1024 E &&
-    chainShapeOK qR 1024 15 17 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] && recordOK 1024 qR 4 &&
+    chainShapeOK qR 1024 15 17 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] && recordOK 1024 qR 0 &&
     recordOrbits 1024 qR == [45, 16, 1, 2, 1, 1, 1, 1, 1, 1]
 
 end CFSG.Sporadic.Co2Schreier

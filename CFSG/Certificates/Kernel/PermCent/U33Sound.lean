@@ -129,7 +129,9 @@ theorem z_eq : checkZ () = zC := by
     List.contains_nil, List.elem_cons, List.elem_nil]
 
 theorem c_eq : checkC () = cC := by
-  rw [checkC.eq_1, cC.eq_1, elems.eq_1, t0.eq_1]
+  rw [checkC_fun]
+  dsimp only
+  rw [cC.eq_1, elems.eq_1, t0.eq_1]
   have h : ((elemsT QP).filter fun x => x * z0 ^ 2 == z0 ^ 2 * x) =
       ((elemsC QP).filter fun x => x * cOf z0 ^ 2 == cOf z0 ^ 2 * x).map ev := by
     rw [elemsT_eq_elemsC, List.filter_map]

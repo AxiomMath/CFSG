@@ -29,8 +29,8 @@ theorem hPG : ∀ k < 2, pumpGs[k]! = unpack 1782 11 (SPP.G k) := by
     rw [rebuild_eq prb2.1, Nat.eq_of_beq_eq_true prb2.2]
 
 theorem pump_pair : pairCheck () = true := by
-  obtain ⟨he1, he2, -, -⟩ := S8147.enumF (gs := pumpGs) (L := 60) (K := 126) (fuel := 8000)
-    rfl hPG (by norm_num) (by norm_num) hPP dPP kPP pPP PPK.all (by norm_num)
+  obtain ⟨he1, he2, -, -⟩ := S8147.enumF (gs := pumpGs) (ng := 2) (E := SPP.E) (L := 60) (K := 126)
+    (fuel := 8000) rfl hPG (by norm_num) (by norm_num) hPP dPP kPP pPP PPK.all (by norm_num)
   have hgk : ∀ k < 2, (okP (levels ()) pumpGs[k]! &&
       commA 1782 pumpGs[k]! (rebuild (levels ()) xAβ) &&
       eqA 1782 (powArr 1782 pumpGs[k]! 5) (idA 1782) && !(eqA 1782 pumpGs[k]! (idA 1782))) =
@@ -112,7 +112,10 @@ theorem pump_y : yCheck () = true := by
     (fun k hk => (ysift (YE.G k) (by
       rw [hYng] at hk
       interval_cases k <;> simp)).2.2.1)
-    YE.ok (by rw [hkeys]; decide) YE.keys (by rw [hYN]; omega)
+    (CFSG.KC.BfsPin.bfsK_of_slices (L := 24) (K := 15) (C := YE.C) (hYN.trans (by norm_num))
+      (by norm_num) hw YE.g YE.csAll YE.t0 YE.dist (Nat.eq_of_beq_eq_true YE.c0)
+      (Nat.eq_of_beq_eq_true YE.cK) YE.rsAll)
+    (by rw [hkeys]; decide) YE.keys (by rw [hYN]; omega)
   rw [hkeys] at he1 he2 he3
   have sX := fun X (hX : X ∈ [YE.G 0, YE.G 1, YY, AA, BB, GG]) => ysift X hX
   have pY := (sX YY (by simp)).2.2.1
@@ -169,9 +172,6 @@ theorem pump_y : yCheck () = true := by
       eqA 1782 (conjA 1782 (rebuild (levels ()) gβ) (rebuild (levels ()) bβ))
         (powArr 1782 (rebuild (levels ()) bβ) 2))) = true
   rw [rA, rB, rG]
-  change (yGs.size == 2 && allLt 2 _ && (_ && _ && okP (levels ()) (unpack 1782 11 AA) &&
-    okP (levels ()) (unpack 1782 11 BB) && okP (levels ()) (unpack 1782 11 GG) && _ && _ && _ && _ &&
-    _ && _ && _ && _ && _ && _ && _)) = true
   rw [he1, he2, (allLt_iff).2 hgk, oA, oB, oG, mem_of_any mA he2 he3, mem_of_any mB he2 he3,
     powEq_id hw pA, powEq_id hw pB, eqA_id hw pA, eqA_id hw pB, commA_unp pA pB,
     eqA_unpack' hw pB pA, pow_unpack' hw pA, eqA_unpack' hw pB (permB_ppow hw pA 2),

@@ -192,8 +192,40 @@ theorem su5_card_range_rhoU : Nat.card su5RhoU.range = 18 := by
   Finset.univ.filter fun q => conjTr f4Frob (su5KU q) * (antidiag 5 : M5c) * su5KU q =
     antidiag 5
 
-theorem card_su5KUSet : su5KUSet.card = 256 := by
+private theorem card_su5KUSet_z0 : (Finset.univ.filter fun b : F4c × F4c × F4c × F4c =>
+    conjTr f4Frob (su5KU (F4c.z0, b)) * (antidiag 5 : M5c) * su5KU (F4c.z0, b) =
+      antidiag 5).card = 64 := by
   decide +kernel
+
+private theorem card_su5KUSet_z1 : (Finset.univ.filter fun b : F4c × F4c × F4c × F4c =>
+    conjTr f4Frob (su5KU (F4c.z1, b)) * (antidiag 5 : M5c) * su5KU (F4c.z1, b) =
+      antidiag 5).card = 64 := by
+  decide +kernel
+
+private theorem card_su5KUSet_w : (Finset.univ.filter fun b : F4c × F4c × F4c × F4c =>
+    conjTr f4Frob (su5KU (F4c.w, b)) * (antidiag 5 : M5c) * su5KU (F4c.w, b) =
+      antidiag 5).card = 64 := by
+  decide +kernel
+
+private theorem card_su5KUSet_w2 : (Finset.univ.filter fun b : F4c × F4c × F4c × F4c =>
+    conjTr f4Frob (su5KU (F4c.w2, b)) * (antidiag 5 : M5c) * su5KU (F4c.w2, b) =
+      antidiag 5).card = 64 := by
+  decide +kernel
+
+theorem card_su5KUSet : su5KUSet.card = 256 := by
+  have h : ∀ a : F4c, (Finset.univ.filter fun b : F4c × F4c × F4c × F4c =>
+      conjTr f4Frob (su5KU (a, b)) * (antidiag 5 : M5c) * su5KU (a, b) = antidiag 5).card =
+        64 := by
+    intro a
+    cases a
+    exacts [card_su5KUSet_z0, card_su5KUSet_z1, card_su5KUSet_w, card_su5KUSet_w2]
+  have hsum : su5KUSet.card = ∑ a : F4c, (Finset.univ.filter fun b : F4c × F4c × F4c × F4c =>
+      conjTr f4Frob (su5KU (a, b)) * (antidiag 5 : M5c) * su5KU (a, b) = antidiag 5).card := by
+    rw [su5KUSet, Finset.card_filter, Fintype.sum_prod_type]
+    refine Finset.sum_congr rfl fun a _ => ?_
+    rw [Finset.card_filter]
+  rw [hsum, Finset.sum_congr rfl fun a _ => h a, Finset.sum_const, Finset.card_univ]
+  rfl
 
 theorem su5KU_det (q : F4c × F4c × F4c × F4c × F4c) : (su5KU q).det = 1 := by
   rw [su5_det_blockTri _ rfl rfl rfl rfl rfl rfl rfl rfl]

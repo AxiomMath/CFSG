@@ -19,8 +19,6 @@ open CertificateChecks.KernelSpor CertificateChecks.KernelSporSch.HeCn
 
 theorem kRX0 : rx 0 = true := by quickRfl
 theorem kRX1 : rx 1 = true := by quickRfl
-theorem kXP0 : permOK 8330 14 (mask 14) (8330 * 14) (X 0) (XI 0) = true := by quickRfl
-theorem kXP1 : permOK 8330 14 (mask 14) (8330 * 14) (X 1) (XI 1) = true := by quickRfl
 theorem kF0 : nfValidK 5 HeC.LR (F 0) = true := by quickRfl
 theorem kF1 : nfValidK 5 HeC.LR (F 1) = true := by quickRfl
 theorem kG0 : vldH (G 0) = true := by quickRfl
@@ -41,6 +39,8 @@ theorem kGW : gOK = true := by quickRfl
 theorem kQW : qwOK = true := by quickRfl
 theorem kS3 : s3OK = true := by quickRfl
 theorem kCW : cwOK = true := by quickRfl
+theorem kHWB : hwbOK = true := by quickRfl
+theorem kXCJ : xcjOK = true := by quickRfl
 
 end CertificateChecks.KernelSporSch.HeThree
 

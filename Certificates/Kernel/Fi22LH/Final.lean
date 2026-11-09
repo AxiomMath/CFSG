@@ -50,7 +50,9 @@ theorem lhD_checks : LHChecks lhD := by
       tall_10, tall_11, tall_12, tall_13, tall_14, tall_15, tall_16, tall_17, tall_18, tall_19,
       tall_20, tall_21, tall_22, tall_23, tall_24, tall_25]
   · interval_cases s
-    exacts [fix_0, fix_1, fix_2, fix_3, fix_4, fix_5]
+    exacts [fix_0, fix_1, fix_2, fix_3, fix_4, fix_5, fix_6, fix_7, fix_8, fix_9, fix_10, fix_11,
+      fix_12, fix_13, fix_14, fix_15, fix_16, fix_17, fix_18, fix_19, fix_20, fix_21, fix_22, fix_23,
+      fix_24, fix_25, fix_26]
   · interval_cases s
     exacts [setA_0, setA_1, setA_2, setA_3, setA_4, setA_5, setA_6, setA_7, setA_8, setA_9,
       setA_10, setA_11, setA_12, setA_13, setA_14, setA_15, setA_16, setA_17, setA_18, setA_19]

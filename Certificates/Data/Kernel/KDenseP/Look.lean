@@ -29,9 +29,15 @@ open CFSG.Monster.AxisCount
 @[expose] noncomputable def runNL (n lg : Nat) (F : Fix) (MT : MonoTab) (look : List Nat → Bool × Nat)
     (w : List Native.Gen) (i m : Nat) (s : St) : St :=
   List.rec (motive := fun _ => Nat → Nat → St → St) (fun _ _ t => t)
-    (fun g _ ih i' m' t => Bool.rec (motive := fun _ => St)
+    (fun g w' ih i' m' t => Bool.rec (motive := fun _ => St)
       (Bool.rec (motive := fun _ => St)
-        (forceSt (stepNL n lg F MT look g t) (fun t' => ih i' (Nat.sub m' (nat_lit 1)) t')) t
+        (Bool.rec (motive := fun _ => St)
+          (Bool.rec (motive := fun _ => St)
+            (forceSt (stepNL n lg F MT look g t) (fun t' => ih i' (Nat.sub m' (nat_lit 1)) t'))
+            (forceSt (tauInvSt n lg F t) (fun t' => ih (nat_lit 1) (Nat.sub m' (nat_lit 2)) t'))
+            (andB (isTauLB g) (andB (headTauLB w') (Nat.blt (nat_lit 1) m'))))
+          (forceSt (xiInvSt n lg F t) (fun t' => ih (nat_lit 1) (Nat.sub m' (nat_lit 2)) t'))
+          (andB (isXiB g) (andB (headXiB w') (Nat.blt (nat_lit 1) m')))) t
         (Nat.beq m' (nat_lit 0)))
       (ih (Nat.sub i' (nat_lit 1)) m' t) (Nat.blt (nat_lit 0) i')) w i m s
 

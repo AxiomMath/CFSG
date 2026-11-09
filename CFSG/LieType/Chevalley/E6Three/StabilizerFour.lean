@@ -1,6 +1,7 @@
 module
 
 public import CFSG.LieType.Chevalley.E6Three.ModelKernel
+public import CFSG.LieType.Chevalley.E6Three.StabilizerN6Core
 public import CFSG.LieType.Chevalley.MaxTorusPart
 public import CFSG.LocalAnalysis.StandardType.GGSixBstarNoOffenderExcWeyl
 public import CFSG.Mathlib.Decide.Nodup
@@ -374,9 +375,16 @@ theorem mem_stabPair_of_mem_familyStabilizer {L : Type} [Field L] {ζ : Lˣ}
 
 theorem orbFourCodes_length : orbFourCodes.length = 1920 := by decide +kernel
 
+theorem positionBasis_four_zero : positionBasis 4 0 = StabilizerN6.N6.toFun ⟨1, 1, 1, 0, 1, 1⟩ := by
+  decide +kernel
+
+theorem positionBasis_four_one : positionBasis 4 1 = StabilizerN6.N6.toFun ⟨0, 0, 0, 1, 0, 0⟩ := by
+  decide +kernel
+
 theorem orbFour_nodup : CFSG.Decide.bitsetNodup (orbFourCodes.map fun c =>
     pairKey (triAct (decodeWord 20 c) (positionBasis 4 0))
       (triAct (decodeWord 20 c) (positionBasis 4 1))) = true := by
+  simp only [positionBasis_four_zero, positionBasis_four_one, StabilizerN6.triAct_toFun]
   decide +kernel
 
 theorem stabFourWords_length : stabFourWords.length = 27 := by decide +kernel

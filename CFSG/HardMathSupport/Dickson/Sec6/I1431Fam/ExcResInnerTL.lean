@@ -1,5 +1,7 @@
 module
 
+public import CFSG.LieType.Steinberg.Adjoint.IformFast
+public import CFSG.Blueprint.RootFinsetFast
 public import CFSG.HardMathSupport.Dickson.Sec6.I1431Fam.ExcResComp
 import CFSG.HardMathSupport.Timmesfeld.RootAut.Main
 import CFSG.HardMathSupport.Timmesfeld.LangTorus.InnerSmall
@@ -44,6 +46,8 @@ theorem excres_f4_A2_sameLength : ∀ γ ∈ rootFinset Tag.F4, ∀ δ ∈ rootF
     γ + δ ∈ rootFinset Tag.F4 → γ - δ ∉ rootFinset Tag.F4 →
     (2 : ℤ) • γ + δ ∉ rootFinset Tag.F4 → γ + (2 : ℤ) • δ ∉ rootFinset Tag.F4 →
     iform γ γ = iform δ δ ∧ iform γ δ ≠ 0 := by
+  simp only [forall_mem_rootFinset_iff]
+  simp only [← rootMemK_iff rootsCanon_F4, iform_eq_iformF4]
   decide +kernel
 
 theorem excres_perfect_of_card_two {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)

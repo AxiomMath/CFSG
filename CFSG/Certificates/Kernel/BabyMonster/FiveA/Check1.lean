@@ -6,11 +6,15 @@ public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data0
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data1
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data2
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data3
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data14
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data15
 public import CFSG.Certificates.Kernel.BabyMonster.Seeds.Data0
 
 #bm_mul4 CFSG.KC.BM.FiveA cp11 p10 [v8] p11 []
-#bm_mul4 CFSG.KC.BM.FiveA cv12 p6 [CFSG.KC.BM.Seeds.A1 CFSG.KC.BM.Seeds.A2 CFSG.KC.BM.Seeds.A1 p6 CFSG.KC.BM.Seeds.A1] v12 []
-#bm_mul4 CFSG.KC.BM.FiveA cv13 CFSG.KC.BM.Seeds.A1 [CFSG.KC.BM.Seeds.A2 CFSG.KC.BM.Seeds.A1 p6 CFSG.KC.BM.Seeds.A1 CFSG.KC.BM.Seeds.A2] v13 []
+#bm_mul4 CFSG.KC.BM.FiveA cv12 p6 [CFSG.KC.BM.Seeds.A1 CFSG.KC.BM.Seeds.A2] v12a []
+#bm_mul4 CFSG.KC.BM.FiveA cv12b v12a [v57a] v12 []
+#bm_mul4 CFSG.KC.BM.FiveA cv13 CFSG.KC.BM.Seeds.A1 [CFSG.KC.BM.Seeds.A2 CFSG.KC.BM.Seeds.A1] v13a []
+#bm_mul4 CFSG.KC.BM.FiveA cv13b v13a [v12a] v13 []
 #bm_mul4 CFSG.KC.BM.FiveA cv14 p11 [v12 p11 v13] v14 []
 #bm_mul4 CFSG.KC.BM.FiveA cp15 v14 [v14] p15 []
 #bm_mul4 CFSG.KC.BM.FiveA cp16 p15 [p15] p16 []

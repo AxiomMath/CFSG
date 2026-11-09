@@ -10,6 +10,8 @@ public import CFSG.Sporadic.SuzOddCore.CertChainCheckInputs
 import CFSG.Sporadic.SuzOddCore.Arrays
 import CFSG.Sporadic.SuzOddCore.GraphArrays
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Common.Each
+import CFSG.Certificates.Kernel.Spor.RawSlSound
 import Mathlib.Tactic.IntervalCases
 public import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -37,9 +39,26 @@ open CFSG.Sporadic.SuzOddCore CFSG.Monster.B.Co2.Native CFSG.KC.Enum CFSG.KS CFS
 @[expose] noncomputable def movesK (L : List Nat) (x : Nat) : Bool :=
   List.rec (motive := fun _ => Bool) false (fun k _ ih => bIf(Nat.beq (cg k x) x, ih, true)) L
 
+theorem allN_of_blocks {f : Nat → Bool} {m c : Nat} (hm : 0 < m)
+    (h : ∀ j < c, allN m (fun x => f (Nat.add (Nat.mul m j) x)) = true) :
+    allN (Nat.mul m c) f = true := by
+  refine CFSG.KS.Raw.allN_of_forall fun i hi => ?_
+  have hj : i / m < c := Nat.div_lt_of_lt_mul hi
+  have h1 : f (Nat.add (Nat.mul m (i / m)) (i % m)) = true :=
+    allN_spec (h (i / m) hj) (i % m) (Nat.mod_lt _ hm)
+  have e : Nat.add (Nat.mul m (i / m)) (i % m) = i := Nat.div_add_mod i m
+  rwa [e] at h1
+
+@[expose] noncomputable def kRev (k : Nat) : Bool :=
+  rpermK 22880 15 (mask 15) SuzCertI (Nat.mul 715 k) SuzCertT.F (Nat.mul 715 k)
+
+#kc_each kRev 0 12
+
 theorem k_rev : allN 12 (fun k =>
-    rpermK 22880 15 (mask 15) SuzCertI (Nat.mul 715 k) SuzCertT.F (Nat.mul 715 k)) = true := by
-  quickRfl
+    rpermK 22880 15 (mask 15) SuzCertI (Nat.mul 715 k) SuzCertT.F (Nat.mul 715 k)) = true :=
+  CFSG.KS.Raw.allN_of_forall fun k hk => by
+    interval_cases k
+    exacts [kRev0, kRev1, kRev2, kRev3, kRev4, kRev5, kRev6, kRev7, kRev8, kRev9, kRev10, kRev11]
 
 theorem k_oo : allN 22880 (fun x => Nat.beq (og (og x)) x) = true := by
   quickRfl
@@ -50,11 +69,25 @@ theorem k_pts : bAnd(bIf(Nat.beq (og 0) 0, false, true),
     bAnd(Nat.beq (cg 11 (cg 11 3)) 3, bIf(Nat.beq (cg 11 3) 2862, false, true))))))) = true := by
   quickRfl
 
-theorem k_strip0 : allN 22880 (fun x => Nat.beq (og (cg 0 (og x))) (wpt strip0 x)) = true := by
-  quickRfl
+@[expose] noncomputable def strip0K (j : Nat) : Bool :=
+  allN 2860 (fun x => (fun x => Nat.beq (og (cg 0 (og x))) (wpt strip0 x)) (Nat.add (Nat.mul 2860 j) x))
 
-theorem k_strip1 : allN 22880 (fun x => Nat.beq (og (cg 1 (og x))) (wpt strip1 x)) = true := by
-  quickRfl
+#kc_each strip0K 0 8
+
+theorem k_strip0 : allN 22880 (fun x => Nat.beq (og (cg 0 (og x))) (wpt strip0 x)) = true :=
+  allN_of_blocks (m := 2860) (c := 8) (by norm_num) fun j hj => by
+    interval_cases j
+    exacts [strip0K0, strip0K1, strip0K2, strip0K3, strip0K4, strip0K5, strip0K6, strip0K7]
+
+@[expose] noncomputable def strip1K (j : Nat) : Bool :=
+  allN 2860 (fun x => (fun x => Nat.beq (og (cg 1 (og x))) (wpt strip1 x)) (Nat.add (Nat.mul 2860 j) x))
+
+#kc_each strip1K 0 8
+
+theorem k_strip1 : allN 22880 (fun x => Nat.beq (og (cg 1 (og x))) (wpt strip1 x)) = true :=
+  allN_of_blocks (m := 2860) (c := 8) (by norm_num) fun j hj => by
+    interval_cases j
+    exacts [strip1K0, strip1K1, strip1K2, strip1K3, strip1K4, strip1K5, strip1K6, strip1K7]
 
 theorem k_stab : allN 22880 (fun x =>
     bIf(Nat.beq x 0, true, movesK [4, 5, 6, 7, 8, 9, 10, 11] x)) = true := by

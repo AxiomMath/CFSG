@@ -5,6 +5,8 @@ public import Certificates.Kernel.I242.Text
 public import Certificates.Kernel.I242.YData
 public import Certificates.Kernel.Sporadic.Fi22.F1OuterT
 import CFSG.Certificates.Kernel.Common.Harness
+public import CFSG.Certificates.Kernel.Spor.PtCheck
+import CFSG.Certificates.Kernel.BfsPinBaseSound
 
 public section
 
@@ -28,10 +30,41 @@ theorem kD : allN 12 (fun j => permOK 3510 12 (mask 12) (3510 * 12)
     (dIK H.F (CertificateChecks.KernelSpor.Fi22OutT.L 1) j)) = true := by
   quickRfl
 
+@[expose] noncomputable def kYw (r : Nat) : Bool := wordEqK 3510 12 (mask 12) (pidn 3510 12)
+    (dK H.F (CertificateChecks.KernelSpor.Fi22OutT.L 1))
+    (dIK H.F (CertificateChecks.KernelSpor.Fi22OutT.L 1)) 12 (i242Words.getD r []) (Y.S r)
+
+theorem kYw0 : kYw (nat_lit 0) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw1 : kYw (nat_lit 1) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw2 : kYw (nat_lit 2) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw3 : kYw (nat_lit 3) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw4 : kYw (nat_lit 4) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw5 : kYw (nat_lit 5) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw6 : kYw (nat_lit 6) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
+theorem kYw7 : kYw (nat_lit 7) = true :=
+  (CFSG.KS.PtC.wordEqK_pt (n := 3510) (w := 12) (by decide) (by decide) _ _ _ _ _).trans (by quickRfl)
+
 theorem kY : allN 8 (fun r => wordEqK 3510 12 (mask 12) (pidn 3510 12)
     (dK H.F (CertificateChecks.KernelSpor.Fi22OutT.L 1))
-    (dIK H.F (CertificateChecks.KernelSpor.Fi22OutT.L 1)) 12 (i242Words.getD r []) (Y.S r)) = true := by
-  quickRfl
+    (dIK H.F (CertificateChecks.KernelSpor.Fi22OutT.L 1)) 12 (i242Words.getD r []) (Y.S r)) = true :=
+  CFSG.KC.BfsPin.allN_intro fun r hr => match r, hr with
+    | 0, _ => kYw0 | 1, _ => kYw1 | 2, _ => kYw2 | 3, _ => kYw3
+    | 4, _ => kYw4 | 5, _ => kYw5 | 6, _ => kYw6 | 7, _ => kYw7
+    | _ + 8, h => absurd h (by omega)
 
 end CertificateChecks.KernelI242
 

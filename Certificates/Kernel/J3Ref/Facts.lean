@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.J3Ref.EnumFacts
 public import Certificates.Kernel.J3Ref.Perm
 import CFSG.Certificates.Kernel.J2ModelsSound
+import CFSG.Certificates.Kernel.Spor.HKeyUSound
 
 public section
 
@@ -189,7 +190,11 @@ theorem s_enum : enumOK 6156 3000 128 sGens = true ∧
     (fun j hj => (s_hd.1 j hj).2) (fun j hj => by rw [hGI j hj]; exact cls_mj (by omega))
     (fun j hj => clsI_mj (k := j + 7) (by omega))
     (fun j hj => by rw [hGI j hj]; exact cls_inv (k := j + 7) (by omega))
-    s_hd.2.2 ?_ hvS_all ?_ ?_ s_hd.2.1
+    s_hd.2.2 ?_ (fun i hi => by
+      unfold hvK
+      rw [← hkeyU_eq]
+      exact blocks_spec (f := fun i => Nat.beq (hkeyU 6156 13 (mask 13) (J3RS.T i)) (J3RSV i))
+        (B := 16) (N := 8) (fun b hb => hvS_all b hb) i (by rwa [s_hd.2.1] at hi)) ?_ ?_ s_hd.2.1
   · rw [hGI j hj]
     refine ⟨?_, (cls_mj (by omega)).1⟩
     interval_cases j <;> simp [sGens, clsTbl_tab]
@@ -221,7 +226,10 @@ theorem c_enum : enumOK 6156 3000 1920 cGens = true ∧
     (fun j hj => (c_hd.1 j hj).2) (fun j hj => by rw [hGI j hj]; exact cent_mj (by omega) (by omega))
     (fun j hj => centI_mj (k := j + 10) (by omega) (by omega))
     (fun j hj => by rw [hGI j hj]; exact cent_inv (k := j + 10) (by omega) (by omega))
-    c_hd.2.2 ?_ hvC_all ?_ ?_ c_hd.2.1
+    c_hd.2.2 ?_ (fun i hi => by
+      unfold hvK
+      rw [← hkeyU_eq]
+      exact hvC_all i (by rwa [c_hd.2.1] at hi)) ?_ ?_ c_hd.2.1
   · rw [hGI j hj]
     refine ⟨?_, (cent_mj (by omega) (by omega)).1⟩
     interval_cases j <;> simp [cGens, tbl_unpack]
@@ -248,7 +256,10 @@ theorem m_enum : enumOK 6156 3000 960 mGens = true ∧
     (fun j hj => (m_hd.1 j hj).2) (fun j hj => by rw [hGI j hj]; exact cls_mj (by omega))
     (fun j hj => clsI_mj (k := j + 5) (by omega))
     (fun j hj => by rw [hGI j hj]; exact cls_inv (k := j + 5) (by omega))
-    m_hd.2.2 ?_ hvM_all ?_ ?_ m_hd.2.1
+    m_hd.2.2 ?_ (fun i hi => by
+      unfold hvK
+      rw [← hkeyU_eq]
+      exact hvM_all i (by rwa [m_hd.2.1] at hi)) ?_ ?_ m_hd.2.1
   · rw [hGI j hj]
     refine ⟨?_, (cls_mj (by omega)).1⟩
     interval_cases j <;> simp [mGens, clsTbl_tab]
@@ -281,7 +292,10 @@ theorem n_enum : enumOK 6156 3000 2880 nGens = true ∧
     (fun j hj => by rw [hGI j hj, (nGP_eq hj).1]; exact cls_mj (hk j hj))
     (fun j hj => by rw [(nGP_eq hj).2]; exact clsI_mj (hk j hj))
     (fun j hj => by rw [hGI j hj, (nGP_eq hj).1, (nGP_eq hj).2]; exact cls_inv (hk j hj))
-    n_hd.2.2 ?_ hvN_all ?_ ?_ n_hd.2.1
+    n_hd.2.2 ?_ (fun i hi => by
+      unfold hvK
+      rw [← hkeyU_eq]
+      exact hvN_all i (by rwa [n_hd.2.1] at hi)) ?_ ?_ n_hd.2.1
   · rw [hGI j hj, (nGP_eq hj).1]
     refine ⟨?_, (cls_mj (hk j hj)).1⟩
     interval_cases j <;> simp [nGens, clsTbl_tab]

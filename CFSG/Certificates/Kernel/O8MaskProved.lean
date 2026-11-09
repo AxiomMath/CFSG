@@ -256,6 +256,18 @@ private theorem node_eqM (B : ℕ) : ∀ (fuel : ℕ) (span : List ℕ) (X : ℕ
       rw [hm]
       simp only [mulK_eq_proved]
 
+theorem rootCheck_eqM_proved {B r : ℕ} {SW C : List ℕ} {b : ℕ → Bool} {Xb : ℕ}
+    (hSW : SW = swarK) (hb : ∀ v < 4096, Xb.testBit v = b v) :
+    rootCheck B r C ((List.range 4096).filter b) =
+      nodeM B SW 8 [ID12, r] (Nat.land Xb (fixMaskW SW r)) C := by
+  subst hSW
+  have hbase : (List.range 4096).filter b = (List.range 4096).filter fun v => Xb.testBit v := by
+    apply List.filter_congr
+    intro v hv
+    rw [hb v (List.mem_range.1 hv)]
+  rw [rootCheck, hbase, filter_mask, idK_eq,
+    node_eqM B 8 _ (Nat.land Xb (fixMaskW swarK r)) _ (Nat.and_lt_two_pow _ (fixMaskW_lt_proved r))]
+
 theorem allRoots_eqM_proved {B : ℕ} {SW I : List ℕ} {b : ℕ → Bool} {Xb : ℕ} (hSW : SW = swarK)
     (_hXb : Xb < 2 ^ 4096) (hb : ∀ v < 4096, Xb.testBit v = b v) :
     allRoots B I ((List.range 4096).filter b) =

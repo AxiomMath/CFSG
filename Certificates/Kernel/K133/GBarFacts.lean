@@ -1,6 +1,9 @@
 module
 
-public import Certificates.Kernel.K133.GBarChecks
+public import Certificates.Kernel.K133.GBarCl
+public import CFSG.Certificates.Kernel.BfsPinSeedSound
+public import CFSG.Certificates.Kernel.BfsPinKeySound
+public import CFSG.Certificates.Kernel.Spor.PackWord
 public import Certificates.Kernel.Sporadic.OddCore.HN2089
 public import CFSG.Certificates.Kernel.BfsPinBaseSound
 public import CFSG.Certificates.Kernel.BfsPinAlg
@@ -39,15 +42,109 @@ theorem gens_eq : colPerms.size = GB.ng ∧ ∀ k < GB.ng, colPerms[k]! = unpack
 
 theorem hkeys : ∀ p ∈ gbarKeys, p < 256 := by decide
 
+def ClT (x : Nat) : Prop := ∀ i < GB.N, ∃ j < GB.N, pc x (GB.T i) = GB.T j
+
+theorem gbCanT : ∀ i < GB.N, canonK 256 9 (mask 9) (256 * 9) (GB.T i) = true := GB.run.2
+
+theorem gbCanGk {k : Nat} (hk : k < 11) : canonK 256 9 (mask 9) (256 * 9) (GB.G k) = true :=
+  allN_spec gbCanG k hk
+
+theorem cl_pc {x y : Nat} (hx : canonK 256 9 (mask 9) (256 * 9) x = true)
+    (hy : canonK 256 9 (mask 9) (256 * 9) y = true) (cx : ClT x) (cy : ClT y) : ClT (pc x y) := by
+  intro i hi
+  obtain ⟨j, hj, ej⟩ := cy i hi
+  obtain ⟨k, hk, ek⟩ := cx j hj
+  refine ⟨k, hk, ?_⟩
+  unfold pc at ej ek ⊢
+  rw [pcomp_assocS hx hy (gbCanT i hi), ej, ek]
+
+theorem cl_wK : ∀ (ws : List Nat), (∀ l ∈ ws, l < 11 ∧ ClT (GB.G l)) → ∀ {b : Nat},
+    canonK 256 9 (mask 9) (256 * 9) b = true → ClT b →
+      canonK 256 9 (mask 9) (256 * 9) (gbWK ws b) = true ∧ ClT (gbWK ws b)
+  | [], _, _, hb, cb => ⟨hb, cb⟩
+  | l :: ws, hws, _, hb, cb => by
+    obtain ⟨h1, h2⟩ := cl_wK ws (fun l' hl' => hws l' (List.mem_cons_of_mem _ hl')) hb cb
+    obtain ⟨hl, cl⟩ := hws l List.mem_cons_self
+    exact ⟨canonK_pcomp (gbCanGk hl) h1, cl_pc (gbCanGk hl) h1 cl h2⟩
+
+theorem clI_all {i : Nat} (hi : i < GB.N) : gbClI i = true := by
+  rw [gbN'] at hi
+  have e : ∀ lo l, Nat.add lo l = lo + l := fun _ _ => rfl
+  have key : ∀ c < 36, allBlk (400 * c) gbClI 400 = true := by
+    intro c hc
+    interval_cases c
+    exacts [gbCl0, gbCl1, gbCl2, gbCl3, gbCl4, gbCl5, gbCl6, gbCl7, gbCl8, gbCl9, gbCl10, gbCl11,
+      gbCl12, gbCl13, gbCl14, gbCl15, gbCl16, gbCl17, gbCl18, gbCl19, gbCl20, gbCl21, gbCl22,
+      gbCl23, gbCl24, gbCl25, gbCl26, gbCl27, gbCl28, gbCl29, gbCl30, gbCl31, gbCl32, gbCl33,
+      gbCl34, gbCl35]
+  have h := allBlk_spec (key (i / 400) (by omega)) (i % 400) (Nat.mod_lt _ (by norm_num))
+  rwa [e, Nat.div_add_mod] at h
+
+theorem clA_spec {k i : Nat} (h : gbClA k i = true) :
+    ∃ j < GB.N, pc (GB.G k) (GB.T i) = GB.T j := by
+  rw [gbClA, Bool.and_eq_true] at h
+  exact ⟨_, Nat.blt_eq.mp h.1, (Nat.eq_of_beq_eq_true h.2).symm⟩
+
+theorem gbClS {k : Nat} (hk : k = 3 ∨ k = 9 ∨ k = 10) : k < 11 ∧ ClT (GB.G k) := by
+  refine ⟨by omega, fun i hi => ?_⟩
+  have h := clI_all hi
+  rw [gbClI, Bool.and_eq_true, Bool.and_eq_true] at h
+  rcases hk with rfl | rfl | rfl
+  · exact clA_spec h.1.1
+  · exact clA_spec h.1.2
+  · exact clA_spec h.2
+
+theorem gbClW {ws : List Nat} (hws : ∀ l ∈ ws, l = 3 ∨ l = 9 ∨ l = 10) {b : Nat}
+    (hb : b = 3 ∨ b = 9 ∨ b = 10) : ClT (gbWK ws (GB.G b)) :=
+  (cl_wK ws (fun l hl => gbClS (hws l hl)) (gbCanGk (gbClS hb).1) (gbClS hb).2).2
+
+theorem gb_cl : ∀ k < GB.ng, ∀ i < GB.N, ∃ j < GB.N,
+    pcomp 256 9 (mask 9) (GB.G k) (GB.T i) = GB.T j := by
+  intro k hk
+  have hk' : k < 11 := hk
+  have hc : ClT (GB.G k) := by
+    interval_cases k
+    · rw [Nat.eq_of_beq_eq_true gbWd0]
+      exact gbClW (by simp) (by simp)
+    · rw [Nat.eq_of_beq_eq_true gbWd1]
+      exact gbClW (by simp) (by simp)
+    · rw [Nat.eq_of_beq_eq_true gbWd2]
+      exact gbClW (by simp) (by simp)
+    · exact (gbClS (by simp)).2
+    · rw [Nat.eq_of_beq_eq_true gbWd4]
+      exact gbClW (by simp) (by simp)
+    · rw [Nat.eq_of_beq_eq_true gbWd5]
+      exact gbClW (by simp) (by simp)
+    · rw [Nat.eq_of_beq_eq_true gbWd6]
+      exact gbClW (by simp) (by simp)
+    · rw [Nat.eq_of_beq_eq_true gbWd7]
+      exact gbClW (by simp) (by simp)
+    · rw [Nat.eq_of_beq_eq_true gbWd8]
+      exact gbClW (by simp) (by simp)
+    · exact (gbClS (by simp)).2
+    · exact (gbClS (by simp)).2
+  exact hc
+
+theorem gb_T0 : GB.T 0 = pidn 256 9 := Nat.eq_of_beq_eq_true gbT0
+
 theorem enum_ok : CFSG.RankThree.Native.enumOK 256 colPerms gbarKeys gbarCert = true :=
-  enumOK_of_bfsK_base gens_eq.1 gens_eq.2 (fun k hk => allN_spec gbPerm k hk) GB.ok hkeys gbKeys
-    (by rw [gbN']; norm_num)
+  enumOK_of_cl gens_eq.1 gens_eq.2 hsz (fun k hk => allN_spec gbPerm k hk)
+    (fun k hk => gbCanGk hk) gbCanT gb_T0 hkeys gbKeys GB.run.1 (by rw [gbN']; norm_num) gb_cl
 
 theorem pts_eq : gbarCert.pts = Array.ofFn (n := GB.N) fun i => unpack 256 9 (GB.T i.val) :=
-  enumBfs_pts_base gens_eq.1 gens_eq.2 GB.ok hkeys gbKeys (by rw [gbN']; norm_num)
+  enumBfs_pts_key gens_eq.1 gens_eq.2 hsz (fun k hk => gbCanGk hk) gbCanT gb_T0 hkeys gbKeys
+    GB.run.1 (by rw [gbN']; norm_num)
 
-theorem pp_X {i : Nat} (hi : i < GB.N) : P9 (X i) :=
-  PP_pts GB.ok (fun k hk => allN_spec gbPerm k hk) i hi
+theorem pp_X {i : Nat} (hi : i < GB.N) : P9 (X i) := by
+  refine runFB_points (P := fun j => PP 256 9 (GB.T j)) ?_ ?_ GB.run.1
+    (by rw [gbN']; norm_num) i hi
+  · change PP 256 9 (GB.T 0)
+    rw [gb_T0]
+    exact PP.id hsz
+  · intro i c k _ hk hi e
+    change PP 256 9 (GB.T c)
+    rw [e]
+    exact (PP_of_permOK hsz (allN_spec gbPerm k hk)).mul hi
 
 theorem mem_pts {x : Array Nat} (hx : x ∈ gbarCert.pts) : ∃ i < GB.N, x = unpack 256 9 (X i) := by
   rw [pts_eq] at hx

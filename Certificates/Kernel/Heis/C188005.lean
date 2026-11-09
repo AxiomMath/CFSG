@@ -3,6 +3,7 @@ module
 public import Certificates.Kernel.Heis.Q8
 public import Certificates.Data.Kernel.U38N
 public import Certificates.Data.HuppertU38F.Data
+import Certificates.Kernel.Heis.U38Fast
 
 public section
 
@@ -38,6 +39,7 @@ theorem u38_table :
 set_option maxHeartbeats 0 in
 theorem u38_class : fk8.forallUnitaryN 8 (fk8.classOkN 8
     (fk8.bitsF4 8 (rows188005.flatMap fun r => fk8.orbitN (fk8.guListN 8) (matN r.1)))) = true := by
+  rw [← Fast8.forallUnitaryT_eq, ← Fast8.classOkT_eq, ← Fast8.orbitT_eq, ← Fast8.guListT_eq]
   decide +kernel
 
 theorem u38_k : fk8.u38N 8 rawGens8 words1_8 (decodeL W8.chars) rows188005 = true :=

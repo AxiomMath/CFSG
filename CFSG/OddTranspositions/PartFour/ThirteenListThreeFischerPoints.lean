@@ -15,11 +15,79 @@ theorem point_norm : ∀ i : Fin 351, dot (point i) (point i) = 1 := by
 theorem pointIndex_point : ∀ i : Fin 351, pointIndex (point i) = i ∧ pointIndex (-point i) = i := by
   decide +kernel
 
+theorem vectorOfCode_vectorCode_seven : ∀ a b c d e f g : ZMod 3,
+    vectorOfCode (vectorCode ![a, b, c, d, e, f, g]) = ![a, b, c, d, e, f, g] ∧
+      vectorCode ![a, b, c, d, e, f, g] < 2187 := by
+  decide +kernel
+
+theorem vec_seven_eq (v : Fin 7 → ZMod 3) : v = ![v 0, v 1, v 2, v 3, v 4, v 5, v 6] := by
+  ext i
+  fin_cases i <;> rfl
+
+theorem vectorOfCode_vectorCode (v : Fin 7 → ZMod 3) :
+    vectorOfCode (vectorCode v) = v ∧ vectorCode v < 2187 := by
+  rw [vec_seven_eq v]
+  exact vectorOfCode_vectorCode_seven _ _ _ _ _ _ _
+
+@[expose] def negCode (c : ℕ) : ℕ := vectorCode (-vectorOfCode c)
+
+@[expose] def ptOK (c idx : ℕ) : Bool :=
+  !decide (dot (vectorOfCode c) (vectorOfCode c) = 1) ||
+    (pointCodes[idx % 351]! == c || pointCodes[idx % 351]! == negCode c)
+
+@[expose] def chkPts : ℕ → List ℕ → Bool
+  | _, [] => true
+  | c, x :: rest => ptOK c x && chkPts (c + 1) rest
+
+theorem chkPts_spec : ∀ (L : List ℕ) (c : ℕ), chkPts c L = true →
+    ∀ j (hj : j < L.length), ptOK (c + j) L[j] = true
+  | [], _, _, j, hj => absurd hj (by simp)
+  | x :: rest, c, h, j, hj => by
+    simp only [chkPts, Bool.and_eq_true] at h
+    cases j with
+    | zero => rw [Nat.add_zero, List.getElem_cons_zero]; exact h.1
+    | succ j =>
+      have := chkPts_spec rest (c + 1) h.2 j (by simp only [List.length_cons] at hj; omega)
+      have e : c + (j + 1) = c + 1 + j := by omega
+      rw [e, List.getElem_cons_succ]
+      exact this
+
+theorem pointIndices_length : pointIndices.toList.length = 2187 := by decide +kernel
+
+theorem chkPts_pointIndices : chkPts 0 pointIndices.toList = true := by decide +kernel
+
+theorem getD0_of_lt {L : List ℕ} {k : ℕ} (hk : k < L.length) : L.getD k 0 = L[k] := by
+  simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk]
+
+theorem arr_getElem_bang (a : Array ℕ) (c : ℕ) : a[c]! = a.toList.getD c 0 := by
+  rw [getElem!_def, List.getD_eq_getElem?_getD, Array.getElem?_toList]
+  cases a[c]? <;> rfl
+
 theorem point_pointIndex : ∀ a b c d e f g : ZMod 3,
     dot ![a, b, c, d, e, f, g] ![a, b, c, d, e, f, g] = 1 →
       point (pointIndex ![a, b, c, d, e, f, g]) = ![a, b, c, d, e, f, g] ∨
         point (pointIndex ![a, b, c, d, e, f, g]) = -![a, b, c, d, e, f, g] := by
-  decide +kernel
+  intro a b c d e f g hdot
+  generalize ![a, b, c, d, e, f, g] = v at hdot ⊢
+  obtain ⟨hv, hlt⟩ := vectorOfCode_vectorCode v
+  have hlen : vectorCode v < pointIndices.toList.length := by rw [pointIndices_length]; exact hlt
+  have h := chkPts_spec _ 0 chkPts_pointIndices _ hlen
+  rw [Nat.zero_add] at h
+  unfold ptOK at h
+  rw [hv] at h
+  have hd1 : decide (dot v v = 1) = true := decide_eq_true hdot
+  rw [hd1, Bool.not_true, Bool.false_or, Bool.or_eq_true, beq_iff_eq, beq_iff_eq] at h
+  have hidx : pointIndices[vectorCode v]! = pointIndices.toList[vectorCode v] := by
+    rw [arr_getElem_bang, getD0_of_lt hlen]
+  show vectorOfCode pointCodes[pointIndices[vectorCode v]! % 351]! = v ∨
+    vectorOfCode pointCodes[pointIndices[vectorCode v]! % 351]! = -v
+  rw [hidx]
+  rcases h with h | h
+  · left
+    rw [h, hv]
+  · right
+    rw [h, negCode, hv]
+    exact (vectorOfCode_vectorCode (-v)).1
 
 theorem diagF3_seven_one_apply (v w : Fin 7 → ZMod 3) : diagF3 7 1 v w = dot v w := by
   rw [diagF3_apply, Fin.sum_univ_seven, dot]

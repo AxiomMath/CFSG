@@ -57,15 +57,22 @@ theorem cls16_oe_one (M : IsModel (⊤ : Subgroup X) n mul dec) {OT : Nat}
 theorem cls16_labParts {k GS GI LB RP nl : Nat} (h : labOK16 n k mul GS GI LB RP nl = true) :
     (∀ i < k, l16 GI i < n ∧ mul (l16 GS i) (l16 GI i) = 0) ∧
     (∀ l < nl, l16 RP l < n ∧ lbL LB (l16 RP l) = l) ∧
-    ∀ c < n, lbL LB c < nl ∧ lbW LB c < n ∧
-      mul (lbW LB c) (l16 RP (lbL LB c)) = mul c (lbW LB c) ∧
-      ∀ i < k, lbL LB (mul (mul (l16 GS i) c) (l16 GI i)) = lbL LB c := by
-  simp only [labOK16, labC16, Bool.and_eq_true, allB_eq_true] at h
+    ∀ c < n, lbL LB c < nl ∧ (lbG16 LB c < k ∨ c = l16 RP (lbL LB c)) ∧
+      ∀ i < k, lbL LB (mul (mul (l16 GS i) c) (l16 GI i)) = lbL LB c ∧
+        (i = lbG16 LB c → lbD16 LB (mul (mul (l16 GS i) c) (l16 GI i)) < lbD16 LB c) := by
+  simp only [labOK16, labC16, Bool.and_eq_true, Bool.or_eq_true, allB_eq_true] at h
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   refine ⟨fun i hi => ⟨Nat.le_of_ble_eq_true (h1 i hi).1, Nat.eq_of_beq_eq_true (h1 i hi).2⟩,
     fun l hl => ⟨Nat.le_of_ble_eq_true (h2 l hl).1, Nat.eq_of_beq_eq_true (h2 l hl).2⟩,
-    fun c hc => ⟨Nat.le_of_ble_eq_true (h3 c hc).1.1.1, Nat.le_of_ble_eq_true (h3 c hc).1.1.2,
-      Nat.eq_of_beq_eq_true (h3 c hc).1.2, fun i hi => Nat.eq_of_beq_eq_true ((h3 c hc).2 i hi)⟩⟩
+    fun c hc => ⟨Nat.le_of_ble_eq_true (h3 c hc).1.1, ?_, fun i hi =>
+      ⟨Nat.eq_of_beq_eq_true ((h3 c hc).2 i hi).1, fun he => ?_⟩⟩⟩
+  · rcases (h3 c hc).1.2 with h | h
+    · exact Or.inl (Nat.le_of_ble_eq_true h)
+    · exact Or.inr (Nat.eq_of_beq_eq_true h)
+  · rcases ((h3 c hc).2 i hi).2 with h | h
+    · rw [he, Nat.beq_refl] at h
+      exact absurd h Bool.false_ne_true
+    · exact Nat.le_of_ble_eq_true h
 
 variable {GS PT GI LB RP nl : Nat}
 
@@ -93,19 +100,37 @@ theorem cls16_lab_conj (M : IsModel (⊤ : Subgroup X) n mul dec) (hT : treeB n 
           (M.code (dec (ptPar PT e) * dec c * (dec (ptPar PT e))⁻¹))) (l16 GI (ptGi PT e))) := by
         rw [M.dec_conj hg hz (hGI _ hgi).1 (hGI _ hgi).2, M.dec_code (mem_top _), e1]
         group
-      rw [e2, M.code_dec (M.conj_lt hg hz (hGI _ hgi).1), (hC _ hz).2.2.2 _ hgi]
+      rw [e2, M.code_dec (M.conj_lt hg hz (hGI _ hgi).1), ((hC _ hz).2.2 _ hgi).1]
       exact ih _ (hd ▸ hdep) _ hpar rfl c hc
 
-theorem cls16_rep (M : IsModel (⊤ : Subgroup X) n mul dec)
+theorem cls16_rep (M : IsModel (⊤ : Subgroup X) n mul dec) (hT : treeB n 4 mul GS PT = true)
     (hlab : labOK16 n 4 mul GS GI LB RP nl = true) {c : Nat} (hc : c < n) :
-    l16 RP (lbL LB c) < n ∧
-      dec c = dec (lbW LB c) * dec (l16 RP (lbL LB c)) * (dec (lbW LB c))⁻¹ := by
-  obtain ⟨-, hR, hC⟩ := cls16_labParts hlab
-  obtain ⟨hl, hw, hm, -⟩ := hC c hc
-  have hr := (hR _ hl).1
-  have h1 := M.dec_mul _ hw _ hr
-  rw [hm, M.dec_mul _ hc _ hw] at h1
-  exact ⟨hr, eq_mul_inv_of_mul_eq h1⟩
+    l16 RP (lbL LB c) < n ∧ ∃ w : X, dec c = w * dec (l16 RP (lbL LB c)) * w⁻¹ := by
+  obtain ⟨hGI, hR, hC⟩ := cls16_labParts hlab
+  refine ⟨(hR _ (hC c hc).1).1, ?_⟩
+  suffices H : ∀ d, ∀ c < n, lbD16 LB c = d →
+      ∃ w : X, dec c = w * dec (l16 RP (lbL LB c)) * w⁻¹ from H _ c hc rfl
+  intro d
+  induction d using Nat.strong_induction_on with
+  | _ d ih =>
+    intro c hc hd
+    obtain ⟨-, hg, hS⟩ := hC c hc
+    rcases hg with hg | hg
+    · have hgs := treeB_gen hT hg
+      obtain ⟨hl, hlt⟩ := hS _ hg
+      have hx := M.conj_lt hgs hc (hGI _ hg).1
+      have hdx := M.dec_conj hgs hc (hGI _ hg).1 (hGI _ hg).2
+      obtain ⟨w, hw⟩ := ih _ (hd ▸ hlt rfl) _ hx rfl
+      rw [hl, hdx] at hw
+      refine ⟨(dec (l16 GS (lbG16 LB c)))⁻¹ * w, ?_⟩
+      have e : dec c = (dec (l16 GS (lbG16 LB c)))⁻¹ *
+          (dec (l16 GS (lbG16 LB c)) * dec c * (dec (l16 GS (lbG16 LB c)))⁻¹) *
+            dec (l16 GS (lbG16 LB c)) := by group
+      rw [e, hw]
+      group
+    · refine ⟨1, ?_⟩
+      rw [one_mul, inv_one, mul_one]
+      exact congrArg dec hg
 
 theorem cls16_conj_iff (M : IsModel (⊤ : Subgroup X) n mul dec)
     (hT : treeB n 4 mul GS PT = true) (hlab : labOK16 n 4 mul GS GI LB RP nl = true) {a b : Nat}
@@ -116,8 +141,10 @@ theorem cls16_conj_iff (M : IsModel (⊤ : Subgroup X) n mul dec)
     rw [← hk, M.code_dec ha] at h
     exact h
   · intro h
-    refine ⟨dec (lbW LB a) * (dec (lbW LB b))⁻¹, ?_⟩
-    rw [(cls16_rep M hlab ha).2, (cls16_rep M hlab hb).2, h]
+    obtain ⟨-, wa, ea⟩ := cls16_rep M hT hlab ha
+    obtain ⟨-, wb, eb⟩ := cls16_rep M hT hlab hb
+    refine ⟨wa * wb⁻¹, ?_⟩
+    rw [ea, eb, h]
     group
 
 theorem cls16_cntB_le (f : Nat → Bool) : ∀ m, cntB m f ≤ m := by
@@ -250,10 +277,9 @@ theorem pcB_sound (M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n = 16384) {G
   have hxc := M.dec_code (Subgroup.mem_top x)
   obtain ⟨-, -, hC⟩ := cls16_labParts hlab
   have hl := (hC _ hc).1
-  obtain ⟨hr, hrep⟩ := cls16_rep M hlab hc
+  obtain ⟨hr, w, hrep⟩ := cls16_rep M hT hlab hc
   have hrl : lbL LB (l16 RP (lbL LB (M.code x))) = lbL LB (M.code x) :=
     ((cls16_labParts hlab).2.1 _ hl).2
-  generalize hw : dec (lbW LB (M.code x)) = w at hrep
   generalize hR : l16 RP (lbL LB (M.code x)) = r at hr hrep hrl
   have er : w⁻¹ * x * w⁻¹⁻¹ = dec r := by rw [← hxc, hrep]; group
   have hPr := Certificates.KernelTower.pinv_of_mulEquiv (centConj w⁻¹ x) hP

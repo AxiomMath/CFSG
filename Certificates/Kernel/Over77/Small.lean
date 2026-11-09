@@ -20,7 +20,7 @@ end CFSG.KD.Over77
 end
 
 #kc_repo #kc_each_rows CFSG.KD.Over77 c12630pw (fun p len W => CFSG.KD.Over77.pwR p len W)
-  "Certificates/Kernel/Over77/data/pw.txt.gz" 1045 6243921055104446018 0 110
+  "Certificates/Kernel/Over77/data/pw.txt" 1045 6243921055104446018 0 110
 
 #kc_repo #kc_each_rows CFSG.KD.Over77 c12630sw (fun i len W => CFSG.KD.Over77.swR i len W)
-  "Certificates/Kernel/Over77/data/sw.txt.gz" 1109 10199449385633197420 0 82
+  "Certificates/Kernel/Over77/data/sw.txt" 1109 10199449385633197420 0 82

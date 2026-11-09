@@ -4,6 +4,9 @@ import CFSG.Certificates.Kernel.BabyMonster.Family
 public import CFSG.Certificates.Kernel.BabyMonster.F2
 public import CFSG.Certificates.Kernel.BabyMonster.F2Four
 public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data0
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data2
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data14
+public import CFSG.Certificates.Kernel.BabyMonster.FiveA.Data15
 public import CFSG.Certificates.Kernel.BabyMonster.TcFive.Data0
 public import CFSG.Certificates.Kernel.BabyMonster.TcFive.Data3
 

@@ -141,9 +141,35 @@ theorem nf_mem_cand : ∀ v : Coords 8, v 0 = 0 → ∃ n : Fin 16, nf v = cand 
   decide +kernel
 
 set_option maxRecDepth 100000 in
-theorem card_cls : ∀ n : Fin 16,
+theorem card_cls_q0 : ∀ n : Fin 16, n.val / 4 = 0 →
     (Finset.univ.filter fun v : Coords 8 => v 0 = 0 ∧ nf v = cand n).card = candSize n := by
   decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem card_cls_q1 : ∀ n : Fin 16, n.val / 4 = 1 →
+    (Finset.univ.filter fun v : Coords 8 => v 0 = 0 ∧ nf v = cand n).card = candSize n := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem card_cls_q2 : ∀ n : Fin 16, n.val / 4 = 2 →
+    (Finset.univ.filter fun v : Coords 8 => v 0 = 0 ∧ nf v = cand n).card = candSize n := by
+  decide +kernel
+
+set_option maxRecDepth 100000 in
+theorem card_cls_q3 : ∀ n : Fin 16, n.val / 4 = 3 →
+    (Finset.univ.filter fun v : Coords 8 => v 0 = 0 ∧ nf v = cand n).card = candSize n := by
+  decide +kernel
+
+theorem card_cls : ∀ n : Fin 16,
+    (Finset.univ.filter fun v : Coords 8 => v 0 = 0 ∧ nf v = cand n).card = candSize n := by
+  intro n
+  have hn := n.isLt
+  rcases (by omega : n.val / 4 = 0 ∨ n.val / 4 = 1 ∨ n.val / 4 = 2 ∨ n.val / 4 = 3) with
+    h | h | h | h
+  · exact card_cls_q0 n h
+  · exact card_cls_q1 n h
+  · exact card_cls_q2 n h
+  · exact card_cls_q3 n h
 
 theorem cand_injective : Function.Injective cand := by
   decide

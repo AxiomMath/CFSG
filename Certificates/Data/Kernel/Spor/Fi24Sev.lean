@@ -87,10 +87,42 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24NetPt CFSG.KC
   andB (allL (fun b => Nat.beq (itN (ptC NW NT w) (nat_lit 7) b) b) cb)
     (allL (fun h => allL (fun b => Nat.beq (ptC NW NT (h ++ w) b) (ptC NW NT (w ++ h) b)) cb) hs)
 
+@[expose] noncomputable def sweepW (NW : Nat → Nat → Nat) (NT : Nat → Nat) (ws : List (List Nat)) :
+    Nat → Nat :=
+  List.rec (motive := fun _ => Nat → Nat) (fun S => S)
+    (fun w _ ih S => strictN (Nat.lor (wkC NW NT w S) S) ih) ws
+
+@[expose] noncomputable def sweepsW (NW : Nat → Nat → Nat) (NT : Nat → Nat) (ws : List (List Nat))
+    (d S : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) S (fun _ ih => strictN ih (sweepW NW NT ws)) d
+
 @[expose] noncomputable def covOK (NW : Nat → Nat → Nat) (NT : Nat → Nat) (ws : List (List Nat))
     (d : Nat) (reps : List Nat) (d2 om c : Nat) : Bool :=
-  letB (iterW NW NT ws d2 (Nat.shiftLeft (nat_lit 1) om)) (fun F =>
-    andB (covW NW NT ws d (plOf reps) F) (Nat.beq (popcount F (nat_lit 524288)) c))
+  letB (sweepsW NW NT ws d2 (Nat.shiftLeft (nat_lit 1) om)) (fun F =>
+    andB (Nat.beq (Nat.land (Nat.lor (sweepsW NW NT ws d (plOf reps)) F) ptsM) ptsM)
+      (Nat.beq (popcount F (nat_lit 524288)) c))
+
+theorem sweepsW_step {NW : Nat → Nat → Nat} {NT : Nat → Nat} {ws : List (List Nat)} {d S A B : Nat}
+    (h1 : sweepsW NW NT ws d S = A) (h2 : Nat.beq (sweepW NW NT ws A) B = true) :
+    sweepsW NW NT ws (Nat.succ d) S = B := by
+  change strictN (sweepsW NW NT ws d S) (sweepW NW NT ws) = B
+  rw [h1, ← Nat.eq_of_beq_eq_true h2]
+  cases A <;> rfl
+
+theorem sweepsW_one {NW : Nat → Nat → Nat} {NT : Nat → Nat} {ws : List (List Nat)} {S B : Nat}
+    (h : Nat.beq (sweepW NW NT ws S) B = true) : sweepsW NW NT ws (nat_lit 1) S = B :=
+  sweepsW_step (d := 0) rfl h
+
+theorem covOK_of {NW : Nat → Nat → Nat} {NT : Nat → Nat} {ws : List (List Nat)} {d : Nat}
+    {reps : List Nat} {d2 om c F T : Nat}
+    (hF : sweepsW NW NT ws d2 (Nat.shiftLeft (nat_lit 1) om) = F)
+    (hT : sweepsW NW NT ws d (plOf reps) = T)
+    (h : andB (Nat.beq (Nat.land (Nat.lor T F) ptsM) ptsM)
+      (Nat.beq (popcount F (nat_lit 524288)) c) = true) :
+    covOK NW NT ws d reps d2 om c = true := by
+  unfold covOK
+  rw [hF, hT]
+  cases F <;> exact h
 
 @[expose] noncomputable def findU (sl : List (Nat × List Nat × List Nat)) (k : Nat) : List Nat :=
   List.rec (motive := fun _ => List Nat) List.nil

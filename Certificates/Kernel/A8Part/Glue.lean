@@ -26,12 +26,19 @@ noncomputable def qgens : List (Perm (Fin 8)) := [q 0, q 1]
 
 noncomputable def Q0 : Subgroup (Perm (Fin 8)) := cl qgens
 
+theorem qgens_eq : qgens = [q 0, q 1] := by
+  delta qgens
+  rfl
+
 theorem hQG : ∀ k < qgens.length, QG k = wcode 4 (qgens.getD k 1) := by
   intro k hk
+  rw [qgens_eq] at hk ⊢
   have hk2 : k < 2 := hk
   interval_cases k
-  · exact (q_code 0 (by norm_num)).symm
-  · exact (q_code 1 (by norm_num)).symm
+  · rw [List.getD_cons_zero]
+    exact (q_code 0 (by norm_num)).symm
+  · rw [List.getD_cons_succ, List.getD_cons_zero]
+    exact (q_code 1 (by norm_num)).symm
 
 theorem hQin : ∀ k < 2, ∃ g ∈ Q0, wcode 4 g = QG k := in_cl hQG
 

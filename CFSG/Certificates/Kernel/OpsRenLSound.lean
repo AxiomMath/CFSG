@@ -38,10 +38,42 @@ theorem lt_of_getD_some {T : List (Option Nat)} {s r : Nat} (h : T.getD s none =
   rw [List.getElem?_eq_none (by omega)] at h
   simp at h
 
+theorem renGetD_eq : ∀ (T : List (Option Nat)) (s : Nat), renGetD T s = T.getD s none
+  | [], _ => by simp [renGetD]
+  | _ :: _, 0 => rfl
+  | x :: T, s + 1 => by
+    change renGetD T s = _
+    rw [renGetD_eq T s]
+    simp
+
+theorem renLen_eq : ∀ T : List (Option Nat), renLen T = T.length
+  | [] => rfl
+  | _ :: T => by
+    change Nat.succ (renLen T) = _
+    rw [renLen_eq T]
+    rfl
+
+theorem renClr_eq (k : Nat) : ∀ T : List (Option Nat),
+    renClr T k = T.map fun x => bif isReg x k then none else x
+  | [] => rfl
+  | x :: T => by
+    change _ :: renClr T k = _
+    rw [renClr_eq k T]
+    rfl
+
+theorem renSetAt_eq (v : Option Nat) : ∀ (T : List (Option Nat)) (t : Nat), renSetAt T t v = T.set t v
+  | [], _ => by simp [renSetAt]
+  | _ :: _, 0 => rfl
+  | x :: T, t + 1 => by
+    change x :: renSetAt T t v = _
+    rw [renSetAt_eq v T t]
+    rfl
+
 theorem renSet_getD {T : List (Option Nat)} {k t s r : Nat} (ht : t < T.length)
     (h : (renSet T k t).getD s none = some r) :
     (s = t ∧ r = k) ∨ (s ≠ t ∧ r ≠ k ∧ T.getD s none = some r) := by
   unfold renSet at h
+  rw [renClr_eq, renSetAt_eq] at h
   rw [List.getD_eq_getElem?_getD] at h
   by_cases hs : t = s
   · subst hs
@@ -70,7 +102,7 @@ theorem renSet_sound {c : Lay} {T : List (Option Nat)} {Rl Ro : List Nat} {k t :
     (hI : RInv c T Rl Ro) (hlen : T.length ≤ Rl.length) (ht : t < T.length)
     (hk : k < Ro.length) :
     RInv c (renSet T k t) (Rl.set t v) (Ro.set k v) ∧ (renSet T k t).length = T.length := by
-  refine ⟨fun s r hs => ?_, by simp [renSet]⟩
+  refine ⟨fun s r hs => ?_, by simp [renSet, renClr_eq, renSetAt_eq]⟩
   rcases renSet_getD ht hs with ⟨rfl, rfl⟩ | ⟨hst, hrk, hT⟩
   · rw [getR_set_self c v (by omega), getR_set_self c v hk]
   · rw [getR_set_ne c v (Ne.symm hst), getR_set_ne c v (Ne.symm hrk)]
@@ -86,7 +118,7 @@ theorem renStep_sound {c : Lay} {T T' : List (Option Nat)} {o l : Op} {Rl Ro : L
     cases l with
     | pow e a t => simp [renStep] at h
     | mul a b t =>
-      simp only [renStep] at h
+      simp only [renStep, renGetD_eq, renLen_eq] at h
       cases hb : (isReg (T.getD a none) i && isReg (T.getD b none) j && decide (t < T.length))
       · rw [hb, cond_false] at h
         exact absurd h (by simp)
@@ -104,7 +136,7 @@ theorem renStep_sound {c : Lay} {T T' : List (Option Nat)} {o l : Op} {Rl Ro : L
     cases l with
     | mul a b t => simp [renStep] at h
     | pow e' a t =>
-      simp only [renStep] at h
+      simp only [renStep, renGetD_eq, renLen_eq] at h
       cases hb : (Nat.beq e e' && isReg (T.getD a none) i && decide (t < T.length))
       · rw [hb, cond_false] at h
         exact absurd h (by simp)

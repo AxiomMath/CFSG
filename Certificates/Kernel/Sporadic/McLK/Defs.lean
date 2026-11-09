@@ -18,7 +18,8 @@ open CFSG.Sporadic.McL.Native
 @[expose] noncomputable def ATM : Array V := transposeK 21 (rowsOfL 21 McLSeedA.chars)
 @[expose] noncomputable def BTM : Array V := transposeK 21 (rowsOfL 21 McLSeedB.chars)
 
-@[expose] noncomputable def LJ (l x : Nat) : Nat := r32 LT (Nat.add (Nat.mul l (nat_lit 275)) x)
+@[expose] noncomputable def LJ (l x : Nat) : Nat :=
+  fld(MclLW l, Nat.mul (nat_lit 16) (Nat.succ x), nat_lit 65535)
 
 @[expose] noncomputable def BJ (i : Nat) : Nat := i
 
@@ -62,19 +63,36 @@ open CFSG.Sporadic.McL.Native
   Int.rec (motive := fun _ => Nat) (fun k => Nat.mul (nat_lit 2) k)
     (fun k => Nat.succ (Nat.mul (nat_lit 2) k)) z
 
-@[expose] noncomputable def decZ (c : Nat) : Int :=
-  Bool.rec (motive := fun _ => Int) (Int.negSucc (Nat.div c (nat_lit 2)))
-    (Int.ofNat (Nat.div c (nat_lit 2))) (Nat.beq (Nat.mod c (nat_lit 2)) (nat_lit 0))
+@[expose] noncomputable def GNM (c x : Nat) : Nat :=
+  nIf(Nat.beq c (nat_lit 2), r32 AL x, nIf(Nat.beq c (nat_lit 1), r32 AL x,
+    nIf(Nat.beq c (nat_lit 4), r32 BE x, r32 BI x)))
 
-@[expose] noncomputable def GC (c x : Nat) : Nat := GJ (decZ c) x
+@[expose] noncomputable def foldWM (x : Nat) (w : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) x (fun c _ ih => CFSG.KC.Loop.strictN ih (GNM c)) w
 
-@[expose] noncomputable def WL (j : Nat) : List Nat := List.getD [W0, W1, W2, W3, W4, W5, W6, W7, W8] j []
+@[expose] noncomputable def SymTJ (s x : Nat) : Nat :=
+  rg (nat_lit 16) (nat_lit 65535) MclRT (nat_lit 0) (Nat.add (Nat.mul s (nat_lit 275)) x)
 
-@[expose] noncomputable def wordsSl (s : Nat) : Bool :=
-  strictB (Nat.div s (nat_lit 11)) fun j => strictB (Nat.mul (Nat.mod s (nat_lit 11)) (nat_lit 25))
-    fun lo => allN (nat_lit 25) fun d => strictB (Nat.add lo d) fun x =>
-      bIf(Nat.blt x (nat_lit 275),
-        Nat.beq (LJ (Nat.mul (nat_lit 2) j) x) (List.foldr GC x (WL j)), true)
+@[expose] noncomputable def expSymK (k : Nat) : Nat → List Nat → List Nat :=
+  Nat.rec (motive := fun _ => Nat → List Nat → List Nat) (fun s acc => s :: acc)
+    (fun _ ih s acc => Bool.rec (motive := fun _ => List Nat) (ih (r32 MclGL s) (ih (r32 MclGR s) acc))
+      (s :: acc) (Nat.blt s (nat_lit 5))) k
+
+@[expose] noncomputable def WL (j : Nat) : List Nat := expSymK (r32 MclRO j) (r32 MclRO j) []
+
+@[expose] noncomputable def mclGramS (s : Nat) : Bool :=
+  bIf(Nat.blt s (nat_lit 5), allN (nat_lit 275) fun x => Nat.beq (SymTJ s x) (GNM s x),
+    strictB (r32 MclGL s) fun l => strictB (r32 MclGR s) fun r =>
+      bAnd(Nat.blt l s, bAnd(Nat.blt r s,
+        allN (nat_lit 275) fun x => Nat.beq (SymTJ s x) (SymTJ l (SymTJ r x)))))
+
+@[expose] noncomputable def mclGramSl (t : Nat) : Bool :=
+  allN (nat_lit 10) fun d => strictB (Nat.add (Nat.mul t (nat_lit 10)) d) fun s =>
+    bIf(Nat.blt s (nat_lit 177), mclGramS s, true)
+
+@[expose] noncomputable def mclLettersW : Bool :=
+  allN (nat_lit 9) fun j => strictB (r32 MclRO j) fun r => bAnd(Nat.blt r (nat_lit 177),
+    allN (nat_lit 275) fun x => Nat.beq (LJ (Nat.mul (nat_lit 2) j) x) (SymTJ r x))
 
 @[expose] noncomputable def invL : Bool := invK LJ (nat_lit 275) (nat_lit 18)
 

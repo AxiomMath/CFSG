@@ -5,7 +5,7 @@ import CFSG.Certificates.Kernel.Common.JsonGz
 public import Certificates.Kernel.Sporadic.Fi24Kit.Data
 public import Certificates.Data.Kernel.Spor.Fi24SevB
 
-#kc_repo #kc_json_gz CFSG.KD.Fi24SevB "Certificates/Kernel/Sporadic/Fi24Sev/data/f6b.json.gz" 39553 7295900557856740414 (sl : List (Nat × List Nat × List Nat)) (cj : List (Nat × Nat × List Nat × List Nat)) (uW : List Nat) (vW : List Nat) (uvW : List Nat) (uv2W : List Nat) (u4W : List Nat) (u2W : List Nat) (u3W : List Nat)
+#kc_repo #kc_json CFSG.KD.Fi24SevB "Certificates/Kernel/Sporadic/Fi24Sev/data/f6b.json" 39553 7295900557856740414 (sl : List (Nat × List Nat × List Nat)) (cj : List (Nat × Nat × List Nat × List Nat)) (uW : List Nat) (vW : List Nat) (uvW : List Nat) (uv2W : List Nat) (u4W : List Nat) (u2W : List Nat) (u3W : List Nat)
 
 public section
 
@@ -20,10 +20,23 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24Kit CFSG.KC.F
 
 @[expose] noncomputable def C : List Nat := findU sl (nat_lit 67)
 
-@[expose] noncomputable def slQ (i : Nat) : List (Nat × List Nat × List Nat) :=
-  (sl.drop (Nat.mul i (nat_lit 111))).take (nat_lit 111)
+@[expose] noncomputable def slCut : List Nat :=
+  [0, 15, 24, 35, 41, 47, 52, 56, 57, 61, 66, 108, 119, 126, 132, 138, 145, 151, 158, 164, 170, 176,
+    182, 188, 194, 199, 204, 205, 209, 210, 215, 216, 221, 226, 232, 238, 244, 250, 256, 261, 266,
+    272, 278, 281, 283, 287, 289, 293, 296, 300, 302, 307, 309, 312, 314, 320, 326, 332, 337, 342,
+    347, 353, 358, 364, 370, 374, 378, 383, 389, 395, 400, 405, 410, 415, 420, 426, 432, 438, 442,
+    444]
 
-@[expose] noncomputable def slc (i : Nat) : Bool := slIn NW NT sl (slQ i)
+@[expose] noncomputable def slQ (i : Nat) : List (Nat × List Nat × List Nat) :=
+  (sl.drop (nthD (nat_lit 0) slCut i)).take
+    (Nat.sub (nthD (nat_lit 0) slCut (Nat.succ i)) (nthD (nat_lit 0) slCut i))
+
+@[expose] noncomputable def slBig (i : Nat) : Bool :=
+  orB (orB (Nat.beq i (nat_lit 7)) (Nat.beq i (nat_lit 26)))
+    (orB (Nat.beq i (nat_lit 28)) (Nat.beq i (nat_lit 30)))
+
+@[expose] noncomputable def slc (i : Nat) : Bool :=
+  Bool.rec (motive := fun _ => Bool) (slIn NW NT sl (slQ i)) (slInB NW NT sl (slQ i)) (slBig i)
 
 @[expose] noncomputable def cjc (i : Nat) : Bool :=
   allL (cjOK NW NT sl) ((cj.drop (Nat.mul i (nat_lit 3))).take (nat_lit 3))

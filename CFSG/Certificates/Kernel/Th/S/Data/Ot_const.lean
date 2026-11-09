@@ -1,10 +1,10 @@
 module
 
 import CFSG.Certificates.Kernel.Common.Harness
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_nat_items_gz CFSG.KD.ThO "CFSG/Certificates/Kernel/Th/S/Data/data/Ot_const.items.gz"
+#kc_repo #kc_nat_items CFSG.KD.ThO "CFSG/Certificates/Kernel/Th/S/Data/data/Ot_const.items"
     532035 18154377982566442173
     wA wB xw yw wAf (Gt 3 9) Gt8i Gu (Gs 8 11) Gs7 Gs8p Gs8pi Gv Gx Gu9 Gy Gxy Gq0 Gg0 Ggi0 Gm0a
     Gm0b Gm0c Gm0d Gc0 Gci0 Gf0a Gf0 Gh01a Gh01b Ge01 Ge01i Gh02a Gh02b Ge02 Ge02i Gw0A_0 Gw0A_120

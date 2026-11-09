@@ -8,7 +8,7 @@ public noncomputable section
 namespace CFSG.KC.GL5B
 
 open CFSG.KC.F4M3B (frcN frc pln)
-open CFSG.CGT.Stroth77.GL5 (mulC powC good uvC tC uC rhoC idC evalList x0Words)
+open CFSG.CGT.Stroth77.GL5 (mulC powC good uvC tC uC rhoC idC evalList x0Words nonsing)
 
 structure Ops (α : Type) where
   a : α → α → α
@@ -152,27 +152,6 @@ variable {α : Type}
 
 @[expose] def natOps (t : Nat) : Ops Nat := ⟨Nat.land, Nat.lor, Nat.xor, t, 0, frcN⟩
 
-@[expose] def plS (j m s t : Nat) : Nat :=
-  Bool.rec (motive := fun _ => Nat) (Bool.rec (motive := fun _ => Nat) 0 t (bitB s (Nat.sub j m)))
-    (pln j m) (Nat.blt j m)
-
-@[expose] def rowP (i m s t : Nat) (k : R5 Nat → Bool) : Bool :=
-  frc (plS (Nat.mul 5 i) m s t) fun p0 => frc (plS (Nat.add (Nat.mul 5 i) 1) m s t) fun p1 =>
-  frc (plS (Nat.add (Nat.mul 5 i) 2) m s t) fun p2 =>
-  frc (plS (Nat.add (Nat.mul 5 i) 3) m s t) fun p3 =>
-  frc (plS (Nat.add (Nat.mul 5 i) 4) m s t) fun p4 => k ⟨p0, p1, p2, p3, p4⟩
-
-@[expose] def plK (m s t : Nat) (k : M5 Nat → Bool) : Bool :=
-  rowP 0 m s t fun r0 => rowP 1 m s t fun r1 => rowP 2 m s t fun r2 => rowP 3 m s t fun r3 =>
-  rowP 4 m s t fun r4 => k ⟨r0, r1, r2, r3, r4⟩
-
-@[expose] def slice (f : Ops Nat → M5 Nat → Nat) (m s : Nat) : Bool :=
-  frc (Nat.sub (Nat.pow 2 (Nat.pow 2 m)) 1) fun t => plK m s t fun P => Nat.beq (f (natOps t) P) t
-
-@[expose] def allS (f : Ops Nat → M5 Nat → Nat) : Bool :=
-  Nat.rec (motive := fun _ => Bool) true
-    (fun s acc => Bool.rec (motive := fun _ => Bool) false (slice f 20 s) acc) 32
-
 @[expose] def nthL (L : List Nat) : Nat → Nat :=
   List.rec (motive := fun _ => Nat → Nat) (fun _ => 0)
     (fun a _ ih i => Nat.rec (motive := fun _ => Nat) a (fun n _ => ih n) i) L
@@ -210,70 +189,9 @@ variable {α : Type}
 @[expose] def roundsS (Ms : List Nat) (Os : List (List Nat)) (n U : Nat) : Nat :=
   Nat.rec (motive := fun _ => Nat) U (fun _ ih => frcN ih fun V => roundS Ms Os V) n
 
-@[expose] def leafB (l : List Nat) : Nat :=
-  List.rec (motive := fun _ => Nat) 0
-    (fun e _ acc => Nat.lor acc (Nat.shiftLeft 1 (Nat.land e 32767))) l
-
-@[expose] def indB (B : List (List Nat)) : Nat :=
-  List.rec (motive := fun _ => Nat) 0
-    (fun l _ acc => frcN acc fun acc => Nat.lor (Nat.shiftLeft acc 32768) (leafB l)) B
-
-@[expose] def bOK (B : List (List Nat)) (i0 : Nat) : Bool :=
-  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-    (fun l _ ih i => Bool.rec (motive := fun _ => Bool) false (ih (Nat.succ i))
-      (allL (fun e => Nat.beq (Nat.shiftRight (codeE e) 15) i) l)) B i0
-
-@[expose] def basisOK (ops : List Nat) (f : Nat → Nat) : Bool :=
-  Nat.rec (motive := fun _ => Bool) true
-    (fun b acc => Bool.rec (motive := fun _ => Bool) false acc
-      (Nat.beq (ptS ops (Nat.shiftLeft 1 b)) (f (Nat.shiftLeft 1 b)))) 25
-
-@[expose] def gens4 (O : List (List Nat)) : List (List Nat) :=
-  [nthLL O 0, nthLL O 1, nthLL O 2, nthLL O 3]
-
 @[expose] def opOK (op : Nat) : Bool :=
-  Nat.blt (Nat.land op 31) 25 && Nat.blt (Nat.shiftRight op 5) 25 &&
+  Nat.blt (Nat.land op 31) 21 && Nat.blt (Nat.shiftRight op 5) 21 &&
     !Nat.beq (Nat.land op 31) (Nat.shiftRight op 5)
-
-@[expose] def opsOK (RO LO : List (List Nat)) : Bool :=
-  allL opOK (nthLL RO 0) && allL opOK (nthLL RO 1) && allL opOK (nthLL RO 2) &&
-  allL opOK (nthLL RO 3) && allL opOK (nthLL LO 0) && allL opOK (nthLL LO 1) &&
-  allL opOK (nthLL LO 2) && allL opOK (nthLL LO 3) &&
-  basisOK (nthLL RO 0) (fun c => mulC c uvC) && basisOK (nthLL RO 1) (fun c => mulC c tC) &&
-  basisOK (nthLL RO 2) (fun c => mulC c uC) && basisOK (nthLL RO 3) (fun c => mulC c rhoC) &&
-  basisOK (nthLL LO 0) (fun c => mulC uvC c) && basisOK (nthLL LO 1) (fun c => mulC tC c) &&
-  basisOK (nthLL LO 2) (fun c => mulC uC c) && basisOK (nthLL LO 3) (fun c => mulC rhoC c)
-
-@[expose] def msK (k : List Nat → Bool) : Bool :=
-  frc (pln 0 25) fun m0 => frc (pln 1 25) fun m1 => frc (pln 2 25) fun m2 =>
-  frc (pln 3 25) fun m3 => frc (pln 4 25) fun m4 => frc (pln 5 25) fun m5 =>
-  frc (pln 6 25) fun m6 => frc (pln 7 25) fun m7 => frc (pln 8 25) fun m8 =>
-  frc (pln 9 25) fun m9 => frc (pln 10 25) fun m10 => frc (pln 11 25) fun m11 =>
-  frc (pln 12 25) fun m12 => frc (pln 13 25) fun m13 => frc (pln 14 25) fun m14 =>
-  frc (pln 15 25) fun m15 => frc (pln 16 25) fun m16 => frc (pln 17 25) fun m17 =>
-  frc (pln 18 25) fun m18 => frc (pln 19 25) fun m19 => frc (pln 20 25) fun m20 =>
-  frc (pln 21 25) fun m21 => frc (pln 22 25) fun m22 => frc (pln 23 25) fun m23 =>
-  frc (pln 24 25) fun m24 =>
-    k [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19,
-      m20, m21, m22, m23, m24]
-
-@[expose] def matOf (Ms : List Nat) : M5 Nat :=
-  ⟨⟨nthL Ms 0, nthL Ms 1, nthL Ms 2, nthL Ms 3, nthL Ms 4⟩,
-    ⟨nthL Ms 5, nthL Ms 6, nthL Ms 7, nthL Ms 8, nthL Ms 9⟩,
-    ⟨nthL Ms 10, nthL Ms 11, nthL Ms 12, nthL Ms 13, nthL Ms 14⟩,
-    ⟨nthL Ms 15, nthL Ms 16, nthL Ms 17, nthL Ms 18, nthL Ms 19⟩,
-    ⟨nthL Ms 20, nthL Ms 21, nthL Ms 22, nthL Ms 23, nthL Ms 24⟩⟩
-
-@[expose] def tPlane (Ms : List Nat) (t : Nat) : Nat :=
-  Nat.land (nsK (natOps t) (matOf Ms))
-    (Nat.lor (Nat.lor (nthL Ms 4) (nthL Ms 9)) (Nat.lor (nthL Ms 14) (nthL Ms 19)))
-
-@[expose] def coverOK (B RO LO : List (List Nat)) : Bool :=
-  bOK B 0 && opsOK RO LO &&
-  (frc (Nat.sub (Nat.shiftLeft 1 33554432) 1) fun t => msK fun Ms =>
-    frc (indB B) fun U0 => frc (roundsS Ms (gens4 RO) 3 U0) fun U1 =>
-    frc (roundsS Ms (gens4 LO) 3 U1) fun U2 =>
-      Nat.beq (Nat.land (tPlane Ms t) (Nat.xor U2 t)) 0)
 
 open CFSG.CGT.Stroth77.GL5 (r0 r1 r2 r3 r4 ofRows vCodes) in
 @[expose] def vmF (v m0 m1 m2 m3 m4 : Nat) : Nat :=
@@ -294,21 +212,182 @@ open CFSG.CGT.Stroth77.GL5 (vCodes) in
 @[expose] def goodF (h : Nat) : Bool :=
   mulF h uvC == mulF uvC h && mulF h tC == mulF tC h && !vCodes.contains h
 
+@[expose] def kUT : List Nat := [1024, 2048, 32768, 65536, 1048576, 2097152, 17043521]
+
+@[expose] def pivUT : List Nat := [10, 11, 15, 16, 20, 21, 24]
+
+@[expose] def comboUT (p : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0
+    (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.xor acc (nthL kUT j)) (bitB p j)) 7
+
+@[expose] def gathUT (c : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0
+    (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.add acc (Nat.shiftLeft 1 j))
+      (bitB c (nthL pivUT j))) 7
+
+open CFSG.CGT.Stroth77.GL5 (vCodes) in
+@[expose] def goodUT (h : Nat) : Bool := Nat.beq (comboUT (gathUT h)) h && !vCodes.contains h
+
+@[expose] def cenUTP (p : Nat) : Bool :=
+  mulF (comboUT p) uvC == mulF uvC (comboUT p) && mulF (comboUT p) tC == mulF tC (comboUT p)
+
+@[expose] def cenUTOK : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun p acc => Bool.rec (motive := fun _ => Bool) false (cenUTP p) acc) 128
+
+@[expose] def mtUT (r b j : Nat) : Nat :=
+  Nat.land (Nat.mul (Nat.land (Nat.shiftRight b j) 1082401) 31) (Nat.mul r 1082401)
+
+open CFSG.CGT.Stroth77.GL5 (r0 r1 r2 r3 r4) in
+@[expose] def mulUT (a b : Nat) : Nat :=
+  Nat.xor (Nat.xor (Nat.xor (Nat.xor (mtUT (r0 a) b 0) (mtUT (r1 a) b 1)) (mtUT (r2 a) b 2))
+    (mtUT (r3 a) b 3)) (mtUT (r4 a) b 4)
+
+@[expose] def powUT (h : Nat) (k : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) h (fun _ acc => mulUT h acc) k
+
 @[expose] def certOK (X : List Nat) (e : Nat) : Bool :=
   Bool.rec (motive := fun _ => Bool) false
-    (goodF (mulF (nthL X (Nat.shiftRight e 46))
-      (powF (mulF (nthL X (Nat.land (Nat.shiftRight e 36) 31))
-        (powF (mulF (nthL X (Nat.land (Nat.shiftRight e 25) 31)) (codeE e))
-          (Nat.land (Nat.shiftRight e 30) 63)))
-        (Nat.land (Nat.shiftRight e 41) 31))))
+    (goodUT (mulUT (nthL X (Nat.shiftRight e 46))
+      (powUT (mulUT (nthL X (Nat.land (Nat.shiftRight e 36) 31))
+        (powUT (mulUT (nthL X (Nat.land (Nat.shiftRight e 25) 31)) (codeE e))
+          (Nat.pred (Nat.land (Nat.shiftRight e 30) 63))))
+        (Nat.pred (Nat.land (Nat.shiftRight e 41) 31)))))
     (Nat.blt (Nat.shiftRight e 46) 24 && Nat.blt (Nat.land (Nat.shiftRight e 36) 31) 24 &&
       Nat.blt (Nat.land (Nat.shiftRight e 25) 31) 24)
 
 @[expose] def certsOK (X : List Nat) (B : List (List Nat)) : Bool :=
-  List.rec (motive := fun _ => Bool) true
+  cenUTOK && List.rec (motive := fun _ => Bool) true
     (fun l _ acc => Bool.rec (motive := fun _ => Bool) false acc (allL (certOK X) l)) B
 
 @[expose] def x0OK (X : List Nat) : Bool := X == x0Words.toList.map evalList
+
+@[expose] def rwL (l p i : Nat) : Nat :=
+  Nat.lor (Nat.land (Nat.shiftRight p (Nat.mul 4 i)) 15)
+    (Bool.rec (motive := fun _ => Nat) 0 16 (bitB p 20 && bitB l i))
+
+open CFSG.CGT.Stroth77.GL5 (ofRows) in
+@[expose] def expW (l p : Nat) : Nat :=
+  ofRows (rwL l p 0) (rwL l p 1) (rwL l p 2) (rwL l p 3) (rwL l p 4)
+
+@[expose] def repL : List Nat := [1, 4, 6, 20]
+
+@[expose] def basisW (ops : List Nat) (l g : Nat) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun b acc => Bool.rec (motive := fun _ => Bool) false acc
+      (Nat.beq (expW l (ptS ops (Nat.shiftLeft 1 b))) (mulC g (expW l (Nat.shiftLeft 1 b))))) 21
+
+@[expose] def gensW (LW : List (List Nat)) (cl : Nat) : List (List Nat) :=
+  [nthLL LW (Nat.mul 4 cl), nthLL LW (Nat.add (Nat.mul 4 cl) 1), nthLL LW (Nat.add (Nat.mul 4 cl) 2),
+    nthLL LW (Nat.add (Nat.mul 4 cl) 3)]
+
+@[expose] def lwOK (LW : List (List Nat)) (cl l : Nat) : Bool :=
+  allL opOK (nthLL LW (Nat.mul 4 cl)) && allL opOK (nthLL LW (Nat.add (Nat.mul 4 cl) 1)) &&
+  allL opOK (nthLL LW (Nat.add (Nat.mul 4 cl) 2)) && allL opOK (nthLL LW (Nat.add (Nat.mul 4 cl) 3)) &&
+  basisW (nthLL LW (Nat.mul 4 cl)) l uvC && basisW (nthLL LW (Nat.add (Nat.mul 4 cl) 1)) l tC &&
+  basisW (nthLL LW (Nat.add (Nat.mul 4 cl) 2)) l uC && basisW (nthLL LW (Nat.add (Nat.mul 4 cl) 3)) l rhoC
+
+@[expose] def seedOK (X : List Nat) (B : List (List Nat)) (l j d : Nat) : Bool :=
+  Nat.blt (Nat.land (Nat.shiftRight d 10) 31) 24 &&
+  Nat.beq (expW l (Nat.add 1048576 (Nat.add (Nat.mul 1024 j) (Nat.land d 1023))))
+    (mulUT (codeE (nthL (nthLL B (Nat.shiftRight d 27)) (Nat.land (Nat.shiftRight d 15) 4095)))
+      (nthL X (Nat.land (Nat.shiftRight d 10) 31)))
+
+@[expose] def seedsOK (X : List Nat) (B : List (List Nat)) (l : Nat) (S : List (List Nat))
+    (j0 : Nat) : Bool :=
+  List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
+    (fun s _ ih j => Bool.rec (motive := fun _ => Bool) false (ih (Nat.succ j))
+      (allL (seedOK X B l j) s)) S j0
+
+@[expose] def leafS (s : List Nat) : Nat :=
+  List.rec (motive := fun _ => Nat) 0
+    (fun d _ acc => Nat.lor acc (Nat.shiftLeft 1 (Nat.land d 1023))) s
+
+@[expose] def indS (S : List (List Nat)) : Nat :=
+  List.rec (motive := fun _ => Nat) 0
+    (fun s _ acc => frcN acc fun acc => Nat.lor (Nat.shiftLeft acc 1024) (leafS s)) S
+
+@[expose] def msW (k : List Nat → Bool) : Bool :=
+  frc (pln 0 21) fun m0 => frc (pln 1 21) fun m1 => frc (pln 2 21) fun m2 =>
+  frc (pln 3 21) fun m3 => frc (pln 4 21) fun m4 => frc (pln 5 21) fun m5 =>
+  frc (pln 6 21) fun m6 => frc (pln 7 21) fun m7 => frc (pln 8 21) fun m8 =>
+  frc (pln 9 21) fun m9 => frc (pln 10 21) fun m10 => frc (pln 11 21) fun m11 =>
+  frc (pln 12 21) fun m12 => frc (pln 13 21) fun m13 => frc (pln 14 21) fun m14 =>
+  frc (pln 15 21) fun m15 => frc (pln 16 21) fun m16 => frc (pln 17 21) fun m17 =>
+  frc (pln 18 21) fun m18 => frc (pln 19 21) fun m19 => frc (pln 20 21) fun m20 =>
+    k [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19,
+      m20]
+
+@[expose] def rowW (Ms : List Nat) (l i : Nat) : R5 Nat :=
+  ⟨nthL Ms (Nat.mul 4 i), nthL Ms (Nat.add (Nat.mul 4 i) 1), nthL Ms (Nat.add (Nat.mul 4 i) 2),
+    nthL Ms (Nat.add (Nat.mul 4 i) 3), Bool.rec (motive := fun _ => Nat) 0 (nthL Ms 20) (bitB l i)⟩
+
+@[expose] def matW (Ms : List Nat) (l : Nat) : M5 Nat :=
+  ⟨rowW Ms l 0, rowW Ms l 1, rowW Ms l 2, rowW Ms l 3, rowW Ms l 4⟩
+
+@[expose] def covW (X : List Nat) (B LW : List (List Nat)) (cl l : Nat) (S : List (List Nat)) :
+    Bool :=
+  lwOK LW cl l && seedsOK X B l S 0 &&
+  (frc (Nat.sub (Nat.shiftLeft 1 2097152) 1) fun t => msW fun Ms =>
+    frc (Nat.shiftLeft (indS S) 1048576) fun U0 => frc (roundsS Ms (gensW LW cl) 3 U0) fun U =>
+      Nat.beq (Nat.land (nsK (natOps t) (matW Ms l)) (Nat.xor U t)) 0)
+
+@[expose] def anyN (f : Nat → Bool) (n : Nat) : Bool :=
+  Nat.rec (motive := fun _ => Bool) false (fun i acc => Bool.rec (motive := fun _ => Bool) (f i) true acc) n
+
+@[expose] def redOK (X : List Nat) : Bool :=
+  allL (fun y => nonsing y && Nat.beq (powF y 24) idC) X &&
+  Nat.rec (motive := fun _ => Bool) true (fun m acc => Bool.rec (motive := fun _ => Bool) false
+    (Nat.beq (Nat.land m 15) 0 || anyN (fun i =>
+      Nat.beq (colN (mulC (expW m 1048576) (nthL X (Nat.mod i 24))) 4) (nthL repL (Nat.div i 24))) 96)
+    acc) 32
+
+@[expose] def kB : List Nat :=
+  [1024, 2048, 28672, 32768, 65536, 135234, 270369, 536675, 1048576, 2097152, 4198464, 8396832,
+    16789600]
+
+@[expose] def pivK : List Nat := [10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+
+@[expose] def comboK (p : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0
+    (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.xor acc (nthL kB j)) (bitB p j)) 13
+
+@[expose] def gathK (c : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0
+    (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.add acc (Nat.shiftLeft 1 j))
+      (bitB c (nthL pivK j))) 13
+
+@[expose] def allR (f : Nat → Bool) : Bool :=
+  Nat.rec (motive := fun _ => Bool) true
+    (fun r acc => Bool.rec (motive := fun _ => Bool) false (f r) acc) 32
+
+@[expose] def cuvR (i x a0 a1 a2 a3 a4 : Nat) : Bool :=
+  Nat.beq (vmF (rowN uvC i) a0 a1 a2 a3 a4)
+    (vmF x (rowN uvC 0) (rowN uvC 1) (rowN uvC 2) (rowN uvC 3) (rowN uvC 4))
+
+@[expose] def cuvOK : Bool :=
+  open CFSG.CGT.Stroth77.GL5 (ofRows) in
+  allR fun a0 => !cuvR 0 a0 a0 0 0 0 0 || allR fun a1 => !cuvR 1 a1 a0 a1 0 0 0 ||
+  allR fun a2 => !cuvR 2 a2 a0 a1 a2 0 0 || allR fun a3 => !cuvR 3 a3 a0 a1 a2 a3 0 ||
+  allR fun a4 => !cuvR 4 a4 a0 a1 a2 a3 a4 ||
+    Nat.beq (comboK (gathK (ofRows a0 a1 a2 a3 a4))) (ofRows a0 a1 a2 a3 a4)
+
+@[expose] noncomputable def plC (b : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) 0
+    (fun j acc => Bool.rec (motive := fun _ => Nat) acc (Nat.xor acc (pln j 13)) (bitB (nthL kB j) b))
+    13
+
+@[expose] noncomputable def rowPC (i : Nat) (k : R5 Nat → Bool) : Bool :=
+  frc (plC (Nat.mul 5 i)) fun p0 => frc (plC (Nat.add (Nat.mul 5 i) 1)) fun p1 =>
+  frc (plC (Nat.add (Nat.mul 5 i) 2)) fun p2 => frc (plC (Nat.add (Nat.mul 5 i) 3)) fun p3 =>
+  frc (plC (Nat.add (Nat.mul 5 i) 4)) fun p4 => k ⟨p0, p1, p2, p3, p4⟩
+
+@[expose] noncomputable def plKC (k : M5 Nat → Bool) : Bool :=
+  rowPC 0 fun r0 => rowPC 1 fun r1 => rowPC 2 fun r2 => rowPC 3 fun r3 => rowPC 4 fun r4 =>
+    k ⟨r0, r1, r2, r3, r4⟩
+
+@[expose] noncomputable def sliceC (f : Ops Nat → M5 Nat → Nat) : Bool :=
+  frc (Nat.sub (Nat.pow 2 (Nat.pow 2 13)) 1) fun t => plKC fun P => Nat.beq (f (natOps t) P) t
 
 end CFSG.KC.GL5B
 

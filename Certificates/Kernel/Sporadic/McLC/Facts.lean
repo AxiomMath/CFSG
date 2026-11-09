@@ -36,7 +36,7 @@ theorem strictB_eq (y : Nat) (k : Nat → Bool) : strictB y k = k y := by
 
 @[expose] noncomputable def baseK : Array Nat := #[0, 14, 2]
 
-@[expose] noncomputable def QK : Array Nat := (List.range 275).toArray
+@[expose] noncomputable def QK : Array Nat := CFSG.Sporadic.McL.Native.chainQ
 
 theorem inv_spec {j x : Nat} (hj : j < 5) (hx : x < 275) : LJ (2 * j) x < 275 ∧
     LJ (2 * j + 1) x < 275 ∧ LJ (2 * j + 1) (LJ (2 * j) x) = x := by
@@ -104,10 +104,7 @@ theorem chain_hyp : ChainHyp 275 10 3 lettersK baseK QK baseK LJ BJ QL QB
   letters := letters_get
   inv := ⟨rfl, invL_ok⟩
   base := ⟨rfl, fun i hi => by interval_cases i <;> exact ⟨rfl, by decide⟩⟩
-  chk := ⟨by simp [QK, QL], fun t ht => by
-      simp only [QL, List.length_range] at ht
-      simp [QL, List.getD_eq_getElem?_getD, ht], rfl,
-    fun i hi => by interval_cases i <;> exact ⟨rfl, by decide, by decide⟩⟩
+  chk := ⟨rfl, by decide, rfl, fun i hi => by interval_cases i <;> exact ⟨rfl, by decide, by decide⟩⟩
   tree := fun i hi => tree_spec hi
 
 theorem chain_eq : chainTrees 275 lettersK baseK =

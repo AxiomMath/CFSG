@@ -157,4 +157,96 @@ theorem ptailOK_of_orbits (hA : ChainArrays Q O S base W)
     ptailOK n (rawLevels n S base) base x xs rels E Q.baseCount 0 (idA n) = true :=
   ptailOK_of_orbits_rel hA hF hQ hx hxs hrels hK hKE hEK h0 fun k hk => Or.inr (horb k hk)
 
+theorem ptailOK_of_orbits_rel1 (hA : ChainArrays Q O S base W)
+    (hF : ChainCheckFacts n O S base W chunks) (hQ : ValidSchreier Q) {x : Array ℕ}
+    {X : Equiv.Perm (Fin n)} (hx : Rep n x X) {xs : Array (Array ℕ)}
+    (hxs : ∀ e < xs.size, Rep n xs[e]! (X ^ e)) {rels : List (ℕ × ℕ × ℕ)}
+    (hrels : ∀ r ∈ rels, r.2.2 < xs.size ∧ r.1 < base.size ∧ r.2.1 < base.size ∧
+      (xs[r.2.2]!)[base[r.1]!]! = base[r.2.1]!) {E : List (Array ℕ)}
+    {K : Subgroup (Equiv.Perm (Fin n))} (hK : K ≤ Subgroup.centralizer {X} ⊓ Q.originalSubgroup)
+    (hKE : ∀ g ∈ K, ∃ e ∈ E, Rep n e g) (hEK : ∀ e ∈ E, ∃ g ∈ K, Rep n e g)
+    (h1 : 1 < Q.baseCount) {acc : Array ℕ} {P : Equiv.Perm (Fin n)} (hacc : Rep n acc P)
+    (hP : P ∈ Q.levelSubgroup 1)
+    (horb : ∀ k < (lev n S base 1).pts.size,
+      relOK base xs rels 1 acc ((rawLevels n S base)[1]!).pts[k]! = false ∨
+      ∃ r < (lev n S base 1).pts.size, ∃ c ∈ K,
+      c (Q.base.get ⟨0, by omega⟩) = Q.base.get ⟨0, by omega⟩ ∧
+      c (P (levPts Q S base 1 r)) = P (levPts Q S base 1 k) ∧
+      ptailOK n (rawLevels n S base) base x xs rels E (Q.baseCount - 2) 2
+        (compA n acc ((rawLevels n S base)[1]!).tr[r]!) = true) :
+    ptailOK n (rawLevels n S base) base x xs rels E (Q.baseCount - 1) 1 acc = true := by
+  obtain ⟨m, hm⟩ : ∃ m, Q.baseCount - 1 = m + 1 := ⟨Q.baseCount - 2, by omega⟩
+  have hb2 : (2 : ℕ) + m = Q.baseCount := by omega
+  have hm2 : Q.baseCount - 2 = m := by omega
+  rw [hm, ptailOK, allLt_iff]
+  intro k hk
+  rcases horb k hk with hf | ⟨r, hr, c, hc, hcb, hcr, htr⟩
+  · rw [hf, Bool.not_false, Bool.true_or]
+  rw [hm2] at htr
+  have hrestK : ptailOK n (rawLevels n S base) base x xs rels E m (1 + 1)
+      (compA n acc ((rawLevels n S base)[1]!).tr[k]!) = true := by
+    refine ptailOK_complete hA hF hx m 2 hb2 _ (P * levT n S base 1 k)
+      (rep_compA hacc (hA.rep_levT hF h1 hk)) ?_
+    intro h hh hcomm
+    have hT1 := hA.levT_mem hF h1 hk
+    have hTr := hA.levT_mem hF h1 hr
+    have hgP : P * levT n S base 1 k * h ∈ Q.levelSubgroup 1 :=
+      (Q.levelSubgroup 1).mul_mem ((Q.levelSubgroup 1).mul_mem hP hT1)
+        (Q.levelSubgroup_antitone 1 2 (Nat.le_succ 1) hh)
+    have hcK := hK hc
+    have hc1 : c ∈ Q.levelSubgroup 1 := by
+      rw [Q.levelSubgroup_succ_eq_stabilizer hQ ⟨0, by omega⟩]
+      refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
+      · change c ∈ Q.levelSubgroup 0
+        rw [Q.levelSubgroup_zero_eq_original hQ]
+        exact (Subgroup.mem_inf.1 hcK).2
+      · rw [MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def]
+        exact hcb
+    have hcX : c * X = X * c :=
+      Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 hcK).1
+    have hcX' : c⁻¹ * X = X * c⁻¹ := by
+      calc c⁻¹ * X = c⁻¹ * (X * c) * c⁻¹ := by group
+        _ = c⁻¹ * (c * X) * c⁻¹ := by rw [hcX]
+        _ = X * c⁻¹ := by group
+    have hfix : h (Q.base.get ⟨1, h1⟩) = Q.base.get ⟨1, h1⟩ :=
+      Q.levelSubgroup_fixes_base_index 2 h hh ⟨1, h1⟩ Nat.one_lt_two
+    have hgb : (P * levT n S base 1 k * h) (Q.base.get ⟨1, h1⟩) = c (P (levPts Q S base 1 r)) := by
+      rw [hcr, Equiv.Perm.mul_apply, hfix, Equiv.Perm.mul_apply, levT_base hA hF h1 hk]
+    have hstab : Q.levelSubgroup 2 =
+        Q.levelSubgroup 1 ⊓ MulAction.stabilizer (Equiv.Perm (Fin n)) (Q.base.get ⟨1, h1⟩) :=
+      Q.levelSubgroup_succ_eq_stabilizer hQ ⟨1, h1⟩
+    have hh' : (P * levT n S base 1 r)⁻¹ * (c⁻¹ * (P * levT n S base 1 k * h)) ∈
+        Q.levelSubgroup 2 := by
+      rw [hstab]
+      refine Subgroup.mem_inf.2 ⟨(Q.levelSubgroup 1).mul_mem
+        ((Q.levelSubgroup 1).inv_mem ((Q.levelSubgroup 1).mul_mem hP hTr))
+        ((Q.levelSubgroup 1).mul_mem ((Q.levelSubgroup 1).inv_mem hc1) hgP), ?_⟩
+      rw [MulAction.mem_stabilizer_iff, Equiv.Perm.smul_def, Equiv.Perm.mul_apply,
+        Equiv.Perm.mul_apply, hgb, ← levT_base hA hF h1 hr]
+      simp [mul_inv_rev, Equiv.Perm.mul_apply]
+    have e1 : P * levT n S base 1 r *
+        ((P * levT n S base 1 r)⁻¹ * (c⁻¹ * (P * levT n S base 1 k * h))) =
+        c⁻¹ * (P * levT n S base 1 k * h) := mul_inv_cancel_left _ _
+    have hcomm' : P * levT n S base 1 r *
+        ((P * levT n S base 1 r)⁻¹ * (c⁻¹ * (P * levT n S base 1 k * h))) * X =
+        X * (P * levT n S base 1 r *
+          ((P * levT n S base 1 r)⁻¹ * (c⁻¹ * (P * levT n S base 1 k * h)))) := by
+      rw [e1]
+      calc c⁻¹ * (P * levT n S base 1 k * h) * X = c⁻¹ * ((P * levT n S base 1 k * h) * X) :=
+            mul_assoc _ _ _
+        _ = c⁻¹ * (X * (P * levT n S base 1 k * h)) := by rw [hcomm]
+        _ = c⁻¹ * X * (P * levT n S base 1 k * h) := (mul_assoc _ _ _).symm
+        _ = X * c⁻¹ * (P * levT n S base 1 k * h) := by rw [hcX']
+        _ = X * (c⁻¹ * (P * levT n S base 1 k * h)) := mul_assoc _ _ _
+    obtain ⟨e, he, hre⟩ := ptailOK_spec hA hF hQ hx hxs hrels m 2 hb2 _
+      (P * levT n S base 1 r) (rep_compA hacc (hA.rep_levT hF h1 hr)) htr _ hh' hcomm'
+    rw [e1] at hre
+    obtain ⟨g', hg'K, hg'⟩ := hEK e he
+    have hg'eq : g' = c⁻¹ * (P * levT n S base 1 k * h) :=
+      Equiv.ext fun y => Fin.ext (by rw [← hg' y, hre y])
+    have hgK := K.mul_mem hc (hg'eq ▸ hg'K)
+    rw [mul_inv_cancel_left] at hgK
+    exact hKE _ hgK
+  rw [hrestK, Bool.or_true]
+
 end CFSG.RankThree.Native

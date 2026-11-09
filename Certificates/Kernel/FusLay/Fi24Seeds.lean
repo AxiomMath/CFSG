@@ -1,5 +1,6 @@
 module
 
+public import Certificates.Kernel.LocalQT.Seeds.Fi24
 public import Certificates.Kernel.LocalComp.LaySeeds
 import all CFSG.Blueprint.NativeSporadic
 

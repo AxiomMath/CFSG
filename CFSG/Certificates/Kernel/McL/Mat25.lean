@@ -1,19 +1,19 @@
 module
 
 import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Common.NatItemsGz
+import CFSG.Certificates.Kernel.Common.NatItems
 import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
 namespace CFSG.KC.McL.Mat
 
-#kc_repo #kc_nat_items_gz CFSG.KC.McL.Mat
-  "CFSG/Certificates/Kernel/McL/Data/Mat25.items.gz" 560 7728989391319353569
+#kc_repo #kc_nat_items CFSG.KC.McL.Mat
+  "CFSG/Certificates/Kernel/McL/Data/Mat25.items" 560 7728989391319353569
   sl[5] sh[5]
 
-#kc_repo #kc_json_gz CFSG.KC.McL.Mat
-  "CFSG/Certificates/Kernel/McL/Data/Mat25.json.gz" 601 3767851922313897618
+#kc_repo #kc_json CFSG.KC.McL.Mat
+  "CFSG/Certificates/Kernel/McL/Data/Mat25.json" 601 3767851922313897618
   (c0 : Nat) (rowMask : Nat) (ident : Nat) (m625 : Nat)
 
 @[expose] noncomputable def mulStep (A B acc k k25 : Nat) : Nat :=

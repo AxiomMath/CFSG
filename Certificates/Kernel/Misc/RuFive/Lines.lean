@@ -1,10 +1,7 @@
 module
 
-public import Certificates.Kernel.Misc.Perm.HexCmd
+public import Certificates.Kernel.Misc.RuFive.Text
 public import Certificates.Data.Kernel.FiveLocK
-public import CFSG.RankThree.PartOne.KS.RuFiveData
-meta import CFSG.RankThree.PartOne.KS.RuFiveData
-meta import Certificates.Kernel.Sporadic.RawGen
 import CFSG.Certificates.Kernel.Common.Harness
 public import Std.Data.HashMap
 
@@ -12,14 +9,11 @@ public section
 
 set_option maxRecDepth 400000
 
-#ks_chars CertificateChecks.KernelMisc.RuFive.RF CFSG.RankThree.PartOne.ruFiveHex
-#kmisc_hexflat CertificateChecks.KernelMisc.RuFive.RF CFSG.RankThree.PartOne.ruFiveHex 3 4060 12 33
-
 namespace CertificateChecks.KernelMisc.RuFive
 
 open CFSG.KC.Enum CFSG.KS CFSG.KC.Misc.ArrEnum CFSG.KC.FiveLocK
 
-@[expose] noncomputable def L (j : Nat) : Nat := RF.F (Nat.add j 2)
+@[expose] noncomputable def L (j : Nat) : Nat := RG.F (Nat.add j 2)
 
 @[expose] noncomputable def lineAt (rec : List Nat) (j : Nat) : Bool :=
   bIf(Nat.beq (Nat.mod (rec.getD j 0) 31) 0, bIf(commK 4060 12 (L j) (L 1), Nat.beq j 0, true),

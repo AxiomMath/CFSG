@@ -9,7 +9,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-#kc_repo #kc_json_gz CFSG.KD.HNMChain "Certificates/Kernel/HNMult/data/hnchain.json.gz" 5700
+#kc_repo #kc_json CFSG.KD.HNMChain "Certificates/Kernel/HNMult/data/hnchain.json" 5700
   15750444191647441069 (R : List (List Nat)) (B : List (List Nat)) (G : List (List Nat))
   (T : List (List Nat)) (N : List Nat)
 

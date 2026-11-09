@@ -48,7 +48,7 @@ theorem siftQ : allN 4 (fun k => siftOK 2457 12 CA.LR CA.TRI CA.BP 7 (HX.F k)) =
   quickRfl
 
 @[expose] noncomputable def linesSl (s : Nat) : Bool :=
-  allBlk (Nat.mul 9 s) (lineAt 2457 12 3 31 EQ.T LX) 9
+  allBlk (Nat.mul 9 s) (lineCubeK 2457 12 31 EQ.T LX) 9
 
 end CertificateChecks.KernelD4
 
@@ -65,10 +65,10 @@ namespace CertificateChecks.KernelD4
 open CFSG.RankThree.PartTwo.Sec4.Item434D42 CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.B3S3K
 open CFSG.KC.Misc.ArrEnum CFSG.KC.Misc.ChainTail CFSG.KC.D4K
 
-theorem pL : allN 31 (fun j => permB 2457 12 (LX j) && Nat.beq (pw 2457 12 (LX j) 3)
-    (pidn 2457 12)) = true := by quickRfl
+theorem pL : allN 31 (fun j => permImgK 2457 12 (LX j) && cubeIdK 2457 12 (LX j)) = true := by
+  quickRfl
 
-theorem trans : transK 2457 12 31 HT LX LX d4Rec = true := by quickRfl
+theorem trans : transE 2457 12 31 HT LX LX d4Rec = true := by quickRfl
 
 theorem siftH : allN 31 (fun k => siftOK 2457 12 CA.LR CA.TRI CA.BP 7 (HT k)) = true := by
   quickRfl

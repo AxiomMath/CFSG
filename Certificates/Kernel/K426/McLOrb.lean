@@ -5,6 +5,7 @@ public import Certificates.Data.Kernel.Misc.ChainTailOrb
 public import Certificates.Kernel.SporSch.Th.GenV4
 meta import Certificates.Data.K426McL
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Spor.RawOrbEval
 
 namespace CertificateChecks.KernelK426.OB
 
@@ -72,7 +73,82 @@ open CFSG.KC.B3S3K CFSG.KC.K426K CFSG.RankThree.PartTwo.KFacts.K426
   relOKK 9 (mask 9) MB.BP (pw 275 9 (F 5)) mcl3RelsB 0 (pidn 275 9) (rpt 9 (mask 9) (MB.LR 0) q) &&
     ptailBranchIdxK 275 9 MB.LR MB.TR MB.BP (F 5) (pw 275 9 (F 5)) mcl3RelsB EB.N EB.T EB.S 10 q
 
-theorem repA0 : repA (RBA 0) = true := by quickRfl
+theorem strictB_eq' (y : Nat) (k : Nat → Bool) : strictB y k = k y := by cases y <;> rfl
+
+theorem ptail_succ (n w : Nat) (LR TR : Nat → Nat) (BP X : Nat) (XP : Nat → Nat)
+    (rels : List (Nat × Nat × Nat)) (NE : Nat) (EP ES : Nat → Nat) (m i acc : Nat) :
+    ptailIdxK n w LR TR BP X XP rels NE EP ES (Nat.succ m) i acc =
+      allN (rcnt (LR i)) (fun k => !(relOKK w (mask w) BP XP rels i acc (rpt w (mask w) (LR i) k)) ||
+        ptailIdxK n w LR TR BP X XP rels NE EP ES m (Nat.succ i)
+          (pcomp n w (mask w) acc (TR (Nat.add (roff n (Nat.mul n w) (LR i)) k)))) := by
+  show strictB (LR i) (fun R => allN (rcnt R) fun k =>
+    !(relOKK w (mask w) BP XP rels i acc (rpt w (mask w) R k)) ||
+      ptailIdxK n w LR TR BP X XP rels NE EP ES m (Nat.succ i)
+        (pcomp n w (mask w) acc (TR (Nat.add (roff n (Nat.mul n w) R) k)))) = _
+  rw [strictB_eq']
+
+theorem allN_guard_blocks {N : Nat} {f : Nat → Bool} (B K : Nat) (hN : Nat.ble N (B * K) = true)
+    (h : ∀ s < K, allN B (fun j => !(Nat.blt (Nat.add (Nat.mul B s) j) N) ||
+      f (Nat.add (Nat.mul B s) j)) = true) : allN N f = true := by
+  rw [Orb.allN_iff]
+  intro a ha
+  have hle : N ≤ B * K := Nat.le_of_ble_eq_true hN
+  have hB : 0 < B := by
+    rcases Nat.eq_zero_or_pos B with h0 | h0
+    · subst h0
+      simp at hle
+      omega
+    · exact h0
+  have haBK : a < B * K := Nat.lt_of_lt_of_le ha hle
+  have hs : a / B < K := (Nat.div_lt_iff_lt_mul hB).2 (by rw [Nat.mul_comm]; exact haBK)
+  have := Orb.allN_iff.1 (h (a / B) hs) (a % B) (Nat.mod_lt a hB)
+  change (!(Nat.blt (Nat.add (Nat.mul B (a / B)) (a % B)) N) ||
+    f (Nat.add (Nat.mul B (a / B)) (a % B))) = true at this
+  rw [show Nat.add (Nat.mul B (a / B)) (a % B) = a from Nat.div_add_mod a B] at this
+  have hlt : Nat.blt a N = true := Eq.mpr Nat.blt_eq ha
+  rw [hlt] at this
+  simpa using this
+
+@[expose] noncomputable def gA (k : Nat) : Bool :=
+  !(relOKK 9 (mask 9) MA.BP (pw 275 9 (F 4)) mcl3RelsA 1
+      (MA.TR (Nat.add (roff 275 (Nat.mul 275 9) (MA.LR 0)) (RBA 0))) (rpt 9 (mask 9) (MA.LR 1) k)) ||
+    ptailIdxK 275 9 MA.LR MA.TR MA.BP (F 4) (pw 275 9 (F 4)) mcl3RelsA EA.N EA.T EA.S 8 (Nat.succ 1)
+      (pcomp 275 9 (mask 9) (MA.TR (Nat.add (roff 275 (Nat.mul 275 9) (MA.LR 0)) (RBA 0)))
+        (MA.TR (Nat.add (roff 275 (Nat.mul 275 9) (MA.LR 1)) k)))
+
+theorem pA_rel : relOKK 9 (mask 9) MA.BP (pw 275 9 (F 4)) mcl3RelsA 0 (pidn 275 9)
+    (rpt 9 (mask 9) (MA.LR 0) (RBA 0)) = true := by quickRfl
+
+theorem pA_N : Nat.ble (rcnt (MA.LR 1)) (22 * 8) = true := by quickRfl
+
+theorem pA_b0 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 0) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 0) j)) = true := by quickRfl
+theorem pA_b1 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 1) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 1) j)) = true := by quickRfl
+theorem pA_b2 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 2) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 2) j)) = true := by quickRfl
+theorem pA_b3 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 3) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 3) j)) = true := by quickRfl
+theorem pA_b4 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 4) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 4) j)) = true := by quickRfl
+theorem pA_b5 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 5) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 5) j)) = true := by quickRfl
+theorem pA_b6 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 6) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 6) j)) = true := by quickRfl
+theorem pA_b7 : allN 22 (fun j => !(Nat.blt (Nat.add (Nat.mul 22 7) j) (rcnt (MA.LR 1))) ||
+    gA (Nat.add (Nat.mul 22 7) j)) = true := by quickRfl
+
+theorem repA0 : repA (RBA 0) = true := by
+  have h2 : ptailIdxK 275 9 MA.LR MA.TR MA.BP (F 4) (pw 275 9 (F 4)) mcl3RelsA EA.N EA.T EA.S
+      (Nat.succ 8) 1 (MA.TR (Nat.add (roff 275 (Nat.mul 275 9) (MA.LR 0)) (RBA 0))) = true := by
+    rw [ptail_succ]
+    exact allN_guard_blocks (f := gA) 22 8 pA_N fun s hs => match s, hs with
+      | 0, _ => pA_b0 | 1, _ => pA_b1 | 2, _ => pA_b2 | 3, _ => pA_b3
+      | 4, _ => pA_b4 | 5, _ => pA_b5 | 6, _ => pA_b6 | 7, _ => pA_b7 | _ + 8, h => absurd h (by omega)
+  unfold repA ptailBranchIdxK
+  rw [pA_rel]
+  simp only [Bool.true_and, Bool.not_true, Bool.false_or]
+  exact h2
 
 theorem repB0 : repB (RBB 0) = true := by quickRfl
 

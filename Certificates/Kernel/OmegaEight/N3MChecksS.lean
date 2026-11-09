@@ -5,6 +5,10 @@ public import Certificates.Kernel.OmegaEight.PnSWEq
 public import CFSG.Certificates.Kernel.O8N3Sound
 import CFSG.Certificates.Kernel.Common.Harness
 import Mathlib.Tactic.IntervalCases
+import CFSG.Certificates.Kernel.O8CentOrbSound
+import CFSG.Certificates.Kernel.O8ColFixSound
+import CFSG.Certificates.Kernel.O8ParFixSound
+import Certificates.Kernel.OmegaEight.N3MCentS
 public import CFSG.Certificates.Kernel.O8MinusSound
 public import CFSG.Certificates.Kernel.O8NodeSound
 
@@ -35,7 +39,8 @@ theorem s0_okN3M : sChk0 wN3M = true := by
     quickRfl
   · rw [classCertW, Bool.and_eq_true]
     refine ⟨?_, ?_⟩
-    · simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, idK_eq, fixLB, mulVecK_eq]
+    · simp only [mulK_sq_bne (j := 10) (by norm_num)]
+      simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, idK_eq, fixLB_eq_P]
       refine all_range_of_blocks (m := EnN3MS0.m) (s := 9) (nb := 32) (by decide +kernel)
         fun b hb => ?_
       interval_cases b <;> decide +kernel
@@ -51,17 +56,30 @@ theorem s0_okN3M : sChk0 wN3M = true := by
         right
         decide +kernel
       all_goals left
-      iterate 2
-        exact candB_false_of_zfix (vs := [0, 1, 16]) (by decide) (by decide)
-          (by simp only [mulVecK_eq]; quickRfl)
-          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq]
-              exact all_range_of_blocks (m := EnN3MS0.m) (s := 12) (nb := 4)
-                (by decide +kernel) fun b hb => by interval_cases b <;> decide +kernel)
-      exact candB_false_of_zfix (vs := [0, 1, 2]) (by decide) (by decide)
-        (by simp only [mulVecK_eq]; quickRfl)
-        (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq]
-            exact all_range_of_blocks (m := EnN3MS0.m) (s := 12) (nb := 4)
-              (by decide +kernel) fun b hb => by interval_cases b <;> decide +kernel)
+      · exact candB_false_of_cent sE0_okN3M (vs := [0, 1, 16]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs0N3M.getD 2 []) (centKs0N3M.getD 2 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_sixteen_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
+      · exact candB_false_of_cent sE0_okN3M (vs := [0, 1, 16]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs0N3M.getD 3 []) (centKs0N3M.getD 3 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_sixteen_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
+      · exact candB_false_of_cent sE0_okN3M (vs := [0, 1, 2]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs0N3M.getD 4 []) (centKs0N3M.getD 4 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_two_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
   · simp only [wN3M, decE_keys_size]
     decide +kernel
   · simp only [wN3M, gensIn, memK_decE_eq hS (by decide +kernel), ← Array.all_toList]
@@ -72,25 +90,27 @@ theorem s0_okN3M : sChk0 wN3M = true := by
 set_option maxHeartbeats 0 in
 theorem tau0_okN3M : tauChk0 wN3M = true := by
   have hS : sortedK (decE EnN3MS0.D EnN3MS0.m).keys = true := (Enum.of_enumOK sE0_okN3M).2.1
+  have hfc : fixCount N3Split.Minus.tauK = 64 := by
+    rw [fixCount_eq_P]
+    decide +kernel
+  have hB : fixLB N3Split.Minus.tauK [1024, 256, 96, 16, 4, 1] = true := by
+    rw [fixLB_eq_P]
+    decide +kernel
+  obtain ⟨hcc, hko⟩ := commKer_of_orb (s := N3Split.Minus.tauK) sE0_okN3M
+    (centTs0N3M.getD 5 []) (centKs0N3M.getD 5 [])
+    (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel) (by decide +kernel)
+    (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel) (by decide +kernel)
+    (by simp only [wN3M, decE_keys_size]; decide +kernel)
   simp only [tauChk0, Bool.and_eq_true, beq_iff_eq]
-  refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  refine ⟨⟨⟨⟨?_, ?_⟩, hfc⟩, ?_⟩, ?_⟩
   · simp only [wN3M, memK_decE_eq hS (by decide +kernel)]
     quickRfl
-  · rw [commCount_eq, length_filter_range_blocks (s := 12) (nb := 4)
-      (C := fun b => [64, 64, 64, 64].getD b 0)
-      (by simp only [wN3M, decE_keys_size]; decide +kernel)
-      (fun b hb => by
-        interval_cases b <;>
-          (simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel))]
-    decide
-  · rw [fixCount_eq]
+  · rw [hcc]
     decide +kernel
-  · rw [kerCount, kerOn_eq, length_filter_range_blocks (s := 12) (nb := 4)
-      (C := fun b => [1, 0, 1, 0].getD b 0) (by simp only [wN3M, decE_keys_size]; decide +kernel)
-      (fun b hb => by
-        interval_cases b <;> (simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, fixesOn,
-          fixVecs_eq, mulVecK_eq]; decide +kernel))]
-    decide
+  · rw [kerCount, hko]
+    simp only [fixesOn_fixVecs_basis hB hfc, fixesOn_P (vs := [1024, 256, 96, 16, 4, 1]) (by decide),
+      wN3M, decE_getD]
+    decide +kernel
   · simp only [invPair, mulK_eq, idK_eq]
     quickRfl
 
@@ -114,7 +134,8 @@ theorem s1_okN3M : sChk1 wN3M = true := by
     quickRfl
   · rw [classCertW, Bool.and_eq_true]
     refine ⟨?_, ?_⟩
-    · simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, idK_eq, fixLB, mulVecK_eq]
+    · simp only [mulK_sq_bne (j := 11) (by norm_num)]
+      simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, idK_eq, fixLB_eq_P]
       refine all_range_of_blocks (m := EnN3MS1.m) (s := 9) (nb := 32) (by decide +kernel)
         fun b hb => ?_
       interval_cases b <;> decide +kernel
@@ -126,24 +147,46 @@ theorem s1_okN3M : sChk1 wN3M = true := by
       · rcases hr with rfl | rfl | rfl | rfl | rfl | rfl <;>
           (simp only [wN3M, memK_decE_eq hS (by decide +kernel)]; quickRfl)
       rcases hr with rfl | rfl | rfl | rfl | rfl | rfl
-      pick_goal 3
-      iterate 2
-        right
+      · right
         decide +kernel
-      all_goals left
-      rotate_left
-      iterate 2
-        exact candB_false_of_zfix (vs := [0, 1, 16]) (by decide) (by decide)
-          (by simp only [mulVecK_eq]; quickRfl)
-          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq]
-              exact all_range_of_blocks (m := EnN3MS1.m) (s := 12) (nb := 4)
-                (by decide +kernel) fun b hb => by interval_cases b <;> decide +kernel)
-      all_goals
-        exact candB_false_of_zfix (vs := [0, 1, 2]) (by decide) (by decide)
-          (by simp only [mulVecK_eq]; quickRfl)
-          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq]
-              exact all_range_of_blocks (m := EnN3MS1.m) (s := 12) (nb := 4)
-                (by decide +kernel) fun b hb => by interval_cases b <;> decide +kernel)
+      · left
+        exact candB_false_of_cent sE1_okN3M (vs := [0, 1, 2]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs1N3M.getD 1 []) (centKs1N3M.getD 1 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_two_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
+      · right
+        decide +kernel
+      · left
+        exact candB_false_of_cent sE1_okN3M (vs := [0, 1, 16]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs1N3M.getD 3 []) (centKs1N3M.getD 3 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_sixteen_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
+      · left
+        exact candB_false_of_cent sE1_okN3M (vs := [0, 1, 16]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs1N3M.getD 4 []) (centKs1N3M.getD 4 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_sixteen_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
+      · left
+        exact candB_false_of_cent sE1_okN3M (vs := [0, 1, 2]) (by decide) (by decide)
+          (by simp only [mulVecK_eq]; quickRfl) (centTs1N3M.getD 5 []) (centKs1N3M.getD 5 [])
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel)
+          (by decide +kernel)
+          (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, List.all_cons, List.all_nil,
+            mulVecK_zero, beq_self_eq_true, Bool.true_and, Bool.and_true, mulVecK_one_beq,
+            mulVecK_two_beq]; decide +kernel)
+          (by decide +kernel) (by simp only [wN3M, decE_keys_size]; decide +kernel)
   · simp only [wN3M, decE_keys_size]
     decide +kernel
   · simp only [wN3M, gensIn, memK_decE_eq hS (by decide +kernel), ← Array.all_toList]
@@ -154,25 +197,27 @@ theorem s1_okN3M : sChk1 wN3M = true := by
 set_option maxHeartbeats 0 in
 theorem tau1_okN3M : tauChk1 wN3M = true := by
   have hS : sortedK (decE EnN3MS1.D EnN3MS1.m).keys = true := (Enum.of_enumOK sE1_okN3M).2.1
+  have hfc : fixCount N3Split.Minus.tauK = 64 := by
+    rw [fixCount_eq_P]
+    decide +kernel
+  have hB : fixLB N3Split.Minus.tauK [1024, 256, 96, 16, 4, 1] = true := by
+    rw [fixLB_eq_P]
+    decide +kernel
+  obtain ⟨hcc, hko⟩ := commKer_of_orb (s := N3Split.Minus.tauK) sE1_okN3M
+    (centTs1N3M.getD 6 []) (centKs1N3M.getD 6 [])
+    (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel) (by decide +kernel)
+    (by simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel) (by decide +kernel)
+    (by simp only [wN3M, decE_keys_size]; decide +kernel)
   simp only [tauChk1, Bool.and_eq_true, beq_iff_eq]
-  refine ⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  refine ⟨⟨⟨⟨?_, ?_⟩, hfc⟩, ?_⟩, ?_⟩
   · simp only [wN3M, memK_decE_eq hS (by decide +kernel)]
     quickRfl
-  · rw [commCount_eq, length_filter_range_blocks (s := 12) (nb := 4)
-      (C := fun b => [64, 64, 64, 64].getD b 0)
-      (by simp only [wN3M, decE_keys_size]; decide +kernel)
-      (fun b hb => by
-        interval_cases b <;>
-          (simp only [wN3M, decE_getD, decE_keys_size, mulK_eq]; decide +kernel))]
-    decide
-  · rw [fixCount_eq]
+  · rw [hcc]
     decide +kernel
-  · rw [kerCount, kerOn_eq, length_filter_range_blocks (s := 12) (nb := 4)
-      (C := fun b => [1, 0, 1, 0].getD b 0) (by simp only [wN3M, decE_keys_size]; decide +kernel)
-      (fun b hb => by
-        interval_cases b <;> (simp only [wN3M, decE_getD, decE_keys_size, mulK_eq, fixesOn,
-          fixVecs_eq, mulVecK_eq]; decide +kernel))]
-    decide
+  · rw [kerCount, hko]
+    simp only [fixesOn_fixVecs_basis hB hfc, fixesOn_P (vs := [1024, 256, 96, 16, 4, 1]) (by decide),
+      wN3M, decE_getD]
+    decide +kernel
   · simp only [invPair, mulK_eq, idK_eq]
     quickRfl
 

@@ -3,6 +3,7 @@ module
 public import Certificates.Data.Kernel.L34Pre
 public import CFSG.Certificates.Kernel.L34KSound
 public import CFSG.Certificates.Kernel.BfsPinAlg
+public import CFSG.Certificates.Kernel.L34KBSound
 import CFSG.Certificates.Kernel.L34KSnd.Tab
 import CFSG.Certificates.Kernel.Spor.PackFld
 import CFSG.Certificates.Kernel.Spor.RawOrbEval
@@ -24,6 +25,41 @@ theorem PinE.pp {n w : Nat} {gs : Array Tab} {cap ng N L K ew : Nat}
     ∀ i < N, PP n w (T i) := by
   obtain ⟨htabs, hok⟩ := enum_sound P
   have hcan := P.canon
+  have hcG := P.canonG
+  unfold enumOK treeOK at hok
+  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hok
+  obtain ⟨⟨-, h0⟩, hall⟩ := hok
+  rw [htabs] at h0 hall
+  unfold pts at h0 hall
+  rw [Array.size_ofFn] at hall
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    have hsz := CFSG.KC.L34KSnd.canon_sz (hcan i hi)
+    have hG : ∀ k < ng, PP n w (G k) := fun k hk => PP_of_permOK hsz (P.perm k hk)
+    have hx := CFSG.KS.BfsReplay.allBelow_iff.1 hall i hi
+    simp only [Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq] at hx
+    obtain ⟨-, hx⟩ := hx
+    rcases hx with h | ⟨⟨hp, hl⟩, he⟩
+    · subst h
+      rw [CFSG.KC.L34KSnd.pts_get hi, CFSG.KC.L34KSnd.idTab_unpack' hsz] at h0
+      rw [CFSG.KC.L34KSnd.unpack_inj' (hcan 0 hi) (CFSG.KC.L34KSnd.canon_pidn hsz) h0]
+      exact PP.id hsz
+    · rw [P.size] at hl
+      have hpN : (enumBFS n gs cap).par[i]! < N := by omega
+      rw [CFSG.KC.L34KSnd.pts_get hi, CFSG.KC.L34KSnd.pts_get hpN] at he
+      unfold leftStep at he
+      rw [P.bind _ hl, CFSG.KC.L34KSnd.comp_unpack' (hcG _ hl) (hcan _ hpN)] at he
+      have hPP := (hG _ hl).mul (ih _ hp hpN)
+      rw [CFSG.KC.L34KSnd.unpack_inj' (hcan i hi) hPP.1 he]
+      exact hPP
+
+theorem PinEB.pp {n w m : Nat} {gs : Array Tab} {cap ng N L K ew : Nat}
+    {G T E C S SI : Nat → Nat} {B : List Nat} {H : Subgroup (Equiv.Perm (Fin n))}
+    (P : PinEB n w m gs cap ng N L K ew G T E C S SI B H) :
+    ∀ i < N, PP n w (T i) := by
+  obtain ⟨⟨htabs, hok⟩, hcan⟩ := enumB_sound P
   have hcG := P.canonG
   unfold enumOK treeOK at hok
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hok

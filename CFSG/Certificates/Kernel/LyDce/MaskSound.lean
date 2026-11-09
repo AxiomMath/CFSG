@@ -137,6 +137,13 @@ theorem smul_eq_of_netsApply {Ns : List Nat} {g : Perm (Fin n)} (hn : n ≤ 2 ^ 
 theorem strictBN_eq (y : Nat) (k : Nat → Bool) : strictBN y k = k y := by
   cases y <;> rfl
 
+theorem lineS_andB_true {a b : Bool} (h : CFSG.KC.andB a b = true) : a = true ∧ b = true := by
+  cases a <;> cases b
+  · exact absurd h (by decide)
+  · exact absurd h (by decide)
+  · exact absurd h (by decide)
+  · exact ⟨rfl, rfl⟩
+
 theorem lineS_sound {P K Tc Td l X Xc Xd : Nat} (h : lineS P K Tc Td l X Xc Xd = true) :
     keyS P X = fldW 48 K l ∧ fldW 16 Tc l < nL ∧ fldW 16 Td l < nL ∧
       keyS P Xc = fldW 48 K (fldW 16 Tc l) ∧ keyS P Xd = fldW 48 K (fldW 16 Td l) := by
@@ -145,11 +152,11 @@ theorem lineS_sound {P K Tc Td l X Xc Xd : Nat} (h : lineS P K Tc Td l X Xc Xd =
         andB (andB (Nat.blt a nL) (Nat.blt b nL))
           (andB (Nat.beq (keyS P Xc) (fldW 48 K a)) (Nat.beq (keyS P Xd) (fldW 48 K b)))) =
       true := h
-  obtain ⟨h1, h2⟩ := andB_true h'
+  obtain ⟨h1, h2⟩ := lineS_andB_true h'
   rw [strictBN_eq, strictBN_eq] at h2
-  obtain ⟨h3, h4⟩ := andB_true h2
-  obtain ⟨h5, h6⟩ := andB_true h3
-  obtain ⟨h7, h8⟩ := andB_true h4
+  obtain ⟨h3, h4⟩ := lineS_andB_true h2
+  obtain ⟨h5, h6⟩ := lineS_andB_true h3
+  obtain ⟨h7, h8⟩ := lineS_andB_true h4
   exact ⟨Nat.eq_of_beq_eq_true h1, by simpa [Nat.blt_eq] using h5,
     by simpa [Nat.blt_eq] using h6, Nat.eq_of_beq_eq_true h7, Nat.eq_of_beq_eq_true h8⟩
 

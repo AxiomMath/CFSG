@@ -2,6 +2,7 @@ module
 
 public import Certificates.Data.E27.Co1S0
 public import Certificates.Kernel.Co1B.Chk131301
+public import Certificates.Kernel.Co1B.Scan131301
 public import Certificates.Kernel.SporSch.Co1.Packed
 public import CFSG.Certificates.Kernel.Co1BSpinSound
 public import CFSG.Certificates.Kernel.Co1BPairSound
@@ -93,10 +94,15 @@ theorem pairsOf_toArray (l : List Nat) : pairsOf l.toArray = (pairsL l).toArray 
 
 @[expose] noncomputable def LN : List Nat := numsNl LT.chars
 
-theorem goods : goodNl OT.chars = true ∧ goodNl PT.chars = true ∧ goodNl LT.chars = true := by
+theorem scans131 : (goodNl OT.chars = true ∧ opsN = nums131R OT.chars 0 false) ∧
+    (goodNl PT.chars = true ∧ parN = nums131R PT.chars 0 false) ∧
+    (goodNl LT.chars = true ∧ LN = nums131R LT.chars 0 false) := by
   have h := kGood
   simp only [Bool.and_eq_true] at h
-  exact ⟨h.1.1, h.1.2, h.2⟩
+  exact ⟨scan131 _ h.1.1, scan131 _ h.1.2, scan131 _ h.2⟩
+
+theorem goods : goodNl OT.chars = true ∧ goodNl PT.chars = true ∧ goodNl LT.chars = true :=
+  ⟨scans131.1.1, scans131.2.1.1, scans131.2.2.1⟩
 
 theorem ops_eq : ops () = (pairsL opsN).toArray := by
   have h : ops () = pairsOf (parseNats opsStr) := rfl
@@ -139,13 +145,13 @@ theorem opsK_sound {R : Nat → Nat} : ∀ {l : List (Nat × Nat)} {t : Nat}, op
       rw [List.getElem_cons_succ, e]
       exact this
 
-theorem parK_sound {R E : Nat → Nat} : ∀ {l : List (Nat × Nat)} {i : Nat}, parK R E l i = true →
+theorem parK_sound {LG : Nat → Nat} : ∀ {l : List (Nat × Nat)} {i : Nat}, parK LG l i = true →
     ∀ s (hs : s < l.length), i + s ≠ 0 → l[s].1 < i + s ∧ l[s].2 < 3 ∧
-      U (E (i + s)) = U (mulWK (GK R l[s].2) (E l[s].1))
+      LG (l[s].2 * nSK + l[s].1) = i + s
   | [], _, _ => fun s hs => absurd hs (Nat.not_lt_zero _)
   | o :: l, i, h => by
     change andB (orB (Nat.beq i 0) (andB (Nat.blt o.1 i) (andB (Nat.blt o.2 3)
-      (eqK (E i) (mulWK (GK R o.2) (E o.1)))))) (strictB (Nat.succ i) (parK R E l)) = true at h
+      (Nat.beq (LG (Nat.add (Nat.mul o.2 nSK) o.1)) i)))) (strictB (Nat.succ i) (parK LG l)) = true at h
     obtain ⟨h1, h2⟩ := andB_true h
     rw [strictB_eq'] at h2
     intro s hs hne
@@ -156,29 +162,32 @@ theorem parK_sound {R E : Nat → Nat} : ∀ {l : List (Nat × Nat)} {i : Nat}, 
         intro e
         exact hne (by simpa using Nat.eq_of_beq_eq_true e)
       rw [hi] at h1
-      change andB (Nat.blt o.1 i) (andB (Nat.blt o.2 3) (eqK (E i) (mulWK (GK R o.2) (E o.1)))) = true at h1
+      change andB (Nat.blt o.1 i) (andB (Nat.blt o.2 3)
+        (Nat.beq (LG (Nat.add (Nat.mul o.2 nSK) o.1)) i)) = true at h1
       obtain ⟨h3, h4⟩ := andB_true h1
       obtain ⟨h5, h6⟩ := andB_true h4
-      exact ⟨Eq.mp Nat.blt_eq h3, Eq.mp Nat.blt_eq h5, beq_of_eqK h6⟩
+      exact ⟨Eq.mp Nat.blt_eq h3, Eq.mp Nat.blt_eq h5, Nat.eq_of_beq_eq_true h6⟩
     | succ s =>
       have e : i + (s + 1) = Nat.succ i + s := by omega
       have := parK_sound h2 s (by simpa using hs) (by omega)
       rw [List.getElem_cons_succ, e]
       exact this
 
-theorem leftK_sound {R E : Nat → Nat} : ∀ {l : List Nat} {t : Nat}, leftK R E l t = true →
-    ∀ s (hs : s < l.length), l[s] < nSK ∧
+theorem leftK_sound {R E LG : Nat → Nat} : ∀ {l : List Nat} {t : Nat}, leftK R E LG l t = true →
+    ∀ s (hs : s < l.length), l[s] < nSK ∧ l[s] = LG (t + s) ∧
       U (mulWK (GK R ((t + s) / nSK)) (E ((t + s) % nSK))) = U (E l[s])
   | [], _, _ => fun s hs => absurd hs (Nat.not_lt_zero _)
   | v :: l, t, h => by
-    change andB (Nat.blt v nSK) (andB (eqK (mulWK (GK R (Nat.div t nSK)) (E (Nat.mod t nSK))) (E v))
-      (strictB (Nat.succ t) (leftK R E l))) = true at h
+    change andB (Nat.blt v nSK) (andB (Nat.beq v (LG t))
+      (andB (eqK (mulWK (GK R (Nat.div t nSK)) (E (Nat.mod t nSK))) (E v))
+      (strictB (Nat.succ t) (leftK R E LG l)))) = true at h
     obtain ⟨h1, h⟩ := andB_true h
+    obtain ⟨h0, h⟩ := andB_true h
     obtain ⟨h2, h3⟩ := andB_true h
     rw [strictB_eq'] at h3
     intro s hs
     cases s with
-    | zero => exact ⟨Eq.mp Nat.blt_eq h1, beq_of_eqK h2⟩
+    | zero => exact ⟨Eq.mp Nat.blt_eq h1, Nat.eq_of_beq_eq_true h0, beq_of_eqK h2⟩
     | succ s =>
       have e : t + (s + 1) = Nat.succ t + s := by omega
       have := leftK_sound h3 s (by simpa using hs)
@@ -189,18 +198,43 @@ theorem mulU (A B : Nat) : mul (U A) (U B) = U (mulWK A B) := mul_unpackW A B
 
 theorem opsF : (pairsL opsN).length = 1153 ∧ opsK RG (pairsL opsN) 0 = true := by
   have h := kOps
+  rw [← scans131.1.2] at h
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem parF : (pairsL parN).length = 19683 ∧ parK RG EG (pairsL parN) 0 = true := by
+theorem parF : (pairsL parN).length = 19683 ∧ parK LG131 (pairsL parN) 0 = true := by
   have h := kPar
+  rw [← scans131.2.1.2] at h
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
 
-theorem leftF : LN.length = 59049 ∧ leftK RG EG LN 0 = true := by
+theorem leftF : LN.length = 59049 ∧ leftK RG EG LG131 LN 0 = true := by
   have h := kLeft
+  rw [← scans131.2.2.2] at h
   simp only [Bool.and_eq_true, Nat.beq_eq] at h
   exact h
+
+theorem par131S (s : Nat) (hs : s < (pairsL parN).length) (h0 : s ≠ 0) :
+    (pairsL parN)[s].1 < s ∧ (pairsL parN)[s].2 < 3 ∧
+      U (EG s) = U (mulWK (GK RG (pairsL parN)[s].2) (EG (pairsL parN)[s].1)) := by
+  obtain ⟨h1, h2, h3⟩ := parK_sound parF.2 s hs (by omega)
+  simp only [Nat.zero_add] at h1 h3
+  refine ⟨h1, h2, ?_⟩
+  have hn : nSK = 19683 := rfl
+  have hl := parF.1
+  have ht : (pairsL parN)[s].2 * nSK + (pairsL parN)[s].1 < LN.length := by
+    rw [leftF.1, hn]
+    have hle : ((pairsL parN)[s].2 + 1) * 19683 ≤ 3 * 19683 := Nat.mul_le_mul_right _ (by omega)
+    rw [Nat.succ_mul] at hle
+    omega
+  obtain ⟨-, hL, hE⟩ := leftK_sound leftF.2 _ ht
+  simp only [Nat.zero_add] at hL hE
+  have hd : ((pairsL parN)[s].2 * nSK + (pairsL parN)[s].1) / nSK = (pairsL parN)[s].2 := by
+    rw [Nat.add_comm, Nat.add_mul_div_right _ _ (by decide), Nat.div_eq_of_lt (by omega), Nat.zero_add]
+  have hm : ((pairsL parN)[s].2 * nSK + (pairsL parN)[s].1) % nSK = (pairsL parN)[s].1 := by
+    rw [Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt (by omega)]
+  rw [hd, hm, hL, h3] at hE
+  exact hE.symm
 
 theorem invF : U (mulWK (RG 1) (RG 2)) = U oneK ∧ U (RG 2) = U (mulWK (RG 1) (RG 1)) := by
   have h := kInv
@@ -283,8 +317,7 @@ theorem elts_build : ∀ n ≤ nS - 1, buildN #[one]
       have : nS = 19683 := rfl
       omega
     rw [getElem!_pos (pairsL parN).toArray (n + 1) (by simpa using hn'), List.getElem_toArray]
-    obtain ⟨h1, h2, h3⟩ := parK_sound parF.2 (n + 1) hn' (by omega)
-    simp only [Nat.zero_add] at h1 h2 h3
+    obtain ⟨h1, h2, h3⟩ := par131S (n + 1) hn' (by omega)
     rw [genM_eq h2, get!_map_range _ h1, mulU, ← h3]
     exact toArray_map_push (fun k => U (EG k)) (n + 1)
 
@@ -387,12 +420,11 @@ theorem tabMul_spec : ∀ a < nS, ∀ b < nS, tabMul (par ()) (L ()) a b < nS �
     rw [tabMul]
     by_cases h0 : a = 0
     · subst h0
-      rw [dif_neg (Nat.not_lt_zero _), beq_of_eqK kE0, ← one_eq', one_mul']
+      rw [dite_eq_right (Nat.not_lt_zero _), beq_of_eqK kE0, ← one_eq', one_mul']
       exact ⟨hb, rfl⟩
     · have hpa : a < (pairsL parN).length := by rw [parF.1]; exact ha
-      obtain ⟨h1, h2, h3⟩ := parK_sound parF.2 a hpa (by omega)
-      simp only [Nat.zero_add] at h1 h2 h3
-      rw [par_get ha, dif_pos h1]
+      obtain ⟨h1, h2, h3⟩ := par131S a hpa h0
+      rw [par_get ha, dite_eq_left h1]
       obtain ⟨hc, hcE⟩ := ih _ h1 (by omega) b hb
       set c := tabMul (par ()) (L ()) (pairsL parN)[a].1 b
       have hj := h2
@@ -404,7 +436,7 @@ theorem tabMul_spec : ∀ a < nS, ∀ b < nS, tabMul (par ()) (L ()) a b < nS �
         have : nS = 19683 := rfl
         omega
       rw [List.getD_eq_getElem _ _ hs]
-      obtain ⟨hv, hvE⟩ := leftK_sound leftF.2 _ hs
+      obtain ⟨hv, -, hvE⟩ := leftK_sound leftF.2 _ hs
       simp only [Nat.zero_add] at hvE
       have hd : ((pairsL parN)[a].2 * nS + c) / nSK = (pairsL parN)[a].2 := by
         have : nSK = nS := rfl
@@ -487,22 +519,104 @@ theorem wit_count {a : Nat} (ha : a < nS) (h : witK EG WG a = true) :
   rw [tabComm, List.countP_eq_length_filter]
   simpa [ws] using hlen
 
+theorem mul_one131 (P : Nat) : mul (U P) one = U P := by
+  change mulRows 24 (U P) (idRows 24) = U P
+  unfold mulRows
+  apply Array.ext
+  · simp
+  · intro i h1 h2
+    rw [Array.getElem_map]
+    exact vm_id (by simp [unpackR, Nat.mod_lt])
+
+theorem comm_conj131 {b c : Nat} (hb : b < nS) (h : cj131K EG c b = true)
+    (ih : ∀ p < b, p ≠ 0 → cubeK EG p = true → 81 ≤ tabComm (par ()) (L ()) nS p) :
+    81 ≤ tabComm (par ()) (L ()) nS b := by
+  unfold cj131K at h
+  rw [strictB_eq', strictB_eq', strictB_eq'] at h
+  generalize Nat.land c 32767 = p at h
+  generalize Nat.land (Nat.shiftRight c 15) 32767 = k at h
+  generalize Nat.shiftRight c 30 = k' at h
+  obtain ⟨h1, h⟩ := andB_true h
+  obtain ⟨h2, h⟩ := andB_true h
+  obtain ⟨h3, h⟩ := andB_true h
+  obtain ⟨h4, h⟩ := andB_true h
+  obtain ⟨h5, h⟩ := andB_true h
+  obtain ⟨h6, h⟩ := andB_true h
+  obtain ⟨h7, h8⟩ := andB_true h
+  have hpb : p < b := Eq.mp Nat.blt_eq h1
+  have hp0 : p ≠ 0 := by
+    intro e
+    rw [e] at h2
+    exact absurd h2 (by decide)
+  have hk : k < nS := Eq.mp Nat.blt_eq h3
+  have hk' : k' < nS := Eq.mp Nat.blt_eq h4
+  have hp : p < nS := by omega
+  have e5 : mul (U (EG k)) (U (EG k')) = one := by rw [mulU, one_eq']; exact beq_of_eqK h5
+  have e6 : mul (U (EG k')) (U (EG k)) = one := by rw [mulU, one_eq']; exact beq_of_eqK h6
+  have e7 : mul (U (EG b)) (U (EG k)) = mul (U (EG k)) (U (EG p)) := by
+    rw [mulU, mulU]
+    exact beq_of_eqK h7
+  have hB : U (EG b) = mul (mul (U (EG k)) (U (EG p))) (U (EG k')) := by
+    rw [← e7, mul_assoc', e5, mul_one131]
+  have canc : ∀ A B, mul (U (EG k')) (mul (U (EG k)) (mul (U A) (U B))) = mul (U A) (U B) := by
+    intro A B
+    rw [← mul_assoc', e6, mulU, one_mul']
+  let φ := fun y => tabMul (par ()) (L ()) (tabMul (par ()) (L ()) k y) k'
+  have hφ : ∀ y < nS, φ y < nS ∧ U (EG (φ y)) = mul (mul (U (EG k)) (U (EG y))) (U (EG k')) := by
+    intro y hy
+    obtain ⟨a1, b1⟩ := tabMul_spec k hk y hy
+    obtain ⟨a2, b2⟩ := tabMul_spec _ a1 k' hk'
+    exact ⟨a2, by rw [b2, b1]⟩
+  have hinj : ∀ y < nS, ∀ z < nS, φ y = φ z → y = z := by
+    intro y hy z hz e
+    have e' := congrArg (fun X => mul (mul (U (EG k')) X) (U (EG k))) (congrArg (fun i => U (EG i)) e)
+    simp only [(hφ y hy).2, (hφ z hz).2, mul_assoc', e6, mul_one131] at e'
+    rw [← mul_assoc', e6, one_mul', ← mul_assoc', e6, one_mul'] at e'
+    exact U_inj hy hz e'
+  let Sp := (List.range nS).filter (fun y => tabMul (par ()) (L ()) p y == tabMul (par ()) (L ()) y p)
+  let Sb := (List.range nS).filter (fun y => tabMul (par ()) (L ()) b y == tabMul (par ()) (L ()) y b)
+  have hnd : (Sp.map φ).Nodup := by
+    refine List.Nodup.map_on (fun x hx y hy hxy => ?_) (List.nodup_range.filter _)
+    exact hinj x (List.mem_range.1 (List.mem_filter.1 hx).1) y (List.mem_range.1 (List.mem_filter.1 hy).1) hxy
+  have hsub : Sp.map φ ⊆ Sb := by
+    intro z hz
+    obtain ⟨y, hy, rfl⟩ := List.mem_map.1 hz
+    obtain ⟨hy1, hy2⟩ := List.mem_filter.1 hy
+    have hyS := List.mem_range.1 hy1
+    rw [comm_iff hp hyS] at hy2
+    have hc : mul (U (EG p)) (U (EG y)) = mul (U (EG y)) (U (EG p)) := by
+      rw [mulU, mulU]
+      exact beq_of_eqK hy2
+    refine List.mem_filter.2 ⟨List.mem_range.2 (hφ y hyS).1, ?_⟩
+    rw [comm_iff hb (hφ y hyS).1, ← beq_unpack, ← mulU, ← mulU, (hφ y hyS).2, hB, beq_iff_eq]
+    simp only [mul_assoc']
+    rw [canc, canc, ← mul_assoc' (U (EG p)) (U (EG y)), hc]
+    simp only [mul_assoc']
+  have hlen := (List.Nodup.subperm hnd hsub).length_le
+  have hcp := ih p hpb hp0 h8
+  rw [tabComm, List.countP_eq_length_filter] at hcp ⊢
+  rw [List.length_map] at hlen
+  exact Nat.le_trans hcp hlen
+
 theorem wf_unpack (P : Nat) : wf (U P) = true := by
   unfold wf
   rw [Bool.and_eq_true, beq_iff_eq, Array.all_eq_true]
   refine ⟨by simp [unpackR], fun i hi => ?_⟩
   simp [unpackR, Nat.mod_lt]
 
-theorem kill_all : ∀ a < nS, (orB (Nat.beq a 0) (orB (notB (cubeK EG a)) (witK EG WG a))) = true := by
+theorem kill_cl : ∀ a < nS, orB (Nat.beq a 0) (orB (notB (cubeK EG a))
+    (Bool.rec (motive := fun _ => Bool) (cj131K EG (CJG a) a) (witK EG WG a) (Nat.beq (CJG a) 0))) = true := by
   intro a ha
-  have hb : ∀ lo n, killK EG WG lo n = true → lo ≤ a → a < lo + n →
-      orB (Nat.beq a 0) (orB (notB (cubeK EG a)) (witK EG WG a)) = true := by
+  have hb : ∀ lo n, kill131K EG WG CJG lo n = true → lo ≤ a → a < lo + n →
+      orB (Nat.beq a 0) (orB (notB (cubeK EG a))
+        (Bool.rec (motive := fun _ => Bool) (cj131K EG (CJG a) a) (witK EG WG a)
+          (Nat.beq (CJG a) 0))) = true := by
     intro lo n h h1 h2
     have := allN_true' h (a - lo) (by omega)
     have e : Nat.add lo (a - lo) = a := Nat.add_sub_cancel' h1
     rw [strictB_eq', e] at this
     exact this
-  have hK : ∀ c < 20, killK EG WG (1024 * c) (if c = 19 then 227 else 1024) = true := by
+  have hK : ∀ c < 20, kill131K EG WG CJG (1024 * c) (if c = 19 then 227 else 1024) = true := by
     intro c hc
     interval_cases c
     exacts [kK0, kK1, kK2, kK3, kK4, kK5, kK6, kK7, kK8, kK9, kK10, kK11, kK12, kK13, kK14,
@@ -511,10 +625,29 @@ theorem kill_all : ∀ a < nS, (orB (Nat.beq a 0) (orB (notB (cubeK EG a)) (witK
   have hc : a / 1024 < 20 := by omega
   refine hb _ _ (hK _ hc) (Nat.mul_div_le a 1024) ?_
   by_cases h19 : a / 1024 = 19
-  · rw [if_pos h19]
+  · rw [ite_eq_left h19]
     omega
-  · rw [if_neg h19]
+  · rw [ite_eq_right h19]
     omega
+
+theorem kill_all : ∀ a < nS, a ≠ 0 → cubeK EG a = true → 81 ≤ tabComm (par ()) (L ()) nS a := by
+  intro a
+  induction a using Nat.strong_induction_on with
+  | _ a ih =>
+    intro ha h0 hcb
+    have h := kill_cl a ha
+    have hb : Nat.beq a 0 = false := by
+      rw [Bool.eq_false_iff]
+      intro e
+      exact h0 (Nat.eq_of_beq_eq_true e)
+    rw [hb, hcb] at h
+    change Bool.rec (motive := fun _ => Bool) (cj131K EG (CJG a) a) (witK EG WG a)
+      (Nat.beq (CJG a) 0) = true at h
+    cases hc : Nat.beq (CJG a) 0
+    · rw [hc] at h
+      exact comm_conj131 ha h fun p hp hp0 hpc => ih p hp (by omega) hp0 hpc
+    · rw [hc] at h
+      exact wit_count ha h
 
 open Certificates in
 theorem c131301 : CFSG.Sporadic.Co1.S0.co1S0Check () = true := by
@@ -545,31 +678,20 @@ theorem c131301 : CFSG.Sporadic.Co1.S0.co1S0Check () = true := by
       by_cases h0 : i = 0
       · simp [h0]
       · have hi' : i < (pairsL parN).length := by rw [parF.1]; exact hi
-        obtain ⟨h1, h2, -⟩ := parK_sound parF.2 i hi' (by omega)
-        simp only [Nat.zero_add] at h1 h2
+        obtain ⟨h1, h2, -⟩ := par131S i hi' h0
         rw [par_get hi]
-        simp [h0, h1, h2]
+        simp [h1, h2]
   have hkill : killOK () = true := by
     unfold killOK
     rw [List.all_eq_true]
     intro a ha
     have ha' := List.mem_range.1 ha
-    have h := kill_all a ha'
-    change Bool.rec (motive := fun _ => Bool) (Bool.rec (motive := fun _ => Bool) (witK EG WG a) true
-      (notB (cubeK EG a))) true (Nat.beq a 0) = true at h
     rw [cube_iff ha']
     by_cases h0 : a = 0
     · simp [h0]
-    · have hb : Nat.beq a 0 = false := by
-        rw [Bool.eq_false_iff]
-        intro e
-        exact h0 (Nat.eq_of_beq_eq_true e)
-      rw [hb] at h
-      cases hcb : cubeK EG a
+    · cases hcb : cubeK EG a
       · simp
-      · rw [hcb] at h
-        change witK EG WG a = true at h
-        simp [wit_count ha' h]
+      · simp [kill_all a ha' h0 hcb]
   have hcanon : canonOK () = true := by
     unfold canonOK
     simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range]
@@ -586,7 +708,7 @@ theorem c131301 : CFSG.Sporadic.Co1.S0.co1S0Check () = true := by
       rw [Nat.succ_mul] at hle
       omega
     rw [List.getD_eq_getElem _ _ hs]
-    obtain ⟨hv, hvE⟩ := leftK_sound leftF.2 _ hs
+    obtain ⟨hv, -, hvE⟩ := leftK_sound leftF.2 _ hs
     simp only [Nat.zero_add] at hvE
     have hd : (j * nS + i) / nSK = j := by
       have : nSK = nS := rfl

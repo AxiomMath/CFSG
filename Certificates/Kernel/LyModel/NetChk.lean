@@ -2,6 +2,8 @@ module
 
 public import Certificates.Kernel.LyModel.Nets
 
+set_option Elab.async false
+
 public section
 
 namespace CertificateChecks.KernelLyModel
@@ -11,7 +13,11 @@ open CFSG.KC CFSG.KC.MonsterConv.Perm CFSG.KC.LyBenes CFSG.Sporadic.Recognition.
 
 theorem ly6110_validM : ∀ j < 8, netValid 17 (MS j) = true := by decide +kernel
 
-theorem ly6110_netA : planesEq 17 (genNets NS Ly0.wordA) (MS 0) = true := by decide +kernel
+theorem ly6110_validU : netValid 17 NU0 = true := by decide +kernel
+
+theorem ly6110_netU : planesEq 17 (genNets NS wordU) NU0 = true := by decide +kernel
+
+theorem ly6110_netA12 : planesEq 17 (List.replicate 12 NU0) (MS 0) = true := by decide +kernel
 
 theorem ly6110_netB : planesEq 17 (genNets NS Ly0.wordB) (MS 1) = true := by decide +kernel
 

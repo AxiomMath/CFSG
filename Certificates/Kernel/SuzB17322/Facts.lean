@@ -141,17 +141,21 @@ theorem bG0 : BE.G 0 = H 4 := (Nat.eq_of_beq_eq_true bindC.2.1).symm
 theorem bG : ∀ k < 3, BE.G (k + 1) = H (k + 6) := fun k hk =>
   (Nat.eq_of_beq_eq_true (bindC.2.2.1 k hk)).symm
 
+theorem arr4_get0 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[0]! = a := rfl
+
+theorem arr4_get1 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[1]! = b := rfl
+
+theorem arr4_get2 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[2]! = c := rfl
+
+theorem arr4_get3 {α : Type} [Inhabited α] (a b c d : α) : (#[a, b, c, d] : Array α)[3]! = d := rfl
+
 theorem bGet : ∀ k < 4, bGs[k]! = unpack 1782 11 (BE.G k) := by
   intro k hk
   interval_cases k
-  · change hGs[4]! = _
-    rw [hGet 4 (by norm_num), bG0]
-  · change hGs[6]! = _
-    rw [hGet 6 (by norm_num), bG 0 (by norm_num)]
-  · change hGs[7]! = _
-    rw [hGet 7 (by norm_num), bG 1 (by norm_num)]
-  · change hGs[8]! = _
-    rw [hGet 8 (by norm_num), bG 2 (by norm_num)]
+  · rw [bGs, arr4_get0, hGet 4 (by norm_num), bG0]
+  · rw [bGs, arr4_get1, hGet 6 (by norm_num), bG 0 (by norm_num)]
+  · rw [bGs, arr4_get2, hGet 7 (by norm_num), bG 1 (by norm_num)]
+  · rw [bGs, arr4_get3, hGet 8 (by norm_num), bG 2 (by norm_num)]
 
 theorem bindB : BindA 1782 11 bGs BE.ng BE.G := by
   rw [bNg]

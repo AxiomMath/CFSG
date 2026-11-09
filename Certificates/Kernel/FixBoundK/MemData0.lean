@@ -11,8 +11,8 @@ set_option maxRecDepth 400000
 public section
 
 open CFSG.KC.FixBoundK in
-#kc_repo #kc_json_gz CertificateChecks.KernelFixBoundK.Mem0
-  "Certificates/Kernel/FixBoundK/data/Mem0.json.gz" 580278 9293491530101029100
+#kc_repo #kc_json CertificateChecks.KernelFixBoundK.Mem0
+  "Certificates/Kernel/FixBoundK/data/Mem0.json" 580278 9293491530101029100
   (lo : Nat) (gens : List (List (List Nat))) (reps : List Rep) (ch : List (Nat × List Mem))
 
 end

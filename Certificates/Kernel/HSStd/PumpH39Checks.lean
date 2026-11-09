@@ -5,6 +5,7 @@ public import Certificates.Kernel.HSStd.PumpU3Checks
 public import Certificates.Data.Kernel.ConjOrb
 public import Certificates.Kernel.LocalComp.L39Data
 import CFSG.Certificates.Kernel.Common.Harness
+public import CFSG.Certificates.Kernel.Spor.PtPre
 
 set_option maxRecDepth 400000
 
@@ -74,7 +75,9 @@ theorem sX : allN X.N (fun i =>
     !Nat.beq (pcomp 182 8 (mask 8) (X.T i) (repP 4)) (pcomp 182 8 (mask 8) (repP 4) (X.T i)) &&
     !Nat.beq (pcomp 182 8 (mask 8) (X.T i) (repP 6)) (pcomp 182 8 (mask 8) (repP 6) (X.T i)) &&
     !Nat.beq (pcomp 182 8 (mask 8) (X.T i) (repP 8)) (pcomp 182 8 (mask 8) (repP 8) (X.T i))) =
-    true := by quickRfl
+    true := by
+  simp only [CFSG.KS.PtC.beq_pcomp_comm_pre (n := 182) (w := 8) (by decide) (by decide)]
+  quickRfl
 
 end CertificateChecks.KernelHSStd.PumpH39
 

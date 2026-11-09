@@ -185,13 +185,21 @@ theorem vec_inj : ∀ a b, a < 2300 → b < 2300 → vecF a = vecF b → a = b :
   have := (allN_iff _ _).1 kSort k (by omega)
   rwa [Nat.blt_eq] at this
 
+theorem forIn_set_eq (vs R : Array Nat) (n : Nat) :
+    (Id.run do
+      let mut p : Array Nat := R
+      for j in [0:n] do
+        p := p.set! vs[j]! j
+      return p) = (List.range' 0 n).foldl (fun r i => r.set! vs[i]! i) R := by
+  simp [Id.run, Std.Legacy.Range.forIn_eq_forIn_range',
+    List.forIn_pure_yield_eq_foldl, Std.Legacy.Range.size]
+  rfl
+
 theorem vecPos_get {j : Nat} (hj : j < 2300) :
     (Native.vecPos ())[(Native.vectors ())[j]!]! = j := by
   have e : Native.vecPos () = (List.range' 0 2300).foldl
-      (fun r i => r.set! (Native.vectors ())[i]! i) (Array.replicate (2 ^ 22) 2300) := by
-    simp [Native.vecPos, Id.run, Std.Legacy.Range.forIn_eq_forIn_range',
-      List.forIn_pure_yield_eq_foldl, Std.Legacy.Range.size]
-    rfl
+      (fun r i => r.set! (Native.vectors ())[i]! i) (Array.replicate (2 ^ 22) 2300) :=
+    forIn_set_eq (Native.vectors ()) (Array.replicate (2 ^ 22) 2300) 2300
   rw [e]
   refine (foldl_set_spec (g := fun i => (Native.vectors ())[i]!) (n := 2300) (fun i hi => ?_)
     (fun a b ha hb h => ?_) 2300 le_rfl).2 j hj

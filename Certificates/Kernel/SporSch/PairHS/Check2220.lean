@@ -3,7 +3,9 @@ module
 
 public import Certificates.Kernel.SporSch.PairHS.CntSmall
 public import Certificates.Kernel.SporSch.PairHS.CntSrch
-public import Certificates.Kernel.SporSch.PairHS.CntScan
+public import Certificates.Kernel.SporSch.PairHS.CntOrb
+public import CFSG.Certificates.Kernel.SporSch.PairHeOrbSound
+public import CFSG.Certificates.Kernel.SporSch.PairHeOrbCount
 public import Certificates.Kernel.SporSch.PairHS.CntInv
 public import Certificates.Kernel.SporSch.PairHS.ClassCard
 public import Certificates.Kernel.SporSch.PairHS.Check2219
@@ -946,30 +948,15 @@ theorem scan_part {w : Equiv.Perm (Fin 3850)} (hw : w ∈ P3) {Z ZI : Nat → Na
   · rintro ⟨-, hi, h⟩
     exact ⟨hi, h⟩
 
-theorem scan_count (w : P3) {Z ZI : Nat → Nat} (hZ : RepF 3850 Z w)
-    (hZI : RepF 3850 ZI (w⁻¹ : P3)) {VA VB : Nat → Nat}
-    (hVA : ∀ g < 3, ∀ r < 4, Nat.beq (PHSCn.scAt PHSCl.XA PHST.c Z ZI (Nat.add (Nat.mul g 4) r))
-      (VA (Nat.add (Nat.mul g 4) r)) = true)
-    (hVB : ∀ g < 8, ∀ r < 4, Nat.beq (PHSCn.scAt PHSCl.XB PHSU.c Z ZI (Nat.add (Nat.mul g 4) r))
-      (VB (Nat.add (Nat.mul g 4) r)) = true) {a b : Nat} (ha : sumN 12 VA = a)
-    (hb : sumN 32 VB = b) :
+theorem scan_count (w : P3) {a b : Nat}
+    (cA : (Finset.filter (fun i => orderOf (E (nfX 4 (PHSCl.XA i)) * (w : Equiv.Perm (Fin 3850))) = 5 ∧
+      orderOf ((w : Equiv.Perm (Fin 3850)) * E (nfX 4 (PHSCl.XA i)) * (w : Equiv.Perm (Fin 3850))⁻¹ *
+        E (nfX 4 (PHSCl.XA i))) = 5) (Finset.range 5775)).card = a)
+    (cB : (Finset.filter (fun i => orderOf (E (nfX 4 (PHSCl.XB i)) * (w : Equiv.Perm (Fin 3850))) = 5 ∧
+      orderOf ((w : Equiv.Perm (Fin 3850)) * E (nfX 4 (PHSCl.XB i)) * (w : Equiv.Perm (Fin 3850))⁻¹ *
+        E (nfX 4 (PHSCl.XB i))) = 5) (Finset.range 15400)).card = b) :
     Nat.card {x : P3 // Acond x w} = a + b := by
   classical
-  have hZI' : RepF 3850 ZI (w : Equiv.Perm (Fin 3850))⁻¹ := hZI
-  have hsA := chunk_sum 12 512 (scanHSAt 12 PHST.NR PHST.NR PHST.LT PHST.PT PHSCn.bs PHST.c
-    PHSCl.XA Z ZI) VA fun q hq => by
-      have := Nat.eq_of_beq_eq_true (hVA (q / 4) (by omega) (q % 4) (Nat.mod_lt _ (by norm_num)))
-      rw [split] at this
-      exact this
-  have hsB := chunk_sum 32 512 (scanHSAt 12 PHST.NR PHST.NR PHST.LT PHST.PT PHSCn.bs PHSU.c
-    PHSCl.XB Z ZI) VB fun q hq => by
-      have := Nat.eq_of_beq_eq_true (hVB (q / 4) (by omega) (q % 4) (Nat.mod_lt _ (by norm_num)))
-      rw [split] at this
-      exact this
-  have cA := scan_part w.2 hZ hZI' cSzA (fun i hi => (inv_recA (cSzA ▸ hi)).1)
-    (fun i hi => xA_mem (cSzA ▸ hi)) hsA ha (by norm_num)
-  have cB := scan_part w.2 hZ hZI' cSzB (fun i hi => (inv_recB (cSzB ▸ hi)).1)
-    (fun i hi => xB_mem (cSzB ▸ hi)) hsB hb (by norm_num)
   set FA := Finset.filter (fun i => orderOf (E (nfX 4 (PHSCl.XA i)) * (w : Equiv.Perm (Fin 3850))) = 5 ∧
       orderOf ((w : Equiv.Perm (Fin 3850)) * E (nfX 4 (PHSCl.XA i)) * (w : Equiv.Perm (Fin 3850))⁻¹ *
         E (nfX 4 (PHSCl.XA i))) = 5) (Finset.range 5775) with hFA
@@ -1027,20 +1014,226 @@ theorem acond_conj (c x w : P3) : Acond (MulAut.conj c x) (MulAut.conj c w) ↔ 
   unfold Acond
   simp only [← map_inv, ← map_mul, MulEquiv.orderOf_eq]
 
+theorem acond_inv_of {x w : P3} (h : Acond x w) : Acond x w⁻¹ := by
+  unfold Acond at h ⊢
+  obtain ⟨h2, h5, h5'⟩ := h
+  have hx : x⁻¹ = x := inv_eq_of_mul_eq_one_left (by rw [← pow_two, ← h2, pow_orderOf_eq_one])
+  have e1 : x * w⁻¹ = (MulAut.conj x⁻¹ (x * w))⁻¹ := by
+    rw [MulAut.conj_apply, inv_inv, inv_mul_cancel_left, mul_inv_rev, hx]
+  have e2 : w⁻¹ * x * w⁻¹⁻¹ * x = MulAut.conj w⁻¹ (w * x * w⁻¹ * x)⁻¹ := by
+    simp [mul_assoc, hx]
+  refine ⟨h2, ?_, ?_⟩
+  · rw [e1, orderOf_inv, MulEquiv.orderOf_eq, h5]
+  · rw [e2, MulEquiv.orderOf_eq, orderOf_inv, h5']
+
 theorem ziRepK : RepF 3850 PHSCn.ziP ((zK⁻¹ : P3) : Equiv.Perm (Fin 3850)) := by
   have e : ((zK⁻¹ : P3) : Equiv.Perm (Fin 3850)) = ziE := by
     rw [Subgroup.coe_inv, ziE_eq]
   rw [e]
   exact ziRep
 
+theorem keyL_elt {f : Nat → Nat} {g : Equiv.Perm (Fin 3850)} (hf : RepF 3850 f g) :
+    ∀ {bs : List Nat}, (∀ b ∈ bs, b < 3850) → keyL 3850 f bs = keyElt 3850 bs g
+  | [], _ => rfl
+  | b :: bs, h => by
+    change strictN (keyL 3850 f bs) (fun r => Nat.add (f b) (Nat.mul 3850 r)) = _
+    rw [strictN_val, keyL_elt hf fun c hc => h c (List.mem_cons_of_mem b hc), keyElt, keyElt,
+      List.map_cons, imgKey, imgKey, List.foldr_cons, dite_eq_left (h b List.mem_cons_self),
+      hf b (h b List.mem_cons_self)]
+    rfl
+
+theorem bs_lt {b : Nat} (hb : b ∈ PairHS.bs) : b < 4 := by
+  have e : PairHS.bs = [0, 1, 2, 3] := rfl
+  rw [e] at hb
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hb
+  omega
+
+theorem op_pt {m : Nat} (hm : m < 33) : fld(PHSO.OP, Nat.mul 12 m, mask 12) < 3850 := by
+  have hop := PHSCn.op_ok
+  unfold PHSCn.opB at hop
+  rw [bAnd_iff] at hop
+  have h := allBlk_spec hop.1 m hm
+  have e : Nat.add 0 m = m := Nat.zero_add m
+  rw [e, bAnd_iff] at h
+  simpa [Nat.blt_eq] using h.1
+
+theorem op_mb {b : Nat} (hb : b < 4) : fld(732192, Nat.mul 5 b, mask 5) < 33 := by
+  have hop := PHSCn.op_ok
+  unfold PHSCn.opB at hop
+  rw [bAnd_iff, bAnd_iff] at hop
+  have h := allBlk_spec hop.2.1 b hb
+  have e : Nat.add 0 b = b := Nat.zero_add b
+  rw [e, bAnd_iff] at h
+  simpa [Nat.blt_eq] using h.1
+
+theorem op_repA {j : Nat} (hj : j < 525) : PHSO.RPA j < 5775 := by
+  have hop := PHSCn.op_ok
+  unfold PHSCn.opB at hop
+  rw [bAnd_iff, bAnd_iff, bAnd_iff] at hop
+  have h := allBlk_spec hop.2.2.1 j hj
+  have e : Nat.add 0 j = j := Nat.zero_add j
+  rw [e] at h
+  rw [← cSzA]
+  simpa [Nat.blt_eq] using h
+
+theorem op_repB {j : Nat} (hj : j < 1400) : PHSO.RPB j < 15400 := by
+  have hop := PHSCn.op_ok
+  unfold PHSCn.opB at hop
+  rw [bAnd_iff, bAnd_iff, bAnd_iff] at hop
+  have h := allBlk_spec hop.2.2.2 j hj
+  have e : Nat.add 0 j = j := Nat.zero_add j
+  rw [e] at h
+  rw [← cSzB]
+  simpa [Nat.blt_eq] using h
+
+theorem op2_pt {k b : Nat} (hk : k < 11) (hb : b < 4) :
+    powF PHSCn.ziP k b = fld(PHSO.OP, Nat.mul 12 (heoIx 11 k fld(732192, Nat.mul 5 b, mask 5)),
+      mask 12) := by
+  have hop2 := PHSCn.op2_ok
+  unfold PHSCn.opB2 at hop2
+  have h := allBlk_spec hop2 k hk
+  have e : Nat.add 0 k = k := Nat.zero_add k
+  rw [e] at h
+  have h' := allBlk_spec h b hb
+  have e' : Nat.add 0 b = b := Nat.zero_add b
+  rw [e'] at h'
+  exact Nat.eq_of_beq_eq_true h'
+
+theorem zP_lt (x : Nat) : PHSCn.zP x < 2 ^ 12 := heoFld_lt _ _ _
+
+theorem zconj_rep {XR KS : Nat → Nat} {j k F : Nat}
+    (hA : heoAt 12 PHST.NR PHST.NR PHST.LT PHST.PT (nat_lit 4) (nat_lit 3850) (nat_lit 11)
+      (nat_lit 33) (nat_lit 5) (nat_lit 732192) PHSO.OP PHSCn.bs XR PHSCn.zP KS j = true)
+    (hvR : nfValidK 4 PHSC.LR (nfX 4 (XR j)) = true) (hv : nfValidK 4 PHSC.LR F = true)
+    (hkey : KS (Nat.add (Nat.mul j 11) k) = keyL 3850 (PHSCn.nfp F) PairHS.bs) (hk : k < 11) :
+    E F = zE ^ k * E (nfX 4 (XR j)) * (zE ^ k)⁻¹ := by
+  have hrR := E_rep hvR
+  have hIx : ∀ b ∈ PHSCn.bs, ∀ k < 11, heoIx 11 k fld(732192, Nat.mul 5 b, mask 5) < 33 :=
+    fun b hb k _ => heoIx_lt (L := 11) (t := 3) (k := k) (by norm_num) (op_mb (bs_lt hb))
+  have hs := heoAt_spec (lv := 4) (n := 3850) (L := 11) (N := 33) (mw := 5) (MB := 732192)
+    (OP := PHSO.OP) (bs := PHSCn.bs) (X := XR) (Z := PHSCn.zP) (KS := KS) zP_lt hIx
+    (fun m hm => Nat.lt_trans (hrR.lt (op_pt hm)) (by norm_num)) hA hk
+  rw [hkey, keyL_elt (E_rep hv) hbs] at hs
+  have hg : RepF 3850 (fun b => powF PHSCn.zP k (PHSCn.nfp (nfX 4 (XR j)) (powF PHSCn.ziP k b)))
+      (zE ^ k * E (nfX 4 (XR j)) * ziE ^ k) :=
+    ((zRep.powF k).comp (hrR.comp (ziRep.powF k))).congr (by rw [mul_assoc])
+  have hk2 : keyL 3850 (fun b => powF PHSCn.zP k (nfPtT 12 PHST.NR PHST.NR PHST.LT PHST.PT 4
+      (nfX 4 (XR j)) fld(PHSO.OP, Nat.mul 12 (heoIx 11 k fld(732192, Nat.mul 5 b, mask 5)),
+        mask 12))) PHSCn.bs = keyElt 3850 PairHS.bs (zE ^ k * E (nfX 4 (XR j)) * ziE ^ k) := by
+    rw [← keyL_elt hg hbs]
+    refine keyL_congr' 3850 fun b hb => ?_
+    rw [op2_pt hk (bs_lt hb)]
+    rfl
+  rw [hk2] at hs
+  have hmem : zE ^ k * E (nfX 4 (XR j)) * ziE ^ k ∈ P3 :=
+    P3.mul_mem (P3.mul_mem (P3.pow_mem zMem _) (E_mem hvR)) (P3.pow_mem ziMem _)
+  rw [keyElt_inj hH hbs (E_mem hv) hmem hs, ziE_eq, inv_pow]
+
+theorem perm_factsA {t : Nat} (ht : t < 5775) : PHSO.SGA t < 5775 ∧ PHSO.TUA (PHSO.SGA t) = t := by
+  have h := blk_spec (R := 4) (B := 512) (N := 3) (h := PHSCn.permA) (fun _ _ => rfl)
+    PHSCn.permA_all (by norm_num) (by norm_num) (by omega : t < 3 * 4 * 512)
+  have ht' : t < PHST.c := by rw [cSzA]; exact ht
+  rw [blt_true ht'] at h
+  have h' : bAnd(Nat.blt (PHSO.SGA t) PHST.c, Nat.beq (PHSO.TUA (PHSO.SGA t)) t) = true := h
+  rw [bAnd_iff, cSzA] at h'
+  exact ⟨Nat.blt_eq.mp h'.1, Nat.eq_of_beq_eq_true h'.2⟩
+
+theorem perm_factsB {t : Nat} (ht : t < 15400) :
+    PHSO.SGB t < 15400 ∧ PHSO.TUB (PHSO.SGB t) = t := by
+  have h := blk_spec (R := 8) (B := 512) (N := 4) (h := PHSCn.permB) (fun _ _ => rfl)
+    PHSCn.permB_all (by norm_num) (by norm_num) (by omega : t < 4 * 8 * 512)
+  have ht' : t < PHSU.c := by rw [cSzB]; exact ht
+  rw [blt_true ht'] at h
+  have h' : bAnd(Nat.blt (PHSO.SGB t) PHSU.c, Nat.beq (PHSO.TUB (PHSO.SGB t)) t) = true := h
+  rw [bAnd_iff, cSzB] at h'
+  exact ⟨Nat.blt_eq.mp h'.1, Nat.eq_of_beq_eq_true h'.2⟩
+
+theorem conj_eqA {t : Nat} (ht : t < 5775) : E (nfX 4 (PHSCl.XA (PHSO.SGA t))) =
+    zE ^ (t % 11) * E (nfX 4 (PHSCn.XRA (t / 11))) * (zE ^ (t % 11))⁻¹ := by
+  have hj : t / 11 < 525 := by omega
+  have hP := perm_factsA ht
+  have hA := blk_spec (R := 8) (B := 64) (N := 2) (h := PHSCn.orbA) (fun _ _ => rfl)
+    PHSCn.orbA_all (by norm_num) (by norm_num) (by omega : t / 11 < 2 * 8 * 64)
+  rw [blt_true hj] at hA
+  have e : Nat.add (Nat.mul (t / 11) 11) (t % 11) = t := Nat.div_add_mod' t 11
+  have hkey : PHSCn.KSA (Nat.add (Nat.mul (t / 11) 11) (t % 11)) =
+      keyL 3850 (PHSCn.nfp (nfX 4 (PHSCl.XA (PHSO.SGA t)))) PairHS.bs := by
+    rw [e]
+    exact key_recA hP.1
+  exact zconj_rep hA (inv_recA (op_repA hj)).1 (inv_recA hP.1).1 hkey (Nat.mod_lt _ (by norm_num))
+
+theorem conj_eqB {t : Nat} (ht : t < 15400) : E (nfX 4 (PHSCl.XB (PHSO.SGB t))) =
+    zE ^ (t % 11) * E (nfX 4 (PHSCn.XRB (t / 11))) * (zE ^ (t % 11))⁻¹ := by
+  have hj : t / 11 < 1400 := by omega
+  have hP := perm_factsB ht
+  have hA := blk_spec (R := 8) (B := 64) (N := 3) (h := PHSCn.orbB) (fun _ _ => rfl)
+    PHSCn.orbB_all (by norm_num) (by norm_num) (by omega : t / 11 < 3 * 8 * 64)
+  rw [blt_true hj] at hA
+  have e : Nat.add (Nat.mul (t / 11) 11) (t % 11) = t := Nat.div_add_mod' t 11
+  have hkey : PHSCn.KSB (Nat.add (Nat.mul (t / 11) 11) (t % 11)) =
+      keyL 3850 (PHSCn.nfp (nfX 4 (PHSCl.XB (PHSO.SGB t)))) PairHS.bs := by
+    rw [e]
+    exact key_recB hP.1
+  exact zconj_rep hA (inv_recB (op_repB hj)).1 (inv_recB hP.1).1 hkey (Nat.mod_lt _ (by norm_num))
+
+theorem accz_conj (k : Nat) (g : Equiv.Perm (Fin 3850)) :
+    (orderOf (zE ^ k * g * (zE ^ k)⁻¹ * zE) = 5 ∧
+      orderOf (zE * (zE ^ k * g * (zE ^ k)⁻¹) * zE⁻¹ * (zE ^ k * g * (zE ^ k)⁻¹)) = 5) ↔
+    (orderOf (g * zE) = 5 ∧ orderOf (zE * g * zE⁻¹ * g) = 5) := by
+  have e1 : zE ^ k * g * (zE ^ k)⁻¹ * zE = MulAut.conj (zE ^ k) (g * zE) := by
+    rw [MulAut.conj_apply]
+    group
+  have e2 : zE * (zE ^ k * g * (zE ^ k)⁻¹) * zE⁻¹ * (zE ^ k * g * (zE ^ k)⁻¹) =
+      MulAut.conj (zE ^ k) (zE * g * zE⁻¹ * g) := by
+    rw [MulAut.conj_apply]
+    group
+  rw [e1, e2, MulEquiv.orderOf_eq, MulEquiv.orderOf_eq]
+
+theorem ziRepE : RepF 3850 PHSCn.ziP zE⁻¹ := by
+  rw [← ziE_eq]
+  exact ziRep
+
+theorem cnt_zA : (Finset.filter (fun i => orderOf (E (nfX 4 (PHSCl.XA i)) * zE) = 5 ∧
+    orderOf (zE * E (nfX 4 (PHSCl.XA i)) * zE⁻¹ * E (nfX 4 (PHSCl.XA i))) = 5)
+      (Finset.range 5775)).card = 110 := by
+  rw [OrbCount.count_orb (fun g => orderOf (g * zE) = 5 ∧ orderOf (zE * g * zE⁻¹ * g) = 5)
+    (fun i => E (nfX 4 (PHSCl.XA i))) (fun j => E (nfX 4 (PHSCn.XRA j))) zE (n := 525) (L := 11)
+    (c := 5775) (by norm_num) (by norm_num) PHSO.SGA (fun t ht => (perm_factsA ht).1)
+    (fun t ht u hu h => by rw [← (perm_factsA ht).2, ← (perm_factsA hu).2, h])
+    (fun t ht => conj_eqA ht) accz_conj]
+  have hR := PHSCn.rep_ok
+  unfold PHSCn.repB at hR
+  rw [bAnd_iff] at hR
+  have hs := chunk_sum 2 512 (scanHSAt 12 PHST.NR PHST.NR PHST.LT PHST.PT PHSCn.bs (nat_lit 525)
+    PHSCn.XRA PHSCn.zP PHSCn.ziP) (fun q => PHSCn.scAt PHSCn.XRA (nat_lit 525) PHSCn.zP PHSCn.ziP q)
+    fun q _ => rfl
+  rw [scan_part (N := 525) (X := PHSCn.XRA) zMem zRep ziRepE rfl (fun i hi => (inv_recA (op_repA hi)).1)
+    (fun i hi => xA_mem (op_repA hi)) hs (Nat.eq_of_beq_eq_true hR.1) (by norm_num)]
+
+theorem cnt_zB : (Finset.filter (fun i => orderOf (E (nfX 4 (PHSCl.XB i)) * zE) = 5 ∧
+    orderOf (zE * E (nfX 4 (PHSCl.XB i)) * zE⁻¹ * E (nfX 4 (PHSCl.XB i))) = 5)
+      (Finset.range 15400)).card = 22 := by
+  rw [OrbCount.count_orb (fun g => orderOf (g * zE) = 5 ∧ orderOf (zE * g * zE⁻¹ * g) = 5)
+    (fun i => E (nfX 4 (PHSCl.XB i))) (fun j => E (nfX 4 (PHSCn.XRB j))) zE (n := 1400) (L := 11)
+    (c := 15400) (by norm_num) (by norm_num) PHSO.SGB (fun t ht => (perm_factsB ht).1)
+    (fun t ht u hu h => by rw [← (perm_factsB ht).2, ← (perm_factsB hu).2, h])
+    (fun t ht => conj_eqB ht) accz_conj]
+  have hR := PHSCn.rep_ok
+  unfold PHSCn.repB at hR
+  rw [bAnd_iff] at hR
+  have hs := chunk_sum 3 512 (scanHSAt 12 PHST.NR PHST.NR PHST.LT PHST.PT PHSCn.bs (nat_lit 1400)
+    PHSCn.XRB PHSCn.zP PHSCn.ziP) (fun q => PHSCn.scAt PHSCn.XRB (nat_lit 1400) PHSCn.zP PHSCn.ziP q)
+    fun q _ => rfl
+  rw [scan_part (N := 1400) (X := PHSCn.XRB) zMem zRep ziRepE rfl (fun i hi => (inv_recB (op_repB hi)).1)
+    (fun i hi => xB_mem (op_repB hi)) hs (Nat.eq_of_beq_eq_true hR.2) (by norm_num)]
+
 theorem K_val {w : P3} (hw : orderOf w = 11) : Nat.card {x : P3 // Acond x w} = 132 := by
-  have hz : Nat.card {x : P3 // Acond x zK} = 132 :=
-    scan_count zK (Z := PHSCn.zP) (ZI := PHSCn.ziP) zRep ziRepK PHSCn.scA_all PHSCn.scB_all
-      (Nat.eq_of_beq_eq_true PHSCn.sA) (Nat.eq_of_beq_eq_true PHSCn.sB)
-  have hzi : Nat.card {x : P3 // Acond x zK⁻¹} = 132 :=
-    scan_count zK⁻¹ (Z := PHSCn.ziP) (ZI := PHSCn.zP) ziRepK (by rw [inv_inv]; exact zRep)
-      PHSCn.scAI_all PHSCn.scBI_all (Nat.eq_of_beq_eq_true PHSCn.sAI)
-      (Nat.eq_of_beq_eq_true PHSCn.sBI)
+  have hz : Nat.card {x : P3 // Acond x zK} = 132 := scan_count zK cnt_zA cnt_zB
+  have hzi : Nat.card {x : P3 // Acond x zK⁻¹} = 132 := by
+    rw [← hz]
+    refine Nat.card_congr (Equiv.subtypeEquivRight fun x => ⟨fun h => ?_, acond_inv_of⟩)
+    rw [← inv_inv zK]
+    exact acond_inv_of h
   have hc : ∀ v : P3, IsConj v w →
       Nat.card {x : P3 // Acond x w} = Nat.card {x : P3 // Acond x v} := by
     intro v h

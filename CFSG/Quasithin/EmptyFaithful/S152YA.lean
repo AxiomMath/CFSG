@@ -80,8 +80,25 @@ theorem planes_image : ∀ A ∈ Planes, ∀ g ∈ (Finset.univ : Finset SL3), A
 
 theorem planes_trans : ∀ A ∈ Planes, ∀ B ∈ Planes, ∃ g : SL3, A.image (mulV g) = B := by decide +kernel
 
+theorem planes_std_pair : ∀ B₁ ∈ Planes, ∀ B₂ ∈ Planes, B₁ ≠ B₂ →
+    ∃ g : SL3, (plane ![1, 0, 0]).image (mulV g) = B₁ ∧ (plane ![0, 1, 0]).image (mulV g) = B₂ := by
+  decide +kernel
+
+theorem image_mulV_image (g h : SL3) (A : Finset Vec3) :
+    (A.image (mulV h)).image (mulV g) = A.image (mulV (g * h)) := by
+  rw [Finset.image_image]
+  congr 1
+  funext v
+  exact (mulV_mul g h v).symm
+
 theorem planes_two_trans : ∀ B₁ ∈ Planes, ∀ B₂ ∈ Planes, ∀ C₁ ∈ Planes, ∀ C₂ ∈ Planes, B₁ ≠ B₂ → C₁ ≠ C₂ →
-    ∃ g : SL3, B₁.image (mulV g) = C₁ ∧ B₂.image (mulV g) = C₂ := by decide +kernel
+    ∃ g : SL3, B₁.image (mulV g) = C₁ ∧ B₂.image (mulV g) = C₂ := by
+  intro B₁ hB₁ B₂ hB₂ C₁ hC₁ C₂ hC₂ hB hC
+  obtain ⟨b, hb₁, hb₂⟩ := planes_std_pair B₁ hB₁ B₂ hB₂ hB
+  obtain ⟨c, hc₁, hc₂⟩ := planes_std_pair C₁ hC₁ C₂ hC₂ hC
+  refine ⟨c * b⁻¹, ?_, ?_⟩
+  · rw [← hb₁, ← hc₁, image_mulV_image, inv_mul_cancel_right]
+  · rw [← hb₂, ← hc₂, image_mulV_image, inv_mul_cancel_right]
 
 theorem three_planes : ∀ p : Vec3, p ≠ 0 → ∃ B₁ ∈ Planes, ∃ B₂ ∈ Planes, ∃ B₃ ∈ Planes,
     B₁ ≠ B₂ ∧ B₁ ≠ B₃ ∧ B₂ ≠ B₃ ∧ p ∈ B₁ ∧ p ∈ B₂ ∧ p ∈ B₃ := by decide +kernel

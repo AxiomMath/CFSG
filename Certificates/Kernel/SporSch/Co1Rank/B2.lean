@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Co1RankB2 "Certificates/Kernel/SporSch/Co1Rank/data/b2.json.gz"
+#kc_repo #kc_json CFSG.KD.Co1RankB2 "Certificates/Kernel/SporSch/Co1Rank/data/b2.json"
   2539319 16202651201619005004
   (d : Nat) (Kt : Nat) (NCt : Nat) (PHt : Nat) (T2A : List (List Nat)) (nU : Nat) (UC : Nat)
   (reps : List (List Nat × Nat × List (Nat × Nat × List Nat × List Nat)))

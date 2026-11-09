@@ -100,14 +100,16 @@ theorem flt_congr {P Q : ℕ → Bool} {n : ℕ} (h : ∀ a < n, P a = Q a) : fl
 
 @[expose] noncomputable def oStep (OCT : ℕ) : ℕ → Bool × ℕ → Bool × ℕ :=
   fun a ih => Prod.rec (motive := fun _ => Bool × Nat) (fun ok n =>
-    Bool.rec (motive := fun _ => Bool × Nat) (ok, n)
-      (andB ok (Nat.beq (f12 OCT n) a), Nat.add n (nat_lit 1))
-      (Nat.beq (popc24 (wordT a)) (nat_lit 8))) ih
+    cond (popc8T a)
+      (andB ok (Nat.beq (f12 OCT n) a), Nat.add n (nat_lit 1)) (ok, n)) ih
 
 @[expose] noncomputable def oST (OCT a : ℕ) : Bool × ℕ :=
   Nat.rec (motive := fun _ => Bool × Nat) (true, nat_lit 0) (oStep OCT) a
 
-@[expose] noncomputable def P8 (a : ℕ) : Bool := Nat.beq (popc24 (wordT a)) 8
+@[expose] noncomputable def P8 (a : ℕ) : Bool := popc8T a
+
+theorem oStep_pair (OCT a : ℕ) (ok : Bool) (n : ℕ) : oStep OCT a (ok, n) =
+    cond (popc8T a) (andB ok (Nat.beq (f12 OCT n) a), Nat.add n (nat_lit 1)) (ok, n) := rfl
 
 theorem oST_spec (OCT : ℕ) : ∀ a, (oST OCT a).2 = (flt P8 a).length ∧
     ((oST OCT a).1 = true → ∀ t (ht : t < (flt P8 a).length), f12 OCT t = (flt P8 a)[t])
@@ -118,19 +120,17 @@ theorem oST_spec (OCT : ℕ) : ∀ a, (oST OCT a).2 = (flt P8 a).length ∧
     generalize hs : oST OCT a = s at ih1 ih2 e
     obtain ⟨ok, n⟩ := s
     simp only at ih1 ih2
-    rw [e]
+    rw [e, oStep_pair]
     have e2 := flt_succ P8 a
-    unfold oStep
-    dsimp only
     cases hP : P8 a
-    · have hP' : Nat.beq (popc24 (wordT a)) (nat_lit 8) = false := hP
-      rw [hP']
+    · have hP' : popc8T a = false := hP
+      rw [hP', cond_false]
       rw [hP] at e2
       simp only [Bool.false_eq_true, ↓reduceIte, List.append_nil] at e2
       simp only [e2]
       exact ⟨ih1, ih2⟩
-    · have hP' : Nat.beq (popc24 (wordT a)) (nat_lit 8) = true := hP
-      rw [hP']
+    · have hP' : popc8T a = true := hP
+      rw [hP', cond_true]
       rw [hP] at e2
       simp only [↓reduceIte] at e2
       dsimp only

@@ -2,6 +2,7 @@ module
 
 public import Certificates.Kernel.Sporadic.OddCore.S129062D
 public import Certificates.Data.Kernel.L34K
+public import Certificates.Data.Kernel.Spor.BaseEq
 import CFSG.Certificates.Kernel.Common.Harness
 
 public section
@@ -10,25 +11,25 @@ set_option maxRecDepth 400000
 
 namespace CertificateChecks.KernelSpor.S129062
 
-open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KC.L34K CFSG.KS.PEnum
+open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KC.L34K CFSG.KS.PEnum CFSG.KS.BaseEq
 open CFSG.KLie.CT (andB orB notB)
 
-@[expose] noncomputable def invK (x : Nat) : Bool :=
-  andB (invPt 1782 11 x) (notB (Nat.beq x (pidn 1782 11)))
+@[expose] noncomputable def sqInv (k : Nat) : Bool :=
+  andB (sqFixK 11 (mask 11) [0, 1] (SSE.T k)) (notB (Nat.beq k 0))
 
 @[expose] noncomputable def ix (j : Nat) : Nat := r32 S129I j
 
 @[expose] noncomputable def col (j : Nat) : Nat := pg 6 (mask 6) (S129C.F 0) j
 
-@[expose] noncomputable def cntOK : Bool :=
-  Nat.beq (CFSG.KC.HeAutK.cntR (fun k => invK (SSE.T k)) 0 16384) 911
+@[expose] noncomputable def cntBeq (f : Nat → Bool) (N m : Nat) : Bool :=
+  Nat.beq (CFSG.KC.HeAutK.cntR f 0 N) m
 
-theorem kCnt : cntOK = true := by
+theorem kCnt : cntBeq sqInv 16384 911 = true := by
   quickRfl
 
 theorem kIdx : allN 911 (fun j => strictB (ix j) fun k =>
     andB (Nat.blt k 16384) (andB (orB (Nat.beq (Nat.succ j) 911) (Nat.blt k (ix (Nat.succ j))))
-      (invK (SSE.T k)))) = true := by
+      (sqInv k))) = true := by
   quickRfl
 
 theorem kRank : allN 911 (fun i => strictB (col i) fun c =>

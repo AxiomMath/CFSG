@@ -9,6 +9,7 @@ public import CFSG.Certificates.Kernel.Misc.Coset.PG
 public import Certificates.Kernel.Misc.Coset.XU43R
 public import CFSG.LieType.Multipliers.U43BridgeInputs
 import CFSG.Certificates.Kernel.Common.Harness
+import CFSG.Certificates.Kernel.Misc.Coset.TableFactE
 import CFSG.LieType.Multipliers.U43Data
 
 public section
@@ -63,7 +64,7 @@ theorem hp : (List.replicate 6 [((1 : Fin 2), true)]).flatten ∈ rels := by dec
 theorem card_le : Finite (PG 2 rels) ∧ Nat.card (PG 2 rels) ≤ 3265920 := by
   have h := CertificateChecks.KernelMiscCoset.XU43R.t1
   unfold CFSG.KBRoute.XU43R.T1.ok at h
-  have hi := zpowers_index_le_of_tableOk rels t h (by norm_num) CFSG.KBRoute.XU43R.top _ w
+  have hi := zpowers_index_le_of_tableOkE rels t h (by norm_num) CFSG.KBRoute.XU43R.top _ w
   exact card_le_of_zpowers_index rels _ (by norm_num) hp hi
 
 end CertificateChecks.KernelU43B

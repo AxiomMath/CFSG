@@ -11,10 +11,14 @@ open CFSG.SmithE (applyCols)
 
 @[expose] def annK (i : Nat) : Nat := let W := wB i; annMaskOf W.1 W.2.1 W.2.2
 
-@[expose] def countMN (M N : Nat) : Nat :=
-  tvList.toList.countP fun p => M.testBit p.1 && N.testBit p.2
+@[expose] def popKP : Nat → Nat → Nat
+  | 0, _ => 0
+  | k + 1, m => m % 2 + popKP k (m / 2)
 
-@[expose] def meetCardK (i j : Nat) : Nat := countMN (wMask i &&& wMask j) (annK i &&& annK j)
+@[expose] def cnt64 (M : Nat) : Nat := popKP 63 (M / 2)
+
+@[expose] def meetCardK (i j : Nat) : Nat :=
+  cnt64 (wMask i &&& wMask j) * cnt64 (annK i &&& annK j)
 
 @[expose] def distBK (i j : Nat) : Nat :=
   let c := meetCardK i j

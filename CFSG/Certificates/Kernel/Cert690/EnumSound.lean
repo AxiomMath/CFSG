@@ -80,22 +80,6 @@ theorem enumInvK_spec (E : List ℕ) :
     · exact enumInvG_spec g E h'.1
     · exact enumInvK_spec E gs h'.2 g hg
 
-theorem invMulK_spec (getE : ℕ → ℕ) (n : ℕ) : ∀ (E inv : List ℕ), invMulK getE n E inv = true →
-    inv.length = E.length ∧ ∀ i (hi : i < E.length) (hj : i < inv.length),
-      inv[i] < n ∧ mulF E[i] (getE inv[i]) = oneF
-  | [], [], _ => ⟨rfl, fun i hi => absurd hi (by simp)⟩
-  | [], _ :: _, h => absurd h (by simp [invMulK])
-  | _ :: _, [], h => absurd h (by simp [invMulK])
-  | x :: E, j :: inv, h => by
-    have h' : andK (andK (Nat.blt j n) (Nat.beq (mulF x (getE j)) oneF)) (invMulK getE n E inv) =
-      true := h
-    simp only [andK_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h'
-    obtain ⟨hl, hr⟩ := invMulK_spec getE n E inv h'.2
-    refine ⟨by simp [hl], fun i hi hj => ?_⟩
-    cases i with
-    | zero => exact h'.1
-    | succ i => exact hr i (by simpa using hi) (by simpa using hj)
-
 theorem enumOK_of {gs E : List ℕ} {P : List (ℕ × ℕ)} {S : List (ℕ × ℕ)} (hix : ixOK S E = true)
     (hlen : E.length ≤ 65535) (h0 : E.head? = some oneF)
     (hpar : enumParK (fun i => (posT E).find i 0) gs E P 0 = true)
@@ -133,6 +117,50 @@ theorem enumOK_of {gs E : List ℕ} {P : List (ℕ × ℕ)} {S : List (ℕ × �
       rw [getElem!_pos P i hp, getElem!_pos E i hi]
       refine ⟨⟨by simpa using h1, h2⟩, ?_⟩
       rw [h3, mulF_eq, hget, List.getElem!_eq_getElem?_getD, List.getD_eq_getElem?_getD,
+        List.getElem!_eq_getElem?_getD]
+      rfl
+  · rw [List.toFinset_card_of_nodup hnd]
+  · intro i hi g hg
+    rw [getElem!_pos E i hi, ← mulF_eq]
+    have := hcl' _ (List.getElem_mem hi) g hg
+    rw [hT] at this
+    exact List.idxOf_lt_length_iff.1 this
+  · intro g hg
+    obtain ⟨e, he, h⟩ := hinv' g hg
+    exact ⟨e, he, by rw [← mulF_eq, h, oneF_eq]⟩
+
+theorem enumOK_of_bfs {gs E : List ℕ} {P : List (ℕ × ℕ)} {S : List (ℕ × ℕ)}
+    (hix : ixOK S E = true) (h0 : E.head? = some oneF)
+    (hbfs : bfsOK (fun y => (idxT S).find y E.length) gs E P = true)
+    (hinv : enumInvK gs E = true) : enumOK gs E.toArray P.toArray = true := by
+  obtain ⟨hnd, hT⟩ := find_idxT_eq_idxOf hix
+  obtain ⟨hPl, hP, hcl'⟩ := bfsOK_spec hbfs
+  have hinv' := enumInvK_spec E gs hinv
+  have hne : E ≠ [] := by
+    intro e
+    rw [e] at h0
+    exact absurd h0 (by simp)
+  unfold enumOK
+  simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq, List.size_toArray,
+    List.getElem!_toArray, List.all_eq_true, List.mem_range, Bool.or_eq_true, decide_eq_true_eq,
+    List.all_toArray, List.any_toArray, List.all_toArray', List.any_toArray', List.any_eq_true,
+    hashSetOfArray_size,
+    hashSetOfArray_contains, List.toList_toArray, List.contains_iff_mem]
+  refine ⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
+  · simpa using hne
+  · obtain ⟨e, E', rfl⟩ := List.exists_cons_of_ne_nil hne
+    simp only [List.head?_cons, Option.some.injEq] at h0
+    rw [← oneF_eq, ← h0]
+    rfl
+  · exact hPl
+  · intro i hi
+    have hp : i < P.length := by rw [hPl]; exact hi
+    rcases hP i hi hp with h | ⟨⟨h1, h2⟩, h3⟩
+    · exact Or.inl h
+    · right
+      rw [getElem!_pos P i hp, getElem!_pos E i hi]
+      refine ⟨⟨h1, h2⟩, ?_⟩
+      rw [h3, mulF_eq, List.getElem!_eq_getElem?_getD, List.getD_eq_getElem?_getD,
         List.getElem!_eq_getElem?_getD]
       rfl
   · rw [List.toFinset_card_of_nodup hnd]

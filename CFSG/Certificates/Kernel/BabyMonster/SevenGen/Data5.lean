@@ -1,30 +1,47 @@
 module
 
-import CFSG.Certificates.Kernel.Common.Eval
-meta import CFSG.Certificates.Kernel.BabyMonster.Twin
-import CFSG.Certificates.Kernel.BabyMonster.Seven.Data3
-import CFSG.Certificates.Kernel.BabyMonster.SevenGen.Data2
-import CFSG.Certificates.Kernel.BabyMonster.SevenGen.Data3
-import CFSG.Certificates.Kernel.BabyMonster.SevenGen.Data4
+import CFSG.Certificates.Kernel.Common.Repo
+import CFSG.Certificates.Kernel.BabyMonster.Load
 
-#kc_eval CFSG.KC.BM.SevenGen r97 CFSG.KC.BM.Twin.prod 4370 2412240 10667616262726320064 r93 r96
-#kc_eval CFSG.KC.BM.SevenGen q CFSG.KC.BM.Twin.prod 4370 2412240 8203256550050046181 r96 r98 r99 r97 r99 r95 r98 n2i r93 r93 r97 r93
-#kc_eval CFSG.KC.BM.SevenGen c CFSG.KC.BM.Twin.prod 4370 2412240 17595489937739749502 di q d
-#kc_eval CFSG.KC.BM.SevenGen ci CFSG.KC.BM.Twin.inv 4370 2412240 16101855448306760183 c
-#kc_eval CFSG.KC.BM.SevenGen s2 CFSG.KC.BM.Twin.prod 4370 2412240 7036546393527959350 ci CFSG.KC.BM.Seven.g c
-#kc_eval CFSG.KC.BM.SevenGen s2i CFSG.KC.BM.Twin.inv 4370 2412240 6201374009609544904 s2
-#kc_eval CFSG.KC.BM.SevenGen r100 CFSG.KC.BM.Twin.prod 4370 2412240 3275881071690953316 s2i CFSG.KC.BM.Seven.g
-#kc_eval CFSG.KC.BM.SevenGen apw CFSG.KC.BM.Twin.prod 4370 2412240 1922627812141492520 CFSG.KC.BM.Seven.r32 r100 r100
-#kc_eval CFSG.KC.BM.SevenGen r85 CFSG.KC.BM.Twin.prod 4370 2412240 16947331045578985297 apw apw
-#kc_eval CFSG.KC.BM.SevenGen r86 CFSG.KC.BM.Twin.prod 4370 2412240 14740819047223318482 r85 r85
-#kc_eval CFSG.KC.BM.SevenGen r87 CFSG.KC.BM.Twin.prod 4370 2412240 13883129370777906815 r86 r86
-#kc_eval CFSG.KC.BM.SevenGen r88 CFSG.KC.BM.Twin.prod 4370 2412240 1655351082950670610 r87 r87
-#kc_eval CFSG.KC.BM.SevenGen ap CFSG.KC.BM.Twin.prod 4370 2412240 14176695570674624681 apw r88
-#kc_eval CFSG.KC.BM.SevenGen s2sq CFSG.KC.BM.Twin.prod 4370 2412240 5376961257591040952 s2 s2
-#kc_eval CFSG.KC.BM.SevenGen bpw CFSG.KC.BM.Twin.prod 4370 2412240 17865415192618891662 CFSG.KC.BM.Seven.g s2 gi s2sq
-#kc_eval CFSG.KC.BM.SevenGen r89 CFSG.KC.BM.Twin.prod 4370 2412240 16821129186919094323 bpw bpw
-#kc_eval CFSG.KC.BM.SevenGen r90 CFSG.KC.BM.Twin.prod 4370 2412240 1866639704271804187 r89 r89
-#kc_eval CFSG.KC.BM.SevenGen r91 CFSG.KC.BM.Twin.prod 4370 2412240 16529195322870722269 r90 r90
-#kc_eval CFSG.KC.BM.SevenGen r92 CFSG.KC.BM.Twin.prod 4370 2412240 3747485027530736455 r90 r91
-#kc_eval CFSG.KC.BM.SevenGen bp CFSG.KC.BM.Twin.prod 4370 2412240 8604954614176399503 bpw r92
-#kc_eval CFSG.KC.BM.SevenGen f CFSG.KC.BM.Twin.prod 4370 2412240 8308632203034432669 ci CFSG.KC.BM.Seven.x c
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r97
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r97.bin" 2412240 10667616262726320064
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen q
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/q.bin" 2412240 8203256550050046181
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen c
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/c.bin" 2412240 17595489937739749502
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen ci
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/ci.bin" 2412240 16101855448306760183
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen s2
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/s2.bin" 2412240 7036546393527959350
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen s2i
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/s2i.bin" 2412240 6201374009609544904
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r100
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r100.bin" 2412240 3275881071690953316
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen apw
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/apw.bin" 2412240 1922627812141492520
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r85
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r85.bin" 2412240 16947331045578985297
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r86
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r86.bin" 2412240 14740819047223318482
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r87
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r87.bin" 2412240 13883129370777906815
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r88
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r88.bin" 2412240 1655351082950670610
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen ap
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/ap.bin" 2412240 14176695570674624681
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen s2sq
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/s2sq.bin" 2412240 5376961257591040952
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen bpw
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/bpw.bin" 2412240 17865415192618891662
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r89
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r89.bin" 2412240 16821129186919094323
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r90
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r90.bin" 2412240 1866639704271804187
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r91
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r91.bin" 2412240 16529195322870722269
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen r92
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/r92.bin" 2412240 3747485027530736455
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen bp
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/bp.bin" 2412240 8604954614176399503
+#kc_repo #bm_mat CFSG.KC.BM.SevenGen f
+  "CFSG/Certificates/Kernel/BabyMonster/SevenGen/data/f.bin" 2412240 8308632203034432669

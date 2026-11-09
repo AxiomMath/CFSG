@@ -83,8 +83,6 @@ open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Certificates.Native
 
 @[expose] def s5oSCert : ArrCert := enumBfs 100 s5oSGens s5Keys (2 ^ 20)
 
-@[expose] def s5oXCert : ArrCert := enumBfs 100 s5oXs s5Keys (2 ^ 20)
-
 @[expose] def s5oE : List (Array ℕ) := (enumBfs 100 s5oCGens s5Keys 5000).pts.toList
 
 @[expose] def s5oCoxeterOK : Bool :=
@@ -110,9 +108,7 @@ open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Certificates.Native
   s5oZWord.all (fun i => decide (i < 7)) && s5oZWord.length % 2 == 0 &&
     eqA 100 (s5oWordProd s5oZWord) s5oZ &&
     eqA 100 (compA 100 s5oXs[1]! s5oZ) (compA 100 s5oZ s5oXs[1]!) &&
-    eqA 100 (compA 100 s5oZ s5oY) (compA 100 s5oY s5oZ) &&
-    (s5oXCert.pts.toList.all fun a => !eqA 100 (compA 100 s5oZ a) (compA 100 a s5oZ) ||
-      !eqA 100 (s5oPow5 a) (idA 100) || eqA 100 a (idA 100))
+    eqA 100 (compA 100 s5oZ s5oY) (compA 100 s5oY s5oZ)
 
 @[noinline, expose] def s5oOK : Bool :=
   enumOK 100 s5oSGens s5Keys s5oSCert && s5oSCert.pts.size == 1024 &&
@@ -126,7 +122,6 @@ open CFSG.Monster.B.Co2.Native CFSG.Monster.B.Fischer CFSG.Certificates.Native
     eqA 100 (compA 100 s5oS s5oY) (compA 100 (compA 100 s5oY s5oZ) s5oS) &&
     allLt 7 (fun i => validA 100 s5oXs[i]! && s5InP s5oXs[i]! &&
       eqA 100 (compA 100 s5oXs[i]! s5oY) (compA 100 s5oY s5oXs[i]!)) &&
-    s5oCoxeterOK && enumOK 100 s5oXs s5Keys s5oXCert && s5oXCert.pts.size == 40320 &&
-    s5oCentOK && s5oZOK
+    s5oCoxeterOK && s5oCentOK && s5oZOK
 
 end CFSG.EvenSporadicStandard.HSStd

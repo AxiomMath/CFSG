@@ -4,6 +4,8 @@ public import CFSG.HardMathSupport.Solomon.Coordinator.GFR3M24Inputs
 public import Certificates.Data.Kernel.B3S3K
 public import Certificates.Data.Kernel.GFR3K
 public import Certificates.Data.Kernel.Misc.ChainTail
+public import Certificates.Data.Kernel.Misc.ChainTailOrb
+public import Certificates.Kernel.SporSch.Th.GenV4
 public import Certificates.Kernel.B3S3.Gen
 public import Certificates.Kernel.Sporadic.RawGen
 public import Certificates.Kernel.Misc.Perm.HexCmd
@@ -53,6 +55,43 @@ end
   CFSG.HardMathSupport.Solomon.Coordinator.m24ThreeGens
   CFSG.HardMathSupport.Solomon.Coordinator.m24ThreeBaseArr 24 5
 
+namespace CertificateChecks.KernelGFR3.M24.OB
+
+open CFSG.HardMathSupport.Solomon.Coordinator CFSG.Monster.B.Co2.Native CFSG.Certificates.Native
+  CFSG.RankThree.Native CFSG.RankThree.PartOne
+
+meta def orbL : List Nat × List Nat × List Nat := Id.run do
+  let p := ((rawLevels 24 m24ThreeArrs m24ThreeBaseArr)[0]!).pts
+  let c := (enumBfs 24 m24ThreeGens m24ThreeBaseArr.toList 1100).pts
+  let xs := powPA 3 24 m24ThreeGens[0]!
+  let mut idx := Array.replicate 24 0
+  for k in [0:p.size] do
+    idx := idx.set! (p[k]!) k
+  let mut ri := Array.replicate p.size p.size
+  let mut ek := Array.replicate p.size 0
+  let mut reps : Array Nat := #[]
+  for k in [0:p.size] do
+    if ri[k]! == p.size && relOK m24ThreeBaseArr xs m24ThreeRels 0 (idA 24) p[k]! then
+      let j := reps.size
+      reps := reps.push k
+      let q := p[k]!
+      for e in [0:c.size] do
+        let t := idx.getD ((c.getD e #[]).getD q 0) 0
+        if ri[t]! == p.size then
+          ri := ri.set! t j
+          ek := ek.set! t e
+  return (reps.toList, (ri.map fun i => if i == p.size then 0 else i).toList, ek.toList)
+
+meta def repL : List Nat := orbL.1
+meta def riL : List Nat := orbL.2.1
+meta def ekL : List Nat := orbL.2.2
+
+end CertificateChecks.KernelGFR3.M24.OB
+
+#kss_natlist CertificateChecks.KernelGFR3.M24.RB CertificateChecks.KernelGFR3.M24.OB.repL
+#kss_natlist CertificateChecks.KernelGFR3.M24.RI CertificateChecks.KernelGFR3.M24.OB.riL
+#kss_natlist CertificateChecks.KernelGFR3.M24.EK CertificateChecks.KernelGFR3.M24.OB.ekL
+
 public section
 
 namespace CertificateChecks.KernelGFR3.M24
@@ -99,17 +138,20 @@ theorem x0 : permB 24 5 (E.G 0) = true ∧ Nat.beq (pw 24 5 (E.G 0) 3) (pidn 24 
 
 theorem rc : Nat.beq (rcnt (C.LR 0)) 24 = true := by quickRfl
 
-theorem tail : allN 24 (ptailBranchK 24 5 C.LR C.TR C.BP (E.G 0) (pw 24 5 (E.G 0))
-    m24ThreeRels E.N E.T 9) = true := by quickRfl
+theorem rep0 : repBranchK 24 5 C.LR C.TR C.BP (E.G 0) (pw 24 5 (E.G 0)) m24ThreeRels E.N E.T 9
+    (RB 0) = true := by quickRfl
+
+theorem kOrb : allN 24 (orbRelK 24 5 C.LR C.BP (pw 24 5 (E.G 0)) m24ThreeRels E.N E.T 1 RB RI
+    EK) = true := by quickRfl
 
 theorem orb : ((List.range 9).map fun i => rcnt (C.LR i)) = [24, 23, 22, 21, 20, 16, 3, 1, 1] := by
   decide +kernel
 
 theorem n0 : Nat.beq E.N 1080 = true ∧ Nat.beq E.ng 3 = true := ⟨by quickRfl, by quickRfl⟩
 
-theorem cls : allN 1080 (gfr3AtK 24 5 1080 E.T 1080 3 1) = true := by quickRfl
+theorem cls : allN 1080 (gfr3AtPK 24 5 1080 E.T 1080 3 1) = true := by quickRfl
 
-theorem clsNeg : (!allN 1080 (gfr3AtK 24 5 1080 E.T 540 3 1)) = true := by quickRfl
+theorem clsNeg : (!allN 1080 (gfr3AtPK 24 5 1080 E.T 540 3 1)) = true := by quickRfl
 
 end CertificateChecks.KernelGFR3.M24
 

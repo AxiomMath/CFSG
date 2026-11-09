@@ -5,6 +5,7 @@ public import Certificates.Kernel.Co1P.Defs
 public import Certificates.Kernel.Co1P.PinERecs
 public import Certificates.Kernel.Co1P.PinEHs
 public import Certificates.Kernel.Co1P.PinEHis
+public import Certificates.Kernel.Co1P.PinEG
 
 public section
 
@@ -14,15 +15,18 @@ open CFSG.KC.Co1B CFSG.KC.Co1P CFSG.KD.Co1P
 
 @[expose] noncomputable def recE (i : Nat) : Nat := tabK 32 PRE i
 
-@[expose] noncomputable def hsE (i : Nat) : Nat := tabK 576 PHS i
+@[expose] noncomputable def tabGE (g w : Nat) (C : List Nat) (i : Nat) : Nat :=
+  CFSG.KLie.CT.fget (CFSG.KC.Co1F2.getL (nat_lit 0) C (Nat.div i g)) (Nat.mod i g) w
 
-@[expose] noncomputable def hisE (i : Nat) : Nat := tabK 576 PHIS i
+@[expose] noncomputable def hsE (i : Nat) : Nat := tabGE 256 576 HSGE i
+
+@[expose] noncomputable def hisE (i : Nat) : Nat := tabGE 256 576 HISGE i
 
 @[expose] noncomputable def ptPE (i : Nat) : Nat := mulWK (mulWK (hsE i) (repK 1)) (hisE i)
 
-@[expose] noncomputable def skE (s : Nat) : Nat := tabK 64 SKE s
+@[expose] noncomputable def skE (s : Nat) : Nat := tabGE 1024 64 SKGE s
 
-@[expose] noncomputable def ixE (s : Nat) : Nat := tabK 16 IXE s
+@[expose] noncomputable def ixE (s : Nat) : Nat := tabGE 1024 16 IXGE s
 
 @[expose] noncomputable def memE (X : Nat) : Bool := memPin 12600 64 15 skE ixE ptPE X
 

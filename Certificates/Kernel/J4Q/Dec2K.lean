@@ -209,6 +209,18 @@ theorem norm_of (hk : d2NormK Gs = true) : chkNorm ws = true := by
     exact h
 
 include hG in
+private theorem comm_all_eq {M : Array V2} {q : Nat} (hM : WfA M ∧ encR M = CFSG.KD.X0O.MSF q) :
+    ((List.range 4).map fun k => wR (ws.getD k [])).all
+      (fun g => eqRows (mulRows M g) (mulRows g M)) =
+      allR 4 fun k => Nat.beq (mulJ c rm (CFSG.KD.X0O.MSF q) (getN one Gs k))
+        (mulJ c rm (getN one Gs k) (CFSG.KD.X0O.MSF q)) := by
+  rw [allR_eq, List.all_map]
+  apply all_range_congr
+  intro k hk4
+  change eqRows _ _ = _
+  rw [eqRows_of (mul_enc hK hM (hG k hk4)) (mul_enc hK (hG k hk4) hM)]
+
+include hG in
 theorem k0_of (hk : ∀ c < 105, d2K0K Gs c = true) : chkK0 ws = true := by
   obtain ⟨-, hmap, hwf⟩ := x0Orb_ok
   unfold chkK0
@@ -223,15 +235,7 @@ theorem k0_of (hk : ∀ c < 105, d2K0K Gs c = true) : chkK0 ws = true := by
     omega
   rw [e] at h
   unfold d2K0At at h
-  have hall : ((List.range 4).map fun k => wR (ws.getD k [])).all
-      (fun g => eqRows (mulRows (x0Orb.mats[q]!) g) (mulRows g (x0Orb.mats[q]!))) =
-      allR 4 fun k => Nat.beq (mulJ c rm (CFSG.KD.X0O.MSF q) (getN one Gs k))
-        (mulJ c rm (getN one Gs k) (CFSG.KD.X0O.MSF q)) := by
-    rw [allR_eq, List.all_map]
-    apply all_range_congr
-    intro k hk4
-    change eqRows _ _ = _
-    rw [eqRows_of (mul_enc hK hM (hG k hk4)) (mul_enc hK (hG k hk4) hM)]
+  have hall := comm_all_eq ws Gs hG hM
   have hord : ∀ r, ordRows (x0Orb.mats[q]!) r = !(d2NotOrd (CFSG.KD.X0O.MSF q) r) := by
     intro r
     unfold ordRows d2NotOrd

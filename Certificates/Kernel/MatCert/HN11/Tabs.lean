@@ -24,8 +24,12 @@ meta def fin : Array (Array Nat) :=
 
 meta def hints : Array (Array Nat) := hintsA hn_11_claims.nregs hn_11_claims.prog hn_11_claims.facts
 
+meta def snaps : Array (Array Nat) :=
+  (Array.range 24).map fun j => (ssaIdx hn_11_claims.nregs (hn_11_claims.prog.take (j * 100))).2.2
+
 end CertificateChecks.KernelMC.HN11
 
 #kmisc_packarrs CertificateChecks.KernelMC.HN11.TT CertificateChecks.KernelMC.HN11.targets 20
 #kmisc_packarrs CertificateChecks.KernelMC.HN11.RF CertificateChecks.KernelMC.HN11.fin 20
 #kmisc_packarrs CertificateChecks.KernelMC.HN11.HH CertificateChecks.KernelMC.HN11.hints 20
+#kmisc_packarrs CertificateChecks.KernelMC.HN11.SN CertificateChecks.KernelMC.HN11.snaps 20

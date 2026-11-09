@@ -68,6 +68,87 @@ theorem posK_spec {UL : List Nat} {UP PP : Nat} (h : posK UL UP PP = true) :
   · exact Or.inl ⟨h4, h5⟩
   · exact Or.inr ⟨h4, by rw [h5]; simp⟩
 
+theorem testBit_lnSel (b : Bool) (P y : Nat) : (lnSel b P).testBit y = (P.testBit y && b) := by
+  cases b <;> simp [lnSel]
+
+theorem testBit_colRec (UP j y : Nat) : ∀ n : Nat,
+    (Nat.rec (motive := fun _ => Nat) 0 (fun y acc => Nat.lor acc
+      (lnSel (bitK UP (Nat.add (Nat.mul 12 y) j)) (Nat.shiftLeft 1 y))) n : Nat).testBit y =
+      (decide (y < n) && UP.testBit (12 * y + j))
+  | 0 => by simp
+  | n + 1 => by
+    change (Nat.lor _ (lnSel (bitK UP (Nat.add (Nat.mul 12 n) j)) (Nat.shiftLeft 1 n))).testBit y = _
+    have e : ∀ a b : Nat, Nat.lor a b = a ||| b := fun _ _ => rfl
+    have es : Nat.shiftLeft 1 n = 2 ^ n := Nat.one_shiftLeft n
+    have ej : Nat.add (Nat.mul 12 n) j = 12 * n + j := rfl
+    rw [e, Nat.testBit_or, testBit_colRec UP j y n, testBit_lnSel, bitK_eq_testBit, es, ej,
+      Nat.testBit_two_pow]
+    by_cases h : y = n
+    · subst h
+      simp
+    · have h' : n ≠ y := fun h'' => h h''.symm
+      have h2 : y < n + 1 ↔ y < n := by omega
+      simp [h', h2]
+
+theorem testBit_lnCol (UP j y : Nat) :
+    (lnCol UP j).testBit y = (decide (y < 693) && UP.testBit (12 * y + j)) :=
+  testBit_colRec UP j y 693
+
+theorem f4K_lt (x y : Nat) : f4K x y < 4 := by
+  have h : ∀ a b : Nat, a % 2 + 2 * (b % 2) < 4 := by omega
+  exact h _ _
+
+theorem crdK_lt (c i : Nat) : crdK c i < 4 := Nat.mod_lt _ (by decide)
+
+theorem lnCj_lt (c i : Nat) : lnCj c i < 4 := f4K_lt _ _
+
+theorem f4K_bit0 : ∀ u < 4, ∀ a < 4,
+    (f4K u a).testBit 0 = ((u.testBit 0 && a.testBit 0) ^^ (u.testBit 1 && a.testBit 1)) := by
+  decide
+
+theorem f4K_bit1 : ∀ u < 4, ∀ a < 4, (f4K u a).testBit 1 =
+    ((u.testBit 0 && a.testBit 1) ^^ ((u.testBit 1 && a.testBit 0) ^^ (u.testBit 1 && a.testBit 1))) := by
+  decide
+
+theorem lt4_beq_zero : ∀ h < 4, (h == 0) = !(h.testBit 0 || h.testBit 1) := by
+  decide
+
+theorem crdK_testBit (c i b : Nat) (hb : b < 2) : (crdK c i).testBit b = c.testBit (2 * i + b) := by
+  have e : crdK c i = c / 2 ^ (2 * i) % 2 ^ 2 := by
+    rw [pow_mul]
+    rfl
+  rw [e, Nat.testBit_mod_two_pow, Nat.testBit_div_two_pow, Nat.add_comm b]
+  simp [hb]
+
+theorem at'_testBit (UP y k : Nat) (hk : k < 12) :
+    (CFSG.KC.Misc.O73.at' 12 UP y).testBit k = UP.testBit (12 * y + k) := by
+  have e : CFSG.KC.Misc.O73.at' 12 UP y = (UP >>> (12 * y)) &&& (2 ^ 12 - 1) := rfl
+  rw [e, Nat.testBit_and, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one]
+  simp [hk]
+
+theorem hermR_unf (c d : Nat) : hermR c d =
+    0 ^^^ f4K (crdK c 0) (lnCj d 0) ^^^ f4K (crdK c 1) (lnCj d 1) ^^^ f4K (crdK c 2) (lnCj d 2) ^^^
+      f4K (crdK c 3) (lnCj d 3) ^^^ f4K (crdK c 4) (lnCj d 4) ^^^ f4K (crdK c 5) (lnCj d 5) := rfl
+
+theorem hermR_lt (c d : Nat) : hermR c d < 4 := by
+  rw [hermR_unf]
+  have h : ∀ a b : Nat, a < 2 ^ 2 → b < 2 ^ 2 → a ^^^ b < 2 ^ 2 := fun _ _ => Nat.xor_lt_two_pow
+  repeat' apply h
+  all_goals first | exact f4K_lt _ _ | decide
+
+theorem perpLH_testBit (UP c y : Nat) (hy : y < 693) :
+    (perpLH (lnCol UP 0) (lnCol UP 1) (lnCol UP 2) (lnCol UP 3) (lnCol UP 4) (lnCol UP 5) (lnCol UP 6)
+      (lnCol UP 7) (lnCol UP 8) (lnCol UP 9) (lnCol UP 10) (lnCol UP 11) c).testBit y =
+      !(hermR (CFSG.KC.Misc.O73.at' 12 UP y) c == 0) := by
+  rw [lt4_beq_zero _ (hermR_lt _ _), Bool.not_not, hermR_unf]
+  have ex : ∀ a b : Nat, Nat.xor a b = a ^^^ b := fun _ _ => rfl
+  have eo : ∀ a b : Nat, Nat.lor a b = a ||| b := fun _ _ => rfl
+  simp only [perpLH, letN_eq, mulLo, mulHi, ex, eo, Nat.testBit_or, Nat.testBit_xor,
+    Nat.zero_testBit, testBit_lnSel, testBit_lnCol, bitK_eq_testBit, decide_true, hy,
+    Bool.true_and, f4K_bit0, f4K_bit1, crdK_lt, lnCj_lt]
+  simp (disch := decide) only [crdK_testBit]
+  simp (disch := decide) only [Nat.reduceMul, Nat.reduceAdd, at'_testBit]
+
 theorem perpK_spec {UP : Nat} {PB : Nat → Nat} (h : ∀ k < 21, perpK UP PB (33 * k) 33 = true) :
     ∀ x < 693, PB x < 2 ^ 693 ∧
       ∀ y < 693, bitK (PB x) y = true ↔ hermC (fd 12 UP y) (fd 12 UP x) = 0 := by
@@ -75,26 +156,28 @@ theorem perpK_spec {UP : Nat} {PB : Nat → Nat} (h : ∀ k < 21, perpK UP PB (3
   have hk : x / 33 < 21 := by omega
   have h1 := h (x / 33) hk
   unfold perpK at h1
+  simp only [letB_eq] at h1
   rw [allN_lqt_iff] at h1
   have h2 := h1 (x % 33) (by omega)
   have e : 33 * (x / 33) + x % 33 = x := by omega
-  simp only [Nat.add_eq, e, letB_eq, impB_eq, andB_eq, Bool.and_eq_true, Bool.or_eq_true,
-    Bool.not_eq_true', allN_lqt_iff, Nat.blt_eq, at'_eq] at h2
+  simp only [Nat.add_eq, e, impB_eq, andB_eq, Bool.and_eq_true, Bool.or_eq_true,
+    Bool.not_eq_true', Nat.blt_eq, Nat.beq_eq] at h2
   have hxb : Nat.blt x 693 = true := Nat.blt_eq.mpr hx
-  rcases h2 with h2 | ⟨h3, h4⟩
+  rcases h2 with h2 | ⟨h3, h4, h5⟩
   · rw [hxb] at h2
     exact absurd h2 (by simp)
   have e2 : Nat.shiftLeft 1 693 = 2 ^ 693 := Nat.one_shiftLeft 693
   refine ⟨h3.trans_eq e2, fun y hy => ?_⟩
-  have h5 := h4 y hy
-  rw [hermR_eq_hermC] at h5
-  cases hb : bitK (PB x) y
-  · rw [hb] at h5
-    simp only [notB_eq, Bool.not_eq_true', nat_beq_eq_false_iff] at h5
-    simp [h5]
-  · rw [hb] at h5
-    simp only [Nat.beq_eq] at h5
-    simp [h5]
+  have e3 : Nat.sub (Nat.shiftLeft 1 693) 1 = 2 ^ 693 - 1 := by rw [e2]; rfl
+  have ea : ∀ a b : Nat, Nat.land a b = a &&& b := fun _ _ => rfl
+  have eo : ∀ a b : Nat, Nat.lor a b = a ||| b := fun _ _ => rfl
+  have t4 := congrArg (fun n => n.testBit y) h4
+  have t5 := congrArg (fun n => n.testBit y) h5
+  simp only [ea, eo, e3, Nat.testBit_and, Nat.testBit_or, Nat.zero_testBit,
+    Nat.testBit_two_pow_sub_one, perpLH_testBit UP _ y hy, at'_eq, hy, decide_true] at t4 t5
+  rw [bitK_eq_testBit, ← hermR_eq_hermC]
+  cases hP : (PB x).testBit y <;> cases hH : (hermR (fd 12 UP y) (fd 12 UP x) == 0) <;>
+    simp_all
 
 structure Pts (UL : List Nat) (UP PP : Nat) : Prop where
   len : UL.length = 693

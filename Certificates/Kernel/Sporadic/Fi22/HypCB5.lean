@@ -19,8 +19,8 @@ end CertificateChecks.KernelSpor.Fi22CB5
 
 #kmisc_packarrs CertificateChecks.KernelSpor.Fi22CB5L CertificateChecks.KernelSpor.Fi22CB5.lettersM 12
 
-#kc_repo #kc_json_gz CertificateChecks.KernelSpor.Fi22CB5D
-  "Certificates/Kernel/Sporadic/Fi22/data/hypr5.json.gz" 38450 1479281457714663169
+#kc_repo #kc_json CertificateChecks.KernelSpor.Fi22CB5D
+  "Certificates/Kernel/Sporadic/Fi22/data/hypr5.json" 38450 1479281457714663169
   (B : List CFSG.KC.CommBase.BaseRec) (PF : Nat) (ZF : Nat) (DF : Nat)
 
 namespace CertificateChecks.KernelSpor.Fi22CB5

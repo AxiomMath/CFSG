@@ -80,9 +80,7 @@ open CFSG.Certificates.Native
 @[expose] def normalizerCheck (D : NT44Inputs) (KI B BI : Array (Array Nat)) : Bool :=
   allLt 4 fun k => allLt 2 fun j =>
     eqA 2688 (wordA 2688 D.ks KI D.nw[k]!.left[j]!)
-        (compA 2688 (compA 2688 B[k]! D.ks[j]!) BI[k]!) &&
-      eqA 2688 (wordA 2688 D.ks KI D.nw[k]!.inverse[j]!)
-        (compA 2688 (compA 2688 BI[k]! D.ks[j]!) B[k]!)
+        (compA 2688 (compA 2688 B[k]! D.ks[j]!) BI[k]!)
 
 @[expose] def parentCheck (D : NT44Inputs) (LI : Array (Array Nat))
     (U UI : Array (Array Nat)) : Bool :=

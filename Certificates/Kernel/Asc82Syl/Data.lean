@@ -6,7 +6,7 @@ import CFSG.Certificates.Kernel.Common.Repo
 
 public section
 
-#kc_repo #kc_json_gz CFSG.KD.Asc82Syl "Certificates/Kernel/Asc82Syl/data/syl.json.gz"
+#kc_repo #kc_json CFSG.KD.Asc82Syl "Certificates/Kernel/Asc82Syl/data/syl.json"
   37756 165619736080366026
   (gP : List (Nat × Nat)) (rlP : List (Nat × List Nat)) (qmP : Nat) (qfP : Nat)
   (fmP : List (Nat × List Nat)) (pP : Nat) (wpP : Nat) (dP : Nat) (ctP : Nat) (omP : Nat)

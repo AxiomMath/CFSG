@@ -2,19 +2,19 @@ module
 
 public import CFSG.Certificates.Kernel.Bounds.Core3
 public import CFSG.Certificates.Kernel.Common.JsonGz
-import CFSG.Certificates.Kernel.Bounds.LoadGz
+import CFSG.Certificates.Kernel.Bounds.LoadRoot
 import CFSG.Certificates.Kernel.Common.Repo
 
-#kc_repo #kc_items_gz CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37.MB.BK
-  "CFSG/RankThree/PartTwo/Sec4/Census/Karpilovsky/Coordinator/L37/data/ModelBlocksB.bin.gz"
+#kc_repo #kc_items_root CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37.MB.BK
+  "CFSG/RankThree/PartTwo/Sec4/Census/Karpilovsky/Coordinator/L37/data/ModelBlocksB.bin"
   17953510 15129876897185448531
 
-#kc_repo #kc_items_gz CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37.MB.LR
-  "CFSG/RankThree/PartTwo/Sec4/Census/Karpilovsky/Coordinator/L37/data/ModelBlocksLR.bin.gz"
+#kc_repo #kc_items_root CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37.MB.LR
+  "CFSG/RankThree/PartTwo/Sec4/Census/Karpilovsky/Coordinator/L37/data/ModelBlocksLR.bin"
   129256 14890167151395735750
 
-#kc_repo #kc_json_gz CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37.MB
-  "CFSG/RankThree/PartTwo/Sec4/Census/Karpilovsky/Coordinator/L37/data/ModelBlocks.json.gz"
+#kc_repo #kc_json CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37.MB
+  "CFSG/RankThree/PartTwo/Sec4/Census/Karpilovsky/Coordinator/L37/data/ModelBlocks.json"
   2991 12978025034432031862
   (fixP : List Nat) (fixL : List Nat)
   (dR0 : List Nat) (dL0 : List Nat) (dU0 : List Nat) (dS0 : List Nat)

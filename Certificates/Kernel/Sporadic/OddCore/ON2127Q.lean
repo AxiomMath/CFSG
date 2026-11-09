@@ -51,15 +51,13 @@ meta def qpM : Array (Array Nat) :=
 meta def riM : Array (Array Nat) :=
   (localCert.records.toArray.map fun r => #[qiArr r 0, qiArr r 1]).flatten
 
-meta def qIdxM : List Nat :=
-  let idx := CFSG.PSL3Four.Native.indexOf m120Enum.tabs
-  (riM.toList.map fun a => idx.getD (pcomp 120 (pinvCand 120 Data.quotientConjugator)
-    (pcomp 120 a Data.quotientConjugator)) 0)
+@[expose] def qIdx : List Nat :=
+  [1, 2, 11521, 23769, 2997, 30906, 14882, 18991, 30621, 19632, 8573, 27609, 14380, 16801, 38964,
+    27211, 29263, 35741, 40113, 39572, 12084, 14524, 18526, 20023]
 
 end CertificateChecks.KernelSpor.ON2127
 
 #kmisc_packarrs CertificateChecks.KernelSpor.ON2127.QP CertificateChecks.KernelSpor.ON2127.qpM 7
 #kmisc_packarrs CertificateChecks.KernelSpor.ON2127.RI CertificateChecks.KernelSpor.ON2127.riM 7
-#knatlist CertificateChecks.KernelSpor.ON2127.qIdx CertificateChecks.KernelSpor.ON2127.qIdxM
 
 end

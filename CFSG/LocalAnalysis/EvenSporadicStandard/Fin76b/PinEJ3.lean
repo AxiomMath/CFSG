@@ -15,9 +15,7 @@ open Subgroup CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier
 open CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SmallOddCore.Native
 open CFSG.EvenSporadicStandard.HypOne CFSG.EvenSporadicStandard.HypOne.J3
 
-private theorem sylList_eq' : sylList = (mulClosureH 6156 sgP0 128).1 := by
-  unfold sylList
-  rfl
+private theorem sylList_eq' : sylList = (mulClosureH 6156 sgP0 128).1 := sylList_fst
 
 theorem pinModel_j3P :
     ∃ (T E : Subgroup ↥j3P) (t : ↥j3P), PinModel ↥j3P T E t := by

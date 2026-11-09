@@ -19,7 +19,7 @@ meta def thEB : Array Nat := witRec.third.baseIndices.toArray
 
 end CertificateChecks.KernelSporSch.Co2M
 
-#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2E 2300 12 8 256
+#ks_rawchain_sl2_data CertificateChecks.KernelSporSch.Co2E 2300 12 0 256
   CertificateChecks.KernelSporSch.Co2M.thES CertificateChecks.KernelSporSch.Co2M.thEB 15
   CFSG.Sporadic.Co2Schreier.eDerivs
 

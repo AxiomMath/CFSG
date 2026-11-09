@@ -21,9 +21,14 @@ namespace CertificateChecks.KernelRuThree
 meta def cgiM : Array (Array Nat) :=
   CFSG.EvenSporadicStandard.RuStd.S2.ruThreeC0Gens.map (CFSG.Monster.B.Co2.Native.invCand 4060)
 
+meta def fxM : List Nat :=
+  (List.range 4060).filter fun p => (CFSG.EvenSporadicStandard.RuStd.S2.ruThreeLines[0]!)[p]! == p
+
 end CertificateChecks.KernelRuThree
 
 #kss_perms CertificateChecks.KernelRuThree.CGI 12 CertificateChecks.KernelRuThree.cgiM
+
+#knatlist CertificateChecks.KernelRuThree.FX CertificateChecks.KernelRuThree.fxM
 
 namespace CertificateChecks.KernelRuThree
 
@@ -101,8 +106,11 @@ theorem kInv2 : eqOnL bs (fun y => gC 1 (gC 1 y)) (fun y => y) = true := by quic
 
 theorem kInv3 : CFSG.KC.LQT.P.anyN 4060 (fun p => Nat.beq (gC 1 p) p) = true := by quickRfl
 
-theorem kTail : ptK 4060 12 11 T3R.NR T3R.NR T3R.LT T3R.PT T3R.QT S3R.LR fr ruThreeRels x0 bs
-    ruThreeKeys ckey C0.SK 2160 7 0 (fun y => y) (fun y => y) (fun _ => 0) = true := by
+theorem kFX : allN 4060 (fun y => bIf(Nat.beq (x0 y) y, List.any FX (Nat.beq y), true)) = true := by
+  quickRfl
+
+theorem kTail : ptKF 4060 12 11 T3R.NR T3R.NR T3R.LT T3R.PT T3R.QT S3R.LR fr (fun i => Nat.blt i 4)
+    FX ruThreeRels x0 [] ruThreeKeys ckey C0.SK 2160 7 0 (fun y => y) (fun y => y) (fun _ => 0) = true := by
   quickRfl
 
 theorem kWordNeg : (!wordEqK 4060 12 (mask 12) (pidn 4060 12) S3R.S S3R.SI 11 (cWords.getD 1 [])

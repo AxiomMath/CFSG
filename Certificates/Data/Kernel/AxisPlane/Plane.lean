@@ -24,13 +24,18 @@ namespace CFSG.KC.AxisPlane
       (nat_lit 1)) (Nat.shiftLeft (nat_lit 1) j))
     (repW (Nat.shiftLeft (nat_lit 1) (Nat.add j (nat_lit 1))))
 
+@[expose] noncomputable def parDK (l n : Nat) : Nat :=
+  Nat.rec (motive := fun _ => Nat) (nat_lit 0)
+    (fun j acc => Nat.lor acc (Nat.shiftLeft
+      (nIf(Nat.beq (Nat.land (Nat.shiftRight l j) (nat_lit 1)) (nat_lit 1),
+        Nat.xor acc (Nat.sub (Nat.shiftLeft (nat_lit 1) (Nat.shiftLeft (nat_lit 1) j)) (nat_lit 1)), acc))
+      (Nat.shiftLeft (nat_lit 1) j))) n
+
 @[expose] noncomputable def bitK (j : Nat) : Nat :=
-  Nat.lor (Nat.shiftLeft (bitW j) (nat_lit 64)) (saltK j)
+  Nat.lor (Nat.shiftLeft (parDK (Nat.shiftLeft (nat_lit 1) j) (nat_lit 24)) (nat_lit 64)) (saltK j)
 
 @[expose] noncomputable def parK (l : Nat) : Nat :=
-  Nat.rec (motive := fun _ => Nat) (saltK (nat_lit 64))
-    (fun j acc => nIf(Nat.beq (Nat.land (Nat.shiftRight l j) (nat_lit 1)) (nat_lit 1),
-      Nat.xor acc (bitK j), acc)) (nat_lit 24)
+  Nat.lor (Nat.shiftLeft (parDK l (nat_lit 24)) (nat_lit 64)) (saltK (Nat.add l (nat_lit 64)))
 
 @[expose] noncomputable def tmaskK (t l : Nat) : Nat := Nat.land (parK l) (Nat.xor allK (bitK t))
 

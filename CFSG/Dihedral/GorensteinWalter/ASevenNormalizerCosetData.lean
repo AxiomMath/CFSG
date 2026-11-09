@@ -7,6 +7,7 @@ public meta import Mathlib.GroupTheory.SpecificGroups.Alternating
 public meta import CFSG.Dihedral.GorensteinWalter.ASevenInvariantOddPSubgroupCertificateDefs
 import Mathlib.Tactic
 public import Certificates.Certificate7
+public import CFSG.Dihedral.GorensteinWalter.A7NormK
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.A7SylowCentralizer
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.ASevenInvolutionCount
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Defs
@@ -66,7 +67,7 @@ theorem a7ThreeNormalizer_card : Nat.card a7ThreeNormalizer = 72 := by
   let : Fintype a7ThreeNormalizer := Subtype.fintype _
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   simp only [a7ThreeNormalizer, a7U_normalizer_mem_iff]
-  decide +kernel
+  exact A7NormK.card_norm_of a7a _ _ (by decide +kernel) (by decide +kernel) A7NormK.check_norm456
 
 theorem a7ThreeNormalizer_centralizer_count :
     ∀ x : ASevenCosetGroup,

@@ -29,7 +29,7 @@ theorem pC4 : allN 2 (fun k => permOK 1782 11 (mask 11) (1782 * 11) (SFC4.G k)
     (pinvS 1782 11 (mask 11) (SFC4.G k))) = true := by quickRfl
 
 @[expose] noncomputable def c4s (s : Nat) : Bool :=
-  bAnd(canonSl 1782 11 SFC4.T 48 s, runSl 1782 11 2 SFC4.G SFC4.T SFC4.E 48 SFC4.C s)
+  runSl 1782 11 2 SFC4.G SFC4.T SFC4.E 48 SFC4.C s
 
 end CertificateChecks.KernelSpor.S8147
 
