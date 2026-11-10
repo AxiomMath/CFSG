@@ -69,7 +69,7 @@ theorem sig_r {b z : L} (hb : Fr (Fr b) = b) (hz : z + Fr z = b * Fr b) :
       (pinnedX Tag.F4 L rS b * pinnedX Tag.F4 L pS (Fr b)) :=
     (commute_theta_rS _ _).mul_right (commute_theta_pS _ _)
   have hcc : Fr b * b + Fr z = z := by
-    linear_combination -hz + Fr z * CharTwo.two_eq_zero (R := L) + (b * Fr b - Fr b * b)
+    linear_combination -hz + Fr z * CharTwo.two_eq_zero (R := L)
   calc pinnedX Tag.F4 L (highRoot Tag.F4) (Fr b * b) *
         (pinnedX Tag.F4 L rS b * pinnedX Tag.F4 L pS (Fr b)) *
         pinnedX Tag.F4 L (highRoot Tag.F4) (Fr z)

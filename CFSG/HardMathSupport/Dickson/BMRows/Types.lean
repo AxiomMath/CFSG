@@ -24,7 +24,7 @@ theorem kLevel_le_two_of_catalogIs {p : ℕ} {T : Type} [Group T] {P : TauCeti.C
   obtain ⟨i, hi, he⟩ := h
   have h2 : catalogIs T (k2 p) := ⟨i, hP i hi, he⟩
   unfold kLevel
-  split_ifs with h1 h3 h4 <;> first | omega | exact absurd h2 h3
+  split_ifs with h1 <;> first | omega | exact absurd h2 h3
 
 theorem notL227_of_card {T : Type} [Group T] (hc : Nat.card T ≠ 9828) :
     ¬ catalogIs T (onLie (isL2 27)) :=

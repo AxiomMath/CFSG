@@ -450,7 +450,7 @@ theorem Dgamma_inl_succ (c : Fin n) (hc : c.val + 1 < n) :
   have hk := k.isLt
   simp only [mvec, Sum.elim_inl] at h1
   rw [Pi.single_apply]
-  split_ifs at h1 with a1 a2 a3 a4 a5 a6 <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs at h1 with a1 a2 a3 a4 <;> simp_all [Fin.ext_iff] <;> omega
 
 theorem Dgamma_flag (hn : 3 ≤ n) :
     Dgamma (Sum.inl ⟨n - 2, by omega⟩ : Fin n ⊕ Fin n) (Sum.inr ⟨n - 1, by omega⟩) =
@@ -460,7 +460,7 @@ theorem Dgamma_flag (hn : 3 ≤ n) :
   have hk := k.isLt
   simp only [mvec, Sum.elim_inl, Sum.elim_inr] at h1
   rw [Pi.single_apply]
-  split_ifs at h1 with a1 a2 a3 a4 a5 a6 <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs at h1 with a1 a2 a3 a4 <;> simp_all [Fin.ext_iff] <;> omega
 
 end SimpleDgamma
 

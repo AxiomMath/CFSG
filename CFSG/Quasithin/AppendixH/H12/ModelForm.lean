@@ -78,14 +78,14 @@ private theorem quadOf_polar {n : ℕ} (Q : Matrix (Fin n) (Fin n) (ZMod 2))
     (v w : Fin n → ZMod 2) :
     quadOf Q (v + w) + quadOf Q v + quadOf Q w = v ⬝ᵥ (Q *ᵥ w) + w ⬝ᵥ (Q *ᵥ v) := by
   rw [quadOf, quadOf, quadOf, mulVec_add, dotProduct_add, add_dotProduct, add_dotProduct]
-  linear_combination (norm := ring_nf) 0
+  linear_combination (norm := ring_nf)
   rw [mul_two, mul_two, CharTwo.add_self_eq_zero, CharTwo.add_self_eq_zero, add_zero]
 
 private theorem polV_add_left {n : ℕ} (Q : Matrix (Fin n) (Fin n) (ZMod 2))
     (u u' w : Fin n → ZMod 2) : polV Q (u + u') w = polV Q u w + polV Q u' w := by
   simp only [polV]
   rw [quadOf_polar, quadOf_polar, quadOf_polar, mulVec_add, dotProduct_add, add_dotProduct]
-  linear_combination (norm := ring_nf) 0
+  linear_combination (norm := ring_nf)
 
 private theorem polV_isQuadForm {n : ℕ} (Q : Matrix (Fin n) (Fin n) (ZMod 2))
     (x x' y : Fin n → ZMod 2) :
