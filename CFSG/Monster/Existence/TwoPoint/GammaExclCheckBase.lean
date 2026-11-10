@@ -24,7 +24,7 @@ theorem gx_fix_of_commute {y g : SpaceB ≃ₗ[ℚ] SpaceB} (hy : y ∈ Gmat) (h
   calc g (y aStar) = y (y⁻¹ (g (y aStar))) := (y.apply_symm_apply _).symm
     _ = y aStar := by rw [h2]
 
-@[expose] noncomputable def GmatM : Subgroup MGriess := Gmat.comap AutO.subtype
+noncomputable def GmatM : Subgroup MGriess := Gmat.comap AutO.subtype
 
 theorem fiMkW_mem_GmatM (w : List Native.Gen) : fiMkW w ∈ GmatM := wordLin_mem_Gmat w
 
@@ -32,14 +32,14 @@ theorem gxElem_mem_GmatM (k : ℕ) : gxElem k ∈ GmatM := by
   rw [← fiMkW_gxElemWord]
   exact fiMkW_mem_GmatM _
 
-@[expose] noncomputable def gxD : MGriess := fiMkW fiCAlpha
+noncomputable def gxD : MGriess := fiMkW fiCAlpha
 
-@[expose] noncomputable def gxAxis (j : ℕ) : SpaceB := (xHat j * gxD).1 aStar
+noncomputable def gxAxis (j : ℕ) : SpaceB := (xHat j * gxD).1 aStar
 
-@[expose] def gxDiffAt (k : ℕ) (u w : Native.DVec) : Bool :=
+def gxDiffAt (k : ℕ) (u w : Native.DVec) : Bool :=
   decide (u.D.getD k 0 * 2 ^ w.e ≠ w.D.getD k 0 * 2 ^ u.e)
 
-@[expose] def gxDiffScan (u w : Native.DVec) : Bool :=
+def gxDiffScan (u w : Native.DVec) : Bool :=
   (List.range 98280).any (fun k => gxDiffAt (300 + k) u w) ||
     (List.range 98304).any fun k => gxDiffAt (98580 + k) u w
 
@@ -76,7 +76,7 @@ theorem gx_interp_ne_of_diffScan
     rw [e] at h1
     exact gx_coord_eq h1 hk'
 
-@[expose, noinline] def gxNodeCheck (j : ℕ) : Bool :=
+@[noinline] def gxNodeCheck (j : ℕ) : Bool :=
   (fiWAlpha ++ fiWBeta ++ fiCAlpha ++ gxProdWord (gxXList j)).all Native.Gen.validB &&
     (let u := Native.evalPrep HS.hsCtx (fiPCAlpha ++ gxProdP (gxXList j)) HS.axisP
      (j == 9 || gxDiffScan (Native.evalPrep HS.hsCtx fiPAlpha u) u) &&
@@ -87,11 +87,11 @@ theorem fiMkW_wordBetaPrime : fiMkW (fiWAlpha ++ fiWBeta ++ fiWAlpha) = betaPrim
   show fiAlpha * (fiBeta * fiAlpha) = fiAlpha * fiBeta * fiAlpha
   rw [mul_assoc]
 
-@[expose] def gxYWord (j : ℕ) : List Native.Gen := fiCAlpha ++ gxProdWord (gxXList j)
+def gxYWord (j : ℕ) : List Native.Gen := fiCAlpha ++ gxProdWord (gxXList j)
 
-@[expose] def gxBPWord : List Native.Gen := fiWAlpha ++ fiWBeta ++ fiWAlpha
+def gxBPWord : List Native.Gen := fiWAlpha ++ fiWBeta ++ fiWAlpha
 
-@[expose] def gxNodeNe (j : ℕ) : Prop :=
+def gxNodeNe (j : ℕ) : Prop :=
   (j ≠ 9 → wordLin (gxYWord j ++ fiWAlpha) aStar ≠ wordLin (gxYWord j) aStar) ∧
     wordLin (gxYWord j ++ gxBPWord) aStar ≠ wordLin (gxYWord j) aStar
 

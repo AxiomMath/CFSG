@@ -13,7 +13,7 @@ namespace FiveTransitive.Degree25
 
 open FiveTransitive.Degree24
 
-@[expose] abbrev StandardFiveParameters := Fin 3 → ZMod 5
+abbrev StandardFiveParameters := Fin 3 → ZMod 5
 
 private abbrev standardFiveWeightClass (k : ℕ) :=
   {v : StandardFiveParameters //

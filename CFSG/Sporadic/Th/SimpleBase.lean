@@ -9,7 +9,7 @@ namespace CFSG.Sporadic.Th
 
 open Native Pointwise
 
-@[expose] def subSizes : Fin 11 → ℕ :=
+def subSizes : Fin 11 → ℕ :=
   ![1, 11741184, 5031936, 105670656, 8805888, 8128512, 1304576, 45864, 2201472, 179712, 17199]
 
 set_option maxRecDepth 100000 in

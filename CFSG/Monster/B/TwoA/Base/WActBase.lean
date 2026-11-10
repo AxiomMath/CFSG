@@ -15,7 +15,7 @@ instance finite_W :
 
     Finite (Wv v0) := Finite.of_equiv _ qbWBasis.equivFun.toEquiv.symm
 
-@[expose] def wStab (x : Wv v0) : Subgroup (Kstab v0) where
+def wStab (x : Wv v0) : Subgroup (Kstab v0) where
   carrier := {k | wAct v0 k x = x}
   one_mem' := by
     change wAct v0 1 x = x
@@ -31,7 +31,7 @@ instance finite_W :
 
 theorem mem_wStab {x : Wv v0} {k : Kstab v0} : k ∈ wStab x ↔ wAct v0 k x = x := Iff.rfl
 
-@[expose] def wSetStab
+def wSetStab
     (U : Submodule (ZMod 2) (Wv v0)) : Subgroup (Kstab v0) where
   carrier := {k | ∀ x ∈ U, wAct v0 k x ∈ U}
   one_mem' := fun x hx => by
@@ -53,14 +53,14 @@ theorem mem_wSetStab
     {U : Submodule (ZMod 2) (Wv v0)} {k : Kstab v0} :
     k ∈ wSetStab U ↔ ∀ x ∈ U, wAct v0 k x ∈ U := Iff.rfl
 
-@[expose] def wFix (S : Set (Wv v0)) : Subgroup (Kstab v0) := ⨅ x ∈ S, wStab x
+def wFix (S : Set (Wv v0)) : Subgroup (Kstab v0) := ⨅ x ∈ S, wStab x
 
 theorem mem_wFix {S : Set (Wv v0)} {k : Kstab v0} : k ∈ wFix S ↔ ∀ x ∈ S, wAct v0 k x = x := by
   simp only [wFix, Subgroup.mem_iInf, mem_wStab]
 
-@[expose] def wOrbit (x : Wv v0) : Set (Wv v0) := Set.range fun k : Kstab v0 => wAct v0 k x
+def wOrbit (x : Wv v0) : Set (Wv v0) := Set.range fun k : Kstab v0 => wAct v0 k x
 
-@[expose, instance_reducible] def wLeftAction : MulAction (Kstab v0) (Wv v0) where
+@[instance_reducible] def wLeftAction : MulAction (Kstab v0) (Wv v0) where
   smul k x := wAct v0 k⁻¹ x
   one_smul x := by
     change wAct v0 1⁻¹ x = x

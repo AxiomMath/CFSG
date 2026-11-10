@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Late.KFParSp6
 open Matrix CFSG.Assembly.LowTwoRank CFSG.LocalAnalysis.ComponentInitial
   CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher
 
-@[expose] abbrev J6 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) :=
+abbrev J6 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) :=
   Matrix.fromBlocks 0 1 (-1) 0
 
 theorem pairedSympForm_eq_dot (x y : Fin 3 ⊕ Fin 3 → ZMod 2) :

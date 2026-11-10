@@ -10,13 +10,13 @@ namespace CFSG.QuasithinUnique.A5
 
 open CFSG.Open CFSG.QuasithinUnique CFSG.Blueprint CFSG.Sporadic.J4 CFSG.Sporadic.J4.QT
 
-@[expose] def TwoAPure (V : Subgroup ↥J) : Prop :=
+def TwoAPure (V : Subgroup ↥J) : Prop :=
   ∀ v ∈ V, v ≠ 1 → IsConj (eta uJ 11 3) v
 
-@[expose] def HasTwoB (V : Subgroup ↥J) : Prop :=
+def HasTwoB (V : Subgroup ↥J) : Prop :=
   ∃ v ∈ V, IsConj (eta uJ 11 1) v
 
-@[expose] def HasCommonFixedPt (V : Subgroup ↥J) : Prop :=
+def HasCommonFixedPt (V : Subgroup ↥J) : Prop :=
   ∃ y ∈ Subgroup.normalizer (V : Set ↥J), orderOf y = 5 ∧ (∀ v ∈ V, y * v = v * y → v = 1) ∧
     ∃ g : ↥J, V ≤ Hj.map (cm g) ∧ y ∈ Hj.map (cm g)
 

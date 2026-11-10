@@ -187,7 +187,7 @@ theorem conj_comm_facts {c y τ : Equiv.Perm (Fin 4060)} (hc : c * τ = τ * c)
     _ = c * (y ^ j * τ * (y ^ j)⁻¹) * (c⁻¹ * τ) := by rw [hci]
     _ = c * (y ^ j * τ * (y ^ j)⁻¹) * c⁻¹ * τ := by group
 
-@[expose] def BadConcl (y τ : Equiv.Perm (Fin 4060)) (q : ℕ) : Prop :=
+def BadConcl (y τ : Equiv.Perm (Fin 4060)) (q : ℕ) : Prop :=
   ∃ g ∈ ruP, ∃ c ∈ candData.flatten, refPrime c.1 = q ∧
     (refU c.1).map (MulAut.conj g).toMonoidHom ≤ orbSub y τ ∧
     g⁻¹ * y * g ∈ Subgroup.normalizer (refU c.1 : Set (Equiv.Perm (Fin 4060)))

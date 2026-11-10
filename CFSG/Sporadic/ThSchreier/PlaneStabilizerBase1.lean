@@ -38,9 +38,9 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 Pointwise
 
-@[expose] noncomputable def labGenH (l : ℕ) : J := if l = 1 then localX else localY
+noncomputable def labGenH (l : ℕ) : J := if l = 1 then localX else localY
 
-@[expose] noncomputable def orbElem (i : ℕ) : J :=
+noncomputable def orbElem (i : ℕ) : J :=
   if _h : 0 < i ∧ orbPar i < i then
     labGenH (orbLab i) * orbElem (orbPar i) * (labGenH (orbLab i))⁻¹
   else involT
@@ -51,6 +51,6 @@ theorem orbElem_zero : orbElem 0 = involT := by
   rw [orbElem]
   simp
 
-@[expose] noncomputable def orbSet : Set J := orbElem '' (Finset.range 819 : Set ℕ)
+noncomputable def orbSet : Set J := orbElem '' (Finset.range 819 : Set ℕ)
 
 end CFSG.Sporadic.ThSchreier

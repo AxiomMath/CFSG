@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] noncomputable abbrev mk614 (K : Subgroup G) : ↥K →* ModO2 K :=
+noncomputable abbrev mk614 (K : Subgroup G) : ↥K →* ModO2 K :=
   QuotientGroup.mk' (CFSG.pCore 2 ↥K)
 
 @[expose] noncomputable def sylImg614 (K T : Subgroup G) : Subgroup (ModO2 K) :=

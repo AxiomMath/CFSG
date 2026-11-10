@@ -47,9 +47,9 @@ theorem nf_zero : nf l 0 0 0 = 1 := by
 
 end Basic
 
-@[expose] def kGens : List (ZMod 4 × ZMod 4) := [(1, 0), (0, 1), (1, 1), (1, 2), (2, 1), (1, 3)]
+def kGens : List (ZMod 4 × ZMod 4) := [(1, 0), (0, 1), (1, 1), (1, 2), (2, 1), (1, 3)]
 
-@[expose] def inK (κ : ZMod 4 × ZMod 4) (i j : ZMod 4) : Prop :=
+def inK (κ : ZMod 4 × ZMod 4) (i j : ZMod 4) : Prop :=
   ∃ m : ZMod 4, m * κ.1 = i ∧ m * κ.2 = j
 
 instance (κ : ZMod 4 × ZMod 4) (i j : ZMod 4) : Decidable (inK κ i j) := by

@@ -55,7 +55,7 @@ theorem kc3_core_rad {G : Type} [Group G] [Finite G] {K L S₀ T₀ R : Subgroup
   have hV : Nat.card V = 16 := card_V β
   omega
 
-@[expose] def blockRadAbs {X : Type*} [Group X] (L : Subgroup X) : Subgroup X :=
+def blockRadAbs {X : Type*} [Group X] (L : Subgroup X) : Subgroup X :=
   pCoreOf 2 (Subgroup.normalizer ((pCoreOf 2 L : Subgroup X) : Set X))
 
 theorem normalizer_map_equiv_eq {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) (S : Subgroup X) :
@@ -89,7 +89,7 @@ theorem isPGroup_blockRadAbs {X : Type*} [Group X] [Finite X] (L : Subgroup X) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
 
-@[expose] def blockRadIn {G : Type} [Group G] (K L : Subgroup G) : Subgroup G :=
+def blockRadIn {G : Type} [Group G] (K L : Subgroup G) : Subgroup G :=
   (blockRadAbs (L.subgroupOf K)).map K.subtype
 
 theorem isPGroup_blockRadIn {G : Type} [Group G] [Finite G] (K L : Subgroup G) :
@@ -149,7 +149,7 @@ theorem normalizer_blockRadIn {G : Type} [Group G] {K L : Subgroup G} {s : G}
   have := fwd s⁻¹ hsK' hsL' _ hr
   simpa [mul_assoc] using this
 
-@[expose] def BlockRadAbs (X : Type) [Group X] : Prop :=
+def BlockRadAbs (X : Type) [Group X] : Prop :=
   ∀ L : Subgroup X, D5Plus L → ⁅L, L⁆ = L →
     (¬ ∃ y : X, orderOf y = 2 ∧ ∀ l ∈ L, l * y = y * l) →
     Subgroup.centralizer (blockRadAbs L : Set X) ≤ blockRadAbs L ∧
@@ -256,6 +256,6 @@ theorem blockRadIn_conditions {G : Type} [Group G] [Finite G] {K L : Subgroup G}
     rw [Subgroup.relIndex_map_map_of_injective _ _ hf]
     exact hg16
 
-@[expose] def J4BlockRad : Prop := BlockRadAbs ↥CFSG.Sporadic.J4.J
+def J4BlockRad : Prop := BlockRadAbs ↥CFSG.Sporadic.J4.J
 
 end CFSG.QuasithinUnique.A5

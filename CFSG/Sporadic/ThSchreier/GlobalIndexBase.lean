@@ -23,15 +23,15 @@ namespace CFSG.Sporadic.ThSchreier
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 CFSG.Sporadic.LySchreier
   Pointwise
 
-@[expose] noncomputable def colPlane (i : ℕ) : Set RowV := psiSet (planeAt i)
+noncomputable def colPlane (i : ℕ) : Set RowV := psiSet (planeAt i)
 
-@[expose] noncomputable def colImg (k i : ℕ) : ℕ := if k = 0 then αIdx i else βIdx i
+noncomputable def colImg (k i : ℕ) : ℕ := if k = 0 then αIdx i else βIdx i
 
 theorem colImg_zero (i : ℕ) : colImg 0 i = αIdx i := if_pos rfl
 
 theorem colImg_one (i : ℕ) : colImg 1 i = βIdx i := if_neg one_ne_zero
 
-@[expose] noncomputable def colLab (j : ℕ) : ℕ := labIdx j - 1
+noncomputable def colLab (j : ℕ) : ℕ := labIdx j - 1
 
 section Facts
 

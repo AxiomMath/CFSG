@@ -22,7 +22,7 @@ open CFSG.KS.SporSch.C11 MulAction CertificateChecks.KernelJ4Q
 open CFSG.Sporadic.SmallF2 (toVecD toVecD_apply)
 open CFSG.Sporadic.J4Schreier (app11)
 
-@[expose] def PR (g : J) (m : ℕ) : Prop := ∃ X : Array V2, WfA X ∧ encR X = m ∧ Mx g = rowsMatrix X
+def PR (g : J) (m : ℕ) : Prop := ∃ X : Array V2, WfA X ∧ encR X = m ∧ Mx g = rowsMatrix X
 
 theorem PR_of {g : J} {X : Array V2} {m : ℕ} (hX : WfA X ∧ encR X = m) (hg : Mx g = rowsMatrix X) :
     PR g m := ⟨X, hX.1, hX.2, hg⟩
@@ -74,7 +74,7 @@ theorem fix_of_PR {g : J} {m : ℕ} (hg : PR g m) {p : ℕ} (hp : p < 2 ^ 112) (
   calc g • toRow (toVecD 112 p) = g • (g⁻¹ • toRow (toVecD 112 p)) := by rw [e]
     _ = _ := smul_inv_smul _ _
 
-@[expose] noncomputable def gw (w : List ℕ) : J := w.foldl (fun acc n => acc * gE n) 1
+noncomputable def gw (w : List ℕ) : J := w.foldl (fun acc n => acc * gE n) 1
 
 theorem inv_eq_sq {g : J} {m : ℕ} (hg : PR g m) (h3 : Nat.beq (powJ c rm one m 3) one = true) :
     g⁻¹ = g * g := by
@@ -92,7 +92,7 @@ end H
 
 section E
 
-@[expose] noncomputable def CC : Array ℕ := unpack11 PC
+noncomputable def CC : Array ℕ := unpack11 PC
 
 theorem CC_get {j : ℕ} (hj : j < 11) : CC[j]! = colK PC j := unpackW_get hj
 

@@ -136,7 +136,7 @@ theorem col_of_fix (x : SU4) (i k : Fin 4) (hx : x • (Pi.single i 1 : Fin 4 �
   rw [smul_single_eq] at this
   rw [this, Pi.single_apply]
 
-@[expose] noncomputable abbrev W1 : Subgroup SU4 := (blockEmb K 2 3 4 2 2 (by norm_num)).range
+noncomputable abbrev W1 : Subgroup SU4 := (blockEmb K 2 3 4 2 2 (by norm_num)).range
 
 theorem mem_W1_iff (g : SU4) :
     g ∈ W1 ↔ g • (Pi.single 0 1 : Fin 4 → K) = Pi.single 0 1 ∧

@@ -215,7 +215,7 @@ theorem card_fixedLines_conj
   · intro h
     rw [h, ← Equiv.Perm.mul_apply, mul_inv_cancel, Equiv.Perm.one_apply]
 
-@[expose] noncomputable def titsX13 : Equiv.Perm (Fin 1755) := permOfArr 1755 titsX13Arr
+noncomputable def titsX13 : Equiv.Perm (Fin 1755) := permOfArr 1755 titsX13Arr
 
 theorem mem_titsA_of_inTitsA {a : Array ℕ}
     {g : Equiv.Perm (Fin 1755)} (hg : Rep 1755 a g)
@@ -233,10 +233,10 @@ noncomputable def titsP5Chain : RawSchreierDatum 1755 :=
   RawSchreierDatum.ofArrays 1755 (by norm_num) titsP5Gens 2 (by simp [titsP5Gens])
     (ruFinList 1755 (by norm_num) [0]) (by decide) (ruWordsArr 2 2 [])
 
-@[expose] noncomputable def titsP3 : Subgroup (Equiv.Perm (Fin 1755)) :=
+noncomputable def titsP3 : Subgroup (Equiv.Perm (Fin 1755)) :=
   genSubgroup 1755 titsP3Gens.size fun k => permOfArr 1755 titsP3Gens[k]!
 
-@[expose] noncomputable def titsP5 : Subgroup (Equiv.Perm (Fin 1755)) :=
+noncomputable def titsP5 : Subgroup (Equiv.Perm (Fin 1755)) :=
   genSubgroup 1755 titsP5Gens.size fun k => permOfArr 1755 titsP5Gens[k]!
 
 theorem titsP3Gens_size : titsP3Gens.size = 3 := by simp [titsP3Gens]

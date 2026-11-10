@@ -14,13 +14,13 @@ open CFSG.TwoNodeSmall
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-@[expose] def a5C : Matrix (Fin 5) (Fin 5) (ZMod 3) :=
+def a5C : Matrix (Fin 5) (Fin 5) (ZMod 3) :=
   !![2, 2, 0, 0, 0; 2, 2, 2, 0, 0; 0, 2, 2, 2, 0; 0, 0, 2, 2, 2; 0, 0, 0, 2, 2]
 
-@[expose] def a5B : Matrix (Fin 5) (Fin 5) (ZMod 3) :=
+def a5B : Matrix (Fin 5) (Fin 5) (ZMod 3) :=
   !![1, 2, 2, 2, 0; 2, 0, 1, 2, 2; 2, 1, 0, 1, 2; 2, 2, 1, 0, 2; 0, 2, 2, 2, 1]
 
-@[expose] def a5X : Fin 5 → ZMod 3 := ![1, 2, 0, 1, 2]
+def a5X : Fin 5 → ZMod 3 := ![1, 2, 0, 1, 2]
 
 theorem a5_cart : ∀ i j : Fin 5, ((CartanMatrix.A 5 i j : ℤ) : ZMod 3) = a5C i j := by
   intro i j

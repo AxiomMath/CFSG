@@ -10,7 +10,7 @@ namespace CFSG.Sporadic.J4.QT2
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT CFSG.Sporadic.Th Matrix
 open scoped Classical
 
-@[expose] noncomputable def ZE' (ℓ : ℕ) : Finset J :=
+noncomputable def ZE' (ℓ : ℕ) : Finset J :=
   Zl.filter fun x => uElt ℓ * x * (uElt ℓ)⁻¹ ∈ Eg uJ 11
 
 theorem ZE'_card_le (hM : MatFacts) {ℓ : ℕ} (hℓ : ℓ < 7) {n : ℕ}

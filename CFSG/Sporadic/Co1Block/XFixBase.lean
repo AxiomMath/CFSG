@@ -25,11 +25,11 @@ namespace CFSG.Sporadic.Co1Block
 
 open CFSG.Sporadic.Co1Schreier CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native Matrix
 
-@[expose] def xFixCount (V : Array ℕ) (R : CFSG.Sporadic.Co1Schreier.Native.Rows) : ℕ :=
+def xFixCount (V : Array ℕ) (R : CFSG.Sporadic.Co1Schreier.Native.Rows) : ℕ :=
   CFSG.Sporadic.Co1.InvNative.countBelow
     (fun i => CFSG.Sporadic.Co1Schreier.Native.act R V[i]! == V[i]!) 98280 0
 
-@[expose] def xFix (g : GL24) : Set Vec24 :=
+def xFix (g : GL24) : Set Vec24 :=
   {x ∈ certX | ((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ x = x}
 
 theorem act_lt (R : CFSG.Sporadic.Co1Schreier.Native.Rows) (v : ℕ) :

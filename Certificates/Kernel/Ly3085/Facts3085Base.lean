@@ -13,7 +13,7 @@ open CFSG.Sporadic.Ly CFSG.Sporadic.LySchreier CFSG.Sporadic.LySchreier.Native
 open CFSG.Sporadic.Ly.Omega
 open MulAction
 
-@[expose] def subSizes : Fin 5 → ℕ := ![1, 19530, 968750, 2034375, 5812500]
+def subSizes : Fin 5 → ℕ := ![1, 19530, 968750, 2034375, 5812500]
 
 set_option maxRecDepth 10000 in
 theorem subSizes_blocks : ∀ S : Finset (Fin 5), (0 : Fin 5) ∈ S →
@@ -24,7 +24,7 @@ section
 
 variable [LySeed]
 
-@[expose] def omE : orbit J opE := ⟨opE, mem_orbit_self _⟩
+def omE : orbit J opE := ⟨opE, mem_orbit_self _⟩
 
 theorem mem_subO_iff (i : Fin 5) (y : LyOperator) : y ∈ subO i ↔ y ∈ orbit lyH (repOp i.val) := by
   unfold subO

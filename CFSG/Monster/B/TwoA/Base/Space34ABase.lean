@@ -22,25 +22,25 @@ theorem offPair7 (i : Fin 7) : OffPair (pa7 i) (pb7 i) :=
   ⟨by fin_cases i <;> decide, by fin_cases i <;> decide, by fin_cases i <;> decide,
     by fin_cases i <;> decide, by fin_cases i <;> decide⟩
 
-@[expose] def sP
+def sP
     (i : Fin 7) : Wv v0 := pairW (pa7 i) (pb7 i) (offPair7 i) 0
 
-@[expose] def gen3 :
+def gen3 :
     Fin 3 → Wv v0 := ![wFr, sW, pairW 4 5 offPair45 0]
 
-@[expose] def gen4 :
+def gen4 :
 
     Fin 4 → Wv v0 := ![wFr, sW, pairW 4 5 offPair45 0, pairW 8 9 offPair89 0]
 
-@[expose] def U3 :
+def U3 :
 
     Submodule (ZMod 2) (Wv v0) := Submodule.span (ZMod 2) (Set.range gen3)
 
-@[expose] def U4 :
+def U4 :
 
     Submodule (ZMod 2) (Wv v0) := Submodule.span (ZMod 2) (Set.range gen4)
 
-@[expose] def gcode : Fin 4 → ℕ := ![31, 12288, 49152, 393216]
+def gcode : Fin 4 → ℕ := ![31, 12288, 49152, 393216]
 
 theorem gen4_eq
     (i : Fin 4) : gen4 i = decW (gcode i) := by

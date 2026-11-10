@@ -12,7 +12,7 @@ open CFSG.Sporadic.Th.Native CFSG.SectionRank.Native
 
 set_option compiler.extract_closed false
 
-@[expose] def cubeProd (X Y C : Array V4) (i j k : Nat) : Array V4 :=
+def cubeProd (X Y C : Array V4) (i j k : Nat) : Array V4 :=
   mulRows (mulRows (powRowsN X i) (powRowsN Y j)) (powRowsN C k)
 
 end CFSG.HardMathSupport.Dickson.I271

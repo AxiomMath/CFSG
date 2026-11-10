@@ -20,7 +20,7 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3 Matrix Pointwise
 
-@[expose] def RowV : Type := Fin 248 → ZMod 2
+def RowV : Type := Fin 248 → ZMod 2
 
 instance : AddCommGroup RowV := inferInstanceAs (AddCommGroup (Fin 248 → ZMod 2))
 
@@ -30,9 +30,9 @@ instance : DecidableEq RowV := inferInstanceAs (DecidableEq (Fin 248 → ZMod 2)
 
 instance : Fintype RowV := inferInstanceAs (Fintype (Fin 248 → ZMod 2))
 
-@[expose] def toRow (v : Fin 248 → ZMod 2) : RowV := v
+def toRow (v : Fin 248 → ZMod 2) : RowV := v
 
-@[expose] def ofRow (v : RowV) : Fin 248 → ZMod 2 := v
+def ofRow (v : RowV) : Fin 248 → ZMod 2 := v
 
 @[simp] theorem ofRow_toRow (v : Fin 248 → ZMod 2) : ofRow (toRow v) = v := rfl
 
@@ -77,7 +77,7 @@ theorem finrank_span_pair_of_ne {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
   rwa [Matrix.range_cons, Matrix.range_cons, Matrix.range_empty, Set.union_empty,
     Set.singleton_union] at h
 
-@[expose] def rowPlane (k : Key) : Set RowV :=
+def rowPlane (k : Key) : Set RowV :=
   {0, toRow k.u.toVec, toRow k.v.toVec, toRow k.u.toVec + toRow k.v.toVec}
 
 theorem rowPlane_eq_image (k : Key) : rowPlane k = toRow '' keyPlane k := by
@@ -111,7 +111,7 @@ theorem frApply_frTable_vecMul (R : Array V4) (v : V4) :
 
 noncomputable abbrev formFInv : Matrix (Fin 248) (Fin 248) (ZMod 2) := rowsMatrix formInvRows
 
-@[expose] noncomputable def psi (u : V) : RowV := toRow (formF *ᵥ u)
+noncomputable def psi (u : V) : RowV := toRow (formF *ᵥ u)
 
 theorem psi_add (u v : V) : psi (u + v) = psi u + psi v := by
   simp only [psi, Matrix.mulVec_add]
@@ -121,7 +121,7 @@ theorem psi_zero : psi 0 = 0 := by
   simp only [psi, Matrix.mulVec_zero]
   rfl
 
-@[expose] def rowKeyOf (k : Key) : Key := imageKey (frTable (transposeRows fcRows)) k
+def rowKeyOf (k : Key) : Key := imageKey (frTable (transposeRows fcRows)) k
 
 theorem rowPlane_rowKeyOf (k : Key) : rowPlane (rowKeyOf k) = psi '' keyPlane k := by
   rw [rowPlane_eq_image, rowKeyOf, keyPlane_imageKey, Set.image_image]

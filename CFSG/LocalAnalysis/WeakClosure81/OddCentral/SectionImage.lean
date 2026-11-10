@@ -10,7 +10,7 @@ variable (Y M : Type*) [Group Y] [AddCommGroup M] [DistribMulAction Y M]
 
 @[expose] def imgGroup : Subgroup (Equiv.Perm M) := (MulAction.toPermHom Y M).range
 
-@[expose] instance imgAct : DistribMulAction (imgGroup Y M) M :=
+instance imgAct : DistribMulAction (imgGroup Y M) M :=
   { (inferInstance : MulAction (imgGroup Y M) M) with
     smul_zero := fun g => by
       obtain ⟨y, hy⟩ := g.2

@@ -50,7 +50,7 @@ theorem fix_orb_le [Finite P] (v : P) (t : K) {m n c : ℕ} (hm : m ≤ Nat.card
     _ = _ := this
     _ ≤ c * n := Nat.mul_le_mul hc hconj
 
-@[expose] def fD : Fin 11 → ℕ := ![1, 0, 0, 0, 0, 0, 0, 1064, 8064, 0, 1071]
+def fD : Fin 11 → ℕ := ![1, 0, 0, 0, 0, 0, 0, 1064, 8064, 0, 1071]
 
 theorem fD_spec : ∀ D : Fin 11, D ≠ 0 → fD D = 774144 * nD D / mD D := by decide
 

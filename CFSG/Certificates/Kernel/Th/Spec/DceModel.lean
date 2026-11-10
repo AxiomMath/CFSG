@@ -236,7 +236,7 @@ theorem Lm_inv {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL) {c : ℕ
 
 @[expose] noncomputable def Lgen (LT LI TL VL NL g : ℕ) : Mat24ˣ := Lm LT LI TL VL NL (2 * g)
 
-@[expose] noncomputable abbrev Mgrp (LT LI TL VL NL : ℕ) : Subgroup Mat24ˣ :=
+noncomputable abbrev Mgrp (LT LI TL VL NL : ℕ) : Subgroup Mat24ˣ :=
   Subgroup.closure (Lgen LT LI TL VL NL '' {g | g < 7})
 
 theorem letV_Lgen {LT LC LI TL VL NL : ℕ} (hL : LetOK LT LC LI TL VL NL)

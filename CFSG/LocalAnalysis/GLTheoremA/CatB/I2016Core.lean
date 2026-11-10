@@ -66,7 +66,7 @@ theorem conjJ_one (J : Subgroup G) (j : ↥J) :
 
 variable [Finite G] (p : ℕ) [Fact p.Prime]
 
-@[expose] abbrev PQ (J : Subgroup G) : Type := ↥J ⧸ CFSG.pPrimeCore p ↥J
+abbrev PQ (J : Subgroup G) : Type := ↥J ⧸ CFSG.pPrimeCore p ↥J
 
 @[expose] noncomputable def sigmaQ (J : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (J : Set G)) :
     PQ p J ≃* PQ p J :=

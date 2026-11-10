@@ -54,7 +54,7 @@ theorem f0_add_right' (x y z : V12) : f0 x (y + z) = f0 x y + f0 x z := by
   simp only [Pi.add_apply]
   ring
 
-@[expose] def InOmega (v : V12) : Prop :=
+def InOmega (v : V12) : Prop :=
   inO378 v ∧ f0 v w0 = 0 ∧ f0 v (theta0 w0) = 0 ∧ v ≠ w0 ∧ v ≠ theta0 w0 ∧
     v ≠ theta0 (theta0 w0)
 
@@ -160,7 +160,7 @@ end Invariance
 
 abbrev OmegaTy : Type := {v : V12 // InOmega v}
 
-@[expose, instance_reducible] def omegaAction (K : Subgroup (V12 ≃ₗ[ZMod 2] V12))
+@[instance_reducible] def omegaAction (K : Subgroup (V12 ≃ₗ[ZMod 2] V12))
     (hK : K ≤ stabIn M0 w0) : MulAction ↥K OmegaTy where
   smul g x := ⟨g.1 x.1, inOmega_stab (hK g.2) x.2⟩
   one_smul _ := Subtype.ext rfl

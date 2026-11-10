@@ -29,7 +29,7 @@ theorem orthogonalGroup_le_isometryGroup :
   rw [← polarBilin_qForm, QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply,
     QuadraticMap.polar, QuadraticMap.polar, ← map_add, hM' (x + y), hM' x, hM' y]
 
-@[expose] def orthMinusEquiv : TauCeti.QuadraticMap.orthogonalGroup qForm ≃*
+def orthMinusEquiv : TauCeti.QuadraticMap.orthogonalGroup qForm ≃*
     TauCeti.QuadraticMap.orthogonalGroup (CFSG.LieType.Universal.Spin.quadMinus 4 (ZMod 2) 1 1) :=
   TauCeti.QuadraticMap.orthogonalGroupCongr isometryEquivQuadMinus
 

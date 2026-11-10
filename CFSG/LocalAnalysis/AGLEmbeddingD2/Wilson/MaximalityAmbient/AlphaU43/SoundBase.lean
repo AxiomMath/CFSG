@@ -13,7 +13,7 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.
   CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.U43Inv CFSG.LieType.Multipliers.U43
   CFSG.RankThree.PartTwo.Sec6.Res611Res6.U43P
 
-@[expose] def ClassClaim (l : ℕ) : Prop :=
+def ClassClaim (l : ℕ) : Prop :=
   ∀ n : Gp, n ∈ Nrm → n ∉ Nsub → n * n = 1 →
     n * psi (ev (repW (l + 1))) = psi (ev (repW (l + 1))) * n →
     ∃ c : Gp, c ∈ Nsub ∧ c * psi (ev (repW (l + 1))) = psi (ev (repW (l + 1))) * c ∧ n * c ≠ c * n

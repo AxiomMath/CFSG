@@ -13,7 +13,7 @@ structure FW where
   p : List ℕ
   q : List ℕ
 
-@[expose] instance : DecidableEq FW := fun a b =>
+instance : DecidableEq FW := fun a b =>
   decidable_of_iff (a.v = b.v ∧ a.p = b.p ∧ a.q = b.q) (by
     obtain ⟨a1, a2, a3⟩ := a
     obtain ⟨b1, b2, b3⟩ := b

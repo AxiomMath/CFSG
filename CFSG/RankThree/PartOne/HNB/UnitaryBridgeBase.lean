@@ -19,11 +19,11 @@ namespace CFSG.RankThree.PartOne.HNB
 open HNUnitaryBridge CFSG.Assembly.LowTwoRank
 open scoped Matrix
 
-@[expose] def tt : F25 := ((0 : ZMod 5), (1 : ZMod 5))
+def tt : F25 := ((0 : ZMod 5), (1 : ZMod 5))
 
-@[expose] def Umat : Matrix (Fin 3) (Fin 3) F25 := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
+def Umat : Matrix (Fin 3) (Fin 3) F25 := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
 
-@[expose] def Vmat : Matrix (Fin 3) (Fin 3) F25 :=
+def Vmat : Matrix (Fin 3) (Fin 3) F25 :=
   !![1 + tt, 0, 2 * tt; 0, 1, 0; 2 * tt, 0, 1 - tt]
 
 theorem Umat_det : Umat.det = 1 := by
@@ -44,11 +44,11 @@ abbrev SU3 : Subgroup (Matrix.GeneralLinearGroup (Fin 3) F25) := StatedSU 3 (5 ^
 
 abbrev PSU3 : Type := StatedProj SU3
 
-@[expose] noncomputable def UU : SU3 :=
+noncomputable def UU : SU3 :=
   ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero Umat (by rw [Umat_det]; exact one_ne_zero),
     Subgroup.subset_closure ⟨by simpa using Umat_det, by simpa using Umat_unitary⟩⟩
 
-@[expose] noncomputable def VV : SU3 :=
+noncomputable def VV : SU3 :=
   ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero Vmat (by rw [Vmat_det]; exact one_ne_zero),
     Subgroup.subset_closure ⟨by simpa using Vmat_det, by simpa using Vmat_unitary⟩⟩
 

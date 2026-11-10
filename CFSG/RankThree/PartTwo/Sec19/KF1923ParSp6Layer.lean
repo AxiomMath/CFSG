@@ -108,7 +108,7 @@ theorem sq_not_inverting_of_normalized_three {S : Type*} [Group S] (t : S) (D K 
 @[expose] def BlockTri (blk : Fin 6 → ℕ) (g : Matrix (Fin 6) (Fin 6) (ZMod 2)) : Prop :=
   ∀ i j, blk j < blk i → g i j = 0
 
-@[expose] abbrev Blk (blk : Fin 6 → ℕ) (β : ℕ) : Type := {i : Fin 6 // blk i = β}
+abbrev Blk (blk : Fin 6 → ℕ) (β : ℕ) : Type := {i : Fin 6 // blk i = β}
 
 @[expose] def diagBlock (blk : Fin 6 → ℕ) (β : ℕ) (g : Matrix (Fin 6) (Fin 6) (ZMod 2)) :
     Matrix (Blk blk β) (Blk blk β) (ZMod 2) :=

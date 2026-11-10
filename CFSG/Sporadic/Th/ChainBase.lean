@@ -12,7 +12,7 @@ namespace CFSG.Sporadic.Th
 
 open Native Pointwise
 
-@[expose] def pairLetters {G : Type*} [Group G] (g h : G) (l : ℤ) : G :=
+def pairLetters {G : Type*} [Group G] (g h : G) (l : ℤ) : G :=
   if l = 1 then g else if l = -1 then g⁻¹ else if l = 2 then h else h⁻¹
 
 theorem pairLetters_mem {G : Type*} [Group G] (K : Subgroup G) {g h : G} (hg : g ∈ K)
@@ -33,7 +33,7 @@ theorem wordG_mem {G : Type*} [Group G] (K : Subgroup G) {gens : ℤ → G} (h :
     rw [List.map_cons, List.prod_cons]
     exact K.mul_mem (h l) ih
 
-@[expose] def lettersOK (w : List ℤ) : Bool := w.all fun l => l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2
+def lettersOK (w : List ℤ) : Bool := w.all fun l => l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2
 
 theorem xWord_ok : lettersOK xWord = true := by decide
 

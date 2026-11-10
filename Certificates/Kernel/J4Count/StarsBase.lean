@@ -82,7 +82,7 @@ theorem starMap_mul (g h : Hj) (i : Fin 24) : starMap (g * h) i = starMap g (sta
 theorem starMap_one (i : Fin 24) : starMap 1 i = i :=
   starMap_eq (by simpa using starOK_one i)
 
-@[expose] noncomputable def starHom : Hj →* Equiv.Perm (Fin 24) where
+noncomputable def starHom : Hj →* Equiv.Perm (Fin 24) where
   toFun g :=
     { toFun := starMap g
       invFun := starMap g⁻¹

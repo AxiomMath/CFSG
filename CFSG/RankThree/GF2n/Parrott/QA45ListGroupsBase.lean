@@ -17,7 +17,7 @@ open CFSG.Sporadic.Schreier (tab tab_eq)
 
 local notation "P45" => Equiv.Perm (Fin 45)
 
-@[expose] def QA45SubgroupConj (E F : Subgroup ↥QA45.originalSubgroup) : Prop :=
+def QA45SubgroupConj (E F : Subgroup ↥QA45.originalSubgroup) : Prop :=
   ∃ g : ↥QA45.originalSubgroup, E.map (MulAut.conj g).toMonoidHom = F
 
 theorem tabList_eq (l : List P45) : tabList l = l := by
@@ -39,7 +39,7 @@ theorem ListGroupFacts.mem_A (h : ListGroupFacts L «gens») {x : P45} (hx : x �
   have := List.all_eq_true.1 h.in_A x hx
   exact (mem_iff_sift QA45 QA45_ok x).2 this
 
-@[expose] def listSubgroup (h : ListGroupFacts L «gens») : Subgroup ↥QA45.originalSubgroup where
+def listSubgroup (h : ListGroupFacts L «gens») : Subgroup ↥QA45.originalSubgroup where
   carrier := {x | (x : P45) ∈ L}
   mul_mem' := by
     intro x y hx hy

@@ -77,7 +77,7 @@ theorem hsU35_wT
     (w : List ℤ) : TabRep (wT hsFiveDataP w) (wordVal hsOAB w) :=
   wT_rep hsU35_gs hsU35_gi w
 
-@[expose] noncomputable def hsU35S : List (Equiv.Perm (Fin 100)) := uWords.map (wordVal hsOAB)
+noncomputable def hsU35S : List (Equiv.Perm (Fin 100)) := uWords.map (wordVal hsOAB)
 
 theorem hsU35S_eq : hsU35S = [hsOX, hsOY] := rfl
 
@@ -398,7 +398,7 @@ theorem hsOW_conj_mem :
     hsOW * hsOT * hsOW⁻¹ ∈ Subgroup.zpowers hsOT :=
   hsU35_w_facts.2
 
-@[expose] noncomputable def hsU35UA : List (Equiv.Perm (Fin 100)) := uaWords.map (wordVal hsOAB)
+noncomputable def hsU35UA : List (Equiv.Perm (Fin 100)) := uaWords.map (wordVal hsOAB)
 
 theorem hsU35_ua_words :
     wordVal hsU35UA uaXW = hsOX ∧ wordVal hsU35UA uaYW = hsOY := by

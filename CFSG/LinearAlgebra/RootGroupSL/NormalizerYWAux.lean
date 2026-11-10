@@ -140,7 +140,7 @@ theorem exists_linearEquiv_det_eq [Finite k] (hX : 0 < Module.finrank k X) (u : 
     simpa [w] using h
   exact hprod
 
-@[expose] abbrev NN : Subgroup (SpecialLinearGroup k (DSpace E X)) :=
+abbrev NN : Subgroup (SpecialLinearGroup k (DSpace E X)) :=
   Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))
 
 theorem pCoreOf_le_ambient (p : ℕ) (H : Subgroup (SpecialLinearGroup k (DSpace E X))) :

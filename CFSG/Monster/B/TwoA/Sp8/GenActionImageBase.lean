@@ -52,9 +52,9 @@ namespace CFSG.Monster.B.TwoA.Sp8
 open CFSG.Monster CFSG.Monster.Code CFSG.Monster.B CFSG.Monster.B.Short CFSG.Monster.B.TwoA
   CFSG.Monster.B.Co2 CFSG.Monster.B.TwoA.Co2Inv
 
-@[expose] def b0GramInvRows : List ℕ := [194, 65, 56, 52, 44, 28, 3, 1]
+def b0GramInvRows : List ℕ := [194, 65, 56, 52, 44, 28, 3, 1]
 
-@[expose] def b0GramInv : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
+def b0GramInv : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
   Matrix.of fun i j => bvec 8 (b0GramInvRows.getD i 0) j
 
 theorem gram0_mul_inv : gram0 * b0GramInv = 1 := by decide +kernel
@@ -74,7 +74,7 @@ theorem finrank_V8 : Module.finrank (ZMod 2) V8 = 2 * 4 := by
 
 abbrev e0 : V8 := Pi.single 0 1
 
-@[expose] def SpX : Subgroup (V8 ≃ₗ[ZMod 2] V8) :=
+def SpX : Subgroup (V8 ≃ₗ[ZMod 2] V8) :=
   TauCeti.BilinForm.isometryGroup b0 ⊓ MulAction.stabilizer (V8 ≃ₗ[ZMod 2] V8) e0
 
 instance finite_GLV8 : Finite (V8 ≃ₗ[ZMod 2] V8) :=

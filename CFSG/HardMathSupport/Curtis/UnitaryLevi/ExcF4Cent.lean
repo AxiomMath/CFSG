@@ -13,7 +13,7 @@ open CFSG.LieType.Chevalley CFSG.Blueprint.Chevalley CFSG.RankThree.CentralCover
 section W
 
 
-@[expose] noncomputable abbrev SM (l : List (Fin Tag.F4.rank)) : Matrix (Fin 4) (Fin 4) ℤ :=
+noncomputable abbrev SM (l : List (Fin Tag.F4.rank)) : Matrix (Fin 4) (Fin 4) ℤ :=
   (l.map (Smat Tag.F4)).prod
 
 theorem wordW_nil : wordW Tag.F4 [] = 1 := by simp [wordW]

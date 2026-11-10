@@ -14,10 +14,10 @@ namespace CFSG.Sporadic.J4.QT2
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT Matrix
 open scoped Classical
 
-@[expose] noncomputable def x0Gen (i : ℕ) : J :=
+noncomputable def x0Gen (i : ℕ) : J :=
   if i < 8 then QT2A.el5 (x0Words.getD i []) else (QT2A.el5 (x0Words.getD (i - 8) []))⁻¹
 
-@[expose] noncomputable def X0Sub : Subgroup J := Subgroup.closure (x0Gen '' {i | i < 16})
+noncomputable def X0Sub : Subgroup J := Subgroup.closure (x0Gen '' {i | i < 16})
 
 theorem x0Gen_mem {i : ℕ} (hi : i < 16) : x0Gen i ∈ X0Sub :=
   Subgroup.subset_closure ⟨i, hi, rfl⟩
@@ -149,7 +149,7 @@ theorem eq_of_rowsMatrix_eq {X Y : Array V2} (hX : wfRows X = true) (hY : wfRows
     Option.getD_some] at this
   exact this
 
-@[expose] def X0S : Set J := {g | ∃ q < 6720, Mx g = rowsMatrix (x0Orb.mats[q]!)}
+def X0S : Set J := {g | ∃ q < 6720, Mx g = rowsMatrix (x0Orb.mats[q]!)}
 
 theorem X0S_one : (1 : J) ∈ X0S := by
   refine ⟨0, by norm_num, ?_⟩
@@ -345,7 +345,7 @@ theorem x0Pts_wf {p : V2} (hp : p ∈ x0Pts) : p.wf = true := by
   obtain ⟨q, hq, rfl⟩ := mem_x0Pts.1 hp
   exact frApply_frTable_wf (wfRows_mem (mats_wf hq)) rootV
 
-@[expose] noncomputable def x0PtSet : Finset Row :=
+noncomputable def x0PtSet : Finset Row :=
   (x0Pts.eraseDups.map fun p => toRow p.toVec).toFinset
 
 theorem card_x0PtSet : x0PtSet.card = 14 := by

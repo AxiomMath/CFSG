@@ -36,7 +36,7 @@ theorem ncard_conjSet_barSub_le {D : Data G} {V₀ V : Subgroup G} (hV : Hyp125 
           Set.ncard_le_ncard hsub (Set.toFinite _)
     _ ≤ (conjSetOf D.M L).ncard := Set.ncard_image_le (Set.toFinite _)
 
-@[expose] abbrev Shape18_6 (D : Data G) (L : Subgroup G) : Prop :=
+abbrev Shape18_6 (D : Data G) (L : Subgroup G) : Prop :=
   (UC22.conjClosure D.M L ≠ L ∧
       (IsL2 (Bar2 L) (S17.nOf L) ∨ IsSz (Bar2 L) (S17.nOf L)) ∧
       2 < S17.nOf L ∧ (conjSetOf D.M L).ncard = 2) ∨

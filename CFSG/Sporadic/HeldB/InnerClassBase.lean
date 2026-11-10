@@ -36,7 +36,7 @@ namespace CFSG.Sporadic.HeldB
 open CFSG.Certificates CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Sporadic.Schreier
   CFSG.Sporadic.Schreier.PairNative CFSG.Sporadic.HeldB.Native
 
-@[expose] def heT1cP : Equiv.Perm (Fin 8330) := heGenPerm 1 * heT1P * (heGenPerm 1)⁻¹
+def heT1cP : Equiv.Perm (Fin 8330) := heGenPerm 1 * heT1P * (heGenPerm 1)⁻¹
 
 theorem rep_heT1c :
     Rep 8330 heT1cArr heT1cP := by
@@ -54,7 +54,7 @@ theorem commB_iff_heP
   commB_iff heP_baseFaithful ht hw heBase_lt
     (heP.mul_mem (heP.inv_mem (heP.mul_mem hg hτ)) (heP.mul_mem hτ hg))
 
-@[expose] def heInvs : Set (Equiv.Perm (Fin 8330)) := {x | x ∈ heP ∧ orderOf x = 2}
+def heInvs : Set (Equiv.Perm (Fin 8330)) := {x | x ∈ heP ∧ orderOf x = 2}
 
 theorem heInvs_conj {x : Equiv.Perm (Fin 8330)} (hx : x ∈ heInvs) {h : Equiv.Perm (Fin 8330)}
     (hh : h ∈ heP) : h * x * h⁻¹ ∈ heInvs :=
@@ -79,7 +79,7 @@ theorem sum_fixCard_conjClass {t : Equiv.Perm (Fin 8330)} (hf : (conjClass heP t
     obtain ⟨c, -, rfl⟩ := hx
     exact fixCard_conj c t
 
-@[expose] def heCentralizerEquiv (s : heP) :
+def heCentralizerEquiv (s : heP) :
     Subgroup.centralizer ({s} : Set heP) ≃* centralizerIn heP (s : Equiv.Perm (Fin 8330)) :=
   ((Subgroup.centralizer ({s} : Set heP)).equivMapOfInjective heP.subtype
     heP.subtype_injective).trans (MulEquiv.subgroupCongr (map_centralizer_subtype heP s))

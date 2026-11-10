@@ -24,8 +24,8 @@ theorem wAct_inv_wvec_of {k : Kstab v0} {p : Equiv.Perm Ω} (h : ∀ j, wAct v0 
   rw [← Equiv.Perm.mul_apply, mul_inv_cancel, Equiv.Perm.one_apply] at h1
   rw [← h1, wAct_inv_apply]
 
-@[expose] def A0' : Agrp := ⟨A0, Subgroup.subset_closure (Set.mem_insert _ _)⟩
+def A0' : Agrp := ⟨A0, Subgroup.subset_closure (Set.mem_insert _ _)⟩
 
-@[expose] def A1' : Agrp := ⟨A1, Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)⟩
+def A1' : Agrp := ⟨A1, Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)⟩
 
 end CFSG.Monster.B.Co2

@@ -16,7 +16,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
   | .ends => 0
   | .adj => 1
 
-@[expose] abbrev ggTWNToZ (p N : ℕ) (l : List ℕ) : GGTWE p N := ggDepANToZ p (N - 1) l
+abbrev ggTWNToZ (p N : ℕ) (l : List ℕ) : GGTWE p N := ggDepANToZ p (N - 1) l
 
 @[simp] private lemma l05nE1_getD_map_range {N : ℕ} (F : ℕ → ℕ) (j : ℕ) (hj : j < N) :
     (((List.range N).map F).getD j 0) = F j := by

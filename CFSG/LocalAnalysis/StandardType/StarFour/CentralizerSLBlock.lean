@@ -58,7 +58,7 @@ theorem blockUpdate_apply (i : Fin fr.r)
     (B : SpecialLinearGroup (fr.E i) (Fin (fr.m i) → fr.E i)) (w) :
     blockUpdate fr i B w = Function.update w i (B (w i)) := rfl
 
-@[expose] abbrev blockCompl (i : Fin fr.r) : Type :=
+abbrev blockCompl (i : Fin fr.r) : Type :=
   ∀ a : {j : Fin fr.r // j ≠ i}, Fin (fr.m a.1) → fr.E a.1
 
 @[expose] noncomputable def blockRestrict (i : Fin fr.r)

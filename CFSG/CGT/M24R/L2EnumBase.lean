@@ -28,7 +28,7 @@ theorem codes_nodup : (mkCtx ()).codes.Nodup :=
 
 section Ctx
 
-@[expose] def el (c : ℕ) : N8 := n8 ((mkCtx ()).word c)
+def el (c : ℕ) : N8 := n8 ((mkCtx ()).word c)
 
 end Ctx
 

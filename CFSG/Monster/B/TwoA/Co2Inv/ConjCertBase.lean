@@ -53,7 +53,7 @@ theorem rowsEnd_congr_decW {A B : Array ℕ} (h : ∀ t < 22, decW A[t]! = decW 
     rowsEnd A = rowsEnd B :=
   eq_rowsEnd_of fun t => by rw [rowsEnd_qbW, h t t.2]
 
-@[expose] def decE (n : ℕ) : Module.End (ZMod 2) (Wv v0) := rowsEnd (rowsOf n)
+def decE (n : ℕ) : Module.End (ZMod 2) (Wv v0) := rowsEnd (rowsOf n)
 
 theorem gRows_eq (k : Fin 24) : gRows k = genQuotMatrix k := rfl
 
@@ -61,7 +61,7 @@ theorem idRows_getElem {t : ℕ} (ht : t < 22) : idRows[t]! = 1 <<< t := by
   rw [idRows, getElem!_pos _ _ (by simp [ht])]
   simp
 
-@[expose, instance_reducible] def conjEndAction :
+@[instance_reducible] def conjEndAction :
     MulAction (Kstab v0) (Module.End (ZMod 2) (Wv v0)) where
   smul g T := wAct v0 g⁻¹ * T * wAct v0 g
   one_smul T := by

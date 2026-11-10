@@ -13,7 +13,7 @@ open CFSG.HardMathSupport.Meierfrankenfeld.AGL81.FF531 (FFChevConclusion)
 section Vocab
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] abbrev Mt (M : Subgroup G) : Type := ↥M ⧸ CFSG.pCore 2 ↥M
+abbrev Mt (M : Subgroup G) : Type := ↥M ⧸ CFSG.pCore 2 ↥M
 
 @[expose] def tl (M X : Subgroup G) : Subgroup (Mt M) :=
   (X.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))

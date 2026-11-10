@@ -66,8 +66,8 @@ def ruMw : Array (List (List Nat)) :=
 
 def ruIncl : List (List Nat) := [[0, 1, 2, 3, 4], [1], [2], [1, 2, 3], [2, 4]]
 
-@[expose] def ruLat : LatData (List Nat) := buildLatPt ruData.n ruTaL ruTbL ruDelta ruSTabsL 400
+def ruLat : LatData (List Nat) := buildLatPt ruData.n ruTaL ruTbL ruDelta ruSTabsL 400
 
-@[expose] def ruOt : Array (OmegaData (List (List Nat))) := buildO2Pt ruLat
+def ruOt : Array (OmegaData (List (List Nat))) := buildO2Pt ruLat
 
 end CFSG.QuasithinUnique.Ch1.SporLat.RuCert

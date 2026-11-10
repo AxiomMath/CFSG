@@ -14,7 +14,7 @@ open QuadraticAlgebra
 
 instance : Fact (Nat.Prime 3) := ⟨by decide⟩
 
-@[expose] abbrev ExceptionalSL3 :=
+abbrev ExceptionalSL3 :=
   Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)
 
 @[expose] def exceptionalSL3Y : ExceptionalSL3 :=

@@ -77,8 +77,8 @@ theorem j3_card_order
   exact card_eq_countW j3ChainArrays (by norm_num) PairJ3.chain_check.1 j3_groups
     (Pr := fun g => orderOf g = m) fun w g hw hg => ordB_iff j3_baseFaithful j3_bs_lt hw hg hm
 
-@[expose] def j3a : j3P := ⟨j3Gen 0, j3Gen_mem_P 0 (by norm_num)⟩
+def j3a : j3P := ⟨j3Gen 0, j3Gen_mem_P 0 (by norm_num)⟩
 
-@[expose] def j3b : j3P := ⟨j3Gen 1, j3Gen_mem_P 1 (by norm_num)⟩
+def j3b : j3P := ⟨j3Gen 1, j3Gen_mem_P 1 (by norm_num)⟩
 
 end CFSG.Sporadic.Schreier

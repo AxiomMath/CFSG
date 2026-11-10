@@ -65,15 +65,15 @@ abbrev Mat4 : Type := Matrix (Fin 4) (Fin 4) (ZMod 3)
 
 @[expose] def Compat4 (M N : Mat4) : Prop := (M * N) * (M * N) = 1 ∨ (M * N) * (M * N) * (M * N) = 1
 
-@[expose] instance (M N : Mat4) : Decidable (Compat4 M N) := by unfold Compat4; infer_instance
+instance (M N : Mat4) : Decidable (Compat4 M N) := by unfold Compat4; infer_instance
 
 @[expose] def CompatT0 (M : Mat4) : Prop := ∀ i : Fin 6, Compat4 M (t0Mat i)
 
-@[expose] instance (M : Mat4) : Decidable (CompatT0 M) := by unfold CompatT0; infer_instance
+instance (M : Mat4) : Decidable (CompatT0 M) := by unfold CompatT0; infer_instance
 
 @[expose] def ReflCheck (M : Mat4) : Prop := M * M = 1 → M ≠ 1 → CompatT0 M → M ∈ reflList
 
-@[expose] instance (M : Mat4) : Decidable (ReflCheck M) := by unfold ReflCheck; infer_instance
+instance (M : Mat4) : Decidable (ReflCheck M) := by unfold ReflCheck; infer_instance
 
 @[expose] def normVec : Fin 40 → (Fin 4 → ZMod 3) :=
   ![![0, 0, 0, 1],
@@ -125,17 +125,17 @@ abbrev Mat4 : Type := Matrix (Fin 4) (Fin 4) (ZMod 3)
 
 @[expose] def CommAt (i j : ℕ) : Prop := reflAt i * reflAt j = reflAt j * reflAt i
 
-@[expose] instance (i j : ℕ) : Decidable (CommAt i j) := by unfold CommAt; infer_instance
+instance (i j : ℕ) : Decidable (CommAt i j) := by unfold CommAt; infer_instance
 
 @[expose] def CompatAt (i j : ℕ) : Prop := Compat4 (reflAt i) (reflAt j)
 
-@[expose] instance (i j : ℕ) : Decidable (CompatAt i j) := by unfold CompatAt; infer_instance
+instance (i j : ℕ) : Decidable (CompatAt i j) := by unfold CompatAt; infer_instance
 
 @[expose] def CommTriple (i j k : ℕ) : Prop :=
   reflAt i ≠ reflAt j ∧ reflAt i ≠ reflAt k ∧ reflAt j ≠ reflAt k ∧ CommAt i j ∧ CommAt i k ∧
     CommAt j k
 
-@[expose] instance (i j k : ℕ) : Decidable (CommTriple i j k) := by
+instance (i j k : ℕ) : Decidable (CommTriple i j k) := by
   unfold CommTriple; infer_instance
 
 @[expose] def s5aL : List ℕ := [0, 1, 2, 3, 4, 5, 37, 40, 42, 43]

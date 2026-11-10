@@ -13,11 +13,11 @@ namespace CFSG.GH74.QTGen4.DSGen4.L34
 
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
-@[expose] noncomputable abbrev mdlM1 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
+noncomputable abbrev mdlM1 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
   Subgroup.normalizer ((CFSG.QuasithinUnique.Fin257.L3.V2 :
     Subgroup (projectiveSL 3 (GaloisField 2 2))) : Set (projectiveSL 3 (GaloisField 2 2)))
 
-@[expose] noncomputable abbrev mdlM2 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
+noncomputable abbrev mdlM2 : Subgroup (projectiveSL 3 (GaloisField 2 2)) :=
   Subgroup.normalizer ((CFSG.QuasithinUnique.Fin257.L3.V1 :
     Subgroup (projectiveSL 3 (GaloisField 2 2))) : Set (projectiveSL 3 (GaloisField 2 2)))
 

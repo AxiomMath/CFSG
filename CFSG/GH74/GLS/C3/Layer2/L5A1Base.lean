@@ -18,7 +18,7 @@ namespace CFSG.GH74.GLS.C3.Layer2.L5
 open Equiv Perm Subgroup CFSG.GH74.GLS.C3.Prop121 CFSG.GH74.GLS.C3.Layer2
   CFSG.GH74.GLS.C3.Layer2.Model
 
-@[expose] def lsub {M : Type*} [Group M] (l : List M) (h1 : (1 : M) ∈ l)
+def lsub {M : Type*} [Group M] (l : List M) (h1 : (1 : M) ∈ l)
     (hm : ∀ a ∈ l, ∀ b ∈ l, a * b ∈ l) (hi : ∀ a ∈ l, a⁻¹ ∈ l) : Subgroup M where
   carrier := {p | p ∈ l}
   one_mem' := h1

@@ -23,7 +23,7 @@ namespace CFSG.Sporadic.J4Schreier
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2.Native
 
-@[expose] def a276 : J := signedWord x y a276Word
+def a276 : J := signedWord x y a276Word
 
 theorem a276_mem_K : a276 ∈ K := signedWord_mem_K _
 

@@ -83,11 +83,11 @@ end Certificate
 
 section Instances
 
-@[expose] def d8x (m : ℕ) [NeZero m] : D8M × QuaternionGroup m := (DihedralGroup.r 1, 1)
+def d8x (m : ℕ) [NeZero m] : D8M × QuaternionGroup m := (DihedralGroup.r 1, 1)
 
-@[expose] def d8y (m : ℕ) [NeZero m] : D8M × QuaternionGroup m := (DihedralGroup.sr 0, 1)
+def d8y (m : ℕ) [NeZero m] : D8M × QuaternionGroup m := (DihedralGroup.sr 0, 1)
 
-@[expose] def d8d (m : ℕ) [NeZero m] : D8M × QuaternionGroup m := (1, QuaternionGroup.xa 0)
+def d8d (m : ℕ) [NeZero m] : D8M × QuaternionGroup m := (1, QuaternionGroup.xa 0)
 
 theorem d8relA_Q8 : D8RelA (d8x 2) (d8y 2) := by
   unfold D8RelA d8x d8y

@@ -156,7 +156,7 @@ theorem blockTri_of_stab (S : Finset ℕ) (hS : ∀ s ∈ S, s ≤ 6) {g : State
   obtain ⟨s, hs, hj, hi⟩ := exists_cut_of_blkOf_lt S hij
   exact toM6_eq_zero_of_stab (hS s hs) (hg s hs) i j hj hi
 
-@[expose] abbrev stMat (g : StatedSp 3 (ZMod 2)) :
+abbrev stMat (g : StatedSp 3 (ZMod 2)) :
     Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) :=
   ((g : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) :
     Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2))

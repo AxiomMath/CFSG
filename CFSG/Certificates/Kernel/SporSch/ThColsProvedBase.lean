@@ -11,7 +11,7 @@ open CFSG.KC.Enum CFSG.Sporadic.Th.Native CFSG.Sporadic.ThSchreier CFSG.Sporadic
 open Finset
 open scoped Matrix
 
-@[expose] def parStep (y j acc : Nat) : Nat := Nat.xor acc (Nat.land (Nat.shiftRight y j) 1)
+def parStep (y j acc : Nat) : Nat := Nat.xor acc (Nat.land (Nat.shiftRight y j) 1)
 
 theorem bit_one (y j : Nat) : Nat.land (Nat.shiftRight y j) 1 = if y.testBit j then 1 else 0 := by
   change (y >>> j) &&& 1 = _
@@ -19,7 +19,7 @@ theorem bit_one (y j : Nat) : Nat.land (Nat.shiftRight y j) 1 = if y.testBit j t
   rw [Nat.testBit_eq_decide_div_mod_eq]
   rcases Nat.mod_two_eq_zero_or_one (y / 2 ^ j) with h | h <;> simp [h]
 
-@[expose] def colStep (c : Nat → Bool) (i acc : Nat) : Nat :=
+def colStep (c : Nat → Bool) (i acc : Nat) : Nat :=
   Bool.rec (motive := fun _ => Nat) acc (Nat.lor acc (Nat.shiftLeft 1 i)) (c i)
 
 theorem testBit_colFold (c : Nat → Bool) (k : Nat) : ∀ l : List Nat,

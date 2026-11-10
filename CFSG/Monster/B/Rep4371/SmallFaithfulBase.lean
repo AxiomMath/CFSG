@@ -75,11 +75,11 @@ theorem trace_chi_xbar :
   rw [h1, h2]
   norm_num
 
-@[expose] noncomputable def matR :
+noncomputable def matR :
     Module.End ℚ Vst ≃ₐ[ℚ] Matrix (Fin 4371) (Fin 4371) ℚ :=
   LinearMap.toMatrixAlgEquiv Rbasis
 
-@[expose] noncomputable def chiMat :
+noncomputable def chiMat :
     Cbar →* GL (Fin 4371) ℚ :=
   (Units.map (matR : Module.End ℚ Vst →* Matrix (Fin 4371) (Fin 4371) ℚ)).comp
     ((LinearMap.GeneralLinearGroup.generalLinearEquiv ℚ Vst).symm.toMonoidHom.comp chi)

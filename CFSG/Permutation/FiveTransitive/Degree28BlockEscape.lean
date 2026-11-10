@@ -48,7 +48,7 @@ private theorem cycle_factor_support_card_eq_three
     ((fixedPart r u x : Function.fixedPoints r) : X) = u.1 x :=
   rfl
 
-@[expose] abbrev cyclePart
+abbrev cyclePart
     {X : Type*} [Fintype X] [DecidableEq X]
     (r : Equiv.Perm X)
     (u : Subgroup.centralizer ({r} : Set (Equiv.Perm X))) :
@@ -782,7 +782,7 @@ private theorem exists_order_three_support_le_eighteen_of_solvable_aux_actions
       change cycleRaw z.1 = cyclePart r (centerIncl (toBase z))
       exact hcycleCompat (toBase z))
 
-@[expose] abbrev cyclicConjugation
+abbrev cyclicConjugation
     {X : Type*} (P : Subgroup (Equiv.Perm X)) (r : P) :
     FiveTransitive.PrimeCyclicFixedAction.cyclicNormalizer P r →*
       MulAut (FiveTransitive.PrimeCyclicFixedAction.cyclicSubgroup P r) :=
@@ -944,7 +944,7 @@ private theorem alternatingGroup_le_cyclicNormalizerFixedHom_range
     (r : Equiv.Perm X) : Equiv.Perm r.support :=
   r.subtypePerm fun _ => Equiv.Perm.apply_mem_support
 
-@[expose] abbrev supportOrbitQuotient
+abbrev supportOrbitQuotient
     {X : Type*} [Fintype X] [DecidableEq X]
     (r : Equiv.Perm X) :=
   MulAction.orbitRel.Quotient

@@ -62,9 +62,9 @@ theorem exists_of_reach {gs : List (Array ℕ)} (hgs : GensOK gs) {P : ℕ → B
 theorem forall_lt_4096 {p : ℕ → Bool} (h : (List.range 4096).all p = true) :
     ∀ n < 4096, p n = true := fun n hn => List.all_eq_true.1 h n (List.mem_range.2 hn)
 
-@[expose] def inO378 (v : V12) : Prop := inO378b (codeOf v) = true
+def inO378 (v : V12) : Prop := inO378b (codeOf v) = true
 
-@[expose] def inO1701 (v : V12) : Prop := inO1701b (codeOf v) = true
+def inO1701 (v : V12) : Prop := inO1701b (codeOf v) = true
 
 instance : DecidablePred inO378 := fun v => instDecidableEqBool _ _
 
@@ -118,7 +118,7 @@ theorem ne_zero_of_inO1701 {v : V12} (hv : inO1701 v) : v ≠ 0 ∧ q0 v = 0 := 
   rw [vecOf_codeOf, h.2] at this
   simpa using this
 
-@[expose] def codeEquiv : V12 ≃ Fin 4096 where
+def codeEquiv : V12 ≃ Fin 4096 where
   toFun v := ⟨codeOf v, codeOf_lt v⟩
   invFun n := vecOf n
   left_inv v := vecOf_codeOf v

@@ -61,40 +61,40 @@ theorem card : Nat.card H = E.L.length := by
 
 end Enum
 
-@[expose] def wG0 : List Int :=
+def wG0 : List Int :=
   [-2, 1, -2, 1, 2, 1, 2]
 
-@[expose] def wER : List Int :=
+def wER : List Int :=
   [2, 1, 2, 1, 2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1, 2, 1, -2, 1, -2, 1, 2, 1]
 
-@[expose] def wES : List Int :=
+def wES : List Int :=
   [-2, 1, 2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1, 2, 1, 2, 1, -2, 1, -2, 1, 2]
 
-@[expose] def wEW : List Int :=
+def wEW : List Int :=
   [1, -2, 1, 2, 1, 2, 1, 2, 1, -2, 1, -2, 1, 2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1]
 
-@[expose] def wFR : List Int :=
+def wFR : List Int :=
   [-2, 1, 2, 1, -2, 1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, -2, 1]
 
-@[expose] def wFS : List Int :=
+def wFS : List Int :=
   [-2, 1, -2, 1, 2, 1, 2]
 
-@[expose] def wFW : List Int :=
+def wFW : List Int :=
   [1, -2, 1, 2, 1, -2, 1, 2, 1]
 
-@[expose] def wU : List Int :=
+def wU : List Int :=
   [-2, 1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1, 2, 1, -2]
 
-@[expose] def wS : List Int :=
+def wS : List Int :=
   [1, -2, 1, 2, 1, -2, 1, 2, 1, 2, 1, 2, 1, 2, 1, -2, 1, 2, 1, 2, 1, 2, 1]
 
-@[expose] def wC1 : List Int :=
+def wC1 : List Int :=
   [-2, 1, -2, 1, 2, 1, -2, 1, -2, 1, -2, 1, 2, 1, 2, 1, -2]
 
-@[expose] def wC2 : List Int :=
+def wC2 : List Int :=
   [2, 1, -2, 1, -2, 1, 2, 1, 2, 1, 2, 1, -2, 1, 2, 1, 2]
 
-@[expose] def a'T : List ℕ := tmul xT (tmul yT yT)
+def a'T : List ℕ := tmul xT (tmul yT yT)
 
 theorem tbl_a' : tbl (x * y ^ 2).1 = a'T := by
   rw [tblG_mul, tblG_pow, tbl_x, tbl_y]

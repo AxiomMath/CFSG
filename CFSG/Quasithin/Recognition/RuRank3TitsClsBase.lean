@@ -45,7 +45,7 @@ open scoped MatrixGroups
 
 attribute [local instance] fact_prime_five'
 
-@[expose] def titsK0Levels : Array Level :=
+def titsK0Levels : Array Level :=
   rawLevels 1755 titsK0Strong (ruBaseArr 1755 [0, 12, 1])
 
 theorem mem_titsD_iff_inTitsD {a : Array ℕ}
@@ -56,17 +56,17 @@ theorem mem_titsD_iff_inTitsD {a : Array ℕ}
       rw [titsDerivedArrs_size]; norm_num) (hb := by decide) (chunks := 4)
     titsChains_check.2.2.2.2.2.2.1 (by norm_num) titsChains_check.2.2.2.2.2.2.2.2.2.1 hg
 
-@[expose] noncomputable def titsAux : Equiv.Perm (Fin 1755) := permOfArr 1755 titsAuxArr
+noncomputable def titsAux : Equiv.Perm (Fin 1755) := permOfArr 1755 titsAuxArr
 
-@[expose] noncomputable def titsY12 : Equiv.Perm (Fin 1755) := permOfArr 1755 titsY12Arr
+noncomputable def titsY12 : Equiv.Perm (Fin 1755) := permOfArr 1755 titsY12Arr
 
-@[expose] noncomputable def titsRep (i : ℕ) : Equiv.Perm (Fin 1755) := permOfArr 1755 (titsRepArr i)
+noncomputable def titsRep (i : ℕ) : Equiv.Perm (Fin 1755) := permOfArr 1755 (titsRepArr i)
 
 noncomputable def titsK0Chain : RawSchreierDatum 1755 :=
   RawSchreierDatum.ofArrays 1755 (by norm_num) titsK0Strong 3 (by simp [titsK0Strong])
     (ruFinList 1755 (by norm_num) [0, 12, 1]) (by decide) (ruWordsArr 3 5 titsK0Words)
 
-@[expose] noncomputable def titsK0 : Subgroup (Equiv.Perm (Fin 1755)) :=
+noncomputable def titsK0 : Subgroup (Equiv.Perm (Fin 1755)) :=
   titsK0Chain.originalSubgroup
 
 theorem titsK0_eq_closure :
@@ -99,7 +99,7 @@ theorem conj_zpow_eq {G : Type*} [Group G] (g x : G) (j : ℤ) :
   simp only [MulAut.conj_apply] at this
   exact this
 
-@[expose] noncomputable def badGen (i : ℕ) (h : ℕ) : Equiv.Perm (Fin 1755) :=
+noncomputable def badGen (i : ℕ) (h : ℕ) : Equiv.Perm (Fin 1755) :=
   if h = 0 then titsX13 else if h = 1 then titsTInv else titsRep i
 
 theorem badLetters_get {i h : ℕ} (hh : h < 3) : (badLetters i)[h]! =

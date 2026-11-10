@@ -36,7 +36,7 @@ theorem theta_inf_le_theta' {H K : Subgroup G} (hKH : K ≤ H) :
   have hN3 : ¬ 3 ∣ Nat.card N := fun h => h3 (h.trans (Subgroup.card_dvd_of_le inf_le_left))
   exact Sec6.le_theta_of_normal inf_le_right hKN hNsol hN3
 
-@[expose] noncomputable abbrev barAut (Y : Subgroup G) (x : G)
+noncomputable abbrev barAut (Y : Subgroup G) (x : G)
     (hx : x ∈ Subgroup.normalizer (Y : Set G)) : MulAut (Y ⧸ aschbacherSolvableCore 3 Y) :=
   Sec4.thetaQuotMulAut Y (Sec4.compAction Y ⟨x, hx⟩)
 

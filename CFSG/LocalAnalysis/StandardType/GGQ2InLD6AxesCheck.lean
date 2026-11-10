@@ -98,7 +98,7 @@ open Module
     ![1, 2, 1, 0, 0, 2],
     ![2, 1, 0, 2, 1, 0]}
 
-@[expose] abbrev qd6a_NonAxis (c : Fin 6 → ZMod 3) : Prop :=
+abbrev qd6a_NonAxis (c : Fin 6 → ZMod 3) : Prop :=
   (∀ b : Fin 6, c ≠ qd6a_cOfEps b ∧ c ≠ - qd6a_cOfEps b) ∧ c ≠ 0
 
 set_option maxRecDepth 100000 in

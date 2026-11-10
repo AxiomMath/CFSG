@@ -14,11 +14,11 @@ namespace CFSG.Sporadic.Co2Schreier
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native
   CFSG.Monster.B.Mathieu CFSG.Sporadic.Co2Cert
 
-@[expose] def TestX (j : ℕ) (g : Equiv.Perm (Fin 2300)) : Prop :=
+def TestX (j : ℕ) (g : Equiv.Perm (Fin 2300)) : Prop :=
   ∀ i, j ≤ i → i < 12 → locU (g (bpt i)) = g (bpt i)
 
 open scoped Classical in
-@[irreducible, expose] def cosetX (j : ℕ) (p : Equiv.Perm (Fin 2300)) :
+@[irreducible] def cosetX (j : ℕ) (p : Equiv.Perm (Fin 2300)) :
     Finset (Equiv.Perm (Fin 2300)) :=
   Finset.univ.filter fun g => p⁻¹ * g ∈ stabB j ∧ TestX j g
 

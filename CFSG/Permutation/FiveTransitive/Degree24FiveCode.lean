@@ -20,7 +20,7 @@ namespace FiveTransitive.Degree24
 open MulAction SubMulAction Subgroup
 open scoped Pointwise
 
-@[expose] abbrev FiveVector := Fin 4 → ZMod 5
+abbrev FiveVector := Fin 4 → ZMod 5
 
 @[expose] def fiveWeight (v : FiveVector) : ℕ :=
   (Finset.univ.filter fun i => v i ≠ 0).card

@@ -10,7 +10,7 @@ namespace FiveTransitive.FixedSetConjugateCore
 
 open Equiv MulAction
 
-@[expose] abbrev Outside {X : Type*} (S : Finset X) := ↥((S : Set X)ᶜ)
+abbrev Outside {X : Type*} (S : Finset X) := ↥((S : Set X)ᶜ)
 
 private theorem outside_ne {X : Type*} {S : Finset X} {c : X} (hc : c ∈ S)
     (a : Outside S) : a.val ≠ c := by

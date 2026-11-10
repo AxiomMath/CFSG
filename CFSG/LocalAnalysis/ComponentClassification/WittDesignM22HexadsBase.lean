@@ -18,7 +18,7 @@ namespace CFSG.ComponentClassification.WittDesign
 open scoped Pointwise
 open CFSG.Sporadic.Mathieu CFSG.Monster.B.Classical.Plane
 
-@[expose] def hexads : Finset (Finset (Fin 22)) := hexadList.toFinset
+def hexads : Finset (Finset (Fin 22)) := hexadList.toFinset
 
 theorem mem_hexads {B : Finset (Fin 22)} : B ∈ hexads ↔ B ∈ hexadList := List.mem_toFinset
 

@@ -39,11 +39,11 @@ theorem finrank_quotEL (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b)
   change finrank (ZMod 2) (Additive E ⧸ subOf E L) = b - a
   omega
 
-@[expose] def quotELEquiv (hLE : L ≤ E) {a b n : ℕ} (hE : Nat.card E = 2 ^ b)
+def quotELEquiv (hLE : L ≤ E) {a b n : ℕ} (hE : Nat.card E = 2 ^ b)
     (hL : Nat.card L = 2 ^ a) (hn : b - a = n) : quotEL E L ≃ₗ[ZMod 2] (Fin n → ZMod 2) :=
   LinearEquiv.ofFinrankEq _ _ (by rw [finrank_quotEL hLE hE hL, Module.finrank_fin_fun, hn])
 
-@[expose] def intervalSub (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b)
+def intervalSub (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b)
     (hL : Nat.card L = 2 ^ a) {n : ℕ} (hn : b - a = n) (B : Subgroup G) :
     Submodule (ZMod 2) (Fin n → ZMod 2) :=
   ((subOf E B).map (subOf E L).mkQ).map (quotELEquiv hLE hE hL hn : quotEL E L →ₗ[ZMod 2] _)
@@ -72,7 +72,7 @@ theorem intervalSub_le_iff (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b)
       sup_of_le_right hK'] at h1
   · exact Submodule.map_mono
 
-@[expose] def intervalGrp (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b)
+def intervalGrp (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b)
     (hL : Nat.card L = 2 ^ a) {n : ℕ} (hn : b - a = n) (P : Submodule (ZMod 2) (Fin n → ZMod 2)) :
     Subgroup G :=
   ofSub E ((P.map ((quotELEquiv hLE hE hL hn).symm : _ →ₗ[ZMod 2] quotEL E L)).comap
@@ -124,7 +124,7 @@ theorem natCard_intervalGrp (hLE : L ≤ E) {a b : ℕ} (hE : Nat.card E = 2 ^ b
 
 end Interval
 
-@[expose] def coType (j : ℕ) : Set ℕ := Set.Icc 1 5 \ {j, j + 1}
+def coType (j : ℕ) : Set ℕ := Set.Icc 1 5 \ {j, j + 1}
 
 theorem coType_subset (j : ℕ) : coType j ⊆ Set.Icc 1 5 := Set.sdiff_subset
 

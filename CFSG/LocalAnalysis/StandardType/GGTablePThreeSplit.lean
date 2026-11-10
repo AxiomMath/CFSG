@@ -179,7 +179,7 @@ theorem knownOn_small (h : LeafSmallVac) : KnownOver (DatumOn (fam 10)) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> intro X _ _ hX A δ J hd <;>
     exact absurd hd (h X hX A δ J)
 
-@[expose] abbrev LeafLin : Prop := KnownOver (DatumOn (fam 0))
+abbrev LeafLin : Prop := KnownOver (DatumOn (fam 0))
 
 end CFSG.StandardType.TablePThreeKG
 

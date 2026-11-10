@@ -26,7 +26,7 @@ section Generic
 
 variable {P : Type*} [Group P] {f : P →* Multiplicative (Fin 5 → ZMod 2)}
 
-@[expose] def fiberCount (f : P →* Multiplicative (Fin 5 → ZMod 2))
+def fiberCount (f : P →* Multiplicative (Fin 5 → ZMod 2))
     (a : Multiplicative (Fin 5 → ZMod 2)) (d : ℕ) : ℕ :=
   Nat.card {s : P // f s = a ∧ orderOf s = d}
 
@@ -41,7 +41,7 @@ theorem ker_comp_aut (hker : f.ker = frattini P) (σ : MulAut P) :
   rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, ← MonoidHom.mem_ker,
     hker, mem_frattini_aut]
 
-@[expose] def thetaOf (hf : Function.Surjective f) (hker : f.ker = frattini P) (σ : MulAut P) :
+def thetaOf (hf : Function.Surjective f) (hker : f.ker = frattini P) (σ : MulAut P) :
     Multiplicative (Fin 5 → ZMod 2) →* Multiplicative (Fin 5 → ZMod 2) :=
   (QuotientGroup.lift f.ker (f.comp (MulEquiv.toMonoidHom σ)) (ker_comp_aut hker σ).ge).comp
     (QuotientGroup.quotientKerEquivOfSurjective f hf).symm.toMonoidHom

@@ -71,17 +71,17 @@ open CertificateChecks.KernelJ4Count (ncard_orbit_mem mem_orbit_of_ncard qv qv_m
 open CFSG.Sporadic.SmallF2 (toVecD toVecD_apply toVecD_xor toVecD_zero)
 open scoped Matrix
 
-@[expose] noncomputable def treeOK : Bool :=
+noncomputable def treeOK : Bool :=
   Nat.beq PTS[0]! rootBits && (List.range 112).all fun k =>
     Nat.blt PTS[k]! (2 ^ 112) && (Nat.beq k 0 || (Nat.blt PAR[k]! k &&
       Nat.beq PTS[k]! (vecJ rm PTS[PAR[k]!]! (if Nat.beq LET[k]! 0 then Ai else Bi))))
 
 theorem treeOK_true : treeOK = true := by quickRfl
 
-@[expose] def selX (m : ℕ) : ℕ :=
+def selX (m : ℕ) : ℕ :=
   (List.range 112).foldl (fun acc i => if m.testBit i then acc ^^^ PTS[i]! else acc) 0
 
-@[expose] def spanOK : Bool := (List.range 112).all fun j => Nat.beq (selX MSK[j]!) (2 ^ j)
+def spanOK : Bool := (List.range 112).all fun j => Nat.beq (selX MSK[j]!) (2 ^ j)
 
 theorem spanOK_true : spanOK = true := by quickRfl
 

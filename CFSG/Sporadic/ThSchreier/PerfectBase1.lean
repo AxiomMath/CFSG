@@ -13,11 +13,11 @@ open scoped commutatorElement
 
 noncomputable abbrev commM : Subgroup ↥M := commutator ↥M
 
-@[expose] noncomputable def nfM
+noncomputable def nfM
     (v : Fin 8 → ZMod 2) : ↥M := ⟨nf 0 v, Q_le_M (nf_mem_Q 0 v)⟩
 
-@[expose] noncomputable def xM : ↥M := ⟨x, x_mem_M⟩
+noncomputable def xM : ↥M := ⟨x, x_mem_M⟩
 
-@[expose] noncomputable def yM : ↥M := ⟨y, y_mem_M⟩
+noncomputable def yM : ↥M := ⟨y, y_mem_M⟩
 
 end CFSG.Sporadic.ThSchreier

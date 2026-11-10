@@ -84,9 +84,9 @@ theorem conj_mem_of_closure {G : Type*} [Group G] [Finite G] {S T : Set G}
 
 abbrev clsL (c : ℕ) : Array ℕ := csArr[c]!.1
 
-@[expose] def repPerm (c : ℕ) : Perm (Fin 800) := ePerm pReps[c]!
+def repPerm (c : ℕ) : Perm (Fin 800) := ePerm pReps[c]!
 
-@[expose] def classSet (c : ℕ) : Set (Perm (Fin 800)) :=
+def classSet (c : ℕ) : Set (Perm (Fin 800)) :=
   {x | ∃ j < (clsL c).size, ePerm (clsL c)[j]! = x}
 
 theorem card_eq_countP_fin {p : ℕ → Bool} :

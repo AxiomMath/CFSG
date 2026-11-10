@@ -11,7 +11,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 
 open CFSG.LieType.Multipliers.U43 CFSG.Monster.B.Co2 CFSG.Quasithin.H13.U43
 
-@[expose] abbrev SwC : Subgroup X₀ := Subgroup.centralizer ({xElt} : Set X₀)
+abbrev SwC : Subgroup X₀ := Subgroup.centralizer ({xElt} : Set X₀)
 
 @[expose] def SwCen (g : X₀) : Set X₀ :=
   {h | h ∈ SwC ∧ ∀ o ∈ SwC, Odd (orderOf o) → h * (o * g * o⁻¹) = o * g * o⁻¹ * h}

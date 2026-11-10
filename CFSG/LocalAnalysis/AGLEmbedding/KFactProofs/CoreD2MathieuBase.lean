@@ -15,7 +15,7 @@ open CFSG.Open CFSG.PSL3Four.Native CFSG.ComponentClassification.PSL3Four
   CFSG.AGLEmbedding.FusD2 Certificates.CoreD2Perm
 open Certificates.FusD2Perm (powT wordT)
 
-@[expose] def CoreGenerationZOf (G : Type*) [Group G] [Finite G] (p : ℕ) : Prop :=
+def CoreGenerationZOf (G : Type*) [Group G] [Finite G] (p : ℕ) : Prop :=
   ∃ (E : Subgroup G) (Γ : Set G), IsPGroup p E ∧ Nat.card E = p ^ 3 ∧
     (∃ x ∈ E, ∃ y ∈ E, x * y ≠ y * x) ∧ Subgroup.closure Γ = ⊤ ∧
     ∀ g ∈ Γ, (∃ Y : Subgroup G, Y ≤ E ∧ 2 ≤ Open.pRank p Y ∧

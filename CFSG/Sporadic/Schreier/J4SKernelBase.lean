@@ -25,14 +25,14 @@ instance xvFinite : Finite Xv := by
   have : Finite Row := inferInstanceAs (Finite (Fin 112 → ZMod 2))
   exact Subtype.finite
 
-@[expose] def vO : Xv := ⟨v, mem_orbit_self v⟩
+def vO : Xv := ⟨v, mem_orbit_self v⟩
 
 theorem v_eq_rootV : v = toRow Native.rootV.toVec := by rw [v, toVecD_rootBits]
 
-@[expose] def subRep (l : ℕ) : Row :=
+def subRep (l : ℕ) : Row :=
   (CFSG.Sporadic.J4.QT2.pathElt (CFSG.Sporadic.J4.QT2.repPaths.getD l []))⁻¹ • v
 
-@[expose] def subSizeL (l : ℕ) : ℕ :=
+def subSizeL (l : ℕ) : ℕ :=
   [1, 32643072, 82575360, 54405120, 3400320, 15180, 28336].getD l 0
 
 theorem coe_orbit_Xv (H' : Subgroup J) (x : Xv) :

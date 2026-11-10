@@ -9,7 +9,7 @@ open CFSG.RankThree.PartTwo.KFacts.K426 CFSG.Monster.B.Co2.Native CFSG.Certifica
 
 namespace Certificates
 
-@[expose] def j3uvElt (m : ℕ) : Array ℕ :=
+def j3uvElt (m : ℕ) : Array ℕ :=
   compA 6156 (powArr 6156 (evalWA 6156 j3tDGens j3tWu) (m / 3))
     (powArr 6156 (evalWA 6156 j3tDGens j3tWv) (m % 3))
 

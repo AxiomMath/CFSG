@@ -72,7 +72,7 @@ private theorem uGenWords_fixed (k : ℕ) (hk : k < 10) :
     actWord (uGenWords.getD k []) 48 = 48 := by
   interval_cases k <;> decide
 
-@[expose] def lam0 : Submodule (ZMod 2) V8 :=
+def lam0 : Submodule (ZMod 2) V8 :=
   Submodule.span (ZMod 2) {bvec 8 1, bvec 8 2, bvec 8 12, bvec 8 48}
 
 private theorem b0_gen_zero :
@@ -131,11 +131,11 @@ theorem e0_mem_lam0 : e0 ∈ lam0 := by
 
 section
 
-@[expose] def lD (σ : ℕ) : Dfull := wordX (lWord σ)
+def lD (σ : ℕ) : Dfull := wordX (lWord σ)
 
-@[expose] def tD (τ : ℕ) : Dfull := wordX (tWord τ)
+def tD (τ : ℕ) : Dfull := wordX (tWord τ)
 
-@[expose] def uD (k : ℕ) : Dfull := wordX (uWord k)
+def uD (k : ℕ) : Dfull := wordX (uWord k)
 
 private theorem wordX_lWord (σ : ℕ) : wordX (lWord σ) = lD σ := rfl
 

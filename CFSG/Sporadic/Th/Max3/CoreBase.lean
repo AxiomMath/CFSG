@@ -10,7 +10,7 @@ namespace CFSG.Sporadic.Th.Max3
 
 open CFSG.Certificates
 
-@[expose] def cInv : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
+def cInv : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
   !![0, 0, 0, 1, 1, 1, 0, 1; 0, 0, 1, 0, 0, 1, 1, 1; 0, 1, 0, 1, 0, 1, 0, 1; 1, 0, 1, 0, 0, 1, 0, 1;
     1, 0, 0, 0, 0, 0, 0, 1; 1, 1, 1, 1, 0, 0, 1, 0; 0, 1, 0, 0, 0, 1, 0, 0; 1, 1, 1, 1, 1, 0, 0, 0]
 

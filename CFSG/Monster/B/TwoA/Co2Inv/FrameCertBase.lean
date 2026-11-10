@@ -40,7 +40,7 @@ theorem decW_inj_valid {a b : ℕ} (ha : validW a = true) (hb : validW b = true)
 
 theorem fPerms_size : fPerms.size = 9 := rfl
 
-@[expose] def F9 : Subgroup (Equiv.Perm (Fin 24)) :=
+def F9 : Subgroup (Equiv.Perm (Fin 24)) :=
   Subgroup.closure ((fun k => decode fPerms[k]!) '' {k | k < fPerms.size})
 
 end CFSG.Monster.B.TwoA.Co2Inv

@@ -27,7 +27,7 @@ theorem mem_suzM_of_inP {g : Array ℕ} {G : Equiv.Perm (Fin 1782)} (hG : Rep 17
 
 end Chain
 
-@[expose] noncomputable def Qg : Subgroup (Equiv.Perm (Fin 1782)) :=
+noncomputable def Qg : Subgroup (Equiv.Perm (Fin 1782)) :=
   Subgroup.closure (permsA 1782 (qGensS ()))
 
 theorem factorization_card_suzM_three :
@@ -37,14 +37,14 @@ theorem factorization_card_suzM_three :
     Nat.Prime.factorization_pow Nat.prime_three, Finsupp.single_eq_same,
     Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
 
-@[expose] def vec (k : ℕ) : Fin 5 → ZMod 3 := fun i => (digit3 k i : ZMod 3)
+def vec (k : ℕ) : Fin 5 → ZMod 3 := fun i => (digit3 k i : ZMod 3)
 
 theorem vec_val (k : ℕ) (i : Fin 5) : (vec k i).val = digit3 k i := by
   rw [vec, ZMod.val_natCast]
   unfold digit3
   exact Nat.mod_mod _ _
 
-@[expose] def idx (a : Fin 5 → ZMod 3) : ℕ :=
+def idx (a : Fin 5 → ZMod 3) : ℕ :=
   (a 0).val + 3 * (a 1).val + 9 * (a 2).val + 27 * (a 3).val + 81 * (a 4).val
 
 theorem idx_lt (a : Fin 5 → ZMod 3) : idx a < 243 := by
@@ -78,7 +78,7 @@ theorem idx_eq_zero_iff (a : Fin 5 → ZMod 3) : idx a = 0 ↔ a = 0 := by
   · rintro rfl
     simp [idx]
 
-@[expose] noncomputable def dPerm (i : Fin 5) : Equiv.Perm (Fin 1782) :=
+noncomputable def dPerm (i : Fin 5) : Equiv.Perm (Fin 1782) :=
   permOfArr 1782 (dGens ())[(i : ℕ)]!
 
 section D
@@ -98,7 +98,7 @@ theorem isPGroup_of_map_le {K : Subgroup ↥suzM} {X : Subgroup (Equiv.Perm (Fin
 
 end DCore
 
-@[expose] noncomputable def yPerm : Equiv.Perm (Fin 1782) := permOfArr 1782 (yArr (levels ()))
+noncomputable def yPerm : Equiv.Perm (Fin 1782) := permOfArr 1782 (yArr (levels ()))
 
 theorem cKeys_lt : ∀ q ∈ cKeys, q < 1782 := by decide
 

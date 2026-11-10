@@ -31,7 +31,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.B.Co2 CFSG.Monster.VisCert CFSG
   CFSG.Monster.Visible CFSG.Monster.ScalarKernel CFSG.Monster.VisQuot CFSG.Monster.SpinLattice
   CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Census
 
-@[expose] def zVec (t : Fin 6) : Wv v0 := decW zBasis[(t : ℕ)]!
+def zVec (t : Fin 6) : Wv v0 := decW zBasis[(t : ℕ)]!
 
 theorem zBasis_comb_zero : Native.actD 6 zBasis 0 = 0 := by decide +kernel
 
@@ -63,12 +63,12 @@ theorem sixRows_single : ∀ k < 21, ∀ t < 6, Native.actD 6 (sixRows[k]!) (1 <
     (sixRows[k]!)[t]! := by
   decide +kernel
 
-@[expose] def gramMat : Matrix (Fin 6) (Fin 6) (ZMod 2) :=
+def gramMat : Matrix (Fin 6) (Fin 6) (ZMod 2) :=
   Matrix.of fun i j => bvec 6 gramSix[(i : ℕ)]! j
 
-@[expose] def gramInvRows : Array ℕ := #[56, 44, 42, 39, 1, 15]
+def gramInvRows : Array ℕ := #[56, 44, 42, 39, 1, 15]
 
-@[expose] def gramInvMat : Matrix (Fin 6) (Fin 6) (ZMod 2) :=
+def gramInvMat : Matrix (Fin 6) (Fin 6) (ZMod 2) :=
   Matrix.of fun i j => bvec 6 gramInvRows[(i : ℕ)]! j
 
 theorem gramMat_mul_inv : gramMat * gramInvMat = 1 := by decide +kernel
@@ -81,9 +81,9 @@ theorem gramMat_invariant : ∀ k < 21, ∀ i j : Fin 6,
       bvec 6 (sixRows[k]!)[(j : ℕ)]! u = bvec 6 gramSix[(i : ℕ)]! j := by
   decide +kernel
 
-@[expose] def zDual : Array ℕ := #[4097, 8192, 16384, 32768, 3, 61443]
+def zDual : Array ℕ := #[4097, 8192, 16384, 32768, 3, 61443]
 
-@[expose] def zDualMat : Matrix (Fin 6) (Fin 22) (ZMod 2) :=
+def zDualMat : Matrix (Fin 6) (Fin 22) (ZMod 2) :=
   Matrix.of fun i t => bvec 22 zDual[(i : ℕ)]! t
 
 theorem zDualMat_zBasis : ∀ j : Fin 6,
@@ -92,7 +92,7 @@ theorem zDualMat_zBasis : ∀ j : Fin 6,
 
 attribute [local instance] wLeftAction
 
-@[expose] def dec6 (n : ℕ) : Fin 6 → Wv v0 := fun t => decW (rowOf n t)
+def dec6 (n : ℕ) : Fin 6 → Wv v0 := fun t => decW (rowOf n t)
 
 theorem dec6_injective {a b : ℕ} (ha : valid6 a = true) (hb : valid6 b = true)
     (h : dec6 a = dec6 b) : a = b := by

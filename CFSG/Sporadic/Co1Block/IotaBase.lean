@@ -95,13 +95,13 @@ theorem extendTuple_eq_dagG : ∀ (gs : List GL24) (ds : List (List ℤ)),
     rw [extendTuple_cons, wordValue_eq_wordG, extendTuple_eq_dagG _ ds]
     rfl
 
-@[expose] def iotaH : List stabH := extendTuple [stabG0, stabG1] iotaDerivs
+def iotaH : List stabH := extendTuple [stabG0, stabG1] iotaDerivs
 
-@[expose] def iotaA : stabH := iotaH.getD 23 1
+def iotaA : stabH := iotaH.getD 23 1
 
-@[expose] def iotaC : stabH := iotaH.getD 51 1
+def iotaC : stabH := iotaH.getD 51 1
 
-@[expose] def iotaQ (k : ℕ) : stabH := iotaH.getD (36 + k) 1
+def iotaQ (k : ℕ) : stabH := iotaH.getD (36 + k) 1
 
 theorem iotaH_map_cls :
     iotaH.map clsHom = extendTuple aSeeds iotaDerivs := by
@@ -122,16 +122,16 @@ abbrev co2U : co2P := ⟨locU, locU_mem⟩
 theorem qTuple_length' : qTuple.length = 8 := by
   rw [qTuple, List.length_map, localShape.qWords_length]
 
-@[expose] def iotaRows : List CFSG.Sporadic.Co1Schreier.Native.Rows :=
+def iotaRows : List CFSG.Sporadic.Co1Schreier.Native.Rows :=
   (CFSG.Sporadic.Co1Schreier.Native.dag [Native.hRows0, Native.hRows1] iotaDerivs).1
 
-@[expose] def iotaARows : CFSG.Sporadic.Co1Schreier.Native.Rows :=
+def iotaARows : CFSG.Sporadic.Co1Schreier.Native.Rows :=
   iotaRows.getD 23 CFSG.Sporadic.Co1Schreier.Native.one
 
-@[expose] def iotaCRows : CFSG.Sporadic.Co1Schreier.Native.Rows :=
+def iotaCRows : CFSG.Sporadic.Co1Schreier.Native.Rows :=
   iotaRows.getD 51 CFSG.Sporadic.Co1Schreier.Native.one
 
-@[expose] def iotaQRows (k : ℕ) : CFSG.Sporadic.Co1Schreier.Native.Rows :=
+def iotaQRows (k : ℕ) : CFSG.Sporadic.Co1Schreier.Native.Rows :=
   iotaRows.getD (36 + k) CFSG.Sporadic.Co1Schreier.Native.one
 
 theorem iotaA_mem_GA : (iotaA : GL24) ∈ GA := stabH_le_GA iotaA.2

@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.KGC31.Ru
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native
   CFSG.Sporadic.RuSchreier CFSG.Quasithin.KGC31
 
-@[expose] noncomputable def wsG (ws : List (List ℤ)) : List (Equiv.Perm (Fin 4060)) := ws.map wG
+noncomputable def wsG (ws : List (List ℤ)) : List (Equiv.Perm (Fin 4060)) := ws.map wG
 
 theorem forall₂_wsA {ws : List (List ℤ)}
     (hws : ∀ w ∈ ws, lettersOK 6 w = true) : List.Forall₂ (Rep 4060) (wsA ws) (wsG ws) := by

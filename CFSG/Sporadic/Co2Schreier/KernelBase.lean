@@ -89,7 +89,7 @@ structure KerFacts : Prop where
   conj1 : eqA 2300 (compA 2300 kerData.z kerData.d[1]!)
     (compA 2300 (compA 2300 kerData.d[1]! kerData.zs[9]!) kerData.z) = true
 
-@[expose] def zeta (k : ℕ) : Equiv.Perm (Fin 2300) := eltE enumR (centerIdxR.getD k 0)
+def zeta (k : ℕ) : Equiv.Perm (Fin 2300) := eltE enumR (centerIdxR.getD k 0)
 
 theorem centerIdxR_length : centerIdxR.length = 32 := rfl
 
@@ -118,15 +118,15 @@ theorem dTuple_getD_mem_D (i : ℕ) : dTuple.getD i 1 ∈ locD := by
   | none => exact locD.one_mem
   | some g => exact Subgroup.subset_closure (List.mem_of_getElem? h)
 
-@[expose] def dP (i : ℕ) : co2P := ⟨dTuple.getD i 1, dTuple_getD_mem i⟩
+def dP (i : ℕ) : co2P := ⟨dTuple.getD i 1, dTuple_getD_mem i⟩
 
-@[expose] def dPs : List co2P := [dP 0, dP 1]
+def dPs : List co2P := [dP 0, dP 1]
 
 theorem dPs_map_subtype : dPs.map co2P.subtype = dTuple := by
   rw [dTuple_eq]
   rfl
 
-@[expose] def candTuple (k0 k1 : ℕ) : List (Equiv.Perm (Fin 2300)) :=
+def candTuple (k0 k1 : ℕ) : List (Equiv.Perm (Fin 2300)) :=
   [dTuple.getD 0 1 * zeta k0, dTuple.getD 1 1 * zeta k1]
 
 theorem repTuple_pair {a b : Array ℕ} {x y : Equiv.Perm (Fin 2300)} (ha : Rep 2300 a x)

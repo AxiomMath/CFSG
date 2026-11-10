@@ -16,7 +16,7 @@ variable {P : Type u} [Group P] (N : Subgroup P) (hN : ∀ a ∈ N, ∀ b ∈ N,
 
 @[expose] def NMod (N : Subgroup P) (_hN : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a) : Type u := Additive ↥N
 
-@[expose] instance NMod.instAddCommGroup : AddCommGroup (NMod N hN) :=
+instance NMod.instAddCommGroup : AddCommGroup (NMod N hN) :=
   letI : CommGroup ↥N :=
     { (inferInstance : Group ↥N) with mul_comm := fun a b => Subtype.ext (hN a a.2 b b.2) }
   inferInstanceAs (AddCommGroup (Additive ↥N))

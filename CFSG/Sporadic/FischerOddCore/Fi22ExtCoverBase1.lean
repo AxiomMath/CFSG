@@ -49,7 +49,7 @@ theorem fi22ExtEltIdx_mem (I : ℕ) : fi22ExtEltIdx I ∈ fi22ExtS := by
   rw [fi22ExtEltIdx]
   exact fi22ExtElt_mem _ _
 
-@[expose] def fi22ExtE
+def fi22ExtE
     (I : ℕ) : fi22ExtS := ⟨fi22ExtEltIdx I, fi22ExtEltIdx_mem I⟩
 
 theorem fi22ExtE_val
@@ -170,7 +170,7 @@ theorem fi22ExtE_inj
   obtain ⟨hc, he⟩ := fi22ExtElt_inj h'
   rw [← fi22ExtIdx_coord hI, ← fi22ExtIdx_coord hJ, hc, he]
 
-@[expose] def fi22ExtGen
+def fi22ExtGen
     (k : ℕ) : fi22ExtS :=
   if hk : k < 10 then ⟨fi22ExtFullGen k, fi22ExtFullGen_mem hk⟩ else 1
 

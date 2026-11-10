@@ -16,7 +16,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjo
 
 local instance tableBE6HypNeZeroRank : NeZero Tag.E6.rank := ⟨by decide⟩
 
-@[expose] local instance tableBE6HypRootDecEq : DecidableEq (Fin Tag.E6.rank → ℤ) :=
+local instance tableBE6HypRootDecEq : DecidableEq (Fin Tag.E6.rank → ℤ) :=
   Fintype.decidablePiFintype
 
 @[expose] def modelWordE6 (v : Fin 3 → ZMod 3) (j : ZMod 3) : List (Fin Tag.E6.rank) :=

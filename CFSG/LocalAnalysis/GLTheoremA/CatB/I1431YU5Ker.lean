@@ -51,7 +51,7 @@ theorem fixesPt_pow {W : Submodule K (HypIndex 2 1 → K)} {g : GL (HypIndex 2 1
   | zero => simpa using fixesPt_one W
   | succ n ih => rw [pow_succ]; exact fixesPt_mul ih hg
 
-@[expose] noncomputable abbrev perpW (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → K)) :
+noncomputable abbrev perpW (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → K)) :
     Submodule K (HypIndex 2 1 → K) :=
   W.orthogonalBilin (hypForm h 2 1)
 

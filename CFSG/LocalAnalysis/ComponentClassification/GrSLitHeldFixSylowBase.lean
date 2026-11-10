@@ -35,7 +35,7 @@ open CFSG Subgroup CFSG.PSL3Four.Native CFSG.ComponentClassification.PSL3Four
   CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SuzOddCore CFSG.Sporadic.HeldB CFSG.Monster.B.Co2
   CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.Schreier
 
-@[expose] def hfX : Equiv.Perm (Fin 8330) := evalSignedWord heOuterLetters hfXWord
+def hfX : Equiv.Perm (Fin 8330) := evalSignedWord heOuterLetters hfXWord
 
 theorem hfAUArrs_eq : hfAUArrs = heLetterArrs := rfl
 
@@ -48,23 +48,23 @@ theorem hfX_mem : hfX ∈ heAutGroup := by
   · exact heP_le_heAutGroup (heGenPerm_mem (by norm_num))
   · exact heAutU_mem_heAutGroup
 
-@[expose] def hfTau (i : ℕ) : Equiv.Perm (Fin 8330) := ((hfTauWords.getD i []).map heInnerCP1).prod
+def hfTau (i : ℕ) : Equiv.Perm (Fin 8330) := ((hfTauWords.getD i []).map heInnerCP1).prod
 
-@[expose] def hfTL (j : ℕ) : Equiv.Perm (Fin 8330) := if j = 0 then heT1P else hfTau (j - 1)
+def hfTL (j : ℕ) : Equiv.Perm (Fin 8330) := if j = 0 then heT1P else hfTau (j - 1)
 
-@[expose] def hfYL (j : ℕ) : Equiv.Perm (Fin 8330) := if j < 9 then heInnerCP1 j else hfX
+def hfYL (j : ℕ) : Equiv.Perm (Fin 8330) := if j < 9 then heInnerCP1 j else hfX
 
-@[expose] def hfY : Equiv.Perm (Fin 8330) := (hfYWord.map hfYL).prod
+def hfY : Equiv.Perm (Fin 8330) := (hfYWord.map hfYL).prod
 
-@[expose] def hfT0L (j : ℕ) : Equiv.Perm (Fin 8330) := if j < 5 then hfTL j else hfY
+def hfT0L (j : ℕ) : Equiv.Perm (Fin 8330) := if j < 5 then hfTL j else hfY
 
 theorem hfTTabs_size : hfTTabs.size = 5 := by simp [hfTTabs]
 
 theorem hfT0Tabs_size : hfT0Tabs.size = 6 := by simp [hfT0Tabs]
 
-@[expose] def hfT : Subgroup (Equiv.Perm (Fin 8330)) := genGroup 8330 hfTTabs hfTL
+def hfT : Subgroup (Equiv.Perm (Fin 8330)) := genGroup 8330 hfTTabs hfTL
 
-@[expose] def hfT0 : Subgroup (Equiv.Perm (Fin 8330)) := genGroup 8330 hfT0Tabs hfT0L
+def hfT0 : Subgroup (Equiv.Perm (Fin 8330)) := genGroup 8330 hfT0Tabs hfT0L
 
 theorem heInnerCP1_mem_grp1 {j : ℕ} (hj : j < 9) : heInnerCP1 j ∈ heInnerGrp1 :=
   subset_closure ⟨j, hj, rfl⟩

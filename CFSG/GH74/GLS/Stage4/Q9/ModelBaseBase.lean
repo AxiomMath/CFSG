@@ -139,7 +139,7 @@ theorem ordLAux_spec (l : Lg) (k : ℕ) : ∀ (n : ℕ) (p : Lg), p = l ^ n → 
         · exact hlt j hj1 h'
         · rw [← hp]; exact hp1
 
-@[expose] def tauL : Lg := ⟨1, Multiplicative.ofAdd 1⟩
+def tauL : Lg := ⟨1, Multiplicative.ofAdd 1⟩
 
 theorem parityL_tauL : parityL tauL ≠ 1 := by
   show Multiplicative.ofAdd (1 : ZMod 2) ≠ 1
@@ -152,7 +152,7 @@ theorem tauL_conj_innerL (M : SL2) : tauL * innerL M * tauL⁻¹ = innerL (sigma
   rw [e, ← map_inv]
   exact h.symm
 
-@[expose] def Chat : Subgroup (Lg × Lg) :=
+def Chat : Subgroup (Lg × Lg) :=
   MonoidHom.eqLocus (parityL.comp (MonoidHom.fst Lg Lg)) (parityL.comp (MonoidHom.snd Lg Lg))
 
 theorem mem_Chat_iff {p : Lg × Lg} : p ∈ Chat ↔ parityL p.1 = parityL p.2 := Iff.rfl
@@ -161,12 +161,12 @@ instance : DecidablePred (· ∈ Chat) := fun _ => decidable_of_iff _ mem_Chat_i
 
 instance : Fintype Chat := Subtype.fintype (· ∈ Chat)
 
-@[expose] def kappa0 : Lg × Lg := (innerL minusOne, innerL minusOne)
+def kappa0 : Lg × Lg := (innerL minusOne, innerL minusOne)
 
 theorem kappa0_mem : kappa0 ∈ Chat :=
   mem_Chat_iff.mpr rfl
 
-@[expose] def tauHat : Lg × Lg := (tauL, tauL)
+def tauHat : Lg × Lg := (tauL, tauL)
 
 theorem tauHat_mem : tauHat ∈ Chat :=
   mem_Chat_iff.mpr rfl

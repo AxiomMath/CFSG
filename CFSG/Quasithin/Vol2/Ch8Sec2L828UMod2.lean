@@ -31,7 +31,7 @@ noncomputable def ob5QBModule (c : S828Ctx T L I H h k) :
     Module (ZMod 2) (QB (fsuV T I) (ch82B (fsuV T I) h) (ch82U (fsuV T I) h)) :=
   AddCommGroup.zmodModule (ob5_QB_two_nsmul c)
 
-@[expose] abbrev ob5N0 (T I : Subgroup G) (h : G) : Subgroup G :=
+abbrev ob5N0 (T I : Subgroup G) (h : G) : Subgroup G :=
   Subgroup.normalizer (pCoreOf 2 (ch82I (fsuV T I) h) : Set G) ⊓
     Subgroup.normalizer (ch82U (fsuV T I) h : Set G)
 

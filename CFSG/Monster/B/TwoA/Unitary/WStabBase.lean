@@ -28,12 +28,12 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Lifts CFSG.Monster.Visible
   CFSG.Monster.VisQuot CFSG.Monster.VisCert CFSG.Monster.ScalarKernel CFSG.Monster.SpinLattice
   CFSG.Monster.B.Short CFSG.Monster.B.Co2 CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Census
 
-@[expose] def C012 : Submodule (ZMod 2) (Fin 24 → ZMod 2) := Ceq ⊓ coordEq 0 2
+def C012 : Submodule (ZMod 2) (Fin 24 → ZMod 2) := Ceq ⊓ coordEq 0 2
 
 theorem mem_C012 {x : Fin 24 → ZMod 2} : x ∈ C012 ↔ x ∈ C ∧ x 0 = x 1 ∧ x 0 = x 2 := by
   rw [C012, Submodule.mem_inf, mem_Ceq, mem_coordEq, and_assoc]
 
-@[expose] def P2 : Subgroup AutPerm := Ppair ⊓ MulAction.stabilizer AutPerm (2 : Fin 24)
+def P2 : Subgroup AutPerm := Ppair ⊓ MulAction.stabilizer AutPerm (2 : Fin 24)
 
 theorem mem_P2 {p : AutPerm} : p ∈ P2 ↔ p ∈ Ppair ∧ (p : Equiv.Perm (Fin 24)) 2 = 2 := by
   rw [P2, Subgroup.mem_inf, MulAction.mem_stabilizer_iff]
@@ -100,7 +100,7 @@ theorem monomial_fix_sigma_iff
     · exact absurd h2 (by decide)
   · exact .inr ⟨.inl ⟨rfl, h.1⟩, h.2⟩
 
-@[expose] def UsigW :
+def UsigW :
     Subgroup (Kstab v0) := Usig ⊓ Mfr
 
 theorem monoSub_c012_le_ceq : monoSub c012Hyp ≤ monoSub ceqHyp :=
@@ -140,12 +140,12 @@ theorem map_UsigW :
   · intro hx
     exact ⟨⟨x, monoSub_c012_le_Kstab hx⟩, (mem_UsigW_iff _).2 hx, rfl⟩
 
-@[expose] def usigWEquivMono :
+def usigWEquivMono :
     UsigW ≃* monoSub c012Hyp :=
   (UsigW.equivMapOfInjective (Kstab v0).subtype Subtype.val_injective).trans
     (MulEquiv.subgroupCongr map_UsigW)
 
-@[expose] def UsigWEquiv :
+def UsigWEquiv :
     SDD c012Hyp ≃* UsigW :=
   (monoSubEquiv c012Hyp).trans usigWEquivMono.symm
 
@@ -156,7 +156,7 @@ theorem coe_UsigWEquiv
   rw [UsigWEquiv, MulEquiv.trans_apply, MulEquiv.apply_symm_apply] at h
   exact h.symm
 
-@[expose] def c012Form : Ceq →ₗ[ZMod 2] ZMod 2 :=
+def c012Form : Ceq →ₗ[ZMod 2] ZMod 2 :=
   ((LinearMap.proj 0 : (Fin 24 → ZMod 2) →ₗ[ZMod 2] ZMod 2) - LinearMap.proj 2).comp Ceq.subtype
 
 theorem B6_mem_Ceq : B 6 ∈ Ceq := mem_Ceq.2 ⟨B_mem_C 6, by decide⟩
@@ -187,7 +187,7 @@ theorem natCard_C012_quot : Nat.card (C012 ⧸ ΩIn C012) = 2 ^ 9 := by
 
 attribute [local instance] restAction
 
-@[expose] def rest2 : Rest := ⟨2, by decide, by decide⟩
+def rest2 : Rest := ⟨2, by decide, by decide⟩
 
 instance isPretransitive_rest :
     MulAction.IsPretransitive Ppair Rest :=
@@ -243,9 +243,9 @@ theorem n6Aut_mem_P2 (k : Fin 6) : n6Aut k ∈ P2 := by
   · exact .inr ⟨Fin.ext h0'', Fin.ext (by omega)⟩
   · exact absurd (Fin.ext (h0''.trans h1''.symm)) hne
 
-@[expose] def bCN (j : ℕ) : C := if h : j < 12 then bC ⟨j, h⟩ else 0
+def bCN (j : ℕ) : C := if h : j < 12 then bC ⟨j, h⟩ else 0
 
-@[expose] def frameCode : List ℤ → C
+def frameCode : List ℤ → C
   | [] => 0
   | l :: w => bCN (l.toNat - 3) + frameCode w
 
@@ -262,11 +262,11 @@ theorem frameWordQ_sign : ∀ w : List ℤ, (∀ l ∈ w, 3 ≤ l.toNat ∧ l.to
     rw [frameWordQ, frameWordQ_sign w (fun l' h => hw l' (List.mem_cons_of_mem _ h)),
       frameQ_sign hl.1 hl.2, frameCode, gO_add, QuotientGroup.mk_mul]
 
-@[expose] def wordSignCode : List ℕ → C
+def wordSignCode : List ℕ → C
   | [] => 0
   | a :: w => frameCode (Native.genRecords[a]!).word + wordSignCode w
 
-@[expose] def signRecOK (a : ℕ) : Bool :=
+def signRecOK (a : ℕ) : Bool :=
   decide (a < 24) && (Native.genRecords[a]!).kind == .codeSign &&
     (Native.genRecords[a]!).word.all fun l => decide (3 ≤ l.toNat ∧ l.toNat < 15)
 
@@ -290,19 +290,19 @@ theorem alphaWordL_sign : ∀ w : List ℕ, (∀ a ∈ w, signRecOK a = true) �
 
 theorem signWords_ok : ∀ i < 10, ∀ a ∈ n6WordArr[i]!, signRecOK a = true := by decide +kernel
 
-@[expose] def signVec (i : Fin 10) : Fin 24 → ZMod 2 := (wordSignCode n6WordArr[(i : ℕ)]! : _)
+def signVec (i : Fin 10) : Fin 24 → ZMod 2 := (wordSignCode n6WordArr[(i : ℕ)]! : _)
 
 theorem n6Elt_sign (i : Fin 10) :
     n6Elt ⟨6 + i, by omega⟩ = QuotientGroup.mk (gO (wordSignCode n6WordArr[(i : ℕ)]!)) := by
   rw [n6Elt_of_ge (show ¬(6 + (i : ℕ)) < 6 by omega), show 6 + (i : ℕ) - 6 = i by omega]
   exact alphaWordL_sign _ (signWords_ok i i.2)
 
-@[expose] def signMask : Fin 10 → ℕ :=
+def signMask : Fin 10 → ℕ :=
   ![255, 3855, 61455, 983055, 15728655, 14381336, 6996160, 13017248, 13421568, 11184640]
 
 theorem signVec_eq : ∀ i : Fin 10, signVec i = bvec 24 (signMask i) := by decide +kernel
 
-@[expose] def signDual : Fin 10 → ℕ := ![25, 265, 4105, 65545, 69905, 9, 89, 57, 1289, 777]
+def signDual : Fin 10 → ℕ := ![25, 265, 4105, 65545, 69905, 9, 89, 57, 1289, 777]
 
 theorem signDual_check : ∀ i j : Fin 10,
     bvec 24 (signDual j) ⬝ᵥ bvec 24 (signMask i) = if i = j then 1 else 0 := by decide +kernel
@@ -370,6 +370,6 @@ theorem mk_gO_mem_H6 {a : C} (ha : (a : Fin 24 → ZMod 2) ∈ C012) :
   obtain ⟨h, hm⟩ := key _ ha
   exact hm
 
-@[expose] def permQ : AutPerm →* OLq := (QuotientGroup.mk' _).comp permOHom
+def permQ : AutPerm →* OLq := (QuotientGroup.mk' _).comp permOHom
 
 end CFSG.Monster.B.TwoA.Unitary

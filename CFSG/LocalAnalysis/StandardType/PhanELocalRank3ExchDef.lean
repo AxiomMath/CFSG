@@ -85,7 +85,7 @@ theorem exists_mem_setA2A1 {p l : Submodule K (Fin 3 → K)} (hp : finrank K p =
 
 variable (K f)
 
-@[expose] noncomputable abbrev X : ChamberSystem (Fin 2 ⊕ Fin 1) ↥(setA2A1 K f) :=
+noncomputable abbrev X : ChamberSystem (Fin 2 ⊕ Fin 1) ↥(setA2A1 K f) :=
   ((flagSys K 2).prod (flagSys K 1)).restrict (setA2A1 K f)
 
 @[expose] def V : Type := {p : Submodule K (Fin 3 → K) // ∃ c : ↥(setA2A1 K f), c.1.1.E 1 = p}

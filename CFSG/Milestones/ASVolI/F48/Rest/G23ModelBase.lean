@@ -122,10 +122,10 @@ end Restrict
 
 section Decode
 
-@[expose] def burnsideF48t_dv (v : Array ℕ) : Fin 14 → ZMod 3 :=
+def burnsideF48t_dv (v : Array ℕ) : Fin 14 → ZMod 3 :=
   fun j => ((v[(j : ℕ)]! : ℕ) : ZMod 3)
 
-@[expose] def burnsideF48t_dm (A : Array ℕ) : Matrix (Fin 14) (Fin 14) (ZMod 3) :=
+def burnsideF48t_dm (A : Array ℕ) : Matrix (Fin 14) (Fin 14) (ZMod 3) :=
   Matrix.of fun i j => ((A[14 * (i : ℕ) + j]! : ℕ) : ZMod 3)
 
 theorem burnsideF48t_list_sum_range {M : Type*} [AddCommMonoid M] (f : ℕ → M) (n : ℕ) :
@@ -169,10 +169,10 @@ end Decode
 
 section Gen
 
-@[expose] noncomputable def burnsideF48t_g23R : Subgroup (GL (Fin 14) (ZMod 3)) :=
+noncomputable def burnsideF48t_g23R : Subgroup (GL (Fin 14) (ZMod 3)) :=
   Subgroup.closure {gX 0, gX 1, gY 0, gY 1}
 
-@[expose] noncomputable def burnsideF48t_g23RGen (i : ℕ) : GL (Fin 14) (ZMod 3) :=
+noncomputable def burnsideF48t_g23RGen (i : ℕ) : GL (Fin 14) (ZMod 3) :=
   if i = 0 then gX 0 else if i = 1 then gX 1 else if i = 2 then gY 0 else gY 1
 
 theorem burnsideF48t_g23_coe_RGen {i : ℕ} (hi : i < 4) :
@@ -294,7 +294,7 @@ theorem burnsideF48t_g23_ptsGen {k : ℕ} (hk : k < 4) (i : Fin 728) :
         (burnsideF48t_g23MulVec (burnsideF48t_g23Mats ())[k]! (burnsideF48t_g23Pts ())[(i : ℕ)]!) :=
   Certificates.certificate7760.2.2.2 k hk i
 
-@[expose] def burnsideF48t_g23vec (k : ℕ) : Fin 14 → ZMod 3 :=
+def burnsideF48t_g23vec (k : ℕ) : Fin 14 → ZMod 3 :=
   burnsideF48t_dv (burnsideF48t_g23Pts ())[k]!
 
 theorem burnsideF48t_cast_three_inj {a b : ℕ} (ha : a < 3) (hb : b < 3)
@@ -302,7 +302,7 @@ theorem burnsideF48t_cast_three_inj {a b : ℕ} (ha : a < 3) (hb : b < 3)
   have := congrArg ZMod.val h
   rwa [ZMod.val_cast_of_lt ha, ZMod.val_cast_of_lt hb] at this
 
-@[expose] def burnsideF48t_g23Pt (k : Fin 728) : Set (Fin 14 → ZMod 3) :=
+def burnsideF48t_g23Pt (k : Fin 728) : Set (Fin 14 → ZMod 3) :=
   {burnsideF48t_g23vec k, (2 : ZMod 3) • burnsideF48t_g23vec k}
 
 theorem burnsideF48t_g23_RGen0 : burnsideF48t_g23RGen 0 = gX 0 := if_pos rfl

@@ -61,9 +61,9 @@ theorem wR_powWord (w : List Int) : ∀ e, wR (powWord w e) = powRows (wR w) e
     rw [powWord, wR_append, wR_powWord w e, powRows_comm (wR_enc w).1]
     rfl
 
-@[expose] noncomputable def kwK (i : Nat) : Nat := wordJ c rm one G5 G5i (mkKW.getD i [])
+noncomputable def kwK (i : Nat) : Nat := wordJ c rm one G5 G5i (mkKW.getD i [])
 
-@[expose] noncomputable def gmK (n : Nat) : Nat :=
+noncomputable def gmK (n : Nat) : Nat :=
   if n < 12 then getN one QAs n
   else if n = 12 then YA
   else if n = 13 then YB
@@ -105,7 +105,7 @@ theorem gm_enc {n : Nat} (hn : n < 32) : WfA gmats[n]! ∧ encR gmats[n]! = gmK 
 theorem gtabs_get {n : Nat} (hn : n < 32) : gtabs[n]! = frTable gmats[n]! :=
   get!_map frTable gmats (by rw [gmats_size]; exact hn)
 
-@[expose] def uRowsT : Array (Array V2) := ((List.range 11).map fun j => CFSG.Quasithin.J4M2.wordT (uWord j)).toArray
+def uRowsT : Array (Array V2) := ((List.range 11).map fun j => CFSG.Quasithin.J4M2.wordT (uWord j)).toArray
 
 theorem uRowsT_enc : ∀ j < Us.length,
     WfA (uRowsT[j]?.getD (idRows ())) ∧ encR (uRowsT[j]?.getD (idRows ())) = getN one Us j := by
@@ -168,7 +168,7 @@ theorem qI_enc {k : Nat} (hk : k < 12) : WfA qI[k]! ∧ encR qI[k]! = getN one Q
   rw [qI_get hk]
   exact invRows_enc hK (qM_enc hk).1 h.1 (by rw [(qM_enc hk).2]; exact h.2)
 
-@[expose] noncomputable def qProdK (e : Nat) (δ : Bool) : Nat :=
+noncomputable def qProdK (e : Nat) (δ : Bool) : Nat :=
   let m := (List.range 12).foldl (fun acc j => if e.testBit j then mulJ c rm acc (getN one QAs j)
     else acc) one
   if δ then mulJ c rm m ZM else m
@@ -199,10 +199,10 @@ theorem qProd_enc (e : Nat) (δ : Bool) : WfA (qProd e δ) ∧ encR (qProd e δ)
   · exact hm
   · exact mul_enc hK hm zM_enc
 
-@[expose] noncomputable def oW : List (List Int) :=
+noncomputable def oW : List (List Int) :=
   [aK, bK, powWord y5K y5e, powWord y7K y7e, powWord y11K y11e]
 
-@[expose] noncomputable def oiK (i : Nat) : Nat := wordJ c rm one G5 G5i (negRev (oW.getD i []))
+noncomputable def oiK (i : Nat) : Nat := wordJ c rm one G5 G5i (negRev (oW.getD i []))
 
 theorem oinv_chk : allR 5 (fun i => andB (canonJ pad (oiK i))
     (Nat.beq (mulJ c rm (gmK (12 + i)) (oiK i)) one)) = true := by
@@ -221,7 +221,7 @@ theorem oI_get {i : Nat} (hi : i < 5) : oI[i]! = invRows gmats[12 + i]! :=
 theorem oIT_get {i : Nat} (hi : i < 5) : oIT[i]! = frTable oI[i]! :=
   get!_map frTable oI (by simp [oI]; exact hi)
 
-@[expose] noncomputable def cmK : Nat := mulJ c rm (mulJ c rm (mulJ c rm YA YB) (oiK 0)) (oiK 1)
+noncomputable def cmK : Nat := mulJ c rm (mulJ c rm (mulJ c rm YA YB) (oiK 0)) (oiK 1)
 
 theorem cMat_enc : WfA cMat ∧ encR cMat = cmK := by
   have ha := gm_enc (n := 12) (by omega)

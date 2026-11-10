@@ -25,12 +25,12 @@ namespace T7
 
 variable {L : Type} [Field L]
 
-@[expose] instance : Add (T7 L) := ⟨fun x y => ⟨x.s + y.s, x.a1 + y.a1, x.a2 + y.a2, x.a3 + y.a3,
+instance : Add (T7 L) := ⟨fun x y => ⟨x.s + y.s, x.a1 + y.a1, x.a2 + y.a2, x.a3 + y.a3,
   x.b12 + y.b12, x.b13 + y.b13, x.b23 + y.b23⟩⟩
 
-@[expose] instance : Zero (T7 L) := ⟨⟨0, 0, 0, 0, 0, 0, 0⟩⟩
+instance : Zero (T7 L) := ⟨⟨0, 0, 0, 0, 0, 0, 0⟩⟩
 
-@[expose] instance : SMul L (T7 L) := ⟨fun c x => ⟨c * x.s, c * x.a1, c * x.a2, c * x.a3, c * x.b12,
+instance : SMul L (T7 L) := ⟨fun c x => ⟨c * x.s, c * x.a1, c * x.a2, c * x.a3, c * x.b12,
   c * x.b13, c * x.b23⟩⟩
 
 @[simp] theorem add_s (x y : T7 L) : (x + y).s = x.s + y.s := rfl

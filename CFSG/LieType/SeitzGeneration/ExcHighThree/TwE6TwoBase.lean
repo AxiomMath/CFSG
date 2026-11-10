@@ -123,13 +123,13 @@ section Orbits
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
   (σ : K ≃+* K)
 
-@[expose] noncomputable def oX (a : Fin TwistTag.E6.foldedTag.rank)
+noncomputable def oX (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) : twistedE6RootGroup K σ :=
   ⟨(orbitX TwistTag.E6 K σ.toRingHom a c : ModGL TwistTag.E6.tag K),
     graphFixedPosUnipotent_le_graphFixedRootGroup _ _ _
       (orbitX_mem_graphFixedPosUnipotent _ _ _ _)⟩
 
-@[expose] noncomputable def oY (a : Fin TwistTag.E6.foldedTag.rank)
+noncomputable def oY (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) : twistedE6RootGroup K σ :=
   ⟨(orbitY TwistTag.E6 K σ.toRingHom a c : ModGL TwistTag.E6.tag K),
     graphFixedNegUnipotent_le_graphFixedRootGroup _ _ _
@@ -519,7 +519,7 @@ end Plane
 
 section Statement
 
-@[expose] def TwCloseAtTwo : Prop :=
+def TwCloseAtTwo : Prop :=
   ∀ (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (k : Type) [Field k] [Finite k] [Algebra k K]
     (hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c),
     Nat.card K = 2 ^ 2 → (∀ c : K, σ c = c ^ 2) → Nat.card k = 2 →

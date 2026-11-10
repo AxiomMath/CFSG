@@ -15,9 +15,9 @@ open Equiv CyclePatternRoots CyclePatternSum
 
 variable {X : Type*}
 
-@[expose] abbrev doubleTwo : Perm (Fin 2 ⊕ Fin 2) := (finRotate 2).sumCongr (finRotate 2)
-@[expose] abbrev fourTwo : Perm (Fin 4 ⊕ Fin 2) := (finRotate 4).sumCongr (finRotate 2)
-@[expose] abbrev fourTwoTwo : Perm (Fin 4 ⊕ (Fin 2 ⊕ Fin 2)) := (finRotate 4).sumCongr doubleTwo
+abbrev doubleTwo : Perm (Fin 2 ⊕ Fin 2) := (finRotate 2).sumCongr (finRotate 2)
+abbrev fourTwo : Perm (Fin 4 ⊕ Fin 2) := (finRotate 4).sumCongr (finRotate 2)
+abbrev fourTwoTwo : Perm (Fin 4 ⊕ (Fin 2 ⊕ Fin 2)) := (finRotate 4).sumCongr doubleTwo
 
 private theorem two_period (g : Perm X) (a : Pattern g (finRotate 2)) (i : Fin 2) :
     g (g (a.val i)) = a.val i := by

@@ -18,7 +18,7 @@ open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.CosetTable
 
 abbrev N8 : Type := PG 10 relsN8Ten
 
-@[expose] def n8 (w : List (Fin 10 × Bool)) : N8 := PresentedGroup.mk _ (FreeGroup.mk w)
+def n8 (w : List (Fin 10 × Bool)) : N8 := PresentedGroup.mk _ (FreeGroup.mk w)
 
 theorem n8_nil : n8 [] = 1 := map_one _
 
@@ -29,10 +29,10 @@ theorem gInvVec_gVec : ∀ j p, gInvVec j (gVec j p) = p := by decide
 
 theorem gVec_gInvVec : ∀ j p, gVec j (gInvVec j p) = p := by decide
 
-@[expose] def gPerm (j : Fin 10) : Equiv.Perm (Fin 16) :=
+def gPerm (j : Fin 10) : Equiv.Perm (Fin 16) :=
   ⟨gVec j, gInvVec j, gInvVec_gVec j, gVec_gInvVec j⟩
 
-@[expose] def letPerm (l : Fin 10 × Bool) : Equiv.Perm (Fin 16) :=
+def letPerm (l : Fin 10 × Bool) : Equiv.Perm (Fin 16) :=
   if l.2 then gPerm l.1 else (gPerm l.1)⁻¹
 
 theorem idx16 (σ : Equiv.Perm (Fin 16)) {i : ℕ} (hi : i < 16) :

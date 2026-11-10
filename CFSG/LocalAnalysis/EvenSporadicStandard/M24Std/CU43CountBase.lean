@@ -58,7 +58,7 @@ theorem allLt_sq_iff {n : ℕ} {w : List (Array ℕ)} {H : Equiv.Perm (Fin n)} (
 
 section Counts
 
-@[expose] def CommGens (k : ℕ) (g : Equiv.Perm (Fin 820)) : Prop :=
+def CommGens (k : ℕ) (g : Equiv.Perm (Fin 820)) : Prop :=
   g * tP k * psi xElt = psi xElt * (g * tP k) ∧ g * tP k * psi yElt = psi yElt * (g * tP k)
 
 end Counts

@@ -18,7 +18,7 @@ namespace GorensteinWalter
 
 universe u
 
-@[expose] abbrev A5SL2 := Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)
+abbrev A5SL2 := Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)
 
 instance : DecidableEq (Equiv.Perm (Fin 5)) := fun a b =>
   decidable_of_iff (∀ i : Fin 5, a i = b i) ⟨Equiv.ext, fun h i => congrArg (fun e => e i) h⟩
@@ -219,7 +219,7 @@ instance : DecidablePred (fun σ : Equiv.Perm (Fin 5) => σ ∈ alternatingGroup
 @[expose] def a5E : A5SL2 := ⟨!![1, 1; 0, 1], by decide⟩
 @[expose] def a5F : A5SL2 := ⟨!![1, 0; 1, 1], by decide⟩
 
-@[expose] abbrev CenterEq (M : A5SL2) : Prop := M = 1 ∨ M = -1
+abbrev CenterEq (M : A5SL2) : Prop := M = 1 ∨ M = -1
 
 end GorensteinWalter
 

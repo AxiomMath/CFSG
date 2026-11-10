@@ -30,7 +30,7 @@ theorem hrep : ∀ l, Rep 22 (gensT l) (gensG l) := fun l => by
   · exact rep_toTable hn22 _
   · exact rep_toTable hn22 _
 
-@[expose] def elt (w : List ℤ) : G₀ := ⟨wordG gensG w, wordG_mem_of _ hgens w⟩
+def elt (w : List ℤ) : G₀ := ⟨wordG gensG w, wordG_mem_of _ hgens w⟩
 
 theorem rep_elt (w : List ℤ) : Rep 22 (wordT 22 gensT w) ((elt w : G₀) : Equiv.Perm (Fin 22)) :=
   Rep.wordT hn22 w fun l _ => hrep l
@@ -41,7 +41,7 @@ theorem m22Certificate_original : m22Certificate.originalSubgroup = NativeSporad
   ext g
   simp
 
-@[expose] def basisOf (ws : List (List ℤ)) : Fin ws.length → G₀ := fun i => elt (ws.get i)
+def basisOf (ws : List (List ℤ)) : Fin ws.length → G₀ := fun i => elt (ws.get i)
 
 theorem forall₂_basisOf (ws : List (List ℤ)) :
     List.Forall₂ (Rep 22) (ws.map (wordT 22 gensT))
@@ -57,9 +57,9 @@ theorem EBasis.of_map {Γ B : Type*} [Group Γ] [Group B] {n : ℕ} {v : Fin n �
   comm i j := hf (by rw [map_mul, map_mul]; exact (h.comm i j).eq)
   ne_one c hc := h.ne_one c (by rw [← map_eElt, hc, map_one])
 
-@[expose] def vHex : Fin 4 → G₀ := basisOf hexW
-@[expose] def vDuad : Fin 4 → G₀ := basisOf duadW
-@[expose] def vE8 : Fin 3 → G₀ := basisOf e8W
+def vHex : Fin 4 → G₀ := basisOf hexW
+def vDuad : Fin 4 → G₀ := basisOf duadW
+def vE8 : Fin 3 → G₀ := basisOf e8W
 
 theorem forall₂_hex : List.Forall₂ (Rep 22) hexT
     (List.ofFn fun i => ((vHex i : G₀) : Equiv.Perm (Fin 22))) := forall₂_basisOf hexW
@@ -145,7 +145,7 @@ theorem card_normalizer_eq {k : ℕ} {v : Fin k → G₀} (hv : EBasis v)
   · intro T g hT
     exact normAll_iff hn22 hvP hbs hT
 
-@[expose] def genOf (ws : List (List ℤ)) : Subgroup G₀ := Subgroup.closure {x | ∃ w ∈ ws, elt w = x}
+def genOf (ws : List (List ℤ)) : Subgroup G₀ := Subgroup.closure {x | ∃ w ∈ ws, elt w = x}
 
 theorem map_genOf (ws : List (List ℤ)) :
     (genOf ws).map NativeSporadic.M22.subtype =
@@ -166,10 +166,10 @@ theorem card_genOf {ws : List (List ℤ)} {Q : RawSchreierDatum 22}
   rw [Q.orderCertificate_eq_card hv, hQ, ← map_genOf,
     Subgroup.card_map_of_injective Subtype.val_injective]
 
-@[expose] def Mhex : Subgroup G₀ := genOf hexGenW
-@[expose] def Mduad : Subgroup G₀ := genOf duadGenW
+def Mhex : Subgroup G₀ := genOf hexGenW
+def Mduad : Subgroup G₀ := genOf duadGenW
 
-@[expose] def matOf (masks : List (List ℕ)) (j : ℕ) : Matrix (Fin 4) (Fin 4) (ZMod 2) :=
+def matOf (masks : List (List ℕ)) (j : ℕ) : Matrix (Fin 4) (Fin 4) (ZMod 2) :=
   Matrix.of fun r i => maskVec 4 ((masks.getD j []).getD i 0) r
 
 theorem conj_gen {ws : List (List ℤ)} {masks : List (List ℕ)} {v : Fin 4 → G₀}
@@ -248,10 +248,10 @@ theorem duadMat_comm : ∀ j < 2, matOf duadMasks j * Duad.Om = Duad.Om * matOf 
 
 theorem duadMat_det : ∀ j < 2, (Duad.f4Mat (matOf duadMasks j)).det = 1 := by decide
 
-@[expose] def x5 : G₀ := elt w5
-@[expose] def x7 : G₀ := elt w7
-@[expose] def x11 : G₀ := elt w11
-@[expose] def cHex : G₀ := elt hexConjW
+def x5 : G₀ := elt w5
+def x7 : G₀ := elt w7
+def x11 : G₀ := elt w11
+def cHex : G₀ := elt hexConjW
 
 theorem orderOf_elt {w : List ℤ} {q : ℕ} (hq : 0 < q) (h : ordTest 22 q (wordT 22 gensT w) = true) :
     orderOf (elt w) = q := by

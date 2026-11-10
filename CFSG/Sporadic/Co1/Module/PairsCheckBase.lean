@@ -62,7 +62,7 @@ theorem inPts_iff
     rw [← this, (hfacts i hi').2.1]
     exact ⟨hi', rfl⟩
 
-@[expose] def tyOrb : ℕ → Set Vec24
+def tyOrb : ℕ → Set Vec24
   | 0 => {0}
   | 1 => MulAction.orbit Jmat v₄
   | 2 => MulAction.orbit Jmat v₃
@@ -153,7 +153,7 @@ theorem orbit_smul_mem (g : NativeSporadic.Co1) {a t : Vec24}
   obtain ⟨h, rfl⟩ := ht
   exact ⟨g * h, mul_smul g h a⟩
 
-@[expose] def tyOrbC : ℕ → Set Vec24
+def tyOrbC : ℕ → Set Vec24
   | 0 => {0}
   | 1 => MulAction.orbit NativeSporadic.Co1 v₄
   | 2 => MulAction.orbit NativeSporadic.Co1 v₃
@@ -166,7 +166,7 @@ theorem tyOrbC_eq (j : ℕ) : tyOrbC j = tyOrb j := by
   | 2 => exact orbit_Co1_eq v₃
   | j + 3 => exact orbit_Co1_eq v₂
 
-@[expose] def cls (j : ℕ) : Set Vec24 :=
+def cls (j : ℕ) : Set Vec24 :=
   {y | y ∈ MulAction.orbit NativeSporadic.Co1 v₂ ∧ v₂ + y ∈ tyOrbC j}
 
 theorem runWith_map {α β : Type*} (mul : α → α → α) (pow : α → ℕ → α) (mul' : β → β → β)
@@ -226,7 +226,7 @@ theorem allLtB_spec {L : Array ℕ} {b : ℕ} (h : allLtB L b = true) :
   simp only [List.all_eq_true, List.mem_range, decide_eq_true_eq] at h
   exact h
 
-@[expose] def adjSet (x y : Vec24) : Set Vec24 :=
+def adjSet (x y : Vec24) : Set Vec24 :=
   {w | w ∈ MulAction.orbit NativeSporadic.Co1 v₂ ∧
     x + w ∈ MulAction.orbit NativeSporadic.Co1 v₂ ∧
     w + y ∈ MulAction.orbit NativeSporadic.Co1 v₂}
@@ -375,7 +375,7 @@ theorem mclCheckT_spec
   · rw [hadj_eq, Set.InjOn.ncard_image hinjOn, h12]
     exact Set.ncard_Iio_nat 275
 
-@[expose] noncomputable def coeMat : NativeSporadic.Co1 →* Matrix (Fin 24) (Fin 24) (ZMod 2) :=
+noncomputable def coeMat : NativeSporadic.Co1 →* Matrix (Fin 24) (Fin 24) (ZMod 2) :=
   (Submonoid.subtype _).comp (Units.coeHom _)
 
 theorem coeMat_apply (g : NativeSporadic.Co1) :

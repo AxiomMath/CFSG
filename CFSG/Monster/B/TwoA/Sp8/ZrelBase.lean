@@ -48,9 +48,9 @@ theorem decW_actD_mem_span (rows : Array ℕ) (n c : ℕ) :
   · exact Submodule.subset_span ⟨⟨i, Finset.mem_range.1 hi⟩, rfl⟩
   · exact Submodule.zero_mem _
 
-@[expose] def bImg : Array ℕ := #[31, 12288, 20480, 36864, 69632, 30721]
+def bImg : Array ℕ := #[31, 12288, 20480, 36864, 69632, 30721]
 
-@[expose] def bVec (t : Fin 6) : Wv v0 := decW bImg[(t : ℕ)]!
+def bVec (t : Fin 6) : Wv v0 := decW bImg[(t : ℕ)]!
 
 theorem bImg_comb : ∀ t : Fin 6,
     Native.actD 6 zBasis ([1, 3, 5, 9, 33, 22].getD t 0) = bImg[(t : ℕ)]! := by
@@ -81,7 +81,7 @@ theorem linearIndependent_bVec : LinearIndependent (ZMod 2) bVec := by
   rw [linearIndependent_iff_card_eq_finrank_span, Set.finrank, span_bVec, finrank_Zsp,
     Fintype.card_fin]
 
-@[expose] def psiGen : Fin 8 → Wv v0 := ![0, bVec 0, bVec 1, bVec 2, bVec 3, bVec 4, bVec 5, 0]
+def psiGen : Fin 8 → Wv v0 := ![0, bVec 0, bVec 1, bVec 2, bVec 3, bVec 4, bVec 5, 0]
 
 theorem psiGen_mem (k : Fin 8) : psiGen k ∈ Zsp := by
   fin_cases k

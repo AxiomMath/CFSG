@@ -8,10 +8,10 @@ public section
 
 namespace CFSG.OddStandard.SmallF3.Omega
 
-@[expose] abbrev L12R {S : Type} [Group S] (t : S) : Subgroup S :=
+abbrev L12R {S : Type} [Group S] (t : S) : Subgroup S :=
   Subgroup.centralizer ({t} : Set S)
 
-@[expose] abbrev L12N {S : Type} [Group S] (t : S) : Subgroup S :=
+abbrev L12N {S : Type} [Group S] (t : S) : Subgroup S :=
   Subgroup.normalizer (L12R t : Set S)
 
 structure L12Coord (S : Type) [Group S] (t u : S) : Prop where

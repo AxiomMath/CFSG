@@ -11,7 +11,7 @@ namespace CFSG.Sporadic.Co1.Module.Odd
 open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   CFSG.Sporadic.Co1.OddNative CFSG.Sporadic.Co1.OddCentNative Matrix
 
-@[expose] def prog3 : List (List (ℕ × ℕ)) := [
+def prog3 : List (List (ℕ × ℕ)) := [
   [(1, 1), (0, 1), (1, 1), (0, 1), (1, 1), (1, 1), (0, 1), (1, 1), (0, 1), (0, 1), (0, 1),
     (0, 1), (0, 1), (1, 1), (1, 1), (0, 1), (1, 1), (0, 1), (1, 1), (0, 1), (1, 1)],
   [(1, 2), (0, 1), (1, 2), (0, 1), (1, 2), (0, 1), (1, 2), (1, 2), (0, 1), (0, 1), (0, 1),
@@ -37,17 +37,17 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   [(2, 1), (12, 1), (2, 1), (11, 1)],
   [(11, 1), (13, 2)]]
 
-@[expose] def initRows3 : Array (Array ℕ) := #[dat.rowsA, dat.rowsB, rr 27]
+def initRows3 : Array (Array ℕ) := #[dat.rowsA, dat.rowsB, rr 27]
 
-@[expose] def regsRows3 : Array (Array ℕ) := runRows initRows3 prog3
+def regsRows3 : Array (Array ℕ) := runRows initRows3 prog3
 
-@[expose] def rr3 (i : ℕ) : Array ℕ := regsRows3[i]?.getD (idRows 24)
+def rr3 (i : ℕ) : Array ℕ := regsRows3[i]?.getD (idRows 24)
 
-@[expose] def genIdx3 : List ℕ := [6, 10, 14]
+def genIdx3 : List ℕ := [6, 10, 14]
 
-@[expose] def genRows3 : Array (Array ℕ) := (genIdx3.map rr3).toArray
+def genRows3 : Array (Array ℕ) := (genIdx3.map rr3).toArray
 
-@[expose] def centOK (T : VTree) : Bool :=
+def centOK (T : VTree) : Bool :=
   genIdx3.all (fun i => mulRows 24 (rr3 i) (rr 27) == mulRows 24 (rr 27) (rr3 i)) &&
     vtreeOK genRows3 code4 T && (T.pts.size == 32400)
 

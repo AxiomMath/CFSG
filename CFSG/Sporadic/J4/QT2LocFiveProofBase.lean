@@ -11,7 +11,7 @@ namespace CFSG.Sporadic.J4.QT2
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT Matrix
 
-@[expose] noncomputable def fiveElt : J := wordProd xJ fiveWord
+noncomputable def fiveElt : J := wordProd xJ fiveWord
 
 theorem fiveWord_letters : ∀ ℓ ∈ fiveWord, ℓ ∈ letters := by
   intro ℓ hℓ

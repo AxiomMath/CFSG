@@ -24,7 +24,7 @@ theorem zmod2_sub_eq_add (x y : ZMod 2) : x - y = x + y := by revert x y; decide
 
 theorem zmod2_neg_eq (x : ZMod 2) : -x = x := by revert x; decide
 
-@[expose] def matD120 : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+def matD120 : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   Matrix.diagonal fun i => if i.val < 120 then 1 else 0
 
 theorem rowsMatrix_rowsD120 : rowsMatrix rowsD120 = matD120 := by
@@ -57,12 +57,12 @@ theorem vecMul_matD120_apply (w : Fin 248 → ZMod 2) (k : Fin 248) :
   rw [matD120, Matrix.vecMul_diagonal]
   split_ifs <;> simp
 
-@[expose] def rowEquiv : RowV ≃ₗ[ZMod 2] (Fin 248 → ZMod 2) := LinearEquiv.refl (ZMod 2) _
+def rowEquiv : RowV ≃ₗ[ZMod 2] (Fin 248 → ZMod 2) := LinearEquiv.refl (ZMod 2) _
 
-@[expose] def inUAT (T : Array V4) (w : V4) : Bool :=
+def inUAT (T : Array V4) (w : V4) : Bool :=
   let s := frApply T w
   (List.range 248).all fun k => k < 120 || !s.testBit k
 
-@[expose] def inUA (w : V4) : Bool := inUAT (frTable rowsUAQ) w
+def inUA (w : V4) : Bool := inUAT (frTable rowsUAQ) w
 
 end CFSG.Sporadic.ThSchreier

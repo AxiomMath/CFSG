@@ -81,21 +81,21 @@ variable {D : TsData} (L : TsLeaves D) {RA RB : Array V4} (hA : WfRows RA) (hB :
 
 end Ts
 
-@[expose] def twRegE : ℕ → ℕ
+def twRegE : ℕ → ℕ
   | 0 => 4 | 1 => 5 | 2 => 8 | 3 => 9 | 4 => 11 | 5 => 13 | 6 => 14 | 7 => 15 | 8 => 16
   | 9 => 18 | _ => 0
 
-@[expose] def twRegF : ℕ → ℕ
+def twRegF : ℕ → ℕ
   | 0 => 19 | 1 => 12 | 2 => 20 | 3 => 10 | 4 => 21 | 5 => 22 | 6 => 23 | 7 => 24 | 8 => 17
   | 9 => 25 | _ => 0
 
-@[expose] def tupM {M : Type*} (E F : ℕ → M) (l : ℤ) : M :=
+def tupM {M : Type*} (E F : ℕ → M) (l : ℤ) : M :=
   if 0 < l then E (l.toNat - 1) else F ((-l).toNat - 1)
 
-@[expose] def TwEntry (R : Array V4) (E F : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
+def TwEntry (R : Array V4) (E F : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
   WfRows R ∧ rowsMatrix R = E ∧ WfRows (invRows R) ∧ rowsMatrix (invRows R) = F
 
-@[expose] def TwEnts (Rs : List (Array V4)) (n : ℕ)
+def TwEnts (Rs : List (Array V4)) (n : ℕ)
     (E F : ℕ → Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
   Rs.length = n ∧ ∀ i < n, TwEntry (Rs.getD i idRows) (E i) (F i)
 

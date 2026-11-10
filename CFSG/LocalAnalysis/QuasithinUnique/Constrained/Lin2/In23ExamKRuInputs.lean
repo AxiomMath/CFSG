@@ -12,9 +12,9 @@ open CFSG.Open CFSG.QuasithinUnique.K1.SporadicPerm CFSG.Sporadic.SmallF2
 open CFSG.Sporadic.Ru.Native (ruData)
 open CFSG.Blueprint.NativeSporadic (Carrier)
 
-@[expose] def ruZI : ℕ := 338
+def ruZI : ℕ := 338
 
-@[expose] def ruWit : List (List ℕ × List ℕ × ℕ) := [
+def ruWit : List (List ℕ × List ℕ × ℕ) := [
   ([0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1],
    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
    338),
@@ -65,7 +65,7 @@ open CFSG.Blueprint.NativeSporadic (Carrier)
       1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1],
    70)]
 
-@[expose] def ruGW : List (List ℕ) := [
+def ruGW : List (List ℕ) := [
   [2, 6, 7, 6, 2, 0],
   [6, 1, 3, 1, 3, 1],
   [6, 3, 6, 0]]

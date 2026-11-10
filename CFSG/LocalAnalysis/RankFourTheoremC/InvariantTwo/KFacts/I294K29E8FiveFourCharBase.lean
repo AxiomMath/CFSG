@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.E8FiveFour
 
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.HardMathSupport.Timmesfeld.Steinberg
 
-@[expose] def cinvInt (j k : Fin 8) : ℤ := cinvNat j k
+def cinvInt (j k : Fin 8) : ℤ := cinvNat j k
 
 theorem cartan_mul_cinv :
     ∀ i k : Fin Tag.E8.rank, ∑ j, Tag.E8.cartan i j * cinvInt j k = if i = k then 1 else 0 := by
@@ -18,7 +18,7 @@ theorem cartan_mul_cinv :
 
 theorem cinv_symm : ∀ j k : Fin 8, cinvInt j k = cinvInt k j := by decide
 
-@[expose] def normZ (b : Fin Tag.E8.rank → ZMod 5) : ZMod 5 :=
+def normZ (b : Fin Tag.E8.rank → ZMod 5) : ZMod 5 :=
   ∑ j, ∑ k, (cinvInt j k : ZMod 5) * b j * b k
 
 theorem cartan_mul_cinv_cast (i k : Fin Tag.E8.rank) :
@@ -143,7 +143,7 @@ theorem pAct_injective (ω : List (Fin τ.rank)) :
     Function.Injective (pAct (p := p) ω) := fun b b' h => by
   rw [← pAct_reverse_pAct ω b, h, pAct_reverse_pAct]
 
-@[expose] def pActHom (ω : List (Fin τ.rank)) : (Fin τ.rank → ZMod p) →+ (Fin τ.rank → ZMod p) where
+def pActHom (ω : List (Fin τ.rank)) : (Fin τ.rank → ZMod p) →+ (Fin τ.rank → ZMod p) where
   toFun := pAct ω
   map_zero' := by
     have h := pAct_smul ω (0 : ZMod p) 0

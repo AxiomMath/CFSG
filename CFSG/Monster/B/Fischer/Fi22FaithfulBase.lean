@@ -31,7 +31,7 @@ theorem fi22Form_eq (r : ℕ) : fi22Form r = fi22Quad (trit fi22FormsBytes (752 
 
 theorem fi22InvForm_eq : fi22InvForm = fi22Quad (trit fi22InvFormBytes 0) := rfl
 
-@[expose] noncomputable def fi22SeedGL
+noncomputable def fi22SeedGL
     (k : ℕ) : GL (Fin 77) (ZMod 3) := if k = 0 then gA else gB
 
 theorem fi22SeedGL_val (k : ℕ) :
@@ -49,7 +49,7 @@ theorem fi22B_eq : fi22B = toMat 77 (polarRows fi22InvFormBytes 0) := by
   rw [fi22B, fi22InvForm, polarMatrix_fi22Quad, toMat_polarRows]
   rfl
 
-@[expose] noncomputable def fi22T (r : ℕ) : Matrix (Fin 77) (Fin 77) (ZMod 3) :=
+noncomputable def fi22T (r : ℕ) : Matrix (Fin 77) (Fin 77) (ZMod 3) :=
   fi22B⁻¹ * polarMatrix (fi22Form r)
 
 theorem fi22CentralizerIdx_length : fi22CentralizerIdx.length = 6 := rfl
@@ -62,7 +62,7 @@ theorem getElem!_map_toArray {l : List ℕ} {f : ℕ → Array V} {i : ℕ} (hi 
   rw [getElem!_pos _ i (by rw [Array.size_map, List.size_toArray]; exact hi), Array.getElem_map,
     List.getElem_toArray, getElem!_pos l i hi]
 
-@[expose] noncomputable def fi22CommMap :
+noncomputable def fi22CommMap :
     Matrix (Fin 77) (Fin 77) (ZMod 3) →ₗ[ZMod 3] (Fin 6 → Matrix (Fin 77) (Fin 77) (ZMod 3)) where
   toFun M t := M * fi22T (fi22CentralizerIdx.getD t 0) - fi22T (fi22CentralizerIdx.getD t 0) * M
   map_add' M N := by
@@ -75,20 +75,20 @@ theorem getElem!_map_toArray {l : List ℕ} {f : ℕ → Array V} {i : ℕ} (hi 
 
 abbrev Fi22GL : Type := LinearMap.GeneralLinearGroup (ZMod 3) Fi22V
 
-@[expose] noncomputable def fi22SeedLin (k : Fin 2) : Fi22GL :=
+noncomputable def fi22SeedLin (k : Fin 2) : Fi22GL :=
   Matrix.GeneralLinearGroup.toLin (fi22SeedGL k)
 
-@[expose] noncomputable def fi22G :
+noncomputable def fi22G :
     Subgroup Fi22GL := Subgroup.closure (Set.range fi22SeedLin)
 
-@[expose] noncomputable def fi22Bil : LinearMap.BilinForm (ZMod 3) Fi22V := Matrix.toBilin' fi22B
+noncomputable def fi22Bil : LinearMap.BilinForm (ZMod 3) Fi22V := Matrix.toBilin' fi22B
 
-@[expose] noncomputable def fi22Beta (q : Fi22V → ZMod 3) : LinearMap.BilinForm (ZMod 3) Fi22V :=
+noncomputable def fi22Beta (q : Fi22V → ZMod 3) : LinearMap.BilinForm (ZMod 3) Fi22V :=
   Matrix.toBilin' (polarMatrix q)
 
-@[expose] def fi22S : Set (Fi22V → ZMod 3) := {q | ∃ r ∈ fi22CentralizerIdx, fi22Form r = q}
+def fi22S : Set (Fi22V → ZMod 3) := {q | ∃ r ∈ fi22CentralizerIdx, fi22Form r = q}
 
-@[expose] noncomputable def fi22TLin (q : Fi22V → ZMod 3) : Module.End (ZMod 3) Fi22V :=
+noncomputable def fi22TLin (q : Fi22V → ZMod 3) : Module.End (ZMod 3) Fi22V :=
   Matrix.toLin' (fi22B⁻¹ * polarMatrix q)
 
 theorem fi22X_finite : fi22X.Finite := by
@@ -142,7 +142,7 @@ theorem fi22P_eq : fi22P = Subgroup.closure (Set.range fun k : Fin 2 => fi22GenP
   change g ∈ (Vector.ofFn fun k : Fin 2 => fi22GenPerm k).toList ↔ _
   rw [Vector.toList_ofFn, List.mem_ofFn, Set.mem_range]
 
-@[expose] noncomputable def fi22ToLin : GL (Fin 77) (ZMod 3) →* Fi22GL :=
+noncomputable def fi22ToLin : GL (Fin 77) (ZMod 3) →* Fi22GL :=
   Matrix.GeneralLinearGroup.toLin.toMonoidHom
 
 theorem fi22ToLin_apply (g : GL (Fin 77) (ZMod 3)) :
@@ -173,7 +173,7 @@ theorem fi22ToLin_mem
   | mul x y _ _ hx hy => rw [map_mul]; exact fi22G.mul_mem hx hy
   | inv x _ hx => rw [map_inv]; exact fi22G.inv_mem hx
 
-@[expose] noncomputable def fi22JHom :
+noncomputable def fi22JHom :
     CFSG.Sporadic.Fi22.J →* fi22G :=
   (fi22ToLin.comp CFSG.Sporadic.Fi22.J.subtype).codRestrict fi22G fi22ToLin_mem
 
@@ -199,14 +199,14 @@ theorem fi22JHom_bijective : Function.Bijective fi22JHom := by
     obtain ⟨a, ha⟩ := hx
     exact ⟨a⁻¹, by rw [map_inv, ha]; rfl⟩
 
-@[expose] noncomputable def fi22JEquivG :
+noncomputable def fi22JEquivG :
     CFSG.Sporadic.Fi22.J ≃* fi22G :=
   MulEquiv.ofBijective fi22JHom fi22JHom_bijective
 
 theorem fi22JEquivG_val (g : CFSG.Sporadic.Fi22.J) :
     ((fi22JEquivG g : fi22G) : Fi22GL) = fi22ToLin (g : GL (Fin 77) (ZMod 3)) := rfl
 
-@[expose] noncomputable def fi22MatEquiv :
+noncomputable def fi22MatEquiv :
     Blueprint.NativeSporadic.Fi22 ≃* CFSG.Sporadic.Fi22.J :=
   Blueprint.NativeSporadic.matrixSeedEquiv 3 77 (by norm_num) mA mB (det_mA_ne_zero matrixFacts)
     (det_mB_ne_zero matrixFacts)
@@ -216,17 +216,17 @@ theorem fi22MatEquiv_val (u : Blueprint.NativeSporadic.Fi22) :
       Matrix (Fin 77) (Fin 77) (ZMod 3)) = u.val.val :=
   Blueprint.NativeSporadic.matrixSeedEquiv_val 3 77 _ mA mB _ _ u
 
-@[expose] noncomputable def fi22EquivG :
+noncomputable def fi22EquivG :
     Blueprint.NativeSporadic.Fi22 ≃* fi22G :=
   fi22MatEquiv.trans fi22JEquivG
 
 theorem fi22EquivG_apply (u : Blueprint.NativeSporadic.Fi22) :
     fi22EquivG u = fi22JEquivG (fi22MatEquiv u) := rfl
 
-@[expose] noncomputable def fi22SeedA :
+noncomputable def fi22SeedA :
     Blueprint.NativeSporadic.Fi22 := fi22MatEquiv.symm a
 
-@[expose] noncomputable def fi22SeedB :
+noncomputable def fi22SeedB :
     Blueprint.NativeSporadic.Fi22 := fi22MatEquiv.symm b
 
 theorem fi22SeedA_val : fi22SeedA.val.val = mA := by

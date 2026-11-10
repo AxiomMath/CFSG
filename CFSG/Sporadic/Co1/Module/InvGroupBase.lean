@@ -43,7 +43,7 @@ theorem orbit_eq_range (v : Vec24) :
     MulAction.orbit NativeSporadic.Co1 v = Set.range fun g : NativeSporadic.Co1 => co1Act g v :=
   rfl
 
-@[expose] def stabOf (v : Vec24) : Subgroup NativeSporadic.Co1 where
+def stabOf (v : Vec24) : Subgroup NativeSporadic.Co1 where
   carrier := {g | co1Act g v = v}
   mul_mem' {g h} hg hh := by
     simp only [Set.mem_ofPred_eq] at hg hh ⊢

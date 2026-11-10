@@ -41,7 +41,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.Monster.B.Co2.Native
 open CFSG.EvenSmallLie.SympSix.Co3Ident CFSG.Sporadic.Schreier.Co3
 open CertificateChecks.KernelSpor
 
-@[expose] noncomputable abbrev P4 : Nat := Co3Z
+noncomputable abbrev P4 : Nat := Co3Z
 
 @[expose] noncomputable def P (i : Nat) : Nat :=
   match i with

@@ -16,7 +16,7 @@ local notation "𝕄" g:max =>
 
 abbrev Coords := Fin 31 × Fin 30 × Fin 28 × Fin 24 × Fin 16 × Fin 32
 
-@[expose] def chainProd {G : Type*} [Group G] (t : ℕ → ℕ → G) (y : Coords) : G :=
+def chainProd {G : Type*} [Group G] (t : ℕ → ℕ → G) (y : Coords) : G :=
   t 5 y.2.2.2.2.2 * t 4 y.2.2.2.2.1 * t 3 y.2.2.2.1 * t 2 y.2.2.1 * t 1 y.2.1 * t 0 y.1
 
 end CFSG.Certificates.ThDemp

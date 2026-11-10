@@ -10,7 +10,7 @@ namespace CFSG.QuasithinUnique.A5
 open CFSG.Open CFSG.QuasithinUnique CFSG.Blueprint CFSG.Sporadic.J4
 open scoped commutatorElement
 
-@[expose] def cm {Y : Type*} [Group Y] (a : Y) : Y →* Y := (MulAut.conj a).toMonoidHom
+def cm {Y : Type*} [Group Y] (a : Y) : Y →* Y := (MulAut.conj a).toMonoidHom
 
 theorem cm_apply {Y : Type*} [Group Y] (a y : Y) : cm a y = a * y * a⁻¹ := rfl
 
@@ -47,7 +47,7 @@ theorem centralizer_image_cm {Y : Type*} [Group Y] (a : Y) (S : Set Y) :
       _ = a * (c' * s) * a⁻¹ := by rw [this]
       _ = a * c' * a⁻¹ * (a * s * a⁻¹) := by group
 
-@[expose] def radOf {Y : Type*} [Group Y] (V : Subgroup Y) : Subgroup Y :=
+def radOf {Y : Type*} [Group Y] (V : Subgroup Y) : Subgroup Y :=
   pCoreOf 2 (Subgroup.normalizer (V : Set Y))
 
 theorem radOf_map_cm {Y : Type*} [Group Y] (m : Y) (V : Subgroup Y) :
@@ -58,7 +58,7 @@ theorem radOf_map_cm {Y : Type*} [Group Y] (m : Y) (V : Subgroup Y) :
     CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv 2 (MulAut.conj m)]
   rfl
 
-@[expose] def RadV {Y : Type*} [Group Y] (x₀ : Y) (V : Subgroup Y) : Prop :=
+def RadV {Y : Type*} [Group Y] (x₀ : Y) (V : Subgroup Y) : Prop :=
   Subgroup.centralizer (radOf V : Set Y) ≤ radOf V ∧
     16 < (radOf V ⊓ Subgroup.centralizer ({x₀} : Set Y)).relIndex (radOf V)
 
@@ -78,7 +78,7 @@ theorem radV_of_centralizer {Y : Type*} [Group Y] [Finite Y] {V : Subgroup Y} (x
   exact ⟨fun c hc => hUR (Subgroup.centralizer_le (fun x hx => hVR hx) hc),
     lt_of_lt_of_le hidx (relIndex_inf_mono hUR x₀)⟩
 
-@[expose] def NonHAt {Y : Type} [Group Y] (Hy : Subgroup Y) (x₀ : Y) : Prop :=
+def NonHAt {Y : Type} [Group Y] (Hy : Subgroup Y) (x₀ : Y) : Prop :=
   ∃ Vs : List (Subgroup Y), (∀ V ∈ Vs, RadV x₀ V) ∧
     ∀ L : Subgroup Y, D5Plus L → ⁅L, L⁆ = L → x₀ ∈ L →
       (∀ g : Y, ¬ L ≤ Hy.map (MulAut.conj g).toMonoidHom) →
@@ -205,7 +205,7 @@ theorem exists_conj_five {Y : Type} [Group Y] [Finite Y] (hY : ¬ 5 ^ 2 ∣ Nat.
   rw [hk, hkr, hj]
   group
 
-@[expose] def J4NonHAt (x₀ : ↥J) : Prop := NonHAt Hj x₀
+def J4NonHAt (x₀ : ↥J) : Prop := NonHAt Hj x₀
 
 theorem j4GlobalRad_of_nonHAt {x₀ : ↥J}
     (hconj : ∀ x : ↥J, orderOf x = 5 → ∃ g : ↥J, g * x * g⁻¹ = x₀) (h : J4NonHAt x₀) :

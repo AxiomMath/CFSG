@@ -31,7 +31,7 @@ theorem mem_wSetStab_span
     exact h i
   exact hle hx
 
-@[expose] def wordP3 : Fin 7 → Equiv.Perm (Fin 24) :=
+def wordP3 : Fin 7 → Equiv.Perm (Fin 24) :=
   ![1, wit2, wit1 * wit2, wit5 * wit2, wit3 * wit5 * wit2, wit4 * wit5 * wit2,
     wit3 * wit4 * wit5 * wit2]
 
@@ -39,7 +39,7 @@ theorem wordP3_pair : ∀ i : Fin 7, (wordP3 i 2 = pa7 i ∧ wordP3 i 3 = pb7 i)
     (wordP3 i 2 = pb7 i ∧ wordP3 i 3 = pa7 i) := by
   decide
 
-@[expose] def wordF3 (i : Fin 7) : FA3 :=
+def wordF3 (i : Fin 7) : FA3 :=
   ![1, witF3 4, witF3 2 * witF3 4, witF3 3 * witF3 4, witF3 0 * witF3 3 * witF3 4,
     witF3 1 * witF3 3 * witF3 4, witF3 0 * witF3 1 * witF3 3 * witF3 4] i
 
@@ -55,14 +55,14 @@ theorem wordF3_pair (i : Fin 7) :
   rw [coe_wordF3]
   exact wordP3_pair i
 
-@[expose] def wordP2 : Fin 3 → Equiv.Perm (Fin 24) := ![1, wit2, wit1 * wit2]
+def wordP2 : Fin 3 → Equiv.Perm (Fin 24) := ![1, wit2, wit1 * wit2]
 
 theorem wordP2_pair : ∀ i : Fin 3,
     (wordP2 i 2 = pa7 ⟨i, by omega⟩ ∧ wordP2 i 3 = pb7 ⟨i, by omega⟩) ∨
     (wordP2 i 2 = pb7 ⟨i, by omega⟩ ∧ wordP2 i 3 = pa7 ⟨i, by omega⟩) := by
   decide
 
-@[expose] def wordF2 (i : Fin 3) : FA2 := ![1, witF2 1, witF2 0 * witF2 1] i
+def wordF2 (i : Fin 3) : FA2 := ![1, witF2 1, witF2 0 * witF2 1] i
 
 theorem coe_wordF2 (i : Fin 3) :
     (((wordF2 i : FA2) : AutPerm) : Equiv.Perm (Fin 24)) = wordP2 i := by
@@ -76,7 +76,7 @@ theorem wordF2_pair (i : Fin 3) :
   rw [coe_wordF2]
   exact wordP2_pair i
 
-@[expose] def signW (b : ZMod 2) : C :=
+def signW (b : ZMod 2) : C :=
   if b = 0 then ⟨evW 0, (mem_Ceq.1 (evW_mem 0)).1⟩ else 0
 
 theorem signW_mem (b : ZMod 2) : ((signW b : C) : Fin 24 → ZMod 2) ∈ Ceq := by
@@ -106,7 +106,7 @@ theorem monomial_move
 
 abbrev Usharp (U : Submodule (ZMod 2) (Wv v0)) : Type := {x : Wv v0 // x ∈ U ∧ x ≠ 0}
 
-@[expose, instance_reducible] def usharpAction
+@[instance_reducible] def usharpAction
     (U : Submodule (ZMod 2) (Wv v0)) :
     MulAction (wSetStab U) (Usharp U) where
   smul k x := ⟨wAct v0 ((k : Kstab v0)⁻¹) x, ((wSetStab U).inv_mem k.2) x x.2.1, fun h =>

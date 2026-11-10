@@ -55,7 +55,7 @@ theorem Mx_fiveElt_inv
         rw [mul_assoc, ← Mx_fiveElt hM]
     _ = rowsMatrix (x0InvRows[0]!) := by rw [e2, mul_one]
 
-@[expose] noncomputable def nElt : J := QT2A.el5 nWordU * eta uJ 11 nMask * QT2A.el5 nWordV
+noncomputable def nElt : J := QT2A.el5 nWordU * eta uJ 11 nMask * QT2A.el5 nWordV
 
 theorem Mx_nElt (hM : MatFacts) : Mx nElt = rowsMatrix nRows := by
   unfold nElt nRows

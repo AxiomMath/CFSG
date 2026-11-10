@@ -19,15 +19,15 @@ structure StrothExt (dD : StrothWeakTypeData B τ) (e ic ia ib s xuv xt : G) : P
 
 variable (dD : StrothWeakTypeData B τ)
 
-@[expose] abbrev Rel34i (e : G) (N : ℕ) : Prop :=
+abbrev Rel34i (e : G) (N : ℕ) : Prop :=
   StrothExt dD e (dD.c : G) ((dD.a : G) * (dD.a : G) ^ N) ((dD.b : G) * (dD.b : G) ^ N)
     (dD.c : G)⁻¹ (((dD.c : G) * dD.a * dD.b) ^ 2) ((dD.a : G) ^ 2)⁻¹
 
-@[expose] abbrev Rel34inv (e : G) (j : ℕ) (s : G) (p : ℕ) : Prop :=
+abbrev Rel34inv (e : G) (j : ℕ) (s : G) (p : ℕ) : Prop :=
   StrothExt dD e (dD.c : G)⁻¹ ((dD.a : G)⁻¹ * (dD.a : G) ^ j) ((dD.b : G)⁻¹ * (dD.b : G) ^ j) s
     (((dD.c : G) * dD.a * dD.b) ^ p) ((dD.a : G) ^ p)⁻¹
 
-@[expose] abbrev Rel34x (f : G) (N M p : ℕ) : Prop :=
+abbrev Rel34x (f : G) (N M p : ℕ) : Prop :=
   StrothExt dD f (dD.c : G) ((dD.a : G) * (dD.a : G) ^ N) ((dD.b : G) * (dD.b : G) ^ N) (f * f)
     (((dD.c : G) * dD.a * dD.b) ^ p) ((dD.a : G) ^ p)⁻¹ ∧
     f * f * (f * f) = ((dD.c : G) ^ p)⁻¹ * (dD.c : G) ^ M

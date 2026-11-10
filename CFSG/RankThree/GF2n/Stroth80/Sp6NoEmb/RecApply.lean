@@ -256,11 +256,11 @@ theorem card_units_cast [CharP K 2] {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn 
   push_cast
   rw [CharTwo.two_eq_zero, zero_mul, zero_add]
 
-@[expose] noncomputable abbrev invertibleCardUnits {n : ℕ} (hK : Fintype.card K = 2 ^ n)
+noncomputable abbrev invertibleCardUnits {n : ℕ} (hK : Fintype.card K = 2 ^ n)
     (hn : 1 ≤ n) : Invertible (Fintype.card Kˣ : K) :=
   invertibleOfNonzero (by rw [card_units_cast hK hn]; exact one_ne_zero)
 
-@[expose] noncomputable abbrev invertibleCardUnitsProd {n : ℕ} (hK : Fintype.card K = 2 ^ n)
+noncomputable abbrev invertibleCardUnitsProd {n : ℕ} (hK : Fintype.card K = 2 ^ n)
     (hn : 1 ≤ n) : Invertible (Fintype.card (Kˣ × Kˣ) : K) :=
   invertibleOfNonzero (by
     rw [Fintype.card_prod, Nat.cast_mul, card_units_cast hK hn, mul_one]

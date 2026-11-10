@@ -12,11 +12,11 @@ open scoped Matrix
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-@[expose] def formF : Matrix (Fin 112) (Fin 112) (ZMod 2) := rowsMatrix 112 formRows
+def formF : Matrix (Fin 112) (Fin 112) (ZMod 2) := rowsMatrix 112 formRows
 
-@[expose] def formUp : Matrix (Fin 112) (Fin 112) (ZMod 2) := rowsMatrix 112 formUpRows
+def formUp : Matrix (Fin 112) (Fin 112) (ZMod 2) := rowsMatrix 112 formUpRows
 
-@[expose] def jq : QuadraticForm (ZMod 2) (Fin 112 → ZMod 2) :=
+def jq : QuadraticForm (ZMod 2) (Fin 112 → ZMod 2) :=
   LinearMap.BilinMap.toQuadraticMap (Matrix.toLinearMap₂' (ZMod 2) formUp)
 
 theorem jq_apply (v : Fin 112 → ZMod 2) : jq v = v ⬝ᵥ (formUp *ᵥ v) := by

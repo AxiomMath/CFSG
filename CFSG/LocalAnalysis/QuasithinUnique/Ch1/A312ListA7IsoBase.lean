@@ -50,7 +50,7 @@ section Alt
 
 variable {α β : Type*} [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
 
-@[expose] def permMulEquiv (e : α ≃ β) : Perm α ≃* Perm β where
+def permMulEquiv (e : α ≃ β) : Perm α ≃* Perm β where
   toEquiv := e.permCongr
   map_mul' f g := by ext x; simp [Equiv.permCongr_apply]
 
@@ -58,7 +58,7 @@ theorem sign_permMulEquiv (e : α ≃ β) (p : Perm α) :
     Perm.sign (permMulEquiv e p) = Perm.sign p :=
   Perm.sign_permCongr e p
 
-@[expose] def altCongr (e : α ≃ β) : alternatingGroup α ≃* alternatingGroup β :=
+def altCongr (e : α ≃ β) : alternatingGroup α ≃* alternatingGroup β :=
   (MulEquiv.subgroupMap (permMulEquiv e) (alternatingGroup α)).trans
     (MulEquiv.subgroupCongr (by
       ext q
@@ -76,19 +76,19 @@ end Alt
 
 abbrev A7s : Subgroup P7 := alternatingGroup (Fin 7)
 
-@[expose] noncomputable def altRangeEquiv (s : Finset (Fin 7)) :
+noncomputable def altRangeEquiv (s : Finset (Fin 7)) :
     ↥(alternatingGroup.ofSubtype s).range ≃* alternatingGroup (Fin s.card) :=
   (MonoidHom.ofInjective alternatingGroup.ofSubtype_injective).symm.trans
     (altCongr (s.equivFinOfCardEq rfl))
 
-@[expose] def actPerm (g : SpecialLinearGroup (Fin 3) (ZMod 2)) : Perm {v : V3 // v ≠ 0} :=
+def actPerm (g : SpecialLinearGroup (Fin 3) (ZMod 2)) : Perm {v : V3 // v ≠ 0} :=
   Equiv.subtypeEquiv (SpecialLinearGroup.toLin' g).toEquiv (fun _ =>
     not_congr (SpecialLinearGroup.toLin' g).map_eq_zero_iff.symm)
 
 theorem actPerm_apply (g : SpecialLinearGroup (Fin 3) (ZMod 2)) (v : {v : V3 // v ≠ 0}) :
     (actPerm g v).1 = (g : Matrix (Fin 3) (Fin 3) (ZMod 2)) *ᵥ v.1 := rfl
 
-@[expose] def actHom : SpecialLinearGroup (Fin 3) (ZMod 2) →* Perm {v : V3 // v ≠ 0} where
+def actHom : SpecialLinearGroup (Fin 3) (ZMod 2) →* Perm {v : V3 // v ≠ 0} where
   toFun := actPerm
   map_one' := by
     ext v : 2
@@ -111,7 +111,7 @@ theorem actHom_injective : Function.Injective actHom := by
   simpa [actHom, actPerm_apply, Matrix.mulVec_single_one, Matrix.one_apply, Pi.single_apply]
     using this
 
-@[expose] def rho (lab : Fin 7 ≃ {v : V3 // v ≠ 0}) : SpecialLinearGroup (Fin 3) (ZMod 2) →* P7 :=
+def rho (lab : Fin 7 ≃ {v : V3 // v ≠ 0}) : SpecialLinearGroup (Fin 3) (ZMod 2) →* P7 :=
   (permMulEquiv lab.symm).toMonoidHom.comp actHom
 
 theorem rho_injective (lab : Fin 7 ≃ {v : V3 // v ≠ 0}) : Function.Injective (rho lab) :=
@@ -123,13 +123,13 @@ theorem rho_apply (lab : Fin 7 ≃ {v : V3 // v ≠ 0}) (g : SpecialLinearGroup 
   rw [Equiv.apply_symm_apply]
   rfl
 
-@[expose] def lab8 : Fin 7 ≃ {v : V3 // v ≠ 0} where
+def lab8 : Fin 7 ≃ {v : V3 // v ≠ 0} where
   toFun x := ⟨vec8 x, by revert x; decide⟩
   invFun v := idxOf vec8 v.1
   left_inv := by decide
   right_inv := by decide
 
-@[expose] def lab9 : Fin 7 ≃ {v : V3 // v ≠ 0} where
+def lab9 : Fin 7 ≃ {v : V3 // v ≠ 0} where
   toFun x := ⟨vec9 x, by revert x; decide⟩
   invFun v := idxOf vec9 v.1
   left_inv := by decide

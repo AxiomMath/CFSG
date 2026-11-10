@@ -14,7 +14,7 @@ open Subgroup CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier
 open CFSG.Sporadic.Schreier.Native CFSG.Sporadic.SmallOddCore CFSG.Sporadic.SmallOddCore.Native
 open CFSG.RankThree.LocalRank CFSG.Blueprint CFSG.Sporadic.Mathieu
 
-@[expose] def gg (l : ℕ) : Equiv.Perm (Fin 24) := if l = 0 then m24gA else m24gB
+def gg (l : ℕ) : Equiv.Perm (Fin 24) := if l = 0 then m24gA else m24gB
 
 theorem gA_mem : m24gA ∈ NativeSporadic.M24 := subset_closure (Set.mem_insert _ _)
 

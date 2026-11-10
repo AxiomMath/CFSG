@@ -26,7 +26,7 @@ namespace CFSG.Sporadic.Co2Schreier
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native
   CFSG.Monster.B.Mathieu CFSG.Sporadic.Co2Cert
 
-@[expose] def locU : Equiv.Perm (Fin 2300) := sTuple.getD 8 1 * sTuple.getD 0 1
+def locU : Equiv.Perm (Fin 2300) := sTuple.getD 8 1 * sTuple.getD 0 1
 
 theorem locU_mem_S : locU ∈ locS :=
   locS.mul_mem (Subgroup.subset_closure (getD_mem (by rw [sTuple_length]; norm_num)))
@@ -34,7 +34,7 @@ theorem locU_mem_S : locU ∈ locS :=
 
 theorem locU_mem : locU ∈ co2P := locS_le_P locU_mem_S
 
-@[expose] def locH3 : Subgroup (Equiv.Perm (Fin 2300)) := co2P ⊓ Subgroup.centralizer {locU}
+def locH3 : Subgroup (Equiv.Perm (Fin 2300)) := co2P ⊓ Subgroup.centralizer {locU}
 
 theorem mem_locH3 {h : Equiv.Perm (Fin 2300)} : h ∈ locH3 ↔ h ∈ co2P ∧ locU * h = h * locU := by
   rw [locH3, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
@@ -48,7 +48,7 @@ theorem rep_apply {t : Array ℕ} {g : Equiv.Perm (Fin 2300)} (ht : Rep 2300 t g
     t[(x : ℕ)]! = (g x : ℕ) := ht x
 
 open scoped Classical in
-@[irreducible, expose] def cosetH (j : ℕ) (p : Equiv.Perm (Fin 2300)) :
+@[irreducible] def cosetH (j : ℕ) (p : Equiv.Perm (Fin 2300)) :
     Finset (Equiv.Perm (Fin 2300)) :=
   Finset.univ.filter fun h => h ∈ locH3 ∧ p⁻¹ * h ∈ stabB j
 

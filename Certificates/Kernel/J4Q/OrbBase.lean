@@ -18,31 +18,31 @@ namespace CertificateChecks.KernelJ4Q
 open CFSG.KC.J4Q CFSG.KD.J4Q CFSG.KC.LQT.Syl CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT
   CFSG.Sporadic.J4.QT2
 
-@[expose] noncomputable def CH5 : List (List Nat) :=
+noncomputable def CH5 : List (List Nat) :=
   [O5_0, O5_1, O5_2, O5_3, O5_4, O5_5, O5_6, O5_7, O5_8, O5_9, O5_10, O5_11, O5_12, O5_13, O5_14]
 
-@[expose] noncomputable def CH6 : List (List Nat) :=
+noncomputable def CH6 : List (List Nat) :=
   [O6_0, O6_1, O6_2, O6_3, O6_4, O6_5, O6_6, O6_7, O6_8, O6_9, O6_10, O6_11, O6_12, O6_13, O6_14,
     O6_15, O6_16, O6_17, O6_18, O6_19, O6_20, O6_21, O6_22, O6_23, O6_24, O6_25, O6_26, O6_27]
 
-@[expose] noncomputable def SPC5 : List (List Nat) :=
+noncomputable def SPC5 : List (List Nat) :=
   [S5_0, S5_1, S5_2, S5_3, S5_4, S5_5, S5_6, S5_7, S5_8, S5_9, S5_10, S5_11, S5_12, S5_13, S5_14]
 
-@[expose] noncomputable def SPC6 : List (List Nat) :=
+noncomputable def SPC6 : List (List Nat) :=
   [S6_0, S6_1, S6_2, S6_3, S6_4, S6_5, S6_6, S6_7, S6_8, S6_9, S6_10, S6_11, S6_12, S6_13, S6_14,
     S6_15, S6_16, S6_17, S6_18, S6_19, S6_20, S6_21, S6_22, S6_23, S6_24, S6_25, S6_26, S6_27]
 
-@[expose] noncomputable def repK (ℓ : Nat) : Nat := pathVK rm one [A, B] (repPaths.getD ℓ []) (v2N rootV)
+noncomputable def repK (ℓ : Nat) : Nat := pathVK rm one [A, B] (repPaths.getD ℓ []) (v2N rootV)
 
-@[expose] noncomputable def SQ5 : List (List Nat) :=
+noncomputable def SQ5 : List (List Nat) :=
   [repK 5] :: [VQ5_0, VQ5_1, VQ5_2, VQ5_3, VQ5_4, VQ5_5, VQ5_6, VQ5_7, VQ5_8, VQ5_9, VQ5_10, VQ5_11,
     VQ5_12, VQ5_13, VQ5_14]
 
-@[expose] noncomputable def SQ6 : List (List Nat) :=
+noncomputable def SQ6 : List (List Nat) :=
   [repK 6] :: [VQ6_0, VQ6_1, VQ6_2, VQ6_3, VQ6_4, VQ6_5, VQ6_6, VQ6_7, VQ6_8, VQ6_9, VQ6_10, VQ6_11,
     VQ6_12, VQ6_13, VQ6_14, VQ6_15, VQ6_16, VQ6_17, VQ6_18, VQ6_19, VQ6_20, VQ6_21, VQ6_22, VQ6_23,
     VQ6_24, VQ6_25, VQ6_26, VQ6_27]
-@[expose] noncomputable def LRs : List (List Nat) := [LR_0, LR_1, LR_2]
+noncomputable def LRs : List (List Nat) := [LR_0, LR_1, LR_2]
 
 theorem lr_chk : andB (eqLK LR_0 (rowsOfJ rm L0)) (andB (eqLK LR_1 (rowsOfJ rm L1))
     (eqLK LR_2 (rowsOfJ rm L2))) = true := by quickRfl
@@ -60,7 +60,7 @@ theorem forall_mem_of_getD {α : Type} {f : α → Bool} {d : α} {l : List α}
   have := h i hi
   rwa [List.getD_eq_getElem _ _ hi] at this
 
-@[expose] noncomputable def sizeK (cap : Nat) (CH SPC : List (List Nat)) : Bool :=
+noncomputable def sizeK (cap : Nat) (CH SPC : List (List Nat)) : Bool :=
   andB (Nat.beq (CH.flatten.length + 1) cap) (andB (Nat.beq SPC.flatten.length cap)
     (andB (allR (CH.length - 1) fun i => Nat.beq (CH.getD i []).length 1024)
       (andB (CH.all fun ch => Nat.ble ch.length 1024) (SPC.all fun sc => Nat.ble sc.length 1024))))

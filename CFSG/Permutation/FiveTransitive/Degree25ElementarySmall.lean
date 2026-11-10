@@ -46,11 +46,11 @@ namespace CFSG
 
 namespace FiveTransitive.Degree25
 
-@[expose] abbrev ThreeCycle := Multiplicative (ZMod 3)
+abbrev ThreeCycle := Multiplicative (ZMod 3)
 
-@[expose] abbrev TwoThreeBase := Fin 2 → ThreeCycle
+abbrev TwoThreeBase := Fin 2 → ThreeCycle
 
-@[expose] abbrev TwoThreePoints :=
+abbrev TwoThreePoints :=
   (Fin 2 × ThreeCycle) ⊕ Fin 19
 
 instance : SMul TwoThreeBase TwoThreePoints where
@@ -97,11 +97,11 @@ theorem twoThreeBase_support_le_six
     ((MulAction.toPermHom TwoThreeBase TwoThreePoints) a).support.card ≤ 6 := by
   decide +revert
 
-@[expose] abbrev TwoCycle := Multiplicative (ZMod 2)
+abbrev TwoCycle := Multiplicative (ZMod 2)
 
-@[expose] abbrev TwoTwoBase := Fin 2 → TwoCycle
+abbrev TwoTwoBase := Fin 2 → TwoCycle
 
-@[expose] abbrev TwoTwoPoints :=
+abbrev TwoTwoPoints :=
   (Fin 2 × TwoCycle) ⊕ Fin 21
 
 instance : SMul TwoTwoBase TwoTwoPoints where
@@ -148,9 +148,9 @@ theorem twoTwoBase_support_le_four
     ((MulAction.toPermHom TwoTwoBase TwoTwoPoints) a).support.card ≤ 4 := by
   decide +revert
 
-@[expose] abbrev ThreeTwoBase := Fin 3 → TwoCycle
+abbrev ThreeTwoBase := Fin 3 → TwoCycle
 
-@[expose] abbrev ThreeTwoPoints :=
+abbrev ThreeTwoPoints :=
   (Fin 3 × TwoCycle) ⊕ Fin 19
 
 instance : SMul ThreeTwoBase ThreeTwoPoints where
@@ -232,10 +232,10 @@ instance : FaithfulSMul (DihedralGroup 4) (ZMod 4) where
       simp only [sub_zero] at hzero
       exact congrArg DihedralGroup.sr hzero
 
-@[expose] abbrev FourTwoBase :=
+abbrev FourTwoBase :=
   DihedralGroup 4 × TwoCycle
 
-@[expose] abbrev FourTwoPoints :=
+abbrev FourTwoPoints :=
   ((ZMod 4) ⊕ TwoCycle) ⊕ Fin 19
 
 instance : SMul FourTwoBase FourTwoPoints where

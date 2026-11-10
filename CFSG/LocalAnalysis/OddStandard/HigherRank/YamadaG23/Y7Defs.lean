@@ -22,9 +22,9 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
     ∃ φ : Y ≃* Y', ∀ n ∈ X, ∀ w w' : ↥W, (w' : G) = n * w * n⁻¹ →
       ∀ q q' : ↥Q, (q' : G) = n * q * n⁻¹ → φ (π w) = π' q → φ (π w') = π' q'))
 
-@[expose] abbrev GL3Two : Type := Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)
+abbrev GL3Two : Type := Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)
 
-@[expose] abbrev SL3Four : Type := Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 2)
+abbrev SL3Four : Type := Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 2)
 
 @[expose] def C6 {s : Setting3 G L} (e : Setting3.Ext s) : Subgroup G :=
   pCoreOf 2 (normalizer (C1 e : Set G))

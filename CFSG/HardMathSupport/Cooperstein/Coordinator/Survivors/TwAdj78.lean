@@ -586,7 +586,7 @@ theorem orbitSpan_twAdj :
   · exact hroot α hα
   · rw [rootVec_eq_zero hα]; exact zero_mem _
 
-@[expose] abbrev twA1 : Fin TwistTag.E6.foldedTag.rank := ⟨3, by decide⟩
+abbrev twA1 : Fin TwistTag.E6.foldedTag.rank := ⟨3, by decide⟩
 
 theorem orbitIndex_node2 : TwistTag.E6.orbitIndex e6node2 = twA1 := by decide
 

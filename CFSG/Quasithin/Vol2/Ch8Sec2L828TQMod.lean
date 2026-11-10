@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13.L828T
 
 variable {W : Type*} [CommGroup W]
 
-@[expose] abbrev QMod (B U : Subgroup W) : Type _ := Additive (↥B ⧸ U.subgroupOf B)
+abbrev QMod (B U : Subgroup W) : Type _ := Additive (↥B ⧸ U.subgroupOf B)
 
 @[expose] def QMod.mk (B U : Subgroup W) (b : ↥B) : QMod B U := Additive.ofMul (QuotientGroup.mk b)
 

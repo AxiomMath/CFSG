@@ -18,7 +18,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.VisQuot CFSG.Monster.B.Rep4371
 open scoped Matrix
 
-@[expose] noncomputable def ePauli (i : Fin 23) : Cbar :=
+noncomputable def ePauli (i : Fin 23) : Cbar :=
   kappa ⟨rhoEquiv (qElt i), rhoEquiv_qElt_mem_Cgen i⟩
 
 theorem ePauli_mem_Ebar (i : Fin 23) : ePauli i ∈ Ebar := kappa_rho_mem_Ebar (qElt_mem_centralizer i)
@@ -78,7 +78,7 @@ theorem bL_pauli (k l : Fin 22) :
   · rw [coordOf_qElt_D (k + 1) (by omega) (by omega), coordOf_qElt_D (l + 1) (by omega) (by omega),
       bL_phi0, pair_zero_left, pair_zero_left, add_zero, ite_eq_right (by omega)]
 
-@[expose] noncomputable def ePauli' (k : Fin 22) : Cbar := ePauli ⟨k + 1, by omega⟩
+noncomputable def ePauli' (k : Fin 22) : Cbar := ePauli ⟨k + 1, by omega⟩
 
 theorem ePauli'_mem_Ebar (k : Fin 22) : ePauli' k ∈ Ebar := ePauli_mem_Ebar _
 

@@ -21,7 +21,7 @@ open CertificateChecks.Chain3042
 theorem perm : allN 10 (fun j => permOK 24 5 (mask 5) (24 * 5) (P2C.S j) (P2C.SI j)) = true := by
   quickRfl
 
-@[expose] noncomputable def SA : Array (Array Nat) :=
+noncomputable def SA : Array (Array Nat) :=
   Array.ofFn (n := 10) fun j => unpack 24 5 (P2C.S j.val)
 
 theorem SA_size : SA.size = 10 := by simp [SA]

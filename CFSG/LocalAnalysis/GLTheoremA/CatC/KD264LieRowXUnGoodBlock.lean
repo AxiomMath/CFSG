@@ -52,7 +52,7 @@ theorem mem_range_blk (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card)
     StatedSU C.card (2 ^ 1) xunK →* xunM N :=
   (projH (StatedSU N (2 ^ 1) xunK)).comp (blk hN C hC)
 
-@[expose] noncomputable abbrev blkRange (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card) : Subgroup (xunM N) :=
+noncomputable abbrev blkRange (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card) : Subgroup (xunM N) :=
   (blkProj hN C hC).range
 
 theorem blkProj_injective (hN : 1 ≤ N) (C : Finset (Fin N)) (hC : 1 ≤ C.card)

@@ -183,7 +183,7 @@ end Rel
 
 section E
 
-@[expose] noncomputable def fi24E : Subgroup CFSG.Sporadic.Fi24.J := fi24EB.comap jR
+noncomputable def fi24E : Subgroup CFSG.Sporadic.Fi24.J := fi24EB.comap jR
 
 theorem mem_fi24E_iff {g : CFSG.Sporadic.Fi24.J} : g ∈ fi24E ↔ jR g ∈ fi24EB := Iff.rfl
 

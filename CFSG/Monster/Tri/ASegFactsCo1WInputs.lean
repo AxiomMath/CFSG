@@ -11,16 +11,16 @@ open CFSG.Monster.GMS CFSG.Monster.GMS.S365 CFSG.Sporadic.Co1.Module.Pairs
   CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Blueprint.NativeSporadic
 open CFSG.Sporadic.Co1.Module (orbitOf)
 
-@[expose] def wData : List (ℕ × ℕ) := [(154, 40), (290, 42), (894, 44), (10, 46)]
+def wData : List (ℕ × ℕ) := [(154, 40), (290, 42), (894, 44), (10, 46)]
 
-@[expose] def wCheck : Bool :=
+def wCheck : Bool :=
   let O := orbitOf 2 98280
   let pos := posTable 24 O.pts
   wData.all fun pω =>
     tyLab O.pts pos 98280 pω.1 == 3 && tyLab O.pts pos 98280 (pω.1 ^^^ 2) == 3 &&
       tyLab O.pts pos 98280 (pω.1 ^^^ 4) == 3 && tyLab O.pts pos 98280 (pω.1 ^^^ pω.2) == 3
 
-@[expose] def baseCheck : Bool :=
+def baseCheck : Bool :=
   let O := orbitOf 2 98280
   let pos := posTable 24 O.pts
   tyLab O.pts pos 98280 2 == 3 && tyLab O.pts pos 98280 4 == 3 &&

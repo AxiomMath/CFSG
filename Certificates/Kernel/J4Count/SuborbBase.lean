@@ -66,7 +66,7 @@ theorem dvd_orbit_of_le (K : Subgroup G) (x : X) (hK : K ≤ stabilizer G x) :
 
 end Dvd
 
-@[expose] def L7 : List ℕ := [1, 15180, 3400320, 32643072, 28336, 54405120, 82575360]
+def L7 : List ℕ := [1, 15180, 3400320, 32643072, 28336, 54405120, 82575360]
 
 theorem nO_mem : ∀ o : Option (Fin 6), nO KernelJ4Hub.nD o ∈ L7 := by decide
 

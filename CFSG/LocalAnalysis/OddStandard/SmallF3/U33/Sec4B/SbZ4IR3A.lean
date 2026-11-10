@@ -109,7 +109,7 @@ section quotient
 
 variable (N : Subgroup X) [N.Normal]
 
-@[expose] abbrev z4iπ : X →* X ⧸ N := QuotientGroup.mk' N
+abbrev z4iπ : X →* X ⧸ N := QuotientGroup.mk' N
 
 theorem z4iπ_surjective : Function.Surjective (z4iπ N) :=
   QuotientGroup.mk'_surjective N

@@ -39,7 +39,7 @@ namespace CFSG.Sporadic.HNOddCore
 open CFSG.Sporadic.HNSchreier CFSG.Sporadic.HNSchreier.Native CFSG.ONSchreier
 open CFSG.ONSchreier.Native CFSG.Sporadic.HNOddCore.Native Equiv
 
-@[expose] def wordVal {G : Type*} [Group G] (g : ℕ → G) (w : List ℤ) : G :=
+def wordVal {G : Type*} [Group G] (g : ℕ → G) (w : List ℤ) : G :=
   (w.map fun l => if 0 < l then g (l.natAbs - 1) else (g (l.natAbs - 1))⁻¹).prod
 
 theorem wordVal_nil {G : Type*} [Group G] (g : ℕ → G) : wordVal g [] = 1 := rfl
@@ -100,7 +100,7 @@ theorem prep_of_peq_right {n : ℕ} {t u : Array ℕ} {g : Perm (Fin n)} (h : pe
   rw [beq_iff_eq] at this
   rw [this, hu x]
 
-@[expose] def pbarPerm (i : ℕ) : Perm (Fin 800) := Monster.B.Co2.permOfArr 800 InvData.pgenPerms[i]!
+def pbarPerm (i : ℕ) : Perm (Fin 800) := Monster.B.Co2.permOfArr 800 InvData.pgenPerms[i]!
 
 abbrev ppar (k : ℕ) : ℕ := pparOf InvData.parRecs k
 
@@ -108,7 +108,7 @@ abbrev plab (k : ℕ) : ℕ := plabOf InvData.parRecs k
 
 abbrev pE : Array (Array ℕ) := pEnum InvData.pgenPerms InvData.parRecs
 
-@[expose] def ePerm (k : ℕ) : Perm (Fin 800) := Monster.B.Co2.permOfArr 800 pE[k]!
+def ePerm (k : ℕ) : Perm (Fin 800) := Monster.B.Co2.permOfArr 800 pE[k]!
 
 abbrev Pbar : Subgroup (Perm (Fin 800)) :=
   Subgroup.closure (Set.range fun i : Fin 14 => pbarPerm i)

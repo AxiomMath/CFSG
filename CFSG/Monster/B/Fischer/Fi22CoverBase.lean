@@ -30,7 +30,7 @@ theorem fi22OuterR_length : fi22OuterR.length = 256 := by
 
 theorem fi22OuterChainT_baseCount : fi22OuterChainT.baseCount = 6 := rfl
 
-@[expose] def fi22TProd (x : Fin 1024 × Fin 32 × Fin 4) : Equiv.Perm (Fin 3510) :=
+def fi22TProd (x : Fin 1024 × Fin 32 × Fin 4) : Equiv.Perm (Fin 3510) :=
   levT 3510 (fi22OuterStrong3510 4) #[0, 1, 2, 3, 6, 4] 0 x.1 *
     levT 3510 (fi22OuterStrong3510 4) #[0, 1, 2, 3, 6, 4] 1 x.2.1 *
     levT 3510 (fi22OuterStrong3510 4) #[0, 1, 2, 3, 6, 4] 2 x.2.2

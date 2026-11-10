@@ -16,14 +16,14 @@ open CFSG.Sporadic.Ru.Native (ruData)
 open CFSG.Open (pCoreOf)
 open CFSG.QuasithinUnique.Ch1.SporLat.RuCert
 
-@[expose] def ruQuot1 : List QuotGen := [
+def ruQuot1 : List QuotGen := [
   ⟨[3, 3, 2, 2, 0, 3, 0, 1, 2, 3, 1, 2, 2, 0, 2, 1, 3], 8, 3⟩,
   ⟨[1, 3, 0, 1, 1, 0, 1, 3, 1, 3, 1, 2, 3, 0, 0, 2, 2, 0, 0, 2, 1, 3, 2, 0, 1, 2], 4, 3⟩]
 
-@[expose] def ruQuotL1 : List (Array ℕ) :=
+def ruQuotL1 : List (Array ℕ) :=
   ruSTabsL ++ (ruMw[1]!).map (wordTabA #[ruTaL, ruTbL] ruData.n)
 
-@[expose] def ruQuotEnum : Array (List ℕ) × Array ℕ × Array ℕ :=
+def ruQuotEnum : Array (List ℕ) × Array ℕ × Array ℕ :=
   bfsEnumB ruData.n ruB (ruQuot1.map (quotGt ruData.n ruQuotL1))
     (ruQuot1.map (quotGi ruData.n ruQuotL1)) 1000000
 

@@ -14,7 +14,7 @@ namespace CertificateChecks.KernelJ4NP7850
 open CFSG.KC.Loop CFSG.KC.J4Q CFSG.KD.J4Q CFSG.KD.J4M4F CFSG.KD.J4NP7850 CFSG.Sporadic.J4
   CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT2 CertificateChecks.KernelJ4Q CFSG.KS.PackFld
 
-@[expose] noncomputable def rowN (x : Nat) : Row := toRow (ofN x).toVec
+noncomputable def rowN (x : Nat) : Row := toRow (ofN x).toVec
 
 theorem bit_mul (x k : Nat) : (x >>> k) &&& 1 = if x.testBit k then 1 else 0 := by
   rw [Nat.and_one_is_mod, Nat.testBit, Nat.one_and_eq_mod_two]
@@ -89,7 +89,7 @@ theorem vecJ_xsum (b : Nat) (f : Nat → Nat) : ∀ n, vecJ rm (xsum f n) b = xs
   | 0 => vecJ_zero b
   | n + 1 => by rw [xsum_succ, xsum_succ, vecJ_xor, vecJ_xsum b f n]
 
-@[expose] noncomputable def bsum7850 (h : Nat → Nat) (n : Nat) : Nat :=
+noncomputable def bsum7850 (h : Nat → Nat) (n : Nat) : Nat :=
   Nat.rec (motive := fun _ => Nat) 0 (fun i acc => acc + h i * 2 ^ (128 * i)) n
 
 theorem bsum7850_succ (h : Nat → Nat) (n : Nat) :
@@ -155,7 +155,7 @@ theorem fld_xsum7850 {P : Nat → Nat} {G : Nat → Nat → Nat} : ∀ {n : Nat}
 theorem c_bsum7850 : c = bsum7850 (fun _ => 1) 112 :=
   Nat.eq_of_beq_eq_true (by decide +kernel)
 
-@[expose] noncomputable def step7850 (a b k : Nat) : Nat :=
+noncomputable def step7850 (a b k : Nat) : Nat :=
   ((a >>> k) &&& c) * rm &&& ((b >>> (k * 128)) &&& rm) * c
 
 theorem mrec7850 (a b : Nat) : ∀ n, Nat.rec (motive := fun _ => Nat) (nat_lit 0)

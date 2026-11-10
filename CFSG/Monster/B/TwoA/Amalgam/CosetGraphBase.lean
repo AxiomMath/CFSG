@@ -16,7 +16,7 @@ open scoped Pointwise
 abbrev CVert :
     Type := Quotient (QuotientGroup.rightRel (Eam.subgroupOf Shat))
 
-@[expose] def cvOf
+def cvOf
     (g : Shat) : CVert := Quotient.mk _ g
 
 theorem cvOf_surjective :
@@ -41,7 +41,7 @@ theorem conj_cQ_congr
     _ = (h : Dfull)⁻¹ * (cQ * (h * (g : Dfull)⁻¹)) * g := by rw [hc]
     _ = (h : Dfull)⁻¹ * cQ * h := by group
 
-@[expose] def clabel :
+def clabel :
     CVert → Dfull :=
   Quotient.lift (fun g : Shat => ((g⁻¹ : Shat) : Dfull) * cQ * g) fun _ _ h =>
     conj_cQ_congr (rel_iff.1 h)
@@ -49,7 +49,7 @@ theorem conj_cQ_congr
 theorem clabel_cvOf
     (g : Shat) : clabel (cvOf g) = ((g : Dfull))⁻¹ * cQ * g := rfl
 
-@[expose] def cvMul
+def cvMul
     (v : CVert) (s : Shat) : CVert :=
   Quotient.map' (· * s) (fun a b hab => by
     rw [rel_iff] at hab ⊢
@@ -82,7 +82,7 @@ theorem clabel_cvMul
   simp only [Subgroup.coe_mul]
   group
 
-@[expose] def cv0 : CVert := cvOf 1
+def cv0 : CVert := cvOf 1
 
 theorem clabel_cv0 :
     clabel cv0 = cQ := by

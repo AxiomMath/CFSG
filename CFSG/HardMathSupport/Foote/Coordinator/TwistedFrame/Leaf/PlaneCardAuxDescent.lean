@@ -34,7 +34,7 @@ variable {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup τ}
 theorem g_mem_adjointGroup (D : LangLevi τ K w) : D.g ∈ adjointGroup τ D.L :=
   Pθ_le_adjointGroup τ D.L (Lθ_le_Pθ τ D.L D.g_mem)
 
-@[expose] abbrev fixedRootGroup (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ)) :
+abbrev fixedRootGroup (D : LangLevi τ K w) (S : Set (Fin τ.rank → ℤ)) :
     Subgroup (ModGL τ D.L) :=
   rootSpan τ D.L S ⊓ twistedFixedPoints (canonicalRep (coxeterSystem τ) D.L w)
     (Units.map (entrywiseHom D.Fr))

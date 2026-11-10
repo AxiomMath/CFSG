@@ -15,7 +15,7 @@ namespace CFSG.Sporadic.J4Schreier
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 open scoped Matrix
 
-@[expose] def conjOrbit (L : Subgroup J) (n : J) : Set J := {m | ∃ k ∈ L, m = k * n * k⁻¹}
+def conjOrbit (L : Subgroup J) (n : J) : Set J := {m | ∃ k ∈ L, m = k * n * k⁻¹}
 
 theorem conj_mem_of_inv_closed {T : Set J}
     (hx : ∀ t ∈ T, x⁻¹ * t * x⁻¹⁻¹ ∈ T) (hy : ∀ t ∈ T, y⁻¹ * t * y⁻¹⁻¹ ∈ T) :

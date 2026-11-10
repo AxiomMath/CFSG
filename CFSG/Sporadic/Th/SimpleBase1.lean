@@ -97,7 +97,7 @@ theorem isPretransitive : MulAction.IsPretransitive J (Fin nX) := by
   obtain ⟨h, hh⟩ := hreach q
   exact ⟨h * g⁻¹, by rw [mul_smul, ← hg, inv_smul_smul, hh]⟩
 
-@[expose] noncomputable def subLab : Fin nX → Fin 11 := fun p =>
+noncomputable def subLab : Fin nX → Fin 11 := fun p =>
   ⟨compsT.labelOf p.val, by
     rw [← hC.tables.reps]
     exact ((compOK_spec (rep_x hC) (rep_y hC) hC.tables.comp).1 p.val p.isLt).2.2⟩

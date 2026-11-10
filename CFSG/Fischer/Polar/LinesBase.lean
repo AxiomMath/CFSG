@@ -84,7 +84,7 @@ theorem lineThru_eq_setOf_lineC {x y : Fin 693} (hxy : x ≠ y) (h : perp x y) :
   ext z
   rw [mem_lineThru_iff hxy h, Set.mem_ofPred_eq, Array.mem_toList_iff]
 
-@[expose] def lineSet (i : ℕ) : Set (Fin 693) := {p | p.val ∈ LL[i]!}
+def lineSet (i : ℕ) : Set (Fin 693) := {p | p.val ∈ LL[i]!}
 
 theorem IsClosedHyperoval.exists_ne {O L : Set (Fin 693)} (hO : IsClosedHyperoval O)
     (hL : IsLine L) {x : Fin 693} (hxL : x ∈ L) (hxO : x ∈ O) : ∃ y ∈ L, y ∈ O ∧ y ≠ x := by

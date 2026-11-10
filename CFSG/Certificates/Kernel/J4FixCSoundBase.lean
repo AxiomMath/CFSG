@@ -227,7 +227,7 @@ theorem cntN_eq (n : Nat) (f : Nat → Bool) :
     cntN n f = ((Finset.range n).filter fun a => f a = true).card := by
   rw [cntN, CFSG.KC.Pack.foldN_eq, foldr_cnt, Nat.zero_add]
 
-@[expose] def PairRep (g : J) (p : ℕ) : Prop :=
+def PairRep (g : J) (p : ℕ) : Prop :=
   ∃ k ∈ K, g = η (paK p) * k ∧ ActsBy k (unpack11 (pcK p))
 
 theorem letter_neg_codeL (c : ℕ) : letter x y (-(codeL c)) = (letter x y (codeL c))⁻¹ := by
@@ -250,10 +250,10 @@ include hX hXI hY hYI
 
 end Gen
 
-@[expose] noncomputable def letE (gs : List J) (c : ℕ) : J :=
+noncomputable def letE (gs : List J) (c : ℕ) : J :=
   if c % 2 = 0 then nth 1 gs (c / 2) else (nth 1 gs (c / 2))⁻¹
 
-@[expose] noncomputable def wordE (gs : List J) (w : List ℕ) : J := (w.map (letE gs)).prod
+noncomputable def wordE (gs : List J) (w : List ℕ) : J := (w.map (letE gs)).prod
 
 theorem wordE_cons (gs : List J) (c : ℕ) (w : List ℕ) :
     wordE gs (c :: w) = letE gs c * wordE gs w := by

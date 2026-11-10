@@ -19,14 +19,14 @@ abbrev sylowWordsAB : List (List (Fin 2 × Bool)) := [[(0, true), (1, true), (0,
     (0, true), (1, false), (1, false), (1, true), (1, true), (0, true), (1, true), (1, true),
     (0, true), (1, true), (1, true), (0, true), (1, false), (1, false)]]
 
-@[expose] def sylowRels : List (List (Fin 2 × Bool)) := [[(0, true), (1, false), (0, true),
+def sylowRels : List (List (Fin 2 × Bool)) := [[(0, true), (1, false), (0, true),
   (1, false), (0, true), (1, false)],
   [(0, false), (0, false), (1, false), (1, false), (1, false), (0, false)],
   [(0, true), (1, true), (0, true), (1, true), (0, true), (1, true)],
   [(1, true), (0, true), (1, true), (0, false), (1, false), (0, false), (0, false), (1, false),
     (0, false)]]
 
-@[expose] def includeAB (i : Fin 2) : Fin 4 := ⟨i.val, by omega⟩
+def includeAB (i : Fin 2) : Fin 4 := ⟨i.val, by omega⟩
 
 abbrev sylowWords : List (List (Fin 4 × Bool)) :=
   sylowWordsAB.map (List.map fun l => (includeAB l.1, l.2))

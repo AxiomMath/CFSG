@@ -46,26 +46,26 @@ namespace CFSG.RankThree.PartOne
 open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Monster.B.Mathieu
   CFSG.Monster.B.Fischer CFSG.RankThree.Native CFSG.Sporadic.RuSchreier
 
-@[expose] def caseChainOK2 (n : ℕ) (S : Array (Array ℕ)) (base : Array ℕ) (W : Array (List ℤ))
+def caseChainOK2 (n : ℕ) (S : Array (Array ℕ)) (base : Array ℕ) (W : Array (List ℤ))
     (a b : Array ℕ) : Bool :=
   rawChainOK n (S.extract 0 2) S base W 1 && eqA n S[0]! a && eqA n S[1]! b
 
-@[expose] def ruFiveKeys : List ℕ := ruCase0Base.map Fin.val
+def ruFiveKeys : List ℕ := ruCase0Base.map Fin.val
 
-@[expose] def ruCase0BaseArr : Array ℕ := (ruCase0Base.map Fin.val).toArray
+def ruCase0BaseArr : Array ℕ := (ruCase0Base.map Fin.val).toArray
 
-@[expose] def ruCase1BaseArr : Array ℕ := (ruCase1Base.map Fin.val).toArray
+def ruCase1BaseArr : Array ℕ := (ruCase1Base.map Fin.val).toArray
 
-@[expose] def ruPLevels : Array Level := rawLevels 4060 ruCase0Arrs ruCase0BaseArr
+def ruPLevels : Array Level := rawLevels 4060 ruCase0Arrs ruCase0BaseArr
 
-@[expose] def ruFiveQCert : ArrCert := enumBfs 4060 ruFiveQGens ruFiveKeys 130
+def ruFiveQCert : ArrCert := enumBfs 4060 ruFiveQGens ruFiveKeys 130
 
-@[expose] def ruFiveC0Cert : ArrCert := enumBfs 4060 ruFiveC0Gens ruFiveKeys 1020
+def ruFiveC0Cert : ArrCert := enumBfs 4060 ruFiveC0Gens ruFiveKeys 1020
 
-@[expose] def ruFiveC1Cert : ArrCert := enumBfs 4060 ruFiveC1Gens ruFiveKeys 320
+def ruFiveC1Cert : ArrCert := enumBfs 4060 ruFiveC1Gens ruFiveKeys 320
 
-@[expose] def ruFiveA0Cert : ArrCert := enumBfs 4060 ruFiveA0Gens ruFiveKeys 130
+def ruFiveA0Cert : ArrCert := enumBfs 4060 ruFiveA0Gens ruFiveKeys 130
 
-@[expose] def ruFiveDCert : ArrCert := enumBfs 4060 ruFiveDGens ruFiveKeys 70
+def ruFiveDCert : ArrCert := enumBfs 4060 ruFiveDGens ruFiveKeys 70
 
 end CFSG.RankThree.PartOne

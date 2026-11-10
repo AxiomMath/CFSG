@@ -15,7 +15,7 @@ open CFSG.Quasithin.SmithCurtis CFSG.Quasithin.SmithCurtis.Chev CFSG.Blueprint.C
 
 @[expose] def e6Theta0 : Fin Tag.E6.rank → ℤ := ![1, 2, 2, 3, 2, 1]
 
-@[expose] abbrev e6node20 : Fin Tag.E6.rank := ⟨1, by decide⟩
+abbrev e6node20 : Fin Tag.E6.rank := ⟨1, by decide⟩
 
 @[expose] def e6ThetaWords : List (List (Fin Tag.E6.rank)) :=
   ([[2, 3, 4, 5, 1, 3, 4, 2, 3, 1], [3, 4, 5, 2, 3, 4, 0, 2, 3, 1], [3, 4, 5, 1, 3, 4, 0, 2, 3, 1],
@@ -45,7 +45,7 @@ theorem e6_check_succ : ∀ k < Tag.E6.rootCount, (Tag.rootCertificate Tag.E6).r
 
 @[expose] def e6Theta : Fin TwistTag.E6.tag.rank → ℤ := e6Theta0
 
-@[expose] abbrev e6node2 : Fin TwistTag.E6.tag.rank := e6node20
+abbrev e6node2 : Fin TwistTag.E6.tag.rank := e6node20
 
 theorem adjHyp_E6 : AdjHyp TwistTag.E6.tag e6Theta :=
   AdjHyp.of_checks e6_check_two e6_check_string e6_check_succ

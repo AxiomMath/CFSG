@@ -169,7 +169,7 @@ theorem idCode_lt : idCode < 2 ^ 64 := by decide +kernel
 
 theorem saMat_lt (i : ℕ) : saMat i < 2 ^ 64 := Nat.mod_lt _ (by positivity)
 
-@[expose] def Acts (g : Equiv.Perm (Fin 360)) (M : ℕ) : Prop :=
+def Acts (g : Equiv.Perm (Fin 360)) (M : ℕ) : Prop :=
   ∀ p (hp : p < 120), ((g ⟨p, by omega⟩ : Fin 360) : ℕ) < 120 ∧
     ((g ⟨p, by omega⟩ : Fin 360) : ℕ) = nsIdx[matApp M nsArr[p]!]!
 
@@ -178,7 +178,7 @@ theorem acts_of_rep {t : Array ℕ} {g : Equiv.Perm (Fin 360)} {M : ℕ} (ht : R
   rw [← ht.apply (by omega)]
   exact h p hp
 
-@[expose] def saElt (i : ℕ) : Equiv.Perm (Fin 360) :=
+def saElt (i : ℕ) : Equiv.Perm (Fin 360) :=
   if _h : 0 < i ∧ saPar i < i then gen (sylowIdx.getD (saLab i) 0) * saElt (saPar i) else 1
 termination_by i
 decreasing_by exact _h.2

@@ -26,9 +26,9 @@ theorem gRows12_sq : rowsMul (gRows 12) (gRows 12) = idRows := by decide +kernel
 
 theorem gRows12_one : (gRows 12)[1]! = 12317 := by decide +kernel
 
-@[expose] def bCN (l : ℤ) : C := if h : 3 ≤ l ∧ l ≤ 14 then bC ⟨l.toNat - 3, by omega⟩ else 0
+def bCN (l : ℤ) : C := if h : 3 ≤ l ∧ l ≤ 14 then bC ⟨l.toNat - 3, by omega⟩ else 0
 
-@[expose] def wordC : List ℤ → C
+def wordC : List ℤ → C
   | [] => 0
   | l :: w => bCN l + wordC w
 
@@ -51,7 +51,7 @@ theorem alpha_sign (j : Fin 11) : alpha ⟨12 + j, by omega⟩ =
   rw [(signRecords j j.2).1]
   exact frameWordQ_sign (genRecord ⟨12 + j, by omega⟩).word (signRecords j j.2).2
 
-@[expose] def signMasks : List ℕ :=
+def signMasks : List ℕ :=
   [255, 3855, 61455, 983055, 15728655, 10928140, 8237332, 6996160, 13017248, 13421568, 11184640]
 
 theorem wordC_eq_bvec : ∀ j : Fin 11,
@@ -62,11 +62,11 @@ theorem signMasks_ceq : ∀ j : Fin 11,
     bvec 24 (signMasks.getD j 0) 0 = bvec 24 (signMasks.getD j 0) 1 := by
   decide +kernel
 
-@[expose] def signVec (j : Fin 11) : Fin 24 → ZMod 2 := bvec 24 (signMasks.getD j 0)
+def signVec (j : Fin 11) : Fin 24 → ZMod 2 := bvec 24 (signMasks.getD j 0)
 
-@[expose] def dualMasks : List ℕ := [28, 268, 4108, 65548, 69905, 9, 12, 92, 60, 1292, 780]
+def dualMasks : List ℕ := [28, 268, 4108, 65548, 69905, 9, 12, 92, 60, 1292, 780]
 
-@[expose] def dualMat : Matrix (Fin 11) (Fin 24) (ZMod 2) :=
+def dualMat : Matrix (Fin 11) (Fin 24) (ZMod 2) :=
   Matrix.of fun k i => bvec 24 (dualMasks.getD k 0) i
 
 theorem dualMat_signVec : ∀ j : Fin 11, dualMat.mulVecLin (signVec j) = Pi.single j 1 := by

@@ -20,24 +20,24 @@ open CFSG.Monster.B.Co2.Native CFSG.RankThree.Native CFSG.Certificates.Native
 open CFSG.ComponentClassification.RankTwoClassical.J2Std CertificateChecks.KernelJ2Cover
 open CFSG.RankThree.PartTwo.Sec4.Sporadic.J2 (keyPts)
 
-@[expose] noncomputable def Z1P : Nat := pkA 9 j2StdZ1
-@[expose] noncomputable def Z2P : Nat := pkA 9 j2StdZ2
-@[expose] noncomputable def A1P : Nat := pkA 9 j2StdA1
-@[expose] noncomputable def B1P : Nat := pkA 9 j2StdB1
-@[expose] noncomputable def A2P : Nat := pkA 9 j2StdA2
-@[expose] noncomputable def B2P : Nat := pkA 9 j2StdB2
-@[expose] noncomputable def R1P : Nat := pkA 9 j2A4R1
-@[expose] noncomputable def R2P : Nat := pkA 9 j2A4R2
-@[expose] noncomputable def Z3P : Nat := pkA 9 j2A4Z3
+noncomputable def Z1P : Nat := pkA 9 j2StdZ1
+noncomputable def Z2P : Nat := pkA 9 j2StdZ2
+noncomputable def A1P : Nat := pkA 9 j2StdA1
+noncomputable def B1P : Nat := pkA 9 j2StdB1
+noncomputable def A2P : Nat := pkA 9 j2StdA2
+noncomputable def B2P : Nat := pkA 9 j2StdB2
+noncomputable def R1P : Nat := pkA 9 j2A4R1
+noncomputable def R2P : Nat := pkA 9 j2A4R2
+noncomputable def Z3P : Nat := pkA 9 j2A4Z3
 
-@[expose] noncomputable def cm (p q : Nat) : Nat := pcomp 315 9 (mask 9) p q
+noncomputable def cm (p q : Nat) : Nat := pcomp 315 9 (mask 9) p q
 
-@[expose] noncomputable def iv (p : Nat) : Nat := pinvS 315 9 (mask 9) p
+noncomputable def iv (p : Nat) : Nat := pinvS 315 9 (mask 9) p
 
-@[expose] noncomputable def cmt (p q : Nat) : Nat := cm (cm p q) (cm (iv p) (iv q))
+noncomputable def cmt (p q : Nat) : Nat := cm (cm p q) (cm (iv p) (iv q))
 
-@[expose] noncomputable def H0P : Nat := cmt A1P B1P
-@[expose] noncomputable def H1P : Nat := cmt A2P B2P
+noncomputable def H0P : Nat := cmt A1P B1P
+noncomputable def H1P : Nat := cmt A2P B2P
 
 theorem hZ1 : j2StdZ1 = unpack 315 9 Z1P := eq_unpack_of_bindListK (by quickRfl)
 theorem hZ2 : j2StdZ2 = unpack 315 9 Z2P := eq_unpack_of_bindListK (by quickRfl)

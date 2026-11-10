@@ -16,17 +16,17 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.Griess CFSG.Monster.Visible CFSG.Monster.Generated CFSG.Monster.B.Short
   CFSG.Monster.B CFSG.Monster.VisQuot CFSG.Monster.ScalarKernel CFSG.Monster.B.Co2
 
-@[expose] def beta3 :
+def beta3 :
     C3 →* Equiv.Perm (Fin 5) := betaCU.comp c3Proj
 
 theorem beta3_surjective :
     Function.Surjective beta3 :=
   betaCU_surjective.comp c3Proj_surjective
 
-@[expose] def R3C :
+def R3C :
     Subgroup C3 := (CFSG.pCore 2 CU).comap c3Proj
 
-@[expose] def R3 :
+def R3 :
     Subgroup Dfull := R3C.map C3.subtype
 
 theorem ker_beta3 :
@@ -83,7 +83,7 @@ theorem index_E3_R3 :
 
 abbrev C3K : Subgroup K3 := C3.subgroupOf K3
 
-@[expose] def B3 :
+def B3 :
     C3K →* Equiv.Perm (Fin 5) :=
   beta3.comp (Subgroup.subgroupOfEquivOfLe C3_le_K3).toMonoidHom
 
@@ -161,7 +161,7 @@ theorem mem_R3_iff
   · intro h
     exact ⟨g, h, rfl⟩
 
-@[expose] def sigma3 :
+def sigma3 :
     K3 →* Equiv.Perm (Fin 5) :=
   sigmaSec B3 B3_surjective ker_B3_characteristic sym5_conj_bijective
 

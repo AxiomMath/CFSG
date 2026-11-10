@@ -247,7 +247,7 @@ theorem evalG6_xnx (i : Fin Tag.E6.rank) :
   apply Subtype.ext
   exact coe_evalG6_xnx i
 
-@[expose] def E6CloseAtTwo : Prop :=
+def E6CloseAtTwo : Prop :=
   ∀ (K : Type) [Field K] [Finite K], Nat.card K = 2 →
     ∀ E₃ : Subgroup (adjointGroup .F4 K), (∀ x ∈ E₃, x ^ 3 = 1) → Nat.card E₃ = 3 ^ 2 →
       ∃ e ∈ E₃, e ≠ 1 ∧ Subgroup.closure (((embE6F4 K).range : Set (adjointGroup .E6 K)) ∪

@@ -168,7 +168,7 @@ end EW
 
 section P23
 
-@[expose] noncomputable abbrev wImage {Y : Type} [Group Y] [Finite Y] (R : Subgroup Y)
+noncomputable abbrev wImage {Y : Type} [Group Y] [Finite Y] (R : Subgroup Y)
     (Wg : Subgroup Y) (e : Y) : Subgroup (SecQ R e) :=
   wImg (Om R) e Wg
 

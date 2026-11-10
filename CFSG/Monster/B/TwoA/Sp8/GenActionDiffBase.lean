@@ -63,7 +63,7 @@ theorem mul_eq_of_inv_mul_mul {G : Type*} [Group G] {s x y : G} (hs : s * s = 1)
   calc s * x = s * x * s * s := by rw [mul_assoc (s * x) s s, hs, mul_one]
     _ = y * s := by rw [h]
 
-@[expose] def RowOK (f : Bool → ℕ → Bool × Bool × ℕ) (M : Matrix SpinIdx SpinIdx ℚ) : Prop :=
+def RowOK (f : Bool → ℕ → Bool × Bool × ℕ) (M : Matrix SpinIdx SpinIdx ℚ) : Prop :=
   ∀ η c, Evec η c ᵥ* M = sgn (boolZ (f η c).1) • Evec (f η c).2.1 (f η c).2.2
 
 theorem Evec_vecMul_prod : ∀ {fs : List (Bool → ℕ → Bool × Bool × ℕ)}
@@ -120,7 +120,7 @@ theorem slPair_mul_eq_of_rows {h : Pvis} {fs : List (Bool → ℕ → Bool × Bo
 
 theorem permCN_three : ∀ j < 9, Model.permCN fPerms[j]! 3 = 3 := by decide
 
-@[expose] def epsQ (j : ℕ) : Model.Pauli := (false, 0, epsDual j)
+def epsQ (j : ℕ) : Model.Pauli := (false, 0, epsDual j)
 
 theorem signProd_fst (as : List ℕ) :
     (((signProd as : Pvis) : GL SpinIdx ℚ × latticeO).1 : Matrix SpinIdx SpinIdx ℚ) =

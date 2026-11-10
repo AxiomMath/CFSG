@@ -6,9 +6,9 @@ public import Init
 
 namespace CertificateChecks.KernelO8F
 
-@[expose] def frameBaseA : Array Nat := #[0, 4, 28]
+def frameBaseA : Array Nat := #[0, 4, 28]
 
-@[expose] def noWords : List (List Int) := []
+def noWords : List (List Int) := []
 
 end CertificateChecks.KernelO8F
 

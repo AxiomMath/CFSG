@@ -45,7 +45,7 @@ theorem frame_pairwise {i : ℕ} (hi : i < 9) : (frame i).Pairwise fun u v => if
 theorem code_rep {i : ℕ} (hi : i < 9) : code (rep i) = frameCode (frameData.getD i []) := by
   rw [rep, code_frameProd _ (frame_isRoot hi), map_toL_frame hi]
 
-@[expose] def negCounts : List ℕ := [2, 4, 6, 8, 24, 26, 60, 126, 240]
+def negCounts : List ℕ := [2, 4, 6, 8, 24, 26, 60, 126, 240]
 
 theorem negCount_frameCode : ∀ i < 9,
     WE8.Native.negCount (frameCode (frameData.getD i [])) = negCounts.getD i 0 := by

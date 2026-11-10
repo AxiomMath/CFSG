@@ -41,7 +41,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Co2M CFSG.KS.MatRep CFSG.RankThree
 open CFSG.Sporadic.Co2Schreier CFSG.Sporadic.Co2Cert CFSG.Monster.B.Co2.Native
 open CFSG.Certificates.Native
 
-@[expose] noncomputable def ztP (k : ℕ) : ℕ × ℕ := if Nat.beq k 0 then zP else tP
+noncomputable def ztP (k : ℕ) : ℕ × ℕ := if Nat.beq k 0 then zP else tP
 
 theorem bind_q : allN 8 (fun k => bindK (PV 0) (WQ k) (qT.getD k (0, 0)).1
     (qT.getD k (0, 0)).2) = true := by quickRfl
@@ -63,7 +63,7 @@ theorem orig_s : allN 15 (fun k => bindK (PV 0) (Co2LS.S k) (sT.getD k (0, 0)).1
 theorem orig_j : allN 4 (fun k => bindK (PV 0) (Co2LJ.S k) ((cT ++ dT).getD k (0, 0)).1
     ((cT ++ dT).getD k (0, 0)).2) = true := by quickRfl
 
-@[expose] noncomputable def siftS (G : ℕ) : Bool :=
+noncomputable def siftS (G : ℕ) : Bool :=
   siftK 2300 12 (mask 12) (2300 * 12) (pidn 2300 12) Co2LS.LR Co2LS.TRI Co2LS.BP 3 0 G
 
 theorem sift_q : allN 8 (fun k => siftS (WQ k)) = true := by quickRfl

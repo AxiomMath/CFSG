@@ -43,7 +43,7 @@ theorem fi22InP_iff
     fi22InP g = true ↔ G ∈ fi22P :=
   siftA_iff_mem_originalSubgroup fi22ChainArrays (by norm_num) fi22Order_check.1 hG
 
-@[expose] def fi22TSeed (k : ℕ) : Equiv.Perm (Fin 3510) :=
+def fi22TSeed (k : ℕ) : Equiv.Perm (Fin 3510) :=
   permOfArr 3510 (fi22OuterStrong3510 4)[k]!
 
 theorem fi22OuterT_eq_closure :

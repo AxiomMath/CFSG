@@ -197,7 +197,7 @@ theorem swApp_eq : ∀ (w : List Nat), w.all (· < 8) = true → ∀ a, swApp sT
     change app11 sTab[i]! (swApp sTab w a) = CFSG.KC.Loop.strictN (swK w a) fun b => appK (J4G1 i) b
     rw [swApp_eq w h.2 a, strictN_eq', sTab_get h.1, app_eq]
 
-@[expose] def chainP (F : List Nat → Nat → Nat) : Prop :=
+def chainP (F : List Nat → Nat → Nat) : Prop :=
   ∀ j ∈ [1, 2, 3, 4, 5, 6], (chainWords[j - 1]!).size = chainCnt[j]! ∧
     ∀ k < chainCnt[j]!, ((chainWords[j - 1]!)[k]!).all (· < 8) = true ∧
       (∀ i < j, F (chainWords[j - 1]!)[k]! chainBase[i]! = chainBase[i]!) ∧

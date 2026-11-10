@@ -34,7 +34,7 @@ local notation "walkJ " j:max k:max z:max =>
 local notation "mJ " j:max inO:max k:max =>
   mIK 2300 12 (mask 12) (2300 * 12) Co2T3.S Co2T3.SI 30 (t3St j) (Co2T3.LR j) inO fxP 52 k
 
-@[expose] def toF (z : ℕ) : Fin 2300 := ⟨z % 2300, Nat.mod_lt _ (by norm_num)⟩
+def toF (z : ℕ) : Fin 2300 := ⟨z % 2300, Nat.mod_lt _ (by norm_num)⟩
 
 theorem toF_val {z : ℕ} (hz : z < 2300) : (toF z : ℕ) = z := Nat.mod_eq_of_lt hz
 
@@ -96,6 +96,6 @@ theorem mem_Hj_succ {j : ℕ} (g : Equiv.Perm (Fin 2300)) :
     · exact h3 i hi
     · exact h4
 
-@[expose] def cB : List ℕ := [20, 18, 32, 8, 4, 1, 2, 1, 1, 1, 1, 1, 2]
+def cB : List ℕ := [20, 18, 32, 8, 4, 1, 2, 1, 1, 1, 1, 1, 2]
 
 end CertificateChecks.KernelSporSch.Co2M

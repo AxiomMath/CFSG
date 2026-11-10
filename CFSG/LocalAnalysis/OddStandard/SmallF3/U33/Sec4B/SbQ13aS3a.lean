@@ -8,7 +8,7 @@ public section
 
 namespace CFSG.OddStandard.SmallF3.HarrisU33.S4B
 
-@[expose] abbrev S3M2 : Type := ZMod 4 × ZMod 4 × ZMod 4 × ZMod 4
+abbrev S3M2 : Type := ZMod 4 × ZMod 4 × ZMod 4 × ZMod 4
 
 @[expose] def s3mul (x y : S3M2) : S3M2 :=
   (x.1 * y.1 + x.2.1 * y.2.2.1, x.1 * y.2.1 + x.2.1 * y.2.2.2,

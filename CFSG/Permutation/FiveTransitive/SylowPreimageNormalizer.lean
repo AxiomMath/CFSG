@@ -10,7 +10,7 @@ namespace FiveTransitive.SylowPreimageNormalizer
 
 variable {G H : Type*} [Group G] [Group H] {p : ℕ} [Fact p.Prime]
 
-@[expose] abbrev ambient (f : G →* H) (V : Subgroup H) (R : Sylow p (V.comap f)) : Subgroup G :=
+abbrev ambient (f : G →* H) (V : Subgroup H) (R : Sylow p (V.comap f)) : Subgroup G :=
   (R : Subgroup (V.comap f)).map (V.comap f).subtype
 
 theorem ambient_map [Finite G] (f : G →* H) (hf : Function.Surjective f)

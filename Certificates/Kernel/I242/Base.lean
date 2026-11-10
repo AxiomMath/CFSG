@@ -6,7 +6,7 @@ public import CFSG.HardMathSupport.Solomon.Coordinator.I24_2Inputs
 
 namespace CertificateChecks.KernelI242
 
-@[expose] def i242BaseA : Array Nat :=
+def i242BaseA : Array Nat :=
   (CFSG.HardMathSupport.Solomon.Coordinator.i242Base.map Fin.val).toArray
 
 end CertificateChecks.KernelI242

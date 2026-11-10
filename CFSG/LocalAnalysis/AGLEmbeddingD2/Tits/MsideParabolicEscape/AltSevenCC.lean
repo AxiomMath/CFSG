@@ -48,7 +48,7 @@ namespace CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.AltSeven
 
 open Equiv
 
-@[expose] abbrev A7 := alternatingGroup (Fin 7)
+abbrev A7 := alternatingGroup (Fin 7)
 
 @[expose] noncomputable def cc (x : A7) : ℕ := Nat.card (Subgroup.centralizer ({x} : Set A7))
 

@@ -12,10 +12,10 @@ open scoped Matrix
 
 variable {K : Type} [Field K]
 
-@[expose] abbrev involNilOne (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
+abbrev involNilOne (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
   !![0, 0, 0, 1; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0]
 
-@[expose] abbrev involNilTwo (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
+abbrev involNilTwo (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
   !![0, 0, 1, 0; 0, 0, 0, 1; 0, 0, 0, 0; 0, 0, 0, 0]
 
 @[expose] def involOfCols (p : Fin 4 → Fin 4 → K) : Matrix (Fin 4) (Fin 4) K :=

@@ -11,7 +11,7 @@ namespace CFSG.QuasithinUnique.Vol2Native.L239.J4Pairs
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.QT CFSG.Sporadic.Mathieu
 
-@[expose] def StarOK (g : J) (i i' : ℕ) : Prop :=
+def StarOK (g : J) (i i' : ℕ) : Prop :=
   ∀ c ∈ starMasks.getD i [], ∃ c' ∈ starMasks.getD i' [], g * eta uJ 11 c * g⁻¹ = eta uJ 11 c'
 
 theorem starOK_one (i : ℕ) : StarOK 1 i i := fun c hc => ⟨c, hc, by simp⟩

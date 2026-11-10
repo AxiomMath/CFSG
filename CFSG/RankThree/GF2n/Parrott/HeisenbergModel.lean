@@ -30,13 +30,13 @@ def q (x y : Fin 4 → ZMod 2) : ZMod 2 :=
 def b (x y x' y' : Fin 4 → ZMod 2) : ZMod 2 :=
   q x y' + q x' y
 
-@[expose] def mulE8 (g h : E8) : E8 :=
+def mulE8 (g h : E8) : E8 :=
   ⟨g.x + h.x, g.y + h.y, g.a + h.a + q g.x h.y⟩
 
-@[expose] def oneE8 : E8 :=
+def oneE8 : E8 :=
   ⟨0, 0, 0⟩
 
-@[expose] def invE8 (g : E8) : E8 :=
+def invE8 (g : E8) : E8 :=
   ⟨-g.x, -g.y, -g.a + q g.x g.y⟩
 
 @[simp]
@@ -172,7 +172,7 @@ theorem inv_y (g : E8) : (g⁻¹).y = -g.y := by
 theorem inv_a (g : E8) : (g⁻¹).a = -g.a + q g.x g.y := by
   simp [inv_apply]
 
-@[expose] instance : Group E8 :=
+instance : Group E8 :=
   Group.ofLeftAxioms
     (fun g h k => by
       ext <;>

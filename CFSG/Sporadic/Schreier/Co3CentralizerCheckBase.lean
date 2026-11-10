@@ -13,6 +13,6 @@ namespace CFSG.Sporadic.Schreier.Co3
 
 open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Sporadic.Schreier.Co3.Native
 
-@[expose] def co3M1Levels : Array Level := rawLevels 276 co3M1Arrs co3M1BaseArr
+def co3M1Levels : Array Level := rawLevels 276 co3M1Arrs co3M1BaseArr
 
 end CFSG.Sporadic.Schreier.Co3

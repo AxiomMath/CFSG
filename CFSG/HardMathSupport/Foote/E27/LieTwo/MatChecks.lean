@@ -11,7 +11,7 @@ open Matrix Subgroup CFSG.Sporadic.He.Native
 
 @[expose] def FpfM {d : ℕ} (M : M2 d) : Prop := ∀ v : Fin d → ZMod 2, M *ᵥ v = v → v = 0
 
-@[expose] instance {d : ℕ} (M : M2 d) : Decidable (FpfM M) := by
+instance {d : ℕ} (M : M2 d) : Decidable (FpfM M) := by
   unfold FpfM; infer_instance
 
 @[expose] def fpfB {d : ℕ} (M : M2 d) : Bool := decide (FpfM M)

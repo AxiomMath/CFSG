@@ -14,7 +14,7 @@ namespace CFSG.Sporadic.Co1.Module.Odd
 open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
   CFSG.Sporadic.Co1.OddNative Matrix
 
-@[expose] def mat : NativeSporadic.Co1 →* Matrix (Fin 24) (Fin 24) (ZMod 2) where
+def mat : NativeSporadic.Co1 →* Matrix (Fin 24) (Fin 24) (ZMod 2) where
   toFun g := g.val.val
   map_one' := rfl
   map_mul' _ _ := rfl
@@ -36,7 +36,7 @@ theorem co1Act_mul' (g h : NativeSporadic.Co1) (v : Vec24) :
 theorem co1Act_one' (v : Vec24) : co1Act 1 v = v := by
   simp [co1Act_eq_mulVec]
 
-@[expose, instance_reducible] noncomputable def vecAct : MulAction NativeSporadic.Co1 Vec24 where
+@[instance_reducible] noncomputable def vecAct : MulAction NativeSporadic.Co1 Vec24 where
   smul g v := co1Act g v
   one_smul v := co1Act_one' v
   mul_smul g h v := co1Act_mul' g h v
@@ -55,13 +55,13 @@ section SLP
 
 variable {M : Type*} [Monoid M]
 
-@[expose] def lineEval (regs : List M) (fac : List (ℕ × ℕ)) : M :=
+def lineEval (regs : List M) (fac : List (ℕ × ℕ)) : M :=
   (fac.map fun p => regs.getD p.1 1 ^ p.2).prod
 
-@[expose] def runEval (init : List M) (prog : List (List (ℕ × ℕ))) : List M :=
+def runEval (init : List M) (prog : List (List (ℕ × ℕ))) : List M :=
   prog.foldl (fun regs fac => regs ++ [lineEval regs fac]) init
 
-@[expose] def RegsRel (φ : M →* Matrix (Fin 24) (Fin 24) (ZMod 2)) (regsG : List M)
+def RegsRel (φ : M →* Matrix (Fin 24) (Fin 24) (ZMod 2)) (regsG : List M)
     (regsR : Array (Array ℕ)) : Prop :=
   regsR.size = regsG.length ∧
     ∀ i, φ (regsG.getD i 1) = rowsMatrix 24 (regsR[i]?.getD (idRows 24))

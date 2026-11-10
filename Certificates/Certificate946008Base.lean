@@ -10,35 +10,35 @@ namespace Certificates
 
 open CFSG.RankThree.GF2n.Parrott
 
-@[expose] def fixedMasks (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : List Nat :=
+def fixedMasks (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : List Nat :=
   (List.range 512).filter (fun p => phiMask M ms p == p)
 
-@[expose] def isInv (p : Nat) : Bool := mulMask p p == 0
+def isInv (p : Nat) : Bool := mulMask p p == 0
 
-@[expose] def invMaskCount (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Nat :=
+def invMaskCount (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Nat :=
   ((fixedMasks M ms).filter fun p => isInv p).length
 
-@[expose] def fixedNoncomm (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
+def fixedNoncomm (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
   let F := fixedMasks M ms
   F.any fun p => F.any fun q => mulMask p q != mulMask q p
 
-@[expose] def fixedCentral (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
+def fixedCentral (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
   (fixedMasks M ms).all fun p => p % 256 == 0
 
-@[expose] def fixedCentreCard (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Nat :=
+def fixedCentreCard (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Nat :=
   let F := fixedMasks M ms
   (F.filter fun z => F.all fun q => mulMask z q == mulMask q z).length
 
-@[expose] def fixedOrderFour (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
+def fixedOrderFour (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
   (fixedMasks M ms).all fun p =>
     mulMask p (mulMask p (mulMask p p)) == 0
 
-@[expose] def cocycleCheck (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
+def cocycleCheck (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
   (List.range 256).all fun p => (List.range 256).all fun q =>
     (cMask ms (p ^^^ q) ^^^ cMask ms p ^^^ cMask ms q ==
       bhMask (bitRow M p) (bitRow M q) ^^^ bhMask p q)
 
-@[expose] def cubeCheck (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
+def cubeCheck (M : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat) : Bool :=
   (List.range 512).all fun p => phiMask M ms (phiMask M ms (phiMask M ms p)) == p
 
 structure LiftFacts (M Minv : Matrix (Fin 8) (Fin 8) (ZMod 2)) (ms : List Nat)

@@ -15,7 +15,7 @@ open CFSG.Quasithin.SmithCurtis CFSG.Quasithin.SmithCurtis.Chev CFSG.Blueprint.C
 
 @[expose] def e7Theta0 : Fin Tag.E7.rank → ℤ := ![2, 2, 3, 4, 3, 2, 1]
 
-@[expose] abbrev e7node10 : Fin Tag.E7.rank := ⟨0, by decide⟩
+abbrev e7node10 : Fin Tag.E7.rank := ⟨0, by decide⟩
 
 @[expose] def e7ThetaWords : List (List (Fin Tag.E7.rank)) :=
   ([[2, 3, 4, 5, 6, 1, 3, 4, 5, 2, 3, 4, 1, 3, 2, 0], [3, 4, 5, 6, 2, 3, 4, 5, 0, 2, 3, 4, 1, 3, 2, 0],
@@ -260,7 +260,7 @@ theorem coord_inl_of_mem_Z {z : RootModule .E7 K} (hz : z ∈ e7Z K) :
   refine ⟨κ, fun k => ?_⟩
   rw [Finsupp.smul_apply, coord_e7Hc_inl, smul_eq_mul]
 
-@[expose] abbrev e7i1 : Fin Tag.E7.rank := ⟨1, by decide⟩
+abbrev e7i1 : Fin Tag.E7.rank := ⟨1, by decide⟩
 
 theorem e7_c0_i1 : e7c0 e7i1 = 1 := by decide +kernel
 

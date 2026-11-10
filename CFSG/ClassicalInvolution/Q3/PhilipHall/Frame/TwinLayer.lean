@@ -18,10 +18,10 @@ section Core
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G} {K : Subgroup G}
 
-@[expose] noncomputable abbrev exactCore (c : G) (K : Subgroup G) : Subgroup G :=
+noncomputable abbrev exactCore (c : G) (K : Subgroup G) : Subgroup G :=
   TwinADescent.coreAt c K
 
-@[expose] abbrev tqMembers (Ω : Set (Subgroup G)) (c : G) : Set (Subgroup G) :=
+abbrev tqMembers (Ω : Set (Subgroup G)) (c : G) : Set (Subgroup G) :=
   tqMembers3 Ω c
 
 theorem exactCore_le_left (c : G) (K : Subgroup G) : exactCore c K ≤ K :=

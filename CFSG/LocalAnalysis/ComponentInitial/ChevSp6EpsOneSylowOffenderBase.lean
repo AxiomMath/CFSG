@@ -19,7 +19,7 @@ theorem card_filter_range (n : ℕ) (p : ℕ → Bool) :
   · exact Finset.mem_range.1 (Finset.mem_filter.1 x.2).1 |> List.mem_range.2
   · exact (Finset.mem_filter.1 x.2).2
 
-@[expose] def eAct (u : Bool) (σ : Equiv.Perm (Fin 64)) (x : ℕ) : ℕ :=
+def eAct (u : Bool) (σ : Equiv.Perm (Fin 64)) (x : ℕ) : ℕ :=
   evalE (bOf u (tupleOf σ)) x
 
 theorem eAct_zero (u : Bool) (σ : Equiv.Perm (Fin 64)) : eAct u σ 0 = 0 := by

@@ -27,7 +27,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.VisQuot CFSG.Monster.VisCert
   CFSG.Monster.SpinLattice CFSG.Monster.B.Short CFSG.Monster.B.Co2 CFSG.Monster.B.TwoA
   CFSG.Monster.B.TwoA.Census
 
-@[expose] def n6vec (j : Fin 891) : Wv v0 := decW n6VecArr[(j : ℕ)]!
+def n6vec (j : Fin 891) : Wv v0 := decW n6VecArr[(j : ℕ)]!
 
 theorem n6Vec_size : n6VecArr.size = 891 := by decide +kernel
 

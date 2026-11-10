@@ -12,13 +12,13 @@ open Subgroup CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Sporadic.Schreie
   CFSG.LieType.Multipliers.U43 CFSG.Sporadic.SmallOddCore
 open scoped Pointwise
 
-@[expose] noncomputable def dP : Equiv.Perm (Fin 820) := permOfArr 820 deltaArr
+noncomputable def dP : Equiv.Perm (Fin 820) := permOfArr 820 deltaArr
 
-@[expose] noncomputable def fP : Equiv.Perm (Fin 820) := permOfArr 820 phiArr
+noncomputable def fP : Equiv.Perm (Fin 820) := permOfArr 820 phiArr
 
-@[expose] noncomputable def tP (k : ℕ) : Equiv.Perm (Fin 820) := fP ^ (k / 4) * dP ^ (k % 4)
+noncomputable def tP (k : ℕ) : Equiv.Perm (Fin 820) := fP ^ (k / 4) * dP ^ (k % 4)
 
-@[expose] noncomputable def rP (j : ℕ) : Equiv.Perm (Fin 820) := permOfArr 820 reps[j]!
+noncomputable def rP (j : ℕ) : Equiv.Perm (Fin 820) := permOfArr 820 reps[j]!
 
 theorem tP_zero : tP 0 = 1 := by simp [tP]
 

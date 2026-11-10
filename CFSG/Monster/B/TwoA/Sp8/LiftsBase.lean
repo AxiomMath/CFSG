@@ -23,7 +23,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.B CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Co2Inv CFSG.Monster.B.Rep4371
   CFSG.Monster.B.TwoA.Census
 
-@[expose] def PhiQ (v : Fin 8 → ZMod 2) : Q := pauliQ (foldP v)
+def PhiQ (v : Fin 8 → ZMod 2) : Q := pauliQ (foldP v)
 
 theorem pauliQ_injective_box {x y : Model.Pauli} (hx : x.2.1 < 2 ^ 12 ∧ x.2.2 < 2 ^ 12)
     (hy : y.2.1 < 2 ^ 12 ∧ y.2.2 < 2 ^ 12) (h : pauliQ x = pauliQ y) : x = y := by

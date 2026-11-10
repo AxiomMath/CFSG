@@ -22,7 +22,7 @@ local notation "CA0" => Certificates.OmegaF1051.centL (elemsT QA45) z0
 
 local notation "CL0" => Certificates.OmegaF1051.centL (elemsT QP45) z0
 
-@[expose] def Q32 : Subgroup P45 := Subgroup.closure {g | g ∈ Certificates.OmegaF1051.q0l ()}
+def Q32 : Subgroup P45 := Subgroup.closure {g | g ∈ Certificates.OmegaF1051.q0l ()}
 
 theorem mem_closure_list_iff {l : List P45} (h1 : (1 : P45) ∈ l) (hinv : ∀ a ∈ l, a⁻¹ ∈ l)
     (hmul : ∀ a ∈ l, ∀ b ∈ l, a * b ∈ l) {g : P45} :
@@ -39,7 +39,7 @@ theorem mem_closure_list_iff {l : List P45} (h1 : (1 : P45) ∈ l) (hinv : ∀ a
   · intro hg
     exact Subgroup.subset_closure hg
 
-@[expose] def oTwoC : Subgroup P45 :=
+def oTwoC : Subgroup P45 :=
   oTwoRes (QP45.originalSubgroup ⊓ centralizer ({z0} : Set P45))
 
 end CFSG.OddStandard.SmallF3.Omega

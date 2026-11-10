@@ -109,7 +109,7 @@ theorem cubK_sound {l : List (Fin Tag.E6.rank)} {j : Fin Tag.E6.rank}
 
 @[expose] def sg (n : ℕ) : ℕ := Nat.land (Nat.shiftRight sgP (Nat.mul 7 n)) 127
 
-@[expose] local instance rootDecEqK : DecidableEq (Fin Tag.E6.rank → ℤ) :=
+local instance rootDecEqK : DecidableEq (Fin Tag.E6.rank → ℤ) :=
   Fintype.decidablePiFintype
 
 theorem mem_rootFinset_E6 {α : Fin Tag.E6.rank → ℤ} :

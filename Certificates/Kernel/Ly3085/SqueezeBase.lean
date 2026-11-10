@@ -196,10 +196,10 @@ theorem beta_rep2
   ext1
   rw [fm_smM, rep2.2.2.2.2]
 
-@[expose] def repOp [LySeed] (c : ℕ) : LyOperator :=
+def repOp [LySeed] (c : ℕ) : LyOperator :=
   if c = 0 then opE else gRep c • opE
 
-@[expose] def subO [LySeed] (i : Fin 5) : Finset LyOperator :=
+def subO [LySeed] (i : Fin 5) : Finset LyOperator :=
   (Set.toFinite (orbit lyH (repOp i.val))).toFinset
 
 theorem card_subO [LySeed] (i : Fin 5) :

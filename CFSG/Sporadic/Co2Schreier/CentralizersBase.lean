@@ -29,9 +29,9 @@ open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.
   CFSG.Sporadic.Co2Cert CFSG.LocalAnalysis.ComponentInitial
 open scoped Pointwise
 
-@[expose] def zP : co2P := ⟨locZ, locZ_mem⟩
+def zP : co2P := ⟨locZ, locZ_mem⟩
 
-@[expose] def tP : co2P := ⟨locT, locT_mem⟩
+def tP : co2P := ⟨locT, locT_mem⟩
 
 theorem centralizer_mk_eq {G : Type*} [Group G] {H : Subgroup G} {x : G} (hx : x ∈ H) :
     Subgroup.centralizer {(⟨x, hx⟩ : H)} = (Subgroup.centralizer {x}).subgroupOf H := by

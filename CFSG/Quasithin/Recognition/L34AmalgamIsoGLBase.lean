@@ -57,7 +57,7 @@ theorem lin_comp (T M : Fin 4 → Fin 16) (x : Fin 16) :
 
 theorem eq_lin_basis : ∀ x : Fin 16, lin ![1, 2, 4, 8] x = x := by decide
 
-@[expose] def toCode (m : Fin 4 → Fin 16) : ℕ := m 0 + 16 * m 1 + 256 * m 2 + 4096 * m 3
+def toCode (m : Fin 4 → Fin 16) : ℕ := m 0 + 16 * m 1 + 256 * m 2 + 4096 * m 3
 
 theorem toCode_lt (m : Fin 4 → Fin 16) : toCode m < 65536 := by
   unfold toCode; omega

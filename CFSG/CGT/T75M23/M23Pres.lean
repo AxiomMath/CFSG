@@ -10,7 +10,7 @@ open CFSG.CosetTable CFSG.Blueprint
 
 abbrev m23Presented : Type := PG 7 m23Rels
 
-@[expose] abbrev M23Facts : Prop :=
+abbrev M23Facts : Prop :=
   (Finite m23Presented ∧ Nat.card m23Presented ≤ 10200960) ∧ m23TabCheck = true
 
 section Model

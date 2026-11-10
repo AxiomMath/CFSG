@@ -48,7 +48,7 @@ namespace KillData
 variable {G : Type*} [Group G] {u : Bool} {Jh E : Subgroup G} {cV cE : G → ℕ}
   {z l₁ l₂ : G} (h : KillData u Jh E cV cE z l₁ l₂)
 
-@[expose] def preim (p : ℕ → Prop) (hp0 : p 0)
+def preim (p : ℕ → Prop) (hp0 : p 0)
     (hpx : ∀ v w, v < 64 → w < 64 → p v → p w → p (v ^^^ w)) : Subgroup G where
   carrier := {x | x ∈ Jh ∧ p (cV x)}
   mul_mem' := by
@@ -61,9 +61,9 @@ variable {G : Type*} [Group G] {u : Bool} {Jh E : Subgroup G} {cV cE : G → ℕ
     rintro x ⟨hx, hpx'⟩
     exact ⟨inv_mem hx, by rw [h.cV_inv hx]; exact hpx'⟩
 
-@[expose] def Jl : Subgroup G := h.preim (fun v => wpart v = 0) wl_zero wl_xor
+def Jl : Subgroup G := h.preim (fun v => wpart v = 0) wl_zero wl_xor
 
-@[expose] def Jr : Subgroup G := h.preim (fun v => wpart v = xpart v) wr_zero wr_xor
+def Jr : Subgroup G := h.preim (fun v => wpart v = xpart v) wr_zero wr_xor
 
 include h
 

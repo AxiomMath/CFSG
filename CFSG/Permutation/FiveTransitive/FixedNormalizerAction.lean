@@ -12,10 +12,10 @@ namespace FiveTransitive.FixedNormalizerAction
 
 open MulAction
 
-@[expose] abbrev Normalizer {G:Type*} [Group G] (Q:Subgroup G) := Subgroup.normalizer (Q:Set G)
-@[expose] abbrev Inside {G:Type*} [Group G] (Q:Subgroup G) := Q.subgroupOf (Normalizer Q)
-@[expose] abbrev Fixed {G X:Type*} [Group G] [MulAction G X] (Q:Subgroup G) := fixedPoints (Inside Q) X
-@[expose] abbrev Image {G X:Type*} [Group G] [MulAction G X] (Q:Subgroup G) :=
+abbrev Normalizer {G:Type*} [Group G] (Q:Subgroup G) := Subgroup.normalizer (Q:Set G)
+abbrev Inside {G:Type*} [Group G] (Q:Subgroup G) := Q.subgroupOf (Normalizer Q)
+abbrev Fixed {G X:Type*} [Group G] [MulAction G X] (Q:Subgroup G) := fixedPoints (Inside Q) X
+abbrev Image {G X:Type*} [Group G] [MulAction G X] (Q:Subgroup G) :=
   (toPermHom (Normalizer Q) (Fixed (X:=X) Q)).range
 
 theorem fixed_eq {G X:Type*} [Group G] [MulAction G X] (Q:Subgroup G) :

@@ -18,7 +18,7 @@ open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.SectionRank CFSG.SectionRank.Native
 open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 open scoped Matrix
 
-@[expose] def kvec (i : ℕ) : Row := toRow (toVecD 112 ksetVectors[i]!)
+def kvec (i : ℕ) : Row := toRow (toVecD 112 ksetVectors[i]!)
 
 theorem inv_smul_toRow {g : J} {G : Pair} (hg : Rep Sp φ g G) (s : ℕ) :
     g⁻¹ • toRow (toVecD 112 s) = toRow (toVecD 112 (O.vmul s G.1)) := by
@@ -29,13 +29,13 @@ theorem inv_smul_toRow {g : J} {G : Pair} (hg : Rep Sp φ g G) (s : ℕ) :
 
 abbrev ksetRows : Set Row := kvec '' Set.Iio ksetSize
 
-@[expose] def withZero (pts : Array ℕ) (i : ℕ) : ℕ := if i = 0 then 0 else pts[i - 1]!
+def withZero (pts : Array ℕ) (i : ℕ) : ℕ := if i = 0 then 0 else pts[i - 1]!
 
 abbrev ρN : NN →* MulAut N := N.normalizerMonoidHom
 
-@[expose] def ηN (a : ℕ) : N := ⟨η a, η_mem_N a⟩
+def ηN (a : ℕ) : N := ⟨η a, η_mem_N a⟩
 
-@[expose] def sgenK (m : ℕ) : K := ⟨sgen m, sgen_mem_K m⟩
+def sgenK (m : ℕ) : K := ⟨sgen m, sgen_mem_K m⟩
 
 theorem gens1_eq (g : ℕ) (hg : g < 8) : gens1[g]! = sCols idx1[g]! := by
   interval_cases g <;> rfl

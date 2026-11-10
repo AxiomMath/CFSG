@@ -25,7 +25,7 @@ namespace CFSG.GH74.GLS.C3.Layer2.L5
 open Equiv Perm Subgroup CFSG.GH74.GLS.C3.Prop121 CFSG.GH74.GLS.C3.Layer2
   CFSG.GH74.GLS.C3.Layer2.Model
 
-@[expose] def n24L : List (Perm (Fin 16)) :=
+def n24L : List (Perm (Fin 16)) :=
   [1,
     List.formPerm [4, 8, 12] * List.formPerm [5, 9, 13] * List.formPerm [6, 10, 14] * List.formPerm [7, 11, 15],
     List.formPerm [4, 12, 8] * List.formPerm [5, 13, 9] * List.formPerm [6, 14, 10] * List.formPerm [7, 15, 11],
@@ -53,11 +53,11 @@ open Equiv Perm Subgroup CFSG.GH74.GLS.C3.Prop121 CFSG.GH74.GLS.C3.Layer2
 
 theorem one_mem_Sh1L : (1 : Perm (Fin 16)) ∈ Sh1L := one_mem_closureList _ _
 
-@[expose] def cHat : Perm (Fin 16) :=
+def cHat : Perm (Fin 16) :=
   List.formPerm [1, 2, 3] * List.formPerm [5, 6, 7] * List.formPerm [9, 10, 11] *
     List.formPerm [13, 14, 15]
 
-@[expose] def lsubP (l : List (Perm (Fin 16))) (h1 : (1 : Perm (Fin 16)) ∈ l)
+def lsubP (l : List (Perm (Fin 16))) (h1 : (1 : Perm (Fin 16)) ∈ l)
     (hm : mulClosedChkP l = true) (hi : invClosedChkP l = true) : Subgroup (Perm (Fin 16)) :=
   lsub l h1 (by simpa only [mulClosedChkP, List.all_eq_true, decide_eq_true_eq] using hm)
     (by simpa only [invClosedChkP, List.all_eq_true, decide_eq_true_eq] using hi)

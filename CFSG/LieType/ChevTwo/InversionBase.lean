@@ -14,7 +14,7 @@ theorem chev2RankTwoInverts
 
 namespace GL4Native
 
-@[expose] def toL (A : Matrix (Fin 4) (Fin 4) (ZMod 2)) : List (ZMod 2) :=
+def toL (A : Matrix (Fin 4) (Fin 4) (ZMod 2)) : List (ZMod 2) :=
   List.ofFn fun k : Fin 16 => A (ij k).1 (ij k).2
 
 theorem ij_fst (k : Fin 16) : (ij k).1.val = k.val / 4 := rfl
@@ -105,11 +105,11 @@ end GL4Native
 
 namespace OffNative
 
-@[expose] def glEquivAut : GL (Fin 4) (ZMod 2) ≃* ((Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 → ZMod 2)) :=
+def glEquivAut : GL (Fin 4) (ZMod 2) ≃* ((Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 → ZMod 2)) :=
   Matrix.GeneralLinearGroup.toLin.trans
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Fin 4 → ZMod 2))
 
-@[expose] def prodHom (U W : Type) [AddCommGroup U] [Module (ZMod 2) U] [AddCommGroup W]
+def prodHom (U W : Type) [AddCommGroup U] [Module (ZMod 2) U] [AddCommGroup W]
     [Module (ZMod 2) W] : (U ≃ₗ[ZMod 2] U) →* ((U × W) ≃ₗ[ZMod 2] (U × W)) where
   toFun g := LinearEquiv.prodCongr g (LinearEquiv.refl (ZMod 2) W)
   map_one' := by

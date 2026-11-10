@@ -11,20 +11,20 @@ namespace FiveTransitive.GenericSylowFixedAction
 open MulAction SubMulAction Subgroup
 open FiveTransitive.SylowFixedActionCore
 
-@[expose] abbrev sylowImage
+abbrev sylowImage
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) : Subgroup G :=
   (S : Subgroup (fixingSubgroup G s)).map
     (fixingSubgroup G s).subtype
 
-@[expose] abbrev sylowNormalizer
+abbrev sylowNormalizer
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) : Subgroup G :=
   Subgroup.normalizer (sylowImage G X s S : Set G)
 
-@[expose] abbrev sylowInNormalizer
+abbrev sylowInNormalizer
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) :
@@ -32,7 +32,7 @@ open FiveTransitive.SylowFixedActionCore
   (sylowImage G X s S).subgroupOf
     (sylowNormalizer G X s S)
 
-@[expose] abbrev sylowFixedPoints
+abbrev sylowFixedPoints
     (G X : Type) [Group G] [MulAction G X] (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup G s)) :=

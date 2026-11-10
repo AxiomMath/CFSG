@@ -10,7 +10,7 @@ namespace CFSG.LargeExtraspecial.SMod20
 open CFSG.Fischer CFSG.SmithE CFSG.F4.Native CFSG.Fischer.Native CFSG.Sporadic.Th
   CFSG.Sporadic.Th.Native
 
-@[expose, irreducible] def collI : Array (Array ℕ) := collInvs collS2 (collMeet collS2)
+@[irreducible] def collI : Array (Array ℕ) := collInvs collS2 (collMeet collS2)
 
 structure CollFacts : Prop where
   co : collCoOK = true

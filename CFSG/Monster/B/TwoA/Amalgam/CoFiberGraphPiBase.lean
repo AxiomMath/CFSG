@@ -29,7 +29,7 @@ theorem mem_cPi0
   · rintro ⟨k, rfl⟩
     exact jhatS_mem_cPi0 k
 
-@[expose] def labE (k : Jhat) : Ehat := ⟨(k : Dfull)⁻¹ * cQ * k, conj_mem_Ehat k.2 cQ_mem_Ehat⟩
+def labE (k : Jhat) : Ehat := ⟨(k : Dfull)⁻¹ * cQ * k, conj_mem_Ehat k.2 cQ_mem_Ehat⟩
 
 theorem clabel_jhatS
     (k : Jhat) : clabel (cvOf (jhatS k)) = labE k := rfl
@@ -53,10 +53,10 @@ theorem coe_piPt_one :
     (piPt 1 : Wv v0) = Unitary.sigmaW := by
   rw [coe_piPt, map_one, wAct_one, Module.End.one_apply]
 
-@[expose] def p1Orb
+def p1Orb
     (v : CVert) : Set CVert := {w | ∃ p : Shat, (p : Dfull) ∈ P1 ∧ w = cvMul v p}
 
-@[expose] def p1J {p : Dfull} (hp : p ∈ P1) : Jhat := ⟨p, P1_le_Jhat hp⟩
+def p1J {p : Dfull} (hp : p ∈ P1) : Jhat := ⟨p, P1_le_Jhat hp⟩
 
 theorem jhatS_p1J {p : Shat} (hp : (p : Dfull) ∈ P1) : jhatS (p1J hp) = p := rfl
 

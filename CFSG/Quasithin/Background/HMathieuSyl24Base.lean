@@ -51,16 +51,16 @@ instance : Fact (T24s7.check = true) := ⟨T24s7_ok.1⟩
 instance : Fact (T24s11.check = true) := ⟨T24s11_ok.1⟩
 instance : Fact (T24s23.check = true) := ⟨T24s23_ok.1⟩
 
-@[expose] def mats24s2 : Array (List ℕ) := matsOf11 T24s2
+def mats24s2 : Array (List ℕ) := matsOf11 T24s2
 
-@[expose] def act24s2 (p : T24s2.Elem) (m : ℕ) : ℕ := actM (mats24s2[p.idx]!) m
+def act24s2 (p : T24s2.Elem) (m : ℕ) : ℕ := actM (mats24s2[p.idx]!) m
 
-@[expose] def fixTab24 : Array (List ℕ) :=
+def fixTab24 : Array (List ℕ) :=
   Array.ofFn fun i : Fin T24s2.n =>
     let p := T24s2.elemEquiv.symm i
     if p * p = 1 then fixMasks 11 act24s2 [p] else []
 
-@[expose] def fixMasks24 : List T24s2.Elem → List ℕ
+def fixMasks24 : List T24s2.Elem → List ℕ
   | [] => fixMasks 11 act24s2 []
   | a :: l => (fixTab24[a.idx]!).filter fun m => l.all fun b => act24s2 b m == m
 
@@ -84,16 +84,16 @@ theorem fixMasks24_eq {l : List T24s2.Elem} (hl : ∀ a ∈ l, a * a = 1)
   | nil => rfl
   | cons a l => rw [fixMasks24, fixTab24_get (hl a List.mem_cons_self), ← fixMasks_cons]
 
-@[expose] def inv24s2 : List T24s2.Elem := T24s2.invols
+def inv24s2 : List T24s2.Elem := T24s2.invols
 
-@[expose] def posArr24s2 : Array ℕ := T24s2.posArr inv24s2
+def posArr24s2 : Array ℕ := T24s2.posArr inv24s2
 
-@[expose] def pos24s2 (x : T24s2.Elem) : ℕ := posArr24s2[x.idx]!
+def pos24s2 (x : T24s2.Elem) : ℕ := posArr24s2[x.idx]!
 
 theorem pos24s2_eq (x : T24s2.Elem) :
     pos24s2 x = pos inv24s2 x := T24s2.posArr_spec _ x
 
-@[expose] def pred24 (l : List T24s2.Elem) : Bool :=
+def pred24 (l : List T24s2.Elem) : Bool :=
   let k := l.length
   let F := fixMasks24 l
   let d := Nat.log 2 F.length
@@ -101,14 +101,14 @@ theorem pos24s2_eq (x : T24s2.Elem) :
     (k != 1 || decide (4 ≤ 11 - d)) &&
     (k != 6 || xiCheck 11 11 act24s2 l || d == 3)
 
-@[expose] def odd24OK (T : PT 24) [Fact (T.check = true)] (mats : Array (List ℕ)) : Prop :=
+def odd24OK (T : PT 24) [Fact (T.check = true)] (mats : Array (List ℕ)) : Prop :=
   ∀ p : T.Elem, p ≠ 1 →
     avoidOK 11 3 o2Masks24 (fixMasks 11 (fun q m => actM (mats[q.idx]!) m) [p]) = true
 
-@[expose] def mats24s3 : Array (List ℕ) := matsOf11 T24s3
-@[expose] def mats24s5 : Array (List ℕ) := matsOf11 T24s5
-@[expose] def mats24s7 : Array (List ℕ) := matsOf11 T24s7
-@[expose] def mats24s11 : Array (List ℕ) := matsOf11 T24s11
-@[expose] def mats24s23 : Array (List ℕ) := matsOf11 T24s23
+def mats24s3 : Array (List ℕ) := matsOf11 T24s3
+def mats24s5 : Array (List ℕ) := matsOf11 T24s5
+def mats24s7 : Array (List ℕ) := matsOf11 T24s7
+def mats24s11 : Array (List ℕ) := matsOf11 T24s11
+def mats24s23 : Array (List ℕ) := matsOf11 T24s23
 
 end CFSG.Quasithin.H.Mathieu

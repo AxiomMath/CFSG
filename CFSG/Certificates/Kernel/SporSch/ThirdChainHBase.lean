@@ -124,7 +124,7 @@ theorem thT_mem_stabBH {j k : ℕ}
     (hj : j < 13) (hk : k < tsz j) : thT j k ∈ stabB j :=
   ⟨thT_memH h hj hk, fun _ hi => thT_fixH h hj hk hi⟩
 
-@[expose] def phiBH (j : ℕ)
+def phiBH (j : ℕ)
     (hj : j < 13) : Fin (tsz j) × stabB (j + 1) → stabB j :=
   fun x => ⟨thT j x.1 * x.2, (stabB j).mul_mem (thT_mem_stabBH h hj x.1.2) (stabB_succ_le j x.2.2)⟩
 

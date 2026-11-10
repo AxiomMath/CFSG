@@ -19,22 +19,22 @@ namespace CFSG.Sporadic.J4Schreier
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 open scoped Matrix
 
-@[expose] def ellV (a : Fin 11 → ZMod 2) : ZMod 2 := toVecD 11 300 ⬝ᵥ a
+def ellV (a : Fin 11 → ZMod 2) : ZMod 2 := toVecD 11 300 ⬝ᵥ a
 
 theorem ellV_add (a b : Fin 11 → ZMod 2) : ellV (a + b) = ellV a + ellV b := dotProduct_add _ _ _
 
-@[expose] def nfA
+def nfA
     (s : J) : Fin 11 → ZMod 2 := by
   classical
   exact if h : ∃ a : Fin 11 → ZMod 2, ∃ e < 1024, s = etaV a * uElt e then Classical.choose h
     else 0
 
-@[expose] def nfE (s : J) : ℕ := by
+def nfE (s : J) : ℕ := by
   classical
   exact if h : ∃ a : Fin 11 → ZMod 2, ∃ e < 1024, s = etaV a * uElt e then
     Classical.choose (Classical.choose_spec h) else 0
 
-@[expose] def gensS (i : Fin 5) : S0 := ⟨gens5 i, by
+def gensS (i : Fin 5) : S0 := ⟨gens5 i, by
   rw [S0_eq_closure_gens5]
   exact Subgroup.subset_closure ⟨i, rfl⟩⟩
 

@@ -54,7 +54,7 @@ private theorem normal_fixing_card_eq
   intro i
   rw [← hq' i, inv_smul_smul]
 
-@[expose] abbrev normalSylowImage
+abbrev normalSylowImage
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ}
     (S : Sylow p (fixingSubgroup N s)) : Subgroup G :=
@@ -258,18 +258,18 @@ theorem exists_mem_normalizer_maps_fixed_five
     _ = kG • b i := by rw [hq i]
     _ = b i := (mem_normalFixerImage_iff G X N t kG).mp k.property |>.2 (b i) ⟨i, rfl⟩
 
-@[expose] abbrev normalSylowNormalizer
+abbrev normalSylowNormalizer
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ} (S : Sylow p (fixingSubgroup N s)) : Subgroup G :=
   Subgroup.normalizer (normalSylowImage G X N s S)
 
-@[expose] abbrev normalSylowInNormalizer
+abbrev normalSylowInNormalizer
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ} (S : Sylow p (fixingSubgroup N s)) :
     Subgroup (normalSylowNormalizer G X N s S) :=
   (normalSylowImage G X N s S).subgroupOf (normalSylowNormalizer G X N s S)
 
-@[expose] abbrev normalSylowFixedPoints
+abbrev normalSylowFixedPoints
     (G X : Type*) [Group G] [MulAction G X]
     (N : Subgroup G) (s : Set X) {p : ℕ} (S : Sylow p (fixingSubgroup N s)) :=
   MulAction.fixedPoints (normalSylowInNormalizer G X N s S) X

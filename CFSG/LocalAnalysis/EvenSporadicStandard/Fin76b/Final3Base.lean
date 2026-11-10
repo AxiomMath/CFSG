@@ -39,20 +39,20 @@ namespace CFSG.EvenSporadicStandard.Fin76b
 
 open Subgroup CFSG.Open CFSG.Blueprint CFSG.Blueprint.NativeSporadic
 
-@[expose] def Fin76bSwapInCentralizer : Prop :=
+def Fin76bSwapInCentralizer : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L : Subgroup G) (z t : G) (T₀ E : Subgroup G)
     (Q : Sylow 2 G) (x β : G) (B : Subgroup G), Rest6Config L z t T₀ E Q x β B →
     WFacts L t E → ∀ y ∈ normalizer (E : Set G), y * β = β * y → y * z * y⁻¹ = z * t →
       y * t * y⁻¹ = t → ∃ m ∈ centralizer (E : Set G), m * z * m⁻¹ = z * t
 
-@[expose] def Fin76bSwapInnerOnD : Prop :=
+def Fin76bSwapInnerOnD : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L : Subgroup G) (z t : G) (T₀ E : Subgroup G)
     (Q : Sylow 2 G) (x β : G) (B : Subgroup G), Rest6Config L z t T₀ E Q x β B →
     WFacts L t E → ∀ y ∈ normalizer (E : Set G), y * β = β * y → y * z * y⁻¹ = z * t →
       y * t * y⁻¹ = t → ∃ d ∈ E ⊓ centralizer ({β} : Set G),
         ∀ e ∈ E ⊓ centralizer ({β} : Set G), y * e * y⁻¹ = d * e * d⁻¹
 
-@[expose] def Fin76bAutE : Prop :=
+def Fin76bAutE : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L : Subgroup G) (z t : G) (T₀ E : Subgroup G)
     (Q : Sylow 2 G) (x β : G) (B : Subgroup G), Rest6Config L z t T₀ E Q x β B →
     WFacts L t E → ∀ y ∈ normalizer (E : Set G), y * β = β * y →

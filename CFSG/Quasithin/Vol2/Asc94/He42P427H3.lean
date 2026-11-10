@@ -8,7 +8,7 @@ namespace CFSG.Quasithin.A94.He42P427H
 
 open CFSG.Quasithin.A94.L52 Matrix Subgroup
 
-@[expose] abbrev Sg : Subgroup Hc := Subgroup.centralizer ({abar} : Set Hc)
+abbrev Sg : Subgroup Hc := Subgroup.centralizer ({abar} : Set Hc)
 
 theorem mem_Sg_iff (x : Hc) : x ∈ Sg ↔ x * abar = abar * x := mem_centralizer_singleton_iff
 

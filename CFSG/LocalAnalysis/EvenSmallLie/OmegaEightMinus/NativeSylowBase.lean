@@ -23,7 +23,7 @@ theorem eq_of_span {M M' : ℕ} (hM : M < 2 ^ 64) (hM' : M' < 2 ^ 64)
   rw [← matApp_pow M hc, ← matApp_pow M' hc, ← hs c hc, matApp_xor, matApp_xor, (h c hc).1,
     (h c hc).2]
 
-@[expose] def Acts (g : Equiv.Perm (Fin 136)) (M : ℕ) : Prop :=
+def Acts (g : Equiv.Perm (Fin 136)) (M : ℕ) : Prop :=
   ∀ p (hp : p < 136), ((g ⟨p, hp⟩ : Fin 136) : ℕ) = nsIdx[matApp M nsArr[p]!]!
 
 theorem acts_of_rep {t : Array ℕ} {g : Equiv.Perm (Fin 136)} {M : ℕ} (ht : Rep 136 t g)
@@ -31,7 +31,7 @@ theorem acts_of_rep {t : Array ℕ} {g : Equiv.Perm (Fin 136)} {M : ℕ} (ht : R
   rw [← ht.apply hp]
   exact (h p hp).2
 
-@[expose] def saElt (i : ℕ) : Equiv.Perm (Fin 136) :=
+def saElt (i : ℕ) : Equiv.Perm (Fin 136) :=
   if _h : 0 < i ∧ saPar i < i then gen (sylowIdx.getD (saLab i) 0) * saElt (saPar i) else 1
 termination_by i
 decreasing_by exact _h.2

@@ -46,7 +46,7 @@ theorem uPg_zero : uPg[0]! = toTable tabA := by
 theorem uPg_one : uPg[1]! = toTable tabB := by
   simp only [uPg, List.getElem!_toArray, List.getElem!_cons_succ, List.getElem!_cons_zero]
 
-@[expose] noncomputable def uGens (l : ℕ) : Equiv.Perm (Fin 820) :=
+noncomputable def uGens (l : ℕ) : Equiv.Perm (Fin 820) :=
   if l = 0 then psi xElt else psi yElt
 
 theorem u43_groupData : GroupData 820 psi.range uPg uGens uSift where

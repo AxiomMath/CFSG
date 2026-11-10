@@ -11,7 +11,7 @@ namespace FiveTransitive.Research.HallSylowNormalizer
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 variable {p k : ℕ} [Fact p.Prime]
 
-@[expose] abbrev FixedEmbedding (P : Subgroup G) (k : ℕ) :=
+abbrev FixedEmbedding (P : Subgroup G) (k : ℕ) :=
   Fin k ↪ MulAction.fixedPoints P X
 
 @[expose] def FixedEmbedding.toAmbient (P : Subgroup G)

@@ -103,7 +103,7 @@ theorem fix_of_fixesFirst {t : Array ℕ} {g : Equiv.Perm (Fin 2300)} (hg : Rep 
   have := allLt_iff.1 h i hi
   simpa using this
 
-@[expose] def Gj (j : ℕ) : Subgroup (Equiv.Perm (Fin 2300)) :=
+def Gj (j : ℕ) : Subgroup (Equiv.Perm (Fin 2300)) :=
   Subgroup.closure {g | ∃ s ∈ thirdSteps S3 thB j, Rep 2300 s g}
 
 theorem Gj_mono {j j' : ℕ} (hjj : j ≤ j') : Gj j' ≤ Gj j := by

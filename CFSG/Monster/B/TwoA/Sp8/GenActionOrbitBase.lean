@@ -62,7 +62,7 @@ theorem bvec8_mod (x : ℕ) : bvec 8 (x % 2 ^ 22) = bvec 8 x := by
   funext t
   rw [bvec_apply, bvec_apply, Nat.testBit_mod_two_pow, decide_eq_true (by omega), Bool.true_and]
 
-@[expose] def tupDec (n : ℕ) : Fin 8 → V8 := fun t => bvec 8 (Co2Inv.rowOf n t)
+def tupDec (n : ℕ) : Fin 8 → V8 := fun t => bvec 8 (Co2Inv.rowOf n t)
 
 theorem getD_range_map (f : ℕ → ℕ) {t : ℕ} (ht : t < 8) :
     ((List.range 8).map f).getD t 0 = f t := by

@@ -13,7 +13,7 @@ open Subgroup CFSG.Monster.B.Co2 CFSG.LieType.Multipliers.U43 CFSG.Sporadic.Smal
 theorem card_P : Nat.card P = 3265920 := by
   rw [← Nat.card_congr psiEquiv.toEquiv, card_X₀]
 
-@[expose] def InvCoset (k : ℕ) : Set (Equiv.Perm (Fin 820)) :=
+def InvCoset (k : ℕ) : Set (Equiv.Perm (Fin 820)) :=
   {β | ∃ g ∈ P, β = g * tP k ∧ β * β = 1}
 
 theorem finite_InvCoset (k : ℕ) : (InvCoset k).Finite := Set.toFinite _
