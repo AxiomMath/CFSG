@@ -10,22 +10,22 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 open CFSG.Open CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts
 
-@[expose] private def w183finG4A6_isInvC (c : List Nat) : Bool :=
+private def w183finG4A6_isInvC (c : List Nat) : Bool :=
   A6Facts.Core.cmul c c == A6Facts.Core.cid && c != A6Facts.Core.cid
 
-@[expose] private def w183finG4A6_comm (a b : List Nat) : Bool :=
+private def w183finG4A6_comm (a b : List Nat) : Bool :=
   A6Facts.Core.cmul a b == A6Facts.Core.cmul b a
 
-@[expose] private def w183finG4A6_e8free (iv : List (List Nat)) (b : List Nat) : Bool :=
+private def w183finG4A6_e8free (iv : List (List Nat)) (b : List Nat) : Bool :=
   let cb := iv.filter (fun c => c != b && w183finG4A6_comm b c)
   cb.all fun c => cb.all fun d =>
     !(d != c && d != A6Facts.Core.cmul b c && w183finG4A6_comm c d)
 
-@[expose] private def w183finG4A6_outerE8free : Bool :=
+private def w183finG4A6_outerE8free : Bool :=
   let iv := A6Facts.Core.autL.filter w183finG4A6_isInvC
   iv.all fun b => A6Facts.Core.inS6 b || w183finG4A6_e8free iv b
 
-@[expose] private def w183finG4A6_pE8free : Bool :=
+private def w183finG4A6_pE8free : Bool :=
   let iv := A6Facts.Core.pslLit.filter w183finG4A6_isInvC
   iv.all fun b => w183finG4A6_e8free iv b
 
