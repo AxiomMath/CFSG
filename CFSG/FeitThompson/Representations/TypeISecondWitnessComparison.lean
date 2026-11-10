@@ -181,34 +181,7 @@ theorem image_coreCentralizerSupportOutsideCore_eq (T : Subgroup G) :
 theorem hallIndFam_eq_indFam_hallCore (T : Subgroup G) :
     letI : Fintype ↥T := Fintype.ofFinite _
     hallIndFam T = indFam (hallCore ↥T) (nonprincipalIrr ↥(hallCore ↥T)) := by
-  let _ : Fintype ↥T := Fintype.ofFinite _
-  have hle : hallCoreOf T ≤ T := hallCoreOf_le T
-  have key : hallIndFam T
-      = indFam ((hallCoreOf T).subgroupOf T)
-          (nonprincipalIrr ↥((hallCoreOf T).subgroupOf T)) := by
-    ext f
-    simp only [hallIndFam, Set.mem_image, Set.mem_ofPred_eq, mem_indFam, mem_nonprincipalIrr]
-    constructor
-    · rintro ⟨θ, ⟨hθ, hθ1⟩, rfl⟩
-      refine ⟨θ ∘ (Subgroup.subgroupOfEquivOfLe hle), ⟨?_, ?_⟩, ?_⟩
-      · exact FrobeniusInduction.mem_Irr_comp_mulEquiv hθ (Subgroup.subgroupOfEquivOfLe hle)
-      · intro hcon
-        refine hθ1 ?_
-        funext y
-        have h := congrFun hcon ((Subgroup.subgroupOfEquivOfLe hle).symm y)
-        simpa using h
-      · exact (indBetween_eq_indClassFun T _ hle θ).symm
-    · rintro ⟨ψ, ⟨hψ, hψ1⟩, rfl⟩
-      refine ⟨ψ ∘ (Subgroup.subgroupOfEquivOfLe hle).symm, ⟨?_, ?_⟩, ?_⟩
-      · exact FrobeniusInduction.mem_Irr_comp_mulEquiv hψ (Subgroup.subgroupOfEquivOfLe hle).symm
-      · intro hcon
-        refine hψ1 ?_
-        funext y
-        have h := congrFun hcon ((Subgroup.subgroupOfEquivOfLe hle) y)
-        simpa using h
-      · rw [indBetween_eq_indClassFun T _ hle]
-        congr 1
-  rwa [subgroupOf_hallCoreOf T] at key
+  exact _root_.CFSG.FeitThompson.hallIndFam_eq_indFam T
 
 theorem isDadeData_fixedSet_hallCoreOf
     (h₇ : _root_.CFSG.FeitThompson.Statements.FTS_type_I_dade_support.{u})
