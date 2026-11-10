@@ -67,7 +67,7 @@ import Mathlib.Combinatorics.SimpleGraph.Paths
 import Mathlib.Data.Fin.Tuple.Basic
 import Mathlib.Data.Fin.Tuple.Sort
 import Mathlib.Data.Fin.VecNotation
-import Mathlib.Data.Finite.Card
+import Mathlib.SetTheory.Cardinal.NatCard
 import Mathlib.Data.List.Basic
 import Mathlib.Data.Matrix.Basis
 import Mathlib.Data.Matrix.Mul

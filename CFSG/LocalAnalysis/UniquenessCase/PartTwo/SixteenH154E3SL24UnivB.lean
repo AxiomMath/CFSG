@@ -49,7 +49,7 @@ public import Mathlib.Algebra.Ring.Int.Units
 public import Mathlib.Combinatorics.SimpleGraph.CompleteMultipartite
 public import Mathlib.Combinatorics.SimpleGraph.Paths
 public import Mathlib.Combinatorics.SimpleGraph.Prod
-public import Mathlib.Data.Finite.Prod
+public import Mathlib.Basic.Finite.Prod
 public import Mathlib.Data.Finset.Basic
 public import Mathlib.Data.Finset.Lattice.Fold
 public import Mathlib.Data.Finset.Max

@@ -3,7 +3,7 @@ module
 public import Mathlib.Data.Set.Card
 public import CFSG.FeitThompson.Definitions.SupportOfAMaximalSubgroupCoreFamily
 public import CFSG.FeitThompson.Definitions.SupportingMaximalSubgroupsOfAnElement
-public import Mathlib.Data.Set.Lattice
+public import Mathlib.Data.Set.Lattice.Bounded
 
 namespace CFSG.FeitThompson
 

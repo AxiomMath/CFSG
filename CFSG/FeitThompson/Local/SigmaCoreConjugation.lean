@@ -7,7 +7,7 @@ import CFSG.FeitThompson.Local.FrattiniArgumentNormalSylow
 import CFSG.FeitThompson.Local.FittingOverlapPrimeCoreNoncyclic
 import CFSG.FeitThompson.Local.PowerCentralizerTiCriterion
 import CFSG.FeitThompson.OddOrder.SigmaPrimesWellDefined
-public import Mathlib.Data.Set.Lattice
+public import Mathlib.Data.Set.Lattice.Bounded
 
 namespace CFSG.FeitThompson
 

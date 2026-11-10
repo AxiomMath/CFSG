@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Ring.Parity
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.Solvable
 public import Mathlib.GroupTheory.PGroup
 public import Mathlib.GroupTheory.Subgroup.Simple

@@ -5,7 +5,7 @@ public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.Data.ZMod.Basic
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Univ
 public import Mathlib.FieldTheory.Finiteness
-public import Mathlib.Data.Real.Basic
+public import Mathlib.Basic.Real.Basic
 
 public section
 

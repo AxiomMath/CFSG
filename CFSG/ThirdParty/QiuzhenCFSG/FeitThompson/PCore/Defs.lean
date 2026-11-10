@@ -3,7 +3,7 @@ module
 public import Mathlib.GroupTheory.Nilpotent
 import Mathlib.Algebra.Group.Subgroup.Map
 import Mathlib.Data.Nat.Choose.Factorization
-import Mathlib.Data.Set.Lattice
+import Mathlib.Data.Set.Lattice.Bounded
 import Mathlib.GroupTheory.QuotientGroup.Basic
 
 namespace CFSG

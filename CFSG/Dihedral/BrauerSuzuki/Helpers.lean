@@ -10,7 +10,7 @@ public import CFSG.ThirdParty.QiuzhenCFSG.BenderSuzuki.External.Suzuki.V.proposi
 public import Mathlib.Algebra.Group.Defs
 public import Mathlib.Algebra.Group.Subgroup.Defs
 public import Mathlib.Data.Bracket
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.GroupTheory.Commutator.Basic
 public import Mathlib.SetTheory.Cardinal.Finite
@@ -241,7 +241,7 @@ public import Mathlib.GroupTheory.GroupAction.ConjAct
 public import Mathlib.LinearAlgebra.Dual.Lemmas
 public import Mathlib.RepresentationTheory.FiniteIndex
 public import CFSG.ThirdParty.QiuzhenCFSG.Theory.Representation.Induction
-public import Mathlib.Data.Complex.Basic
+public import Mathlib.Basic.Complex.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.Theory.Character.ClassFunction
 public import Mathlib.Algebra.Group.ConjFinite
 public import Mathlib.Algebra.Group.Conj
@@ -264,7 +264,7 @@ public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.PFsection1.PFsection1_5
 public import Mathlib.GroupTheory.Coset.Card
 public import Mathlib.GroupTheory.QuotientGroup.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.PFsection1.PFsection1_6
-public import Mathlib.Data.Complex.BigOperators
+public import Mathlib.Basic.Complex.BigOperators
 public import Mathlib.LinearAlgebra.Basis.Basic
 public import Mathlib.Algebra.Central.Matrix
 public import Mathlib.Algebra.Algebra.Subalgebra.Pi

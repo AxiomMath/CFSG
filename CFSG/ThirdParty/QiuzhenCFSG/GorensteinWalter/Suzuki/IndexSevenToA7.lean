@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.SetTheory.Cardinal.Finite
 public import Mathlib.GroupTheory.Subgroup.Simple
 public import Mathlib.Algebra.Group.Subgroup.Defs

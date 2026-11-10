@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.Complex.Basic
+public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RingTheory.IntegralClosure.Algebra.Basic
 
 namespace CFSG

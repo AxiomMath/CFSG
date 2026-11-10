@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.Perm.Centralizer
 public import Mathlib.GroupTheory.SpecificGroups.Alternating
 public import Mathlib.GroupTheory.Subgroup.Centralizer
